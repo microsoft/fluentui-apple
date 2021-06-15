@@ -90,15 +90,15 @@ class DateTimePickerDemoController: DemoController {
     }
 
     func calcDatePickerParams() -> (startDate: Date, endDate: Date, titles: DateTimePicker.Titles) {
-        let startDate2 = startDate ?? Date()
-        let endDate2 = endDate ?? Calendar.current.date(byAdding: .day, value: 1, to: startDate2) ?? startDate2
+        let calculatedStartDate = startDate ?? Date()
+        let calculatedEndDate = endDate ?? Calendar.current.date(byAdding: .day, value: 1, to: calculatedStartDate) ?? calculatedStartDate
         let titles: DateTimePicker.Titles
         if datePickerType == .calendar && !UIAccessibility.isVoiceOverRunning {
             titles = .with(startSubtitle: "Assignment Date", endSubtitle: "Due Date")
         } else {
             titles = .with(startTab: "Assignment Date", endTab: "Due Date")
         }
-        return (startDate2, endDate2, titles)
+        return (calculatedStartDate, calculatedEndDate, titles)
     }
 
     func confirmButton(target: Any?, action: Selector?) -> UIBarButtonItem {

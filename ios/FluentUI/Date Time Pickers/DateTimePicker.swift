@@ -111,7 +111,6 @@ public class DateTimePicker: NSObject {
     ///   - datePickerType: The type of UI to use for picking dates: calendar or spinners representing date components (day, month, and year) or date (when time picking is also enabled). `.components` will be forced when VoiceOver is running. `.paged` date range presentation is not supported for `.components` date picker type (tabbed presentation will be used instead).
     ///   - dateRangePresentation: The `DateRangePresentation` in which to show any date pickers when `mode` is `.dateRange` or `.dateTimeRange`. Does not affect the time picker, which is always tabbed in range mode, but may change whether the date picker is presented in certain modes.
     ///   - titles: A `Titles` object that holds strings for use in overriding the default picker titles, subtitles, and tab titles. If a string is provided for a property that does not apply to the current mode, it will be ignored.
-    /// - Tag: MSDateTimePicker.present
     @objc public func present(from presentingController: UIViewController, with mode: DateTimePickerMode, startDate: Date = Date(), endDate: Date? = nil, datePickerType: DatePickerType = .calendar, dateRangePresentation: DateRangePresentation = .paged, titles: Titles? = nil) {
         present(from: presentingController, with: mode, startDate: startDate, endDate: endDate, datePickerType: datePickerType, dateRangePresentation: dateRangePresentation, leftBarButtonItem: nil, rightBarButtonItem: nil)
     }
@@ -129,7 +128,6 @@ public class DateTimePicker: NSObject {
     ///   - titles: A `Titles` object that holds strings for use in overriding the default picker titles, subtitles, and tab titles. If a string is provided for a property that does not apply to the current mode, it will be ignored.
     ///   - leftBarButtonItem: optional UIBarButtonItem to be presented as left bar-button.
     ///   - rightBarButtonItem: optional UIBarButtonItem to be presented as right bar-button. Note that if this view is presented, the Confirm button is not generated automatically.
-    /// - Tag: MSDateTimePicker.present
     @objc public func present(from presentingController: UIViewController, with mode: DateTimePickerMode, startDate: Date = Date(), endDate: Date? = nil, datePickerType: DatePickerType = .calendar, dateRangePresentation: DateRangePresentation = .paged, titles: Titles? = nil, leftBarButtonItem: UIBarButtonItem? = nil, rightBarButtonItem: UIBarButtonItem? = nil) {
         self.presentingController = presentingController
         self.mode = mode
