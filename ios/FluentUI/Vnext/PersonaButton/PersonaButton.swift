@@ -11,8 +11,21 @@ import SwiftUI
 ///
 @objc public protocol MSFPersonaButtonState: MSFAvatarState {
     var badgeSize: MSFPersonaButtonSize { get set }
-
     var onTapAction: (() -> Void)? { get set }
+
+    var backgroundColor: UIColor? { get set }
+    var foregroundColor: UIColor? { get set }
+    var hasPointerInteraction: Bool { get set }
+    var hasRingInnerGap: Bool { get set }
+    var image: UIImage? { get set }
+    var imageBasedRingColor: UIImage? { get set }
+    var isOutOfOffice: Bool { get set }
+    var isRingVisible: Bool { get set }
+    var isTransparent: Bool { get set }
+    var presence: MSFAvatarPresence { get set }
+    var primaryText: String? { get set }
+    var ringColor: UIColor? { get set }
+    var secondaryText: String? { get set }
 }
 
 /// Properties that make up PersonaButton content
