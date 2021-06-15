@@ -109,8 +109,9 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
     ///   - title: The title string.
     ///   - titleNumberOfLines: The number of lines that the title should display.
     ///   - containerWidth: The width of the view's super view (e.g. the table view's width).
+    ///   - accessoryView: An optional accessory view that appears near the trailing edge of the view.
     /// - Returns: a value representing the calculated height of the view.
-    @objc public class func height(style: Style, title: String, titleNumberOfLines: Int = 1, containerWidth: CGFloat = .greatestFiniteMagnitude) -> CGFloat {
+    @objc public class func height(style: Style, title: String, titleNumberOfLines: Int = 1, containerWidth: CGFloat = .greatestFiniteMagnitude, accessoryView: UIView? = nil) -> CGFloat {
         let verticalMargin: CGFloat
         let font = style.textFont()
         switch style {
@@ -122,7 +123,11 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
             verticalMargin = Constants.titleDividerVerticalMargin * 2
         }
 
-        let titleWidth = containerWidth - (Constants.horizontalMargin + TableViewHeaderFooterView.titleTrailingOffset() + TableViewHeaderFooterView.titleLeadingOffset())
+        if let accessoryView = accessoryView {
+            accessoryView.frame.size = accessoryView.systemLayoutSizeFitting(CGSize(width: containerWidth, height: .infinity))
+        }
+
+        let titleWidth = containerWidth - (Constants.horizontalMargin + TableViewHeaderFooterView.titleTrailingOffset(accessoryView: accessoryView) + TableViewHeaderFooterView.titleLeadingOffset())
         let titleHeight = title.preferredSize(for: font, width: titleWidth, numberOfLines: titleNumberOfLines).height
 
         return verticalMargin + titleHeight
@@ -455,7 +460,8 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
                 style: style,
                 title: titleView.text ?? "",
                 titleNumberOfLines: titleNumberOfLines,
-                containerWidth: size.width
+                containerWidth: size.width,
+                accessoryView: accessoryView
             )
         )
     }
