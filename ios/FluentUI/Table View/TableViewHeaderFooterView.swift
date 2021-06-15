@@ -435,9 +435,9 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
 
             // seems like an iOS issue that any subviews of the headerView automatically gets the header trait which isn't the behavior we want other than the titleView.
             accessoryView.accessibilityTraits.remove(.header)
-            if let accsesoryButton = accessoryView as? UIButton {
+            if let accessoryButton = accessoryView as? UIButton {
                 // unclear why just removing the .header traits remove the existing .button trait of the accessoryView but adding it back if needed
-                accsesoryButton.accessibilityTraits.insert(.button)
+                accessoryButton.accessibilityTraits.insert(.button)
             }
         }
         contentView.flipSubviewsForRTL()
