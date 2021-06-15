@@ -88,16 +88,16 @@ xcodebuild ${XCODEBUILDPARAMS} -project ${PROJECT_FILE_PATH} -target "MicrosoftF
     personaView_ios.source_files = ["ios/FluentUI/Vnext/Persona/**/*.{swift,h}"]
   end
 
-  s.subspec 'PersonaBadge_ios' do |personaBadge_ios|
-    personaBadge_ios.platform = :ios
-    personaBadge_ios.dependency 'MicrosoftFluentUIVnext/Avatar_ios'
-    personaBadge_ios.source_files = ["ios/FluentUI/Vnext/PersonaBadge/**/*.{swift,h}"]
+  s.subspec 'PersonaButton_ios' do |personaButton_ios|
+    personaButton_ios.platform = :ios
+    personaButton_ios.dependency 'MicrosoftFluentUIVnext/Avatar_ios'
+    personaButton_ios.source_files = ["ios/FluentUI/Vnext/PersonaButton/**/*.{swift,h}"]
   end
 
-  s.subspec 'PersonaBadgeCollection_ios' do |personaBadgeCollection_ios|
-    personaBadgeCollection_ios_ios.platform = :ios
-    personaBadgeCollection_ios_ios.dependency 'MicrosoftFluentUIVnext/PersonaBadge_ios'
-    personaBadgeCollection_ios_ios.source_files = ["ios/FluentUI/Vnext/PersonaBadgeCollection/**/*.{swift,h}"]
+  s.subspec 'PersonaButtonCarousel_ios' do |personaButtonCarousel_ios|
+    personaButtonCarousel_ios.platform = :ios
+    personaButtonCarousel_ios.dependency 'MicrosoftFluentUIVnext/PersonaButton_ios'
+    personaButtonCarousel_ios.source_files = ["ios/FluentUI/Vnext/PersonaButtonCarousel/**/*.{swift,h}"]
   end
 
   s.subspec 'Obscurable_ios' do |obscurable_ios|
