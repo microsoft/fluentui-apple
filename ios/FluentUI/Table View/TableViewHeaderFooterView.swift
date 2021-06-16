@@ -410,7 +410,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
 
         if let leadingView = leadingView {
             let xOffset = Constants.accessoryViewMarginLeft
-            let yOffset = contentView.frame.height - leadingView.frame.height - Constants.titleDefaultBottomMargin
+            let yOffset = floor(titleYOffset + (titleHeight - leadingView.frame.height) / 2)
             leadingView.frame = CGRect(
                 origin: CGPoint(x: xOffset, y: yOffset),
                 size: leadingView.frame.size
