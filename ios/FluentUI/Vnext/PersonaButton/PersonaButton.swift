@@ -201,12 +201,12 @@ public struct PersonaButton: View {
     @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
     @ObservedObject var tokens: MSFPersonaButtonTokens
     @ObservedObject var state: MSFPersonaButtonViewStateImpl
-    let avatarView: AvatarView
+    @ObservedObject var avatarState: MSFAvatarStateImpl
 
     public init(size: MSFPersonaButtonSize) {
-        self.avatarView = AvatarView(style: .default, size: size.avatarSize)
-
-        let state = MSFPersonaButtonViewStateImpl(size: size, avatarState: avatarView.state)
+        let avatarState = MSFAvatarStateImpl(style: .default, size: size.avatarSize)
+        let state = MSFPersonaButtonViewStateImpl(size: size, avatarState: avatarState)
+        self.avatarState = avatarState
         self.state = state
         self.tokens = state.tokens
     }
@@ -215,7 +215,7 @@ public struct PersonaButton: View {
         let action = state.onTapAction ?? {}
         Button(action: action) {
             VStack(spacing: 0) {
-                avatarView
+                AvatarView(avatarState)
                     .padding(.top, tokens.padding)
                     .padding(.bottom, tokens.avatarInterspace)
                     .padding(.horizontal, tokens.padding)
