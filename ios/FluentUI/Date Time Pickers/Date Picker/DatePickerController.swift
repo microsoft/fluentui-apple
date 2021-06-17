@@ -63,6 +63,8 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
     weak var delegate: GenericDateTimePickerDelegate?
 
     private let mode: DateTimePickerMode
+    private let leftBarButtonItem: UIBarButtonItem?
+    private let rightBarButtonItem: UIBarButtonItem?
 
     private var titleView: TwoLineTitleView!
     private let customTitle: String?
@@ -95,7 +97,9 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
     ///   - selectionMode: The side (start or end) of the current range to be selected on this picker.
     ///   - rangePresentation: The `DateRangePresentation` in which this controller is being presented if `mode` is `.dateRange` or `.dateTimeRange`.
     ///   - titles: A `Titles` object that holds strings for use in overriding the default picker title, subtitle, and tab titles. If title is not provided, titleview will show currently selected date. If tab titles are not provided, they will default to "Start Date" and "End Date".
-    init(startDate: Date, endDate: Date, mode: DateTimePickerMode, selectionMode: DatePickerSelectionManager.SelectionMode = .start, rangePresentation: DateTimePicker.DateRangePresentation, titles: DateTimePicker.Titles?) {
+    ///   - leftBarButtonItem: optional UIBarButtonItem to be presented as left bar-button.
+    ///   - rightBarButtonItem: optional UIBarButtonItem to be presented oas right bar-button. Note that if this view is presented, the Confirm button is not generated automatically.
+    init(startDate: Date, endDate: Date, mode: DateTimePickerMode, selectionMode: DatePickerSelectionManager.SelectionMode = .start, rangePresentation: DateTimePicker.DateRangePresentation, titles: DateTimePicker.Titles?, leftBarButtonItem: UIBarButtonItem?, rightBarButtonItem: UIBarButtonItem?) {
         if !mode.singleSelection && rangePresentation == .paged {
             customTitle = selectionMode == .start ? titles?.startTitle : titles?.endTitle
             customSubtitle = selectionMode == .start ?
@@ -108,6 +112,8 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
         customStartTabTitle = titles?.startTab
         customEndTabTitle = titles?.endTab
         self.mode = mode
+        self.leftBarButtonItem = leftBarButtonItem
+        self.rightBarButtonItem = rightBarButtonItem
 
         super.init(nibName: nil, bundle: nil)
 
@@ -210,7 +216,14 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
     }
 
     private func initNavigationBar() {
-        navigationItem.rightBarButtonItem = BarButtonItems.confirm(target: self, action: #selector(handleDidTapDone))
+        if let leftBarButtonItem = leftBarButtonItem {
+            navigationItem.leftBarButtonItem = leftBarButtonItem
+        }
+        if let rightBarButtonItem = rightBarButtonItem {
+            navigationItem.rightBarButtonItem = rightBarButtonItem
+        } else {
+            navigationItem.rightBarButtonItem = BarButtonItems.confirm(target: self, action: #selector(handleDidTapDone))
+        }
         navigationItem.titleView = titleView
     }
 

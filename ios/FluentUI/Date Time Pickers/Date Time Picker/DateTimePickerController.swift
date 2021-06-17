@@ -55,6 +55,8 @@ class DateTimePickerController: UIViewController, GenericDateTimePicker {
 
         }
     }
+    private let leftBarButtonItem: UIBarButtonItem?
+    private let rightBarButtonItem: UIBarButtonItem?
 
     private(set) var mode: DateTimePickerControllerMode {
         didSet {
@@ -82,7 +84,7 @@ class DateTimePickerController: UIViewController, GenericDateTimePicker {
     private var segmentedControl: SegmentedControl?
 
     // TODO: Add availability back in? - contactAvailabilitySummaryDataSource: ContactAvailabilitySummaryDataSource?,
-    init(startDate: Date, endDate: Date, mode: DateTimePickerMode, titles: DateTimePicker.Titles?) {
+    init(startDate: Date, endDate: Date, mode: DateTimePickerMode, titles: DateTimePicker.Titles?, leftBarButtonItem: UIBarButtonItem?, rightBarButtonItem: UIBarButtonItem?) {
         self.mode = mode.singleSelection ? .single : .start
         self.startDate = startDate.rounded(toNearestMinutes: DateTimePickerViewDataSourceConstants.minuteInterval) ?? startDate
         self.endDate = self.mode == .single ? self.startDate : (endDate.rounded(toNearestMinutes: DateTimePickerViewDataSourceConstants.minuteInterval) ?? endDate)
@@ -95,6 +97,8 @@ class DateTimePickerController: UIViewController, GenericDateTimePicker {
         customSubtitle = titles?.dateTimeSubtitle
         customStartTabTitle = titles?.startTab
         customEndTabTitle = titles?.endTab
+        self.leftBarButtonItem = leftBarButtonItem
+        self.rightBarButtonItem = rightBarButtonItem
 
         super.init(nibName: nil, bundle: nil)
 
@@ -161,7 +165,14 @@ class DateTimePickerController: UIViewController, GenericDateTimePicker {
     }
 
     private func initNavigationBar() {
-        navigationItem.rightBarButtonItem = BarButtonItems.confirm(target: self, action: #selector(handleDidTapDone))
+        if let leftBarButtonItem = leftBarButtonItem {
+            navigationItem.leftBarButtonItem = leftBarButtonItem
+        }
+        if let rightBarButtonItem = rightBarButtonItem {
+            navigationItem.rightBarButtonItem = rightBarButtonItem
+        } else {
+            navigationItem.rightBarButtonItem = BarButtonItems.confirm(target: self, action: #selector(handleDidTapDone))
+        }
         navigationItem.titleView = titleView
     }
 
