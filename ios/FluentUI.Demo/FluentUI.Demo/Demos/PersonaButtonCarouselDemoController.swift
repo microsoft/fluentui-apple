@@ -17,8 +17,8 @@ class PersonaButtonCarouselDemoController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: PersonaButtonCarouselDemoController.largeBadgeReuseIdentifier)
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: PersonaButtonCarouselDemoController.smallBadgeReuseIdentifier)
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: PersonaButtonCarouselDemoController.largeButtonReuseIdentifier)
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: PersonaButtonCarouselDemoController.smallButtonReuseIdentifier)
 
         tableView.separatorStyle = .none
     }
@@ -38,14 +38,14 @@ class PersonaButtonCarouselDemoController: UITableViewController {
         if showsFullCarousel(at: indexPath) {
             fatalError("showsFullCarousel() should always return false right now!")
         } else {
-            cell = self.tableView(tableView, badgeCellForRowAt: indexPath)
+            cell = self.tableView(tableView, buttonCellForRowAt: indexPath)
         }
 
         return cell
     }
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        switch personaBadgeSize(for: section) {
+        switch personaButtonSize(for: section) {
         case .small:
             return "Small"
         case .large:
@@ -55,7 +55,7 @@ class PersonaButtonCarouselDemoController: UITableViewController {
 
     // MARK: - Helpers
 
-    private func personaBadgeSize(for section: Int) -> MSFPersonaButtonSize {
+    private func personaButtonSize(for section: Int) -> MSFPersonaButtonSize {
         return (section % 2 == 0) ? .small : .large
     }
 
@@ -64,38 +64,39 @@ class PersonaButtonCarouselDemoController: UITableViewController {
         return false
     }
 
-    private func tableView(_ tableView: UITableView, badgeCellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    private func tableView(_ tableView: UITableView, buttonCellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell: UITableViewCell
-        let size = personaBadgeSize(for: indexPath.section)
+        let size = personaButtonSize(for: indexPath.section)
         switch size {
         case .large:
-            cell = tableView.dequeueReusableCell(withIdentifier: PersonaButtonCarouselDemoController.largeBadgeReuseIdentifier, for: indexPath)
+            cell = tableView.dequeueReusableCell(withIdentifier: PersonaButtonCarouselDemoController.largeButtonReuseIdentifier, for: indexPath)
         case .small:
-            cell = tableView.dequeueReusableCell(withIdentifier: PersonaButtonCarouselDemoController.smallBadgeReuseIdentifier, for: indexPath)
+            cell = tableView.dequeueReusableCell(withIdentifier: PersonaButtonCarouselDemoController.smallButtonReuseIdentifier, for: indexPath)
         }
 
         // Create the PersonaButton to be displayed
-        let personaBadge = MSFPersonaButtonView(size: size)
+        let personaButton = MSFPersonaButtonView(size: size)
         let persona = personas[indexPath.item]
-        personaBadge.state.image = persona.avatarImage
-        personaBadge.state.primaryText = persona.primaryText
-        personaBadge.state.secondaryText = persona.secondaryText
-        personaBadge.state.onTapAction = { [weak self, personaBadge] in
-            let alert = UIAlertController(title: nil, message: "PersonaButton tapped: \(personaBadge.state.primaryText ?? "(none)")", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default))
-            self?.present(alert, animated: true)
+        personaButton.state.image = persona.avatarImage
+        personaButton.state.primaryText = persona.primaryText
+        personaButton.state.secondaryText = persona.secondaryText
+        personaButton.state.onTapAction = { [weak self, personaButton] in
+//            let alert = UIAlertController(title: nil, message: "PersonaButton tapped: \(personaButton.state.primaryText ?? "(none)")", preferredStyle: .alert)
+//            alert.addAction(UIAlertAction(title: "OK", style: .default))
+//            self?.present(alert, animated: true)
+            personaButton.state.backgroundColor = .blue
         }
 
-        cell.contentView.addSubview(personaBadge.view)
+        cell.contentView.addSubview(personaButton.view)
         cell.selectionStyle = .none
-        cell.backgroundColor = .clear
+        cell.backgroundColor = .tertiarySystemFill
         var constraints: [NSLayoutConstraint] = []
-        personaBadge.view.translatesAutoresizingMaskIntoConstraints = false
+        personaButton.view.translatesAutoresizingMaskIntoConstraints = false
 
         constraints.append(contentsOf: [
-            personaBadge.view.topAnchor.constraint(equalTo: cell.contentView.topAnchor),
-            personaBadge.view.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor),
-            personaBadge.view.centerXAnchor.constraint(equalTo: cell.contentView.centerXAnchor)
+            personaButton.view.topAnchor.constraint(equalTo: cell.contentView.topAnchor),
+            personaButton.view.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor),
+            personaButton.view.centerXAnchor.constraint(equalTo: cell.contentView.centerXAnchor)
         ])
 
         cell.contentView.addConstraints(constraints)
@@ -103,10 +104,10 @@ class PersonaButtonCarouselDemoController: UITableViewController {
         return cell
     }
 
-    private static let largeGridReuseIdentifier: String = "largeGridReuseIdentifier"
-    private static let smallGridReuseIdentifier: String = "smallGridReuseIdentifier"
-    private static let largeBadgeReuseIdentifier: String = "largeBadgeReuseIdentifier"
-    private static let smallBadgeReuseIdentifier: String = "smallBadgeReuseIdentifier"
+    private static let largeCarouselReuseIdentifier: String = "largeCarouselReuseIdentifier"
+    private static let smallCarouselReuseIdentifier: String = "smallCarouselReuseIdentifier"
+    private static let largeButtonReuseIdentifier: String = "largeButtonReuseIdentifier"
+    private static let smallButtonReuseIdentifier: String = "smallButtonReuseIdentifier"
 
     private let personas: [PersonaData] = [
         PersonaData(firstName: "Kat", lastName: "Larrson", avatarImage: UIImage(named: "avatar_kat_larsson")),

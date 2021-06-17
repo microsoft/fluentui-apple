@@ -9,12 +9,12 @@ import SwiftUI
 ///
 /// `onTapAction` provides tap gesture for PersonaButton.
 ///
-@objc public protocol MSFPersonaButtonState: MSFAvatarState {
-    var badgeSize: MSFPersonaButtonSize { get set }
+@objc public protocol MSFPersonaButtonState {
+    var buttonSize: MSFPersonaButtonSize { get set }
     var onTapAction: (() -> Void)? { get set }
 
-    var backgroundColor: UIColor? { get set }
-    var foregroundColor: UIColor? { get set }
+    var avatarBackgroundColor: UIColor? { get set }
+    var avatarForegroundColor: UIColor? { get set }
     var hasPointerInteraction: Bool { get set }
     var hasRingInnerGap: Bool { get set }
     var image: UIImage? { get set }
@@ -30,12 +30,12 @@ import SwiftUI
 
 /// Properties that make up PersonaButton content
 class MSFPersonaButtonViewStateImpl: NSObject, ObservableObject, Identifiable, MSFPersonaButtonState {
-    @Published var badgeSize: MSFPersonaButtonSize
+    @Published var buttonSize: MSFPersonaButtonSize
     @Published var onTapAction: (() -> Void)?
 
     let tokens: MSFPersonaButtonTokens
 
-    var backgroundColor: UIColor? {
+    var avatarBackgroundColor: UIColor? {
         get {
             return avatarState.backgroundColor
         }
@@ -45,7 +45,7 @@ class MSFPersonaButtonViewStateImpl: NSObject, ObservableObject, Identifiable, M
         }
     }
 
-    var foregroundColor: UIColor? {
+    var avatarForegroundColor: UIColor? {
         get {
             return avatarState.foregroundColor
         }
@@ -186,7 +186,7 @@ class MSFPersonaButtonViewStateImpl: NSObject, ObservableObject, Identifiable, M
     }
 
     init(size: MSFPersonaButtonSize, avatarState: MSFAvatarState) {
-        self.badgeSize = size
+        self.buttonSize = size
         self.avatarState = avatarState
         self.tokens = MSFPersonaButtonTokens(size: size)
 
@@ -222,7 +222,7 @@ public struct PersonaButton: View {
                 Text(state.primaryText ?? "")
                     .scalableFont(font: tokens.labelFont)
                     .foregroundColor(Color(tokens.labelColor))
-                if state.badgeSize.canShowSubtitle {
+                if state.buttonSize.shouldShowSubtitle {
                     Text(state.secondaryText ?? "")
                         .scalableFont(font: tokens.sublabelFont)
                         .foregroundColor(Color(tokens.sublabelColor))
@@ -246,18 +246,18 @@ public struct PersonaButton: View {
     }
 
     @objc open var state: MSFPersonaButtonState {
-        return self.personaBadge.state
+        return self.personaButton.state
     }
 
     @objc public init(size: MSFPersonaButtonSize = .large,
                       theme: FluentUIStyle? = nil) {
         super.init()
 
-        personaBadge = PersonaButton(size: size)
-        hostingController = UIHostingController(rootView: AnyView(personaBadge
+        personaButton = PersonaButton(size: size)
+        hostingController = UIHostingController(rootView: AnyView(personaButton
                                                                     .windowProvider(self)
-                                                                    .modifyIf(theme != nil, { personaBadge in
-                                                                        personaBadge.customTheme(theme!)
+                                                                    .modifyIf(theme != nil, { personaButton in
+                                                                        personaButton.customTheme(theme!)
                                                                     })))
         hostingController.disableSafeAreaInsets()
         view.backgroundColor = UIColor.clear
@@ -269,5 +269,5 @@ public struct PersonaButton: View {
 
     private var hostingController: UIHostingController<AnyView>!
 
-    private var personaBadge: PersonaButton!
+    private var personaButton: PersonaButton!
 }

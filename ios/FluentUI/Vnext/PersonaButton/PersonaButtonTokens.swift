@@ -5,7 +5,7 @@
 
 import UIKit
 
-/// Pre-defined sizes of the persona badge
+/// Pre-defined sizes of the persona button
 @objc public enum MSFPersonaButtonSize: Int, CaseIterable {
     case small
     case large
@@ -19,7 +19,7 @@ import UIKit
         }
     }
 
-    var canShowSubtitle: Bool {
+    var shouldShowSubtitle: Bool {
         switch self {
         case .large:
             return true
@@ -29,8 +29,8 @@ import UIKit
     }
 }
 
-/// Representation of design tokens to persona badges at runtime which interfaces with the Design Token System auto-generated code.
-/// Updating these properties causes the SwiftUI persona badge to update its view automatically.
+/// Representation of design tokens to persona buttons at runtime which interfaces with the Design Token System auto-generated code.
+/// Updating these properties causes the SwiftUI persona button to update its view automatically.
 class MSFPersonaButtonTokens: MSFTokensBase, ObservableObject {
     @Published public var avatarInterspace: CGFloat!
     @Published public var backgroundColor: UIColor!
