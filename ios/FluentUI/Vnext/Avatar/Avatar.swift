@@ -168,6 +168,13 @@ public struct AvatarView: View {
         self.tokens = state.tokens
     }
 
+    // This initializer should be used by internal container views. These containers should first initialize
+    // MSFAvatarStateImpl using style and size, and then use that state and this initializer in their ViewBuilder.
+    internal init(_ avatarState: MSFAvatarStateImpl) {
+        state = avatarState
+        tokens = avatarState.tokens
+    }
+
     public var body: some View {
         let style = tokens.style
         let presence = state.presence
