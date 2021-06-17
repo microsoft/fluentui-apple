@@ -77,6 +77,20 @@ This project has adopted the [Microsoft Open Source Code of Conduct](https://ope
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
 contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
+### CocoaPods Setup
+
+If you are using Apple Silicon M1 machine then you need to install `ffi` in addition to CocoaPods. More details about the issue can be found [here](https://github.com/ffi/ffi/issues/870).
+
+```bash
+sudo arch -x86_64 gem install ffi
+```
+
+To execute any pod command on M1 machine you need to specify the architecture of the machine explicitly
+
+```bash
+arch -x86_64 pod lib lint
+```
+
 ### Developing in the repo
 
 Fluent UI Apple requires all [pull requests](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-requests) to come from forks of the repository. Please see [Fork a Repo - GitHub Help](https://help.github.com/en/github/getting-started-with-github/fork-a-repo) for more details on how to set up a fork of Microsoft/fluentui-apple, keep it up-to-date, and submit pull requests back to this repository.

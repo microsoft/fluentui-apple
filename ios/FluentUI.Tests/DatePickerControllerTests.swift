@@ -13,13 +13,13 @@ class DatePickerControllerTests: XCTestCase {
     let endDate = Date(timeIntervalSince1970: DatePickerControllerTests.testDateInterval).adding(days: 1)
 
     func testDateRangeInit() {
-        let datePicker = DatePickerController(startDate: startDate, endDate: endDate, mode: .dateRange, rangePresentation: .paged, titles: nil)
+        let datePicker = DatePickerController(startDate: startDate, endDate: endDate, mode: .dateRange, rangePresentation: .paged, titles: nil, leftBarButtonItem: nil, rightBarButtonItem: nil)
         XCTAssertEqual(datePicker.startDate, startDate.startOfDay)
         XCTAssertEqual(datePicker.endDate, endDate.startOfDay)
     }
 
     func testDateRangeStart() {
-        let datePicker = DatePickerController(startDate: startDate, endDate: endDate, mode: .dateRange, rangePresentation: .paged, titles: nil)
+        let datePicker = DatePickerController(startDate: startDate, endDate: endDate, mode: .dateRange, rangePresentation: .paged, titles: nil, leftBarButtonItem: nil, rightBarButtonItem: nil)
         guard case .range(let startIndex, _) = datePicker.selectionManager.selectionState else {
             XCTFail()
             return
@@ -31,7 +31,7 @@ class DatePickerControllerTests: XCTestCase {
     }
 
     func testDateRangeEnd() {
-        let datePicker = DatePickerController(startDate: startDate, endDate: endDate, mode: .dateRange, selectionMode: .end, rangePresentation: .paged, titles: nil)
+        let datePicker = DatePickerController(startDate: startDate, endDate: endDate, mode: .dateRange, selectionMode: .end, rangePresentation: .paged, titles: nil, leftBarButtonItem: nil, rightBarButtonItem: nil)
         guard case .range(_, let endIndex) = datePicker.selectionManager.selectionState else {
             XCTFail()
             return

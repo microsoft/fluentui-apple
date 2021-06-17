@@ -18,6 +18,14 @@ function make_dir_if_necessary()
     fi
 }
 
+# A thin wrapper around rsync to exclude specific swift source info files
+#
+# \param $1+ the standard input to rsync without any extra flags provided
+function rsync_excluding_swift_source_info_files()
+{
+    rsync -a --exclude '*.swiftsourceinfo' --prune-empty-dirs "$@"
+}
+
 # Build up our output directory in Products/nuget
 PRODUCTS_DIR="DerivedData/Build/Products"
 NUGET_OUTPUT_DIR="$PRODUCTS_DIR/nuget"
@@ -44,34 +52,34 @@ cd $PRODUCTS_DIR
 # Copy each platform
 make_dir_if_necessary "nuget/Debug-macosx"
 echo "Copy Debug-macosx Framework into nuget folder"
-rsync -a Debug/FluentUI.framework/ nuget/Debug-macosx/FluentUI.framework/
+rsync_excluding_swift_source_info_files Debug/FluentUI.framework/ nuget/Debug-macosx/FluentUI.framework/
 
 make_dir_if_necessary "nuget/Ship-macosx"
 echo "Copy Ship-macosx Framework into nuget folder"
-rsync -a Release/FluentUI.framework/ nuget/Ship-macosx/FluentUI.framework/
+rsync_excluding_swift_source_info_files Release/FluentUI.framework/ nuget/Ship-macosx/FluentUI.framework/
 
 make_dir_if_necessary "nuget/Debug-iphoneos"
 echo "Copy Debug-iphoneos build output into nuget folder"
 rsync -a Debug-iphoneos/libFluentUI.a nuget/Debug-iphoneos/
-rsync -a Debug-iphoneos/FluentUI.swiftmodule/ nuget/Debug-iphoneos/FluentUI.swiftmodule/
+rsync_excluding_swift_source_info_files Debug-iphoneos/FluentUI.swiftmodule/ nuget/Debug-iphoneos/FluentUI.swiftmodule/
 rsync -a Debug-iphoneos/FluentUIResources-ios.bundle/ nuget/Debug-iphoneos/FluentUIResources-ios.bundle/
 
 make_dir_if_necessary "nuget/Ship-iphoneos"
 echo "Copy Ship-iphoneos build output into nuget folder"
 rsync -a Release-iphoneos/libFluentUI.a nuget/Ship-iphoneos/
-rsync -a Release-iphoneos/FluentUI.swiftmodule/ nuget/Ship-iphoneos/FluentUI.swiftmodule/
+rsync_excluding_swift_source_info_files Release-iphoneos/FluentUI.swiftmodule/ nuget/Ship-iphoneos/FluentUI.swiftmodule/
 rsync -a Release-iphoneos/FluentUIResources-ios.bundle/ nuget/Ship-iphoneos/FluentUIResources-ios.bundle/
 
 make_dir_if_necessary "nuget/Debug-iphonesimulator"
 echo "Copy Debug-iphonesimulator build output into nuget folder"
 rsync -a Debug-iphonesimulator/libFluentUI.a nuget/Debug-iphonesimulator/
-rsync -a Debug-iphonesimulator/FluentUI.swiftmodule/ nuget/Debug-iphonesimulator/FluentUI.swiftmodule/
+rsync_excluding_swift_source_info_files Debug-iphonesimulator/FluentUI.swiftmodule/ nuget/Debug-iphonesimulator/FluentUI.swiftmodule/
 rsync -a Debug-iphonesimulator/FluentUIResources-ios.bundle/ nuget/Debug-iphonesimulator/FluentUIResources-ios.bundle/
 
 make_dir_if_necessary "nuget/Ship-iphonesimulator"
 echo "Copy Ship-iphonesimulator build output into nuget folder"
 rsync -a Release-iphonesimulator/libFluentUI.a nuget/Ship-iphonesimulator/
-rsync -a Release-iphonesimulator/FluentUI.swiftmodule/ nuget/Ship-iphonesimulator/FluentUI.swiftmodule/
+rsync_excluding_swift_source_info_files Release-iphonesimulator/FluentUI.swiftmodule/ nuget/Ship-iphonesimulator/FluentUI.swiftmodule/
 rsync -a Release-iphonesimulator/FluentUIResources-ios.bundle/ nuget/Ship-iphonesimulator/FluentUIResources-ios.bundle/
 
 # cd into our nuget folder to finally zip up our build output
