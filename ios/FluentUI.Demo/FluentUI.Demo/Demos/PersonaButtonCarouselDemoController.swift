@@ -81,10 +81,9 @@ class PersonaButtonCarouselDemoController: UITableViewController {
         personaButton.state.primaryText = persona.primaryText
         personaButton.state.secondaryText = persona.secondaryText
         personaButton.state.onTapAction = { [weak self, personaButton] in
-//            let alert = UIAlertController(title: nil, message: "PersonaButton tapped: \(personaButton.state.primaryText ?? "(none)")", preferredStyle: .alert)
-//            alert.addAction(UIAlertAction(title: "OK", style: .default))
-//            self?.present(alert, animated: true)
-            personaButton.state.backgroundColor = .blue
+            let alert = UIAlertController(title: nil, message: "PersonaButton tapped: \(personaButton.state.primaryText ?? "(none)")", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            self?.present(alert, animated: true)
         }
 
         cell.contentView.addSubview(personaButton.view)
