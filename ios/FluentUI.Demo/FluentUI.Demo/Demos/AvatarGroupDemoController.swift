@@ -45,7 +45,7 @@ class AvatarGroupDemoController: DemoController {
                 return
             }
 
-            if let text = strongSelf.maxAvatarsTextField.text, let count = UInt(text) {
+            if let text = strongSelf.maxAvatarsTextField.text, let count = Int(text) {
                 strongSelf.maxDisplayedAvatars = count
                 strongSelf.maxAvatarButton.state.isDisabled = true
             }
@@ -72,7 +72,7 @@ class AvatarGroupDemoController: DemoController {
                 return
             }
 
-            if let text = strongSelf.overflowCountTextField.text, let count = UInt(text) {
+            if let text = strongSelf.overflowCountTextField.text, let count = Int(text) {
                 strongSelf.overflowCount = count
                 strongSelf.overflowCountButton.state.isDisabled = true
             }
@@ -153,19 +153,19 @@ class AvatarGroupDemoController: DemoController {
         isUsingAlternateBackgroundColor = switchView.isOn
     }
 
-    private var maxDisplayedAvatars: UInt = 4 {
+    private var maxDisplayedAvatars: Int = 4 {
         didSet {
             if oldValue != maxDisplayedAvatars {
                 maxAvatarsTextField.text = "\(maxDisplayedAvatars)"
 
                 for avatarGroup in avatarGroups {
-                    avatarGroup.state.maxDisplayedAvatars = UInt32(maxDisplayedAvatars)
+                    avatarGroup.state.maxDisplayedAvatars = maxDisplayedAvatars
                 }
             }
         }
     }
 
-    private var overflowCount: UInt = 0 {
+    private var overflowCount: Int = 0 {
         didSet {
             if oldValue != overflowCount {
                 overflowCountTextField.text = "\(overflowCount)"
@@ -209,7 +209,7 @@ class AvatarGroupDemoController: DemoController {
                 avatarGroup.state.getAvatarState(index).secondaryText = vSamplePersonas[index].secondaryText
             }
 
-            avatarGroup.state.maxDisplayedAvatars = UInt32(maxDisplayedAvatars)
+            avatarGroup.state.maxDisplayedAvatars = maxDisplayedAvatars
             avatarGroup.state.overflowCount = overflowCount
             avatarGroups.append(avatarGroup)
             let avatarGroupView = avatarGroup.view

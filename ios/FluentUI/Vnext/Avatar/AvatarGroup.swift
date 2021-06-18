@@ -10,10 +10,23 @@ import SwiftUI
     case stack
     case pile
 }
-
+//
+/// `MSFAvatarGroupState` defines properties in an AvatarGroup
+///
+/// `maxDisplayedAvatars`: Maximum number of avatars displayed
+///
+/// `overflowCount`: Number to be displayed in the overflow avatar
+///
+/// `style`: Type of AvatarGroup. Avatars in a Stack is layered on top of each other; Pile separates avatars
+///
+/// `createAvatar`: Create an Avatar using an AvatarStyle and AvatarSize
+///
+/// `getAvatarState`: Get the state of an Avatar using an index value
+///
+/// `deleteAvatar`: Delete an Avatar with a specified index value
 @objc public protocol MSFAvatarGroupState {
-    var maxDisplayedAvatars: UInt32 { get set }
-    var overflowCount: UInt { get set }
+    var maxDisplayedAvatars: Int { get set }
+    var overflowCount: Int { get set }
     var style: MSFAvatarGroupStyle { get set }
 
     func createAvatar(style: MSFAvatarStyle, size: MSFAvatarSize)
@@ -28,7 +41,11 @@ class MSFAvatarGroupStateImpl: NSObject, ObservableObject, MSFAvatarGroupState {
     }
 
     func getAvatarState(_ atIndex: Int) -> MSFAvatarState {
-        return avatars[atIndex].state
+        if atIndex >= avatars.count {
+            fatalError("Requested index is out of bounds!")
+        } else {
+            return avatars[atIndex].state
+        }
     }
 
     func deleteAvatar(atIndex: Int) {
@@ -36,8 +53,8 @@ class MSFAvatarGroupStateImpl: NSObject, ObservableObject, MSFAvatarGroupState {
     }
 
     @Published var avatars: [AvatarView] = []
-    @Published var maxDisplayedAvatars: UInt32 = UInt32.max
-    @Published var overflowCount: UInt = 0
+    @Published var maxDisplayedAvatars: Int = Int(UInt32.max)
+    @Published var overflowCount: Int = 0
 
     var size: MSFAvatarSize {
         get {
@@ -62,7 +79,7 @@ class MSFAvatarGroupStateImpl: NSObject, ObservableObject, MSFAvatarGroupState {
     init(style: MSFAvatarGroupStyle,
          size: MSFAvatarSize) {
         self.tokens = MSFAvatarGroupTokens(style: style,
-                                      size: size)
+                                           size: size)
         super.init()
     }
 }
@@ -82,15 +99,16 @@ public struct AvatarGroup: View {
 
     public var body: some View {
         let size: CGFloat = tokens.size.size
-        let x: CGFloat = size + tokens.interspace - tokens.ringOuterGap - tokens.ringThickness
+        let x: CGFloat = size + tokens.interspace - tokens.ringThickness
         let avatars: [AvatarView] = state.avatars
-        let maxDisplayedAvatars: Int = avatars.prefix(Int(state.maxDisplayedAvatars)).count
-        let overflowCount: Int = Int((avatars.count > maxDisplayedAvatars ? UInt(avatars.count - maxDisplayedAvatars) : 0) + state.overflowCount)
+        let maxDisplayedAvatars: Int = avatars.prefix(state.maxDisplayedAvatars).count
+        let overflowCount: Int = (avatars.count > maxDisplayedAvatars ? avatars.count - maxDisplayedAvatars : 0) + state.overflowCount
         HStack(spacing: 0) {
             ForEach(0 ..< maxDisplayedAvatars, id: \.self) { index in
-                let modify = tokens.style == .stack && (overflowCount > 0 || index + 1 < maxDisplayedAvatars)
+                // If the avatar is part of Stack style and is not the last avatar in the sequence, create a cutout
+                let needsCutout = tokens.style == .stack && (overflowCount > 0 || index + 1 < maxDisplayedAvatars)
                 state.avatars[index]
-                    .modifyIf(modify, { view in
+                    .modifyIf(needsCutout, { view in
                         view.mask(AvatarCutout(xOrigin: x,
                                                yOrigin: 0,
                                                cutoutSize: size)
@@ -113,13 +131,13 @@ public struct AvatarGroup: View {
         return avatar
     }
 
-    /// Cutout shape for the succeeding Avatar in an Avatar Group in Stack style.
+    /// `AvatarCutout`: Cutout shape for  succeeding Avatar in an Avatar Group in Stack style.
     ///
-    /// xOrigin: beginning location of cutout on the x axis
+    /// `xOrigin`: beginning location of cutout on the x axis
     ///
-    /// yOrigin: beginning location of cutout on the y axis
+    /// `yOrigin`: beginning location of cutout on the y axis
     ///
-    /// cutoutSize: dimensions of cutout shape of the Avatar
+    /// `cutoutSize`: dimensions of cutout shape of the Avatar
     private struct AvatarCutout: Shape {
         var xOrigin: CGFloat
         var yOrigin: CGFloat
@@ -144,8 +162,8 @@ public struct AvatarGroup: View {
         avatarGroupView = AvatarGroup(style: style, size: size)
         hostingController = UIHostingController(rootView: AnyView(avatarGroupView
                                                                     .windowProvider(self)
-                                                                    .modifyIf(theme != nil, { personaView in
-                                                                        personaView.customTheme(theme!)
+                                                                    .modifyIf(theme != nil, { avatarGroupView in
+                                                                        avatarGroupView.customTheme(theme!)
                                                                     })))
         view.backgroundColor = UIColor.clear
     }
