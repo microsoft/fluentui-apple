@@ -193,20 +193,20 @@ class AvatarGroupDemoController: DemoController {
 
                 avatarGroup.state.createAvatar(style: .default, size: size)
 
-                avatarGroup.state.getAvatarState(index).accessibilityLabel = vSamplePersonas[index].accessibilityLabel
-                avatarGroup.state.getAvatarState(index).backgroundColor = vSamplePersonas[index].backgroundColor
-                avatarGroup.state.getAvatarState(index).foregroundColor = vSamplePersonas[index].foregroundColor
-                avatarGroup.state.getAvatarState(index).hasPointerInteraction = vSamplePersonas[index].hasPointerInteraction
-                avatarGroup.state.getAvatarState(index).hasRingInnerGap = vSamplePersonas[index].hasRingInnerGap
-                avatarGroup.state.getAvatarState(index).image = vSamplePersonas[index].image
-                avatarGroup.state.getAvatarState(index).imageBasedRingColor = vSamplePersonas[index].imageBasedRingColor
-                avatarGroup.state.getAvatarState(index).isOutOfOffice = vSamplePersonas[index].isOutOfOffice
-                avatarGroup.state.getAvatarState(index).isRingVisible = border
-                avatarGroup.state.getAvatarState(index).isTransparent = vSamplePersonas[index].isTransparent
-                avatarGroup.state.getAvatarState(index).presence = vSamplePersonas[index].presence
-                avatarGroup.state.getAvatarState(index).primaryText = vSamplePersonas[index].primaryText
-                avatarGroup.state.getAvatarState(index).ringColor = vSamplePersonas[index].ringColor
-                avatarGroup.state.getAvatarState(index).secondaryText = vSamplePersonas[index].secondaryText
+                avatarGroup.state.getAvatarState(index)?.accessibilityLabel = vSamplePersonas[index].accessibilityLabel
+                avatarGroup.state.getAvatarState(index)?.backgroundColor = vSamplePersonas[index].backgroundColor
+                avatarGroup.state.getAvatarState(index)?.foregroundColor = vSamplePersonas[index].foregroundColor
+                avatarGroup.state.getAvatarState(index)?.hasPointerInteraction = vSamplePersonas[index].hasPointerInteraction
+                avatarGroup.state.getAvatarState(index)?.hasRingInnerGap = vSamplePersonas[index].hasRingInnerGap
+                avatarGroup.state.getAvatarState(index)?.image = vSamplePersonas[index].image
+                avatarGroup.state.getAvatarState(index)?.imageBasedRingColor = vSamplePersonas[index].imageBasedRingColor
+                avatarGroup.state.getAvatarState(index)?.isOutOfOffice = vSamplePersonas[index].isOutOfOffice
+                avatarGroup.state.getAvatarState(index)?.isRingVisible = border
+                avatarGroup.state.getAvatarState(index)?.isTransparent = vSamplePersonas[index].isTransparent
+                avatarGroup.state.getAvatarState(index)?.presence = vSamplePersonas[index].presence
+                avatarGroup.state.getAvatarState(index)?.primaryText = vSamplePersonas[index].primaryText
+                avatarGroup.state.getAvatarState(index)?.ringColor = vSamplePersonas[index].ringColor
+                avatarGroup.state.getAvatarState(index)?.secondaryText = vSamplePersonas[index].secondaryText
             }
 
             avatarGroup.state.maxDisplayedAvatars = maxDisplayedAvatars
