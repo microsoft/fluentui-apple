@@ -280,8 +280,34 @@ MSFSubtleFloatingActionButtonTokens extends MSFButtonTokens:
   textFont: [ small: "Font(15px, regular)", medium: "Font(15px, regular)", large: "Font(17px, regular)" ]
   textColor: [ rest: $Colors.Foreground.neutral3, hover: $Colors.Foreground.neutral3, pressed: $Colors.Foreground.neutral3, selected: $Colors.Foreground.brandRest, disabled: $Colors.Foreground.neutralDisabled ]
 
-AP_MSFListTokens:
-  borderColor: $Colors.Stroke.neutral1
+AP_MSFDrawerTokens:
+  backgroundDimmedColor: $Colors.Elevation.highElevation
+  drawerHorizontalContentBackground: "$Colors.Background.neutral1"
+  drawerVerticalContentBackground: "FluentUIColor(light: $Colors.Background.neutral1, dark: $Colors.Background.neutral3)"
+  popoverContentBackground: "FluentUIColor(light: $Colors.Background.surfacePrimary, dark: $Colors.Background.surfaceQuaternary)"
+  navigationBarBackground: "FluentUIColor(light: $Colors.Background.surfacePrimary, dark: NamedColor(grey14))"
+  shadow1Color: $Shadow.shadow28.color1
+  shadow1Blur: $Shadow.shadow28.blur1
+  shadow1OffsetX: $Shadow.shadow28.x1
+  shadow1OffsetY: $Shadow.shadow28.y1
+  shadow2Color: $Shadow.shadow28.color2
+  shadow2Blur: $Shadow.shadow28.blur2
+  shadow2OffsetX: $Shadow.shadow28.x2
+  shadow2OffsetY: $Shadow.shadow28.y2
+  minMargin: [horizontal: $Spacing.xxxLarge, vertical: $Spacing.large]
+  cornerRadius: $Border.radius.xxLarge
+  verticalShadowOffset: $Spacing.xSmall
+  horizontalShadowOffset: $Spacing.small
+
+AP_MSFHeaderFooterTokens:
+  backgroundColor: $Colors.Background.neutral1
+  headerHeight: $Spacing.xxxLarge
+  topPadding: $Spacing.xLarge
+  leadingPadding: $Spacing.medium
+  bottomPadding: $Spacing.xSmall
+  trailingPadding: $Spacing.medium
+  textColor: $Colors.Foreground.neutral3
+  textFont: $Typography.caption1
 
 AP_MSFListCellTokens:
   backgroundColor: [ rest: $Colors.Background.neutral1, pressed: $Colors.Background.neutral5 ]
@@ -305,6 +331,22 @@ AP_MSFListCellTokens:
   trailingItemForegroundColor: $Colors.Foreground.neutral3
   trailingItemSize: $Icon.size.medium
 
+AP_MSFListTokens:
+  borderColor: $Colors.Stroke.neutral1
+
+AP_MSFPersonaButtonCarouselTokens:
+  backgroundColor: $Colors.Background.neutral1
+  itemHorizontalInterspace: $Spacing.medium
+
+AP_MSFPersonaButtonTokens:
+  avatarInterspace: [ small: $Spacing.xSmall, large: $Spacing.small ]
+  backgroundColor: $Colors.Background.neutral1
+  labelColor: $Colors.Foreground.neutral1
+  labelFont: [ small: $Typography.caption1, large: $Typography.subheadline ]
+  padding: $Spacing.xSmall
+  sublabelColor: $Colors.Foreground.neutral3
+  sublabelFont: $Typography.footnote
+
 AP_MSFPersonaViewTokens:
   footnoteFont: $Typography.footnote
   iconInterspace: $Spacing.small
@@ -313,36 +355,7 @@ AP_MSFPersonaViewTokens:
   labelFont: $Typography.headline
   sublabelColor: $Colors.Foreground.neutral1
 
-AP_MSFHeaderFooterTokens:
-  backgroundColor: $Colors.Background.neutral1
-  headerHeight: $Spacing.xxxLarge
-  topPadding: $Spacing.xLarge
-  leadingPadding: $Spacing.medium
-  bottomPadding: $Spacing.xSmall
-  trailingPadding: $Spacing.medium
-  textColor: $Colors.Foreground.neutral3
-  textFont: $Typography.caption1
-
 MSFPrimaryHeaderTokens extends MSFHeaderFooterTokens:
   textColor: $Colors.Foreground.neutral1
   textFont: $Typography.headline
   topPadding: $Spacing.medium
-
-AP_MSFDrawerTokens:
-  backgroundDimmedColor: $Colors.Elevation.highElevation
-  drawerHorizontalContentBackground: "$Colors.Background.neutral1"
-  drawerVerticalContentBackground: "FluentUIColor(light: $Colors.Background.neutral1, dark: $Colors.Background.neutral3)"
-  popoverContentBackground: "FluentUIColor(light: $Colors.Background.surfacePrimary, dark: $Colors.Background.surfaceQuaternary)"
-  navigationBarBackground: "FluentUIColor(light: $Colors.Background.surfacePrimary, dark: NamedColor(grey14))"
-  shadow1Color: $Shadow.shadow28.color1
-  shadow1Blur: $Shadow.shadow28.blur1
-  shadow1OffsetX: $Shadow.shadow28.x1
-  shadow1OffsetY: $Shadow.shadow28.y1
-  shadow2Color: $Shadow.shadow28.color2
-  shadow2Blur: $Shadow.shadow28.blur2
-  shadow2OffsetX: $Shadow.shadow28.x2
-  shadow2OffsetY: $Shadow.shadow28.y2
-  minMargin: [horizontal: $Spacing.xxxLarge, vertical: $Spacing.large]
-  cornerRadius: $Border.radius.xxLarge
-  verticalShadowOffset: $Spacing.xSmall
-  horizontalShadowOffset: $Spacing.small
