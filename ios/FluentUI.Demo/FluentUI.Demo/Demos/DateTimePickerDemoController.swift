@@ -36,6 +36,7 @@ class DateTimePickerDemoController: DemoController {
         dateLabel.adjustsFontSizeToFitWidth = true
 
         container.addArrangedSubview(dateLabel)
+
         container.addArrangedSubview(createButton(title: "Show date picker", action: { [weak self] _ in
             guard let strongSelf = self else {
                 return
@@ -57,8 +58,7 @@ class DateTimePickerDemoController: DemoController {
                 return
             }
 
-            let startDate = strongSelf.startDate ?? Date()
-            let endDate = strongSelf.endDate ?? Calendar.current.date(byAdding: .day, value: 1, to: startDate) ?? startDate
+            let (startDate, endDate, _) = strongSelf.calcDatePickerParams()
             strongSelf.dateTimePicker.present(from: strongSelf, with: .dateRange, startDate: startDate, endDate: endDate, datePickerType: strongSelf.datePickerType)
         }).view)
 
@@ -67,8 +67,7 @@ class DateTimePickerDemoController: DemoController {
                 return
             }
 
-            let startDate = strongSelf.startDate ?? Date()
-            let endDate = strongSelf.endDate ?? Calendar.current.date(byAdding: .day, value: 1, to: startDate) ?? startDate
+            let (startDate, endDate, _) = strongSelf.calcDatePickerParams()
             strongSelf.dateTimePicker.present(from: strongSelf, with: .dateRange, startDate: startDate, endDate: endDate, datePickerType: strongSelf.datePickerType, dateRangePresentation: .tabbed)
         }).view)
 
@@ -77,8 +76,7 @@ class DateTimePickerDemoController: DemoController {
                 return
             }
 
-            let startDate = strongSelf.startDate ?? Date()
-            let endDate = strongSelf.endDate ?? Calendar.current.date(byAdding: .hour, value: 1, to: startDate) ?? startDate
+            let (startDate, endDate, _) = strongSelf.calcDatePickerParams()
             strongSelf.dateTimePicker.present(from: strongSelf, with: .dateTimeRange, startDate: startDate, endDate: endDate, datePickerType: strongSelf.datePickerType)
         }).view)
 
@@ -87,15 +85,29 @@ class DateTimePickerDemoController: DemoController {
                 return
             }
 
-            let startDate = strongSelf.startDate ?? Date()
-            let endDate = strongSelf.endDate ?? Calendar.current.date(byAdding: .day, value: 1, to: startDate) ?? startDate
-            let titles: DateTimePicker.Titles
-            if strongSelf.datePickerType == .calendar && !UIAccessibility.isVoiceOverRunning {
-                titles = .with(startSubtitle: "Assignment Date", endSubtitle: "Due Date")
-            } else {
-                titles = .with(startTab: "Assignment Date", endTab: "Due Date")
-            }
+            let (startDate, endDate, titles) = strongSelf.calcDatePickerParams()
             strongSelf.dateTimePicker.present(from: strongSelf, with: .dateRange, startDate: startDate, endDate: endDate, datePickerType: strongSelf.datePickerType, titles: titles)
+        }).view)
+
+        container.addArrangedSubview(createButton(title: "Show picker with left bar-button", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            let (startDate, endDate, titles) = strongSelf.calcDatePickerParams()
+            let leftBarButtonItem = strongSelf.cancelButton(target: strongSelf, action: #selector(strongSelf.handleDidTapCancel))
+            strongSelf.dateTimePicker.present(from: strongSelf, with: .dateRange, startDate: startDate, endDate: endDate, datePickerType: strongSelf.datePickerType, titles: titles, leftBarButtonItem: leftBarButtonItem)
+        }).view)
+
+        container.addArrangedSubview(createButton(title: "Show picker with left and right bar-buttons", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            let (startDate, endDate, titles) = strongSelf.calcDatePickerParams()
+            let leftBarButtonItem = strongSelf.confirmButton(target: strongSelf, action: #selector(strongSelf.handleDidTapDone))
+            let rightBarButtonItem = strongSelf.cancelButton(target: strongSelf, action: #selector(strongSelf.handleDidTapCancel)) // or simply assign UIBarButtonItem() to hide the default confirm button
+            strongSelf.dateTimePicker.present(from: strongSelf, with: .dateRange, startDate: startDate, endDate: endDate, datePickerType: strongSelf.datePickerType, titles: titles, leftBarButtonItem: leftBarButtonItem, rightBarButtonItem: rightBarButtonItem)
         }).view)
 
         container.addArrangedSubview(UIView())
@@ -142,6 +154,56 @@ class DateTimePickerDemoController: DemoController {
         validationRow.addArrangedSubview(validationLabel)
         validationRow.addArrangedSubview(validationSwitch)
         return validationRow
+    }
+
+    func calcDatePickerParams() -> (startDate: Date, endDate: Date, titles: DateTimePicker.Titles) {
+        let calculatedStartDate = startDate ?? Date()
+        let calculatedEndDate = endDate ?? Calendar.current.date(byAdding: .day, value: 1, to: calculatedStartDate) ?? calculatedStartDate
+        let titles: DateTimePicker.Titles
+        if datePickerType == .calendar && !UIAccessibility.isVoiceOverRunning {
+            titles = .with(startSubtitle: "Assignment Date", endSubtitle: "Due Date")
+        } else {
+            titles = .with(startTab: "Assignment Date", endTab: "Due Date")
+        }
+        return (calculatedStartDate, calculatedEndDate, titles)
+    }
+
+    func confirmButton(target: Any?, action: Selector?) -> UIBarButtonItem {
+        let image = UIImage(named: "checkmark-24x24", in: FluentUIFramework.resourceBundle, compatibleWith: nil)
+        let landscapeImage = UIImage(named: "checkmark-thin-20x20", in: FluentUIFramework.resourceBundle, compatibleWith: nil)
+
+        let button = UIBarButtonItem(image: image, landscapeImagePhone: landscapeImage, style: .plain, target: target, action: action)
+        button.accessibilityLabel = NSLocalizedString("Accessibility.Done.Label", bundle: FluentUIFramework.resourceBundle, comment: "")
+        return button
+    }
+
+    func cancelButton(target: Any?, action: Selector?) -> UIBarButtonItem {
+        let image = UIImage(named: "dismiss-20x20", in: FluentUIFramework.resourceBundle, compatibleWith: nil)
+        let landscapeImage = UIImage(named: "dismiss-36x36", in: FluentUIFramework.resourceBundle, compatibleWith: nil)
+
+        let button = UIBarButtonItem(image: image, landscapeImagePhone: landscapeImage, style: .plain, target: target, action: action)
+        button.accessibilityLabel = NSLocalizedString("Accessibility.Dismiss.Label", bundle: FluentUIFramework.resourceBundle, comment: "")
+        return button
+    }
+
+    @objc private func handleDidTapCancel() {
+        dateTimePicker.dismiss()
+        let alert = UIAlertController(title: "Callback from picker", message: "User has pressed Cancel bar-button", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        present(alert, animated: true)
+    }
+
+    @objc private func handleDidTapDone() {
+        dateTimePicker.dismiss()
+        let alert = UIAlertController(title: "Callback from picker", message: "User has pressed Confirm bar-button", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        present(alert, animated: true)
+    }
+
+    @objc func resetDates() {
+        startDate = nil
+        endDate = nil
+        dateLabel.text = "No date selected"
     }
 }
 
