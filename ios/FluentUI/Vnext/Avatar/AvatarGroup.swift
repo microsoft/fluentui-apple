@@ -30,7 +30,7 @@ import SwiftUI
     var style: MSFAvatarGroupStyle { get set }
 
     func createAvatar(style: MSFAvatarStyle, size: MSFAvatarSize)
-    func getAvatarState(_ atIndex: Int) -> MSFAvatarState
+    func getAvatarState(_ atIndex: Int) -> MSFAvatarState?
     func deleteAvatar(atIndex: Int)
 }
 
@@ -40,9 +40,10 @@ class MSFAvatarGroupStateImpl: NSObject, ObservableObject, MSFAvatarGroupState {
         avatars.append(AvatarView(style: style, size: size))
     }
 
-    func getAvatarState(_ atIndex: Int) -> MSFAvatarState {
+    func getAvatarState(_ atIndex: Int) -> MSFAvatarState? {
         if atIndex >= avatars.count {
-            fatalError("Requested index is out of bounds!")
+            print("Requested index is out of bounds!")
+            return nil
         } else {
             return avatars[atIndex].state
         }
@@ -53,7 +54,7 @@ class MSFAvatarGroupStateImpl: NSObject, ObservableObject, MSFAvatarGroupState {
     }
 
     @Published var avatars: [AvatarView] = []
-    @Published var maxDisplayedAvatars: Int = Int(UInt32.max)
+    @Published var maxDisplayedAvatars: Int = Int.max
     @Published var overflowCount: Int = 0
 
     var size: MSFAvatarSize {
