@@ -203,8 +203,6 @@ public struct PersonaButton: View {
     @ObservedObject var state: MSFPersonaButtonViewStateImpl
     @ObservedObject var avatarState: MSFAvatarStateImpl
 
-    @State private var buttonMaxWidth: CGFloat?
-
     public init(size: MSFPersonaButtonSize) {
         let avatarState = MSFAvatarStateImpl(style: .default, size: size.avatarSize)
         let state = MSFPersonaButtonViewStateImpl(size: size, avatarState: avatarState)
@@ -213,36 +211,30 @@ public struct PersonaButton: View {
         self.tokens = state.tokens
     }
 
+    @ViewBuilder
     private var personaText: some View {
         Group {
             Text(state.primaryText ?? "")
-                .frame(maxWidth: .infinity, alignment: .center)
+                .lineLimit(1)
+                .frame(maxWidth: tokens.labelWidth, alignment: .center)
                 .scalableFont(font: tokens.labelFont)
                 .foregroundColor(Color(tokens.labelColor))
             if state.buttonSize.shouldShowSubtitle {
                 Text(state.secondaryText ?? "")
-                    .frame(maxWidth: .infinity, alignment: .center)
+                    .lineLimit(1)
+                    .frame(maxWidth: tokens.labelWidth, alignment: .center)
                     .scalableFont(font: tokens.sublabelFont)
                     .foregroundColor(Color(tokens.sublabelColor))
             }
         }
-        .frame(width: buttonMaxWidth)
     }
 
+    @ViewBuilder
     private var avatarView: some View {
         AvatarView(avatarState)
             .padding(.top, tokens.padding)
             .padding(.bottom, tokens.avatarInterspace)
             .padding(.horizontal, tokens.padding)
-            .background(GeometryReader { geometry in
-                Color.clear.preference(
-                    key: ButtonWidthPreferenceKey.self,
-                    value: geometry.size.width
-                )
-            })
-            .onPreferenceChange(ButtonWidthPreferenceKey.self) {
-                buttonMaxWidth = $0 - tokens.padding
-            }
     }
 
     public var body: some View {
@@ -259,17 +251,6 @@ public struct PersonaButton: View {
         .designTokens(tokens,
                       from: theme,
                       with: windowProvider)
-    }
-}
-
-private extension PersonaButton {
-    struct ButtonWidthPreferenceKey: PreferenceKey {
-        static let defaultValue: CGFloat = 0
-
-        static func reduce(value: inout CGFloat,
-                           nextValue: () -> CGFloat) {
-            value = max(value, nextValue())
-        }
     }
 }
 
