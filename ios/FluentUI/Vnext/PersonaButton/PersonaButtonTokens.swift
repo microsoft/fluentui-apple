@@ -36,6 +36,7 @@ class MSFPersonaButtonTokens: MSFTokensBase, ObservableObject {
     @Published public var backgroundColor: UIColor!
     @Published public var labelColor: UIColor!
     @Published public var labelFont: UIFont!
+    @Published public var labelWidth: CGFloat!
     @Published public var padding: CGFloat!
     @Published public var sublabelColor: UIColor!
     @Published public var sublabelFont: UIFont!
@@ -76,9 +77,11 @@ class MSFPersonaButtonTokens: MSFTokensBase, ObservableObject {
         case .small:
             avatarInterspace = appearanceProxy.avatarInterspace.small
             labelFont = appearanceProxy.labelFont.small
+            labelWidth = appearanceProxy.labelWidth.small
         case .large:
             avatarInterspace = appearanceProxy.avatarInterspace.large
             labelFont = appearanceProxy.labelFont.large
+            labelWidth = appearanceProxy.labelWidth.large
         }
     }
 }

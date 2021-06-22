@@ -211,22 +211,38 @@ public struct PersonaButton: View {
         self.tokens = state.tokens
     }
 
+    @ViewBuilder
+    private var personaText: some View {
+        Group {
+            Text(state.primaryText ?? "")
+                .lineLimit(1)
+                .frame(maxWidth: tokens.labelWidth, alignment: .center)
+                .scalableFont(font: tokens.labelFont)
+                .foregroundColor(Color(tokens.labelColor))
+            if state.buttonSize.shouldShowSubtitle {
+                Text(state.secondaryText ?? "")
+                    .lineLimit(1)
+                    .frame(maxWidth: tokens.labelWidth, alignment: .center)
+                    .scalableFont(font: tokens.sublabelFont)
+                    .foregroundColor(Color(tokens.sublabelColor))
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var avatarView: some View {
+        AvatarView(avatarState)
+            .padding(.top, tokens.padding)
+            .padding(.bottom, tokens.avatarInterspace)
+            .padding(.horizontal, tokens.padding)
+    }
+
     public var body: some View {
         let action = state.onTapAction ?? {}
         Button(action: action) {
             VStack(spacing: 0) {
-                AvatarView(avatarState)
-                    .padding(.top, tokens.padding)
-                    .padding(.bottom, tokens.avatarInterspace)
-                    .padding(.horizontal, tokens.padding)
-                Text(state.primaryText ?? "")
-                    .scalableFont(font: tokens.labelFont)
-                    .foregroundColor(Color(tokens.labelColor))
-                if state.buttonSize.shouldShowSubtitle {
-                    Text(state.secondaryText ?? "")
-                        .scalableFont(font: tokens.sublabelFont)
-                        .foregroundColor(Color(tokens.sublabelColor))
-                }
+                avatarView
+                personaText
                 Spacer(minLength: tokens.padding)
             }
         }
