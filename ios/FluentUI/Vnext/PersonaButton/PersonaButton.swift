@@ -7,8 +7,21 @@ import SwiftUI
 
 /// `MSFPersonaButtonState` contains PersonaButton properties in addition to a subset of the MSFAvatarState protocol.
 ///
-/// `onTapAction` provides tap gesture for PersonaButton.
-///
+/// - `buttonSize`: specifies whether to use small or large avatars
+/// - `onTapAction`: provides tap gesture for PersonaButton
+/// - `avatarBackgroundColor`: background color for the persona image
+/// - `avatarForegroundColor`: foreground color for the persona image
+/// - `hasPointerInteraction`: indicates whether the image should interact with pointer hover (iPadOS 13.4+ only)
+/// - `hasRingInnerGap`: indicates whether there is a gap between the ring and the image
+/// - `image`: image to display for persona
+/// - `imageBasedRingColor`: image to use as a backdrop for the ring
+/// - `isOutOfOffice`: indicates whether to show out of office status
+/// - `isRingVisible`: indicates if the status ring should be visible
+/// - `isTransparent`: indicates if the avatar should be drawn with transparency
+/// - `presence`: enum that describes persence status for the persona
+/// - `primaryText`: primary text to be displayed under the persona image (e.g. first name)
+/// - `ringColor`: color to draw the status ring, if one is visible
+/// - `secondaryText`: secondary text to be displayed under the persona image (e.g. last name or email address)
 @objc public protocol MSFPersonaButtonState {
     var buttonSize: MSFPersonaButtonSize { get set }
     var onTapAction: (() -> Void)? { get set }
@@ -29,11 +42,13 @@ import SwiftUI
 }
 
 /// Properties that make up PersonaButton content
-class MSFPersonaButtonViewStateImpl: NSObject, ObservableObject, Identifiable, MSFPersonaButtonState {
+class MSFPersonaButtonStateImpl: NSObject, ObservableObject, Identifiable, MSFPersonaButtonState {
     @Published var buttonSize: MSFPersonaButtonSize
     @Published var onTapAction: (() -> Void)?
 
+    let avatarState: MSFAvatarStateImpl
     let tokens: MSFPersonaButtonTokens
+    var personaData: PersonaData?
 
     var avatarBackgroundColor: UIColor? {
         get {
@@ -41,7 +56,6 @@ class MSFPersonaButtonViewStateImpl: NSObject, ObservableObject, Identifiable, M
         }
         set {
             avatarState.backgroundColor = newValue
-            objectWillChange.send()
         }
     }
 
@@ -51,7 +65,6 @@ class MSFPersonaButtonViewStateImpl: NSObject, ObservableObject, Identifiable, M
         }
         set {
             avatarState.foregroundColor = newValue
-            objectWillChange.send()
         }
     }
 
@@ -61,7 +74,6 @@ class MSFPersonaButtonViewStateImpl: NSObject, ObservableObject, Identifiable, M
         }
         set {
             avatarState.hasPointerInteraction = newValue
-            objectWillChange.send()
         }
     }
 
@@ -71,7 +83,6 @@ class MSFPersonaButtonViewStateImpl: NSObject, ObservableObject, Identifiable, M
         }
         set {
             avatarState.hasRingInnerGap = newValue
-            objectWillChange.send()
         }
     }
 
@@ -81,7 +92,6 @@ class MSFPersonaButtonViewStateImpl: NSObject, ObservableObject, Identifiable, M
         }
         set {
             avatarState.image = newValue
-            objectWillChange.send()
         }
     }
 
@@ -91,7 +101,6 @@ class MSFPersonaButtonViewStateImpl: NSObject, ObservableObject, Identifiable, M
         }
         set {
             avatarState.imageBasedRingColor = newValue
-            objectWillChange.send()
         }
     }
 
@@ -101,7 +110,6 @@ class MSFPersonaButtonViewStateImpl: NSObject, ObservableObject, Identifiable, M
         }
         set {
             avatarState.isOutOfOffice = newValue
-            objectWillChange.send()
         }
     }
 
@@ -111,7 +119,6 @@ class MSFPersonaButtonViewStateImpl: NSObject, ObservableObject, Identifiable, M
         }
         set {
             avatarState.isRingVisible = newValue
-            objectWillChange.send()
         }
     }
 
@@ -121,7 +128,6 @@ class MSFPersonaButtonViewStateImpl: NSObject, ObservableObject, Identifiable, M
         }
         set {
             avatarState.isTransparent = newValue
-            objectWillChange.send()
         }
     }
 
@@ -131,7 +137,6 @@ class MSFPersonaButtonViewStateImpl: NSObject, ObservableObject, Identifiable, M
         }
         set {
             avatarState.presence = newValue
-            objectWillChange.send()
         }
     }
 
@@ -141,7 +146,6 @@ class MSFPersonaButtonViewStateImpl: NSObject, ObservableObject, Identifiable, M
         }
         set {
             avatarState.primaryText = newValue
-            objectWillChange.send()
         }
     }
 
@@ -151,7 +155,6 @@ class MSFPersonaButtonViewStateImpl: NSObject, ObservableObject, Identifiable, M
         }
         set {
             avatarState.ringColor = newValue
-            objectWillChange.send()
         }
     }
 
@@ -161,7 +164,6 @@ class MSFPersonaButtonViewStateImpl: NSObject, ObservableObject, Identifiable, M
         }
         set {
             avatarState.secondaryText = newValue
-            objectWillChange.send()
         }
     }
 
@@ -171,7 +173,6 @@ class MSFPersonaButtonViewStateImpl: NSObject, ObservableObject, Identifiable, M
         }
         set {
             avatarState.size = newValue
-            objectWillChange.send()
         }
     }
 
@@ -181,11 +182,10 @@ class MSFPersonaButtonViewStateImpl: NSObject, ObservableObject, Identifiable, M
         }
         set {
             avatarState.style = newValue
-            objectWillChange.send()
         }
     }
 
-    init(size: MSFPersonaButtonSize, avatarState: MSFAvatarState) {
+    init(size: MSFPersonaButtonSize, avatarState: MSFAvatarStateImpl) {
         self.buttonSize = size
         self.avatarState = avatarState
         self.tokens = MSFPersonaButtonTokens(size: size)
@@ -193,20 +193,35 @@ class MSFPersonaButtonViewStateImpl: NSObject, ObservableObject, Identifiable, M
         super.init()
     }
 
-    private var avatarState: MSFAvatarState
+    convenience init(size: MSFPersonaButtonSize) {
+        let avatarState = MSFAvatarStateImpl(style: .default, size: size.avatarSize)
+        self.init(size: size, avatarState: avatarState)
+    }
+
+    convenience init(size: MSFPersonaButtonSize, personaData: PersonaData) {
+        let avatarState = MSFAvatarStateImpl(style: .default, size: size.avatarSize, personaData: personaData)
+        self.init(size: size, avatarState: avatarState)
+
+        self.personaData = personaData
+    }
 }
 
 public struct PersonaButton: View {
     @Environment(\.theme) var theme: FluentUIStyle
     @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
     @ObservedObject var tokens: MSFPersonaButtonTokens
-    @ObservedObject var state: MSFPersonaButtonViewStateImpl
+    @ObservedObject var state: MSFPersonaButtonStateImpl
     @ObservedObject var avatarState: MSFAvatarStateImpl
 
     public init(size: MSFPersonaButtonSize) {
-        let avatarState = MSFAvatarStateImpl(style: .default, size: size.avatarSize)
-        let state = MSFPersonaButtonViewStateImpl(size: size, avatarState: avatarState)
-        self.avatarState = avatarState
+        let state = MSFPersonaButtonStateImpl(size: size)
+        self.avatarState = state.avatarState
+        self.state = state
+        self.tokens = state.tokens
+    }
+
+    internal init(state: MSFPersonaButtonStateImpl) {
+        self.avatarState = state.avatarState
         self.state = state
         self.tokens = state.tokens
     }

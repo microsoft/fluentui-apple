@@ -6,89 +6,6 @@
 import UIKit
 import SwiftUI
 
-@objc public enum MSFAvatarPresence: Int, CaseIterable {
-    case none
-    case available
-    case away
-    case blocked
-    case busy
-    case doNotDisturb
-    case offline
-    case unknown
-
-    func color(isOutOfOffice: Bool) -> Color {
-        var color = UIColor.clear
-
-        switch self {
-        case .none:
-            break
-        case .available:
-            color = FluentUIThemeManager.S.Colors.Presence.available
-        case .away:
-            color = isOutOfOffice ? FluentUIThemeManager.S.Colors.Presence.outOfOffice : FluentUIThemeManager.S.Colors.Presence.away
-        case .busy:
-            color = FluentUIThemeManager.S.Colors.Presence.busy
-        case .blocked:
-            color = FluentUIThemeManager.S.Colors.Presence.blocked
-        case .doNotDisturb:
-            color = FluentUIThemeManager.S.Colors.Presence.doNotDisturb
-        case .offline:
-            color = isOutOfOffice ? FluentUIThemeManager.S.Colors.Presence.outOfOffice : FluentUIThemeManager.S.Colors.Presence.offline
-        case .unknown:
-            color = FluentUIThemeManager.S.Colors.Presence.unknown
-        }
-
-        return Color(color)
-    }
-
-    func image(isOutOfOffice: Bool) -> Image {
-        var imageName = ""
-
-        switch self {
-        case .none:
-            break
-        case .available:
-            imageName = isOutOfOffice ? "ic_fluent_presence_available_16_regular" : "ic_fluent_presence_available_16_filled"
-        case .away:
-            imageName = isOutOfOffice ? "ic_fluent_presence_oof_16_regular" : "ic_fluent_presence_away_16_filled"
-        case .busy:
-            imageName = isOutOfOffice ? "ic_fluent_presence_unknown_16_regular" : "ic_fluent_presence_busy_16_filled"
-        case .blocked:
-            imageName = "ic_fluent_presence_blocked_16_regular"
-        case .doNotDisturb:
-            imageName = isOutOfOffice ? "ic_fluent_presence_dnd_16_regular" : "ic_fluent_presence_dnd_16_filled"
-        case .offline:
-            imageName = isOutOfOffice ? "ic_fluent_presence_oof_16_regular" : "ic_fluent_presence_offline_16_regular"
-        case .unknown:
-            imageName = "ic_fluent_presence_unknown_16_regular"
-        }
-
-        return Image(imageName,
-                     bundle: FluentUIFramework.resourceBundle)
-    }
-
-    public func string() -> String? {
-        switch self {
-        case .none:
-            return nil
-        case .available:
-            return "Presence.Available".localized
-        case .away:
-            return "Presence.Away".localized
-        case .busy:
-            return "Presence.Busy".localized
-        case .blocked:
-            return "Presence.Blocked".localized
-        case .doNotDisturb:
-            return "Presence.DND".localized
-        case .offline:
-            return "Presence.Offline".localized
-        case .unknown:
-            return "Presence.Unknown".localized
-        }
-    }
-}
-
 /// Properties available to customize the state of the avatar
 @objc public protocol MSFAvatarState {
     var accessibilityLabel: String? { get set }
@@ -150,6 +67,33 @@ class MSFAvatarStateImpl: NSObject, ObservableObject, MSFAvatarState {
         self.tokens = MSFAvatarTokens(style: style,
                                       size: size)
         super.init()
+    }
+}
+
+// MARK: - PersonaData MSFAvatarStateImpl extension
+
+extension MSFAvatarStateImpl {
+    convenience init(style: MSFAvatarStyle, size: MSFAvatarSize, personaData: PersonaData) {
+        self.init(style: style, size: size)
+        self.copyProperties(from: personaData)
+    }
+
+    func copyProperties(from personaData: PersonaData) {
+        if let name = personaData.composedName {
+            self.primaryText = name.0
+            self.secondaryText = name.1
+        } else {
+            let identifier = (personaData.name.count > 0) ? personaData.name : personaData.email
+            self.primaryText = identifier
+        }
+
+        self.foregroundColor = personaData.color
+        self.image = personaData.image
+        self.imageBasedRingColor = personaData.customBorderImage
+        self.isOutOfOffice = personaData.presence == .outOfOffice
+        self.hasRingInnerGap = !personaData.hideInsideGapForBorder
+        self.presence = MSFAvatarPresence(personaData.presence)
+        self.ringColor = personaData.color
     }
 }
 
