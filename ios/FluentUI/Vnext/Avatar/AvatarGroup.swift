@@ -15,15 +15,18 @@ import SwiftUI
 ///
 /// `maxDisplayedAvatars`: Maximum number of avatars displayed
 ///
-/// `overflowCount`: Number to be displayed in the overflow avatar
+/// `maxDisplayedAvatars`: Caps the number of displayed avatars and shows the remaining not displayed in the overflow avatar
+///
+/// `overflowCount`: Adds to the overflow count in case the calling code did not provide all the avatars, but still wants to convey more
+/// items than just the remainder of the avatars that could not be displayed due to the maxDisplayedAvatars property.
 ///
 /// `style`: Type of AvatarGroup. Avatars in a Stack is layered on top of each other; Pile separates avatars
 ///
-/// `createAvatar`: Create an Avatar using an AvatarStyle and AvatarSize
+/// `createAvatar`: Creates an Avatar using an AvatarStyle and AvatarSize
 ///
-/// `getAvatarState`: Get the state of an Avatar using an index value
+/// `getAvatarState`: Gets the state of an Avatar using an index value
 ///
-/// `deleteAvatar`: Delete an Avatar with a specified index value
+/// `deleteAvatar`: Deletes an Avatar with a specified index value
 @objc public protocol MSFAvatarGroupState {
     var maxDisplayedAvatars: Int { get set }
     var overflowCount: Int { get set }
@@ -37,23 +40,24 @@ import SwiftUI
 /// Properties that make up AvatarGroup content
 class MSFAvatarGroupStateImpl: NSObject, ObservableObject, MSFAvatarGroupState {
     func createAvatar(style: MSFAvatarStyle, size: MSFAvatarSize) {
-        avatars.append(AvatarView(style: style, size: size))
+        avatars.append(MSFAvatarStateImpl(style: style, size: size))
     }
 
     func getAvatarState(_ atIndex: Int) -> MSFAvatarState? {
-        if atIndex >= avatars.count {
-            print("Requested index is out of bounds!")
+        guard atIndex < avatars.count else {
             return nil
-        } else {
-            return avatars[atIndex].state
         }
+        return avatars[atIndex]
     }
 
     func deleteAvatar(atIndex: Int) {
+        guard atIndex < avatars.count else {
+            fatalError("Index is out of bounds")
+        }
         avatars.remove(at: atIndex)
     }
 
-    @Published var avatars: [AvatarView] = []
+    @Published var avatars: [MSFAvatarStateImpl] = []
     @Published var maxDisplayedAvatars: Int = Int.max
     @Published var overflowCount: Int = 0
 
@@ -101,14 +105,14 @@ public struct AvatarGroup: View {
     public var body: some View {
         let size: CGFloat = tokens.size.size
         let x: CGFloat = size + tokens.interspace - tokens.ringThickness
-        let avatars: [AvatarView] = state.avatars
+        let avatars: [MSFAvatarStateImpl] = state.avatars
         let maxDisplayedAvatars: Int = avatars.prefix(state.maxDisplayedAvatars).count
         let overflowCount: Int = (avatars.count > maxDisplayedAvatars ? avatars.count - maxDisplayedAvatars : 0) + state.overflowCount
         HStack(spacing: 0) {
             ForEach(0 ..< maxDisplayedAvatars, id: \.self) { index in
                 // If the avatar is part of Stack style and is not the last avatar in the sequence, create a cutout
                 let needsCutout = tokens.style == .stack && (overflowCount > 0 || index + 1 < maxDisplayedAvatars)
-                state.avatars[index]
+                AvatarView(avatars[index])
                     .modifyIf(needsCutout, { view in
                         view.mask(AvatarCutout(xOrigin: x,
                                                yOrigin: 0,
