@@ -19,6 +19,29 @@ import UIKit
 @objc(MSFBottomCommandingController)
 open class BottomCommandingController: UIViewController {
 
+    /// View controller that will be displayed below the bottom commanding UI.
+    @objc public var contentViewController: UIViewController? {
+        didSet {
+            if let oldViewController = oldValue {
+                oldViewController.willMove(toParent: nil)
+                if oldViewController.isViewLoaded {
+                    oldViewController.view.removeFromSuperview()
+                }
+                oldViewController.removeFromParent()
+            }
+            if let newContentViewController = contentViewController {
+                addChild(newContentViewController)
+                if isViewLoaded,
+                   let rootCommandingView = rootCommandingView {
+                    let newContentView: UIView = newContentViewController.view
+                    view.insertSubview(newContentView, belowSubview: rootCommandingView)
+                    activateContentViewConstraints(for: newContentView)
+                }
+                newContentViewController.didMove(toParent: self)
+            }
+        }
+    }
+
     /// Items to be displayed in an area that's always visible. This is either the top of the the sheet,
     /// or the main bottom bar area, depending on current horizontal UIUserInterfaceSizeClass.
     ///
@@ -92,13 +115,20 @@ open class BottomCommandingController: UIViewController {
     // MARK: - View building and layout
 
     public override func loadView() {
-        view = BottomSheetPassthroughView()
+        view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
 
         if traitCollection.horizontalSizeClass == .regular {
             setupBottomBarLayout()
         } else {
             setupBottomSheetLayout()
+        }
+
+        if let contentViewController = contentViewController,
+           let rootCommandingView = rootCommandingView {
+            let newContentView: UIView = contentViewController.view
+            view.insertSubview(newContentView, belowSubview: rootCommandingView)
+            activateContentViewConstraints(for: newContentView)
         }
     }
 
@@ -244,6 +274,16 @@ open class BottomCommandingController: UIViewController {
             separator.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
         return view
+    }
+
+    private func activateContentViewConstraints(for contentView: UIView) {
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            contentView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            contentView.topAnchor.constraint(equalTo: view.topAnchor),
+            contentView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            contentView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
     }
 
     private func updateExpandability() {
@@ -441,6 +481,14 @@ open class BottomCommandingController: UIViewController {
     private var bottomBarViewBottomConstraint: NSLayoutConstraint?
 
     private var bottomSheetController: BottomSheetController?
+
+    private var rootCommandingView: UIView? {
+        if isInSheetMode {
+            return bottomSheetController?.view
+        } else {
+            return bottomBarView
+        }
+    }
 
     private var isHeroCommandStackLoaded: Bool = false
 
