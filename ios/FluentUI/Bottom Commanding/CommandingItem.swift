@@ -13,10 +13,10 @@ import UIKit
 open class CommandingItem: NSObject {
 
     /// A closure that's called when the command is triggered
-    @objc open var action: (CommandingItem) -> Void
+    @objc open var action: ((CommandingItem) -> Void)?
 
     /// The title of the command item.
-    @objc open var title: String {
+    @objc open var title: String? {
         didSet {
             if title != oldValue {
                 delegate?.commandingItem(self, didChangeTitleTo: title)
@@ -25,7 +25,7 @@ open class CommandingItem: NSObject {
     }
 
     /// A `UIImage` to be displayed with the command.
-    @objc open var image: UIImage {
+    @objc open var image: UIImage? {
         didSet {
             if image != oldValue {
                 delegate?.commandingItem(self, didChangeImageTo: image)
@@ -73,17 +73,21 @@ open class CommandingItem: NSObject {
         }
     }
 
+    /// Applications can use this to keep track of items.
+	@objc public var tag: Int
+
     /// Indicates whether `isOn` should be toggled automatically before `action` is called.
     @objc public let isToggleable: Bool
 
-    @objc public init(title: String,
-                      image: UIImage,
-                      action: @escaping (CommandingItem) -> Void,
+    @objc public init(title: String = "",
+                      image: UIImage? = nil,
+                      action: ((CommandingItem) -> Void)? = nil,
                       isToggleable: Bool = false,
                       selectedImage: UIImage? = nil,
                       largeImage: UIImage? = nil,
                       isOn: Bool = false,
-                      isEnabled: Bool = true) {
+                      isEnabled: Bool = true,
+                      tag: Int = 0) {
         self.title = title
         self.action = action
         self.isToggleable = isToggleable
@@ -92,6 +96,7 @@ open class CommandingItem: NSObject {
         self.largeImage = largeImage
         self.isOn = isOn
         self.isEnabled = isEnabled
+        self.tag = tag
     }
 
     weak var delegate: CommandingItemDelegate?
@@ -99,10 +104,10 @@ open class CommandingItem: NSObject {
 
 protocol CommandingItemDelegate: AnyObject {
     /// Called after the `title` property changed.
-    func commandingItem(_ item: CommandingItem, didChangeTitleTo value: String)
+    func commandingItem(_ item: CommandingItem, didChangeTitleTo value: String?)
 
     /// Called after the `image` property changed.
-    func commandingItem(_ item: CommandingItem, didChangeImageTo value: UIImage)
+    func commandingItem(_ item: CommandingItem, didChangeImageTo value: UIImage?)
 
     /// Called after the `largeImage` property changed.
     func commandingItem(_ item: CommandingItem, didChangeLargeImageTo value: UIImage?)
