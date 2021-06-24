@@ -207,7 +207,9 @@ open class TableViewCellFileAccessoryView: UIView {
 
         NSLayoutConstraint.activate([
             view.topAnchor.constraint(equalTo: dateLabel.topAnchor),
-            view.bottomAnchor.constraint(equalTo: dateLabel.bottomAnchor)
+            view.bottomAnchor.constraint(equalTo: dateLabel.bottomAnchor),
+            view.leadingAnchor.constraint(equalTo: dateLabel.leadingAnchor),
+            view.trailingAnchor.constraint(equalTo: dateLabel.trailingAnchor)
         ])
 
         return view
@@ -358,6 +360,7 @@ open class TableViewCellFileAccessoryView: UIView {
     private func updateDateLabel() {
         let dateString = date?.displayString(short: (dateColumnWidth.constant < Constants.fullDateMinWidth)) ?? ""
         dateLabel.text = dateString
+        dateLabel.numberOfLines = traitCollection.preferredContentSizeCategory.dateLabelNumberOfLines
     }
 
     @objc private func updateLayout() {
@@ -546,6 +549,17 @@ extension UIContentSizeCategory {
             return false
         default:
             return true
+        }
+    }
+
+    var dateLabelNumberOfLines: Int {
+        switch self {
+        case .accessibilityExtraExtraExtraLarge, .accessibilityExtraExtraLarge, .accessibilityExtraLarge:
+            // Three lines for accessibility XXXL/XXL/XL content size categories (like the title label) so that
+            // the text can fit in its label's available width without overlapping with accessory buttons.
+            return 3
+        default:
+            return 1
         }
     }
 }

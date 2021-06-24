@@ -451,6 +451,8 @@ open class TableViewCell: UITableViewCell {
     private static func textAreaTrailingOffset(customAccessoryView: UIView?, customAccessoryViewExtendsToEdge: Bool, accessoryType: TableViewCellAccessoryType, paddingTrailing: CGFloat) -> CGFloat {
         let customAccessoryViewAreaWidth: CGFloat
         if let customAccessoryView = customAccessoryView {
+            // Trigger layout so we can have the frame calculated correctly at this point in time
+            customAccessoryView.layoutIfNeeded()
             customAccessoryViewAreaWidth = customAccessoryView.frame.width + Constants.customAccessoryViewMarginLeading
         } else {
             customAccessoryViewAreaWidth = 0
@@ -1266,7 +1268,9 @@ open class TableViewCell: UITableViewCell {
                 footerNumberOfLines: footerNumberOfLines,
                 customAccessoryViewExtendsToEdge: customAccessoryViewExtendsToEdge,
                 containerWidth: maxWidth,
-                isInSelectionMode: isInSelectionMode
+                isInSelectionMode: isInSelectionMode,
+                paddingLeading: paddingLeading,
+                paddingTrailing: paddingTrailing
             )
         )
     }
