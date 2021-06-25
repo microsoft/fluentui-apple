@@ -97,10 +97,9 @@ public class BottomSheetController: UIViewController {
             return currentExpansionState == .expanded
         }
         set {
-            guard !isHidden && isExpandable else {
-                return
+            if !isHidden && isExpandable {
+                move(to: newValue ? .expanded : .collapsed)
             }
-            move(to: newValue ? .expanded : .collapsed)
         }
     }
 
