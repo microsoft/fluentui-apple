@@ -53,12 +53,19 @@ public struct MSFListView: View {
 
                         ForEach(section.cells.indices, id: \.self) { index in
                             let cellState = section.cells[index]
+//                            let cellState = findLastCell(section.cells[index])
                             MSFListCellView(state: cellState)
                                 .frame(maxWidth: .infinity)
                         }
                         if section.hasDividers {
+                            if let lastCell = section.cells.last {
+                                let last = findLastCell(lastCell)
+//                                last.hasDivider = !(last.isExpanded)
+                            }
+//                            if findLastCell(section.cells.)
                             Divider()
-                                .overlay(Color(tokens.borderColor))
+                                .background(Color.red)
+//                                .overlay(Color(tokens.borderColor))
                         }
                     }
                 }
@@ -68,6 +75,20 @@ public struct MSFListView: View {
             .designTokens(tokens,
                           from: theme,
                           with: windowProvider)
+    }
+
+    private func findLastCell(_ lastCell: MSFListCellState) -> MSFListCellState {
+        if let children = lastCell.children {
+            return lastDivider(findLastCell(children[children.count - 1]))
+        } else {
+            return lastDivider(lastCell)
+        }
+    }
+
+    private func lastDivider(_ cell: MSFListCellState) -> MSFListCellState {
+        let state = cell
+        state.hasDivider = !state.isExpanded
+        return state
     }
 
     private func updateCellDividers() -> [MSFListSectionState] {

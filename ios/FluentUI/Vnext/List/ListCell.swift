@@ -283,7 +283,8 @@ struct MSFListCellView: View {
                 let padding = tokens.horizontalCellPadding +
                     (state.leadingView != nil ? (tokens.leadingViewSize + tokens.iconInterspace) : 0)
                 Divider()
-                    .overlay(Color(tokens.borderColor))
+                    .background(Color.red)
+//                    .overlay(Color(tokens.borderColor))
                     .padding(.leading, padding)
             }
 
