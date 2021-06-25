@@ -43,7 +43,7 @@ class BottomCommandingDemoController: UIViewController {
     }
 
     private lazy var heroItems: [CommandingItem] = {
-        return Array(1...5).map {
+        return Array(1...4).map {
             CommandingItem(title: "Item " + String($0), image: homeImage, action: commandAction, selectedImage: homeSelectedImage)
         }
     }()
@@ -89,7 +89,7 @@ class BottomCommandingDemoController: UIViewController {
         }
     }
 
-    private let modifiedCommandIndices: [Int] = [0, 2, 4]
+    private let modifiedCommandIndices: [Int] = [0, 3]
 
     @objc private func toggleHeroCommandOnOff() {
         modifiedCommandIndices.forEach {
