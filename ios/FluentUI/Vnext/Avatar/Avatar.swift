@@ -70,33 +70,6 @@ class MSFAvatarStateImpl: NSObject, ObservableObject, MSFAvatarState {
     }
 }
 
-// MARK: - PersonaData MSFAvatarStateImpl extension
-
-extension MSFAvatarStateImpl {
-    convenience init(style: MSFAvatarStyle, size: MSFAvatarSize, personaData: PersonaData) {
-        self.init(style: style, size: size)
-        self.copyProperties(from: personaData)
-    }
-
-    func copyProperties(from personaData: PersonaData) {
-        if let name = personaData.composedName {
-            self.primaryText = name.0
-            self.secondaryText = name.1
-        } else {
-            let identifier = (personaData.name.count > 0) ? personaData.name : personaData.email
-            self.primaryText = identifier
-        }
-
-        self.foregroundColor = personaData.color
-        self.image = personaData.image
-        self.imageBasedRingColor = personaData.customBorderImage
-        self.isOutOfOffice = personaData.presence == .outOfOffice
-        self.hasRingInnerGap = !personaData.hideInsideGapForBorder
-        self.presence = MSFAvatarPresence(personaData.presence)
-        self.ringColor = personaData.color
-    }
-}
-
 /// View that represents the avatar
 public struct AvatarView: View {
     @Environment(\.theme) var theme: FluentUIStyle

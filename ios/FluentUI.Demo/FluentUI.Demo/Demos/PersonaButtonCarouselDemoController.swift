@@ -5,8 +5,7 @@
 
 import UIKit
 
-class PersonaButtonCarouselDemoController: UITableViewController,
-                                           MSFPersonaButtonCarouselDelegate {
+class PersonaButtonCarouselDemoController: UITableViewController {
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(style: .grouped)
     }
@@ -94,27 +93,38 @@ class PersonaButtonCarouselDemoController: UITableViewController,
         return "\(String(describing: sizeString)) \(String(describing: styleString))"
     }
 
-    // MARK: - MSFPersonaButtonCarouselDelegate
-    func didTap(on personaData: PersonaData, at index: Int) {
-        let identifier = personaData.name.count > 0 ? personaData.name : personaData.email
-        let alert = UIAlertController(title: "\(identifier) at index \(index) was selected", message: nil, preferredStyle: .alert)
+    // MARK: - Actions
+
+    private func didTap(on personaButtonData: MSFPersonaButtonData, at index: Int) {
+        let primaryText: String = personaButtonData.primaryText ?? "n/a"
+        let alert = UIAlertController(title: "\(primaryText) at index \(index) was selected", message: nil, preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .default, handler: nil)
         alert.addAction(action)
         self.present(alert, animated: true)
     }
 
-    // MARK: - Actions
+    private func add(_ persona: PersonaData, to carousel: MSFPersonaButtonCarousel) {
+        let text: (String, String?) = {
+            if let name = persona.composedName {
+                return (name.0, name.1)
+            } else {
+                return (((persona.name.count > 0) ? persona.name : persona.email), nil)
+            }
+        }()
+        carousel.add(primaryText: text.0, secondaryText: text.1, image: persona.image)
+    }
 
     @objc private func handleAppendPersona() {
         carousels.forEach { (_ : MSFPersonaButtonSize, carousel: MSFPersonaButtonCarousel) in
             let random = Int.random(in: 0...personas.count - 1)
-            carousel.append(personas[random])
+            let persona = personas[random]
+            add(persona, to: carousel)
         }
     }
 
     @objc private func handleRemovePersona() {
         carousels.forEach { (_ : MSFPersonaButtonSize, carousel: MSFPersonaButtonCarousel) in
-            let count = carousel.count()
+            let count = carousel.count
             if count > 0 {
                 let random = Int.random(in: 0...count - 1)
                 carousel.remove(at: random)
@@ -154,9 +164,14 @@ class PersonaButtonCarouselDemoController: UITableViewController,
             cell = tableView.dequeueReusableCell(withIdentifier: PersonaButtonCarouselDemoController.smallCarouselReuseIdentifier, for: indexPath)
         }
 
-        let carousel = MSFPersonaButtonCarousel(size: size, personas: personas, theme: nil)
+        let carousel = MSFPersonaButtonCarousel(size: size, theme: nil)
+        personas.forEach { persona in
+            add(persona, to: carousel)
+        }
         carousels[size] = carousel
-        carousel.delegate = self
+        carousel.onTapAction = { [weak self] (personaButtonData: MSFPersonaButtonData, index: Int) in
+            self?.didTap(on: personaButtonData, at: index)
+        }
 
         cell.contentView.addSubview(carousel.view)
         cell.selectionStyle = .none
@@ -189,11 +204,11 @@ class PersonaButtonCarouselDemoController: UITableViewController,
         // Create the PersonaButton to be displayed
         let personaButton = MSFPersonaButtonView(size: size)
         let persona = personas[indexPath.item]
-        personaButton.state.image = persona.avatarImage
-        personaButton.state.primaryText = persona.primaryText
-        personaButton.state.secondaryText = persona.secondaryText
-        personaButton.state.onTapAction = { [weak self, personaButton] in
-            let alert = UIAlertController(title: nil, message: "PersonaButton tapped: \(personaButton.state.primaryText ?? "(none)")", preferredStyle: .alert)
+        personaButton.image = persona.avatarImage
+        personaButton.primaryText = persona.primaryText
+        personaButton.secondaryText = persona.secondaryText
+        personaButton.onTapAction = { [weak self, personaButton] in
+            let alert = UIAlertController(title: nil, message: "PersonaButton tapped: \(personaButton.primaryText ?? "(none)")", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default))
             self?.present(alert, animated: true)
         }

@@ -7,11 +7,12 @@ import SwiftUI
 
 /// `MSFPersonaCarouselState` contains PersonaCarousel properties
 ///
-/// - `buttonSize`: specifies whether to use small or large avatars
+/// - `buttons`: the array of buttons displayed in the carousel
+/// - `buttonSize`: returns whether the carousel will display small or large avatars
 /// - `onTapAction`: provides tap gesture
 @objc public protocol MSFPersonaCarouselState {
     var buttonSize: MSFPersonaButtonSize { get }
-    var onTapAction: ((_ personaButtonState: MSFPersonaButtonState, _ index: Int) -> Void)? { get set }
+    var onTapAction: ((_ personaButtonState: MSFPersonaButtonData, _ index: Int) -> Void)? { get set }
 }
 
 /// Properties that make up PersonaGrid content
@@ -19,35 +20,15 @@ class MSFPersonaCarouselStateImpl: NSObject, ObservableObject, Identifiable, MSF
     let tokens: MSFPersonaButtonCarouselTokens
     let buttonSize: MSFPersonaButtonSize
 
-    @Published var onTapAction: ((_ personaButtonState: MSFPersonaButtonState, _ index: Int) -> Void)?
+    @Published var onTapAction: ((_ personaButtonState: MSFPersonaButtonData, _ index: Int) -> Void)?
 
-    @Published var buttons: [MSFPersonaButtonStateImpl] = [] {
-        didSet {
-            // When the buttons array changes, any new entries need to have their action set
-            // to pass through to the main callback for the carousel
-            let old = Set(oldValue)
-            let new = Set(buttons)
-            let newElements = new.subtracting(old)
+    @Published var buttons: [MSFPersonaButtonStateImpl] = []
 
-            newElements.forEach { button in
-                button.onTapAction = { [weak self] in
-                    guard let index = self?.buttons.firstIndex(of: button) else {
-                        return
-                    }
-                    self?.onTapAction?(button, index)
-                }
-            }
-        }
-    }
-
-    init(size: MSFPersonaButtonSize, buttons: [MSFPersonaButtonStateImpl] = []) {
+    init(size: MSFPersonaButtonSize) {
         self.buttonSize = size
         self.tokens = MSFPersonaButtonCarouselTokens(size: size)
 
         super.init()
-
-        // Update the `buttons` array after init in order to trigger the `didSet`
-        self.buttons = buttons
     }
 }
 
@@ -59,10 +40,9 @@ struct PersonaButtonCarousel: View {
 
     let buttonSize: MSFPersonaButtonSize
 
-    public init(size: MSFPersonaButtonSize,
-                personaButtons: [MSFPersonaButtonStateImpl] = []) {
+    public init(size: MSFPersonaButtonSize) {
         tokens = MSFPersonaButtonCarouselTokens(size: size)
-        state = MSFPersonaCarouselStateImpl(size: size, buttons: personaButtons)
+        state = MSFPersonaCarouselStateImpl(size: size)
 
         buttonSize = size
     }
@@ -70,8 +50,14 @@ struct PersonaButtonCarousel: View {
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 0) {
-                ForEach(state.buttons) { buttonState in
-                    PersonaButton(state: buttonState)
+                ForEach(state.buttons, id: \.self) { buttonState in
+                    PersonaButton(state: buttonState) { [weak state] in
+                        guard let state = state,
+                              let index = state.buttons.firstIndex(of: buttonState) else {
+                            return
+                        }
+                        state.onTapAction?(buttonState, index)
+                    }
                 }
             }
         }
