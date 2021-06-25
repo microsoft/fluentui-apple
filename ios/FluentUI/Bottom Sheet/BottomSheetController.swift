@@ -91,6 +91,19 @@ public class BottomSheetController: UIViewController {
         }
     }
 
+    /// Indicates if the bottom sheet is expanded.
+    @objc open var isExpanded: Bool {
+        get {
+            return currentExpansionState == .expanded
+        }
+        set {
+            guard !isHidden && isExpandable else {
+                return
+            }
+            move(to: newValue ? .expanded : .collapsed)
+        }
+    }
+
     /// Fraction of the available area that the bottom sheet should take up in the expanded position.
     @objc open var expandedHeightFraction: CGFloat = 1.0 {
         didSet {
@@ -258,15 +271,11 @@ public class BottomSheetController: UIViewController {
     // MARK: - Gesture handling
 
     @objc private func handleResizingHandleViewTap(_ sender: UITapGestureRecognizer) {
-        if currentOffsetFromBottom != offset(for: .collapsed) {
-            move(to: .collapsed, velocity: 0)
-        } else {
-            move(to: .expanded, velocity: 0)
-        }
+        isExpanded.toggle()
     }
 
     private func updateResizingHandleViewAccessibility() {
-        if currentOffsetFromBottom != offset(for: .collapsed) {
+        if currentExpansionState == .expanded {
             resizingHandleView.accessibilityLabel = "Accessibility.Drawer.ResizingHandle.Label.Collapse".localized
             resizingHandleView.accessibilityHint = "Accessibility.Drawer.ResizingHandle.Hint.Collapse".localized
         } else {
