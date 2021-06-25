@@ -95,8 +95,12 @@ open class BottomCommandingController: UIViewController {
     }
 
     /// Indicates whether a more button is visible in the sheet style when `expandedListSections` is non-empty.
-    /// Tapping the button will expand/collapse the sheet or show a popover in the bottom bar..
-    @objc open var prefersSheetMoreButtonVisible: Bool = true
+    /// Tapping the button will expand or collapse the sheet.
+    @objc open var prefersSheetMoreButtonVisible: Bool = true {
+        didSet {
+            reloadHeroCommandStack()
+        }
+    }
 
     // MARK: - View building and layout
 
