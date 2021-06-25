@@ -79,7 +79,7 @@ open class CommandingItem: NSObject {
     /// Indicates whether `isOn` should be toggled automatically before `action` is called.
     @objc public let isToggleable: Bool
 
-    @objc public init(title: String = "",
+    @objc public init(title: String? = nil,
                       image: UIImage? = nil,
                       action: ((CommandingItem) -> Void)? = nil,
                       isToggleable: Bool = false,
@@ -97,6 +97,18 @@ open class CommandingItem: NSObject {
         self.isOn = isOn
         self.isEnabled = isEnabled
         self.tag = tag
+    }
+
+    // ObjC-only convenience inits
+
+    @available(*, unavailable)
+    @objc public convenience init(title: String?, image: UIImage?, action: ((CommandingItem) -> Void)?) {
+        self.init(title: title, image: image, action: action)
+    }
+
+    @available(*, unavailable)
+    @objc public override convenience init() {
+        self.init()
     }
 
     weak var delegate: CommandingItemDelegate?
