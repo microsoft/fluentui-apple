@@ -366,8 +366,9 @@ open class BottomCommandingController: UIViewController {
 
     private func createAndBindHeroCommandView(with item: CommandingItem) -> UIView {
         let itemImage = item.image ?? UIImage()
-        let tabItem = TabBarItem(title: item.title ?? "", image: itemImage, selectedImage: item.selectedImage, largeContentImage: item.largeImage)
-        let itemView = TabBarItemView(item: tabItem, showsTitle: item.title != nil)
+        let itemTitle = item.title ?? ""
+        let tabItem = TabBarItem(title: itemTitle, image: itemImage, selectedImage: item.selectedImage, largeContentImage: item.largeImage)
+        let itemView = TabBarItemView(item: tabItem, showsTitle: itemTitle != "")
         itemView.alwaysShowTitleBelowImage = true
         itemView.numberOfTitleLines = 1
         itemView.isSelected = item.isOn
