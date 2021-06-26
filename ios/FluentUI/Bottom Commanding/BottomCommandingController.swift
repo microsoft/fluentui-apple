@@ -272,10 +272,7 @@ open class BottomCommandingController: UIViewController {
         }
     }
 
-    private lazy var moreHeroItem: CommandingItem = {
-        let item = CommandingItem(title: Constants.BottomBar.moreButtonTitle, image: Constants.BottomBar.moreButtonIcon ?? UIImage(), action: handleMoreCommandTap)
-        return item
-    }()
+    private lazy var moreHeroItem: CommandingItem = CommandingItem(title: Constants.BottomBar.moreButtonTitle, image: Constants.BottomBar.moreButtonIcon ?? UIImage(), action: handleMoreCommandTap)
 
     private lazy var heroCommandStack: UIStackView = {
         let stackView = UIStackView()
