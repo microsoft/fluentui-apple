@@ -313,7 +313,7 @@ open class BottomCommandingController: UIViewController {
             tabBarItemView.isSelected.toggle()
             item.isOn = tabBarItemView.isSelected
         }
-        item.action(binding.item)
+        item.action?(binding.item)
     }
 
     @objc private func handleMoreButtonTap(_ sender: UITapGestureRecognizer) {
@@ -365,8 +365,10 @@ open class BottomCommandingController: UIViewController {
     }
 
     private func createAndBindHeroCommandView(with item: CommandingItem) -> UIView {
-        let tabItem = TabBarItem(title: item.title, image: item.image, selectedImage: item.selectedImage, largeContentImage: item.largeImage)
-        let itemView = TabBarItemView(item: tabItem, showsTitle: true)
+        let itemImage = item.image ?? UIImage()
+        let itemTitle = item.title ?? ""
+        let tabItem = TabBarItem(title: itemTitle, image: itemImage, selectedImage: item.selectedImage, largeContentImage: item.largeImage)
+        let itemView = TabBarItemView(item: tabItem, showsTitle: itemTitle != "")
         itemView.alwaysShowTitleBelowImage = true
         itemView.numberOfTitleLines = 1
         itemView.isSelected = item.isOn
@@ -393,13 +395,13 @@ open class BottomCommandingController: UIViewController {
         iconView.tintColor = Constants.tableViewIconTintColor
 
         if item.isToggleable, let booleanCell = cell as? BooleanCell {
-            booleanCell.setup(title: item.title, customView: iconView, isOn: item.isOn)
+            booleanCell.setup(title: item.title ?? "", customView: iconView, isOn: item.isOn)
             booleanCell.onValueChanged = {
                 item.isOn = booleanCell.isOn
-                item.action(item)
+                item.action?(item)
             }
         } else {
-            cell.setup(title: item.title, customView: iconView)
+            cell.setup(title: item.title ?? "", customView: iconView)
         }
         cell.isEnabled = item.isEnabled
         cell.backgroundColor = Constants.tableViewBackgroundColor
@@ -595,18 +597,18 @@ extension BottomCommandingController: UITableViewDelegate {
             if presentedViewController != nil {
                 dismiss(animated: true)
             }
-            binding.item.action(binding.item)
+            binding.item.action?(binding.item)
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 
 extension BottomCommandingController: CommandingItemDelegate {
-    func commandingItem(_ item: CommandingItem, didChangeTitleTo value: String) {
+    func commandingItem(_ item: CommandingItem, didChangeTitleTo value: String?) {
         reloadView(from: item)
     }
 
-    func commandingItem(_ item: CommandingItem, didChangeImageTo value: UIImage) {
+    func commandingItem(_ item: CommandingItem, didChangeImageTo value: UIImage?) {
         reloadView(from: item)
     }
 
