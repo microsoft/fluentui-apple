@@ -49,12 +49,12 @@ class BottomSheetDemoController: UIViewController {
         bottomSheetViewController?.isHidden.toggle()
     }
 
-    @objc private func fullScreenExpandedOffset() {
-        bottomSheetViewController?.expandedHeightFraction = 1.0
+    @objc private func fullScreenSheetContent() {
+        bottomSheetViewController?.preferredExpandedContentHeight = 0
     }
 
-    @objc private func halfScreenExpandedOffset() {
-        bottomSheetViewController?.expandedHeightFraction = 0.5
+    @objc private func fixedHeightSheetContent() {
+        bottomSheetViewController?.preferredExpandedContentHeight = 400
     }
 
     private let personaListView: PersonaListView = {
@@ -89,8 +89,8 @@ class BottomSheetDemoController: UIViewController {
         return [
             DemoItem(title: "Expandable", type: .boolean, action: #selector(toggleExpandable), isOn: true),
             DemoItem(title: "Hidden", type: .boolean, action: #selector(toggleHidden), isOn: false),
-            DemoItem(title: "Full screen expansion height", type: .action, action: #selector(fullScreenExpandedOffset)),
-            DemoItem(title: "Half screen expansion height", type: .action, action: #selector(halfScreenExpandedOffset))
+            DemoItem(title: "Full screen sheet content", type: .action, action: #selector(fullScreenSheetContent)),
+            DemoItem(title: "Fixed height sheet content", type: .action, action: #selector(fixedHeightSheetContent))
         ]
     }()
 

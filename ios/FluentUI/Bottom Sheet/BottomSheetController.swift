@@ -91,11 +91,11 @@ public class BottomSheetController: UIViewController {
         }
     }
 
-    /// Fraction of the available area that the bottom sheet should take up in the expanded position.
-    @objc open var expandedHeightFraction: CGFloat = 1.0 {
+    @objc open var preferredExpandedContentHeight: CGFloat = 0 {
         didSet {
-            if expandedHeightFraction != oldValue {
-                updateBottomSheetHeightConstraint()
+            if isViewLoaded {
+                updateSheetSizingConstraints()
+                move(to: currentExpansionState, animated: false)
             }
         }
     }
@@ -145,16 +145,24 @@ public class BottomSheetController: UIViewController {
         overflowView.backgroundColor = Colors.NavigationBar.background
         view.addSubview(overflowView)
 
+        view.addLayoutGuide(maxSheetHeightLayoutGuide)
+
         NSLayoutConstraint.activate([
+            maxSheetHeightLayoutGuide.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            maxSheetHeightLayoutGuide.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            maxSheetHeightLayoutGuide.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            maxSheetHeightLayoutGuide.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: Constants.minimumTopExpandedPadding),
             bottomSheetView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             bottomSheetView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            bottomSheetView.heightAnchor.constraint(lessThanOrEqualTo: maxSheetHeightLayoutGuide.heightAnchor),
             overflowView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             overflowView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             overflowView.heightAnchor.constraint(equalToConstant: Constants.Spring.overflowHeight),
             overflowView.topAnchor.constraint(equalTo: bottomSheetView.bottomAnchor),
             bottomSheetOffsetConstraint
         ])
-        updateBottomSheetHeightConstraint()
+
+        updateSheetSizingConstraints()
         updateResizingHandleViewAccessibility()
     }
 
@@ -461,28 +469,34 @@ public class BottomSheetController: UIViewController {
         bottomSheetOffsetConstraint.constant = -offsetFromBottom
     }
 
-    // MARK: - Height constraint utils
+    private func updateSheetSizingConstraints() {
+        if preferredExpandedContentHeight > 0 {
+            fullScreenSheetConstraint.isActive = false
+            expandedContentHeightConstraint.constant = preferredExpandedContentHeight
+            expandedContentHeightConstraint.isActive = true
 
-    private func updateBottomSheetHeightConstraint() {
-        let newConstraint = generateBottomSheetHeightConstraint()
-
-        bottomSheetHeightConstraint.isActive = false
-        newConstraint.isActive = true
-
-        bottomSheetHeightConstraint = newConstraint
+        } else {
+            expandedContentHeightConstraint.isActive = false
+            fullScreenSheetConstraint.isActive = true
+        }
     }
 
-    private func generateBottomSheetHeightConstraint() -> NSLayoutConstraint {
-        // Fill view bounds, respecting the given height fraction
-        let constraint = bottomSheetView.heightAnchor.constraint(
-            equalTo: view.heightAnchor,
-            multiplier: expandedHeightFraction,
-            constant: view.safeAreaInsets.top - Constants.minimumTopExpandedPadding)
+    private lazy var expandedContentHeightConstraint: NSLayoutConstraint = {
+        let constraint = expandedContentView.heightAnchor.constraint(equalToConstant: preferredExpandedContentHeight)
+        constraint.priority = .defaultHigh
         return constraint
-    }
+    }()
 
-    // The height doesn't change while panning. The sheet only gets pulled out from the off-screen area.
-    private lazy var bottomSheetHeightConstraint: NSLayoutConstraint = generateBottomSheetHeightConstraint()
+    private lazy var fullScreenSheetConstraint: NSLayoutConstraint = {
+        let constraint = bottomSheetView.heightAnchor.constraint(equalTo: maxSheetHeightLayoutGuide.heightAnchor)
+        constraint.priority = .defaultHigh
+        return constraint
+    }()
+
+    private lazy var maxSheetHeightLayoutGuide: UILayoutGuide = UILayoutGuide()
+
+//    // The height doesn't change while panning. The sheet only gets pulled out from the off-screen area.
+//    private lazy var bottomSheetHeightConstraint: NSLayoutConstraint = generateExpandedContentHeightConstraint()
 
     private lazy var bottomSheetOffsetConstraint: NSLayoutConstraint =
         bottomSheetView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -offset(for: currentExpansionState))

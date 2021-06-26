@@ -49,6 +49,7 @@ open class BottomCommandingController: UIViewController {
                 // Item views and bindings will be lazily created during UITableView cellForRowAt
                 tableView.reloadData()
             }
+            updateSheetExpandedContentHeight()
             updateExpandability()
         }
     }
@@ -100,6 +101,10 @@ open class BottomCommandingController: UIViewController {
         } else {
             setupBottomSheetLayout()
         }
+    }
+
+    public override func viewSafeAreaInsetsDidChange() {
+        updateSheetExpandedContentHeight()
     }
 
     public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -169,7 +174,6 @@ open class BottomCommandingController: UIViewController {
 
         let sheetController = BottomSheetController(headerContentView: commandStackContainer, expandedContentView: makeSheetExpandedContent(with: tableView))
         sheetController.hostedScrollView = tableView
-        sheetController.expandedHeightFraction = Constants.BottomSheet.expandedFraction
         sheetController.isHidden = isHidden
 
         addChild(sheetController)
@@ -193,6 +197,7 @@ open class BottomCommandingController: UIViewController {
 
         bottomSheetController = sheetController
         updateExpandability()
+        updateSheetExpandedContentHeight()
     }
 
     private func makeBottomBarByEmbedding(contentView: UIView) -> UIView {
@@ -287,6 +292,7 @@ open class BottomCommandingController: UIViewController {
 
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
+        tableView.contentInsetAdjustmentBehavior = .automatic
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.separatorStyle = .none
         tableView.alwaysBounceVertical = false
@@ -321,6 +327,8 @@ open class BottomCommandingController: UIViewController {
         popoverContentViewController.view.addSubview(tableView)
         popoverContentViewController.modalPresentationStyle = .popover
         popoverContentViewController.popoverPresentationController?.sourceView = sender.view
+        print(fittingTableViewHeight)
+        popoverContentViewController.preferredContentSize = CGSize(width: 0, height: fittingTableViewHeight)
 
         NSLayoutConstraint.activate([
             tableView.leadingAnchor.constraint(equalTo: popoverContentViewController.view.leadingAnchor),
@@ -430,6 +438,23 @@ open class BottomCommandingController: UIViewController {
                 setupTableViewCell(cell, with: item)
             }
         }
+    }
+
+    private func updateSheetExpandedContentHeight() {
+        if let bottomSheetController = bottomSheetController {
+            bottomSheetController.preferredExpandedContentHeight = fittingTableViewHeight + Constants.BottomSheet.expandedContentTopMargin + view.safeAreaInsets.bottom
+        }
+    }
+
+    private var fittingTableViewHeight: CGFloat {
+        var totalHeight: CGFloat = 0
+        for section in expandedListSections {
+            totalHeight += TableViewHeaderFooterView.height(style: .header, title: section.title ?? "")
+            for item in section.items {
+                totalHeight += TableViewCell.height(title: item.title)
+            }
+        }
+        return totalHeight
     }
 
     private var itemToBindingMap: [CommandingItem: ItemBindingInfo] = [:]
@@ -571,6 +596,10 @@ extension BottomCommandingController: UITableViewDataSource {
 }
 
 extension BottomCommandingController: UITableViewDelegate {
+    public func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return CGFloat.leastNormalMagnitude
+    }
+
     public func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: TableViewHeaderFooterView.identifier) as? TableViewHeaderFooterView else {
             return nil
