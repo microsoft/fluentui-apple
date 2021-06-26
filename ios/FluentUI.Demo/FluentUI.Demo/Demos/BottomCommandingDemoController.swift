@@ -44,7 +44,9 @@ class BottomCommandingDemoController: UIViewController {
 
     private lazy var heroItems: [CommandingItem] = {
         return Array(1...4).map {
-            CommandingItem(title: "Item " + String($0), image: homeImage, action: commandAction, selectedImage: homeSelectedImage)
+            let item = CommandingItem(title: "Item " + String($0), image: homeImage, action: commandAction)
+            item.selectedImage = homeSelectedImage
+            return item
         }
     }()
 
