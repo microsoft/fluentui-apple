@@ -56,7 +56,7 @@ open class CommandingItem: NSObject {
     /// Indicates whether the command is currently on.
     ///
     /// When `isToggleable` is `true`, this property is toggled automatically before `action` is called.
-    @objc open var isOn: Bool {
+    @objc open var isOn: Bool = false {
         didSet {
             if isOn != oldValue {
                 delegate?.commandingItem(self, didChangeOnTo: isOn)
@@ -65,7 +65,7 @@ open class CommandingItem: NSObject {
     }
 
     /// Indicates whether the command is enabled.
-    @objc open var isEnabled: Bool {
+    @objc open var isEnabled: Bool = true {
         didSet {
             if isEnabled != oldValue {
                 delegate?.commandingItem(self, didChangeEnabledTo: isEnabled)
@@ -74,41 +74,20 @@ open class CommandingItem: NSObject {
     }
 
     /// Applications can use this to keep track of items.
-	@objc public var tag: Int
+	@objc public var tag: Int = 0
 
     /// Indicates whether `isOn` should be toggled automatically before `action` is called.
     @objc public let isToggleable: Bool
 
-    @objc public init(title: String? = nil,
-                      image: UIImage? = nil,
-                      action: ((CommandingItem) -> Void)? = nil,
-                      isToggleable: Bool = false,
-                      selectedImage: UIImage? = nil,
-                      largeImage: UIImage? = nil,
-                      isOn: Bool = false,
-                      isEnabled: Bool = true,
-                      tag: Int = 0) {
+    @objc public init(title: String, image: UIImage, action: @escaping (CommandingItem) -> Void, isToggleable: Bool = false) {
         self.title = title
+        self.image = image
         self.action = action
         self.isToggleable = isToggleable
-        self.image = image
-        self.selectedImage = selectedImage
-        self.largeImage = largeImage
-        self.isOn = isOn
-        self.isEnabled = isEnabled
-        self.tag = tag
     }
 
-    // ObjC-only convenience inits
-
-    @available(*, unavailable)
-    @objc public convenience init(title: String?, image: UIImage?, action: ((CommandingItem) -> Void)?) {
-        self.init(title: title, image: image, action: action)
-    }
-
-    @available(*, unavailable)
-    @objc public override convenience init() {
-        self.init()
+    @objc public init(isToggleable: Bool = false) {
+        self.isToggleable = isToggleable
     }
 
     weak var delegate: CommandingItemDelegate?
