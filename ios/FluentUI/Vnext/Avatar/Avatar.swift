@@ -227,8 +227,15 @@ public struct AvatarView: View {
                                                                                     backgroundColor))
 
         let shouldUseDefaultImage = (state.image == nil && initialsString.isEmpty && style != .overflow)
-        let avatarImage: UIImage? = ((style == .outlined || style == .outlinedPrimary) ? UIImage.staticImageNamed("person_48_regular") :
-                                        (shouldUseDefaultImage ? UIImage.staticImageNamed("person_48_filled") : state.image))
+        let avatarImageInfo: (image: UIImage?, renderingMode: Image.TemplateRenderingMode) = {
+            if style == .outlined || style == .outlinedPrimary {
+                return (UIImage.staticImageNamed("person_48_regular"), .template)
+            } else if shouldUseDefaultImage {
+                return (UIImage.staticImageNamed("person_48_filled"), .template)
+            } else {
+                return (state.image, .original)
+            }
+        }()
         let avatarImageSizeRatio: CGFloat = (shouldUseDefaultImage) ? 0.7 : 1
 
         let accessibilityLabel: String = {
@@ -244,9 +251,9 @@ public struct AvatarView: View {
 
         @ViewBuilder
         var avatarContent: some View {
-            if let image = avatarImage {
+            if let image = avatarImageInfo.image {
                 Image(uiImage: image)
-                    .renderingMode(.original)
+                    .renderingMode(avatarImageInfo.renderingMode)
                     .resizable()
                     .foregroundColor(Color(foregroundColor))
             } else {
