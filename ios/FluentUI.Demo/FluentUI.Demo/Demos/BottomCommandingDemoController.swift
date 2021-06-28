@@ -43,7 +43,7 @@ class BottomCommandingDemoController: UIViewController {
     }
 
     private lazy var heroItems: [CommandingItem] = {
-        return Array(1...5).map {
+        return Array(1...4).map {
             let item = CommandingItem(title: "Item " + String($0), image: homeImage, action: commandAction)
             item.selectedImage = homeSelectedImage
             return item
@@ -66,6 +66,7 @@ class BottomCommandingDemoController: UIViewController {
 
     private lazy var demoOptionItems: [DemoItem] = {
         return [DemoItem(title: "Hidden", type: .boolean, action: #selector(toggleHidden), isOn: false),
+                DemoItem(title: "Sheet more button", type: .boolean, action: #selector(toggleSheetMoreButton), isOn: true),
                 DemoItem(title: "Expanded list items", type: .boolean, action: #selector(toggleExpandedItems), isOn: true),
                 DemoItem(title: "Hero command isOn", type: .boolean, action: #selector(toggleHeroCommandOnOff)),
                 DemoItem(title: "Hero command isEnabled", type: .boolean, action: #selector(toggleHeroCommandEnabled), isOn: true),
@@ -83,6 +84,10 @@ class BottomCommandingDemoController: UIViewController {
         bottomCommandingController?.isHidden.toggle()
     }
 
+    @objc private func toggleSheetMoreButton() {
+        bottomCommandingController?.prefersSheetMoreButtonVisible.toggle()
+    }
+
     @objc private func toggleExpandedItems() {
         if bottomCommandingController?.expandedListSections.count == 0 {
             bottomCommandingController?.expandedListSections = expandedListSections
@@ -91,7 +96,7 @@ class BottomCommandingDemoController: UIViewController {
         }
     }
 
-    private let modifiedCommandIndices: [Int] = [0, 2, 4]
+    private let modifiedCommandIndices: [Int] = [0, 3]
 
     @objc private func toggleHeroCommandOnOff() {
         modifiedCommandIndices.forEach {
