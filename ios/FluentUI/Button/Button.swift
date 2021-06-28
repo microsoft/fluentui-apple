@@ -241,7 +241,7 @@ open class Button: UIButton {
     }
 
     private func updateImage() {
-        let isDisplayingImage = (style == .primaryFilled || style == .primaryOutline || style == .secondaryOutline || style == .borderless) && image != nil
+        let isDisplayingImage = style != .tertiaryOutline && image != nil
 
         if let window = window {
             let normalColor = normalTitleAndImageColor(for: window)
