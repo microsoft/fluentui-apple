@@ -68,9 +68,9 @@ public enum MSFButtonLegacyStyle: Int, CaseIterable {
         switch self {
         case .primaryFilled, .primaryOutline:
             return 10
-        case .secondaryOutline:
+        case .secondaryOutline, .borderless:
             return 8
-        case .tertiaryOutline, .borderless:
+        case .tertiaryOutline:
             return 0
         }
     }
@@ -108,7 +108,7 @@ open class MSFButtonLegacy: UIButton {
 
     /// The button's image.
     /// For ButtonStyle.primaryFilled and ButtonStyle.primaryOutline, the image must be 24x24.
-    /// For ButtonStyle.secondaryOutline, the image must be 20x20.
+    /// For ButtonStyle.secondaryOutline and ButtonStyle.borderless, the image must be 20x20.
     /// For other styles, the image is not displayed.
     @objc open var image: UIImage? {
         didSet {
@@ -235,7 +235,7 @@ open class MSFButtonLegacy: UIButton {
     }
 
     private func updateImage() {
-        let isDisplayingImage = (style == .primaryFilled || style == .primaryOutline || style == .secondaryOutline) && image != nil
+        let isDisplayingImage = style != .tertiaryOutline && image != nil
 
         if let window = window {
             let normalColor = normalTitleAndImageColor(for: window)

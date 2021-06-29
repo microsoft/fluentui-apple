@@ -84,9 +84,9 @@ extension MSFButtonLegacyStyle {
         switch self {
         case .primaryFilled, .primaryOutline:
             return UIImage(named: "Placeholder_24")!
-        case .secondaryOutline:
+        case .secondaryOutline, .borderless:
             return UIImage(named: "Placeholder_20")!
-        case .tertiaryOutline, .borderless:
+        case .tertiaryOutline:
             return nil
         }
     }
