@@ -153,6 +153,11 @@ class ColorDemoController: UIViewController {
             if let navigationController = navigationController {
                 navigationController.popViewController(animated: false)
                 colorThemeHost?.updateToWindowWith(type: windowType, pushing: self)
+                UIAccessibility.post(notification: .screenChanged, argument: self.segmentedControl.segmentView(at:segmentedControl.selectedSegmentIndex))
+                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100))
+                {
+                    UIAccessibility.post(notification: .announcement, argument: self.segmentedControl.segmentView(at:segmentedControl.selectedSegmentIndex)?.accessibilityIdentifier)
+                }
             }
         }
     }
