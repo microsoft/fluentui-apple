@@ -7,7 +7,6 @@ import SwiftUI
 
 /// `MSFPersonaCarouselState` contains PersonaCarousel properties
 ///
-/// - `buttons`: the array of buttons displayed in the carousel
 /// - `buttonSize`: returns whether the carousel will display small or large avatars
 /// - `onTapAction`: provides tap gesture
 @objc public protocol MSFPersonaCarouselState {
