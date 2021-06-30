@@ -19,11 +19,6 @@ extension FluentUIStyle {
 		open var backgroundColor: UIColor {
 			return mainProxy().Colors.Background.neutral1
 		}
-
-		// MARK: - itemHorizontalInterspace 
-		open var itemHorizontalInterspace: CGFloat {
-			return mainProxy().Spacing.medium
-		}
 	}
 
 }

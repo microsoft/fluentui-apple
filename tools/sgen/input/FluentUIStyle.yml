@@ -336,7 +336,6 @@ AP_MSFListTokens:
 
 AP_MSFPersonaButtonCarouselTokens:
   backgroundColor: $Colors.Background.neutral1
-  itemHorizontalInterspace: $Spacing.medium
 
 AP_MSFPersonaButtonTokens:
   avatarInterspace: [ small: $Spacing.xSmall, large: $Spacing.small ]
