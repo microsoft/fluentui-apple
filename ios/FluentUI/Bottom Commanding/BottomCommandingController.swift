@@ -103,10 +103,6 @@ open class BottomCommandingController: UIViewController {
         }
     }
 
-    public override func viewSafeAreaInsetsDidChange() {
-        updateSheetExpandedContentHeight()
-    }
-
     public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 
@@ -327,7 +323,6 @@ open class BottomCommandingController: UIViewController {
         popoverContentViewController.view.addSubview(tableView)
         popoverContentViewController.modalPresentationStyle = .popover
         popoverContentViewController.popoverPresentationController?.sourceView = sender.view
-        print(fittingTableViewHeight)
         popoverContentViewController.preferredContentSize = CGSize(width: 0, height: fittingTableViewHeight)
 
         NSLayoutConstraint.activate([
@@ -442,7 +437,7 @@ open class BottomCommandingController: UIViewController {
 
     private func updateSheetExpandedContentHeight() {
         if let bottomSheetController = bottomSheetController {
-            bottomSheetController.preferredExpandedContentHeight = fittingTableViewHeight + Constants.BottomSheet.expandedContentTopMargin + view.safeAreaInsets.bottom
+            bottomSheetController.preferredExpandedContentHeight = fittingTableViewHeight + Constants.BottomSheet.expandedContentTopMargin
         }
     }
 
