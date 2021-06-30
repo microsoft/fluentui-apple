@@ -31,7 +31,7 @@ import SwiftUI
     }
 
     @objc public var count: Int {
-        return self.personaButtonCarousel.state.buttons.count
+        return self.state.count
     }
 
     /// Adds a `PersonaButton` to the carousel, and returns an optional reference for additional property setting
@@ -43,17 +43,17 @@ import SwiftUI
     ///
     /// - Returns: An optional reference to the added `PersonaButton`, which can be used to set additional properties or to update later
     @discardableResult @objc public func add(primaryText: String?, secondaryText: String?, image: UIImage?) -> MSFPersonaButtonData {
+        return self.state.add(primaryText: primaryText, secondaryText: secondaryText, image: image)
+    }
 
-        let persona = MSFPersonaButtonStateImpl(size: self.state.buttonSize)
-
-        // Set passed-in properties
-        persona.primaryText = primaryText
-        persona.secondaryText = secondaryText
-        persona.image = image
-
-        self.personaButtonCarousel.state.buttons.append(persona)
-
-        return persona
+    /// Retrieves the `PersonaButton` at a given index, or nil if the index is out of bounds
+    ///
+    /// - Parameters:
+    ///   - index: The index of the `PersonaButton` to retrieve
+    ///
+    /// - Returns: A reference to the  `PersonaButton` at the given index if one exists
+    @objc public func personaButtonData(at index: Int) -> MSFPersonaButtonData? {
+        return self.state.personaButtonData(at: index)
     }
 
     /// Removes a `PersonaButton` from the carousel.
@@ -61,9 +61,7 @@ import SwiftUI
     /// - Parameters:
     ///   - personaData: The reference to a `PersonaButton` to be removed.
     @objc public func remove(_ personaData: MSFPersonaButtonData) {
-        self.personaButtonCarousel.state.buttons.removeAll { personaState in
-            personaState.isEqual(personaData)
-        }
+        self.state.remove(personaData)
     }
 
     /// Removes a `PersonaButton` from the carousel at the given index.
@@ -71,10 +69,7 @@ import SwiftUI
     /// - Parameters:
     ///   - index: The index at which the `PersonaButton` to be removed can be currently found.
     @objc public func remove(at index: Int) {
-        if index >= count {
-            fatalError("Attempting to remove item outside bounds of carousel")
-        }
-        self.personaButtonCarousel.state.buttons.remove(at: index)
+        self.state.remove(at: index)
     }
 
     // MARK: - MSFPersonaCarouselState

@@ -88,29 +88,3 @@ import SwiftUI
         }
     }
 }
-
-extension MSFAvatarPresence {
-    init(_ presence: Presence) {
-        switch presence {
-        case .none:
-            self = .none
-        case .available:
-            self = .available
-        case .away:
-            self = .away
-        case .busy:
-            self = .busy
-        case .doNotDisturb:
-            self = .doNotDisturb
-        case .outOfOffice:
-            // Not supported
-            self = .unknown
-        case .offline:
-            self = .offline
-        case .unknown:
-            self = .unknown
-        case .blocked:
-            self = .blocked
-        }
-    }
-}

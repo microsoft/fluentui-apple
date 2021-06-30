@@ -12,6 +12,7 @@ import SwiftUI
 @objc public protocol MSFPersonaCarouselState {
     var buttonSize: MSFPersonaButtonSize { get }
     var onTapAction: ((_ personaButtonState: MSFPersonaButtonData, _ index: Int) -> Void)? { get set }
+
 }
 
 /// Properties that make up PersonaGrid content
@@ -29,6 +30,45 @@ class MSFPersonaCarouselStateImpl: NSObject, ObservableObject, Identifiable, MSF
 
         super.init()
     }
+
+    // MARK: - accessors and modifiers
+
+    var count: Int {
+        return self.buttons.count
+    }
+
+    @discardableResult func add(primaryText: String?, secondaryText: String?, image: UIImage?) -> MSFPersonaButtonData {
+        let persona = MSFPersonaButtonStateImpl(size: self.buttonSize)
+
+        // Set passed-in properties
+        persona.primaryText = primaryText
+        persona.secondaryText = secondaryText
+        persona.image = image
+
+        self.buttons.append(persona)
+
+        return persona
+    }
+
+    func personaButtonData(at index: Int) -> MSFPersonaButtonData? {
+        guard index < self.count else {
+            return nil
+        }
+        return self.buttons[index]
+    }
+
+    func remove(_ personaData: MSFPersonaButtonData) {
+        self.buttons.removeAll { personaState in
+            personaState.isEqual(personaData)
+        }
+    }
+
+    func remove(at index: Int) {
+        guard index < self.count else {
+            fatalError("Attempting to remove item outside bounds of carousel")
+        }
+        self.buttons.remove(at: index)
+    }
 }
 
 struct PersonaButtonCarousel: View {
@@ -37,13 +77,10 @@ struct PersonaButtonCarousel: View {
     @ObservedObject var tokens: MSFPersonaButtonCarouselTokens
     @ObservedObject var state: MSFPersonaCarouselStateImpl
 
-    let buttonSize: MSFPersonaButtonSize
-
     public init(size: MSFPersonaButtonSize) {
-        tokens = MSFPersonaButtonCarouselTokens(size: size)
-        state = MSFPersonaCarouselStateImpl(size: size)
-
-        buttonSize = size
+        let carouselState = MSFPersonaCarouselStateImpl(size: size)
+        tokens = carouselState.tokens
+        state = carouselState
     }
 
     var body: some View {
@@ -51,11 +88,11 @@ struct PersonaButtonCarousel: View {
             HStack(spacing: 0) {
                 ForEach(state.buttons, id: \.self) { buttonState in
                     PersonaButton(state: buttonState) { [weak state] in
-                        guard let state = state,
-                              let index = state.buttons.firstIndex(of: buttonState) else {
+                        guard let strongState = state,
+                              let index = strongState.buttons.firstIndex(of: buttonState) else {
                             return
                         }
-                        state.onTapAction?(buttonState, index)
+                        strongState.onTapAction?(buttonState, index)
                     }
                 }
             }
