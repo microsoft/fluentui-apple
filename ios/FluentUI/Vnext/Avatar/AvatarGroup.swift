@@ -107,6 +107,7 @@ public struct AvatarGroup: View {
         let overflowCount: Int = (avatars.count > maxDisplayedAvatars ? avatars.count - maxDisplayedAvatars : 0) + state.overflowCount
         let ringOuterGap: CGFloat = tokens.ringOuterGap
         let ringOffset: CGFloat = tokens.ringThickness + tokens.ringInnerGap + ringOuterGap
+        let interspace: CGFloat = tokens.interspace
         HStack(spacing: 0) {
             ForEach(0 ..< maxDisplayedAvatars, id: \.self) { index in
                 // If the avatar is part of Stack style and is not the last avatar in the sequence, create a cutout
@@ -121,8 +122,9 @@ public struct AvatarGroup: View {
                                                cutoutSize: nextRingCheck ? size + ringOffset + ringOuterGap : size)
                                     .fill(style: FillStyle(eoFill: true)))
                     })
-                    .padding(.trailing, currentRingCheck ? (nextRingCheck ? tokens.interspace - (ringOffset + ringOuterGap) : tokens.interspace - ringOffset) :
-                                (nextRingCheck ? tokens.interspace - ringOuterGap : tokens.interspace))
+                    .padding(.trailing, tokens.style == .stack ?
+                                (currentRingCheck ? (nextRingCheck ? interspace - (ringOffset + ringOuterGap) : interspace - ringOffset) :
+                                    (nextRingCheck ? interspace - ringOuterGap : interspace)) : interspace)
             }
             if overflowCount > 0 {
                 createOverflow(count: overflowCount)
