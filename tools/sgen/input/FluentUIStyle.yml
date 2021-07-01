@@ -342,7 +342,6 @@ AP_MSFPersonaButtonTokens:
   backgroundColor: $Colors.Background.neutral1
   labelColor: $Colors.Foreground.neutral1
   labelFont: [ small: $Typography.caption1, large: $Typography.subheadline ]
-  labelWidth: [ small: 52pt, large: 72pt ]
   padding: $Spacing.xSmall
   sublabelColor: $Colors.Foreground.neutral3
   sublabelFont: $Typography.footnote

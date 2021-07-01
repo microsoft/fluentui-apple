@@ -69,28 +69,6 @@ extension FluentUIStyle {
 		}
 
 
-		// MARK: - labelWidth
-		open var labelWidth: labelWidthAppearanceProxy {
-			return labelWidthAppearanceProxy(proxy: mainProxy)
-		}
-		open class labelWidthAppearanceProxy {
-			public let mainProxy: () -> FluentUIStyle
-			public init(proxy: @escaping () -> FluentUIStyle) {
-				self.mainProxy = proxy
-			}
-
-			// MARK: - large 
-			open var large: CGFloat {
-				return CGFloat(72.0)
-			}
-
-			// MARK: - small 
-			open var small: CGFloat {
-				return CGFloat(52.0)
-			}
-		}
-
-
 		// MARK: - padding 
 		open var padding: CGFloat {
 			return mainProxy().Spacing.xSmall
