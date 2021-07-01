@@ -91,6 +91,9 @@ public class BottomSheetController: UIViewController {
         }
     }
 
+    /// Preferred height of `expandedContentView`.
+    ///
+    /// The default value is 0, which results in a full screen sheet expansion.
     @objc open var preferredExpandedContentHeight: CGFloat = 0 {
         didSet {
             if isViewLoaded {
