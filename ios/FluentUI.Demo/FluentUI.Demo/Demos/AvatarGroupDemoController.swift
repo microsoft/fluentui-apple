@@ -121,8 +121,16 @@ class AvatarGroupDemoController: DemoController {
 
         addTitle(text: "Avatar Stack No Border")
         insertAvatarViews(style: .stack, showBorders: false)
+        addTitle(text: "Avatar Stack With Border")
+        insertAvatarViews(style: .stack, showBorders: true)
+        addTitle(text: "Avatar Stack With Mixed Border")
+        insertAvatarViews(style: .stack, showBorders: true, mixed: true)
         addTitle(text: "Avatar Pile No Border")
         insertAvatarViews(style: .pile, showBorders: false)
+        addTitle(text: "Avatar Pile With Border")
+        insertAvatarViews(style: .pile, showBorders: true)
+        addTitle(text: "Avatar Pile With Mixed Border")
+        insertAvatarViews(style: .pile, showBorders: true, mixed: true)
     }
 
     private struct Constants {
@@ -191,22 +199,23 @@ class AvatarGroupDemoController: DemoController {
                     border = !border
                 }
 
-                avatarGroup.state.createAvatar(style: .default, size: size)
+                let avatarState = avatarGroup.state.createAvatar(style: .default, size: size)
+                let samplePersona = vSamplePersonas[index]
 
-                avatarGroup.state.getAvatarState(index)?.accessibilityLabel = vSamplePersonas[index].accessibilityLabel
-                avatarGroup.state.getAvatarState(index)?.backgroundColor = vSamplePersonas[index].backgroundColor
-                avatarGroup.state.getAvatarState(index)?.foregroundColor = vSamplePersonas[index].foregroundColor
-                avatarGroup.state.getAvatarState(index)?.hasPointerInteraction = vSamplePersonas[index].hasPointerInteraction
-                avatarGroup.state.getAvatarState(index)?.hasRingInnerGap = vSamplePersonas[index].hasRingInnerGap
-                avatarGroup.state.getAvatarState(index)?.image = vSamplePersonas[index].image
-                avatarGroup.state.getAvatarState(index)?.imageBasedRingColor = vSamplePersonas[index].imageBasedRingColor
-                avatarGroup.state.getAvatarState(index)?.isOutOfOffice = vSamplePersonas[index].isOutOfOffice
-                avatarGroup.state.getAvatarState(index)?.isRingVisible = border
-                avatarGroup.state.getAvatarState(index)?.isTransparent = vSamplePersonas[index].isTransparent
-                avatarGroup.state.getAvatarState(index)?.presence = vSamplePersonas[index].presence
-                avatarGroup.state.getAvatarState(index)?.primaryText = vSamplePersonas[index].primaryText
-                avatarGroup.state.getAvatarState(index)?.ringColor = vSamplePersonas[index].ringColor
-                avatarGroup.state.getAvatarState(index)?.secondaryText = vSamplePersonas[index].secondaryText
+                avatarState?.accessibilityLabel = samplePersona.accessibilityLabel
+                avatarState?.backgroundColor = samplePersona.backgroundColor
+                avatarState?.foregroundColor = samplePersona.foregroundColor
+                avatarState?.hasPointerInteraction = samplePersona.hasPointerInteraction
+                avatarState?.hasRingInnerGap = samplePersona.hasRingInnerGap
+                avatarState?.image = samplePersona.image
+                avatarState?.imageBasedRingColor = samplePersona.imageBasedRingColor
+                avatarState?.isOutOfOffice = samplePersona.isOutOfOffice
+                avatarState?.isRingVisible = border
+                avatarState?.isTransparent = samplePersona.isTransparent
+                avatarState?.presence = samplePersona.presence
+                avatarState?.primaryText = samplePersona.primaryText
+                avatarState?.ringColor = samplePersona.ringColor
+                avatarState?.secondaryText = samplePersona.secondaryText
             }
 
             avatarGroup.state.maxDisplayedAvatars = maxDisplayedAvatars
