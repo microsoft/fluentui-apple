@@ -691,6 +691,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0A20C785268D4D110029A3B8 /* AvatarGroup */ = {
+			isa = PBXGroup;
+			children = (
+				0A2FBB6A26560FC9004D056C /* MSFAvatarGroupTokens.generated.swift */,
+				0A2FBB4226547C64004D056C /* AvatarGroup.swift */,
+				0A2FBB9426564D98004D056C /* AvatarGroupTokens.swift */,
+			);
+			path = AvatarGroup;
+			sourceTree = "<group>";
+		};
 		0AA8741326001F0500D47421 /* Persona */ = {
 			isa = PBXGroup;
 			children = (
@@ -842,6 +852,7 @@
 			children = (
 				536DD9F1264C4AB000CD41B5 /* ActivityIndicator */,
 				536AEF3B25F1EC0300A36206 /* Avatar */,
+				0A20C785268D4D110029A3B8 /* AvatarGroup */,
 				536AEF2E25F1EC0300A36206 /* Button */,
 				536AEF2925F1EC0300A36206 /* Core */,
 				536AEF3225F1EC0300A36206 /* List */,
@@ -891,13 +902,10 @@
 		536AEF3B25F1EC0300A36206 /* Avatar */ = {
 			isa = PBXGroup;
 			children = (
-				0A2FBB6A26560FC9004D056C /* MSFAvatarGroupTokens.generated.swift */,
 				536AEF3D25F1EC0300A36206 /* Avatar.swift */,
 				536AEF3E25F1EC0300A36206 /* AvatarTokens.swift */,
 				92751051268142CD00F12730 /* MSFAvatarPresence.swift */,
 				536AEF3C25F1EC0300A36206 /* MSFAvatarTokens.generated.swift */,
-				0A2FBB4226547C64004D056C /* AvatarGroup.swift */,
-				0A2FBB9426564D98004D056C /* AvatarGroupTokens.swift */,
 			);
 			path = Avatar;
 			sourceTree = "<group>";
