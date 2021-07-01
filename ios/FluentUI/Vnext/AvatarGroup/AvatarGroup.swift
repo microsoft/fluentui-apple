@@ -100,14 +100,14 @@ public struct AvatarGroup: View {
     }
 
     public var body: some View {
-        let size: CGFloat = tokens.size.size
-        let x: CGFloat = size + tokens.interspace - tokens.ringThickness
         let avatars: [MSFAvatarStateImpl] = state.avatars
         let maxDisplayedAvatars: Int = avatars.prefix(state.maxDisplayedAvatars).count
         let overflowCount: Int = (avatars.count > maxDisplayedAvatars ? avatars.count - maxDisplayedAvatars : 0) + state.overflowCount
+        let interspace: CGFloat = tokens.interspace
         let ringOuterGap: CGFloat = tokens.ringOuterGap
         let ringOffset: CGFloat = tokens.ringThickness + tokens.ringInnerGap + ringOuterGap
-        let interspace: CGFloat = tokens.interspace
+        let size: CGFloat = tokens.size.size
+        let x: CGFloat = size + tokens.interspace - tokens.ringThickness
         HStack(spacing: 0) {
             ForEach(0 ..< maxDisplayedAvatars, id: \.self) { index in
                 // If the avatar is part of Stack style and is not the last avatar in the sequence, create a cutout
