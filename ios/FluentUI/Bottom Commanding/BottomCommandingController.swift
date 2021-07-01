@@ -119,25 +119,27 @@ open class BottomCommandingController: UIViewController {
     public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 
-        guard previousTraitCollection?.horizontalSizeClass != traitCollection.horizontalSizeClass else {
-            return
+        if previousTraitCollection?.horizontalSizeClass != traitCollection.horizontalSizeClass {
+            // On a horizontal size class change the top level sheet / bar surfaces get recreated,
+            // but the item views, containers and bindings persist and are rearranged during the individual setup functions.
+            if let bottomSheetController = bottomSheetController {
+                bottomSheetController.willMove(toParent: nil)
+                bottomSheetController.removeFromParent()
+                bottomSheetController.view.removeFromSuperview()
+            }
+            bottomSheetController = nil
+            bottomBarView?.removeFromSuperview()
+            bottomBarView = nil
+
+            if traitCollection.horizontalSizeClass == .regular {
+                setupBottomBarLayout()
+            } else {
+                setupBottomSheetLayout()
+            }
         }
 
-        // On a horizontal size class change the top level sheet / bar surfaces get recreated,
-        // but the item views, containers and bindings persist and are rearranged during the individual setup functions.
-        if let bottomSheetController = bottomSheetController {
-            bottomSheetController.willMove(toParent: nil)
-            bottomSheetController.removeFromParent()
-            bottomSheetController.view.removeFromSuperview()
-        }
-        bottomSheetController = nil
-        bottomBarView?.removeFromSuperview()
-        bottomBarView = nil
-
-        if traitCollection.horizontalSizeClass == .regular {
-            setupBottomBarLayout()
-        } else {
-            setupBottomSheetLayout()
+        if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
+            updateSheetExpandedContentHeight()
         }
     }
 
