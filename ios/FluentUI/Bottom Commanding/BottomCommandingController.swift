@@ -327,7 +327,7 @@ open class BottomCommandingController: UIViewController {
             popoverContentViewController.view.addSubview(tableView)
             popoverContentViewController.modalPresentationStyle = .popover
             popoverContentViewController.popoverPresentationController?.sourceView = moreButtonView
-            popoverContentViewController.preferredContentSize = CGSize(width: 0, height: fittingTableViewHeight)
+            popoverContentViewController.preferredContentSize.height = fittingTableViewHeight
 
             NSLayoutConstraint.activate([
                 tableView.leadingAnchor.constraint(equalTo: popoverContentViewController.view.leadingAnchor),
@@ -591,6 +591,7 @@ extension BottomCommandingController: UITableViewDataSource {
 
 extension BottomCommandingController: UITableViewDelegate {
     public func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        // This gets rid of a 20pt margin after the last section which UITableView adds automatically.
         return CGFloat.leastNormalMagnitude
     }
 
