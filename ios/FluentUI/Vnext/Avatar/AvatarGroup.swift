@@ -13,8 +13,6 @@ import SwiftUI
 //
 /// `MSFAvatarGroupState` defines properties in an AvatarGroup
 ///
-/// `maxDisplayedAvatars`: Maximum number of avatars displayed
-///
 /// `maxDisplayedAvatars`: Caps the number of displayed avatars and shows the remaining not displayed in the overflow avatar
 ///
 /// `overflowCount`: Adds to the overflow count in case the calling code did not provide all the avatars, but still wants to convey more
@@ -32,15 +30,16 @@ import SwiftUI
     var overflowCount: Int { get set }
     var style: MSFAvatarGroupStyle { get set }
 
-    func createAvatar(style: MSFAvatarStyle, size: MSFAvatarSize)
+    func createAvatar(style: MSFAvatarStyle, size: MSFAvatarSize) -> MSFAvatarState?
     func getAvatarState(_ atIndex: Int) -> MSFAvatarState?
     func deleteAvatar(atIndex: Int)
 }
 
 /// Properties that make up AvatarGroup content
 class MSFAvatarGroupStateImpl: NSObject, ObservableObject, MSFAvatarGroupState {
-    func createAvatar(style: MSFAvatarStyle, size: MSFAvatarSize) {
+    func createAvatar(style: MSFAvatarStyle, size: MSFAvatarSize) -> MSFAvatarState? {
         avatars.append(MSFAvatarStateImpl(style: style, size: size))
+        return avatars.last
     }
 
     func getAvatarState(_ atIndex: Int) -> MSFAvatarState? {
@@ -51,9 +50,7 @@ class MSFAvatarGroupStateImpl: NSObject, ObservableObject, MSFAvatarGroupState {
     }
 
     func deleteAvatar(atIndex: Int) {
-        guard atIndex < avatars.count else {
-            fatalError("Index is out of bounds")
-        }
+        guard atIndex < avatars.count else { return }
         avatars.remove(at: atIndex)
     }
 
@@ -108,18 +105,24 @@ public struct AvatarGroup: View {
         let avatars: [MSFAvatarStateImpl] = state.avatars
         let maxDisplayedAvatars: Int = avatars.prefix(state.maxDisplayedAvatars).count
         let overflowCount: Int = (avatars.count > maxDisplayedAvatars ? avatars.count - maxDisplayedAvatars : 0) + state.overflowCount
+        let ringOuterGap: CGFloat = tokens.ringOuterGap
+        let ringOffset: CGFloat = tokens.ringThickness + tokens.ringInnerGap + ringOuterGap
         HStack(spacing: 0) {
             ForEach(0 ..< maxDisplayedAvatars, id: \.self) { index in
                 // If the avatar is part of Stack style and is not the last avatar in the sequence, create a cutout
                 let needsCutout = tokens.style == .stack && (overflowCount > 0 || index + 1 < maxDisplayedAvatars)
+                let currentRingCheck = avatars[index].isRingVisible
+                let nextRingCheck = index + 1 < maxDisplayedAvatars ? avatars[index + 1].isRingVisible : false
                 AvatarView(avatars[index])
                     .modifyIf(needsCutout, { view in
-                        view.mask(AvatarCutout(xOrigin: x,
-                                               yOrigin: 0,
-                                               cutoutSize: size)
+                        view.mask(AvatarCutout(xOrigin: currentRingCheck ? x + ringOffset : x,
+                                               yOrigin: currentRingCheck ? (nextRingCheck ? ringOuterGap : ringOffset) :
+                                                (nextRingCheck ? 0 - ringOffset + tokens.ringOuterGap : 0),
+                                               cutoutSize: nextRingCheck ? size + ringOffset + ringOuterGap : size)
                                     .fill(style: FillStyle(eoFill: true)))
                     })
-                    .padding(.trailing, tokens.interspace)
+                    .padding(.trailing, currentRingCheck ? (nextRingCheck ? tokens.interspace - (ringOffset + ringOuterGap) : tokens.interspace - ringOffset) :
+                                (nextRingCheck ? tokens.interspace - ringOuterGap : tokens.interspace))
             }
             if overflowCount > 0 {
                 createOverflow(count: overflowCount)
