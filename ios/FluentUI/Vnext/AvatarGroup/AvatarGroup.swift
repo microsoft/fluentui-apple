@@ -50,7 +50,9 @@ class MSFAvatarGroupStateImpl: NSObject, ObservableObject, MSFAvatarGroupState {
     }
 
     func deleteAvatar(atIndex: Int) {
-        guard atIndex < avatars.count else { return }
+        guard atIndex < avatars.count else {
+            return
+        }
         avatars.remove(at: atIndex)
     }
 
