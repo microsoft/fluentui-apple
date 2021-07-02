@@ -271,7 +271,7 @@ public struct PersonaButton: View {
 
     public var body: some View {
         let action = state.onTapAction ?? {}
-        let adjustedWidth = adjustedWidth()
+        let adjustedWidth = self.adjustedWidth()
         Button(action: action) {
             VStack(spacing: 0) {
                 avatarView
