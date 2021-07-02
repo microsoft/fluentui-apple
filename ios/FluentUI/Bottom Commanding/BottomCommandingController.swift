@@ -287,7 +287,6 @@ open class BottomCommandingController: UIViewController {
 
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
-        tableView.contentInsetAdjustmentBehavior = .automatic
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.separatorStyle = .none
         tableView.alwaysBounceVertical = false
@@ -327,7 +326,7 @@ open class BottomCommandingController: UIViewController {
             popoverContentViewController.view.addSubview(tableView)
             popoverContentViewController.modalPresentationStyle = .popover
             popoverContentViewController.popoverPresentationController?.sourceView = moreButtonView
-            popoverContentViewController.preferredContentSize.height = fittingTableViewHeight
+            popoverContentViewController.preferredContentSize.height = estimatedTableViewHeight
 
             NSLayoutConstraint.activate([
                 tableView.leadingAnchor.constraint(equalTo: popoverContentViewController.view.leadingAnchor),
@@ -432,11 +431,12 @@ open class BottomCommandingController: UIViewController {
 
     private func updateSheetExpandedContentHeight() {
         if let bottomSheetController = bottomSheetController {
-            bottomSheetController.preferredExpandedContentHeight = fittingTableViewHeight + Constants.BottomSheet.expandedContentTopMargin
+            bottomSheetController.preferredExpandedContentHeight = estimatedTableViewHeight + Constants.BottomSheet.expandedContentTopMargin
         }
     }
 
-    private var fittingTableViewHeight: CGFloat {
+    // Estimated fitting height of `tableView`.
+    private var estimatedTableViewHeight: CGFloat {
         var totalHeight: CGFloat = 0
         for section in expandedListSections {
             totalHeight += TableViewHeaderFooterView.height(style: .header, title: section.title ?? "")
