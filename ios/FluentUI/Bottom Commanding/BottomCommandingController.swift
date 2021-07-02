@@ -126,6 +126,18 @@ open class BottomCommandingController: UIViewController {
         }
     }
 
+    /// Initializes the bottom commanding controller with a given content view controller.
+    /// - Parameter contentViewController: View controller that will be displayed below the bottom commanding UI.
+    @objc public init(with contentViewController: UIViewController?) {
+        self.contentViewController = contentViewController
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    @available(*, unavailable)
+    public required init?(coder: NSCoder) {
+        preconditionFailure("init(coder:) has not been implemented")
+    }
+
     // MARK: - View building and layout
 
     public override func loadView() {

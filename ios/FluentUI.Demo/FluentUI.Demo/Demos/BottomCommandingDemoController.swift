@@ -20,8 +20,7 @@ class BottomCommandingDemoController: UIViewController {
         optionTableView.delegate = self
         optionTableView.separatorStyle = .none
 
-        let bottomCommandingVC = BottomCommandingController()
-        bottomCommandingVC.contentViewController = optionTableViewController
+        let bottomCommandingVC = BottomCommandingController(with: optionTableViewController)
         bottomCommandingVC.heroItems = heroItems
         bottomCommandingVC.expandedListSections = expandedListSections
 
