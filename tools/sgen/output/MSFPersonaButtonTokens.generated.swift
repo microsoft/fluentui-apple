@@ -42,6 +42,33 @@ extension FluentUIStyle {
 			return mainProxy().Colors.Background.neutral1
 		}
 
+		// MARK: - horizontalAvatarPadding
+		open var horizontalAvatarPadding: horizontalAvatarPaddingAppearanceProxy {
+			return horizontalAvatarPaddingAppearanceProxy(proxy: mainProxy)
+		}
+		open class horizontalAvatarPaddingAppearanceProxy {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			// MARK: - large 
+			open var large: CGFloat {
+				return mainProxy().Spacing.xSmall
+			}
+
+			// MARK: - small 
+			open var small: CGFloat {
+				return mainProxy().Spacing.medium
+			}
+		}
+
+
+		// MARK: - horizontalTextPadding 
+		open var horizontalTextPadding: CGFloat {
+			return mainProxy().Spacing.xxxSmall
+		}
+
 		// MARK: - labelColor 
 		open var labelColor: UIColor {
 			return mainProxy().Colors.Foreground.neutral1
@@ -69,11 +96,6 @@ extension FluentUIStyle {
 		}
 
 
-		// MARK: - padding 
-		open var padding: CGFloat {
-			return mainProxy().Spacing.xSmall
-		}
-
 		// MARK: - sublabelColor 
 		open var sublabelColor: UIColor {
 			return mainProxy().Colors.Foreground.neutral3
@@ -82,6 +104,11 @@ extension FluentUIStyle {
 		// MARK: - sublabelFont 
 		open var sublabelFont: UIFont {
 			return mainProxy().Typography.footnote
+		}
+
+		// MARK: - verticalPadding 
+		open var verticalPadding: CGFloat {
+			return mainProxy().Spacing.xSmall
 		}
 	}
 

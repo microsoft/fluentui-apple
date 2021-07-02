@@ -239,30 +239,30 @@ public struct PersonaButton: View {
                     .foregroundColor(Color(tokens.sublabelColor))
             }
         }
-        .padding(.horizontal, tokens.padding)
+        .padding(.horizontal, tokens.horizontalTextPadding)
     }
 
     @ViewBuilder
     private var avatarView: some View {
         AvatarView(state.avatarState)
-            .padding(.top, tokens.padding)
+            .padding(.top, tokens.verticalPadding)
             .padding(.bottom, tokens.avatarInterspace)
     }
 
     /// Width of the button is conditional on the current size category
     private func adjustedWidth() -> CGFloat {
-        return state.avatarState.size.size + (2 * tokens.padding) + {
+        return state.avatarState.size.size + (2 * tokens.horizontalAvatarPadding) + {
             switch UITraitCollection.current.preferredContentSizeCategory {
             case .accessibilityMedium:
                 return 20
             case .accessibilityLarge:
-                return 50
+                return 32
             case .accessibilityExtraLarge:
-                return 60
+                return 48
             case .accessibilityExtraExtraLarge:
-                return 70
+                return 64
             case .accessibilityExtraExtraExtraLarge:
-                return 100
+                return 80
             default:
                 return 0
             }
@@ -276,7 +276,7 @@ public struct PersonaButton: View {
             VStack(spacing: 0) {
                 avatarView
                 personaText
-                Spacer(minLength: tokens.padding)
+                Spacer(minLength: tokens.verticalPadding)
             }
         }
         .background(Color(tokens.backgroundColor))

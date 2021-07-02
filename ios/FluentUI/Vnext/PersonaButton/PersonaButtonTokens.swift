@@ -34,11 +34,13 @@ import UIKit
 class MSFPersonaButtonTokens: MSFTokensBase, ObservableObject {
     @Published public var avatarInterspace: CGFloat!
     @Published public var backgroundColor: UIColor!
+    @Published public var horizontalAvatarPadding: CGFloat!
+    @Published public var horizontalTextPadding: CGFloat!
     @Published public var labelColor: UIColor!
     @Published public var labelFont: UIFont!
-    @Published public var padding: CGFloat!
     @Published public var sublabelColor: UIColor!
     @Published public var sublabelFont: UIFont!
+    @Published public var verticalPadding: CGFloat!
 
     var size: MSFPersonaButtonSize {
         didSet {
@@ -67,18 +69,21 @@ class MSFPersonaButtonTokens: MSFTokensBase, ObservableObject {
         let appearanceProxy = currentTheme.MSFPersonaButtonTokens
 
         backgroundColor = appearanceProxy.backgroundColor
+        horizontalTextPadding = appearanceProxy.horizontalTextPadding
         labelColor = appearanceProxy.labelColor
-        padding = appearanceProxy.padding
         sublabelColor = appearanceProxy.sublabelColor
         sublabelFont = appearanceProxy.sublabelFont
+        verticalPadding = appearanceProxy.verticalPadding
 
         switch size {
         case .small:
             avatarInterspace = appearanceProxy.avatarInterspace.small
             labelFont = appearanceProxy.labelFont.small
+            horizontalAvatarPadding = appearanceProxy.horizontalAvatarPadding.small
         case .large:
             avatarInterspace = appearanceProxy.avatarInterspace.large
             labelFont = appearanceProxy.labelFont.large
+            horizontalAvatarPadding = appearanceProxy.horizontalAvatarPadding.large
         }
     }
 }
