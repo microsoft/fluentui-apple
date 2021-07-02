@@ -22,22 +22,23 @@ open class BottomCommandingController: UIViewController {
     /// View controller that will be displayed below the bottom commanding UI.
     @objc public var contentViewController: UIViewController? {
         didSet {
-            if let oldViewController = oldValue {
-                oldViewController.willMove(toParent: nil)
-                if oldViewController.isViewLoaded {
+            if isViewLoaded,
+               oldValue != contentViewController {
+                if let oldViewController = oldValue {
+                    oldViewController.willMove(toParent: nil)
                     oldViewController.view.removeFromSuperview()
+                    oldViewController.removeFromParent()
                 }
-                oldViewController.removeFromParent()
-            }
-            if let newContentViewController = contentViewController {
-                addChild(newContentViewController)
-                if isViewLoaded,
-                   let rootCommandingView = rootCommandingView {
-                    let newContentView: UIView = newContentViewController.view
-                    view.insertSubview(newContentView, belowSubview: rootCommandingView)
-                    activateContentViewConstraints(for: newContentView)
+
+                if let newContentViewController = contentViewController {
+                    addChild(newContentViewController)
+                    if let rootCommandingView = rootCommandingView {
+                        let newContentView: UIView = newContentViewController.view
+                        view.insertSubview(newContentView, belowSubview: rootCommandingView)
+                        activateContentViewConstraints(for: newContentView)
+                    }
+                    newContentViewController.didMove(toParent: self)
                 }
-                newContentViewController.didMove(toParent: self)
             }
         }
     }
@@ -139,9 +140,11 @@ open class BottomCommandingController: UIViewController {
 
         if let contentViewController = contentViewController,
            let rootCommandingView = rootCommandingView {
+            addChild(contentViewController)
             let newContentView: UIView = contentViewController.view
             view.insertSubview(newContentView, belowSubview: rootCommandingView)
             activateContentViewConstraints(for: newContentView)
+            contentViewController.didMove(toParent: self)
         }
     }
 
