@@ -50,6 +50,7 @@ class BottomSheetDemoController: UIViewController {
     }
 
     @objc private func fullScreenSheetContent() {
+        // This is also the default value which results in a full screen sheet.
         bottomSheetViewController?.preferredExpandedContentHeight = 0
     }
 
