@@ -22,23 +22,18 @@ open class BottomCommandingController: UIViewController {
     /// View controller that will be displayed below the bottom commanding UI.
     @objc public var contentViewController: UIViewController? {
         didSet {
-            if isViewLoaded,
-               oldValue != contentViewController {
-                if let oldViewController = oldValue {
-                    oldViewController.willMove(toParent: nil)
-                    oldViewController.view.removeFromSuperview()
-                    oldViewController.removeFromParent()
-                }
+            guard isViewLoaded, oldValue != contentViewController else {
+                return
+            }
 
-                if let newContentViewController = contentViewController {
-                    addChild(newContentViewController)
-                    if let rootCommandingView = rootCommandingView {
-                        let newContentView: UIView = newContentViewController.view
-                        view.insertSubview(newContentView, belowSubview: rootCommandingView)
-                        activateContentViewConstraints(for: newContentView)
-                    }
-                    newContentViewController.didMove(toParent: self)
-                }
+            if let oldViewController = oldValue {
+                oldViewController.willMove(toParent: nil)
+                oldViewController.view.removeFromSuperview()
+                oldViewController.removeFromParent()
+            }
+
+            if let newContentViewController = contentViewController {
+                addChildContentViewController(newContentViewController)
             }
         }
     }
@@ -150,13 +145,8 @@ open class BottomCommandingController: UIViewController {
             setupBottomSheetLayout()
         }
 
-        if let contentViewController = contentViewController,
-           let rootCommandingView = rootCommandingView {
-            addChild(contentViewController)
-            let newContentView: UIView = contentViewController.view
-            view.insertSubview(newContentView, belowSubview: rootCommandingView)
-            activateContentViewConstraints(for: newContentView)
-            contentViewController.didMove(toParent: self)
+        if let contentViewController = contentViewController {
+            addChildContentViewController(contentViewController)
         }
     }
 
@@ -301,13 +291,22 @@ open class BottomCommandingController: UIViewController {
         return view
     }
 
-    private func activateContentViewConstraints(for contentView: UIView) {
-        contentView.translatesAutoresizingMaskIntoConstraints = false
+    private func addChildContentViewController(_ contentViewController: UIViewController) {
+        guard let rootCommandingView = rootCommandingView else {
+            return
+        }
+
+        addChild(contentViewController)
+        let newContentView: UIView = contentViewController.view
+        view.insertSubview(newContentView, belowSubview: rootCommandingView)
+        contentViewController.didMove(toParent: self)
+
+        newContentView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            contentView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            contentView.topAnchor.constraint(equalTo: view.topAnchor),
-            contentView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            contentView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            newContentView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            newContentView.topAnchor.constraint(equalTo: view.topAnchor),
+            newContentView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            newContentView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
 
@@ -490,11 +489,7 @@ open class BottomCommandingController: UIViewController {
     private var bottomSheetController: BottomSheetController?
 
     private var rootCommandingView: UIView? {
-        if isInSheetMode {
-            return bottomSheetController?.view
-        } else {
-            return bottomBarView
-        }
+        isInSheetMode ? bottomSheetController?.view : bottomBarView
     }
 
     private var isTableViewLoaded: Bool = false
