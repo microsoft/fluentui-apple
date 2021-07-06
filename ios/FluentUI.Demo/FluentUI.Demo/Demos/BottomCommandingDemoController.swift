@@ -22,7 +22,7 @@ class BottomCommandingDemoController: UIViewController {
 
         let bottomCommandingVC = BottomCommandingController(with: optionTableViewController)
         bottomCommandingVC.heroItems = heroItems
-        bottomCommandingVC.expandedListSections = expandedListSections
+        bottomCommandingVC.expandedListSections = shortCommandSectionList
 
         addChild(bottomCommandingVC)
         view.addSubview(bottomCommandingVC.view)
@@ -50,20 +50,36 @@ class BottomCommandingDemoController: UIViewController {
         CommandingItem(title: "Boolean Item " + String($0), image: homeImage, action: commandAction, isToggleable: true)
     }
 
-    private lazy var expandedListSections: [CommandingSection] = [
+    private lazy var shortCommandSectionList: [CommandingSection] = [
         CommandingSection(title: "Section 1", items:
         Array(1...2).map {
             CommandingItem(title: "Item " + String($0), image: homeImage, action: commandAction)
-        } + booleanCommands),
-        CommandingSection(title: "Section 2", items: Array(1...7).map {
-            CommandingItem(title: "Item " + String($0), image: homeImage, action: commandAction)
-        })
+        } + booleanCommands)
     ]
+
+    private lazy var longCommandSectionList: [CommandingSection] = shortCommandSectionList
+        + [
+            CommandingSection(title: "Section 2", items:
+            Array(1...7).map {
+                CommandingItem(title: "Item " + String($0), image: homeImage, action: commandAction)
+            }),
+            CommandingSection(title: "Section 3", items:
+            Array(1...7).map {
+                CommandingItem(title: "Item " + String($0), image: homeImage, action: commandAction)
+            }),
+            CommandingSection(title: "Section 4", items:
+            Array(1...7).map {
+                CommandingItem(title: "Item " + String($0), image: homeImage, action: commandAction)
+            })
+        ]
+
+    private lazy var currentExpandedListSections: [CommandingSection] = shortCommandSectionList
 
     private lazy var demoOptionItems: [DemoItem] = {
         return [DemoItem(title: "Hidden", type: .boolean, action: #selector(toggleHidden), isOn: false),
                 DemoItem(title: "Sheet more button", type: .boolean, action: #selector(toggleSheetMoreButton), isOn: true),
                 DemoItem(title: "Expanded list items", type: .boolean, action: #selector(toggleExpandedItems), isOn: true),
+                DemoItem(title: "Additional expanded list items", type: .boolean, action: #selector(toggleAdditionalExpandedItems(_:)), isOn: false),
                 DemoItem(title: "Hero command isOn", type: .boolean, action: #selector(toggleHeroCommandOnOff)),
                 DemoItem(title: "Hero command isEnabled", type: .boolean, action: #selector(toggleHeroCommandEnabled), isOn: true),
                 DemoItem(title: "List command isEnabled", type: .boolean, action: #selector(toggleListCommandEnabled), isOn: true),
@@ -86,10 +102,19 @@ class BottomCommandingDemoController: UIViewController {
 
     @objc private func toggleExpandedItems() {
         if bottomCommandingController?.expandedListSections.count == 0 {
-            bottomCommandingController?.expandedListSections = expandedListSections
+            bottomCommandingController?.expandedListSections = currentExpandedListSections
         } else {
             bottomCommandingController?.expandedListSections = []
         }
+    }
+
+    @objc private func toggleAdditionalExpandedItems(_ sender: BooleanCell) {
+        if sender.isOn {
+            currentExpandedListSections = longCommandSectionList
+        } else {
+            currentExpandedListSections = shortCommandSectionList
+        }
+        bottomCommandingController?.expandedListSections = currentExpandedListSections
     }
 
     private let modifiedCommandIndices: [Int] = [0, 3]
@@ -108,7 +133,7 @@ class BottomCommandingDemoController: UIViewController {
 
     @objc private func toggleListCommandEnabled() {
         modifiedCommandIndices.forEach {
-            expandedListSections[0].items[$0].isEnabled.toggle()
+            currentExpandedListSections[0].items[$0].isEnabled.toggle()
         }
     }
 
@@ -120,7 +145,7 @@ class BottomCommandingDemoController: UIViewController {
 
     @objc private func changeListCommandTitle() {
         modifiedCommandIndices.forEach {
-            expandedListSections[0].items[$0].title = "Item " + String(Int.random(in: 6..<100))
+            currentExpandedListSections[0].items[$0].title = "Item " + String(Int.random(in: 6..<100))
         }
     }
 
@@ -134,8 +159,8 @@ class BottomCommandingDemoController: UIViewController {
 
     @objc private func changeListCommandIcon() {
         modifiedCommandIndices.forEach {
-            expandedListSections[0].items[$0].image = listIconChanged ? homeImage : boldImage
-            expandedListSections[0].items[$0].selectedImage = listIconChanged ? homeSelectedImage : boldImage
+            currentExpandedListSections[0].items[$0].image = listIconChanged ? homeImage : boldImage
+            currentExpandedListSections[0].items[$0].selectedImage = listIconChanged ? homeSelectedImage : boldImage
         }
         listIconChanged.toggle()
     }
@@ -146,7 +171,7 @@ class BottomCommandingDemoController: UIViewController {
 
     @objc private func incrementHeroCommands() {
         let currentCount = bottomCommandingController?.heroItems.count ?? 0
-        if currentCount < 5 {
+        if currentCount < 4 {
             let newCount = currentCount + 1
             bottomCommandingController?.heroItems = Array(heroItems[0..<newCount])
         }
@@ -163,7 +188,7 @@ class BottomCommandingDemoController: UIViewController {
     @objc private func commandAction(item: CommandingItem) {
         if heroItems.contains(item) {
             showMessage("Hero command tapped")
-        } else if expandedListSections.contains(where: { $0.items.contains(item) }) {
+        } else if currentExpandedListSections.contains(where: { $0.items.contains(item) }) {
             if !item.isToggleable {
                 showMessage("Expanded list command tapped")
             }
