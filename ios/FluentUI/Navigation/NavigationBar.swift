@@ -130,7 +130,7 @@ open class NavigationBar: UINavigationBar {
     /// An object that conforms to the `MSAvatar` protocol and provides text and an optional image for display as an `MSAvatarView` next to the large title. Only displayed if `showsLargeTitle` is true on the current navigation item. If avatar is nil, it won't show the avatar view.
     @objc open var avatar: Avatar? {
         didSet {
-            titleView.avatar = avatar
+            titleView.avatarData = avatar
         }
     }
 
@@ -437,10 +437,10 @@ open class NavigationBar: UINavigationBar {
         }
     }
 
-    /// Override the avatarView with fallbackImageStyle rather than using avatar data
-    /// - Parameter fallbackImageStyle: image style used in  avatarView
-    @objc open func overrideAvatar(with fallbackImageStyle: AvatarFallbackImageStyle) {
-        titleView.avatarOverrideFallbackImageStyle = fallbackImageStyle
+    /// Override the avatar with given style rather than using avatar data
+    /// - Parameter style: style used in  the avatar
+    @objc open func overrideAvatar(with style: MSFAvatarStyle) {
+        titleView.avatarOverrideStyle = style
     }
 
     // MARK: Element size handling

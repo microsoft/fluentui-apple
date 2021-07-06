@@ -88,8 +88,8 @@ public extension Colors {
  The initials are generated from a provided primary text (e.g. a name) or secondary text (e.g. an email address) and placed as a label above a colored background.
  */
 class InitialsView: UIView {
-    static func initialsColorSet(fromPrimaryText primaryText: String?, secondaryText: String?) -> ColorSet {
-        // Set the color based on the primary text and secondary text
+
+    static func initialsHashCode(fromPrimaryText primaryText: String?, secondaryText: String?) -> Int {
         var combined: String
         if let secondaryText = secondaryText, let primaryText = primaryText, secondaryText.count > 0 {
             combined = primaryText + secondaryText
@@ -99,10 +99,24 @@ class InitialsView: UIView {
             combined = ""
         }
 
-        let colors = Colors.avatarColors
         let combinedHashable = combined as NSString
-        let hashCode = Int(abs(javaHashCode(combinedHashable)))
+        return Int(abs(javaHashCode(combinedHashable)))
+    }
+
+    static func initialsCalculatedColor(fromPrimaryText primaryText: String?, secondaryText: String?, colorOptions: [UIColor]? = nil) -> UIColor {
+        guard let colors = colorOptions else {
+            return .black
+        }
+
+        // Set the color based on the primary text and secondary text
+        let hashCode = initialsHashCode(fromPrimaryText: primaryText, secondaryText: secondaryText)
         return colors[hashCode % colors.count]
+    }
+
+    static func initialsColorSet(fromPrimaryText primaryText: String?, secondaryText: String?) -> ColorSet {
+        let hashCode = initialsHashCode(fromPrimaryText: primaryText, secondaryText: secondaryText)
+        let colorSets = Colors.avatarColors
+        return colorSets[hashCode % colorSets.count]
     }
 
     static func initialsText(fromPrimaryText primaryText: String?, secondaryText: String?) -> String {
@@ -154,7 +168,7 @@ class InitialsView: UIView {
         return hash
     }
 
-    public var avatarSize: AvatarSize {
+    public var avatarSize: AvatarLegacySize {
         didSet {
             initialsLabel.font = avatarSize.font
         }
@@ -167,7 +181,7 @@ class InitialsView: UIView {
     /// Initializes the initials view and sizes it with AvatarSize
     ///
     /// - Parameter avatarSize: The AvatarSize to size the initials view with
-    init(avatarSize: AvatarSize) {
+    init(avatarSize: AvatarLegacySize) {
         self.avatarSize = avatarSize
         super.init(frame: CGRect(origin: .zero, size: avatarSize.size))
 

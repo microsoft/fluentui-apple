@@ -71,7 +71,6 @@
 		5314E10125F012E60099271A /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B6617223A41E2900E801DD /* NotificationView.swift */; };
 		5314E10A25F014600099271A /* Obscurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BCB0CD253A4E8C00620960 /* Obscurable.swift */; };
 		5314E11325F015EA0099271A /* Persona.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EF53C2215AF1AB00573E8F /* Persona.swift */; };
-		5314E11425F015EA0099271A /* Avatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A578C4A12321CFD6002D5C40 /* Avatar.swift */; };
 		5314E11525F015EA0099271A /* Presence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DC2FB2C24D209E300367A55 /* Presence.swift */; };
 		5314E11625F015EA0099271A /* PersonaBadgeViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4BA27872319DC0D0001563C /* PersonaBadgeViewDataSource.swift */; };
 		5314E11725F015EA0099271A /* PersonaCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B46D3F922151D95F0029772C /* PersonaCell.swift */; };
@@ -146,6 +145,24 @@
 		5314E30225F0260E0099271A /* AccessibilityContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD77752A219E455A00033D58 /* AccessibilityContainerView.swift */; };
 		5314E30325F0260E0099271A /* AccessibleViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD599D052134A682008845EE /* AccessibleViewDelegate.swift */; };
 		537315B325438B15001FD14C /* iOS13_4_compatibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537315B225438B15001FD14C /* iOS13_4_compatibility.swift */; };
+		5373D53F2694BA390032A3B4 /* AvatarData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5373D53E2694BA390032A3B4 /* AvatarData.swift */; };
+		5373D5402694BA390032A3B4 /* AvatarData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5373D53E2694BA390032A3B4 /* AvatarData.swift */; };
+		5373D54C2694BA5C0032A3B4 /* FluentUIStyle.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5373D5432694BA5C0032A3B4 /* FluentUIStyle.generated.swift */; };
+		5373D54D2694BA5C0032A3B4 /* FluentUIStyle.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5373D5432694BA5C0032A3B4 /* FluentUIStyle.generated.swift */; };
+		5373D54E2694BA5C0032A3B4 /* UIKit+SwiftUI_interoperability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5373D5442694BA5C0032A3B4 /* UIKit+SwiftUI_interoperability.swift */; };
+		5373D54F2694BA5C0032A3B4 /* UIKit+SwiftUI_interoperability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5373D5442694BA5C0032A3B4 /* UIKit+SwiftUI_interoperability.swift */; };
+		5373D5502694BA5C0032A3B4 /* Theming.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5373D5452694BA5C0032A3B4 /* Theming.swift */; };
+		5373D5512694BA5C0032A3B4 /* Theming.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5373D5452694BA5C0032A3B4 /* Theming.swift */; };
+		5373D5522694BA5C0032A3B4 /* SwiftUI+ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5373D5462694BA5C0032A3B4 /* SwiftUI+ViewModifiers.swift */; };
+		5373D5532694BA5C0032A3B4 /* SwiftUI+ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5373D5462694BA5C0032A3B4 /* SwiftUI+ViewModifiers.swift */; };
+		5373D5542694BA5C0032A3B4 /* MSFAvatarTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5373D5482694BA5C0032A3B4 /* MSFAvatarTokens.generated.swift */; };
+		5373D5552694BA5C0032A3B4 /* MSFAvatarTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5373D5482694BA5C0032A3B4 /* MSFAvatarTokens.generated.swift */; };
+		5373D5562694BA5C0032A3B4 /* Avatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5373D5492694BA5C0032A3B4 /* Avatar.swift */; };
+		5373D5572694BA5C0032A3B4 /* Avatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5373D5492694BA5C0032A3B4 /* Avatar.swift */; };
+		5373D5582694BA5C0032A3B4 /* AvatarTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5373D54A2694BA5C0032A3B4 /* AvatarTokens.swift */; };
+		5373D5592694BA5C0032A3B4 /* AvatarTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5373D54A2694BA5C0032A3B4 /* AvatarTokens.swift */; };
+		5373D55A2694BA5C0032A3B4 /* MSFAvatarPresence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5373D54B2694BA5C0032A3B4 /* MSFAvatarPresence.swift */; };
+		5373D55B2694BA5C0032A3B4 /* MSFAvatarPresence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5373D54B2694BA5C0032A3B4 /* MSFAvatarPresence.swift */; };
 		53BCB0CE253A4E8D00620960 /* Obscurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BCB0CD253A4E8C00620960 /* Obscurable.swift */; };
 		7D0931C324AAAC9B0072458A /* SideTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D0931C224AAAC8C0072458A /* SideTabBar.swift */; };
 		7D23482724D88DE600FBE057 /* AvatarGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D23482624D88DDF00FBE057 /* AvatarGroupView.swift */; };
@@ -180,7 +197,6 @@
 		A559BB7E212B6D100055E107 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A559BB7D212B6D100055E107 /* String+Extension.swift */; };
 		A559BB83212B7D870055E107 /* FluentUIFramework.swift in Sources */ = {isa = PBXBuildFile; fileRef = A559BB82212B7D870055E107 /* FluentUIFramework.swift */; };
 		A56CE7B622E68A7800AA77EE /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56CE7B522E68A7800AA77EE /* UIColor+Extensions.swift */; };
-		A578C4A22321CFD6002D5C40 /* Avatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A578C4A12321CFD6002D5C40 /* Avatar.swift */; };
 		A589F854211BA03200471C23 /* Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = A589F853211BA03200471C23 /* Label.swift */; };
 		A5961F9D218A254D00E2A506 /* PopupMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5961F9C218A254D00E2A506 /* PopupMenuController.swift */; };
 		A5961F9F218A256B00E2A506 /* PopupMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5961F9E218A256B00E2A506 /* PopupMenuItem.swift */; };
@@ -333,6 +349,15 @@
 		497DC2D724185885008D86F8 /* PillButtonBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButtonBar.swift; sourceTree = "<group>"; };
 		497DC2D824185885008D86F8 /* PillButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButton.swift; sourceTree = "<group>"; };
 		537315B225438B15001FD14C /* iOS13_4_compatibility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = iOS13_4_compatibility.swift; sourceTree = "<group>"; };
+		5373D53E2694BA390032A3B4 /* AvatarData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarData.swift; sourceTree = "<group>"; };
+		5373D5432694BA5C0032A3B4 /* FluentUIStyle.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FluentUIStyle.generated.swift; sourceTree = "<group>"; };
+		5373D5442694BA5C0032A3B4 /* UIKit+SwiftUI_interoperability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIKit+SwiftUI_interoperability.swift"; sourceTree = "<group>"; };
+		5373D5452694BA5C0032A3B4 /* Theming.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theming.swift; sourceTree = "<group>"; };
+		5373D5462694BA5C0032A3B4 /* SwiftUI+ViewModifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SwiftUI+ViewModifiers.swift"; sourceTree = "<group>"; };
+		5373D5482694BA5C0032A3B4 /* MSFAvatarTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFAvatarTokens.generated.swift; sourceTree = "<group>"; };
+		5373D5492694BA5C0032A3B4 /* Avatar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Avatar.swift; sourceTree = "<group>"; };
+		5373D54A2694BA5C0032A3B4 /* AvatarTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarTokens.swift; sourceTree = "<group>"; };
+		5373D54B2694BA5C0032A3B4 /* MSFAvatarPresence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFAvatarPresence.swift; sourceTree = "<group>"; };
 		53BCB0CD253A4E8C00620960 /* Obscurable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Obscurable.swift; sourceTree = "<group>"; };
 		53FC90C02567300A008A06FD /* FluentUI_common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUI_common.xcconfig; sourceTree = "<group>"; };
 		53FC90F525673626008A06FD /* FluentUI_release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUI_release.xcconfig; sourceTree = "<group>"; };
@@ -367,7 +392,6 @@
 		A559BB80212B6FA40055E107 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		A559BB82212B7D870055E107 /* FluentUIFramework.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluentUIFramework.swift; sourceTree = "<group>"; };
 		A56CE7B522E68A7800AA77EE /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
-		A578C4A12321CFD6002D5C40 /* Avatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Avatar.swift; sourceTree = "<group>"; };
 		A589F853211BA03200471C23 /* Label.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Label.swift; sourceTree = "<group>"; };
 		A5961F9C218A254D00E2A506 /* PopupMenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMenuController.swift; sourceTree = "<group>"; };
 		A5961F9E218A256B00E2A506 /* PopupMenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMenuItem.swift; sourceTree = "<group>"; };
@@ -713,6 +737,37 @@
 			path = ActivityViewAnimating;
 			sourceTree = "<group>";
 		};
+		5373D5412694BA5C0032A3B4 /* Vnext */ = {
+			isa = PBXGroup;
+			children = (
+				5373D5422694BA5C0032A3B4 /* Core */,
+				5373D5472694BA5C0032A3B4 /* Avatar */,
+			);
+			path = Vnext;
+			sourceTree = "<group>";
+		};
+		5373D5422694BA5C0032A3B4 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				5373D5432694BA5C0032A3B4 /* FluentUIStyle.generated.swift */,
+				5373D5442694BA5C0032A3B4 /* UIKit+SwiftUI_interoperability.swift */,
+				5373D5452694BA5C0032A3B4 /* Theming.swift */,
+				5373D5462694BA5C0032A3B4 /* SwiftUI+ViewModifiers.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		5373D5472694BA5C0032A3B4 /* Avatar */ = {
+			isa = PBXGroup;
+			children = (
+				5373D5482694BA5C0032A3B4 /* MSFAvatarTokens.generated.swift */,
+				5373D5492694BA5C0032A3B4 /* Avatar.swift */,
+				5373D54A2694BA5C0032A3B4 /* AvatarTokens.swift */,
+				5373D54B2694BA5C0032A3B4 /* MSFAvatarPresence.swift */,
+			);
+			path = Avatar;
+			sourceTree = "<group>";
+		};
 		53FC90BE25672F97008A06FD /* xcode */ = {
 			isa = PBXGroup;
 			children = (
@@ -860,6 +915,7 @@
 				5314DFF325F006060099271A /* TouchForwardingView */,
 				5314DFF825F008870099271A /* TwoLineTitleView */,
 				C0938E42235E8EAF00256251 /* Utilities */,
+				5373D5412694BA5C0032A3B4 /* Vnext */,
 				A5CEC17020D996120016922A /* Resources */,
 				A5CEC25720E6A64E0016922A /* Configuration */,
 			);
@@ -1002,7 +1058,7 @@
 		C77A04F325F04CFB001B3EB6 /* Avatar */ = {
 			isa = PBXGroup;
 			children = (
-				A578C4A12321CFD6002D5C40 /* Avatar.swift */,
+				5373D53E2694BA390032A3B4 /* AvatarData.swift */,
 				7D23482624D88DDF00FBE057 /* AvatarGroupView.swift */,
 				B42661412148568800E25423 /* AvatarView.swift */,
 				B426613D214731D100E25423 /* InitialsView.swift */,
@@ -1394,6 +1450,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5373D5552694BA5C0032A3B4 /* MSFAvatarTokens.generated.swift in Sources */,
 				5314E0ED25F012C40099271A /* ContentScrollViewTraits.swift in Sources */,
 				5314E03A25F00E3D0099271A /* BadgeView.swift in Sources */,
 				5314E0C625F010850099271A /* IndeterminateProgressBarView.swift in Sources */,
@@ -1422,6 +1479,7 @@
 				5314E11F25F015EA0099271A /* InitialsView.swift in Sources */,
 				5314E06125F00EFD0099271A /* CalendarViewDayCell.swift in Sources */,
 				5314E12A25F016230099271A /* PillButton.swift in Sources */,
+				5373D54F2694BA5C0032A3B4 /* UIKit+SwiftUI_interoperability.swift in Sources */,
 				5314E01F25F00D080099271A /* Button.swift in Sources */,
 				5314E0E525F012C00099271A /* NavigationBar.swift in Sources */,
 				C708B064260A87F7007190FA /* SegmentItem.swift in Sources */,
@@ -1430,6 +1488,7 @@
 				8035CAB62633A4DB007B3FD1 /* BottomCommandingController.swift in Sources */,
 				5314E13725F016370099271A /* PopupMenuProtocols.swift in Sources */,
 				5314E19725F019650099271A /* TabBarItem.swift in Sources */,
+				5373D5402694BA390032A3B4 /* AvatarData.swift in Sources */,
 				5314E1BB25F01B070099271A /* TouchForwardingView.swift in Sources */,
 				5314E2EC25F025710099271A /* DayOfMonth.swift in Sources */,
 				5314E0B325F010400099271A /* EasyTapButton.swift in Sources */,
@@ -1450,6 +1509,7 @@
 				5314E28125F0240D0099271A /* DateComponents+Extensions.swift in Sources */,
 				5314E07025F00F140099271A /* DatePickerController.swift in Sources */,
 				5314E12025F015EA0099271A /* ContactView.swift in Sources */,
+				5373D5592694BA5C0032A3B4 /* AvatarTokens.swift in Sources */,
 				5314E11C25F015EA0099271A /* AvatarView.swift in Sources */,
 				5314E0AA25F010070099271A /* DrawerShadowView.swift in Sources */,
 				5314E0E725F012C00099271A /* UINavigationItem+Navigation.swift in Sources */,
@@ -1461,11 +1521,12 @@
 				5314E11B25F015EA0099271A /* PersonaListView.swift in Sources */,
 				5314E28E25F024590099271A /* Date+Extensions.swift in Sources */,
 				5314E2D125F0251E0099271A /* iOS13_4_compatibility.swift in Sources */,
-				5314E11425F015EA0099271A /* Avatar.swift in Sources */,
 				5314E14E25F016CD0099271A /* ResizingHandleView.swift in Sources */,
+				5373D55B2694BA5C0032A3B4 /* MSFAvatarPresence.swift in Sources */,
 				5314E1A625F01A7C0099271A /* BooleanCell.swift in Sources */,
 				5314E0BC25F0106F0099271A /* HUDView.swift in Sources */,
 				5314E0F225F012C80099271A /* ShyHeaderView.swift in Sources */,
+				5373D5532694BA5C0032A3B4 /* SwiftUI+ViewModifiers.swift in Sources */,
 				5314E02825F00DA80099271A /* BlurringView.swift in Sources */,
 				5314E13625F016370099271A /* PopupMenuSectionHeaderView.swift in Sources */,
 				5314E05925F00EF50099271A /* CalendarViewDataSource.swift in Sources */,
@@ -1487,6 +1548,7 @@
 				5314E1D625F01E4A0099271A /* SearchBar.swift in Sources */,
 				5314E0A825F010070099271A /* DrawerPresentationController.swift in Sources */,
 				5314E06425F00EFD0099271A /* CalendarViewMonthBannerView.swift in Sources */,
+				5373D54D2694BA5C0032A3B4 /* FluentUIStyle.generated.swift in Sources */,
 				5314E18E25F0195C0099271A /* ShimmerLinesView.swift in Sources */,
 				80AECC21263339E3005AF2F3 /* BottomSheetController.swift in Sources */,
 				5314E24B25F0232F0099271A /* UIScreen+Extension.swift in Sources */,
@@ -1494,6 +1556,7 @@
 				5314E0EC25F012C40099271A /* NavigationAnimator.swift in Sources */,
 				5314E17225F0191C0099271A /* Separator.swift in Sources */,
 				5314E14225F016860099271A /* CardPresenterNavigationController.swift in Sources */,
+				5373D5572694BA5C0032A3B4 /* Avatar.swift in Sources */,
 				5314E11725F015EA0099271A /* PersonaCell.swift in Sources */,
 				5314E23025F022C80099271A /* UIScrollView+Extensions.swift in Sources */,
 				5314E16925F017940099271A /* SegmentedControl.swift in Sources */,
@@ -1522,6 +1585,7 @@
 				5314E11E25F015EA0099271A /* ContactCollectionViewCell.swift in Sources */,
 				5314E10A25F014600099271A /* Obscurable.swift in Sources */,
 				5314E07D25F00F1A0099271A /* DateTimePickerViewComponentTableView.swift in Sources */,
+				5373D5512694BA5C0032A3B4 /* Theming.swift in Sources */,
 				5314E03125F00DDD0099271A /* CardView.swift in Sources */,
 				5314E11525F015EA0099271A /* Presence.swift in Sources */,
 				5314E08925F00F2D0099271A /* CommandBarButtonGroupView.swift in Sources */,
@@ -1541,6 +1605,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5373D5542694BA5C0032A3B4 /* MSFAvatarTokens.generated.swift in Sources */,
 				A5961FA3218A25D100E2A506 /* PopupMenuItemCell.swift in Sources */,
 				FD599D0221348439008845EE /* CalendarView.swift in Sources */,
 				A559BB83212B7D870055E107 /* FluentUIFramework.swift in Sources */,
@@ -1569,6 +1634,7 @@
 				B4E782C12176AD5E00A7DFCE /* ActionsCell.swift in Sources */,
 				FD56FD962192754B0023C7EA /* DateTimePickerViewComponent.swift in Sources */,
 				FDFB8AF021361C9D0046850A /* CalendarViewDayTodayCell.swift in Sources */,
+				5373D54E2694BA5C0032A3B4 /* UIKit+SwiftUI_interoperability.swift in Sources */,
 				FD41C88422DD13230086F899 /* ContentScrollViewTraits.swift in Sources */,
 				FD97580F2191118E00B67319 /* DateTimePickerViewComponentCell.swift in Sources */,
 				A5B6617323A41E2900E801DD /* NotificationView.swift in Sources */,
@@ -1577,6 +1643,7 @@
 				8035CAAC2633A442007B3FD1 /* BottomCommandingController.swift in Sources */,
 				537315B325438B15001FD14C /* iOS13_4_compatibility.swift in Sources */,
 				FDFB8AF121361C9D0046850A /* CalendarViewDayMonthCell.swift in Sources */,
+				5373D53F2694BA390032A3B4 /* AvatarData.swift in Sources */,
 				B47B58B822F8E5840078DE38 /* PeoplePicker.swift in Sources */,
 				FD41C89E22DD13230086F899 /* NavigationController.swift in Sources */,
 				FD4F2A20214AE20400C437D6 /* DatePickerController.swift in Sources */,
@@ -1597,6 +1664,7 @@
 				A5B87B06211E23650038C37C /* UIView+Extensions.swift in Sources */,
 				7D0931C324AAAC9B0072458A /* SideTabBar.swift in Sources */,
 				A5961FA7218A2E4500E2A506 /* UIImage+Extensions.swift in Sources */,
+				5373D5582694BA5C0032A3B4 /* AvatarTokens.swift in Sources */,
 				B4BA27882319DC0D0001563C /* PersonaBadgeViewDataSource.swift in Sources */,
 				8A01C86F248FFC5300C971F3 /* ContactView.swift in Sources */,
 				FD7DF06021FA83C900857267 /* TooltipPositionController.swift in Sources */,
@@ -1608,11 +1676,12 @@
 				118D9848230BBA2300BC0B72 /* TabBarItem.swift in Sources */,
 				1168630422E131CF0088B302 /* TabBarItemView.swift in Sources */,
 				0BCEFADE2485FEC00088CEE5 /* PopupMenuProtocols.swift in Sources */,
-				A578C4A22321CFD6002D5C40 /* Avatar.swift in Sources */,
 				B444D6B62183A9740002B4D4 /* BadgeView.swift in Sources */,
+				5373D55A2694BA5C0032A3B4 /* MSFAvatarPresence.swift in Sources */,
 				FD7254E72146E946002F4069 /* CalendarViewDayCell.swift in Sources */,
 				A589F854211BA03200471C23 /* Label.swift in Sources */,
 				A56CE7B622E68A7800AA77EE /* UIColor+Extensions.swift in Sources */,
+				5373D5522694BA5C0032A3B4 /* SwiftUI+ViewModifiers.swift in Sources */,
 				A5237ACB21DED7030040BF27 /* ResizingHandleView.swift in Sources */,
 				B4E782C72179509A00A7DFCE /* CenteredLabelCell.swift in Sources */,
 				FD9A5C872179464F00D224D9 /* DateComponents+Extensions.swift in Sources */,
@@ -1634,6 +1703,7 @@
 				A5CEC16F20D98F340016922A /* Fonts.swift in Sources */,
 				FD599D0C2134AB1E008845EE /* CalendarViewDataSource.swift in Sources */,
 				A5B87B04211E22B70038C37C /* DimmingView.swift in Sources */,
+				5373D54C2694BA5C0032A3B4 /* FluentUIStyle.generated.swift in Sources */,
 				A5961F9F218A256B00E2A506 /* PopupMenuItem.swift in Sources */,
 				B4E782C321793AB200A7DFCE /* ActivityIndicatorCell.swift in Sources */,
 				B4A8BBCD21BF6D6900D5E3ED /* BadgeStringExtractor.swift in Sources */,
@@ -1641,6 +1711,7 @@
 				FDD454EE21405B390006E84E /* DotView.swift in Sources */,
 				A5F3B149232B1F9700007A4F /* UIResponder+Extensions.swift in Sources */,
 				C0EAAEAD2347E1DF00C7244E /* ShimmerView.swift in Sources */,
+				5373D5562694BA5C0032A3B4 /* Avatar.swift in Sources */,
 				C0938E46235F66E300256251 /* ShimmerViewAppearance.swift in Sources */,
 				FC414E1F258876FB00069E73 /* CommandBar.swift in Sources */,
 				C0A0D76F233AEF6C00F432FD /* ShimmerLinesViewAppearance.swift in Sources */,
@@ -1669,6 +1740,7 @@
 				FD77752B219E455A00033D58 /* AccessibilityContainerView.swift in Sources */,
 				8AF03E1A24B6BD4700E6E2A2 /* ContactCollectionView.swift in Sources */,
 				B441478D228CDA130040E88E /* BooleanCell.swift in Sources */,
+				5373D5502694BA5C0032A3B4 /* Theming.swift in Sources */,
 				FDF41ED92141A02200EC527C /* CalendarConfiguration.swift in Sources */,
 				FD77753021A490BA00033D58 /* DateTimePicker.swift in Sources */,
 				22010B702523CB2D00FF1F10 /* ActivityViewAnimating.swift in Sources */,

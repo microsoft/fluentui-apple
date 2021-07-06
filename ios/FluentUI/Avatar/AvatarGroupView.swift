@@ -21,7 +21,7 @@ open class AvatarGroupView: UIView {
     }
 
     /// The size for avatar views in the avatar group view
-    @objc open var avatarSize: AvatarSize {
+    @objc open var avatarSize: AvatarLegacySize {
         didSet {
             updateAvatars()
         }
@@ -71,7 +71,7 @@ open class AvatarGroupView: UIView {
     }
 
     @objc public required init(avatars: [Avatar],
-                               size: AvatarSize,
+                               size: AvatarLegacySize,
                                style: AvatarGroupViewStyle,
                                showBorders: Bool = false,
                                maxDisplayedAvatars: UInt = UInt.max,
@@ -117,17 +117,17 @@ open class AvatarGroupView: UIView {
         static let avatarStackOverlapRatio: CGFloat = 0.14
     }
 
-    private var avatarViews: [AvatarView] = []
+    private var avatarViews: [AvatarLegacyView] = []
 
     private func updateAvatars() {
         removeAllSubviews()
 
         avatarViews.removeAll()
         var constraints: [NSLayoutConstraint] = []
-        var previousAvatarView: AvatarView?
+        var previousAvatarView: AvatarLegacyView?
 
         for avatar in avatars.prefix(Int(maxDisplayedAvatars)) {
-            let avatarView = AvatarView(avatarSize: avatarSize, withBorder: showBorders, style: .circle)
+            let avatarView = AvatarLegacyView(avatarSize: avatarSize, withBorder: showBorders, style: .circle)
             avatarView.shouldGenerateBorderColor = shouldGenerateBorderColor
             avatarView.setup(avatar: avatar)
 
@@ -142,7 +142,7 @@ open class AvatarGroupView: UIView {
         }
 
         if overflowCount > 0 {
-            let avatarView = OverflowAvatarView(overflowCount: overflowCount, avatarSize: avatarSize, withBorder: showBorders)
+            let avatarView = OverflowAvatarLegacyView(overflowCount: overflowCount, avatarSize: avatarSize, withBorder: showBorders)
             avatarView.translatesAutoresizingMaskIntoConstraints = false
 
             constraints.append(contentsOf: insert(avatarView: avatarView, previousAvatarView: previousAvatarView))
@@ -160,7 +160,7 @@ open class AvatarGroupView: UIView {
         updateLayerMask()
     }
 
-    private func insert(avatarView: AvatarView, previousAvatarView: AvatarView?) -> [NSLayoutConstraint] {
+    private func insert(avatarView: AvatarLegacyView, previousAvatarView: AvatarLegacyView?) -> [NSLayoutConstraint] {
         avatarView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(avatarView)
         avatarViews.append(avatarView)
@@ -208,7 +208,7 @@ open class AvatarGroupView: UIView {
         let path = UIBezierPath(rect: avatarFrame)
         path.append(UIBezierPath(ovalIn: nextFrame))
 
-        var maskedAvatares: ArraySlice<AvatarView>
+        var maskedAvatares: ArraySlice<AvatarLegacyView>
         if effectiveUserInterfaceLayoutDirection == .leftToRight {
             maskedAvatares = avatarViews.prefix(avatarViews.count - 1)
         } else {
@@ -238,7 +238,7 @@ open class AvatarGroupView: UIView {
     }
 }
 
-extension AvatarSize {
+extension AvatarLegacySize {
     var pileSpacing: CGFloat {
         switch self {
         case .extraSmall, .small:

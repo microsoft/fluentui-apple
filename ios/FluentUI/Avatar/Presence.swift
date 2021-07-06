@@ -37,7 +37,7 @@ public enum Presence: Int, CaseIterable {
     case unknown
     case blocked
 
-    public func image(size: PresenceSize) -> UIImage? {
+    func image(size: PresenceSize) -> UIImage? {
         var imageName: String?
         var color: UIColor?
         let sizeValue = Int(size.sizeValue)
@@ -81,7 +81,7 @@ public enum Presence: Int, CaseIterable {
         return image
     }
 
-    public var string: String? {
+    var string: String? {
         switch self {
         case .none:
             return nil

@@ -8,8 +8,9 @@ import UIKit
 // Register your control demos here
 let demos: [(title: String, controllerClass: UIViewController.Type)] = [
     ("ActivityIndicatorView", ActivityIndicatorViewDemoController.self),
+    ("Avatar (Vnext)", AvatarDemoController.self),
     ("AvatarGroupView", AvatarGroupViewDemoController.self),
-    ("AvatarView", AvatarViewDemoController.self),
+    ("AvatarView (Legacy)", AvatarLegacyViewDemoController.self),
     ("BadgeField", BadgeFieldDemoController.self),
     ("BadgeView", BadgeViewDemoController.self),
     ("BottomCommandingController", BottomCommandingDemoController.self),
