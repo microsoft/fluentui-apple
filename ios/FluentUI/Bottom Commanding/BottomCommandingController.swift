@@ -19,6 +19,25 @@ import UIKit
 @objc(MSFBottomCommandingController)
 open class BottomCommandingController: UIViewController {
 
+    /// View controller that will be displayed below the bottom commanding UI.
+    @objc public var contentViewController: UIViewController? {
+        didSet {
+            guard isViewLoaded, oldValue != contentViewController else {
+                return
+            }
+
+            if let oldViewController = oldValue {
+                oldViewController.willMove(toParent: nil)
+                oldViewController.view.removeFromSuperview()
+                oldViewController.removeFromParent()
+            }
+
+            if let newContentViewController = contentViewController {
+                addChildContentViewController(newContentViewController)
+            }
+        }
+    }
+
     /// Items to be displayed in an area that's always visible. This is either the top of the the sheet,
     /// or the main bottom bar area, depending on current horizontal UIUserInterfaceSizeClass.
     ///
@@ -103,16 +122,32 @@ open class BottomCommandingController: UIViewController {
         }
     }
 
+    /// Initializes the bottom commanding controller with a given content view controller.
+    /// - Parameter contentViewController: View controller that will be displayed below the bottom commanding UI.
+    @objc public init(with contentViewController: UIViewController?) {
+        self.contentViewController = contentViewController
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    @available(*, unavailable)
+    public required init?(coder: NSCoder) {
+        preconditionFailure("init(coder:) has not been implemented")
+    }
+
     // MARK: - View building and layout
 
     public override func loadView() {
-        view = BottomSheetPassthroughView()
+        view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
 
         if traitCollection.horizontalSizeClass == .regular {
             setupBottomBarLayout()
         } else {
             setupBottomSheetLayout()
+        }
+
+        if let contentViewController = contentViewController {
+            addChildContentViewController(contentViewController)
         }
     }
 
@@ -258,6 +293,25 @@ open class BottomCommandingController: UIViewController {
             separator.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
         return view
+    }
+
+    private func addChildContentViewController(_ contentViewController: UIViewController) {
+        guard let rootCommandingView = rootCommandingView else {
+            return
+        }
+
+        addChild(contentViewController)
+        let newContentView: UIView = contentViewController.view
+        view.insertSubview(newContentView, belowSubview: rootCommandingView)
+        contentViewController.didMove(toParent: self)
+
+        newContentView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            newContentView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            newContentView.topAnchor.constraint(equalTo: view.topAnchor),
+            newContentView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            newContentView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
     }
 
     private func reloadHeroCommandStack() {
@@ -456,6 +510,10 @@ open class BottomCommandingController: UIViewController {
     private var bottomBarViewBottomConstraint: NSLayoutConstraint?
 
     private var bottomSheetController: BottomSheetController?
+
+    private var rootCommandingView: UIView? {
+        isInSheetMode ? bottomSheetController?.view : bottomBarView
+    }
 
     private var isTableViewLoaded: Bool = false
 

@@ -10,7 +10,8 @@ class BottomCommandingDemoController: UIViewController {
     override func loadView() {
         view = UIView()
 
-        let optionTableView = UITableView(frame: .zero, style: .plain)
+        let optionTableViewController = UITableViewController(style: .plain)
+        let optionTableView: UITableView = optionTableViewController.tableView
         optionTableView.translatesAutoresizingMaskIntoConstraints = false
         optionTableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
         optionTableView.register(BooleanCell.self, forCellReuseIdentifier: BooleanCell.identifier)
@@ -18,9 +19,8 @@ class BottomCommandingDemoController: UIViewController {
         optionTableView.dataSource = self
         optionTableView.delegate = self
         optionTableView.separatorStyle = .none
-        view.addSubview(optionTableView)
 
-        let bottomCommandingVC = BottomCommandingController()
+        let bottomCommandingVC = BottomCommandingController(with: optionTableViewController)
         bottomCommandingVC.heroItems = heroItems
         bottomCommandingVC.expandedListSections = shortCommandSectionList
 
@@ -31,10 +31,6 @@ class BottomCommandingDemoController: UIViewController {
         bottomCommandingController = bottomCommandingVC
 
         NSLayoutConstraint.activate([
-            optionTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            optionTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            optionTableView.topAnchor.constraint(equalTo: view.topAnchor),
-            optionTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             bottomCommandingVC.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             bottomCommandingVC.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             bottomCommandingVC.view.topAnchor.constraint(equalTo: view.topAnchor),
