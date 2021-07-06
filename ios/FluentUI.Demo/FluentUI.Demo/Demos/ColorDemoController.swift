@@ -129,7 +129,7 @@ class ColorDemoController: UIViewController {
         super.viewDidAppear(animated)
         navigationController?.navigationBar.shadowImage = UIImage()
         if let window = view.window {
-            segmentedControl.selectedSegmentIndex = colorProviderThemedWindowTypes.firstIndex(where: { return window.isKind(of: $0.windowType) }) ?? 0
+        segmentedControl.selectedSegmentIndex = colorProviderThemes.firstIndex(where: { return window.isKind(of: $0.demoColorTheme.windowType) }) ?? 0
         }
     }
 
@@ -139,14 +139,14 @@ class ColorDemoController: UIViewController {
     }
 
     private lazy var segmentedControl: SegmentedControl = {
-        let segmentedControl = SegmentedControl(items: colorProviderThemedWindowTypes.map({ return SegmentItem(title: $0.name) }), style: .primaryPill)
+        let segmentedControl = SegmentedControl(items: colorProviderThemes.map({ return SegmentItem(title: $0.name) }), style: .primaryPill)
         segmentedControl.addTarget(self, action: #selector(segmentedControlValueChanged(sender:)), for: .valueChanged)
         return segmentedControl
     }()
 
     @objc private func segmentedControlValueChanged(sender: Any) {
         if let segmentedControl = sender as? SegmentedControl {
-            let window = colorProviderThemedWindows[segmentedControl.selectedSegmentIndex].window
+            let window = colorProviderThemes[segmentedControl.selectedSegmentIndex].demoColorTheme.window
             if let colorProvider = window as? ColorProviding {
                 Colors.setProvider(provider: colorProvider, for: window)
             }
@@ -156,13 +156,14 @@ class ColorDemoController: UIViewController {
     }
 
     private let tableView = UITableView(frame: .zero, style: .grouped)
-    private let colorProviderThemedWindowTypes: [(name: String, windowType: UIWindow.Type)] = [("Default", DemoColorThemeDefaultWindow.self),
-                                                                                               ("Green", DemoColorThemeGreenWindow.self),
-                                                                                               ("None", UIWindow.self)]
+        private let colorProviderThemes: [(name: String, demoColorTheme: DemoColorTheme)] = [("Default", DemoColorTheme.init(window: DemoColorThemeDefaultWindow(), windowType: DemoColorThemeDefaultWindow.self)),
+                                                                                             ("Green", DemoColorTheme.init(window: DemoColorThemeGreenWindow(), windowType: DemoColorThemeGreenWindow.self)),
+                                                                                             ("None", DemoColorTheme.init(window: UIWindow(), windowType: UIWindow.self))]
 
-    private let colorProviderThemedWindows: [(name: String, window: UIWindow)] = [("Default", DemoColorThemeDefaultWindow()),
-                                                                                               ("Green", DemoColorThemeGreenWindow()),
-                                                                                               ("None", UIWindow())]
+    struct DemoColorTheme {
+        var window: UIWindow
+        var windowType: UIWindow.Type
+    }
 }
 
 // MARK: - ColorDemoController: UITableViewDelegate
@@ -192,7 +193,7 @@ extension ColorDemoController: UITableViewDataSource {
             return UITableViewCell()
         }
 
-        let window = colorProviderThemedWindows[segmentedControl.selectedSegmentIndex].window
+        let window = colorProviderThemes[segmentedControl.selectedSegmentIndex].demoColorTheme.window
         let section = sections[indexPath.section]
         let colorView = section.colorViews[indexPath.row]
         colorView.updateColorView(window: window)
@@ -227,13 +228,11 @@ class DemoColorView: UIView {
         return CGSize(width: 30, height: 30)
     }
 
-	func updateColorView(window: UIWindow)
-	{
-		if let colorProvider = colorProvider
-		{
-			backgroundColor = colorProvider(window)
-		}
-	}
+    func updateColorView(window: UIWindow) {
+        if let colorProvider = colorProvider {
+            backgroundColor = colorProvider(window)
+        }
+    }
 }
 
 struct DemoColorSection {
