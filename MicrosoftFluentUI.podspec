@@ -18,8 +18,7 @@ Pod::Spec.new do |s|
     avatar_ios.platform = :ios
     avatar_ios.dependency 'MicrosoftFluentUI/Core_ios'
     avatar_ios.preserve_paths = ["ios/FluentUI/Avatar/Avatar.resources.xcfilelist"]
-    avatar_ios.source_files = ["ios/FluentUI/Avatar/**/*.{swift,h}",
-                               "ios/FluentUI/Vnext/Avatar/*.{swift,h}"]
+    avatar_ios.source_files = ["ios/FluentUI/Avatar/**/*.{swift,h}"]
   end
 
   s.subspec 'ActivityViewAnimating_ios' do |activityviewanimating_ios|
@@ -119,8 +118,7 @@ xcodebuild ${XCODEBUILDPARAMS} -project ${PROJECT_FILE_PATH} -target "MicrosoftF
                                "scripts/removeUnusedResourcesFromAssets.swift"]
     core_ios.source_files = ["ios/FluentUI/Configuration/**/*.{swift,h}",
                              "ios/FluentUI/Core/**/*.{swift,h}",
-                             "ios/FluentUI/Extensions/**/*.{swift,h}",
-                             "ios/FluentUI/Vnext/Core/*.{swift,h}"]
+                             "ios/FluentUI/Extensions/**/*.{swift,h}"]
   end
 
   s.subspec 'DotView_ios' do |dotview_ios|
