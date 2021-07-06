@@ -509,13 +509,13 @@ public class BottomSheetController: UIViewController {
 
     private lazy var preferredExpandedContentHeightConstraint: NSLayoutConstraint = {
         let constraint = expandedContentView.heightAnchor.constraint(equalTo: preferredExpandedContentLayoutGuide.heightAnchor)
-        constraint.priority = .defaultHigh
+        constraint.priority = .defaultHigh // Lower than required so Auto Layout can enforce max sheet height
         return constraint
     }()
 
     private lazy var fullScreenSheetConstraint: NSLayoutConstraint = {
         let constraint = bottomSheetView.heightAnchor.constraint(equalTo: maxSheetHeightLayoutGuide.heightAnchor)
-        constraint.priority = .defaultHigh
+        constraint.priority = .defaultHigh // Lower than required so Auto Layout can enforce max sheet height
         return constraint
     }()
 
