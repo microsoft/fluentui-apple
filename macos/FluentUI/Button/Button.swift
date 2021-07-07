@@ -84,6 +84,7 @@ open class Button: NSButton {
 		imagePosition: NSControl.ImagePosition = .imageLeading,
 		format: ButtonFormat = ButtonFormat()
 	) {
+		self.buttonState = .rest
 		super.init(frame: .zero)
 		isBordered = false
 		wantsLayer = true
@@ -103,6 +104,9 @@ open class Button: NSButton {
 		self.image = image
 		self.imagePosition = imagePosition
 		self.format = format
+		if let buttonImage = image {
+			addImage(forButtonState: .rest, image: buttonImage)
+		}
 
 		// Ensure we update backing properties even if high-level style and size
 		// properties have their default values
@@ -128,6 +132,10 @@ open class Button: NSButton {
 			guard wantsLayer == true else {
 				preconditionFailure("wantsLayer must be set so that the image is rendered on the layer")
 			}
+
+			if let buttonImage = image {
+				addImage(forButtonState: .rest, image: buttonImage)
+			}
 		}
 	}
 
@@ -138,6 +146,18 @@ open class Button: NSButton {
 				preconditionFailure("wantsLayer must be set so that the title is rendered on the layer")
 			}
 		}
+	}
+
+	public func addImage(forButtonState: ButtonState, image: NSImage) {
+		imagesForButtonState[forButtonState] = image
+	}
+
+	private func updateImageForButtonState() {
+		if let newImage = imagesForButtonState[buttonState] {
+			image = newImage
+			return
+		}
+
 	}
 
 	/// While the current Button is pressed, its style is temporarily applied to the linkedPrimary button.
@@ -162,6 +182,8 @@ open class Button: NSButton {
 				return
 			}
 			updateContentTintColor()
+			buttonState = isPressed ? .pressed : .rest
+
 			if let linkedPrimary = linkedPrimary {
 				if isPressed {
 					linkedPrimaryOriginalStyle = linkedPrimary.style
@@ -185,6 +207,9 @@ open class Button: NSButton {
 			guard oldValue != isEnabled else {
 				return
 			}
+
+			buttonState = isEnabled ? .rest : .disabled
+
 			updateContentTintColor()
 		}
 	}
@@ -244,6 +269,19 @@ open class Button: NSButton {
 			self.size = newValue.size
 		}
 	}
+
+	/// the current state of the button
+	private var buttonState: ButtonState {
+		didSet {
+			guard oldValue != buttonState else {
+				return
+			}
+			updateImageForButtonState()
+		}
+	}
+
+	/// Dict of images for different button states
+	private var imagesForButtonState = [ButtonState: NSImage]()
 
 	/// State-specific colors for foreground, background and border
 	private var contentTintColorRest: NSColor?
@@ -544,6 +582,16 @@ public enum ButtonStyle: Int, CaseIterable {
 
 	/// Accent color text/image, no fill or outline.
 	case borderless
+}
+
+/// Indicates the state of the button for providing different images
+@objc(MSFButtonInteractionState)
+public enum ButtonState: Int {
+	case rest
+
+	case pressed
+
+	case disabled
 }
 
 /// Combination of all formatting parameters.
