@@ -231,6 +231,12 @@ extension NavigationControllerDemoController: UIGestureRecognizerDelegate {
 // MARK: - RootViewController
 
 class RootViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    enum BarButtonItemTag: Int {
+        case dismiss
+        case select
+        case threeDay
+    }
+
     private(set) lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.dataSource = self
@@ -242,6 +248,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     var showSearchProgressSpinner: Bool = true
     var showRainbowRingForAvatar: Bool = false
+    var showBadgeOnBarButtonItem: Bool = false
 
     var allowsCellSelection: Bool = false {
         didSet {
@@ -375,6 +382,18 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
             return cell
         }
 
+        if indexPath.row == 2 {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: BooleanCell.identifier, for: indexPath) as? BooleanCell else {
+                return UITableViewCell()
+            }
+            cell.setup(title: "Show badge on bar button items", isOn: showBadgeOnBarButtonItem)
+            cell.titleNumberOfLines = 0
+            cell.onValueChanged = { [weak self, weak cell] in
+                self?.shouldShowBadge(isOn: cell?.isOn ?? false)
+            }
+            return cell
+        }
+
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier, for: indexPath) as? TableViewCell else {
             return UITableViewCell()
         }
@@ -423,13 +442,18 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         if isInSelectionMode {
             navigationItem.rightBarButtonItems = nil
         } else {
-            var items = [UIBarButtonItem(title: "Dismiss", style: .plain, target: self, action: #selector(dismissSelf))]
+            let dismissItem = UIBarButtonItem(title: "Dismiss", style: .plain, target: self, action: #selector(dismissSelf))
+            dismissItem.tag = BarButtonItemTag.dismiss.rawValue
+            var items = [dismissItem]
             if allowsCellSelection {
-                items.append(UIBarButtonItem(title: "Select", style: .plain, target: self, action: #selector(showSelectionMode)))
+                let selectItem = UIBarButtonItem(title: "Select", style: .plain, target: self, action: #selector(showSelectionMode))
+                selectItem.tag = BarButtonItemTag.select.rawValue
+                items.append(selectItem)
             } else {
-                let modalViewItem = UIBarButtonItem(image: UIImage(named: "3-day-view-28x28"), landscapeImagePhone: UIImage(named: "3-day-view-24x24"), style: .plain, target: self, action: #selector(showModalView))
-                modalViewItem.accessibilityLabel = "Modal View"
-                items.append(modalViewItem)
+                let threeDayItem = UIBarButtonItem(image: UIImage(named: "3-day-view-28x28"), landscapeImagePhone: UIImage(named: "3-day-view-24x24"), style: .plain, target: self, action: #selector(showModalView))
+                threeDayItem.accessibilityLabel = "Modal View"
+                threeDayItem.tag = BarButtonItemTag.threeDay.rawValue
+                items.append(threeDayItem)
             }
             navigationItem.rightBarButtonItems = items
         }
@@ -443,6 +467,20 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         personaData.customBorderImage = isOn ? RootViewController.colorfulImageForFrame() : nil
         msfNavigationController?.msfNavigationBar.avatar = personaData
         showRainbowRingForAvatar = isOn
+    }
+
+    @objc private func shouldShowBadge(isOn: Bool) {
+        let items = navigationItem.rightBarButtonItems ?? []
+        for item in items {
+            if item.tag == BarButtonItemTag.dismiss.rawValue {
+                item.badgeValue = isOn ? "12" : nil
+            } else if item.tag == BarButtonItemTag.threeDay.rawValue {
+                item.badgeValue = isOn ? "123456" : nil
+            } else {
+                item.badgeValue = isOn ? "New" : nil
+            }
+        }
+        showBadgeOnBarButtonItem = isOn
     }
 
     @objc private func dismissSelf() {
