@@ -442,6 +442,9 @@ open class SegmentedControl: UIControl {
 
         if style == .tabs {
             bottomSeparator.frame = CGRect(x: 0, y: frame.height - bottomSeparator.frame.height, width: frame.width, height: bottomSeparator.frame.height)
+        } else {
+            // flipSubviewsForRTL only works on direct children subviews
+            pillContainerView.flipSubviewsForRTL()
         }
 
         flipSubviewsForRTL()
