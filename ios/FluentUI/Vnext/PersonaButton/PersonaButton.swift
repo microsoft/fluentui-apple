@@ -250,9 +250,9 @@ public struct PersonaButton: View {
     }
 
     /// Width of the button is conditional on the current size category
-    private func adjustedWidth() -> CGFloat {
+    private var adjustedWidth: CGFloat {
         return state.avatarState.size.size + (2 * tokens.horizontalAvatarPadding) + {
-            switch UITraitCollection.current.preferredContentSizeCategory {
+            switch sizeCategory {
             case .accessibilityMedium:
                 return 20
             case .accessibilityLarge:
@@ -271,7 +271,6 @@ public struct PersonaButton: View {
 
     public var body: some View {
         let action = state.onTapAction ?? {}
-        let adjustedWidth = self.adjustedWidth()
         Button(action: action) {
             VStack(spacing: 0) {
                 avatarView
@@ -279,8 +278,8 @@ public struct PersonaButton: View {
                 Spacer(minLength: tokens.verticalPadding)
             }
         }
-        .background(Color(tokens.backgroundColor))
         .frame(minWidth: adjustedWidth, maxWidth: adjustedWidth, minHeight: 0, maxHeight: .infinity)
+        .background(Color(tokens.backgroundColor))
         .designTokens(tokens,
                       from: theme,
                       with: windowProvider)
