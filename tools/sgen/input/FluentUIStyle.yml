@@ -282,8 +282,7 @@ MSFSubtleFloatingActionButtonTokens extends MSFButtonTokens:
 
 AP_MSFDrawerTokens:
   backgroundDimmedColor: $Colors.Elevation.highElevation
-  drawerHorizontalContentBackground: "$Colors.Background.neutral1"
-  drawerVerticalContentBackground: "FluentUIColor(light: $Colors.Background.neutral1, dark: $Colors.Background.neutral3)"
+  drawerBackground: "FluentUIColor(light: $Colors.Background.neutral1, dark: $Colors.Background.neutral3)"
   popoverContentBackground: "FluentUIColor(light: $Colors.Background.surfacePrimary, dark: $Colors.Background.surfaceQuaternary)"
   navigationBarBackground: "FluentUIColor(light: $Colors.Background.surfacePrimary, dark: NamedColor(grey14))"
   shadow1Color: $Shadow.shadow28.color1
@@ -296,8 +295,7 @@ AP_MSFDrawerTokens:
   shadow2OffsetY: $Shadow.shadow28.y2
   minMargin: [horizontal: $Spacing.xxxLarge, vertical: $Spacing.large]
   cornerRadius: $Border.radius.xxLarge
-  verticalShadowOffset: $Spacing.xSmall
-  horizontalShadowOffset: $Spacing.small
+  shadowOffset: $Spacing.xSmall
 
 AP_MSFHeaderFooterTokens:
   backgroundColor: $Colors.Background.neutral1
