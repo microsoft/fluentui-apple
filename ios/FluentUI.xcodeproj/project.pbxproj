@@ -148,6 +148,7 @@
 		537315B325438B15001FD14C /* iOS13_4_compatibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537315B225438B15001FD14C /* iOS13_4_compatibility.swift */; };
 		53BCB0CE253A4E8D00620960 /* Obscurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BCB0CD253A4E8C00620960 /* Obscurable.swift */; };
 		6ED4C11B2695A6E800C30BD6 /* UIBarButtonItem+BadgeValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED4C11A2695A6E800C30BD6 /* UIBarButtonItem+BadgeValue.swift */; };
+		6ED4C11D2696AE4000C30BD6 /* BarButtonItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED4C11C2696AE4000C30BD6 /* BarButtonItemView.swift */; };
 		7D0931C324AAAC9B0072458A /* SideTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D0931C224AAAC8C0072458A /* SideTabBar.swift */; };
 		7D23482724D88DE600FBE057 /* AvatarGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D23482624D88DDF00FBE057 /* AvatarGroupView.swift */; };
 		7DC2FB2824C0ED1600367A55 /* TableViewCellFileAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DC2FB2724C0ED1100367A55 /* TableViewCellFileAccessoryView.swift */; };
@@ -343,6 +344,7 @@
 		53FC90F925673627008A06FD /* FluentUILib.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUILib.xcconfig; sourceTree = "<group>"; };
 		53FC90FA25673627008A06FD /* FluentUIResources.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUIResources.xcconfig; sourceTree = "<group>"; };
 		6ED4C11A2695A6E800C30BD6 /* UIBarButtonItem+BadgeValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBarButtonItem+BadgeValue.swift"; sourceTree = "<group>"; };
+		6ED4C11C2696AE4000C30BD6 /* BarButtonItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarButtonItemView.swift; sourceTree = "<group>"; };
 		7D0931C224AAAC8C0072458A /* SideTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideTabBar.swift; sourceTree = "<group>"; };
 		7D23482624D88DDF00FBE057 /* AvatarGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarGroupView.swift; sourceTree = "<group>"; };
 		7DC2FB2724C0ED1100367A55 /* TableViewCellFileAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCellFileAccessoryView.swift; sourceTree = "<group>"; };
@@ -1062,6 +1064,7 @@
 				FD41C87F22DD13230086F899 /* NavigationController.swift */,
 				FD41C87B22DD13230086F899 /* NavigationBar.swift */,
 				FD41C87E22DD13230086F899 /* SearchBar.swift */,
+				6ED4C11C2696AE4000C30BD6 /* BarButtonItemView.swift */,
 				FD41C8BD22DD47120086F899 /* UINavigationItem+Navigation.swift */,
 				FD9DA7B4232C33A80013E41B /* UIViewController+Navigation.swift */,
 				6ED4C11A2695A6E800C30BD6 /* UIBarButtonItem+BadgeValue.swift */,
@@ -1583,6 +1586,7 @@
 				B47B58B822F8E5840078DE38 /* PeoplePicker.swift in Sources */,
 				FD41C89E22DD13230086F899 /* NavigationController.swift in Sources */,
 				FD4F2A20214AE20400C437D6 /* DatePickerController.swift in Sources */,
+				6ED4C11D2696AE4000C30BD6 /* BarButtonItemView.swift in Sources */,
 				22EABB1A2509AAD100C4BE72 /* IndeterminateProgressBarView.swift in Sources */,
 				B4EF53C3215AF1AB00573E8F /* Persona.swift in Sources */,
 				B45EB790219E310F008646A2 /* BadgeField.swift in Sources */,
