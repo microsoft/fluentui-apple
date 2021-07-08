@@ -12,7 +12,7 @@ import UIKit
 
     static let badgeValueDidChangeNotification = NSNotification.Name(rawValue: "UIBarButtonItemBadgeValueDidChangeNotification")
 
-    /// The badge value will be displayed in a red oval above the tab bar item.
+    /// The badge value will be displayed in a red oval above the UIBarButtonItem.
     /// Set the badge value to nil to hide the red oval.
     @objc var badgeValue: String? {
         get {
