@@ -630,7 +630,7 @@ open class NavigationBar: UINavigationBar {
     private func refresh(barButtonStack: UIStackView, with items: [UIBarButtonItem]?, isLeftItem: Bool) {
         barButtonStack.removeAllSubviews()
         items?.forEach { item in
-            barButtonStack.addArrangedSubview(createBarButtonItemButton(with: item, isLeftItem: isLeftItem))
+            barButtonStack.addArrangedSubview(BarButtonItemView(item: item, isLeftItem: isLeftItem))
         }
     }
 
