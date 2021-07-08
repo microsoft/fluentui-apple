@@ -11,6 +11,17 @@ public enum AvatarGroupViewStyle: Int {
     case pile
 }
 
+/// Describes whether child `Avatar` views should show their borders.
+@objc(MSFAvatarGroupViewBorderVisibility)
+public enum AvatarGroupViewBorderVisibility: Int {
+    /// Never show borders around `Avatar` views.
+    case never
+    /// Always show borders around `Avatar` views.
+    case always
+    /// Let individual `Avatar` things determine whether to show their border.
+    case automatic
+}
+
 @objc(MSFAvatarGroupView)
 open class AvatarGroupView: UIView {
     /// Array of avatars to display in the avatar group view.
@@ -35,7 +46,19 @@ open class AvatarGroupView: UIView {
     }
 
     /// Set to true to show avatar borders in the avatar group view.
+    /// Compatibility wrapper for `borderVisibility` which is now the source of truth.
+    @available(*, deprecated, message: "Use `borderVisibility` instead")
     @objc open var showBorders: Bool {
+        get {
+            return borderVisibility == .always
+        }
+        set {
+            newValue ? (borderVisibility = .always) : (borderVisibility = .never)
+        }
+    }
+
+    /// Specify whether to show borders always, never, or automatically based on `Avatar` state.
+    @objc open var borderVisibility: AvatarGroupViewBorderVisibility {
         didSet {
             updateAvatars()
         }
@@ -70,15 +93,30 @@ open class AvatarGroupView: UIView {
         }
     }
 
+    @available(*, deprecated, message: "Use the designated initializer with `borderVisibility` parameter instead")
+    @objc public convenience init(avatars: [Avatar],
+                                  size: AvatarSize,
+                                  style: AvatarGroupViewStyle,
+                                  showBorders: Bool = false,
+                                  maxDisplayedAvatars: UInt = UInt.max,
+                                  overflowCount: UInt = 0) {
+        self.init(avatars: avatars,
+                  size: size,
+                  style: style,
+                  borderVisibility: (showBorders ? .always : .never),
+                  maxDisplayedAvatars: maxDisplayedAvatars,
+                  overflowCount: overflowCount)
+    }
+
     @objc public required init(avatars: [Avatar],
                                size: AvatarSize,
                                style: AvatarGroupViewStyle,
-                               showBorders: Bool = false,
+                               borderVisibility: AvatarGroupViewBorderVisibility = .never,
                                maxDisplayedAvatars: UInt = UInt.max,
                                overflowCount: UInt = 0) {
         self.avatars = avatars
         self.avatarSize = size
-        self.showBorders = showBorders
+        self.borderVisibility = borderVisibility
         self.style = style
         self.maxDisplayedAvatars = maxDisplayedAvatars
         self.overflowCount = overflowCount
@@ -127,7 +165,17 @@ open class AvatarGroupView: UIView {
         var previousAvatarView: AvatarView?
 
         for avatar in avatars.prefix(Int(maxDisplayedAvatars)) {
-            let avatarView = AvatarView(avatarSize: avatarSize, withBorder: showBorders, style: .circle)
+            let showBorder = { () -> Bool in
+                switch borderVisibility {
+                case .always:
+                    return true
+                case .never:
+                    return false
+                case .automatic:
+                    return avatar.showsBorder
+                }
+            }()
+            let avatarView = AvatarView(avatarSize: avatarSize, withBorder: showBorder, style: .circle)
             avatarView.shouldGenerateBorderColor = shouldGenerateBorderColor
             avatarView.setup(avatar: avatar)
 
@@ -142,7 +190,7 @@ open class AvatarGroupView: UIView {
         }
 
         if overflowCount > 0 {
-            let avatarView = OverflowAvatarView(overflowCount: overflowCount, avatarSize: avatarSize, withBorder: showBorders)
+            let avatarView = OverflowAvatarView(overflowCount: overflowCount, avatarSize: avatarSize, withBorder: (borderVisibility == .always))
             avatarView.translatesAutoresizingMaskIntoConstraints = false
 
             constraints.append(contentsOf: insert(avatarView: avatarView, previousAvatarView: previousAvatarView))

@@ -77,16 +77,22 @@ class AvatarGroupViewDemoController: DemoController {
         addRow(text: "Overflow count", items: [overflowCountTextField, overflowCountButton], textStyle: .footnote, textWidth: Constants.settingsTextWidth)
 
         insertLabel(text: "Avatar stack without borders")
-        insertAvatarViews(style: .stack, showBorders: false)
+        insertAvatarViews(style: .stack, borderVisibility: .never)
+
+        insertLabel(text: "Avatar stack with mixed borders")
+        insertAvatarViews(style: .stack, borderVisibility: .automatic)
 
         insertLabel(text: "Avatar stack with borders")
-        insertAvatarViews(style: .stack, showBorders: true)
+        insertAvatarViews(style: .stack, borderVisibility: .always)
 
         insertLabel(text: "Avatar pile without borders")
-        insertAvatarViews(style: .pile, showBorders: false)
+        insertAvatarViews(style: .pile, borderVisibility: .never)
+
+        insertLabel(text: "Avatar pile with mixed borders")
+        insertAvatarViews(style: .pile, borderVisibility: .automatic)
 
         insertLabel(text: "Avatar pile with borders")
-        insertAvatarViews(style: .pile, showBorders: true)
+        insertAvatarViews(style: .pile, borderVisibility: .always)
 
         updateBackgroundColor()
     }
@@ -173,16 +179,20 @@ class AvatarGroupViewDemoController: DemoController {
         overflowCountTextField.resignFirstResponder()
     }
 
-    private func insertAvatarViews(style: AvatarGroupViewStyle, showBorders: Bool) {
+    private func insertAvatarViews(style: AvatarGroupViewStyle, borderVisibility: AvatarGroupViewBorderVisibility) {
         var constraints: [NSLayoutConstraint] = []
 
         for size in AvatarSize.allCases.reversed() {
             let containerView = UIView(frame: .zero)
 
-            let avatarGroupView = AvatarGroupView(avatars: Array(samplePersonas.prefix(avatarCount)),
+            let avatars: [Avatar] = samplePersonas.prefix(avatarCount).map { persona in
+                persona.showsBorder = Int.random(in: 0...1) == 0
+                return persona
+            }
+            let avatarGroupView = AvatarGroupView(avatars: Array(avatars),
                                                   size: size,
                                                   style: style,
-                                                  showBorders: showBorders,
+                                                  borderVisibility: borderVisibility,
                                                   maxDisplayedAvatars: maxDisplayedAvatars,
                                                   overflowCount: overflowCount)
             avatarGroupView.translatesAutoresizingMaskIntoConstraints = false
