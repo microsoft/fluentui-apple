@@ -245,8 +245,9 @@ class AvatarGroupDemoController: DemoController {
         var personas: [MSFAvatarState] = []
         for index in 0...samplePersonas.count - 1 {
             let state = MSFAvatar().state
-            state.image = samplePersonas[index].avatarImage
-            state.primaryText = samplePersonas[index].primaryText
+            let persona = samplePersonas[index]
+            state.image = persona.avatarImage
+            state.primaryText = persona.primaryText
             state.secondaryText = samplePersonas[index].secondaryText
             personas.append(state)
         }
