@@ -20,7 +20,7 @@ import UIKit
         }
         set {
             objc_setAssociatedObject(self, &AssociatedKeys.badgeValue, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-            NotificationCenter.default.post(name: UIBarButtonItem.badgeValueDidChangeNotification, object: nil)
+            NotificationCenter.default.post(name: UIBarButtonItem.badgeValueDidChangeNotification, object: self)
         }
     }
 
