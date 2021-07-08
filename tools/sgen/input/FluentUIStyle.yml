@@ -340,12 +340,13 @@ AP_MSFPersonaButtonCarouselTokens:
 AP_MSFPersonaButtonTokens:
   avatarInterspace: [ small: $Spacing.xSmall, large: $Spacing.small ]
   backgroundColor: $Colors.Background.neutral1
+  horizontalAvatarPadding: [ small: $Spacing.medium, large: $Spacing.xSmall ]
+  horizontalTextPadding: $Spacing.xxxSmall
   labelColor: $Colors.Foreground.neutral1
   labelFont: [ small: $Typography.caption1, large: $Typography.subheadline ]
-  labelWidth: [ small: 52pt, large: 72pt ]
-  padding: $Spacing.xSmall
   sublabelColor: $Colors.Foreground.neutral3
   sublabelFont: $Typography.footnote
+  verticalPadding: $Spacing.xSmall
 
 AP_MSFPersonaViewTokens:
   footnoteFont: $Typography.footnote
