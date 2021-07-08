@@ -10,7 +10,7 @@ import SwiftUI
     case stack
     case pile
 }
-//
+
 /// `MSFAvatarGroupState` defines properties in an AvatarGroup
 ///
 /// `maxDisplayedAvatars`: Caps the number of displayed avatars and shows the remaining not displayed in the overflow avatar
@@ -31,8 +31,8 @@ import SwiftUI
     var style: MSFAvatarGroupStyle { get set }
 
     func createAvatar(style: MSFAvatarStyle, size: MSFAvatarSize) -> MSFAvatarState?
-    func getAvatarState(_ atIndex: Int) -> MSFAvatarState?
-    func deleteAvatar(atIndex: Int)
+    func getAvatarState(at index: Int) -> MSFAvatarState
+    func deleteAvatar(at index: Int)
 }
 
 /// Properties that make up AvatarGroup content
@@ -42,18 +42,18 @@ class MSFAvatarGroupStateImpl: NSObject, ObservableObject, MSFAvatarGroupState {
         return avatars.last
     }
 
-    func getAvatarState(_ atIndex: Int) -> MSFAvatarState? {
-        guard atIndex < avatars.count else {
-            return nil
+    func getAvatarState(at index: Int) -> MSFAvatarState {
+        guard index < avatars.count else {
+            preconditionFailure("Index is out of bounds")
         }
-        return avatars[atIndex]
+        return avatars[index]
     }
 
-    func deleteAvatar(atIndex: Int) {
-        guard atIndex < avatars.count else {
-            return
+    func deleteAvatar(at index: Int) {
+        guard index < avatars.count else {
+            preconditionFailure("Index is out of bounds")
         }
-        avatars.remove(at: atIndex)
+        avatars.remove(at: index)
     }
 
     @Published var avatars: [MSFAvatarStateImpl] = []
@@ -105,6 +105,7 @@ public struct AvatarGroup: View {
         let avatars: [MSFAvatarStateImpl] = state.avatars
         let maxDisplayedAvatars: Int = avatars.prefix(state.maxDisplayedAvatars).count
         let overflowCount: Int = (avatars.count > maxDisplayedAvatars ? avatars.count - maxDisplayedAvatars : 0) + state.overflowCount
+
         let interspace: CGFloat = tokens.interspace
         let ringOuterGap: CGFloat = tokens.ringOuterGap
         let ringOffset: CGFloat = tokens.ringThickness + tokens.ringInnerGap + ringOuterGap
@@ -114,9 +115,14 @@ public struct AvatarGroup: View {
             ForEach(0 ..< maxDisplayedAvatars, id: \.self) { index in
                 // If the avatar is part of Stack style and is not the last avatar in the sequence, create a cutout
                 let needsCutout = tokens.style == .stack && (overflowCount > 0 || index + 1 < maxDisplayedAvatars)
-                let currentRingCheck = avatars[index].isRingVisible
+                let avatar = avatars[index]
+                let currentRingCheck = avatar.isRingVisible
                 let nextRingCheck = index + 1 < maxDisplayedAvatars ? avatars[index + 1].isRingVisible : false
-                AvatarView(avatars[index])
+                let withRingPadding = nextRingCheck ? interspace - (ringOffset + ringOuterGap) : interspace - ringOffset
+                let withoutRingPadding = nextRingCheck ? interspace - ringOuterGap : interspace
+                let stackPadding = (currentRingCheck ? withRingPadding : withoutRingPadding)
+                let pilePadding = interspace
+                AvatarView(avatar)
                     .modifyIf(needsCutout, { view in
                         view.mask(AvatarCutout(xOrigin: currentRingCheck ? x + ringOffset : x,
                                                yOrigin: currentRingCheck ? (nextRingCheck ? ringOuterGap : ringOffset) :
@@ -124,9 +130,7 @@ public struct AvatarGroup: View {
                                                cutoutSize: nextRingCheck ? size + ringOffset + ringOuterGap : size)
                                     .fill(style: FillStyle(eoFill: true)))
                     })
-                    .padding(.trailing, tokens.style == .stack ?
-                                (currentRingCheck ? (nextRingCheck ? interspace - (ringOffset + ringOuterGap) : interspace - ringOffset) :
-                                    (nextRingCheck ? interspace - ringOuterGap : interspace)) : interspace)
+                    .padding(.trailing, tokens.style == .stack ? stackPadding : pilePadding)
             }
             if overflowCount > 0 {
                 createOverflow(count: overflowCount)
