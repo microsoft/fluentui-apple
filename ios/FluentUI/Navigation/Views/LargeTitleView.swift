@@ -33,10 +33,9 @@ class LargeTitleView: UIView {
                 avatarState.secondaryText = avatarData?.secondaryText
                 avatarState.image = avatarData?.image
 
-                if let color = avatarData?.color {
-                    avatarState.backgroundColor = color
-                    avatarState.ringColor = color
-                }
+                let color = avatarData?.color
+                avatarState.backgroundColor = color
+                avatarState.ringColor = color
             }
         }
     }
