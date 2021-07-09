@@ -394,9 +394,6 @@ open class DrawerController: UIViewController, FluentUIWindowProvider {
 
     /// Shadow is required if background is transparent
     var shadowOffset: CGFloat {
-        if presentationDirection.isHorizontal {
-            return presentationBackground == .none ? drawerTokens.shadowOffset : 0
-        }
         return presentationBackground == .none ? drawerTokens.shadowOffset : 0
     }
 
