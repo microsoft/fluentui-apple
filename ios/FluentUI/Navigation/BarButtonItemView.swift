@@ -75,12 +75,11 @@ class BarButtonItemView: UIView {
     private struct Constants {
         static let leftBarButtonItemLeadingMargin: CGFloat = 8
         static let rightBarButtonItemHorizontalPadding: CGFloat = 10
-        static let badgeVerticalOffset: CGFloat = -4
-        static let singleDigitBadgeHorizontalOffset: CGFloat = 14
-        static let multiDigitBadgeHorizontalOffset: CGFloat = 12
-        static let badgeHeight: CGFloat = 16
-        static let badgeMinWidth: CGFloat = 16
-        static let defaultBadgeMaxWidth: CGFloat = 42
+        static let badgePortraitVerticalOffset: CGFloat = -6
+        static let badgeLandscapeVerticalOffset: CGFloat = -4
+        static let badgeHeight: CGFloat = 18
+        static let badgeMinWidth: CGFloat = 18
+        static let badgeMaxWidth: CGFloat = 30
         static let badgeBorderWidth: CGFloat = 2
         static let badgeFontSize: CGFloat = 11
         static let badgeHorizontalPadding: CGFloat = 10
@@ -89,15 +88,6 @@ class BarButtonItemView: UIView {
 
     private var isInPortraitMode: Bool {
         return (traitCollection.horizontalSizeClass == .compact && traitCollection.verticalSizeClass == .regular)
-    }
-
-    /// Maximum width for the badge view where the badge value is displayed.
-    var maxBadgeWidth: CGFloat = Constants.defaultBadgeMaxWidth {
-        didSet {
-            if oldValue != maxBadgeWidth {
-                updateBadgeView()
-            }
-        }
     }
 
     private var buttonFrame: CGRect = .zero {
@@ -205,12 +195,12 @@ class BarButtonItemView: UIView {
             maskLayer.fillRule = .evenOdd
 
             let path = UIBezierPath(rect: CGRect(x: 0, y: 0, width: button.frame.size.width, height: button.frame.size.height))
-            let badgeVerticalOffset = Constants.badgeVerticalOffset
+            let badgeVerticalOffset = isInPortraitMode ? Constants.badgePortraitVerticalOffset : Constants.badgeLandscapeVerticalOffset
 
             if badgeView.text?.count ?? 1 > 1 {
-                let badgeWidth = min(max(badgeView.intrinsicContentSize.width + Constants.badgeHorizontalPadding, Constants.badgeMinWidth), maxBadgeWidth)
+                let badgeWidth = min(max(badgeView.intrinsicContentSize.width + Constants.badgeHorizontalPadding, Constants.badgeMinWidth), Constants.badgeMaxWidth)
 
-                badgeView.frame = CGRect(x: badgeFrameOriginX(offset: Constants.multiDigitBadgeHorizontalOffset, frameWidth: badgeWidth),
+                badgeView.frame = CGRect(x: badgeFrameOriginX(frameWidth: badgeWidth),
                                          y: button.frame.origin.y + badgeVerticalOffset,
                                          width: badgeWidth,
                                          height: Constants.badgeHeight)
@@ -229,7 +219,7 @@ class BarButtonItemView: UIView {
             } else {
                 let badgeWidth = max(badgeView.intrinsicContentSize.width, Constants.badgeMinWidth)
 
-                badgeView.frame = CGRect(x: badgeFrameOriginX(offset: Constants.singleDigitBadgeHorizontalOffset, frameWidth: badgeWidth),
+                badgeView.frame = CGRect(x: badgeFrameOriginX(frameWidth: badgeWidth),
                                          y: button.frame.origin.y + badgeVerticalOffset,
                                          width: badgeWidth,
                                          height: Constants.badgeHeight)
@@ -247,12 +237,13 @@ class BarButtonItemView: UIView {
         }
     }
 
-    private func badgeFrameOriginX(offset: CGFloat, frameWidth: CGFloat) -> CGFloat {
+    private func badgeFrameOriginX(frameWidth: CGFloat) -> CGFloat {
         var xOrigin: CGFloat = 0
+
         if effectiveUserInterfaceLayoutDirection == .leftToRight {
-            xOrigin = button.frame.origin.x + offset
+            xOrigin = button.frame.origin.x + button.frame.size.width - Constants.rightBarButtonItemHorizontalPadding - frameWidth / 2
         } else {
-            xOrigin = button.frame.origin.x + button.frame.size.width - offset - frameWidth
+            xOrigin = button.frame.origin.x + Constants.rightBarButtonItemHorizontalPadding - frameWidth / 2
         }
 
         return xOrigin
