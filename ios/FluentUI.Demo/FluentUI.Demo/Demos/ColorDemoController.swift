@@ -129,7 +129,7 @@ class ColorDemoController: UIViewController {
         super.viewDidAppear(animated)
         navigationController?.navigationBar.shadowImage = UIImage()
         if let window = view.window {
-        segmentedControl.selectedSegmentIndex = colorProviderThemes.firstIndex(where: { return window.isKind(of: $0.demoColorTheme.windowType) }) ?? 0
+            segmentedControl.selectedSegmentIndex = colorProviderThemes.firstIndex(where: { return window.isKind(of: $0.demoColorTheme.windowType) }) ?? 0
         }
     }
 
