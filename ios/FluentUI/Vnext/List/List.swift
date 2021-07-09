@@ -87,7 +87,7 @@ public struct MSFListView: View {
 
     private func lastDivider(_ cell: MSFListCellState) -> MSFListCellState {
         let state = cell
-        state.hasDivider = !state.isExpanded
+        state.hasDivider = false
         return state
     }
 
