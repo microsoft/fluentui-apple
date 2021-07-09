@@ -146,6 +146,14 @@ class ColorDemoController: UIViewController {
 
     @objc private func segmentedControlValueChanged(sender: Any) {
         if let segmentedControl = sender as? SegmentedControl {
+            let windowType = colorProviderThemes[segmentedControl.selectedSegmentIndex].demoColorTheme.windowType
+            let colorThemeHost = view.window?.windowScene?.delegate as? ColorThemeHosting
+
+            if let navigationController = navigationController {
+                navigationController.popViewController(animated: false)
+                colorThemeHost?.updateToWindowWith(type: windowType, pushing: self)
+            }
+
             let window = colorProviderThemes[segmentedControl.selectedSegmentIndex].demoColorTheme.window
             if let colorProvider = window as? ColorProviding {
                 Colors.setProvider(provider: colorProvider, for: window)
@@ -156,14 +164,9 @@ class ColorDemoController: UIViewController {
     }
 
     private let tableView = UITableView(frame: .zero, style: .grouped)
-        private let colorProviderThemes: [(name: String, demoColorTheme: DemoColorTheme)] = [("Default", DemoColorTheme.init(window: DemoColorThemeDefaultWindow(), windowType: DemoColorThemeDefaultWindow.self)),
-                                                                                             ("Green", DemoColorTheme.init(window: DemoColorThemeGreenWindow(), windowType: DemoColorThemeGreenWindow.self)),
-                                                                                             ("None", DemoColorTheme.init(window: UIWindow(), windowType: UIWindow.self))]
-
-    struct DemoColorTheme {
-        var window: UIWindow
-        var windowType: UIWindow.Type
-    }
+    private let colorProviderThemes: [(name: String, demoColorTheme: DemoColorTheme)] = [("Default", DemoColorTheme.init(window: DemoColorThemeDefaultWindow(), windowType: DemoColorThemeDefaultWindow.self)),
+                                                                                         ("Green", DemoColorTheme.init(window: DemoColorThemeGreenWindow(), windowType: DemoColorThemeGreenWindow.self)),
+                                                                                         ("None", DemoColorTheme.init(window: UIWindow(), windowType: UIWindow.self))]
 }
 
 // MARK: - ColorDemoController: UITableViewDelegate
@@ -193,10 +196,9 @@ extension ColorDemoController: UITableViewDataSource {
             return UITableViewCell()
         }
 
-        let window = colorProviderThemes[segmentedControl.selectedSegmentIndex].demoColorTheme.window
         let section = sections[indexPath.section]
         let colorView = section.colorViews[indexPath.row]
-        colorView.updateColorView(window: window)
+
         cell.setup(title: colorView.text, customView: colorView)
         return cell
     }
@@ -228,8 +230,10 @@ class DemoColorView: UIView {
         return CGSize(width: 30, height: 30)
     }
 
-    func updateColorView(window: UIWindow) {
-        if let colorProvider = colorProvider {
+    override func didMoveToWindow() {
+        super.didMoveToWindow()
+        if let colorProvider = colorProvider,
+            let window = window {
             backgroundColor = colorProvider(window)
         }
     }
@@ -243,4 +247,9 @@ struct DemoColorSection {
         self.text = text
         self.colorViews = colorViews
     }
+}
+
+private struct DemoColorTheme {
+    var window: UIWindow
+    var windowType: UIWindow.Type
 }
