@@ -202,20 +202,20 @@ class AvatarGroupDemoController: DemoController {
                 let avatarState = avatarGroup.state.createAvatar(style: .default, size: size)
                 let samplePersona = vSamplePersonas[index]
 
-                avatarState?.accessibilityLabel = samplePersona.accessibilityLabel
-                avatarState?.backgroundColor = samplePersona.backgroundColor
-                avatarState?.foregroundColor = samplePersona.foregroundColor
-                avatarState?.hasPointerInteraction = samplePersona.hasPointerInteraction
-                avatarState?.hasRingInnerGap = samplePersona.hasRingInnerGap
-                avatarState?.image = samplePersona.image
-                avatarState?.imageBasedRingColor = samplePersona.imageBasedRingColor
-                avatarState?.isOutOfOffice = samplePersona.isOutOfOffice
-                avatarState?.isRingVisible = border
-                avatarState?.isTransparent = samplePersona.isTransparent
-                avatarState?.presence = samplePersona.presence
-                avatarState?.primaryText = samplePersona.primaryText
-                avatarState?.ringColor = samplePersona.ringColor
-                avatarState?.secondaryText = samplePersona.secondaryText
+                avatarState.accessibilityLabel = samplePersona.accessibilityLabel
+                avatarState.backgroundColor = samplePersona.backgroundColor
+                avatarState.foregroundColor = samplePersona.foregroundColor
+                avatarState.hasPointerInteraction = samplePersona.hasPointerInteraction
+                avatarState.hasRingInnerGap = samplePersona.hasRingInnerGap
+                avatarState.image = samplePersona.image
+                avatarState.imageBasedRingColor = samplePersona.imageBasedRingColor
+                avatarState.isOutOfOffice = samplePersona.isOutOfOffice
+                avatarState.isRingVisible = border
+                avatarState.isTransparent = samplePersona.isTransparent
+                avatarState.presence = samplePersona.presence
+                avatarState.primaryText = samplePersona.primaryText
+                avatarState.ringColor = samplePersona.ringColor
+                avatarState.secondaryText = samplePersona.secondaryText
             }
 
             avatarGroup.state.maxDisplayedAvatars = maxDisplayedAvatars

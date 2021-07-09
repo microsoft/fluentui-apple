@@ -30,16 +30,17 @@ import SwiftUI
     var overflowCount: Int { get set }
     var style: MSFAvatarGroupStyle { get set }
 
-    func createAvatar(style: MSFAvatarStyle, size: MSFAvatarSize) -> MSFAvatarState?
+    func createAvatar(style: MSFAvatarStyle, size: MSFAvatarSize) -> MSFAvatarState
     func getAvatarState(at index: Int) -> MSFAvatarState
     func deleteAvatar(at index: Int)
 }
 
 /// Properties that make up AvatarGroup content
 class MSFAvatarGroupStateImpl: NSObject, ObservableObject, MSFAvatarGroupState {
-    func createAvatar(style: MSFAvatarStyle, size: MSFAvatarSize) -> MSFAvatarState? {
-        avatars.append(MSFAvatarStateImpl(style: style, size: size))
-        return avatars.last
+    func createAvatar(style: MSFAvatarStyle, size: MSFAvatarSize) -> MSFAvatarState {
+        let avatar = MSFAvatarStateImpl(style: style, size: size)
+        avatars.append(avatar)
+        return avatar
     }
 
     func getAvatarState(at index: Int) -> MSFAvatarState {
@@ -121,7 +122,6 @@ public struct AvatarGroup: View {
                 let withRingPadding = nextRingCheck ? interspace - (ringOffset + ringOuterGap) : interspace - ringOffset
                 let withoutRingPadding = nextRingCheck ? interspace - ringOuterGap : interspace
                 let stackPadding = (currentRingCheck ? withRingPadding : withoutRingPadding)
-                let pilePadding = interspace
                 AvatarView(avatar)
                     .modifyIf(needsCutout, { view in
                         view.mask(AvatarCutout(xOrigin: currentRingCheck ? x + ringOffset : x,
@@ -130,7 +130,7 @@ public struct AvatarGroup: View {
                                                cutoutSize: nextRingCheck ? size + ringOffset + ringOuterGap : size)
                                     .fill(style: FillStyle(eoFill: true)))
                     })
-                    .padding(.trailing, tokens.style == .stack ? stackPadding : pilePadding)
+                    .padding(.trailing, tokens.style == .stack ? stackPadding : interspace)
             }
             if overflowCount > 0 {
                 createOverflow(count: overflowCount)
