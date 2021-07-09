@@ -473,9 +473,9 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         let items = navigationItem.rightBarButtonItems ?? []
         for item in items {
             if item.tag == BarButtonItemTag.dismiss.rawValue {
-                item.badgeValue = isOn ? "12" : nil
+                item.badgeValue = isOn ? "12345" : nil
             } else if item.tag == BarButtonItemTag.threeDay.rawValue {
-                item.badgeValue = isOn ? "123456" : nil
+                item.badgeValue = isOn ? "12" : nil
             } else {
                 item.badgeValue = isOn ? "New" : nil
             }
