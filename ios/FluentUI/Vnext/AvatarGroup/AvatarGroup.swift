@@ -61,15 +61,6 @@ class MSFAvatarGroupStateImpl: NSObject, ObservableObject, MSFAvatarGroupState {
     @Published var maxDisplayedAvatars: Int = Int.max
     @Published var overflowCount: Int = 0
 
-    var size: MSFAvatarSize {
-        get {
-            return tokens.size
-        }
-        set {
-            tokens.size = newValue
-        }
-    }
-
     var style: MSFAvatarGroupStyle {
         get {
             return tokens.style
@@ -117,17 +108,23 @@ public struct AvatarGroup: View {
                 // If the avatar is part of Stack style and is not the last avatar in the sequence, create a cutout
                 let needsCutout = tokens.style == .stack && (overflowCount > 0 || index + 1 < maxDisplayedAvatars)
                 let avatar = avatars[index]
-                let currentRingCheck = avatar.isRingVisible
-                let nextRingCheck = index + 1 < maxDisplayedAvatars ? avatars[index + 1].isRingVisible : false
-                let withRingPadding = nextRingCheck ? interspace - (ringOffset + ringOuterGap) : interspace - ringOffset
-                let withoutRingPadding = nextRingCheck ? interspace - ringOuterGap : interspace
-                let stackPadding = (currentRingCheck ? withRingPadding : withoutRingPadding)
+                let currentAvatarHasRing = avatar.isRingVisible
+                let nextAvatarHasRing = index + 1 < maxDisplayedAvatars ? avatars[index + 1].isRingVisible : false
+
+                let ringPaddingInterspace = nextAvatarHasRing ? interspace - (ringOffset + ringOuterGap) : interspace - ringOffset
+                let noRingPaddingInterspace = nextAvatarHasRing ? interspace - ringOuterGap : interspace
+                let stackPadding = (currentAvatarHasRing ? ringPaddingInterspace : noRingPaddingInterspace)
+
+                let xOrigin = currentAvatarHasRing ? x + ringOffset : x
+                let yOrigin = currentAvatarHasRing ? (nextAvatarHasRing ? ringOuterGap : ringOffset) :
+                    (nextAvatarHasRing ? 0 - ringOffset + tokens.ringOuterGap : 0)
+                let cutoutSize = nextAvatarHasRing ? size + ringOffset + ringOuterGap : size
+
                 AvatarView(avatar)
                     .modifyIf(needsCutout, { view in
-                        view.mask(AvatarCutout(xOrigin: currentRingCheck ? x + ringOffset : x,
-                                               yOrigin: currentRingCheck ? (nextRingCheck ? ringOuterGap : ringOffset) :
-                                                (nextRingCheck ? 0 - ringOffset + tokens.ringOuterGap : 0),
-                                               cutoutSize: nextRingCheck ? size + ringOffset + ringOuterGap : size)
+                        view.mask(AvatarCutout(xOrigin: xOrigin,
+                                               yOrigin: yOrigin,
+                                               cutoutSize: cutoutSize)
                                     .fill(style: FillStyle(eoFill: true)))
                     })
                     .padding(.trailing, tokens.style == .stack ? stackPadding : interspace)
