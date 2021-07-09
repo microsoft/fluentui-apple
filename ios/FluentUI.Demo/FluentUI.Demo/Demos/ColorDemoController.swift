@@ -117,6 +117,9 @@ class ColorDemoController: UIViewController {
         view.addSubview(stackView)
         view.backgroundColor = Colors.NavigationBar.background
 
+        let window = ColorDemoController.themeWindowType
+        segmentedControl.selectedSegmentIndex = colorProviderThemes.firstIndex(where: { $0.demoColorTheme.windowType == window }) ?? 0
+
         NSLayoutConstraint.activate([
             stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -128,9 +131,6 @@ class ColorDemoController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         navigationController?.navigationBar.shadowImage = UIImage()
-        if let window = view.window {
-            segmentedControl.selectedSegmentIndex = colorProviderThemes.firstIndex(where: { return window.isKind(of: $0.demoColorTheme.windowType) }) ?? 0
-        }
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -148,6 +148,7 @@ class ColorDemoController: UIViewController {
         if let segmentedControl = sender as? SegmentedControl {
             let windowType = colorProviderThemes[segmentedControl.selectedSegmentIndex].demoColorTheme.windowType
             let colorThemeHost = view.window?.windowScene?.delegate as? ColorThemeHosting
+            ColorDemoController.themeWindowType = windowType
 
             if let navigationController = navigationController {
                 navigationController.popViewController(animated: false)
@@ -163,6 +164,7 @@ class ColorDemoController: UIViewController {
         tableView.reloadData()
     }
 
+    private static var themeWindowType: UIWindow.Type = DemoColorThemeDefaultWindow.self
     private let tableView = UITableView(frame: .zero, style: .grouped)
     private let colorProviderThemes: [(name: String, demoColorTheme: DemoColorTheme)] = [("Default", DemoColorTheme.init(window: DemoColorThemeDefaultWindow(), windowType: DemoColorThemeDefaultWindow.self)),
                                                                                          ("Green", DemoColorTheme.init(window: DemoColorThemeGreenWindow(), windowType: DemoColorThemeGreenWindow.self)),
