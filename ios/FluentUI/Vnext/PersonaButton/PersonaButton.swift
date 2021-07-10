@@ -251,22 +251,15 @@ public struct PersonaButton: View {
 
     /// Width of the button is conditional on the current size category
     private var adjustedWidth: CGFloat {
-        return state.avatarState.size.size + (2 * tokens.horizontalAvatarPadding) + {
-            switch sizeCategory {
-            case .accessibilityMedium:
-                return 20
-            case .accessibilityLarge:
-                return 32
-            case .accessibilityExtraLarge:
-                return 48
-            case .accessibilityExtraExtraLarge:
-                return 64
-            case .accessibilityExtraExtraExtraLarge:
-                return 80
-            default:
-                return 0
-            }
-        }()
+        let accessibilityAdjustments: [ ContentSizeCategory: [ MSFPersonaButtonSize: CGFloat] ] = [
+            .accessibilityMedium: [ .large: 4, .small: 0 ],
+            .accessibilityLarge: [ .large: 20, .small: 12 ],
+            .accessibilityExtraLarge: [ .large: 36, .small: 32 ],
+            .accessibilityExtraExtraLarge: [ .large: 56, .small: 38 ],
+            .accessibilityExtraExtraExtraLarge: [ .large: 80, .small: 68 ]
+        ]
+
+        return state.avatarState.size.size + (2 * tokens.horizontalAvatarPadding) + (accessibilityAdjustments[sizeCategory]?[state.buttonSize] ?? 0)
     }
 
     public var body: some View {
