@@ -31,8 +31,7 @@ class BarButtonItemView: UIView {
 
         NSLayoutConstraint.activate([
             container.centerXAnchor.constraint(equalTo: centerXAnchor),
-            container.centerYAnchor.constraint(equalTo: centerYAnchor),
-            container.widthAnchor.constraint(lessThanOrEqualTo: widthAnchor)
+            container.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
 
         NotificationCenter.default.addObserver(self,
