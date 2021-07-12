@@ -25,19 +25,9 @@ extension FluentUIStyle {
 			return mainProxy().Border.radius.xxLarge
 		}
 
-		// MARK: - drawerHorizontalContentBackground 
-		open var drawerHorizontalContentBackground: UIColor {
-			return mainProxy().Colors.Background.neutral1
-		}
-
-		// MARK: - drawerVerticalContentBackground 
-		open var drawerVerticalContentBackground: UIColor {
+		// MARK: - drawerBackground 
+		open var drawerBackground: UIColor {
 			return UIColor(light: mainProxy().Colors.Background.neutral1, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Background.neutral3, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
-		}
-
-		// MARK: - horizontalShadowOffset 
-		open var horizontalShadowOffset: CGFloat {
-			return mainProxy().Spacing.small
 		}
 
 		// MARK: - minMargin
@@ -112,8 +102,8 @@ extension FluentUIStyle {
 			return mainProxy().Shadow.shadow28.y2
 		}
 
-		// MARK: - verticalShadowOffset 
-		open var verticalShadowOffset: CGFloat {
+		// MARK: - shadowOffset 
+		open var shadowOffset: CGFloat {
 			return mainProxy().Spacing.xSmall
 		}
 	}
