@@ -9,6 +9,7 @@ import UIKit
 let demos: [(title: String, controllerClass: UIViewController.Type)] = [
     ("ActivityIndicator (Vnext)", ActivityIndicatorDemoController.self),
     ("Avatar (Vnext)", AvatarDemoController.self),
+    ("AvatarGroup (Vnext)", AvatarGroupDemoController.self),
     ("Button (Vnext)", ButtonDemoController.self),
     ("LeftNav (Vnext)", LeftNavDemoController.self),
     ("List (Vnext)", ListDemoController.self),

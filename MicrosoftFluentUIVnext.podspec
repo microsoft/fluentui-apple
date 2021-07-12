@@ -31,6 +31,12 @@ Pod::Spec.new do |s|
                                "ios/FluentUI/Vnext/Avatar/**/*.{swift,h}"]
   end
 
+  s.subspec 'AvatarGroup_ios' do |avatarGroup_ios|
+    avatarGroup_ios.platform = :ios
+    avatarGroup_ios.dependency 'MicrosoftFluentUIVnext/Avatar_ios'
+        avatarGroup_ios.source_files = ["ios/FluentUI/Vnext/AvatarGroup/**/*.{swift,h}"]
+  end
+
   s.subspec 'Button_ios' do |button_ios|
     button_ios.platform = :ios
     button_ios.dependency 'MicrosoftFluentUIVnext/Core_ios'
