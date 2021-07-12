@@ -207,6 +207,7 @@ class MSFPersonaButtonStateImpl: NSObject, ObservableObject, Identifiable, MSFPe
 public struct PersonaButton: View {
     @Environment(\.theme) var theme: FluentUIStyle
     @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
+    @Environment(\.sizeCategory) var sizeCategory: ContentSizeCategory
     @ObservedObject var tokens: MSFPersonaButtonTokens
     @ObservedObject var state: MSFPersonaButtonStateImpl
 
@@ -227,25 +228,38 @@ public struct PersonaButton: View {
         Group {
             Text(state.primaryText ?? "")
                 .lineLimit(1)
-                .frame(maxWidth: tokens.labelWidth, alignment: .center)
+                .frame(alignment: .center)
                 .scalableFont(font: tokens.labelFont)
                 .foregroundColor(Color(tokens.labelColor))
             if state.buttonSize.shouldShowSubtitle {
                 Text(state.secondaryText ?? "")
                     .lineLimit(1)
-                    .frame(maxWidth: tokens.labelWidth, alignment: .center)
+                    .frame(alignment: .center)
                     .scalableFont(font: tokens.sublabelFont)
                     .foregroundColor(Color(tokens.sublabelColor))
             }
         }
+        .padding(.horizontal, tokens.horizontalTextPadding)
     }
 
     @ViewBuilder
     private var avatarView: some View {
         AvatarView(state.avatarState)
-            .padding(.top, tokens.padding)
+            .padding(.top, tokens.verticalPadding)
             .padding(.bottom, tokens.avatarInterspace)
-            .padding(.horizontal, tokens.padding)
+    }
+
+    /// Width of the button is conditional on the current size category
+    private var adjustedWidth: CGFloat {
+        let accessibilityAdjustments: [ ContentSizeCategory: [ MSFPersonaButtonSize: CGFloat] ] = [
+            .accessibilityMedium: [ .large: 4, .small: 0 ],
+            .accessibilityLarge: [ .large: 20, .small: 12 ],
+            .accessibilityExtraLarge: [ .large: 36, .small: 32 ],
+            .accessibilityExtraExtraLarge: [ .large: 56, .small: 38 ],
+            .accessibilityExtraExtraExtraLarge: [ .large: 80, .small: 68 ]
+        ]
+
+        return state.avatarState.size.size + (2 * tokens.horizontalAvatarPadding) + (accessibilityAdjustments[sizeCategory]?[state.buttonSize] ?? 0)
     }
 
     public var body: some View {
@@ -254,11 +268,11 @@ public struct PersonaButton: View {
             VStack(spacing: 0) {
                 avatarView
                 personaText
-                Spacer(minLength: tokens.padding)
+                Spacer(minLength: tokens.verticalPadding)
             }
         }
+        .frame(minWidth: adjustedWidth, maxWidth: adjustedWidth, minHeight: 0, maxHeight: .infinity)
         .background(Color(tokens.backgroundColor))
-        .frame(minHeight: 0, maxHeight: .infinity)
         .designTokens(tokens,
                       from: theme,
                       with: windowProvider)

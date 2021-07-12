@@ -119,9 +119,9 @@ class DrawerShadowView: UIView {
         if let shadowDirection = shadowDirection {
             switch shadowDirection {
             case .down:
-                offset.height = drawerTokens.verticalShadowOffset
+                offset.height = drawerTokens.shadowOffset
             case .up:
-                offset.height = -drawerTokens.verticalShadowOffset
+                offset.height = -drawerTokens.shadowOffset
             case .fromLeading:
                 offset.width = isFirst ? drawerTokens.shadow1DepthX : drawerTokens.shadow2DepthX
                 offset.height = isFirst ? drawerTokens.shadow1DepthY : drawerTokens.shadow2DepthY

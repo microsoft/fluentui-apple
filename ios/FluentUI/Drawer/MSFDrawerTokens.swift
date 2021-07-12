@@ -17,15 +17,13 @@ class MSFDrawerTokens: MSFTokensBase {
     var shadow2DepthX: CGFloat!
     var shadow2DepthY: CGFloat!
     var backgroundDimmedColor: UIColor!
-    var drawerVerticalContentBackground: UIColor!
-    var drawerHorizontalContentBackground: UIColor!
+    var drawerContentBackground: UIColor!
     var popoverContentBackground: UIColor!
     var navigationBarBackground: UIColor!
     var cornerRadius: CGFloat!
     var minHorizontalMargin: CGFloat!
     var minVerticalMargin: CGFloat!
-    var verticalShadowOffset: CGFloat!
-    var horizontalShadowOffset: CGFloat!
+    var shadowOffset: CGFloat!
 
     /// Notifies the drawer controller to refresh its UI to reflect its design token values
     var themeDidUpdate: (() -> Void)?
@@ -57,14 +55,12 @@ class MSFDrawerTokens: MSFTokensBase {
         shadow2DepthX = appearanceProxy.shadow2OffsetX
         shadow2DepthY = appearanceProxy.shadow2OffsetY
         backgroundDimmedColor = appearanceProxy.backgroundDimmedColor
-        drawerVerticalContentBackground = appearanceProxy.drawerVerticalContentBackground
-        drawerHorizontalContentBackground = appearanceProxy.drawerHorizontalContentBackground
+        drawerContentBackground = appearanceProxy.drawerBackground
         popoverContentBackground = appearanceProxy.popoverContentBackground
         navigationBarBackground = appearanceProxy.navigationBarBackground
         cornerRadius = appearanceProxy.cornerRadius
         minHorizontalMargin = appearanceProxy.minMargin.horizontal
         minVerticalMargin = appearanceProxy.minMargin.vertical
-        verticalShadowOffset = appearanceProxy.verticalShadowOffset
-        horizontalShadowOffset = appearanceProxy.horizontalShadowOffset
+        shadowOffset = appearanceProxy.shadowOffset
     }
 }

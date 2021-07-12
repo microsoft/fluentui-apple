@@ -394,10 +394,7 @@ open class DrawerController: UIViewController, FluentUIWindowProvider {
 
     /// Shadow is required if background is transparent
     var shadowOffset: CGFloat {
-        if presentationDirection.isHorizontal {
-            return presentationBackground == .none ? drawerTokens.horizontalShadowOffset : 0
-        }
-        return presentationBackground == .none ? drawerTokens.verticalShadowOffset : 0
+        return presentationBackground == .none ? drawerTokens.shadowOffset : 0
     }
 
     private let sourceView: UIView?
@@ -780,9 +777,10 @@ open class DrawerController: UIViewController, FluentUIWindowProvider {
             } else if useNavigationBarBackgroundColor {
                 backgroundColor = drawerTokens.navigationBarBackground
             } else {
-                backgroundColor = presentationDirection.isVertical ? drawerTokens.drawerVerticalContentBackground : drawerTokens.drawerHorizontalContentBackground
+                backgroundColor = drawerTokens.drawerContentBackground
             }
         }
+
         guard let presentationController = (presentationController as? DrawerPresentationController) else {
             return
         }
@@ -975,7 +973,7 @@ open class DrawerController: UIViewController, FluentUIWindowProvider {
 
 extension DrawerController {
     static var drawerBackgroundColor: UIColor {
-        return MSFDrawerTokens().drawerHorizontalContentBackground
+        return MSFDrawerTokens().drawerContentBackground
     }
 
     static var drawerPopoverBackgroundColor: UIColor {
