@@ -28,6 +28,9 @@ public protocol Avatar {
     /// The presence state
     var presence: Presence { get }
 
+    /// Whether to show a border
+    var showsBorder: Bool { get }
+
     var hideInsideGapForBorder: Bool { get }
 }
 
@@ -48,13 +51,20 @@ open class AvatarData: NSObject, Avatar {
 
     @objc public var presence: Presence
 
+    @objc public var showsBorder: Bool
+
     @objc public var hideInsideGapForBorder: Bool = false
 
-    @objc public init(primaryText: String = "", secondaryText: String = "", image: UIImage? = nil, presence: Presence = .none, color: UIColor? = nil) {
+    @objc public init(primaryText: String = "", secondaryText: String = "", image: UIImage? = nil, presence: Presence = .none, color: UIColor? = nil, showsBorder: Bool = false) {
         self.primaryText = primaryText
         self.secondaryText = secondaryText
         self.image = image
         self.presence = presence
         self.color = color
+        self.showsBorder = showsBorder
+    }
+
+    @objc public convenience init(primaryText: String = "", secondaryText: String = "", image: UIImage? = nil, presence: Presence = .none, color: UIColor? = nil) {
+        self.init(primaryText: primaryText, secondaryText: secondaryText, image: image, presence: presence, color: color, showsBorder: false)
     }
 }
