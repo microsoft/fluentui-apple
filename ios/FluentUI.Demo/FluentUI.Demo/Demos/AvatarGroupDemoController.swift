@@ -194,27 +194,16 @@ class AvatarGroupDemoController: DemoController {
             let avatarGroup = MSFAvatarGroup(style: style, size: size)
             var border = showBorders
             for index in 0...avatarCount - 1 {
-                vSamplePersonas[index].isRingVisible = border
                 if mixed {
                     border = !border
                 }
 
-                let avatarState = avatarGroup.state.createAvatar(style: .default, size: size)
-                let samplePersona = vSamplePersonas[index]
+                let avatarState = avatarGroup.state.createAvatar()
+                let samplePersona = samplePersonas[index]
 
-                avatarState.accessibilityLabel = samplePersona.accessibilityLabel
-                avatarState.backgroundColor = samplePersona.backgroundColor
-                avatarState.foregroundColor = samplePersona.foregroundColor
-                avatarState.hasPointerInteraction = samplePersona.hasPointerInteraction
-                avatarState.hasRingInnerGap = samplePersona.hasRingInnerGap
-                avatarState.image = samplePersona.image
-                avatarState.imageBasedRingColor = samplePersona.imageBasedRingColor
-                avatarState.isOutOfOffice = samplePersona.isOutOfOffice
-                avatarState.isRingVisible = border
-                avatarState.isTransparent = samplePersona.isTransparent
-                avatarState.presence = samplePersona.presence
+                avatarState.image = samplePersona.avatarImage
+                avatarState.isRingVisible = mixed ? index % 2 == 0 : showBorders
                 avatarState.primaryText = samplePersona.primaryText
-                avatarState.ringColor = samplePersona.ringColor
                 avatarState.secondaryText = samplePersona.secondaryText
             }
 
@@ -240,19 +229,6 @@ class AvatarGroupDemoController: DemoController {
 
         NSLayoutConstraint.activate(constraints)
     }
-
-    private var vSamplePersonas: [MSFAvatarState] = {
-        var personas: [MSFAvatarState] = []
-        for index in 0...samplePersonas.count - 1 {
-            let state = MSFAvatar().state
-            let persona = samplePersonas[index]
-            state.image = persona.avatarImage
-            state.primaryText = persona.primaryText
-            state.secondaryText = samplePersonas[index].secondaryText
-            personas.append(state)
-        }
-        return personas
-    }()
 }
 
 // MARK: - AvatarGroupDemoController: UITextFieldDelegate

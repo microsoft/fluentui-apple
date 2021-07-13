@@ -47,6 +47,7 @@ class MSFAvatarGroupTokens: MSFTokensBase, ObservableObject {
     override func updateForCurrentTheme() {
         let currentTheme = theme
         var appearanceProxy: AppearanceProxyType
+        let avatarTokens = MSFAvatarTokens(style: .default, size: size)
 
         switch style {
         case .stack:
@@ -58,34 +59,20 @@ class MSFAvatarGroupTokens: MSFTokensBase, ObservableObject {
         switch size {
         case .xsmall:
             interspace = appearanceProxy.interspace.xSmall
-            ringInnerGap = appearanceProxy.ringInnerGap.xSmall
-            ringThickness = appearanceProxy.ringThickness.xSmall
-            ringOuterGap = appearanceProxy.ringOuterGap.xSmall
         case .small:
             interspace = appearanceProxy.interspace.small
-            ringInnerGap = appearanceProxy.ringInnerGap.small
-            ringThickness = appearanceProxy.ringThickness.small
-            ringOuterGap = appearanceProxy.ringOuterGap.small
         case .medium:
             interspace = appearanceProxy.interspace.medium
-            ringInnerGap = appearanceProxy.ringInnerGap.medium
-            ringThickness = appearanceProxy.ringThickness.medium
-            ringOuterGap = appearanceProxy.ringOuterGap.medium
         case .large:
             interspace = appearanceProxy.interspace.large
-            ringInnerGap = appearanceProxy.ringInnerGap.large
-            ringThickness = appearanceProxy.ringThickness.large
-            ringOuterGap = appearanceProxy.ringOuterGap.large
         case .xlarge:
             interspace = appearanceProxy.interspace.xlarge
-            ringInnerGap = appearanceProxy.ringInnerGap.xlarge
-            ringThickness = appearanceProxy.ringThickness.xlarge
-            ringOuterGap = appearanceProxy.ringOuterGap.xlarge
         case .xxlarge:
             interspace = appearanceProxy.interspace.xxlarge
-            ringInnerGap = appearanceProxy.ringInnerGap.xxlarge
-            ringThickness = appearanceProxy.ringThickness.xxlarge
-            ringOuterGap = appearanceProxy.ringOuterGap.xxlarge
         }
+
+        ringInnerGap = avatarTokens.ringInnerGap
+        ringThickness = avatarTokens.ringThickness
+        ringOuterGap = avatarTokens.ringOuterGap
     }
 }

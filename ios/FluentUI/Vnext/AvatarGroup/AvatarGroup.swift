@@ -30,15 +30,15 @@ import SwiftUI
     var overflowCount: Int { get set }
     var style: MSFAvatarGroupStyle { get set }
 
-    func createAvatar(style: MSFAvatarStyle, size: MSFAvatarSize) -> MSFAvatarState
+    func createAvatar() -> MSFAvatarState
     func getAvatarState(at index: Int) -> MSFAvatarState
     func deleteAvatar(at index: Int)
 }
 
 /// Properties that make up AvatarGroup content
 class MSFAvatarGroupStateImpl: NSObject, ObservableObject, MSFAvatarGroupState {
-    func createAvatar(style: MSFAvatarStyle, size: MSFAvatarSize) -> MSFAvatarState {
-        let avatar = MSFAvatarStateImpl(style: style, size: size)
+    func createAvatar() -> MSFAvatarState {
+        let avatar = MSFAvatarStateImpl(style: .default, size: size)
         avatars.append(avatar)
         return avatar
     }
@@ -60,6 +60,15 @@ class MSFAvatarGroupStateImpl: NSObject, ObservableObject, MSFAvatarGroupState {
     @Published var avatars: [MSFAvatarStateImpl] = []
     @Published var maxDisplayedAvatars: Int = Int.max
     @Published var overflowCount: Int = 0
+
+    var size: MSFAvatarSize {
+        get {
+            return tokens.size
+        }
+        set {
+            tokens.size = newValue
+        }
+    }
 
     var style: MSFAvatarGroupStyle {
         get {
@@ -99,9 +108,9 @@ public struct AvatarGroup: View {
         let overflowCount: Int = (avatars.count > maxDisplayedAvatars ? avatars.count - maxDisplayedAvatars : 0) + state.overflowCount
 
         let interspace: CGFloat = tokens.interspace
-        let ringOuterGap: CGFloat = tokens.ringOuterGap
-        let ringOffset: CGFloat = tokens.ringThickness + tokens.ringInnerGap + ringOuterGap
         let size: CGFloat = tokens.size.size
+        let ringOuterGap: CGFloat = tokens.ringOuterGap
+        let ringOffset: CGFloat = tokens.ringThickness + tokens.ringInnerGap + tokens.ringOuterGap
         let x: CGFloat = size + tokens.interspace - tokens.ringThickness
         HStack(spacing: 0) {
             ForEach(0 ..< maxDisplayedAvatars, id: \.self) { index in
