@@ -3,8 +3,8 @@
 //  Licensed under the MIT License.
 //
 
-import UIKit
 import FluentUI
+import UIKit
 
 class DemoListViewController: UITableViewController {
 
