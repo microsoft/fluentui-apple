@@ -232,9 +232,6 @@ MSFOverflowAvatarTokens extends MSFAvatarTokens:
 
 AP_MSFAvatarGroupTokens:
   interspace: [ xSmall: $Spacing.xxSmall, small: $Spacing.xxSmall, medium: $Spacing.xSmall, large: $Spacing.xSmall, xlarge: $Spacing.xSmall, xxlarge: $Spacing.xSmall ]
-  ringInnerGap: [ xSmall: $Border.size.thick, small: $Border.size.thick, medium: $Border.size.thick, large: $Border.size.thick, xlarge: $Border.size.thick, xxlarge: $Border.size.thicker ]
-  ringThickness: [ xSmall: $Border.size.thin, small: $Border.size.thin, medium: $Border.size.thick, large: $Border.size.thick, xlarge: $Border.size.thick, xxlarge: $Border.size.thicker ]
-  ringOuterGap: [ xSmall: $Border.size.thick, small: $Border.size.thick, medium: $Border.size.thick, large: $Border.size.thick, xlarge: $Border.size.thick, xxlarge: $Border.size.thicker ]
   
 MSFAvatarGroupStackTokens extends MSFAvatarGroupTokens:
   interspace: [ xSmall: -2pt, small: -2pt, medium: -4pt, large: -8pt, xlarge: -12pt, xxlarge: -12pt ]
