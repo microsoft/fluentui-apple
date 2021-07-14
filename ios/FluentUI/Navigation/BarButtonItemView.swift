@@ -142,9 +142,15 @@ class BarButtonItemView: UIView {
 
         if isLeftItem {
             let isRTL = effectiveUserInterfaceLayoutDirection == .rightToLeft
-            button.contentEdgeInsets = UIEdgeInsets(top: 0, left: isRTL ? 0 : Constants.leftBarButtonItemLeadingMargin, bottom: 0, right: isRTL ? Constants.leftBarButtonItemLeadingMargin : 0)
+            button.contentEdgeInsets = UIEdgeInsets(top: 0,
+                                                    left: isRTL ? 0 : Constants.leftBarButtonItemLeadingMargin,
+                                                    bottom: 0,
+                                                    right: isRTL ? Constants.leftBarButtonItemLeadingMargin : 0)
         } else {
-            button.contentEdgeInsets = UIEdgeInsets(top: 0, left: Constants.rightBarButtonItemHorizontalPadding, bottom: 0, right: Constants.rightBarButtonItemHorizontalPadding)
+            button.contentEdgeInsets = UIEdgeInsets(top: 0,
+                                                    left: Constants.rightBarButtonItemHorizontalPadding,
+                                                    bottom: 0,
+                                                    right: Constants.rightBarButtonItemHorizontalPadding)
         }
 
         button.tag = item.tag
