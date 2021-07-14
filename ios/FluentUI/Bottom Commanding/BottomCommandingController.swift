@@ -5,6 +5,13 @@
 
 import UIKit
 
+@objc(MSFBottomCommandingControllerDelegate)
+public protocol BottomCommandingControllerDelegate: AnyObject {
+
+    /// Called when `collapsedChromeHeight` changes.
+    @objc optional func bottomCommandingControllerCollapsedChromeHeightDidChange(_ bottomCommandingController: BottomCommandingController)
+}
+
 /// Persistent commanding surface displayed at the bottom of the available area.
 ///
 /// The presentation style automatically varies depending on the current horizontal `UIUserInterfaceSizeClass`:
@@ -125,6 +132,24 @@ open class BottomCommandingController: UIViewController {
     /// A layout guide that covers the on-screen portion of the current commanding view.
     @objc public let layoutGuide = UILayoutGuide()
 
+    /// Height of the portion of the collapsed bottom chrome that's in the safe area.
+    ///
+    /// Valid after the root view is loaded.
+    ///
+    /// Use this to adjust `contentInsets` on your scroll views. This height won't change when the commanding UI is hidden or expanded.
+    @objc public var collapsedChromeHeight: CGFloat {
+        var height: CGFloat
+        if isInSheetMode, let bottomSheetController = bottomSheetController {
+            height = bottomSheetController.collapsedSheetHeight
+        } else {
+            height = bottomBarHeight + Constants.BottomBar.bottomOffset
+        }
+        return height
+    }
+
+    /// The object that acts as the delegate of this controller.
+    @objc open weak var delegate: BottomCommandingControllerDelegate?
+
     /// Initializes the bottom commanding controller with a given content view controller.
     /// - Parameter contentViewController: View controller that will be displayed below the bottom commanding UI.
     @objc public init(with contentViewController: UIViewController?) {
@@ -153,6 +178,7 @@ open class BottomCommandingController: UIViewController {
         if let contentViewController = contentViewController {
             addChildContentViewController(contentViewController)
         }
+        delegate?.bottomCommandingControllerCollapsedChromeHeightDidChange?(self)
     }
 
     public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -175,6 +201,7 @@ open class BottomCommandingController: UIViewController {
             } else {
                 setupBottomSheetLayout()
             }
+            delegate?.bottomCommandingControllerCollapsedChromeHeightDidChange?(self)
         }
 
         if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
@@ -341,9 +368,13 @@ open class BottomCommandingController: UIViewController {
         if isInSheetMode,
            let bottomSheetController = bottomSheetController,
            let heroStackTopConstraint = bottomSheetHeroStackTopConstraint {
-            bottomSheetController.isExpandable = isExpandable
             bottomSheetController.collapsedContentHeight = bottomSheetHeroStackHeight
             heroStackTopConstraint.constant = bottomSheetHeroStackTopMargin
+
+            if bottomSheetController.isExpandable != isExpandable {
+                bottomSheetController.isExpandable = isExpandable
+                delegate?.bottomCommandingControllerCollapsedChromeHeightDidChange?(self)
+            }
         }
     }
 
@@ -531,6 +562,10 @@ open class BottomCommandingController: UIViewController {
             }
         }
         return totalHeight
+    }
+
+    private var bottomBarHeight: CGFloat {
+        return Constants.heroButtonHeight + 2 * Constants.BottomBar.heroStackTopBottomMargin
     }
 
     private var itemToBindingMap: [CommandingItem: ItemBindingInfo] = [:]

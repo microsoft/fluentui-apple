@@ -124,6 +124,11 @@ public class BottomSheetController: UIViewController {
         }
     }
 
+    /// Current height of the portion of a collapsed sheet that's in the safe area.
+    @objc public var collapsedSheetHeight: CGFloat {
+        return offset(for: .collapsed)
+    }
+
     /// A layout guide that covers the on-screen portion of the sheet view.
     @objc public let layoutGuide: UILayoutGuide = UILayoutGuide()
 
