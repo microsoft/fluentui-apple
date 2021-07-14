@@ -7,4 +7,4 @@
 @_exported import FluentUI_ios
 #elseif os(macOS)
 @_exported import FluentUI_macos
- #endif
+#endif
