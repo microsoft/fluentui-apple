@@ -478,7 +478,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
 
     @objc private func shouldShowBadge(isOn: Bool) {
-        let items = navigationItem.rightBarButtonItems ?? []
+        guard let items = navigationItem.rightBarButtonItems, !items.isEmpty else { return }
         for item in items {
             if item.tag == BarButtonItemTag.dismiss.rawValue {
                 item.badgeValue = isOn ? "12345" : nil
