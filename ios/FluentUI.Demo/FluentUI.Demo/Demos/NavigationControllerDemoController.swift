@@ -235,6 +235,14 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         case dismiss
         case select
         case threeDay
+
+        var title: String {
+            switch self {
+            case .dismiss: return "Dismiss"
+            case .select: return "Select"
+            case .threeDay: return "ThreeDay"
+            }
+        }
     }
 
     private(set) lazy var tableView: UITableView = {
@@ -442,11 +450,11 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         if isInSelectionMode {
             navigationItem.rightBarButtonItems = nil
         } else {
-            let dismissItem = UIBarButtonItem(title: "Dismiss", style: .plain, target: self, action: #selector(dismissSelf))
+            let dismissItem = UIBarButtonItem(title: BarButtonItemTag.dismiss.title, style: .plain, target: self, action: #selector(dismissSelf))
             dismissItem.tag = BarButtonItemTag.dismiss.rawValue
             var items = [dismissItem]
             if allowsCellSelection {
-                let selectItem = UIBarButtonItem(title: "Select", style: .plain, target: self, action: #selector(showSelectionMode))
+                let selectItem = UIBarButtonItem(title: BarButtonItemTag.select.title, style: .plain, target: self, action: #selector(showSelectionMode))
                 selectItem.tag = BarButtonItemTag.select.rawValue
                 items.append(selectItem)
             } else {
