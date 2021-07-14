@@ -47,13 +47,12 @@ open class AvatarGroupView: UIView {
 
     /// Set to true to show avatar borders in the avatar group view.
     /// Compatibility wrapper for `borderVisibility` which is now the source of truth.
-    @available(*, deprecated, message: "Use `borderVisibility` instead")
     @objc open var showBorders: Bool {
         get {
             return borderVisibility == .always
         }
         set {
-            newValue ? (borderVisibility = .always) : (borderVisibility = .never)
+            borderVisibility = newValue ? .always : .never
         }
     }
 
@@ -93,7 +92,7 @@ open class AvatarGroupView: UIView {
         }
     }
 
-    @available(*, deprecated, message: "Use the designated initializer with `borderVisibility` parameter instead")
+    /// Deprecated. Use the designated initializer with `borderVisibility` parameter instead.
     @objc public convenience init(avatars: [Avatar],
                                   size: AvatarSize,
                                   style: AvatarGroupViewStyle,
