@@ -192,12 +192,7 @@ class AvatarGroupDemoController: DemoController {
             let containerView = UIView(frame: .zero)
 
             let avatarGroup = MSFAvatarGroup(style: style, size: size)
-            var border = showBorders
             for index in 0...avatarCount - 1 {
-                if mixed {
-                    border = !border
-                }
-
                 let avatarState = avatarGroup.state.createAvatar()
                 let samplePersona = samplePersonas[index]
 

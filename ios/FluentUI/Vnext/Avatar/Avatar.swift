@@ -6,8 +6,8 @@
 import UIKit
 import SwiftUI
 
-/// Properties available to customize the state of the avatar
-@objc public protocol MSFAvatarState {
+/// Properties available to customize the state of the Avatar in an Avatar Group
+@objc public protocol MSFAvatarGroupItemState {
     var accessibilityLabel: String? { get set }
     var backgroundColor: UIColor? { get set }
     var foregroundColor: UIColor? { get set }
@@ -22,12 +22,16 @@ import SwiftUI
     var primaryText: String? { get set }
     var ringColor: UIColor? { get set }
     var secondaryText: String? { get set }
+}
+
+/// Properties available to customize the state of the Avatar
+@objc public protocol MSFAvatarState: MSFAvatarGroupItemState {
     var size: MSFAvatarSize { get set }
     var style: MSFAvatarStyle { get set }
 }
 
 /// Properties available to customize the state of the avatar
-class MSFAvatarStateImpl: NSObject, ObservableObject, MSFAvatarState {
+class MSFAvatarStateImpl: NSObject, ObservableObject, MSFAvatarState, MSFAvatarGroupItemState {
     @Published var backgroundColor: UIColor?
     @Published var foregroundColor: UIColor?
     @Published var hasPointerInteraction: Bool = false
