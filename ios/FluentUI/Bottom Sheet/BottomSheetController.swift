@@ -124,6 +124,9 @@ public class BottomSheetController: UIViewController {
         }
     }
 
+    /// A layout guide that covers the on-screen portion of the sheet view.
+    @objc public let layoutGuide: UILayoutGuide = UILayoutGuide()
+
     /// The object that acts as the delegate of the bottom sheet.
     @objc open weak var delegate: BottomSheetControllerDelegate?
 
@@ -141,6 +144,7 @@ public class BottomSheetController: UIViewController {
     public override func loadView() {
         view = BottomSheetPassthroughView()
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.addLayoutGuide(layoutGuide)
 
         if shouldShowDimmingView {
             view.addSubview(dimmingView)
@@ -184,6 +188,8 @@ public class BottomSheetController: UIViewController {
             overflowView.topAnchor.constraint(equalTo: bottomSheetView.bottomAnchor),
             bottomSheetOffsetConstraint
         ])
+
+        NSLayoutConstraint.activate(makeLayoutGuideConstraints())
 
         self.preferredExpandedContentGuideTopConstraint = preferredExpandedContentTopConstraint
 
@@ -505,6 +511,21 @@ public class BottomSheetController: UIViewController {
             preferredExpandedContentHeightConstraint.isActive = false
             fullScreenSheetConstraint.isActive = true
         }
+    }
+
+    private func makeLayoutGuideConstraints() -> [NSLayoutConstraint] {
+        let requiredConstraints = [
+            layoutGuide.leadingAnchor.constraint(equalTo: bottomSheetView.leadingAnchor),
+            layoutGuide.trailingAnchor.constraint(equalTo: bottomSheetView.trailingAnchor),
+            layoutGuide.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            layoutGuide.topAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor)
+        ]
+
+        // BottomSheetView will go off-screen when it's hidden, so this constraint is not always required.
+        let breakableConstraint = layoutGuide.topAnchor.constraint(equalTo: bottomSheetView.topAnchor)
+        breakableConstraint.priority = .defaultHigh
+
+        return requiredConstraints + [breakableConstraint]
     }
 
     private lazy var preferredExpandedContentHeightConstraint: NSLayoutConstraint = {

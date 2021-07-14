@@ -122,6 +122,9 @@ open class BottomCommandingController: UIViewController {
         }
     }
 
+    /// A layout guide that covers the on-screen portion of the current commanding view.
+    @objc public let layoutGuide = UILayoutGuide()
+
     /// Initializes the bottom commanding controller with a given content view controller.
     /// - Parameter contentViewController: View controller that will be displayed below the bottom commanding UI.
     @objc public init(with contentViewController: UIViewController?) {
@@ -139,6 +142,7 @@ open class BottomCommandingController: UIViewController {
     public override func loadView() {
         view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.addLayoutGuide(layoutGuide)
 
         if traitCollection.horizontalSizeClass == .regular {
             setupBottomBarLayout()
@@ -186,6 +190,7 @@ open class BottomCommandingController: UIViewController {
     }
 
     private func setupBottomBarLayout() {
+        NSLayoutConstraint.deactivate(layoutGuideConstraints)
         NSLayoutConstraint.activate(heroCommandWidthConstraints)
         heroCommandStack.distribution = .equalSpacing
 
@@ -201,6 +206,9 @@ open class BottomCommandingController: UIViewController {
             bottomConstraint
         ])
 
+        layoutGuideConstraints = makeBottomBarLayoutGuideConstraints(with: bottomBarView)
+        NSLayoutConstraint.activate(layoutGuideConstraints)
+
         bottomBarViewBottomConstraint = bottomConstraint
         self.bottomBarView = bottomBarView
         updateExpandabilityConstraints()
@@ -208,6 +216,7 @@ open class BottomCommandingController: UIViewController {
     }
 
     private func setupBottomSheetLayout() {
+        NSLayoutConstraint.deactivate(layoutGuideConstraints)
         NSLayoutConstraint.deactivate(heroCommandWidthConstraints)
         heroCommandStack.distribution = .fillEqually
 
@@ -236,6 +245,14 @@ open class BottomCommandingController: UIViewController {
             heroCommandStack.bottomAnchor.constraint(equalTo: commandStackContainer.bottomAnchor),
             heroStackTopConstraint
         ])
+
+        layoutGuideConstraints = [
+            layoutGuide.leadingAnchor.constraint(equalTo: sheetController.layoutGuide.leadingAnchor),
+            layoutGuide.topAnchor.constraint(equalTo: sheetController.layoutGuide.topAnchor),
+            layoutGuide.trailingAnchor.constraint(equalTo: sheetController.layoutGuide.trailingAnchor),
+            layoutGuide.bottomAnchor.constraint(equalTo: sheetController.layoutGuide.bottomAnchor)
+        ]
+        NSLayoutConstraint.activate(layoutGuideConstraints)
 
         bottomSheetController = sheetController
 
@@ -489,6 +506,21 @@ open class BottomCommandingController: UIViewController {
         }
     }
 
+    private func makeBottomBarLayoutGuideConstraints(with bottomBarView: UIView) -> [NSLayoutConstraint] {
+        let requiredConstraints = [
+            layoutGuide.leadingAnchor.constraint(equalTo: bottomBarView.leadingAnchor),
+            layoutGuide.trailingAnchor.constraint(equalTo: bottomBarView.trailingAnchor),
+            layoutGuide.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            layoutGuide.topAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor)
+        ]
+
+        // bottomBarView will go off-screen when it's hidden, so this constraint is not always required.
+        let breakableConstraint = layoutGuide.topAnchor.constraint(equalTo: bottomBarView.topAnchor)
+        breakableConstraint.priority = .defaultHigh
+
+        return requiredConstraints + [breakableConstraint]
+    }
+
     // Estimated fitting height of `tableView`.
     private var estimatedTableViewHeight: CGFloat {
         var totalHeight: CGFloat = 0
@@ -540,6 +572,9 @@ open class BottomCommandingController: UIViewController {
     }
 
     private var bottomBarHidingAnimator: UIViewPropertyAnimator?
+
+    // Constraints attaching self.layoutGuide to the current commanding surface (bar or a sheet)
+    private var layoutGuideConstraints: [NSLayoutConstraint] = [NSLayoutConstraint]()
 
     private enum ItemLocation {
         case heroSet
