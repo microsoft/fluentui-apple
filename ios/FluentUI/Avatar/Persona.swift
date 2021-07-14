@@ -37,6 +37,7 @@ open class PersonaData: NSObject, Persona {
 
     /// An image that can be used as a frame (outer wide border) for the avatar view
     @objc public var customBorderImage: UIImage?
+    @objc public var showsBorder: Bool = false
 
     /// The color associated to this persona.
     @objc public var color: UIColor?
@@ -82,6 +83,30 @@ open class PersonaData: NSObject, Persona {
         self.avatarImage = avatarImage
         self.presence = presence
         self.color = color
+    }
+
+    /// Initializer for PersonaData
+    /// - Parameter name: The persona's name.
+    /// - Parameter email: The persona's email.
+    /// - Parameter subtitle: The persona's subtitle.
+    /// - Parameter avatarImage: The persona's image.
+    /// - Parameter presence: The persona's presence status.
+    /// - Parameter color: The persona's color.
+    /// - Parameter showsBorder: Whether to show a border.
+    @objc public init(name: String = "",
+                      email: String = "",
+                      subtitle: String = "",
+                      avatarImage: UIImage? = nil,
+                      presence: Presence = .none,
+                      color: UIColor? = nil,
+                      showsBorder: Bool = false) {
+        self.name = name
+        self.email = email
+        self.subtitle = subtitle
+        self.avatarImage = avatarImage
+        self.presence = presence
+        self.color = color
+        self.showsBorder = showsBorder
     }
 
     /// Initializer for PersonaData
