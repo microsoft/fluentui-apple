@@ -9,7 +9,10 @@ import UIKit
 public protocol BottomSheetControllerDelegate: AnyObject {
 
     /// Called after the sheet moved to a new expansion state
-    @objc optional func bottomSheetControllerDidMove(to expansionState: BottomSheetExpansionState)
+    @objc optional func bottomSheetController(_ bottomSheetController: BottomSheetController, didMoveTo expansionState: BottomSheetExpansionState)
+
+    /// Called when `collapsedSheetHeight` changes.
+    @objc optional func bottomSheetControllerCollapsedSheetHeightDidChange(_ bottomSheetController: BottomSheetController)
 }
 
 /// Defines the position the sheet is currently in
@@ -57,6 +60,7 @@ public class BottomSheetController: UIViewController {
                 panGestureRecognizer.isEnabled = isExpandable
                 if isViewLoaded && !isHidden {
                     move(to: .collapsed, animated: false)
+                    delegate?.bottomSheetControllerCollapsedSheetHeightDidChange?(self)
                 }
             }
         }
@@ -120,6 +124,7 @@ public class BottomSheetController: UIViewController {
         didSet {
             if isViewLoaded && currentExpansionState == .collapsed {
                 move(to: .collapsed, animated: false)
+                delegate?.bottomSheetControllerCollapsedSheetHeightDidChange?(self)
             }
         }
     }
@@ -479,7 +484,7 @@ public class BottomSheetController: UIViewController {
     }
 
     private func handleCompletedStateChange(to targetExpansionState: BottomSheetExpansionState) {
-        self.delegate?.bottomSheetControllerDidMove?(to: targetExpansionState)
+        self.delegate?.bottomSheetController?(self, didMoveTo: targetExpansionState)
 
         if targetExpansionState == .collapsed {
             hostedScrollView?.setContentOffset(.zero, animated: true)
