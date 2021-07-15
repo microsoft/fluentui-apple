@@ -50,7 +50,6 @@ let package = Package(
                 "Resources/Localization/CultureMapping.json",
                 "Table View/TableView.resources.xcfilelist",
                 "Tooltip/Tooltip.resources.xcfilelist",
-                "Tooltip/Tooltip.resources.xcfilelist",
                 "TwoLineTitleView/TwoLineTitleView.resources.xcfilelist",
             ]
         ),

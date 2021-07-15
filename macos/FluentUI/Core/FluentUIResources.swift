@@ -3,6 +3,7 @@
 //  Licensed under the MIT License.
 //
 
+/// Note: SWIFT_PACKAGE is automatically defined whenever the code is being built by the Swift Package Manager.
 #if SWIFT_PACKAGE
 import FluentUIResources
 #endif
