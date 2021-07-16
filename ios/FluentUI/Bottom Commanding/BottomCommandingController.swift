@@ -133,6 +133,7 @@ open class BottomCommandingController: UIViewController {
     @objc public let commandingLayoutGuide = UILayoutGuide()
 
     /// Height of the portion of the collapsed commanding UI that's in the safe area.
+    /// When using the bottom bar style, this will include the entire height of the bottom bar.
     ///
     /// Valid after the root view is loaded.
     ///
