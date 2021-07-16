@@ -3,6 +3,8 @@
 //  Licensed under the MIT License.
 //
 
+import FluentUI
+
 // MARK: TableViewCellShimmerDemoController
 
 class TableViewCellShimmerDemoController: TableViewCellDemoController {

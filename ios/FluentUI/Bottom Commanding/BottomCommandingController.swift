@@ -5,6 +5,13 @@
 
 import UIKit
 
+@objc(MSFBottomCommandingControllerDelegate)
+public protocol BottomCommandingControllerDelegate: AnyObject {
+
+    /// Called when `collapsedHeightInSafeArea` changes.
+    @objc optional func bottomCommandingControllerCollapsedHeightInSafeAreaDidChange(_ bottomCommandingController: BottomCommandingController)
+}
+
 /// Persistent commanding surface displayed at the bottom of the available area.
 ///
 /// The presentation style automatically varies depending on the current horizontal `UIUserInterfaceSizeClass`:
@@ -122,6 +129,28 @@ open class BottomCommandingController: UIViewController {
         }
     }
 
+    /// A layout guide that covers the on-screen portion of the current commanding view.
+    @objc public let commandingLayoutGuide = UILayoutGuide()
+
+    /// Height of the portion of the collapsed commanding UI that's in the safe area.
+    /// When using the bottom bar style, this will include the entire height of the bottom bar.
+    ///
+    /// Valid after the root view is loaded.
+    ///
+    /// Use this to adjust `contentInsets` on your scroll views. This height won't change when the commanding UI is hidden or expanded.
+    @objc public var collapsedHeightInSafeArea: CGFloat {
+        var height: CGFloat
+        if isInSheetMode, let bottomSheetController = bottomSheetController {
+            height = bottomSheetController.collapsedHeightInSafeArea
+        } else {
+            height = bottomBarHeight + Constants.BottomBar.bottomOffset
+        }
+        return height
+    }
+
+    /// The object that acts as the delegate of this controller.
+    @objc open weak var delegate: BottomCommandingControllerDelegate?
+
     /// Initializes the bottom commanding controller with a given content view controller.
     /// - Parameter contentViewController: View controller that will be displayed below the bottom commanding UI.
     @objc public init(with contentViewController: UIViewController?) {
@@ -139,6 +168,7 @@ open class BottomCommandingController: UIViewController {
     public override func loadView() {
         view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.addLayoutGuide(commandingLayoutGuide)
 
         if traitCollection.horizontalSizeClass == .regular {
             setupBottomBarLayout()
@@ -149,6 +179,7 @@ open class BottomCommandingController: UIViewController {
         if let contentViewController = contentViewController {
             addChildContentViewController(contentViewController)
         }
+        delegate?.bottomCommandingControllerCollapsedHeightInSafeAreaDidChange?(self)
     }
 
     public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -171,6 +202,7 @@ open class BottomCommandingController: UIViewController {
             } else {
                 setupBottomSheetLayout()
             }
+            delegate?.bottomCommandingControllerCollapsedHeightInSafeAreaDidChange?(self)
         }
 
         if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
@@ -186,6 +218,7 @@ open class BottomCommandingController: UIViewController {
     }
 
     private func setupBottomBarLayout() {
+        NSLayoutConstraint.deactivate(layoutGuideConstraints)
         NSLayoutConstraint.activate(heroCommandWidthConstraints)
         heroCommandStack.distribution = .equalSpacing
 
@@ -201,6 +234,9 @@ open class BottomCommandingController: UIViewController {
             bottomConstraint
         ])
 
+        layoutGuideConstraints = makeBottomBarLayoutGuideConstraints(with: bottomBarView)
+        NSLayoutConstraint.activate(layoutGuideConstraints)
+
         bottomBarViewBottomConstraint = bottomConstraint
         self.bottomBarView = bottomBarView
         updateExpandabilityConstraints()
@@ -208,6 +244,7 @@ open class BottomCommandingController: UIViewController {
     }
 
     private func setupBottomSheetLayout() {
+        NSLayoutConstraint.deactivate(layoutGuideConstraints)
         NSLayoutConstraint.deactivate(heroCommandWidthConstraints)
         heroCommandStack.distribution = .fillEqually
 
@@ -236,6 +273,14 @@ open class BottomCommandingController: UIViewController {
             heroCommandStack.bottomAnchor.constraint(equalTo: commandStackContainer.bottomAnchor),
             heroStackTopConstraint
         ])
+
+        layoutGuideConstraints = [
+            commandingLayoutGuide.leadingAnchor.constraint(equalTo: sheetController.sheetLayoutGuide.leadingAnchor),
+            commandingLayoutGuide.topAnchor.constraint(equalTo: sheetController.sheetLayoutGuide.topAnchor),
+            commandingLayoutGuide.trailingAnchor.constraint(equalTo: sheetController.sheetLayoutGuide.trailingAnchor),
+            commandingLayoutGuide.bottomAnchor.constraint(equalTo: sheetController.sheetLayoutGuide.bottomAnchor)
+        ]
+        NSLayoutConstraint.activate(layoutGuideConstraints)
 
         bottomSheetController = sheetController
 
@@ -324,9 +369,13 @@ open class BottomCommandingController: UIViewController {
         if isInSheetMode,
            let bottomSheetController = bottomSheetController,
            let heroStackTopConstraint = bottomSheetHeroStackTopConstraint {
-            bottomSheetController.isExpandable = isExpandable
             bottomSheetController.collapsedContentHeight = bottomSheetHeroStackHeight
             heroStackTopConstraint.constant = bottomSheetHeroStackTopMargin
+
+            if bottomSheetController.isExpandable != isExpandable {
+                bottomSheetController.isExpandable = isExpandable
+                delegate?.bottomCommandingControllerCollapsedHeightInSafeAreaDidChange?(self)
+            }
         }
     }
 
@@ -489,6 +538,21 @@ open class BottomCommandingController: UIViewController {
         }
     }
 
+    private func makeBottomBarLayoutGuideConstraints(with bottomBarView: UIView) -> [NSLayoutConstraint] {
+        let requiredConstraints = [
+            commandingLayoutGuide.leadingAnchor.constraint(equalTo: bottomBarView.leadingAnchor),
+            commandingLayoutGuide.trailingAnchor.constraint(equalTo: bottomBarView.trailingAnchor),
+            commandingLayoutGuide.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            commandingLayoutGuide.topAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor)
+        ]
+
+        // bottomBarView will go off-screen when it's hidden, so this constraint is not always required.
+        let breakableTopConstraint = commandingLayoutGuide.topAnchor.constraint(equalTo: bottomBarView.topAnchor)
+        breakableTopConstraint.priority = .defaultHigh
+
+        return requiredConstraints + [breakableTopConstraint]
+    }
+
     // Estimated fitting height of `tableView`.
     private var estimatedTableViewHeight: CGFloat {
         var totalHeight: CGFloat = 0
@@ -499,6 +563,10 @@ open class BottomCommandingController: UIViewController {
             }
         }
         return totalHeight
+    }
+
+    private var bottomBarHeight: CGFloat {
+        return Constants.heroButtonHeight + 2 * Constants.BottomBar.heroStackTopBottomMargin
     }
 
     private var itemToBindingMap: [CommandingItem: ItemBindingInfo] = [:]
@@ -540,6 +608,9 @@ open class BottomCommandingController: UIViewController {
     }
 
     private var bottomBarHidingAnimator: UIViewPropertyAnimator?
+
+    // Constraints attaching self.layoutGuide to the current commanding surface (bar or a sheet)
+    private var layoutGuideConstraints = [NSLayoutConstraint]()
 
     private enum ItemLocation {
         case heroSet

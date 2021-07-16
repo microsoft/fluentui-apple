@@ -18,10 +18,12 @@ class BottomSheetDemoController: UIViewController {
         optionTableView.delegate = self
         optionTableView.separatorStyle = .none
         view.addSubview(optionTableView)
+        mainTableView = optionTableView
 
         let bottomSheetViewController = BottomSheetController(headerContentView: headerView, expandedContentView: personaListView)
         bottomSheetViewController.hostedScrollView = personaListView
         bottomSheetViewController.collapsedContentHeight = BottomSheetDemoController.headerHeight
+        bottomSheetViewController.delegate = self
 
         self.bottomSheetViewController = bottomSheetViewController
 
@@ -40,6 +42,8 @@ class BottomSheetDemoController: UIViewController {
             bottomSheetViewController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
+
+    private var mainTableView: UITableView?
 
     @objc private func toggleExpandable() {
         bottomSheetViewController?.isExpandable.toggle()
@@ -173,5 +177,13 @@ extension BottomSheetDemoController: UITableViewDataSource {
         }
 
         return UITableViewCell()
+    }
+}
+
+extension BottomSheetDemoController: BottomSheetControllerDelegate {
+    func bottomSheetControllerCollapsedSheetHeightDidChange(_ bottomSheetController: BottomSheetController) {
+        if let tableView = mainTableView {
+            tableView.contentInset.bottom = bottomSheetController.collapsedHeightInSafeArea
+        }
     }
 }
