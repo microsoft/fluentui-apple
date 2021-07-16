@@ -305,9 +305,9 @@ extension BottomCommandingDemoController: UITableViewDataSource {
 }
 
 extension BottomCommandingDemoController: BottomCommandingControllerDelegate {
-    func bottomCommandingControllerCollapsedChromeHeightDidChange(_ bottomCommandingController: BottomCommandingController) {
+    func bottomCommandingControllerCollapsedHeightInSafeAreaDidChange(_ bottomCommandingController: BottomCommandingController) {
         if let tableView = mainTableViewController?.tableView {
-            tableView.contentInset.bottom = bottomCommandingController.collapsedChromeHeight
+            tableView.contentInset.bottom = bottomCommandingController.collapsedHeightInSafeArea
         }
     }
 }

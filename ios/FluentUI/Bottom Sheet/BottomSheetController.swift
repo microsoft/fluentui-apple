@@ -8,11 +8,13 @@ import UIKit
 @objc(MSFBottomSheetControllerDelegate)
 public protocol BottomSheetControllerDelegate: AnyObject {
 
-    /// Called after the sheet moved to a new expansion state
+    /// Called after a transition to a new expansion state completes.
+    ///
+    /// Modifying the `isExpanded` and `isHidden` properties will also cause this to eventually fire when the underlying transition completes.
     @objc optional func bottomSheetController(_ bottomSheetController: BottomSheetController, didMoveTo expansionState: BottomSheetExpansionState)
 
-    /// Called when `collapsedSheetHeight` changes.
-    @objc optional func bottomSheetControllerCollapsedSheetHeightDidChange(_ bottomSheetController: BottomSheetController)
+    /// Called when `collapsedHeightInSafeArea` changes.
+    @objc optional func bottomSheetControllerCollapsedHeightInSafeAreaDidChange(_ bottomSheetController: BottomSheetController)
 }
 
 /// Defines the position the sheet is currently in
@@ -60,7 +62,7 @@ public class BottomSheetController: UIViewController {
                 panGestureRecognizer.isEnabled = isExpandable
                 if isViewLoaded && !isHidden {
                     move(to: .collapsed, animated: false)
-                    delegate?.bottomSheetControllerCollapsedSheetHeightDidChange?(self)
+                    delegate?.bottomSheetControllerCollapsedHeightInSafeAreaDidChange?(self)
                 }
             }
         }
@@ -124,18 +126,18 @@ public class BottomSheetController: UIViewController {
         didSet {
             if isViewLoaded && currentExpansionState == .collapsed {
                 move(to: .collapsed, animated: false)
-                delegate?.bottomSheetControllerCollapsedSheetHeightDidChange?(self)
+                delegate?.bottomSheetControllerCollapsedHeightInSafeAreaDidChange?(self)
             }
         }
     }
 
     /// Current height of the portion of a collapsed sheet that's in the safe area.
-    @objc public var collapsedSheetHeight: CGFloat {
+    @objc public var collapsedHeightInSafeArea: CGFloat {
         return offset(for: .collapsed)
     }
 
     /// A layout guide that covers the on-screen portion of the sheet view.
-    @objc public let layoutGuide: UILayoutGuide = UILayoutGuide()
+    @objc public let sheetLayoutGuide = UILayoutGuide()
 
     /// The object that acts as the delegate of the bottom sheet.
     @objc open weak var delegate: BottomSheetControllerDelegate?
@@ -154,7 +156,7 @@ public class BottomSheetController: UIViewController {
     public override func loadView() {
         view = BottomSheetPassthroughView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.addLayoutGuide(layoutGuide)
+        view.addLayoutGuide(sheetLayoutGuide)
 
         if shouldShowDimmingView {
             view.addSubview(dimmingView)
@@ -525,14 +527,14 @@ public class BottomSheetController: UIViewController {
 
     private func makeLayoutGuideConstraints() -> [NSLayoutConstraint] {
         let requiredConstraints = [
-            layoutGuide.leadingAnchor.constraint(equalTo: bottomSheetView.leadingAnchor),
-            layoutGuide.trailingAnchor.constraint(equalTo: bottomSheetView.trailingAnchor),
-            layoutGuide.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            layoutGuide.topAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor)
+            sheetLayoutGuide.leadingAnchor.constraint(equalTo: bottomSheetView.leadingAnchor),
+            sheetLayoutGuide.trailingAnchor.constraint(equalTo: bottomSheetView.trailingAnchor),
+            sheetLayoutGuide.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            sheetLayoutGuide.topAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor)
         ]
 
         // BottomSheetView will go off-screen when it's hidden, so this constraint is not always required.
-        let breakableConstraint = layoutGuide.topAnchor.constraint(equalTo: bottomSheetView.topAnchor)
+        let breakableConstraint = sheetLayoutGuide.topAnchor.constraint(equalTo: bottomSheetView.topAnchor)
         breakableConstraint.priority = .defaultHigh
 
         return requiredConstraints + [breakableConstraint]
