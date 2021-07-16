@@ -230,6 +230,12 @@ MSFOverflowAvatarTokens extends MSFAvatarTokens:
   foregroundDefaultColor: $Colors.Foreground.neutral3
   ringDefaultColor: $Colors.Background.neutralDisabled
 
+AP_MSFAvatarGroupTokens:
+  interspace: [ xSmall: $Spacing.xxSmall, small: $Spacing.xxSmall, medium: $Spacing.xSmall, large: $Spacing.xSmall, xlarge: $Spacing.xSmall, xxlarge: $Spacing.xSmall ]
+  
+MSFAvatarGroupStackTokens extends MSFAvatarGroupTokens:
+  interspace: [ xSmall: -2pt, small: -2pt, medium: -4pt, large: -8pt, xlarge: -12pt, xxlarge: -12pt ]
+
 AP_MSFButtonTokens:
   backgroundColor: [ rest: NamedColor(clear), hover: NamedColor(clear), pressed: NamedColor(clear), selected: NamedColor(clear), disabled: NamedColor(clear) ]
   borderColor: [ rest: $Colors.Background.brandRest, hover: $Colors.Background.brandHover, pressed: $Colors.Background.brandPressed, selected: $Colors.Background.brandSelected, disabled: $Colors.Background.brandDisabled ]

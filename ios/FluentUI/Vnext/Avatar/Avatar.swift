@@ -6,7 +6,8 @@
 import UIKit
 import SwiftUI
 
-/// Properties available to customize the state of the avatar
+/// Properties available to customize the state of the Avatar
+
 @objc public protocol MSFAvatarState {
     var accessibilityLabel: String? { get set }
     var backgroundColor: UIColor? { get set }
