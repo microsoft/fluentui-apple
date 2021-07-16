@@ -47,7 +47,7 @@ open class PersonaData: NSObject, Persona {
     public var subtitle: String
     public var composedName: (String, String)?
     public var image: UIImage? { return avatarImage }
-    public var presence: Presence
+    public var presence: MSFAvatarPresence
 
     public var primaryText: String {
         if let composedName = composedName {
@@ -76,7 +76,7 @@ open class PersonaData: NSObject, Persona {
                       email: String = "",
                       subtitle: String = "",
                       avatarImage: UIImage? = nil,
-                      presence: Presence = .none,
+                      presence: MSFAvatarPresence = .none,
                       color: UIColor? = nil) {
         self.name = name
         self.email = email
@@ -98,7 +98,7 @@ open class PersonaData: NSObject, Persona {
                       email: String = "",
                       subtitle: String = "",
                       avatarImage: UIImage? = nil,
-                      presence: Presence = .none,
+                      presence: MSFAvatarPresence = .none,
                       color: UIColor? = nil,
                       showsBorder: Bool = false) {
         self.name = name
@@ -123,7 +123,7 @@ open class PersonaData: NSObject, Persona {
                       email: String = "",
                       subtitle: String = "",
                       avatarImage: UIImage? = nil,
-                      presence: Presence = .none,
+                      presence: MSFAvatarPresence = .none,
                       color: UIColor? = nil) {
         self.name = firstName
         self.email = email

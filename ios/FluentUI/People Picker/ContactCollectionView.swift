@@ -32,15 +32,6 @@ open class ContactCollectionView: UICollectionView {
             }
         }
 
-        var avatarSize: AvatarLegacySize {
-            switch self {
-            case .large:
-                return .extraExtraLarge
-            case .small:
-                return .extraLarge
-            }
-        }
-
         var width: CGFloat {
             return contactViewSize.width
         }
