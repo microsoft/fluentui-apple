@@ -11,6 +11,21 @@ import SwiftUI
     case pile
 }
 
+/// Properties available to customize the state of the Avatar in an Avatar Group
+@objc public protocol MSFAvatarGroupAvatarState {
+    var accessibilityLabel: String? { get set }
+    var backgroundColor: UIColor? { get set }
+    var foregroundColor: UIColor? { get set }
+    var hasRingInnerGap: Bool { get set }
+    var image: UIImage? { get set }
+    var imageBasedRingColor: UIImage? { get set }
+    var isRingVisible: Bool { get set }
+    var isTransparent: Bool { get set }
+    var primaryText: String? { get set }
+    var ringColor: UIColor? { get set }
+    var secondaryText: String? { get set }
+}
+
 /// `MSFAvatarGroupState` defines properties in an AvatarGroup
 ///
 /// `maxDisplayedAvatars`: Caps the number of displayed avatars and shows the remaining not displayed in the overflow avatar
@@ -24,40 +39,47 @@ import SwiftUI
 ///
 /// `getAvatarState`: Gets the state of an Avatar using an index value
 ///
-/// `deleteAvatar`: Deletes an Avatar with a specified index value
+/// `removeAvatar`: Removes an Avatar with a specified index value
 @objc public protocol MSFAvatarGroupState {
     var maxDisplayedAvatars: Int { get set }
     var overflowCount: Int { get set }
     var style: MSFAvatarGroupStyle { get set }
 
-    func createAvatar() -> MSFAvatarGroupItemState
-    func getAvatarState(at index: Int) -> MSFAvatarGroupItemState
-    func deleteAvatar(at index: Int)
+    func createAvatar() -> MSFAvatarGroupAvatarState
+    func getAvatarState(at index: Int) -> MSFAvatarGroupAvatarState
+    func removeAvatar(at index: Int)
+}
+
+/// Implementation of the Avatar state that is specific to be used in the Avatar Group
+class MSFAvatarGroupAvatarStateImpl: MSFAvatarStateImpl, MSFAvatarGroupAvatarState {
+    init(size: MSFAvatarSize) {
+        super.init(style: .default, size: size)
+    }
 }
 
 /// Properties that make up AvatarGroup content
 class MSFAvatarGroupStateImpl: NSObject, ObservableObject, MSFAvatarGroupState {
-    func createAvatar() -> MSFAvatarGroupItemState {
-        let avatar = MSFAvatarStateImpl(style: .default, size: tokens.size)
+    func createAvatar() -> MSFAvatarGroupAvatarState {
+        let avatar = MSFAvatarGroupAvatarStateImpl(size: tokens.size)
         avatars.append(avatar)
         return avatar
     }
 
-    func getAvatarState(at index: Int) -> MSFAvatarGroupItemState {
+    func getAvatarState(at index: Int) -> MSFAvatarGroupAvatarState {
         guard index < avatars.count else {
             preconditionFailure("Index is out of bounds")
         }
         return avatars[index]
     }
 
-    func deleteAvatar(at index: Int) {
+    func removeAvatar(at index: Int) {
         guard index < avatars.count else {
             preconditionFailure("Index is out of bounds")
         }
         avatars.remove(at: index)
     }
 
-    @Published var avatars: [MSFAvatarStateImpl] = []
+    @Published var avatars: [MSFAvatarGroupAvatarStateImpl] = []
     @Published var maxDisplayedAvatars: Int = Int.max
     @Published var overflowCount: Int = 0
 
