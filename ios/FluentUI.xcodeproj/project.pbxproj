@@ -21,8 +21,6 @@
 		5306075526A1E6A4002D49CF /* MSFAvatarGroupTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5306075026A1E6A4002D49CF /* MSFAvatarGroupTokens.generated.swift */; };
 		5306075626A1E6A4002D49CF /* AvatarGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5306075126A1E6A4002D49CF /* AvatarGroup.swift */; };
 		5306075726A1E6A4002D49CF /* AvatarGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5306075126A1E6A4002D49CF /* AvatarGroup.swift */; };
-		5306075C26A1F898002D49CF /* AvatarData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5373D53E2694BA390032A3B4 /* AvatarData.swift */; };
-		5306075D26A1F899002D49CF /* AvatarData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5373D53E2694BA390032A3B4 /* AvatarData.swift */; };
 		5306076026A201C7002D49CF /* Persona.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EF53C2215AF1AB00573E8F /* Persona.swift */; };
 		5306076126A201C8002D49CF /* Persona.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EF53C2215AF1AB00573E8F /* Persona.swift */; };
 		5314E00425F00A300099271A /* ActivityViewAnimating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22010B6F2523CB2D00FF1F10 /* ActivityViewAnimating.swift */; };
@@ -350,7 +348,6 @@
 		5306075026A1E6A4002D49CF /* MSFAvatarGroupTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFAvatarGroupTokens.generated.swift; sourceTree = "<group>"; };
 		5306075126A1E6A4002D49CF /* AvatarGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarGroup.swift; sourceTree = "<group>"; };
 		537315B225438B15001FD14C /* iOS13_4_compatibility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = iOS13_4_compatibility.swift; sourceTree = "<group>"; };
-		5373D53E2694BA390032A3B4 /* AvatarData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarData.swift; sourceTree = "<group>"; };
 		5373D5602694D65C0032A3B4 /* AvatarTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarTokens.swift; sourceTree = "<group>"; };
 		5373D5612694D65C0032A3B4 /* Avatar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Avatar.swift; sourceTree = "<group>"; };
 		5373D5622694D65C0032A3B4 /* MSFAvatarTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFAvatarTokens.generated.swift; sourceTree = "<group>"; };
@@ -1039,7 +1036,6 @@
 			isa = PBXGroup;
 			children = (
 				5373D5612694D65C0032A3B4 /* Avatar.swift */,
-				5373D53E2694BA390032A3B4 /* AvatarData.swift */,
 				5373D5602694D65C0032A3B4 /* AvatarTokens.swift */,
 				5373D5632694D65C0032A3B4 /* MSFAvatarPresence.swift */,
 				5373D5622694D65C0032A3B4 /* MSFAvatarTokens.generated.swift */,
@@ -1505,7 +1501,6 @@
 				5314E0F225F012C80099271A /* ShyHeaderView.swift in Sources */,
 				5314E02825F00DA80099271A /* BlurringView.swift in Sources */,
 				5314E13625F016370099271A /* PopupMenuSectionHeaderView.swift in Sources */,
-				5306075D26A1F899002D49CF /* AvatarData.swift in Sources */,
 				5314E05925F00EF50099271A /* CalendarViewDataSource.swift in Sources */,
 				5314E01625F00CF70099271A /* BarButtonItems.swift in Sources */,
 				5314E25425F023650099271A /* UIImage+Extensions.swift in Sources */,
@@ -1659,7 +1654,6 @@
 				A56CE7B622E68A7800AA77EE /* UIColor+Extensions.swift in Sources */,
 				A5237ACB21DED7030040BF27 /* ResizingHandleView.swift in Sources */,
 				B4E782C72179509A00A7DFCE /* CenteredLabelCell.swift in Sources */,
-				5306075C26A1F898002D49CF /* AvatarData.swift in Sources */,
 				FD9A5C872179464F00D224D9 /* DateComponents+Extensions.swift in Sources */,
 				A5B87AF7211E16370038C37C /* DrawerTransitionAnimator.swift in Sources */,
 				C0A0D76D233AEF6C00F432FD /* ShimmerAppearance.swift in Sources */,

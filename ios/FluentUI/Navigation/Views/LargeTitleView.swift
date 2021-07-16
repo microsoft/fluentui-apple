@@ -24,16 +24,21 @@ class LargeTitleView: UIView {
         static let titleFont = UIFont.systemFont(ofSize: 30, weight: .bold)
     }
 
-    var avatarData: Avatar? {
+    var personaData: Persona? {
         didSet {
             updateProfileButtonVisibility()
 
             if let avatarState = avatar?.state {
-                avatarState.primaryText = avatarData?.primaryText
-                avatarState.secondaryText = avatarData?.secondaryText
-                avatarState.image = avatarData?.image
+                avatarState.primaryText = personaData?.name
+                avatarState.secondaryText = personaData?.email
+                avatarState.image = personaData?.image
+                avatarState.imageBasedRingColor = personaData?.imageBasedRingColor
+                avatarState.hasRingInnerGap = personaData?.hasRingInnerGap ?? true
+                avatarState.isRingVisible = personaData?.isRingVisible ?? false
+                avatarState.presence = personaData?.presence ?? .none
+                avatarState.isOutOfOffice = personaData?.isOutOfOffice ?? false
 
-                let color = avatarData?.color
+                let color = personaData?.color
                 avatarState.backgroundColor = color
                 avatarState.ringColor = color
             }
@@ -174,11 +179,11 @@ class LargeTitleView: UIView {
         let avatar = MSFAvatar(style: preferredFallbackImageStyle,
                                size: Constants.avatarSize)
         let avatarState = avatar.state
-        avatarState.primaryText = avatarData?.primaryText
-        avatarState.secondaryText = avatarData?.secondaryText
-        avatarState.image = avatarData?.image
+        avatarState.primaryText = personaData?.name
+        avatarState.secondaryText = personaData?.email
+        avatarState.image = personaData?.image
 
-        if let color = avatarData?.color {
+        if let color = personaData?.color {
             avatarState.backgroundColor = color
             avatarState.ringColor = color
         }
@@ -323,7 +328,7 @@ class LargeTitleView: UIView {
     // MARK: - Content Update Methods
 
     private func updateProfileButtonVisibility() {
-        showsProfileButton = !hasLeftBarButtonItems && (avatarData != nil || avatarOverrideStyle != nil)
+        showsProfileButton = !hasLeftBarButtonItems && (personaData != nil || avatarOverrideStyle != nil)
     }
 
     /// Sets the interface with the provided item's details

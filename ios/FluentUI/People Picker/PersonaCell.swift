@@ -26,8 +26,8 @@ open class PersonaCell: TableViewCell {
     @objc open func setup(persona: Persona, accessoryType: TableViewCellAccessoryType = .none) {
         let avatar = MSFAvatar(style: .accent, size: Constants.avatarSize)
 
-        avatar.state.primaryText = persona.primaryText
-        avatar.state.secondaryText = persona.secondaryText
+        avatar.state.primaryText = persona.name
+        avatar.state.secondaryText = persona.email
         if let image = persona.image {
             avatar.state.image = image
         }

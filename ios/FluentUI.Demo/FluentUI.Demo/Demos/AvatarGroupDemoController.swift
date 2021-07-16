@@ -186,10 +186,10 @@ class AvatarGroupDemoController: DemoController {
                 let avatarState = avatarGroup.state.createAvatar()
                 let samplePersona = samplePersonas[index]
 
-                avatarState.image = samplePersona.avatarImage
+                avatarState.image = samplePersona.image
                 avatarState.isRingVisible = mixed ? index % 2 == 0 : showBorders
-                avatarState.primaryText = samplePersona.primaryText
-                avatarState.secondaryText = samplePersona.secondaryText
+                avatarState.primaryText = samplePersona.name
+                avatarState.secondaryText = samplePersona.email
             }
 
             avatarGroup.state.maxDisplayedAvatars = maxDisplayedAvatars
