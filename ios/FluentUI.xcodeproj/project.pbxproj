@@ -371,7 +371,6 @@
 		53FC90FA25673627008A06FD /* FluentUIResources.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUIResources.xcconfig; sourceTree = "<group>"; };
 		7D0931C224AAAC8C0072458A /* SideTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideTabBar.swift; sourceTree = "<group>"; };
 		7DC2FB2724C0ED1100367A55 /* TableViewCellFileAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCellFileAccessoryView.swift; sourceTree = "<group>"; };
-		7DC2FB2C24D209E300367A55 /* Presence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Presence.swift; sourceTree = "<group>"; };
 		8035CAAA2633A442007B3FD1 /* BottomCommandingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomCommandingController.swift; sourceTree = "<group>"; };
 		8035CACA26377C14007B3FD1 /* CommandingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandingItem.swift; sourceTree = "<group>"; };
 		8035CADC2638E435007B3FD1 /* CommandingSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandingSection.swift; sourceTree = "<group>"; };
@@ -1049,7 +1048,6 @@
 				5373D5632694D65C0032A3B4 /* MSFAvatarPresence.swift */,
 				5373D5622694D65C0032A3B4 /* MSFAvatarTokens.generated.swift */,
 				B4EF53C2215AF1AB00573E8F /* Persona.swift */,
-				7DC2FB2C24D209E300367A55 /* Presence.swift */,
 			);
 			path = Avatar;
 			sourceTree = "<group>";
