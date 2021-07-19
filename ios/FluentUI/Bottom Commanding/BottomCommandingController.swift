@@ -415,6 +415,8 @@ open class BottomCommandingController: UIViewController {
         if item.isToggleable {
             tabBarItemView.isSelected.toggle()
             item.isOn = tabBarItemView.isSelected
+        } else {
+            bottomSheetController?.isExpanded = false
         }
         item.action?(binding.item)
     }
@@ -748,6 +750,7 @@ extension BottomCommandingController: UITableViewDelegate {
             if presentedViewController != nil {
                 dismiss(animated: true)
             }
+            bottomSheetController?.isExpanded = false
             binding.item.action?(binding.item)
         }
         tableView.deselectRow(at: indexPath, animated: true)
