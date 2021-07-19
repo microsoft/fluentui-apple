@@ -57,9 +57,6 @@ public struct MSFListView: View {
                                 .frame(maxWidth: .infinity)
                         }
                         if section.hasDividers {
-                            if let lastCell = section.cells.last {
-                                let last = findLastCell(lastCell)
-                            }
                             Divider()
                                 .overlay(Color(tokens.borderColor))
                         }
@@ -92,7 +89,13 @@ public struct MSFListView: View {
             section.cells.forEach { cell in
                 cell.hasDivider = section.hasDividers
             }
-            section.cells.last?.hasDivider = false
+            if let last = section.cells.last {
+                if last.children != nil && last.isExpanded {
+                    _ = findLastCell(last)
+                } else {
+                    last.hasDivider = false
+                }
+            }
         }
         return state.sections
     }
