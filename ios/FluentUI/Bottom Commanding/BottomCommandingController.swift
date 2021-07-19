@@ -415,7 +415,7 @@ open class BottomCommandingController: UIViewController {
         if item.isToggleable {
             tabBarItemView.isSelected.toggle()
             item.isOn = tabBarItemView.isSelected
-        } else {
+        } else if item != moreHeroItem { // The more button handles sheet expanding in its own action closure.
             bottomSheetController?.isExpanded = false
         }
         item.action?(binding.item)
