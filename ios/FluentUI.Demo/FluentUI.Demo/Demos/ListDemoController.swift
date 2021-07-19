@@ -59,11 +59,11 @@ class ListDemoController: DemoController {
             children.append(listCell)
             listCell.hasDivider = true
         }
-        children[1].children = subchildren
-        children[1].isExpanded = true
-//        children[1].onTapAction = {
-//            self.showAlertForAvatarTapped(name: samplePersonas[3].name)
-//        }
+        children[0].children = subchildren
+        children[0].isExpanded = true
+        children[1].onTapAction = {
+            self.showAlertForAvatarTapped(name: samplePersonas[3].name)
+        }
 
         /// Custom Leading View with collapsible children items
         listSection = MSFListSectionState()
@@ -80,9 +80,9 @@ class ListDemoController: DemoController {
             listSection.cells.append(listCell)
             listSection.hasDividers = true
         }
-        listSection.cells[1].children = children
-        listSection.cells[1].isExpanded = true
-        listSection.cells[0].onTapAction = {
+        listSection.cells[0].children = children
+        listSection.cells[0].isExpanded = true
+        listSection.cells[1].onTapAction = {
             self.showAlertForAvatarTapped(name: samplePersonas[1].name)
         }
         listData.append(listSection)

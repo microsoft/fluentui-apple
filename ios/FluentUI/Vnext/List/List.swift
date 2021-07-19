@@ -53,19 +53,15 @@ public struct MSFListView: View {
 
                         ForEach(section.cells.indices, id: \.self) { index in
                             let cellState = section.cells[index]
-//                            let cellState = findLastCell(section.cells[index])
                             MSFListCellView(state: cellState)
                                 .frame(maxWidth: .infinity)
                         }
                         if section.hasDividers {
                             if let lastCell = section.cells.last {
                                 let last = findLastCell(lastCell)
-//                                last.hasDivider = !(last.isExpanded)
                             }
-//                            if findLastCell(section.cells.)
                             Divider()
-                                .background(Color.red)
-//                                .overlay(Color(tokens.borderColor))
+                                .overlay(Color(tokens.borderColor))
                         }
                     }
                 }
