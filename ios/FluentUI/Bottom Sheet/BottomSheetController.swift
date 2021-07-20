@@ -11,10 +11,20 @@ public protocol BottomSheetControllerDelegate: AnyObject {
     /// Called after a transition to a new expansion state completes.
     ///
     /// Modifying the `isExpanded` and `isHidden` properties will also cause this to eventually fire when the underlying transition completes.
-    @objc optional func bottomSheetController(_ bottomSheetController: BottomSheetController, didMoveTo expansionState: BottomSheetExpansionState)
+    /// - Parameters:
+    ///   - bottomSheetController: The caller object.
+    ///   - expansionState: The expansion state that the sheet moved to.
+    ///   - interaction: The user interaction that caused the state change.
+    @objc optional func bottomSheetController(_ bottomSheetController: BottomSheetController, didMoveTo expansionState: BottomSheetExpansionState, interaction: BottomSheetInteraction)
 
     /// Called when `collapsedHeightInSafeArea` changes.
     @objc optional func bottomSheetControllerCollapsedHeightInSafeAreaDidChange(_ bottomSheetController: BottomSheetController)
+}
+
+@objc public enum BottomSheetInteraction: Int {
+    case none
+    case swipe
+    case resizingHandleTap
 }
 
 /// Defines the position the sheet is currently in
@@ -309,7 +319,7 @@ public class BottomSheetController: UIViewController {
     // MARK: - Gesture handling
 
     @objc private func handleResizingHandleViewTap(_ sender: UITapGestureRecognizer) {
-        isExpanded.toggle()
+        move(to: isExpanded ? .collapsed : .expanded, interaction: .resizingHandleTap)
     }
 
     private func updateResizingHandleViewAccessibility() {
@@ -414,10 +424,10 @@ public class BottomSheetController: UIViewController {
             // Velocity high enough, animate to the offset we're swiping towards
             targetState = velocity > 0 ? .collapsed : .expanded
         }
-        move(to: targetState, velocity: velocity)
+        move(to: targetState, velocity: velocity, interaction: .swipe)
     }
 
-    private func move(to targetExpansionState: BottomSheetExpansionState, animated: Bool = true, velocity: CGFloat = 0.0, completion: ((UIViewAnimatingPosition) -> Void)? = nil) {
+    private func move(to targetExpansionState: BottomSheetExpansionState, animated: Bool = true, velocity: CGFloat = 0.0, completion: ((UIViewAnimatingPosition) -> Void)? = nil, interaction: BottomSheetInteraction = .none) {
         let targetOffsetFromBottom = offset(for: targetExpansionState)
         currentExpansionState = targetExpansionState
 
@@ -458,14 +468,14 @@ public class BottomSheetController: UIViewController {
 
                 translationAnimator.addCompletion({ [weak self] finalPosition in
                     if finalPosition == .end {
-                        self?.handleCompletedStateChange(to: targetExpansionState)
+                        self?.handleCompletedStateChange(to: targetExpansionState, interaction: interaction)
                     }
                     completion?(finalPosition)
                 })
                 translationAnimator.startAnimation()
             } else {
                 bottomSheetOffsetConstraint.constant = -targetOffsetFromBottom
-                handleCompletedStateChange(to: targetExpansionState)
+                handleCompletedStateChange(to: targetExpansionState, interaction: interaction)
             }
         }
     }
@@ -485,8 +495,8 @@ public class BottomSheetController: UIViewController {
         return offset
     }
 
-    private func handleCompletedStateChange(to targetExpansionState: BottomSheetExpansionState) {
-        self.delegate?.bottomSheetController?(self, didMoveTo: targetExpansionState)
+    private func handleCompletedStateChange(to targetExpansionState: BottomSheetExpansionState, interaction: BottomSheetInteraction = .none) {
+        self.delegate?.bottomSheetController?(self, didMoveTo: targetExpansionState, interaction: interaction)
 
         if targetExpansionState == .collapsed {
             hostedScrollView?.setContentOffset(.zero, animated: true)

@@ -10,6 +10,34 @@ public protocol BottomCommandingControllerDelegate: AnyObject {
 
     /// Called when `collapsedHeightInSafeArea` changes.
     @objc optional func bottomCommandingControllerCollapsedHeightInSafeAreaDidChange(_ bottomCommandingController: BottomCommandingController)
+
+    /// Called after the bottom sheet expansion state changes.
+    /// - Parameters:
+    ///   - bottomCommandingController: The caller object.
+    ///   - expansionState: The expansion state the sheet moved to.
+    ///   - commandingInteraction: If the state change was caused by user interaction, it will be indicated using this enum.
+    ///   - sheetInteraction: If `commandingInteraction` is `.sheetInteraction`, this enum will contain more information about what triggered the state change.
+    @objc optional func bottomCommandingController(_ bottomCommandingController: BottomCommandingController, sheetDidMoveTo expansionState: BottomSheetExpansionState, commandingInteraction: BottomCommandingInteraction, sheetInteraction: BottomSheetInteraction)
+
+    /// Called after the bottom bar popover is presented.
+    /// - Parameters:
+    ///   - bottomCommandingController: The caller object.
+    ///   - commandingInteraction: The user interaction that caused the popover to show.
+    @objc optional func bottomCommandingControllerDidPresentPopover(_ bottomCommandingController: BottomCommandingController, commandingInteraction: BottomCommandingInteraction)
+
+    /// Called after the bottom bar popover is dismissed.
+    /// - Parameters:
+    ///   - bottomCommandingController: The caller object.
+    ///   - commandingInteraction: The user interaction that caused the popover to dismiss.
+    @objc optional func bottomCommandingControllerDidDismissPopover(_ bottomCommandingController: BottomCommandingController, commandingInteraction: BottomCommandingInteraction)
+}
+
+@objc public enum BottomCommandingInteraction: Int {
+    case none
+    case sheetInteraction
+    case moreButtonTap
+    case commandTap
+    case otherUserAction
 }
 
 /// Persistent commanding surface displayed at the bottom of the available area.
@@ -213,7 +241,12 @@ open class BottomCommandingController: UIViewController {
     public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         if presentedViewController != nil {
-            dismiss(animated: false)
+            dismiss(animated: false) { [weak self] in
+                guard let strongSelf = self else {
+                    return
+                }
+                strongSelf.delegate?.bottomCommandingControllerDidDismissPopover?(strongSelf, commandingInteraction: .none)
+            }
         }
     }
 
@@ -254,6 +287,7 @@ open class BottomCommandingController: UIViewController {
         let sheetController = BottomSheetController(headerContentView: commandStackContainer, expandedContentView: makeSheetExpandedContent(with: tableView))
         sheetController.hostedScrollView = tableView
         sheetController.isHidden = isHidden
+        sheetController.delegate = self
 
         addChild(sheetController)
         view.addSubview(sheetController.view)
@@ -416,6 +450,7 @@ open class BottomCommandingController: UIViewController {
             tabBarItemView.isSelected.toggle()
             item.isOn = tabBarItemView.isSelected
         } else if item != moreHeroItem { // The more button handles sheet expanding in its own action closure.
+            mostRecentCommandingInteraction = .commandTap
             bottomSheetController?.isExpanded = false
         }
         item.action?(binding.item)
@@ -424,6 +459,7 @@ open class BottomCommandingController: UIViewController {
     @objc private func handleMoreCommandTap(_ sender: CommandingItem) {
         if isInSheetMode,
            let sheetController = bottomSheetController {
+            mostRecentCommandingInteraction = .moreButtonTap
             sheetController.isExpanded.toggle()
         } else if let binding = itemToBindingMap[sender] {
             let moreButtonView = binding.view
@@ -431,6 +467,7 @@ open class BottomCommandingController: UIViewController {
             popoverContentViewController.view.addSubview(tableView)
             popoverContentViewController.modalPresentationStyle = .popover
             popoverContentViewController.popoverPresentationController?.sourceView = moreButtonView
+            popoverContentViewController.popoverPresentationController?.delegate = self
             popoverContentViewController.preferredContentSize.height = estimatedTableViewHeight
 
             NSLayoutConstraint.activate([
@@ -439,7 +476,12 @@ open class BottomCommandingController: UIViewController {
                 tableView.topAnchor.constraint(equalTo: popoverContentViewController.view.topAnchor),
                 tableView.bottomAnchor.constraint(equalTo: popoverContentViewController.view.bottomAnchor)
             ])
-            present(popoverContentViewController, animated: true)
+            present(popoverContentViewController, animated: true) { [weak self] in
+                guard let strongSelf = self else {
+                    return
+                }
+                strongSelf.delegate?.bottomCommandingControllerDidPresentPopover?(strongSelf, commandingInteraction: .moreButtonTap)
+            }
         }
     }
 
@@ -614,6 +656,10 @@ open class BottomCommandingController: UIViewController {
     // Constraints attaching self.layoutGuide to the current commanding surface (bar or a sheet)
     private var layoutGuideConstraints = [NSLayoutConstraint]()
 
+    // Stores the most recent user commanding interaction to later
+    // be coalesced with delegate calls coming from the sheet controller.
+    private var mostRecentCommandingInteraction: BottomCommandingInteraction = .none
+
     private enum ItemLocation {
         case heroSet
         case list
@@ -748,8 +794,14 @@ extension BottomCommandingController: UITableViewDelegate {
 
         if !binding.item.isToggleable {
             if presentedViewController != nil {
-                dismiss(animated: true)
+                dismiss(animated: true) { [weak self] in
+                    guard let strongSelf = self else {
+                        return
+                    }
+                    strongSelf.delegate?.bottomCommandingControllerDidDismissPopover?(strongSelf, commandingInteraction: .commandTap)
+                }
             }
+            mostRecentCommandingInteraction = .commandTap
             bottomSheetController?.isExpanded = false
             binding.item.action?(binding.item)
         }
@@ -810,5 +862,23 @@ extension BottomCommandingController: CommandingItemDelegate {
         default:
             break
         }
+    }
+}
+
+extension BottomCommandingController: BottomSheetControllerDelegate {
+    public func bottomSheetController(_ bottomSheetController: BottomSheetController, didMoveTo expansionState: BottomSheetExpansionState, interaction: BottomSheetInteraction) {
+        if interaction != .none {
+            mostRecentCommandingInteraction = .sheetInteraction
+        } else if expansionState == .hidden {
+            // Hiding can only happen programmatically
+            mostRecentCommandingInteraction = .none
+        }
+        delegate?.bottomCommandingController?(self, sheetDidMoveTo: expansionState, commandingInteraction: mostRecentCommandingInteraction, sheetInteraction: interaction)
+    }
+}
+
+extension BottomCommandingController: UIPopoverPresentationControllerDelegate {
+    public func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+        delegate?.bottomCommandingControllerDidDismissPopover?(self, commandingInteraction: .otherUserAction)
     }
 }
