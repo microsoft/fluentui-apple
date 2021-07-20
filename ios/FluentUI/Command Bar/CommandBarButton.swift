@@ -74,15 +74,15 @@ class CommandBarButton: UIButton {
             return Colors.communicationBlue
         }
 
-        return Colors.primary(for: window)
+        return UIColor(light: Colors.primary(for: window), dark: .black)
     }
 
     private var selectedBackgroundColor: UIColor {
         guard let window = window else {
-            return Colors.Palette.communicationBlueTint30.color
+            return UIColor(light: Colors.Palette.communicationBlueTint30.color, dark: Colors.Palette.communicationBlue.color)
         }
 
-        return Colors.primaryTint30(for: window)
+        return  UIColor(light: Colors.primaryTint30(for: window), dark: Colors.primary(for: window))
     }
 
     private func updateStyle() {

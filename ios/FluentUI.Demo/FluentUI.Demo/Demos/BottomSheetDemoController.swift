@@ -18,10 +18,12 @@ class BottomSheetDemoController: UIViewController {
         optionTableView.delegate = self
         optionTableView.separatorStyle = .none
         view.addSubview(optionTableView)
+        mainTableView = optionTableView
 
         let bottomSheetViewController = BottomSheetController(headerContentView: headerView, expandedContentView: personaListView)
         bottomSheetViewController.hostedScrollView = personaListView
         bottomSheetViewController.collapsedContentHeight = BottomSheetDemoController.headerHeight
+        bottomSheetViewController.delegate = self
 
         self.bottomSheetViewController = bottomSheetViewController
 
@@ -41,6 +43,8 @@ class BottomSheetDemoController: UIViewController {
         ])
     }
 
+    private var mainTableView: UITableView?
+
     @objc private func toggleExpandable() {
         bottomSheetViewController?.isExpandable.toggle()
     }
@@ -49,12 +53,13 @@ class BottomSheetDemoController: UIViewController {
         bottomSheetViewController?.isHidden.toggle()
     }
 
-    @objc private func fullScreenExpandedOffset() {
-        bottomSheetViewController?.expandedHeightFraction = 1.0
+    @objc private func fullScreenSheetContent() {
+        // This is also the default value which results in a full screen sheet.
+        bottomSheetViewController?.preferredExpandedContentHeight = 0
     }
 
-    @objc private func halfScreenExpandedOffset() {
-        bottomSheetViewController?.expandedHeightFraction = 0.5
+    @objc private func fixedHeightSheetContent() {
+        bottomSheetViewController?.preferredExpandedContentHeight = 400
     }
 
     private let personaListView: PersonaListView = {
@@ -89,8 +94,8 @@ class BottomSheetDemoController: UIViewController {
         return [
             DemoItem(title: "Expandable", type: .boolean, action: #selector(toggleExpandable), isOn: true),
             DemoItem(title: "Hidden", type: .boolean, action: #selector(toggleHidden), isOn: false),
-            DemoItem(title: "Full screen expansion height", type: .action, action: #selector(fullScreenExpandedOffset)),
-            DemoItem(title: "Half screen expansion height", type: .action, action: #selector(halfScreenExpandedOffset))
+            DemoItem(title: "Full screen sheet content", type: .action, action: #selector(fullScreenSheetContent)),
+            DemoItem(title: "Fixed height sheet content", type: .action, action: #selector(fixedHeightSheetContent))
         ]
     }()
 
@@ -172,5 +177,13 @@ extension BottomSheetDemoController: UITableViewDataSource {
         }
 
         return UITableViewCell()
+    }
+}
+
+extension BottomSheetDemoController: BottomSheetControllerDelegate {
+    func bottomSheetControllerCollapsedSheetHeightDidChange(_ bottomSheetController: BottomSheetController) {
+        if let tableView = mainTableView {
+            tableView.contentInset.bottom = bottomSheetController.collapsedHeightInSafeArea
+        }
     }
 }
