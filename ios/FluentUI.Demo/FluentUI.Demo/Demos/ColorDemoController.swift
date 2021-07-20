@@ -146,7 +146,8 @@ class ColorDemoController: UIViewController {
 
     @objc private func segmentedControlValueChanged(sender: Any) {
         if let segmentedControl = sender as? SegmentedControl {
-            let windowType = colorProviderThemes[segmentedControl.selectedSegmentIndex].demoColorTheme.windowType
+            let selectedSegmentIndex = segmentedControl.selectedSegmentIndex
+            let windowType = colorProviderThemes[selectedSegmentIndex].demoColorTheme.windowType
             let colorThemeHost = view.window?.windowScene?.delegate as? ColorThemeHosting
             ColorDemoController.themeWindowType = windowType
 
@@ -155,10 +156,12 @@ class ColorDemoController: UIViewController {
                 colorThemeHost?.updateToWindowWith(type: windowType, pushing: self)
             }
 
-            let window = colorProviderThemes[segmentedControl.selectedSegmentIndex].demoColorTheme.window
+            let window = colorProviderThemes[selectedSegmentIndex].demoColorTheme.window
             if let colorProvider = window as? ColorProviding {
                 Colors.setProvider(provider: colorProvider, for: window)
             }
+
+            UIAccessibility.post(notification: .screenChanged, argument: segmentedControl.segmentView(at: selectedSegmentIndex))
         }
 
         tableView.reloadData()
