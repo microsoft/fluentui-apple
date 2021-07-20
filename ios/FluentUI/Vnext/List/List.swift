@@ -58,8 +58,7 @@ public struct MSFListView: View {
                         }
                         if section.hasDividers {
                             Divider()
-                                .background(Color.red)
-//                                .overlay(Color(tokens.borderColor))
+                                .overlay(Color(tokens.borderColor))
                         }
                     }
                 }
