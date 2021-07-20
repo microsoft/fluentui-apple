@@ -27,6 +27,8 @@ import SwiftUI
 ///
 /// `onTapAction`: perform an action on a cell tap.
 ///
+/// `hasDivider`:  displays a separator beneath the cell; default is set to `false`.
+///
 @objc public class MSFListCellState: NSObject, ObservableObject, Identifiable {
     public var id = UUID()
 
@@ -283,7 +285,8 @@ struct MSFListCellView: View {
                 let padding = tokens.horizontalCellPadding +
                     (state.leadingView != nil ? (tokens.leadingViewSize + tokens.iconInterspace) : 0)
                 Divider()
-                    .overlay(Color(tokens.borderColor))
+                    .background(Color.red)
+//                    .overlay(Color(tokens.borderColor))
                     .padding(.leading, padding)
             }
 

@@ -58,7 +58,8 @@ public struct MSFListView: View {
                         }
                         if section.hasDividers {
                             Divider()
-                                .overlay(Color(tokens.borderColor))
+                                .background(Color.red)
+//                                .overlay(Color(tokens.borderColor))
                         }
                     }
                 }
@@ -70,18 +71,21 @@ public struct MSFListView: View {
                           with: windowProvider)
     }
 
+    /// Finds the last cell directly adjacent to the end of a list section. This is used to remove the redundant separator that is
+    /// inserted between each cell. Used as a fix until we are able to use the new List Separators in iOS 15.
     private func findLastCell(_ lastCell: MSFListCellState) -> MSFListCellState {
         if let children = lastCell.children {
-            return lastDivider(findLastCell(children[children.count - 1]))
+            if lastCell.isExpanded {
+                guard let lastChild = children.last else {
+                    preconditionFailure("Does not contain any children cells")
+                }
+                return findLastCell(lastChild)
+            } else {
+                return lastCell
+            }
         } else {
-            return lastDivider(lastCell)
+            return lastCell
         }
-    }
-
-    private func lastDivider(_ cell: MSFListCellState) -> MSFListCellState {
-        let state = cell
-        state.hasDivider = false
-        return state
     }
 
     private func updateCellDividers() -> [MSFListSectionState] {
@@ -89,12 +93,9 @@ public struct MSFListView: View {
             section.cells.forEach { cell in
                 cell.hasDivider = section.hasDividers
             }
-            if let last = section.cells.last {
-                if last.children != nil && last.isExpanded {
-                    _ = findLastCell(last)
-                } else {
-                    last.hasDivider = false
-                }
+            if let lastCell = section.cells.last {
+                let adjacent = findLastCell(lastCell)
+                adjacent.hasDivider = false
             }
         }
         return state.sections
