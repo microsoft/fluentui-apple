@@ -427,7 +427,7 @@ public class BottomSheetController: UIViewController {
         move(to: targetState, velocity: velocity, interaction: .swipe)
     }
 
-    private func move(to targetExpansionState: BottomSheetExpansionState, animated: Bool = true, velocity: CGFloat = 0.0, completion: ((UIViewAnimatingPosition) -> Void)? = nil, interaction: BottomSheetInteraction = .none) {
+    private func move(to targetExpansionState: BottomSheetExpansionState, animated: Bool = true, velocity: CGFloat = 0.0, interaction: BottomSheetInteraction = .none, completion: ((UIViewAnimatingPosition) -> Void)? = nil) {
         let targetOffsetFromBottom = offset(for: targetExpansionState)
         currentExpansionState = targetExpansionState
 
