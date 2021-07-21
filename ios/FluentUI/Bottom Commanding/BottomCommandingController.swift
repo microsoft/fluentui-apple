@@ -34,6 +34,7 @@ public protocol BottomCommandingControllerDelegate: AnyObject {
     @objc optional func bottomCommandingControllerDidDismissPopover(_ bottomCommandingController: BottomCommandingController, commandingInteraction: BottomCommandingInteraction)
 }
 
+/// User interactions that can trigger a state change.
 @objc public enum BottomCommandingInteraction: Int {
     case none
     case sheetInteraction

@@ -21,6 +21,7 @@ public protocol BottomSheetControllerDelegate: AnyObject {
     @objc optional func bottomSheetControllerCollapsedHeightInSafeAreaDidChange(_ bottomSheetController: BottomSheetController)
 }
 
+/// User interactions that can trigger a state change.
 @objc public enum BottomSheetInteraction: Int {
     case none
     case swipe
