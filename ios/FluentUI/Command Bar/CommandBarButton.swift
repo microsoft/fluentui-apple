@@ -37,6 +37,7 @@ class CommandBarButton: UIButton {
 
         let accessibilityDescription = item.accessibilityLabel
         accessibilityLabel = (accessibilityDescription != nil) ? accessibilityDescription : item.title
+        accessibilityHint = item.accessibilityHint
         contentEdgeInsets = CommandBarButton.contentEdgeInsets
 
         if #available(iOS 14.0, *) {
@@ -65,6 +66,7 @@ class CommandBarButton: UIButton {
         titleLabel?.isEnabled = isEnabled
         titleLabel?.font = item.titleFont
         accessibilityLabel = (accessibilityDescription != nil) ? accessibilityDescription : title
+        accessibilityHint = item.accessibilityHint
     }
 
     private let isPersistSelection: Bool
