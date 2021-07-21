@@ -79,12 +79,9 @@ public struct MSFListView: View {
                     preconditionFailure("Does not contain any children cells")
                 }
                 return findLastCell(lastChild)
-            } else {
-                return lastCell
             }
-        } else {
-            return lastCell
         }
+        return lastCell
     }
 
     private func updateCellDividers() -> [MSFListSectionState] {
@@ -92,9 +89,8 @@ public struct MSFListView: View {
             section.cells.forEach { cell in
                 cell.hasDivider = section.hasDividers
             }
-            if let lastCell = section.cells.last {
-                let adjacent = findLastCell(lastCell)
-                adjacent.hasDivider = false
+            if let lastCell = section.cells.last, section.hasDividers {
+                findLastCell(lastCell).hasDivider = false
             }
         }
         return state.sections
