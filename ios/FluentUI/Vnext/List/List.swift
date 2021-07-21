@@ -89,7 +89,7 @@ public struct MSFListView: View {
             section.cells.forEach { cell in
                 cell.hasDivider = section.hasDividers
             }
-            if let lastCell = section.cells.last, section.hasDividers {
+            if section.hasDividers, let lastCell = section.cells.last {
                 findLastCell(lastCell).hasDivider = false
             }
         }
