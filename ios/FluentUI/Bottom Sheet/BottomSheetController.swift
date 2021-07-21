@@ -15,17 +15,19 @@ public protocol BottomSheetControllerDelegate: AnyObject {
     ///   - bottomSheetController: The caller object.
     ///   - expansionState: The expansion state that the sheet moved to.
     ///   - interaction: The user interaction that caused the state change.
-    @objc optional func bottomSheetController(_ bottomSheetController: BottomSheetController, didMoveTo expansionState: BottomSheetExpansionState, interaction: BottomSheetInteraction)
+    @objc optional func bottomSheetController(_ bottomSheetController: BottomSheetController,
+                                              didMoveTo expansionState: BottomSheetExpansionState,
+                                              interaction: BottomSheetInteraction)
 
     /// Called when `collapsedHeightInSafeArea` changes.
     @objc optional func bottomSheetControllerCollapsedHeightInSafeAreaDidChange(_ bottomSheetController: BottomSheetController)
 }
 
-/// User interactions that can trigger a state change.
+/// Interactions that can trigger a state change.
 @objc public enum BottomSheetInteraction: Int {
-    case none
-    case swipe
-    case resizingHandleTap
+    case noUserAction // No user action, used for events not triggered by users
+    case swipe // Swipe on the sheet view
+    case resizingHandleTap // Tap on the sheet resizing handle
 }
 
 /// Defines the position the sheet is currently in
@@ -473,7 +475,7 @@ public class BottomSheetController: UIViewController {
     private func move(to targetExpansionState: BottomSheetExpansionState,
                       animated: Bool = true,
                       velocity: CGFloat = 0.0,
-                      interaction: BottomSheetInteraction = .none,
+                      interaction: BottomSheetInteraction = .noUserAction,
                       shouldNotifyDelegate: Bool = true,
                       completion: ((UIViewAnimatingPosition) -> Void)? = nil) {
         let targetOffsetFromBottom = offset(for: targetExpansionState)
@@ -545,7 +547,7 @@ public class BottomSheetController: UIViewController {
     }
 
     private func handleCompletedStateChange(to targetExpansionState: BottomSheetExpansionState,
-                                            interaction: BottomSheetInteraction = .none,
+                                            interaction: BottomSheetInteraction = .noUserAction,
                                             shouldNotifyDelegate: Bool = true) {
         if shouldNotifyDelegate {
             self.delegate?.bottomSheetController?(self, didMoveTo: targetExpansionState, interaction: interaction)

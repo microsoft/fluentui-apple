@@ -19,28 +19,33 @@ public protocol BottomCommandingControllerDelegate: AnyObject {
     ///   - expansionState: The expansion state the sheet moved to.
     ///   - commandingInteraction: If the state change was caused by user interaction, it will be indicated using this enum.
     ///   - sheetInteraction: If `commandingInteraction` is `.sheetInteraction`, this enum will contain more information about what triggered the state change.
-    @objc optional func bottomCommandingController(_ bottomCommandingController: BottomCommandingController, sheetDidMoveTo expansionState: BottomSheetExpansionState, commandingInteraction: BottomCommandingInteraction, sheetInteraction: BottomSheetInteraction)
+    @objc optional func bottomCommandingController(_ bottomCommandingController: BottomCommandingController,
+                                                   sheetDidMoveTo expansionState: BottomSheetExpansionState,
+                                                   commandingInteraction: BottomCommandingInteraction,
+                                                   sheetInteraction: BottomSheetInteraction)
 
     /// Called after the bottom bar popover is presented.
     /// - Parameters:
     ///   - bottomCommandingController: The caller object.
     ///   - commandingInteraction: The user interaction that caused the popover to show.
-    @objc optional func bottomCommandingControllerDidPresentPopover(_ bottomCommandingController: BottomCommandingController, commandingInteraction: BottomCommandingInteraction)
+    @objc optional func bottomCommandingController(_ bottomCommandingController: BottomCommandingController,
+                                                   didPresentPopoverWith commandingInteraction: BottomCommandingInteraction)
 
     /// Called after the bottom bar popover is dismissed.
     /// - Parameters:
     ///   - bottomCommandingController: The caller object.
     ///   - commandingInteraction: The user interaction that caused the popover to dismiss.
-    @objc optional func bottomCommandingControllerDidDismissPopover(_ bottomCommandingController: BottomCommandingController, commandingInteraction: BottomCommandingInteraction)
+    @objc optional func bottomCommandingController(_ bottomCommandingController: BottomCommandingController,
+                                                   didDismissPopoverWith commandingInteraction: BottomCommandingInteraction)
 }
 
-/// User interactions that can trigger a state change.
+/// Interactions that can trigger a state change.
 @objc public enum BottomCommandingInteraction: Int {
-    case none
-    case sheetInteraction
-    case moreButtonTap
-    case commandTap
-    case otherUserAction
+    case noUserAction // No user action, used for events not triggered by users
+    case otherUserAction // Any other user action not listed below
+    case sheetInteraction // General sheet interaction
+    case moreButtonTap // Tap on the more hero command
+    case commandTap // Tap on any command
 }
 
 /// Persistent commanding surface displayed at the bottom of the available area.
@@ -275,7 +280,7 @@ open class BottomCommandingController: UIViewController {
                 guard let strongSelf = self else {
                     return
                 }
-                strongSelf.delegate?.bottomCommandingControllerDidDismissPopover?(strongSelf, commandingInteraction: .none)
+                strongSelf.delegate?.bottomCommandingController?(strongSelf, didDismissPopoverWith: .noUserAction)
             }
         }
     }
@@ -507,7 +512,7 @@ open class BottomCommandingController: UIViewController {
                 guard let strongSelf = self else {
                     return
                 }
-                strongSelf.delegate?.bottomCommandingControllerDidPresentPopover?(strongSelf, commandingInteraction: .moreButtonTap)
+                strongSelf.delegate?.bottomCommandingController?(strongSelf, didPresentPopoverWith: .moreButtonTap)
             }
         }
     }
@@ -519,7 +524,7 @@ open class BottomCommandingController: UIViewController {
                 return
             }
             if isFinished {
-                strongSelf.delegate?.bottomCommandingController?(strongSelf, sheetDidMoveTo: targetState, commandingInteraction: commandingInteraction, sheetInteraction: .none)
+                strongSelf.delegate?.bottomCommandingController?(strongSelf, sheetDidMoveTo: targetState, commandingInteraction: commandingInteraction, sheetInteraction: .noUserAction)
             }
         }
     }
@@ -833,7 +838,7 @@ extension BottomCommandingController: UITableViewDelegate {
                     guard let strongSelf = self else {
                         return
                     }
-                    strongSelf.delegate?.bottomCommandingControllerDidDismissPopover?(strongSelf, commandingInteraction: .commandTap)
+                    strongSelf.delegate?.bottomCommandingController?(strongSelf, didDismissPopoverWith: .commandTap)
                 }
             }
             setSheetIsExpanded(to: false, commandingInteraction: .commandTap)
@@ -901,13 +906,13 @@ extension BottomCommandingController: CommandingItemDelegate {
 
 extension BottomCommandingController: BottomSheetControllerDelegate {
     public func bottomSheetController(_ bottomSheetController: BottomSheetController, didMoveTo expansionState: BottomSheetExpansionState, interaction: BottomSheetInteraction) {
-        let commandingInteraction: BottomCommandingInteraction = interaction == .none ? .none : .sheetInteraction
+        let commandingInteraction: BottomCommandingInteraction = interaction == .noUserAction ? .noUserAction : .sheetInteraction
         delegate?.bottomCommandingController?(self, sheetDidMoveTo: expansionState, commandingInteraction: commandingInteraction, sheetInteraction: interaction)
     }
 }
 
 extension BottomCommandingController: UIPopoverPresentationControllerDelegate {
     public func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
-        delegate?.bottomCommandingControllerDidDismissPopover?(self, commandingInteraction: .otherUserAction)
+        delegate?.bottomCommandingController?(self, didDismissPopoverWith: .otherUserAction)
     }
 }
