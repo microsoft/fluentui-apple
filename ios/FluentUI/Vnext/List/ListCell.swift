@@ -27,6 +27,8 @@ import SwiftUI
 ///
 /// `onTapAction`: perform an action on a cell tap.
 ///
+/// `hasDivider`:  displays a separator beneath the cell. Default is set to `false`.
+///
 @objc public class MSFListCellState: NSObject, ObservableObject, Identifiable {
     public var id = UUID()
 

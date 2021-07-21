@@ -43,6 +43,7 @@ class ListDemoController: DemoController {
         listCell.onTapAction = {
             self.showAlertForAvatarTapped(name: samplePersonas[4].name)
         }
+        listCell.hasDivider = true
         subchildren.append(listCell)
 
         /// Children list items
@@ -56,6 +57,7 @@ class ListDemoController: DemoController {
             listCell.title = avatar.state.primaryText ?? ""
             listCell.leadingUIView = avatar.view
             children.append(listCell)
+            listCell.hasDivider = true
         }
         children[0].children = subchildren
         children[0].isExpanded = true
@@ -76,6 +78,7 @@ class ListDemoController: DemoController {
             listCell.title = avatar.state.primaryText ?? ""
             listCell.leadingUIView = avatar.view
             listSection.cells.append(listCell)
+            listSection.hasDividers = true
         }
         listSection.cells[0].children = children
         listSection.cells[0].isExpanded = true
