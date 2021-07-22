@@ -780,6 +780,11 @@ extension BottomCommandingController: UITableViewDelegate {
 extension BottomCommandingController: CommandingItemDelegate {
     func commandingItem(_ item: CommandingItem, didChangeTitleTo value: String?) {
         reloadView(from: item)
+
+        if let binding = itemToBindingMap[item], binding.location == .heroSet {
+            // A title change in the hero set can cause a sheet size change, so we need to recalculate
+            updateSheetSizingParameters()
+        }
     }
 
     func commandingItem(_ item: CommandingItem, didChangeImageTo value: UIImage?) {
