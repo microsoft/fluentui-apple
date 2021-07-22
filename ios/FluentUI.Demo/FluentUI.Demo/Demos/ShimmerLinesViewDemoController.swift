@@ -3,6 +3,7 @@
 //  Licensed under the MIT License.
 //
 
+import FluentUI
 import UIKit
 
 class ShimmerViewDemoController: DemoController {

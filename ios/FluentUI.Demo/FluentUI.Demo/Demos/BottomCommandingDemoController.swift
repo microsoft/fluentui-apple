@@ -11,6 +11,8 @@ class BottomCommandingDemoController: UIViewController {
         view = UIView()
 
         let optionTableViewController = UITableViewController(style: .plain)
+        mainTableViewController = optionTableViewController
+
         let optionTableView: UITableView = optionTableViewController.tableView
         optionTableView.translatesAutoresizingMaskIntoConstraints = false
         optionTableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
@@ -23,6 +25,7 @@ class BottomCommandingDemoController: UIViewController {
         let bottomCommandingVC = BottomCommandingController(with: optionTableViewController)
         bottomCommandingVC.heroItems = heroItems
         bottomCommandingVC.expandedListSections = shortCommandSectionList
+        bottomCommandingVC.delegate = self
 
         addChild(bottomCommandingVC)
         view.addSubview(bottomCommandingVC.view)
@@ -37,6 +40,8 @@ class BottomCommandingDemoController: UIViewController {
             bottomCommandingVC.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
+
+    private var mainTableViewController: UITableViewController?
 
     private lazy var heroItems: [CommandingItem] = {
         return Array(1...4).map {
@@ -302,5 +307,13 @@ extension BottomCommandingDemoController: UITableViewDataSource {
         }
 
         return UITableViewCell()
+    }
+}
+
+extension BottomCommandingDemoController: BottomCommandingControllerDelegate {
+    func bottomCommandingControllerCollapsedHeightInSafeAreaDidChange(_ bottomCommandingController: BottomCommandingController) {
+        if let tableView = mainTableViewController?.tableView {
+            tableView.contentInset.bottom = bottomCommandingController.collapsedHeightInSafeArea
+        }
     }
 }

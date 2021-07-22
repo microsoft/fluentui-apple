@@ -149,7 +149,7 @@ public final class Colors: NSObject {
 		case presenceUnknown
 
 		public var color: NSColor {
-			if let fluentColor = NSColor(named: "FluentColors/" + self.name, bundle: FluentUIResources.resourceBundle) {
+			if let fluentColor = NSColor(named: "FluentColors/" + self.name, bundle: FluentUIResources.colorsBundle) {
 				return fluentColor
 			} else {
 				preconditionFailure("invalid fluent color")

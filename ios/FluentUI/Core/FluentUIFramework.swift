@@ -3,6 +3,10 @@
 //  Licensed under the MIT License.
 //
 
+/// Note: SWIFT_PACKAGE is automatically defined whenever the code is being built by the Swift Package Manager.
+#if SWIFT_PACKAGE
+import FluentUIResources
+#endif
 import UIKit
 
 // MARK: Colors
@@ -32,10 +36,21 @@ public extension Colors {
 public class FluentUIFramework: NSObject {
     @objc public static var bundle: Bundle { return Bundle(for: self) }
     @objc public static let resourceBundle: Bundle = {
+        #if SWIFT_PACKAGE
+        return Bundle.module
+        #else
         guard let url = bundle.resourceURL?.appendingPathComponent("FluentUIResources-ios.bundle", isDirectory: true), let bundle = Bundle(url: url) else {
             preconditionFailure("FluentUI resource bundle is not found")
         }
         return bundle
+        #endif
+    }()
+    @objc public static let colorsBundle: Bundle = {
+        #if SWIFT_PACKAGE
+        return SharedResources.colorsBundle
+        #else
+        return resourceBundle
+        #endif
     }()
 
     @available(*, deprecated, message: "Non-fluent icons no longer supported. Setting this var no longer has any effect and it will be removed in a future update.")
