@@ -179,7 +179,6 @@ open class BottomCommandingController: UIViewController {
         if let contentViewController = contentViewController {
             addChildContentViewController(contentViewController)
         }
-        delegate?.bottomCommandingControllerCollapsedHeightInSafeAreaDidChange?(self)
     }
 
     public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -202,7 +201,6 @@ open class BottomCommandingController: UIViewController {
             } else {
                 setupBottomSheetLayout()
             }
-            delegate?.bottomCommandingControllerCollapsedHeightInSafeAreaDidChange?(self)
         }
 
         if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
@@ -240,6 +238,8 @@ open class BottomCommandingController: UIViewController {
         bottomBarViewBottomConstraint = bottomConstraint
         self.bottomBarView = bottomBarView
         reloadHeroCommandStack()
+
+        delegate?.bottomCommandingControllerCollapsedHeightInSafeAreaDidChange?(self)
     }
 
     private func setupBottomSheetLayout() {
@@ -253,6 +253,7 @@ open class BottomCommandingController: UIViewController {
         let sheetController = BottomSheetController(headerContentView: commandStackContainer, expandedContentView: makeSheetExpandedContent(with: tableView))
         sheetController.hostedScrollView = tableView
         sheetController.isHidden = isHidden
+        sheetController.delegate = self
 
         addChild(sheetController)
         view.addSubview(sheetController.view)
@@ -557,7 +558,6 @@ open class BottomCommandingController: UIViewController {
 
         if newHeaderHeight != oldHeaderHeight {
             bottomSheetController.collapsedContentHeight = newHeaderHeight
-            delegate?.bottomCommandingControllerCollapsedHeightInSafeAreaDidChange?(self)
         }
     }
 
@@ -830,5 +830,11 @@ extension BottomCommandingController: CommandingItemDelegate {
         default:
             break
         }
+    }
+}
+
+extension BottomCommandingController: BottomSheetControllerDelegate {
+    public func bottomSheetControllerCollapsedHeightInSafeAreaDidChange(_ bottomSheetController: BottomSheetController) {
+        delegate?.bottomCommandingControllerCollapsedHeightInSafeAreaDidChange?(self)
     }
 }
