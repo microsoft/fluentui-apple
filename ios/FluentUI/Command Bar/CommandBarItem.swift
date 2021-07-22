@@ -18,7 +18,7 @@ open class CommandBarItem: NSObject {
         isEnabled: Bool = true,
         isSelected: Bool = false,
         itemTappedHandler: @escaping ItemTappedHandler = defaultItemTappedHandler,
-        accessbilityLabel: String? = nil,
+        accessibilityLabel: String? = nil,
         accessibilityHint: String? = nil
     ) {
         self.iconImage = iconImage
@@ -30,7 +30,7 @@ open class CommandBarItem: NSObject {
 
         super.init()
 
-        self.accessibilityLabel = accessbilityLabel
+        self.accessibilityLabel = accessibilityLabel
         self.accessibilityHint = accessibilityHint
     }
 
@@ -44,7 +44,7 @@ open class CommandBarItem: NSObject {
         itemTappedHandler: @escaping ItemTappedHandler = defaultItemTappedHandler,
         menu: UIMenu,
         showsMenuAsPrimaryAction: Bool = false,
-        accessbilityLabel: String? = nil,
+        accessibilityLabel: String? = nil,
         accessibilityHint: String? = nil
     ) {
         self.iconImage = iconImage
@@ -58,7 +58,7 @@ open class CommandBarItem: NSObject {
 
         self.menu = menu
         self.showsMenuAsPrimaryAction = showsMenuAsPrimaryAction
-        self.accessibilityLabel = accessbilityLabel
+        self.accessibilityLabel = accessibilityLabel
         self.accessibilityHint = accessibilityHint
     }
 
