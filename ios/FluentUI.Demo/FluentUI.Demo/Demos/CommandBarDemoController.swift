@@ -252,7 +252,8 @@ class CommandBarDemoController: DemoController {
             isSelected: isSelected,
             itemTappedHandler: { [weak self] (_, item) in
                 self?.handleCommandItemTapped(command: command, item: item)
-            }
+            },
+            accessibilityHint: "sample accessibility hint"
         )
     }
 
