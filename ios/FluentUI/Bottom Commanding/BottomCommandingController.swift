@@ -170,11 +170,7 @@ open class BottomCommandingController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.addLayoutGuide(commandingLayoutGuide)
 
-        if traitCollection.horizontalSizeClass == .regular {
-            setupBottomBarLayout()
-        } else {
-            setupBottomSheetLayout()
-        }
+        setupCommandingLayout()
 
         if let contentViewController = contentViewController {
             addChildContentViewController(contentViewController)
@@ -197,11 +193,7 @@ open class BottomCommandingController: UIViewController {
             bottomBarView?.removeFromSuperview()
             bottomBarView = nil
 
-            if traitCollection.horizontalSizeClass == .regular {
-                setupBottomBarLayout()
-            } else {
-                setupBottomSheetLayout()
-            }
+            setupCommandingLayout()
             delegate?.bottomCommandingControllerCollapsedHeightInSafeAreaDidChange?(self)
         }
 
@@ -214,6 +206,14 @@ open class BottomCommandingController: UIViewController {
         super.viewWillTransition(to: size, with: coordinator)
         if presentedViewController != nil {
             dismiss(animated: false)
+        }
+    }
+
+    private func setupCommandingLayout() {
+        if traitCollection.horizontalSizeClass == .regular && traitCollection.userInterfaceIdiom == .pad {
+            setupBottomBarLayout()
+        } else {
+            setupBottomSheetLayout()
         }
     }
 
