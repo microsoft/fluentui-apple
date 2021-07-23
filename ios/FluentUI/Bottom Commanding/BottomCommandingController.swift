@@ -10,6 +10,42 @@ public protocol BottomCommandingControllerDelegate: AnyObject {
 
     /// Called when `collapsedHeightInSafeArea` changes.
     @objc optional func bottomCommandingControllerCollapsedHeightInSafeAreaDidChange(_ bottomCommandingController: BottomCommandingController)
+
+    /// Called after the bottom sheet expansion state changes.
+    ///
+    /// External changes to `isHidden` will not trigger this callback.
+    /// - Parameters:
+    ///   - bottomCommandingController: The caller object.
+    ///   - expansionState: The expansion state the sheet moved to.
+    ///   - commandingInteraction: If the state change was caused by user interaction, it will be indicated using this enum.
+    ///   - sheetInteraction: If `commandingInteraction` is `.sheetInteraction`, this enum will contain more information about what triggered the state change.
+    @objc optional func bottomCommandingController(_ bottomCommandingController: BottomCommandingController,
+                                                   sheetDidMoveTo expansionState: BottomSheetExpansionState,
+                                                   commandingInteraction: BottomCommandingInteraction,
+                                                   sheetInteraction: BottomSheetInteraction)
+
+    /// Called after the bottom bar popover is presented.
+    /// - Parameters:
+    ///   - bottomCommandingController: The caller object.
+    ///   - commandingInteraction: The user interaction that caused the popover to show.
+    @objc optional func bottomCommandingController(_ bottomCommandingController: BottomCommandingController,
+                                                   didPresentPopoverWith commandingInteraction: BottomCommandingInteraction)
+
+    /// Called after the bottom bar popover is dismissed.
+    /// - Parameters:
+    ///   - bottomCommandingController: The caller object.
+    ///   - commandingInteraction: The user interaction that caused the popover to dismiss.
+    @objc optional func bottomCommandingController(_ bottomCommandingController: BottomCommandingController,
+                                                   didDismissPopoverWith commandingInteraction: BottomCommandingInteraction)
+}
+
+/// Interactions that can trigger a state change.
+@objc public enum BottomCommandingInteraction: Int {
+    case noUserAction // No user action, used for events not triggered by users
+    case otherUserAction // Any other user action not listed below
+    case sheetInteraction // General sheet interaction
+    case moreButtonTap // Tap on the more hero command
+    case commandTap // Tap on any command
 }
 
 /// Persistent commanding surface displayed at the bottom of the available area.
@@ -89,38 +125,18 @@ open class BottomCommandingController: UIViewController {
     /// Indicates if the bottom commanding UI is hidden
     ///
     /// Changes to this property are animated.
-    @objc open var isHidden: Bool = false {
-        didSet {
-            if oldValue != isHidden && isViewLoaded {
-                if isInSheetMode {
-                    bottomSheetController?.isHidden = isHidden
-                } else if let bottomBarView = bottomBarView,
-                          let bottomConstraint = bottomBarViewBottomConstraint {
-                    if let animator = bottomBarHidingAnimator {
-                        animator.stopAnimation(true)
-                    }
-
-                    let springParams = UISpringTimingParameters(dampingRatio: Constants.BottomBar.hidingSpringDamping)
-                    let newAnimator = UIViewPropertyAnimator(duration: Constants.BottomBar.hidingSpringDuration, timingParameters: springParams)
-                    if isHidden {
-                        bottomConstraint.constant = -Constants.BottomBar.hiddenBottomOffset
-                        newAnimator.addCompletion { _ in
-                            bottomBarView.isHidden = true
-                        }
-                    } else {
-                        bottomBarView.isHidden = false
-                        bottomConstraint.constant = -Constants.BottomBar.bottomOffset
-                    }
-                    newAnimator.addAnimations { [weak self] in
-                        self?.view.layoutIfNeeded()
-                    }
-
-                    newAnimator.startAnimation()
-                    bottomBarHidingAnimator = newAnimator
-                }
-            }
+    @objc open var isHidden: Bool {
+        get {
+            return bottomSheetController?.isHidden ?? _isHidden
+        }
+        set {
+            setIsHidden(newValue)
         }
     }
+
+    /// When in sheet layout, `BottomSheetController` holds it's own `isHidden` state which is the main
+    /// source of truth and the public getter will return that instead of this backing variable.
+    private var _isHidden: Bool = false
 
     /// Indicates whether a more button is visible in the sheet style when `expandedListSections` is non-empty.
     /// Tapping the button will expand or collapse the sheet.
@@ -152,6 +168,52 @@ open class BottomCommandingController: UIViewController {
     /// The object that acts as the delegate of this controller.
     @objc open weak var delegate: BottomCommandingControllerDelegate?
 
+    /// Sets the `isHidden` property with a completion handler.
+    /// - Parameters:
+    ///   - isHidden: The new value.
+    ///   - animated: Indicates if the change should be animated. The default value is `true`.
+    ///   - completion: Closure to be called when the state change completes.
+    @objc public func setIsHidden(_ isHidden: Bool, animated: Bool = true, completion: ((_ isFinished: Bool) -> Void)? = nil) {
+        if isViewLoaded {
+            if isInSheetMode {
+                bottomSheetController?.setIsHidden(isHidden, animated: animated, completion: completion)
+            } else if let bottomBarView = bottomBarView,
+                      let bottomConstraint = bottomBarViewBottomConstraint {
+                if let animator = bottomBarHidingAnimator {
+                    animator.stopAnimation(true)
+                }
+
+                if animated {
+                    let springParams = UISpringTimingParameters(dampingRatio: Constants.BottomBar.hidingSpringDamping)
+                    let newAnimator = UIViewPropertyAnimator(duration: Constants.BottomBar.hidingSpringDuration, timingParameters: springParams)
+                    if isHidden {
+                        bottomConstraint.constant = -Constants.BottomBar.hiddenBottomOffset
+                        newAnimator.addCompletion { _ in
+                            bottomBarView.isHidden = true
+                        }
+                    } else {
+                        bottomBarView.isHidden = false
+                        bottomConstraint.constant = -Constants.BottomBar.bottomOffset
+                    }
+                    newAnimator.addAnimations { [weak self] in
+                        self?.view.layoutIfNeeded()
+                    }
+                    newAnimator.addCompletion { finalPosition in
+                        completion?(finalPosition == .end)
+                    }
+
+                    newAnimator.startAnimation()
+                    bottomBarHidingAnimator = newAnimator
+                } else {
+                    bottomConstraint.constant = isHidden ? -Constants.BottomBar.hiddenBottomOffset : -Constants.BottomBar.bottomOffset
+                    bottomBarView.isHidden = isHidden
+                    completion?(true)
+                }
+            }
+        }
+        _isHidden = isHidden
+    }
+
     /// Initializes the bottom commanding controller with a given content view controller.
     /// - Parameter contentViewController: View controller that will be displayed below the bottom commanding UI.
     @objc public init(with contentViewController: UIViewController?) {
@@ -171,11 +233,7 @@ open class BottomCommandingController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.addLayoutGuide(commandingLayoutGuide)
 
-        if traitCollection.horizontalSizeClass == .regular {
-            setupBottomBarLayout()
-        } else {
-            setupBottomSheetLayout()
-        }
+        setupCommandingLayout()
 
         if let contentViewController = contentViewController {
             addChildContentViewController(contentViewController)
@@ -197,11 +255,7 @@ open class BottomCommandingController: UIViewController {
             bottomBarView?.removeFromSuperview()
             bottomBarView = nil
 
-            if traitCollection.horizontalSizeClass == .regular {
-                setupBottomBarLayout()
-            } else {
-                setupBottomSheetLayout()
-            }
+            setupCommandingLayout()
         }
 
         if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
@@ -216,7 +270,20 @@ open class BottomCommandingController: UIViewController {
     public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         if presentedViewController != nil {
-            dismiss(animated: false)
+            dismiss(animated: false) { [weak self] in
+                guard let strongSelf = self else {
+                    return
+                }
+                strongSelf.delegate?.bottomCommandingController?(strongSelf, didDismissPopoverWith: .noUserAction)
+            }
+        }
+    }
+
+    private func setupCommandingLayout() {
+        if traitCollection.horizontalSizeClass == .regular && traitCollection.userInterfaceIdiom == .pad {
+            setupBottomBarLayout()
+        } else {
+            setupBottomSheetLayout()
         }
     }
 
@@ -409,21 +476,21 @@ open class BottomCommandingController: UIViewController {
             tabBarItemView.isSelected.toggle()
             item.isOn = tabBarItemView.isSelected
         } else if item != moreHeroItem { // The more button handles sheet expanding in its own action closure.
-            bottomSheetController?.isExpanded = false
+            setSheetIsExpanded(to: false, commandingInteraction: .commandTap)
         }
         item.action?(binding.item)
     }
 
     @objc private func handleMoreCommandTap(_ sender: CommandingItem) {
-        if isInSheetMode,
-           let sheetController = bottomSheetController {
-            sheetController.isExpanded.toggle()
+        if let sheetController = bottomSheetController {
+            setSheetIsExpanded(to: !sheetController.isExpanded, commandingInteraction: .moreButtonTap)
         } else if let binding = itemToBindingMap[sender] {
             let moreButtonView = binding.view
             let popoverContentViewController = UIViewController()
             popoverContentViewController.view.addSubview(tableView)
             popoverContentViewController.modalPresentationStyle = .popover
             popoverContentViewController.popoverPresentationController?.sourceView = moreButtonView
+            popoverContentViewController.popoverPresentationController?.delegate = self
             popoverContentViewController.preferredContentSize.height = estimatedTableViewHeight
 
             NSLayoutConstraint.activate([
@@ -432,7 +499,24 @@ open class BottomCommandingController: UIViewController {
                 tableView.topAnchor.constraint(equalTo: popoverContentViewController.view.topAnchor),
                 tableView.bottomAnchor.constraint(equalTo: popoverContentViewController.view.bottomAnchor)
             ])
-            present(popoverContentViewController, animated: true)
+            present(popoverContentViewController, animated: true) { [weak self] in
+                guard let strongSelf = self else {
+                    return
+                }
+                strongSelf.delegate?.bottomCommandingController?(strongSelf, didPresentPopoverWith: .moreButtonTap)
+            }
+        }
+    }
+
+    private func setSheetIsExpanded(to isExpanded: Bool, commandingInteraction: BottomCommandingInteraction) {
+        let targetState: BottomSheetExpansionState = isExpanded ? .expanded : .collapsed
+        bottomSheetController?.setIsExpanded(isExpanded) { [weak self] isFinished in
+            guard let strongSelf = self else {
+                return
+            }
+            if isFinished {
+                strongSelf.delegate?.bottomCommandingController?(strongSelf, sheetDidMoveTo: targetState, commandingInteraction: commandingInteraction, sheetInteraction: .noUserAction)
+            }
         }
     }
 
@@ -762,9 +846,14 @@ extension BottomCommandingController: UITableViewDelegate {
 
         if !binding.item.isToggleable {
             if presentedViewController != nil {
-                dismiss(animated: true)
+                dismiss(animated: true) { [weak self] in
+                    guard let strongSelf = self else {
+                        return
+                    }
+                    strongSelf.delegate?.bottomCommandingController?(strongSelf, didDismissPopoverWith: .commandTap)
+                }
             }
-            bottomSheetController?.isExpanded = false
+            setSheetIsExpanded(to: false, commandingInteraction: .commandTap)
             binding.item.action?(binding.item)
         }
         tableView.deselectRow(at: indexPath, animated: true)
@@ -835,5 +924,16 @@ extension BottomCommandingController: CommandingItemDelegate {
 extension BottomCommandingController: BottomSheetControllerDelegate {
     public func bottomSheetControllerCollapsedHeightInSafeAreaDidChange(_ bottomSheetController: BottomSheetController) {
         delegate?.bottomCommandingControllerCollapsedHeightInSafeAreaDidChange?(self)
+    }
+
+    public func bottomSheetController(_ bottomSheetController: BottomSheetController, didMoveTo expansionState: BottomSheetExpansionState, interaction: BottomSheetInteraction) {
+        let commandingInteraction: BottomCommandingInteraction = interaction == .noUserAction ? .noUserAction : .sheetInteraction
+        delegate?.bottomCommandingController?(self, sheetDidMoveTo: expansionState, commandingInteraction: commandingInteraction, sheetInteraction: interaction)
+    }
+}
+
+extension BottomCommandingController: UIPopoverPresentationControllerDelegate {
+    public func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+        delegate?.bottomCommandingController?(self, didDismissPopoverWith: .otherUserAction)
     }
 }
