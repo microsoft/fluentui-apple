@@ -231,6 +231,15 @@ open class NotificationView: UIView {
         initialize()
     }
 
+    open override func removeFromSuperview() {
+        super.removeFromSuperview()
+        
+        isShown = false
+        if NotificationView.currentToast == self {
+            NotificationView.currentToast = nil
+        }
+    }
+
     @objc open func initialize() {
         addSubview(backgroundView)
         backgroundView.translatesAutoresizingMaskIntoConstraints = false
@@ -424,11 +433,6 @@ open class NotificationView: UIView {
         let completionForHide = {
             self.removeFromSuperview()
             UIAccessibility.post(notification: .layoutChanged, argument: nil)
-
-            self.isShown = false
-            if NotificationView.currentToast == self {
-                NotificationView.currentToast = nil
-            }
 
             self.completionsForHide.forEach { $0() }
             self.completionsForHide.removeAll()
