@@ -133,6 +133,8 @@ open class BottomCommandingController: UIViewController {
         }
     }
 
+    /// When in sheet layout, `BottomSheetController` holds it's own `isHidden` state which is the main
+    /// source of truth and the public getter will return that instead of this backing variable.
     private var _isHidden: Bool = false
 
     /// Indicates whether a more button is visible in the sheet style when `expandedListSections` is non-empty.
