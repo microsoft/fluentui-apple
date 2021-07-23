@@ -49,11 +49,11 @@ func findUsedResources(in rootPath: String) -> Set<String> {
 #endif
                         }
                     } catch {
-                        fatalError("Failed to read contents resource file: \(filePath) \nError: \(error)")
+                        preconditionFailure("Failed to read contents resource file: \(filePath) \nError: \(error)")
                    }
                 }
             } catch {
-                fatalError("Failed to retrieve resource file: \(fileURL) \nError: \(error)")
+                preconditionFailure("Failed to retrieve resource file: \(fileURL) \nError: \(error)")
             }
         }
     }
