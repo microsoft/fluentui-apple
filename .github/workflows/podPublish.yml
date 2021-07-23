@@ -1,12 +1,14 @@
 name: Pod-Publish
 on:
   push:
+    branches:
+      - main
+      - main_0.1
     tags:
       - 0.[0-9]+.[0-9]+ # Run automatically on new tags matching a 0.N.M pattern
 
 jobs:
   Pod-Publish:
-    if: github.event.base_ref == 'refs/heads/main'
     runs-on: macOS-10.15
     
     steps:
