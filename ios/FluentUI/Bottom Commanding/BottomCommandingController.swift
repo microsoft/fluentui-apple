@@ -547,9 +547,9 @@ open class BottomCommandingController: UIViewController {
         let reducedBottomWhitespace = max(0, requiredBottomWhitespace - view.safeAreaInsets.bottom)
 
         // We need additional top margin to account for missing resizing handle when isExpandable is false
-        let addedHeaderTopMargin = isExpandable
-            ? Constants.BottomSheet.headerExpandableAddedTopMargin
-            : Constants.BottomSheet.headerNonExpandableAddedTopMargin
+        let addedHeaderTopMargin = !isExpandable
+            ? BottomSheetController.resizingHandleHeight
+            : 0
         bottomSheetHeroStackTopConstraint?.constant = Constants.BottomSheet.headerTopMargin + addedHeaderTopMargin
 
         let oldCollapsedContentHeight = bottomSheetController.collapsedContentHeight
@@ -688,10 +688,7 @@ open class BottomCommandingController: UIViewController {
 
         struct BottomSheet {
             static let headerHeight: CGFloat = 64
-
-            static let headerTopMargin: CGFloat = 5
-            static let headerExpandableAddedTopMargin: CGFloat = 0
-            static let headerNonExpandableAddedTopMargin: CGFloat = 16
+            static let headerTopMargin: CGFloat = 4
             static let headerLeadingTrailingMargin: CGFloat = 8
         }
     }
