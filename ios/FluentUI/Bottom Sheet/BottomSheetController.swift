@@ -136,6 +136,11 @@ public class BottomSheetController: UIViewController {
     /// The object that acts as the delegate of the bottom sheet.
     @objc open weak var delegate: BottomSheetControllerDelegate?
 
+    /// Height of the resizing handle
+    @objc public static var resizingHandleHeight: CGFloat {
+        return ResizingHandleView.height
+    }
+
     // MARK: - Parametrized setters
 
     /// Sets the `isExpanded` property with a completion handler.

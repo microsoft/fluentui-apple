@@ -94,6 +94,7 @@ open class BottomCommandingController: UIViewController {
 
             if isViewLoaded {
                 reloadHeroCommandStack()
+                updateSheetHeaderSizingParameters()
             }
         }
     }
@@ -115,8 +116,8 @@ open class BottomCommandingController: UIViewController {
             }
             if isViewLoaded {
                 reloadHeroCommandStack()
-                updateSheetExpandedContentHeight()
-                updateExpandabilityConstraints()
+                updateSheetHeaderSizingParameters()
+                updateSheetPreferredExpandedContentHeight()
             }
         }
     }
@@ -159,7 +160,7 @@ open class BottomCommandingController: UIViewController {
         if isInSheetMode, let bottomSheetController = bottomSheetController {
             height = bottomSheetController.collapsedHeightInSafeArea
         } else {
-            height = bottomBarHeight + Constants.BottomBar.bottomOffset
+            height = Constants.BottomBar.height + Constants.BottomBar.bottomOffset
         }
         return height
     }
@@ -237,7 +238,6 @@ open class BottomCommandingController: UIViewController {
         if let contentViewController = contentViewController {
             addChildContentViewController(contentViewController)
         }
-        delegate?.bottomCommandingControllerCollapsedHeightInSafeAreaDidChange?(self)
     }
 
     public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -256,12 +256,15 @@ open class BottomCommandingController: UIViewController {
             bottomBarView = nil
 
             setupCommandingLayout()
-            delegate?.bottomCommandingControllerCollapsedHeightInSafeAreaDidChange?(self)
         }
 
         if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
-            updateSheetExpandedContentHeight()
+            updateSheetPreferredExpandedContentHeight()
         }
+    }
+
+    public override func viewSafeAreaInsetsDidChange() {
+        updateSheetHeaderSizingParameters()
     }
 
     public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -306,8 +309,9 @@ open class BottomCommandingController: UIViewController {
 
         bottomBarViewBottomConstraint = bottomConstraint
         self.bottomBarView = bottomBarView
-        updateExpandabilityConstraints()
         reloadHeroCommandStack()
+
+        delegate?.bottomCommandingControllerCollapsedHeightInSafeAreaDidChange?(self)
     }
 
     private func setupBottomSheetLayout() {
@@ -315,10 +319,10 @@ open class BottomCommandingController: UIViewController {
         NSLayoutConstraint.deactivate(heroCommandWidthConstraints)
         heroCommandStack.distribution = .fillEqually
 
-        let commandStackContainer = UIView()
-        commandStackContainer.addSubview(heroCommandStack)
+        let headerView = UIView()
+        headerView.addSubview(heroCommandStack)
 
-        let sheetController = BottomSheetController(headerContentView: commandStackContainer, expandedContentView: makeSheetExpandedContent(with: tableView))
+        let sheetController = BottomSheetController(headerContentView: headerView, expandedContentView: makeSheetExpandedContent(with: tableView))
         sheetController.hostedScrollView = tableView
         sheetController.isHidden = isHidden
         sheetController.delegate = self
@@ -328,7 +332,7 @@ open class BottomCommandingController: UIViewController {
         sheetController.didMove(toParent: self)
 
         // We need to keep a reference to this because the margin changes based on expandability
-        let heroStackTopConstraint = heroCommandStack.topAnchor.constraint(equalTo: commandStackContainer.topAnchor, constant: bottomSheetHeroStackTopMargin)
+        let heroStackTopConstraint = heroCommandStack.topAnchor.constraint(equalTo: headerView.topAnchor)
         bottomSheetHeroStackTopConstraint = heroStackTopConstraint
 
         NSLayoutConstraint.activate([
@@ -336,9 +340,9 @@ open class BottomCommandingController: UIViewController {
             sheetController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             sheetController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             sheetController.view.topAnchor.constraint(equalTo: view.topAnchor),
-            heroCommandStack.leadingAnchor.constraint(equalTo: commandStackContainer.leadingAnchor, constant: Constants.BottomSheet.heroStackLeadingTrailingMargin),
-            heroCommandStack.trailingAnchor.constraint(equalTo: commandStackContainer.trailingAnchor, constant: -Constants.BottomSheet.heroStackLeadingTrailingMargin),
-            heroCommandStack.bottomAnchor.constraint(equalTo: commandStackContainer.bottomAnchor),
+            heroCommandStack.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: Constants.BottomSheet.headerLeadingTrailingMargin),
+            heroCommandStack.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -Constants.BottomSheet.headerLeadingTrailingMargin),
+            headerView.heightAnchor.constraint(equalToConstant: Constants.BottomSheet.headerHeight),
             heroStackTopConstraint
         ])
 
@@ -352,9 +356,9 @@ open class BottomCommandingController: UIViewController {
 
         bottomSheetController = sheetController
 
-        updateExpandabilityConstraints()
-        updateSheetExpandedContentHeight()
         reloadHeroCommandStack()
+        updateSheetHeaderSizingParameters()
+        updateSheetPreferredExpandedContentHeight()
     }
 
     private func makeBottomBarByEmbedding(contentView: UIView) -> UIView {
@@ -375,14 +379,14 @@ open class BottomCommandingController: UIViewController {
         roundedCornerView.addSubview(contentView)
 
         NSLayoutConstraint.activate([
+            bottomBarView.heightAnchor.constraint(equalToConstant: Constants.BottomBar.height),
             roundedCornerView.leadingAnchor.constraint(equalTo: bottomBarView.leadingAnchor),
             roundedCornerView.trailingAnchor.constraint(equalTo: bottomBarView.trailingAnchor),
             roundedCornerView.topAnchor.constraint(equalTo: bottomBarView.topAnchor),
             roundedCornerView.bottomAnchor.constraint(equalTo: bottomBarView.bottomAnchor),
             contentView.leadingAnchor.constraint(equalTo: bottomBarView.leadingAnchor, constant: Constants.BottomBar.heroStackLeadingTrailingMargin),
             contentView.trailingAnchor.constraint(equalTo: bottomBarView.trailingAnchor, constant: -Constants.BottomBar.heroStackLeadingTrailingMargin),
-            contentView.topAnchor.constraint(equalTo: bottomBarView.topAnchor, constant: Constants.BottomBar.heroStackTopBottomMargin),
-            contentView.bottomAnchor.constraint(equalTo: bottomBarView.bottomAnchor, constant: -Constants.BottomBar.heroStackTopBottomMargin)
+            contentView.topAnchor.constraint(equalTo: bottomBarView.topAnchor, constant: Constants.BottomBar.heroStackTopMargin)
         ])
 
         return bottomBarView
@@ -396,8 +400,9 @@ open class BottomCommandingController: UIViewController {
 
         view.addSubview(tableView)
         view.addSubview(separator)
+
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: Constants.BottomSheet.expandedContentTopMargin),
+            tableView.topAnchor.constraint(equalTo: view.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
@@ -433,26 +438,13 @@ open class BottomCommandingController: UIViewController {
         heroViews.forEach {heroCommandStack.addArrangedSubview($0) }
     }
 
-    private func updateExpandabilityConstraints() {
-        if isInSheetMode,
-           let bottomSheetController = bottomSheetController,
-           let heroStackTopConstraint = bottomSheetHeroStackTopConstraint {
-            bottomSheetController.collapsedContentHeight = bottomSheetHeroStackHeight
-            heroStackTopConstraint.constant = bottomSheetHeroStackTopMargin
-
-            if bottomSheetController.isExpandable != isExpandable {
-                bottomSheetController.isExpandable = isExpandable
-                delegate?.bottomCommandingControllerCollapsedHeightInSafeAreaDidChange?(self)
-            }
-        }
-    }
-
     private lazy var moreHeroItem: CommandingItem = CommandingItem(title: Constants.BottomBar.moreButtonTitle, image: Constants.BottomBar.moreButtonIcon ?? UIImage(), action: handleMoreCommandTap)
 
     private lazy var heroCommandStack: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.addInteraction(UILargeContentViewerInteraction())
+        stackView.alignment = .top
         return stackView
     }()
 
@@ -555,16 +547,18 @@ open class BottomCommandingController: UIViewController {
         let itemTitle = item.title ?? ""
         let tabItem = TabBarItem(title: itemTitle, image: itemImage, selectedImage: item.selectedImage, largeContentImage: item.largeImage)
         let itemView = TabBarItemView(item: tabItem, showsTitle: itemTitle != "")
+
         itemView.alwaysShowTitleBelowImage = true
-        itemView.numberOfTitleLines = 1
+        itemView.numberOfTitleLines = Constants.heroButtonMaxTitleLines
         itemView.isSelected = item.isOn
         itemView.isEnabled = item.isEnabled
         itemView.accessibilityTraits.insert(.button)
+        itemView.preferredLabelMaxLayoutWidth = Constants.heroButtonLabelMaxWidth
+        itemView.setContentCompressionResistancePriority(.required, for: .vertical)
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleHeroCommandTap(_:)))
         itemView.addGestureRecognizer(tapGesture)
 
-        itemView.heightAnchor.constraint(equalToConstant: Constants.heroButtonHeight).isActive = true
         let widthConstraint = itemView.widthAnchor.constraint(equalToConstant: Constants.heroButtonWidth)
         widthConstraint.isActive = !isInSheetMode
 
@@ -619,10 +613,39 @@ open class BottomCommandingController: UIViewController {
         }
     }
 
-    private func updateSheetExpandedContentHeight() {
-        if let bottomSheetController = bottomSheetController {
-            bottomSheetController.preferredExpandedContentHeight = estimatedTableViewHeight + Constants.BottomSheet.expandedContentTopMargin
+    /// Recalculates header top margin constraint and updates the `collapsedContentHeight` and `isExpandable` properties of the sheet controller.
+    private func updateSheetHeaderSizingParameters() {
+        guard let bottomSheetController = bottomSheetController else {
+            return
         }
+        bottomSheetController.isExpandable = isExpandable
+
+        let maxHeroItemHeight = heroCommandStack.arrangedSubviews.map { $0.intrinsicContentSize.height }.max() ?? Constants.defaultHeroButtonHeight
+        let headerHeightWithoutBottomWhitespace = Constants.BottomSheet.headerTopMargin + maxHeroItemHeight
+
+        // How much more whitespace is required at the bottom of the sheet header
+        let requiredBottomWhitespace = max(0, Constants.BottomSheet.headerHeight - headerHeightWithoutBottomWhitespace)
+
+        // The safe area inset can fulfill some or all of our bottom whitespace requirement.
+        // This is how much more we need, taking the inset into account.
+        let reducedBottomWhitespace = max(0, requiredBottomWhitespace - view.safeAreaInsets.bottom)
+
+        // We need additional top margin to account for missing resizing handle when isExpandable is false
+        let addedHeaderTopMargin = !isExpandable
+            ? BottomSheetController.resizingHandleHeight
+            : 0
+        bottomSheetHeroStackTopConstraint?.constant = Constants.BottomSheet.headerTopMargin + addedHeaderTopMargin
+
+        let oldCollapsedContentHeight = bottomSheetController.collapsedContentHeight
+        let newCollapsedContentHeight = headerHeightWithoutBottomWhitespace + reducedBottomWhitespace + addedHeaderTopMargin
+
+        if newCollapsedContentHeight != oldCollapsedContentHeight {
+            bottomSheetController.collapsedContentHeight = newCollapsedContentHeight
+        }
+    }
+
+    private func updateSheetPreferredExpandedContentHeight() {
+        bottomSheetController?.preferredExpandedContentHeight = estimatedTableViewHeight
     }
 
     private func makeBottomBarLayoutGuideConstraints(with bottomBarView: UIView) -> [NSLayoutConstraint] {
@@ -652,10 +675,6 @@ open class BottomCommandingController: UIViewController {
         return totalHeight
     }
 
-    private var bottomBarHeight: CGFloat {
-        return Constants.heroButtonHeight + 2 * Constants.BottomBar.heroStackTopBottomMargin
-    }
-
     private var itemToBindingMap: [CommandingItem: ItemBindingInfo] = [:]
 
     private var viewToBindingMap: [UIView: ItemBindingInfo] = [:]
@@ -677,12 +696,6 @@ open class BottomCommandingController: UIViewController {
     private var isExpandable: Bool { expandedListSections.count > 0 }
 
     private var bottomSheetHeroStackTopConstraint: NSLayoutConstraint?
-
-    private var bottomSheetHeroStackTopMargin: CGFloat {
-        isExpandable ? Constants.BottomSheet.heroStackExpandableTopMargin : Constants.BottomSheet.heroStackNonExpandableTopMargin
-    }
-
-    private var bottomSheetHeroStackHeight: CGFloat { Constants.heroButtonHeight + bottomSheetHeroStackTopMargin }
 
     // Hero items that include the more button if it should be shown
     private var extendedHeroItems: [CommandingItem] {
@@ -726,20 +739,23 @@ open class BottomCommandingController: UIViewController {
     }
 
     private struct Constants {
-        static let heroButtonHeight: CGFloat = 48
+        static let defaultHeroButtonHeight: CGFloat = 40
         static let heroButtonWidth: CGFloat = 96
+        static let heroButtonLabelMaxWidth: CGFloat = 72
+        static let heroButtonMaxTitleLines: Int = 2
 
         static let tableViewIconTintColor: UIColor = Colors.textSecondary
         static let tableViewBackgroundColor: UIColor = Colors.NavigationBar.background
 
         struct BottomBar {
+            static let height: CGFloat = 80
             static let cornerRadius: CGFloat = 14
             static let backgroundColor: UIColor = Colors.NavigationBar.background
 
             static let bottomOffset: CGFloat = 10
             static let hiddenBottomOffset: CGFloat = -110
             static let heroStackLeadingTrailingMargin: CGFloat = 8
-            static let heroStackTopBottomMargin: CGFloat = 16
+            static let heroStackTopMargin: CGFloat = 20
 
             static let hidingSpringDuration: TimeInterval = 0.4
             static let hidingSpringDamping: CGFloat = 1.0
@@ -755,12 +771,9 @@ open class BottomCommandingController: UIViewController {
         }
 
         struct BottomSheet {
-            static let expandedFraction: CGFloat = 0.7 // Probably should be more customizable / based on content
-            static let heroStackExpandableTopMargin: CGFloat = 0
-            static let heroStackNonExpandableTopMargin: CGFloat = 16
-            static let heroStackLeadingTrailingMargin: CGFloat = 8
-
-            static let expandedContentTopMargin: CGFloat = 16
+            static let headerHeight: CGFloat = 64
+            static let headerTopMargin: CGFloat = 4
+            static let headerLeadingTrailingMargin: CGFloat = 8
         }
     }
 }
@@ -850,6 +863,11 @@ extension BottomCommandingController: UITableViewDelegate {
 extension BottomCommandingController: CommandingItemDelegate {
     func commandingItem(_ item: CommandingItem, didChangeTitleTo value: String?) {
         reloadView(from: item)
+
+        if let binding = itemToBindingMap[item], binding.location == .heroSet {
+            // A title change in the hero set can cause a sheet size change, so we need to recalculate
+            updateSheetHeaderSizingParameters()
+        }
     }
 
     func commandingItem(_ item: CommandingItem, didChangeImageTo value: UIImage?) {
@@ -904,6 +922,10 @@ extension BottomCommandingController: CommandingItemDelegate {
 }
 
 extension BottomCommandingController: BottomSheetControllerDelegate {
+    public func bottomSheetControllerCollapsedHeightInSafeAreaDidChange(_ bottomSheetController: BottomSheetController) {
+        delegate?.bottomCommandingControllerCollapsedHeightInSafeAreaDidChange?(self)
+    }
+
     public func bottomSheetController(_ bottomSheetController: BottomSheetController, didMoveTo expansionState: BottomSheetExpansionState, interaction: BottomSheetInteraction) {
         let commandingInteraction: BottomCommandingInteraction = interaction == .noUserAction ? .noUserAction : .sheetInteraction
         delegate?.bottomCommandingController?(self, sheetDidMoveTo: expansionState, commandingInteraction: commandingInteraction, sheetInteraction: interaction)
