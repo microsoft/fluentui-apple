@@ -233,7 +233,7 @@ open class NotificationView: UIView {
 
     open override func removeFromSuperview() {
         super.removeFromSuperview()
-        
+
         isShown = false
         if NotificationView.currentToast == self {
             NotificationView.currentToast = nil
