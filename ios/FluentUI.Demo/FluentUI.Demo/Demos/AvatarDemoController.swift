@@ -421,7 +421,12 @@ class AvatarDemoController: UITableViewController {
                         .ring,
                         .ringInnerGap,
                         .imageBasedRingColor]
-            case .xxlarge, .xlarge, .large, .medium, .small, .xsmall:
+            case .xxlarge,
+                 .xlarge,
+                 .large,
+                 .medium,
+                 .small,
+                 .xsmall:
                 return [.defaultWithImage,
                         .defaultWithInitials,
                         .defaultWithFallback,
