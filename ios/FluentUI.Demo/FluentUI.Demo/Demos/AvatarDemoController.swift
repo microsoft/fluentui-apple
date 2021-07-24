@@ -67,35 +67,38 @@ class AvatarDemoController: UITableViewController {
              .overflow:
             let cell = UITableViewCell()
 
-            if let avatar = demoAvatars[section]?[row] {
-                let avatarView = avatar.view
-
-                let titleLabel = Label(style: .body, colorStyle: .regular)
-                titleLabel.text = row.title
-                titleLabel.numberOfLines = 0
-                titleLabel.translatesAutoresizingMaskIntoConstraints = false
-                titleLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
-
-                let avatarContentView = UIStackView(arrangedSubviews: [avatarView, titleLabel])
-                avatarContentView.isLayoutMarginsRelativeArrangement = true
-                avatarContentView.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 15, leading: 20, bottom: 15, trailing: 20)
-                avatarContentView.translatesAutoresizingMaskIntoConstraints = false
-                avatarContentView.alignment = .leading
-                avatarContentView.distribution = .fill
-                avatarContentView.spacing = 10
-
-                cell.contentView.addSubview(avatarContentView)
-                NSLayoutConstraint.activate([
-                    avatarView.widthAnchor.constraint(equalToConstant: 100),
-                    avatarView.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
-                    cell.contentView.leadingAnchor.constraint(equalTo: avatarContentView.leadingAnchor),
-                    cell.contentView.trailingAnchor.constraint(equalTo: avatarContentView.trailingAnchor),
-                    cell.contentView.topAnchor.constraint(equalTo: avatarContentView.topAnchor),
-                    cell.contentView.bottomAnchor.constraint(equalTo: avatarContentView.bottomAnchor)
-                ])
+            guard let avatar = demoAvatarsBySection[section]?[row] else {
+                return cell
             }
 
+            let avatarView = avatar.view
+
+            let titleLabel = Label(style: .body, colorStyle: .regular)
+            titleLabel.text = row.title
+            titleLabel.numberOfLines = 0
+            titleLabel.translatesAutoresizingMaskIntoConstraints = false
+            titleLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
+
+            let avatarContentView = UIStackView(arrangedSubviews: [avatarView, titleLabel])
+            avatarContentView.isLayoutMarginsRelativeArrangement = true
+            avatarContentView.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 15, leading: 20, bottom: 15, trailing: 20)
+            avatarContentView.translatesAutoresizingMaskIntoConstraints = false
+            avatarContentView.alignment = .leading
+            avatarContentView.distribution = .fill
+            avatarContentView.spacing = 10
+
+            cell.contentView.addSubview(avatarContentView)
+            NSLayoutConstraint.activate([
+                avatarView.widthAnchor.constraint(equalToConstant: 100),
+                avatarView.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
+                cell.contentView.leadingAnchor.constraint(equalTo: avatarContentView.leadingAnchor),
+                cell.contentView.trailingAnchor.constraint(equalTo: avatarContentView.trailingAnchor),
+                cell.contentView.topAnchor.constraint(equalTo: avatarContentView.topAnchor),
+                cell.contentView.bottomAnchor.constraint(equalTo: avatarContentView.bottomAnchor)
+            ])
+
             cell.backgroundColor = self.isUsingAlternateBackgroundColor ? Colors.tableCellBackgroundSelected : Colors.tableCellBackground
+
             return cell
         }
     }
@@ -117,7 +120,7 @@ class AvatarDemoController: UITableViewController {
     private var isPointerInteractionEnabled: Bool = false {
         didSet {
             if oldValue != isPointerInteractionEnabled {
-                for avatar in allDemoAvatars {
+                for avatar in allDemoAvatarsCombined {
                     avatar.state.hasPointerInteraction = isPointerInteractionEnabled
                 }
             }
@@ -127,7 +130,7 @@ class AvatarDemoController: UITableViewController {
     private var isShowingPresence: Bool = false {
         didSet {
             if oldValue != isShowingPresence {
-                for avatar in allDemoAvatars {
+                for avatar in allDemoAvatarsCombined {
                     avatar.state.presence = isShowingPresence ? nextPresence() : .none
                 }
             }
@@ -137,7 +140,7 @@ class AvatarDemoController: UITableViewController {
     private var isOutOfOffice: Bool = false {
         didSet {
             if oldValue != isOutOfOffice {
-                for avatar in allDemoAvatars {
+                for avatar in allDemoAvatarsCombined {
                     avatar.state.isOutOfOffice = isOutOfOffice
                 }
             }
@@ -147,7 +150,7 @@ class AvatarDemoController: UITableViewController {
     private var isShowingRings: Bool = false {
         didSet {
             if oldValue != isShowingRings {
-                for avatar in allDemoAvatars {
+                for avatar in allDemoAvatarsCombined {
                     avatar.state.isRingVisible = isShowingRings
                 }
             }
@@ -157,7 +160,7 @@ class AvatarDemoController: UITableViewController {
     private var isUsingImageBasedCustomColor: Bool = false {
         didSet {
             if oldValue != isUsingImageBasedCustomColor {
-                for avatar in allDemoAvatars {
+                for avatar in allDemoAvatarsCombined {
                     avatar.state.imageBasedRingColor = isUsingImageBasedCustomColor ? colorfulCustomImage : nil
                 }
             }
@@ -167,7 +170,7 @@ class AvatarDemoController: UITableViewController {
     private var isShowingRingInnerGap: Bool = true {
         didSet {
             if oldValue != isShowingRingInnerGap {
-                for avatar in allDemoAvatars {
+                for avatar in allDemoAvatarsCombined {
                     avatar.state.hasRingInnerGap = isShowingRingInnerGap
                 }
             }
@@ -177,7 +180,7 @@ class AvatarDemoController: UITableViewController {
     private var isTransparent: Bool = true {
         didSet {
             if oldValue != isTransparent {
-                for avatar in allDemoAvatars {
+                for avatar in allDemoAvatarsCombined {
                     avatar.state.isTransparent = isTransparent
                 }
             }
@@ -216,13 +219,11 @@ class AvatarDemoController: UITableViewController {
         return customBorderImage
     }
 
-    private var allDemoAvatars: [MSFAvatar] = []
+    private var allDemoAvatarsCombined: [MSFAvatar] = []
 
-    private var demoAvatars: [AvatarDemoSections: [AvatarDemoRows: MSFAvatar]] = [:]
+    private var demoAvatarsBySection: [AvatarDemoSections: [AvatarDemoRows: MSFAvatar]] = [:]
 
     private func initDemoAvatars() {
-        var demoAvatars: [AvatarDemoSections: [AvatarDemoRows: MSFAvatar]] = [:]
-
         AvatarDemoSections.allCases.filter({ section in
             return !section.isSettingsSection
         }).forEach { section in
@@ -238,13 +239,11 @@ class AvatarDemoController: UITableViewController {
                 avatarState.image = row.avatarImage
 
                 avatarsForCurrentSection.updateValue(avatar, forKey: row)
-                allDemoAvatars.append(avatar)
+                allDemoAvatarsCombined.append(avatar)
             }
 
-            demoAvatars.updateValue(avatarsForCurrentSection, forKey: section)
+            demoAvatarsBySection.updateValue(avatarsForCurrentSection, forKey: section)
         }
-
-        self.demoAvatars = demoAvatars
     }
 
     private func nextPresence() -> MSFAvatarPresence {
