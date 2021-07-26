@@ -6,127 +6,109 @@
 import FluentUI
 import UIKit
 
-class AvatarDemoController: DemoController {
+class AvatarDemoController: UITableViewController {
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(style: .grouped)
+
+        initDemoAvatars()
+    }
+
+    required init?(coder: NSCoder) {
+        preconditionFailure("init(coder:) has not been implemented")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let enablePointerInteractionSettingView = createLabelAndSwitchRow(labelText: "Enable iPad pointer interaction",
-                                                                          switchAction: #selector(toggleEnablePointerInteraction(switchView:)),
-                                                                          isOn: isPointerInteractionEnabled)
-        addRow(items: [enablePointerInteractionSettingView])
+        tableView.register(BooleanCell.self, forCellReuseIdentifier: BooleanCell.identifier)
+    }
 
-        let backgroundSettingView = createLabelAndSwitchRow(labelText: "Use alternate background color",
-                                                            switchAction: #selector(toggleAlternateBackground(switchView:)),
-                                                            isOn: isUsingAlternateBackgroundColor)
-        addRow(items: [backgroundSettingView])
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return AvatarDemoSections.allCases.count
+    }
 
-        let transparencySettingView = createLabelAndSwitchRow(labelText: "Do not use transparency",
-                                                              switchAction: #selector(toggleOpaqueBorders(switchView:)),
-                                                              isOn: !isTransparent)
-        addRow(items: [transparencySettingView])
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return AvatarDemoSections.allCases[section].rows.count
+    }
 
-        let showPresenceSettingView = createLabelAndSwitchRow(labelText: "Show presence",
-                                                              switchAction: #selector(toggleShowPresence(switchView:)),
-                                                              isOn: isShowingPresence)
-        addRow(items: [showPresenceSettingView])
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let section = AvatarDemoSections.allCases[indexPath.section]
+        let row = AvatarDemoSections.allCases[indexPath.section].rows[indexPath.row]
 
-        let outOfOfficeSettingView = createLabelAndSwitchRow(labelText: "Out Of Office",
-                                                             switchAction: #selector(toggleOutOfOffice(switchView:)),
-                                                             isOn: isOutOfOffice)
-        addRow(items: [outOfOfficeSettingView])
+        switch row {
+        case .alternateBackground,
+             .imageBasedRingColor,
+             .outOfOffice,
+             .pointerInteraction,
+             .presence,
+             .ringInnerGap,
+             .ring,
+             .transparency:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: BooleanCell.identifier) as? BooleanCell else {
+                return UITableViewCell()
+            }
 
-        let showRingsSettingView = createLabelAndSwitchRow(labelText: "Show rings",
-                                                           switchAction: #selector(toggleShowRings(switchView:)),
-                                                           isOn: isShowingRings)
-        addRow(items: [showRingsSettingView])
+            cell.setup(title: row.title, isOn: self.isSettingOn(row: row))
+            cell.titleNumberOfLines = 0
+            cell.onValueChanged = { [weak self, weak cell] in
+                self?.updateSetting(for: row, isOn: cell?.isOn ?? true)
+            }
 
-        let useImageBasedCustomRingColorSettingView = createLabelAndSwitchRow(labelText: "Use image based custom ring color",
-                                                                              switchAction: #selector(toggleImageBasedCustomRingColor(switchView:)),
-                                                                              isOn: isUsingImageBasedCustomColor)
-        addRow(items: [useImageBasedCustomRingColorSettingView])
+            return cell
 
-        let enableRingInnerGapSettingView = createLabelAndSwitchRow(labelText: "Enable ring inner gap",
-                                                                    switchAction: #selector(toggleShowRingInnerGap(switchView:)),
-                                                                    isOn: isShowingRingInnerGap)
-        addRow(items: [enableRingInnerGapSettingView])
+        case .accentWithFallback,
+             .defaultWithImage,
+             .defaultWithInitials,
+             .defaultWithFallback,
+             .groupWithImage,
+             .groupWithInitials,
+             .outlinedWithFallback,
+             .outlinedPrimaryWithFallback,
+             .overflow:
+            let cell = UITableViewCell()
 
-        addTitle(text: "Default style")
-        for size in MSFAvatarSize.allCases.reversed() {
-            let name = "Kat Larrson"
-            let imageAvatar = createAvatarView(size: size,
-                                               name: name,
-                                               image: UIImage(named: "avatar_kat_larsson")!,
-                                               style: .default)
-            avatarViews.append(imageAvatar)
+            guard let avatar = demoAvatarsBySection[section]?[row] else {
+                return cell
+            }
 
-            let initialsAvatar = createAvatarView(size: size,
-                                                  name: name,
-                                                  style: .default)
-            avatarViews.append(initialsAvatar)
+            let avatarView = avatar.view
 
-            addRow(text: size.description, items: [imageAvatar.view, initialsAvatar.view], textStyle: .footnote, textWidth: 100)
+            let titleLabel = Label(style: .body, colorStyle: .regular)
+            titleLabel.text = row.title
+            titleLabel.numberOfLines = 0
+            titleLabel.translatesAutoresizingMaskIntoConstraints = false
+            titleLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
+
+            let avatarContentView = UIStackView(arrangedSubviews: [avatarView, titleLabel])
+            avatarContentView.isLayoutMarginsRelativeArrangement = true
+            avatarContentView.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 15, leading: 20, bottom: 15, trailing: 20)
+            avatarContentView.translatesAutoresizingMaskIntoConstraints = false
+            avatarContentView.alignment = .leading
+            avatarContentView.distribution = .fill
+            avatarContentView.spacing = 10
+
+            cell.contentView.addSubview(avatarContentView)
+            NSLayoutConstraint.activate([
+                avatarView.widthAnchor.constraint(equalToConstant: 100),
+                avatarView.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
+                cell.contentView.leadingAnchor.constraint(equalTo: avatarContentView.leadingAnchor),
+                cell.contentView.trailingAnchor.constraint(equalTo: avatarContentView.trailingAnchor),
+                cell.contentView.topAnchor.constraint(equalTo: avatarContentView.topAnchor),
+                cell.contentView.bottomAnchor.constraint(equalTo: avatarContentView.bottomAnchor)
+            ])
+
+            cell.backgroundColor = self.isUsingAlternateBackgroundColor ? Colors.tableCellBackgroundSelected : Colors.tableCellBackground
+
+            return cell
         }
+    }
 
-        addTitle(text: "Fallback (default style and accent style)")
-        for size in MSFAvatarSize.allCases.reversed() {
-            let phoneNumber = "+1 (425) 123 4567"
-            let defaultAvatar = createAvatarView(size: size,
-                                                 name: phoneNumber,
-                                                 style: .default)
-            avatarViews.append(defaultAvatar)
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return AvatarDemoSections.allCases[section].title
+    }
 
-            let accentAvatar = createAvatarView(size: size,
-                                                name: phoneNumber,
-                                                style: .accent)
-            avatarViews.append(accentAvatar)
-
-            addRow(text: size.description, items: [defaultAvatar.view, accentAvatar.view], textStyle: .footnote, textWidth: 100)
-        }
-
-        addTitle(text: "Fallback (outlined style and outlinedPrimary style)")
-        for size in MSFAvatarSize.allCases.reversed() {
-            let phoneNumber = "+1 (425) 123 4567"
-            let outlinedAvatar = createAvatarView(size: size,
-                                                  name: phoneNumber,
-                                                  style: .outlined)
-            avatarViews.append(outlinedAvatar)
-
-            let outlinedPrimaryAvatar = createAvatarView(size: size,
-                                                         name: phoneNumber,
-                                                         style: .outlinedPrimary)
-            avatarViews.append(outlinedPrimaryAvatar)
-
-            addRow(text: size.description, items: [outlinedAvatar.view, outlinedPrimaryAvatar.view], textStyle: .footnote, textWidth: 100)
-        }
-
-        addTitle(text: "Group style")
-        for size in MSFAvatarSize.allCases.reversed() {
-            let name = "NorthWind Traders"
-            let imageAvatar = createAvatarView(size: size,
-                                               name: name,
-                                               image: UIImage(named: "site")!,
-                                               style: .group)
-            avatarViews.append(imageAvatar)
-
-            let initialsAvatar = createAvatarView(size: size,
-                                                  name: name,
-                                                  style: .group)
-            avatarViews.append(initialsAvatar)
-
-            addRow(text: size.description, items: [imageAvatar.view, initialsAvatar.view], textStyle: .footnote, textWidth: 100)
-        }
-
-        addTitle(text: "Overflow style")
-        for size in MSFAvatarSize.allCases.reversed() {
-            let overflowAvatar = createAvatarView(size: size,
-                                                  name: "20",
-                                                  style: .overflow)
-            overflowAvatar.state.accessibilityLabel = "20 more contacts"
-
-            avatarViews.append(overflowAvatar)
-
-            addRow(text: size.description, items: [overflowAvatar.view], textStyle: .footnote, textWidth: 100)
-        }
+    override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+       return false
     }
 
     private var isUsingAlternateBackgroundColor: Bool = false {
@@ -138,8 +120,8 @@ class AvatarDemoController: DemoController {
     private var isPointerInteractionEnabled: Bool = false {
         didSet {
             if oldValue != isPointerInteractionEnabled {
-                for avatarView in avatarViews {
-                    avatarView.state.hasPointerInteraction = isPointerInteractionEnabled
+                for avatar in allDemoAvatarsCombined {
+                    avatar.state.hasPointerInteraction = isPointerInteractionEnabled
                 }
             }
         }
@@ -148,8 +130,8 @@ class AvatarDemoController: DemoController {
     private var isShowingPresence: Bool = false {
         didSet {
             if oldValue != isShowingPresence {
-                for avatarView in avatarViews {
-                    avatarView.state.presence = isShowingPresence ? nextPresence() : .none
+                for avatar in allDemoAvatarsCombined {
+                    avatar.state.presence = isShowingPresence ? nextPresence() : .none
                 }
             }
         }
@@ -158,8 +140,8 @@ class AvatarDemoController: DemoController {
     private var isOutOfOffice: Bool = false {
         didSet {
             if oldValue != isOutOfOffice {
-                for avatarView in avatarViews {
-                    avatarView.state.isOutOfOffice = isOutOfOffice
+                for avatar in allDemoAvatarsCombined {
+                    avatar.state.isOutOfOffice = isOutOfOffice
                 }
             }
         }
@@ -168,8 +150,8 @@ class AvatarDemoController: DemoController {
     private var isShowingRings: Bool = false {
         didSet {
             if oldValue != isShowingRings {
-                for avatarView in avatarViews {
-                    avatarView.state.isRingVisible = isShowingRings
+                for avatar in allDemoAvatarsCombined {
+                    avatar.state.isRingVisible = isShowingRings
                 }
             }
         }
@@ -178,8 +160,8 @@ class AvatarDemoController: DemoController {
     private var isUsingImageBasedCustomColor: Bool = false {
         didSet {
             if oldValue != isUsingImageBasedCustomColor {
-                for avatarView in avatarViews {
-                    avatarView.state.imageBasedRingColor = isUsingImageBasedCustomColor ? colorfulCustomImage : nil
+                for avatar in allDemoAvatarsCombined {
+                    avatar.state.imageBasedRingColor = isUsingImageBasedCustomColor ? colorfulCustomImage : nil
                 }
             }
         }
@@ -188,8 +170,8 @@ class AvatarDemoController: DemoController {
     private var isShowingRingInnerGap: Bool = true {
         didSet {
             if oldValue != isShowingRingInnerGap {
-                for avatarView in avatarViews {
-                    avatarView.state.hasRingInnerGap = isShowingRingInnerGap
+                for avatar in allDemoAvatarsCombined {
+                    avatar.state.hasRingInnerGap = isShowingRingInnerGap
                 }
             }
         }
@@ -198,8 +180,8 @@ class AvatarDemoController: DemoController {
     private var isTransparent: Bool = true {
         didSet {
             if oldValue != isTransparent {
-                for avatarView in avatarViews {
-                    avatarView.state.isTransparent = isTransparent
+                for avatar in allDemoAvatarsCombined {
+                    avatar.state.isTransparent = isTransparent
                 }
             }
         }
@@ -235,6 +217,33 @@ class AvatarDemoController: DemoController {
         UIGraphicsEndImageContext()
 
         return customBorderImage
+    }
+
+    private var allDemoAvatarsCombined: [MSFAvatar] = []
+
+    private var demoAvatarsBySection: [AvatarDemoSections: [AvatarDemoRows: MSFAvatar]] = [:]
+
+    private func initDemoAvatars() {
+        AvatarDemoSections.allCases.filter({ section in
+            return !section.isSettingsSection
+        }).forEach { section in
+            var avatarsForCurrentSection: [AvatarDemoRows: MSFAvatar] = [:]
+
+            AvatarDemoRows.allCases.filter({ row in
+                return !row.isSettingsRow
+            }).forEach { row in
+                let avatar = MSFAvatar(style: row.avatarStyle,
+                                       size: section.avatarSize)
+                let avatarState = avatar.state
+                avatarState.primaryText = row.avatarPrimaryText
+                avatarState.image = row.avatarImage
+
+                avatarsForCurrentSection.updateValue(avatar, forKey: row)
+                allDemoAvatarsCombined.append(avatar)
+            }
+
+            demoAvatarsBySection.updateValue(avatarsForCurrentSection, forKey: section)
+        }
     }
 
     private func nextPresence() -> MSFAvatarPresence {
@@ -285,39 +294,313 @@ class AvatarDemoController: DemoController {
     }
 
     private func updateBackgroundColor() {
-        view.backgroundColor = isUsingAlternateBackgroundColor ? UIColor(light: Colors.gray100, dark: Colors.gray600) : Colors.surfacePrimary
+        self.tableView.reloadData()
     }
 
-    private var avatarViews: [MSFAvatar] = []
-
-    private func createAvatarView(size: MSFAvatarSize,
-                                  name: String? = nil,
-                                  image: UIImage? = nil,
-                                  style: MSFAvatarStyle) -> MSFAvatar {
-        let avatarView = MSFAvatar(style: style,
-                                     size: size)
-        avatarView.state.primaryText = name
-        avatarView.state.image = image
-
-        return avatarView
+    private func isSettingOn(row: AvatarDemoRows) -> Bool {
+        switch row {
+        case .accentWithFallback,
+             .defaultWithImage,
+             .defaultWithInitials,
+             .defaultWithFallback,
+             .groupWithImage,
+             .groupWithInitials,
+             .outlinedWithFallback,
+             .outlinedPrimaryWithFallback,
+             .overflow:
+            return true
+        case .alternateBackground:
+            return self.isUsingAlternateBackgroundColor
+        case .imageBasedRingColor:
+            return self.isUsingImageBasedCustomColor
+        case .outOfOffice:
+            return self.isOutOfOffice
+        case .pointerInteraction:
+            return self.isPointerInteractionEnabled
+        case .presence:
+            return self.isShowingPresence
+        case .ring:
+            return self.isShowingRings
+        case .ringInnerGap:
+            return self.isShowingRingInnerGap
+        case .transparency:
+            return self.isTransparent
+        }
     }
-}
 
-extension MSFAvatarSize {
-    var description: String {
-        switch self {
-        case .xsmall:
-            return "ExtraSmall"
-        case .small:
-            return "Small"
-        case .medium:
-            return "Medium"
-        case .large:
-            return "Large"
-        case .xlarge:
-            return "ExtraLarge"
-        case .xxlarge:
-            return "ExtraExtraLarge"
+    private func updateSetting(for row: AvatarDemoRows, isOn: Bool) {
+        switch row {
+        case .accentWithFallback,
+             .defaultWithImage,
+             .defaultWithInitials,
+             .defaultWithFallback,
+             .groupWithImage,
+             .groupWithInitials,
+             .outlinedWithFallback,
+             .outlinedPrimaryWithFallback,
+             .overflow:
+            return
+        case .alternateBackground:
+            self.isUsingAlternateBackgroundColor = isOn
+        case .imageBasedRingColor:
+            self.isUsingImageBasedCustomColor = isOn
+        case .outOfOffice:
+            self.isOutOfOffice = isOn
+        case .pointerInteraction:
+            self.isPointerInteractionEnabled = isOn
+        case .presence:
+            self.isShowingPresence = isOn
+        case .ring:
+            self.isShowingRings = isOn
+        case .ringInnerGap:
+            self.isShowingRingInnerGap = isOn
+        case .transparency:
+            self.isTransparent = isOn
+        }
+    }
+
+    private enum AvatarDemoSections: CaseIterable {
+        case settings
+        case xxlarge
+        case xlarge
+        case large
+        case medium
+        case small
+        case xsmall
+
+        var avatarSize: MSFAvatarSize {
+            switch self {
+            case .xxlarge:
+                return .xxlarge
+            case .xlarge:
+                return .xlarge
+            case .large:
+                return .large
+            case .medium:
+                return .medium
+            case .small:
+                return .small
+            case .xsmall:
+                return .xsmall
+            case .settings:
+                preconditionFailure("Settings rows should not display an Avatar")
+            }
+        }
+
+        var isSettingsSection: Bool {
+            return self == .settings
+        }
+
+        var title: String {
+            switch self {
+            case .settings:
+                return "Settings"
+            case .xxlarge:
+                return "ExtraExtraLarge"
+            case .xlarge:
+                return "ExtraLarge"
+            case .large:
+                return "Large"
+            case .medium:
+                return "Medium"
+            case .small:
+                return "Small"
+            case .xsmall:
+                return "ExtraSmall"
+            }
+        }
+
+        var rows: [AvatarDemoRows] {
+            switch self {
+            case .settings:
+                return [.alternateBackground,
+                        .pointerInteraction,
+                        .transparency,
+                        .presence,
+                        .outOfOffice,
+                        .ring,
+                        .ringInnerGap,
+                        .imageBasedRingColor]
+            case .xxlarge,
+                 .xlarge,
+                 .large,
+                 .medium,
+                 .small,
+                 .xsmall:
+                return [.defaultWithImage,
+                        .defaultWithInitials,
+                        .defaultWithFallback,
+                        .accentWithFallback,
+                        .outlinedWithFallback,
+                        .outlinedPrimaryWithFallback,
+                        .groupWithImage,
+                        .groupWithInitials,
+                        .overflow]
+            }
+        }
+    }
+
+    private enum AvatarDemoRows: CaseIterable {
+        case accentWithFallback
+        case alternateBackground
+        case defaultWithImage
+        case defaultWithInitials
+        case defaultWithFallback
+        case imageBasedRingColor
+        case groupWithImage
+        case groupWithInitials
+        case outlinedWithFallback
+        case outlinedPrimaryWithFallback
+        case outOfOffice
+        case overflow
+        case pointerInteraction
+        case presence
+        case ring
+        case ringInnerGap
+        case transparency
+
+        var isSettingsRow: Bool {
+            switch self {
+            case .accentWithFallback,
+                 .defaultWithFallback,
+                 .defaultWithImage,
+                 .defaultWithInitials,
+                 .groupWithImage,
+                 .groupWithInitials,
+                 .outlinedPrimaryWithFallback,
+                 .outlinedWithFallback,
+                 .overflow:
+                return false
+            case .alternateBackground,
+                 .imageBasedRingColor,
+                 .outOfOffice,
+                 .pointerInteraction,
+                 .presence,
+                 .ring,
+                 .ringInnerGap,
+                 .transparency:
+                return true
+            }
+        }
+
+        var avatarImage: UIImage? {
+            switch self {
+            case .defaultWithImage:
+                return UIImage(named: "avatar_kat_larsson")
+            case .groupWithImage:
+                return UIImage(named: "site")
+            case .accentWithFallback,
+                 .defaultWithFallback,
+                 .defaultWithInitials,
+                 .groupWithInitials,
+                 .outlinedPrimaryWithFallback,
+                 .outlinedWithFallback,
+                 .overflow,
+                 .alternateBackground,
+                 .imageBasedRingColor,
+                 .outOfOffice,
+                 .pointerInteraction,
+                 .presence,
+                 .ring,
+                 .ringInnerGap,
+                 .transparency:
+                return nil
+            }
+        }
+
+        var avatarPrimaryText: String? {
+            switch self {
+            case .defaultWithImage,
+                 .defaultWithInitials:
+                return "Kat Larrson"
+            case .groupWithImage,
+                 .groupWithInitials:
+                 return "NorthWind Traders"
+            case .accentWithFallback,
+                 .defaultWithFallback,
+                 .outlinedPrimaryWithFallback,
+                 .outlinedWithFallback:
+                return "+1 (425) 123 4567"
+            case .overflow:
+                return "20"
+            case .alternateBackground,
+                 .imageBasedRingColor,
+                 .outOfOffice,
+                 .pointerInteraction,
+                 .presence,
+                 .ring,
+                 .ringInnerGap,
+                 .transparency:
+                return nil
+            }
+        }
+
+        var avatarStyle: MSFAvatarStyle {
+            switch self {
+            case .defaultWithImage,
+                 .defaultWithFallback,
+                 .defaultWithInitials:
+                return .default
+            case .groupWithImage,
+                 .groupWithInitials:
+                return .group
+            case .accentWithFallback:
+                return .accent
+            case .outlinedPrimaryWithFallback:
+                return .outlinedPrimary
+            case .outlinedWithFallback:
+                return .outlined
+            case .overflow:
+                return .overflow
+            case .alternateBackground,
+                 .imageBasedRingColor,
+                 .outOfOffice,
+                 .pointerInteraction,
+                 .presence,
+                 .ring,
+                 .ringInnerGap,
+                 .transparency:
+                preconditionFailure("Row does not have an associated avatar style")
+            }
+        }
+
+        var title: String {
+            switch self {
+            case .accentWithFallback:
+                return "Accent style (no initials, no image)"
+            case .alternateBackground:
+                return "Use alternate background color"
+            case.defaultWithImage:
+                return "Default style (image)"
+            case .defaultWithInitials:
+                return "Default style (initials)"
+            case .defaultWithFallback:
+                return "Default style (no initials, no image)"
+            case .imageBasedRingColor:
+                return "Use image based custom ring color"
+            case .groupWithImage:
+                return "Group style (image)"
+            case .groupWithInitials:
+                return "Group style (initials)"
+            case .outlinedWithFallback:
+                return "Outlined style (no initials, no image)"
+            case .outlinedPrimaryWithFallback:
+                return "Outlined Primary style (no initials, no image)"
+            case .outOfOffice:
+                return "Set \"Out Of Office\""
+            case .overflow:
+                return "Overflow style"
+            case .pointerInteraction:
+                return "Enable iPad pointer interaction"
+            case .presence:
+                return "Show presence"
+            case .ring:
+                return "Show ring"
+            case .ringInnerGap:
+                return "Set ring inner gap"
+            case .transparency:
+                return "Use transparency"
+            }
         }
     }
 }
