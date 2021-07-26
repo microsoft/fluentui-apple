@@ -16,6 +16,7 @@ let demos: [(title: String, controllerClass: UIViewController.Type)] = [
     ("BottomSheetController", BottomSheetDemoController.self),
     ("Button", ButtonDemoController.self),
     ("Card", CardViewDemoController.self),
+    ("CardNudge", CardNudgeDemoController.self),
     ("Color", ColorDemoController.self),
     ("CommandBar", CommandBarDemoController.self),
     ("ContactCollectionView", ContactCollectionViewDemoController.self),

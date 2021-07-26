@@ -168,6 +168,14 @@
 		8AF03E1E24B6BDFB00E6E2A2 /* ContactCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF03E1D24B6BDFB00E6E2A2 /* ContactCollectionViewLayout.swift */; };
 		8FA3CB5B246B19EA0049E431 /* ColorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA3CB5A246B19EA0049E431 /* ColorTests.swift */; };
 		8FD01188228A82A600D25925 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CEC16C20D98EE70016922A /* Colors.swift */; };
+		926D648126AE7FAB00BCB47C /* MSFHostingContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926D648026AE7FAB00BCB47C /* MSFHostingContainerView.swift */; };
+		926D648226AE7FAB00BCB47C /* MSFHostingContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926D648026AE7FAB00BCB47C /* MSFHostingContainerView.swift */; };
+		92A1E4EC26A741F60007ED60 /* CardNudgeTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A1E4EB26A741F60007ED60 /* CardNudgeTokens.swift */; };
+		92A1E4ED26A741F60007ED60 /* CardNudgeTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A1E4EB26A741F60007ED60 /* CardNudgeTokens.swift */; };
+		92A1E4F426A791590007ED60 /* MSFCardNudgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A1E4F326A791590007ED60 /* MSFCardNudgeView.swift */; };
+		92A1E4F526A791590007ED60 /* MSFCardNudgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A1E4F326A791590007ED60 /* MSFCardNudgeView.swift */; };
+		92D5598126A0FD2800328FD3 /* CardNudgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D5598026A0FD2800328FD3 /* CardNudgeView.swift */; };
+		92D5598226A0FD2800328FD3 /* CardNudgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D5598026A0FD2800328FD3 /* CardNudgeView.swift */; };
 		A257F82A251D98DD002CAA6E /* FluentUI-apple.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A257F829251D98DD002CAA6E /* FluentUI-apple.xcassets */; };
 		A257F82C251D98F3002CAA6E /* FluentUI-ios.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A257F82B251D98F3002CAA6E /* FluentUI-ios.xcassets */; };
 		A5237ACB21DED7030040BF27 /* ResizingHandleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5237ACA21DED7030040BF27 /* ResizingHandleView.swift */; };
@@ -357,6 +365,10 @@
 		8AF03E1D24B6BDFB00E6E2A2 /* ContactCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactCollectionViewLayout.swift; sourceTree = "<group>"; };
 		8FA3CB5A246B19EA0049E431 /* ColorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTests.swift; sourceTree = "<group>"; };
 		8FD01166228A820600D25925 /* libFluentUI.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libFluentUI.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		926D648026AE7FAB00BCB47C /* MSFHostingContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFHostingContainerView.swift; sourceTree = "<group>"; };
+		92A1E4EB26A741F60007ED60 /* CardNudgeTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardNudgeTokens.swift; sourceTree = "<group>"; };
+		92A1E4F326A791590007ED60 /* MSFCardNudgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFCardNudgeView.swift; sourceTree = "<group>"; };
+		92D5598026A0FD2800328FD3 /* CardNudgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardNudgeView.swift; sourceTree = "<group>"; };
 		A257F829251D98DD002CAA6E /* FluentUI-apple.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = "FluentUI-apple.xcassets"; path = "../apple/Resources/FluentUI-apple.xcassets"; sourceTree = "<group>"; };
 		A257F82B251D98F3002CAA6E /* FluentUI-ios.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = "FluentUI-ios.xcassets"; path = "FluentUI/Resources/FluentUI-ios.xcassets"; sourceTree = "<group>"; };
 		A5237ACA21DED7030040BF27 /* ResizingHandleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResizingHandleView.swift; sourceTree = "<group>"; };
@@ -746,6 +758,16 @@
 			path = "Bottom Commanding";
 			sourceTree = "<group>";
 		};
+		92D5597C26A0FC9700328FD3 /* Card Nudge */ = {
+			isa = PBXGroup;
+			children = (
+				92D5598026A0FD2800328FD3 /* CardNudgeView.swift */,
+				92A1E4EB26A741F60007ED60 /* CardNudgeTokens.swift */,
+				92A1E4F326A791590007ED60 /* MSFCardNudgeView.swift */,
+			);
+			path = "Card Nudge";
+			sourceTree = "<group>";
+		};
 		A5961F9B218A251E00E2A506 /* Popup Menu */ = {
 			isa = PBXGroup;
 			children = (
@@ -831,6 +853,7 @@
 				CCC18C2A2501B1A900BE830E /* Card */,
 				B4F118EA21C8270F00855942 /* Badge Field */,
 				FDFB8AE921361C860046850A /* Calendar */,
+				92D5597C26A0FC9700328FD3 /* Card Nudge */,
 				FC414E1D258876D400069E73 /* Command Bar */,
 				A5CEC16B20D98EBF0016922A /* Core */,
 				FD599D0021347FA0008845EE /* Date Time Pickers */,
@@ -884,6 +907,7 @@
 				A559BB82212B7D870055E107 /* FluentUIFramework.swift */,
 				A5CEC16E20D98F340016922A /* Fonts.swift */,
 				537315B225438B15001FD14C /* iOS13_4_compatibility.swift */,
+				926D648026AE7FAB00BCB47C /* MSFHostingContainerView.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -1411,6 +1435,7 @@
 				5314E07625F00F160099271A /* DateTimePickerController.swift in Sources */,
 				5314E11325F015EA0099271A /* Persona.swift in Sources */,
 				5314E14525F016860099271A /* CardPresentationController.swift in Sources */,
+				92A1E4ED26A741F60007ED60 /* CardNudgeTokens.swift in Sources */,
 				5314E0A925F010070099271A /* DrawerTransitionAnimator.swift in Sources */,
 				5314E00425F00A300099271A /* ActivityViewAnimating.swift in Sources */,
 				5314E06525F00EFD0099271A /* CalendarViewDayMonthCell.swift in Sources */,
@@ -1471,10 +1496,12 @@
 				5314E05925F00EF50099271A /* CalendarViewDataSource.swift in Sources */,
 				5314E01625F00CF70099271A /* BarButtonItems.swift in Sources */,
 				5314E25425F023650099271A /* UIImage+Extensions.swift in Sources */,
+				92D5598226A0FD2800328FD3 /* CardNudgeView.swift in Sources */,
 				5314E22725F022310099271A /* UITableViewCell+Extension.swift in Sources */,
 				5314E0E625F012C00099271A /* UIViewController+Navigation.swift in Sources */,
 				5314E29725F024760099271A /* String+Extension.swift in Sources */,
 				5314E12925F016230099271A /* PillButtonStyle.swift in Sources */,
+				92A1E4F526A791590007ED60 /* MSFCardNudgeView.swift in Sources */,
 				5314E1C425F01B4E0099271A /* TwoLineTitleView.swift in Sources */,
 				5314E0CF25F011F10099271A /* Label.swift in Sources */,
 				5314E13925F016370099271A /* PopupMenuController.swift in Sources */,
@@ -1524,6 +1551,7 @@
 				5314E07D25F00F1A0099271A /* DateTimePickerViewComponentTableView.swift in Sources */,
 				5314E03125F00DDD0099271A /* CardView.swift in Sources */,
 				5314E11525F015EA0099271A /* Presence.swift in Sources */,
+				926D648226AE7FAB00BCB47C /* MSFHostingContainerView.swift in Sources */,
 				5314E08925F00F2D0099271A /* CommandBarButtonGroupView.swift in Sources */,
 				5314E08C25F00F2D0099271A /* CommandBarButton.swift in Sources */,
 				5314E18F25F0195C0099271A /* ShimmerAppearance.swift in Sources */,
@@ -1558,6 +1586,7 @@
 				FD36F1A9216C0A6900CECBC6 /* CardPresentationController.swift in Sources */,
 				B426613E214731D100E25423 /* InitialsView.swift in Sources */,
 				FC414E252588798000069E73 /* CommandBarButtonGroupView.swift in Sources */,
+				92A1E4EC26A741F60007ED60 /* CardNudgeTokens.swift in Sources */,
 				A5B87B02211E20B50038C37C /* UIScreen+Extension.swift in Sources */,
 				FD77752D219E62E100033D58 /* DateTimePickerViewLayout.swift in Sources */,
 				FD7DF05C21FA7F5000857267 /* Tooltip.swift in Sources */,
@@ -1618,10 +1647,12 @@
 				FD9A5C872179464F00D224D9 /* DateComponents+Extensions.swift in Sources */,
 				A5B87AF7211E16370038C37C /* DrawerTransitionAnimator.swift in Sources */,
 				C0A0D76D233AEF6C00F432FD /* ShimmerAppearance.swift in Sources */,
+				92D5598126A0FD2800328FD3 /* CardNudgeView.swift in Sources */,
 				B46D3F932151D95F0029772C /* PersonaCell.swift in Sources */,
 				B444D6B12181403C0002B4D4 /* UITableViewCell+Extension.swift in Sources */,
 				FD777529219E3F6C00033D58 /* DayOfMonth.swift in Sources */,
 				FD1FAE1B2272464B00A5DBA4 /* GenericDateTimePicker.swift in Sources */,
+				92A1E4F426A791590007ED60 /* MSFCardNudgeView.swift in Sources */,
 				A54D97DA217A5FC10072681A /* CALayer+Extensions.swift in Sources */,
 				B483323721DEB5A00022B4CC /* TouchForwardingView.swift in Sources */,
 				FD41C8A022DD13230086F899 /* NavigationAnimator.swift in Sources */,
@@ -1671,6 +1702,7 @@
 				B441478D228CDA130040E88E /* BooleanCell.swift in Sources */,
 				FDF41ED92141A02200EC527C /* CalendarConfiguration.swift in Sources */,
 				FD77753021A490BA00033D58 /* DateTimePicker.swift in Sources */,
+				926D648126AE7FAB00BCB47C /* MSFHostingContainerView.swift in Sources */,
 				22010B702523CB2D00FF1F10 /* ActivityViewAnimating.swift in Sources */,
 				FD7254E92147059D002F4069 /* Calendar+Extensions.swift in Sources */,
 				A559BB7E212B6D100055E107 /* String+Extension.swift in Sources */,
