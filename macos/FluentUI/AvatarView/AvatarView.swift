@@ -698,7 +698,7 @@ class BorderView: NSView {
 	}
 
 	required init?(coder: NSCoder) {
-		fatalError("init(coder:) has not been implemented")
+		preconditionFailure("init(coder:) has not been implemented")
 	}
 
 	override func draw(_ dirtyRect: NSRect) {

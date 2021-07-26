@@ -555,6 +555,7 @@ open class SegmentedControl: UIControl {
         maskedLabel.text = button.currentTitle
         maskedLabel.font = button.titleLabel?.font
         maskedLabel.translatesAutoresizingMaskIntoConstraints = false
+        maskedLabel.isAccessibilityElement = false
         pillMaskedLabelsContainerView.addSubview(maskedLabel)
         pillMaskedLabels.insert(maskedLabel, at: index)
 
