@@ -46,7 +46,7 @@ open class CommandBar: UIView {
 
     @available(*, unavailable)
     public required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        preconditionFailure("init(coder:) has not been implemented")
     }
 
     /// Apply `isEnabled` and `isSelected` state from `CommandBarItem` to the buttons
@@ -139,7 +139,7 @@ open class CommandBar: UIView {
         itemGroups.map { items in
             CommandBarButtonGroupView(buttons: items.compactMap { item in
                 guard let button = itemsToButtonsMap[item] else {
-                    fatalError("Button is not initialized in commandsToButtons")
+                    preconditionFailure("Button is not initialized in commandsToButtons")
                 }
 
                 return button
