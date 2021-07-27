@@ -20,6 +20,7 @@ class AvatarDemoController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
         tableView.register(BooleanCell.self, forCellReuseIdentifier: BooleanCell.identifier)
     }
 
@@ -36,6 +37,15 @@ class AvatarDemoController: UITableViewController {
         let row = AvatarDemoSections.allCases[indexPath.section].rows[indexPath.row]
 
         switch row {
+        case .swiftUIDemo:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier) as? TableViewCell else {
+                return UITableViewCell()
+            }
+            cell.setup(title: row.title)
+            cell.accessoryType = .disclosureIndicator
+
+            return cell
+
         case .alternateBackground,
              .imageBasedRingColor,
              .outOfOffice,
@@ -108,7 +118,23 @@ class AvatarDemoController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
-       return false
+        return AvatarDemoSections.allCases[indexPath.section].rows[indexPath.row] == .swiftUIDemo
+    }
+
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) else {
+            return
+        }
+
+        cell.setSelected(false, animated: true)
+
+        switch AvatarDemoSections.allCases[indexPath.section].rows[indexPath.row] {
+        case .swiftUIDemo:
+            navigationController?.pushViewController(AvatarDemoControllerSwiftUI(),
+                                                     animated: true)
+        default:
+            break
+        }
     }
 
     private var isUsingAlternateBackgroundColor: Bool = false {
@@ -161,7 +187,7 @@ class AvatarDemoController: UITableViewController {
         didSet {
             if oldValue != isUsingImageBasedCustomColor {
                 for avatar in allDemoAvatarsCombined {
-                    avatar.state.imageBasedRingColor = isUsingImageBasedCustomColor ? colorfulCustomImage : nil
+                    avatar.state.imageBasedRingColor = isUsingImageBasedCustomColor ? AvatarDemoController.colorfulCustomImage : nil
                 }
             }
         }
@@ -189,7 +215,7 @@ class AvatarDemoController: UITableViewController {
 
     private lazy var presenceIterator = MSFAvatarPresence.allCases.makeIterator()
 
-    private var colorfulCustomImage: UIImage? {
+    static var colorfulCustomImage: UIImage? {
         let gradientColors = [
             UIColor(red: 0.45, green: 0.29, blue: 0.79, alpha: 1).cgColor,
             UIColor(red: 0.18, green: 0.45, blue: 0.96, alpha: 1).cgColor,
@@ -225,12 +251,12 @@ class AvatarDemoController: UITableViewController {
 
     private func initDemoAvatars() {
         AvatarDemoSections.allCases.filter({ section in
-            return !section.isSettingsSection
+            return section.isDemoSection
         }).forEach { section in
             var avatarsForCurrentSection: [AvatarDemoRows: MSFAvatar] = [:]
 
             AvatarDemoRows.allCases.filter({ row in
-                return !row.isSettingsRow
+                return row.isDemoRow
             }).forEach { row in
                 let avatar = MSFAvatar(style: row.avatarStyle,
                                        size: section.avatarSize)
@@ -307,7 +333,8 @@ class AvatarDemoController: UITableViewController {
              .groupWithInitials,
              .outlinedWithFallback,
              .outlinedPrimaryWithFallback,
-             .overflow:
+             .overflow,
+             .swiftUIDemo:
             return true
         case .alternateBackground:
             return self.isUsingAlternateBackgroundColor
@@ -338,7 +365,8 @@ class AvatarDemoController: UITableViewController {
              .groupWithInitials,
              .outlinedWithFallback,
              .outlinedPrimaryWithFallback,
-             .overflow:
+             .overflow,
+             .swiftUIDemo:
             return
         case .alternateBackground:
             self.isUsingAlternateBackgroundColor = isOn
@@ -360,6 +388,7 @@ class AvatarDemoController: UITableViewController {
     }
 
     private enum AvatarDemoSections: CaseIterable {
+        case swiftUI
         case settings
         case xxlarge
         case xlarge
@@ -382,17 +411,19 @@ class AvatarDemoController: UITableViewController {
                 return .small
             case .xsmall:
                 return .xsmall
-            case .settings:
+            case .swiftUI, .settings:
                 preconditionFailure("Settings rows should not display an Avatar")
             }
         }
 
-        var isSettingsSection: Bool {
-            return self == .settings
+        var isDemoSection: Bool {
+            return self != .settings && self != .swiftUI
         }
 
         var title: String {
             switch self {
+            case .swiftUI:
+                return "SwiftUI"
             case .settings:
                 return "Settings"
             case .xxlarge:
@@ -412,6 +443,8 @@ class AvatarDemoController: UITableViewController {
 
         var rows: [AvatarDemoRows] {
             switch self {
+            case .swiftUI:
+                return [.swiftUIDemo]
             case .settings:
                 return [.alternateBackground,
                         .pointerInteraction,
@@ -457,9 +490,10 @@ class AvatarDemoController: UITableViewController {
         case presence
         case ring
         case ringInnerGap
+        case swiftUIDemo
         case transparency
 
-        var isSettingsRow: Bool {
+        var isDemoRow: Bool {
             switch self {
             case .accentWithFallback,
                  .defaultWithFallback,
@@ -470,7 +504,7 @@ class AvatarDemoController: UITableViewController {
                  .outlinedPrimaryWithFallback,
                  .outlinedWithFallback,
                  .overflow:
-                return false
+                return true
             case .alternateBackground,
                  .imageBasedRingColor,
                  .outOfOffice,
@@ -478,8 +512,9 @@ class AvatarDemoController: UITableViewController {
                  .presence,
                  .ring,
                  .ringInnerGap,
+                 .swiftUIDemo,
                  .transparency:
-                return true
+                return false
             }
         }
 
@@ -503,6 +538,7 @@ class AvatarDemoController: UITableViewController {
                  .presence,
                  .ring,
                  .ringInnerGap,
+                 .swiftUIDemo,
                  .transparency:
                 return nil
             }
@@ -530,6 +566,7 @@ class AvatarDemoController: UITableViewController {
                  .presence,
                  .ring,
                  .ringInnerGap,
+                 .swiftUIDemo,
                  .transparency:
                 return nil
             }
@@ -559,6 +596,7 @@ class AvatarDemoController: UITableViewController {
                  .presence,
                  .ring,
                  .ringInnerGap,
+                 .swiftUIDemo,
                  .transparency:
                 preconditionFailure("Row does not have an associated avatar style")
             }
@@ -598,6 +636,8 @@ class AvatarDemoController: UITableViewController {
                 return "Show ring"
             case .ringInnerGap:
                 return "Set ring inner gap"
+            case .swiftUIDemo:
+                return "SwiftUI Demo"
             case .transparency:
                 return "Use transparency"
             }

@@ -86,6 +86,25 @@ public struct AvatarView: View {
         self.tokens = state.tokens
     }
 
+    /// Creates and initializes a SwiftUI Avatar
+    /// - Parameters:
+    ///   - style: The style of the avatar.
+    ///   - size: The size of the avatar.
+    ///   - image: The optional image that the avatar should display.
+    ///   - primaryText: The primary text used to calculate the Avatar initials.
+    ///   - secondaryText: The secondary text used to calculate the Avatar initials.
+    public init(style: MSFAvatarStyle,
+                size: MSFAvatarSize,
+                image: UIImage?,
+                primaryText: String?,
+                secondaryText: String?) {
+        self.init(style: style,
+                  size: size)
+        state.image = image
+        state.primaryText = primaryText
+        state.secondaryText = secondaryText
+    }
+
     // This initializer should be used by internal container views. These containers should first initialize
     // MSFAvatarStateImpl using style and size, and then use that state and this initializer in their ViewBuilder.
     internal init(_ avatarState: MSFAvatarStateImpl) {
