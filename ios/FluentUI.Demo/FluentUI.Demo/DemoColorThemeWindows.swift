@@ -6,70 +6,74 @@
 import FluentUI
 import UIKit
 
-class DemoColorThemeDefaultWindow: UIWindow, ColorProviding {
+class DemoColorThemeWindow: UIWindow, ColorProviding {
+    public static var theme: NSString = "Default"
+
+    func setTheme(theme: NSString) {
+        DemoColorThemeWindow.theme = theme
+    }
+
     func primaryColor(for window: UIWindow) -> UIColor? {
-        return Colors.communicationBlue
+        if DemoColorThemeWindow.theme == "Green" {
+            return UIColor(named: "Colors/DemoPrimaryColor")
+        } else {
+            return Colors.communicationBlue
+        }
     }
 
     func primaryTint10Color(for window: UIWindow) -> UIColor? {
-        Colors.Palette.communicationBlueTint10.color
+        if DemoColorThemeWindow.theme == "Green" {
+            return UIColor(named: "Colors/DemoPrimaryTint10Color")
+        } else {
+            return Colors.Palette.communicationBlueTint10.color
+        }
     }
 
     func primaryTint20Color(for window: UIWindow) -> UIColor? {
-        Colors.Palette.communicationBlueTint20.color
+        if DemoColorThemeWindow.theme == "Green" {
+            return UIColor(named: "Colors/DemoPrimaryTint20Color")
+        } else {
+            return Colors.Palette.communicationBlueTint20.color
+        }
     }
 
     func primaryTint30Color(for window: UIWindow) -> UIColor? {
-        Colors.Palette.communicationBlueTint30.color
+        if DemoColorThemeWindow.theme == "Green" {
+            return UIColor(named: "Colors/DemoPrimaryTint30Color")
+        } else {
+            return Colors.Palette.communicationBlueTint30.color
+        }
     }
 
     func primaryTint40Color(for window: UIWindow) -> UIColor? {
-        Colors.Palette.communicationBlueTint40.color
+        if DemoColorThemeWindow.theme == "Green" {
+            return UIColor(named: "Colors/DemoPrimaryTint40Color")
+        } else {
+            return Colors.Palette.communicationBlueTint40.color
+        }
     }
 
     func primaryShade10Color(for window: UIWindow) -> UIColor? {
-        Colors.Palette.communicationBlueShade10.color
+        if DemoColorThemeWindow.theme == "Green" {
+            return UIColor(named: "Colors/DemoPrimaryShade10Color")
+        } else {
+            return Colors.Palette.communicationBlueShade10.color
+        }
     }
 
     func primaryShade20Color(for window: UIWindow) -> UIColor? {
-        Colors.Palette.communicationBlueShade20.color
+        if DemoColorThemeWindow.theme == "Green" {
+            return UIColor(named: "Colors/DemoPrimaryShade20Color")
+        } else {
+            return Colors.Palette.communicationBlueShade20.color
+        }
     }
 
     func primaryShade30Color(for window: UIWindow) -> UIColor? {
-        Colors.Palette.communicationBlueShade30.color
-    }
-}
-
-class DemoColorThemeGreenWindow: UIWindow, ColorProviding {
-    func primaryColor(for window: UIWindow) -> UIColor? {
-        return UIColor(named: "Colors/DemoPrimaryColor")
-    }
-
-    func primaryTint10Color(for window: UIWindow) -> UIColor? {
-        return UIColor(named: "Colors/DemoPrimaryTint10Color")
-    }
-
-    func primaryTint20Color(for window: UIWindow) -> UIColor? {
-        return UIColor(named: "Colors/DemoPrimaryTint20Color")
-    }
-
-    func primaryTint30Color(for window: UIWindow) -> UIColor? {
-        return UIColor(named: "Colors/DemoPrimaryTint30Color")
-    }
-
-    func primaryTint40Color(for window: UIWindow) -> UIColor? {
-        return UIColor(named: "Colors/DemoPrimaryTint40Color")
-    }
-
-    func primaryShade10Color(for window: UIWindow) -> UIColor? {
-        return UIColor(named: "Colors/DemoPrimaryShade10Color")
-    }
-
-    func primaryShade20Color(for window: UIWindow) -> UIColor? {
-        return UIColor(named: "Colors/DemoPrimaryShade20Color")
-    }
-
-    func primaryShade30Color(for window: UIWindow) -> UIColor? {
-        return UIColor(named: "Colors/DemoPrimaryShade30Color")
+        if DemoColorThemeWindow.theme == "Green" {
+            return UIColor(named: "Colors/DemoPrimaryShade30Color")
+        } else {
+            return Colors.Palette.communicationBlueShade30.color
+        }
     }
 }

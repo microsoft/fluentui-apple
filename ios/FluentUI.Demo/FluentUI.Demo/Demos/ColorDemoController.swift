@@ -6,10 +6,6 @@
 import FluentUI
 import UIKit
 
-protocol ColorThemeHosting {
-    func updateToWindowWith(type: UIWindow.Type, pushing viewController: UIViewController?)
-}
-
 class ColorDemoController: UIViewController {
     private var sections: [DemoColorSection] = [
         DemoColorSection(text: "App specific color", colorViews: [
@@ -117,8 +113,7 @@ class ColorDemoController: UIViewController {
         view.addSubview(stackView)
         view.backgroundColor = Colors.NavigationBar.background
 
-        let window = ColorDemoController.themeWindowType
-        segmentedControl.selectedSegmentIndex = colorProviderThemes.firstIndex(where: { $0.demoColorTheme.windowType == window }) ?? 0
+        segmentedControl.selectedSegmentIndex = colorProviderThemes.firstIndex(where: { $0 == DemoColorThemeWindow.theme as String }) ?? 0
 
         NSLayoutConstraint.activate([
             stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -139,7 +134,7 @@ class ColorDemoController: UIViewController {
     }
 
     private lazy var segmentedControl: SegmentedControl = {
-        let segmentedControl = SegmentedControl(items: colorProviderThemes.map({ return SegmentItem(title: $0.name) }), style: .primaryPill)
+        let segmentedControl = SegmentedControl(items: colorProviderThemes.map({ return SegmentItem(title: $0) }), style: .primaryPill)
         segmentedControl.addTarget(self, action: #selector(segmentedControlValueChanged(sender:)), for: .valueChanged)
         return segmentedControl
     }()
@@ -147,31 +142,17 @@ class ColorDemoController: UIViewController {
     @objc private func segmentedControlValueChanged(sender: Any) {
         if let segmentedControl = sender as? SegmentedControl {
             let selectedSegmentIndex = segmentedControl.selectedSegmentIndex
-            let windowType = colorProviderThemes[selectedSegmentIndex].demoColorTheme.windowType
-            let colorThemeHost = view.window?.windowScene?.delegate as? ColorThemeHosting
-            ColorDemoController.themeWindowType = windowType
-
-            if let navigationController = navigationController {
-                navigationController.popViewController(animated: false)
-                colorThemeHost?.updateToWindowWith(type: windowType, pushing: self)
-            }
-
-            let window = colorProviderThemes[selectedSegmentIndex].demoColorTheme.window
-            if let colorProvider = window as? ColorProviding {
-                Colors.setProvider(provider: colorProvider, for: window)
-            }
-
-            UIAccessibility.post(notification: .screenChanged, argument: segmentedControl.segmentView(at: selectedSegmentIndex))
+            let keyWindow = self.view.window as! DemoColorThemeWindow
+            keyWindow.setTheme(theme: colorProviderThemes[selectedSegmentIndex] as NSString)
+            Colors.setProvider(provider: keyWindow as ColorProviding, for: keyWindow)
+            DemoListViewController.updateColorProviderFor(window: keyWindow)
+            tableView.reloadData()
+            segmentedControl.didMoveToWindow()
         }
-
-        tableView.reloadData()
     }
 
-    private static var themeWindowType: UIWindow.Type = DemoColorThemeDefaultWindow.self
     private let tableView = UITableView(frame: .zero, style: .grouped)
-    private let colorProviderThemes: [(name: String, demoColorTheme: DemoColorTheme)] = [("Default", DemoColorTheme.init(window: DemoColorThemeDefaultWindow(), windowType: DemoColorThemeDefaultWindow.self)),
-                                                                                         ("Green", DemoColorTheme.init(window: DemoColorThemeGreenWindow(), windowType: DemoColorThemeGreenWindow.self)),
-                                                                                         ("None", DemoColorTheme.init(window: UIWindow(), windowType: UIWindow.self))]
+    private let colorProviderThemes: [String] = ["Default", "Green", "None"]
 }
 
 // MARK: - ColorDemoController: UITableViewDelegate
@@ -252,9 +233,4 @@ struct DemoColorSection {
         self.text = text
         self.colorViews = colorViews
     }
-}
-
-private struct DemoColorTheme {
-    var window: UIWindow
-    var windowType: UIWindow.Type
 }
