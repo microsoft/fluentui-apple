@@ -37,6 +37,16 @@ struct AvatarDemoView: View {
     @State var size: MSFAvatarSize = .xxlarge
     @State var style: MSFAvatarStyle = .default
 
+    let switchToggleStyle: SwitchToggleStyle = {
+        if #available(iOS 14.0, *) {
+            // Workaround for SwiftUI Toggles that switch to green tint color
+            // when they're toggled for the first time
+            return SwitchToggleStyle(tint: Color(Colors.communicationBlue))
+        } else {
+            return SwitchToggleStyle()
+        }
+    }()
+
     public var body: some View {
         VStack {
             AvatarView(style: .default,
@@ -78,9 +88,13 @@ struct AvatarDemoView: View {
                             .textFieldStyle(RoundedBorderTextFieldStyle())
 
                         Toggle("Set image", isOn: $showImage)
+                            .toggleStyle(switchToggleStyle)
                         Toggle("Set alternate background", isOn: $useAlternateBackground)
+                            .toggleStyle(switchToggleStyle)
                         Toggle("Transparency", isOn: $isTransparent)
+                            .toggleStyle(switchToggleStyle)
                         Toggle("iPad Pointer interaction", isOn: $hasPointerInteraction)
+                            .toggleStyle(switchToggleStyle)
                     }
 
                     Group {
@@ -91,8 +105,11 @@ struct AvatarDemoView: View {
                             Divider()
                         }
                         Toggle("Ring visible", isOn: $isRingVisible)
+                            .toggleStyle(switchToggleStyle)
                         Toggle("Ring inner gap", isOn: $hasRingInnerGap)
+                            .toggleStyle(switchToggleStyle)
                         Toggle("Set image based ring color", isOn: $showImageBasedRingColor)
+                            .toggleStyle(switchToggleStyle)
                     }
 
                     Group {
@@ -117,6 +134,7 @@ struct AvatarDemoView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
 
                         Toggle("Out of office", isOn: $isOutOfOffice)
+                            .toggleStyle(switchToggleStyle)
                     }
 
                     Group {
