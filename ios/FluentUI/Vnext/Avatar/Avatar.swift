@@ -147,11 +147,8 @@ public struct AvatarView: View {
         let shouldUseDefaultImage = (state.image == nil && initialsString.isEmpty && style != .overflow)
         let avatarImageInfo: (image: UIImage?, renderingMode: Image.TemplateRenderingMode) = {
             if shouldUseDefaultImage {
-                if style == .outlined || style == .outlinedPrimary {
-                    return (UIImage.staticImageNamed("person_48_regular"), .template)
-                }
-
-                return (UIImage.staticImageNamed("person_48_filled"), .template)
+                let isOutlinedStyle = style == .outlined || style == .outlinedPrimary
+                return (UIImage.staticImageNamed(isOutlinedStyle ? "person_48_regular" : "person_48_filled"), .template)
             }
 
             return (state.image, .original)
