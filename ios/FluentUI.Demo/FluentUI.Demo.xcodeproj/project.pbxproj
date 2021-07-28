@@ -12,6 +12,8 @@
 		22EABB182509A80B00C4BE72 /* IndeterminateProgressBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22EABB172509A80B00C4BE72 /* IndeterminateProgressBarDemoController.swift */; };
 		2F0A96FC25CA047100EF9736 /* SearchBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0A96FB25CA047100EF9736 /* SearchBarDemoController.swift */; };
 		497DC2DE24185896008D86F8 /* PillButtonBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2DD24185896008D86F8 /* PillButtonBarDemoController.swift */; };
+		5303259126B1FAC700611D05 /* FluentUIDemoToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5303259026B1FAC700611D05 /* FluentUIDemoToggle.swift */; };
+		531CC51426AF3B350059DCCE /* AvatarDemoController_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 531CC51326AF3B340059DCCE /* AvatarDemoController_SwiftUI.swift */; };
 		53224AC225D65D220063FBDB /* (null) in Sources */ = {isa = PBXBuildFile; };
 		532854F825A3C70C0042C3B9 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		535401CC25BB4FEA0047DC47 /* (null) in Sources */ = {isa = PBXBuildFile; };
@@ -41,10 +43,10 @@
 		80AECC0C2630F1BB005AF2F3 /* BottomCommandingDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AECC0B2630F1BB005AF2F3 /* BottomCommandingDemoController.swift */; };
 		80B1F7012628D8BB004DFEE5 /* BottomSheetDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B1F7002628D8BB004DFEE5 /* BottomSheetDemoController.swift */; };
 		8AF03E2024B6BE3100E6E2A2 /* ContactCollectionViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF03E1F24B6BE3100E6E2A2 /* ContactCollectionViewDemoController.swift */; };
-		92E4784C2661AED800BAA058 /* PersonaButtonCarouselDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E4784B2661AED800BAA058 /* PersonaButtonCarouselDemoController.swift */; };
 		8F0B81122670200300463726 /* AppCenterDistribute in Frameworks */ = {isa = PBXBuildFile; productRef = 8F0B81112670200300463726 /* AppCenterDistribute */; };
 		8F0B8114267021A700463726 /* AppCenterAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 8F0B8113267021A700463726 /* AppCenterAnalytics */; };
 		8F0B8116267021A700463726 /* AppCenterCrashes in Frameworks */ = {isa = PBXBuildFile; productRef = 8F0B8115267021A700463726 /* AppCenterCrashes */; };
+		92E4784C2661AED800BAA058 /* PersonaButtonCarouselDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E4784B2661AED800BAA058 /* PersonaButtonCarouselDemoController.swift */; };
 		A589F856211BA71000471C23 /* LabelDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A589F855211BA71000471C23 /* LabelDemoController.swift */; };
 		A591A3F420F429EB001ED23B /* Demos.swift in Sources */ = {isa = PBXBuildFile; fileRef = A591A3F320F429EB001ED23B /* Demos.swift */; };
 		A5CEC21020E436F10016922A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CEC20F20E436F10016922A /* AppDelegate.swift */; };
@@ -97,6 +99,8 @@
 		22EABB172509A80B00C4BE72 /* IndeterminateProgressBarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBarDemoController.swift; sourceTree = "<group>"; };
 		2F0A96FB25CA047100EF9736 /* SearchBarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchBarDemoController.swift; sourceTree = "<group>"; };
 		497DC2DD24185896008D86F8 /* PillButtonBarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButtonBarDemoController.swift; sourceTree = "<group>"; };
+		5303259026B1FAC700611D05 /* FluentUIDemoToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluentUIDemoToggle.swift; sourceTree = "<group>"; };
+		531CC51326AF3B340059DCCE /* AvatarDemoController_SwiftUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarDemoController_SwiftUI.swift; sourceTree = "<group>"; };
 		53A16D72267C0EE40030FFAC /* ActivityIndicatorDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorDemoController.swift; sourceTree = "<group>"; };
 		53A16D73267C0EE40030FFAC /* ButtonDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonDemoController.swift; sourceTree = "<group>"; };
 		53A16D74267C0EE40030FFAC /* AvatarLegacyDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarLegacyDemoController.swift; sourceTree = "<group>"; };
@@ -206,6 +210,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5303258F26B1F9ED00611D05 /* SwiftUI */ = {
+			isa = PBXGroup;
+			children = (
+				5303259026B1FAC700611D05 /* FluentUIDemoToggle.swift */,
+			);
+			path = SwiftUI;
+			sourceTree = "<group>";
+		};
 		A52B637E21387566009F7ADF /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
@@ -256,6 +268,7 @@
 			children = (
 				A5CEC23220E452B80016922A /* Demos */,
 				A591A3F520F42A9E001ED23B /* Shell */,
+				5303258F26B1F9ED00611D05 /* SwiftUI */,
 				B4C39550227A4A9300539EC2 /* Utilities */,
 				A577FC96225EC76900B5BBE0 /* Resources */,
 				A52B637E21387566009F7ADF /* Configuration */,
@@ -281,6 +294,7 @@
 				53A16D72267C0EE40030FFAC /* ActivityIndicatorDemoController.swift */,
 				B4D852D822580661004B1B29 /* ActivityIndicatorViewDemoController.swift */,
 				53A16D77267C0EE40030FFAC /* AvatarDemoController.swift */,
+				531CC51326AF3B340059DCCE /* AvatarDemoController_SwiftUI.swift */,
 				0A2FBB4026547C50004D056C /* AvatarGroupDemoController.swift */,
 				7D23482924D89C1C00FBE057 /* AvatarGroupViewDemoController.swift */,
 				53A16D74267C0EE40030FFAC /* AvatarLegacyDemoController.swift */,
@@ -460,6 +474,7 @@
 			files = (
 				B441478F228E02540040E88E /* OtherCellsDemoController.swift in Sources */,
 				536DDA08264C534900CD41B5 /* (null) in Sources */,
+				5303259126B1FAC700611D05 /* FluentUIDemoToggle.swift in Sources */,
 				53B659C5257AA6AA00070405 /* NavigationControllerDemoController.swift in Sources */,
 				53F7386B257964AB0043071D /* AvatarGroupViewDemoController.swift in Sources */,
 				53B659C4257AA69E00070405 /* DrawerDemoController.swift in Sources */,
@@ -475,6 +490,7 @@
 				497DC2DE24185896008D86F8 /* PillButtonBarDemoController.swift in Sources */,
 				B4EF53C5215C45C400573E8F /* PersonaListViewDemoController.swift in Sources */,
 				B4414792228F6F740040E88E /* TableViewCellSampleData.swift in Sources */,
+				531CC51426AF3B350059DCCE /* AvatarDemoController_SwiftUI.swift in Sources */,
 				53A16D7F267C0EE50030FFAC /* ThemingDemoController.swift in Sources */,
 				0A2FBB4126547C50004D056C /* AvatarGroupDemoController.swift in Sources */,
 				53F7386125776C560043071D /* NotificationViewDemoController.swift in Sources */,

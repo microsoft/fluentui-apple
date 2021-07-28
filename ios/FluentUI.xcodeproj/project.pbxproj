@@ -160,6 +160,8 @@
 		5314E2F525F025C60099271A /* CalendarConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF41ED82141A02200EC527C /* CalendarConfiguration.swift */; };
 		5314E30225F0260E0099271A /* AccessibilityContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD77752A219E455A00033D58 /* AccessibilityContainerView.swift */; };
 		5314E30325F0260E0099271A /* AccessibleViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD599D052134A682008845EE /* AccessibleViewDelegate.swift */; };
+		535A852126AF67C100E73C51 /* AvatarModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535A852026AF67C100E73C51 /* AvatarModifiers.swift */; };
+		535A852226AF67C100E73C51 /* AvatarModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535A852026AF67C100E73C51 /* AvatarModifiers.swift */; };
 		536AEF4B25F1EC0300A36206 /* FluentUIStyle.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536AEF2A25F1EC0300A36206 /* FluentUIStyle.generated.swift */; };
 		536AEF4C25F1EC0300A36206 /* FluentUIStyle.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536AEF2A25F1EC0300A36206 /* FluentUIStyle.generated.swift */; };
 		536AEF4F25F1EC0300A36206 /* Theming.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536AEF2C25F1EC0300A36206 /* Theming.swift */; };
@@ -416,6 +418,7 @@
 		3FC2EDB125F9EA2D007AA0F8 /* MSFDrawerTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFDrawerTokens.swift; sourceTree = "<group>"; };
 		497DC2D724185885008D86F8 /* PillButtonBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButtonBar.swift; sourceTree = "<group>"; };
 		497DC2D824185885008D86F8 /* PillButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButton.swift; sourceTree = "<group>"; };
+		535A852026AF67C100E73C51 /* AvatarModifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarModifiers.swift; sourceTree = "<group>"; };
 		536AEF2A25F1EC0300A36206 /* FluentUIStyle.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FluentUIStyle.generated.swift; sourceTree = "<group>"; };
 		536AEF2C25F1EC0300A36206 /* Theming.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theming.swift; sourceTree = "<group>"; };
 		536AEF2F25F1EC0300A36206 /* MSFButtonTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFButtonTokens.generated.swift; sourceTree = "<group>"; };
@@ -903,6 +906,7 @@
 			isa = PBXGroup;
 			children = (
 				536AEF3D25F1EC0300A36206 /* Avatar.swift */,
+				535A852026AF67C100E73C51 /* AvatarModifiers.swift */,
 				536AEF3E25F1EC0300A36206 /* AvatarTokens.swift */,
 				92751051268142CD00F12730 /* MSFAvatarPresence.swift */,
 				536AEF3C25F1EC0300A36206 /* MSFAvatarTokens.generated.swift */,
@@ -1659,6 +1663,7 @@
 				5314E1A225F01A7C0099271A /* ActivityIndicatorCell.swift in Sources */,
 				5314E11F25F015EA0099271A /* InitialsView.swift in Sources */,
 				536AEF5A25F1EC0300A36206 /* HeaderFooterTokens.swift in Sources */,
+				535A852226AF67C100E73C51 /* AvatarModifiers.swift in Sources */,
 				5314E06125F00EFD0099271A /* CalendarViewDayCell.swift in Sources */,
 				929DD25A266ED3B600E8175E /* PersonaButtonCarousel.swift in Sources */,
 				5314E12A25F016230099271A /* PillButton.swift in Sources */,
@@ -1844,6 +1849,7 @@
 				FD41C8BE22DD47120086F899 /* UINavigationItem+Navigation.swift in Sources */,
 				7DC2FB2D24D209E800367A55 /* Presence.swift in Sources */,
 				B4E782C12176AD5E00A7DFCE /* ActionsCell.swift in Sources */,
+				535A852126AF67C100E73C51 /* AvatarModifiers.swift in Sources */,
 				536AEF5925F1EC0300A36206 /* HeaderFooterTokens.swift in Sources */,
 				929DD259266ED3B600E8175E /* PersonaButtonCarousel.swift in Sources */,
 				FD56FD962192754B0023C7EA /* DateTimePickerViewComponent.swift in Sources */,
