@@ -78,14 +78,6 @@ public struct AvatarView: View {
     @ObservedObject var tokens: MSFAvatarTokens
     @ObservedObject var state: MSFAvatarStateImpl
 
-    public init(style: MSFAvatarStyle,
-                size: MSFAvatarSize) {
-        let state = MSFAvatarStateImpl(style: style,
-                                       size: size)
-        self.state = state
-        self.tokens = state.tokens
-    }
-
     /// Creates and initializes a SwiftUI Avatar
     /// - Parameters:
     ///   - style: The style of the avatar.
@@ -95,14 +87,17 @@ public struct AvatarView: View {
     ///   - secondaryText: The secondary text used to calculate the Avatar initials.
     public init(style: MSFAvatarStyle,
                 size: MSFAvatarSize,
-                image: UIImage?,
-                primaryText: String?,
-                secondaryText: String?) {
-        self.init(style: style,
-                  size: size)
+                image: UIImage? = nil,
+                primaryText: String? = nil,
+                secondaryText: String? = nil) {
+        let state = MSFAvatarStateImpl(style: style,
+                                       size: size)
         state.image = image
         state.primaryText = primaryText
         state.secondaryText = secondaryText
+
+        self.state = state
+        self.tokens = state.tokens
     }
 
     // This initializer should be used by internal container views. These containers should first initialize
