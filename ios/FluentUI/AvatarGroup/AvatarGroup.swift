@@ -193,6 +193,7 @@ public struct AvatarGroup: View {
                 createOverflow(count: overflowCount)
             }
         }
+        .flipsForRightToLeftLayoutDirection(true)
     }
 
     private func createOverflow(count: Int) -> Avatar {
