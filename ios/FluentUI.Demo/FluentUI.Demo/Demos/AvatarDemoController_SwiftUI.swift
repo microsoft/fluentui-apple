@@ -49,14 +49,11 @@ struct AvatarDemoView: View {
 
     public var body: some View {
         VStack {
-            AvatarView(style: .default,
-                       size: .xxlarge,
-                       image: nil,
+            AvatarView(style: style,
+                       size: size,
+                       image: showImage ? UIImage(named: "avatar_kat_larsson") : nil,
                        primaryText: primaryText,
                        secondaryText: secondaryText)
-                .size(size)
-                .style(style)
-                .image(showImage ? UIImage(named: "avatar_kat_larsson") : nil)
                 .isRingVisible(isRingVisible)
                 .hasRingInnerGap(hasRingInnerGap)
                 .imageBasedRingColor(showImageBasedRingColor ? AvatarDemoController.colorfulCustomImage : nil)

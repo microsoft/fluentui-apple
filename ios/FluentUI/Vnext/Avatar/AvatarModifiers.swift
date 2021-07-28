@@ -33,11 +33,6 @@ public extension AvatarView {
         return self
     }
 
-    func image(_ image: UIImage?) -> AvatarView {
-        state.image = image
-        return self
-    }
-
     func imageBasedRingColor(_ imageBasedRingColor: UIImage?) -> AvatarView {
         state.imageBasedRingColor = imageBasedRingColor
         return self
@@ -63,28 +58,8 @@ public extension AvatarView {
         return self
     }
 
-    func primaryText(_ primaryText: String?) -> AvatarView {
-        state.primaryText = primaryText
-        return self
-    }
-
     func ringColor(_ ringColor: UIColor?) -> AvatarView {
         state.ringColor = ringColor
-        return self
-    }
-
-    func secondaryText(_ secondaryText: String?) -> AvatarView {
-        state.secondaryText = secondaryText
-        return self
-    }
-
-    func size(_ size: MSFAvatarSize) -> AvatarView {
-        state.size = size
-        return self
-    }
-
-    func style(_ style: MSFAvatarStyle) -> AvatarView {
-        state.style = style
         return self
     }
 }
