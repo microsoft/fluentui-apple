@@ -6,72 +6,121 @@
 import UIKit
 import SwiftUI
 
-/// Properties available to customize the state of the Avatar
+/// UIKit wrapper that exposes the SwiftUI Avatar implementation.
+@objc open class MSFAvatar: NSObject, FluentUIWindowProvider {
 
+    /// The UIView representing the Avatar.
+    @objc open var view: UIView {
+        return hostingController.view
+    }
+
+    /// The object that groups properties that allow control over the Avatar appearance.
+    @objc open var state: MSFAvatarState {
+        return avatar.state
+    }
+
+    /// Creates a new MSFAvatar instance.
+    /// - Parameters:
+    ///   - style: The MSFAvatarStyle value used by the Avatar.
+    ///   - size: The MSFAvatarSize value used by the Avatar.
+    @objc public convenience init(style: MSFAvatarStyle = .default,
+                                  size: MSFAvatarSize = .large) {
+        self.init(style: style,
+                  size: size,
+                  theme: nil)
+    }
+
+    /// Creates a new MSFAvatar instance.
+    /// - Parameters:
+    ///   - style: The MSFAvatarStyle value used by the Avatar.
+    ///   - size: The MSFAvatarSize value used by the Avatar.
+    ///   - theme: The FluentUIStyle instance representing the theme to be overriden for this Avatar.
+    @objc public init(style: MSFAvatarStyle,
+                      size: MSFAvatarSize,
+                      theme: FluentUIStyle?) {
+        super.init()
+
+        avatar = Avatar(style: style,
+                        size: size)
+        hostingController = UIHostingController(rootView: AnyView(avatar
+                                                                    .windowProvider(self)
+                                                                    .modifyIf(theme != nil, { avatar in
+                                                                        avatar.customTheme(theme!)
+                                                                    })))
+        hostingController.disableSafeAreaInsets()
+        view.backgroundColor = UIColor.clear
+    }
+
+    var window: UIWindow? {
+        return self.view.window
+    }
+
+    private var hostingController: UIHostingController<AnyView>!
+
+    private var avatar: Avatar!
+}
+
+/// Properties that can be used to customize the appearance of the Avatar.
 @objc public protocol MSFAvatarState {
+    /// Sets the accessibility label for the Avatar.
     var accessibilityLabel: String? { get set }
+
+    /// Sets a custom background color for the Avatar.
+    /// The ring color inherit this color if not set explicitly to a different color.
     var backgroundColor: UIColor? { get set }
+
+    /// The custom foreground color.
+    /// This property allows customizing the initials text color or the default image tint color.
     var foregroundColor: UIColor? { get set }
+
+    /// Turns iPad Pointer interaction on/off.
     var hasPointerInteraction: Bool { get set }
+
+    /// Whether the gap between the ring and the avatar content exists.
     var hasRingInnerGap: Bool { get set }
+
+    /// The image used in the avatar content.
     var image: UIImage? { get set }
+
+    /// The image used to fill the ring as a custom color.
     var imageBasedRingColor: UIImage? { get set }
+
+    /// Whether the presence status displays its "Out of office" or standard image.
     var isOutOfOffice: Bool { get set }
+
+    /// Displays an outer ring for the avatar if set to true.
+    /// The group style does not support rings.
     var isRingVisible: Bool { get set }
+
+    /// Sets the transparency of the avatar elements (inner and outer ring gaps, presence icon outline).
+    /// Uses the solid default background color if set to false.
     var isTransparent: Bool { get set }
+
+    /// Defines the presence displayed by the Avatar.
+    /// Image displayed depends on the value of the isOutOfOffice property.
+    /// Presence is not displayed in the xsmall size.
     var presence: MSFAvatarPresence { get set }
+
+    /// The primary text of the avatar.
+    /// Used for computing the initials and background/ring colors.
     var primaryText: String? { get set }
+
+    /// Overrides the default ring color.
     var ringColor: UIColor? { get set }
+
+    /// The secondary text of the avatar.
+    /// Used for computing the initials and background/ring colors if primaryText is not set.
     var secondaryText: String? { get set }
+
+    /// Defines the size of the avatar.
+    /// Presence is not displayed in the xsmall size.
     var size: MSFAvatarSize { get set }
+
+    /// Defines the style of the avatar (including the fallback appearance if initials can't be computed and no image is set).
     var style: MSFAvatarStyle { get set }
 }
 
-/// Properties available to customize the state of the avatar
-class MSFAvatarStateImpl: NSObject, ObservableObject, MSFAvatarState {
-    @Published var backgroundColor: UIColor?
-    @Published var foregroundColor: UIColor?
-    @Published var hasPointerInteraction: Bool = false
-    @Published var hasRingInnerGap: Bool = true
-    @Published var image: UIImage?
-    @Published var imageBasedRingColor: UIImage?
-    @Published var isOutOfOffice: Bool = false
-    @Published var isRingVisible: Bool = false
-    @Published var isTransparent: Bool = true
-    @Published var presence: MSFAvatarPresence = .none
-    @Published var primaryText: String?
-    @Published var ringColor: UIColor?
-    @Published var secondaryText: String?
-
-    var size: MSFAvatarSize {
-        get {
-            return tokens.size
-        }
-        set {
-            tokens.size = newValue
-        }
-    }
-
-    var style: MSFAvatarStyle {
-        get {
-            return tokens.style
-        }
-        set {
-            tokens.style = newValue
-        }
-    }
-
-    var tokens: MSFAvatarTokens
-
-    init(style: MSFAvatarStyle,
-         size: MSFAvatarSize) {
-        self.tokens = MSFAvatarTokens(style: style,
-                                      size: size)
-        super.init()
-    }
-}
-
-/// View that represents the avatar
+/// View that represents the avatar.
 public struct Avatar: View {
     @Environment(\.theme) var theme: FluentUIStyle
     @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
@@ -401,45 +450,46 @@ public struct Avatar: View {
     }
 }
 
-/// UIKit wrapper that exposes the SwiftUI Avatar implementation
-@objc open class MSFAvatar: NSObject, FluentUIWindowProvider {
+/// Properties available to customize the state of the avatar
+class MSFAvatarStateImpl: NSObject, ObservableObject, MSFAvatarState {
+    @Published var backgroundColor: UIColor?
+    @Published var foregroundColor: UIColor?
+    @Published var hasPointerInteraction: Bool = false
+    @Published var hasRingInnerGap: Bool = true
+    @Published var image: UIImage?
+    @Published var imageBasedRingColor: UIImage?
+    @Published var isOutOfOffice: Bool = false
+    @Published var isRingVisible: Bool = false
+    @Published var isTransparent: Bool = true
+    @Published var presence: MSFAvatarPresence = .none
+    @Published var primaryText: String?
+    @Published var ringColor: UIColor?
+    @Published var secondaryText: String?
 
-    @objc open var view: UIView {
-        return hostingController.view
+    var size: MSFAvatarSize {
+        get {
+            return tokens.size
+        }
+        set {
+            tokens.size = newValue
+        }
     }
 
-    @objc open var state: MSFAvatarState {
-        return avatar.state
+    var style: MSFAvatarStyle {
+        get {
+            return tokens.style
+        }
+        set {
+            tokens.style = newValue
+        }
     }
 
-    @objc public convenience init(style: MSFAvatarStyle = .default,
-                                  size: MSFAvatarSize = .large) {
-        self.init(style: style,
-                  size: size,
-                  theme: nil)
-    }
+    var tokens: MSFAvatarTokens
 
-    @objc public init(style: MSFAvatarStyle = .default,
-                      size: MSFAvatarSize = .large,
-                      theme: FluentUIStyle? = nil) {
+    init(style: MSFAvatarStyle,
+         size: MSFAvatarSize) {
+        self.tokens = MSFAvatarTokens(style: style,
+                                      size: size)
         super.init()
-
-        avatar = Avatar(style: style,
-                        size: size)
-        hostingController = UIHostingController(rootView: AnyView(avatar
-                                                                    .windowProvider(self)
-                                                                    .modifyIf(theme != nil, { avatar in
-                                                                        avatar.customTheme(theme!)
-                                                                    })))
-        hostingController.disableSafeAreaInsets()
-        view.backgroundColor = UIColor.clear
     }
-
-    var window: UIWindow? {
-        return self.view.window
-    }
-
-    private var hostingController: UIHostingController<AnyView>!
-
-    private var avatar: Avatar!
 }

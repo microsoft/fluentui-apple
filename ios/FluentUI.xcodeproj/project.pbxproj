@@ -622,9 +622,9 @@
 		5306074E26A1E6A4002D49CF /* AvatarGroup */ = {
 			isa = PBXGroup;
 			children = (
+				5306075126A1E6A4002D49CF /* AvatarGroup.swift */,
 				5306074F26A1E6A4002D49CF /* AvatarGroupTokens.swift */,
 				5306075026A1E6A4002D49CF /* MSFAvatarGroupTokens.generated.swift */,
-				5306075126A1E6A4002D49CF /* AvatarGroup.swift */,
 			);
 			path = AvatarGroup;
 			sourceTree = "<group>";

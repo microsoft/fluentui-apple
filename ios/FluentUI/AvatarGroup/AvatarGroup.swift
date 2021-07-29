@@ -6,111 +6,149 @@
 import UIKit
 import SwiftUI
 
+/// UIKit wrapper that exposes the SwiftUI AvatarGroup implementation.
+@objc open class MSFAvatarGroup: NSObject, FluentUIWindowProvider {
+
+    /// The UIView representing the AvatarGroup.
+    @objc open var view: UIView {
+        return hostingController.view
+    }
+
+    /// The object that groups properties that allow control over the AvatarGroup appearance.
+    @objc open var state: MSFAvatarGroupState {
+        return avatarGroup.state
+    }
+
+    /// Creates a new MSFAvatarGroup instance.
+    /// - Parameters:
+    ///   - style: The MSFAvatarGroupStyle value used by the AvatarGroup.
+    ///   - size: The MSFAvatarSize value used by the Avatars that will compose the AvatarGroup.
+    @objc public convenience init(style: MSFAvatarGroupStyle = .stack,
+                                  size: MSFAvatarSize = .large) {
+        self.init(style: style,
+                  size: size,
+                  theme: nil)
+    }
+
+    /// Creates a new MSFAvatarGroup instance.
+    /// - Parameters:
+    ///   - style: The MSFAvatarGroupStyle value used by the AvatarGroup.
+    ///   - size: The MSFAvatarSize value used by the Avatars that will compose the AvatarGroup.
+    ///   - theme: The FluentUIStyle instance representing the theme to be overriden for this AvatarGroup.
+    @objc public init(style: MSFAvatarGroupStyle,
+                      size: MSFAvatarSize,
+                      theme: FluentUIStyle?) {
+        super.init()
+
+        avatarGroup = AvatarGroup(style: style,
+                                  size: size)
+        hostingController = UIHostingController(rootView: AnyView(avatarGroup
+                                                                    .windowProvider(self)
+                                                                    .modifyIf(theme != nil, { avatarGroupView in
+                                                                        avatarGroupView.customTheme(theme!)
+                                                                    })))
+        view.backgroundColor = UIColor.clear
+    }
+
+    var window: UIWindow? {
+        return self.view.window
+    }
+
+    private var hostingController: UIHostingController<AnyView>!
+
+    private var avatarGroup: AvatarGroup!
+}
+
+/// Properties that can be used to customize the appearance of the AvatarGroup.
+@objc public protocol MSFAvatarGroupState {
+
+    /// Caps the number of displayed avatars and shows the remaining not displayed in the overflow avatar.
+    var maxDisplayedAvatars: Int { get set }
+
+    /// Adds to the overflow count in case the calling code did not provide all the avatars, but still wants to convey more
+    /// items than just the remainder of the avatars that could not be displayed due to the maxDisplayedAvatars property.
+    var overflowCount: Int { get set }
+
+    ///  Style of the AvatarGroup.
+    var style: MSFAvatarGroupStyle { get set }
+
+    /// Creates a new Avatar within the AvatarGroup.
+    func createAvatar() -> MSFAvatarGroupAvatarState
+
+    /// Retrieves the state object for a specific Avatar so its appearance can be customized.
+    /// - Parameter index: The zero-based index of the Avatar in the AvatarGroup.
+    func getAvatarState(at index: Int) -> MSFAvatarGroupAvatarState
+
+    /// Remove an Avatar from the AvatarGroup.
+    /// - Parameter index: The zero-based index of the Avatar that will be removed from the AvatarGroup.
+    func removeAvatar(at index: Int)
+}
+
+/// Enumeration of the styles used by the AvatarGroup.
+/// The stack style presents Avatars laid on top of each other.
+/// The pile style presents Avatars side by side.
 @objc public enum MSFAvatarGroupStyle: Int, CaseIterable {
     case stack
     case pile
 }
 
-/// Properties available to customize the state of the Avatar in an Avatar Group
+/// Properties that can be used to customize the appearance of the Avatar in the AvatarGroup.
 @objc public protocol MSFAvatarGroupAvatarState {
+    /// Sets the accessibility label for the Avatar.
     var accessibilityLabel: String? { get set }
+
+    /// Sets a custom background color for the Avatar.
+    /// The ring color inherit this color if not set explicitly to a different color.
     var backgroundColor: UIColor? { get set }
+
+    /// The custom foreground color.
+    /// This property allows customizing the initials text color or the default image tint color.
     var foregroundColor: UIColor? { get set }
+
+    /// Whether the gap between the ring and the avatar content exists.
     var hasRingInnerGap: Bool { get set }
+
+    /// The image used in the avatar content.
     var image: UIImage? { get set }
+
+    /// The image used to fill the ring as a custom color.
     var imageBasedRingColor: UIImage? { get set }
+
+    /// Displays an outer ring for the avatar if set to true.
+    /// The group style does not support rings.
     var isRingVisible: Bool { get set }
+
+    /// Sets the transparency of the avatar elements (inner and outer ring gaps, presence icon outline).
+    /// Uses the solid default background color if set to false.
     var isTransparent: Bool { get set }
+
+    /// The primary text of the avatar.
+    /// Used for computing the initials and background/ring colors.
     var primaryText: String? { get set }
+
+    /// Overrides the default ring color.
     var ringColor: UIColor? { get set }
+
+    /// The secondary text of the avatar.
+    /// Used for computing the initials and background/ring colors if primaryText is not set.
     var secondaryText: String? { get set }
 }
 
-/// `MSFAvatarGroupState` defines properties in an AvatarGroup
-///
-/// `maxDisplayedAvatars`: Caps the number of displayed avatars and shows the remaining not displayed in the overflow avatar
-///
-/// `overflowCount`: Adds to the overflow count in case the calling code did not provide all the avatars, but still wants to convey more
-/// items than just the remainder of the avatars that could not be displayed due to the maxDisplayedAvatars property.
-///
-/// `style`: Type of AvatarGroup. Avatars in a Stack is layered on top of each other; Pile separates avatars
-///
-/// `createAvatar`: Creates an Avatar using an AvatarStyle and AvatarSize
-///
-/// `getAvatarState`: Gets the state of an Avatar using an index value
-///
-/// `removeAvatar`: Removes an Avatar with a specified index value
-@objc public protocol MSFAvatarGroupState {
-    var maxDisplayedAvatars: Int { get set }
-    var overflowCount: Int { get set }
-    var style: MSFAvatarGroupStyle { get set }
-
-    func createAvatar() -> MSFAvatarGroupAvatarState
-    func getAvatarState(at index: Int) -> MSFAvatarGroupAvatarState
-    func removeAvatar(at index: Int)
-}
-
-/// Implementation of the Avatar state that is specific to be used in the Avatar Group
-class MSFAvatarGroupAvatarStateImpl: MSFAvatarStateImpl, MSFAvatarGroupAvatarState {
-    init(size: MSFAvatarSize) {
-        super.init(style: .default, size: size)
-    }
-}
-
-/// Properties that make up AvatarGroup content
-class MSFAvatarGroupStateImpl: NSObject, ObservableObject, MSFAvatarGroupState {
-    func createAvatar() -> MSFAvatarGroupAvatarState {
-        let avatar = MSFAvatarGroupAvatarStateImpl(size: tokens.size)
-        avatars.append(avatar)
-        return avatar
-    }
-
-    func getAvatarState(at index: Int) -> MSFAvatarGroupAvatarState {
-        guard index < avatars.count else {
-            preconditionFailure("Index is out of bounds")
-        }
-        return avatars[index]
-    }
-
-    func removeAvatar(at index: Int) {
-        guard index < avatars.count else {
-            preconditionFailure("Index is out of bounds")
-        }
-        avatars.remove(at: index)
-    }
-
-    @Published var avatars: [MSFAvatarGroupAvatarStateImpl] = []
-    @Published var maxDisplayedAvatars: Int = Int.max
-    @Published var overflowCount: Int = 0
-
-    var style: MSFAvatarGroupStyle {
-        get {
-            return tokens.style
-        }
-        set {
-            tokens.style = newValue
-        }
-    }
-
-    var tokens: MSFAvatarGroupTokens
-
-    init(style: MSFAvatarGroupStyle,
-         size: MSFAvatarSize) {
-        self.tokens = MSFAvatarGroupTokens(style: style,
-                                           size: size)
-        super.init()
-    }
-}
-
-/// View that represents the AvatarGroup
+/// View that represents the AvatarGroup.
 public struct AvatarGroup: View {
     @Environment(\.theme) var theme: FluentUIStyle
     @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
     @ObservedObject var state: MSFAvatarGroupStateImpl
     @ObservedObject var tokens: MSFAvatarGroupTokens
 
-    init(style: MSFAvatarGroupStyle, size: MSFAvatarSize) {
-        let state = MSFAvatarGroupStateImpl(style: style, size: size)
+    /// Creates and initializes a SwiftUI AvatarGroup.
+    /// - Parameters:
+    ///   - style: The style of the avatar group.
+    ///   - size: The size of the avatars displayed in the avatar group.
+    init(style: MSFAvatarGroupStyle,
+         size: MSFAvatarSize) {
+        let state = MSFAvatarGroupStateImpl(style: style,
+                                            size: size)
         self.state = state
         self.tokens = state.tokens
     }
@@ -189,37 +227,52 @@ public struct AvatarGroup: View {
     }
 }
 
-/// UIKit wrapper that exposes the SwiftUI AvatarGroup implementation
-@objc open class MSFAvatarGroup: NSObject, FluentUIWindowProvider {
-    @objc public init(style: MSFAvatarGroupStyle = .stack, size: MSFAvatarSize = .large, theme: FluentUIStyle? = nil) {
+class MSFAvatarGroupStateImpl: NSObject, ObservableObject, MSFAvatarGroupState {
+    func createAvatar() -> MSFAvatarGroupAvatarState {
+        let avatar = MSFAvatarGroupAvatarStateImpl(size: tokens.size)
+        avatars.append(avatar)
+        return avatar
+    }
+
+    func getAvatarState(at index: Int) -> MSFAvatarGroupAvatarState {
+        guard index < avatars.count else {
+            preconditionFailure("Index is out of bounds")
+        }
+        return avatars[index]
+    }
+
+    func removeAvatar(at index: Int) {
+        guard index < avatars.count else {
+            preconditionFailure("Index is out of bounds")
+        }
+        avatars.remove(at: index)
+    }
+
+    @Published var avatars: [MSFAvatarGroupAvatarStateImpl] = []
+    @Published var maxDisplayedAvatars: Int = Int.max
+    @Published var overflowCount: Int = 0
+
+    var style: MSFAvatarGroupStyle {
+        get {
+            return tokens.style
+        }
+        set {
+            tokens.style = newValue
+        }
+    }
+
+    var tokens: MSFAvatarGroupTokens
+
+    init(style: MSFAvatarGroupStyle,
+         size: MSFAvatarSize) {
+        self.tokens = MSFAvatarGroupTokens(style: style,
+                                           size: size)
         super.init()
-
-        avatarGroupView = AvatarGroup(style: style, size: size)
-        hostingController = UIHostingController(rootView: AnyView(avatarGroupView
-                                                                    .windowProvider(self)
-                                                                    .modifyIf(theme != nil, { avatarGroupView in
-                                                                        avatarGroupView.customTheme(theme!)
-                                                                    })))
-        view.backgroundColor = UIColor.clear
     }
+}
 
-    @objc public convenience override init() {
-        self.init(theme: nil)
+class MSFAvatarGroupAvatarStateImpl: MSFAvatarStateImpl, MSFAvatarGroupAvatarState {
+    init(size: MSFAvatarSize) {
+        super.init(style: .default, size: size)
     }
-
-    @objc open var view: UIView {
-        return hostingController.view
-    }
-
-    @objc open var state: MSFAvatarGroupState {
-        return avatarGroupView.state
-    }
-
-    var window: UIWindow? {
-        return self.view.window
-    }
-
-    private var hostingController: UIHostingController<AnyView>!
-
-    private var avatarGroupView: AvatarGroup!
 }
