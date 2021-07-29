@@ -72,7 +72,7 @@ class MSFAvatarStateImpl: NSObject, ObservableObject, MSFAvatarState {
 }
 
 /// View that represents the avatar
-public struct AvatarView: View {
+public struct Avatar: View {
     @Environment(\.theme) var theme: FluentUIStyle
     @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
     @ObservedObject var tokens: MSFAvatarTokens
@@ -115,8 +115,8 @@ public struct AvatarView: View {
         let hasRingInnerGap = state.hasRingInnerGap
         let isTransparent = state.isTransparent
         let isOutOfOffice = state.isOutOfOffice
-        let initialsString: String = ((style == .overflow) ? state.primaryText ?? "" : AvatarView.initialsText(fromPrimaryText: state.primaryText,
-                                                                                                               secondaryText: state.secondaryText))
+        let initialsString: String = ((style == .overflow) ? state.primaryText ?? "" : Avatar.initialsText(fromPrimaryText: state.primaryText,
+                                                                                                           secondaryText: state.secondaryText))
         let shouldUseCalculatedColors = !initialsString.isEmpty && style != .overflow
 
         let ringInnerGap: CGFloat = isRingVisible && hasRingInnerGap ? tokens.ringInnerGap : 0
@@ -145,14 +145,14 @@ public struct AvatarView: View {
 
         let foregroundColor = state.foregroundColor ?? ( !shouldUseCalculatedColors ?
                                                             tokens.foregroundDefaultColor! :
-                                                            AvatarView.initialsCalculatedColor(fromPrimaryText: state.primaryText,
-                                                                                               secondaryText: state.secondaryText,
-                                                                                               colorOptions: tokens.foregroundCalculatedColorOptions))
+                                                            Avatar.initialsCalculatedColor(fromPrimaryText: state.primaryText,
+                                                                                           secondaryText: state.secondaryText,
+                                                                                           colorOptions: tokens.foregroundCalculatedColorOptions))
         let backgroundColor = state.backgroundColor ?? ( !shouldUseCalculatedColors ?
                                                             tokens.backgroundDefaultColor! :
-                                                            AvatarView.initialsCalculatedColor(fromPrimaryText: state.primaryText,
-                                                                                               secondaryText: state.secondaryText,
-                                                                                               colorOptions: tokens.backgroundCalculatedColorOptions))
+                                                            Avatar.initialsCalculatedColor(fromPrimaryText: state.primaryText,
+                                                                                           secondaryText: state.secondaryText,
+                                                                                           colorOptions: tokens.backgroundCalculatedColorOptions))
         let ringGapColor = Color(tokens.ringGapColor).opacity(isTransparent ? 0 : 1)
         let ringColor = !isRingVisible ? Color.clear : Color(state.ringColor ?? ( !shouldUseCalculatedColors ?
                                                                                     tokens.ringDefaultColor! :
@@ -409,7 +409,7 @@ public struct AvatarView: View {
     }
 
     @objc open var state: MSFAvatarState {
-        return self.avatarview.state
+        return avatar.state
     }
 
     @objc public convenience init(style: MSFAvatarStyle = .default,
@@ -424,12 +424,12 @@ public struct AvatarView: View {
                       theme: FluentUIStyle? = nil) {
         super.init()
 
-        avatarview = AvatarView(style: style,
-                                size: size)
-        hostingController = UIHostingController(rootView: AnyView(avatarview
+        avatar = Avatar(style: style,
+                        size: size)
+        hostingController = UIHostingController(rootView: AnyView(avatar
                                                                     .windowProvider(self)
-                                                                    .modifyIf(theme != nil, { avatarview in
-                                                                        avatarview.customTheme(theme!)
+                                                                    .modifyIf(theme != nil, { avatar in
+                                                                        avatar.customTheme(theme!)
                                                                     })))
         hostingController.disableSafeAreaInsets()
         view.backgroundColor = UIColor.clear
@@ -441,5 +441,5 @@ public struct AvatarView: View {
 
     private var hostingController: UIHostingController<AnyView>!
 
-    private var avatarview: AvatarView!
+    private var avatar: Avatar!
 }

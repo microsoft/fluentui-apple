@@ -142,7 +142,7 @@ public struct AvatarGroup: View {
                     (nextAvatarHasRing ? 0 - ringOffset + tokens.ringOuterGap : 0)
                 let cutoutSize = nextAvatarHasRing ? size + ringOffset + ringOuterGap : size
 
-                AvatarView(avatar)
+                Avatar(avatar)
                     .modifyIf(needsCutout, { view in
                         view.mask(AvatarCutout(xOrigin: xOrigin,
                                                yOrigin: yOrigin,
@@ -157,8 +157,8 @@ public struct AvatarGroup: View {
         }
     }
 
-    private func createOverflow(count: Int) -> AvatarView {
-        var avatar = AvatarView(style: .overflow, size: tokens.size)
+    private func createOverflow(count: Int) -> Avatar {
+        var avatar = Avatar(style: .overflow, size: tokens.size)
         let data = MSFAvatarStateImpl(style: .overflow, size: tokens.size)
         data.primaryText = "\(count)"
         data.image = nil
