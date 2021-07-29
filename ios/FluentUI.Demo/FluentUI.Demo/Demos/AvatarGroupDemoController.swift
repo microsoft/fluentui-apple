@@ -248,3 +248,22 @@ extension AvatarGroupDemoController: UITextFieldDelegate {
         return shouldChangeCharacters
     }
 }
+
+extension MSFAvatarSize {
+    var description: String {
+        switch self {
+        case .xsmall:
+            return "ExtraSmall"
+        case .small:
+            return "Small"
+        case .medium:
+            return "Medium"
+        case .large:
+            return "Large"
+        case .xlarge:
+            return "ExtraLarge"
+        case .xxlarge:
+            return "ExtraExtraLarge"
+        }
+    }
+}

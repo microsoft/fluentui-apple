@@ -12,6 +12,8 @@
 		22EABB182509A80B00C4BE72 /* IndeterminateProgressBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22EABB172509A80B00C4BE72 /* IndeterminateProgressBarDemoController.swift */; };
 		2F0A96FC25CA047100EF9736 /* SearchBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0A96FB25CA047100EF9736 /* SearchBarDemoController.swift */; };
 		497DC2DE24185896008D86F8 /* PillButtonBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2DD24185896008D86F8 /* PillButtonBarDemoController.swift */; };
+		5303259326B3198A00611D05 /* AvatarDemoController_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5303259226B3198A00611D05 /* AvatarDemoController_SwiftUI.swift */; };
+		5303259826B31A6300611D05 /* FluentUIDemoToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5303259726B31A6300611D05 /* FluentUIDemoToggle.swift */; };
 		5306075926A1E73F002D49CF /* AvatarGroupDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5306075826A1E73F002D49CF /* AvatarGroupDemoController.swift */; };
 		5373D55F2694C3070032A3B4 /* AvatarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5373D55E2694C3070032A3B4 /* AvatarDemoController.swift */; };
 		7D0931C124AAA3D30072458A /* SideTabBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D0931C024AAA3D30072458A /* SideTabBarDemoController.swift */; };
@@ -82,6 +84,8 @@
 		22EABB172509A80B00C4BE72 /* IndeterminateProgressBarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBarDemoController.swift; sourceTree = "<group>"; };
 		2F0A96FB25CA047100EF9736 /* SearchBarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchBarDemoController.swift; sourceTree = "<group>"; };
 		497DC2DD24185896008D86F8 /* PillButtonBarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButtonBarDemoController.swift; sourceTree = "<group>"; };
+		5303259226B3198A00611D05 /* AvatarDemoController_SwiftUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarDemoController_SwiftUI.swift; sourceTree = "<group>"; };
+		5303259726B31A6300611D05 /* FluentUIDemoToggle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FluentUIDemoToggle.swift; sourceTree = "<group>"; };
 		5306075826A1E73F002D49CF /* AvatarGroupDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarGroupDemoController.swift; sourceTree = "<group>"; };
 		5373D55E2694C3070032A3B4 /* AvatarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarDemoController.swift; sourceTree = "<group>"; };
 		7D0931C024AAA3D30072458A /* SideTabBarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SideTabBarDemoController.swift; sourceTree = "<group>"; };
@@ -184,6 +188,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5303259626B31A6300611D05 /* SwiftUI */ = {
+			isa = PBXGroup;
+			children = (
+				5303259726B31A6300611D05 /* FluentUIDemoToggle.swift */,
+			);
+			path = SwiftUI;
+			sourceTree = "<group>";
+		};
 		A52B637E21387566009F7ADF /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
@@ -234,6 +246,7 @@
 			children = (
 				A5CEC23220E452B80016922A /* Demos */,
 				A591A3F520F42A9E001ED23B /* Shell */,
+				5303259626B31A6300611D05 /* SwiftUI */,
 				B4C39550227A4A9300539EC2 /* Utilities */,
 				A577FC96225EC76900B5BBE0 /* Resources */,
 				A52B637E21387566009F7ADF /* Configuration */,
@@ -258,6 +271,7 @@
 			children = (
 				B4D852D822580661004B1B29 /* ActivityIndicatorViewDemoController.swift */,
 				5373D55E2694C3070032A3B4 /* AvatarDemoController.swift */,
+				5303259226B3198A00611D05 /* AvatarDemoController_SwiftUI.swift */,
 				5306075826A1E73F002D49CF /* AvatarGroupDemoController.swift */,
 				B45EB79121A4D047008646A2 /* BadgeFieldDemoController.swift */,
 				B444D6B72183BA4B0002B4D4 /* BadgeViewDemoController.swift */,
@@ -432,7 +446,9 @@
 				B441478F228E02540040E88E /* OtherCellsDemoController.swift in Sources */,
 				A5961FA9218A61BB00E2A506 /* PopupMenuDemoController.swift in Sources */,
 				A5B6617623A4227400E801DD /* NotificationViewDemoController.swift in Sources */,
+				5303259326B3198A00611D05 /* AvatarDemoController_SwiftUI.swift in Sources */,
 				8AF03E2024B6BE3100E6E2A2 /* ContactCollectionViewDemoController.swift in Sources */,
+				5303259826B31A6300611D05 /* FluentUIDemoToggle.swift in Sources */,
 				D0F59E3324F4E3A700358DC2 /* PassThroughDrawerDemoController.swift in Sources */,
 				A5DCA760211E3B4C005F4CB7 /* DemoController.swift in Sources */,
 				5373D55F2694C3070032A3B4 /* AvatarDemoController.swift in Sources */,

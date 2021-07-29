@@ -15,6 +15,8 @@
 		22EABB1A2509AAD100C4BE72 /* IndeterminateProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22EABB192509AAD100C4BE72 /* IndeterminateProgressBarView.swift */; };
 		497DC2D924185885008D86F8 /* PillButtonBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2D724185885008D86F8 /* PillButtonBar.swift */; };
 		497DC2DB24185885008D86F8 /* PillButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2D824185885008D86F8 /* PillButton.swift */; };
+		5303259A26B31B6B00611D05 /* AvatarModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5303259926B31B6B00611D05 /* AvatarModifiers.swift */; };
+		5303259B26B31B6B00611D05 /* AvatarModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5303259926B31B6B00611D05 /* AvatarModifiers.swift */; };
 		5306075226A1E6A4002D49CF /* AvatarGroupTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5306074F26A1E6A4002D49CF /* AvatarGroupTokens.swift */; };
 		5306075326A1E6A4002D49CF /* AvatarGroupTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5306074F26A1E6A4002D49CF /* AvatarGroupTokens.swift */; };
 		5306075426A1E6A4002D49CF /* MSFAvatarGroupTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5306075026A1E6A4002D49CF /* MSFAvatarGroupTokens.generated.swift */; };
@@ -344,6 +346,7 @@
 		22EABB192509AAD100C4BE72 /* IndeterminateProgressBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBarView.swift; sourceTree = "<group>"; };
 		497DC2D724185885008D86F8 /* PillButtonBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButtonBar.swift; sourceTree = "<group>"; };
 		497DC2D824185885008D86F8 /* PillButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButton.swift; sourceTree = "<group>"; };
+		5303259926B31B6B00611D05 /* AvatarModifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarModifiers.swift; sourceTree = "<group>"; };
 		5306074F26A1E6A4002D49CF /* AvatarGroupTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarGroupTokens.swift; sourceTree = "<group>"; };
 		5306075026A1E6A4002D49CF /* MSFAvatarGroupTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFAvatarGroupTokens.generated.swift; sourceTree = "<group>"; };
 		5306075126A1E6A4002D49CF /* AvatarGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarGroup.swift; sourceTree = "<group>"; };
@@ -1036,6 +1039,7 @@
 			isa = PBXGroup;
 			children = (
 				5373D5612694D65C0032A3B4 /* Avatar.swift */,
+				5303259926B31B6B00611D05 /* AvatarModifiers.swift */,
 				5373D5602694D65C0032A3B4 /* AvatarTokens.swift */,
 				5373D5632694D65C0032A3B4 /* MSFAvatarPresence.swift */,
 				5373D5622694D65C0032A3B4 /* MSFAvatarTokens.generated.swift */,
@@ -1539,6 +1543,7 @@
 				5314E09525F00FA30099271A /* DimmingView.swift in Sources */,
 				5306075326A1E6A4002D49CF /* AvatarGroupTokens.swift in Sources */,
 				5314E11825F015EA0099271A /* PeoplePicker.swift in Sources */,
+				5303259B26B31B6B00611D05 /* AvatarModifiers.swift in Sources */,
 				5314E2B225F024B60099271A /* Calendar+Extensions.swift in Sources */,
 				5314E1B225F01A980099271A /* TooltipPositionController.swift in Sources */,
 				5314E08A25F00F2D0099271A /* CommandBar.swift in Sources */,
@@ -1692,6 +1697,7 @@
 				5306075226A1E6A4002D49CF /* AvatarGroupTokens.swift in Sources */,
 				ECEBA8FC25EDF3380048EE24 /* SegmentedControl.swift in Sources */,
 				FC414E4F2588B65C00069E73 /* CommandBarItem.swift in Sources */,
+				5303259A26B31B6B00611D05 /* AvatarModifiers.swift in Sources */,
 				FD56FD95219131430023C7EA /* DateTimePickerView.swift in Sources */,
 				FDA1AF8C21484625001AE720 /* BlurringView.swift in Sources */,
 				A5961FA1218A25C400E2A506 /* PopupMenuSection.swift in Sources */,
