@@ -10,6 +10,11 @@ class CardNudgeDemoController: UITableViewController {
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(style: .grouped)
+
+        // Enable all switches by default
+        CardNudgeDemoRow.allCases.forEach { row in
+            self.updateSetting(for: row, isOn: true)
+        }
     }
 
     required init?(coder: NSCoder) {
@@ -85,55 +90,59 @@ class CardNudgeDemoController: UITableViewController {
 
     // MARK: - Helpers
 
-    fileprivate func setupPropertyToggleCell(_ cell: BooleanCell, for row: CardNudgeDemoRow) {
+    private func updateSetting(for row: CardNudgeDemoRow, isOn: Bool) {
+        switch row {
+        case .standardCard,
+             .outlineCard:
+            // No-op
+            break
+        case .mainIcon:
+            cardNudges.forEach { cardNudge in
+                cardNudge.state.mainIcon = (isOn ? UIImage(systemName: "gamecontroller") : nil)
+            }
+        case .subtitle:
+            cardNudges.forEach { cardNudge in
+                cardNudge.state.subtitle = (isOn ? "Subtitle" : nil)
+            }
+        case .accentIcon:
+            cardNudges.forEach { cardNudge in
+                cardNudge.state.accentIcon = (isOn ? UIImage(named: "ic_fluent_presence_blocked_10_regular", in: FluentUIFramework.resourceBundle, with: nil) : nil)
+            }
+        case .accentText:
+            cardNudges.forEach { cardNudge in
+                cardNudge.state.accentText = (isOn ? "Accent" : nil)
+            }
+        case .dismissButton:
+            cardNudges.forEach { cardNudge in
+                cardNudge.state.dismissButtonAction = (isOn ? { state in
+                    let alert = UIAlertController(title: "\(state.title) was dismissed", message: nil, preferredStyle: .alert)
+                    let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+                    alert.addAction(action)
+                    self.present(alert, animated: true)
+                } : nil)
+            }
+        case .actionButton:
+            cardNudges.forEach { cardNudge in
+                cardNudge.state.actionButtonTitle = (isOn ? "Action" : nil)
+                cardNudge.state.actionButtonAction = (isOn ? { state in
+                    let alert = UIAlertController(title: "\(state.title) action performed", message: nil, preferredStyle: .alert)
+                    let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+                    alert.addAction(action)
+                    self.present(alert, animated: true)
+                } : nil)
+            }
+        }
+    }
+
+    private func setupPropertyToggleCell(_ cell: BooleanCell, for row: CardNudgeDemoRow) {
         cell.setup(title: "\(row.text)")
         cell.selectionStyle = .none
-        cell.onValueChanged = { [weak self, row, cardNudges, weak cell] in
+        cell.isOn = true
+        cell.onValueChanged = { [weak self, row, weak cell] in
             guard let isOn = cell?.isOn, let strongSelf = self else {
                 return
             }
-            switch row {
-            case .standardCard,
-                 .outlineCard:
-                // No-op
-                break
-            case .mainIcon:
-                cardNudges.forEach { cardNudge in
-                    cardNudge.state.mainIcon = (isOn ? UIImage(systemName: "gamecontroller") : nil)
-                }
-            case .subtitle:
-                cardNudges.forEach { cardNudge in
-                    cardNudge.state.subtitle = (isOn ? "Subtitle" : nil)
-                }
-            case .accentIcon:
-                cardNudges.forEach { cardNudge in
-                    cardNudge.state.accentIcon = (isOn ? UIImage(named: "ic_fluent_presence_blocked_10_regular", in: FluentUIFramework.resourceBundle, with: nil) : nil)
-                }
-            case .accentText:
-                cardNudges.forEach { cardNudge in
-                    cardNudge.state.accentText = (isOn ? "Accent Text" : nil)
-                }
-            case .dismissButton:
-                cardNudges.forEach { cardNudge in
-                    cardNudge.state.dismissButtonAction = (isOn ? { state in
-                        let alert = UIAlertController(title: "\(state.title) was dismissed", message: nil, preferredStyle: .alert)
-                        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
-                        alert.addAction(action)
-                        strongSelf.present(alert, animated: true)
-                    } : nil)
-                }
-            case .actionButton:
-                cardNudges.forEach { cardNudge in
-                    cardNudge.state.actionButtonTitle = (isOn ? "Action" : nil)
-                    cardNudge.state.actionButtonAction = (isOn ? { state in
-                        let alert = UIAlertController(title: "\(state.title) action performed", message: nil, preferredStyle: .alert)
-                        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
-                        alert.addAction(action)
-                        strongSelf.present(alert, animated: true)
-                    } : nil)
-                }
-            }
-
+            strongSelf.updateSetting(for: row, isOn: isOn)
             strongSelf.updateCardNudgeSize()
         }
     }
