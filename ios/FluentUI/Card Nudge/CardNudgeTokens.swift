@@ -51,9 +51,6 @@ class CardNudgeTokens: NSObject, ObservableObject {
 
         super.init()
 
-        // TODO: subclass MSFTokensBase
-        //self.themeAware = true
-
         updateForCurrentTheme()
     }
 
@@ -62,10 +59,7 @@ class CardNudgeTokens: NSObject, ObservableObject {
     }
 
     // TODO: subclass MSFTokensBase
-    /*override*/ func updateForCurrentTheme() {
-        // TODO: subclass MSFTokensBase
-        //let currentTheme = theme
-        //let appearanceProxy = currentTheme.MSFPersonaButtonTokens
+    func updateForCurrentTheme() {
         var appearanceProxy = MSFCardNudgeTokensAppearanceProxy(window: window)
 
         accentColor = appearanceProxy.accentColor

@@ -7,36 +7,9 @@ import FluentUI
 import UIKit
 
 class CardNudgeDemoController: UITableViewController {
-    enum CardControls: Int, CaseIterable {
-        case mainIcon
-        case subtitle
-        case accentIcon
-        case accentText
-        case dismissButton
-        case actionButton
-
-        var text: String {
-            switch self {
-            case .mainIcon:
-                return "Main Icon"
-            case .subtitle:
-                return "Subtitle"
-            case .accentIcon:
-                return "Accent Icon"
-            case .accentText:
-                return "Accent"
-            case .dismissButton:
-                return "Dismiss Button"
-            case .actionButton:
-                return "Action Button"
-            }
-        }
-    }
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(style: .plain)
-
-        self.prepareCardNudgeViews()
+        super.init(style: .grouped)
     }
 
     required init?(coder: NSCoder) {
@@ -48,67 +21,82 @@ class CardNudgeDemoController: UITableViewController {
 
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: CardNudgeDemoController.controlReuseIdentifier)
         tableView.register(BooleanCell.self, forCellReuseIdentifier: BooleanCell.identifier)
-        tableView.separatorStyle = .none
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(updateCardNudgeSize),
+                                               name: UIContentSizeCategory.didChangeNotification,
+                                               object: nil)
     }
 
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return CardNudgeDemoSection.allCases.count
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-        case 0:
-            return CardNudgeViewStyle.allCases.count
-        case 1:
-            return CardControls.allCases.count
-        default:
-            preconditionFailure("Counting rows in unknown section")
-        }
+        return CardNudgeDemoSection.allCases[section].rows.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.section == 0 {
+        let section = CardNudgeDemoSection.allCases[indexPath.section]
+        let row = section.rows[indexPath.row]
+
+        switch row {
+        case .standardCard,
+             .outlineCard:
             let cell = tableView.dequeueReusableCell(withIdentifier: CardNudgeDemoController.controlReuseIdentifier, for: indexPath)
 
-            let view = cardNudges[indexPath.item]
-            cell.contentView.addSubview(view)
+            let view = cardNudges[indexPath.row]
+            let contentView = cell.contentView
+            contentView.addSubview(view)
             cell.selectionStyle = .none
             cell.backgroundColor = .systemBackground
             view.translatesAutoresizingMaskIntoConstraints = false
 
             let constraints = [
-                view.topAnchor.constraint(equalTo: cell.contentView.topAnchor),
-                view.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor),
-                view.leftAnchor.constraint(equalTo: cell.contentView.leftAnchor),
-                view.rightAnchor.constraint(equalTo: cell.contentView.rightAnchor)
+                view.topAnchor.constraint(equalTo: contentView.topAnchor),
+                view.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+                view.leftAnchor.constraint(equalTo: contentView.leftAnchor),
+                view.rightAnchor.constraint(equalTo: contentView.rightAnchor)
             ]
 
-            cell.contentView.addConstraints(constraints)
+            contentView.addConstraints(constraints)
 
             return cell
-        } else {
-            if let cell: BooleanCell = tableView.dequeueReusableCell(withIdentifier: BooleanCell.identifier, for: indexPath) as? BooleanCell {
-                setupPropertyToggleCell(cell, at: indexPath)
-                return cell
-            } else {
+
+        case .mainIcon,
+             .subtitle,
+             .accentIcon,
+             .accentText,
+             .dismissButton,
+             .actionButton:
+            guard let cell: BooleanCell = tableView.dequeueReusableCell(withIdentifier: BooleanCell.identifier, for: indexPath) as? BooleanCell else {
                 preconditionFailure("Wrong kind of cell in BooleanCell index path")
             }
+            setupPropertyToggleCell(cell, for: row)
+            return cell
         }
+    }
+
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return CardNudgeDemoSection.allCases[section].title
     }
 
     // MARK: - Helpers
 
-    fileprivate func setupPropertyToggleCell(_ cell: BooleanCell, at indexPath: IndexPath) {
-        let control = CardControls.allCases[indexPath.item]
-        cell.setup(title: "\(control.text)")
+    fileprivate func setupPropertyToggleCell(_ cell: BooleanCell, for row: CardNudgeDemoRow) {
+        cell.setup(title: "\(row.text)")
         cell.selectionStyle = .none
-        cell.onValueChanged = { [weak tableView, control, cardNudges, weak cell] in
-            guard let isOn = cell?.isOn else {
+        cell.onValueChanged = { [weak self, row, cardNudges, weak cell] in
+            guard let isOn = cell?.isOn, let strongSelf = self else {
                 return
             }
-            switch control {
+            switch row {
+            case .standardCard,
+                 .outlineCard:
+                // No-op
+                break
             case .mainIcon:
                 cardNudges.forEach { cardNudge in
                     cardNudge.state.mainIcon = (isOn ? UIImage(systemName: "gamecontroller") : nil)
@@ -131,7 +119,7 @@ class CardNudgeDemoController: UITableViewController {
                         let alert = UIAlertController(title: "\(state.title) was dismissed", message: nil, preferredStyle: .alert)
                         let action = UIAlertAction(title: "OK", style: .default, handler: nil)
                         alert.addAction(action)
-                        self.present(alert, animated: true)
+                        strongSelf.present(alert, animated: true)
                     } : nil)
                 }
             case .actionButton:
@@ -141,27 +129,92 @@ class CardNudgeDemoController: UITableViewController {
                         let alert = UIAlertController(title: "\(state.title) action performed", message: nil, preferredStyle: .alert)
                         let action = UIAlertAction(title: "OK", style: .default, handler: nil)
                         alert.addAction(action)
-                        self.present(alert, animated: true)
+                        strongSelf.present(alert, animated: true)
                     } : nil)
                 }
             }
 
-            // Needs a delay because the constraints update asynchronously, but we don't
-            // have a good way to know when it's done.
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                tableView?.reloadSections(IndexSet([0]), with: .none)
-            }
+            strongSelf.updateCardNudgeSize()
         }
     }
 
-    private func prepareCardNudgeViews() {
+    @objc private func updateCardNudgeSize() {
+        // Needs a delay because the constraints update asynchronously, but we don't
+        // have a good way to know when it's done.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+            self?.tableView?.reloadSections(IndexSet([0]), with: .none)
+        }
+    }
+
+    private var cardNudges: [MSFCardNudgeView] = {
+        var cardNudges: [MSFCardNudgeView] = []
         CardNudgeViewStyle.allCases.forEach { style in
             let nudge = MSFCardNudgeView(style: style, title: (style == .outline ? "Outline" : "Standard"))
             cardNudges.append(nudge)
         }
-    }
 
-    private var cardNudges: [MSFCardNudgeView] = []
+        return cardNudges
+    }()
 
     private static let controlReuseIdentifier: String = "controlReuseIdentifier"
+
+    private enum CardNudgeDemoSection: CaseIterable {
+        case cards
+        case settings
+
+        var title: String {
+            switch self {
+            case .cards:
+                return "Cards"
+            case .settings:
+                return "Settings"
+            }
+        }
+
+        var rows: [CardNudgeDemoRow] {
+            switch self {
+            case .cards:
+                return [.standardCard,
+                        .outlineCard]
+            case .settings:
+                return [.mainIcon,
+                        .subtitle,
+                        .accentIcon,
+                        .accentText,
+                        .dismissButton,
+                        .actionButton]
+            }
+        }
+    }
+
+    enum CardNudgeDemoRow: CaseIterable {
+        case standardCard
+        case outlineCard
+        case mainIcon
+        case subtitle
+        case accentIcon
+        case accentText
+        case dismissButton
+        case actionButton
+
+        var text: String {
+            switch self {
+            case .standardCard,
+                 .outlineCard:
+                return ""
+            case .mainIcon:
+                return "Main Icon"
+            case .subtitle:
+                return "Subtitle"
+            case .accentIcon:
+                return "Accent Icon"
+            case .accentText:
+                return "Accent"
+            case .dismissButton:
+                return "Dismiss Button"
+            case .actionButton:
+                return "Action Button"
+            }
+        }
+    }
 }

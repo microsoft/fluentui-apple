@@ -165,7 +165,7 @@ public struct CardNudgeView: View {
         HStack(spacing: 0) {
             icon
             textContainer
-            Spacer(minLength: 0)
+            Spacer(minLength: tokens.accentPadding)
             buttons
                 .layoutPriority(1)
         }
@@ -191,5 +191,80 @@ public struct CardNudgeView: View {
     init(_ state: CardNudgeViewState) {
         self.state = state
         self.tokens = state.tokens
+    }
+}
+
+struct CardNudgeView_Previews: PreviewProvider {
+    @ViewBuilder
+    static var cards: some View {
+        VStack(spacing: 0) {
+            CardNudgeView(
+                {
+                    let state = CardNudgeViewState(style: .standard, title: "Title")
+                    state.mainIcon = UIImage(systemName: "newspaper")
+                    state.accentText = "Accent"
+                    state.accentIcon = UIImage(named: "ic_fluent_presence_blocked_12_regular")
+                    state.subtitle = "Subtitle"
+                    state.actionButtonTitle = "Action"
+                    state.actionButtonAction = { _ in
+
+                    }
+                    state.dismissButtonAction = { _ in
+
+                    }
+                    return state
+                }()
+            )
+            CardNudgeView(
+                {
+                    let state = CardNudgeViewState(style: .standard, title: "Title")
+                    state.mainIcon = UIImage(systemName: "newspaper")
+                    state.accentText = "Accent"
+                    state.accentIcon = UIImage(named: "ic_fluent_presence_blocked_12_regular", in: FluentUIFramework.resourceBundle, with: nil)
+                    state.subtitle = "Subtitle"
+                    state.dismissButtonAction = { _ in
+
+                    }
+                    return state
+                }()
+            )
+            CardNudgeView(
+                {
+                    let state = CardNudgeViewState(style: .outline, title: "Title")
+                    return state
+                }()
+            )
+            CardNudgeView(
+                {
+                    let state = CardNudgeViewState(style: .outline, title: "Title")
+                    state.dismissButtonAction = { _ in
+
+                    }
+                    return state
+                }()
+            )
+            CardNudgeView(
+                {
+                    let state = CardNudgeViewState(style: .outline, title: "Title")
+                    state.mainIcon = UIImage(systemName: "newspaper")
+                    state.accentText = "Accent"
+                    state.accentIcon = UIImage(named: "ic_fluent_presence_blocked_12_regular", in: FluentUIFramework.resourceBundle, with: nil)
+                    state.subtitle = "Subtitle"
+                    state.actionButtonTitle = "Action"
+                    state.actionButtonAction = { _ in
+
+                    }
+                    return state
+                }()
+            )
+        }
+    }
+
+    static var previews: some View {
+        Group {
+            cards.preferredColorScheme(.light)
+            cards.preferredColorScheme(.dark)
+        }
+        .environment(\.sizeCategory, .accessibilityExtraLarge)
     }
 }
