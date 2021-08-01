@@ -6,12 +6,12 @@
 import SwiftUI
 
 /// Type of callback for both action and dismiss buttons.
-public typealias CardNudgeViewButtonAction = ((_ state: CardNudgeViewState) -> Void)
+public typealias CardNudgeButtonAction = ((_ state: CardNudgeState) -> Void)
 
 /// A class that contains properties to specify the contents of a `PersonaButton`.
-@objc(MSFCardNudgeViewState)
-public class CardNudgeViewState: NSObject, ObservableObject, Identifiable {
-    @Published @objc public private(set) var style: CardNudgeViewStyle
+@objc(MSFCardNudgeState)
+public class CardNudgeState: NSObject, ObservableObject, Identifiable {
+    @Published @objc public private(set) var style: CardNudgeStyle
 
     @Published @objc public var title: String
     @Published @objc public var subtitle: String?
@@ -27,10 +27,10 @@ public class CardNudgeViewState: NSObject, ObservableObject, Identifiable {
     /// Action to be dispatched by the action button on the trailing edge of the control.
     ///
     /// To show an action button, provide values for both `actionButtonTitle` and  `actionButtonAction`.
-    @Published @objc public var actionButtonAction: CardNudgeViewButtonAction?
+    @Published @objc public var actionButtonAction: CardNudgeButtonAction?
 
     /// Action to be dispatched by the dismiss ("close") button on the trailing edge of the control.
-    @Published @objc public var dismissButtonAction: CardNudgeViewButtonAction?
+    @Published @objc public var dismissButtonAction: CardNudgeButtonAction?
 
     /// Parent window of the `PersonaButton`.
     ///
@@ -43,7 +43,7 @@ public class CardNudgeViewState: NSObject, ObservableObject, Identifiable {
 
     let tokens: CardNudgeTokens
 
-    @objc init(style: CardNudgeViewStyle, title: String) {
+    @objc init(style: CardNudgeStyle, title: String) {
         self.style = style
         self.title = title
         self.tokens = CardNudgeTokens(style: style)
@@ -51,14 +51,14 @@ public class CardNudgeViewState: NSObject, ObservableObject, Identifiable {
         super.init()
     }
 
-    @objc convenience init(style: CardNudgeViewStyle,
+    @objc convenience init(style: CardNudgeStyle,
                            title: String,
                            subtitle: String? = nil,
                            mainIcon: UIImage? = nil,
                            accentText: String? = nil,
                            actionButtonTitle: String? = nil,
-                           actionButtonAction: CardNudgeViewButtonAction? = nil,
-                           dismissButtonAction: CardNudgeViewButtonAction? = nil) {
+                           actionButtonAction: CardNudgeButtonAction? = nil,
+                           dismissButtonAction: CardNudgeButtonAction? = nil) {
         self.init(style: style, title: title)
 
         self.subtitle = subtitle
@@ -70,9 +70,9 @@ public class CardNudgeViewState: NSObject, ObservableObject, Identifiable {
     }
 }
 
-public struct CardNudgeView: View {
+public struct CardNudge: View {
     @ObservedObject var tokens: CardNudgeTokens
-    @ObservedObject var state: CardNudgeViewState
+    @ObservedObject var state: CardNudgeState
 
     @ViewBuilder
     var icon: some View {
@@ -188,19 +188,19 @@ public struct CardNudgeView: View {
             .padding(.horizontal, tokens.outerHorizontalPadding)
     }
 
-    init(_ state: CardNudgeViewState) {
+    init(_ state: CardNudgeState) {
         self.state = state
         self.tokens = state.tokens
     }
 }
 
-struct CardNudgeView_Previews: PreviewProvider {
+struct CardNudge_Previews: PreviewProvider {
     @ViewBuilder
     static var cards: some View {
         VStack(spacing: 0) {
-            CardNudgeView(
+            CardNudge(
                 {
-                    let state = CardNudgeViewState(style: .standard, title: "Title")
+                    let state = CardNudgeState(style: .standard, title: "Title")
                     state.mainIcon = UIImage(systemName: "newspaper")
                     state.accentText = "Accent"
                     state.accentIcon = UIImage(named: "ic_fluent_presence_blocked_12_regular")
@@ -215,9 +215,9 @@ struct CardNudgeView_Previews: PreviewProvider {
                     return state
                 }()
             )
-            CardNudgeView(
+            CardNudge(
                 {
-                    let state = CardNudgeViewState(style: .standard, title: "Title")
+                    let state = CardNudgeState(style: .standard, title: "Title")
                     state.mainIcon = UIImage(systemName: "newspaper")
                     state.accentText = "Accent"
                     state.accentIcon = UIImage(named: "ic_fluent_presence_blocked_12_regular", in: FluentUIFramework.resourceBundle, with: nil)
@@ -228,24 +228,24 @@ struct CardNudgeView_Previews: PreviewProvider {
                     return state
                 }()
             )
-            CardNudgeView(
+            CardNudge(
                 {
-                    let state = CardNudgeViewState(style: .outline, title: "Title")
+                    let state = CardNudgeState(style: .outline, title: "Title")
                     return state
                 }()
             )
-            CardNudgeView(
+            CardNudge(
                 {
-                    let state = CardNudgeViewState(style: .outline, title: "Title")
+                    let state = CardNudgeState(style: .outline, title: "Title")
                     state.dismissButtonAction = { _ in
 
                     }
                     return state
                 }()
             )
-            CardNudgeView(
+            CardNudge(
                 {
-                    let state = CardNudgeViewState(style: .outline, title: "Title")
+                    let state = CardNudgeState(style: .outline, title: "Title")
                     state.mainIcon = UIImage(systemName: "newspaper")
                     state.accentText = "Accent"
                     state.accentIcon = UIImage(named: "ic_fluent_presence_blocked_12_regular", in: FluentUIFramework.resourceBundle, with: nil)

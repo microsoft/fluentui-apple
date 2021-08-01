@@ -52,7 +52,7 @@ class CardNudgeDemoController: UITableViewController {
              .outlineCard:
             let cell = tableView.dequeueReusableCell(withIdentifier: CardNudgeDemoController.controlReuseIdentifier, for: indexPath)
 
-            let view = cardNudges[indexPath.row]
+            let view = cardNudges[indexPath.row].view
             let contentView = cell.contentView
             contentView.addSubview(view)
             cell.selectionStyle = .none
@@ -155,10 +155,10 @@ class CardNudgeDemoController: UITableViewController {
         }
     }
 
-    private var cardNudges: [MSFCardNudgeView] = {
-        var cardNudges: [MSFCardNudgeView] = []
-        CardNudgeViewStyle.allCases.forEach { style in
-            let nudge = MSFCardNudgeView(style: style, title: (style == .outline ? "Outline" : "Standard"))
+    private var cardNudges: [MSFCardNudge] = {
+        var cardNudges: [MSFCardNudge] = []
+        CardNudgeStyle.allCases.forEach { style in
+            let nudge = MSFCardNudge(style: style, title: (style == .outline ? "Outline" : "Standard"))
             cardNudges.append(nudge)
         }
 

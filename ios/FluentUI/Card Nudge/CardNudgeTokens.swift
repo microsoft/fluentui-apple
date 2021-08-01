@@ -5,8 +5,8 @@
 
 import UIKit
 
-@objc(MSFCardNudgeViewStyle)
-public enum CardNudgeViewStyle: Int, CaseIterable {
+@objc(MSFCardNudgeStyle)
+public enum CardNudgeStyle: Int, CaseIterable {
     case standard
     case outline
 }
@@ -32,7 +32,7 @@ class CardNudgeTokens: NSObject, ObservableObject {
     @Published public var subtitleTextColor: UIColor!
     @Published public var textColor: UIColor!
 
-    var style: CardNudgeViewStyle {
+    var style: CardNudgeStyle {
         didSet {
             if oldValue != style {
                 updateForCurrentTheme()
@@ -46,7 +46,7 @@ class CardNudgeTokens: NSObject, ObservableObject {
         }
     }
 
-    init(style: CardNudgeViewStyle) {
+    init(style: CardNudgeStyle) {
         self.style = style
 
         super.init()
