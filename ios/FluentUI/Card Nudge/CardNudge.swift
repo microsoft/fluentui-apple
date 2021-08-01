@@ -8,9 +8,32 @@ import SwiftUI
 /// Type of callback for both action and dismiss buttons.
 public typealias CardNudgeButtonAction = ((_ state: CardNudgeState) -> Void)
 
-/// A class that contains properties to specify the contents of a `PersonaButton`.
+/// A protocol that contains properties to specify the contents of a `CardNudge`.
 @objc(MSFCardNudgeState)
-public class CardNudgeState: NSObject, ObservableObject, Identifiable {
+public protocol CardNudgeState: NSObjectProtocol {
+    @objc var style: CardNudgeStyle { get }
+
+    @objc var title: String { get set }
+    @objc var subtitle: String? { get set }
+    @objc var mainIcon: UIImage? { get set }
+    @objc var accentIcon: UIImage? { get set }
+    @objc var accentText: String? { get set }
+
+    /// Title to display in the action button on the trailing edge of the control.
+    ///
+    /// To show an action button, provide values for both `actionButtonTitle` and  `actionButtonAction`.
+    @objc var actionButtonTitle: String? { get set }
+
+    /// Action to be dispatched by the action button on the trailing edge of the control.
+    ///
+    /// To show an action button, provide values for both `actionButtonTitle` and  `actionButtonAction`.
+    @objc var actionButtonAction: CardNudgeButtonAction? { get set }
+
+    /// Action to be dispatched by the dismiss ("close") button on the trailing edge of the control.
+    @objc var dismissButtonAction: CardNudgeButtonAction? { get set }
+}
+
+public class CardNudgeStateImpl: NSObject, ObservableObject, Identifiable, CardNudgeState {
     @Published @objc public private(set) var style: CardNudgeStyle
 
     @Published @objc public var title: String
@@ -72,7 +95,7 @@ public class CardNudgeState: NSObject, ObservableObject, Identifiable {
 
 public struct CardNudge: View {
     @ObservedObject var tokens: CardNudgeTokens
-    @ObservedObject var state: CardNudgeState
+    @ObservedObject var state: CardNudgeStateImpl
 
     @ViewBuilder
     var icon: some View {
@@ -188,7 +211,8 @@ public struct CardNudge: View {
             .padding(.horizontal, tokens.outerHorizontalPadding)
     }
 
-    init(_ state: CardNudgeState) {
+    init(style: CardNudgeStyle, title: String) {
+        let state = CardNudgeStateImpl(style: style, title: title)
         self.state = state
         self.tokens = state.tokens
     }
@@ -198,65 +222,36 @@ struct CardNudge_Previews: PreviewProvider {
     @ViewBuilder
     static var cards: some View {
         VStack(spacing: 0) {
-            CardNudge(
-                {
-                    let state = CardNudgeState(style: .standard, title: "Title")
-                    state.mainIcon = UIImage(systemName: "newspaper")
-                    state.accentText = "Accent"
-                    state.accentIcon = UIImage(named: "ic_fluent_presence_blocked_12_regular")
-                    state.subtitle = "Subtitle"
-                    state.actionButtonTitle = "Action"
-                    state.actionButtonAction = { _ in
+            CardNudge(style: .standard, title: "Title")
+                .mainIcon(UIImage(systemName: "newspaper"))
+                .accentText("Accent")
+                .accentIcon(UIImage(named: "ic_fluent_presence_blocked_12_regular", in: FluentUIFramework.resourceBundle, with: nil))
+                .subtitle("Subtitle")
+                .actionButtonTitle("Action")
+                .actionButtonAction({ _ in
+                })
+                .dismissButtonAction({ _ in
+                })
 
-                    }
-                    state.dismissButtonAction = { _ in
-
-                    }
-                    return state
-                }()
-            )
-            CardNudge(
-                {
-                    let state = CardNudgeState(style: .standard, title: "Title")
-                    state.mainIcon = UIImage(systemName: "newspaper")
-                    state.accentText = "Accent"
-                    state.accentIcon = UIImage(named: "ic_fluent_presence_blocked_12_regular", in: FluentUIFramework.resourceBundle, with: nil)
-                    state.subtitle = "Subtitle"
-                    state.dismissButtonAction = { _ in
-
-                    }
-                    return state
-                }()
-            )
-            CardNudge(
-                {
-                    let state = CardNudgeState(style: .outline, title: "Title")
-                    return state
-                }()
-            )
-            CardNudge(
-                {
-                    let state = CardNudgeState(style: .outline, title: "Title")
-                    state.dismissButtonAction = { _ in
-
-                    }
-                    return state
-                }()
-            )
-            CardNudge(
-                {
-                    let state = CardNudgeState(style: .outline, title: "Title")
-                    state.mainIcon = UIImage(systemName: "newspaper")
-                    state.accentText = "Accent"
-                    state.accentIcon = UIImage(named: "ic_fluent_presence_blocked_12_regular", in: FluentUIFramework.resourceBundle, with: nil)
-                    state.subtitle = "Subtitle"
-                    state.actionButtonTitle = "Action"
-                    state.actionButtonAction = { _ in
-
-                    }
-                    return state
-                }()
-            )
+            CardNudge(style: .standard, title: "Title")
+                .mainIcon(UIImage(systemName: "newspaper"))
+                .accentText("Accent")
+                .accentIcon(UIImage(named: "ic_fluent_presence_blocked_12_regular", in: FluentUIFramework.resourceBundle, with: nil))
+                .subtitle("Subtitle")
+                .dismissButtonAction({ _ in
+                })
+            CardNudge(style: .outline, title: "Title")
+            CardNudge(style: .outline, title: "Title")
+                .dismissButtonAction({ _ in
+                })
+            CardNudge(style: .outline, title: "Title")
+                .mainIcon(UIImage(systemName: "newspaper"))
+                .accentText("Accent")
+                .accentIcon(UIImage(named: "ic_fluent_presence_blocked_12_regular", in: FluentUIFramework.resourceBundle, with: nil))
+                .subtitle("Subtitle")
+                .actionButtonTitle("Action")
+                .actionButtonAction({ _ in
+                })
         }
     }
 
@@ -265,6 +260,6 @@ struct CardNudge_Previews: PreviewProvider {
             cards.preferredColorScheme(.light)
             cards.preferredColorScheme(.dark)
         }
-        .environment(\.sizeCategory, .accessibilityExtraLarge)
+        .environment(\.sizeCategory, .large)
     }
 }

@@ -10,28 +10,30 @@ import UIKit
 @objc open class MSFCardNudge: NSObject {
 
     @objc public init(style: CardNudgeStyle, title: String) {
-        state = CardNudgeState(style: style, title: title)
-        let cardNudge = CardNudge(state)
+        self.cardNudge = CardNudge(style: style, title: title)
         self.hostingController = UIHostingController(rootView: AnyView(cardNudge))
     }
 
     @objc open lazy var view: UIView = {
-        return CardNudgeWrapperView(state: self.state, hostedView: self.hostingController.view)
+        return CardNudgeWrapperView(state: self.cardNudge.state, hostedView: self.hostingController.view)
     }()
 
-    @objc public var state: CardNudgeState!
+    @objc public var state: CardNudgeState {
+        return cardNudge.state
+    }
 
     // MARK: - Private helpers
 
     private var hostingController: UIHostingController<AnyView>!
+    private var cardNudge: CardNudge!
 }
 
 /// Custom view wrapper so we can override UIView's willMove(toWindow:).
 /// Will be removed once we move to full vNext tokenized views.
 class CardNudgeWrapperView: UIView {
-    var state: CardNudgeState
+    var state: CardNudgeStateImpl
 
-    init(state: CardNudgeState, hostedView: UIView) {
+    init(state: CardNudgeStateImpl, hostedView: UIView) {
         self.state = state
         super.init(frame: .zero)
         embedHostedView(hostedView)
