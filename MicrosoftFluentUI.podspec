@@ -22,6 +22,12 @@ Pod::Spec.new do |s|
                                "ios/FluentUI/Vnext/Avatar/*.{swift,h}"]
   end
 
+  s.subspec 'AvatarGroup_ios' do |avatargroup_ios|
+    avatargroup_ios.platform = :ios
+    avatargroup_ios.dependency 'MicrosoftFluentUI/Avatar_ios'
+    avatargroup_ios.source_files = ["ios/FluentUI/AvatarGroup/**/*.{swift,h}"]
+  end
+
   s.subspec 'ActivityViewAnimating_ios' do |activityviewanimating_ios|
     activityviewanimating_ios.platform = :ios
     activityviewanimating_ios.dependency 'MicrosoftFluentUI/Core_ios'

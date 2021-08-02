@@ -213,7 +213,7 @@ class NavigationControllerDemoController: DemoController {
 
         let controller = NavigationController(rootViewController: content)
         if showAvatar {
-            controller.msfNavigationBar.avatar = content.personaData
+            controller.msfNavigationBar.personaData = content.personaData
             controller.msfNavigationBar.onAvatarTapped = handleAvatarTapped
         } else {
             content.allowsCellSelection = true
@@ -323,8 +323,8 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
     var showsTopAccessoryView: Bool = false
 
     var personaData: PersonaData = {
-        let personaData = PersonaData(name: "Kat Larrson", avatarImage: UIImage(named: "avatar_kat_larsson"))
-        personaData.hideInsideGapForBorder = true
+        let personaData = PersonaData(name: "Kat Larrson", image: UIImage(named: "avatar_kat_larsson"))
+        personaData.hasRingInnerGap = false
         return personaData
     }()
 
@@ -511,8 +511,10 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
 
     @objc private func shouldShowRainbowRing(isOn: Bool) {
-        personaData.customBorderImage = isOn ? RootViewController.colorfulImageForFrame() : nil
-        msfNavigationController?.msfNavigationBar.avatar = personaData
+        personaData.imageBasedRingColor = isOn ? RootViewController.colorfulImageForFrame() : nil
+        personaData.isRingVisible = isOn
+        personaData.hasRingInnerGap = false
+        msfNavigationController?.msfNavigationBar.personaData = personaData
         showRainbowRingForAvatar = isOn
     }
 

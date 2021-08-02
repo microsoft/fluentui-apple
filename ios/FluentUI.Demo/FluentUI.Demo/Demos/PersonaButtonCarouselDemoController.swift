@@ -205,9 +205,9 @@ class PersonaButtonCarouselDemoController: UITableViewController {
         // Create the PersonaButton to be displayed
         let personaButton = MSFPersonaButtonView(size: size)
         let persona = personas[indexPath.item]
-        personaButton.image = persona.avatarImage
-        personaButton.primaryText = persona.primaryText
-        personaButton.secondaryText = persona.secondaryText
+        personaButton.image = persona.image
+        personaButton.primaryText = persona.name
+        personaButton.secondaryText = persona.email
         personaButton.onTapAction = { [weak self, personaButton] in
             let alert = UIAlertController(title: nil, message: "PersonaButton tapped: \(personaButton.primaryText ?? "(none)")", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default))
@@ -240,28 +240,28 @@ class PersonaButtonCarouselDemoController: UITableViewController {
     private static let smallButtonReuseIdentifier: String = "smallButtonReuseIdentifier"
 
     private let personas: [PersonaData] = [
-        PersonaData(firstName: "Kat", lastName: "Larrson", avatarImage: UIImage(named: "avatar_kat_larsson")),
-        PersonaData(firstName: "Ashley", lastName: "McCarthy", avatarImage: UIImage(named: "avatar_ashley_mccarthy")),
-        PersonaData(firstName: "Allan", lastName: "Munger", avatarImage: UIImage(named: "avatar_allan_munger")),
-        PersonaData(firstName: "Amanda", lastName: "Brady", avatarImage: UIImage(named: "avatar_amanda_brady")),
+        PersonaData(firstName: "Kat", lastName: "Larrson", image: UIImage(named: "avatar_kat_larsson")),
+        PersonaData(firstName: "Ashley", lastName: "McCarthy", image: UIImage(named: "avatar_ashley_mccarthy")),
+        PersonaData(firstName: "Allan", lastName: "Munger", image: UIImage(named: "avatar_allan_munger")),
+        PersonaData(firstName: "Amanda", lastName: "Brady", image: UIImage(named: "avatar_amanda_brady")),
         PersonaData(firstName: "Kevin", lastName: "Sturgis"),
-        PersonaData(firstName: "Lydia", lastName: "Bauer", avatarImage: UIImage(named: "avatar_lydia_bauer")),
+        PersonaData(firstName: "Lydia", lastName: "Bauer", image: UIImage(named: "avatar_lydia_bauer")),
         PersonaData(firstName: "Robin", lastName: "Counts"),
-        PersonaData(firstName: "Tim", lastName: "Deboer", avatarImage: UIImage(named: "avatar_tim_deboer")),
-        PersonaData(firstName: "Daisy", lastName: "Phillips", avatarImage: UIImage(named: "avatar_daisy_phillips")),
+        PersonaData(firstName: "Tim", lastName: "Deboer", image: UIImage(named: "avatar_tim_deboer")),
+        PersonaData(firstName: "Daisy", lastName: "Phillips", image: UIImage(named: "avatar_daisy_phillips")),
         PersonaData(firstName: "Mona", lastName: "Kane", email: "mona.kane@contoso.com"),
-        PersonaData(firstName: "Elvia", lastName: "Atkins", avatarImage: UIImage(named: "avatar_elvia_atkins")),
-        PersonaData(firstName: "Johnie", lastName: "McConnell", subtitle: "Designer", avatarImage: UIImage(named: "avatar_johnie_mcconnell")),
+        PersonaData(firstName: "Elvia", lastName: "Atkins", image: UIImage(named: "avatar_elvia_atkins")),
+        PersonaData(firstName: "Johnie", lastName: "McConnell", subtitle: "Designer", image: UIImage(named: "avatar_johnie_mcconnell")),
         PersonaData(firstName: "Charlotte", lastName: "Waltsson"),
-        PersonaData(firstName: "Mauricio", lastName: "August", avatarImage: UIImage(named: "avatar_mauricio_august")),
-        PersonaData(firstName: "Robert", lastName: "Tolbert", avatarImage: UIImage(named: "avatar_robert_tolbert")),
-        PersonaData(firstName: "Isaac", lastName: "Fielder", avatarImage: UIImage(named: "avatar_isaac_fielder")),
+        PersonaData(firstName: "Mauricio", lastName: "August", image: UIImage(named: "avatar_mauricio_august")),
+        PersonaData(firstName: "Robert", lastName: "Tolbert", image: UIImage(named: "avatar_robert_tolbert")),
+        PersonaData(firstName: "Isaac", lastName: "Fielder", image: UIImage(named: "avatar_isaac_fielder")),
         PersonaData(firstName: "Carole", lastName: "Poland"),
         PersonaData(firstName: "Elliot", lastName: "Woodward"),
-        PersonaData(firstName: "Henry", lastName: "Brill", avatarImage: UIImage(named: "avatar_henry_brill")),
-        PersonaData(firstName: "Cecil", lastName: "Folk", avatarImage: UIImage(named: "avatar_cecil_folk")),
-        PersonaData(name: "Katri Ahokas", avatarImage: UIImage(named: "avatar_katri_ahokas")),
-        PersonaData(name: "Colin Ballinger", email: "colin.ballinger@contoso.com", avatarImage: UIImage(named: "avatar_colin_ballinger")),
+        PersonaData(firstName: "Henry", lastName: "Brill", image: UIImage(named: "avatar_henry_brill")),
+        PersonaData(firstName: "Cecil", lastName: "Folk", image: UIImage(named: "avatar_cecil_folk")),
+        PersonaData(name: "Katri Ahokas", image: UIImage(named: "avatar_katri_ahokas")),
+        PersonaData(name: "Colin Ballinger", email: "colin.ballinger@contoso.com", image: UIImage(named: "avatar_colin_ballinger")),
         PersonaData(email: "wanda.howard@contoso.com"),
         PersonaData(email: "carlos.slattery@contoso.com", subtitle: "Software Engineer")
     ]

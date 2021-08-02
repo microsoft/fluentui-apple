@@ -43,9 +43,8 @@ open class SideTabBar: UIView {
         }
         didSet {
             if let avatar = avatar {
-                let avatarState = avatar.state
-                avatarState.size = .medium
-                avatarState.accessibilityLabel = "Accessibility.LargeTitle.ProfileView".localized
+                avatar.state.size = .medium
+                avatar.state.accessibilityLabel = "Accessibility.LargeTitle.ProfileView".localized
 
                 let avatarView = avatar.view
                 avatarView.translatesAutoresizingMaskIntoConstraints = false
@@ -276,7 +275,7 @@ open class SideTabBar: UIView {
             }
 
             var previousSectionCount: Int = 0
-            if let avatar = avatar, !avatar.view.isHidden {
+            if let avatar = avatar, avatar.view.isHidden {
                 totalCount += 1
                 previousSectionCount += 1
             }

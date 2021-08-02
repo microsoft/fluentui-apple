@@ -198,7 +198,7 @@ public struct PersonaView: View {
 
     public init() {
         tokens = MSFPersonaViewTokens()
-        let avatar = AvatarView(style: .default, size: .xlarge)
+        let avatar = Avatar(style: .default, size: .xlarge)
         state = MSFPersonaViewStateImpl(avatarState: avatar.state)
         state.leadingView = AnyView(avatar)
         state.leadingViewSize = .xlarge

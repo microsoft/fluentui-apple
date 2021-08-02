@@ -244,7 +244,7 @@ public struct PersonaButton: View {
 
     @ViewBuilder
     private var avatarView: some View {
-        AvatarView(state.avatarState)
+        Avatar(state.avatarState)
             .padding(.top, tokens.verticalPadding)
             .padding(.bottom, tokens.avatarInterspace)
     }

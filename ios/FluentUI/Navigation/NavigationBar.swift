@@ -127,10 +127,10 @@ open class NavigationBar: UINavigationBar {
         static let revealingAnimationDuration: TimeInterval = 0.25
     }
 
-    /// An object that conforms to the `MSAvatar` protocol and provides text and an optional image for display as an `MSAvatarView` next to the large title. Only displayed if `showsLargeTitle` is true on the current navigation item. If avatar is nil, it won't show the avatar view.
-    @objc open var avatar: Avatar? {
+    /// An object that conforms to the `MSFPersona` protocol and provides text and an optional image for display as an `MSAvatar` next to the large title. Only displayed if `showsLargeTitle` is true on the current navigation item. If avatar is nil, it won't show the avatar view.
+    @objc open var personaData: Persona? {
         didSet {
-            titleView.avatarData = avatar
+            titleView.personaData = personaData
         }
     }
 

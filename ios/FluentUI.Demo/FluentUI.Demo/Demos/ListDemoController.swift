@@ -22,11 +22,11 @@ class ListDemoController: DemoController {
         var listData: [MSFListSectionState] = []
 
         let samplePersonas: [PersonaData] = [
-            PersonaData(name: "Kat Larrson", email: "kat.larrson@contoso.com", subtitle: "Designer", avatarImage: UIImage(named: "avatar_kat_larsson"), color: Colors.Palette.cyanBlue10.color),
+            PersonaData(name: "Kat Larrson", email: "kat.larrson@contoso.com", subtitle: "Designer", image: UIImage(named: "avatar_kat_larsson"), color: Colors.Palette.cyanBlue10.color),
             PersonaData(name: "Kristin Patterson", email: "kristin.patterson@contoso.com", subtitle: "Software Engineer", color: Colors.Palette.red10.color),
-            PersonaData(name: "Ashley McCarthy", avatarImage: UIImage(named: "avatar_ashley_mccarthy"), color: Colors.Palette.magenta20.color),
-            PersonaData(name: "Allan Munger", email: "allan.munger@contoso.com", subtitle: "Designer", avatarImage: UIImage(named: "avatar_allan_munger"), color: Colors.Palette.green10.color),
-            PersonaData(name: "Amanda Brady", subtitle: "Program Manager", avatarImage: UIImage(named: "avatar_amanda_brady"), color: Colors.Palette.magentaPink10.color)
+            PersonaData(name: "Ashley McCarthy", image: UIImage(named: "avatar_ashley_mccarthy"), color: Colors.Palette.magenta20.color),
+            PersonaData(name: "Allan Munger", email: "allan.munger@contoso.com", subtitle: "Designer", image: UIImage(named: "avatar_allan_munger"), color: Colors.Palette.green10.color),
+            PersonaData(name: "Amanda Brady", subtitle: "Program Manager", image: UIImage(named: "avatar_amanda_brady"), color: Colors.Palette.magentaPink10.color)
         ]
 
         var avatar: MSFAvatar
@@ -36,7 +36,7 @@ class ListDemoController: DemoController {
         listCell = MSFListCellState()
         avatar = createAvatarView(size: .medium,
                                   name: samplePersonas[4].name,
-                                  image: samplePersonas[4].avatarImage,
+                                  image: samplePersonas[4].image,
                                   style: .default)
         listCell.title = avatar.state.primaryText ?? ""
         listCell.leadingUIView = avatar.view
@@ -52,7 +52,7 @@ class ListDemoController: DemoController {
             listCell = MSFListCellState()
             avatar = createAvatarView(size: .medium,
                                       name: samplePersonas[index].name,
-                                      image: samplePersonas[index].avatarImage,
+                                      image: samplePersonas[index].image,
                                       style: .default)
             listCell.title = avatar.state.primaryText ?? ""
             listCell.leadingUIView = avatar.view
@@ -73,7 +73,7 @@ class ListDemoController: DemoController {
             listCell = MSFListCellState()
             avatar = createAvatarView(size: .medium,
                                       name: samplePersonas[index].name,
-                                      image: samplePersonas[index].avatarImage,
+                                      image: samplePersonas[index].image,
                                       style: .default)
             listCell.title = avatar.state.primaryText ?? ""
             listCell.leadingUIView = avatar.view
