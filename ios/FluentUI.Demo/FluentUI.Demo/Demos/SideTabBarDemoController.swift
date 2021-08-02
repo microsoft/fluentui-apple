@@ -150,10 +150,13 @@ class SideTabBarDemoController: DemoController {
     private func showAvatarView(_ show: Bool) {
         var avatar: MSFAvatar?
         if let image = UIImage(named: "avatar_kat_larsson"), show {
-            avatar = MSFAvatar(style: .accent, size: .medium)
-            avatar?.state.primaryText = "Kat Larson"
-            avatar?.state.image = image
-            avatar?.state.hasPointerInteraction = true
+            avatar = MSFAvatar(style: .accent,
+                               size: .medium)
+            if let avatarState = avatar?.state {
+                avatarState.primaryText = "Kat Larson"
+                avatarState.image = image
+                avatarState.hasPointerInteraction = true
+            }
         }
 
         sideTabBar.avatar = avatar

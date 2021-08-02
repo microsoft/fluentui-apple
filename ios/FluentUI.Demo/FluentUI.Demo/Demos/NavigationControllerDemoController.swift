@@ -442,7 +442,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
     @objc private func shouldShowRainbowRing(isOn: Bool) {
         personaData.imageBasedRingColor = isOn ? RootViewController.colorfulImageForFrame() : nil
         personaData.isRingVisible = isOn
-        personaData.hasRingInnerGap = !isOn
+        personaData.hasRingInnerGap = false
         msfNavigationController?.msfNavigationBar.personaData = personaData
         showRainbowRingForAvatar = isOn
     }

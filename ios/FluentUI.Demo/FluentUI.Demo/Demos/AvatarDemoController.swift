@@ -25,16 +25,16 @@ class AvatarDemoController: UITableViewController {
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return AvatarDemoSections.allCases.count
+        return AvatarDemoSection.allCases.count
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return AvatarDemoSections.allCases[section].rows.count
+        return AvatarDemoSection.allCases[section].rows.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let section = AvatarDemoSections.allCases[indexPath.section]
-        let row = AvatarDemoSections.allCases[indexPath.section].rows[indexPath.row]
+        let section = AvatarDemoSection.allCases[indexPath.section]
+        let row = section.rows[indexPath.row]
 
         switch row {
         case .swiftUIDemo:
@@ -114,11 +114,11 @@ class AvatarDemoController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return AvatarDemoSections.allCases[section].title
+        return AvatarDemoSection.allCases[section].title
     }
 
     override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
-        return AvatarDemoSections.allCases[indexPath.section].rows[indexPath.row] == .swiftUIDemo
+        return AvatarDemoSection.allCases[indexPath.section].rows[indexPath.row] == .swiftUIDemo
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -128,7 +128,7 @@ class AvatarDemoController: UITableViewController {
 
         cell.setSelected(false, animated: true)
 
-        switch AvatarDemoSections.allCases[indexPath.section].rows[indexPath.row] {
+        switch AvatarDemoSection.allCases[indexPath.section].rows[indexPath.row] {
         case .swiftUIDemo:
             navigationController?.pushViewController(AvatarDemoControllerSwiftUI(),
                                                      animated: true)
@@ -247,15 +247,15 @@ class AvatarDemoController: UITableViewController {
 
     private var allDemoAvatarsCombined: [MSFAvatar] = []
 
-    private var demoAvatarsBySection: [AvatarDemoSections: [AvatarDemoRows: MSFAvatar]] = [:]
+    private var demoAvatarsBySection: [AvatarDemoSection: [AvatarDemoRow: MSFAvatar]] = [:]
 
     private func initDemoAvatars() {
-        AvatarDemoSections.allCases.filter({ section in
+        AvatarDemoSection.allCases.filter({ section in
             return section.isDemoSection
         }).forEach { section in
-            var avatarsForCurrentSection: [AvatarDemoRows: MSFAvatar] = [:]
+            var avatarsForCurrentSection: [AvatarDemoRow: MSFAvatar] = [:]
 
-            AvatarDemoRows.allCases.filter({ row in
+            AvatarDemoRow.allCases.filter({ row in
                 return row.isDemoRow
             }).forEach { row in
                 let avatar = MSFAvatar(style: row.avatarStyle,
@@ -287,43 +287,11 @@ class AvatarDemoController: UITableViewController {
         return presence!
     }
 
-    @objc private func toggleEnablePointerInteraction(switchView: UISwitch) {
-        isPointerInteractionEnabled = switchView.isOn
-    }
-
-    @objc private func toggleShowPresence(switchView: UISwitch) {
-        isShowingPresence = switchView.isOn
-    }
-
-    @objc private func toggleOutOfOffice(switchView: UISwitch) {
-        isOutOfOffice = switchView.isOn
-    }
-
-    @objc private func toggleShowRings(switchView: UISwitch) {
-        isShowingRings = switchView.isOn
-    }
-
-    @objc private func toggleImageBasedCustomRingColor(switchView: UISwitch) {
-        isUsingImageBasedCustomColor = switchView.isOn
-    }
-
-    @objc private func toggleShowRingInnerGap(switchView: UISwitch) {
-        isShowingRingInnerGap = switchView.isOn
-    }
-
-    @objc private func toggleAlternateBackground(switchView: UISwitch) {
-        isUsingAlternateBackgroundColor = switchView.isOn
-    }
-
-    @objc private func toggleOpaqueBorders(switchView: UISwitch) {
-        isTransparent = !switchView.isOn
-    }
-
     private func updateBackgroundColor() {
         self.tableView.reloadData()
     }
 
-    private func isSettingOn(row: AvatarDemoRows) -> Bool {
+    private func isSettingOn(row: AvatarDemoRow) -> Bool {
         switch row {
         case .accentWithFallback,
              .defaultWithImage,
@@ -355,7 +323,7 @@ class AvatarDemoController: UITableViewController {
         }
     }
 
-    private func updateSetting(for row: AvatarDemoRows, isOn: Bool) {
+    private func updateSetting(for row: AvatarDemoRow, isOn: Bool) {
         switch row {
         case .accentWithFallback,
              .defaultWithImage,
@@ -387,7 +355,7 @@ class AvatarDemoController: UITableViewController {
         }
     }
 
-    private enum AvatarDemoSections: CaseIterable {
+    private enum AvatarDemoSection: CaseIterable {
         case swiftUI
         case settings
         case xxlarge
@@ -441,7 +409,7 @@ class AvatarDemoController: UITableViewController {
             }
         }
 
-        var rows: [AvatarDemoRows] {
+        var rows: [AvatarDemoRow] {
             switch self {
             case .swiftUI:
                 return [.swiftUIDemo]
@@ -473,7 +441,7 @@ class AvatarDemoController: UITableViewController {
         }
     }
 
-    private enum AvatarDemoRows: CaseIterable {
+    private enum AvatarDemoRow: CaseIterable {
         case accentWithFallback
         case alternateBackground
         case defaultWithImage
