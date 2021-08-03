@@ -29,9 +29,11 @@ class ColorTests: XCTestCase {
         let lightModeTraitCollection = UITraitCollection(userInterfaceStyle: .light)
         let darkModeTraitCollection = UITraitCollection(userInterfaceStyle: .dark)
 
-        for (index, colorSet) in Colors.avatarColors.enumerated() {
-            let bgColor = colorSet.background
-            let fgColor = colorSet.foreground
+        let backgroundColors = FluentUIThemeManager.defaultTheme().MSFAvatarTokens.textCalculatedBackgroundColors
+        let foregroundColors = FluentUIThemeManager.defaultTheme().MSFAvatarTokens.textCalculatedForegroundColors
+
+        for (index, bgColor) in backgroundColors.enumerated() {
+            let fgColor = foregroundColors[index]
             let bgLightColor = bgColor.resolvedColor(with: lightModeTraitCollection)
             let bgDarkColor = bgColor.resolvedColor(with: darkModeTraitCollection)
             let fgLightColor = fgColor.resolvedColor(with: lightModeTraitCollection)

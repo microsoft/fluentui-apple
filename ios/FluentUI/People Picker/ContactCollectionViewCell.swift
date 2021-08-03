@@ -27,7 +27,7 @@ class ContactCollectionViewCell: UICollectionViewCell {
 
         contactView?.translatesAutoresizingMaskIntoConstraints = false
 
-        if let avatarImage = persona.avatarImage {
+        if let avatarImage = persona.image {
             contactView?.avatarImage = avatarImage
         }
 

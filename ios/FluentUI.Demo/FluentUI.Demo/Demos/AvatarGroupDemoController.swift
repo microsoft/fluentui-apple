@@ -6,9 +6,9 @@
 import FluentUI
 import UIKit
 
-// MARK: - AvatarGroupViewDemoController
+// MARK: - AvatarGroupDemoController
 
-class AvatarGroupViewDemoController: DemoController {
+class AvatarGroupDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -66,35 +66,31 @@ class AvatarGroupViewDemoController: DemoController {
         settingsTitle.text = "Settings"
         container.addArrangedSubview(settingsTitle)
 
-        addRow(text: "Avatar count", items: [incrementBadgeButton, decrementBadgeButton], textStyle: .footnote, textWidth: Constants.settingsTextWidth)
+        let avatarCountButtonsStackView = UIStackView(arrangedSubviews: [incrementBadgeButton, decrementBadgeButton])
+        avatarCountButtonsStackView.spacing = 30
+        addRow(text: "Avatar count", items: [avatarCountButtonsStackView], textStyle: .footnote, textWidth: Constants.settingsTextWidth)
 
         let backgroundColorSwitch = UISwitch(frame: .zero)
         backgroundColorSwitch.isOn = isUsingAlternateBackgroundColor
         backgroundColorSwitch.addTarget(self, action: #selector(toggleAlternateBackground(switchView:)), for: .valueChanged)
 
         addRow(text: "Use alternate background color", items: [backgroundColorSwitch], textStyle: .footnote, textWidth: Constants.settingsTextWidth)
+
         addRow(text: "Max displayed avatars", items: [maxAvatarsTextField, maxAvatarButton], textStyle: .footnote, textWidth: Constants.settingsTextWidth)
         addRow(text: "Overflow count", items: [overflowCountTextField, overflowCountButton], textStyle: .footnote, textWidth: Constants.settingsTextWidth)
 
-        insertLabel(text: "Avatar stack without borders")
-        insertAvatarViews(style: .stack, borderVisibility: .never)
-
-        insertLabel(text: "Avatar stack with mixed borders")
-        insertAvatarViews(style: .stack, borderVisibility: .automatic)
-
-        insertLabel(text: "Avatar stack with borders")
-        insertAvatarViews(style: .stack, borderVisibility: .always)
-
-        insertLabel(text: "Avatar pile without borders")
-        insertAvatarViews(style: .pile, borderVisibility: .never)
-
-        insertLabel(text: "Avatar pile with mixed borders")
-        insertAvatarViews(style: .pile, borderVisibility: .automatic)
-
-        insertLabel(text: "Avatar pile with borders")
-        insertAvatarViews(style: .pile, borderVisibility: .always)
-
-        updateBackgroundColor()
+        addTitle(text: "Avatar Stack No Border")
+        insertAvatarViews(style: .stack, showBorders: false)
+        addTitle(text: "Avatar Stack With Border")
+        insertAvatarViews(style: .stack, showBorders: true)
+        addTitle(text: "Avatar Stack With Mixed Border")
+        insertAvatarViews(style: .stack, showBorders: true, mixed: true)
+        addTitle(text: "Avatar Pile No Border")
+        insertAvatarViews(style: .pile, showBorders: false)
+        addTitle(text: "Avatar Pile With Border")
+        insertAvatarViews(style: .pile, showBorders: true)
+        addTitle(text: "Avatar Pile With Mixed Border")
+        insertAvatarViews(style: .pile, showBorders: true, mixed: true)
     }
 
     private struct Constants {
@@ -103,7 +99,7 @@ class AvatarGroupViewDemoController: DemoController {
         static let maxTextInputCharCount: Int = 4
     }
 
-    private var avatarGroups: [AvatarGroupView] = []
+    private var avatarGroups: [MSFAvatarGroup] = []
 
     private var avatarCount: Int = 5 {
         didSet {
@@ -137,20 +133,20 @@ class AvatarGroupViewDemoController: DemoController {
         isUsingAlternateBackgroundColor = switchView.isOn
     }
 
-    private var maxDisplayedAvatars: UInt = 3 {
+    private var maxDisplayedAvatars: Int = 4 {
         didSet {
             if oldValue != maxDisplayedAvatars {
                 maxAvatarsTextField.text = "\(maxDisplayedAvatars)"
 
                 for avatarGroup in avatarGroups {
-                    avatarGroup.maxDisplayedAvatars = maxDisplayedAvatars
+                    avatarGroup.state.maxDisplayedAvatars = maxDisplayedAvatars
                 }
             }
         }
     }
 
     @objc private func maxAvatarButtonWasPressed() {
-        if let text = maxAvatarsTextField.text, let count = UInt(text) {
+        if let text = maxAvatarsTextField.text, let count = Int(text) {
             maxDisplayedAvatars = count
             maxAvatarButton.isEnabled = false
         }
@@ -158,20 +154,20 @@ class AvatarGroupViewDemoController: DemoController {
         maxAvatarsTextField.resignFirstResponder()
     }
 
-    private var overflowCount: UInt = 0 {
+    private var overflowCount: Int = 0 {
         didSet {
             if oldValue != overflowCount {
                 overflowCountTextField.text = "\(overflowCount)"
 
                 for avatarGroup in avatarGroups {
-                    avatarGroup.overflowCount = overflowCount
+                    avatarGroup.state.overflowCount = overflowCount
                 }
             }
         }
     }
 
     @objc private func overflowCountButtonWasPressed() {
-        if let text = overflowCountTextField.text, let count = UInt(text) {
+        if let text = overflowCountTextField.text, let count = Int(text) {
             overflowCount = count
             overflowCountButton.isEnabled = false
         }
@@ -179,25 +175,29 @@ class AvatarGroupViewDemoController: DemoController {
         overflowCountTextField.resignFirstResponder()
     }
 
-    private func insertAvatarViews(style: AvatarGroupViewStyle, borderVisibility: AvatarGroupViewBorderVisibility) {
+    private func insertAvatarViews(style: MSFAvatarGroupStyle, showBorders: Bool, mixed: Bool = false) {
         var constraints: [NSLayoutConstraint] = []
 
-        for size in AvatarSize.allCases.reversed() {
+        for size in MSFAvatarSize.allCases.reversed() {
             let containerView = UIView(frame: .zero)
 
-            let avatars: [Avatar] = samplePersonas.prefix(avatarCount).map { persona in
-                persona.showsBorder = Int.random(in: 0...1) == 0
-                return persona
+            let avatarGroup = MSFAvatarGroup(style: style, size: size)
+            for index in 0...avatarCount - 1 {
+                let avatarState = avatarGroup.state.createAvatar()
+                let samplePersona = samplePersonas[index]
+
+                avatarState.image = samplePersona.image
+                avatarState.isRingVisible = mixed ? index % 2 == 0 : showBorders
+                avatarState.primaryText = samplePersona.name
+                avatarState.secondaryText = samplePersona.email
             }
-            let avatarGroupView = AvatarGroupView(avatars: Array(avatars),
-                                                  size: size,
-                                                  style: style,
-                                                  borderVisibility: borderVisibility,
-                                                  maxDisplayedAvatars: maxDisplayedAvatars,
-                                                  overflowCount: overflowCount)
+
+            avatarGroup.state.maxDisplayedAvatars = maxDisplayedAvatars
+            avatarGroup.state.overflowCount = overflowCount
+            avatarGroups.append(avatarGroup)
+            let avatarGroupView = avatarGroup.view
             avatarGroupView.translatesAutoresizingMaskIntoConstraints = false
             containerView.addSubview(avatarGroupView)
-            avatarGroups.append(avatarGroupView)
 
             let trailingConstraint = containerView.trailingAnchor.constraint(equalTo: container.trailingAnchor)
             trailingConstraint.priority = .defaultHigh
@@ -209,24 +209,16 @@ class AvatarGroupViewDemoController: DemoController {
                 trailingConstraint
             ])
 
-            addRow(text: size.description, items: [containerView], textStyle: .footnote, textWidth: Constants.avatarsTextWidth)
+            addRow(text: size.description, items: [containerView], textStyle: .footnote, textWidth: 100)
         }
 
         NSLayoutConstraint.activate(constraints)
     }
-
-    private func insertLabel(text: String) {
-        let label = Label(style: .headline, colorStyle: .regular)
-        label.text = text
-
-        container.addArrangedSubview(UIView())
-        container.addArrangedSubview(label)
-    }
 }
 
-// MARK: - AvatarGroupViewDemoController: UITextFieldDelegate
+// MARK: - AvatarGroupDemoController: UITextFieldDelegate
 
-extension AvatarGroupViewDemoController: UITextFieldDelegate {
+extension AvatarGroupDemoController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         var text = textField.text ?? ""
         guard let stringRange = Range(range, in: text) else {
@@ -254,5 +246,24 @@ extension AvatarGroupViewDemoController: UITextFieldDelegate {
         }
 
         return shouldChangeCharacters
+    }
+}
+
+extension MSFAvatarSize {
+    var description: String {
+        switch self {
+        case .xsmall:
+            return "ExtraSmall"
+        case .small:
+            return "Small"
+        case .medium:
+            return "Medium"
+        case .large:
+            return "Large"
+        case .xlarge:
+            return "ExtraLarge"
+        case .xxlarge:
+            return "ExtraExtraLarge"
+        }
     }
 }
