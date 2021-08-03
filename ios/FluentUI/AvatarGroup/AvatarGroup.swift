@@ -229,6 +229,7 @@ public struct AvatarGroup: View {
             return cutoutFrame
         }
     }
+}
 
 class MSFAvatarGroupStateImpl: NSObject, ObservableObject, MSFAvatarGroupState {
     func createAvatar() -> MSFAvatarGroupAvatarState {
