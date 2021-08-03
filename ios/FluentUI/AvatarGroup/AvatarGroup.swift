@@ -157,7 +157,6 @@ public struct AvatarGroup: View {
         let avatars: [MSFAvatarStateImpl] = state.avatars
         let maxDisplayedAvatars: Int = avatars.prefix(state.maxDisplayedAvatars).count
         let overflowCount: Int = (avatars.count > maxDisplayedAvatars ? avatars.count - maxDisplayedAvatars : 0) + state.overflowCount
-        let isLeftToRight = NSLocale.characterDirection(forLanguage: NSLocale.autoupdatingCurrent.languageCode!) == .leftToRight
 
         let interspace: CGFloat = tokens.interspace
         let size: CGFloat = tokens.size.size
@@ -174,12 +173,13 @@ public struct AvatarGroup: View {
 
                 let ringPaddingInterspace = nextAvatarHasRing ? interspace - (ringOffset + ringOuterGap) : interspace - ringOffset
                 let noRingPaddingInterspace = nextAvatarHasRing ? interspace - ringOuterGap : interspace
+                let rtlRingPaddingInterspace = (nextAvatarHasRing ? -x - ringOuterGap : -x + ringOffset)
+                let rtlNoRingPaddingInterspace = (nextAvatarHasRing ? -x - ringOffset - ringOuterGap : -x)
                 let stackPadding = (currentAvatarHasRing ? ringPaddingInterspace : noRingPaddingInterspace)
 
                 let xPosition = currentAvatarHasRing ? x + ringOffset : x
-                let xPositionRTL = currentAvatarHasRing ? (nextAvatarHasRing ? -x - ringOuterGap : -x + ringOffset) :
-                    (nextAvatarHasRing ? CGFloat(-x - ringOffset - ringOuterGap) : -x)
-                let xOrigin = isLeftToRight ? xPosition : xPositionRTL
+                let xPositionRTL = currentAvatarHasRing ? rtlRingPaddingInterspace : rtlNoRingPaddingInterspace
+                let xOrigin = isLeftToRight() ? xPosition : xPositionRTL
                 let yOrigin = currentAvatarHasRing ? (nextAvatarHasRing ? ringOuterGap : ringOffset) :
                     (nextAvatarHasRing ? 0 - ringOffset + tokens.ringOuterGap : 0)
                 let cutoutSize = nextAvatarHasRing ? size + ringOffset + ringOuterGap : size
@@ -228,6 +228,15 @@ public struct AvatarGroup: View {
                                                          height: cutoutSize)))
                 return cutoutFrame
         }
+    }
+
+    private func isLeftToRight() -> Bool {
+        guard let language = Locale.current.languageCode else {
+            // Default to LTR if no language code is found
+            return true
+        }
+        let direction = Locale.characterDirection(forLanguage: language)
+        return direction == .leftToRight
     }
 }
 
