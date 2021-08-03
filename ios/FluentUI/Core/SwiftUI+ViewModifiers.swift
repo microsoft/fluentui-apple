@@ -61,3 +61,16 @@ extension View {
                               shouldScale: shouldScale))
     }
 }
+
+extension Locale {
+    /// Determines if layout direction of current language is `.leftToRight`.
+    /// - Returns: True if layout direction is left to right, false otherwise.
+    func isLeftToRightLayoutDirection() -> Bool {
+        guard let language = Locale.current.languageCode else {
+            // Default to LTR if no language code is found
+            return true
+        }
+        let direction = Locale.characterDirection(forLanguage: language)
+        return direction == .leftToRight
+    }
+}
