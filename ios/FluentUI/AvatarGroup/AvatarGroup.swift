@@ -230,6 +230,7 @@ public struct AvatarGroup: View {
         }
     }
 
+    // Detects if language code direction is left to right
     private func isLeftToRight() -> Bool {
         guard let language = Locale.current.languageCode else {
             // Default to LTR if no language code is found
