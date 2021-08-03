@@ -157,7 +157,7 @@ class CardNudgeDemoController: UITableViewController {
 
     private var cardNudges: [MSFCardNudge] = {
         var cardNudges: [MSFCardNudge] = []
-        CardNudgeStyle.allCases.forEach { style in
+        MSFCardNudgeStyle.allCases.forEach { style in
             let nudge = MSFCardNudge(style: style, title: (style == .outline ? "Outline" : "Standard"))
             cardNudges.append(nudge)
         }

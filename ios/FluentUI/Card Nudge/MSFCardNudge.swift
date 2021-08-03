@@ -9,7 +9,7 @@ import UIKit
 /// UIKit wrapper that exposes the SwiftUI `CardNudge` implementation
 @objc open class MSFCardNudge: NSObject {
 
-    @objc public init(style: CardNudgeStyle, title: String) {
+    @objc public init(style: MSFCardNudgeStyle, title: String) {
         self.cardNudge = CardNudge(style: style, title: title)
         self.hostingController = UIHostingController(rootView: AnyView(cardNudge))
     }
@@ -18,7 +18,7 @@ import UIKit
         return CardNudgeWrapperView(state: self.cardNudge.state, hostedView: self.hostingController.view)
     }()
 
-    @objc public var state: CardNudgeState {
+    @objc public var state: MSFCardNudgeState {
         return cardNudge.state
     }
 
@@ -31,9 +31,9 @@ import UIKit
 /// Custom view wrapper so we can override UIView's willMove(toWindow:).
 /// Will be removed once we move to full vNext tokenized views.
 class CardNudgeWrapperView: UIView {
-    var state: CardNudgeStateImpl
+    var state: MSFCardNudgeStateImpl
 
-    init(state: CardNudgeStateImpl, hostedView: UIView) {
+    init(state: MSFCardNudgeStateImpl, hostedView: UIView) {
         self.state = state
         super.init(frame: .zero)
         embedHostedView(hostedView)

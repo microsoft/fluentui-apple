@@ -6,12 +6,11 @@
 import SwiftUI
 
 /// Type of callback for both action and dismiss buttons.
-public typealias CardNudgeButtonAction = ((_ state: CardNudgeState) -> Void)
+public typealias CardNudgeButtonAction = ((_ state: MSFCardNudgeState) -> Void)
 
 /// A protocol that contains properties to specify the contents of a `CardNudge`.
-@objc(MSFCardNudgeState)
-public protocol CardNudgeState: NSObjectProtocol {
-    @objc var style: CardNudgeStyle { get }
+@objc public protocol MSFCardNudgeState: NSObjectProtocol {
+    @objc var style: MSFCardNudgeStyle { get }
 
     @objc var title: String { get set }
     @objc var subtitle: String? { get set }
@@ -33,8 +32,8 @@ public protocol CardNudgeState: NSObjectProtocol {
     @objc var dismissButtonAction: CardNudgeButtonAction? { get set }
 }
 
-public class CardNudgeStateImpl: NSObject, ObservableObject, Identifiable, CardNudgeState {
-    @Published @objc public private(set) var style: CardNudgeStyle
+public class MSFCardNudgeStateImpl: NSObject, ObservableObject, Identifiable, MSFCardNudgeState {
+    @Published @objc public private(set) var style: MSFCardNudgeStyle
 
     @Published @objc public var title: String
     @Published @objc public var subtitle: String?
@@ -66,7 +65,7 @@ public class CardNudgeStateImpl: NSObject, ObservableObject, Identifiable, CardN
 
     let tokens: CardNudgeTokens
 
-    @objc init(style: CardNudgeStyle, title: String) {
+    @objc init(style: MSFCardNudgeStyle, title: String) {
         self.style = style
         self.title = title
         self.tokens = CardNudgeTokens(style: style)
@@ -74,7 +73,7 @@ public class CardNudgeStateImpl: NSObject, ObservableObject, Identifiable, CardN
         super.init()
     }
 
-    @objc convenience init(style: CardNudgeStyle,
+    @objc convenience init(style: MSFCardNudgeStyle,
                            title: String,
                            subtitle: String? = nil,
                            mainIcon: UIImage? = nil,
@@ -95,7 +94,7 @@ public class CardNudgeStateImpl: NSObject, ObservableObject, Identifiable, CardN
 
 public struct CardNudge: View {
     @ObservedObject var tokens: CardNudgeTokens
-    @ObservedObject var state: CardNudgeStateImpl
+    @ObservedObject var state: MSFCardNudgeStateImpl
 
     @ViewBuilder
     var icon: some View {
@@ -211,13 +210,14 @@ public struct CardNudge: View {
             .padding(.horizontal, tokens.outerHorizontalPadding)
     }
 
-    init(style: CardNudgeStyle, title: String) {
-        let state = CardNudgeStateImpl(style: style, title: title)
+    init(style: MSFCardNudgeStyle, title: String) {
+        let state = MSFCardNudgeStateImpl(style: style, title: title)
         self.state = state
         self.tokens = state.tokens
     }
 }
 
+#if DEBUG
 struct CardNudge_Previews: PreviewProvider {
     @ViewBuilder
     static var cards: some View {
@@ -263,3 +263,4 @@ struct CardNudge_Previews: PreviewProvider {
         .environment(\.sizeCategory, .large)
     }
 }
+#endif
