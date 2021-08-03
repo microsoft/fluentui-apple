@@ -179,7 +179,7 @@ public struct AvatarGroup: View {
 
                 let xPosition = currentAvatarHasRing ? x + ringOffset : x
                 let xPositionRTL = currentAvatarHasRing ? rtlRingPaddingInterspace : rtlNoRingPaddingInterspace
-                let xOrigin = Locale.current.isLeftToRightLayoutDirection() ? xPosition : xPositionRTL
+                let xOrigin = Locale.current.isRightToLeftLayoutDirection() ? xPositionRTL : xPosition
                 let yOrigin = currentAvatarHasRing ? (nextAvatarHasRing ? ringOuterGap : ringOffset) :
                     (nextAvatarHasRing ? 0 - ringOffset + tokens.ringOuterGap : 0)
                 let cutoutSize = nextAvatarHasRing ? size + ringOffset + ringOuterGap : size
