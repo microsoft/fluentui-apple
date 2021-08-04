@@ -95,10 +95,10 @@ Pod::Spec.new do |s|
     card_ios.source_files = ["ios/FluentUI/Card/**/*.{swift,h}"]
   end
 
-  s.subspec 'CardNudge_ios' do |card_ios|
-    card_ios.platform = :ios
-    avatar_ios.dependency 'MicrosoftFluentUI/Core_ios'
-    card_ios.source_files = ["ios/FluentUI/Card Nudge/**/*.{swift,h}"]
+  s.subspec 'CardNudge_ios' do |cardnudge_ios|
+    cardnudge_ios.platform = :ios
+    cardnudge_ios.dependency 'MicrosoftFluentUI/Core_ios'
+    cardnudge_ios.source_files = ["ios/FluentUI/Card Nudge/**/*.{swift,h}"]
   end
 
   s.subspec 'CommandBar_ios' do |commandbar_ios|
