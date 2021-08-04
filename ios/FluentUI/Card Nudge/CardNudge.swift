@@ -32,66 +32,7 @@ public typealias CardNudgeButtonAction = ((_ state: MSFCardNudgeState) -> Void)
     @objc var dismissButtonAction: CardNudgeButtonAction? { get set }
 }
 
-class MSFCardNudgeStateImpl: NSObject, ObservableObject, Identifiable, MSFCardNudgeState {
-    @Published @objc public private(set) var style: MSFCardNudgeStyle
-
-    @Published @objc public var title: String
-    @Published @objc public var subtitle: String?
-    @Published @objc public var mainIcon: UIImage?
-    @Published @objc public var accentIcon: UIImage?
-    @Published @objc public var accentText: String?
-
-    /// Title to display in the action button on the trailing edge of the control.
-    ///
-    /// To show an action button, provide values for both `actionButtonTitle` and  `actionButtonAction`.
-    @Published @objc public var actionButtonTitle: String?
-
-    /// Action to be dispatched by the action button on the trailing edge of the control.
-    ///
-    /// To show an action button, provide values for both `actionButtonTitle` and  `actionButtonAction`.
-    @Published @objc public var actionButtonAction: CardNudgeButtonAction?
-
-    /// Action to be dispatched by the dismiss ("close") button on the trailing edge of the control.
-    @Published @objc public var dismissButtonAction: CardNudgeButtonAction?
-
-    /// Parent window of the `PersonaButton`.
-    ///
-    /// Used to derive the color theme for the control.
-    var hostingWindow: UIWindow? {
-        didSet {
-            tokens.window = hostingWindow
-        }
-    }
-
-    let tokens: CardNudgeTokens
-
-    @objc init(style: MSFCardNudgeStyle, title: String) {
-        self.style = style
-        self.title = title
-        self.tokens = CardNudgeTokens(style: style)
-
-        super.init()
-    }
-
-    @objc convenience init(style: MSFCardNudgeStyle,
-                           title: String,
-                           subtitle: String? = nil,
-                           mainIcon: UIImage? = nil,
-                           accentText: String? = nil,
-                           actionButtonTitle: String? = nil,
-                           actionButtonAction: CardNudgeButtonAction? = nil,
-                           dismissButtonAction: CardNudgeButtonAction? = nil) {
-        self.init(style: style, title: title)
-
-        self.subtitle = subtitle
-        self.mainIcon = mainIcon
-        self.accentText = accentText
-        self.actionButtonTitle = actionButtonTitle
-        self.actionButtonAction = actionButtonAction
-        self.dismissButtonAction = dismissButtonAction
-    }
-}
-
+/// View that represents the CardNudge.
 public struct CardNudge: View {
     @ObservedObject var tokens: CardNudgeTokens
     @ObservedObject var state: MSFCardNudgeStateImpl
@@ -214,6 +155,66 @@ public struct CardNudge: View {
         let state = MSFCardNudgeStateImpl(style: style, title: title)
         self.state = state
         self.tokens = state.tokens
+    }
+}
+
+class MSFCardNudgeStateImpl: NSObject, ObservableObject, Identifiable, MSFCardNudgeState {
+    @Published @objc public private(set) var style: MSFCardNudgeStyle
+
+    @Published @objc public var title: String
+    @Published @objc public var subtitle: String?
+    @Published @objc public var mainIcon: UIImage?
+    @Published @objc public var accentIcon: UIImage?
+    @Published @objc public var accentText: String?
+
+    /// Title to display in the action button on the trailing edge of the control.
+    ///
+    /// To show an action button, provide values for both `actionButtonTitle` and  `actionButtonAction`.
+    @Published @objc public var actionButtonTitle: String?
+
+    /// Action to be dispatched by the action button on the trailing edge of the control.
+    ///
+    /// To show an action button, provide values for both `actionButtonTitle` and  `actionButtonAction`.
+    @Published @objc public var actionButtonAction: CardNudgeButtonAction?
+
+    /// Action to be dispatched by the dismiss ("close") button on the trailing edge of the control.
+    @Published @objc public var dismissButtonAction: CardNudgeButtonAction?
+
+    /// Parent window of the `PersonaButton`.
+    ///
+    /// Used to derive the color theme for the control.
+    var hostingWindow: UIWindow? {
+        didSet {
+            tokens.window = hostingWindow
+        }
+    }
+
+    let tokens: CardNudgeTokens
+
+    @objc init(style: MSFCardNudgeStyle, title: String) {
+        self.style = style
+        self.title = title
+        self.tokens = CardNudgeTokens(style: style)
+
+        super.init()
+    }
+
+    @objc convenience init(style: MSFCardNudgeStyle,
+                           title: String,
+                           subtitle: String? = nil,
+                           mainIcon: UIImage? = nil,
+                           accentText: String? = nil,
+                           actionButtonTitle: String? = nil,
+                           actionButtonAction: CardNudgeButtonAction? = nil,
+                           dismissButtonAction: CardNudgeButtonAction? = nil) {
+        self.init(style: style, title: title)
+
+        self.subtitle = subtitle
+        self.mainIcon = mainIcon
+        self.accentText = accentText
+        self.actionButtonTitle = actionButtonTitle
+        self.actionButtonAction = actionButtonAction
+        self.dismissButtonAction = dismissButtonAction
     }
 }
 
