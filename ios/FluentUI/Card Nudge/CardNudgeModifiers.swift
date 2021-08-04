@@ -6,23 +6,27 @@
 import SwiftUI
 
 public extension CardNudge {
+    /// Optional subtext to draw below the main title area.
     func subtitle(_ subtitle: String?) -> CardNudge {
         state.subtitle = subtitle
         return self
     }
 
+    /// Optional icon to draw at the leading edge of the control.
     func mainIcon(_ mainIcon: UIImage?) -> CardNudge {
         state.mainIcon = mainIcon
         return self
     }
 
-    func accentIcon(_ accentIcon: UIImage?) -> CardNudge {
-        state.accentIcon = accentIcon
+    /// Optional accented text to draw below the main title area.
+    func accentText(_ accentText: String?) -> CardNudge {
+        state.accentText = accentText
         return self
     }
 
-    func accentText(_ accentText: String?) -> CardNudge {
-        state.accentText = accentText
+    /// Optional small icon to draw at the leading edge of `accentText`.
+    func accentIcon(_ accentIcon: UIImage?) -> CardNudge {
+        state.accentIcon = accentIcon
         return self
     }
 

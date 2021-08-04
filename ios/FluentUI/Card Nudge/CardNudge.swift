@@ -10,13 +10,23 @@ public typealias CardNudgeButtonAction = ((_ state: MSFCardNudgeState) -> Void)
 
 /// Properties that can be used to customize the appearance of the `CardNudge`.
 @objc public protocol MSFCardNudgeState: NSObjectProtocol {
+    /// Style to draw the control.
     @objc var style: MSFCardNudgeStyle { get }
 
+    /// Text for the main title area of the control.
     @objc var title: String { get set }
+
+    /// Optional subtext to draw below the main title area.
     @objc var subtitle: String? { get set }
+
+    /// Optional icon to draw at the leading edge of the control.
     @objc var mainIcon: UIImage? { get set }
-    @objc var accentIcon: UIImage? { get set }
+
+    /// Optional accented text to draw below the main title area.
     @objc var accentText: String? { get set }
+
+    /// Optional small icon to draw at the leading edge of `accentText`.
+    @objc var accentIcon: UIImage? { get set }
 
     /// Title to display in the action button on the trailing edge of the control.
     ///
