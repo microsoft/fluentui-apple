@@ -8,7 +8,7 @@ import SwiftUI
 /// Type of callback for both action and dismiss buttons.
 public typealias CardNudgeButtonAction = ((_ state: MSFCardNudgeState) -> Void)
 
-/// A protocol that contains properties to specify the contents of a `CardNudge`.
+/// Properties that can be used to customize the appearance of the `CardNudge`.
 @objc public protocol MSFCardNudgeState: NSObjectProtocol {
     @objc var style: MSFCardNudgeStyle { get }
 
@@ -32,7 +32,7 @@ public typealias CardNudgeButtonAction = ((_ state: MSFCardNudgeState) -> Void)
     @objc var dismissButtonAction: CardNudgeButtonAction? { get set }
 }
 
-public class MSFCardNudgeStateImpl: NSObject, ObservableObject, Identifiable, MSFCardNudgeState {
+class MSFCardNudgeStateImpl: NSObject, ObservableObject, Identifiable, MSFCardNudgeState {
     @Published @objc public private(set) var style: MSFCardNudgeStyle
 
     @Published @objc public var title: String

@@ -58,14 +58,3 @@ import UIKit
         }
     }
 }
-
-// MARK: - Other internal convenience extensions
-
-extension UIColor {
-    convenience init(hex: Int32) {
-        self.init(red: CGFloat(CGFloat((hex >> 16) & 0xFF) / 255.0),
-                  green: CGFloat(CGFloat((hex >> 8) & 0xFF) / 255.0),
-                  blue: CGFloat(CGFloat(hex & 0xFF) / 255.0),
-                  alpha: 1.0)
-    }
-}
