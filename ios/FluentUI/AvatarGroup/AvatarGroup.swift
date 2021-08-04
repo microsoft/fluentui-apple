@@ -179,7 +179,7 @@ public struct AvatarGroup: View {
 
                 let xPosition = currentAvatarHasRing ? x + ringOffset : x
                 let xPositionRTL = currentAvatarHasRing ? rtlRingPaddingInterspace : rtlNoRingPaddingInterspace
-                let xOrigin = isLeftToRight() ? xPosition : xPositionRTL
+                let xOrigin = Locale.current.isRightToLeftLayoutDirection() ? xPositionRTL : xPosition
                 let yOrigin = currentAvatarHasRing ? (nextAvatarHasRing ? ringOuterGap : ringOffset) :
                     (nextAvatarHasRing ? 0 - ringOffset + tokens.ringOuterGap : 0)
                 let cutoutSize = nextAvatarHasRing ? size + ringOffset + ringOuterGap : size
@@ -228,16 +228,6 @@ public struct AvatarGroup: View {
                                                          height: cutoutSize)))
             return cutoutFrame
         }
-    }
-
-    // Detects if language code direction is left to right
-    private func isLeftToRight() -> Bool {
-        guard let language = Locale.current.languageCode else {
-            // Default to LTR if no language code is found
-            return true
-        }
-        let direction = Locale.characterDirection(forLanguage: language)
-        return direction == .leftToRight
     }
 }
 
