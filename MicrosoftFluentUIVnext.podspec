@@ -24,17 +24,13 @@ Pod::Spec.new do |s|
     avatar_ios.platform = :ios
     avatar_ios.dependency 'MicrosoftFluentUIVnext/Core_ios'
     avatar_ios.preserve_paths = ["ios/FluentUI/Avatar/Avatar.resources.xcfilelist"]
-    avatar_ios.source_files = ["ios/FluentUI/Avatar/AvatarData.swift",
-                               "ios/FluentUI/Avatar/AvatarView.swift",
-                               "ios/FluentUI/Avatar/InitialsView.swift",
-                               "ios/FluentUI/Avatar/Presence.swift",
-                               "ios/FluentUI/Vnext/Avatar/**/*.{swift,h}"]
+    avatar_ios.source_files = ["ios/FluentUI/Avatar/**/*.{swift,h}"]
   end
 
   s.subspec 'AvatarGroup_ios' do |avatarGroup_ios|
     avatarGroup_ios.platform = :ios
     avatarGroup_ios.dependency 'MicrosoftFluentUIVnext/Avatar_ios'
-        avatarGroup_ios.source_files = ["ios/FluentUI/Vnext/AvatarGroup/**/*.{swift,h}"]
+        avatarGroup_ios.source_files = ["ios/FluentUI/AvatarGroup/**/*.{swift,h}"]
   end
 
   s.subspec 'Button_ios' do |button_ios|
@@ -64,12 +60,8 @@ xcodebuild ${XCODEBUILDPARAMS} -project ${PROJECT_FILE_PATH} -target "MicrosoftF
                               :execution_position => :before_compile }
     core_ios.preserve_paths = ["ios/FluentUI/Core/Core.resources.xcfilelist",
                                "scripts/removeUnusedResourcesFromAssets.swift"]
-    core_ios.source_files = ["ios/FluentUI/Core/Colors.swift",
-                             "ios/FluentUI/Core/FluentUIFramework.swift",
-                             "ios/FluentUI/Core/Fonts.swift",
-                             "ios/FluentUI/Core/iOS13_4_compatibility.swift",
-                             "ios/FluentUI/Extensions/*.{swift,h}",
-                             "ios/FluentUI/Vnext/Core/*.{swift,h}"]
+    core_ios.source_files = ["ios/FluentUI/Core/*.{swift,h}",
+                             "ios/FluentUI/Extensions/*.{swift,h}"]
   end
 
   s.subspec 'Drawer_ios' do |drawer_ios|
