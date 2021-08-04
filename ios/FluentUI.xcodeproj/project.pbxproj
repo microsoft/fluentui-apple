@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0AE866A726BA05D000E92108 /* Locale+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE866A626BA05D000E92108 /* Locale+Extensions.swift */; };
+		0AE866A826BA05D000E92108 /* Locale+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE866A626BA05D000E92108 /* Locale+Extensions.swift */; };
 		0BCEFADE2485FEC00088CEE5 /* PopupMenuProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BCEFADD2485FEC00088CEE5 /* PopupMenuProtocols.swift */; };
 		1168630422E131CF0088B302 /* TabBarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1168630222E131CF0088B302 /* TabBarItemView.swift */; };
 		1168630622E131CF0088B302 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1168630322E131CF0088B302 /* TabBarView.swift */; };
@@ -346,6 +348,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0AE866A626BA05D000E92108 /* Locale+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Locale+Extensions.swift"; sourceTree = "<group>"; };
 		0BCEFADD2485FEC00088CEE5 /* PopupMenuProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMenuProtocols.swift; sourceTree = "<group>"; };
 		1168630222E131CF0088B302 /* TabBarItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarItemView.swift; sourceTree = "<group>"; };
 		1168630322E131CF0088B302 /* TabBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
@@ -824,6 +827,7 @@
 		A5B87AED211BCA4A0038C37C /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				0AE866A626BA05D000E92108 /* Locale+Extensions.swift */,
 				FD41C8B422DD3EA20086F899 /* NSLayoutConstraint+Extensions.swift */,
 				A559BB7D212B6D100055E107 /* String+Extension.swift */,
 				A56CE7B522E68A7800AA77EE /* UIColor+Extensions.swift */,
@@ -1554,6 +1558,7 @@
 				5314E0A825F010070099271A /* DrawerPresentationController.swift in Sources */,
 				5314E06425F00EFD0099271A /* CalendarViewMonthBannerView.swift in Sources */,
 				5314E18E25F0195C0099271A /* ShimmerLinesView.swift in Sources */,
+				0AE866A826BA05D000E92108 /* Locale+Extensions.swift in Sources */,
 				80AECC21263339E3005AF2F3 /* BottomSheetController.swift in Sources */,
 				92079C9026B66E5100D688DA /* CardNudgeModifiers.swift in Sources */,
 				5314E24B25F0232F0099271A /* UIScreen+Extension.swift in Sources */,
@@ -1712,6 +1717,7 @@
 				A5B87B04211E22B70038C37C /* DimmingView.swift in Sources */,
 				A5961F9F218A256B00E2A506 /* PopupMenuItem.swift in Sources */,
 				B4E782C321793AB200A7DFCE /* ActivityIndicatorCell.swift in Sources */,
+				0AE866A726BA05D000E92108 /* Locale+Extensions.swift in Sources */,
 				92079C8F26B66E5100D688DA /* CardNudgeModifiers.swift in Sources */,
 				B4A8BBCD21BF6D6900D5E3ED /* BadgeStringExtractor.swift in Sources */,
 				FD599D0A2134AB15008845EE /* CalendarViewLayout.swift in Sources */,
