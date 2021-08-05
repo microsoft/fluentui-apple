@@ -173,9 +173,13 @@ public struct AvatarGroup: View {
 
                 let ringPaddingInterspace = nextAvatarHasRing ? interspace - (ringOffset + ringOuterGap) : interspace - ringOffset
                 let noRingPaddingInterspace = nextAvatarHasRing ? interspace - ringOuterGap : interspace
+                let rtlRingPaddingInterspace = (nextAvatarHasRing ? -x - ringOuterGap : -x + ringOffset)
+                let rtlNoRingPaddingInterspace = (nextAvatarHasRing ? -x - ringOffset - ringOuterGap : -x)
                 let stackPadding = (currentAvatarHasRing ? ringPaddingInterspace : noRingPaddingInterspace)
 
-                let xOrigin = currentAvatarHasRing ? x + ringOffset : x
+                let xPosition = currentAvatarHasRing ? x + ringOffset : x
+                let xPositionRTL = currentAvatarHasRing ? rtlRingPaddingInterspace : rtlNoRingPaddingInterspace
+                let xOrigin = Locale.current.isRightToLeftLayoutDirection() ? xPositionRTL : xPosition
                 let yOrigin = currentAvatarHasRing ? (nextAvatarHasRing ? ringOuterGap : ringOffset) :
                     (nextAvatarHasRing ? 0 - ringOffset + tokens.ringOuterGap : 0)
                 let cutoutSize = nextAvatarHasRing ? size + ringOffset + ringOuterGap : size
@@ -217,12 +221,12 @@ public struct AvatarGroup: View {
         var cutoutSize: CGFloat
 
         func path(in rect: CGRect) -> Path {
-                var cutoutFrame = Rectangle().path(in: rect)
-                cutoutFrame.addPath(Circle().path(in: CGRect(x: xOrigin,
-                                                             y: yOrigin,
-                                                             width: cutoutSize,
-                                                             height: cutoutSize)))
-                return cutoutFrame
+            var cutoutFrame = Rectangle().path(in: rect)
+            cutoutFrame.addPath(Circle().path(in: CGRect(x: xOrigin,
+                                                         y: yOrigin,
+                                                         width: cutoutSize,
+                                                         height: cutoutSize)))
+            return cutoutFrame
         }
     }
 }
