@@ -14,7 +14,6 @@
 		5303259326B3198A00611D05 /* AvatarDemoController_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5303259226B3198A00611D05 /* AvatarDemoController_SwiftUI.swift */; };
 		5303259826B31A6300611D05 /* FluentUIDemoToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5303259726B31A6300611D05 /* FluentUIDemoToggle.swift */; };
 		5306075926A1E73F002D49CF /* AvatarGroupDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5306075826A1E73F002D49CF /* AvatarGroupDemoController.swift */; };
-		5360997326B8B7BF0069DE71 /* ButtonDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5360996F26B8B7BF0069DE71 /* ButtonDemoController.swift */; };
 		5360997426B8B7BF0069DE71 /* ThemingDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5360997026B8B7BF0069DE71 /* ThemingDemoController.swift */; };
 		5360997526B8B7BF0069DE71 /* ActivityIndicatorDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5360997126B8B7BF0069DE71 /* ActivityIndicatorDemoController.swift */; };
 		5360997626B8B7BF0069DE71 /* LeftNavDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5360997226B8B7BF0069DE71 /* LeftNavDemoController.swift */; };
@@ -38,8 +37,9 @@
 		8F0B81122670200300463726 /* AppCenterDistribute in Frameworks */ = {isa = PBXBuildFile; productRef = 8F0B81112670200300463726 /* AppCenterDistribute */; };
 		8F0B8114267021A700463726 /* AppCenterAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 8F0B8113267021A700463726 /* AppCenterAnalytics */; };
 		8F0B8116267021A700463726 /* AppCenterCrashes in Frameworks */ = {isa = PBXBuildFile; productRef = 8F0B8115267021A700463726 /* AppCenterCrashes */; };
-		92E4784C2661AED800BAA058 /* PersonaButtonCarouselDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E4784B2661AED800BAA058 /* PersonaButtonCarouselDemoController.swift */; };
+		92ABB39026BC66FE00BA179A /* ButtonLegacyDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92ABB38F26BC66FE00BA179A /* ButtonLegacyDemoController.swift */; };
 		92D5598426A1523400328FD3 /* CardNudgeDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D5598326A1523400328FD3 /* CardNudgeDemoController.swift */; };
+		92E4784C2661AED800BAA058 /* PersonaButtonCarouselDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E4784B2661AED800BAA058 /* PersonaButtonCarouselDemoController.swift */; };
 		A589F856211BA71000471C23 /* LabelDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A589F855211BA71000471C23 /* LabelDemoController.swift */; };
 		A591A3F420F429EB001ED23B /* Demos.swift in Sources */ = {isa = PBXBuildFile; fileRef = A591A3F320F429EB001ED23B /* Demos.swift */; };
 		A5CEC21020E436F10016922A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CEC20F20E436F10016922A /* AppDelegate.swift */; };
@@ -57,7 +57,7 @@
 		B45EB79221A4D047008646A2 /* BadgeFieldDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B45EB79121A4D047008646A2 /* BadgeFieldDemoController.swift */; };
 		B498141621E42C140077B48D /* TableViewCellDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B498141521E42C140077B48D /* TableViewCellDemoController.swift */; };
 		B4C39552227A4AC800539EC2 /* TableViewSampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4C39551227A4AC800539EC2 /* TableViewSampleData.swift */; };
-		B4D852DB225C010A004B1B29 /* ButtonLegacyDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4D852DA225C010A004B1B29 /* ButtonLegacyDemoController.swift */; };
+		B4D852DB225C010A004B1B29 /* ButtonDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4D852DA225C010A004B1B29 /* ButtonDemoController.swift */; };
 		B4EF53C5215C45C400573E8F /* PersonaListViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EF53C4215C45C400573E8F /* PersonaListViewDemoController.swift */; };
 		B4EF66542295F1A8007FEAB0 /* TableViewHeaderFooterViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EF66532295F1A8007FEAB0 /* TableViewHeaderFooterViewDemoController.swift */; };
 		B4EF66562295F729007FEAB0 /* TableViewHeaderFooterSampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EF66552295F729007FEAB0 /* TableViewHeaderFooterSampleData.swift */; };
@@ -86,7 +86,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0A2FBB4026547C50004D056C /* AvatarGroupDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarGroupDemoController.swift; sourceTree = "<group>"; };
 		11047D2522932DB1001F0F59 /* TabBarViewDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewDemoController.swift; sourceTree = "<group>"; };
 		114CF8B72423E10900D064AA /* ColorDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorDemoController.swift; sourceTree = "<group>"; };
 		22EABB172509A80B00C4BE72 /* IndeterminateProgressBarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBarDemoController.swift; sourceTree = "<group>"; };
@@ -95,7 +94,6 @@
 		5303259226B3198A00611D05 /* AvatarDemoController_SwiftUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarDemoController_SwiftUI.swift; sourceTree = "<group>"; };
 		5303259726B31A6300611D05 /* FluentUIDemoToggle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FluentUIDemoToggle.swift; sourceTree = "<group>"; };
 		5306075826A1E73F002D49CF /* AvatarGroupDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarGroupDemoController.swift; sourceTree = "<group>"; };
-		5360996F26B8B7BF0069DE71 /* ButtonDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonDemoController.swift; sourceTree = "<group>"; };
 		5360997026B8B7BF0069DE71 /* ThemingDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemingDemoController.swift; sourceTree = "<group>"; };
 		5360997126B8B7BF0069DE71 /* ActivityIndicatorDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorDemoController.swift; sourceTree = "<group>"; };
 		5360997226B8B7BF0069DE71 /* LeftNavDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftNavDemoController.swift; sourceTree = "<group>"; };
@@ -105,9 +103,9 @@
 		7DC2FB2A24C0F4FD00367A55 /* TableViewCellFileAccessoryViewDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCellFileAccessoryViewDemoController.swift; sourceTree = "<group>"; };
 		80AECC0B2630F1BB005AF2F3 /* BottomCommandingDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomCommandingDemoController.swift; sourceTree = "<group>"; };
 		80B1F7002628D8BB004DFEE5 /* BottomSheetDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetDemoController.swift; sourceTree = "<group>"; };
-		92E4784B2661AED800BAA058 /* PersonaButtonCarouselDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaButtonCarouselDemoController.swift; sourceTree = "<group>"; };
-		8AF03E1F24B6BE3100E6E2A2 /* ContactCollectionViewDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactCollectionViewDemoController.swift; sourceTree = "<group>"; };
+		92ABB38F26BC66FE00BA179A /* ButtonLegacyDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonLegacyDemoController.swift; sourceTree = "<group>"; };
 		92D5598326A1523400328FD3 /* CardNudgeDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardNudgeDemoController.swift; sourceTree = "<group>"; };
+		92E4784B2661AED800BAA058 /* PersonaButtonCarouselDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaButtonCarouselDemoController.swift; sourceTree = "<group>"; };
 		A589F855211BA71000471C23 /* LabelDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelDemoController.swift; sourceTree = "<group>"; };
 		A591A3F320F429EB001ED23B /* Demos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Demos.swift; sourceTree = "<group>"; };
 		A5961FA8218A61BB00E2A506 /* PopupMenuDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMenuDemoController.swift; sourceTree = "<group>"; };
@@ -130,7 +128,7 @@
 		B498141521E42C140077B48D /* TableViewCellDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCellDemoController.swift; sourceTree = "<group>"; };
 		B4C39551227A4AC800539EC2 /* TableViewSampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewSampleData.swift; sourceTree = "<group>"; };
 		B4D852D822580661004B1B29 /* ActivityIndicatorViewDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorViewDemoController.swift; sourceTree = "<group>"; };
-		B4D852DA225C010A004B1B29 /* ButtonLegacyDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonLegacyDemoController.swift; sourceTree = "<group>"; };
+		B4D852DA225C010A004B1B29 /* ButtonDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonDemoController.swift; sourceTree = "<group>"; };
 		B4E8F65121CD9579008A1598 /* HUDDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDDemoController.swift; sourceTree = "<group>"; };
 		B4EF53C4215C45C400573E8F /* PersonaListViewDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaListViewDemoController.swift; sourceTree = "<group>"; };
 		B4EF66532295F1A8007FEAB0 /* TableViewHeaderFooterViewDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewHeaderFooterViewDemoController.swift; sourceTree = "<group>"; };
@@ -212,14 +210,6 @@
 			path = SwiftUI;
 			sourceTree = "<group>";
 		};
-		5360994026B8B2220069DE71 /* Recovered References */ = {
-			isa = PBXGroup;
-			children = (
-				0A2FBB4026547C50004D056C /* AvatarGroupDemoController.swift */,
-			);
-			name = "Recovered References";
-			sourceTree = "<group>";
-		};
 		A52B637E21387566009F7ADF /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
@@ -254,7 +244,6 @@
 				A5CEC20E20E436F10016922A /* FluentUI.Demo */,
 				A5CEC20D20E436F10016922A /* Products */,
 				A5CEC22920E44FBF0016922A /* Frameworks */,
-				5360994026B8B2220069DE71 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -304,7 +293,7 @@
 				80AECC0B2630F1BB005AF2F3 /* BottomCommandingDemoController.swift */,
 				80B1F7002628D8BB004DFEE5 /* BottomSheetDemoController.swift */,
 				B4D852DA225C010A004B1B29 /* ButtonDemoController.swift */,
-				B4D852DA225C010A004B1B29 /* ButtonLegacyDemoController.swift */,
+				92ABB38F26BC66FE00BA179A /* ButtonLegacyDemoController.swift */,
 				92D5598326A1523400328FD3 /* CardNudgeDemoController.swift */,
 				CCC18C2E2501C75F00BE830E /* CardViewDemoController.swift */,
 				114CF8B72423E10900D064AA /* ColorDemoController.swift */,
@@ -478,7 +467,6 @@
 				5303259326B3198A00611D05 /* AvatarDemoController_SwiftUI.swift in Sources */,
 				5360997B26B8B81C0069DE71 /* NavigationControllerDemoController.swift in Sources */,
 				92D5598426A1523400328FD3 /* CardNudgeDemoController.swift in Sources */,
-				8AF03E2024B6BE3100E6E2A2 /* ContactCollectionViewDemoController.swift in Sources */,
 				5303259826B31A6300611D05 /* FluentUIDemoToggle.swift in Sources */,
 				5360997C26B8B8210069DE71 /* NotificationViewDemoController.swift in Sources */,
 				A5DCA760211E3B4C005F4CB7 /* DemoController.swift in Sources */,
@@ -488,15 +476,14 @@
 				FC414E3725888BC300069E73 /* CommandBarDemoController.swift in Sources */,
 				B45EB79221A4D047008646A2 /* BadgeFieldDemoController.swift in Sources */,
 				B4EF66562295F729007FEAB0 /* TableViewHeaderFooterSampleData.swift in Sources */,
+				B4D852DB225C010A004B1B29 /* ButtonDemoController.swift in Sources */,
 				5360997D26B8B8260069DE71 /* ObjectiveCDemoController.m in Sources */,
-				B4D852DB225C010A004B1B29 /* ButtonLegacyDemoController.swift in Sources */,
 				5360997526B8B7BF0069DE71 /* ActivityIndicatorDemoController.swift in Sources */,
 				5306075926A1E73F002D49CF /* AvatarGroupDemoController.swift in Sources */,
 				497DC2DE24185896008D86F8 /* PillButtonBarDemoController.swift in Sources */,
 				5360997A26B8B8140069DE71 /* DrawerDemoController.swift in Sources */,
 				5360997F26B8B8330069DE71 /* PopupMenuDemoController.swift in Sources */,
 				B4EF53C5215C45C400573E8F /* PersonaListViewDemoController.swift in Sources */,
-				5360997326B8B7BF0069DE71 /* ButtonDemoController.swift in Sources */,
 				B4414792228F6F740040E88E /* TableViewCellSampleData.swift in Sources */,
 				E6842974247B672000A29C40 /* SceneDelegate.swift in Sources */,
 				5360997426B8B7BF0069DE71 /* ThemingDemoController.swift in Sources */,
@@ -527,6 +514,7 @@
 				B4414794228F6FDF0040E88E /* OtherCellsSampleData.swift in Sources */,
 				B444D6B82183BA4B0002B4D4 /* BadgeViewDemoController.swift in Sources */,
 				A591A3F420F429EB001ED23B /* Demos.swift in Sources */,
+				92ABB39026BC66FE00BA179A /* ButtonLegacyDemoController.swift in Sources */,
 				B4C39552227A4AC800539EC2 /* TableViewSampleData.swift in Sources */,
 				5360997826B8B8020069DE71 /* ActivityIndicatorViewDemoController.swift in Sources */,
 				5360998226B8B84C0069DE71 /* TooltipDemoController.swift in Sources */,
