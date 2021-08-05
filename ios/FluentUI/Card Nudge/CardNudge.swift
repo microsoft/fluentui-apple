@@ -44,7 +44,9 @@ public typealias CardNudgeButtonAction = ((_ state: MSFCardNudgeState) -> Void)
 
 /// View that represents the CardNudge.
 public struct CardNudge: View {
-    @ObservedObject var tokens: CardNudgeTokens
+    @Environment(\.theme) var theme: FluentUIStyle
+    @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
+    @ObservedObject var tokens: MSFCardNudgeTokens
     @ObservedObject var state: MSFCardNudgeStateImpl
 
     @ViewBuilder
@@ -151,7 +153,7 @@ public struct CardNudge: View {
         innerContents
             .background(
                 RoundedRectangle(cornerRadius: tokens.cornerRadius)
-                    .strokeBorder(Color(tokens.backgroundBorderColor), lineWidth: 1.0)
+                    .strokeBorder(Color(tokens.outlineColor), lineWidth: 1.0)
                     .background(
                         RoundedRectangle(cornerRadius: tokens.cornerRadius)
                             .fill(Color(tokens.backgroundColor))
@@ -159,6 +161,9 @@ public struct CardNudge: View {
             )
             .padding(.vertical, tokens.outerVerticalPadding)
             .padding(.horizontal, tokens.outerHorizontalPadding)
+            .designTokens(tokens,
+                          from: theme,
+                          with: windowProvider)
     }
 
     init(style: MSFCardNudgeStyle, title: String) {
@@ -190,21 +195,12 @@ class MSFCardNudgeStateImpl: NSObject, ObservableObject, Identifiable, MSFCardNu
     /// Action to be dispatched by the dismiss ("close") button on the trailing edge of the control.
     @Published @objc public var dismissButtonAction: CardNudgeButtonAction?
 
-    /// Parent window of the `PersonaButton`.
-    ///
-    /// Used to derive the color theme for the control.
-    var hostingWindow: UIWindow? {
-        didSet {
-            tokens.window = hostingWindow
-        }
-    }
-
-    let tokens: CardNudgeTokens
+    let tokens: MSFCardNudgeTokens
 
     @objc init(style: MSFCardNudgeStyle, title: String) {
         self.style = style
         self.title = title
-        self.tokens = CardNudgeTokens(style: style)
+        self.tokens = MSFCardNudgeTokens(style: style)
 
         super.init()
     }

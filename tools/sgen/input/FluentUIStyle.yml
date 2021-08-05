@@ -286,6 +286,32 @@ MSFSubtleFloatingActionButtonTokens extends MSFButtonTokens:
   textFont: [ small: "Font(15px, regular)", medium: "Font(15px, regular)", large: "Font(17px, regular)" ]
   textColor: [ rest: $Colors.Foreground.neutral3, hover: $Colors.Foreground.neutral3, pressed: $Colors.Foreground.neutral3, selected: $Colors.Foreground.brandRest, disabled: $Colors.Foreground.neutralDisabled ]
 
+AP_MSFCardNudgeTokens:
+    accentColor: $Colors.Brand.shade20
+    accentIconSize: $Icon.size.xxSmall
+    accentPadding: $Spacing.xxSmall
+    backgroundColor: $Colors.Background.neutral2
+    buttonBackgroundColor: $Colors.Brand.tint30
+    buttonInnerPaddingHorizontal: $Spacing.small
+    buttonInnerPaddingVertical: $Spacing.xSmall
+    circleSize: $Icon.size.xxLarge
+    cornerRadius: $Border.radius.xLarge
+    iconSize: $Icon.size.xSmall
+    innerPadding: $Spacing.medium
+    interTextVerticalPadding: $Spacing.xxxSmall
+    mainContentVerticalPadding: $Spacing.small
+    minimumHeight: 56.0
+    outerHorizontalPadding: $Spacing.medium
+    outerVerticalPadding: $Spacing.xSmall
+    outlineColor: NamedColor(clear)
+    subtitleTextColor: $Colors.Foreground.neutral3
+    textColor: $Colors.Foreground.neutral1
+
+MSFBorderedCardNudgeTokens extends MSFCardNudgeTokens:
+    backgroundColor: $Colors.Background.surfacePrimary
+    outlineColor: $Colors.Stroke.neutral1
+    textColor: $Colors.Brand.shade20
+
 AP_MSFDrawerTokens:
   backgroundDimmedColor: $Colors.Elevation.highElevation
   drawerBackground: "FluentUIColor(light: $Colors.Background.neutral1, dark: $Colors.Background.neutral3)"
