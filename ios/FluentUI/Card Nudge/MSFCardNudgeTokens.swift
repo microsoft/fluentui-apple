@@ -32,6 +32,7 @@ class MSFCardNudgeTokens: MSFTokensBase, ObservableObject {
     @Published public var outerHorizontalPadding: CGFloat!
     @Published public var outerVerticalPadding: CGFloat!
     @Published public var outlineColor: UIColor!
+    @Published public var outlineWidth: CGFloat!
     @Published public var subtitleTextColor: UIColor!
     @Published public var textColor: UIColor!
 
@@ -85,6 +86,7 @@ class MSFCardNudgeTokens: MSFTokensBase, ObservableObject {
         outerHorizontalPadding = appearanceProxy.outerHorizontalPadding
         outerVerticalPadding = appearanceProxy.outerVerticalPadding
         outlineColor = appearanceProxy.outlineColor
+        outlineWidth = appearanceProxy.outlineWidth
         subtitleTextColor = appearanceProxy.subtitleTextColor
         textColor = appearanceProxy.textColor
     }

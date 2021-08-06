@@ -153,7 +153,7 @@ public struct CardNudge: View {
         innerContents
             .background(
                 RoundedRectangle(cornerRadius: tokens.cornerRadius)
-                    .strokeBorder(Color(tokens.outlineColor), lineWidth: 1.0)
+                    .strokeBorder(Color(tokens.outlineColor), lineWidth: tokens.outlineWidth)
                     .background(
                         RoundedRectangle(cornerRadius: tokens.cornerRadius)
                             .fill(Color(tokens.backgroundColor))

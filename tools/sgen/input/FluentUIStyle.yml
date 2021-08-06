@@ -304,6 +304,7 @@ AP_MSFCardNudgeTokens:
     outerHorizontalPadding: $Spacing.medium
     outerVerticalPadding: $Spacing.xSmall
     outlineColor: NamedColor(clear)
+    outlineWidth: $Border.size.thin
     subtitleTextColor: $Colors.Foreground.neutral3
     textColor: $Colors.Foreground.neutral1
 

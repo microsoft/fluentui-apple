@@ -121,6 +121,11 @@ extension FluentUIStyle {
 			return UIColor(named: "FluentColors/clear", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
 		}
 
+		// MARK: - outlineWidth 
+		open var outlineWidth: CGFloat {
+			return mainProxy().Border.size.thin
+		}
+
 		// MARK: - subtitleTextColor 
 		open var subtitleTextColor: UIColor {
 			return mainProxy().Colors.Foreground.neutral3
