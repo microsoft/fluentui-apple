@@ -44,7 +44,9 @@ public typealias CardNudgeButtonAction = ((_ state: MSFCardNudgeState) -> Void)
 
 /// View that represents the CardNudge.
 public struct CardNudge: View {
-    @ObservedObject var tokens: CardNudgeTokens
+    @Environment(\.theme) var theme: FluentUIStyle
+    @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
+    @ObservedObject var tokens: MSFCardNudgeTokens
     @ObservedObject var state: MSFCardNudgeStateImpl
 
     @ViewBuilder
@@ -59,7 +61,7 @@ public struct CardNudge: View {
                     .frame(width: tokens.iconSize, height: tokens.iconSize, alignment: .center)
                     .foregroundColor(Color(tokens.accentColor))
             }
-            .padding(.trailing, tokens.innerPadding)
+            .padding(.trailing, tokens.horizontalPadding)
         }
     }
 
@@ -112,7 +114,7 @@ public struct CardNudge: View {
                 }
                 .lineLimit(1)
                 .padding(.horizontal, tokens.buttonInnerPaddingHorizontal)
-                .padding(.vertical, tokens.buttonInnerPaddingVertical)
+                .padding(.vertical, tokens.verticalPadding)
                 .foregroundColor(Color(tokens.accentColor))
                 .background(
                     RoundedRectangle(cornerRadius: .infinity)
@@ -126,7 +128,7 @@ public struct CardNudge: View {
                     Image("dismiss-20x20", bundle: FluentUIFramework.resourceBundle)
                 })
                 .padding(.horizontal, tokens.buttonInnerPaddingHorizontal)
-                .padding(.vertical, tokens.buttonInnerPaddingVertical)
+                .padding(.vertical, tokens.verticalPadding)
                 .accessibility(identifier: "Accessibility.Dismiss.Label")
                 .foregroundColor(Color(tokens.textColor))
             }
@@ -143,7 +145,7 @@ public struct CardNudge: View {
                 .layoutPriority(1)
         }
         .padding(.vertical, tokens.mainContentVerticalPadding)
-        .padding(.horizontal, tokens.innerPadding)
+        .padding(.horizontal, tokens.horizontalPadding)
         .frame(minHeight: tokens.minimumHeight)
     }
 
@@ -151,14 +153,17 @@ public struct CardNudge: View {
         innerContents
             .background(
                 RoundedRectangle(cornerRadius: tokens.cornerRadius)
-                    .strokeBorder(Color(tokens.backgroundBorderColor), lineWidth: 1.0)
+                    .strokeBorder(Color(tokens.outlineColor), lineWidth: tokens.outlineWidth)
                     .background(
                         RoundedRectangle(cornerRadius: tokens.cornerRadius)
                             .fill(Color(tokens.backgroundColor))
                     )
             )
-            .padding(.vertical, tokens.outerVerticalPadding)
-            .padding(.horizontal, tokens.outerHorizontalPadding)
+            .padding(.vertical, tokens.verticalPadding)
+            .padding(.horizontal, tokens.horizontalPadding)
+            .designTokens(tokens,
+                          from: theme,
+                          with: windowProvider)
     }
 
     init(style: MSFCardNudgeStyle, title: String) {
@@ -190,21 +195,12 @@ class MSFCardNudgeStateImpl: NSObject, ObservableObject, Identifiable, MSFCardNu
     /// Action to be dispatched by the dismiss ("close") button on the trailing edge of the control.
     @Published @objc public var dismissButtonAction: CardNudgeButtonAction?
 
-    /// Parent window of the `PersonaButton`.
-    ///
-    /// Used to derive the color theme for the control.
-    var hostingWindow: UIWindow? {
-        didSet {
-            tokens.window = hostingWindow
-        }
-    }
-
-    let tokens: CardNudgeTokens
+    let tokens: MSFCardNudgeTokens
 
     @objc init(style: MSFCardNudgeStyle, title: String) {
         self.style = style
         self.title = title
-        self.tokens = CardNudgeTokens(style: style)
+        self.tokens = MSFCardNudgeTokens(style: style)
 
         super.init()
     }

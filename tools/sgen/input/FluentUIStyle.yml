@@ -286,6 +286,31 @@ MSFSubtleFloatingActionButtonTokens extends MSFButtonTokens:
   textFont: [ small: "Font(15px, regular)", medium: "Font(15px, regular)", large: "Font(17px, regular)" ]
   textColor: [ rest: $Colors.Foreground.neutral3, hover: $Colors.Foreground.neutral3, pressed: $Colors.Foreground.neutral3, selected: $Colors.Foreground.brandRest, disabled: $Colors.Foreground.neutralDisabled ]
 
+AP_MSFCardNudgeTokens:
+    accentColor: $Colors.Brand.shade20
+    accentIconSize: $Icon.size.xxSmall
+    accentPadding: $Spacing.xxSmall
+    backgroundColor: $Colors.Background.neutral2
+    buttonBackgroundColor: $Colors.Brand.tint30
+    buttonInnerPaddingHorizontal: $Spacing.small
+    circleSize: $Icon.size.xxLarge
+    cornerRadius: $Border.radius.xLarge
+    horizontalPadding: $Spacing.medium
+    iconSize: $Icon.size.xSmall
+    interTextVerticalPadding: $Spacing.xxxSmall
+    mainContentVerticalPadding: $Spacing.small
+    minimumHeight: 56.0
+    outlineColor: NamedColor(clear)
+    outlineWidth: $Border.size.thin
+    subtitleTextColor: $Colors.Foreground.neutral3
+    textColor: $Colors.Foreground.neutral1
+    verticalPadding: $Spacing.xSmall
+
+MSFBorderedCardNudgeTokens extends MSFCardNudgeTokens:
+    backgroundColor: $Colors.Background.surfacePrimary
+    outlineColor: $Colors.Stroke.neutral1
+    textColor: $Colors.Brand.shade20
+
 AP_MSFDrawerTokens:
   backgroundDimmedColor: $Colors.Elevation.highElevation
   drawerBackground: "FluentUIColor(light: $Colors.Background.neutral1, dark: $Colors.Background.neutral3)"
