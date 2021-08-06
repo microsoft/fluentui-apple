@@ -293,20 +293,18 @@ AP_MSFCardNudgeTokens:
     backgroundColor: $Colors.Background.neutral2
     buttonBackgroundColor: $Colors.Brand.tint30
     buttonInnerPaddingHorizontal: $Spacing.small
-    buttonInnerPaddingVertical: $Spacing.xSmall
     circleSize: $Icon.size.xxLarge
     cornerRadius: $Border.radius.xLarge
+    horizontalPadding: $Spacing.medium
     iconSize: $Icon.size.xSmall
-    innerPadding: $Spacing.medium
     interTextVerticalPadding: $Spacing.xxxSmall
     mainContentVerticalPadding: $Spacing.small
     minimumHeight: 56.0
-    outerHorizontalPadding: $Spacing.medium
-    outerVerticalPadding: $Spacing.xSmall
     outlineColor: NamedColor(clear)
     outlineWidth: $Border.size.thin
     subtitleTextColor: $Colors.Foreground.neutral3
     textColor: $Colors.Foreground.neutral1
+    verticalPadding: $Spacing.xSmall
 
 MSFBorderedCardNudgeTokens extends MSFCardNudgeTokens:
     backgroundColor: $Colors.Background.surfacePrimary

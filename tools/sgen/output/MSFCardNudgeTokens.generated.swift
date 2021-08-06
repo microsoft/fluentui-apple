@@ -66,11 +66,6 @@ extension FluentUIStyle {
 			return mainProxy().Spacing.small
 		}
 
-		// MARK: - buttonInnerPaddingVertical 
-		open var buttonInnerPaddingVertical: CGFloat {
-			return mainProxy().Spacing.xSmall
-		}
-
 		// MARK: - circleSize 
 		open var circleSize: CGFloat {
 			return mainProxy().Icon.size.xxLarge
@@ -81,14 +76,14 @@ extension FluentUIStyle {
 			return mainProxy().Border.radius.xLarge
 		}
 
+		// MARK: - horizontalPadding 
+		open var horizontalPadding: CGFloat {
+			return mainProxy().Spacing.medium
+		}
+
 		// MARK: - iconSize 
 		open var iconSize: CGFloat {
 			return mainProxy().Icon.size.xSmall
-		}
-
-		// MARK: - innerPadding 
-		open var innerPadding: CGFloat {
-			return mainProxy().Spacing.medium
 		}
 
 		// MARK: - interTextVerticalPadding 
@@ -104,16 +99,6 @@ extension FluentUIStyle {
 		// MARK: - minimumHeight 
 		open var minimumHeight: CGFloat {
 			return CGFloat(56.0)
-		}
-
-		// MARK: - outerHorizontalPadding 
-		open var outerHorizontalPadding: CGFloat {
-			return mainProxy().Spacing.medium
-		}
-
-		// MARK: - outerVerticalPadding 
-		open var outerVerticalPadding: CGFloat {
-			return mainProxy().Spacing.xSmall
 		}
 
 		// MARK: - outlineColor 
@@ -134,6 +119,11 @@ extension FluentUIStyle {
 		// MARK: - textColor 
 		open var textColor: UIColor {
 			return mainProxy().Colors.Foreground.neutral1
+		}
+
+		// MARK: - verticalPadding 
+		open var verticalPadding: CGFloat {
+			return mainProxy().Spacing.xSmall
 		}
 	}
 

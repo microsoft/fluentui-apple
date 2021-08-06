@@ -61,7 +61,7 @@ public struct CardNudge: View {
                     .frame(width: tokens.iconSize, height: tokens.iconSize, alignment: .center)
                     .foregroundColor(Color(tokens.accentColor))
             }
-            .padding(.trailing, tokens.innerPadding)
+            .padding(.trailing, tokens.horizontalPadding)
         }
     }
 
@@ -114,7 +114,7 @@ public struct CardNudge: View {
                 }
                 .lineLimit(1)
                 .padding(.horizontal, tokens.buttonInnerPaddingHorizontal)
-                .padding(.vertical, tokens.buttonInnerPaddingVertical)
+                .padding(.vertical, tokens.verticalPadding)
                 .foregroundColor(Color(tokens.accentColor))
                 .background(
                     RoundedRectangle(cornerRadius: .infinity)
@@ -128,7 +128,7 @@ public struct CardNudge: View {
                     Image("dismiss-20x20", bundle: FluentUIFramework.resourceBundle)
                 })
                 .padding(.horizontal, tokens.buttonInnerPaddingHorizontal)
-                .padding(.vertical, tokens.buttonInnerPaddingVertical)
+                .padding(.vertical, tokens.verticalPadding)
                 .accessibility(identifier: "Accessibility.Dismiss.Label")
                 .foregroundColor(Color(tokens.textColor))
             }
@@ -145,7 +145,7 @@ public struct CardNudge: View {
                 .layoutPriority(1)
         }
         .padding(.vertical, tokens.mainContentVerticalPadding)
-        .padding(.horizontal, tokens.innerPadding)
+        .padding(.horizontal, tokens.horizontalPadding)
         .frame(minHeight: tokens.minimumHeight)
     }
 
@@ -159,8 +159,8 @@ public struct CardNudge: View {
                             .fill(Color(tokens.backgroundColor))
                     )
             )
-            .padding(.vertical, tokens.outerVerticalPadding)
-            .padding(.horizontal, tokens.outerHorizontalPadding)
+            .padding(.vertical, tokens.verticalPadding)
+            .padding(.horizontal, tokens.horizontalPadding)
             .designTokens(tokens,
                           from: theme,
                           with: windowProvider)

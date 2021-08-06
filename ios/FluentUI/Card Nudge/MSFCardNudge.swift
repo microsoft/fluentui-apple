@@ -9,7 +9,7 @@ import UIKit
 /// UIKit wrapper that exposes the SwiftUI `CardNudge` implementation
 @objc open class MSFCardNudge: NSObject, FluentUIWindowProvider {
 
-    /// The UIView representing the AvatarGroup.
+    /// The UIView representing the CardNudge.
     @objc open var view: UIView {
         return hostingController.view
     }

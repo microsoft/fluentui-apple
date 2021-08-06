@@ -21,20 +21,18 @@ class MSFCardNudgeTokens: MSFTokensBase, ObservableObject {
     @Published public var backgroundColor: UIColor!
     @Published public var buttonBackgroundColor: UIColor!
     @Published public var buttonInnerPaddingHorizontal: CGFloat!
-    @Published public var buttonInnerPaddingVertical: CGFloat!
     @Published public var circleSize: CGFloat!
     @Published public var cornerRadius: CGFloat!
+    @Published public var horizontalPadding: CGFloat!
     @Published public var iconSize: CGFloat!
-    @Published public var innerPadding: CGFloat!
     @Published public var interTextVerticalPadding: CGFloat!
     @Published public var mainContentVerticalPadding: CGFloat!
     @Published public var minimumHeight: CGFloat!
-    @Published public var outerHorizontalPadding: CGFloat!
-    @Published public var outerVerticalPadding: CGFloat!
     @Published public var outlineColor: UIColor!
     @Published public var outlineWidth: CGFloat!
     @Published public var subtitleTextColor: UIColor!
     @Published public var textColor: UIColor!
+    @Published public var verticalPadding: CGFloat!
 
     var style: MSFCardNudgeStyle {
         didSet {
@@ -75,19 +73,17 @@ class MSFCardNudgeTokens: MSFTokensBase, ObservableObject {
         backgroundColor = appearanceProxy.backgroundColor
         buttonBackgroundColor = appearanceProxy.buttonBackgroundColor
         buttonInnerPaddingHorizontal = appearanceProxy.buttonInnerPaddingHorizontal
-        buttonInnerPaddingVertical = appearanceProxy.buttonInnerPaddingVertical
         circleSize = appearanceProxy.circleSize
         cornerRadius = appearanceProxy.cornerRadius
+        horizontalPadding = appearanceProxy.horizontalPadding
         iconSize = appearanceProxy.iconSize
-        innerPadding = appearanceProxy.innerPadding
         interTextVerticalPadding = appearanceProxy.interTextVerticalPadding
         mainContentVerticalPadding = appearanceProxy.mainContentVerticalPadding
         minimumHeight = appearanceProxy.minimumHeight
-        outerHorizontalPadding = appearanceProxy.outerHorizontalPadding
-        outerVerticalPadding = appearanceProxy.outerVerticalPadding
         outlineColor = appearanceProxy.outlineColor
         outlineWidth = appearanceProxy.outlineWidth
         subtitleTextColor = appearanceProxy.subtitleTextColor
         textColor = appearanceProxy.textColor
+        verticalPadding = appearanceProxy.verticalPadding
     }
 }
