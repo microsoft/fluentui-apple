@@ -30,6 +30,7 @@ open class BadgeView: NSView {
 	///   - size: The BadgeViewSize, currently only small is supported
 	public init(title: String, style: BadgeViewStyle = .default, size: BadgeViewSize = .small) {
 		textField = NSTextField(labelWithString: title)
+		self.style = style
 		super.init(frame: .zero)
 
 		wantsLayer = true
@@ -39,6 +40,10 @@ open class BadgeView: NSView {
 		textField.backgroundColor = .clear
 		textField.translatesAutoresizingMaskIntoConstraints = false
 		addSubview(textField)
+
+		setAccessibilityElement(true)
+		setAccessibilityLabel(title)
+		setAccessibilityRole(.staticText)
 
 		switch style {
 		case .default:
@@ -65,6 +70,15 @@ open class BadgeView: NSView {
 	}
 
 	private var textField: NSTextField
+	private var style: BadgeViewStyle
+
+	open override func updateLayer() {
+		switch self.style {
+		case .default:
+			layer?.backgroundColor = Colors.Badge.defaultBackground.cgColor
+			textField.textColor = Colors.Badge.defaultText
+		}
+	}
 }
 
 // MARK: - Style
