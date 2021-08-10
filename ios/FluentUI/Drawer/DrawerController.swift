@@ -224,6 +224,7 @@ open class DrawerController: UIViewController {
     @objc open var presentationBackground: DrawerPresentationBackground = .black
 
     /// Use `passThroughView` to make underlying view interactable. This view can be set from presenting view controller to recieve all the touch events from drawer's presentation background.
+    @available(*, deprecated, message: "Use BottomSheetController for better accessibility support")
     @objc open weak var passThroughView: UIView?
 
     /**
