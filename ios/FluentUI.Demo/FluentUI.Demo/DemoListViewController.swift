@@ -9,7 +9,7 @@ import UIKit
 class DemoListViewController: UITableViewController {
 
     static func addDemoListTo(window: UIWindow) {
-        updateColorProviderFor(window: window)
+        updateColorProviderFor(window: window, provider: window as! ColorProviding)
 
         let demoListViewController = DemoListViewController(nibName: nil, bundle: nil)
 
@@ -18,9 +18,9 @@ class DemoListViewController: UITableViewController {
         window.makeKeyAndVisible()
     }
 
-    static func updateColorProviderFor(window: UIWindow) {
-        if let colorProvider = window as? ColorProviding, let primaryColor = colorProvider.primaryColor(for: window) {
-            Colors.setProvider(provider: colorProvider, for: window)
+    static func updateColorProviderFor(window: UIWindow, provider: ColorProviding) {
+        if let primaryColor = provider.primaryColor(for: window) {
+            Colors.setProvider(provider: provider, for: window)
             FluentUIFramework.initializeAppearance(with: primaryColor, whenContainedInInstancesOf: [type(of: window)])
         } else {
             FluentUIFramework.initializeAppearance(with: Colors.primary(for: window))

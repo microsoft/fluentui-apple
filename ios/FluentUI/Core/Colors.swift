@@ -457,6 +457,10 @@ public final class Colors: NSObject {
         colorProvidersMap.setObject(provider, forKey: window)
     }
 
+    @objc public static func removeProvider(for window: UIWindow) {
+        colorProvidersMap.removeObject(forKey: window)
+    }
+
     // MARK: Primary
 
     /// Use these funcs to grab a color customized by a ColorProviding object for a specific window.. If no colorProvider exists for the window, falls back to deprecated singleton theme color
@@ -492,7 +496,7 @@ public final class Colors: NSObject {
         return colorProvidersMap.object(forKey: window)?.primaryShade30Color(for: window) ?? FallbackThemeColor.primaryShade30
     }
 
-    private static var colorProvidersMap = NSMapTable<UIWindow, ColorProviding>(keyOptions: .weakMemory, valueOptions: .weakMemory)
+    private static var colorProvidersMap = NSMapTable<UIWindow, ColorProviding>()
 
     /// A namespace for holding fallback theme colors (empty enum is an uninhabited type)
     private enum FallbackThemeColor {
