@@ -17,7 +17,9 @@ public struct MSFButtonView: View {
 
     public init(action: @escaping () -> Void,
                 style: MSFButtonStyle,
-                size: MSFButtonSize) {
+                size: MSFButtonSize,
+                image: UIImage? = nil,
+                text: String? = nil) {
         let state = MSFButtonStateImpl(style: style, size: size)
         self.state = state
         self.tokens = state.tokens
