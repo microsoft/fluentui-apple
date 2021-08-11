@@ -18,9 +18,10 @@ public struct MSFButtonView: View {
     public init(action: @escaping () -> Void,
                 style: MSFButtonStyle,
                 size: MSFButtonSize) {
+        let state = MSFButtonStateImpl(style: style, size: size)
+        self.state = state
+        self.tokens = state.tokens
         self.action = action
-        self.state = MSFButtonStateImpl()
-        self.tokens = MSFButtonTokens(style: style, size: size)
     }
 
     public var body: some View {
@@ -49,12 +50,45 @@ public struct MSFButtonView: View {
 
     /// Text used as the label of the button.
     var text: String? { get set }
+
+    /// Defines the size of the button.
+    var size: MSFButtonSize { get set }
+
+    /// Defines the style of the button.
+    var style: MSFButtonStyle { get set }
 }
 
 class MSFButtonStateImpl: NSObject, ObservableObject, MSFButtonState {
     @objc @Published var image: UIImage?
     @objc @Published var isDisabled: Bool = false
     @objc @Published var text: String?
+
+    var size: MSFButtonSize {
+        get {
+            return tokens.size
+        }
+        set {
+            tokens.size = newValue
+        }
+    }
+
+    var style: MSFButtonStyle {
+        get {
+            return tokens.style
+        }
+        set {
+            tokens.style = newValue
+        }
+    }
+
+    var tokens: MSFButtonTokens
+
+    init(style: MSFButtonStyle,
+         size: MSFButtonSize) {
+        self.tokens = MSFButtonTokens(style: style,
+                                      size: size)
+        super.init()
+    }
 }
 
 /// Body of the button adjusted for pressed or rest state
