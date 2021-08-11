@@ -3,8 +3,8 @@
 //  Licensed under the MIT License.
 //
 
-import UIKit
 import SwiftUI
+import UIKit
 
 public extension MSFButtonView {
 

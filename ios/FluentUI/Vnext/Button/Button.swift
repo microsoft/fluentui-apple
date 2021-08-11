@@ -3,9 +3,8 @@
 //  Licensed under the MIT License.
 //
 
-import Combine
-import UIKit
 import SwiftUI
+import UIKit
 
 /// View that represents the button
 public struct MSFButtonView: View {

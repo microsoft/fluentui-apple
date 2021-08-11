@@ -4,8 +4,8 @@
 //
 
 import Combine
-import UIKit
 import SwiftUI
+import UIKit
 
 /// UIKit wrapper that exposes the SwiftUI Button implementation
 @objc open class MSFButton: NSObject,
