@@ -5,62 +5,90 @@
 
 import AppKit
 
-// MARK: - BadgeView
-
-@available(*, deprecated, renamed: "BadgeView")
 public typealias MSBadgeView = BadgeView
 
 @objc(MSFBadgeView)
 open class BadgeView: NSView {
+	@objc(MSFBadgeViewStyle)
+	public enum Style: Int, CaseIterable {
+		case `default`
+		case primary
+	}
+
+	@objc(MSFBadgeViewSize)
+	public enum Size: Int, CaseIterable {
+		case small
+
+		var fontSize: CGFloat {
+			switch self {
+			case .small:
+				return 11
+			}
+		}
+
+		var cornerRadius: CGFloat {
+			switch self {
+			case .small:
+				return 3
+			}
+		}
+
+		var verticalPadding: CGFloat {
+			switch self {
+			case .small:
+				return 3
+			}
+		}
+
+		var horizontalPadding: CGFloat {
+			switch self {
+			case .small:
+				return 8
+			}
+		}
+	}
+
 	/// Initializes a Fluent UI Badge View with the provided title, default style, and small size
 	/// - Parameters:
 	///   - title: String displayed in the badge
 	@objc public convenience init(title: String) {
-		self.init(title: title, style: .default, size: .small)
+		self.init(title: title, style: .default)
 	}
 
-	public required init?(coder aDecoder: NSCoder) {
-		preconditionFailure("init(coder:) has not been implemented")
-	}
-
-	/// Initializes a Fluent UI Badge View with the provided title, style, and size
+	/// Initializes a Fluent UI Badge View with the provided title and style
 	/// - Parameters:
 	///   - title: String displayed in the badge
-	///   - style: The BadgeViewStyle, currenly only default is supported
-	///   - size: The BadgeViewSize, currently only small is supported
-	public init(title: String, style: BadgeViewStyle = .default, size: BadgeViewSize = .small) {
+	///   - style: The BadgeViewStyle
+	@objc public init(title: String, style: Style) {
 		textField = NSTextField(labelWithString: title)
-		self.style = style
+		switch style {
+		case .default:
+			_backgroundColor = Colors.Badge.defaultBackground
+			_textColor = Colors.Badge.defaultText
+		case .primary:
+			_backgroundColor = Colors.Badge.primaryBackground
+			_textColor = Colors.Badge.primaryText
+		}
 		super.init(frame: .zero)
 
 		wantsLayer = true
+		layer?.cornerRadius = Size.small.cornerRadius
 
 		textField.lineBreakMode = .byTruncatingMiddle
 		textField.alignment = .center
 		textField.backgroundColor = .clear
 		textField.translatesAutoresizingMaskIntoConstraints = false
+		textField.font = NSFont.systemFont(ofSize: Size.small.fontSize, weight: .light)
 		addSubview(textField)
 
 		setAccessibilityElement(true)
 		setAccessibilityLabel(title)
 		setAccessibilityRole(.staticText)
 
-		switch style {
-		case .default:
-			layer?.backgroundColor = Colors.Badge.defaultBackground.cgColor
-			textField.textColor = Colors.Badge.defaultText
-		}
-
 		var horizontalPadding: CGFloat
 		var verticalPadding: CGFloat
-		switch size {
-		case .small:
-			textField.font = NSFont.systemFont(ofSize: BadgeViewSizeParameters.small.fontSize, weight: .light)
-			layer?.cornerRadius = BadgeViewSizeParameters.small.cornerRadius
-			horizontalPadding = BadgeViewSizeParameters.small.horizontalPadding
-			verticalPadding = BadgeViewSizeParameters.small.verticalPadding
-		}
-
+		horizontalPadding = Size.small.horizontalPadding
+		verticalPadding = Size.small.verticalPadding
 		NSLayoutConstraint.activate([
 			textField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: horizontalPadding),
 			textField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -horizontalPadding),
@@ -69,58 +97,63 @@ open class BadgeView: NSView {
 		])
 	}
 
-	private var textField: NSTextField
-	private var style: BadgeViewStyle
+	public required init?(coder aDecoder: NSCoder) {
+		preconditionFailure("init(coder:) has not been implemented")
+	}
 
 	open override func updateLayer() {
-		switch self.style {
-		case .default:
-			layer?.backgroundColor = Colors.Badge.defaultBackground.cgColor
-			textField.textColor = Colors.Badge.defaultText
+		updateColors()
+	}
+
+	private var _backgroundColor: NSColor
+	@objc open var backgroundColor: NSColor {
+		get {
+			return _backgroundColor
+		}
+		set {
+			if backgroundColor != newValue {
+				_backgroundColor = newValue
+				updateColors()
+			}
 		}
 	}
-}
 
-// MARK: - Style
+	private var _textColor: NSColor
+	@objc open var textColor: NSColor {
+		get {
+			return _textColor
+		}
+		set {
+			if textColor != newValue {
+				_textColor = newValue
+				updateColors()
+			}
+		}
+	}
 
-@objc(MSFBadgeViewStyle)
-public enum BadgeViewStyle: Int, CaseIterable {
-	case `default`
+	private var textField: NSTextField
+
+	private func updateColors() {
+		updateBackgroundColors()
+		updateTextColors()
+	}
+
+	private func updateBackgroundColors() {
+		layer?.backgroundColor = backgroundColor.cgColor
+	}
+
+	private func updateTextColors() {
+		textField.textColor = textColor
+	}
 }
 
 // MARK: - Colors
 
-private extension Colors {
+extension Colors {
 	struct Badge {
-		fileprivate static let defaultBackground: NSColor = Palette.communicationBlueTint40.color
-		fileprivate static let defaultText: NSColor = Palette.communicationBlue.color
-	}
-}
-
-// MARK: - Size
-
-@objc(MSFBadgeViewSize)
-public enum BadgeViewSize: Int, CaseIterable {
-	case small
-}
-
-private struct BadgeViewSizeParameters {
-	fileprivate let fontSize: CGFloat
-	fileprivate let cornerRadius: CGFloat
-	fileprivate let verticalPadding: CGFloat
-	fileprivate let horizontalPadding: CGFloat
-
-	static let small = BadgeViewSizeParameters(
-		fontSize: 11,
-		cornerRadius: 3,
-		verticalPadding: 3,
-		horizontalPadding: 8
-	)
-
-	static func parameters(forSize: BadgeViewSize) -> BadgeViewSizeParameters {
-		switch forSize {
-		case .small:
-			return .small
-		}
+		static let defaultBackground: NSColor = Palette.communicationBlueTint40.color
+		static let defaultText: NSColor = Palette.communicationBlue.color
+		static let primaryBackground: NSColor = primaryTint40
+		static let primaryText: NSColor = primary
 	}
 }
