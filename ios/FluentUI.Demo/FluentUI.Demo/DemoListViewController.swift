@@ -8,7 +8,7 @@ import UIKit
 
 class DemoListViewController: UITableViewController {
 
-    public static var provider: ColorProviding = DemoColorThemeDefaultWindow() as ColorProviding
+    private static var provider: ColorProviding = DemoColorThemeDefaultWindow() as ColorProviding
 
     static func addDemoListTo(window: UIWindow) {
         updateColorProviderFor(window: window, provider: window as! ColorProviding)
