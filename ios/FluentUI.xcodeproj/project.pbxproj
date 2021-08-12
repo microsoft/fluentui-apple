@@ -774,13 +774,6 @@
 			path = ActivityViewAnimating;
 			sourceTree = "<group>";
 		};
-		536AEF2125F1EC0300A36206 /* Vnext */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Vnext;
-			sourceTree = "<group>";
-		};
 		53FC90BE25672F97008A06FD /* xcode */ = {
 			isa = PBXGroup;
 			children = (
@@ -969,7 +962,6 @@
 				5314DFF325F006060099271A /* TouchForwardingView */,
 				5314DFF825F008870099271A /* TwoLineTitleView */,
 				C0938E42235E8EAF00256251 /* Utilities */,
-				536AEF2125F1EC0300A36206 /* Vnext */,
 				A5CEC17020D996120016922A /* Resources */,
 				A5CEC25720E6A64E0016922A /* Configuration */,
 			);

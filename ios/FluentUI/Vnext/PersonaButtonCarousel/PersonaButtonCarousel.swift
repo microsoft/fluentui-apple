@@ -5,14 +5,47 @@
 
 import SwiftUI
 
-/// `MSFPersonaCarouselState` contains PersonaCarousel properties
-///
-/// - `buttonSize`: returns whether the carousel will display small or large avatars
-/// - `onTapAction`: provides tap gesture
+/// Properties that define the appearance of a `PersonaButtonCarousel`.
 @objc public protocol MSFPersonaCarouselState {
+    /// Determines whether the carousel will display small or large avatars
     var buttonSize: MSFPersonaButtonSize { get }
-    var onTapAction: ((_ personaButtonState: MSFPersonaButtonData, _ index: Int) -> Void)? { get set }
 
+    /// Provides tap gesture
+    var onTapAction: ((_ personaButtonState: MSFPersonaButtonData, _ index: Int) -> Void)? { get set }
+}
+
+/// View that represents a carousel of `PersonaButton` instances.
+public struct PersonaButtonCarousel: View {
+    @Environment(\.theme) var theme: FluentUIStyle
+    @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
+    @ObservedObject var tokens: MSFPersonaButtonCarouselTokens
+    @ObservedObject var state: MSFPersonaCarouselStateImpl
+
+    public init(size: MSFPersonaButtonSize) {
+        let carouselState = MSFPersonaCarouselStateImpl(size: size)
+        tokens = carouselState.tokens
+        state = carouselState
+    }
+
+    public var body: some View {
+        SwiftUI.ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 0) {
+                ForEach(state.buttons, id: \.self) { buttonState in
+                    PersonaButton(state: buttonState) { [weak state] in
+                        guard let strongState = state,
+                              let index = strongState.buttons.firstIndex(of: buttonState) else {
+                            return
+                        }
+                        strongState.onTapAction?(buttonState, index)
+                    }
+                }
+            }
+        }
+        .background(Color(tokens.backgroundColor))
+        .designTokens(tokens,
+                      from: theme,
+                      with: windowProvider)
+    }
 }
 
 /// Properties that make up PersonaGrid content
@@ -68,38 +101,5 @@ class MSFPersonaCarouselStateImpl: NSObject, ObservableObject, Identifiable, MSF
             fatalError("Attempting to remove item outside bounds of carousel")
         }
         self.buttons.remove(at: index)
-    }
-}
-
-struct PersonaButtonCarousel: View {
-    @Environment(\.theme) var theme: FluentUIStyle
-    @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
-    @ObservedObject var tokens: MSFPersonaButtonCarouselTokens
-    @ObservedObject var state: MSFPersonaCarouselStateImpl
-
-    public init(size: MSFPersonaButtonSize) {
-        let carouselState = MSFPersonaCarouselStateImpl(size: size)
-        tokens = carouselState.tokens
-        state = carouselState
-    }
-
-    var body: some View {
-        SwiftUI.ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 0) {
-                ForEach(state.buttons, id: \.self) { buttonState in
-                    PersonaButton(state: buttonState) { [weak state] in
-                        guard let strongState = state,
-                              let index = strongState.buttons.firstIndex(of: buttonState) else {
-                            return
-                        }
-                        strongState.onTapAction?(buttonState, index)
-                    }
-                }
-            }
-        }
-        .background(Color(tokens.backgroundColor))
-        .designTokens(tokens,
-                      from: theme,
-                      with: windowProvider)
     }
 }

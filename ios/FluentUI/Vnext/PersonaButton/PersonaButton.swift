@@ -5,45 +5,131 @@
 
 import SwiftUI
 
-/// `MSFPersonaButtonAppearance` contains properties to customize the appearance and interaction of a `PersonaButton`.
-///
-/// - `buttonSize`: specifies whether to use small or large avatars
-/// - `onTapAction`: provides tap gesture for PersonaButton
-/// - `hasPointerInteraction`: indicates whether the image should interact with pointer hover (iPadOS 13.4+ only)
-/// - `hasRingInnerGap`: indicates whether there is a gap between the ring and the image
-/// - `isTransparent`: indicates if the avatar should be drawn with transparency
+/// Properties that define the appearance of a `PersonaButton`.
 @objc public protocol MSFPersonaButtonAppearance {
+    /// Specifies whether to use small or large avatars
     var buttonSize: MSFPersonaButtonSize { get set }
+
+    /// Provides tap gesture for PersonaButton
     var onTapAction: (() -> Void)? { get set }
 
+    /// Indicates whether the image should interact with pointer hover (iPadOS 13.4+ only)
     var hasPointerInteraction: Bool { get set }
+
+    /// Indicates whether there is a gap between the ring and the image
     var hasRingInnerGap: Bool { get set }
+
+    /// Indicates if the avatar should be drawn with transparency
     var isTransparent: Bool { get set }
 }
 
-/// `MSFPersonaButtonData` contains properties to customize the data of a `PersonaButton`.
-///
-/// - `avatarBackgroundColor`: background color for the persona image
-/// - `avatarForegroundColor`: foreground color for the persona image
-/// - `image`: image to display for persona
-/// - `imageBasedRingColor`: image to use as a backdrop for the ring
-/// - `isOutOfOffice`: indicates whether to show out of office status
-/// - `isRingVisible`: indicates if the status ring should be visible
-/// - `presence`: enum that describes persence status for the persona
-/// - `primaryText`: primary text to be displayed under the persona image (e.g. first name)
-/// - `ringColor`: color to draw the status ring, if one is visible
-/// - `secondaryText`: secondary text to be displayed under the persona image (e.g. last name or email address)
+/// Properties that define the data of a `PersonaButton`.
 @objc public protocol MSFPersonaButtonData {
+    /// Background color for the persona image
     var avatarBackgroundColor: UIColor? { get set }
+
+    /// Foreground color for the persona image
     var avatarForegroundColor: UIColor? { get set }
+
+    /// Iimage to display for persona
     var image: UIImage? { get set }
+
+    /// Image to use as a backdrop for the ring
     var imageBasedRingColor: UIImage? { get set }
+
+    /// Indicates whether to show out of office status
     var isOutOfOffice: Bool { get set }
+
+    /// Indicates if the status ring should be visible
     var isRingVisible: Bool { get set }
+
+    /// Enum that describes persence status for the persona
     var presence: MSFAvatarPresence { get set }
+
+    /// Primary text to be displayed under the persona image (e.g. first name)
     var primaryText: String? { get set }
+
+    /// Color to draw the status ring, if one is visible
     var ringColor: UIColor? { get set }
+
+    /// Secondary text to be displayed under the persona image (e.g. last name or email address)
     var secondaryText: String? { get set }
+}
+
+/// View that represents a persona button.
+public struct PersonaButton: View {
+    @Environment(\.theme) var theme: FluentUIStyle
+    @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
+    @Environment(\.sizeCategory) var sizeCategory: ContentSizeCategory
+    @ObservedObject var tokens: MSFPersonaButtonTokens
+    @ObservedObject var state: MSFPersonaButtonStateImpl
+
+    public init(size: MSFPersonaButtonSize) {
+        let state = MSFPersonaButtonStateImpl(size: size)
+        self.state = state
+        self.tokens = state.tokens
+    }
+
+    internal init(state: MSFPersonaButtonStateImpl, action: (() -> Void)?) {
+        state.onTapAction = action
+        self.state = state
+        self.tokens = state.tokens
+    }
+
+    @ViewBuilder
+    private var personaText: some View {
+        Group {
+            Text(state.primaryText ?? "")
+                .lineLimit(1)
+                .frame(alignment: .center)
+                .scalableFont(font: tokens.labelFont)
+                .foregroundColor(Color(tokens.labelColor))
+            if state.buttonSize.shouldShowSubtitle {
+                Text(state.secondaryText ?? "")
+                    .lineLimit(1)
+                    .frame(alignment: .center)
+                    .scalableFont(font: tokens.sublabelFont)
+                    .foregroundColor(Color(tokens.sublabelColor))
+            }
+        }
+        .padding(.horizontal, tokens.horizontalTextPadding)
+    }
+
+    @ViewBuilder
+    private var avatarView: some View {
+        Avatar(state.avatarState)
+            .padding(.top, tokens.verticalPadding)
+            .padding(.bottom, tokens.avatarInterspace)
+    }
+
+    /// Width of the button is conditional on the current size category
+    private var adjustedWidth: CGFloat {
+        let accessibilityAdjustments: [ ContentSizeCategory: [ MSFPersonaButtonSize: CGFloat] ] = [
+            .accessibilityMedium: [ .large: 4, .small: 0 ],
+            .accessibilityLarge: [ .large: 20, .small: 12 ],
+            .accessibilityExtraLarge: [ .large: 36, .small: 32 ],
+            .accessibilityExtraExtraLarge: [ .large: 56, .small: 38 ],
+            .accessibilityExtraExtraExtraLarge: [ .large: 80, .small: 68 ]
+        ]
+
+        return state.avatarState.size.size + (2 * tokens.horizontalAvatarPadding) + (accessibilityAdjustments[sizeCategory]?[state.buttonSize] ?? 0)
+    }
+
+    public var body: some View {
+        let action = state.onTapAction ?? {}
+        SwiftUI.Button(action: action) {
+            VStack(spacing: 0) {
+                avatarView
+                personaText
+                Spacer(minLength: tokens.verticalPadding)
+            }
+        }
+        .frame(minWidth: adjustedWidth, maxWidth: adjustedWidth, minHeight: 0, maxHeight: .infinity)
+        .background(Color(tokens.backgroundColor))
+        .designTokens(tokens,
+                      from: theme,
+                      with: windowProvider)
+    }
 }
 
 /// Properties that make up PersonaButton content
@@ -201,80 +287,5 @@ class MSFPersonaButtonStateImpl: NSObject, ObservableObject, Identifiable, MSFPe
     convenience init(size: MSFPersonaButtonSize) {
         let avatarState = MSFAvatarStateImpl(style: .default, size: size.avatarSize)
         self.init(size: size, avatarState: avatarState)
-    }
-}
-
-public struct PersonaButton: View {
-    @Environment(\.theme) var theme: FluentUIStyle
-    @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
-    @Environment(\.sizeCategory) var sizeCategory: ContentSizeCategory
-    @ObservedObject var tokens: MSFPersonaButtonTokens
-    @ObservedObject var state: MSFPersonaButtonStateImpl
-
-    public init(size: MSFPersonaButtonSize) {
-        let state = MSFPersonaButtonStateImpl(size: size)
-        self.state = state
-        self.tokens = state.tokens
-    }
-
-    internal init(state: MSFPersonaButtonStateImpl, action: (() -> Void)?) {
-        state.onTapAction = action
-        self.state = state
-        self.tokens = state.tokens
-    }
-
-    @ViewBuilder
-    private var personaText: some View {
-        Group {
-            Text(state.primaryText ?? "")
-                .lineLimit(1)
-                .frame(alignment: .center)
-                .scalableFont(font: tokens.labelFont)
-                .foregroundColor(Color(tokens.labelColor))
-            if state.buttonSize.shouldShowSubtitle {
-                Text(state.secondaryText ?? "")
-                    .lineLimit(1)
-                    .frame(alignment: .center)
-                    .scalableFont(font: tokens.sublabelFont)
-                    .foregroundColor(Color(tokens.sublabelColor))
-            }
-        }
-        .padding(.horizontal, tokens.horizontalTextPadding)
-    }
-
-    @ViewBuilder
-    private var avatarView: some View {
-        Avatar(state.avatarState)
-            .padding(.top, tokens.verticalPadding)
-            .padding(.bottom, tokens.avatarInterspace)
-    }
-
-    /// Width of the button is conditional on the current size category
-    private var adjustedWidth: CGFloat {
-        let accessibilityAdjustments: [ ContentSizeCategory: [ MSFPersonaButtonSize: CGFloat] ] = [
-            .accessibilityMedium: [ .large: 4, .small: 0 ],
-            .accessibilityLarge: [ .large: 20, .small: 12 ],
-            .accessibilityExtraLarge: [ .large: 36, .small: 32 ],
-            .accessibilityExtraExtraLarge: [ .large: 56, .small: 38 ],
-            .accessibilityExtraExtraExtraLarge: [ .large: 80, .small: 68 ]
-        ]
-
-        return state.avatarState.size.size + (2 * tokens.horizontalAvatarPadding) + (accessibilityAdjustments[sizeCategory]?[state.buttonSize] ?? 0)
-    }
-
-    public var body: some View {
-        let action = state.onTapAction ?? {}
-        SwiftUI.Button(action: action) {
-            VStack(spacing: 0) {
-                avatarView
-                personaText
-                Spacer(minLength: tokens.verticalPadding)
-            }
-        }
-        .frame(minWidth: adjustedWidth, maxWidth: adjustedWidth, minHeight: 0, maxHeight: .infinity)
-        .background(Color(tokens.backgroundColor))
-        .designTokens(tokens,
-                      from: theme,
-                      with: windowProvider)
     }
 }
