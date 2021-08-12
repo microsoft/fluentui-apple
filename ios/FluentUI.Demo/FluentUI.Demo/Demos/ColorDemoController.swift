@@ -113,8 +113,7 @@ class ColorDemoController: UIViewController {
         view.addSubview(stackView)
         view.backgroundColor = Colors.NavigationBar.background
 
-        let window = ColorDemoController.themeWindowType
-        segmentedControl.selectedSegmentIndex = colorProviderThemes.firstIndex(where: { $0.demoColorTheme.windowType == window }) ?? 0
+        segmentedControl.selectedSegmentIndex = colorProviderThemes.firstIndex(where: { $0.demoColorTheme.providerType == ColorDemoController.providerType }) ?? 0
 
         NSLayoutConstraint.activate([
             stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -143,15 +142,15 @@ class ColorDemoController: UIViewController {
     @objc private func segmentedControlValueChanged(sender: Any) {
         if let segmentedControl = sender as? SegmentedControl {
             let selectedSegmentIndex = segmentedControl.selectedSegmentIndex
-            let provider = colorProviderThemes[selectedSegmentIndex].demoColorTheme.window
+            let provider = colorProviderThemes[selectedSegmentIndex].demoColorTheme.provider
             let window = self.view.window
-            ColorDemoController.themeWindowType = colorProviderThemes[selectedSegmentIndex].demoColorTheme.windowType
+            ColorDemoController.providerType = colorProviderThemes[selectedSegmentIndex].demoColorTheme.providerType
 
             if let provider = provider as? ColorProviding {
                 DemoListViewController.updateColorProviderFor(window: window!, provider: provider)
             } else {
                 // If provider doesn't conform to ColorProviding, fallback on default theme
-                DemoListViewController.updateColorProviderFor(window: window!, provider: DemoColorThemeDefaultWindow() as ColorProviding)
+                DemoListViewController.updateColorProviderFor(window: window!, provider: DemoColorDefaultTheme() as ColorProviding)
             }
 
             tableView.reloadData()
@@ -159,11 +158,11 @@ class ColorDemoController: UIViewController {
         }
     }
 
-    private static var themeWindowType: UIWindow.Type = DemoColorThemeDefaultWindow.self
+    private static var providerType: NSObject.Type = DemoColorDefaultTheme.self
     private let tableView = UITableView(frame: .zero, style: .grouped)
-    private let colorProviderThemes: [(name: String, demoColorTheme: DemoColorTheme)] = [("Default", demoColorTheme: DemoColorTheme.init(window: DemoColorThemeDefaultWindow(), windowType: DemoColorThemeDefaultWindow.self)),
-                                                                                         ("Green", demoColorTheme: DemoColorTheme.init(window: DemoColorThemeGreenWindow(), windowType: DemoColorThemeGreenWindow.self)),
-                                                                                         ("None", demoColorTheme: DemoColorTheme.init(window: UIWindow(), windowType: UIWindow.self))]}
+    private let colorProviderThemes: [(name: String, demoColorTheme: DemoColorTheme)] = [("Default", demoColorTheme: DemoColorTheme.init(provider: DemoColorDefaultTheme(), providerType: DemoColorDefaultTheme.self)),
+                                                                                         ("Green", demoColorTheme: DemoColorTheme.init(provider: DemoColorGreenTheme(), providerType: DemoColorGreenTheme.self)),
+                                                                                         ("None", demoColorTheme: DemoColorTheme.init(provider: NSObject(), providerType: NSObject.self))]}
 
 // MARK: - ColorDemoController: UITableViewDelegate
 
@@ -246,6 +245,6 @@ struct DemoColorSection {
 }
 
 private struct DemoColorTheme {
-    var window: UIWindow
-    var windowType: UIWindow.Type
+    var provider: NSObject
+    var providerType: NSObject.Type
 }

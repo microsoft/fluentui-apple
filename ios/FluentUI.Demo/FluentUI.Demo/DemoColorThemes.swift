@@ -6,7 +6,7 @@
 import FluentUI
 import UIKit
 
-class DemoColorThemeDefaultWindow: UIWindow, ColorProviding {
+class DemoColorDefaultTheme: NSObject, ColorProviding {
     func primaryColor(for window: UIWindow) -> UIColor? {
         return Colors.communicationBlue
     }
@@ -40,7 +40,7 @@ class DemoColorThemeDefaultWindow: UIWindow, ColorProviding {
     }
 }
 
-class DemoColorThemeGreenWindow: UIWindow, ColorProviding {
+class DemoColorGreenTheme: NSObject, ColorProviding {
     func primaryColor(for window: UIWindow) -> UIColor? {
         return UIColor(named: "Colors/DemoPrimaryColor")
     }
