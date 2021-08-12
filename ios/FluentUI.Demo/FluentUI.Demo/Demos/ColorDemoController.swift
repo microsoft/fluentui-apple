@@ -150,7 +150,8 @@ class ColorDemoController: UIViewController {
             if let provider = provider as? ColorProviding {
                 DemoListViewController.updateColorProviderFor(window: window!, provider: provider)
             } else {
-                Colors.removeProvider(for: window!)
+                // If provider doesn't conform to ColorProviding, fallback on default theme
+                DemoListViewController.updateColorProviderFor(window: window!, provider: DemoColorThemeDefaultWindow() as ColorProviding)
             }
 
             tableView.reloadData()
