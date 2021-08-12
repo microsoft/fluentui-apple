@@ -28,11 +28,11 @@ open class BadgeView: NSView {
 		textField = NSTextField(labelWithString: title)
 		switch style {
 		case .default:
-			_backgroundColor = BadgeColors.defaultBackground
-			_textColor = BadgeColors.defaultText
+			_backgroundColor = Constants.defaultBackgroundColor
+			_textColor = Constants.defaultTextColor
 		case .primary:
-			_backgroundColor = BadgeColors.primaryBackground
-			_textColor = BadgeColors.primaryText
+			_backgroundColor = Constants.primaryBackgroundColor
+			_textColor = Constants.primaryTextColor
 		}
 		super.init(frame: .zero)
 
@@ -124,7 +124,7 @@ open class BadgeView: NSView {
 		var cornerRadius: CGFloat {
 			switch self {
 			case .small:
-				return 3
+				return 6
 			}
 		}
 
@@ -142,13 +142,11 @@ open class BadgeView: NSView {
 			}
 		}
 	}
-}
 
-// MARK: - Colors
-
-struct BadgeColors {
-	static let defaultBackground: DynamicColor = DynamicColor(light: Colors.Palette.communicationBlueTint40.color, dark: Colors.Palette.communicationBlueTint30.color)
-	static let defaultText: DynamicColor = DynamicColor(light: Colors.Palette.communicationBlue.color, dark: Colors.Palette.communicationBlueShade20.color)
-	static let primaryBackground: DynamicColor = DynamicColor(light: Colors.primaryTint40, dark: Colors.primaryTint30)
-	static let primaryText: DynamicColor = DynamicColor(light: Colors.primary, dark: Colors.primaryShade20)
+	private struct Constants {
+		static let defaultBackgroundColor: DynamicColor = DynamicColor(light: Colors.Palette.communicationBlueTint40.color, dark: Colors.Palette.communicationBlueTint30.color)
+		static let defaultTextColor: DynamicColor = DynamicColor(light: Colors.Palette.communicationBlue.color, dark: Colors.Palette.communicationBlueShade20.color)
+		static let primaryBackgroundColor: DynamicColor = DynamicColor(light: Colors.primaryTint40, dark: Colors.primaryTint30)
+		static let primaryTextColor: DynamicColor = DynamicColor(light: Colors.primary, dark: Colors.primaryShade20)
+	}
 }
