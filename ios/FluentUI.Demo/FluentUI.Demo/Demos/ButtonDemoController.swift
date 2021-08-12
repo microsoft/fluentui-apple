@@ -6,83 +6,107 @@
 import FluentUI
 import UIKit
 
-class ButtonDemoController: DemoController {
+class ButtonDemoController: UITableViewController {
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(style: .grouped)
+    }
+
+    required init?(coder: NSCoder) {
+        preconditionFailure("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = Colors.surfaceSecondary
 
-        for size in MSFButtonSize.allCases {
-            addTitle(text: "\(size.description.capitalized) size")
-            for style in MSFButtonStyle.allCases {
-                let floatingStyle = style == .accentFloating || style == .subtleFloating
-                if floatingStyle && size == .medium {
-                    continue
-                }
-                addDescription(text: "\(style.description) style:", textAlignment: .natural)
+        tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
+    }
 
-                let button = MSFButton(style: style, size: size, action: { [weak self] _ in
-                    guard let strongSelf = self else {
-                        return
-                    }
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return ButtonDemoSection.allCases.count
+    }
 
-                    strongSelf.didPressButton()
-                })
-                button.state.text = "Button"
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return ButtonDemoSection.allCases[section].rows.count
+    }
 
-                let disabledButton = MSFButton(style: style, size: size, action: { [weak self] _ in
-                    guard let strongSelf = self else {
-                        return
-                    }
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let section = ButtonDemoSection.allCases[indexPath.section]
+        let row = section.rows[indexPath.row]
 
-                    strongSelf.didPressButton()
-                })
-                disabledButton.state.text = "Button"
-                disabledButton.state.isDisabled = true
-
-                addRow(items: floatingStyle ? [button.view] : [button.view, disabledButton.view], itemSpacing: 20)
-
-                if let image = style.image {
-                    let iconButton = MSFButton(style: style, size: size) {_ in
-                        self.didPressButton()
-                    }
-                    iconButton.state.text = "Button"
-                    iconButton.state.image = image
-
-                    let disabledIconButton = MSFButton(style: style, size: size) {_ in
-                        self.didPressButton()
-                    }
-                    disabledIconButton.state.isDisabled = true
-                    disabledIconButton.state.text = "Button"
-                    disabledIconButton.state.image = image
-
-                    addRow(items: floatingStyle ? [iconButton.view] : [iconButton.view, disabledIconButton.view], itemSpacing: 20)
-
-                    let iconOnlyButton = MSFButton(style: style, size: size, action: { [weak self] _ in
-                        guard let strongSelf = self else {
-                            return
-                        }
-
-                        strongSelf.didPressButton()
-                    })
-                    iconOnlyButton.state.image = image
-
-                    let disabledIconOnlyButton = MSFButton(style: style, size: size, action: { [weak self] _ in
-                        guard let strongSelf = self else {
-                            return
-                        }
-
-                        strongSelf.didPressButton()
-                    })
-                    disabledIconOnlyButton.state.isDisabled = true
-                    disabledIconOnlyButton.state.image = image
-
-                    addRow(items: floatingStyle ? [iconOnlyButton.view] : [iconOnlyButton.view, disabledIconOnlyButton.view], itemSpacing: 20)
-                }
+        switch row {
+        case .swiftUIDemo:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier) as? TableViewCell else {
+                return UITableViewCell()
             }
+            cell.setup(title: "SwiftUI Demo")
+            cell.accessoryType = .disclosureIndicator
+
+            return cell
+
+        case .textAndIcon,
+             .textOnly,
+             .iconOnly:
+            let cell = UITableViewCell()
+
+            let image = row == .textOnly ? nil : section.image
+            let text = row == .iconOnly ? nil : "Button"
+
+            let button = MSFButton(style: section.buttonStyle,
+                                   size: section.buttonSize) { _ in
+                self.didPressButton()
+            }
+            button.state.image = image
+            button.state.text = text
+
+            let disabledButton = MSFButton(style: section.buttonStyle,
+                                           size: section.buttonSize) { _ in
+                self.didPressButton()
+            }
+            disabledButton.state.image = image
+            disabledButton.state.text = text
+            disabledButton.state.isDisabled = true
+
+            let rowContentView = UIStackView(arrangedSubviews: [button.view, disabledButton.view])
+            rowContentView.isLayoutMarginsRelativeArrangement = true
+            rowContentView.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 15, leading: 20, bottom: 15, trailing: 20)
+            rowContentView.translatesAutoresizingMaskIntoConstraints = false
+            rowContentView.alignment = .leading
+            rowContentView.distribution = .fill
+            rowContentView.spacing = 10
+
+            cell.contentView.addSubview(rowContentView)
+            NSLayoutConstraint.activate([
+                cell.contentView.leadingAnchor.constraint(equalTo: rowContentView.leadingAnchor),
+                cell.contentView.topAnchor.constraint(equalTo: rowContentView.topAnchor),
+                cell.contentView.bottomAnchor.constraint(equalTo: rowContentView.bottomAnchor)
+            ])
+
+            return cell
+        }
+    }
+
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return ButtonDemoSection.allCases[section].title
+    }
+
+    override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+        return ButtonDemoSection.allCases[indexPath.section].rows[indexPath.row] == .swiftUIDemo
+    }
+
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) else {
+            return
         }
 
-        container.addArrangedSubview(UIView())
+        cell.setSelected(false, animated: true)
+
+        switch ButtonDemoSection.allCases[indexPath.section].rows[indexPath.row] {
+        case .swiftUIDemo:
+            navigationController?.pushViewController(ButtonDemoControllerSwiftUI(),
+                                                     animated: true)
+        default:
+            break
+        }
     }
 
     func didPressButton() {
@@ -93,49 +117,169 @@ class ButtonDemoController: DemoController {
         alert.addAction(action)
         present(alert, animated: true)
     }
-}
 
-extension MSFButtonSize {
-    var description: String {
-        switch self {
-        case .large:
-            return "large"
-        case .medium:
-            return "medium"
-        case .small:
-            return "small"
+    private enum ButtonDemoSection: CaseIterable {
+        case swiftUI
+        case primarySmall
+        case primaryMedium
+        case primaryLarge
+        case secondarySmall
+        case secondaryMedium
+        case secondaryLarge
+        case ghostSmall
+        case ghostMedium
+        case ghostLarge
+        case accentFloatingSmall
+        case accentFloatingLarge
+        case subtleFloatingSmall
+        case subtleFloatingLarge
+
+        var buttonSize: MSFButtonSize {
+            switch self {
+            case .primarySmall,
+                 .secondarySmall,
+                 .ghostSmall,
+                 .accentFloatingSmall,
+                 .subtleFloatingSmall:
+                return .small
+            case .primaryMedium,
+                 .secondaryMedium,
+                 .ghostMedium:
+                return .medium
+            case .primaryLarge,
+                 .secondaryLarge,
+                 .ghostLarge,
+                 .accentFloatingLarge,
+                 .subtleFloatingLarge:
+                return .large
+            case .swiftUI:
+                preconditionFailure("SwiftUI row should not display a Button")
+            }
+        }
+
+        var isDemoSection: Bool {
+            return self != .swiftUI
+        }
+
+        var title: String {
+            switch self {
+            case .swiftUI:
+                return "SwiftUI"
+            case .primarySmall:
+                return "Primary Style (small)"
+            case .secondarySmall:
+                return "Secondary Style (small)"
+            case .ghostSmall:
+                return "Ghost Style (small)"
+            case .accentFloatingSmall:
+                return "Accent Floating Style (small)"
+            case .subtleFloatingSmall:
+                return "Subtle Floating Style (small)"
+            case .primaryMedium:
+                return "Primary Style (medium)"
+            case .secondaryMedium:
+                return "Secondary Style (medium)"
+            case .ghostMedium:
+                return "Ghost Style (medium)"
+            case .primaryLarge:
+                return "Primary Style (large)"
+            case .secondaryLarge:
+                return "Secondary Style (large)"
+            case .ghostLarge:
+                return "Ghost Style (large)"
+            case .accentFloatingLarge:
+                return "Accent Floating Style (large)"
+            case .subtleFloatingLarge:
+                return "Subtle Floating Style (large)"
+            }
+        }
+
+        var buttonStyle: MSFButtonStyle {
+            switch self {
+            case .primarySmall,
+                 .primaryMedium,
+                 .primaryLarge:
+                return .primary
+            case .secondarySmall,
+                 .secondaryMedium,
+                 .secondaryLarge:
+                return .secondary
+            case .ghostSmall,
+                 .ghostMedium,
+                 .ghostLarge:
+                return .ghost
+            case .accentFloatingSmall,
+                 .accentFloatingLarge:
+                return .accentFloating
+            case .subtleFloatingSmall,
+                 .subtleFloatingLarge:
+                return .subtleFloating
+            case .swiftUI:
+                preconditionFailure("Row does not have an associated button style")
+            }
+        }
+
+        var image: UIImage? {
+            switch self {
+            case .primarySmall,
+                 .primaryMedium,
+                 .primaryLarge,
+                 .accentFloatingSmall,
+                 .accentFloatingLarge,
+                 .subtleFloatingSmall,
+                 .subtleFloatingLarge:
+                return UIImage(named: "Placeholder_24")!
+            case .secondarySmall,
+                 .secondaryMedium,
+                 .secondaryLarge,
+                 .ghostSmall,
+                 .ghostMedium,
+                 .ghostLarge:
+                return UIImage(named: "Placeholder_20")!
+            case .swiftUI:
+                return nil
+            }
+        }
+
+        var rows: [ButtonDemoRow] {
+            switch self {
+            case .swiftUI:
+                return [.swiftUIDemo]
+            case.primarySmall,
+                .primaryMedium,
+                .primaryLarge,
+                .secondarySmall,
+                .secondaryMedium,
+                .secondaryLarge,
+                .ghostSmall,
+                .ghostMedium,
+                .ghostLarge,
+                .accentFloatingSmall,
+                .accentFloatingLarge,
+                .subtleFloatingSmall,
+                .subtleFloatingLarge:
+                return [.textAndIcon,
+                        .textOnly,
+                        .iconOnly]
+            }
         }
     }
-}
 
-extension MSFButtonStyle {
-    var description: String {
-        switch self {
-        case .primary:
-            return "Primary"
-        case .secondary:
-            return "Secondary"
-        case .ghost:
-            return "Ghost"
-        case .accentFloating:
-            return "Accent floating"
-        case .subtleFloating:
-            return "Subtle floating"
-        }
-    }
+    private enum ButtonDemoRow: CaseIterable {
+        case swiftUIDemo
+        case textAndIcon
+        case textOnly
+        case iconOnly
 
-    var image: UIImage? {
-        switch self {
-        case .primary:
-            return UIImage(named: "Placeholder_24")!
-        case .secondary:
-            return UIImage(named: "Placeholder_20")!
-        case .ghost:
-            return nil
-        case .accentFloating:
-            return UIImage(named: "Placeholder_24")!
-        case .subtleFloating:
-            return UIImage(named: "Placeholder_24")!
+        var isDemoRow: Bool {
+            switch self {
+            case .textAndIcon,
+                 .textOnly,
+                 .iconOnly:
+                return true
+            case .swiftUIDemo:
+                return false
+            }
         }
     }
 }

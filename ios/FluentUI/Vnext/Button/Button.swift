@@ -20,6 +20,8 @@ public struct MSFButtonView: View {
                 image: UIImage? = nil,
                 text: String? = nil) {
         let state = MSFButtonStateImpl(style: style, size: size)
+        state.text = text
+        state.image = image
         self.state = state
         self.tokens = state.tokens
         self.action = action
