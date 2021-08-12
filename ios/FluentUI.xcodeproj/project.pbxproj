@@ -815,8 +815,7 @@
 				92B7E6A12684262900EFC15E /* MSFPersonaButton.swift */,
 				927E34C62668350800998031 /* PersonaButtonTokens.swift */,
 			);
-			name = PersonaButton;
-			path = Vnext/PersonaButton;
+			path = PersonaButton;
 			sourceTree = "<group>";
 		};
 		92D5597C26A0FC9700328FD3 /* Card Nudge */ = {
@@ -839,8 +838,7 @@
 				929DD258266ED3B600E8175E /* PersonaButtonCarousel.swift */,
 				929DD255266ED3AC00E8175E /* PersonaButtonCarouselTokens.swift */,
 			);
-			name = PersonaButtonCarousel;
-			path = Vnext/PersonaButtonCarousel;
+			path = PersonaButtonCarousel;
 			sourceTree = "<group>";
 		};
 		A5961F9B218A251E00E2A506 /* Popup Menu */ = {

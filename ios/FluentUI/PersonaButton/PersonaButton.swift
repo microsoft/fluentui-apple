@@ -6,53 +6,50 @@
 import SwiftUI
 
 /// Properties that define the appearance of a `PersonaButton`.
-@objc public protocol MSFPersonaButtonAppearance {
-    /// Specifies whether to use small or large avatars
+@objc public protocol MSFPersonaButtonState {
+    /// Specifies whether to use small or large avatars.
     var buttonSize: MSFPersonaButtonSize { get set }
 
-    /// Provides tap gesture for PersonaButton
+    /// Handles tap events for the persona button.
     var onTapAction: (() -> Void)? { get set }
 
-    /// Indicates whether the image should interact with pointer hover (iPadOS 13.4+ only)
+    /// Indicates whether the image should interact with pointer hover (iPadOS 13.4+ only).
     var hasPointerInteraction: Bool { get set }
 
-    /// Indicates whether there is a gap between the ring and the image
+    /// Indicates whether there is a gap between the ring and the image.
     var hasRingInnerGap: Bool { get set }
 
-    /// Indicates if the avatar should be drawn with transparency
+    /// Indicates if the avatar should be drawn with transparency.
     var isTransparent: Bool { get set }
-}
 
-/// Properties that define the data of a `PersonaButton`.
-@objc public protocol MSFPersonaButtonData {
-    /// Background color for the persona image
+    /// Background color for the persona image.
     var avatarBackgroundColor: UIColor? { get set }
 
-    /// Foreground color for the persona image
+    /// Foreground color for the persona image.
     var avatarForegroundColor: UIColor? { get set }
 
-    /// Iimage to display for persona
+    /// Iimage to display for persona.
     var image: UIImage? { get set }
 
-    /// Image to use as a backdrop for the ring
+    /// Image to use as a backdrop for the ring.
     var imageBasedRingColor: UIImage? { get set }
 
-    /// Indicates whether to show out of office status
+    /// Indicates whether to show out of office status.
     var isOutOfOffice: Bool { get set }
 
-    /// Indicates if the status ring should be visible
+    /// Indicates if the status ring should be visible.
     var isRingVisible: Bool { get set }
 
-    /// Enum that describes persence status for the persona
+    /// Enum that describes persence status for the persona.
     var presence: MSFAvatarPresence { get set }
 
-    /// Primary text to be displayed under the persona image (e.g. first name)
+    /// Primary text to be displayed under the persona image (e.g. first name).
     var primaryText: String? { get set }
 
-    /// Color to draw the status ring, if one is visible
+    /// Color to draw the status ring, if one is visible.
     var ringColor: UIColor? { get set }
 
-    /// Secondary text to be displayed under the persona image (e.g. last name or email address)
+    /// Secondary text to be displayed under the persona image (e.g. last name or email address).
     var secondaryText: String? { get set }
 }
 
@@ -133,7 +130,7 @@ public struct PersonaButton: View {
 }
 
 /// Properties that make up PersonaButton content
-class MSFPersonaButtonStateImpl: NSObject, ObservableObject, Identifiable, MSFPersonaButtonAppearance, MSFPersonaButtonData {
+class MSFPersonaButtonStateImpl: NSObject, ObservableObject, Identifiable, MSFPersonaButtonState {
     @Published var buttonSize: MSFPersonaButtonSize
     @Published var onTapAction: (() -> Void)?
 
@@ -276,16 +273,14 @@ class MSFPersonaButtonStateImpl: NSObject, ObservableObject, Identifiable, MSFPe
         }
     }
 
-    init(size: MSFPersonaButtonSize, avatarState: MSFAvatarStateImpl) {
+    /// Creates and initializes a `MSFPersonaButtonStateImpl`
+    /// - Parameters:
+    ///   - size: The size of the persona button
+    init(size: MSFPersonaButtonSize) {
         self.buttonSize = size
-        self.avatarState = avatarState
+        self.avatarState = MSFAvatarStateImpl(style: .default, size: size.avatarSize)
         self.tokens = MSFPersonaButtonTokens(size: size)
 
         super.init()
-    }
-
-    convenience init(size: MSFPersonaButtonSize) {
-        let avatarState = MSFAvatarStateImpl(style: .default, size: size.avatarSize)
-        self.init(size: size, avatarState: avatarState)
     }
 }
