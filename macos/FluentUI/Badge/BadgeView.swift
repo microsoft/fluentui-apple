@@ -5,47 +5,12 @@
 
 import AppKit
 
-public typealias MSBadgeView = BadgeView
-
 @objc(MSFBadgeView)
 open class BadgeView: NSView {
 	@objc(MSFBadgeViewStyle)
 	public enum Style: Int, CaseIterable {
 		case `default`
 		case primary
-	}
-
-	@objc(MSFBadgeViewSize)
-	public enum Size: Int, CaseIterable {
-		case small
-
-		var fontSize: CGFloat {
-			switch self {
-			case .small:
-				return 11
-			}
-		}
-
-		var cornerRadius: CGFloat {
-			switch self {
-			case .small:
-				return 3
-			}
-		}
-
-		var verticalPadding: CGFloat {
-			switch self {
-			case .small:
-				return 3
-			}
-		}
-
-		var horizontalPadding: CGFloat {
-			switch self {
-			case .small:
-				return 8
-			}
-		}
 	}
 
 	/// Initializes a Fluent UI Badge View with the provided title, default style, and small size
@@ -63,11 +28,11 @@ open class BadgeView: NSView {
 		textField = NSTextField(labelWithString: title)
 		switch style {
 		case .default:
-			_backgroundColor = Colors.Badge.defaultBackground
-			_textColor = Colors.Badge.defaultText
+			_backgroundColor = BadgeColors.defaultBackground
+			_textColor = BadgeColors.defaultText
 		case .primary:
-			_backgroundColor = Colors.Badge.primaryBackground
-			_textColor = Colors.Badge.primaryText
+			_backgroundColor = BadgeColors.primaryBackground
+			_textColor = BadgeColors.primaryText
 		}
 		super.init(frame: .zero)
 
@@ -105,8 +70,8 @@ open class BadgeView: NSView {
 		updateColors()
 	}
 
-	private var _backgroundColor: NSColor
-	@objc open var backgroundColor: NSColor {
+	private var _backgroundColor: DynamicColor
+	@objc open var backgroundColor: DynamicColor {
 		get {
 			return _backgroundColor
 		}
@@ -118,8 +83,8 @@ open class BadgeView: NSView {
 		}
 	}
 
-	private var _textColor: NSColor
-	@objc open var textColor: NSColor {
+	private var _textColor: DynamicColor
+	@objc open var textColor: DynamicColor {
 		get {
 			return _textColor
 		}
@@ -139,21 +104,51 @@ open class BadgeView: NSView {
 	}
 
 	private func updateBackgroundColors() {
-		layer?.backgroundColor = backgroundColor.cgColor
+		layer?.backgroundColor = backgroundColor.resolvedColor(window?.effectiveAppearance).cgColor
 	}
 
 	private func updateTextColors() {
-		textField.textColor = textColor
+		textField.textColor = textColor.resolvedColor(window?.effectiveAppearance)
+	}
+
+	private enum Size: Int, CaseIterable {
+		case small
+
+		var fontSize: CGFloat {
+			switch self {
+			case .small:
+				return 11
+			}
+		}
+
+		var cornerRadius: CGFloat {
+			switch self {
+			case .small:
+				return 3
+			}
+		}
+
+		var verticalPadding: CGFloat {
+			switch self {
+			case .small:
+				return 3
+			}
+		}
+
+		var horizontalPadding: CGFloat {
+			switch self {
+			case .small:
+				return 4
+			}
+		}
 	}
 }
 
 // MARK: - Colors
 
-extension Colors {
-	struct Badge {
-		static let defaultBackground: NSColor = Palette.communicationBlueTint40.color
-		static let defaultText: NSColor = Palette.communicationBlue.color
-		static let primaryBackground: NSColor = primaryTint40
-		static let primaryText: NSColor = primary
-	}
+struct BadgeColors {
+	static let defaultBackground: DynamicColor = DynamicColor(light: Colors.Palette.communicationBlueTint40.color, dark: Colors.Palette.communicationBlueTint30.color)
+	static let defaultText: DynamicColor = DynamicColor(light: Colors.Palette.communicationBlue.color, dark: Colors.Palette.communicationBlueShade20.color)
+	static let primaryBackground: DynamicColor = DynamicColor(light: Colors.primaryTint40, dark: Colors.primaryTint30)
+	static let primaryText: DynamicColor = DynamicColor(light: Colors.primary, dark: Colors.primaryShade20)
 }
