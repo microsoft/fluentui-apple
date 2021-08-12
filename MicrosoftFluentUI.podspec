@@ -332,7 +332,7 @@ xcodebuild ${XCODEBUILDPARAMS} -project ${PROJECT_FILE_PATH} -target "MicrosoftF
   s.subspec 'BadgeView_mac' do |badgeview_mac|
     badgeview_mac.platform = :osx
     badgeview_mac.dependency 'MicrosoftFluentUI/Core_mac'
-    avatarview_mac.dependency 'MicrosoftFluentUI/DynamicColor_mac'
+    badgeview_mac.dependency 'MicrosoftFluentUI/DynamicColor_mac'
     badgeview_mac.source_files = ["macos/FluentUI/Badge/**/*.{swift,h}"]
   end
 
