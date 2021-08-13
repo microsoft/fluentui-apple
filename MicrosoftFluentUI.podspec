@@ -244,12 +244,6 @@ xcodebuild ${XCODEBUILDPARAMS} -project ${PROJECT_FILE_PATH} -target "MicrosoftF
     resizinghandleview_ios.source_files = ["ios/FluentUI/ResizingHandleView/**/*.{swift,h}"]
   end
 
-  s.subspec 'ScrollView_ios' do |scrollview_ios|
-    scrollview_ios.platform = :ios
-    scrollview_ios.dependency 'MicrosoftFluentUI/Core_ios'
-    scrollview_ios.source_files = ["ios/FluentUI/ScrollView/**/*.{swift,h}"]
-  end
-
   s.subspec 'SegmentedControl_ios' do |segmentedcontrol_ios|
     segmentedcontrol_ios.platform = :ios
     segmentedcontrol_ios.dependency 'MicrosoftFluentUI/Separator_ios'
