@@ -7,8 +7,8 @@ on:
 jobs:
   Pod-Publish:
     if: github.event.base_ref == 'refs/heads/main'
-    runs-on: macOS-10.15
-    
+    runs-on: macOS-11
+
     steps:
     - uses: actions/checkout@v2
     - name: Switch to current version of Xcode
