@@ -7,7 +7,7 @@ on:
       - 0.2.[0-9]+_main_0.2
 jobs:
   Pod-Publish:
-    runs-on: macOS-10.15
+    runs-on: macOS-11
     
     steps:
     - uses: actions/checkout@v2
