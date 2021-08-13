@@ -11,20 +11,14 @@ protocol ScrollableContainerView: AnyObject {
     func makeFirstResponderVisible()
 }
 
-@available(iOSApplicationExtension, unavailable)
-@available(*, deprecated, renamed: "ScrollView")
-public typealias MSScrollView = ScrollView
-
 /// `UIScrollView` subclass that automatically adjusts content insets when keyboard is shown/hidden to make sure scrollable area is always visible. Also provides methods to scroll any subview (or first responder if it's a subview) to visible area.
-@available(iOSApplicationExtension, unavailable)
-@objc(MSFScrollView)
-open class ScrollView: UIScrollView, ScrollableContainerView {
-    public override init(frame: CGRect) {
+class DemoControllerScrollView: UIScrollView, ScrollableContainerView {
+    override init(frame: CGRect) {
         super.init(frame: frame)
         initialize()
     }
 
-    public required init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         initialize()
     }
@@ -33,7 +27,7 @@ open class ScrollView: UIScrollView, ScrollableContainerView {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChangeFrame), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
     }
 
-    open override var contentSize: CGSize {
+    override var contentSize: CGSize {
         didSet {
             if contentSize != oldValue {
                 makeFirstResponderVisible()
@@ -41,7 +35,7 @@ open class ScrollView: UIScrollView, ScrollableContainerView {
         }
     }
 
-    open var internalSubviews: [UIView] {
+    var internalSubviews: [UIView] {
         var result = [UIView]()
         if let scrollIndicator = horizontalScrollIndicator {
             result.append(scrollIndicator)
@@ -58,18 +52,18 @@ open class ScrollView: UIScrollView, ScrollableContainerView {
         return value(forKey: "verticalScrollIndicator") as? UIView
     }
 
-    open override func prepareForInterfaceBuilder() {
+    override func prepareForInterfaceBuilder() {
         super.prepareForInterfaceBuilder()
         initialize()
     }
 
-    open func makeFirstResponderVisible() {
+    func makeFirstResponderVisible() {
         if let firstResponder = UIResponder.firstResponder as? UIView, firstResponder.isDescendant(of: self) {
             makeSubviewVisible(firstResponder)
         }
     }
 
-    open func makeSubviewVisible(_ view: UIView) {
+    func makeSubviewVisible(_ view: UIView) {
         layoutIfNeeded()
         let container = containerForView(view)
         let rect = convert(container.frame, from: container.superview)
