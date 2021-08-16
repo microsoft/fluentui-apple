@@ -49,6 +49,19 @@ extension View {
         }
     }
 
+    /// Enables iPad Pointer interaction for the view if available.
+    /// - Parameter isEnabled: Whether the pointer interaction should be enabled.
+    /// - Returns: The modified view.
+    func pointerInteraction(_ isEnabled: Bool) -> AnyView {
+        if #available(iOS 13.4, *) {
+            if isEnabled {
+                return AnyView(self.hoverEffect())
+            }
+        }
+
+        return AnyView(self)
+    }
+
     /// Applies a scalable SwiftUI Font type in a scalable way.
     /// Custom fonts on iOS 13 are not scalable. This modifier works around that by adjusting to the
     /// sizeCategory environment object and returns the SwiftUI Font in the correct size.

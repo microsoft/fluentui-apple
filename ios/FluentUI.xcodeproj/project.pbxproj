@@ -100,7 +100,6 @@
 		5314E14425F016860099271A /* PageCardPresenterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4F2A1A2148937100C437D6 /* PageCardPresenterController.swift */; };
 		5314E14525F016860099271A /* CardPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA1AF9221487225001AE720 /* CardPresentationController.swift */; };
 		5314E14E25F016CD0099271A /* ResizingHandleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5237ACA21DED7030040BF27 /* ResizingHandleView.swift */; };
-		5314E15725F016DB0099271A /* ScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F3B145232B1E3700007A4F /* ScrollView.swift */; };
 		5314E16925F017940099271A /* SegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEBA8FB25EDF3380048EE24 /* SegmentedControl.swift */; };
 		5314E17225F0191C0099271A /* Separator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DCA76321224026005F4CB7 /* Separator.swift */; };
 		5314E18C25F0195C0099271A /* ShimmerLinesViewAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A0D76C233AEF6C00F432FD /* ShimmerLinesViewAppearance.swift */; };
@@ -129,7 +128,6 @@
 		5314E21E25F022120099271A /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87B05211E23650038C37C /* UIView+Extensions.swift */; };
 		5314E22725F022310099271A /* UITableViewCell+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B444D6B02181403C0002B4D4 /* UITableViewCell+Extension.swift */; };
 		5314E23025F022C80099271A /* UIScrollView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C8B122DD3BB70086F899 /* UIScrollView+Extensions.swift */; };
-		5314E24225F022F20099271A /* UIResponder+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F3B148232B1F9700007A4F /* UIResponder+Extensions.swift */; };
 		5314E24B25F0232F0099271A /* UIScreen+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87B01211E20B50038C37C /* UIScreen+Extension.swift */; };
 		5314E25425F023650099271A /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5961FA6218A2E4500E2A506 /* UIImage+Extensions.swift */; };
 		5314E25D25F0238E0099271A /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87AF0211BD4380038C37C /* UIFont+Extension.swift */; };
@@ -240,8 +238,6 @@
 		A5CEC16F20D98F340016922A /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CEC16E20D98F340016922A /* Fonts.swift */; };
 		A5CEC23120E451D00016922A /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CEC23020E451D00016922A /* Button.swift */; };
 		A5DCA76421224026005F4CB7 /* Separator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DCA76321224026005F4CB7 /* Separator.swift */; };
-		A5F3B146232B1E3700007A4F /* ScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F3B145232B1E3700007A4F /* ScrollView.swift */; };
-		A5F3B149232B1F9700007A4F /* UIResponder+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F3B148232B1F9700007A4F /* UIResponder+Extensions.swift */; };
 		B441478D228CDA130040E88E /* BooleanCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B441478C228CDA130040E88E /* BooleanCell.swift */; };
 		B444D6B12181403C0002B4D4 /* UITableViewCell+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B444D6B02181403C0002B4D4 /* UITableViewCell+Extension.swift */; };
 		B444D6B62183A9740002B4D4 /* BadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B444D6B52183A9740002B4D4 /* BadgeView.swift */; };
@@ -449,8 +445,6 @@
 		A5DA88FE226FAA01000A8EA8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A5DCA76321224026005F4CB7 /* Separator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Separator.swift; sourceTree = "<group>"; };
 		A5DF1EAC2213B26900CC741A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
-		A5F3B145232B1E3700007A4F /* ScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollView.swift; sourceTree = "<group>"; };
-		A5F3B148232B1F9700007A4F /* UIResponder+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIResponder+Extensions.swift"; sourceTree = "<group>"; };
 		B441478C228CDA130040E88E /* BooleanCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooleanCell.swift; sourceTree = "<group>"; };
 		B444D6B02181403C0002B4D4 /* UITableViewCell+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+Extension.swift"; sourceTree = "<group>"; };
 		B444D6B52183A9740002B4D4 /* BadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeView.swift; sourceTree = "<group>"; };
@@ -699,15 +693,6 @@
 			path = Label;
 			sourceTree = "<group>";
 		};
-		5314DFF225F005740099271A /* ScrollView */ = {
-			isa = PBXGroup;
-			children = (
-				A5F3B145232B1E3700007A4F /* ScrollView.swift */,
-				A5F3B148232B1F9700007A4F /* UIResponder+Extensions.swift */,
-			);
-			path = ScrollView;
-			sourceTree = "<group>";
-		};
 		5314DFF325F006060099271A /* TouchForwardingView */ = {
 			isa = PBXGroup;
 			children = (
@@ -950,7 +935,6 @@
 				A5961F9B218A251E00E2A506 /* Popup Menu */,
 				FD7254EE2147382D002F4069 /* Presenters */,
 				5314DFF725F007FF0099271A /* ResizingHandleView */,
-				5314DFF225F005740099271A /* ScrollView */,
 				ECEBA8F625EDEFF70048EE24 /* SegmentedControl */,
 				5314DFE625F000740099271A /* Separator */,
 				C0A0D75D233AEA9900F432FD /* Shimmer */,
@@ -1501,7 +1485,6 @@
 				5314E30325F0260E0099271A /* AccessibleViewDelegate.swift in Sources */,
 				5314E1A725F01A7C0099271A /* ActionsCell.swift in Sources */,
 				5314E07B25F00F1A0099271A /* DateTimePickerViewDataSource.swift in Sources */,
-				5314E15725F016DB0099271A /* ScrollView.swift in Sources */,
 				5314E2F525F025C60099271A /* CalendarConfiguration.swift in Sources */,
 				5314E06B25F00F100099271A /* DateTimePicker.swift in Sources */,
 				5314E2BB25F024C60099271A /* CALayer+Extensions.swift in Sources */,
@@ -1645,7 +1628,6 @@
 				5314E08C25F00F2D0099271A /* CommandBarButton.swift in Sources */,
 				5314E18F25F0195C0099271A /* ShimmerAppearance.swift in Sources */,
 				5314E21E25F022120099271A /* UIView+Extensions.swift in Sources */,
-				5314E24225F022F20099271A /* UIResponder+Extensions.swift in Sources */,
 				5314E0BD25F0106F0099271A /* HUD.swift in Sources */,
 				5314E06A25F00F100099271A /* GenericDateTimePicker.swift in Sources */,
 				5314E06025F00EFD0099271A /* CalendarViewWeekdayHeadingView.swift in Sources */,
@@ -1769,7 +1751,6 @@
 				B4A8BBCD21BF6D6900D5E3ED /* BadgeStringExtractor.swift in Sources */,
 				FD599D0A2134AB15008845EE /* CalendarViewLayout.swift in Sources */,
 				FDD454EE21405B390006E84E /* DotView.swift in Sources */,
-				A5F3B149232B1F9700007A4F /* UIResponder+Extensions.swift in Sources */,
 				C0EAAEAD2347E1DF00C7244E /* ShimmerView.swift in Sources */,
 				C0938E46235F66E300256251 /* ShimmerViewAppearance.swift in Sources */,
 				FC414E1F258876FB00069E73 /* CommandBar.swift in Sources */,
@@ -1810,7 +1791,6 @@
 				A559BB7E212B6D100055E107 /* String+Extension.swift in Sources */,
 				A5961FA5218A260500E2A506 /* PopupMenuSectionHeaderView.swift in Sources */,
 				FD56FD9A2194E50D0023C7EA /* DateTimePickerController.swift in Sources */,
-				A5F3B146232B1E3700007A4F /* ScrollView.swift in Sources */,
 				B46D3F9D215985AC0029772C /* PersonaListView.swift in Sources */,
 				7DC2FB2824C0ED1600367A55 /* TableViewCellFileAccessoryView.swift in Sources */,
 				A5DCA76421224026005F4CB7 /* Separator.swift in Sources */,

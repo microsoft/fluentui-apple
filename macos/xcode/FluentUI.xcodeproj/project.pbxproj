@@ -46,6 +46,8 @@
 		E6A92D3B24BEA91F00562BCA /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6A92D3A24BEA91F00562BCA /* ContentView.swift */; };
 		E6A92D4024BEA92000562BCA /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E6A92D3F24BEA92000562BCA /* Preview Assets.xcassets */; };
 		E6A92D4F24BEAEEA00562BCA /* TestViewControllers.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6A92D4E24BEAEEA00562BCA /* TestViewControllers.swift */; };
+		EC3AF6A426BDC892009118F4 /* BadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC3AF6A326BDC892009118F4 /* BadgeView.swift */; };
+		EC3AF6A726BDDD30009118F4 /* TestBadgeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC3AF6A526BDDD2A009118F4 /* TestBadgeViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -244,6 +246,8 @@
 		E6A92D4C24BEAA0200562BCA /* FluentUI_swiftui_testapp.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUI_swiftui_testapp.xcconfig; sourceTree = "<group>"; };
 		E6A92D4D24BEAA0200562BCA /* FluentUI_testviewcontrollers.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUI_testviewcontrollers.xcconfig; sourceTree = "<group>"; };
 		E6A92D4E24BEAEEA00562BCA /* TestViewControllers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewControllers.swift; sourceTree = "<group>"; };
+		EC3AF6A326BDC892009118F4 /* BadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeView.swift; sourceTree = "<group>"; };
+		EC3AF6A526BDDD2A009118F4 /* TestBadgeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestBadgeViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -446,6 +450,7 @@
 			children = (
 				3F2506D925F2C7A90049ED54 /* Appearance */,
 				53BCB0E8253A74DF00620960 /* AvatarView */,
+				EC3AF6A226BDC67D009118F4 /* Badge */,
 				53BCB0E9253A74FE00620960 /* Button */,
 				53BCB0D9253A724700620960 /* Core */,
 				804626C722D7909200AFA48C /* DatePicker */,
@@ -494,6 +499,7 @@
 			isa = PBXGroup;
 			children = (
 				8F250B8C22B3062A00142B0E /* TestAvatarViewController.swift */,
+				EC3AF6A526BDDD2A009118F4 /* TestBadgeViewController.swift */,
 				AC97EFE3247541E100DADC99 /* TestButtonViewController.swift */,
 				A257F81C2512DDF7002CAA6E /* TestColorViewController.swift */,
 				8061BF8222EF957200F2D245 /* TestDatePickerController.swift */,
@@ -525,6 +531,14 @@
 				E6A92D3F24BEA92000562BCA /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		EC3AF6A226BDC67D009118F4 /* Badge */ = {
+			isa = PBXGroup;
+			children = (
+				EC3AF6A326BDC892009118F4 /* BadgeView.swift */,
+			);
+			path = Badge;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -843,6 +857,7 @@
 				53BCB0ED253A75BB00620960 /* AvatarView.swift in Sources */,
 				3F2506DC25F2C7A90049ED54 /* Apperance+Theme.swift in Sources */,
 				53BCB0FB253A75E400620960 /* Link.swift in Sources */,
+				EC3AF6A426BDC892009118F4 /* BadgeView.swift in Sources */,
 				80117A7F22DCDF6F00813D59 /* CalendarView.swift in Sources */,
 				53BCB0E2253A72E000620960 /* FluentUIResources.swift in Sources */,
 				8061BF7E22EF936800F2D245 /* DatePickerView.swift in Sources */,
@@ -868,6 +883,7 @@
 			files = (
 				E6A92D2F24BEA8AC00562BCA /* TestButtonViewController.swift in Sources */,
 				E6A92D2D24BEA8AC00562BCA /* TestSeparatorViewController.swift in Sources */,
+				EC3AF6A726BDDD30009118F4 /* TestBadgeViewController.swift in Sources */,
 				A257F81E2512DE45002CAA6E /* TestColorViewController.swift in Sources */,
 				E6A92D3024BEA8AC00562BCA /* TestLinkViewController.swift in Sources */,
 				E6A92D2E24BEA8AC00562BCA /* TestAvatarViewController.swift in Sources */,

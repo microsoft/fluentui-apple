@@ -25,6 +25,8 @@
 		8F0B8116267021A700463726 /* AppCenterCrashes in Frameworks */ = {isa = PBXBuildFile; productRef = 8F0B8115267021A700463726 /* AppCenterCrashes */; };
 		92D5598426A1523400328FD3 /* CardNudgeDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D5598326A1523400328FD3 /* CardNudgeDemoController.swift */; };
 		92E4784C2661AED800BAA058 /* PersonaButtonCarouselDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E4784B2661AED800BAA058 /* PersonaButtonCarouselDemoController.swift */; };
+		92E977B726C7144F008E10A8 /* UIResponder+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E977B526C713F3008E10A8 /* UIResponder+Extensions.swift */; };
+		92E977B826C7144F008E10A8 /* DemoControllerScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E977B426C713F3008E10A8 /* DemoControllerScrollView.swift */; };
 		A589F856211BA71000471C23 /* LabelDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A589F855211BA71000471C23 /* LabelDemoController.swift */; };
 		A591A3F420F429EB001ED23B /* Demos.swift in Sources */ = {isa = PBXBuildFile; fileRef = A591A3F320F429EB001ED23B /* Demos.swift */; };
 		A5961FA9218A61BB00E2A506 /* PopupMenuDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5961FA8218A61BB00E2A506 /* PopupMenuDemoController.swift */; };
@@ -54,7 +56,6 @@
 		C038992E2359307D00265026 /* TableViewCellShimmerDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C038992D2359307D00265026 /* TableViewCellShimmerDemoController.swift */; };
 		C0938E4A235F733100256251 /* ShimmerLinesViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0938E49235F733100256251 /* ShimmerLinesViewDemoController.swift */; };
 		CCC18C2F2501C75F00BE830E /* CardViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCC18C2E2501C75F00BE830E /* CardViewDemoController.swift */; };
-		D0F59E3324F4E3A700358DC2 /* PassThroughDrawerDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F59E3224F4E3A700358DC2 /* PassThroughDrawerDemoController.swift */; };
 		E6842974247B672000A29C40 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6842973247B672000A29C40 /* SceneDelegate.swift */; };
 		E6842996247C350700A29C40 /* DemoColorThemeWindows.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6842995247C350700A29C40 /* DemoColorThemeWindows.swift */; };
 		FC414E3725888BC300069E73 /* CommandBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC414E3625888BC300069E73 /* CommandBarDemoController.swift */; };
@@ -95,6 +96,8 @@
 		80B1F7002628D8BB004DFEE5 /* BottomSheetDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetDemoController.swift; sourceTree = "<group>"; };
 		92D5598326A1523400328FD3 /* CardNudgeDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardNudgeDemoController.swift; sourceTree = "<group>"; };
 		92E4784B2661AED800BAA058 /* PersonaButtonCarouselDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaButtonCarouselDemoController.swift; sourceTree = "<group>"; };
+		92E977B426C713F3008E10A8 /* DemoControllerScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoControllerScrollView.swift; sourceTree = "<group>"; };
+		92E977B526C713F3008E10A8 /* UIResponder+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIResponder+Extensions.swift"; sourceTree = "<group>"; };
 		A589F855211BA71000471C23 /* LabelDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelDemoController.swift; sourceTree = "<group>"; };
 		A591A3F320F429EB001ED23B /* Demos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Demos.swift; sourceTree = "<group>"; };
 		A5961FA8218A61BB00E2A506 /* PopupMenuDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMenuDemoController.swift; sourceTree = "<group>"; };
@@ -125,7 +128,6 @@
 		C038992D2359307D00265026 /* TableViewCellShimmerDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCellShimmerDemoController.swift; sourceTree = "<group>"; };
 		C0938E49235F733100256251 /* ShimmerLinesViewDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShimmerLinesViewDemoController.swift; sourceTree = "<group>"; };
 		CCC18C2E2501C75F00BE830E /* CardViewDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewDemoController.swift; sourceTree = "<group>"; };
-		D0F59E3224F4E3A700358DC2 /* PassThroughDrawerDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassThroughDrawerDemoController.swift; sourceTree = "<group>"; };
 		E6842973247B672000A29C40 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		E6842995247C350700A29C40 /* DemoColorThemeWindows.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoColorThemeWindows.swift; sourceTree = "<group>"; };
 		EC7D5AF5DAF7393E14BF5B28 /* Pods_FluentUI_Demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FluentUI_Demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -196,6 +198,15 @@
 				5303259726B31A6300611D05 /* FluentUIDemoToggle.swift */,
 			);
 			path = SwiftUI;
+			sourceTree = "<group>";
+		};
+		92E977B626C713F3008E10A8 /* ScrollView */ = {
+			isa = PBXGroup;
+			children = (
+				92E977B426C713F3008E10A8 /* DemoControllerScrollView.swift */,
+				92E977B526C713F3008E10A8 /* UIResponder+Extensions.swift */,
+			);
+			path = ScrollView;
 			sourceTree = "<group>";
 		};
 		A52B637E21387566009F7ADF /* Configuration */ = {
@@ -294,7 +305,6 @@
 				FDDD73FC22C6D86B00A9D995 /* ObjectiveCDemoController.h */,
 				FDDD73FB22C6D86B00A9D995 /* ObjectiveCDemoController.m */,
 				B441478E228E02540040E88E /* OtherCellsDemoController.swift */,
-				D0F59E3224F4E3A700358DC2 /* PassThroughDrawerDemoController.swift */,
 				B4575C5022FB8B6900EBD0EB /* PeoplePickerDemoController.swift */,
 				92E4784B2661AED800BAA058 /* PersonaButtonCarouselDemoController.swift */,
 				B4EF53C4215C45C400573E8F /* PersonaListViewDemoController.swift */,
@@ -317,6 +327,7 @@
 		B4C39550227A4A9300539EC2 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				92E977B626C713F3008E10A8 /* ScrollView */,
 				B4414791228F6F740040E88E /* TableViewCellSampleData.swift */,
 				B4414793228F6FDF0040E88E /* OtherCellsSampleData.swift */,
 				B4EF66552295F729007FEAB0 /* TableViewHeaderFooterSampleData.swift */,
@@ -452,7 +463,6 @@
 				5303259326B3198A00611D05 /* AvatarDemoController_SwiftUI.swift in Sources */,
 				92D5598426A1523400328FD3 /* CardNudgeDemoController.swift in Sources */,
 				5303259826B31A6300611D05 /* FluentUIDemoToggle.swift in Sources */,
-				D0F59E3324F4E3A700358DC2 /* PassThroughDrawerDemoController.swift in Sources */,
 				A5DCA760211E3B4C005F4CB7 /* DemoController.swift in Sources */,
 				5373D55F2694C3070032A3B4 /* AvatarDemoController.swift in Sources */,
 				7D0931C124AAA3D30072458A /* SideTabBarDemoController.swift in Sources */,
@@ -468,6 +478,8 @@
 				FDDD73FD22C6D86B00A9D995 /* ObjectiveCDemoController.m in Sources */,
 				B4414792228F6F740040E88E /* TableViewCellSampleData.swift in Sources */,
 				E6842974247B672000A29C40 /* SceneDelegate.swift in Sources */,
+				92E977B826C7144F008E10A8 /* DemoControllerScrollView.swift in Sources */,
+				92E977B726C7144F008E10A8 /* UIResponder+Extensions.swift in Sources */,
 				B4E8F65221CD9579008A1598 /* HUDDemoController.swift in Sources */,
 				22EABB182509A80B00C4BE72 /* IndeterminateProgressBarDemoController.swift in Sources */,
 				FD7254ED21471A3F002F4069 /* DateTimePickerDemoController.swift in Sources */,
