@@ -375,6 +375,18 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
             return cell
         }
 
+        if indexPath.row == 2 {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: BooleanCell.identifier, for: indexPath) as? BooleanCell else {
+                return UITableViewCell()
+            }
+            cell.setup(title: "Show tooltip on 3 day view button in navigation bar", isOn: false)
+            cell.titleNumberOfLines = 0
+            cell.onValueChanged = { [weak self] in
+                self?.shouldShowTooltip()
+            }
+            return cell
+        }
+
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier, for: indexPath) as? TableViewCell else {
             return UITableViewCell()
         }
@@ -429,6 +441,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
             } else {
                 let modalViewItem = UIBarButtonItem(image: UIImage(named: "3-day-view-28x28"), landscapeImagePhone: UIImage(named: "3-day-view-24x24"), style: .plain, target: self, action: #selector(showModalView))
                 modalViewItem.accessibilityLabel = "Modal View"
+                modalViewItem.tag = 1
                 items.append(modalViewItem)
             }
             navigationItem.rightBarButtonItems = items
@@ -443,6 +456,21 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         personaData.customBorderImage = isOn ? RootViewController.colorfulImageForFrame() : nil
         msfNavigationController?.msfNavigationBar.avatar = personaData
         showRainbowRingForAvatar = isOn
+    }
+
+    @objc private func shouldShowTooltip() {
+        let buttons = msfNavigationController?.msfNavigationBar.rightBarButtonItemsStackView.arrangedSubviews ?? []
+        for button in buttons {
+            if button.tag == 1 {
+                Tooltip.shared.show(with: "Tap on this tooltip to dismiss.",
+                                    for: button,
+                                    preferredArrowDirection: .up,
+                                    dismissOn: .tapOnTooltip,
+                                    onTap: {
+                                        self.tableView.reloadData()
+                                    })
+            }
+        }
     }
 
     @objc private func dismissSelf() {

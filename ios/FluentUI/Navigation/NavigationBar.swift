@@ -241,14 +241,17 @@ open class NavigationBar: UINavigationBar {
         }
     }
 
+    /// Making these stack views as public so as to access the arranged subviews of these stack view.
+    /// One use case is to access the arranged subview to show the tooltip.
+    @objc public let rightBarButtonItemsStackView = UIStackView()
+    @objc public let leftBarButtonItemsStackView = UIStackView()
+
     // @objc dynamic - so we can do KVO on this
     @objc dynamic private(set) var style: Style = defaultStyle
 
     let backgroundView = UIView() //used for coloration
     //used to cover the navigationbar during animated transitions between VCs
     private let contentStackView = ContentStackView() //used to contain the various custom UI Elements
-    private let rightBarButtonItemsStackView = UIStackView()
-    private let leftBarButtonItemsStackView = UIStackView()
     private let leadingSpacerView = UIView() //defines the leading space between the left and right barbuttonitems stack
     private let trailingSpacerView = UIView() //defines the trailing space between the left and right barbuttonitems stack
     private var topAccessoryView: UIView?
