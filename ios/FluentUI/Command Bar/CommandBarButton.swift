@@ -26,6 +26,11 @@ class CommandBarButton: UIButton {
         }
     }
 
+    open override func didMoveToWindow() {
+        super.didMoveToWindow()
+        updateStyle()
+    }
+
     init(item: CommandBarItem, isPersistSelection: Bool = true) {
         self.item = item
         self.isPersistSelection = isPersistSelection
@@ -67,7 +72,7 @@ class CommandBarButton: UIButton {
 
     private var selectedTintColor: UIColor {
         guard let window = window else {
-            return Colors.communicationBlue
+            return UIColor(light: Colors.communicationBlue, dark: .black)
         }
 
         return Colors.primary(for: window)
