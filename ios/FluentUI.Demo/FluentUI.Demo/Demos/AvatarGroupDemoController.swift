@@ -43,7 +43,23 @@ class AvatarGroupDemoController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
-        return false
+        return AvatarGroupDemoSection.allCases[indexPath.section].rows[indexPath.row] == .swiftUIDemo
+    }
+
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) else {
+            return
+        }
+
+        cell.setSelected(false, animated: true)
+
+        switch AvatarGroupDemoSection.allCases[indexPath.section].rows[indexPath.row] {
+        case .swiftUIDemo:
+            navigationController?.pushViewController(AvatarGroupDemoControllerSwiftUI(),
+                                                     animated: true)
+        default:
+            break
+        }
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -51,6 +67,15 @@ class AvatarGroupDemoController: UITableViewController {
         let row = section.rows[indexPath.row]
 
         switch row {
+        case .swiftUIDemo:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier) as? TableViewCell else {
+                return UITableViewCell()
+            }
+            cell.setup(title: row.title)
+            cell.accessoryType = .disclosureIndicator
+
+            return cell
+
         case .avatarCount:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: ActionsCell.identifier) as? ActionsCell else {
                 return UITableViewCell()
@@ -152,6 +177,7 @@ class AvatarGroupDemoController: UITableViewController {
     private let avatarSizes: [MSFAvatarSize] = MSFAvatarSize.allCases.reversed()
 
     private enum AvatarGroupDemoSection: CaseIterable {
+        case swiftUI
         case settings
         case avatarStackNoBorder
         case avatarStackWithBorder
@@ -170,8 +196,9 @@ class AvatarGroupDemoController: UITableViewController {
                  .avatarPileWithBorder,
                  .avatarPileWithMixedBorder:
                 return .pile
-            case .settings:
-                preconditionFailure("Settings rows should not display an Avatar Group")
+            case .settings,
+                 .swiftUI:
+                preconditionFailure("\(self.title) rows should not display an Avatar Group")
             }
         }
 
@@ -185,8 +212,9 @@ class AvatarGroupDemoController: UITableViewController {
                  .avatarPileWithBorder,
                  .avatarPileWithMixedBorder:
                 return true
-            case .settings:
-                preconditionFailure("Settings rows should not display an Avatar Group")
+            case .settings,
+                 .swiftUI:
+                preconditionFailure("\(self.title) rows should not display an Avatar Group")
             }
         }
 
@@ -200,17 +228,31 @@ class AvatarGroupDemoController: UITableViewController {
                  .avatarPileWithBorder,
                  .avatarPileNoBorder:
                 return false
-            case .settings:
-                preconditionFailure("Settings rows should not display an Avatar Group")
+            case .settings,
+                 .swiftUI:
+                preconditionFailure("\(self.title) rows should not display an Avatar Group")
             }
         }
 
         var isDemoSection: Bool {
-            return self != .settings
+            switch self {
+            case .avatarPileWithMixedBorder,
+                 .avatarStackWithMixedBorder,
+                 .avatarStackWithBorder,
+                 .avatarStackNoBorder,
+                 .avatarPileWithBorder,
+                 .avatarPileNoBorder:
+                return true
+            case .settings,
+                 .swiftUI:
+                return false
+            }
         }
 
         var title: String {
             switch self {
+            case .swiftUI:
+                return "SwiftUI"
             case .settings:
                 return "Settings"
             case .avatarStackNoBorder:
@@ -230,6 +272,8 @@ class AvatarGroupDemoController: UITableViewController {
 
         var rows: [AvatarGroupDemoRow] {
             switch self {
+            case .swiftUI:
+                return [.swiftUIDemo]
             case .settings:
                 return [.avatarCount,
                         .alternateBackground,
@@ -258,6 +302,7 @@ class AvatarGroupDemoController: UITableViewController {
     }
 
     private enum AvatarGroupDemoRow: CaseIterable {
+        case swiftUIDemo
         case avatarCount
         case alternateBackground
         case maxDisplayedAvatars
@@ -293,7 +338,8 @@ class AvatarGroupDemoController: UITableViewController {
                  .avatarCount,
                  .alternateBackground,
                  .maxDisplayedAvatars,
-                 .overflow:
+                 .overflow,
+                 .swiftUIDemo:
                 return false
             }
         }
@@ -321,7 +367,8 @@ class AvatarGroupDemoController: UITableViewController {
                  .avatarCount,
                  .alternateBackground,
                  .maxDisplayedAvatars,
-                 .overflow:
+                 .overflow,
+                 .swiftUIDemo:
                 preconditionFailure("Row should not display an Avatar Group")
             }
         }
@@ -336,6 +383,8 @@ class AvatarGroupDemoController: UITableViewController {
                 return "Max displayed avatars"
             case .overflow:
                 return "Overflow count"
+            case .swiftUIDemo:
+                return "SwiftUI Demo"
             case .xxlargeTitle:
                 return "ExtraExtraLarge"
             case .xlargeTitle:

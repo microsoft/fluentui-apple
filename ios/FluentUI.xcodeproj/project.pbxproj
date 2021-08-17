@@ -188,6 +188,8 @@
 		8FD01188228A82A600D25925 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CEC16C20D98EE70016922A /* Colors.swift */; };
 		92079C8F26B66E5100D688DA /* CardNudgeModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92079C8E26B66E5100D688DA /* CardNudgeModifiers.swift */; };
 		92079C9026B66E5100D688DA /* CardNudgeModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92079C8E26B66E5100D688DA /* CardNudgeModifiers.swift */; };
+		92865CDB26CB36EA008894FB /* AvatarGroupModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92865CDA26CB36EA008894FB /* AvatarGroupModifiers.swift */; };
+		92865CDC26CB36EA008894FB /* AvatarGroupModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92865CDA26CB36EA008894FB /* AvatarGroupModifiers.swift */; };
 		92A1E4EC26A741F60007ED60 /* CardNudgeTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A1E4EB26A741F60007ED60 /* CardNudgeTokens.swift */; };
 		92A1E4ED26A741F60007ED60 /* CardNudgeTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A1E4EB26A741F60007ED60 /* CardNudgeTokens.swift */; };
 		92A1E4F426A791590007ED60 /* MSFCardNudge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A1E4F326A791590007ED60 /* MSFCardNudge.swift */; };
@@ -389,6 +391,7 @@
 		8FA3CB5A246B19EA0049E431 /* ColorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTests.swift; sourceTree = "<group>"; };
 		8FD01166228A820600D25925 /* libFluentUI.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libFluentUI.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		92079C8E26B66E5100D688DA /* CardNudgeModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardNudgeModifiers.swift; sourceTree = "<group>"; };
+		92865CDA26CB36EA008894FB /* AvatarGroupModifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarGroupModifiers.swift; sourceTree = "<group>"; };
 		92A1E4EB26A741F60007ED60 /* CardNudgeTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardNudgeTokens.swift; sourceTree = "<group>"; };
 		92A1E4F326A791590007ED60 /* MSFCardNudge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFCardNudge.swift; sourceTree = "<group>"; };
 		92D5598026A0FD2800328FD3 /* CardNudge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardNudge.swift; sourceTree = "<group>"; };
@@ -632,6 +635,7 @@
 			isa = PBXGroup;
 			children = (
 				5306075126A1E6A4002D49CF /* AvatarGroup.swift */,
+				92865CDA26CB36EA008894FB /* AvatarGroupModifiers.swift */,
 				5306074F26A1E6A4002D49CF /* AvatarGroupTokens.swift */,
 				5306075026A1E6A4002D49CF /* MSFAvatarGroupTokens.generated.swift */,
 			);
@@ -1548,6 +1552,7 @@
 				5314E2E325F025500099271A /* FluentUIFramework.swift in Sources */,
 				5314E0EC25F012C40099271A /* NavigationAnimator.swift in Sources */,
 				5314E17225F0191C0099271A /* Separator.swift in Sources */,
+				92865CDC26CB36EA008894FB /* AvatarGroupModifiers.swift in Sources */,
 				5314E14225F016860099271A /* CardPresenterNavigationController.swift in Sources */,
 				5314E11725F015EA0099271A /* PersonaCell.swift in Sources */,
 				5314E23025F022C80099271A /* UIScrollView+Extensions.swift in Sources */,
@@ -1705,6 +1710,7 @@
 				FD599D0A2134AB15008845EE /* CalendarViewLayout.swift in Sources */,
 				FDD454EE21405B390006E84E /* DotView.swift in Sources */,
 				C0EAAEAD2347E1DF00C7244E /* ShimmerView.swift in Sources */,
+				92865CDB26CB36EA008894FB /* AvatarGroupModifiers.swift in Sources */,
 				C0938E46235F66E300256251 /* ShimmerViewAppearance.swift in Sources */,
 				FC414E1F258876FB00069E73 /* CommandBar.swift in Sources */,
 				C0A0D76F233AEF6C00F432FD /* ShimmerLinesViewAppearance.swift in Sources */,

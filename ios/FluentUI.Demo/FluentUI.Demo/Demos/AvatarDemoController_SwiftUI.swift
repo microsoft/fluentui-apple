@@ -57,12 +57,7 @@ struct AvatarDemoView: View {
             ScrollView {
                 Group {
                     Group {
-                        VStack(spacing: 0) {
-                            Text("Content")
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .font(.title)
-                            Divider()
-                        }
+                        DemoHeading(title: "Content")
 
                         TextField("Primary Text", text: $primaryText)
                             .autocapitalization(.none)
@@ -81,24 +76,14 @@ struct AvatarDemoView: View {
                     }
 
                     Group {
-                        VStack(spacing: 0) {
-                            Text("Ring")
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .font(.title)
-                            Divider()
-                        }
+                        DemoHeading(title: "Ring")
                         FluentUIDemoToggle(titleKey: "Ring visible", isOn: $isRingVisible)
                         FluentUIDemoToggle(titleKey: "Ring inner gap", isOn: $hasRingInnerGap)
                         FluentUIDemoToggle(titleKey: "Set image based ring color", isOn: $showImageBasedRingColor)
                     }
 
                     Group {
-                        VStack(spacing: 0) {
-                            Text("Presence")
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .font(.title)
-                            Divider()
-                        }
+                        DemoHeading(title: "Presence")
 
                         Picker(selection: $presence, label: EmptyView()) {
                             Text(".none").tag(MSFAvatarPresence.none)
@@ -117,12 +102,7 @@ struct AvatarDemoView: View {
                     }
 
                     Group {
-                        VStack(spacing: 0) {
-                            Text("Style")
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .font(.title)
-                            Divider()
-                        }
+                        DemoHeading(title: "Style")
 
                         Picker(selection: $style, label: EmptyView()) {
                             Text(".default").tag(MSFAvatarStyle.default)
@@ -137,12 +117,7 @@ struct AvatarDemoView: View {
                     }
 
                     Group {
-                        VStack(spacing: 0) {
-                            Text("Size")
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .font(.title)
-                            Divider()
-                        }
+                        DemoHeading(title: "Size")
 
                         Picker(selection: $size, label: EmptyView()) {
                             Text(".xxlarge").tag(MSFAvatarSize.xxlarge)

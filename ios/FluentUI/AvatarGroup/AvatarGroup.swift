@@ -41,7 +41,9 @@ import SwiftUI
         super.init()
 
         avatarGroup = AvatarGroup(style: style,
-                                  size: size)
+                                  size: size,
+                                  avatarCount: 0) { _, _ in
+        }
         hostingController = UIHostingController(rootView: AnyView(avatarGroup
                                                                     .windowProvider(self)
                                                                     .modifyIf(theme != nil, { avatarGroupView in
@@ -62,6 +64,9 @@ import SwiftUI
 /// Properties that can be used to customize the appearance of the AvatarGroup.
 @objc public protocol MSFAvatarGroupState {
 
+    /// Total number of avatars to represent, independent of what is visible at any time.
+    var avatarCount: Int { get set }
+
     /// Caps the number of displayed avatars and shows the remaining not displayed in the overflow avatar.
     var maxDisplayedAvatars: Int { get set }
 
@@ -71,6 +76,9 @@ import SwiftUI
 
     ///  Style of the AvatarGroup.
     var style: MSFAvatarGroupStyle { get set }
+
+    /// Size of the AvatarGroup.
+    var size: MSFAvatarSize { get set }
 
     /// Creates a new Avatar within the AvatarGroup.
     func createAvatar() -> MSFAvatarGroupAvatarState
@@ -145,10 +153,16 @@ public struct AvatarGroup: View {
     /// - Parameters:
     ///   - style: The style of the avatar group.
     ///   - size: The size of the avatars displayed in the avatar group.
-    init(style: MSFAvatarGroupStyle,
-         size: MSFAvatarSize) {
+    ///   - avatarCount: Total number of avatars to represent, independent of what is visible at any time.
+    ///   - avatarAtIndex: Callback to allow for customization of individual avatars.
+    public init(style: MSFAvatarGroupStyle,
+                size: MSFAvatarSize,
+                avatarCount: Int,
+                avatarAtIndex: ((_ avatar: MSFAvatarGroupAvatarState, _ index: Int) -> Void)?) {
         let state = MSFAvatarGroupStateImpl(style: style,
-                                            size: size)
+                                            size: size,
+                                            avatarCount: avatarCount,
+                                            avatarAtIndex: avatarAtIndex)
         self.state = state
         self.tokens = state.tokens
     }
@@ -256,6 +270,13 @@ class MSFAvatarGroupStateImpl: NSObject, ObservableObject, MSFAvatarGroupState {
     @Published var maxDisplayedAvatars: Int = Int.max
     @Published var overflowCount: Int = 0
 
+    var avatarAtIndex: ((_ avatar: MSFAvatarGroupAvatarState, _ index: Int) -> Void)?
+    @Published var avatarCount: Int = 0 {
+        didSet {
+            populateAvatars()
+        }
+    }
+
     var style: MSFAvatarGroupStyle {
         get {
             return tokens.style
@@ -265,13 +286,38 @@ class MSFAvatarGroupStateImpl: NSObject, ObservableObject, MSFAvatarGroupState {
         }
     }
 
+    var size: MSFAvatarSize {
+        get {
+            return tokens.size
+        }
+        set {
+            tokens.size = newValue
+        }
+    }
+
     var tokens: MSFAvatarGroupTokens
 
     init(style: MSFAvatarGroupStyle,
-         size: MSFAvatarSize) {
+         size: MSFAvatarSize,
+         avatarCount: Int,
+         avatarAtIndex: ((_ avatar: MSFAvatarGroupAvatarState, _ index: Int) -> Void)?) {
         self.tokens = MSFAvatarGroupTokens(style: style,
                                            size: size)
+        self.avatarCount = avatarCount
+        self.avatarAtIndex = avatarAtIndex
         super.init()
+
+        // Post-init, perform initial population of avatar data
+        populateAvatars()
+    }
+
+    /// Iterates through the count of avatars and ensures they are all fully populated using the data from `avatarAtIndex`
+    private func populateAvatars() {
+        avatars.removeAll()
+        for index in 0..<avatarCount {
+            let newAvatar = createAvatar()
+            avatarAtIndex?(newAvatar, index)
+        }
     }
 }
 
