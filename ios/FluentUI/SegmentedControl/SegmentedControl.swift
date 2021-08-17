@@ -651,7 +651,7 @@ open class SegmentedControl: UIControl {
         }
     }
 
-    private func updateWindowSpecificColors() {
+    public func updateWindowSpecificColors() {
         if let window = window {
             switch style {
             case .tabs:

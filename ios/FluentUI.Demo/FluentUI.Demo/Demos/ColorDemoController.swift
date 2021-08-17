@@ -149,12 +149,12 @@ class ColorDemoController: UIViewController {
             if let provider = provider as? ColorProviding {
                 DemoListViewController.updateColorProviderFor(window: window!, provider: provider)
             } else {
-                // If provider doesn't conform to ColorProviding, fallback on default theme
-                DemoListViewController.updateColorProviderFor(window: window!, provider: DemoColorDefaultTheme() as ColorProviding)
+                // If provider doesn't conform to ColorProviding, remove mapping from dictionary and return fallback colors
+                Colors.removeProvider(for: window!)
             }
 
             tableView.reloadData()
-            segmentedControl.didMoveToWindow()
+            segmentedControl.updateWindowSpecificColors()
         }
     }
 

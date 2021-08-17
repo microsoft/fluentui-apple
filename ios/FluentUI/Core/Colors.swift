@@ -457,6 +457,10 @@ public final class Colors: NSObject {
         colorProvidersMap.setObject(provider, forKey: window)
     }
 
+    @objc public static func removeProvider(for window: UIWindow) {
+        colorProvidersMap.removeObject(forKey: window)
+    }
+
     // MARK: Primary
 
     /// Use these funcs to grab a color customized by a ColorProviding object for a specific window.. If no colorProvider exists for the window, falls back to deprecated singleton theme color
