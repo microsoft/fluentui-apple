@@ -14,6 +14,7 @@
 		5303259326B3198A00611D05 /* AvatarDemoController_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5303259226B3198A00611D05 /* AvatarDemoController_SwiftUI.swift */; };
 		5303259826B31A6300611D05 /* FluentUIDemoToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5303259726B31A6300611D05 /* FluentUIDemoToggle.swift */; };
 		5306075926A1E73F002D49CF /* AvatarGroupDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5306075826A1E73F002D49CF /* AvatarGroupDemoController.swift */; };
+		5340827A26C4B112007716E1 /* ButtonDemoController_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5340827926C4B112007716E1 /* ButtonDemoController_SwiftUI.swift */; };
 		5360997426B8B7BF0069DE71 /* ThemingDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5360997026B8B7BF0069DE71 /* ThemingDemoController.swift */; };
 		5360997526B8B7BF0069DE71 /* ActivityIndicatorDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5360997126B8B7BF0069DE71 /* ActivityIndicatorDemoController.swift */; };
 		5360997626B8B7BF0069DE71 /* LeftNavDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5360997226B8B7BF0069DE71 /* LeftNavDemoController.swift */; };
@@ -94,6 +95,7 @@
 		5303259226B3198A00611D05 /* AvatarDemoController_SwiftUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarDemoController_SwiftUI.swift; sourceTree = "<group>"; };
 		5303259726B31A6300611D05 /* FluentUIDemoToggle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FluentUIDemoToggle.swift; sourceTree = "<group>"; };
 		5306075826A1E73F002D49CF /* AvatarGroupDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarGroupDemoController.swift; sourceTree = "<group>"; };
+		5340827926C4B112007716E1 /* ButtonDemoController_SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonDemoController_SwiftUI.swift; sourceTree = "<group>"; };
 		5360997026B8B7BF0069DE71 /* ThemingDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemingDemoController.swift; sourceTree = "<group>"; };
 		5360997126B8B7BF0069DE71 /* ActivityIndicatorDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorDemoController.swift; sourceTree = "<group>"; };
 		5360997226B8B7BF0069DE71 /* LeftNavDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftNavDemoController.swift; sourceTree = "<group>"; };
@@ -293,6 +295,7 @@
 				80AECC0B2630F1BB005AF2F3 /* BottomCommandingDemoController.swift */,
 				80B1F7002628D8BB004DFEE5 /* BottomSheetDemoController.swift */,
 				B4D852DA225C010A004B1B29 /* ButtonDemoController.swift */,
+				5340827926C4B112007716E1 /* ButtonDemoController_SwiftUI.swift */,
 				92ABB38F26BC66FE00BA179A /* ButtonLegacyDemoController.swift */,
 				92D5598326A1523400328FD3 /* CardNudgeDemoController.swift */,
 				CCC18C2E2501C75F00BE830E /* CardViewDemoController.swift */,
@@ -483,6 +486,7 @@
 				497DC2DE24185896008D86F8 /* PillButtonBarDemoController.swift in Sources */,
 				5360997A26B8B8140069DE71 /* DrawerDemoController.swift in Sources */,
 				5360997F26B8B8330069DE71 /* PopupMenuDemoController.swift in Sources */,
+				5340827A26C4B112007716E1 /* ButtonDemoController_SwiftUI.swift in Sources */,
 				B4EF53C5215C45C400573E8F /* PersonaListViewDemoController.swift in Sources */,
 				B4414792228F6F740040E88E /* TableViewCellSampleData.swift in Sources */,
 				E6842974247B672000A29C40 /* SceneDelegate.swift in Sources */,

@@ -112,21 +112,21 @@
 }
 
 - (void)enableButton {
-    MSFButtonState *state = [self->_testButton state];
+    id<MSFButtonState> state = [self->_testButton state];
     [state setText:@"Enabled"];
     [state setIsDisabled:NO];
     [state setImage:[UIImage imageNamed:@"Placeholder_20"]];
 }
 
 - (void)disableButton {
-    MSFButtonState *state = [self->_testButton state];
+    id<MSFButtonState> state = [self->_testButton state];
     [state setText:@"Disabled"];
     [state setIsDisabled:YES];
     [state setImage:nil];
 }
 
 - (void)resetButton {
-    MSFButtonState *state = [self->_testButton state];
+    id<MSFButtonState> state = [self->_testButton state];
     [state setText:@"Button (Vnext)"];
     [state setImage:nil];
     [state setIsDisabled:NO];

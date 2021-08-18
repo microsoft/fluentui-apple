@@ -3,25 +3,127 @@
 //  Licensed under the MIT License.
 //
 
-import Combine
-import UIKit
 import SwiftUI
+import UIKit
 
-/// Properties available to customize the state of the button
-@objc public class MSFButtonState: NSObject, ObservableObject {
-    @objc @Published public var image: UIImage?
-    @objc @Published public var isDisabled: Bool = false
-    @objc @Published public var text: String?
+/// Properties that can be used to customize the appearance of the Button.
+@objc public protocol MSFButtonState {
+
+    /// The string representing the accessibility label of the button.
+    var accessibilityLabel: String? { get set }
+
+    /// Defines the icon image of the button.
+    var image: UIImage? { get set }
+
+    /// Controls whether the button is available for user interaction, renders the control accordingly.
+    var isDisabled: Bool { get set }
+
+    /// Text used as the label of the button.
+    var text: String? { get set }
+
+    /// Defines the size of the button.
+    var size: MSFButtonSize { get set }
+
+    /// Defines the style of the button.
+    var style: MSFButtonStyle { get set }
+}
+
+/// View that represents the button.
+public struct MSFButtonView: View {
+    @Environment(\.theme) var theme: FluentUIStyle
+    @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
+    @ObservedObject var tokens: MSFButtonTokens
+    @ObservedObject var state: MSFButtonStateImpl
+
+    /// Creates a MSFButtonView.
+    /// - Parameters:
+    ///   - style: The MSFButtonStyle used by the button.
+    ///   - size: The MSFButtonSize value used by the button.
+    ///   - image: The image used as the leading icon of the button.
+    ///   - text: The text used in the button label.
+    ///   - action: Closure that handles the button tap event.
+    public init(style: MSFButtonStyle,
+                size: MSFButtonSize,
+                image: UIImage? = nil,
+                text: String? = nil,
+                action: @escaping () -> Void) {
+        let state = MSFButtonStateImpl(style: style,
+                                       size: size,
+                                       action: action)
+        state.text = text
+        state.image = image
+        self.state = state
+        self.tokens = state.tokens
+    }
+
+    public var body: some View {
+        Button(action: state.action, label: {})
+            .buttonStyle(MSFButtonViewButtonStyle(tokens: tokens,
+                                                  state: state))
+            .modifyIf(state.disabled != nil, { button in
+                button.disabled(state.disabled!)
+            })
+            .frame(maxWidth: .infinity)
+            .designTokens(tokens,
+                          from: theme,
+                          with: windowProvider)
+    }
+}
+
+class MSFButtonStateImpl: NSObject, ObservableObject, MSFButtonState {
+    var action: () -> Void
+    @Published var image: UIImage?
+    @Published var disabled: Bool?
+    @Published var text: String?
+
+    var isDisabled: Bool {
+        get {
+            return disabled ?? false
+        }
+        set {
+            disabled = newValue
+        }
+    }
+
+    var size: MSFButtonSize {
+        get {
+            return tokens.size
+        }
+        set {
+            tokens.size = newValue
+        }
+    }
+
+    var style: MSFButtonStyle {
+        get {
+            return tokens.style
+        }
+        set {
+            tokens.style = newValue
+        }
+    }
+
+    var tokens: MSFButtonTokens
+
+    init(style: MSFButtonStyle,
+         size: MSFButtonSize,
+         action: @escaping () -> Void) {
+        self.tokens = MSFButtonTokens(style: style,
+                                      size: size)
+        self.action = action
+        super.init()
+    }
 }
 
 /// Body of the button adjusted for pressed or rest state
 struct MSFButtonViewBody: View {
+    @Environment(\.isEnabled) var isEnabled: Bool
     @ObservedObject var tokens: MSFButtonTokens
-    @ObservedObject var state: MSFButtonState
+    @ObservedObject var state: MSFButtonStateImpl
     let isPressed: Bool
 
     var body: some View {
-        let isDisabled = state.isDisabled
+        let isDisabled = !isEnabled
         let isFloatingStyle = tokens.style.isFloatingStyle
         let shouldUsePressedShadow = isDisabled || isPressed
 
@@ -79,135 +181,11 @@ struct MSFButtonViewBody: View {
 /// ButtonStyle which configures the Button View according to its state and design tokens.
 struct MSFButtonViewButtonStyle: ButtonStyle {
     @ObservedObject var tokens: MSFButtonTokens
-    @ObservedObject var state: MSFButtonState
+    @ObservedObject var state: MSFButtonStateImpl
 
     func makeBody(configuration: Self.Configuration) -> some View {
         MSFButtonViewBody(tokens: tokens,
                           state: state,
                           isPressed: configuration.isPressed)
     }
-}
-
-/// View that represents the button
-public struct MSFButtonView: View {
-    @Environment(\.theme) var theme: FluentUIStyle
-    @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
-    @ObservedObject var tokens: MSFButtonTokens
-    @ObservedObject var state: MSFButtonState
-    var action: () -> Void
-
-    public init(action: @escaping () -> Void,
-                style: MSFButtonStyle,
-                size: MSFButtonSize) {
-        self.action = action
-        self.state = MSFButtonState()
-        self.tokens = MSFButtonTokens(style: style, size: size)
-    }
-
-    public var body: some View {
-        Button(action: action, label: {})
-            .buttonStyle(MSFButtonViewButtonStyle(tokens: tokens,
-                                                  state: state))
-            .disabled(state.isDisabled)
-            .frame(maxWidth: .infinity)
-            .designTokens(tokens,
-                          from: theme,
-                          with: windowProvider)
-    }
-}
-
-/// UIKit wrapper that exposes the SwiftUI Button implementation
-@objc open class MSFButton: NSObject,
-                            FluentUIWindowProvider,
-                            UIGestureRecognizerDelegate {
-
-    @objc open var action: ((_ sender: MSFButton) -> Void)?
-
-    @objc open var state: MSFButtonState {
-        return self.buttonView.state
-    }
-
-    @objc open var view: UIView {
-        return hostingController.view
-    }
-
-    @objc public convenience init(style: MSFButtonStyle = .secondary,
-                                  size: MSFButtonSize = .large,
-                                  action: ((_ sender: MSFButton) -> Void)?) {
-        self.init(style: style,
-                  size: size,
-                  action: action,
-                  theme: nil)
-    }
-
-    @objc public init(style: MSFButtonStyle = .secondary,
-                      size: MSFButtonSize = .large,
-                      action: ((_ sender: MSFButton) -> Void)?,
-                      theme: FluentUIStyle? = nil) {
-        super.init()
-        initialize(style: style,
-                   size: size,
-                   action: action,
-                   theme: theme)
-    }
-
-    // MARK: - UIGestureRecognizerDelegate
-
-    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
-                                  shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        // Prevents the Large Content Viewer gesture recognizer from cancelling the SwiftUI button gesture recognizers.
-        return true
-    }
-
-    // MARK: - FluentUIWindowProvider
-
-    var window: UIWindow? {
-        return self.view.window
-    }
-
-    // MARK: - Private members
-
-    private func initialize(style: MSFButtonStyle = .secondary,
-                            size: MSFButtonSize = .large,
-                            action: ((_ sender: MSFButton) -> Void)?,
-                            theme: FluentUIStyle? = nil) {
-        self.action = action
-        buttonView = MSFButtonView(action: {
-            self.action?(self)
-        },
-        style: style,
-        size: size)
-
-        hostingController = UIHostingController(rootView: AnyView(buttonView
-                                                                    .windowProvider(self)
-                                                                    .modifyIf(theme != nil, { buttonView in
-                                                                        buttonView.customTheme(theme!)
-                                                                    })))
-        view.backgroundColor = UIColor.clear
-        setupLargeContentViewer()
-    }
-
-    private func setupLargeContentViewer() {
-        let largeContentViewerInteraction = UILargeContentViewerInteraction()
-        view.addInteraction(largeContentViewerInteraction)
-        largeContentViewerInteraction.gestureRecognizerForExclusionRelationship.delegate = self
-        view.scalesLargeContentImage = true
-        view.showsLargeContentViewer = buttonView.tokens.style.isFloatingStyle
-
-        imagePropertySubscriber = buttonView.state.$image.sink { buttonImage in
-            self.view.largeContentImage = buttonImage
-        }
-
-        textPropertySubscriber = buttonView.state.$text.sink { buttonText in
-            self.view.largeContentTitle = buttonText
-        }
-    }
-
-    private var textPropertySubscriber: AnyCancellable?
-
-    private var imagePropertySubscriber: AnyCancellable?
-
-    private var hostingController: UIHostingController<AnyView>!
-
-    private var buttonView: MSFButtonView!
 }

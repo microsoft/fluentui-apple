@@ -3,8 +3,8 @@
 //  Licensed under the MIT License.
 //
 
-import UIKit
 import SwiftUI
+import UIKit
 
 /// Pre-defined styles of the button
 @objc public enum MSFButtonStyle: Int, CaseIterable {

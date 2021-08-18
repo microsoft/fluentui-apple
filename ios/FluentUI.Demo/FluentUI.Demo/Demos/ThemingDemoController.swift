@@ -58,22 +58,22 @@ class ThemingDemoController: DemoController {
         let overridingTheme = CustomStyle()
         let customThemeButtonPrimary = MSFButton(style: .primary,
                                                       size: .medium,
-                                                      action: nil,
-                                                      theme: overridingTheme)
+                                                      theme: overridingTheme,
+                                                      action: nil)
         customThemeButtonPrimary.state.text = "Button"
         customThemeButtonPrimary.state.image = UIImage(named: "Placeholder_24")!
 
         let customThemeButtonSecondary = MSFButton(style: .secondary,
                                                         size: .medium,
-                                                        action: nil,
-                                                        theme: overridingTheme)
+                                                        theme: overridingTheme,
+                                                        action: nil)
         customThemeButtonSecondary.state.text = "Button"
         customThemeButtonSecondary.state.image = UIImage(named: "Placeholder_24")!
 
         let customThemeButtonGhost = MSFButton(style: .ghost,
                                                     size: .medium,
-                                                    action: nil,
-                                                    theme: overridingTheme)
+                                                    theme: overridingTheme,
+                                                    action: nil)
         customThemeButtonGhost.state.text = "Button"
 
         addRow(items: [customThemeButtonPrimary.view, customThemeButtonSecondary.view, customThemeButtonGhost.view], itemSpacing: 20)
