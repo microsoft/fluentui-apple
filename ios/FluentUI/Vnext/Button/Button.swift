@@ -28,7 +28,7 @@ import UIKit
     var style: MSFButtonStyle { get set }
 }
 
-/// View that represents the button
+/// View that represents the button.
 public struct MSFButtonView: View {
     @Environment(\.theme) var theme: FluentUIStyle
     @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
@@ -36,6 +36,13 @@ public struct MSFButtonView: View {
     @ObservedObject var state: MSFButtonStateImpl
     var action: () -> Void
 
+    /// Creates a MSFButtonView.
+    /// - Parameters:
+    ///   - style: The MSFButtonStyle used by the button.
+    ///   - size: The MSFButtonSize value used by the button.
+    ///   - image: The image used as the leading icon of the button.
+    ///   - text: The text used in the button label.
+    ///   - action: Closure that handles the button tap event.
     public init(style: MSFButtonStyle,
                 size: MSFButtonSize,
                 image: UIImage? = nil,

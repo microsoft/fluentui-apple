@@ -12,16 +12,24 @@ import UIKit
                             FluentUIWindowProvider,
                             UIGestureRecognizerDelegate {
 
+    /// Closure that handles the button tap event.
     @objc open var action: ((_ sender: MSFButton) -> Void)?
 
+    /// The object that groups properties that allow control over the button appearance.
     @objc open var state: MSFButtonState {
         return self.buttonView.state
     }
 
+    /// The UIView representing the button.
     @objc open var view: UIView {
         return hostingController.view
     }
 
+    /// Creates a new MSFButton instance.
+    /// - Parameters:
+    ///   - style: The MSFButtonStyle used by the button. Defaults to secondary.
+    ///   - size: The MSFButtonSize value used by the button. Defaults to large.
+    ///   - action: Closure that handles the button tap event.
     @objc public convenience init(style: MSFButtonStyle = .secondary,
                                   size: MSFButtonSize = .large,
                                   action: ((_ sender: MSFButton) -> Void)?) {
@@ -31,6 +39,12 @@ import UIKit
                   action: action)
     }
 
+    /// Creates a new MSFButton instance.
+    /// - Parameters:
+    ///   - style: The MSFButtonStyle used by the button. Defaults to secondary.
+    ///   - size: The MSFButtonSize value used by the button. Defaults to large.
+    ///   - theme: The FluentUIStyle instance representing the theme to be overriden for this button.
+    ///   - action: Closure that handles the button tap event.
     @objc public init(style: MSFButtonStyle = .secondary,
                       size: MSFButtonSize = .large,
                       theme: FluentUIStyle? = nil,
