@@ -34,7 +34,6 @@ public struct MSFButtonView: View {
     @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
     @ObservedObject var tokens: MSFButtonTokens
     @ObservedObject var state: MSFButtonStateImpl
-    var action: () -> Void
 
     /// Creates a MSFButtonView.
     /// - Parameters:
@@ -48,16 +47,17 @@ public struct MSFButtonView: View {
                 image: UIImage? = nil,
                 text: String? = nil,
                 action: @escaping () -> Void) {
-        let state = MSFButtonStateImpl(style: style, size: size)
+        let state = MSFButtonStateImpl(style: style,
+                                       size: size,
+                                       action: action)
         state.text = text
         state.image = image
         self.state = state
         self.tokens = state.tokens
-        self.action = action
     }
 
     public var body: some View {
-        Button(action: action, label: {})
+        Button(action: state.action, label: {})
             .buttonStyle(MSFButtonViewButtonStyle(tokens: tokens,
                                                   state: state))
             .disabled(state.isDisabled)
@@ -69,9 +69,10 @@ public struct MSFButtonView: View {
 }
 
 class MSFButtonStateImpl: NSObject, ObservableObject, MSFButtonState {
-    @objc @Published var image: UIImage?
-    @objc @Published var isDisabled: Bool = false
-    @objc @Published var text: String?
+    var action: () -> Void
+    @Published var image: UIImage?
+    @Published var isDisabled: Bool = false
+    @Published var text: String?
 
     var size: MSFButtonSize {
         get {
@@ -94,9 +95,11 @@ class MSFButtonStateImpl: NSObject, ObservableObject, MSFButtonState {
     var tokens: MSFButtonTokens
 
     init(style: MSFButtonStyle,
-         size: MSFButtonSize) {
+         size: MSFButtonSize,
+         action: @escaping () -> Void) {
         self.tokens = MSFButtonTokens(style: style,
                                       size: size)
+        self.action = action
         super.init()
     }
 }
