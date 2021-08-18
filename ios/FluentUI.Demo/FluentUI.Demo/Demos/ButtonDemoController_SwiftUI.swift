@@ -39,7 +39,7 @@ struct ButtonDemoView: View {
                           text: showLabel ? text : nil) {
                 showAlert = true
             }
-            .isDisabled(isDisabled)
+            .disabled(isDisabled)
             .fixedSize()
             .padding()
             .alert(isPresented: $showAlert, content: {

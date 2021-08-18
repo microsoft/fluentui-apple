@@ -60,7 +60,9 @@ public struct MSFButtonView: View {
         Button(action: state.action, label: {})
             .buttonStyle(MSFButtonViewButtonStyle(tokens: tokens,
                                                   state: state))
-            .disabled(state.isDisabled)
+            .modifyIf(state.disabled != nil, { button in
+                button.disabled(state.disabled!)
+            })
             .frame(maxWidth: .infinity)
             .designTokens(tokens,
                           from: theme,
@@ -71,8 +73,17 @@ public struct MSFButtonView: View {
 class MSFButtonStateImpl: NSObject, ObservableObject, MSFButtonState {
     var action: () -> Void
     @Published var image: UIImage?
-    @Published var isDisabled: Bool = false
+    @Published var disabled: Bool?
     @Published var text: String?
+
+    var isDisabled: Bool {
+        get {
+            return disabled ?? false
+        }
+        set {
+            disabled = newValue
+        }
+    }
 
     var size: MSFButtonSize {
         get {
@@ -106,12 +117,13 @@ class MSFButtonStateImpl: NSObject, ObservableObject, MSFButtonState {
 
 /// Body of the button adjusted for pressed or rest state
 struct MSFButtonViewBody: View {
+    @Environment(\.isEnabled) var isEnabled: Bool
     @ObservedObject var tokens: MSFButtonTokens
     @ObservedObject var state: MSFButtonStateImpl
     let isPressed: Bool
 
     var body: some View {
-        let isDisabled = state.isDisabled
+        let isDisabled = !isEnabled
         let isFloatingStyle = tokens.style.isFloatingStyle
         let shouldUsePressedShadow = isDisabled || isPressed
 

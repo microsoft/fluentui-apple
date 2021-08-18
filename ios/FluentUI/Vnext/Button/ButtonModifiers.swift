@@ -15,12 +15,4 @@ public extension MSFButtonView {
         state.accessibilityLabel = accessibilityLabel
         return self
     }
-
-    /// Controls whether the button is available for user interaction, renders the control accordingly.
-    /// - Parameter isDisabled: Boolean value to set the property.
-    /// - Returns: The modified Button with the property set.
-    func isDisabled(_ isDisabled: Bool) -> MSFButtonView {
-        state.isDisabled = isDisabled
-        return self
-    }
 }
