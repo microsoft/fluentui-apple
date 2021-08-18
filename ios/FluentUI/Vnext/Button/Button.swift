@@ -6,6 +6,28 @@
 import SwiftUI
 import UIKit
 
+/// Properties that can be used to customize the appearance of the Button.
+@objc public protocol MSFButtonState {
+
+    /// The string representing the accessibility label of the button.
+    var accessibilityLabel: String? { get set }
+
+    /// Defines the icon image of the button.
+    var image: UIImage? { get set }
+
+    /// Controls whether the button is available for user interaction, renders the control accordingly.
+    var isDisabled: Bool { get set }
+
+    /// Text used as the label of the button.
+    var text: String? { get set }
+
+    /// Defines the size of the button.
+    var size: MSFButtonSize { get set }
+
+    /// Defines the style of the button.
+    var style: MSFButtonStyle { get set }
+}
+
 /// View that represents the button
 public struct MSFButtonView: View {
     @Environment(\.theme) var theme: FluentUIStyle
@@ -37,28 +59,6 @@ public struct MSFButtonView: View {
                           from: theme,
                           with: windowProvider)
     }
-}
-
-/// Properties that can be used to customize the appearance of the Button.
-@objc public protocol MSFButtonState {
-
-    /// The string representing the accessibility label of the button.
-    var accessibilityLabel: String? { get set }
-
-    /// Defines the icon image of the button.
-    var image: UIImage? { get set }
-
-    /// Controls whether the button is available for user interaction, renders the control accordingly.
-    var isDisabled: Bool { get set }
-
-    /// Text used as the label of the button.
-    var text: String? { get set }
-
-    /// Defines the size of the button.
-    var size: MSFButtonSize { get set }
-
-    /// Defines the style of the button.
-    var style: MSFButtonStyle { get set }
 }
 
 class MSFButtonStateImpl: NSObject, ObservableObject, MSFButtonState {
