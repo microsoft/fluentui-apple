@@ -36,11 +36,11 @@ public struct MSFButtonView: View {
     @ObservedObject var state: MSFButtonStateImpl
     var action: () -> Void
 
-    public init(action: @escaping () -> Void,
-                style: MSFButtonStyle,
+    public init(style: MSFButtonStyle,
                 size: MSFButtonSize,
                 image: UIImage? = nil,
-                text: String? = nil) {
+                text: String? = nil,
+                action: @escaping () -> Void) {
         let state = MSFButtonStateImpl(style: style, size: size)
         state.text = text
         state.image = image

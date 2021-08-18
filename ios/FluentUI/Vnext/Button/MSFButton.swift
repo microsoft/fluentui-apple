@@ -27,14 +27,14 @@ import UIKit
                                   action: ((_ sender: MSFButton) -> Void)?) {
         self.init(style: style,
                   size: size,
-                  action: action,
-                  theme: nil)
+                  theme: nil,
+                  action: action)
     }
 
     @objc public init(style: MSFButtonStyle = .secondary,
                       size: MSFButtonSize = .large,
-                      action: ((_ sender: MSFButton) -> Void)?,
-                      theme: FluentUIStyle? = nil) {
+                      theme: FluentUIStyle? = nil,
+                      action: ((_ sender: MSFButton) -> Void)?) {
         super.init()
         initialize(style: style,
                    size: size,
@@ -63,11 +63,10 @@ import UIKit
                             action: ((_ sender: MSFButton) -> Void)?,
                             theme: FluentUIStyle? = nil) {
         self.action = action
-        buttonView = MSFButtonView(action: {
+        buttonView = MSFButtonView(style: style,
+                                   size: size) {
             self.action?(self)
-        },
-        style: style,
-        size: size)
+        }
 
         hostingController = UIHostingController(rootView: AnyView(buttonView
                                                                     .windowProvider(self)
