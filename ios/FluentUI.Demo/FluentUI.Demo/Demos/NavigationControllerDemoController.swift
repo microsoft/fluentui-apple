@@ -459,18 +459,17 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
 
     @objc private func shouldShowTooltip() {
-        let buttons = msfNavigationController?.msfNavigationBar.rightBarButtonItemsStackView.arrangedSubviews ?? []
-        for button in buttons {
-            if button.tag == 1 {
-                Tooltip.shared.show(with: "Tap on this tooltip to dismiss.",
-                                    for: button,
-                                    preferredArrowDirection: .up,
-                                    dismissOn: .tapOnTooltip,
-                                    onTap: {
-                                        self.tableView.reloadData()
-                                    })
-            }
+        let navigationBar = msfNavigationController?.msfNavigationBar
+        guard let view = navigationBar?.barButtonItemView(tag: 1) else {
+            return
         }
+        Tooltip.shared.show(with: "Tap on this tooltip to dismiss.",
+                            for: view,
+                            preferredArrowDirection: .up,
+                            dismissOn: .tapOnTooltip,
+                            onTap: { [weak self] in
+                                self?.tableView.reloadData()
+                            })
     }
 
     @objc private func dismissSelf() {

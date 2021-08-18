@@ -156,6 +156,19 @@ open class NavigationBar: UINavigationBar {
         return nil
     }
 
+    @objc public func barButtonItemView(tag: Int) -> UIView? {
+        let leftBarButtonItemViews = leftBarButtonItemsStackView.arrangedSubviews
+        let rightBarButtonItemViews = rightBarButtonItemsStackView.arrangedSubviews
+        let totalBarButtonItemViews = leftBarButtonItemViews + rightBarButtonItemViews
+        for view in totalBarButtonItemViews {
+            if view.tag == tag {
+                return view
+            }
+        }
+
+        return nil
+    }
+
     /// An element size to describe the behavior of the navigation bar's expanded height. Set automatically when the values of `avatarSize` and `titleSize` are changed. The bar will lock to expanded size if either element is set to `.expanded`, lock to contracted if both elements are `.contracted`, and stay automatic in any other case.
     @objc open private(set) dynamic var barHeight: ElementSize = .automatic {
         didSet {
@@ -241,17 +254,14 @@ open class NavigationBar: UINavigationBar {
         }
     }
 
-    /// Making these stack views as public so as to access the arranged subviews of these stack view.
-    /// One use case is to access the arranged subview to show the tooltip.
-    @objc public let rightBarButtonItemsStackView = UIStackView()
-    @objc public let leftBarButtonItemsStackView = UIStackView()
-
     // @objc dynamic - so we can do KVO on this
     @objc dynamic private(set) var style: Style = defaultStyle
 
     let backgroundView = UIView() //used for coloration
     //used to cover the navigationbar during animated transitions between VCs
     private let contentStackView = ContentStackView() //used to contain the various custom UI Elements
+    private let rightBarButtonItemsStackView = UIStackView()
+    private let leftBarButtonItemsStackView = UIStackView()
     private let leadingSpacerView = UIView() //defines the leading space between the left and right barbuttonitems stack
     private let trailingSpacerView = UIView() //defines the trailing space between the left and right barbuttonitems stack
     private var topAccessoryView: UIView?
