@@ -78,8 +78,12 @@ import UIKit
                             theme: FluentUIStyle? = nil) {
         self.action = action
         buttonView = MSFButtonView(style: style,
-                                   size: size) {
-            self.action?(self)
+                                   size: size) { [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.action?(strongSelf)
         }
 
         hostingController = UIHostingController(rootView: AnyView(buttonView
