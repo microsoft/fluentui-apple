@@ -113,7 +113,8 @@ class ColorDemoController: UIViewController {
         view.addSubview(stackView)
         view.backgroundColor = Colors.NavigationBar.background
 
-        segmentedControl.selectedSegmentIndex = colorProviderThemes.firstIndex(where: { $0.demoColorTheme.providerType == ColorDemoController.providerType }) ?? 0
+        let demoListViewController = navigationController?.viewControllers.first as? DemoListViewController
+        segmentedControl.selectedSegmentIndex = colorProviderThemes.firstIndex(where: { $0.demoColorTheme.providerType == demoListViewController!.providerType }) ?? 0
 
         NSLayoutConstraint.activate([
             stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -142,12 +143,12 @@ class ColorDemoController: UIViewController {
     @objc private func segmentedControlValueChanged(sender: Any) {
         if let segmentedControl = sender as? SegmentedControl {
             let selectedSegmentIndex = segmentedControl.selectedSegmentIndex
-            let provider = colorProviderThemes[selectedSegmentIndex].demoColorTheme.provider
+            let demoColorTheme = colorProviderThemes[selectedSegmentIndex].demoColorTheme
             let window = self.view.window
-            ColorDemoController.providerType = colorProviderThemes[selectedSegmentIndex].demoColorTheme.providerType
 
-            if let provider = provider as? ColorProviding {
-                DemoListViewController.updateColorProviderFor(window: window!, provider: provider)
+            if let provider = demoColorTheme.provider as? ColorProviding {
+                let demoListViewController = navigationController?.viewControllers.first as? DemoListViewController
+                demoListViewController!.updateColorProviderFor(window: window!, provider: provider, providerType: demoColorTheme.providerType)
             } else {
                 // If provider doesn't conform to ColorProviding, remove mapping from dictionary and return fallback colors
                 Colors.removeProvider(for: window!)
@@ -158,7 +159,6 @@ class ColorDemoController: UIViewController {
         }
     }
 
-    private static var providerType: NSObject.Type = DemoColorDefaultTheme.self
     private let tableView = UITableView(frame: .zero, style: .grouped)
     private let colorProviderThemes: [(name: String, demoColorTheme: DemoColorTheme)] = [("Default", demoColorTheme: DemoColorTheme.init(provider: DemoColorDefaultTheme(), providerType: DemoColorDefaultTheme.self)),
                                                                                          ("Green", demoColorTheme: DemoColorTheme.init(provider: DemoColorGreenTheme(), providerType: DemoColorGreenTheme.self)),
