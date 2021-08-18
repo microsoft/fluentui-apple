@@ -237,6 +237,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         tableView.delegate = self
         tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
         tableView.register(BooleanCell.self, forCellReuseIdentifier: BooleanCell.identifier)
+        tableView.register(ActionsCell.self, forCellReuseIdentifier: ActionsCell.identifier)
         return tableView
     }()
 
@@ -376,14 +377,11 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
 
         if indexPath.row == 2 {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: BooleanCell.identifier, for: indexPath) as? BooleanCell else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: ActionsCell.identifier, for: indexPath) as? ActionsCell else {
                 return UITableViewCell()
             }
-            cell.setup(title: "Show tooltip on 3 day view button in navigation bar", isOn: false)
-            cell.titleNumberOfLines = 0
-            cell.onValueChanged = { [weak self] in
-                self?.shouldShowTooltip()
-            }
+            cell.setup(action1Title: "Show tooltip on 3 day view button in navbar")
+            cell.action1Button.addTarget(self, action: #selector(showTooltipButtonPressed), for: .touchUpInside)
             return cell
         }
 
@@ -458,18 +456,15 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         showRainbowRingForAvatar = isOn
     }
 
-    @objc private func shouldShowTooltip() {
+    @objc private func showTooltipButtonPressed() {
         let navigationBar = msfNavigationController?.msfNavigationBar
         guard let view = navigationBar?.barButtonItemView(tag: 1) else {
             return
         }
-        Tooltip.shared.show(with: "Tap on this tooltip to dismiss.",
+        Tooltip.shared.show(with: "Tap anywhere for this tooltip to dismiss.",
                             for: view,
                             preferredArrowDirection: .up,
-                            dismissOn: .tapOnTooltip,
-                            onTap: { [weak self] in
-                                self?.tableView.reloadData()
-                            })
+                            dismissOn: .tapAnywhere)
     }
 
     @objc private func dismissSelf() {
