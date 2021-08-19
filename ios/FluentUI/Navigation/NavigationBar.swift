@@ -156,10 +156,9 @@ open class NavigationBar: UINavigationBar {
         return nil
     }
 
-    @objc public func barButtonItemView(tag: Int) -> UIView? {
-        let leftBarButtonItemViews = leftBarButtonItemsStackView.arrangedSubviews
-        let rightBarButtonItemViews = rightBarButtonItemsStackView.arrangedSubviews
-        let totalBarButtonItemViews = leftBarButtonItemViews + rightBarButtonItemViews
+    /// This method will return an optional view for a bar button item with a given tag in the navigation bar.
+    @objc public func barButtonItemView(with tag: Int) -> UIView? {
+        let totalBarButtonItemViews = leftBarButtonItemsStackView.arrangedSubviews + rightBarButtonItemsStackView.arrangedSubviews
         for view in totalBarButtonItemViews {
             if view.tag == tag {
                 return view
