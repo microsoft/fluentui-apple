@@ -32,11 +32,19 @@ class TabBarViewDemoController: DemoController {
         return createButton(title: "-", action: #selector(decrementBadgeNumbers))
     }()
 
+    private lazy var homeItem: TabBarItem = {
+        return TabBarItem(title: "Home", image: UIImage(named: "Home_28")!, selectedImage: UIImage(named: "Home_Selected_28")!, landscapeImage: UIImage(named: "Home_24")!, landscapeSelectedImage: UIImage(named: "Home_Selected_24")!)
+    }()
+
     private var badgeNumbers: [UInt] = Constants.initialBadgeNumbers
     private var higherBadgeNumbers: [UInt] = Constants.initialHigherBadgeNumbers
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        container.addArrangedSubview(createButton(title: "Show tooltip for Home button", action: #selector(showTooltipForHomeButton)))
+
+        container.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
 
         addRow(text: "Show item titles", items: [itemTitleVisibilitySwitch], textWidth: Constants.switchSettingTextWidth)
         itemTitleVisibilitySwitch.addTarget(self, action: #selector(handleOnSwitchValueChanged), for: .valueChanged)
@@ -73,7 +81,7 @@ class TabBarViewDemoController: DemoController {
             ]
         } else {
             updatedTabBarView.items = [
-                TabBarItem(title: "Home", image: UIImage(named: "Home_28")!, selectedImage: UIImage(named: "Home_Selected_28")!, landscapeImage: UIImage(named: "Home_24")!, landscapeSelectedImage: UIImage(named: "Home_Selected_24")!),
+                homeItem,
                 TabBarItem(title: "New", image: UIImage(named: "New_28")!, selectedImage: UIImage(named: "New_Selected_28")!, landscapeImage: UIImage(named: "New_24")!, landscapeSelectedImage: UIImage(named: "New_Selected_24")!),
                 TabBarItem(title: "Open", image: UIImage(named: "Open_28")!, selectedImage: UIImage(named: "Open_Selected_28")!, landscapeImage: UIImage(named: "Open_24")!, landscapeSelectedImage: UIImage(named: "Open_Selected_24")!)
             ]
@@ -140,6 +148,17 @@ class TabBarViewDemoController: DemoController {
 
     @objc private func decrementBadgeNumbers() {
         modifyBadgeNumbers(increment: -1)
+    }
+
+    @objc private func showTooltipForHomeButton() {
+        guard let tabBarView = tabBarView, let view = tabBarView.itemView(with: homeItem) else {
+            return
+        }
+        Tooltip.shared.show(with: "Tap anywhere to dismiss this tooltip",
+                            for: view,
+                            preferredArrowDirection: .down,
+                            offset: .init(x: 0, y: 6),
+                            dismissOn: .tapAnywhere)
     }
 }
 

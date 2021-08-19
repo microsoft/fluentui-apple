@@ -23,6 +23,10 @@ class SideTabBarDemoController: DemoController {
         return SideTabBar(frame: .zero)
     }()
 
+    private let homeItem: TabBarItem = {
+        return TabBarItem(title: "Home", image: UIImage(named: "Home_28")!, selectedImage: UIImage(named: "Home_Selected_28")!)
+    }()
+
     private var contentViewController: UIViewController?
 
     private var badgeNumbers: [UInt] = Constants.initialBadgeNumbers
@@ -68,7 +72,7 @@ class SideTabBarDemoController: DemoController {
         sideTabBar.delegate = self
 
         sideTabBar.topItems = [
-            TabBarItem(title: "Home", image: UIImage(named: "Home_28")!, selectedImage: UIImage(named: "Home_Selected_28")!),
+            homeItem,
             TabBarItem(title: "New", image: UIImage(named: "New_28")!, selectedImage: UIImage(named: "New_Selected_28")!),
             TabBarItem(title: "Open", image: UIImage(named: "Open_28")!, selectedImage: UIImage(named: "Open_Selected_28")!)
         ]
@@ -119,6 +123,16 @@ class SideTabBarDemoController: DemoController {
 
         updateBadgeNumbers()
         updateBadgeButtons()
+    }
+
+    @objc private func showTooltipForSettingsButton() {
+        guard let view = sideTabBar.itemView(with: homeItem) else {
+            return
+        }
+        Tooltip.shared.show(with: "Tap anywhere to dismiss this tooltip",
+                            for: view,
+                            preferredArrowDirection: .left,
+                            dismissOn: .tapAnywhere)
     }
 
     @objc private func dismissSideTabBar() {
@@ -212,6 +226,7 @@ class SideTabBarDemoController: DemoController {
                 CellItem(title: "Show badge numbers", type: .boolean, action: #selector(toggleShowBadgeNumbers(_:))),
                 CellItem(title: "Use higher badge numbers", type: .boolean, action: #selector(toggleUseHigherBadgeNumbers(_:))),
                 CellItem(title: "Modify badge numbers", type: .stepper, action: nil),
+                CellItem(title: "Show tooltip for Home button", type: .action, action: #selector(showTooltipForSettingsButton)),
                 CellItem(title: "Dismiss", type: .action, action: #selector(dismissSideTabBar))
         ]
     }()
