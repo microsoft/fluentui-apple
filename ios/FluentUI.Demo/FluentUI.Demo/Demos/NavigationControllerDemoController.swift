@@ -462,9 +462,11 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         guard let view = navigationBar?.barButtonItemView(with: 1) else {
             return
         }
+        let offset: CGPoint = navigationItem.usesLargeTitle ? .init(x: 0, y: 0) : .init(x: 0, y: -4)
         Tooltip.shared.show(with: "Tap anywhere for this tooltip to dismiss.",
                             for: view,
                             preferredArrowDirection: .up,
+                            offset: offset,
                             dismissOn: .tapAnywhere)
     }
 
