@@ -795,9 +795,9 @@
 		922AF01926615B03005DB168 /* PersonaButton */ = {
 			isa = PBXGroup;
 			children = (
+				92B7E6A12684262900EFC15E /* MSFPersonaButton.swift */,
 				9298798D266A8E1C002B1EB4 /* MSFPersonaButtonTokens.generated.swift */,
 				92088EF72666DB2C003F571A /* PersonaButton.swift */,
-				92B7E6A12684262900EFC15E /* MSFPersonaButton.swift */,
 				927E34C62668350800998031 /* PersonaButtonTokens.swift */,
 			);
 			path = PersonaButton;

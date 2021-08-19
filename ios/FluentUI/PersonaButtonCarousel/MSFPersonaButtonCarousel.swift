@@ -11,14 +11,27 @@ import SwiftUI
 
     // MARK: - Public API
 
+    /// The UIView representing the PersonaButtonCarousel.
     @objc open var view: UIView {
         return hostingController.view
     }
 
+    /// The object that groups properties that allow control over the PersonaButtonCarousel appearance.
     @objc open var state: MSFPersonaCarouselState {
         return self.personaButtonCarousel.state
     }
 
+    /// Creates a new MSFPersonaButtonCarousel instance.
+    /// - Parameters:
+    ///   - size: The MSFPersonaButtonSize value used by the PersonaButtonCarousel.
+    @objc public convenience init(size: MSFPersonaButtonSize = .large) {
+        self.init(size: size, theme: nil)
+    }
+
+    /// Creates a new MSFPersonaButtonCarousel instance.
+    /// - Parameters:
+    ///   - size: The MSFPersonaButtonSize value used by the PersonaButtonCarousel.
+    ///   - theme: The FluentUIStyle instance representing the theme to be overriden for this PersonaButtonCarousel.
     @objc public init(size: MSFPersonaButtonSize = .large,
                       theme: FluentUIStyle? = nil) {
         super.init()

@@ -32,13 +32,13 @@ import SwiftUI
     ///   - index: The index of the `PersonaButton` to retrieve
     ///
     /// - Returns: A reference to the  `PersonaButton` at the given index if one exists.
-    func personaButtonData(at index: Int) -> MSFPersonaCarouselButtonState?
+    func personaButtonState(at index: Int) -> MSFPersonaCarouselButtonState?
 
     /// Removes a `PersonaButton` from the carousel.
     ///
     /// - Parameters:
-    ///   - personaData: The reference to a `PersonaButton` to be removed.
-    func remove(_ personaData: MSFPersonaCarouselButtonState)
+    ///   - personaState: The reference to a `PersonaButton` to be removed.
+    func remove(_ personaState: MSFPersonaCarouselButtonState)
 
     /// Removes a `PersonaButton` from the carousel at the given index.
     ///
@@ -149,16 +149,16 @@ class MSFPersonaCarouselStateImpl: NSObject, ObservableObject, Identifiable, MSF
         return persona
     }
 
-    func personaButtonData(at index: Int) -> MSFPersonaCarouselButtonState? {
+    func personaButtonState(at index: Int) -> MSFPersonaCarouselButtonState? {
         guard index < self.count else {
             return nil
         }
         return self.buttons[index]
     }
 
-    func remove(_ personaData: MSFPersonaCarouselButtonState) {
-        self.buttons.removeAll { personaState in
-            personaState.isEqual(personaData)
+    func remove(_ personaState: MSFPersonaCarouselButtonState) {
+        self.buttons.removeAll { state in
+            state.isEqual(personaState)
         }
     }
 

@@ -19,6 +19,17 @@ import UIKit
         return personaButton.state
     }
 
+    /// Creates a new MSFPersonaButton instance.
+    /// - Parameters:
+    ///   - size: The MSFPersonaButtonSize value used by the PersonaButton.
+    @objc public convenience init(size: MSFPersonaButtonSize = .large) {
+        self.init(size: size, theme: nil)
+    }
+
+    /// Creates a new MSFPersonaButton instance.
+    /// - Parameters:
+    ///   - size: The MSFPersonaButtonSize value used by the PersonaButton.
+    ///   - theme: The FluentUIStyle instance representing the theme to be overriden for this PersonaButton.
     @objc public init(size: MSFPersonaButtonSize = .large,
                       theme: FluentUIStyle? = nil) {
         super.init()

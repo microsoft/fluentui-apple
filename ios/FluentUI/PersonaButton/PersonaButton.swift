@@ -61,6 +61,9 @@ public struct PersonaButton: View {
     @ObservedObject var tokens: MSFPersonaButtonTokens
     @ObservedObject var state: MSFPersonaButtonStateImpl
 
+    /// Creates a new PersonaButton instance.
+    /// - Parameters:
+    ///   - size: The MSFPersonaButtonSize value used by the PersonaButton.
     public init(size: MSFPersonaButtonSize) {
         let state = MSFPersonaButtonStateImpl(size: size)
         self.state = state
