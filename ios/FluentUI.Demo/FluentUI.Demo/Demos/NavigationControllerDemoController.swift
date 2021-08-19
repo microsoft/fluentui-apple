@@ -382,6 +382,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
             }
             cell.setup(action1Title: "Show tooltip on 3 day view button in navbar")
             cell.action1Button.addTarget(self, action: #selector(showTooltipButtonPressed), for: .touchUpInside)
+            cell.bottomSeparatorType = .full
             return cell
         }
 
@@ -458,7 +459,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     @objc private func showTooltipButtonPressed() {
         let navigationBar = msfNavigationController?.msfNavigationBar
-        guard let view = navigationBar?.barButtonItemView(tag: 1) else {
+        guard let view = navigationBar?.barButtonItemView(with: 1) else {
             return
         }
         Tooltip.shared.show(with: "Tap anywhere for this tooltip to dismiss.",
