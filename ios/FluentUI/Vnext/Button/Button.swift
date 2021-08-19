@@ -29,13 +29,13 @@ import UIKit
 }
 
 /// View that represents the button.
-public struct MSFButtonView: View {
+public struct FluentButton: View {
     @Environment(\.theme) var theme: FluentUIStyle
     @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
     @ObservedObject var tokens: MSFButtonTokens
     @ObservedObject var state: MSFButtonStateImpl
 
-    /// Creates a MSFButtonView.
+    /// Creates a FluentButton.
     /// - Parameters:
     ///   - style: The MSFButtonStyle used by the button.
     ///   - size: The MSFButtonSize value used by the button.
@@ -58,8 +58,8 @@ public struct MSFButtonView: View {
 
     public var body: some View {
         Button(action: state.action, label: {})
-            .buttonStyle(MSFButtonViewButtonStyle(tokens: tokens,
-                                                  state: state))
+            .buttonStyle(FluentButtonStyle(tokens: tokens,
+                                           state: state))
             .modifyIf(state.disabled != nil, { button in
                 button.disabled(state.disabled!)
             })
@@ -116,7 +116,7 @@ class MSFButtonStateImpl: NSObject, ObservableObject, MSFButtonState {
 }
 
 /// Body of the button adjusted for pressed or rest state
-struct MSFButtonViewBody: View {
+struct FluentButtonBody: View {
     @Environment(\.isEnabled) var isEnabled: Bool
     @ObservedObject var tokens: MSFButtonTokens
     @ObservedObject var state: MSFButtonStateImpl
@@ -179,13 +179,13 @@ struct MSFButtonViewBody: View {
 }
 
 /// ButtonStyle which configures the Button View according to its state and design tokens.
-struct MSFButtonViewButtonStyle: ButtonStyle {
+struct FluentButtonStyle: ButtonStyle {
     @ObservedObject var tokens: MSFButtonTokens
     @ObservedObject var state: MSFButtonStateImpl
 
     func makeBody(configuration: Self.Configuration) -> some View {
-        MSFButtonViewBody(tokens: tokens,
-                          state: state,
-                          isPressed: configuration.isPressed)
+        FluentButtonBody(tokens: tokens,
+                         state: state,
+                         isPressed: configuration.isPressed)
     }
 }
