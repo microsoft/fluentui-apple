@@ -158,7 +158,7 @@ class ActivityIndicatorDemoController: UITableViewController {
         return customColorIndicators
     }()
 
-    private enum ActivityIndicatorDemoRows: CaseIterable {
+    private enum ActivityIndicatorDemoRow: CaseIterable {
         case swiftUIDemo
         case hidesWhenStopped
         case startStopActivity
@@ -197,15 +197,15 @@ class ActivityIndicatorDemoController: UITableViewController {
             }
         }
 
-        var rows: [ActivityIndicatorDemoRows] {
+        var rows: [ActivityIndicatorDemoRow] {
             switch self {
             case .swiftUI:
                 return [.swiftUIDemo]
             case .settings:
                 return [.hidesWhenStopped, .startStopActivity]
             case .defaultColor, .customColor:
-                return [ActivityIndicatorDemoRows](repeating: .demoOfSize,
-                                                   count: MSFActivityIndicatorSize.allCases.count)
+                return [ActivityIndicatorDemoRow](repeating: .demoOfSize,
+                                                  count: MSFActivityIndicatorSize.allCases.count)
             }
         }
 
