@@ -323,10 +323,11 @@ open class SideTabBar: UIView {
     }
 
     @objc public func itemView(with item: TabBarItem) -> UIView? {
-        guard let view = itemView(with: item, in: .top) else {
+        if let view = itemView(with: item, in: .top) {
+            return view
+        } else {
             return itemView(with: item, in: .bottom)
         }
-        return view
     }
 
     private class func createStackView(spacing: CGFloat) -> UIStackView {
