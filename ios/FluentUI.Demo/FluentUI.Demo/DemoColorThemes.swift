@@ -6,6 +6,34 @@
 import FluentUI
 import UIKit
 
+enum DemoColorTheme: CaseIterable {
+    case `default`
+    case green
+    case none
+
+    var name: String {
+        switch self {
+        case .default:
+            return "Default"
+        case .green:
+            return "Green"
+        case .none:
+            return "None"
+        }
+    }
+
+    var provider: ColorProviding? {
+        switch self {
+        case .default:
+            return DemoColorDefaultTheme()
+        case .green:
+            return DemoColorGreenTheme()
+        case .none:
+            return nil
+        }
+    }
+}
+
 class DemoColorDefaultTheme: NSObject, ColorProviding {
     func primaryColor(for window: UIWindow) -> UIColor? {
         return Colors.communicationBlue
