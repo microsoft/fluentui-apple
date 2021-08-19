@@ -3,25 +3,33 @@
 //  Licensed under the MIT License.
 //
 
-import UIKit
 import SwiftUI
+import UIKit
 
-/// UIKit wrapper that exposes the SwiftUI activity indicator implementation
+/// UIKit wrapper that exposes the SwiftUI Activity Indicator implementation
 @objc open class MSFActivityIndicator: NSObject, FluentUIWindowProvider {
 
+    /// The UIView representing the Activity Indicator.
     @objc open var view: UIView {
         return hostingController.view
     }
 
+    /// The object that groups properties that allow control over the  Activity Indicator appearance.
     @objc open var state: MSFActivityIndicatorState {
         return self.activityIndicatorView.state
     }
 
+    /// Creates a new MSFActivityIndicator instance.
+    /// - Parameter size: The MSFActivityIndicatorSize value used by the Activity Indicator.
     @objc public convenience init(size: MSFActivityIndicatorSize = .medium) {
         self.init(size: size,
                   theme: nil)
     }
 
+    /// Creates a new MSFActivityIndicator instance.
+    /// - Parameters:
+    ///   - size: The MSFActivityIndicatorSize value used by the Activity Indicator.
+    ///   - theme: The FluentUIStyle instance representing the theme to be overriden for this Activity Indicator.
     @objc public init(size: MSFActivityIndicatorSize = .medium,
                       theme: FluentUIStyle? = nil) {
         super.init()

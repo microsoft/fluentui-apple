@@ -3,10 +3,10 @@
 //  Licensed under the MIT License.
 //
 
-import UIKit
 import SwiftUI
+import UIKit
 
-/// Pre-defined sizes of the activity indicator
+/// Pre-defined sizes of the Activity Indicator.
 @objc public enum MSFActivityIndicatorSize: Int, CaseIterable {
     case xSmall
     case small
