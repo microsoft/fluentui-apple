@@ -236,7 +236,6 @@ open class BottomCommandingController: UIViewController {
               bindingInfo.location == .heroSet else {
             return .null
         }
-
         let itemView = bindingInfo.view
         return itemView.convert(itemView.bounds, to: view)
     }
