@@ -8,8 +8,8 @@ import UIKit
 
 class DemoListViewController: UITableViewController {
 
-    private var provider: ColorProviding = DemoColorDefaultTheme()
-    public var themeName: String = "Default"
+    private var provider: ColorProviding? = DemoColorTheme.default.provider
+    public var themeName: String = DemoColorTheme.default.name
 
     func addDemoListTo(window: UIWindow) {
         updateColorProviderFor(window: window, provider: provider, themeName: themeName)
@@ -21,10 +21,10 @@ class DemoListViewController: UITableViewController {
         window.makeKeyAndVisible()
     }
 
-    func updateColorProviderFor(window: UIWindow, provider: ColorProviding, themeName: String) {
+    func updateColorProviderFor(window: UIWindow, provider: ColorProviding?, themeName: String) {
         self.provider = provider
         self.themeName = themeName
-        if let primaryColor = provider.primaryColor(for: window) {
+        if let primaryColor = provider?.primaryColor(for: window), let provider = self.provider {
             Colors.setProvider(provider: provider, for: window)
             FluentUIFramework.initializeAppearance(with: primaryColor, whenContainedInInstancesOf: [type(of: window)])
         } else {
