@@ -129,6 +129,7 @@ class SideTabBarDemoController: DemoController {
         guard let view = sideTabBar.itemView(with: homeItem) else {
             return
         }
+
         Tooltip.shared.show(with: "Tap anywhere to dismiss this tooltip",
                             for: view,
                             preferredArrowDirection: .left,
