@@ -24,15 +24,15 @@ class ActivityIndicatorDemoController: UITableViewController {
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return ActivityIndicatorDemoSections.allCases.count
+        return ActivityIndicatorDemoSection.allCases.count
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return ActivityIndicatorDemoSections.allCases[section].rows.count
+        return ActivityIndicatorDemoSection.allCases[section].rows.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let row = ActivityIndicatorDemoSections.allCases[indexPath.section].rows[indexPath.row]
+        let row = ActivityIndicatorDemoSection.allCases[indexPath.section].rows[indexPath.row]
 
         switch row {
         case .hidesWhenStopped:
@@ -49,11 +49,20 @@ class ActivityIndicatorDemoController: UITableViewController {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: ActionsCell.identifier) as? ActionsCell else {
                 return UITableViewCell()
             }
+
             cell.setup(action1Title: row.title)
             cell.action1Button.addTarget(self,
                                          action: #selector(startStopActivity),
                                          for: .touchUpInside)
             cell.bottomSeparatorType = .full
+            return cell
+        case .swiftUIDemo:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier) as? TableViewCell else {
+                return UITableViewCell()
+            }
+            cell.setup(title: row.title)
+            cell.accessoryType = .disclosureIndicator
+
             return cell
         case.demoOfSize:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier) as? TableViewCell else {
@@ -62,7 +71,7 @@ class ActivityIndicatorDemoController: UITableViewController {
 
             let activityIndicatorSize = MSFActivityIndicatorSize.allCases.reversed()[indexPath.row]
             let activityIndicatorDictionaries = [defaultColorIndicators, customColorIndicators]
-            let activityIndicatorPath = indexPath.section - 1
+            let activityIndicatorPath = indexPath.section - 2
             let activityIndicator = activityIndicatorDictionaries[activityIndicatorPath][activityIndicatorSize]
 
             cell.setup(title: activityIndicatorSize.description,
@@ -73,11 +82,27 @@ class ActivityIndicatorDemoController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return ActivityIndicatorDemoSections.allCases[section].title
+        return ActivityIndicatorDemoSection.allCases[section].title
     }
 
     override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
-       return false
+        return ActivityIndicatorDemoSection.allCases[indexPath.section].rows[indexPath.row] == .swiftUIDemo
+    }
+
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) else {
+            return
+        }
+
+        cell.setSelected(false, animated: true)
+
+        switch ActivityIndicatorDemoSection.allCases[indexPath.section].rows[indexPath.row] {
+        case .swiftUIDemo:
+            navigationController?.pushViewController(ActivityIndicatorDemoControllerSwiftUI(),
+                                                     animated: true)
+        default:
+            break
+        }
     }
 
     private var shouldHideWhenStopped: Bool = true {
@@ -133,13 +158,16 @@ class ActivityIndicatorDemoController: UITableViewController {
         return customColorIndicators
     }()
 
-    private enum ActivityIndicatorDemoRows: CaseIterable {
+    private enum ActivityIndicatorDemoRow: CaseIterable {
+        case swiftUIDemo
         case hidesWhenStopped
         case startStopActivity
         case demoOfSize
 
         var title: String {
             switch self {
+            case .swiftUIDemo:
+                return "SwiftUI Demo"
             case .hidesWhenStopped:
                 return "Hides when stopped"
             case .startStopActivity:
@@ -150,13 +178,16 @@ class ActivityIndicatorDemoController: UITableViewController {
         }
     }
 
-    private enum ActivityIndicatorDemoSections: CaseIterable {
+    private enum ActivityIndicatorDemoSection: CaseIterable {
+        case swiftUI
         case settings
         case defaultColor
         case customColor
 
         var title: String {
             switch self {
+            case .swiftUI:
+                return "SwiftUI"
             case .settings:
                 return "Settings"
             case .defaultColor:
@@ -166,13 +197,15 @@ class ActivityIndicatorDemoController: UITableViewController {
             }
         }
 
-        var rows: [ActivityIndicatorDemoRows] {
+        var rows: [ActivityIndicatorDemoRow] {
             switch self {
+            case .swiftUI:
+                return [.swiftUIDemo]
             case .settings:
                 return [.hidesWhenStopped, .startStopActivity]
             case .defaultColor, .customColor:
-                return [ActivityIndicatorDemoRows](repeating: .demoOfSize,
-                                                   count: MSFActivityIndicatorSize.allCases.count)
+                return [ActivityIndicatorDemoRow](repeating: .demoOfSize,
+                                                  count: MSFActivityIndicatorSize.allCases.count)
             }
         }
 

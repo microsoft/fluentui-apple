@@ -37,7 +37,8 @@ Pod::Spec.new do |s|
   s.subspec 'ActivityIndicator_ios' do |activityindicator_ios|
     activityindicator_ios.platform = :ios
     activityindicator_ios.dependency 'MicrosoftFluentUI/ActivityViewAnimating_ios'
-    activityindicator_ios.source_files = ["ios/FluentUI/ActivityIndicator/**/*.{swift,h}"]
+    activityindicator_ios.source_files = ["ios/FluentUI/ActivityIndicator/**/*.{swift,h}",
+                                          "ios/FluentUI/Vnext/ActivityIndicator/**/*.{swift,h}"]
   end
 
   s.subspec 'BadgeField_ios' do |badgefield_ios|

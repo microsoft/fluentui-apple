@@ -271,10 +271,7 @@ open class SearchBar: UIView {
     private var originalIsNavigationBarHidden: Bool = false
 
     /// indicates search in progress
-    @objc public lazy var progressSpinner: ActivityIndicatorView = {
-        let progressSpinner = ActivityIndicatorView(size: .medium)
-        return progressSpinner
-    }()
+    @objc public lazy var progressSpinner: MSFActivityIndicator = MSFActivityIndicator(size: .medium)
 
     @objc public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -406,13 +403,14 @@ open class SearchBar: UIView {
         constraints.append(searchTextField.heightAnchor.constraint(equalTo: searchTextFieldBackgroundView.heightAnchor, constant: -2 * Constants.searchTextFieldVerticalInset))
 
         // progressSpinner
-        searchTextFieldBackgroundView.addSubview(progressSpinner)
-        progressSpinner.translatesAutoresizingMaskIntoConstraints = false
+        let progressSpinnerView = progressSpinner.view
+        searchTextFieldBackgroundView.addSubview(progressSpinnerView)
+        progressSpinnerView.translatesAutoresizingMaskIntoConstraints = false
 
-        constraints.append(progressSpinner.leadingAnchor.constraint(equalTo: searchTextField.trailingAnchor, constant: Constants.clearButtonLeadingInset))
-        constraints.append(progressSpinner.heightAnchor.constraint(equalTo: clearButton.widthAnchor))
-        constraints.append(progressSpinner.trailingAnchor.constraint(equalTo: searchTextFieldBackgroundView.trailingAnchor, constant: -1 * Constants.clearButtonTrailingInset))
-        constraints.append(progressSpinner.centerYAnchor.constraint(equalTo: searchTextFieldBackgroundView.centerYAnchor))
+        constraints.append(progressSpinnerView.leadingAnchor.constraint(equalTo: searchTextField.trailingAnchor, constant: Constants.clearButtonLeadingInset))
+        constraints.append(progressSpinnerView.heightAnchor.constraint(equalTo: clearButton.widthAnchor))
+        constraints.append(progressSpinnerView.trailingAnchor.constraint(equalTo: searchTextFieldBackgroundView.trailingAnchor, constant: -1 * Constants.clearButtonTrailingInset))
+        constraints.append(progressSpinnerView.centerYAnchor.constraint(equalTo: searchTextFieldBackgroundView.centerYAnchor))
 
         // clearButton
         searchTextFieldBackgroundView.addSubview(clearButton)
@@ -445,7 +443,7 @@ open class SearchBar: UIView {
         searchTextField.tintColor = style.tintColor
         clearButton.tintColor = style.clearIconColor
         if let window = window {
-            progressSpinner.color = style.progressSpinnerColor(for: window)
+            progressSpinner.state.color = style.progressSpinnerColor(for: window)
         }
         cancelButton.setTitleColor(style.cancelButtonColor, for: .normal)
         attributePlaceholderText()

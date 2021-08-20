@@ -14,15 +14,15 @@ public typealias MSActivityIndicatorCell = ActivityIndicatorCell
 open class ActivityIndicatorCell: UITableViewCell {
     public static let identifier: String = "ActivityIndicatorCell"
 
-    private let activityIndicatorView: ActivityIndicatorView = {
-        let activityIndicatorView = ActivityIndicatorView(size: .small)
-        activityIndicatorView.startAnimating()
-        return activityIndicatorView
+    private let activityIndicator: MSFActivityIndicator = {
+        let activityIndicator = MSFActivityIndicator(size: .small)
+        activityIndicator.state.isAnimating = true
+        return activityIndicator
     }()
 
     public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        contentView.addSubview(activityIndicatorView)
+        contentView.addSubview(activityIndicator.view)
         backgroundColor = Colors.Table.Cell.background
     }
 
@@ -32,13 +32,14 @@ open class ActivityIndicatorCell: UITableViewCell {
 
     open override func layoutSubviews() {
         super.layoutSubviews()
+        let activityIndicatorView = activityIndicator.view
         activityIndicatorView.sizeToFit()
         activityIndicatorView.center = CGPoint(x: UIScreen.main.roundToDevicePixels(contentView.frame.width / 2), y: UIScreen.main.roundToDevicePixels(contentView.frame.height / 2))
     }
 
     open override func prepareForReuse() {
         super.prepareForReuse()
-        activityIndicatorView.startAnimating()
+        activityIndicator.state.isAnimating = true
     }
 
     open override var intrinsicContentSize: CGSize {

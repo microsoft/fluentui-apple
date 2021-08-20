@@ -38,7 +38,6 @@
 		5306076026A201C7002D49CF /* Persona.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EF53C2215AF1AB00573E8F /* Persona.swift */; };
 		5306076126A201C8002D49CF /* Persona.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EF53C2215AF1AB00573E8F /* Persona.swift */; };
 		5314E00425F00A300099271A /* ActivityViewAnimating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22010B6F2523CB2D00FF1F10 /* ActivityViewAnimating.swift */; };
-		5314E00D25F00B390099271A /* ActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E782C421793BB900A7DFCE /* ActivityIndicatorView.swift */; };
 		5314E01625F00CF70099271A /* BarButtonItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52648DB2316F4F9003342A0 /* BarButtonItems.swift */; };
 		5314E02825F00DA80099271A /* BlurringView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA1AF8B21484625001AE720 /* BlurringView.swift */; };
 		5314E03125F00DDD0099271A /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCC18C2B2501B22F00BE830E /* CardView.swift */; };
@@ -162,6 +161,10 @@
 		5340827526C4824B007716E1 /* MSFButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5340827326C48241007716E1 /* MSFButton.swift */; };
 		5340827726C48B2B007716E1 /* ButtonModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5340827626C48B2B007716E1 /* ButtonModifiers.swift */; };
 		5340827826C48B2B007716E1 /* ButtonModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5340827626C48B2B007716E1 /* ButtonModifiers.swift */; };
+		5340827F26CDFC6B007716E1 /* ActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E782C421793BB900A7DFCE /* ActivityIndicatorView.swift */; };
+		5340828026CDFC6C007716E1 /* ActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E782C421793BB900A7DFCE /* ActivityIndicatorView.swift */; };
+		5340828426CE027B007716E1 /* ActivityIndicatorModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5340828326CE027B007716E1 /* ActivityIndicatorModifiers.swift */; };
+		5340828526CE027B007716E1 /* ActivityIndicatorModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5340828326CE027B007716E1 /* ActivityIndicatorModifiers.swift */; };
 		5360994126B8B2710069DE71 /* PersonaButtonCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 929DD258266ED3B600E8175E /* PersonaButtonCarousel.swift */; };
 		5360994A26B8B4990069DE71 /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5360994226B8B4980069DE71 /* List.swift */; };
 		5360994B26B8B4990069DE71 /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5360994226B8B4980069DE71 /* List.swift */; };
@@ -319,7 +322,6 @@
 		B4BA27882319DC0D0001563C /* PersonaBadgeViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4BA27872319DC0D0001563C /* PersonaBadgeViewDataSource.swift */; };
 		B4E782C12176AD5E00A7DFCE /* ActionsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E782C02176AD5E00A7DFCE /* ActionsCell.swift */; };
 		B4E782C321793AB200A7DFCE /* ActivityIndicatorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E782C221793AB200A7DFCE /* ActivityIndicatorCell.swift */; };
-		B4E782C521793BB900A7DFCE /* ActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E782C421793BB900A7DFCE /* ActivityIndicatorView.swift */; };
 		B4E782C72179509A00A7DFCE /* CenteredLabelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E782C62179509A00A7DFCE /* CenteredLabelCell.swift */; };
 		B4EF66512294A665007FEAB0 /* TableViewHeaderFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EF66502294A664007FEAB0 /* TableViewHeaderFooterView.swift */; };
 		C0938E44235E8ED500256251 /* AnimationSynchronizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0938E43235E8ED500256251 /* AnimationSynchronizer.swift */; };
@@ -440,6 +442,7 @@
 		5306075126A1E6A4002D49CF /* AvatarGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarGroup.swift; sourceTree = "<group>"; };
 		5340827326C48241007716E1 /* MSFButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFButton.swift; sourceTree = "<group>"; };
 		5340827626C48B2B007716E1 /* ButtonModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonModifiers.swift; sourceTree = "<group>"; };
+		5340828326CE027B007716E1 /* ActivityIndicatorModifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorModifiers.swift; sourceTree = "<group>"; };
 		5360994226B8B4980069DE71 /* List.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
 		5360994326B8B4980069DE71 /* MSFHeaderFooterTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFHeaderFooterTokens.generated.swift; sourceTree = "<group>"; };
 		5360994426B8B4990069DE71 /* ListHeaderFooter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListHeaderFooter.swift; sourceTree = "<group>"; };
@@ -904,6 +907,7 @@
 			isa = PBXGroup;
 			children = (
 				5360996526B8B7060069DE71 /* ActivityIndicator.swift */,
+				5340828326CE027B007716E1 /* ActivityIndicatorModifiers.swift */,
 				5360996326B8B7060069DE71 /* ActivityIndicatorTokens.swift */,
 				5360996426B8B7060069DE71 /* MSFActivityIndicatorTokens.generated.swift */,
 			);
@@ -1634,6 +1638,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5340828526CE027B007716E1 /* ActivityIndicatorModifiers.swift in Sources */,
 				5314E0ED25F012C40099271A /* ContentScrollViewTraits.swift in Sources */,
 				5314E03A25F00E3D0099271A /* BadgeView.swift in Sources */,
 				5314E0C625F010850099271A /* IndeterminateProgressBarView.swift in Sources */,
@@ -1795,12 +1800,12 @@
 				8035CADE2638E435007B3FD1 /* CommandingSection.swift in Sources */,
 				5314E0E425F012C00099271A /* NavigationController.swift in Sources */,
 				5360996B26B8B7060069DE71 /* ActivityIndicator.swift in Sources */,
-				5314E00D25F00B390099271A /* ActivityIndicatorView.swift in Sources */,
 				5373D5712694D66F0032A3B4 /* Theming.swift in Sources */,
 				5314E03B25F00E3D0099271A /* BadgeStringExtractor.swift in Sources */,
 				5314E19825F019650099271A /* SideTabBar.swift in Sources */,
 				5314E11E25F015EA0099271A /* ContactCollectionViewCell.swift in Sources */,
 				5314E10A25F014600099271A /* Obscurable.swift in Sources */,
+				5340828026CDFC6C007716E1 /* ActivityIndicatorView.swift in Sources */,
 				5314E07D25F00F1A0099271A /* DateTimePickerViewComponentTableView.swift in Sources */,
 				5314E03125F00DDD0099271A /* CardView.swift in Sources */,
 				5314E08925F00F2D0099271A /* CommandBarButtonGroupView.swift in Sources */,
@@ -1830,7 +1835,6 @@
 				FDFB8AF321361C9D0046850A /* CalendarViewDayMonthYearCell.swift in Sources */,
 				A5961F9D218A254D00E2A506 /* PopupMenuController.swift in Sources */,
 				FD56FD92219123FE0023C7EA /* DateTimePickerViewComponentTableView.swift in Sources */,
-				B4E782C521793BB900A7DFCE /* ActivityIndicatorView.swift in Sources */,
 				A52648DC2316F4F9003342A0 /* BarButtonItems.swift in Sources */,
 				FD5BBE41214C6AF3008964B4 /* TwoLineTitleView.swift in Sources */,
 				A5B87AF1211BD4380038C37C /* UIFont+Extension.swift in Sources */,
@@ -1910,6 +1914,7 @@
 				1168630422E131CF0088B302 /* TabBarItemView.swift in Sources */,
 				5306076026A201C7002D49CF /* Persona.swift in Sources */,
 				0BCEFADE2485FEC00088CEE5 /* PopupMenuProtocols.swift in Sources */,
+				5340828426CE027B007716E1 /* ActivityIndicatorModifiers.swift in Sources */,
 				B444D6B62183A9740002B4D4 /* BadgeView.swift in Sources */,
 				FD7254E72146E946002F4069 /* CalendarViewDayCell.swift in Sources */,
 				536DDA01264C4D7200CD41B5 /* (null) in Sources */,
@@ -1927,6 +1932,7 @@
 				C0A0D76D233AEF6C00F432FD /* ShimmerAppearance.swift in Sources */,
 				92D5598126A0FD2800328FD3 /* CardNudge.swift in Sources */,
 				B46D3F932151D95F0029772C /* PersonaCell.swift in Sources */,
+				5340827F26CDFC6B007716E1 /* ActivityIndicatorView.swift in Sources */,
 				B444D6B12181403C0002B4D4 /* UITableViewCell+Extension.swift in Sources */,
 				FD777529219E3F6C00033D58 /* DayOfMonth.swift in Sources */,
 				5360994E26B8B4990069DE71 /* ListHeaderFooter.swift in Sources */,
