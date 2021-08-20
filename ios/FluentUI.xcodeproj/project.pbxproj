@@ -20,8 +20,6 @@
 		118D9848230BBA2300BC0B72 /* TabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118D9847230BBA2300BC0B72 /* TabBarItem.swift */; };
 		22010B702523CB2D00FF1F10 /* ActivityViewAnimating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22010B6F2523CB2D00FF1F10 /* ActivityViewAnimating.swift */; };
 		22EABB1A2509AAD100C4BE72 /* IndeterminateProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22EABB192509AAD100C4BE72 /* IndeterminateProgressBarView.swift */; };
-		3F82A4B12604069100CAC666 /* MSFDrawerTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40E8ED2601CD4400C43730 /* MSFDrawerTokens.generated.swift */; };
-		3FC2EDB425F9EA2D007AA0F8 /* MSFDrawerTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC2EDB125F9EA2D007AA0F8 /* MSFDrawerTokens.swift */; };
 		497DC2D924185885008D86F8 /* PillButtonBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2D724185885008D86F8 /* PillButtonBar.swift */; };
 		497DC2DB24185885008D86F8 /* PillButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2D824185885008D86F8 /* PillButton.swift */; };
 		5303259A26B31B6B00611D05 /* AvatarModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5303259926B31B6B00611D05 /* AvatarModifiers.swift */; };
@@ -152,8 +150,6 @@
 		5314E30325F0260E0099271A /* AccessibleViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD599D052134A682008845EE /* AccessibleViewDelegate.swift */; };
 		5340828E26CFF3CE007716E1 /* MSFDrawerTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5340828C26CFF3CE007716E1 /* MSFDrawerTokens.swift */; };
 		5340828F26CFF3CE007716E1 /* MSFDrawerTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5340828C26CFF3CE007716E1 /* MSFDrawerTokens.swift */; };
-		5340829026CFF3CE007716E1 /* MSFDrawerTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5340828D26CFF3CE007716E1 /* MSFDrawerTokens.generated.swift */; };
-		5340829126CFF3CE007716E1 /* MSFDrawerTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5340828D26CFF3CE007716E1 /* MSFDrawerTokens.generated.swift */; };
 		5340829226CFF4C8007716E1 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5360996526B8B7060069DE71 /* ActivityIndicator.swift */; };
 		5340829326CFF4C9007716E1 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5360996526B8B7060069DE71 /* ActivityIndicator.swift */; };
 		5340829426CFF4CC007716E1 /* ActivityIndicatorModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5340828326CE027B007716E1 /* ActivityIndicatorModifiers.swift */; };
@@ -193,6 +189,8 @@
 		534082B626CFF5E5007716E1 /* ButtonTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5360995A26B8B4DE0069DE71 /* ButtonTokens.swift */; };
 		534082B726CFF5E5007716E1 /* ButtonModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5340827626C48B2B007716E1 /* ButtonModifiers.swift */; };
 		534082B826CFF5E5007716E1 /* MSFButtonTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5360995C26B8B4DE0069DE71 /* MSFButtonTokens.generated.swift */; };
+		534082BD26D0209D007716E1 /* MSFDrawerTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534082BC26D0209D007716E1 /* MSFDrawerTokens.generated.swift */; };
+		534082BE26D0209D007716E1 /* MSFDrawerTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534082BC26D0209D007716E1 /* MSFDrawerTokens.generated.swift */; };
 		5360994126B8B2710069DE71 /* PersonaButtonCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 929DD258266ED3B600E8175E /* PersonaButtonCarousel.swift */; };
 		537315B325438B15001FD14C /* iOS13_4_compatibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537315B225438B15001FD14C /* iOS13_4_compatibility.swift */; };
 		5373D5642694D65C0032A3B4 /* AvatarTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5373D5602694D65C0032A3B4 /* AvatarTokens.swift */; };
@@ -422,7 +420,7 @@
 		5340827626C48B2B007716E1 /* ButtonModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonModifiers.swift; sourceTree = "<group>"; };
 		5340828326CE027B007716E1 /* ActivityIndicatorModifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorModifiers.swift; sourceTree = "<group>"; };
 		5340828C26CFF3CE007716E1 /* MSFDrawerTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFDrawerTokens.swift; sourceTree = "<group>"; };
-		5340828D26CFF3CE007716E1 /* MSFDrawerTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFDrawerTokens.generated.swift; sourceTree = "<group>"; };
+		534082BC26D0209D007716E1 /* MSFDrawerTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFDrawerTokens.generated.swift; sourceTree = "<group>"; };
 		5360994226B8B4980069DE71 /* List.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
 		5360994326B8B4980069DE71 /* MSFHeaderFooterTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFHeaderFooterTokens.generated.swift; sourceTree = "<group>"; };
 		5360994426B8B4990069DE71 /* ListHeaderFooter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListHeaderFooter.swift; sourceTree = "<group>"; };
@@ -1010,7 +1008,7 @@
 				A5237ACC21ED6CA70040BF27 /* DrawerShadowView.swift */,
 				A5B87AF4211E16360038C37C /* DrawerTransitionAnimator.swift */,
 				5340828C26CFF3CE007716E1 /* MSFDrawerTokens.swift */,
-				5340828D26CFF3CE007716E1 /* MSFDrawerTokens.generated.swift */,
+				534082BC26D0209D007716E1 /* MSFDrawerTokens.generated.swift */,
 			);
 			path = Drawer;
 			sourceTree = "<group>";
@@ -1647,7 +1645,6 @@
 				5314E08B25F00F2D0099271A /* CommandBarItem.swift in Sources */,
 				5314E06225F00EFD0099271A /* CalendarViewDayTodayCell.swift in Sources */,
 				5314E08025F00F1A0099271A /* DateTimePickerViewComponent.swift in Sources */,
-				5340829126CFF3CE007716E1 /* MSFDrawerTokens.generated.swift in Sources */,
 				5314E06325F00EFD0099271A /* CalendarViewDayMonthYearCell.swift in Sources */,
 				5314E1A225F01A7C0099271A /* ActivityIndicatorCell.swift in Sources */,
 				5373D5652694D65C0032A3B4 /* AvatarTokens.swift in Sources */,
@@ -1679,7 +1676,6 @@
 				929DD257266ED3AC00E8175E /* PersonaButtonCarouselTokens.swift in Sources */,
 				5314E26625F023B20099271A /* UIColor+Extensions.swift in Sources */,
 				5314E30225F0260E0099271A /* AccessibilityContainerView.swift in Sources */,
-				3F82A4B12604069100CAC666 /* MSFDrawerTokens.generated.swift in Sources */,
 				8035CAD026377C17007B3FD1 /* CommandingItem.swift in Sources */,
 				8FD01188228A82A600D25925 /* Colors.swift in Sources */,
 				5314E0F325F012C80099271A /* ShyHeaderController.swift in Sources */,
@@ -1746,6 +1742,7 @@
 				5314E2E325F025500099271A /* FluentUIFramework.swift in Sources */,
 				5314E0EC25F012C40099271A /* NavigationAnimator.swift in Sources */,
 				5314E17225F0191C0099271A /* Separator.swift in Sources */,
+				534082BE26D0209D007716E1 /* MSFDrawerTokens.generated.swift in Sources */,
 				5314E14225F016860099271A /* CardPresenterNavigationController.swift in Sources */,
 				5314E11725F015EA0099271A /* PersonaCell.swift in Sources */,
 				5314E23025F022C80099271A /* UIScrollView+Extensions.swift in Sources */,
@@ -1797,7 +1794,6 @@
 				5314E05A25F00EF50099271A /* CalendarViewLayout.swift in Sources */,
 				534082A126CFF58E007716E1 /* ListTokens.swift in Sources */,
 				0ACD82122620451F0035CD9F /* MSFPersonaViewTokens.generated.swift in Sources */,
-				3FC2EDB425F9EA2D007AA0F8 /* MSFDrawerTokens.swift in Sources */,
 				5314E1B025F01A980099271A /* Tooltip.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1970,10 +1966,10 @@
 				FD77752B219E455A00033D58 /* AccessibilityContainerView.swift in Sources */,
 				B441478D228CDA130040E88E /* BooleanCell.swift in Sources */,
 				FDF41ED92141A02200EC527C /* CalendarConfiguration.swift in Sources */,
+				534082BD26D0209D007716E1 /* MSFDrawerTokens.generated.swift in Sources */,
 				FD77753021A490BA00033D58 /* DateTimePicker.swift in Sources */,
 				22010B702523CB2D00FF1F10 /* ActivityViewAnimating.swift in Sources */,
 				FD7254E92147059D002F4069 /* Calendar+Extensions.swift in Sources */,
-				5340829026CFF3CE007716E1 /* MSFDrawerTokens.generated.swift in Sources */,
 				A559BB7E212B6D100055E107 /* String+Extension.swift in Sources */,
 				534082A926CFF58F007716E1 /* ListTokens.swift in Sources */,
 				A5961FA5218A260500E2A506 /* PopupMenuSectionHeaderView.swift in Sources */,
