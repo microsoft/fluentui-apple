@@ -23,10 +23,6 @@ class SideTabBarDemoController: DemoController {
         return SideTabBar(frame: .zero)
     }()
 
-    private let homeItem: TabBarItem = {
-        return TabBarItem(title: "Home", image: UIImage(named: "Home_28")!, selectedImage: UIImage(named: "Home_Selected_28")!)
-    }()
-
     private var contentViewController: UIViewController?
 
     private var badgeNumbers: [UInt] = Constants.initialBadgeNumbers
@@ -59,6 +55,10 @@ class SideTabBarDemoController: DemoController {
         button.accessibilityLabel = "Decrement badge numbers"
         button.addTarget(self, action: #selector(decrementBadgeNumbers), for: .touchUpInside)
         return button
+    }()
+
+    private lazy var homeItem: TabBarItem = {
+        return TabBarItem(title: "Home", image: UIImage(named: "Home_28")!, selectedImage: UIImage(named: "Home_Selected_28")!)
     }()
 
     private func presentSideTabBar() {
