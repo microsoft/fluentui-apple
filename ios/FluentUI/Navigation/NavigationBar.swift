@@ -211,10 +211,10 @@ open class NavigationBar: UINavigationBar {
         }
     }
 
-    /// The navigation bar's leading content margin.
+    /// The navigation bar's trailing content margin.
     @objc open var contentTrailingMargin: CGFloat = defaultContentTrailingMargin {
         didSet {
-            if oldValue != contentLeadingMargin {
+            if oldValue != contentTrailingMargin {
                 updateContentStackViewMargins(forExpandedContent: contentIsExpanded)
             }
         }
