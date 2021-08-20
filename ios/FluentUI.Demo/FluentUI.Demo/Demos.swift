@@ -25,7 +25,6 @@ let demos: [(title: String, controllerClass: UIViewController.Type)] = [
     ("Card", CardViewDemoController.self),
     ("Color", ColorDemoController.self),
     ("CommandBar", CommandBarDemoController.self),
-    ("ContactCollectionView", ContactCollectionViewDemoController.self),
     ("DateTimePicker", DateTimePickerDemoController.self),
     ("DrawerController (Vnext)", DrawerDemoController.self),
     ("HUD", HUDDemoController.self),

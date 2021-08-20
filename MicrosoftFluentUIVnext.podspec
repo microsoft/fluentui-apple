@@ -89,13 +89,13 @@ xcodebuild ${XCODEBUILDPARAMS} -project ${PROJECT_FILE_PATH} -target "MicrosoftF
   s.subspec 'PersonaButton_ios' do |personaButton_ios|
     personaButton_ios.platform = :ios
     personaButton_ios.dependency 'MicrosoftFluentUIVnext/Avatar_ios'
-    personaButton_ios.source_files = ["ios/FluentUI/Vnext/PersonaButton/**/*.{swift,h}"]
+    personaButton_ios.source_files = ["ios/FluentUI/PersonaButton/**/*.{swift,h}"]
   end
 
   s.subspec 'PersonaButtonCarousel_ios' do |personaButtonCarousel_ios|
     personaButtonCarousel_ios.platform = :ios
     personaButtonCarousel_ios.dependency 'MicrosoftFluentUIVnext/PersonaButton_ios'
-    personaButtonCarousel_ios.source_files = ["ios/FluentUI/Vnext/PersonaButtonCarousel/**/*.{swift,h}"]
+    personaButtonCarousel_ios.source_files = ["ios/FluentUI/PersonaButtonCarousel/**/*.{swift,h}"]
   end
 
   s.subspec 'Obscurable_ios' do |obscurable_ios|
