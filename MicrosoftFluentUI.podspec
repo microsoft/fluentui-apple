@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'MicrosoftFluentUI'
-  s.version          = '0.3.0'
+  s.version          = '0.3.1'
   s.summary          = 'Fluent UI is a set of reusable UI controls and tools'
   s.homepage         = "https://www.microsoft.com/design/fluent/#/"
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
@@ -246,12 +246,6 @@ xcodebuild ${XCODEBUILDPARAMS} -project ${PROJECT_FILE_PATH} -target "MicrosoftF
     resizinghandleview_ios.source_files = ["ios/FluentUI/ResizingHandleView/**/*.{swift,h}"]
   end
 
-  s.subspec 'ScrollView_ios' do |scrollview_ios|
-    scrollview_ios.platform = :ios
-    scrollview_ios.dependency 'MicrosoftFluentUI/Core_ios'
-    scrollview_ios.source_files = ["ios/FluentUI/ScrollView/**/*.{swift,h}"]
-  end
-
   s.subspec 'SegmentedControl_ios' do |segmentedcontrol_ios|
     segmentedcontrol_ios.platform = :ios
     segmentedcontrol_ios.dependency 'MicrosoftFluentUI/Separator_ios'
@@ -329,6 +323,13 @@ xcodebuild ${XCODEBUILDPARAMS} -project ${PROJECT_FILE_PATH} -target "MicrosoftF
     avatarview_mac.dependency 'MicrosoftFluentUI/Core_mac'
     avatarview_mac.dependency 'MicrosoftFluentUI/DynamicColor_mac'
     avatarview_mac.source_files = ["macos/FluentUI/AvatarView/**/*.{swift,h}"]
+  end
+
+  s.subspec 'BadgeView_mac' do |badgeview_mac|
+    badgeview_mac.platform = :osx
+    badgeview_mac.dependency 'MicrosoftFluentUI/Core_mac'
+    badgeview_mac.dependency 'MicrosoftFluentUI/DynamicColor_mac'
+    badgeview_mac.source_files = ["macos/FluentUI/Badge/**/*.{swift,h}"]
   end
 
   s.subspec 'Button_mac' do |button_mac|

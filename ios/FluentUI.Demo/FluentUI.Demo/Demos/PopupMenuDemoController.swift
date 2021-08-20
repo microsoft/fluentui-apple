@@ -15,8 +15,6 @@ class PopupMenuDemoController: DemoController {
         case month
     }
 
-    override var allowsContentToScroll: Bool { return false }
-
     private var calendarLayout: CalendarLayout = .agenda
     private var cityIndexPath: IndexPath? = IndexPath(item: 2, section: 1)
 
