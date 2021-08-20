@@ -13,6 +13,8 @@ public struct TestViewController: Identifiable {
 
 public let testViewControllers = [TestViewController(title: "Avatar View",
 													 type: TestAvatarViewController.self),
+								  TestViewController(title: "Badge View",
+													 type: TestBadgeViewController.self),
 								  TestViewController(title: "Button",
 													 type: TestButtonViewController.self),
 								  TestViewController(title: "Color",

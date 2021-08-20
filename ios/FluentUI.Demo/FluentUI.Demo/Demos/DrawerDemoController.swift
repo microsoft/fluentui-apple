@@ -179,13 +179,6 @@ class DrawerDemoController: DemoController {
                                      maxDrawerHeight: 350)
         }).view)
 
-        container.addArrangedSubview(createButton(title: "Show with underlying interactable content view", action: { [weak self] _ in
-            guard let strongSelf = self else {
-                return
-            }
-
-            strongSelf.navigationController?.pushViewController(PassThroughDrawerDemoController(), animated: true)
-        }).view)
         container.addArrangedSubview(createButton(title: "Show changing resizing behaviour", action: { [weak self] sender in
             guard let strongSelf = self else {
                 return

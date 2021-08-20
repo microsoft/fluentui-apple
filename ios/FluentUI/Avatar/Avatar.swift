@@ -327,18 +327,8 @@ public struct Avatar: View {
             }
         }
 
-        // iPad Pointer Interaction support
-        var avatarBodyWithPointerInteraction: AnyView {
-            if #available(iOS 13.4, *) {
-                if state.hasPointerInteraction {
-                    return AnyView(avatarBody.hoverEffect())
-                }
-            }
-
-            return AnyView(avatarBody)
-        }
-
-        return avatarBodyWithPointerInteraction
+        return avatarBody
+            .pointerInteraction(state.hasPointerInteraction)
             .animation(.linear(duration: animationDuration))
             .accessibilityElement(children: .ignore)
             .accessibility(addTraits: .isImage)

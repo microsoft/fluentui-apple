@@ -12,14 +12,13 @@ protocol ScrollableContainerView: AnyObject {
 }
 
 /// `UIScrollView` subclass that automatically adjusts content insets when keyboard is shown/hidden to make sure scrollable area is always visible. Also provides methods to scroll any subview (or first responder if it's a subview) to visible area.
-@available(iOSApplicationExtension, unavailable)
-@objc open class MSFScrollView: UIScrollView, ScrollableContainerView {
-    public override init(frame: CGRect) {
+class DemoControllerScrollView: UIScrollView, ScrollableContainerView {
+    override init(frame: CGRect) {
         super.init(frame: frame)
         initialize()
     }
 
-    public required init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         initialize()
     }
@@ -28,7 +27,7 @@ protocol ScrollableContainerView: AnyObject {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChangeFrame), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
     }
 
-    open override var contentSize: CGSize {
+    override var contentSize: CGSize {
         didSet {
             if contentSize != oldValue {
                 makeFirstResponderVisible()
@@ -36,7 +35,7 @@ protocol ScrollableContainerView: AnyObject {
         }
     }
 
-    private var internalSubviews: [UIView] {
+    var internalSubviews: [UIView] {
         var result = [UIView]()
         if let scrollIndicator = horizontalScrollIndicator {
             result.append(scrollIndicator)
@@ -53,7 +52,7 @@ protocol ScrollableContainerView: AnyObject {
         return value(forKey: "verticalScrollIndicator") as? UIView
     }
 
-    open override func prepareForInterfaceBuilder() {
+    override func prepareForInterfaceBuilder() {
         super.prepareForInterfaceBuilder()
         initialize()
     }
