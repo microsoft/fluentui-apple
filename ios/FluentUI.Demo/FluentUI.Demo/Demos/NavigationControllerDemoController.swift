@@ -238,9 +238,12 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
         var title: String {
             switch self {
-            case .dismiss: return "Dismiss"
-            case .select: return "Select"
-            case .threeDay: return "ThreeDay"
+            case .dismiss:
+                return "Dismiss"
+            case .select:
+                return "Select"
+            case .threeDay:
+                return "ThreeDay"
             }
         }
     }
@@ -478,7 +481,9 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
 
     @objc private func shouldShowBadge(isOn: Bool) {
-        guard let items = navigationItem.rightBarButtonItems, !items.isEmpty else { return }
+        guard let items = navigationItem.rightBarButtonItems, !items.isEmpty else {
+            return
+        }
         for item in items {
             if item.tag == BarButtonItemTag.dismiss.rawValue {
                 item.badgeValue = isOn ? "12345" : nil
