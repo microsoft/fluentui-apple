@@ -14,7 +14,7 @@ import UIKit
         return hostingController.view
     }
 
-    /// The object that groups properties that allow control over the  Activity Indicator appearance.
+    /// The object that groups properties that allow control over the Activity Indicator appearance.
     @objc open var state: MSFActivityIndicatorState {
         return self.activityIndicatorView.state
     }
@@ -55,10 +55,20 @@ import UIKit
 
 /// Properties available to customize the state of the activity indicator state
 @objc public protocol MSFActivityIndicatorState {
+
+    /// Sets the accessibility label for the Activity Indicator.
     var accessibilityLabel: String? { get set }
+
+    /// Sets the color of the Activity Indicator.
     var color: UIColor? { get set }
+
+    /// Defines whether the Activity Indicator is animating or stopped.
     var isAnimating: Bool { get set }
+
+    /// Defines whether the Activity Indicator is visible when its animation stops.
     var hidesWhenStopped: Bool { get set }
+
+    /// The MSFActivityIndicatorSize value used by the Activity Indicator.
     var size: MSFActivityIndicatorSize { get set }
 }
 
@@ -70,6 +80,8 @@ public struct ActivityIndicator: View {
     @ObservedObject var state: MSFActivityIndicatorStateImpl
     @State var rotationAngle: Double = 0.0
 
+    /// Creates the ActivityIndicator.
+    /// - Parameter size: The MSFActivityIndicatorSize value used by the Activity Indicator.
     public init(size: MSFActivityIndicatorSize) {
         let state = MSFActivityIndicatorStateImpl(size: size)
         self.state = state
