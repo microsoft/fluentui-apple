@@ -154,6 +154,7 @@ class TabBarViewDemoController: DemoController {
         guard let tabBarView = tabBarView, let view = tabBarView.itemView(with: homeItem) else {
             return
         }
+
         Tooltip.shared.show(with: "Tap anywhere to dismiss this tooltip",
                             for: view,
                             preferredArrowDirection: .down,
