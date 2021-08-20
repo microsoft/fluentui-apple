@@ -33,10 +33,10 @@ struct ButtonDemoView: View {
 
     public var body: some View {
         VStack {
-            MSFButtonView(style: style,
-                          size: size,
-                          image: showImage ? UIImage(named: "Placeholder_24") : nil,
-                          text: showLabel ? text : nil) {
+            FluentButton(style: style,
+                         size: size,
+                         image: showImage ? UIImage(named: "Placeholder_24") : nil,
+                         text: showLabel ? text : nil) {
                 showAlert = true
             }
             .disabled(isDisabled)

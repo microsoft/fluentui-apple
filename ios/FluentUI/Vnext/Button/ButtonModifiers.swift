@@ -6,12 +6,12 @@
 import SwiftUI
 import UIKit
 
-public extension MSFButtonView {
+public extension FluentButton {
 
     /// Sets the accessibility label for the Button.
     /// - Parameter accessibilityLabel: Accessibility label string.
     /// - Returns: The modified Button with the property set.
-    func accessibilityLabel(_ accessibilityLabel: String?) -> MSFButtonView {
+    func accessibilityLabel(_ accessibilityLabel: String?) -> FluentButton {
         state.accessibilityLabel = accessibilityLabel
         return self
     }
