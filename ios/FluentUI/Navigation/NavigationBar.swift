@@ -156,7 +156,7 @@ open class NavigationBar: UINavigationBar {
         return nil
     }
 
-    /// This method will return an optional view for a bar button item with a given tag in the navigation bar.
+    /// Returns the first match of an optional view for a bar button item with the given tag.
     @objc public func barButtonItemView(with tag: Int) -> UIView? {
         if showsLargeTitle {
             let totalBarButtonItemViews = leftBarButtonItemsStackView.arrangedSubviews + rightBarButtonItemsStackView.arrangedSubviews
