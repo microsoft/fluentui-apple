@@ -328,6 +328,7 @@ open class SideTabBar: UIView {
         if let view = itemView(with: item, in: .top) {
             return view
         }
+
         return itemView(with: item, in: .bottom)
     }
 
