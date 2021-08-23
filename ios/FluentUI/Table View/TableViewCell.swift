@@ -1044,14 +1044,14 @@ open class TableViewCell: UITableViewCell {
 
     /// To set color for title label
     /// - Parameter color: UIColor to set
-    public func setTitleLabelTextColor(color: UIColor) {
+    @objc public func setTitleLabelTextColor(color: UIColor) {
         titleLabel.textColor = color
         isUsingCustomTextColors = true
     }
 
     /// To set color for subTitle label
     /// - Parameter color: UIColor to set
-    public func setSubTitleLabelTextColor(color: UIColor) {
+    @objc public func setSubTitleLabelTextColor(color: UIColor) {
         subtitleLabel.textColor = color
         isUsingCustomTextColors = true
     }

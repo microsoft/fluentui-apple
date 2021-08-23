@@ -11,6 +11,8 @@ class BottomCommandingDemoController: UIViewController {
         view = UIView()
 
         let optionTableViewController = UITableViewController(style: .plain)
+        mainTableViewController = optionTableViewController
+
         let optionTableView: UITableView = optionTableViewController.tableView
         optionTableView.translatesAutoresizingMaskIntoConstraints = false
         optionTableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
@@ -23,6 +25,7 @@ class BottomCommandingDemoController: UIViewController {
         let bottomCommandingVC = BottomCommandingController(with: optionTableViewController)
         bottomCommandingVC.heroItems = heroItems
         bottomCommandingVC.expandedListSections = shortCommandSectionList
+        bottomCommandingVC.delegate = self
 
         addChild(bottomCommandingVC)
         view.addSubview(bottomCommandingVC.view)
@@ -37,6 +40,8 @@ class BottomCommandingDemoController: UIViewController {
             bottomCommandingVC.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
+
+    private var mainTableViewController: UITableViewController?
 
     private lazy var heroItems: [CommandingItem] = {
         return Array(1...4).map {
@@ -83,6 +88,7 @@ class BottomCommandingDemoController: UIViewController {
                 DemoItem(title: "Hero command isOn", type: .boolean, action: #selector(toggleHeroCommandOnOff)),
                 DemoItem(title: "Hero command isEnabled", type: .boolean, action: #selector(toggleHeroCommandEnabled), isOn: true),
                 DemoItem(title: "List command isEnabled", type: .boolean, action: #selector(toggleListCommandEnabled), isOn: true),
+                DemoItem(title: "Long title hero items", type: .boolean, action: #selector(toggleLongTitleHeroItems), isOn: false),
                 DemoItem(title: "Toggle boolean cells", type: .action, action: #selector(toggleBooleanCells)),
                 DemoItem(title: "Change hero command titles", type: .action, action: #selector(changeHeroCommandTitle)),
                 DemoItem(title: "Change hero command images", type: .action, action: #selector(changeHeroCommandIcon)),
@@ -134,6 +140,12 @@ class BottomCommandingDemoController: UIViewController {
     @objc private func toggleListCommandEnabled() {
         modifiedCommandIndices.forEach {
             currentExpandedListSections[0].items[$0].isEnabled.toggle()
+        }
+    }
+
+    @objc private func toggleLongTitleHeroItems(_ sender: BooleanCell) {
+        heroItems.enumerated().forEach { (ix, item) in
+            item.title = (sender.isOn ? "Long Title Hero Item " : "Item ") + String(ix)
         }
     }
 
@@ -296,5 +308,13 @@ extension BottomCommandingDemoController: UITableViewDataSource {
         }
 
         return UITableViewCell()
+    }
+}
+
+extension BottomCommandingDemoController: BottomCommandingControllerDelegate {
+    func bottomCommandingControllerCollapsedHeightInSafeAreaDidChange(_ bottomCommandingController: BottomCommandingController) {
+        if let tableView = mainTableViewController?.tableView {
+            tableView.contentInset.bottom = bottomCommandingController.collapsedHeightInSafeArea
+        }
     }
 }

@@ -3,8 +3,8 @@
 //  Licensed under the MIT License.
 //
 
-import UIKit
 import FluentUI
+import UIKit
 
 class DemoListViewController: UITableViewController {
 
@@ -60,13 +60,13 @@ class DemoListViewController: UITableViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        if isFirstLaunch {
+        if DemoListViewController.isFirstLaunch {
             if let lastDemoController = UserDefaults.standard.string(forKey: DemoListViewController.lastDemoControllerKey),
                 let index = demos.firstIndex(where: { $0.title == lastDemoController }) {
                 tableView(tableView, didSelectRowAt: IndexPath(row: index, section: 0))
             }
 
-            isFirstLaunch = false
+            DemoListViewController.isFirstLaunch = false
         } else {
             UserDefaults.standard.set(nil, forKey: DemoListViewController.lastDemoControllerKey)
         }
@@ -97,6 +97,6 @@ class DemoListViewController: UITableViewController {
     }
 
     let cellReuseIdentifier: String = "TableViewCell"
-    private var isFirstLaunch: Bool = true
+    private static var isFirstLaunch: Bool = true
     private static let lastDemoControllerKey: String = "LastDemoController"
 }

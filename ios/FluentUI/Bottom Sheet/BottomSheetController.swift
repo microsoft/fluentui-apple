@@ -8,8 +8,26 @@ import UIKit
 @objc(MSFBottomSheetControllerDelegate)
 public protocol BottomSheetControllerDelegate: AnyObject {
 
-    /// Called after the sheet moved to a new expansion state
-    @objc optional func bottomSheetControllerDidMove(to expansionState: BottomSheetExpansionState)
+    /// Called after a transition to a new expansion state completes.
+    ///
+    /// External changes to`isExpanded` or `isHidden` will not trigger this callback.
+    /// - Parameters:
+    ///   - bottomSheetController: The caller object.
+    ///   - expansionState: The expansion state that the sheet moved to.
+    ///   - interaction: The user interaction that caused the state change.
+    @objc optional func bottomSheetController(_ bottomSheetController: BottomSheetController,
+                                              didMoveTo expansionState: BottomSheetExpansionState,
+                                              interaction: BottomSheetInteraction)
+
+    /// Called when `collapsedHeightInSafeArea` changes.
+    @objc optional func bottomSheetControllerCollapsedHeightInSafeAreaDidChange(_ bottomSheetController: BottomSheetController)
+}
+
+/// Interactions that can trigger a state change.
+@objc public enum BottomSheetInteraction: Int {
+    case noUserAction // No user action, used for events not triggered by users
+    case swipe // Swipe on the sheet view
+    case resizingHandleTap // Tap on the sheet resizing handle
 }
 
 /// Defines the position the sheet is currently in
@@ -57,6 +75,7 @@ public class BottomSheetController: UIViewController {
                 panGestureRecognizer.isEnabled = isExpandable
                 if isViewLoaded && !isHidden {
                     move(to: .collapsed, animated: false)
+                    delegate?.bottomSheetControllerCollapsedHeightInSafeAreaDidChange?(self)
                 }
             }
         }
@@ -70,24 +89,7 @@ public class BottomSheetController: UIViewController {
             return currentExpansionState == .hidden
         }
         set {
-            if newValue != isHidden {
-                if isViewLoaded {
-                    if newValue {
-                        panGestureRecognizer.isEnabled = false
-                        move(to: .hidden) { _ in
-                            self.bottomSheetView.isHidden = true
-                        }
-                    } else {
-                        bottomSheetView.isHidden = false
-                        move(to: .collapsed) { _ in
-                            self.panGestureRecognizer.isEnabled = self.isExpandable
-                        }
-                    }
-                } else {
-                    // This ensures the view eventually loads at the correct offset
-                    currentExpansionState = newValue ? .hidden : .collapsed
-                }
-            }
+            setIsHidden(newValue)
         }
     }
 
@@ -109,9 +111,7 @@ public class BottomSheetController: UIViewController {
             return currentExpansionState == .expanded
         }
         set {
-            if !isHidden && isExpandable {
-                move(to: newValue ? .expanded : .collapsed)
-            }
+            setIsExpanded(newValue)
         }
     }
 
@@ -120,12 +120,87 @@ public class BottomSheetController: UIViewController {
         didSet {
             if isViewLoaded && currentExpansionState == .collapsed {
                 move(to: .collapsed, animated: false)
+                delegate?.bottomSheetControllerCollapsedHeightInSafeAreaDidChange?(self)
             }
         }
     }
 
+    /// Current height of the portion of a collapsed sheet that's in the safe area.
+    @objc public var collapsedHeightInSafeArea: CGFloat {
+        return offset(for: .collapsed)
+    }
+
+    /// A layout guide that covers the on-screen portion of the sheet view.
+    @objc public let sheetLayoutGuide = UILayoutGuide()
+
     /// The object that acts as the delegate of the bottom sheet.
     @objc open weak var delegate: BottomSheetControllerDelegate?
+
+    /// Height of the resizing handle
+    @objc public static var resizingHandleHeight: CGFloat {
+        return ResizingHandleView.height
+    }
+
+    // MARK: - Parametrized setters
+
+    /// Sets the `isExpanded` property with a completion handler.
+    /// - Parameters:
+    ///   - isExpanded: The new value.
+    ///   - animated: Indicates if the change should be animated. The default value is `true`.
+    ///   - completion: Closure to be called when the state change completes.
+    @objc public func setIsExpanded(_ isExpanded: Bool, animated: Bool = true, completion: ((_ isFinished: Bool) -> Void)? = nil) {
+        guard isExpanded != self.isExpanded else {
+            return
+        }
+
+        if !isHidden && isExpandable {
+            let targetExpansionState: BottomSheetExpansionState = isExpanded ? .expanded : .collapsed
+            if isViewLoaded {
+                move(to: targetExpansionState, animated: animated, shouldNotifyDelegate: false) { finalPosition in
+                    completion?(finalPosition == .end)
+                }
+            } else {
+                currentExpansionState = targetExpansionState
+                completion?(true)
+            }
+        }
+    }
+
+    /// Sets the `isHidden` property with a completion handler.
+    /// - Parameters:
+    ///   - isHidden: The new value.
+    ///   - animated: Indicates if the change should be animated. The default value is `true`.
+    ///   - completion: Closure to be called when the state change completes.
+    @objc public func setIsHidden(_ isHidden: Bool, animated: Bool = true, completion: ((_ isFinished: Bool) -> Void)? = nil) {
+        guard isHidden != self.isHidden else {
+            return
+        }
+
+        if isViewLoaded {
+            if isHidden {
+                panGestureRecognizer.isEnabled = false
+                move(to: .hidden, animated: animated, shouldNotifyDelegate: false) { [weak self] finalPosition in
+                    guard let strongSelf = self else {
+                        return
+                    }
+                    strongSelf.bottomSheetView.isHidden = true
+                    completion?(finalPosition == .end)
+                }
+            } else {
+                bottomSheetView.isHidden = false
+                move(to: .collapsed, animated: animated, shouldNotifyDelegate: false) { [weak self] finalPosition in
+                    guard let strongSelf = self else {
+                        return
+                    }
+                    strongSelf.panGestureRecognizer.isEnabled = strongSelf.isExpandable
+                    completion?(finalPosition == .end)
+                }
+            }
+        } else {
+            currentExpansionState = isHidden ? .hidden : .collapsed
+            completion?(true)
+        }
+    }
 
     // MARK: - View loading
 
@@ -141,6 +216,7 @@ public class BottomSheetController: UIViewController {
     public override func loadView() {
         view = BottomSheetPassthroughView()
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.addLayoutGuide(sheetLayoutGuide)
 
         if shouldShowDimmingView {
             view.addSubview(dimmingView)
@@ -184,6 +260,8 @@ public class BottomSheetController: UIViewController {
             overflowView.topAnchor.constraint(equalTo: bottomSheetView.bottomAnchor),
             bottomSheetOffsetConstraint
         ])
+
+        NSLayoutConstraint.activate(makeLayoutGuideConstraints())
 
         self.preferredExpandedContentGuideTopConstraint = preferredExpandedContentTopConstraint
 
@@ -291,7 +369,7 @@ public class BottomSheetController: UIViewController {
     // MARK: - Gesture handling
 
     @objc private func handleResizingHandleViewTap(_ sender: UITapGestureRecognizer) {
-        isExpanded.toggle()
+        move(to: isExpanded ? .collapsed : .expanded, interaction: .resizingHandleTap)
     }
 
     private func updateResizingHandleViewAccessibility() {
@@ -396,10 +474,15 @@ public class BottomSheetController: UIViewController {
             // Velocity high enough, animate to the offset we're swiping towards
             targetState = velocity > 0 ? .collapsed : .expanded
         }
-        move(to: targetState, velocity: velocity)
+        move(to: targetState, velocity: velocity, interaction: .swipe)
     }
 
-    private func move(to targetExpansionState: BottomSheetExpansionState, animated: Bool = true, velocity: CGFloat = 0.0, completion: ((UIViewAnimatingPosition) -> Void)? = nil) {
+    private func move(to targetExpansionState: BottomSheetExpansionState,
+                      animated: Bool = true,
+                      velocity: CGFloat = 0.0,
+                      interaction: BottomSheetInteraction = .noUserAction,
+                      shouldNotifyDelegate: Bool = true,
+                      completion: ((UIViewAnimatingPosition) -> Void)? = nil) {
         let targetOffsetFromBottom = offset(for: targetExpansionState)
         currentExpansionState = targetExpansionState
 
@@ -440,14 +523,15 @@ public class BottomSheetController: UIViewController {
 
                 translationAnimator.addCompletion({ [weak self] finalPosition in
                     if finalPosition == .end {
-                        self?.handleCompletedStateChange(to: targetExpansionState)
+                        self?.handleCompletedStateChange(to: targetExpansionState, interaction: interaction, shouldNotifyDelegate: shouldNotifyDelegate)
                     }
                     completion?(finalPosition)
                 })
                 translationAnimator.startAnimation()
             } else {
                 bottomSheetOffsetConstraint.constant = -targetOffsetFromBottom
-                handleCompletedStateChange(to: targetExpansionState)
+                handleCompletedStateChange(to: targetExpansionState, interaction: interaction, shouldNotifyDelegate: shouldNotifyDelegate)
+                completion?(.end)
             }
         }
     }
@@ -467,8 +551,12 @@ public class BottomSheetController: UIViewController {
         return offset
     }
 
-    private func handleCompletedStateChange(to targetExpansionState: BottomSheetExpansionState) {
-        self.delegate?.bottomSheetControllerDidMove?(to: targetExpansionState)
+    private func handleCompletedStateChange(to targetExpansionState: BottomSheetExpansionState,
+                                            interaction: BottomSheetInteraction = .noUserAction,
+                                            shouldNotifyDelegate: Bool = true) {
+        if shouldNotifyDelegate {
+            self.delegate?.bottomSheetController?(self, didMoveTo: targetExpansionState, interaction: interaction)
+        }
 
         if targetExpansionState == .collapsed {
             hostedScrollView?.setContentOffset(.zero, animated: true)
@@ -505,6 +593,21 @@ public class BottomSheetController: UIViewController {
             preferredExpandedContentHeightConstraint.isActive = false
             fullScreenSheetConstraint.isActive = true
         }
+    }
+
+    private func makeLayoutGuideConstraints() -> [NSLayoutConstraint] {
+        let requiredConstraints = [
+            sheetLayoutGuide.leadingAnchor.constraint(equalTo: bottomSheetView.leadingAnchor),
+            sheetLayoutGuide.trailingAnchor.constraint(equalTo: bottomSheetView.trailingAnchor),
+            sheetLayoutGuide.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            sheetLayoutGuide.topAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor)
+        ]
+
+        // BottomSheetView will go off-screen when it's hidden, so this constraint is not always required.
+        let breakableConstraint = sheetLayoutGuide.topAnchor.constraint(equalTo: bottomSheetView.topAnchor)
+        breakableConstraint.priority = .defaultHigh
+
+        return requiredConstraints + [breakableConstraint]
     }
 
     private lazy var preferredExpandedContentHeightConstraint: NSLayoutConstraint = {

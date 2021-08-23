@@ -142,7 +142,7 @@ class NavigationControllerDemoController: DemoController {
 
         let controller = NavigationController(rootViewController: content)
         if showAvatar {
-            controller.msfNavigationBar.avatar = content.personaData
+            controller.msfNavigationBar.personaData = content.personaData
             controller.msfNavigationBar.onAvatarTapped = handleAvatarTapped
         } else {
             content.allowsCellSelection = true
@@ -254,6 +254,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         tableView.delegate = self
         tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
         tableView.register(BooleanCell.self, forCellReuseIdentifier: BooleanCell.identifier)
+        tableView.register(ActionsCell.self, forCellReuseIdentifier: ActionsCell.identifier)
         return tableView
     }()
 
@@ -270,8 +271,8 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
     var showsTopAccessoryView: Bool = false
 
     var personaData: PersonaData = {
-        let personaData = PersonaData(name: "Kat Larrson", avatarImage: UIImage(named: "avatar_kat_larsson"))
-        personaData.hideInsideGapForBorder = true
+        let personaData = PersonaData(name: "Kat Larrson", image: UIImage(named: "avatar_kat_larsson"))
+        personaData.hasRingInnerGap = false
         return personaData
     }()
 
@@ -402,6 +403,15 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
             cell.onValueChanged = { [weak self, weak cell] in
                 self?.shouldShowBadge(isOn: cell?.isOn ?? false)
             }
+        }
+
+        if indexPath.row == 3 {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: ActionsCell.identifier, for: indexPath) as? ActionsCell else {
+                return UITableViewCell()
+            }
+            cell.setup(action1Title: "Show tooltip on 3 day view button in navbar")
+            cell.action1Button.addTarget(self, action: #selector(showTooltipButtonPressed), for: .touchUpInside)
+            cell.bottomSeparatorType = .full
             return cell
         }
 
@@ -475,8 +485,10 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
 
     @objc private func shouldShowRainbowRing(isOn: Bool) {
-        personaData.customBorderImage = isOn ? RootViewController.colorfulImageForFrame() : nil
-        msfNavigationController?.msfNavigationBar.avatar = personaData
+        personaData.imageBasedRingColor = isOn ? RootViewController.colorfulImageForFrame() : nil
+        personaData.isRingVisible = isOn
+        personaData.hasRingInnerGap = false
+        msfNavigationController?.msfNavigationBar.personaData = personaData
         showRainbowRingForAvatar = isOn
     }
 
@@ -494,6 +506,17 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
             }
         }
         showBadgeOnBarButtonItem = isOn
+    }
+
+    @objc private func showTooltipButtonPressed() {
+        let navigationBar = msfNavigationController?.msfNavigationBar
+        guard let view = navigationBar?.barButtonItemView(with: BarButtonItemTag.threeDay.rawValue) else {
+            return
+        }
+        Tooltip.shared.show(with: "Tap anywhere for this tooltip to dismiss.",
+                            for: view,
+                            preferredArrowDirection: .up,
+                            dismissOn: .tapAnywhere)
     }
 
     @objc private func dismissSelf() {
