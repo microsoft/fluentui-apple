@@ -393,7 +393,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
             return cell
         }
 
-        if indexPath.row == 2 {
+        if indexPath.row == 2 && navigationItem.usesLargeTitle {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: BooleanCell.identifier, for: indexPath) as? BooleanCell else {
                 return UITableViewCell()
             }
