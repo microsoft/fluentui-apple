@@ -64,13 +64,6 @@ class BarButtonItemView: UIView {
         return size
     }
 
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        if previousTraitCollection?.horizontalSizeClass != traitCollection.horizontalSizeClass || previousTraitCollection?.verticalSizeClass != traitCollection.verticalSizeClass {
-            updateLayout()
-        }
-    }
-
     private struct Constants {
         static let leftBarButtonItemLeadingMargin: CGFloat = 8
         static let rightBarButtonItemHorizontalPadding: CGFloat = 10
