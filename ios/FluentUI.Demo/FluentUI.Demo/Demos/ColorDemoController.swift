@@ -113,8 +113,11 @@ class ColorDemoController: UIViewController {
         view.addSubview(stackView)
         view.backgroundColor = Colors.NavigationBar.background
 
-        let demoListViewController = navigationController?.viewControllers.first as? DemoListViewController
-        segmentedControl.selectedSegmentIndex = DemoColorTheme.allCases.firstIndex(where: { $0.name == demoListViewController!.themeName }) ?? 0
+        if let demoListViewController = navigationController?.viewControllers.first as? DemoListViewController {
+            segmentedControl.selectedSegmentIndex = DemoColorTheme.allCases.firstIndex(where: { $0.name == demoListViewController.themeName }) ?? 0
+        } else {
+            segmentedControl.selectedSegmentIndex = 0
+        }
 
         NSLayoutConstraint.activate([
             stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -141,17 +144,15 @@ class ColorDemoController: UIViewController {
     }()
 
     @objc private func segmentedControlValueChanged(sender: Any) {
-        if let segmentedControl = sender as? SegmentedControl {
+        if let segmentedControl = sender as? SegmentedControl, let window = self.view.window {
             let selectedSegmentIndex = segmentedControl.selectedSegmentIndex
             let demoColorTheme = DemoColorTheme.allCases[selectedSegmentIndex]
-            let window = self.view.window
 
-            if let provider = demoColorTheme.provider {
-                let demoListViewController = navigationController?.viewControllers.first as? DemoListViewController
-                demoListViewController!.updateColorProviderFor(window: window!, provider: provider, themeName: demoColorTheme.name)
+            if let provider = demoColorTheme.provider, let demoListViewController = navigationController?.viewControllers.first as? DemoListViewController {
+                demoListViewController.updateColorProviderFor(window: window, provider: provider, themeName: demoColorTheme.name)
             } else {
                 // If provider doesn't conform to ColorProviding, remove mapping from dictionary and return fallback colors
-                Colors.removeProvider(for: window!)
+                Colors.removeProvider(for: window)
             }
 
             tableView.reloadData()

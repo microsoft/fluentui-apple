@@ -12,7 +12,7 @@ class DemoListViewController: UITableViewController {
     public var themeName: String = DemoColorTheme.default.name
 
     func addDemoListTo(window: UIWindow) {
-        updateColorProviderFor(window: window, provider: provider, themeName: themeName)
+		updateColorProviderFor(window: window, provider: self.provider, themeName: self.themeName)
 
         let demoListViewController = DemoListViewController(nibName: nil, bundle: nil)
 
