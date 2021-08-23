@@ -394,7 +394,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
             return cell
         }
 
-        if indexPath.row == 2 && navigationItem.usesLargeTitle {
+        if indexPath.row == 2 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: BooleanCell.identifier, for: indexPath) as? BooleanCell else {
                 return UITableViewCell()
             }
@@ -403,6 +403,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
             cell.onValueChanged = { [weak self, weak cell] in
                 self?.shouldShowBadge(isOn: cell?.isOn ?? false)
             }
+            return cell
         }
 
         if indexPath.row == 3 {
