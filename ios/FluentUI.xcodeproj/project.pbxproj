@@ -194,6 +194,10 @@
 		92A1E4ED26A741F60007ED60 /* CardNudgeTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A1E4EB26A741F60007ED60 /* CardNudgeTokens.swift */; };
 		92A1E4F426A791590007ED60 /* MSFCardNudge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A1E4F326A791590007ED60 /* MSFCardNudge.swift */; };
 		92A1E4F526A791590007ED60 /* MSFCardNudge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A1E4F326A791590007ED60 /* MSFCardNudge.swift */; };
+		92B6445A26D441A30041C8CF /* MSFAvatarGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92B6445926D441A30041C8CF /* MSFAvatarGroup.swift */; };
+		92B6445C26D46C360041C8CF /* AvatarGroupAvatarState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92B6445B26D46C360041C8CF /* AvatarGroupAvatarState.swift */; };
+		92B6445D26D46C360041C8CF /* AvatarGroupAvatarState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92B6445B26D46C360041C8CF /* AvatarGroupAvatarState.swift */; };
+		92B6445E26D46CE90041C8CF /* MSFAvatarGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92B6445926D441A30041C8CF /* MSFAvatarGroup.swift */; };
 		92D5598126A0FD2800328FD3 /* CardNudge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D5598026A0FD2800328FD3 /* CardNudge.swift */; };
 		92D5598226A0FD2800328FD3 /* CardNudge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D5598026A0FD2800328FD3 /* CardNudge.swift */; };
 		A257F82A251D98DD002CAA6E /* FluentUI-apple.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A257F829251D98DD002CAA6E /* FluentUI-apple.xcassets */; };
@@ -394,6 +398,8 @@
 		92865CDA26CB36EA008894FB /* AvatarGroupModifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarGroupModifiers.swift; sourceTree = "<group>"; };
 		92A1E4EB26A741F60007ED60 /* CardNudgeTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardNudgeTokens.swift; sourceTree = "<group>"; };
 		92A1E4F326A791590007ED60 /* MSFCardNudge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFCardNudge.swift; sourceTree = "<group>"; };
+		92B6445926D441A30041C8CF /* MSFAvatarGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFAvatarGroup.swift; sourceTree = "<group>"; };
+		92B6445B26D46C360041C8CF /* AvatarGroupAvatarState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarGroupAvatarState.swift; sourceTree = "<group>"; };
 		92D5598026A0FD2800328FD3 /* CardNudge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardNudge.swift; sourceTree = "<group>"; };
 		A257F829251D98DD002CAA6E /* FluentUI-apple.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = "FluentUI-apple.xcassets"; path = "../apple/Resources/FluentUI-apple.xcassets"; sourceTree = "<group>"; };
 		A257F82B251D98F3002CAA6E /* FluentUI-ios.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = "FluentUI-ios.xcassets"; path = "FluentUI/Resources/FluentUI-ios.xcassets"; sourceTree = "<group>"; };
@@ -635,8 +641,10 @@
 			isa = PBXGroup;
 			children = (
 				5306075126A1E6A4002D49CF /* AvatarGroup.swift */,
+				92B6445B26D46C360041C8CF /* AvatarGroupAvatarState.swift */,
 				92865CDA26CB36EA008894FB /* AvatarGroupModifiers.swift */,
 				5306074F26A1E6A4002D49CF /* AvatarGroupTokens.swift */,
+				92B6445926D441A30041C8CF /* MSFAvatarGroup.swift */,
 				5306075026A1E6A4002D49CF /* MSFAvatarGroupTokens.generated.swift */,
 			);
 			path = AvatarGroup;
@@ -1489,6 +1497,7 @@
 				C708B05F260A8778007190FA /* SegmentPillButton.swift in Sources */,
 				5314E11925F015EA0099271A /* ContactCollectionView.swift in Sources */,
 				5314E13525F016370099271A /* PopupMenuItemCell.swift in Sources */,
+				92B6445D26D46C360041C8CF /* AvatarGroupAvatarState.swift in Sources */,
 				5314E2A025F024860099271A /* NSLayoutConstraint+Extensions.swift in Sources */,
 				5314E26625F023B20099271A /* UIColor+Extensions.swift in Sources */,
 				5314E30225F0260E0099271A /* AccessibilityContainerView.swift in Sources */,
@@ -1501,6 +1510,7 @@
 				5314E05B25F00EF50099271A /* CalendarView.swift in Sources */,
 				5314E28125F0240D0099271A /* DateComponents+Extensions.swift in Sources */,
 				5314E07025F00F140099271A /* DatePickerController.swift in Sources */,
+				92B6445E26D46CE90041C8CF /* MSFAvatarGroup.swift in Sources */,
 				5373D5692694D65C0032A3B4 /* MSFAvatarTokens.generated.swift in Sources */,
 				5314E12025F015EA0099271A /* ContactView.swift in Sources */,
 				5373D56B2694D65C0032A3B4 /* MSFAvatarPresence.swift in Sources */,
@@ -1629,6 +1639,7 @@
 				53BCB0CE253A4E8D00620960 /* Obscurable.swift in Sources */,
 				FD41C8BE22DD47120086F899 /* UINavigationItem+Navigation.swift in Sources */,
 				B4E782C12176AD5E00A7DFCE /* ActionsCell.swift in Sources */,
+				92B6445C26D46C360041C8CF /* AvatarGroupAvatarState.swift in Sources */,
 				5373D5642694D65C0032A3B4 /* AvatarTokens.swift in Sources */,
 				FD56FD962192754B0023C7EA /* DateTimePickerViewComponent.swift in Sources */,
 				FDFB8AF021361C9D0046850A /* CalendarViewDayTodayCell.swift in Sources */,
@@ -1645,6 +1656,7 @@
 				5306075426A1E6A4002D49CF /* MSFAvatarGroupTokens.generated.swift in Sources */,
 				FD4F2A20214AE20400C437D6 /* DatePickerController.swift in Sources */,
 				22EABB1A2509AAD100C4BE72 /* IndeterminateProgressBarView.swift in Sources */,
+				92B6445A26D441A30041C8CF /* MSFAvatarGroup.swift in Sources */,
 				5373D5742694D66F0032A3B4 /* FluentUIStyle.generated.swift in Sources */,
 				B45EB790219E310F008646A2 /* BadgeField.swift in Sources */,
 				497DC2D924185885008D86F8 /* PillButtonBar.swift in Sources */,

@@ -6,66 +6,16 @@
 import UIKit
 import SwiftUI
 
-/// UIKit wrapper that exposes the SwiftUI AvatarGroup implementation.
-@objc open class MSFAvatarGroup: NSObject, FluentUIWindowProvider {
-
-    /// The UIView representing the AvatarGroup.
-    @objc open var view: UIView {
-        return hostingController.view
-    }
-
-    /// The object that groups properties that allow control over the AvatarGroup appearance.
-    @objc open var state: MSFAvatarGroupState {
-        return avatarGroup.state
-    }
-
-    /// Creates a new MSFAvatarGroup instance.
-    /// - Parameters:
-    ///   - style: The MSFAvatarGroupStyle value used by the AvatarGroup.
-    ///   - size: The MSFAvatarSize value used by the Avatars that will compose the AvatarGroup.
-    @objc public convenience init(style: MSFAvatarGroupStyle = .stack,
-                                  size: MSFAvatarSize = .large) {
-        self.init(style: style,
-                  size: size,
-                  theme: nil)
-    }
-
-    /// Creates a new MSFAvatarGroup instance.
-    /// - Parameters:
-    ///   - style: The MSFAvatarGroupStyle value used by the AvatarGroup.
-    ///   - size: The MSFAvatarSize value used by the Avatars that will compose the AvatarGroup.
-    ///   - theme: The FluentUIStyle instance representing the theme to be overriden for this AvatarGroup.
-    @objc public init(style: MSFAvatarGroupStyle,
-                      size: MSFAvatarSize,
-                      theme: FluentUIStyle?) {
-        super.init()
-
-        avatarGroup = AvatarGroup(style: style,
-                                  size: size,
-                                  avatarCount: 0) { _, _ in
-        }
-        hostingController = UIHostingController(rootView: AnyView(avatarGroup
-                                                                    .windowProvider(self)
-                                                                    .modifyIf(theme != nil, { avatarGroupView in
-                                                                        avatarGroupView.customTheme(theme!)
-                                                                    })))
-        view.backgroundColor = UIColor.clear
-    }
-
-    var window: UIWindow? {
-        return self.view.window
-    }
-
-    private var hostingController: UIHostingController<AnyView>!
-
-    private var avatarGroup: AvatarGroup!
+/// Enumeration of the styles used by the AvatarGroup.
+/// The stack style presents Avatars laid on top of each other.
+/// The pile style presents Avatars side by side.
+@objc public enum MSFAvatarGroupStyle: Int, CaseIterable {
+    case stack
+    case pile
 }
 
 /// Properties that can be used to customize the appearance of the AvatarGroup.
 @objc public protocol MSFAvatarGroupState {
-
-    /// Total number of avatars to represent, independent of what is visible at any time.
-    var avatarCount: Int { get set }
 
     /// Caps the number of displayed avatars and shows the remaining not displayed in the overflow avatar.
     var maxDisplayedAvatars: Int { get set }
@@ -92,56 +42,6 @@ import SwiftUI
     func removeAvatar(at index: Int)
 }
 
-/// Enumeration of the styles used by the AvatarGroup.
-/// The stack style presents Avatars laid on top of each other.
-/// The pile style presents Avatars side by side.
-@objc public enum MSFAvatarGroupStyle: Int, CaseIterable {
-    case stack
-    case pile
-}
-
-/// Properties that can be used to customize the appearance of the Avatar in the AvatarGroup.
-@objc public protocol MSFAvatarGroupAvatarState {
-    /// Sets the accessibility label for the Avatar.
-    var accessibilityLabel: String? { get set }
-
-    /// Sets a custom background color for the Avatar.
-    /// The ring color inherit this color if not set explicitly to a different color.
-    var backgroundColor: UIColor? { get set }
-
-    /// The custom foreground color.
-    /// This property allows customizing the initials text color or the default image tint color.
-    var foregroundColor: UIColor? { get set }
-
-    /// Whether the gap between the ring and the avatar content exists.
-    var hasRingInnerGap: Bool { get set }
-
-    /// The image used in the avatar content.
-    var image: UIImage? { get set }
-
-    /// The image used to fill the ring as a custom color.
-    var imageBasedRingColor: UIImage? { get set }
-
-    /// Displays an outer ring for the avatar if set to true.
-    /// The group style does not support rings.
-    var isRingVisible: Bool { get set }
-
-    /// Sets the transparency of the avatar elements (inner and outer ring gaps, presence icon outline).
-    /// Uses the solid default background color if set to false.
-    var isTransparent: Bool { get set }
-
-    /// The primary text of the avatar.
-    /// Used for computing the initials and background/ring colors.
-    var primaryText: String? { get set }
-
-    /// Overrides the default ring color.
-    var ringColor: UIColor? { get set }
-
-    /// The secondary text of the avatar.
-    /// Used for computing the initials and background/ring colors if primaryText is not set.
-    var secondaryText: String? { get set }
-}
-
 /// View that represents the AvatarGroup.
 public struct AvatarGroup: View {
     @Environment(\.theme) var theme: FluentUIStyle
@@ -157,18 +57,16 @@ public struct AvatarGroup: View {
     ///   - avatarAtIndex: Callback to allow for customization of individual avatars.
     public init(style: MSFAvatarGroupStyle,
                 size: MSFAvatarSize,
-                avatarCount: Int,
-                avatarAtIndex: ((_ avatar: MSFAvatarGroupAvatarState, _ index: Int) -> Void)?) {
+                avatars: [AvatarGroupAvatarState]) {
         let state = MSFAvatarGroupStateImpl(style: style,
                                             size: size,
-                                            avatarCount: avatarCount,
-                                            avatarAtIndex: avatarAtIndex)
+                                            avatars: avatars)
         self.state = state
         self.tokens = state.tokens
     }
 
     public var body: some View {
-        let avatars: [MSFAvatarStateImpl] = state.avatars
+        let avatars = state.avatars
         let maxDisplayedAvatars: Int = avatars.prefix(state.maxDisplayedAvatars).count
         let overflowCount: Int = (avatars.count > maxDisplayedAvatars ? avatars.count - maxDisplayedAvatars : 0) + state.overflowCount
 
@@ -198,7 +96,8 @@ public struct AvatarGroup: View {
                     (nextAvatarHasRing ? 0 - ringOffset + tokens.ringOuterGap : 0)
                 let cutoutSize = nextAvatarHasRing ? size + ringOffset + ringOuterGap : size
 
-                Avatar(avatar)
+                Avatar(avatar.avatarState)
+                    .size(tokens.size)
                     .modifyIf(needsCutout, { view in
                         view.mask(AvatarCutout(xOrigin: xOrigin,
                                                yOrigin: yOrigin,
@@ -247,7 +146,7 @@ public struct AvatarGroup: View {
 
 class MSFAvatarGroupStateImpl: NSObject, ObservableObject, MSFAvatarGroupState {
     func createAvatar() -> MSFAvatarGroupAvatarState {
-        let avatar = MSFAvatarGroupAvatarStateImpl(size: tokens.size)
+        let avatar = AvatarGroupAvatarState()
         avatars.append(avatar)
         return avatar
     }
@@ -266,16 +165,9 @@ class MSFAvatarGroupStateImpl: NSObject, ObservableObject, MSFAvatarGroupState {
         avatars.remove(at: index)
     }
 
-    @Published var avatars: [MSFAvatarGroupAvatarStateImpl] = []
+    @Published var avatars: [AvatarGroupAvatarState] = []
     @Published var maxDisplayedAvatars: Int = Int.max
     @Published var overflowCount: Int = 0
-
-    var avatarAtIndex: ((_ avatar: MSFAvatarGroupAvatarState, _ index: Int) -> Void)?
-    @Published var avatarCount: Int = 0 {
-        didSet {
-            populateAvatars()
-        }
-    }
 
     var style: MSFAvatarGroupStyle {
         get {
@@ -299,30 +191,10 @@ class MSFAvatarGroupStateImpl: NSObject, ObservableObject, MSFAvatarGroupState {
 
     init(style: MSFAvatarGroupStyle,
          size: MSFAvatarSize,
-         avatarCount: Int,
-         avatarAtIndex: ((_ avatar: MSFAvatarGroupAvatarState, _ index: Int) -> Void)?) {
+         avatars: [AvatarGroupAvatarState]) {
         self.tokens = MSFAvatarGroupTokens(style: style,
                                            size: size)
-        self.avatarCount = avatarCount
-        self.avatarAtIndex = avatarAtIndex
+        self.avatars = avatars
         super.init()
-
-        // Post-init, perform initial population of avatar data
-        populateAvatars()
-    }
-
-    /// Iterates through the count of avatars and ensures they are all fully populated using the data from `avatarAtIndex`
-    private func populateAvatars() {
-        avatars.removeAll()
-        for index in 0..<avatarCount {
-            let newAvatar = createAvatar()
-            avatarAtIndex?(newAvatar, index)
-        }
-    }
-}
-
-class MSFAvatarGroupAvatarStateImpl: MSFAvatarStateImpl, MSFAvatarGroupAvatarState {
-    init(size: MSFAvatarSize) {
-        super.init(style: .default, size: size)
     }
 }

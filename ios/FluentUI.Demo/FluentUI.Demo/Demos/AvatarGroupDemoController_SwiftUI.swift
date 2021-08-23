@@ -146,20 +146,11 @@ struct AvatarGroupDemoView: View {
 
     public var body: some View {
         VStack {
-            AvatarGroup(style: style, size: size, avatarCount: avatarCount) { avatar, index in
-                let persona = samplePersonas[index]
-                avatar.image = persona.image
-                avatar.primaryText = persona.name
-                avatar.secondaryText = persona.email
-                avatar.isRingVisible = isRingVisible
-                avatar.hasRingInnerGap = hasRingInnerGap
-                avatar.imageBasedRingColor = showImageBasedRingColor ? AvatarDemoController.colorfulCustomImage : nil
-                avatar.isTransparent = isTransparent
-            }
-            .maxDisplayedAvatars(maxDisplayedAvatars)
-            .overflowCount(overflowCount)
-            .background(useAlternateBackground ? Color.gray : Color.clear)
-            .padding(.vertical, 8)
+            AvatarGroup(style: style, size: size, avatars: avatars)
+                .maxDisplayedAvatars(maxDisplayedAvatars)
+                .overflowCount(overflowCount)
+                .background(useAlternateBackground ? Color.gray : Color.clear)
+                .padding(.vertical, 8)
 
             ScrollView {
                 Group {
@@ -168,6 +159,21 @@ struct AvatarGroupDemoView: View {
                 }
                 .padding()
             }
+        }
+    }
+
+    /// Lazily converts the first `avatarCount` elements of `samplePersonas` into `AvatarGroupAvatarState` instances.
+    private var avatars: [AvatarGroupAvatarState] {
+        samplePersonas.prefix(avatarCount).map { persona in
+            let avatar = AvatarGroupAvatarState()
+            avatar.image = persona.image
+            avatar.primaryText = persona.name
+            avatar.secondaryText = persona.email
+            avatar.isRingVisible = isRingVisible
+            avatar.hasRingInnerGap = hasRingInnerGap
+            avatar.imageBasedRingColor = showImageBasedRingColor ? AvatarDemoController.colorfulCustomImage : nil
+            avatar.isTransparent = isTransparent
+            return avatar
         }
     }
 }
