@@ -5,20 +5,16 @@
 
 import UIKit
 
-class BarButtonItemView: UIView {
+class BarButtonItemButton: UIButton {
     let item: UIBarButtonItem
     let isLeftItem: Bool
 
-    init(item: UIBarButtonItem, isLeftItem: Bool) {
+    init(for item: UIBarButtonItem, isLeftItem: Bool) {
         self.item = item
         self.isLeftItem = isLeftItem
         super.init(frame: .zero)
 
-        container.addArrangedSubview(button)
-        container.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(container)
-
-        container.addSubview(badgeView)
+        addSubview(badgeView)
 
         isAccessibilityElement = true
         updateAccessibilityLabel()
@@ -28,11 +24,6 @@ class BarButtonItemView: UIView {
 
         accessibilityHint = item.accessibilityHint
         accessibilityIdentifier = item.accessibilityIdentifier
-
-        NSLayoutConstraint.activate([
-            container.centerXAnchor.constraint(equalTo: centerXAnchor),
-            container.centerYAnchor.constraint(equalTo: centerYAnchor)
-        ])
 
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(badgeValueDidChange),
@@ -50,18 +41,11 @@ class BarButtonItemView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        // Need to layout container subviews now, otherwise imageView's frame will get updated later
-        container.layoutSubviews()
-        buttonFrame = button.frame
+        updateLayout()
     }
 
     open override var intrinsicContentSize: CGSize {
         return sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
-    }
-
-    open override func sizeThatFits(_ size: CGSize) -> CGSize {
-        let size = container.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
-        return size
     }
 
     private struct Constants {
@@ -99,19 +83,6 @@ class BarButtonItemView: UIView {
         }
     }
 
-    private let container: UIStackView = {
-        let container = UIStackView(frame: .zero)
-        container.alignment = .center
-        container.distribution = .fill
-
-        return container
-    }()
-
-    private lazy var button: UIButton = {
-        let button = UIButton(type: .system)
-        return button
-    }()
-
     private let badgeView: UILabel = {
         let badgeView = UILabel(frame: .zero)
         badgeView.layer.masksToBounds = true
@@ -131,24 +102,24 @@ class BarButtonItemView: UIView {
     }
 
     private func updateButton() {
-        button.isEnabled = item.isEnabled
+        isEnabled = item.isEnabled
 
         if isLeftItem {
             let isRTL = effectiveUserInterfaceLayoutDirection == .rightToLeft
-            button.contentEdgeInsets = UIEdgeInsets(top: 0,
-                                                    left: isRTL ? 0 : Constants.leftBarButtonItemLeadingMargin,
-                                                    bottom: 0,
-                                                    right: isRTL ? Constants.leftBarButtonItemLeadingMargin : 0)
+            contentEdgeInsets = UIEdgeInsets(top: 0,
+                                             left: isRTL ? 0 : Constants.leftBarButtonItemLeadingMargin,
+                                             bottom: 0,
+                                             right: isRTL ? Constants.leftBarButtonItemLeadingMargin : 0)
         } else {
-            button.contentEdgeInsets = UIEdgeInsets(top: 0,
-                                                    left: Constants.rightBarButtonItemHorizontalPadding,
-                                                    bottom: 0,
-                                                    right: Constants.rightBarButtonItemHorizontalPadding)
+            contentEdgeInsets = UIEdgeInsets(top: 0,
+                                             left: Constants.rightBarButtonItemHorizontalPadding,
+                                             bottom: 0,
+                                             right: Constants.rightBarButtonItemHorizontalPadding)
         }
 
-        button.tag = item.tag
-        button.tintColor = item.tintColor
-        button.titleLabel?.font = item.titleTextAttributes(for: .normal)?[.font] as? UIFont
+        tag = item.tag
+        tintColor = item.tintColor
+        titleLabel?.font = item.titleTextAttributes(for: .normal)?[.font] as? UIFont
 
         var portraitImage = item.image
         if portraitImage?.renderingMode == .automatic {
@@ -159,27 +130,27 @@ class BarButtonItemView: UIView {
             landscapeImage = landscapeImage?.withRenderingMode(.alwaysTemplate)
         }
 
-        button.setImage(traitCollection.verticalSizeClass == .regular ? portraitImage : landscapeImage, for: .normal)
-        button.setTitle(item.title, for: .normal)
+        setImage(traitCollection.verticalSizeClass == .regular ? portraitImage : landscapeImage, for: .normal)
+        setTitle(item.title, for: .normal)
 
         if let action = item.action {
-            button.addTarget(item.target, action: action, for: .touchUpInside)
+            addTarget(item.target, action: action, for: .touchUpInside)
         }
 
-        button.showsLargeContentViewer = true
+        showsLargeContentViewer = true
 
         if let customLargeContentSizeImage = item.largeContentSizeImage {
-            button.largeContentImage = customLargeContentSizeImage
+            largeContentImage = customLargeContentSizeImage
         }
 
         if item.title == nil {
-            button.largeContentTitle = item.accessibilityLabel
+            largeContentTitle = item.accessibilityLabel
         }
 
         if #available(iOS 13.4, *) {
             // Workaround check for beta iOS versions missing the Pointer Interactions API
             if arePointerInteractionAPIsAvailable() {
-                button.isPointerInteractionEnabled = true
+                isPointerInteractionEnabled = true
             }
         }
     }
@@ -192,14 +163,14 @@ class BarButtonItemView: UIView {
             let maskLayer = CAShapeLayer()
             maskLayer.fillRule = .evenOdd
 
-            let path = UIBezierPath(rect: CGRect(x: 0, y: 0, width: button.frame.size.width, height: button.frame.size.height))
+            let path = UIBezierPath(rect: CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height))
             let badgeVerticalOffset = isInPortraitMode ? Constants.badgePortraitVerticalOffset : Constants.badgeLandscapeVerticalOffset
 
             if badgeView.text?.count ?? 1 > 1 {
                 let badgeWidth = min(max(badgeView.intrinsicContentSize.width + Constants.badgeHorizontalPadding, Constants.badgeMinWidth), Constants.badgeMaxWidth)
 
                 badgeView.frame = CGRect(x: badgeFrameOriginX(frameWidth: badgeWidth),
-                                         y: button.frame.origin.y + badgeVerticalOffset,
+                                         y: frame.origin.y + badgeVerticalOffset,
                                          width: badgeWidth,
                                          height: Constants.badgeHeight)
 
@@ -218,7 +189,7 @@ class BarButtonItemView: UIView {
                 let badgeWidth = max(badgeView.intrinsicContentSize.width, Constants.badgeMinWidth)
 
                 badgeView.frame = CGRect(x: badgeFrameOriginX(frameWidth: badgeWidth),
-                                         y: button.frame.origin.y + badgeVerticalOffset,
+                                         y: frame.origin.y + badgeVerticalOffset,
                                          width: badgeWidth,
                                          height: Constants.badgeHeight)
 
@@ -229,9 +200,9 @@ class BarButtonItemView: UIView {
             }
 
             maskLayer.path = path.cgPath
-            button.layer.mask = maskLayer
+            layer.mask = maskLayer
         } else {
-            button.layer.mask = nil
+            layer.mask = nil
         }
     }
 
@@ -239,17 +210,17 @@ class BarButtonItemView: UIView {
         var xOrigin: CGFloat = 0
 
         if effectiveUserInterfaceLayoutDirection == .leftToRight {
-            xOrigin = button.frame.origin.x + button.frame.size.width - Constants.rightBarButtonItemHorizontalPadding - frameWidth / 2
+            xOrigin = frame.origin.x + frame.size.width - Constants.rightBarButtonItemHorizontalPadding - frameWidth / 2
         } else {
-            xOrigin = button.frame.origin.x + Constants.rightBarButtonItemHorizontalPadding - frameWidth / 2
+            xOrigin = frame.origin.x + Constants.rightBarButtonItemHorizontalPadding - frameWidth / 2
         }
 
         return xOrigin
     }
 
     private func badgeBorderRect(badgeViewFrame: CGRect) -> CGRect {
-        return CGRect(x: badgeViewFrame.origin.x - Constants.badgeBorderWidth - button.frame.origin.x,
-                      y: badgeViewFrame.origin.y - Constants.badgeBorderWidth - button.frame.origin.y,
+        return CGRect(x: badgeViewFrame.origin.x - Constants.badgeBorderWidth - frame.origin.x,
+                      y: badgeViewFrame.origin.y - Constants.badgeBorderWidth - frame.origin.y,
                       width: badgeViewFrame.size.width + 2 * Constants.badgeBorderWidth,
                       height: badgeViewFrame.size.height + 2 * Constants.badgeBorderWidth)
     }
