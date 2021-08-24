@@ -7,9 +7,6 @@ import UIKit
 
 // MARK: TabBarViewDelegate
 
-@available(*, deprecated, renamed: "TabBarViewDelegate")
-public typealias MSTabBarViewDelegate = TabBarViewDelegate
-
 @objc(MSFTabBarViewDelegate)
 public protocol TabBarViewDelegate {
     /// Called after the view representing `TabBarItem` is selected.
@@ -17,9 +14,6 @@ public protocol TabBarViewDelegate {
 }
 
 // MARK: - TabBarView
-
-@available(*, deprecated, renamed: "TabBarView")
-public typealias MSTabBarView = TabBarView
 
 /// `TabBarView` supports maximum 5 tab bar items
 /// Set up `delegate` property to listen to selection changes.
