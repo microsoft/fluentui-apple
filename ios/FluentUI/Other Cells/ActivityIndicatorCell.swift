@@ -7,9 +7,6 @@ import UIKit
 
 // MARK: ActivityIndicatorCell
 
-@available(*, deprecated, renamed: "ActivityIndicatorCell")
-public typealias MSActivityIndicatorCell = ActivityIndicatorCell
-
 @objc(MSFActivityIndicatorCell)
 open class ActivityIndicatorCell: UITableViewCell {
     public static let identifier: String = "ActivityIndicatorCell"
