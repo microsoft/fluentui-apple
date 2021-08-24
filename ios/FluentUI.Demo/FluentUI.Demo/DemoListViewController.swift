@@ -35,8 +35,6 @@ class DemoListViewController: UITableViewController {
         }
     }
 
-    
-
     let demos: [(title: String, controllerClass: UIViewController.Type)] = FluentUI_Demo.demos.filter { demo in
 #if DEBUG
         return true
