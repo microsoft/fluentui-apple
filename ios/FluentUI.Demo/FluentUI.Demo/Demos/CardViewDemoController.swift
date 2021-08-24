@@ -23,7 +23,7 @@ class CardViewDemoController: DemoController {
                     let card = CardView(style: style, title: "Title", icon: demoIcon, colorStyle: .neutral)
                     card.delegate = self
                     let cardWithSubtitle = CardView(style: style, title: "Title", subtitle: "Subtitle", icon: demoIcon, colorStyle: .appColor)
-                    cardWithSubtitle.customBackgroundColor = Colors.Button.background
+                    cardWithSubtitle.customBackgroundColor = .clear
                     cardWithSubtitle.delegate = self
                     let cardWithLongTitle = CardView(style: style, title: "Title that is very very very very long", icon: demoIcon, colorStyle: .appColor)
                     cardWithLongTitle.twoLineTitle = true
