@@ -114,7 +114,7 @@ class ColorDemoController: UIViewController {
         view.backgroundColor = Colors.NavigationBar.background
 
         if let demoListViewController = navigationController?.viewControllers.first as? DemoListViewController {
-            segmentedControl.selectedSegmentIndex = DemoColorTheme.allCases.firstIndex(where: { $0.name == demoListViewController.themeName }) ?? 0
+            segmentedControl.selectedSegmentIndex = DemoColorTheme.allCases.firstIndex(where: { $0.name == demoListViewController.theme.name }) ?? 0
         } else {
             segmentedControl.selectedSegmentIndex = 0
         }
@@ -145,11 +145,8 @@ class ColorDemoController: UIViewController {
 
     @objc private func segmentedControlValueChanged(sender: Any) {
         if let segmentedControl = sender as? SegmentedControl, let window = self.view.window {
-            let selectedSegmentIndex = segmentedControl.selectedSegmentIndex
-            let demoColorTheme = DemoColorTheme.allCases[selectedSegmentIndex]
-
-            if let provider = demoColorTheme.provider, let demoListViewController = navigationController?.viewControllers.first as? DemoListViewController {
-                demoListViewController.updateColorProviderFor(window: window, provider: provider, themeName: demoColorTheme.name)
+            if let demoListViewController = navigationController?.viewControllers.first as? DemoListViewController {
+                demoListViewController.updateColorProviderFor(window: window, theme: DemoColorTheme.allCases[segmentedControl.selectedSegmentIndex])
             } else {
                 // If provider doesn't conform to ColorProviding, remove mapping from dictionary and return fallback colors
                 Colors.removeProvider(for: window)
