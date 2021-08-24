@@ -323,7 +323,7 @@ open class SideTabBar: UIView {
     }
 
     /// Returns the first match of an optional view for a given tab bar item.
-    /// Searches for the view in the top and bottom sections in that order of priority. Returns nil if the view is not found in either section
+    /// Searches for the view in the top and bottom sections in that order of priority. Returns nil if the view is not found in either section.
     @objc public func itemView(with item: TabBarItem) -> UIView? {
         if let view = itemView(with: item, in: .top) {
             return view
