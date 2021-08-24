@@ -3,6 +3,8 @@
 //  Licensed under the MIT License.
 //
 
+import Foundation
+
 extension Locale {
     /// Determines if layout direction of current language is `.rightToLeft`.
     /// - Returns: True if layout direction is right to left, false otherwise.
