@@ -50,7 +50,7 @@ class DemoListViewController: UITableViewController {
         // Fluent UI design recommends not showing "Back" title. However, VoiceOver still correctly says "Back" even if the title is hidden.
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
 
-        tableView.backgroundColor = Colors.Table.background
+        tableView.backgroundColor = Colors.tableBackground
         tableView.tableFooterView = UIView()
         tableView.separatorStyle = .none
 

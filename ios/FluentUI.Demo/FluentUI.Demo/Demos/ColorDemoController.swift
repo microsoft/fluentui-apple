@@ -105,7 +105,7 @@ class ColorDemoController: UIViewController {
         tableView.delegate = self
         tableView.separatorStyle = .none
         tableView.allowsSelection = false
-        tableView.backgroundColor = Colors.Table.background
+        tableView.backgroundColor = Colors.tableBackground
 
         let separator = Separator(style: .shadow, orientation: .horizontal)
         let stackView = UIStackView(arrangedSubviews: [segmentedControl, separator, tableView])

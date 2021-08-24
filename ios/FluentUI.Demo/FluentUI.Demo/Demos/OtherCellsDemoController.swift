@@ -25,8 +25,8 @@ class OtherCellsDemoController: DemoController {
         tableView.register(TableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: TableViewHeaderFooterView.identifier)
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.backgroundColor = Colors.Table.backgroundGrouped
-        tableView.separatorColor = Colors.Separator.default
+        tableView.backgroundColor = Colors.tableBackgroundGrouped
+        tableView.separatorColor = Colors.separatorDefault
         tableView.tableFooterView = UIView(frame: .zero)
         view.addSubview(tableView)
     }
@@ -104,7 +104,7 @@ extension OtherCellsDemoController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.backgroundColor = Colors.Table.Cell.backgroundGrouped
+        cell.backgroundColor = Colors.tableCellBackgroundGrouped
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
