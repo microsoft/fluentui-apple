@@ -339,6 +339,18 @@ public struct Avatar: View {
                           with: windowProvider)
     }
 
+    public func size() -> CGFloat {
+        let avatarImageSize: CGFloat = state.size.size
+        if !state.isRingVisible {
+            return avatarImageSize
+        } else {
+            let innerRingGap: CGFloat = state.hasRingInnerGap ? tokens.ringInnerGap : 0
+            let ringThickness: CGFloat = state.isRingVisible ? tokens.ringThickness : 0
+            let outerRingGap: CGFloat = state.isRingVisible ? tokens.ringOuterGap : 0
+            return ((innerRingGap + ringThickness + outerRingGap) * 2 + avatarImageSize)
+        }
+    }
+
     private let animationDuration: Double = 0.1
 
     private struct PresenceCutout: Shape {

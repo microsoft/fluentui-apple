@@ -165,12 +165,18 @@ public struct AvatarGroup: View {
         let size: CGFloat = tokens.size.size
         let ringOuterGap: CGFloat = tokens.ringOuterGap
         let ringOffset: CGFloat = tokens.ringThickness + tokens.ringInnerGap + tokens.ringOuterGap
-        let x: CGFloat = size + tokens.interspace - tokens.ringThickness
         HStack(spacing: 0) {
             ForEach(0 ..< maxDisplayedAvatars, id: \.self) { index in
                 // If the avatar is part of Stack style and is not the last avatar in the sequence, create a cutout
-                let needsCutout = tokens.style == .stack && (overflowCount > 0 || index + 1 < maxDisplayedAvatars)
                 let avatar = avatars[index]
+                let avatarView = Avatar(avatar)
+                let avatarSize = avatarView.size()
+                let nextAvatarSize = Avatar(avatars[index + 1]).size()
+                let isLastDisplayed = index == maxDisplayedAvatars - 1
+
+                let needsCutout = tokens.style == .stack && (overflowCount > 0 || index + 1 < maxDisplayedAvatars)
+                let sizeDiff = !isLastDisplayed ? avatarSize - nextAvatarSize : avatarSize - size
+                let x = avatarSize + tokens.interspace
                 let currentAvatarHasRing = avatar.isRingVisible
                 let nextAvatarHasRing = index + 1 < maxDisplayedAvatars ? avatars[index + 1].isRingVisible : false
 
@@ -180,14 +186,13 @@ public struct AvatarGroup: View {
                 let rtlNoRingPaddingInterspace = (nextAvatarHasRing ? -x - ringOffset - ringOuterGap : -x)
                 let stackPadding = (currentAvatarHasRing ? ringPaddingInterspace : noRingPaddingInterspace)
 
-                let xPosition = currentAvatarHasRing ? x + ringOffset : x
+                let xPosition = currentAvatarHasRing ? x - ringOuterGap - ringOffset : x - ringOuterGap
                 let xPositionRTL = currentAvatarHasRing ? rtlRingPaddingInterspace : rtlNoRingPaddingInterspace
                 let xOrigin = Locale.current.isRightToLeftLayoutDirection() ? xPositionRTL : xPosition
-                let yOrigin = currentAvatarHasRing ? (nextAvatarHasRing ? ringOuterGap : ringOffset) :
-                    (nextAvatarHasRing ? 0 - ringOffset + tokens.ringOuterGap : 0)
-                let cutoutSize = nextAvatarHasRing ? size + ringOffset + ringOuterGap : size
+                let yOrigin: CGFloat = sizeDiff / 2
+                let cutoutSize = isLastDisplayed ? size : nextAvatarSize
 
-                Avatar(avatar)
+                avatarView
                     .modifyIf(needsCutout, { view in
                         view.mask(AvatarCutout(xOrigin: xOrigin,
                                                yOrigin: yOrigin,
