@@ -7,8 +7,6 @@ import Foundation
 
 // MARK: - Date
 
-@available(*, deprecated, renamed: "DateStringCompactness")
-public typealias MSDateStringCompactness = DateStringCompactness
 /**
  * Defines the string format of the date (time not included) of a Date
  */
@@ -32,9 +30,6 @@ public enum DateStringCompactness: Int {
     case longDayMonthYearTime                           // ex: 9/10/2016 12:00 PM
     case shortDaynameDayShortMonthYear                  // ex: Thur, Dec 12, 2015
 }
-
-@available(*, deprecated, renamed: "TimeStringCompactness")
-public typealias MSTimeStringCompactness = TimeStringCompactness
 
 /**
  * Defines the string format of the time of a Date
