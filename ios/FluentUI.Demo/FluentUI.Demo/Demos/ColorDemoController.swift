@@ -147,9 +147,6 @@ class ColorDemoController: UIViewController {
         if let segmentedControl = sender as? SegmentedControl, let window = self.view.window {
             if let demoListViewController = navigationController?.viewControllers.first as? DemoListViewController {
                 demoListViewController.updateColorProviderFor(window: window, theme: DemoColorTheme.allCases[segmentedControl.selectedSegmentIndex])
-            } else {
-                // If provider doesn't conform to ColorProviding, remove mapping from dictionary and return fallback colors
-                Colors.removeProvider(for: window)
             }
 
             tableView.reloadData()
