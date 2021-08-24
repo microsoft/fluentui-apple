@@ -92,6 +92,10 @@ class ColorDemoController: UIViewController {
         ])
     ]
 
+    private var currentDemoListViewController: DemoListViewController? {
+        return navigationController?.viewControllers.first as? DemoListViewController
+    }
+
     override func loadView() {
         tableView.translatesAutoresizingMaskIntoConstraints = false
 
@@ -113,8 +117,8 @@ class ColorDemoController: UIViewController {
         view.addSubview(stackView)
         view.backgroundColor = Colors.NavigationBar.background
 
-        if let demoListViewController = navigationController?.viewControllers.first as? DemoListViewController {
-            segmentedControl.selectedSegmentIndex = DemoColorTheme.allCases.firstIndex(where: { $0.name == demoListViewController.theme.name }) ?? 0
+        if let currentDemoListViewController = currentDemoListViewController {
+            segmentedControl.selectedSegmentIndex = DemoColorTheme.allCases.firstIndex(where: { $0.name == currentDemoListViewController.theme.name }) ?? 0
         } else {
             segmentedControl.selectedSegmentIndex = 0
         }
@@ -145,8 +149,8 @@ class ColorDemoController: UIViewController {
 
     @objc private func segmentedControlValueChanged(sender: Any) {
         if let segmentedControl = sender as? SegmentedControl, let window = self.view.window {
-            if let demoListViewController = navigationController?.viewControllers.first as? DemoListViewController {
-                demoListViewController.updateColorProviderFor(window: window, theme: DemoColorTheme.allCases[segmentedControl.selectedSegmentIndex])
+            if let currentDemoListViewController = currentDemoListViewController {
+                currentDemoListViewController.updateColorProviderFor(window: window, theme: DemoColorTheme.allCases[segmentedControl.selectedSegmentIndex])
             }
 
             tableView.reloadData()

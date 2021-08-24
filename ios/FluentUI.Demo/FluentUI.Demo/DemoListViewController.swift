@@ -27,7 +27,7 @@ class DemoListViewController: UITableViewController {
 
     func updateColorProviderFor(window: UIWindow, theme: DemoColorTheme) {
         self.theme = theme
-        if let primaryColor = provider?.primaryColor(for: window), let provider = self.provider {
+        if let provider = self.provider, let primaryColor = provider.primaryColor(for: window) {
             Colors.setProvider(provider: provider, for: window)
             FluentUIFramework.initializeAppearance(with: primaryColor, whenContainedInInstancesOf: [type(of: window)])
         } else {
