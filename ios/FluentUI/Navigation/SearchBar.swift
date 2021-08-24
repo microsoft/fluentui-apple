@@ -7,26 +7,26 @@ import UIKit
 
 // MARK: Search Colors
 
-public extension Colors {
+extension Colors {
     struct SearchBar {
-        public struct DarkContent {
-            public static var background = UIColor(light: surfaceTertiary, dark: LightContent.background)
-            public static var cancelButton = UIColor(light: textSecondary, dark: LightContent.cancelButton)
-            public static var clearIcon = UIColor(light: iconPrimary, dark: LightContent.clearIcon)
-            public static var placeholderText = UIColor(light: textSecondary, dark: LightContent.placeholderText)
-            public static var progressSpinner = UIColor(light: iconDisabled, dark: textPrimary)
-            public static var searchIcon = UIColor(light: iconPrimary, dark: LightContent.searchIcon)
-            public static var text = UIColor(light: textDominant, dark: LightContent.text)
-            public static var tint = UIColor(light: iconSecondary, dark: LightContent.tint)
+        struct DarkContent {
+            static var background = UIColor(light: surfaceTertiary, dark: LightContent.background)
+            static var cancelButton = UIColor(light: textSecondary, dark: LightContent.cancelButton)
+            static var clearIcon = UIColor(light: iconPrimary, dark: LightContent.clearIcon)
+            static var placeholderText = UIColor(light: textSecondary, dark: LightContent.placeholderText)
+            static var progressSpinner = UIColor(light: iconDisabled, dark: textPrimary)
+            static var searchIcon = UIColor(light: iconPrimary, dark: LightContent.searchIcon)
+            static var text = UIColor(light: textDominant, dark: LightContent.text)
+            static var tint = UIColor(light: iconSecondary, dark: LightContent.tint)
         }
-        public struct LightContent {
-            public static var background = UIColor(light: UIColor.black.withAlphaComponent(0.2), dark: gray700, darkElevated: gray600)
-            public static var cancelButton: UIColor = LightContent.text
-            public static var clearIcon = UIColor(light: iconOnAccent, dark: textSecondary)
-            public static var placeholderText = UIColor(light: textOnAccent, dark: textSecondary)
-            public static var searchIcon: UIColor = placeholderText
-            public static var text = UIColor(light: textOnAccent, dark: textDominant)
-            public static var tint: UIColor = LightContent.text
+        struct LightContent {
+            static var background = UIColor(light: UIColor.black.withAlphaComponent(0.2), dark: gray700, darkElevated: gray600)
+            static var cancelButton: UIColor = LightContent.text
+            static var clearIcon = UIColor(light: iconOnAccent, dark: textSecondary)
+            static var placeholderText = UIColor(light: textOnAccent, dark: textSecondary)
+            static var searchIcon: UIColor = placeholderText
+            static var text = UIColor(light: textOnAccent, dark: textDominant)
+            static var tint: UIColor = LightContent.text
         }
     }
 }
