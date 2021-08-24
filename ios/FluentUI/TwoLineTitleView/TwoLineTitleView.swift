@@ -30,12 +30,12 @@ public extension Colors {
     // MARK: - TwoLineTitle Colors
     struct TwoLineTitle {
         // light style is used Navigation.Primary.background. Dark style is used for Navigation.System.background
-        public static var titleDark: UIColor = Navigation.System.title
-        public static var titleLight: UIColor = Navigation.Primary.title
-        public static var subtitleDark = UIColor(light: textSecondary, dark: textDominant)
-        public static var subtitleLight: UIColor = titleLight
-        public static var titleAccessoryLight = UIColor(light: iconOnAccent, dark: iconPrimary)
-        public static var titleAccessoryDark = UIColor(light: iconSecondary, dark: iconPrimary)
+        static var titleDark: UIColor = Navigation.System.title
+        static var titleLight: UIColor = Navigation.Primary.title
+        static var subtitleDark = UIColor(light: textSecondary, dark: textDominant)
+        static var subtitleLight: UIColor = titleLight
+        static var titleAccessoryLight = UIColor(light: iconOnAccent, dark: iconPrimary)
+        static var titleAccessoryDark = UIColor(light: iconSecondary, dark: iconPrimary)
     }
 }
 
