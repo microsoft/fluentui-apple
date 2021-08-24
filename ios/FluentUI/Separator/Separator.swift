@@ -18,9 +18,6 @@ public extension Colors {
 
 // MARK: - SeparatorStyle
 
-@available(*, deprecated, renamed: "SeparatorStyle")
-public typealias MSSeparatorStyle = SeparatorStyle
-
 @objc(MSFSeparatorStyle)
 public enum SeparatorStyle: Int {
     case `default`
@@ -38,9 +35,6 @@ public enum SeparatorStyle: Int {
 
 // MARK: - SeparatorOrientation
 
-@available(*, deprecated, renamed: "SeparatorOrientation")
-public typealias MSSeparatorOrientation = SeparatorOrientation
-
 @objc(MSFSeparatorOrientation)
 public enum SeparatorOrientation: Int {
     case horizontal
@@ -48,9 +42,6 @@ public enum SeparatorOrientation: Int {
 }
 
 // MARK: - Separator
-
-@available(*, deprecated, renamed: "Separator")
-public typealias MSSeparator = Separator
 
 @objc(MSFSeparator)
 open class Separator: UIView {
