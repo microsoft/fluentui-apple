@@ -7,9 +7,6 @@ import UIKit
 
 // MARK: PillButtonBarDelegate
 
-@available(*, deprecated, renamed: "PillButtonBarDelegate")
-public typealias MSPillButtonBarDelegate = PillButtonBarDelegate
-
 @objc(MSFPillButtonBarDelegate)
 public protocol PillButtonBarDelegate {
     /// Called after the button representing the item is tapped in the UI.
@@ -17,9 +14,6 @@ public protocol PillButtonBarDelegate {
 }
 
 // MARK: PillButtonBarItem
-
-@available(*, deprecated, renamed: "PillButtonBarItem")
-public typealias MSPillButtonBarItem = PillButtonBarItem
 
 /// `PillButtonBarItem` is an item that can be presented as a pill shaped text button.
 @objc(MSFPillButtonBarItem)
@@ -33,9 +27,6 @@ open class PillButtonBarItem: NSObject {
 }
 
 // MARK: PillButtonBar
-
-@available(*, deprecated, renamed: "PillButtonBar")
-public typealias MSPillButtonBar = PillButtonBar
 
 /// `PillButtonBar` is a horizontal scrollable list of pill shape text buttons in which only one button can be selected at a given time.
 /// Set the `items` property to determine what buttons will be shown in the bar. Each `PillButtonBarItem` will be represented as a button.
