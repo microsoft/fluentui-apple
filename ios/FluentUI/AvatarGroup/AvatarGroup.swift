@@ -236,13 +236,11 @@ public struct AvatarGroup: View {
 
 class MSFAvatarGroupStateImpl: NSObject, ObservableObject, MSFAvatarGroupState {
     func createAvatar() -> MSFAvatarGroupAvatarState {
-        let avatar = MSFAvatarGroupAvatarStateImpl(size: tokens.size)
-        avatars.append(avatar)
-        return avatar
+        return createAvatar(at: avatars.endIndex)
     }
 
     func createAvatar(at index: Int) -> MSFAvatarGroupAvatarState {
-        guard index < avatars.count else {
+        guard index <= avatars.count else {
             preconditionFailure("Index is out of bounds")
         }
         let avatar = MSFAvatarGroupAvatarStateImpl(size: tokens.size)
