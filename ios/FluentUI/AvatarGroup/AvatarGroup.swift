@@ -75,6 +75,9 @@ import SwiftUI
     /// Creates a new Avatar within the AvatarGroup.
     func createAvatar() -> MSFAvatarGroupAvatarState
 
+    /// Creates a new Avatar within the AvatarGroup at a specific index.
+    func createAvatar(at index: Int) -> MSFAvatarGroupAvatarState
+
     /// Retrieves the state object for a specific Avatar so its appearance can be customized.
     /// - Parameter index: The zero-based index of the Avatar in the AvatarGroup.
     func getAvatarState(at index: Int) -> MSFAvatarGroupAvatarState
@@ -233,8 +236,15 @@ public struct AvatarGroup: View {
 
 class MSFAvatarGroupStateImpl: NSObject, ObservableObject, MSFAvatarGroupState {
     func createAvatar() -> MSFAvatarGroupAvatarState {
+        return createAvatar(at: avatars.endIndex)
+    }
+
+    func createAvatar(at index: Int) -> MSFAvatarGroupAvatarState {
+        guard index <= avatars.count else {
+            preconditionFailure("Index is out of bounds")
+        }
         let avatar = MSFAvatarGroupAvatarStateImpl(size: tokens.size)
-        avatars.append(avatar)
+        avatars.insert(avatar, at: index)
         return avatar
     }
 
