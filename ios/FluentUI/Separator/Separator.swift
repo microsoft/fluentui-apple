@@ -9,8 +9,8 @@ import UIKit
 
 public extension Colors {
     struct Separator {
-        static var `default`: UIColor = dividerOnPrimary
-        static var shadow: UIColor = dividerOnSecondary
+        public static var `default`: UIColor = dividerOnPrimary
+        public static var shadow: UIColor = dividerOnSecondary
     }
     // Objective-C support
     @objc static var separatorDefault: UIColor { return Separator.default }
