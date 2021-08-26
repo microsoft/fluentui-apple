@@ -16,11 +16,11 @@ enum HUDType: Equatable {
 
 // MARK: - HUD Colors
 
-extension Colors {
+public extension Colors {
     struct HUD {
-        static var activityIndicator: UIColor = .white
-        static var background = UIColor(light: gray900.withAlphaComponent(0.9), dark: gray700)
-        static var text = UIColor(light: textOnAccent, dark: textPrimary)
+        public static var activityIndicator: UIColor = .white
+        public static var background = UIColor(light: gray900.withAlphaComponent(0.9), dark: gray700)
+        public static var text = UIColor(light: textOnAccent, dark: textPrimary)
     }
 }
 
