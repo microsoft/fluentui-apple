@@ -7,18 +7,18 @@ import UIKit
 
 // MARK: Notification Colors
 
-extension Colors {
+public extension Colors {
     struct Notification {
-        struct NeutralToast {
-            static var background: UIColor = surfaceQuaternary.withAlphaComponent(0.6)
-            static var foreground: UIColor = textDominant
+        public struct NeutralToast {
+            public static var background: UIColor = surfaceQuaternary.withAlphaComponent(0.6)
+            public static var foreground: UIColor = textDominant
         }
-        struct PrimaryOutlineBar {
-            static var background = UIColor(light: surfacePrimary, dark: surfaceQuaternary).withAlphaComponent(0.6)
+        public struct PrimaryOutlineBar {
+            public static var background = UIColor(light: surfacePrimary, dark: surfaceQuaternary).withAlphaComponent(0.6)
         }
-        struct NeutralBar {
-            static var background: UIColor = NeutralToast.background
-            static var foreground: UIColor = NeutralToast.foreground
+        public struct NeutralBar {
+            public static var background: UIColor = NeutralToast.background
+            public static var foreground: UIColor = NeutralToast.foreground
         }
     }
 }
