@@ -7,9 +7,9 @@ import UIKit
 
 // MARK: PopupMenu Colors
 
-extension Colors {
+public extension Colors {
     struct PopupMenu {
-        static var description: UIColor = textSecondary
+        public static var description: UIColor = textSecondary
     }
 }
 
