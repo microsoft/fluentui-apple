@@ -7,11 +7,11 @@ import UIKit
 
 // MARK: PageCardPresenter Colors
 
-extension Colors {
+public extension Colors {
     struct PageCardPresenter {
         // Should use physical color because page indicators are shown on physical blurred dark background
-        static var currentPageIndicator: UIColor = .white
-        static var pageIndicator = UIColor.white.withAlphaComponent(0.5)
+        public static var currentPageIndicator: UIColor = .white
+        public static var pageIndicator = UIColor.white.withAlphaComponent(0.5)
     }
 }
 
