@@ -7,9 +7,9 @@ import UIKit
 
 // MARK: ResizingHandle Colors
 
-extension Colors {
+public extension Colors {
     struct ResizingHandle {
-        static var mark: UIColor = iconSecondary
+        public static var mark: UIColor = iconSecondary
     }
 }
 
