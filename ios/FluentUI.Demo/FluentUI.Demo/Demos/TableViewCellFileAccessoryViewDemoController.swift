@@ -678,7 +678,7 @@ class TableViewCellFileAccessoryViewDemoController: UITableViewController {
         cell.titleNumberOfLinesForLargerDynamicType = 3
         cell.subtitleNumberOfLinesForLargerDynamicType = 2
 
-        cell.backgroundColor = Colors.tableCellBackground
+        cell.backgroundColor = Colors.Table.Cell.background
         cell.topSeparatorType = .none
         cell.bottomSeparatorType = (top ? .inset : .none)
 

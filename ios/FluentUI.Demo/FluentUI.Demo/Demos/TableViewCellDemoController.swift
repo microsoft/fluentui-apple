@@ -98,7 +98,7 @@ class TableViewCellDemoController: DemoController {
     }
 
     private func updateTableView() {
-        tableView.backgroundColor = isGrouped ? Colors.tableBackgroundGrouped : Colors.tableBackground
+        tableView.backgroundColor = isGrouped ? Colors.Table.backgroundGrouped : Colors.Table.background
         tableView.reloadData()
     }
 }
@@ -147,7 +147,7 @@ extension TableViewCellDemoController: UITableViewDataSource {
         cell.subtitleNumberOfLinesForLargerDynamicType = section.numberOfLines == 1 ? 2 : TableViewCell.defaultNumberOfLinesForLargerDynamicType
         cell.footerNumberOfLinesForLargerDynamicType = section.numberOfLines == 1 ? 2 : TableViewCell.defaultNumberOfLinesForLargerDynamicType
 
-        cell.backgroundColor = isGrouped ? Colors.tableCellBackgroundGrouped : Colors.tableCellBackground
+        cell.backgroundColor = isGrouped ? Colors.Table.Cell.backgroundGrouped : Colors.Table.Cell.background
         cell.topSeparatorType = isGrouped && indexPath.row == 0 ? .full : .none
         let isLastInSection = indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1
         cell.bottomSeparatorType = isLastInSection ? .full : .inset

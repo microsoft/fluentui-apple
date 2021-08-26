@@ -93,7 +93,7 @@ class TableViewSampleData {
         }
         let customView = UIImageView(image: image)
         customView.contentMode = .scaleAspectFit
-        customView.tintColor = Colors.tableCellImage
+        customView.tintColor = Colors.Table.Cell.image
         return customView
     }
 }
