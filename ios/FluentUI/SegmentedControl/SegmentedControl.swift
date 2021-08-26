@@ -5,7 +5,7 @@
 import UIKit
 
 // MARK: SegmentedControl Colors
-extension Colors {
+public extension Colors {
     struct SegmentedControl {
         struct PrimaryPill {
             static let background = UIColor(light: surfaceTertiary, dark: gray950)
