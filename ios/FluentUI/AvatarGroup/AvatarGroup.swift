@@ -194,9 +194,10 @@ public struct AvatarGroup: View {
 
                 avatarView
                     .modifyIf(needsCutout, { view in
-                        view.mask(AvatarCutout(xOrigin: xOrigin,
-                                               yOrigin: yOrigin,
-                                               cutoutSize: cutoutSize)
+                        view.mask(Avatar.AvatarCutout(
+                                    xOrigin: xOrigin,
+                                    yOrigin: yOrigin,
+                                    cutoutSize: cutoutSize)
                                     .fill(style: FillStyle(eoFill: true)))
                     })
                     .padding(.trailing, tokens.style == .stack ? stackPadding : interspace)
@@ -214,28 +215,6 @@ public struct AvatarGroup: View {
         data.image = nil
         avatar.state = data
         return avatar
-    }
-
-    /// `AvatarCutout`: Cutout shape for  succeeding Avatar in an Avatar Group in Stack style.
-    ///
-    /// `xOrigin`: beginning location of cutout on the x axis
-    ///
-    /// `yOrigin`: beginning location of cutout on the y axis
-    ///
-    /// `cutoutSize`: dimensions of cutout shape of the Avatar
-    private struct AvatarCutout: Shape {
-        var xOrigin: CGFloat
-        var yOrigin: CGFloat
-        var cutoutSize: CGFloat
-
-        func path(in rect: CGRect) -> Path {
-            var cutoutFrame = Rectangle().path(in: rect)
-            cutoutFrame.addPath(Circle().path(in: CGRect(x: xOrigin,
-                                                         y: yOrigin,
-                                                         width: cutoutSize,
-                                                         height: cutoutSize)))
-            return cutoutFrame
-        }
     }
 }
 

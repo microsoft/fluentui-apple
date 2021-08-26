@@ -339,6 +339,7 @@ public struct Avatar: View {
                           with: windowProvider)
     }
 
+    /// Calculates the size of the avatar
     public func size() -> CGFloat {
         let avatarImageSize: CGFloat = state.size.size
         if !state.isRingVisible {
@@ -348,6 +349,28 @@ public struct Avatar: View {
             let ringThickness: CGFloat = state.isRingVisible ? tokens.ringThickness : 0
             let outerRingGap: CGFloat = state.isRingVisible ? tokens.ringOuterGap : 0
             return ((innerRingGap + ringThickness + outerRingGap) * 2 + avatarImageSize)
+        }
+    }
+
+    /// `AvatarCutout`: Cutout shape for an Avatar
+    ///
+    /// `xOrigin`: beginning location of cutout on the x axis
+    ///
+    /// `yOrigin`: beginning location of cutout on the y axis
+    ///
+    /// `cutoutSize`: dimensions of cutout shape of the Avatar
+    public struct AvatarCutout: Shape {
+        var xOrigin: CGFloat
+        var yOrigin: CGFloat
+        var cutoutSize: CGFloat
+
+        public func path(in rect: CGRect) -> Path {
+            var cutoutFrame = Rectangle().path(in: rect)
+            cutoutFrame.addPath(Circle().path(in: CGRect(x: xOrigin,
+                                                         y: yOrigin,
+                                                         width: cutoutSize,
+                                                         height: cutoutSize)))
+            return cutoutFrame
         }
     }
 
