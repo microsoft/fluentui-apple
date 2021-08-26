@@ -78,13 +78,13 @@ public enum ButtonStyle: Int, CaseIterable {
 
 // MARK: - Button Colors
 
-extension Colors {
+public extension Colors {
     struct Button {
-        static var background: UIColor = .clear
-        static var backgroundFilledDisabled: UIColor = surfaceQuaternary
-        static var borderDisabled: UIColor = surfaceQuaternary
-        static var titleDisabled: UIColor = textDisabled
-        static var titleWithFilledBackground: UIColor = textOnAccent
+        public static var background: UIColor = .clear
+        public static var backgroundFilledDisabled: UIColor = surfaceQuaternary
+        public static var borderDisabled: UIColor = surfaceQuaternary
+        public static var titleDisabled: UIColor = textDisabled
+        public static var titleWithFilledBackground: UIColor = textOnAccent
     }
 }
 
