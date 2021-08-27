@@ -162,8 +162,9 @@ public struct AvatarGroup: View {
         let overflowCount: Int = (avatars.count > maxDisplayedAvatars ? avatars.count - maxDisplayedAvatars : 0) + state.overflowCount
 
         let interspace: CGFloat = tokens.interspace
-        let size: CGFloat = tokens.size.size
+        let imageSize: CGFloat = tokens.size.size
         let ringOuterGap: CGFloat = tokens.ringOuterGap
+        let ringGapOffset: CGFloat = ringOuterGap * 2
         let ringOffset: CGFloat = tokens.ringThickness + tokens.ringInnerGap + tokens.ringOuterGap
         HStack(spacing: 0) {
             ForEach(0 ..< maxDisplayedAvatars, id: \.self) { index in
@@ -174,11 +175,13 @@ public struct AvatarGroup: View {
                 let nextAvatarSize = Avatar(avatars[index + 1]).size()
                 let isLastDisplayed = index == maxDisplayedAvatars - 1
 
-                let needsCutout = tokens.style == .stack && (overflowCount > 0 || index + 1 < maxDisplayedAvatars)
-                let sizeDiff = !isLastDisplayed ? avatarSize - nextAvatarSize : avatarSize - size
-                let x = avatarSize + tokens.interspace
                 let currentAvatarHasRing = avatar.isRingVisible
                 let nextAvatarHasRing = index + 1 < maxDisplayedAvatars ? avatars[index + 1].isRingVisible : false
+                let needsCutout = tokens.style == .stack && (overflowCount > 0 || index + 1 < maxDisplayedAvatars)
+                let avatarSizeDifference = avatarSize - nextAvatarSize
+                let sizeDiff = !isLastDisplayed ? (currentAvatarHasRing ? avatarSizeDifference : avatarSizeDifference - ringGapOffset) :
+                currentAvatarHasRing ? (avatarSize - ringGapOffset) - imageSize : (avatarSize - (ringGapOffset * 2)) - imageSize
+                let x = avatarSize + tokens.interspace - ringGapOffset
 
                 let ringPaddingInterspace = nextAvatarHasRing ? interspace - (ringOffset + ringOuterGap) : interspace - ringOffset
                 let noRingPaddingInterspace = nextAvatarHasRing ? interspace - ringOuterGap : interspace
@@ -186,11 +189,11 @@ public struct AvatarGroup: View {
                 let rtlNoRingPaddingInterspace = (nextAvatarHasRing ? -x - ringOffset - ringOuterGap : -x)
                 let stackPadding = (currentAvatarHasRing ? ringPaddingInterspace : noRingPaddingInterspace)
 
-                let xPosition = currentAvatarHasRing ? x - ringOuterGap - ringOffset : x - ringOuterGap
+                let xPosition = currentAvatarHasRing ? x - ringOuterGap - ringOuterGap : x - ringOuterGap
                 let xPositionRTL = currentAvatarHasRing ? rtlRingPaddingInterspace : rtlNoRingPaddingInterspace
                 let xOrigin = Locale.current.isRightToLeftLayoutDirection() ? xPositionRTL : xPosition
                 let yOrigin: CGFloat = sizeDiff / 2
-                let cutoutSize = isLastDisplayed ? size : nextAvatarSize
+                let cutoutSize = isLastDisplayed ? (ringOuterGap * 2) + imageSize : nextAvatarSize
 
                 avatarView
                     .modifyIf(needsCutout, { view in

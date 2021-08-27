@@ -342,13 +342,13 @@ public struct Avatar: View {
     /// Calculates the size of the avatar
     public func size() -> CGFloat {
         let avatarImageSize: CGFloat = state.size.size
+        let ringOuterGap: CGFloat = tokens.ringOuterGap
         if !state.isRingVisible {
-            return avatarImageSize
+            return avatarImageSize + (ringOuterGap * 2)
         } else {
-            let innerRingGap: CGFloat = state.hasRingInnerGap ? tokens.ringInnerGap : 0
             let ringThickness: CGFloat = state.isRingVisible ? tokens.ringThickness : 0
-            let outerRingGap: CGFloat = state.isRingVisible ? tokens.ringOuterGap : 0
-            return ((innerRingGap + ringThickness + outerRingGap) * 2 + avatarImageSize)
+            let ringInnerGap: CGFloat = state.isRingVisible ? tokens.ringInnerGap : 0
+            return ((ringInnerGap + ringThickness + ringOuterGap) * 2 + avatarImageSize)
         }
     }
 
