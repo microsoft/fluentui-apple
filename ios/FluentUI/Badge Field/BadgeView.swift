@@ -6,10 +6,6 @@
 import UIKit
 
 // MARK: BadgeViewDataSource
-
-@available(*, deprecated, renamed: "BadgeViewDataSource")
-public typealias MSBadgeViewDataSource = BadgeViewDataSource
-
 @objc(MSFBadgeViewDataSource)
 open class BadgeViewDataSource: NSObject {
     @objc open var text: String
@@ -25,9 +21,6 @@ open class BadgeViewDataSource: NSObject {
 }
 
 // MARK: - BadgeViewDelegate
-@available(*, deprecated, renamed: "BadgeViewDelegate")
-public typealias MSBadgeViewDelegate = BadgeViewDelegate
-
 @objc(MSFBadgeViewDelegate)
 public protocol BadgeViewDelegate {
     func didSelectBadge(_ badge: BadgeView)
@@ -60,10 +53,6 @@ public extension Colors {
 
  `BadgeView` can be selected with a tap gesture and tapped again after entering a selected state for the purpose of displaying more details about the entity represented by the selected badge.
  */
-
-@available(*, deprecated, renamed: "BadgeView")
-public typealias MSBadgeView = BadgeView
-
 @objc(MSFBadgeView)
 open class BadgeView: UIView {
     @objc(MSFBadgeViewStyle)

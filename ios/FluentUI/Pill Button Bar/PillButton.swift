@@ -7,9 +7,6 @@ import UIKit
 
 // MARK: PillButton
 
-@available(*, deprecated, renamed: "PillButton")
-public typealias MSPillButton = PillButton
-
 /// An `PillButton` is a button in the shape of a pill that can have two states: on (Selected) and off (not selected)
 @objc(MSFPillButton)
 open class PillButton: UIButton {

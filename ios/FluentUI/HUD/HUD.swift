@@ -7,18 +7,12 @@ import UIKit
 
 // MARK: HUDDelegate
 
-@available(*, deprecated, renamed: "HUDDelegate")
-public typealias MSHUDDelegate = HUDDelegate
-
 @objc(MSFHUDDelegate)
 public protocol HUDDelegate: AnyObject {
     func defaultWindowForHUD(_ hud: HUD) -> UIWindow?
 }
 
 // MARK: - HUDParams
-
-@available(*, deprecated, renamed: "HUDParams")
-public typealias MSHUDParams = HUDParams
 
 @objc(MSFHUDParams)
 public class HUDParams: NSObject {
@@ -68,9 +62,6 @@ public class HUDParams: NSObject {
 }
 
 // MARK: - HUD
-
-@available(*, deprecated, renamed: "HUD")
-public typealias MSHUD = HUD
 
 @objc(MSFHUD)
 public class HUD: NSObject {

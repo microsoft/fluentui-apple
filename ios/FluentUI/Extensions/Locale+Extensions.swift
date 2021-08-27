@@ -3,7 +3,7 @@
 //  Licensed under the MIT License.
 //
 
-import SwiftUI
+import Foundation
 
 extension Locale {
     /// Determines if layout direction of current language is `.rightToLeft`.

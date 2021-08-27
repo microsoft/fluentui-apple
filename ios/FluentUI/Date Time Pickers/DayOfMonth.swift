@@ -7,9 +7,6 @@ import Foundation
 
 // MARK: DayOfMonth
 
-@available(*, deprecated, renamed: "DayOfMonth")
-public typealias MSDayOfMonth = DayOfMonth
-
 public struct DayOfMonth {
     public let weekOfMonth: WeekOfMonth
     public let dayOfWeek: DayOfWeek
@@ -21,9 +18,6 @@ public struct DayOfMonth {
 }
 
 // MARK: - WeekOfMonth
-
-@available(*, deprecated, renamed: "WeekOfMonth")
-public typealias MSWeekOfMonth = WeekOfMonth
 
 @objc(MSFWeekOfMonth)
 public enum WeekOfMonth: Int, CaseIterable {
@@ -52,9 +46,6 @@ public enum WeekOfMonth: Int, CaseIterable {
 }
 
 // MARK: - DayOfWeek
-
-@available(*, deprecated, renamed: "DayOfWeek")
-public typealias MSDayOfWeek = DayOfWeek
 
 @objc(MSFDayOfWeek)
 public enum DayOfWeek: Int {

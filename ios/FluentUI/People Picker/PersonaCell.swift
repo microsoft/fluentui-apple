@@ -7,9 +7,6 @@ import UIKit
 
 // MARK: PersonaCell
 
-@available(*, deprecated, renamed: "PersonaCell")
-public typealias MSPersonaCell = PersonaCell
-
 @objc(MSFPersonaCell)
 open class PersonaCell: TableViewCell {
     private struct Constants {

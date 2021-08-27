@@ -105,10 +105,8 @@ open class ColorProvidingStyle: FluentUIStyle {
     private var window: UIWindow
     private var colorProviding: ColorProviding
 }
-// MARK: Colors
 
-@available(*, deprecated, renamed: "Colors")
-public typealias MSColors = Colors
+// MARK: Colors
 
 @objc(MSFColors)
 public final class Colors: NSObject {

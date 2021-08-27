@@ -25,9 +25,6 @@ public extension Colors {
 }
 
 // MARK: SegmentedControl
-@available(*, deprecated, renamed: "SegmentedControl")
-public typealias MSSegmentedControl = SegmentedControl
-
 /// A styled segmented control that should be used instead of UISegmentedControl. It is designed to flex the button width proportionally to the control's width.
 @objc(MSFSegmentedControl)
 open class SegmentedControl: UIControl {
