@@ -25,9 +25,6 @@ public extension Colors {
 
 // MARK: - NotificationView
 
-@available(*, deprecated, renamed: "NotificationView")
-public typealias MSNotificationView = NotificationView
-
 /**
  `NotificationView` can be used to present a toast (`.primaryToast` and `.neutralToast` styles) or a notification bar (`.primaryBar`, `.primaryOutlineBar`, and `.neutralBar` styles) with information and actions at the bottom of the screen.
 
@@ -231,6 +228,15 @@ open class NotificationView: UIView {
         initialize()
     }
 
+    open override func removeFromSuperview() {
+        super.removeFromSuperview()
+
+        isShown = false
+        if NotificationView.currentToast == self {
+            NotificationView.currentToast = nil
+        }
+    }
+
     @objc open func initialize() {
         addSubview(backgroundView)
         backgroundView.translatesAutoresizingMaskIntoConstraints = false
@@ -424,11 +430,6 @@ open class NotificationView: UIView {
         let completionForHide = {
             self.removeFromSuperview()
             UIAccessibility.post(notification: .layoutChanged, argument: nil)
-
-            self.isShown = false
-            if NotificationView.currentToast == self {
-                NotificationView.currentToast = nil
-            }
 
             self.completionsForHide.forEach { $0() }
             self.completionsForHide.removeAll()

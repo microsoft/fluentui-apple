@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'MicrosoftFluentUI'
-  s.version          = '0.2.9'
+  s.version          = '0.3.1'
   s.summary          = 'Fluent UI is a set of reusable UI controls and tools'
   s.homepage         = "https://www.microsoft.com/design/fluent/#/"
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
@@ -19,6 +19,12 @@ Pod::Spec.new do |s|
     avatar_ios.dependency 'MicrosoftFluentUI/Core_ios'
     avatar_ios.preserve_paths = ["ios/FluentUI/Avatar/Avatar.resources.xcfilelist"]
     avatar_ios.source_files = ["ios/FluentUI/Avatar/**/*.{swift,h}"]
+  end
+
+  s.subspec 'AvatarGroup_ios' do |avatargroup_ios|
+    avatargroup_ios.platform = :ios
+    avatargroup_ios.dependency 'MicrosoftFluentUI/Avatar_ios'
+    avatargroup_ios.source_files = ["ios/FluentUI/AvatarGroup/**/*.{swift,h}"]
   end
 
   s.subspec 'ActivityViewAnimating_ios' do |activityviewanimating_ios|
@@ -87,6 +93,12 @@ Pod::Spec.new do |s|
     card_ios.platform = :ios
     card_ios.dependency 'MicrosoftFluentUI/Label_ios'
     card_ios.source_files = ["ios/FluentUI/Card/**/*.{swift,h}"]
+  end
+
+  s.subspec 'CardNudge_ios' do |cardnudge_ios|
+    cardnudge_ios.platform = :ios
+    cardnudge_ios.dependency 'MicrosoftFluentUI/Core_ios'
+    cardnudge_ios.source_files = ["ios/FluentUI/Card Nudge/**/*.{swift,h}"]
   end
 
   s.subspec 'CommandBar_ios' do |commandbar_ios|
@@ -205,6 +217,18 @@ xcodebuild ${XCODEBUILDPARAMS} -project ${PROJECT_FILE_PATH} -target "MicrosoftF
     peoplepicker_ios.source_files = ["ios/FluentUI/People Picker/**/*.{swift,h}"]
   end
 
+  s.subspec 'PersonaButton_ios' do |personaButton_ios|
+    personaButton_ios.platform = :ios
+    personaButton_ios.dependency 'MicrosoftFluentUI/Avatar_ios'
+    personaButton_ios.source_files = ["ios/FluentUI/PersonaButton/**/*.{swift,h}"]
+  end
+
+  s.subspec 'PersonaButtonCarousel_ios' do |personaButtonCarousel_ios|
+    personaButtonCarousel_ios.platform = :ios
+    personaButtonCarousel_ios.dependency 'MicrosoftFluentUI/PersonaButton_ios'
+    personaButtonCarousel_ios.source_files = ["ios/FluentUI/PersonaButtonCarousel/**/*.{swift,h}"]
+  end
+
   s.subspec 'PillButtonBar_ios' do |pillbuttonbar_ios|
     pillbuttonbar_ios.platform = :ios
     pillbuttonbar_ios.dependency 'MicrosoftFluentUI/Core_ios'
@@ -230,12 +254,6 @@ xcodebuild ${XCODEBUILDPARAMS} -project ${PROJECT_FILE_PATH} -target "MicrosoftF
     resizinghandleview_ios.platform = :ios
     resizinghandleview_ios.dependency 'MicrosoftFluentUI/Core_ios'
     resizinghandleview_ios.source_files = ["ios/FluentUI/ResizingHandleView/**/*.{swift,h}"]
-  end
-
-  s.subspec 'ScrollView_ios' do |scrollview_ios|
-    scrollview_ios.platform = :ios
-    scrollview_ios.dependency 'MicrosoftFluentUI/Core_ios'
-    scrollview_ios.source_files = ["ios/FluentUI/ScrollView/**/*.{swift,h}"]
   end
 
   s.subspec 'SegmentedControl_ios' do |segmentedcontrol_ios|
@@ -315,6 +333,13 @@ xcodebuild ${XCODEBUILDPARAMS} -project ${PROJECT_FILE_PATH} -target "MicrosoftF
     avatarview_mac.dependency 'MicrosoftFluentUI/Core_mac'
     avatarview_mac.dependency 'MicrosoftFluentUI/DynamicColor_mac'
     avatarview_mac.source_files = ["macos/FluentUI/AvatarView/**/*.{swift,h}"]
+  end
+
+  s.subspec 'BadgeView_mac' do |badgeview_mac|
+    badgeview_mac.platform = :osx
+    badgeview_mac.dependency 'MicrosoftFluentUI/Core_mac'
+    badgeview_mac.dependency 'MicrosoftFluentUI/DynamicColor_mac'
+    badgeview_mac.source_files = ["macos/FluentUI/Badge/**/*.{swift,h}"]
   end
 
   s.subspec 'Button_mac' do |button_mac|

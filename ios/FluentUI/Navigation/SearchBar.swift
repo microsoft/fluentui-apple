@@ -33,9 +33,6 @@ public extension Colors {
 
 // MARK: SearchBarDelegate
 
-@available(*, deprecated, renamed: "SearchBarDelegate")
-public typealias MSSearchBarDelegate = SearchBarDelegate
-
 /// Various state update methods coming from the SearchBar
 @objc(MSFSearchBarDelegate)
 public protocol SearchBarDelegate: AnyObject {
@@ -47,9 +44,6 @@ public protocol SearchBarDelegate: AnyObject {
 }
 
 // MARK: - SearchBar
-
-@available(*, deprecated, renamed: "SearchBar")
-public typealias MSSearchBar = SearchBar
 
 /// Drop-in replacement for UISearchBar that allows for more customization
 @objc(MSFSearchBar)

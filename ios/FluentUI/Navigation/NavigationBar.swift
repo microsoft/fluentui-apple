@@ -49,9 +49,6 @@ open class NavigationBarTopSearchBarAttributes: NavigationBarTopAccessoryViewAtt
 
 // MARK: - NavigationBar
 
-@available(*, deprecated, renamed: "NavigationBar")
-public typealias MSNavigationBar = NavigationBar
-
 /// UINavigationBar subclass, with a content view that contains various custom UIElements
 /// Contains the MSNavigationTitleView class and handles passing animatable progress through
 /// Custom UI can be hidden if desired
@@ -127,10 +124,10 @@ open class NavigationBar: UINavigationBar {
         static let revealingAnimationDuration: TimeInterval = 0.25
     }
 
-    /// An object that conforms to the `MSAvatar` protocol and provides text and an optional image for display as an `MSAvatarView` next to the large title. Only displayed if `showsLargeTitle` is true on the current navigation item. If avatar is nil, it won't show the avatar view.
-    @objc open var avatar: Avatar? {
+    /// An object that conforms to the `MSFPersona` protocol and provides text and an optional image for display as an `MSAvatar` next to the large title. Only displayed if `showsLargeTitle` is true on the current navigation item. If avatar is nil, it won't show the avatar view.
+    @objc open var personaData: Persona? {
         didSet {
-            titleView.avatar = avatar
+            titleView.personaData = personaData
         }
     }
 
@@ -153,6 +150,26 @@ open class NavigationBar: UINavigationBar {
             return titleView.visibleAvatarView()
         }
 
+        return nil
+    }
+
+    /// Returns the first match of an optional view for a bar button item with the given tag.
+    @objc public func barButtonItemView(with tag: Int) -> UIView? {
+        if showsLargeTitle {
+            let totalBarButtonItemViews = leftBarButtonItemsStackView.arrangedSubviews + rightBarButtonItemsStackView.arrangedSubviews
+            for view in totalBarButtonItemViews {
+                if view.tag == tag {
+                    return view
+                }
+            }
+        } else {
+            let totalBarButtonItems = (topItem?.leftBarButtonItems ?? []) + (topItem?.rightBarButtonItems ?? [])
+            for item in totalBarButtonItems {
+                if item.tag == tag {
+                    return item.value(forKey: "view") as? UIView
+                }
+            }
+        }
         return nil
     }
 
@@ -211,10 +228,10 @@ open class NavigationBar: UINavigationBar {
         }
     }
 
-    /// The navigation bar's leading content margin.
+    /// The navigation bar's trailing content margin.
     @objc open var contentTrailingMargin: CGFloat = defaultContentTrailingMargin {
         didSet {
-            if oldValue != contentLeadingMargin {
+            if oldValue != contentTrailingMargin {
                 updateContentStackViewMargins(forExpandedContent: contentIsExpanded)
             }
         }
@@ -437,10 +454,10 @@ open class NavigationBar: UINavigationBar {
         }
     }
 
-    /// Override the avatarView with fallbackImageStyle rather than using avatar data
-    /// - Parameter fallbackImageStyle: image style used in  avatarView
-    @objc open func overrideAvatar(with fallbackImageStyle: AvatarFallbackImageStyle) {
-        titleView.avatarOverrideFallbackImageStyle = fallbackImageStyle
+    /// Override the avatar with given style rather than using avatar data
+    /// - Parameter style: style used in  the avatar
+    @objc open func overrideAvatar(with style: MSFAvatarStyle) {
+        titleView.avatarOverrideStyle = style
     }
 
     // MARK: Element size handling

@@ -7,9 +7,6 @@ import UIKit
 
 // MARK: - PillButtonStyle
 
-@available(*, deprecated, renamed: "PillButtonStyle")
-public typealias MSPillButtonStyle = PillButtonStyle
-
 @objc(MSFPillButtonStyle)
 public enum PillButtonStyle: Int {
     /// primary: the default style of PillButton; use this style in conjunction with a neutral or white background.

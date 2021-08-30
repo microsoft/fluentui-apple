@@ -7,9 +7,6 @@ import UIKit
 
 // MARK: DimmingViewType
 
-@available(*, deprecated, renamed: "DimmingViewType")
-public typealias MSDimmingViewType = DimmingViewType
-
 @objc(MSFDimmingViewType)
 public enum DimmingViewType: Int {
     case white = 1
@@ -18,9 +15,6 @@ public enum DimmingViewType: Int {
 }
 
 // MARK: - DimmingView
-
-@available(*, deprecated, renamed: "DimmingView")
-public typealias MSDimmingView = DimmingView
 
 @objc(MSFDimmingView)
 open class DimmingView: UIView {

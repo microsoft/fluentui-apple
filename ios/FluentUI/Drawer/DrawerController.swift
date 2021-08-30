@@ -7,9 +7,6 @@ import UIKit
 
 // MARK: DrawerResizingBehavior
 
-@available(*, deprecated, renamed: "DrawerResizingBehavior")
-public typealias MSDrawerResizingBehavior = DrawerResizingBehavior
-
 @objc(MSFDrawerResizingBehavior)
 public enum DrawerResizingBehavior: Int {
     case none
@@ -19,9 +16,6 @@ public enum DrawerResizingBehavior: Int {
 }
 
 // MARK: - DrawerPresentationDirection
-
-@available(*, deprecated, renamed: "DrawerPresentationDirection")
-public typealias MSDrawerPresentationDirection = DrawerPresentationDirection
 
 @objc(MSFDrawerPresentationDirection)
 public enum DrawerPresentationDirection: Int {
@@ -40,9 +34,6 @@ public enum DrawerPresentationDirection: Int {
 
 // MARK: - DrawerPresentationStyle
 
-@available(*, deprecated, renamed: "DrawerPresentationStyle")
-public typealias MSDrawerPresentationStyle = DrawerPresentationStyle
-
 @objc(MSFDrawerPresentationStyle)
 public enum DrawerPresentationStyle: Int {
     /// Always `.slideover` for horizontal presentation. For vertical presentation results in `.slideover` in horizontally compact environments, `.popover` otherwise.
@@ -52,9 +43,6 @@ public enum DrawerPresentationStyle: Int {
 }
 
 // MARK: - DrawerPresentationBackground
-
-@available(*, deprecated, renamed: "DrawerPresentationBackground")
-public typealias MSDrawerPresentationBackground = DrawerPresentationBackground
 
 @objc(MSFDrawerPresentationBackground)
 public enum DrawerPresentationBackground: Int {
@@ -88,9 +76,6 @@ public extension Colors {
 
 // MARK: - DrawerControllerDelegate
 
-@available(*, deprecated, renamed: "DrawerControllerDelegate")
-public typealias MSDrawerControllerDelegate = DrawerControllerDelegate
-
 @objc(MSFDrawerControllerDelegate)
 public protocol DrawerControllerDelegate: AnyObject {
     /**
@@ -123,8 +108,6 @@ public protocol DrawerControllerDelegate: AnyObject {
 
  Use `resizingBehavior` to allow a user to resize or dismiss the drawer by tapping and dragging any area that does not handle this gesture itself.
  */
-@available(*, deprecated, renamed: "DrawerController")
-public typealias MSDrawerController = DrawerController
 
 @objc(MSFDrawerController)
 open class DrawerController: UIViewController {
@@ -224,6 +207,7 @@ open class DrawerController: UIViewController {
     @objc open var presentationBackground: DrawerPresentationBackground = .black
 
     /// Use `passThroughView` to make underlying view interactable. This view can be set from presenting view controller to recieve all the touch events from drawer's presentation background.
+    @available(*, deprecated, message: "Use BottomSheetController for better accessibility support")
     @objc open weak var passThroughView: UIView?
 
     /**

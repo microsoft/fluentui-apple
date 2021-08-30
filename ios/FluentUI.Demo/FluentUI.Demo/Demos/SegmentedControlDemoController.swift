@@ -55,22 +55,6 @@ class SegmentedControlDemoController: DemoController {
         addTitle(text: "Disabled On Brand Pill")
 
         addPillControl(items: Array(segmentItems.prefix(2)), style: .onBrandPill, enabled: false)
-
-        addTitle(text: "Tabs (deprecated)")
-
-        let tabsSegmentedControl = SegmentedControl(items: segmentItems, style: .tabs)
-        tabsSegmentedControl.addTarget(self, action: #selector(updateLabel(forControl:)), for: .valueChanged)
-        container.addArrangedSubview(tabsSegmentedControl)
-        controlLabels[tabsSegmentedControl] = addDescription(text: "", textAlignment: .center)
-        container.addArrangedSubview(UIView())
-
-        addTitle(text: "Disabled Tabs (deprecated)")
-
-        let disabledTabsSegmentedControl = SegmentedControl(items: Array(segmentItems.prefix(3)), style: .tabs)
-        disabledTabsSegmentedControl.isEnabled = false
-        disabledTabsSegmentedControl.selectedSegmentIndex = 1
-        container.addArrangedSubview(disabledTabsSegmentedControl)
-        container.addArrangedSubview(UIView())
     }
 
     @objc func updateLabel(forControl control: SegmentedControl) {

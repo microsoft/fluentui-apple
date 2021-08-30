@@ -57,6 +57,16 @@ class TabBarItemView: UIView {
         }
     }
 
+    /// The `preferredMaxLayoutWidth` of the underlying title label.
+    var preferredLabelMaxLayoutWidth: CGFloat {
+        get {
+            titleLabel.preferredMaxLayoutWidth
+        }
+        set {
+            titleLabel.preferredMaxLayoutWidth = newValue
+        }
+    }
+
     init(item: TabBarItem, showsTitle: Bool, canResizeImage: Bool = true) {
         self.canResizeImage = canResizeImage
         self.item = item

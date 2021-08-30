@@ -23,9 +23,6 @@ protocol CardPresentable: AnyObject {
 
 // MARK: - PageCardPresenterController
 
-@available(*, deprecated, renamed: "PageCardPresenterController")
-public typealias MSPageCardPresenterController = PageCardPresenterController
-
 /**
  Presents viewController views as "cards" in a paged scrollView
  */

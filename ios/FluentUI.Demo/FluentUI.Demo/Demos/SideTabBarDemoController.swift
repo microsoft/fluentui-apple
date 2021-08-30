@@ -57,6 +57,10 @@ class SideTabBarDemoController: DemoController {
         return button
     }()
 
+    private lazy var homeItem: TabBarItem = {
+        return TabBarItem(title: "Home", image: UIImage(named: "Home_28")!, selectedImage: UIImage(named: "Home_Selected_28")!)
+    }()
+
     private func presentSideTabBar() {
         let contentViewController = UIViewController(nibName: nil, bundle: nil)
         self.contentViewController = contentViewController
@@ -68,7 +72,7 @@ class SideTabBarDemoController: DemoController {
         sideTabBar.delegate = self
 
         sideTabBar.topItems = [
-            TabBarItem(title: "Home", image: UIImage(named: "Home_28")!, selectedImage: UIImage(named: "Home_Selected_28")!),
+            homeItem,
             TabBarItem(title: "New", image: UIImage(named: "New_28")!, selectedImage: UIImage(named: "New_Selected_28")!),
             TabBarItem(title: "Open", image: UIImage(named: "Open_28")!, selectedImage: UIImage(named: "Open_Selected_28")!)
         ]
@@ -121,6 +125,18 @@ class SideTabBarDemoController: DemoController {
         updateBadgeButtons()
     }
 
+    @objc private func showTooltipForSettingsButton() {
+        guard let view = sideTabBar.itemView(with: homeItem) else {
+            return
+        }
+
+        Tooltip.shared.show(with: "Tap anywhere to dismiss this tooltip",
+                            for: view,
+                            preferredArrowDirection: .left,
+                            offset: .init(x: 9, y: 0),
+                            dismissOn: .tapAnywhere)
+    }
+
     @objc private func dismissSideTabBar() {
         dismiss(animated: false) {
             self.navigationController?.popViewController(animated: true)
@@ -148,14 +164,18 @@ class SideTabBarDemoController: DemoController {
     }
 
     private func showAvatarView(_ show: Bool) {
-        var avatarView: AvatarView?
+        var avatar: MSFAvatar?
         if let image = UIImage(named: "avatar_kat_larsson"), show {
-            avatarView = AvatarView(avatarSize: .medium, withBorder: false, style: .circle, preferredFallbackImageStyle: .onAccentFilled)
-            avatarView?.setup(primaryText: "Kat Larson", secondaryText: "", image: image)
-            avatarView?.hasPointerInteraction = true
+            avatar = MSFAvatar(style: .accent,
+                               size: .medium)
+            if let avatarState = avatar?.state {
+                avatarState.primaryText = "Kat Larson"
+                avatarState.image = image
+                avatarState.hasPointerInteraction = true
+            }
         }
 
-        sideTabBar.avatarView = avatarView
+        sideTabBar.avatar = avatar
     }
 
     private func updateBadgeNumbers() {
@@ -212,6 +232,7 @@ class SideTabBarDemoController: DemoController {
                 CellItem(title: "Show badge numbers", type: .boolean, action: #selector(toggleShowBadgeNumbers(_:))),
                 CellItem(title: "Use higher badge numbers", type: .boolean, action: #selector(toggleUseHigherBadgeNumbers(_:))),
                 CellItem(title: "Modify badge numbers", type: .stepper, action: nil),
+                CellItem(title: "Show tooltip for Home button", type: .action, action: #selector(showTooltipForSettingsButton)),
                 CellItem(title: "Dismiss", type: .action, action: #selector(dismissSideTabBar))
         ]
     }()
@@ -227,7 +248,7 @@ extension SideTabBarDemoController: SideTabBarDelegate {
         contentViewController?.present(alert, animated: true)
     }
 
-    func sideTabBar(_ sideTabBar: SideTabBar, didActivate avatarView: AvatarView) {
+    func sideTabBar(_ sideTabBar: SideTabBar, didActivate avatarView: MSFAvatar) {
         let alert = UIAlertController(title: "Avatar view was tapped", message: nil, preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .default)
         alert.addAction(action)

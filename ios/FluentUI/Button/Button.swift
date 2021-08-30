@@ -7,9 +7,6 @@ import UIKit
 
 // MARK: ButtonStyle
 
-@available(*, deprecated, renamed: "ButtonStyle")
-public typealias MSButtonStyle = ButtonStyle
-
 @objc(MSFButtonStyle)
 public enum ButtonStyle: Int, CaseIterable {
     case primaryFilled
@@ -94,9 +91,6 @@ public extension Colors {
 // MARK: - Button
 
 /// By default, `titleLabel`'s `adjustsFontForContentSizeCategory` is set to true to automatically update its font when device's content size category changes
-@available(*, deprecated, renamed: "Button")
-public typealias MSButton = Button
-
 @IBDesignable
 @objc(MSFButton)
 open class Button: UIButton {

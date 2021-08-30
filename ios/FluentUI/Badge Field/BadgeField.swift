@@ -6,9 +6,6 @@
 import UIKit
 
 // MARK: BadgeFieldDelegate
-@available(*, deprecated, renamed: "BadgeFieldDelegate")
-public typealias MSBadgeFieldDelegate = BadgeFieldDelegate
-
 @objc(MSFBadgeFieldDelegate)
 public protocol BadgeFieldDelegate: AnyObject {
     @objc optional func badgeField(_ badgeField: BadgeField, badgeDataSourceForText text: String) -> BadgeViewDataSource
@@ -53,15 +50,10 @@ public protocol BadgeFieldDelegate: AnyObject {
 public extension Colors {
     struct BadgeField {
         public static var background: UIColor = surfacePrimary
-        public static var label: UIColor = textSecondary
-        public static var placeholder: UIColor = textSecondary
     }
 }
 
 // MARK: - BadgeField
-
-@available(*, deprecated, renamed: "BadgeField")
-public typealias MSBadgeField = BadgeField
 /**
  BadgeField is a UIView that acts as a UITextField that can contains badges with enclosed text.
  It supports:
@@ -75,7 +67,6 @@ public typealias MSBadgeField = BadgeField
 @objc(MSFBadgeField)
 open class BadgeField: UIView {
     private struct Constants {
-        static let badgeHeight: CGFloat = 26
         static let badgeMarginHorizontal: CGFloat = 5
         static let badgeMarginVertical: CGFloat = 5
         static let emptyTextFieldString: String = ""
@@ -84,8 +75,9 @@ open class BadgeField: UIView {
         static let dragAndDropScaleFactor: CGFloat = 1.10
         static let dragAndDropPositioningAnimationDuration: TimeInterval = 0.2
         static let labelMarginRight: CGFloat = 5
-        static let textStyleFont: UIFont = TextStyle.subhead.font
+        static let labelColorStyle: TextColorStyle = .secondary
         static let textFieldMinWidth: CGFloat = 100
+        static let textStyle: TextStyle = .subhead
     }
 
     @objc open var label: String = "" {
@@ -180,12 +172,12 @@ open class BadgeField: UIView {
         super.init(frame: .zero)
         backgroundColor = Colors.BadgeField.background
 
-        labelView.font = Constants.textStyleFont
-        labelView.textColor = Colors.BadgeField.label
+        labelView.style = Constants.textStyle
+        labelView.colorStyle = Constants.labelColorStyle
         addSubview(labelView)
 
-        placeholderView.font = Constants.textStyleFont
-        placeholderView.textColor = Colors.BadgeField.placeholder
+        placeholderView.style = Constants.textStyle
+        placeholderView.colorStyle = Constants.labelColorStyle
         addSubview(placeholderView)
 
         updateLabelsVisibility()
@@ -209,6 +201,8 @@ open class BadgeField: UIView {
 
         UIDevice.current.beginGeneratingDeviceOrientationNotifications()
         NotificationCenter.default.addObserver(self, selector: #selector(handleOrientationChanged), name: UIDevice.orientationDidChangeNotification, object: nil)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(handleContentSizeCategoryDidChange), name: UIContentSizeCategory.didChangeNotification, object: nil)
 
         // An accessible container must set isAccessibilityElement to false
         isAccessibilityElement = false
@@ -248,7 +242,7 @@ open class BadgeField: UIView {
     }
 
     private func setupTextField(_ textField: UITextField) {
-        textField.font = Constants.textStyleFont
+        textField.font = Constants.textStyle.font
         textField.autocapitalizationType = .none
         textField.autocorrectionType = .no
         textField.keyboardType = .emailAddress
@@ -275,10 +269,9 @@ open class BadgeField: UIView {
         cachedContentHeight = contentHeight
         let topMargin = UIScreen.main.middleOrigin(frame.height, containedSizeValue: contentHeight)
 
-        labelView.frame = CGRect(x: 0, y: topMargin, width: labelViewWidth, height: Constants.badgeHeight)
-
         var left = labelViewRightOffset
         var lineIndex = 0
+        var badgeHeight: CGFloat = 0.0
 
         for (index, badge) in currentBadges.enumerated() {
             // Don't layout the dragged badge
@@ -286,11 +279,14 @@ open class BadgeField: UIView {
                 continue
             }
             badge.frame = calculateBadgeFrame(badge: badge, badgeIndex: index, lineIndex: &lineIndex, left: &left, topMargin: topMargin, boundingWidth: bounds.width)
+            badgeHeight = badge.frame.height
         }
+
+        labelView.frame = CGRect(x: 0, y: topMargin, width: labelViewWidth, height: badgeHeight)
 
         let textFieldSize = textField.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
         let textFieldHeight = UIScreen.main.roundToDevicePixels(textFieldSize.height)
-        let textFieldVerticalOffset = UIScreen.main.middleOrigin(Constants.badgeHeight, containedSizeValue: textFieldHeight)
+        let textFieldVerticalOffset = UIScreen.main.middleOrigin(badgeHeight, containedSizeValue: textFieldHeight)
         let shouldAppendToCurrentLine = left + Constants.textFieldMinWidth <= frame.width
         if !shouldAppendToCurrentLine {
             lineIndex += 1
@@ -298,12 +294,12 @@ open class BadgeField: UIView {
         }
         textField.frame = CGRect(
             x: left,
-            y: topMargin + offsetForLine(at: lineIndex) + textFieldVerticalOffset,
+            y: topMargin + offsetForLine(badgeHeight: badgeHeight, at: lineIndex) + textFieldVerticalOffset,
             width: frame.width - left,
             height: textFieldHeight
         )
 
-        placeholderView.frame = CGRect(x: 0, y: topMargin, width: frame.width, height: Constants.badgeHeight)
+        placeholderView.frame = CGRect(x: 0, y: topMargin, width: frame.width, height: badgeHeight)
 
         flipSubviewsForRTL()
     }
@@ -436,18 +432,20 @@ open class BadgeField: UIView {
         }
     }
 
-    @objc open func heightThatFits(numberOfLines: Int) -> CGFloat {
+    @objc open func heightThatFits(badgeHeight: CGFloat, numberOfLines: Int) -> CGFloat {
         // Vertical margin not applicable to top line
-        let heightForAllLines = CGFloat(numberOfLines) * (Constants.badgeHeight + Constants.badgeMarginVertical)
+        let heightForAllLines = CGFloat(numberOfLines) * (badgeHeight + Constants.badgeMarginVertical)
         return heightForAllLines - Constants.badgeMarginVertical
     }
 
     private func contentHeight(forBoundingWidth boundingWidth: CGFloat) -> CGFloat {
         var left = labelViewRightOffset
         var lineIndex = 0
+        var badgeHeight: CGFloat = 0.0
 
         for (index, badge) in currentBadges.enumerated() {
-            calculateBadgeFrame(badge: badge, badgeIndex: index, lineIndex: &lineIndex, left: &left, topMargin: 0, boundingWidth: bounds.width)
+            let frame = calculateBadgeFrame(badge: badge, badgeIndex: index, lineIndex: &lineIndex, left: &left, topMargin: 0, boundingWidth: bounds.width)
+            badgeHeight = frame.size.height
         }
 
         let isFirstResponderOrHasTextFieldContent = isFirstResponder || !textFieldContent.isEmpty
@@ -457,7 +455,7 @@ open class BadgeField: UIView {
         }
         let textFieldSize = textField.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
         let textFieldHeight = UIScreen.main.roundToDevicePixels(textFieldSize.height)
-        let contentHeight = heightThatFits(numberOfLines: lineIndex + 1)
+        let contentHeight = heightThatFits(badgeHeight: badgeHeight, numberOfLines: lineIndex + 1)
         return max(textFieldHeight, contentHeight)
     }
 
@@ -470,6 +468,8 @@ open class BadgeField: UIView {
                                isFirstBadge: isFirstBadge,
                                isFirstBadgeOfLastDisplayedLine: isFirstBadgeOfCurrentLine && isLastDisplayedLine,
                                boundingWidth: boundingWidth)
+        let badgeHeight = badge.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)).height
+
         // Not enough space on current line
         let enoughSpaceAvailableOnCurrentLine = left + badgeWidth <= frame.width
         let shouldAppendToCurrentLine = isFirstBadgeOfCurrentLine || enoughSpaceAvailableOnCurrentLine
@@ -480,15 +480,18 @@ open class BadgeField: UIView {
             return calculateBadgeFrame(badge: badge, badgeIndex: badgeIndex, lineIndex: &lineIndex, left: &left, topMargin: topMargin, boundingWidth: boundingWidth)
         }
 
-        let badgeFrame = CGRect(x: left, y: topMargin + offsetForLine(at: lineIndex), width: badgeWidth, height: Constants.badgeHeight)
+        let badgeFrame = CGRect(x: left,
+                                y: topMargin + offsetForLine(badgeHeight: badgeHeight, at: lineIndex),
+                                width: badgeWidth,
+                                height: badgeHeight)
 
         left += badgeWidth + Constants.badgeMarginHorizontal
 
         return badgeFrame
     }
 
-    private func offsetForLine(at lineIndex: Int) -> CGFloat {
-        return CGFloat(lineIndex) * (Constants.badgeHeight + Constants.badgeMarginVertical)
+    private func offsetForLine(badgeHeight: CGFloat, at lineIndex: Int) -> CGFloat {
+        return CGFloat(lineIndex) * (badgeHeight + Constants.badgeMarginVertical)
     }
 
     // MARK: Badges
@@ -723,8 +726,8 @@ open class BadgeField: UIView {
 
     // MARK: Label view and placeholder view
 
-    private let labelView = UILabel()
-    private let placeholderView = UILabel()
+    private let labelView = Label()
+    private let placeholderView = Label()
 
     private var labelViewRightOffset: CGFloat {
         return labelView.isHidden ? 0 : labelViewWidth + Constants.labelMarginRight
@@ -784,6 +787,11 @@ open class BadgeField: UIView {
         // Hack: to avoid properly handling rotations for the dragging window (which is annoying and overkill for this feature), let's just reset the dragging window
         resetDraggingWindow()
         originalDeviceOrientation = UIDevice.current.orientation
+    }
+
+    @objc private func handleContentSizeCategoryDidChange() {
+        invalidateIntrinsicContentSize()
+        setupTextField(textField)
     }
 
     // MARK: Accessibility

@@ -26,6 +26,11 @@ class CommandBarButton: UIButton {
         }
     }
 
+    open override func didMoveToWindow() {
+        super.didMoveToWindow()
+        updateStyle()
+    }
+
     init(item: CommandBarItem, isPersistSelection: Bool = true) {
         self.item = item
         self.isPersistSelection = isPersistSelection
@@ -37,6 +42,7 @@ class CommandBarButton: UIButton {
 
         let accessibilityDescription = item.accessibilityLabel
         accessibilityLabel = (accessibilityDescription != nil) ? accessibilityDescription : item.title
+        accessibilityHint = item.accessibilityHint
         contentEdgeInsets = CommandBarButton.contentEdgeInsets
 
         if #available(iOS 14.0, *) {
@@ -49,7 +55,7 @@ class CommandBarButton: UIButton {
 
     @available(*, unavailable)
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        preconditionFailure("init(coder:) has not been implemented")
     }
 
     func updateState() {
@@ -65,13 +71,14 @@ class CommandBarButton: UIButton {
         titleLabel?.isEnabled = isEnabled
         titleLabel?.font = item.titleFont
         accessibilityLabel = (accessibilityDescription != nil) ? accessibilityDescription : title
+        accessibilityHint = item.accessibilityHint
     }
 
     private let isPersistSelection: Bool
 
     private var selectedTintColor: UIColor {
         guard let window = window else {
-            return Colors.communicationBlue
+            return UIColor(light: Colors.communicationBlue, dark: .black)
         }
 
         return UIColor(light: Colors.primary(for: window), dark: .black)

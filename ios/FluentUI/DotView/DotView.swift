@@ -5,9 +5,6 @@
 
 import UIKit
 
-@available(*, deprecated, renamed: "DotView")
-public typealias MSDotView = DotView
-
 @objc(MSFDotView)
 open class DotView: UIView {
     @objc open var color: UIColor? {

@@ -15,9 +15,6 @@ public extension Colors {
 
 // MARK: - ResizingHandleView
 
-@available(*, deprecated, renamed: "ResizingHandleView")
-public typealias MSResizingHandleView = ResizingHandleView
-
 @objc(MSFResizingHandleView)
 open class ResizingHandleView: UIView {
     private struct Constants {
