@@ -280,38 +280,32 @@ open class SegmentedControl: UIControl {
             return
         }
 
-        switch style {
-        case .tabs:
-            selectionView.backgroundColor = isEnabled ? style.selectionColor(for: window) : style.selectionColorDisabled
-            backgroundView.backgroundColor = isEnabled ? style.backgroundColor(for: window) : style.backgroundColorDisabled(for: window)
-        case .primaryPill, .onBrandPill:
-            pillMaskedLabelsContainerView.backgroundColor = customSegmentedControlSelectedButtonBackgroundColor ?? (isEnabled ? style.selectionColor(for: window) : style.selectionColorDisabled)
-            backgroundView.backgroundColor = customSegmentedControlBackgroundColor ?? (isEnabled ? style.backgroundColor(for: window) : style.backgroundColorDisabled(for: window))
-            for maskedLabel in pillMaskedLabels {
-                if isEnabled {
-                    if let customSelectedButtonTextColor = self.customSelectedSegmentedControlButtonTextColor {
-                        maskedLabel.textColor = customSelectedButtonTextColor
-                    } else {
-                            maskedLabel.textColor = style.segmentTextColorSelected(for: window)
-                    }
+        pillMaskedLabelsContainerView.backgroundColor = customSegmentedControlSelectedButtonBackgroundColor ?? (isEnabled ? style.selectionColor(for: window) : style.selectionColorDisabled)
+        backgroundView.backgroundColor = customSegmentedControlBackgroundColor ?? (isEnabled ? style.backgroundColor(for: window) : style.backgroundColorDisabled(for: window))
+        for maskedLabel in pillMaskedLabels {
+            if isEnabled {
+                if let customSelectedButtonTextColor = self.customSelectedSegmentedControlButtonTextColor {
+                    maskedLabel.textColor = customSelectedButtonTextColor
                 } else {
-                        maskedLabel.textColor = style.segmentTextColorSelectedAndDisabled(for: window)
+                        maskedLabel.textColor = style.segmentTextColorSelected(for: window)
                 }
+            } else {
+                    maskedLabel.textColor = style.segmentTextColorSelectedAndDisabled(for: window)
             }
-            for button in buttons {
-                if isEnabled {
-                    if let customButtonTextColor = self.customSegmentedControlButtonTextColor {
-                        button.setTitleColor(customButtonTextColor, for: .normal)
-                    } else {
-                        button.setTitleColor(style.segmentTextColor, for: .normal)
-                    }
+        }
+        for button in buttons {
+            if isEnabled {
+                if let customButtonTextColor = self.customSegmentedControlButtonTextColor {
+                    button.setTitleColor(customButtonTextColor, for: .normal)
                 } else {
-                        button.setTitleColor(style.segmentTextColorDisabled(for: window), for: .normal)
+                    button.setTitleColor(style.segmentTextColor, for: .normal)
                 }
+            } else {
+                    button.setTitleColor(style.segmentTextColorDisabled(for: window), for: .normal)
+            }
 
-                if let switchButton = button as? SegmentPillButton {
-                    switchButton.unreadDotColor = isEnabled ? style.segmentUnreadDotColor(for: window) : style.segmentTextColorDisabled(for: window)
-                }
+            if let switchButton = button as? SegmentPillButton {
+                switchButton.unreadDotColor = isEnabled ? style.segmentUnreadDotColor(for: window) : style.segmentTextColorDisabled(for: window)
             }
         }
     }
