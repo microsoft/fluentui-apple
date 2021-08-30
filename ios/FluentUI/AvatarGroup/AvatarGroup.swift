@@ -171,16 +171,16 @@ public struct AvatarGroup: View {
                 // If the avatar is part of Stack style and is not the last avatar in the sequence, create a cutout
                 let avatar = avatars[index]
                 let avatarView = Avatar(avatar)
+                let needsCutout = tokens.style == .stack && (overflowCount > 0 || index + 1 < maxDisplayedAvatars)
                 let avatarSize = avatarView.size()
-                let nextAvatarSize = Avatar(avatars[index + 1]).size()
+                let nextAvatarSize: CGFloat = needsCutout ? Avatar(avatars[index + 1]).size() : 0
                 let isLastDisplayed = index == maxDisplayedAvatars - 1
 
                 let currentAvatarHasRing = avatar.isRingVisible
                 let nextAvatarHasRing = index + 1 < maxDisplayedAvatars ? avatars[index + 1].isRingVisible : false
-                let needsCutout = tokens.style == .stack && (overflowCount > 0 || index + 1 < maxDisplayedAvatars)
                 let avatarSizeDifference = avatarSize - nextAvatarSize
                 let sizeDiff = !isLastDisplayed ? (currentAvatarHasRing ? avatarSizeDifference : avatarSizeDifference - ringGapOffset) :
-                currentAvatarHasRing ? (avatarSize - ringGapOffset) - imageSize : (avatarSize - (ringGapOffset * 2)) - imageSize
+                    currentAvatarHasRing ? (avatarSize - ringGapOffset) - imageSize : (avatarSize - (ringGapOffset * 2)) - imageSize
                 let x = avatarSize + tokens.interspace - ringGapOffset
 
                 let ringPaddingInterspace = nextAvatarHasRing ? interspace - (ringOffset + ringOuterGap) : interspace - ringOffset
@@ -192,7 +192,7 @@ public struct AvatarGroup: View {
                 let xPosition = currentAvatarHasRing ? x - ringOuterGap - ringOuterGap : x - ringOuterGap
                 let xPositionRTL = currentAvatarHasRing ? rtlRingPaddingInterspace : rtlNoRingPaddingInterspace
                 let xOrigin = Locale.current.isRightToLeftLayoutDirection() ? xPositionRTL : xPosition
-                let yOrigin: CGFloat = sizeDiff / 2
+                let yOrigin = sizeDiff / 2
                 let cutoutSize = isLastDisplayed ? (ringOuterGap * 2) + imageSize : nextAvatarSize
 
                 avatarView
