@@ -156,6 +156,26 @@ open class NavigationBar: UINavigationBar {
         return nil
     }
 
+    /// Returns the first match of an optional view for a bar button item with the given tag.
+    @objc public func barButtonItemView(with tag: Int) -> UIView? {
+        if showsLargeTitle {
+            let totalBarButtonItemViews = leftBarButtonItemsStackView.arrangedSubviews + rightBarButtonItemsStackView.arrangedSubviews
+            for view in totalBarButtonItemViews {
+                if view.tag == tag {
+                    return view
+                }
+            }
+        } else {
+            let totalBarButtonItems = (topItem?.leftBarButtonItems ?? []) + (topItem?.rightBarButtonItems ?? [])
+            for item in totalBarButtonItems {
+                if item.tag == tag {
+                    return item.value(forKey: "view") as? UIView
+                }
+            }
+        }
+        return nil
+    }
+
     /// An element size to describe the behavior of the navigation bar's expanded height. Set automatically when the values of `avatarSize` and `titleSize` are changed. The bar will lock to expanded size if either element is set to `.expanded`, lock to contracted if both elements are `.contracted`, and stay automatic in any other case.
     @objc open private(set) dynamic var barHeight: ElementSize = .automatic {
         didSet {
@@ -211,10 +231,10 @@ open class NavigationBar: UINavigationBar {
         }
     }
 
-    /// The navigation bar's leading content margin.
+    /// The navigation bar's trailing content margin.
     @objc open var contentTrailingMargin: CGFloat = defaultContentTrailingMargin {
         didSet {
-            if oldValue != contentLeadingMargin {
+            if oldValue != contentTrailingMargin {
                 updateContentStackViewMargins(forExpandedContent: contentIsExpanded)
             }
         }

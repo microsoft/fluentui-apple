@@ -226,6 +226,20 @@ open class BottomCommandingController: UIViewController {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
+    /// Current rectangle of the view that represents the given hero item.
+    ///
+    /// - Parameter heroItem: A `CommandingItem` contained in `heroItems`.
+    /// - Returns: The current rectangle in the coordinate system of the receiver.
+    @objc public func rectFor(heroItem: CommandingItem) -> CGRect {
+        guard isViewLoaded,
+              let bindingInfo = itemToBindingMap[heroItem],
+              bindingInfo.location == .heroSet else {
+            return .null
+        }
+        let itemView = bindingInfo.view
+        return itemView.convert(itemView.bounds, to: view)
+    }
+
     // MARK: - View building and layout
 
     public override func loadView() {
