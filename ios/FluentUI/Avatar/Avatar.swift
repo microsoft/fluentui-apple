@@ -355,6 +355,17 @@ public struct Avatar: View {
         var yOrigin: CGFloat
         var cutoutSize: CGFloat
 
+        public var animatableData: AnimatablePair<AnimatablePair<CGFloat, CGFloat>, CGFloat> {
+            get {
+                AnimatablePair(AnimatablePair(xOrigin, yOrigin), cutoutSize)
+            }
+            set {
+                xOrigin = newValue.first.first
+                yOrigin = newValue.first.second
+                cutoutSize = newValue.second
+            }
+        }
+
         public func path(in rect: CGRect) -> Path {
             var cutoutFrame = Rectangle().path(in: rect)
             cutoutFrame.addPath(Circle().path(in: CGRect(x: xOrigin,
@@ -467,7 +478,9 @@ public struct Avatar: View {
 }
 
 /// Properties available to customize the state of the avatar
-class MSFAvatarStateImpl: NSObject, ObservableObject, MSFAvatarState {
+class MSFAvatarStateImpl: NSObject, ObservableObject, Identifiable, MSFAvatarState {
+    public var id = UUID()
+
     @Published var backgroundColor: UIColor?
     @Published var foregroundColor: UIColor?
     @Published var hasButtonAccessibilityTrait: Bool = false
