@@ -95,7 +95,7 @@ class AvatarGroupDemoController: UITableViewController {
             let stackView = UIStackView(arrangedSubviews: buttonView)
             stackView.frame = CGRect(x: 0,
                                      y: 0,
-                                     width: 100,
+                                     width: 120,
                                      height: 40)
             stackView.distribution = .fillEqually
             stackView.alignment = .center

@@ -5,9 +5,6 @@
 
 import UIKit
 
-@available(*, deprecated, renamed: "PopupMenuSection")
-public typealias MSPopupMenuSection = PopupMenuSection
-
 /**
  `PopupMenuSection` represents a section of menu items inside `PopupMenuController`.
  */

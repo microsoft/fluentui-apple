@@ -103,7 +103,7 @@ class ThemingDemoController: DemoController {
 
     func didPressOverrideThemeButton() {
         if let window = self.view.window {
-            let greenThemeColorProviding = DemoColorThemeGreenWindow()
+            let greenThemeColorProviding = DemoColorGreenTheme()
             let stylesheet = ColorProvidingStyle(colorProviding: greenThemeColorProviding,
                                                  window: window)
             FluentUIThemeManager.setStylesheet(stylesheet: stylesheet, for: window)

@@ -339,6 +339,28 @@ public struct Avatar: View {
                           with: windowProvider)
     }
 
+    /// `AvatarCutout`: Cutout shape for an Avatar
+    ///
+    /// `xOrigin`: beginning location of cutout on the x axis
+    ///
+    /// `yOrigin`: beginning location of cutout on the y axis
+    ///
+    /// `cutoutSize`: dimensions of cutout shape of the Avatar
+    public struct AvatarCutout: Shape {
+        var xOrigin: CGFloat
+        var yOrigin: CGFloat
+        var cutoutSize: CGFloat
+
+        public func path(in rect: CGRect) -> Path {
+            var cutoutFrame = Rectangle().path(in: rect)
+            cutoutFrame.addPath(Circle().path(in: CGRect(x: xOrigin,
+                                                         y: yOrigin,
+                                                         width: cutoutSize,
+                                                         height: cutoutSize)))
+            return cutoutFrame
+        }
+    }
+
     private let animationDuration: Double = 0.1
 
     private struct PresenceCutout: Shape {
@@ -481,5 +503,18 @@ class MSFAvatarStateImpl: NSObject, ObservableObject, MSFAvatarState {
         self.tokens = MSFAvatarTokens(style: style,
                                       size: size)
         super.init()
+    }
+
+    /// Calculates the size of the avatar, including ring spacing
+    func totalSize() -> CGFloat {
+        let avatarImageSize: CGFloat = size.size
+        let ringOuterGap: CGFloat = tokens.ringOuterGap
+        if !isRingVisible {
+            return avatarImageSize + (ringOuterGap * 2)
+        } else {
+            let ringThickness: CGFloat = isRingVisible ? tokens.ringThickness : 0
+            let ringInnerGap: CGFloat = isRingVisible ? tokens.ringInnerGap : 0
+            return ((ringInnerGap + ringThickness + ringOuterGap) * 2 + avatarImageSize)
+        }
     }
 }

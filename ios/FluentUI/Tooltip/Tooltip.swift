@@ -7,9 +7,6 @@ import UIKit
 
 // MARK: Tooltip
 
-@available(*, deprecated, renamed: "Tooltip")
-public typealias MSTooltip = Tooltip
-
 /// A styled tooltip that is presented anchored to a view.
 @objc(MSFTooltip)
 open class Tooltip: NSObject {

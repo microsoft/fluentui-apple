@@ -7,9 +7,6 @@ import UIKit
 
 // MARK: Persona
 
-@available(*, deprecated, renamed: "Persona")
-public typealias MSPersona = Persona
-
 @objc(MSFPersona)
 public protocol Persona {
     /// The image that represents the persona.
@@ -55,9 +52,6 @@ extension Persona {
 }
 
 // MARK: - PersonaData
-
-@available(*, deprecated, renamed: "PersonaData")
-public typealias MSPersonaData = PersonaData
 
 @objc(MSFPersonaData)
 open class PersonaData: NSObject, Persona {

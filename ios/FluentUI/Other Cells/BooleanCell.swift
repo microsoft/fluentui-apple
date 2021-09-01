@@ -7,9 +7,6 @@ import UIKit
 
 // MARK: BooleanCell
 
-@available(*, deprecated, renamed: "BooleanCell")
-public typealias MSBooleanCell = BooleanCell
-
 /**
  `BooleanCell` is used to present a cell with one line of text with an optional custom view and a UISwitch accessory view.
 

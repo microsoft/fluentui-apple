@@ -7,9 +7,6 @@ import UIKit
 
 // MARK: TextColorStyle
 
-@available(*, deprecated, renamed: "TextColorStyle")
-public typealias MSTextColorStyle = TextColorStyle
-
 @objc(MSFTextColorStyle)
 public enum TextColorStyle: Int, CaseIterable {
     case regular
@@ -41,9 +38,6 @@ public enum TextColorStyle: Int, CaseIterable {
 }
 
 // MARK: - Label
-
-@available(*, deprecated, renamed: "Label")
-public typealias MSLabel = Label
 
 /// By default, `adjustsFontForContentSizeCategory` is set to true to automatically update its font when device's content size category changes
 @objc(MSFLabel)

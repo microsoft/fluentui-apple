@@ -20,6 +20,7 @@
 		5340828926CF22B6007716E1 /* NotificationViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B6617523A4227300E801DD /* NotificationViewDemoController.swift */; };
 		534082BA26CFF623007716E1 /* ButtonLegacyDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534082B926CFF623007716E1 /* ButtonLegacyDemoController.swift */; };
 		534082BB26CFF642007716E1 /* PersonaButtonCarouselDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E4784B2661AED800BAA058 /* PersonaButtonCarouselDemoController.swift */; };
+		535ADBB726E0264A005E962B /* ListDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8EA6AF2580D82A00F191CE /* ListDemoController.swift */; };
 		5360997526B8B7BF0069DE71 /* ActivityIndicatorDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5360997126B8B7BF0069DE71 /* ActivityIndicatorDemoController.swift */; };
 		5360997626B8B7BF0069DE71 /* LeftNavDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5360997226B8B7BF0069DE71 /* LeftNavDemoController.swift */; };
 		5360997726B8B7FB0069DE71 /* HUDDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E8F65121CD9579008A1598 /* HUDDemoController.swift */; };
@@ -69,8 +70,7 @@
 		C0938E4A235F733100256251 /* ShimmerLinesViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0938E49235F733100256251 /* ShimmerLinesViewDemoController.swift */; };
 		CCC18C2F2501C75F00BE830E /* CardViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCC18C2E2501C75F00BE830E /* CardViewDemoController.swift */; };
 		E6842974247B672000A29C40 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6842973247B672000A29C40 /* SceneDelegate.swift */; };
-		E6842996247C350700A29C40 /* DemoColorThemeWindows.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6842995247C350700A29C40 /* DemoColorThemeWindows.swift */; };
-		EC8EA6B02580D82A00F191CE /* ListDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8EA6AF2580D82A00F191CE /* ListDemoController.swift */; };
+		E6842996247C350700A29C40 /* DemoColorThemes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6842995247C350700A29C40 /* DemoColorThemes.swift */; };
 		FC414E3725888BC300069E73 /* CommandBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC414E3625888BC300069E73 /* CommandBarDemoController.swift */; };
 		FDCF7C8321BF35680058E9E6 /* SegmentedControlDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDCF7C8221BF35680058E9E6 /* SegmentedControlDemoController.swift */; };
 /* End PBXBuildFile section */
@@ -145,7 +145,7 @@
 		C0938E49235F733100256251 /* ShimmerLinesViewDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShimmerLinesViewDemoController.swift; sourceTree = "<group>"; };
 		CCC18C2E2501C75F00BE830E /* CardViewDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewDemoController.swift; sourceTree = "<group>"; };
 		E6842973247B672000A29C40 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		E6842995247C350700A29C40 /* DemoColorThemeWindows.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoColorThemeWindows.swift; sourceTree = "<group>"; };
+		E6842995247C350700A29C40 /* DemoColorThemes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoColorThemes.swift; sourceTree = "<group>"; };
 		EC7D5AF5DAF7393E14BF5B28 /* Pods_FluentUI_Demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FluentUI_Demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC8EA6AF2580D82A00F191CE /* ListDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListDemoController.swift; sourceTree = "<group>"; };
 		FC414E3625888BC300069E73 /* CommandBarDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBarDemoController.swift; sourceTree = "<group>"; };
@@ -255,7 +255,7 @@
 		A591A3F520F42A9E001ED23B /* Shell */ = {
 			isa = PBXGroup;
 			children = (
-				E6842995247C350700A29C40 /* DemoColorThemeWindows.swift */,
+				E6842995247C350700A29C40 /* DemoColorThemes.swift */,
 				A5DCA75F211E3B4C005F4CB7 /* DemoController.swift */,
 				A5CEC21120E436F10016922A /* DemoListViewController.swift */,
 			);
@@ -529,9 +529,9 @@
 				B498141621E42C140077B48D /* TableViewCellDemoController.swift in Sources */,
 				FDCF7C8321BF35680058E9E6 /* SegmentedControlDemoController.swift in Sources */,
 				5340828226CDFD48007716E1 /* ActivityIndicatorDemoController_SwiftUI.swift in Sources */,
-				EC8EA6B02580D82A00F191CE /* ListDemoController.swift in Sources */,
 				5360998126B8B8420069DE71 /* TableViewCellFileAccessoryViewDemoController.swift in Sources */,
 				5360997726B8B7FB0069DE71 /* HUDDemoController.swift in Sources */,
+				535ADBB726E0264A005E962B /* ListDemoController.swift in Sources */,
 				C0938E4A235F733100256251 /* ShimmerLinesViewDemoController.swift in Sources */,
 				80AECC0C2630F1BB005AF2F3 /* BottomCommandingDemoController.swift in Sources */,
 				5360997926B8B80E0069DE71 /* DateTimePickerDemoController.swift in Sources */,
@@ -539,7 +539,7 @@
 				5360998026B8B83B0069DE71 /* TabBarViewDemoController.swift in Sources */,
 				114CF8B82423E10900D064AA /* ColorDemoController.swift in Sources */,
 				A589F856211BA71000471C23 /* LabelDemoController.swift in Sources */,
-				E6842996247C350700A29C40 /* DemoColorThemeWindows.swift in Sources */,
+				E6842996247C350700A29C40 /* DemoColorThemes.swift in Sources */,
 				A5CEC21020E436F10016922A /* AppDelegate.swift in Sources */,
 				B4414794228F6FDF0040E88E /* OtherCellsSampleData.swift in Sources */,
 				B444D6B82183BA4B0002B4D4 /* BadgeViewDemoController.swift in Sources */,

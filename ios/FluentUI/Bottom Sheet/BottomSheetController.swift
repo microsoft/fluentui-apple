@@ -28,6 +28,7 @@ public protocol BottomSheetControllerDelegate: AnyObject {
     case noUserAction // No user action, used for events not triggered by users
     case swipe // Swipe on the sheet view
     case resizingHandleTap // Tap on the sheet resizing handle
+    case dimmingViewTap // Tap on the dimming view
 }
 
 /// Defines the position the sheet is currently in
@@ -273,6 +274,9 @@ public class BottomSheetController: UIViewController {
         var dimmingView = DimmingView(type: .black)
         dimmingView.translatesAutoresizingMaskIntoConstraints = false
         dimmingView.alpha = 0.0
+
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleDimmingViewTap))
+        dimmingView.addGestureRecognizer(tapGesture)
         return dimmingView
     }()
 
@@ -367,6 +371,10 @@ public class BottomSheetController: UIViewController {
     }
 
     // MARK: - Gesture handling
+
+    @objc private func handleDimmingViewTap(_ sender: UITapGestureRecognizer) {
+        move(to: .collapsed, interaction: .dimmingViewTap)
+    }
 
     @objc private func handleResizingHandleViewTap(_ sender: UITapGestureRecognizer) {
         move(to: isExpanded ? .collapsed : .expanded, interaction: .resizingHandleTap)

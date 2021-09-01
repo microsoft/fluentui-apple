@@ -7,9 +7,6 @@ import UIKit
 
 // MARK: EasyTapButton
 
-@available(*, deprecated, renamed: "EasyTapButton")
-public typealias MSEasyTapButton = EasyTapButton
-
 @objc(MSFEasyTapButton)
 open class EasyTapButton: UIButton {
     var minTapTargetSize = CGSize(width: 44.0, height: 44.0)

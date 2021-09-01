@@ -7,9 +7,6 @@ import UIKit
 
 // MARK: TwoLineTitleViewDelegate
 
-@available(*, deprecated, renamed: "TwoLineTitleViewDelegate")
-public typealias MSTwoLineTitleViewDelegate = TwoLineTitleViewDelegate
-
 @objc(MSFTwoLineTitleViewDelegate)
 public protocol TwoLineTitleViewDelegate: AnyObject {
     func twoLineTitleViewDidTapOnTitle(_ twoLineTitleView: TwoLineTitleView)
@@ -43,9 +40,6 @@ extension Colors {
 }
 
 // MARK: - TwoLineTitleView
-
-@available(*, deprecated, renamed: "TwoLineTitleView")
-public typealias MSTwoLineTitleView = TwoLineTitleView
 
 @objc(MSFTwoLineTitleView)
 open class TwoLineTitleView: UIView {

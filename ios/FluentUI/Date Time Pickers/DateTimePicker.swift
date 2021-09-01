@@ -7,9 +7,6 @@ import UIKit
 
 // MARK: DateTimePickerMode
 
-@available(*, deprecated, renamed: "DateTimePickerMode")
-public typealias MSDateTimePickerMode = DateTimePickerMode
-
 @objc(MSFDateTimePickerMode)
 public enum DateTimePickerMode: Int {
     case date
@@ -23,9 +20,6 @@ public enum DateTimePickerMode: Int {
 
 // MARK: - DateTimePickerDelegate
 
-@available(*, deprecated, renamed: "DateTimePickerDelegate")
-public typealias MSDateTimePickerDelegate = DateTimePickerDelegate
-
 @objc(MSFDateTimePickerDelegate)
 public protocol DateTimePickerDelegate: AnyObject {
     /// Allows a class to be notified when a user confirms their selected date
@@ -35,9 +29,6 @@ public protocol DateTimePickerDelegate: AnyObject {
 }
 
 // MARK: - DateTimePicker
-
-@available(*, deprecated, renamed: "DateTimePicker")
-public typealias MSDateTimePicker = DateTimePicker
 
 /// Manages the presentation and coordination of different date and time pickers
 @objc(MSFDateTimePicker)

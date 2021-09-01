@@ -8,22 +8,30 @@ import UIKit
 
 class DemoListViewController: UITableViewController {
 
-    static func addDemoListTo(window: UIWindow, pushing viewController: UIViewController?) {
-        if let colorProvider = window as? ColorProviding, let primaryColor = colorProvider.primaryColor(for: window) {
-            Colors.setProvider(provider: colorProvider, for: window)
-            FluentUIFramework.initializeAppearance(with: primaryColor, whenContainedInInstancesOf: [type(of: window)])
-        } else {
-            FluentUIFramework.initializeAppearance(with: Colors.primary(for: window))
+    private var provider: ColorProviding? = DemoColorTheme.default.provider
+    public var theme: DemoColorTheme = DemoColorTheme.default {
+        didSet {
+            provider = theme.provider
         }
+    }
+
+    func addDemoListTo(window: UIWindow) {
+        updateColorProviderFor(window: window, theme: self.theme)
 
         let demoListViewController = DemoListViewController(nibName: nil, bundle: nil)
 
         let navigationController = UINavigationController(rootViewController: demoListViewController)
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
+    }
 
-        if let viewController = viewController {
-            navigationController.pushViewController(viewController, animated: false)
+    func updateColorProviderFor(window: UIWindow, theme: DemoColorTheme) {
+        self.theme = theme
+        if let provider = self.provider, let primaryColor = provider.primaryColor(for: window) {
+            Colors.setProvider(provider: provider, for: window)
+            FluentUIFramework.initializeAppearance(with: primaryColor, whenContainedInInstancesOf: [type(of: window)])
+        } else {
+            FluentUIFramework.initializeAppearance(with: Colors.primary(for: window))
         }
     }
 
