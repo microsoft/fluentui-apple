@@ -158,21 +158,31 @@ public struct AvatarGroup: View {
 
     public var body: some View {
         let avatars: [MSFAvatarStateImpl] = state.avatars
+        let avatarViews: [Avatar] = avatars.map { Avatar($0) }
         let maxDisplayedAvatars: Int = avatars.prefix(state.maxDisplayedAvatars).count
         let overflowCount: Int = (avatars.count > maxDisplayedAvatars ? avatars.count - maxDisplayedAvatars : 0) + state.overflowCount
 
         let interspace: CGFloat = tokens.interspace
-        let size: CGFloat = tokens.size.size
+        let imageSize: CGFloat = tokens.size.size
         let ringOuterGap: CGFloat = tokens.ringOuterGap
+        let ringGapOffset: CGFloat = ringOuterGap * 2
         let ringOffset: CGFloat = tokens.ringThickness + tokens.ringInnerGap + tokens.ringOuterGap
-        let x: CGFloat = size + tokens.interspace - tokens.ringThickness
         HStack(spacing: 0) {
             ForEach(0 ..< maxDisplayedAvatars, id: \.self) { index in
                 // If the avatar is part of Stack style and is not the last avatar in the sequence, create a cutout
-                let needsCutout = tokens.style == .stack && (overflowCount > 0 || index + 1 < maxDisplayedAvatars)
                 let avatar = avatars[index]
+                let avatarView = avatarViews[index]
+                let needsCutout = tokens.style == .stack && (overflowCount > 0 || index + 1 < maxDisplayedAvatars)
+                let avatarSize: CGFloat = avatarView.state.totalSize()
+                let nextAvatarSize: CGFloat = needsCutout ? avatarViews[index + 1].state.totalSize() : 0
+                let isLastDisplayed = index == maxDisplayedAvatars - 1
+
                 let currentAvatarHasRing = avatar.isRingVisible
                 let nextAvatarHasRing = index + 1 < maxDisplayedAvatars ? avatars[index + 1].isRingVisible : false
+                let avatarSizeDifference = avatarSize - nextAvatarSize
+                let sizeDiff = !isLastDisplayed ? (currentAvatarHasRing ? avatarSizeDifference : avatarSizeDifference - ringGapOffset) :
+                    currentAvatarHasRing ? (avatarSize - ringGapOffset) - imageSize : (avatarSize - (ringGapOffset * 2)) - imageSize
+                let x = avatarSize + tokens.interspace - ringGapOffset
 
                 let ringPaddingInterspace = nextAvatarHasRing ? interspace - (ringOffset + ringOuterGap) : interspace - ringOffset
                 let noRingPaddingInterspace = nextAvatarHasRing ? interspace - ringOuterGap : interspace
@@ -180,18 +190,18 @@ public struct AvatarGroup: View {
                 let rtlNoRingPaddingInterspace = (nextAvatarHasRing ? -x - ringOffset - ringOuterGap : -x)
                 let stackPadding = (currentAvatarHasRing ? ringPaddingInterspace : noRingPaddingInterspace)
 
-                let xPosition = currentAvatarHasRing ? x + ringOffset : x
+                let xPosition = currentAvatarHasRing ? x - ringOuterGap - ringOuterGap : x - ringOuterGap
                 let xPositionRTL = currentAvatarHasRing ? rtlRingPaddingInterspace : rtlNoRingPaddingInterspace
                 let xOrigin = Locale.current.isRightToLeftLayoutDirection() ? xPositionRTL : xPosition
-                let yOrigin = currentAvatarHasRing ? (nextAvatarHasRing ? ringOuterGap : ringOffset) :
-                    (nextAvatarHasRing ? 0 - ringOffset + tokens.ringOuterGap : 0)
-                let cutoutSize = nextAvatarHasRing ? size + ringOffset + ringOuterGap : size
+                let yOrigin = sizeDiff / 2
+                let cutoutSize = isLastDisplayed ? (ringOuterGap * 2) + imageSize : nextAvatarSize
 
-                Avatar(avatar)
+                avatarView
                     .modifyIf(needsCutout, { view in
-                        view.mask(AvatarCutout(xOrigin: xOrigin,
-                                               yOrigin: yOrigin,
-                                               cutoutSize: cutoutSize)
+                        view.mask(Avatar.AvatarCutout(
+                                    xOrigin: xOrigin,
+                                    yOrigin: yOrigin,
+                                    cutoutSize: cutoutSize)
                                     .fill(style: FillStyle(eoFill: true)))
                     })
                     .padding(.trailing, tokens.style == .stack ? stackPadding : interspace)
@@ -210,28 +220,6 @@ public struct AvatarGroup: View {
         avatar.state = data
         return avatar
     }
-
-    /// `AvatarCutout`: Cutout shape for  succeeding Avatar in an Avatar Group in Stack style.
-    ///
-    /// `xOrigin`: beginning location of cutout on the x axis
-    ///
-    /// `yOrigin`: beginning location of cutout on the y axis
-    ///
-    /// `cutoutSize`: dimensions of cutout shape of the Avatar
-    private struct AvatarCutout: Shape {
-        var xOrigin: CGFloat
-        var yOrigin: CGFloat
-        var cutoutSize: CGFloat
-
-        func path(in rect: CGRect) -> Path {
-            var cutoutFrame = Rectangle().path(in: rect)
-            cutoutFrame.addPath(Circle().path(in: CGRect(x: xOrigin,
-                                                         y: yOrigin,
-                                                         width: cutoutSize,
-                                                         height: cutoutSize)))
-            return cutoutFrame
-        }
-    }
 }
 
 class MSFAvatarGroupStateImpl: NSObject, ObservableObject, MSFAvatarGroupState {
@@ -240,7 +228,7 @@ class MSFAvatarGroupStateImpl: NSObject, ObservableObject, MSFAvatarGroupState {
     }
 
     func createAvatar(at index: Int) -> MSFAvatarGroupAvatarState {
-        guard index <= avatars.count else {
+        guard index <= avatars.count && index >= 0 else {
             preconditionFailure("Index is out of bounds")
         }
         let avatar = MSFAvatarGroupAvatarStateImpl(size: tokens.size)
@@ -249,14 +237,14 @@ class MSFAvatarGroupStateImpl: NSObject, ObservableObject, MSFAvatarGroupState {
     }
 
     func getAvatarState(at index: Int) -> MSFAvatarGroupAvatarState {
-        guard index < avatars.count else {
+        guard avatars.indices.contains(index) else {
             preconditionFailure("Index is out of bounds")
         }
         return avatars[index]
     }
 
     func removeAvatar(at index: Int) {
-        guard index < avatars.count else {
+        guard avatars.indices.contains(index) else {
             preconditionFailure("Index is out of bounds")
         }
         avatars.remove(at: index)
