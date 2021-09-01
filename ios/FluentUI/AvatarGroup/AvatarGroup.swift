@@ -228,7 +228,7 @@ class MSFAvatarGroupStateImpl: NSObject, ObservableObject, MSFAvatarGroupState {
     }
 
     func createAvatar(at index: Int) -> MSFAvatarGroupAvatarState {
-        guard index <= avatars.count else {
+        guard index <= avatars.count && index >= 0 else {
             preconditionFailure("Index is out of bounds")
         }
         let avatar = MSFAvatarGroupAvatarStateImpl(size: tokens.size)
@@ -237,14 +237,14 @@ class MSFAvatarGroupStateImpl: NSObject, ObservableObject, MSFAvatarGroupState {
     }
 
     func getAvatarState(at index: Int) -> MSFAvatarGroupAvatarState {
-        guard index < avatars.count else {
+        guard avatars.indices.contains(index) else {
             preconditionFailure("Index is out of bounds")
         }
         return avatars[index]
     }
 
     func removeAvatar(at index: Int) {
-        guard index < avatars.count else {
+        guard avatars.indices.contains(index) else {
             preconditionFailure("Index is out of bounds")
         }
         avatars.remove(at: index)
