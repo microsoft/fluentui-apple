@@ -158,6 +158,7 @@ public struct AvatarGroup: View {
 
     public var body: some View {
         let avatars: [MSFAvatarStateImpl] = state.avatars
+        let avatarViews: [Avatar] = avatars.map { Avatar($0) }
         let maxDisplayedAvatars: Int = avatars.prefix(state.maxDisplayedAvatars).count
         let overflowCount: Int = (avatars.count > maxDisplayedAvatars ? avatars.count - maxDisplayedAvatars : 0) + state.overflowCount
 
@@ -170,10 +171,10 @@ public struct AvatarGroup: View {
             ForEach(0 ..< maxDisplayedAvatars, id: \.self) { index in
                 // If the avatar is part of Stack style and is not the last avatar in the sequence, create a cutout
                 let avatar = avatars[index]
-                let avatarView = Avatar(avatar)
+                let avatarView = avatarViews[index]
                 let needsCutout = tokens.style == .stack && (overflowCount > 0 || index + 1 < maxDisplayedAvatars)
-                let avatarSize = avatarView.size()
-                let nextAvatarSize: CGFloat = needsCutout ? Avatar(avatars[index + 1]).size() : 0
+                let avatarSize: CGFloat = avatarView.state.totalSize()
+                let nextAvatarSize: CGFloat = needsCutout ? avatarViews[index + 1].state.totalSize() : 0
                 let isLastDisplayed = index == maxDisplayedAvatars - 1
 
                 let currentAvatarHasRing = avatar.isRingVisible

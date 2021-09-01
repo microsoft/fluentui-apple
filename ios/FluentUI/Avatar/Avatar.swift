@@ -339,19 +339,6 @@ public struct Avatar: View {
                           with: windowProvider)
     }
 
-    /// Calculates the size of the avatar
-    public func size() -> CGFloat {
-        let avatarImageSize: CGFloat = state.size.size
-        let ringOuterGap: CGFloat = tokens.ringOuterGap
-        if !state.isRingVisible {
-            return avatarImageSize + (ringOuterGap * 2)
-        } else {
-            let ringThickness: CGFloat = state.isRingVisible ? tokens.ringThickness : 0
-            let ringInnerGap: CGFloat = state.isRingVisible ? tokens.ringInnerGap : 0
-            return ((ringInnerGap + ringThickness + ringOuterGap) * 2 + avatarImageSize)
-        }
-    }
-
     /// `AvatarCutout`: Cutout shape for an Avatar
     ///
     /// `xOrigin`: beginning location of cutout on the x axis
@@ -516,5 +503,18 @@ class MSFAvatarStateImpl: NSObject, ObservableObject, MSFAvatarState {
         self.tokens = MSFAvatarTokens(style: style,
                                       size: size)
         super.init()
+    }
+
+    /// Calculates the size of the avatar, including ring spacing
+    func totalSize() -> CGFloat {
+        let avatarImageSize: CGFloat = size.size
+        let ringOuterGap: CGFloat = tokens.ringOuterGap
+        if !isRingVisible {
+            return avatarImageSize + (ringOuterGap * 2)
+        } else {
+            let ringThickness: CGFloat = isRingVisible ? tokens.ringThickness : 0
+            let ringInnerGap: CGFloat = isRingVisible ? tokens.ringInnerGap : 0
+            return ((ringInnerGap + ringThickness + ringOuterGap) * 2 + avatarImageSize)
+        }
     }
 }
