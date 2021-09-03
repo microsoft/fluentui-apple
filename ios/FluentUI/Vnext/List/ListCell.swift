@@ -280,6 +280,7 @@ struct MSFListCellView: View {
                 }
             })
             .buttonStyle(ListCellButtonStyle(tokens: tokens, state: state))
+            .animation(Animation.easeInOut)
 
             if state.hasDivider {
                 let padding = tokens.horizontalCellPadding +
