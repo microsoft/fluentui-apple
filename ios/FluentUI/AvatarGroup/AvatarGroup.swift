@@ -176,8 +176,8 @@ public struct AvatarGroup: View {
 
     public var body: some View {
         let avatars: [MSFAvatarStateImpl] = state.avatars
-        let enumeratedAvatars = Array(avatars.enumerated())
         let avatarViews: [Avatar] = avatars.map { Avatar($0) }
+        let enumeratedAvatars = Array(avatars.enumerated())
         let maxDisplayedAvatars: Int = avatars.prefix(state.maxDisplayedAvatars).count
         let overflowCount: Int = (avatars.count > maxDisplayedAvatars ? avatars.count - maxDisplayedAvatars : 0) + state.overflowCount
 
@@ -194,7 +194,6 @@ public struct AvatarGroup: View {
                 HStack(spacing: 0) {
                     ForEach(enumeratedAvatars.prefix(maxDisplayedAvatars), id: \.1) { index, avatar in
                         // If the avatar is part of Stack style and is not the last avatar in the sequence, create a cutout
-                        let avatar = avatars[index]
                         let avatarView = avatarViews[index]
                         let needsCutout = tokens.style == .stack && (overflowCount > 0 || index + 1 < maxDisplayedAvatars)
                         let avatarSize: CGFloat = avatarView.state.totalSize()
@@ -234,6 +233,7 @@ public struct AvatarGroup: View {
                     }
                     if overflowCount > 0 {
                         createOverflow(count: overflowCount)
+                            .transition(AnyTransition.move(edge: .leading))
                     }
                 }
                 .frame(width: geo.frame(in: .local).minX,
