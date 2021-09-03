@@ -54,7 +54,7 @@ class BarButtonItemButton: UIButton {
         static let badgeBorderWidth: CGFloat = 2
         static let badgeFontSize: CGFloat = 11
         static let badgeHorizontalPadding: CGFloat = 10
-        static let badgeCorderRadii: CGFloat = 10
+        static let badgeCornerRadii: CGFloat = 10
     }
 
     private var isInPortraitMode: Bool {
@@ -163,11 +163,11 @@ class BarButtonItemButton: UIButton {
                 let layer = CAShapeLayer()
                 layer.path = UIBezierPath(roundedRect: badgeView.bounds,
                                           byRoundingCorners: .allCorners,
-                                          cornerRadii: CGSize(width: Constants.badgeCorderRadii, height: Constants.badgeCorderRadii)).cgPath
+                                          cornerRadii: CGSize(width: Constants.badgeCornerRadii, height: Constants.badgeCornerRadii)).cgPath
 
                 path.append(UIBezierPath(roundedRect: badgeBorderRect(badgeViewFrame: badgeView.frame),
                                          byRoundingCorners: .allCorners,
-                                         cornerRadii: CGSize(width: Constants.badgeCorderRadii, height: Constants.badgeCorderRadii)))
+                                         cornerRadii: CGSize(width: Constants.badgeCornerRadii, height: Constants.badgeCornerRadii)))
 
                 badgeView.layer.mask = layer
                 badgeView.layer.cornerRadius = 0
