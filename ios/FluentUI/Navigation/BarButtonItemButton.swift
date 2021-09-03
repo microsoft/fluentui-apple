@@ -19,9 +19,6 @@ class BarButtonItemButton: UIButton {
         isAccessibilityElement = true
         updateAccessibilityLabel()
 
-        showsLargeContentViewer = true
-        scalesLargeContentImage = true
-
         accessibilityHint = item.accessibilityHint
         accessibilityIdentifier = item.accessibilityIdentifier
 
@@ -51,8 +48,6 @@ class BarButtonItemButton: UIButton {
     private struct Constants {
         static let leftBarButtonItemLeadingMargin: CGFloat = 8
         static let rightBarButtonItemHorizontalPadding: CGFloat = 10
-        static let badgePortraitVerticalOffset: CGFloat = -6
-        static let badgeLandscapeVerticalOffset: CGFloat = -4
         static let badgeHeight: CGFloat = 18
         static let badgeMinWidth: CGFloat = 18
         static let badgeMaxWidth: CGFloat = 30
@@ -64,14 +59,6 @@ class BarButtonItemButton: UIButton {
 
     private var isInPortraitMode: Bool {
         return (traitCollection.horizontalSizeClass == .compact && traitCollection.verticalSizeClass == .regular)
-    }
-
-    private var buttonFrame: CGRect = .zero {
-        didSet {
-            if !oldValue.equalTo(buttonFrame) {
-                updateBadgeView()
-            }
-        }
     }
 
     private var badgeValue: String? {
@@ -138,6 +125,7 @@ class BarButtonItemButton: UIButton {
         }
 
         showsLargeContentViewer = true
+        scalesLargeContentImage = true
 
         if let customLargeContentSizeImage = item.largeContentSizeImage {
             largeContentImage = customLargeContentSizeImage
@@ -163,14 +151,12 @@ class BarButtonItemButton: UIButton {
             let maskLayer = CAShapeLayer()
             maskLayer.fillRule = .evenOdd
 
-            let path = UIBezierPath(rect: CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height))
-            let badgeVerticalOffset = isInPortraitMode ? Constants.badgePortraitVerticalOffset : Constants.badgeLandscapeVerticalOffset
+            let path = UIBezierPath(rect: CGRect(x: 0, y: 0, width: bounds.size.width, height: bounds.size.height))
 
             if badgeView.text?.count ?? 1 > 1 {
                 let badgeWidth = min(max(badgeView.intrinsicContentSize.width + Constants.badgeHorizontalPadding, Constants.badgeMinWidth), Constants.badgeMaxWidth)
-
-                badgeView.frame = CGRect(x: badgeFrameOriginX(frameWidth: badgeWidth),
-                                         y: frame.origin.y + badgeVerticalOffset,
+                badgeView.frame = CGRect(x: badgeFrameOriginX(for: badgeWidth),
+                                         y: bounds.origin.y + (bounds.size.height - intrinsicContentSize.height) / 2 - Constants.badgeHeight / 2,
                                          width: badgeWidth,
                                          height: Constants.badgeHeight)
 
@@ -187,9 +173,8 @@ class BarButtonItemButton: UIButton {
                 badgeView.layer.cornerRadius = 0
             } else {
                 let badgeWidth = max(badgeView.intrinsicContentSize.width, Constants.badgeMinWidth)
-
-                badgeView.frame = CGRect(x: badgeFrameOriginX(frameWidth: badgeWidth),
-                                         y: frame.origin.y + badgeVerticalOffset,
+                badgeView.frame = CGRect(x: badgeFrameOriginX(for: badgeWidth),
+                                         y: bounds.origin.y + (bounds.size.height - intrinsicContentSize.height) / 2 - Constants.badgeHeight / 2,
                                          width: badgeWidth,
                                          height: Constants.badgeHeight)
 
@@ -206,21 +191,21 @@ class BarButtonItemButton: UIButton {
         }
     }
 
-    private func badgeFrameOriginX(frameWidth: CGFloat) -> CGFloat {
+    private func badgeFrameOriginX(for width: CGFloat) -> CGFloat {
         var xOrigin: CGFloat = 0
 
         if effectiveUserInterfaceLayoutDirection == .leftToRight {
-            xOrigin = frame.origin.x + frame.size.width - Constants.rightBarButtonItemHorizontalPadding - frameWidth / 2
+            xOrigin = bounds.origin.x + bounds.size.width - Constants.rightBarButtonItemHorizontalPadding - width / 2
         } else {
-            xOrigin = frame.origin.x + Constants.rightBarButtonItemHorizontalPadding - frameWidth / 2
+            xOrigin = bounds.origin.x + Constants.rightBarButtonItemHorizontalPadding - width / 2
         }
 
         return xOrigin
     }
 
     private func badgeBorderRect(badgeViewFrame: CGRect) -> CGRect {
-        return CGRect(x: badgeViewFrame.origin.x - Constants.badgeBorderWidth - frame.origin.x,
-                      y: badgeViewFrame.origin.y - Constants.badgeBorderWidth - frame.origin.y,
+        return CGRect(x: badgeViewFrame.origin.x - Constants.badgeBorderWidth - bounds.origin.x,
+                      y: badgeViewFrame.origin.y - Constants.badgeBorderWidth - bounds.origin.y,
                       width: badgeViewFrame.size.width + 2 * Constants.badgeBorderWidth,
                       height: badgeViewFrame.size.height + 2 * Constants.badgeBorderWidth)
     }
