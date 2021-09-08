@@ -19,6 +19,9 @@ class MSFCommandBarTokens: MSFTokensBase, ObservableObject {
     @Published public var iconSize: CGFloat!
     @Published public var itemInterspace: CGFloat!
 
+    /// Notifies the drawer controller to refresh its UI to reflect its design token values
+    var themeDidUpdate: (() -> Void)?
+
     override init() {
         super.init()
 
