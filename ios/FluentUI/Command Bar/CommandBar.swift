@@ -70,6 +70,7 @@ open class CommandBar: UIView {
     }
 
     // MARK: - Private properties
+    private let commandBarTokens = MSFCommandBarTokens()
 
     private let itemGroups: [CommandBarItemGroup]
 

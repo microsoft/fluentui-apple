@@ -311,6 +311,16 @@ MSFBorderedCardNudgeTokens extends MSFCardNudgeTokens:
     outlineColor: $Colors.Stroke.neutral1
     textColor: $Colors.Brand.shade20
 
+AP_MSFCommandBarTokens:
+  backgroundColor: [ rest: $Colors.Background.neutral4, pressed: $Colors.Background.brandRest ]
+  dismissBackgroundColor: $Colors.Background.neutral1
+  dismissIconColor: "FluentUIColor(light: $Colors.Foreground.neutral1, dark: $Colors.Foreground.neutral3)"
+  groupBorderRadius: $Border.radius.xLarge
+  groupInterspace: $Spacing.medium
+  iconColor: [ rest: $Colors.Foreground.neutral1, pressed: $Colors.Foreground.neutralInverted ]
+  iconSize: $Icon.size.medium
+  itemInterspace: $Spacing.xxxSmall
+
 AP_MSFDrawerTokens:
   backgroundDimmedColor: $Colors.Elevation.highElevation
   drawerBackground: "FluentUIColor(light: $Colors.Background.neutral1, dark: $Colors.Background.neutral3)"
