@@ -99,16 +99,16 @@ class BottomCommandingDemoController: UIViewController {
         ]
     }()
 
-    @objc private func toggleHidden() {
-        bottomCommandingController?.isHidden.toggle()
+    @objc private func toggleHidden(_ sender: BooleanCell) {
+        bottomCommandingController?.isHidden = sender.isOn
     }
 
-    @objc private func toggleSheetMoreButton() {
-        bottomCommandingController?.prefersSheetMoreButtonVisible.toggle()
+    @objc private func toggleSheetMoreButton(_ sender: BooleanCell) {
+        bottomCommandingController?.prefersSheetMoreButtonVisible = sender.isOn
     }
 
-    @objc private func toggleExpandedItems() {
-        if bottomCommandingController?.expandedListSections.count == 0 {
+    @objc private func toggleExpandedItems(_ sender: BooleanCell) {
+        if sender.isOn {
             bottomCommandingController?.expandedListSections = currentExpandedListSections
         } else {
             bottomCommandingController?.expandedListSections = []
@@ -126,21 +126,21 @@ class BottomCommandingDemoController: UIViewController {
 
     private let modifiedCommandIndices: [Int] = [0, 3]
 
-    @objc private func toggleHeroCommandOnOff() {
+    @objc private func toggleHeroCommandOnOff(_ sender: BooleanCell) {
         modifiedCommandIndices.forEach {
-            heroItems[$0].isOn.toggle()
+            heroItems[$0].isOn = sender.isOn
         }
     }
 
-    @objc private func toggleHeroCommandEnabled() {
+    @objc private func toggleHeroCommandEnabled(_ sender: BooleanCell) {
         modifiedCommandIndices.forEach {
-            heroItems[$0].isEnabled.toggle()
+            heroItems[$0].isEnabled = sender.isOn
         }
     }
 
-    @objc private func toggleListCommandEnabled() {
+    @objc private func toggleListCommandEnabled(_ sender: BooleanCell) {
         modifiedCommandIndices.forEach {
-            currentExpandedListSections[0].items[$0].isEnabled.toggle()
+            currentExpandedListSections[0].items[$0].isEnabled = sender.isOn
         }
     }
 
