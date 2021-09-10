@@ -177,41 +177,50 @@ open class BottomCommandingController: UIViewController {
         if isViewLoaded {
             if isInSheetMode {
                 bottomSheetController?.setIsHidden(isHidden, animated: animated, completion: completion)
-            } else if let bottomBarView = bottomBarView,
-                      let bottomConstraint = bottomBarViewBottomConstraint {
+            } else {
                 if let animator = bottomBarHidingAnimator {
-                    animator.stopAnimation(true)
+                    animator.stopAnimation(false)
                 }
 
                 if animated {
-                    let springParams = UISpringTimingParameters(dampingRatio: Constants.BottomBar.hidingSpringDamping)
-                    let newAnimator = UIViewPropertyAnimator(duration: Constants.BottomBar.hidingSpringDuration, timingParameters: springParams)
-                    if isHidden {
-                        bottomConstraint.constant = -Constants.BottomBar.hiddenBottomOffset
-                        newAnimator.addCompletion { _ in
-                            bottomBarView.isHidden = true
-                        }
-                    } else {
-                        bottomBarView.isHidden = false
-                        bottomConstraint.constant = -Constants.BottomBar.bottomOffset
-                    }
-                    newAnimator.addAnimations { [weak self] in
-                        self?.view.layoutIfNeeded()
-                    }
-                    newAnimator.addCompletion { finalPosition in
-                        completion?(finalPosition == .end)
-                    }
+                    let animator = bottomBarHidingAnimator(to: isHidden)
 
-                    newAnimator.startAnimation()
-                    bottomBarHidingAnimator = newAnimator
+                    if let animator = animator {
+                        animator.addCompletion { finalPosition in
+                            completion?(finalPosition == .end)
+                        }
+
+                        animator.startAnimation()
+                        bottomBarHidingAnimator = animator
+                    }
                 } else {
-                    bottomConstraint.constant = isHidden ? -Constants.BottomBar.hiddenBottomOffset : -Constants.BottomBar.bottomOffset
-                    bottomBarView.isHidden = isHidden
+                    bottomBarViewBottomConstraint?.constant = isHidden ? -Constants.BottomBar.hiddenBottomOffset : -Constants.BottomBar.bottomOffset
+                    bottomBarView?.isHidden = isHidden
                     completion?(true)
                 }
             }
         }
         _isHidden = isHidden
+    }
+
+    @objc public func startInteractiveHiddenStateChange(isHidden: Bool) -> UIViewPropertyAnimator? {
+        guard isViewLoaded else {
+            return nil
+        }
+
+        var animator: UIViewPropertyAnimator?
+
+        if isInSheetMode {
+            return bottomSheetController?.startInteractiveHiddenStateChange(isHidden: isHidden)
+        } else {
+            if let animator = bottomBarHidingAnimator {
+                animator.stopAnimation(false)
+            }
+            animator = bottomBarHidingAnimator(to: isHidden)
+            bottomBarHidingAnimator = animator
+        }
+
+        return animator
     }
 
     /// Initializes the bottom commanding controller with a given content view controller.
@@ -675,6 +684,38 @@ open class BottomCommandingController: UIViewController {
         breakableTopConstraint.priority = .defaultHigh
 
         return requiredConstraints + [breakableTopConstraint]
+    }
+
+    // MARK: - Bottom bar animation
+
+    private func bottomBarHidingAnimator(to isHidden: Bool) -> UIViewPropertyAnimator? {
+        guard let bottomBarView = bottomBarView, let bottomConstraint = bottomBarViewBottomConstraint else {
+            return nil
+        }
+
+        let springParams = UISpringTimingParameters(dampingRatio: Constants.BottomBar.hidingSpringDamping)
+        let animator = UIViewPropertyAnimator(duration: Constants.BottomBar.hidingSpringDuration, timingParameters: springParams)
+
+        let initialBottomConstant = bottomConstraint.constant
+        let initialHiddenState = bottomBarView.isHidden
+
+        bottomConstraint.constant = isHidden ? -Constants.BottomBar.hiddenBottomOffset : -Constants.BottomBar.bottomOffset
+        bottomBarView.isHidden = false
+
+        animator.addAnimations { [weak self] in
+            self?.view.layoutIfNeeded()
+        }
+
+        animator.addCompletion { finalPosition in
+            if finalPosition == .end {
+                bottomBarView.isHidden = isHidden
+            } else if finalPosition == .start {
+                bottomBarView.isHidden = initialHiddenState
+                bottomConstraint.constant = initialBottomConstant
+            }
+        }
+
+        return animator
     }
 
     // Estimated fitting height of `tableView`.

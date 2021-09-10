@@ -84,7 +84,7 @@ public class BottomSheetController: UIViewController {
 
     /// Indicates if the bottom sheet is hidden.
     ///
-    /// Changes to this property are animated.
+    /// Changes to this property are animated. A new value is reflected in the getter only after the animation completes.
     @objc open var isHidden: Bool {
         get {
             return currentExpansionState == .hidden
@@ -107,6 +107,8 @@ public class BottomSheetController: UIViewController {
     }
 
     /// Indicates if the bottom sheet is expanded.
+    ///
+    /// Changes to this property are animated. A new value is reflected in the getter only after the animation completes.
     @objc open var isExpanded: Bool {
         get {
             return currentExpansionState == .expanded
@@ -173,34 +175,41 @@ public class BottomSheetController: UIViewController {
     ///   - animated: Indicates if the change should be animated. The default value is `true`.
     ///   - completion: Closure to be called when the state change completes.
     @objc public func setIsHidden(_ isHidden: Bool, animated: Bool = true, completion: ((_ isFinished: Bool) -> Void)? = nil) {
-        guard isHidden != self.isHidden else {
-            return
-        }
-
+        let targetState: BottomSheetExpansionState = isHidden ? .hidden : .collapsed
         if isViewLoaded {
-            if isHidden {
-                panGestureRecognizer.isEnabled = false
-                move(to: .hidden, animated: animated, shouldNotifyDelegate: false) { [weak self] finalPosition in
-                    guard let strongSelf = self else {
-                        return
-                    }
-                    strongSelf.bottomSheetView.isHidden = true
-                    completion?(finalPosition == .end)
-                }
-            } else {
-                bottomSheetView.isHidden = false
-                move(to: .collapsed, animated: animated, shouldNotifyDelegate: false) { [weak self] finalPosition in
-                    guard let strongSelf = self else {
-                        return
-                    }
-                    strongSelf.panGestureRecognizer.isEnabled = strongSelf.isExpandable
-                    completion?(finalPosition == .end)
-                }
+            move(to: targetState, animated: animated) { finalPosition in
+                completion?(finalPosition == .end)
             }
         } else {
-            currentExpansionState = isHidden ? .hidden : .collapsed
+            currentExpansionState = targetState
             completion?(true)
         }
+    }
+
+    @objc public func startInteractiveHiddenStateChange(isHidden: Bool) -> UIViewPropertyAnimator? {
+        print("Trying start interactive hidden: \(isHidden)")
+        print("Current isHidden: \(isHidden)")
+        guard isViewLoaded else {
+            print("returning nil")
+            // TODO: Fix
+            return nil
+        }
+
+        stopAnimationIfNeeded()
+
+        let initialState: BottomSheetExpansionState = isHidden ? .collapsed : .hidden
+        let targetState: BottomSheetExpansionState = isHidden ? .hidden : .collapsed
+
+        move(to: initialState, animated: false)
+
+        panGestureRecognizer.isEnabled = false
+        bottomSheetView.isHidden = false
+
+        let animator = stateChangeAnimator(to: targetState)
+
+        currentStateChangeAnimator = animator
+
+        return animator
     }
 
     // MARK: - View loading
@@ -274,6 +283,7 @@ public class BottomSheetController: UIViewController {
         var dimmingView = DimmingView(type: .black)
         dimmingView.translatesAutoresizingMaskIntoConstraints = false
         dimmingView.alpha = 0.0
+        dimmingView.isHidden = true
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleDimmingViewTap))
         dimmingView.addGestureRecognizer(tapGesture)
@@ -492,56 +502,90 @@ public class BottomSheetController: UIViewController {
                       shouldNotifyDelegate: Bool = true,
                       completion: ((UIViewAnimatingPosition) -> Void)? = nil) {
         let targetOffsetFromBottom = offset(for: targetExpansionState)
-        currentExpansionState = targetExpansionState
-
         if currentOffsetFromBottom != targetOffsetFromBottom {
+            stopAnimationIfNeeded()
+
+            let animator = stateChangeAnimator(to: targetExpansionState, velocity: velocity)
+            animator.addCompletion({ finalPosition in
+                completion?(finalPosition)
+            })
+
             if animated {
-                let targetOffsetFromBottom = offset(for: targetExpansionState)
-                let distanceToGo = abs(currentOffsetFromBottom - targetOffsetFromBottom)
-                let springVelocity = min(abs(velocity / distanceToGo), Constants.Spring.maxInitialVelocity)
-                let damping: CGFloat = abs(velocity) > Constants.Spring.flickVelocityThreshold
-                    ? Constants.Spring.oscillatingDampingRatio
-                    : Constants.Spring.defaultDampingRatio
-
-                let springParams = UISpringTimingParameters(dampingRatio: damping, initialVelocity: CGVector(dx: 0.0, dy: springVelocity))
-
-                stopAnimationIfNeeded()
-                let translationAnimator = UIViewPropertyAnimator(duration: Constants.Spring.animationDuration, timingParameters: springParams)
-                self.translationAnimator = translationAnimator
-
-                view.layoutIfNeeded()
-                bottomSheetOffsetConstraint.constant = -targetOffsetFromBottom
-                translationAnimator.addAnimations { [weak self] in
-                    self?.view.layoutIfNeeded()
-                }
-
-                let targetExpandedContentAlpha: CGFloat = targetExpansionState == .collapsed ? 0.0 : 1.0
-                if expandedContentView.alpha != targetExpandedContentAlpha {
-                    translationAnimator.addAnimations {
-                        self.expandedContentView.alpha = targetExpandedContentAlpha
-                    }
-                }
-
-                if shouldShowDimmingView {
-                    let targetDimmingViewAlpha: CGFloat = targetExpansionState == .expanded ? 1.0 : 0.0
-                    translationAnimator.addAnimations {
-                        self.dimmingView.alpha = targetDimmingViewAlpha
-                    }
-                }
-
-                translationAnimator.addCompletion({ [weak self] finalPosition in
-                    if finalPosition == .end {
-                        self?.handleCompletedStateChange(to: targetExpansionState, interaction: interaction, shouldNotifyDelegate: shouldNotifyDelegate)
-                    }
-                    completion?(finalPosition)
-                })
-                translationAnimator.startAnimation()
+                animator.startAnimation()
+                currentStateChangeAnimator = animator
             } else {
-                bottomSheetOffsetConstraint.constant = -targetOffsetFromBottom
-                handleCompletedStateChange(to: targetExpansionState, interaction: interaction, shouldNotifyDelegate: shouldNotifyDelegate)
-                completion?(.end)
+                animator.stopAnimation(false)
+                animator.finishAnimation(at: .end)
             }
         }
+    }
+
+    private func stateChangeAnimator(to targetExpansionState: BottomSheetExpansionState,
+                                     velocity: CGFloat = 0.0,
+                                     interaction: BottomSheetInteraction = .noUserAction,
+                                     shouldNotifyDelegate: Bool = true) -> UIViewPropertyAnimator {
+        let targetOffsetFromBottom = offset(for: targetExpansionState)
+        let distanceToGo = abs(currentOffsetFromBottom - targetOffsetFromBottom)
+        let springVelocity = min(abs(velocity / distanceToGo), Constants.Spring.maxInitialVelocity)
+        let damping: CGFloat = abs(velocity) > Constants.Spring.flickVelocityThreshold
+            ? Constants.Spring.oscillatingDampingRatio
+            : Constants.Spring.defaultDampingRatio
+
+        let springParams = UISpringTimingParameters(dampingRatio: damping, initialVelocity: CGVector(dx: 0.0, dy: springVelocity))
+        let translationAnimator = UIViewPropertyAnimator(duration: Constants.Spring.animationDuration, timingParameters: springParams)
+
+        // Disable dragging while hiding the sheet
+        if targetExpansionState == .hidden {
+            panGestureRecognizer.isEnabled = false
+        }
+
+        view.layoutIfNeeded()
+
+        // Animation might be reversed, so we need to remember the original state
+        let originalBottomSheetHiddenState = bottomSheetView.isHidden
+        let originalBottomOffsetConstant = bottomSheetOffsetConstraint.constant
+
+        bottomSheetView.isHidden = false
+        bottomSheetOffsetConstraint.constant = -targetOffsetFromBottom
+        translationAnimator.addAnimations { [weak self] in
+            self?.view.layoutIfNeeded()
+        }
+
+        let targetExpandedContentAlpha: CGFloat = targetExpansionState == .collapsed ? 0.0 : 1.0
+        if expandedContentView.alpha != targetExpandedContentAlpha {
+            translationAnimator.addAnimations {
+                self.expandedContentView.alpha = targetExpandedContentAlpha
+            }
+        }
+
+        if shouldShowDimmingView {
+            let targetDimmingViewAlpha: CGFloat = targetExpansionState == .expanded ? 1.0 : 0.0
+            translationAnimator.addAnimations {
+                self.dimmingView.alpha = targetDimmingViewAlpha
+            }
+        }
+
+        translationAnimator.addCompletion({ [weak self] finalPosition in
+            guard let strongSelf = self else {
+                return
+            }
+            strongSelf.panGestureRecognizer.isEnabled = true
+
+            if finalPosition == .end {
+                strongSelf.handleCompletedStateChange(to: targetExpansionState, interaction: interaction, shouldNotifyDelegate: shouldNotifyDelegate)
+            } else if finalPosition == .start {
+                strongSelf.bottomSheetView.isHidden = originalBottomSheetHiddenState
+                strongSelf.bottomSheetOffsetConstraint.constant = originalBottomOffsetConstant
+            } else {
+                // The constraint constant doesn't animate, so we need to set it to whatever it should be
+                // based on the frame calculated during the interrupted animation
+                let offsetFromBottom = strongSelf.view.frame.height - strongSelf.bottomSheetView.frame.origin.y - strongSelf.view.safeAreaInsets.bottom
+                strongSelf.bottomSheetOffsetConstraint.constant = -offsetFromBottom
+            }
+            strongSelf.currentStateChangeAnimator = nil
+        })
+        translationAnimator.pauseAnimation()
+        return translationAnimator
     }
 
     private func offset(for expansionState: BottomSheetExpansionState) -> CGFloat {
@@ -553,7 +597,7 @@ public class BottomSheetController: UIViewController {
         case .expanded:
             offset = bottomSheetView.frame.height - view.safeAreaInsets.bottom
         case .hidden:
-            offset = Constants.hiddenOffScreenOffset
+            offset = -view.safeAreaInsets.bottom
         }
 
         return offset
@@ -562,6 +606,7 @@ public class BottomSheetController: UIViewController {
     private func handleCompletedStateChange(to targetExpansionState: BottomSheetExpansionState,
                                             interaction: BottomSheetInteraction = .noUserAction,
                                             shouldNotifyDelegate: Bool = true) {
+        currentExpansionState = targetExpansionState
         if shouldNotifyDelegate {
             self.delegate?.bottomSheetController?(self, didMoveTo: targetExpansionState, interaction: interaction)
         }
@@ -570,20 +615,20 @@ public class BottomSheetController: UIViewController {
             hostedScrollView?.setContentOffset(.zero, animated: true)
         }
 
+        if targetExpansionState == .hidden {
+            bottomSheetView.isHidden = true
+        }
+
         updateResizingHandleViewAccessibility()
         updateExpandedContentAlpha()
     }
 
     private func stopAnimationIfNeeded() {
-        guard let animator = translationAnimator, animator.isRunning else {
-            return
+        if let currentAnimator = currentStateChangeAnimator, currentAnimator.isRunning {
+            currentAnimator.stopAnimation(false)
+            currentAnimator.finishAnimation(at: .current)
+            currentStateChangeAnimator = nil
         }
-        animator.stopAnimation(true)
-
-        // The AutoLayout constant doesn't animate, so we need to set it to whatever it should be
-        // based on the frame calculated during the interrupted animation
-        let offsetFromBottom = view.frame.height - bottomSheetView.frame.origin.y - view.safeAreaInsets.bottom
-        bottomSheetOffsetConstraint.constant = -offsetFromBottom
     }
 
     private func updateSheetSizingConstraints() {
@@ -641,7 +686,7 @@ public class BottomSheetController: UIViewController {
 
     private lazy var panGestureRecognizer: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
 
-    private var translationAnimator: UIViewPropertyAnimator?
+    private var currentStateChangeAnimator: UIViewPropertyAnimator?
 
     private var needsOffsetUpdate: Bool = false
 
@@ -669,8 +714,6 @@ public class BottomSheetController: UIViewController {
         static let cornerRadius: CGFloat = 14
 
         static let expandedContentAlphaTransitionLength: CGFloat = 30
-
-        static let hiddenOffScreenOffset: CGFloat = -50
 
         struct Spring {
             // Spring used in slow swipes - no oscillation

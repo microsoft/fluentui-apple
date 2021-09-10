@@ -80,11 +80,11 @@ class BottomCommandingDemoController: UIViewController {
 
     private lazy var currentExpandedListSections: [CommandingSection] = shortCommandSectionList
 
-    private lazy var demoOptionItems: [DemoItem] = {
-        return [DemoItem(title: "Hidden", type: .boolean, action: #selector(toggleHidden), isOn: false),
-                DemoItem(title: "Sheet more button", type: .boolean, action: #selector(toggleSheetMoreButton), isOn: true),
-                DemoItem(title: "Expanded list items", type: .boolean, action: #selector(toggleExpandedItems), isOn: true),
-                DemoItem(title: "Additional expanded list items", type: .boolean, action: #selector(toggleAdditionalExpandedItems(_:)), isOn: false),
+    private var demoOptionItems: [DemoItem] {
+        return [DemoItem(title: "Hidden", type: .boolean, action: #selector(toggleHidden), isOn: bottomCommandingController?.isHidden ?? false),
+                DemoItem(title: "Sheet more button", type: .boolean, action: #selector(toggleSheetMoreButton), isOn: bottomCommandingController?.prefersSheetMoreButtonVisible ?? true),
+                DemoItem(title: "Expanded list items", type: .boolean, action: #selector(toggleExpandedItems), isOn: expandedItemsVisible),
+                DemoItem(title: "Additional expanded list items", type: .boolean, action: #selector(toggleAdditionalExpandedItems(_:)), isOn: additionalExpandedItemsVisible),
                 DemoItem(title: "Popover on hero command tap", type: .boolean, action: #selector(toggleHeroPopover)),
                 DemoItem(title: "Hero command isOn", type: .boolean, action: #selector(toggleHeroCommandOnOff)),
                 DemoItem(title: "Hero command isEnabled", type: .boolean, action: #selector(toggleHeroCommandEnabled), isOn: true),
@@ -97,7 +97,7 @@ class BottomCommandingDemoController: UIViewController {
                 DemoItem(title: "Change list command images", type: .action, action: #selector(changeListCommandIcon)),
                 DemoItem(title: "Hero command count", type: .stepper, action: nil)
         ]
-    }()
+    }
 
     @objc private func toggleHidden(_ sender: BooleanCell) {
         bottomCommandingController?.isHidden = sender.isOn
@@ -108,7 +108,8 @@ class BottomCommandingDemoController: UIViewController {
     }
 
     @objc private func toggleExpandedItems(_ sender: BooleanCell) {
-        if sender.isOn {
+        expandedItemsVisible = sender.isOn
+        if expandedItemsVisible {
             bottomCommandingController?.expandedListSections = currentExpandedListSections
         } else {
             bottomCommandingController?.expandedListSections = []
@@ -116,7 +117,8 @@ class BottomCommandingDemoController: UIViewController {
     }
 
     @objc private func toggleAdditionalExpandedItems(_ sender: BooleanCell) {
-        if sender.isOn {
+        additionalExpandedItemsVisible = sender.isOn
+        if additionalExpandedItemsVisible {
             currentExpandedListSections = longCommandSectionList
         } else {
             currentExpandedListSections = shortCommandSectionList
@@ -272,6 +274,18 @@ class BottomCommandingDemoController: UIViewController {
 
     private var bottomCommandingController: BottomCommandingController?
 
+    private var expandedItemsVisible: Bool = true
+
+    private var additionalExpandedItemsVisible: Bool = false
+
+    private var previousScrollOffset: CGFloat = 0
+
+    private var isScrolling: Bool = false
+
+    private var isHiding: Bool = false
+
+    private var interactiveHidingAnimator: UIViewPropertyAnimator?
+
     private enum DemoItemType {
         case action
         case boolean
@@ -342,6 +356,48 @@ extension BottomCommandingDemoController: UITableViewDataSource {
         }
 
         return UITableViewCell()
+    }
+}
+
+extension BottomCommandingDemoController: UIScrollViewDelegate {
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        isScrolling = true
+    }
+
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let contentOffset = scrollView.contentOffset.y
+
+        if isScrolling {
+            var delta = contentOffset - previousScrollOffset
+            if interactiveHidingAnimator == nil {
+                isHiding = delta > 0 ? true : false
+                interactiveHidingAnimator = bottomCommandingController?.startInteractiveHiddenStateChange(isHidden: isHiding)
+            }
+            if let animator = interactiveHidingAnimator {
+                delta *= isHiding ? 1 : -1
+                animator.fractionComplete += delta / 100
+            }
+        }
+
+        previousScrollOffset = contentOffset
+    }
+
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        isScrolling = false
+        if let animator = interactiveHidingAnimator {
+            if animator.fractionComplete > 0.2 {
+                animator.startAnimation()
+            } else {
+                animator.isReversed = true
+                animator.startAnimation()
+            }
+
+            animator.addCompletion { [weak self] _ in
+                self?.mainTableViewController?.tableView?.reloadData()
+                self?.mainTableViewController?.tableView?.layoutIfNeeded()
+            }
+            interactiveHidingAnimator = nil
+        }
     }
 }
 
