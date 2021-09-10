@@ -156,6 +156,23 @@ public struct AvatarGroup: View {
         self.tokens = state.tokens
     }
 
+    /// Renders the avatar with an optional cutout
+    @ViewBuilder
+    private func avatarCutout(_ avatar: Avatar,
+                              _ needsCutout: Bool,
+                              _ xOrigin: CGFloat,
+                              _ yOrigin: CGFloat,
+                              _ cutoutSize: CGFloat,
+                              _ padding: CGFloat) -> some View {
+        avatar.modifyIf(needsCutout, { view in
+            view.clipShape(Avatar.AvatarCutout(xOrigin: xOrigin,
+                                               yOrigin: yOrigin,
+                                               cutoutSize: cutoutSize),
+                           style: FillStyle(eoFill: true))
+            })
+            .padding(.trailing, padding)
+    }
+
     public var body: some View {
         let avatars: [MSFAvatarStateImpl] = state.avatars
         let avatarViews: [Avatar] = avatars.map { Avatar($0) }
@@ -196,14 +213,14 @@ public struct AvatarGroup: View {
                 let yOrigin = sizeDiff / 2
                 let cutoutSize = isLastDisplayed ? (ringOuterGap * 2) + imageSize : nextAvatarSize
 
-                avatarView
-                    .modifyIf(needsCutout, { view in
-                        view.clipShape(Avatar.AvatarCutout(xOrigin: xOrigin,
-                                                           yOrigin: yOrigin,
-                                                           cutoutSize: cutoutSize),
-                                       style: FillStyle(eoFill: true))
-                    })
-                    .padding(.trailing, tokens.style == .stack ? stackPadding : interspace)
+                // Hand the rendering of the avatar to a helper function to appease Swift's
+                // strict type-checking timeout.
+                self.avatarCutout(avatarView,
+                                  needsCutout,
+                                  xOrigin,
+                                  yOrigin,
+                                  cutoutSize,
+                                  tokens.style == .stack ? stackPadding : interspace)
             }
             if overflowCount > 0 {
                 createOverflow(count: overflowCount)
