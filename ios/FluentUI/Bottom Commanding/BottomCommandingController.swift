@@ -211,7 +211,7 @@ open class BottomCommandingController: UIViewController {
         var animator: UIViewPropertyAnimator?
 
         if isInSheetMode {
-            return bottomSheetController?.startInteractiveHiddenStateChange(isHidden: isHidden)
+            return bottomSheetController?.startInteractiveHiddenStateChange(to: isHidden)
         } else {
             if let animator = bottomBarHidingAnimator {
                 animator.stopAnimation(false)

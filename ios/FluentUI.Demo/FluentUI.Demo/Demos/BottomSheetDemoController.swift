@@ -53,6 +53,10 @@ class BottomSheetDemoController: UIViewController {
         bottomSheetViewController?.isHidden = sender.isOn
     }
 
+    @objc private func toggleScrollHiding(_ sender: BooleanCell) {
+        scrollHidingEnabled = sender.isOn
+    }
+
     @objc private func fullScreenSheetContent() {
         // This is also the default value which results in a full screen sheet.
         bottomSheetViewController?.preferredExpandedContentHeight = 0
@@ -92,6 +96,8 @@ class BottomSheetDemoController: UIViewController {
 
     private var previousScrollOffset: CGFloat = 0
 
+    private var scrollHidingEnabled: Bool = false
+
     private var isScrolling: Bool = false
 
     private var isHiding: Bool = false
@@ -102,6 +108,7 @@ class BottomSheetDemoController: UIViewController {
         [
             DemoItem(title: "Expandable", type: .boolean, action: #selector(toggleExpandable), isOn: bottomSheetViewController?.isExpandable ?? true),
             DemoItem(title: "Hidden", type: .boolean, action: #selector(toggleHidden), isOn: bottomSheetViewController?.isHidden ?? false),
+            DemoItem(title: "Hide on scroll", type: .boolean, action: #selector(toggleScrollHiding), isOn: scrollHidingEnabled),
             DemoItem(title: "Full screen sheet content", type: .action, action: #selector(fullScreenSheetContent)),
             DemoItem(title: "Fixed height sheet content", type: .action, action: #selector(fixedHeightSheetContent))
         ]
@@ -190,7 +197,7 @@ extension BottomSheetDemoController: UITableViewDataSource {
 
 extension BottomSheetDemoController: UIScrollViewDelegate {
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        isScrolling = true
+        isScrolling = scrollHidingEnabled
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -200,12 +207,11 @@ extension BottomSheetDemoController: UIScrollViewDelegate {
             var delta = contentOffset - previousScrollOffset
             if interactiveHidingAnimator == nil {
                 isHiding = delta > 0 ? true : false
-                interactiveHidingAnimator = bottomSheetViewController?.startInteractiveHiddenStateChange(isHidden: isHiding)
+                interactiveHidingAnimator = bottomSheetViewController?.startInteractiveHiddenStateChange(to: isHiding)
                 interactiveHidingAnimator?.addCompletion { [weak self] _ in
                     self?.mainTableView?.reloadData()
                     self?.mainTableView?.layoutIfNeeded()
                     self?.interactiveHidingAnimator = nil
-                    print("removing animator")
                 }
             }
             if let animator = interactiveHidingAnimator {

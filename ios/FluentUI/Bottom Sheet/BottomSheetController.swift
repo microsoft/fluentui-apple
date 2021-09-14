@@ -176,6 +176,7 @@ public class BottomSheetController: UIViewController {
     ///   - completion: Closure to be called when the state change completes.
     @objc public func setIsHidden(_ isHidden: Bool, animated: Bool = true, completion: ((_ isFinished: Bool) -> Void)? = nil) {
         let targetState: BottomSheetExpansionState = isHidden ? .hidden : .collapsed
+        print("Setting hidden to \(isHidden)")
         if isViewLoaded {
             move(to: targetState, animated: animated) { finalPosition in
                 completion?(finalPosition == .end)
@@ -186,28 +187,30 @@ public class BottomSheetController: UIViewController {
         }
     }
 
-    @objc public func startInteractiveHiddenStateChange(isHidden: Bool) -> UIViewPropertyAnimator? {
-        print("Trying start interactive hidden: \(isHidden)")
-        print("Current isHidden: \(isHidden)")
+    @objc public func startInteractiveHiddenStateChange(to isHidden: Bool) -> UIViewPropertyAnimator? {
         guard isViewLoaded else {
-            print("returning nil")
-            // TODO: Fix
             return nil
         }
 
-        stopAnimationIfNeeded()
+        completeAnimationsIfNeeded(skipToEnd: true)
 
-        let initialState: BottomSheetExpansionState = isHidden ? .collapsed : .hidden
-        let targetState: BottomSheetExpansionState = isHidden ? .hidden : .collapsed
+        var animator: UIViewPropertyAnimator?
+        if isHidden != self.isHidden {
+            let initialState: BottomSheetExpansionState = isHidden ? .collapsed : .hidden
+            let targetState: BottomSheetExpansionState = isHidden ? .hidden : .collapsed
 
-        move(to: initialState, animated: false)
+            move(to: initialState, animated: false)
 
-        panGestureRecognizer.isEnabled = false
-        bottomSheetView.isHidden = false
+            panGestureRecognizer.isEnabled = false
+            bottomSheetView.isHidden = false
 
-        let animator = stateChangeAnimator(to: targetState)
+            animator = stateChangeAnimator(to: targetState)
 
-        currentStateChangeAnimator = animator
+            currentStateChangeAnimator = animator
+            animator?.addCompletion { [weak self] _ in
+                self?.currentStateChangeAnimator = nil
+            }
+        }
 
         return animator
     }
@@ -283,7 +286,6 @@ public class BottomSheetController: UIViewController {
         var dimmingView = DimmingView(type: .black)
         dimmingView.translatesAutoresizingMaskIntoConstraints = false
         dimmingView.alpha = 0.0
-        dimmingView.isHidden = true
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleDimmingViewTap))
         dimmingView.addGestureRecognizer(tapGesture)
@@ -437,7 +439,7 @@ public class BottomSheetController: UIViewController {
     @objc private func handlePan(_ sender: UIPanGestureRecognizer) {
         switch sender.state {
         case .began:
-            stopAnimationIfNeeded()
+            completeAnimationsIfNeeded()
             fallthrough
         case .changed:
             translateSheet(by: sender.translation(in: view))
@@ -501,18 +503,21 @@ public class BottomSheetController: UIViewController {
                       interaction: BottomSheetInteraction = .noUserAction,
                       shouldNotifyDelegate: Bool = true,
                       completion: ((UIViewAnimatingPosition) -> Void)? = nil) {
+        completeAnimationsIfNeeded()
+
         let targetOffsetFromBottom = offset(for: targetExpansionState)
         if currentOffsetFromBottom != targetOffsetFromBottom {
-            stopAnimationIfNeeded()
-
             let animator = stateChangeAnimator(to: targetExpansionState, velocity: velocity)
             animator.addCompletion({ finalPosition in
                 completion?(finalPosition)
             })
 
             if animated {
-                animator.startAnimation()
                 currentStateChangeAnimator = animator
+                animator.addCompletion { [weak self] _ in
+                    self?.currentStateChangeAnimator = nil
+                }
+                animator.startAnimation()
             } else {
                 animator.stopAnimation(false)
                 animator.finishAnimation(at: .end)
@@ -569,7 +574,7 @@ public class BottomSheetController: UIViewController {
             guard let strongSelf = self else {
                 return
             }
-            strongSelf.panGestureRecognizer.isEnabled = true
+            strongSelf.panGestureRecognizer.isEnabled = strongSelf.isExpandable
 
             if finalPosition == .end {
                 strongSelf.handleCompletedStateChange(to: targetExpansionState, interaction: interaction, shouldNotifyDelegate: shouldNotifyDelegate)
@@ -582,7 +587,6 @@ public class BottomSheetController: UIViewController {
                 let offsetFromBottom = strongSelf.view.frame.height - strongSelf.bottomSheetView.frame.origin.y - strongSelf.view.safeAreaInsets.bottom
                 strongSelf.bottomSheetOffsetConstraint.constant = -offsetFromBottom
             }
-            strongSelf.currentStateChangeAnimator = nil
         })
         translationAnimator.pauseAnimation()
         return translationAnimator
@@ -623,10 +627,12 @@ public class BottomSheetController: UIViewController {
         updateExpandedContentAlpha()
     }
 
-    private func stopAnimationIfNeeded() {
+    private func completeAnimationsIfNeeded(skipToEnd: Bool = false) {
         if let currentAnimator = currentStateChangeAnimator, currentAnimator.isRunning {
+            let endPosition: UIViewAnimatingPosition = currentAnimator.isReversed ? .start : .end
             currentAnimator.stopAnimation(false)
-            currentAnimator.finishAnimation(at: .current)
+            currentAnimator.finishAnimation(at: skipToEnd ? endPosition : .current)
+            print("Stopping animation.")
             currentStateChangeAnimator = nil
         }
     }
