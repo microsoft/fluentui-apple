@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		114CF8B82423E10900D064AA /* ColorDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 114CF8B72423E10900D064AA /* ColorDemoController.swift */; };
-		22EABB182509A80B00C4BE72 /* IndeterminateProgressBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22EABB172509A80B00C4BE72 /* IndeterminateProgressBarDemoController.swift */; };
+		22EABB182509A80B00C4BE72 /* IndeterminateProgressBarViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22EABB172509A80B00C4BE72 /* IndeterminateProgressBarViewDemoController.swift */; };
 		2F0A96FC25CA047100EF9736 /* SearchBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0A96FB25CA047100EF9736 /* SearchBarDemoController.swift */; };
 		497DC2DE24185896008D86F8 /* PillButtonBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2DD24185896008D86F8 /* PillButtonBarDemoController.swift */; };
 		5303259326B3198A00611D05 /* AvatarDemoController_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5303259226B3198A00611D05 /* AvatarDemoController_SwiftUI.swift */; };
@@ -35,6 +35,8 @@
 		5360998126B8B8420069DE71 /* TableViewCellFileAccessoryViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DC2FB2A24C0F4FD00367A55 /* TableViewCellFileAccessoryViewDemoController.swift */; };
 		5360998226B8B84C0069DE71 /* TooltipDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7DF06121FB941400857267 /* TooltipDemoController.swift */; };
 		5373D55F2694C3070032A3B4 /* AvatarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5373D55E2694C3070032A3B4 /* AvatarDemoController.swift */; };
+		5373F95526F28D3A007F1410 /* IndeterminateProgressBarDemoController_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5373F95426F28D3A007F1410 /* IndeterminateProgressBarDemoController_SwiftUI.swift */; };
+		5373F95726F28D9B007F1410 /* IndeterminateProgressBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5373F95626F28D9B007F1410 /* IndeterminateProgressBarDemoController.swift */; };
 		7D0931C124AAA3D30072458A /* SideTabBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D0931C024AAA3D30072458A /* SideTabBarDemoController.swift */; };
 		80AECC0C2630F1BB005AF2F3 /* BottomCommandingDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AECC0B2630F1BB005AF2F3 /* BottomCommandingDemoController.swift */; };
 		80B1F7012628D8BB004DFEE5 /* BottomSheetDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B1F7002628D8BB004DFEE5 /* BottomSheetDemoController.swift */; };
@@ -92,7 +94,7 @@
 /* Begin PBXFileReference section */
 		11047D2522932DB1001F0F59 /* TabBarViewDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewDemoController.swift; sourceTree = "<group>"; };
 		114CF8B72423E10900D064AA /* ColorDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorDemoController.swift; sourceTree = "<group>"; };
-		22EABB172509A80B00C4BE72 /* IndeterminateProgressBarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBarDemoController.swift; sourceTree = "<group>"; };
+		22EABB172509A80B00C4BE72 /* IndeterminateProgressBarViewDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBarViewDemoController.swift; sourceTree = "<group>"; };
 		2F0A96FB25CA047100EF9736 /* SearchBarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchBarDemoController.swift; sourceTree = "<group>"; };
 		497DC2DD24185896008D86F8 /* PillButtonBarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButtonBarDemoController.swift; sourceTree = "<group>"; };
 		5303259226B3198A00611D05 /* AvatarDemoController_SwiftUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarDemoController_SwiftUI.swift; sourceTree = "<group>"; };
@@ -106,6 +108,8 @@
 		5360997226B8B7BF0069DE71 /* LeftNavDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftNavDemoController.swift; sourceTree = "<group>"; };
 		5360998326B8B8A70069DE71 /* ContactCollectionViewDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactCollectionViewDemoController.swift; sourceTree = "<group>"; };
 		5373D55E2694C3070032A3B4 /* AvatarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarDemoController.swift; sourceTree = "<group>"; };
+		5373F95426F28D3A007F1410 /* IndeterminateProgressBarDemoController_SwiftUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBarDemoController_SwiftUI.swift; sourceTree = "<group>"; };
+		5373F95626F28D9B007F1410 /* IndeterminateProgressBarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBarDemoController.swift; sourceTree = "<group>"; };
 		7D0931C024AAA3D30072458A /* SideTabBarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SideTabBarDemoController.swift; sourceTree = "<group>"; };
 		7DC2FB2A24C0F4FD00367A55 /* TableViewCellFileAccessoryViewDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCellFileAccessoryViewDemoController.swift; sourceTree = "<group>"; };
 		80AECC0B2630F1BB005AF2F3 /* BottomCommandingDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomCommandingDemoController.swift; sourceTree = "<group>"; };
@@ -328,7 +332,9 @@
 				FD7254EC21471A3F002F4069 /* DateTimePickerDemoController.swift */,
 				A5DCA75D211E3A92005F4CB7 /* DrawerDemoController.swift */,
 				B4E8F65121CD9579008A1598 /* HUDDemoController.swift */,
-				22EABB172509A80B00C4BE72 /* IndeterminateProgressBarDemoController.swift */,
+				5373F95626F28D9B007F1410 /* IndeterminateProgressBarDemoController.swift */,
+				5373F95426F28D3A007F1410 /* IndeterminateProgressBarDemoController_SwiftUI.swift */,
+				22EABB172509A80B00C4BE72 /* IndeterminateProgressBarViewDemoController.swift */,
 				A589F855211BA71000471C23 /* LabelDemoController.swift */,
 				5360997226B8B7BF0069DE71 /* LeftNavDemoController.swift */,
 				EC8EA6AF2580D82A00F191CE /* ListDemoController.swift */,
@@ -490,6 +496,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5340828926CF22B6007716E1 /* NotificationViewDemoController.swift in Sources */,
+				5373F95526F28D3A007F1410 /* IndeterminateProgressBarDemoController_SwiftUI.swift in Sources */,
 				B441478F228E02540040E88E /* OtherCellsDemoController.swift in Sources */,
 				5303259326B3198A00611D05 /* AvatarDemoController_SwiftUI.swift in Sources */,
 				5360997B26B8B81C0069DE71 /* NavigationControllerDemoController.swift in Sources */,
@@ -509,6 +516,7 @@
 				5360997526B8B7BF0069DE71 /* ActivityIndicatorDemoController.swift in Sources */,
 				5306075926A1E73F002D49CF /* AvatarGroupDemoController.swift in Sources */,
 				497DC2DE24185896008D86F8 /* PillButtonBarDemoController.swift in Sources */,
+				5373F95726F28D9B007F1410 /* IndeterminateProgressBarDemoController.swift in Sources */,
 				5340828826CF22AE007716E1 /* ThemingDemoController.swift in Sources */,
 				5360997A26B8B8140069DE71 /* DrawerDemoController.swift in Sources */,
 				5360997F26B8B8330069DE71 /* PopupMenuDemoController.swift in Sources */,
@@ -518,7 +526,7 @@
 				E6842974247B672000A29C40 /* SceneDelegate.swift in Sources */,
 				92E977B826C7144F008E10A8 /* DemoControllerScrollView.swift in Sources */,
 				92E977B726C7144F008E10A8 /* UIResponder+Extensions.swift in Sources */,
-				22EABB182509A80B00C4BE72 /* IndeterminateProgressBarDemoController.swift in Sources */,
+				22EABB182509A80B00C4BE72 /* IndeterminateProgressBarViewDemoController.swift in Sources */,
 				5360997E26B8B82C0069DE71 /* (null) in Sources */,
 				B4EF66542295F1A8007FEAB0 /* TableViewHeaderFooterViewDemoController.swift in Sources */,
 				2F0A96FC25CA047100EF9736 /* SearchBarDemoController.swift in Sources */,
