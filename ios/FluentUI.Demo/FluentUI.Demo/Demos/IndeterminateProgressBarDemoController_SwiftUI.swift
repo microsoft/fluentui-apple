@@ -25,8 +25,6 @@ class IndeterminateProgressBarDemoControllerSwiftUI: UIHostingController<Indeter
 struct IndeterminateProgressBarDemoView: View {
     @State var isAnimating: Bool = true
     @State var hidesWhenStopsAnimating: Bool = true
-    @State var usesCustomColor: Bool = false
-    @State var size: MSFActivityIndicatorSize = .xLarge
 
     public var body: some View {
         VStack {
