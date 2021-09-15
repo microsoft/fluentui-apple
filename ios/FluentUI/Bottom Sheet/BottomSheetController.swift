@@ -211,10 +211,6 @@ public class BottomSheetController: UIViewController {
             let targetState: BottomSheetExpansionState = isHidden ? .hidden : .collapsed
 
             move(to: initialState, animated: false)
-
-            panGestureRecognizer.isEnabled = false
-            bottomSheetView.isHidden = false
-
             animator = stateChangeAnimator(to: targetState)
 
             currentStateChangeAnimator = animator

@@ -82,6 +82,7 @@ class BottomCommandingDemoController: UIViewController {
 
     private var demoOptionItems: [DemoItem] {
         return [DemoItem(title: "Hidden", type: .boolean, action: #selector(toggleHidden), isOn: bottomCommandingController?.isHidden ?? false),
+                DemoItem(title: "Scroll to hide", type: .boolean, action: #selector(toggleScrollHiding), isOn: scrollHidingEnabled),
                 DemoItem(title: "Sheet more button", type: .boolean, action: #selector(toggleSheetMoreButton), isOn: bottomCommandingController?.prefersSheetMoreButtonVisible ?? true),
                 DemoItem(title: "Expanded list items", type: .boolean, action: #selector(toggleExpandedItems), isOn: expandedItemsVisible),
                 DemoItem(title: "Additional expanded list items", type: .boolean, action: #selector(toggleAdditionalExpandedItems(_:)), isOn: additionalExpandedItemsVisible),
@@ -101,6 +102,10 @@ class BottomCommandingDemoController: UIViewController {
 
     @objc private func toggleHidden(_ sender: BooleanCell) {
         bottomCommandingController?.isHidden = sender.isOn
+    }
+
+    @objc private func toggleScrollHiding(_ sender: BooleanCell) {
+        scrollHidingEnabled = sender.isOn
     }
 
     @objc private func toggleSheetMoreButton(_ sender: BooleanCell) {
@@ -280,11 +285,11 @@ class BottomCommandingDemoController: UIViewController {
 
     private var previousScrollOffset: CGFloat = 0
 
-    private var isScrolling: Bool = false
-
     private var isHiding: Bool = false
 
     private var interactiveHidingAnimator: UIViewAnimating?
+
+    private var scrollHidingEnabled: Bool = false
 
     private enum DemoItemType {
         case action
@@ -360,14 +365,10 @@ extension BottomCommandingDemoController: UITableViewDataSource {
 }
 
 extension BottomCommandingDemoController: UIScrollViewDelegate {
-    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        isScrolling = true
-    }
-
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let contentOffset = scrollView.contentOffset.y
 
-        if isScrolling {
+        if scrollView.isTracking && scrollHidingEnabled {
             var delta = contentOffset - previousScrollOffset
             if interactiveHidingAnimator == nil {
                 isHiding = delta > 0 ? true : false
@@ -375,7 +376,6 @@ extension BottomCommandingDemoController: UIScrollViewDelegate {
                     self?.mainTableViewController?.tableView?.reloadData()
                     self?.mainTableViewController?.tableView?.layoutIfNeeded()
                     self?.interactiveHidingAnimator = nil
-
                 }
             }
             if let animator = interactiveHidingAnimator {
@@ -383,6 +383,8 @@ extension BottomCommandingDemoController: UIScrollViewDelegate {
                     animator.pauseAnimation()
                 }
 
+                // fractionComplete either represents progress to hidden or unhidden,
+                // so we need to adjust the delta to account for this
                 delta *= isHiding ? 1 : -1
                 animator.fractionComplete += delta / 100
             }
@@ -392,7 +394,6 @@ extension BottomCommandingDemoController: UIScrollViewDelegate {
     }
 
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        isScrolling = false
         if let animator = interactiveHidingAnimator {
             if animator.fractionComplete > 0.5 {
                 animator.startAnimation()

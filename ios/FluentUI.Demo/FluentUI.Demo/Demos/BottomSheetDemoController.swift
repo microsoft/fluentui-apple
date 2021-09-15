@@ -98,8 +98,6 @@ class BottomSheetDemoController: UIViewController {
 
     private var scrollHidingEnabled: Bool = false
 
-    private var isScrolling: Bool = false
-
     private var isHiding: Bool = false
 
     private var interactiveHidingAnimator: UIViewAnimating?
@@ -108,7 +106,7 @@ class BottomSheetDemoController: UIViewController {
         [
             DemoItem(title: "Expandable", type: .boolean, action: #selector(toggleExpandable), isOn: bottomSheetViewController?.isExpandable ?? true),
             DemoItem(title: "Hidden", type: .boolean, action: #selector(toggleHidden), isOn: bottomSheetViewController?.isHidden ?? false),
-            DemoItem(title: "Hide on scroll", type: .boolean, action: #selector(toggleScrollHiding), isOn: scrollHidingEnabled),
+            DemoItem(title: "Scroll to hide", type: .boolean, action: #selector(toggleScrollHiding), isOn: scrollHidingEnabled),
             DemoItem(title: "Full screen sheet content", type: .action, action: #selector(fullScreenSheetContent)),
             DemoItem(title: "Fixed height sheet content", type: .action, action: #selector(fixedHeightSheetContent))
         ]
@@ -196,14 +194,10 @@ extension BottomSheetDemoController: UITableViewDataSource {
 }
 
 extension BottomSheetDemoController: UIScrollViewDelegate {
-    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        isScrolling = scrollHidingEnabled
-    }
-
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let contentOffset = scrollView.contentOffset.y
 
-        if isScrolling {
+        if scrollView.isTracking && scrollHidingEnabled {
             var delta = contentOffset - previousScrollOffset
             if interactiveHidingAnimator == nil {
                 isHiding = delta > 0 ? true : false
@@ -218,6 +212,8 @@ extension BottomSheetDemoController: UIScrollViewDelegate {
                     animator.pauseAnimation()
                 }
 
+                // fractionComplete either represents progress to hidden or unhidden,
+                // so we need to adjust the delta to account for this
                 delta *= isHiding ? 1 : -1
                 animator.fractionComplete += delta / 100
             }
@@ -227,7 +223,6 @@ extension BottomSheetDemoController: UIScrollViewDelegate {
     }
 
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        isScrolling = false
         if let animator = interactiveHidingAnimator {
             if animator.fractionComplete > 0.5 {
                 animator.startAnimation()
