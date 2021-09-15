@@ -189,11 +189,14 @@ public class BottomSheetController: UIViewController {
     /// Initiates an interactive `isHidden` state change driven by the returned `UIViewAnimating` object.
     ///
     /// The returned animator comes preloaded with all the animations required to reach the target `isHidden` state.
+    ///
     /// You can modify the `fractionComplete` property of the animator to interactively drive the animation in the paused state.
-    /// You can change the `isReversed` property of the animator to swap the start and target `isHidden` states.
+    /// You can also change the `isReversed` property to swap the start and target `isHidden` states.
+    ///
     /// At the end of the interactive portion of the animation, you must call `startAnimation` on the animator to complete it non-interactively.
-    /// - Parameter isHidden: The target state.
-    /// - Parameter completion: Closure to be called when the state change completes.
+    /// - Parameters:
+    ///   - isHidden: The target state.
+    ///   - completion: Closure to be called when the state change completes.
     /// - Returns: An animator that conforms to `UIViewAnimating`. The associated animations start in a paused state.
     @objc public func setIsHiddenInteractively(_ isHidden: Bool, completion: ((_ finalPosition: UIViewAnimatingPosition) -> Void)? = nil) -> UIViewAnimating? {
         guard isViewLoaded else {

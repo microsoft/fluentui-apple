@@ -284,7 +284,7 @@ class BottomCommandingDemoController: UIViewController {
 
     private var isHiding: Bool = false
 
-    private var interactiveHidingAnimator: UIViewPropertyAnimator?
+    private var interactiveHidingAnimator: UIViewAnimating?
 
     private enum DemoItemType {
         case action
@@ -371,9 +371,18 @@ extension BottomCommandingDemoController: UIScrollViewDelegate {
             var delta = contentOffset - previousScrollOffset
             if interactiveHidingAnimator == nil {
                 isHiding = delta > 0 ? true : false
-                interactiveHidingAnimator = bottomCommandingController?.startInteractiveHiddenStateChange(isHidden: isHiding)
+                interactiveHidingAnimator = bottomCommandingController?.setIsHiddenInteractively(isHiding) { [weak self] _ in
+                    self?.mainTableViewController?.tableView?.reloadData()
+                    self?.mainTableViewController?.tableView?.layoutIfNeeded()
+                    self?.interactiveHidingAnimator = nil
+
+                }
             }
             if let animator = interactiveHidingAnimator {
+                if animator.isRunning {
+                    animator.pauseAnimation()
+                }
+
                 delta *= isHiding ? 1 : -1
                 animator.fractionComplete += delta / 100
             }
@@ -385,18 +394,13 @@ extension BottomCommandingDemoController: UIScrollViewDelegate {
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         isScrolling = false
         if let animator = interactiveHidingAnimator {
-            if animator.fractionComplete > 0.2 {
+            if animator.fractionComplete > 0.5 {
                 animator.startAnimation()
             } else {
-                animator.isReversed = true
+                animator.isReversed.toggle()
+                isHiding.toggle()
                 animator.startAnimation()
             }
-
-            animator.addCompletion { [weak self] _ in
-                self?.mainTableViewController?.tableView?.reloadData()
-                self?.mainTableViewController?.tableView?.layoutIfNeeded()
-            }
-            interactiveHidingAnimator = nil
         }
     }
 }

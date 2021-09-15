@@ -180,18 +180,21 @@ open class BottomCommandingController: UIViewController {
             } else {
                 if let animator = bottomBarHidingAnimator {
                     animator.stopAnimation(false)
+                    animator.finishAnimation(at: .current)
                 }
 
                 if animated {
                     let animator = bottomBarHidingAnimator(to: isHidden)
 
                     if let animator = animator {
-                        animator.addCompletion { finalPosition in
+                        bottomBarHidingAnimator = animator
+                        animator.addCompletion { [weak self] finalPosition in
+                            self?.bottomBarHidingAnimator = nil
                             completion?(finalPosition == .end)
                         }
 
                         animator.startAnimation()
-                        bottomBarHidingAnimator = animator
+
                     }
                 } else {
                     bottomBarViewBottomConstraint?.constant = isHidden ? -Constants.BottomBar.hiddenBottomOffset : -Constants.BottomBar.bottomOffset
@@ -200,24 +203,37 @@ open class BottomCommandingController: UIViewController {
                 }
             }
         }
-        _isHidden = isHidden
     }
 
-    @objc public func startInteractiveHiddenStateChange(isHidden: Bool) -> UIViewPropertyAnimator? {
+    /// Initiates an interactive `isHidden` state change driven by the returned `UIViewAnimating` object.
+    ///
+    /// For usage details, see `BottomSheetController.setIsHiddenInteractively`.
+    /// - Parameters:
+    ///   - isHidden: The target state.
+    ///   - completion: Closure to be called when the state change completes.
+    /// - Returns: An animator that conforms to `UIViewAnimating`. The associated animations start in a paused state.
+    @objc public func setIsHiddenInteractively(_ isHidden: Bool, completion: ((_ finalPosition: UIViewAnimatingPosition) -> Void)? = nil) -> UIViewAnimating? {
         guard isViewLoaded else {
             return nil
         }
 
-        var animator: UIViewPropertyAnimator?
+        var animator: UIViewAnimating?
 
         if isInSheetMode {
-            return bottomSheetController?.startInteractiveHiddenStateChange(to: isHidden)
+            animator = bottomSheetController?.setIsHiddenInteractively(isHidden, completion: completion)
         } else {
             if let animator = bottomBarHidingAnimator {
                 animator.stopAnimation(false)
+                animator.finishAnimation(at: animator.isReversed ? .start : .end)
             }
-            animator = bottomBarHidingAnimator(to: isHidden)
-            bottomBarHidingAnimator = animator
+            if isHidden != self.isHidden, let hidingAnimator = bottomBarHidingAnimator(to: isHidden) {
+                bottomBarHidingAnimator = hidingAnimator
+                hidingAnimator.addCompletion { [weak self] finalPosition in
+                    self?.bottomBarHidingAnimator = nil
+                    completion?(finalPosition)
+                }
+                animator = hidingAnimator
+            }
         }
 
         return animator
@@ -706,9 +722,10 @@ open class BottomCommandingController: UIViewController {
             self?.view.layoutIfNeeded()
         }
 
-        animator.addCompletion { finalPosition in
+        animator.addCompletion { [weak self] finalPosition in
             if finalPosition == .end {
                 bottomBarView.isHidden = isHidden
+                self?._isHidden = isHidden
             } else if finalPosition == .start {
                 bottomBarView.isHidden = initialHiddenState
                 bottomConstraint.constant = initialBottomConstant
