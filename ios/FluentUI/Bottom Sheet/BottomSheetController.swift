@@ -169,14 +169,13 @@ public class BottomSheetController: UIViewController {
         }
     }
 
-    /// Sets the `isHidden` property with a completion handler.
+    /// Changes the `isHidden` state with a completion handler.
     /// - Parameters:
     ///   - isHidden: The new value.
     ///   - animated: Indicates if the change should be animated. The default value is `true`.
     ///   - completion: Closure to be called when the state change completes.
     @objc public func setIsHidden(_ isHidden: Bool, animated: Bool = true, completion: ((_ isFinished: Bool) -> Void)? = nil) {
         let targetState: BottomSheetExpansionState = isHidden ? .hidden : .collapsed
-        print("Setting hidden to \(isHidden)")
         if isViewLoaded {
             move(to: targetState, animated: animated) { finalPosition in
                 completion?(finalPosition == .end)
@@ -187,7 +186,16 @@ public class BottomSheetController: UIViewController {
         }
     }
 
-    @objc public func startInteractiveHiddenStateChange(to isHidden: Bool) -> UIViewPropertyAnimator? {
+    /// Initiates an interactive `isHidden` state change driven by the returned `UIViewAnimating` object.
+    ///
+    /// The returned animator comes preloaded with all the animations required to reach the target `isHidden` state.
+    /// You can modify the `fractionComplete` property of the animator to interactively drive the animation in the paused state.
+    /// You can change the `isReversed` property of the animator to swap the start and target `isHidden` states.
+    /// At the end of the interactive portion of the animation, you must call `startAnimation` on the animator to complete it non-interactively.
+    /// - Parameter isHidden: The target state.
+    /// - Parameter completion: Closure to be called when the state change completes.
+    /// - Returns: An animator that conforms to `UIViewAnimating`. The associated animations start in a paused state.
+    @objc public func setIsHiddenInteractively(_ isHidden: Bool, completion: ((_ finalPosition: UIViewAnimatingPosition) -> Void)? = nil) -> UIViewAnimating? {
         guard isViewLoaded else {
             return nil
         }
@@ -207,8 +215,9 @@ public class BottomSheetController: UIViewController {
             animator = stateChangeAnimator(to: targetState)
 
             currentStateChangeAnimator = animator
-            animator?.addCompletion { [weak self] _ in
+            animator?.addCompletion { [weak self] finalPosition in
                 self?.currentStateChangeAnimator = nil
+                completion?(finalPosition)
             }
         }
 
@@ -504,8 +513,8 @@ public class BottomSheetController: UIViewController {
                       shouldNotifyDelegate: Bool = true,
                       completion: ((UIViewAnimatingPosition) -> Void)? = nil) {
         completeAnimationsIfNeeded()
-
         let targetOffsetFromBottom = offset(for: targetExpansionState)
+
         if currentOffsetFromBottom != targetOffsetFromBottom {
             let animator = stateChangeAnimator(to: targetExpansionState, velocity: velocity)
             animator.addCompletion({ finalPosition in
@@ -632,7 +641,6 @@ public class BottomSheetController: UIViewController {
             let endPosition: UIViewAnimatingPosition = currentAnimator.isReversed ? .start : .end
             currentAnimator.stopAnimation(false)
             currentAnimator.finishAnimation(at: skipToEnd ? endPosition : .current)
-            print("Stopping animation.")
             currentStateChangeAnimator = nil
         }
     }
