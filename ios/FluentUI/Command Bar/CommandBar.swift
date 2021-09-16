@@ -32,15 +32,8 @@ open class CommandBar: UIView, FluentUIWindowProvider {
         self.trailingItem = trailingItem
 
         super.init(frame: .zero)
-        updateView()
-    }
+        commandBarTokens.windowProvider = self
 
-    open override func didMoveToWindow() {
-        super.didMoveToWindow()
-        updateView()
-    }
-
-    private func updateView() {
         if let leadingItem = leadingItem {
             self.leadingButton = button(forItem: leadingItem, isPersistSelection: false)
         }
@@ -52,6 +45,11 @@ open class CommandBar: UIView, FluentUIWindowProvider {
 
         configureHierarchy()
         updateButtonsState()
+    }
+
+    open override func didMoveToWindow() {
+        super.didMoveToWindow()
+        commandBarTokens.didChangeAppearanceProxy()
     }
 
     @available(*, unavailable)
