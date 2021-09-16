@@ -5,21 +5,21 @@
 
 import UIKit
 
-class MSFCommandBarTokens: MSFTokensBase, ObservableObject {
-    @Published public var defaultBackgroundColor: UIColor!
-    @Published public var defaultIconColor: UIColor!
+class MSFCommandBarTokens: MSFTokensBase {
+    public var defaultBackgroundColor: UIColor!
+    public var defaultIconColor: UIColor!
 
-    @Published public var pressedBackgroundColor: UIColor!
-    @Published public var pressedIconColor: UIColor!
+    public var pressedBackgroundColor: UIColor!
+    public var pressedIconColor: UIColor!
 
-    @Published public var dismissBackgroundColor: UIColor!
-    @Published public var dismissIconColor: UIColor!
-    @Published public var groupBorderRadius: CGFloat!
-    @Published public var groupInterspace: CGFloat!
-    @Published public var iconSize: CGFloat!
-    @Published public var itemInterspace: CGFloat!
+    public var dismissBackgroundColor: UIColor!
+    public var dismissIconColor: UIColor!
+    public var groupBorderRadius: CGFloat!
+    public var groupInterspace: CGFloat!
+    public var iconSize: CGFloat!
+    public var itemInterspace: CGFloat!
 
-    /// Notifies the drawer controller to refresh its UI to reflect its design token values
+    /// Notifies the CommandBar  to refresh its UI to reflect its design token values
     var themeDidUpdate: (() -> Void)?
 
     override init() {
@@ -35,6 +35,10 @@ class MSFCommandBarTokens: MSFTokensBase, ObservableObject {
     }
 
     override func updateForCurrentTheme() {
+        if let themeChanged = themeDidUpdate {
+            themeChanged()
+        }
+
         let currentTheme = theme
         let appearanceProxy = currentTheme.MSFCommandBarTokens
 

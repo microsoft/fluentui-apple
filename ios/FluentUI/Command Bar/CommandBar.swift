@@ -35,6 +35,11 @@ open class CommandBar: UIView, FluentUIWindowProvider {
         updateView()
     }
 
+    open override func didMoveToWindow() {
+        super.didMoveToWindow()
+        updateView()
+    }
+
     private func updateView() {
         if let leadingItem = leadingItem {
             self.leadingButton = button(forItem: leadingItem, isPersistSelection: false)
@@ -72,14 +77,6 @@ open class CommandBar: UIView, FluentUIWindowProvider {
 
         containerMaskLayer.frame = containerView.bounds
         updateShadow()
-
-        commandBarTokens.themeDidUpdate = { [weak self] in
-            guard let strongSelf = self else {
-                return
-            }
-            strongSelf.updateView()
-        }
-        commandBarTokens.windowProvider = self
     }
 
     // MARK: - Private properties
