@@ -63,7 +63,7 @@ public struct MSFListView: View {
                     }
                 }
             }
-            .animation(Animation.default)
+            .animation(.default)
             .environment(\.defaultMinListRowHeight, 0)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .designTokens(tokens,
