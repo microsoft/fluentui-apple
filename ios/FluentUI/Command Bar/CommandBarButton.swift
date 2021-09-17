@@ -14,12 +14,6 @@ class CommandBarButton: UIButton {
         }
     }
 
-//    override var isFocused: Bool {
-//        didSet {
-//            updateStyle()
-//        }
-//    }
-
     override var isSelected: Bool {
         didSet {
             updateStyle()
@@ -101,6 +95,14 @@ class CommandBarButton: UIButton {
         return commandBarTokens.selectedBackgroundColor
     }
 
+    private var disabledBackgroundColor: UIColor {
+        return commandBarTokens.disabledBackgroundColor
+    }
+
+    private var disabledIconColor: UIColor {
+        return commandBarTokens.disabledIconColor
+    }
+
     private var normalTintColor: UIColor {
         return commandBarTokens.iconColor
     }
@@ -117,7 +119,10 @@ class CommandBarButton: UIButton {
             backgroundColor = commandBarTokens.dismissBackgroundColor
             tintColor = commandBarTokens.dismissIconColor
         } else {
-            if isSelected {
+            if !isEnabled {
+                backgroundColor = disabledBackgroundColor
+                tintColor = disabledIconColor
+            } else if isSelected {
                 backgroundColor = selectedBackgroundColor
             } else if isHighlighted {
                 backgroundColor = highlightedBackgroundColor

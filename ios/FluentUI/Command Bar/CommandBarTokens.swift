@@ -8,16 +8,16 @@ import UIKit
 class MSFCommandBarTokens: MSFTokensBase {
     public var backgroundColor: UIColor!
     public var iconColor: UIColor!
-    
+
     public var hoverBackgroundColor: UIColor!
     public var hoverIconColor: UIColor!
-    
+
     public var pressedBackgroundColor: UIColor!
     public var pressedIconColor: UIColor!
-    
+
     public var selectedBackgroundColor: UIColor!
     public var selectedIconColor: UIColor!
-    
+
     public var disabledBackgroundColor: UIColor!
     public var disabledIconColor: UIColor!
 
@@ -54,16 +54,16 @@ class MSFCommandBarTokens: MSFTokensBase {
 
         backgroundColor = appearanceProxy.backgroundColor.rest
         iconColor = appearanceProxy.iconColor.rest
-        
+
         hoverBackgroundColor = appearanceProxy.backgroundColor.hover
         hoverIconColor = appearanceProxy.iconColor.hover
-        
+
         pressedBackgroundColor = appearanceProxy.backgroundColor.pressed
         pressedIconColor = appearanceProxy.iconColor.pressed
-        
+
         selectedBackgroundColor = appearanceProxy.backgroundColor.selected
         selectedIconColor = appearanceProxy.iconColor.selected
-        
+
         disabledBackgroundColor = appearanceProxy.backgroundColor.disabled
         disabledIconColor = appearanceProxy.iconColor.disabled
 
