@@ -6,14 +6,24 @@
 import UIKit
 
 class MSFCommandBarTokens: MSFTokensBase {
-    public var defaultBackgroundColor: UIColor!
-    public var defaultIconColor: UIColor!
-
+    public var backgroundColor: UIColor!
+    public var iconColor: UIColor!
+    
+    public var hoverBackgroundColor: UIColor!
+    public var hoverIconColor: UIColor!
+    
     public var pressedBackgroundColor: UIColor!
     public var pressedIconColor: UIColor!
+    
+    public var selectedBackgroundColor: UIColor!
+    public var selectedIconColor: UIColor!
+    
+    public var disabledBackgroundColor: UIColor!
+    public var disabledIconColor: UIColor!
 
     public var dismissBackgroundColor: UIColor!
     public var dismissIconColor: UIColor!
+
     public var groupBorderRadius: CGFloat!
     public var groupInterspace: CGFloat!
     public var iconSize: CGFloat!
@@ -42,15 +52,27 @@ class MSFCommandBarTokens: MSFTokensBase {
         let currentTheme = theme
         let appearanceProxy = currentTheme.MSFCommandBarTokens
 
-        defaultBackgroundColor = appearanceProxy.backgroundColor.rest
-        defaultIconColor = appearanceProxy.iconColor.rest
+        backgroundColor = appearanceProxy.backgroundColor.rest
+        iconColor = appearanceProxy.iconColor.rest
+        
+        hoverBackgroundColor = appearanceProxy.backgroundColor.hover
+        hoverIconColor = appearanceProxy.iconColor.hover
+        
+        pressedBackgroundColor = appearanceProxy.backgroundColor.pressed
+        pressedIconColor = appearanceProxy.iconColor.pressed
+        
+        selectedBackgroundColor = appearanceProxy.backgroundColor.selected
+        selectedIconColor = appearanceProxy.iconColor.selected
+        
+        disabledBackgroundColor = appearanceProxy.backgroundColor.disabled
+        disabledIconColor = appearanceProxy.iconColor.disabled
+
         dismissBackgroundColor = appearanceProxy.dismissBackgroundColor
         dismissIconColor = appearanceProxy.dismissIconColor
+
         groupBorderRadius = appearanceProxy.groupBorderRadius
         groupInterspace = appearanceProxy.groupInterspace
         iconSize = appearanceProxy.iconSize
         itemInterspace = appearanceProxy.itemInterspace
-        pressedBackgroundColor = appearanceProxy.backgroundColor.pressed
-        pressedIconColor = appearanceProxy.iconColor.pressed
     }
 }

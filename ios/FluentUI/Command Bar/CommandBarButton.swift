@@ -14,6 +14,12 @@ class CommandBarButton: UIButton {
         }
     }
 
+//    override var isFocused: Bool {
+//        didSet {
+//            updateStyle()
+//        }
+//    }
+
     override var isSelected: Bool {
         didSet {
             updateStyle()
@@ -79,20 +85,28 @@ class CommandBarButton: UIButton {
 
     private let isPersistSelection: Bool
 
-    private var selectedTintColor: UIColor {
-        return commandBarTokens.pressedIconColor
-    }
-
-    private var selectedBackgroundColor: UIColor {
+    private var highlightedBackgroundColor: UIColor {
         return commandBarTokens.pressedBackgroundColor
     }
 
+    private var highlightedIconColor: UIColor {
+        return commandBarTokens.pressedIconColor
+    }
+
+    private var selectedTintColor: UIColor {
+        return commandBarTokens.selectedIconColor
+    }
+
+    private var selectedBackgroundColor: UIColor {
+        return commandBarTokens.selectedBackgroundColor
+    }
+
     private var normalTintColor: UIColor {
-        return commandBarTokens.defaultIconColor
+        return commandBarTokens.iconColor
     }
 
     private var normalBackgroundColor: UIColor {
-        return commandBarTokens.defaultBackgroundColor
+        return commandBarTokens.backgroundColor
     }
 
     private func updateStyle() {
@@ -106,7 +120,8 @@ class CommandBarButton: UIButton {
             if isSelected {
                 backgroundColor = selectedBackgroundColor
             } else if isHighlighted {
-                backgroundColor = CommandBarButton.highlightedBackgroundColor
+                backgroundColor = highlightedBackgroundColor
+                tintColor = highlightedIconColor
             } else {
                 backgroundColor = normalBackgroundColor
             }
@@ -114,5 +129,4 @@ class CommandBarButton: UIButton {
     }
 
     private static let contentEdgeInsets = UIEdgeInsets(top: 8.0, left: 10.0, bottom: 8.0, right: 10.0)
-    private static let highlightedBackgroundColor = UIColor(light: Colors.gray100, dark: Colors.gray900)
 }

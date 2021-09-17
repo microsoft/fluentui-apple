@@ -25,14 +25,29 @@ extension FluentUIStyle {
 				self.mainProxy = proxy
 			}
 
+			// MARK: - disabled 
+			open var disabled: UIColor {
+				return mainProxy().Colors.Stroke.neutral1
+			}
+
+			// MARK: - hover 
+			open var hover: UIColor {
+				return UIColor(light: mainProxy().Colors.Background.neutral5, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Stroke.neutral2, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+			}
+
 			// MARK: - pressed 
 			open var pressed: UIColor {
-				return mainProxy().Colors.Background.brandRest
+				return UIColor(light: mainProxy().Colors.Background.neutralDisabled, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Background.neutral5, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 			}
 
 			// MARK: - rest 
 			open var rest: UIColor {
 				return mainProxy().Colors.Background.neutral4
+			}
+
+			// MARK: - selected 
+			open var selected: UIColor {
+				return mainProxy().Colors.Background.brandRest
 			}
 		}
 
@@ -67,14 +82,29 @@ extension FluentUIStyle {
 				self.mainProxy = proxy
 			}
 
+			// MARK: - disabled 
+			open var disabled: UIColor {
+				return mainProxy().Colors.Foreground.neutralDisabled
+			}
+
+			// MARK: - hover 
+			open var hover: UIColor {
+				return mainProxy().Colors.Foreground.neutral1
+			}
+
 			// MARK: - pressed 
 			open var pressed: UIColor {
-				return mainProxy().Colors.Foreground.neutralInverted
+				return mainProxy().Colors.Foreground.neutral1
 			}
 
 			// MARK: - rest 
 			open var rest: UIColor {
 				return mainProxy().Colors.Foreground.neutral1
+			}
+
+			// MARK: - selected 
+			open var selected: UIColor {
+				return mainProxy().Colors.Foreground.neutralInverted
 			}
 		}
 

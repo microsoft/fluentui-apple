@@ -312,12 +312,12 @@ MSFBorderedCardNudgeTokens extends MSFCardNudgeTokens:
     textColor: $Colors.Brand.shade20
 
 AP_MSFCommandBarTokens:
-  backgroundColor: [ rest: $Colors.Background.neutral4, pressed: $Colors.Background.brandRest ]
+  backgroundColor: [ rest: $Colors.Background.neutral4, hover: "FluentUIColor(light: $Colors.Background.neutral5, dark: $Colors.Stroke.neutral2)", pressed: "FluentUIColor(light: $Colors.Background.neutralDisabled, dark: $Colors.Background.neutral5)", selected: $Colors.Background.brandRest, disabled: $Colors.Stroke.neutral1 ]
   dismissBackgroundColor: $Colors.Background.neutral1
   dismissIconColor: "FluentUIColor(light: $Colors.Foreground.neutral1, dark: $Colors.Foreground.neutral3)"
   groupBorderRadius: $Border.radius.xLarge
   groupInterspace: $Spacing.medium
-  iconColor: [ rest: $Colors.Foreground.neutral1, pressed: $Colors.Foreground.neutralInverted ]
+  iconColor: [ rest: $Colors.Foreground.neutral1, hover: $Colors.Foreground.neutral1, pressed: $Colors.Foreground.neutral1, selected: $Colors.Foreground.neutralInverted, disabled: $Colors.Foreground.neutralDisabled ]
   iconSize: $Icon.size.medium
   itemInterspace: $Spacing.xxxSmall
 
