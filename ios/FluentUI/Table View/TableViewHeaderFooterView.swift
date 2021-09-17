@@ -231,7 +231,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
 
     private let titleView = TableViewHeaderFooterTitleView()
 
-    private var accessoryView: UIView? = nil {
+    private var accessoryView: UIView? {
         didSet {
             oldValue?.removeFromSuperview()
             if let accessoryView = accessoryView {
@@ -240,7 +240,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         }
     }
 
-    private var accessoryButton: UIButton? = nil {
+    private var accessoryButton: UIButton? {
         didSet {
             accessoryView = accessoryButton
             if accessoryButton != nil {
@@ -249,7 +249,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         }
     }
 
-    private var leadingView: UIView? = nil {
+    private var leadingView: UIView? {
         didSet {
             oldValue?.removeFromSuperview()
             if let leadingView = leadingView {
