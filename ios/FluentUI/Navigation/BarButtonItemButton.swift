@@ -28,7 +28,6 @@ class BarButtonItemButton: UIButton {
                                                object: item)
 
         badgeValue = item.badgeValue
-        updateLayout()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -48,8 +47,10 @@ class BarButtonItemButton: UIButton {
     private struct Constants {
         static let leftBarButtonItemLeadingMargin: CGFloat = 8
         static let rightBarButtonItemHorizontalPadding: CGFloat = 10
-        static let badgeHeight: CGFloat = 18
-        static let badgeMinWidth: CGFloat = 18
+        static let badgeVerticalOffset: CGFloat = -5
+        static let badgePortraitTitleVerticalOffset: CGFloat = -2
+        static let badgeHeight: CGFloat = 16
+        static let badgeMinWidth: CGFloat = 16
         static let badgeMaxWidth: CGFloat = 30
         static let badgeBorderWidth: CGFloat = 2
         static let badgeFontSize: CGFloat = 11
@@ -85,7 +86,6 @@ class BarButtonItemButton: UIButton {
     private func updateLayout() {
         updateButton()
         updateBadgeView()
-        invalidateIntrinsicContentSize()
     }
 
     private func updateButton() {
@@ -152,11 +152,13 @@ class BarButtonItemButton: UIButton {
             maskLayer.fillRule = .evenOdd
 
             let path = UIBezierPath(rect: CGRect(x: 0, y: 0, width: bounds.size.width, height: bounds.size.height))
+            let badgeVerticalOffset = isInPortraitMode ? Constants.badgePortraitTitleVerticalOffset : Constants.badgeVerticalOffset
+            let badgeVerticalPosition = bounds.origin.y + (bounds.size.height - intrinsicContentSize.height) / 2 - Constants.badgeHeight / 2 - badgeVerticalOffset
 
             if badgeView.text?.count ?? 1 > 1 {
                 let badgeWidth = min(max(badgeView.intrinsicContentSize.width + Constants.badgeHorizontalPadding, Constants.badgeMinWidth), Constants.badgeMaxWidth)
                 badgeView.frame = CGRect(x: badgeFrameOriginX(for: badgeWidth),
-                                         y: bounds.origin.y + (bounds.size.height - intrinsicContentSize.height) / 2 - Constants.badgeHeight / 2,
+                                         y: badgeVerticalPosition,
                                          width: badgeWidth,
                                          height: Constants.badgeHeight)
 
@@ -174,7 +176,7 @@ class BarButtonItemButton: UIButton {
             } else {
                 let badgeWidth = max(badgeView.intrinsicContentSize.width, Constants.badgeMinWidth)
                 badgeView.frame = CGRect(x: badgeFrameOriginX(for: badgeWidth),
-                                         y: bounds.origin.y + (bounds.size.height - intrinsicContentSize.height) / 2 - Constants.badgeHeight / 2,
+                                         y: badgeVerticalPosition,
                                          width: badgeWidth,
                                          height: Constants.badgeHeight)
 
