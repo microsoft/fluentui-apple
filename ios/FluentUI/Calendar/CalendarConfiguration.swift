@@ -6,10 +6,6 @@
 import Foundation
 
 // MARK: CalendarConfiguration
-
-@available(*, deprecated, renamed: "CalendarConfiguration")
-public typealias MSCalendarConfiguration = CalendarConfiguration
-
 @objc(MSFCalendarConfiguration)
 open class CalendarConfiguration: NSObject {
     private struct Constants {

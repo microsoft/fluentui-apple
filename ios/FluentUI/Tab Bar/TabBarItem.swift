@@ -5,9 +5,6 @@
 
 import UIKit
 
-@available(*, deprecated, renamed: "TabBarItem")
-public typealias MSTabBarItem = TabBarItem
-
 @objc(MSFTabBarItem)
 open class TabBarItem: NSObject {
     @objc public let title: String

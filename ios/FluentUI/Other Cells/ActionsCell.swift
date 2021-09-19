@@ -7,9 +7,6 @@ import UIKit
 
 // MARK: ActionsCell
 
-@available(*, deprecated, renamed: "ActionsCell")
-public typealias MSActionsCell = ActionsCell
-
 /**
  `ActionsCell` is used to present a button or set of buttons (max of 2) as a row in a table view. After being added to the table view a target can be added to the button(s) with a corresponding action.
 

@@ -24,6 +24,7 @@ public extension Colors {
             public static var cancelButton: UIColor = LightContent.text
             public static var clearIcon = UIColor(light: iconOnAccent, dark: textSecondary)
             public static var placeholderText = UIColor(light: textOnAccent, dark: textSecondary)
+            public static var progressSpinner = UIColor(light: textOnAccent, dark: textSecondary)
             public static var searchIcon: UIColor = placeholderText
             public static var text = UIColor(light: textOnAccent, dark: textDominant)
             public static var tint: UIColor = LightContent.text
@@ -32,9 +33,6 @@ public extension Colors {
 }
 
 // MARK: SearchBarDelegate
-
-@available(*, deprecated, renamed: "SearchBarDelegate")
-public typealias MSSearchBarDelegate = SearchBarDelegate
 
 /// Various state update methods coming from the SearchBar
 @objc(MSFSearchBarDelegate)
@@ -47,9 +45,6 @@ public protocol SearchBarDelegate: AnyObject {
 }
 
 // MARK: - SearchBar
-
-@available(*, deprecated, renamed: "SearchBar")
-public typealias MSSearchBar = SearchBar
 
 /// Drop-in replacement for UISearchBar that allows for more customization
 @objc(MSFSearchBar)
@@ -121,10 +116,10 @@ open class SearchBar: UIView {
             }
         }
 
-        func progressSpinnerColor(for window: UIWindow) -> UIColor {
+        var progressSpinnerColor: UIColor {
             switch self {
             case .lightContent:
-                return UIColor(light: Colors.primaryTint10(for: window), dark: Colors.textPrimary)
+                return Colors.SearchBar.LightContent.progressSpinner
             case .darkContent:
                 return Colors.SearchBar.DarkContent.progressSpinner
             }
@@ -444,9 +439,7 @@ open class SearchBar: UIView {
         // used for cursor or selection handle
         searchTextField.tintColor = style.tintColor
         clearButton.tintColor = style.clearIconColor
-        if let window = window {
-            progressSpinner.color = style.progressSpinnerColor(for: window)
-        }
+        progressSpinner.color = style.progressSpinnerColor
         cancelButton.setTitleColor(style.cancelButtonColor, for: .normal)
         attributePlaceholderText()
     }

@@ -49,9 +49,6 @@ open class NavigationBarTopSearchBarAttributes: NavigationBarTopAccessoryViewAtt
 
 // MARK: - NavigationBar
 
-@available(*, deprecated, renamed: "NavigationBar")
-public typealias MSNavigationBar = NavigationBar
-
 /// UINavigationBar subclass, with a content view that contains various custom UIElements
 /// Contains the MSNavigationTitleView class and handles passing animatable progress through
 /// Custom UI can be hidden if desired

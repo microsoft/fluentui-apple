@@ -7,9 +7,6 @@ import UIKit
 
 // MARK: TableViewHeaderFooterViewDelegate
 
-@available(*, deprecated, renamed: "TableViewHeaderFooterViewDelegate")
-public typealias MSTableViewHeaderFooterViewDelegate = TableViewHeaderFooterViewDelegate
-
 @objc(MSFTableViewHeaderFooterViewDelegate)
 public protocol TableViewHeaderFooterViewDelegate: AnyObject {
     /// Returns: true if the interaction with the header view should be allowed; false if the interaction should not be allowed.
@@ -17,9 +14,6 @@ public protocol TableViewHeaderFooterViewDelegate: AnyObject {
 }
 
 // MARK: - TableViewHeaderFooterView
-
-@available(*, deprecated, renamed: "TableViewHeaderFooterView")
-public typealias MSTableViewHeaderFooterView = TableViewHeaderFooterView
 
 /// `TableViewHeaderFooterView` is used to present a section header or footer with a `title` and an optional accessory button.
 /// Set the `TableViewHeaderFooterView.Style` of the view to specify its visual style. The `default` and `headerPrimary` style may be used for headers.

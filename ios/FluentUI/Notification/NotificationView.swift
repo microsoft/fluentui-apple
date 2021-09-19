@@ -25,9 +25,6 @@ public extension Colors {
 
 // MARK: - NotificationView
 
-@available(*, deprecated, renamed: "NotificationView")
-public typealias MSNotificationView = NotificationView
-
 /**
  `NotificationView` can be used to present a toast (`.primaryToast` and `.neutralToast` styles) or a notification bar (`.primaryBar`, `.primaryOutlineBar`, and `.neutralBar` styles) with information and actions at the bottom of the screen.
 

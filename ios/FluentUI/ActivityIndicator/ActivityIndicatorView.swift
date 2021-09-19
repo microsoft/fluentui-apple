@@ -10,9 +10,6 @@ import UIKit
 /**
  * `ActivityIndicatorViewSize` defines the side size of the loader and the thickness of the loader stroke.
  */
-@available(*, deprecated, renamed: "ActivityIndicatorViewSize")
-public typealias MSActivityIndicatorViewSize = ActivityIndicatorViewSize
-
 @objc(MSFActivityIndicatorViewSize)
 public enum ActivityIndicatorViewSize: Int, CaseIterable {
     case xSmall
@@ -74,9 +71,6 @@ public extension Colors {
 /**
  * `ActivityIndicatorView` is meant to be used as a drop-in replacement of `UIActivityIndicatorView`. Its API strictly matches `UIActivityIndicatorView` API. The only exception is the replacement of `UIActivityIndicatorViewStyle` with `ActivityIndicatorViewSize` that doesn't include any color definition.
  */
-@available(*, deprecated, renamed: "ActivityIndicatorView")
-public typealias MSActivityIndicatorView = ActivityIndicatorView
-
 @objc(MSFActivityIndicatorView)
 open class ActivityIndicatorView: UIView, ActivityViewAnimating {
     @objc public static func sizeThatFits(size: ActivityIndicatorViewSize) -> CGSize {

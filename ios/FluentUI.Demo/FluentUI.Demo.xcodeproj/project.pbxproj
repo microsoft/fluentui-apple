@@ -57,7 +57,7 @@
 		C0938E4A235F733100256251 /* ShimmerLinesViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0938E49235F733100256251 /* ShimmerLinesViewDemoController.swift */; };
 		CCC18C2F2501C75F00BE830E /* CardViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCC18C2E2501C75F00BE830E /* CardViewDemoController.swift */; };
 		E6842974247B672000A29C40 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6842973247B672000A29C40 /* SceneDelegate.swift */; };
-		E6842996247C350700A29C40 /* DemoColorThemeWindows.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6842995247C350700A29C40 /* DemoColorThemeWindows.swift */; };
+		E6842996247C350700A29C40 /* DemoColorThemes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6842995247C350700A29C40 /* DemoColorThemes.swift */; };
 		FC414E3725888BC300069E73 /* CommandBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC414E3625888BC300069E73 /* CommandBarDemoController.swift */; };
 		FD41C8F422E28EEB0086F899 /* NavigationControllerDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C8F322E28EEB0086F899 /* NavigationControllerDemoController.swift */; };
 		FD7254ED21471A3F002F4069 /* DateTimePickerDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7254EC21471A3F002F4069 /* DateTimePickerDemoController.swift */; };
@@ -129,7 +129,7 @@
 		C0938E49235F733100256251 /* ShimmerLinesViewDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShimmerLinesViewDemoController.swift; sourceTree = "<group>"; };
 		CCC18C2E2501C75F00BE830E /* CardViewDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewDemoController.swift; sourceTree = "<group>"; };
 		E6842973247B672000A29C40 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		E6842995247C350700A29C40 /* DemoColorThemeWindows.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoColorThemeWindows.swift; sourceTree = "<group>"; };
+		E6842995247C350700A29C40 /* DemoColorThemes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoColorThemes.swift; sourceTree = "<group>"; };
 		EC7D5AF5DAF7393E14BF5B28 /* Pods_FluentUI_Demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FluentUI_Demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC414E3625888BC300069E73 /* CommandBarDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBarDemoController.swift; sourceTree = "<group>"; };
 		FD41C8F322E28EEB0086F899 /* NavigationControllerDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationControllerDemoController.swift; sourceTree = "<group>"; };
@@ -230,7 +230,7 @@
 		A591A3F520F42A9E001ED23B /* Shell */ = {
 			isa = PBXGroup;
 			children = (
-				E6842995247C350700A29C40 /* DemoColorThemeWindows.swift */,
+				E6842995247C350700A29C40 /* DemoColorThemes.swift */,
 				A5DCA75F211E3B4C005F4CB7 /* DemoController.swift */,
 				A5CEC21120E436F10016922A /* DemoListViewController.swift */,
 			);
@@ -499,7 +499,7 @@
 				FD41C8F422E28EEB0086F899 /* NavigationControllerDemoController.swift in Sources */,
 				7DC2FB2B24C0F4FD00367A55 /* TableViewCellFileAccessoryViewDemoController.swift in Sources */,
 				B4D852D922580661004B1B29 /* ActivityIndicatorViewDemoController.swift in Sources */,
-				E6842996247C350700A29C40 /* DemoColorThemeWindows.swift in Sources */,
+				E6842996247C350700A29C40 /* DemoColorThemes.swift in Sources */,
 				A5CEC21020E436F10016922A /* AppDelegate.swift in Sources */,
 				B4414794228F6FDF0040E88E /* OtherCellsSampleData.swift in Sources */,
 				B444D6B82183BA4B0002B4D4 /* BadgeViewDemoController.swift in Sources */,
@@ -847,7 +847,7 @@
 			repositoryURL = "https://github.com/microsoft/appcenter-sdk-apple.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 4.1.1;
+				minimumVersion = 4.2.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

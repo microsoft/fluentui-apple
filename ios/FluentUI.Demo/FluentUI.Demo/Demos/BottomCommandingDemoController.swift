@@ -85,6 +85,7 @@ class BottomCommandingDemoController: UIViewController {
                 DemoItem(title: "Sheet more button", type: .boolean, action: #selector(toggleSheetMoreButton), isOn: true),
                 DemoItem(title: "Expanded list items", type: .boolean, action: #selector(toggleExpandedItems), isOn: true),
                 DemoItem(title: "Additional expanded list items", type: .boolean, action: #selector(toggleAdditionalExpandedItems(_:)), isOn: false),
+                DemoItem(title: "Popover on hero command tap", type: .boolean, action: #selector(toggleHeroPopover)),
                 DemoItem(title: "Hero command isOn", type: .boolean, action: #selector(toggleHeroCommandOnOff)),
                 DemoItem(title: "Hero command isEnabled", type: .boolean, action: #selector(toggleHeroCommandEnabled), isOn: true),
                 DemoItem(title: "List command isEnabled", type: .boolean, action: #selector(toggleListCommandEnabled), isOn: true),
@@ -149,6 +150,10 @@ class BottomCommandingDemoController: UIViewController {
         }
     }
 
+    @objc private func toggleHeroPopover(_ sender: BooleanCell) {
+        heroCommandPopoverEnabled = sender.isOn
+    }
+
     @objc private func changeHeroCommandTitle() {
         modifiedCommandIndices.forEach {
             heroItems[$0].title = "Item " + String(Int.random(in: 6..<100))
@@ -199,7 +204,17 @@ class BottomCommandingDemoController: UIViewController {
 
     @objc private func commandAction(item: CommandingItem) {
         if heroItems.contains(item) {
-            showMessage("Hero command tapped")
+            if heroCommandPopoverEnabled {
+                if let rect = bottomCommandingController?.rectFor(heroItem: item) {
+                    if let presentationController = customPopoverViewController.popoverPresentationController {
+                        presentationController.sourceView = view
+                        presentationController.sourceRect = bottomCommandingController?.view.convert(rect, to: view) ?? .zero
+                    }
+                    present(customPopoverViewController, animated: true)
+                }
+            } else {
+                showMessage("Hero command tapped")
+            }
         } else if currentExpandedListSections.contains(where: { $0.items.contains(item) }) {
             if !item.isToggleable {
                 showMessage("Expanded list command tapped")
@@ -229,12 +244,31 @@ class BottomCommandingDemoController: UIViewController {
         return button
     }()
 
+    private lazy var customPopoverViewController: UIViewController = {
+        let viewController = UIViewController()
+        viewController.view.backgroundColor = Colors.NavigationBar.background
+        viewController.preferredContentSize = CGSize(width: 300, height: 300)
+        viewController.modalPresentationStyle = .popover
+
+        let label = UILabel()
+        label.text = "Custom modal"
+        label.translatesAutoresizingMaskIntoConstraints = false
+
+        viewController.view.addSubview(label)
+        NSLayoutConstraint.activate([
+            label.centerXAnchor.constraint(equalTo: viewController.view.centerXAnchor),
+            label.centerYAnchor.constraint(equalTo: viewController.view.centerYAnchor)
+        ])
+        return viewController
+    }()
+
     private let homeImage = UIImage(named: "Home_24")!
     private let homeSelectedImage = UIImage(named: "Home_Selected_24")!
     private let boldImage = UIImage(named: "textBold24Regular")!
 
     private var heroIconChanged: Bool = false
     private var listIconChanged: Bool = false
+    private var heroCommandPopoverEnabled: Bool = false
 
     private var bottomCommandingController: BottomCommandingController?
 
