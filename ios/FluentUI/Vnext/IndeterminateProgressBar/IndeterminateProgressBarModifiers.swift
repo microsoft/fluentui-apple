@@ -8,7 +8,7 @@ import UIKit
 
 public extension IndeterminateProgressBar {
 
-    /// Defines whether the Indeterminate Progress Barr is animating or stopped.
+    /// Defines whether the Indeterminate Progress Bar is animating or stopped.
     /// - Parameter isAnimating: Boolean value to set the property.
     /// - Returns: The modified Indeterminate Progress Bar with the property set.
     func isAnimating(_ isAnimating: Bool) -> IndeterminateProgressBar {
