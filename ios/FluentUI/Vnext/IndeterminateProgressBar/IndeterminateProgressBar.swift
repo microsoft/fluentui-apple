@@ -58,7 +58,10 @@ import UIKit
     var hidesWhenStopped: Bool { get set }
 }
 
-/// View that represents the Indeterminate Progress Bar
+/// View that represents the Indeterminate Progress Bar control.
+/// This structure (SwiftUI View) is supported in iOS 13.
+/// The ProgressView SwiftUI View (https://developer.apple.com/documentation/swiftui/progressview)
+/// provided in the SwiftUI framework is supported only on iOS 14 and later versions.
 public struct IndeterminateProgressBar: View {
     @Environment(\.theme) var theme: FluentUIStyle
     @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
