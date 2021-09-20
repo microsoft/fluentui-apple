@@ -21,7 +21,7 @@ class MSFCommandBarTokens: MSFTokensBase {
     public var disabledBackgroundColor: UIColor!
     public var disabledIconColor: UIColor!
 
-    public var dismissIconColor: UIColor!
+    public var fixedIconColor: UIColor!
     public var groupBorderRadius: CGFloat!
     public var groupInterspace: CGFloat!
     public var iconSize: CGFloat!
@@ -65,8 +65,7 @@ class MSFCommandBarTokens: MSFTokensBase {
         disabledBackgroundColor = appearanceProxy.backgroundColor.disabled
         disabledIconColor = appearanceProxy.iconColor.disabled
 
-        dismissIconColor = appearanceProxy.dismissIconColor
-
+        fixedIconColor = appearanceProxy.fixedIconColor
         groupBorderRadius = appearanceProxy.groupBorderRadius
         groupInterspace = appearanceProxy.groupInterspace
         iconSize = appearanceProxy.iconSize

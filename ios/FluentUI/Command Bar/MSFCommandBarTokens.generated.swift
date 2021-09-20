@@ -52,8 +52,8 @@ extension FluentUIStyle {
 		}
 
 
-		// MARK: - dismissIconColor 
-		open var dismissIconColor: UIColor {
+		// MARK: - fixedIconColor 
+		open var fixedIconColor: UIColor {
 			return UIColor(light: mainProxy().Colors.Foreground.neutral1, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Foreground.neutral3, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 		}
 

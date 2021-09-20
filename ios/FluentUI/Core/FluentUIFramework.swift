@@ -17,7 +17,7 @@ public extension Colors {
     }
 
     internal struct NavigationBar {
-        static var background: UIColor = surfacePrimary
+        static var background = UIColor(light: surfacePrimary, dark: gray900)
         static var tint: UIColor = iconPrimary
         static var title: UIColor = textDominant
     }
@@ -29,6 +29,8 @@ public extension Colors {
 
     // Objective-C support
     @objc static var navigationBarBackground: UIColor { return NavigationBar.background }
+
+    @objc static var commandBarBackground: UIColor { return surfacePrimary }
 }
 
 // MARK: - FluentUIFramework

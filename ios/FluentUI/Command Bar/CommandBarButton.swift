@@ -118,6 +118,10 @@ class CommandBarButton: UIButton {
         return commandBarTokens.disabledIconColor
     }
 
+    private var fixedIconColor: UIColor {
+        return commandBarTokens.fixedIconColor
+    }
+
     private var normalTintColor: UIColor {
         return commandBarTokens.iconColor
     }
@@ -132,7 +136,7 @@ class CommandBarButton: UIButton {
 
         if !isPersistSelection {
             backgroundColor = .clear
-            tintColor = commandBarTokens.dismissIconColor
+            tintColor = fixedIconColor
         } else {
             if !isEnabled {
                 backgroundColor = disabledBackgroundColor
