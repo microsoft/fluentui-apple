@@ -643,6 +643,93 @@ open class FluentUIStyle: NSObject {
 		}
 
 
+		// MARK: - Notification
+		open var Notification: NotificationAppearanceProxy {
+			return NotificationAppearanceProxy(proxy: mainProxy)
+		}
+		open class NotificationAppearanceProxy {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			// MARK: - dangerToastBackground 
+			open var dangerToastBackground: UIColor {
+				return UIColor(light: UIColor(red: 0.99215686, green: 0.9647059, blue: 0.9647059, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.24705882, green: 0.0627451, blue: 0.06666667, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+			}
+
+			// MARK: - dangerToastForeground 
+			open var dangerToastForeground: UIColor {
+				return UIColor(light: UIColor(red: 0.7372549, green: 0.18431373, blue: 0.20392157, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.8627451, green: 0.37254903, blue: 0.3882353, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+			}
+
+			// MARK: - neutralBarBackground 
+			open var neutralBarBackground: UIColor {
+				return UIColor(light: UIColor(red: 0.8745098, green: 0.8745098, blue: 0.8745098, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.22352941, green: 0.22352941, blue: 0.22352941, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+			}
+
+			// MARK: - neutralBarForeground 
+			open var neutralBarForeground: UIColor {
+				return UIColor(light: UIColor(red: 0.03529412, green: 0.03529412, blue: 0.03529412, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.96862745, green: 0.96862745, blue: 0.96862745, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+			}
+
+			// MARK: - neutralToastBackground 
+			open var neutralToastBackground: UIColor {
+				return UIColor(light: UIColor(red: 0.96862745, green: 0.96862745, blue: 0.96862745, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.22352941, green: 0.22352941, blue: 0.22352941, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+			}
+
+			// MARK: - neutralToastForeground 
+			open var neutralToastForeground: UIColor {
+				return UIColor(light: UIColor(red: 0.22352941, green: 0.22352941, blue: 0.22352941, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.96862745, green: 0.96862745, blue: 0.96862745, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+			}
+
+			// MARK: - persistentBarBackground 
+			open var persistentBarBackground: UIColor {
+				return UIColor(light: UIColor(red: 0.8745098, green: 0.8745098, blue: 0.8745098, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.22352941, green: 0.22352941, blue: 0.22352941, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+			}
+
+			// MARK: - persistentBarForeground 
+			open var persistentBarForeground: UIColor {
+				return UIColor(light: UIColor(red: 0.03529412, green: 0.03529412, blue: 0.03529412, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.96862745, green: 0.96862745, blue: 0.96862745, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+			}
+
+			// MARK: - primaryBarBackground 
+			open var primaryBarBackground: UIColor {
+				return UIColor(light: mainProxy().Colors.Brand.tint40, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Brand.tint10, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+			}
+
+			// MARK: - primaryBarForeground 
+			open var primaryBarForeground: UIColor {
+				return UIColor(light: mainProxy().Colors.Brand.shade20, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/black", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+			}
+
+			// MARK: - primaryOutlineBarBackground 
+			open var primaryOutlineBarBackground: UIColor {
+				return UIColor(light: mainProxy().Colors.Brand.primary, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.96862745, green: 0.96862745, blue: 0.96862745, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+			}
+
+			// MARK: - primaryToastForeground 
+			open var primaryToastForeground: UIColor {
+				return UIColor(light: mainProxy().Colors.Brand.shade10, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Brand.shade30, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+			}
+
+			// MARK: - subtleBarBackground 
+			open var subtleBarBackground: UIColor {
+				return UIColor(light: UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.22352941, green: 0.22352941, blue: 0.22352941, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+			}
+
+			// MARK: - warningToastBackground 
+			open var warningToastBackground: UIColor {
+				return UIColor(light: UIColor(red: 1.0, green: 0.9843137, blue: 0.8392157, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.29803923, green: 0.26666668, blue: 0.0, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+			}
+
+			// MARK: - warningToastForeground 
+			open var warningToastForeground: UIColor {
+				return UIColor(light: UIColor(red: 0.15686275, green: 0.14117648, blue: 0.0, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.99215686, green: 0.91764706, blue: 0.23921569, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+			}
+		}
+
+
 		// MARK: - Presence
 		open var Presence: PresenceAppearanceProxy {
 			return PresenceAppearanceProxy(proxy: mainProxy)
@@ -890,6 +977,118 @@ open class FluentUIStyle: NSObject {
 			}
 		}
 
+	}
+	// MARK: - MSFDangerToastNotificationTokens
+	open var MSFDangerToastNotificationTokens: MSFDangerToastNotificationTokensAppearanceProxy {
+		return MSFDangerToastNotificationTokensAppearanceProxy(proxy: { return self })
+	}
+	open class MSFDangerToastNotificationTokensAppearanceProxy: MSFToastNotificationTokensAppearanceProxy {
+
+		// MARK: - backgroundColor 
+		open override var backgroundColor: UIColor {
+			return mainProxy().Colors.Notification.dangerToastBackground
+		}
+
+		// MARK: - foregroundColor 
+		open override var foregroundColor: UIColor {
+			return mainProxy().Colors.Notification.dangerToastForeground
+		}
+	}
+	// MARK: - MSFNeutralBarNotificationTokens
+	open var MSFNeutralBarNotificationTokens: MSFNeutralBarNotificationTokensAppearanceProxy {
+		return MSFNeutralBarNotificationTokensAppearanceProxy(proxy: { return self })
+	}
+	open class MSFNeutralBarNotificationTokensAppearanceProxy: MSFBarNotificationTokensAppearanceProxy {
+
+		// MARK: - backgroundColor 
+		open override var backgroundColor: UIColor {
+			return mainProxy().Colors.Notification.neutralBarBackground
+		}
+
+		// MARK: - foregroundColor 
+		open override var foregroundColor: UIColor {
+			return mainProxy().Colors.Notification.neutralBarForeground
+		}
+	}
+	// MARK: - MSFNeutralToastNotificationTokens
+	open var MSFNeutralToastNotificationTokens: MSFNeutralToastNotificationTokensAppearanceProxy {
+		return MSFNeutralToastNotificationTokensAppearanceProxy(proxy: { return self })
+	}
+	open class MSFNeutralToastNotificationTokensAppearanceProxy: MSFToastNotificationTokensAppearanceProxy {
+
+		// MARK: - backgroundColor 
+		open override var backgroundColor: UIColor {
+			return mainProxy().Colors.Notification.neutralToastBackground
+		}
+
+		// MARK: - foregroundColor 
+		open override var foregroundColor: UIColor {
+			return mainProxy().Colors.Notification.neutralToastForeground
+		}
+	}
+	// MARK: - MSFPrimaryBarNotificationTokens
+	open var MSFPrimaryBarNotificationTokens: MSFPrimaryBarNotificationTokensAppearanceProxy {
+		return MSFPrimaryBarNotificationTokensAppearanceProxy(proxy: { return self })
+	}
+	open class MSFPrimaryBarNotificationTokensAppearanceProxy: MSFBarNotificationTokensAppearanceProxy {
+
+		// MARK: - backgroundColor 
+		open override var backgroundColor: UIColor {
+			return mainProxy().Colors.Notification.primaryBarBackground
+		}
+
+		// MARK: - foregroundColor 
+		open override var foregroundColor: UIColor {
+			return mainProxy().Colors.Notification.primaryBarForeground
+		}
+	}
+	// MARK: - MSFPrimaryOutlineBarNotificationTokens
+	open var MSFPrimaryOutlineBarNotificationTokens: MSFPrimaryOutlineBarNotificationTokensAppearanceProxy {
+		return MSFPrimaryOutlineBarNotificationTokensAppearanceProxy(proxy: { return self })
+	}
+	open class MSFPrimaryOutlineBarNotificationTokensAppearanceProxy: MSFBarNotificationTokensAppearanceProxy {
+
+		// MARK: - backgroundColor 
+		open override var backgroundColor: UIColor {
+			return mainProxy().Colors.Notification.subtleBarBackground
+		}
+
+		// MARK: - foregroundColor 
+		open override var foregroundColor: UIColor {
+			return mainProxy().Colors.Notification.primaryOutlineBarBackground
+		}
+	}
+	// MARK: - MSFPrimaryToastNotificationTokens
+	open var MSFPrimaryToastNotificationTokens: MSFPrimaryToastNotificationTokensAppearanceProxy {
+		return MSFPrimaryToastNotificationTokensAppearanceProxy(proxy: { return self })
+	}
+	open class MSFPrimaryToastNotificationTokensAppearanceProxy: MSFToastNotificationTokensAppearanceProxy {
+
+		// MARK: - backgroundColor 
+		open override var backgroundColor: UIColor {
+			return mainProxy().Colors.Brand.tint40
+		}
+
+		// MARK: - foregroundColor 
+		open override var foregroundColor: UIColor {
+			return mainProxy().Colors.Notification.primaryToastForeground
+		}
+	}
+	// MARK: - MSFWarningToastNotificationTokens
+	open var MSFWarningToastNotificationTokens: MSFWarningToastNotificationTokensAppearanceProxy {
+		return MSFWarningToastNotificationTokensAppearanceProxy(proxy: { return self })
+	}
+	open class MSFWarningToastNotificationTokensAppearanceProxy: MSFToastNotificationTokensAppearanceProxy {
+
+		// MARK: - backgroundColor 
+		open override var backgroundColor: UIColor {
+			return mainProxy().Colors.Notification.warningToastBackground
+		}
+
+		// MARK: - foregroundColor 
+		open override var foregroundColor: UIColor {
+			return mainProxy().Colors.Notification.warningToastForeground
+		}
 	}
 	// MARK: - Opacity
 	open var Opacity: OpacityAppearanceProxy {

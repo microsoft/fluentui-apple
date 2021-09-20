@@ -5,24 +5,32 @@
 
 import UIKit
 
-// MARK: Notification Colors
+/// Properties that can be used to customize the appearance of the `Notification`.
+@objc public protocol MSFNotificationState: NSObjectProtocol {
+    /// Style to draw the control.
+    @objc var style: MSFNotificationStyle { get }
 
-private extension Colors {
-    struct Notification {
-        struct NeutralToast {
-            static var background: UIColor = surfaceQuaternary.withAlphaComponent(0.6)
-            static var foreground: UIColor = textDominant
-        }
+    /// Optional text to draw above the message area.
+    @objc var title: String? { get set }
 
-        struct PrimaryOutlineBar {
-            static var background = UIColor(light: surfacePrimary, dark: surfaceQuaternary).withAlphaComponent(0.6)
-        }
+    /// Text for the main title area of the control. If there is a title, the message becomes subtext.
+    @objc var message: String { get set }
 
-        struct NeutralBar {
-            static var background: UIColor = NeutralToast.background
-            static var foreground: UIColor = NeutralToast.foreground
-        }
-    }
+    /// Optional icon to draw at the leading edge of the control.
+    @objc var image: UIImage? { get set }
+
+    /// Title to display in the action button on the trailing edge of the control.
+    ///
+    /// To show an action button, provide values for both `actionButtonTitle` and  `actionButtonAction`.
+    @objc var actionButtonTitle: String? { get set }
+
+    /// Action to be dispatched by the action button on the trailing edge of the control.
+    ///
+    /// To show an action button, provide values for both `actionButtonTitle` and  `actionButtonAction`.
+    @objc var actionButtonAction: (() -> Void)? { get set }
+
+    /// Action to be dispatched by tapping on the toast/bar notification.
+    @objc var messageButtonAction: (() -> Void)? { get set }
 }
 
 // MARK: - NotificationView
@@ -40,102 +48,8 @@ private extension Colors {
  */
 @objc(MSFNotificationView)
 open class NotificationView: UIView {
-    @objc(MSFNotificationViewStyle)
-    public enum Style: Int {
-        case primaryToast
-        case neutralToast
-        case primaryBar
-        case primaryOutlineBar
-        case neutralBar
-        case dangerToast
-        case warningToast
-
-        var isToast: Bool {
-            switch self {
-            case .primaryBar, .primaryOutlineBar, .neutralBar:
-                return false
-            case .primaryToast, .neutralToast, .dangerToast, .warningToast:
-                return true
-            }
-        }
-
-        func backgroundColor(for window: UIWindow) -> UIColor {
-            switch self {
-            case .primaryToast:
-                return primaryFilledBackground(for: window)
-            case .neutralToast:
-                return Colors.Notification.NeutralToast.background
-            case .primaryBar:
-                return primaryFilledBackground(for: window)
-            case .primaryOutlineBar:
-                return Colors.Notification.PrimaryOutlineBar.background
-            case .neutralBar:
-                return Colors.Notification.NeutralBar.background
-            case .dangerToast:
-                return UIColor(light: Colors.Palette.dangerTint40.color, dark: Colors.Palette.dangerPrimary.color)
-            case .warningToast:
-                return UIColor(light: Colors.Palette.warningTint40.color, dark: Colors.Palette.warningPrimary.color)
-            }
-        }
-        func foregroundColor(for window: UIWindow) -> UIColor {
-            switch self {
-            case .primaryToast:
-                return UIColor(light: Colors.primaryShade20(for: window), dark: .black)
-            case .neutralToast:
-                return Colors.Notification.NeutralToast.foreground
-            case .primaryBar:
-                return UIColor(light: Colors.primaryShade20(for: window), dark: .black)
-            case .primaryOutlineBar:
-                return UIColor(light: Colors.primary(for: window), dark: Colors.textPrimary)
-            case .neutralBar:
-                return Colors.Notification.NeutralBar.foreground
-            case .dangerToast:
-                return UIColor(light: Colors.Palette.dangerShade20.color, dark: .black)
-            case .warningToast:
-                return UIColor(light: Colors.Palette.warningShade30.color, dark: .black)
-            }
-        }
-
-        var cornerRadius: CGFloat { return isToast ? Constants.cornerRadiusForToast : 0 }
-        var presentationOffset: CGFloat { return isToast ? Constants.presentationOffsetForToast : 0 }
-        var needsFullWidth: Bool { return !isToast }
-
-        var animationDurationForShow: TimeInterval { return isToast ? Constants.animationDurationForShowToast : Constants.animationDurationForShowBar }
-        var animationDurationForHide: TimeInterval { return Constants.animationDurationForHide }
-        var animationDampingRatio: CGFloat { return isToast ? Constants.animationDampingRatioForToast : 1 }
-
-        var needsSeparator: Bool { return  self == .primaryOutlineBar }
-        var supportsTitle: Bool { return isToast }
-        var supportsImage: Bool { return isToast }
-        var supportsMessageAction: Bool { return isToast }
-        var shouldAlwaysShowActionButton: Bool { return isToast }
-
-        private func primaryFilledBackground(for window: UIWindow) -> UIColor {
-            let primaryColor = Colors.primary(for: window)
-            return UIColor(light: primaryColor.withAlphaComponent(0.2), dark: primaryColor)
-        }
-
-    }
-
-    private struct Constants {
-        static let cornerRadiusForToast: CGFloat = 12
-        static let horizontalPadding: CGFloat = 16
-        static let verticalPadding: CGFloat = 12
-        static let verticalPaddingForOneLine: CGFloat = 16
-        static let horizontalSpacing: CGFloat = 16
-        static let presentationOffsetForToast: CGFloat = 12
-        static let minHeight: CGFloat = 64.0
-        static let minHeightForOneLine: CGFloat = 52.0
-
-        static let titleTextStyle: TextStyle = .button1
-        static let messageTextStyle: TextStyle = .subhead
-        static let actionButtonTextStyle: TextStyle = .button1
-
-        static let animationDurationForShowToast: TimeInterval = 0.6
-        static let animationDurationForShowBar: TimeInterval = 0.3
-        static let animationDurationForHide: TimeInterval = 0.25
-        static let animationDampingRatioForToast: CGFloat = 0.5
-    }
+    var state: MSFNotificationStateImpl
+    var tokens: MSFNotificationTokens
 
     @objc public static var allowsMultipleToasts: Bool = false
 
@@ -147,31 +61,16 @@ open class NotificationView: UIView {
         }
     }
 
-    @objc open private(set) var isShown: Bool = false
-
-    private var style: Style = .primaryToast {
-        didSet {
-            if style != oldValue {
-                updateForStyle()
-            }
-        }
-    }
-
-    private var isHiding: Bool = false
     private var completionsForHide: [() -> Void] = []
 
-    private var action: (() -> Void)?
-    private var messageAction: (() -> Void)?
-
-    private let backgroundView = BlurringView(style: .regular)
-    private let container: UIStackView = {
+    private lazy var container: UIStackView = {
         let container = UIStackView()
         container.distribution = .fill
         container.alignment = .center
         container.axis = .horizontal
         container.isAccessibilityElement = true
-        container.spacing = Constants.horizontalSpacing
-        container.layoutMargins = UIEdgeInsets(top: Constants.verticalPadding, left: 0, bottom: Constants.verticalPadding, right: 0)
+        container.spacing = tokens.horizontalSpacing
+        container.layoutMargins = UIEdgeInsets(top: tokens.verticalPadding, left: 0, bottom: tokens.verticalPadding, right: 0)
         return container
     }()
     private let textContainer: UIStackView = {
@@ -189,15 +88,16 @@ open class NotificationView: UIView {
         return imageView
     }()
     private let titleLabel: Label = {
-        let titleLabel = Label(style: Constants.titleTextStyle)
+        let titleLabel = Label(style: .button1)
         titleLabel.numberOfLines = 0
         titleLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         titleLabel.setContentCompressionResistancePriority(.required, for: .vertical)
         titleLabel.setContentHuggingPriority(.required, for: .vertical)
         return titleLabel
     }()
-    private let messageLabel: Label = {
-        let messageLabel = Label(style: Constants.messageTextStyle)
+    private lazy var messageLabel: Label = {
+        let textStyle: TextStyle = state.title != "" ? .subhead : tokens.style.isToast ? .button1 : .subhead
+        let messageLabel = Label(style: textStyle)
         messageLabel.numberOfLines = 0
         messageLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         messageLabel.setContentCompressionResistancePriority(.required, for: .vertical)
@@ -208,7 +108,7 @@ open class NotificationView: UIView {
         let actionButton = UIButton(type: .system)
         actionButton.setContentCompressionResistancePriority(.required, for: .horizontal)
         actionButton.setContentHuggingPriority(.required, for: .horizontal)
-        actionButton.titleLabel?.font = Constants.actionButtonTextStyle.font
+        actionButton.titleLabel?.font = TextStyle.button1.font
         actionButton.titleLabel?.adjustsFontForContentSizeCategory = true
         return actionButton
     }()
@@ -220,12 +120,39 @@ open class NotificationView: UIView {
     private var constraintWhenHidden: NSLayoutConstraint!
     private var constraintWhenShown: NSLayoutConstraint!
 
+    /// - Parameters:
+    ///   - style: The style that defines presentation and functionality of the view.
+    ///   - title: The title text that is shown on the top of the view (only supported in toasts).
+    ///   - message: The message text that is shown below title (if present) or vertically centered in the view.
+    ///   - image: The image that is shown at the leading edge of the view (only supported in toasts).
+    ///   - actionTitle: The title for action on the trailing edge of the view.
+    ///   - action: The closure to be called when action button is tapped by a user.
+    ///   - messageAction: The closure to be called when the body of the view (except action button) is tapped by a user (only supported in toasts).
+    ///  - Returns: Reference to this view that can be used for "chained" calling of `show`. Can be ignored.
+    @objc public init(style: MSFNotificationStyle, title: String = "", message: String, image: UIImage? = nil, actionTitle: String = "", action: (() -> Void)? = nil, messageAction: (() -> Void)? = nil) {
+        self.state = MSFNotificationStateImpl(style: style)
+        state.title = title
+        state.message = message
+        state.image = image
+        state.actionButtonTitle = actionTitle
+        state.actionButtonAction = action
+        state.messageButtonAction = messageAction
+
+        self.tokens = state.tokens
+        super.init(frame: .zero)
+        initialize()
+    }
+
     @objc public override init(frame: CGRect) {
+        self.state = MSFNotificationStateImpl(style: .primaryOutlineBar)
+        self.tokens = state.tokens
         super.init(frame: frame)
         initialize()
     }
 
     @objc public required init?(coder: NSCoder) {
+        self.state = MSFNotificationStateImpl(style: .primaryOutlineBar)
+        self.tokens = state.tokens
         super.init(coder: coder)
         initialize()
     }
@@ -233,16 +160,13 @@ open class NotificationView: UIView {
     open override func removeFromSuperview() {
         super.removeFromSuperview()
 
-        isShown = false
+        state.isShown = false
         if NotificationView.currentToast == self {
             NotificationView.currentToast = nil
         }
     }
 
     @objc open func initialize() {
-        addSubview(backgroundView)
-        backgroundView.translatesAutoresizingMaskIntoConstraints = false
-
         addSubview(separator)
         separator.translatesAutoresizingMaskIntoConstraints = false
 
@@ -256,17 +180,13 @@ open class NotificationView: UIView {
         container.addArrangedSubview(actionButton)
 
         NSLayoutConstraint.activate([
-            backgroundView.topAnchor.constraint(equalTo: topAnchor),
-            backgroundView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            backgroundView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            backgroundView.trailingAnchor.constraint(equalTo: trailingAnchor),
             separator.leadingAnchor.constraint(equalTo: leadingAnchor),
             separator.trailingAnchor.constraint(equalTo: trailingAnchor),
             separator.bottomAnchor.constraint(equalTo: topAnchor),
             container.topAnchor.constraint(equalTo: topAnchor),
             container.bottomAnchor.constraint(equalTo: bottomAnchor),
-            container.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: Constants.horizontalPadding),
-            container.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -Constants.horizontalPadding)
+            container.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: tokens.horizontalPadding),
+            container.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -tokens.horizontalPadding)
         ])
 
         updateForStyle()
@@ -279,51 +199,39 @@ open class NotificationView: UIView {
     }
 
     /// `setup` is used to initialize the view before showing.
-    /// - Parameters:
-    ///   - style: The style that defines presentation and functionality of the view.
-    ///   - title: The title text that is shown on the top of the view (only supported in toasts).
-    ///   - message: The message text that is shown below title (if present) or vertically centered in the view.
-    ///   - image: The image that is shown at the leading edge of the view (only supported in toasts).
-    ///   - actionTitle: The title for action on the trailing edge of the view.
-    ///   - action: The closure to be called when action button is tapped by a user.
-    ///   - messageAction: The closure to be called when the body of the view (except action button) is tapped by a user (only supported in toasts).
-    ///  - Returns: Reference to this view that can be used for "chained" calling of `show`. Can be ignored.
     @discardableResult
-    @objc open func setup(style: Style, title: String = "", message: String, image: UIImage? = nil, actionTitle: String = "", action: (() -> Void)? = nil, messageAction: (() -> Void)? = nil) -> Self {
-        self.style = style
-        let title = style.supportsTitle ? title : ""
-        let image = style.supportsImage ? image : nil
-        let messageAction = style.supportsMessageAction ? messageAction : nil
+    @objc open func setup() -> Self {
+        let title = state.style.supportsTitle ? state.title : ""
+        let image = state.style.supportsImage ? state.image : nil
+        let messageAction = state.style.supportsMessageAction ? state.messageButtonAction : nil
 
-        titleLabel.text = title
-        titleLabel.isHidden = title.isEmpty
-        messageLabel.text = message
+        if let title = title, let actionButtonTitle = state.actionButtonTitle {
+            titleLabel.text = title
+            titleLabel.isHidden = title.isEmpty
+            messageLabel.text = state.message
 
-        imageView.image = image?.renderingMode == .automatic ? image?.withRenderingMode(.alwaysTemplate) : image
-        imageView.isHidden = image == nil
+            imageView.image = image?.renderingMode == .automatic ? image?.withRenderingMode(.alwaysTemplate) : image
+            imageView.isHidden = image == nil
 
-        if action != nil || style.shouldAlwaysShowActionButton {
-            if actionTitle.isEmpty {
-                let actionImage = UIImage.staticImageNamed("dismiss-20x20")
-                actionImage?.accessibilityLabel = "Accessibility.Dismiss.Label".localized
-                actionButton.setImage(actionImage, for: .normal)
-                actionButton.setTitle(nil, for: .normal)
+            if state.actionButtonAction != nil || state.style.shouldAlwaysShowActionButton {
+                if actionButtonTitle.isEmpty {
+                    let actionImage = UIImage.staticImageNamed("dismiss-20x20")
+                    actionImage?.accessibilityLabel = "Accessibility.Dismiss.Label".localized
+                    actionButton.setImage(actionImage, for: .normal)
+                    actionButton.setTitle(nil, for: .normal)
+                } else {
+                    actionButton.setImage(nil, for: .normal)
+                    actionButton.setTitle(state.actionButtonTitle, for: .normal)
+                }
+                actionButton.isHidden = false
+                messageLabel.textAlignment = .natural
             } else {
-                actionButton.setImage(nil, for: .normal)
-                actionButton.setTitle(actionTitle, for: .normal)
+                actionButton.isHidden = true
+                messageLabel.textAlignment = .center
             }
-            actionButton.isHidden = false
-            messageLabel.textAlignment = .natural
-        } else {
-            actionButton.isHidden = true
-            messageLabel.textAlignment = .center
+
+            updateAccessibility(title: title, message: state.message, hasMessageAction: messageAction != nil)
         }
-
-        self.action = action
-        self.messageAction = messageAction
-
-        updateAccessibility(title: title, message: message, hasMessageAction: messageAction != nil)
-
         return self
     }
 
@@ -334,11 +242,11 @@ open class NotificationView: UIView {
     ///   - animated: Indicates whether to use animation during presentation or not.
     ///   - completion: The closure to be called after presentation is completed. Can be used to call `hide` with a delay.
     @objc open func show(in view: UIView, from anchorView: UIView? = nil, animated: Bool = true, completion: ((NotificationView) -> Void)? = nil) {
-        if isShown {
+        if state.isShown {
             return
         }
 
-        if style.isToast, let currentToast = NotificationView.currentToast {
+        if state.style.isToast, let currentToast = NotificationView.currentToast {
             currentToast.hide(animated: animated) {
                 self.show(in: view, from: anchorView, animated: animated, completion: completion)
             }
@@ -354,21 +262,21 @@ open class NotificationView: UIView {
 
         let anchor = anchorView?.topAnchor ?? view.safeAreaLayoutGuide.bottomAnchor
         constraintWhenHidden = topAnchor.constraint(equalTo: anchor)
-        constraintWhenShown = bottomAnchor.constraint(equalTo: anchor, constant: -style.presentationOffset)
+        constraintWhenShown = bottomAnchor.constraint(equalTo: anchor, constant: -tokens.presentationOffset)
 
         var constraints = [NSLayoutConstraint]()
         constraints.append(animated ? constraintWhenHidden : constraintWhenShown)
-        if style.needsFullWidth {
+        if state.style.needsFullWidth {
             constraints.append(leadingAnchor.constraint(equalTo: view.leadingAnchor))
             constraints.append(trailingAnchor.constraint(equalTo: view.trailingAnchor))
         } else {
             constraints.append(centerXAnchor.constraint(equalTo: view.centerXAnchor))
-            constraints.append(widthAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.widthAnchor, constant: -2 * style.presentationOffset))
+            constraints.append(widthAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.widthAnchor, constant: -2 * tokens.presentationOffset))
         }
         NSLayoutConstraint.activate(constraints)
 
-        isShown = true
-        if style.isToast {
+        state.isShown = true
+        if state.style.isToast {
             NotificationView.currentToast = self
         }
 
@@ -378,7 +286,7 @@ open class NotificationView: UIView {
         }
         if animated {
             view.layoutIfNeeded()
-            UIView.animate(withDuration: style.animationDurationForShow, delay: 0, usingSpringWithDamping: style.animationDampingRatio, initialSpringVelocity: 0, animations: {
+            UIView.animate(withDuration: tokens.animationDurationForShow, delay: 0, usingSpringWithDamping: tokens.animationDampingRatio, initialSpringVelocity: 0, animations: {
                 self.constraintWhenHidden.isActive = false
                 self.constraintWhenShown.isActive = true
                 view.layoutIfNeeded()
@@ -394,7 +302,7 @@ open class NotificationView: UIView {
     ///   - animated: Indicates whether to use animation during presentation or not.
     ///   - completion: The closure to be called after presentation is completed. Can be used to call `hide` with a delay.
     @objc open func show(from controller: UIViewController, animated: Bool = true, completion: ((NotificationView) -> Void)? = nil) {
-        if isShown {
+        if state.isShown {
             return
         }
 
@@ -415,7 +323,7 @@ open class NotificationView: UIView {
     ///   - animated: Indicates whether to use animation during dismissal or not.
     ///   - completion: The closure to be called after dismissal is completed.
     @objc open func hide(after delay: TimeInterval = 0, animated: Bool = true, completion: (() -> Void)? = nil) {
-        if !isShown || delay == .infinity {
+        if !state.isShown || delay == .infinity {
             return
         }
 
@@ -437,14 +345,14 @@ open class NotificationView: UIView {
             self.completionsForHide.removeAll()
         }
         if animated {
-            if !isHiding {
-                isHiding = true
-                UIView.animate(withDuration: style.animationDurationForHide, animations: {
+            if !state.isHiding {
+                state.isHiding = true
+                UIView.animate(withDuration: tokens.animationDurationForHide, animations: {
                     self.constraintWhenShown.isActive = false
                     self.constraintWhenHidden.isActive = true
                     self.superview?.layoutIfNeeded()
                 }, completion: { _ in
-                    self.isHiding = false
+                    self.state.isHiding = false
                     completionForHide()
                 })
             }
@@ -462,7 +370,7 @@ open class NotificationView: UIView {
         var suggestedWidth: CGFloat = size.width
         var availableLabelWidth = suggestedWidth
 
-        if style.needsFullWidth {
+        if state.style.needsFullWidth {
             if let windowWidth = window?.safeAreaLayoutGuide.layoutFrame.width {
                 availableLabelWidth = windowWidth
             }
@@ -477,25 +385,25 @@ open class NotificationView: UIView {
                 traitCollection.preferredContentSizeCategory < .accessibilityMedium {
                 suggestedWidth = max(suggestedWidth / 2, 375.0)
             } else {
-                suggestedWidth -= (safeAreaInsets.left + safeAreaInsets.right + 2 * style.presentationOffset)
+                suggestedWidth -= (safeAreaInsets.left + safeAreaInsets.right + 2 * tokens.presentationOffset)
             }
             suggestedWidth = ceil(suggestedWidth)
             availableLabelWidth = suggestedWidth
         }
 
-        availableLabelWidth -= (2 * Constants.horizontalPadding)
+        availableLabelWidth -= (2 * tokens.horizontalPadding)
         if !actionButton.isHidden {
             let actionButtonSize = actionButton.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
-            availableLabelWidth -= (actionButtonSize.width + Constants.horizontalSpacing)
+            availableLabelWidth -= (actionButtonSize.width + tokens.horizontalSpacing)
         }
         if !imageView.isHidden {
             let imageSize = imageView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
-            availableLabelWidth -= (imageSize.width + Constants.horizontalSpacing)
+            availableLabelWidth -= (imageSize.width + tokens.horizontalSpacing)
         }
 
-        var suggesgedHeight: CGFloat
+        var suggestedHeight: CGFloat
         let messagelabelSize = messageLabel.systemLayoutSizeFitting(CGSize(width: availableLabelWidth, height: UIView.layoutFittingCompressedSize.height), withHorizontalFittingPriority: .defaultHigh, verticalFittingPriority: .defaultHigh)
-        suggesgedHeight = messagelabelSize.height
+        suggestedHeight = messagelabelSize.height
 
         // there are different veritcal padding depending on the text we show
         // `Constants.verticalPaddingForOneLine` is used when only messagelabel is shown and all the text fits in oneline
@@ -505,15 +413,15 @@ open class NotificationView: UIView {
             hasSingleLineLayout = (messagelabelSize.height == messageLabel.font.deviceLineHeight)
         } else {
             let titleLabelSize = titleLabel.systemLayoutSizeFitting(CGSize(width: availableLabelWidth, height: 0), withHorizontalFittingPriority: .defaultHigh, verticalFittingPriority: .defaultHigh)
-            suggesgedHeight += titleLabelSize.height
+            suggestedHeight += titleLabelSize.height
         }
 
-        let suggestedVerticalPadding = hasSingleLineLayout ? Constants.verticalPaddingForOneLine : Constants.verticalPadding
-        suggesgedHeight += 2 * suggestedVerticalPadding
-        suggesgedHeight = ceil(max(suggesgedHeight, hasSingleLineLayout ? Constants.minHeightForOneLine : Constants.minHeight))
+        let suggestedVerticalPadding: CGFloat! = hasSingleLineLayout ? tokens.verticalPaddingForOneLine : tokens.verticalPadding
+        suggestedHeight += 2 * suggestedVerticalPadding
+        suggestedHeight = ceil(max(suggestedHeight, hasSingleLineLayout ? tokens.minimumHeightForOneLine : tokens.minimumHeight))
         container.layoutMargins = UIEdgeInsets(top: suggestedVerticalPadding, left: 0, bottom: suggestedVerticalPadding, right: 0)
 
-        return CGSize(width: suggestedWidth, height: suggesgedHeight)
+        return CGSize(width: suggestedWidth, height: suggestedHeight)
     }
 
     open override var intrinsicContentSize: CGSize {
@@ -521,24 +429,27 @@ open class NotificationView: UIView {
     }
 
     private func updateForStyle() {
-        clipsToBounds = !style.needsSeparator
-        layer.cornerRadius = style.cornerRadius
+        clipsToBounds = !state.style.needsSeparator
+        layer.cornerRadius = tokens.cornerRadius
         layer.cornerCurve = .continuous
+        layer.masksToBounds = false
+        layer.shadowColor = tokens.shadowColor
+        layer.shadowRadius = tokens.shadowBlur
+        layer.shadowOffset = CGSize(width: tokens.shadowOffsetX, height: tokens.shadowOffsetY)
+        layer.shadowOpacity = 1.0
 
-        separator.isHidden = !style.needsSeparator
+        separator.isHidden = !state.style.needsSeparator
 
         updateWindowSpecificColors()
     }
 
     private func updateWindowSpecificColors() {
-        if let window = window {
-            backgroundView.updateBackground(backgroundColor: style.backgroundColor(for: window))
-            let foregroundColor = style.foregroundColor(for: window)
-            imageView.tintColor = foregroundColor
-            titleLabel.textColor = foregroundColor
-            messageLabel.textColor = foregroundColor
-            actionButton.tintColor = foregroundColor
-        }
+        self.backgroundColor = tokens.backgroundColor
+        let foregroundColor = tokens.foregroundColor
+        imageView.tintColor = foregroundColor
+        titleLabel.textColor = foregroundColor
+        messageLabel.textColor = foregroundColor
+        actionButton.tintColor = foregroundColor
     }
 
     private func updateAccessibility(title: String, message: String, hasMessageAction: Bool) {
@@ -548,14 +459,63 @@ open class NotificationView: UIView {
 
     @objc private func handleActionButtonTap() {
         hide(animated: true)
-        action?()
+        state.actionButtonAction?()
     }
 
     @objc private func handleMessageTap() {
-        guard let messageAction = messageAction else {
+        guard let messageAction = state.messageButtonAction else {
             return
         }
         hide(animated: true)
         messageAction()
+    }
+}
+
+public class MSFNotificationStateImpl: NSObject, ObservableObject, Identifiable, MSFNotificationState {
+    @Published @objc public var isShown: Bool = false
+    @Published @objc public var isHiding: Bool = false
+
+    @Published @objc public var style: MSFNotificationStyle
+    @Published @objc public var title: String?
+    @Published @objc public var message: String
+    @Published @objc public var image: UIImage?
+
+    /// Title to display in the action button on the trailing edge of the control.
+    ///
+    /// To show an action button, provide values for both `actionButtonTitle` and  `actionButtonAction`.
+    @Published @objc public var actionButtonTitle: String?
+
+    /// Action to be dispatched by the action button on the trailing edge of the control.
+    ///
+    /// To show an action button, provide values for both `actionButtonTitle` and  `actionButtonAction`.
+    @Published @objc public var actionButtonAction: (() -> Void)?
+
+    // TODO
+    @Published @objc public var messageButtonAction: (() -> Void)?
+
+    let tokens: MSFNotificationTokens
+
+    @objc init(style: MSFNotificationStyle,
+               message: String) {
+        self.style = style
+        self.message = message
+        self.tokens = MSFNotificationTokens(style: style)
+        super.init()
+    }
+
+    @objc convenience init(style: MSFNotificationStyle,
+                           title: String = "",
+                           message: String = "",
+                           image: UIImage? = nil,
+                           actionButtonTitle: String = "",
+                           actionButtonAction: (() -> Void)? = nil,
+                           messageButtonAction: (() -> Void)? = nil) {
+        self.init(style: style,
+                  message: message)
+
+        self.image = image
+        self.actionButtonTitle = actionButtonTitle
+        self.actionButtonAction = actionButtonAction
+        self.messageButtonAction = messageButtonAction
     }
 }

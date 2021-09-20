@@ -44,6 +44,23 @@ Colors:
     - brandSelected: "FluentUIColor(light: $Colors.Brand.shade20, dark: $Colors.Brand.shade20)"
     - brandDisabled: "FluentUIColor(light: NamedColor(grey74), dark: NamedColor(grey36))"
 
+  Notification:
+    - primaryToastForeground: "FluentUIColor(light: $Colors.Brand.shade10, dark: $Colors.Brand.shade30)"
+    - primaryBarBackground: "FluentUIColor(light: $Colors.Brand.tint40, dark: $Colors.Brand.tint10)"
+    - primaryBarForeground: "FluentUIColor(light: $Colors.Brand.shade20, dark: NamedColor(black))"
+    - primaryOutlineBarBackground: "FluentUIColor(light: $Colors.Brand.primary, dark: #F7F7F7)"
+    - subtleBarBackground: "FluentUIColor(light: #FFFFFF, dark: #393939)"
+    - neutralBarBackground: "FluentUIColor(light: #DFDFDF, dark: #393939)"
+    - neutralToastBackground: "FluentUIColor(light: #F7F7F7, dark: #393939)"
+    - warningToastBackground: "FluentUIColor(light: #FFFBD6, dark: #4C4400)"
+    - dangerToastBackground: "FluentUIColor(light: #FDF6F6, dark: #3F1011)"
+    - persistentBarBackground: "FluentUIColor(light: #DFDFDF, dark: #393939)"
+    - neutralBarForeground: "FluentUIColor(light: #090909, dark: #F7F7F7)"
+    - neutralToastForeground: "FluentUIColor(light: #393939, dark: #F7F7F7)"
+    - warningToastForeground: "FluentUIColor(light: #282400, dark: #FDEA3D)"
+    - dangerToastForeground: "FluentUIColor(light: #BC2F34, dark: #DC5F63)"
+    - persistentBarForeground: "FluentUIColor(light: #090909, dark: #F7F7F7)"
+
   Presence:
     - available: "NamedColor(presenceAvailable)"
     - away: "NamedColor(presenceAway)"
@@ -389,3 +406,63 @@ MSFPrimaryHeaderTokens extends MSFHeaderFooterTokens:
   textColor: $Colors.Foreground.neutral1
   textFont: $Typography.headline
   topPadding: $Spacing.medium
+
+AP_MSFNotificationTokens:
+  backgroundColor: $Colors.Brand.tint40
+  foregroundColor: $Colors.Brand.shade10
+  cornerRadius: $Border.radius.xLarge
+  presentationOffSet: $Spacing.small
+  horizontalPadding: 16pt
+  verticalPadding: 12pt
+  verticalPaddingForOneLine: 16pt
+  horizontalSpacing: 16pt
+  minimumHeight: 64.0
+  minimumHeightForOneLine: 56.0
+  animationDurationForShow: 0.6
+  animationDurationForHide: 0.25
+  animationDampingRatio: 0.5
+  shadowColor: $Shadow.shadow8.color1
+  shadowBlur: $Shadow.shadow8.blur1
+  shadowOffsetX: $Shadow.shadow8.x1
+  shadowOffsetY: $Shadow.shadow8.y1
+
+MSFToastNotificationTokens extends MSFNotificationTokens:
+  cornerRadius: $Border.radius.xLarge
+  presentationOffSet: $Spacing.small
+  animationDurationForShow: 0.6
+  animationDampingRatio: 0.5
+
+MSFBarNotificationTokens extends MSFNotificationTokens:
+  shadowColor: NamedColor(clear)
+  cornerRadius: $Border.radius.none
+  presentationOffSet: $Spacing.none
+  animationDurationForShow: 0.3
+  animationDampingRatio: 1.0
+
+MSFPrimaryToastNotificationTokens extends MSFToastNotificationTokens:
+  backgroundColor: $Colors.Brand.tint40
+  foregroundColor: $Colors.Notification.primaryToastForeground
+
+MSFNeutralToastNotificationTokens extends MSFToastNotificationTokens:
+  backgroundColor: $Colors.Notification.neutralToastBackground
+  foregroundColor: $Colors.Notification.neutralToastForeground
+
+MSFPrimaryBarNotificationTokens extends MSFBarNotificationTokens:
+  backgroundColor: $Colors.Notification.primaryBarBackground
+  foregroundColor: $Colors.Notification.primaryBarForeground
+
+MSFPrimaryOutlineBarNotificationTokens extends MSFBarNotificationTokens:
+  backgroundColor: $Colors.Notification.subtleBarBackground
+  foregroundColor: $Colors.Notification.primaryOutlineBarBackground
+
+MSFNeutralBarNotificationTokens extends MSFBarNotificationTokens:
+  backgroundColor: $Colors.Notification.neutralBarBackground
+  foregroundColor: $Colors.Notification.neutralBarForeground
+
+MSFDangerToastNotificationTokens extends MSFToastNotificationTokens:
+  backgroundColor: $Colors.Notification.dangerToastBackground
+  foregroundColor: $Colors.Notification.dangerToastForeground
+
+MSFWarningToastNotificationTokens extends MSFToastNotificationTokens:
+  backgroundColor: $Colors.Notification.warningToastBackground
+  foregroundColor: $Colors.Notification.warningToastForeground

@@ -85,28 +85,38 @@ class NotificationViewDemoController: DemoController {
     }
 
     private func createNotificationView(forVariant variant: Variant) -> NotificationView {
-        let view = NotificationView()
+        var view = NotificationView()
         switch variant {
         case .primaryToast:
-            view.setup(style: .primaryToast, message: "Mail Archived", actionTitle: "Undo", action: { [unowned self] in self.showMessage("`Undo` tapped") })
+            view = NotificationView.init(style: .primaryToast, message: "Mail Archived", actionTitle: "Undo", action: { [unowned self] in self.showMessage("`Undo` tapped") })
+            view.setup()
         case .primaryToastWithImageAndTitle:
-            view.setup(style: .primaryToast, title: "Kat's iPhoneX", message: "Listen to Emails • 7 mins", image: UIImage(named: "play-in-circle-24x24"), action: { [unowned self] in self.showMessage("`Dismiss` tapped") }, messageAction: { [unowned self] in self.showMessage("`Listen to emails` tapped") })
+            view = NotificationView.init(style: .primaryToast, title: "Kat's iPhoneX", message: "Listen to Emails • 7 mins", image: UIImage(named: "play-in-circle-24x24"), action: { [unowned self] in self.showMessage("`Dismiss` tapped") }, messageAction: { [unowned self] in self.showMessage("`Listen to emails` tapped") })
+            view.setup()
         case .neutralToast:
-            view.setup(style: .neutralToast, message: "Some items require you to sign in to view them", actionTitle: "Sign in", action: { [unowned self] in self.showMessage("`Sign in` tapped") })
+            view = NotificationView.init(style: .neutralToast, message: "Some items require you to sign in to view them", actionTitle: "Sign in", action: { [unowned self] in self.showMessage("`Sign in` tapped") })
+            view.setup()
         case .dangerToast:
-            view.setup(style: .dangerToast, message: "There was a problem, and your recent changes may not have saved", actionTitle: "Retry", action: { [unowned self] in self.showMessage("`Retry` tapped") })
+            view = NotificationView.init(style: .dangerToast, message: "There was a problem, and your recent changes may not have saved", actionTitle: "Retry", action: { [unowned self] in self.showMessage("`Retry` tapped") })
+            view.setup()
         case .warningToast:
-            view.setup(style: .warningToast, message: "Read Only")
+            view = NotificationView.init(style: .warningToast, message: "Read Only", action: { [unowned self] in self.showMessage("`Dismiss` tapped") })
+            view.setup()
         case .primaryBar:
-            view.setup(style: .primaryBar, message: "Updating...")
+            view = NotificationView.init(style: .primaryBar, message: "Updating...")
+            view.setup()
         case .primaryOutlineBar:
-            view.setup(style: .primaryOutlineBar, message: "Mail Sent")
+            view = NotificationView.init(style: .primaryOutlineBar, message: "Mail Sent")
+            view.setup()
         case .neutralBar:
-            view.setup(style: .neutralBar, message: "No internet connection")
+            view = NotificationView.init(style: .neutralBar, message: "No internet connection")
+            view.setup()
         case .persistentBarWithAction:
-            view.setup(style: .neutralBar, message: "This error can be taken action on with the action on the right.", actionTitle: "Action", action: { [unowned self] in self.showMessage("`Action` tapped") })
+            view = NotificationView.init(style: .neutralBar, message: "This error can be taken action on with the action on the right.", actionTitle: "Action", action: { [unowned self] in self.showMessage("`Action` tapped") })
+            view.setup()
         case .persistentBarWithCancel:
-            view.setup(style: .neutralBar, message: "This error can be tapped or dismissed with the icon to the right.", action: { [unowned self] in self.showMessage("`Dismiss` tapped") })
+            view = NotificationView.init(style: .neutralBar, message: "This error can be tapped or dismissed with the icon to the right.", action: { [unowned self] in self.showMessage("`Dismiss` tapped") }, messageAction: { [unowned self] in self.showMessage("`Dismiss` tapped") })
+            view.setup()
         }
         return view
     }
