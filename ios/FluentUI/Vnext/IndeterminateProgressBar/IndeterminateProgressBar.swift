@@ -132,10 +132,11 @@ public struct IndeterminateProgressBar: View {
 
     private struct Constants {
         static let animationDuration: Double = 1.75
-        static let initialStartPoint = UnitPoint(x: -1, y: 0.5)
-        static let initialEndPoint = UnitPoint(x: 0, y: 0.5)
-        static let finalStartPoint = UnitPoint(x: 1, y: 0.5)
-        static let finalEndPoint = UnitPoint(x: 2, y: 0.5)
+        static let isRTLLanguage = Locale.current.isRightToLeftLayoutDirection()
+        static let initialStartPoint: UnitPoint = { isRTLLanguage ? UnitPoint(x: 1, y: 0.5) : UnitPoint(x: -1, y: 0.5) }()
+        static let initialEndPoint: UnitPoint = { isRTLLanguage ? UnitPoint(x: 2, y: 0.5) : UnitPoint(x: 0, y: 0.5) }()
+        static let finalStartPoint: UnitPoint = { isRTLLanguage ? UnitPoint(x: -1, y: 0.5) : UnitPoint(x: 1, y: 0.5) }()
+        static let finalEndPoint: UnitPoint = { isRTLLanguage ? UnitPoint(x: 0, y: 0.5) : UnitPoint(x: 2, y: 0.5) }()
     }
 }
 
