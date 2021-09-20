@@ -85,7 +85,7 @@ class CommandBarButton: UIButton {
     private var commandBarTokens: MSFCommandBarTokens
 
     private let isPersistSelection: Bool
-    
+
     private var hoverBackgroundColor: UIColor {
         return commandBarTokens.hoverBackgroundColor
     }
@@ -93,7 +93,7 @@ class CommandBarButton: UIButton {
     private var hoverIconColor: UIColor {
         return commandBarTokens.hoverIconColor
     }
-    
+
     private var highlightedBackgroundColor: UIColor {
         return commandBarTokens.pressedBackgroundColor
     }
