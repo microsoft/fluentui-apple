@@ -196,7 +196,8 @@ public class BottomSheetController: UIViewController {
     /// You can modify the `fractionComplete` property of the animator to interactively drive the animation in the paused state.
     /// You can also change the `isReversed` property to swap the start and target `isHidden` states.
     ///
-    /// When you are done driving the animation interactively, you must call `startAnimation` on the animator to let it complete non-interactively.
+    /// When you are done driving the animation interactively, you must call `startAnimation` on the animator to let the animation resume
+    /// from the current value of `fractionComplete`.
     /// - Parameters:
     ///   - isHidden: The target state.
     ///   - completion: Closure to be called when the state change completes.
