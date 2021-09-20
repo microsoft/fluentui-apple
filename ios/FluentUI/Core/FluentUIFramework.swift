@@ -17,7 +17,7 @@ public extension Colors {
     }
 
     internal struct NavigationBar {
-        static var background = surfacePrimary
+        static var background: UIColor = surfacePrimary
         static var tint: UIColor = iconPrimary
         static var title: UIColor = textDominant
     }

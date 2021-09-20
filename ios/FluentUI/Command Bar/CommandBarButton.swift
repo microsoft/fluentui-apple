@@ -52,6 +52,13 @@ class CommandBarButton: UIButton {
         }
 
         updateState()
+
+        if #available(iOS 13.4, *) {
+            // Workaround check for beta iOS versions missing the Pointer Interactions API
+            if arePointerInteractionAPIsAvailable() {
+                isPointerInteractionEnabled = true
+            }
+        }
     }
 
     @available(*, unavailable)
@@ -78,7 +85,15 @@ class CommandBarButton: UIButton {
     private var commandBarTokens: MSFCommandBarTokens
 
     private let isPersistSelection: Bool
+    
+    private var hoverBackgroundColor: UIColor {
+        return commandBarTokens.hoverBackgroundColor
+    }
 
+    private var hoverIconColor: UIColor {
+        return commandBarTokens.hoverIconColor
+    }
+    
     private var highlightedBackgroundColor: UIColor {
         return commandBarTokens.pressedBackgroundColor
     }
@@ -116,7 +131,7 @@ class CommandBarButton: UIButton {
         setTitleColor(tintColor, for: .normal)
 
         if !isPersistSelection {
-            backgroundColor = commandBarTokens.dismissBackgroundColor
+            backgroundColor = .clear
             tintColor = commandBarTokens.dismissIconColor
         } else {
             if !isEnabled {
@@ -134,4 +149,19 @@ class CommandBarButton: UIButton {
     }
 
     private static let contentEdgeInsets = UIEdgeInsets(top: 8.0, left: 10.0, bottom: 8.0, right: 10.0)
+}
+
+// MARK: CommandBarButton UIPointerInteractionDelegate
+
+extension CommandBarButton: UIPointerInteractionDelegate {
+    @available(iOS 13.4, *)
+    public func pointerInteraction(_ interaction: UIPointerInteraction, willEnter region: UIPointerRegion, animator: UIPointerInteractionAnimating) {
+        backgroundColor = isSelected ? selectedBackgroundColor : hoverBackgroundColor
+        tintColor = isSelected ? selectedTintColor : hoverIconColor
+    }
+
+    @available(iOS 13.4, *)
+    public func pointerInteraction(_ interaction: UIPointerInteraction, willExit region: UIPointerRegion, animator: UIPointerInteractionAnimating) {
+        updateStyle()
+    }
 }
