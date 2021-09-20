@@ -36,6 +36,9 @@ public protocol BottomSheetControllerDelegate: AnyObject {
     case expanded // Sheet is fully expanded
     case collapsed // Sheet is collapsed
     case hidden // Sheet is hidden (fully off-screen)
+
+    var expandedContentAlpha: CGFloat { self == .expanded ? 1.0 : 0.0 }
+    var dimmingViewAlpha: CGFloat { self == .expanded ? 1.0 : 0.0 }
 }
 
 @objc(MSFBottomSheetController)
@@ -564,7 +567,7 @@ public class BottomSheetController: UIViewController {
             self?.view.layoutIfNeeded()
         }
 
-        let targetExpandedContentAlpha: CGFloat = targetExpansionState == .collapsed ? 0.0 : 1.0
+        let targetExpandedContentAlpha = targetExpansionState.expandedContentAlpha
         if expandedContentView.alpha != targetExpandedContentAlpha {
             translationAnimator.addAnimations {
                 self.expandedContentView.alpha = targetExpandedContentAlpha
@@ -572,7 +575,7 @@ public class BottomSheetController: UIViewController {
         }
 
         if shouldShowDimmingView {
-            let targetDimmingViewAlpha: CGFloat = targetExpansionState == .expanded ? 1.0 : 0.0
+            let targetDimmingViewAlpha = targetExpansionState.dimmingViewAlpha
             translationAnimator.addAnimations {
                 self.dimmingView.alpha = targetDimmingViewAlpha
             }
