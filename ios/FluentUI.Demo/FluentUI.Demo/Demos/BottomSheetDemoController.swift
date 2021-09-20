@@ -201,7 +201,7 @@ extension BottomSheetDemoController: UIScrollViewDelegate {
             var delta = contentOffset - previousScrollOffset
             if interactiveHidingAnimator == nil {
                 isHiding = delta > 0 ? true : false
-                interactiveHidingAnimator = bottomSheetViewController?.setIsHiddenInteractively(isHiding) { [weak self] _ in
+                interactiveHidingAnimator = bottomSheetViewController?.prepareInteractiveIsHiddenChange(isHiding) { [weak self] _ in
                     self?.mainTableView?.reloadData()
                     self?.mainTableView?.layoutIfNeeded()
                     self?.interactiveHidingAnimator = nil

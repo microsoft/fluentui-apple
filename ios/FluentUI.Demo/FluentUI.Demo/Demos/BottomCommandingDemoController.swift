@@ -372,7 +372,7 @@ extension BottomCommandingDemoController: UIScrollViewDelegate {
             var delta = contentOffset - previousScrollOffset
             if interactiveHidingAnimator == nil {
                 isHiding = delta > 0 ? true : false
-                interactiveHidingAnimator = bottomCommandingController?.setIsHiddenInteractively(isHiding) { [weak self] _ in
+                interactiveHidingAnimator = bottomCommandingController?.prepareInteractiveIsHiddenChange(isHiding) { [weak self] _ in
                     self?.mainTableViewController?.tableView?.reloadData()
                     self?.mainTableViewController?.tableView?.layoutIfNeeded()
                     self?.interactiveHidingAnimator = nil

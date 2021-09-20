@@ -205,12 +205,12 @@ open class BottomCommandingController: UIViewController {
 
     /// Initiates an interactive `isHidden` state change driven by the returned `UIViewAnimating` object.
     ///
-    /// For usage details, see `BottomSheetController.setIsHiddenInteractively`.
+    /// For usage details, see `BottomSheetController.prepareInteractiveIsHiddenChange`.
     /// - Parameters:
     ///   - isHidden: The target state.
     ///   - completion: Closure to be called when the state change completes.
     /// - Returns: An animator that conforms to `UIViewAnimating`. The associated animations start in a paused state.
-    @objc public func setIsHiddenInteractively(_ isHidden: Bool, completion: ((_ finalPosition: UIViewAnimatingPosition) -> Void)? = nil) -> UIViewAnimating? {
+    @objc public func prepareInteractiveIsHiddenChange(_ isHidden: Bool, completion: ((_ finalPosition: UIViewAnimatingPosition) -> Void)? = nil) -> UIViewAnimating? {
         guard isViewLoaded else {
             return nil
         }
@@ -218,7 +218,7 @@ open class BottomCommandingController: UIViewController {
         var animator: UIViewAnimating?
 
         if isInSheetMode {
-            animator = bottomSheetController?.setIsHiddenInteractively(isHidden, completion: completion)
+            animator = bottomSheetController?.prepareInteractiveIsHiddenChange(isHidden, completion: completion)
         } else {
             completeBottomBarAnimationsIfNeeded(skipToEnd: true)
             if isHidden != self.isHidden, let hidingAnimator = bottomBarHidingAnimator(to: isHidden) {
