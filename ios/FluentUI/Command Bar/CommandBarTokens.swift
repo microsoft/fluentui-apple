@@ -28,9 +28,6 @@ class MSFCommandBarTokens: MSFTokensBase {
     public var iconSize: CGFloat!
     public var itemInterspace: CGFloat!
 
-    /// Notifies the CommandBar  to refresh its UI to reflect its design token values
-    var themeDidUpdate: (() -> Void)?
-
     override init() {
         super.init()
 
@@ -44,10 +41,6 @@ class MSFCommandBarTokens: MSFTokensBase {
     }
 
     override func updateForCurrentTheme() {
-        if let themeChanged = themeDidUpdate {
-            themeChanged()
-        }
-
         let currentTheme = theme
         let appearanceProxy = currentTheme.MSFCommandBarTokens
 
