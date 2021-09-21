@@ -219,21 +219,26 @@ public struct AvatarGroup: View {
                         let yOrigin = sizeDiff / 2
                         let cutoutSize = isLastDisplayed ? (ringOuterGap * 2) + imageSize : nextAvatarSize
 
-                        avatarView
-                            .modifyIf(needsCutout, { view in
-                                view.mask(Avatar.AvatarCutout(
-                                            xOrigin: xOrigin,
-                                            yOrigin: yOrigin,
-                                            cutoutSize: cutoutSize)
-                                            .fill(style: FillStyle(eoFill: true)))
-                            })
-                            .padding(.trailing, tokens.style == .stack ? stackPadding : interspace)
-                            .animation(Animation.linear(duration: 0.1))
-                            .transition(AnyTransition.move(edge: .leading))
+                        VStack {
+                            avatarView
+                                .transition(.identity)
+                                .modifyIf(needsCutout, { view in
+                                    view.mask(Avatar.AvatarCutout(
+                                                xOrigin: xOrigin,
+                                                yOrigin: yOrigin,
+                                                cutoutSize: cutoutSize)
+                                                .fill(style: FillStyle(eoFill: true)))
+                                })
+                        }
+                        .padding(.trailing, tokens.style == .stack ? stackPadding : interspace)
+                        .animation(Animation.linear(duration: 0.1))
+                        .transition(AnyTransition.move(edge: .leading))
                     }
                     if overflowCount > 0 {
-                        createOverflow(count: overflowCount)
-                            .transition(AnyTransition.move(edge: .leading))
+                        VStack {
+                            createOverflow(count: overflowCount)
+                        }
+                        .transition(AnyTransition.move(edge: .leading))
                     }
                 }
                 .frame(width: geo.frame(in: .local).minX,
