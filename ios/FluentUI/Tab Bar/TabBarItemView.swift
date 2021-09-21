@@ -94,6 +94,10 @@ class TabBarItemView: UIView {
             }
         }
 
+        if #available(iOS 14.0, *) {
+            focusGroupIdentifier = item.title
+        }
+
         isAccessibilityElement = true
         updateAccessibilityLabel()
 
@@ -128,6 +132,10 @@ class TabBarItemView: UIView {
         container.layoutSubviews()
         imageViewFrame = imageView.frame
     }
+
+    open override var canBecomeFocused: Bool {
+        return true
+   }
 
     open override var intrinsicContentSize: CGSize {
         return sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
