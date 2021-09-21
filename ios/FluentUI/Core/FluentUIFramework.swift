@@ -29,8 +29,6 @@ public extension Colors {
 
     // Objective-C support
     @objc static var navigationBarBackground: UIColor { return NavigationBar.background }
-
-    @objc static var commandBarBackground: UIColor { return surfacePrimary }
 }
 
 // MARK: - FluentUIFramework

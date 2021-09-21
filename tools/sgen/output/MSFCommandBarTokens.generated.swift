@@ -52,6 +52,11 @@ extension FluentUIStyle {
 		}
 
 
+		// MARK: - barBackgroundColor 
+		open var barBackgroundColor: UIColor {
+			return mainProxy().Colors.Background.neutral1
+		}
+
 		// MARK: - fixedIconColor 
 		open var fixedIconColor: UIColor {
 			return UIColor(light: mainProxy().Colors.Foreground.neutral1, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Foreground.neutral3, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)

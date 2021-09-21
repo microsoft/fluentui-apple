@@ -313,6 +313,7 @@ MSFBorderedCardNudgeTokens extends MSFCardNudgeTokens:
 
 AP_MSFCommandBarTokens:
   backgroundColor: [ rest: $Colors.Background.neutral4, hover: "FluentUIColor(light: $Colors.Background.neutral5, dark: $Colors.Stroke.neutral2)", pressed: "FluentUIColor(light: $Colors.Background.neutralDisabled, dark: $Colors.Background.neutral5)", selected: $Colors.Background.brandRest, disabled: $Colors.Stroke.neutral1 ]
+  barBackgroundColor: $Colors.Background.neutral1
   fixedIconColor: "FluentUIColor(light: $Colors.Foreground.neutral1, dark: $Colors.Foreground.neutral3)"
   groupBorderRadius: $Border.radius.xLarge
   groupInterspace: $Spacing.medium
