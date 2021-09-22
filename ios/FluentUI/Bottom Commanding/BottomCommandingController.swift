@@ -718,9 +718,13 @@ open class BottomCommandingController: UIViewController {
         }
 
         animator.addCompletion { [weak self] finalPosition in
+            guard let strongSelf = self else {
+                return
+            }
+
             if finalPosition == .end {
                 bottomBarView.isHidden = isHidden
-                self?._isHidden = isHidden
+                strongSelf._isHidden = isHidden
             } else if finalPosition == .start {
                 bottomBarView.isHidden = initialHiddenState
                 bottomConstraint.constant = initialBottomConstant
