@@ -307,9 +307,10 @@ public struct Avatar: View {
                                 .contentShape(Circle()),
                              alignment: .center)
                     .modifyIf(shouldDisplayPresence, { thisView in
-                            thisView.mask(PresenceCutout(presenceCutoutOriginCoordinates: presenceCutoutOriginCoordinates,
-                                                         presenceIconOutlineSize: presenceIconOutlineSize)
-                                            .fill(style: FillStyle(eoFill: true)))
+                            thisView
+                                .clipShape(PresenceCutout(presenceCutoutOriginCoordinates: presenceCutoutOriginCoordinates,
+                                                          presenceIconOutlineSize: presenceIconOutlineSize),
+                                           style: FillStyle(eoFill: true))
                                 .overlay(Circle()
                                             .foregroundColor(Color(tokens.ringGapColor).opacity(isTransparent ? 0 : 1))
                                             .frame(width: presenceIconOutlineSize, height: presenceIconOutlineSize, alignment: .center)
