@@ -41,7 +41,7 @@ open class CommandBar: UIView, FluentUIWindowProvider {
             self.trailingButton = button(forItem: trailingItem, isPersistSelection: false)
         }
 
-        backgroundColor = barBackgroundColor
+        backgroundColor = commandBarTokens.barBackgroundColor
         translatesAutoresizingMaskIntoConstraints = false
 
         configureHierarchy()
@@ -85,10 +85,6 @@ open class CommandBar: UIView, FluentUIWindowProvider {
     private let leadingItem: CommandBarItem?
 
     private let trailingItem: CommandBarItem?
-
-    private var barBackgroundColor: UIColor {
-        return commandBarTokens.barBackgroundColor
-    }
 
     private lazy var itemsToButtonsMap: [CommandBarItem: CommandBarButton] = {
         let allButtons = itemGroups.flatMap({ $0 }).map({ button(forItem: $0) }) +
