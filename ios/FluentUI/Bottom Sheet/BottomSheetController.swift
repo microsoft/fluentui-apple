@@ -375,6 +375,7 @@ public class BottomSheetController: UIViewController {
     public override func viewDidLayoutSubviews() {
         if needsOffsetUpdate {
             needsOffsetUpdate = false
+            completeAnimationsIfNeeded(skipToEnd: true)
             move(to: currentExpansionState, animated: false, velocity: 0.0)
         }
     }
