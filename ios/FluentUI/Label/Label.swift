@@ -112,7 +112,7 @@ open class Label: UILabel {
     private func updateTextColor() {
         if let window = window {
             let currentTextColor = _textColor ?? colorStyle.color(for: window)
-            super.textColor = currentTextColor.current
+            super.textColor = currentTextColor
         }
     }
 
