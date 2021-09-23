@@ -189,7 +189,7 @@ public class BottomSheetController: UIViewController {
         }
     }
 
-    /// Initiates an interactive `isHidden` state change driven by the returned `UIViewAnimating` object.
+    /// Initiates an interactive `isHidden` state change driven by the returned `UIViewPropertyAnimator`.
     ///
     /// The returned animator comes preloaded with all the animations required to reach the target `isHidden` state.
     ///
@@ -201,8 +201,8 @@ public class BottomSheetController: UIViewController {
     /// - Parameters:
     ///   - isHidden: The target state.
     ///   - completion: Closure to be called when the state change completes.
-    /// - Returns: An animator that conforms to `UIViewAnimating`. The associated animations start in a paused state.
-    @objc public func prepareInteractiveIsHiddenChange(_ isHidden: Bool, completion: ((_ finalPosition: UIViewAnimatingPosition) -> Void)? = nil) -> UIViewAnimating? {
+    /// - Returns: A `UIViewPropertyAnimator`. The associated animations start in a paused state.
+    @objc public func prepareInteractiveIsHiddenChange(_ isHidden: Bool, completion: ((_ finalPosition: UIViewAnimatingPosition) -> Void)? = nil) -> UIViewPropertyAnimator? {
         guard isViewLoaded else {
             return nil
         }
