@@ -225,7 +225,7 @@ class MSFCardNudgeStateImpl: NSObject, ObservableObject, Identifiable, MSFCardNu
 }
 
 #if DEBUG
-struct CardNudge_Previews: PreviewProvider {
+struct CardNudgePreviews: PreviewProvider {
     @ViewBuilder
     static var cards: some View {
         VStack(spacing: 0) {

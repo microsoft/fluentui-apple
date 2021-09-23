@@ -103,22 +103,22 @@ extension FluentUIStyle {
 
 		// MARK: - shadowBlur 
 		open var shadowBlur: CGFloat {
-			return mainProxy().Shadow.shadow8.blur1
+			return mainProxy().Shadow.shadow16.blur1
 		}
 
 		// MARK: - shadowColor 
 		open var shadowColor: UIColor {
-			return mainProxy().Shadow.shadow8.color1
+			return mainProxy().Shadow.shadow16.color1
 		}
 
 		// MARK: - shadowOffsetX 
 		open var shadowOffsetX: CGFloat {
-			return mainProxy().Shadow.shadow8.x1
+			return mainProxy().Shadow.shadow16.x1
 		}
 
 		// MARK: - shadowOffsetY 
 		open var shadowOffsetY: CGFloat {
-			return mainProxy().Shadow.shadow8.y1
+			return mainProxy().Shadow.shadow16.y1
 		}
 
 		// MARK: - verticalPadding 

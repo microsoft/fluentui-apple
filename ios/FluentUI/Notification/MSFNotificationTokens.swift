@@ -23,7 +23,6 @@ import UIKit
     var needsSeparator: Bool { return  self == .primaryOutlineBar }
     var supportsTitle: Bool { return isToast }
     var supportsImage: Bool { return isToast }
-    var supportsMessageAction: Bool { return isToast }
     var shouldAlwaysShowActionButton: Bool { return isToast }
 }
 

@@ -643,93 +643,6 @@ open class FluentUIStyle: NSObject {
 		}
 
 
-		// MARK: - Notification
-		open var Notification: NotificationAppearanceProxy {
-			return NotificationAppearanceProxy(proxy: mainProxy)
-		}
-		open class NotificationAppearanceProxy {
-			public let mainProxy: () -> FluentUIStyle
-			public init(proxy: @escaping () -> FluentUIStyle) {
-				self.mainProxy = proxy
-			}
-
-			// MARK: - dangerToastBackground 
-			open var dangerToastBackground: UIColor {
-				return UIColor(light: UIColor(red: 0.99215686, green: 0.9647059, blue: 0.9647059, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.24705882, green: 0.0627451, blue: 0.06666667, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
-			}
-
-			// MARK: - dangerToastForeground 
-			open var dangerToastForeground: UIColor {
-				return UIColor(light: UIColor(red: 0.7372549, green: 0.18431373, blue: 0.20392157, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.8627451, green: 0.37254903, blue: 0.3882353, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
-			}
-
-			// MARK: - neutralBarBackground 
-			open var neutralBarBackground: UIColor {
-				return UIColor(light: UIColor(red: 0.8745098, green: 0.8745098, blue: 0.8745098, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.22352941, green: 0.22352941, blue: 0.22352941, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
-			}
-
-			// MARK: - neutralBarForeground 
-			open var neutralBarForeground: UIColor {
-				return UIColor(light: UIColor(red: 0.03529412, green: 0.03529412, blue: 0.03529412, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.96862745, green: 0.96862745, blue: 0.96862745, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
-			}
-
-			// MARK: - neutralToastBackground 
-			open var neutralToastBackground: UIColor {
-				return UIColor(light: UIColor(red: 0.96862745, green: 0.96862745, blue: 0.96862745, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.22352941, green: 0.22352941, blue: 0.22352941, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
-			}
-
-			// MARK: - neutralToastForeground 
-			open var neutralToastForeground: UIColor {
-				return UIColor(light: UIColor(red: 0.22352941, green: 0.22352941, blue: 0.22352941, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.96862745, green: 0.96862745, blue: 0.96862745, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
-			}
-
-			// MARK: - persistentBarBackground 
-			open var persistentBarBackground: UIColor {
-				return UIColor(light: UIColor(red: 0.8745098, green: 0.8745098, blue: 0.8745098, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.22352941, green: 0.22352941, blue: 0.22352941, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
-			}
-
-			// MARK: - persistentBarForeground 
-			open var persistentBarForeground: UIColor {
-				return UIColor(light: UIColor(red: 0.03529412, green: 0.03529412, blue: 0.03529412, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.96862745, green: 0.96862745, blue: 0.96862745, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
-			}
-
-			// MARK: - primaryBarBackground 
-			open var primaryBarBackground: UIColor {
-				return UIColor(light: mainProxy().Colors.Brand.tint40, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Brand.tint10, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
-			}
-
-			// MARK: - primaryBarForeground 
-			open var primaryBarForeground: UIColor {
-				return UIColor(light: mainProxy().Colors.Brand.shade20, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/black", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
-			}
-
-			// MARK: - primaryOutlineBarBackground 
-			open var primaryOutlineBarBackground: UIColor {
-				return UIColor(light: mainProxy().Colors.Brand.primary, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.96862745, green: 0.96862745, blue: 0.96862745, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
-			}
-
-			// MARK: - primaryToastForeground 
-			open var primaryToastForeground: UIColor {
-				return UIColor(light: mainProxy().Colors.Brand.shade10, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Brand.shade30, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
-			}
-
-			// MARK: - subtleBarBackground 
-			open var subtleBarBackground: UIColor {
-				return UIColor(light: UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.22352941, green: 0.22352941, blue: 0.22352941, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
-			}
-
-			// MARK: - warningToastBackground 
-			open var warningToastBackground: UIColor {
-				return UIColor(light: UIColor(red: 1.0, green: 0.9843137, blue: 0.8392157, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.29803923, green: 0.26666668, blue: 0.0, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
-			}
-
-			// MARK: - warningToastForeground 
-			open var warningToastForeground: UIColor {
-				return UIColor(light: UIColor(red: 0.15686275, green: 0.14117648, blue: 0.0, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.99215686, green: 0.91764706, blue: 0.23921569, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
-			}
-		}
-
-
 		// MARK: - Presence
 		open var Presence: PresenceAppearanceProxy {
 			return PresenceAppearanceProxy(proxy: mainProxy)
@@ -986,12 +899,12 @@ open class FluentUIStyle: NSObject {
 
 		// MARK: - backgroundColor 
 		open override var backgroundColor: UIColor {
-			return mainProxy().Colors.Notification.dangerToastBackground
+			return UIColor(light: UIColor(named: "FluentColors/redTint60", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/redShade40", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 		}
 
 		// MARK: - foregroundColor 
 		open override var foregroundColor: UIColor {
-			return mainProxy().Colors.Notification.dangerToastForeground
+			return UIColor(light: UIColor(named: "FluentColors/redShade10", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/redTint20", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 		}
 	}
 	// MARK: - MSFNeutralBarNotificationTokens
@@ -1002,12 +915,12 @@ open class FluentUIStyle: NSObject {
 
 		// MARK: - backgroundColor 
 		open override var backgroundColor: UIColor {
-			return mainProxy().Colors.Notification.neutralBarBackground
+			return UIColor(light: UIColor(named: "FluentColors/charcoalTint50", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/charcoalPrimary", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 		}
 
 		// MARK: - foregroundColor 
 		open override var foregroundColor: UIColor {
-			return mainProxy().Colors.Notification.neutralBarForeground
+			return UIColor(light: UIColor(named: "FluentColors/charcoalShade50", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/charcoalTint60", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 		}
 	}
 	// MARK: - MSFNeutralToastNotificationTokens
@@ -1018,12 +931,12 @@ open class FluentUIStyle: NSObject {
 
 		// MARK: - backgroundColor 
 		open override var backgroundColor: UIColor {
-			return mainProxy().Colors.Notification.neutralToastBackground
+			return UIColor(light: UIColor(named: "FluentColors/charcoalTint60", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/charcoalPrimary", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 		}
 
 		// MARK: - foregroundColor 
 		open override var foregroundColor: UIColor {
-			return mainProxy().Colors.Notification.neutralToastForeground
+			return UIColor(light: UIColor(named: "FluentColors/charcoalPrimary", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/charcoalTint60", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 		}
 	}
 	// MARK: - MSFPrimaryBarNotificationTokens
@@ -1034,12 +947,12 @@ open class FluentUIStyle: NSObject {
 
 		// MARK: - backgroundColor 
 		open override var backgroundColor: UIColor {
-			return mainProxy().Colors.Notification.primaryBarBackground
+			return UIColor(light: mainProxy().Colors.Brand.tint40, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Brand.tint10, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 		}
 
 		// MARK: - foregroundColor 
 		open override var foregroundColor: UIColor {
-			return mainProxy().Colors.Notification.primaryBarForeground
+			return UIColor(light: mainProxy().Colors.Brand.shade20, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/black", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 		}
 	}
 	// MARK: - MSFPrimaryOutlineBarNotificationTokens
@@ -1050,12 +963,12 @@ open class FluentUIStyle: NSObject {
 
 		// MARK: - backgroundColor 
 		open override var backgroundColor: UIColor {
-			return mainProxy().Colors.Notification.subtleBarBackground
+			return UIColor(light: UIColor(named: "FluentColors/white", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/charcoalPrimary", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 		}
 
 		// MARK: - foregroundColor 
 		open override var foregroundColor: UIColor {
-			return mainProxy().Colors.Notification.primaryOutlineBarBackground
+			return UIColor(light: mainProxy().Colors.Brand.primary, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/charcoalTint60", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 		}
 	}
 	// MARK: - MSFPrimaryToastNotificationTokens
@@ -1071,7 +984,7 @@ open class FluentUIStyle: NSObject {
 
 		// MARK: - foregroundColor 
 		open override var foregroundColor: UIColor {
-			return mainProxy().Colors.Notification.primaryToastForeground
+			return UIColor(light: mainProxy().Colors.Brand.shade10, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Brand.shade30, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 		}
 	}
 	// MARK: - MSFWarningToastNotificationTokens
@@ -1082,12 +995,12 @@ open class FluentUIStyle: NSObject {
 
 		// MARK: - backgroundColor 
 		open override var backgroundColor: UIColor {
-			return mainProxy().Colors.Notification.warningToastBackground
+			return UIColor(light: UIColor(named: "FluentColors/yellowTint50", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/yellowShade40", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 		}
 
 		// MARK: - foregroundColor 
 		open override var foregroundColor: UIColor {
-			return mainProxy().Colors.Notification.warningToastForeground
+			return UIColor(light: UIColor(named: "FluentColors/yellowShade50", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/yellowTint20", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 		}
 	}
 	// MARK: - Opacity

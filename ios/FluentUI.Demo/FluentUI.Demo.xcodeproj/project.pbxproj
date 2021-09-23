@@ -146,7 +146,6 @@
 		CCC18C2E2501C75F00BE830E /* CardViewDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewDemoController.swift; sourceTree = "<group>"; };
 		E6842973247B672000A29C40 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		E6842995247C350700A29C40 /* DemoColorThemes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoColorThemes.swift; sourceTree = "<group>"; };
-		EC7D5AF5DAF7393E14BF5B28 /* Pods_FluentUI_Demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FluentUI_Demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC8EA6AF2580D82A00F191CE /* ListDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListDemoController.swift; sourceTree = "<group>"; };
 		FC414E3625888BC300069E73 /* CommandBarDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBarDemoController.swift; sourceTree = "<group>"; };
 		FD41C8F322E28EEB0086F899 /* NavigationControllerDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationControllerDemoController.swift; sourceTree = "<group>"; };
@@ -300,7 +299,6 @@
 			isa = PBXGroup;
 			children = (
 				A5CEC22A20E44FBF0016922A /* FluentUI.framework */,
-				EC7D5AF5DAF7393E14BF5B28 /* Pods_FluentUI_Demo.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -669,9 +667,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				BUNDLE_NAME = FluentUI;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = 9KBH5RKYEW;
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = FluentUI.Demo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -680,7 +678,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.microsoft.OfficeUIFabricDemo-df";
 				PRODUCT_NAME = FluentUI.Demo;
 				PROVISIONING_PROFILE = "4596e7d8-5232-4b9f-82bf-63883e38cd5c";
-				PROVISIONING_PROFILE_SPECIFIER = "Office Fabric Demo Dogfood Distribution";
+				PROVISIONING_PROFILE_SPECIFIER = "iOS Team Provisioning Profile";
 				SWIFT_OBJC_BRIDGING_HEADER = "FluentUI.Demo/FluentUI.Demo-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -826,7 +824,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.OfficeUIFabricDemo;
 				PRODUCT_NAME = FluentUI.Demo;
 				PROVISIONING_PROFILE = "63d62159-2691-4b44-9553-b668cc1746c1";
-				PROVISIONING_PROFILE_SPECIFIER = "Office UI Fabric Demo Development";
+				PROVISIONING_PROFILE_SPECIFIER = "iOS Team Provisioning Profile";
 				SWIFT_OBJC_BRIDGING_HEADER = "FluentUI.Demo/FluentUI.Demo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -851,7 +849,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.OfficeUIFabricDemo;
 				PRODUCT_NAME = FluentUI.Demo;
 				PROVISIONING_PROFILE = "63d62159-2691-4b44-9553-b668cc1746c1";
-				PROVISIONING_PROFILE_SPECIFIER = "Office UI Fabric Demo Development";
+				PROVISIONING_PROFILE_SPECIFIER = "iOS Team Provisioning Profile";
 				SWIFT_OBJC_BRIDGING_HEADER = "FluentUI.Demo/FluentUI.Demo-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
