@@ -16,14 +16,35 @@ import UIKit
     case warningToast
 
     var isToast: Bool {
-        return self == .primaryToast || self == .neutralToast || self == .dangerToast || self == .warningToast
+        switch self {
+        case .primaryToast,
+             .neutralToast,
+             .dangerToast,
+             .warningToast:
+            return true
+        case .primaryBar,
+             .primaryOutlineBar,
+             .neutralBar:
+            return false
+        }
     }
+
+    var animationDurationForShow: TimeInterval { return isToast ? Constants.animationDurationForShowToast : Constants.animationDurationForShowBar }
+    var animationDurationForHide: TimeInterval { return Constants.animationDurationForHide }
+    var animationDampingRatio: CGFloat { return isToast ? Constants.animationDampingRatioForToast : 1 }
 
     var needsFullWidth: Bool { return !isToast }
     var needsSeparator: Bool { return  self == .primaryOutlineBar }
     var supportsTitle: Bool { return isToast }
     var supportsImage: Bool { return isToast }
     var shouldAlwaysShowActionButton: Bool { return isToast }
+
+    private struct Constants {
+        static let animationDurationForShowToast: TimeInterval = 0.6
+        static let animationDurationForShowBar: TimeInterval = 0.3
+        static let animationDurationForHide: TimeInterval = 0.25
+        static let animationDampingRatioForToast: CGFloat = 0.5
+    }
 }
 
 class MSFNotificationTokens: MSFTokensBase, ObservableObject {
@@ -37,9 +58,6 @@ class MSFNotificationTokens: MSFTokensBase, ObservableObject {
     @Published public var horizontalSpacing: CGFloat!
     @Published public var minimumHeight: CGFloat!
     @Published public var minimumHeightForOneLine: CGFloat!
-    @Published public var animationDurationForShow: TimeInterval!
-    @Published public var animationDurationForHide: TimeInterval!
-    @Published public var animationDampingRatio: CGFloat!
     @Published public var shadowColor: CGColor!
     @Published public var shadowBlur: CGFloat!
     @Published public var shadowOffsetX: CGFloat!
@@ -91,9 +109,6 @@ class MSFNotificationTokens: MSFTokensBase, ObservableObject {
         horizontalSpacing = appearanceProxy.horizontalSpacing
         minimumHeight = appearanceProxy.minimumHeight
         minimumHeightForOneLine = appearanceProxy.minimumHeightForOneLine
-        animationDurationForShow = TimeInterval(appearanceProxy.animationDurationForShow)
-        animationDurationForHide = TimeInterval(appearanceProxy.animationDurationForHide)
-        animationDampingRatio = appearanceProxy.animationDampingRatio
         shadowColor = appearanceProxy.shadowColor.cgColor
         shadowBlur = appearanceProxy.shadowBlur
         shadowOffsetX = appearanceProxy.shadowOffsetX

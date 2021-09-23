@@ -255,7 +255,7 @@ open class NotificationView: UIView, FluentUIWindowProvider {
         }
         if animated {
             view.layoutIfNeeded()
-            UIView.animate(withDuration: tokens.animationDurationForShow, delay: 0, usingSpringWithDamping: tokens.animationDampingRatio, initialSpringVelocity: 0, animations: {
+            UIView.animate(withDuration: tokens.style.animationDurationForShow, delay: 0, usingSpringWithDamping: tokens.style.animationDampingRatio, initialSpringVelocity: 0, animations: {
                 self.constraintWhenHidden.isActive = false
                 self.constraintWhenShown.isActive = true
                 view.layoutIfNeeded()
@@ -316,7 +316,7 @@ open class NotificationView: UIView, FluentUIWindowProvider {
         if animated {
             if !self.isHiding {
                 self.isHiding = true
-                UIView.animate(withDuration: tokens.animationDurationForHide, animations: {
+                UIView.animate(withDuration: tokens.style.animationDurationForHide, animations: {
                     self.constraintWhenShown.isActive = false
                     self.constraintWhenHidden.isActive = true
                     self.superview?.layoutIfNeeded()

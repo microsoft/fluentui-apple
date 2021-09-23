@@ -401,51 +401,52 @@ AP_MSFNotificationTokens:
   horizontalSpacing: 16pt
   minimumHeight: 64.0
   minimumHeightForOneLine: 56.0
-  animationDurationForShow: 0.6
-  animationDurationForHide: 0.25
-  animationDampingRatio: 0.5
   shadowColor: $Shadow.shadow16.color1
   shadowBlur: $Shadow.shadow16.blur1
   shadowOffsetX: $Shadow.shadow16.x1
   shadowOffsetY: $Shadow.shadow16.y1
 
-MSFToastNotificationTokens extends MSFNotificationTokens:
+MSFPrimaryToastNotificationTokens extends MSFNotificationTokens:
   cornerRadius: $Border.radius.xLarge
   presentationOffSet: $Spacing.small
-  animationDurationForShow: 0.6
-  animationDampingRatio: 0.5
-
-MSFBarNotificationTokens extends MSFNotificationTokens:
-  shadowColor: NamedColor(clear)
-  cornerRadius: $Border.radius.none
-  presentationOffSet: $Spacing.none
-  animationDurationForShow: 0.3
-  animationDampingRatio: 1.0
-
-MSFPrimaryToastNotificationTokens extends MSFToastNotificationTokens:
   backgroundColor: $Colors.Brand.tint40
   foregroundColor: "FluentUIColor(light: $Colors.Brand.shade10, dark: $Colors.Brand.shade30)"
 
-MSFNeutralToastNotificationTokens extends MSFToastNotificationTokens:
+MSFNeutralToastNotificationTokens extends MSFNotificationTokens:
+  cornerRadius: $Border.radius.xLarge
+  presentationOffSet: $Spacing.small
   backgroundColor: "FluentUIColor(light: NamedColor(charcoalTint60), dark: NamedColor(charcoalPrimary))"
   foregroundColor: "FluentUIColor(light: NamedColor(charcoalPrimary), dark: NamedColor(charcoalTint60))"
 
-MSFPrimaryBarNotificationTokens extends MSFBarNotificationTokens:
+MSFPrimaryBarNotificationTokens extends MSFNotificationTokens:
+  shadowColor: NamedColor(clear)
+  cornerRadius: $Border.radius.none
+  presentationOffSet: $Spacing.none
   backgroundColor: "FluentUIColor(light: $Colors.Brand.tint40, dark: $Colors.Brand.tint10)"
   foregroundColor: "FluentUIColor(light: $Colors.Brand.shade20, dark: NamedColor(black))"
 
-MSFPrimaryOutlineBarNotificationTokens extends MSFBarNotificationTokens:
+MSFPrimaryOutlineBarNotificationTokens extends MSFNotificationTokens:
+  shadowColor: NamedColor(clear)
+  cornerRadius: $Border.radius.none
+  presentationOffSet: $Spacing.none
   backgroundColor: "FluentUIColor(light: NamedColor(white), dark: NamedColor(charcoalPrimary))"
   foregroundColor: "FluentUIColor(light: $Colors.Brand.primary, dark: NamedColor(charcoalTint60))"
 
-MSFNeutralBarNotificationTokens extends MSFBarNotificationTokens:
+MSFNeutralBarNotificationTokens extends MSFNotificationTokens:
+  shadowColor: NamedColor(clear)
+  cornerRadius: $Border.radius.none
+  presentationOffSet: $Spacing.none
   backgroundColor: "FluentUIColor(light: NamedColor(charcoalTint50), dark: NamedColor(charcoalPrimary))"
   foregroundColor: "FluentUIColor(light: NamedColor(charcoalShade50), dark: NamedColor(charcoalTint60))"
 
-MSFDangerToastNotificationTokens extends MSFToastNotificationTokens:
+MSFDangerToastNotificationTokens extends MSFNotificationTokens:
+  cornerRadius: $Border.radius.xLarge
+  presentationOffSet: $Spacing.small
   backgroundColor: "FluentUIColor(light: NamedColor(redTint60), dark: NamedColor(redShade40))"
   foregroundColor: "FluentUIColor(light: NamedColor(redShade10), dark: NamedColor(redTint20))"
 
-MSFWarningToastNotificationTokens extends MSFToastNotificationTokens:
+MSFWarningToastNotificationTokens extends MSFNotificationTokens:
+  cornerRadius: $Border.radius.xLarge
+  presentationOffSet: $Spacing.small
   backgroundColor: "FluentUIColor(light: NamedColor(yellowTint50), dark: NamedColor(yellowShade40))"
   foregroundColor: "FluentUIColor(light: NamedColor(yellowShade50), dark: NamedColor(yellowTint20))"

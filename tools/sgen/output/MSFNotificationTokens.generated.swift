@@ -5,25 +5,51 @@ import UIKit
 /// Entry point for the app stylesheet
 extension FluentUIStyle {
 
-	// MARK: - MSFBarNotificationTokens
-	open var MSFBarNotificationTokens: MSFBarNotificationTokensAppearanceProxy {
-		return MSFBarNotificationTokensAppearanceProxy(proxy: { return self })
+	// MARK: - MSFDangerToastNotificationTokens
+	open var MSFDangerToastNotificationTokens: MSFDangerToastNotificationTokensAppearanceProxy {
+		return MSFDangerToastNotificationTokensAppearanceProxy(proxy: { return self })
 	}
-	open class MSFBarNotificationTokensAppearanceProxy: MSFNotificationTokensAppearanceProxy {
+	open class MSFDangerToastNotificationTokensAppearanceProxy: MSFNotificationTokensAppearanceProxy {
 
-		// MARK: - animationDampingRatio 
-		open override var animationDampingRatio: CGFloat {
-			return CGFloat(1.0)
+		// MARK: - backgroundColor 
+		open override var backgroundColor: UIColor {
+			return UIColor(light: UIColor(named: "FluentColors/redTint60", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/redShade40", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 		}
 
-		// MARK: - animationDurationForShow 
-		open override var animationDurationForShow: CGFloat {
-			return CGFloat(0.3)
+		// MARK: - cornerRadius 
+		open override var cornerRadius: CGFloat {
+			return mainProxy().Border.radius.xLarge
+		}
+
+		// MARK: - foregroundColor 
+		open override var foregroundColor: UIColor {
+			return UIColor(light: UIColor(named: "FluentColors/redShade10", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/redTint20", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+		}
+
+		// MARK: - presentationOffSet 
+		open override var presentationOffSet: CGFloat {
+			return mainProxy().Spacing.small
+		}
+	}
+	// MARK: - MSFNeutralBarNotificationTokens
+	open var MSFNeutralBarNotificationTokens: MSFNeutralBarNotificationTokensAppearanceProxy {
+		return MSFNeutralBarNotificationTokensAppearanceProxy(proxy: { return self })
+	}
+	open class MSFNeutralBarNotificationTokensAppearanceProxy: MSFNotificationTokensAppearanceProxy {
+
+		// MARK: - backgroundColor 
+		open override var backgroundColor: UIColor {
+			return UIColor(light: UIColor(named: "FluentColors/charcoalTint50", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/charcoalPrimary", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 		}
 
 		// MARK: - cornerRadius 
 		open override var cornerRadius: CGFloat {
 			return mainProxy().Border.radius.none
+		}
+
+		// MARK: - foregroundColor 
+		open override var foregroundColor: UIColor {
+			return UIColor(light: UIColor(named: "FluentColors/charcoalShade50", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/charcoalTint60", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 		}
 
 		// MARK: - presentationOffSet 
@@ -36,6 +62,32 @@ extension FluentUIStyle {
 			return UIColor(named: "FluentColors/clear", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
 		}
 	}
+	// MARK: - MSFNeutralToastNotificationTokens
+	open var MSFNeutralToastNotificationTokens: MSFNeutralToastNotificationTokensAppearanceProxy {
+		return MSFNeutralToastNotificationTokensAppearanceProxy(proxy: { return self })
+	}
+	open class MSFNeutralToastNotificationTokensAppearanceProxy: MSFNotificationTokensAppearanceProxy {
+
+		// MARK: - backgroundColor 
+		open override var backgroundColor: UIColor {
+			return UIColor(light: UIColor(named: "FluentColors/charcoalTint60", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/charcoalPrimary", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+		}
+
+		// MARK: - cornerRadius 
+		open override var cornerRadius: CGFloat {
+			return mainProxy().Border.radius.xLarge
+		}
+
+		// MARK: - foregroundColor 
+		open override var foregroundColor: UIColor {
+			return UIColor(light: UIColor(named: "FluentColors/charcoalPrimary", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/charcoalTint60", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+		}
+
+		// MARK: - presentationOffSet 
+		open override var presentationOffSet: CGFloat {
+			return mainProxy().Spacing.small
+		}
+	}
 	// MARK: - MSFNotificationTokens
 	open var MSFNotificationTokens: MSFNotificationTokensAppearanceProxy {
 		return MSFNotificationTokensAppearanceProxy(proxy: { return self })
@@ -44,21 +96,6 @@ extension FluentUIStyle {
 		public let mainProxy: () -> FluentUIStyle
 		public init(proxy: @escaping () -> FluentUIStyle) {
 			self.mainProxy = proxy
-		}
-
-		// MARK: - animationDampingRatio 
-		open var animationDampingRatio: CGFloat {
-			return CGFloat(0.5)
-		}
-
-		// MARK: - animationDurationForHide 
-		open var animationDurationForHide: CGFloat {
-			return CGFloat(0.25)
-		}
-
-		// MARK: - animationDurationForShow 
-		open var animationDurationForShow: CGFloat {
-			return CGFloat(0.6)
 		}
 
 		// MARK: - backgroundColor 
@@ -131,25 +168,113 @@ extension FluentUIStyle {
 			return CGFloat(16.0)
 		}
 	}
-	// MARK: - MSFToastNotificationTokens
-	open var MSFToastNotificationTokens: MSFToastNotificationTokensAppearanceProxy {
-		return MSFToastNotificationTokensAppearanceProxy(proxy: { return self })
+	// MARK: - MSFPrimaryBarNotificationTokens
+	open var MSFPrimaryBarNotificationTokens: MSFPrimaryBarNotificationTokensAppearanceProxy {
+		return MSFPrimaryBarNotificationTokensAppearanceProxy(proxy: { return self })
 	}
-	open class MSFToastNotificationTokensAppearanceProxy: MSFNotificationTokensAppearanceProxy {
+	open class MSFPrimaryBarNotificationTokensAppearanceProxy: MSFNotificationTokensAppearanceProxy {
 
-		// MARK: - animationDampingRatio 
-		open override var animationDampingRatio: CGFloat {
-			return CGFloat(0.5)
+		// MARK: - backgroundColor 
+		open override var backgroundColor: UIColor {
+			return UIColor(light: mainProxy().Colors.Brand.tint40, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Brand.tint10, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 		}
 
-		// MARK: - animationDurationForShow 
-		open override var animationDurationForShow: CGFloat {
-			return CGFloat(0.6)
+		// MARK: - cornerRadius 
+		open override var cornerRadius: CGFloat {
+			return mainProxy().Border.radius.none
+		}
+
+		// MARK: - foregroundColor 
+		open override var foregroundColor: UIColor {
+			return UIColor(light: mainProxy().Colors.Brand.shade20, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/black", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+		}
+
+		// MARK: - presentationOffSet 
+		open override var presentationOffSet: CGFloat {
+			return mainProxy().Spacing.none
+		}
+
+		// MARK: - shadowColor 
+		open override var shadowColor: UIColor {
+			return UIColor(named: "FluentColors/clear", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+		}
+	}
+	// MARK: - MSFPrimaryOutlineBarNotificationTokens
+	open var MSFPrimaryOutlineBarNotificationTokens: MSFPrimaryOutlineBarNotificationTokensAppearanceProxy {
+		return MSFPrimaryOutlineBarNotificationTokensAppearanceProxy(proxy: { return self })
+	}
+	open class MSFPrimaryOutlineBarNotificationTokensAppearanceProxy: MSFNotificationTokensAppearanceProxy {
+
+		// MARK: - backgroundColor 
+		open override var backgroundColor: UIColor {
+			return UIColor(light: UIColor(named: "FluentColors/white", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/charcoalPrimary", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+		}
+
+		// MARK: - cornerRadius 
+		open override var cornerRadius: CGFloat {
+			return mainProxy().Border.radius.none
+		}
+
+		// MARK: - foregroundColor 
+		open override var foregroundColor: UIColor {
+			return UIColor(light: mainProxy().Colors.Brand.primary, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/charcoalTint60", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+		}
+
+		// MARK: - presentationOffSet 
+		open override var presentationOffSet: CGFloat {
+			return mainProxy().Spacing.none
+		}
+
+		// MARK: - shadowColor 
+		open override var shadowColor: UIColor {
+			return UIColor(named: "FluentColors/clear", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+		}
+	}
+	// MARK: - MSFPrimaryToastNotificationTokens
+	open var MSFPrimaryToastNotificationTokens: MSFPrimaryToastNotificationTokensAppearanceProxy {
+		return MSFPrimaryToastNotificationTokensAppearanceProxy(proxy: { return self })
+	}
+	open class MSFPrimaryToastNotificationTokensAppearanceProxy: MSFNotificationTokensAppearanceProxy {
+
+		// MARK: - backgroundColor 
+		open override var backgroundColor: UIColor {
+			return mainProxy().Colors.Brand.tint40
 		}
 
 		// MARK: - cornerRadius 
 		open override var cornerRadius: CGFloat {
 			return mainProxy().Border.radius.xLarge
+		}
+
+		// MARK: - foregroundColor 
+		open override var foregroundColor: UIColor {
+			return UIColor(light: mainProxy().Colors.Brand.shade10, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Brand.shade30, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+		}
+
+		// MARK: - presentationOffSet 
+		open override var presentationOffSet: CGFloat {
+			return mainProxy().Spacing.small
+		}
+	}
+	// MARK: - MSFWarningToastNotificationTokens
+	open var MSFWarningToastNotificationTokens: MSFWarningToastNotificationTokensAppearanceProxy {
+		return MSFWarningToastNotificationTokensAppearanceProxy(proxy: { return self })
+	}
+	open class MSFWarningToastNotificationTokensAppearanceProxy: MSFNotificationTokensAppearanceProxy {
+
+		// MARK: - backgroundColor 
+		open override var backgroundColor: UIColor {
+			return UIColor(light: UIColor(named: "FluentColors/yellowTint50", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/yellowShade40", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+		}
+
+		// MARK: - cornerRadius 
+		open override var cornerRadius: CGFloat {
+			return mainProxy().Border.radius.xLarge
+		}
+
+		// MARK: - foregroundColor 
+		open override var foregroundColor: UIColor {
+			return UIColor(light: UIColor(named: "FluentColors/yellowShade50", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/yellowTint20", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 		}
 
 		// MARK: - presentationOffSet 
@@ -177,22 +302,18 @@ extension MSFNotificationTokens: AppearaceProxyComponent {
 
 				if proxy is FluentUIStyle.MSFDangerToastNotificationTokensAppearanceProxy {
 					return FluentUIThemeManager.stylesheet(FluentUIStyle.shared()).MSFDangerToastNotificationTokens
-				} else if proxy is FluentUIStyle.MSFNeutralToastNotificationTokensAppearanceProxy {
-					return FluentUIThemeManager.stylesheet(FluentUIStyle.shared()).MSFNeutralToastNotificationTokens
-				} else if proxy is FluentUIStyle.MSFPrimaryToastNotificationTokensAppearanceProxy {
-					return FluentUIThemeManager.stylesheet(FluentUIStyle.shared()).MSFPrimaryToastNotificationTokens
-				} else if proxy is FluentUIStyle.MSFWarningToastNotificationTokensAppearanceProxy {
-					return FluentUIThemeManager.stylesheet(FluentUIStyle.shared()).MSFWarningToastNotificationTokens
 				} else if proxy is FluentUIStyle.MSFNeutralBarNotificationTokensAppearanceProxy {
 					return FluentUIThemeManager.stylesheet(FluentUIStyle.shared()).MSFNeutralBarNotificationTokens
+				} else if proxy is FluentUIStyle.MSFNeutralToastNotificationTokensAppearanceProxy {
+					return FluentUIThemeManager.stylesheet(FluentUIStyle.shared()).MSFNeutralToastNotificationTokens
 				} else if proxy is FluentUIStyle.MSFPrimaryBarNotificationTokensAppearanceProxy {
 					return FluentUIThemeManager.stylesheet(FluentUIStyle.shared()).MSFPrimaryBarNotificationTokens
 				} else if proxy is FluentUIStyle.MSFPrimaryOutlineBarNotificationTokensAppearanceProxy {
 					return FluentUIThemeManager.stylesheet(FluentUIStyle.shared()).MSFPrimaryOutlineBarNotificationTokens
-				} else if proxy is FluentUIStyle.MSFBarNotificationTokensAppearanceProxy {
-					return FluentUIThemeManager.stylesheet(FluentUIStyle.shared()).MSFBarNotificationTokens
-				} else if proxy is FluentUIStyle.MSFToastNotificationTokensAppearanceProxy {
-					return FluentUIThemeManager.stylesheet(FluentUIStyle.shared()).MSFToastNotificationTokens
+				} else if proxy is FluentUIStyle.MSFPrimaryToastNotificationTokensAppearanceProxy {
+					return FluentUIThemeManager.stylesheet(FluentUIStyle.shared()).MSFPrimaryToastNotificationTokens
+				} else if proxy is FluentUIStyle.MSFWarningToastNotificationTokensAppearanceProxy {
+					return FluentUIThemeManager.stylesheet(FluentUIStyle.shared()).MSFWarningToastNotificationTokens
 				}
 				return proxy
 			}
