@@ -11,7 +11,7 @@ import UIKit
  Set the `delegate` property to determine whether a button can be selected and deselected, and listen to selection changes.
  */
 @objc(MSFCommandBar)
-open class CommandBar: UIView {
+open class CommandBar: UIView, FluentUIWindowProvider {
     // Hierarchy:
     //
     // leadingButton
@@ -30,6 +30,7 @@ open class CommandBar: UIView {
         self.itemGroups = itemGroups
 
         super.init(frame: .zero)
+        commandBarTokens.windowProvider = self
 
         if let leadingItem = leadingItem {
             self.leadingButton = button(forItem: leadingItem, isPersistSelection: false)
@@ -38,10 +39,16 @@ open class CommandBar: UIView {
             self.trailingButton = button(forItem: trailingItem, isPersistSelection: false)
         }
 
+        backgroundColor = commandBarTokens.backgroundColor
         translatesAutoresizingMaskIntoConstraints = false
 
         configureHierarchy()
         updateButtonsState()
+    }
+
+    open override func didMoveToWindow() {
+        super.didMoveToWindow()
+        commandBarTokens.didChangeAppearanceProxy()
     }
 
     @available(*, unavailable)
@@ -100,12 +107,13 @@ open class CommandBar: UIView {
 
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
+        let itemInterspace: CGFloat = commandBarTokens.itemInterspace
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.contentInset = UIEdgeInsets(
             top: 0,
-            left: leadingButton == nil ? CommandBar.insets.left : CommandBar.fixedButtonSpacing,
+            left: leadingButton == nil ? CommandBar.insets.left : itemInterspace,
             bottom: 0,
-            right: trailingButton == nil ? CommandBar.insets.right : CommandBar.fixedButtonSpacing
+            right: trailingButton == nil ? CommandBar.insets.right : itemInterspace
         )
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
@@ -130,7 +138,7 @@ open class CommandBar: UIView {
 
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
-        stackView.spacing = CommandBar.buttonGroupSpacing
+        stackView.spacing = commandBarTokens.groupInterspace
 
         return stackView
     }()
@@ -143,7 +151,7 @@ open class CommandBar: UIView {
                 }
 
                 return button
-            })
+            }, commandBarTokens: commandBarTokens)
         }
     }()
 
@@ -162,6 +170,7 @@ open class CommandBar: UIView {
     }()
 
     private func configureHierarchy() {
+        let itemInterspace: CGFloat = commandBarTokens.itemInterspace
         addSubview(containerView)
 
         // Left and right button layout constraints
@@ -169,9 +178,9 @@ open class CommandBar: UIView {
             addSubview(leadingButton)
             NSLayoutConstraint.activate([
                 leadingButton.topAnchor.constraint(equalTo: containerView.topAnchor),
-                leadingButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: CommandBar.fixedButtonSpacing),
+                leadingButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: itemInterspace),
                 containerView.bottomAnchor.constraint(equalTo: leadingButton.bottomAnchor),
-                containerView.leadingAnchor.constraint(equalTo: leadingButton.trailingAnchor, constant: CommandBar.fixedButtonSpacing)
+                containerView.leadingAnchor.constraint(equalTo: leadingButton.trailingAnchor, constant: itemInterspace)
             ])
         } else {
             NSLayoutConstraint.activate([
@@ -183,9 +192,9 @@ open class CommandBar: UIView {
             addSubview(trailingButton)
             NSLayoutConstraint.activate([
                 trailingButton.topAnchor.constraint(equalTo: containerView.topAnchor),
-                trailingButton.leadingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: CommandBar.fixedButtonSpacing),
+                trailingButton.leadingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: itemInterspace),
                 containerView.bottomAnchor.constraint(equalTo: trailingButton.bottomAnchor),
-                trailingAnchor.constraint(equalTo: trailingButton.trailingAnchor, constant: CommandBar.fixedButtonSpacing)
+                trailingAnchor.constraint(equalTo: trailingButton.trailingAnchor, constant: itemInterspace)
             ])
         } else {
             NSLayoutConstraint.activate([
@@ -210,7 +219,7 @@ open class CommandBar: UIView {
     }
 
     private func button(forItem item: CommandBarItem, isPersistSelection: Bool = true) -> CommandBarButton {
-        let button = CommandBarButton(item: item, isPersistSelection: isPersistSelection)
+        let button = CommandBarButton(item: item, isPersistSelection: isPersistSelection, commandBarTokens: commandBarTokens)
         button.addTarget(self, action: #selector(handleCommandButtonTapped(_:)), for: .touchUpInside)
 
         return button
@@ -239,9 +248,10 @@ open class CommandBar: UIView {
         sender.updateState()
     }
 
+    private let commandBarTokens = MSFCommandBarTokens()
+
     private static let fadeViewWidth: CGFloat = 16.0
-    private static let buttonGroupSpacing: CGFloat = 16.0
-    private static let fixedButtonSpacing: CGFloat = 2.0
+
     private static let insets = UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)
 }
 
