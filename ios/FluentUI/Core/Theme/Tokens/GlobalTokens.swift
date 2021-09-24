@@ -24,31 +24,31 @@ struct GlobalTokens {
             case tint30
             case tint40
 
-            var value: ColorTokenSet {
+            var value: ColorValueSet {
                 switch self {
                 case .primary:
-                    return ColorTokenSet(light: 0x0078D4,
+                    return ColorValueSet(light: 0x0078D4,
                                          dark: 0x0086F0)
                 case .shade10:
-                    return ColorTokenSet(light: 0x106EBE,
+                    return ColorValueSet(light: 0x106EBE,
                                          dark: 0x1890F1)
                 case .shade20:
-                    return ColorTokenSet(light: 0x005A9E,
+                    return ColorValueSet(light: 0x005A9E,
                                          dark: 0x3AA0F3)
                 case .shade30:
-                    return ColorTokenSet(light: 0x004578,
+                    return ColorValueSet(light: 0x004578,
                                          dark: 0x6CB8F6)
                 case .tint10:
-                    return ColorTokenSet(light: 0x2B88D8,
+                    return ColorValueSet(light: 0x2B88D8,
                                          dark: 0x0074D3)
                 case .tint20:
-                    return ColorTokenSet(light: 0xC7E0F4,
+                    return ColorValueSet(light: 0xC7E0F4,
                                          dark: 0x004F90)
                 case .tint30:
-                    return ColorTokenSet(light: 0xDEECF9,
+                    return ColorValueSet(light: 0xDEECF9,
                                          dark: 0x002848)
                 case .tint40:
-                    return ColorTokenSet(light: 0xEFF6FC,
+                    return ColorValueSet(light: 0xEFF6FC,
                                          dark: 0x001526)
                 }
             }

@@ -9,7 +9,7 @@
 typealias ColorValue = UInt32
 
 /// Represents a set of color values to be used in different contexts.
-public struct ColorTokenSet {
+public struct ColorValueSet {
     /// The default color for a light context. Required.
     var light: ColorValue
 
