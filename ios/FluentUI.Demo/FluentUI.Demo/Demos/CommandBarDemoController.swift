@@ -154,7 +154,7 @@ class CommandBarDemoController: DemoController {
         super.viewDidLoad()
         container.layoutMargins.right = 0
         container.layoutMargins.left = 0
-        view.backgroundColor = Colors.surfacePrimary
+        view.backgroundColor = Colors.surfaceSecondary
 
         let commandGroups: [[Command]] = [
             [

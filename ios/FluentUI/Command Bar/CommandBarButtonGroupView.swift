@@ -16,7 +16,7 @@ class CommandBarButtonGroupView: UIView {
         translatesAutoresizingMaskIntoConstraints = false
 
         clipsToBounds = true
-        layer.cornerRadius = cornerRadius
+        layer.cornerRadius = commandBarTokens.groupBorderRadius
         layer.cornerCurve = .continuous
 
         configureHierarchy()
@@ -32,7 +32,7 @@ class CommandBarButtonGroupView: UIView {
         let stackView = UIStackView(arrangedSubviews: buttons)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
-        stackView.spacing = buttonPadding
+        stackView.spacing = commandBarTokens.itemInterspace
 
         return stackView
     }()
@@ -53,11 +53,5 @@ class CommandBarButtonGroupView: UIView {
     }
 
     private var commandBarTokens: MSFCommandBarTokens
-    private var cornerRadius: CGFloat {
-        return commandBarTokens.groupBorderRadius
-    }
-    private var buttonPadding: CGFloat {
-        return commandBarTokens.itemInterspace
-    }
     private static let leftRightBuffer: CGFloat = 2.0
 }

@@ -41,7 +41,7 @@ open class CommandBar: UIView, FluentUIWindowProvider {
             self.trailingButton = button(forItem: trailingItem, isPersistSelection: false)
         }
 
-        backgroundColor = commandBarTokens.barBackgroundColor
+        backgroundColor = commandBarTokens.backgroundColor
         translatesAutoresizingMaskIntoConstraints = false
 
         configureHierarchy()
@@ -116,9 +116,9 @@ open class CommandBar: UIView, FluentUIWindowProvider {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.contentInset = UIEdgeInsets(
             top: 0,
-            left: leadingButton == nil ? CommandBar.insets.left : fixedButtonSpacing,
+            left: leadingButton == nil ? CommandBar.insets.left : commandBarTokens.itemInterspace,
             bottom: 0,
-            right: trailingButton == nil ? CommandBar.insets.right : fixedButtonSpacing
+            right: trailingButton == nil ? CommandBar.insets.right : commandBarTokens.itemInterspace
         )
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
@@ -143,7 +143,7 @@ open class CommandBar: UIView, FluentUIWindowProvider {
 
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
-        stackView.spacing = buttonGroupSpacing
+        stackView.spacing = commandBarTokens.groupInterspace
 
         return stackView
     }()
@@ -182,9 +182,9 @@ open class CommandBar: UIView, FluentUIWindowProvider {
             addSubview(leadingButton)
             NSLayoutConstraint.activate([
                 leadingButton.topAnchor.constraint(equalTo: containerView.topAnchor),
-                leadingButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: fixedButtonSpacing),
+                leadingButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: commandBarTokens.itemInterspace),
                 containerView.bottomAnchor.constraint(equalTo: leadingButton.bottomAnchor),
-                containerView.leadingAnchor.constraint(equalTo: leadingButton.trailingAnchor, constant: fixedButtonSpacing)
+                containerView.leadingAnchor.constraint(equalTo: leadingButton.trailingAnchor, constant: commandBarTokens.itemInterspace)
             ])
         } else {
             NSLayoutConstraint.activate([
@@ -196,9 +196,9 @@ open class CommandBar: UIView, FluentUIWindowProvider {
             addSubview(trailingButton)
             NSLayoutConstraint.activate([
                 trailingButton.topAnchor.constraint(equalTo: containerView.topAnchor),
-                trailingButton.leadingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: fixedButtonSpacing),
+                trailingButton.leadingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: commandBarTokens.itemInterspace),
                 containerView.bottomAnchor.constraint(equalTo: trailingButton.bottomAnchor),
-                trailingAnchor.constraint(equalTo: trailingButton.trailingAnchor, constant: fixedButtonSpacing)
+                trailingAnchor.constraint(equalTo: trailingButton.trailingAnchor, constant: commandBarTokens.itemInterspace)
             ])
         } else {
             NSLayoutConstraint.activate([
@@ -255,14 +255,6 @@ open class CommandBar: UIView, FluentUIWindowProvider {
     private let commandBarTokens = MSFCommandBarTokens()
 
     private static let fadeViewWidth: CGFloat = 16.0
-
-    private var buttonGroupSpacing: CGFloat {
-        return commandBarTokens.groupInterspace
-    }
-
-    private var fixedButtonSpacing: CGFloat {
-        return commandBarTokens.itemInterspace
-    }
 
     private static let insets = UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)
 }

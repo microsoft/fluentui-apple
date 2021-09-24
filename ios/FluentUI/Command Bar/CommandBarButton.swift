@@ -87,23 +87,23 @@ class CommandBarButton: UIButton {
     private let isPersistSelection: Bool
 
     private func updateStyle() {
-        tintColor = isSelected ? commandBarTokens.selectedIconColor : commandBarTokens.iconColor
+        tintColor = isSelected ? commandBarTokens.itemSelectedIconColor : commandBarTokens.itemIconColor
         setTitleColor(tintColor, for: .normal)
 
         if !isPersistSelection {
             backgroundColor = .clear
-            tintColor = commandBarTokens.fixedIconColor
+            tintColor = commandBarTokens.itemFixedIconColor
         } else {
             if !isEnabled {
-                backgroundColor = commandBarTokens.disabledBackgroundColor
-                tintColor = commandBarTokens.disabledIconColor
+                backgroundColor = commandBarTokens.itemDisabledBackgroundColor
+                tintColor = commandBarTokens.itemDisabledIconColor
             } else if isSelected {
-                backgroundColor = commandBarTokens.selectedBackgroundColor
+                backgroundColor = commandBarTokens.itemSelectedBackgroundColor
             } else if isHighlighted {
-                backgroundColor = commandBarTokens.pressedBackgroundColor
-                tintColor = commandBarTokens.pressedIconColor
+                backgroundColor = commandBarTokens.itemPressedBackgroundColor
+                tintColor = commandBarTokens.itemPressedIconColor
             } else {
-                backgroundColor = commandBarTokens.backgroundColor
+                backgroundColor = commandBarTokens.itemBackgroundColor
             }
         }
     }
@@ -116,8 +116,8 @@ class CommandBarButton: UIButton {
 extension CommandBarButton: UIPointerInteractionDelegate {
     @available(iOS 13.4, *)
     public func pointerInteraction(_ interaction: UIPointerInteraction, willEnter region: UIPointerRegion, animator: UIPointerInteractionAnimating) {
-        backgroundColor = isSelected ? commandBarTokens.selectedBackgroundColor : commandBarTokens.hoverBackgroundColor
-        tintColor = isSelected ? commandBarTokens.selectedIconColor : commandBarTokens.hoverIconColor
+        backgroundColor = isSelected ? commandBarTokens.itemSelectedBackgroundColor : commandBarTokens.itemHoverBackgroundColor
+        tintColor = isSelected ? commandBarTokens.itemSelectedIconColor : commandBarTokens.itemHoverIconColor
     }
 
     @available(iOS 13.4, *)

@@ -15,11 +15,26 @@ extension FluentUIStyle {
 			self.mainProxy = proxy
 		}
 
-		// MARK: - backgroundColor
-		open var backgroundColor: backgroundColorAppearanceProxy {
-			return backgroundColorAppearanceProxy(proxy: mainProxy)
+		// MARK: - backgroundColor 
+		open var backgroundColor: UIColor {
+			return mainProxy().Colors.Background.neutral1
 		}
-		open class backgroundColorAppearanceProxy {
+
+		// MARK: - groupBorderRadius 
+		open var groupBorderRadius: CGFloat {
+			return mainProxy().Border.radius.xLarge
+		}
+
+		// MARK: - groupInterspace 
+		open var groupInterspace: CGFloat {
+			return mainProxy().Spacing.medium
+		}
+
+		// MARK: - itemBackgroundColor
+		open var itemBackgroundColor: itemBackgroundColorAppearanceProxy {
+			return itemBackgroundColorAppearanceProxy(proxy: mainProxy)
+		}
+		open class itemBackgroundColorAppearanceProxy {
 			public let mainProxy: () -> FluentUIStyle
 			public init(proxy: @escaping () -> FluentUIStyle) {
 				self.mainProxy = proxy
@@ -52,31 +67,16 @@ extension FluentUIStyle {
 		}
 
 
-		// MARK: - barBackgroundColor 
-		open var barBackgroundColor: UIColor {
-			return mainProxy().Colors.Background.neutral1
-		}
-
-		// MARK: - fixedIconColor 
-		open var fixedIconColor: UIColor {
+		// MARK: - itemFixedIconColor 
+		open var itemFixedIconColor: UIColor {
 			return UIColor(light: mainProxy().Colors.Foreground.neutral1, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: mainProxy().Colors.Foreground.neutral3, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 		}
 
-		// MARK: - groupBorderRadius 
-		open var groupBorderRadius: CGFloat {
-			return mainProxy().Border.radius.xLarge
+		// MARK: - itemIconColor
+		open var itemIconColor: itemIconColorAppearanceProxy {
+			return itemIconColorAppearanceProxy(proxy: mainProxy)
 		}
-
-		// MARK: - groupInterspace 
-		open var groupInterspace: CGFloat {
-			return mainProxy().Spacing.medium
-		}
-
-		// MARK: - iconColor
-		open var iconColor: iconColorAppearanceProxy {
-			return iconColorAppearanceProxy(proxy: mainProxy)
-		}
-		open class iconColorAppearanceProxy {
+		open class itemIconColorAppearanceProxy {
 			public let mainProxy: () -> FluentUIStyle
 			public init(proxy: @escaping () -> FluentUIStyle) {
 				self.mainProxy = proxy
@@ -108,11 +108,6 @@ extension FluentUIStyle {
 			}
 		}
 
-
-		// MARK: - iconSize 
-		open var iconSize: CGFloat {
-			return mainProxy().Icon.size.medium
-		}
 
 		// MARK: - itemInterspace 
 		open var itemInterspace: CGFloat {

@@ -6,26 +6,25 @@
 import UIKit
 
 class MSFCommandBarTokens: MSFTokensBase {
+    public var itemBackgroundColor: UIColor!
+    public var itemIconColor: UIColor!
+
+    public var itemHoverBackgroundColor: UIColor!
+    public var itemHoverIconColor: UIColor!
+
+    public var itemPressedBackgroundColor: UIColor!
+    public var itemPressedIconColor: UIColor!
+
+    public var itemSelectedBackgroundColor: UIColor!
+    public var itemSelectedIconColor: UIColor!
+
+    public var itemDisabledBackgroundColor: UIColor!
+    public var itemDisabledIconColor: UIColor!
+
     public var backgroundColor: UIColor!
-    public var iconColor: UIColor!
-
-    public var hoverBackgroundColor: UIColor!
-    public var hoverIconColor: UIColor!
-
-    public var pressedBackgroundColor: UIColor!
-    public var pressedIconColor: UIColor!
-
-    public var selectedBackgroundColor: UIColor!
-    public var selectedIconColor: UIColor!
-
-    public var disabledBackgroundColor: UIColor!
-    public var disabledIconColor: UIColor!
-
-    public var barBackgroundColor: UIColor!
-    public var fixedIconColor: UIColor!
+    public var itemFixedIconColor: UIColor!
     public var groupBorderRadius: CGFloat!
     public var groupInterspace: CGFloat!
-    public var iconSize: CGFloat!
     public var itemInterspace: CGFloat!
 
     override init() {
@@ -44,26 +43,25 @@ class MSFCommandBarTokens: MSFTokensBase {
         let currentTheme = theme
         let appearanceProxy = currentTheme.MSFCommandBarTokens
 
-        backgroundColor = appearanceProxy.backgroundColor.rest
-        iconColor = appearanceProxy.iconColor.rest
+        itemBackgroundColor = appearanceProxy.itemBackgroundColor.rest
+        itemIconColor = appearanceProxy.itemIconColor.rest
 
-        hoverBackgroundColor = appearanceProxy.backgroundColor.hover
-        hoverIconColor = appearanceProxy.iconColor.hover
+        itemHoverBackgroundColor = appearanceProxy.itemBackgroundColor.hover
+        itemHoverIconColor = appearanceProxy.itemIconColor.hover
 
-        pressedBackgroundColor = appearanceProxy.backgroundColor.pressed
-        pressedIconColor = appearanceProxy.iconColor.pressed
+        itemPressedBackgroundColor = appearanceProxy.itemBackgroundColor.pressed
+        itemPressedIconColor = appearanceProxy.itemIconColor.pressed
 
-        selectedBackgroundColor = appearanceProxy.backgroundColor.selected
-        selectedIconColor = appearanceProxy.iconColor.selected
+        itemSelectedBackgroundColor = appearanceProxy.itemBackgroundColor.selected
+        itemSelectedIconColor = appearanceProxy.itemIconColor.selected
 
-        disabledBackgroundColor = appearanceProxy.backgroundColor.disabled
-        disabledIconColor = appearanceProxy.iconColor.disabled
+        itemDisabledBackgroundColor = appearanceProxy.itemBackgroundColor.disabled
+        itemDisabledIconColor = appearanceProxy.itemIconColor.disabled
 
-        barBackgroundColor = appearanceProxy.barBackgroundColor
-        fixedIconColor = appearanceProxy.fixedIconColor
+        backgroundColor = appearanceProxy.backgroundColor
+        itemFixedIconColor = appearanceProxy.itemFixedIconColor
         groupBorderRadius = appearanceProxy.groupBorderRadius
         groupInterspace = appearanceProxy.groupInterspace
-        iconSize = appearanceProxy.iconSize
         itemInterspace = appearanceProxy.itemInterspace
     }
 }
