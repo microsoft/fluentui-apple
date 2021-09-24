@@ -728,6 +728,7 @@ open class BottomCommandingController: UIViewController {
                 strongSelf._isHidden = isHidden
             } else if finalPosition == .start {
                 bottomBarView.isHidden = initialHiddenState
+                strongSelf._isHidden = initialHiddenState
                 bottomConstraint.constant = initialBottomConstant
             }
         }

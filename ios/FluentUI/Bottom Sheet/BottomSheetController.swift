@@ -518,7 +518,7 @@ public class BottomSheetController: UIViewController {
                       shouldNotifyDelegate: Bool = true,
                       allowUnhiding: Bool = false,
                       completion: ((UIViewAnimatingPosition) -> Void)? = nil) {
-        guard !isHiddenOrHiding || allowUnhiding else {
+        guard targetExpansionState == .hidden || !isHiddenOrHiding || allowUnhiding else {
             return
         }
 
