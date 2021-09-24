@@ -28,8 +28,6 @@ open class CommandBar: UIView, FluentUIWindowProvider {
 
     @objc public init(itemGroups: [CommandBarItemGroup], leadingItem: CommandBarItem? = nil, trailingItem: CommandBarItem? = nil) {
         self.itemGroups = itemGroups
-        self.leadingItem = leadingItem
-        self.trailingItem = trailingItem
 
         super.init(frame: .zero)
         commandBarTokens.windowProvider = self
@@ -81,10 +79,6 @@ open class CommandBar: UIView, FluentUIWindowProvider {
     // MARK: - Private properties
 
     private let itemGroups: [CommandBarItemGroup]
-
-    private let leadingItem: CommandBarItem?
-
-    private let trailingItem: CommandBarItem?
 
     private lazy var itemsToButtonsMap: [CommandBarItem: CommandBarButton] = {
         let allButtons = itemGroups.flatMap({ $0 }).map({ button(forItem: $0) }) +
