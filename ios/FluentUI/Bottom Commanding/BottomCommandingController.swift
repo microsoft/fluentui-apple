@@ -712,6 +712,7 @@ open class BottomCommandingController: UIViewController {
 
         bottomConstraint.constant = isHidden ? -Constants.BottomBar.hiddenBottomOffset : -Constants.BottomBar.bottomOffset
         bottomBarView.isHidden = false
+        _isHidden = false
 
         animator.addAnimations { [weak self] in
             self?.view.layoutIfNeeded()
@@ -727,6 +728,7 @@ open class BottomCommandingController: UIViewController {
                 strongSelf._isHidden = isHidden
             } else if finalPosition == .start {
                 bottomBarView.isHidden = initialHiddenState
+                strongSelf._isHidden = initialHiddenState
                 bottomConstraint.constant = initialBottomConstant
             }
         }
