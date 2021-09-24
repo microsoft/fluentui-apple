@@ -3,7 +3,7 @@
 //  Licensed under the MIT License.
 //
 
-import SwiftUI
+import Foundation
 
 /// Template for all token sets, both global and alias. This ensures a unified return type for any given token set.
 protocol TokenSet {
@@ -24,32 +24,32 @@ struct GlobalTokens {
             case tint30
             case tint40
 
-            var value: UIColor {
+            var value: ColorTokenSet {
                 switch self {
                 case .primary:
-                    return UIColor(light: UIColor(hexValue: 0x0078D4),
-                                   dark: UIColor(hexValue: 0x0086F0))
+                    return ColorTokenSet(light: 0x0078D4,
+                                         dark: 0x0086F0)
                 case .shade10:
-                    return UIColor(light: UIColor(hexValue: 0x106EBE),
-                                   dark: UIColor(hexValue: 0x1890F1))
+                    return ColorTokenSet(light: 0x106EBE,
+                                         dark: 0x1890F1)
                 case .shade20:
-                    return UIColor(light: UIColor(hexValue: 0x005A9E),
-                                   dark: UIColor(hexValue: 0x3AA0F3))
+                    return ColorTokenSet(light: 0x005A9E,
+                                         dark: 0x3AA0F3)
                 case .shade30:
-                    return UIColor(light: UIColor(hexValue: 0x004578),
-                                   dark: UIColor(hexValue: 0x6CB8F6))
+                    return ColorTokenSet(light: 0x004578,
+                                         dark: 0x6CB8F6)
                 case .tint10:
-                    return UIColor(light: UIColor(hexValue: 0x2B88D8),
-                                   dark: UIColor(hexValue: 0x0074D3))
+                    return ColorTokenSet(light: 0x2B88D8,
+                                         dark: 0x0074D3)
                 case .tint20:
-                    return UIColor(light: UIColor(hexValue: 0xC7E0F4),
-                                   dark: UIColor(hexValue: 0x004F90))
+                    return ColorTokenSet(light: 0xC7E0F4,
+                                         dark: 0x004F90)
                 case .tint30:
-                    return UIColor(light: UIColor(hexValue: 0xDEECF9),
-                                   dark: UIColor(hexValue: 0x002848))
+                    return ColorTokenSet(light: 0xDEECF9,
+                                         dark: 0x002848)
                 case .tint40:
-                    return UIColor(light: UIColor(hexValue: 0xEFF6FC),
-                                   dark: UIColor(hexValue: 0x001526))
+                    return ColorTokenSet(light: 0xEFF6FC,
+                                         dark: 0x001526)
                 }
             }
         }
@@ -107,110 +107,110 @@ struct GlobalTokens {
             case grey98
             case white
 
-            var value: UIColor {
+            var value: ColorValue {
                 switch self {
                 case .black:
-                    return UIColor(hexValue: 0x000000)
+                    return 0x000000
                 case .grey2:
-                    return UIColor(hexValue: 0x050505)
+                    return 0x050505
                 case .grey4:
-                    return UIColor(hexValue: 0x0A0A0A)
+                    return 0x0A0A0A
                 case .grey6:
-                    return UIColor(hexValue: 0x0F0F0F)
+                    return 0x0F0F0F
                 case .grey8:
-                    return UIColor(hexValue: 0x141414)
+                    return 0x141414
                 case .grey10:
-                    return UIColor(hexValue: 0x1A1A1A)
+                    return 0x1A1A1A
                 case .grey12:
-                    return UIColor(hexValue: 0x1F1F1F)
+                    return 0x1F1F1F
                 case .grey14:
-                    return UIColor(hexValue: 0x242424)
+                    return 0x242424
                 case .grey16:
-                    return UIColor(hexValue: 0x292929)
+                    return 0x292929
                 case .grey18:
-                    return UIColor(hexValue: 0x2E2E2E)
+                    return 0x2E2E2E
                 case .grey20:
-                    return UIColor(hexValue: 0x333333)
+                    return 0x333333
                 case .grey22:
-                    return UIColor(hexValue: 0x383838)
+                    return 0x383838
                 case .grey24:
-                    return UIColor(hexValue: 0x3D3D3D)
+                    return 0x3D3D3D
                 case .grey26:
-                    return UIColor(hexValue: 0x424242)
+                    return 0x424242
                 case .grey28:
-                    return UIColor(hexValue: 0x474747)
+                    return 0x474747
                 case .grey30:
-                    return UIColor(hexValue: 0x4D4D4D)
+                    return 0x4D4D4D
                 case .grey32:
-                    return UIColor(hexValue: 0x525252)
+                    return 0x525252
                 case .grey34:
-                    return UIColor(hexValue: 0x575757)
+                    return 0x575757
                 case .grey36:
-                    return UIColor(hexValue: 0x5C5C5C)
+                    return 0x5C5C5C
                 case .grey38:
-                    return UIColor(hexValue: 0x616161)
+                    return 0x616161
                 case .grey40:
-                    return UIColor(hexValue: 0x666666)
+                    return 0x666666
                 case .grey42:
-                    return UIColor(hexValue: 0x6B6B6B)
+                    return 0x6B6B6B
                 case .grey44:
-                    return UIColor(hexValue: 0x707070)
+                    return 0x707070
                 case .grey46:
-                    return UIColor(hexValue: 0x757575)
+                    return 0x757575
                 case .grey48:
-                    return UIColor(hexValue: 0x7A7A7A)
+                    return 0x7A7A7A
                 case .grey50:
-                    return UIColor(hexValue: 0x808080)
+                    return 0x808080
                 case .grey52:
-                    return UIColor(hexValue: 0x858585)
+                    return 0x858585
                 case .grey54:
-                    return UIColor(hexValue: 0x8A8A8A)
+                    return 0x8A8A8A
                 case .grey56:
-                    return UIColor(hexValue: 0x8F8F8F)
+                    return 0x8F8F8F
                 case .grey58:
-                    return UIColor(hexValue: 0x949494)
+                    return 0x949494
                 case .grey60:
-                    return UIColor(hexValue: 0x999999)
+                    return 0x999999
                 case .grey62:
-                    return UIColor(hexValue: 0x9E9E9E)
+                    return 0x9E9E9E
                 case .grey64:
-                    return UIColor(hexValue: 0xA3A3A3)
+                    return 0xA3A3A3
                 case .grey66:
-                    return UIColor(hexValue: 0xA8A8A8)
+                    return 0xA8A8A8
                 case .grey68:
-                    return UIColor(hexValue: 0xADADAD)
+                    return 0xADADAD
                 case .grey70:
-                    return UIColor(hexValue: 0xB3B3B3)
+                    return 0xB3B3B3
                 case .grey72:
-                    return UIColor(hexValue: 0xB8B8B8)
+                    return 0xB8B8B8
                 case .grey74:
-                    return UIColor(hexValue: 0xBDBDBD)
+                    return 0xBDBDBD
                 case .grey76:
-                    return UIColor(hexValue: 0xC2C2C2)
+                    return 0xC2C2C2
                 case .grey78:
-                    return UIColor(hexValue: 0xC7C7C7)
+                    return 0xC7C7C7
                 case .grey80:
-                    return UIColor(hexValue: 0xCCCCCC)
+                    return 0xCCCCCC
                 case .grey82:
-                    return UIColor(hexValue: 0xD1D1D1)
+                    return 0xD1D1D1
                 case .grey84:
-                    return UIColor(hexValue: 0xD6D6D6)
+                    return 0xD6D6D6
                 case .grey86:
-                    return UIColor(hexValue: 0xDBDBDB)
+                    return 0xDBDBDB
                 case .grey88:
-                    return UIColor(hexValue: 0xE0E0E0)
+                    return 0xE0E0E0
                 case .grey90:
-                    return UIColor(hexValue: 0xE6E6E6)
+                    return 0xE6E6E6
                 case .grey92:
-                    return UIColor(hexValue: 0xEBEBEB)
+                    return 0xEBEBEB
                 case .grey94:
-                    return UIColor(hexValue: 0xF0F0F0)
+                    return 0xF0F0F0
                 case .grey96:
-                    return UIColor(hexValue: 0xF5F5F5)
+                    return 0xF5F5F5
                 case .grey98:
-                    return UIColor(hexValue: 0xFAFAFA)
+                    return 0xFAFAFA
                 case .white:
-                    return UIColor(hexValue: 0xFFFFFF)
+                    return 0xFFFFFF
                 }
             }
         }

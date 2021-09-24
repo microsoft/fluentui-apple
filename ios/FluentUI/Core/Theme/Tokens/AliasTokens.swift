@@ -21,16 +21,16 @@ struct AliasTokens {
         case neutralForeground1
         case neutralForeground2
 
-        var value: UIColor {
+        var value: ColorTokenSet {
             switch self {
             case .neutralForeground1:
-                return UIColor(light: GlobalTokens.Color.Neutral.grey14.value,
-                               lightHighContrast: GlobalTokens.Color.Neutral.black.value,
-                               dark: GlobalTokens.Color.Neutral.white.value,
-                               darkHighContrast: GlobalTokens.Color.Neutral.white.value,
-                               darkElevated: GlobalTokens.Color.Neutral.white.value)
+                return ColorTokenSet(light: GlobalTokens.Color.Neutral.grey14.value,
+                                     lightHighContrast: GlobalTokens.Color.Neutral.black.value,
+                                     dark: GlobalTokens.Color.Neutral.white.value,
+                                     darkHighContrast: GlobalTokens.Color.Neutral.white.value,
+                                     darkElevated: GlobalTokens.Color.Neutral.white.value)
             case .neutralForeground2:
-                return GlobalTokens.Color.Neutral.grey26.value
+                return ColorTokenSet(light: GlobalTokens.Color.Neutral.grey26.value)
             }
         }
     }
