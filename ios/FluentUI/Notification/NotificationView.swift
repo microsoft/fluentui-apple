@@ -115,7 +115,7 @@ open class NotificationView: UIView, FluentUIWindowProvider {
     open override func removeFromSuperview() {
         super.removeFromSuperview()
 
-        self.isShown = false
+        isShown = false
         if NotificationView.currentToast == self {
             NotificationView.currentToast = nil
         }
@@ -134,14 +134,15 @@ open class NotificationView: UIView, FluentUIWindowProvider {
         textContainer.addArrangedSubview(messageLabel)
         container.addArrangedSubview(actionButton)
 
+        let horizontalPadding: CGFloat! = tokens.horizontalPadding
         NSLayoutConstraint.activate([
             separator.leadingAnchor.constraint(equalTo: leadingAnchor),
             separator.trailingAnchor.constraint(equalTo: trailingAnchor),
             separator.bottomAnchor.constraint(equalTo: topAnchor),
             container.topAnchor.constraint(equalTo: topAnchor),
             container.bottomAnchor.constraint(equalTo: bottomAnchor),
-            container.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: tokens.horizontalPadding),
-            container.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -tokens.horizontalPadding)
+            container.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: horizontalPadding),
+            container.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -horizontalPadding)
         ])
 
         updateForStyle()
@@ -164,9 +165,15 @@ open class NotificationView: UIView, FluentUIWindowProvider {
     ///   - messageAction: The closure to be called when the body of the view (except action button) is tapped by a user (only supported in toasts).
     ///  - Returns: Reference to this view that can be used for "chained" calling of `show`. Can be ignored.
     @discardableResult
-    @objc open func setup(style: MSFNotificationStyle, title: String = "", message: String, image: UIImage? = nil, actionTitle: String = "", action: (() -> Void)? = nil, messageAction: (() -> Void)? = nil) -> Self {
-        self.tokens = MSFNotificationTokens.init(style: style)
-        self.tokens.windowProvider = self
+    @objc open func setup(style: MSFNotificationStyle,
+                          title: String = "",
+                          message: String,
+                          image: UIImage? = nil,
+                          actionTitle: String = "",
+                          action: (() -> Void)? = nil,
+                          messageAction: (() -> Void)? = nil) -> Self {
+        tokens = MSFNotificationTokens.init(style: style)
+        tokens.windowProvider = self
         let title = style.supportsTitle ? title : ""
         let isTitleEmpty = title.isEmpty
         let image = style.supportsImage ? image : nil
@@ -211,11 +218,13 @@ open class NotificationView: UIView, FluentUIWindowProvider {
     ///   - animated: Indicates whether to use animation during presentation or not.
     ///   - completion: The closure to be called after presentation is completed. Can be used to call `hide` with a delay.
     @objc open func show(in view: UIView, from anchorView: UIView? = nil, animated: Bool = true, completion: ((NotificationView) -> Void)? = nil) {
-        if self.isShown {
+        if isShown {
             return
         }
 
-        if tokens.style.isToast, let currentToast = NotificationView.currentToast {
+        let style = tokens.style
+        let presentationOffset: CGFloat! = tokens.presentationOffset
+        if style.isToast, let currentToast = NotificationView.currentToast {
             currentToast.hide(animated: animated) {
                 self.show(in: view, from: anchorView, animated: animated, completion: completion)
             }
@@ -231,21 +240,21 @@ open class NotificationView: UIView, FluentUIWindowProvider {
 
         let anchor = anchorView?.topAnchor ?? view.safeAreaLayoutGuide.bottomAnchor
         constraintWhenHidden = topAnchor.constraint(equalTo: anchor)
-        constraintWhenShown = bottomAnchor.constraint(equalTo: anchor, constant: -tokens.presentationOffset)
+        constraintWhenShown = bottomAnchor.constraint(equalTo: anchor, constant: -presentationOffset)
 
         var constraints = [NSLayoutConstraint]()
         constraints.append(animated ? constraintWhenHidden : constraintWhenShown)
-        if tokens.style.needsFullWidth {
+        if style.needsFullWidth {
             constraints.append(leadingAnchor.constraint(equalTo: view.leadingAnchor))
             constraints.append(trailingAnchor.constraint(equalTo: view.trailingAnchor))
         } else {
             constraints.append(centerXAnchor.constraint(equalTo: view.centerXAnchor))
-            constraints.append(widthAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.widthAnchor, constant: -2 * tokens.presentationOffset))
+            constraints.append(widthAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.widthAnchor, constant: -2 * presentationOffset))
         }
         NSLayoutConstraint.activate(constraints)
 
-        self.isShown = true
-        if tokens.style.isToast {
+        isShown = true
+        if style.isToast {
             NotificationView.currentToast = self
         }
 
@@ -255,7 +264,7 @@ open class NotificationView: UIView, FluentUIWindowProvider {
         }
         if animated {
             view.layoutIfNeeded()
-            UIView.animate(withDuration: tokens.style.animationDurationForShow, delay: 0, usingSpringWithDamping: tokens.style.animationDampingRatio, initialSpringVelocity: 0, animations: {
+            UIView.animate(withDuration: style.animationDurationForShow, delay: 0, usingSpringWithDamping: style.animationDampingRatio, initialSpringVelocity: 0, animations: {
                 self.constraintWhenHidden.isActive = false
                 self.constraintWhenShown.isActive = true
                 view.layoutIfNeeded()
@@ -271,7 +280,7 @@ open class NotificationView: UIView, FluentUIWindowProvider {
     ///   - animated: Indicates whether to use animation during presentation or not.
     ///   - completion: The closure to be called after presentation is completed. Can be used to call `hide` with a delay.
     @objc open func show(from controller: UIViewController, animated: Bool = true, completion: ((NotificationView) -> Void)? = nil) {
-        if self.isShown {
+        if isShown {
             return
         }
 
@@ -292,7 +301,7 @@ open class NotificationView: UIView, FluentUIWindowProvider {
     ///   - animated: Indicates whether to use animation during dismissal or not.
     ///   - completion: The closure to be called after dismissal is completed.
     @objc open func hide(after delay: TimeInterval = 0, animated: Bool = true, completion: (() -> Void)? = nil) {
-        if !self.isShown || delay == .infinity {
+        if !isShown || delay == .infinity {
             return
         }
 
@@ -314,8 +323,8 @@ open class NotificationView: UIView, FluentUIWindowProvider {
             self.completionsForHide.removeAll()
         }
         if animated {
-            if !self.isHiding {
-                self.isHiding = true
+            if !isHiding {
+                isHiding = true
                 UIView.animate(withDuration: tokens.style.animationDurationForHide, animations: {
                     self.constraintWhenShown.isActive = false
                     self.constraintWhenHidden.isActive = true

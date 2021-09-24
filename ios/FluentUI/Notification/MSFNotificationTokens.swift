@@ -47,21 +47,21 @@ import UIKit
     }
 }
 
-class MSFNotificationTokens: MSFTokensBase, ObservableObject {
-    @Published public var backgroundColor: UIColor!
-    @Published public var foregroundColor: UIColor!
-    @Published public var cornerRadius: CGFloat!
-    @Published public var presentationOffset: CGFloat!
-    @Published public var horizontalPadding: CGFloat!
-    @Published public var verticalPadding: CGFloat!
-    @Published public var verticalPaddingForOneLine: CGFloat!
-    @Published public var horizontalSpacing: CGFloat!
-    @Published public var minimumHeight: CGFloat!
-    @Published public var minimumHeightForOneLine: CGFloat!
-    @Published public var shadowColor: CGColor!
-    @Published public var shadowBlur: CGFloat!
-    @Published public var shadowOffsetX: CGFloat!
-    @Published public var shadowOffsetY: CGFloat!
+class MSFNotificationTokens: MSFTokensBase {
+    public var backgroundColor: UIColor!
+    public var foregroundColor: UIColor!
+    public var cornerRadius: CGFloat!
+    public var presentationOffset: CGFloat!
+    public var horizontalPadding: CGFloat!
+    public var verticalPadding: CGFloat!
+    public var verticalPaddingForOneLine: CGFloat!
+    public var horizontalSpacing: CGFloat!
+    public var minimumHeight: CGFloat!
+    public var minimumHeightForOneLine: CGFloat!
+    public var shadowColor: CGColor!
+    public var shadowBlur: CGFloat!
+    public var shadowOffsetX: CGFloat!
+    public var shadowOffsetY: CGFloat!
 
     var style: MSFNotificationStyle
 
@@ -84,7 +84,7 @@ class MSFNotificationTokens: MSFTokensBase, ObservableObject {
 
         switch style {
         case .primaryToast:
-            appearanceProxy = currentTheme.MSFPrimaryToastNotificationTokens
+            appearanceProxy = currentTheme.MSFNotificationTokens
         case .neutralToast:
             appearanceProxy = currentTheme.MSFNeutralToastNotificationTokens
         case .primaryBar:
