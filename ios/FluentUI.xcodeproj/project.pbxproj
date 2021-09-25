@@ -259,8 +259,10 @@
 		92B7E6A326864AE900EFC15E /* MSFPersonaButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92B7E6A12684262900EFC15E /* MSFPersonaButton.swift */; };
 		92D5598126A0FD2800328FD3 /* CardNudge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D5598026A0FD2800328FD3 /* CardNudge.swift */; };
 		92D5598226A0FD2800328FD3 /* CardNudge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D5598026A0FD2800328FD3 /* CardNudge.swift */; };
-		92E7AD4F26FE51FF00AE7FF8 /* ColorValueSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E7AD4E26FE51FF00AE7FF8 /* ColorValueSet.swift */; };
-		92E7AD5026FE51FF00AE7FF8 /* ColorValueSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E7AD4E26FE51FF00AE7FF8 /* ColorValueSet.swift */; };
+		92E7AD4F26FE51FF00AE7FF8 /* ColorSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E7AD4E26FE51FF00AE7FF8 /* ColorSet.swift */; };
+		92E7AD5026FE51FF00AE7FF8 /* ColorSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E7AD4E26FE51FF00AE7FF8 /* ColorSet.swift */; };
+		92E7AD5226FE904D00AE7FF8 /* FluentColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E7AD5126FE904D00AE7FF8 /* FluentColor.swift */; };
+		92E7AD5326FE904D00AE7FF8 /* FluentColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E7AD5126FE904D00AE7FF8 /* FluentColor.swift */; };
 		A257F82A251D98DD002CAA6E /* FluentUI-apple.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A257F829251D98DD002CAA6E /* FluentUI-apple.xcassets */; };
 		A257F82C251D98F3002CAA6E /* FluentUI-ios.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A257F82B251D98F3002CAA6E /* FluentUI-ios.xcassets */; };
 		A5237ACB21DED7030040BF27 /* ResizingHandleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5237ACA21DED7030040BF27 /* ResizingHandleView.swift */; };
@@ -490,7 +492,8 @@
 		92ABB39126BC8E9900BA179A /* MSFCardNudgeTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFCardNudgeTokens.generated.swift; sourceTree = "<group>"; };
 		92B7E6A12684262900EFC15E /* MSFPersonaButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFPersonaButton.swift; sourceTree = "<group>"; };
 		92D5598026A0FD2800328FD3 /* CardNudge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardNudge.swift; sourceTree = "<group>"; };
-		92E7AD4E26FE51FF00AE7FF8 /* ColorValueSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorValueSet.swift; sourceTree = "<group>"; };
+		92E7AD4E26FE51FF00AE7FF8 /* ColorSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSet.swift; sourceTree = "<group>"; };
+		92E7AD5126FE904D00AE7FF8 /* FluentColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluentColor.swift; sourceTree = "<group>"; };
 		A257F829251D98DD002CAA6E /* FluentUI-apple.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = "FluentUI-apple.xcassets"; path = "../apple/Resources/FluentUI-apple.xcassets"; sourceTree = "<group>"; };
 		A257F82B251D98F3002CAA6E /* FluentUI-ios.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = "FluentUI-ios.xcassets"; path = "FluentUI/Resources/FluentUI-ios.xcassets"; sourceTree = "<group>"; };
 		A5237ACA21DED7030040BF27 /* ResizingHandleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResizingHandleView.swift; sourceTree = "<group>"; };
@@ -967,6 +970,7 @@
 			isa = PBXGroup;
 			children = (
 				925D461A26FD126800179583 /* Tokens */,
+				92E7AD5126FE904D00AE7FF8 /* FluentColor.swift */,
 			);
 			path = Theme;
 			sourceTree = "<group>";
@@ -974,7 +978,7 @@
 		925D461A26FD126800179583 /* Tokens */ = {
 			isa = PBXGroup;
 			children = (
-				92E7AD4E26FE51FF00AE7FF8 /* ColorValueSet.swift */,
+				92E7AD4E26FE51FF00AE7FF8 /* ColorSet.swift */,
 				925D461B26FD133600179583 /* GlobalTokens.swift */,
 				925D461E26FD18B200179583 /* AliasTokens.swift */,
 			);
@@ -1687,6 +1691,7 @@
 				92987990266A8E1C002B1EB4 /* MSFPersonaButtonTokens.generated.swift in Sources */,
 				5314E08B25F00F2D0099271A /* CommandBarItem.swift in Sources */,
 				5314E06225F00EFD0099271A /* CalendarViewDayTodayCell.swift in Sources */,
+				92E7AD5326FE904D00AE7FF8 /* FluentColor.swift in Sources */,
 				5314E08025F00F1A0099271A /* DateTimePickerViewComponent.swift in Sources */,
 				5314E06325F00EFD0099271A /* CalendarViewDayMonthYearCell.swift in Sources */,
 				5314E1A225F01A7C0099271A /* ActivityIndicatorCell.swift in Sources */,
@@ -1744,7 +1749,7 @@
 				5314E28E25F024590099271A /* Date+Extensions.swift in Sources */,
 				5306076126A201C8002D49CF /* Persona.swift in Sources */,
 				5314E2D125F0251E0099271A /* iOS13_4_compatibility.swift in Sources */,
-				92E7AD5026FE51FF00AE7FF8 /* ColorValueSet.swift in Sources */,
+				92E7AD5026FE51FF00AE7FF8 /* ColorSet.swift in Sources */,
 				5314E14E25F016CD0099271A /* ResizingHandleView.swift in Sources */,
 				5314E1A625F01A7C0099271A /* BooleanCell.swift in Sources */,
 				925D461D26FD133600179583 /* GlobalTokens.swift in Sources */,
@@ -1875,6 +1880,7 @@
 				FD7DF05C21FA7F5000857267 /* Tooltip.swift in Sources */,
 				497DC2DB24185885008D86F8 /* PillButton.swift in Sources */,
 				53BCB0CE253A4E8D00620960 /* Obscurable.swift in Sources */,
+				92E7AD5226FE904D00AE7FF8 /* FluentColor.swift in Sources */,
 				FD41C8BE22DD47120086F899 /* UINavigationItem+Navigation.swift in Sources */,
 				B4E782C12176AD5E00A7DFCE /* ActionsCell.swift in Sources */,
 				5373D5642694D65C0032A3B4 /* AvatarTokens.swift in Sources */,
@@ -1932,7 +1938,7 @@
 				C0A0D76E233AEF6C00F432FD /* ShimmerLinesView.swift in Sources */,
 				C77A04B725F03DD1001B3EB6 /* String+Date.swift in Sources */,
 				118D9848230BBA2300BC0B72 /* TabBarItem.swift in Sources */,
-				92E7AD4F26FE51FF00AE7FF8 /* ColorValueSet.swift in Sources */,
+				92E7AD4F26FE51FF00AE7FF8 /* ColorSet.swift in Sources */,
 				1168630422E131CF0088B302 /* TabBarItemView.swift in Sources */,
 				5306076026A201C7002D49CF /* Persona.swift in Sources */,
 				925D461C26FD133600179583 /* GlobalTokens.swift in Sources */,

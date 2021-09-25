@@ -11,9 +11,9 @@ struct AliasTokens {
         case neutral2
         case neutral3
 
-        var value: ColorValueSet {
-            return ColorValueSet(light: 0xFFFFFF,
-                                 dark: 0x000000)
+        var value: ColorSet {
+            return ColorSet(light: 0xFFFFFF,
+                            dark: 0x000000)
         }
     }
 
@@ -21,16 +21,16 @@ struct AliasTokens {
         case neutralForeground1
         case neutralForeground2
 
-        var value: ColorValueSet {
+        var value: ColorSet {
             switch self {
             case .neutralForeground1:
-                return ColorValueSet(light: GlobalTokens.Color.Neutral.grey14.value,
-                                     lightHighContrast: GlobalTokens.Color.Neutral.black.value,
-                                     dark: GlobalTokens.Color.Neutral.white.value,
-                                     darkHighContrast: GlobalTokens.Color.Neutral.white.value,
-                                     darkElevated: GlobalTokens.Color.Neutral.white.value)
+                return ColorSet(light: GlobalTokens.Color.Neutral.grey14.value,
+                                lightHighContrast: GlobalTokens.Color.Neutral.black.value,
+                                dark: GlobalTokens.Color.Neutral.white.value,
+                                darkHighContrast: GlobalTokens.Color.Neutral.white.value,
+                                darkElevated: GlobalTokens.Color.Neutral.white.value)
             case .neutralForeground2:
-                return ColorValueSet(light: GlobalTokens.Color.Neutral.grey26.value)
+                return ColorSet(light: GlobalTokens.Color.Neutral.grey26.value)
             }
         }
     }

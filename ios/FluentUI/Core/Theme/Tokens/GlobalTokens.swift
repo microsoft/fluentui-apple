@@ -24,32 +24,32 @@ struct GlobalTokens {
             case tint30
             case tint40
 
-            var value: ColorValueSet {
+            var value: ColorSet {
                 switch self {
                 case .primary:
-                    return ColorValueSet(light: 0x0078D4,
-                                         dark: 0x0086F0)
+                    return ColorSet(light: 0x0078D4,
+                                    dark: 0x0086F0)
                 case .shade10:
-                    return ColorValueSet(light: 0x106EBE,
-                                         dark: 0x1890F1)
+                    return ColorSet(light: 0x106EBE,
+                                    dark: 0x1890F1)
                 case .shade20:
-                    return ColorValueSet(light: 0x005A9E,
-                                         dark: 0x3AA0F3)
+                    return ColorSet(light: 0x005A9E,
+                                    dark: 0x3AA0F3)
                 case .shade30:
-                    return ColorValueSet(light: 0x004578,
-                                         dark: 0x6CB8F6)
+                    return ColorSet(light: 0x004578,
+                                    dark: 0x6CB8F6)
                 case .tint10:
-                    return ColorValueSet(light: 0x2B88D8,
-                                         dark: 0x0074D3)
+                    return ColorSet(light: 0x2B88D8,
+                                    dark: 0x0074D3)
                 case .tint20:
-                    return ColorValueSet(light: 0xC7E0F4,
-                                         dark: 0x004F90)
+                    return ColorSet(light: 0xC7E0F4,
+                                    dark: 0x004F90)
                 case .tint30:
-                    return ColorValueSet(light: 0xDEECF9,
-                                         dark: 0x002848)
+                    return ColorSet(light: 0xDEECF9,
+                                    dark: 0x002848)
                 case .tint40:
-                    return ColorValueSet(light: 0xEFF6FC,
-                                         dark: 0x001526)
+                    return ColorSet(light: 0xEFF6FC,
+                                    dark: 0x001526)
                 }
             }
         }
