@@ -263,6 +263,8 @@
 		92E7AD5026FE51FF00AE7FF8 /* ColorSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E7AD4E26FE51FF00AE7FF8 /* ColorSet.swift */; };
 		92E7AD5226FE904D00AE7FF8 /* FluentColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E7AD5126FE904D00AE7FF8 /* FluentColor.swift */; };
 		92E7AD5326FE904D00AE7FF8 /* FluentColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E7AD5126FE904D00AE7FF8 /* FluentColor.swift */; };
+		92EE82AD27025A94009D52B5 /* TokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92EE82AC27025A94009D52B5 /* TokenSet.swift */; };
+		92EE82AE27025A94009D52B5 /* TokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92EE82AC27025A94009D52B5 /* TokenSet.swift */; };
 		A257F82A251D98DD002CAA6E /* FluentUI-apple.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A257F829251D98DD002CAA6E /* FluentUI-apple.xcassets */; };
 		A257F82C251D98F3002CAA6E /* FluentUI-ios.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A257F82B251D98F3002CAA6E /* FluentUI-ios.xcassets */; };
 		A5237ACB21DED7030040BF27 /* ResizingHandleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5237ACA21DED7030040BF27 /* ResizingHandleView.swift */; };
@@ -494,6 +496,7 @@
 		92D5598026A0FD2800328FD3 /* CardNudge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardNudge.swift; sourceTree = "<group>"; };
 		92E7AD4E26FE51FF00AE7FF8 /* ColorSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSet.swift; sourceTree = "<group>"; };
 		92E7AD5126FE904D00AE7FF8 /* FluentColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluentColor.swift; sourceTree = "<group>"; };
+		92EE82AC27025A94009D52B5 /* TokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenSet.swift; sourceTree = "<group>"; };
 		A257F829251D98DD002CAA6E /* FluentUI-apple.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = "FluentUI-apple.xcassets"; path = "../apple/Resources/FluentUI-apple.xcassets"; sourceTree = "<group>"; };
 		A257F82B251D98F3002CAA6E /* FluentUI-ios.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = "FluentUI-ios.xcassets"; path = "FluentUI/Resources/FluentUI-ios.xcassets"; sourceTree = "<group>"; };
 		A5237ACA21DED7030040BF27 /* ResizingHandleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResizingHandleView.swift; sourceTree = "<group>"; };
@@ -978,9 +981,10 @@
 		925D461A26FD126800179583 /* Tokens */ = {
 			isa = PBXGroup;
 			children = (
+				925D461E26FD18B200179583 /* AliasTokens.swift */,
 				92E7AD4E26FE51FF00AE7FF8 /* ColorSet.swift */,
 				925D461B26FD133600179583 /* GlobalTokens.swift */,
-				925D461E26FD18B200179583 /* AliasTokens.swift */,
+				92EE82AC27025A94009D52B5 /* TokenSet.swift */,
 			);
 			path = Tokens;
 			sourceTree = "<group>";
@@ -1732,6 +1736,7 @@
 				5314E19525F019650099271A /* TabBarItemView.swift in Sources */,
 				5314E03C25F00E3D0099271A /* BadgeField.swift in Sources */,
 				5314E05B25F00EF50099271A /* CalendarView.swift in Sources */,
+				92EE82AE27025A94009D52B5 /* TokenSet.swift in Sources */,
 				534082B726CFF5E5007716E1 /* ButtonModifiers.swift in Sources */,
 				5314E28125F0240D0099271A /* DateComponents+Extensions.swift in Sources */,
 				5314E07025F00F140099271A /* DatePickerController.swift in Sources */,
@@ -1921,6 +1926,7 @@
 				FD41C89422DD13230086F899 /* LargeTitleView.swift in Sources */,
 				C0938E44235E8ED500256251 /* AnimationSynchronizer.swift in Sources */,
 				80AECBD92629F18E005AF2F3 /* BottomSheetController.swift in Sources */,
+				92EE82AD27025A94009D52B5 /* TokenSet.swift in Sources */,
 				B483323521DEA8D70022B4CC /* HUD.swift in Sources */,
 				C708B056260A86FA007190FA /* SegmentPillButton.swift in Sources */,
 				534082A826CFF58F007716E1 /* List.swift in Sources */,

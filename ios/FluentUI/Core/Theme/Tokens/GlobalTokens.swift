@@ -5,55 +5,9 @@
 
 import Foundation
 
-/// Template for all token sets, both global and alias. This ensures a unified return type for any given token set.
-protocol TokenSet {
-    associatedtype TokenType
-    var value: TokenType { get }
-}
-
 /// Global Tokens represent a unified set of constants to be used by Fluent UI.
 struct GlobalTokens {
     struct Color {
-        enum Brand: TokenSet {
-            case primary
-            case shade10
-            case shade20
-            case shade30
-            case tint10
-            case tint20
-            case tint30
-            case tint40
-
-            var value: ColorSet {
-                switch self {
-                case .primary:
-                    return ColorSet(light: 0x0078D4,
-                                    dark: 0x0086F0)
-                case .shade10:
-                    return ColorSet(light: 0x106EBE,
-                                    dark: 0x1890F1)
-                case .shade20:
-                    return ColorSet(light: 0x005A9E,
-                                    dark: 0x3AA0F3)
-                case .shade30:
-                    return ColorSet(light: 0x004578,
-                                    dark: 0x6CB8F6)
-                case .tint10:
-                    return ColorSet(light: 0x2B88D8,
-                                    dark: 0x0074D3)
-                case .tint20:
-                    return ColorSet(light: 0xC7E0F4,
-                                    dark: 0x004F90)
-                case .tint30:
-                    return ColorSet(light: 0xDEECF9,
-                                    dark: 0x002848)
-                case .tint40:
-                    return ColorSet(light: 0xEFF6FC,
-                                    dark: 0x001526)
-                }
-            }
-        }
-
         enum Neutral: TokenSet {
             case black
             case grey2
@@ -219,27 +173,50 @@ struct GlobalTokens {
 
     struct Border {
         enum Radius: TokenSet {
-            case circle
-            case xlarge
-            case large
-            case medium
-            case small
             case none
+            case small
+            case medium
+            case large
+            case xlarge
+            case circle
 
             var value: Int {
                 switch self {
-                case .circle:
-                    return 9999
-                case .xlarge:
-                    return 12
-                case .large:
-                    return 8
-                case .medium:
-                    return 4
-                case .small:
-                    return 2
                 case .none:
                     return 0
+                case .small:
+                    return 2
+                case .medium:
+                    return 4
+                case .large:
+                    return 8
+                case .xlarge:
+                    return 12
+                case .circle:
+                    return 9999
+                }
+            }
+        }
+
+        enum Size: TokenSet {
+            case none
+            case thin
+            case thick
+            case thicker
+            case thickest
+
+            var value: Int {
+                switch self {
+                case .none:
+                    return 0
+                case .thin:
+                    return 1
+                case .thick:
+                    return 2
+                case .thicker:
+                    return 4
+                case .thickest:
+                    return 6
                 }
             }
         }

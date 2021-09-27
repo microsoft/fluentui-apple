@@ -6,91 +6,69 @@
 import SwiftUI
 
 struct AliasTokens {
-    enum Background: TokenSet {
-        case neutral1
-        case neutral2
-        case neutral3
+    struct Color {
+        enum Foreground: TokenSet {
+            case neutral1
+            case neutral2
 
-        var value: ColorSet {
-            return ColorSet(light: 0xFFFFFF,
-                            dark: 0x000000)
-        }
-    }
-
-    enum Color: TokenSet {
-        case neutralForeground1
-        case neutralForeground2
-
-        var value: ColorSet {
-            switch self {
-            case .neutralForeground1:
-                return ColorSet(light: GlobalTokens.Color.Neutral.grey14.value,
-                                lightHighContrast: GlobalTokens.Color.Neutral.black.value,
-                                dark: GlobalTokens.Color.Neutral.white.value,
-                                darkHighContrast: GlobalTokens.Color.Neutral.white.value,
-                                darkElevated: GlobalTokens.Color.Neutral.white.value)
-            case .neutralForeground2:
-                return ColorSet(light: GlobalTokens.Color.Neutral.grey26.value)
+            var value: ColorSet {
+                switch self {
+                case .neutral1:
+                    return ColorSet(light: GlobalTokens.Color.Neutral.grey14.value,
+                                    lightHighContrast: GlobalTokens.Color.Neutral.black.value,
+                                    dark: GlobalTokens.Color.Neutral.white.value,
+                                    darkHighContrast: GlobalTokens.Color.Neutral.white.value)
+                case .neutral2:
+                    return ColorSet(light: GlobalTokens.Color.Neutral.grey26.value,
+                                    lightHighContrast: GlobalTokens.Color.Neutral.black.value,
+                                    dark: GlobalTokens.Color.Neutral.grey84.value,
+                                    darkHighContrast: GlobalTokens.Color.Neutral.white.value)
+                }
             }
         }
-    }
-    enum Font: TokenSet {
-        case body
-        case caption1
-        case footnote
-        case headline
-        case subheadline
 
-        var value: Font {
-            switch self {
-            case .body:
-                return Font.body
-            case .caption1:
-                return Font.caption1
-            case .footnote:
-                return Font.footnote
-            case .headline:
-                return Font.headline
-            case .subheadline:
-                return Font.subheadline
+        enum Background: TokenSet {
+            case neutral1
+            case neutral2
+            case neutral3
+
+            var value: ColorSet {
+                switch self {
+                case .neutral1:
+                    return ColorSet(light: GlobalTokens.Color.Neutral.white.value,
+                                    dark: GlobalTokens.Color.Neutral.black.value,
+                                    darkElevated: GlobalTokens.Color.Neutral.grey4.value)
+                case .neutral2:
+                    return ColorSet(light: GlobalTokens.Color.Neutral.grey98.value,
+                                    dark: GlobalTokens.Color.Neutral.grey4.value,
+                                    darkElevated: GlobalTokens.Color.Neutral.grey8.value)
+                case .neutral3:
+                    return ColorSet(light: GlobalTokens.Color.Neutral.grey96.value,
+                                    dark: GlobalTokens.Color.Neutral.grey8.value,
+                                    darkElevated: GlobalTokens.Color.Neutral.grey12.value)
+                }
             }
         }
-    }
 
-    enum Shadow: TokenSet {
-        case clear
-        case opacity12
-        case opacity14
-        case opacity20
-        case opacity24
-        case opacity28
-        case opacity40
-        case opacity48
-        case opacity60
-        case opaque
+        enum Stroke: TokenSet {
+            case neutral1
+            case neutral2
 
-        var value: Int {
-            switch self {
-            case .clear:
-                return 0x00
-            case .opacity12:
-                return 0x1F
-            case .opacity14:
-                return 0x24
-            case .opacity20:
-                return 0x33
-            case .opacity24:
-                return 0x3D
-            case .opacity28:
-                return 0x47
-            case .opacity40:
-                return 0x66
-            case .opacity48:
-                return 0x7A
-            case .opacity60:
-                return 0x99
-            case .opaque:
-                return 0xFF
+            var value: ColorSet {
+                switch self {
+                case .neutral1:
+                    return ColorSet(light: GlobalTokens.Color.Neutral.grey94.value,
+                                    lightHighContrast: GlobalTokens.Color.Neutral.grey38.value,
+                                    dark: GlobalTokens.Color.Neutral.grey24.value,
+                                    darkHighContrast: GlobalTokens.Color.Neutral.grey68.value,
+                                    darkElevated: GlobalTokens.Color.Neutral.grey32.value)
+                case .neutral2:
+                    return ColorSet(light: GlobalTokens.Color.Neutral.grey88.value,
+                                    lightHighContrast: GlobalTokens.Color.Neutral.grey38.value,
+                                    dark: GlobalTokens.Color.Neutral.grey32.value,
+                                    darkHighContrast: GlobalTokens.Color.Neutral.grey68.value,
+                                    darkElevated: GlobalTokens.Color.Neutral.grey36.value)
+                }
             }
         }
     }
