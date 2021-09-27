@@ -77,7 +77,7 @@ public class BottomSheetController: UIViewController {
             if isExpandable != oldValue {
                 resizingHandleView.isHidden = !isExpandable
                 panGestureRecognizer.isEnabled = isExpandable
-                if isViewLoaded && !isHidden {
+                if isViewLoaded {
                     move(to: .collapsed, animated: false)
                     delegate?.bottomSheetControllerCollapsedHeightInSafeAreaDidChange?(self)
                 }
@@ -85,12 +85,12 @@ public class BottomSheetController: UIViewController {
         }
     }
 
-    /// Indicates if the bottom sheet is hidden.
+    /// Indicates if the bottom sheet view is hidden.
     ///
-    /// Changes to this property are animated. A new value is reflected in the getter only after the animation completes.
+    /// Changes to this property are animated. When hiding, new value is reflected after the animation completes.
     @objc open var isHidden: Bool {
         get {
-            return currentExpansionState == .hidden
+            return bottomSheetView.isHidden
         }
         set {
             setIsHidden(newValue)
@@ -104,6 +104,7 @@ public class BottomSheetController: UIViewController {
         didSet {
             if isViewLoaded {
                 updateSheetSizingConstraints()
+                completeAnimationsIfNeeded(skipToEnd: true)
                 move(to: currentExpansionState, animated: false)
             }
         }
@@ -124,8 +125,10 @@ public class BottomSheetController: UIViewController {
     /// Height of the top portion of the content view that should be visible when the bottom sheet is collapsed.
     @objc open var collapsedContentHeight: CGFloat = Constants.defaultCollapsedContentHeight {
         didSet {
-            if isViewLoaded && currentExpansionState == .collapsed {
-                move(to: .collapsed, animated: false)
+            if isViewLoaded {
+                if currentExpansionState == .collapsed || targetExpansionState == .collapsed {
+                    move(to: .collapsed, animated: false)
+                }
                 delegate?.bottomSheetControllerCollapsedHeightInSafeAreaDidChange?(self)
             }
         }
@@ -155,20 +158,18 @@ public class BottomSheetController: UIViewController {
     ///   - animated: Indicates if the change should be animated. The default value is `true`.
     ///   - completion: Closure to be called when the state change completes.
     @objc public func setIsExpanded(_ isExpanded: Bool, animated: Bool = true, completion: ((_ isFinished: Bool) -> Void)? = nil) {
-        guard isExpanded != self.isExpanded else {
+        guard isExpanded != self.isExpanded, !isHiddenOrHiding, isExpandable else {
             return
         }
 
-        if !isHidden && isExpandable {
-            let targetExpansionState: BottomSheetExpansionState = isExpanded ? .expanded : .collapsed
-            if isViewLoaded {
-                move(to: targetExpansionState, animated: animated, shouldNotifyDelegate: false) { finalPosition in
-                    completion?(finalPosition == .end)
-                }
-            } else {
-                currentExpansionState = targetExpansionState
-                completion?(true)
+        let targetExpansionState: BottomSheetExpansionState = isExpanded ? .expanded : .collapsed
+        if isViewLoaded {
+            move(to: targetExpansionState, animated: animated, shouldNotifyDelegate: false) { finalPosition in
+                completion?(finalPosition == .end)
             }
+        } else {
+            currentExpansionState = targetExpansionState
+            completion?(true)
         }
     }
 
@@ -180,7 +181,7 @@ public class BottomSheetController: UIViewController {
     @objc public func setIsHidden(_ isHidden: Bool, animated: Bool = true, completion: ((_ isFinished: Bool) -> Void)? = nil) {
         let targetState: BottomSheetExpansionState = isHidden ? .hidden : .collapsed
         if isViewLoaded {
-            move(to: targetState, animated: animated) { finalPosition in
+            move(to: targetState, animated: animated, allowUnhiding: true) { finalPosition in
                 completion?(finalPosition == .end)
             }
         } else {
@@ -189,7 +190,7 @@ public class BottomSheetController: UIViewController {
         }
     }
 
-    /// Initiates an interactive `isHidden` state change driven by the returned `UIViewAnimating` object.
+    /// Initiates an interactive `isHidden` state change driven by the returned `UIViewPropertyAnimator`.
     ///
     /// The returned animator comes preloaded with all the animations required to reach the target `isHidden` state.
     ///
@@ -201,8 +202,8 @@ public class BottomSheetController: UIViewController {
     /// - Parameters:
     ///   - isHidden: The target state.
     ///   - completion: Closure to be called when the state change completes.
-    /// - Returns: An animator that conforms to `UIViewAnimating`. The associated animations start in a paused state.
-    @objc public func prepareInteractiveIsHiddenChange(_ isHidden: Bool, completion: ((_ finalPosition: UIViewAnimatingPosition) -> Void)? = nil) -> UIViewAnimating? {
+    /// - Returns: A `UIViewPropertyAnimator`. The associated animations start in a paused state.
+    @objc public func prepareInteractiveIsHiddenChange(_ isHidden: Bool, completion: ((_ finalPosition: UIViewAnimatingPosition) -> Void)? = nil) -> UIViewPropertyAnimator? {
         guard isViewLoaded else {
             return nil
         }
@@ -214,7 +215,7 @@ public class BottomSheetController: UIViewController {
             let initialState: BottomSheetExpansionState = isHidden ? .collapsed : .hidden
             let targetState: BottomSheetExpansionState = isHidden ? .hidden : .collapsed
 
-            move(to: initialState, animated: false)
+            move(to: initialState, animated: false, allowUnhiding: true)
             animator = stateChangeAnimator(to: targetState)
 
             currentStateChangeAnimator = animator
@@ -375,6 +376,7 @@ public class BottomSheetController: UIViewController {
     public override func viewDidLayoutSubviews() {
         if needsOffsetUpdate {
             needsOffsetUpdate = false
+            completeAnimationsIfNeeded(skipToEnd: true)
             move(to: currentExpansionState, animated: false, velocity: 0.0)
         }
     }
@@ -514,7 +516,12 @@ public class BottomSheetController: UIViewController {
                       velocity: CGFloat = 0.0,
                       interaction: BottomSheetInteraction = .noUserAction,
                       shouldNotifyDelegate: Bool = true,
+                      allowUnhiding: Bool = false,
                       completion: ((UIViewAnimatingPosition) -> Void)? = nil) {
+        guard targetExpansionState == .hidden || !isHiddenOrHiding || allowUnhiding else {
+            return
+        }
+
         completeAnimationsIfNeeded()
         let targetOffsetFromBottom = offset(for: targetExpansionState)
 
@@ -551,6 +558,8 @@ public class BottomSheetController: UIViewController {
         let springParams = UISpringTimingParameters(dampingRatio: damping, initialVelocity: CGVector(dx: 0.0, dy: springVelocity))
         let translationAnimator = UIViewPropertyAnimator(duration: Constants.Spring.animationDuration, timingParameters: springParams)
 
+        self.targetExpansionState = targetExpansionState
+
         // Disable dragging while hiding the sheet
         if targetExpansionState == .hidden {
             panGestureRecognizer.isEnabled = false
@@ -585,6 +594,7 @@ public class BottomSheetController: UIViewController {
             guard let strongSelf = self else {
                 return
             }
+            strongSelf.targetExpansionState = nil
             strongSelf.panGestureRecognizer.isEnabled = strongSelf.isExpandable
 
             if finalPosition == .end {
@@ -707,6 +717,10 @@ public class BottomSheetController: UIViewController {
     private var needsOffsetUpdate: Bool = false
 
     private var currentExpansionState: BottomSheetExpansionState = .collapsed
+
+    private var targetExpansionState: BottomSheetExpansionState?
+
+    private var isHiddenOrHiding: Bool { isHidden || targetExpansionState == .hidden }
 
     private var currentOffsetFromBottom: CGFloat {
         -bottomSheetOffsetConstraint.constant
