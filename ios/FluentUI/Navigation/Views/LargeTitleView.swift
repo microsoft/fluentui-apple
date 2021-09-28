@@ -379,6 +379,10 @@ class LargeTitleView: UIView {
     /// Updates various properties of the TitleView to properly conform to accessibility requirements
     private func setupAccessibility() {
         titleButton.accessibilityTraits = .header
+
+        // Sets the accessibility elements in the same order as they are laid you in the content view.
+        accessibilityElements = contentStackView.arrangedSubviews
+
         updateAvatarAccessibility()
     }
 }
