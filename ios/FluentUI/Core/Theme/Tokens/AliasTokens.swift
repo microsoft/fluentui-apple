@@ -6,23 +6,29 @@
 import SwiftUI
 
 struct AliasTokens {
-    struct Color {
+    struct Colors {
         enum Foreground: TokenSet {
             case neutral1
             case neutral2
+            case neutral3
 
             var value: ColorSet {
                 switch self {
                 case .neutral1:
-                    return ColorSet(light: GlobalTokens.Color.Neutral.grey14.value,
-                                    lightHighContrast: GlobalTokens.Color.Neutral.black.value,
-                                    dark: GlobalTokens.Color.Neutral.white.value,
-                                    darkHighContrast: GlobalTokens.Color.Neutral.white.value)
+                    return ColorSet(light: GlobalTokens.Colors.Neutral.grey14.value,
+                                    lightHighContrast: GlobalTokens.Colors.Neutral.black.value,
+                                    dark: GlobalTokens.Colors.Neutral.white.value,
+                                    darkHighContrast: GlobalTokens.Colors.Neutral.white.value)
                 case .neutral2:
-                    return ColorSet(light: GlobalTokens.Color.Neutral.grey26.value,
-                                    lightHighContrast: GlobalTokens.Color.Neutral.black.value,
-                                    dark: GlobalTokens.Color.Neutral.grey84.value,
-                                    darkHighContrast: GlobalTokens.Color.Neutral.white.value)
+                    return ColorSet(light: GlobalTokens.Colors.Neutral.grey26.value,
+                                    lightHighContrast: GlobalTokens.Colors.Neutral.black.value,
+                                    dark: GlobalTokens.Colors.Neutral.grey84.value,
+                                    darkHighContrast: GlobalTokens.Colors.Neutral.white.value)
+                case .neutral3:
+                    return ColorSet(light: GlobalTokens.Colors.Neutral.grey38.value,
+                                    lightHighContrast: GlobalTokens.Colors.Neutral.grey14.value,
+                                    dark: GlobalTokens.Colors.Neutral.grey68.value,
+                                    darkHighContrast: GlobalTokens.Colors.Neutral.grey84.value)
                 }
             }
         }
@@ -35,17 +41,17 @@ struct AliasTokens {
             var value: ColorSet {
                 switch self {
                 case .neutral1:
-                    return ColorSet(light: GlobalTokens.Color.Neutral.white.value,
-                                    dark: GlobalTokens.Color.Neutral.black.value,
-                                    darkElevated: GlobalTokens.Color.Neutral.grey4.value)
+                    return ColorSet(light: GlobalTokens.Colors.Neutral.white.value,
+                                    dark: GlobalTokens.Colors.Neutral.black.value,
+                                    darkElevated: GlobalTokens.Colors.Neutral.grey4.value)
                 case .neutral2:
-                    return ColorSet(light: GlobalTokens.Color.Neutral.grey98.value,
-                                    dark: GlobalTokens.Color.Neutral.grey4.value,
-                                    darkElevated: GlobalTokens.Color.Neutral.grey8.value)
+                    return ColorSet(light: GlobalTokens.Colors.Neutral.grey98.value,
+                                    dark: GlobalTokens.Colors.Neutral.grey4.value,
+                                    darkElevated: GlobalTokens.Colors.Neutral.grey8.value)
                 case .neutral3:
-                    return ColorSet(light: GlobalTokens.Color.Neutral.grey96.value,
-                                    dark: GlobalTokens.Color.Neutral.grey8.value,
-                                    darkElevated: GlobalTokens.Color.Neutral.grey12.value)
+                    return ColorSet(light: GlobalTokens.Colors.Neutral.grey96.value,
+                                    dark: GlobalTokens.Colors.Neutral.grey8.value,
+                                    darkElevated: GlobalTokens.Colors.Neutral.grey12.value)
                 }
             }
         }
@@ -57,17 +63,17 @@ struct AliasTokens {
             var value: ColorSet {
                 switch self {
                 case .neutral1:
-                    return ColorSet(light: GlobalTokens.Color.Neutral.grey94.value,
-                                    lightHighContrast: GlobalTokens.Color.Neutral.grey38.value,
-                                    dark: GlobalTokens.Color.Neutral.grey24.value,
-                                    darkHighContrast: GlobalTokens.Color.Neutral.grey68.value,
-                                    darkElevated: GlobalTokens.Color.Neutral.grey32.value)
+                    return ColorSet(light: GlobalTokens.Colors.Neutral.grey94.value,
+                                    lightHighContrast: GlobalTokens.Colors.Neutral.grey38.value,
+                                    dark: GlobalTokens.Colors.Neutral.grey24.value,
+                                    darkHighContrast: GlobalTokens.Colors.Neutral.grey68.value,
+                                    darkElevated: GlobalTokens.Colors.Neutral.grey32.value)
                 case .neutral2:
-                    return ColorSet(light: GlobalTokens.Color.Neutral.grey88.value,
-                                    lightHighContrast: GlobalTokens.Color.Neutral.grey38.value,
-                                    dark: GlobalTokens.Color.Neutral.grey32.value,
-                                    darkHighContrast: GlobalTokens.Color.Neutral.grey68.value,
-                                    darkElevated: GlobalTokens.Color.Neutral.grey36.value)
+                    return ColorSet(light: GlobalTokens.Colors.Neutral.grey88.value,
+                                    lightHighContrast: GlobalTokens.Colors.Neutral.grey38.value,
+                                    dark: GlobalTokens.Colors.Neutral.grey32.value,
+                                    darkHighContrast: GlobalTokens.Colors.Neutral.grey68.value,
+                                    darkElevated: GlobalTokens.Colors.Neutral.grey36.value)
                 }
             }
         }
