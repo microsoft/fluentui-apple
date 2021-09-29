@@ -271,8 +271,8 @@
 		92D5598226A0FD2800328FD3 /* CardNudge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D5598026A0FD2800328FD3 /* CardNudge.swift */; };
 		92E7AD4F26FE51FF00AE7FF8 /* ColorSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E7AD4E26FE51FF00AE7FF8 /* ColorSet.swift */; };
 		92E7AD5026FE51FF00AE7FF8 /* ColorSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E7AD4E26FE51FF00AE7FF8 /* ColorSet.swift */; };
-		92E7AD5226FE904D00AE7FF8 /* FluentColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E7AD5126FE904D00AE7FF8 /* FluentColor.swift */; };
-		92E7AD5326FE904D00AE7FF8 /* FluentColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E7AD5126FE904D00AE7FF8 /* FluentColor.swift */; };
+		92E7AD5226FE904D00AE7FF8 /* DynamicColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E7AD5126FE904D00AE7FF8 /* DynamicColor.swift */; };
+		92E7AD5326FE904D00AE7FF8 /* DynamicColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E7AD5126FE904D00AE7FF8 /* DynamicColor.swift */; };
 		92EE82AD27025A94009D52B5 /* TokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92EE82AC27025A94009D52B5 /* TokenSet.swift */; };
 		92EE82AE27025A94009D52B5 /* TokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92EE82AC27025A94009D52B5 /* TokenSet.swift */; };
 		A257F82A251D98DD002CAA6E /* FluentUI-apple.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A257F829251D98DD002CAA6E /* FluentUI-apple.xcassets */; };
@@ -510,7 +510,7 @@
 		92B7E6A12684262900EFC15E /* MSFPersonaButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFPersonaButton.swift; sourceTree = "<group>"; };
 		92D5598026A0FD2800328FD3 /* CardNudge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardNudge.swift; sourceTree = "<group>"; };
 		92E7AD4E26FE51FF00AE7FF8 /* ColorSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSet.swift; sourceTree = "<group>"; };
-		92E7AD5126FE904D00AE7FF8 /* FluentColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluentColor.swift; sourceTree = "<group>"; };
+		92E7AD5126FE904D00AE7FF8 /* DynamicColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicColor.swift; sourceTree = "<group>"; };
 		92EE82AC27025A94009D52B5 /* TokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenSet.swift; sourceTree = "<group>"; };
 		A257F829251D98DD002CAA6E /* FluentUI-apple.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = "FluentUI-apple.xcassets"; path = "../apple/Resources/FluentUI-apple.xcassets"; sourceTree = "<group>"; };
 		A257F82B251D98F3002CAA6E /* FluentUI-ios.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = "FluentUI-ios.xcassets"; path = "FluentUI/Resources/FluentUI-ios.xcassets"; sourceTree = "<group>"; };
@@ -989,7 +989,7 @@
 			children = (
 				925D461A26FD126800179583 /* Tokens */,
 				920945442703D8F200B38E1A /* ControlThemeable.swift */,
-				92E7AD5126FE904D00AE7FF8 /* FluentColor.swift */,
+				92E7AD5126FE904D00AE7FF8 /* DynamicColor.swift */,
 				920945412703D1DC00B38E1A /* FluentTheme.swift */,
 			);
 			path = Theme;
@@ -1715,7 +1715,7 @@
 				92987990266A8E1C002B1EB4 /* MSFPersonaButtonTokens.generated.swift in Sources */,
 				5314E08B25F00F2D0099271A /* CommandBarItem.swift in Sources */,
 				5314E06225F00EFD0099271A /* CalendarViewDayTodayCell.swift in Sources */,
-				92E7AD5326FE904D00AE7FF8 /* FluentColor.swift in Sources */,
+				92E7AD5326FE904D00AE7FF8 /* DynamicColor.swift in Sources */,
 				5314E08025F00F1A0099271A /* DateTimePickerViewComponent.swift in Sources */,
 				5314E06325F00EFD0099271A /* CalendarViewDayMonthYearCell.swift in Sources */,
 				5314E1A225F01A7C0099271A /* ActivityIndicatorCell.swift in Sources */,
@@ -1910,7 +1910,7 @@
 				FD7DF05C21FA7F5000857267 /* Tooltip.swift in Sources */,
 				497DC2DB24185885008D86F8 /* PillButton.swift in Sources */,
 				53BCB0CE253A4E8D00620960 /* Obscurable.swift in Sources */,
-				92E7AD5226FE904D00AE7FF8 /* FluentColor.swift in Sources */,
+				92E7AD5226FE904D00AE7FF8 /* DynamicColor.swift in Sources */,
 				FD41C8BE22DD47120086F899 /* UINavigationItem+Navigation.swift in Sources */,
 				B4E782C12176AD5E00A7DFCE /* ActionsCell.swift in Sources */,
 				5373D5642694D65C0032A3B4 /* AvatarTokens.swift in Sources */,

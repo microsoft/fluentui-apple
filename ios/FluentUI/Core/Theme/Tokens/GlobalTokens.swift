@@ -183,7 +183,7 @@ struct GlobalTokens {
             case xxLarge
             case xxxLarge
 
-            var value: Int {
+            var value: CGFloat {
                 switch self {
                 case .xxxSmall:
                     return 10
@@ -221,7 +221,7 @@ struct GlobalTokens {
         case xxxLarge
         case xxxxLarge
 
-        var value: Int {
+        var value: CGFloat {
             switch self {
             case .none:
                 return 0
@@ -258,7 +258,7 @@ struct GlobalTokens {
             case xLarge
             case circle
 
-            var value: Int {
+            var value: CGFloat {
                 switch self {
                 case .none:
                     return 0
@@ -283,7 +283,7 @@ struct GlobalTokens {
             case thicker
             case thickest
 
-            var value: Int {
+            var value: CGFloat {
                 switch self {
                 case .none:
                     return 0

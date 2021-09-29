@@ -6,6 +6,15 @@
 import SwiftUI
 
 public class CardNudgeTokens: CardNudgeThemeable {
+    static func styledTokens(style: MSFCardNudgeStyle) -> CardNudgeTokens {
+        switch style {
+        case .outline :
+            return BorderedCardNudgeTokens()
+        case .standard:
+            return CardNudgeTokens()
+        }
+    }
+
     public var accentColor: ColorSet {
         #if BRAND_COLORS
         return GlobalTokens.Colors.Brand.shade20.value
@@ -15,11 +24,11 @@ public class CardNudgeTokens: CardNudgeThemeable {
         #endif
     }
 
-    public var accentIconSize: Int {
+    public var accentIconSize: CGFloat {
         return GlobalTokens.Icon.Size.xxSmall.value
     }
 
-    public var accentPadding: Int {
+    public var accentPadding: CGFloat {
         return GlobalTokens.Spacing.xxSmall.value
     }
 
@@ -29,42 +38,42 @@ public class CardNudgeTokens: CardNudgeThemeable {
 
     public var buttonBackgroundColor: ColorSet {
         #if BRAND_COLORS
-        return GlobalTokens.Colors.Brand.tint30.value
+        return GlobalTokens.Colors.Brand.tCGFloat30.value
         #else
         return ColorSet(light: 0xDEECF9,
                         dark: 0x002848)
         #endif
     }
 
-    public var buttonInnerPaddingHorizontal: Int {
+    public var buttonInnerPaddingHorizontal: CGFloat {
         return GlobalTokens.Spacing.small.value
     }
 
-    public var circleSize: Int {
+    public var circleSize: CGFloat {
         return GlobalTokens.Icon.Size.xxLarge.value
     }
 
-    public var cornerRadius: Int {
+    public var cornerRadius: CGFloat {
         return GlobalTokens.Border.Radius.xLarge.value
     }
 
-    public var horizontalPadding: Int {
+    public var horizontalPadding: CGFloat {
         return GlobalTokens.Spacing.medium.value
     }
 
-    public var iconSize: Int {
+    public var iconSize: CGFloat {
         return GlobalTokens.Icon.Size.xSmall.value
     }
 
-    public var interTextVerticalPadding: Int {
+    public var interTextVerticalPadding: CGFloat {
         return GlobalTokens.Spacing.xxxSmall.value
     }
 
-    public var mainContentVerticalPadding: Int {
+    public var mainContentVerticalPadding: CGFloat {
         return GlobalTokens.Spacing.small.value
     }
 
-    public var minimumHeight: Int {
+    public var minimumHeight: CGFloat {
         return 56
     }
 
@@ -72,7 +81,7 @@ public class CardNudgeTokens: CardNudgeThemeable {
         return AliasTokens.Colors.Background.neutral2.value
     }
 
-    public var outlineWidth: Int {
+    public var outlineWidth: CGFloat {
         return GlobalTokens.Border.Size.thin.value
     }
 
@@ -84,7 +93,7 @@ public class CardNudgeTokens: CardNudgeThemeable {
         return AliasTokens.Colors.Foreground.neutral1.value
     }
 
-    public var verticalPadding: Int {
+    public var verticalPadding: CGFloat {
         return GlobalTokens.Spacing.xSmall.value
     }
 }
