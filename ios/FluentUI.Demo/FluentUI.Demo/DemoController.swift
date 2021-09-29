@@ -50,6 +50,7 @@ class DemoController: UIViewController {
         description.numberOfLines = 0
         description.text = text
         description.textAlignment = textAlignment
+        description.numberOfLines = 0
         container.addArrangedSubview(description)
         return description
     }
@@ -59,6 +60,7 @@ class DemoController: UIViewController {
         titleLabel.text = text
         titleLabel.textAlignment = .center
         titleLabel.accessibilityTraits.insert(.header)
+        titleLabel.numberOfLines = 0
         container.addArrangedSubview(titleLabel)
     }
 

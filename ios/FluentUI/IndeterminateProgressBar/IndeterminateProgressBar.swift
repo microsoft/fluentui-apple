@@ -49,7 +49,7 @@ import UIKit
     private var indeterminateProgressBarView: IndeterminateProgressBar!
 }
 
-/// Properties available to customize the state of the Indeterminate Progress Bar state
+/// Properties available to customize the state of the Indeterminate Progress Bar.
 @objc public protocol MSFIndeterminateProgressBarState {
     /// Defines whether the Indeterminate Progress Bar is animating or stopped.
     var isAnimating: Bool { get set }
