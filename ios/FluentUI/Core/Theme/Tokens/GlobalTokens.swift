@@ -7,7 +7,7 @@ import Foundation
 
 /// Global Tokens represent a unified set of constants to be used by Fluent UI.
 struct GlobalTokens {
-    struct Color {
+    struct Colors {
         enum Neutral: TokenSet {
             case black
             case grey2
@@ -171,13 +171,91 @@ struct GlobalTokens {
 
     }
 
+    struct Icon {
+        enum Size: TokenSet {
+            case xxxSmall
+            case xxSmall
+            case xSmall
+            case small
+            case medium
+            case large
+            case xLarge
+            case xxLarge
+            case xxxLarge
+
+            var value: Int {
+                switch self {
+                case .xxxSmall:
+                    return 10
+                case .xxSmall:
+                    return 12
+                case .xSmall:
+                    return 16
+                case .small:
+                    return 20
+                case .medium:
+                    return 24
+                case .large:
+                    return 28
+                case .xLarge:
+                    return 36
+                case .xxLarge:
+                    return 40
+                case .xxxLarge:
+                    return 48
+                }
+            }
+        }
+    }
+
+    enum Spacing: TokenSet {
+        case none
+        case xxxSmall
+        case xxSmall
+        case xSmall
+        case small
+        case medium
+        case large
+        case xLarge
+        case xxLarge
+        case xxxLarge
+        case xxxxLarge
+
+        var value: Int {
+            switch self {
+            case .none:
+                return 0
+            case .xxxSmall:
+                return 2
+            case .xxSmall:
+                return 4
+            case .xSmall:
+                return 8
+            case .small:
+                return 12
+            case .medium:
+                return 16
+            case .large:
+                return 20
+            case .xLarge:
+                return 24
+            case .xxLarge:
+                return 36
+            case .xxxLarge:
+                return 48
+            case .xxxxLarge:
+                return 72
+            }
+        }
+    }
+
     struct Border {
         enum Radius: TokenSet {
             case none
             case small
             case medium
             case large
-            case xlarge
+            case xLarge
             case circle
 
             var value: Int {
@@ -190,7 +268,7 @@ struct GlobalTokens {
                     return 4
                 case .large:
                     return 8
-                case .xlarge:
+                case .xLarge:
                     return 12
                 case .circle:
                     return 9999
