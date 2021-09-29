@@ -3,7 +3,7 @@
 //  Licensed under the MIT License.
 //
 
-import Foundation
+import CoreGraphics
 
 /// Global Tokens represent a unified set of constants to be used by Fluent UI.
 struct GlobalTokens {
