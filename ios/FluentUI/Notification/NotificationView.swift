@@ -101,6 +101,9 @@ open class NotificationView: UIView, FluentUIWindowProvider {
     }
     private var constraintWhenHidden: NSLayoutConstraint!
     private var constraintWhenShown: NSLayoutConstraint!
+    private var backgroundLayer = CALayer()
+    private var perimeterShadow = CALayer()
+    private var ambientShadow = CALayer()
 
     @objc public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -119,6 +122,18 @@ open class NotificationView: UIView, FluentUIWindowProvider {
         if NotificationView.currentToast == self {
             NotificationView.currentToast = nil
         }
+    }
+
+    open override func layoutSubviews() {
+        super.layoutSubviews()
+
+        perimeterShadow.frame = bounds
+        perimeterShadow.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: tokens.cornerRadius).cgPath
+
+        ambientShadow.frame = bounds
+        ambientShadow.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: tokens.cornerRadius).cgPath
+
+        backgroundLayer.frame = bounds
     }
 
     @objc open func initialize() {
@@ -152,6 +167,10 @@ open class NotificationView: UIView, FluentUIWindowProvider {
         addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleMessageTap)))
 
         actionButton.addTarget(self, action: #selector(handleActionButtonTap), for: .touchUpInside)
+
+        layer.insertSublayer(backgroundLayer, at: 0)
+        layer.insertSublayer(perimeterShadow, below: backgroundLayer)
+        layer.insertSublayer(ambientShadow, below: perimeterShadow)
     }
 
     /// `setup` is used to initialize the view before showing.
@@ -341,7 +360,7 @@ open class NotificationView: UIView, FluentUIWindowProvider {
 
     open override func didMoveToWindow() {
         super.didMoveToWindow()
-        tokens.didChangeAppearanceProxy()
+        tokens.updateForCurrentTheme()
         updateWindowSpecificColors()
     }
 
@@ -407,15 +426,29 @@ open class NotificationView: UIView, FluentUIWindowProvider {
         return sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
     }
 
+    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        self.updateForStyle()
+        self.updateWindowSpecificColors()
+        self.setNeedsDisplay()
+    }
+
     private func updateForStyle() {
         clipsToBounds = !tokens.style.needsSeparator
-        layer.cornerRadius = tokens.cornerRadius
-        layer.cornerCurve = .continuous
         layer.masksToBounds = false
-        layer.shadowColor = tokens.shadowColor
-        layer.shadowRadius = tokens.shadowBlur
-        layer.shadowOffset = CGSize(width: tokens.shadowOffsetX, height: tokens.shadowOffsetY)
-        layer.shadowOpacity = 1.0
+
+        backgroundLayer.cornerRadius = tokens.cornerRadius
+        backgroundLayer.cornerCurve = .continuous
+
+        perimeterShadow.shadowColor = tokens.shadow1Color.cgColor
+        perimeterShadow.shadowRadius = tokens.shadow1Blur
+        perimeterShadow.shadowOffset = CGSize(width: tokens.shadow1OffsetX, height: tokens.shadow1OffsetY)
+        perimeterShadow.shadowOpacity = 1.0
+
+        ambientShadow.shadowColor = tokens.shadow2Color.cgColor
+        ambientShadow.shadowRadius = tokens.shadow2Blur
+        ambientShadow.shadowOffset = CGSize(width: tokens.shadow2OffsetX, height: tokens.shadow2OffsetY)
+        ambientShadow.shadowOpacity = 1.0
 
         separator.isHidden = !tokens.style.needsSeparator
 
@@ -423,7 +456,7 @@ open class NotificationView: UIView, FluentUIWindowProvider {
     }
 
     private func updateWindowSpecificColors() {
-        self.backgroundColor = tokens.backgroundColor
+        backgroundLayer.backgroundColor = tokens.backgroundColor.cgColor
         let foregroundColor = tokens.foregroundColor
         imageView.tintColor = foregroundColor
         titleLabel.textColor = foregroundColor

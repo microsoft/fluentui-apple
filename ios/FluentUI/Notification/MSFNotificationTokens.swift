@@ -58,10 +58,14 @@ class MSFNotificationTokens: MSFTokensBase {
     public var horizontalSpacing: CGFloat!
     public var minimumHeight: CGFloat!
     public var minimumHeightForOneLine: CGFloat!
-    public var shadowColor: CGColor!
-    public var shadowBlur: CGFloat!
-    public var shadowOffsetX: CGFloat!
-    public var shadowOffsetY: CGFloat!
+    public var shadow1Color: UIColor!
+    public var shadow1Blur: CGFloat!
+    public var shadow1OffsetX: CGFloat!
+    public var shadow1OffsetY: CGFloat!
+    public var shadow2Color: UIColor!
+    public var shadow2Blur: CGFloat!
+    public var shadow2OffsetX: CGFloat!
+    public var shadow2OffsetY: CGFloat!
 
     var style: MSFNotificationStyle
 
@@ -109,9 +113,13 @@ class MSFNotificationTokens: MSFTokensBase {
         horizontalSpacing = appearanceProxy.horizontalSpacing
         minimumHeight = appearanceProxy.minimumHeight
         minimumHeightForOneLine = appearanceProxy.minimumHeightForOneLine
-        shadowColor = appearanceProxy.shadowColor.cgColor
-        shadowBlur = appearanceProxy.shadowBlur
-        shadowOffsetX = appearanceProxy.shadowOffsetX
-        shadowOffsetY = appearanceProxy.shadowOffsetY
+        shadow1Color = appearanceProxy.shadow1Color
+        shadow1Blur = appearanceProxy.shadow1Blur
+        shadow1OffsetX = appearanceProxy.shadow1OffsetX
+        shadow1OffsetY = appearanceProxy.shadow1OffsetY
+        shadow2Color = appearanceProxy.shadow2Color
+        shadow2Blur = appearanceProxy.shadow2Blur
+        shadow2OffsetX = appearanceProxy.shadow2OffsetX
+        shadow2OffsetY = appearanceProxy.shadow2OffsetY
     }
 }

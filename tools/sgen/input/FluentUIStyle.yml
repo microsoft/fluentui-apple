@@ -415,31 +415,38 @@ AP_MSFNotificationTokens:
   horizontalSpacing: 16pt
   minimumHeight: 64.0
   minimumHeightForOneLine: 56.0
-  shadowColor: $Shadow.shadow16.color1
-  shadowBlur: $Shadow.shadow16.blur1
-  shadowOffsetX: $Shadow.shadow16.x1
-  shadowOffsetY: $Shadow.shadow16.y1
+  shadow1Color: $Shadow.shadow16.color1
+  shadow1Blur: $Shadow.shadow16.blur1
+  shadow1OffsetX: $Shadow.shadow16.x1
+  shadow1OffsetY: $Shadow.shadow16.y1
+  shadow2Color: $Shadow.shadow16.color2
+  shadow2Blur: $Shadow.shadow16.blur2
+  shadow2OffsetX: $Shadow.shadow16.x2
+  shadow2OffsetY: $Shadow.shadow16.y2
 
 MSFNeutralToastNotificationTokens extends MSFNotificationTokens:
   backgroundColor: "FluentUIColor(light: NamedColor(charcoalTint60), dark: NamedColor(charcoalPrimary))"
   foregroundColor: "FluentUIColor(light: NamedColor(charcoalPrimary), dark: NamedColor(charcoalTint60))"
 
 MSFPrimaryBarNotificationTokens extends MSFNotificationTokens:
-  shadowColor: NamedColor(clear)
+  shadow1Color: NamedColor(clear)
+  shadow2Color: NamedColor(clear)
   cornerRadius: $Border.radius.none
   presentationOffSet: $Spacing.none
   backgroundColor: "FluentUIColor(light: $Colors.Brand.tint40, dark: $Colors.Brand.tint10)"
   foregroundColor: "FluentUIColor(light: $Colors.Brand.shade20, dark: NamedColor(black))"
 
 MSFPrimaryOutlineBarNotificationTokens extends MSFNotificationTokens:
-  shadowColor: NamedColor(clear)
+  shadow1Color: NamedColor(clear)
+  shadow2Color: NamedColor(clear)
   cornerRadius: $Border.radius.none
   presentationOffSet: $Spacing.none
   backgroundColor: "FluentUIColor(light: NamedColor(white), dark: NamedColor(charcoalPrimary))"
   foregroundColor: "FluentUIColor(light: $Colors.Brand.primary, dark: NamedColor(charcoalTint60))"
 
 MSFNeutralBarNotificationTokens extends MSFNotificationTokens:
-  shadowColor: NamedColor(clear)
+  shadow1Color: NamedColor(clear)
+  shadow2Color: NamedColor(clear)
   cornerRadius: $Border.radius.none
   presentationOffSet: $Spacing.none
   backgroundColor: "FluentUIColor(light: NamedColor(charcoalTint50), dark: NamedColor(charcoalPrimary))"

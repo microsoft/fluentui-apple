@@ -47,8 +47,13 @@ extension FluentUIStyle {
 			return mainProxy().Spacing.none
 		}
 
-		// MARK: - shadowColor 
-		open override var shadowColor: UIColor {
+		// MARK: - shadow1Color 
+		open override var shadow1Color: UIColor {
+			return UIColor(named: "FluentColors/clear", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+		}
+
+		// MARK: - shadow2Color 
+		open override var shadow2Color: UIColor {
 			return UIColor(named: "FluentColors/clear", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
 		}
 	}
@@ -118,24 +123,44 @@ extension FluentUIStyle {
 			return mainProxy().Spacing.small
 		}
 
-		// MARK: - shadowBlur 
-		open var shadowBlur: CGFloat {
+		// MARK: - shadow1Blur 
+		open var shadow1Blur: CGFloat {
 			return mainProxy().Shadow.shadow16.blur1
 		}
 
-		// MARK: - shadowColor 
-		open var shadowColor: UIColor {
+		// MARK: - shadow1Color 
+		open var shadow1Color: UIColor {
 			return mainProxy().Shadow.shadow16.color1
 		}
 
-		// MARK: - shadowOffsetX 
-		open var shadowOffsetX: CGFloat {
+		// MARK: - shadow1OffsetX 
+		open var shadow1OffsetX: CGFloat {
 			return mainProxy().Shadow.shadow16.x1
 		}
 
-		// MARK: - shadowOffsetY 
-		open var shadowOffsetY: CGFloat {
+		// MARK: - shadow1OffsetY 
+		open var shadow1OffsetY: CGFloat {
 			return mainProxy().Shadow.shadow16.y1
+		}
+
+		// MARK: - shadow2Blur 
+		open var shadow2Blur: CGFloat {
+			return mainProxy().Shadow.shadow16.blur2
+		}
+
+		// MARK: - shadow2Color 
+		open var shadow2Color: UIColor {
+			return mainProxy().Shadow.shadow16.color2
+		}
+
+		// MARK: - shadow2OffsetX 
+		open var shadow2OffsetX: CGFloat {
+			return mainProxy().Shadow.shadow16.x2
+		}
+
+		// MARK: - shadow2OffsetY 
+		open var shadow2OffsetY: CGFloat {
+			return mainProxy().Shadow.shadow16.y2
 		}
 
 		// MARK: - verticalPadding 
@@ -174,8 +199,13 @@ extension FluentUIStyle {
 			return mainProxy().Spacing.none
 		}
 
-		// MARK: - shadowColor 
-		open override var shadowColor: UIColor {
+		// MARK: - shadow1Color 
+		open override var shadow1Color: UIColor {
+			return UIColor(named: "FluentColors/clear", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+		}
+
+		// MARK: - shadow2Color 
+		open override var shadow2Color: UIColor {
 			return UIColor(named: "FluentColors/clear", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
 		}
 	}
@@ -205,8 +235,13 @@ extension FluentUIStyle {
 			return mainProxy().Spacing.none
 		}
 
-		// MARK: - shadowColor 
-		open override var shadowColor: UIColor {
+		// MARK: - shadow1Color 
+		open override var shadow1Color: UIColor {
+			return UIColor(named: "FluentColors/clear", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+		}
+
+		// MARK: - shadow2Color 
+		open override var shadow2Color: UIColor {
 			return UIColor(named: "FluentColors/clear", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
 		}
 	}
