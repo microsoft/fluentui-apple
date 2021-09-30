@@ -46,10 +46,8 @@ public typealias CardNudgeButtonAction = ((_ state: MSFCardNudgeState) -> Void)
 public struct CardNudge: View {
     @Environment(\.theme) var theme: FluentUIStyle
     @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
-    var tokens: CardNudgeTokens {
-        CardNudgeTokens.styledTokens(style: state.style)
-    }
     @ObservedObject var state: MSFCardNudgeStateImpl
+    var tokens: CardNudgeTokens
 
     @ViewBuilder
     var icon: some View {
@@ -169,6 +167,7 @@ public struct CardNudge: View {
     init(style: MSFCardNudgeStyle, title: String) {
         let state = MSFCardNudgeStateImpl(style: style, title: title)
         self.state = state
+        self.tokens = state.tokens
     }
 }
 
@@ -194,9 +193,12 @@ class MSFCardNudgeStateImpl: NSObject, ObservableObject, Identifiable, MSFCardNu
     /// Action to be dispatched by the dismiss ("close") button on the trailing edge of the control.
     @Published @objc public var dismissButtonAction: CardNudgeButtonAction?
 
+    let tokens: CardNudgeTokens
+
     @objc init(style: MSFCardNudgeStyle, title: String) {
         self.style = style
         self.title = title
+        self.tokens = CardNudgeTokens.styledTokens(style: style)
 
         super.init()
     }
