@@ -27,6 +27,11 @@ extension FluentUIStyle {
 	}
 	open class MSFNeutralBarNotificationTokensAppearanceProxy: MSFNotificationTokensAppearanceProxy {
 
+		// MARK: - ambientShadowColor 
+		open override var ambientShadowColor: UIColor {
+			return UIColor(named: "FluentColors/clear", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+		}
+
 		// MARK: - backgroundColor 
 		open override var backgroundColor: UIColor {
 			return UIColor(light: UIColor(named: "FluentColors/charcoalTint50", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/charcoalPrimary", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
@@ -42,19 +47,14 @@ extension FluentUIStyle {
 			return UIColor(light: UIColor(named: "FluentColors/charcoalShade50", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/charcoalTint60", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 		}
 
+		// MARK: - perimeterShadowColor 
+		open override var perimeterShadowColor: UIColor {
+			return UIColor(named: "FluentColors/clear", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+		}
+
 		// MARK: - presentationOffSet 
 		open override var presentationOffSet: CGFloat {
 			return mainProxy().Spacing.none
-		}
-
-		// MARK: - shadow1Color 
-		open override var shadow1Color: UIColor {
-			return UIColor(named: "FluentColors/clear", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
-		}
-
-		// MARK: - shadow2Color 
-		open override var shadow2Color: UIColor {
-			return UIColor(named: "FluentColors/clear", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
 		}
 	}
 	// MARK: - MSFNeutralToastNotificationTokens
@@ -83,6 +83,26 @@ extension FluentUIStyle {
 			self.mainProxy = proxy
 		}
 
+		// MARK: - ambientShadowBlur 
+		open var ambientShadowBlur: CGFloat {
+			return mainProxy().Shadow.shadow16.blur1
+		}
+
+		// MARK: - ambientShadowColor 
+		open var ambientShadowColor: UIColor {
+			return mainProxy().Shadow.shadow16.color1
+		}
+
+		// MARK: - ambientShadowOffsetX 
+		open var ambientShadowOffsetX: CGFloat {
+			return mainProxy().Shadow.shadow16.x1
+		}
+
+		// MARK: - ambientShadowOffsetY 
+		open var ambientShadowOffsetY: CGFloat {
+			return mainProxy().Shadow.shadow16.y1
+		}
+
 		// MARK: - backgroundColor 
 		open var backgroundColor: UIColor {
 			return mainProxy().Colors.Brand.tint40
@@ -100,12 +120,12 @@ extension FluentUIStyle {
 
 		// MARK: - horizontalPadding 
 		open var horizontalPadding: CGFloat {
-			return CGFloat(16.0)
+			return mainProxy().Spacing.medium
 		}
 
 		// MARK: - horizontalSpacing 
 		open var horizontalSpacing: CGFloat {
-			return CGFloat(16.0)
+			return mainProxy().Spacing.medium
 		}
 
 		// MARK: - minimumHeight 
@@ -118,59 +138,39 @@ extension FluentUIStyle {
 			return CGFloat(56.0)
 		}
 
+		// MARK: - perimeterShadowBlur 
+		open var perimeterShadowBlur: CGFloat {
+			return mainProxy().Shadow.shadow16.blur2
+		}
+
+		// MARK: - perimeterShadowColor 
+		open var perimeterShadowColor: UIColor {
+			return mainProxy().Shadow.shadow16.color2
+		}
+
+		// MARK: - perimeterShadowOffsetX 
+		open var perimeterShadowOffsetX: CGFloat {
+			return mainProxy().Shadow.shadow16.x2
+		}
+
+		// MARK: - perimeterShadowOffsetY 
+		open var perimeterShadowOffsetY: CGFloat {
+			return mainProxy().Shadow.shadow16.y2
+		}
+
 		// MARK: - presentationOffSet 
 		open var presentationOffSet: CGFloat {
 			return mainProxy().Spacing.small
 		}
 
-		// MARK: - shadow1Blur 
-		open var shadow1Blur: CGFloat {
-			return mainProxy().Shadow.shadow16.blur1
-		}
-
-		// MARK: - shadow1Color 
-		open var shadow1Color: UIColor {
-			return mainProxy().Shadow.shadow16.color1
-		}
-
-		// MARK: - shadow1OffsetX 
-		open var shadow1OffsetX: CGFloat {
-			return mainProxy().Shadow.shadow16.x1
-		}
-
-		// MARK: - shadow1OffsetY 
-		open var shadow1OffsetY: CGFloat {
-			return mainProxy().Shadow.shadow16.y1
-		}
-
-		// MARK: - shadow2Blur 
-		open var shadow2Blur: CGFloat {
-			return mainProxy().Shadow.shadow16.blur2
-		}
-
-		// MARK: - shadow2Color 
-		open var shadow2Color: UIColor {
-			return mainProxy().Shadow.shadow16.color2
-		}
-
-		// MARK: - shadow2OffsetX 
-		open var shadow2OffsetX: CGFloat {
-			return mainProxy().Shadow.shadow16.x2
-		}
-
-		// MARK: - shadow2OffsetY 
-		open var shadow2OffsetY: CGFloat {
-			return mainProxy().Shadow.shadow16.y2
-		}
-
 		// MARK: - verticalPadding 
 		open var verticalPadding: CGFloat {
-			return CGFloat(12.0)
+			return mainProxy().Spacing.small
 		}
 
 		// MARK: - verticalPaddingForOneLine 
 		open var verticalPaddingForOneLine: CGFloat {
-			return CGFloat(16.0)
+			return mainProxy().Spacing.medium
 		}
 	}
 	// MARK: - MSFPrimaryBarNotificationTokens
@@ -178,6 +178,11 @@ extension FluentUIStyle {
 		return MSFPrimaryBarNotificationTokensAppearanceProxy(proxy: { return self })
 	}
 	open class MSFPrimaryBarNotificationTokensAppearanceProxy: MSFNotificationTokensAppearanceProxy {
+
+		// MARK: - ambientShadowColor 
+		open override var ambientShadowColor: UIColor {
+			return UIColor(named: "FluentColors/clear", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+		}
 
 		// MARK: - backgroundColor 
 		open override var backgroundColor: UIColor {
@@ -194,19 +199,14 @@ extension FluentUIStyle {
 			return UIColor(light: mainProxy().Colors.Brand.shade20, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/black", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 		}
 
+		// MARK: - perimeterShadowColor 
+		open override var perimeterShadowColor: UIColor {
+			return UIColor(named: "FluentColors/clear", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+		}
+
 		// MARK: - presentationOffSet 
 		open override var presentationOffSet: CGFloat {
 			return mainProxy().Spacing.none
-		}
-
-		// MARK: - shadow1Color 
-		open override var shadow1Color: UIColor {
-			return UIColor(named: "FluentColors/clear", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
-		}
-
-		// MARK: - shadow2Color 
-		open override var shadow2Color: UIColor {
-			return UIColor(named: "FluentColors/clear", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
 		}
 	}
 	// MARK: - MSFPrimaryOutlineBarNotificationTokens
@@ -214,6 +214,11 @@ extension FluentUIStyle {
 		return MSFPrimaryOutlineBarNotificationTokensAppearanceProxy(proxy: { return self })
 	}
 	open class MSFPrimaryOutlineBarNotificationTokensAppearanceProxy: MSFNotificationTokensAppearanceProxy {
+
+		// MARK: - ambientShadowColor 
+		open override var ambientShadowColor: UIColor {
+			return UIColor(named: "FluentColors/clear", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+		}
 
 		// MARK: - backgroundColor 
 		open override var backgroundColor: UIColor {
@@ -230,19 +235,14 @@ extension FluentUIStyle {
 			return UIColor(light: mainProxy().Colors.Brand.primary, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/charcoalTint60", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 		}
 
+		// MARK: - perimeterShadowColor 
+		open override var perimeterShadowColor: UIColor {
+			return UIColor(named: "FluentColors/clear", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+		}
+
 		// MARK: - presentationOffSet 
 		open override var presentationOffSet: CGFloat {
 			return mainProxy().Spacing.none
-		}
-
-		// MARK: - shadow1Color 
-		open override var shadow1Color: UIColor {
-			return UIColor(named: "FluentColors/clear", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
-		}
-
-		// MARK: - shadow2Color 
-		open override var shadow2Color: UIColor {
-			return UIColor(named: "FluentColors/clear", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
 		}
 	}
 	// MARK: - MSFWarningToastNotificationTokens

@@ -440,14 +440,14 @@ open class NotificationView: UIView, FluentUIWindowProvider {
         backgroundLayer.cornerRadius = tokens.cornerRadius
         backgroundLayer.cornerCurve = .continuous
 
-        perimeterShadow.shadowColor = tokens.shadow1Color.cgColor
-        perimeterShadow.shadowRadius = tokens.shadow1Blur
-        perimeterShadow.shadowOffset = CGSize(width: tokens.shadow1OffsetX, height: tokens.shadow1OffsetY)
+        perimeterShadow.shadowColor = tokens.perimeterShadowColor.cgColor
+        perimeterShadow.shadowRadius = tokens.perimeterShadowBlur
+        perimeterShadow.shadowOffset = CGSize(width: tokens.perimeterShadowOffsetX, height: tokens.perimeterShadowOffsetY)
         perimeterShadow.shadowOpacity = 1.0
 
-        ambientShadow.shadowColor = tokens.shadow2Color.cgColor
-        ambientShadow.shadowRadius = tokens.shadow2Blur
-        ambientShadow.shadowOffset = CGSize(width: tokens.shadow2OffsetX, height: tokens.shadow2OffsetY)
+        ambientShadow.shadowColor = tokens.ambientShadowColor.cgColor
+        ambientShadow.shadowRadius = tokens.ambientShadowBlur
+        ambientShadow.shadowOffset = CGSize(width: tokens.ambientShadowOffsetX, height: tokens.ambientShadowOffsetY)
         ambientShadow.shadowOpacity = 1.0
 
         separator.isHidden = !tokens.style.needsSeparator
