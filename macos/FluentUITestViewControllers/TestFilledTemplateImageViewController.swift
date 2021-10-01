@@ -10,11 +10,11 @@ class TestFilledTemplateImageViewController: NSViewController, NSMenuDelegate {
 	override init(nibName nibNameOrNil: NSNib.Name?, bundle nibBundleOrNil: Bundle?) {
 		let tag = NSImage(named: tag)
 		let tagFillMask = NSImage(named: tagMask)
-		tagView = FilledTemplateImageView(image: tag!, fillMask: tagFillMask!, borderColor: .black, fillColor: .systemBlue)
+		tagView = FilledTemplateImageView(image: tag!, fillMask: tagFillMask!, contentTintColor: .black, fillColor: .systemBlue)
 		tagView.translatesAutoresizingMaskIntoConstraints = false
 		let tagLock = NSImage(named: tagLock)
 		let tagLockFillMask = NSImage(named: tagLockMask)
-		tagLockView = FilledTemplateImageView(image: tagLock!, fillMask: tagLockFillMask!, borderColor: .black, fillColor: .systemBlue)
+		tagLockView = FilledTemplateImageView(image: tagLock!, fillMask: tagLockFillMask!, contentTintColor: .black, fillColor: .systemBlue)
 		tagLockView.translatesAutoresizingMaskIntoConstraints = false
 		NSLayoutConstraint.activate([
 			tagView.heightAnchor.constraint(equalToConstant: imageSize),
@@ -71,8 +71,8 @@ class TestFilledTemplateImageViewController: NSViewController, NSMenuDelegate {
 	}
 	@objc func borderColorChanged() {
 		let color = borderColors[borderColorsPopup.titleOfSelectedItem!]!
-		tagView.borderColor = color
-		tagLockView.borderColor = color
+		tagView.contentTintColor = color
+		tagLockView.contentTintColor = color
 	}
 
 	let borderColorsPopup = NSPopUpButton(frame: .zero, pullsDown: false)
@@ -90,8 +90,8 @@ class TestFilledTemplateImageViewController: NSViewController, NSMenuDelegate {
 		"Clear": .clear,
 		"Green": .systemGreen,
 		"Orange": .systemOrange,
-		"Pink": .systemPink,
-		"Red": .systemRed
+		"Red": .systemRed,
+		"Yellow": .systemYellow
 	]
 	fileprivate let borderColors: [String: NSColor] = [
 		"Black": .black,

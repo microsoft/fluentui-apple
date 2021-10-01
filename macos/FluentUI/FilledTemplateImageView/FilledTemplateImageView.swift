@@ -5,9 +5,9 @@
 
 import AppKit
 
-/// Custom view for displaying a templated style image that can be filled with a specified color. This takes in an image with a corresponding
-/// overlay mask that is used for drawing the fill. Therefore, the image and its corresponding fillMask need to line up appropriately such that
-/// when the image is drawn over it's mask, its outline will perfectly overlap the edges of the mask to achieve the desired fill effect.
+/// Custom view for displaying a template style image that can be filled with a specified color. This takes in an image with a corresponding
+/// overlay mask that is used for drawing the fill. The image and its corresponding fillMask need to line up appropriately so that when
+/// the image is drawn over it's mask, its outline will perfectly overlap the edges of the mask to achieve the desired fill effect.
 @objc(MSFFilledTemplateImageView)
 open class FilledTemplateImageView: NSImageView {
 
@@ -15,21 +15,20 @@ open class FilledTemplateImageView: NSImageView {
 	/// - Parameters:
 	///   - image: the template style image or icon to be drawn
 	///   - fillMask: the  mask image used to draw the fill color
-	///   - borderColor: the color to use for the main image outline
+	///   - contentTintColor: the color to use for the main image outline
 	///   - fillColor: the color to use for the image fill
-	@objc(initWithImage:fillMask:borderColor:FillColor:)
+	@objc(initWithImage:fillMask:contentTintColor:FillColor:)
 	public init(
 		image: NSImage,
 		fillMask: NSImage,
-		borderColor: NSColor,
+		contentTintColor: NSColor,
 		fillColor: NSColor
 	) {
 		self.fillMask = fillMask
-		self.borderColor = borderColor
 		self.fillColor = fillColor
 		super.init(frame: .zero)
 		self.image = image
-		self.contentTintColor = borderColor
+		self.contentTintColor = contentTintColor
 	}
 
 	@available(*, unavailable) required public init?(coder: NSCoder) {
@@ -43,16 +42,6 @@ open class FilledTemplateImageView: NSImageView {
 	@objc public var fillMask: NSImage {
 		didSet {
 			guard oldValue != fillMask else {
-				return
-			}
-			needsDisplay = true
-		}
-	}
-
-	/// The color used to draw the border of the templated image.
-	@objc public var borderColor: NSColor {
-		didSet {
-			guard oldValue != borderColor else {
 				return
 			}
 			needsDisplay = true
@@ -85,7 +74,7 @@ open class FilledTemplateImageView: NSImageView {
 		if let localContext = NSGraphicsContext.current?.cgContext {
 			localContext.beginTransparencyLayer(in: bounds, auxiliaryInfo: nil)
 			image.draw(in: bounds, from: .zero, operation: .sourceOver, fraction: 1.0, respectFlipped: true, hints: nil)
-			isFillMask ? fillColor.setFill() : borderColor.setFill()
+			isFillMask ? fillColor.setFill() : contentTintColor!.setFill()
 			bounds.fill(using: .sourceAtop)
 			localContext.endTransparencyLayer()
 		}
