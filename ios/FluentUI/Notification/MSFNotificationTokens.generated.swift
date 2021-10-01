@@ -120,12 +120,12 @@ extension FluentUIStyle {
 
 		// MARK: - horizontalPadding 
 		open var horizontalPadding: CGFloat {
-			return mainProxy().Spacing.medium
+			return CGFloat(19.0)
 		}
 
 		// MARK: - horizontalSpacing 
 		open var horizontalSpacing: CGFloat {
-			return mainProxy().Spacing.medium
+			return CGFloat(19.0)
 		}
 
 		// MARK: - minimumHeight 
@@ -160,17 +160,17 @@ extension FluentUIStyle {
 
 		// MARK: - presentationOffSet 
 		open var presentationOffSet: CGFloat {
-			return mainProxy().Spacing.small
+			return mainProxy().Spacing.medium
 		}
 
 		// MARK: - verticalPadding 
 		open var verticalPadding: CGFloat {
-			return mainProxy().Spacing.small
+			return CGFloat(14.0)
 		}
 
 		// MARK: - verticalPaddingForOneLine 
 		open var verticalPaddingForOneLine: CGFloat {
-			return mainProxy().Spacing.medium
+			return CGFloat(18.0)
 		}
 	}
 	// MARK: - MSFPrimaryBarNotificationTokens

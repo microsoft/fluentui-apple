@@ -408,11 +408,11 @@ AP_MSFNotificationTokens:
   backgroundColor: $Colors.Brand.tint40
   foregroundColor: "FluentUIColor(light: $Colors.Brand.shade10, dark: $Colors.Brand.shade30)"
   cornerRadius: $Border.radius.xLarge
-  presentationOffSet: $Spacing.small
-  horizontalPadding: $Spacing.medium
-  verticalPadding: $Spacing.small
-  verticalPaddingForOneLine: $Spacing.medium
-  horizontalSpacing: $Spacing.medium
+  presentationOffSet: $Spacing.medium
+  horizontalPadding: 19pt
+  verticalPadding: 14pt
+  verticalPaddingForOneLine: 18pt
+  horizontalSpacing: 19pt
   minimumHeight: 64.0
   minimumHeightForOneLine: 56.0
   ambientShadowColor: $Shadow.shadow16.color1
