@@ -21,6 +21,8 @@ class DemoListViewController: UITableViewController {
         let demoListViewController = DemoListViewController(nibName: nil, bundle: nil)
 
         let navigationController = UINavigationController(rootViewController: demoListViewController)
+        navigationController.navigationBar.isTranslucent = true
+
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
     }
