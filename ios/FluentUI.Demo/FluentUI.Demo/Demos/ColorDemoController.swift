@@ -123,16 +123,18 @@ class ColorDemoController: UIViewController {
             segmentedControl.selectedSegmentIndex = 0
         }
 
+        // Only use safe area for top and bottom, not left and right, to ensure that the scroll view extends edge to edge
+        // when in landscape mode
         NSLayoutConstraint.activate([
-            stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             stackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
-        
+
         NotificationCenter.default.addObserver(self, selector: #selector(didChangeTheme), name: Notification.Name.didChangeTheme, object: nil)
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         navigationController?.navigationBar.shadowImage = UIImage()
@@ -156,7 +158,7 @@ class ColorDemoController: UIViewController {
             }
         }
     }
-    
+
     @objc private func didChangeTheme() {
         // The controls in this controller are not fully theme-aware yet, so
         // we need to manually poke them and have them refresh their colors.
@@ -216,7 +218,7 @@ class DemoColorView: UIView {
         super.init(frame: .zero)
         backgroundColor = color
     }
-    
+
     init(text: String, colorProvider: @escaping (UIWindow) -> (UIColor)) {
         self.text = text
         super.init(frame: .zero)
@@ -236,7 +238,7 @@ class DemoColorView: UIView {
         super.didMoveToWindow()
         updateBackgroundColor()
     }
-    
+
     func updateBackgroundColor() {
         if let colorProvider = colorProvider,
             let window = window {
