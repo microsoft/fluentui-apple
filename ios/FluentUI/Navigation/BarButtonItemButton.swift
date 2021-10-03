@@ -151,12 +151,13 @@ class BarButtonItemButton: UIButton {
             let maskLayer = CAShapeLayer()
             maskLayer.fillRule = .evenOdd
 
-            let path = UIBezierPath(rect: CGRect(x: 0, y: 0, width: bounds.size.width, height: bounds.size.height))
+            var path: UIBezierPath
             let badgeVerticalOffset = isInPortraitMode ? Constants.badgePortraitTitleVerticalOffset : Constants.badgeVerticalOffset
             let badgeVerticalPosition = bounds.origin.y + (bounds.size.height - intrinsicContentSize.height) / 2 - Constants.badgeHeight / 2 - badgeVerticalOffset
 
             if badgeView.text?.count ?? 1 > 1 {
                 let badgeWidth = min(max(badgeView.intrinsicContentSize.width + Constants.badgeHorizontalPadding, Constants.badgeMinWidth), Constants.badgeMaxWidth)
+                path = UIBezierPath(rect: CGRect(x: 0, y: 0, width: bounds.size.width + badgeWidth / 2, height: bounds.size.height))
                 badgeView.frame = CGRect(x: badgeFrameOriginX(for: badgeWidth),
                                          y: badgeVerticalPosition,
                                          width: badgeWidth,
@@ -171,6 +172,10 @@ class BarButtonItemButton: UIButton {
                                          byRoundingCorners: .allCorners,
                                          cornerRadii: CGSize(width: Constants.badgeCornerRadii, height: Constants.badgeCornerRadii)))
 
+                path.append(UIBezierPath(roundedRect: badgeView.frame,
+                                         byRoundingCorners: .allCorners,
+                                         cornerRadii: CGSize(width: Constants.badgeCornerRadii, height: Constants.badgeCornerRadii)))
+
                 badgeView.layer.mask = layer
                 badgeView.layer.cornerRadius = 0
             } else {
@@ -180,7 +185,9 @@ class BarButtonItemButton: UIButton {
                                          width: badgeWidth,
                                          height: Constants.badgeHeight)
 
+                path = UIBezierPath(rect: CGRect(x: 0, y: 0, width: bounds.size.width + badgeWidth / 2, height: bounds.size.height))
                 path.append(UIBezierPath(ovalIn: badgeBorderRect(badgeViewFrame: badgeView.frame)))
+                path.append(UIBezierPath(ovalIn: badgeView.frame))
 
                 badgeView.layer.mask = nil
                 badgeView.layer.cornerRadius = badgeWidth / 2
