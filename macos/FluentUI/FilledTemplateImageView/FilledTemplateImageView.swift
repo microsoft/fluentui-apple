@@ -22,7 +22,7 @@ open class FilledTemplateImageView: NSImageView {
 		image: NSImage,
 		fillMask: NSImage,
 		contentTintColor: NSColor,
-		fillColor: NSColor
+		fillColor: NSColor?
 	) {
 		self.fillMask = fillMask
 		self.fillColor = fillColor
@@ -65,18 +65,17 @@ open class FilledTemplateImageView: NSImageView {
 		// Don't use a fillMask if the color is nil or clear
 		if let fillColor = fillColor {
 			if fillColor != .clear {
-				draw(image: fillMask, withColor: fillColor)
+				draw(image: fillMask, with: fillColor)
 			}
 		}
-		if let contentTintColor = contentTintColor {
-			if let image = image {
-				draw(image: image, withColor: contentTintColor)
-			}
+		if let contentTintColor = contentTintColor,
+		   let image = image {
+			draw(image: image, with: contentTintColor)
 		}
 	}
 
 	/// Helper to draw the opaque pixels of the image into a transparency layer.
-	private func draw(image: NSImage, withColor color: NSColor) {
+	private func draw(image: NSImage, with color: NSColor) {
 		if let localContext = NSGraphicsContext.current?.cgContext {
 			localContext.beginTransparencyLayer(in: bounds, auxiliaryInfo: nil)
 			image.draw(in: bounds, from: .zero, operation: .sourceOver, fraction: 1.0, respectFlipped: true, hints: nil)
