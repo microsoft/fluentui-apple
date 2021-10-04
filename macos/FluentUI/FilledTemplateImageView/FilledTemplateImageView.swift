@@ -17,9 +17,9 @@ open class FilledTemplateImageView: NSImageView {
 	///   - fillMask: the mask image used to draw the fill color.
 	///   - contentTintColor: the color to use for the main image outline.
 	///   - fillColor: the color to use for the image fill. When set to nil or clear, the fill won't be drawn.
-	@objc(initWithImage:fillMask:contentTintColor:FillColor:)
+	@objc(initWithImage:fillMask:contentTintColor:fillColor:)
 	public init(
-		image: NSImage,
+		with image: NSImage,
 		fillMask: NSImage,
 		contentTintColor: NSColor,
 		fillColor: NSColor?
@@ -63,25 +63,25 @@ open class FilledTemplateImageView: NSImageView {
 
 		// Draw the image using the specified fill and border color
 		// Don't use a fillMask if the color is nil or clear
-		if let fillColor = fillColor {
-			if fillColor != .clear {
-				draw(image: fillMask, with: fillColor)
+		if let localContext = NSGraphicsContext.current?.cgContext {
+			if let fillColor = fillColor {
+				if fillColor != .clear {
+					draw(image: fillMask, with: fillColor, with: localContext)
+				}
 			}
-		}
-		if let contentTintColor = contentTintColor,
-		   let image = image {
-			draw(image: image, with: contentTintColor)
+			if let contentTintColor = contentTintColor,
+			   let image = image {
+				draw(image: image, with: contentTintColor, with: localContext)
+			}
 		}
 	}
 
 	/// Helper to draw the opaque pixels of the image into a transparency layer.
-	private func draw(image: NSImage, with color: NSColor) {
-		if let localContext = NSGraphicsContext.current?.cgContext {
-			localContext.beginTransparencyLayer(in: bounds, auxiliaryInfo: nil)
-			image.draw(in: bounds, from: .zero, operation: .sourceOver, fraction: 1.0, respectFlipped: true, hints: nil)
-			color.setFill()
-			bounds.fill(using: .sourceAtop)
-			localContext.endTransparencyLayer()
-		}
+	private func draw(image: NSImage, with color: NSColor, with context: CGContext) {
+		context.beginTransparencyLayer(in: bounds, auxiliaryInfo: nil)
+		image.draw(in: bounds, from: .zero, operation: .sourceOver, fraction: 1.0, respectFlipped: true, hints: nil)
+		color.setFill()
+		bounds.fill(using: .sourceAtop)
+		context.endTransparencyLayer()
 	}
 }

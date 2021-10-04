@@ -10,11 +10,11 @@ class TestFilledTemplateImageViewController: NSViewController, NSMenuDelegate {
 	override init(nibName nibNameOrNil: NSNib.Name?, bundle nibBundleOrNil: Bundle?) {
 		let tag = NSImage(named: tag)
 		let tagFillMask = NSImage(named: tagMask)
-		tagView = FilledTemplateImageView(image: tag!, fillMask: tagFillMask!, contentTintColor: .black, fillColor: .systemBlue)
+		tagView = FilledTemplateImageView(with: tag!, fillMask: tagFillMask!, contentTintColor: .black, fillColor: .systemBlue)
 		tagView.translatesAutoresizingMaskIntoConstraints = false
 		let tagLock = NSImage(named: tagLock)
 		let tagLockFillMask = NSImage(named: tagLockMask)
-		tagLockView = FilledTemplateImageView(image: tagLock!, fillMask: tagLockFillMask!, contentTintColor: .black, fillColor: .systemBlue)
+		tagLockView = FilledTemplateImageView(with: tagLock!, fillMask: tagLockFillMask!, contentTintColor: .black, fillColor: .systemBlue)
 		tagLockView.translatesAutoresizingMaskIntoConstraints = false
 		NSLayoutConstraint.activate([
 			tagView.heightAnchor.constraint(equalToConstant: imageSize),
