@@ -17,7 +17,8 @@ open class FilledTemplateImageView: NSImageView {
 	///   - fillMask: the mask image used to draw the fill color.
 	///   - contentTintColor: the color to use for the main image outline.
 	///   - fillColor: the color to use for the image fill. When set to nil or clear, the fill won't be drawn.
-	@objc public init(
+	@objc(initWithImage:fillMask:contentTintColor:fillColor:)
+	public init(
 		with image: NSImage,
 		fillMask: NSImage,
 		contentTintColor: NSColor,
