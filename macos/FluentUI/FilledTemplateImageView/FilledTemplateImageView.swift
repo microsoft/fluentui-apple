@@ -11,12 +11,12 @@ import AppKit
 @objc(MSFFilledTemplateImageView)
 open class FilledTemplateImageView: NSImageView {
 
-	/// Creates a custom template style image view with a fill
+	/// Creates a custom template style image view with a fill.
 	/// - Parameters:
-	///   - image: the template style image or icon to be drawn
-	///   - fillMask: the mask image used to draw the fill color
-	///   - contentTintColor: the color to use for the main image outline
-	///   - fillColor: the color to use for the image fill. When set to nil or clear, the fill won't be drawn
+	///   - image: the template style image or icon to be drawn.
+	///   - fillMask: the mask image used to draw the fill color.
+	///   - contentTintColor: the color to use for the main image outline.
+	///   - fillColor: the color to use for the image fill. When set to nil or clear, the fill won't be drawn.
 	@objc(initWithImage:fillMask:contentTintColor:FillColor:)
 	public init(
 		image: NSImage,
@@ -48,7 +48,7 @@ open class FilledTemplateImageView: NSImageView {
 		}
 	}
 
-	/// The color used to draw the fill of the fillMask image,.
+	/// The color used to draw the fill of the fillMask image. When set to nil (or .clear), the fill won't be drawn.
 	@objc public var fillColor: NSColor? {
 		didSet {
 			guard oldValue != fillColor else {
@@ -58,7 +58,7 @@ open class FilledTemplateImageView: NSImageView {
 		}
 	}
 
-	/// Public override used to draw the icon with the right border and fill
+	/// Public override used to draw the icon with the right border and fill.
 	public override func draw(_ dirtyRect: NSRect) {
 
 		// Draw the image using the specified fill and border color
@@ -75,7 +75,7 @@ open class FilledTemplateImageView: NSImageView {
 		}
 	}
 
-	/// Helper to draw the opaque pixels of the image into a transparency layer
+	/// Helper to draw the opaque pixels of the image into a transparency layer.
 	private func draw(image: NSImage, withColor color: NSColor) {
 		if let localContext = NSGraphicsContext.current?.cgContext {
 			localContext.beginTransparencyLayer(in: bounds, auxiliaryInfo: nil)
