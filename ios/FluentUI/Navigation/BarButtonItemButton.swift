@@ -14,8 +14,6 @@ class BarButtonItemButton: UIButton {
         self.isLeftItem = isLeftItem
         super.init(frame: .zero)
 
-        addSubview(badgeView)
-
         isAccessibilityElement = true
         updateAccessibilityLabel()
 
@@ -85,6 +83,17 @@ class BarButtonItemButton: UIButton {
 
     private func updateLayout() {
         updateButton()
+
+        if item.title == nil {
+            titleLabel?.addSubview(badgeView)
+            titleLabel?.isUserInteractionEnabled = true
+            titleLabel?.isHidden = false
+        } else {
+            imageView?.addSubview(badgeView)
+            imageView?.isUserInteractionEnabled = true
+            imageView?.isHidden = false
+        }
+
         updateBadgeView()
     }
 
