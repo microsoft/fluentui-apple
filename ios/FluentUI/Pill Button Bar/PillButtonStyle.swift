@@ -141,4 +141,15 @@ public extension PillButton {
             return UIColor(light: Colors.primaryTint10(for: window), dark: Colors.textDominant)
         }
     }
+    
+    // MARK: unread dot state
+    
+    static func unreadDotColor(for window: UIWindow, for style: PillButtonStyle) -> UIColor {
+        switch style {
+        case .primary:
+            return UIColor(light: Colors.primary(for: window), dark: Colors.gray100)
+        case .onBrand:
+            return Colors.SegmentedControl.OnBrandPill.segmentText
+        }
+    }
 }

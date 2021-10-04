@@ -20,10 +20,23 @@ public protocol PillButtonBarDelegate {
 open class PillButtonBarItem: NSObject {
     @objc public let title: String
 
-    @objc public init(title: String) {
+    @objc public init(title: String, isUnread: Bool = false) {
         self.title = title
+        self.isUnread = isUnread
         super.init()
     }
+    
+    /// This value will determine whether or not to show dot next to the pill button label
+    public var isUnread: Bool {
+       didSet {
+           if oldValue != isUnread {
+               NotificationCenter.default.post(name: PillButtonBarItem.isUnreadValueDidChangeNotification, object: self)
+           }
+       }
+   }
+
+    /// Notification sent when item's `isUnread` value changes.
+    static let isUnreadValueDidChangeNotification = NSNotification.Name(rawValue: "PillButtonBarItemisUnreadValueDidChangeNotification")
 }
 
 // MARK: PillButtonBar

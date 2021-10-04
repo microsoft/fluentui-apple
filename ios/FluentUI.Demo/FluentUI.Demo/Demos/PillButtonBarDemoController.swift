@@ -13,7 +13,7 @@ class PillButtonBarDemoController: DemoController {
         container.layoutMargins.left = 0
         var items: [PillButtonBarItem] = [PillButtonBarItem(title: "All"),
                                           PillButtonBarItem(title: "Documents"),
-                                          PillButtonBarItem(title: "People"),
+                                          PillButtonBarItem(title: "People", isUnread: true),
                                           PillButtonBarItem(title: "Other"),
                                           PillButtonBarItem(title: "Templates"),
                                           PillButtonBarItem(title: "Actions"),

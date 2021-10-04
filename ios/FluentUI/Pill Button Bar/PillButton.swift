@@ -50,6 +50,8 @@ open class PillButton: UIButton {
         super.init(frame: .zero)
         setupView()
     }
+    
+    var unreadDotColor: UIColor = Colors.gray100
 
     @objc public static let cornerRadius: CGFloat = 16.0
 
@@ -70,6 +72,7 @@ open class PillButton: UIButton {
 
     public override var isEnabled: Bool {
         didSet {
+            updateUnreadDot()
             updateAppearance()
             updateAccessibilityTraits()
         }
@@ -78,6 +81,50 @@ open class PillButton: UIButton {
     public override var isHighlighted: Bool {
         didSet {
             updateAppearance()
+        }
+    }
+    
+    public override func layoutSubviews() {
+        super.layoutSubviews()
+        updateUnreadDot()
+    }
+    
+    var isUnreadDotVisible: Bool = false {
+        didSet {
+            if oldValue != isUnreadDotVisible {
+                if isUnreadDotVisible {
+                    self.layer.addSublayer(unreadDotLayer)
+                } else {
+                    unreadDotLayer.removeFromSuperlayer()
+                }
+            }
+        }
+    }
+    
+    private let unreadDotLayer: CALayer = {
+        let unreadDotLayer = CALayer()
+        unreadDotLayer.bounds.size = CGSize(width: Constants.unreadDotSize, height: Constants.unreadDotSize)
+        unreadDotLayer.cornerRadius = Constants.unreadDotSize / 2
+        return unreadDotLayer
+    }()
+
+    @objc private func isUnreadValueDidChange() {
+        isUnreadDotVisible = pillBarItem.isUnread
+        setNeedsLayout()
+    }
+
+    private func updateUnreadDot() {
+        isUnreadDotVisible = pillBarItem.isUnread
+        if isUnreadDotVisible {
+            let anchor = self.titleLabel?.frame ?? .zero
+            let xPos: CGFloat
+            if effectiveUserInterfaceLayoutDirection == .leftToRight {
+                xPos = anchor.maxX + Constants.unreadDotOffset.x
+            } else {
+                xPos = anchor.minX - Constants.unreadDotOffset.x - Constants.unreadDotSize
+            }
+            unreadDotLayer.frame.origin = CGPoint(x: xPos, y: anchor.minY + Constants.unreadDotOffset.y)
+            unreadDotLayer.backgroundColor = unreadDotColor.cgColor
         }
     }
 
@@ -123,7 +170,7 @@ open class PillButton: UIButton {
                             ? PillButton.selectedHighlightedBackgroundColor(for: window, for: style)
                             : PillButton.selectedBackgroundColor(for: window, for: style)
                     }
-
+                    
                     setTitleColor(customSelectedTextColor ?? PillButton.selectedTitleColor(for: window, for: style), for: .normal)
                     setTitleColor(customSelectedTextColor ?? PillButton.selectedHighlightedTitleColor(for: window, for: style), for: .highlighted)
                 } else {
@@ -156,5 +203,7 @@ open class PillButton: UIButton {
         static let font = UIFont.systemFont(ofSize: 16, weight: .regular)
         static let horizontalInset: CGFloat = 16.0
         static let topInset: CGFloat = 6.0
+        static let unreadDotOffset = CGPoint(x: 6, y: 3)
+        static let unreadDotSize: CGFloat = 6
     }
 }
