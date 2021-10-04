@@ -1,7 +1,7 @@
 # FilledTemplateImageView
 
 ## Overview
-`FilledTemplateImageView` is an image view used for displaying templated style images/icons and filling them with a specified color. This is accomplished by taking in two images of identical size, one that represents the outline (the main templated style "image") and a corresponding overlay "fillMask" that is used for drawing the fill. After the image is created the first time, the image set and the "fillColor" and "borderColor" can be updated via properties to provide dymamic updating. The fill can also be set to "NSColor.clear" to prevent it from being filled using the fillMask.
+`FilledTemplateImageView` is an image view used for displaying templated style images/icons and filling them with a specified color. This is accomplished by taking in two images of identical size, one that represents the outline (the main templated style "image") and a corresponding overlay "fillMask" that is used for drawing the fill. After the image is created the first time, the image set and the "fillColor" and "borderColor" can be updated via properties to provide dymamic updating. The fill can also be set to nil to prevent it from being filled using the fillMask.
 
 ![FilledTemplate-redFill-whiteBorder.png](.attachments/FilledTemplate-redFill-whiteBorder.png)
 

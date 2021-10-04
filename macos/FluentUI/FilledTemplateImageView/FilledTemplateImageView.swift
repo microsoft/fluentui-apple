@@ -7,16 +7,16 @@ import AppKit
 
 /// Custom view for displaying a template style image that can be filled with a specified color. This takes in an image with a corresponding
 /// overlay mask that is used for drawing the fill. The image and its corresponding fillMask need to line up appropriately so that when
-/// the image is drawn over it's mask, its outline will perfectly overlap the edges of the mask to achieve the desired fill effect.
+/// the image is drawn over its mask, its outline will perfectly overlap the edges of the mask to achieve the desired fill effect.
 @objc(MSFFilledTemplateImageView)
 open class FilledTemplateImageView: NSImageView {
 
 	/// Creates a custom template style image view with a fill
 	/// - Parameters:
 	///   - image: the template style image or icon to be drawn
-	///   - fillMask: the  mask image used to draw the fill color
+	///   - fillMask: the mask image used to draw the fill color
 	///   - contentTintColor: the color to use for the main image outline
-	///   - fillColor: the color to use for the image fill
+	///   - fillColor: the color to use for the image fill. When set to nil or clear, the fill won't be drawn
 	@objc(initWithImage:fillMask:contentTintColor:FillColor:)
 	public init(
 		image: NSImage,
@@ -49,7 +49,7 @@ open class FilledTemplateImageView: NSImageView {
 	}
 
 	/// The color used to draw the fill of the fillMask image,.
-	@objc public var fillColor: NSColor {
+	@objc public var fillColor: NSColor? {
 		didSet {
 			guard oldValue != fillColor else {
 				return
@@ -62,19 +62,25 @@ open class FilledTemplateImageView: NSImageView {
 	public override func draw(_ dirtyRect: NSRect) {
 
 		// Draw the image using the specified fill and border color
-		// Don't use a fillMask if it's set to clear
-		if fillColor != NSColor.clear {
-			draw(image: fillMask, isFillMask: true)
+		// Don't use a fillMask if the color is nil or clear
+		if let fillColor = fillColor {
+			if fillColor != .clear {
+				draw(image: fillMask, withColor: fillColor)
+			}
 		}
-		draw(image: image!, isFillMask: false)
+		if let contentTintColor = contentTintColor {
+			if let image = image {
+				draw(image: image, withColor: contentTintColor)
+			}
+		}
 	}
 
 	/// Helper to draw the opaque pixels of the image into a transparency layer
-	private func draw(image: NSImage, isFillMask: Bool) {
+	private func draw(image: NSImage, withColor color: NSColor) {
 		if let localContext = NSGraphicsContext.current?.cgContext {
 			localContext.beginTransparencyLayer(in: bounds, auxiliaryInfo: nil)
 			image.draw(in: bounds, from: .zero, operation: .sourceOver, fraction: 1.0, respectFlipped: true, hints: nil)
-			isFillMask ? fillColor.setFill() : contentTintColor!.setFill()
+			color.setFill()
 			bounds.fill(using: .sourceAtop)
 			localContext.endTransparencyLayer()
 		}
