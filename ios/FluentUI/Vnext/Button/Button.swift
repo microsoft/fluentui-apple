@@ -221,7 +221,8 @@ struct FluentButtonBody: View {
         @ViewBuilder
         var button: some View {
             if isFloatingStyle {
-                buttonBackground.clipShape(Capsule())
+                buttonBackground
+                    .clipShape(Capsule())
                     .shadow(color: shadow1Color,
                            radius: shadow1Blur,
                                 x: shadow1DepthX,
@@ -230,8 +231,10 @@ struct FluentButtonBody: View {
                             radius: shadow2Blur,
                                 x: shadow2DepthX,
                                 y: shadow2DepthY)
+                    .contentShape(Capsule())
             } else {
                 buttonBackground
+                    .contentShape(RoundedRectangle(cornerRadius: tokens.borderRadius))
             }
         }
 
