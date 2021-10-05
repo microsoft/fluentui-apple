@@ -5,10 +5,10 @@
 
 import UIKit
 
-class TabBarItemView: UIView {
+class TabBarItemView: UIControl {
     let item: TabBarItem
 
-    var isSelected: Bool = false {
+    override var isSelected: Bool {
         didSet {
             titleLabel.isHighlighted = isSelected
             imageView.isHighlighted = isSelected
