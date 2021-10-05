@@ -148,9 +148,12 @@ class BarButtonItemButton: UIButton {
 
     private func updateBadgeView() {
         badgeView.text = badgeValue
-        badgeView.isHidden = badgeValue == nil
+        let isNilBadgeValue = badgeValue == nil
+        badgeView.isHidden = isNilBadgeValue
 
-        if badgeValue != nil {
+        if isNilBadgeValue {
+            layer.mask = nil
+        } else {
             let maskLayer = CAShapeLayer()
             maskLayer.fillRule = .evenOdd
 
@@ -191,8 +194,6 @@ class BarButtonItemButton: UIButton {
 
             maskLayer.path = path.cgPath
             layer.mask = maskLayer
-        } else {
-            layer.mask = nil
         }
     }
 
