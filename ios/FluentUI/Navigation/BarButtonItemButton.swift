@@ -183,7 +183,7 @@ class BarButtonItemButton: UIButton {
                 let frameForBezierPath = badgeFrame(for: badgeWidth, isTitleLabelPresent: false)
                 path = UIBezierPath(rect: CGRect(x: 0, y: 0, width: bounds.size.width + badgeWidth / 2, height: bounds.size.height))
                 path.append(UIBezierPath(ovalIn: borderRect(for: frameForBezierPath)))
-                path.append(UIBezierPath(ovalIn: badgeView.frame))
+                path.append(UIBezierPath(ovalIn: frameForBezierPath))
 
                 badgeView.layer.mask = nil
                 badgeView.layer.cornerRadius = badgeWidth / 2
