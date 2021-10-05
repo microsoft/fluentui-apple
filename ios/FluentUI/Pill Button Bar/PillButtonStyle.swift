@@ -144,12 +144,22 @@ public extension PillButton {
     
     // MARK: unread dot state
     
-    static func unreadDotColor(for window: UIWindow, for style: PillButtonStyle) -> UIColor {
+    static func enabledUnreadDotColor(for window: UIWindow, for style: PillButtonStyle) -> UIColor {
+        let defaultColor = UIColor(light: Colors.surfaceTertiary, dark: Colors.surfaceSecondary)
         switch style {
         case .primary:
-            return UIColor(light: Colors.primary(for: window), dark: Colors.gray100)
+            return defaultColor // disappeared - dot same color as button/background?
         case .onBrand:
-            return Colors.SegmentedControl.OnBrandPill.segmentText
+            return UIColor(light: Colors.primaryShade10(for: window), dark: defaultColor) // correct
+        }
+    }
+    // ✨ Brand/Comm Blue/Light/App Primary #0078D4
+    static func disabledUnreadDotColor(for window: UIWindow, for style: PillButtonStyle) -> UIColor {
+        switch style {
+        case .primary:
+            return UIColor(light: Colors.primary(for: window), dark: Colors.gray100) // correct
+        case .onBrand:
+            return Colors.SegmentedControl.OnBrandPill.segmentText // disappeared - same color as button/background
         }
     }
 }

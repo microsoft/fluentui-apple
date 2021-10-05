@@ -202,6 +202,12 @@ open class PillButton: UIButton {
                 } else {
                     setTitleColor(PillButton.disabledTitleColor(for: window, for: style), for: .disabled)
                 }
+
+                if isEnabled {
+                    unreadDotColor = PillButton.enabledUnreadDotColor(for: window, for: style)
+                } else {
+                    unreadDotColor = PillButton.disabledUnreadDotColor(for: window, for: style)
+                }
             }
         }
     }
