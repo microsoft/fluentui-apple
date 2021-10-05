@@ -49,7 +49,7 @@ class BarButtonItemButton: UIButton {
         static let badgePortraitTitleVerticalOffset: CGFloat = -2
         static let badgeHeight: CGFloat = 16
         static let badgeMinWidth: CGFloat = 16
-        static let badgeMaxWidth: CGFloat = 30
+        static let badgeMaxWidth: CGFloat = 32
         static let badgeBorderWidth: CGFloat = 2
         static let badgeFontSize: CGFloat = 11
         static let badgeHorizontalPadding: CGFloat = 10
