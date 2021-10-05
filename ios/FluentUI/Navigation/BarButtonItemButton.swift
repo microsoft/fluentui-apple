@@ -84,15 +84,9 @@ class BarButtonItemButton: UIButton {
     private func updateLayout() {
         updateButton()
 
-        if item.title == nil {
-            titleLabel?.addSubview(badgeView)
-            titleLabel?.isUserInteractionEnabled = true
-            titleLabel?.isHidden = false
-        } else {
-            imageView?.addSubview(badgeView)
-            imageView?.isUserInteractionEnabled = true
-            imageView?.isHidden = false
-        }
+        titleLabel?.addSubview(badgeView)
+        titleLabel?.isUserInteractionEnabled = true
+        titleLabel?.isHidden = false
 
         updateBadgeView()
     }
