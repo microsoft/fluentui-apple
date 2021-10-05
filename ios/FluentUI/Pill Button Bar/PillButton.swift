@@ -49,6 +49,11 @@ open class PillButton: UIButton {
         self.style = style
         super.init(frame: .zero)
         setupView()
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(isUnreadValueDidChange),
+                                               name: PillButtonBarItem.isUnreadValueDidChangeNotification,
+                                               object: pillBarItem)
     }
     
     var unreadDotColor: UIColor = Colors.gray100
@@ -65,6 +70,10 @@ open class PillButton: UIButton {
 
     public override var isSelected: Bool {
         didSet {
+            if oldValue != isSelected && isSelected == true {
+                pillBarItem.isUnread = false
+                updateUnreadDot()
+            }
             updateAppearance()
             updateAccessibilityTraits()
         }
@@ -72,7 +81,6 @@ open class PillButton: UIButton {
 
     public override var isEnabled: Bool {
         didSet {
-            updateUnreadDot()
             updateAppearance()
             updateAccessibilityTraits()
         }

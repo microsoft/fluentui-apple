@@ -483,6 +483,7 @@ open class PillButtonBar: UIScrollView {
     @objc private func selectButton(_ button: PillButton) {
         selectedButton = button
         scrollButtonToVisible(button)
+        // updateButton here?
         if let index = buttons.firstIndex(of: button) {
             barDelegate?.pillBar?(self, didSelectItem: button.pillBarItem, atIndex: index)
         }
