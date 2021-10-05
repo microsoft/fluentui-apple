@@ -155,41 +155,34 @@ class BarButtonItemButton: UIButton {
             maskLayer.fillRule = .evenOdd
 
             var path: UIBezierPath
-            let badgeVerticalOffset = isInPortraitMode ? Constants.badgePortraitTitleVerticalOffset : Constants.badgeVerticalOffset
-            let badgeVerticalPosition = bounds.origin.y + (bounds.size.height - intrinsicContentSize.height) / 2 - Constants.badgeHeight / 2 - badgeVerticalOffset
 
             if badgeView.text?.count ?? 1 > 1 {
                 let badgeWidth = min(max(badgeView.intrinsicContentSize.width + Constants.badgeHorizontalPadding, Constants.badgeMinWidth), Constants.badgeMaxWidth)
+                badgeView.frame = badgeFrame(for: badgeWidth, isTitleLabelPresent: item.title != nil)
+
+                let frameForBezierPath = badgeFrame(for: badgeWidth, isTitleLabelPresent: false)
                 path = UIBezierPath(rect: CGRect(x: 0, y: 0, width: bounds.size.width + badgeWidth / 2, height: bounds.size.height))
-                badgeView.frame = CGRect(x: badgeFrameOriginX(for: badgeWidth),
-                                         y: badgeVerticalPosition,
-                                         width: badgeWidth,
-                                         height: Constants.badgeHeight)
+                path.append(UIBezierPath(roundedRect: borderRect(for: frameForBezierPath),
+                                         byRoundingCorners: .allCorners,
+                                         cornerRadii: CGSize(width: Constants.badgeCornerRadii, height: Constants.badgeCornerRadii)))
+
+                path.append(UIBezierPath(roundedRect: frameForBezierPath,
+                                         byRoundingCorners: .allCorners,
+                                         cornerRadii: CGSize(width: Constants.badgeCornerRadii, height: Constants.badgeCornerRadii)))
 
                 let layer = CAShapeLayer()
                 layer.path = UIBezierPath(roundedRect: badgeView.bounds,
                                           byRoundingCorners: .allCorners,
                                           cornerRadii: CGSize(width: Constants.badgeCornerRadii, height: Constants.badgeCornerRadii)).cgPath
-
-                path.append(UIBezierPath(roundedRect: badgeBorderRect(badgeViewFrame: badgeView.frame),
-                                         byRoundingCorners: .allCorners,
-                                         cornerRadii: CGSize(width: Constants.badgeCornerRadii, height: Constants.badgeCornerRadii)))
-
-                path.append(UIBezierPath(roundedRect: badgeView.frame,
-                                         byRoundingCorners: .allCorners,
-                                         cornerRadii: CGSize(width: Constants.badgeCornerRadii, height: Constants.badgeCornerRadii)))
-
                 badgeView.layer.mask = layer
                 badgeView.layer.cornerRadius = 0
             } else {
                 let badgeWidth = max(badgeView.intrinsicContentSize.width, Constants.badgeMinWidth)
-                badgeView.frame = CGRect(x: badgeFrameOriginX(for: badgeWidth),
-                                         y: badgeVerticalPosition,
-                                         width: badgeWidth,
-                                         height: Constants.badgeHeight)
+                badgeView.frame = badgeFrame(for: badgeWidth, isTitleLabelPresent: item.title != nil)
 
+                let frameForBezierPath = badgeFrame(for: badgeWidth, isTitleLabelPresent: false)
                 path = UIBezierPath(rect: CGRect(x: 0, y: 0, width: bounds.size.width + badgeWidth / 2, height: bounds.size.height))
-                path.append(UIBezierPath(ovalIn: badgeBorderRect(badgeViewFrame: badgeView.frame)))
+                path.append(UIBezierPath(ovalIn: borderRect(for: frameForBezierPath)))
                 path.append(UIBezierPath(ovalIn: badgeView.frame))
 
                 badgeView.layer.mask = nil
@@ -203,23 +196,39 @@ class BarButtonItemButton: UIButton {
         }
     }
 
+    private func badgeFrame(for badgeWidth: CGFloat, isTitleLabelPresent: Bool) -> CGRect {
+        let badgeVerticalOffset = isInPortraitMode ? Constants.badgePortraitTitleVerticalOffset : Constants.badgeVerticalOffset
+        let badgeVerticalPosition = (bounds.size.height - intrinsicContentSize.height) / 2 - Constants.badgeHeight / 2 - badgeVerticalOffset
+        if isTitleLabelPresent {
+            return CGRect(x: badgeFrameOriginX(for: badgeWidth) - (titleLabel?.frame.origin.x ?? 0),
+                          y: badgeVerticalPosition - (titleLabel?.frame.origin.y ?? 0),
+                          width: badgeWidth,
+                          height: Constants.badgeHeight)
+        } else {
+            return CGRect(x: badgeFrameOriginX(for: badgeWidth),
+                          y: badgeVerticalPosition,
+                          width: badgeWidth,
+                          height: Constants.badgeHeight)
+        }
+    }
+
     private func badgeFrameOriginX(for width: CGFloat) -> CGFloat {
-        var xOrigin: CGFloat = 0
+        var xOrigin: CGFloat
 
         if effectiveUserInterfaceLayoutDirection == .leftToRight {
-            xOrigin = bounds.origin.x + bounds.size.width - Constants.rightBarButtonItemHorizontalPadding - width / 2
+            xOrigin = bounds.size.width - Constants.rightBarButtonItemHorizontalPadding - width / 2
         } else {
-            xOrigin = bounds.origin.x + Constants.rightBarButtonItemHorizontalPadding - width / 2
+            xOrigin = Constants.rightBarButtonItemHorizontalPadding - width / 2
         }
 
         return xOrigin
     }
 
-    private func badgeBorderRect(badgeViewFrame: CGRect) -> CGRect {
-        return CGRect(x: badgeViewFrame.origin.x - Constants.badgeBorderWidth - bounds.origin.x,
-                      y: badgeViewFrame.origin.y - Constants.badgeBorderWidth - bounds.origin.y,
-                      width: badgeViewFrame.size.width + 2 * Constants.badgeBorderWidth,
-                      height: badgeViewFrame.size.height + 2 * Constants.badgeBorderWidth)
+    private func borderRect(for frame: CGRect) -> CGRect {
+        return CGRect(x: frame.origin.x - Constants.badgeBorderWidth,
+                      y: frame.origin.y - Constants.badgeBorderWidth,
+                      width: frame.size.width + 2 * Constants.badgeBorderWidth,
+                      height: frame.size.height + 2 * Constants.badgeBorderWidth)
     }
 
     @objc private func badgeValueDidChange() {
