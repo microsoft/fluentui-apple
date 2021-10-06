@@ -150,22 +150,22 @@ struct FluentButtonBody: View {
         @ViewBuilder
         var buttonContent: some View {
             HStack(spacing: tokens.interspace) {
-                        if let image = state.image {
-                            Image(uiImage: image)
-                                .resizable()
-                                .foregroundColor(Color(iconColor))
-                                .frame(width: tokens.iconSize, height: tokens.iconSize, alignment: .center)
-                            }
-                        if let text = state.text {
-                            Text(text)
-                                .fontWeight(.medium)
-                                .multilineTextAlignment(.center)
-                                .scalableFont(font: tokens.textFont,
-                                              shouldScale: !isFloatingStyle)
-                                .modifyIf(isFloatingStyle, { view in
-                                    view.frame(minHeight: tokens.textMinimumHeight)
-                                })
-                            }
+                if let image = state.image {
+                    Image(uiImage: image)
+                        .resizable()
+                        .foregroundColor(Color(iconColor))
+                        .frame(width: tokens.iconSize, height: tokens.iconSize, alignment: .center)
+                }
+                if let text = state.text {
+                    Text(text)
+                        .fontWeight(.medium)
+                        .multilineTextAlignment(.center)
+                        .scalableFont(font: tokens.textFont,
+                                      shouldScale: !isFloatingStyle)
+                        .modifyIf(isFloatingStyle, { view in
+                            view.frame(minHeight: tokens.textMinimumHeight)
+                        })
+                }
             }
             .padding(tokens.padding)
             .modifyIf(isFloatingStyle && !(state.text?.isEmpty ?? true), { view in
@@ -224,13 +224,13 @@ struct FluentButtonBody: View {
                 buttonBackground
                     .clipShape(Capsule())
                     .shadow(color: shadow1Color,
-                           radius: shadow1Blur,
-                                x: shadow1DepthX,
-                                y: shadow1DepthY)
+                            radius: shadow1Blur,
+                            x: shadow1DepthX,
+                            y: shadow1DepthY)
                     .shadow(color: shadow2Color,
                             radius: shadow2Blur,
-                                x: shadow2DepthX,
-                                y: shadow2DepthY)
+                            x: shadow2DepthX,
+                            y: shadow2DepthY)
                     .contentShape(Capsule())
             } else {
                 buttonBackground
