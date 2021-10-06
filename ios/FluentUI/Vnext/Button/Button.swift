@@ -126,55 +126,120 @@ struct FluentButtonBody: View {
         let isDisabled = !isEnabled
         let isFloatingStyle = tokens.style.isFloatingStyle
         let shouldUsePressedShadow = isDisabled || isPressed
-
-        return HStack(spacing: tokens.interspace) {
-            if let image = state.image {
-                Image(uiImage: image)
-                    .resizable()
-                    .foregroundColor(Color(isDisabled ? tokens.disabledIconColor :
-                                            (isPressed ? tokens.highlightedIconColor : tokens.iconColor)))
-                    .frame(width: tokens.iconSize, height: tokens.iconSize, alignment: .center)
-                }
-
-            if let text = state.text {
-                Text(text)
-                    .fontWeight(.medium)
-                    .multilineTextAlignment(.center)
-                    .scalableFont(font: tokens.textFont,
-                                  shouldScale: !isFloatingStyle)
-                    .modifyIf(isFloatingStyle, { view in
-                        view.frame(minHeight: tokens.textMinimumHeight)
-                    })
-                }
+        let iconColor: UIColor
+        let titleColor: UIColor
+        let borderColor: UIColor
+        let backgroundColor: UIColor
+        if isDisabled {
+            iconColor = tokens.disabledIconColor
+            titleColor = tokens.disabledTitleColor
+            borderColor = tokens.disabledBorderColor
+            backgroundColor = tokens.disabledBackgroundColor
+        } else if isPressed {
+            iconColor = tokens.highlightedIconColor
+            titleColor = tokens.highlightedTitleColor
+            borderColor = tokens.highlightedBorderColor
+            backgroundColor = tokens.highlightedBackgroundColor
+        } else {
+            iconColor = tokens.iconColor
+            titleColor = tokens.titleColor
+            borderColor = tokens.borderColor
+            backgroundColor = tokens.backgroundColor
         }
-        .padding(tokens.padding)
-        .modifyIf(isFloatingStyle && !(state.text?.isEmpty ?? true), { view in
-            view.padding(.horizontal, tokens.textAdditionalHorizontalPadding )
-        })
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .foregroundColor(Color(isDisabled ? tokens.disabledTitleColor :
-                                (isPressed ? tokens.highlightedTitleColor : tokens.titleColor)))
-        .background((tokens.borderSize > 0) ?
-                        AnyView(RoundedRectangle(cornerRadius: tokens.borderRadius)
-                                    .strokeBorder(lineWidth: tokens.borderSize, antialiased: false)
-                                    .foregroundColor(Color(isDisabled ? tokens.disabledBorderColor :
-                                                            (isPressed ? tokens.highlightedBorderColor : tokens.borderColor)))
-                                    .contentShape(Rectangle()))
-                                    :
-                        AnyView(RoundedRectangle(cornerRadius: tokens.borderRadius)
-                                    .fill(Color(isDisabled ? tokens.disabledBackgroundColor :
-                                                    (isPressed ? tokens.highlightedBackgroundColor : tokens.backgroundColor)))))
-        .modifyIf(isFloatingStyle, { view in
-            view.clipShape(Capsule())
-                .shadow(color: shouldUsePressedShadow ? tokens.pressedShadow1Color : tokens.restShadow1Color,
-                        radius: shouldUsePressedShadow ? tokens.pressedShadow1Blur : tokens.restShadow1Blur,
-                        x: shouldUsePressedShadow ? tokens.pressedShadow1DepthX : tokens.restShadow1DepthX,
-                        y: shouldUsePressedShadow ? tokens.pressedShadow1DepthY : tokens.restShadow1DepthY)
-                .shadow(color: shouldUsePressedShadow ? tokens.pressedShadow2Color : tokens.restShadow2Color,
-                        radius: shouldUsePressedShadow ? tokens.pressedShadow2Blur : tokens.restShadow2Blur,
-                        x: shouldUsePressedShadow ? tokens.pressedShadow2DepthX : tokens.restShadow2DepthX,
-                        y: shouldUsePressedShadow ? tokens.pressedShadow2DepthY : tokens.restShadow2DepthY)
-        })
+
+        @ViewBuilder
+        var buttonContent: some View {
+            HStack(spacing: tokens.interspace) {
+                if let image = state.image {
+                    Image(uiImage: image)
+                        .resizable()
+                        .foregroundColor(Color(iconColor))
+                        .frame(width: tokens.iconSize, height: tokens.iconSize, alignment: .center)
+                }
+                if let text = state.text {
+                    Text(text)
+                        .fontWeight(.medium)
+                        .multilineTextAlignment(.center)
+                        .scalableFont(font: tokens.textFont,
+                                      shouldScale: !isFloatingStyle)
+                        .modifyIf(isFloatingStyle, { view in
+                            view.frame(minHeight: tokens.textMinimumHeight)
+                        })
+                }
+            }
+            .padding(tokens.padding)
+            .modifyIf(isFloatingStyle && !(state.text?.isEmpty ?? true), { view in
+                view.padding(.horizontal, tokens.textAdditionalHorizontalPadding )
+            })
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .foregroundColor(Color(titleColor))
+        }
+
+        @ViewBuilder
+        var buttonBackground: some View {
+            if tokens.borderSize > 0 {
+                buttonContent.background(
+                    AnyView(RoundedRectangle(cornerRadius: tokens.borderRadius)
+                                .strokeBorder(lineWidth: tokens.borderSize, antialiased: false)
+                                .foregroundColor(Color(borderColor))
+                                .contentShape(Rectangle())))
+            } else {
+                buttonContent.background(
+                    AnyView(RoundedRectangle(cornerRadius: tokens.borderRadius)
+                                .fill(Color(backgroundColor))))
+            }
+        }
+
+        let shadow1Color: Color
+        let shadow1Blur: CGFloat
+        let shadow1DepthX: CGFloat
+        let shadow1DepthY: CGFloat
+        let shadow2Color: Color
+        let shadow2Blur: CGFloat
+        let shadow2DepthX: CGFloat
+        let shadow2DepthY: CGFloat
+        if shouldUsePressedShadow {
+            shadow1Color = tokens.pressedShadow1Color
+            shadow1Blur = tokens.pressedShadow1Blur
+            shadow1DepthX = tokens.pressedShadow1DepthX
+            shadow1DepthY = tokens.pressedShadow1DepthY
+            shadow2Color = tokens.pressedShadow2Color
+            shadow2Blur = tokens.pressedShadow2Blur
+            shadow2DepthX = tokens.pressedShadow2DepthX
+            shadow2DepthY = tokens.pressedShadow2DepthY
+        } else {
+            shadow1Color = tokens.restShadow1Color
+            shadow1Blur = tokens.restShadow1Blur
+            shadow1DepthX = tokens.restShadow1DepthX
+            shadow1DepthY = tokens.restShadow1DepthY
+            shadow2Color = tokens.restShadow2Color
+            shadow2Blur = tokens.restShadow2Blur
+            shadow2DepthX = tokens.restShadow2DepthX
+            shadow2DepthY = tokens.restShadow2DepthY
+        }
+
+        @ViewBuilder
+        var button: some View {
+            if isFloatingStyle {
+                buttonBackground
+                    .clipShape(Capsule())
+                    .shadow(color: shadow1Color,
+                            radius: shadow1Blur,
+                            x: shadow1DepthX,
+                            y: shadow1DepthY)
+                    .shadow(color: shadow2Color,
+                            radius: shadow2Blur,
+                            x: shadow2DepthX,
+                            y: shadow2DepthY)
+                    .contentShape(Capsule())
+            } else {
+                buttonBackground
+                    .contentShape(RoundedRectangle(cornerRadius: tokens.borderRadius))
+            }
+        }
+
+        return button
+            .pointerInteraction(isEnabled)
     }
 }
 
