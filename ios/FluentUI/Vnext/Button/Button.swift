@@ -179,14 +179,14 @@ struct FluentButtonBody: View {
         var buttonBackground: some View {
             if tokens.borderSize > 0 {
                 buttonContent.background(
-                    AnyView(RoundedRectangle(cornerRadius: tokens.borderRadius)
-                                .strokeBorder(lineWidth: tokens.borderSize, antialiased: false)
-                                .foregroundColor(Color(borderColor))
-                                .contentShape(Rectangle())))
+                    RoundedRectangle(cornerRadius: tokens.borderRadius)
+                        .strokeBorder(lineWidth: tokens.borderSize, antialiased: false)
+                        .foregroundColor(Color(borderColor))
+                        .contentShape(Rectangle()))
             } else {
                 buttonContent.background(
-                    AnyView(RoundedRectangle(cornerRadius: tokens.borderRadius)
-                                .fill(Color(backgroundColor))))
+                    RoundedRectangle(cornerRadius: tokens.borderRadius)
+                        .fill(Color(backgroundColor)))
             }
         }
 
