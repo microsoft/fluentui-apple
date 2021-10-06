@@ -660,7 +660,7 @@ open class TableViewCell: UITableViewCell {
     }
     private var _customViewSize: CustomViewSize = .default
 
-    @objc open private(set) var customAccessoryView: UIView? = nil {
+    @objc open private(set) var customAccessoryView: UIView? {
         didSet {
             oldValue?.removeFromSuperview()
             if let customAccessoryView = customAccessoryView {
