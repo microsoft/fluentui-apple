@@ -87,8 +87,9 @@ class PillButtonBarDemoController: DemoController {
         let pillSelectedButtonBackgroundColor = useCustomPillsColors ? Colors.textPrimary : nil
         let pillButtonTextColor = useCustomPillsColors ? Colors.textPrimary : nil
         let pillSelectedButtontextColor = useCustomPillsColors ? Colors.textOnAccent : nil
+        let pillButtonUnreadDotColor = useCustomPillsColors ? Colors.textPrimary : nil
 
-        let bar = PillButtonBar(pillButtonStyle: style, pillButtonBackgroundColor: pillButtonBackgroundColor, selectedPillButtonBackgroundColor: pillSelectedButtonBackgroundColor, pillButtonTextColor: pillButtonTextColor, selectedPillButtonTextColor: pillSelectedButtontextColor)
+        let bar = PillButtonBar(pillButtonStyle: style, pillButtonBackgroundColor: pillButtonBackgroundColor, selectedPillButtonBackgroundColor: pillSelectedButtonBackgroundColor, pillButtonTextColor: pillButtonTextColor, selectedPillButtonTextColor: pillSelectedButtontextColor, pillButtonUnreadDotColor: pillButtonUnreadDotColor)
         bar.items = items
         _ = bar.selectItem(atIndex: 0)
         bar.barDelegate = self

@@ -123,6 +123,7 @@ open class PillButtonBar: UIScrollView {
     private var customSelectedPillButtonBackgroundColor: UIColor?
     private var customPillButtonTextColor: UIColor?
     private var customSelectedPillButtonTextColor: UIColor?
+    private var customPillButtonUnreadDotColor: UIColor?
 
     private var leadingConstraint: NSLayoutConstraint?
 
@@ -151,7 +152,8 @@ open class PillButtonBar: UIScrollView {
                   pillButtonBackgroundColor: nil,
                   selectedPillButtonBackgroundColor: nil,
                   pillButtonTextColor: nil,
-                  selectedPillButtonTextColor: nil)
+                  selectedPillButtonTextColor: nil,
+                  pillButtonUnreadDotColor: nil)
     }
 
     @objc public convenience init(pillButtonStyle: PillButtonStyle = .primary,
@@ -160,19 +162,22 @@ open class PillButtonBar: UIScrollView {
                   pillButtonBackgroundColor: pillButtonBackgroundColor,
                   selectedPillButtonBackgroundColor: nil,
                   pillButtonTextColor: nil,
-                  selectedPillButtonTextColor: nil)
+                  selectedPillButtonTextColor: nil,
+                  pillButtonUnreadDotColor: nil)
     }
 
     @objc public init(pillButtonStyle: PillButtonStyle = .primary,
                       pillButtonBackgroundColor: UIColor? = nil,
                       selectedPillButtonBackgroundColor: UIColor? = nil,
                       pillButtonTextColor: UIColor? = nil,
-                      selectedPillButtonTextColor: UIColor? = nil) {
+                      selectedPillButtonTextColor: UIColor? = nil,
+                      pillButtonUnreadDotColor: UIColor? = nil) {
         self.pillButtonStyle = pillButtonStyle
         self.customPillButtonBackgroundColor = pillButtonBackgroundColor
         self.customSelectedPillButtonBackgroundColor = selectedPillButtonBackgroundColor
         self.customPillButtonTextColor = pillButtonTextColor
         self.customSelectedPillButtonTextColor = selectedPillButtonTextColor
+        self.customPillButtonUnreadDotColor = pillButtonUnreadDotColor
         super.init(frame: .zero)
         setupScrollView()
         setupStackView()
@@ -278,6 +283,10 @@ open class PillButtonBar: UIScrollView {
 
             if let customSelectedButtonTextColor = self.customSelectedPillButtonTextColor {
                 button.customSelectedTextColor = customSelectedButtonTextColor
+            }
+            
+            if let customPillButtonUnreadDotColor = self.customPillButtonUnreadDotColor {
+                button.customUnreadDotColor = customPillButtonUnreadDotColor
             }
         }
     }

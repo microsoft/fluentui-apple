@@ -38,6 +38,13 @@ open class PillButton: UIButton {
             updateAppearance()
         }
     }
+    
+    /// Set `ureadDotColor` to customize color of the pill button unread dot
+    @objc open var customUnreadDotColor: UIColor? {
+        didSet {
+            updateAppearance()
+        }
+    }
 
     open override func didMoveToWindow() {
         super.didMoveToWindow()
@@ -96,8 +103,39 @@ open class PillButton: UIButton {
         super.layoutSubviews()
         updateUnreadDot()
     }
+
+    private func setupView() {
+        setTitle(pillBarItem.title, for: .normal)
+        titleLabel?.font = Constants.font
+        layer.cornerRadius = PillButton.cornerRadius
+        clipsToBounds = true
+
+        layer.cornerCurve = .continuous
+        largeContentTitle = titleLabel?.text
+        showsLargeContentViewer = true
+
+        contentEdgeInsets = UIEdgeInsets(top: Constants.topInset,
+                                         left: Constants.horizontalInset,
+                                         bottom: Constants.bottomInset,
+                                         right: Constants.horizontalInset)
+
+    }
+
+    private func updateAccessibilityTraits() {
+        if isSelected {
+            accessibilityTraits.insert(.selected)
+        } else {
+            accessibilityTraits.remove(.selected)
+        }
+
+        if isEnabled {
+            accessibilityTraits.remove(.notEnabled)
+        } else {
+            accessibilityTraits.insert(.notEnabled)
+        }
+    }
     
-    var isUnreadDotVisible: Bool = false {
+    private var isUnreadDotVisible: Bool = false {
         didSet {
             if oldValue != isUnreadDotVisible {
                 if isUnreadDotVisible {
@@ -133,37 +171,6 @@ open class PillButton: UIButton {
             }
             unreadDotLayer.frame.origin = CGPoint(x: xPos, y: anchor.minY + Constants.unreadDotOffset.y)
             unreadDotLayer.backgroundColor = unreadDotColor.cgColor
-        }
-    }
-
-    private func setupView() {
-        setTitle(pillBarItem.title, for: .normal)
-        titleLabel?.font = Constants.font
-        layer.cornerRadius = PillButton.cornerRadius
-        clipsToBounds = true
-
-        layer.cornerCurve = .continuous
-        largeContentTitle = titleLabel?.text
-        showsLargeContentViewer = true
-
-        contentEdgeInsets = UIEdgeInsets(top: Constants.topInset,
-                                         left: Constants.horizontalInset,
-                                         bottom: Constants.bottomInset,
-                                         right: Constants.horizontalInset)
-
-    }
-
-    private func updateAccessibilityTraits() {
-        if isSelected {
-            accessibilityTraits.insert(.selected)
-        } else {
-            accessibilityTraits.remove(.selected)
-        }
-
-        if isEnabled {
-            accessibilityTraits.remove(.notEnabled)
-        } else {
-            accessibilityTraits.insert(.notEnabled)
         }
     }
 
@@ -204,9 +211,9 @@ open class PillButton: UIButton {
                 }
 
                 if isEnabled {
-                    unreadDotColor = PillButton.enabledUnreadDotColor(for: window, for: style)
+                    unreadDotColor = customUnreadDotColor ?? PillButton.enabledUnreadDotColor(for: window, for: style)
                 } else {
-                    unreadDotColor = PillButton.disabledUnreadDotColor(for: window, for: style)
+                    unreadDotColor = customUnreadDotColor ?? PillButton.disabledUnreadDotColor(for: window, for: style)
                 }
             }
         }
