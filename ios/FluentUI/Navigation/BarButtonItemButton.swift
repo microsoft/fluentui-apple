@@ -44,7 +44,7 @@ class BarButtonItemButton: UIButton {
 
     private struct Constants {
         static let leftBarButtonItemLeadingMargin: CGFloat = 8
-        static let rightBarButtonItemHorizontalPadding: CGFloat = 10
+        static let rightBarButtonItemHorizontalPadding: CGFloat = 12
         static let badgeVerticalOffset: CGFloat = -5
         static let badgePortraitTitleVerticalOffset: CGFloat = -2
         static let badgeHeight: CGFloat = 16
