@@ -285,7 +285,7 @@ extension FluentUIStyle {
 
 			// MARK: - small 
 			open var small: CGFloat {
-				return mainProxy().Border.radius.medium
+				return mainProxy().Border.radius.large
 			}
 		}
 
