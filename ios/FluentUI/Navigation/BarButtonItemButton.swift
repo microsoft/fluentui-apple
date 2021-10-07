@@ -70,14 +70,7 @@ class BarButtonItemButton: UIButton {
     }
 
     private let badgeView: UILabel = {
-        let badgeView = UILabel(frame: .zero)
-        badgeView.layer.masksToBounds = true
-        badgeView.backgroundColor = Colors.Palette.dangerPrimary.color
-        badgeView.textColor = .white
-        badgeView.textAlignment = .center
-        badgeView.font = UIFont.systemFont(ofSize: Constants.badgeFontSize, weight: .regular)
-        badgeView.isHidden = true
-
+        let badgeView = BadgeLabel(frame: .zero)
         return badgeView
     }()
 
