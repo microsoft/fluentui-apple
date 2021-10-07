@@ -158,7 +158,7 @@ public extension PillButton {
     static func disabledUnreadDotColor(for window: UIWindow, for style: PillButtonStyle) -> UIColor {
         switch style {
         case .primary:
-            return UIColor(light: Colors.gray300, dark: Colors.gray600) // correct??
+            return UIColor(light: Colors.gray300, dark: Colors.gray600)
         case .onBrand:
             return UIColor(light: Colors.primaryTint10(for: window), dark: Colors.gray600)
         }
