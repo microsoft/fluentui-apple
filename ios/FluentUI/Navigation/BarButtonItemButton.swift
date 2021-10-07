@@ -78,7 +78,6 @@ class BarButtonItemButton: UIButton {
         updateButton()
 
         titleLabel?.addSubview(badgeView)
-        titleLabel?.isUserInteractionEnabled = true
         titleLabel?.isHidden = false
 
         updateBadgeView()
