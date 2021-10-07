@@ -239,7 +239,7 @@ MSFAvatarGroupStackTokens extends MSFAvatarGroupTokens:
 AP_MSFButtonTokens:
   backgroundColor: [ rest: NamedColor(clear), hover: NamedColor(clear), pressed: NamedColor(clear), selected: NamedColor(clear), disabled: NamedColor(clear) ]
   borderColor: [ rest: $Colors.Background.brandRest, hover: $Colors.Background.brandHover, pressed: $Colors.Background.brandPressed, selected: $Colors.Background.brandSelected, disabled: $Colors.Background.brandDisabled ]
-  borderRadius: [ small: $Border.radius.medium, medium: $Border.radius.large, large: $Border.radius.xLarge ]
+  borderRadius: [ small: $Border.radius.large, medium: $Border.radius.large, large: $Border.radius.xLarge ]
   borderSize: [ small: $Border.size.none, medium: $Border.size.none, large: $Border.size.none ]
   iconColor: [ rest: $Colors.Foreground.brandRest, hover: $Colors.Foreground.brandHover, pressed: $Colors.Foreground.brandPressed, selected: $Colors.Foreground.brandSelected, disabled: $Colors.Foreground.brandDisabled ]
   iconSize: [ small: $Icon.size.xSmall, medium: $Icon.size.small, large: $Icon.size.small ]
