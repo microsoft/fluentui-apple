@@ -23,6 +23,8 @@
 		1168630622E131CF0088B302 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1168630322E131CF0088B302 /* TabBarView.swift */; };
 		118D9848230BBA2300BC0B72 /* TabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118D9847230BBA2300BC0B72 /* TabBarItem.swift */; };
 		22010B702523CB2D00FF1F10 /* ActivityViewAnimating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22010B6F2523CB2D00FF1F10 /* ActivityViewAnimating.swift */; };
+		43488C45270FAD0200124C71 /* NotificationView_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43488C44270FAD0200124C71 /* NotificationView_SwiftUI.swift */; };
+		43488C46270FAD1300124C71 /* NotificationView_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43488C44270FAD0200124C71 /* NotificationView_SwiftUI.swift */; };
 		436F6B3E26F4924200D18073 /* MSFNotificationTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436F6B3D26F4924200D18073 /* MSFNotificationTokens.generated.swift */; };
 		436F6B3F26F4924200D18073 /* MSFNotificationTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436F6B3D26F4924200D18073 /* MSFNotificationTokens.generated.swift */; };
 		436F6B4126F4926B00D18073 /* MSFNotificationTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436F6B4026F4926B00D18073 /* MSFNotificationTokens.swift */; };
@@ -417,6 +419,7 @@
 		1168630322E131CF0088B302 /* TabBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
 		118D9847230BBA2300BC0B72 /* TabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItem.swift; sourceTree = "<group>"; };
 		22010B6F2523CB2D00FF1F10 /* ActivityViewAnimating.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityViewAnimating.swift; sourceTree = "<group>"; };
+		43488C44270FAD0200124C71 /* NotificationView_SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView_SwiftUI.swift; sourceTree = "<group>"; };
 		436F6B3D26F4924200D18073 /* MSFNotificationTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFNotificationTokens.generated.swift; sourceTree = "<group>"; };
 		436F6B4026F4926B00D18073 /* MSFNotificationTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFNotificationTokens.swift; sourceTree = "<group>"; };
 		497DC2D724185885008D86F8 /* PillButtonBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButtonBar.swift; sourceTree = "<group>"; };
@@ -992,6 +995,7 @@
 				436F6B3D26F4924200D18073 /* MSFNotificationTokens.generated.swift */,
 				A5B6617223A41E2900E801DD /* NotificationView.swift */,
 				436F6B4026F4926B00D18073 /* MSFNotificationTokens.swift */,
+				43488C44270FAD0200124C71 /* NotificationView_SwiftUI.swift */,
 			);
 			path = Notification;
 			sourceTree = "<group>";
@@ -1743,6 +1747,7 @@
 				5314E1A125F01A7C0099271A /* TableViewCellFileAccessoryView.swift in Sources */,
 				5314E1D625F01E4A0099271A /* SearchBar.swift in Sources */,
 				5314E0A825F010070099271A /* DrawerPresentationController.swift in Sources */,
+				43488C46270FAD1300124C71 /* NotificationView_SwiftUI.swift in Sources */,
 				53097CFA270288ED00A6E4DC /* MSFActivityIndicatorTokens.generated.swift in Sources */,
 				5314E06425F00EFD0099271A /* CalendarViewMonthBannerView.swift in Sources */,
 				5314E18E25F0195C0099271A /* ShimmerLinesView.swift in Sources */,
@@ -1931,6 +1936,7 @@
 				FDA1AF91214871B5001AE720 /* CardTransitionAnimator.swift in Sources */,
 				5373D5662694D65C0032A3B4 /* Avatar.swift in Sources */,
 				A5237ACD21ED6CA70040BF27 /* DrawerShadowView.swift in Sources */,
+				43488C45270FAD0200124C71 /* NotificationView_SwiftUI.swift in Sources */,
 				53097CF9270288ED00A6E4DC /* MSFActivityIndicatorTokens.generated.swift in Sources */,
 				FD9DA7B5232C33A80013E41B /* UIViewController+Navigation.swift in Sources */,
 				FD7DF05E21FA7FC100857267 /* TooltipView.swift in Sources */,

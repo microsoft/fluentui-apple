@@ -415,6 +415,8 @@ AP_MSFNotificationTokens:
   horizontalSpacing: 19pt
   minimumHeight: 64.0
   minimumHeightForOneLine: 56.0
+  outlineColor: NamedColor(clear)
+  outlineWidth: $Border.size.thin
   ambientShadowColor: $Shadow.shadow16.color1
   ambientShadowBlur: $Shadow.shadow16.blur1
   ambientShadowOffsetX: $Shadow.shadow16.x1
@@ -443,6 +445,7 @@ MSFPrimaryOutlineBarNotificationTokens extends MSFNotificationTokens:
   presentationOffSet: $Spacing.none
   backgroundColor: "FluentUIColor(light: NamedColor(white), dark: NamedColor(charcoalPrimary))"
   foregroundColor: "FluentUIColor(light: $Colors.Brand.primary, dark: NamedColor(charcoalTint60))"
+  outlineColor: $Colors.Stroke.neutral1
 
 MSFNeutralBarNotificationTokens extends MSFNotificationTokens:
   ambientShadowColor: NamedColor(clear)

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		114CF8B82423E10900D064AA /* ColorDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 114CF8B72423E10900D064AA /* ColorDemoController.swift */; };
 		2F0A96FC25CA047100EF9736 /* SearchBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0A96FB25CA047100EF9736 /* SearchBarDemoController.swift */; };
+		43488C4A270FB7E800124C71 /* NotificationViewDemoController_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43488C49270FB7E800124C71 /* NotificationViewDemoController_SwiftUI.swift */; };
 		497DC2DE24185896008D86F8 /* PillButtonBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2DD24185896008D86F8 /* PillButtonBarDemoController.swift */; };
 		5303259326B3198A00611D05 /* AvatarDemoController_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5303259226B3198A00611D05 /* AvatarDemoController_SwiftUI.swift */; };
 		5303259826B31A6300611D05 /* FluentUIDemoToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5303259726B31A6300611D05 /* FluentUIDemoToggle.swift */; };
@@ -93,6 +94,7 @@
 		11047D2522932DB1001F0F59 /* TabBarViewDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewDemoController.swift; sourceTree = "<group>"; };
 		114CF8B72423E10900D064AA /* ColorDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorDemoController.swift; sourceTree = "<group>"; };
 		2F0A96FB25CA047100EF9736 /* SearchBarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchBarDemoController.swift; sourceTree = "<group>"; };
+		43488C49270FB7E800124C71 /* NotificationViewDemoController_SwiftUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationViewDemoController_SwiftUI.swift; sourceTree = "<group>"; };
 		497DC2DD24185896008D86F8 /* PillButtonBarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButtonBarDemoController.swift; sourceTree = "<group>"; };
 		5303259226B3198A00611D05 /* AvatarDemoController_SwiftUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarDemoController_SwiftUI.swift; sourceTree = "<group>"; };
 		5303259726B31A6300611D05 /* FluentUIDemoToggle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FluentUIDemoToggle.swift; sourceTree = "<group>"; };
@@ -311,6 +313,7 @@
 		A5CEC23220E452B80016922A /* Demos */ = {
 			isa = PBXGroup;
 			children = (
+				43488C49270FB7E800124C71 /* NotificationViewDemoController_SwiftUI.swift */,
 				53097D2C27028A7B00A6E4DC /* ActivityIndicatorDemoController_SwiftUI.swift */,
 				53097D2E27028A7B00A6E4DC /* ActivityIndicatorDemoController.swift */,
 				53097D3127028A7B00A6E4DC /* ButtonDemoController_SwiftUI.swift */,
@@ -517,6 +520,7 @@
 				B4EF53C5215C45C400573E8F /* PersonaListViewDemoController.swift in Sources */,
 				53097D3627028A7B00A6E4DC /* ThemingDemoController.swift in Sources */,
 				B4414792228F6F740040E88E /* TableViewCellSampleData.swift in Sources */,
+				43488C4A270FB7E800124C71 /* NotificationViewDemoController_SwiftUI.swift in Sources */,
 				53097D3527028A7B00A6E4DC /* ButtonLegacyDemoController.swift in Sources */,
 				E6842974247B672000A29C40 /* SceneDelegate.swift in Sources */,
 				53097D3C27028AD000A6E4DC /* HUDDemoController.swift in Sources */,

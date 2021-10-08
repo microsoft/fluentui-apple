@@ -138,6 +138,16 @@ extension FluentUIStyle {
 			return CGFloat(56.0)
 		}
 
+		// MARK: - outlineColor 
+		open var outlineColor: UIColor {
+			return UIColor(named: "FluentColors/clear", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+		}
+
+		// MARK: - outlineWidth 
+		open var outlineWidth: CGFloat {
+			return mainProxy().Border.size.thin
+		}
+
 		// MARK: - perimeterShadowBlur 
 		open var perimeterShadowBlur: CGFloat {
 			return mainProxy().Shadow.shadow16.blur2
@@ -233,6 +243,11 @@ extension FluentUIStyle {
 		// MARK: - foregroundColor 
 		open override var foregroundColor: UIColor {
 			return UIColor(light: mainProxy().Colors.Brand.primary, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/charcoalTint60", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+		}
+
+		// MARK: - outlineColor 
+		open override var outlineColor: UIColor {
+			return mainProxy().Colors.Stroke.neutral1
 		}
 
 		// MARK: - perimeterShadowColor 
