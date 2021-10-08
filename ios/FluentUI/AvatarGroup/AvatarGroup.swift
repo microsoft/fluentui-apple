@@ -245,10 +245,24 @@ public struct AvatarGroup: View {
                        height: geo.size.height,
                        alignment: .leading)
             }
-            .frame(height: groupHeight)
+            .frame(width: calcWidth(), height: groupHeight)
         }
 
         return avatarGroupContent
+    }
+
+    private func calcWidth() -> CGFloat {
+        var width: CGFloat = 0
+        let maxShown = state.maxDisplayedAvatars < state.avatars.count ? state.maxDisplayedAvatars : state.avatars.count
+        for index in 0 ..< maxShown {
+            width += state.avatars[index].size.size
+            if index < maxShown - 1 {
+                width += tokens.interspace
+            } else {
+                width += tokens.size.size
+            }
+        }
+        return width
     }
 
     private func createOverflow(count: Int) -> Avatar {
