@@ -4,7 +4,6 @@
 //
 
 import FluentUI
-import UIKit
 import SwiftUI
 
 class NotificationViewDemoControllerSwiftUI: UIHostingController<NotificationDemoView> {
