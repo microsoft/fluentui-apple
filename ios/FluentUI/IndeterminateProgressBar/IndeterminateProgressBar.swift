@@ -31,11 +31,11 @@ import UIKit
         super.init()
 
         indeterminateProgressBarView = IndeterminateProgressBar()
-        hostingController = UIHostingController(rootView: AnyView(indeterminateProgressBarView
-                                                                    .windowProvider(self)
-                                                                    .modifyIf(theme != nil, { indeterminateProgressBarView in
-                                                                        indeterminateProgressBarView.customTheme(theme!)
-                                                                    })))
+        hostingController = FluentUIHostingController(rootView: AnyView(indeterminateProgressBarView
+                                                                            .windowProvider(self)
+                                                                            .modifyIf(theme != nil, { indeterminateProgressBarView in
+                                                                                indeterminateProgressBarView.customTheme(theme!)
+                                                                            })))
         hostingController.disableSafeAreaInsets()
         view.backgroundColor = UIColor.clear
     }
@@ -44,7 +44,7 @@ import UIKit
         return self.view.window
     }
 
-    private var hostingController: UIHostingController<AnyView>!
+    private var hostingController: FluentUIHostingController!
 
     private var indeterminateProgressBarView: IndeterminateProgressBar!
 }
