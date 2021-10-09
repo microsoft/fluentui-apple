@@ -35,11 +35,11 @@ import UIKit
         super.init()
 
         activityIndicatorView = ActivityIndicator(size: size)
-        hostingController = UIHostingController(rootView: AnyView(activityIndicatorView
-                                                                    .windowProvider(self)
-                                                                    .modifyIf(theme != nil, { activityIndicatorView in
-                                                                        activityIndicatorView.customTheme(theme!)
-                                                                    })))
+        hostingController = FluentUIHostingController(rootView: AnyView(activityIndicatorView
+                                                                            .windowProvider(self)
+                                                                            .modifyIf(theme != nil, { activityIndicatorView in
+                                                                                activityIndicatorView.customTheme(theme!)
+                                                                            })))
         hostingController.disableSafeAreaInsets()
         view.backgroundColor = UIColor.clear
     }
@@ -48,7 +48,7 @@ import UIKit
         return self.view.window
     }
 
-    private var hostingController: UIHostingController<AnyView>!
+    private var hostingController: FluentUIHostingController!
 
     private var activityIndicatorView: ActivityIndicator!
 }
