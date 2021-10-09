@@ -155,6 +155,8 @@
 		5328D97526FBA3D700F3723B /* MSFIndeterminateProgressBarTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5328D96E26FBA3D700F3723B /* MSFIndeterminateProgressBarTokens.generated.swift */; };
 		5328D97626FBA3D700F3723B /* IndeterminateProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5328D96F26FBA3D700F3723B /* IndeterminateProgressBar.swift */; };
 		5328D97726FBA3D700F3723B /* IndeterminateProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5328D96F26FBA3D700F3723B /* IndeterminateProgressBar.swift */; };
+		535559E32711411E0094A871 /* FluentUIHostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535559E22711411E0094A871 /* FluentUIHostingController.swift */; };
+		535559E42711411E0094A871 /* FluentUIHostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535559E22711411E0094A871 /* FluentUIHostingController.swift */; };
 		5360994126B8B2710069DE71 /* PersonaButtonCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 929DD258266ED3B600E8175E /* PersonaButtonCarousel.swift */; };
 		537315B325438B15001FD14C /* iOS13_4_compatibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537315B225438B15001FD14C /* iOS13_4_compatibility.swift */; };
 		5373D5642694D65C0032A3B4 /* AvatarTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5373D5602694D65C0032A3B4 /* AvatarTokens.swift */; };
@@ -380,6 +382,7 @@
 		5328D96D26FBA3D600F3723B /* IndeterminateProgressBarModifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBarModifiers.swift; sourceTree = "<group>"; };
 		5328D96E26FBA3D700F3723B /* MSFIndeterminateProgressBarTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFIndeterminateProgressBarTokens.generated.swift; sourceTree = "<group>"; };
 		5328D96F26FBA3D700F3723B /* IndeterminateProgressBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBar.swift; sourceTree = "<group>"; };
+		535559E22711411E0094A871 /* FluentUIHostingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FluentUIHostingController.swift; sourceTree = "<group>"; };
 		537315B225438B15001FD14C /* iOS13_4_compatibility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = iOS13_4_compatibility.swift; sourceTree = "<group>"; };
 		5373D5602694D65C0032A3B4 /* AvatarTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarTokens.swift; sourceTree = "<group>"; };
 		5373D5612694D65C0032A3B4 /* Avatar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Avatar.swift; sourceTree = "<group>"; };
@@ -981,6 +984,7 @@
 			children = (
 				A5CEC16C20D98EE70016922A /* Colors.swift */,
 				A559BB82212B7D870055E107 /* FluentUIFramework.swift */,
+				535559E22711411E0094A871 /* FluentUIHostingController.swift */,
 				5373D56E2694D66F0032A3B4 /* FluentUIStyle.generated.swift */,
 				A5CEC16E20D98F340016922A /* Fonts.swift */,
 				537315B225438B15001FD14C /* iOS13_4_compatibility.swift */,
@@ -1547,6 +1551,7 @@
 				8035CAD026377C17007B3FD1 /* CommandingItem.swift in Sources */,
 				8FD01188228A82A600D25925 /* Colors.swift in Sources */,
 				5314E0F325F012C80099271A /* ShyHeaderController.swift in Sources */,
+				535559E42711411E0094A871 /* FluentUIHostingController.swift in Sources */,
 				5314E1B125F01A980099271A /* TooltipView.swift in Sources */,
 				5314E19525F019650099271A /* TabBarItemView.swift in Sources */,
 				5314E03C25F00E3D0099271A /* BadgeField.swift in Sources */,
@@ -1711,6 +1716,7 @@
 				5360994126B8B2710069DE71 /* PersonaButtonCarousel.swift in Sources */,
 				FD41C8B222DD3BB70086F899 /* UIScrollView+Extensions.swift in Sources */,
 				8035CACB26377C14007B3FD1 /* CommandingItem.swift in Sources */,
+				535559E32711411E0094A871 /* FluentUIHostingController.swift in Sources */,
 				B483323321CC71940022B4CC /* HUDView.swift in Sources */,
 				FD41C89422DD13230086F899 /* LargeTitleView.swift in Sources */,
 				C0938E44235E8ED500256251 /* AnimationSynchronizer.swift in Sources */,
