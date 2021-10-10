@@ -6,7 +6,6 @@ Fluent UI Apple contains native UIKit and AppKit controls aligned with [Microsof
 ![CocoaPod Publishing](https://github.com/microsoft/fluentui-apple/workflows/Pod-Publish/badge.svg)
 [![Build Status](https://dev.azure.com/microsoftdesign/fluentui-native/_apis/build/status/microsoft.fluentui-apple?branchName=main)](https://dev.azure.com/microsoftdesign/fluentui-native/_build/latest?definitionId=144&branchName=main)
 ![License](https://img.shields.io/github/license/Microsoft/fluentui-apple)
-[![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![CocoaPods Compatible](https://img.shields.io/cocoapods/v/MicrosoftFluentUI)](https://cocoapods.org/pods/MicrosoftFluentUI)
 ![Platform](https://img.shields.io/cocoapods/p/MicrosoftFluentUI.svg?style=flat)
 
