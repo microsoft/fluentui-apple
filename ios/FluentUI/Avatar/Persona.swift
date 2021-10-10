@@ -54,43 +54,43 @@ extension Persona {
 // MARK: - PersonaData
 
 @objc(MSFPersonaData)
-open class PersonaData: NSObject, Persona {
+open class PersonaData: NSObject, Persona, ObservableObject {
     /// The image that represents the persona.
     /// Used in the Avatar to replace the initials if provided.
-    @objc public var image: UIImage?
+    @Published @objc public var image: UIImage?
 
     /// The e-mail address of the persona. This value is used to calculate the Avatar initials.
-    @objc public var email: String
+    @Published @objc public var email: String
 
     /// An image that can be used the color for the avatar ring.
-    @objc public var imageBasedRingColor: UIImage?
+    @Published @objc public var imageBasedRingColor: UIImage?
 
     /// Defines whether the gap between the ring and the avatar content is rendered in case the avatar has a ring.
-    @objc public var hasRingInnerGap: Bool = true
+    @Published @objc public var hasRingInnerGap: Bool = true
 
     /// Defines whether the ring is displayed around the Avatar.
-    @objc public var isRingVisible: Bool = false
+    @Published @objc public var isRingVisible: Bool = false
 
     /// Sets whether the persona is out of office. This value will be used to calculate the presence image accordingly.
-    @objc public var isOutOfOffice: Bool = false
+    @Published @objc public var isOutOfOffice: Bool = false
 
     /// The color that represents this persona.
     /// This color will override the initials view's background color.
     /// If the avatar view is configured to display a ring, this will be the rings's color.
     /// The colored ring will not be displayed if the imageBasedRingColor property is not set to nil.
-    @objc public var color: UIColor?
+    @Published @objc public var color: UIColor?
 
     /// The name of the Persona. This value is used to calculate the Avatar initials.
-    @objc public var name: String
+    @Published @objc public var name: String
 
     /// The subtitle value for the persona.
-    @objc public var subtitle: String
+    @Published @objc public var subtitle: String
 
     /// First name and last name combined in a single property.
-    public var composedName: (String, String)?
+    @Published public var composedName: (String, String)?
 
     /// The presence status of the persona.
-    @objc public var presence: MSFAvatarPresence
+    @Published @objc public var presence: MSFAvatarPresence
 
     /// Initializer for PersonaData
     /// - Parameter name: The persona's name.

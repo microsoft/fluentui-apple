@@ -168,6 +168,7 @@ public class AvatarGroupAvatarState: NSObject, ObservableObject, MSFAvatarGroupA
 
     /// Creates and initializes an AvatarGroupAvatarState.
     public override init() {
+        // Only `.default` styled AvatarState objects are allowed in an AvatarGroup.
         // Note: the size is unimportant because it will be overridden during render.
         avatarState = MSFAvatarStateImpl(style: .default, size: .large)
     }

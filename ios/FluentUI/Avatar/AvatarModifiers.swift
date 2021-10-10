@@ -101,13 +101,4 @@ public extension Avatar {
         state.ringColor = ringColor
         return self
     }
-
-    /// Defines the size of the avatar.
-    /// Presence is not displayed in the xsmall size.
-    /// - Parameter size: The intended size for the Avatar.
-    /// - Returns: The modified Avatar with the property set.
-    func size(_ size: MSFAvatarSize) -> Avatar {
-        state.size = size
-        return self
-    }
 }

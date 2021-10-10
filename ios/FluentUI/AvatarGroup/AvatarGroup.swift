@@ -87,7 +87,13 @@ public struct AvatarGroup: View {
 
     public var body: some View {
         let avatars: [AvatarGroupAvatarState] = state.avatars
-        let avatarViews: [Avatar] = avatars.map { Avatar($0.avatarState) }
+        let avatarViews: [Avatar] = avatars.map { avatarGroupAvatarState in
+            // Override the size of the avatarGroupAvatarState to conform
+            // to our group's own size.
+            let avatarState = avatarGroupAvatarState.avatarState
+            avatarState.size = state.size
+            return Avatar(avatarState)
+        }
         let maxDisplayedAvatars: Int = avatars.prefix(state.maxDisplayedAvatars).count
         let overflowCount: Int = (avatars.count > maxDisplayedAvatars ? avatars.count - maxDisplayedAvatars : 0) + state.overflowCount
 
