@@ -86,8 +86,8 @@ public struct AvatarGroup: View {
     }
 
     public var body: some View {
-        let avatars: [MSFAvatarStateImpl] = state.avatars
-        let avatarViews: [Avatar] = avatars.map { Avatar($0) }
+        let avatars: [AvatarGroupAvatarState] = state.avatars
+        let avatarViews: [Avatar] = avatars.map { Avatar($0.avatarState) }
         let maxDisplayedAvatars: Int = avatars.prefix(state.maxDisplayedAvatars).count
         let overflowCount: Int = (avatars.count > maxDisplayedAvatars ? avatars.count - maxDisplayedAvatars : 0) + state.overflowCount
 
