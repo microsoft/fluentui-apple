@@ -4,7 +4,7 @@
 //
 
 #import "ObjectiveCDemoController.h"
-@import FluentUI;
+#import <FluentUI/FluentUI-Swift.h>
 
 @interface ObjectiveCDemoController () <MSFTwoLineTitleViewDelegate>
 

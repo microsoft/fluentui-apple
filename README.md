@@ -19,15 +19,15 @@ Fluent UI Apple contains native UIKit and AppKit controls aligned with [Microsof
 - Xcode 12.5+
 - Swift 5.4+
 
-#### Using Carthage
+#### Using Swift Package Manager
 
-To integrate FluentUI using Carthage, specify it in your Cartfile:
+To integrate FluentUI using SwiftUI, specify it as a dependency in your Xcode project or `Package.swift` file:
 
+```swift
+dependencies: [
+    .package(url: "https://github.com/microsoft/fluentui-apple.git", .upToNextMinor(from: "X.X.X")),
+],
 ```
-github "Microsoft/fluentui-apple" ~> X.X.X
-```
-
-then follow the Carthage [integration steps](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application) to add the `FluentUI.framework` into your Xcode project
 
 #### Using CocoaPods
 
@@ -43,10 +43,7 @@ pod 'MicrosoftFluentUI', '~> X.X.X'
 - Download the latest changes from the [FluentUI for Apple](https://github.com/microsoft/fluentui-apple) repository.
 - Move the `fluentui-apple` folder into your project folder.
 - Move the relevant `FluentUI.xcodeproj` into your Xcode project depending on which platform you want to support.
-- In Xcode select your project -> your target -> General -> Embedded Binaries -> add `FluentUI.framework`.
-
-#### Swift Package Manager
-As of this writing, the version of Swift Package Manager shipped with the latest Xcode does not support packages that require resource bundles. As Fluent UI Apple does  require resource bundles, we do not currently support Swift Package Manager.
+- In Xcode select your project -> your target -> General -> Embedded Binaries -> add `libFluentUI.a`.
 
 ### Import and use FluentUI
 
@@ -58,7 +55,7 @@ import FluentUI
 ```
 For Objective-C
 ```objective-c
-#import <FluentUI/FluentUI.h>
+#import <FluentUI/FluentUI-Swift.h>
 ```
 
 ## Contributing
