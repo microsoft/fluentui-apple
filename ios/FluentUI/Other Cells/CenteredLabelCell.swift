@@ -7,9 +7,6 @@ import UIKit
 
 // MARK: CenteredLabelCell
 
-@available(*, deprecated, renamed: "CenteredLabelCell")
-public typealias MSCenteredLabelCell = CenteredLabelCell
-
 @objc(MSFCenteredLabelCell)
 open class CenteredLabelCell: UITableViewCell {
     public static let identifier: String = "CenteredLabelCell"

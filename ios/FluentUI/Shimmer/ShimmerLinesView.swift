@@ -5,27 +5,11 @@
 
 import UIKit
 
-@available(*, deprecated, renamed: "ShimmerLinesView")
-public typealias MSShimmerLinesView = ShimmerLinesView
-
 /**
  Specialized ShimmerView that shows 1 or more shimmering lines.
  */
 @objc(MSFShimmerLinesView)
 open class ShimmerLinesView: ShimmerView {
-
-	@available(*, deprecated, message: "Use individual properties instead")
-	@objc public var shimmerLinesViewAppearance = ShimmerLinesViewAppearance() {
-		didSet {
-			lineCount = shimmerLinesViewAppearance.lineCount
-			lineHeight = shimmerLinesViewAppearance.lineHeight
-			lineSpacing = shimmerLinesViewAppearance.lineSpacing
-			firstLineFillPercent = shimmerLinesViewAppearance.firstLineFillPercent
-			lastLineFillPercent = shimmerLinesViewAppearance.lastLineFillPercent
-
-			setNeedsLayout()
-		}
-	}
 
 	/// Number of lines that will shimmer in this view. Use 0 if the number of lines should fill the available space.
 	@objc open var lineCount: Int = 3 {

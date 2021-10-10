@@ -7,9 +7,6 @@ import UIKit
 
 // MARK: DimmingViewType
 
-@available(*, deprecated, renamed: "DimmingViewType")
-public typealias MSDimmingViewType = DimmingViewType
-
 @objc(MSFDimmingViewType)
 public enum DimmingViewType: Int {
     case white = 1
@@ -19,17 +16,35 @@ public enum DimmingViewType: Int {
 
 // MARK: - DimmingView
 
-@available(*, deprecated, renamed: "DimmingView")
-public typealias MSDimmingView = DimmingView
-
 @objc(MSFDimmingView)
 open class DimmingView: UIView {
-    public struct Constants {
-        public static let blackAlpha: CGFloat = 0.4
-        public static let whiteAlpha: CGFloat = 0.5
+    private struct Constants {
+        static let blackAlpha: CGFloat = 0.4
+        static let whiteAlpha: CGFloat = 0.5
     }
 
     private var type: DimmingViewType
+
+    /// override default black dimmed color
+    public var dimmedBlackColor: UIColor? {
+        didSet {
+            setBackground(type: type)
+        }
+    }
+
+    /// override default white dimmed color
+    public var dimmedWhiteColor: UIColor? {
+        didSet {
+            setBackground(type: type)
+        }
+    }
+
+    /// override default clear  color
+    public var dimmedClearColor: UIColor? {
+        didSet {
+            setBackground(type: type)
+        }
+    }
 
     @objc public init(type: DimmingViewType) {
         self.type = type
@@ -44,11 +59,11 @@ open class DimmingView: UIView {
     private func setBackground(type: DimmingViewType) {
         switch type {
         case .white:
-            backgroundColor = UIColor(white: 1, alpha: Constants.whiteAlpha)
+            backgroundColor = dimmedWhiteColor ?? UIColor(white: 1, alpha: Constants.whiteAlpha)
         case .black:
-            backgroundColor = UIColor(white: 0, alpha: Constants.blackAlpha)
+            backgroundColor = dimmedBlackColor ?? UIColor(white: 0, alpha: Constants.blackAlpha)
         case .none:
-            backgroundColor = .clear
+            backgroundColor = dimmedClearColor ?? .clear
         }
     }
 }

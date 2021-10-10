@@ -7,9 +7,6 @@ import UIKit
 
 // MARK: PersonaBadgeViewDataSource
 
-@available(*, deprecated, renamed: "PersonaBadgeViewDataSource")
-public typealias MSPersonaBadgeViewDataSource = PersonaBadgeViewDataSource
-
 @objc(MSFPersonaBadgeViewDataSource)
 open class PersonaBadgeViewDataSource: BadgeViewDataSource {
     @objc open var persona: Persona

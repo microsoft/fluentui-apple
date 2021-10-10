@@ -7,9 +7,6 @@ import UIKit
 
 // MARK: PeoplePickerDelegate
 
-@available(*, deprecated, renamed: "PeoplePickerDelegate")
-public typealias MSPeoplePickerDelegate = PeoplePickerDelegate
-
 @objc(MSFPeoplePickerDelegate)
 public protocol PeoplePickerDelegate: BadgeFieldDelegate {
     // Suggested personas
@@ -48,9 +45,6 @@ public protocol PeoplePickerDelegate: BadgeFieldDelegate {
 }
 
 // MARK: - PeoplePicker
-
-@available(*, deprecated, renamed: "PeoplePicker")
-public typealias MSPeoplePicker = PeoplePicker
 
 /**
  `PeoplePicker` is used to select one or more personas from a list which is populated according to the text entered into its text field. Selected personas are added to a list of `pickedPersonas` and represented visually as "badges" which can be interacted with and removed.

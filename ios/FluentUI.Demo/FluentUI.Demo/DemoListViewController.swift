@@ -8,22 +8,32 @@ import UIKit
 
 class DemoListViewController: UITableViewController {
 
-    static func addDemoListTo(window: UIWindow, pushing viewController: UIViewController?) {
-        if let colorProvider = window as? ColorProviding, let primaryColor = colorProvider.primaryColor(for: window) {
-            Colors.setProvider(provider: colorProvider, for: window)
-            FluentUIFramework.initializeAppearance(with: primaryColor, whenContainedInInstancesOf: [type(of: window)])
-        } else {
-            FluentUIFramework.initializeAppearance(with: Colors.primary(for: window))
+    private var provider: ColorProviding? = DemoColorTheme.default.provider
+    public var theme: DemoColorTheme = DemoColorTheme.default {
+        didSet {
+            provider = theme.provider
         }
+    }
+
+    func addDemoListTo(window: UIWindow) {
+        updateColorProviderFor(window: window, theme: self.theme)
 
         let demoListViewController = DemoListViewController(nibName: nil, bundle: nil)
 
         let navigationController = UINavigationController(rootViewController: demoListViewController)
+        navigationController.navigationBar.isTranslucent = true
+
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
+    }
 
-        if let viewController = viewController {
-            navigationController.pushViewController(viewController, animated: false)
+    func updateColorProviderFor(window: UIWindow, theme: DemoColorTheme) {
+        self.theme = theme
+        if let provider = self.provider, let primaryColor = provider.primaryColor(for: window) {
+            Colors.setProvider(provider: provider, for: window)
+            FluentUIFramework.initializeAppearance(with: primaryColor, whenContainedInInstancesOf: [type(of: window)])
+        } else {
+            FluentUIFramework.initializeAppearance(with: Colors.primary(for: window))
         }
     }
 
@@ -50,7 +60,7 @@ class DemoListViewController: UITableViewController {
         // Fluent UI design recommends not showing "Back" title. However, VoiceOver still correctly says "Back" even if the title is hidden.
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
 
-        tableView.backgroundColor = Colors.Table.background
+        tableView.backgroundColor = Colors.tableBackground
         tableView.tableFooterView = UIView()
         tableView.separatorStyle = .none
 

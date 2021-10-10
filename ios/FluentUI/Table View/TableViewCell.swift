@@ -7,9 +7,6 @@ import UIKit
 
 // MARK: TableViewCellAccessoryType
 
-@available(*, deprecated, renamed: "TableViewCellAccessoryType")
-public typealias MSTableViewCellAccessoryType = TableViewCellAccessoryType
-
 @objc(MSFTableViewCellAccessoryType)
 public enum TableViewCellAccessoryType: Int {
     case none
@@ -64,36 +61,40 @@ public enum TableViewCellAccessoryType: Int {
 // MARK: - Table Colors
 
 public extension Colors {
-    struct Table {
-        public struct Cell {
-            public static var background: UIColor = surfacePrimary
-            public static var backgroundGrouped = UIColor(light: surfacePrimary, dark: surfaceSecondary)
-            public static var backgroundSelected: UIColor = surfaceTertiary
-            public static var image: UIColor = iconSecondary
-            public static var title: UIColor = textPrimary
-            public static var subtitle: UIColor = textSecondary
-            public static var footer: UIColor = textSecondary
-            public static var accessoryDisclosureIndicator: UIColor = iconSecondary
-            public static var accessoryDetailButton: UIColor = iconSecondary
-            public static var selectionIndicatorOff: UIColor = iconSecondary
+    internal struct Table {
+        struct Cell {
+            static var background: UIColor = surfacePrimary
+            static var backgroundGrouped = UIColor(light: surfacePrimary, dark: surfaceSecondary)
+            static var backgroundSelected: UIColor = surfaceTertiary
+            static var image: UIColor = iconSecondary
+            static var title: UIColor = textPrimary
+            static var subtitle: UIColor = textSecondary
+            static var footer: UIColor = textSecondary
+            static var accessoryDisclosureIndicator: UIColor = iconSecondary
+            static var accessoryDetailButton: UIColor = iconSecondary
+            static var selectionIndicatorOff: UIColor = iconSecondary
         }
-        public struct ActionCell {
-            public static var textDestructive: UIColor = error
-            public static var textDestructiveHighlighted: UIColor = error.withAlphaComponent(0.4)
-            public static var textCommunication: UIColor = communicationBlue
-            public static var textCommunicationHighlighted: UIColor = communicationBlue.withAlphaComponent(0.4)
+
+        struct ActionCell {
+            static var textDestructive: UIColor = error
+            static var textDestructiveHighlighted: UIColor = error.withAlphaComponent(0.4)
+            static var textCommunication: UIColor = communicationBlue
+            static var textCommunicationHighlighted: UIColor = communicationBlue.withAlphaComponent(0.4)
         }
-        public struct HeaderFooter {
-            public static var accessoryButtonText: UIColor = textSecondary
-            public static var background: UIColor = .clear
-            public static var backgroundDivider: UIColor = surfaceSecondary
-            public static var text: UIColor = textSecondary
-            public static var textDivider: UIColor = textSecondary
-            public static var textLink = UIColor(light: Palette.communicationBlueShade10.color, dark: communicationBlue)
+
+        struct HeaderFooter {
+            static var accessoryButtonText: UIColor = textSecondary
+            static var background: UIColor = .clear
+            static var backgroundDivider: UIColor = surfaceSecondary
+            static var text: UIColor = textSecondary
+            static var textDivider: UIColor = textSecondary
+            static var textLink = UIColor(light: Palette.communicationBlueShade10.color, dark: communicationBlue)
         }
-        public static var background: UIColor = surfacePrimary
-        public static var backgroundGrouped = UIColor(light: surfaceSecondary, dark: surfacePrimary)
+
+        static var background: UIColor = surfacePrimary
+        static var backgroundGrouped = UIColor(light: surfaceSecondary, dark: surfacePrimary)
     }
+
     // Objective-C support
     @objc static var tableBackground: UIColor { return Table.background }
     @objc static var tableBackgroundGrouped: UIColor { return Table.backgroundGrouped }
@@ -104,9 +105,6 @@ public extension Colors {
 }
 
 // MARK: - TableViewCell
-
-@available(*, deprecated, renamed: "TableViewCell")
-public typealias MSTableViewCell = TableViewCell
 
 /**
  `TableViewCell` is used to present a cell with one, two, or three lines of text with an optional custom view and an accessory.
@@ -666,7 +664,7 @@ open class TableViewCell: UITableViewCell {
     }
     private var _customViewSize: CustomViewSize = .default
 
-    @objc open private(set) var customAccessoryView: UIView? = nil {
+    @objc open private(set) var customAccessoryView: UIView? {
         didSet {
             oldValue?.removeFromSuperview()
             if let customAccessoryView = customAccessoryView {

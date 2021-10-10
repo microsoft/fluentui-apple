@@ -7,12 +7,9 @@ import UIKit
 
 // MARK: EasyTapButton
 
-@available(*, deprecated, renamed: "EasyTapButton")
-public typealias MSEasyTapButton = EasyTapButton
-
 @objc(MSFEasyTapButton)
 open class EasyTapButton: UIButton {
-    open var minTapTargetSize = CGSize(width: 44.0, height: 44.0)
+    var minTapTargetSize = CGSize(width: 44.0, height: 44.0)
 
     open override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
         let growX = max(0, (minTapTargetSize.width - bounds.size.width) / 2)

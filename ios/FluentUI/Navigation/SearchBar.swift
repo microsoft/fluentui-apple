@@ -7,23 +7,25 @@ import UIKit
 
 // MARK: Search Colors
 
-public extension Colors {
+private extension Colors {
     struct SearchBar {
-        public struct DarkContent {
-            public static var background = UIColor(light: surfaceTertiary, dark: LightContent.background)
-            public static var cancelButton = UIColor(light: textSecondary, dark: LightContent.cancelButton)
-            public static var clearIcon = UIColor(light: iconPrimary, dark: LightContent.clearIcon)
-            public static var placeholderText = UIColor(light: textSecondary, dark: LightContent.placeholderText)
-            public static var progressSpinner = UIColor(light: iconDisabled, dark: textPrimary)
-            public static var searchIcon = UIColor(light: iconPrimary, dark: LightContent.searchIcon)
-            public static var text = UIColor(light: textDominant, dark: LightContent.text)
-            public static var tint = UIColor(light: iconSecondary, dark: LightContent.tint)
+        struct DarkContent {
+            static var background = UIColor(light: surfaceTertiary, dark: LightContent.background)
+            static var cancelButton = UIColor(light: textSecondary, dark: LightContent.cancelButton)
+            static var clearIcon = UIColor(light: iconPrimary, dark: LightContent.clearIcon)
+            static var placeholderText = UIColor(light: textSecondary, dark: LightContent.placeholderText)
+            static var progressSpinner = UIColor(light: iconDisabled, dark: textPrimary)
+            static var searchIcon = UIColor(light: iconPrimary, dark: LightContent.searchIcon)
+            static var text = UIColor(light: textDominant, dark: LightContent.text)
+            static var tint = UIColor(light: iconSecondary, dark: LightContent.tint)
         }
+
         public struct LightContent {
             public static var background = UIColor(light: UIColor.black.withAlphaComponent(0.2), dark: gray700, darkElevated: gray600)
             public static var cancelButton: UIColor = LightContent.text
             public static var clearIcon = UIColor(light: iconOnAccent, dark: textSecondary)
             public static var placeholderText = UIColor(light: textOnAccent, dark: textSecondary)
+            public static var progressSpinner = UIColor(light: textOnAccent, dark: textSecondary)
             public static var searchIcon: UIColor = placeholderText
             public static var text = UIColor(light: textOnAccent, dark: textDominant)
             public static var tint: UIColor = LightContent.text
@@ -32,9 +34,6 @@ public extension Colors {
 }
 
 // MARK: SearchBarDelegate
-
-@available(*, deprecated, renamed: "SearchBarDelegate")
-public typealias MSSearchBarDelegate = SearchBarDelegate
 
 /// Various state update methods coming from the SearchBar
 @objc(MSFSearchBarDelegate)
@@ -47,9 +46,6 @@ public protocol SearchBarDelegate: AnyObject {
 }
 
 // MARK: - SearchBar
-
-@available(*, deprecated, renamed: "SearchBar")
-public typealias MSSearchBar = SearchBar
 
 /// Drop-in replacement for UISearchBar that allows for more customization
 @objc(MSFSearchBar)
@@ -121,10 +117,10 @@ open class SearchBar: UIView {
             }
         }
 
-        func progressSpinnerColor(for window: UIWindow) -> UIColor {
+        var progressSpinnerColor: UIColor {
             switch self {
             case .lightContent:
-                return UIColor(light: Colors.primaryTint10(for: window), dark: Colors.textPrimary)
+                return Colors.SearchBar.LightContent.progressSpinner
             case .darkContent:
                 return Colors.SearchBar.DarkContent.progressSpinner
             }
@@ -271,10 +267,7 @@ open class SearchBar: UIView {
     private var originalIsNavigationBarHidden: Bool = false
 
     /// indicates search in progress
-    @objc public lazy var progressSpinner: ActivityIndicatorView = {
-        let progressSpinner = ActivityIndicatorView(size: .medium)
-        return progressSpinner
-    }()
+    @objc public lazy var progressSpinner: MSFActivityIndicator = MSFActivityIndicator(size: .medium)
 
     @objc public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -406,13 +399,14 @@ open class SearchBar: UIView {
         constraints.append(searchTextField.heightAnchor.constraint(equalTo: searchTextFieldBackgroundView.heightAnchor, constant: -2 * Constants.searchTextFieldVerticalInset))
 
         // progressSpinner
-        searchTextFieldBackgroundView.addSubview(progressSpinner)
-        progressSpinner.translatesAutoresizingMaskIntoConstraints = false
+        let progressSpinnerView = progressSpinner.view
+        searchTextFieldBackgroundView.addSubview(progressSpinnerView)
+        progressSpinnerView.translatesAutoresizingMaskIntoConstraints = false
 
-        constraints.append(progressSpinner.leadingAnchor.constraint(equalTo: searchTextField.trailingAnchor, constant: Constants.clearButtonLeadingInset))
-        constraints.append(progressSpinner.heightAnchor.constraint(equalTo: clearButton.widthAnchor))
-        constraints.append(progressSpinner.trailingAnchor.constraint(equalTo: searchTextFieldBackgroundView.trailingAnchor, constant: -1 * Constants.clearButtonTrailingInset))
-        constraints.append(progressSpinner.centerYAnchor.constraint(equalTo: searchTextFieldBackgroundView.centerYAnchor))
+        constraints.append(progressSpinnerView.leadingAnchor.constraint(equalTo: searchTextField.trailingAnchor, constant: Constants.clearButtonLeadingInset))
+        constraints.append(progressSpinnerView.heightAnchor.constraint(equalTo: clearButton.widthAnchor))
+        constraints.append(progressSpinnerView.trailingAnchor.constraint(equalTo: searchTextFieldBackgroundView.trailingAnchor, constant: -1 * Constants.clearButtonTrailingInset))
+        constraints.append(progressSpinnerView.centerYAnchor.constraint(equalTo: searchTextFieldBackgroundView.centerYAnchor))
 
         // clearButton
         searchTextFieldBackgroundView.addSubview(clearButton)
@@ -444,9 +438,7 @@ open class SearchBar: UIView {
         // used for cursor or selection handle
         searchTextField.tintColor = style.tintColor
         clearButton.tintColor = style.clearIconColor
-        if let window = window {
-            progressSpinner.color = style.progressSpinnerColor(for: window)
-        }
+        progressSpinner.state.color = style.progressSpinnerColor
         cancelButton.setTitleColor(style.cancelButtonColor, for: .normal)
         attributePlaceholderText()
     }

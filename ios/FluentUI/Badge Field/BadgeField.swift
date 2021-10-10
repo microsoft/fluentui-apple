@@ -6,9 +6,6 @@
 import UIKit
 
 // MARK: BadgeFieldDelegate
-@available(*, deprecated, renamed: "BadgeFieldDelegate")
-public typealias MSBadgeFieldDelegate = BadgeFieldDelegate
-
 @objc(MSFBadgeFieldDelegate)
 public protocol BadgeFieldDelegate: AnyObject {
     @objc optional func badgeField(_ badgeField: BadgeField, badgeDataSourceForText text: String) -> BadgeViewDataSource
@@ -50,16 +47,13 @@ public protocol BadgeFieldDelegate: AnyObject {
 
 // MARK: - BadgeField Colors
 
-public extension Colors {
+private extension Colors {
     struct BadgeField {
-        public static var background: UIColor = surfacePrimary
+        static var background: UIColor = surfacePrimary
     }
 }
 
 // MARK: - BadgeField
-
-@available(*, deprecated, renamed: "BadgeField")
-public typealias MSBadgeField = BadgeField
 /**
  BadgeField is a UIView that acts as a UITextField that can contains badges with enclosed text.
  It supports:

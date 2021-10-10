@@ -16,11 +16,11 @@ enum HUDType: Equatable {
 
 // MARK: - HUD Colors
 
-public extension Colors {
+private extension Colors {
     struct HUD {
-        public static var activityIndicator: UIColor = .white
-        public static var background = UIColor(light: gray900.withAlphaComponent(0.9), dark: gray700)
-        public static var text = UIColor(light: textOnAccent, dark: textPrimary)
+        static var activityIndicator: UIColor = .white
+        static var background = UIColor(light: gray900.withAlphaComponent(0.9), dark: gray700)
+        static var text = UIColor(light: textOnAccent, dark: textPrimary)
     }
 }
 
@@ -112,9 +112,7 @@ class HUDView: UIView {
             container.topAnchor.constraint(greaterThanOrEqualTo: topAnchor, constant: Constants.paddingVertical),
             container.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.paddingHorizontal),
             container.trailingAnchor.constraint(equalTo: trailingAnchor, constant: Constants.paddingHorizontal * -1.0),
-            container.centerYAnchor.constraint(equalTo: centerYAnchor),
-            indicatorView.widthAnchor.constraint(equalToConstant: ActivityIndicatorViewSize.xLarge.sideSize),
-            indicatorView.heightAnchor.constraint(equalToConstant: ActivityIndicatorViewSize.xLarge.sideSize)
+            container.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
 
@@ -126,13 +124,13 @@ class HUDView: UIView {
         if label.isHidden {
             return CGSize(width: Constants.minSize, height: Constants.minSize)
         } else {
-            let activitySize = ActivityIndicatorViewSize.xLarge.sideSize
+            let activitySize = indicatorView.sizeThatFits(.zero)
             let maxSize = traitCollection.preferredContentSizeCategory > .large ? Constants.maxSizeInLargerContent : Constants.maxSize
 
             let labelSize = label.systemLayoutSizeFitting(CGSize(width: maxSize - 2 * Constants.paddingHorizontal, height: 0.0), withHorizontalFittingPriority: .defaultLow, verticalFittingPriority: .defaultLow)
 
-            let fittingWidth = max(activitySize, labelSize.width) + 2 * Constants.paddingHorizontal
-            let fittingHeight = labelSize.height + activitySize + Constants.labelMarginTop + 2 * Constants.paddingVertical
+            let fittingWidth = max(activitySize.width, labelSize.width) + 2 * Constants.paddingHorizontal
+            let fittingHeight = labelSize.height + activitySize.height + Constants.labelMarginTop + 2 * Constants.paddingVertical
 
             // make sure HUD is always a square
             var suggestedSize = max(fittingWidth, fittingHeight)
@@ -189,10 +187,10 @@ class HUDView: UIView {
     private static func createIndicatorView(type: HUDType) -> UIView {
         switch type {
         case .activity:
-            let activityIndicatorView = ActivityIndicatorView(size: .xLarge)
-            activityIndicatorView.color = Colors.HUD.activityIndicator
-            activityIndicatorView.startAnimating()
-            return activityIndicatorView
+            let activityIndicator = MSFActivityIndicator(size: .xLarge)
+            activityIndicator.state.color = Colors.HUD.activityIndicator
+            activityIndicator.state.isAnimating = true
+            return activityIndicator.view
         case .success:
             let imageView = UIImageView(image: .staticImageNamed("checkmark-36x36"))
             imageView.tintColor = Colors.HUD.activityIndicator

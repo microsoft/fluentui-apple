@@ -6,7 +6,7 @@
 import QuartzCore
 import UIKit
 
-public extension CALayer {
+extension CALayer {
     var roundedCorners: UIRectCorner {
         var corners: UIRectCorner = []
         if maskedCorners.contains(.layerMinXMinYCorner) {

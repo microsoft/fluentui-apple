@@ -23,7 +23,7 @@ class DemoControllerScrollView: UIScrollView, ScrollableContainerView {
         initialize()
     }
 
-    open func initialize() {
+    private func initialize() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChangeFrame), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
     }
 
@@ -45,10 +45,10 @@ class DemoControllerScrollView: UIScrollView, ScrollableContainerView {
         }
         return result
     }
-    var horizontalScrollIndicator: UIView? {
+    private var horizontalScrollIndicator: UIView? {
         return value(forKey: "horizontalScrollIndicator") as? UIView
     }
-    var verticalScrollIndicator: UIView? {
+    private var verticalScrollIndicator: UIView? {
         return value(forKey: "verticalScrollIndicator") as? UIView
     }
 

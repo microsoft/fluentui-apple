@@ -34,25 +34,9 @@ public enum ShimmerStyle: Int, CaseIterable {
     }
 }
 
-@available(*, deprecated, renamed: "ShimmerView")
-public typealias MSShimmerView = ShimmerView
-
 /// View that converts the subviews of a container view into a loading state with the "shimmering" effect
 @objc(MSFShimmerView)
 open class ShimmerView: UIView {
-
-    @available(*, deprecated, message: "Use individual properties instead")
-    @objc open var shimmerAppearance = ShimmerAppearance() {
-        didSet {
-            shimmerAlpha = shimmerAppearance.alpha
-            shimmerWidth = shimmerAppearance.width
-            shimmerAngle = shimmerAppearance.angle
-            shimmerSpeed = shimmerAppearance.speed
-            shimmerDelay = shimmerAppearance.delay
-
-            setNeedsLayout()
-        }
-    }
 
     /// The alpha value of the center of the gradient in the animation if shimmer is revealing shimmer
     /// The alpha value of the view other than the gradient if shimmer is concealing shimmer
@@ -86,19 +70,6 @@ open class ShimmerView: UIView {
     /// Delay between the end of a shimmering animation and the beginning of the next one.
     @objc open var shimmerDelay: TimeInterval = defaultDelay {
         didSet {
-            setNeedsLayout()
-        }
-    }
-
-    @available(*, deprecated, message: "Use individual properties instead")
-    @objc open var appearance = ShimmerViewAppearance() {
-        didSet {
-            viewTintColor = appearance.tintColor
-            cornerRadius = appearance.cornerRadius
-            labelCornerRadius = appearance.labelCornerRadius
-            usesTextHeightForLabels = appearance.usesTextHeightForLabels
-            labelHeight = appearance.labelHeight
-
             setNeedsLayout()
         }
     }
@@ -360,8 +331,8 @@ open class ShimmerView: UIView {
 
 public extension Colors {
     struct Shimmer {
-        public static var darkGradient: UIColor = .black
-        public static var gradientCenter = UIColor(light: .white, dark: gray950)
+        internal static var darkGradient: UIColor = .black
+        internal static var gradientCenter = UIColor(light: .white, dark: gray950)
         public static var tint = UIColor(light: surfaceTertiary, lightHighContrast: Colors.Palette.gray400.color, dark: surfaceQuaternary, darkHighContrast: Colors.Palette.gray400.color)
     }
 }

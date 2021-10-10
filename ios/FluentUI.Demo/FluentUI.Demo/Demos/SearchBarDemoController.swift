@@ -40,10 +40,10 @@ class SearchBarDemoController: DemoController, SearchBarDelegate {
     }
 
     func searchBarDidCancel(_ searchBar: SearchBar) {
-        searchBar.progressSpinner.stopAnimating()
+        searchBar.progressSpinner.state.isAnimating = false
     }
 
     func searchBarDidRequestSearch(_ searchBar: SearchBar) {
-        searchBar.progressSpinner.startAnimating()
+        searchBar.progressSpinner.state.isAnimating = true
     }
 }

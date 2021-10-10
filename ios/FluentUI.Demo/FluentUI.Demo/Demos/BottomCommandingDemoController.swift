@@ -80,11 +80,12 @@ class BottomCommandingDemoController: UIViewController {
 
     private lazy var currentExpandedListSections: [CommandingSection] = shortCommandSectionList
 
-    private lazy var demoOptionItems: [DemoItem] = {
-        return [DemoItem(title: "Hidden", type: .boolean, action: #selector(toggleHidden), isOn: false),
-                DemoItem(title: "Sheet more button", type: .boolean, action: #selector(toggleSheetMoreButton), isOn: true),
-                DemoItem(title: "Expanded list items", type: .boolean, action: #selector(toggleExpandedItems), isOn: true),
-                DemoItem(title: "Additional expanded list items", type: .boolean, action: #selector(toggleAdditionalExpandedItems(_:)), isOn: false),
+    private var demoOptionItems: [DemoItem] {
+        return [DemoItem(title: "Hidden", type: .boolean, action: #selector(toggleHidden), isOn: bottomCommandingController?.isHidden ?? false),
+                DemoItem(title: "Scroll to hide", type: .boolean, action: #selector(toggleScrollHiding), isOn: scrollHidingEnabled),
+                DemoItem(title: "Sheet more button", type: .boolean, action: #selector(toggleSheetMoreButton), isOn: bottomCommandingController?.prefersSheetMoreButtonVisible ?? true),
+                DemoItem(title: "Expanded list items", type: .boolean, action: #selector(toggleExpandedItems), isOn: expandedItemsVisible),
+                DemoItem(title: "Additional expanded list items", type: .boolean, action: #selector(toggleAdditionalExpandedItems(_:)), isOn: additionalExpandedItemsVisible),
                 DemoItem(title: "Popover on hero command tap", type: .boolean, action: #selector(toggleHeroPopover)),
                 DemoItem(title: "Hero command isOn", type: .boolean, action: #selector(toggleHeroCommandOnOff)),
                 DemoItem(title: "Hero command isEnabled", type: .boolean, action: #selector(toggleHeroCommandEnabled), isOn: true),
@@ -97,18 +98,23 @@ class BottomCommandingDemoController: UIViewController {
                 DemoItem(title: "Change list command images", type: .action, action: #selector(changeListCommandIcon)),
                 DemoItem(title: "Hero command count", type: .stepper, action: nil)
         ]
-    }()
-
-    @objc private func toggleHidden() {
-        bottomCommandingController?.isHidden.toggle()
     }
 
-    @objc private func toggleSheetMoreButton() {
-        bottomCommandingController?.prefersSheetMoreButtonVisible.toggle()
+    @objc private func toggleHidden(_ sender: BooleanCell) {
+        bottomCommandingController?.isHidden = sender.isOn
     }
 
-    @objc private func toggleExpandedItems() {
-        if bottomCommandingController?.expandedListSections.count == 0 {
+    @objc private func toggleScrollHiding(_ sender: BooleanCell) {
+        scrollHidingEnabled = sender.isOn
+    }
+
+    @objc private func toggleSheetMoreButton(_ sender: BooleanCell) {
+        bottomCommandingController?.prefersSheetMoreButtonVisible = sender.isOn
+    }
+
+    @objc private func toggleExpandedItems(_ sender: BooleanCell) {
+        expandedItemsVisible = sender.isOn
+        if expandedItemsVisible {
             bottomCommandingController?.expandedListSections = currentExpandedListSections
         } else {
             bottomCommandingController?.expandedListSections = []
@@ -116,7 +122,8 @@ class BottomCommandingDemoController: UIViewController {
     }
 
     @objc private func toggleAdditionalExpandedItems(_ sender: BooleanCell) {
-        if sender.isOn {
+        additionalExpandedItemsVisible = sender.isOn
+        if additionalExpandedItemsVisible {
             currentExpandedListSections = longCommandSectionList
         } else {
             currentExpandedListSections = shortCommandSectionList
@@ -126,21 +133,21 @@ class BottomCommandingDemoController: UIViewController {
 
     private let modifiedCommandIndices: [Int] = [0, 3]
 
-    @objc private func toggleHeroCommandOnOff() {
+    @objc private func toggleHeroCommandOnOff(_ sender: BooleanCell) {
         modifiedCommandIndices.forEach {
-            heroItems[$0].isOn.toggle()
+            heroItems[$0].isOn = sender.isOn
         }
     }
 
-    @objc private func toggleHeroCommandEnabled() {
+    @objc private func toggleHeroCommandEnabled(_ sender: BooleanCell) {
         modifiedCommandIndices.forEach {
-            heroItems[$0].isEnabled.toggle()
+            heroItems[$0].isEnabled = sender.isOn
         }
     }
 
-    @objc private func toggleListCommandEnabled() {
+    @objc private func toggleListCommandEnabled(_ sender: BooleanCell) {
         modifiedCommandIndices.forEach {
-            currentExpandedListSections[0].items[$0].isEnabled.toggle()
+            currentExpandedListSections[0].items[$0].isEnabled = sender.isOn
         }
     }
 
@@ -186,22 +193,6 @@ class BottomCommandingDemoController: UIViewController {
         booleanCommands.forEach { $0.isOn.toggle() }
     }
 
-    @objc private func incrementHeroCommands() {
-        let currentCount = bottomCommandingController?.heroItems.count ?? 0
-        if currentCount < 4 {
-            let newCount = currentCount + 1
-            bottomCommandingController?.heroItems = Array(heroItems[0..<newCount])
-        }
-    }
-
-    @objc private func decrementHeroCommands() {
-        let currentCount = bottomCommandingController?.heroItems.count ?? 0
-        if currentCount > 1 {
-            let newCount = currentCount - 1
-            bottomCommandingController?.heroItems = Array(heroItems[0..<newCount])
-        }
-    }
-
     @objc private func commandAction(item: CommandingItem) {
         if heroItems.contains(item) {
             if heroCommandPopoverEnabled {
@@ -228,25 +219,47 @@ class BottomCommandingDemoController: UIViewController {
         present(alert, animated: true)
     }
 
-    private lazy var incrementHeroCommandCountButton: Button = {
-        let button = Button()
-        button.image = UIImage(named: "ic_fluent_add_20_regular")
+    private lazy var incrementHeroCommandCountButton: MSFButton = {
+        let button = MSFButton(style: .secondary,
+                               size: .small) { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            let currentCount = strongSelf.bottomCommandingController?.heroItems.count ?? 0
+            if currentCount < 4 {
+                let newCount = currentCount + 1
+                strongSelf.bottomCommandingController?.heroItems = Array(strongSelf.heroItems[0..<newCount])
+            }
+        }
+        button.state.image = UIImage(named: "ic_fluent_add_20_regular")
         button.accessibilityLabel = "Increment hero command count"
-        button.addTarget(self, action: #selector(incrementHeroCommands), for: .touchUpInside)
+
         return button
     }()
 
-    private lazy var decrementHeroCommandCountButton: Button = {
-        let button = Button()
-        button.image = UIImage(named: "ic_fluent_subtract_20_regular")
+    private lazy var decrementHeroCommandCountButton: MSFButton = {
+        let button = MSFButton(style: .secondary,
+                               size: .small) { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            let currentCount = strongSelf.bottomCommandingController?.heroItems.count ?? 0
+            if currentCount > 1 {
+                let newCount = currentCount - 1
+                strongSelf.bottomCommandingController?.heroItems = Array(strongSelf.heroItems[0..<newCount])
+            }
+        }
+        button.state.image = UIImage(named: "ic_fluent_subtract_20_regular")
         button.accessibilityLabel = "Decrement hero command count"
-        button.addTarget(self, action: #selector(decrementHeroCommands), for: .touchUpInside)
+
         return button
     }()
 
     private lazy var customPopoverViewController: UIViewController = {
         let viewController = UIViewController()
-        viewController.view.backgroundColor = Colors.NavigationBar.background
+        viewController.view.backgroundColor = Colors.navigationBarBackground
         viewController.preferredContentSize = CGSize(width: 300, height: 300)
         viewController.modalPresentationStyle = .popover
 
@@ -271,6 +284,18 @@ class BottomCommandingDemoController: UIViewController {
     private var heroCommandPopoverEnabled: Bool = false
 
     private var bottomCommandingController: BottomCommandingController?
+
+    private var expandedItemsVisible: Bool = true
+
+    private var additionalExpandedItemsVisible: Bool = false
+
+    private var previousScrollOffset: CGFloat = 0
+
+    private var isHiding: Bool = false
+
+    private var interactiveHidingAnimator: UIViewAnimating?
+
+    private var scrollHidingEnabled: Bool = false
 
     private enum DemoItemType {
         case action
@@ -330,8 +355,8 @@ extension BottomCommandingDemoController: UITableViewDataSource {
             }
 
             let stackView = UIStackView(frame: CGRect(x: 0, y: 0, width: 100, height: 40))
-            stackView.addArrangedSubview(decrementHeroCommandCountButton)
-            stackView.addArrangedSubview(incrementHeroCommandCountButton)
+            stackView.addArrangedSubview(decrementHeroCommandCountButton.view)
+            stackView.addArrangedSubview(incrementHeroCommandCountButton.view)
             stackView.distribution = .fillEqually
             stackView.alignment = .center
             stackView.spacing = 4
@@ -342,6 +367,48 @@ extension BottomCommandingDemoController: UITableViewDataSource {
         }
 
         return UITableViewCell()
+    }
+}
+
+extension BottomCommandingDemoController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let contentOffset = scrollView.contentOffset.y
+
+        if scrollView.isTracking && scrollHidingEnabled {
+            var delta = contentOffset - previousScrollOffset
+            if interactiveHidingAnimator == nil {
+                isHiding = delta > 0 ? true : false
+                interactiveHidingAnimator = bottomCommandingController?.prepareInteractiveIsHiddenChange(isHiding) { [weak self] _ in
+                    self?.mainTableViewController?.tableView?.reloadData()
+                    self?.mainTableViewController?.tableView?.layoutIfNeeded()
+                    self?.interactiveHidingAnimator = nil
+                }
+            }
+            if let animator = interactiveHidingAnimator {
+                if animator.isRunning {
+                    animator.pauseAnimation()
+                }
+
+                // fractionComplete either represents progress to hidden or unhidden,
+                // so we need to adjust the delta to account for this
+                delta *= isHiding ? 1 : -1
+                animator.fractionComplete += delta / 100
+            }
+        }
+
+        previousScrollOffset = contentOffset
+    }
+
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if let animator = interactiveHidingAnimator {
+            if animator.fractionComplete > 0.5 {
+                animator.startAnimation()
+            } else {
+                animator.isReversed.toggle()
+                isHiding.toggle()
+                animator.startAnimation()
+            }
+        }
     }
 }
 

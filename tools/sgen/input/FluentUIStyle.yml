@@ -1,0 +1,461 @@
+Colors:
+  Brand:
+    - primary: "FluentUIColor(light: #0078D4, dark: #0086F0)"
+    - shade10: "FluentUIColor(light: #106EBE, dark: #1890F1)"
+    - shade20: "FluentUIColor(light: #005A9E, dark: #3AA0F3)"
+    - shade30: "FluentUIColor(light: #004578, dark: #6CB8F6)"
+    - tint10: "FluentUIColor(light: #2B88D8, dark: #0078D4)"
+    - tint20: "FluentUIColor(light: #C7E0F4, dark: #004C87)"
+    - tint30: "FluentUIColor(light: #DEECF9, dark: #043862)"
+    - tint40: "FluentUIColor(light: #EFF6FC, dark: #092C47)"
+
+  Background:
+    - neutral1: "FluentUIColor(light: NamedColor(white), dark: NamedColor(black), darkElevated: NamedColor(grey4))"
+    - neutral2: "FluentUIColor(light: NamedColor(grey98), dark: NamedColor(grey4), darkElevated: NamedColor(grey8))"
+    - neutral3: "FluentUIColor(light: NamedColor(grey96), dark: NamedColor(grey8), darkElevated: NamedColor(grey12))"
+    - neutral4: "FluentUIColor(light: NamedColor(grey94), dark: NamedColor(grey12), darkElevated: NamedColor(grey16))"
+    - neutral5: "FluentUIColor(light: NamedColor(grey92), dark: NamedColor(grey36))"
+    - neutralDisabled: "FluentUIColor(light: NamedColor(grey88), dark: NamedColor(grey84))"
+    - brandRest: "FluentUIColor(light: $Colors.Brand.primary, dark: $Colors.Brand.primary)"
+    - brandHover: "FluentUIColor(light: $Colors.Brand.shade10, dark: $Colors.Brand.shade10)"
+    - brandPressed: "FluentUIColor(light: $Colors.Brand.shade30, dark: $Colors.Brand.shade30)"
+    - brandSelected: "FluentUIColor(light: $Colors.Brand.shade20, dark: $Colors.Brand.shade20)"
+    - brandDisabled: "FluentUIColor(light: NamedColor(grey88), dark: NamedColor(grey84))"
+    - surfacePrimary: "FluentUIColor(light: NamedColor(white), dark: NamedColor(black), darkElevated: NamedColor(grey8))"
+    - surfaceQuaternary: "FluentUIColor(light: NamedColor(grey88), dark: NamedColor(grey26))"
+
+  Elevation:
+    - lowElevation1: "FluentUIColor(light: $Colors.Shadow.opacity14, dark: $Colors.Shadow.opacity28)"
+    - lowElevation2: "FluentUIColor(light: $Colors.Shadow.opacity12, dark: $Colors.Shadow.opacity20)"
+    - highElevation1: "FluentUIColor(light: $Colors.Shadow.opacity24, dark: $Colors.Shadow.opacity48)"
+    - highElevation2: "FluentUIColor(light: $Colors.Shadow.opacity20, dark: $Colors.Shadow.opacity40)"
+    - highElevation: "FluentUIColor(light: $Colors.Shadow.opacity40, dark: $Colors.Shadow.opacity60)"
+
+  Foreground:
+    - neutral1: "FluentUIColor(light: NamedColor(grey14), lightHighContrast: NamedColor(black), dark: NamedColor(white))"
+    - neutral2: "FluentUIColor(light: NamedColor(grey26), lightHighContrast: NamedColor(black), dark: NamedColor(grey84), darkHighContrast: NamedColor(white))"
+    - neutral3: "FluentUIColor(light: NamedColor(grey38), lightHighContrast: NamedColor(grey14), dark: NamedColor(grey68), darkHighContrast: NamedColor(grey84))"
+    - neutral4: "FluentUIColor(light: NamedColor(grey50), lightHighContrast: NamedColor(grey26), dark: NamedColor(grey52), darkHighContrast: NamedColor(grey84))"
+    - neutralDisabled: "FluentUIColor(light: NamedColor(grey74), lightHighContrast: NamedColor(grey38), dark: NamedColor(grey36), darkHighContrast: NamedColor(grey62))"
+    - neutralInverted: "FluentUIColor(light: NamedColor(white), dark: NamedColor(black))"
+    - brandRest: "FluentUIColor(light: $Colors.Brand.primary, lightHighContrast: $Colors.Brand.shade20, dark: $Colors.Brand.primary, darkHighContrast: $Colors.Brand.tint20)"
+    - brandHover: "FluentUIColor(light: $Colors.Brand.shade10, dark: $Colors.Brand.shade10)"
+    - brandPressed: "FluentUIColor(light: $Colors.Brand.shade30, dark: $Colors.Brand.shade30)"
+    - brandSelected: "FluentUIColor(light: $Colors.Brand.shade20, dark: $Colors.Brand.shade20)"
+    - brandDisabled: "FluentUIColor(light: NamedColor(grey74), dark: NamedColor(grey36))"
+
+  Presence:
+    - available: "NamedColor(presenceAvailable)"
+    - away: "NamedColor(presenceAway)"
+    - blocked: "NamedColor(presenceBlocked)"
+    - busy: "NamedColor(presenceBusy)"
+    - doNotDisturb: "NamedColor(presenceDnd)"
+    - offline: "NamedColor(presenceOffline)"
+    - outOfOffice: "NamedColor(presenceOof)"
+    - unknown: "NamedColor(presenceUnknown)"
+
+  Stroke:
+    - neutral1: "FluentUIColor(light: NamedColor(grey94), lightHighContrast: NamedColor(grey38), dark: NamedColor(grey24), darkHighContrast: NamedColor(grey68), darkElevated: NamedColor(grey32))"
+    - neutral2: "FluentUIColor(light: NamedColor(grey88), lightHighContrast: NamedColor(grey38), dark: NamedColor(grey32), darkHighContrast: NamedColor(grey68), darkElevated: NamedColor(grey36))"
+    - neutral3: "FluentUIColor(light: NamedColor(grey82), lightHighContrast: NamedColor(grey38), dark: NamedColor(grey40), darkHighContrast: NamedColor(grey68), darkElevated: NamedColor(grey52))"
+    - neutralDisabled: "FluentUIColor(light: NamedColor(grey88), dark: NamedColor(grey32))"
+    - neutralAccessible: "FluentUIColor(light: NamedColor(grey38), lightHighContrast: NamedColor(grey14), dark: NamedColor(grey68), darkHighContrast: NamedColor(grey84), darkElevated: NamedColor(grey68))"
+    - brandRest: "FluentUIColor(light: $Colors.Brand.primary, dark: $Colors.Brand.primary)"
+    - brandHover: "FluentUIColor(light: $Colors.Brand.shade10, dark: $Colors.Brand.shade10)"
+    - brandPressed: "FluentUIColor(light: $Colors.Brand.shade30, dark: $Colors.Brand.shade30)"
+    - brandSelected: "FluentUIColor(light: $Colors.Brand.shade20, dark: $Colors.Brand.shade20)"
+    - brandDisabled: "FluentUIColor(light: NamedColor(grey88), dark: NamedColor(grey84))"
+
+  Shadow:
+    - clear: "#00000000"
+    - opacity12: "#0000001F"
+    - opacity14: "#00000024"
+    - opacity20: "#00000033"
+    - opacity24: "#0000003D"
+    - opacity28: "#00000047"
+    - opacity40: "#00000066"
+    - opacity48: "#0000007A"
+    - opacity60: "#00000099"
+    - opaque: "#000000FF"
+
+Typography:
+  body: "Font(body)"
+  caption1: "Font(caption1)"
+  footnote: "Font(footnote)"
+  headline: "Font(headline)"
+  subheadline: "Font(subheadline)"
+
+Border:
+  radius: [ none: 0pt, small: 2pt, medium: 4pt, large: 8pt, xLarge: 12pt, xxLarge: 14pt ]
+  size: [ none: 0pt, thin: 1pt, thick: 2pt, thicker: 4pt, thickest: 6pt ]
+
+Icon:
+  size: [ xxxSmall: 10pt, xxSmall: 12pt, xSmall: 16pt, small: 20pt, medium: 24pt, large: 28pt, xLarge: 36pt, xxLarge: 40pt, xxxLarge: 48pt ]
+  accentColor: "FluentUIColor(light: NamedColor(white), dark: NamedColor(black))"
+
+Spacing:
+  none: 0pt
+  xxxSmall: 2pt
+  xxSmall: 4pt
+  xSmall: 8pt
+  small: 12pt
+  medium: 16pt
+  large: 20pt
+  xLarge: 24pt
+  xxLarge: 36pt
+  xxxLarge: 48pt
+  xxxxLarge: 72pt
+
+Opacity:
+  opacity05: 0.05f
+  opacity8: 0.8f
+  opacity16: 0.16f
+  opacity24: 0.24f
+  opacity32: 0.32f
+  opacity64: 0.64f
+  opacity72: 0.72f
+  opacity88: 0.88f
+  opacity96: 0.96f
+  none: 1f
+  clear: 0.0f
+
+Shadow:
+    shadow2: [ blur1: 1pt, color1: $Colors.Elevation.lowElevation1, x1: 0pt, y1: 1pt, blur2: 1pt, color2: $Colors.Elevation.lowElevation2, x2: 0pt, y2: 0pt ]
+    shadow4: [ blur1: 2pt, color1: $Colors.Elevation.lowElevation1, x1: 0pt, y1: 2pt, blur2: 1pt, color2: $Colors.Elevation.lowElevation2, x2: 0pt, y2: 0pt ]
+    shadow8: [ blur1: 4pt, color1: $Colors.Elevation.lowElevation1, x1: 0pt, y1: 4pt, blur2: 1pt, color2: $Colors.Elevation.lowElevation2, x2: 0pt, y2: 0pt ]
+    shadow16: [ blur1: 8pt, color1: $Colors.Elevation.lowElevation1, x1: 0pt, y1: 8pt, blur2: 1pt, color2: $Colors.Elevation.lowElevation2, x2: 0pt, y2: 0pt ]
+    shadow28: [ blur1: 14pt, color1: $Colors.Elevation.highElevation1, x1: 0pt, y1: 14pt, blur2: 4pt, color2: $Colors.Elevation.highElevation2, x2: 0pt, y2: 0pt ]
+    shadow64: [ blur1: 32pt, color1: $Colors.Elevation.highElevation1, x1: 0pt, y1: 32pt, blur2: 4pt, color2: $Colors.Elevation.highElevation2, x2: 0pt, y2: 0pt ]
+
+AP_MSFActivityIndicatorTokens:
+  defaultColor: $Colors.Foreground.neutral4
+  size: [ xSmall: 12pt, small: 16pt, medium: 24pt, large: 32pt, xLarge: 36pt ]
+  thickness: [ xSmall: 1pt, small: 1pt, medium: 2pt, large: 3pt, xLarge: 4pt ]
+
+AP_MSFAvatarTokens:
+  backgroundDefaultColor: "FluentUIColor(light: NamedColor(white), dark: $Colors.Brand.primary)"
+  borderRadius: [ xSmall: $Border.radius.none, small: $Border.radius.none, medium: $Border.radius.none, large: $Border.radius.none, xlarge: $Border.radius.none, xxlarge: $Border.radius.none ]
+  foregroundDefaultColor: "FluentUIColor(light: $Colors.Brand.primary, dark: $Icon.accentColor)"
+  presenceIconSize: [ xSmall: 0pt, small: $Icon.size.xxxSmall, medium: $Icon.size.xxxSmall, large: $Icon.size.xxSmall, xlarge: $Icon.size.xxSmall, xxlarge: $Icon.size.small ]
+  presenceIconOutlineColor: $Colors.Background.neutral1
+  presenceIconOutlineThickness: [ xSmall: $Border.size.none, small: $Border.size.thick, medium: $Border.size.thick, large: $Border.size.thick, xlarge: $Border.size.thick, xxlarge: $Border.size.thick ]
+  ringDefaultColor: $Colors.Brand.tint10
+  ringGapColor: $Colors.Background.neutral1
+  ringInnerGap: [ xSmall: $Border.size.thick, small: $Border.size.thick, medium: $Border.size.thick, large: $Border.size.thick, xlarge: $Border.size.thick, xxlarge: $Border.size.thicker ]
+  ringThickness: [ xSmall: $Border.size.thin, small: $Border.size.thin, medium: $Border.size.thick, large: $Border.size.thick, xlarge: $Border.size.thick, xxlarge: $Border.size.thicker ]
+  ringOuterGap: [ xSmall: $Border.size.thick, small: $Border.size.thick, medium: $Border.size.thick, large: $Border.size.thick, xlarge: $Border.size.thick, xxlarge: $Border.size.thicker ]
+  size: [ xSmall: 16pt, small: 24pt, medium: 32pt, large: 40pt, xlarge: 52pt, xxlarge: 72pt ]
+  textCalculatedBackgroundColors: [ "FluentUIColor(light: NamedColor(darkRedTint40), dark: NamedColor(darkRedShade30))",
+                                    "FluentUIColor(light: NamedColor(cranberryTint40), dark: NamedColor(cranberryShade30))",
+                                    "FluentUIColor(light: NamedColor(redTint40), dark: NamedColor(redShade30))",
+                                    "FluentUIColor(light: NamedColor(pumpkinTint40), dark: NamedColor(pumpkinShade30))",
+                                    "FluentUIColor(light: NamedColor(peachTint40), dark: NamedColor(peachShade30))",
+                                    "FluentUIColor(light: NamedColor(marigoldTint40), dark: NamedColor(marigoldShade30))",
+                                    "FluentUIColor(light: NamedColor(goldTint40), dark: NamedColor(goldShade30))",
+                                    "FluentUIColor(light: NamedColor(brassTint40), dark: NamedColor(brassShade30))",
+                                    "FluentUIColor(light: NamedColor(brownTint40), dark: NamedColor(brownShade30))",
+                                    "FluentUIColor(light: NamedColor(forestTint40), dark: NamedColor(forestShade30))",
+                                    "FluentUIColor(light: NamedColor(seafoamTint40), dark: NamedColor(seafoamShade30))",
+                                    "FluentUIColor(light: NamedColor(darkGreenTint40), dark: NamedColor(darkGreenShade30))",
+                                    "FluentUIColor(light: NamedColor(lightTealTint40), dark: NamedColor(lightTealShade30))",
+                                    "FluentUIColor(light: NamedColor(tealTint40), dark: NamedColor(tealShade30))",
+                                    "FluentUIColor(light: NamedColor(steelTint40), dark: NamedColor(steelShade30))",
+                                    "FluentUIColor(light: NamedColor(blueTint40), dark: NamedColor(blueShade30))",
+                                    "FluentUIColor(light: NamedColor(royalBlueTint40), dark: NamedColor(royalBlueShade30))",
+                                    "FluentUIColor(light: NamedColor(cornFlowerTint40), dark: NamedColor(cornFlowerShade30))",
+                                    "FluentUIColor(light: NamedColor(navyTint40), dark: NamedColor(navyShade30))",
+                                    "FluentUIColor(light: NamedColor(lavenderTint40), dark: NamedColor(lavenderShade30))",
+                                    "FluentUIColor(light: NamedColor(purpleTint40), dark: NamedColor(purpleShade30))",
+                                    "FluentUIColor(light: NamedColor(grapeTint40), dark: NamedColor(grapeShade30))",
+                                    "FluentUIColor(light: NamedColor(lilacTint40), dark: NamedColor(lilacShade30))",
+                                    "FluentUIColor(light: NamedColor(pinkTint40), dark: NamedColor(pinkShade30))",
+                                    "FluentUIColor(light: NamedColor(magentaTint40), dark: NamedColor(magentaShade30))",
+                                    "FluentUIColor(light: NamedColor(plumTint40), dark: NamedColor(plumShade30))",
+                                    "FluentUIColor(light: NamedColor(beigeTint40), dark: NamedColor(beigeShade30))",
+                                    "FluentUIColor(light: NamedColor(minkTint40), dark: NamedColor(minkShade30))",
+                                    "FluentUIColor(light: NamedColor(platinumTint40), dark: NamedColor(platinumShade30))",
+                                    "FluentUIColor(light: NamedColor(anchorTint40), dark: NamedColor(anchorShade30)" ]
+  textCalculatedForegroundColors: [ "FluentUIColor(light: NamedColor(darkRedShade30), dark: NamedColor(darkRedTint40))",
+                                    "FluentUIColor(light: NamedColor(cranberryShade30), dark: NamedColor(cranberryTint40))",
+                                    "FluentUIColor(light: NamedColor(redShade30), dark: NamedColor(redTint40))",
+                                    "FluentUIColor(light: NamedColor(pumpkinShade30), dark: NamedColor(pumpkinTint40))",
+                                    "FluentUIColor(light: NamedColor(peachShade30), dark: NamedColor(peachTint40))",
+                                    "FluentUIColor(light: NamedColor(marigoldShade30), dark: NamedColor(marigoldTint40))",
+                                    "FluentUIColor(light: NamedColor(goldShade30), dark: NamedColor(goldTint40))",
+                                    "FluentUIColor(light: NamedColor(brassShade30), dark: NamedColor(brassTint40))",
+                                    "FluentUIColor(light: NamedColor(brownShade30), dark: NamedColor(brownTint40))",
+                                    "FluentUIColor(light: NamedColor(forestShade30), dark: NamedColor(forestTint40))",
+                                    "FluentUIColor(light: NamedColor(seafoamShade30), dark: NamedColor(seafoamTint40))",
+                                    "FluentUIColor(light: NamedColor(darkGreenShade30), dark: NamedColor(darkGreenTint40))",
+                                    "FluentUIColor(light: NamedColor(lightTealShade30), dark: NamedColor(lightTealTint40))",
+                                    "FluentUIColor(light: NamedColor(tealShade30), dark: NamedColor(tealTint40))",
+                                    "FluentUIColor(light: NamedColor(steelShade30), dark: NamedColor(steelTint40))",
+                                    "FluentUIColor(light: NamedColor(blueShade30), dark: NamedColor(blueTint40))",
+                                    "FluentUIColor(light: NamedColor(royalBlueShade30), dark: NamedColor(royalBlueTint40))",
+                                    "FluentUIColor(light: NamedColor(cornFlowerShade30), dark: NamedColor(cornFlowerTint40))",
+                                    "FluentUIColor(light: NamedColor(navyShade30), dark: NamedColor(navyTint40))",
+                                    "FluentUIColor(light: NamedColor(lavenderShade30), dark: NamedColor(lavenderTint40))",
+                                    "FluentUIColor(light: NamedColor(purpleShade30), dark: NamedColor(purpleTint40))",
+                                    "FluentUIColor(light: NamedColor(grapeShade30), dark: NamedColor(grapeTint40))",
+                                    "FluentUIColor(light: NamedColor(lilacShade30), dark: NamedColor(lilacTint40))",
+                                    "FluentUIColor(light: NamedColor(pinkShade30), dark: NamedColor(pinkTint40))",
+                                    "FluentUIColor(light: NamedColor(magentaShade30), dark: NamedColor(magentaTint40))",
+                                    "FluentUIColor(light: NamedColor(plumShade30), dark: NamedColor(plumTint40))",
+                                    "FluentUIColor(light: NamedColor(beigeShade30), dark: NamedColor(beigeTint40))",
+                                    "FluentUIColor(light: NamedColor(minkShade30), dark: NamedColor(minkTint40))",
+                                    "FluentUIColor(light: NamedColor(platinumShade30), dark: NamedColor(platinumTint40))",
+                                    "FluentUIColor(light: NamedColor(anchorShade30), dark: NamedColor(anchorTint40))" ]
+  textFont: [ xSmall: "Font(9px, regular)", small: "Font(12px, regular)", medium: "Font(13px, regular)", large: "Font(15px, regular)", xlarge: "Font(20px, regular)", xxlarge: "Font(28px, medium)" ]
+
+MSFAccentAvatarTokens extends MSFAvatarTokens:
+  backgroundDefaultColor: $Colors.Brand.primary
+  foregroundDefaultColor: $Icon.accentColor
+  ringDefaultColor: $Colors.Brand.shade10
+
+MSFGroupAvatarTokens extends MSFAvatarTokens:
+  borderRadius: [ xSmall: $Border.radius.small, small: $Border.radius.medium, medium: $Border.radius.medium, large: $Border.radius.large, xlarge: $Border.radius.large, xxlarge: $Border.radius.xLarge ]
+
+MSFOutlinedAvatarTokens extends MSFAvatarTokens:
+  backgroundDefaultColor: "FluentUIColor(light: NamedColor(grey94), dark: NamedColor(grey26))"
+  foregroundDefaultColor: "FluentUIColor(light: NamedColor(grey42), dark: NamedColor(grey78))"
+  ringDefaultColor: $Colors.Background.neutralDisabled
+
+MSFOutlinedPrimaryAvatarTokens extends MSFAvatarTokens:
+  backgroundDefaultColor: "FluentUIColor(light: $Colors.Brand.tint40, dark: NamedColor(grey26))"
+  foregroundDefaultColor: "FluentUIColor(light: $Colors.Brand.primary, dark: NamedColor(grey78))"
+  ringDefaultColor: "FluentUIColor(light: $Colors.Brand.tint10, dark: NamedColor(grey78))"
+
+MSFOverflowAvatarTokens extends MSFAvatarTokens:
+  backgroundDefaultColor: $Colors.Background.neutral4
+  foregroundDefaultColor: $Colors.Foreground.neutral3
+  ringDefaultColor: $Colors.Background.neutralDisabled
+
+AP_MSFAvatarGroupTokens:
+  interspace: [ xSmall: $Spacing.xxSmall, small: $Spacing.xxSmall, medium: $Spacing.xSmall, large: $Spacing.xSmall, xlarge: $Spacing.xSmall, xxlarge: $Spacing.xSmall ]
+  
+MSFAvatarGroupStackTokens extends MSFAvatarGroupTokens:
+  interspace: [ xSmall: -2pt, small: -2pt, medium: -4pt, large: -8pt, xlarge: -12pt, xxlarge: -12pt ]
+
+AP_MSFButtonTokens:
+  backgroundColor: [ rest: NamedColor(clear), hover: NamedColor(clear), pressed: NamedColor(clear), selected: NamedColor(clear), disabled: NamedColor(clear) ]
+  borderColor: [ rest: $Colors.Background.brandRest, hover: $Colors.Background.brandHover, pressed: $Colors.Background.brandPressed, selected: $Colors.Background.brandSelected, disabled: $Colors.Background.brandDisabled ]
+  borderRadius: [ small: $Border.radius.large, medium: $Border.radius.large, large: $Border.radius.xLarge ]
+  borderSize: [ small: $Border.size.none, medium: $Border.size.none, large: $Border.size.none ]
+  iconColor: [ rest: $Colors.Foreground.brandRest, hover: $Colors.Foreground.brandHover, pressed: $Colors.Foreground.brandPressed, selected: $Colors.Foreground.brandSelected, disabled: $Colors.Foreground.brandDisabled ]
+  iconSize: [ small: $Icon.size.xSmall, medium: $Icon.size.small, large: $Icon.size.small ]
+  interspace: [ small: $Spacing.xxSmall, medium: $Spacing.xSmall, large: $Spacing.xSmall ]
+  padding: [ small: $Spacing.xSmall, medium: $Spacing.small, large: $Spacing.large ]
+  textColor: [ rest: $Colors.Foreground.brandRest, hover: $Colors.Foreground.brandHover, pressed: $Colors.Foreground.brandPressed, selected: $Colors.Foreground.brandSelected, disabled: $Colors.Foreground.brandDisabled ]
+  textFont: [ small: $Typography.footnote, medium: $Typography.subheadline, large: $Typography.subheadline ]
+  textMinimumHeight: [ small: $Icon.size.medium, medium: $Icon.size.medium, large: $Icon.size.medium ]
+  textAdditionalHorizontalPadding: [ small: $Spacing.xSmall, medium: $Spacing.xSmall, large: $Spacing.xxSmall ]
+  shadow1Color: [ rest: $Shadow.shadow8.color1, hover: $Shadow.shadow2.color1, pressed: $Shadow.shadow2.color1, selected: $Shadow.shadow2.color1, disabled: $Shadow.shadow2.color1]
+  shadow1Blur: [ rest: $Shadow.shadow8.blur1, hover: $Shadow.shadow2.blur1, pressed: $Shadow.shadow2.blur1, selected: $Shadow.shadow2.blur1, disabled: $Shadow.shadow2.blur1 ]
+  shadow1OffsetX: [ rest: $Shadow.shadow8.x1, hover: $Shadow.shadow2.x1, pressed: $Shadow.shadow2.x1, selected: $Shadow.shadow2.x1, disabled: $Shadow.shadow2.x1 ]
+  shadow1OffsetY: [ rest: $Shadow.shadow8.y1, hover: $Shadow.shadow2.y1, pressed: $Shadow.shadow2.y1, selected: $Shadow.shadow2.y1, disabled: $Shadow.shadow2.y1 ]
+  shadow2Color: [ rest: $Shadow.shadow8.color2, hover: $Shadow.shadow2.color2, pressed: $Shadow.shadow2.color2, selected: $Shadow.shadow2.color2, disabled: $Shadow.shadow2.color2 ]
+  shadow2Blur: [ rest: $Shadow.shadow8.blur2 , hover: $Shadow.shadow2.blur2, pressed: $Shadow.shadow2.blur2, selected: $Shadow.shadow2.blur2, disabled: $Shadow.shadow2.blur2 ]
+  shadow2OffsetX: [ rest: $Shadow.shadow8.x2, hover: $Shadow.shadow2.x2, pressed: $Shadow.shadow2.x2, selected: $Shadow.shadow2.x2, disabled: $Shadow.shadow2.x2 ]
+  shadow2OffsetY: [ rest: $Shadow.shadow8.y2, hover: $Shadow.shadow2.y2, pressed: $Shadow.shadow2.y2, selected: $Shadow.shadow2.y2, disabled: $Shadow.shadow2.y2 ]
+
+MSFPrimaryButtonTokens extends MSFButtonTokens:
+  backgroundColor: [ rest: $Colors.Background.brandRest, hover: $Colors.Background.brandHover, pressed: $Colors.Background.brandPressed, selected: $Colors.Background.brandSelected, disabled: $Colors.Background.brandDisabled ]
+  iconColor: [ rest: $Colors.Foreground.neutralInverted, hover: $Colors.Foreground.neutralInverted, pressed: $Colors.Foreground.neutralInverted, selected: $Colors.Foreground.neutralInverted, disabled: $Colors.Foreground.neutralInverted ]
+  textColor: [ rest: $Colors.Foreground.neutralInverted, hover: $Colors.Foreground.neutralInverted, pressed: $Colors.Foreground.neutralInverted, selected: $Colors.Foreground.neutralInverted, disabled: $Colors.Foreground.neutralInverted ]
+
+MSFSecondaryButtonTokens extends MSFButtonTokens:
+  borderColor: [ rest: $Colors.Stroke.brandRest, hover: $Colors.Stroke.brandHover, pressed: $Colors.Stroke.brandPressed, selected: $Colors.Stroke.brandSelected, disabled: $Colors.Stroke.brandDisabled ]
+  borderSize: [ small: $Border.size.thin, medium: $Border.size.thin, large: $Border.size.thin ]
+
+MSFGhostButtonTokens extends MSFButtonTokens:
+  borderColor: [ rest: NamedColor(clear), hover: NamedColor(clear), pressed: NamedColor(clear), selected: $Colors.Brand.shade10, disabled: NamedColor(clear) ]
+
+MSFAccentFloatingActionButtonTokens extends MSFButtonTokens:
+  backgroundColor:  [ rest: $Colors.Background.brandRest, hover: $Colors.Background.brandHover, pressed: $Colors.Background.brandPressed, selected: $Colors.Background.brandSelected, disabled: $Colors.Background.brandDisabled ]
+  iconColor: [ rest: $Colors.Foreground.neutralInverted, hover: $Colors.Foreground.neutralInverted, pressed: $Colors.Foreground.neutralInverted, selected: $Colors.Foreground.neutralInverted, disabled: $Colors.Foreground.neutralInverted ]
+  iconSize: [ small: $Icon.size.medium, medium: $Icon.size.medium, large: $Icon.size.medium ]
+  padding: [ small: $Spacing.small, medium: $Spacing.small, large: $Spacing.medium ]
+  textFont: [ small: "Font(15px, regular)", medium: "Font(15px, regular)", large: "Font(17px, regular)" ]
+  textColor: [ rest: $Colors.Foreground.neutralInverted, hover: $Colors.Foreground.neutralInverted, pressed: $Colors.Foreground.neutralInverted, selected: $Colors.Foreground.neutralInverted, disabled: $Colors.Foreground.neutralInverted ]
+
+MSFSubtleFloatingActionButtonTokens extends MSFButtonTokens:
+  backgroundColor: [ rest: $Colors.Background.neutral1, hover: $Colors.Background.neutral1, pressed: $Colors.Background.neutral5, selected: $Colors.Background.neutral1, disabled: $Colors.Background.neutral1 ]
+  iconColor: [ rest: $Colors.Foreground.neutral3, hover: $Colors.Foreground.neutral3, pressed: $Colors.Foreground.neutral3, selected: $Colors.Foreground.brandRest, disabled: $Colors.Foreground.neutralDisabled ]
+  iconSize: [ small: $Icon.size.medium, medium: $Icon.size.medium, large: $Icon.size.medium ]
+  padding: [ small: $Spacing.small, medium: $Spacing.small, large: $Spacing.medium ]
+  textFont: [ small: "Font(15px, regular)", medium: "Font(15px, regular)", large: "Font(17px, regular)" ]
+  textColor: [ rest: $Colors.Foreground.neutral3, hover: $Colors.Foreground.neutral3, pressed: $Colors.Foreground.neutral3, selected: $Colors.Foreground.brandRest, disabled: $Colors.Foreground.neutralDisabled ]
+
+AP_MSFCardNudgeTokens:
+    accentColor: $Colors.Brand.shade20
+    accentIconSize: $Icon.size.xxSmall
+    accentPadding: $Spacing.xxSmall
+    backgroundColor: $Colors.Background.neutral2
+    buttonBackgroundColor: $Colors.Brand.tint30
+    buttonInnerPaddingHorizontal: $Spacing.small
+    circleSize: $Icon.size.xxLarge
+    cornerRadius: $Border.radius.xLarge
+    horizontalPadding: $Spacing.medium
+    iconSize: $Icon.size.xSmall
+    interTextVerticalPadding: $Spacing.xxxSmall
+    mainContentVerticalPadding: $Spacing.small
+    minimumHeight: 56.0
+    outlineColor: NamedColor(clear)
+    outlineWidth: $Border.size.thin
+    subtitleTextColor: $Colors.Foreground.neutral3
+    textColor: $Colors.Foreground.neutral1
+    verticalPadding: $Spacing.xSmall
+
+MSFBorderedCardNudgeTokens extends MSFCardNudgeTokens:
+    backgroundColor: $Colors.Background.surfacePrimary
+    outlineColor: $Colors.Stroke.neutral1
+    textColor: $Colors.Brand.shade20
+
+AP_MSFCommandBarTokens:
+  itemBackgroundColor: [ rest: $Colors.Background.neutral4, hover: "FluentUIColor(light: $Colors.Background.neutral5, dark: $Colors.Stroke.neutral2)", pressed: "FluentUIColor(light: $Colors.Background.neutralDisabled, dark: $Colors.Background.neutral5)", selected: $Colors.Background.brandRest, disabled: $Colors.Stroke.neutral1 ]
+  backgroundColor: $Colors.Background.neutral1
+  itemFixedIconColor: "FluentUIColor(light: $Colors.Foreground.neutral1, dark: $Colors.Foreground.neutral3)"
+  groupBorderRadius: $Border.radius.xLarge
+  groupInterspace: $Spacing.medium
+  itemIconColor: [ rest: $Colors.Foreground.neutral1, hover: $Colors.Foreground.neutral1, pressed: $Colors.Foreground.neutral1, selected: $Colors.Foreground.neutralInverted, disabled: $Colors.Foreground.neutralDisabled ]
+  itemInterspace: $Spacing.xxxSmall
+
+AP_MSFDrawerTokens:
+  backgroundDimmedColor: $Colors.Elevation.highElevation
+  drawerBackground: "FluentUIColor(light: $Colors.Background.neutral1, dark: $Colors.Background.neutral3)"
+  popoverContentBackground: "FluentUIColor(light: $Colors.Background.surfacePrimary, dark: $Colors.Background.surfaceQuaternary)"
+  navigationBarBackground: "FluentUIColor(light: $Colors.Background.surfacePrimary, dark: NamedColor(grey14))"
+  shadow1Color: $Shadow.shadow28.color1
+  shadow1Blur: $Shadow.shadow28.blur1
+  shadow1OffsetX: $Shadow.shadow28.x1
+  shadow1OffsetY: $Shadow.shadow28.y1
+  shadow2Color: $Shadow.shadow28.color2
+  shadow2Blur: $Shadow.shadow28.blur2
+  shadow2OffsetX: $Shadow.shadow28.x2
+  shadow2OffsetY: $Shadow.shadow28.y2
+  minMargin: [horizontal: $Spacing.xxxLarge, vertical: $Spacing.large]
+  cornerRadius: $Border.radius.xxLarge
+  shadowOffset: $Spacing.xSmall
+
+AP_MSFHeaderFooterTokens:
+  backgroundColor: $Colors.Background.neutral1
+  headerHeight: $Spacing.xxxLarge
+  topPadding: $Spacing.xLarge
+  leadingPadding: $Spacing.medium
+  bottomPadding: $Spacing.xSmall
+  trailingPadding: $Spacing.medium
+  textColor: $Colors.Foreground.neutral3
+  textFont: $Typography.caption1
+
+AP_MSFIndeterminateProgressBarTokens:
+  backgroundColor: $Colors.Background.surfaceQuaternary
+  gradientColor: $Colors.Brand.primary
+  height: 2pt
+
+AP_MSFListCellTokens:
+  backgroundColor: [ rest: $Colors.Background.neutral1, pressed: $Colors.Background.neutral5 ]
+  borderColor: $Colors.Stroke.neutral1
+  cellHeight: [ oneLine: 48pt, twoLines: 64pt, threeLines: 84pt ]
+  disclosureIconForegroundColor: $Colors.Foreground.neutral4
+  disclosureInterspace: $Spacing.xxSmall
+  disclosureSize: $Icon.size.small
+  footnoteFont: $Typography.caption1
+  horizontalCellPadding: $Spacing.medium
+  iconInterspace: $Spacing.medium
+  labelAccessoryInterspace: $Spacing.xSmall
+  labelAccessorySize: $Icon.size.xxSmall
+  labelColor: $Colors.Foreground.neutral1
+  labelFont: $Typography.body
+  leadingViewColor: $Colors.Foreground.neutral4
+  leadingViewSize: [ small: $Icon.size.xSmall, medium: $Icon.size.medium, large: $Icon.size.xxLarge, xlarge: 52pt ]
+  sublabelAccessorySize: $Icon.size.xxSmall
+  sublabelColor: $Colors.Foreground.neutral3
+  sublabelFont: $Typography.subheadline
+  trailingItemForegroundColor: $Colors.Foreground.neutral3
+  trailingItemSize: $Icon.size.medium
+
+AP_MSFListTokens:
+  borderColor: $Colors.Stroke.neutral1
+
+AP_MSFPersonaButtonCarouselTokens:
+  backgroundColor: $Colors.Background.neutral1
+
+AP_MSFPersonaButtonTokens:
+  avatarInterspace: [ small: $Spacing.xSmall, large: $Spacing.small ]
+  backgroundColor: $Colors.Background.neutral1
+  horizontalAvatarPadding: [ small: $Spacing.medium, large: $Spacing.xSmall ]
+  horizontalTextPadding: $Spacing.xxxSmall
+  labelColor: $Colors.Foreground.neutral1
+  labelFont: [ small: $Typography.caption1, large: $Typography.subheadline ]
+  sublabelColor: $Colors.Foreground.neutral3
+  sublabelFont: $Typography.footnote
+  verticalPadding: $Spacing.xSmall
+
+AP_MSFPersonaViewTokens:
+  footnoteFont: $Typography.footnote
+  iconInterspace: $Spacing.small
+  labelAccessoryInterspace: $Spacing.xxxSmall
+  labelAccessorySize: $Icon.size.xSmall
+  labelFont: $Typography.headline
+  sublabelColor: $Colors.Foreground.neutral1
+
+MSFPrimaryHeaderTokens extends MSFHeaderFooterTokens:
+  textColor: $Colors.Foreground.neutral1
+  textFont: $Typography.headline
+  topPadding: $Spacing.medium
+
+AP_MSFNotificationTokens:
+  backgroundColor: $Colors.Brand.tint40
+  foregroundColor: "FluentUIColor(light: $Colors.Brand.shade10, dark: $Colors.Brand.shade30)"
+  cornerRadius: $Border.radius.xLarge
+  presentationOffSet: $Spacing.medium
+  horizontalPadding: 19pt
+  verticalPadding: 14pt
+  verticalPaddingForOneLine: 18pt
+  horizontalSpacing: 19pt
+  minimumHeight: 64.0
+  minimumHeightForOneLine: 56.0
+  ambientShadowColor: $Shadow.shadow16.color1
+  ambientShadowBlur: $Shadow.shadow16.blur1
+  ambientShadowOffsetX: $Shadow.shadow16.x1
+  ambientShadowOffsetY: $Shadow.shadow16.y1
+  perimeterShadowColor: $Shadow.shadow16.color2
+  perimeterShadowBlur: $Shadow.shadow16.blur2
+  perimeterShadowOffsetX: $Shadow.shadow16.x2
+  perimeterShadowOffsetY: $Shadow.shadow16.y2
+
+MSFNeutralToastNotificationTokens extends MSFNotificationTokens:
+  backgroundColor: "FluentUIColor(light: NamedColor(charcoalTint60), dark: NamedColor(charcoalPrimary))"
+  foregroundColor: "FluentUIColor(light: NamedColor(charcoalPrimary), dark: NamedColor(charcoalTint60))"
+
+MSFPrimaryBarNotificationTokens extends MSFNotificationTokens:
+  ambientShadowColor: NamedColor(clear)
+  perimeterShadowColor: NamedColor(clear)
+  cornerRadius: $Border.radius.none
+  presentationOffSet: $Spacing.none
+  backgroundColor: "FluentUIColor(light: $Colors.Brand.tint40, dark: $Colors.Brand.tint10)"
+  foregroundColor: "FluentUIColor(light: $Colors.Brand.shade20, dark: NamedColor(black))"
+
+MSFPrimaryOutlineBarNotificationTokens extends MSFNotificationTokens:
+  ambientShadowColor: NamedColor(clear)
+  perimeterShadowColor: NamedColor(clear)
+  cornerRadius: $Border.radius.none
+  presentationOffSet: $Spacing.none
+  backgroundColor: "FluentUIColor(light: NamedColor(white), dark: NamedColor(charcoalPrimary))"
+  foregroundColor: "FluentUIColor(light: $Colors.Brand.primary, dark: NamedColor(charcoalTint60))"
+
+MSFNeutralBarNotificationTokens extends MSFNotificationTokens:
+  ambientShadowColor: NamedColor(clear)
+  perimeterShadowColor: NamedColor(clear)
+  cornerRadius: $Border.radius.none
+  presentationOffSet: $Spacing.none
+  backgroundColor: "FluentUIColor(light: NamedColor(charcoalTint50), dark: NamedColor(charcoalPrimary))"
+  foregroundColor: "FluentUIColor(light: NamedColor(charcoalShade50), dark: NamedColor(charcoalTint60))"
+
+MSFDangerToastNotificationTokens extends MSFNotificationTokens:
+  backgroundColor: "FluentUIColor(light: NamedColor(redTint60), dark: NamedColor(redShade40))"
+  foregroundColor: "FluentUIColor(light: NamedColor(redShade10), dark: NamedColor(redTint20))"
+
+MSFWarningToastNotificationTokens extends MSFNotificationTokens:
+  backgroundColor: "FluentUIColor(light: NamedColor(yellowTint50), dark: NamedColor(yellowShade40))"
+  foregroundColor: "FluentUIColor(light: NamedColor(yellowShade50), dark: NamedColor(yellowTint20))"

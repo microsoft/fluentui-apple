@@ -10,8 +10,8 @@ class TabBarViewDemoController: DemoController {
     private enum Constants {
         static let initialBadgeNumbers: [UInt] = [5, 50, 250]
         static let initialHigherBadgeNumbers: [UInt] = [1250, 25505, 3050528]
-        static let switchSettingTextWidth: CGFloat = 180
-        static let buttonSettingTextWidth: CGFloat = 150
+        static let switchSettingTextWidth: CGFloat = 200
+        static let buttonSettingTextWidth: CGFloat = 170
     }
 
     private var tabBarView: TabBarView?
@@ -24,12 +24,30 @@ class TabBarViewDemoController: DemoController {
     private let showBadgeNumbersSwitch = UISwitch()
     private let useHigherBadgeNumbersSwitch = UISwitch()
 
-    private lazy var incrementBadgeButton: Button = {
-        return createButton(title: "+", action: #selector(incrementBadgeNumbers))
+    private lazy var incrementBadgeButton: MSFButton = {
+        let button = MSFButton(style: .secondary, size: .small, action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.incrementBadgeNumbers()
+        })
+        button.state.text = "+"
+
+        return button
     }()
 
-    private lazy var decrementBadgeButton: Button = {
-        return createButton(title: "-", action: #selector(decrementBadgeNumbers))
+    private lazy var decrementBadgeButton: MSFButton = {
+        let button = MSFButton(style: .secondary, size: .small, action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.decrementBadgeNumbers()
+        })
+        button.state.text = "-"
+
+        return button
     }()
 
     private lazy var homeItem: TabBarItem = {
@@ -42,7 +60,19 @@ class TabBarViewDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        container.addArrangedSubview(createButton(title: "Show tooltip for Home button", action: #selector(showTooltipForHomeButton)))
+        container.addArrangedSubview(createButton(title: "Show tooltip for Home button", action: { [weak self] _ in
+            guard let strongSelf = self,
+                  let tabBarView = strongSelf.tabBarView,
+                  let view = tabBarView.itemView(with: strongSelf.homeItem) else {
+                return
+            }
+
+            Tooltip.shared.show(with: "Tap anywhere to dismiss this tooltip",
+                                for: view,
+                                preferredArrowDirection: .down,
+                                offset: .init(x: 0, y: 6),
+                                dismissOn: .tapAnywhere)
+        }).view)
 
         container.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
 
@@ -55,7 +85,9 @@ class TabBarViewDemoController: DemoController {
         addRow(text: "Use higher badge numbers", items: [useHigherBadgeNumbersSwitch], textWidth: Constants.switchSettingTextWidth)
         useHigherBadgeNumbersSwitch.addTarget(self, action: #selector(handleOnSwitchValueChanged), for: .valueChanged)
 
-        addRow(text: "Modify badge numbers", items: [incrementBadgeButton, decrementBadgeButton], textWidth: Constants.buttonSettingTextWidth)
+        let buttonsStackView = UIStackView(arrangedSubviews: [incrementBadgeButton.view, decrementBadgeButton.view])
+        buttonsStackView.spacing = 20
+        addRow(text: "Modify badge numbers", items: [buttonsStackView], textWidth: Constants.buttonSettingTextWidth)
 
         setupTabBarView()
         updateBadgeButtons()
@@ -114,8 +146,8 @@ class TabBarViewDemoController: DemoController {
     }
 
     private func updateBadgeButtons() {
-        incrementBadgeButton.isEnabled = showBadgeNumbers
-        decrementBadgeButton.isEnabled = showBadgeNumbers
+        incrementBadgeButton.state.isDisabled = !showBadgeNumbers
+        decrementBadgeButton.state.isDisabled = !showBadgeNumbers
     }
 
     private func modifyBadgeNumbers(increment: Int) {
@@ -148,18 +180,6 @@ class TabBarViewDemoController: DemoController {
 
     @objc private func decrementBadgeNumbers() {
         modifyBadgeNumbers(increment: -1)
-    }
-
-    @objc private func showTooltipForHomeButton() {
-        guard let tabBarView = tabBarView, let view = tabBarView.itemView(with: homeItem) else {
-            return
-        }
-
-        Tooltip.shared.show(with: "Tap anywhere to dismiss this tooltip",
-                            for: view,
-                            preferredArrowDirection: .down,
-                            offset: .init(x: 0, y: 6),
-                            dismissOn: .tapAnywhere)
     }
 }
 

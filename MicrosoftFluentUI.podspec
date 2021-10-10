@@ -1,12 +1,12 @@
 Pod::Spec.new do |s|
   s.name             = 'MicrosoftFluentUI'
-  s.version          = '0.3.1'
+  s.version          = '0.3.4'
   s.summary          = 'Fluent UI is a set of reusable UI controls and tools'
   s.homepage         = "https://www.microsoft.com/design/fluent/#/"
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { "Microsoft" => "fluentuinativeowners@microsoft.com"}
   s.source       = { :git => "https://github.com/microsoft/fluentui-apple.git", :tag => "#{s.version}" }
-  s.swift_version = "5.0"
+  s.swift_version = "5.4"
   s.module_name = 'FluentUI'
 
 
@@ -18,7 +18,8 @@ Pod::Spec.new do |s|
     avatar_ios.platform = :ios
     avatar_ios.dependency 'MicrosoftFluentUI/Core_ios'
     avatar_ios.preserve_paths = ["ios/FluentUI/Avatar/Avatar.resources.xcfilelist"]
-    avatar_ios.source_files = ["ios/FluentUI/Avatar/**/*.{swift,h}"]
+    avatar_ios.source_files = ["ios/FluentUI/Avatar/**/*.{swift,h}",
+                               "ios/FluentUI/Vnext/Avatar/*.{swift,h}"]
   end
 
   s.subspec 'AvatarGroup_ios' do |avatargroup_ios|
@@ -36,7 +37,8 @@ Pod::Spec.new do |s|
   s.subspec 'ActivityIndicator_ios' do |activityindicator_ios|
     activityindicator_ios.platform = :ios
     activityindicator_ios.dependency 'MicrosoftFluentUI/ActivityViewAnimating_ios'
-    activityindicator_ios.source_files = ["ios/FluentUI/ActivityIndicator/**/*.{swift,h}"]
+    activityindicator_ios.source_files = ["ios/FluentUI/ActivityIndicator/**/*.{swift,h}",
+                                          "ios/FluentUI/Vnext/ActivityIndicator/**/*.{swift,h}"]
   end
 
   s.subspec 'BadgeField_ios' do |badgefield_ios|
@@ -130,7 +132,8 @@ xcodebuild ${XCODEBUILDPARAMS} -project ${PROJECT_FILE_PATH} -target "MicrosoftF
                                "scripts/removeUnusedResourcesFromAssets.swift"]
     core_ios.source_files = ["ios/FluentUI/Configuration/**/*.{swift,h}",
                              "ios/FluentUI/Core/**/*.{swift,h}",
-                             "ios/FluentUI/Extensions/**/*.{swift,h}"]
+                             "ios/FluentUI/Extensions/**/*.{swift,h}",
+                             "ios/FluentUI/Vnext/Core/*.{swift,h}"]
   end
 
   s.subspec 'DotView_ios' do |dotview_ios|

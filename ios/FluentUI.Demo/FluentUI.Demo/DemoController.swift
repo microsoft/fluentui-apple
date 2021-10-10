@@ -38,12 +38,9 @@ class DemoController: UIViewController {
 
     var allowsContentToScroll: Bool { return true }
 
-    func createButton(title: String, action: Selector) -> Button {
-        let button = Button()
-        button.titleLabel?.textAlignment = .center
-        button.titleLabel?.numberOfLines = 0
-        button.setTitle(title, for: .normal)
-        button.addTarget(self, action: action, for: .touchUpInside)
+    func createButton(title: String, action: (( MSFButton) -> Void)?) -> MSFButton {
+        let button = MSFButton(style: .secondary, size: .small, action: action)
+        button.state.text = title
         return button
     }
 
@@ -53,6 +50,7 @@ class DemoController: UIViewController {
         description.numberOfLines = 0
         description.text = text
         description.textAlignment = textAlignment
+        description.numberOfLines = 0
         container.addArrangedSubview(description)
         return description
     }
@@ -62,6 +60,7 @@ class DemoController: UIViewController {
         titleLabel.text = text
         titleLabel.textAlignment = .center
         titleLabel.accessibilityTraits.insert(.header)
+        titleLabel.numberOfLines = 0
         container.addArrangedSubview(titleLabel)
     }
 

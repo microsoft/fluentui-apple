@@ -7,9 +7,6 @@ import UIKit
 
 // MARK: TableViewHeaderFooterViewDelegate
 
-@available(*, deprecated, renamed: "TableViewHeaderFooterViewDelegate")
-public typealias MSTableViewHeaderFooterViewDelegate = TableViewHeaderFooterViewDelegate
-
 @objc(MSFTableViewHeaderFooterViewDelegate)
 public protocol TableViewHeaderFooterViewDelegate: AnyObject {
     /// Returns: true if the interaction with the header view should be allowed; false if the interaction should not be allowed.
@@ -17,9 +14,6 @@ public protocol TableViewHeaderFooterViewDelegate: AnyObject {
 }
 
 // MARK: - TableViewHeaderFooterView
-
-@available(*, deprecated, renamed: "TableViewHeaderFooterView")
-public typealias MSTableViewHeaderFooterView = TableViewHeaderFooterView
 
 /// `TableViewHeaderFooterView` is used to present a section header or footer with a `title` and an optional accessory button.
 /// Set the `TableViewHeaderFooterView.Style` of the view to specify its visual style. The `default` and `headerPrimary` style may be used for headers.
@@ -237,7 +231,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
 
     private let titleView = TableViewHeaderFooterTitleView()
 
-    private var accessoryView: UIView? = nil {
+    private var accessoryView: UIView? {
         didSet {
             oldValue?.removeFromSuperview()
             if let accessoryView = accessoryView {
@@ -246,7 +240,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         }
     }
 
-    private var accessoryButton: UIButton? = nil {
+    private var accessoryButton: UIButton? {
         didSet {
             accessoryView = accessoryButton
             if accessoryButton != nil {
@@ -255,7 +249,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         }
     }
 
-    private var leadingView: UIView? = nil {
+    private var leadingView: UIView? {
         didSet {
             oldValue?.removeFromSuperview()
             if let leadingView = leadingView {

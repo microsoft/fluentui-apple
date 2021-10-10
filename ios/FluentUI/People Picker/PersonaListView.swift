@@ -7,9 +7,6 @@ import UIKit
 
 // MARK: PersonaListViewSelectionDirection
 
-@available(*, deprecated, renamed: "PersonaListViewSelectionDirection")
-public typealias MSPersonaListViewSelectionDirection = PersonaListViewSelectionDirection
-
 @objc(MSFPersonaListViewSelectionDirection)
 public enum PersonaListViewSelectionDirection: Int {
     case next = 1
@@ -18,9 +15,6 @@ public enum PersonaListViewSelectionDirection: Int {
 
 // MARK: - PersonaListViewSearchDirectoryDelegate
 
-@available(*, deprecated, renamed: "PersonaListViewSearchDirectoryDelegate")
-public typealias MSPersonaListViewSearchDirectoryDelegate = PersonaListViewSearchDirectoryDelegate
-
 @objc(MSFPersonaListViewSearchDirectoryDelegate)
 public protocol PersonaListViewSearchDirectoryDelegate {
     func personaListSearchDirectory(_ personaListView: PersonaListView, completion: @escaping ((_ success: Bool) -> Void))
@@ -28,13 +22,10 @@ public protocol PersonaListViewSearchDirectoryDelegate {
 
 // MARK: - PersonaListView
 
-@available(*, deprecated, renamed: "PersonaListView")
-public typealias MSPersonaListView = PersonaListView
-
 @objc(MSFPersonaListView)
 open class PersonaListView: UITableView {
     /// SearchDirectory button state enum
-    public enum SearchDirectoryState {
+    enum SearchDirectoryState {
         case idle
         case searching
         case displayingSearchResults
@@ -53,7 +44,7 @@ open class PersonaListView: UITableView {
     }
 
     /// searchDIrectoryState variable (persona list to reload rows on state change)
-    public var searchDirectoryState: SearchDirectoryState = .idle {
+    var searchDirectoryState: SearchDirectoryState = .idle {
         didSet {
             if searchDirectoryState != oldValue {
                 UIView.performWithoutAnimation {

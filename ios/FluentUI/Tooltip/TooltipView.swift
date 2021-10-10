@@ -7,9 +7,9 @@ import UIKit
 
 // MARK: Tooltip Colors
 
-public extension Colors {
+private extension Colors {
     struct Tooltip {
-        public static var text: UIColor = textOnAccent
+        static var text: UIColor = textOnAccent
     }
 }
 

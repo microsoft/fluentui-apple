@@ -5,7 +5,8 @@
 import UIKit
 
 // MARK: SegmentedControl Colors
-public extension Colors {
+
+private extension Colors {
     struct SegmentedControl {
         struct PrimaryPill {
             static let background = UIColor(light: surfaceTertiary, dark: gray950)
@@ -25,9 +26,6 @@ public extension Colors {
 }
 
 // MARK: SegmentedControl
-@available(*, deprecated, renamed: "SegmentedControl")
-public typealias MSSegmentedControl = SegmentedControl
-
 /// A styled segmented control that should be used instead of UISegmentedControl. It is designed to flex the button width proportionally to the control's width.
 @objc(MSFSegmentedControl)
 open class SegmentedControl: UIControl {
@@ -276,6 +274,41 @@ open class SegmentedControl: UIControl {
 
     public required init?(coder aDecoder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
+    }
+
+    public func updateWindowSpecificColors() {
+        guard let window = window else {
+            return
+        }
+
+        pillMaskedLabelsContainerView.backgroundColor = customSegmentedControlSelectedButtonBackgroundColor ?? (isEnabled ? style.selectionColor(for: window) : style.selectionColorDisabled)
+        backgroundView.backgroundColor = customSegmentedControlBackgroundColor ?? (isEnabled ? style.backgroundColor(for: window) : style.backgroundColorDisabled(for: window))
+        for maskedLabel in pillMaskedLabels {
+            if isEnabled {
+                if let customSelectedButtonTextColor = self.customSelectedSegmentedControlButtonTextColor {
+                    maskedLabel.textColor = customSelectedButtonTextColor
+                } else {
+                        maskedLabel.textColor = style.segmentTextColorSelected(for: window)
+                }
+            } else {
+                    maskedLabel.textColor = style.segmentTextColorSelectedAndDisabled(for: window)
+            }
+        }
+        for button in buttons {
+            if isEnabled {
+                if let customButtonTextColor = self.customSegmentedControlButtonTextColor {
+                    button.setTitleColor(customButtonTextColor, for: .normal)
+                } else {
+                    button.setTitleColor(style.segmentTextColor, for: .normal)
+                }
+            } else {
+                    button.setTitleColor(style.segmentTextColorDisabled(for: window), for: .normal)
+            }
+
+            if let switchButton = button as? SegmentPillButton {
+                switchButton.unreadDotColor = isEnabled ? style.segmentUnreadDotColor(for: window) : style.segmentTextColorDisabled(for: window)
+            }
+        }
     }
 
     /// Insert new segment at index with the specified title. If a segment exists at that index, it will be inserted before and will therefore take its index.
@@ -561,39 +594,6 @@ open class SegmentedControl: UIControl {
     private func updateAccessibilityHints() {
         for (index, button) in buttons.enumerated() {
             button.accessibilityHint = String.localizedStringWithFormat("Accessibility.MSPillButtonBar.Hint".localized, index + 1, items.count)
-        }
-    }
-
-    private func updateWindowSpecificColors() {
-        if let window = window {
-            pillMaskedLabelsContainerView.backgroundColor = customSegmentedControlSelectedButtonBackgroundColor ?? (isEnabled ? style.selectionColor(for: window) : style.selectionColorDisabled)
-            backgroundView.backgroundColor = customSegmentedControlBackgroundColor ?? (isEnabled ? style.backgroundColor(for: window) : style.backgroundColorDisabled(for: window))
-            for maskedLabel in pillMaskedLabels {
-                if isEnabled {
-                    if let customSelectedButtonTextColor = self.customSelectedSegmentedControlButtonTextColor {
-                        maskedLabel.textColor = customSelectedButtonTextColor
-                    } else {
-                            maskedLabel.textColor = style.segmentTextColorSelected(for: window)
-                    }
-                } else {
-                        maskedLabel.textColor = style.segmentTextColorSelectedAndDisabled(for: window)
-                }
-            }
-            for button in buttons {
-                if isEnabled {
-                    if let customButtonTextColor = self.customSegmentedControlButtonTextColor {
-                        button.setTitleColor(customButtonTextColor, for: .normal)
-                    } else {
-                        button.setTitleColor(style.segmentTextColor, for: .normal)
-                    }
-                } else {
-                        button.setTitleColor(style.segmentTextColorDisabled(for: window), for: .normal)
-                }
-
-                if let switchButton = button as? SegmentPillButton {
-                    switchButton.unreadDotColor = isEnabled ? style.segmentUnreadDotColor(for: window) : style.segmentTextColorDisabled(for: window)
-                }
-            }
         }
     }
 }

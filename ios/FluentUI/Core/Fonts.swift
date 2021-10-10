@@ -5,9 +5,6 @@
 
 import UIKit
 
-@available(*, deprecated, renamed: "Fonts")
-public typealias MSFonts = Fonts
-
 @objc(MSFFonts)
 public final class Fonts: NSObject {
     /// Bold 34pt
@@ -49,9 +46,6 @@ public final class Fonts: NSObject {
         super.init()
     }
 }
-
-@available(*, deprecated, renamed: "TextStyle")
-public typealias MSTextStyle = TextStyle
 
 @objc(MSFTextStyle)
 public enum TextStyle: Int, CaseIterable {

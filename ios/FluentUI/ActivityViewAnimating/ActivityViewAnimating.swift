@@ -6,7 +6,7 @@
 import UIKit
 
 /// An interface for implementing activity view's animations
-public protocol ActivityViewAnimating: AnyObject {
+protocol ActivityViewAnimating: AnyObject {
     var hidesWhenStopped: Bool { get set }
     var isAnimating: Bool { get }
 

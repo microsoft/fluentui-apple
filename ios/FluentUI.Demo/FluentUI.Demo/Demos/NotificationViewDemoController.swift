@@ -67,7 +67,19 @@ class NotificationViewDemoController: DemoController {
             }
             addTitle(text: variant.displayText)
             container.addArrangedSubview(createNotificationView(forVariant: variant))
-            container.addArrangedSubview(createButton(title: "Show", action: #selector(showNotificationView)))
+
+            let showButton = MSFButton(style: .secondary, size: .small, action: { [weak self] _ in
+                guard let strongSelf = self else {
+                    return
+                }
+
+                strongSelf.createNotificationView(forVariant: variant).show(in: strongSelf.view) {
+                    $0.hide(after: variant.delayForHiding)
+                }
+            })
+            showButton.state.text = "Show"
+            container.addArrangedSubview(showButton.view)
+
             container.alignment = .leading
         }
     }
@@ -76,34 +88,51 @@ class NotificationViewDemoController: DemoController {
         let view = NotificationView()
         switch variant {
         case .primaryToast:
-            view.setup(style: .primaryToast, message: "Mail Archived", actionTitle: "Undo", action: { [unowned self] in self.showMessage("`Undo` tapped") })
+            view.setup(style: .primaryToast,
+                              message: "Mail Archived",
+                              actionTitle: "Undo",
+                              action: { [weak self] in self?.showMessage("`Undo` tapped") })
         case .primaryToastWithImageAndTitle:
-            view.setup(style: .primaryToast, title: "Kat's iPhoneX", message: "Listen to Emails • 7 mins", image: UIImage(named: "play-in-circle-24x24"), action: { [unowned self] in self.showMessage("`Dismiss` tapped") }, messageAction: { [unowned self] in self.showMessage("`Listen to emails` tapped") })
+            view.setup(style: .primaryToast,
+                              title: "Kat's iPhoneX",
+                              message: "Listen to Emails • 7 mins",
+                              image: UIImage(named: "play-in-circle-24x24"),
+                              action: { [weak self] in self?.showMessage("`Dismiss` tapped") },
+                              messageAction: { [weak self] in self?.showMessage("`Listen to emails` tapped") })
         case .neutralToast:
-            view.setup(style: .neutralToast, message: "Some items require you to sign in to view them", actionTitle: "Sign in", action: { [unowned self] in self.showMessage("`Sign in` tapped") })
+            view.setup(style: .neutralToast,
+                              message: "Some items require you to sign in to view them",
+                              actionTitle: "Sign in",
+                              action: { [weak self] in self?.showMessage("`Sign in` tapped") })
         case .dangerToast:
-            view.setup(style: .dangerToast, message: "There was a problem, and your recent changes may not have saved", actionTitle: "Retry", action: { [unowned self] in self.showMessage("`Retry` tapped") })
+            view.setup(style: .dangerToast,
+                              message: "There was a problem, and your recent changes may not have saved",
+                              actionTitle: "Retry",
+                              action: { [weak self] in self?.showMessage("`Retry` tapped") })
         case .warningToast:
-            view.setup(style: .warningToast, message: "Read Only")
+            view.setup(style: .warningToast,
+                              message: "Read Only",
+                              action: { [weak self] in self?.showMessage("`Dismiss` tapped") })
         case .primaryBar:
-            view.setup(style: .primaryBar, message: "Updating...")
+            view.setup(style: .primaryBar,
+                              message: "Updating...")
         case .primaryOutlineBar:
-            view.setup(style: .primaryOutlineBar, message: "Mail Sent")
+            view.setup(style: .primaryOutlineBar,
+                              message: "Mail Sent")
         case .neutralBar:
-            view.setup(style: .neutralBar, message: "No internet connection")
+            view.setup(style: .neutralBar,
+                              message: "No internet connection")
         case .persistentBarWithAction:
-            view.setup(style: .neutralBar, message: "This error can be taken action on with the action on the right.", actionTitle: "Action", action: { [unowned self] in self.showMessage("`Action` tapped") })
+            view.setup(style: .neutralBar,
+                              message: "This error can be taken action on with the action on the right.",
+                              actionTitle: "Action",
+                              action: { [weak self] in self?.showMessage("`Action` tapped") })
         case .persistentBarWithCancel:
-            view.setup(style: .neutralBar, message: "This error can be tapped or dismissed with the icon to the right.", action: { [unowned self] in self.showMessage("`Dismiss` tapped") })
+            view.setup(style: .neutralBar,
+                              message: "This error can be tapped or dismissed with the icon to the right.",
+                              action: { [weak self] in self?.showMessage("`Dismiss` tapped") },
+                              messageAction: { [weak self] in self?.showMessage("`Dismiss` tapped") })
         }
         return view
-    }
-
-    @objc private func showNotificationView(sender: UIButton) {
-        guard let index = container.arrangedSubviews.filter({ $0 is UIButton }).firstIndex(of: sender), let variant = Variant(rawValue: index) else {
-            preconditionFailure("showNotificationView is used for a button in the wrong container")
-        }
-
-        createNotificationView(forVariant: variant).show(in: view) { $0.hide(after: variant.delayForHiding) }
     }
 }

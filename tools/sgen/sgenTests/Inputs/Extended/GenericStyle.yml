@@ -1,0 +1,5 @@
+ExtendedTheme:
+  generic: 1
+
+ExtendedEmptyListView extends S.EmptyListView:
+  color: [normal: "#000000"]
