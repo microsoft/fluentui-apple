@@ -422,7 +422,7 @@ open class FluentUIStyle: NSObject {
 
 			// MARK: - brandDisabled 
 			open var brandDisabled: UIColor {
-				return UIColor(light: UIColor(named: "FluentColors/grey88", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey84", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+				return UIColor(light: UIColor(named: "FluentColors/grey88", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey84", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 			}
 
 			// MARK: - brandHover 
@@ -447,42 +447,42 @@ open class FluentUIStyle: NSObject {
 
 			// MARK: - neutral1 
 			open var neutral1: UIColor {
-				return UIColor(light: UIColor(named: "FluentColors/white", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/black", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: UIColor(named: "FluentColors/grey4", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevatedHighContrast: nil)
+				return UIColor(light: UIColor(named: "FluentColors/white", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/black", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: UIColor(named: "FluentColors/grey4", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkElevatedHighContrast: nil)
 			}
 
 			// MARK: - neutral2 
 			open var neutral2: UIColor {
-				return UIColor(light: UIColor(named: "FluentColors/grey98", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey4", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: UIColor(named: "FluentColors/grey8", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevatedHighContrast: nil)
+				return UIColor(light: UIColor(named: "FluentColors/grey98", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey4", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: UIColor(named: "FluentColors/grey8", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkElevatedHighContrast: nil)
 			}
 
 			// MARK: - neutral3 
 			open var neutral3: UIColor {
-				return UIColor(light: UIColor(named: "FluentColors/grey96", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey8", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: UIColor(named: "FluentColors/grey12", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevatedHighContrast: nil)
+				return UIColor(light: UIColor(named: "FluentColors/grey96", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey8", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: UIColor(named: "FluentColors/grey12", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkElevatedHighContrast: nil)
 			}
 
 			// MARK: - neutral4 
 			open var neutral4: UIColor {
-				return UIColor(light: UIColor(named: "FluentColors/grey94", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey12", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: UIColor(named: "FluentColors/grey16", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevatedHighContrast: nil)
+				return UIColor(light: UIColor(named: "FluentColors/grey94", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey12", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: UIColor(named: "FluentColors/grey16", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkElevatedHighContrast: nil)
 			}
 
 			// MARK: - neutral5 
 			open var neutral5: UIColor {
-				return UIColor(light: UIColor(named: "FluentColors/grey92", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey36", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+				return UIColor(light: UIColor(named: "FluentColors/grey92", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey36", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 			}
 
 			// MARK: - neutralDisabled 
 			open var neutralDisabled: UIColor {
-				return UIColor(light: UIColor(named: "FluentColors/grey88", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey84", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+				return UIColor(light: UIColor(named: "FluentColors/grey88", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey84", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 			}
 
 			// MARK: - surfacePrimary 
 			open var surfacePrimary: UIColor {
-				return UIColor(light: UIColor(named: "FluentColors/white", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/black", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: UIColor(named: "FluentColors/grey8", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevatedHighContrast: nil)
+				return UIColor(light: UIColor(named: "FluentColors/white", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/black", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: UIColor(named: "FluentColors/grey8", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkElevatedHighContrast: nil)
 			}
 
 			// MARK: - surfaceQuaternary 
 			open var surfaceQuaternary: UIColor {
-				return UIColor(light: UIColor(named: "FluentColors/grey88", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey26", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+				return UIColor(light: UIColor(named: "FluentColors/grey88", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey26", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 			}
 		}
 
@@ -588,7 +588,7 @@ open class FluentUIStyle: NSObject {
 
 			// MARK: - brandDisabled 
 			open var brandDisabled: UIColor {
-				return UIColor(light: UIColor(named: "FluentColors/grey74", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey36", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+				return UIColor(light: UIColor(named: "FluentColors/grey74", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey36", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 			}
 
 			// MARK: - brandHover 
@@ -613,32 +613,32 @@ open class FluentUIStyle: NSObject {
 
 			// MARK: - neutral1 
 			open var neutral1: UIColor {
-				return UIColor(light: UIColor(named: "FluentColors/grey14", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: UIColor(named: "FluentColors/black", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/white", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+				return UIColor(light: UIColor(named: "FluentColors/grey14", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, lightHighContrast: UIColor(named: "FluentColors/black", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/white", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 			}
 
 			// MARK: - neutral2 
 			open var neutral2: UIColor {
-				return UIColor(light: UIColor(named: "FluentColors/grey26", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: UIColor(named: "FluentColors/black", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey84", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: UIColor(named: "FluentColors/white", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevated: nil, darkElevatedHighContrast: nil)
+				return UIColor(light: UIColor(named: "FluentColors/grey26", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, lightHighContrast: UIColor(named: "FluentColors/black", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey84", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkHighContrast: UIColor(named: "FluentColors/white", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkElevated: nil, darkElevatedHighContrast: nil)
 			}
 
 			// MARK: - neutral3 
 			open var neutral3: UIColor {
-				return UIColor(light: UIColor(named: "FluentColors/grey38", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: UIColor(named: "FluentColors/grey14", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey68", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: UIColor(named: "FluentColors/grey84", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevated: nil, darkElevatedHighContrast: nil)
+				return UIColor(light: UIColor(named: "FluentColors/grey38", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, lightHighContrast: UIColor(named: "FluentColors/grey14", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey68", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkHighContrast: UIColor(named: "FluentColors/grey84", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkElevated: nil, darkElevatedHighContrast: nil)
 			}
 
 			// MARK: - neutral4 
 			open var neutral4: UIColor {
-				return UIColor(light: UIColor(named: "FluentColors/grey50", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: UIColor(named: "FluentColors/grey26", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey52", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: UIColor(named: "FluentColors/grey84", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevated: nil, darkElevatedHighContrast: nil)
+				return UIColor(light: UIColor(named: "FluentColors/grey50", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, lightHighContrast: UIColor(named: "FluentColors/grey26", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey52", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkHighContrast: UIColor(named: "FluentColors/grey84", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkElevated: nil, darkElevatedHighContrast: nil)
 			}
 
 			// MARK: - neutralDisabled 
 			open var neutralDisabled: UIColor {
-				return UIColor(light: UIColor(named: "FluentColors/grey74", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: UIColor(named: "FluentColors/grey38", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey36", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: UIColor(named: "FluentColors/grey62", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevated: nil, darkElevatedHighContrast: nil)
+				return UIColor(light: UIColor(named: "FluentColors/grey74", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, lightHighContrast: UIColor(named: "FluentColors/grey38", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey36", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkHighContrast: UIColor(named: "FluentColors/grey62", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkElevated: nil, darkElevatedHighContrast: nil)
 			}
 
 			// MARK: - neutralInverted 
 			open var neutralInverted: UIColor {
-				return UIColor(light: UIColor(named: "FluentColors/white", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/black", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+				return UIColor(light: UIColor(named: "FluentColors/white", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/black", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 			}
 		}
 
@@ -655,42 +655,42 @@ open class FluentUIStyle: NSObject {
 
 			// MARK: - available 
 			open var available: UIColor {
-				return UIColor(named: "FluentColors/presenceAvailable", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+				return UIColor(named: "FluentColors/presenceAvailable", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!
 			}
 
 			// MARK: - away 
 			open var away: UIColor {
-				return UIColor(named: "FluentColors/presenceAway", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+				return UIColor(named: "FluentColors/presenceAway", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!
 			}
 
 			// MARK: - blocked 
 			open var blocked: UIColor {
-				return UIColor(named: "FluentColors/presenceBlocked", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+				return UIColor(named: "FluentColors/presenceBlocked", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!
 			}
 
 			// MARK: - busy 
 			open var busy: UIColor {
-				return UIColor(named: "FluentColors/presenceBusy", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+				return UIColor(named: "FluentColors/presenceBusy", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!
 			}
 
 			// MARK: - doNotDisturb 
 			open var doNotDisturb: UIColor {
-				return UIColor(named: "FluentColors/presenceDnd", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+				return UIColor(named: "FluentColors/presenceDnd", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!
 			}
 
 			// MARK: - offline 
 			open var offline: UIColor {
-				return UIColor(named: "FluentColors/presenceOffline", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+				return UIColor(named: "FluentColors/presenceOffline", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!
 			}
 
 			// MARK: - outOfOffice 
 			open var outOfOffice: UIColor {
-				return UIColor(named: "FluentColors/presenceOof", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+				return UIColor(named: "FluentColors/presenceOof", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!
 			}
 
 			// MARK: - unknown 
 			open var unknown: UIColor {
-				return UIColor(named: "FluentColors/presenceUnknown", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+				return UIColor(named: "FluentColors/presenceUnknown", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!
 			}
 		}
 
@@ -769,7 +769,7 @@ open class FluentUIStyle: NSObject {
 
 			// MARK: - brandDisabled 
 			open var brandDisabled: UIColor {
-				return UIColor(light: UIColor(named: "FluentColors/grey88", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey84", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+				return UIColor(light: UIColor(named: "FluentColors/grey88", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey84", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 			}
 
 			// MARK: - brandHover 
@@ -794,27 +794,27 @@ open class FluentUIStyle: NSObject {
 
 			// MARK: - neutral1 
 			open var neutral1: UIColor {
-				return UIColor(light: UIColor(named: "FluentColors/grey94", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: UIColor(named: "FluentColors/grey38", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey24", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: UIColor(named: "FluentColors/grey68", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevated: UIColor(named: "FluentColors/grey32", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevatedHighContrast: nil)
+				return UIColor(light: UIColor(named: "FluentColors/grey94", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, lightHighContrast: UIColor(named: "FluentColors/grey38", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey24", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkHighContrast: UIColor(named: "FluentColors/grey68", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkElevated: UIColor(named: "FluentColors/grey32", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkElevatedHighContrast: nil)
 			}
 
 			// MARK: - neutral2 
 			open var neutral2: UIColor {
-				return UIColor(light: UIColor(named: "FluentColors/grey88", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: UIColor(named: "FluentColors/grey38", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey32", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: UIColor(named: "FluentColors/grey68", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevated: UIColor(named: "FluentColors/grey36", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevatedHighContrast: nil)
+				return UIColor(light: UIColor(named: "FluentColors/grey88", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, lightHighContrast: UIColor(named: "FluentColors/grey38", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey32", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkHighContrast: UIColor(named: "FluentColors/grey68", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkElevated: UIColor(named: "FluentColors/grey36", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkElevatedHighContrast: nil)
 			}
 
 			// MARK: - neutral3 
 			open var neutral3: UIColor {
-				return UIColor(light: UIColor(named: "FluentColors/grey82", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: UIColor(named: "FluentColors/grey38", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey40", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: UIColor(named: "FluentColors/grey68", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevated: UIColor(named: "FluentColors/grey52", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevatedHighContrast: nil)
+				return UIColor(light: UIColor(named: "FluentColors/grey82", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, lightHighContrast: UIColor(named: "FluentColors/grey38", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey40", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkHighContrast: UIColor(named: "FluentColors/grey68", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkElevated: UIColor(named: "FluentColors/grey52", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkElevatedHighContrast: nil)
 			}
 
 			// MARK: - neutralAccessible 
 			open var neutralAccessible: UIColor {
-				return UIColor(light: UIColor(named: "FluentColors/grey38", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: UIColor(named: "FluentColors/grey14", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey68", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: UIColor(named: "FluentColors/grey84", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevated: UIColor(named: "FluentColors/grey68", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkElevatedHighContrast: nil)
+				return UIColor(light: UIColor(named: "FluentColors/grey38", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, lightHighContrast: UIColor(named: "FluentColors/grey14", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey68", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkHighContrast: UIColor(named: "FluentColors/grey84", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkElevated: UIColor(named: "FluentColors/grey68", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkElevatedHighContrast: nil)
 			}
 
 			// MARK: - neutralDisabled 
 			open var neutralDisabled: UIColor {
-				return UIColor(light: UIColor(named: "FluentColors/grey88", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey32", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+				return UIColor(light: UIColor(named: "FluentColors/grey88", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey32", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 			}
 		}
 
@@ -831,7 +831,7 @@ open class FluentUIStyle: NSObject {
 
 		// MARK: - accentColor 
 		open var accentColor: UIColor {
-			return UIColor(light: UIColor(named: "FluentColors/white", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/black", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+			return UIColor(light: UIColor(named: "FluentColors/white", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/black", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 		}
 
 		// MARK: - size
