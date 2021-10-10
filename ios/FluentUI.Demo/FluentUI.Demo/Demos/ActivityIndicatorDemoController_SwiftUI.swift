@@ -41,12 +41,7 @@ struct ActivityIndicatorDemoView: View {
             ScrollView {
                 Group {
                     Group {
-                        VStack(spacing: 0) {
-                            Text("Settings")
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .font(.title)
-                            Divider()
-                        }
+                        DemoHeading(title: "Settings")
 
                         FluentUIDemoToggle(titleKey: "Animating", isOn: $isAnimating)
                         FluentUIDemoToggle(titleKey: "Hides when stopped", isOn: $hidesWhenStopsAnimating)
@@ -54,12 +49,7 @@ struct ActivityIndicatorDemoView: View {
                     }
 
                     Group {
-                        VStack(spacing: 0) {
-                            Text("Size")
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .font(.title)
-                            Divider()
-                        }
+                        DemoHeading(title: "Size")
 
                         Picker(selection: $size, label: EmptyView()) {
                             Text(".xLarge").tag(MSFActivityIndicatorSize.xLarge)

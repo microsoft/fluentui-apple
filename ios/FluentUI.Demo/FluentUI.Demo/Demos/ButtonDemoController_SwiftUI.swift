@@ -49,12 +49,7 @@ struct ButtonDemoView: View {
             ScrollView {
                 Group {
                     Group {
-                        VStack(spacing: 0) {
-                            Text("Content")
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .font(.title)
-                            Divider()
-                        }
+                        DemoHeading(title: "Content")
 
                         TextField("Text", text: $text)
                             .autocapitalization(.none)
@@ -67,12 +62,7 @@ struct ButtonDemoView: View {
                     }
 
                     Group {
-                        VStack(spacing: 0) {
-                            Text("Style")
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .font(.title)
-                            Divider()
-                        }
+                        DemoHeading(title: "Style")
 
                         Picker(selection: $style, label: EmptyView()) {
                             Text(".primary").tag(MSFButtonStyle.primary)
@@ -86,12 +76,7 @@ struct ButtonDemoView: View {
                     }
 
                     Group {
-                        VStack(spacing: 0) {
-                            Text("Size")
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .font(.title)
-                            Divider()
-                        }
+                        DemoHeading(title: "Size")
 
                         Picker(selection: $size, label: EmptyView()) {
                             Text(".large").tag(MSFButtonSize.large)

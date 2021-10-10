@@ -38,12 +38,7 @@ struct IndeterminateProgressBarDemoView: View {
             ScrollView {
                 Group {
                     Group {
-                        VStack(spacing: 0) {
-                            Text("Settings")
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .font(.title)
-                            Divider()
-                        }
+                        DemoHeading(title: "Settings")
 
                         FluentUIDemoToggle(titleKey: "Animating", isOn: $isAnimating)
                         FluentUIDemoToggle(titleKey: "Hides when stopped", isOn: $hidesWhenStopsAnimating)
