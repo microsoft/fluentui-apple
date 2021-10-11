@@ -97,9 +97,6 @@ public struct IndeterminateProgressBar: View {
                     .onAppear {
                         startAnimation()
                     }
-                    .onDisappear {
-                        stopAnimation()
-                    }
             })
             .modifyIf(!state.isAnimating) { view in
                 view
@@ -116,6 +113,8 @@ public struct IndeterminateProgressBar: View {
     }
 
     private func startAnimation() {
+        stopAnimation()
+
         withAnimation(Animation.linear(duration: Constants.animationDuration)
                                 .repeatForever(autoreverses: false)) {
             startPoint = Constants.finalStartPoint
