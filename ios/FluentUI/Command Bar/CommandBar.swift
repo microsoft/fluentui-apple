@@ -48,8 +48,7 @@ open class CommandBar: UIView, FluentUIWindowProvider {
 
     open override func didMoveToWindow() {
         super.didMoveToWindow()
-        commandBarTokens.didChangeAppearanceProxy()
-        //updateForCurrentTheme() instead
+        commandBarTokens.updateForCurrentTheme()
     }
 
     @available(*, unavailable)
