@@ -111,9 +111,6 @@ public struct ActivityIndicator: View {
                     .onAppear {
                         startAnimation()
                     }
-                    .onDisappear {
-                        stopAnimation()
-                    }
             })
             .modifyIf(!state.isAnimating) { staticView in
                 staticView
@@ -154,6 +151,7 @@ public struct ActivityIndicator: View {
     }
 
     private func startAnimation() {
+        stopAnimation()
         rotationAngle = initialAnimationRotationAngle
 
         withAnimation(Animation.linear(duration: animationDuration)
@@ -165,7 +163,7 @@ public struct ActivityIndicator: View {
     private func stopAnimation() {
         rotationAngle = finalAnimationRotationAngle
 
-        withAnimation(Animation.linear(duration: animationDuration)) {
+        withAnimation(Animation.linear(duration: 0)) {
             rotationAngle = initialAnimationRotationAngle
         }
     }
