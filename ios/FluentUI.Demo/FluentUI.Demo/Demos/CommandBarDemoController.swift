@@ -209,7 +209,6 @@ class CommandBarDemoController: DemoController {
         container.addArrangedSubview(createLabelWithText("Default"))
 
         let defaultCommandBar = CommandBar(itemGroups: itemGroups)
-        defaultCommandBar.backgroundColor = Colors.Navigation.System.background
         container.addArrangedSubview(defaultCommandBar)
 
         container.addArrangedSubview(createLabelWithText("With Fixed Button"))
@@ -221,7 +220,6 @@ class CommandBarDemoController: DemoController {
         container.addArrangedSubview(createLabelWithText("In Input Accessory View"))
 
         let textFieldContainer = UIView()
-        textFieldContainer.backgroundColor = Colors.Navigation.System.background
         textFieldContainer.addSubview(textField)
         NSLayoutConstraint.activate([
             textField.topAnchor.constraint(equalTo: textFieldContainer.topAnchor, constant: 16.0),

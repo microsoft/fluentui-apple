@@ -20,7 +20,7 @@ let demos: [(title: String, controllerClass: UIViewController.Type)] = [
     ("Button", ButtonDemoController.self),
     ("Card", CardViewDemoController.self),
     ("Color", ColorDemoController.self),
-    ("CommandBar", CommandBarDemoController.self),
+    ("CommandBar (Vnext)", CommandBarDemoController.self),
     ("DateTimePicker", DateTimePickerDemoController.self),
     ("DrawerController", DrawerDemoController.self),
     ("HUD", HUDDemoController.self),
