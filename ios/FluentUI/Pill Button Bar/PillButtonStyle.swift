@@ -141,9 +141,9 @@ public extension PillButton {
             return UIColor(light: Colors.primaryTint10(for: window), dark: Colors.textDominant)
         }
     }
-    
-    // MARK: enabled unread dot state
-    
+
+    // MARK: unread dot state
+
     static func enabledUnreadDotColor(for window: UIWindow, for style: PillButtonStyle) -> UIColor {
         switch style {
         case .primary:
@@ -152,9 +152,7 @@ public extension PillButton {
             return UIColor(light: .white, dark: Colors.gray100)
         }
     }
-    
-    // MARK: disabled unread dot state
-    
+
     static func disabledUnreadDotColor(for window: UIWindow, for style: PillButtonStyle) -> UIColor {
         switch style {
         case .primary:

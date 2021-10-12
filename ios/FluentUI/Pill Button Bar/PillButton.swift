@@ -38,7 +38,7 @@ open class PillButton: UIButton {
             updateAppearance()
         }
     }
-    
+
     /// Set `ureadDotColor` to customize color of the pill button unread dot
     @objc open var customUnreadDotColor: UIColor? {
         didSet {
@@ -56,13 +56,13 @@ open class PillButton: UIButton {
         self.style = style
         super.init(frame: .zero)
         setupView()
-        
+
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(isUnreadValueDidChange),
                                                name: PillButtonBarItem.isUnreadValueDidChangeNotification,
                                                object: pillBarItem)
     }
-    
+
     var unreadDotColor: UIColor = Colors.gray100
 
     @objc public static let cornerRadius: CGFloat = 16.0
@@ -98,7 +98,7 @@ open class PillButton: UIButton {
             updateAppearance()
         }
     }
-    
+
     public override func layoutSubviews() {
         super.layoutSubviews()
         updateUnreadDot()
@@ -134,19 +134,19 @@ open class PillButton: UIButton {
             accessibilityTraits.insert(.notEnabled)
         }
     }
-    
+
     private var isUnreadDotVisible: Bool = false {
         didSet {
             if oldValue != isUnreadDotVisible {
                 if isUnreadDotVisible {
-                    self.layer.addSublayer(unreadDotLayer)
+                    layer.addSublayer(unreadDotLayer)
                 } else {
                     unreadDotLayer.removeFromSuperlayer()
                 }
             }
         }
     }
-    
+
     private let unreadDotLayer: CALayer = {
         let unreadDotLayer = CALayer()
         unreadDotLayer.bounds.size = CGSize(width: Constants.unreadDotSize, height: Constants.unreadDotSize)
@@ -185,7 +185,7 @@ open class PillButton: UIButton {
                             ? PillButton.selectedHighlightedBackgroundColor(for: window, for: style)
                             : PillButton.selectedBackgroundColor(for: window, for: style)
                     }
-                    
+
                     setTitleColor(customSelectedTextColor ?? PillButton.selectedTitleColor(for: window, for: style), for: .normal)
                     setTitleColor(customSelectedTextColor ?? PillButton.selectedHighlightedTitleColor(for: window, for: style), for: .highlighted)
                 } else {

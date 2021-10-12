@@ -25,7 +25,7 @@ open class PillButtonBarItem: NSObject {
         self.isUnread = isUnread
         super.init()
     }
-    
+
     /// This value will determine whether or not to show dot next to the pill button label
     public var isUnread: Bool {
        didSet {
@@ -284,7 +284,7 @@ open class PillButtonBar: UIScrollView {
             if let customSelectedButtonTextColor = self.customSelectedPillButtonTextColor {
                 button.customSelectedTextColor = customSelectedButtonTextColor
             }
-            
+
             if let customPillButtonUnreadDotColor = self.customPillButtonUnreadDotColor {
                 button.customUnreadDotColor = customPillButtonUnreadDotColor
             }
