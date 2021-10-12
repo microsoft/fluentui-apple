@@ -83,7 +83,7 @@ class CommandBarButton: UIButton {
     }
 
     private var commandBarTokens: MSFCommandBarTokens
-    
+
     private let isPersistSelection: Bool
 
     private func updateStyle() {
