@@ -31,9 +31,10 @@ class CommandBarButton: UIButton {
         updateStyle()
     }
 
-    init(item: CommandBarItem, isPersistSelection: Bool = true) {
+    init(item: CommandBarItem, isPersistSelection: Bool = true, commandBarTokens: MSFCommandBarTokens) {
         self.item = item
         self.isPersistSelection = isPersistSelection
+        self.commandBarTokens = commandBarTokens
 
         super.init(frame: .zero)
 
@@ -49,6 +50,13 @@ class CommandBarButton: UIButton {
         showsMenuAsPrimaryAction = item.showsMenuAsPrimaryAction
 
         updateState()
+
+        if #available(iOS 13.4, *) {
+            // Workaround check for beta iOS versions missing the Pointer Interactions API
+            if arePointerInteractionAPIsAvailable() {
+                isPointerInteractionEnabled = true
+            }
+        }
     }
 
     @available(*, unavailable)
@@ -72,43 +80,46 @@ class CommandBarButton: UIButton {
         accessibilityHint = item.accessibilityHint
     }
 
+    private var commandBarTokens: MSFCommandBarTokens
+
     private let isPersistSelection: Bool
 
-    private var selectedTintColor: UIColor {
-        guard let window = window else {
-            return UIColor(light: Colors.communicationBlue, dark: .black)
-        }
-
-        return UIColor(light: Colors.primary(for: window), dark: .black)
-    }
-
-    private var selectedBackgroundColor: UIColor {
-        guard let window = window else {
-            return UIColor(light: Colors.Palette.communicationBlueTint30.color, dark: Colors.Palette.communicationBlue.color)
-        }
-
-        return  UIColor(light: Colors.primaryTint30(for: window), dark: Colors.primary(for: window))
-    }
-
     private func updateStyle() {
-        tintColor = isSelected ? selectedTintColor : CommandBarButton.normalTintColor
+        tintColor = isSelected ? commandBarTokens.itemSelectedIconColor : commandBarTokens.itemIconColor
         setTitleColor(tintColor, for: .normal)
 
         if !isPersistSelection {
             backgroundColor = .clear
+            tintColor = commandBarTokens.itemFixedIconColor
         } else {
-            if isSelected {
-                backgroundColor = selectedBackgroundColor
+            if !isEnabled {
+                backgroundColor = commandBarTokens.itemDisabledBackgroundColor
+                tintColor = commandBarTokens.itemDisabledIconColor
+            } else if isSelected {
+                backgroundColor = commandBarTokens.itemSelectedBackgroundColor
             } else if isHighlighted {
-                backgroundColor = CommandBarButton.highlightedBackgroundColor
+                backgroundColor = commandBarTokens.itemPressedBackgroundColor
+                tintColor = commandBarTokens.itemPressedIconColor
             } else {
-                backgroundColor = CommandBarButton.normalBackgroundColor
+                backgroundColor = commandBarTokens.itemBackgroundColor
             }
         }
     }
 
     private static let contentEdgeInsets = UIEdgeInsets(top: 8.0, left: 10.0, bottom: 8.0, right: 10.0)
-    private static let normalTintColor: UIColor = Colors.textPrimary
-    private static let normalBackgroundColor = UIColor(light: Colors.gray50, dark: Colors.gray600)
-    private static let highlightedBackgroundColor = UIColor(light: Colors.gray100, dark: Colors.gray900)
+}
+
+// MARK: CommandBarButton UIPointerInteractionDelegate
+
+extension CommandBarButton: UIPointerInteractionDelegate {
+    @available(iOS 13.4, *)
+    public func pointerInteraction(_ interaction: UIPointerInteraction, willEnter region: UIPointerRegion, animator: UIPointerInteractionAnimating) {
+        backgroundColor = isSelected ? commandBarTokens.itemSelectedBackgroundColor : commandBarTokens.itemHoverBackgroundColor
+        tintColor = isSelected ? commandBarTokens.itemSelectedIconColor : commandBarTokens.itemHoverIconColor
+    }
+
+    @available(iOS 13.4, *)
+    public func pointerInteraction(_ interaction: UIPointerInteraction, willExit region: UIPointerRegion, animator: UIPointerInteractionAnimating) {
+        updateStyle()
+    }
 }

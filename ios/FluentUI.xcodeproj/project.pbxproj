@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A69C08527161920001D9FBC /* CommandBarTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A69C08327161920001D9FBC /* CommandBarTokens.swift */; };
+		0A69C08627161920001D9FBC /* CommandBarTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A69C08327161920001D9FBC /* CommandBarTokens.swift */; };
+		0A69C08727161920001D9FBC /* MSFCommandBarTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A69C08427161920001D9FBC /* MSFCommandBarTokens.generated.swift */; };
+		0A69C08827161920001D9FBC /* MSFCommandBarTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A69C08427161920001D9FBC /* MSFCommandBarTokens.generated.swift */; };
 		0AE866A826BA05D000E92108 /* Locale+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE866A626BA05D000E92108 /* Locale+Extensions.swift */; };
 		5303259B26B31B6B00611D05 /* AvatarModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5303259926B31B6B00611D05 /* AvatarModifiers.swift */; };
 		5306075326A1E6A4002D49CF /* AvatarGroupTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5306074F26A1E6A4002D49CF /* AvatarGroupTokens.swift */; };
@@ -189,6 +193,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0A69C08327161920001D9FBC /* CommandBarTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommandBarTokens.swift; sourceTree = "<group>"; };
+		0A69C08427161920001D9FBC /* MSFCommandBarTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFCommandBarTokens.generated.swift; sourceTree = "<group>"; };
 		0AE866A626BA05D000E92108 /* Locale+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Locale+Extensions.swift"; sourceTree = "<group>"; };
 		0BCEFADD2485FEC00088CEE5 /* PopupMenuProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMenuProtocols.swift; sourceTree = "<group>"; };
 		1168630222E131CF0088B302 /* TabBarItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarItemView.swift; sourceTree = "<group>"; };
@@ -955,6 +961,8 @@
 				FC414E4E2588B65C00069E73 /* CommandBarItem.swift */,
 				FC414E2A25887A4B00069E73 /* CommandBarButton.swift */,
 				FC414E242588798000069E73 /* CommandBarButtonGroupView.swift */,
+				0A69C08327161920001D9FBC /* CommandBarTokens.swift */,
+				0A69C08427161920001D9FBC /* MSFCommandBarTokens.generated.swift */,
 			);
 			path = "Command Bar";
 			sourceTree = "<group>";
@@ -1427,6 +1435,7 @@
 				5314E1CD25F01B730099271A /* AnimationSynchronizer.swift in Sources */,
 				92088EF92666DB2C003F571A /* PersonaButton.swift in Sources */,
 				5314E13425F016370099271A /* PopupMenuItem.swift in Sources */,
+				0A69C08827161920001D9FBC /* MSFCommandBarTokens.generated.swift in Sources */,
 				5314E13825F016370099271A /* PopupMenuSection.swift in Sources */,
 				5314E07C25F00F1A0099271A /* DateTimePickerViewLayout.swift in Sources */,
 				5314E11625F015EA0099271A /* PersonaBadgeViewDataSource.swift in Sources */,
@@ -1444,6 +1453,7 @@
 				5314E03125F00DDD0099271A /* CardView.swift in Sources */,
 				5314E08925F00F2D0099271A /* CommandBarButtonGroupView.swift in Sources */,
 				5314E08C25F00F2D0099271A /* CommandBarButton.swift in Sources */,
+				0A69C08627161920001D9FBC /* CommandBarTokens.swift in Sources */,
 				5314E21E25F022120099271A /* UIView+Extensions.swift in Sources */,
 				5314E0BD25F0106F0099271A /* HUD.swift in Sources */,
 				5314E06A25F00F100099271A /* GenericDateTimePicker.swift in Sources */,
