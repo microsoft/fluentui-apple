@@ -219,11 +219,12 @@ public struct PersonaView: View {
         super.init()
 
         personaView = PersonaView()
-        hostingController = UIHostingController(rootView: AnyView(personaView
-                                                                    .windowProvider(self)
-                                                                    .modifyIf(theme != nil, { personaView in
-                                                                        personaView.customTheme(theme!)
-                                                                    })))
+        hostingController = FluentUIHostingController(rootView: AnyView(personaView
+                                                                            .windowProvider(self)
+                                                                            .modifyIf(theme != nil, { personaView in
+                                                                                personaView.customTheme(theme!)
+                                                                            })))
+        hostingController.disableSafeAreaInsets()
         view.backgroundColor = UIColor.clear
     }
 
@@ -243,7 +244,7 @@ public struct PersonaView: View {
         return self.view.window
     }
 
-    private var hostingController: UIHostingController<AnyView>!
+    private var hostingController: FluentUIHostingController!
 
     private var personaView: PersonaView!
 }
