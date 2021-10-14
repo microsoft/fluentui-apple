@@ -20,6 +20,20 @@
                ReferencedContainer = "container:FluentUI.Demo.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "8FD01165228A820600D25925"
+               BuildableName = "libFluentUI.a"
+               BlueprintName = "FluentUILib"
+               ReferencedContainer = "container:../FluentUI.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
