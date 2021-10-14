@@ -38,11 +38,11 @@ import SwiftUI
 
         personaButtonCarousel = PersonaButtonCarousel(size: size)
 
-        hostingController = UIHostingController(rootView: AnyView(personaButtonCarousel
-                                                                    .windowProvider(self)
-                                                                    .modifyIf(theme != nil, { personaButtonCarousel in
-                                                                        personaButtonCarousel.customTheme(theme!)
-                                                                    })))
+        hostingController = FluentUIHostingController(rootView: AnyView(personaButtonCarousel
+                                                                            .windowProvider(self)
+                                                                            .modifyIf(theme != nil, { personaButtonCarousel in
+                                                                                personaButtonCarousel.customTheme(theme!)
+                                                                            })))
         hostingController.disableSafeAreaInsets()
         view.backgroundColor = UIColor.clear
     }
@@ -55,7 +55,7 @@ import SwiftUI
 
     // MARK: - private properties
 
-    private var hostingController: UIHostingController<AnyView>!
+    private var hostingController: FluentUIHostingController!
 
     private var personaButtonCarousel: PersonaButtonCarousel!
 }

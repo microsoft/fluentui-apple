@@ -201,27 +201,27 @@ extension FluentUIStyle {
 
 			// MARK: - disabled 
 			open var disabled: UIColor {
-				return UIColor(named: "FluentColors/clear", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+				return UIColor(named: "FluentColors/clear", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!
 			}
 
 			// MARK: - hover 
 			open var hover: UIColor {
-				return UIColor(named: "FluentColors/clear", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+				return UIColor(named: "FluentColors/clear", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!
 			}
 
 			// MARK: - pressed 
 			open var pressed: UIColor {
-				return UIColor(named: "FluentColors/clear", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+				return UIColor(named: "FluentColors/clear", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!
 			}
 
 			// MARK: - rest 
 			open var rest: UIColor {
-				return UIColor(named: "FluentColors/clear", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+				return UIColor(named: "FluentColors/clear", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!
 			}
 
 			// MARK: - selected 
 			open var selected: UIColor {
-				return UIColor(named: "FluentColors/clear", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+				return UIColor(named: "FluentColors/clear", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!
 			}
 		}
 
@@ -863,22 +863,22 @@ extension FluentUIStyle {
 
 			// MARK: - disabled 
 			open override var disabled: UIColor {
-				return UIColor(named: "FluentColors/clear", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+				return UIColor(named: "FluentColors/clear", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!
 			}
 
 			// MARK: - hover 
 			open override var hover: UIColor {
-				return UIColor(named: "FluentColors/clear", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+				return UIColor(named: "FluentColors/clear", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!
 			}
 
 			// MARK: - pressed 
 			open override var pressed: UIColor {
-				return UIColor(named: "FluentColors/clear", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+				return UIColor(named: "FluentColors/clear", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!
 			}
 
 			// MARK: - rest 
 			open override var rest: UIColor {
-				return UIColor(named: "FluentColors/clear", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+				return UIColor(named: "FluentColors/clear", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!
 			}
 
 			// MARK: - selected 

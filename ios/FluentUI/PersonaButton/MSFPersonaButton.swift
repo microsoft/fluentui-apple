@@ -35,11 +35,11 @@ import UIKit
         super.init()
 
         personaButton = PersonaButton(size: size)
-        hostingController = UIHostingController(rootView: AnyView(personaButton
-                                                                    .windowProvider(self)
-                                                                    .modifyIf(theme != nil, { personaButton in
-                                                                        personaButton.customTheme(theme!)
-                                                                    })))
+        hostingController = FluentUIHostingController(rootView: AnyView(personaButton
+                                                                            .windowProvider(self)
+                                                                            .modifyIf(theme != nil, { personaButton in
+                                                                                personaButton.customTheme(theme!)
+                                                                            })))
         hostingController.disableSafeAreaInsets()
         view.backgroundColor = UIColor.clear
     }
@@ -50,7 +50,7 @@ import UIKit
         return self.view.window
     }
 
-    private var hostingController: UIHostingController<AnyView>!
+    private var hostingController: FluentUIHostingController!
 
     private var personaButton: PersonaButton!
 }

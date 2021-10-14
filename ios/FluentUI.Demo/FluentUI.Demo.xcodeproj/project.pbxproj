@@ -13,14 +13,11 @@
 		5303259326B3198A00611D05 /* AvatarDemoController_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5303259226B3198A00611D05 /* AvatarDemoController_SwiftUI.swift */; };
 		5303259826B31A6300611D05 /* FluentUIDemoToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5303259726B31A6300611D05 /* FluentUIDemoToggle.swift */; };
 		5306075926A1E73F002D49CF /* AvatarGroupDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5306075826A1E73F002D49CF /* AvatarGroupDemoController.swift */; };
-		53097D3227028A7B00A6E4DC /* ActivityIndicatorDemoController_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D2C27028A7B00A6E4DC /* ActivityIndicatorDemoController_SwiftUI.swift */; };
 		53097D3327028A7B00A6E4DC /* LeftNavDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D2D27028A7B00A6E4DC /* LeftNavDemoController.swift */; };
-		53097D3427028A7B00A6E4DC /* ActivityIndicatorDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D2E27028A7B00A6E4DC /* ActivityIndicatorDemoController.swift */; };
 		53097D3527028A7B00A6E4DC /* ButtonLegacyDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D2F27028A7B00A6E4DC /* ButtonLegacyDemoController.swift */; };
 		53097D3627028A7B00A6E4DC /* ThemingDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D3027028A7B00A6E4DC /* ThemingDemoController.swift */; };
 		53097D3727028A7B00A6E4DC /* ButtonDemoController_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D3127028A7B00A6E4DC /* ButtonDemoController_SwiftUI.swift */; };
 		53097D3827028AA400A6E4DC /* ListDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8EA6AF2580D82A00F191CE /* ListDemoController.swift */; };
-		53097D3927028ABE00A6E4DC /* ActivityIndicatorViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4D852D822580661004B1B29 /* ActivityIndicatorViewDemoController.swift */; };
 		53097D3A27028AC900A6E4DC /* DateTimePickerDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7254EC21471A3F002F4069 /* DateTimePickerDemoController.swift */; };
 		53097D3B27028ACC00A6E4DC /* DrawerDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DCA75D211E3A92005F4CB7 /* DrawerDemoController.swift */; };
 		53097D3C27028AD000A6E4DC /* HUDDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E8F65121CD9579008A1598 /* HUDDemoController.swift */; };
@@ -34,6 +31,8 @@
 		53097D4427028AFA00A6E4DC /* TooltipDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7DF06121FB941400857267 /* TooltipDemoController.swift */; };
 		5328D97A26FBA3EA00F3723B /* IndeterminateProgressBarDemoController_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5328D97826FBA3E900F3723B /* IndeterminateProgressBarDemoController_SwiftUI.swift */; };
 		5328D97B26FBA3EA00F3723B /* IndeterminateProgressBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5328D97926FBA3E900F3723B /* IndeterminateProgressBarDemoController.swift */; };
+		532FE3DB26EA6D8D007539C0 /* ActivityIndicatorDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532FE3D926EA6D8D007539C0 /* ActivityIndicatorDemoController.swift */; };
+		532FE3DC26EA6D8D007539C0 /* ActivityIndicatorDemoController_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532FE3DA26EA6D8D007539C0 /* ActivityIndicatorDemoController_SwiftUI.swift */; };
 		5373D55F2694C3070032A3B4 /* AvatarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5373D55E2694C3070032A3B4 /* AvatarDemoController.swift */; };
 		7D0931C124AAA3D30072458A /* SideTabBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D0931C024AAA3D30072458A /* SideTabBarDemoController.swift */; };
 		80AECC0C2630F1BB005AF2F3 /* BottomCommandingDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AECC0B2630F1BB005AF2F3 /* BottomCommandingDemoController.swift */; };
@@ -98,14 +97,14 @@
 		5303259226B3198A00611D05 /* AvatarDemoController_SwiftUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarDemoController_SwiftUI.swift; sourceTree = "<group>"; };
 		5303259726B31A6300611D05 /* FluentUIDemoToggle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FluentUIDemoToggle.swift; sourceTree = "<group>"; };
 		5306075826A1E73F002D49CF /* AvatarGroupDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarGroupDemoController.swift; sourceTree = "<group>"; };
-		53097D2C27028A7B00A6E4DC /* ActivityIndicatorDemoController_SwiftUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorDemoController_SwiftUI.swift; sourceTree = "<group>"; };
 		53097D2D27028A7B00A6E4DC /* LeftNavDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftNavDemoController.swift; sourceTree = "<group>"; };
-		53097D2E27028A7B00A6E4DC /* ActivityIndicatorDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorDemoController.swift; sourceTree = "<group>"; };
 		53097D2F27028A7B00A6E4DC /* ButtonLegacyDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonLegacyDemoController.swift; sourceTree = "<group>"; };
 		53097D3027028A7B00A6E4DC /* ThemingDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemingDemoController.swift; sourceTree = "<group>"; };
 		53097D3127028A7B00A6E4DC /* ButtonDemoController_SwiftUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonDemoController_SwiftUI.swift; sourceTree = "<group>"; };
 		5328D97826FBA3E900F3723B /* IndeterminateProgressBarDemoController_SwiftUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBarDemoController_SwiftUI.swift; sourceTree = "<group>"; };
 		5328D97926FBA3E900F3723B /* IndeterminateProgressBarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBarDemoController.swift; sourceTree = "<group>"; };
+		532FE3D926EA6D8D007539C0 /* ActivityIndicatorDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorDemoController.swift; sourceTree = "<group>"; };
+		532FE3DA26EA6D8D007539C0 /* ActivityIndicatorDemoController_SwiftUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorDemoController_SwiftUI.swift; sourceTree = "<group>"; };
 		5373D55E2694C3070032A3B4 /* AvatarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarDemoController.swift; sourceTree = "<group>"; };
 		5373F95426F28D3A007F1410 /* IndeterminateProgressBarDemoController_SwiftUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBarDemoController_SwiftUI.swift; sourceTree = "<group>"; };
 		5373F95626F28D9B007F1410 /* IndeterminateProgressBarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBarDemoController.swift; sourceTree = "<group>"; };
@@ -140,7 +139,6 @@
 		B45EB79121A4D047008646A2 /* BadgeFieldDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeFieldDemoController.swift; sourceTree = "<group>"; };
 		B498141521E42C140077B48D /* TableViewCellDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCellDemoController.swift; sourceTree = "<group>"; };
 		B4C39551227A4AC800539EC2 /* TableViewSampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewSampleData.swift; sourceTree = "<group>"; };
-		B4D852D822580661004B1B29 /* ActivityIndicatorViewDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorViewDemoController.swift; sourceTree = "<group>"; };
 		B4D852DA225C010A004B1B29 /* ButtonDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonDemoController.swift; sourceTree = "<group>"; };
 		B4E8F65121CD9579008A1598 /* HUDDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDDemoController.swift; sourceTree = "<group>"; };
 		B4EF53C4215C45C400573E8F /* PersonaListViewDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaListViewDemoController.swift; sourceTree = "<group>"; };
@@ -315,13 +313,12 @@
 		A5CEC23220E452B80016922A /* Demos */ = {
 			isa = PBXGroup;
 			children = (
-				53097D2C27028A7B00A6E4DC /* ActivityIndicatorDemoController_SwiftUI.swift */,
-				53097D2E27028A7B00A6E4DC /* ActivityIndicatorDemoController.swift */,
+				532FE3D926EA6D8D007539C0 /* ActivityIndicatorDemoController.swift */,
+				532FE3DA26EA6D8D007539C0 /* ActivityIndicatorDemoController_SwiftUI.swift */,
 				53097D3127028A7B00A6E4DC /* ButtonDemoController_SwiftUI.swift */,
 				53097D2F27028A7B00A6E4DC /* ButtonLegacyDemoController.swift */,
 				53097D2D27028A7B00A6E4DC /* LeftNavDemoController.swift */,
 				53097D3027028A7B00A6E4DC /* ThemingDemoController.swift */,
-				B4D852D822580661004B1B29 /* ActivityIndicatorViewDemoController.swift */,
 				5373D55E2694C3070032A3B4 /* AvatarDemoController.swift */,
 				5303259226B3198A00611D05 /* AvatarDemoController_SwiftUI.swift */,
 				5306075826A1E73F002D49CF /* AvatarGroupDemoController.swift */,
@@ -499,6 +496,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				53097D3F27028AE100A6E4DC /* ObjectiveCDemoController.m in Sources */,
+				532FE3DB26EA6D8D007539C0 /* ActivityIndicatorDemoController.swift in Sources */,
 				B441478F228E02540040E88E /* OtherCellsDemoController.swift in Sources */,
 				5303259326B3198A00611D05 /* AvatarDemoController_SwiftUI.swift in Sources */,
 				92D5598426A1523400328FD3 /* CardNudgeDemoController.swift in Sources */,
@@ -538,18 +536,16 @@
 				A5CEC21220E436F10016922A /* DemoListViewController.swift in Sources */,
 				53097D3E27028ADC00A6E4DC /* NotificationViewDemoController.swift in Sources */,
 				5328D97A26FBA3EA00F3723B /* IndeterminateProgressBarDemoController_SwiftUI.swift in Sources */,
-				53097D3227028A7B00A6E4DC /* ActivityIndicatorDemoController_SwiftUI.swift in Sources */,
 				B498141621E42C140077B48D /* TableViewCellDemoController.swift in Sources */,
 				FDCF7C8321BF35680058E9E6 /* SegmentedControlDemoController.swift in Sources */,
-				53097D3927028ABE00A6E4DC /* ActivityIndicatorViewDemoController.swift in Sources */,
 				53097D4027028AE500A6E4DC /* PersonaButtonCarouselDemoController.swift in Sources */,
 				C0938E4A235F733100256251 /* ShimmerLinesViewDemoController.swift in Sources */,
 				80AECC0C2630F1BB005AF2F3 /* BottomCommandingDemoController.swift in Sources */,
 				C038992E2359307D00265026 /* TableViewCellShimmerDemoController.swift in Sources */,
 				53097D3D27028AD800A6E4DC /* NavigationControllerDemoController.swift in Sources */,
+				532FE3DC26EA6D8D007539C0 /* ActivityIndicatorDemoController_SwiftUI.swift in Sources */,
 				114CF8B82423E10900D064AA /* ColorDemoController.swift in Sources */,
 				53097D4427028AFA00A6E4DC /* TooltipDemoController.swift in Sources */,
-				53097D3427028A7B00A6E4DC /* ActivityIndicatorDemoController.swift in Sources */,
 				A589F856211BA71000471C23 /* LabelDemoController.swift in Sources */,
 				E6842996247C350700A29C40 /* DemoColorThemes.swift in Sources */,
 				A5CEC21020E436F10016922A /* AppDelegate.swift in Sources */,
@@ -558,7 +554,6 @@
 				53097D4327028AF400A6E4DC /* TableViewCellFileAccessoryViewDemoController.swift in Sources */,
 				B444D6B82183BA4B0002B4D4 /* BadgeViewDemoController.swift in Sources */,
 				A591A3F420F429EB001ED23B /* Demos.swift in Sources */,
-				92ABB39026BC66FE00BA179A /* (null) in Sources */,
 				B4C39552227A4AC800539EC2 /* TableViewSampleData.swift in Sources */,
 				53097D3B27028ACC00A6E4DC /* DrawerDemoController.swift in Sources */,
 			);

@@ -65,9 +65,7 @@ class ActivityIndicatorDemoController: UITableViewController {
 
             return cell
         case.demoOfSize:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier) as? TableViewCell else {
-                return UITableViewCell()
-            }
+            let cell = TableViewCell()
 
             let activityIndicatorSize = MSFActivityIndicatorSize.allCases.reversed()[indexPath.row]
             let activityIndicatorDictionaries = [defaultColorIndicators, customColorIndicators]
