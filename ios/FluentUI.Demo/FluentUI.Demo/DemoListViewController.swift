@@ -48,13 +48,17 @@ class DemoListViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        guard let title = FluentUIFramework.bundle.object(forInfoDictionaryKey: "CFBundleExecutable") as? String else {
-            return assertionFailure("CFBundleExecutable is nil")
+        let bundle = Bundle(for: type(of: self))
+        guard let title = bundle.object(forInfoDictionaryKey: "CFBundleName") as? String else {
+            preconditionFailure("CFBundleName is nil")
+        }
+        guard let subtitle = bundle.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String else {
+            preconditionFailure("CFBundleShortVersionString is nil")
         }
         let titleView = TwoLineTitleView()
         titleView.setup(
             title: title,
-            subtitle: FluentUIFramework.bundle.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
+            subtitle: subtitle
         )
         navigationItem.titleView = titleView
         // Fluent UI design recommends not showing "Back" title. However, VoiceOver still correctly says "Back" even if the title is hidden.

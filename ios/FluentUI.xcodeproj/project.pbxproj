@@ -223,7 +223,6 @@
 		53FC90F525673626008A06FD /* FluentUI_release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUI_release.xcconfig; sourceTree = "<group>"; };
 		53FC90F625673626008A06FD /* FluentUI_debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUI_debug.xcconfig; sourceTree = "<group>"; };
 		53FC90F725673626008A06FD /* FluentUITests.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUITests.xcconfig; sourceTree = "<group>"; };
-		53FC90F825673626008A06FD /* FluentUI_framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUI_framework.xcconfig; sourceTree = "<group>"; };
 		53FC90F925673627008A06FD /* FluentUILib.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUILib.xcconfig; sourceTree = "<group>"; };
 		53FC90FA25673627008A06FD /* FluentUIResources.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUIResources.xcconfig; sourceTree = "<group>"; };
 		7D0931C224AAAC8C0072458A /* SideTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideTabBar.swift; sourceTree = "<group>"; };
@@ -275,7 +274,6 @@
 		A5B87B03211E22B70038C37C /* DimmingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DimmingView.swift; sourceTree = "<group>"; };
 		A5B87B05211E23650038C37C /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
 		A5CEC15420D980B20016922A /* FluentUI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FluentUI.h; sourceTree = "<group>"; };
-		A5CEC15520D980B20016922A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A5CEC15A20D980B30016922A /* FluentUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FluentUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5CEC15F20D980B30016922A /* FluentUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluentUITests.swift; sourceTree = "<group>"; };
 		A5CEC16120D980B30016922A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -601,7 +599,6 @@
 				53FC90C02567300A008A06FD /* FluentUI_common.xcconfig */,
 				53FC90F625673626008A06FD /* FluentUI_debug.xcconfig */,
 				53FC90F525673626008A06FD /* FluentUI_release.xcconfig */,
-				53FC90F825673626008A06FD /* FluentUI_framework.xcconfig */,
 				53FC90F925673627008A06FD /* FluentUILib.xcconfig */,
 				53FC90FA25673627008A06FD /* FluentUIResources.xcconfig */,
 				53FC90F725673626008A06FD /* FluentUITests.xcconfig */,
@@ -840,7 +837,6 @@
 		A5CEC25720E6A64E0016922A /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
-				A5CEC15520D980B20016922A /* Info.plist */,
 				A5CEC15420D980B20016922A /* FluentUI.h */,
 			);
 			name = Configuration;
