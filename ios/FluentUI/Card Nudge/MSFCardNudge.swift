@@ -24,12 +24,13 @@ import UIKit
                       theme: FluentUIStyle? = nil) {
         super.init()
 
-        self.cardNudge = CardNudge(style: style, title: title)
-        self.hostingController = UIHostingController(rootView: AnyView(cardNudge
-                                                                        .windowProvider(self)
-                                                                        .modifyIf(theme != nil, { cardNudge in
-                                                                            cardNudge.customTheme(theme!)
-                                                                        })))
+        cardNudge = CardNudge(style: style, title: title)
+        hostingController = FluentUIHostingController(rootView: AnyView(cardNudge
+                                                                            .windowProvider(self)
+                                                                            .modifyIf(theme != nil, { cardNudge in
+                                                                                cardNudge.customTheme(theme!)
+                                                                            })))
+        hostingController.disableSafeAreaInsets()
     }
 
     @objc public var state: MSFCardNudgeState {
@@ -44,6 +45,6 @@ import UIKit
 
     // MARK: - Private helpers
 
-    private var hostingController: UIHostingController<AnyView>!
+    private var hostingController: FluentUIHostingController!
     private var cardNudge: CardNudge!
 }
