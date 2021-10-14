@@ -591,10 +591,67 @@ open class NavigationBar: UINavigationBar {
         refresh(barButtonStack: rightBarButtonItemsStackView, with: navigationItem.rightBarButtonItems?.reversed(), isLeftItem: false)
     }
 
+    private func createBarButtonItemButton(with item: UIBarButtonItem, isLeftItem: Bool) -> UIButton {
+        let button = UIButton(type: .system)
+        button.isEnabled = item.isEnabled
+
+        if isLeftItem {
+            let isRTL = effectiveUserInterfaceLayoutDirection == .rightToLeft
+            button.contentEdgeInsets = UIEdgeInsets(top: 0, left: isRTL ? 0 : Constants.leftBarButtonItemLeadingMargin, bottom: 0, right: isRTL ? Constants.leftBarButtonItemLeadingMargin : 0)
+        } else {
+            button.contentEdgeInsets = UIEdgeInsets(top: 0, left: Constants.rightBarButtonItemHorizontalPadding, bottom: 0, right: Constants.rightBarButtonItemHorizontalPadding)
+        }
+
+        button.tag = item.tag
+        button.tintColor = item.tintColor
+        button.titleLabel?.font = item.titleTextAttributes(for: .normal)?[.font] as? UIFont
+
+        var portraitImage = item.image
+        if portraitImage?.renderingMode == .automatic {
+            portraitImage = portraitImage?.withRenderingMode(.alwaysTemplate)
+        }
+        var landscapeImage = item.landscapeImagePhone ?? portraitImage
+        if landscapeImage?.renderingMode == .automatic {
+            landscapeImage = landscapeImage?.withRenderingMode(.alwaysTemplate)
+        }
+
+        button.setImage(traitCollection.verticalSizeClass == .regular ? portraitImage : landscapeImage, for: .normal)
+        button.setTitle(item.title, for: .normal)
+
+        if let action = item.action {
+            button.addTarget(item.target, action: action, for: .touchUpInside)
+        }
+
+        button.accessibilityIdentifier = item.accessibilityIdentifier
+        button.accessibilityLabel = item.accessibilityLabel
+        button.accessibilityHint = item.accessibilityHint
+        button.showsLargeContentViewer = true
+
+        if let customLargeContentSizeImage = item.largeContentSizeImage {
+            button.largeContentImage = customLargeContentSizeImage
+        }
+
+        if item.title == nil {
+            button.largeContentTitle = item.accessibilityLabel
+        }
+
+        let badgeView = ButtonBadgeLabelView(for: item, inside: button)
+        button.titleLabel?.addSubview(badgeView)
+
+        if #available(iOS 13.4, *) {
+            // Workaround check for beta iOS versions missing the Pointer Interactions API
+            if arePointerInteractionAPIsAvailable() {
+                button.isPointerInteractionEnabled = true
+            }
+        }
+
+        return button
+    }
+
     private func refresh(barButtonStack: UIStackView, with items: [UIBarButtonItem]?, isLeftItem: Bool) {
         barButtonStack.removeAllSubviews()
         items?.forEach { item in
-            barButtonStack.addArrangedSubview(BarButtonItemButton(for: item, isLeftItem: isLeftItem))
+            barButtonStack.addArrangedSubview(createBarButtonItemButton(with: item, isLeftItem: isLeftItem))
         }
     }
 
