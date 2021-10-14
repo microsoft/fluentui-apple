@@ -61,6 +61,6 @@ struct Demos {
         DemoDescriptor("TableViewHeaderFooterView", TableViewHeaderFooterViewDemoController.self),
         DemoDescriptor("Tooltip", TooltipDemoController.self),
         DemoDescriptor("Other cells", OtherCellsDemoController.self),
-        DemoDescriptor("DEBUG: Objective-C Demos", ObjectiveCDemoController.self)
+        DemoDescriptor("DEBUG: Objective-C Demos", ObjectiveCDemoController.self, debugOnly: true)
     ]
 }

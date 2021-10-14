@@ -132,11 +132,21 @@ class DemoListViewController: UITableViewController {
         }
 
         var rows: [DemoDescriptor] {
-            switch self {
-            case .vNext:
-                return Demos.vNext
-            case .legacy:
-                return Demos.legacy
+            let demos = { () -> [DemoDescriptor] in
+                switch self {
+                case .vNext:
+                    return Demos.vNext
+                case .legacy:
+                    return Demos.legacy
+                }
+            }()
+
+            return demos.filter { demo in
+                #if DEBUG
+                return true
+                #else
+                return demo.debugOnly == false
+                #endif
             }
         }
     }
