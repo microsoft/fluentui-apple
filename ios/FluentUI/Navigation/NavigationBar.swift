@@ -580,21 +580,9 @@ open class NavigationBar: UINavigationBar {
         return (NavigationBar.defaultStyle, navigationItem)
     }
 
-    private func updateBarButtonItems(with navigationItem: UINavigationItem) {
-        // only one left bar button item is support for large title view
-        if let leftBarButtonItem = navigationItem.leftBarButtonItem {
-            leftBarButtonItemsStackView.isHidden = false
-            refresh(barButtonStack: leftBarButtonItemsStackView, with: [leftBarButtonItem], isLeftItem: true)
-        } else {
-            leftBarButtonItemsStackView.isHidden = true
-        }
-        refresh(barButtonStack: rightBarButtonItemsStackView, with: navigationItem.rightBarButtonItems?.reversed(), isLeftItem: false)
-    }
-
     private func createBarButtonItemButton(with item: UIBarButtonItem, isLeftItem: Bool) -> UIButton {
         let button = UIButton(type: .system)
         button.isEnabled = item.isEnabled
-
         if isLeftItem {
             let isRTL = effectiveUserInterfaceLayoutDirection == .rightToLeft
             button.contentEdgeInsets = UIEdgeInsets(top: 0, left: isRTL ? 0 : Constants.leftBarButtonItemLeadingMargin, bottom: 0, right: isRTL ? Constants.leftBarButtonItemLeadingMargin : 0)
@@ -646,6 +634,17 @@ open class NavigationBar: UINavigationBar {
         }
 
         return button
+    }
+
+    private func updateBarButtonItems(with navigationItem: UINavigationItem) {
+        // only one left bar button item is support for large title view
+        if let leftBarButtonItem = navigationItem.leftBarButtonItem {
+            leftBarButtonItemsStackView.isHidden = false
+            refresh(barButtonStack: leftBarButtonItemsStackView, with: [leftBarButtonItem], isLeftItem: true)
+        } else {
+            leftBarButtonItemsStackView.isHidden = true
+        }
+        refresh(barButtonStack: rightBarButtonItemsStackView, with: navigationItem.rightBarButtonItems?.reversed(), isLeftItem: false)
     }
 
     private func refresh(barButtonStack: UIStackView, with items: [UIBarButtonItem]?, isLeftItem: Bool) {
