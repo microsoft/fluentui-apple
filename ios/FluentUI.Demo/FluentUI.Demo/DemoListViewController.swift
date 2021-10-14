@@ -6,7 +6,7 @@
 import FluentUI
 import UIKit
 
-class DemoListViewController: UITableViewController {
+class DemoListViewController: DemoTableViewController {
 
     private var provider: ColorProviding? = DemoColorTheme.default.provider
     public var theme: DemoColorTheme = DemoColorTheme.default {
@@ -18,7 +18,7 @@ class DemoListViewController: UITableViewController {
     func addDemoListTo(window: UIWindow) {
         updateColorProviderFor(window: window, theme: self.theme)
 
-        let demoListViewController = DemoListViewController(style: .insetGrouped)
+        let demoListViewController = DemoListViewController(nibName: nil, bundle: nil)
 
         let navigationController = UINavigationController(rootViewController: demoListViewController)
         navigationController.navigationBar.isTranslucent = true
@@ -56,8 +56,6 @@ class DemoListViewController: UITableViewController {
             navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
             navigationItem.rightBarButtonItem = UIBarButtonItem(title: subtitle, style: .plain, target: nil, action: nil)
         }
-
-        tableView.backgroundColor = Colors.Table.backgroundGrouped
 
         tableView.register(TableViewCell.self, forCellReuseIdentifier: cellReuseIdentifier)
     }
