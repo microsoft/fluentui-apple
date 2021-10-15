@@ -48,17 +48,18 @@ class DemoListViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // App title comes from the app, but we want to display the version number from the resource bundle.
         let bundle = Bundle(for: type(of: self))
-        guard let title = bundle.object(forInfoDictionaryKey: "CFBundleName") as? String else {
+        guard let appName = bundle.object(forInfoDictionaryKey: "CFBundleName") as? String else {
             preconditionFailure("CFBundleName is nil")
         }
-        guard let subtitle = bundle.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String else {
+        guard let libraryVersion = FluentUIFramework.resourceBundle.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String else {
             preconditionFailure("CFBundleShortVersionString is nil")
         }
         let titleView = TwoLineTitleView()
         titleView.setup(
-            title: title,
-            subtitle: subtitle
+            title: appName,
+            subtitle: libraryVersion
         )
         navigationItem.titleView = titleView
         // Fluent UI design recommends not showing "Back" title. However, VoiceOver still correctly says "Back" even if the title is hidden.
