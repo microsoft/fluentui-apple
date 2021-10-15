@@ -510,15 +510,13 @@ open class NavigationBar: UINavigationBar {
             }
 
             standardAppearance.backgroundColor = color
-            scrollEdgeAppearance = standardAppearance
             backgroundView.backgroundColor = color
             tintColor = style.tintColor
-            if var titleTextAttributes = titleTextAttributes {
-                titleTextAttributes[NSAttributedString.Key.foregroundColor] = style.titleColor
-                self.titleTextAttributes = titleTextAttributes
-            } else {
-                titleTextAttributes = [NSAttributedString.Key.foregroundColor: style.titleColor]
-            }
+            standardAppearance.titleTextAttributes[NSAttributedString.Key.foregroundColor] = style.titleColor
+            standardAppearance.largeTitleTextAttributes[NSAttributedString.Key.foregroundColor] = style.titleColor
+
+            // Update the scroll edge appearance to match the new standard appearance
+            scrollEdgeAppearance = standardAppearance
 
             navigationBarColorObserver = navigationItem?.observe(\.customNavigationBarColor) { [unowned self] navigationItem, _ in
                 // Unlike title or barButtonItems that depends on the topItem, navigation bar color can be set from the parentViewController's navigationItem
