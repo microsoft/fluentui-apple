@@ -11,13 +11,9 @@ struct DemoDescriptor: Identifiable {
     let controllerClass: UIViewController.Type
     let id = UUID()
 
-    /// Set to `true` to hide a demo in published builds.
-    var debugOnly: Bool = false
-
     init(_ title: String, _ controllerClass: UIViewController.Type, debugOnly: Bool = false) {
         self.title = title
         self.controllerClass = controllerClass
-        self.debugOnly = debugOnly
     }
 }
 
@@ -31,7 +27,7 @@ struct Demos {
         DemoDescriptor("PersonaButtonCarousel", PersonaButtonCarouselDemoController.self)
     ]
 
-    static let legacy: [DemoDescriptor] = [
+    static let controls: [DemoDescriptor] = [
         DemoDescriptor("BadgeField", BadgeFieldDemoController.self),
         DemoDescriptor("BadgeView", BadgeViewDemoController.self),
         DemoDescriptor("BottomCommandingController", BottomCommandingDemoController.self),
@@ -60,7 +56,10 @@ struct Demos {
         DemoDescriptor("TableViewCellShimmer", TableViewCellShimmerDemoController.self),
         DemoDescriptor("TableViewHeaderFooterView", TableViewHeaderFooterViewDemoController.self),
         DemoDescriptor("Tooltip", TooltipDemoController.self),
-        DemoDescriptor("Other cells", OtherCellsDemoController.self),
-        DemoDescriptor("DEBUG: Objective-C Demos", ObjectiveCDemoController.self, debugOnly: true)
+        DemoDescriptor("Other cells", OtherCellsDemoController.self)
+    ]
+
+    static let debug: [DemoDescriptor] = [
+        DemoDescriptor("DEBUG: Objective-C Demos", ObjectiveCDemoController.self)
     ]
 }

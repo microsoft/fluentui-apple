@@ -117,34 +117,35 @@ class DemoListViewController: DemoTableViewController {
     private static let lastDemoControllerKey: String = "LastDemoController"
 
     private enum DemoControllerSection: CaseIterable {
-        case vNext
-        case legacy
+        case vNextControls
+        case controls
+#if DEBUG
+        case debug
+#endif
 
         var title: String {
             switch self {
-            case .vNext:
-                return "vNext"
-            case .legacy:
-                return "Legacy"
+            case .vNextControls:
+                return "vNext Controls"
+            case .controls:
+                return "Controls"
+#if DEBUG
+            case .debug:
+                return "DEBUG"
+#endif
             }
         }
 
         var rows: [DemoDescriptor] {
-            let demos = { () -> [DemoDescriptor] in
-                switch self {
-                case .vNext:
-                    return Demos.vNext
-                case .legacy:
-                    return Demos.legacy
-                }
-            }()
-
-            return demos.filter { demo in
-                #if DEBUG
-                return true
-                #else
-                return demo.debugOnly == false
-                #endif
+            switch self {
+            case .vNextControls:
+                return Demos.vNext
+            case .controls:
+                return Demos.controls
+#if DEBUG
+            case .debug:
+                return Demos.debug
+#endif
             }
         }
     }
