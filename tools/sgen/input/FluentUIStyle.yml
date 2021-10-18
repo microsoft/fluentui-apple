@@ -425,6 +425,9 @@ AP_MSFNotificationTokens:
   perimeterShadowBlur: $Shadow.shadow16.blur2
   perimeterShadowOffsetX: $Shadow.shadow16.x2
   perimeterShadowOffsetY: $Shadow.shadow16.y2
+  boldTextFont: "Font(subheadline, bold, bold)"
+  regularTextFont: $Typography.subheadline
+  footnoteTextFont: $Typography.footnote
 
 MSFNeutralToastNotificationTokens extends MSFNotificationTokens:
   backgroundColor: "FluentUIColor(light: NamedColor(charcoalTint60), dark: NamedColor(charcoalPrimary))"

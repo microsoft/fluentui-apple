@@ -68,6 +68,9 @@ class MSFNotificationTokens: MSFTokensBase, ObservableObject {
     public var ambientShadowBlur: CGFloat!
     public var ambientShadowOffsetX: CGFloat!
     public var ambientShadowOffsetY: CGFloat!
+    public var boldTextFont: UIFont!
+    public var regularTextFont: UIFont!
+    public var footnoteTextFont: UIFont!
 
     var style: MSFNotificationStyle
 
@@ -125,5 +128,8 @@ class MSFNotificationTokens: MSFTokensBase, ObservableObject {
         ambientShadowBlur = appearanceProxy.ambientShadowBlur
         ambientShadowOffsetX = appearanceProxy.ambientShadowOffsetX
         ambientShadowOffsetY = appearanceProxy.ambientShadowOffsetY
+        boldTextFont = appearanceProxy.boldTextFont
+        regularTextFont = appearanceProxy.regularTextFont
+        footnoteTextFont = appearanceProxy.footnoteTextFont
     }
 }

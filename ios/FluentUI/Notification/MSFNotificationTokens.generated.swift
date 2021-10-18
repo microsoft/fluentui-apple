@@ -108,9 +108,19 @@ extension FluentUIStyle {
 			return mainProxy().Colors.Brand.tint40
 		}
 
+		// MARK: - boldTextFont 
+		open var boldTextFont: UIFont {
+			return UIFont.font(name: nil, size: nil, textStyle: S.FontTextStyle.subheadline, weight: UIFont.Weight.bold, traits: [UIFontDescriptor.SymbolicTraits.traitBold], isScalable: true)
+		}
+
 		// MARK: - cornerRadius 
 		open var cornerRadius: CGFloat {
 			return mainProxy().Border.radius.xLarge
+		}
+
+		// MARK: - footnoteTextFont 
+		open var footnoteTextFont: UIFont {
+			return mainProxy().Typography.footnote
 		}
 
 		// MARK: - foregroundColor 
@@ -171,6 +181,11 @@ extension FluentUIStyle {
 		// MARK: - presentationOffSet 
 		open var presentationOffSet: CGFloat {
 			return mainProxy().Spacing.medium
+		}
+
+		// MARK: - regularTextFont 
+		open var regularTextFont: UIFont {
+			return mainProxy().Typography.subheadline
 		}
 
 		// MARK: - verticalPadding 

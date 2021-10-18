@@ -35,6 +35,7 @@ import SwiftUI
 
 /// View that represents the Notification.
 public struct NotificationViewSwiftUI: View {
+    @Environment(\.horizontalSizeClass) var horizontalSizeClass: UserInterfaceSizeClass?
     @Environment(\.theme) var theme: FluentUIStyle
     @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
     @ObservedObject var tokens: MSFNotificationTokens
@@ -42,7 +43,7 @@ public struct NotificationViewSwiftUI: View {
 
     public init(style: MSFNotificationStyle,
                 title: String = "",
-                message: String = "",
+                message: String,
                 image: UIImage? = nil,
                 actionButtonTitle: String = "",
                 actionButtonAction: (() -> Void)? = nil,
@@ -54,35 +55,25 @@ public struct NotificationViewSwiftUI: View {
                                              actionButtonTitle: actionButtonTitle,
                                              actionButtonAction: actionButtonAction,
                                              messageButtonAction: messageButtonAction)
-        state.title = title
-        state.message = message
-        state.image = image
-        state.actionButtonTitle = actionButtonTitle
-        state.actionButtonAction = actionButtonAction
-        state.messageButtonAction = messageButtonAction
         self.state = state
         self.tokens = state.tokens
     }
 
-    private var isToast: Bool {
-        state.style == .primaryToast || state.style == .neutralToast || state.style == .dangerToast || state.style == .warningToast
-    }
-
     private var hasImage: Bool {
-        isToast && state.image != nil
+        state.style.isToast && state.image != nil
     }
 
     private var hasSecondTextRow: Bool {
-        isToast && state.title != ""
+        state.style.isToast && state.title != ""
     }
 
     private var hasCenteredText: Bool {
-        !isToast && state.actionButtonAction == nil
+        !state.style.isToast && state.actionButtonAction == nil
     }
 
     @ViewBuilder
     var image: some View {
-        if isToast {
+        if state.style.isToast {
             if let image = state.image {
                 Image(uiImage: image)
                     .renderingMode(.template)
@@ -96,10 +87,10 @@ public struct NotificationViewSwiftUI: View {
 
     @ViewBuilder
     var titleLabel: some View {
-        if isToast && hasSecondTextRow {
+        if state.style.isToast && hasSecondTextRow {
             if let title = state.title {
                 Text(title)
-                    .font(.subheadline.bold())
+                    .font(Font(tokens.boldTextFont))
                     .foregroundColor(Color(tokens.foregroundColor))
             }
         }
@@ -107,7 +98,7 @@ public struct NotificationViewSwiftUI: View {
 
     @ViewBuilder
     var messageLabel: some View {
-        let messageFont = hasSecondTextRow ? Font.footnote : isToast ? Font.subheadline.bold() : Font.subheadline
+        let messageFont = hasSecondTextRow ? Font(tokens.footnoteTextFont) : (state.style.isToast ? Font(tokens.boldTextFont) : Font(tokens.regularTextFont))
         Text(state.message)
             .font(messageFont)
             .foregroundColor(Color(tokens.foregroundColor))
@@ -147,7 +138,7 @@ public struct NotificationViewSwiftUI: View {
                     .foregroundColor(Color(tokens.foregroundColor))
                     .padding(.horizontal, tokens.horizontalPadding)
                     .padding(.vertical, tokens.verticalPadding)
-                    .font(.subheadline.bold())
+                    .font(Font(tokens.boldTextFont))
                 }
             }
         }
@@ -155,7 +146,9 @@ public struct NotificationViewSwiftUI: View {
 
     @ViewBuilder
     var innerContents: some View {
-        if !hasCenteredText {
+        if hasCenteredText {
+            textContainer
+        } else {
             HStack(spacing: tokens.horizontalSpacing) {
                 image
                 textContainer
@@ -164,8 +157,6 @@ public struct NotificationViewSwiftUI: View {
                     .layoutPriority(1)
             }
             .frame(minHeight: tokens.minimumHeight)
-        } else {
-            textContainer
         }
     }
 
@@ -177,7 +168,7 @@ public struct NotificationViewSwiftUI: View {
                     messageButtonAction()
                 }
             }
-            .frame(width: isToast && UIDevice.current.userInterfaceIdiom == .pad ? width / 2 : width)
+            .frame(width: state.style.isToast && horizontalSizeClass == .regular ? width / 2 : width)
             .background(
                 RoundedRectangle(cornerRadius: tokens.cornerRadius)
                     .strokeBorder(Color(tokens.outlineColor), lineWidth: tokens.outlineWidth)
@@ -194,7 +185,7 @@ public struct NotificationViewSwiftUI: View {
     }
 }
 
-public class MSFNotificationStateImpl: NSObject, ObservableObject, MSFNotificationState {
+class MSFNotificationStateImpl: NSObject, ObservableObject, MSFNotificationState {
     @Published public var style: MSFNotificationStyle
     @Published public var title: String?
     @Published public var message: String
@@ -224,15 +215,16 @@ public class MSFNotificationStateImpl: NSObject, ObservableObject, MSFNotificati
     }
 
     convenience init(style: MSFNotificationStyle,
-                     title: String = "",
-                     message: String = "",
-                     image: UIImage? = nil,
-                     actionButtonTitle: String = "",
-                     actionButtonAction: (() -> Void)? = nil,
-                     messageButtonAction: (() -> Void)? = nil) {
+                     title: String,
+                     message: String,
+                     image: UIImage?,
+                     actionButtonTitle: String,
+                     actionButtonAction: (() -> Void)?,
+                     messageButtonAction: (() -> Void)?) {
         self.init(style: style,
                   message: message)
 
+        self.title = title
         self.image = image
         self.actionButtonTitle = actionButtonTitle
         self.actionButtonAction = actionButtonAction
