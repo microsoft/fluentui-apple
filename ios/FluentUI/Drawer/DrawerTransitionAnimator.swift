@@ -76,7 +76,7 @@ class DrawerTransitionAnimator: NSObject {
         let animationDuration = DrawerTransitionAnimator.animationDuration(forSizeChange: sizeChange)
 
         UIView.animate(withDuration: animationDuration,
-                       delay: 0.0,
+                       delay: 0,
                        options: [.beginFromCurrentState, Constants.animationCurve],
                        animations: {
             presentedView.frame = self.presentedViewRectDismissed(forContentSize: contentView.frame.size)
