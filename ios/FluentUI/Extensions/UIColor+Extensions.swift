@@ -4,6 +4,7 @@
 //
 
 import UIKit
+import SwiftUI
 
 public extension UIColor {
 
@@ -17,6 +18,19 @@ public extension UIColor {
             green: CGFloat((hexValue & 0x00FF00) >> 8) / 255.0,
             blue: CGFloat((hexValue & 0x0000FF) >> 0) / 255.0,
             alpha: 1.0)
+    }
+
+    /// Creates a dynamic color object that returns the appropriate color value based on the current
+    /// rendering context.
+    ///
+    /// - Parameter colorSet: The set of color values that may be applied based on the current context.
+    convenience init(colorSet: ColorSet) {
+        self.init { traits -> UIColor in
+            let colorValue = colorSet.value(colorScheme: (traits.userInterfaceStyle == .dark ? .dark : .light),
+                                            contrast: traits.accessibilityContrast == .high ? .increased : .standard,
+                                            isElevated: traits.userInterfaceLevel == .elevated ? true : false)
+            return UIColor(hexValue: colorValue)
+        }
     }
 
     /// Creates a dynamic color object that returns the appropriate color value based on the current
