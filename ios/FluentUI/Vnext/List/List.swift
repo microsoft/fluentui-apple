@@ -106,11 +106,12 @@ public struct MSFListView: View {
         super.init()
 
         listView = MSFListView(sections: sections)
-        hostingController = UIHostingController(rootView: AnyView(listView
-                                                                    .windowProvider(self)
-                                                                    .modifyIf(theme != nil, { listView in
-                                                                        listView.customTheme(theme!)
-                                                                    })))
+        hostingController = FluentUIHostingController(rootView: AnyView(listView
+                                                                            .windowProvider(self)
+                                                                            .modifyIf(theme != nil, { listView in
+                                                                                listView.customTheme(theme!)
+                                                                            })))
+        hostingController.disableSafeAreaInsets()
         view.backgroundColor = UIColor.clear
     }
 
@@ -131,7 +132,7 @@ public struct MSFListView: View {
         return self.view.window
     }
 
-    private var hostingController: UIHostingController<AnyView>!
+    private var hostingController: FluentUIHostingController!
 
     private var listView: MSFListView!
 }

@@ -13,12 +13,12 @@ extension FluentUIStyle {
 
 		// MARK: - backgroundColor 
 		open override var backgroundColor: UIColor {
-			return UIColor(light: UIColor(named: "FluentColors/redTint60", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/redShade40", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+			return UIColor(light: UIColor(named: "FluentColors/redTint60", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/redShade40", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 		}
 
 		// MARK: - foregroundColor 
 		open override var foregroundColor: UIColor {
-			return UIColor(light: UIColor(named: "FluentColors/redShade10", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/redTint20", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+			return UIColor(light: UIColor(named: "FluentColors/redShade10", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/redTint20", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 		}
 	}
 	// MARK: - MSFNeutralBarNotificationTokens
@@ -29,12 +29,12 @@ extension FluentUIStyle {
 
 		// MARK: - ambientShadowColor 
 		open override var ambientShadowColor: UIColor {
-			return UIColor(named: "FluentColors/clear", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+			return UIColor(named: "FluentColors/clear", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!
 		}
 
 		// MARK: - backgroundColor 
 		open override var backgroundColor: UIColor {
-			return UIColor(light: UIColor(named: "FluentColors/charcoalTint50", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/charcoalPrimary", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+			return UIColor(light: UIColor(named: "FluentColors/charcoalTint50", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/charcoalPrimary", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 		}
 
 		// MARK: - cornerRadius 
@@ -44,12 +44,12 @@ extension FluentUIStyle {
 
 		// MARK: - foregroundColor 
 		open override var foregroundColor: UIColor {
-			return UIColor(light: UIColor(named: "FluentColors/charcoalShade50", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/charcoalTint60", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+			return UIColor(light: UIColor(named: "FluentColors/charcoalShade50", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/charcoalTint60", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 		}
 
 		// MARK: - perimeterShadowColor 
 		open override var perimeterShadowColor: UIColor {
-			return UIColor(named: "FluentColors/clear", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+			return UIColor(named: "FluentColors/clear", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!
 		}
 
 		// MARK: - presentationOffSet 
@@ -65,12 +65,12 @@ extension FluentUIStyle {
 
 		// MARK: - backgroundColor 
 		open override var backgroundColor: UIColor {
-			return UIColor(light: UIColor(named: "FluentColors/charcoalTint60", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/charcoalPrimary", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+			return UIColor(light: UIColor(named: "FluentColors/charcoalTint60", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/charcoalPrimary", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 		}
 
 		// MARK: - foregroundColor 
 		open override var foregroundColor: UIColor {
-			return UIColor(light: UIColor(named: "FluentColors/charcoalPrimary", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/charcoalTint60", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+			return UIColor(light: UIColor(named: "FluentColors/charcoalPrimary", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/charcoalTint60", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 		}
 	}
 	// MARK: - MSFNotificationTokens
@@ -181,7 +181,7 @@ extension FluentUIStyle {
 
 		// MARK: - ambientShadowColor 
 		open override var ambientShadowColor: UIColor {
-			return UIColor(named: "FluentColors/clear", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+			return UIColor(named: "FluentColors/clear", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!
 		}
 
 		// MARK: - backgroundColor 
@@ -196,12 +196,12 @@ extension FluentUIStyle {
 
 		// MARK: - foregroundColor 
 		open override var foregroundColor: UIColor {
-			return UIColor(light: mainProxy().Colors.Brand.shade20, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/black", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+			return UIColor(light: mainProxy().Colors.Brand.shade20, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/black", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 		}
 
 		// MARK: - perimeterShadowColor 
 		open override var perimeterShadowColor: UIColor {
-			return UIColor(named: "FluentColors/clear", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+			return UIColor(named: "FluentColors/clear", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!
 		}
 
 		// MARK: - presentationOffSet 
@@ -217,12 +217,12 @@ extension FluentUIStyle {
 
 		// MARK: - ambientShadowColor 
 		open override var ambientShadowColor: UIColor {
-			return UIColor(named: "FluentColors/clear", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+			return UIColor(named: "FluentColors/clear", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!
 		}
 
 		// MARK: - backgroundColor 
 		open override var backgroundColor: UIColor {
-			return UIColor(light: UIColor(named: "FluentColors/white", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/charcoalPrimary", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+			return UIColor(light: UIColor(named: "FluentColors/white", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/charcoalPrimary", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 		}
 
 		// MARK: - cornerRadius 
@@ -232,12 +232,12 @@ extension FluentUIStyle {
 
 		// MARK: - foregroundColor 
 		open override var foregroundColor: UIColor {
-			return UIColor(light: mainProxy().Colors.Brand.primary, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/charcoalTint60", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+			return UIColor(light: mainProxy().Colors.Brand.primary, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/charcoalTint60", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 		}
 
 		// MARK: - perimeterShadowColor 
 		open override var perimeterShadowColor: UIColor {
-			return UIColor(named: "FluentColors/clear", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+			return UIColor(named: "FluentColors/clear", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!
 		}
 
 		// MARK: - presentationOffSet 
@@ -253,12 +253,12 @@ extension FluentUIStyle {
 
 		// MARK: - backgroundColor 
 		open override var backgroundColor: UIColor {
-			return UIColor(light: UIColor(named: "FluentColors/yellowTint50", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/yellowShade40", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+			return UIColor(light: UIColor(named: "FluentColors/yellowTint50", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/yellowShade40", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 		}
 
 		// MARK: - foregroundColor 
 		open override var foregroundColor: UIColor {
-			return UIColor(light: UIColor(named: "FluentColors/yellowShade50", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/yellowTint20", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+			return UIColor(light: UIColor(named: "FluentColors/yellowShade50", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/yellowTint20", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 		}
 	}
 
