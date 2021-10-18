@@ -8,38 +8,10 @@ import SwiftUI
 /// An alias that represents a three-channel, 8-bit-per-channel color value, usually in hex.
 ///
 /// For example: `0xFF0000` represents red, `0x00FF00` green, and `0x0000FF` blue.
-public typealias ColorValue = UInt32
+typealias ColorValue = UInt32
 
 /// Represents a set of color values to be used in different contexts.
 public struct ColorSet {
-    /// Creates a dynamic color object that wraps a set of color values for various rendering contexts.
-    ///
-    /// - Parameter light: The default color for a light context. Required.
-    /// - Parameter lightHighContrast: The override color for a light, high contrast context. Optional.
-    /// - Parameter lightElevated: The override color for a light, elevated context. Optional.
-    /// - Parameter lightElevatedHighContrast: The override color for a light, elevated, high contrast context. Optional.
-    /// - Parameter dark: The override color for a dark context. Optional.
-    /// - Parameter darkHighContrast: The override color for a dark, high contrast context. Optional.
-    /// - Parameter darkElevated: The override color for a dark, elevated context. Optional.
-    /// - Parameter darkElevatedHighContrast: The override color for a dark, elevated, high contrast context. Optional.
-    public init(light: ColorValue,
-                lightHighContrast: ColorValue? = nil,
-                lightElevated: ColorValue? = nil,
-                lightElevatedHighContrast: ColorValue? = nil,
-                dark: ColorValue? = nil,
-                darkHighContrast: ColorValue? = nil,
-                darkElevated: ColorValue? = nil,
-                darkElevatedHighContrast: ColorValue? = nil) {
-        self.light = light
-        self.lightHighContrast = lightHighContrast
-        self.lightElevated = lightElevated
-        self.lightElevatedHighContrast = lightElevatedHighContrast
-        self.dark = dark
-        self.darkHighContrast = darkHighContrast
-        self.darkElevated = darkElevated
-        self.darkElevatedHighContrast = darkElevatedHighContrast
-    }
-
     /// The default color for a light context. Required.
     var light: ColorValue
 
