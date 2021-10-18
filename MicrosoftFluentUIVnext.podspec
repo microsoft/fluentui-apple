@@ -17,7 +17,7 @@ Pod::Spec.new do |s|
   s.subspec 'ActivityIndicator_ios' do |activityindicator_ios|
     activityindicator_ios.platform = :ios
     activityindicator_ios.dependency 'MicrosoftFluentUIVnext/Core_ios'
-    activityindicator_ios.source_files = ["ios/FluentUI/Vnext/ActivityIndicator/**/*.{swift,h}"]
+    activityindicator_ios.source_files = ["ios/FluentUI/ActivityIndicator/**/*.{swift,h}"]
   end
 
   s.subspec 'Avatar_ios' do |avatar_ios|

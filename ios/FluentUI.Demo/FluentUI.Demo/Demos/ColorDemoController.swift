@@ -124,12 +124,16 @@ class ColorDemoController: UIViewController {
             segmentedControl.selectedSegmentIndex = 0
         }
 
+        // Only use safe area for top and bottom, not left and right, to ensure that the scroll view extends edge to edge
+        // when in landscape mode
         NSLayoutConstraint.activate([
             stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            stackView.topAnchor.constraint(equalTo: view.topAnchor),
-            stackView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            stackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
+
+        NotificationCenter.default.addObserver(self, selector: #selector(didChangeTheme), name: Notification.Name.didChangeTheme, object: nil)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -153,10 +157,18 @@ class ColorDemoController: UIViewController {
             if let currentDemoListViewController = currentDemoListViewController {
                 currentDemoListViewController.updateColorProviderFor(window: window, theme: DemoColorTheme.allCases[segmentedControl.selectedSegmentIndex])
             }
-
-            tableView.reloadData()
-            segmentedControl.updateWindowSpecificColors()
         }
+    }
+
+    @objc private func didChangeTheme() {
+        // The controls in this controller are not fully theme-aware yet, so
+        // we need to manually poke them and have them refresh their colors.
+        sections.forEach { section in
+            section.colorViews.forEach { colorView in
+                colorView.updateBackgroundColor()
+            }
+        }
+        segmentedControl.updateWindowSpecificColors()
     }
 
     private let tableView = UITableView(frame: .zero, style: .grouped)
@@ -225,6 +237,10 @@ class DemoColorView: UIView {
 
     override func didMoveToWindow() {
         super.didMoveToWindow()
+        updateBackgroundColor()
+    }
+
+    func updateBackgroundColor() {
         if let colorProvider = colorProvider,
             let window = window {
             backgroundColor = colorProvider(window)
