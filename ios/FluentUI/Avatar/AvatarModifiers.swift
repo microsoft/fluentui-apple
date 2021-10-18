@@ -34,6 +34,14 @@ public extension Avatar {
         return self
     }
 
+    /// Configures the Avatar with a button accessibility trait overriding its default image trait.
+    /// - Parameter hasButtonAccessibilityTrait: Boolean value to set the property.
+    /// - Returns: The modified Avatar with the property set.
+    func hasButtonAccessibilityTrait(_ hasButtonAccessibilityTrait: Bool) -> Avatar {
+        state.hasButtonAccessibilityTrait = hasButtonAccessibilityTrait
+        return self
+    }
+
     /// Turns iPad Pointer interaction on/off.
     /// - Parameter hasPointerInteraction: Boolean value to set the property.
     /// - Returns: The modified Avatar with the property set.

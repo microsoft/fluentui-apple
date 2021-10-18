@@ -73,6 +73,9 @@ import SwiftUI
     /// This property allows customizing the initials text color or the default image tint color.
     var foregroundColor: UIColor? { get set }
 
+    /// Configures the Avatar with a button accessibility trait overriding its default image trait.
+    var hasButtonAccessibilityTrait: Bool { get set }
+
     /// Turns iPad Pointer interaction on/off.
     var hasPointerInteraction: Bool { get set }
 
@@ -332,7 +335,7 @@ public struct Avatar: View {
             .pointerInteraction(state.hasPointerInteraction)
             .animation(.linear(duration: animationDuration))
             .accessibilityElement(children: .ignore)
-            .accessibility(addTraits: .isImage)
+            .accessibility(addTraits: state.hasButtonAccessibilityTrait ? .isButton : .isImage)
             .accessibility(label: Text(accessibilityLabel))
             .accessibility(value: Text(presence.string() ?? ""))
             .designTokens(tokens,
@@ -467,6 +470,7 @@ public struct Avatar: View {
 class MSFAvatarStateImpl: NSObject, ObservableObject, MSFAvatarState {
     @Published var backgroundColor: UIColor?
     @Published var foregroundColor: UIColor?
+    @Published var hasButtonAccessibilityTrait = false
     @Published var hasPointerInteraction: Bool = false
     @Published var hasRingInnerGap: Bool = true
     @Published var image: UIImage?

@@ -28,7 +28,7 @@ open class SideTabBar: UIView {
     @objc public weak var delegate: SideTabBarDelegate? {
         didSet {
             if let avatar = avatar {
-                avatar.view.accessibilityTraits = delegate != nil ? .button : .image
+                avatar.state.hasButtonAccessibilityTrait = delegate != nil
             }
         }
     }
@@ -45,16 +45,13 @@ open class SideTabBar: UIView {
             if let avatar = avatar {
                 avatar.state.size = .medium
                 avatar.state.accessibilityLabel = "Accessibility.LargeTitle.ProfileView".localized
+                avatar.state.hasButtonAccessibilityTrait = delegate != nil
 
                 let avatarView = avatar.view
                 avatarView.translatesAutoresizingMaskIntoConstraints = false
                 avatarView.showsLargeContentViewer = true
                 avatarView.largeContentTitle = avatar.state.accessibilityLabel
                 addSubview(avatarView)
-
-                if delegate != nil {
-                    avatarView.accessibilityTraits = .button
-                }
 
                 avatarView.addGestureRecognizer(avatarViewGestureRecognizer)
             }
