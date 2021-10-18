@@ -5,16 +5,7 @@
 
 import SwiftUI
 
-public class CardNudgeTokens: CardNudgeThemeable {
-    static func styledTokens(style: MSFCardNudgeStyle) -> CardNudgeTokens {
-        switch style {
-        case .outline :
-            return BorderedCardNudgeTokens()
-        case .standard:
-            return CardNudgeTokens()
-        }
-    }
-
+public class CardNudgeTokens: NSObject, CardNudgeThemeable {
     public var accentColor: ColorSet {
         #if BRAND_COLORS
         return GlobalTokens.Colors.Brand.shade20.value
@@ -95,6 +86,19 @@ public class CardNudgeTokens: CardNudgeThemeable {
 
     public var verticalPadding: CGFloat {
         return GlobalTokens.Spacing.xSmall.value
+    }
+
+}
+
+// MARK: - CardNudgeTokens variants
+
+/// Static helper function to produce the appropriate instance of `CardNudgeTokens`.
+func cardNudgeTokens(style: MSFCardNudgeStyle) -> CardNudgeTokens {
+    switch style {
+    case .outline :
+        return BorderedCardNudgeTokens()
+    case .standard:
+        return CardNudgeTokens()
     }
 }
 

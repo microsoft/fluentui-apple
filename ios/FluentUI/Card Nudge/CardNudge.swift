@@ -198,7 +198,7 @@ class MSFCardNudgeStateImpl: NSObject, ObservableObject, Identifiable, MSFCardNu
     @objc init(style: MSFCardNudgeStyle, title: String) {
         self.style = style
         self.title = title
-        self.tokens = CardNudgeTokens.styledTokens(style: style)
+        self.tokens = cardNudgeTokens(style: style)
 
         super.init()
     }
