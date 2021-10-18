@@ -272,6 +272,10 @@
 		C77A04EE25F046EB001B3EB6 /* Date+CellFileAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77A04EC25F046EB001B3EB6 /* Date+CellFileAccessoryView.swift */; };
 		CCC18C2C2501B22F00BE830E /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCC18C2B2501B22F00BE830E /* CardView.swift */; };
 		ECEBA8FC25EDF3380048EE24 /* SegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEBA8FB25EDF3380048EE24 /* SegmentedControl.swift */; };
+		ECF7ECF6270F9710003C9E63 /* MSFButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECF7ECF2270F9710003C9E63 /* MSFButton.swift */; };
+		ECF7ECF7270F9710003C9E63 /* MSFButtonTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECF7ECF3270F9710003C9E63 /* MSFButtonTokens.generated.swift */; };
+		ECF7ECF8270F9710003C9E63 /* ButtonModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECF7ECF4270F9710003C9E63 /* ButtonModifiers.swift */; };
+		ECF7ECF9270F9710003C9E63 /* ButtonTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECF7ECF5270F9710003C9E63 /* ButtonTokens.swift */; };
 		FC414E1F258876FB00069E73 /* CommandBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC414E1E258876FB00069E73 /* CommandBar.swift */; };
 		FC414E252588798000069E73 /* CommandBarButtonGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC414E242588798000069E73 /* CommandBarButtonGroupView.swift */; };
 		FC414E2B25887A4B00069E73 /* CommandBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC414E2A25887A4B00069E73 /* CommandBarButton.swift */; };
@@ -476,6 +480,10 @@
 		C77A04EC25F046EB001B3EB6 /* Date+CellFileAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+CellFileAccessoryView.swift"; sourceTree = "<group>"; };
 		CCC18C2B2501B22F00BE830E /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		ECEBA8FB25EDF3380048EE24 /* SegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentedControl.swift; sourceTree = "<group>"; };
+		ECF7ECF2270F9710003C9E63 /* MSFButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFButton.swift; sourceTree = "<group>"; };
+		ECF7ECF3270F9710003C9E63 /* MSFButtonTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFButtonTokens.generated.swift; sourceTree = "<group>"; };
+		ECF7ECF4270F9710003C9E63 /* ButtonModifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonModifiers.swift; sourceTree = "<group>"; };
+		ECF7ECF5270F9710003C9E63 /* ButtonTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonTokens.swift; sourceTree = "<group>"; };
 		FC414E1E258876FB00069E73 /* CommandBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBar.swift; sourceTree = "<group>"; };
 		FC414E242588798000069E73 /* CommandBarButtonGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBarButtonGroupView.swift; sourceTree = "<group>"; };
 		FC414E2A25887A4B00069E73 /* CommandBarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBarButton.swift; sourceTree = "<group>"; };
@@ -673,6 +681,10 @@
 			isa = PBXGroup;
 			children = (
 				A5CEC23020E451D00016922A /* Button.swift */,
+				ECF7ECF4270F9710003C9E63 /* ButtonModifiers.swift */,
+				ECF7ECF5270F9710003C9E63 /* ButtonTokens.swift */,
+				ECF7ECF2270F9710003C9E63 /* MSFButton.swift */,
+				ECF7ECF3270F9710003C9E63 /* MSFButtonTokens.generated.swift */,
 			);
 			path = Button;
 			sourceTree = "<group>";
@@ -1658,10 +1670,12 @@
 				FD36F1A9216C0A6900CECBC6 /* CardPresentationController.swift in Sources */,
 				FC414E252588798000069E73 /* CommandBarButtonGroupView.swift in Sources */,
 				92A1E4EC26A741F60007ED60 /* MSFCardNudgeTokens.swift in Sources */,
+				ECF7ECF9270F9710003C9E63 /* ButtonTokens.swift in Sources */,
 				A5B87B02211E20B50038C37C /* UIScreen+Extension.swift in Sources */,
 				FD77752D219E62E100033D58 /* DateTimePickerViewLayout.swift in Sources */,
 				927E34C72668350800998031 /* PersonaButtonTokens.swift in Sources */,
 				9298798F266A8E1C002B1EB4 /* MSFPersonaButtonTokens.generated.swift in Sources */,
+				ECF7ECF8270F9710003C9E63 /* ButtonModifiers.swift in Sources */,
 				FD7DF05C21FA7F5000857267 /* Tooltip.swift in Sources */,
 				497DC2DB24185885008D86F8 /* PillButton.swift in Sources */,
 				53BCB0CE253A4E8D00620960 /* Obscurable.swift in Sources */,
@@ -1776,6 +1790,7 @@
 				5373D5762694D66F0032A3B4 /* SwiftUI+ViewModifiers.swift in Sources */,
 				FD4F2A1B2148937100C437D6 /* PageCardPresenterController.swift in Sources */,
 				8035CADD2638E435007B3FD1 /* CommandingSection.swift in Sources */,
+				ECF7ECF7270F9710003C9E63 /* MSFButtonTokens.generated.swift in Sources */,
 				FD5BBE3B214B2F44008964B4 /* Date+Extensions.swift in Sources */,
 				FD5BBE43214C73CE008964B4 /* EasyTapButton.swift in Sources */,
 				5373D5702694D66F0032A3B4 /* Theming.swift in Sources */,
@@ -1792,6 +1807,7 @@
 				A5961FA5218A260500E2A506 /* PopupMenuSectionHeaderView.swift in Sources */,
 				FD56FD9A2194E50D0023C7EA /* DateTimePickerController.swift in Sources */,
 				B46D3F9D215985AC0029772C /* PersonaListView.swift in Sources */,
+				ECF7ECF6270F9710003C9E63 /* MSFButton.swift in Sources */,
 				7DC2FB2824C0ED1600367A55 /* TableViewCellFileAccessoryView.swift in Sources */,
 				A5DCA76421224026005F4CB7 /* Separator.swift in Sources */,
 				FD599D062134A682008845EE /* AccessibleViewDelegate.swift in Sources */,

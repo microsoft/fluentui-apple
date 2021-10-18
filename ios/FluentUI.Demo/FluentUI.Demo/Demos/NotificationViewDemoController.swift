@@ -67,7 +67,19 @@ class NotificationViewDemoController: DemoController {
             }
             addTitle(text: variant.displayText)
             container.addArrangedSubview(createNotificationView(forVariant: variant))
-            container.addArrangedSubview(createButton(title: "Show", action: #selector(showNotificationView)))
+
+            let showButton = MSFButton(style: .secondary, size: .small, action: { [weak self] _ in
+                guard let strongSelf = self else {
+                    return
+                }
+
+                strongSelf.createNotificationView(forVariant: variant).show(in: strongSelf.view) {
+                    $0.hide(after: variant.delayForHiding)
+                }
+            })
+            showButton.state.text = "Show"
+            container.addArrangedSubview(showButton.view)
+
             container.alignment = .leading
         }
     }

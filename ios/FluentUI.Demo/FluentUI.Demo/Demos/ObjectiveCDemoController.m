@@ -18,59 +18,64 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.container = [self createVerticalContainer];
-    self.scrollingContainer = [[UIScrollView alloc] initWithFrame:CGRectZero];
 
-    self.view.backgroundColor = MSFColors.surfacePrimary;
-    [self setupTitleView];
+    MSFTwoLineTitleView *titleView = [[MSFTwoLineTitleView alloc] initWithStyle:MSFTwoLineTitleViewStyleDark];
+    [titleView setupWithTitle:self.title subtitle:nil interactivePart:MSFTwoLineTitleViewInteractivePartTitle accessoryType:MSFTwoLineTitleViewAccessoryTypeNone];
+    [titleView setDelegate:self];
+    [[self navigationItem] setTitleView:titleView];
 
-    [self.view addSubview:self.scrollingContainer];
-    [self.scrollingContainer setFrame:self.view.bounds];
-    [self.scrollingContainer setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectZero];
+    [view setBackgroundColor:MSFColors.surfacePrimary];
 
-    [self.scrollingContainer addSubview:self.container];
-    // UIScrollView in RTL mode still have leading on the left side, so we cannot rely on leading/trailing-based constraints
-    [self.container setTranslatesAutoresizingMaskIntoConstraints:NO];
+    MSFLabel *buttonLabel = [[MSFLabel alloc] initWithStyle:MSFTextStyleHeadline colorStyle:MSFTextColorStyleRegular];
+    [buttonLabel setText:@"Button"];
+
+    MSFButton *button = [[MSFButton alloc] initWithStyle:MSFButtonStyleSecondary
+                                                    size:MSFButtonSizeMedium
+                                                  action:^(MSFButton *sender){
+        [self showButtonPressAlert];
+    }];
+    [[button state] setText:@"Button"];
+
+    UIStackView *verticalContainer = [[UIStackView alloc] initWithArrangedSubviews:@[buttonLabel, [button view]]];
+    [verticalContainer setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [verticalContainer setAxis:UILayoutConstraintAxisVertical];
+    [verticalContainer setSpacing:16];
+    [verticalContainer setLayoutMargins:UIEdgeInsetsMake(16, 16, 16, 16)];
+    [verticalContainer setLayoutMarginsRelativeArrangement:YES];
+
+    UIScrollView *scrollingContainer = [[UIScrollView alloc] initWithFrame:CGRectZero];
+    [scrollingContainer setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [scrollingContainer addSubview:verticalContainer];
+    [view addSubview:scrollingContainer];
+
     [NSLayoutConstraint activateConstraints:@[
-        [[self.container topAnchor] constraintEqualToAnchor:[self.scrollingContainer topAnchor]],
-        [[self.container bottomAnchor] constraintEqualToAnchor:[self.scrollingContainer bottomAnchor]],
-        [[self.container leftAnchor] constraintEqualToAnchor:[self.scrollingContainer leftAnchor]],
-        [[self.container widthAnchor] constraintEqualToAnchor:[self.scrollingContainer widthAnchor]],
+        [[scrollingContainer topAnchor] constraintEqualToAnchor:[view topAnchor]],
+        [[scrollingContainer bottomAnchor] constraintEqualToAnchor:[view bottomAnchor]],
+        [[scrollingContainer leadingAnchor] constraintEqualToAnchor:[view leadingAnchor]],
+        [[scrollingContainer trailingAnchor] constraintEqualToAnchor:[view trailingAnchor]],
+        
+        [[verticalContainer topAnchor] constraintEqualToAnchor:[scrollingContainer topAnchor]],
+        [[verticalContainer bottomAnchor] constraintEqualToAnchor:[scrollingContainer bottomAnchor]],
+        [[verticalContainer leadingAnchor] constraintEqualToAnchor:[scrollingContainer leadingAnchor]],
+        [[verticalContainer trailingAnchor] constraintEqualToAnchor:[scrollingContainer trailingAnchor]]
     ]];
 
-    MSFButton *testButton = [self createButtonWithTitle:@"Test" action:nil];
-    [self.container addArrangedSubview:testButton];
+    [self setView:view];
 }
 
-- (UIStackView *)createVerticalContainer {
-    UIStackView* container = [[UIStackView alloc] initWithFrame:CGRectZero];
-    container.axis = UILayoutConstraintAxisVertical;
-    container.layoutMargins = UIEdgeInsetsMake(16, 16, 16, 16);
-    container.layoutMarginsRelativeArrangement = YES;
-    container.spacing = 16;
-    return container;
-}
-
-- (void)setupTitleView {
-    self.titleView = [[MSFTwoLineTitleView alloc] initWithStyle:MSFTwoLineTitleViewStyleDark];
-    [self.titleView setupWithTitle:self.title subtitle:nil interactivePart:MSFTwoLineTitleViewInteractivePartTitle accessoryType:MSFTwoLineTitleViewAccessoryTypeNone];
-    self.titleView.delegate = self;
-    self.navigationItem.titleView = self.titleView;
-}
-
-- (MSFButton *)createButtonWithTitle:(NSString *)title action:(SEL)action {
-    MSFButton* button = [[MSFButton alloc] init];
-    button.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
-    [button setTitle:title forState:UIControlStateNormal];
-    [button addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
-    return button;
-}
-
-- (void)addTitleWithText:(NSString*)text {
-    MSFLabel* titleLabel = [[MSFLabel alloc] initWithStyle:MSFTextStyleHeadline colorStyle:MSFTextColorStyleRegular];
-    titleLabel.text = text;
-    titleLabel.textAlignment = NSTextAlignmentCenter;
-    [self.container addArrangedSubview:titleLabel];
+- (void)showButtonPressAlert {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Button was pressed"
+                                                                   message:nil
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *actionDismiss = [UIAlertAction actionWithTitle:@"OK"
+                                                            style:UIAlertActionStyleCancel
+                                                          handler:^(__unused UIAlertAction *action){
+    }];
+    [alert addAction:actionDismiss];
+    [[[[self view] window] rootViewController] presentViewController:alert
+                                                     animated:YES
+                                                   completion:nil];
 }
 
 #pragma mark MSFTwoLineTitleViewDelegate

@@ -235,19 +235,41 @@ class BottomCommandingDemoController: UIViewController {
         present(alert, animated: true)
     }
 
-    private lazy var incrementHeroCommandCountButton: Button = {
-        let button = Button()
-        button.image = UIImage(named: "ic_fluent_add_20_regular")
+    private lazy var incrementHeroCommandCountButton: MSFButton = {
+        let button = MSFButton(style: .secondary,
+                               size: .small) { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            let currentCount = strongSelf.bottomCommandingController?.heroItems.count ?? 0
+            if currentCount < 4 {
+                let newCount = currentCount + 1
+                strongSelf.bottomCommandingController?.heroItems = Array(strongSelf.heroItems[0..<newCount])
+            }
+        }
+        button.state.image = UIImage(named: "ic_fluent_add_20_regular")
         button.accessibilityLabel = "Increment hero command count"
-        button.addTarget(self, action: #selector(incrementHeroCommands), for: .touchUpInside)
+
         return button
     }()
 
-    private lazy var decrementHeroCommandCountButton: Button = {
-        let button = Button()
-        button.image = UIImage(named: "ic_fluent_subtract_20_regular")
+    private lazy var decrementHeroCommandCountButton: MSFButton = {
+        let button = MSFButton(style: .secondary,
+                               size: .small) { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            let currentCount = strongSelf.bottomCommandingController?.heroItems.count ?? 0
+            if currentCount > 1 {
+                let newCount = currentCount - 1
+                strongSelf.bottomCommandingController?.heroItems = Array(strongSelf.heroItems[0..<newCount])
+            }
+        }
+        button.state.image = UIImage(named: "ic_fluent_subtract_20_regular")
         button.accessibilityLabel = "Decrement hero command count"
-        button.addTarget(self, action: #selector(decrementHeroCommands), for: .touchUpInside)
+
         return button
     }()
 
@@ -349,8 +371,8 @@ extension BottomCommandingDemoController: UITableViewDataSource {
             }
 
             let stackView = UIStackView(frame: CGRect(x: 0, y: 0, width: 100, height: 40))
-            stackView.addArrangedSubview(decrementHeroCommandCountButton)
-            stackView.addArrangedSubview(incrementHeroCommandCountButton)
+            stackView.addArrangedSubview(decrementHeroCommandCountButton.view)
+            stackView.addArrangedSubview(incrementHeroCommandCountButton.view)
             stackView.distribution = .fillEqually
             stackView.alignment = .center
             stackView.spacing = 4
