@@ -35,11 +35,11 @@ import UIKit
         super.init()
 
         activityIndicatorView = ActivityIndicator(size: size)
-        hostingController = UIHostingController(rootView: AnyView(activityIndicatorView
-                                                                    .windowProvider(self)
-                                                                    .modifyIf(theme != nil, { activityIndicatorView in
-                                                                        activityIndicatorView.customTheme(theme!)
-                                                                    })))
+        hostingController = FluentUIHostingController(rootView: AnyView(activityIndicatorView
+                                                                            .windowProvider(self)
+                                                                            .modifyIf(theme != nil, { activityIndicatorView in
+                                                                                activityIndicatorView.customTheme(theme!)
+                                                                            })))
         hostingController.disableSafeAreaInsets()
         view.backgroundColor = UIColor.clear
     }
@@ -48,7 +48,7 @@ import UIKit
         return self.view.window
     }
 
-    private var hostingController: UIHostingController<AnyView>!
+    private var hostingController: FluentUIHostingController!
 
     private var activityIndicatorView: ActivityIndicator!
 }
@@ -90,42 +90,6 @@ public struct ActivityIndicator: View {
 
     public var body: some View {
         let size = tokens.activityIndicatorSize
-        activityIndicatorContent
-            .frame(width: size,
-                   height: size,
-                   alignment: .center)
-    }
-
-    @ViewBuilder
-    public var activityIndicatorContent: some View {
-        if state.isAnimating {
-            animatedSemiRing
-        } else if state.hidesWhenStopped {
-            // Clear circle instead of EmptyView() to ensure the frame size
-            // remains the same even when invisible.
-            Circle()
-                .foregroundColor(.clear)
-        } else {
-            semiRing
-        }
-    }
-
-    @ViewBuilder
-    private var animatedSemiRing: some View {
-        semiRing
-            .rotationEffect(Angle(degrees: rotationAngle))
-            .onAppear {
-                rotationAngle = initialAnimationRotationAngle
-
-                withAnimation(Animation.linear(duration: animationDuration)
-                                .repeatForever(autoreverses: false)) {
-                    rotationAngle = finalAnimationRotationAngle
-                }
-            }
-    }
-
-    @ViewBuilder
-    private var semiRing: some View {
         let color = Color(state.color ?? tokens.defaultColor)
         let accessibilityLabel: String = {
             if let overriddenAccessibilityLabel = state.accessibilityLabel {
@@ -138,23 +102,73 @@ public struct ActivityIndicator: View {
                 "Accessibility.ActivityIndicator.Stopped.label".localized
         }()
 
-        Circle()
-            .trim(from: semiRingStartFraction,
-                  to: semiRingEndFraction)
-            .stroke(style: StrokeStyle(lineWidth: tokens.thickness,
-                                       lineCap: .round))
-            .foregroundColor(color)
-            .accessibilityElement(children: .ignore)
-            .accessibility(addTraits: .isImage)
-            .accessibility(label: Text(accessibilityLabel))
+        SemiRing(color: color,
+                 thickness: tokens.thickness,
+                 accessibilityLabel: accessibilityLabel)
+            .modifyIf(state.isAnimating, { animatedView in
+                animatedView
+                    .rotationEffect(.degrees(rotationAngle), anchor: .center)
+                    .onAppear {
+                        startAnimation()
+                    }
+            })
+            .modifyIf(!state.isAnimating) { staticView in
+                staticView
+                    .onAppear {
+                       stopAnimation()
+                    }
+            }
+            .modifyIf(!state.isAnimating && state.hidesWhenStopped, { view in
+                view.hidden()
+            })
             .designTokens(tokens,
                           from: theme,
                           with: windowProvider)
+            .frame(width: size,
+                   height: size,
+                   alignment: .center)
+    }
+
+    private struct SemiRing: View {
+        var color: Color
+        var thickness: CGFloat
+        var accessibilityLabel: String
+
+        public var body: some View {
+            Circle()
+                .trim(from: semiRingStartFraction,
+                      to: semiRingEndFraction)
+                .stroke(style: StrokeStyle(lineWidth: thickness,
+                                           lineCap: .round))
+                .foregroundColor(color)
+                .accessibilityElement(children: .ignore)
+                .accessibility(addTraits: .isImage)
+                .accessibility(label: Text(accessibilityLabel))
+        }
+
+        private let semiRingStartFraction: CGFloat = 0.0
+        private let semiRingEndFraction: CGFloat = 0.75
+    }
+
+    private func startAnimation() {
+        stopAnimation()
+        rotationAngle = initialAnimationRotationAngle
+
+        withAnimation(Animation.linear(duration: animationDuration)
+                                .repeatForever(autoreverses: false)) {
+            rotationAngle = finalAnimationRotationAngle
+        }
+    }
+
+    private func stopAnimation() {
+        rotationAngle = finalAnimationRotationAngle
+
+        withAnimation(Animation.linear(duration: 0)) {
+            rotationAngle = initialAnimationRotationAngle
+        }
     }
 
     private let animationDuration: Double = 0.75
-    private let semiRingStartFraction: CGFloat = 0.0
-    private let semiRingEndFraction: CGFloat = 0.75
     private let initialAnimationRotationAngle: Double = 0.0
     private let finalAnimationRotationAngle: Double = 360.0
 }
