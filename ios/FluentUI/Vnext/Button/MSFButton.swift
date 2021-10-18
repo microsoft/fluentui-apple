@@ -86,11 +86,12 @@ import UIKit
             strongSelf.action?(strongSelf)
         }
 
-        hostingController = UIHostingController(rootView: AnyView(buttonView
-                                                                    .windowProvider(self)
-                                                                    .modifyIf(theme != nil, { buttonView in
-                                                                        buttonView.customTheme(theme!)
-                                                                    })))
+        hostingController = FluentUIHostingController(rootView: AnyView(buttonView
+                                                                            .windowProvider(self)
+                                                                            .modifyIf(theme != nil, { buttonView in
+                                                                                buttonView.customTheme(theme!)
+                                                                            })))
+        hostingController.disableSafeAreaInsets()
         view.backgroundColor = UIColor.clear
         setupLargeContentViewer()
     }
@@ -115,7 +116,7 @@ import UIKit
 
     private var imagePropertySubscriber: AnyCancellable?
 
-    private var hostingController: UIHostingController<AnyView>!
+    private var hostingController: FluentUIHostingController!
 
     private var buttonView: FluentButton!
 }
