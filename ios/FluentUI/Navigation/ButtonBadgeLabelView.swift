@@ -69,6 +69,8 @@ class ButtonBadgeLabelView: UIView {
 
     private func update() {
         button.titleLabel?.isHidden = false
+        button.imageView?.isHidden = false
+        button.imageView?.clipsToBounds = false
 
         badgeLabel.text = badgeValue
         let isNilBadgeValue = badgeValue == nil
@@ -86,13 +88,13 @@ class ButtonBadgeLabelView: UIView {
                 let badgeWidth = min(max(badgeLabel.intrinsicContentSize.width + Constants.badgeHorizontalPadding, Constants.badgeMinWidth), Constants.badgeMaxWidth)
                 badgeLabel.frame = badgeFrame(for: badgeWidth, isTitleLabelPresent: item.title != nil)
 
-                let frameForBezierPath = badgeFrame(for: badgeWidth, isTitleLabelPresent: false)
                 path = UIBezierPath(rect: CGRect(x: 0, y: 0, width: button.frame.size.width + badgeWidth / 2, height: button.frame.size.height))
-                path.append(UIBezierPath(roundedRect: borderRect(for: frameForBezierPath),
+                let bezierRect = bezierRect(for: badgeWidth)
+                path.append(UIBezierPath(roundedRect: borderRect(for: bezierRect),
                                          byRoundingCorners: .allCorners,
                                          cornerRadii: CGSize(width: Constants.badgeCornerRadii, height: Constants.badgeCornerRadii)))
 
-                path.append(UIBezierPath(roundedRect: frameForBezierPath,
+                path.append(UIBezierPath(roundedRect: bezierRect,
                                          byRoundingCorners: .allCorners,
                                          cornerRadii: CGSize(width: Constants.badgeCornerRadii, height: Constants.badgeCornerRadii)))
 
@@ -107,10 +109,10 @@ class ButtonBadgeLabelView: UIView {
                 let badgeWidth = max(badgeLabel.intrinsicContentSize.width, Constants.badgeMinWidth)
                 badgeLabel.frame = badgeFrame(for: badgeWidth, isTitleLabelPresent: item.title != nil)
 
-                let frameForBezierPath = badgeFrame(for: badgeWidth, isTitleLabelPresent: false)
                 path = UIBezierPath(rect: CGRect(x: 0, y: 0, width: button.frame.size.width + badgeWidth / 2, height: button.frame.size.height))
-                path.append(UIBezierPath(ovalIn: borderRect(for: frameForBezierPath)))
-                path.append(UIBezierPath(ovalIn: frameForBezierPath))
+                let bezierRect = bezierRect(for: badgeWidth)
+                path.append(UIBezierPath(ovalIn: borderRect(for: bezierRect)))
+                path.append(UIBezierPath(ovalIn: bezierRect))
 
                 badgeLabel.layer.mask = nil
                 badgeLabel.layer.cornerRadius = badgeWidth / 2
@@ -130,11 +132,20 @@ class ButtonBadgeLabelView: UIView {
                           width: badgeWidth,
                           height: Constants.badgeHeight)
         } else {
-            return CGRect(x: badgeFrameOriginX(for: badgeWidth),
-                          y: badgeVerticalPosition,
+            return CGRect(x: badgeFrameOriginX(for: badgeWidth) - (button.imageView?.frame.origin.x ?? 0),
+                          y: badgeVerticalPosition - (button.imageView?.frame.origin.y ?? 0),
                           width: badgeWidth,
                           height: Constants.badgeHeight)
         }
+    }
+
+    private func bezierRect(for badgeWidth: CGFloat) -> CGRect {
+        let badgeVerticalOffset = isInPortraitMode ? Constants.badgePortraitTitleVerticalOffset : Constants.badgeVerticalOffset
+        let badgeVerticalPosition = (button.frame.size.height - button.intrinsicContentSize.height) / 2 - Constants.badgeHeight / 2 - badgeVerticalOffset
+        return CGRect(x: badgeFrameOriginX(for: badgeWidth),
+                      y: badgeVerticalPosition,
+                      width: badgeWidth,
+                      height: Constants.badgeHeight)
     }
 
     private func badgeFrameOriginX(for width: CGFloat) -> CGFloat {

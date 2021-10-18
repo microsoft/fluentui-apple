@@ -624,7 +624,11 @@ open class NavigationBar: UINavigationBar {
         }
 
         let badgeView = ButtonBadgeLabelView(for: item, inside: button)
-        button.titleLabel?.addSubview(badgeView)
+        if item.title != nil {
+            button.titleLabel?.addSubview(badgeView)
+        } else {
+            button.imageView?.addSubview(badgeView)
+        }
 
         if #available(iOS 13.4, *) {
             // Workaround check for beta iOS versions missing the Pointer Interactions API
