@@ -38,9 +38,14 @@ class DrawerTransitionAnimator: NSObject {
         super.init()
     }
 
-    private func presentWithTransitionContext(_ transitionContext: UIViewControllerContextTransitioning, completion: @escaping ((Bool) -> Void)) {
-        let presentedView = transitionContext.view(forKey: UITransitionContextViewKey.to)!
-        let contentView = presentedView.superview!
+    private func presentWithTransitionContext(_ transitionContext: UIViewControllerContextTransitioning,
+                                              completion: @escaping ((Bool) -> Void)) {
+        guard let presentedView = transitionContext.view(forKey: UITransitionContextViewKey.to),
+              let contentView = presentedView.superview else {
+                  completion(true)
+                  return
+              }
+
         presentedView.frame = presentedViewRectDismissed(forContentSize: contentView.bounds.size)
         let sizeChange = Self.sizeChange(forPresentedView: presentedView, presentationDirection: presentationDirection)
         let animationDuration = DrawerTransitionAnimator.animationDuration(forSizeChange: sizeChange)
@@ -48,20 +53,35 @@ class DrawerTransitionAnimator: NSObject {
             .beginFromCurrentState,
             transitionContext.isInteractive ? Constants.animationCurveInteractive : Constants.animationCurve
         ]
-        UIView.animate(withDuration: animationDuration, delay: 0, options: options, animations: {
+
+        UIView.animate(withDuration: animationDuration,
+                       delay: 0,
+                       options: options,
+                       animations: {
             presentedView.frame = self.presentedViewRectPresented(forContentSize: contentView.bounds.size)
-        }, completion: completion)
+        },
+                       completion: completion)
     }
 
-    private func dismissWithTransitionContext(_ transitionContext: UIViewControllerContextTransitioning, completion: @escaping ((Bool) -> Void)) {
-        let presentedView = transitionContext.view(forKey: UITransitionContextViewKey.from)!
-        let contentView = presentedView.superview!
+    private func dismissWithTransitionContext(_ transitionContext: UIViewControllerContextTransitioning,
+                                              completion: @escaping ((Bool) -> Void)) {
+        guard let presentedView = transitionContext.view(forKey: UITransitionContextViewKey.from),
+              let contentView = presentedView.superview else {
+                  completion(true)
+                  return
+              }
+
         presentedView.frame = currentRect(for: presentedView)
         let sizeChange = Self.sizeChange(forPresentedView: presentedView, presentationDirection: presentationDirection)
         let animationDuration = DrawerTransitionAnimator.animationDuration(forSizeChange: sizeChange)
-        UIView.animate(withDuration: animationDuration, delay: 0.0, options: [.beginFromCurrentState, Constants.animationCurve], animations: {
+
+        UIView.animate(withDuration: animationDuration,
+                       delay: 0.0,
+                       options: [.beginFromCurrentState, Constants.animationCurve],
+                       animations: {
             presentedView.frame = self.presentedViewRectDismissed(forContentSize: contentView.frame.size)
-        }, completion: completion)
+        },
+                       completion: completion)
     }
 
     private func presentedViewRectDismissed(forContentSize contentSize: CGSize) -> CGRect {
