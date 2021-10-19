@@ -224,7 +224,7 @@ open class PillButton: UIButton {
         static let font = UIFont.systemFont(ofSize: 16, weight: .regular)
         static let horizontalInset: CGFloat = 16.0
         static let topInset: CGFloat = 6.0
-        static let unreadDotOffset = CGPoint(x: 6, y: 3)
-        static let unreadDotSize: CGFloat = 6
+        static let unreadDotOffset = CGPoint(x: 6.0, y: 3.0)
+        static let unreadDotSize: CGFloat = 6.0
     }
 }
