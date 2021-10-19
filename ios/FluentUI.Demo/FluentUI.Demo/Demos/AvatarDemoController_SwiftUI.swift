@@ -27,7 +27,6 @@ struct AvatarDemoView: View {
     @State var isOutOfOffice: Bool = false
     @State var isRingVisible: Bool = true
     @State var isTransparent: Bool = true
-    @State var hasButtonAccessibilityTrait: Bool = false
     @State var hasPointerInteraction: Bool = false
     @State var hasRingInnerGap: Bool = true
     @State var primaryText: String = "Kat Larrson"
@@ -52,7 +51,6 @@ struct AvatarDemoView: View {
                 .presence(presence)
                 .isOutOfOffice(isOutOfOffice)
                 .hasPointerInteraction(hasPointerInteraction)
-                .hasButtonAccessibilityTrait(hasButtonAccessibilityTrait)
                 .frame(maxWidth: .infinity, minHeight: 150, alignment: .center)
                 .background(useAlternateBackground ? Color.gray : Color.clear)
 
@@ -80,7 +78,6 @@ struct AvatarDemoView: View {
                         FluentUIDemoToggle(titleKey: "Set alternate background", isOn: $useAlternateBackground)
                         FluentUIDemoToggle(titleKey: "Transparency", isOn: $isTransparent)
                         FluentUIDemoToggle(titleKey: "iPad Pointer interaction", isOn: $hasPointerInteraction)
-                        FluentUIDemoToggle(titleKey: "Button Accessibility trait", isOn: $hasButtonAccessibilityTrait)
                     }
 
                     Group {
