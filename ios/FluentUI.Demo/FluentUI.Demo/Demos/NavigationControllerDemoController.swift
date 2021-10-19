@@ -250,6 +250,7 @@ class NavigationControllerDemoController: DemoController {
             }
 
             navigationItem.navigationBarStyle = newStyle
+            self.setNeedsStatusBarAppearanceUpdate()
             self.changeStyleContinuously(in: navigationItem)
         }
     }
@@ -546,6 +547,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     @objc private func showModalView() {
         let modalNavigationController = UINavigationController(rootViewController: ModalViewController(style: .grouped))
+        modalNavigationController.navigationBar.isTranslucent = true
         present(modalNavigationController, animated: true)
     }
 
@@ -596,19 +598,19 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
 extension RootViewController: SearchBarDelegate {
     func searchBarDidBeginEditing(_ searchBar: SearchBar) {
-        searchBar.progressSpinner.stopAnimating()
+        searchBar.progressSpinner.state.isAnimating = false
     }
 
     func searchBar(_ searchBar: SearchBar, didUpdateSearchText newSearchText: String?) {
     }
 
     func searchBarDidCancel(_ searchBar: SearchBar) {
-        searchBar.progressSpinner.stopAnimating()
+        searchBar.progressSpinner.state.isAnimating = false
     }
 
     func searchBarDidRequestSearch(_ searchBar: SearchBar) {
         if showSearchProgressSpinner {
-            searchBar.progressSpinner.startAnimating()
+            searchBar.progressSpinner.state.isAnimating = true
         }
     }
 

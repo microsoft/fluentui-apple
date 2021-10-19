@@ -6,7 +6,7 @@
 import FluentUI
 import UIKit
 
-class IndeterminateProgressBarDemoController: DemoTableViewController {
+class ActivityIndicatorDemoController: DemoTableViewController {
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
@@ -24,15 +24,15 @@ class IndeterminateProgressBarDemoController: DemoTableViewController {
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return IndeterminateProgressBarDemoSection.allCases.count
+        return ActivityIndicatorDemoSection.allCases.count
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return IndeterminateProgressBarDemoSection.allCases[section].rows.count
+        return ActivityIndicatorDemoSection.allCases[section].rows.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let row = IndeterminateProgressBarDemoSection.allCases[indexPath.section].rows[indexPath.row]
+        let row = ActivityIndicatorDemoSection.allCases[indexPath.section].rows[indexPath.row]
 
         switch row {
         case .hidesWhenStopped:
@@ -64,34 +64,27 @@ class IndeterminateProgressBarDemoController: DemoTableViewController {
             cell.accessoryType = .disclosureIndicator
 
             return cell
-        case.demoProgressBar:
+        case.demoOfSize:
             let cell = TableViewCell()
 
-            let rowContentView = UIStackView(arrangedSubviews: [indeterminateProgressBar.view])
-            rowContentView.isLayoutMarginsRelativeArrangement = true
-            rowContentView.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 15, leading: 0, bottom: 15, trailing: 0)
-            rowContentView.translatesAutoresizingMaskIntoConstraints = false
-            rowContentView.alignment = .leading
-            rowContentView.distribution = .fill
+            let activityIndicatorSize = MSFActivityIndicatorSize.allCases.reversed()[indexPath.row]
+            let activityIndicatorDictionaries = [defaultColorIndicators, customColorIndicators]
+            let activityIndicatorPath = indexPath.section - 2
+            let activityIndicator = activityIndicatorDictionaries[activityIndicatorPath][activityIndicatorSize]
 
-            cell.contentView.addSubview(rowContentView)
-            NSLayoutConstraint.activate([
-                cell.contentView.leadingAnchor.constraint(equalTo: rowContentView.leadingAnchor),
-                cell.contentView.trailingAnchor.constraint(equalTo: rowContentView.trailingAnchor),
-                cell.contentView.topAnchor.constraint(equalTo: rowContentView.topAnchor),
-                cell.contentView.bottomAnchor.constraint(equalTo: rowContentView.bottomAnchor)
-            ])
-
+            cell.setup(title: activityIndicatorSize.description,
+                       customView: activityIndicator?.view)
+            cell.titleNumberOfLines = 0
             return cell
         }
     }
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return IndeterminateProgressBarDemoSection.allCases[section].title
+        return ActivityIndicatorDemoSection.allCases[section].title
     }
 
     override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
-        return IndeterminateProgressBarDemoSection.allCases[indexPath.section].rows[indexPath.row] == .swiftUIDemo
+        return ActivityIndicatorDemoSection.allCases[indexPath.section].rows[indexPath.row] == .swiftUIDemo
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -101,9 +94,9 @@ class IndeterminateProgressBarDemoController: DemoTableViewController {
 
         cell.setSelected(false, animated: true)
 
-        switch IndeterminateProgressBarDemoSection.allCases[indexPath.section].rows[indexPath.row] {
+        switch ActivityIndicatorDemoSection.allCases[indexPath.section].rows[indexPath.row] {
         case .swiftUIDemo:
-            navigationController?.pushViewController(IndeterminateProgressBarDemoControllerSwiftUI(),
+            navigationController?.pushViewController(ActivityIndicatorDemoControllerSwiftUI(),
                                                      animated: true)
         default:
             break
@@ -113,7 +106,13 @@ class IndeterminateProgressBarDemoController: DemoTableViewController {
     private var shouldHideWhenStopped: Bool = true {
         didSet {
             if oldValue != shouldHideWhenStopped {
-                indeterminateProgressBar.state.hidesWhenStopped = shouldHideWhenStopped
+                defaultColorIndicators.values.forEach { indicator in
+                    indicator.state.hidesWhenStopped = shouldHideWhenStopped
+                }
+
+                customColorIndicators.values.forEach { indicator in
+                    indicator.state.hidesWhenStopped = shouldHideWhenStopped
+                }
             }
         }
     }
@@ -121,23 +120,47 @@ class IndeterminateProgressBarDemoController: DemoTableViewController {
     private var isAnimating: Bool = true {
         didSet {
             if oldValue != isAnimating {
-                indeterminateProgressBar.state.isAnimating = isAnimating
+                defaultColorIndicators.values.forEach { indicator in
+                    indicator.state.isAnimating = isAnimating
+                }
+
+                customColorIndicators.values.forEach { indicator in
+                    indicator.state.isAnimating = isAnimating
+                }
             }
         }
     }
 
-    private let indeterminateProgressBar: MSFIndeterminateProgressBar = {
-        let indeterminateProgressBar = MSFIndeterminateProgressBar()
-        indeterminateProgressBar.state.isAnimating = true
+    private var defaultColorIndicators: [MSFActivityIndicatorSize: MSFActivityIndicator] = {
+        var defaultColorIndicators: [MSFActivityIndicatorSize: MSFActivityIndicator] = [:]
 
-        return indeterminateProgressBar
+        MSFActivityIndicatorSize.allCases.forEach { size in
+            let indicator = MSFActivityIndicator(size: size)
+            indicator.state.isAnimating = true
+            defaultColorIndicators.updateValue(indicator, forKey: size)
+        }
+
+        return defaultColorIndicators
     }()
 
-    private enum IndeterminateProgressBarDemoRow: CaseIterable {
+    private var customColorIndicators: [MSFActivityIndicatorSize: MSFActivityIndicator] = {
+        var customColorIndicators: [MSFActivityIndicatorSize: MSFActivityIndicator] = [:]
+
+        MSFActivityIndicatorSize.allCases.forEach { size in
+            let indicator = MSFActivityIndicator(size: size)
+            indicator.state.isAnimating = true
+            indicator.state.color = Colors.communicationBlue
+            customColorIndicators.updateValue(indicator, forKey: size)
+        }
+
+        return customColorIndicators
+    }()
+
+    private enum ActivityIndicatorDemoRow: CaseIterable {
         case swiftUIDemo
         case hidesWhenStopped
         case startStopActivity
-        case demoProgressBar
+        case demoOfSize
 
         var title: String {
             switch self {
@@ -147,16 +170,17 @@ class IndeterminateProgressBarDemoController: DemoTableViewController {
                 return "Hides when stopped"
             case .startStopActivity:
                 return "Start / Stop activity"
-            case .demoProgressBar:
+            case .demoOfSize:
                 return ""
             }
         }
     }
 
-    private enum IndeterminateProgressBarDemoSection: CaseIterable {
+    private enum ActivityIndicatorDemoSection: CaseIterable {
         case swiftUI
         case settings
-        case progressBar
+        case defaultColor
+        case customColor
 
         var title: String {
             switch self {
@@ -164,19 +188,22 @@ class IndeterminateProgressBarDemoController: DemoTableViewController {
                 return "SwiftUI"
             case .settings:
                 return "Settings"
-            case .progressBar:
-                return "Progress Bar"
+            case .defaultColor:
+                return "Default Color"
+            case .customColor:
+                return "Custom Color"
             }
         }
 
-        var rows: [IndeterminateProgressBarDemoRow] {
+        var rows: [ActivityIndicatorDemoRow] {
             switch self {
             case .swiftUI:
                 return [.swiftUIDemo]
             case .settings:
                 return [.hidesWhenStopped, .startStopActivity]
-            case .progressBar:
-                return [.demoProgressBar]
+            case .defaultColor, .customColor:
+                return [ActivityIndicatorDemoRow](repeating: .demoOfSize,
+                                                  count: MSFActivityIndicatorSize.allCases.count)
             }
         }
 
@@ -184,5 +211,22 @@ class IndeterminateProgressBarDemoController: DemoTableViewController {
 
     @objc private func startStopActivity() {
         isAnimating.toggle()
+    }
+}
+
+extension MSFActivityIndicatorSize {
+    var description: String {
+        switch self {
+        case .xSmall:
+            return "xSmall"
+        case .small:
+            return "small"
+        case .medium:
+            return "medium"
+        case .large:
+            return "large"
+        case .xLarge:
+            return "xLarge"
+        }
     }
 }

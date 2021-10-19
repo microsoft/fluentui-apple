@@ -341,11 +341,13 @@ open class NavigationBar: UINavigationBar {
         rightBarButtonItemsStackView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         rightBarButtonItemsStackView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
 
-        updateViewsForLargeTitlePresentation(for: topItem)
-        updateColors(for: topItem)
-
         isTranslucent = false
 
+        // Cache the system shadow color
+        systemShadowColor = standardAppearance.shadowColor
+
+        updateColors(for: topItem)
+        updateViewsForLargeTitlePresentation(for: topItem)
         updateAccessibilityElements()
     }
 
@@ -507,15 +509,14 @@ open class NavigationBar: UINavigationBar {
                 titleView.style = .dark
             }
 
-            barTintColor = color
+            standardAppearance.backgroundColor = color
             backgroundView.backgroundColor = color
             tintColor = style.tintColor
-            if var titleTextAttributes = titleTextAttributes {
-                titleTextAttributes[NSAttributedString.Key.foregroundColor] = style.titleColor
-                self.titleTextAttributes = titleTextAttributes
-            } else {
-                titleTextAttributes = [NSAttributedString.Key.foregroundColor: style.titleColor]
-            }
+            standardAppearance.titleTextAttributes[NSAttributedString.Key.foregroundColor] = style.titleColor
+            standardAppearance.largeTitleTextAttributes[NSAttributedString.Key.foregroundColor] = style.titleColor
+
+            // Update the scroll edge appearance to match the new standard appearance
+            scrollEdgeAppearance = standardAppearance
 
             navigationBarColorObserver = navigationItem?.observe(\.customNavigationBarColor) { [unowned self] navigationItem, _ in
                 // Unlike title or barButtonItems that depends on the topItem, navigation bar color can be set from the parentViewController's navigationItem
@@ -685,6 +686,9 @@ open class NavigationBar: UINavigationBar {
 
     // MARK: Large/Normal Title handling
 
+    /// Cache for the system shadow color, since the default value is private.
+    private var systemShadowColor: UIColor?
+
     private func updateViewsForLargeTitlePresentation(for navigationItem: UINavigationItem?) {
         // UIView.isHidden has a bug where a series of repeated calls with the same parameter can "glitch" the view into a permanent shown/hidden state
         // i.e. repeatedly trying to hide a UIView that is already in the hidden state
@@ -712,13 +716,13 @@ open class NavigationBar: UINavigationBar {
 
     private func updateShadow(for navigationItem: UINavigationItem?) {
         if needsShadow(for: navigationItem) {
-            shadowImage = nil
-            // Forcing layout to update size of shadow image view otherwise it stays with 0 height
-            setNeedsLayout()
-            subviews.forEach { $0.setNeedsLayout() }
+            standardAppearance.shadowColor = systemShadowColor
         } else {
-            shadowImage = UIImage()
+            standardAppearance.shadowColor = nil
         }
+
+        // Update the scroll edge shadow to match standard
+        scrollEdgeAppearance = standardAppearance
     }
 
     private func needsShadow(for navigationItem: UINavigationItem?) -> Bool {
