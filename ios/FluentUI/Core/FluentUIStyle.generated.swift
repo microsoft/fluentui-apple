@@ -519,22 +519,22 @@ open class FluentUIStyle: NSObject {
 
 			// MARK: - tint10 
 			open var tint10: UIColor {
-				return UIColor(light: UIColor(red: 0.16862746, green: 0.53333336, blue: 0.84705883, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.0, green: 0.47058824, blue: 0.83137256, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+				return UIColor(light: UIColor(red: 0.16862746, green: 0.53333336, blue: 0.84705883, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.0, green: 0.45490196, blue: 0.827451, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 			}
 
 			// MARK: - tint20 
 			open var tint20: UIColor {
-				return UIColor(light: UIColor(red: 0.78039217, green: 0.8784314, blue: 0.95686275, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.0, green: 0.29803923, blue: 0.5294118, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+				return UIColor(light: UIColor(red: 0.78039217, green: 0.8784314, blue: 0.95686275, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.0, green: 0.30980393, blue: 0.5647059, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 			}
 
 			// MARK: - tint30 
 			open var tint30: UIColor {
-				return UIColor(light: UIColor(red: 0.87058824, green: 0.9254902, blue: 0.9764706, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.015686275, green: 0.21960784, blue: 0.38431373, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+				return UIColor(light: UIColor(red: 0.87058824, green: 0.9254902, blue: 0.9764706, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.0, green: 0.15686275, blue: 0.28235295, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 			}
 
 			// MARK: - tint40 
 			open var tint40: UIColor {
-				return UIColor(light: UIColor(red: 0.9372549, green: 0.9647059, blue: 0.9882353, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.03529412, green: 0.17254902, blue: 0.2784314, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+				return UIColor(light: UIColor(red: 0.9372549, green: 0.9647059, blue: 0.9882353, alpha: 1.0), lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(red: 0.0, green: 0.08235294, blue: 0.14901961, alpha: 1.0), darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 			}
 		}
 

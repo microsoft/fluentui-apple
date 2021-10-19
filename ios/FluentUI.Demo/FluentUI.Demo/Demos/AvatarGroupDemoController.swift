@@ -8,9 +8,9 @@ import UIKit
 
 // MARK: - AvatarGroupDemoController
 
-class AvatarGroupDemoController: UITableViewController {
+class AvatarGroupDemoController: DemoTableViewController {
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(style: .grouped)
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
 
         initDemoAvatarGroups()
     }

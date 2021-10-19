@@ -6,7 +6,7 @@
 import FluentUI
 import UIKit
 
-class DemoListViewController: UITableViewController {
+class DemoListViewController: DemoTableViewController {
 
     private var provider: ColorProviding? = DemoColorTheme.default.provider
     public var theme: DemoColorTheme = DemoColorTheme.default {
@@ -22,6 +22,7 @@ class DemoListViewController: UITableViewController {
 
         let navigationController = UINavigationController(rootViewController: demoListViewController)
         navigationController.navigationBar.isTranslucent = true
+        navigationController.navigationBar.prefersLargeTitles = true
 
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
@@ -37,14 +38,6 @@ class DemoListViewController: UITableViewController {
         }
     }
 
-    let demos: [(title: String, controllerClass: UIViewController.Type)] = FluentUI_Demo.demos.filter { demo in
-#if DEBUG
-        return true
-#else
-        return !demo.title.hasPrefix("DEBUG")
-#endif
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -56,18 +49,17 @@ class DemoListViewController: UITableViewController {
         guard let libraryVersion = FluentUIFramework.resourceBundle.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String else {
             preconditionFailure("CFBundleShortVersionString is nil")
         }
-        let titleView = TwoLineTitleView()
-        titleView.setup(
-            title: appName,
-            subtitle: libraryVersion
-        )
-        navigationItem.titleView = titleView
-        // Fluent UI design recommends not showing "Back" title. However, VoiceOver still correctly says "Back" even if the title is hidden.
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        navigationItem.title = appName
+        navigationItem.largeTitleDisplayMode = .always
 
-        tableView.backgroundColor = Colors.Table.background
-        tableView.tableFooterView = UIView()
-        tableView.separatorStyle = .none
+        if #available(iOS 14.0, *) {
+            navigationItem.backButtonDisplayMode = .minimal
+            navigationItem.rightBarButtonItem = UIBarButtonItem(title: libraryVersion)
+        } else {
+            // Fluent UI design recommends not showing "Back" title. However, VoiceOver still correctly says "Back" even if the title is hidden.
+            navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+            navigationItem.rightBarButtonItem = UIBarButtonItem(title: libraryVersion, style: .plain, target: nil, action: nil)
+        }
 
         tableView.register(TableViewCell.self, forCellReuseIdentifier: cellReuseIdentifier)
     }
@@ -76,9 +68,13 @@ class DemoListViewController: UITableViewController {
         super.viewDidAppear(animated)
 
         if DemoListViewController.isFirstLaunch {
-            if let lastDemoController = UserDefaults.standard.string(forKey: DemoListViewController.lastDemoControllerKey),
-                let index = demos.firstIndex(where: { $0.title == lastDemoController }) {
-                tableView(tableView, didSelectRowAt: IndexPath(row: index, section: 0))
+            if let lastDemoController = UserDefaults.standard.string(forKey: DemoListViewController.lastDemoControllerKey) {
+                for (sectionIndex, section) in DemoControllerSection.allCases.enumerated() {
+                    if let index = section.rows.firstIndex(where: { $0.title == lastDemoController }) {
+                        tableView(tableView, didSelectRowAt: IndexPath(row: index, section: sectionIndex))
+                        break
+                    }
+                }
             }
 
             DemoListViewController.isFirstLaunch = false
@@ -89,21 +85,30 @@ class DemoListViewController: UITableViewController {
 
     // MARK: Table View
 
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return DemoControllerSection.allCases.count
+    }
+
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return DemoControllerSection.allCases[section].title
+    }
+
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return demos.count
+        return DemoControllerSection.allCases[section].rows.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellReuseIdentifier, for: indexPath) as? TableViewCell else {
             return UITableViewCell()
         }
-        cell.setup(title: demos[indexPath.row].title, accessoryType: .disclosureIndicator)
+        let demo = DemoControllerSection.allCases[indexPath.section].rows[indexPath.row]
+        cell.setup(title: demo.title, accessoryType: .disclosureIndicator)
         cell.titleNumberOfLinesForLargerDynamicType = 2
         return cell
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let demo = demos[indexPath.row]
+        let demo = DemoControllerSection.allCases[indexPath.section].rows[indexPath.row]
         let demoController = demo.controllerClass.init(nibName: nil, bundle: nil)
         demoController.title = demo.title
         navigationController?.pushViewController(demoController, animated: true)
@@ -114,4 +119,38 @@ class DemoListViewController: UITableViewController {
     let cellReuseIdentifier: String = "TableViewCell"
     private static var isFirstLaunch: Bool = true
     private static let lastDemoControllerKey: String = "LastDemoController"
+
+    private enum DemoControllerSection: CaseIterable {
+        case vNextControls
+        case controls
+#if DEBUG
+        case debug
+#endif
+
+        var title: String {
+            switch self {
+            case .vNextControls:
+                return "vNext Controls"
+            case .controls:
+                return "Controls"
+#if DEBUG
+            case .debug:
+                return "DEBUG"
+#endif
+            }
+        }
+
+        var rows: [DemoDescriptor] {
+            switch self {
+            case .vNextControls:
+                return Demos.vNext
+            case .controls:
+                return Demos.controls
+#if DEBUG
+            case .debug:
+                return Demos.debug
+#endif
+            }
+        }
+    }
 }
