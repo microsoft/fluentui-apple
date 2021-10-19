@@ -41,20 +41,24 @@ class DemoListViewController: DemoTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        guard let title = FluentUIFramework.bundle.object(forInfoDictionaryKey: "CFBundleExecutable") as? String else {
-            return assertionFailure("CFBundleExecutable is nil")
+        // App title comes from the app, but we want to display the version number from the resource bundle.
+        let bundle = Bundle(for: type(of: self))
+        guard let appName = bundle.object(forInfoDictionaryKey: "CFBundleName") as? String else {
+            preconditionFailure("CFBundleName is nil")
         }
-        let subtitle = FluentUIFramework.bundle.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
-        navigationItem.title = title
+        guard let libraryVersion = FluentUIFramework.resourceBundle.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String else {
+            preconditionFailure("CFBundleShortVersionString is nil")
+        }
+        navigationItem.title = appName
         navigationItem.largeTitleDisplayMode = .always
 
         if #available(iOS 14.0, *) {
             navigationItem.backButtonDisplayMode = .minimal
-            navigationItem.rightBarButtonItem = UIBarButtonItem(title: subtitle)
+            navigationItem.rightBarButtonItem = UIBarButtonItem(title: libraryVersion)
         } else {
             // Fluent UI design recommends not showing "Back" title. However, VoiceOver still correctly says "Back" even if the title is hidden.
             navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-            navigationItem.rightBarButtonItem = UIBarButtonItem(title: subtitle, style: .plain, target: nil, action: nil)
+            navigationItem.rightBarButtonItem = UIBarButtonItem(title: libraryVersion, style: .plain, target: nil, action: nil)
         }
 
         tableView.register(TableViewCell.self, forCellReuseIdentifier: cellReuseIdentifier)
