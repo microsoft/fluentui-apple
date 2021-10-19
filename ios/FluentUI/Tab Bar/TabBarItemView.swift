@@ -165,7 +165,6 @@ class TabBarItemView: UIView {
         static let badgeMinWidth: CGFloat = 16
         static let defaultBadgeMaxWidth: CGFloat = 42
         static let badgeBorderWidth: CGFloat = 2
-        static let badgeFontSize: CGFloat = 11
         static let badgeHorizontalPadding: CGFloat = 10
         static let badgeCorderRadii: CGFloat = 10
     }
@@ -215,10 +214,7 @@ class TabBarItemView: UIView {
         return titleLabel
     }()
 
-    private let badgeView: UILabel = {
-        let badgeView = BadgeLabel(frame: .zero)
-        return badgeView
-    }()
+    let badgeView: UILabel = BadgeLabel(frame: .zero)
 
     private var suggestImageSize: CGFloat {
         didSet {
