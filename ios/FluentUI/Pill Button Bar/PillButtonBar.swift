@@ -26,6 +26,10 @@ open class PillButtonBarItem: NSObject {
         super.init()
     }
 
+    @objc public convenience init(title: String) {
+        self.init(title: title, isUnread: false)
+    }
+
     /// This value will determine whether or not to show dot next to the pill button label
     public var isUnread: Bool {
        didSet {
@@ -147,6 +151,10 @@ open class PillButtonBar: UIScrollView {
         }
     }
 
+    /// Initializes the PillButtonBar using the provided style and color overrides.
+    ///
+    /// - Parameters:
+    ///   - pillButtonStyle: The style override for the pill buttons in this pill button bar
     @objc public convenience init(pillButtonStyle: PillButtonStyle = .primary) {
         self.init(pillButtonStyle: pillButtonStyle,
                   pillButtonBackgroundColor: nil,
@@ -156,6 +164,11 @@ open class PillButtonBar: UIScrollView {
                   pillButtonUnreadDotColor: nil)
     }
 
+    /// Initializes the PillButtonBar using the provided style and color overrides.
+    ///
+    /// - Parameters:
+    ///   - pillButtonStyle: The style override for the pill buttons in this pill button bar
+    ///   - pillButtonBackgroundColor: The color override for the background color of the pill buttons
     @objc public convenience init(pillButtonStyle: PillButtonStyle = .primary,
                                   pillButtonBackgroundColor: UIColor? = nil) {
         self.init(pillButtonStyle: pillButtonStyle,
@@ -166,18 +179,47 @@ open class PillButtonBar: UIScrollView {
                   pillButtonUnreadDotColor: nil)
     }
 
+    /// Initializes the PillButtonBar using the provided style and color overrides.
+    ///
+    /// - Parameters:
+    ///   - pillButtonStyle: The style override for the pill buttons in this pill button bar
+    ///   - pillButtonBackgroundColor: The color override for the background color of the pill buttons
+    ///   - selectedPillButtonBackgroundColor: The color override for the background color of the selected pill button
+    ///   - pillButtonTextColor: The color override for the text of the pill buttons
+    ///   - selectedPillButtonTextColor: The color override for the text of the selected pill button
+    ///   - pillButtonUnreadDotColor: The color override for the unread dot for the pill buttons
+    @objc public convenience init(pillButtonStyle: PillButtonStyle = .primary,
+                                  pillButtonBackgroundColor: UIColor? = nil,
+                                  selectedPillButtonBackgroundColor: UIColor? = nil,
+                                  pillButtonTextColor: UIColor? = nil,
+                                  selectedPillButtonTextColor: UIColor? = nil,
+                                  pillButtonUnreadDotColor: UIColor? = nil) {
+        self.init(pillButtonStyle: pillButtonStyle,
+                  pillButtonBackgroundColor: pillButtonBackgroundColor,
+                  selectedPillButtonBackgroundColor: selectedPillButtonBackgroundColor,
+                  pillButtonTextColor: pillButtonTextColor,
+                  selectedPillButtonTextColor: selectedPillButtonTextColor)
+        self.customPillButtonUnreadDotColor = pillButtonUnreadDotColor
+    }
+
+    /// Initializes the PillButtonBar using the provided style and color overrides.
+    ///
+    /// - Parameters:
+    ///   - pillButtonStyle: The style override for the pill buttons in this pill button bar
+    ///   - pillButtonBackgroundColor: The color override for the background color of the pill buttons
+    ///   - selectedPillButtonBackgroundColor: The color override for the background color of the selected pill button
+    ///   - pillButtonTextColor: The color override for the text of the pill buttons
+    ///   - selectedPillButtonTextColor: The color override for the text of the selected pill button
     @objc public init(pillButtonStyle: PillButtonStyle = .primary,
                       pillButtonBackgroundColor: UIColor? = nil,
                       selectedPillButtonBackgroundColor: UIColor? = nil,
                       pillButtonTextColor: UIColor? = nil,
-                      selectedPillButtonTextColor: UIColor? = nil,
-                      pillButtonUnreadDotColor: UIColor? = nil) {
+                      selectedPillButtonTextColor: UIColor? = nil) {
         self.pillButtonStyle = pillButtonStyle
         self.customPillButtonBackgroundColor = pillButtonBackgroundColor
         self.customSelectedPillButtonBackgroundColor = selectedPillButtonBackgroundColor
         self.customPillButtonTextColor = pillButtonTextColor
         self.customSelectedPillButtonTextColor = selectedPillButtonTextColor
-        self.customPillButtonUnreadDotColor = pillButtonUnreadDotColor
         super.init(frame: .zero)
         setupScrollView()
         setupStackView()

@@ -39,7 +39,7 @@ open class PillButton: UIButton {
         }
     }
 
-    /// Set `ureadDotColor` to customize color of the pill button unread dot
+    /// Set `unreadDotColor` to customize color of the pill button unread dot
     @objc open var customUnreadDotColor: UIColor? {
         didSet {
             updateAppearance()
@@ -165,9 +165,9 @@ open class PillButton: UIButton {
             let anchor = self.titleLabel?.frame ?? .zero
             let xPos: CGFloat
             if effectiveUserInterfaceLayoutDirection == .leftToRight {
-                xPos = anchor.maxX + Constants.unreadDotOffset.x
+                xPos = round(anchor.maxX + Constants.unreadDotOffset.x)
             } else {
-                xPos = anchor.minX - Constants.unreadDotOffset.x - Constants.unreadDotSize
+                xPos = round(anchor.minX - Constants.unreadDotOffset.x - Constants.unreadDotSize)
             }
             unreadDotLayer.frame.origin = CGPoint(x: xPos, y: anchor.minY + Constants.unreadDotOffset.y)
             unreadDotLayer.backgroundColor = unreadDotColor.cgColor
