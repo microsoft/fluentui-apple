@@ -8,6 +8,7 @@ import UIKit
 class ButtonBadgeLabelView: UIView {
     let item: UIBarButtonItem
     let button: UIButton
+    let badgeLabel = BadgeLabel()
 
     init(for item: UIBarButtonItem, inside button: UIButton) {
         self.item = item
@@ -40,8 +41,8 @@ class ButtonBadgeLabelView: UIView {
     }
 
     private struct Constants {
-        static let badgeVerticalOffset: CGFloat = -5
-        static let badgePortraitTitleVerticalOffset: CGFloat = -4
+        static let badgeLandscapeVerticalOffset: CGFloat = -5
+        static let badgePortraitVerticalOffset: CGFloat = -4
         static let badgeHeight: CGFloat = 16
         static let badgeMinWidth: CGFloat = 16
         static let badgeMaxWidth: CGFloat = 27
@@ -61,11 +62,6 @@ class ButtonBadgeLabelView: UIView {
             }
         }
     }
-
-    private let badgeLabel: UILabel = {
-        let badgeLabel = BadgeLabel()
-        return badgeLabel
-    }()
 
     private func updateButton() {
         if item.title != nil {
@@ -89,41 +85,27 @@ class ButtonBadgeLabelView: UIView {
             let maskLayer = CAShapeLayer()
             maskLayer.fillRule = .evenOdd
 
-            var path: UIBezierPath
+            let badgeWidth = min(max(badgeLabel.intrinsicContentSize.width + Constants.badgeHorizontalPadding, Constants.badgeMinWidth), Constants.badgeMaxWidth)
+            let path = UIBezierPath(rect: CGRect(x: bezierRectOriginX(for: badgeWidth), y: 0, width: button.frame.size.width + badgeWidth / 2, height: button.frame.size.height))
 
-            if badgeLabel.text?.count ?? 1 > 1 {
-                let badgeWidth = min(max(badgeLabel.intrinsicContentSize.width + Constants.badgeHorizontalPadding, Constants.badgeMinWidth), Constants.badgeMaxWidth)
-                badgeLabel.frame = badgeFrame(for: badgeWidth, isTitleLabelPresent: item.title != nil)
+            badgeLabel.frame = badgeFrame(for: badgeWidth, isTitleLabelPresent: item.title != nil)
 
-                path = UIBezierPath(rect: CGRect(x: bezierRectOriginX(for: badgeWidth), y: 0, width: button.frame.size.width + badgeWidth / 2, height: button.frame.size.height))
-                let bezierRect = bezierRect(for: badgeWidth)
-                path.append(UIBezierPath(roundedRect: borderRect(for: bezierRect),
-                                         byRoundingCorners: .allCorners,
-                                         cornerRadii: CGSize(width: Constants.badgeCornerRadii, height: Constants.badgeCornerRadii)))
+            let layer = CAShapeLayer()
+            layer.path = UIBezierPath(roundedRect: badgeLabel.bounds,
+                                      byRoundingCorners: .allCorners,
+                                      cornerRadii: CGSize(width: Constants.badgeCornerRadii, height: Constants.badgeCornerRadii)).cgPath
 
-                path.append(UIBezierPath(roundedRect: bezierRect,
-                                         byRoundingCorners: .allCorners,
-                                         cornerRadii: CGSize(width: Constants.badgeCornerRadii, height: Constants.badgeCornerRadii)))
+            badgeLabel.layer.mask = layer
+            badgeLabel.layer.cornerRadius = 0
 
-                let layer = CAShapeLayer()
-                layer.path = UIBezierPath(roundedRect: badgeLabel.bounds,
-                                          byRoundingCorners: .allCorners,
-                                          cornerRadii: CGSize(width: Constants.badgeCornerRadii, height: Constants.badgeCornerRadii)).cgPath
+            let bezierRect = bezierRect(for: badgeWidth)
+            path.append(UIBezierPath(roundedRect: borderRect(for: bezierRect),
+                                     byRoundingCorners: .allCorners,
+                                     cornerRadii: CGSize(width: Constants.badgeCornerRadii, height: Constants.badgeCornerRadii)))
 
-                badgeLabel.layer.mask = layer
-                badgeLabel.layer.cornerRadius = 0
-            } else {
-                let badgeWidth = max(badgeLabel.intrinsicContentSize.width, Constants.badgeMinWidth)
-                badgeLabel.frame = badgeFrame(for: badgeWidth, isTitleLabelPresent: item.title != nil)
-
-                path = UIBezierPath(rect: CGRect(x: bezierRectOriginX(for: badgeWidth), y: 0, width: button.frame.size.width + badgeWidth / 2, height: button.frame.size.height))
-                let bezierRect = bezierRect(for: badgeWidth)
-                path.append(UIBezierPath(ovalIn: borderRect(for: bezierRect)))
-                path.append(UIBezierPath(ovalIn: bezierRect))
-
-                badgeLabel.layer.mask = nil
-                badgeLabel.layer.cornerRadius = badgeWidth / 2
-            }
+            path.append(UIBezierPath(roundedRect: bezierRect,
+                                     byRoundingCorners: .allCorners,
+                                     cornerRadii: CGSize(width: Constants.badgeCornerRadii, height: Constants.badgeCornerRadii)))
 
             maskLayer.path = path.cgPath
             button.layer.mask = maskLayer
@@ -131,7 +113,7 @@ class ButtonBadgeLabelView: UIView {
     }
 
     private func badgeFrame(for badgeWidth: CGFloat, isTitleLabelPresent: Bool) -> CGRect {
-        let badgeVerticalOffset = isInPortraitMode ? Constants.badgePortraitTitleVerticalOffset : Constants.badgeVerticalOffset
+        let badgeVerticalOffset = isInPortraitMode ? Constants.badgePortraitVerticalOffset : Constants.badgeLandscapeVerticalOffset
         let badgeVerticalPosition = (button.frame.size.height - button.intrinsicContentSize.height) / 2 - Constants.badgeHeight / 2 - badgeVerticalOffset
         if isTitleLabelPresent {
             return CGRect(x: badgeFrameOriginX(for: badgeWidth) - (button.titleLabel?.frame.origin.x ?? 0),
@@ -147,7 +129,7 @@ class ButtonBadgeLabelView: UIView {
     }
 
     private func bezierRect(for badgeWidth: CGFloat) -> CGRect {
-        let badgeVerticalOffset = isInPortraitMode ? Constants.badgePortraitTitleVerticalOffset : Constants.badgeVerticalOffset
+        let badgeVerticalOffset = isInPortraitMode ? Constants.badgePortraitVerticalOffset : Constants.badgeLandscapeVerticalOffset
         let badgeVerticalPosition = (button.frame.size.height - button.intrinsicContentSize.height) / 2 - Constants.badgeHeight / 2 - badgeVerticalOffset
         return CGRect(x: badgeFrameOriginX(for: badgeWidth),
                       y: badgeVerticalPosition,
