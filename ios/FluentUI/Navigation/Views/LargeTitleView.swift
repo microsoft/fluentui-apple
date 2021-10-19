@@ -276,8 +276,9 @@ class LargeTitleView: UIView {
     private func updateAvatarAccessibility() {
         if let avatar = avatar {
             let accessibilityLabel = avatarAccessibilityLabel
-            avatar.state.accessibilityLabel = accessibilityLabel
-            avatar.state.hasButtonAccessibilityTrait = onAvatarTapped != nil
+            let avatarState = avatar.state
+            avatarState.accessibilityLabel = accessibilityLabel
+            avatarState.hasButtonAccessibilityTrait = onAvatarTapped != nil
 
             let avatarView = avatar.view
             avatarView.showsLargeContentViewer = true

@@ -43,14 +43,15 @@ open class SideTabBar: UIView {
         }
         didSet {
             if let avatar = avatar {
-                avatar.state.size = .medium
-                avatar.state.accessibilityLabel = "Accessibility.LargeTitle.ProfileView".localized
-                avatar.state.hasButtonAccessibilityTrait = delegate != nil
+                let avatarState = avatar.state
+                avatarState.size = .medium
+                avatarState.accessibilityLabel = "Accessibility.LargeTitle.ProfileView".localized
+                avatarState.hasButtonAccessibilityTrait = delegate != nil
 
                 let avatarView = avatar.view
                 avatarView.translatesAutoresizingMaskIntoConstraints = false
                 avatarView.showsLargeContentViewer = true
-                avatarView.largeContentTitle = avatar.state.accessibilityLabel
+                avatarView.largeContentTitle = avatarState.accessibilityLabel
                 addSubview(avatarView)
 
                 avatarView.addGestureRecognizer(avatarViewGestureRecognizer)
