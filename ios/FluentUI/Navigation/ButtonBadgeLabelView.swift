@@ -67,10 +67,17 @@ class ButtonBadgeLabelView: UIView {
         return badgeLabel
     }()
 
+    private func updateButton() {
+        if item.title != nil {
+            button.titleLabel?.isHidden = false
+        } else {
+            button.imageView?.isHidden = false
+            button.imageView?.clipsToBounds = false
+        }
+    }
+
     private func update() {
-        button.titleLabel?.isHidden = false
-        button.imageView?.isHidden = false
-        button.imageView?.clipsToBounds = false
+        updateButton()
 
         badgeLabel.text = badgeValue
         let isNilBadgeValue = badgeValue == nil
