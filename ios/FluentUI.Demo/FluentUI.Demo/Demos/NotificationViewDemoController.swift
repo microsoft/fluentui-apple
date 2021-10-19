@@ -59,7 +59,8 @@ class NotificationViewDemoController: DemoController {
         super.viewDidLoad()
         view.backgroundColor = Colors.surfaceSecondary
 
-        container.addArrangedSubview(createButton(title: "SwiftUI Demo", action: { [weak self] _ in
+        addTitle(text: "SwiftUI Demo")
+        container.addArrangedSubview(createButton(title: "Show", action: { [weak self] _ in
             self?.navigationController?.pushViewController(NotificationViewDemoControllerSwiftUI(),
                                                            animated: true)
         }).view)

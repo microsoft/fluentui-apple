@@ -33,9 +33,47 @@ import SwiftUI
     var messageButtonAction: (() -> Void)? { get set }
 }
 
+@available(iOSApplicationExtension, unavailable)
+struct SafeAreaInsetsKey: EnvironmentKey {
+    static var defaultValue: EdgeInsets {
+        UIApplication.shared.keyWindow?.safeAreaInsets.swiftUIInsets ?? EdgeInsets()
+    }
+}
+
+@available(iOSApplicationExtension, unavailable)
+extension EnvironmentValues {
+  var swiftUIInsets: EdgeInsets {
+    get { self[SafeAreaInsetsKey.self] }
+    set { self[SafeAreaInsetsKey.self] = newValue }
+  }
+}
+
+private extension UIEdgeInsets {
+    var swiftUIInsets: EdgeInsets {
+        EdgeInsets(top: top, leading: left, bottom: bottom, trailing: right)
+    }
+}
+
+private extension UIApplication {
+    var keyWindow: UIWindow? {
+        connectedScenes
+            .compactMap {
+                $0 as? UIWindowScene
+            }
+            .flatMap {
+                $0.windows
+            }
+            .first {
+                $0.isKeyWindow
+            }
+    }
+}
+
 /// View that represents the Notification.
+@available(iOSApplicationExtension, unavailable)
 public struct NotificationViewSwiftUI: View {
     @Environment(\.horizontalSizeClass) var horizontalSizeClass: UserInterfaceSizeClass?
+    @Environment(\.swiftUIInsets) private var safeAreaInsets: EdgeInsets
     @Environment(\.theme) var theme: FluentUIStyle
     @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
     @ObservedObject var tokens: MSFNotificationTokens
@@ -161,14 +199,14 @@ public struct NotificationViewSwiftUI: View {
     }
 
     public var body: some View {
-        let width = UIScreen.main.bounds.width - (2 * tokens.presentationOffset)
+        let width = UIScreen.main.bounds.width - safeAreaInsets.leading - safeAreaInsets.trailing
         innerContents
             .onTapGesture {
                 if let messageButtonAction = state.messageButtonAction {
                     messageButtonAction()
                 }
             }
-            .frame(width: state.style.isToast && horizontalSizeClass == .regular ? width / 2 : width)
+            .frame(width: state.style.isToast && horizontalSizeClass == .regular ? width / 2 : width - (2 * tokens.presentationOffset))
             .background(
                 RoundedRectangle(cornerRadius: tokens.cornerRadius)
                     .strokeBorder(Color(tokens.outlineColor), lineWidth: tokens.outlineWidth)

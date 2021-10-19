@@ -30,6 +30,15 @@ public struct NotificationDemoView: View {
     @State var hasMessageAction: Bool = false
     @State var showImage: Bool = false
 
+    public func showMessage() {
+        let alert = UIAlertController(title: actionButtonTitle + " pressed", message: nil, preferredStyle: .alert)
+        let keyWindow = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
+        keyWindow?.rootViewController?.present(alert, animated: true)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            keyWindow?.rootViewController?.dismiss(animated: true)
+        }
+    }
+
     public var body: some View {
         VStack {
             NotificationViewSwiftUI(style: style,
@@ -37,7 +46,7 @@ public struct NotificationDemoView: View {
                                     message: message,
                                     image: showImage ? UIImage(named: "play-in-circle-24x24") : nil,
                                     actionButtonTitle: actionButtonTitle,
-                                    actionButtonAction: hasActionButtonAction ? {} : nil,
+                                    actionButtonAction: hasActionButtonAction ? showMessage : nil,
                                     messageButtonAction: hasMessageAction ? {} : nil)
                 .frame(maxWidth: .infinity, minHeight: 150, alignment: .center)
 
