@@ -470,7 +470,7 @@ public struct Avatar: View {
 class MSFAvatarStateImpl: NSObject, ObservableObject, MSFAvatarState {
     @Published var backgroundColor: UIColor?
     @Published var foregroundColor: UIColor?
-    @Published var hasButtonAccessibilityTrait = false
+    @Published var hasButtonAccessibilityTrait: Bool = false
     @Published var hasPointerInteraction: Bool = false
     @Published var hasRingInnerGap: Bool = true
     @Published var image: UIImage?
