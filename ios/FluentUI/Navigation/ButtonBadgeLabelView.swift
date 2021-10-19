@@ -82,23 +82,18 @@ class ButtonBadgeLabelView: UIView {
         if isNilBadgeValue {
             button.layer.mask = nil
         } else {
-            let maskLayer = CAShapeLayer()
-            maskLayer.fillRule = .evenOdd
-
             let badgeWidth = min(max(badgeLabel.intrinsicContentSize.width + Constants.badgeHorizontalPadding, Constants.badgeMinWidth), Constants.badgeMaxWidth)
-            let path = UIBezierPath(rect: CGRect(x: bezierRectOriginX(for: badgeWidth), y: 0, width: button.frame.size.width + badgeWidth / 2, height: button.frame.size.height))
-
             badgeLabel.frame = badgeFrame(for: badgeWidth, isTitleLabelPresent: item.title != nil)
 
             let layer = CAShapeLayer()
             layer.path = UIBezierPath(roundedRect: badgeLabel.bounds,
                                       byRoundingCorners: .allCorners,
                                       cornerRadii: CGSize(width: Constants.badgeCornerRadii, height: Constants.badgeCornerRadii)).cgPath
-
             badgeLabel.layer.mask = layer
             badgeLabel.layer.cornerRadius = 0
 
             let bezierRect = bezierRect(for: badgeWidth)
+            let path = UIBezierPath(rect: CGRect(x: bezierRectOriginX(for: badgeWidth), y: 0, width: button.frame.size.width + badgeWidth / 2, height: button.frame.size.height))
             path.append(UIBezierPath(roundedRect: borderRect(for: bezierRect),
                                      byRoundingCorners: .allCorners,
                                      cornerRadii: CGSize(width: Constants.badgeCornerRadii, height: Constants.badgeCornerRadii)))
@@ -106,7 +101,8 @@ class ButtonBadgeLabelView: UIView {
             path.append(UIBezierPath(roundedRect: bezierRect,
                                      byRoundingCorners: .allCorners,
                                      cornerRadii: CGSize(width: Constants.badgeCornerRadii, height: Constants.badgeCornerRadii)))
-
+            let maskLayer = CAShapeLayer()
+            maskLayer.fillRule = .evenOdd
             maskLayer.path = path.cgPath
             button.layer.mask = maskLayer
         }
@@ -139,23 +135,19 @@ class ButtonBadgeLabelView: UIView {
 
     private func bezierRectOriginX(for width: CGFloat) -> CGFloat {
         var xOrigin: CGFloat = 0
-
         if effectiveUserInterfaceLayoutDirection == .rightToLeft {
             xOrigin -= width / 2
         }
-
         return xOrigin
     }
 
     private func badgeFrameOriginX(for width: CGFloat) -> CGFloat {
         var xOrigin: CGFloat
-
         if effectiveUserInterfaceLayoutDirection == .leftToRight {
             xOrigin = button.frame.size.width - button.contentEdgeInsets.left - width / 2
         } else {
             xOrigin = button.contentEdgeInsets.left - width / 2
         }
-
         return xOrigin
     }
 
