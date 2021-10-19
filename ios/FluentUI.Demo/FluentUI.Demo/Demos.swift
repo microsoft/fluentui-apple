@@ -18,7 +18,6 @@ let demos: [(title: String, controllerClass: UIViewController.Type)] = [
     ("NotificationView (Vnext)", NotificationViewDemoController.self),
     ("PersonaButtonCarousel (Vnext)", PersonaButtonCarouselDemoController.self),
     ("Theming (Vnext)", ThemingDemoController.self),
-    ("ActivityIndicatorView", ActivityIndicatorViewDemoController.self),
     ("BadgeField", BadgeFieldDemoController.self),
     ("BadgeView", BadgeViewDemoController.self),
     ("BottomCommandingController", BottomCommandingDemoController.self),

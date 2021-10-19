@@ -4,10 +4,10 @@ Colors:
     - shade10: "FluentUIColor(light: #106EBE, dark: #1890F1)"
     - shade20: "FluentUIColor(light: #005A9E, dark: #3AA0F3)"
     - shade30: "FluentUIColor(light: #004578, dark: #6CB8F6)"
-    - tint10: "FluentUIColor(light: #2B88D8, dark: #0078D4)"
-    - tint20: "FluentUIColor(light: #C7E0F4, dark: #004C87)"
-    - tint30: "FluentUIColor(light: #DEECF9, dark: #043862)"
-    - tint40: "FluentUIColor(light: #EFF6FC, dark: #092C47)"
+    - tint10: "FluentUIColor(light: #2B88D8, dark: #0074D3)"
+    - tint20: "FluentUIColor(light: #C7E0F4, dark: #004F90)"
+    - tint30: "FluentUIColor(light: #DEECF9, dark: #002848)"
+    - tint40: "FluentUIColor(light: #EFF6FC, dark: #001526)"
 
   Background:
     - neutral1: "FluentUIColor(light: NamedColor(white), dark: NamedColor(black), darkElevated: NamedColor(grey4))"

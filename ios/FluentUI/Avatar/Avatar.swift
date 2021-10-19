@@ -42,11 +42,11 @@ import SwiftUI
 
         avatar = Avatar(style: style,
                         size: size)
-        hostingController = UIHostingController(rootView: AnyView(avatar
-                                                                    .windowProvider(self)
-                                                                    .modifyIf(theme != nil, { avatar in
-                                                                        avatar.customTheme(theme!)
-                                                                    })))
+        hostingController = FluentUIHostingController(rootView: AnyView(avatar
+                                                                            .windowProvider(self)
+                                                                            .modifyIf(theme != nil, { avatar in
+                                                                                avatar.customTheme(theme!)
+                                                                            })))
         hostingController.disableSafeAreaInsets()
         view.backgroundColor = UIColor.clear
     }
@@ -55,7 +55,7 @@ import SwiftUI
         return self.view.window
     }
 
-    private var hostingController: UIHostingController<AnyView>!
+    private var hostingController: FluentUIHostingController!
 
     private var avatar: Avatar!
 }
