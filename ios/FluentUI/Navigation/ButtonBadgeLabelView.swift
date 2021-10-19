@@ -88,7 +88,7 @@ class ButtonBadgeLabelView: UIView {
                 let badgeWidth = min(max(badgeLabel.intrinsicContentSize.width + Constants.badgeHorizontalPadding, Constants.badgeMinWidth), Constants.badgeMaxWidth)
                 badgeLabel.frame = badgeFrame(for: badgeWidth, isTitleLabelPresent: item.title != nil)
 
-                path = UIBezierPath(rect: CGRect(x: 0, y: 0, width: button.frame.size.width + badgeWidth / 2, height: button.frame.size.height))
+                path = UIBezierPath(rect: CGRect(x: bezierRectOriginX(for: badgeWidth), y: 0, width: button.frame.size.width + badgeWidth / 2, height: button.frame.size.height))
                 let bezierRect = bezierRect(for: badgeWidth)
                 path.append(UIBezierPath(roundedRect: borderRect(for: bezierRect),
                                          byRoundingCorners: .allCorners,
@@ -109,7 +109,7 @@ class ButtonBadgeLabelView: UIView {
                 let badgeWidth = max(badgeLabel.intrinsicContentSize.width, Constants.badgeMinWidth)
                 badgeLabel.frame = badgeFrame(for: badgeWidth, isTitleLabelPresent: item.title != nil)
 
-                path = UIBezierPath(rect: CGRect(x: 0, y: 0, width: button.frame.size.width + badgeWidth / 2, height: button.frame.size.height))
+                path = UIBezierPath(rect: CGRect(x: bezierRectOriginX(for: badgeWidth), y: 0, width: button.frame.size.width + badgeWidth / 2, height: button.frame.size.height))
                 let bezierRect = bezierRect(for: badgeWidth)
                 path.append(UIBezierPath(ovalIn: borderRect(for: bezierRect)))
                 path.append(UIBezierPath(ovalIn: bezierRect))
@@ -146,6 +146,16 @@ class ButtonBadgeLabelView: UIView {
                       y: badgeVerticalPosition,
                       width: badgeWidth,
                       height: Constants.badgeHeight)
+    }
+
+    private func bezierRectOriginX(for width: CGFloat) -> CGFloat {
+        var xOrigin: CGFloat = 0
+
+        if effectiveUserInterfaceLayoutDirection == .rightToLeft {
+            xOrigin -= width / 2
+        }
+
+        return xOrigin
     }
 
     private func badgeFrameOriginX(for width: CGFloat) -> CGFloat {
