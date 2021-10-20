@@ -7,12 +7,12 @@ import SwiftUI
 
 public class CardNudgeTokens: NSObject, CardNudgeThemeable {
     public var accentColor: ColorSet {
-        #if BRAND_COLORS
-        return GlobalTokens.Colors.Brand.shade20.value
-        #else
+#if BRAND_COLORS
+        return BrandColors.shade20.value
+#else
         return ColorSet(light: 0x005A9E,
                         dark: 0x3AA0F3)
-        #endif
+#endif
     }
 
     public var accentIconSize: CGFloat {
@@ -28,12 +28,12 @@ public class CardNudgeTokens: NSObject, CardNudgeThemeable {
     }
 
     public var buttonBackgroundColor: ColorSet {
-        #if BRAND_COLORS
-        return GlobalTokens.Colors.Brand.tCGFloat30.value
-        #else
+#if BRAND_COLORS
+        return BrandColors.tint30.value
+#else
         return ColorSet(light: 0xDEECF9,
                         dark: 0x002848)
-        #endif
+#endif
     }
 
     public var buttonInnerPaddingHorizontal: CGFloat {
@@ -92,16 +92,6 @@ public class CardNudgeTokens: NSObject, CardNudgeThemeable {
 
 // MARK: - CardNudgeTokens variants
 
-/// Static helper function to produce the appropriate instance of `CardNudgeTokens`.
-func cardNudgeTokens(style: MSFCardNudgeStyle) -> CardNudgeTokens {
-    switch style {
-    case .outline :
-        return BorderedCardNudgeTokens()
-    case .standard:
-        return CardNudgeTokens()
-    }
-}
-
 class BorderedCardNudgeTokens: CardNudgeTokens {
     override var backgroundColor: ColorSet {
         return AliasTokens.Colors.Background.neutral1.value
@@ -112,11 +102,24 @@ class BorderedCardNudgeTokens: CardNudgeTokens {
     }
 
     override var textColor: ColorSet {
-        #if BRAND_COLORS
-        return GlobalTokens.Colors.Brand.shade20.value
-        #else
+#if BRAND_COLORS
+        return BrandColors.shade20.value
+#else
         return ColorSet(light: 0x005A9E,
                         dark: 0x3AA0F3)
-        #endif
+#endif
+    }
+}
+
+// MARK: - 
+
+struct CardNudgeTokensFactory {
+    static func tokens(style: MSFCardNudgeStyle) -> CardNudgeTokens {
+        switch style {
+        case .outline :
+            return BorderedCardNudgeTokens()
+        case .standard:
+            return CardNudgeTokens()
+        }
     }
 }
