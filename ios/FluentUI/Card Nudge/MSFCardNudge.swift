@@ -7,7 +7,10 @@ import SwiftUI
 import UIKit
 
 /// UIKit wrapper that exposes the SwiftUI `CardNudge` implementation
-@objc open class MSFCardNudge: NSObject, FluentUIWindowProvider {
+@objc open class MSFCardNudge: NSObject, FluentUIWindowProvider, Tokenizable {
+    @objc public static var requiredTokenType: TokenType {
+        return CardNudge.requiredTokenType
+    }
 
     /// The UIView representing the CardNudge.
     @objc open var view: UIView {

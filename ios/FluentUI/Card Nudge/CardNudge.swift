@@ -52,7 +52,10 @@ public typealias CardNudgeButtonAction = ((_ state: MSFCardNudgeState) -> Void)
 }
 
 /// View that represents the CardNudge.
-public struct CardNudge: View {
+public struct CardNudge: View, Tokenizable {
+    /// The required token type for `CardNudge`.
+    public static var requiredTokenType: TokenType = CardNudgeTokens.tokenType
+
     @Environment(\.theme) var theme: FluentUIStyle
     @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
     @ObservedObject var state: MSFCardNudgeStateImpl
