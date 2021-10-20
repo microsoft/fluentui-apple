@@ -42,11 +42,11 @@ import SwiftUI
 
         avatar = Avatar(style: style,
                         size: size)
-        hostingController = UIHostingController(rootView: AnyView(avatar
-                                                                    .windowProvider(self)
-                                                                    .modifyIf(theme != nil, { avatar in
-                                                                        avatar.customTheme(theme!)
-                                                                    })))
+        hostingController = FluentUIHostingController(rootView: AnyView(avatar
+                                                                            .windowProvider(self)
+                                                                            .modifyIf(theme != nil, { avatar in
+                                                                                avatar.customTheme(theme!)
+                                                                            })))
         hostingController.disableSafeAreaInsets()
         view.backgroundColor = UIColor.clear
     }
@@ -55,7 +55,7 @@ import SwiftUI
         return self.view.window
     }
 
-    private var hostingController: UIHostingController<AnyView>!
+    private var hostingController: FluentUIHostingController!
 
     private var avatar: Avatar!
 }
@@ -72,6 +72,9 @@ import SwiftUI
     /// The custom foreground color.
     /// This property allows customizing the initials text color or the default image tint color.
     var foregroundColor: UIColor? { get set }
+
+    /// Configures the Avatar with a button accessibility trait overriding its default image trait.
+    var hasButtonAccessibilityTrait: Bool { get set }
 
     /// Turns iPad Pointer interaction on/off.
     var hasPointerInteraction: Bool { get set }
@@ -332,7 +335,7 @@ public struct Avatar: View {
             .pointerInteraction(state.hasPointerInteraction)
             .animation(.linear(duration: animationDuration))
             .accessibilityElement(children: .ignore)
-            .accessibility(addTraits: .isImage)
+            .accessibility(addTraits: state.hasButtonAccessibilityTrait ? .isButton : .isImage)
             .accessibility(label: Text(accessibilityLabel))
             .accessibility(value: Text(presence.string() ?? ""))
             .designTokens(tokens,
@@ -467,6 +470,7 @@ public struct Avatar: View {
 class MSFAvatarStateImpl: NSObject, ObservableObject, MSFAvatarState {
     @Published var backgroundColor: UIColor?
     @Published var foregroundColor: UIColor?
+    @Published var hasButtonAccessibilityTrait: Bool = false
     @Published var hasPointerInteraction: Bool = false
     @Published var hasRingInnerGap: Bool = true
     @Published var image: UIImage?

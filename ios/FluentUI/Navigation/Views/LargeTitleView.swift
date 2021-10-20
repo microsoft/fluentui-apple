@@ -103,6 +103,7 @@ class LargeTitleView: UIView {
     var onAvatarTapped: (() -> Void)? { // called in response to a tap on the MSFAvatar's view
         didSet {
             updateAvatarViewPointerInteraction()
+            updateAvatarAccessibility()
         }
     }
 
@@ -275,19 +276,13 @@ class LargeTitleView: UIView {
     private func updateAvatarAccessibility() {
         if let avatar = avatar {
             let accessibilityLabel = avatarAccessibilityLabel
-            avatar.state.accessibilityLabel = accessibilityLabel
+            let avatarState = avatar.state
+            avatarState.accessibilityLabel = accessibilityLabel
+            avatarState.hasButtonAccessibilityTrait = onAvatarTapped != nil
 
             let avatarView = avatar.view
             avatarView.showsLargeContentViewer = true
             avatarView.largeContentTitle = accessibilityLabel
-
-            if onAvatarTapped != nil {
-                avatarView.accessibilityTraits.insert(.button)
-                avatarView.accessibilityTraits.remove(.image)
-            } else {
-                avatarView.accessibilityTraits.insert(.image)
-                avatarView.accessibilityTraits.remove(.button)
-            }
         }
     }
 
@@ -379,6 +374,10 @@ class LargeTitleView: UIView {
     /// Updates various properties of the TitleView to properly conform to accessibility requirements
     private func setupAccessibility() {
         titleButton.accessibilityTraits = .header
+
+        // Sets the accessibility elements in the same order as they are laid you in the content view.
+        accessibilityElements = contentStackView.arrangedSubviews
+
         updateAvatarAccessibility()
     }
 }

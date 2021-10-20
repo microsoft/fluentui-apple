@@ -34,12 +34,12 @@ public extension Colors {
 // MARK: - FluentUIFramework
 
 public class FluentUIFramework: NSObject {
-    @objc public static var bundle: Bundle { return Bundle(for: self) }
     @objc public static let resourceBundle: Bundle = {
         #if SWIFT_PACKAGE
         return Bundle.module
         #else
-        guard let url = bundle.resourceURL?.appendingPathComponent("FluentUIResources-ios.bundle", isDirectory: true), let bundle = Bundle(url: url) else {
+        guard let url = bundle.resourceURL?.appendingPathComponent("FluentUIResources-ios.bundle", isDirectory: true),
+              let bundle = Bundle(url: url) else {
             preconditionFailure("FluentUI resource bundle is not found")
         }
         return bundle
@@ -111,4 +111,6 @@ public class FluentUIFramework: NSObject {
         navigationBar.backIndicatorImage = UIImage.staticImageNamed("back-24x24")
         navigationBar.backIndicatorTransitionMaskImage = navigationBar.backIndicatorImage
     }
+
+    private static var bundle: Bundle { return Bundle(for: self) }
 }

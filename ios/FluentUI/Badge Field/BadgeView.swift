@@ -132,7 +132,7 @@ open class BadgeView: UIView {
     }
 
     private var _labelTextColor: UIColor?
-    open var labelTextColor: UIColor? {
+    @objc open var labelTextColor: UIColor? {
         get {
             if let customLabelTextColor = _labelTextColor {
                 return customLabelTextColor
@@ -158,7 +158,7 @@ open class BadgeView: UIView {
     }
 
     private var _selectedLabelTextColor: UIColor?
-    open var selectedLabelTextColor: UIColor {
+    @objc open var selectedLabelTextColor: UIColor {
         get {
             if let customSelectedLabelTextColor = _selectedLabelTextColor {
                 return customSelectedLabelTextColor
@@ -182,7 +182,7 @@ open class BadgeView: UIView {
     }
 
     private var _disabledLabelTextColor: UIColor?
-    open var disabledLabelTextColor: UIColor? {
+    @objc open var disabledLabelTextColor: UIColor? {
         get {
             if let customDisabledLabelTextColor = _disabledLabelTextColor {
                 return customDisabledLabelTextColor
@@ -198,7 +198,7 @@ open class BadgeView: UIView {
     }
 
     private var _backgroundColor: UIColor?
-    open override var backgroundColor: UIColor? {
+    @objc open override var backgroundColor: UIColor? {
         get {
             if let customBackgroundColor = _backgroundColor {
                 return customBackgroundColor
@@ -224,7 +224,7 @@ open class BadgeView: UIView {
     }
 
     private var _selectedBackgroundColor: UIColor?
-    open var selectedBackgroundColor: UIColor? {
+    @objc open var selectedBackgroundColor: UIColor? {
         get {
             if let customSelectedBackgroundColor = _selectedBackgroundColor {
                 return customSelectedBackgroundColor

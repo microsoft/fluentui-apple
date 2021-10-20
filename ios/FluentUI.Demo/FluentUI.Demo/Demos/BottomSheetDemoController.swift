@@ -4,6 +4,7 @@
 //
 
 import FluentUI
+import UIKit
 
 class BottomSheetDemoController: UIViewController {
 
@@ -45,12 +46,16 @@ class BottomSheetDemoController: UIViewController {
 
     private var mainTableView: UITableView?
 
-    @objc private func toggleExpandable() {
-        bottomSheetViewController?.isExpandable.toggle()
+    @objc private func toggleExpandable(_ sender: BooleanCell) {
+        bottomSheetViewController?.isExpandable = sender.isOn
     }
 
-    @objc private func toggleHidden() {
-        bottomSheetViewController?.isHidden.toggle()
+    @objc private func toggleHidden(_ sender: BooleanCell) {
+        bottomSheetViewController?.isHidden = sender.isOn
+    }
+
+    @objc private func toggleScrollHiding(_ sender: BooleanCell) {
+        scrollHidingEnabled = sender.isOn
     }
 
     @objc private func fullScreenSheetContent() {
@@ -90,14 +95,23 @@ class BottomSheetDemoController: UIViewController {
 
     private var bottomSheetViewController: BottomSheetController?
 
-    private lazy var demoOptionItems: [DemoItem] = {
-        return [
-            DemoItem(title: "Expandable", type: .boolean, action: #selector(toggleExpandable), isOn: true),
-            DemoItem(title: "Hidden", type: .boolean, action: #selector(toggleHidden), isOn: false),
+    private var previousScrollOffset: CGFloat = 0
+
+    private var scrollHidingEnabled: Bool = false
+
+    private var isHiding: Bool = false
+
+    private var interactiveHidingAnimator: UIViewAnimating?
+
+    private var demoOptionItems: [DemoItem] {
+        [
+            DemoItem(title: "Expandable", type: .boolean, action: #selector(toggleExpandable), isOn: bottomSheetViewController?.isExpandable ?? true),
+            DemoItem(title: "Hidden", type: .boolean, action: #selector(toggleHidden), isOn: bottomSheetViewController?.isHidden ?? false),
+            DemoItem(title: "Scroll to hide", type: .boolean, action: #selector(toggleScrollHiding), isOn: scrollHidingEnabled),
             DemoItem(title: "Full screen sheet content", type: .action, action: #selector(fullScreenSheetContent)),
             DemoItem(title: "Fixed height sheet content", type: .action, action: #selector(fixedHeightSheetContent))
         ]
-    }()
+    }
 
     private static let headerHeight: CGFloat = 70
 
@@ -177,6 +191,48 @@ extension BottomSheetDemoController: UITableViewDataSource {
         }
 
         return UITableViewCell()
+    }
+}
+
+extension BottomSheetDemoController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let contentOffset = scrollView.contentOffset.y
+
+        if scrollView.isTracking && scrollHidingEnabled {
+            var delta = contentOffset - previousScrollOffset
+            if interactiveHidingAnimator == nil {
+                isHiding = delta > 0 ? true : false
+                interactiveHidingAnimator = bottomSheetViewController?.prepareInteractiveIsHiddenChange(isHiding) { [weak self] _ in
+                    self?.mainTableView?.reloadData()
+                    self?.mainTableView?.layoutIfNeeded()
+                    self?.interactiveHidingAnimator = nil
+                }
+            }
+            if let animator = interactiveHidingAnimator {
+                if animator.isRunning {
+                    animator.pauseAnimation()
+                }
+
+                // fractionComplete either represents progress to hidden or unhidden,
+                // so we need to adjust the delta to account for this
+                delta *= isHiding ? 1 : -1
+                animator.fractionComplete += delta / 100
+            }
+        }
+
+        previousScrollOffset = contentOffset
+    }
+
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if let animator = interactiveHidingAnimator {
+            if animator.fractionComplete > 0.5 {
+                animator.startAnimation()
+            } else {
+                animator.isReversed.toggle()
+                isHiding.toggle()
+                animator.startAnimation()
+            }
+        }
     }
 }
 

@@ -6,9 +6,9 @@
 import FluentUI
 import UIKit
 
-class TableViewCellFileAccessoryViewDemoController: UITableViewController {
+class TableViewCellFileAccessoryViewDemoController: DemoTableViewController {
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(style: .grouped)
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
 
     required init?(coder: NSCoder) {

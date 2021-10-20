@@ -29,28 +29,20 @@ echo "Building and Testing macOS Release"
 $XCODEBUILD_WRAPPER_LOCATION macos_build FluentUITestApp-macOS Release build test
 handle_exit_code
 
-echo "Building and Testing iOS Framework Debug Simulator"
+echo "Building and Testing iOS Static Lib Debug Simulator"
 $XCODEBUILD_WRAPPER_LOCATION ios_simulator_build FluentUI-iOS Debug build test -destination "platform=iOS Simulator,name=iPhone 8"
 handle_exit_code
 
-echo "Building iOS Framework Release Simulator"
+echo "Building iOS Static Lib Release Simulator"
 $XCODEBUILD_WRAPPER_LOCATION ios_simulator_build FluentUI-iOS Release build
 handle_exit_code
 
-echo "Building iOS Static Lib Debug Simulator"
-$XCODEBUILD_WRAPPER_LOCATION ios_simulator_build FluentUI-iOS-StaticLib Debug build
-handle_exit_code
-
-echo "Building iOS Static Lib Release Simulator"
-$XCODEBUILD_WRAPPER_LOCATION ios_simulator_build FluentUI-iOS-StaticLib Release build
-handle_exit_code
-
 echo "Building Static Lib iOS Debug Device"
-$XCODEBUILD_WRAPPER_LOCATION ios_device_build FluentUI-iOS-StaticLib Debug build
+$XCODEBUILD_WRAPPER_LOCATION ios_device_build FluentUI-iOS Debug build
 handle_exit_code
 
 echo "Building iOS Release Static Lib Device"
-$XCODEBUILD_WRAPPER_LOCATION ios_device_build FluentUI-iOS-StaticLib Release build
+$XCODEBUILD_WRAPPER_LOCATION ios_device_build FluentUI-iOS Release build
 handle_exit_code
 
 echo "Building iOS Testapp Debug Simulator"
