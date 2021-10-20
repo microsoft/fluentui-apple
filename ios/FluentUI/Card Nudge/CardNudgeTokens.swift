@@ -24,7 +24,12 @@ public class CardNudgeTokens: NSObject, CardNudgeThemeable {
     }
 
     public var backgroundColor: ColorSet {
-        return AliasTokens.Colors.Background.neutral2.value
+        switch style {
+        case .standard:
+            return AliasTokens.Colors.Background.neutral2.value
+        case .outline:
+            return AliasTokens.Colors.Background.neutral1.value
+        }
     }
 
     public var buttonBackgroundColor: ColorSet {
@@ -69,7 +74,12 @@ public class CardNudgeTokens: NSObject, CardNudgeThemeable {
     }
 
     public var outlineColor: ColorSet {
-        return AliasTokens.Colors.Background.neutral2.value
+        switch style {
+        case .standard:
+            return AliasTokens.Colors.Background.neutral2.value
+        case .outline:
+            return AliasTokens.Colors.Stroke.neutral1.value
+        }
     }
 
     public var outlineWidth: CGFloat {
@@ -81,45 +91,26 @@ public class CardNudgeTokens: NSObject, CardNudgeThemeable {
     }
 
     public var textColor: ColorSet {
-        return AliasTokens.Colors.Foreground.neutral1.value
+        switch style {
+        case .standard:
+            return AliasTokens.Colors.Foreground.neutral1.value
+        case .outline:
+#if BRAND_COLORS
+            return BrandColors.shade20.value
+#else
+            return ColorSet(light: 0x005A9E,
+                            dark: 0x3AA0F3)
+#endif
+        }
     }
 
     public var verticalPadding: CGFloat {
         return GlobalTokens.Spacing.xSmall.value
     }
 
-}
-
-// MARK: - CardNudgeTokens variants
-
-class BorderedCardNudgeTokens: CardNudgeTokens {
-    override var backgroundColor: ColorSet {
-        return AliasTokens.Colors.Background.neutral1.value
+    public init(style: MSFCardNudgeStyle) {
+        self.style = style
     }
 
-    override var outlineColor: ColorSet {
-        return AliasTokens.Colors.Stroke.neutral1.value
-    }
-
-    override var textColor: ColorSet {
-#if BRAND_COLORS
-        return BrandColors.shade20.value
-#else
-        return ColorSet(light: 0x005A9E,
-                        dark: 0x3AA0F3)
-#endif
-    }
-}
-
-// MARK: -
-
-struct CardNudgeTokensFactory {
-    static func tokens(style: MSFCardNudgeStyle) -> CardNudgeTokens {
-        switch style {
-        case .outline :
-            return BorderedCardNudgeTokens()
-        case .standard:
-            return CardNudgeTokens()
-        }
-    }
+    private var style: MSFCardNudgeStyle = .standard
 }
