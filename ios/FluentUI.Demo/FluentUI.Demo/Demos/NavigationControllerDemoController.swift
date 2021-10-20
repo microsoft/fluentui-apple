@@ -11,109 +11,179 @@ class NavigationControllerDemoController: DemoController {
         super.viewDidLoad()
 
         addTitle(text: "Large Title with Primary style")
-        container.addArrangedSubview(createButton(title: "Show without accessory", action: #selector(showLargeTitle)))
-        container.addArrangedSubview(createButton(title: "Show with collapsible search bar", action: #selector(showLargeTitleWithShyAccessory)))
-        container.addArrangedSubview(createButton(title: "Show with fixed search bar", action: #selector(showLargeTitleWithFixedAccessory)))
-        container.addArrangedSubview(createButton(title: "Show without an avatar", action: #selector(showLargeTitleWithoutAvatar)))
-        container.addArrangedSubview(createButton(title: "Show with pill segmented control", action: #selector(showLargeTitleWithPillSegment)))
+        container.addArrangedSubview(createButton(title: "Show without accessory", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.presentController(withLargeTitle: true)
+        }).view)
+
+        container.addArrangedSubview(createButton(title: "Show with collapsible search bar", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.presentController(withLargeTitle: true,
+                                         accessoryView: strongSelf.createAccessoryView(),
+                                         contractNavigationBarOnScroll: true)
+        }).view)
+
+        container.addArrangedSubview(createButton(title: "Show with fixed search bar", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.presentController(withLargeTitle: true,
+                                         accessoryView: strongSelf.createAccessoryView(),
+                                         contractNavigationBarOnScroll: false)
+        }).view)
+
+        container.addArrangedSubview(createButton(title: "Show without an avatar", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.presentController(withLargeTitle: true,
+                                         style: .primary,
+                                         accessoryView: strongSelf.createAccessoryView(),
+                                         showAvatar: false)
+        }).view)
+
+        container.addArrangedSubview(createButton(title: "Show with pill segmented control", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            let segmentItems: [SegmentItem] = [
+                SegmentItem(title: "First"),
+                SegmentItem(title: "Second")]
+            let pillControl = SegmentedControl(items: segmentItems, style: .onBrandPill)
+            pillControl.shouldSetEqualWidthForSegments = false
+            pillControl.contentInset = .zero
+            let stackView = UIStackView()
+            stackView.addArrangedSubview(pillControl)
+            stackView.distribution = .equalCentering
+            stackView.alignment = .center
+            let button = UIButton(type: .system)
+            button.setImage(UIImage(named: "ic_fluent_filter_28"), for: .normal)
+            button.tintColor = UIColor(light: Colors.textOnAccent, dark: Colors.textPrimary)
+            stackView.addArrangedSubview(button)
+            strongSelf.presentController(withLargeTitle: true,
+                                         accessoryView: stackView,
+                                         contractNavigationBarOnScroll: false)
+        }).view)
 
         addTitle(text: "Large Title with System style")
-        container.addArrangedSubview(createButton(title: "Show without accessory", action: #selector(showLargeTitleWithSystemStyle)))
-        container.addArrangedSubview(createButton(title: "Show without accessory and shadow", action: #selector(showLargeTitleWithSystemStyleAndNoShadow)))
-        container.addArrangedSubview(createButton(title: "Show with collapsible search bar", action: #selector(showLargeTitleWithSystemStyleAndShyAccessory)))
-        container.addArrangedSubview(createButton(title: "Show with fixed search bar", action: #selector(showLargeTitleWithSystemStyleAndFixedAccessory)))
+        container.addArrangedSubview(createButton(title: "Show without accessory", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.presentController(withLargeTitle: true,
+                                         style: .system)
+        }).view)
+        container.addArrangedSubview(createButton(title: "Show without accessory and shadow", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.presentController(withLargeTitle: true,
+                                         style: .system,
+                                         contractNavigationBarOnScroll: false,
+                                         showShadow: false)
+        }).view)
+        container.addArrangedSubview(createButton(title: "Show with collapsible search bar", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.presentController(withLargeTitle: true,
+                                         style: .system,
+                                         accessoryView: strongSelf.createAccessoryView(with: .darkContent),
+                                         contractNavigationBarOnScroll: true)
+        }).view)
+        container.addArrangedSubview(createButton(title: "Show with fixed search bar", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.presentController(withLargeTitle: true,
+                                         style: .system,
+                                         accessoryView: strongSelf.createAccessoryView(with: .darkContent),
+                                         contractNavigationBarOnScroll: false)
+        }).view)
 
         addTitle(text: "Regular Title")
-        container.addArrangedSubview(createButton(title: "Show \"system\" with collapsible search bar", action: #selector(showRegularTitleWithShyAccessory)))
-        container.addArrangedSubview(createButton(title: "Show \"primary\" with fixed search bar", action: #selector(showRegularTitleWithFixedAccessory)))
+        container.addArrangedSubview(createButton(title: "Show \"system\" with collapsible search bar", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.presentController(withLargeTitle: false,
+                                         style: .system,
+                                         accessoryView: strongSelf.createAccessoryView(with: .darkContent),
+                                         contractNavigationBarOnScroll: true)
+        }).view)
+        container.addArrangedSubview(createButton(title: "Show \"primary\" with fixed search bar", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.presentController(withLargeTitle: false,
+                                         accessoryView: strongSelf.createAccessoryView(),
+                                         contractNavigationBarOnScroll: false)
+        }).view)
 
         addTitle(text: "Size Customization")
-        container.addArrangedSubview(createButton(title: "Show with expanded avatar, contracted title", action: #selector(showLargeTitleWithCustomizedElementSizes)))
+        container.addArrangedSubview(createButton(title: "Show with expanded avatar, contracted title", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            let controller = strongSelf.presentController(withLargeTitle: true,
+                                                          accessoryView: strongSelf.createAccessoryView())
+            controller.msfNavigationBar.avatarSize = .expanded
+            controller.msfNavigationBar.titleSize = .contracted
+        }).view)
 
         addTitle(text: "Custom Navigation Bar Color")
-        container.addArrangedSubview(createButton(title: "Show with gradient navigation bar color", action: #selector(showLargeTitleWithCustomizedColor)))
+        container.addArrangedSubview(createButton(title: "Show with gradient navigation bar color", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.presentController(withLargeTitle: true,
+                                         style: .custom,
+                                         accessoryView: strongSelf.createAccessoryView())
+        }).view)
 
         addTitle(text: "Top Accessory View")
-        container.addArrangedSubview(createButton(title: "Show with top search bar for large screen width", action: #selector(showWithTopSearchBar)))
+        container.addArrangedSubview(createButton(title: "Show with top search bar for large screen width", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.presentController(withLargeTitle: true,
+                                         style: .system,
+                                         accessoryView: strongSelf.createAccessoryView(with: .darkContent),
+                                         showsTopAccessory: true,
+                                         contractNavigationBarOnScroll: false)
+        }).view)
 
         addTitle(text: "Change Style Periodically")
-        container.addArrangedSubview(createButton(title: "Change the style every second", action: #selector(showSearchChangingStyleEverySecond)))
-    }
+        container.addArrangedSubview(createButton(title: "Change the style every second", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
 
-    @objc func showLargeTitle() {
-        presentController(withLargeTitle: true)
-    }
-
-    @objc func showLargeTitleWithShyAccessory() {
-        presentController(withLargeTitle: true, accessoryView: createAccessoryView(), contractNavigationBarOnScroll: true)
-    }
-
-    @objc func showLargeTitleWithFixedAccessory() {
-        presentController(withLargeTitle: true, accessoryView: createAccessoryView(), contractNavigationBarOnScroll: false)
-    }
-
-    @objc func showLargeTitleWithSystemStyle() {
-        presentController(withLargeTitle: true, style: .system)
-    }
-
-    @objc func showLargeTitleWithSystemStyleAndNoShadow() {
-        presentController(withLargeTitle: true, style: .system, contractNavigationBarOnScroll: false, showShadow: false)
-    }
-
-    @objc func showLargeTitleWithSystemStyleAndShyAccessory() {
-        presentController(withLargeTitle: true, style: .system, accessoryView: createAccessoryView(with: .darkContent), contractNavigationBarOnScroll: true)
-    }
-
-    @objc func showLargeTitleWithSystemStyleAndFixedAccessory() {
-        presentController(withLargeTitle: true, style: .system, accessoryView: createAccessoryView(with: .darkContent), contractNavigationBarOnScroll: false)
-    }
-
-    @objc func showRegularTitleWithShyAccessory() {
-        presentController(withLargeTitle: false, style: .system, accessoryView: createAccessoryView(with: .darkContent), contractNavigationBarOnScroll: true)
-    }
-
-    @objc func showRegularTitleWithFixedAccessory() {
-        presentController(withLargeTitle: false, accessoryView: createAccessoryView(), contractNavigationBarOnScroll: false)
-    }
-
-    @objc func showLargeTitleWithCustomizedElementSizes() {
-        let controller = presentController(withLargeTitle: true, accessoryView: createAccessoryView())
-        controller.msfNavigationBar.avatarSize = .expanded
-        controller.msfNavigationBar.titleSize = .contracted
-    }
-
-    @objc func showLargeTitleWithCustomizedColor() {
-        presentController(withLargeTitle: true, style: .custom, accessoryView: createAccessoryView())
-    }
-
-    @objc func showLargeTitleWithoutAvatar() {
-        presentController(withLargeTitle: true, style: .primary, accessoryView: createAccessoryView(), showAvatar: false)
-    }
-
-    @objc func showWithTopSearchBar() {
-        presentController(withLargeTitle: true, style: .system, accessoryView: createAccessoryView(with: .darkContent), showsTopAccessory: true, contractNavigationBarOnScroll: false)
-    }
-
-    @objc func showSearchChangingStyleEverySecond() {
-        presentController(withLargeTitle: true, style: .system, accessoryView: createAccessoryView(with: .darkContent), showsTopAccessory: true, contractNavigationBarOnScroll: false, updateStylePeriodically: true)
-    }
-
-    @objc func showLargeTitleWithPillSegment() {
-        let segmentItems: [SegmentItem] = [
-            SegmentItem(title: "First"),
-            SegmentItem(title: "Second")]
-        let pillControl = SegmentedControl(items: segmentItems, style: .onBrandPill)
-        pillControl.shouldSetEqualWidthForSegments = false
-        pillControl.contentInset = .zero
-        let stackView = UIStackView()
-        stackView.addArrangedSubview(pillControl)
-        stackView.distribution = .equalCentering
-        stackView.alignment = .center
-        let button = UIButton(type: .system)
-        button.setImage(UIImage(named: "ic_fluent_filter_28"), for: .normal)
-        button.tintColor = UIColor(light: Colors.textOnAccent, dark: Colors.textPrimary)
-        stackView.addArrangedSubview(button)
-        presentController(withLargeTitle: true, accessoryView: stackView, contractNavigationBarOnScroll: false)
+            strongSelf.presentController(withLargeTitle: true,
+                                         style: .system,
+                                         accessoryView: strongSelf.createAccessoryView(with: .darkContent),
+                                         showsTopAccessory: true,
+                                         contractNavigationBarOnScroll: false,
+                                         updateStylePeriodically: true)
+        }).view)
     }
 
     @discardableResult

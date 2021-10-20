@@ -10,50 +10,121 @@ class HUDDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        container.addArrangedSubview(createButton(title: "Show activity HUD", action: #selector(showActivityHUD)))
-        container.addArrangedSubview(createButton(title: "Show success HUD", action: #selector(showSuccessHUD)))
-        container.addArrangedSubview(createButton(title: "Show failure HUD", action: #selector(showFailureHUD)))
-        container.addArrangedSubview(createButton(title: "Show custom HUD", action: #selector(showCustomHUD)))
-        container.addArrangedSubview(createButton(title: "Show custom non-blocking HUD", action: #selector(showCustomNonBlockingHUD)))
-        container.addArrangedSubview(createButton(title: "Show HUD with no label", action: #selector(showNoLabelHUD)))
-        container.addArrangedSubview(createButton(title: "Show HUD with tap gesture callback", action: #selector(showGestureHUD)))
-        container.addArrangedSubview(createButton(title: "Show HUD with updating caption", action: #selector(showUpdateHUD)))
+        let showActivityButton = MSFButton(style: .secondary, size: .small, action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.showActivityHUD()
+        })
+        showActivityButton.state.text = "Show activity HUD"
+        container.addArrangedSubview(showActivityButton.view)
+
+        let showSuccessButton = MSFButton(style: .secondary, size: .small, action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.showSuccessHUD()
+        })
+        showSuccessButton.state.text = "Show success HUD"
+        container.addArrangedSubview(showSuccessButton.view)
+
+        let showFailureButton = MSFButton(style: .secondary, size: .small, action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.showFailureHUD()
+        })
+        showFailureButton.state.text = "Show failure HUD"
+        container.addArrangedSubview(showFailureButton.view)
+
+        let showCustomButton = MSFButton(style: .secondary, size: .small, action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.showCustomHUD()
+        })
+        showCustomButton.state.text = "Show custom HUD"
+        container.addArrangedSubview(showCustomButton.view)
+
+        let showCustomNonBlockingButton = MSFButton(style: .secondary, size: .small, action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.showCustomNonBlockingHUD()
+        })
+        showCustomNonBlockingButton.state.text = "Show custom non-blocking HUD"
+        container.addArrangedSubview(showCustomNonBlockingButton.view)
+
+        let showNolabelButton = MSFButton(style: .secondary, size: .small, action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.showNoLabelHUD()
+        })
+        showNolabelButton.state.text = "Show HUD with no label"
+        container.addArrangedSubview(showNolabelButton.view)
+
+        let showGestureButton = MSFButton(style: .secondary, size: .small, action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.showGestureHUD()
+        })
+        showGestureButton.state.text = "Show HUD with tap gesture callback"
+        container.addArrangedSubview(showGestureButton.view)
+
+        let showUpdatingButton = MSFButton(style: .secondary, size: .small, action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.showUpdateHUD()
+        })
+        showUpdatingButton.state.text = "Show HUD with updating caption"
+        container.addArrangedSubview(showUpdatingButton.view)
     }
 
-    @objc private func showActivityHUD(sender: UIButton) {
+    @objc private func showActivityHUD() {
         HUD.shared.show(in: view, with: HUDParams(caption: "Loading for 3 seconds"))
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             HUD.shared.hide()
         }
     }
 
-    @objc private func showSuccessHUD(sender: UIButton) {
+    @objc private func showSuccessHUD() {
         HUD.shared.showSuccess(from: self, with: "Success")
     }
 
-    @objc private func showFailureHUD(sender: UIButton) {
+    @objc private func showFailureHUD() {
         HUD.shared.showFailure(from: self, with: "Failure")
     }
 
-    @objc private func showCustomHUD(sender: UIButton) {
+    @objc private func showCustomHUD() {
         HUD.shared.show(in: self.view, with: HUDParams(caption: "Custom", image: UIImage(named: "flag-40x40"), isPersistent: false))
     }
 
-    @objc private func showCustomNonBlockingHUD(sender: UIButton) {
+    @objc private func showCustomNonBlockingHUD() {
         HUD.shared.show(in: view, with: HUDParams(caption: "Custom image non-blocking", image: UIImage(named: "flag-40x40"), isBlocking: false))
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             HUD.shared.hide()
         }
     }
 
-    @objc private func showNoLabelHUD(sender: UIButton) {
+    @objc private func showNoLabelHUD() {
         HUD.shared.show(in: view)
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             HUD.shared.hide()
         }
     }
 
-    @objc private func showGestureHUD(sender: UIButton) {
+    @objc private func showGestureHUD() {
         HUD.shared.show(in: view, with: HUDParams(caption: "Downloading..."), onTap: {
             self.showMessage("Stop Download?", autoDismiss: false) {
                 HUD.shared.hide()
@@ -61,7 +132,7 @@ class HUDDemoController: DemoController {
         })
     }
 
-    @objc private func showUpdateHUD(sender: UIButton) {
+    @objc private func showUpdateHUD() {
         HUD.shared.show(in: view, with: HUDParams(caption: "Downloading..."))
         var time: TimeInterval = 0
         Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in

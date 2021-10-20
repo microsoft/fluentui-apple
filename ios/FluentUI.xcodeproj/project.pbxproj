@@ -174,6 +174,10 @@
 		C708B064260A87F7007190FA /* SegmentItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C708B04B260A8696007190FA /* SegmentItem.swift */; };
 		C77A04B825F03DD1001B3EB6 /* String+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77A04B625F03DD1001B3EB6 /* String+Date.swift */; };
 		C77A04EE25F046EB001B3EB6 /* Date+CellFileAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77A04EC25F046EB001B3EB6 /* Date+CellFileAccessoryView.swift */; };
+		ECF7ECF6270F9710003C9E63 /* MSFButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECF7ECF2270F9710003C9E63 /* MSFButton.swift */; };
+		ECF7ECF7270F9710003C9E63 /* MSFButtonTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECF7ECF3270F9710003C9E63 /* MSFButtonTokens.generated.swift */; };
+		ECF7ECF8270F9710003C9E63 /* ButtonModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECF7ECF4270F9710003C9E63 /* ButtonModifiers.swift */; };
+		ECF7ECF9270F9710003C9E63 /* ButtonTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECF7ECF5270F9710003C9E63 /* ButtonTokens.swift */; };
 		FD053A352224CA33009B6378 /* DatePickerControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD053A342224CA33009B6378 /* DatePickerControllerTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -311,6 +315,10 @@
 		C77A04EC25F046EB001B3EB6 /* Date+CellFileAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+CellFileAccessoryView.swift"; sourceTree = "<group>"; };
 		CCC18C2B2501B22F00BE830E /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		ECEBA8FB25EDF3380048EE24 /* SegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentedControl.swift; sourceTree = "<group>"; };
+		ECF7ECF2270F9710003C9E63 /* MSFButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFButton.swift; sourceTree = "<group>"; };
+		ECF7ECF3270F9710003C9E63 /* MSFButtonTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFButtonTokens.generated.swift; sourceTree = "<group>"; };
+		ECF7ECF4270F9710003C9E63 /* ButtonModifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonModifiers.swift; sourceTree = "<group>"; };
+		ECF7ECF5270F9710003C9E63 /* ButtonTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonTokens.swift; sourceTree = "<group>"; };
 		FC414E1E258876FB00069E73 /* CommandBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBar.swift; sourceTree = "<group>"; };
 		FC414E242588798000069E73 /* CommandBarButtonGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBarButtonGroupView.swift; sourceTree = "<group>"; };
 		FC414E2A25887A4B00069E73 /* CommandBarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBarButton.swift; sourceTree = "<group>"; };
@@ -504,6 +512,10 @@
 			isa = PBXGroup;
 			children = (
 				A5CEC23020E451D00016922A /* Button.swift */,
+				ECF7ECF4270F9710003C9E63 /* ButtonModifiers.swift */,
+				ECF7ECF5270F9710003C9E63 /* ButtonTokens.swift */,
+				ECF7ECF2270F9710003C9E63 /* MSFButton.swift */,
+				ECF7ECF3270F9710003C9E63 /* MSFButtonTokens.generated.swift */,
 			);
 			path = Button;
 			sourceTree = "<group>";
@@ -1450,6 +1462,10 @@
 				5314E06025F00EFD0099271A /* CalendarViewWeekdayHeadingView.swift in Sources */,
 				5314E05A25F00EF50099271A /* CalendarViewLayout.swift in Sources */,
 				5314E1B025F01A980099271A /* Tooltip.swift in Sources */,
+				ECF7ECF8270F9710003C9E63 /* ButtonModifiers.swift in Sources */,
+				ECF7ECF9270F9710003C9E63 /* ButtonTokens.swift in Sources */,
+				ECF7ECF7270F9710003C9E63 /* MSFButtonTokens.generated.swift in Sources */,
+				ECF7ECF6270F9710003C9E63 /* MSFButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

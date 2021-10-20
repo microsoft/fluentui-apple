@@ -84,9 +84,9 @@ class AvatarGroupDemoController: DemoTableViewController {
             let buttonView: [UIView] = {
                 switch row {
                 case .maxDisplayedAvatars:
-                    return [maxAvatarsTextField, maxAvatarButton]
+                    return [maxAvatarsTextField, maxAvatarButton.view]
                 case .overflow:
-                    return [overflowCountTextField, overflowCountButton]
+                    return [overflowCountTextField, overflowCountButton.view]
                 default:
                     return []
                 }
@@ -371,24 +371,28 @@ class AvatarGroupDemoController: DemoTableViewController {
         }
     }
 
-    private lazy var maxAvatarButton: Button = {
-        let button = Button()
-        button.titleLabel?.textAlignment = .center
-        button.titleLabel?.numberOfLines = 0
-        button.setTitle("Set", for: .normal)
-        button.addTarget(self, action: #selector(setMaxAvatarCount), for: .touchUpInside)
-        button.isEnabled = false
-        return button
-    }()
+    private lazy var maxAvatarButton: MSFButton = {
+        let maxAvatarButton = MSFButton(style: .secondary,
+                                        size: .small) { [weak self] button in
+            guard let strongSelf = self else {
+                return
+            }
 
-    @objc private func setMaxAvatarCount() {
-        if let text = maxAvatarsTextField.text, let count = Int(text) {
-            maxDisplayedAvatars = count
-            maxAvatarButton.isEnabled = false
+            if let text = strongSelf.maxAvatarsTextField.text,
+               let count = Int(text) {
+                strongSelf.maxDisplayedAvatars = count
+                button.state.isDisabled = true
+            }
+
+            strongSelf.maxAvatarsTextField.resignFirstResponder()
         }
 
-        maxAvatarsTextField.resignFirstResponder()
-    }
+        let maxAvatarButtonState = maxAvatarButton.state
+        maxAvatarButtonState.text = "Set"
+        maxAvatarButtonState.isDisabled = true
+
+        return maxAvatarButton
+    }()
 
     private lazy var maxAvatarsTextField: UITextField = {
         let textField = UITextField(frame: .zero)
@@ -411,24 +415,27 @@ class AvatarGroupDemoController: DemoTableViewController {
         }
     }
 
-    private lazy var overflowCountButton: Button = {
-        let button = Button()
-        button.titleLabel?.textAlignment = .center
-        button.titleLabel?.numberOfLines = 0
-        button.setTitle("Set", for: .normal)
-        button.addTarget(self, action: #selector(setOverflowCount), for: .touchUpInside)
-        button.isEnabled = false
-        return button
-    }()
+    private lazy var overflowCountButton: MSFButton = {
+        let overflowCountButton = MSFButton(style: .secondary, size: .small) { [weak self] button in
+            guard let strongSelf = self else {
+                return
+            }
 
-    @objc private func setOverflowCount() {
-        if let text = overflowCountTextField.text, let count = Int(text) {
-            overflowCount = count
-            overflowCountButton.isEnabled = false
+            if let text = strongSelf.overflowCountTextField.text,
+               let count = Int(text) {
+                strongSelf.overflowCount = count
+                button.state.isDisabled = true
+            }
+
+            strongSelf.overflowCountTextField.resignFirstResponder()
         }
 
-        overflowCountTextField.resignFirstResponder()
-    }
+        let overflowCountButtonState = overflowCountButton.state
+        overflowCountButtonState.text = "Set"
+        overflowCountButtonState.isDisabled = true
+
+        return overflowCountButton
+    }()
 
     private lazy var overflowCountTextField: UITextField = {
         let textField = UITextField(frame: .zero)
@@ -547,12 +554,12 @@ extension AvatarGroupDemoController: UITextFieldDelegate {
         let button = textField == maxAvatarsTextField ? maxAvatarButton : overflowCountButton
         if let count = UInt(text) {
             if textField == maxAvatarsTextField {
-                button.isEnabled = count > 0 && count != maxDisplayedAvatars
+                button.state.isDisabled = count <= 0 || count == maxDisplayedAvatars
             } else {
-                button.isEnabled = count > 0 && count != overflowCount
+                button.state.isDisabled = count == overflowCount
             }
         } else {
-            button.isEnabled = false
+            button.state.isDisabled = true
         }
 
         return shouldChangeCharacters

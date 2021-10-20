@@ -4,7 +4,6 @@
 //
 
 import UIKit
-
 /// Definition of a DemoController
 struct DemoDescriptor: Identifiable {
     let title: String
@@ -22,6 +21,7 @@ struct Demos {
         DemoDescriptor("ActivityIndicator", ActivityIndicatorDemoController.self),
         DemoDescriptor("Avatar", AvatarDemoController.self),
         DemoDescriptor("AvatarGroup", AvatarGroupDemoController.self),
+        DemoDescriptor("Button", ButtonDemoController.self),
         DemoDescriptor("CardNudge", CardNudgeDemoController.self),
         DemoDescriptor("IndeterminateProgressBar", IndeterminateProgressBarDemoController.self),
         DemoDescriptor("PersonaButtonCarousel", PersonaButtonCarouselDemoController.self)
@@ -32,7 +32,6 @@ struct Demos {
         DemoDescriptor("BadgeView", BadgeViewDemoController.self),
         DemoDescriptor("BottomCommandingController", BottomCommandingDemoController.self),
         DemoDescriptor("BottomSheetController", BottomSheetDemoController.self),
-        DemoDescriptor("Button", ButtonDemoController.self),
         DemoDescriptor("Card", CardViewDemoController.self),
         DemoDescriptor("Color", ColorDemoController.self),
         DemoDescriptor("CommandBar", CommandBarDemoController.self),

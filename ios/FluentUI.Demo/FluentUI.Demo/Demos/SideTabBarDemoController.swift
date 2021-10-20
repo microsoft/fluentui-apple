@@ -41,20 +41,34 @@ class SideTabBarDemoController: DemoController {
         }
     }
 
-    private lazy var incrementBadgeButton: Button = {
-        let button = Button()
-        button.image = UIImage(named: "ic_fluent_add_20_regular")
-        button.accessibilityLabel = "Increment badge numbers"
-        button.addTarget(self, action: #selector(incrementBadgeNumbers), for: .touchUpInside)
-        return button
+    private lazy var incrementBadgeButton: MSFButton = {
+        let incrementBadgeButton = MSFButton(style: .secondary,
+                                             size: .small) { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.modifyBadgeNumbers(increment: 1)
+        }
+        incrementBadgeButton.state.image = UIImage(named: "ic_fluent_add_20_regular")
+        incrementBadgeButton.state.accessibilityLabel = "Increment badge numbers"
+
+        return incrementBadgeButton
     }()
 
-    private lazy var decrementBadgeButton: Button = {
-        let button = Button()
-        button.image = UIImage(named: "ic_fluent_subtract_20_regular")
-        button.accessibilityLabel = "Decrement badge numbers"
-        button.addTarget(self, action: #selector(decrementBadgeNumbers), for: .touchUpInside)
-        return button
+    private lazy var decrementBadgeButton: MSFButton = {
+        let decrementBadgeButton = MSFButton(style: .secondary,
+                                             size: .small) { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.modifyBadgeNumbers(increment: -1)
+        }
+        decrementBadgeButton.state.image = UIImage(named: "ic_fluent_subtract_20_regular")
+        decrementBadgeButton.state.accessibilityLabel = "Decrement badge numbers"
+
+        return decrementBadgeButton
     }()
 
     private lazy var homeItem: TabBarItem = {
@@ -193,8 +207,8 @@ class SideTabBarDemoController: DemoController {
     }
 
     private func updateBadgeButtons() {
-        incrementBadgeButton.isEnabled = showBadgeNumbers
-        decrementBadgeButton.isEnabled = showBadgeNumbers
+        incrementBadgeButton.state.isDisabled = !showBadgeNumbers
+        decrementBadgeButton.state.isDisabled = !showBadgeNumbers
     }
 
     private func modifyBadgeNumbers(increment: Int) {
@@ -294,8 +308,8 @@ extension SideTabBarDemoController: UITableViewDataSource {
             }
 
             let stackView = UIStackView(frame: CGRect(x: 0, y: 0, width: 100, height: 40))
-            stackView.addArrangedSubview(decrementBadgeButton)
-            stackView.addArrangedSubview(incrementBadgeButton)
+            stackView.addArrangedSubview(decrementBadgeButton.view)
+            stackView.addArrangedSubview(incrementBadgeButton.view)
             stackView.distribution = .fillEqually
             stackView.alignment = .center
             stackView.spacing = 4
