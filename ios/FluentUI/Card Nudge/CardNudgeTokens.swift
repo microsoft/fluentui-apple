@@ -112,5 +112,5 @@ public class CardNudgeTokens: NSObject, CardNudgeThemeable {
         self.style = style
     }
 
-    private var style: MSFCardNudgeStyle = .standard
+    private let style: MSFCardNudgeStyle
 }
