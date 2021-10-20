@@ -111,7 +111,7 @@ class BorderedCardNudgeTokens: CardNudgeTokens {
     }
 }
 
-// MARK: - 
+// MARK: -
 
 struct CardNudgeTokensFactory {
     static func tokens(style: MSFCardNudgeStyle) -> CardNudgeTokens {
