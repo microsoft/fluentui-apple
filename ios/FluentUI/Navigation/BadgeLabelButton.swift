@@ -28,7 +28,7 @@ class BadgeLabelButton: UIButton {
     }
 
     private struct Constants {
-        static let badgeVerticalOffset: CGFloat = -4
+        static let badgeVerticalOffset: CGFloat = -5
         static let badgeHeight: CGFloat = 16
         static let badgeMinWidth: CGFloat = 16
         static let badgeMaxWidth: CGFloat = 27
