@@ -582,7 +582,8 @@ open class NavigationBar: UINavigationBar {
     }
 
     private func createBarButtonItemButton(with item: UIBarButtonItem, isLeftItem: Bool) -> UIButton {
-        let button = UIButton(type: .system)
+        let button = BadgeLabelButton(type: .system)
+        button.item = item
         button.isEnabled = item.isEnabled
         if isLeftItem {
             let isRTL = effectiveUserInterfaceLayoutDirection == .rightToLeft
@@ -622,13 +623,6 @@ open class NavigationBar: UINavigationBar {
 
         if item.title == nil {
             button.largeContentTitle = item.accessibilityLabel
-        }
-
-        let badgeView = ButtonBadgeLabelView(for: item, inside: button)
-        if item.title != nil {
-            button.titleLabel?.addSubview(badgeView)
-        } else {
-            button.imageView?.addSubview(badgeView)
         }
 
         if #available(iOS 13.4, *) {
