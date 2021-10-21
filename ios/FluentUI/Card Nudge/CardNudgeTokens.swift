@@ -5,9 +5,7 @@
 
 import SwiftUI
 
-public class CardNudgeTokens: NSObject, ControlTokens {
-    public static let tokenType: TokenType = UUID()
-
+public class CardNudgeTokens: NSObject {
     public var accentColor: ColorSet {
 #if BRAND_COLORS
         return BrandColors.shade20.value
