@@ -6,7 +6,7 @@
 import UIKit
 
 class BadgeLabelButton: UIButton {
-    let badgeLabel = BadgeLabel()
+    private(set) var badgeLabel = BadgeLabel()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -100,6 +100,8 @@ class BadgeLabelButton: UIButton {
     }
 
     private func update() {
+        badgeValue = item?.badgeValue
+
         if isItemTitlePresent {
             titleLabel?.addSubview(badgeLabel)
             titleLabel?.isHidden = false
