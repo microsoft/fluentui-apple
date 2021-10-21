@@ -189,11 +189,11 @@ open class PillButtonBar: UIScrollView {
     ///   - selectedPillButtonTextColor: The color override for the text of the selected pill button
     ///   - pillButtonUnreadDotColor: The color override for the unread dot for the pill buttons
     @objc public convenience init(pillButtonStyle: PillButtonStyle = .primary,
-                                  pillButtonBackgroundColor: UIColor? = nil,
-                                  selectedPillButtonBackgroundColor: UIColor? = nil,
-                                  pillButtonTextColor: UIColor? = nil,
-                                  selectedPillButtonTextColor: UIColor? = nil,
-                                  pillButtonUnreadDotColor: UIColor? = nil) {
+                              pillButtonBackgroundColor: UIColor? = nil,
+                              selectedPillButtonBackgroundColor: UIColor? = nil,
+                              pillButtonTextColor: UIColor? = nil,
+                              selectedPillButtonTextColor: UIColor? = nil,
+                              pillButtonUnreadDotColor: UIColor? = nil) {
         self.init(pillButtonStyle: pillButtonStyle,
                   pillButtonBackgroundColor: pillButtonBackgroundColor,
                   selectedPillButtonBackgroundColor: selectedPillButtonBackgroundColor,
