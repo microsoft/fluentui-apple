@@ -45,6 +45,38 @@ class BadgeLabelButton: UIButton {
         return (frame.size.height - intrinsicContentSize.height) / 2 - Constants.badgeHeight / 2 - Constants.badgeVerticalOffset
     }
 
+    private var badgeFrameOriginX: CGFloat {
+        var xOrigin: CGFloat
+        if isLeftToRightUserInterfaceLayoutDirection {
+            xOrigin = frame.size.width - contentEdgeInsets.left - badgeWidth / 2
+        } else {
+            xOrigin = contentEdgeInsets.left - badgeWidth / 2
+        }
+        return xOrigin
+    }
+
+    private var badgeLabelFrame: CGRect {
+        if isItemTitlePresent {
+            return CGRect(x: badgeFrameOriginX - (titleLabel?.frame.origin.x ?? 0),
+                          y: badgeVerticalPosition - (titleLabel?.frame.origin.y ?? 0),
+                          width: badgeWidth,
+                          height: Constants.badgeHeight)
+        } else {
+            return CGRect(x: badgeFrameOriginX - (imageView?.frame.origin.x ?? 0),
+                          y: badgeVerticalPosition - (imageView?.frame.origin.y ?? 0),
+                          width: badgeWidth,
+                          height: Constants.badgeHeight)
+        }
+    }
+
+    private var bezierRectOriginX: CGFloat {
+        var xOrigin: CGFloat = 0
+        if !isLeftToRightUserInterfaceLayoutDirection {
+            xOrigin -= badgeWidth / 2
+        }
+        return xOrigin
+    }
+
     private var isLeftToRightUserInterfaceLayoutDirection: Bool {
         return effectiveUserInterfaceLayoutDirection == .leftToRight
     }
@@ -88,7 +120,7 @@ class BadgeLabelButton: UIButton {
         if isNilBadgeValue {
             layer.mask = nil
         } else {
-            badgeLabel.frame = badgeLabelFrame()
+            badgeLabel.frame = badgeLabelFrame
 
             let layer = CAShapeLayer()
             layer.path = UIBezierPath(roundedRect: badgeLabel.bounds,
@@ -97,11 +129,11 @@ class BadgeLabelButton: UIButton {
             badgeLabel.layer.mask = layer
             badgeLabel.layer.cornerRadius = 0
 
-            let bezierRect = CGRect(x: badgeFrameOriginX(),
+            let bezierRect = CGRect(x: badgeFrameOriginX,
                                     y: badgeVerticalPosition,
                                     width: badgeWidth,
                                     height: Constants.badgeHeight)
-            let path = UIBezierPath(rect: CGRect(x: bezierRectOriginX(),
+            let path = UIBezierPath(rect: CGRect(x: bezierRectOriginX,
                                                  y: 0,
                                                  width: frame.size.width + badgeWidth / 2,
                                                  height: frame.size.height))
@@ -118,38 +150,6 @@ class BadgeLabelButton: UIButton {
             maskLayer.path = path.cgPath
             self.layer.mask = maskLayer
         }
-    }
-
-    private func badgeLabelFrame() -> CGRect {
-        if isItemTitlePresent {
-            return CGRect(x: badgeFrameOriginX() - (titleLabel?.frame.origin.x ?? 0),
-                          y: badgeVerticalPosition - (titleLabel?.frame.origin.y ?? 0),
-                          width: badgeWidth,
-                          height: Constants.badgeHeight)
-        } else {
-            return CGRect(x: badgeFrameOriginX() - (imageView?.frame.origin.x ?? 0),
-                          y: badgeVerticalPosition - (imageView?.frame.origin.y ?? 0),
-                          width: badgeWidth,
-                          height: Constants.badgeHeight)
-        }
-    }
-
-    private func bezierRectOriginX() -> CGFloat {
-        var xOrigin: CGFloat = 0
-        if !isLeftToRightUserInterfaceLayoutDirection {
-            xOrigin -= badgeWidth / 2
-        }
-        return xOrigin
-    }
-
-    private func badgeFrameOriginX() -> CGFloat {
-        var xOrigin: CGFloat
-        if isLeftToRightUserInterfaceLayoutDirection {
-            xOrigin = frame.size.width - contentEdgeInsets.left - badgeWidth / 2
-        } else {
-            xOrigin = contentEdgeInsets.left - badgeWidth / 2
-        }
-        return xOrigin
     }
 
     private func borderRect(for frame: CGRect) -> CGRect {
