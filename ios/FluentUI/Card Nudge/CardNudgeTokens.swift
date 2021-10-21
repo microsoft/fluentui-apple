@@ -72,7 +72,7 @@ public class CardNudgeTokens: NSObject, ControlTokens {
     }
 
     public var minimumHeight: CGFloat {
-        return 56
+        return 56.0
     }
 
     public var outlineColor: ColorSet {

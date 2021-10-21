@@ -6,7 +6,7 @@
 import Foundation
 
 /// TODO: Documentation WIP
-open class Theme: NSObject, ObservableObject {
+open class Theme: NSObject {
     var tokenLookup: [TokenType: ControlTokens] = [:]
 
     public func set(tokens: ControlTokens, for control: Tokenizable) {
