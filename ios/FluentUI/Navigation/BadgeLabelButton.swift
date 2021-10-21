@@ -37,10 +37,6 @@ class BadgeLabelButton: UIButton {
         static let badgeCornerRadii: CGFloat = 10
     }
 
-    private var isInPortraitMode: Bool {
-        return (window?.traitCollection.horizontalSizeClass == .compact && window?.traitCollection.verticalSizeClass == .regular)
-    }
-
     private var badgeWidth: CGFloat {
         return min(max(badgeLabel.intrinsicContentSize.width + Constants.badgeHorizontalPadding, Constants.badgeMinWidth), Constants.badgeMaxWidth)
     }
