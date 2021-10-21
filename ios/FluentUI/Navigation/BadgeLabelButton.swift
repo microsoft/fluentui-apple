@@ -6,7 +6,7 @@
 import UIKit
 
 class BadgeLabelButton: UIButton {
-    private(set) var badgeLabel = BadgeLabel()
+    let badgeLabel = BadgeLabel()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
