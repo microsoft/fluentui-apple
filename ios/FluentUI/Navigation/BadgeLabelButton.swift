@@ -28,8 +28,7 @@ class BadgeLabelButton: UIButton {
     }
 
     private struct Constants {
-        static let badgeLandscapeVerticalOffset: CGFloat = -5
-        static let badgePortraitVerticalOffset: CGFloat = -4
+        static let badgeVerticalOffset: CGFloat = -4
         static let badgeHeight: CGFloat = 16
         static let badgeMinWidth: CGFloat = 16
         static let badgeMaxWidth: CGFloat = 27
@@ -47,8 +46,7 @@ class BadgeLabelButton: UIButton {
     }
 
     private var badgeVerticalPosition: CGFloat {
-        let badgeVerticalOffset = isInPortraitMode ? Constants.badgePortraitVerticalOffset : Constants.badgeLandscapeVerticalOffset
-        return (frame.size.height - intrinsicContentSize.height) / 2 - Constants.badgeHeight / 2 - badgeVerticalOffset
+        return (frame.size.height - intrinsicContentSize.height) / 2 - Constants.badgeHeight / 2 - Constants.badgeVerticalOffset
     }
 
     private var isLeftToRightUserInterfaceLayoutDirection: Bool {
