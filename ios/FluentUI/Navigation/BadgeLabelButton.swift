@@ -96,7 +96,6 @@ class BadgeLabelButton: UIButton {
         isEnabled = item.isEnabled
         tag = item.tag
         tintColor = item.tintColor
-        titleLabel?.font = item.titleTextAttributes(for: .normal)?[.font] as? UIFont
 
         var portraitImage = item.image
         if portraitImage?.renderingMode == .automatic {
@@ -123,10 +122,6 @@ class BadgeLabelButton: UIButton {
             largeContentImage = customLargeContentSizeImage
         }
 
-        if item.title == nil {
-            largeContentTitle = item.accessibilityLabel
-        }
-
         if #available(iOS 13.4, *) {
             // Workaround check for beta iOS versions missing the Pointer Interactions API
             if arePointerInteractionAPIsAvailable() {
@@ -134,13 +129,19 @@ class BadgeLabelButton: UIButton {
             }
         }
 
-        if isItemTitlePresent, let titleLabel = titleLabel {
-            titleLabel.addSubview(badgeLabel)
-            titleLabel.isHidden = false
-        } else if let imageView = imageView {
-            imageView.addSubview(badgeLabel)
-            imageView.isHidden = false
-            imageView.clipsToBounds = false
+        if isItemTitlePresent {
+            if let titleLabel = titleLabel {
+                titleLabel.font = item.titleTextAttributes(for: .normal)?[.font] as? UIFont
+                titleLabel.addSubview(badgeLabel)
+                titleLabel.isHidden = false
+            }
+        } else {
+            largeContentTitle = item.accessibilityLabel
+            if let imageView = imageView {
+                imageView.addSubview(badgeLabel)
+                imageView.isHidden = false
+                imageView.clipsToBounds = false
+            }
         }
 
         updateBadgeLabel()
