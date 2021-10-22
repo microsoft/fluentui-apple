@@ -171,10 +171,12 @@ class BadgeLabelButton: UIButton {
                                                             y: 0,
                                                             width: frame.size.width + computedBadgeWidth / 2,
                                                             height: frame.size.height))
+            // Adding the path for the cutout on the button's titleLabel or imageView where the badge label will be placed on top of.
             badgeCutoutPath.append(UIBezierPath(roundedRect: badgeCutoutRect(for: bezierRect),
                                                 byRoundingCorners: .allCorners,
                                                 cornerRadii: CGSize(width: Constants.badgeCornerRadii,
                                                                     height: Constants.badgeCornerRadii)))
+            // Adding the path that will display the badge label with rounded corners on top of the cutout.
             badgeCutoutPath.append(UIBezierPath(roundedRect: bezierRect,
                                                 byRoundingCorners: .allCorners,
                                                 cornerRadii: CGSize(width: Constants.badgeCornerRadii,
