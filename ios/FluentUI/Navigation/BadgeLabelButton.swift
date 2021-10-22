@@ -116,6 +116,7 @@ class BadgeLabelButton: UIButton {
             badgeLabel.layer.mask = badgeLabelLayer
             badgeLabel.layer.cornerRadius = 0
 
+            let badgeWidth = badgeWidth
             let bezierRect = CGRect(x: badgeFrameOriginX,
                                     y: badgeVerticalPosition,
                                     width: badgeWidth,
