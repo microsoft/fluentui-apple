@@ -89,7 +89,7 @@ class BadgeLabelButton: UIButton {
         }
     }
 
-    private func prepareButtonForBadgeLabel() {
+    private func setupButton() {
         guard let item = item else {
             return
         }
