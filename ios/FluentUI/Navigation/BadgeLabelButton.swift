@@ -38,7 +38,9 @@ class BadgeLabelButton: UIButton {
     }
 
     private var badgeWidth: CGFloat {
-        return min(max(badgeLabel.intrinsicContentSize.width + Constants.badgeHorizontalPadding, Constants.badgeMinWidth), Constants.badgeMaxWidth)
+        return min(max(badgeLabel.intrinsicContentSize.width + Constants.badgeHorizontalPadding,
+                       Constants.badgeMinWidth),
+                   Constants.badgeMaxWidth)
     }
 
     private var badgeVerticalPosition: CGFloat {
