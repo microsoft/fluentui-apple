@@ -39,6 +39,13 @@ open class PillButton: UIButton {
         }
     }
 
+    /// Set `unreadDotColor` to customize color of the pill button unread dot
+    @objc open var customUnreadDotColor: UIColor? {
+        didSet {
+            updateAppearance()
+        }
+    }
+
     open override func didMoveToWindow() {
         super.didMoveToWindow()
         updateAppearance()
@@ -49,7 +56,14 @@ open class PillButton: UIButton {
         self.style = style
         super.init(frame: .zero)
         setupView()
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(isUnreadValueDidChange),
+                                               name: PillButtonBarItem.isUnreadValueDidChangeNotification,
+                                               object: pillBarItem)
     }
+
+    var unreadDotColor: UIColor = Colors.gray100
 
     @objc public static let cornerRadius: CGFloat = 16.0
 
@@ -63,6 +77,10 @@ open class PillButton: UIButton {
 
     public override var isSelected: Bool {
         didSet {
+            if oldValue != isSelected && isSelected == true {
+                pillBarItem.isUnread = false
+                updateUnreadDot()
+            }
             updateAppearance()
             updateAccessibilityTraits()
         }
@@ -79,6 +97,11 @@ open class PillButton: UIButton {
         didSet {
             updateAppearance()
         }
+    }
+
+    public override func layoutSubviews() {
+        super.layoutSubviews()
+        updateUnreadDot()
     }
 
     private func setupView() {
@@ -109,6 +132,45 @@ open class PillButton: UIButton {
             accessibilityTraits.remove(.notEnabled)
         } else {
             accessibilityTraits.insert(.notEnabled)
+        }
+    }
+
+    private var isUnreadDotVisible: Bool = false {
+        didSet {
+            if oldValue != isUnreadDotVisible {
+                if isUnreadDotVisible {
+                    layer.addSublayer(unreadDotLayer)
+                } else {
+                    unreadDotLayer.removeFromSuperlayer()
+                }
+            }
+        }
+    }
+
+    private let unreadDotLayer: CALayer = {
+        let unreadDotLayer = CALayer()
+        unreadDotLayer.bounds.size = CGSize(width: Constants.unreadDotSize, height: Constants.unreadDotSize)
+        unreadDotLayer.cornerRadius = Constants.unreadDotSize / 2
+        return unreadDotLayer
+    }()
+
+    @objc private func isUnreadValueDidChange() {
+        isUnreadDotVisible = pillBarItem.isUnread
+        setNeedsLayout()
+    }
+
+    private func updateUnreadDot() {
+        isUnreadDotVisible = pillBarItem.isUnread
+        if isUnreadDotVisible {
+            let anchor = self.titleLabel?.frame ?? .zero
+            let xPos: CGFloat
+            if effectiveUserInterfaceLayoutDirection == .leftToRight {
+                xPos = round(anchor.maxX + Constants.unreadDotOffset.x)
+            } else {
+                xPos = round(anchor.minX - Constants.unreadDotOffset.x - Constants.unreadDotSize)
+            }
+            unreadDotLayer.frame.origin = CGPoint(x: xPos, y: anchor.minY + Constants.unreadDotOffset.y)
+            unreadDotLayer.backgroundColor = unreadDotColor.cgColor
         }
     }
 
@@ -147,6 +209,12 @@ open class PillButton: UIButton {
                 } else {
                     setTitleColor(PillButton.disabledTitleColor(for: window, for: style), for: .disabled)
                 }
+
+                if isEnabled {
+                    unreadDotColor = customUnreadDotColor ?? PillButton.enabledUnreadDotColor(for: window, for: style)
+                } else {
+                    unreadDotColor = customUnreadDotColor ?? PillButton.disabledUnreadDotColor(for: window, for: style)
+                }
             }
         }
     }
@@ -156,5 +224,7 @@ open class PillButton: UIButton {
         static let font = UIFont.systemFont(ofSize: 16, weight: .regular)
         static let horizontalInset: CGFloat = 16.0
         static let topInset: CGFloat = 6.0
+        static let unreadDotOffset = CGPoint(x: 6.0, y: 3.0)
+        static let unreadDotSize: CGFloat = 6.0
     }
 }
