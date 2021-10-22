@@ -64,7 +64,7 @@ class BadgeLabelButton: UIButton {
                       height: Constants.badgeHeight)
     }
 
-    private var bezierRectOriginX: CGFloat {
+    private var badgeBoundsOriginX: CGFloat {
         var xOrigin: CGFloat = 0
         if !isLeftToRightUserInterfaceLayoutDirection {
             xOrigin -= badgeWidth / 2
@@ -120,7 +120,7 @@ class BadgeLabelButton: UIButton {
                                     y: badgeVerticalPosition,
                                     width: badgeWidth,
                                     height: Constants.badgeHeight)
-            let path = UIBezierPath(rect: CGRect(x: bezierRectOriginX,
+            let path = UIBezierPath(rect: CGRect(x: badgeBoundsOriginX,
                                                  y: 0,
                                                  width: frame.size.width + badgeWidth / 2,
                                                  height: frame.size.height))
