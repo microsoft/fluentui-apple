@@ -91,17 +91,7 @@ class BadgeLabelButton: UIButton {
         }
     }
 
-    private var badgeValue: String? {
-        didSet {
-            if oldValue != badgeValue {
-                updateBadgeLabel()
-            }
-        }
-    }
-
     private func update() {
-        badgeValue = item?.badgeValue
-
         if isItemTitlePresent {
             titleLabel?.addSubview(badgeLabel)
             titleLabel?.isHidden = false
@@ -115,8 +105,8 @@ class BadgeLabelButton: UIButton {
     }
 
     func updateBadgeLabel() {
-        badgeLabel.text = badgeValue
-        let isNilBadgeValue = badgeValue == nil
+        badgeLabel.text = item?.badgeValue
+        let isNilBadgeValue = item?.badgeValue == nil
         badgeLabel.isHidden = isNilBadgeValue
 
         if isNilBadgeValue {
@@ -162,6 +152,6 @@ class BadgeLabelButton: UIButton {
     }
 
     @objc private func badgeValueDidChange() {
-        badgeValue = item?.badgeValue
+        updateBadgeLabel()
     }
 }
