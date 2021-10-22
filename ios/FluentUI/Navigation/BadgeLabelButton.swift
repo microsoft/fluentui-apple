@@ -170,7 +170,7 @@ class BadgeLabelButton: UIButton {
                                                  y: 0,
                                                  width: frame.size.width + computedBadgeWidth / 2,
                                                  height: frame.size.height))
-            path.append(UIBezierPath(roundedRect: borderRect(for: bezierRect),
+            path.append(UIBezierPath(roundedRect: badgeCutoutRect(for: bezierRect),
                                      byRoundingCorners: .allCorners,
                                      cornerRadii: CGSize(width: Constants.badgeCornerRadii,
                                                          height: Constants.badgeCornerRadii)))
@@ -185,7 +185,7 @@ class BadgeLabelButton: UIButton {
         }
     }
 
-    private func borderRect(for frame: CGRect) -> CGRect {
+    private func badgeCutoutRect(for frame: CGRect) -> CGRect {
         return CGRect(x: frame.origin.x - Constants.badgeBorderWidth,
                       y: frame.origin.y - Constants.badgeBorderWidth,
                       width: frame.size.width + 2 * Constants.badgeBorderWidth,
