@@ -161,7 +161,6 @@ class BadgeLabelButton: UIButton {
                                                 byRoundingCorners: .allCorners,
                                                 cornerRadii: CGSize(width: Constants.badgeCornerRadii, height: Constants.badgeCornerRadii)).cgPath
             badgeLabel.layer.mask = badgeLabelLayer
-            badgeLabel.layer.cornerRadius = 0
 
             let computedBadgeWidth = badgeWidth
             let bezierRect = CGRect(x: badgeFrameOriginX,
