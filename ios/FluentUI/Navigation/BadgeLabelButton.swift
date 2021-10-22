@@ -67,11 +67,12 @@ class BadgeLabelButton: UIButton {
     }
 
     private var badgeBoundsOriginX: CGFloat {
-        var xOrigin: CGFloat = 0
-        if !isLeftToRightUserInterfaceLayoutDirection {
-            xOrigin -= badgeWidth / 2
+        let xOrigin: CGFloat = 0
+        if isLeftToRightUserInterfaceLayoutDirection {
+            return xOrigin
+        } else {
+            return xOrigin - badgeWidth / 2
         }
-        return xOrigin
     }
 
     private var isLeftToRightUserInterfaceLayoutDirection: Bool {
