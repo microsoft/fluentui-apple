@@ -56,17 +56,12 @@ class BadgeLabelButton: UIButton {
     }
 
     private var badgeLabelFrame: CGRect {
-        if isItemTitlePresent {
-            return CGRect(x: badgeFrameOriginX - (titleLabel?.frame.origin.x ?? 0),
-                          y: badgeVerticalPosition - (titleLabel?.frame.origin.y ?? 0),
-                          width: badgeWidth,
-                          height: Constants.badgeHeight)
-        } else {
-            return CGRect(x: badgeFrameOriginX - (imageView?.frame.origin.x ?? 0),
-                          y: badgeVerticalPosition - (imageView?.frame.origin.y ?? 0),
-                          width: badgeWidth,
-                          height: Constants.badgeHeight)
-        }
+        let targetView = isItemTitlePresent ? titleLabel : imageView
+
+        return CGRect(x: badgeFrameOriginX - (targetView?.frame.origin.x ?? 0),
+                      y: badgeVerticalPosition - (targetView?.frame.origin.y ?? 0),
+                      width: badgeWidth,
+                      height: Constants.badgeHeight)
     }
 
     private var bezierRectOriginX: CGFloat {
