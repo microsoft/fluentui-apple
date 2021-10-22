@@ -87,6 +87,49 @@ class BadgeLabelButton: UIButton {
     }
 
     private func update() {
+        if let item = item {
+            isEnabled = item.isEnabled
+            tag = item.tag
+            tintColor = item.tintColor
+            titleLabel?.font = item.titleTextAttributes(for: .normal)?[.font] as? UIFont
+
+            var portraitImage = item.image
+            if portraitImage?.renderingMode == .automatic {
+                portraitImage = portraitImage?.withRenderingMode(.alwaysTemplate)
+            }
+            var landscapeImage = item.landscapeImagePhone ?? portraitImage
+            if landscapeImage?.renderingMode == .automatic {
+                landscapeImage = landscapeImage?.withRenderingMode(.alwaysTemplate)
+            }
+
+            setImage(traitCollection.verticalSizeClass == .regular ? portraitImage : landscapeImage, for: .normal)
+            setTitle(item.title, for: .normal)
+
+            if let action = item.action {
+                addTarget(item.target, action: action, for: .touchUpInside)
+            }
+
+            accessibilityIdentifier = item.accessibilityIdentifier
+            accessibilityLabel = item.accessibilityLabel
+            accessibilityHint = item.accessibilityHint
+            showsLargeContentViewer = true
+
+            if let customLargeContentSizeImage = item.largeContentSizeImage {
+                largeContentImage = customLargeContentSizeImage
+            }
+
+            if item.title == nil {
+                largeContentTitle = item.accessibilityLabel
+            }
+
+            if #available(iOS 13.4, *) {
+                // Workaround check for beta iOS versions missing the Pointer Interactions API
+                if arePointerInteractionAPIsAvailable() {
+                    isPointerInteractionEnabled = true
+                }
+            }
+        }
+
         if isItemTitlePresent {
             titleLabel?.addSubview(badgeLabel)
             titleLabel?.isHidden = false
