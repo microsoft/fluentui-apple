@@ -166,21 +166,21 @@ class BadgeLabelButton: UIButton {
                                     y: badgeVerticalPosition,
                                     width: computedBadgeWidth,
                                     height: Constants.badgeHeight)
-            let path = UIBezierPath(rect: CGRect(x: badgeBoundsOriginX,
-                                                 y: 0,
-                                                 width: frame.size.width + computedBadgeWidth / 2,
-                                                 height: frame.size.height))
-            path.append(UIBezierPath(roundedRect: badgeCutoutRect(for: bezierRect),
-                                     byRoundingCorners: .allCorners,
-                                     cornerRadii: CGSize(width: Constants.badgeCornerRadii,
-                                                         height: Constants.badgeCornerRadii)))
-            path.append(UIBezierPath(roundedRect: bezierRect,
-                                     byRoundingCorners: .allCorners,
-                                     cornerRadii: CGSize(width: Constants.badgeCornerRadii,
-                                                         height: Constants.badgeCornerRadii)))
+            let badgeCutoutPath = UIBezierPath(rect: CGRect(x: badgeBoundsOriginX,
+                                                            y: 0,
+                                                            width: frame.size.width + computedBadgeWidth / 2,
+                                                            height: frame.size.height))
+            badgeCutoutPath.append(UIBezierPath(roundedRect: badgeCutoutRect(for: bezierRect),
+                                                byRoundingCorners: .allCorners,
+                                                cornerRadii: CGSize(width: Constants.badgeCornerRadii,
+                                                                    height: Constants.badgeCornerRadii)))
+            badgeCutoutPath.append(UIBezierPath(roundedRect: bezierRect,
+                                                byRoundingCorners: .allCorners,
+                                                cornerRadii: CGSize(width: Constants.badgeCornerRadii,
+                                                                    height: Constants.badgeCornerRadii)))
             let maskLayer = CAShapeLayer()
             maskLayer.fillRule = .evenOdd
-            maskLayer.path = path.cgPath
+            maskLayer.path = badgeCutoutPath.cgPath
             layer.mask = maskLayer
         }
     }
