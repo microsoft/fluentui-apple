@@ -147,7 +147,7 @@ class BadgeLabelButton: UIButton {
         updateBadgeLabel()
     }
 
-    func updateBadgeLabel() {
+    private func updateBadgeLabel() {
         badgeLabel.text = item?.badgeValue
         let isNilBadgeValue = item?.badgeValue == nil
         badgeLabel.isHidden = isNilBadgeValue
