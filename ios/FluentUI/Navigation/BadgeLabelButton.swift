@@ -87,46 +87,48 @@ class BadgeLabelButton: UIButton {
     }
 
     private func update() {
-        if let item = item {
-            isEnabled = item.isEnabled
-            tag = item.tag
-            tintColor = item.tintColor
-            titleLabel?.font = item.titleTextAttributes(for: .normal)?[.font] as? UIFont
+        guard let item = item else {
+            return
+        }
 
-            var portraitImage = item.image
-            if portraitImage?.renderingMode == .automatic {
-                portraitImage = portraitImage?.withRenderingMode(.alwaysTemplate)
-            }
-            var landscapeImage = item.landscapeImagePhone ?? portraitImage
-            if landscapeImage?.renderingMode == .automatic {
-                landscapeImage = landscapeImage?.withRenderingMode(.alwaysTemplate)
-            }
+        isEnabled = item.isEnabled
+        tag = item.tag
+        tintColor = item.tintColor
+        titleLabel?.font = item.titleTextAttributes(for: .normal)?[.font] as? UIFont
 
-            setImage(traitCollection.verticalSizeClass == .regular ? portraitImage : landscapeImage, for: .normal)
-            setTitle(item.title, for: .normal)
+        var portraitImage = item.image
+        if portraitImage?.renderingMode == .automatic {
+            portraitImage = portraitImage?.withRenderingMode(.alwaysTemplate)
+        }
+        var landscapeImage = item.landscapeImagePhone ?? portraitImage
+        if landscapeImage?.renderingMode == .automatic {
+            landscapeImage = landscapeImage?.withRenderingMode(.alwaysTemplate)
+        }
 
-            if let action = item.action {
-                addTarget(item.target, action: action, for: .touchUpInside)
-            }
+        setImage(traitCollection.verticalSizeClass == .regular ? portraitImage : landscapeImage, for: .normal)
+        setTitle(item.title, for: .normal)
 
-            accessibilityIdentifier = item.accessibilityIdentifier
-            accessibilityLabel = item.accessibilityLabel
-            accessibilityHint = item.accessibilityHint
-            showsLargeContentViewer = true
+        if let action = item.action {
+            addTarget(item.target, action: action, for: .touchUpInside)
+        }
 
-            if let customLargeContentSizeImage = item.largeContentSizeImage {
-                largeContentImage = customLargeContentSizeImage
-            }
+        accessibilityIdentifier = item.accessibilityIdentifier
+        accessibilityLabel = item.accessibilityLabel
+        accessibilityHint = item.accessibilityHint
+        showsLargeContentViewer = true
 
-            if item.title == nil {
-                largeContentTitle = item.accessibilityLabel
-            }
+        if let customLargeContentSizeImage = item.largeContentSizeImage {
+            largeContentImage = customLargeContentSizeImage
+        }
 
-            if #available(iOS 13.4, *) {
-                // Workaround check for beta iOS versions missing the Pointer Interactions API
-                if arePointerInteractionAPIsAvailable() {
-                    isPointerInteractionEnabled = true
-                }
+        if item.title == nil {
+            largeContentTitle = item.accessibilityLabel
+        }
+
+        if #available(iOS 13.4, *) {
+            // Workaround check for beta iOS versions missing the Pointer Interactions API
+            if arePointerInteractionAPIsAvailable() {
+                isPointerInteractionEnabled = true
             }
         }
 
@@ -159,14 +161,14 @@ class BadgeLabelButton: UIButton {
             badgeLabel.layer.mask = badgeLabelLayer
             badgeLabel.layer.cornerRadius = 0
 
-            let badgeWidth = badgeWidth
+            let computedBadgeWidth = badgeWidth
             let bezierRect = CGRect(x: badgeFrameOriginX,
                                     y: badgeVerticalPosition,
-                                    width: badgeWidth,
+                                    width: computedBadgeWidth,
                                     height: Constants.badgeHeight)
             let path = UIBezierPath(rect: CGRect(x: badgeBoundsOriginX,
                                                  y: 0,
-                                                 width: frame.size.width + badgeWidth / 2,
+                                                 width: frame.size.width + computedBadgeWidth / 2,
                                                  height: frame.size.height))
             path.append(UIBezierPath(roundedRect: borderRect(for: bezierRect),
                                      byRoundingCorners: .allCorners,
