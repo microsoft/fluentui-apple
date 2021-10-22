@@ -6,7 +6,12 @@
 import UIKit
 
 class BadgeLabelButton: UIButton {
-    let badgeLabel = BadgeLabel()
+
+    var item: UIBarButtonItem? {
+        didSet {
+            setupButton()
+        }
+    }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -24,7 +29,7 @@ class BadgeLabelButton: UIButton {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        prepareButtonForBadgeLabel()
+        setupButton()
     }
 
     private struct Constants {
@@ -37,6 +42,8 @@ class BadgeLabelButton: UIButton {
         static let badgeCornerRadii: CGFloat = 10
     }
 
+    private let badgeLabel = BadgeLabel()
+
     private var badgeWidth: CGFloat {
         return min(max(badgeLabel.intrinsicContentSize.width + Constants.badgeHorizontalPadding,
                        Constants.badgeMinWidth),
@@ -48,13 +55,11 @@ class BadgeLabelButton: UIButton {
     }
 
     private var badgeFrameOriginX: CGFloat {
-        var xOrigin: CGFloat
-        if isLeftToRightUserInterfaceLayoutDirection {
-            xOrigin = frame.size.width - contentEdgeInsets.left - badgeWidth / 2
-        } else {
-            xOrigin = contentEdgeInsets.left - badgeWidth / 2
-        }
-        return xOrigin
+        let xOrigin: CGFloat = isLeftToRightUserInterfaceLayoutDirection ?
+            frame.size.width - contentEdgeInsets.left  :
+            contentEdgeInsets.left
+
+        return (xOrigin - badgeWidth / 2)
     }
 
     private var badgeLabelFrame: CGRect {
@@ -81,12 +86,6 @@ class BadgeLabelButton: UIButton {
 
     private var isItemTitlePresent: Bool {
         return item?.title != nil
-    }
-
-    public var item: UIBarButtonItem? {
-        didSet {
-            prepareButtonForBadgeLabel()
-        }
     }
 
     private func setupButton() {
