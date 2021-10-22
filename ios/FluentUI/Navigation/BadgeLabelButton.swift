@@ -130,13 +130,13 @@ class BadgeLabelButton: UIButton {
             }
         }
 
-        if isItemTitlePresent {
-            titleLabel?.addSubview(badgeLabel)
-            titleLabel?.isHidden = false
-        } else {
-            imageView?.addSubview(badgeLabel)
-            imageView?.isHidden = false
-            imageView?.clipsToBounds = false
+        if isItemTitlePresent, let titleLabel = titleLabel {
+            titleLabel.addSubview(badgeLabel)
+            titleLabel.isHidden = false
+        } else if let imageView = imageView {
+            imageView.addSubview(badgeLabel)
+            imageView.isHidden = false
+            imageView.clipsToBounds = false
         }
 
         updateBadgeLabel()
