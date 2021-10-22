@@ -8,15 +8,6 @@ import SwiftUI
 /// Type of callback for both action and dismiss buttons.
 public typealias CardNudgeButtonAction = ((_ state: MSFCardNudgeState) -> Void)
 
-/// Style to draw the `CardNudge` control.
-@objc public enum MSFCardNudgeStyle: Int, CaseIterable {
-    /// Drawn with a shaded background and no outline.
-    case standard
-
-    /// Drawn with a neutral background and a thin outline.
-    case outline
-}
-
 /// Properties that can be used to customize the appearance of the `CardNudge`.
 @objc public protocol MSFCardNudgeState: NSObjectProtocol {
     /// Style to draw the control.

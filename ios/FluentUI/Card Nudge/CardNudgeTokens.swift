@@ -5,6 +5,15 @@
 
 import SwiftUI
 
+/// Style to draw the `CardNudge` control.
+@objc public enum MSFCardNudgeStyle: Int, CaseIterable {
+    /// Drawn with a shaded background and no outline.
+    case standard
+
+    /// Drawn with a neutral background and a thin outline.
+    case outline
+}
+
 public class CardNudgeTokens: NSObject {
     public var accentColor: ColorSet {
 #if BRAND_COLORS
