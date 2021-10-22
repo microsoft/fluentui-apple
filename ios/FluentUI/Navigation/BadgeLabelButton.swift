@@ -109,10 +109,10 @@ class BadgeLabelButton: UIButton {
         } else {
             badgeLabel.frame = badgeLabelFrame
 
-            let layer = CAShapeLayer()
-            layer.path = UIBezierPath(roundedRect: badgeLabel.bounds,
-                                      byRoundingCorners: .allCorners,
-                                      cornerRadii: CGSize(width: Constants.badgeCornerRadii, height: Constants.badgeCornerRadii)).cgPath
+            let badgeLabelLayer = CAShapeLayer()
+            badgeLabelLayer.path = UIBezierPath(roundedRect: badgeLabel.bounds,
+                                                byRoundingCorners: .allCorners,
+                                                cornerRadii: CGSize(width: Constants.badgeCornerRadii, height: Constants.badgeCornerRadii)).cgPath
             badgeLabel.layer.mask = layer
             badgeLabel.layer.cornerRadius = 0
 
@@ -135,7 +135,7 @@ class BadgeLabelButton: UIButton {
             let maskLayer = CAShapeLayer()
             maskLayer.fillRule = .evenOdd
             maskLayer.path = path.cgPath
-            self.layer.mask = maskLayer
+            layer.mask = maskLayer
         }
     }
 
