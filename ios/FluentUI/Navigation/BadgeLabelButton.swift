@@ -24,7 +24,7 @@ class BadgeLabelButton: UIButton {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        update()
+        prepareButtonForBadgeLabel()
     }
 
     private struct Constants {
@@ -82,11 +82,11 @@ class BadgeLabelButton: UIButton {
 
     public var item: UIBarButtonItem? {
         didSet {
-            update()
+            prepareButtonForBadgeLabel()
         }
     }
 
-    private func update() {
+    private func prepareButtonForBadgeLabel() {
         guard let item = item else {
             return
         }
