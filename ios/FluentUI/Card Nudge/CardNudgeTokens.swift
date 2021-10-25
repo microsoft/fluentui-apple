@@ -14,8 +14,8 @@ import SwiftUI
     case outline
 }
 
-public class CardNudgeTokens: NSObject {
-    public var accentColor: ColorSet {
+open class CardNudgeTokens: ControlTokens {
+    open var accentColor: ColorSet {
 #if BRAND_COLORS
         return BrandColors.shade20.value
 #else
@@ -24,15 +24,15 @@ public class CardNudgeTokens: NSObject {
 #endif
     }
 
-    public var accentIconSize: CGFloat {
+    open var accentIconSize: CGFloat {
         return GlobalTokens.Icon.Size.xxSmall.value
     }
 
-    public var accentPadding: CGFloat {
+    open var accentPadding: CGFloat {
         return GlobalTokens.Spacing.xxSmall.value
     }
 
-    public var backgroundColor: ColorSet {
+    open var backgroundColor: ColorSet {
         switch style {
         case .standard:
             return AliasTokens.Colors.Background.neutral2.value
@@ -41,7 +41,7 @@ public class CardNudgeTokens: NSObject {
         }
     }
 
-    public var buttonBackgroundColor: ColorSet {
+    open var buttonBackgroundColor: ColorSet {
 #if BRAND_COLORS
         return BrandColors.tint30.value
 #else
@@ -50,39 +50,39 @@ public class CardNudgeTokens: NSObject {
 #endif
     }
 
-    public var buttonInnerPaddingHorizontal: CGFloat {
+    open var buttonInnerPaddingHorizontal: CGFloat {
         return GlobalTokens.Spacing.small.value
     }
 
-    public var circleSize: CGFloat {
+    open var circleSize: CGFloat {
         return GlobalTokens.Icon.Size.xxLarge.value
     }
 
-    public var cornerRadius: CGFloat {
+    open var cornerRadius: CGFloat {
         return GlobalTokens.Border.Radius.xLarge.value
     }
 
-    public var horizontalPadding: CGFloat {
+    open var horizontalPadding: CGFloat {
         return GlobalTokens.Spacing.medium.value
     }
 
-    public var iconSize: CGFloat {
+    open var iconSize: CGFloat {
         return GlobalTokens.Icon.Size.xSmall.value
     }
 
-    public var interTextVerticalPadding: CGFloat {
+    open var interTextVerticalPadding: CGFloat {
         return GlobalTokens.Spacing.xxxSmall.value
     }
 
-    public var mainContentVerticalPadding: CGFloat {
+    open var mainContentVerticalPadding: CGFloat {
         return GlobalTokens.Spacing.small.value
     }
 
-    public var minimumHeight: CGFloat {
+    open var minimumHeight: CGFloat {
         return 56.0
     }
 
-    public var outlineColor: ColorSet {
+    open var outlineColor: ColorSet {
         switch style {
         case .standard:
             return AliasTokens.Colors.Background.neutral2.value
@@ -91,15 +91,15 @@ public class CardNudgeTokens: NSObject {
         }
     }
 
-    public var outlineWidth: CGFloat {
+    open var outlineWidth: CGFloat {
         return GlobalTokens.Border.Size.thin.value
     }
 
-    public var subtitleTextColor: ColorSet {
+    open var subtitleTextColor: ColorSet {
         return AliasTokens.Colors.Foreground.neutral3.value
     }
 
-    public var textColor: ColorSet {
+    open var textColor: ColorSet {
         switch style {
         case .standard:
             return AliasTokens.Colors.Foreground.neutral1.value
@@ -113,7 +113,7 @@ public class CardNudgeTokens: NSObject {
         }
     }
 
-    public var verticalPadding: CGFloat {
+    open var verticalPadding: CGFloat {
         return GlobalTokens.Spacing.xSmall.value
     }
 

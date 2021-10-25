@@ -263,6 +263,8 @@
 		92B7E6A326864AE900EFC15E /* MSFPersonaButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92B7E6A12684262900EFC15E /* MSFPersonaButton.swift */; };
 		92D5598126A0FD2800328FD3 /* CardNudge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D5598026A0FD2800328FD3 /* CardNudge.swift */; };
 		92D5598226A0FD2800328FD3 /* CardNudge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D5598026A0FD2800328FD3 /* CardNudge.swift */; };
+		92DEE2242723D34400E31ED0 /* ControlTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92DEE2232723D34400E31ED0 /* ControlTokens.swift */; };
+		92DEE2252723D34400E31ED0 /* ControlTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92DEE2232723D34400E31ED0 /* ControlTokens.swift */; };
 		92E7AD4F26FE51FF00AE7FF8 /* ColorSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E7AD4E26FE51FF00AE7FF8 /* ColorSet.swift */; };
 		92E7AD5026FE51FF00AE7FF8 /* ColorSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E7AD4E26FE51FF00AE7FF8 /* ColorSet.swift */; };
 		92E7AD5226FE904D00AE7FF8 /* DynamicColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E7AD5126FE904D00AE7FF8 /* DynamicColor.swift */; };
@@ -499,6 +501,7 @@
 		92A1E4F326A791590007ED60 /* MSFCardNudge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFCardNudge.swift; sourceTree = "<group>"; };
 		92B7E6A12684262900EFC15E /* MSFPersonaButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFPersonaButton.swift; sourceTree = "<group>"; };
 		92D5598026A0FD2800328FD3 /* CardNudge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardNudge.swift; sourceTree = "<group>"; };
+		92DEE2232723D34400E31ED0 /* ControlTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlTokens.swift; sourceTree = "<group>"; };
 		92E7AD4E26FE51FF00AE7FF8 /* ColorSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSet.swift; sourceTree = "<group>"; };
 		92E7AD5126FE904D00AE7FF8 /* DynamicColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicColor.swift; sourceTree = "<group>"; };
 		92EE82AC27025A94009D52B5 /* TokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenSet.swift; sourceTree = "<group>"; };
@@ -967,6 +970,7 @@
 			children = (
 				925D461E26FD18B200179583 /* AliasTokens.swift */,
 				92E7AD4E26FE51FF00AE7FF8 /* ColorSet.swift */,
+				92DEE2232723D34400E31ED0 /* ControlTokens.swift */,
 				925D461B26FD133600179583 /* GlobalTokens.swift */,
 				92EE82AC27025A94009D52B5 /* TokenSet.swift */,
 			);
@@ -1819,6 +1823,7 @@
 				5314E07F25F00F1A0099271A /* DateTimePickerViewComponentCell.swift in Sources */,
 				0AA874162600237A00D47421 /* PersonaView.swift in Sources */,
 				8035CADE2638E435007B3FD1 /* CommandingSection.swift in Sources */,
+				92DEE2252723D34400E31ED0 /* ControlTokens.swift in Sources */,
 				5314E0E425F012C00099271A /* NavigationController.swift in Sources */,
 				5373D5712694D66F0032A3B4 /* Theming.swift in Sources */,
 				5328D97326FBA3D700F3723B /* IndeterminateProgressBarModifiers.swift in Sources */,
@@ -2011,6 +2016,7 @@
 				FD5BBE3B214B2F44008964B4 /* Date+Extensions.swift in Sources */,
 				FD5BBE43214C73CE008964B4 /* EasyTapButton.swift in Sources */,
 				5373D5702694D66F0032A3B4 /* Theming.swift in Sources */,
+				92DEE2242723D34400E31ED0 /* ControlTokens.swift in Sources */,
 				B498141421E424920077B48D /* TableViewCell.swift in Sources */,
 				FD41C8B522DD3EA20086F899 /* NSLayoutConstraint+Extensions.swift in Sources */,
 				5328D97226FBA3D700F3723B /* IndeterminateProgressBarModifiers.swift in Sources */,
