@@ -131,7 +131,7 @@ if [ -f ${REMOVE_UNUSED_RESOURCES_SCRIPT_PATH} ]; then
     echo "=== Rebuilding resource bundle target ==="
     xcodebuild ${XCODEBUILDPARAMS} DISABLE_MANUAL_TARGET_ORDER_BUILD_WARNING=1 -project ${PROJECT_FILE_PATH} -target "MicrosoftFluentUI-FluentUIResources-ios" -sdk ${PLATFORM_NAME} -configuration ${CONFIGURATION} ARCHS="${ARCHS}" CONFIGURATION_BUILD_DIR="${CONFIGURATION_BUILD_DIR}" BUILD_ROOT="${BUILD_ROOT}" BUILT_PRODUCTS_DIR="${BUILT_PRODUCTS_DIR}" ${ACTION}
 
-    # Deletes the script to ensure it won't be needlessly executed more than once after each "pod install"
+    # Deletes the script to ensure it will not be needlessly executed more than once after each "pod install"
     rm ${REMOVE_UNUSED_RESOURCES_SCRIPT_PATH}
 
 fi',
