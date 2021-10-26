@@ -232,6 +232,23 @@ extension NavigationControllerDemoController: UIGestureRecognizerDelegate {
 // MARK: - RootViewController
 
 class RootViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    enum BarButtonItemTag: Int {
+        case dismiss
+        case select
+        case threeDay
+
+        var title: String {
+            switch self {
+            case .dismiss:
+                return "Dismiss"
+            case .select:
+                return "Select"
+            case .threeDay:
+                return "ThreeDay"
+            }
+        }
+    }
+
     private(set) lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.dataSource = self
@@ -244,6 +261,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     var showSearchProgressSpinner: Bool = true
     var showRainbowRingForAvatar: Bool = false
+    var showBadgeOnBarButtonItem: Bool = false
 
     var allowsCellSelection: Bool = false {
         didSet {
@@ -378,6 +396,18 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
 
         if indexPath.row == 2 {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: BooleanCell.identifier, for: indexPath) as? BooleanCell else {
+                return UITableViewCell()
+            }
+            cell.setup(title: "Show badge on right bar button items", isOn: showBadgeOnBarButtonItem)
+            cell.titleNumberOfLines = 0
+            cell.onValueChanged = { [weak self, weak cell] in
+                self?.shouldShowBadge(isOn: cell?.isOn ?? false)
+            }
+            return cell
+        }
+
+        if indexPath.row == 3 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: ActionsCell.identifier, for: indexPath) as? ActionsCell else {
                 return UITableViewCell()
             }
@@ -435,14 +465,18 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         if isInSelectionMode {
             navigationItem.rightBarButtonItems = nil
         } else {
-            var items = [UIBarButtonItem(title: "Dismiss", style: .plain, target: self, action: #selector(dismissSelf))]
+            let dismissItem = UIBarButtonItem(title: BarButtonItemTag.dismiss.title, style: .plain, target: self, action: #selector(dismissSelf))
+            dismissItem.tag = BarButtonItemTag.dismiss.rawValue
+            var items = [dismissItem]
             if allowsCellSelection {
-                items.append(UIBarButtonItem(title: "Select", style: .plain, target: self, action: #selector(showSelectionMode)))
+                let selectItem = UIBarButtonItem(title: BarButtonItemTag.select.title, style: .plain, target: self, action: #selector(showSelectionMode))
+                selectItem.tag = BarButtonItemTag.select.rawValue
+                items.append(selectItem)
             } else {
-                let modalViewItem = UIBarButtonItem(image: UIImage(named: "3-day-view-28x28"), landscapeImagePhone: UIImage(named: "3-day-view-24x24"), style: .plain, target: self, action: #selector(showModalView))
-                modalViewItem.accessibilityLabel = "Modal View"
-                modalViewItem.tag = 1
-                items.append(modalViewItem)
+                let threeDayItem = UIBarButtonItem(image: UIImage(named: "3-day-view-28x28"), landscapeImagePhone: UIImage(named: "3-day-view-24x24"), style: .plain, target: self, action: #selector(showModalView))
+                threeDayItem.accessibilityLabel = "Modal View"
+                threeDayItem.tag = BarButtonItemTag.threeDay.rawValue
+                items.append(threeDayItem)
             }
             navigationItem.rightBarButtonItems = items
         }
@@ -460,9 +494,25 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         showRainbowRingForAvatar = isOn
     }
 
+    @objc private func shouldShowBadge(isOn: Bool) {
+        guard let items = navigationItem.rightBarButtonItems, !items.isEmpty else {
+            return
+        }
+        for item in items {
+            if item.tag == BarButtonItemTag.dismiss.rawValue {
+                item.badgeValue = isOn ? "12345" : nil
+            } else if item.tag == BarButtonItemTag.threeDay.rawValue {
+                item.badgeValue = isOn ? "12" : nil
+            } else {
+                item.badgeValue = isOn ? "New" : nil
+            }
+        }
+        showBadgeOnBarButtonItem = isOn
+    }
+
     @objc private func showTooltipButtonPressed() {
         let navigationBar = msfNavigationController?.msfNavigationBar
-        guard let view = navigationBar?.barButtonItemView(with: 1) else {
+        guard let view = navigationBar?.barButtonItemView(with: BarButtonItemTag.threeDay.rawValue) else {
             return
         }
         Tooltip.shared.show(with: "Tap anywhere for this tooltip to dismiss.",

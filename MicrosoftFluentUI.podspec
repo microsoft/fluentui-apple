@@ -116,7 +116,6 @@ Pod::Spec.new do |s|
 
 # Executes only once per "pod install" (if the script file exists)
 if [ -f ${REMOVE_UNUSED_RESOURCES_SCRIPT_PATH} ]; then
-
     echo "=== Removing unused resources from FluentUI-ios.xcassets ==="
 
     XCODEBUILDPARAMS="-quiet "
@@ -134,8 +133,7 @@ if [ -f ${REMOVE_UNUSED_RESOURCES_SCRIPT_PATH} ]; then
     # Deletes the script to ensure it will not be needlessly executed more than once after each "pod install"
     rm ${REMOVE_UNUSED_RESOURCES_SCRIPT_PATH}
 
-fi',
-                              :execution_position => :before_compile }
+fi', :execution_position => :before_compile }
     core_ios.preserve_paths = ["ios/FluentUI/Core/Core.resources.xcfilelist",
                                "scripts/removeUnusedResourcesFromAssets.swift"]
     core_ios.source_files = ["ios/FluentUI/Configuration/**/*.{swift,h}",
