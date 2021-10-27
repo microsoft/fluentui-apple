@@ -20,18 +20,25 @@ public protocol PillButtonBarDelegate {
 open class PillButtonBarItem: NSObject {
     @objc public let title: String
 
-    @objc public init(title: String, isUnread: Bool = false) {
+    /// Creates a new instance of the PillButtonBarItem that holds data used to create a pill button in a PillButtonBar.
+    /// - Parameter title: Title that will be displayed by a pill button in the PillButtonBar.
+    @objc public init(title: String) {
         self.title = title
-        self.isUnread = isUnread
         super.init()
     }
 
-    @objc public convenience init(title: String) {
-        self.init(title: title, isUnread: false)
+    /// Creates a new instance of the PillButtonBarItem that holds data used to create a pill button in a PillButtonBar.
+    /// - Parameters:
+    ///   - title: Title that will be displayed by a pill button in the PillButtonBar.
+    ///   - isUnread: Whether the pill button shows the mark that represents the "unread" state.
+    @objc public convenience init(title: String, isUnread: Bool = false) {
+        self.init(title: title)
+        self.isUnread = isUnread
     }
 
-    /// This value will determine whether or not to show dot next to the pill button label
-    public var isUnread: Bool {
+    /// This value will determine whether or not to show the mark that represents the "unread" state (dot next to the pill button label).
+    /// The default value of this property is false.
+    public var isUnread: Bool = false {
        didSet {
            if oldValue != isUnread {
                NotificationCenter.default.post(name: PillButtonBarItem.isUnreadValueDidChangeNotification, object: self)
