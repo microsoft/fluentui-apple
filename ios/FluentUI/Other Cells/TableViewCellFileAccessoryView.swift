@@ -225,7 +225,7 @@ open class TableViewCellFileAccessoryView: UIView {
 
     private func updateSharedStatus() {
         let imageName = isShared ? "ic_fluent_people_24_regular" : "ic_fluent_person_24_regular"
-        sharedStatusImageView.image = UIImage.staticImageNamed(imageName)?.image(withPrimaryColor: Colors.gray500)
+        sharedStatusImageView.image = UIImage.staticImageNamed(imageName)?.withTintColor(Colors.gray500, renderingMode: .alwaysOriginal)
         sharedStatusLabel.text = isShared ? "Common.Shared".localized : "Common.OnlyMe".localized
     }
 

@@ -80,7 +80,7 @@ class SideTabBarDemoController: DemoController {
         var premiumImage = UIImage(named: "ic_fluent_premium_24_regular")!
         if let window = view.window {
             let primaryColor = Colors.primary(for: window)
-            premiumImage = premiumImage.image(withPrimaryColor: primaryColor)
+            premiumImage = premiumImage.withTintColor(primaryColor, renderingMode: .alwaysOriginal)
         }
 
         sideTabBar.bottomItems = [
