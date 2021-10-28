@@ -101,3 +101,24 @@ class DemoColorGreenTheme: NSObject, ColorProviding {
         return UIColor(named: "Colors/DemoPrimaryShade30Color")
     }
 }
+
+// TODO: this will be replaced with our branding color system once it exists,
+// but in the meantime it's a good demo of swapping out tokens.
+class DemoCardNudgeTokens: CardNudgeTokens {
+    let greenPrimary: ColorSet = ColorSet(light: 0x107C41, dark: 0x10893C)
+    override var accentColor: ColorSet {
+        return greenPrimary
+    }
+    override var subtitleTextColor: ColorSet {
+        return greenPrimary
+    }
+    override var textColor: ColorSet {
+        return greenPrimary
+    }
+}
+
+class DemoTokenFactory: ControlTokenFactory {
+    override var cardNudgeTokens: CardNudgeTokens {
+        return DemoCardNudgeTokens()
+    }
+}

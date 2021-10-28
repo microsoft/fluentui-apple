@@ -182,8 +182,8 @@
 		923DF2E82712B6C400637646 /* FluentUIResources-ios.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A5DA88FC226FAA01000A8EA8 /* FluentUIResources-ios.bundle */; };
 		925D461D26FD133600179583 /* GlobalTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925D461B26FD133600179583 /* GlobalTokens.swift */; };
 		925D462026FD18B200179583 /* AliasTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925D461E26FD18B200179583 /* AliasTokens.swift */; };
-		9275105526815A7100F12730 /* MSFPersonaButtonCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9275105426815A7100F12730 /* MSFPersonaButtonCarousel.swift */; };
 		9275105626815A7100F12730 /* MSFPersonaButtonCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9275105426815A7100F12730 /* MSFPersonaButtonCarousel.swift */; };
+		928034A8272A657F00895D04 /* ControlHostingContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 928034A6272A657F00895D04 /* ControlHostingContainer.swift */; };
 		9298798B2669A875002B1EB4 /* PersonaButtonTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927E34C62668350800998031 /* PersonaButtonTokens.swift */; };
 		92987990266A8E1C002B1EB4 /* MSFPersonaButtonTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9298798D266A8E1C002B1EB4 /* MSFPersonaButtonTokens.generated.swift */; };
 		92987992266A8E1C002B1EB4 /* MSFPersonaButtonCarouselTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9298798E266A8E1C002B1EB4 /* MSFPersonaButtonCarouselTokens.generated.swift */; };
@@ -192,6 +192,8 @@
 		92A1E4F526A791590007ED60 /* MSFCardNudge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A1E4F326A791590007ED60 /* MSFCardNudge.swift */; };
 		92B7E6A326864AE900EFC15E /* MSFPersonaButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92B7E6A12684262900EFC15E /* MSFPersonaButton.swift */; };
 		92D5598226A0FD2800328FD3 /* CardNudge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D5598026A0FD2800328FD3 /* CardNudge.swift */; };
+		92DEE21C272338F400E31ED0 /* ControlTokenFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92DEE21A272338F400E31ED0 /* ControlTokenFactory.swift */; };
+		92DEE21F2723395B00E31ED0 /* ControlTokenFactory+CardNudge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92DEE21D2723395B00E31ED0 /* ControlTokenFactory+CardNudge.swift */; };
 		92DEE2252723D34400E31ED0 /* ControlTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92DEE2232723D34400E31ED0 /* ControlTokens.swift */; };
 		92E7AD5026FE51FF00AE7FF8 /* ColorSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E7AD4E26FE51FF00AE7FF8 /* ColorSet.swift */; };
 		92E7AD5326FE904D00AE7FF8 /* DynamicColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E7AD5126FE904D00AE7FF8 /* DynamicColor.swift */; };
@@ -301,6 +303,7 @@
 		925D461E26FD18B200179583 /* AliasTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AliasTokens.swift; sourceTree = "<group>"; };
 		9275105426815A7100F12730 /* MSFPersonaButtonCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFPersonaButtonCarousel.swift; sourceTree = "<group>"; };
 		927E34C62668350800998031 /* PersonaButtonTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaButtonTokens.swift; sourceTree = "<group>"; };
+		928034A6272A657F00895D04 /* ControlHostingContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlHostingContainer.swift; sourceTree = "<group>"; };
 		9298798D266A8E1C002B1EB4 /* MSFPersonaButtonTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFPersonaButtonTokens.generated.swift; sourceTree = "<group>"; };
 		9298798E266A8E1C002B1EB4 /* MSFPersonaButtonCarouselTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFPersonaButtonCarouselTokens.generated.swift; sourceTree = "<group>"; };
 		929DD255266ED3AC00E8175E /* PersonaButtonCarouselTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonaButtonCarouselTokens.swift; sourceTree = "<group>"; };
@@ -308,6 +311,8 @@
 		92A1E4F326A791590007ED60 /* MSFCardNudge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFCardNudge.swift; sourceTree = "<group>"; };
 		92B7E6A12684262900EFC15E /* MSFPersonaButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFPersonaButton.swift; sourceTree = "<group>"; };
 		92D5598026A0FD2800328FD3 /* CardNudge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardNudge.swift; sourceTree = "<group>"; };
+		92DEE21A272338F400E31ED0 /* ControlTokenFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlTokenFactory.swift; sourceTree = "<group>"; };
+		92DEE21D2723395B00E31ED0 /* ControlTokenFactory+CardNudge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ControlTokenFactory+CardNudge.swift"; sourceTree = "<group>"; };
 		92DEE2232723D34400E31ED0 /* ControlTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlTokens.swift; sourceTree = "<group>"; };
 		92E7AD4E26FE51FF00AE7FF8 /* ColorSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSet.swift; sourceTree = "<group>"; };
 		92E7AD5126FE904D00AE7FF8 /* DynamicColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicColor.swift; sourceTree = "<group>"; };
@@ -757,6 +762,7 @@
 			isa = PBXGroup;
 			children = (
 				925D461A26FD126800179583 /* Tokens */,
+				92DEE21A272338F400E31ED0 /* ControlTokenFactory.swift */,
 				92E7AD5126FE904D00AE7FF8 /* DynamicColor.swift */,
 			);
 			path = Theme;
@@ -780,6 +786,7 @@
 				92D5598026A0FD2800328FD3 /* CardNudge.swift */,
 				92079C8E26B66E5100D688DA /* CardNudgeModifiers.swift */,
 				920945472703DDA000B38E1A /* CardNudgeTokens.swift */,
+				92DEE21D2723395B00E31ED0 /* ControlTokenFactory+CardNudge.swift */,
 				92A1E4F326A791590007ED60 /* MSFCardNudge.swift */,
 			);
 			path = "Card Nudge";
@@ -943,6 +950,7 @@
 			children = (
 				925D461926FD124B00179583 /* Theme */,
 				A5CEC16C20D98EE70016922A /* Colors.swift */,
+				928034A6272A657F00895D04 /* ControlHostingContainer.swift */,
 				A559BB82212B7D870055E107 /* FluentUIFramework.swift */,
 				535559E22711411E0094A871 /* FluentUIHostingController.swift */,
 				5373D56E2694D66F0032A3B4 /* FluentUIStyle.generated.swift */,
@@ -1451,6 +1459,7 @@
 				5314E2BB25F024C60099271A /* CALayer+Extensions.swift in Sources */,
 				5314E12B25F016230099271A /* PillButtonBar.swift in Sources */,
 				53097D09270288FB00A6E4DC /* Button.swift in Sources */,
+				928034A8272A657F00895D04 /* ControlHostingContainer.swift in Sources */,
 				53097D1F2702890900A6E4DC /* MSFHeaderFooterTokens.generated.swift in Sources */,
 				5314E07E25F00F1A0099271A /* DateTimePickerView.swift in Sources */,
 				5328D97726FBA3D700F3723B /* IndeterminateProgressBar.swift in Sources */,
@@ -1464,6 +1473,7 @@
 				92E7AD5326FE904D00AE7FF8 /* DynamicColor.swift in Sources */,
 				5314E08025F00F1A0099271A /* DateTimePickerViewComponent.swift in Sources */,
 				532FE3D226EA6D74007539C0 /* MSFActivityIndicatorTokens.generated.swift in Sources */,
+				92DEE21C272338F400E31ED0 /* ControlTokenFactory.swift in Sources */,
 				5314E06325F00EFD0099271A /* CalendarViewDayMonthYearCell.swift in Sources */,
 				5314E1A225F01A7C0099271A /* ActivityIndicatorCell.swift in Sources */,
 				5373D5652694D65C0032A3B4 /* AvatarTokens.swift in Sources */,
@@ -1506,6 +1516,7 @@
 				92EE82AE27025A94009D52B5 /* TokenSet.swift in Sources */,
 				53097D0B270288FB00A6E4DC /* ButtonModifiers.swift in Sources */,
 				5314E28125F0240D0099271A /* DateComponents+Extensions.swift in Sources */,
+				92DEE2252723D34400E31ED0 /* ControlTokens.swift in Sources */,
 				5314E07025F00F140099271A /* DatePickerController.swift in Sources */,
 				436F6B3F26F4924200D18073 /* MSFNotificationTokens.generated.swift in Sources */,
 				5373D5692694D65C0032A3B4 /* MSFAvatarTokens.generated.swift in Sources */,
@@ -1599,6 +1610,7 @@
 				0ACD82192620453B0035CD9F /* PersonaViewTokens.swift in Sources */,
 				5314E2DA25F025370099271A /* Fonts.swift in Sources */,
 				5373D5772694D66F0032A3B4 /* SwiftUI+ViewModifiers.swift in Sources */,
+				92DEE21F2723395B00E31ED0 /* ControlTokenFactory+CardNudge.swift in Sources */,
 				5314E07F25F00F1A0099271A /* DateTimePickerViewComponentCell.swift in Sources */,
 				0AA874162600237A00D47421 /* PersonaView.swift in Sources */,
 				8035CADE2638E435007B3FD1 /* CommandingSection.swift in Sources */,
