@@ -165,7 +165,6 @@ class TabBarItemView: UIControl {
         static let badgeMinWidth: CGFloat = 16
         static let defaultBadgeMaxWidth: CGFloat = 42
         static let badgeBorderWidth: CGFloat = 2
-        static let badgeFontSize: CGFloat = 11
         static let badgeHorizontalPadding: CGFloat = 10
         static let badgeCorderRadii: CGFloat = 10
     }
@@ -215,17 +214,7 @@ class TabBarItemView: UIControl {
         return titleLabel
     }()
 
-    private let badgeView: UILabel = {
-        let badgeView = UILabel(frame: .zero)
-        badgeView.layer.masksToBounds = true
-        badgeView.backgroundColor = Colors.Palette.dangerPrimary.color
-        badgeView.textColor = .white
-        badgeView.textAlignment = .center
-        badgeView.font = UIFont.systemFont(ofSize: Constants.badgeFontSize, weight: .regular)
-        badgeView.isHidden = true
-
-        return badgeView
-    }()
+    let badgeView: UILabel = BadgeLabel(frame: .zero)
 
     private var suggestImageSize: CGFloat {
         didSet {

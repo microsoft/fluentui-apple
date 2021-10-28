@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'MicrosoftFluentUI'
-  s.version          = '0.3.5'
+  s.version          = '0.3.6'
   s.summary          = 'Fluent UI is a set of reusable UI controls and tools'
   s.homepage         = "https://www.microsoft.com/design/fluent/#/"
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
@@ -114,20 +114,28 @@ Pod::Spec.new do |s|
     core_ios.resource_bundle = { 'FluentUIResources-ios' => ["apple/Resources/**/*.{json,xcassets}",
                                                              "ios/FluentUI/**/*.{storyboard,xib,xcassets,strings,stringsdict}"] }
     core_ios.script_phase = { :name => 'Optimize resource bundle',
-                              :script => 'echo "=== Removing unused resources from FluentUI-ios.xcassets ==="
+                              :script => 'REMOVE_UNUSED_RESOURCES_SCRIPT_PATH=${PODS_TARGET_SRCROOT}/scripts/removeUnusedResourcesFromAssets.swift
 
-XCODEBUILDPARAMS="-quiet"
+# Executes only once per "pod install" (if the script file exists)
+if [ -f ${REMOVE_UNUSED_RESOURCES_SCRIPT_PATH} ]; then
+    echo "=== Removing unused resources from FluentUI-ios.xcassets ==="
 
-if [ "${CONFIGURATION}" = "Debug" ]; then
-    CONDITIONALCOMPILATIONFLAGS="-D VERBOSE_OUTPUT"
-    XCODEBUILDPARAMS=""
-fi
+    XCODEBUILDPARAMS="-quiet "
 
-xcrun --sdk macosx swift ${CONDITIONALCOMPILATIONFLAGS} ${PODS_TARGET_SRCROOT}/scripts/removeUnusedResourcesFromAssets.swift ${LOCROOT}/MicrosoftFluentUI/ios/FluentUI/Resources/FluentUI-ios.xcassets ${LOCROOT}/MicrosoftFluentUI/ios
+    if [ "${CONFIGURATION}" = "Debug" ]; then
+        CONDITIONALCOMPILATIONFLAGS="-D VERBOSE_OUTPUT"
+        XCODEBUILDPARAMS=""
+    fi
 
-echo "=== Rebuilding resource bundle target ==="
-xcodebuild ${XCODEBUILDPARAMS} -project ${PROJECT_FILE_PATH} -target "MicrosoftFluentUI-FluentUIResources-ios" -sdk ${PLATFORM_NAME} -configuration ${CONFIGURATION} ARCHS="${ARCHS}" CONFIGURATION_BUILD_DIR="${CONFIGURATION_BUILD_DIR}" BUILD_ROOT="${BUILD_ROOT}" BUILT_PRODUCTS_DIR="${BUILT_PRODUCTS_DIR}" ${ACTION}',
-                              :execution_position => :before_compile }
+    xcrun --sdk macosx swift ${CONDITIONALCOMPILATIONFLAGS} ${REMOVE_UNUSED_RESOURCES_SCRIPT_PATH} ${LOCROOT}/MicrosoftFluentUI/ios/FluentUI/Resources/FluentUI-ios.xcassets ${LOCROOT}/MicrosoftFluentUI/ios
+
+    echo "=== Rebuilding resource bundle target ==="
+    xcodebuild ${XCODEBUILDPARAMS} DISABLE_MANUAL_TARGET_ORDER_BUILD_WARNING=1 -project ${PROJECT_FILE_PATH} -target "MicrosoftFluentUI-FluentUIResources-ios" -sdk ${PLATFORM_NAME} -configuration ${CONFIGURATION} ARCHS="${ARCHS}" CONFIGURATION_BUILD_DIR="${CONFIGURATION_BUILD_DIR}" BUILD_ROOT="${BUILD_ROOT}" BUILT_PRODUCTS_DIR="${BUILT_PRODUCTS_DIR}" ${ACTION}
+
+    # Deletes the script to ensure it will not be needlessly executed more than once after each "pod install"
+    rm ${REMOVE_UNUSED_RESOURCES_SCRIPT_PATH}
+
+fi', :execution_position => :before_compile }
     core_ios.preserve_paths = ["ios/FluentUI/Core/Core.resources.xcfilelist",
                                "scripts/removeUnusedResourcesFromAssets.swift"]
     core_ios.source_files = ["ios/FluentUI/Configuration/**/*.{swift,h}",

@@ -5,46 +5,66 @@
 
 import UIKit
 
-// Register your control demos here
-let demos: [(title: String, controllerClass: UIViewController.Type)] = [
-    ("ActivityIndicator (Vnext)", ActivityIndicatorDemoController.self),
-    ("Avatar (Vnext)", AvatarDemoController.self),
-    ("AvatarGroup (Vnext)", AvatarGroupDemoController.self),
-    ("Button (Vnext)", ButtonDemoController.self),
-    ("CardNudge (Vnext)", CardNudgeDemoController.self),
-    ("IndeterminateProgressBar (Vnext)", IndeterminateProgressBarDemoController.self),
-    ("LeftNav (Vnext)", LeftNavDemoController.self),
-    ("List (Vnext)", ListDemoController.self),
-    ("NotificationView (Vnext)", NotificationViewDemoController.self),
-    ("PersonaButtonCarousel (Vnext)", PersonaButtonCarouselDemoController.self),
-    ("Theming (Vnext)", ThemingDemoController.self),
-    ("BadgeField", BadgeFieldDemoController.self),
-    ("BadgeView", BadgeViewDemoController.self),
-    ("BottomCommandingController", BottomCommandingDemoController.self),
-    ("BottomSheetController", BottomSheetDemoController.self),
-    ("Button", ButtonLegacyDemoController.self),
-    ("Card", CardViewDemoController.self),
-    ("Color", ColorDemoController.self),
-    ("CommandBar (Vnext)", CommandBarDemoController.self),
-    ("DateTimePicker", DateTimePickerDemoController.self),
-    ("DrawerController (Vnext)", DrawerDemoController.self),
-    ("HUD", HUDDemoController.self),
-    ("Label", LabelDemoController.self),
-    ("NavigationController", NavigationControllerDemoController.self),
-    ("PeoplePicker", PeoplePickerDemoController.self),
-    ("PersonaListView", PersonaListViewDemoController.self),
-    ("PillButtonBar", PillButtonBarDemoController.self),
-    ("PopupMenuController", PopupMenuDemoController.self),
-    ("SearchBar", SearchBarDemoController.self),
-    ("SegmentedControl", SegmentedControlDemoController.self),
-    ("ShimmerView", ShimmerViewDemoController.self),
-    ("SideTabBar", SideTabBarDemoController.self),
-    ("TabBarView", TabBarViewDemoController.self),
-    ("TableViewCell", TableViewCellDemoController.self),
-    ("TableViewCellFileAccessoryView", TableViewCellFileAccessoryViewDemoController.self),
-    ("TableViewCellShimmer", TableViewCellShimmerDemoController.self),
-    ("TableViewHeaderFooterView", TableViewHeaderFooterViewDemoController.self),
-    ("Tooltip", TooltipDemoController.self),
-    ("Other cells", OtherCellsDemoController.self),
-    ("DEBUG: Objective-C Demos", ObjectiveCDemoController.self)
-]
+/// Definition of a DemoController
+struct DemoDescriptor: Identifiable {
+    let title: String
+    let controllerClass: UIViewController.Type
+    let id = UUID()
+
+    init(_ title: String, _ controllerClass: UIViewController.Type, debugOnly: Bool = false) {
+        self.title = title
+        self.controllerClass = controllerClass
+    }
+}
+
+struct Demos {
+    static let vNext: [DemoDescriptor] = [
+        DemoDescriptor("ActivityIndicator", ActivityIndicatorDemoController.self),
+        DemoDescriptor("Avatar", AvatarDemoController.self),
+        DemoDescriptor("AvatarGroup", AvatarGroupDemoController.self),
+        DemoDescriptor("Button", ButtonDemoController.self),
+        DemoDescriptor("CardNudge", CardNudgeDemoController.self),
+        DemoDescriptor("CommandBar", CommandBarDemoController.self),
+        DemoDescriptor("DrawerController", DrawerDemoController.self),
+        DemoDescriptor("IndeterminateProgressBar", IndeterminateProgressBarDemoController.self),
+        DemoDescriptor("LeftNav", LeftNavDemoController.self),
+        DemoDescriptor("List", ListDemoController.self),
+        DemoDescriptor("NotificationView", NotificationViewDemoController.self),
+        DemoDescriptor("PersonaButtonCarousel", PersonaButtonCarouselDemoController.self),
+        DemoDescriptor("Theming (Vnext)", ThemingDemoController.self)
+    ]
+
+    static let controls: [DemoDescriptor] = [
+        DemoDescriptor("BadgeField", BadgeFieldDemoController.self),
+        DemoDescriptor("BadgeView", BadgeViewDemoController.self),
+        DemoDescriptor("BottomCommandingController", BottomCommandingDemoController.self),
+        DemoDescriptor("BottomSheetController", BottomSheetDemoController.self),
+        DemoDescriptor("Button", ButtonLegacyDemoController.self),
+        DemoDescriptor("Card", CardViewDemoController.self),
+        DemoDescriptor("Color", ColorDemoController.self),
+        DemoDescriptor("CommandBar", CommandBarDemoController.self),
+        DemoDescriptor("DateTimePicker", DateTimePickerDemoController.self),
+        DemoDescriptor("HUD", HUDDemoController.self),
+        DemoDescriptor("Label", LabelDemoController.self),
+        DemoDescriptor("NavigationController", NavigationControllerDemoController.self),
+        DemoDescriptor("PeoplePicker", PeoplePickerDemoController.self),
+        DemoDescriptor("PersonaListView", PersonaListViewDemoController.self),
+        DemoDescriptor("PillButtonBar", PillButtonBarDemoController.self),
+        DemoDescriptor("PopupMenuController", PopupMenuDemoController.self),
+        DemoDescriptor("SearchBar", SearchBarDemoController.self),
+        DemoDescriptor("SegmentedControl", SegmentedControlDemoController.self),
+        DemoDescriptor("ShimmerView", ShimmerViewDemoController.self),
+        DemoDescriptor("SideTabBar", SideTabBarDemoController.self),
+        DemoDescriptor("TabBarView", TabBarViewDemoController.self),
+        DemoDescriptor("TableViewCell", TableViewCellDemoController.self),
+        DemoDescriptor("TableViewCellFileAccessoryView", TableViewCellFileAccessoryViewDemoController.self),
+        DemoDescriptor("TableViewCellShimmer", TableViewCellShimmerDemoController.self),
+        DemoDescriptor("TableViewHeaderFooterView", TableViewHeaderFooterViewDemoController.self),
+        DemoDescriptor("Tooltip", TooltipDemoController.self),
+        DemoDescriptor("Other cells", OtherCellsDemoController.self)
+    ]
+
+    static let debug: [DemoDescriptor] = [
+        DemoDescriptor("DEBUG: Objective-C Demos", ObjectiveCDemoController.self)
+    ]
+}
