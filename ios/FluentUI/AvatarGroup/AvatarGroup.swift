@@ -245,22 +245,20 @@ public struct AvatarGroup: View {
                        height: geo.size.height,
                        alignment: .leading)
             }
-            .frame(width: calcWidth(), height: groupHeight)
+            .frame(width: calcwidth, height: groupHeight)
         }
 
         return avatarGroupContent
     }
 
-    private func calcWidth() -> CGFloat {
+    private var calcwidth: CGFloat {
         var width: CGFloat = 0
         let maxShown = state.maxDisplayedAvatars < state.avatars.count ? state.maxDisplayedAvatars : state.avatars.count
+        let interspace: CGFloat = tokens.interspace
+        let avatarSize: CGFloat = tokens.size.size
         for index in 0 ..< maxShown {
-            width += state.avatars[index].size.size
-            if index < maxShown - 1 {
-                width += tokens.interspace
-            } else {
-                width += tokens.size.size
-            }
+            width += state.avatars[index].totalSize()
+            width += index < maxShown - 1 ? interspace : avatarSize
         }
         return width
     }
