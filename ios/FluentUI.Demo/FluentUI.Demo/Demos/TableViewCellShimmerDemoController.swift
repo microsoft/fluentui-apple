@@ -4,6 +4,7 @@
 //
 
 import FluentUI
+import UIKit
 
 // MARK: TableViewCellShimmerDemoController
 

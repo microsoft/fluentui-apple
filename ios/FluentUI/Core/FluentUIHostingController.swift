@@ -42,6 +42,13 @@ extension UIView {
 /// FluentUI specific implementation of the UIHostingController which adds a workaround for disabling safeAreaInsets for its view.
 class FluentUIHostingController: UIHostingController<AnyView> {
 
+    /// iOS 15.0 fix for UIHostingController that does not automatically resize to hug subviews
+    override func viewDidLayoutSubviews() {
+            super.viewDidLayoutSubviews()
+
+            view.setNeedsUpdateConstraints()
+    }
+
     /// Static constant that will be guaranteed to have its initialization executed only once during the lifetime of the application.
     private static let swizzleSafeAreaInsetsOnce: Void = {
         // A FluentUIHostingController instance needs to be created so that the class type for the private UIHostingViewwe can be retrived.

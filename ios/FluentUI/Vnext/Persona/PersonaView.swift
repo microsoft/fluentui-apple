@@ -46,6 +46,16 @@ class MSFPersonaViewStateImpl: MSFListCellState, PersonaViewState {
         }
     }
 
+    var hasButtonAccessibilityTrait: Bool {
+        get {
+            return avatarState.hasButtonAccessibilityTrait
+        }
+
+        set {
+            avatarState.hasButtonAccessibilityTrait = newValue
+        }
+    }
+
     var hasPointerInteraction: Bool {
         get {
             return avatarState.hasPointerInteraction
