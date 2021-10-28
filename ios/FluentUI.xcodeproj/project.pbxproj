@@ -177,11 +177,10 @@
 		8FA3CB5B246B19EA0049E431 /* ColorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA3CB5A246B19EA0049E431 /* ColorTests.swift */; };
 		8FD01188228A82A600D25925 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CEC16C20D98EE70016922A /* Colors.swift */; };
 		92088EF92666DB2C003F571A /* PersonaButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92088EF72666DB2C003F571A /* PersonaButton.swift */; };
+		920945492703DDA000B38E1A /* CardNudgeTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 920945472703DDA000B38E1A /* CardNudgeTokens.swift */; };
 		923DF2E72712B6AB00637646 /* libFluentUI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FD01166228A820600D25925 /* libFluentUI.a */; };
 		923DF2E82712B6C400637646 /* FluentUIResources-ios.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A5DA88FC226FAA01000A8EA8 /* FluentUIResources-ios.bundle */; };
-		925D461C26FD133600179583 /* GlobalTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925D461B26FD133600179583 /* GlobalTokens.swift */; };
 		925D461D26FD133600179583 /* GlobalTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925D461B26FD133600179583 /* GlobalTokens.swift */; };
-		925D461F26FD18B200179583 /* AliasTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925D461E26FD18B200179583 /* AliasTokens.swift */; };
 		925D462026FD18B200179583 /* AliasTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925D461E26FD18B200179583 /* AliasTokens.swift */; };
 		9275105526815A7100F12730 /* MSFPersonaButtonCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9275105426815A7100F12730 /* MSFPersonaButtonCarousel.swift */; };
 		9275105626815A7100F12730 /* MSFPersonaButtonCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9275105426815A7100F12730 /* MSFPersonaButtonCarousel.swift */; };
@@ -190,11 +189,10 @@
 		92987992266A8E1C002B1EB4 /* MSFPersonaButtonCarouselTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9298798E266A8E1C002B1EB4 /* MSFPersonaButtonCarouselTokens.generated.swift */; };
 		929DD257266ED3AC00E8175E /* PersonaButtonCarouselTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 929DD255266ED3AC00E8175E /* PersonaButtonCarouselTokens.swift */; };
 		929DD25A266ED3B600E8175E /* PersonaButtonCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 929DD258266ED3B600E8175E /* PersonaButtonCarousel.swift */; };
-		92A1E4ED26A741F60007ED60 /* MSFCardNudgeTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A1E4EB26A741F60007ED60 /* MSFCardNudgeTokens.swift */; };
 		92A1E4F526A791590007ED60 /* MSFCardNudge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A1E4F326A791590007ED60 /* MSFCardNudge.swift */; };
-		92ABB39326BC8E9900BA179A /* MSFCardNudgeTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92ABB39126BC8E9900BA179A /* MSFCardNudgeTokens.generated.swift */; };
 		92B7E6A326864AE900EFC15E /* MSFPersonaButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92B7E6A12684262900EFC15E /* MSFPersonaButton.swift */; };
 		92D5598226A0FD2800328FD3 /* CardNudge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D5598026A0FD2800328FD3 /* CardNudge.swift */; };
+		92DEE2252723D34400E31ED0 /* ControlTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92DEE2232723D34400E31ED0 /* ControlTokens.swift */; };
 		92E7AD5026FE51FF00AE7FF8 /* ColorSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E7AD4E26FE51FF00AE7FF8 /* ColorSet.swift */; };
 		92E7AD5326FE904D00AE7FF8 /* DynamicColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E7AD5126FE904D00AE7FF8 /* DynamicColor.swift */; };
 		92EE82AE27025A94009D52B5 /* TokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92EE82AC27025A94009D52B5 /* TokenSet.swift */; };
@@ -298,6 +296,7 @@
 		8FD01166228A820600D25925 /* libFluentUI.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libFluentUI.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		92079C8E26B66E5100D688DA /* CardNudgeModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardNudgeModifiers.swift; sourceTree = "<group>"; };
 		92088EF72666DB2C003F571A /* PersonaButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaButton.swift; sourceTree = "<group>"; };
+		920945472703DDA000B38E1A /* CardNudgeTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardNudgeTokens.swift; sourceTree = "<group>"; };
 		925D461B26FD133600179583 /* GlobalTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalTokens.swift; sourceTree = "<group>"; };
 		925D461E26FD18B200179583 /* AliasTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AliasTokens.swift; sourceTree = "<group>"; };
 		9275105426815A7100F12730 /* MSFPersonaButtonCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFPersonaButtonCarousel.swift; sourceTree = "<group>"; };
@@ -306,11 +305,10 @@
 		9298798E266A8E1C002B1EB4 /* MSFPersonaButtonCarouselTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFPersonaButtonCarouselTokens.generated.swift; sourceTree = "<group>"; };
 		929DD255266ED3AC00E8175E /* PersonaButtonCarouselTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonaButtonCarouselTokens.swift; sourceTree = "<group>"; };
 		929DD258266ED3B600E8175E /* PersonaButtonCarousel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonaButtonCarousel.swift; sourceTree = "<group>"; };
-		92A1E4EB26A741F60007ED60 /* MSFCardNudgeTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFCardNudgeTokens.swift; sourceTree = "<group>"; };
 		92A1E4F326A791590007ED60 /* MSFCardNudge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFCardNudge.swift; sourceTree = "<group>"; };
-		92ABB39126BC8E9900BA179A /* MSFCardNudgeTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFCardNudgeTokens.generated.swift; sourceTree = "<group>"; };
 		92B7E6A12684262900EFC15E /* MSFPersonaButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFPersonaButton.swift; sourceTree = "<group>"; };
 		92D5598026A0FD2800328FD3 /* CardNudge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardNudge.swift; sourceTree = "<group>"; };
+		92DEE2232723D34400E31ED0 /* ControlTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlTokens.swift; sourceTree = "<group>"; };
 		92E7AD4E26FE51FF00AE7FF8 /* ColorSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSet.swift; sourceTree = "<group>"; };
 		92E7AD5126FE904D00AE7FF8 /* DynamicColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicColor.swift; sourceTree = "<group>"; };
 		92EE82AC27025A94009D52B5 /* TokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenSet.swift; sourceTree = "<group>"; };
@@ -769,6 +767,7 @@
 			children = (
 				925D461E26FD18B200179583 /* AliasTokens.swift */,
 				92E7AD4E26FE51FF00AE7FF8 /* ColorSet.swift */,
+				92DEE2232723D34400E31ED0 /* ControlTokens.swift */,
 				925D461B26FD133600179583 /* GlobalTokens.swift */,
 				92EE82AC27025A94009D52B5 /* TokenSet.swift */,
 			);
@@ -780,9 +779,8 @@
 			children = (
 				92D5598026A0FD2800328FD3 /* CardNudge.swift */,
 				92079C8E26B66E5100D688DA /* CardNudgeModifiers.swift */,
-				92A1E4EB26A741F60007ED60 /* MSFCardNudgeTokens.swift */,
+				920945472703DDA000B38E1A /* CardNudgeTokens.swift */,
 				92A1E4F326A791590007ED60 /* MSFCardNudge.swift */,
-				92ABB39126BC8E9900BA179A /* MSFCardNudgeTokens.generated.swift */,
 			);
 			path = "Card Nudge";
 			sourceTree = "<group>";
@@ -1458,7 +1456,6 @@
 				5328D97726FBA3D700F3723B /* IndeterminateProgressBar.swift in Sources */,
 				5314E07625F00F160099271A /* DateTimePickerController.swift in Sources */,
 				5314E14525F016860099271A /* CardPresentationController.swift in Sources */,
-				92A1E4ED26A741F60007ED60 /* MSFCardNudgeTokens.swift in Sources */,
 				5314E0A925F010070099271A /* DrawerTransitionAnimator.swift in Sources */,
 				5314E06525F00EFD0099271A /* CalendarViewDayMonthCell.swift in Sources */,
 				92987990266A8E1C002B1EB4 /* MSFPersonaButtonTokens.generated.swift in Sources */,
@@ -1516,6 +1513,7 @@
 				53097D07270288FB00A6E4DC /* MSFButtonTokens.generated.swift in Sources */,
 				5314E0AA25F010070099271A /* DrawerShadowView.swift in Sources */,
 				5314E0E725F012C00099271A /* UINavigationItem+Navigation.swift in Sources */,
+				920945492703DDA000B38E1A /* CardNudgeTokens.swift in Sources */,
 				5314E25D25F0238E0099271A /* UIFont+Extension.swift in Sources */,
 				C77A04B825F03DD1001B3EB6 /* String+Date.swift in Sources */,
 				5314E10125F012E60099271A /* NotificationView.swift in Sources */,
@@ -1586,7 +1584,6 @@
 				5314E11825F015EA0099271A /* PeoplePicker.swift in Sources */,
 				5303259B26B31B6B00611D05 /* AvatarModifiers.swift in Sources */,
 				5314E2B225F024B60099271A /* Calendar+Extensions.swift in Sources */,
-				92ABB39326BC8E9900BA179A /* MSFCardNudgeTokens.generated.swift in Sources */,
 				5314E1B225F01A980099271A /* TooltipPositionController.swift in Sources */,
 				5314E08A25F00F2D0099271A /* CommandBar.swift in Sources */,
 				5314E18D25F0195C0099271A /* ShimmerView.swift in Sources */,
@@ -1605,6 +1602,7 @@
 				5314E07F25F00F1A0099271A /* DateTimePickerViewComponentCell.swift in Sources */,
 				0AA874162600237A00D47421 /* PersonaView.swift in Sources */,
 				8035CADE2638E435007B3FD1 /* CommandingSection.swift in Sources */,
+				92DEE2252723D34400E31ED0 /* ControlTokens.swift in Sources */,
 				5314E0E425F012C00099271A /* NavigationController.swift in Sources */,
 				5373D5712694D66F0032A3B4 /* Theming.swift in Sources */,
 				5328D97326FBA3D700F3723B /* IndeterminateProgressBarModifiers.swift in Sources */,
