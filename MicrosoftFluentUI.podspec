@@ -27,15 +27,9 @@ Pod::Spec.new do |s|
     avatargroup_ios.source_files = ["ios/FluentUI/AvatarGroup/**/*.{swift,h}"]
   end
 
-  s.subspec 'ActivityViewAnimating_ios' do |activityviewanimating_ios|
-    activityviewanimating_ios.platform = :ios
-    activityviewanimating_ios.dependency 'MicrosoftFluentUI/Core_ios'
-    activityviewanimating_ios.source_files = ["ios/FluentUI/ActivityViewAnimating/**/*.{swift,h}"]
-  end
-
   s.subspec 'ActivityIndicator_ios' do |activityindicator_ios|
     activityindicator_ios.platform = :ios
-    activityindicator_ios.dependency 'MicrosoftFluentUI/ActivityViewAnimating_ios'
+    activityindicator_ios.dependency 'MicrosoftFluentUI/Core_ios'
     activityindicator_ios.source_files = ["ios/FluentUI/ActivityIndicator/**/*.{swift,h}"]
   end
 
@@ -173,7 +167,7 @@ fi', :execution_position => :before_compile }
 
   s.subspec 'IndeterminateProgressBar_ios' do |indeterminateprogressbar_ios|
     indeterminateprogressbar_ios.platform = :ios
-    indeterminateprogressbar_ios.dependency 'MicrosoftFluentUI/ActivityViewAnimating_ios'
+    indeterminateprogressbar_ios.dependency 'MicrosoftFluentUI/Core_ios'
     indeterminateprogressbar_ios.source_files = ["ios/FluentUI/IndeterminateProgressBar/**/*.{swift,h}"]
   end
 
