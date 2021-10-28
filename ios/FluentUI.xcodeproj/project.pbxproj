@@ -13,7 +13,6 @@
 		5306075526A1E6A4002D49CF /* MSFAvatarGroupTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5306075026A1E6A4002D49CF /* MSFAvatarGroupTokens.generated.swift */; };
 		5306075726A1E6A4002D49CF /* AvatarGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5306075126A1E6A4002D49CF /* AvatarGroup.swift */; };
 		5306076126A201C8002D49CF /* Persona.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EF53C2215AF1AB00573E8F /* Persona.swift */; };
-		5314E00425F00A300099271A /* ActivityViewAnimating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22010B6F2523CB2D00FF1F10 /* ActivityViewAnimating.swift */; };
 		5314E01625F00CF70099271A /* BarButtonItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52648DB2316F4F9003342A0 /* BarButtonItems.swift */; };
 		5314E01F25F00D080099271A /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CEC23020E451D00016922A /* Button.swift */; };
 		5314E02825F00DA80099271A /* BlurringView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA1AF8B21484625001AE720 /* BlurringView.swift */; };
@@ -196,7 +195,6 @@
 		1168630222E131CF0088B302 /* TabBarItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarItemView.swift; sourceTree = "<group>"; };
 		1168630322E131CF0088B302 /* TabBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
 		118D9847230BBA2300BC0B72 /* TabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItem.swift; sourceTree = "<group>"; };
-		22010B6F2523CB2D00FF1F10 /* ActivityViewAnimating.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityViewAnimating.swift; sourceTree = "<group>"; };
 		497DC2D724185885008D86F8 /* PillButtonBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButtonBar.swift; sourceTree = "<group>"; };
 		497DC2D824185885008D86F8 /* PillButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButton.swift; sourceTree = "<group>"; };
 		5303259926B31B6B00611D05 /* AvatarModifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarModifiers.swift; sourceTree = "<group>"; };
@@ -592,14 +590,6 @@
 			path = Obscurable;
 			sourceTree = "<group>";
 		};
-		5314E00325F009B70099271A /* ActivityViewAnimating */ = {
-			isa = PBXGroup;
-			children = (
-				22010B6F2523CB2D00FF1F10 /* ActivityViewAnimating.swift */,
-			);
-			path = ActivityViewAnimating;
-			sourceTree = "<group>";
-		};
 		53FC90BE25672F97008A06FD /* xcode */ = {
 			isa = PBXGroup;
 			children = (
@@ -750,7 +740,6 @@
 			isa = PBXGroup;
 			children = (
 				5314DFEB25F002240099271A /* ActivityIndicator */,
-				5314E00325F009B70099271A /* ActivityViewAnimating */,
 				C77A04F325F04CFB001B3EB6 /* Avatar */,
 				5306074E26A1E6A4002D49CF /* AvatarGroup */,
 				5314DFF625F0079B0099271A /* BarButtonItems */,
@@ -1321,7 +1310,6 @@
 				5314E14525F016860099271A /* CardPresentationController.swift in Sources */,
 				92A1E4ED26A741F60007ED60 /* MSFCardNudgeTokens.swift in Sources */,
 				5314E0A925F010070099271A /* DrawerTransitionAnimator.swift in Sources */,
-				5314E00425F00A300099271A /* ActivityViewAnimating.swift in Sources */,
 				5314E06525F00EFD0099271A /* CalendarViewDayMonthCell.swift in Sources */,
 				92987990266A8E1C002B1EB4 /* MSFPersonaButtonTokens.generated.swift in Sources */,
 				5314E08B25F00F2D0099271A /* CommandBarItem.swift in Sources */,
