@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "A5CEC15020D980B20016922A"
-               BuildableName = "FluentUI.framework"
-               BlueprintName = "FluentUI"
+               BlueprintIdentifier = "8FD01165228A820600D25925"
+               BuildableName = "libFluentUI.a"
+               BlueprintName = "FluentUILib"
                ReferencedContainer = "container:FluentUI.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -27,15 +27,6 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "A5CEC15020D980B20016922A"
-            BuildableName = "FluentUI.framework"
-            BlueprintName = "FluentUI"
-            ReferencedContainer = "container:FluentUI.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
       <Testables>
          <TestableReference
             skipped = "NO">
@@ -62,9 +53,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "A5CEC15020D980B20016922A"
-            BuildableName = "FluentUI.framework"
-            BlueprintName = "FluentUI"
+            BlueprintIdentifier = "8FD01165228A820600D25925"
+            BuildableName = "libFluentUI.a"
+            BlueprintName = "FluentUILib"
             ReferencedContainer = "container:FluentUI.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -78,9 +69,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "A5CEC15020D980B20016922A"
-            BuildableName = "FluentUI.framework"
-            BlueprintName = "FluentUI"
+            BlueprintIdentifier = "8FD01165228A820600D25925"
+            BuildableName = "libFluentUI.a"
+            BlueprintName = "FluentUILib"
             ReferencedContainer = "container:FluentUI.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

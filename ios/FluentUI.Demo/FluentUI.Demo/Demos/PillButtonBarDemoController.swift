@@ -13,7 +13,7 @@ class PillButtonBarDemoController: DemoController {
         container.layoutMargins.left = 0
         var items: [PillButtonBarItem] = [PillButtonBarItem(title: "All"),
                                           PillButtonBarItem(title: "Documents"),
-                                          PillButtonBarItem(title: "People"),
+                                          PillButtonBarItem(title: "People", isUnread: true),
                                           PillButtonBarItem(title: "Other"),
                                           PillButtonBarItem(title: "Templates"),
                                           PillButtonBarItem(title: "Actions"),
@@ -87,8 +87,9 @@ class PillButtonBarDemoController: DemoController {
         let pillSelectedButtonBackgroundColor = useCustomPillsColors ? Colors.textPrimary : nil
         let pillButtonTextColor = useCustomPillsColors ? Colors.textPrimary : nil
         let pillSelectedButtontextColor = useCustomPillsColors ? Colors.textOnAccent : nil
+        let pillButtonUnreadDotColor = useCustomPillsColors ? Colors.textPrimary : nil
 
-        let bar = PillButtonBar(pillButtonStyle: style, pillButtonBackgroundColor: pillButtonBackgroundColor, selectedPillButtonBackgroundColor: pillSelectedButtonBackgroundColor, pillButtonTextColor: pillButtonTextColor, selectedPillButtonTextColor: pillSelectedButtontextColor)
+        let bar = PillButtonBar(pillButtonStyle: style, pillButtonBackgroundColor: pillButtonBackgroundColor, selectedPillButtonBackgroundColor: pillSelectedButtonBackgroundColor, pillButtonTextColor: pillButtonTextColor, selectedPillButtonTextColor: pillSelectedButtontextColor, pillButtonUnreadDotColor: pillButtonUnreadDotColor)
         bar.items = items
         _ = bar.selectItem(atIndex: 0)
         bar.barDelegate = self
