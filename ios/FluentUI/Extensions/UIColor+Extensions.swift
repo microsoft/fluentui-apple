@@ -12,7 +12,7 @@ public extension UIColor {
     ///
     /// - Parameter hexValue: Integer value, generally represented as hexadecimal (e.g. `0x0086F0`), to use to initialize this color.
     ///     Must be formatted as ARGB. Note: we will not utilize the alpha channel.
-    convenience init(hexValue: UInt32) {
+    convenience init(hexValue: ColorValue) {
         self.init(
             red: CGFloat((hexValue & 0xFF0000) >> 16) / 255.0,
             green: CGFloat((hexValue & 0x00FF00) >> 8) / 255.0,
@@ -81,6 +81,40 @@ public extension UIColor {
             } else {
                 preconditionFailure("Unable to choose color. Should not be reachable, as `light` color is non-optional.")
             }
+        }
+    }
+
+    var colorValue: ColorValue? {
+        var redValue: CGFloat = 0.0
+        var greenValue: CGFloat = 0.0
+        var blueValue: CGFloat = 0.0
+        if self.getRed(&redValue, green: &greenValue, blue: &blueValue, alpha: nil) {
+            // Ensure that all channels fall within 0x0 and 0xFF
+            let red = min(UInt32(redValue * 255.0), 0xFF)
+            let green = min(UInt32(greenValue * 255.0), 0xFF)
+            let blue = min(UInt32(blueValue * 255.0), 0xFF)
+            let colorValue: ColorValue = (red << 16) + (green << 8) + blue
+            return colorValue
+        } else {
+            return nil
+        }
+    }
+
+    var colorSet: ColorSet? {
+        // Only the light color value is mandatory when making a ColorSet.
+        if let lightColorValue = self.resolvedColor(with: UITraitCollection(userInterfaceStyle: .light)).colorValue {
+            return ColorSet(
+                light: lightColorValue,
+                lightHighContrast: self.resolvedColor(with: UITraitCollection()).colorValue,
+                lightElevated: self.resolvedColor(with: UITraitCollection()).colorValue,
+                lightElevatedHighContrast: self.resolvedColor(with: UITraitCollection()).colorValue,
+                dark: self.resolvedColor(with: UITraitCollection()).colorValue,
+                darkHighContrast: self.resolvedColor(with: UITraitCollection()).colorValue,
+                darkElevated: self.resolvedColor(with: UITraitCollection()).colorValue,
+                darkElevatedHighContrast: self.resolvedColor(with: UITraitCollection()).colorValue
+            )
+        } else {
+            return nil
         }
     }
 }

@@ -102,32 +102,16 @@ class DemoColorGreenTheme: NSObject, ColorProviding {
     }
 }
 
-// TODO: this will be replaced with our branding color system once it exists,
-// but in the meantime it's a good demo of swapping out tokens.
-class DemoCardNudgeTokens: CardNudgeTokens {
-    let greenPrimary: ColorSet = ColorSet(light: Constants.greenLight,
-                                          dark: Constants.greenDark)
-
-    override var accentColor: ColorSet {
-        return greenPrimary
-    }
-
-    override var subtitleTextColor: ColorSet {
-        return greenPrimary
-    }
-
-    override var textColor: ColorSet {
-        return greenPrimary
-    }
-
-    private struct Constants {
-        static let greenLight: ColorValue = 0x107C41
-        static let greenDark: ColorValue = 0x10893C
-    }
+struct DemoGreenBrandColors: BrandColors {
+    let primary: ColorSet = UIColor(named: "Colors/DemoPrimaryColor")?.colorSet ?? ColorSet(light: 0xFF0000)
+    let shade10: ColorSet = UIColor(named: "Colors/DemoPrimaryShade10Color")?.colorSet ?? ColorSet(light: 0xFF0000)
+    let shade20: ColorSet = UIColor(named: "Colors/DemoPrimaryShade20Color")?.colorSet ?? ColorSet(light: 0xFF0000)
+    let shade30: ColorSet = UIColor(named: "Colors/DemoPrimaryShade30Color")?.colorSet ?? ColorSet(light: 0xFF0000)
+    let tint10: ColorSet = UIColor(named: "Colors/DemoPrimaryTint10Color")?.colorSet ?? ColorSet(light: 0xFF0000)
+    let tint20: ColorSet = UIColor(named: "Colors/DemoPrimaryTint20Color")?.colorSet ?? ColorSet(light: 0xFF0000)
+    let tint30: ColorSet = UIColor(named: "Colors/DemoPrimaryTint30Color")?.colorSet ?? ColorSet(light: 0xFF0000)
+    let tint40: ColorSet = UIColor(named: "Colors/DemoPrimaryTint40Color")?.colorSet ?? ColorSet(light: 0xFF0000)
 }
 
 class DemoTokenFactory: TokenFactory {
-    override var cardNudgeTokens: CardNudgeTokens {
-        return DemoCardNudgeTokens()
-    }
 }

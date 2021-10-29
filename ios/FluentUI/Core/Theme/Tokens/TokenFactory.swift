@@ -9,7 +9,10 @@ import SwiftUI
 ///
 /// This class should be overridden by clients that want to provide custom control tokens on a larger scale.
 open class TokenFactory {
-    public init() {}
+    public init(brandColors: BrandColors? = nil) {
+        self.brandColors = brandColors
+    }
+
     static let shared = TokenFactory()
 
     /// Attempts to return a cached token set of type `T` if one exists. If not, this function will create
@@ -22,10 +25,14 @@ open class TokenFactory {
             return tokens
         }
         let tokens = tokenGenerator()
+        if let brandColors = brandColors {
+            tokens.brandColors = brandColors
+        }
         currentCachedTokens = tokens
         return tokens
     }
 
+    private var brandColors: BrandColors?
     private var currentCachedTokens: ControlTokens?
 }
 

@@ -6,4 +6,5 @@
 import Foundation
 
 open class ControlTokens: NSObject {
+    var brandColors: BrandColors = DefaultBrandColors()
 }

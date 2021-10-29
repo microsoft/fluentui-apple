@@ -128,7 +128,8 @@ class ThemingDemoController: DemoController {
             FluentUIThemeManager.setStylesheet(stylesheet: stylesheet, for: window)
 
             // ... and the pipeline-backed theme
-            window.tokenFactory = DemoTokenFactory()
+            let greenBrandColors = DemoGreenBrandColors()
+            window.tokenFactory = DemoTokenFactory(brandColors: greenBrandColors)
         }
     }
 

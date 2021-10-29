@@ -8,6 +8,46 @@ import CoreGraphics
 /// Global Tokens represent a unified set of constants to be used by Fluent UI.
 struct GlobalTokens {
     struct Colors {
+        enum Brand: TokenSet {
+            case primary
+            case shade10
+            case shade20
+            case shade30
+            case tint10
+            case tint20
+            case tint30
+            case tint40
+
+            var value: ColorSet {
+                switch self {
+                case .primary:
+                    return ColorSet(light: 0x0078D4,
+                                    dark: 0x0086F0)
+                case .shade10:
+                    return ColorSet(light: 0x106EBE,
+                                    dark: 0x1890F1)
+                case .shade20:
+                    return ColorSet(light: 0x005A9E,
+                                    dark: 0x3AA0F3)
+                case .shade30:
+                    return ColorSet(light: 0x004578,
+                                    dark: 0x6CB8F6)
+                case .tint10:
+                    return ColorSet(light: 0x2B88D8,
+                                    dark: 0x0074D3)
+                case .tint20:
+                    return ColorSet(light: 0xC7E0F4,
+                                    dark: 0x004F90)
+                case .tint30:
+                    return ColorSet(light: 0xDEECF9,
+                                    dark: 0x002848)
+                case .tint40:
+                    return ColorSet(light: 0xEFF6FC,
+                                    dark: 0x001526)
+                }
+            }
+        }
+
         enum Neutral: TokenSet {
             case black
             case grey2

@@ -16,12 +16,7 @@ import SwiftUI
 
 open class CardNudgeTokens: ControlTokens {
     open var accentColor: ColorSet {
-#if BRAND_COLORS
-        return BrandColors.shade20.value
-#else
-        return ColorSet(light: 0x005A9E,
-                        dark: 0x3AA0F3)
-#endif
+        return brandColors.shade20
     }
 
     open var accentIconSize: CGFloat {
@@ -42,12 +37,7 @@ open class CardNudgeTokens: ControlTokens {
     }
 
     open var buttonBackgroundColor: ColorSet {
-#if BRAND_COLORS
-        return BrandColors.tint30.value
-#else
-        return ColorSet(light: 0xDEECF9,
-                        dark: 0x002848)
-#endif
+        return brandColors.tint30
     }
 
     open var buttonInnerPaddingHorizontal: CGFloat {
@@ -104,12 +94,7 @@ open class CardNudgeTokens: ControlTokens {
         case .standard:
             return AliasTokens.Colors.Foreground.neutral1.value
         case .outline:
-#if BRAND_COLORS
-            return BrandColors.shade20.value
-#else
-            return ColorSet(light: 0x005A9E,
-                            dark: 0x3AA0F3)
-#endif
+            return brandColors.shade20
         }
     }
 
