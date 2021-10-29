@@ -264,7 +264,7 @@ open class SideTabBar: UIView {
     }
 
     private func updateAccessibilityIndex() {
-        // seems like iOS 14 `.tabBar` accessibilityTrait doesn't seem to read out the index automatically
+        // iOS 14.0 - 14.5 `.tabBar` accessibilityTrait does not read out the index automatically
         if #available(iOS 14.0, *) {
             if #available(iOS 14.6, *) {} else {
                 var totalCount: Int = 0
