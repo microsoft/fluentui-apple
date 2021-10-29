@@ -192,6 +192,7 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 		// Parameters for buttons in "Custom" row
 		let customTitle = "Atom"
 		let customImage = NSImage(named: TestButtonViewController.nonTemplateImage)!
+		customImage.accessibilityDescription = customTitle
 		customImage.isTemplate = true
 		let customFormat = ButtonFormat(size: .large, style: .primary, accentColor: Colors.Palette.blueMagenta30.color)
 
