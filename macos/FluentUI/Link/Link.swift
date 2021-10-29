@@ -93,6 +93,7 @@ open class Link: NSButton {
 		setButtonType(.momentaryChange)
 		target = self
 		action = #selector(linkClicked)
+		setAccessibilityRole(.link)
 		updateTitle()
 	}
 
@@ -137,7 +138,8 @@ open class Link: NSButton {
 
 	private func updateTitle() {
 		let titleAttributes = (isEnabled && showsUnderlineWhileMouseInside && mouseInside) ? underlinedLinkAttributes: linkAttributes
-		self.attributedTitle = NSAttributedString(string: title, attributes: titleAttributes)
+		attributedTitle = NSAttributedString(string: title, attributes: titleAttributes)
+		setAccessibilityTitle(title)
 	}
 
 	@objc private func linkClicked() {
