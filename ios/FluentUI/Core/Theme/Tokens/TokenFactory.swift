@@ -26,7 +26,7 @@ open class TokenFactory {
         }
         let tokens = tokenGenerator()
         if let brandColors = brandColors {
-            tokens.brandColors = brandColors
+            tokens.brandColors.override = brandColors
         }
         currentCachedTokens = tokens
         return tokens

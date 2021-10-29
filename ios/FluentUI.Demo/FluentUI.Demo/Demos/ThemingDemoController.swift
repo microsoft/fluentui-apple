@@ -129,7 +129,7 @@ class ThemingDemoController: DemoController {
 
             // ... and the pipeline-backed theme
             let greenBrandColors = DemoGreenBrandColors()
-            window.tokenFactory = DemoTokenFactory(brandColors: greenBrandColors)
+            window.tokenFactory = ControlTokenFactory(brandColors: greenBrandColors)
         }
     }
 

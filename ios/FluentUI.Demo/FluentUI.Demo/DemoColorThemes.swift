@@ -32,6 +32,17 @@ enum DemoColorTheme: CaseIterable {
             return nil
         }
     }
+
+    var brandColors: BrandColors? {
+        switch self {
+        case .default:
+            return nil
+        case .green:
+            return DemoGreenBrandColors()
+        case .none:
+            return nil
+        }
+    }
 }
 
 class DemoColorDefaultTheme: NSObject, ColorProviding {
@@ -103,15 +114,12 @@ class DemoColorGreenTheme: NSObject, ColorProviding {
 }
 
 struct DemoGreenBrandColors: BrandColors {
-    let primary: ColorSet = UIColor(named: "Colors/DemoPrimaryColor")?.colorSet ?? ColorSet(light: 0xFF0000)
-    let shade10: ColorSet = UIColor(named: "Colors/DemoPrimaryShade10Color")?.colorSet ?? ColorSet(light: 0xFF0000)
-    let shade20: ColorSet = UIColor(named: "Colors/DemoPrimaryShade20Color")?.colorSet ?? ColorSet(light: 0xFF0000)
-    let shade30: ColorSet = UIColor(named: "Colors/DemoPrimaryShade30Color")?.colorSet ?? ColorSet(light: 0xFF0000)
-    let tint10: ColorSet = UIColor(named: "Colors/DemoPrimaryTint10Color")?.colorSet ?? ColorSet(light: 0xFF0000)
-    let tint20: ColorSet = UIColor(named: "Colors/DemoPrimaryTint20Color")?.colorSet ?? ColorSet(light: 0xFF0000)
-    let tint30: ColorSet = UIColor(named: "Colors/DemoPrimaryTint30Color")?.colorSet ?? ColorSet(light: 0xFF0000)
-    let tint40: ColorSet = UIColor(named: "Colors/DemoPrimaryTint40Color")?.colorSet ?? ColorSet(light: 0xFF0000)
-}
-
-class DemoTokenFactory: TokenFactory {
+    let primary: ColorSet? = UIColor(named: "Colors/DemoPrimaryColor")?.colorSet
+    let shade10: ColorSet? = UIColor(named: "Colors/DemoPrimaryShade10Color")?.colorSet
+    let shade20: ColorSet? = UIColor(named: "Colors/DemoPrimaryShade20Color")?.colorSet
+    let shade30: ColorSet? = UIColor(named: "Colors/DemoPrimaryShade30Color")?.colorSet
+    let tint10: ColorSet? = UIColor(named: "Colors/DemoPrimaryTint10Color")?.colorSet
+    let tint20: ColorSet? = UIColor(named: "Colors/DemoPrimaryTint20Color")?.colorSet
+    let tint30: ColorSet? = UIColor(named: "Colors/DemoPrimaryTint30Color")?.colorSet
+    let tint40: ColorSet? = UIColor(named: "Colors/DemoPrimaryTint40Color")?.colorSet
 }

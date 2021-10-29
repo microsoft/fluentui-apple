@@ -9,9 +9,11 @@ import UIKit
 class DemoListViewController: DemoTableViewController {
 
     private var provider: ColorProviding? = DemoColorTheme.default.provider
+    private var brandColors: BrandColors? = DemoColorTheme.default.brandColors
     public var theme: DemoColorTheme = DemoColorTheme.default {
         didSet {
             provider = theme.provider
+            brandColors = theme.brandColors
         }
     }
 
