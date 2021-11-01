@@ -56,7 +56,13 @@ public class ControlHostingContainer: NSObject {
 
     private var tokenizedView: AnyView {
         return AnyView(controlView
-                        .tokenFactory(currentTokenFactory))
+                        .tokenFactory(currentTokenFactory)
+                        .onAppear { [weak self] in
+                            // We don't usually have a window at construction time, so fetch our
+                            // token override during `onAppear`
+                            self?.updateRootView()
+                        }
+        )
     }
 
     private let hostingController: FluentUIHostingController = .init(rootView: AnyView(EmptyView()))
