@@ -108,9 +108,19 @@ extension FluentUIStyle {
 			return mainProxy().Colors.Brand.tint40
 		}
 
+		// MARK: - boldTextFont 
+		open var boldTextFont: UIFont {
+			return UIFont.font(name: nil, size: nil, textStyle: S.FontTextStyle.subheadline, weight: UIFont.Weight.bold, traits: [UIFontDescriptor.SymbolicTraits.traitBold], isScalable: true)
+		}
+
 		// MARK: - cornerRadius 
 		open var cornerRadius: CGFloat {
 			return mainProxy().Border.radius.xLarge
+		}
+
+		// MARK: - footnoteTextFont 
+		open var footnoteTextFont: UIFont {
+			return mainProxy().Typography.footnote
 		}
 
 		// MARK: - foregroundColor 
@@ -138,6 +148,16 @@ extension FluentUIStyle {
 			return CGFloat(56.0)
 		}
 
+		// MARK: - outlineColor 
+		open var outlineColor: UIColor {
+			return UIColor(named: "FluentColors/clear", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
+		}
+
+		// MARK: - outlineWidth 
+		open var outlineWidth: CGFloat {
+			return mainProxy().Border.size.thin
+		}
+
 		// MARK: - perimeterShadowBlur 
 		open var perimeterShadowBlur: CGFloat {
 			return mainProxy().Shadow.shadow16.blur2
@@ -161,6 +181,11 @@ extension FluentUIStyle {
 		// MARK: - presentationOffSet 
 		open var presentationOffSet: CGFloat {
 			return mainProxy().Spacing.medium
+		}
+
+		// MARK: - regularTextFont 
+		open var regularTextFont: UIFont {
+			return mainProxy().Typography.subheadline
 		}
 
 		// MARK: - verticalPadding 
@@ -233,6 +258,11 @@ extension FluentUIStyle {
 		// MARK: - foregroundColor 
 		open override var foregroundColor: UIColor {
 			return UIColor(light: mainProxy().Colors.Brand.primary, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/charcoalTint60", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+		}
+
+		// MARK: - outlineColor 
+		open override var outlineColor: UIColor {
+			return mainProxy().Colors.Stroke.neutral1
 		}
 
 		// MARK: - perimeterShadowColor 
