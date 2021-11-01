@@ -47,7 +47,7 @@ import UIKit
     }
 }
 
-class MSFNotificationTokens: MSFTokensBase {
+class MSFNotificationTokens: MSFTokensBase, ObservableObject {
     public var backgroundColor: UIColor!
     public var foregroundColor: UIColor!
     public var cornerRadius: CGFloat!
@@ -58,6 +58,8 @@ class MSFNotificationTokens: MSFTokensBase {
     public var horizontalSpacing: CGFloat!
     public var minimumHeight: CGFloat!
     public var minimumHeightForOneLine: CGFloat!
+    public var outlineColor: UIColor!
+    public var outlineWidth: CGFloat!
     public var perimeterShadowColor: UIColor!
     public var perimeterShadowBlur: CGFloat!
     public var perimeterShadowOffsetX: CGFloat!
@@ -66,6 +68,9 @@ class MSFNotificationTokens: MSFTokensBase {
     public var ambientShadowBlur: CGFloat!
     public var ambientShadowOffsetX: CGFloat!
     public var ambientShadowOffsetY: CGFloat!
+    public var boldTextFont: UIFont!
+    public var regularTextFont: UIFont!
+    public var footnoteTextFont: UIFont!
 
     var style: MSFNotificationStyle
 
@@ -113,6 +118,8 @@ class MSFNotificationTokens: MSFTokensBase {
         horizontalSpacing = appearanceProxy.horizontalSpacing
         minimumHeight = appearanceProxy.minimumHeight
         minimumHeightForOneLine = appearanceProxy.minimumHeightForOneLine
+        outlineColor = appearanceProxy.outlineColor
+        outlineWidth = appearanceProxy.outlineWidth
         perimeterShadowColor = appearanceProxy.perimeterShadowColor
         perimeterShadowBlur = appearanceProxy.perimeterShadowBlur
         perimeterShadowOffsetX = appearanceProxy.perimeterShadowOffsetX
@@ -121,5 +128,8 @@ class MSFNotificationTokens: MSFTokensBase {
         ambientShadowBlur = appearanceProxy.ambientShadowBlur
         ambientShadowOffsetX = appearanceProxy.ambientShadowOffsetX
         ambientShadowOffsetY = appearanceProxy.ambientShadowOffsetY
+        boldTextFont = appearanceProxy.boldTextFont
+        regularTextFont = appearanceProxy.regularTextFont
+        footnoteTextFont = appearanceProxy.footnoteTextFont
     }
 }

@@ -59,6 +59,12 @@ class NotificationViewDemoController: DemoController {
         super.viewDidLoad()
         view.backgroundColor = Colors.surfaceSecondary
 
+        addTitle(text: "SwiftUI Demo")
+        container.addArrangedSubview(createButton(title: "Show", action: { [weak self] _ in
+            self?.navigationController?.pushViewController(NotificationViewDemoControllerSwiftUI(),
+                                                           animated: true)
+        }).view)
+
         for (index, variant) in Variant.allCases.enumerated() {
             if index > 0 {
                 // spacers
