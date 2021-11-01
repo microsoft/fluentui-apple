@@ -123,13 +123,7 @@ class ThemingDemoController: DemoController {
         if let window = self.view.window {
             // Update both the SGen-backed theme...
             let greenThemeColorProviding = DemoColorGreenTheme()
-            let stylesheet = ColorProvidingStyle(colorProviding: greenThemeColorProviding,
-                                                 window: window)
-            FluentUIThemeManager.setStylesheet(stylesheet: stylesheet, for: window)
-
-            // ... and the pipeline-backed theme
-            let greenBrandColors = DemoGreenBrandColors()
-            window.tokenFactory = ControlTokenFactory(brandColors: greenBrandColors)
+            Colors.setProvider(provider: greenThemeColorProviding, for: window)
         }
     }
 

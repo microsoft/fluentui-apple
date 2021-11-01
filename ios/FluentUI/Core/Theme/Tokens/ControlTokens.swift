@@ -5,7 +5,11 @@
 
 import Foundation
 
+/// Base class for all Fluent control tokenization.
 open class ControlTokens: NSObject {
+
+    /// Internal struct that exposes branding colors to `ControlToken` subclasses by returning `override` values
+    /// if available, and falling back to `DefaultBrandColors` if not.
     struct ControlBrandColors {
         var override: BrandColors?
 
