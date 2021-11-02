@@ -43,7 +43,7 @@ class BadgeLabelButton: UIButton {
         static let badgeCornerRadii: CGFloat = 10
     }
 
-    private let badgeLabel = BadgeLabel()
+    private let badgeLabel = BadgeLabel(shouldUseWindowColor: true)
 
     private var badgeWidth: CGFloat {
         return min(max(badgeLabel.intrinsicContentSize.width + Constants.badgeHorizontalPadding,
