@@ -275,7 +275,7 @@ open class SideTabBar: UIView {
                 }
 
                 var previousSectionCount: Int = 0
-                if let avatar = avatar, !avatar.view.isHidden {
+                if let avatar = avatarView, !avatar.isHidden {
                     totalCount += 1
                     previousSectionCount += 1
                 }
