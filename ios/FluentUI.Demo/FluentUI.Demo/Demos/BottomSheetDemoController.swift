@@ -114,7 +114,7 @@ class BottomSheetDemoController: UIViewController {
             DemoItem(title: "Expandable", type: .boolean, action: #selector(toggleExpandable), isOn: bottomSheetViewController?.isExpandable ?? true),
             DemoItem(title: "Hidden", type: .boolean, action: #selector(toggleHidden), isOn: bottomSheetViewController?.isHidden ?? false),
             DemoItem(title: "Scroll to hide", type: .boolean, action: #selector(toggleScrollHiding), isOn: scrollHidingEnabled),
-			DemoItem(title: "Hide collapsed content", type: .boolean, action: #selector(toggleCollapsedContentHiding), isOn: collapsedContentHidingEnabled),
+            DemoItem(title: "Hide collapsed content", type: .boolean, action: #selector(toggleCollapsedContentHiding), isOn: collapsedContentHidingEnabled),
             DemoItem(title: "Full screen sheet content", type: .action, action: #selector(fullScreenSheetContent)),
             DemoItem(title: "Fixed height sheet content", type: .action, action: #selector(fixedHeightSheetContent))
         ]
