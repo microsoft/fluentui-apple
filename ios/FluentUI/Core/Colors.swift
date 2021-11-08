@@ -540,7 +540,7 @@ public final class Colors: NSObject {
 
         // Update the new branding color APIs with these colors as well
         let brandColors = ColorProviderBrandColors(provider: provider, window: window)
-        window.tokenFactory = ControlTokenFactory(brandColors: brandColors)
+        window.tokenFactory = TokenFactory(brandColors: brandColors)
     }
 
     // MARK: Primary
