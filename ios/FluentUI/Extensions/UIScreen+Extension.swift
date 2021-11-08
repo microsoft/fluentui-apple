@@ -5,7 +5,7 @@
 
 import UIKit
 
-public extension UIScreen {
+extension UIScreen {
     var devicePixel: CGFloat { return 1 / scale }
 
     func roundToDevicePixels(_ value: CGFloat) -> CGFloat {
