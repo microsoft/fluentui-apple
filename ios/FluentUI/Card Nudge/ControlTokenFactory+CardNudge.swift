@@ -5,7 +5,7 @@
 
 import Foundation
 
-extension ControlTokenFactory {
+extension TokenFactory {
     /// Creates an instance of `CardNudgeTokens` for use in the `CardNudge` control.
     @objc open var cardNudgeTokens: CardNudgeTokens {
         return CardNudgeTokens()

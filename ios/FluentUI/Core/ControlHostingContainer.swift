@@ -15,7 +15,7 @@ public class ControlHostingContainer: NSObject {
     }
 
     /// A custom `TokenFactory` that should be used for styling this control, or `nil` if none exists.
-    public var tokenFactory: ControlTokenFactory? {
+    public var tokenFactory: TokenFactory? {
         didSet {
             updateRootView()
         }
@@ -44,13 +44,13 @@ public class ControlHostingContainer: NSObject {
         self.hostingController.rootView = tokenizedView
     }
 
-    private var currentTokenFactory: ControlTokenFactory {
+    private var currentTokenFactory: TokenFactory {
         if let overriddenTokenFactory = tokenFactory {
             return overriddenTokenFactory
         } else if let windowTokenFactory = self.view.window?.tokenFactory {
             return windowTokenFactory
         } else {
-            return ControlTokenFactory.shared
+            return TokenFactory.shared
         }
     }
 
