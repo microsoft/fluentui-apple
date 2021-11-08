@@ -191,7 +191,7 @@
 		92A1E4F526A791590007ED60 /* MSFCardNudge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A1E4F326A791590007ED60 /* MSFCardNudge.swift */; };
 		92B7E6A326864AE900EFC15E /* MSFPersonaButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92B7E6A12684262900EFC15E /* MSFPersonaButton.swift */; };
 		92D5598226A0FD2800328FD3 /* CardNudge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D5598026A0FD2800328FD3 /* CardNudge.swift */; };
-		92DEE21C272338F400E31ED0 /* ControlTokenFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92DEE21A272338F400E31ED0 /* ControlTokenFactory.swift */; };
+		92DEE21C272338F400E31ED0 /* TokenFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92DEE21A272338F400E31ED0 /* TokenFactory.swift */; };
 		92DEE21F2723395B00E31ED0 /* ControlTokenFactory+CardNudge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92DEE21D2723395B00E31ED0 /* ControlTokenFactory+CardNudge.swift */; };
 		92DEE2252723D34400E31ED0 /* ControlTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92DEE2232723D34400E31ED0 /* ControlTokens.swift */; };
 		92E7AD5026FE51FF00AE7FF8 /* ColorSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E7AD4E26FE51FF00AE7FF8 /* ColorSet.swift */; };
@@ -309,7 +309,7 @@
 		92A1E4F326A791590007ED60 /* MSFCardNudge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFCardNudge.swift; sourceTree = "<group>"; };
 		92B7E6A12684262900EFC15E /* MSFPersonaButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFPersonaButton.swift; sourceTree = "<group>"; };
 		92D5598026A0FD2800328FD3 /* CardNudge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardNudge.swift; sourceTree = "<group>"; };
-		92DEE21A272338F400E31ED0 /* ControlTokenFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlTokenFactory.swift; sourceTree = "<group>"; };
+		92DEE21A272338F400E31ED0 /* TokenFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenFactory.swift; sourceTree = "<group>"; };
 		92DEE21D2723395B00E31ED0 /* ControlTokenFactory+CardNudge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ControlTokenFactory+CardNudge.swift"; sourceTree = "<group>"; };
 		92DEE2232723D34400E31ED0 /* ControlTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlTokens.swift; sourceTree = "<group>"; };
 		92E7AD4E26FE51FF00AE7FF8 /* ColorSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSet.swift; sourceTree = "<group>"; };
@@ -768,7 +768,6 @@
 			isa = PBXGroup;
 			children = (
 				925D461A26FD126800179583 /* Tokens */,
-				92DEE21A272338F400E31ED0 /* ControlTokenFactory.swift */,
 				92E7AD5126FE904D00AE7FF8 /* DynamicColor.swift */,
 			);
 			path = Theme;
@@ -781,6 +780,7 @@
 				92E7AD4E26FE51FF00AE7FF8 /* ColorSet.swift */,
 				92DEE2232723D34400E31ED0 /* ControlTokens.swift */,
 				925D461B26FD133600179583 /* GlobalTokens.swift */,
+				92DEE21A272338F400E31ED0 /* TokenFactory.swift */,
 				92EE82AC27025A94009D52B5 /* TokenSet.swift */,
 			);
 			path = Tokens;
@@ -1478,7 +1478,7 @@
 				92E7AD5326FE904D00AE7FF8 /* DynamicColor.swift in Sources */,
 				5314E08025F00F1A0099271A /* DateTimePickerViewComponent.swift in Sources */,
 				532FE3D226EA6D74007539C0 /* MSFActivityIndicatorTokens.generated.swift in Sources */,
-				92DEE21C272338F400E31ED0 /* ControlTokenFactory.swift in Sources */,
+				92DEE21C272338F400E31ED0 /* TokenFactory.swift in Sources */,
 				5314E06325F00EFD0099271A /* CalendarViewDayMonthYearCell.swift in Sources */,
 				5314E1A225F01A7C0099271A /* ActivityIndicatorCell.swift in Sources */,
 				5373D5652694D65C0032A3B4 /* AvatarTokens.swift in Sources */,

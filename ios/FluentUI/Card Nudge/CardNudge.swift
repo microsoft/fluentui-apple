@@ -44,7 +44,7 @@ public typealias CardNudgeButtonAction = ((_ state: MSFCardNudgeState) -> Void)
 
 /// View that represents the CardNudge.
 public struct CardNudge: View {
-    @Environment(\.tokenFactory) var tokenFactory: ControlTokenFactory
+    @Environment(\.tokenFactory) var tokenFactory: TokenFactory
     @ObservedObject var state: MSFCardNudgeStateImpl
     var tokens: CardNudgeTokens {
         tokenFactory.cachedCardNudgeTokens.style(state.style)

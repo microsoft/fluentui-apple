@@ -236,7 +236,7 @@ class CustomCardNudgeTokens: CardNudgeTokens {
     }
 }
 
-class CustomTokenFactory: ControlTokenFactory {
+class CustomTokenFactory: TokenFactory {
     override var cardNudgeTokens: CardNudgeTokens {
         return CustomCardNudgeTokens()
     }

@@ -5,12 +5,12 @@
 
 import SwiftUI
 
-/// Creates and manages `ControlTokens` for Fluent controls.
+/// Creates and manages tokens for Fluent controls.
 ///
 /// This class should be overridden by clients that want to provide custom control tokens on a larger scale.
-open class ControlTokenFactory {
+open class TokenFactory {
     public init() {}
-    static let shared = ControlTokenFactory()
+    static let shared = TokenFactory()
 
     /// Attempts to return a cached token set of type `T` if one exists. If not, this function will create
     /// and cache a new set of tokens using the supplied generator function.
@@ -31,18 +31,18 @@ open class ControlTokenFactory {
 
 // MARK: - UIWindow
 
-protocol ControlTokenFactoryHosting {
-    var tokenFactory: ControlTokenFactory? { get }
+protocol TokenFactoryHosting {
+    var tokenFactory: TokenFactory? { get }
 }
 
-extension UIWindow: ControlTokenFactoryHosting {
+extension UIWindow: TokenFactoryHosting {
     private struct Keys {
         static var tokenFactory: String = "tokenFactory_key"
     }
 
-    public var tokenFactory: ControlTokenFactory? {
+    public var tokenFactory: TokenFactory? {
         get {
-            return objc_getAssociatedObject(self, &Keys.tokenFactory) as? ControlTokenFactory
+            return objc_getAssociatedObject(self, &Keys.tokenFactory) as? TokenFactory
         }
         set {
             objc_setAssociatedObject(self, &Keys.tokenFactory, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
@@ -57,13 +57,13 @@ public extension View {
     /// Sets a custom token factory for a specific SwiftUI View and its view hierarchy.
     /// - Parameter tokenFactory: Instance of the custom overriding token factory.
     /// - Returns: The view with its theme environment value overriden.
-    func tokenFactory(_ tokenFactory: ControlTokenFactory) -> some View {
+    func tokenFactory(_ tokenFactory: TokenFactory) -> some View {
         environment(\.tokenFactory, tokenFactory)
     }
 }
 
 extension EnvironmentValues {
-    var tokenFactory: ControlTokenFactory {
+    var tokenFactory: TokenFactory {
         get {
             self[TokenFactoryKey.self]
         }
@@ -74,7 +74,7 @@ extension EnvironmentValues {
 }
 
 private struct TokenFactoryKey: EnvironmentKey {
-    static var defaultValue: ControlTokenFactory {
-        return ControlTokenFactory.shared
+    static var defaultValue: TokenFactory {
+        return TokenFactory.shared
     }
 }
