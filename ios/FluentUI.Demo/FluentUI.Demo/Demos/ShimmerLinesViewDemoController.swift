@@ -43,7 +43,7 @@ class ShimmerViewDemoController: DemoController {
         }
 
         let shimmeringImageView = { (shimmerStyle: ShimmerStyle) -> UIView in
-            let imageView = UIImageView(image: UIImage(named: "PlaceholderImage")?.image(withPrimaryColor: Colors.Shimmer.tint))
+            let imageView = UIImageView(image: UIImage(named: "PlaceholderImage")?.withTintColor(Colors.Shimmer.tint, renderingMode: .alwaysOriginal))
             let containerView = UIStackView(arrangedSubviews: [imageView])
             let shimmerView = ShimmerView(containerView: containerView, excludedViews: [], animationSynchronizer: nil, shimmerStyle: shimmerStyle)
             shimmerView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
