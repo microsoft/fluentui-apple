@@ -214,7 +214,7 @@ class TabBarItemView: UIControl {
         return titleLabel
     }()
 
-    let badgeView: UILabel = BadgeLabel()
+    let badgeView: UILabel = BadgeLabel(frame: .zero)
 
     private var suggestImageSize: CGFloat {
         didSet {

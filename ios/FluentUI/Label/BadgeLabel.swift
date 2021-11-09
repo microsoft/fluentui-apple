@@ -8,10 +8,10 @@ import UIKit
 // MARK: BadgeLabel
 
 class BadgeLabel: UILabel {
-    var shouldUseWindowColor: Bool = true
+    var shouldUseWindowColor: Bool = false
 
-    init() {
-        super.init(frame: .zero)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         initBase()
     }
 
