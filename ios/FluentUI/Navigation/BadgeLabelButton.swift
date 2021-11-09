@@ -14,9 +14,9 @@ class BadgeLabelButton: UIButton {
         }
     }
 
-    var shouldUseWindowColorsInBadge: Bool? {
+    var shouldUseWindowColorInBadge: Bool? {
         didSet {
-            updateBadgeLabel()
+            badgeLabel.shouldUseWindowColor = shouldUseWindowColorInBadge ?? true
         }
     }
 
@@ -157,7 +157,6 @@ class BadgeLabelButton: UIButton {
 
     private func updateBadgeLabel() {
         badgeLabel.text = item?.badgeValue
-        badgeLabel.shouldUseWindowColors = shouldUseWindowColorsInBadge ?? true
         let isNilBadgeValue = item?.badgeValue == nil
         badgeLabel.isHidden = isNilBadgeValue
 

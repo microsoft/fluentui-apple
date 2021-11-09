@@ -584,7 +584,7 @@ open class NavigationBar: UINavigationBar {
     private func createBarButtonItemButton(with item: UIBarButtonItem, isLeftItem: Bool) -> UIButton {
         let button = BadgeLabelButton(type: .system)
         button.item = item
-        button.shouldUseWindowColorsInBadge = style != .system
+        button.shouldUseWindowColorInBadge = style != .system
         if isLeftItem {
             let isRTL = effectiveUserInterfaceLayoutDirection == .rightToLeft
             button.contentEdgeInsets = UIEdgeInsets(top: 0, left: isRTL ? 0 : Constants.leftBarButtonItemLeadingMargin, bottom: 0, right: isRTL ? Constants.leftBarButtonItemLeadingMargin : 0)
