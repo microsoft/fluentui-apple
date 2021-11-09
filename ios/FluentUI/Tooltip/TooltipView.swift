@@ -161,7 +161,7 @@ class TooltipView: UIView {
         if let window = window {
             let backgroundColor = UIColor(light: Colors.gray900.withAlphaComponent(0.95), dark: Colors.primary(for: window))
             backgroundView.backgroundColor = backgroundColor
-            arrowImageView.image = arrowImageViewBaseImage?.image(withPrimaryColor: backgroundColor)
+            arrowImageView.image = arrowImageViewBaseImage?.withTintColor(backgroundColor, renderingMode: .alwaysOriginal)
         }
     }
 

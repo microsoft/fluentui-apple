@@ -38,7 +38,6 @@
 		53097D292702895500A6E4DC /* MSFDrawerTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D262702895500A6E4DC /* MSFDrawerTokens.swift */; };
 		53097D2B2702895500A6E4DC /* MSFDrawerTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D272702895500A6E4DC /* MSFDrawerTokens.generated.swift */; };
 		53097D4727028B1200A6E4DC /* ButtonLegacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D4527028B1100A6E4DC /* ButtonLegacy.swift */; };
-		5314E00425F00A300099271A /* ActivityViewAnimating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22010B6F2523CB2D00FF1F10 /* ActivityViewAnimating.swift */; };
 		5314E01625F00CF70099271A /* BarButtonItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52648DB2316F4F9003342A0 /* BarButtonItems.swift */; };
 		5314E02825F00DA80099271A /* BlurringView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA1AF8B21484625001AE720 /* BlurringView.swift */; };
 		5314E03125F00DDD0099271A /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCC18C2B2501B22F00BE830E /* CardView.swift */; };
@@ -225,7 +224,6 @@
 		1168630222E131CF0088B302 /* TabBarItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarItemView.swift; sourceTree = "<group>"; };
 		1168630322E131CF0088B302 /* TabBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
 		118D9847230BBA2300BC0B72 /* TabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItem.swift; sourceTree = "<group>"; };
-		22010B6F2523CB2D00FF1F10 /* ActivityViewAnimating.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityViewAnimating.swift; sourceTree = "<group>"; };
 		43488C44270FAD0200124C71 /* NotificationView_SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView_SwiftUI.swift; sourceTree = "<group>"; };
 		436F6B3D26F4924200D18073 /* MSFNotificationTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFNotificationTokens.generated.swift; sourceTree = "<group>"; };
 		436F6B4026F4926B00D18073 /* MSFNotificationTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFNotificationTokens.swift; sourceTree = "<group>"; };
@@ -650,14 +648,6 @@
 			path = Obscurable;
 			sourceTree = "<group>";
 		};
-		5314E00325F009B70099271A /* ActivityViewAnimating */ = {
-			isa = PBXGroup;
-			children = (
-				22010B6F2523CB2D00FF1F10 /* ActivityViewAnimating.swift */,
-			);
-			path = ActivityViewAnimating;
-			sourceTree = "<group>";
-		};
 		5340828B26CFF298007716E1 /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
@@ -859,7 +849,6 @@
 			isa = PBXGroup;
 			children = (
 				5314DFEB25F002240099271A /* ActivityIndicator */,
-				5314E00325F009B70099271A /* ActivityViewAnimating */,
 				C77A04F325F04CFB001B3EB6 /* Avatar */,
 				5306074E26A1E6A4002D49CF /* AvatarGroup */,
 				5314DFF625F0079B0099271A /* BarButtonItems */,
@@ -1437,7 +1426,6 @@
 				5314E14525F016860099271A /* CardPresentationController.swift in Sources */,
 				92A1E4ED26A741F60007ED60 /* MSFCardNudgeTokens.swift in Sources */,
 				5314E0A925F010070099271A /* DrawerTransitionAnimator.swift in Sources */,
-				5314E00425F00A300099271A /* ActivityViewAnimating.swift in Sources */,
 				5314E06525F00EFD0099271A /* CalendarViewDayMonthCell.swift in Sources */,
 				92987990266A8E1C002B1EB4 /* MSFPersonaButtonTokens.generated.swift in Sources */,
 				5314E08B25F00F2D0099271A /* CommandBarItem.swift in Sources */,

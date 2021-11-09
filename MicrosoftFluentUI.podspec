@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'MicrosoftFluentUI'
-  s.version          = '0.3.6'
+  s.version          = '0.3.7'
   s.summary          = 'Fluent UI is a set of reusable UI controls and tools'
   s.homepage         = "https://www.microsoft.com/design/fluent/#/"
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
@@ -28,17 +28,10 @@ Pod::Spec.new do |s|
     avatargroup_ios.source_files = ["ios/FluentUI/AvatarGroup/**/*.{swift,h}"]
   end
 
-  s.subspec 'ActivityViewAnimating_ios' do |activityviewanimating_ios|
-    activityviewanimating_ios.platform = :ios
-    activityviewanimating_ios.dependency 'MicrosoftFluentUI/Core_ios'
-    activityviewanimating_ios.source_files = ["ios/FluentUI/ActivityViewAnimating/**/*.{swift,h}"]
-  end
-
   s.subspec 'ActivityIndicator_ios' do |activityindicator_ios|
     activityindicator_ios.platform = :ios
-    activityindicator_ios.dependency 'MicrosoftFluentUI/ActivityViewAnimating_ios'
-    activityindicator_ios.source_files = ["ios/FluentUI/ActivityIndicator/**/*.{swift,h}",
-                                          "ios/FluentUI/Vnext/ActivityIndicator/**/*.{swift,h}"]
+    activityindicator_ios.dependency 'MicrosoftFluentUI/Core_ios'
+    activityindicator_ios.source_files = ["ios/FluentUI/ActivityIndicator/**/*.{swift,h}"]
   end
 
   s.subspec 'BadgeField_ios' do |badgefield_ios|
@@ -176,7 +169,7 @@ fi', :execution_position => :before_compile }
 
   s.subspec 'IndeterminateProgressBar_ios' do |indeterminateprogressbar_ios|
     indeterminateprogressbar_ios.platform = :ios
-    indeterminateprogressbar_ios.dependency 'MicrosoftFluentUI/ActivityViewAnimating_ios'
+    indeterminateprogressbar_ios.dependency 'MicrosoftFluentUI/Core_ios'
     indeterminateprogressbar_ios.source_files = ["ios/FluentUI/IndeterminateProgressBar/**/*.{swift,h}"]
   end
 

@@ -179,7 +179,7 @@ class TableViewCellSampleData: TableViewSampleData {
                                      stackView.widthAnchor.constraint(equalTo: container.widthAnchor)])
 
         if withBorder {
-            container.layer.borderWidth = UIScreen.main.devicePixel
+            container.layer.borderWidth = 1 / UIScreen.main.scale // calculated device pixel
             container.layer.borderColor = Colors.textSecondary.cgColor
             container.layer.cornerRadius = 3
         }

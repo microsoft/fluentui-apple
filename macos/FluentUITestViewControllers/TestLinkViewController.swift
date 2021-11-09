@@ -12,9 +12,9 @@ class TestLinkViewController: NSViewController {
 	override func loadView() {
 		let url = NSURL(string: "https://github.com/microsoft/fluentui-apple")
 
-		let linkWithNoUnderline = Link(title: "Link", url: url)
+		let linkWithNoUnderline = Link(title: "FluentUI on GitHub", url: url)
 
-		let linkWithHover = Link(title: "Link with hover effects", url: url)
+		let linkWithHover = Link(title: "FluentUI on GitHub (link with hover effects)", url: url)
 		linkWithHover.showsUnderlineWhileMouseInside = true
 
 		let linkWithHoverAndNoURL = Link(title: "Link with hover effects and no URL")
@@ -25,10 +25,12 @@ class TestLinkViewController: NSViewController {
 		linkWithOverridenTargetAction.target = self
 		linkWithOverridenTargetAction.action = #selector(displayAlert)
 
-		let customLink = Link(title: "Link with custom font, color and image", url: url)
+		let customLinkTitle = "FluentUI on GitHub (Link with custom font, color and image)"
+		let customLink = Link(title: customLinkTitle, url: url)
 		customLink.font = NSFont.systemFont(ofSize: 12.0, weight: NSFont.Weight.semibold)
 		customLink.contentTintColor = .textColor
 		customLink.image = NSImage(named: NSImage.goRightTemplateName)!
+		customLink.image?.accessibilityDescription = customLinkTitle
 		customLink.imagePosition = .imageTrailing
 
 		disabledLink.showsUnderlineWhileMouseInside = true

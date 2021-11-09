@@ -245,17 +245,17 @@ open class MSFButtonLegacy: UIButton {
 
             if needsSetImage || !normalColor.isEqual(normalImageTintColor) {
                 normalImageTintColor = normalColor
-                setImage(image?.image(withPrimaryColor: normalColor), for: .normal)
+                setImage(image?.withTintColor(normalColor, renderingMode: .alwaysOriginal), for: .normal)
             }
 
             if needsSetImage || !highlightedColor.isEqual(highlightedImageTintColor) {
                 highlightedImageTintColor = highlightedColor
-                setImage(image?.image(withPrimaryColor: highlightedColor), for: .highlighted)
+                setImage(image?.withTintColor(highlightedColor, renderingMode: .alwaysOriginal), for: .highlighted)
             }
 
             if needsSetImage || !disabledColor.isEqual(disabledImageTintColor) {
                 disabledImageTintColor = disabledColor
-                setImage(image?.image(withPrimaryColor: disabledColor), for: .disabled)
+                setImage(image?.withTintColor(disabledColor, renderingMode: .alwaysOriginal), for: .disabled)
             }
 
             if needsSetImage {
