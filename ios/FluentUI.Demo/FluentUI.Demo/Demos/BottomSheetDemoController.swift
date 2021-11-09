@@ -58,6 +58,10 @@ class BottomSheetDemoController: UIViewController {
         scrollHidingEnabled = sender.isOn
     }
 
+	@objc private func toggleCollapsedContentHiding(_ sender: BooleanCell) {
+		bottomSheetViewController?.shouldHideCollapsedContent.toggle()
+	}
+
     @objc private func fullScreenSheetContent() {
         // This is also the default value which results in a full screen sheet.
         bottomSheetViewController?.preferredExpandedContentHeight = 0
@@ -99,6 +103,8 @@ class BottomSheetDemoController: UIViewController {
 
     private var scrollHidingEnabled: Bool = false
 
+    private var collapsedContentHidingEnabled: Bool = true
+
     private var isHiding: Bool = false
 
     private var interactiveHidingAnimator: UIViewAnimating?
@@ -108,6 +114,7 @@ class BottomSheetDemoController: UIViewController {
             DemoItem(title: "Expandable", type: .boolean, action: #selector(toggleExpandable), isOn: bottomSheetViewController?.isExpandable ?? true),
             DemoItem(title: "Hidden", type: .boolean, action: #selector(toggleHidden), isOn: bottomSheetViewController?.isHidden ?? false),
             DemoItem(title: "Scroll to hide", type: .boolean, action: #selector(toggleScrollHiding), isOn: scrollHidingEnabled),
+            DemoItem(title: "Hide collapsed content", type: .boolean, action: #selector(toggleCollapsedContentHiding), isOn: collapsedContentHidingEnabled),
             DemoItem(title: "Full screen sheet content", type: .action, action: #selector(fullScreenSheetContent)),
             DemoItem(title: "Fixed height sheet content", type: .action, action: #selector(fixedHeightSheetContent))
         ]

@@ -134,6 +134,15 @@ public class BottomSheetController: UIViewController {
         }
     }
 
+    /// Indicates if the content should be hidden when the sheet is collapsed
+    @objc open var shouldHideCollapsedContent: Bool = true {
+        didSet {
+            if shouldHideCollapsedContent != oldValue {
+                updateExpandedContentAlpha()
+            }
+        }
+    }
+
     /// Current height of the portion of a collapsed sheet that's in the safe area.
     @objc public var collapsedHeightInSafeArea: CGFloat {
         return offset(for: .collapsed)
@@ -422,10 +431,12 @@ public class BottomSheetController: UIViewController {
         let collapsedOffset = offset(for: .collapsed)
 
         var targetAlpha: CGFloat = 1.0
-        if currentOffset <= collapsedOffset {
-            targetAlpha = 0.0
-        } else if currentOffset > collapsedOffset && currentOffset < collapsedOffset + transitionLength {
-            targetAlpha = abs(currentOffset - collapsedOffset) / transitionLength
+        if shouldHideCollapsedContent {
+            if currentOffset <= collapsedOffset {
+                targetAlpha = 0.0
+            } else if currentOffset > collapsedOffset && currentOffset < collapsedOffset + transitionLength {
+                targetAlpha = abs(currentOffset - collapsedOffset) / transitionLength
+            }
         }
         expandedContentView.alpha = targetAlpha
     }
@@ -578,7 +589,7 @@ public class BottomSheetController: UIViewController {
         }
 
         let targetRelatedViewAlpha = targetExpansionState.relatedViewAlpha
-        if expandedContentView.alpha != targetRelatedViewAlpha {
+        if shouldHideCollapsedContent && expandedContentView.alpha != targetRelatedViewAlpha {
             translationAnimator.addAnimations {
                 self.expandedContentView.alpha = targetRelatedViewAlpha
             }
