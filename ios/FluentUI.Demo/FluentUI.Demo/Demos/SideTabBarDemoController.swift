@@ -125,7 +125,7 @@ class SideTabBarDemoController: DemoController {
         updateBadgeButtons()
     }
 
-    @objc private func showTooltipForSettingsButton() {
+    @objc private func showTooltipForHomeButton() {
         guard let view = sideTabBar.itemView(with: homeItem) else {
             return
         }
@@ -232,7 +232,7 @@ class SideTabBarDemoController: DemoController {
                 CellItem(title: "Show badge numbers", type: .boolean, action: #selector(toggleShowBadgeNumbers(_:))),
                 CellItem(title: "Use higher badge numbers", type: .boolean, action: #selector(toggleUseHigherBadgeNumbers(_:))),
                 CellItem(title: "Modify badge numbers", type: .stepper, action: nil),
-                CellItem(title: "Show tooltip for Home button", type: .action, action: #selector(showTooltipForSettingsButton)),
+                CellItem(title: "Show tooltip for Home button", type: .action, action: #selector(showTooltipForHomeButton)),
                 CellItem(title: "Dismiss", type: .action, action: #selector(dismissSideTabBar))
         ]
     }()
