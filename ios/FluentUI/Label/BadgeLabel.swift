@@ -8,10 +8,9 @@ import UIKit
 // MARK: BadgeLabel
 
 class BadgeLabel: UILabel {
-    private var shouldUseWindowColor: Bool = false
+    var shouldUseWindowColors: Bool = false
 
-    init(shouldUseWindowColor: Bool = false) {
-        self.shouldUseWindowColor = shouldUseWindowColor
+    init() {
         super.init(frame: .zero)
         initBase()
     }
@@ -34,7 +33,7 @@ class BadgeLabel: UILabel {
     override func didMoveToWindow() {
         super.didMoveToWindow()
 
-        if shouldUseWindowColor {
+        if shouldUseWindowColors {
             if let window = window {
                 textColor = UIColor(light: Colors.primary(for: window), dark: .white)
                 backgroundColor = UIColor(light: .white, dark: Colors.primary(for: window))

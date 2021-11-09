@@ -14,6 +14,12 @@ class BadgeLabelButton: UIButton {
         }
     }
 
+    var shouldUseWindowColorsInBadge: Bool? {
+        didSet {
+            updateBadgeLabel()
+        }
+    }
+
     override init(frame: CGRect) {
         super.init(frame: frame)
 
@@ -43,7 +49,7 @@ class BadgeLabelButton: UIButton {
         static let badgeCornerRadii: CGFloat = 10
     }
 
-    private let badgeLabel = BadgeLabel(shouldUseWindowColor: true)
+    private let badgeLabel = BadgeLabel()
 
     private var badgeWidth: CGFloat {
         return min(max(badgeLabel.intrinsicContentSize.width + Constants.badgeHorizontalPadding,
@@ -151,6 +157,7 @@ class BadgeLabelButton: UIButton {
 
     private func updateBadgeLabel() {
         badgeLabel.text = item?.badgeValue
+        badgeLabel.shouldUseWindowColors = shouldUseWindowColorsInBadge ?? true
         let isNilBadgeValue = item?.badgeValue == nil
         badgeLabel.isHidden = isNilBadgeValue
 
