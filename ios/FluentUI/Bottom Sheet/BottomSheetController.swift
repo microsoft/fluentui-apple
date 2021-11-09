@@ -135,7 +135,13 @@ public class BottomSheetController: UIViewController {
     }
 
     /// Indicates if the content should be hidden when the sheet is collapsed
-	@objc open var shouldHideCollapsedContent: Bool = true
+    @objc open var shouldHideCollapsedContent: Bool = true {
+        didSet {
+            if shouldHideCollapsedContent != oldValue {
+                updateExpandedContentAlpha()
+            }
+        }
+    }
 
     /// Current height of the portion of a collapsed sheet that's in the safe area.
     @objc public var collapsedHeightInSafeArea: CGFloat {
