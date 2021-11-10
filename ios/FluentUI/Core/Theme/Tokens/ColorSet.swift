@@ -40,6 +40,25 @@ public struct ColorSet {
         self.darkElevatedHighContrast = darkElevatedHighContrast
     }
 
+    /// Creates a dynamic color object from a named color, usually in an Asset Catalog.
+    ///
+    /// - Parameters:
+    ///   - name: The name of the color resource to look up.
+    ///   - bundle: The bundle in which to search for the color resource. If you don’t indicate a bundle, the initializer looks in your app’s main bundle by default.
+    public init?(_ name: String, bundle: Bundle? = nil) {
+        if let colorSet = UIColor(named: name, in: bundle, compatibleWith: nil)?.colorSet {
+            self.init(light: colorSet.light,
+                      lightHighContrast: colorSet.lightHighContrast,
+                      lightElevated: colorSet.lightElevated,
+                      lightElevatedHighContrast: colorSet.lightElevatedHighContrast,
+                      dark: colorSet.dark,
+                      darkHighContrast: colorSet.darkHighContrast,
+                      darkElevated: colorSet.darkElevated,
+                      darkElevatedHighContrast: colorSet.darkElevatedHighContrast)
+        }
+        return nil
+    }
+
     /// The default color for a light context. Required.
     var light: ColorValue
 
