@@ -33,7 +33,7 @@ class BadgeLabel: UILabel {
     override func didMoveToWindow() {
         super.didMoveToWindow()
 
-        guard let window = window, shouldUseWindowColor else {
+        guard shouldUseWindowColor, let window = window else {
             return
         }
         textColor = UIColor(light: Colors.primary(for: window), dark: .white)
