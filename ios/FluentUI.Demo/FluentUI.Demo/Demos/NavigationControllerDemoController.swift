@@ -387,7 +387,9 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
             guard let cell = tableView.dequeueReusableCell(withIdentifier: BooleanCell.identifier, for: indexPath) as? BooleanCell else {
                 return UITableViewCell()
             }
-            cell.setup(title: "Show rainbow ring on avatar", isOn: showRainbowRingForAvatar)
+            cell.setup(title: "Show rainbow ring on avatar",
+                       isOn: showRainbowRingForAvatar,
+                       isSwitchEnabled: navigationItem.usesLargeTitle)
             cell.titleNumberOfLines = 0
             cell.onValueChanged = { [weak self, weak cell] in
                 self?.shouldShowRainbowRing(isOn: cell?.isOn ?? false)
@@ -399,7 +401,9 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
             guard let cell = tableView.dequeueReusableCell(withIdentifier: BooleanCell.identifier, for: indexPath) as? BooleanCell else {
                 return UITableViewCell()
             }
-            cell.setup(title: "Show badge on right bar button items", isOn: showBadgeOnBarButtonItem)
+            cell.setup(title: "Show badge on right bar button items",
+                       isOn: showBadgeOnBarButtonItem,
+                       isSwitchEnabled: navigationItem.usesLargeTitle)
             cell.titleNumberOfLines = 0
             cell.onValueChanged = { [weak self, weak cell] in
                 self?.shouldShowBadge(isOn: cell?.isOn ?? false)
