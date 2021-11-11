@@ -387,9 +387,10 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
             guard let cell = tableView.dequeueReusableCell(withIdentifier: BooleanCell.identifier, for: indexPath) as? BooleanCell else {
                 return UITableViewCell()
             }
+            let isSwitchEnabled = navigationItem.usesLargeTitle && msfNavigationController?.msfNavigationBar.personaData != nil
             cell.setup(title: "Show rainbow ring on avatar",
                        isOn: showRainbowRingForAvatar,
-                       isSwitchEnabled: navigationItem.usesLargeTitle)
+                       isSwitchEnabled: isSwitchEnabled)
             cell.titleNumberOfLines = 0
             cell.onValueChanged = { [weak self, weak cell] in
                 self?.shouldShowRainbowRing(isOn: cell?.isOn ?? false)
