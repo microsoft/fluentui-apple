@@ -50,8 +50,7 @@ public struct CardNudge: View {
     @Environment(\.brandColors) var brandColors: BrandColors?
     @ObservedObject var state: MSFCardNudgeStateImpl
     var tokens: CardNudgeTokens {
-        state.tokens.brandColors.override = self.brandColors
-        return state.tokens
+        state.tokens.customBrandColors(self.brandColors)
     }
 
     @ViewBuilder

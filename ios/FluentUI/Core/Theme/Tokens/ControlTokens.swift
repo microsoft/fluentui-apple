@@ -22,5 +22,12 @@ open class ControlTokens: NSObject {
         var shade20: ColorSet { override?.shade20 ?? DefaultBrandColors.shade20 }
         var shade30: ColorSet { override?.shade30 ?? DefaultBrandColors.shade30 }
     }
-    var brandColors = ControlBrandColors()
+
+    /// Modifier to set custom brand colors on the token set.
+    func customBrandColors(_ brandColors: BrandColors?) -> Self {
+        self.brandColors.override = brandColors
+        return self
+    }
+
+    private(set) var brandColors = ControlBrandColors()
 }
