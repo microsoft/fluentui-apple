@@ -114,14 +114,14 @@ class DemoColorGreenTheme: NSObject, ColorProviding {
 }
 
 struct DemoDefaultBrandColors: BrandColors {
-    let primary: ColorSet? = GlobalTokens.Colors.Brand.primary.value
-    let shade10: ColorSet? = GlobalTokens.Colors.Brand.shade10.value
-    let shade20: ColorSet? = GlobalTokens.Colors.Brand.shade20.value
-    let shade30: ColorSet? = GlobalTokens.Colors.Brand.shade30.value
-    let tint10: ColorSet? = GlobalTokens.Colors.Brand.tint10.value
-    let tint20: ColorSet? = GlobalTokens.Colors.Brand.tint20.value
-    let tint30: ColorSet? = GlobalTokens.Colors.Brand.tint30.value
-    let tint40: ColorSet? = GlobalTokens.Colors.Brand.tint40.value
+    let primary: ColorSet? = Colors.Palette.communicationBlue.colorSet
+    let shade10: ColorSet? = Colors.Palette.communicationBlueShade10.colorSet
+    let shade20: ColorSet? = Colors.Palette.communicationBlueShade20.colorSet
+    let shade30: ColorSet? = Colors.Palette.communicationBlueShade30.colorSet
+    let tint10: ColorSet? = Colors.Palette.communicationBlueTint10.colorSet
+    let tint20: ColorSet? = Colors.Palette.communicationBlueTint20.colorSet
+    let tint30: ColorSet? = Colors.Palette.communicationBlueTint30.colorSet
+    let tint40: ColorSet? = Colors.Palette.communicationBlueTint40.colorSet
 }
 
 struct DemoGreenBrandColors: BrandColors {

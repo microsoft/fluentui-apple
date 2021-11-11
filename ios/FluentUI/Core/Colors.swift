@@ -257,6 +257,35 @@ public final class Colors: NSObject {
             }
         }
 
+        public var colorSet: ColorSet {
+            switch self {
+            // Set of colors defined as global tokens
+            case .communicationBlue:
+                return GlobalTokens.Colors.Brand.primary.value
+            case .communicationBlueTint40:
+                return GlobalTokens.Colors.Brand.primary.value
+            case .communicationBlueTint30:
+                return GlobalTokens.Colors.Brand.primary.value
+            case .communicationBlueTint20:
+                return GlobalTokens.Colors.Brand.primary.value
+            case .communicationBlueTint10:
+                return GlobalTokens.Colors.Brand.primary.value
+            case .communicationBlueShade30:
+                return GlobalTokens.Colors.Brand.primary.value
+            case .communicationBlueShade20:
+                return GlobalTokens.Colors.Brand.primary.value
+            case .communicationBlueShade10:
+                return GlobalTokens.Colors.Brand.primary.value
+            default:
+                // Fallback during transition: wrap the UIColor
+                if let colorSet = self.color.colorSet {
+                    return colorSet
+                } else {
+                    preconditionFailure("invalid fluent color")
+                }
+            }
+        }
+
         public var name: String {
             switch self {
             case .anchorShade30:
