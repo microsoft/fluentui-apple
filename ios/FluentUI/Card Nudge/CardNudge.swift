@@ -46,11 +46,11 @@ public typealias CardNudgeButtonAction = ((_ state: MSFCardNudgeState) -> Void)
 }
 
 /// View that represents the CardNudge.
-public struct CardNudge: View {
+public struct CardNudge: TokenizedControl {
     @Environment(\.brandColors) var brandColors: BrandColors?
     @ObservedObject var state: MSFCardNudgeStateImpl
     var tokens: CardNudgeTokens {
-        state.tokens.customBrandColors(self.brandColors)
+        state.tokens.customBrandColors(brandColors)
     }
 
     @ViewBuilder
@@ -174,7 +174,7 @@ public struct CardNudge: View {
     }
 }
 
-class MSFCardNudgeStateImpl: NSObject, ObservableObject, Identifiable, MSFCardNudgeState {
+class MSFCardNudgeStateImpl: NSObject, ObservableObject, Identifiable, TokenizedState, MSFCardNudgeState {
     @Published @objc public private(set) var style: MSFCardNudgeStyle
 
     @Published @objc public var title: String

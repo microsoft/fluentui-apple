@@ -8,9 +8,6 @@ import UIKit
 
 class ThemingDemoController: DemoController {
 
-    let cardNudge = MSFCardNudge(style: .outline, title: "Hello!")
-    let customCardNudge = MSFCardNudge(style: .outline, title: "Hello!")
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -53,6 +50,7 @@ class ThemingDemoController: DemoController {
 
         addRow(items: [avatarAccent.view, avatarDefault.view, avatarOutlinedPrimary.view], itemSpacing: 20)
 
+        let cardNudge = MSFCardNudge(style: .outline, title: "Hello!")
         cardNudge.state.accentText = "I'm using the token pipeline!"
         cardNudge.state.dismissButtonAction = { _ in
         }
@@ -107,6 +105,7 @@ class ThemingDemoController: DemoController {
 
         addRow(items: [customThemeAvatarAccent.view, customThemeAvatarDefault.view, customThemeAvatarOutlinedPrimary.view], itemSpacing: 20)
 
+        let customCardNudge = MSFCardNudge(style: .outline, title: "Hello!")
         customCardNudge.state.tokens = CustomCardNudgeTokens(style: .outline)
         customCardNudge.state.accentText = "I'm using the token pipeline!"
         customCardNudge.state.dismissButtonAction = { _ in
@@ -229,6 +228,6 @@ class CustomCardNudgeTokens: CardNudgeTokens {
         return purplePrimary
     }
     override var cornerRadius: CGFloat {
-        return 0.0
+        return GlobalTokens.Border.Radius.none.value
     }
 }

@@ -14,13 +14,6 @@ public class ControlHostingContainer: NSObject {
         return hostingController.view
     }
 
-    /// A custom `BrandColors` instance that should be used for styling this control, or `nil` if none exists.
-    public var brandColors: BrandColors? {
-        didSet {
-            updateRootView()
-        }
-    }
-
     init(_ controlView: AnyView) {
         self.controlView = controlView
         super.init()
@@ -41,20 +34,18 @@ public class ControlHostingContainer: NSObject {
     }
 
     private func updateRootView() {
-        self.hostingController.rootView = tokenizedView
+        self.hostingController.rootView = brandColoredView
     }
 
     private var currentBrandColors: BrandColors? {
-        if let overriddenBrandColors = brandColors {
-            return overriddenBrandColors
-        } else if let windowBrandColors = self.view.window?.brandColors {
+        if let windowBrandColors = self.view.window?.brandColors {
             return windowBrandColors
         } else {
             return nil
         }
     }
 
-    private var tokenizedView: AnyView {
+    private var brandColoredView: AnyView {
         return AnyView(controlView
                         .brandColors(currentBrandColors)
                         .onAppear { [weak self] in

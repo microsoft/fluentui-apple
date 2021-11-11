@@ -155,8 +155,7 @@ class ColorDemoController: UIViewController {
     @objc private func segmentedControlValueChanged(sender: Any) {
         if let segmentedControl = sender as? SegmentedControl, let window = self.view.window {
             if let currentDemoListViewController = currentDemoListViewController {
-                let theme = DemoColorTheme.allCases[segmentedControl.selectedSegmentIndex]
-                currentDemoListViewController.updateColorProviderFor(window: window, theme: theme)
+                currentDemoListViewController.updateColorProviderFor(window: window, theme: DemoColorTheme.allCases[segmentedControl.selectedSegmentIndex])
             }
         }
     }
