@@ -14,8 +14,8 @@ public class ControlHostingContainer: NSObject {
         return hostingController.view
     }
 
-    /// A custom `TokenFactory` that should be used for styling this control, or `nil` if none exists.
-    public var tokenFactory: TokenFactory? {
+    /// A custom `BrandColors` instance that should be used for styling this control, or `nil` if none exists.
+    public var brandColors: BrandColors? {
         didSet {
             updateRootView()
         }
@@ -44,22 +44,22 @@ public class ControlHostingContainer: NSObject {
         self.hostingController.rootView = tokenizedView
     }
 
-    private var currentTokenFactory: TokenFactory {
-        if let overriddenTokenFactory = tokenFactory {
-            return overriddenTokenFactory
-        } else if let windowTokenFactory = self.view.window?.tokenFactory {
-            return windowTokenFactory
+    private var currentBrandColors: BrandColors? {
+        if let overriddenBrandColors = brandColors {
+            return overriddenBrandColors
+        } else if let windowBrandColors = self.view.window?.brandColors {
+            return windowBrandColors
         } else {
-            return TokenFactory.shared
+            return nil
         }
     }
 
     private var tokenizedView: AnyView {
         return AnyView(controlView
-                        .tokenFactory(currentTokenFactory)
+                        .brandColors(currentBrandColors)
                         .onAppear { [weak self] in
                             // We don't usually have a window at construction time, so fetch our
-                            // token override during `onAppear`
+                            // brand colors during `onAppear`
                             self?.updateRootView()
                         }
         )

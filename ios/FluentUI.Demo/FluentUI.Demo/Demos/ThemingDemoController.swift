@@ -107,9 +107,7 @@ class ThemingDemoController: DemoController {
 
         addRow(items: [customThemeAvatarAccent.view, customThemeAvatarDefault.view, customThemeAvatarOutlinedPrimary.view], itemSpacing: 20)
 
-        let customTokenFactory = CustomTokenFactory()
-
-        customCardNudge.tokenFactory = customTokenFactory
+        customCardNudge.state.tokens = CustomCardNudgeTokens(style: .outline)
         customCardNudge.state.accentText = "I'm using the token pipeline!"
         customCardNudge.state.dismissButtonAction = { _ in
         }
@@ -124,6 +122,10 @@ class ThemingDemoController: DemoController {
             // Update both the SGen-backed theme...
             let greenThemeColorProviding = DemoColorGreenTheme()
             Colors.setProvider(provider: greenThemeColorProviding, for: window)
+
+            // ... and the pipeline-backed theme
+            let greenBrandColors = DemoGreenBrandColors()
+            window.brandColors = greenBrandColors
         }
     }
 
@@ -133,7 +135,7 @@ class ThemingDemoController: DemoController {
             FluentUIThemeManager.removeStylesheet(for: window)
 
             // ... and the pipeline-backed theme
-            window.tokenFactory = nil
+            window.brandColors = nil
         }
     }
 }
@@ -228,11 +230,5 @@ class CustomCardNudgeTokens: CardNudgeTokens {
     }
     override var cornerRadius: CGFloat {
         return 0.0
-    }
-}
-
-class CustomTokenFactory: TokenFactory {
-    override var cardNudgeTokens: CardNudgeTokens {
-        return CustomCardNudgeTokens()
     }
 }

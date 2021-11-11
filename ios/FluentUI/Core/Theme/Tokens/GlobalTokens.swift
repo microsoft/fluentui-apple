@@ -6,9 +6,9 @@
 import CoreGraphics
 
 /// Global Tokens represent a unified set of constants to be used by Fluent UI.
-struct GlobalTokens {
-    struct Colors {
-        enum Brand: TokenSet {
+public struct GlobalTokens {
+    public struct Colors {
+        public enum Brand: TokenSet {
             case primary
             case shade10
             case shade20
@@ -18,7 +18,7 @@ struct GlobalTokens {
             case tint30
             case tint40
 
-            var value: ColorSet {
+            public var value: ColorSet {
                 switch self {
                 case .primary:
                     return ColorSet(light: 0x0078D4,
@@ -48,7 +48,7 @@ struct GlobalTokens {
             }
         }
 
-        enum Neutral: TokenSet {
+        public enum Neutral: TokenSet {
             case black
             case grey2
             case grey4
@@ -101,7 +101,7 @@ struct GlobalTokens {
             case grey98
             case white
 
-            var value: ColorValue {
+            public var value: ColorValue {
                 switch self {
                 case .black:
                     return 0x000000
@@ -211,8 +211,8 @@ struct GlobalTokens {
 
     }
 
-    struct Icon {
-        enum Size: TokenSet {
+    public struct Icon {
+        public enum Size: TokenSet {
             case xxxSmall
             case xxSmall
             case xSmall
@@ -223,7 +223,7 @@ struct GlobalTokens {
             case xxLarge
             case xxxLarge
 
-            var value: CGFloat {
+            public var value: CGFloat {
                 switch self {
                 case .xxxSmall:
                     return 10
@@ -248,7 +248,7 @@ struct GlobalTokens {
         }
     }
 
-    enum Spacing: TokenSet {
+    public enum Spacing: TokenSet {
         case none
         case xxxSmall
         case xxSmall
@@ -261,7 +261,7 @@ struct GlobalTokens {
         case xxxLarge
         case xxxxLarge
 
-        var value: CGFloat {
+        public var value: CGFloat {
             switch self {
             case .none:
                 return 0
@@ -289,8 +289,8 @@ struct GlobalTokens {
         }
     }
 
-    struct Border {
-        enum Radius: TokenSet {
+    public struct Border {
+        public enum Radius: TokenSet {
             case none
             case small
             case medium
@@ -298,7 +298,7 @@ struct GlobalTokens {
             case xLarge
             case circle
 
-            var value: CGFloat {
+            public var value: CGFloat {
                 switch self {
                 case .none:
                     return 0
@@ -316,14 +316,14 @@ struct GlobalTokens {
             }
         }
 
-        enum Size: TokenSet {
+        public enum Size: TokenSet {
             case none
             case thin
             case thick
             case thicker
             case thickest
 
-            var value: CGFloat {
+            public var value: CGFloat {
                 switch self {
                 case .none:
                     return 0

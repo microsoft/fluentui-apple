@@ -537,10 +537,6 @@ public final class Colors: NSObject {
                                              window: window)
         FluentUIThemeManager.setStylesheet(stylesheet: stylesheet,
                                            for: window)
-
-        // Update the new branding color APIs with these colors as well
-        let brandColors = ColorProviderBrandColors(provider: provider, window: window)
-        window.tokenFactory = TokenFactory(brandColors: brandColors)
     }
 
     // MARK: Primary
@@ -756,69 +752,6 @@ public final class Colors: NSObject {
     @available(*, unavailable)
     override init() {
         super.init()
-    }
-
-    // MARK: - Helpers
-
-    private struct ColorProviderBrandColors: BrandColors {
-        var primary: ColorSet? {
-            if let window = window {
-                return provider?.primaryColor(for: window)?.colorSet
-            }
-            return nil
-        }
-
-        var shade10: ColorSet? {
-            if let window = window {
-                return provider?.primaryShade10Color(for: window)?.colorSet
-            }
-            return nil
-        }
-
-        var shade20: ColorSet? {
-            if let window = window {
-                return provider?.primaryShade20Color(for: window)?.colorSet
-            }
-            return nil
-        }
-
-        var shade30: ColorSet? {
-            if let window = window {
-                return provider?.primaryShade30Color(for: window)?.colorSet
-            }
-            return nil
-        }
-
-        var tint10: ColorSet? {
-            if let window = window {
-                return provider?.primaryTint10Color(for: window)?.colorSet
-            }
-            return nil
-        }
-
-        var tint20: ColorSet? {
-            if let window = window {
-                return provider?.primaryTint20Color(for: window)?.colorSet
-            }
-            return nil
-        }
-
-        var tint30: ColorSet? {
-            if let window = window {
-                return provider?.primaryTint30Color(for: window)?.colorSet
-            }
-            return nil
-        }
-
-        var tint40: ColorSet? {
-            if let window = window {
-                return provider?.primaryTint40Color(for: window)?.colorSet
-            }
-            return nil
-        }
-
-        weak var provider: ColorProviding?
-        weak var window: UIWindow?
     }
 }
 

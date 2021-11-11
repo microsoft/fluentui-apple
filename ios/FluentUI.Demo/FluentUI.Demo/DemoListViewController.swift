@@ -34,6 +34,7 @@ class DemoListViewController: DemoTableViewController {
         self.theme = theme
         if let provider = self.provider, let primaryColor = provider.primaryColor(for: window) {
             Colors.setProvider(provider: provider, for: window)
+            window.brandColors = brandColors
             FluentUIFramework.initializeAppearance(with: primaryColor, whenContainedInInstancesOf: [type(of: window)])
         } else {
             FluentUIFramework.initializeAppearance(with: Colors.primary(for: window))

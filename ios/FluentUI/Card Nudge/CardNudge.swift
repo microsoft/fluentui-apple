@@ -40,14 +40,18 @@ public typealias CardNudgeButtonAction = ((_ state: MSFCardNudgeState) -> Void)
 
     /// Action to be dispatched by the dismiss ("close") button on the trailing edge of the control.
     @objc var dismissButtonAction: CardNudgeButtonAction? { get set }
+
+    /// Design token set to use when drawing this control.
+    @objc var tokens: CardNudgeTokens { get set }
 }
 
 /// View that represents the CardNudge.
 public struct CardNudge: View {
-    @Environment(\.tokenFactory) var tokenFactory: TokenFactory
+    @Environment(\.brandColors) var brandColors: BrandColors?
     @ObservedObject var state: MSFCardNudgeStateImpl
     var tokens: CardNudgeTokens {
-        tokenFactory.cachedCardNudgeTokens.style(state.style)
+        state.tokens.brandColors.override = self.brandColors
+        return state.tokens
     }
 
     @ViewBuilder
@@ -193,9 +197,13 @@ class MSFCardNudgeStateImpl: NSObject, ObservableObject, Identifiable, MSFCardNu
     /// Action to be dispatched by the dismiss ("close") button on the trailing edge of the control.
     @Published @objc public var dismissButtonAction: CardNudgeButtonAction?
 
+    /// Design token set to use when drawing this control.
+    @Published @objc public var tokens: CardNudgeTokens
+
     @objc init(style: MSFCardNudgeStyle, title: String) {
         self.style = style
         self.title = title
+        self.tokens = CardNudgeTokens(style: style)
 
         super.init()
     }

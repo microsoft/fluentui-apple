@@ -102,11 +102,13 @@ open class CardNudgeTokens: ControlTokens {
         return GlobalTokens.Spacing.xSmall.value
     }
 
-    // MARK: - Style
-
-    private(set) var style: MSFCardNudgeStyle = .standard
-    func style(_ style: MSFCardNudgeStyle) -> CardNudgeTokens {
+    /// Creates a token set to use when styling a `CardNudge` control/
+    ///
+    /// - Parameters:
+    ///   - style:Style to draw the `CardNudge` control.
+    public init(style: MSFCardNudgeStyle) {
         self.style = style
-        return self
     }
+
+    private(set) var style: MSFCardNudgeStyle
 }

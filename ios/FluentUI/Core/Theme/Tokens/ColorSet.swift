@@ -55,8 +55,9 @@ public struct ColorSet {
                       darkHighContrast: colorSet.darkHighContrast,
                       darkElevated: colorSet.darkElevated,
                       darkElevatedHighContrast: colorSet.darkElevatedHighContrast)
+        } else {
+            return nil
         }
-        return nil
     }
 
     /// The default color for a light context. Required.
