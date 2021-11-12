@@ -263,19 +263,19 @@ public final class Colors: NSObject {
             case .communicationBlue:
                 return GlobalTokens.Colors.Brand.primary.value
             case .communicationBlueTint40:
-                return GlobalTokens.Colors.Brand.primary.value
+                return GlobalTokens.Colors.Brand.tint40.value
             case .communicationBlueTint30:
-                return GlobalTokens.Colors.Brand.primary.value
+                return GlobalTokens.Colors.Brand.tint30.value
             case .communicationBlueTint20:
-                return GlobalTokens.Colors.Brand.primary.value
+                return GlobalTokens.Colors.Brand.tint20.value
             case .communicationBlueTint10:
-                return GlobalTokens.Colors.Brand.primary.value
+                return GlobalTokens.Colors.Brand.tint10.value
             case .communicationBlueShade30:
-                return GlobalTokens.Colors.Brand.primary.value
+                return GlobalTokens.Colors.Brand.shade30.value
             case .communicationBlueShade20:
-                return GlobalTokens.Colors.Brand.primary.value
+                return GlobalTokens.Colors.Brand.shade20.value
             case .communicationBlueShade10:
-                return GlobalTokens.Colors.Brand.primary.value
+                return GlobalTokens.Colors.Brand.shade10.value
             default:
                 // Fallback during transition: wrap the UIColor
                 if let colorSet = self.color.colorSet {
