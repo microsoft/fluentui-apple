@@ -8,6 +8,7 @@ import UIKit
 // MARK: BadgeLabel
 
 class BadgeLabel: UILabel {
+    var shouldUseWindowColor: Bool = false
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -27,6 +28,16 @@ class BadgeLabel: UILabel {
         textAlignment = .center
         font = UIFont.systemFont(ofSize: Constants.badgeFontSize, weight: .regular)
         isHidden = true
+    }
+
+    override func didMoveToWindow() {
+        super.didMoveToWindow()
+
+        guard shouldUseWindowColor, let window = window else {
+            return
+        }
+        textColor = UIColor(light: Colors.primary(for: window), dark: .white)
+        backgroundColor = UIColor(light: .white, dark: Colors.primary(for: window))
     }
 
     private struct Constants {

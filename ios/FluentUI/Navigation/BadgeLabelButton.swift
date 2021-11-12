@@ -14,7 +14,15 @@ class BadgeLabelButton: UIButton {
         }
     }
 
+    var shouldUseWindowColorInBadge: Bool {
+        didSet {
+            badgeLabel.shouldUseWindowColor = shouldUseWindowColorInBadge
+        }
+    }
+
     override init(frame: CGRect) {
+        shouldUseWindowColorInBadge = true
+
         super.init(frame: frame)
 
         NotificationCenter.default.addObserver(self,
