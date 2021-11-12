@@ -180,6 +180,7 @@ class NavigationControllerDemoController: DemoController {
             }
 
             navigationItem.navigationBarStyle = newStyle
+            self.setNeedsStatusBarAppearanceUpdate()
             self.changeStyleContinuously(in: navigationItem)
         }
     }
