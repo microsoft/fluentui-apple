@@ -328,7 +328,9 @@ open class NavigationBar: UINavigationBar {
         isTranslucent = false
 
         // Cache the system shadow color
-        systemShadowColor = standardAppearance.shadowColor
+        if #available(iOS 13, *) {
+            systemShadowColor = standardAppearance.shadowColor
+        }
 
         updateColors(for: topItem)
         updateViewsForLargeTitlePresentation(for: topItem)
@@ -493,8 +495,12 @@ open class NavigationBar: UINavigationBar {
                 titleView.style = .dark
             }
 
-            standardAppearance.backgroundColor = color
-            scrollEdgeAppearance = standardAppearance
+            if #available(iOS 13, *) {
+                standardAppearance.backgroundColor = color
+                scrollEdgeAppearance = standardAppearance
+            } else {
+                barTintColor = color
+            }
             backgroundView.backgroundColor = color
             tintColor = style.tintColor
             if var titleTextAttributes = titleTextAttributes {
@@ -703,13 +709,26 @@ open class NavigationBar: UINavigationBar {
 
     private func updateShadow(for navigationItem: UINavigationItem?) {
         if needsShadow(for: navigationItem) {
-            standardAppearance.shadowColor = systemShadowColor
+            if #available(iOS 13, *) {
+                standardAppearance.shadowColor = systemShadowColor
+            } else {
+                shadowImage = nil
+                // Forcing layout to update size of shadow image view otherwise it stays with 0 height
+                setNeedsLayout()
+                subviews.forEach { $0.setNeedsLayout() }
+            }
         } else {
-            standardAppearance.shadowColor = nil
+            if #available(iOS 13, *) {
+                standardAppearance.shadowColor = nil
+            } else {
+                shadowImage = UIImage()
+            }
         }
 
-        // Update the scroll edge shadow to match standard
-        scrollEdgeAppearance = standardAppearance
+        if #available(iOS 13, *) {
+            // Update the scroll edge shadow to match standard
+            scrollEdgeAppearance = standardAppearance
+        }
     }
 
     private func needsShadow(for navigationItem: UINavigationItem?) -> Bool {
