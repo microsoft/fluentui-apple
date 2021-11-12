@@ -325,11 +325,15 @@ open class NavigationBar: UINavigationBar {
         rightBarButtonItemsStackView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         rightBarButtonItemsStackView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
 
-        updateViewsForLargeTitlePresentation(for: topItem)
-        updateColors(for: topItem)
-
         isTranslucent = false
 
+        // Cache the system shadow color
+        if #available(iOS 13, *) {
+            systemShadowColor = standardAppearance.shadowColor
+        }
+
+        updateColors(for: topItem)
+        updateViewsForLargeTitlePresentation(for: topItem)
         updateAccessibilityElements()
     }
 
@@ -491,7 +495,12 @@ open class NavigationBar: UINavigationBar {
                 titleView.style = .dark
             }
 
-            barTintColor = color
+            if #available(iOS 13, *) {
+                standardAppearance.backgroundColor = color
+                scrollEdgeAppearance = standardAppearance
+            } else {
+                barTintColor = color
+            }
             backgroundView.backgroundColor = color
             tintColor = style.tintColor
             if var titleTextAttributes = titleTextAttributes {
@@ -670,6 +679,9 @@ open class NavigationBar: UINavigationBar {
 
     // MARK: Large/Normal Title handling
 
+    /// Cache for the system shadow color, since the default value is private.
+    private var systemShadowColor: UIColor?
+
     private func updateViewsForLargeTitlePresentation(for navigationItem: UINavigationItem?) {
         // UIView.isHidden has a bug where a series of repeated calls with the same parameter can "glitch" the view into a permanent shown/hidden state
         // i.e. repeatedly trying to hide a UIView that is already in the hidden state
@@ -697,12 +709,25 @@ open class NavigationBar: UINavigationBar {
 
     private func updateShadow(for navigationItem: UINavigationItem?) {
         if needsShadow(for: navigationItem) {
-            shadowImage = nil
-            // Forcing layout to update size of shadow image view otherwise it stays with 0 height
-            setNeedsLayout()
-            subviews.forEach { $0.setNeedsLayout() }
+            if #available(iOS 13, *) {
+                standardAppearance.shadowColor = systemShadowColor
+            } else {
+                shadowImage = nil
+                // Forcing layout to update size of shadow image view otherwise it stays with 0 height
+                setNeedsLayout()
+                subviews.forEach { $0.setNeedsLayout() }
+            }
         } else {
-            shadowImage = UIImage()
+            if #available(iOS 13, *) {
+                standardAppearance.shadowColor = nil
+            } else {
+                shadowImage = UIImage()
+            }
+        }
+
+        if #available(iOS 13, *) {
+            // Update the scroll edge shadow to match standard
+            scrollEdgeAppearance = standardAppearance
         }
     }
 
