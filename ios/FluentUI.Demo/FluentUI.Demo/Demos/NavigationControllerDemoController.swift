@@ -180,6 +180,7 @@ class NavigationControllerDemoController: DemoController {
             }
 
             navigationItem.navigationBarStyle = newStyle
+            self.setNeedsStatusBarAppearanceUpdate()
             self.changeStyleContinuously(in: navigationItem)
         }
     }
@@ -451,6 +452,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     @objc private func showModalView() {
         let modalNavigationController = UINavigationController(rootViewController: ModalViewController(style: .grouped))
+        modalNavigationController.navigationBar.isTranslucent = true
         present(modalNavigationController, animated: true)
     }
 

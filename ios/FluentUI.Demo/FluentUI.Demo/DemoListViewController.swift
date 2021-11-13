@@ -22,6 +22,12 @@ class DemoListViewController: UITableViewController {
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
 
+        if #available(iOS 13, *) {
+            let standardAppearance = navigationController.navigationBar.standardAppearance
+            standardAppearance.backgroundColor = Colors.NavigationBar.background
+            navigationController.navigationBar.scrollEdgeAppearance = standardAppearance
+        }
+
         if let viewController = viewController {
             navigationController.pushViewController(viewController, animated: false)
         }
