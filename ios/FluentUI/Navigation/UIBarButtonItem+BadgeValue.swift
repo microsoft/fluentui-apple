@@ -35,6 +35,9 @@ import UIKit
         }
     }
 
+    /// Set this format string in a way that takes two parameters: item's accessibility label and badge value.
+    /// Format: %@ %@ <some string>
+    /// Example: "<Activity> <5> new activities" which will be called by voice over as "Activity 5 new activities button"
     @objc var accessibilityLabelFormatString: String? {
         get {
             return objc_getAssociatedObject(self, &AssociatedKeys.accessibilityLabelFormatString) as? String ?? nil
