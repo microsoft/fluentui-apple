@@ -35,20 +35,24 @@ class TestFilledTemplateImageViewController: NSViewController, NSMenuDelegate {
 	override func loadView() {
 
 		// Load the popup menus
+		let borderColorsPopupLabel = "Border Color"
 		borderColorsPopup.addItems(withTitles: borderColors.keys.sorted())
 		borderColorsPopup.menu?.delegate = self
 		borderColorsPopup.target = self
 		borderColorsPopup.action = #selector(borderColorChanged)
-		let borderColorTextField = NSTextField(labelWithString: "Border Color:")
+		borderColorsPopup.setAccessibilityLabel(borderColorsPopupLabel)
+		let borderColorTextField = NSTextField(labelWithString: "\(borderColorsPopupLabel):")
 		borderColorTextField.textColor = .white
 		let borderPopupContainer = NSStackView(views: [borderColorTextField, borderColorsPopup])
 
+		let fillColorsPopupLabel = "Fill Color"
 		fillColorsPopup.addItems(withTitles: fillColors.keys.sorted())
 		fillColorsPopup.menu?.delegate = self
 		fillColorsPopup.target = self
 		fillColorsPopup.action = #selector(fillColorChanged)
+		fillColorsPopup.setAccessibilityLabel(fillColorsPopupLabel)
 
-		let fillColorTextField = NSTextField(labelWithString: "Fill Color:")
+		let fillColorTextField = NSTextField(labelWithString: "\(fillColorsPopupLabel):")
 		fillColorTextField.textColor = .white
 		let fillPopupContainer = NSStackView(views: [fillColorTextField, fillColorsPopup])
 
