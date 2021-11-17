@@ -472,6 +472,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         } else {
             let dismissItem = UIBarButtonItem(title: BarButtonItemTag.dismiss.title, style: .plain, target: self, action: #selector(dismissSelf))
             dismissItem.tag = BarButtonItemTag.dismiss.rawValue
+            dismissItem.accessibilityLabel = "Dismiss"
             var items = [dismissItem]
             if allowsCellSelection {
                 let selectItem = UIBarButtonItem(title: BarButtonItemTag.select.title, style: .plain, target: self, action: #selector(showSelectionMode))

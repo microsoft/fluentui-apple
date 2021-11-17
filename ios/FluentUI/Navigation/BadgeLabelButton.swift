@@ -11,6 +11,7 @@ class BadgeLabelButton: UIButton {
         didSet {
             setupButton()
             prepareButtonForBadgeLabel()
+            updateAccessibilityLabel()
         }
     }
 
@@ -124,7 +125,6 @@ class BadgeLabelButton: UIButton {
         }
 
         accessibilityIdentifier = item.accessibilityIdentifier
-        accessibilityLabel = item.accessibilityLabel
         accessibilityHint = item.accessibilityHint
         showsLargeContentViewer = true
 
@@ -208,5 +208,21 @@ class BadgeLabelButton: UIButton {
 
     @objc private func badgeValueDidChange() {
         updateBadgeLabel()
+        updateAccessibilityLabel()
+    }
+
+    private func updateAccessibilityLabel() {
+        guard let item = item, let itemAccessibilityLabel = item.accessibilityLabel else {
+            return
+        }
+        if let badgeValue = item.badgeValue {
+            if let accessibilityLabelFormatString = item.accessibilityLabelFormatString {
+                accessibilityLabel = String(format: accessibilityLabelFormatString, itemAccessibilityLabel, badgeValue)
+            } else {
+                accessibilityLabel = String(format: "Accessibility.BadgeLabelButton.LabelFormat".localized, itemAccessibilityLabel, badgeValue)
+            }
+        } else {
+            accessibilityLabel = itemAccessibilityLabel
+        }
     }
 }

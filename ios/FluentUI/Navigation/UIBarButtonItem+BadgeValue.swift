@@ -8,6 +8,7 @@ import UIKit
 @objc public extension UIBarButtonItem {
     private struct AssociatedKeys {
         static var badgeValue: String = "badgeValue"
+        static var accessibilityLabelFormatString: String = "accessibilityLabelFormatString"
     }
 
     static let badgeValueDidChangeNotification = NSNotification.Name(rawValue: "UIBarButtonItemBadgeValueDidChangeNotification")
@@ -31,6 +32,15 @@ import UIKit
             badgeValue = NumberFormatter.localizedString(from: NSNumber(value: number), number: .none)
         } else {
             badgeValue = nil
+        }
+    }
+
+    @objc var accessibilityLabelFormatString: String? {
+        get {
+            return objc_getAssociatedObject(self, &AssociatedKeys.accessibilityLabelFormatString) as? String ?? nil
+        }
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.accessibilityLabelFormatString, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
 }
