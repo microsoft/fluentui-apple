@@ -31,6 +31,9 @@ import UIKit
         }
     }
 
+    /// Use this method on bar button item's instance to set the badge value and badge accessibility label.
+    /// Complete badge accessibility label would be the concatenation of the badge value and badge accessibility label.
+    /// Complete accessibility label for the item in the navigation bar would be item's accessibility label concatenated with the complete badge accessibility label.
     @objc func setBadgeValue(_ badgeValue: String?, badgeAccessibilityLabel: String?) {
         self.badgeValue = badgeValue
         self.badgeAccessibilityLabel = (badgeValue ?? "").appending(badgeAccessibilityLabel ?? "")

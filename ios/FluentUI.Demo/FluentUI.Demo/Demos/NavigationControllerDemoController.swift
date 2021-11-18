@@ -510,7 +510,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 let badgeAccessibilityLabel = isOn ? "items" : nil
                 item.setBadgeValue(badgeValue, badgeAccessibilityLabel: badgeAccessibilityLabel)
             } else if item.tag == BarButtonItemTag.threeDay.rawValue {
-                let badgeValue = isOn ? "New" : nil
+                let badgeValue = isOn ? "12" : nil
                 item.setBadgeValue(badgeValue, badgeAccessibilityLabel: nil)
             } else {
                 let badgeValue = isOn ? "12" : nil
