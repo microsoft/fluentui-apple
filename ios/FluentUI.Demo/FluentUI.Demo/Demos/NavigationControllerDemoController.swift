@@ -506,11 +506,16 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
         for item in items {
             if item.tag == BarButtonItemTag.dismiss.rawValue {
-                item.badgeValue = isOn ? "12345" : nil
+                let badgeValue = isOn ? "12345" : nil
+                let badgeAccessibilityLabel = isOn ? "items" : nil
+                item.setBadgeValue(badgeValue, badgeAccessibilityLabel: badgeAccessibilityLabel)
             } else if item.tag == BarButtonItemTag.threeDay.rawValue {
-                item.badgeValue = isOn ? "12" : nil
+                let badgeValue = isOn ? "New" : nil
+                item.setBadgeValue(badgeValue, badgeAccessibilityLabel: nil)
             } else {
-                item.badgeValue = isOn ? "New" : nil
+                let badgeValue = isOn ? "12" : nil
+                let badgeAccessibilityLabel = isOn ? "new items" : nil
+                item.setBadgeValue(badgeValue, badgeAccessibilityLabel: badgeAccessibilityLabel)
             }
         }
         showBadgeOnBarButtonItem = isOn

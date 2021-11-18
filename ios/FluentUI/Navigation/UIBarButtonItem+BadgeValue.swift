@@ -8,42 +8,32 @@ import UIKit
 @objc public extension UIBarButtonItem {
     private struct AssociatedKeys {
         static var badgeValue: String = "badgeValue"
-        static var accessibilityLabelFormatString: String = "accessibilityLabelFormatString"
+        static var badgeAccessibilityLabel: String = "badgeAccessibilityLabel"
     }
 
-    static let badgeValueDidChangeNotification = NSNotification.Name(rawValue: "UIBarButtonItemBadgeValueDidChangeNotification")
+    static let badgePropertiesDidChangeNotification = NSNotification.Name(rawValue: "UIBarButtonItemBadgePropertiesDidChangeNotification")
 
-    /// The badge value will be displayed in a red oval above the UIBarButtonItem.
-    /// Set the badge value to nil to hide the red oval.
-    @objc var badgeValue: String? {
+    @objc internal var badgeValue: String? {
         get {
             return objc_getAssociatedObject(self, &AssociatedKeys.badgeValue) as? String ?? nil
         }
         set {
             objc_setAssociatedObject(self, &AssociatedKeys.badgeValue, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-            NotificationCenter.default.post(name: UIBarButtonItem.badgeValueDidChangeNotification, object: self)
         }
     }
 
-    /// Convenience method to set the badge value to a number.
-    /// If the number is zero, the badge value will be hidden.
-    @objc func setBadgeNumber(_ number: UInt) {
-        if number > 0 {
-            badgeValue = NumberFormatter.localizedString(from: NSNumber(value: number), number: .none)
-        } else {
-            badgeValue = nil
-        }
-    }
-
-    /// Set this format string in a way that takes two parameters: item's accessibility label and badge value.
-    /// Format: %@ %@ <some string>
-    /// Example: "<Activity> <5> new activities" which will be called by voice over as "Activity 5 new activities button"
-    @objc var accessibilityLabelFormatString: String? {
+    @objc internal var badgeAccessibilityLabel: String? {
         get {
-            return objc_getAssociatedObject(self, &AssociatedKeys.accessibilityLabelFormatString) as? String ?? nil
+            return objc_getAssociatedObject(self, &AssociatedKeys.badgeAccessibilityLabel) as? String ?? nil
         }
         set {
-            objc_setAssociatedObject(self, &AssociatedKeys.accessibilityLabelFormatString, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self, &AssociatedKeys.badgeAccessibilityLabel, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
+    }
+
+    @objc func setBadgeValue(_ badgeValue: String?, badgeAccessibilityLabel: String?) {
+        self.badgeValue = badgeValue
+        self.badgeAccessibilityLabel = (badgeValue ?? "").appending(badgeAccessibilityLabel ?? "")
+        NotificationCenter.default.post(name: UIBarButtonItem.badgePropertiesDidChangeNotification, object: self)
     }
 }

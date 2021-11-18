@@ -11,7 +11,6 @@ class BadgeLabelButton: UIButton {
         didSet {
             setupButton()
             prepareButtonForBadgeLabel()
-            updateAccessibilityLabel()
         }
     }
 
@@ -27,8 +26,8 @@ class BadgeLabelButton: UIButton {
         super.init(frame: frame)
 
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(badgeValueDidChange),
-                                               name: UIBarButtonItem.badgeValueDidChangeNotification,
+                                               selector: #selector(badgePropertiesDidChange),
+                                               name: UIBarButtonItem.badgePropertiesDidChangeNotification,
                                                object: item)
     }
 
@@ -125,6 +124,7 @@ class BadgeLabelButton: UIButton {
         }
 
         accessibilityIdentifier = item.accessibilityIdentifier
+        accessibilityLabel = item.accessibilityLabel
         accessibilityHint = item.accessibilityHint
         showsLargeContentViewer = true
 
@@ -206,7 +206,7 @@ class BadgeLabelButton: UIButton {
                       height: frame.size.height + 2 * Constants.badgeBorderWidth)
     }
 
-    @objc private func badgeValueDidChange() {
+    @objc private func badgePropertiesDidChange() {
         updateBadgeLabel()
         updateAccessibilityLabel()
     }
@@ -215,14 +215,6 @@ class BadgeLabelButton: UIButton {
         guard let item = item else {
             return
         }
-        if let badgeValue = item.badgeValue, let itemAccessibilityLabel = item.accessibilityLabel {
-            if let accessibilityLabelFormatString = item.accessibilityLabelFormatString {
-                accessibilityLabel = String(format: accessibilityLabelFormatString, itemAccessibilityLabel, badgeValue)
-            } else {
-                accessibilityLabel = String(format: "Accessibility.BadgeLabelButton.LabelFormat".localized, itemAccessibilityLabel, badgeValue)
-            }
-        } else {
-            accessibilityLabel = item.accessibilityLabel
-        }
+        accessibilityLabel = (item.accessibilityLabel ?? "").appending(item.badgeAccessibilityLabel ?? "")
     }
 }
