@@ -241,8 +241,7 @@ public struct AvatarGroup: View {
                         .transition(AnyTransition.move(edge: .leading))
                     }
                 }
-                .frame(width: geo.frame(in: .local).minX,
-                       height: geo.size.height,
+                .frame(height: geo.size.height,
                        alignment: .leading)
             }
             .frame(width: calcwidth, height: groupHeight)
