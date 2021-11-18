@@ -513,9 +513,8 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 let badgeValue = isOn ? "12" : nil
                 item.setBadgeValue(badgeValue, badgeAccessibilityLabel: nil)
             } else {
-                let badgeValue = isOn ? "12" : nil
-                let badgeAccessibilityLabel = isOn ? "new items" : nil
-                item.setBadgeValue(badgeValue, badgeAccessibilityLabel: badgeAccessibilityLabel)
+                let badgeValue = isOn ? "New" : nil
+                item.setBadgeValue(badgeValue, badgeAccessibilityLabel: nil)
             }
         }
         showBadgeOnBarButtonItem = isOn
