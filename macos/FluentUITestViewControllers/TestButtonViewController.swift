@@ -101,44 +101,56 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 	var fluentButtons: [Button] = []
 
 	override func loadView() {
+		let materialPopupLabel = "Pane Material"
 		materialsPopup.addItems(withTitles: effectViewMaterials.keys.sorted())
 		materialsPopup.menu?.delegate = self
 		materialsPopup.target = self
 		materialsPopup.action = #selector(TestButtonViewController.materialChanged)
+		materialsPopup.setAccessibilityLabel(materialPopupLabel)
 
+		let backgroundColorsPopupLabel = "Pane Color"
 		backgroundColorsPopup.addItems(withTitles: backgroundColors.keys.sorted())
 		backgroundColorsPopup.menu?.delegate = self
 		backgroundColorsPopup.target = self
 		backgroundColorsPopup.action = #selector(TestButtonViewController.backgroundColorChanged)
+		backgroundColorsPopup.setAccessibilityLabel(backgroundColorsPopupLabel)
 
+		let imagePositionsPopupLabel = "Image Position"
 		imagePositionsPopup.addItems(withTitles: imagePositions.keys.sorted())
 		imagePositionsPopup.selectItem(withTitle: defaultImagePosition)
 		imagePositionsPopup.menu?.delegate = self
 		imagePositionsPopup.target = self
 		imagePositionsPopup.action = #selector(TestButtonViewController.imagePositionChanged)
+		imagePositionsPopup.setAccessibilityLabel(imagePositionsPopupLabel)
 
+		let buttonStatesPopupLabel = "Button State"
 		buttonStatesPopup.addItems(withTitles: buttonStates)
 		buttonStatesPopup.menu?.delegate = self
 		buttonStatesPopup.target = self
 		buttonStatesPopup.action = #selector(TestButtonViewController.stateChanged)
+		buttonStatesPopup.setAccessibilityLabel(buttonStatesPopupLabel)
 
+		let widthPopupLabel = "Button Width"
 		widthPopup.addItems(withTitles: widths.keys.sorted())
 		widthPopup.menu?.delegate = self
 		widthPopup.target = self
 		widthPopup.action = #selector(TestButtonViewController.widthConstraintsChanged)
+		widthPopup.setAccessibilityLabel(widthPopupLabel)
 
+		let heightPopupLabel = "Button Height"
 		heightPopup.addItems(withTitles: heights.keys.sorted())
 		heightPopup.menu?.delegate = self
 		heightPopup.target = self
 		heightPopup.action = #selector(TestButtonViewController.heightConstraintsChanged)
+		heightPopup.setAccessibilityLabel(heightPopupLabel)
 
 		let tools = [
-			[NSTextField(labelWithString: "Pane Material:"), materialsPopup],
-			[NSTextField(labelWithString: "Pane Color:"), backgroundColorsPopup],
-			[NSTextField(labelWithString: "Image Position:"), imagePositionsPopup],
-			[NSTextField(labelWithString: "Button State:"), buttonStatesPopup],
-			[NSTextField(labelWithString: "Button Width:"), widthPopup],
-			[NSTextField(labelWithString: "Button Height:"), heightPopup]
+			[NSTextField(labelWithString: "\(materialPopupLabel):"), materialsPopup],
+			[NSTextField(labelWithString: "\(backgroundColorsPopupLabel):"), backgroundColorsPopup],
+			[NSTextField(labelWithString: "\(imagePositionsPopupLabel):"), imagePositionsPopup],
+			[NSTextField(labelWithString: "\(buttonStatesPopupLabel):"), buttonStatesPopup],
+			[NSTextField(labelWithString: "\(widthPopupLabel):"), widthPopup],
+			[NSTextField(labelWithString: "\(heightPopupLabel):"), heightPopup]
 		]
 
 		let toolsGrid = NSGridView(views: tools)
