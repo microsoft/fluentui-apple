@@ -26,7 +26,7 @@ class BadgeLabelButton: UIButton {
         super.init(frame: frame)
 
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(badgePropertiesDidChange),
+                                               selector: #selector(badgeValueDidChange),
                                                name: UIBarButtonItem.badgeValueDidChangeNotification,
                                                object: item)
     }
@@ -206,7 +206,7 @@ class BadgeLabelButton: UIButton {
                       height: frame.size.height + 2 * Constants.badgeBorderWidth)
     }
 
-    @objc private func badgePropertiesDidChange() {
+    @objc private func badgeValueDidChange() {
         updateBadgeLabel()
         updateAccessibilityLabel()
     }
