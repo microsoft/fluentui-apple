@@ -27,7 +27,7 @@ class BadgeLabelButton: UIButton {
 
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(badgePropertiesDidChange),
-                                               name: UIBarButtonItem.badgePropertiesDidChangeNotification,
+                                               name: UIBarButtonItem.badgeValueDidChangeNotification,
                                                object: item)
     }
 
