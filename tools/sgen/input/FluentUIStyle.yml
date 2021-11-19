@@ -320,6 +320,13 @@ AP_MSFCommandBarTokens:
   itemIconColor: [ rest: $Colors.Foreground.neutral1, hover: $Colors.Foreground.neutral1, pressed: $Colors.Foreground.neutral1, selected: $Colors.Foreground.neutralInverted, disabled: $Colors.Foreground.neutralDisabled ]
   itemInterspace: $Spacing.xxxSmall
 
+AP_MSFDividerTokens:
+  color: [ rest: $Colors.Stroke.neutral1]
+  spacing: [ none: $Spacing.none, medium: $Spacing.medium]
+
+MSFShadowDividerTokens extends MSFDividerTokens:
+  color: [ rest: $Colors.Stroke.neutral2]
+
 AP_MSFDrawerTokens:
   backgroundDimmedColor: $Colors.Elevation.highElevation
   drawerBackground: "FluentUIColor(light: $Colors.Background.neutral1, dark: $Colors.Background.neutral3)"

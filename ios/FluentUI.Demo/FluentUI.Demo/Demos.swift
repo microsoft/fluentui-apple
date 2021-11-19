@@ -25,6 +25,7 @@ struct Demos {
         DemoDescriptor("Button", ButtonDemoController.self),
         DemoDescriptor("CardNudge", CardNudgeDemoController.self),
         DemoDescriptor("CommandBar", CommandBarDemoController.self),
+        DemoDescriptor("Divider", DividerDemoController.self),
         DemoDescriptor("DrawerController", DrawerDemoController.self),
         DemoDescriptor("IndeterminateProgressBar", IndeterminateProgressBarDemoController.self),
         DemoDescriptor("LeftNav", LeftNavDemoController.self),
