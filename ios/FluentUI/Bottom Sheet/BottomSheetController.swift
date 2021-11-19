@@ -400,6 +400,7 @@ public class BottomSheetController: UIViewController {
 
     public override func viewSafeAreaInsetsDidChange() {
         needsOffsetUpdate = true
+        super.viewSafeAreaInsetsDidChange()
     }
 
     public override func viewWillAppear(_ animated: Bool) {
