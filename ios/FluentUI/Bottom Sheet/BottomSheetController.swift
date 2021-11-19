@@ -392,6 +392,7 @@ public class BottomSheetController: UIViewController {
 
     public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
+
         if size.height != view.frame.height {
             needsOffsetUpdate = true
         }
