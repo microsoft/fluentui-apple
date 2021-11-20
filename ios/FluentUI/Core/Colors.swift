@@ -106,6 +106,29 @@ open class ColorProvidingStyle: FluentUIStyle {
     private var colorProviding: ColorProviding
 }
 
+/// Maps between `ColorProviding` and `BrandColors`.
+private struct BrandColorProvider: BrandColors {
+    let primary: ColorSet?
+    let tint10: ColorSet?
+    let tint20: ColorSet?
+    let tint30: ColorSet?
+    let tint40: ColorSet?
+    let shade10: ColorSet?
+    let shade20: ColorSet?
+    let shade30: ColorSet?
+
+    init(provider: ColorProviding, for window: UIWindow) {
+        primary = provider.primaryColor(for: window)?.colorSet
+        tint10 = provider.primaryTint10Color(for: window)?.colorSet
+        tint20 = provider.primaryTint20Color(for: window)?.colorSet
+        tint30 = provider.primaryTint30Color(for: window)?.colorSet
+        tint40 = provider.primaryTint40Color(for: window)?.colorSet
+        shade10 = provider.primaryShade10Color(for: window)?.colorSet
+        shade20 = provider.primaryShade20Color(for: window)?.colorSet
+        shade30 = provider.primaryShade30Color(for: window)?.colorSet
+    }
+}
+
 // MARK: Colors
 
 @objc(MSFColors)
@@ -558,6 +581,11 @@ public final class Colors: NSObject {
         }
     }
 
+    /// Associates a `ColorProvider` with a given `UIWindow` instance.
+    ///
+    /// - Parameters:
+    ///   - provider: The `ColorProvider` whose colors should be used for controls in this window.
+    ///   - window: The window where these colors should be applied.
     @objc public static func setProvider(provider: ColorProviding, for window: UIWindow) {
         colorProvidersMap.setObject(provider, forKey: window)
 
@@ -566,6 +594,19 @@ public final class Colors: NSObject {
                                              window: window)
         FluentUIThemeManager.setStylesheet(stylesheet: stylesheet,
                                            for: window)
+
+        // Store the brand colors on the window as well
+        window.brandColors = BrandColorProvider(provider: provider, for: window)
+    }
+
+    /// Removes any associated `ColorProvider` from the given `UIWindow` instance.
+    ///
+    /// - Parameters:
+    ///   - window: The window that should have its `ColorProvider` removed.
+    @objc public static func removeProvider(for window: UIWindow) {
+        colorProvidersMap.removeObject(forKey: window)
+        FluentUIThemeManager.removeStylesheet(for: window)
+        window.brandColors = nil
     }
 
     // MARK: Primary

@@ -120,23 +120,14 @@ class ThemingDemoController: DemoController {
 
     func didPressOverrideThemeButton() {
         if let window = self.view.window {
-            // Update both the SGen-backed theme...
             let greenThemeColorProviding = DemoColorGreenTheme()
             Colors.setProvider(provider: greenThemeColorProviding, for: window)
-
-            // ... and the pipeline-backed theme
-            let greenBrandColors = DemoGreenBrandColors()
-            window.brandColors = greenBrandColors
         }
     }
 
     func didPressResetThemeButton() {
         if let window = self.view.window {
-            // Update both the SGen-backed theme...
-            FluentUIThemeManager.removeStylesheet(for: window)
-
-            // ... and the pipeline-backed theme
-            window.brandColors = nil
+            Colors.removeProvider(for: window)
         }
     }
 }

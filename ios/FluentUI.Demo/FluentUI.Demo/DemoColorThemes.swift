@@ -32,17 +32,6 @@ enum DemoColorTheme: CaseIterable {
             return nil
         }
     }
-
-    var brandColors: BrandColors? {
-        switch self {
-        case .default:
-            return DemoDefaultBrandColors()
-        case .green:
-            return DemoGreenBrandColors()
-        case .none:
-            return nil
-        }
-    }
 }
 
 class DemoColorDefaultTheme: NSObject, ColorProviding {
@@ -111,26 +100,4 @@ class DemoColorGreenTheme: NSObject, ColorProviding {
     func primaryShade30Color(for window: UIWindow) -> UIColor? {
         return UIColor(named: "Colors/DemoPrimaryShade30Color")
     }
-}
-
-struct DemoDefaultBrandColors: BrandColors {
-    let primary: ColorSet? = Colors.Palette.communicationBlue.colorSet
-    let shade10: ColorSet? = Colors.Palette.communicationBlueShade10.colorSet
-    let shade20: ColorSet? = Colors.Palette.communicationBlueShade20.colorSet
-    let shade30: ColorSet? = Colors.Palette.communicationBlueShade30.colorSet
-    let tint10: ColorSet? = Colors.Palette.communicationBlueTint10.colorSet
-    let tint20: ColorSet? = Colors.Palette.communicationBlueTint20.colorSet
-    let tint30: ColorSet? = Colors.Palette.communicationBlueTint30.colorSet
-    let tint40: ColorSet? = Colors.Palette.communicationBlueTint40.colorSet
-}
-
-struct DemoGreenBrandColors: BrandColors {
-    let primary: ColorSet? = ColorSet("Colors/DemoPrimaryColor")
-    let shade10: ColorSet? = ColorSet("Colors/DemoPrimaryShade10Color")
-    let shade20: ColorSet? = ColorSet("Colors/DemoPrimaryShade20Color")
-    let shade30: ColorSet? = ColorSet("Colors/DemoPrimaryShade30Color")
-    let tint10: ColorSet? = ColorSet("Colors/DemoPrimaryTint10Color")
-    let tint20: ColorSet? = ColorSet("Colors/DemoPrimaryTint20Color")
-    let tint30: ColorSet? = ColorSet("Colors/DemoPrimaryTint30Color")
-    let tint40: ColorSet? = ColorSet("Colors/DemoPrimaryTint40Color")
 }

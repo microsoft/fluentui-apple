@@ -9,11 +9,9 @@ import UIKit
 class DemoListViewController: DemoTableViewController {
 
     private var provider: ColorProviding? = DemoColorTheme.default.provider
-    private var brandColors: BrandColors? = DemoColorTheme.default.brandColors
     public var theme: DemoColorTheme = DemoColorTheme.default {
         didSet {
             provider = theme.provider
-            brandColors = theme.brandColors
         }
     }
 
@@ -34,7 +32,6 @@ class DemoListViewController: DemoTableViewController {
         self.theme = theme
         if let provider = self.provider, let primaryColor = provider.primaryColor(for: window) {
             Colors.setProvider(provider: provider, for: window)
-            window.brandColors = brandColors
             FluentUIFramework.initializeAppearance(with: primaryColor, whenContainedInInstancesOf: [type(of: window)])
         } else {
             FluentUIFramework.initializeAppearance(with: Colors.primary(for: window))
