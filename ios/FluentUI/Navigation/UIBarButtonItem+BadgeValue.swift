@@ -35,11 +35,11 @@ import UIKit
     }
 
     /// Use this method on bar button item's instance to set the badge value and badge accessibility label.
-    /// Set the badge value to nil to hide the red oval.
-    /// Complete badge accessibility label would be the concatenation of the badge value and badge accessibility label.
-    /// Complete accessibility label for the item in the navigation bar would be item's accessibility label concatenated with the complete badge accessibility label.
+    /// - Parameters:
+    ///   - badgeValue: Value that will be displayed in a red oval above the bar button item. Set the badgeValue to nil to hide the red oval.
+    ///   - badgeAccessibilityLabel: Accessibility label for the badge. If present, then the overall accessibility label will be item's accessibility label concatenated with the badge's accessibility label, else only the item's accessibility label.
     @objc func setBadgeValue(_ badgeValue: String?, badgeAccessibilityLabel: String?) {
-        self.badgeAccessibilityLabel = (badgeValue ?? "").appending(badgeAccessibilityLabel ?? "")
+        self.badgeAccessibilityLabel = badgeAccessibilityLabel
         self.badgeValue = badgeValue
     }
 }

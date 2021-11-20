@@ -215,6 +215,12 @@ class BadgeLabelButton: UIButton {
         guard let item = item else {
             return
         }
-        accessibilityLabel = (item.accessibilityLabel ?? "").appending(item.badgeAccessibilityLabel ?? "")
+        if let itemAccessibilityLabel = item.accessibilityLabel, let badgeAccessibilityLabel = item.badgeAccessibilityLabel {
+            accessibilityLabel = String(format: "Accessibility.BadgeLabelButton.LabelFormat".localized,
+                                        itemAccessibilityLabel,
+                                        badgeAccessibilityLabel)
+        } else {
+            accessibilityLabel = item.accessibilityLabel
+        }
     }
 }
