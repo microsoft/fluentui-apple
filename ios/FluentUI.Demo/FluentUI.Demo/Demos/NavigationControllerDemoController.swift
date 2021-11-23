@@ -506,17 +506,19 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
         for item in items {
             if item.tag == BarButtonItemTag.dismiss.rawValue {
-                let badgeValue = isOn ? "12345" : nil
-                let badgeAccessibilityLabel = isOn ? "\(badgeValue!) items" : nil
-                item.setBadgeValue(badgeValue, badgeAccessibilityLabel: badgeAccessibilityLabel)
+                let badgeValue = "12345"
+                let badgeAccessibilityLabel = "\(badgeValue) items"
+                item.setBadgeValue(isOn ? badgeValue : nil,
+                                   badgeAccessibilityLabel: isOn ? badgeAccessibilityLabel : nil)
             } else if item.tag == BarButtonItemTag.threeDay.rawValue {
-                let badgeValue = isOn ? "12" : nil
-                let badgeAccessibilityLabel = isOn ? "\(badgeValue!) new items" : nil
-                item.setBadgeValue(badgeValue, badgeAccessibilityLabel: badgeAccessibilityLabel)
+                let badgeValue = "12"
+                let badgeAccessibilityLabel = "\(badgeValue) new items"
+                item.setBadgeValue(isOn ? badgeValue : nil,
+                                   badgeAccessibilityLabel: isOn ? badgeAccessibilityLabel : nil)
             } else {
-                let badgeValue = isOn ? "New" : nil
-                let badgeAccessibilityLabel = isOn ? "New feature" : nil
-                item.setBadgeValue(badgeValue, badgeAccessibilityLabel: badgeAccessibilityLabel)
+                let badgeValue = "New"
+                let badgeAccessibilityLabel = "New feature"
+                item.setBadgeValue(isOn ? badgeValue : nil, badgeAccessibilityLabel: isOn ? badgeAccessibilityLabel : nil)
             }
         }
         showBadgeOnBarButtonItem = isOn
