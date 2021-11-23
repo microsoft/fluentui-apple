@@ -85,6 +85,7 @@ class BottomCommandingDemoController: UIViewController {
         return [DemoItem(title: "Hidden", type: .boolean, action: #selector(toggleHidden), isOn: bottomCommandingController?.isHidden ?? false),
                 DemoItem(title: "Scroll to hide", type: .boolean, action: #selector(toggleScrollHiding), isOn: scrollHidingEnabled),
                 DemoItem(title: "Sheet more button", type: .boolean, action: #selector(toggleSheetMoreButton), isOn: bottomCommandingController?.prefersSheetMoreButtonVisible ?? true),
+                DemoItem(title: "Sheet should always fill width", type: .boolean, action: #selector(toggleFillWidth), isOn: bottomCommandingController?.sheetShouldAlwaysFillWidth ?? true),
                 DemoItem(title: "Expanded list items", type: .boolean, action: #selector(toggleExpandedItems), isOn: expandedItemsVisible),
                 DemoItem(title: "Additional expanded list items", type: .boolean, action: #selector(toggleAdditionalExpandedItems(_:)), isOn: additionalExpandedItemsVisible),
                 DemoItem(title: "Popover on hero command tap", type: .boolean, action: #selector(toggleHeroPopover)),
@@ -111,6 +112,10 @@ class BottomCommandingDemoController: UIViewController {
 
     @objc private func toggleSheetMoreButton(_ sender: BooleanCell) {
         bottomCommandingController?.prefersSheetMoreButtonVisible = sender.isOn
+    }
+
+    @objc private func toggleFillWidth(_ sender: BooleanCell) {
+        bottomCommandingController?.sheetShouldAlwaysFillWidth = sender.isOn
     }
 
     @objc private func toggleExpandedItems(_ sender: BooleanCell) {

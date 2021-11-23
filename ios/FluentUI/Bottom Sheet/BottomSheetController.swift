@@ -143,6 +143,15 @@ public class BottomSheetController: UIViewController {
         }
     }
 
+    /// Indicates if the sheet should always fill the available width.
+    @objc open var shouldAlwaysFillWidth: Bool = true {
+        didSet {
+            if shouldAlwaysFillWidth != oldValue {
+                updateSheetSizingConstraints()
+            }
+        }
+    }
+
     /// Current height of the portion of a collapsed sheet that's in the safe area.
     @objc public var collapsedHeightInSafeArea: CGFloat {
         return offset(for: .collapsed)
@@ -286,11 +295,11 @@ public class BottomSheetController: UIViewController {
             preferredExpandedContentLayoutGuide.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             preferredExpandedContentTopConstraint,
             preferredExpandedContentHeightConstraint,
-            bottomSheetView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            bottomSheetView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            sheetWidthConstraint,
+            bottomSheetView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             bottomSheetView.heightAnchor.constraint(lessThanOrEqualTo: maxSheetHeightLayoutGuide.heightAnchor),
-            overflowView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            overflowView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            overflowView.leadingAnchor.constraint(equalTo: bottomSheetView.leadingAnchor),
+            overflowView.trailingAnchor.constraint(equalTo: bottomSheetView.trailingAnchor),
             overflowView.heightAnchor.constraint(equalToConstant: Constants.Spring.overflowHeight),
             overflowView.topAnchor.constraint(equalTo: bottomSheetView.bottomAnchor),
             bottomSheetOffsetConstraint
@@ -674,6 +683,14 @@ public class BottomSheetController: UIViewController {
     }
 
     private func updateSheetSizingConstraints() {
+        if shouldAlwaysFillWidth {
+            sheetMaxWidthConstraint.isActive = false
+            sheetWidthConstraint.priority = .required
+        } else {
+            sheetWidthConstraint.priority = .defaultHigh
+            sheetMaxWidthConstraint.isActive = true
+        }
+
         if preferredExpandedContentHeight > 0 {
             fullScreenSheetConstraint.isActive = false
 
@@ -716,6 +733,10 @@ public class BottomSheetController: UIViewController {
         constraint.priority = .defaultHigh // Lower than required so Auto Layout can enforce max sheet height
         return constraint
     }()
+
+    private lazy var sheetWidthConstraint: NSLayoutConstraint = bottomSheetView.widthAnchor.constraint(equalTo: view.widthAnchor)
+
+    private lazy var sheetMaxWidthConstraint: NSLayoutConstraint = bottomSheetView.widthAnchor.constraint(lessThanOrEqualToConstant: Constants.maxSheetWidth)
 
     private lazy var maxSheetHeightLayoutGuide: UILayoutGuide = UILayoutGuide()
 
@@ -760,6 +781,8 @@ public class BottomSheetController: UIViewController {
         static let cornerRadius: CGFloat = 14
 
         static let expandedContentAlphaTransitionLength: CGFloat = 30
+
+        static let maxSheetWidth: CGFloat = 610
 
         struct Spring {
             // Spring used in slow swipes - no oscillation
