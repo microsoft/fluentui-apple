@@ -106,7 +106,8 @@ open class ColorProvidingStyle: FluentUIStyle {
     private var colorProviding: ColorProviding
 }
 
-private func updateBrandColors(globalTokens: GlobalTokens, provider: ColorProviding, for window: UIWindow) {
+private func updateBrandColors(provider: ColorProviding, for window: UIWindow) -> GlobalTokens {
+    let globalTokens = GlobalTokens()
     let brandColors = globalTokens.brandColors
     if let primary = provider.primaryColor(for: window)?.colorSet {
         brandColors[.primary] = primary
@@ -132,6 +133,7 @@ private func updateBrandColors(globalTokens: GlobalTokens, provider: ColorProvid
     if let shade30 = provider.primaryShade30Color(for: window)?.colorSet {
         brandColors[.shade30] = shade30
     }
+    return globalTokens
 }
 
 // MARK: Colors
@@ -601,8 +603,7 @@ public final class Colors: NSObject {
                                            for: window)
 
         // Create an updated token provider as well
-        let globalTokens = GlobalTokens()
-        updateBrandColors(globalTokens: globalTokens, provider: provider, for: window)
+        let globalTokens = updateBrandColors(provider: provider, for: window)
         window.tokenProvider = TokenProvider(globalTokens: globalTokens)
     }
 
