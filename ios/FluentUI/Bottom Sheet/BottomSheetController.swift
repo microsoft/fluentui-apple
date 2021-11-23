@@ -143,7 +143,7 @@ public class BottomSheetController: UIViewController {
         }
     }
 
-    /// Indicates if the sheet should always fill the available width.
+    /// Indicates if the sheet should always fill the available width. The default value is true.
     @objc open var shouldAlwaysFillWidth: Bool = true {
         didSet {
             if shouldAlwaysFillWidth != oldValue {
