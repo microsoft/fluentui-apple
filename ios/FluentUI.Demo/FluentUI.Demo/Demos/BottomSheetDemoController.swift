@@ -54,6 +54,10 @@ class BottomSheetDemoController: UIViewController {
         bottomSheetViewController?.isHidden = sender.isOn
     }
 
+    @objc private func toggleFillWidth(_ sender: BooleanCell) {
+        bottomSheetViewController?.shouldAlwaysFillWidth = sender.isOn
+    }
+
     @objc private func toggleScrollHiding(_ sender: BooleanCell) {
         scrollHidingEnabled = sender.isOn
     }
@@ -113,6 +117,7 @@ class BottomSheetDemoController: UIViewController {
         [
             DemoItem(title: "Expandable", type: .boolean, action: #selector(toggleExpandable), isOn: bottomSheetViewController?.isExpandable ?? true),
             DemoItem(title: "Hidden", type: .boolean, action: #selector(toggleHidden), isOn: bottomSheetViewController?.isHidden ?? false),
+            DemoItem(title: "Should always fill width", type: .boolean, action: #selector(toggleFillWidth), isOn: bottomSheetViewController?.shouldAlwaysFillWidth ?? false),
             DemoItem(title: "Scroll to hide", type: .boolean, action: #selector(toggleScrollHiding), isOn: scrollHidingEnabled),
             DemoItem(title: "Hide collapsed content", type: .boolean, action: #selector(toggleCollapsedContentHiding), isOn: collapsedContentHidingEnabled),
             DemoItem(title: "Full screen sheet content", type: .action, action: #selector(fullScreenSheetContent)),

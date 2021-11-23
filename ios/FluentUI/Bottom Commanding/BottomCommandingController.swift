@@ -146,6 +146,13 @@ open class BottomCommandingController: UIViewController {
         }
     }
 
+    /// Indicates if the sheet should always fill the available width. The default value is true.
+    @objc open var sheetShouldAlwaysFillWidth: Bool = true {
+        didSet {
+            bottomSheetController?.shouldAlwaysFillWidth = sheetShouldAlwaysFillWidth
+        }
+    }
+
     /// A layout guide that covers the on-screen portion of the current commanding view.
     @objc public let commandingLayoutGuide = UILayoutGuide()
 
@@ -359,6 +366,7 @@ open class BottomCommandingController: UIViewController {
         let sheetController = BottomSheetController(headerContentView: headerView, expandedContentView: makeSheetExpandedContent(with: tableView))
         sheetController.hostedScrollView = tableView
         sheetController.isHidden = isHidden
+        sheetController.shouldAlwaysFillWidth = sheetShouldAlwaysFillWidth
         sheetController.delegate = self
 
         addChild(sheetController)
