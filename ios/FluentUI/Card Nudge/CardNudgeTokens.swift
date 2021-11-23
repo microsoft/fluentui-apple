@@ -14,68 +14,59 @@ import SwiftUI
     case outline
 }
 
+/// Design token set for the `CardNudge` control.
 open class CardNudgeTokens: ControlTokens {
     open var accentColor: ColorSet {
-#if BRAND_COLORS
-        return BrandColors.shade20.value
-#else
-        return ColorSet(light: 0x005A9E,
-                        dark: 0x3AA0F3)
-#endif
+        return globalTokens.brandColors[.shade20]
     }
 
     open var accentIconSize: CGFloat {
-        return GlobalTokens.Icon.Size.xxSmall.value
+        return globalTokens.iconSize[.xxSmall]
     }
 
     open var accentPadding: CGFloat {
-        return GlobalTokens.Spacing.xxSmall.value
+        return globalTokens.spacing[.xxSmall]
     }
 
     open var backgroundColor: ColorSet {
         switch style {
         case .standard:
-            return AliasTokens.Colors.Background.neutral2.value
+            return aliasTokens.backgroundColors[.neutral2]
         case .outline:
-            return AliasTokens.Colors.Background.neutral1.value
+            return aliasTokens.backgroundColors[.neutral1]
         }
     }
 
     open var buttonBackgroundColor: ColorSet {
-#if BRAND_COLORS
-        return BrandColors.tint30.value
-#else
-        return ColorSet(light: 0xDEECF9,
-                        dark: 0x002848)
-#endif
+        return globalTokens.brandColors[.tint30]
     }
 
     open var buttonInnerPaddingHorizontal: CGFloat {
-        return GlobalTokens.Spacing.small.value
+        return globalTokens.spacing[.small]
     }
 
     open var circleSize: CGFloat {
-        return GlobalTokens.Icon.Size.xxLarge.value
+        return globalTokens.iconSize[.xxLarge]
     }
 
     open var cornerRadius: CGFloat {
-        return GlobalTokens.Border.Radius.xLarge.value
+        return globalTokens.borderRadius[.xLarge]
     }
 
     open var horizontalPadding: CGFloat {
-        return GlobalTokens.Spacing.medium.value
+        return globalTokens.spacing[.medium]
     }
 
     open var iconSize: CGFloat {
-        return GlobalTokens.Icon.Size.xSmall.value
+        return globalTokens.iconSize[.xSmall]
     }
 
     open var interTextVerticalPadding: CGFloat {
-        return GlobalTokens.Spacing.xxxSmall.value
+        return globalTokens.spacing[.xxxSmall]
     }
 
     open var mainContentVerticalPadding: CGFloat {
-        return GlobalTokens.Spacing.small.value
+        return globalTokens.spacing[.small]
     }
 
     open var minimumHeight: CGFloat {
@@ -85,41 +76,32 @@ open class CardNudgeTokens: ControlTokens {
     open var outlineColor: ColorSet {
         switch style {
         case .standard:
-            return AliasTokens.Colors.Background.neutral2.value
+            return aliasTokens.backgroundColors[.neutral2]
         case .outline:
-            return AliasTokens.Colors.Stroke.neutral1.value
+            return aliasTokens.strokeColors[.neutral1]
         }
     }
 
     open var outlineWidth: CGFloat {
-        return GlobalTokens.Border.Size.thin.value
+        return globalTokens.borderSize[.thin]
     }
 
     open var subtitleTextColor: ColorSet {
-        return AliasTokens.Colors.Foreground.neutral3.value
+        return aliasTokens.foregroundColors[.neutral3]
     }
 
     open var textColor: ColorSet {
         switch style {
         case .standard:
-            return AliasTokens.Colors.Foreground.neutral1.value
+            return aliasTokens.foregroundColors[.neutral1]
         case .outline:
-#if BRAND_COLORS
-            return BrandColors.shade20.value
-#else
-            return ColorSet(light: 0x005A9E,
-                            dark: 0x3AA0F3)
-#endif
+            return globalTokens.brandColors[.shade20]
         }
     }
 
     open var verticalPadding: CGFloat {
-        return GlobalTokens.Spacing.xSmall.value
+        return globalTokens.spacing[.xSmall]
     }
 
-    public init(style: MSFCardNudgeStyle) {
-        self.style = style
-    }
-
-    private let style: MSFCardNudgeStyle
+    var style: MSFCardNudgeStyle = .standard
 }

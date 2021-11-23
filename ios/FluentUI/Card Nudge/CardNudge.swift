@@ -40,14 +40,24 @@ public typealias CardNudgeButtonAction = ((_ state: MSFCardNudgeState) -> Void)
 
     /// Action to be dispatched by the dismiss ("close") button on the trailing edge of the control.
     @objc var dismissButtonAction: CardNudgeButtonAction? { get set }
+
+    /// Design token set to use when drawing this control.
+    @objc var tokens: CardNudgeTokens? { get set }
 }
 
 /// View that represents the CardNudge.
-public struct CardNudge: View {
-    @Environment(\.theme) var theme: FluentUIStyle
-    @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
+public struct CardNudge: TokenizedControl {
+    public static func defaultTokens() -> CardNudgeTokens {
+        return CardNudgeTokens()
+    }
+
+    @Environment(\.tokenProvider) var tokenProvider: TokenProvider
     @ObservedObject var state: MSFCardNudgeStateImpl
-    let tokens: CardNudgeTokens
+    var tokens: CardNudgeTokens {
+        let tokens = state.tokens ?? tokenProvider.tokens(for: self)
+        tokens.style = state.style
+        return tokens
+    }
 
     @ViewBuilder
     var icon: some View {
@@ -167,7 +177,6 @@ public struct CardNudge: View {
     init(style: MSFCardNudgeStyle, title: String) {
         let state = MSFCardNudgeStateImpl(style: style, title: title)
         self.state = state
-        self.tokens = state.tokens
     }
 }
 
@@ -193,12 +202,12 @@ class MSFCardNudgeStateImpl: NSObject, ObservableObject, Identifiable, MSFCardNu
     /// Action to be dispatched by the dismiss ("close") button on the trailing edge of the control.
     @Published @objc public var dismissButtonAction: CardNudgeButtonAction?
 
-    let tokens: CardNudgeTokens
+    /// Design token set to use when drawing this control.
+    @Published @objc public var tokens: CardNudgeTokens?
 
     @objc init(style: MSFCardNudgeStyle, title: String) {
         self.style = style
         self.title = title
-        self.tokens = CardNudgeTokens(style: style)
 
         super.init()
     }

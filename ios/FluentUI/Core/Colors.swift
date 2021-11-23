@@ -106,6 +106,34 @@ open class ColorProvidingStyle: FluentUIStyle {
     private var colorProviding: ColorProviding
 }
 
+private func updateBrandColors(globalTokens: GlobalTokens, provider: ColorProviding, for window: UIWindow) {
+    let brandColors = globalTokens.brandColors
+    if let primary = provider.primaryColor(for: window)?.colorSet {
+        brandColors[.primary] = primary
+    }
+    if let tint10 = provider.primaryTint10Color(for: window)?.colorSet {
+        brandColors[.tint10] = tint10
+    }
+    if let tint20 = provider.primaryTint20Color(for: window)?.colorSet {
+        brandColors[.tint20] = tint20
+    }
+    if let tint30 = provider.primaryTint30Color(for: window)?.colorSet {
+        brandColors[.tint30] = tint30
+    }
+    if let tint40 = provider.primaryTint40Color(for: window)?.colorSet {
+        brandColors[.tint40] = tint40
+    }
+    if let shade10 = provider.primaryShade10Color(for: window)?.colorSet {
+        brandColors[.shade10] = shade10
+    }
+    if let shade20 = provider.primaryShade20Color(for: window)?.colorSet {
+        brandColors[.shade20] = shade20
+    }
+    if let shade30 = provider.primaryShade30Color(for: window)?.colorSet {
+        brandColors[.shade30] = shade30
+    }
+}
+
 // MARK: Colors
 
 @objc(MSFColors)
@@ -254,6 +282,35 @@ public final class Colors: NSObject {
                 return fluentColor
             } else {
                 preconditionFailure("invalid fluent color")
+            }
+        }
+
+        public var colorSet: ColorSet {
+            switch self {
+            // Set of colors defined as global tokens
+            case .communicationBlue:
+                return GlobalTokens.shared.brandColors[.primary]
+            case .communicationBlueTint40:
+                return GlobalTokens.shared.brandColors[.tint40]
+            case .communicationBlueTint30:
+                return GlobalTokens.shared.brandColors[.tint30]
+            case .communicationBlueTint20:
+                return GlobalTokens.shared.brandColors[.tint20]
+            case .communicationBlueTint10:
+                return GlobalTokens.shared.brandColors[.tint10]
+            case .communicationBlueShade30:
+                return GlobalTokens.shared.brandColors[.shade30]
+            case .communicationBlueShade20:
+                return GlobalTokens.shared.brandColors[.shade20]
+            case .communicationBlueShade10:
+                return GlobalTokens.shared.brandColors[.shade10]
+            default:
+                // Fallback during transition: wrap the UIColor
+                if let colorSet = self.color.colorSet {
+                    return colorSet
+                } else {
+                    preconditionFailure("invalid fluent color")
+                }
             }
         }
 
@@ -529,6 +586,11 @@ public final class Colors: NSObject {
         }
     }
 
+    /// Associates a `ColorProvider` with a given `UIWindow` instance.
+    ///
+    /// - Parameters:
+    ///   - provider: The `ColorProvider` whose colors should be used for controls in this window.
+    ///   - window: The window where these colors should be applied.
     @objc public static func setProvider(provider: ColorProviding, for window: UIWindow) {
         colorProvidersMap.setObject(provider, forKey: window)
 
@@ -537,6 +599,21 @@ public final class Colors: NSObject {
                                              window: window)
         FluentUIThemeManager.setStylesheet(stylesheet: stylesheet,
                                            for: window)
+
+        // Create an updated token provider as well
+        let globalTokens = GlobalTokens()
+        updateBrandColors(globalTokens: globalTokens, provider: provider, for: window)
+        window.tokenProvider = TokenProvider(globalTokens: globalTokens)
+    }
+
+    /// Removes any associated `ColorProvider` from the given `UIWindow` instance.
+    ///
+    /// - Parameters:
+    ///   - window: The window that should have its `ColorProvider` removed.
+    @objc public static func removeProvider(for window: UIWindow) {
+        colorProvidersMap.removeObject(forKey: window)
+        FluentUIThemeManager.removeStylesheet(for: window)
+        window.tokenProvider = nil
     }
 
     // MARK: Primary
