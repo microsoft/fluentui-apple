@@ -505,8 +505,8 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
             return
         }
         for item in items {
-            var badgeValue: String? = nil
-            var badgeAccessibilityLabel: String? = nil
+            var badgeValue: String?
+            var badgeAccessibilityLabel: String?
             if isOn {
                 if item.tag == BarButtonItemTag.dismiss.rawValue {
                     badgeValue = "12345"
