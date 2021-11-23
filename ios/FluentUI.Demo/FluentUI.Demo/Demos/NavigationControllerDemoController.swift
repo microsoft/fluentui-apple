@@ -472,6 +472,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         } else {
             let dismissItem = UIBarButtonItem(title: BarButtonItemTag.dismiss.title, style: .plain, target: self, action: #selector(dismissSelf))
             dismissItem.tag = BarButtonItemTag.dismiss.rawValue
+            dismissItem.accessibilityLabel = "Dismiss"
             var items = [dismissItem]
             if allowsCellSelection {
                 let selectItem = UIBarButtonItem(title: BarButtonItemTag.select.title, style: .plain, target: self, action: #selector(showSelectionMode))
@@ -504,13 +505,21 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
             return
         }
         for item in items {
-            if item.tag == BarButtonItemTag.dismiss.rawValue {
-                item.badgeValue = isOn ? "12345" : nil
-            } else if item.tag == BarButtonItemTag.threeDay.rawValue {
-                item.badgeValue = isOn ? "12" : nil
-            } else {
-                item.badgeValue = isOn ? "New" : nil
+            var badgeValue: String?
+            var badgeAccessibilityLabel: String?
+            if isOn {
+                if item.tag == BarButtonItemTag.dismiss.rawValue {
+                    badgeValue = "12345"
+                    badgeAccessibilityLabel = "12345 items"
+                } else if item.tag == BarButtonItemTag.threeDay.rawValue {
+                    badgeValue = "12"
+                    badgeAccessibilityLabel = "12 new items"
+                } else {
+                    badgeValue = "New"
+                    badgeAccessibilityLabel = "New feature"
+                }
             }
+            item.setBadgeValue(badgeValue, badgeAccessibilityLabel: badgeAccessibilityLabel)
         }
         showBadgeOnBarButtonItem = isOn
     }
