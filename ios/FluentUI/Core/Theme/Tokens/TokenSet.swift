@@ -4,7 +4,7 @@
 //
 
 /// Template for all token sets, both global and alias. This ensures a unified return type for any given token set.
-public class TokenSet<T: Hashable, V> {
+public final class TokenSet<T: Hashable, V> {
 
     /// Allows us to index into this token set using square brackets.
     ///

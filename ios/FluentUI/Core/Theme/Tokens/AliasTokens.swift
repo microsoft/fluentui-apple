@@ -5,7 +5,7 @@
 
 import SwiftUI
 
-final public class AliasTokens {
+public final class AliasTokens {
 
     // MARK: ForegroundColors
 

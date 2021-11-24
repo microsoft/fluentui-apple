@@ -6,8 +6,7 @@
 import CoreGraphics
 
 /// Global Tokens represent a unified set of constants to be used by Fluent UI.
-
-final public class GlobalTokens {
+public final class GlobalTokens {
 
     // MARK: - BrandColors
 
