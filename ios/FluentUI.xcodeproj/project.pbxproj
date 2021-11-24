@@ -1774,6 +1774,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 53FC90F525673626008A06FD /* FluentUI_release.xcconfig */;
 			buildSettings = {
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 			};
 			name = Dogfood;
 		};
@@ -1795,6 +1796,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 53FC90F625673626008A06FD /* FluentUI_debug.xcconfig */;
 			buildSettings = {
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 			};
 			name = Debug;
 		};
@@ -1802,6 +1804,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 53FC90F525673626008A06FD /* FluentUI_release.xcconfig */;
 			buildSettings = {
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 			};
 			name = Release;
 		};
