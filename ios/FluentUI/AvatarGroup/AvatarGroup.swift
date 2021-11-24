@@ -244,21 +244,27 @@ public struct AvatarGroup: View {
                 .frame(height: geo.size.height,
                        alignment: .leading)
             }
-            .frame(width: calcwidth, height: groupHeight)
+            .frame(width: calcWidth(hasOverflow: overflowCount > 0), height: groupHeight, alignment: .leading)
         }
 
         return avatarGroupContent
     }
 
-    private var calcwidth: CGFloat {
+    private func calcWidth(hasOverflow: Bool) -> CGFloat {
         var width: CGFloat = 0
         let maxShown = state.maxDisplayedAvatars < state.avatars.count ? state.maxDisplayedAvatars : state.avatars.count
-        let interspace: CGFloat = tokens.interspace
+        let interspace: CGFloat = state.style == .stack ? tokens.interspace - tokens.ringInnerGap : tokens.interspace
         let avatarSize: CGFloat = tokens.size.size
         for index in 0 ..< maxShown {
             width += state.avatars[index].totalSize()
-            width += index < maxShown - 1 ? interspace : avatarSize
+            width += index < maxShown - 1 ? interspace : 0
         }
+
+        if hasOverflow {
+            width += interspace
+            width += avatarSize
+        }
+
         return width
     }
 
