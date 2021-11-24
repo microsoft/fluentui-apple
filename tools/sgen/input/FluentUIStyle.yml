@@ -399,6 +399,81 @@ AP_MSFPersonaViewTokens:
   labelFont: $Typography.headline
   sublabelColor: $Colors.Foreground.neutral1
 
+AP_MSFPillButtonTokens:
+  backgroundColor: "FluentUIColor(light: NamedColor(grey94), dark: NamedColor(grey8))"
+    # From Figma:
+    #### primary light: ✨ Neutral / Light / Grey 94, dark: ✨ Neutral/Dark/Grey 8
+
+  titleColor: "FluentUIColor(light: NamedColor(grey38), dark: NamedColor(grey84))"
+    # From Figma:
+    #### primary light: ✨ Neutral / Light / Grey 38, dark: ✨ Neutral/Dark/Grey 84
+
+  hoverBackgroundColor: "FluentUIColor(light: NamedColor(grey94), dark: NamedColor(grey8))"
+    ### NO HOVER IN iOS! Just going to use regular background color as a stand-in value for now
+
+  selectedBackgroundColor: $Colors.Brand.primary"
+    # From Figma:
+    #### primary light: ✨ Brand/Comm Blue/Light/App Primary #0078D4, dark: ✨ Brand/Comm Blue/Dark/App Primary #0086F0
+
+  selectedTitleColor: "FluentUIColor(light: NamedColor(white), dark: NamedColor(black)"
+    # From Figma:
+    #### primary light: ✨ Neutral / Light / White, dark: ✨ Neutral / Dark / Black
+
+  disabledBackgroundColor: "FluentUIColor(light: NamedColor(grey94), dark: NamedColor(grey8))"
+    # this is the same as regular background color, for both light and dark!
+
+  disabledTitleColor: "FluentUIColor(light: NamedColor(grey70), dark: NamedColor(grey26))"
+    # translating from vCurrent, light should be gray70 (equivalent to gray300), dark should be gray26 (rough equivalent to gray 600)
+
+  selectedDisabledBackgroundColor: "FluentUIColor(light: NamedColor(grey80), dark: NamedColor(grey30))"
+    #this is the same color as the non-selected buttons - for onBrand, it's sliiightly darker grey for light mode, sllliiightly lighter color for dark mode
+    
+  selectedDisabledTitleColor: "FluentUIColor(light: NamedColor(grey90), dark: NamedColor(grey44))"
+    
+  # Highlighted isn't a thing in iOS, so just use the regular colors here - will refactor these out in another change
+  highlightedBackgroundColor: "FluentUIColor(light: NamedColor(grey94), dark: NamedColor(grey8))"
+  highlightedTitleColor: "FluentUIColor(light: NamedColor(grey38), dark: NamedColor(grey84))"
+  selectedHighlightedBackgroundColor: $Colors.Brand.primary"
+  selectedHighlightedTitleColor: "FluentUIColor(light: NamedColor(white), dark: NamedColor(black)"
+    
+  enabledUnreadDotColor: $Colors.Brand.primary
+  disabledUnreadDotColor: "FluentUIColor(light: NamedColor(grey38), dark: NamedColor(grey84))"
+
+MSFOnBrandPillButtonTokens extends MSFPillButtonTokens:
+  backgroundColor: "FluentUIColor(light: $Colors.Brand.shade10, dark: NamedColor(grey8))"
+    # From Figma:
+    #### onBrand: ✨ Brand/Comm Blue/Light/Shade 10 #106EBE, dark: ✨ Neutral/Dark/Grey 8
+
+  titleColor: "FluentUIColor(light: NamedColor(white), dark: NamedColor(grey84))"
+  # Hover isn't a thing in iOS, so use throwaway shade for now
+  hoverBackgroundColor: "FluentUIColor(light: $Colors.Brand.shade10, dark: NamedColor(grey8))"
+
+  selectedBackgroundColor: "FluentUIColor(light: NamedColor(white), dark: NamedColor(grey32))"
+    # From Figma:
+    # onBrand: ✨ Neutral / Light / White, dark: ✨ Neutral/Dark/Grey 32
+
+  selectedTitleColor: "FluentUIColor(light: $Colors.Brand.primary, dark: NamedColor(white)"
+    # From Figma:
+    # onBrand: ✨ Brand/Comm Blue/Light/App Primary #0078D4, dark: ✨ Neutral/Dark/White
+
+  disabledBackgroundColor: "FluentUIColor(light: $Colors.Brand.shade10, dark: NamedColor(grey8))"
+    # Same as regular background colors
+  disabledTitleColor: "FluentUIColor(light: $Colors.Brand.shade10, dark: NamedColor(grey84))"
+    # light text is darker than white, dark text is dark than original text
+
+  # These look the same between on brand/primary for dark colors, different for light background, maybe not for light title? 
+  selectedDisabledBackgroundColor: "FluentUIColor(light: NamedColor(white), dark: NamedColor(grey30))"
+  selectedDisabledTitleColor: "FluentUIColor(light: NamedColor(grey90), dark: NamedColor(grey44))"
+
+  #### Highlighted isn't a thing on iOS, take the regular colors as stand in values
+  highlightedBackgroundColor: "FluentUIColor(light: $Colors.Brand.shade10, dark: NamedColor(grey8))"
+  highlightedTitleColor: "FluentUIColor(light: NamedColor(white), dark: NamedColor(grey84))"
+  selectedHighlightedBackgroundColor: "FluentUIColor(light: NamedColor(grey38), dark: NamedColor(grey84))"
+  selectedHighlightedTitleColor: "FluentUIColor(light: NamedColor(white), dark: NamedColor(black)"
+    
+  enabledUnreadDotColor: "FluentUIColor(light: NamedColor(white), dark: NamedColor(grey84))"
+  disabledUnreadDotColor: "FluentUIColor(light: $Colors.Brand.shade10, dark: NamedColor(grey84))"
+
 MSFPrimaryHeaderTokens extends MSFHeaderFooterTokens:
   textColor: $Colors.Foreground.neutral1
   textFont: $Typography.headline
