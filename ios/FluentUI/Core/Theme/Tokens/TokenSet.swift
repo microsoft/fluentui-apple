@@ -4,7 +4,7 @@
 //
 
 /// Template for all token sets, both global and alias. This ensures a unified return type for any given token set.
-public class TokenSet<T: CaseIterable & Hashable, V> {
+public class TokenSet<T: Hashable, V> {
 
     /// Allows us to index into this token set using square brackets.
     ///
@@ -15,19 +15,23 @@ public class TokenSet<T: CaseIterable & Hashable, V> {
     /// ```
     public subscript(token: T) -> V {
         get {
-            guard let value = values[token] else {
-                preconditionFailure("Missing value for token \(token)!")
+            if let value = valueOverrides?[token] {
+                return value
             }
-            return value
+            return defaultValues(token)
         }
         set(value) {
-            values[token] = value
+            if valueOverrides == nil {
+                valueOverrides = [:]
+            }
+            valueOverrides?[token] = value
         }
     }
 
-    init(_ values: [T: V]) {
-        self.values = values
+    init(_ defaultValues: @escaping ((_ token: T) -> V)) {
+        self.defaultValues = defaultValues
     }
 
-    private var values: [T: V] = [:]
+    private var defaultValues: ((_ token: T) -> V)
+    private var valueOverrides: [T: V]?
 }
