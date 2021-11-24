@@ -6,4 +6,13 @@ target 'FluentUI.Demo' do
 pod 'AppCenter'
 pod 'AppCenter/Distribute'
 
+# Make sure all projects exclude arm64 arch for simulator builds.
+# It will ensure the build of architecture x86_64 on Apple Silicon machines and prevent the following build error:
+# The linked and embedded framework 'Foo.framework' is missing one or more architectures required by this target: x86_64.
+post_install do |installer|
+  installer.pods_project.build_configurations.each do |config|
+    config.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] = "arm64"
+  end
+end
+
 end
