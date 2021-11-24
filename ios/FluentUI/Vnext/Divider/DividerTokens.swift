@@ -34,7 +34,7 @@ class MSFDividerTokens: MSFTokensBase, ObservableObject {
     override func updateForCurrentTheme() {
         let appearanceProxy = theme.MSFDividerTokens
 
-        color = appearanceProxy.color.rest
+        color = appearanceProxy.color
 
         switch spacing {
         case .none:

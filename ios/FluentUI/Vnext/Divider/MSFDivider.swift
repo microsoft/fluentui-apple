@@ -49,7 +49,7 @@ import SwiftUI
     }
 
     var window: UIWindow? {
-        return self.window
+        return self.view.window
     }
 
     private var hostingController: FluentUIHostingController!

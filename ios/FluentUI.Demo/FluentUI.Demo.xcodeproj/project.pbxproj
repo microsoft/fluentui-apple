@@ -71,6 +71,7 @@
 		CCC18C2F2501C75F00BE830E /* CardViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCC18C2E2501C75F00BE830E /* CardViewDemoController.swift */; };
 		E6842974247B672000A29C40 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6842973247B672000A29C40 /* SceneDelegate.swift */; };
 		E6842996247C350700A29C40 /* DemoColorThemes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6842995247C350700A29C40 /* DemoColorThemes.swift */; };
+		EC02A5F9274EED9200E81B3E /* DividerDemoController_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC02A5F8274EED9200E81B3E /* DividerDemoController_SwiftUI.swift */; };
 		EC6A71EC273DE6DF0076A586 /* DividerDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6A71EB273DE6DF0076A586 /* DividerDemoController.swift */; };
 		FC414E3725888BC300069E73 /* CommandBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC414E3625888BC300069E73 /* CommandBarDemoController.swift */; };
 		FDCF7C8321BF35680058E9E6 /* SegmentedControlDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDCF7C8221BF35680058E9E6 /* SegmentedControlDemoController.swift */; };
@@ -137,6 +138,7 @@
 		CCC18C2E2501C75F00BE830E /* CardViewDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewDemoController.swift; sourceTree = "<group>"; };
 		E6842973247B672000A29C40 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		E6842995247C350700A29C40 /* DemoColorThemes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoColorThemes.swift; sourceTree = "<group>"; };
+		EC02A5F8274EED9200E81B3E /* DividerDemoController_SwiftUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DividerDemoController_SwiftUI.swift; sourceTree = "<group>"; };
 		EC6A71EB273DE6DF0076A586 /* DividerDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DividerDemoController.swift; sourceTree = "<group>"; };
 		EC8EA6AF2580D82A00F191CE /* ListDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListDemoController.swift; sourceTree = "<group>"; };
 		FC414E3625888BC300069E73 /* CommandBarDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBarDemoController.swift; sourceTree = "<group>"; };
@@ -322,6 +324,7 @@
 				FC414E3625888BC300069E73 /* CommandBarDemoController.swift */,
 				FD7254EC21471A3F002F4069 /* DateTimePickerDemoController.swift */,
 				EC6A71EB273DE6DF0076A586 /* DividerDemoController.swift */,
+				EC02A5F8274EED9200E81B3E /* DividerDemoController_SwiftUI.swift */,
 				A5DCA75D211E3A92005F4CB7 /* DrawerDemoController.swift */,
 				B4E8F65121CD9579008A1598 /* HUDDemoController.swift */,
 				5328D97926FBA3E900F3723B /* IndeterminateProgressBarDemoController.swift */,
@@ -495,6 +498,7 @@
 				5328D97B26FBA3EA00F3723B /* IndeterminateProgressBarDemoController.swift in Sources */,
 				5373D55F2694C3070032A3B4 /* AvatarDemoController.swift in Sources */,
 				7D0931C124AAA3D30072458A /* SideTabBarDemoController.swift in Sources */,
+				EC02A5F9274EED9200E81B3E /* DividerDemoController_SwiftUI.swift in Sources */,
 				80B1F7012628D8BB004DFEE5 /* BottomSheetDemoController.swift in Sources */,
 				53097D3727028A7B00A6E4DC /* ButtonDemoController_SwiftUI.swift in Sources */,
 				FC414E3725888BC300069E73 /* CommandBarDemoController.swift in Sources */,
