@@ -19,18 +19,24 @@ class DividerDemoController: DemoController {
         super.viewDidLoad()
 
         for demo in DividerDemoCases.allCases {
-            let style = demo.style
             let spacing = demo.spacing
+            let color = demo == .custom ? UIColor.black : nil
             addTitle(text: demo.description)
-            container.addArrangedSubview(MSFDivider(style: style, spacing: spacing).view)
-            container.addArrangedSubview(MSFDivider(style: style, spacing: spacing).view)
+            let divider1 = MSFDivider(spacing: spacing)
+            divider1.state.color = color
+            let divider2 = MSFDivider(spacing: spacing)
+            divider2.state.color = color
+            container.addArrangedSubview(divider1.view)
+            container.addArrangedSubview(divider2.view)
 
             let horizontalStack = UIStackView()
             horizontalStack.axis = .horizontal
             let text1 = Label(style: .subhead, colorStyle: .regular)
             text1.text = "Text 1"
             horizontalStack.addArrangedSubview(text1)
-            horizontalStack.addArrangedSubview(MSFDivider(style: style, orientation: .vertical, spacing: spacing).view)
+            let divider3 = MSFDivider(orientation: .vertical, spacing: spacing)
+            divider3.state.color = color
+            horizontalStack.addArrangedSubview(divider3.view)
             let text2 = Label(style: .subhead, colorStyle: .regular)
             text2.text = "Text 2"
             horizontalStack.addArrangedSubview(text2)
@@ -41,27 +47,14 @@ class DividerDemoController: DemoController {
     private enum DividerDemoCases: CaseIterable {
         case defaultNone
         case defaultMedium
-        case shadowNone
-        case shadowMedium
-
-        var style: MSFDividerStyle {
-            switch self {
-            case .defaultNone,
-                    .defaultMedium:
-                return .default
-            case .shadowNone,
-                    .shadowMedium:
-                return .shadow
-            }
-        }
+        case custom
 
         var spacing: MSFDividerSpacing {
             switch self {
             case .defaultNone,
-                    .shadowNone:
+                    .custom:
                 return .none
-            case .defaultMedium,
-                    .shadowMedium:
+            case .defaultMedium:
                 return .medium
             }
         }
@@ -69,13 +62,11 @@ class DividerDemoController: DemoController {
         var description: String {
             switch self {
             case .defaultNone:
-                return "Default (none)"
+                return "No Spacing"
             case .defaultMedium:
-                return "Default (medium)"
-            case .shadowNone:
-                return "Shadow (none)"
-            case .shadowMedium:
-                return "Shadow (medium)"
+                return "Medium Spacing"
+            case .custom:
+                return "Custom Color"
             }
         }
     }

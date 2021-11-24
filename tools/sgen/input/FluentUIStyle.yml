@@ -321,11 +321,8 @@ AP_MSFCommandBarTokens:
   itemInterspace: $Spacing.xxxSmall
 
 AP_MSFDividerTokens:
-  color: [ rest: $Colors.Stroke.neutral1]
+  color: $Colors.Stroke.neutral1
   spacing: [ none: $Spacing.none, medium: $Spacing.medium]
-
-MSFShadowDividerTokens extends MSFDividerTokens:
-  color: [ rest: $Colors.Stroke.neutral2]
 
 AP_MSFDrawerTokens:
   backgroundDimmedColor: $Colors.Elevation.highElevation

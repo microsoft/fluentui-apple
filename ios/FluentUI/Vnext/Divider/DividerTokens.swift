@@ -6,14 +6,6 @@
 import SwiftUI
 import UIKit
 
-// MARK: - DividerStyle
-
-/// Pre-defined styles of the divider
-@objc public enum MSFDividerStyle: Int {
-    case `default`
-    case shadow
-}
-
 /// Pre-defined spacings of the divider
 @objc public enum MSFDividerSpacing: Int {
     case none
@@ -26,12 +18,9 @@ class MSFDividerTokens: MSFTokensBase, ObservableObject {
     @Published public var color: UIColor!
     @Published public var padding: CGFloat!
 
-    var style: MSFDividerStyle
     var spacing: MSFDividerSpacing
 
-    init(style: MSFDividerStyle,
-         spacing: MSFDividerSpacing) {
-        self.style = style
+    init(spacing: MSFDividerSpacing) {
         self.spacing = spacing
 
         super.init()
@@ -43,15 +32,8 @@ class MSFDividerTokens: MSFTokensBase, ObservableObject {
     }
 
     override func updateForCurrentTheme() {
-        let currentTheme = theme
-        var appearanceProxy: AppearanceProxyType
+        let appearanceProxy = theme.MSFDividerTokens
 
-        switch style {
-        case .default:
-            appearanceProxy = currentTheme.MSFDividerTokens
-        case .shadow:
-            appearanceProxy = currentTheme.MSFShadowDividerTokens
-        }
         color = appearanceProxy.color.rest
 
         switch spacing {

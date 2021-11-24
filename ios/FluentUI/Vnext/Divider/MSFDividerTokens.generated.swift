@@ -16,21 +16,9 @@ extension FluentUIStyle {
         }
 
         // MARK: - color
-        open var color: colorAppearanceProxy {
-            return colorAppearanceProxy(proxy: mainProxy)
+        open var color: UIColor {
+            return mainProxy().Colors.Stroke.neutral1
         }
-        open class colorAppearanceProxy {
-            public let mainProxy: () -> FluentUIStyle
-            public init(proxy: @escaping () -> FluentUIStyle) {
-                self.mainProxy = proxy
-            }
-
-            // MARK: - rest
-            open var rest: UIColor {
-                return mainProxy().Colors.Stroke.neutral1
-            }
-        }
-
 
         // MARK: - spacing
         open var spacing: spacingAppearanceProxy {
@@ -54,25 +42,6 @@ extension FluentUIStyle {
         }
 
     }
-    // MARK: - MSFShadowDividerTokens
-    open var MSFShadowDividerTokens: MSFShadowDividerTokensAppearanceProxy {
-        return MSFShadowDividerTokensAppearanceProxy(proxy: { return self })
-    }
-    open class MSFShadowDividerTokensAppearanceProxy: MSFDividerTokensAppearanceProxy {
-
-        // MARK: - MSFShadowDividerTokenscolor
-        open override var color: MSFShadowDividerTokenscolorAppearanceProxy {
-            return MSFShadowDividerTokenscolorAppearanceProxy(proxy: mainProxy)
-        }
-        open class MSFShadowDividerTokenscolorAppearanceProxy: MSFDividerTokensAppearanceProxy.colorAppearanceProxy {
-
-            // MARK: - rest
-            open override var rest: UIColor {
-                return mainProxy().Colors.Stroke.neutral2
-            }
-        }
-
-    }
 
 }
 fileprivate var __AppearanceProxyHandle: UInt8 = 0
@@ -87,13 +56,7 @@ extension MSFDividerTokens: AppearaceProxyComponent {
             if let proxy = objc_getAssociatedObject(self, &__AppearanceProxyHandle) as? AppearanceProxyType {
                 if !themeAware { return proxy }
 
-                if let proxyString = Optional(String(reflecting: type(of: proxy))), proxyString.hasPrefix("FluentUI") == false {
-                    return proxy
-                }
 
-                if proxy is FluentUIStyle.MSFShadowDividerTokensAppearanceProxy {
-                    return FluentUIThemeManager.stylesheet(FluentUIStyle.shared()).MSFShadowDividerTokens
-                }
                 return proxy
             }
 

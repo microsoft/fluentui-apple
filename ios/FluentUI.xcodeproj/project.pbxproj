@@ -202,6 +202,7 @@
 		C77A04EE25F046EB001B3EB6 /* Date+CellFileAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77A04EC25F046EB001B3EB6 /* Date+CellFileAccessoryView.swift */; };
 		EC02A5F127472EC300E81B3E /* MSFDividerTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC02A5F027472EC300E81B3E /* MSFDividerTokens.generated.swift */; };
 		EC02A5F327472EF400E81B3E /* DividerTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC02A5F227472EF400E81B3E /* DividerTokens.swift */; };
+		EC02A5F5274DD19600E81B3E /* MSFDivider.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC02A5F4274DD19500E81B3E /* MSFDivider.swift */; };
 		EC6A71EA273DBA520076A586 /* Divider.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6A71E9273DBA520076A586 /* Divider.swift */; };
 		FD053A352224CA33009B6378 /* DatePickerControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD053A342224CA33009B6378 /* DatePickerControllerTests.swift */; };
 /* End PBXBuildFile section */
@@ -367,6 +368,7 @@
 		CCC18C2B2501B22F00BE830E /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		EC02A5F027472EC300E81B3E /* MSFDividerTokens.generated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFDividerTokens.generated.swift; sourceTree = "<group>"; };
 		EC02A5F227472EF400E81B3E /* DividerTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DividerTokens.swift; sourceTree = "<group>"; };
+		EC02A5F4274DD19500E81B3E /* MSFDivider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFDivider.swift; sourceTree = "<group>"; };
 		EC6A71E9273DBA520076A586 /* Divider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Divider.swift; sourceTree = "<group>"; };
 		ECEBA8FB25EDF3380048EE24 /* SegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentedControl.swift; sourceTree = "<group>"; };
 		FC414E1E258876FB00069E73 /* CommandBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBar.swift; sourceTree = "<group>"; };
@@ -665,6 +667,7 @@
 			isa = PBXGroup;
 			children = (
 				536AEF2E25F1EC0300A36206 /* Button */,
+				EC6A71E8273DB98F0076A586 /* Divider */,
 				536AEF3225F1EC0300A36206 /* List */,
 				0AA8741326001F0500D47421 /* Persona */,
 			);
@@ -868,7 +871,6 @@
 				FC414E1D258876D400069E73 /* Command Bar */,
 				A5CEC16B20D98EBF0016922A /* Core */,
 				FD599D0021347FA0008845EE /* Date Time Pickers */,
-				EC6A71E8273DB98F0076A586 /* Divider */,
 				5314DFEF25F003C60099271A /* DotView */,
 				A5B87AF2211E13D00038C37C /* Drawer */,
 				5314DFF525F007020099271A /* EasyTapButton */,
@@ -1060,6 +1062,7 @@
 				EC6A71E9273DBA520076A586 /* Divider.swift */,
 				EC02A5F027472EC300E81B3E /* MSFDividerTokens.generated.swift */,
 				EC02A5F227472EF400E81B3E /* DividerTokens.swift */,
+				EC02A5F4274DD19500E81B3E /* MSFDivider.swift */,
 			);
 			path = Divider;
 			sourceTree = "<group>";
@@ -1544,6 +1547,7 @@
 				5314E18E25F0195C0099271A /* ShimmerLinesView.swift in Sources */,
 				53097D1B2702890900A6E4DC /* MSFListCellTokens.generated.swift in Sources */,
 				53097D172702890900A6E4DC /* HeaderFooterTokens.swift in Sources */,
+				EC02A5F5274DD19600E81B3E /* MSFDivider.swift in Sources */,
 				0AE866A826BA05D000E92108 /* Locale+Extensions.swift in Sources */,
 				80AECC21263339E3005AF2F3 /* BottomSheetController.swift in Sources */,
 				5314E24B25F0232F0099271A /* UIScreen+Extension.swift in Sources */,
