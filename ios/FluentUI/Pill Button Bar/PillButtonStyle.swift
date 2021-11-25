@@ -8,7 +8,7 @@ import UIKit
 // MARK: - PillButtonStyle
 
 @objc(MSFPillButtonStyle)
-public enum PillButtonStyle: Int {
+public enum PillButtonStyleOld: Int {
     /// primary: the default style of PillButton; use this style in conjunction with a neutral or white background.
     case primary
 

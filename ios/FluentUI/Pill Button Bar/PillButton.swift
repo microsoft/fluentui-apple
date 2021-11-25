@@ -51,10 +51,14 @@ open class PillButton: UIButton {
         updateAppearance()
     }
 
+    // TODO: I need to figure out how to correctly use override style - likely I need to copy CardNudge and vNext Button
+    // and have a separate State class, so we don't get conflicts trying to use a style before self is available
+
     @objc public init(pillBarItem: PillButtonBarItem, style: PillButtonStyle = .primary) {
         self.pillBarItem = pillBarItem
         self.style = style
         super.init(frame: .zero)
+        pillButtonTokens.windowProvider = self
         setupView()
 
         NotificationCenter.default.addObserver(self,
@@ -219,12 +223,10 @@ open class PillButton: UIButton {
         }
     }
 
+    private let pillButtonTokens = MSFPillButtonTokens(style: style)
+
     private struct Constants {
-        static let bottomInset: CGFloat = 6.0
+        // TODO: is there a way to encode this correctly in the tokens? I couldn't find it :(
         static let font = UIFont.systemFont(ofSize: 16, weight: .regular)
-        static let horizontalInset: CGFloat = 16.0
-        static let topInset: CGFloat = 6.0
-        static let unreadDotOffset = CGPoint(x: 6.0, y: 3.0)
-        static let unreadDotSize: CGFloat = 6.0
     }
 }

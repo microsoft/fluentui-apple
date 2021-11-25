@@ -58,7 +58,8 @@ open class PillButtonBarItem: NSObject {
 /// Set the `selectedItem` property if the selection needs to be programatically changed.
 /// Once a button is selected, the previously selected button will be deselected.
 @objc(MSFPillButtonBar)
-open class PillButtonBar: UIScrollView {
+open class PillButtonBar: UIScrollView, FluentUIWindowProvider {
+    /*
     private struct Constants {
         static let maxButtonsSpacing: CGFloat = 10.0
         static let minButtonsSpacing: CGFloat = 8.0
@@ -67,6 +68,7 @@ open class PillButtonBar: UIScrollView {
         static let minHeight: CGFloat = 28.0
         static let sideInset: CGFloat = 16.0
     }
+     */
 
     @objc public weak var barDelegate: PillButtonBarDelegate?
 
@@ -126,7 +128,7 @@ open class PillButtonBar: UIScrollView {
     private var stackView: UIStackView = {
         let view = UIStackView()
         view.alignment = .center
-        view.spacing = Constants.minButtonsSpacing
+        view.spacing = pillButtonBarTokens.minButtonsSpacing
         return view
     }()
 
@@ -151,7 +153,7 @@ open class PillButtonBar: UIScrollView {
                 // time into a superview. First time layout already has buttons in default sizes, recreate
                 // them so that the next time we layout subviews we'll recalculate their optimal sizes.
                 recreateButtons()
-                stackView.spacing = Constants.minButtonsSpacing
+                stackView.spacing = pillButtonBarTokens.minButtonsSpacing
             }
 
             lastKnownScrollFrameWidth = bounds.width
@@ -345,7 +347,7 @@ open class PillButtonBar: UIScrollView {
         trailingConstraint?.isActive = !centerAligned
         centerConstraint?.isActive = centerAligned
 
-        contentInset.left = centerAligned ? 0.0 : Constants.sideInset
+        contentInset.left = centerAligned ? 0.0 : pillButtonBarTokens.sideInset
         contentInset.right = contentInset.left
         scrollToOrigin()
     }
@@ -358,32 +360,32 @@ open class PillButtonBar: UIScrollView {
     ///  portion of it visible and there's a clear indication that the view is scrollable. To achieve this, this function calculates
     ///  a new spacing and padding that will shift the last visible button farther in the view.
     private func adjustButtonsForCurrentScrollFrame() {
-        var visibleWidth = frame.width - (Constants.minButtonsSpacing + Constants.minButtonVisibleWidth)
-        var visibleButtonsWidth = Constants.sideInset
+        var visibleWidth = frame.width - (pillButtonBarTokens.minButtonsSpacing + pillButtonBarTokens.minButtonVisibleWidth)
+        var visibleButtonsWidth = pillButtonBarTokens.sideInset
         var visibleButtonCount = 0
         for button in buttons {
             button.layoutIfNeeded()
-            visibleButtonsWidth += button.frame.width
+            visibleButtonsWidth! += button.frame.width
             visibleButtonCount += 1
-            if visibleButtonsWidth > visibleWidth {
+            if visibleButtonsWidth! > visibleWidth {
                 break
             }
 
-            visibleButtonsWidth += Constants.minButtonsSpacing
+            visibleButtonsWidth! += pillButtonBarTokens.minButtonsSpacing
         }
 
         if visibleButtonCount == buttons.count {
             // If the last visible button is the last button, not need to account for space in a next button
-            visibleWidth += Constants.minButtonVisibleWidth
+            visibleWidth += pillButtonBarTokens.minButtonVisibleWidth
         }
 
-        if visibleButtonsWidth <= visibleWidth {
+        if visibleButtonsWidth! <= visibleWidth {
             // No enough buttons to fill the scroll frame
             return
         }
 
-        let optimalVisibleButtonWidth = frame.width + Constants.minButtonVisibleWidth
-        let totalAdjustment = optimalVisibleButtonWidth - visibleButtonsWidth
+        let optimalVisibleButtonWidth = frame.width + pillButtonBarTokens.minButtonVisibleWidth
+        let totalAdjustment = optimalVisibleButtonWidth - visibleButtonsWidth!
         if totalAdjustment < 0.0 {
             return
         }
@@ -423,7 +425,7 @@ open class PillButtonBar: UIScrollView {
         }
 
         let spacingAdjustment = ceil((totalSpace) / CGFloat(numberOfButtons))
-        let newSpacing = min(Constants.maxButtonsSpacing, Constants.minButtonsSpacing + spacingAdjustment)
+        let newSpacing = min(pillButtonBarTokens.maxButtonsSpacing, pillButtonBarTokens.minButtonsSpacing + spacingAdjustment)
         let spacingChange = newSpacing - stackView.spacing
         stackView.spacing = newSpacing
         return spacingChange * CGFloat(numberOfButtons)
@@ -445,8 +447,8 @@ open class PillButtonBar: UIScrollView {
         for button in buttons {
             button.layoutIfNeeded()
             let buttonWidth = button.frame.width
-            if buttonWidth > 0, buttonWidth < Constants.minButtonWidth {
-                let extraInset = floor((Constants.minButtonWidth - button.frame.width) / 2)
+            if buttonWidth > 0, buttonWidth < pillButtonBarTokens.minButtonWidth {
+                let extraInset = floor((pillButtonBarTokens.minButtonWidth - button.frame.width) / 2)
                 button.contentEdgeInsets.left += extraInset
                 button.contentEdgeInsets.right = button.contentEdgeInsets.left
                 button.layoutIfNeeded()
@@ -502,7 +504,7 @@ open class PillButtonBar: UIScrollView {
         trailingConstraint = stackView.trailingAnchor.constraint(equalTo: trailingAnchor)
         centerConstraint = stackView.centerXAnchor.constraint(equalTo: centerXAnchor)
 
-        heightConstraint = heightAnchor.constraint(equalToConstant: Constants.minHeight)
+        heightConstraint = heightAnchor.constraint(equalToConstant: pillButtonBarTokens.minHeight)
         heightConstraint?.isActive = true
 
         adjustAlignment()
@@ -517,13 +519,13 @@ open class PillButtonBar: UIScrollView {
         let viewLeadingPosition = bounds.origin.x
         let viewTrailingPosition = viewLeadingPosition + frame.size.width
 
-        let extraScrollWidth = Constants.minButtonVisibleWidth + stackView.spacing + buttonExtraSidePadding
+        let extraScrollWidth = pillButtonBarTokens.minButtonVisibleWidth + stackView.spacing + buttonExtraSidePadding
         var offSet = contentOffset.x
         if buttonLeftPosition < viewLeadingPosition {
             offSet = buttonLeftPosition - extraScrollWidth
-            offSet = max(offSet, -Constants.sideInset)
+            offSet = max(offSet, -pillButtonBarTokens.sideInset)
         } else if buttonRightPosition > viewTrailingPosition {
-            let maxOffsetX = contentSize.width - frame.size.width + Constants.sideInset
+            let maxOffsetX = contentSize.width - frame.size.width + pillButtonBarTokens.sideInset
             offSet = buttonRightPosition - frame.size.width + extraScrollWidth
             offSet = min(offSet, maxOffsetX)
         }
@@ -547,12 +549,14 @@ open class PillButtonBar: UIScrollView {
     }
 
     private func updateHeightConstraint() {
-        var maxHeight = Constants.minHeight
-        buttons.forEach { maxHeight = max(maxHeight, $0.frame.size.height) }
+        var maxHeight = pillButtonBarTokens.minHeight
+        buttons.forEach { maxHeight = max(maxHeight!, $0.frame.size.height) }
         if let heightConstraint = heightConstraint, maxHeight != heightConstraint.constant {
-            heightConstraint.constant = maxHeight
+            heightConstraint.constant = maxHeight!
         }
     }
+
+    private let pillButtonBarTokens = MSFPillButtonBarTokens()
 }
 
 // MARK: PillButtonBar UIPointerInteractionDelegate
