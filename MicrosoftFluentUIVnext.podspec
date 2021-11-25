@@ -64,6 +64,12 @@ xcodebuild ${XCODEBUILDPARAMS} -project ${PROJECT_FILE_PATH} -target "MicrosoftF
                              "ios/FluentUI/Extensions/*.{swift,h}"]
   end
 
+  s.subspec 'Divider_ios' do |divider_ios|
+    divider_ios.platform = :ios
+    divider_ios.dependency 'MicrosoftFluentUIVnext/Core_ios'
+    divider_ios.source_files = ["ios/FluentUI/Vnext/Divider/**/*.{swift,h}"]
+  end
+
   s.subspec 'Drawer_ios' do |drawer_ios|
     drawer_ios.platform = :ios
     drawer_ios.dependency 'MicrosoftFluentUIVnext/Obscurable_ios'

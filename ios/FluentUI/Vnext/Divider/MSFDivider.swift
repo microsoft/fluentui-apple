@@ -46,6 +46,9 @@ import SwiftUI
                                                                             .modifyIf(theme != nil, {divider in
                                                                                 divider.customTheme(theme!)
                                                                             })))
+        view.backgroundColor = UIColor.clear
+        let sizeAnchor = orientation == .horizontal ? view.heightAnchor : view.widthAnchor
+        NSLayoutConstraint.activate([sizeAnchor.constraint(equalToConstant: UIScreen.main.devicePixel)])
     }
 
     var window: UIWindow? {
