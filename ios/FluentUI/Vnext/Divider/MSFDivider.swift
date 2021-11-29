@@ -48,7 +48,8 @@ import SwiftUI
                                                                             })))
         view.backgroundColor = UIColor.clear
         let sizeAnchor = orientation == .horizontal ? view.heightAnchor : view.widthAnchor
-        NSLayoutConstraint.activate([sizeAnchor.constraint(equalToConstant: UIScreen.main.devicePixel)])
+        let size = UIScreen.main.devicePixel + 2 * divider.tokens.padding
+        NSLayoutConstraint.activate([sizeAnchor.constraint(equalToConstant: size)])
     }
 
     var window: UIWindow? {

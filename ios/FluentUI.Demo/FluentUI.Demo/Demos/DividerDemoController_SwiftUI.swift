@@ -23,32 +23,23 @@ class DividerDemoControllerSwiftUI: UIHostingController<DividerDemoView> {
 }
 
 struct DividerDemoView: View {
-    @State var orientation: MSFDividerOrientation = .horizontal
     @State var spacing: MSFDividerSpacing = .none
 
     public var body: some View {
-        VStack {
-            FluentDivider(orientation: orientation, spacing: spacing)
+        VStack (spacing: 0) {
+            FluentDivider(spacing: spacing)
+            HStack (spacing: 0) {
+                FluentDivider(orientation: .vertical, spacing: spacing)
+                Text("Text 1")
+                FluentDivider(orientation: .vertical, spacing: spacing)
+                Text("Text 2")
+                FluentDivider(orientation: .vertical, spacing: spacing)
+            }
+            .frame(maxHeight: 20)
+            FluentDivider(spacing: spacing)
         }
-        .padding()
 
         ScrollView {
-            Group {
-                VStack(spacing: 0) {
-                    Text("Orientation")
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .font(.title)
-                    FluentDivider(orientation: .horizontal)
-                }
-
-                Picker(selection: $orientation, label: EmptyView()) {
-                    Text(".horizontal").tag(MSFDividerOrientation.horizontal)
-                    Text(".vertical").tag(MSFDividerOrientation.vertical)
-                }
-                .labelsHidden()
-                .frame(maxWidth: .infinity, alignment: .leading)
-            }
-
             Group {
                 VStack(spacing: 0) {
                     Text("Spacing")
