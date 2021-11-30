@@ -8,7 +8,7 @@ import UIKit
 // MARK: - PillButtonStyle
 
 @objc(MSFPillButtonStyle)
-public enum PillButtonStyleOld: Int {
+public enum PillButtonStyle: Int {
     /// primary: the default style of PillButton; use this style in conjunction with a neutral or white background.
     case primary
 
@@ -18,7 +18,7 @@ public enum PillButtonStyleOld: Int {
 }
 
 // MARK: PillButton colors
-
+/*
 public extension PillButton {
 
     // MARK: normal state
@@ -161,4 +161,4 @@ public extension PillButton {
             return UIColor(light: Colors.primaryTint10(for: window), dark: Colors.gray600)
         }
     }
-}
+}*/

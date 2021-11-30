@@ -400,17 +400,19 @@ AP_MSFPersonaViewTokens:
   sublabelColor: $Colors.Foreground.neutral1
 
 AP_MSFPillButtonBarTokens:
-  cornerRadius: 16pt
+  cornerRadius: $Spacing.medium
   maxButtonsSpacing: 10pt
-  minButtonsSpacing: 8pt
-  minButtonVisibleWidth: 20pt
+  minButtonsSpacing: $Spacing.xSmall
+  minButtonVisibleWidth: $Spacing.large
   minButtonWidth: 56pt
   minHeight: 28pt
-  sideInset: 16pt
+  sideInset: $Spacing.medium
+  hoverBackgroundColor: [ primary: "FluentUIColor(light: NamedColor(grey94), dark: NamedColor(grey8))",
+                          onBrand: "FluentUIColor(light: $Colors.Brand.shade10, dark: NamedColor(grey8))" ]
 
 AP_MSFPillButtonTokens:
   bottomInset: 6pt
-  horizontalInset: 16pt
+  horizontalInset: $Spacing.medium
   topInset: 6pt
   unreadDotOffsetX: 6pt
   unreadDotOffsetY: 3pt
@@ -425,7 +427,7 @@ AP_MSFPillButtonTokens:
   titleColor: [ rest: "FluentUIColor(light: NamedColor(grey38), dark: NamedColor(grey84))",
                 selected: "FluentUIColor(light: NamedColor(white), dark: NamedColor(black)",
                 disabled: "FluentUIColor(light: NamedColor(grey70), dark: NamedColor(grey26))",
-                selectedDisabled: "FluentUIColor(light: NamedColor(grey90), dark: NamedColor(grey44))",
+                selectedDisabled: "FluentUIColor(light: NamedColor(grey90), dark: NamedColor(grey44))",  #LIGHT MODE COLOR TOO LIGHT
                 highlighted: "FluentUIColor(light: NamedColor(grey38), dark: NamedColor(grey84))",
                 selectedHighlighted: "FluentUIColor(light: NamedColor(white), dark: NamedColor(black)" ]
   unreadDotColor: [ rest: $Colors.Brand.primary,
@@ -435,18 +437,18 @@ MSFOnBrandPillButtonTokens extends MSFPillButtonTokens:
   backgroundColor: [ rest: "FluentUIColor(light: $Colors.Brand.shade10, dark: NamedColor(grey8))",
                      hover: "FluentUIColor(light: $Colors.Brand.shade10, dark: NamedColor(grey8))",
                      selected: "FluentUIColor(light: NamedColor(white), dark: NamedColor(grey32))",
-                     disabled: "FluentUIColor(light: $Colors.Brand.shade10, dark: NamedColor(grey8))",
+                     disabled: "FluentUIColor(light: $Colors.Brand.shade10, dark: NamedColor(grey8))", # DARK MODE TOO DARK
                      selectedDisabled: "FluentUIColor(light: NamedColor(white), dark: NamedColor(grey30))",
                      highlighted: "FluentUIColor(light: $Colors.Brand.shade10, dark: NamedColor(grey8))",
                      selectedHighlighted: "FluentUIColor(light: NamedColor(grey38), dark: NamedColor(grey84))" ]
   titleColor: [ rest: "FluentUIColor(light: NamedColor(white), dark: NamedColor(grey84))",
-                selected: "FluentUIColor(light: $Colors.Brand.primary, dark: NamedColor(white)",
-                disabled: "FluentUIColor(light: $Colors.Brand.shade10, dark: NamedColor(grey84))",
-                selectedDisabled: "FluentUIColor(light: NamedColor(grey90), dark: NamedColor(grey44))",
+                selected: "FluentUIColor(light: $Colors.Brand.primary, dark: NamedColor(white)", # DARK MODE TOO LIGHT
+                disabled: "FluentUIColor(light: $Colors.Brand.shade10, dark: NamedColor(grey84))", #LIGHT MODE COLOR TOO DARK
+                selectedDisabled: "FluentUIColor(light: NamedColor(grey90), dark: NamedColor(grey44))",  #LIGHT MODE COLOR TOO LIGHT
                 highlighted: "FluentUIColor(light: NamedColor(white), dark: NamedColor(grey84))",
                 selectedHighlighted: "FluentUIColor(light: NamedColor(white), dark: NamedColor(black)" ]
   unreadDotColor: [ rest: "FluentUIColor(light: NamedColor(white), dark: NamedColor(grey84))", 
-                    disabled: "FluentUIColor(light: $Colors.Brand.shade10, dark: NamedColor(grey84))" ]
+                    disabled: "FluentUIColor(light: $Colors.Brand.shade10, dark: NamedColor(grey84))" ] #LIGHT MODE COLOR TOO DARK
 
 MSFPrimaryHeaderTokens extends MSFHeaderFooterTokens:
   textColor: $Colors.Foreground.neutral1

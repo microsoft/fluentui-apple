@@ -174,7 +174,7 @@ extension FluentUIStyle {
 
 		// MARK: - horizontalInset 
 		open var horizontalInset: CGFloat {
-			return CGFloat(16.0)
+			return mainProxy().Spacing.medium
 		}
 
 		// MARK: - titleColor

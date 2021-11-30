@@ -17,8 +17,30 @@ extension FluentUIStyle {
 
 		// MARK: - cornerRadius 
 		open var cornerRadius: CGFloat {
-			return CGFloat(16.0)
+			return mainProxy().Spacing.medium
 		}
+
+		// MARK: - hoverBackgroundColor
+		open var hoverBackgroundColor: hoverBackgroundColorAppearanceProxy {
+			return hoverBackgroundColorAppearanceProxy(proxy: mainProxy)
+		}
+		open class hoverBackgroundColorAppearanceProxy {
+			public let mainProxy: () -> FluentUIStyle
+			public init(proxy: @escaping () -> FluentUIStyle) {
+				self.mainProxy = proxy
+			}
+
+			// MARK: - onBrand 
+			open var onBrand: UIColor {
+				return UIColor(light: mainProxy().Colors.Brand.shade10, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey8", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+			}
+
+			// MARK: - primary 
+			open var primary: UIColor {
+				return UIColor(light: UIColor(named: "FluentColors/grey94", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey8", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+			}
+		}
+
 
 		// MARK: - maxButtonsSpacing 
 		open var maxButtonsSpacing: CGFloat {
@@ -27,7 +49,7 @@ extension FluentUIStyle {
 
 		// MARK: - minButtonVisibleWidth 
 		open var minButtonVisibleWidth: CGFloat {
-			return CGFloat(20.0)
+			return mainProxy().Spacing.large
 		}
 
 		// MARK: - minButtonWidth 
@@ -37,7 +59,7 @@ extension FluentUIStyle {
 
 		// MARK: - minButtonsSpacing 
 		open var minButtonsSpacing: CGFloat {
-			return CGFloat(8.0)
+			return mainProxy().Spacing.xSmall
 		}
 
 		// MARK: - minHeight 
@@ -47,7 +69,7 @@ extension FluentUIStyle {
 
 		// MARK: - sideInset 
 		open var sideInset: CGFloat {
-			return CGFloat(16.0)
+			return mainProxy().Spacing.medium
 		}
 	}
 

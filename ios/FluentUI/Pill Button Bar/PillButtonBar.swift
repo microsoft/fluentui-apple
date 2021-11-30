@@ -125,12 +125,15 @@ open class PillButtonBar: UIScrollView, FluentUIWindowProvider {
         }
     }
 
-    private var stackView: UIStackView = {
+    // TODO: is this the correct approach? Should this chunk just be moved to setupStackView? Will this cause issues at runtime?
+    // private var stackView: UIStackView = {
+    private var stackView = UIStackView()
+    private func initStackView() {
         let view = UIStackView()
         view.alignment = .center
         view.spacing = pillButtonBarTokens.minButtonsSpacing
-        return view
-    }()
+        stackView = view
+    }
 
     private var customPillButtonBackgroundColor: UIColor?
     private var customSelectedPillButtonBackgroundColor: UIColor?
@@ -230,6 +233,7 @@ open class PillButtonBar: UIScrollView, FluentUIWindowProvider {
         self.customPillButtonTextColor = pillButtonTextColor
         self.customSelectedPillButtonTextColor = selectedPillButtonTextColor
         super.init(frame: .zero)
+        initStackView()
         setupScrollView()
         setupStackView()
 
@@ -604,7 +608,7 @@ extension PillButtonBar: UIPointerInteractionDelegate {
         if let window = window, customPillButtonBackgroundColor == nil, index < buttons.count {
             let pillButton = buttons[index]
             if !pillButton.isSelected {
-                pillButton.customBackgroundColor = PillButton.hoverBackgroundColor(for: window, for: pillButton.style)
+                pillButton.customBackgroundColor = (pillButtonStyle == .primary ? pillButtonBarTokens.hoverBackgroundColor : pillButtonBarTokens.onBrandHoverBackgroundColor)
             }
         }
     }
