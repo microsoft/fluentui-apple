@@ -19,7 +19,7 @@ extension FluentUIStyle {
 
 			// MARK: - disabled 
 			open override var disabled: UIColor {
-				return UIColor(light: mainProxy().Colors.Brand.shade10, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey8", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+				return UIColor(light: mainProxy().Colors.Brand.shade20, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey8", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 			}
 
 			// MARK: - highlighted 
@@ -62,7 +62,7 @@ extension FluentUIStyle {
 
 			// MARK: - disabled 
 			open override var disabled: UIColor {
-				return UIColor(light: mainProxy().Colors.Brand.shade10, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey84", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+				return UIColor(light: mainProxy().Colors.Brand.shade10, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey26", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 			}
 
 			// MARK: - highlighted 
@@ -82,7 +82,7 @@ extension FluentUIStyle {
 
 			// MARK: - selectedDisabled 
 			open override var selectedDisabled: UIColor {
-				return UIColor(light: UIColor(named: "FluentColors/grey90", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey44", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+				return UIColor(light: UIColor(named: "FluentColors/grey74", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey44", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 			}
 
 			// MARK: - selectedHighlighted 
@@ -100,7 +100,7 @@ extension FluentUIStyle {
 
 			// MARK: - disabled 
 			open override var disabled: UIColor {
-				return UIColor(light: mainProxy().Colors.Brand.shade10, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey84", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+				return UIColor(light: mainProxy().Colors.Brand.shade10, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey26", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 			}
 
 			// MARK: - rest 
@@ -209,7 +209,7 @@ extension FluentUIStyle {
 
 			// MARK: - selectedDisabled 
 			open var selectedDisabled: UIColor {
-				return UIColor(light: UIColor(named: "FluentColors/grey90", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey44", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+				return UIColor(light: UIColor(named: "FluentColors/grey94", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey44", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 			}
 
 			// MARK: - selectedHighlighted 
@@ -236,7 +236,7 @@ extension FluentUIStyle {
 
 			// MARK: - disabled 
 			open var disabled: UIColor {
-				return UIColor(light: UIColor(named: "FluentColors/grey38", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey84", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
+				return UIColor(light: UIColor(named: "FluentColors/grey70", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, lightHighContrast: nil, lightElevated: nil, lightElevatedHighContrast: nil, dark: UIColor(named: "FluentColors/grey26", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!, darkHighContrast: nil, darkElevated: nil, darkElevatedHighContrast: nil)
 			}
 
 			// MARK: - rest 
