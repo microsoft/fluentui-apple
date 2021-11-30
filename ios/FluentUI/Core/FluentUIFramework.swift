@@ -95,21 +95,26 @@ public class FluentUIFramework: NSObject {
 
     static func initializeUINavigationBarAppearance(_ navigationBar: UINavigationBar, traits: UITraitCollection? = nil) {
         navigationBar.isTranslucent = false
-        navigationBar.barTintColor = Colors.NavigationBar.background
-        navigationBar.tintColor = Colors.NavigationBar.tint
-        if #available(iOS 12, *) {
-            let traits = traits ?? navigationBar.traitCollection
-            // Removing built-in shadow for Dark Mode
-            navigationBar.shadowImage = traits.userInterfaceStyle == .dark ? UIImage() : nil
-        }
 
-        var titleAttributes = navigationBar.titleTextAttributes ?? [:]
+        let standardAppearance = navigationBar.standardAppearance
+        navigationBar.tintColor = Colors.NavigationBar.tint
+
+        navigationBar.standardAppearance.backgroundColor = Colors.NavigationBar.background
+
+        let traits = traits ?? navigationBar.traitCollection
+        // Removing built-in shadow for Dark Mode
+        navigationBar.shadowImage = traits.userInterfaceStyle == .dark ? UIImage() : nil
+
+        var titleAttributes = standardAppearance.titleTextAttributes
         titleAttributes[.font] = Fonts.headline
         titleAttributes[.foregroundColor] = Colors.NavigationBar.title
-        navigationBar.titleTextAttributes = titleAttributes
+        standardAppearance.titleTextAttributes = titleAttributes
 
         navigationBar.backIndicatorImage = UIImage.staticImageNamed("back-24x24")
         navigationBar.backIndicatorTransitionMaskImage = navigationBar.backIndicatorImage
+
+        // Update the scroll edge appearance to match the new standard appearance
+        navigationBar.scrollEdgeAppearance = standardAppearance
     }
 
     private static var bundle: Bundle { return Bundle(for: self) }
