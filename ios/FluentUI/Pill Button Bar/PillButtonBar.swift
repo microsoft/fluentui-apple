@@ -59,16 +59,6 @@ open class PillButtonBarItem: NSObject {
 /// Once a button is selected, the previously selected button will be deselected.
 @objc(MSFPillButtonBar)
 open class PillButtonBar: UIScrollView, FluentUIWindowProvider {
-    /*
-    private struct Constants {
-        static let maxButtonsSpacing: CGFloat = 10.0
-        static let minButtonsSpacing: CGFloat = 8.0
-        static let minButtonVisibleWidth: CGFloat = 20.0
-        static let minButtonWidth: CGFloat = 56.0
-        static let minHeight: CGFloat = 28.0
-        static let sideInset: CGFloat = 16.0
-    }
-     */
 
     @objc public weak var barDelegate: PillButtonBarDelegate?
 

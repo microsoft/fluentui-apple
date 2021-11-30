@@ -7,7 +7,7 @@ import UIKit
 
 // MARK: PillButton
 
-/// An `PillButton` is a button in the shape of a pill that can have two states: on (Selected) and off (not selected)
+/// A `PillButton` is a button in the shape of a pill that can have two states: on (Selected) and off (not selected)
 @objc(MSFPillButton)
 open class PillButton: UIButton {
 
@@ -50,9 +50,6 @@ open class PillButton: UIButton {
         super.didMoveToWindow()
         updateAppearance()
     }
-
-    // TODO: I need to figure out how to correctly use override style - likely I need to copy CardNudge and vNext Button
-    // and have a separate State class, so we don't get conflicts trying to use a style before self is available
 
     @objc public init(pillBarItem: PillButtonBarItem, style: PillButtonStyle = .primary) {
         self.pillBarItem = pillBarItem
@@ -152,10 +149,8 @@ open class PillButton: UIButton {
         }
     }
 
-    // TODO: is this a reasonable adjustment?
-    // private let unreadDotLayer: CALayer = {
     private var unreadDotLayer = CALayer()
-    
+
     private func initUnreadDotLayer() {
         unreadDotLayer.bounds.size = CGSize(width: pillButtonTokens.unreadDotSize, height: pillButtonTokens.unreadDotSize)
         unreadDotLayer.cornerRadius = pillButtonTokens.unreadDotSize / 2
@@ -226,12 +221,9 @@ open class PillButton: UIButton {
         }
     }
 
-    // TODO: is it correct to make this, I think, non-const? Is that a bad choice?
-    // private let pillButtonTokens = MSFPillButtonTokens(style: style)
     private var pillButtonTokens: MSFPillButtonTokens
 
     private struct Constants {
-        // TODO: is there a way to encode this correctly in the tokens? I couldn't find it :(
         static let font = UIFont.systemFont(ofSize: 16, weight: .regular)
     }
 }
