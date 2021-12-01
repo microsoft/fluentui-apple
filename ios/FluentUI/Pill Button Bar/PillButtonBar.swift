@@ -240,6 +240,11 @@ open class PillButtonBar: UIScrollView, FluentUIWindowProvider {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
+    open override func didMoveToWindow() {
+        super.didMoveToWindow()
+        pillButtonBarTokens.updateForCurrentTheme()
+    }
+
     @objc public func selectItem(_ item: PillButtonBarItem) {
         guard let index = indexOfButtonWithItem(item) else {
             return
