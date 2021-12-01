@@ -115,8 +115,6 @@ open class PillButtonBar: UIScrollView, FluentUIWindowProvider {
         }
     }
 
-    // TODO: is this the correct approach? Should this chunk just be moved to setupStackView? Will this cause issues at runtime?
-    // private var stackView: UIStackView = {
     private var stackView = UIStackView()
     private func initStackView() {
         let view = UIStackView()

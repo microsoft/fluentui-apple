@@ -13,7 +13,6 @@ class MSFPillButtonBarTokens: MSFTokensBase {
     public var minButtonWidth: CGFloat!
     public var minHeight: CGFloat!
     public var sideInset: CGFloat!
-    // TODO: is this good enough, or am I being lazy and not wanting to pipe through styles yet again?
     public var hoverBackgroundColor: UIColor!
     public var onBrandHoverBackgroundColor: UIColor!
 
