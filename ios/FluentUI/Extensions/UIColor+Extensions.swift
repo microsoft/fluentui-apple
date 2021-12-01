@@ -8,31 +8,6 @@ import SwiftUI
 
 extension UIColor {
 
-    /// Creates a UIColor from a single 32-bit integer value.
-    ///
-    /// - Parameter hexValue: Integer value, generally represented as hexadecimal (e.g. `0x0086F0`), to use to initialize this color.
-    ///     Must be formatted as ARGB. Note: we will not utilize the alpha channel.
-    public convenience init(colorValue: ColorValue) {
-        self.init(
-            red: CGFloat((colorValue & 0xFF0000) >> 16) / 255.0,
-            green: CGFloat((colorValue & 0x00FF00) >> 8) / 255.0,
-            blue: CGFloat((colorValue & 0x0000FF) >> 0) / 255.0,
-            alpha: 1.0)
-    }
-
-    /// Creates a dynamic color object that returns the appropriate color value based on the current
-    /// rendering context.
-    ///
-    /// - Parameter colorSet: The set of color values that may be applied based on the current context.
-    public convenience init(colorSet: ColorSet) {
-        self.init { traits -> UIColor in
-            let colorValue = colorSet.value(colorScheme: (traits.userInterfaceStyle == .dark ? .dark : .light),
-                                            contrast: traits.accessibilityContrast == .high ? .increased : .standard,
-                                            isElevated: traits.userInterfaceLevel == .elevated ? true : false)
-            return UIColor(colorValue: colorValue)
-        }
-    }
-
     /// Creates a dynamic color object that returns the appropriate color value based on the current
     /// rendering context.
     ///
@@ -84,6 +59,31 @@ extension UIColor {
         }
     }
 
+    /// Creates a UIColor from a single 32-bit integer value.
+    ///
+    /// - Parameter hexValue: Integer value, generally represented as hexadecimal (e.g. `0x0086F0`), to use to initialize this color.
+    ///     Must be formatted as ARGB. Note: we will not utilize the alpha channel.
+    convenience init(colorValue: ColorValue) {
+        self.init(
+            red: CGFloat((colorValue & 0xFF0000) >> 16) / 255.0,
+            green: CGFloat((colorValue & 0x00FF00) >> 8) / 255.0,
+            blue: CGFloat((colorValue & 0x0000FF) >> 0) / 255.0,
+            alpha: 1.0)
+    }
+
+    /// Creates a dynamic color object that returns the appropriate color value based on the current
+    /// rendering context.
+    ///
+    /// - Parameter colorSet: The set of color values that may be applied based on the current context.
+    convenience init(colorSet: ColorSet) {
+        self.init { traits -> UIColor in
+            let colorValue = colorSet.value(colorScheme: (traits.userInterfaceStyle == .dark ? .dark : .light),
+                                            contrast: traits.accessibilityContrast == .high ? .increased : .standard,
+                                            isElevated: traits.userInterfaceLevel == .elevated ? true : false)
+            return UIColor(colorValue: colorValue)
+        }
+    }
+
     var colorSet: ColorSet? {
         // Only the light color value is mandatory when making a ColorSet.
         if let lightColorValue = resolvedColorValue(userInterfaceStyle: .light) {
@@ -126,6 +126,13 @@ extension UIColor {
         }
     }
 
+    /// Returns the version of the current color that results from the specified traits as a `ColorValue`.
+    ///
+    /// - Parameter userInterfaceStyle: The user interface style to use when resolving the color information.
+    /// - Parameter accessibilityContrast: The accessibility contrast to use when resolving the color information.
+    /// - Parameter userInterfaceLevel: The user interface level to use when resolving the color information.
+    ///
+    /// - Returns: The version of the color to display for the specified traits.
     private func resolvedColorValue(userInterfaceStyle: UIUserInterfaceStyle,
                                     accessibilityContrast: UIAccessibilityContrast = .unspecified,
                                     userInterfaceLevel: UIUserInterfaceLevel = .unspecified) -> ColorValue? {

@@ -108,7 +108,7 @@ class ThemingDemoController: DemoController {
 
         addRow(items: [customThemeAvatarAccent.view, customThemeAvatarDefault.view, customThemeAvatarOutlinedPrimary.view], itemSpacing: 20)
 
-        customCardNudge.state.tokens = CustomCardNudgeTokens()
+        customCardNudge.state.overrideTokens = CustomCardNudgeTokens()
         customCardNudge.state.accentText = "I'm using the token pipeline!"
         customCardNudge.state.dismissButtonAction = { _ in
         }

@@ -28,6 +28,9 @@ public final class TokenSet<T: Hashable, V> {
         }
     }
 
+    /// Initializes this token set with a callback to fetch its default values as needed.
+    ///
+    /// - Parameter defaultValues: The closure that can be used to lazily fetch default token values as needed.
     init(_ defaultValues: @escaping ((_ token: T) -> V)) {
         self.defaultValues = defaultValues
     }

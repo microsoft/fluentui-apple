@@ -7,6 +7,12 @@ import SwiftUI
 
 /// Base class that allows for customization of global, alias, and control tokens.
 public class FluentTheme {
+    /// Initializes and returns a new `FluentTheme`, with optional custom global and alias tokens.
+    ///
+    /// - Parameters globalTokens: An optional customized instance of `GlobalTokens`.
+    /// - Parameters aliasTokens: An optional customized instance of `AliasTokens`.
+    ///
+    /// - Returns: An initialized `FluentTheme` instance that leverages the aforementioned global and alias token overrides.
     public init(globalTokens: GlobalTokens? = nil, aliasTokens: AliasTokens? = nil) {
         if let globalTokens = globalTokens {
             self.globalTokens = globalTokens
@@ -17,6 +23,7 @@ public class FluentTheme {
     }
 
     /// Registers a custom set of `ControlTokens` for a given `TokenizedControl`.
+    ///
     /// - Parameters:
     ///   - tokens: A custom set of tokens.
     ///   - control: The control to use custom tokens on.
@@ -28,10 +35,11 @@ public class FluentTheme {
 
     /// Returns the `ControlTokens` instance for a given `TokenizedControl`.
     ///
-    /// If no token instance yet exists in this theme, this method will register and return the instance returned by `controlType.defaultTokens()`.
-    /// - Parameters:
-    ///   - control: The control to fetch controls for.
-    func tokens<T: TokenizedControl>(for control: T) -> T.TokenType {
+    /// If no token instance yet exists in this theme, this method will create, register, and return the instance returned by `control.defaultTokens()`.
+    /// - Parameter control: The control to fetch controls for.
+    ///
+    /// - Returns: The custom `ControlTokens` for the given control if one is registered, or the defaults if not.
+    public func tokens<T: TokenizedControl>(for control: T) -> T.TokenType {
         let controlType = type(of: control)
         if let tokens = controlTokens["\(type(of: control))"] as? T.TokenType {
             return tokens
@@ -46,17 +54,19 @@ public class FluentTheme {
     private var controlTokens: [String: ControlTokens] = [:]
 }
 
-// MARK: - UIWindow
+// MARK: - FluentThemeable
 
-protocol TokenProviding {
-    var fluentTheme: FluentTheme? { get }
+/// Public protocol that, when implemented, allows any container to store and yield a `FluentTheme`.
+public protocol FluentThemeable {
+    var fluentTheme: FluentTheme? { get set }
 }
 
-extension UIWindow: TokenProviding {
+extension UIWindow: FluentThemeable {
     private struct Keys {
         static var fluentTheme: String = "fluentTheme_key"
     }
 
+    /// The custom `FluentTheme` to apply to this window.
     public var fluentTheme: FluentTheme? {
         get {
             return objc_getAssociatedObject(self, &Keys.fluentTheme) as? FluentTheme

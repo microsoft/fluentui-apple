@@ -14,23 +14,24 @@ public final class AliasTokens {
         case neutral2
         case neutral3
     }
-    lazy var foregroundColors: TokenSet<ForegroundColorsTokens, ColorSet> = .init { token in
+    lazy var foregroundColors: TokenSet<ForegroundColorsTokens, ColorSet> = .init { [weak self] token in
+        guard let strongSelf = self else { preconditionFailure() }
         switch token {
         case .neutral1:
-            return ColorSet(light: GlobalTokens.shared.neutralColors[.grey14],
-                            lightHighContrast: GlobalTokens.shared.neutralColors[.black],
-                            dark: GlobalTokens.shared.neutralColors[.white],
-                            darkHighContrast: GlobalTokens.shared.neutralColors[.white])
+            return ColorSet(light: strongSelf.globalTokens.neutralColors[.grey14],
+                            lightHighContrast: strongSelf.globalTokens.neutralColors[.black],
+                            dark: strongSelf.globalTokens.neutralColors[.white],
+                            darkHighContrast: strongSelf.globalTokens.neutralColors[.white])
         case .neutral2:
-            return ColorSet(light: GlobalTokens.shared.neutralColors[.grey26],
-                            lightHighContrast: GlobalTokens.shared.neutralColors[.black],
-                            dark: GlobalTokens.shared.neutralColors[.grey84],
-                            darkHighContrast: GlobalTokens.shared.neutralColors[.white])
+            return ColorSet(light: strongSelf.globalTokens.neutralColors[.grey26],
+                            lightHighContrast: strongSelf.globalTokens.neutralColors[.black],
+                            dark: strongSelf.globalTokens.neutralColors[.grey84],
+                            darkHighContrast: strongSelf.globalTokens.neutralColors[.white])
         case .neutral3:
-            return ColorSet(light: GlobalTokens.shared.neutralColors[.grey38],
-                            lightHighContrast: GlobalTokens.shared.neutralColors[.grey14],
-                            dark: GlobalTokens.shared.neutralColors[.grey68],
-                            darkHighContrast: GlobalTokens.shared.neutralColors[.grey84])
+            return ColorSet(light: strongSelf.globalTokens.neutralColors[.grey38],
+                            lightHighContrast: strongSelf.globalTokens.neutralColors[.grey14],
+                            dark: strongSelf.globalTokens.neutralColors[.grey68],
+                            darkHighContrast: strongSelf.globalTokens.neutralColors[.grey84])
         }
     }
 
@@ -41,20 +42,21 @@ public final class AliasTokens {
         case neutral2
         case neutral3
     }
-    public lazy var backgroundColors: TokenSet<BackgroundColorsTokens, ColorSet> = .init { token in
+    public lazy var backgroundColors: TokenSet<BackgroundColorsTokens, ColorSet> = .init { [weak self] token in
+        guard let strongSelf = self else { preconditionFailure() }
         switch token {
         case .neutral1:
-            return ColorSet(light: GlobalTokens.shared.neutralColors[.white],
-                            dark: GlobalTokens.shared.neutralColors[.black],
-                            darkElevated: GlobalTokens.shared.neutralColors[.grey4])
+            return ColorSet(light: strongSelf.globalTokens.neutralColors[.white],
+                            dark: strongSelf.globalTokens.neutralColors[.black],
+                            darkElevated: strongSelf.globalTokens.neutralColors[.grey4])
         case .neutral2:
-            return ColorSet(light: GlobalTokens.shared.neutralColors[.grey98],
-                            dark: GlobalTokens.shared.neutralColors[.grey4],
-                            darkElevated: GlobalTokens.shared.neutralColors[.grey8])
+            return ColorSet(light: strongSelf.globalTokens.neutralColors[.grey98],
+                            dark: strongSelf.globalTokens.neutralColors[.grey4],
+                            darkElevated: strongSelf.globalTokens.neutralColors[.grey8])
         case .neutral3:
-            return ColorSet(light: GlobalTokens.shared.neutralColors[.grey96],
-                            dark: GlobalTokens.shared.neutralColors[.grey8],
-                            darkElevated: GlobalTokens.shared.neutralColors[.grey12])
+            return ColorSet(light: strongSelf.globalTokens.neutralColors[.grey96],
+                            dark: strongSelf.globalTokens.neutralColors[.grey8],
+                            darkElevated: strongSelf.globalTokens.neutralColors[.grey12])
         }
     }
 
@@ -64,20 +66,21 @@ public final class AliasTokens {
         case neutral1
         case neutral2
     }
-    public lazy var strokeColors: TokenSet<StrokeColorsTokens, ColorSet> = .init { token in
+    public lazy var strokeColors: TokenSet<StrokeColorsTokens, ColorSet> = .init { [weak self] token in
+        guard let strongSelf = self else { preconditionFailure() }
         switch token {
         case .neutral1:
-            return ColorSet(light: GlobalTokens.shared.neutralColors[.grey94],
-                            lightHighContrast: GlobalTokens.shared.neutralColors[.grey38],
-                            dark: GlobalTokens.shared.neutralColors[.grey24],
-                            darkHighContrast: GlobalTokens.shared.neutralColors[.grey68],
-                            darkElevated: GlobalTokens.shared.neutralColors[.grey32])
+            return ColorSet(light: strongSelf.globalTokens.neutralColors[.grey94],
+                            lightHighContrast: strongSelf.globalTokens.neutralColors[.grey38],
+                            dark: strongSelf.globalTokens.neutralColors[.grey24],
+                            darkHighContrast: strongSelf.globalTokens.neutralColors[.grey68],
+                            darkElevated: strongSelf.globalTokens.neutralColors[.grey32])
         case .neutral2:
-            return ColorSet(light: GlobalTokens.shared.neutralColors[.grey88],
-                            lightHighContrast: GlobalTokens.shared.neutralColors[.grey38],
-                            dark: GlobalTokens.shared.neutralColors[.grey32],
-                            darkHighContrast: GlobalTokens.shared.neutralColors[.grey68],
-                            darkElevated: GlobalTokens.shared.neutralColors[.grey36])
+            return ColorSet(light: strongSelf.globalTokens.neutralColors[.grey88],
+                            lightHighContrast: strongSelf.globalTokens.neutralColors[.grey38],
+                            dark: strongSelf.globalTokens.neutralColors[.grey32],
+                            darkHighContrast: strongSelf.globalTokens.neutralColors[.grey68],
+                            darkElevated: strongSelf.globalTokens.neutralColors[.grey36])
         }
     }
 

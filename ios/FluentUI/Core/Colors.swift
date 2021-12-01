@@ -106,7 +106,7 @@ open class ColorProvidingStyle: FluentUIStyle {
     private var colorProviding: ColorProviding
 }
 
-private func updateBrandColors(provider: ColorProviding, for window: UIWindow) -> GlobalTokens {
+private func brandedGlobalTokens(provider: ColorProviding, for window: UIWindow) -> GlobalTokens {
     let globalTokens = GlobalTokens()
     let brandColors = globalTokens.brandColors
     if let primary = provider.primaryColor(for: window)?.colorSet {
@@ -284,35 +284,6 @@ public final class Colors: NSObject {
                 return fluentColor
             } else {
                 preconditionFailure("invalid fluent color")
-            }
-        }
-
-        public var colorSet: ColorSet {
-            switch self {
-            // Set of colors defined as global tokens
-            case .communicationBlue:
-                return GlobalTokens.shared.brandColors[.primary]
-            case .communicationBlueTint40:
-                return GlobalTokens.shared.brandColors[.tint40]
-            case .communicationBlueTint30:
-                return GlobalTokens.shared.brandColors[.tint30]
-            case .communicationBlueTint20:
-                return GlobalTokens.shared.brandColors[.tint20]
-            case .communicationBlueTint10:
-                return GlobalTokens.shared.brandColors[.tint10]
-            case .communicationBlueShade30:
-                return GlobalTokens.shared.brandColors[.shade30]
-            case .communicationBlueShade20:
-                return GlobalTokens.shared.brandColors[.shade20]
-            case .communicationBlueShade10:
-                return GlobalTokens.shared.brandColors[.shade10]
-            default:
-                // Fallback during transition: wrap the UIColor
-                if let colorSet = self.color.colorSet {
-                    return colorSet
-                } else {
-                    preconditionFailure("invalid fluent color")
-                }
             }
         }
 
@@ -602,8 +573,8 @@ public final class Colors: NSObject {
         FluentUIThemeManager.setStylesheet(stylesheet: stylesheet,
                                            for: window)
 
-        // Create an updated theme as well
-        let globalTokens = updateBrandColors(provider: provider, for: window)
+        // Create an updated fluent theme as well
+        let globalTokens = brandedGlobalTokens(provider: provider, for: window)
         window.fluentTheme = FluentTheme(globalTokens: globalTokens)
     }
 

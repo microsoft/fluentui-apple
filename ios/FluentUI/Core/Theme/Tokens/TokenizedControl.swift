@@ -10,8 +10,14 @@ public protocol TokenizedControl: View {
     associatedtype TokenType: ControlTokens
 
     /// Modifier function that updates the design tokens for a given control.
+    ///
+    /// - Parameter tokens: The custom tokens to apply to this control.
+    ///
+    /// - Returns: A version of this control with these custom tokens applied.
     func customTokens(_ tokens: TokenType) -> Self
 
     /// Generates an instance of this control's default tokens.
+    ///
+    /// - Returns: A new instance of the default tokens for this control type.
     static func defaultTokens() -> TokenType
 }

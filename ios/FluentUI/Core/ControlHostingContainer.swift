@@ -9,16 +9,24 @@ import UIKit
 /// Common wrapper for hosting and exposing SwiftUI components to UIKit-based clients.
 public class ControlHostingContainer: NSObject {
 
-    /// The UIView representing the SwiftUI view.
+    /// The UIView representing the wrapped SwiftUI view.
     @objc public var view: UIView {
         return hostingController.view
     }
 
-    init(_ controlView: AnyView) {
+    /// Initializes and returns an instance of `ControlHostingContainer` that wraps `controlView`.
+    ///
+    /// Unfortunately this class can't use Swift generics, which are incompatible with Objective-C interop. Instead we have to wrap
+    /// the control view in an `AnyView.`
+    ///
+    /// - Parameter controlView: An `AnyView`-wrapped component to host.
+    init(_ controlView: AnyView, disableSafeAreaInsets: Bool = true) {
         self.controlView = controlView
         super.init()
 
-        hostingController.disableSafeAreaInsets()
+        if disableSafeAreaInsets {
+            hostingController.disableSafeAreaInsets()
+        }
 
         // We need to observe theme changes, and use them to update our wrapped control.
         NotificationCenter.default.addObserver(forName: Notification.Name.didChangeTheme,
@@ -50,7 +58,7 @@ public class ControlHostingContainer: NSObject {
                         .fluentTheme(currentFluentTheme)
                         .onAppear { [weak self] in
                             // We don't usually have a window at construction time, so fetch our
-                            // brand colors during `onAppear`
+                            // custom theme during `onAppear`
                             self?.updateRootView()
                         }
         )
