@@ -67,6 +67,12 @@ class ButtonLegacyDemoController: DemoController {
 extension MSFButtonLegacyStyle {
     var description: String {
         switch self {
+        case .borderless:
+            return "Borderless"
+        case .dangerFilled:
+            return "Danger filled"
+        case .dangerOutline:
+            return "Danger outline"
         case .primaryFilled:
             return "Primary filled"
         case .primaryOutline:
@@ -75,14 +81,12 @@ extension MSFButtonLegacyStyle {
             return "Secondary outline"
         case .tertiaryOutline:
             return "Tertiary outline"
-        case .borderless:
-            return "Borderless"
         }
     }
 
     var image: UIImage? {
         switch self {
-        case .primaryFilled, .primaryOutline:
+        case .dangerFilled, .dangerOutline, .primaryFilled, .primaryOutline:
             return UIImage(named: "Placeholder_24")!
         case .secondaryOutline, .borderless:
             return UIImage(named: "Placeholder_20")!

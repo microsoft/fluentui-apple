@@ -11,13 +11,15 @@ import UIKit
 public enum MSFButtonLegacyStyle: Int, CaseIterable {
     case primaryFilled
     case primaryOutline
+    case dangerFilled
+    case dangerOutline
     case secondaryOutline
     case tertiaryOutline
     case borderless
 
     var contentEdgeInsets: UIEdgeInsets {
         switch self {
-        case .primaryFilled, .primaryOutline:
+        case .dangerFilled, .dangerOutline, .primaryFilled, .primaryOutline:
             return UIEdgeInsets(top: 16, left: 20, bottom: 16, right: 20)
         case .secondaryOutline:
             return UIEdgeInsets(top: 10, left: 14, bottom: 10, right: 14)
@@ -30,7 +32,7 @@ public enum MSFButtonLegacyStyle: Int, CaseIterable {
 
     var cornerRadius: CGFloat {
         switch self {
-        case .primaryFilled, .primaryOutline, .secondaryOutline, .borderless:
+        case .borderless, .dangerFilled, .dangerOutline, .primaryFilled, .primaryOutline, .secondaryOutline:
             return 8
         case .tertiaryOutline:
             return 5
@@ -39,16 +41,34 @@ public enum MSFButtonLegacyStyle: Int, CaseIterable {
 
     var hasBorders: Bool {
         switch self {
-        case .primaryOutline, .secondaryOutline, .tertiaryOutline:
+        case .dangerOutline, .primaryOutline, .secondaryOutline, .tertiaryOutline:
             return true
-        case .primaryFilled, .borderless:
+        case .borderless, .dangerFilled, .primaryFilled:
+            return false
+        }
+    }
+
+    var isDangerStyle: Bool {
+        switch self {
+        case .dangerFilled, .dangerOutline:
+            return true
+        case .borderless, .primaryFilled, .primaryOutline, .secondaryOutline, .tertiaryOutline:
+            return false
+        }
+    }
+
+    var isFilledStyle: Bool {
+        switch self {
+        case .dangerFilled, .primaryFilled:
+            return true
+        case .borderless, .dangerOutline, .primaryOutline, .secondaryOutline, .tertiaryOutline:
             return false
         }
     }
 
     var minTitleLabelHeight: CGFloat {
         switch self {
-        case .primaryFilled, .primaryOutline, .borderless:
+        case .borderless, .dangerFilled, .dangerOutline, .primaryFilled, .primaryOutline:
             return 20
         case .secondaryOutline, .tertiaryOutline:
             return 18
@@ -57,7 +77,7 @@ public enum MSFButtonLegacyStyle: Int, CaseIterable {
 
     var titleFont: UIFont {
         switch self {
-        case .primaryFilled, .primaryOutline, .borderless:
+        case .borderless, .dangerFilled, .dangerOutline, .primaryFilled, .primaryOutline:
             return Fonts.button1
         case .secondaryOutline, .tertiaryOutline:
             return Fonts.button2
@@ -66,7 +86,7 @@ public enum MSFButtonLegacyStyle: Int, CaseIterable {
 
     var titleImagePadding: CGFloat {
         switch self {
-        case .primaryFilled, .primaryOutline:
+        case .dangerFilled, .dangerOutline, .primaryFilled, .primaryOutline:
             return 10
         case .secondaryOutline, .borderless:
             return 8
@@ -300,15 +320,23 @@ open class MSFButtonLegacy: UIButton {
     }
 
     private func normalTitleAndImageColor(for window: UIWindow) -> UIColor {
-        return style == .primaryFilled ? Colors.Button.titleWithFilledBackground : Colors.primary(for: window)
+        if style.isFilledStyle {
+            return Colors.Button.titleWithFilledBackground
+        }
+
+        return style.isDangerStyle ? Colors.Palette.dangerPrimary.color : Colors.primary(for: window)
     }
 
     private func highlightedTitleAndImageColor(for window: UIWindow) -> UIColor {
-        return style == .primaryFilled ? Colors.Button.titleWithFilledBackground : Colors.primaryTint20(for: window)
+        if style.isFilledStyle {
+            return Colors.Button.titleWithFilledBackground
+        }
+
+        return style.isDangerStyle ? Colors.Palette.dangerTint20.color : Colors.primaryTint20(for: window)
     }
 
     private func disabledTitleAndImageColor(for window: UIWindow) -> UIColor {
-        return style == .primaryFilled ? Colors.Button.titleWithFilledBackground : Colors.Button.titleDisabled
+        return style.isFilledStyle ? Colors.Button.titleWithFilledBackground : Colors.Button.titleDisabled
     }
 
     private var normalImageTintColor: UIColor?
@@ -365,13 +393,28 @@ open class MSFButtonLegacy: UIButton {
     private func updateBackgroundColor() {
         if let window = window {
             let backgroundColor: UIColor
-            if isHighlighted {
-                backgroundColor = style == .primaryFilled ? UIColor(light: Colors.primaryTint10(for: window), dark: Colors.primaryTint20(for: window)) : Colors.Button.background
-            } else if !isEnabled {
-                backgroundColor = style == .primaryFilled ? Colors.Button.backgroundFilledDisabled : Colors.Button.background
+
+            if !isEnabled {
+                backgroundColor = style.isFilledStyle ? Colors.Button.backgroundFilledDisabled : Colors.Button.background
             } else {
-                backgroundColor = style == .primaryFilled ? Colors.primary(for: window) : Colors.Button.background
+                switch style {
+                case .primaryFilled:
+                    backgroundColor = isHighlighted ? UIColor(light: Colors.primaryTint10(for: window),
+                                                              dark: Colors.primaryTint20(for: window))
+                    : Colors.primary(for: window)
+                case .dangerFilled:
+                    backgroundColor = isHighlighted ? UIColor(light: Colors.Palette.dangerTint10.color,
+                                                              dark: Colors.Palette.dangerTint20.color)
+                    : Colors.Palette.dangerPrimary.color
+                case .primaryOutline,
+                        .dangerOutline,
+                        .secondaryOutline,
+                        .tertiaryOutline,
+                        .borderless:
+                    backgroundColor = Colors.Button.background
+                }
             }
+
             self.backgroundColor = backgroundColor
         }
     }
@@ -383,13 +426,15 @@ open class MSFButtonLegacy: UIButton {
 
         if let window = window {
             let borderColor: UIColor
-            if isHighlighted {
-                borderColor = Colors.primaryTint30(for: window)
-            } else if !isEnabled {
+
+            if !isEnabled {
                 borderColor = Colors.Button.borderDisabled
+            } else if isHighlighted {
+                borderColor = style.isDangerStyle ? Colors.Palette.dangerTint30.color : Colors.primaryTint30(for: window)
             } else {
-                borderColor = Colors.primaryTint10(for: window)
+                borderColor = style.isDangerStyle ? Colors.Palette.dangerTint10.color : Colors.primaryTint10(for: window)
             }
+
             layer.borderColor = borderColor.cgColor
         }
     }
