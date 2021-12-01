@@ -37,17 +37,17 @@ public class ControlHostingContainer: NSObject {
         self.hostingController.rootView = tokenizedView
     }
 
-    private var currentTokenProvider: TokenProvider {
-        if let windowTokenProvider = self.view.window?.tokenProvider {
-            return windowTokenProvider
+    private var currentFluentTheme: FluentTheme {
+        if let windowFluentTheme = self.view.window?.fluentTheme {
+            return windowFluentTheme
         } else {
-            return TokenProviderKey.defaultValue
+            return FluentThemeKey.defaultValue
         }
     }
 
     private var tokenizedView: AnyView {
         return AnyView(controlView
-                        .tokenProvider(currentTokenProvider)
+                        .fluentTheme(currentFluentTheme)
                         .onAppear { [weak self] in
                             // We don't usually have a window at construction time, so fetch our
                             // brand colors during `onAppear`

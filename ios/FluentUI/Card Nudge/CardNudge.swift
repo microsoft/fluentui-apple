@@ -51,10 +51,10 @@ public struct CardNudge: TokenizedControl {
         return CardNudgeTokens()
     }
 
-    @Environment(\.tokenProvider) var tokenProvider: TokenProvider
+    @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @ObservedObject var state: MSFCardNudgeStateImpl
     var tokens: CardNudgeTokens {
-        let tokens = state.tokens ?? tokenProvider.tokens(for: self)
+        let tokens = state.tokens ?? fluentTheme.tokens(for: self)
         tokens.style = state.style
         return tokens
     }

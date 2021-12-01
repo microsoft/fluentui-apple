@@ -6,7 +6,7 @@
 import SwiftUI
 
 /// Base class that allows for customization of global, alias, and control tokens.
-public class TokenProvider {
+public class FluentTheme {
     public init(globalTokens: GlobalTokens? = nil, aliasTokens: AliasTokens? = nil) {
         if let globalTokens = globalTokens {
             self.globalTokens = globalTokens
@@ -28,7 +28,7 @@ public class TokenProvider {
 
     /// Returns the `ControlTokens` instance for a given `TokenizedControl`.
     ///
-    /// If no token instance yet exists in this provider, this method will register and return the instance returned by `controlType.defaultTokens()`.
+    /// If no token instance yet exists in this theme, this method will register and return the instance returned by `controlType.defaultTokens()`.
     /// - Parameters:
     ///   - control: The control to fetch controls for.
     func tokens<T: TokenizedControl>(for control: T) -> T.TokenType {
@@ -49,20 +49,20 @@ public class TokenProvider {
 // MARK: - UIWindow
 
 protocol TokenProviding {
-    var tokenProvider: TokenProvider? { get }
+    var fluentTheme: FluentTheme? { get }
 }
 
 extension UIWindow: TokenProviding {
     private struct Keys {
-        static var tokenProvider: String = "tokenProvider_key"
+        static var fluentTheme: String = "fluentTheme_key"
     }
 
-    public var tokenProvider: TokenProvider? {
+    public var fluentTheme: FluentTheme? {
         get {
-            return objc_getAssociatedObject(self, &Keys.tokenProvider) as? TokenProvider
+            return objc_getAssociatedObject(self, &Keys.fluentTheme) as? FluentTheme
         }
         set {
-            objc_setAssociatedObject(self, &Keys.tokenProvider, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self, &Keys.fluentTheme, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             NotificationCenter.default.post(name: .didChangeTheme, object: nil)
         }
     }
@@ -71,27 +71,27 @@ extension UIWindow: TokenProviding {
 // MARK: - Environment
 
 public extension View {
-    /// Sets a custom token provider for a specific SwiftUI View and its view hierarchy.
-    /// - Parameter tokenProvider: Instance of the custom token provider.
-    /// - Returns: The view with its `tokenProvider` environment value overriden.
-    func tokenProvider(_ tokenProvider: TokenProvider) -> some View {
-        environment(\.tokenProvider, tokenProvider)
+    /// Sets a custom theme for a specific SwiftUI View and its view hierarchy.
+    /// - Parameter fluentTheme: Instance of the custom theme.
+    /// - Returns: The view with its `fluentTheme` environment value overriden.
+    func fluentTheme(_ fluentTheme: FluentTheme) -> some View {
+        environment(\.fluentTheme, fluentTheme)
     }
 }
 
 extension EnvironmentValues {
-    var tokenProvider: TokenProvider {
+    var fluentTheme: FluentTheme {
         get {
-            self[TokenProviderKey.self]
+            self[FluentThemeKey.self]
         }
         set {
-            self[TokenProviderKey.self] = newValue
+            self[FluentThemeKey.self] = newValue
         }
     }
 }
 
-struct TokenProviderKey: EnvironmentKey {
-    static var defaultValue: TokenProvider {
-        return TokenProvider()
+struct FluentThemeKey: EnvironmentKey {
+    static var defaultValue: FluentTheme {
+        return FluentTheme()
     }
 }

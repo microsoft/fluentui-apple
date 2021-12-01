@@ -602,9 +602,9 @@ public final class Colors: NSObject {
         FluentUIThemeManager.setStylesheet(stylesheet: stylesheet,
                                            for: window)
 
-        // Create an updated token provider as well
+        // Create an updated theme as well
         let globalTokens = updateBrandColors(provider: provider, for: window)
-        window.tokenProvider = TokenProvider(globalTokens: globalTokens)
+        window.fluentTheme = FluentTheme(globalTokens: globalTokens)
     }
 
     /// Removes any associated `ColorProvider` from the given `UIWindow` instance.
@@ -614,7 +614,7 @@ public final class Colors: NSObject {
     @objc public static func removeProvider(for window: UIWindow) {
         colorProvidersMap.removeObject(forKey: window)
         FluentUIThemeManager.removeStylesheet(for: window)
-        window.tokenProvider = nil
+        window.fluentTheme = nil
     }
 
     // MARK: Primary
