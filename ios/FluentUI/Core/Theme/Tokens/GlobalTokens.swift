@@ -10,7 +10,7 @@ public final class GlobalTokens {
 
     // MARK: - BrandColors
 
-    public enum BrandColorsTokens {
+    public enum BrandColorsTokens: CaseIterable {
         case primary
         case shade10
         case shade20
@@ -43,7 +43,7 @@ public final class GlobalTokens {
 
     // MARK: - NeutralColors
 
-    public enum NeutralColorsToken {
+    public enum NeutralColorsToken: CaseIterable {
         case black
         case grey2
         case grey4
@@ -205,7 +205,7 @@ public final class GlobalTokens {
 
     // MARK: - IconSize
 
-    public enum IconSizeToken {
+    public enum IconSizeToken: CaseIterable {
         case xxxSmall
         case xxSmall
         case xSmall
@@ -241,7 +241,7 @@ public final class GlobalTokens {
 
     // MARK: - Spacing
 
-    public enum SpacingToken {
+    public enum SpacingToken: CaseIterable {
         case none
         case xxxSmall
         case xxSmall
@@ -283,7 +283,7 @@ public final class GlobalTokens {
 
     // MARK: - BorderRadius
 
-    public enum BorderRadiusToken {
+    public enum BorderRadiusToken: CaseIterable {
         case none
         case small
         case medium
@@ -310,7 +310,7 @@ public final class GlobalTokens {
 
     // MARK: - BorderSize
 
-    public enum BorderSizeToken {
+    public enum BorderSizeToken: CaseIterable {
         case none
         case thin
         case thick

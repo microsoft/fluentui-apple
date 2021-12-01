@@ -9,7 +9,7 @@ public final class AliasTokens {
 
     // MARK: ForegroundColors
 
-    public enum ForegroundColorsTokens {
+    public enum ForegroundColorsTokens: CaseIterable {
         case neutral1
         case neutral2
         case neutral3
@@ -37,7 +37,7 @@ public final class AliasTokens {
 
     // MARK: BackgroundColors
 
-    public enum BackgroundColorsTokens {
+    public enum BackgroundColorsTokens: CaseIterable {
         case neutral1
         case neutral2
         case neutral3
@@ -62,7 +62,7 @@ public final class AliasTokens {
 
     // MARK: StrokeColors
 
-    public enum StrokeColorsTokens {
+    public enum StrokeColorsTokens: CaseIterable {
         case neutral1
         case neutral2
     }
