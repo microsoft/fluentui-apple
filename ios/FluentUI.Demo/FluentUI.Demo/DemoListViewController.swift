@@ -51,15 +51,8 @@ class DemoListViewController: DemoTableViewController {
         }
         navigationItem.title = appName
         navigationItem.largeTitleDisplayMode = .always
-
-        if #available(iOS 14.0, *) {
-            navigationItem.backButtonDisplayMode = .minimal
-            navigationItem.rightBarButtonItem = UIBarButtonItem(title: libraryVersion)
-        } else {
-            // Fluent UI design recommends not showing "Back" title. However, VoiceOver still correctly says "Back" even if the title is hidden.
-            navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-            navigationItem.rightBarButtonItem = UIBarButtonItem(title: libraryVersion, style: .plain, target: nil, action: nil)
-        }
+        navigationItem.backButtonDisplayMode = .minimal
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: libraryVersion)
 
         tableView.register(TableViewCell.self, forCellReuseIdentifier: cellReuseIdentifier)
     }

@@ -11,13 +11,7 @@ struct FluentUIDemoToggle: View {
     var isOn: Binding<Bool>
 
     let switchToggleStyle: SwitchToggleStyle = {
-        if #available(iOS 14.0, *) {
-            // Workaround for SwiftUI Toggles that switch to green tint color
-            // when they're toggled for the first time
-            return SwitchToggleStyle(tint: Color(Colors.communicationBlue))
-        } else {
-            return SwitchToggleStyle()
-        }
+        return SwitchToggleStyle(tint: Color(Colors.communicationBlue))
     }()
 
     var body: some View {

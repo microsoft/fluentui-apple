@@ -64,14 +64,12 @@ public class FluentUIFramework: NSObject {
     @objc public static func initializeAppearance(with primaryColor: UIColor, whenContainedInInstancesOf containerTypes: [UIAppearanceContainer.Type]? = nil) {
         let navigationBarAppearance = containerTypes != nil ? UINavigationBar.appearance(whenContainedInInstancesOf: containerTypes!) : UINavigationBar.appearance()
         initializeUINavigationBarAppearance(navigationBarAppearance)
-        if #available(iOS 12, *) {
-            let light = UITraitCollection(userInterfaceStyle: .light)
-            let dark = UITraitCollection(userInterfaceStyle: .dark)
-            let navigationBarLightAppearance = containerTypes != nil ? UINavigationBar.appearance(for: light, whenContainedInInstancesOf: containerTypes!) : UINavigationBar.appearance(for: light)
-            let navigationBarDarkAppearance = containerTypes != nil ? UINavigationBar.appearance(for: dark, whenContainedInInstancesOf: containerTypes!) : UINavigationBar.appearance(for: dark)
-            initializeUINavigationBarAppearance(navigationBarLightAppearance, traits: light)
-            initializeUINavigationBarAppearance(navigationBarDarkAppearance, traits: dark)
-        }
+        let light = UITraitCollection(userInterfaceStyle: .light)
+        let dark = UITraitCollection(userInterfaceStyle: .dark)
+        let navigationBarLightAppearance = containerTypes != nil ? UINavigationBar.appearance(for: light, whenContainedInInstancesOf: containerTypes!) : UINavigationBar.appearance(for: light)
+        let navigationBarDarkAppearance = containerTypes != nil ? UINavigationBar.appearance(for: dark, whenContainedInInstancesOf: containerTypes!) : UINavigationBar.appearance(for: dark)
+        initializeUINavigationBarAppearance(navigationBarLightAppearance, traits: light)
+        initializeUINavigationBarAppearance(navigationBarDarkAppearance, traits: dark)
 
         // UIToolbar
         let toolbar = UIToolbar.appearance()

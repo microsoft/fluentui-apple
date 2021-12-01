@@ -198,13 +198,11 @@ class CommandBarDemoController: DemoController {
         itemGroups[0][1].isEnabled = false
         itemGroups[2][0].isEnabled = false
 
-        if #available(iOS 14.0, *) {
-            // Copy item
-            let copyItem = itemGroups[4][0]
-            copyItem.menu = UIMenu(children: [UIAction(title: "Copy Image", image: UIImage(named: "copy24Regular"), handler: { _ in }),
-                                              UIAction(title: "Copy Text", image: UIImage(named: "text24Regular"), handler: { _ in })])
-            copyItem.showsMenuAsPrimaryAction = true
-        }
+        // Copy item
+        let copyItem = itemGroups[4][0]
+        copyItem.menu = UIMenu(children: [UIAction(title: "Copy Image", image: UIImage(named: "copy24Regular"), handler: { _ in }),
+                                          UIAction(title: "Copy Text", image: UIImage(named: "text24Regular"), handler: { _ in })])
+        copyItem.showsMenuAsPrimaryAction = true
 
         container.addArrangedSubview(createLabelWithText("Default"))
 

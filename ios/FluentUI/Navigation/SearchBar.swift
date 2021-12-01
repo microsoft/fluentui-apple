@@ -230,15 +230,10 @@ open class SearchBar: UIView {
         clearButton.setImage(UIImage.staticImageNamed("search-clear"), for: .normal)
         clearButton.isHidden = true
 
-        if #available(iOS 13.4, *) {
-            // Workaround check for beta iOS versions missing the Pointer Interactions API
-            if arePointerInteractionAPIsAvailable() {
-                clearButton.isPointerInteractionEnabled = true
-                clearButton.pointerStyleProvider = { button, effect, _ in
-                    let preview = UITargetedPreview(view: button)
-                    return UIPointerStyle(effect: .lift(preview))
-                }
-            }
+        clearButton.isPointerInteractionEnabled = true
+        clearButton.pointerStyleProvider = { button, effect, _ in
+            let preview = UITargetedPreview(view: button)
+            return UIPointerStyle(effect: .lift(preview))
         }
 
         return clearButton
@@ -252,13 +247,7 @@ open class SearchBar: UIView {
         button.addTarget(self, action: #selector(SearchBar.cancelButtonTapped(sender:)), for: .touchUpInside)
         button.alpha = 0.0
         button.showsLargeContentViewer = true
-
-        if #available(iOS 13.4, *) {
-            // Workaround check for beta iOS versions missing the Pointer Interactions API
-            if arePointerInteractionAPIsAvailable() {
-                button.isPointerInteractionEnabled = true
-            }
-        }
+        button.isPointerInteractionEnabled = true
 
         return button
     }()
