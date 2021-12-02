@@ -45,6 +45,10 @@ open class CardNudgeTokens: ControlTokens {
         return globalTokens.spacing[.small]
     }
 
+    open var circleRadius: CGFloat {
+        return globalTokens.borderRadius[.circle]
+    }
+
     open var circleSize: CGFloat {
         return globalTokens.iconSize[.xxLarge]
     }

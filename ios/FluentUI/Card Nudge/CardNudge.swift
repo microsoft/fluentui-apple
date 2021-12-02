@@ -63,7 +63,7 @@ public struct CardNudge: TokenizedControl {
     var icon: some View {
         if let icon = state.mainIcon {
             ZStack {
-                Circle()
+                RoundedRectangle(cornerRadius: tokens.circleRadius)
                     .frame(width: tokens.circleSize, height: tokens.circleSize)
                     .dynamicForegroundColor(tokens.buttonBackgroundColor)
                 Image(uiImage: icon)
@@ -127,7 +127,7 @@ public struct CardNudge: TokenizedControl {
                 .padding(.vertical, tokens.verticalPadding)
                 .dynamicForegroundColor(tokens.accentColor)
                 .background(
-                    RoundedRectangle(cornerRadius: .infinity)
+                    RoundedRectangle(cornerRadius: tokens.circleRadius)
                         .dynamicForegroundColor(tokens.buttonBackgroundColor)
                 )
             }
