@@ -33,20 +33,16 @@ public class FluentTheme {
         controlTokens["\(type(of: control))"] = tokens
     }
 
-    /// Returns the `ControlTokens` instance for a given `TokenizedControl`.
+    /// Returns the custom `ControlTokens` instance that was provided a given `TokenizedControl`.
     ///
-    /// If no token instance yet exists in this theme, this method will create, register, and return the instance returned by `control.defaultTokens()`.
     /// - Parameter control: The control to fetch controls for.
     ///
-    /// - Returns: The custom `ControlTokens` for the given control if one is registered, or the defaults if not.
-    public func tokens<T: TokenizedControl>(for control: T) -> T.TokenType {
-        let controlType = type(of: control)
+    /// - Returns: The custom `ControlTokens` for the given control if one is registered, or `nil` if not.
+    func tokens<T: TokenizedControl>(for control: T) -> T.TokenType? {
         if let tokens = controlTokens["\(type(of: control))"] as? T.TokenType {
             return tokens
         }
-        let tokens = controlType.defaultTokens()
-        self.register(tokens: tokens, for: control)
-        return tokens
+        return nil
     }
 
     private var globalTokens: GlobalTokens = .shared

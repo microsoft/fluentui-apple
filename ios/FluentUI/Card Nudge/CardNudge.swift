@@ -47,14 +47,10 @@ public typealias CardNudgeButtonAction = ((_ state: MSFCardNudgeState) -> Void)
 
 /// View that represents the CardNudge.
 public struct CardNudge: TokenizedControl {
-    public static func defaultTokens() -> CardNudgeTokens {
-        return CardNudgeTokens()
-    }
-
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @ObservedObject var state: MSFCardNudgeStateImpl
     var tokens: CardNudgeTokens {
-        let tokens = state.overrideTokens ?? fluentTheme.tokens(for: self)
+        let tokens = state.overrideTokens ?? fluentTheme.tokens(for: self) ?? state.defaultTokens
         tokens.style = state.style
         return tokens
     }
@@ -204,6 +200,9 @@ class MSFCardNudgeStateImpl: NSObject, ObservableObject, Identifiable, MSFCardNu
 
     /// Design token set for this control, to use in place of the control's default Fluent tokens.
     @Published @objc public var overrideTokens: CardNudgeTokens?
+
+    /// Lazily initialized default token set.
+    lazy var defaultTokens: CardNudgeTokens = .init()
 
     @objc init(style: MSFCardNudgeStyle, title: String) {
         self.style = style

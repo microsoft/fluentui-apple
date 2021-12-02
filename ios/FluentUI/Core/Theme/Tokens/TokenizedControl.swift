@@ -15,9 +15,4 @@ public protocol TokenizedControl: View {
     ///
     /// - Returns: A version of this control with these custom tokens applied.
     func customTokens(_ tokens: TokenType) -> Self
-
-    /// Generates an instance of this control's default tokens.
-    ///
-    /// - Returns: A new instance of the default tokens for this control type.
-    static func defaultTokens() -> TokenType
 }
