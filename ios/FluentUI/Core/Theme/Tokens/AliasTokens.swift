@@ -14,7 +14,7 @@ public final class AliasTokens {
         case neutral2
         case neutral3
     }
-    lazy var foregroundColors: TokenSet<ForegroundColorsTokens, ColorSet> = .init { [weak self] token in
+    public lazy var foregroundColors: TokenSet<ForegroundColorsTokens, ColorSet> = .init { [weak self] token in
         guard let strongSelf = self else { preconditionFailure() }
         switch token {
         case .neutral1:

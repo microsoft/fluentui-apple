@@ -46,11 +46,11 @@ public typealias CardNudgeButtonAction = ((_ state: MSFCardNudgeState) -> Void)
 }
 
 /// View that represents the CardNudge.
-public struct CardNudge: TokenizedControl {
+public struct CardNudge: TokenizedControlInternal {
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @ObservedObject var state: MSFCardNudgeStateImpl
     var tokens: CardNudgeTokens {
-        let tokens = state.overrideTokens ?? fluentTheme.tokens(for: self) ?? state.defaultTokens
+        let tokens = fluentTheme.tokens(for: self)
         tokens.style = state.style
         return tokens
     }
@@ -176,7 +176,7 @@ public struct CardNudge: TokenizedControl {
     }
 }
 
-class MSFCardNudgeStateImpl: NSObject, ObservableObject, Identifiable, MSFCardNudgeState {
+class MSFCardNudgeStateImpl: NSObject, ControlConfiguration, MSFCardNudgeState {
     @Published @objc public private(set) var style: MSFCardNudgeStyle
 
     @Published @objc public var title: String

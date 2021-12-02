@@ -16,3 +16,17 @@ public protocol TokenizedControl: View {
     /// - Returns: A version of this control with these custom tokens applied.
     func customTokens(_ tokens: TokenType) -> Self
 }
+
+/// Internal extension to `TokenizedControl` that adds information about `configuration`.
+protocol TokenizedControlInternal: TokenizedControl {
+    associatedtype ConfigurationType: ControlConfiguration where ConfigurationType.TokenType == TokenType
+
+    var state: ConfigurationType { get }
+}
+
+/// Internal protocol for all controls' internal `configuration` objects.
+protocol ControlConfiguration: NSObject, ObservableObject, Identifiable {
+    associatedtype TokenType: ControlTokens
+    var overrideTokens: TokenType? { get set }
+    var defaultTokens: TokenType { get }
+}
