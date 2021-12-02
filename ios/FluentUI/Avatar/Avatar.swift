@@ -240,18 +240,9 @@ public struct Avatar: View {
                     .resizable()
                     .foregroundColor(Color(foregroundColor))
             } else {
-                if #available(iOS 14.0, *) {
-                    Text(initialsString)
-                        .foregroundColor(Color(foregroundColor))
-                        .font(Font(tokens.textFont))
-                } else {
-                    Text(initialsString)
-                        .foregroundColor(Color(foregroundColor))
-                        .font(Font(tokens.textFont))
-                        // Workaround for iOS 13 only: disabling animations as a "flickering"
-                        // happens as the text is truncated during the animation
-                        .animation(.none)
-                }
+                Text(initialsString)
+                    .foregroundColor(Color(foregroundColor))
+                    .font(Font(tokens.textFont))
             }
         }
 

@@ -86,13 +86,8 @@ class TabBarItemView: UIControl {
 
         container.addSubview(badgeView)
 
-        if #available(iOS 13.4, *) {
-            // Workaround check for beta iOS versions missing the Pointer Interactions API
-            if arePointerInteractionAPIsAvailable() {
-                let pointerInteraction = UIPointerInteraction(delegate: self)
-                addInteraction(pointerInteraction)
-            }
-        }
+        let pointerInteraction = UIPointerInteraction(delegate: self)
+        addInteraction(pointerInteraction)
 
         isAccessibilityElement = true
         updateAccessibilityLabel()
@@ -364,7 +359,6 @@ class TabBarItemView: UIControl {
 // MARK: - TabBarItemView UIPointerInteractionDelegate
 
 extension TabBarItemView: UIPointerInteractionDelegate {
-    @available(iOS 13.4, *)
     func pointerInteraction(_ interaction: UIPointerInteraction, styleFor region: UIPointerRegion) -> UIPointerStyle? {
         let pointerEffect = UIPointerEffect.highlight(.init(view: self))
 
