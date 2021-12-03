@@ -136,12 +136,7 @@ class BadgeLabelButton: UIButton {
             largeContentTitle = item.accessibilityLabel
         }
 
-        if #available(iOS 13.4, *) {
-            // Workaround check for beta iOS versions missing the Pointer Interactions API
-            if arePointerInteractionAPIsAvailable() {
-                isPointerInteractionEnabled = true
-            }
-        }
+        isPointerInteractionEnabled = true
     }
 
     private func prepareButtonForBadgeLabel() {

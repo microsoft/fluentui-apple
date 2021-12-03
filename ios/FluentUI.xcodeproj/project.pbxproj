@@ -142,7 +142,6 @@
 		5314E2A025F024860099271A /* NSLayoutConstraint+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C8B422DD3EA20086F899 /* NSLayoutConstraint+Extensions.swift */; };
 		5314E2B225F024B60099271A /* Calendar+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7254E82147059D002F4069 /* Calendar+Extensions.swift */; };
 		5314E2BB25F024C60099271A /* CALayer+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54D97D9217A5FC10072681A /* CALayer+Extensions.swift */; };
-		5314E2D125F0251E0099271A /* iOS13_4_compatibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537315B225438B15001FD14C /* iOS13_4_compatibility.swift */; };
 		5314E2DA25F025370099271A /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CEC16E20D98F340016922A /* Fonts.swift */; };
 		5314E2E325F025500099271A /* FluentUIFramework.swift in Sources */ = {isa = PBXBuildFile; fileRef = A559BB82212B7D870055E107 /* FluentUIFramework.swift */; };
 		5314E2EC25F025710099271A /* DayOfMonth.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD777528219E3F6C00033D58 /* DayOfMonth.swift */; };
@@ -263,7 +262,6 @@
 		532FE3CF26EA6D73007539C0 /* ActivityIndicatorModifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorModifiers.swift; sourceTree = "<group>"; };
 		532FE3D026EA6D74007539C0 /* ActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		535559E22711411E0094A871 /* FluentUIHostingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FluentUIHostingController.swift; sourceTree = "<group>"; };
-		537315B225438B15001FD14C /* iOS13_4_compatibility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = iOS13_4_compatibility.swift; sourceTree = "<group>"; };
 		5373D5602694D65C0032A3B4 /* AvatarTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarTokens.swift; sourceTree = "<group>"; };
 		5373D5612694D65C0032A3B4 /* Avatar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Avatar.swift; sourceTree = "<group>"; };
 		5373D5622694D65C0032A3B4 /* MSFAvatarTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFAvatarTokens.generated.swift; sourceTree = "<group>"; };
@@ -924,7 +922,6 @@
 				535559E22711411E0094A871 /* FluentUIHostingController.swift */,
 				5373D56E2694D66F0032A3B4 /* FluentUIStyle.generated.swift */,
 				A5CEC16E20D98F340016922A /* Fonts.swift */,
-				537315B225438B15001FD14C /* iOS13_4_compatibility.swift */,
 				5373D56F2694D66F0032A3B4 /* SwiftUI+ViewModifiers.swift */,
 				5373D56C2694D66F0032A3B4 /* Theming.swift */,
 				5373D56D2694D66F0032A3B4 /* UIKit+SwiftUI_interoperability.swift */,
@@ -1509,7 +1506,6 @@
 				5314E28E25F024590099271A /* Date+Extensions.swift in Sources */,
 				5306076126A201C8002D49CF /* Persona.swift in Sources */,
 				53097D292702895500A6E4DC /* MSFDrawerTokens.swift in Sources */,
-				5314E2D125F0251E0099271A /* iOS13_4_compatibility.swift in Sources */,
 				5314E14E25F016CD0099271A /* ResizingHandleView.swift in Sources */,
 				5314E1A625F01A7C0099271A /* BooleanCell.swift in Sources */,
 				92F8054E272B2DF3000EAFDB /* CardNudgeModifiers.swift in Sources */,

@@ -231,13 +231,8 @@ open class PillButtonBar: UIScrollView {
         setupScrollView()
         setupStackView()
 
-        if #available(iOS 13.4, *) {
-            // Workaround check for beta iOS versions missing the Pointer Interactions API
-            if arePointerInteractionAPIsAvailable() {
-                let pointerInteraction = UIPointerInteraction(delegate: self)
-                addInteraction(pointerInteraction)
-            }
-        }
+        let pointerInteraction = UIPointerInteraction(delegate: self)
+        addInteraction(pointerInteraction)
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -558,7 +553,6 @@ open class PillButtonBar: UIScrollView {
 // MARK: PillButtonBar UIPointerInteractionDelegate
 
 extension PillButtonBar: UIPointerInteractionDelegate {
-    @available(iOS 13.4, *)
     public func pointerInteraction(_ interaction: UIPointerInteraction, regionFor request: UIPointerRegionRequest, defaultRegion: UIPointerRegion) -> UIPointerRegion? {
         var region: UIPointerRegion?
 
@@ -577,7 +571,6 @@ extension PillButtonBar: UIPointerInteractionDelegate {
         return region
     }
 
-    @available(iOS 13.4, *)
     public func pointerInteraction(_ interaction: UIPointerInteraction, styleFor region: UIPointerRegion) -> UIPointerStyle? {
         guard let superview = window, let index = region.identifier as? Int, index < buttons.count else {
             return nil
@@ -592,7 +585,6 @@ extension PillButtonBar: UIPointerInteractionDelegate {
         return UIPointerStyle(effect: pointerEffect, shape: nil)
     }
 
-    @available(iOS 13.4, *)
     public func pointerInteraction(_ interaction: UIPointerInteraction, willEnter region: UIPointerRegion, animator: UIPointerInteractionAnimating) {
         guard let index = region.identifier as? Int else {
             return
@@ -605,7 +597,6 @@ extension PillButtonBar: UIPointerInteractionDelegate {
         }
     }
 
-    @available(iOS 13.4, *)
     public func pointerInteraction(_ interaction: UIPointerInteraction, willExit region: UIPointerRegion, animator: UIPointerInteractionAnimating) {
         guard let index = region.identifier as? Int else {
             return

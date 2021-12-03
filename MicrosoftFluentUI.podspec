@@ -12,7 +12,7 @@ Pod::Spec.new do |s|
 
 # iOS
 
-  s.ios.deployment_target = "13.0"
+  s.ios.deployment_target = "14.0"
 
   s.subspec 'Avatar_ios' do |avatar_ios|
     avatar_ios.platform = :ios
