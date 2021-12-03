@@ -10,8 +10,8 @@ public final class TokenSet<T: Hashable & CaseIterable, V> {
     ///
     /// We can use square brackets to both read and write into this `TokenSet`. For example:
     /// ```
-    /// let value = tokenSet[.primary]
-    /// tokenSet[.secondary] = newValue
+    /// let value = tokenSet[.primary]   // exercises the `get`
+    /// tokenSet[.secondary] = newValue  // exercises the `set`
     /// ```
     public subscript(token: T) -> V {
         get {
@@ -30,7 +30,20 @@ public final class TokenSet<T: Hashable & CaseIterable, V> {
 
     /// Initializes this token set with a callback to fetch its default values as needed.
     ///
-    /// - Parameter defaultValues: The closure that can be used to lazily fetch default token values as needed.
+    /// The `defaultValues` closure being passed in is expected to take the form of a static switch statement, like so:
+    /// ```
+    /// switch token {
+    /// case firstCase:
+    ///     return someValue
+    /// case secondCase:
+    ///     return someOtherValue
+    /// // ... et cetera
+    /// }
+    /// ```
+    /// This provides fast, predictable access to default token values without requiring (A) separate public properties for
+    /// each value, or (B) unnecessary value storage in memory.
+    ///
+    /// - Parameter defaultValues: A closure that provides default values for this token set.
     init(_ defaultValues: @escaping ((_ token: T) -> V)) {
         self.defaultValues = defaultValues
     }

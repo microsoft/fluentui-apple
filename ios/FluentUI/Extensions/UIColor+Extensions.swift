@@ -79,7 +79,7 @@ extension UIColor {
         self.init { traits -> UIColor in
             let colorValue = colorSet.value(colorScheme: (traits.userInterfaceStyle == .dark ? .dark : .light),
                                             contrast: traits.accessibilityContrast == .high ? .increased : .standard,
-                                            isElevated: traits.userInterfaceLevel == .elevated ? true : false)
+                                            isElevated: traits.userInterfaceLevel == .elevated)
             return UIColor(colorValue: colorValue)
         }
     }

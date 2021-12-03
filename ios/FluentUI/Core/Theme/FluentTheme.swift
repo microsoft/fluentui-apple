@@ -35,14 +35,14 @@ public class FluentTheme {
 
     /// Returns the appropriate `ControlTokens` instance that was provided a given `TokenizedControl`.
     ///
-    /// Priority queue for token retrieval:
+    /// This method returns the appropriate token based on a priority order. The first of these entries to be non-`nil` is returned:
     /// 1. Instance-specific `overrideTokens`.
     /// 2. Theme-wide custom tokens set via `register(tokens:for:)`.
     /// 3. The control's own `defaultTokens`.
     ///
-    /// - Parameter control: The control to fetch controls for.
+    /// - Parameter control: The control to fetch tokens for.
     ///
-    /// - Returns: The custom `ControlTokens` for the given control if one is registered, or `nil` if not.
+    /// - Returns: The appropriate `ControlTokens` for the given control. See Discussion for more details.
     func tokens<T: TokenizedControlInternal>(for control: T) -> T.TokenType {
         if let tokens = control.state.overrideTokens {
             return tokens
