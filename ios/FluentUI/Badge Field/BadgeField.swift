@@ -271,7 +271,7 @@ open class BadgeField: UIView {
 
         var left = labelViewRightOffset
         var lineIndex = 0
-        var badgeHeight: CGFloat = 0.0
+        var badgeHeight: CGFloat = textField.frame.height
 
         for (index, badge) in currentBadges.enumerated() {
             // Don't layout the dragged badge
