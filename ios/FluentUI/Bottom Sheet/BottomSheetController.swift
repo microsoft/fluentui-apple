@@ -291,7 +291,7 @@ public class BottomSheetController: UIViewController {
 
         view.addSubview(bottomSheetView)
         bottomSheetView.isHidden = isHidden
-        bottomSheetView.frame = sheetFrame(with: offset(for: currentExpansionState))
+        bottomSheetView.frame = sheetFrame(offset: offset(for: currentExpansionState))
 
         let overflowView = UIView()
         overflowView.translatesAutoresizingMaskIntoConstraints = false
@@ -395,7 +395,7 @@ public class BottomSheetController: UIViewController {
 
     public override func viewWillLayoutSubviews() {
         if currentExpansionState != .intermediate {
-            bottomSheetView.frame = sheetFrame(with: offset(for: currentExpansionState))
+            bottomSheetView.frame = sheetFrame(offset: offset(for: currentExpansionState))
             updateExpandedContentAlpha()
             updateDimmingViewAlpha()
         }
@@ -496,17 +496,17 @@ public class BottomSheetController: UIViewController {
         }
 
         let targetOffset = min(max(bottomSheetView.frame.origin.y + offsetDelta, minOffset), maxOffset)
-        bottomSheetView.frame = sheetFrame(with: targetOffset)
+        bottomSheetView.frame = sheetFrame(offset: targetOffset)
 
         updateExpandedContentAlpha()
         updateDimmingViewAlpha()
     }
 
-    private func sheetFrame(with desiredOffset: CGFloat) -> CGRect {
+    private func sheetFrame(offset: CGFloat) -> CGRect {
         let availableWidth: CGFloat = view.frame.width
         let sheetWidth = max(shouldAlwaysFillWidth ? availableWidth : min(Constants.maxSheetWidth, availableWidth), Constants.minSheetWidth)
 
-        return CGRect(origin: CGPoint(x: (view.frame.width - sheetWidth) / 2, y: desiredOffset),
+        return CGRect(origin: CGPoint(x: (view.frame.width - sheetWidth) / 2, y: offset),
                       size: CGSize(width: sheetWidth, height: expandedSheetHeight))
     }
 
@@ -603,7 +603,7 @@ public class BottomSheetController: UIViewController {
             guard let strongSelf = self else {
                 return
             }
-            strongSelf.bottomSheetView.frame = strongSelf.sheetFrame(with: targetVerticalOffset)
+            strongSelf.bottomSheetView.frame = strongSelf.sheetFrame(offset: targetVerticalOffset)
             strongSelf.view.layoutIfNeeded()
         }
 
@@ -732,6 +732,8 @@ public class BottomSheetController: UIViewController {
             height = min(maxHeight, idealHeight)
         }
 
+        // Min height is required for cases when view.frame is .zero (before the initial layout pass)
+        // This gives the sheet some space to layout in so the Auto Layout engine doesn't complain.
         return max(minHeight, height)
     }
 
