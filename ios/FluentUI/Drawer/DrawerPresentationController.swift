@@ -294,19 +294,21 @@ class DrawerPresentationController: UIPresentationController {
         if let presentedView = presentedView {
             let presentedViewFrame = frameForPresentedViewController(in: presentedView.superview == containerView ? contentView.frame : contentView.bounds)
 
-            let isVerticallyPresentedViewPartiallyOffScreen: Bool = {
-                // Calculates the origin of the presentedView frame in relation to the device screen.
-                guard let origin = presentedView.superview?.convert(presentedViewFrame.origin, to: nil) else {
-                    return false
-                }
+            // On iOS 13 and iOS 14 the safeAreaInsets are not applied when the presentedView is not entirely within the screen bounds.
+            // As a workaround, additional safe area insets need to be set to compensate.
+            if #available(iOS 15.0, *) {} else {
+                let isVerticallyPresentedViewPartiallyOffScreen: Bool = {
+                    // Calculates the origin of the presentedView frame in relation to the device screen.
+                    guard let origin = presentedView.superview?.convert(presentedViewFrame.origin, to: nil) else {
+                        return false
+                    }
 
-                return (presentationDirection == .down && origin.y < 0) ||
-                       (presentationDirection == .up && (origin.y + presentedViewFrame.height - UIScreen.main.bounds.height) > 0)
-            }()
+                    return (presentationDirection == .down && origin.y < 0) ||
+                           (presentationDirection == .up && (origin.y + presentedViewFrame.height - UIScreen.main.bounds.height) > 0)
+                }()
 
-            // The safeAreaInsets are not applied when the presentedView is no entirely within the screen bounds.
-            // Additional safe area insets need to be set to compensate.
-            presentedViewController.additionalSafeAreaInsets = isVerticallyPresentedViewPartiallyOffScreen ? contentView.safeAreaInsets : .zero
+                presentedViewController.additionalSafeAreaInsets = isVerticallyPresentedViewPartiallyOffScreen ? contentView.safeAreaInsets : .zero
+            }
 
             presentedView.frame = presentedViewFrame
         }
