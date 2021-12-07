@@ -113,7 +113,7 @@ import UIKit
         }
 
         let completionForShow = { (_: Bool) in
-            UIAccessibility.post(notification: .layoutChanged, argument: self)
+            UIAccessibility.post(notification: .layoutChanged, argument: hostingControllerView)
             completion?(self)
         }
 
