@@ -33,10 +33,6 @@ import SwiftUI
     var messageButtonAction: (() -> Void)? { get set }
 }
 
-private enum ActiveAlert {
-    case message, actionButton
-}
-
 /// View that represents the Notification.
 public struct NotificationViewSwiftUI: View {
     @Environment(\.horizontalSizeClass) var horizontalSizeClass: UserInterfaceSizeClass?
@@ -45,8 +41,6 @@ public struct NotificationViewSwiftUI: View {
     @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
     @ObservedObject var tokens: MSFNotificationTokens
     @ObservedObject var state: MSFNotificationStateImpl
-    @State private var showingAlert: Bool = false
-    @State private var activeAlert: ActiveAlert = .actionButton
 
     public init(style: MSFNotificationStyle,
                 title: String = "",
@@ -54,7 +48,8 @@ public struct NotificationViewSwiftUI: View {
                 image: UIImage? = nil,
                 actionButtonTitle: String = "",
                 actionButtonAction: (() -> Void)? = nil,
-                messageButtonAction: (() -> Void)? = nil) {
+                messageButtonAction: (() -> Void)? = nil,
+                dismissAction: @escaping (() -> Void)) {
         let state = MSFNotificationStateImpl(style: style,
                                              title: title,
                                              message: message,
@@ -64,7 +59,10 @@ public struct NotificationViewSwiftUI: View {
                                              messageButtonAction: messageButtonAction)
         self.state = state
         self.tokens = state.tokens
+        self.dismissAction = dismissAction
     }
+
+    public var dismissAction: (() -> Void)
 
     private var hasImage: Bool {
         state.style.isToast && state.image != nil
@@ -128,9 +126,8 @@ public struct NotificationViewSwiftUI: View {
         if let action = state.actionButtonAction, let actionTitle = state.actionButtonTitle {
             if actionTitle.isEmpty {
                 SwiftUI.Button(action: {
+                    dismissAction()
                     action()
-                    activeAlert = .actionButton
-                    showingAlert = true
                 }, label: {
                     Image("dismiss-20x20", bundle: FluentUIFramework.resourceBundle)
                 })
@@ -141,9 +138,8 @@ public struct NotificationViewSwiftUI: View {
             } else {
                 if let action = state.actionButtonAction {
                     SwiftUI.Button(actionTitle) {
+                        dismissAction()
                         action()
-                        activeAlert = .actionButton
-                        showingAlert = true
                     }
                     .lineLimit(1)
                     .foregroundColor(Color(tokens.foregroundColor))
@@ -175,9 +171,9 @@ public struct NotificationViewSwiftUI: View {
         let width = UIScreen.main.bounds.width - safeAreaInsets.leading - safeAreaInsets.trailing
         innerContents
             .onTapGesture {
-                if state.messageButtonAction != nil {
-                    activeAlert = .message
-                    showingAlert = true
+                if let action = state.messageButtonAction {
+                    dismissAction()
+                    action()
                 }
             }
             .frame(width: state.style.isToast && horizontalSizeClass == .regular ? width / 2 : width - (2 * tokens.presentationOffset))
@@ -194,25 +190,6 @@ public struct NotificationViewSwiftUI: View {
             .designTokens(tokens,
                           from: theme,
                           with: windowProvider)
-            .alert(isPresented: $showingAlert) {
-                var alertString: String
-                switch activeAlert {
-                case .actionButton:
-                    if let actionTitle = state.actionButtonTitle {
-                        if actionTitle.isEmpty {
-                            alertString = "Dismiss"
-                        } else {
-                            alertString = actionTitle
-                        }
-                    } else {
-                        alertString = "Action"
-                    }
-                case .message:
-                    alertString = state.message
-                }
-
-                return Alert(title: Text(alertString + " pressed"), message: nil)
-            }
     }
 }
 

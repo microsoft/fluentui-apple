@@ -17,6 +17,7 @@
 		436F6B3F26F4924200D18073 /* MSFNotificationTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436F6B3D26F4924200D18073 /* MSFNotificationTokens.generated.swift */; };
 		436F6B4226F4926B00D18073 /* MSFNotificationTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436F6B4026F4926B00D18073 /* MSFNotificationTokens.swift */; };
 		43A35007272B67D30031654A /* EnvironmentValues+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A35006272B67D20031654A /* EnvironmentValues+Extensions.swift */; };
+		4BBD651F2755FD9500A8B09E /* MSFNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBD651E2755FD9500A8B09E /* MSFNotificationView.swift */; };
 		5303259B26B31B6B00611D05 /* AvatarModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5303259926B31B6B00611D05 /* AvatarModifiers.swift */; };
 		5306075326A1E6A4002D49CF /* AvatarGroupTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5306074F26A1E6A4002D49CF /* AvatarGroupTokens.swift */; };
 		5306075526A1E6A4002D49CF /* MSFAvatarGroupTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5306075026A1E6A4002D49CF /* MSFAvatarGroupTokens.generated.swift */; };
@@ -230,6 +231,7 @@
 		43A35006272B67D20031654A /* EnvironmentValues+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "EnvironmentValues+Extensions.swift"; sourceTree = "<group>"; };
 		497DC2D724185885008D86F8 /* PillButtonBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButtonBar.swift; sourceTree = "<group>"; };
 		497DC2D824185885008D86F8 /* PillButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButton.swift; sourceTree = "<group>"; };
+		4BBD651E2755FD9500A8B09E /* MSFNotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFNotificationView.swift; sourceTree = "<group>"; };
 		5303259926B31B6B00611D05 /* AvatarModifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarModifiers.swift; sourceTree = "<group>"; };
 		5306074F26A1E6A4002D49CF /* AvatarGroupTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarGroupTokens.swift; sourceTree = "<group>"; };
 		5306075026A1E6A4002D49CF /* MSFAvatarGroupTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFAvatarGroupTokens.generated.swift; sourceTree = "<group>"; };
@@ -785,6 +787,7 @@
 				A5B6617223A41E2900E801DD /* NotificationView.swift */,
 				436F6B4026F4926B00D18073 /* MSFNotificationTokens.swift */,
 				43488C44270FAD0200124C71 /* NotificationView_SwiftUI.swift */,
+				4BBD651E2755FD9500A8B09E /* MSFNotificationView.swift */,
 			);
 			path = Notification;
 			sourceTree = "<group>";
@@ -1541,6 +1544,7 @@
 				5373D5732694D66F0032A3B4 /* UIKit+SwiftUI_interoperability.swift in Sources */,
 				5314E09E25F00FE20099271A /* DotView.swift in Sources */,
 				5314E1A525F01A7C0099271A /* TableViewCell.swift in Sources */,
+				4BBD651F2755FD9500A8B09E /* MSFNotificationView.swift in Sources */,
 				53097D0D270288FB00A6E4DC /* ButtonTokens.swift in Sources */,
 				5314E09525F00FA30099271A /* DimmingView.swift in Sources */,
 				5306075326A1E6A4002D49CF /* AvatarGroupTokens.swift in Sources */,

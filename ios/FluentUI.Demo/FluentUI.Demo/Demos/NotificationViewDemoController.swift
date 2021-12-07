@@ -61,7 +61,7 @@ class NotificationViewDemoController: DemoController {
 
         addTitle(text: "SwiftUI Demo")
         container.addArrangedSubview(createButton(title: "Show", action: { [weak self] _ in
-            self?.navigationController?.pushViewController(NotificationViewDemoControllerSwiftUI(),
+            self?.navigationController?.pushViewController(NotificationViewDemoControllerSwiftUI.init(nibName: nil, bundle: nil),
                                                            animated: true)
         }).view)
 

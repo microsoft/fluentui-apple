@@ -15,6 +15,25 @@ import UIKit
     case dangerToast
     case warningToast
 
+    public var styleString: String {
+        switch self {
+        case .primaryToast:
+            return "Primary Toast"
+        case .neutralToast:
+            return "Neutral Toast"
+        case .primaryBar:
+            return "Primary Bar"
+        case .primaryOutlineBar:
+            return "Primary Outline Bar"
+        case .neutralBar:
+            return "Neutral Bar"
+        case .dangerToast:
+            return "Danger Toast"
+        case .warningToast:
+            return "Warning Toast"
+        }
+    }
+
     var isToast: Bool {
         switch self {
         case .primaryToast,
@@ -72,7 +91,11 @@ class MSFNotificationTokens: MSFTokensBase, ObservableObject {
     public var regularTextFont: UIFont!
     public var footnoteTextFont: UIFont!
 
-    var style: MSFNotificationStyle
+    public var style: MSFNotificationStyle {
+        didSet {
+            updateForCurrentTheme()
+        }
+    }
 
     init(style: MSFNotificationStyle) {
         self.style = style
