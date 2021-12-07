@@ -168,28 +168,30 @@ public struct NotificationViewSwiftUI: View {
     }
 
     public var body: some View {
-        let width = UIScreen.main.bounds.width - safeAreaInsets.leading - safeAreaInsets.trailing
-        innerContents
-            .onTapGesture {
-                if let action = state.messageButtonAction {
-                    dismissAction()
-                    action()
+        if let windowWidth = UIApplication.shared.keyWindow?.bounds.width {
+            let width = windowWidth - safeAreaInsets.leading - safeAreaInsets.trailing
+            innerContents
+                .onTapGesture {
+                    if let action = state.messageButtonAction {
+                        dismissAction()
+                        action()
+                    }
                 }
-            }
-            .frame(width: state.style.isToast && horizontalSizeClass == .regular ? width / 2 : width - (2 * tokens.presentationOffset))
-            .background(
-                RoundedRectangle(cornerRadius: tokens.cornerRadius)
-                    .strokeBorder(Color(tokens.outlineColor), lineWidth: tokens.outlineWidth)
-                    .background(
-                        RoundedRectangle(cornerRadius: tokens.cornerRadius)
-                            .fill(Color(tokens.backgroundColor))
-                    )
-                    .shadow(color: Color(tokens.ambientShadowColor), radius: tokens.ambientShadowBlur, x: tokens.ambientShadowOffsetX, y: tokens.ambientShadowOffsetY)
-                    .shadow(color: Color(tokens.perimeterShadowColor), radius: tokens.perimeterShadowBlur, x: tokens.perimeterShadowOffsetX, y: tokens.perimeterShadowOffsetY)
-            )
-            .designTokens(tokens,
-                          from: theme,
-                          with: windowProvider)
+                .frame(width: state.style.isToast && horizontalSizeClass == .regular ? width / 2 : width - (2 * tokens.presentationOffset))
+                .background(
+                    RoundedRectangle(cornerRadius: tokens.cornerRadius)
+                        .strokeBorder(Color(tokens.outlineColor), lineWidth: tokens.outlineWidth)
+                        .background(
+                            RoundedRectangle(cornerRadius: tokens.cornerRadius)
+                                .fill(Color(tokens.backgroundColor))
+                        )
+                        .shadow(color: Color(tokens.ambientShadowColor), radius: tokens.ambientShadowBlur, x: tokens.ambientShadowOffsetX, y: tokens.ambientShadowOffsetY)
+                        .shadow(color: Color(tokens.perimeterShadowColor), radius: tokens.perimeterShadowBlur, x: tokens.perimeterShadowOffsetX, y: tokens.perimeterShadowOffsetY)
+                )
+                .designTokens(tokens,
+                              from: theme,
+                              with: windowProvider)
+        }
     }
 }
 

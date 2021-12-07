@@ -30,6 +30,7 @@ import UIKit
                                                                             .modifyIf(theme != nil, { notification in
                                                                                 notification.customTheme(theme!)
                                                                             })))
+        hostingController.view.backgroundColor = UIColor.clear
         hostingController.disableSafeAreaInsets()
     }
 
