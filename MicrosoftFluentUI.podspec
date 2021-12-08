@@ -5,7 +5,7 @@ Pod::Spec.new do |s|
   s.homepage         = "https://www.microsoft.com/design/fluent/#/"
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { "Microsoft" => "fluentuinativeowners@microsoft.com"}
-  s.source       = { :git => "https://github.com/microsoft/fluentui-apple.git", :tag => "#{s.version}" }
+  s.source       = { :git => "https://github.com/microsoft/fluentui-apple.git", :branch => "main_0.3", :tag => "#{s.version}_main_0.3" }
   s.swift_version = "5.4"
   s.module_name = 'FluentUI'
 
