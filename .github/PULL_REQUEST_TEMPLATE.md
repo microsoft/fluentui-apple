@@ -23,6 +23,6 @@ This PR has considered:
 - [ ] Internationalization and Right to Left layouts
 - [ ] Different resolutions (1x, 2x, 3x)
 - [ ] Size classes and window sizes (iPhone vs iPad, notched devices, multitasking, different window sizes, etc)
-- [ ] iPad Pointer interaction
+- [ ] iPad [Pointer interaction](https://developer.apple.com/documentation/uikit/pointer_interactions)
 - [ ] SwiftUI consumption (validation or new demo scenarios needed)
-- [ ] Design tokens validation (customization or override of design tokens)
+- [ ] Objective-C exposure (provide it only if needed)
