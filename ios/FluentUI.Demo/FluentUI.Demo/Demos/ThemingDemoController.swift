@@ -8,6 +8,10 @@ import UIKit
 
 class ThemingDemoController: DemoController {
 
+    // Store instances to keep from deallocating early
+    let cardNudge = MSFCardNudge(style: .outline, title: "Hello!")
+    let customCardNudge = MSFCardNudge(style: .outline, title: "Hello!")
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -49,6 +53,12 @@ class ThemingDemoController: DemoController {
         avatarOutlinedPrimary.state.presence = .away
 
         addRow(items: [avatarAccent.view, avatarDefault.view, avatarOutlinedPrimary.view], itemSpacing: 20)
+
+        cardNudge.state.accentText = "I'm using the token pipeline!"
+        cardNudge.state.dismissButtonAction = { _ in
+        }
+
+        addRow(items: [cardNudge.view])
 
         container.addArrangedSubview(UIView())
 
@@ -98,21 +108,26 @@ class ThemingDemoController: DemoController {
 
         addRow(items: [customThemeAvatarAccent.view, customThemeAvatarDefault.view, customThemeAvatarOutlinedPrimary.view], itemSpacing: 20)
 
+        customCardNudge.state.overrideTokens = CustomCardNudgeTokens()
+        customCardNudge.state.accentText = "I'm using the token pipeline!"
+        customCardNudge.state.dismissButtonAction = { _ in
+        }
+
+        addRow(items: [customCardNudge.view])
+
         container.addArrangedSubview(UIView())
     }
 
     func didPressOverrideThemeButton() {
         if let window = self.view.window {
             let greenThemeColorProviding = DemoColorGreenTheme()
-            let stylesheet = ColorProvidingStyle(colorProviding: greenThemeColorProviding,
-                                                 window: window)
-            FluentUIThemeManager.setStylesheet(stylesheet: stylesheet, for: window)
+            Colors.setProvider(provider: greenThemeColorProviding, for: window)
         }
     }
 
     func didPressResetThemeButton() {
         if let window = self.view.window {
-            FluentUIThemeManager.removeStylesheet(for: window)
+            Colors.removeProvider(for: window)
         }
     }
 }
@@ -188,5 +203,24 @@ open class CustomStyle: FluentUIStyle {
         open override var xLarge: CGFloat {
             return 0.0
         }
+    }
+}
+
+class CustomCardNudgeTokens: CardNudgeTokens {
+    let purplePrimary: ColorSet = ColorSet(light: 0x6227A7)
+    override var accentColor: ColorSet {
+        return purplePrimary
+    }
+    override var outlineColor: ColorSet {
+        return purplePrimary
+    }
+    override var subtitleTextColor: ColorSet {
+        return purplePrimary
+    }
+    override var textColor: ColorSet {
+        return purplePrimary
+    }
+    override var cornerRadius: CGFloat {
+        return 0.0
     }
 }
