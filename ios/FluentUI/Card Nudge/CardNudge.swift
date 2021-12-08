@@ -40,20 +40,26 @@ public typealias CardNudgeButtonAction = ((_ state: MSFCardNudgeState) -> Void)
 
     /// Action to be dispatched by the dismiss ("close") button on the trailing edge of the control.
     @objc var dismissButtonAction: CardNudgeButtonAction? { get set }
+
+    /// Design token set for this control, to use in place of the control's default Fluent tokens.
+    @objc var overrideTokens: CardNudgeTokens? { get set }
 }
 
 /// View that represents the CardNudge.
-public struct CardNudge: View {
-    @Environment(\.theme) var theme: FluentUIStyle
-    @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
+public struct CardNudge: TokenizedControlInternal {
+    @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @ObservedObject var state: MSFCardNudgeStateImpl
-    let tokens: CardNudgeTokens
+    var tokens: CardNudgeTokens {
+        let tokens = fluentTheme.tokens(for: self)
+        tokens.style = state.style
+        return tokens
+    }
 
     @ViewBuilder
     var icon: some View {
         if let icon = state.mainIcon {
             ZStack {
-                Circle()
+                RoundedRectangle(cornerRadius: tokens.circleRadius)
                     .frame(width: tokens.circleSize, height: tokens.circleSize)
                     .dynamicForegroundColor(tokens.buttonBackgroundColor)
                 Image(uiImage: icon)
@@ -117,7 +123,7 @@ public struct CardNudge: View {
                 .padding(.vertical, tokens.verticalPadding)
                 .dynamicForegroundColor(tokens.accentColor)
                 .background(
-                    RoundedRectangle(cornerRadius: .infinity)
+                    RoundedRectangle(cornerRadius: tokens.circleRadius)
                         .dynamicForegroundColor(tokens.buttonBackgroundColor)
                 )
             }
@@ -167,11 +173,10 @@ public struct CardNudge: View {
     init(style: MSFCardNudgeStyle, title: String) {
         let state = MSFCardNudgeStateImpl(style: style, title: title)
         self.state = state
-        self.tokens = state.tokens
     }
 }
 
-class MSFCardNudgeStateImpl: NSObject, ObservableObject, Identifiable, MSFCardNudgeState {
+class MSFCardNudgeStateImpl: NSObject, ControlConfiguration, MSFCardNudgeState {
     @Published @objc public private(set) var style: MSFCardNudgeStyle
 
     @Published @objc public var title: String
@@ -193,12 +198,15 @@ class MSFCardNudgeStateImpl: NSObject, ObservableObject, Identifiable, MSFCardNu
     /// Action to be dispatched by the dismiss ("close") button on the trailing edge of the control.
     @Published @objc public var dismissButtonAction: CardNudgeButtonAction?
 
-    let tokens: CardNudgeTokens
+    /// Design token set for this control, to use in place of the control's default Fluent tokens.
+    @Published @objc public var overrideTokens: CardNudgeTokens?
+
+    /// Lazily initialized default token set.
+    lazy var defaultTokens: CardNudgeTokens = .init()
 
     @objc init(style: MSFCardNudgeStyle, title: String) {
         self.style = style
         self.title = title
-        self.tokens = CardNudgeTokens(style: style)
 
         super.init()
     }
