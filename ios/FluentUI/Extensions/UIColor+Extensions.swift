@@ -11,11 +11,6 @@ import UIKit
         static var lightHighContrast: String = "lightHighContrast"
     }
 
-    /// Returns self on iOS 13 and later. For older iOS versions returns self for Regular Contrast mode or a specific color for Increased Contrast mode if it's defined either for this color or for one of its ancestors.
-    var current: UIColor {
-        return self
-    }
-
     private var light: UIColor? {
         get {
             return objc_getAssociatedObject(self, &AssociatedKeys.light) as? UIColor

@@ -265,29 +265,27 @@ open class SideTabBar: UIView {
 
     private func updateAccessibilityIndex() {
         // iOS 14.0 - 14.5 `.tabBar` accessibilityTrait does not read out the index automatically
-        if #available(iOS 14.0, *) {
-            if #available(iOS 14.6, *) {} else {
-                var totalCount: Int = 0
-                for section in Section.allCases {
-                    let currentStackView = stackView(in: section)
-                    totalCount += currentStackView.arrangedSubviews.count
-                }
+        if #available(iOS 14.6, *) {} else {
+            var totalCount: Int = 0
+            for section in Section.allCases {
+                let currentStackView = stackView(in: section)
+                totalCount += currentStackView.arrangedSubviews.count
+            }
 
-                var previousSectionCount: Int = 0
-                if let avatar = avatar, !avatar.view.isHidden {
-                    totalCount += 1
-                    previousSectionCount += 1
-                }
+            var previousSectionCount: Int = 0
+            if let avatar = avatar, !avatar.view.isHidden {
+                totalCount += 1
+                previousSectionCount += 1
+            }
 
-                for section in Section.allCases {
-                    let currentStackView = stackView(in: section)
+            for section in Section.allCases {
+                let currentStackView = stackView(in: section)
 
-                    for (index, itemView) in currentStackView.arrangedSubviews.enumerated() {
-                        let accessibilityIndex = index + 1 + previousSectionCount
-                        itemView.accessibilityHint = String.localizedStringWithFormat( "Accessibility.TabBarItemView.Hint".localized, accessibilityIndex, totalCount)
-                    }
-                    previousSectionCount += currentStackView.arrangedSubviews.count
+                for (index, itemView) in currentStackView.arrangedSubviews.enumerated() {
+                    let accessibilityIndex = index + 1 + previousSectionCount
+                    itemView.accessibilityHint = String.localizedStringWithFormat( "Accessibility.TabBarItemView.Hint".localized, accessibilityIndex, totalCount)
                 }
+                previousSectionCount += currentStackView.arrangedSubviews.count
             }
         }
     }

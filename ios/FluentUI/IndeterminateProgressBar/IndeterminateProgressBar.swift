@@ -59,9 +59,8 @@ import UIKit
 }
 
 /// View that represents the Indeterminate Progress Bar control.
-/// This structure (SwiftUI View) is supported in iOS 13.
-/// The ProgressView SwiftUI View (https://developer.apple.com/documentation/swiftui/progressview)
-/// provided in the SwiftUI framework is supported only on iOS 14 and later versions.
+/// Use the ProgressView SwiftUI View (https://developer.apple.com/documentation/swiftui/progressview)
+/// provided in the SwiftUI framework to render the default OS indeterminate spinner or a progress bar with a specific progress value.
 public struct IndeterminateProgressBar: View {
     @Environment(\.theme) var theme: FluentUIStyle
     @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?

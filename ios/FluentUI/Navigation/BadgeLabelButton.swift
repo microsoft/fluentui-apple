@@ -14,7 +14,15 @@ class BadgeLabelButton: UIButton {
         }
     }
 
+    var shouldUseWindowColorInBadge: Bool {
+        didSet {
+            badgeLabel.shouldUseWindowColor = shouldUseWindowColorInBadge
+        }
+    }
+
     override init(frame: CGRect) {
+        shouldUseWindowColorInBadge = true
+
         super.init(frame: frame)
 
         NotificationCenter.default.addObserver(self,
@@ -128,12 +136,7 @@ class BadgeLabelButton: UIButton {
             largeContentTitle = item.accessibilityLabel
         }
 
-        if #available(iOS 13.4, *) {
-            // Workaround check for beta iOS versions missing the Pointer Interactions API
-            if arePointerInteractionAPIsAvailable() {
-                isPointerInteractionEnabled = true
-            }
-        }
+        isPointerInteractionEnabled = true
     }
 
     private func prepareButtonForBadgeLabel() {
@@ -200,5 +203,23 @@ class BadgeLabelButton: UIButton {
 
     @objc private func badgeValueDidChange() {
         updateBadgeLabel()
+        updateAccessibilityLabel()
+    }
+
+    private func updateAccessibilityLabel() {
+        guard let item = item else {
+            return
+        }
+        if let badgeAccessibilityLabel = item.badgeAccessibilityLabel {
+            if let itemAccessibilityLabel = item.accessibilityLabel {
+                accessibilityLabel = String.localizedStringWithFormat("Accessibility.BadgeLabelButton.LabelFormat".localized,
+                                                                      itemAccessibilityLabel,
+                                                                      badgeAccessibilityLabel)
+            } else {
+                accessibilityLabel = badgeAccessibilityLabel
+            }
+        } else {
+            accessibilityLabel = item.accessibilityLabel
+        }
     }
 }
