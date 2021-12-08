@@ -24,5 +24,5 @@ This PR has considered:
 - [ ] Different resolutions (1x, 2x, 3x)
 - [ ] Size classes and window sizes (iPhone vs iPad, notched devices, multitasking, different window sizes, etc)
 - [ ] iPad [Pointer interaction](https://developer.apple.com/documentation/uikit/pointer_interactions)
-- [ ] SwiftUI consumption (validation or new demo scenarios needed)
+- [ ] [SwiftUI](https://developer.apple.com/tutorials/swiftui) consumption (validation or new demo scenarios needed)
 - [ ] Objective-C exposure (provide it only if needed)
