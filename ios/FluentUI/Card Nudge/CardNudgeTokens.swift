@@ -15,96 +15,155 @@ import SwiftUI
 }
 
 /// Design token set for the `CardNudge` control.
-open class CardNudgeTokens: ControlTokens {
-    open var accentColor: ColorSet {
-        return globalTokens.brandColors[.shade20]
+public class CardNudgeTokens: ControlTokens {
+    public init(accentColor: ColorSet? = nil,
+                accentIconSize: CGFloat? = nil,
+                accentPadding: CGFloat? = nil,
+                backgroundColor: ColorSet? = nil,
+                buttonBackgroundColor: ColorSet? = nil,
+                buttonInnerPaddingHorizontal: CGFloat? = nil,
+                circleRadius: CGFloat? = nil,
+                circleSize: CGFloat? = nil,
+                cornerRadius: CGFloat? = nil,
+                horizontalPadding: CGFloat? = nil,
+                iconSize: CGFloat? = nil,
+                interTextVerticalPadding: CGFloat? = nil,
+                mainContentVerticalPadding: CGFloat? = nil,
+                minimumHeight: CGFloat? = nil,
+                outlineColor: ColorSet? = nil,
+                outlineWidth: CGFloat? = nil,
+                subtitleTextColor: ColorSet? = nil,
+                textColor: ColorSet? = nil,
+                verticalPadding: CGFloat? = nil) {
+        super.init()
+        self.accentColor.override = accentColor
+        self.accentIconSize.override = accentIconSize
+        self.accentPadding.override = accentPadding
+        self.backgroundColor.override = backgroundColor
+        self.buttonBackgroundColor.override = buttonBackgroundColor
+        self.buttonInnerPaddingHorizontal.override = buttonInnerPaddingHorizontal
+        self.circleRadius.override = circleRadius
+        self.circleSize.override = circleSize
+        self.cornerRadius.override = cornerRadius
+        self.horizontalPadding.override = horizontalPadding
+        self.iconSize.override = iconSize
+        self.interTextVerticalPadding.override = interTextVerticalPadding
+        self.mainContentVerticalPadding.override = mainContentVerticalPadding
+        self.minimumHeight.override = minimumHeight
+        self.outlineColor.override = outlineColor
+        self.outlineWidth.override = outlineWidth
+        self.subtitleTextColor.override = subtitleTextColor
+        self.textColor.override = textColor
+        self.verticalPadding.override = verticalPadding
     }
 
-    open var accentIconSize: CGFloat {
-        return globalTokens.iconSize[.xxSmall]
+    lazy var accentColor: OverridableToken<ColorSet> = .init { [weak self] in
+        guard let strongSelf = self else { preconditionFailure() }
+        return strongSelf.globalTokens.brandColors[.shade20]
     }
 
-    open var accentPadding: CGFloat {
-        return globalTokens.spacing[.xxSmall]
+    lazy var accentIconSize: OverridableToken<CGFloat> = .init { [weak self] in
+        guard let strongSelf = self else { preconditionFailure() }
+        return strongSelf.globalTokens.iconSize[.xxSmall]
     }
 
-    open var backgroundColor: ColorSet {
-        switch style {
+    lazy var accentPadding: OverridableToken<CGFloat> = .init { [weak self] in
+        guard let strongSelf = self else { preconditionFailure() }
+        return strongSelf.globalTokens.spacing[.xxSmall]
+    }
+
+    lazy var backgroundColor: OverridableToken<ColorSet> = .init { [weak self] in
+        guard let strongSelf = self else { preconditionFailure() }
+        switch strongSelf.style {
         case .standard:
-            return aliasTokens.backgroundColors[.neutral2]
+            return strongSelf.aliasTokens.backgroundColors[.neutral2]
         case .outline:
-            return aliasTokens.backgroundColors[.neutral1]
+            return strongSelf.aliasTokens.backgroundColors[.neutral1]
         }
     }
 
-    open var buttonBackgroundColor: ColorSet {
-        return globalTokens.brandColors[.tint30]
+    lazy var buttonBackgroundColor: OverridableToken<ColorSet> = .init { [weak self] in
+        guard let strongSelf = self else { preconditionFailure() }
+        return strongSelf.globalTokens.brandColors[.tint30]
     }
 
-    open var buttonInnerPaddingHorizontal: CGFloat {
-        return globalTokens.spacing[.small]
+    lazy var buttonInnerPaddingHorizontal: OverridableToken<CGFloat> = .init { [weak self] in
+        guard let strongSelf = self else { preconditionFailure() }
+        return strongSelf.globalTokens.spacing[.small]
     }
 
-    open var circleRadius: CGFloat {
-        return globalTokens.borderRadius[.circle]
+    lazy var circleRadius: OverridableToken<CGFloat> = .init { [weak self] in
+        guard let strongSelf = self else { preconditionFailure() }
+        return strongSelf.globalTokens.borderRadius[.circle]
     }
 
-    open var circleSize: CGFloat {
-        return globalTokens.iconSize[.xxLarge]
+    lazy var circleSize: OverridableToken<CGFloat> = .init { [weak self] in
+        guard let strongSelf = self else { preconditionFailure() }
+        return strongSelf.globalTokens.iconSize[.xxLarge]
     }
 
-    open var cornerRadius: CGFloat {
-        return globalTokens.borderRadius[.xLarge]
+    lazy var cornerRadius: OverridableToken<CGFloat> = .init { [weak self] in
+        guard let strongSelf = self else { preconditionFailure() }
+        return strongSelf.globalTokens.borderRadius[.xLarge]
     }
 
-    open var horizontalPadding: CGFloat {
-        return globalTokens.spacing[.medium]
+    lazy var horizontalPadding: OverridableToken<CGFloat> = .init { [weak self] in
+        guard let strongSelf = self else { preconditionFailure() }
+        return strongSelf.globalTokens.spacing[.medium]
     }
 
-    open var iconSize: CGFloat {
-        return globalTokens.iconSize[.xSmall]
+    lazy var iconSize: OverridableToken<CGFloat> = .init { [weak self] in
+        guard let strongSelf = self else { preconditionFailure() }
+        return strongSelf.globalTokens.iconSize[.xSmall]
     }
 
-    open var interTextVerticalPadding: CGFloat {
-        return globalTokens.spacing[.xxxSmall]
+    lazy var interTextVerticalPadding: OverridableToken<CGFloat> = .init { [weak self] in
+        guard let strongSelf = self else { preconditionFailure() }
+        return strongSelf.globalTokens.spacing[.xxxSmall]
     }
 
-    open var mainContentVerticalPadding: CGFloat {
-        return globalTokens.spacing[.small]
+    lazy var mainContentVerticalPadding: OverridableToken<CGFloat> = .init { [weak self] in
+        guard let strongSelf = self else { preconditionFailure() }
+        return strongSelf.globalTokens.spacing[.small]
     }
 
-    open var minimumHeight: CGFloat {
+    lazy var minimumHeight: OverridableToken<CGFloat> = .init {
         return 56.0
     }
 
-    open var outlineColor: ColorSet {
-        switch style {
+    lazy var outlineColor: OverridableToken<ColorSet> = .init { [weak self] in
+        guard let strongSelf = self else { preconditionFailure() }
+        switch strongSelf.style {
         case .standard:
-            return aliasTokens.backgroundColors[.neutral2]
+            return strongSelf.aliasTokens.backgroundColors[.neutral2]
         case .outline:
-            return aliasTokens.strokeColors[.neutral1]
+            return strongSelf.aliasTokens.strokeColors[.neutral1]
         }
     }
 
-    open var outlineWidth: CGFloat {
-        return globalTokens.borderSize[.thin]
+    lazy var outlineWidth: OverridableToken<CGFloat> = .init { [weak self] in
+        guard let strongSelf = self else { preconditionFailure() }
+        return strongSelf.globalTokens.borderSize[.thin]
     }
 
-    open var subtitleTextColor: ColorSet {
-        return aliasTokens.foregroundColors[.neutral3]
+    lazy var subtitleTextColor: OverridableToken<ColorSet> = .init { [weak self] in
+        guard let strongSelf = self else { preconditionFailure() }
+        return strongSelf.aliasTokens.foregroundColors[.neutral3]
     }
 
-    open var textColor: ColorSet {
-        switch style {
+    lazy var textColor: OverridableToken<ColorSet> = .init { [weak self] in
+        guard let strongSelf = self else { preconditionFailure() }
+        switch strongSelf.style {
         case .standard:
-            return aliasTokens.foregroundColors[.neutral1]
+            return strongSelf.aliasTokens.foregroundColors[.neutral1]
         case .outline:
-            return globalTokens.brandColors[.shade20]
+            return strongSelf.globalTokens.brandColors[.shade20]
         }
     }
 
-    open var verticalPadding: CGFloat {
-        return globalTokens.spacing[.xSmall]
+    lazy var verticalPadding: OverridableToken<CGFloat> = .init { [weak self] in
+        guard let strongSelf = self else { preconditionFailure() }
+        return strongSelf.globalTokens.spacing[.xSmall]
     }
 
     var style: MSFCardNudgeStyle = .standard

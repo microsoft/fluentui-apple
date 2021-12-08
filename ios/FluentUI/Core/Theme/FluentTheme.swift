@@ -6,7 +6,7 @@
 import SwiftUI
 
 /// Base class that allows for customization of global, alias, and control tokens.
-public class FluentTheme {
+@objc public class FluentTheme: NSObject {
     /// Initializes and returns a new `FluentTheme`, with optional custom global and alias tokens.
     ///
     /// - Parameters globalTokens: An optional customized instance of `GlobalTokens`.
@@ -14,11 +14,24 @@ public class FluentTheme {
     ///
     /// - Returns: An initialized `FluentTheme` instance that leverages the aforementioned global and alias token overrides.
     public init(globalTokens: GlobalTokens? = nil, aliasTokens: AliasTokens? = nil) {
+        var hasCustomGlobalTokens = false
         if let globalTokens = globalTokens {
             self.globalTokens = globalTokens
+            hasCustomGlobalTokens = true
         }
+
+        // Alias tokens are trickier. We need a custom set any time we have custom
+        // global tokens (so that they can reference those custom tokens), even if
+        // the caller does not give us a custom set themselves.
         if let aliasTokens = aliasTokens {
             self.aliasTokens = aliasTokens
+        } else if hasCustomGlobalTokens {
+            self.aliasTokens = .init()
+        }
+
+        // If we have custom global tokens, our "custom" alias tokens from above must track them.
+        if hasCustomGlobalTokens {
+            self.aliasTokens.globalTokens = self.globalTokens
         }
     }
 
@@ -56,6 +69,8 @@ public class FluentTheme {
         }
     }
 
+    static var shared: FluentTheme = .init()
+
     private var globalTokens: GlobalTokens = .shared
     private var aliasTokens: AliasTokens = .shared
     private var controlTokens: [String: ControlTokens] = [:]
@@ -65,7 +80,7 @@ public class FluentTheme {
 
 /// Public protocol that, when implemented, allows any container to store and yield a `FluentTheme`.
 public protocol FluentThemeable {
-    var fluentTheme: FluentTheme? { get set }
+    var fluentTheme: FluentTheme { get set }
 }
 
 extension UIWindow: FluentThemeable {
@@ -74,14 +89,21 @@ extension UIWindow: FluentThemeable {
     }
 
     /// The custom `FluentTheme` to apply to this window.
-    public var fluentTheme: FluentTheme? {
+    public override var fluentTheme: FluentTheme {
         get {
-            return objc_getAssociatedObject(self, &Keys.fluentTheme) as? FluentTheme
+            return objc_getAssociatedObject(self, &Keys.fluentTheme) as? FluentTheme ?? FluentThemeKey.defaultValue
         }
         set {
             objc_setAssociatedObject(self, &Keys.fluentTheme, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             NotificationCenter.default.post(name: .didChangeTheme, object: nil)
         }
+    }
+}
+
+@objc extension UIView {
+    /// Returns the current view's window's `FluentTheme`, or the default `FluentTheme` if no window yet exists.
+    var fluentTheme: FluentTheme {
+        return self.window?.fluentTheme ?? FluentThemeKey.defaultValue
     }
 }
 
@@ -109,6 +131,6 @@ extension EnvironmentValues {
 
 struct FluentThemeKey: EnvironmentKey {
     static var defaultValue: FluentTheme {
-        return FluentTheme()
+        return FluentTheme.shared
     }
 }

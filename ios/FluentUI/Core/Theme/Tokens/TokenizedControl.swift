@@ -6,7 +6,7 @@
 import SwiftUI
 
 /// Defines a control with customizable design tokens.
-public protocol TokenizedControl: View {
+public protocol TokenizedControl {
     associatedtype TokenType: ControlTokens
 
     /// Modifier function that updates the design tokens for a given control.
