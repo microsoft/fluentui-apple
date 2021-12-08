@@ -442,35 +442,34 @@ class AvatarGroupDemoController: DemoTableViewController {
 
     private var avatarCount: Int = 5 {
         didSet {
-            if avatarCount == 0 && oldValue == 0 {
+            guard avatarCount != 0 || oldValue != 0 else {
                 return
-            } else {
-                AvatarGroupDemoSection.allCases.filter({ section in
-                    return section.isDemoSection
-                }).forEach { section in
-                    var avatarGroupsForCurrentSection: [AvatarGroupDemoRow: MSFAvatarGroup] = [:]
+            }
+            AvatarGroupDemoSection.allCases.filter({ section in
+                return section.isDemoSection
+            }).forEach { section in
+                var avatarGroupsForCurrentSection: [AvatarGroupDemoRow: MSFAvatarGroup] = [:]
 
-                    AvatarGroupDemoRow.allCases.filter({ row in
-                        return row.isDemoRow
-                    }).forEach { row in
-                        let avatarGroup = demoAvatarGroupsBySection[section]![row]
-                        if oldValue < avatarCount {
-                            let avatarState = avatarGroup?.state.createAvatar()
-                            for index in 0...avatarCount - 1 {
-                                let samplePersona = samplePersonas[index]
-                                avatarState!.image = samplePersona.image
-                                avatarState!.isRingVisible = section.isMixedBorder ? index % 2 == 0 : section.showBorders
-                                avatarState!.primaryText = samplePersona.name
-                                avatarState!.secondaryText = samplePersona.email
-                            }
-                        } else {
-                            avatarGroup?.state.removeAvatar(at: avatarCount)
+                AvatarGroupDemoRow.allCases.filter({ row in
+                    return row.isDemoRow
+                }).forEach { row in
+                    let avatarGroup = demoAvatarGroupsBySection[section]![row]
+                    if oldValue < avatarCount {
+                        let avatarState = avatarGroup?.state.createAvatar()
+                        for index in 0...avatarCount - 1 {
+                            let samplePersona = samplePersonas[index]
+                            avatarState!.image = samplePersona.image
+                            avatarState!.isRingVisible = section.isMixedBorder ? index % 2 == 0 : section.showBorders
+                            avatarState!.primaryText = samplePersona.name
+                            avatarState!.secondaryText = samplePersona.email
                         }
-
-                        avatarGroupsForCurrentSection.updateValue(avatarGroup!, forKey: row)
+                    } else {
+                        avatarGroup?.state.removeAvatar(at: avatarCount)
                     }
-                    demoAvatarGroupsBySection.updateValue(avatarGroupsForCurrentSection, forKey: section)
+
+                    avatarGroupsForCurrentSection.updateValue(avatarGroup!, forKey: row)
                 }
+                demoAvatarGroupsBySection.updateValue(avatarGroupsForCurrentSection, forKey: section)
             }
         }
     }
@@ -480,7 +479,10 @@ class AvatarGroupDemoController: DemoTableViewController {
     }
 
     @objc private func subtractAvatarCount(_ cell: ActionsCell) {
-        avatarCount -= avatarCount == 0 ? 0 : 1
+        guard avatarCount > 0 else {
+            return
+        }
+        avatarCount -= 1
     }
 
     @objc private func toggleAlternateBackground(_ cell: BooleanCell) {
