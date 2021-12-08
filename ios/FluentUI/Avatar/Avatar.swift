@@ -176,7 +176,7 @@ public struct Avatar: View {
         let ringOuterGap: CGFloat = isRingVisible ? tokens.ringOuterGap : 0
         let avatarImageSize: CGFloat = tokens.avatarSize!
         let ringInnerGapSize: CGFloat = avatarImageSize + (ringInnerGap * 2)
-        let ringSize: CGFloat = ringInnerGapSize + ( ringThickness * 2)
+        let ringSize: CGFloat = ringInnerGapSize + (ringThickness * 2)
         let ringOuterGapSize: CGFloat = ringSize + (ringOuterGap * 2)
         let presenceIconSize: CGFloat = tokens.presenceIconSize!
         let presenceIconOutlineSize: CGFloat = presenceIconSize + (tokens.presenceIconOutlineThickness * 2)
@@ -531,7 +531,7 @@ class MSFAvatarStateImpl: NSObject, ObservableObject, Identifiable, MSFAvatarSta
             return avatarImageSize + (ringOuterGap * 2)
         } else {
             let ringThickness: CGFloat = isRingVisible ? tokens.ringThickness : 0
-            let ringInnerGap: CGFloat = isRingVisible ? tokens.ringInnerGap : 0
+            let ringInnerGap: CGFloat = isRingVisible && hasRingInnerGap ? tokens.ringInnerGap : 0
             return ((ringInnerGap + ringThickness + ringOuterGap) * 2 + avatarImageSize)
         }
     }

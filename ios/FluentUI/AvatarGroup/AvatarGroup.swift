@@ -190,61 +190,63 @@ public struct AvatarGroup: View {
 
         @ViewBuilder
         var avatarGroupContent: some View {
-            GeometryReader { geo in
-                HStack(spacing: 0) {
-                    ForEach(enumeratedAvatars.prefix(maxDisplayedAvatars), id: \.1) { index, avatar in
-                        // If the avatar is part of Stack style and is not the last avatar in the sequence, create a cutout
-                        let avatarView = avatarViews[index]
-                        let needsCutout = tokens.style == .stack && (overflowCount > 0 || index + 1 < maxDisplayedAvatars)
-                        let avatarSize: CGFloat = avatarView.state.totalSize()
-                        let nextAvatarSize: CGFloat = needsCutout ? avatarViews[index + 1].state.totalSize() : 0
-                        let isLastDisplayed = index == maxDisplayedAvatars - 1
+            SwiftUI.ScrollView(.horizontal, showsIndicators: false) {
+                GeometryReader { geo in
+                    HStack(spacing: 0) {
+                        ForEach(enumeratedAvatars.prefix(maxDisplayedAvatars), id: \.1) { index, avatar in
+                            // If the avatar is part of Stack style and is not the last avatar in the sequence, create a cutout
+                            let avatarView = avatarViews[index]
+                            let needsCutout = tokens.style == .stack && (overflowCount > 0 || index + 1 < maxDisplayedAvatars)
+                            let avatarSize: CGFloat = avatarView.state.totalSize()
+                            let nextAvatarSize: CGFloat = needsCutout ? avatarViews[index + 1].state.totalSize() : 0
+                            let isLastDisplayed = index == maxDisplayedAvatars - 1
 
-                        let currentAvatarHasRing = avatar.isRingVisible
-                        let nextAvatarHasRing = index + 1 < maxDisplayedAvatars ? avatars[index + 1].isRingVisible : false
-                        let avatarSizeDifference = avatarSize - nextAvatarSize
-                        let sizeDiff = !isLastDisplayed ? (currentAvatarHasRing ? avatarSizeDifference : avatarSizeDifference - ringGapOffset) :
+                            let currentAvatarHasRing = avatar.isRingVisible
+                            let nextAvatarHasRing = index + 1 < maxDisplayedAvatars ? avatars[index + 1].isRingVisible : false
+                            let avatarSizeDifference = avatarSize - nextAvatarSize
+                            let sizeDiff = !isLastDisplayed ? (currentAvatarHasRing ? avatarSizeDifference : avatarSizeDifference - ringGapOffset) :
                             currentAvatarHasRing ? (avatarSize - ringGapOffset) - imageSize : (avatarSize - (ringGapOffset * 2)) - imageSize
-                        let x = avatarSize + tokens.interspace - ringGapOffset
+                            let x = avatarSize + tokens.interspace - ringGapOffset
 
-                        let ringPaddingInterspace = nextAvatarHasRing ? interspace - (ringOffset + ringOuterGap) : interspace - ringOffset
-                        let noRingPaddingInterspace = nextAvatarHasRing ? interspace - ringOuterGap : interspace
-                        let rtlRingPaddingInterspace = (nextAvatarHasRing ? -x - ringOuterGap : -x + ringOffset)
-                        let rtlNoRingPaddingInterspace = (nextAvatarHasRing ? -x - ringOffset - ringOuterGap : -x)
-                        let stackPadding = (currentAvatarHasRing ? ringPaddingInterspace : noRingPaddingInterspace)
+                            let ringPaddingInterspace = nextAvatarHasRing ? interspace - (ringOffset + ringOuterGap) : interspace - ringOffset
+                            let noRingPaddingInterspace = nextAvatarHasRing ? interspace - ringOuterGap : interspace
+                            let rtlRingPaddingInterspace = nextAvatarHasRing ? -x + ringGapOffset : -x + ringOffset + (ringOuterGap * 3)
+                            let rtlNoRingPaddingInterspace = nextAvatarHasRing ? -x - ringOffset - ringGapOffset : -x - ringOuterGap
+                            let stackPadding = currentAvatarHasRing ? ringPaddingInterspace : noRingPaddingInterspace
 
-                        let xPosition = currentAvatarHasRing ? x - ringOuterGap - ringOuterGap : x - ringOuterGap
-                        let xPositionRTL = currentAvatarHasRing ? rtlRingPaddingInterspace : rtlNoRingPaddingInterspace
-                        let xOrigin = Locale.current.isRightToLeftLayoutDirection() ? xPositionRTL : xPosition
-                        let yOrigin = sizeDiff / 2
-                        let cutoutSize = isLastDisplayed ? (ringOuterGap * 2) + imageSize : nextAvatarSize
+                            let xPosition = currentAvatarHasRing ? x - ringGapOffset : x - ringOuterGap
+                            let xPositionRTL = currentAvatarHasRing ? rtlRingPaddingInterspace : rtlNoRingPaddingInterspace
+                            let xOrigin = Locale.current.isRightToLeftLayoutDirection() ? xPositionRTL : xPosition
+                            let yOrigin = sizeDiff / 2
+                            let cutoutSize = isLastDisplayed ? ringGapOffset + imageSize : nextAvatarSize
 
-                        VStack {
-                            avatarView
-                                .transition(.identity)
-                                .modifyIf(needsCutout, { view in
-                                    view.mask(Avatar.AvatarCutout(
-                                                xOrigin: xOrigin,
-                                                yOrigin: yOrigin,
-                                                cutoutSize: cutoutSize)
-                                                .fill(style: FillStyle(eoFill: true)))
-                                })
+                            VStack {
+                                avatarView
+                                    .transition(.identity)
+                                    .modifyIf(needsCutout, { view in
+                                        view.mask(Avatar.AvatarCutout(
+                                            xOrigin: xOrigin,
+                                            yOrigin: yOrigin,
+                                            cutoutSize: cutoutSize)
+                                                    .fill(style: FillStyle(eoFill: true)))
+                                    })
+                            }
+                            .padding(.trailing, tokens.style == .stack ? stackPadding : interspace)
+                            .animation(Animation.linear(duration: 0.1))
+                            .transition(AnyTransition.move(edge: .leading))
                         }
-                        .padding(.trailing, tokens.style == .stack ? stackPadding : interspace)
-                        .animation(Animation.linear(duration: 0.1))
-                        .transition(AnyTransition.move(edge: .leading))
-                    }
-                    if overflowCount > 0 {
-                        VStack {
-                            createOverflow(count: overflowCount)
+                        if overflowCount > 0 {
+                            VStack {
+                                createOverflow(count: overflowCount)
+                            }
+                            .transition(AnyTransition.move(edge: .leading))
                         }
-                        .transition(AnyTransition.move(edge: .leading))
                     }
+                    .frame(height: geo.size.height,
+                           alignment: .leading)
                 }
-                .frame(height: geo.size.height,
-                       alignment: .leading)
+                .frame(width: calcWidth(hasOverflow: overflowCount > 0), height: groupHeight, alignment: .leading)
             }
-            .frame(width: calcWidth(hasOverflow: overflowCount > 0), height: groupHeight, alignment: .leading)
         }
 
         return avatarGroupContent
@@ -253,16 +255,20 @@ public struct AvatarGroup: View {
     private func calcWidth(hasOverflow: Bool) -> CGFloat {
         var width: CGFloat = 0
         let maxShown = state.maxDisplayedAvatars < state.avatars.count ? state.maxDisplayedAvatars : state.avatars.count
-        let interspace: CGFloat = state.style == .stack ? tokens.interspace - tokens.ringInnerGap : tokens.interspace
-        let avatarSize: CGFloat = tokens.size.size
+        let interspace: CGFloat = state.style == .stack ? tokens.interspace : tokens.interspace
+        let gapOffset: CGFloat = tokens.ringOuterGap * 2
+        let ringGapOffset: CGFloat = tokens.ringThickness + tokens.ringInnerGap + tokens.ringOuterGap
+        let imageSize: CGFloat = tokens.size.size
         for index in 0 ..< maxShown {
-            width += state.avatars[index].totalSize()
+            let avatar = state.avatars[index]
+            let avatarSize: CGFloat = avatar.totalSize() - (avatar.isRingVisible ? ringGapOffset / 2 : gapOffset)
+            width += avatarSize
             width += index < maxShown - 1 ? interspace : 0
         }
 
         if hasOverflow {
             width += interspace
-            width += avatarSize
+            width += imageSize
         }
 
         return width

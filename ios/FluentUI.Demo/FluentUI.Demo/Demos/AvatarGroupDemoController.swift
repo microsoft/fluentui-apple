@@ -138,7 +138,8 @@ class AvatarGroupDemoController: DemoTableViewController {
             NSLayoutConstraint.activate([
                 cell.contentView.leadingAnchor.constraint(equalTo: avatarGroupView.leadingAnchor, constant: -20),
                 cell.contentView.topAnchor.constraint(equalTo: avatarGroupView.topAnchor, constant: -15),
-                cell.contentView.bottomAnchor.constraint(equalTo: avatarGroupView.bottomAnchor, constant: 15)
+                cell.contentView.bottomAnchor.constraint(equalTo: avatarGroupView.bottomAnchor, constant: 15),
+                cell.contentView.trailingAnchor.constraint(equalTo: avatarGroupView.trailingAnchor, constant: 20)
             ])
 
             cell.backgroundColor = self.isUsingAlternateBackgroundColor ? Colors.tableCellBackgroundSelected : Colors.tableCellBackground
