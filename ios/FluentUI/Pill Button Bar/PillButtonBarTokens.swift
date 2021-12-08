@@ -29,8 +29,7 @@ class MSFPillButtonBarTokens: MSFTokensBase {
     }
 
     override func updateForCurrentTheme() {
-        let currentTheme = theme
-        let appearanceProxy = currentTheme.MSFPillButtonBarTokens
+        let appearanceProxy = theme.MSFPillButtonBarTokens
 
         cornerRadius = appearanceProxy.cornerRadius
         maxButtonsSpacing = appearanceProxy.maxButtonsSpacing

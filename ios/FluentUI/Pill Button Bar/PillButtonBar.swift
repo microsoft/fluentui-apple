@@ -115,13 +115,14 @@ open class PillButtonBar: UIScrollView, FluentUIWindowProvider {
         }
     }
 
-    private var stackView = UIStackView()
-    private func initStackView() {
-        let view = UIStackView()
-        view.alignment = .center
-        view.spacing = pillButtonBarTokens.minButtonsSpacing
-        stackView = view
-    }
+    private lazy var stackView: UIStackView = {
+            let view = UIStackView()
+            view.alignment = .center
+            view.spacing = pillButtonBarTokens.minButtonsSpacing
+            stackView = view
+
+            return view
+        }()
 
     private var customPillButtonBackgroundColor: UIColor?
     private var customSelectedPillButtonBackgroundColor: UIColor?
@@ -221,7 +222,6 @@ open class PillButtonBar: UIScrollView, FluentUIWindowProvider {
         self.customPillButtonTextColor = pillButtonTextColor
         self.customSelectedPillButtonTextColor = selectedPillButtonTextColor
         super.init(frame: .zero)
-        initStackView()
         setupScrollView()
         setupStackView()
 
@@ -358,17 +358,17 @@ open class PillButtonBar: UIScrollView, FluentUIWindowProvider {
     ///  a new spacing and padding that will shift the last visible button farther in the view.
     private func adjustButtonsForCurrentScrollFrame() {
         var visibleWidth = frame.width - (pillButtonBarTokens.minButtonsSpacing + pillButtonBarTokens.minButtonVisibleWidth)
-        var visibleButtonsWidth = pillButtonBarTokens.sideInset
+        var visibleButtonsWidth: CGFloat = pillButtonBarTokens.sideInset
         var visibleButtonCount = 0
         for button in buttons {
             button.layoutIfNeeded()
-            visibleButtonsWidth! += button.frame.width
+            visibleButtonsWidth += button.frame.width
             visibleButtonCount += 1
-            if visibleButtonsWidth! > visibleWidth {
+            if visibleButtonsWidth > visibleWidth {
                 break
             }
 
-            visibleButtonsWidth! += pillButtonBarTokens.minButtonsSpacing
+            visibleButtonsWidth += pillButtonBarTokens.minButtonsSpacing
         }
 
         if visibleButtonCount == buttons.count {
@@ -376,13 +376,13 @@ open class PillButtonBar: UIScrollView, FluentUIWindowProvider {
             visibleWidth += pillButtonBarTokens.minButtonVisibleWidth
         }
 
-        if visibleButtonsWidth! <= visibleWidth {
+        if visibleButtonsWidth <= visibleWidth {
             // No enough buttons to fill the scroll frame
             return
         }
 
         let optimalVisibleButtonWidth = frame.width + pillButtonBarTokens.minButtonVisibleWidth
-        let totalAdjustment = optimalVisibleButtonWidth - visibleButtonsWidth!
+        let totalAdjustment = optimalVisibleButtonWidth - visibleButtonsWidth
         if totalAdjustment < 0.0 {
             return
         }

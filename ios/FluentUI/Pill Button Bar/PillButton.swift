@@ -58,7 +58,6 @@ open class PillButton: UIButton, FluentUIWindowProvider {
         self.pillButtonTokens = MSFPillButtonTokens(style: style)
         super.init(frame: .zero)
         pillButtonTokens.windowProvider = self
-        initUnreadDotLayer()
         setupView()
 
         NotificationCenter.default.addObserver(self,
@@ -151,12 +150,14 @@ open class PillButton: UIButton, FluentUIWindowProvider {
         }
     }
 
-    private var unreadDotLayer = CALayer()
+    private lazy var unreadDotLayer: CALayer = {
+            let unreadDotLayer = CALayer()
 
-    private func initUnreadDotLayer() {
-        unreadDotLayer.bounds.size = CGSize(width: pillButtonTokens.unreadDotSize, height: pillButtonTokens.unreadDotSize)
-        unreadDotLayer.cornerRadius = pillButtonTokens.unreadDotSize / 2
-    }
+            unreadDotLayer.bounds.size = CGSize(width: pillButtonTokens.unreadDotSize, height: pillButtonTokens.unreadDotSize)
+            unreadDotLayer.cornerRadius = pillButtonTokens.unreadDotSize / 2
+
+            return unreadDotLayer
+        }()
 
     @objc private func isUnreadValueDidChange() {
         isUnreadDotVisible = pillBarItem.isUnread
@@ -225,7 +226,9 @@ open class PillButton: UIButton, FluentUIWindowProvider {
 
     private var pillButtonTokens: MSFPillButtonTokens
 
+    /*
     private struct Constants {
         static let font = UIFont.systemFont(ofSize: 16, weight: .regular)
     }
+     */
 }
