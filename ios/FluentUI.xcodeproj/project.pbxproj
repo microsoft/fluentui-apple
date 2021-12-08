@@ -10,6 +10,7 @@
 		0AA874162600237A00D47421 /* PersonaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA874142600237A00D47421 /* PersonaView.swift */; };
 		0ACD82122620451F0035CD9F /* MSFPersonaViewTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACD82102620451E0035CD9F /* MSFPersonaViewTokens.generated.swift */; };
 		0ACD82192620453B0035CD9F /* PersonaViewTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACD82172620453B0035CD9F /* PersonaViewTokens.swift */; };
+		0AD70F5826E7F2E3008774EC /* MSFCommandBarTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD70F5626E7F2E3008774EC /* MSFCommandBarTokens.generated.swift */; };
 		0AD70F5B26E80A5D008774EC /* CommandBarTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD70F5926E80A5D008774EC /* CommandBarTokens.swift */; };
 		0AE866A826BA05D000E92108 /* Locale+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE866A626BA05D000E92108 /* Locale+Extensions.swift */; };
 		43488C46270FAD1300124C71 /* NotificationView_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43488C44270FAD0200124C71 /* NotificationView_SwiftUI.swift */; };
@@ -227,6 +228,7 @@
 		0AA874142600237A00D47421 /* PersonaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaView.swift; sourceTree = "<group>"; };
 		0ACD82102620451E0035CD9F /* MSFPersonaViewTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFPersonaViewTokens.generated.swift; sourceTree = "<group>"; };
 		0ACD82172620453B0035CD9F /* PersonaViewTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaViewTokens.swift; sourceTree = "<group>"; };
+		0AD70F5626E7F2E3008774EC /* MSFCommandBarTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFCommandBarTokens.generated.swift; sourceTree = "<group>"; };
 		0AD70F5926E80A5D008774EC /* CommandBarTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBarTokens.swift; sourceTree = "<group>"; };
 		0AE866A626BA05D000E92108 /* Locale+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Locale+Extensions.swift"; sourceTree = "<group>"; };
 		0BCEFADD2485FEC00088CEE5 /* PopupMenuProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMenuProtocols.swift; sourceTree = "<group>"; };
@@ -1115,6 +1117,7 @@
 		FC414E1D258876D400069E73 /* Command Bar */ = {
 			isa = PBXGroup;
 			children = (
+				0AD70F5626E7F2E3008774EC /* MSFCommandBarTokens.generated.swift */,
 				FC414E1E258876FB00069E73 /* CommandBar.swift */,
 				FC414E4E2588B65C00069E73 /* CommandBarItem.swift */,
 				FC414E2A25887A4B00069E73 /* CommandBarButton.swift */,
@@ -1491,6 +1494,7 @@
 				5314E1A225F01A7C0099271A /* ActivityIndicatorCell.swift in Sources */,
 				5373D5652694D65C0032A3B4 /* AvatarTokens.swift in Sources */,
 				5314E06125F00EFD0099271A /* CalendarViewDayCell.swift in Sources */,
+				0AD70F5826E7F2E3008774EC /* MSFCommandBarTokens.generated.swift in Sources */,
 				929DD25A266ED3B600E8175E /* PersonaButtonCarousel.swift in Sources */,
 				5314E12A25F016230099271A /* PillButton.swift in Sources */,
 				5314E0E525F012C00099271A /* NavigationBar.swift in Sources */,
@@ -1547,6 +1551,7 @@
 				5314E28E25F024590099271A /* Date+Extensions.swift in Sources */,
 				5306076126A201C8002D49CF /* Persona.swift in Sources */,
 				53097D292702895500A6E4DC /* MSFDrawerTokens.swift in Sources */,
+				5314E2D125F0251E0099271A /* iOS13_4_compatibility.swift in Sources */,
 				92E7AD5026FE51FF00AE7FF8 /* ColorSet.swift in Sources */,
 				5314E14E25F016CD0099271A /* ResizingHandleView.swift in Sources */,
 				5314E1A625F01A7C0099271A /* BooleanCell.swift in Sources */,
