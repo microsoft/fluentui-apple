@@ -1,11 +1,11 @@
 Pod::Spec.new do |s|
   s.name             = 'MicrosoftFluentUI'
-  s.version          = '0.3.8'
+  s.version          = '0.3.9'
   s.summary          = 'Fluent UI is a set of reusable UI controls and tools'
   s.homepage         = "https://www.microsoft.com/design/fluent/#/"
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { "Microsoft" => "fluentuinativeowners@microsoft.com"}
-  s.source       = { :git => "https://github.com/microsoft/fluentui-apple.git", :tag => "#{s.version}" }
+  s.source       = { :git => "https://github.com/microsoft/fluentui-apple.git", :branch => "main_0.3", :tag => "#{s.version}_main_0.3" }
   s.swift_version = "5.4"
   s.module_name = 'FluentUI'
 
