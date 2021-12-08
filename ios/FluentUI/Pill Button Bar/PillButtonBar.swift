@@ -548,7 +548,7 @@ open class PillButtonBar: UIScrollView, FluentUIWindowProvider {
         }
     }
 
-    private let pillButtonBarTokens = MSFPillButtonBarTokens()
+    private lazy var pillButtonBarTokens = MSFPillButtonBarTokens()
 }
 
 // MARK: PillButtonBar UIPointerInteractionDelegate

@@ -226,9 +226,7 @@ open class PillButton: UIButton, FluentUIWindowProvider {
 
     private var pillButtonTokens: MSFPillButtonTokens
 
-    /*
     private struct Constants {
         static let font = UIFont.systemFont(ofSize: 16, weight: .regular)
     }
-     */
 }
