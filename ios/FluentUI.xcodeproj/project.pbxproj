@@ -542,10 +542,10 @@
 			children = (
 				D6F4098C274F19CE001B80D4 /* MSFPillButtonBarTokens.generated.swift */,
 				D6F4098A274F14B8001B80D4 /* MSFPillButtonTokens.generated.swift */,
-				D6F4098827470E7F001B80D4 /* PillButtonTokens.swift */,
 				497DC2D824185885008D86F8 /* PillButton.swift */,
 				497DC2D724185885008D86F8 /* PillButtonBar.swift */,
 				D6F4098E274F1A1C001B80D4 /* PillButtonBarTokens.swift */,
+				D6F4098827470E7F001B80D4 /* PillButtonTokens.swift */,
 				86AF4F7425AFC746005D4253 /* PillButtonStyle.swift */,
 			);
 			path = "Pill Button Bar";

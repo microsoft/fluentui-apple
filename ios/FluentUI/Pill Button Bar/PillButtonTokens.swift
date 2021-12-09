@@ -30,11 +30,15 @@ class MSFPillButtonTokens: MSFTokensBase {
     public var disabledUnreadDotColor: UIColor!
 
     public var bottomInset: CGFloat!
+    public var font: UIFont!
     public var horizontalInset: CGFloat!
     public var topInset: CGFloat!
     public var unreadDotOffsetX: CGFloat!
     public var unreadDotOffsetY: CGFloat!
     public var unreadDotSize: CGFloat!
+
+    /// Notifies the PillButton to refresh its UI to reflect its design token values
+    var themeDidUpdate: (() -> Void)?
 
     var style: PillButtonStyle
 
@@ -53,6 +57,10 @@ class MSFPillButtonTokens: MSFTokensBase {
     }
 
     override func updateForCurrentTheme() {
+        if let themeChanged = themeDidUpdate {
+            themeChanged()
+        }
+
         let currentTheme = theme
         var appearanceProxy: AppearanceProxyType
 
@@ -87,6 +95,7 @@ class MSFPillButtonTokens: MSFTokensBase {
         disabledUnreadDotColor = appearanceProxy.unreadDotColor.disabled
 
         bottomInset = appearanceProxy.bottomInset
+        font = appearanceProxy.font
         horizontalInset = appearanceProxy.horizontalInset
         topInset = appearanceProxy.topInset
         unreadDotOffsetX = appearanceProxy.unreadDotOffsetX

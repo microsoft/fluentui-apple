@@ -172,6 +172,11 @@ extension FluentUIStyle {
 			return CGFloat(6.0)
 		}
 
+		// MARK: - font 
+		open var font: UIFont {
+			return UIFont.font(name: nil, size: 15.0, textStyle: nil, weight: UIFont.Weight.regular, traits: [], isScalable: false)
+		}
+
 		// MARK: - horizontalInset 
 		open var horizontalInset: CGFloat {
 			return mainProxy().Spacing.medium

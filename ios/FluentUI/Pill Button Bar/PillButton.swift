@@ -48,6 +48,7 @@ open class PillButton: UIButton, FluentUIWindowProvider {
 
     open override func didMoveToWindow() {
         super.didMoveToWindow()
+
         pillButtonTokens.updateForCurrentTheme()
         updateAppearance()
     }
@@ -59,6 +60,13 @@ open class PillButton: UIButton, FluentUIWindowProvider {
         super.init(frame: .zero)
         pillButtonTokens.windowProvider = self
         setupView()
+
+        pillButtonTokens.themeDidUpdate = { [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+            strongSelf.updateAppearance()
+        }
 
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(isUnreadValueDidChange),
@@ -109,7 +117,7 @@ open class PillButton: UIButton, FluentUIWindowProvider {
 
     private func setupView() {
         setTitle(pillBarItem.title, for: .normal)
-        titleLabel?.font = Constants.font
+        titleLabel?.font = pillButtonTokens.font
         layer.cornerRadius = PillButton.cornerRadius
         clipsToBounds = true
 
@@ -225,8 +233,4 @@ open class PillButton: UIButton, FluentUIWindowProvider {
     }
 
     private var pillButtonTokens: MSFPillButtonTokens
-
-    private struct Constants {
-        static let font = UIFont.systemFont(ofSize: 16, weight: .regular)
-    }
 }

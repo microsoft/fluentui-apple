@@ -416,6 +416,7 @@ AP_MSFPillButtonBarTokens:
 
 AP_MSFPillButtonTokens:
   bottomInset: 6pt
+  font: "Font(15px, regular)"
   horizontalInset: $Spacing.medium
   topInset: 6pt
   unreadDotOffsetX: 6pt
