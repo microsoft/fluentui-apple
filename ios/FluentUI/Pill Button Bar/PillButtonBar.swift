@@ -590,7 +590,7 @@ extension PillButtonBar: UIPointerInteractionDelegate {
         guard let index = region.identifier as? Int else {
             return
         }
-        if let window = window, customPillButtonBackgroundColor == nil, index < buttons.count {
+        if window != nil, customPillButtonBackgroundColor == nil, index < buttons.count {
             let pillButton = buttons[index]
             if !pillButton.isSelected {
                 pillButton.customBackgroundColor = (pillButtonStyle == .primary ? pillButtonBarTokens.hoverBackgroundColor : pillButtonBarTokens.onBrandHoverBackgroundColor)

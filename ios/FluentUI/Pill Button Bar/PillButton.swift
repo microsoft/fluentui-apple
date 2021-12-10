@@ -188,7 +188,7 @@ open class PillButton: UIButton, FluentUIWindowProvider {
     }
 
     private func updateAppearance() {
-        if let window = window {
+        if window != nil {
             if isSelected {
                 if isEnabled {
                     if let customSelectedBackgroundColor = customSelectedBackgroundColor {
