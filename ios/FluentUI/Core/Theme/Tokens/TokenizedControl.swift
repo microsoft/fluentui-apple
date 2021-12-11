@@ -9,6 +9,12 @@ import SwiftUI
 public protocol TokenizedControl {
     associatedtype TokenType: ControlTokens
 
+    /// The unique key to use for token cacheing for a given `TokenizedControl`.
+    ///
+    /// In most cases, this will simply return `"\(type(of: self)"`. However, some controls may want to cache multiple token sets
+    /// (e.g. one for each style for a control), and will thus add additional data 
+    var tokenKey: String { get }
+
     /// Modifier function that updates the design tokens for a given control.
     ///
     /// - Parameter tokens: The custom tokens to apply to this control.
@@ -22,6 +28,7 @@ protocol TokenizedControlInternal: TokenizedControl {
     associatedtype ConfigurationType: ControlConfiguration where ConfigurationType.TokenType == TokenType
 
     var state: ConfigurationType { get }
+    var tokens: TokenType { get }
 }
 
 /// Internal protocol for all controls' internal `configuration` objects.

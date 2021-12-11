@@ -9,17 +9,4 @@ import Foundation
 public class ControlTokens: NSObject {
     var globalTokens: GlobalTokens = GlobalTokens.shared
     var aliasTokens: AliasTokens = AliasTokens.shared
-
-    // Represents a token value with an optional override.
-    struct OverridableToken<T> {
-        let base: () -> T
-        var override: T?
-
-        var value: T {
-            if let override = override {
-                return override
-            }
-            return base()
-        }
-    }
 }
