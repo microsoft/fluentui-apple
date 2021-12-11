@@ -204,7 +204,7 @@ class MSFCardNudgeStateImpl: NSObject, ControlConfiguration, MSFCardNudgeState {
     let style: MSFCardNudgeStyle
 
     /// Lazily initialized default token set.
-    lazy var defaultTokens: CardNudgeTokens = .init(style: self.style)
+    lazy var defaultTokens: CardNudgeTokens = .create(style: self.style)
 
     @objc init(style: MSFCardNudgeStyle, title: String) {
         self.style = style
@@ -231,51 +231,3 @@ class MSFCardNudgeStateImpl: NSObject, ControlConfiguration, MSFCardNudgeState {
         self.dismissButtonAction = dismissButtonAction
     }
 }
-
-#if DEBUG
-struct CardNudge_Previews: PreviewProvider {
-    @ViewBuilder
-    static var cards: some View {
-        VStack(spacing: 0) {
-            CardNudge(style: .standard, title: "Title")
-                .mainIcon(UIImage(systemName: "newspaper"))
-                .accentText("Accent")
-                .accentIcon(UIImage(named: "ic_fluent_presence_blocked_12_regular", in: FluentUIFramework.resourceBundle, with: nil))
-                .subtitle("Subtitle")
-                .actionButtonTitle("Action")
-                .actionButtonAction({ _ in
-                })
-                .dismissButtonAction({ _ in
-                })
-
-            CardNudge(style: .standard, title: "Title")
-                .mainIcon(UIImage(systemName: "newspaper"))
-                .accentText("Accent")
-                .accentIcon(UIImage(named: "ic_fluent_presence_blocked_12_regular", in: FluentUIFramework.resourceBundle, with: nil))
-                .subtitle("Subtitle")
-                .dismissButtonAction({ _ in
-                })
-            CardNudge(style: .outline, title: "Title")
-            CardNudge(style: .outline, title: "Title")
-                .dismissButtonAction({ _ in
-                })
-            CardNudge(style: .outline, title: "Title")
-                .mainIcon(UIImage(systemName: "newspaper"))
-                .accentText("Accent")
-                .accentIcon(UIImage(named: "ic_fluent_presence_blocked_12_regular", in: FluentUIFramework.resourceBundle, with: nil))
-                .subtitle("Subtitle")
-                .actionButtonTitle("Action")
-                .actionButtonAction({ _ in
-                })
-        }
-    }
-
-    static var previews: some View {
-        Group {
-            cards.preferredColorScheme(.light)
-            cards.preferredColorScheme(.dark)
-        }
-        .environment(\.sizeCategory, .large)
-    }
-}
-#endif

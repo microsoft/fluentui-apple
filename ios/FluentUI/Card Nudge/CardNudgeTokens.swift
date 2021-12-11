@@ -15,132 +15,131 @@ import SwiftUI
 }
 
 /// Design token set for the `CardNudge` control.
-@objc public class CardNudgeTokens: ControlTokens {
-    public init(style: MSFCardNudgeStyle,
-                accentColor: ColorSet? = nil,
-                accentIconSize: CGFloat? = nil,
-                accentPadding: CGFloat? = nil,
-                backgroundColor: ColorSet? = nil,
-                buttonBackgroundColor: ColorSet? = nil,
-                buttonInnerPaddingHorizontal: CGFloat? = nil,
-                circleRadius: CGFloat? = nil,
-                circleSize: CGFloat? = nil,
-                cornerRadius: CGFloat? = nil,
-                horizontalPadding: CGFloat? = nil,
-                iconSize: CGFloat? = nil,
-                interTextVerticalPadding: CGFloat? = nil,
-                mainContentVerticalPadding: CGFloat? = nil,
-                minimumHeight: CGFloat? = nil,
-                outlineColor: ColorSet? = nil,
-                outlineWidth: CGFloat? = nil,
-                subtitleTextColor: ColorSet? = nil,
-                textColor: ColorSet? = nil,
-                verticalPadding: CGFloat? = nil) {
-        self.style = style
+public class CardNudgeTokens: ControlTokens {
+    /// Creates an instance of `CardNudgeTokens` with optional token value overrides.
+    public static func create(style: MSFCardNudgeStyle,
+                              accentColor: ColorSet? = nil,
+                              accentIconSize: CGFloat? = nil,
+                              accentPadding: CGFloat? = nil,
+                              backgroundColor: ColorSet? = nil,
+                              buttonBackgroundColor: ColorSet? = nil,
+                              buttonInnerPaddingHorizontal: CGFloat? = nil,
+                              circleRadius: CGFloat? = nil,
+                              circleSize: CGFloat? = nil,
+                              cornerRadius: CGFloat? = nil,
+                              horizontalPadding: CGFloat? = nil,
+                              iconSize: CGFloat? = nil,
+                              interTextVerticalPadding: CGFloat? = nil,
+                              mainContentVerticalPadding: CGFloat? = nil,
+                              minimumHeight: CGFloat? = nil,
+                              outlineColor: ColorSet? = nil,
+                              outlineWidth: CGFloat? = nil,
+                              subtitleTextColor: ColorSet? = nil,
+                              textColor: ColorSet? = nil,
+                              verticalPadding: CGFloat? = nil) -> CardNudgeTokens {
 
-        super.init()
+        let tokens: CardNudgeTokens
+        switch style {
+        case .standard:
+            tokens = CardNudgeTokens()
+        case .outline:
+            tokens = OutlineCardNudgeTokens()
+        }
 
         // Optional overrides
         if let accentColor = accentColor {
-            self.accentColor = accentColor
+            tokens.accentColor = accentColor
         }
         if let accentIconSize = accentIconSize {
-            self.accentIconSize = accentIconSize
+            tokens.accentIconSize = accentIconSize
         }
         if let accentPadding = accentPadding {
-            self.accentPadding = accentPadding
+            tokens.accentPadding = accentPadding
         }
         if let backgroundColor = backgroundColor {
-            self.backgroundColor = backgroundColor
+            tokens.backgroundColor = backgroundColor
         }
         if let buttonBackgroundColor = buttonBackgroundColor {
-            self.buttonBackgroundColor = buttonBackgroundColor
+            tokens.buttonBackgroundColor = buttonBackgroundColor
         }
         if let buttonInnerPaddingHorizontal = buttonInnerPaddingHorizontal {
-            self.buttonInnerPaddingHorizontal = buttonInnerPaddingHorizontal
+            tokens.buttonInnerPaddingHorizontal = buttonInnerPaddingHorizontal
         }
         if let circleRadius = circleRadius {
-            self.circleRadius = circleRadius
+            tokens.circleRadius = circleRadius
         }
         if let circleSize = circleSize {
-            self.circleSize = circleSize
+            tokens.circleSize = circleSize
         }
         if let cornerRadius = cornerRadius {
-            self.cornerRadius = cornerRadius
+            tokens.cornerRadius = cornerRadius
         }
         if let horizontalPadding = horizontalPadding {
-            self.horizontalPadding = horizontalPadding
+            tokens.horizontalPadding = horizontalPadding
         }
         if let iconSize = iconSize {
-            self.iconSize = iconSize
+            tokens.iconSize = iconSize
         }
         if let interTextVerticalPadding = interTextVerticalPadding {
-            self.interTextVerticalPadding = interTextVerticalPadding
+            tokens.interTextVerticalPadding = interTextVerticalPadding
         }
         if let mainContentVerticalPadding = mainContentVerticalPadding {
-            self.mainContentVerticalPadding = mainContentVerticalPadding
+            tokens.mainContentVerticalPadding = mainContentVerticalPadding
         }
         if let minimumHeight = minimumHeight {
-            self.minimumHeight = minimumHeight
+            tokens.minimumHeight = minimumHeight
         }
         if let outlineColor = outlineColor {
-            self.outlineColor = outlineColor
+            tokens.outlineColor = outlineColor
         }
         if let outlineWidth = outlineWidth {
-            self.outlineWidth = outlineWidth
+            tokens.outlineWidth = outlineWidth
         }
         if let subtitleTextColor = subtitleTextColor {
-            self.subtitleTextColor = subtitleTextColor
+            tokens.subtitleTextColor = subtitleTextColor
         }
         if let textColor = textColor {
-            self.textColor = textColor
+            tokens.textColor = textColor
         }
         if let verticalPadding = verticalPadding {
-            self.verticalPadding = verticalPadding
+            tokens.verticalPadding = verticalPadding
         }
+
+        return tokens
     }
 
-    // Required state value
-    let style: MSFCardNudgeStyle
+    fileprivate override init() {
+        super.init()
+    }
 
-    lazy var accentColor: ColorSet = globalTokens.brandColors[.shade20]
-    lazy var accentIconSize: CGFloat = globalTokens.iconSize[.xxSmall]
-    lazy var accentPadding: CGFloat = globalTokens.spacing[.xxSmall]
-    lazy var backgroundColor: ColorSet = {
-        switch style {
-        case .standard:
-            return aliasTokens.backgroundColors[.neutral2]
-        case .outline:
-            return aliasTokens.backgroundColors[.neutral1]
-        }
-    }()
-    lazy var buttonBackgroundColor: ColorSet = globalTokens.brandColors[.tint30]
-    lazy var buttonInnerPaddingHorizontal: CGFloat = globalTokens.spacing[.small]
-    lazy var circleRadius: CGFloat = globalTokens.borderRadius[.circle]
-    lazy var circleSize: CGFloat = globalTokens.iconSize[.xxLarge]
-    lazy var cornerRadius: CGFloat = globalTokens.borderRadius[.xLarge]
-    lazy var horizontalPadding: CGFloat = globalTokens.spacing[.medium]
-    lazy var iconSize: CGFloat = globalTokens.iconSize[.xSmall]
-    lazy var interTextVerticalPadding: CGFloat = globalTokens.spacing[.xxxSmall]
-    lazy var mainContentVerticalPadding: CGFloat = globalTokens.spacing[.small]
-    lazy var minimumHeight: CGFloat = 56.0
-    lazy var outlineColor: ColorSet = {
-        switch style {
-        case .standard:
-            return aliasTokens.backgroundColors[.neutral2]
-        case .outline:
-            return aliasTokens.strokeColors[.neutral1]
-        }
-    }()
-    lazy var outlineWidth: CGFloat = globalTokens.borderSize[.thin]
-    lazy var subtitleTextColor: ColorSet = aliasTokens.foregroundColors[.neutral3]
-    lazy var textColor: ColorSet = {
-        switch style {
-        case .standard:
-            return aliasTokens.foregroundColors[.neutral1]
-        case .outline:
-            return globalTokens.brandColors[.shade20]
-        }
-    }()
-    lazy var verticalPadding: CGFloat = globalTokens.spacing[.xSmall]
+    lazy fileprivate(set) var accentColor: ColorSet = globalTokens.brandColors[.shade20]
+    lazy fileprivate(set) var accentIconSize: CGFloat = globalTokens.iconSize[.xxSmall]
+    lazy fileprivate(set) var accentPadding: CGFloat = globalTokens.spacing[.xxSmall]
+    lazy fileprivate(set) var backgroundColor: ColorSet = aliasTokens.backgroundColors[.neutral2]
+    lazy fileprivate(set) var buttonBackgroundColor: ColorSet = globalTokens.brandColors[.tint30]
+    lazy fileprivate(set) var buttonInnerPaddingHorizontal: CGFloat = globalTokens.spacing[.small]
+    lazy fileprivate(set) var circleRadius: CGFloat = globalTokens.borderRadius[.circle]
+    lazy fileprivate(set) var circleSize: CGFloat = globalTokens.iconSize[.xxLarge]
+    lazy fileprivate(set) var cornerRadius: CGFloat = globalTokens.borderRadius[.xLarge]
+    lazy fileprivate(set) var horizontalPadding: CGFloat = globalTokens.spacing[.medium]
+    lazy fileprivate(set) var iconSize: CGFloat = globalTokens.iconSize[.xSmall]
+    lazy fileprivate(set) var interTextVerticalPadding: CGFloat = globalTokens.spacing[.xxxSmall]
+    lazy fileprivate(set) var mainContentVerticalPadding: CGFloat = globalTokens.spacing[.small]
+    lazy fileprivate(set) var minimumHeight: CGFloat = 56.0
+    lazy fileprivate(set) var outlineColor: ColorSet = aliasTokens.backgroundColors[.neutral2]
+    lazy fileprivate(set) var outlineWidth: CGFloat = globalTokens.borderSize[.thin]
+    lazy fileprivate(set) var subtitleTextColor: ColorSet = aliasTokens.foregroundColors[.neutral3]
+    lazy fileprivate(set) var textColor: ColorSet = aliasTokens.foregroundColors[.neutral1]
+    lazy fileprivate(set) var verticalPadding: CGFloat = globalTokens.spacing[.xSmall]
+}
+
+class OutlineCardNudgeTokens: CardNudgeTokens {
+    fileprivate override init() {
+        super.init()
+
+        // Token overrides
+        backgroundColor = aliasTokens.backgroundColors[.neutral1]
+        outlineColor = aliasTokens.strokeColors[.neutral1]
+        textColor = globalTokens.brandColors[.shade20]
+    }
 }

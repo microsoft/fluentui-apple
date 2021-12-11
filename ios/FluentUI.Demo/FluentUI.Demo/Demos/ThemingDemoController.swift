@@ -208,10 +208,10 @@ open class CustomStyle: FluentUIStyle {
 
 private var customCardNudgeTokens: CardNudgeTokens {
     let purplePrimary: ColorSet = ColorSet(light: 0x6227A7, dark: 0x7A7FEA)
-    return CardNudgeTokens(style: .standard,
-                           accentColor: purplePrimary,
-                           cornerRadius: 0.0,
-                           outlineColor: purplePrimary,
-                           subtitleTextColor: purplePrimary,
-                           textColor: purplePrimary)
+    return CardNudgeTokens.create(style: .standard,
+                                  accentColor: purplePrimary,
+                                  cornerRadius: 0.0,
+                                  outlineColor: purplePrimary,
+                                  subtitleTextColor: purplePrimary,
+                                  textColor: purplePrimary)
 }
