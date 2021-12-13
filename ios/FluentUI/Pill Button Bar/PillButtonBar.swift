@@ -115,13 +115,15 @@ open class PillButtonBar: UIScrollView, FluentUIWindowProvider {
         }
     }
 
-    private var stackView = UIStackView()
+    private lazy var stackView: UIStackView = {
+        initStackView()
+    }()
 
-    private func initStackView() {
+    private func initStackView() -> UIStackView {
         let view = UIStackView()
         view.alignment = .center
         view.spacing = pillButtonBarTokens.minButtonsSpacing
-        stackView = view
+        return view
     }
 
     private var customPillButtonBackgroundColor: UIColor?
@@ -223,7 +225,6 @@ open class PillButtonBar: UIScrollView, FluentUIWindowProvider {
         self.customSelectedPillButtonTextColor = selectedPillButtonTextColor
         super.init(frame: .zero)
         setupScrollView()
-        initStackView()
         setupStackView()
 
         let pointerInteraction = UIPointerInteraction(delegate: self)

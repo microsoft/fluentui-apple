@@ -60,12 +60,12 @@ open class PillButton: UIButton, FluentUIWindowProvider {
         super.init(frame: .zero)
         pillButtonTokens.windowProvider = self
         setupView()
-        initUnreadDotLayer()
 
         pillButtonTokens.themeDidUpdate = { [weak self] in
             guard let strongSelf = self else {
                 return
             }
+            strongSelf.unreadDotLayer = strongSelf.initUnreadDotLayer()
             strongSelf.updateAppearance()
         }
 
@@ -159,11 +159,17 @@ open class PillButton: UIButton, FluentUIWindowProvider {
         }
     }
 
-    private var unreadDotLayer = CALayer()
+    private lazy var unreadDotLayer: CALayer = {
+        initUnreadDotLayer()
+    }()
 
-    private func initUnreadDotLayer() {
+    private func initUnreadDotLayer() -> CALayer {
+        let unreadDotLayer = CALayer()
+
         unreadDotLayer.bounds.size = CGSize(width: pillButtonTokens.unreadDotSize, height: pillButtonTokens.unreadDotSize)
         unreadDotLayer.cornerRadius = pillButtonTokens.unreadDotSize / 2
+
+        return unreadDotLayer
     }
 
     @objc private func isUnreadValueDidChange() {
