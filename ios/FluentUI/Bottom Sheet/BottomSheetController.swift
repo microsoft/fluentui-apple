@@ -110,6 +110,22 @@ public class BottomSheetController: UIViewController {
         }
     }
 
+    /// A string to optionally customize the accessibility label of the bottom sheet handle.
+    /// The message should convey the "Expand" action and will be used when the bottom sheet is collapsed.
+    @objc public var handleExpandCustomAccessibilityLabel: String? {
+        didSet {
+            updateResizingHandleViewAccessibility()
+        }
+    }
+
+    /// A string to optionally customize the accessibility label of the bottom sheet handle.
+    /// The message should convey the "Collapse" action and will be used when the bottom sheet is expanded.
+    @objc public var handleCollapseCustomAccessibilityLabel: String? {
+        didSet {
+            updateResizingHandleViewAccessibility()
+        }
+    }
+
     /// Indicates if the bottom sheet is expanded.
     ///
     /// Changes to this property are animated. A new value is reflected in the getter only after the animation completes.
@@ -431,10 +447,10 @@ public class BottomSheetController: UIViewController {
 
     private func updateResizingHandleViewAccessibility() {
         if currentExpansionState == .expanded {
-            resizingHandleView.accessibilityLabel = "Accessibility.Drawer.ResizingHandle.Label.Collapse".localized
+            resizingHandleView.accessibilityLabel = handleCollapseCustomAccessibilityLabel ?? "Accessibility.Drawer.ResizingHandle.Label.Collapse".localized
             resizingHandleView.accessibilityHint = "Accessibility.Drawer.ResizingHandle.Hint.Collapse".localized
         } else {
-            resizingHandleView.accessibilityLabel = "Accessibility.Drawer.ResizingHandle.Label.Expand".localized
+            resizingHandleView.accessibilityLabel = handleExpandCustomAccessibilityLabel ?? "Accessibility.Drawer.ResizingHandle.Label.Expand".localized
             resizingHandleView.accessibilityHint = "Accessibility.Drawer.ResizingHandle.Hint.Expand".localized
         }
     }
