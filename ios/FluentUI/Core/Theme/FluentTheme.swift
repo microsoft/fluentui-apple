@@ -14,25 +14,9 @@ import SwiftUI
     ///
     /// - Returns: An initialized `FluentTheme` instance that leverages the aforementioned global and alias token overrides.
     public init(globalTokens: GlobalTokens? = nil, aliasTokens: AliasTokens? = nil) {
-        var hasCustomGlobalTokens = false
-        if let globalTokens = globalTokens {
-            self.globalTokens = globalTokens
-            hasCustomGlobalTokens = true
-        }
-
-        // Alias tokens are trickier. We need a custom set any time we have custom
-        // global tokens (so that they can reference those custom tokens), even if
-        // the caller does not give us a custom set themselves.
-        if let aliasTokens = aliasTokens {
-            self.aliasTokens = aliasTokens
-        } else if hasCustomGlobalTokens {
-            self.aliasTokens = .init()
-        }
-
-        // If we have custom global tokens, our "custom" alias tokens from above must track them.
-        if hasCustomGlobalTokens {
-            self.aliasTokens.globalTokens = self.globalTokens
-        }
+        self.globalTokens = globalTokens ?? .init()
+        self.aliasTokens = aliasTokens ?? .init()
+        self.aliasTokens.globalTokens = self.globalTokens
     }
 
     /// Registers a custom set of `ControlTokens` for a given `TokenizedControl`.
@@ -71,8 +55,9 @@ import SwiftUI
 
     static var shared: FluentTheme = .init()
 
-    private var globalTokens: GlobalTokens = .shared
-    private var aliasTokens: AliasTokens = .shared
+    var globalTokens: GlobalTokens
+    var aliasTokens: AliasTokens
+
     private var controlTokens: [String: ControlTokens] = [:]
 }
 

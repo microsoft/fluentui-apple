@@ -118,6 +118,5 @@ public final class AliasTokens {
 
     public init() {}
 
-    static let shared = AliasTokens()
-    var globalTokens: GlobalTokens = .shared
+    var globalTokens: GlobalTokens = FluentTheme.shared.globalTokens
 }
