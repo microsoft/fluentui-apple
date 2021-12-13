@@ -60,27 +60,27 @@ class ShimmerViewDemoController: DemoController {
         }
 
         container.addArrangedSubview(shimmerViewLabel("A ShimmerLinesView needs no containerview or subviews"))
-        container.addArrangedSubview(Separator())
+        container.addArrangedSubview(MSFDivider().view)
         container.addArrangedSubview(ShimmerLinesView())
-        container.addArrangedSubview(Separator())
+        container.addArrangedSubview(MSFDivider().view)
 
         container.addArrangedSubview(shimmerViewLabel("ShimmerView shimmers all the top level subviews of its container view"))
-        container.addArrangedSubview(Separator())
+        container.addArrangedSubview(MSFDivider().view)
         container.addArrangedSubview(shimmeringContentView(false))
-        container.addArrangedSubview(Separator())
+        container.addArrangedSubview(MSFDivider().view)
 
         container.addArrangedSubview(shimmerViewLabel("With shimmersLeafViews set, the ShimmerView will shimmer the labels inside the stackview"))
-        container.addArrangedSubview(Separator())
+        container.addArrangedSubview(MSFDivider().view)
         container.addArrangedSubview(shimmeringContentView(true))
-        container.addArrangedSubview(Separator())
+        container.addArrangedSubview(MSFDivider().view)
 
         container.addArrangedSubview(shimmerViewLabel("Revealing style shimmer on an image: the gradient reveals its container view as it moves"))
-        container.addArrangedSubview(Separator())
+        container.addArrangedSubview(MSFDivider().view)
         container.addArrangedSubview(shimmeringImageView(.revealing))
 
-        container.addArrangedSubview(Separator())
+        container.addArrangedSubview(MSFDivider().view)
         container.addArrangedSubview(shimmerViewLabel("Concealing style shimmer on an image: the gradient conceals its container view as it moves"))
-        container.addArrangedSubview(Separator())
+        container.addArrangedSubview(MSFDivider().view)
         container.addArrangedSubview(shimmeringImageView(.concealing))
     }
 }

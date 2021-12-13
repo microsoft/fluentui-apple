@@ -94,7 +94,7 @@ open class NotificationView: UIView, FluentUIWindowProvider {
         actionButton.titleLabel?.adjustsFontForContentSizeCategory = true
         return actionButton
     }()
-    private let separator = Separator(style: .shadow, orientation: .horizontal)
+    private let divider = MSFDivider()
 
     private var hasSingleLineLayout: Bool {
         return titleLabel.text?.isEmpty == true && messageLabel.frame.height == messageLabel.font.deviceLineHeight
@@ -137,8 +137,8 @@ open class NotificationView: UIView, FluentUIWindowProvider {
     }
 
     @objc open func initialize() {
-        addSubview(separator)
-        separator.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(divider.view)
+        divider.view.translatesAutoresizingMaskIntoConstraints = false
 
         addSubview(container)
         container.translatesAutoresizingMaskIntoConstraints = false
@@ -151,9 +151,9 @@ open class NotificationView: UIView, FluentUIWindowProvider {
 
         let horizontalPadding: CGFloat! = tokens.horizontalPadding
         NSLayoutConstraint.activate([
-            separator.leadingAnchor.constraint(equalTo: leadingAnchor),
-            separator.trailingAnchor.constraint(equalTo: trailingAnchor),
-            separator.bottomAnchor.constraint(equalTo: topAnchor),
+            divider.view.leadingAnchor.constraint(equalTo: leadingAnchor),
+            divider.view.trailingAnchor.constraint(equalTo: trailingAnchor),
+            divider.view.bottomAnchor.constraint(equalTo: topAnchor),
             container.topAnchor.constraint(equalTo: topAnchor),
             container.bottomAnchor.constraint(equalTo: bottomAnchor),
             container.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: horizontalPadding),
@@ -450,7 +450,7 @@ open class NotificationView: UIView, FluentUIWindowProvider {
         ambientShadow.shadowOffset = CGSize(width: tokens.ambientShadowOffsetX, height: tokens.ambientShadowOffsetY)
         ambientShadow.shadowOpacity = 1.0
 
-        separator.isHidden = !tokens.style.needsSeparator
+        divider.view.isHidden = !tokens.style.needsSeparator
 
         updateWindowSpecificColors()
     }

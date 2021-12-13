@@ -111,6 +111,7 @@ class DividerDemoController: UITableViewController {
     private func coloredDivider(orientation: MSFDividerOrientation = .horizontal, spacing: MSFDividerSpacing, color: UIColor?) -> MSFDivider {
         let divider = MSFDivider(orientation: orientation, spacing: spacing)
         divider.state.color = color
+        divider.view.translatesAutoresizingMaskIntoConstraints = false
         return divider
     }
 
@@ -139,7 +140,7 @@ class DividerDemoController: UITableViewController {
         var title: String {
             switch self {
             case .swiftUI:
-                return "SwfitUI"
+                return "SwiftUI"
             case .defaultNone:
                 return "No spacing"
             case .defaultMedium:

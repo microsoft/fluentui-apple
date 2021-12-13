@@ -23,13 +23,13 @@ class CalendarView: UIView {
 
     weak var accessibleViewDelegate: AccessibleViewDelegate?
 
-    private let headingViewSeparator: Separator
-    private let collectionViewSeparator: Separator
+    private let headingViewDivider: MSFDivider
+    private let collectionViewDivider: MSFDivider
 
     init(headerStyle: DatePickerHeaderStyle = .light) {
         weekdayHeadingView = CalendarViewWeekdayHeadingView(headerStyle: headerStyle)
 
-        headingViewSeparator = Separator(style: .shadow)
+        headingViewDivider = MSFDivider()
 
         collectionViewLayout = CalendarViewLayout()
 
@@ -40,17 +40,17 @@ class CalendarView: UIView {
         // Enable multiple selection to allow for one cell to be selected and another cell to be highlighted simultaneously
         collectionView.allowsMultipleSelection = true
 
-        collectionViewSeparator = Separator(style: .default)
+        collectionViewDivider = MSFDivider()
 
         super.init(frame: .zero)
 
         addSubview(weekdayHeadingView)
         addSubview(collectionView)
-        addSubview(collectionViewSeparator)
+        addSubview(collectionViewDivider.view)
         addInteraction(UILargeContentViewerInteraction())
 
         if headerStyle == .light {
-            addSubview(headingViewSeparator)
+            addSubview(headingViewDivider.view)
         }
     }
 
@@ -70,11 +70,11 @@ class CalendarView: UIView {
             height: weekdayHeadingViewSize.height
         )
 
-        headingViewSeparator.frame = CGRect(
+        headingViewDivider.view.frame = CGRect(
             x: 0.0,
             y: weekdayHeadingView.frame.height,
             width: bounds.size.width,
-            height: headingViewSeparator.frame.height
+            height: headingViewDivider.view.frame.height
         )
 
         // Collection view
@@ -91,11 +91,11 @@ class CalendarView: UIView {
         )
         collectionView.contentOffset = originalContentOffset
 
-        collectionViewSeparator.frame = CGRect(
+        collectionViewDivider.view.frame = CGRect(
             x: 0.0,
-            y: collectionView.frame.maxY - collectionViewSeparator.frame.height,
+            y: collectionView.frame.maxY - collectionViewDivider.view.frame.height,
             width: bounds.size.width,
-            height: collectionViewSeparator.frame.height
+            height: collectionViewDivider.view.frame.height
         )
     }
 
@@ -108,7 +108,7 @@ class CalendarView: UIView {
         // Day cells
         height += CalendarViewLayout.preferredItemHeight * rows(for: style)
 
-        // Do not include last separator
+        // Do not include last divider
         height -= UIScreen.main.devicePixel
 
         return height

@@ -128,7 +128,7 @@ open class PeoplePicker: BadgeField {
 
     private var containingViewBoundsObservation: NSKeyValueObservation?
 
-    private let separator = Separator()
+    private let divider = MSFDivider()
 
     @objc public override init() {
         super.init()
@@ -142,7 +142,8 @@ open class PeoplePicker: BadgeField {
 
     func initialize() {
         personaSuggestionsView.addSubview(personaListView)
-        personaSuggestionsView.addSubview(separator)
+        divider.view.translatesAutoresizingMaskIntoConstraints = false
+        personaSuggestionsView.addSubview(divider.view)
 
         personaListView.onPersonaSelected = { [unowned self] persona in
             self.pickPersona(persona: persona)
@@ -241,7 +242,8 @@ open class PeoplePicker: BadgeField {
 
         personaListView.frame = personaSuggestionsView.bounds
 
-        separator.frame = CGRect(x: 0, y: separatorY, width: personaSuggestionsView.frame.width, height: separator.frame.height)
+        // some sort of issue with layout. Ambiguous placement something something
+        divider.view.frame = CGRect(x: 0, y: separatorY, width: personaSuggestionsView.frame.width, height: divider.view.frame.height)
     }
 
     // MARK: Personas

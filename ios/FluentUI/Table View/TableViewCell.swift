@@ -924,8 +924,8 @@ open class TableViewCell: UITableViewCell {
         return imageView
     }()
 
-    internal let topSeparator = Separator(style: .default, orientation: .horizontal)
-    internal let bottomSeparator = Separator(style: .default, orientation: .horizontal)
+    internal let topSeparator = MSFDivider()
+    internal let bottomSeparator = MSFDivider()
 
     private var superTableView: UITableView? {
         return findSuperview(of: UITableView.self) as? UITableView
@@ -950,8 +950,8 @@ open class TableViewCell: UITableViewCell {
         contentView.addSubview(subtitleLabel)
         contentView.addSubview(footerLabel)
         contentView.addSubview(selectionImageView)
-        addSubview(topSeparator)
-        addSubview(bottomSeparator)
+        addSubview(topSeparator.view)
+        addSubview(bottomSeparator.view)
 
         setupBackgroundColors()
 
@@ -1068,7 +1068,7 @@ open class TableViewCell: UITableViewCell {
         contentView.flipSubviewsForRTL()
 
         layoutSeparator(topSeparator, with: topSeparatorType, at: 0)
-        layoutSeparator(bottomSeparator, with: bottomSeparatorType, at: frame.height - bottomSeparator.frame.height)
+        layoutSeparator(bottomSeparator, with: bottomSeparatorType, at: frame.height - bottomSeparator.view.frame.height)
     }
 
     open func layoutContentSubviews() {
@@ -1163,14 +1163,14 @@ open class TableViewCell: UITableViewCell {
         trailingAccessoryView?.frame.origin.y += offset
     }
 
-    private func layoutSeparator(_ separator: Separator, with type: SeparatorType, at verticalOffset: CGFloat) {
-        separator.frame = CGRect(
+    private func layoutSeparator(_ separator: MSFDivider, with type: SeparatorType, at verticalOffset: CGFloat) {
+        separator.view.frame = CGRect(
             x: separatorLeadingInset(for: type),
             y: verticalOffset,
             width: frame.width - separatorLeadingInset(for: type),
-            height: separator.frame.height
+            height: separator.view.frame.height
         )
-        separator.flipForRTL()
+        separator.view.flipForRTL()
     }
 
     func separatorLeadingInset(for type: SeparatorType) -> CGFloat {
@@ -1402,8 +1402,8 @@ open class TableViewCell: UITableViewCell {
         }
     }
 
-    private func updateSeparator(_ separator: Separator, with type: SeparatorType) {
-        separator.isHidden = type == .none
+    private func updateSeparator(_ separator: MSFDivider, with type: SeparatorType) {
+        separator.view.isHidden = type == .none
         setNeedsLayout()
     }
 

@@ -428,21 +428,21 @@ open class BottomCommandingController: UIViewController {
 
     private func makeSheetExpandedContent(with tableView: UITableView) -> UIView {
         let view = UIView()
-        let separator = Separator()
-        separator.translatesAutoresizingMaskIntoConstraints = false
+        let divider = MSFDivider().view
+        divider.translatesAutoresizingMaskIntoConstraints = false
         tableView.translatesAutoresizingMaskIntoConstraints = false
 
         view.addSubview(tableView)
-        view.addSubview(separator)
+        view.addSubview(divider)
 
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            separator.topAnchor.constraint(equalTo: tableView.topAnchor),
-            separator.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            separator.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            divider.topAnchor.constraint(equalTo: tableView.topAnchor),
+            divider.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            divider.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
         return view
     }

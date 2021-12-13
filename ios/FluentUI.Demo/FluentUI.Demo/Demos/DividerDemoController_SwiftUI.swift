@@ -46,6 +46,8 @@ struct DividerDemoView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .font(.title)
                     FluentDivider(orientation: .horizontal)
+                        .padding()
+                    Divider()
                 }
 
                 Picker(selection: $spacing, label: EmptyView()) {

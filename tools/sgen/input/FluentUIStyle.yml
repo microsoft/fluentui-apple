@@ -321,7 +321,7 @@ AP_MSFCommandBarTokens:
   itemInterspace: $Spacing.xxxSmall
 
 AP_MSFDividerTokens:
-  color: $Colors.Stroke.neutral1
+  color: $Colors.Stroke.neutral2
   spacing: [ none: $Spacing.none, medium: $Spacing.medium]
 
 AP_MSFDrawerTokens:

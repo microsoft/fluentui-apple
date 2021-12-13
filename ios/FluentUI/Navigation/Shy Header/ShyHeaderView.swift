@@ -152,7 +152,7 @@ class ShyHeaderView: UIView {
     }
 
     private let contentStackView = UIStackView()
-    private let shadow = Separator(style: .shadow)
+    private let shadow = MSFDivider()
 
     private var needsShadow: Bool {
         switch navigationBarShadow {
@@ -170,7 +170,7 @@ class ShyHeaderView: UIView {
             if showsShadow {
                 initShadow()
             } else {
-                shadow.removeFromSuperview()
+                shadow.view.removeFromSuperview()
             }
         }
     }
@@ -194,12 +194,12 @@ class ShyHeaderView: UIView {
     }
 
     private func initShadow() {
-        shadow.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(shadow)
+        shadow.view.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(shadow.view)
         NSLayoutConstraint.activate([
-            shadow.leftAnchor.constraint(equalTo: leftAnchor),
-            shadow.rightAnchor.constraint(equalTo: rightAnchor),
-            shadow.topAnchor.constraint(equalTo: bottomAnchor)
+            shadow.view.leftAnchor.constraint(equalTo: leftAnchor),
+            shadow.view.rightAnchor.constraint(equalTo: rightAnchor),
+            shadow.view.topAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
 
