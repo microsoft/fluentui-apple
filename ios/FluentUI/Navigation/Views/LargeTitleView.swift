@@ -135,6 +135,7 @@ class LargeTitleView: UIView {
     private var showsProfileButton: Bool = true { // whether to display the customizable profile button
         didSet {
             avatar?.view.isHidden = !showsProfileButton
+            setupAccessibility()
         }
     }
 
@@ -375,10 +376,12 @@ class LargeTitleView: UIView {
     private func setupAccessibility() {
         titleButton.accessibilityTraits = .header
 
-        // Sets the accessibility elements in the same order as they are laid you in the content view.
-        accessibilityElements = contentStackView.arrangedSubviews
-
         updateAvatarAccessibility()
+
+        // Sets the accessibility elements in the same order as they are laid you in the content view.
+        accessibilityElements = contentStackView.arrangedSubviews.filter({ arrangedSubView in
+            return !arrangedSubView.isHidden
+        })
     }
 }
 
