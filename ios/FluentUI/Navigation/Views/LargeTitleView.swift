@@ -378,9 +378,9 @@ class LargeTitleView: UIView {
 
         updateAvatarAccessibility()
 
-        // Sets the accessibility elements in the same order as they are laid you in the content view.
-        accessibilityElements = contentStackView.arrangedSubviews.filter({ arrangedSubView in
-            return !arrangedSubView.isHidden
+        // Sets the accessibility elements in the same order as they are laid out in the content view.
+        accessibilityElements = contentStackView.arrangedSubviews.filter({ arrangedSubview in
+            return !arrangedSubview.isHidden
         })
     }
 }
