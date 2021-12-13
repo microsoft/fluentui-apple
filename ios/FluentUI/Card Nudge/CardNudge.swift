@@ -204,7 +204,7 @@ class MSFCardNudgeStateImpl: NSObject, ControlConfiguration, MSFCardNudgeState {
     let style: MSFCardNudgeStyle
 
     /// Lazily initialized default token set.
-    lazy var defaultTokens: CardNudgeTokens = .create(style: self.style)
+    var defaultTokens: CardNudgeTokens { .create(style: self.style) }
 
     @objc init(style: MSFCardNudgeStyle, title: String) {
         self.style = style

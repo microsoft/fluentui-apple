@@ -7,6 +7,6 @@ import Foundation
 
 /// Base class for all Fluent control tokenization.
 public class ControlTokens: NSObject {
-    var globalTokens: GlobalTokens = FluentTheme.shared.globalTokens
-    var aliasTokens: AliasTokens = FluentTheme.shared.aliasTokens
+    lazy var globalTokens: GlobalTokens = FluentTheme.shared.globalTokens
+    lazy var aliasTokens: AliasTokens = FluentTheme.shared.aliasTokens
 }

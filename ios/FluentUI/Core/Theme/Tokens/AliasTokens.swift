@@ -118,5 +118,5 @@ public final class AliasTokens {
 
     public init() {}
 
-    var globalTokens: GlobalTokens = FluentTheme.shared.globalTokens
+    lazy var globalTokens: GlobalTokens = FluentTheme.shared.globalTokens
 }
