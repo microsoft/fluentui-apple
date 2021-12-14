@@ -150,7 +150,7 @@ extension FluentUIStyle {
 
 		// MARK: - outlineColor 
 		open var outlineColor: UIColor {
-			return UIColor(named: "FluentColors/clear", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!
+			return UIColor(named: "FluentColors/clear", in: FluentUIFramework.resourceBundle, compatibleWith: nil)!
 		}
 
 		// MARK: - outlineWidth 

@@ -32,7 +32,6 @@ struct Demos {
         DemoDescriptor("List", ListDemoController.self),
         DemoDescriptor("NotificationView", NotificationViewDemoController.self),
         DemoDescriptor("PersonaButtonCarousel", PersonaButtonCarouselDemoController.self),
-        DemoDescriptor("PillButtonBar", PillButtonBarDemoController.self),
         DemoDescriptor("Theming (Vnext)", ThemingDemoController.self)
     ]
 
@@ -51,6 +50,7 @@ struct Demos {
         DemoDescriptor("NavigationController", NavigationControllerDemoController.self),
         DemoDescriptor("PeoplePicker", PeoplePickerDemoController.self),
         DemoDescriptor("PersonaListView", PersonaListViewDemoController.self),
+        DemoDescriptor("PillButtonBar", PillButtonBarDemoController.self),
         DemoDescriptor("PopupMenuController", PopupMenuDemoController.self),
         DemoDescriptor("SearchBar", SearchBarDemoController.self),
         DemoDescriptor("SegmentedControl", SegmentedControlDemoController.self),

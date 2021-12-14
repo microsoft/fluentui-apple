@@ -7,9 +7,9 @@ import UIKit
 
 // MARK: PillButton
 
-/// A `PillButton` is a button in the shape of a pill that can have two states: on (Selected) and off (not selected)
+/// An `PillButton` is a button in the shape of a pill that can have two states: on (Selected) and off (not selected)
 @objc(MSFPillButton)
-open class PillButton: UIButton, FluentUIWindowProvider {
+open class PillButton: UIButton {
 
     /// Set `backgroundColor` to customize background color of the pill button
     @objc open var customBackgroundColor: UIColor? {
@@ -48,26 +48,14 @@ open class PillButton: UIButton, FluentUIWindowProvider {
 
     open override func didMoveToWindow() {
         super.didMoveToWindow()
-
-        pillButtonTokens.updateForCurrentTheme()
         updateAppearance()
     }
 
     @objc public init(pillBarItem: PillButtonBarItem, style: PillButtonStyle = .primary) {
         self.pillBarItem = pillBarItem
         self.style = style
-        self.pillButtonTokens = MSFPillButtonTokens(style: style)
         super.init(frame: .zero)
-        pillButtonTokens.windowProvider = self
         setupView()
-
-        pillButtonTokens.themeDidUpdate = { [weak self] in
-            guard let strongSelf = self else {
-                return
-            }
-            strongSelf.unreadDotLayer = strongSelf.initUnreadDotLayer()
-            strongSelf.updateAppearance()
-        }
 
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(isUnreadValueDidChange),
@@ -118,7 +106,7 @@ open class PillButton: UIButton, FluentUIWindowProvider {
 
     private func setupView() {
         setTitle(pillBarItem.title, for: .normal)
-        titleLabel?.font = pillButtonTokens.font
+        titleLabel?.font = Constants.font
         layer.cornerRadius = PillButton.cornerRadius
         clipsToBounds = true
 
@@ -126,10 +114,10 @@ open class PillButton: UIButton, FluentUIWindowProvider {
         largeContentTitle = titleLabel?.text
         showsLargeContentViewer = true
 
-        contentEdgeInsets = UIEdgeInsets(top: pillButtonTokens.topInset,
-                                         left: pillButtonTokens.horizontalInset,
-                                         bottom: pillButtonTokens.bottomInset,
-                                         right: pillButtonTokens.horizontalInset)
+        contentEdgeInsets = UIEdgeInsets(top: Constants.topInset,
+                                         left: Constants.horizontalInset,
+                                         bottom: Constants.bottomInset,
+                                         right: Constants.horizontalInset)
 
     }
 
@@ -159,16 +147,12 @@ open class PillButton: UIButton, FluentUIWindowProvider {
         }
     }
 
-    private lazy var unreadDotLayer: CALayer = initUnreadDotLayer()
-
-    private func initUnreadDotLayer() -> CALayer {
+    private let unreadDotLayer: CALayer = {
         let unreadDotLayer = CALayer()
-
-        unreadDotLayer.bounds.size = CGSize(width: pillButtonTokens.unreadDotSize, height: pillButtonTokens.unreadDotSize)
-        unreadDotLayer.cornerRadius = pillButtonTokens.unreadDotSize / 2
-
+        unreadDotLayer.bounds.size = CGSize(width: Constants.unreadDotSize, height: Constants.unreadDotSize)
+        unreadDotLayer.cornerRadius = Constants.unreadDotSize / 2
         return unreadDotLayer
-    }
+    }()
 
     @objc private func isUnreadValueDidChange() {
         isUnreadDotVisible = pillBarItem.isUnread
@@ -181,32 +165,32 @@ open class PillButton: UIButton, FluentUIWindowProvider {
             let anchor = self.titleLabel?.frame ?? .zero
             let xPos: CGFloat
             if effectiveUserInterfaceLayoutDirection == .leftToRight {
-                xPos = round(anchor.maxX + pillButtonTokens.unreadDotOffsetX)
+                xPos = round(anchor.maxX + Constants.unreadDotOffset.x)
             } else {
-                xPos = round(anchor.minX - pillButtonTokens.unreadDotOffsetX - pillButtonTokens.unreadDotSize)
+                xPos = round(anchor.minX - Constants.unreadDotOffset.x - Constants.unreadDotSize)
             }
-            unreadDotLayer.frame.origin = CGPoint(x: xPos, y: anchor.minY + pillButtonTokens.unreadDotOffsetY)
+            unreadDotLayer.frame.origin = CGPoint(x: xPos, y: anchor.minY + Constants.unreadDotOffset.y)
             unreadDotLayer.backgroundColor = unreadDotColor.cgColor
         }
     }
 
     private func updateAppearance() {
-        if window != nil {
+        if let window = window {
             if isSelected {
                 if isEnabled {
                     if let customSelectedBackgroundColor = customSelectedBackgroundColor {
                         backgroundColor = customSelectedBackgroundColor
                     } else {
                         backgroundColor = isHighlighted
-                            ? pillButtonTokens.selectedHighlightedBackgroundColor
-                            : pillButtonTokens.selectedBackgroundColor
+                            ? PillButton.selectedHighlightedBackgroundColor(for: window, for: style)
+                            : PillButton.selectedBackgroundColor(for: window, for: style)
                     }
 
-                    setTitleColor(customSelectedTextColor ?? pillButtonTokens.selectedTitleColor, for: .normal)
-                    setTitleColor(customSelectedTextColor ?? pillButtonTokens.selectedHighlightedTitleColor, for: .highlighted)
+                    setTitleColor(customSelectedTextColor ?? PillButton.selectedTitleColor(for: window, for: style), for: .normal)
+                    setTitleColor(customSelectedTextColor ?? PillButton.selectedHighlightedTitleColor(for: window, for: style), for: .highlighted)
                 } else {
-                    backgroundColor = pillButtonTokens.selectedDisabledBackgroundColor
-                    setTitleColor(pillButtonTokens.selectedDisabledTitleColor, for: .normal)
+                    backgroundColor = PillButton.selectedDisabledBackgroundColor(for: window, for: style)
+                    setTitleColor(PillButton.selectedDisabledTitleColor(for: window, for: style), for: .normal)
                 }
             } else {
                 if let customBackgroundColor = customBackgroundColor {
@@ -214,26 +198,33 @@ open class PillButton: UIButton, FluentUIWindowProvider {
                 } else {
                     backgroundColor = isEnabled
                         ? (isHighlighted
-                            ? pillButtonTokens.highlightedBackgroundColor
-                            : pillButtonTokens.backgroundColor)
-                        : pillButtonTokens.disabledBackgroundColor
+                            ? PillButton.highlightedBackgroundColor(for: window, for: style)
+                            : PillButton.normalBackgroundColor(for: window, for: style))
+                        : PillButton.disabledBackgroundColor(for: window, for: style)
                 }
 
                 if isEnabled {
-                    setTitleColor(customTextColor ?? pillButtonTokens.titleColor, for: .normal)
-                    setTitleColor(customTextColor ?? pillButtonTokens.highlightedTitleColor, for: .highlighted)
+                    setTitleColor(customTextColor ?? PillButton.titleColor(for: style), for: .normal)
+                    setTitleColor(customTextColor ?? PillButton.highlightedTitleColor(for: window, for: style), for: .highlighted)
                 } else {
-                    setTitleColor(pillButtonTokens.disabledTitleColor, for: .disabled)
+                    setTitleColor(PillButton.disabledTitleColor(for: window, for: style), for: .disabled)
                 }
 
                 if isEnabled {
-                    unreadDotColor = customUnreadDotColor ?? pillButtonTokens.enabledUnreadDotColor
+                    unreadDotColor = customUnreadDotColor ?? PillButton.enabledUnreadDotColor(for: window, for: style)
                 } else {
-                    unreadDotColor = customUnreadDotColor ?? pillButtonTokens.disabledUnreadDotColor
+                    unreadDotColor = customUnreadDotColor ?? PillButton.disabledUnreadDotColor(for: window, for: style)
                 }
             }
         }
     }
 
-    private var pillButtonTokens: MSFPillButtonTokens
+    private struct Constants {
+        static let bottomInset: CGFloat = 6.0
+        static let font = UIFont.systemFont(ofSize: 16, weight: .regular)
+        static let horizontalInset: CGFloat = 16.0
+        static let topInset: CGFloat = 6.0
+        static let unreadDotOffset = CGPoint(x: 6.0, y: 3.0)
+        static let unreadDotSize: CGFloat = 6.0
+    }
 }
