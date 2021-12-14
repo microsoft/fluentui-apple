@@ -159,9 +159,7 @@ open class PillButton: UIButton, FluentUIWindowProvider {
         }
     }
 
-    private lazy var unreadDotLayer: CALayer = {
-        initUnreadDotLayer()
-    }()
+    private lazy var unreadDotLayer: CALayer = initUnreadDotLayer()
 
     private func initUnreadDotLayer() -> CALayer {
         let unreadDotLayer = CALayer()

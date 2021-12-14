@@ -115,9 +115,7 @@ open class PillButtonBar: UIScrollView, FluentUIWindowProvider {
         }
     }
 
-    private lazy var stackView: UIStackView = {
-        initStackView()
-    }()
+    private lazy var stackView: UIStackView = initStackView()
 
     private func initStackView() -> UIStackView {
         let view = UIStackView()
