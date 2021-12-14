@@ -34,6 +34,10 @@ protocol TokenizedControlInternal: TokenizedControl {
 /// Internal protocol for all controls' internal `configuration` objects.
 protocol ControlConfiguration: NSObject, ObservableObject, Identifiable {
     associatedtype TokenType: ControlTokens
+
+    /// Custom design token set for this control, to use in place of the control's default Fluent tokens.
     var overrideTokens: TokenType? { get set }
-    var defaultTokens: TokenType { get }
+
+    /// On-demand default token set.
+    func createDefaultTokens() -> TokenType
 }

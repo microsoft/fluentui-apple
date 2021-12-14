@@ -41,7 +41,7 @@ public typealias CardNudgeButtonAction = ((_ state: MSFCardNudgeState) -> Void)
     /// Action to be dispatched by the dismiss ("close") button on the trailing edge of the control.
     @objc var dismissButtonAction: CardNudgeButtonAction? { get set }
 
-    /// Design token set for this control, to use in place of the control's default Fluent tokens.
+    /// Custom design token set for this control, to use in place of the control's default Fluent tokens.
     @objc var overrideTokens: CardNudgeTokens? { get set }
 }
 
@@ -203,8 +203,10 @@ class MSFCardNudgeStateImpl: NSObject, ControlConfiguration, MSFCardNudgeState {
     /// Style to draw the control.
     let style: MSFCardNudgeStyle
 
-    /// Lazily initialized default token set.
-    var defaultTokens: CardNudgeTokens { .create(style: self.style) }
+    /// On-demand default token set.
+    func createDefaultTokens() -> CardNudgeTokens {
+        return CardNudgeTokens(style: self.style)
+    }
 
     @objc init(style: MSFCardNudgeStyle, title: String) {
         self.style = style

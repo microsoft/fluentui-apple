@@ -16,121 +16,151 @@ import SwiftUI
 
 /// Design token set for the `CardNudge` control.
 public class CardNudgeTokens: ControlTokens {
-    /// Creates an instance of `CardNudgeTokens` with optional token value overrides.
-    public static func create(style: MSFCardNudgeStyle,
-                              accentColor: ColorSet? = nil,
-                              accentIconSize: CGFloat? = nil,
-                              accentPadding: CGFloat? = nil,
-                              backgroundColor: ColorSet? = nil,
-                              buttonBackgroundColor: ColorSet? = nil,
-                              buttonInnerPaddingHorizontal: CGFloat? = nil,
-                              circleRadius: CGFloat? = nil,
-                              circleSize: CGFloat? = nil,
-                              cornerRadius: CGFloat? = nil,
-                              horizontalPadding: CGFloat? = nil,
-                              iconSize: CGFloat? = nil,
-                              interTextVerticalPadding: CGFloat? = nil,
-                              mainContentVerticalPadding: CGFloat? = nil,
-                              minimumHeight: CGFloat? = nil,
-                              outlineColor: ColorSet? = nil,
-                              outlineWidth: CGFloat? = nil,
-                              subtitleTextColor: ColorSet? = nil,
-                              textColor: ColorSet? = nil,
-                              verticalPadding: CGFloat? = nil) -> CardNudgeTokens {
+    public init(style: MSFCardNudgeStyle,
+                accentColor: ColorSet? = nil,
+                accentIconSize: CGFloat? = nil,
+                accentPadding: CGFloat? = nil,
+                backgroundColor: ColorSet? = nil,
+                buttonBackgroundColor: ColorSet? = nil,
+                buttonInnerPaddingHorizontal: CGFloat? = nil,
+                circleRadius: CGFloat? = nil,
+                circleSize: CGFloat? = nil,
+                cornerRadius: CGFloat? = nil,
+                horizontalPadding: CGFloat? = nil,
+                iconSize: CGFloat? = nil,
+                interTextVerticalPadding: CGFloat? = nil,
+                mainContentVerticalPadding: CGFloat? = nil,
+                minimumHeight: CGFloat? = nil,
+                outlineColor: ColorSet? = nil,
+                outlineWidth: CGFloat? = nil,
+                subtitleTextColor: ColorSet? = nil,
+                textColor: ColorSet? = nil,
+                verticalPadding: CGFloat? = nil) {
 
-        let tokens: CardNudgeTokens
-        switch style {
-        case .standard:
-            tokens = CardNudgeTokens()
-        case .outline:
-            tokens = OutlineCardNudgeTokens()
-        }
+        self.style = style
+        super.init()
 
         // Optional overrides
-        tokens._accentColorOverride = accentColor
-        tokens._accentIconSizeOverride = accentIconSize
-        tokens._accentPaddingOverride = accentPadding
-        tokens._backgroundColorOverride = backgroundColor
-        tokens._buttonBackgroundColorOverride = buttonBackgroundColor
-        tokens._buttonInnerPaddingHorizontalOverride = buttonInnerPaddingHorizontal
-        tokens._circleRadiusOverride = circleRadius
-        tokens._circleSizeOverride = circleSize
-        tokens._cornerRadiusOverride = cornerRadius
-        tokens._horizontalPaddingOverride = horizontalPadding
-        tokens._iconSizeOverride = iconSize
-        tokens._interTextVerticalPaddingOverride = interTextVerticalPadding
-        tokens._mainContentVerticalPaddingOverride = mainContentVerticalPadding
-        tokens._minimumHeightOverride = minimumHeight
-        tokens._outlineColorOverride = outlineColor
-        tokens._outlineWidthOverride = outlineWidth
-        tokens._subtitleTextColorOverride = subtitleTextColor
-        tokens._textColorOverride = textColor
-        tokens._verticalPaddingOverride = verticalPadding
-
-        return tokens
+        if let accentColor = accentColor {
+            self.accentColor = accentColor
+        }
+        if let accentIconSize = accentIconSize {
+            self.accentIconSize = accentIconSize
+        }
+        if let accentPadding = accentPadding {
+            self.accentPadding = accentPadding
+        }
+        if let backgroundColor = backgroundColor {
+            self.backgroundColor = backgroundColor
+        }
+        if let buttonBackgroundColor = buttonBackgroundColor {
+            self.buttonBackgroundColor = buttonBackgroundColor
+        }
+        if let buttonInnerPaddingHorizontal = buttonInnerPaddingHorizontal {
+            self.buttonInnerPaddingHorizontal = buttonInnerPaddingHorizontal
+        }
+        if let circleRadius = circleRadius {
+            self.circleRadius = circleRadius
+        }
+        if let circleSize = circleSize {
+            self.circleSize = circleSize
+        }
+        if let cornerRadius = cornerRadius {
+            self.cornerRadius = cornerRadius
+        }
+        if let horizontalPadding = horizontalPadding {
+            self.horizontalPadding = horizontalPadding
+        }
+        if let iconSize = iconSize {
+            self.iconSize = iconSize
+        }
+        if let interTextVerticalPadding = interTextVerticalPadding {
+            self.interTextVerticalPadding = interTextVerticalPadding
+        }
+        if let mainContentVerticalPadding = mainContentVerticalPadding {
+            self.mainContentVerticalPadding = mainContentVerticalPadding
+        }
+        if let minimumHeight = minimumHeight {
+            self.minimumHeight = minimumHeight
+        }
+        if let outlineColor = outlineColor {
+            self.outlineColor = outlineColor
+        }
+        if let outlineWidth = outlineWidth {
+            self.outlineWidth = outlineWidth
+        }
+        if let subtitleTextColor = subtitleTextColor {
+            self.subtitleTextColor = subtitleTextColor
+        }
+        if let textColor = textColor {
+            self.textColor = textColor
+        }
+        if let verticalPadding = verticalPadding {
+            self.verticalPadding = verticalPadding
+        }
     }
 
-    fileprivate var _accentColorOverride: ColorSet?
-    var accentColor: ColorSet { _accentColorOverride ?? globalTokens.brandColors[.shade20] }
+    // Required state value
+    let style: MSFCardNudgeStyle
 
-    fileprivate var _accentIconSizeOverride: CGFloat?
-    var accentIconSize: CGFloat { _accentIconSizeOverride ?? globalTokens.iconSize[.xxSmall] }
+    // MARK: - Design Tokens
 
-    fileprivate var _accentPaddingOverride: CGFloat?
-    var accentPadding: CGFloat { _accentPaddingOverride ?? globalTokens.spacing[.xxSmall] }
+    lazy var accentColor: ColorSet = globalTokens.brandColors[.shade20]
 
-    fileprivate var _backgroundColorOverride: ColorSet?
-    var backgroundColor: ColorSet { _backgroundColorOverride ?? aliasTokens.backgroundColors[.neutral2] }
+    lazy var accentIconSize: CGFloat = globalTokens.iconSize[.xxSmall]
 
-    fileprivate var _buttonBackgroundColorOverride: ColorSet?
-    var buttonBackgroundColor: ColorSet { _buttonBackgroundColorOverride ?? globalTokens.brandColors[.tint30] }
+    lazy var accentPadding: CGFloat = globalTokens.spacing[.xxSmall]
 
-    fileprivate var _buttonInnerPaddingHorizontalOverride: CGFloat?
-    var buttonInnerPaddingHorizontal: CGFloat { _buttonInnerPaddingHorizontalOverride ?? globalTokens.spacing[.small] }
+    lazy var backgroundColor: ColorSet = {
+        switch style {
+        case .standard:
+            return aliasTokens.backgroundColors[.neutral2]
+        case .outline:
+            return aliasTokens.backgroundColors[.neutral1]
+        }
+    }()
 
-    fileprivate var _circleRadiusOverride: CGFloat?
-    var circleRadius: CGFloat { _circleRadiusOverride ?? globalTokens.borderRadius[.circle] }
+    lazy var buttonBackgroundColor: ColorSet = globalTokens.brandColors[.tint30]
 
-    fileprivate var _circleSizeOverride: CGFloat?
-    var circleSize: CGFloat { _circleSizeOverride ?? globalTokens.iconSize[.xxLarge] }
+    lazy var buttonInnerPaddingHorizontal: CGFloat = globalTokens.spacing[.small]
 
-    fileprivate var _cornerRadiusOverride: CGFloat?
-    var cornerRadius: CGFloat { _cornerRadiusOverride ?? globalTokens.borderRadius[.xLarge] }
+    lazy var circleRadius: CGFloat = globalTokens.borderRadius[.circle]
 
-    fileprivate var _horizontalPaddingOverride: CGFloat?
-    var horizontalPadding: CGFloat { _horizontalPaddingOverride ?? globalTokens.spacing[.medium] }
+    lazy var circleSize: CGFloat = globalTokens.iconSize[.xxLarge]
 
-    fileprivate var _iconSizeOverride: CGFloat?
-    var iconSize: CGFloat { _iconSizeOverride ?? globalTokens.iconSize[.xSmall] }
+    lazy var cornerRadius: CGFloat = globalTokens.borderRadius[.xLarge]
 
-    fileprivate var _interTextVerticalPaddingOverride: CGFloat?
-    var interTextVerticalPadding: CGFloat { _interTextVerticalPaddingOverride ?? globalTokens.spacing[.xxxSmall] }
+    lazy var horizontalPadding: CGFloat = globalTokens.spacing[.medium]
 
-    fileprivate var _mainContentVerticalPaddingOverride: CGFloat?
-    var mainContentVerticalPadding: CGFloat { _mainContentVerticalPaddingOverride ?? globalTokens.spacing[.small] }
+    lazy var iconSize: CGFloat = globalTokens.iconSize[.xSmall]
 
-    fileprivate var _minimumHeightOverride: CGFloat?
-    var minimumHeight: CGFloat { _minimumHeightOverride ?? 56.0 }
+    lazy var interTextVerticalPadding: CGFloat = globalTokens.spacing[.xxxSmall]
 
-    fileprivate var _outlineColorOverride: ColorSet?
-    var outlineColor: ColorSet { _outlineColorOverride ?? aliasTokens.backgroundColors[.neutral2] }
+    lazy var mainContentVerticalPadding: CGFloat = globalTokens.spacing[.small]
 
-    fileprivate var _outlineWidthOverride: CGFloat?
-    var outlineWidth: CGFloat { _outlineWidthOverride ?? globalTokens.borderSize[.thin] }
+    lazy var minimumHeight: CGFloat = 56.0
 
-    fileprivate var _subtitleTextColorOverride: ColorSet?
-    var subtitleTextColor: ColorSet { _subtitleTextColorOverride ?? aliasTokens.foregroundColors[.neutral3] }
+    lazy var outlineColor: ColorSet = {
+        switch style {
+        case .standard:
+            return aliasTokens.backgroundColors[.neutral2]
+        case .outline:
+            return aliasTokens.strokeColors[.neutral1]
+        }
+    }()
 
-    fileprivate var _textColorOverride: ColorSet?
-    var textColor: ColorSet { _textColorOverride ?? aliasTokens.foregroundColors[.neutral1] }
+    lazy var outlineWidth: CGFloat = globalTokens.borderSize[.thin]
 
-    fileprivate var _verticalPaddingOverride: CGFloat?
-    var verticalPadding: CGFloat { _verticalPaddingOverride ?? globalTokens.spacing[.xSmall] }
-}
+    lazy var subtitleTextColor: ColorSet = aliasTokens.foregroundColors[.neutral3]
 
-class OutlineCardNudgeTokens: CardNudgeTokens {
-    // Token overrides
-    override var backgroundColor: ColorSet { _backgroundColorOverride ?? aliasTokens.backgroundColors[.neutral1] }
-    override var outlineColor: ColorSet { _outlineColorOverride ?? aliasTokens.strokeColors[.neutral1] }
-    override var textColor: ColorSet { _textColorOverride ?? globalTokens.brandColors[.shade20] }
+    lazy var textColor: ColorSet = {
+        switch style {
+        case .standard:
+            return aliasTokens.foregroundColors[.neutral1]
+        case .outline:
+            return globalTokens.brandColors[.shade20]
+        }
+    }()
+
+    lazy var verticalPadding: CGFloat = globalTokens.spacing[.xSmall]
 }
