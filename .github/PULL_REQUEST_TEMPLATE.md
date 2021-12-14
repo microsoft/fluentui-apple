@@ -18,7 +18,11 @@
 
 This PR has considered:
 - [ ] Light and Dark appearances
+- [ ] iOS supported versions (all major versions greater than or equal current target deployment version)
 - [ ] VoiceOver and Keyboard Accessibility
 - [ ] Internationalization and Right to Left layouts
 - [ ] Different resolutions (1x, 2x, 3x)
 - [ ] Size classes and window sizes (iPhone vs iPad, notched devices, multitasking, different window sizes, etc)
+- [ ] iPad [Pointer interaction](https://developer.apple.com/documentation/uikit/pointer_interactions)
+- [ ] [SwiftUI](https://developer.apple.com/tutorials/swiftui) consumption (validation or new demo scenarios needed)
+- [ ] Objective-C exposure (provide it only if needed)

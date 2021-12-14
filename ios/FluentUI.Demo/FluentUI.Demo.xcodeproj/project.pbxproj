@@ -684,7 +684,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.microsoft.OfficeUIFabricDemo-df";
 				PRODUCT_NAME = FluentUI.Demo;
 				PROVISIONING_PROFILE = "4596e7d8-5232-4b9f-82bf-63883e38cd5c";
-				PROVISIONING_PROFILE_SPECIFIER = "Office Fabric Demo Dogfood Distribution";
+				PROVISIONING_PROFILE_SPECIFIER = "Microsoft Dogfood Provisioning Profile";
 				SWIFT_OBJC_BRIDGING_HEADER = "FluentUI.Demo/FluentUI.Demo-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
