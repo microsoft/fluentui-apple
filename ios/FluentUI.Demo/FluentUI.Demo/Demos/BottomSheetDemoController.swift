@@ -62,9 +62,15 @@ class BottomSheetDemoController: UIViewController {
         scrollHidingEnabled = sender.isOn
     }
 
-	@objc private func toggleCollapsedContentHiding(_ sender: BooleanCell) {
-		bottomSheetViewController?.shouldHideCollapsedContent.toggle()
-	}
+    @objc private func toggleCollapsedContentHiding(_ sender: BooleanCell) {
+        bottomSheetViewController?.shouldHideCollapsedContent.toggle()
+    }
+
+    @objc private func toggleHandleUsingCustomAccessibilityLabel(_ sender: BooleanCell) {
+        let isOn = sender.isOn
+        bottomSheetViewController?.handleCollapseCustomAccessibilityLabel = isOn ? "Collapse Bottom Sheet" : nil
+        bottomSheetViewController?.handleExpandCustomAccessibilityLabel = isOn ? "Expand Bottom Sheet" : nil
+    }
 
     @objc private func fullScreenSheetContent() {
         // This is also the default value which results in a full screen sheet.
@@ -109,6 +115,8 @@ class BottomSheetDemoController: UIViewController {
 
     private var collapsedContentHidingEnabled: Bool = true
 
+    private var isHandleUsingCustomAccessibilityLabel: Bool = false
+
     private var isHiding: Bool = false
 
     private var interactiveHidingAnimator: UIViewAnimating?
@@ -120,6 +128,7 @@ class BottomSheetDemoController: UIViewController {
             DemoItem(title: "Should always fill width", type: .boolean, action: #selector(toggleFillWidth), isOn: bottomSheetViewController?.shouldAlwaysFillWidth ?? false),
             DemoItem(title: "Scroll to hide", type: .boolean, action: #selector(toggleScrollHiding), isOn: scrollHidingEnabled),
             DemoItem(title: "Hide collapsed content", type: .boolean, action: #selector(toggleCollapsedContentHiding), isOn: collapsedContentHidingEnabled),
+            DemoItem(title: "Use custom handle accessibility label", type: .boolean, action: #selector(toggleHandleUsingCustomAccessibilityLabel), isOn: isHandleUsingCustomAccessibilityLabel),
             DemoItem(title: "Full screen sheet content", type: .action, action: #selector(fullScreenSheetContent)),
             DemoItem(title: "Fixed height sheet content", type: .action, action: #selector(fixedHeightSheetContent))
         ]
