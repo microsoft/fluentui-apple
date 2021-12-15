@@ -204,9 +204,7 @@ class MSFCardNudgeStateImpl: NSObject, ControlConfiguration, MSFCardNudgeState {
     let style: MSFCardNudgeStyle
 
     /// On-demand default token set.
-    func createDefaultTokens() -> CardNudgeTokens {
-        return CardNudgeTokens(style: self.style)
-    }
+    var defaultTokens: CardNudgeTokens { .init(style: self.style) }
 
     @objc init(style: MSFCardNudgeStyle, title: String) {
         self.style = style

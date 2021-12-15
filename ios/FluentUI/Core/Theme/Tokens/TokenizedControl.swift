@@ -39,5 +39,5 @@ protocol ControlConfiguration: NSObject, ObservableObject, Identifiable {
     var overrideTokens: TokenType? { get set }
 
     /// On-demand default token set.
-    func createDefaultTokens() -> TokenType
+    var defaultTokens: TokenType { get }
 }

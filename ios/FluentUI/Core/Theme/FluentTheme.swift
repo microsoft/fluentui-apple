@@ -47,7 +47,7 @@ import SwiftUI
             return tokens
         } else {
             // Register the default tokens to make future lookups more efficient.
-            let tokens = control.state.createDefaultTokens()
+            let tokens = control.state.defaultTokens
             self.register(tokens: tokens, for: control)
             return tokens
         }

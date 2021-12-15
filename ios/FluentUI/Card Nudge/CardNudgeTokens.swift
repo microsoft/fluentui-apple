@@ -16,6 +16,30 @@ import SwiftUI
 
 /// Design token set for the `CardNudge` control.
 public class CardNudgeTokens: ControlTokens {
+    convenience public init(style: MSFCardNudgeStyle) {
+        self.init(style: style,
+                  accentColor: nil,
+                  accentIconSize: nil,
+                  accentPadding: nil,
+                  backgroundColor: nil,
+                  buttonBackgroundColor: nil,
+                  buttonInnerPaddingHorizontal: nil,
+                  circleRadius: nil,
+                  circleSize: nil,
+                  cornerRadius: nil,
+                  horizontalPadding: nil,
+                  iconSize: nil,
+                  interTextVerticalPadding: nil,
+                  mainContentVerticalPadding: nil,
+                  minimumHeight: nil,
+                  outlineColor: nil,
+                  outlineWidth: nil,
+                  subtitleTextColor: nil,
+                  textColor: nil,
+                  verticalPadding: nil
+        )
+    }
+
     public init(style: MSFCardNudgeStyle,
                 accentColor: ColorSet? = nil,
                 accentIconSize: CGFloat? = nil,
