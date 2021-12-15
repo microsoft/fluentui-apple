@@ -255,19 +255,29 @@ public struct AvatarGroup: View {
     private func calcWidth(hasOverflow: Bool) -> CGFloat {
         var width: CGFloat = 0
         let maxShown = state.maxDisplayedAvatars < state.avatars.count ? state.maxDisplayedAvatars : state.avatars.count
-        let interspace: CGFloat = state.style == .stack ? tokens.interspace : tokens.interspace
+        let interspace: CGFloat = tokens.interspace
         let gapOffset: CGFloat = tokens.ringOuterGap * 2
-        let ringGapOffset: CGFloat = tokens.ringThickness + tokens.ringInnerGap + tokens.ringOuterGap
+        let ringGapOffset: CGFloat = (tokens.ringThickness + tokens.ringInnerGap + tokens.ringOuterGap) * 2
         let imageSize: CGFloat = tokens.size.size
+        var paddingAdjustment: CGFloat = 0
+        var needsStackAdjustment: CGFloat = 0
+        var previousHasRing: Bool = false
         for index in 0 ..< maxShown {
             let avatar = state.avatars[index]
-            let avatarSize: CGFloat = avatar.totalSize() - (avatar.isRingVisible ? ringGapOffset / 2 : gapOffset)
+            let avatarSize: CGFloat = avatar.totalSize() - needsStackAdjustment
+            previousHasRing = avatar.isRingVisible
+            paddingAdjustment = previousHasRing ? ringGapOffset / 2 : gapOffset
+            if index + 1 < maxShown {
+                paddingAdjustment += previousHasRing ? (state.avatars[index + 1].isRingVisible ? gapOffset / 2 : gapOffset) : 0
+            }
+            needsStackAdjustment = tokens.style == .stack ? paddingAdjustment : 0
+
             width += avatarSize
             width += index < maxShown - 1 ? interspace : 0
         }
 
         if hasOverflow {
-            width += interspace
+            width += interspace - (previousHasRing ? needsStackAdjustment: 0)
             width += imageSize
         }
 
