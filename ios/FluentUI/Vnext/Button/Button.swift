@@ -22,18 +22,19 @@ import UIKit
     var text: String? { get set }
 
     /// Defines the size of the button.
-    var size: MSFButtonSize { get set }
+    var size: MSFButtonSize { get }
 
     /// Defines the style of the button.
-    var style: MSFButtonStyle { get set }
+    var style: MSFButtonStyle { get }
 }
 
 /// View that represents the button.
-public struct FluentButton: View {
-    @Environment(\.theme) var theme: FluentUIStyle
-    @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
-    @ObservedObject var tokens: MSFButtonTokens
+public struct FluentButton: View, TokenizedControlInternal {
+    public let tokenKey: String
+
+    @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @ObservedObject var state: MSFButtonStateImpl
+    var tokens: ButtonTokens { fluentTheme.tokens(for: self) }
 
     /// Creates a FluentButton.
     /// - Parameters:
@@ -53,28 +54,27 @@ public struct FluentButton: View {
         state.text = text
         state.image = image
         self.state = state
-        self.tokens = state.tokens
+
+        // We want separate lookup keys for each permutation of `style` and `size`.
+        self.tokenKey = "\(type(of: self))_\(style.rawValue)_\(size.rawValue)"
     }
 
     public var body: some View {
         Button(action: state.action, label: {})
-            .buttonStyle(FluentButtonStyle(tokens: tokens,
-                                           state: state))
+            .buttonStyle(FluentButtonStyle(state: state, tokens: tokens))
             .modifyIf(state.disabled != nil, { button in
                 button.disabled(state.disabled!)
             })
             .frame(maxWidth: .infinity)
-            .designTokens(tokens,
-                          from: theme,
-                          with: windowProvider)
     }
 }
 
-class MSFButtonStateImpl: NSObject, ObservableObject, MSFButtonState {
+class MSFButtonStateImpl: NSObject, ObservableObject, ControlConfiguration, MSFButtonState {
     var action: () -> Void
     @Published var image: UIImage?
     @Published var disabled: Bool?
     @Published var text: String?
+    @Published var overrideTokens: ButtonTokens?
 
     var isDisabled: Bool {
         get {
@@ -85,31 +85,16 @@ class MSFButtonStateImpl: NSObject, ObservableObject, MSFButtonState {
         }
     }
 
-    var size: MSFButtonSize {
-        get {
-            return tokens.size
-        }
-        set {
-            tokens.size = newValue
-        }
-    }
+    let size: MSFButtonSize
+    let style: MSFButtonStyle
 
-    var style: MSFButtonStyle {
-        get {
-            return tokens.style
-        }
-        set {
-            tokens.style = newValue
-        }
-    }
-
-    var tokens: MSFButtonTokens
+    var defaultTokens: ButtonTokens { .init(style: self.style, size: self.size) }
 
     init(style: MSFButtonStyle,
          size: MSFButtonSize,
          action: @escaping () -> Void) {
-        self.tokens = MSFButtonTokens(style: style,
-                                      size: size)
+        self.size = size
+        self.style = style
         self.action = action
         super.init()
     }
@@ -118,8 +103,8 @@ class MSFButtonStateImpl: NSObject, ObservableObject, MSFButtonState {
 /// Body of the button adjusted for pressed or rest state
 struct FluentButtonBody: View {
     @Environment(\.isEnabled) var isEnabled: Bool
-    @ObservedObject var tokens: MSFButtonTokens
     @ObservedObject var state: MSFButtonStateImpl
+    var tokens: ButtonTokens
     let isPressed: Bool
 
     var body: some View {
@@ -131,20 +116,20 @@ struct FluentButtonBody: View {
         let borderColor: UIColor
         let backgroundColor: UIColor
         if isDisabled {
-            iconColor = tokens.disabledIconColor
-            titleColor = tokens.disabledTitleColor
-            borderColor = tokens.disabledBorderColor
-            backgroundColor = tokens.disabledBackgroundColor
+            iconColor = UIColor(colorSet: tokens.iconColor.disabled)
+            titleColor = UIColor(colorSet: tokens.titleColor.disabled)
+            borderColor = UIColor(colorSet: tokens.borderColor.disabled)
+            backgroundColor = UIColor(colorSet: tokens.backgroundColor.disabled)
         } else if isPressed {
-            iconColor = tokens.highlightedIconColor
-            titleColor = tokens.highlightedTitleColor
-            borderColor = tokens.highlightedBorderColor
-            backgroundColor = tokens.highlightedBackgroundColor
+            iconColor = UIColor(colorSet: tokens.iconColor.pressed)
+            titleColor = UIColor(colorSet: tokens.titleColor.pressed)
+            borderColor = UIColor(colorSet: tokens.borderColor.pressed)
+            backgroundColor = UIColor(colorSet: tokens.backgroundColor.pressed)
         } else {
-            iconColor = tokens.iconColor
-            titleColor = tokens.titleColor
-            borderColor = tokens.borderColor
-            backgroundColor = tokens.backgroundColor
+            iconColor = UIColor(colorSet: tokens.iconColor.rest)
+            titleColor = UIColor(colorSet: tokens.titleColor.rest)
+            borderColor = UIColor(colorSet: tokens.borderColor.rest)
+            backgroundColor = UIColor(colorSet: tokens.backgroundColor.rest)
         }
 
         @ViewBuilder
@@ -245,12 +230,12 @@ struct FluentButtonBody: View {
 
 /// ButtonStyle which configures the Button View according to its state and design tokens.
 struct FluentButtonStyle: ButtonStyle {
-    @ObservedObject var tokens: MSFButtonTokens
     @ObservedObject var state: MSFButtonStateImpl
+    var tokens: ButtonTokens
 
     func makeBody(configuration: Self.Configuration) -> some View {
-        FluentButtonBody(tokens: tokens,
-                         state: state,
+        FluentButtonBody(state: state,
+                         tokens: tokens,
                          isPressed: configuration.isPressed)
     }
 }

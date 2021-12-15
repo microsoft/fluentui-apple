@@ -30,145 +30,119 @@ import UIKit
 
 /// Representation of design tokens to buttons at runtime which interfaces with the Design Token System auto-generated code.
 /// Updating these properties causes the SwiftUI button to update its view automatically.
-class MSFButtonTokens: MSFTokensBase, ObservableObject {
-    @Published public var borderRadius: CGFloat!
-    @Published public var borderSize: CGFloat!
-    @Published public var iconSize: CGFloat!
-    @Published public var interspace: CGFloat!
-    @Published public var padding: CGFloat!
-    @Published public var textFont: UIFont!
-    @Published public var textMinimumHeight: CGFloat!
-    @Published public var textAdditionalHorizontalPadding: CGFloat!
-
-    @Published public var titleColor: UIColor!
-    @Published public var borderColor: UIColor!
-    @Published public var backgroundColor: UIColor!
-    @Published public var iconColor: UIColor!
-
-    @Published public var highlightedTitleColor: UIColor!
-    @Published public var highlightedBorderColor: UIColor!
-    @Published public var highlightedBackgroundColor: UIColor!
-    @Published public var highlightedIconColor: UIColor!
-
-    @Published public var disabledTitleColor: UIColor!
-    @Published public var disabledBorderColor: UIColor!
-    @Published public var disabledBackgroundColor: UIColor!
-    @Published public var disabledIconColor: UIColor!
-
-    @Published public var restShadow1Color: Color!
-    @Published public var restShadow1Blur: CGFloat!
-    @Published public var restShadow1DepthX: CGFloat!
-    @Published public var restShadow1DepthY: CGFloat!
-    @Published public var restShadow2Color: Color!
-    @Published public var restShadow2Blur: CGFloat!
-    @Published public var restShadow2DepthX: CGFloat!
-    @Published public var restShadow2DepthY: CGFloat!
-
-    @Published public var pressedShadow1Color: Color!
-    @Published public var pressedShadow1Blur: CGFloat!
-    @Published public var pressedShadow1DepthX: CGFloat!
-    @Published public var pressedShadow1DepthY: CGFloat!
-    @Published public var pressedShadow2Color: Color!
-    @Published public var pressedShadow2Blur: CGFloat!
-    @Published public var pressedShadow2DepthX: CGFloat!
-    @Published public var pressedShadow2DepthY: CGFloat!
-
-    var style: MSFButtonStyle
-    var size: MSFButtonSize
-
-    init(style: MSFButtonStyle,
-         size: MSFButtonSize) {
+public class ButtonTokens: ControlTokens {
+    public init(style: MSFButtonStyle,
+                size: MSFButtonSize) {
         self.style = style
         self.size = size
 
         super.init()
-
-        self.themeAware = true
-        updateForCurrentTheme()
     }
 
-    @objc open func didChangeAppearanceProxy() {
-        updateForCurrentTheme()
-    }
+    let style: MSFButtonStyle
+    let size: MSFButtonSize
 
-    override func updateForCurrentTheme() {
-        let currentTheme = theme
-        var appearanceProxy: AppearanceProxyType
-
-        switch style {
-        case .primary:
-            appearanceProxy = currentTheme.MSFPrimaryButtonTokens
-        case .secondary:
-            appearanceProxy = currentTheme.MSFSecondaryButtonTokens
-        case .ghost:
-            appearanceProxy = currentTheme.MSFGhostButtonTokens
-        case .accentFloating:
-            appearanceProxy = currentTheme.MSFAccentFloatingActionButtonTokens
-        case .subtleFloating:
-            appearanceProxy = currentTheme.MSFSubtleFloatingActionButtonTokens
-        }
-
-        titleColor = appearanceProxy.textColor.rest
-        borderColor = appearanceProxy.borderColor.rest
-        backgroundColor = appearanceProxy.backgroundColor.rest
-        iconColor = appearanceProxy.iconColor.rest
-
-        highlightedTitleColor = appearanceProxy.textColor.pressed
-        highlightedBorderColor = appearanceProxy.borderColor.pressed
-        highlightedBackgroundColor = appearanceProxy.backgroundColor.pressed
-        highlightedIconColor = appearanceProxy.iconColor.pressed
-
-        disabledTitleColor = appearanceProxy.textColor.disabled
-        disabledBorderColor = appearanceProxy.borderColor.disabled
-        disabledBackgroundColor = appearanceProxy.backgroundColor.disabled
-        disabledIconColor = appearanceProxy.iconColor.disabled
-
-        restShadow1Color = Color(appearanceProxy.shadow1Color.rest)
-        restShadow1Blur = appearanceProxy.shadow1Blur.rest
-        restShadow1DepthX = appearanceProxy.shadow1OffsetX.rest
-        restShadow1DepthY = appearanceProxy.shadow1OffsetY.rest
-        restShadow2Color = Color(appearanceProxy.shadow2Color.rest)
-        restShadow2Blur = appearanceProxy.shadow2Blur.rest
-        restShadow2DepthX = appearanceProxy.shadow2OffsetX.rest
-        restShadow2DepthY = appearanceProxy.shadow2OffsetY.rest
-
-        pressedShadow1Color = Color(appearanceProxy.shadow1Color.pressed)
-        pressedShadow1Blur = appearanceProxy.shadow1Blur.pressed
-        pressedShadow1DepthX = appearanceProxy.shadow1OffsetX.pressed
-        pressedShadow1DepthY = appearanceProxy.shadow1OffsetY.pressed
-        pressedShadow2Color = Color(appearanceProxy.shadow2Color.pressed)
-        pressedShadow2Blur = appearanceProxy.shadow2Blur.pressed
-        pressedShadow2DepthX = appearanceProxy.shadow2OffsetX.pressed
-        pressedShadow2DepthY = appearanceProxy.shadow2OffsetY.pressed
-
+    lazy var borderRadius: CGFloat = {
         switch size {
-        case .large:
-            borderRadius = appearanceProxy.borderRadius.large
-            borderSize = appearanceProxy.borderSize.large
-            iconSize = appearanceProxy.iconSize.large
-            interspace = appearanceProxy.interspace.large
-            padding = appearanceProxy.padding.large
-            textFont = appearanceProxy.textFont.large
-            textMinimumHeight = appearanceProxy.textMinimumHeight.large
-            textAdditionalHorizontalPadding = appearanceProxy.textAdditionalHorizontalPadding.large
-        case .medium:
-            borderRadius = appearanceProxy.borderRadius.medium
-            borderSize = appearanceProxy.borderSize.medium
-            iconSize = appearanceProxy.iconSize.medium
-            interspace = appearanceProxy.interspace.medium
-            padding = appearanceProxy.padding.medium
-            textFont = appearanceProxy.textFont.medium
-            textMinimumHeight = appearanceProxy.textMinimumHeight.medium
-            textAdditionalHorizontalPadding = appearanceProxy.textAdditionalHorizontalPadding.medium
         case .small:
-            borderRadius = appearanceProxy.borderRadius.small
-            borderSize = appearanceProxy.borderSize.small
-            iconSize = appearanceProxy.iconSize.small
-            interspace = appearanceProxy.interspace.small
-            padding = appearanceProxy.padding.small
-            textFont = appearanceProxy.textFont.small
-            textMinimumHeight = appearanceProxy.textMinimumHeight.small
-            textAdditionalHorizontalPadding = appearanceProxy.textAdditionalHorizontalPadding.small
+            return globalTokens.borderRadius[.large]
+        case .medium:
+            return globalTokens.borderRadius[.large]
+        case .large:
+            return globalTokens.borderRadius[.xLarge]
         }
-    }
+    }()
+    lazy var borderSize: CGFloat = globalTokens.borderSize[.none]
+    lazy var iconSize: CGFloat = {
+        switch size {
+        case .small:
+            return globalTokens.iconSize[.xSmall]
+        case .medium:
+            return globalTokens.iconSize[.small]
+        case .large:
+            return globalTokens.iconSize[.small]
+        }
+    }()
+    lazy var interspace: CGFloat = {
+        switch size {
+        case .small:
+            return globalTokens.spacing[.xxSmall]
+        case .medium:
+            return globalTokens.spacing[.xSmall]
+        case .large:
+            return globalTokens.spacing[.xSmall]
+        }
+    }()
+    lazy var padding: CGFloat = {
+        switch size {
+        case .small:
+            return globalTokens.spacing[.xSmall]
+        case .medium:
+            return globalTokens.spacing[.small]
+        case .large:
+            return globalTokens.spacing[.large]
+        }
+    }()
+    // TODO
+    lazy var textFont: UIFont = .systemFont(ofSize: 10)
+    lazy var textMinimumHeight: CGFloat = globalTokens.iconSize[.medium]
+    lazy var textAdditionalHorizontalPadding: CGFloat = {
+        switch size {
+        case .small:
+            return globalTokens.spacing[.xSmall]
+        case .medium:
+            return globalTokens.spacing[.xSmall]
+        case .large:
+            return globalTokens.spacing[.xxSmall]
+        }
+    }()
+
+    lazy var titleColor: ButtonColorSets = .init(
+        rest: aliasTokens.foregroundColors[.brandRest],
+        hover: aliasTokens.foregroundColors[.brandHover],
+        pressed: aliasTokens.foregroundColors[.brandPressed],
+        selected: aliasTokens.foregroundColors[.brandSelected],
+        disabled: aliasTokens.foregroundColors[.brandDisabled]
+    )
+    lazy var borderColor: ButtonColorSets = .init(
+        rest: aliasTokens.backgroundColors[.brandRest],
+        hover: aliasTokens.backgroundColors[.brandHover],
+        pressed: aliasTokens.backgroundColors[.brandPressed],
+        selected: aliasTokens.backgroundColors[.brandSelected],
+        disabled: aliasTokens.backgroundColors[.brandDisabled]
+    )
+    // TODO
+    lazy var backgroundColor: ButtonColorSets = .init(
+        rest: aliasTokens.backgroundColors[.neutralDisabled], // should be clear
+        hover: aliasTokens.backgroundColors[.neutralDisabled], // should be clear
+        pressed: aliasTokens.backgroundColors[.neutralDisabled], // should be clear
+        selected: aliasTokens.backgroundColors[.neutralDisabled], // should be clear
+        disabled: aliasTokens.backgroundColors[.neutralDisabled] // should be clear
+    )
+    lazy var iconColor: ButtonColorSets = .init(
+        rest: aliasTokens.foregroundColors[.brandRest],
+        hover: aliasTokens.foregroundColors[.brandHover],
+        pressed: aliasTokens.foregroundColors[.brandPressed],
+        selected: aliasTokens.foregroundColors[.brandSelected],
+        disabled: aliasTokens.foregroundColors[.brandDisabled]
+    )
+
+    // TODO
+    lazy var restShadow1Color: Color = .clear
+    lazy var restShadow1Blur: CGFloat = 0.0
+    lazy var restShadow1DepthX: CGFloat = 0.0
+    lazy var restShadow1DepthY: CGFloat = 0.0
+    lazy var restShadow2Color: Color = .clear
+    lazy var restShadow2Blur: CGFloat = 0.0
+    lazy var restShadow2DepthX: CGFloat = 0.0
+    lazy var restShadow2DepthY: CGFloat = 0.0
+
+    lazy var pressedShadow1Color: Color = .clear
+    lazy var pressedShadow1Blur: CGFloat = 0.0
+    lazy var pressedShadow1DepthX: CGFloat = 0.0
+    lazy var pressedShadow1DepthY: CGFloat = 0.0
+    lazy var pressedShadow2Color: Color = .clear
+    lazy var pressedShadow2Blur: CGFloat = 0.0
+    lazy var pressedShadow2DepthX: CGFloat = 0.0
+    lazy var pressedShadow2DepthY: CGFloat = 0.0
 }
