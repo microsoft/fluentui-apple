@@ -16,6 +16,7 @@ import SwiftUI
 
 /// Design token set for the `CardNudge` control.
 public class CardNudgeTokens: ControlTokens {
+    /// Creates an instance of `CardNudgeTokens`.
     convenience public init(style: MSFCardNudgeStyle) {
         self.init(style: style,
                   accentColor: nil,
@@ -40,6 +41,7 @@ public class CardNudgeTokens: ControlTokens {
         )
     }
 
+    /// Creates an instance of `CardNudgeTokens` with optional token value overrides.
     public init(style: MSFCardNudgeStyle,
                 accentColor: ColorSet? = nil,
                 accentIconSize: CGFloat? = nil,
