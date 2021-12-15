@@ -335,5 +335,4 @@ public final class GlobalTokens {
     // MARK: Initialization
 
     public init() {}
-    static let shared = GlobalTokens()
 }

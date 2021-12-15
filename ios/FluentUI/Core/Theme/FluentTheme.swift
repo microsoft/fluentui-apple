@@ -6,7 +6,7 @@
 import SwiftUI
 
 /// Base class that allows for customization of global, alias, and control tokens.
-public class FluentTheme {
+@objc public class FluentTheme: NSObject {
     /// Initializes and returns a new `FluentTheme`, with optional custom global and alias tokens.
     ///
     /// - Parameters globalTokens: An optional customized instance of `GlobalTokens`.
@@ -14,12 +14,9 @@ public class FluentTheme {
     ///
     /// - Returns: An initialized `FluentTheme` instance that leverages the aforementioned global and alias token overrides.
     public init(globalTokens: GlobalTokens? = nil, aliasTokens: AliasTokens? = nil) {
-        if let globalTokens = globalTokens {
-            self.globalTokens = globalTokens
-        }
-        if let aliasTokens = aliasTokens {
-            self.aliasTokens = aliasTokens
-        }
+        self.globalTokens = globalTokens ?? .init()
+        self.aliasTokens = aliasTokens ?? .init()
+        self.aliasTokens.globalTokens = self.globalTokens
     }
 
     /// Registers a custom set of `ControlTokens` for a given `TokenizedControl`.
@@ -30,7 +27,7 @@ public class FluentTheme {
     public func register<T: TokenizedControl>(tokens: T.TokenType, for control: T) {
         tokens.globalTokens = globalTokens
         tokens.aliasTokens = aliasTokens
-        controlTokens["\(type(of: control))"] = tokens
+        controlTokens[control.tokenKey] = tokens
     }
 
     /// Returns the appropriate `ControlTokens` instance that was provided a given `TokenizedControl`.
@@ -46,7 +43,7 @@ public class FluentTheme {
     func tokens<T: TokenizedControlInternal>(for control: T) -> T.TokenType {
         if let tokens = control.state.overrideTokens {
             return tokens
-        } else if let tokens = controlTokens["\(type(of: control))"] as? T.TokenType {
+        } else if let tokens = controlTokens[control.tokenKey] as? T.TokenType {
             return tokens
         } else {
             // Register the default tokens to make future lookups more efficient.
@@ -56,8 +53,11 @@ public class FluentTheme {
         }
     }
 
-    private var globalTokens: GlobalTokens = .shared
-    private var aliasTokens: AliasTokens = .shared
+    static var shared: FluentTheme = .init()
+
+    var globalTokens: GlobalTokens
+    var aliasTokens: AliasTokens
+
     private var controlTokens: [String: ControlTokens] = [:]
 }
 
@@ -65,7 +65,7 @@ public class FluentTheme {
 
 /// Public protocol that, when implemented, allows any container to store and yield a `FluentTheme`.
 public protocol FluentThemeable {
-    var fluentTheme: FluentTheme? { get set }
+    var fluentTheme: FluentTheme { get set }
 }
 
 extension UIWindow: FluentThemeable {
@@ -74,14 +74,21 @@ extension UIWindow: FluentThemeable {
     }
 
     /// The custom `FluentTheme` to apply to this window.
-    public var fluentTheme: FluentTheme? {
+    public override var fluentTheme: FluentTheme {
         get {
-            return objc_getAssociatedObject(self, &Keys.fluentTheme) as? FluentTheme
+            return objc_getAssociatedObject(self, &Keys.fluentTheme) as? FluentTheme ?? FluentThemeKey.defaultValue
         }
         set {
             objc_setAssociatedObject(self, &Keys.fluentTheme, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             NotificationCenter.default.post(name: .didChangeTheme, object: nil)
         }
+    }
+}
+
+@objc extension UIView {
+    /// Returns the current view's window's `FluentTheme`, or the default `FluentTheme` if no window yet exists.
+    var fluentTheme: FluentTheme {
+        return self.window?.fluentTheme ?? FluentThemeKey.defaultValue
     }
 }
 
@@ -109,6 +116,6 @@ extension EnvironmentValues {
 
 struct FluentThemeKey: EnvironmentKey {
     static var defaultValue: FluentTheme {
-        return FluentTheme()
+        return FluentTheme.shared
     }
 }

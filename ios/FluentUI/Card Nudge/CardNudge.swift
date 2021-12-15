@@ -41,19 +41,17 @@ public typealias CardNudgeButtonAction = ((_ state: MSFCardNudgeState) -> Void)
     /// Action to be dispatched by the dismiss ("close") button on the trailing edge of the control.
     @objc var dismissButtonAction: CardNudgeButtonAction? { get set }
 
-    /// Design token set for this control, to use in place of the control's default Fluent tokens.
+    /// Custom design token set for this control, to use in place of the control's default Fluent tokens.
     @objc var overrideTokens: CardNudgeTokens? { get set }
 }
 
 /// View that represents the CardNudge.
-public struct CardNudge: TokenizedControlInternal {
+public struct CardNudge: View, TokenizedControlInternal {
+    public let tokenKey: String
+
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @ObservedObject var state: MSFCardNudgeStateImpl
-    var tokens: CardNudgeTokens {
-        let tokens = fluentTheme.tokens(for: self)
-        tokens.style = state.style
-        return tokens
-    }
+    var tokens: CardNudgeTokens { fluentTheme.tokens(for: self) }
 
     @ViewBuilder
     var icon: some View {
@@ -173,12 +171,13 @@ public struct CardNudge: TokenizedControlInternal {
     init(style: MSFCardNudgeStyle, title: String) {
         let state = MSFCardNudgeStateImpl(style: style, title: title)
         self.state = state
+
+        // We want separate lookup keys for `.standard` and `.outline` controls.
+        self.tokenKey = "\(type(of: self))_\(style.rawValue)"
     }
 }
 
 class MSFCardNudgeStateImpl: NSObject, ControlConfiguration, MSFCardNudgeState {
-    @Published @objc public private(set) var style: MSFCardNudgeStyle
-
     @Published @objc public var title: String
     @Published @objc public var subtitle: String?
     @Published @objc public var mainIcon: UIImage?
@@ -201,8 +200,11 @@ class MSFCardNudgeStateImpl: NSObject, ControlConfiguration, MSFCardNudgeState {
     /// Design token set for this control, to use in place of the control's default Fluent tokens.
     @Published @objc public var overrideTokens: CardNudgeTokens?
 
-    /// Lazily initialized default token set.
-    lazy var defaultTokens: CardNudgeTokens = .init()
+    /// Style to draw the control.
+    let style: MSFCardNudgeStyle
+
+    /// On-demand default token set.
+    var defaultTokens: CardNudgeTokens { .init(style: self.style) }
 
     @objc init(style: MSFCardNudgeStyle, title: String) {
         self.style = style
@@ -229,51 +231,3 @@ class MSFCardNudgeStateImpl: NSObject, ControlConfiguration, MSFCardNudgeState {
         self.dismissButtonAction = dismissButtonAction
     }
 }
-
-#if DEBUG
-struct CardNudge_Previews: PreviewProvider {
-    @ViewBuilder
-    static var cards: some View {
-        VStack(spacing: 0) {
-            CardNudge(style: .standard, title: "Title")
-                .mainIcon(UIImage(systemName: "newspaper"))
-                .accentText("Accent")
-                .accentIcon(UIImage(named: "ic_fluent_presence_blocked_12_regular", in: FluentUIFramework.resourceBundle, with: nil))
-                .subtitle("Subtitle")
-                .actionButtonTitle("Action")
-                .actionButtonAction({ _ in
-                })
-                .dismissButtonAction({ _ in
-                })
-
-            CardNudge(style: .standard, title: "Title")
-                .mainIcon(UIImage(systemName: "newspaper"))
-                .accentText("Accent")
-                .accentIcon(UIImage(named: "ic_fluent_presence_blocked_12_regular", in: FluentUIFramework.resourceBundle, with: nil))
-                .subtitle("Subtitle")
-                .dismissButtonAction({ _ in
-                })
-            CardNudge(style: .outline, title: "Title")
-            CardNudge(style: .outline, title: "Title")
-                .dismissButtonAction({ _ in
-                })
-            CardNudge(style: .outline, title: "Title")
-                .mainIcon(UIImage(systemName: "newspaper"))
-                .accentText("Accent")
-                .accentIcon(UIImage(named: "ic_fluent_presence_blocked_12_regular", in: FluentUIFramework.resourceBundle, with: nil))
-                .subtitle("Subtitle")
-                .actionButtonTitle("Action")
-                .actionButtonAction({ _ in
-                })
-        }
-    }
-
-    static var previews: some View {
-        Group {
-            cards.preferredColorScheme(.light)
-            cards.preferredColorScheme(.dark)
-        }
-        .environment(\.sizeCategory, .large)
-    }
-}
-#endif

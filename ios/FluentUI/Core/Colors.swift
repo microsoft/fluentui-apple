@@ -585,7 +585,7 @@ public final class Colors: NSObject {
     @objc public static func removeProvider(for window: UIWindow) {
         colorProvidersMap.removeObject(forKey: window)
         FluentUIThemeManager.removeStylesheet(for: window)
-        window.fluentTheme = nil
+        window.fluentTheme = FluentThemeKey.defaultValue
     }
 
     // MARK: Primary

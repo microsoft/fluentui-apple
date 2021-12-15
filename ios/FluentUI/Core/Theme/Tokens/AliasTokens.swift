@@ -13,6 +13,8 @@ public final class AliasTokens {
         case neutral1
         case neutral2
         case neutral3
+        case neutralDisabled
+        case neutralInverted
     }
     public lazy var foregroundColors: TokenSet<ForegroundColorsTokens, ColorSet> = .init { [weak self] token in
         guard let strongSelf = self else { preconditionFailure() }
@@ -32,6 +34,16 @@ public final class AliasTokens {
                             lightHighContrast: strongSelf.globalTokens.neutralColors[.grey14],
                             dark: strongSelf.globalTokens.neutralColors[.grey68],
                             darkHighContrast: strongSelf.globalTokens.neutralColors[.grey84])
+        case .neutralDisabled:
+            return ColorSet(light: strongSelf.globalTokens.neutralColors[.grey74],
+                            lightHighContrast: strongSelf.globalTokens.neutralColors[.grey38],
+                            dark: strongSelf.globalTokens.neutralColors[.grey36],
+                            darkHighContrast: strongSelf.globalTokens.neutralColors[.grey62])
+        case .neutralInverted:
+            return ColorSet(light: strongSelf.globalTokens.neutralColors[.white],
+                            lightHighContrast: strongSelf.globalTokens.neutralColors[.white],
+                            dark: strongSelf.globalTokens.neutralColors[.black],
+                            darkHighContrast: strongSelf.globalTokens.neutralColors[.black])
         }
     }
 
@@ -41,6 +53,10 @@ public final class AliasTokens {
         case neutral1
         case neutral2
         case neutral3
+        case neutral4
+        case neutral5
+        case neutralDisabled
+        case brandRest
     }
     public lazy var backgroundColors: TokenSet<BackgroundColorsTokens, ColorSet> = .init { [weak self] token in
         guard let strongSelf = self else { preconditionFailure() }
@@ -57,6 +73,20 @@ public final class AliasTokens {
             return ColorSet(light: strongSelf.globalTokens.neutralColors[.grey96],
                             dark: strongSelf.globalTokens.neutralColors[.grey8],
                             darkElevated: strongSelf.globalTokens.neutralColors[.grey12])
+        case .neutral4:
+            return ColorSet(light: strongSelf.globalTokens.neutralColors[.grey94],
+                            dark: strongSelf.globalTokens.neutralColors[.grey12],
+                            darkElevated: strongSelf.globalTokens.neutralColors[.grey16])
+        case .neutral5:
+            return ColorSet(light: strongSelf.globalTokens.neutralColors[.grey92],
+                            dark: strongSelf.globalTokens.neutralColors[.grey36],
+                            darkElevated: strongSelf.globalTokens.neutralColors[.grey36])
+        case .neutralDisabled:
+            return ColorSet(light: strongSelf.globalTokens.neutralColors[.grey88],
+                            dark: strongSelf.globalTokens.neutralColors[.grey84],
+                            darkElevated: strongSelf.globalTokens.neutralColors[.grey84])
+        case .brandRest:
+            return strongSelf.globalTokens.brandColors[.primary]
         }
     }
 
@@ -86,12 +116,7 @@ public final class AliasTokens {
 
     // MARK: Initialization
 
-    public init(globalTokens: GlobalTokens? = nil) {
-        if let globalTokens = globalTokens {
-            self.globalTokens = globalTokens
-        }
-    }
+    public init() {}
 
-    static let shared = AliasTokens()
-    private var globalTokens: GlobalTokens = .shared
+    lazy var globalTokens: GlobalTokens = FluentTheme.shared.globalTokens
 }
