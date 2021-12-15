@@ -8,7 +8,7 @@ import UIKit
 class CommandBarButtonGroupView: UIView {
     let buttons: [CommandBarButton]
 
-    init(buttons: [CommandBarButton], commandBarTokens: MSFCommandBarTokens) {
+    init(buttons: [CommandBarButton], commandBarTokens: CommandBarTokens) {
         self.buttons = buttons
         self.commandBarTokens = commandBarTokens
 
@@ -52,6 +52,6 @@ class CommandBarButtonGroupView: UIView {
         buttons.last?.contentEdgeInsets.right += CommandBarButtonGroupView.leftRightBuffer
     }
 
-    private var commandBarTokens: MSFCommandBarTokens
+    private var commandBarTokens: CommandBarTokens
     private static let leftRightBuffer: CGFloat = 2.0
 }

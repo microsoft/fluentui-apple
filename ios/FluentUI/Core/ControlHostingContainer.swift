@@ -29,9 +29,9 @@ public class ControlHostingContainer: NSObject {
         }
 
         // We need to observe theme changes, and use them to update our wrapped control.
-        NotificationCenter.default.addObserver(forName: Notification.Name.didChangeTheme,
-                                               object: nil,
-                                               queue: .main) { [weak self] _ in
+        self.themeObserver = NotificationCenter.default.addObserver(forName: Notification.Name.didChangeTheme,
+                                                               object: nil,
+                                                               queue: .main) { [weak self] _ in
             if let strongSelf = self {
                 strongSelf.updateRootView()
             }
@@ -39,6 +39,12 @@ public class ControlHostingContainer: NSObject {
 
         // Set the initial appearance of our control.
         self.updateRootView()
+    }
+
+    deinit {
+        if let themeObserver = self.themeObserver {
+            NotificationCenter.default.removeObserver(themeObserver)
+        }
     }
 
     private func updateRootView() {
@@ -66,4 +72,5 @@ public class ControlHostingContainer: NSObject {
 
     private let hostingController: FluentUIHostingController = .init(rootView: AnyView(EmptyView()))
     private let controlView: AnyView
+    private var themeObserver: NSObjectProtocol?
 }

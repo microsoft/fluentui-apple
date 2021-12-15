@@ -8,10 +8,9 @@ import UIKit
 /**
  `CommandBar` is a horizontal scrollable list of icon buttons divided by groups.
  Provide `itemGroups` in `init` to set the buttons in the scrollable area. Optional `leadingItem` and `trailingItem` add fixed buttons in leading and trailing positions. Each `CommandBarItem` will be represented as a button.
- Set the `delegate` property to determine whether a button can be selected and deselected, and listen to selection changes.
  */
 @objc(MSFCommandBar)
-open class CommandBar: UIView, FluentUIWindowProvider {
+public class CommandBar: UIView, TokenizedControlInternal, ControlConfiguration {
     // Hierarchy:
     //
     // leadingButton
@@ -30,7 +29,6 @@ open class CommandBar: UIView, FluentUIWindowProvider {
         self.itemGroups = itemGroups
 
         super.init(frame: .zero)
-        commandBarTokens.windowProvider = self
 
         if let leadingItem = leadingItem {
             self.leadingButton = button(forItem: leadingItem, isPersistSelection: false)
@@ -39,16 +37,30 @@ open class CommandBar: UIView, FluentUIWindowProvider {
             self.trailingButton = button(forItem: trailingItem, isPersistSelection: false)
         }
 
-        backgroundColor = commandBarTokens.backgroundColor
+        backgroundColor = UIColor(colorSet: tokens.backgroundColor)
         translatesAutoresizingMaskIntoConstraints = false
+
+        self.themeObserver = NotificationCenter.default.addObserver(forName: Notification.Name.didChangeTheme,
+                                                               object: nil,
+                                                               queue: .main) { [weak self] _ in
+            if let strongSelf = self {
+                strongSelf.updateButtonTokens()
+            }
+        }
 
         configureHierarchy()
         updateButtonsState()
     }
 
-    open override func didMoveToWindow() {
+    deinit {
+        if let themeObserver = self.themeObserver {
+            NotificationCenter.default.removeObserver(themeObserver)
+        }
+    }
+
+    public override func didMoveToWindow() {
         super.didMoveToWindow()
-        commandBarTokens.updateForCurrentTheme()
+        updateButtonTokens()
     }
 
     @available(*, unavailable)
@@ -63,6 +75,11 @@ open class CommandBar: UIView, FluentUIWindowProvider {
         }
     }
 
+    public func customTokens(_ tokens: CommandBarTokens) -> Self {
+        overrideTokens = tokens
+        return self
+    }
+
     // MARK: Overrides
 
     public override var intrinsicContentSize: CGSize {
@@ -74,6 +91,18 @@ open class CommandBar: UIView, FluentUIWindowProvider {
 
         containerMaskLayer.frame = containerView.bounds
         updateShadow()
+    }
+
+    // MARK: - TokenizedControl
+
+    public var tokenKey: String { "\(type(of: self))"}
+    var state: CommandBar { self }
+    var tokens: CommandBarTokens { fluentTheme.tokens(for: self) }
+    var defaultTokens: CommandBarTokens { .init() }
+    var overrideTokens: CommandBarTokens? {
+        didSet {
+            updateButtonTokens()
+        }
     }
 
     // MARK: - Private properties
@@ -107,7 +136,7 @@ open class CommandBar: UIView, FluentUIWindowProvider {
 
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
-        let itemInterspace: CGFloat = commandBarTokens.itemInterspace
+        let itemInterspace: CGFloat = tokens.itemInterspace
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.contentInset = UIEdgeInsets(
             top: 0,
@@ -138,7 +167,7 @@ open class CommandBar: UIView, FluentUIWindowProvider {
 
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
-        stackView.spacing = commandBarTokens.groupInterspace
+        stackView.spacing = tokens.groupInterspace
 
         return stackView
     }()
@@ -151,7 +180,7 @@ open class CommandBar: UIView, FluentUIWindowProvider {
                 }
 
                 return button
-            }, commandBarTokens: commandBarTokens)
+            }, commandBarTokens: tokens)
         }
     }()
 
@@ -170,7 +199,7 @@ open class CommandBar: UIView, FluentUIWindowProvider {
     }()
 
     private func configureHierarchy() {
-        let itemInterspace: CGFloat = commandBarTokens.itemInterspace
+        let itemInterspace: CGFloat = tokens.itemInterspace
         addSubview(containerView)
 
         // Left and right button layout constraints
@@ -219,7 +248,7 @@ open class CommandBar: UIView, FluentUIWindowProvider {
     }
 
     private func button(forItem item: CommandBarItem, isPersistSelection: Bool = true) -> CommandBarButton {
-        let button = CommandBarButton(item: item, isPersistSelection: isPersistSelection, commandBarTokens: commandBarTokens)
+        let button = CommandBarButton(item: item, isPersistSelection: isPersistSelection, commandBarTokens: tokens)
         button.addTarget(self, action: #selector(handleCommandButtonTapped(_:)), for: .touchUpInside)
 
         return button
@@ -243,12 +272,19 @@ open class CommandBar: UIView, FluentUIWindowProvider {
         containerMaskLayer.locations = locations.map { NSNumber(value: Float($0)) }
     }
 
+    private func updateButtonTokens() {
+        let tokens = self.tokens
+        for button in itemsToButtonsMap.values {
+            button.commandBarTokens = tokens
+        }
+    }
+
     @objc private func handleCommandButtonTapped(_ sender: CommandBarButton) {
         sender.item.handleTapped(sender)
         sender.updateState()
     }
 
-    private let commandBarTokens = MSFCommandBarTokens()
+    private var themeObserver: NSObjectProtocol?
 
     private static let fadeViewWidth: CGFloat = 16.0
 
