@@ -1168,7 +1168,7 @@ open class TableViewCell: UITableViewCell {
             x: separatorLeadingInset(for: type),
             y: verticalOffset,
             width: frame.width - separatorLeadingInset(for: type),
-            height: separator.view.frame.height
+            height: UIScreen.main.devicePixel
         )
         separator.view.flipForRTL()
     }

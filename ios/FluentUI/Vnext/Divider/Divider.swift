@@ -47,7 +47,9 @@ public struct FluentDivider: View {
 
         return Rectangle()
             .fill(Color(state.color ?? tokens.color))
-            .frame(maxWidth: isHorizontal ? .infinity : thickness,
+            .frame(minWidth: thickness,
+                   maxWidth: isHorizontal ? .infinity : thickness,
+                   minHeight: thickness,
                    maxHeight: isHorizontal ? thickness : .infinity)
             .padding(isHorizontal ?
                      EdgeInsets(top: tokens.padding,
