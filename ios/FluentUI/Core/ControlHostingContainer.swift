@@ -30,8 +30,8 @@ public class ControlHostingContainer: NSObject {
 
         // We need to observe theme changes, and use them to update our wrapped control.
         self.themeObserver = NotificationCenter.default.addObserver(forName: Notification.Name.didChangeTheme,
-                                                               object: nil,
-                                                               queue: .main) { [weak self] _ in
+                                                                    object: nil,
+                                                                    queue: .main) { [weak self] _ in
             if let strongSelf = self {
                 strongSelf.updateRootView()
             }
