@@ -1068,7 +1068,7 @@ open class TableViewCell: UITableViewCell {
         contentView.flipSubviewsForRTL()
 
         layoutSeparator(topSeparator, with: topSeparatorType, at: 0)
-        layoutSeparator(bottomSeparator, with: bottomSeparatorType, at: frame.height - bottomSeparator.view.frame.height)
+        layoutSeparator(bottomSeparator, with: bottomSeparatorType, at: frame.height - bottomSeparator.state.thickness)
     }
 
     open func layoutContentSubviews() {
@@ -1168,7 +1168,7 @@ open class TableViewCell: UITableViewCell {
             x: separatorLeadingInset(for: type),
             y: verticalOffset,
             width: frame.width - separatorLeadingInset(for: type),
-            height: UIScreen.main.devicePixel
+            height: separator.state.thickness
         )
         separator.view.flipForRTL()
     }

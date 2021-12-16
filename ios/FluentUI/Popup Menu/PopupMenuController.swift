@@ -171,7 +171,7 @@ open class PopupMenuController: DrawerController {
 
         divider = MSFDivider()
         if let divider = divider {
-            divider.view.backgroundColor = separatorColor
+            divider.state.color = separatorColor
             view.addSubview(divider.view)
             divider.view.translatesAutoresizingMaskIntoConstraints = false
             NSLayoutConstraint.activate([

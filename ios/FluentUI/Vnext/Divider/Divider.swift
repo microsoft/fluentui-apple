@@ -21,6 +21,9 @@ import SwiftUI
 
     /// Defines the spacing of the Divider.
     var spacing: MSFDividerSpacing { get set }
+
+    /// Defines the thickness of the Divider.
+    var thickness: CGFloat { get }
 }
 
 /// View that represents the Divider.
@@ -47,10 +50,10 @@ public struct FluentDivider: View {
 
         return Rectangle()
             .fill(Color(state.color ?? tokens.color))
-            .frame(minWidth: thickness,
-                   maxWidth: isHorizontal ? .infinity : thickness,
-                   minHeight: thickness,
-                   maxHeight: isHorizontal ? thickness : .infinity)
+            .frame(minWidth: state.thickness,
+                   maxWidth: isHorizontal ? .infinity : state.thickness,
+                   minHeight: state.thickness,
+                   maxHeight: isHorizontal ? state.thickness : .infinity)
             .padding(isHorizontal ?
                      EdgeInsets(top: tokens.padding,
                                 leading: 0,
@@ -64,8 +67,6 @@ public struct FluentDivider: View {
                           from: theme,
                           with: windowProvider)
     }
-
-    private let thickness: CGFloat = UIScreen.main.devicePixel
 }
 
 /// Properties available to customize the Divider.
@@ -81,6 +82,8 @@ class MSFDividerStateImpl: NSObject, ObservableObject, MSFDividerState {
             tokens.spacing = newValue
         }
     }
+
+    let thickness: CGFloat = UIScreen.main.devicePixel
 
     var tokens: MSFDividerTokens
 

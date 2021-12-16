@@ -142,7 +142,6 @@ open class PeoplePicker: BadgeField {
 
     func initialize() {
         personaSuggestionsView.addSubview(personaListView)
-        divider.view.translatesAutoresizingMaskIntoConstraints = false
         personaSuggestionsView.addSubview(divider.view)
 
         personaListView.onPersonaSelected = { [unowned self] persona in
@@ -242,7 +241,6 @@ open class PeoplePicker: BadgeField {
 
         personaListView.frame = personaSuggestionsView.bounds
 
-        // some sort of issue with layout. Ambiguous placement something something
         divider.view.frame = CGRect(x: 0, y: separatorY, width: personaSuggestionsView.frame.width, height: divider.view.frame.height)
     }
 

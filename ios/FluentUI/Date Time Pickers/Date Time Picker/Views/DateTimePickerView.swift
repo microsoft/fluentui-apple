@@ -75,9 +75,7 @@ class DateTimePickerView: UIControl {
         }
 
         layer.addSublayer(gradientLayer)
-        selectionTopDivider.view.translatesAutoresizingMaskIntoConstraints = false
         addSubview(selectionTopDivider.view)
-        selectionBottomDivider.view.translatesAutoresizingMaskIntoConstraints = false
         addSubview(selectionBottomDivider.view)
         addInteraction(UILargeContentViewerInteraction())
 

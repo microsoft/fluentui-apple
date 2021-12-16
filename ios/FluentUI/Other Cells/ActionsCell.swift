@@ -97,7 +97,7 @@ open class ActionsCell: UITableViewCell {
 
     private let topSeparator = MSFDivider()
     private let bottomSeparator = MSFDivider()
-    private let verticalSeparator = MSFDivider()
+    private let verticalSeparator = MSFDivider(orientation: .vertical)
 
     public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
