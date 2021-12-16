@@ -157,7 +157,7 @@ public struct AvatarGroup: View {
         self.tokens = state.tokens
     }
 
-    /// Renders the avatar with an optional cutout
+    /// Renders the avatar with an optional cutout for the Stack group style.
     @ViewBuilder
     private func avatarCutout(_ avatar: Avatar,
                               _ needsCutout: Bool,
@@ -199,6 +199,7 @@ public struct AvatarGroup: View {
                             let nextAvatarSize: CGFloat = needsCutout ? avatarViews[index + 1].state.totalSize() : 0
                             let isLastDisplayed = index == maxDisplayedAvatars - 1
 
+                            // Calculating the different coordinate scenarios for when an avatar has a ring visible in a Stack group style.
                             let currentAvatarHasRing = avatar.isRingVisible
                             let nextAvatarHasRing = index + 1 < maxDisplayedAvatars ? avatars[index + 1].isRingVisible : false
                             let avatarSizeDifference = avatarSize - nextAvatarSize
@@ -206,12 +207,14 @@ public struct AvatarGroup: View {
                             currentAvatarHasRing ? (avatarSize - ringGapOffset) - imageSize : (avatarSize - (ringGapOffset * 2)) - imageSize
                             let x = avatarSize + tokens.interspace - ringGapOffset
 
+                            // Calculating the different interspace scenarios considering rings, RTL, and group style.
                             let ringPaddingInterspace = nextAvatarHasRing ? interspace - (ringOffset + ringOuterGap) : interspace - ringOffset
                             let noRingPaddingInterspace = nextAvatarHasRing ? interspace - ringOuterGap : interspace
                             let rtlRingPaddingInterspace = nextAvatarHasRing ? -x + ringGapOffset : -x + ringOffset + (ringOuterGap * 3)
                             let rtlNoRingPaddingInterspace = nextAvatarHasRing ? -x - ringOffset - ringGapOffset : -x - ringOuterGap
                             let stackPadding = currentAvatarHasRing ? ringPaddingInterspace : noRingPaddingInterspace
 
+                            // Finalized calculations for x and y coordinates of the Avatar if it needs a cutout.
                             let xPosition = currentAvatarHasRing ? x - ringGapOffset : x - ringOuterGap
                             let xPositionRTL = currentAvatarHasRing ? rtlRingPaddingInterspace : rtlNoRingPaddingInterspace
                             let xOrigin = Locale.current.isRightToLeftLayoutDirection() ? xPositionRTL : xPosition
@@ -233,6 +236,7 @@ public struct AvatarGroup: View {
                             .animation(Animation.linear(duration: animationDuration))
                             .transition(AnyTransition.move(edge: .leading))
                         }
+
                         if overflowCount > 0 {
                             VStack {
                                 createOverflow(count: overflowCount)
@@ -250,7 +254,7 @@ public struct AvatarGroup: View {
         return avatarGroupContent
     }
 
-    private let animationDuration = 0.1
+    private let animationDuration: CGFloat = 0.1
 
     private func createOverflow(count: Int) -> Avatar {
         var avatar = Avatar(style: .overflow, size: tokens.size)
