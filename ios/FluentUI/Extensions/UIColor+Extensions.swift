@@ -64,10 +64,10 @@ extension UIColor {
     /// - Parameter colorValue: Color value to use to initialize this color.
     convenience init(colorValue: ColorValue) {
         self.init(
-            red: Double(colorValue.r) / 255.0,
-            green: Double(colorValue.g) / 255.0,
-            blue: Double(colorValue.b) / 255.0,
-            alpha: Double(colorValue.a) / 255.0)
+            red: colorValue.r,
+            green: colorValue.g,
+            blue: colorValue.b,
+            alpha: colorValue.a)
     }
 
     /// Creates a dynamic color object that returns the appropriate color value based on the current

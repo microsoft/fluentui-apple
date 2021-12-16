@@ -62,8 +62,8 @@ private func dynamicColor(colorSet: ColorSet, colorScheme: ColorScheme, contrast
                                isElevated: isElevated)
 
     // `Color` does not natively support alpha channel, so it will be added as an opacity modifier.
-    Color(red: Double(value.r) / 255.0,
-          green: Double(value.g) / 255.0,
-          blue: Double(value.b) / 255.0)
-        .opacity(Double(value.a) / 255.0)
+    Color(red: value.r,
+          green: value.g,
+          blue: value.b)
+        .opacity(value.a)
 }
