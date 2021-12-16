@@ -25,7 +25,7 @@ class PillButtonBarDemoController: DemoController {
         NSLayoutConstraint.activate([disableOnBrandSwitchView.widthAnchor.constraint(equalToConstant: disableOnBrandSwitchView.frame.width)])
 
         container.addArrangedSubview(createLabelWithText("onBrand"))
-        addRow(items: [createLabelWithText("Enable/Disable pills in onBrand Pill Bar TES TES TES TES"), disableOnBrandSwitchView], itemSpacing: 20, centerItems: true)
+        addRow(items: [createLabelWithText("Enable/Disable pills in onBrand Pill Bar"), disableOnBrandSwitchView], itemSpacing: 20, centerItems: true)
         let onBrandBar = createBar(items: items, style: .onBrand)
         container.addArrangedSubview(onBrandBar)
         self.onBrandBar = onBrandBar
