@@ -24,6 +24,7 @@ import SwiftUI
 
     /// Defines the thickness of the Divider.
     var thickness: CGFloat { get }
+}
 
 /// View that represents the Divider.
 public struct FluentDivider: View {
