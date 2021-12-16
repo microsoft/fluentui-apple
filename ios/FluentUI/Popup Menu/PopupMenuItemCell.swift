@@ -106,6 +106,7 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
 
         setup(title: item.title, subtitle: item.subtitle ?? "", customView: _imageView.image != nil ? _imageView : nil, customAccessoryView: item.accessoryView)
         isEnabled = item.isEnabled
+        titleNumberOfLines = 0
 
         updateViews()
         updateAccessibilityTraits()

@@ -254,10 +254,6 @@ open class PopupMenuController: DrawerController {
     private func initTableView() {
         tableView.backgroundColor = backgroundColor
         tableView.separatorStyle = .none
-        // Helps reduce the delay between touch and action due to a bug in iOS 11
-        if #available(iOS 12.0, *) { } else {
-            tableView.delaysContentTouches = false
-        }
         tableView.alwaysBounceVertical = false
         tableView.isAccessibilityElement = true
 
