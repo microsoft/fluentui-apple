@@ -110,10 +110,10 @@ extension UIColor {
     }
 
     private var colorValue: ColorValue? {
-        var redValue: CGFloat = 0.0
-        var greenValue: CGFloat = 0.0
-        var blueValue: CGFloat = 0.0
-        var alphaValue: CGFloat = 0.0
+        var redValue: CGFloat = 1.0
+        var greenValue: CGFloat = 1.0
+        var blueValue: CGFloat = 1.0
+        var alphaValue: CGFloat = 1.0
         if self.getRed(&redValue, green: &greenValue, blue: &blueValue, alpha: &alphaValue) {
             let colorValue = ColorValue(r: redValue, g: greenValue, b: blueValue, a: alphaValue)
             return colorValue
