@@ -191,46 +191,44 @@ open class PillButton: UIButton, FluentUIWindowProvider {
     }
 
     private func updateAppearance() {
-        if window != nil {
-            if isSelected {
-                if isEnabled {
-                    if let customSelectedBackgroundColor = customSelectedBackgroundColor {
-                        backgroundColor = customSelectedBackgroundColor
-                    } else {
-                        backgroundColor = isHighlighted
-                            ? pillButtonTokens.selectedHighlightedBackgroundColor
-                            : pillButtonTokens.selectedBackgroundColor
-                    }
-
-                    setTitleColor(customSelectedTextColor ?? pillButtonTokens.selectedTitleColor, for: .normal)
-                    setTitleColor(customSelectedTextColor ?? pillButtonTokens.selectedHighlightedTitleColor, for: .highlighted)
+        if isSelected {
+            if isEnabled {
+                if let customSelectedBackgroundColor = customSelectedBackgroundColor {
+                    backgroundColor = customSelectedBackgroundColor
                 } else {
-                    backgroundColor = pillButtonTokens.selectedDisabledBackgroundColor
-                    setTitleColor(pillButtonTokens.selectedDisabledTitleColor, for: .normal)
+                    backgroundColor = isHighlighted
+                        ? pillButtonTokens.selectedHighlightedBackgroundColor
+                        : pillButtonTokens.selectedBackgroundColor
                 }
+
+                setTitleColor(customSelectedTextColor ?? pillButtonTokens.selectedTitleColor, for: .normal)
+                setTitleColor(customSelectedTextColor ?? pillButtonTokens.selectedHighlightedTitleColor, for: .highlighted)
             } else {
-                if let customBackgroundColor = customBackgroundColor {
-                    backgroundColor = customBackgroundColor
-                } else {
-                    backgroundColor = isEnabled
-                        ? (isHighlighted
-                            ? pillButtonTokens.highlightedBackgroundColor
-                            : pillButtonTokens.backgroundColor)
-                        : pillButtonTokens.disabledBackgroundColor
-                }
+                backgroundColor = pillButtonTokens.selectedDisabledBackgroundColor
+                setTitleColor(pillButtonTokens.selectedDisabledTitleColor, for: .normal)
+            }
+        } else {
+            if let customBackgroundColor = customBackgroundColor {
+                backgroundColor = customBackgroundColor
+            } else {
+                backgroundColor = isEnabled
+                    ? (isHighlighted
+                        ? pillButtonTokens.highlightedBackgroundColor
+                        : pillButtonTokens.backgroundColor)
+                    : pillButtonTokens.disabledBackgroundColor
+            }
 
-                if isEnabled {
-                    setTitleColor(customTextColor ?? pillButtonTokens.titleColor, for: .normal)
-                    setTitleColor(customTextColor ?? pillButtonTokens.highlightedTitleColor, for: .highlighted)
-                } else {
-                    setTitleColor(pillButtonTokens.disabledTitleColor, for: .disabled)
-                }
+            if isEnabled {
+                setTitleColor(customTextColor ?? pillButtonTokens.titleColor, for: .normal)
+                setTitleColor(customTextColor ?? pillButtonTokens.highlightedTitleColor, for: .highlighted)
+            } else {
+                setTitleColor(pillButtonTokens.disabledTitleColor, for: .disabled)
+            }
 
-                if isEnabled {
-                    unreadDotColor = customUnreadDotColor ?? pillButtonTokens.enabledUnreadDotColor
-                } else {
-                    unreadDotColor = customUnreadDotColor ?? pillButtonTokens.disabledUnreadDotColor
-                }
+            if isEnabled {
+                unreadDotColor = customUnreadDotColor ?? pillButtonTokens.enabledUnreadDotColor
+            } else {
+                unreadDotColor = customUnreadDotColor ?? pillButtonTokens.disabledUnreadDotColor
             }
         }
     }

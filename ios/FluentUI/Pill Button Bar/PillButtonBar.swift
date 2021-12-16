@@ -541,10 +541,10 @@ open class PillButtonBar: UIScrollView, FluentUIWindowProvider {
     }
 
     private func updateHeightConstraint() {
-        var maxHeight = pillButtonBarTokens.minHeight
-        buttons.forEach { maxHeight = max(maxHeight!, $0.frame.size.height) }
+        var maxHeight: CGFloat = pillButtonBarTokens.minHeight
+        buttons.forEach { maxHeight = max(maxHeight, $0.frame.size.height) }
         if let heightConstraint = heightConstraint, maxHeight != heightConstraint.constant {
-            heightConstraint.constant = maxHeight!
+            heightConstraint.constant = maxHeight
         }
     }
 
