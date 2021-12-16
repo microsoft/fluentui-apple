@@ -22,9 +22,10 @@ class PillButtonBarDemoController: DemoController {
         let disableOnBrandSwitchView = UISwitch()
         disableOnBrandSwitchView.isOn = true
         disableOnBrandSwitchView.addTarget(self, action: #selector(toggleOnBrandPills(switchView:)), for: .valueChanged)
+        NSLayoutConstraint.activate([disableOnBrandSwitchView.widthAnchor.constraint(equalToConstant: disableOnBrandSwitchView.frame.width)])
 
         container.addArrangedSubview(createLabelWithText("onBrand"))
-        addRow(items: [createLabelWithText("Enable/Disable pills in onBrand Pill Bar"), disableOnBrandSwitchView], itemSpacing: 20, centerItems: true)
+        addRow(items: [createLabelWithText("Enable/Disable pills in onBrand Pill Bar TES TES TES TES"), disableOnBrandSwitchView], itemSpacing: 20, centerItems: true)
         let onBrandBar = createBar(items: items, style: .onBrand)
         container.addArrangedSubview(onBrandBar)
         self.onBrandBar = onBrandBar
@@ -33,6 +34,7 @@ class PillButtonBarDemoController: DemoController {
         let disableCustomOnBrandSwitchView = UISwitch()
         disableCustomOnBrandSwitchView.isOn = true
         disableCustomOnBrandSwitchView.addTarget(self, action: #selector(toggleCustomOnBrandPills(switchView:)), for: .valueChanged)
+        NSLayoutConstraint.activate([disableCustomOnBrandSwitchView.widthAnchor.constraint(equalToConstant: disableCustomOnBrandSwitchView.frame.width)])
 
         container.addArrangedSubview(createLabelWithText("onBrand With Custom Pills Background"))
         addRow(items: [createLabelWithText("Enable/Disable pills in custom onBrand Pill Bar"), disableCustomOnBrandSwitchView], itemSpacing: 20, centerItems: true)
@@ -44,6 +46,7 @@ class PillButtonBarDemoController: DemoController {
         let disablePrimarySwitchView = UISwitch()
         disablePrimarySwitchView.isOn = true
         disablePrimarySwitchView.addTarget(self, action: #selector(togglePrimaryPills(switchView:)), for: .valueChanged)
+        NSLayoutConstraint.activate([disablePrimarySwitchView.widthAnchor.constraint(equalToConstant: disablePrimarySwitchView.frame.width)])
 
         container.addArrangedSubview(createLabelWithText("Primary"))
         addRow(items: [createLabelWithText("Enable/Disable pills in Primary Pill bar"), disablePrimarySwitchView], itemSpacing: 20, centerItems: true)
