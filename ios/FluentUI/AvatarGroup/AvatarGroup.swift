@@ -190,8 +190,6 @@ public struct AvatarGroup: View {
 
         @ViewBuilder
         var avatarGroupContent: some View {
-            SwiftUI.ScrollView(.horizontal, showsIndicators: false) {
-                GeometryReader { geo in
                     HStack(spacing: 0) {
                         ForEach(enumeratedAvatars.prefix(maxDisplayedAvatars), id: \.1) { index, avatar in
                             // If the avatar is part of Stack style and is not the last avatar in the sequence, create a cutout
@@ -232,57 +230,27 @@ public struct AvatarGroup: View {
                                     })
                             }
                             .padding(.trailing, tokens.style == .stack ? stackPadding : interspace)
-                            .animation(Animation.linear(duration: 0.1))
+                            .animation(Animation.linear(duration: animationDuration))
                             .transition(AnyTransition.move(edge: .leading))
                         }
                         if overflowCount > 0 {
                             VStack {
                                 createOverflow(count: overflowCount)
                             }
+                            .animation(Animation.linear(duration: animationDuration))
                             .transition(AnyTransition.move(edge: .leading))
                         }
                     }
-                    .frame(height: geo.size.height,
+                    .frame(maxWidth: .infinity,
+                           minHeight: groupHeight,
+                           maxHeight: .infinity,
                            alignment: .leading)
-                }
-                .frame(width: calcWidth(hasOverflow: overflowCount > 0), height: groupHeight, alignment: .leading)
-            }
         }
 
         return avatarGroupContent
     }
 
-    private func calcWidth(hasOverflow: Bool) -> CGFloat {
-        var width: CGFloat = 0
-        let maxShown = state.maxDisplayedAvatars < state.avatars.count ? state.maxDisplayedAvatars : state.avatars.count
-        let interspace: CGFloat = tokens.interspace
-        let gapOffset: CGFloat = tokens.ringOuterGap * 2
-        let ringGapOffset: CGFloat = (tokens.ringThickness + tokens.ringInnerGap + tokens.ringOuterGap) * 2
-        let imageSize: CGFloat = tokens.size.size
-        var paddingAdjustment: CGFloat = 0
-        var needsStackAdjustment: CGFloat = 0
-        var previousHasRing: Bool = false
-        for index in 0 ..< maxShown {
-            let avatar = state.avatars[index]
-            let avatarSize: CGFloat = avatar.totalSize() - needsStackAdjustment
-            previousHasRing = avatar.isRingVisible
-            paddingAdjustment = previousHasRing ? ringGapOffset / 2 : gapOffset
-            if index + 1 < maxShown {
-                paddingAdjustment += previousHasRing ? (state.avatars[index + 1].isRingVisible ? gapOffset / 2 : gapOffset) : 0
-            }
-            needsStackAdjustment = tokens.style == .stack ? paddingAdjustment : 0
-
-            width += avatarSize
-            width += index < maxShown - 1 ? interspace : 0
-        }
-
-        if hasOverflow {
-            width += interspace - (previousHasRing ? needsStackAdjustment: 0)
-            width += imageSize
-        }
-
-        return width
-    }
+    private let animationDuration = 0.1
 
     private func createOverflow(count: Int) -> Avatar {
         var avatar = Avatar(style: .overflow, size: tokens.size)

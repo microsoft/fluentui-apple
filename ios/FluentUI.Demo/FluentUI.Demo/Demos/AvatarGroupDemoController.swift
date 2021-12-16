@@ -360,7 +360,7 @@ class AvatarGroupDemoController: DemoTableViewController {
         }
     }
 
-    private var maxDisplayedAvatars: Int = 4 {
+    private var maxDisplayedAvatars: Int = 3 {
         didSet {
             if oldValue != maxDisplayedAvatars {
                 maxAvatarsTextField.text = "\(maxDisplayedAvatars)"
@@ -440,9 +440,9 @@ class AvatarGroupDemoController: DemoTableViewController {
         return textField
     }()
 
-    private var avatarCount: Int = 5 {
+    private var avatarCount: Int = 4 {
         didSet {
-            guard avatarCount != 0 || oldValue != 0 else {
+            guard oldValue != avatarCount && avatarCount >= 0 else {
                 return
             }
             AvatarGroupDemoSection.allCases.filter({ section in
@@ -482,6 +482,7 @@ class AvatarGroupDemoController: DemoTableViewController {
         guard avatarCount > 0 else {
             return
         }
+
         avatarCount -= 1
     }
 
