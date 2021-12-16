@@ -113,12 +113,9 @@ extension UIColor {
         var redValue: CGFloat = 0.0
         var greenValue: CGFloat = 0.0
         var blueValue: CGFloat = 0.0
-        if self.getRed(&redValue, green: &greenValue, blue: &blueValue, alpha: nil) {
-            // Ensure that all channels fall within 0x0 and 0xFF
-            let red = min(UInt32(redValue * 255.0), 0xFF)
-            let green = min(UInt32(greenValue * 255.0), 0xFF)
-            let blue = min(UInt32(blueValue * 255.0), 0xFF)
-            let colorValue = ColorValue((red << 16) + (green << 8) + blue)
+        var alphaValue: CGFloat = 0.0
+        if self.getRed(&redValue, green: &greenValue, blue: &blueValue, alpha: &alphaValue) {
+            let colorValue = ColorValue(r: redValue, g: greenValue, b: blueValue, a: alphaValue)
             return colorValue
         } else {
             return nil
