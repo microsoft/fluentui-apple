@@ -5,10 +5,29 @@
 
 import SwiftUI
 
-/// An alias that represents a three-channel, 8-bit-per-channel color value, usually in hex.
-///
-/// For example: `0xFF0000` represents red, `0x00FF00` green, and `0x0000FF` blue.
-public typealias ColorValue = UInt32
+/// A platform-agnostic representation of a 32-bit RGBA color value.
+public struct ColorValue {
+    var r: UInt8 { UInt8(hexValue & 0xFF000000) }
+    var g: UInt8 { UInt8(hexValue & 0x00FF0000) }
+    var b: UInt8 { UInt8(hexValue & 0x0000FF00) }
+    var a: UInt8 { UInt8(hexValue & 0x000000FF) }
+
+    /// Creates a color value instance
+    public init(r: UInt8,
+                g: UInt8,
+                b: UInt8,
+                a: UInt8) {
+        hexValue = UInt32((r << 24) | (g << 16) | (b << 8) | a)
+    }
+
+    /// C
+    public init(_ hexValue: UInt32) {
+        self.hexValue = hexValue << 8 | 0xFF
+    }
+
+    // Value is stored as RGBA.
+    private let hexValue: UInt32
+}
 
 /// Represents a set of color values to be used in different contexts.
 public struct ColorSet {
