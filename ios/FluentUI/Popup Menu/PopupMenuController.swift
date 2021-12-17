@@ -128,7 +128,7 @@ open class PopupMenuController: DrawerController {
     /// set `separatorColor` to customize separator colors of  PopupMenuItem cells and the drawer
     @objc open var separatorColor: UIColor = Colors.Separator.default {
         didSet {
-            divider?.state.color = separatorColor
+            divider.state.color = separatorColor
         }
     }
 
@@ -151,7 +151,7 @@ open class PopupMenuController: DrawerController {
         return view
     }()
 
-    private var divider: MSFDivider?
+    private lazy var divider: MSFDivider = .init()
     private lazy var descriptionView: UIView = {
         let view = UIView()
         view.isAccessibilityElement = true
@@ -169,17 +169,15 @@ open class PopupMenuController: DrawerController {
             )
         )
 
-        divider = MSFDivider()
-        if let divider = divider {
-            divider.state.color = separatorColor
-            view.addSubview(divider.view)
-            divider.view.translatesAutoresizingMaskIntoConstraints = false
-            NSLayoutConstraint.activate([
-                divider.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                divider.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                divider.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-            ])
-        }
+        divider.state.color = separatorColor
+        view.addSubview(divider.view)
+        divider.view.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            divider.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            divider.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            divider.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+
         return view
     }()
     private let descriptionLabel: Label = {

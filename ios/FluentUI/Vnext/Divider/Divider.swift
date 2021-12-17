@@ -24,6 +24,9 @@ import SwiftUI
 
     /// Defines the thickness of the Divider.
     var thickness: CGFloat { get }
+
+    /// Defines the padding of the Divider.
+    var padding: CGFloat { get }
 }
 
 /// View that represents the Divider.
@@ -50,10 +53,8 @@ public struct FluentDivider: View {
 
         return Rectangle()
             .fill(Color(state.color ?? tokens.color))
-            .frame(minWidth: state.thickness,
-                   maxWidth: isHorizontal ? .infinity : state.thickness,
-                   minHeight: state.thickness,
-                   maxHeight: isHorizontal ? state.thickness : .infinity)
+            .frame(width: isHorizontal ? nil : state.thickness,
+                   height: isHorizontal ? state.thickness : nil)
             .padding(isHorizontal ?
                      EdgeInsets(top: tokens.padding,
                                 leading: 0,
@@ -84,6 +85,10 @@ class MSFDividerStateImpl: NSObject, ObservableObject, MSFDividerState {
     }
 
     let thickness: CGFloat = UIScreen.main.devicePixel
+
+    var padding: CGFloat {
+            return tokens.padding
+    }
 
     var tokens: MSFDividerTokens
 

@@ -37,11 +37,6 @@ extension FluentUIStyle {
 		}
 
 
-		// MARK: - borderColor 
-		open var borderColor: UIColor {
-			return mainProxy().Colors.Stroke.neutral1
-		}
-
 		// MARK: - cellHeight
 		open var cellHeight: cellHeightAppearanceProxy {
 			return cellHeightAppearanceProxy(proxy: mainProxy)

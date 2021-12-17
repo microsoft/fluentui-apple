@@ -39,6 +39,7 @@ class PeoplePickerSampleData {
 
 class PeoplePickerDemoController: DemoController {
     var peoplePickers: [PeoplePicker] = []
+    var dividers: [MSFDivider] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,7 +48,9 @@ class PeoplePickerDemoController: DemoController {
             addDescription(text: variant.description)
             addPeoplePicker(for: variant)
             if index != PeoplePickerSampleData.variants.count - 1 {
-                container.addArrangedSubview(MSFDivider().view)
+                let divider = MSFDivider()
+                dividers.append(divider)
+                container.addArrangedSubview(divider.view)
             }
         }
     }

@@ -194,12 +194,13 @@ class ShyHeaderView: UIView {
     }
 
     private func initShadow() {
-        shadow.view.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(shadow.view)
+        let shadowView = shadow.view
+        shadowView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(shadowView)
         NSLayoutConstraint.activate([
-            shadow.view.leftAnchor.constraint(equalTo: leftAnchor),
-            shadow.view.rightAnchor.constraint(equalTo: rightAnchor),
-            shadow.view.topAnchor.constraint(equalTo: bottomAnchor)
+            shadowView.leftAnchor.constraint(equalTo: leftAnchor),
+            shadowView.rightAnchor.constraint(equalTo: rightAnchor),
+            shadowView.topAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
 

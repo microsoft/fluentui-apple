@@ -11,6 +11,7 @@ import UIKit
 class TableViewHeaderFooterViewDemoController: DemoController {
     private let groupedSections: [TableViewHeaderFooterSampleData.Section] = TableViewHeaderFooterSampleData.groupedSections
     private let plainSections: [TableViewHeaderFooterSampleData.Section] = TableViewHeaderFooterSampleData.plainSections
+    private let divider = MSFDivider()
 
     private let segmentedControl: SegmentedControl = {
         let segmentedControl = SegmentedControl(items: TableViewHeaderFooterSampleData.tabTitles.map({return SegmentItem(title: $0)}), style: .primaryPill)
@@ -33,8 +34,7 @@ class TableViewHeaderFooterViewDemoController: DemoController {
         container.setCustomSpacing(8, after: segmentedControl)
         container.backgroundColor = Colors.navigationBarBackground
 
-        let separator = MSFDivider()
-        container.addArrangedSubview(separator.view)
+        container.addArrangedSubview(divider.view)
 
         container.addArrangedSubview(groupedTableView)
         container.addArrangedSubview(plainTableView)

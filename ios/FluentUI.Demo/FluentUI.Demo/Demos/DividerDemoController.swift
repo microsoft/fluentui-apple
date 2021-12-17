@@ -46,6 +46,7 @@ class DividerDemoController: UITableViewController {
         case .dividerDemo:
             let cell = TableViewCell()
             cell.backgroundColor = Colors.surfacePrimary
+            let contentView = cell.contentView
 
             let spacing: MSFDividerSpacing = section == .defaultMedium ? .medium : .none
             let color = section == .customColor ? Colors.communicationBlue : nil
@@ -72,12 +73,12 @@ class DividerDemoController: UITableViewController {
 
             verticalStack.addArrangedSubview(coloredDivider(spacing: spacing, color: color).view)
 
-            cell.contentView.addSubview(verticalStack)
+            contentView.addSubview(verticalStack)
             NSLayoutConstraint.activate([
-                cell.contentView.leadingAnchor.constraint(equalTo: verticalStack.leadingAnchor),
-                cell.contentView.trailingAnchor.constraint(equalTo: verticalStack.trailingAnchor),
-                cell.contentView.topAnchor.constraint(equalTo: verticalStack.topAnchor),
-                cell.contentView.bottomAnchor.constraint(equalTo: verticalStack.bottomAnchor)
+                contentView.leadingAnchor.constraint(equalTo: verticalStack.leadingAnchor),
+                contentView.trailingAnchor.constraint(equalTo: verticalStack.trailingAnchor),
+                contentView.topAnchor.constraint(equalTo: verticalStack.topAnchor),
+                contentView.bottomAnchor.constraint(equalTo: verticalStack.bottomAnchor)
             ])
 
             return cell
@@ -111,8 +112,17 @@ class DividerDemoController: UITableViewController {
     private func coloredDivider(orientation: MSFDividerOrientation = .horizontal, spacing: MSFDividerSpacing, color: UIColor?) -> MSFDivider {
         let divider = MSFDivider(orientation: orientation, spacing: spacing)
         divider.state.color = color
+
+        let sizeAnchor = orientation == .horizontal ? divider.view.heightAnchor : divider.view.widthAnchor
+        let size = divider.state.thickness + 2 * divider.state.padding
+        NSLayoutConstraint.activate([sizeAnchor.constraint(equalToConstant: size)])
+
+        dividers.append(divider)
+
         return divider
     }
+
+    private var dividers: [MSFDivider] = []
 
     private enum DividerDemoSection: CaseIterable {
         case swiftUI

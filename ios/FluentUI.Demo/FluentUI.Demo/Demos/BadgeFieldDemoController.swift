@@ -33,11 +33,11 @@ class BadgeFieldDemoController: DemoController {
 
         addDescription(text: "Badge field with limited number of lines")
         container.addArrangedSubview(badgeField1)
-        container.addArrangedSubview(MSFDivider().view)
+        container.addArrangedSubview(dividers[0].view)
         container.addArrangedSubview(UIView())
         addDescription(text: "Badge field with unlimited number of lines")
         container.addArrangedSubview(badgeField2)
-        container.addArrangedSubview(MSFDivider().view)
+        container.addArrangedSubview(dividers[1].view)
     }
 
     private func setupBadgeField(label: String, dataSources: [BadgeViewDataSource]) -> BadgeField {
@@ -49,6 +49,8 @@ class BadgeFieldDemoController: DemoController {
         badgeField.addBadges(withDataSources: dataSources)
         return badgeField
     }
+
+    private let dividers = [MSFDivider(), MSFDivider()]
 }
 
 extension BadgeFieldDemoController: BadgeFieldDelegate {
