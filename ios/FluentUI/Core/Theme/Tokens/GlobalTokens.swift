@@ -23,21 +23,21 @@ public final class GlobalTokens {
     lazy public var brandColors: TokenSet<BrandColorsTokens, ColorSet> = .init { token in
         switch token {
         case .primary:
-            return ColorSet(light: 0x0078D4, dark: 0x0086F0)
+            return ColorSet(light: ColorValue(0x0078D4), dark: ColorValue(0x0086F0))
         case .shade10:
-            return ColorSet(light: 0x106EBE, dark: 0x1890F1)
+            return ColorSet(light: ColorValue(0x106EBE), dark: ColorValue(0x1890F1))
         case .shade20:
-            return ColorSet(light: 0x005A9E, dark: 0x3AA0F3)
+            return ColorSet(light: ColorValue(0x005A9E), dark: ColorValue(0x3AA0F3))
         case .shade30:
-            return ColorSet(light: 0x004578, dark: 0x6CB8F6)
+            return ColorSet(light: ColorValue(0x004578), dark: ColorValue(0x6CB8F6))
         case .tint10:
-            return ColorSet(light: 0x2B88D8, dark: 0x0074D3)
+            return ColorSet(light: ColorValue(0x2B88D8), dark: ColorValue(0x0074D3))
         case .tint20:
-            return ColorSet(light: 0xC7E0F4, dark: 0x004F90)
+            return ColorSet(light: ColorValue(0xC7E0F4), dark: ColorValue(0x004F90))
         case .tint30:
-            return ColorSet(light: 0xDEECF9, dark: 0x002848)
+            return ColorSet(light: ColorValue(0xDEECF9), dark: ColorValue(0x002848))
         case .tint40:
-            return ColorSet(light: 0xEFF6FC, dark: 0x001526)
+            return ColorSet(light: ColorValue(0xEFF6FC), dark: ColorValue(0x001526))
         }
     }
 
@@ -99,107 +99,107 @@ public final class GlobalTokens {
     lazy public var neutralColors: TokenSet<NeutralColorsToken, ColorValue> = .init { token in
         switch token {
         case .black:
-            return 0x000000
+            return ColorValue(0x000000)
         case .grey2:
-            return 0x050505
+            return ColorValue(0x050505)
         case .grey4:
-            return 0x0A0A0A
+            return ColorValue(0x0A0A0A)
         case .grey6:
-            return 0x0F0F0F
+            return ColorValue(0x0F0F0F)
         case .grey8:
-            return 0x141414
+            return ColorValue(0x141414)
         case .grey10:
-            return 0x1A1A1A
+            return ColorValue(0x1A1A1A)
         case .grey12:
-            return 0x1F1F1F
+            return ColorValue(0x1F1F1F)
         case .grey14:
-            return 0x242424
+            return ColorValue(0x242424)
         case .grey16:
-            return 0x292929
+            return ColorValue(0x292929)
         case .grey18:
-            return 0x2E2E2E
+            return ColorValue(0x2E2E2E)
         case .grey20:
-            return 0x333333
+            return ColorValue(0x333333)
         case .grey22:
-            return 0x383838
+            return ColorValue(0x383838)
         case .grey24:
-            return 0x3D3D3D
+            return ColorValue(0x3D3D3D)
         case .grey26:
-            return 0x424242
+            return ColorValue(0x424242)
         case .grey28:
-            return 0x474747
+            return ColorValue(0x474747)
         case .grey30:
-            return 0x4D4D4D
+            return ColorValue(0x4D4D4D)
         case .grey32:
-            return 0x525252
+            return ColorValue(0x525252)
         case .grey34:
-            return 0x575757
+            return ColorValue(0x575757)
         case .grey36:
-            return 0x5C5C5C
+            return ColorValue(0x5C5C5C)
         case .grey38:
-            return 0x616161
+            return ColorValue(0x616161)
         case .grey40:
-            return 0x666666
+            return ColorValue(0x666666)
         case .grey42:
-            return 0x6B6B6B
+            return ColorValue(0x6B6B6B)
         case .grey44:
-            return 0x707070
+            return ColorValue(0x707070)
         case .grey46:
-            return 0x757575
+            return ColorValue(0x757575)
         case .grey48:
-            return 0x7A7A7A
+            return ColorValue(0x7A7A7A)
         case .grey50:
-            return 0x808080
+            return ColorValue(0x808080)
         case .grey52:
-            return 0x858585
+            return ColorValue(0x858585)
         case .grey54:
-            return 0x8A8A8A
+            return ColorValue(0x8A8A8A)
         case .grey56:
-            return 0x8F8F8F
+            return ColorValue(0x8F8F8F)
         case .grey58:
-            return 0x949494
+            return ColorValue(0x949494)
         case .grey60:
-            return 0x999999
+            return ColorValue(0x999999)
         case .grey62:
-            return 0x9E9E9E
+            return ColorValue(0x9E9E9E)
         case .grey64:
-            return 0xA3A3A3
+            return ColorValue(0xA3A3A3)
         case .grey66:
-            return 0xA8A8A8
+            return ColorValue(0xA8A8A8)
         case .grey68:
-            return 0xADADAD
+            return ColorValue(0xADADAD)
         case .grey70:
-            return 0xB3B3B3
+            return ColorValue(0xB3B3B3)
         case .grey72:
-            return 0xB8B8B8
+            return ColorValue(0xB8B8B8)
         case .grey74:
-            return 0xBDBDBD
+            return ColorValue(0xBDBDBD)
         case .grey76:
-            return 0xC2C2C2
+            return ColorValue(0xC2C2C2)
         case .grey78:
-            return 0xC7C7C7
+            return ColorValue(0xC7C7C7)
         case .grey80:
-            return 0xCCCCCC
+            return ColorValue(0xCCCCCC)
         case .grey82:
-            return 0xD1D1D1
+            return ColorValue(0xD1D1D1)
         case .grey84:
-            return 0xD6D6D6
+            return ColorValue(0xD6D6D6)
         case .grey86:
-            return 0xDBDBDB
+            return ColorValue(0xDBDBDB)
         case .grey88:
-            return 0xE0E0E0
+            return ColorValue(0xE0E0E0)
         case .grey90:
-            return 0xE6E6E6
+            return ColorValue(0xE6E6E6)
         case .grey92:
-            return 0xEBEBEB
+            return ColorValue(0xEBEBEB)
         case .grey94:
-            return 0xF0F0F0
+            return ColorValue(0xF0F0F0)
         case .grey96:
-            return 0xF5F5F5
+            return ColorValue(0xF5F5F5)
         case .grey98:
-            return 0xFAFAFA
+            return ColorValue(0xFAFAFA)
         case .white:
-            return 0xFFFFFF
+            return ColorValue(0xFFFFFF)
         }
     }
 

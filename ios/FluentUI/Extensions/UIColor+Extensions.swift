@@ -59,16 +59,15 @@ extension UIColor {
         }
     }
 
-    /// Creates a UIColor from a single 32-bit integer value.
+    /// Creates a UIColor from a `ColorValue` instance.
     ///
-    /// - Parameter hexValue: Integer value, generally represented as hexadecimal (e.g. `0x0086F0`), to use to initialize this color.
-    ///     Must be formatted as ARGB. Note: we will not utilize the alpha channel.
+    /// - Parameter colorValue: Color value to use to initialize this color.
     convenience init(colorValue: ColorValue) {
         self.init(
-            red: CGFloat((colorValue & 0xFF0000) >> 16) / 255.0,
-            green: CGFloat((colorValue & 0x00FF00) >> 8) / 255.0,
-            blue: CGFloat((colorValue & 0x0000FF) >> 0) / 255.0,
-            alpha: 1.0)
+            red: colorValue.r,
+            green: colorValue.g,
+            blue: colorValue.b,
+            alpha: colorValue.a)
     }
 
     /// Creates a dynamic color object that returns the appropriate color value based on the current
@@ -111,15 +110,12 @@ extension UIColor {
     }
 
     private var colorValue: ColorValue? {
-        var redValue: CGFloat = 0.0
-        var greenValue: CGFloat = 0.0
-        var blueValue: CGFloat = 0.0
-        if self.getRed(&redValue, green: &greenValue, blue: &blueValue, alpha: nil) {
-            // Ensure that all channels fall within 0x0 and 0xFF
-            let red = min(UInt32(redValue * 255.0), 0xFF)
-            let green = min(UInt32(greenValue * 255.0), 0xFF)
-            let blue = min(UInt32(blueValue * 255.0), 0xFF)
-            let colorValue: ColorValue = (red << 16) + (green << 8) + blue
+        var redValue: CGFloat = 1.0
+        var greenValue: CGFloat = 1.0
+        var blueValue: CGFloat = 1.0
+        var alphaValue: CGFloat = 1.0
+        if self.getRed(&redValue, green: &greenValue, blue: &blueValue, alpha: &alphaValue) {
+            let colorValue = ColorValue(r: redValue, g: greenValue, b: blueValue, a: alphaValue)
             return colorValue
         } else {
             return nil
