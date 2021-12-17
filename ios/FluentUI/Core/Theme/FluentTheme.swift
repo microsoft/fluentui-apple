@@ -80,7 +80,7 @@ extension UIWindow: FluentThemeable {
         }
         set {
             objc_setAssociatedObject(self, &Keys.fluentTheme, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-            NotificationCenter.default.post(name: .didChangeTheme, object: nil)
+            NotificationCenter.default.post(name: .didChangeTheme, object: self)
         }
     }
 }

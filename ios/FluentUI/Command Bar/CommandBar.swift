@@ -40,22 +40,13 @@ public class CommandBar: UIView, TokenizedControlInternal, ControlConfiguration 
         backgroundColor = UIColor(colorSet: tokens.backgroundColor)
         translatesAutoresizingMaskIntoConstraints = false
 
-        self.themeObserver = NotificationCenter.default.addObserver(forName: Notification.Name.didChangeTheme,
-                                                               object: nil,
-                                                               queue: .main) { [weak self] _ in
-            if let strongSelf = self {
-                strongSelf.updateButtonTokens()
-            }
-        }
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
 
         configureHierarchy()
         updateButtonsState()
-    }
-
-    deinit {
-        if let themeObserver = self.themeObserver {
-            NotificationCenter.default.removeObserver(themeObserver)
-        }
     }
 
     public override func didMoveToWindow() {
@@ -101,6 +92,13 @@ public class CommandBar: UIView, TokenizedControlInternal, ControlConfiguration 
     var defaultTokens: CommandBarTokens { .init() }
     var overrideTokens: CommandBarTokens? {
         didSet {
+            updateButtonTokens()
+        }
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        if let window = self.window,
+           window.isEqual(notification.object) {
             updateButtonTokens()
         }
     }
