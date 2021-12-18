@@ -182,14 +182,14 @@ struct FluentButtonBody: View {
             if isFloatingStyle {
                 buttonBackground
                     .clipShape(Capsule())
-                    .shadow(color: Color(colorSet: shadowInfo.primaryColor),
-                            radius: shadowInfo.primaryBlur,
-                            x: shadowInfo.primaryX,
-                            y: shadowInfo.primaryY)
-                    .shadow(color: Color(colorSet: shadowInfo.secondaryColor),
-                            radius: shadowInfo.secondaryBlur,
-                            x: shadowInfo.secondaryX,
-                            y: shadowInfo.secondaryY)
+                    .shadow(color: Color(colorSet: shadowInfo.colorOne),
+                            radius: shadowInfo.blurOne,
+                            x: shadowInfo.xOne,
+                            y: shadowInfo.yOne)
+                    .shadow(color: Color(colorSet: shadowInfo.colorTwo),
+                            radius: shadowInfo.blurTwo,
+                            x: shadowInfo.xTwo,
+                            y: shadowInfo.yTwo)
                     .contentShape(Capsule())
             } else {
                 buttonBackground

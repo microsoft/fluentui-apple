@@ -5,17 +5,6 @@
 
 import SwiftUI
 
-public struct ShadowInfo {
-    let primaryColor: ColorSet
-    let primaryBlur: CGFloat
-    let primaryX: CGFloat
-    let primaryY: CGFloat
-    let secondaryColor: ColorSet
-    let secondaryBlur: CGFloat
-    let secondaryX: CGFloat
-    let secondaryY: CGFloat
-}
-
 public final class AliasTokens {
 
     // MARK: ForegroundColors
@@ -213,59 +202,59 @@ public final class AliasTokens {
         guard let strongSelf = self else { preconditionFailure() }
         switch token {
         case .shadow02:
-            return ShadowInfo(primaryColor: ColorSet(light: ColorValue(r: 1.0, g: 0.0, b: 0.0, a: 0.12), dark: ColorValue(r: 1.0, g: 0.0, b: 0.0, a: 0.24)), //strongSelf.shadowColors[.neutralAmbient],
-                              primaryBlur: 1,
-                              primaryX: 0,
-                              primaryY: 0,
-                              secondaryColor: ColorSet(light: ColorValue(r: 1.0, g: 0.0, b: 0.0, a: 0.12), dark: ColorValue(r: 1.0, g: 0.0, b: 0.0, a: 0.24)), //strongSelf.shadowColors[.neutralKey],
-                              secondaryBlur: 1,
-                              secondaryX: 0,
-                              secondaryY: 1)
+            return ShadowInfo(colorOne: strongSelf.shadowColors[.neutralKey],
+                              blurOne: 1,
+                              xOne: 0,
+                              yOne: 1,
+                              colorTwo: strongSelf.shadowColors[.neutralAmbient],
+                              blurTwo: 1,
+                              xTwo: 0,
+                              yTwo: 0)
         case .shadow04:
-            return ShadowInfo(primaryColor: strongSelf.shadowColors[.neutralAmbient],
-                              primaryBlur: 1,
-                              primaryX: 0,
-                              primaryY: 0,
-                              secondaryColor: strongSelf.shadowColors[.neutralKey],
-                              secondaryBlur: 2,
-                              secondaryX: 0,
-                              secondaryY: 2)
+            return ShadowInfo(colorOne: strongSelf.shadowColors[.neutralKey],
+                              blurOne: 2,
+                              xOne: 0,
+                              yOne: 2,
+                              colorTwo: strongSelf.shadowColors[.neutralAmbient],
+                              blurTwo: 1,
+                              xTwo: 0,
+                              yTwo: 0)
         case .shadow08:
-            return ShadowInfo(primaryColor: ColorSet(light: ColorValue(r: 0.0, g: 1.0, b: 0.0, a: 0.12), dark: ColorValue(r: 1.0, g: 0.0, b: 0.0, a: 0.24)), //strongSelf.shadowColors[.neutralAmbient],
-                              primaryBlur: 1,
-                              primaryX: 0,
-                              primaryY: 0,
-                              secondaryColor: ColorSet(light: ColorValue(r: 0.0, g: 1.0, b: 0.0, a: 0.12), dark: ColorValue(r: 1.0, g: 0.0, b: 0.0, a: 0.24)), //strongSelf.shadowColors[.neutralKey],
-                              secondaryBlur: 4,
-                              secondaryX: 0,
-                              secondaryY: 4)
+            return ShadowInfo(colorOne: strongSelf.shadowColors[.neutralKey],
+                              blurOne: 4,
+                              xOne: 0,
+                              yOne: 4,
+                              colorTwo: strongSelf.shadowColors[.neutralAmbient],
+                              blurTwo: 1,
+                              xTwo: 0,
+                              yTwo: 0)
         case .shadow16:
-            return ShadowInfo(primaryColor: strongSelf.shadowColors[.neutralAmbient],
-                              primaryBlur: 1,
-                              primaryX: 0,
-                              primaryY: 0,
-                              secondaryColor: strongSelf.shadowColors[.neutralKey],
-                              secondaryBlur: 8,
-                              secondaryX: 0,
-                              secondaryY: 8)
+            return ShadowInfo(colorOne: strongSelf.shadowColors[.neutralKey],
+                              blurOne: 8,
+                              xOne: 0,
+                              yOne: 8,
+                              colorTwo: strongSelf.shadowColors[.neutralAmbient],
+                              blurTwo: 1,
+                              xTwo: 0,
+                              yTwo: 0)
         case .shadow28:
-            return ShadowInfo(primaryColor: strongSelf.shadowColors[.neutralAmbientDarker],
-                              primaryBlur: 4,
-                              primaryX: 0,
-                              primaryY: 0,
-                              secondaryColor: strongSelf.shadowColors[.neutralKeyDarker],
-                              secondaryBlur: 14,
-                              secondaryX: 0,
-                              secondaryY: 14)
+            return ShadowInfo(colorOne: strongSelf.shadowColors[.neutralKeyDarker],
+                              blurOne: 14,
+                              xOne: 0,
+                              yOne: 14,
+                              colorTwo: strongSelf.shadowColors[.neutralAmbientDarker],
+                              blurTwo: 4,
+                              xTwo: 0,
+                              yTwo: 0)
         case .shadow64:
-            return ShadowInfo(primaryColor: strongSelf.shadowColors[.neutralAmbientDarker],
-                              primaryBlur: 4,
-                              primaryX: 0,
-                              primaryY: 0,
-                              secondaryColor: strongSelf.shadowColors[.neutralKeyDarker],
-                              secondaryBlur: 32,
-                              secondaryX: 0,
-                              secondaryY: 32)
+            return ShadowInfo(colorOne: strongSelf.shadowColors[.neutralKeyDarker],
+                              blurOne: 32,
+                              xOne: 0,
+                              yOne: 32,
+                              colorTwo: strongSelf.shadowColors[.neutralAmbientDarker],
+                              blurTwo: 4,
+                              xTwo: 0,
+                              yTwo: 0)
         }
     }
 
