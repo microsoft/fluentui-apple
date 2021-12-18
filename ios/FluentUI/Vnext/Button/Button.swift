@@ -175,47 +175,21 @@ struct FluentButtonBody: View {
             }
         }
 
-        let shadow1Color: Color
-        let shadow1Blur: CGFloat
-        let shadow1DepthX: CGFloat
-        let shadow1DepthY: CGFloat
-        let shadow2Color: Color
-        let shadow2Blur: CGFloat
-        let shadow2DepthX: CGFloat
-        let shadow2DepthY: CGFloat
-        if shouldUsePressedShadow {
-            shadow1Color = tokens.pressedShadow1Color
-            shadow1Blur = tokens.pressedShadow1Blur
-            shadow1DepthX = tokens.pressedShadow1DepthX
-            shadow1DepthY = tokens.pressedShadow1DepthY
-            shadow2Color = tokens.pressedShadow2Color
-            shadow2Blur = tokens.pressedShadow2Blur
-            shadow2DepthX = tokens.pressedShadow2DepthX
-            shadow2DepthY = tokens.pressedShadow2DepthY
-        } else {
-            shadow1Color = tokens.restShadow1Color
-            shadow1Blur = tokens.restShadow1Blur
-            shadow1DepthX = tokens.restShadow1DepthX
-            shadow1DepthY = tokens.restShadow1DepthY
-            shadow2Color = tokens.restShadow2Color
-            shadow2Blur = tokens.restShadow2Blur
-            shadow2DepthX = tokens.restShadow2DepthX
-            shadow2DepthY = tokens.restShadow2DepthY
-        }
+        let shadowInfo = shouldUsePressedShadow ? tokens.pressedShadow : tokens.restShadow
 
         @ViewBuilder
         var button: some View {
             if isFloatingStyle {
                 buttonBackground
                     .clipShape(Capsule())
-                    .shadow(color: shadow1Color,
-                            radius: shadow1Blur,
-                            x: shadow1DepthX,
-                            y: shadow1DepthY)
-                    .shadow(color: shadow2Color,
-                            radius: shadow2Blur,
-                            x: shadow2DepthX,
-                            y: shadow2DepthY)
+                    .shadow(color: Color(colorSet: shadowInfo.primaryColor),
+                            radius: shadowInfo.primaryBlur,
+                            x: shadowInfo.primaryX,
+                            y: shadowInfo.primaryY)
+                    .shadow(color: Color(colorSet: shadowInfo.secondaryColor),
+                            radius: shadowInfo.secondaryBlur,
+                            x: shadowInfo.secondaryX,
+                            y: shadowInfo.secondaryY)
                     .contentShape(Capsule())
             } else {
                 buttonBackground

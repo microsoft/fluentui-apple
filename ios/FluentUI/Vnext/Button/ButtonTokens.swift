@@ -127,22 +127,6 @@ public class ButtonTokens: ControlTokens {
         disabled: aliasTokens.foregroundColors[.brandDisabled]
     )
 
-    // TODO
-    lazy var restShadow1Color: Color = .clear
-    lazy var restShadow1Blur: CGFloat = 0.0
-    lazy var restShadow1DepthX: CGFloat = 0.0
-    lazy var restShadow1DepthY: CGFloat = 0.0
-    lazy var restShadow2Color: Color = .clear
-    lazy var restShadow2Blur: CGFloat = 0.0
-    lazy var restShadow2DepthX: CGFloat = 0.0
-    lazy var restShadow2DepthY: CGFloat = 0.0
-
-    lazy var pressedShadow1Color: Color = .clear
-    lazy var pressedShadow1Blur: CGFloat = 0.0
-    lazy var pressedShadow1DepthX: CGFloat = 0.0
-    lazy var pressedShadow1DepthY: CGFloat = 0.0
-    lazy var pressedShadow2Color: Color = .clear
-    lazy var pressedShadow2Blur: CGFloat = 0.0
-    lazy var pressedShadow2DepthX: CGFloat = 0.0
-    lazy var pressedShadow2DepthY: CGFloat = 0.0
+    lazy var restShadow: ShadowInfo = aliasTokens.elevation[.interactiveElevation1Rest]
+    lazy var pressedShadow: ShadowInfo = aliasTokens.elevation[.interactiveElevation1Pressed]
 }

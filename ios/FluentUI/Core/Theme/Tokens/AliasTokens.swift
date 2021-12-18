@@ -5,7 +5,7 @@
 
 import SwiftUI
 
-public struct ShadowTokens {
+public struct ShadowInfo {
     let primaryColor: ColorSet
     let primaryBlur: CGFloat
     let primaryX: CGFloat
@@ -201,7 +201,7 @@ public final class AliasTokens {
 
     // MARK: - Shadow
 
-    public enum ShadowToken: CaseIterable {
+    public enum ShadowTokens: CaseIterable {
         case shadow02
         case shadow04
         case shadow08
@@ -209,63 +209,88 @@ public final class AliasTokens {
         case shadow28
         case shadow64
     }
-    lazy public var shadow: TokenSet<ShadowToken, ShadowTokens> = .init { [weak self] token in
+    lazy public var shadow: TokenSet<ShadowTokens, ShadowInfo> = .init { [weak self] token in
         guard let strongSelf = self else { preconditionFailure() }
         switch token {
         case .shadow02:
-            return ShadowTokens(primaryColor: strongSelf.shadowColors[.brandAmbient],
-                                primaryBlur: 1,
-                                primaryX: 0,
-                                primaryY: 1,
-                                secondaryColor: strongSelf.shadowColors[.brandAmbient],
-                                secondaryBlur: 1,
-                                secondaryX: 0,
-                                secondaryY: 0)
+            return ShadowInfo(primaryColor: ColorSet(light: ColorValue(r: 1.0, g: 0.0, b: 0.0, a: 0.12), dark: ColorValue(r: 1.0, g: 0.0, b: 0.0, a: 0.24)), //strongSelf.shadowColors[.neutralAmbient],
+                              primaryBlur: 1,
+                              primaryX: 0,
+                              primaryY: 0,
+                              secondaryColor: ColorSet(light: ColorValue(r: 1.0, g: 0.0, b: 0.0, a: 0.12), dark: ColorValue(r: 1.0, g: 0.0, b: 0.0, a: 0.24)), //strongSelf.shadowColors[.neutralKey],
+                              secondaryBlur: 1,
+                              secondaryX: 0,
+                              secondaryY: 1)
         case .shadow04:
-            return ShadowTokens(primaryColor: strongSelf.shadowColors[.brandAmbient],
-                                primaryBlur: 1,
-                                primaryX: 0,
-                                primaryY: 1,
-                                secondaryColor: strongSelf.shadowColors[.brandAmbient],
-                                secondaryBlur: 1,
-                                secondaryX: 0,
-                                secondaryY: 0)
+            return ShadowInfo(primaryColor: strongSelf.shadowColors[.neutralAmbient],
+                              primaryBlur: 1,
+                              primaryX: 0,
+                              primaryY: 0,
+                              secondaryColor: strongSelf.shadowColors[.neutralKey],
+                              secondaryBlur: 2,
+                              secondaryX: 0,
+                              secondaryY: 2)
         case .shadow08:
-            return ShadowTokens(primaryColor: strongSelf.shadowColors[.brandAmbient],
-                                primaryBlur: 1,
-                                primaryX: 0,
-                                primaryY: 1,
-                                secondaryColor: strongSelf.shadowColors[.brandAmbient],
-                                secondaryBlur: 1,
-                                secondaryX: 0,
-                                secondaryY: 0)
+            return ShadowInfo(primaryColor: ColorSet(light: ColorValue(r: 0.0, g: 1.0, b: 0.0, a: 0.12), dark: ColorValue(r: 1.0, g: 0.0, b: 0.0, a: 0.24)), //strongSelf.shadowColors[.neutralAmbient],
+                              primaryBlur: 1,
+                              primaryX: 0,
+                              primaryY: 0,
+                              secondaryColor: ColorSet(light: ColorValue(r: 0.0, g: 1.0, b: 0.0, a: 0.12), dark: ColorValue(r: 1.0, g: 0.0, b: 0.0, a: 0.24)), //strongSelf.shadowColors[.neutralKey],
+                              secondaryBlur: 4,
+                              secondaryX: 0,
+                              secondaryY: 4)
         case .shadow16:
-            return ShadowTokens(primaryColor: strongSelf.shadowColors[.brandAmbient],
-                                primaryBlur: 1,
-                                primaryX: 0,
-                                primaryY: 1,
-                                secondaryColor: strongSelf.shadowColors[.brandAmbient],
-                                secondaryBlur: 1,
-                                secondaryX: 0,
-                                secondaryY: 0)
+            return ShadowInfo(primaryColor: strongSelf.shadowColors[.neutralAmbient],
+                              primaryBlur: 1,
+                              primaryX: 0,
+                              primaryY: 0,
+                              secondaryColor: strongSelf.shadowColors[.neutralKey],
+                              secondaryBlur: 8,
+                              secondaryX: 0,
+                              secondaryY: 8)
         case .shadow28:
-            return ShadowTokens(primaryColor: strongSelf.shadowColors[.brandAmbient],
-                                primaryBlur: 1,
-                                primaryX: 0,
-                                primaryY: 1,
-                                secondaryColor: strongSelf.shadowColors[.brandAmbient],
-                                secondaryBlur: 1,
-                                secondaryX: 0,
-                                secondaryY: 0)
+            return ShadowInfo(primaryColor: strongSelf.shadowColors[.neutralAmbientDarker],
+                              primaryBlur: 4,
+                              primaryX: 0,
+                              primaryY: 0,
+                              secondaryColor: strongSelf.shadowColors[.neutralKeyDarker],
+                              secondaryBlur: 14,
+                              secondaryX: 0,
+                              secondaryY: 14)
         case .shadow64:
-            return ShadowTokens(primaryColor: strongSelf.shadowColors[.brandAmbient],
-                                primaryBlur: 1,
-                                primaryX: 0,
-                                primaryY: 1,
-                                secondaryColor: strongSelf.shadowColors[.brandAmbient],
-                                secondaryBlur: 1,
-                                secondaryX: 0,
-                                secondaryY: 0)
+            return ShadowInfo(primaryColor: strongSelf.shadowColors[.neutralAmbientDarker],
+                              primaryBlur: 4,
+                              primaryX: 0,
+                              primaryY: 0,
+                              secondaryColor: strongSelf.shadowColors[.neutralKeyDarker],
+                              secondaryBlur: 32,
+                              secondaryX: 0,
+                              secondaryY: 32)
+        }
+    }
+
+    // MARK: Elevation
+
+    public enum ElevationTokens: CaseIterable {
+        case interactiveElevation1Rest
+        case interactiveElevation1Hover
+        case interactiveElevation1Pressed
+        case interactiveElevation1Selected
+        case interactiveElevation1Disabled
+    }
+    lazy public var elevation: TokenSet<ElevationTokens, ShadowInfo> = .init { [weak self] token in
+        guard let strongSelf = self else { preconditionFailure() }
+        switch token {
+        case .interactiveElevation1Rest:
+            return strongSelf.shadow[.shadow08]
+        case .interactiveElevation1Hover:
+            return strongSelf.shadow[.shadow02]
+        case .interactiveElevation1Pressed:
+            return strongSelf.shadow[.shadow02]
+        case .interactiveElevation1Selected:
+            return strongSelf.shadow[.shadow02]
+        case .interactiveElevation1Disabled:
+            return strongSelf.shadow[.shadow02]
         }
     }
 
