@@ -74,7 +74,7 @@ xcodebuild ${XCODEBUILDPARAMS} -project ${PROJECT_FILE_PATH} -target "MicrosoftF
     drawer_ios.platform = :ios
     drawer_ios.dependency 'MicrosoftFluentUIVnext/Obscurable_ios'
     drawer_ios.dependency 'MicrosoftFluentUIVnext/ResizingHandleView_ios'
-    drawer_ios.dependency 'MicrosoftFluentUIVnext/Separator_ios'
+    drawer_ios.dependency 'MicrosoftFluentUIVnext/Divider_ios'
     drawer_ios.dependency 'MicrosoftFluentUIVnext/TouchForwardingView_ios'
     drawer_ios.source_files = ["ios/FluentUI/Drawer/**/*.{swift,h}"]
   end
