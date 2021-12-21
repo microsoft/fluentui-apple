@@ -5,13 +5,13 @@
 
 import UIKit
 
-/// Represents the set of `ColorSet` values for the various states of a button.
-public struct ButtonColorSets {
-    let rest: ColorSet
-    let hover: ColorSet
-    let pressed: ColorSet
-    let selected: ColorSet
-    let disabled: ColorSet
+/// Represents the set of `DynamicColor` values for the various states of a button.
+public struct ButtonDynamicColors {
+    let rest: DynamicColor
+    let hover: DynamicColor
+    let pressed: DynamicColor
+    let selected: DynamicColor
+    let disabled: DynamicColor
 }
 
 /// Design token set for the `CommandBar` control.
@@ -28,12 +28,12 @@ public class CommandBarTokens: ControlTokens {
     }
 
     /// Creates an instance of `CommandBarTokens` with optional token value overrides.
-    public init(backgroundColor: ColorSet? = nil,
+    public init(backgroundColor: DynamicColor? = nil,
                 groupBorderRadius: CGFloat? = nil,
                 groupInterspace: CGFloat? = nil,
-                itemBackgroundColor: ButtonColorSets? = nil,
-                itemFixedIconColor: ColorSet? = nil,
-                itemIconColor: ButtonColorSets? = nil,
+                itemBackgroundColor: ButtonDynamicColors? = nil,
+                itemFixedIconColor: DynamicColor? = nil,
+                itemIconColor: ButtonDynamicColors? = nil,
                 itemInterspace: CGFloat? = nil) {
 
         super.init()
@@ -61,28 +61,28 @@ public class CommandBarTokens: ControlTokens {
         }
     }
 
-    lazy var backgroundColor: ColorSet = aliasTokens.backgroundColors[.neutral1]
+    lazy var backgroundColor: DynamicColor = aliasTokens.backgroundColors[.neutral1]
 
     lazy var groupBorderRadius: CGFloat = globalTokens.borderRadius[.xLarge]
 
     lazy var groupInterspace: CGFloat = globalTokens.spacing[.medium]
 
-    lazy var itemBackgroundColor: ButtonColorSets = .init(rest: aliasTokens.backgroundColors[.neutral4],
-                                                          hover: ColorSet(light: aliasTokens.backgroundColors[.neutral5].light,
-                                                                          dark: aliasTokens.strokeColors[.neutral2].dark),
-                                                          pressed: ColorSet(light: aliasTokens.backgroundColors[.neutralDisabled].light,
-                                                                            dark: aliasTokens.backgroundColors[.neutral5].dark),
-                                                          selected: aliasTokens.backgroundColors[.brandRest],
-                                                          disabled: aliasTokens.strokeColors[.neutral1])
+    lazy var itemBackgroundColor: ButtonDynamicColors = .init(rest: aliasTokens.backgroundColors[.neutral4],
+                                                              hover: DynamicColor(light: aliasTokens.backgroundColors[.neutral5].light,
+                                                                                  dark: aliasTokens.strokeColors[.neutral2].dark),
+                                                              pressed: DynamicColor(light: aliasTokens.backgroundColors[.neutralDisabled].light,
+                                                                                    dark: aliasTokens.backgroundColors[.neutral5].dark),
+                                                              selected: aliasTokens.backgroundColors[.brandRest],
+                                                              disabled: aliasTokens.strokeColors[.neutral1])
 
-    lazy var itemFixedIconColor: ColorSet = ColorSet(light: aliasTokens.foregroundColors[.neutral1].light,
-                                                     dark: aliasTokens.foregroundColors[.neutral3].dark)
+    lazy var itemFixedIconColor: DynamicColor = .init(light: aliasTokens.foregroundColors[.neutral1].light,
+                                                      dark: aliasTokens.foregroundColors[.neutral3].dark)
 
-    lazy var itemIconColor: ButtonColorSets = .init(rest: aliasTokens.foregroundColors[.neutral1],
-                                                    hover: aliasTokens.foregroundColors[.neutral1],
-                                                    pressed: aliasTokens.foregroundColors[.neutral1],
-                                                    selected: aliasTokens.foregroundColors[.neutralInverted],
-                                                    disabled: aliasTokens.foregroundColors[.neutralDisabled])
+    lazy var itemIconColor: ButtonDynamicColors = .init(rest: aliasTokens.foregroundColors[.neutral1],
+                                                        hover: aliasTokens.foregroundColors[.neutral1],
+                                                        pressed: aliasTokens.foregroundColors[.neutral1],
+                                                        selected: aliasTokens.foregroundColors[.neutralInverted],
+                                                        disabled: aliasTokens.foregroundColors[.neutralDisabled])
 
     lazy var itemInterspace: CGFloat = globalTokens.spacing[.xxxSmall]
 }

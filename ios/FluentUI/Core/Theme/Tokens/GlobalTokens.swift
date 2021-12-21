@@ -20,24 +20,24 @@ public final class GlobalTokens {
         case tint30
         case tint40
     }
-    lazy public var brandColors: TokenSet<BrandColorsTokens, ColorSet> = .init { token in
+    lazy public var brandColors: TokenSet<BrandColorsTokens, DynamicColor> = .init { token in
         switch token {
         case .primary:
-            return ColorSet(light: ColorValue(0x0078D4), dark: ColorValue(0x0086F0))
+            return DynamicColor(light: ColorValue(0x0078D4), dark: ColorValue(0x0086F0))
         case .shade10:
-            return ColorSet(light: ColorValue(0x106EBE), dark: ColorValue(0x1890F1))
+            return DynamicColor(light: ColorValue(0x106EBE), dark: ColorValue(0x1890F1))
         case .shade20:
-            return ColorSet(light: ColorValue(0x005A9E), dark: ColorValue(0x3AA0F3))
+            return DynamicColor(light: ColorValue(0x005A9E), dark: ColorValue(0x3AA0F3))
         case .shade30:
-            return ColorSet(light: ColorValue(0x004578), dark: ColorValue(0x6CB8F6))
+            return DynamicColor(light: ColorValue(0x004578), dark: ColorValue(0x6CB8F6))
         case .tint10:
-            return ColorSet(light: ColorValue(0x2B88D8), dark: ColorValue(0x0074D3))
+            return DynamicColor(light: ColorValue(0x2B88D8), dark: ColorValue(0x0074D3))
         case .tint20:
-            return ColorSet(light: ColorValue(0xC7E0F4), dark: ColorValue(0x004F90))
+            return DynamicColor(light: ColorValue(0xC7E0F4), dark: ColorValue(0x004F90))
         case .tint30:
-            return ColorSet(light: ColorValue(0xDEECF9), dark: ColorValue(0x002848))
+            return DynamicColor(light: ColorValue(0xDEECF9), dark: ColorValue(0x002848))
         case .tint40:
-            return ColorSet(light: ColorValue(0xEFF6FC), dark: ColorValue(0x001526))
+            return DynamicColor(light: ColorValue(0xEFF6FC), dark: ColorValue(0x001526))
         }
     }
 

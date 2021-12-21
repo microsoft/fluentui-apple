@@ -50,7 +50,7 @@ public struct ColorValue {
 }
 
 /// Represents a set of color values to be used in different contexts.
-public struct ColorSet {
+public struct DynamicColor {
     /// Creates a dynamic color object that wraps a set of color values for various rendering contexts.
     ///
     /// - Parameter light: The default color for a light context. Required.
@@ -170,9 +170,9 @@ extension Color {
     /// Creates a dynamic color object that returns the appropriate color value based on the current
     /// rendering context.
     ///
-    /// - Parameter colorSet: The set of color values that may be applied based on the current context.
-    init(colorSet: ColorSet) {
-        self.init(UIColor(colorSet: colorSet))
+    /// - Parameter dynamicColor: The set of color values that may be applied based on the current context.
+    init(dynamicColor: DynamicColor) {
+        self.init(UIColor(dynamicColor: dynamicColor))
     }
 
     /// Creates a Color from a `ColorValue` instance.

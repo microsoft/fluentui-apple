@@ -109,28 +109,28 @@ open class ColorProvidingStyle: FluentUIStyle {
 private func brandedGlobalTokens(provider: ColorProviding, for window: UIWindow) -> GlobalTokens {
     let globalTokens = GlobalTokens()
     let brandColors = globalTokens.brandColors
-    if let primary = provider.primaryColor(for: window)?.colorSet {
+    if let primary = provider.primaryColor(for: window)?.dynamicColor {
         brandColors[.primary] = primary
     }
-    if let tint10 = provider.primaryTint10Color(for: window)?.colorSet {
+    if let tint10 = provider.primaryTint10Color(for: window)?.dynamicColor {
         brandColors[.tint10] = tint10
     }
-    if let tint20 = provider.primaryTint20Color(for: window)?.colorSet {
+    if let tint20 = provider.primaryTint20Color(for: window)?.dynamicColor {
         brandColors[.tint20] = tint20
     }
-    if let tint30 = provider.primaryTint30Color(for: window)?.colorSet {
+    if let tint30 = provider.primaryTint30Color(for: window)?.dynamicColor {
         brandColors[.tint30] = tint30
     }
-    if let tint40 = provider.primaryTint40Color(for: window)?.colorSet {
+    if let tint40 = provider.primaryTint40Color(for: window)?.dynamicColor {
         brandColors[.tint40] = tint40
     }
-    if let shade10 = provider.primaryShade10Color(for: window)?.colorSet {
+    if let shade10 = provider.primaryShade10Color(for: window)?.dynamicColor {
         brandColors[.shade10] = shade10
     }
-    if let shade20 = provider.primaryShade20Color(for: window)?.colorSet {
+    if let shade20 = provider.primaryShade20Color(for: window)?.dynamicColor {
         brandColors[.shade20] = shade20
     }
-    if let shade30 = provider.primaryShade30Color(for: window)?.colorSet {
+    if let shade30 = provider.primaryShade30Color(for: window)?.dynamicColor {
         brandColors[.shade30] = shade30
     }
     return globalTokens

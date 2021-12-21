@@ -85,23 +85,23 @@ class CommandBarButton: UIButton {
 
     private func updateStyle() {
         let commandBarTokens = self.commandBarTokens
-        tintColor = UIColor(colorSet: isSelected ? commandBarTokens.itemIconColor.selected : commandBarTokens.itemIconColor.rest)
+        tintColor = UIColor(dynamicColor: isSelected ? commandBarTokens.itemIconColor.selected : commandBarTokens.itemIconColor.rest)
         setTitleColor(tintColor, for: .normal)
 
         if !isPersistSelection {
             backgroundColor = .clear
-            tintColor = UIColor(colorSet: commandBarTokens.itemFixedIconColor)
+            tintColor = UIColor(dynamicColor: commandBarTokens.itemFixedIconColor)
         } else {
             if !isEnabled {
-                backgroundColor = UIColor(colorSet: commandBarTokens.itemBackgroundColor.disabled)
-                tintColor = UIColor(colorSet: commandBarTokens.itemIconColor.disabled)
+                backgroundColor = UIColor(dynamicColor: commandBarTokens.itemBackgroundColor.disabled)
+                tintColor = UIColor(dynamicColor: commandBarTokens.itemIconColor.disabled)
             } else if isSelected {
-                backgroundColor = UIColor(colorSet: commandBarTokens.itemBackgroundColor.selected)
+                backgroundColor = UIColor(dynamicColor: commandBarTokens.itemBackgroundColor.selected)
             } else if isHighlighted {
-                backgroundColor = UIColor(colorSet: commandBarTokens.itemBackgroundColor.pressed)
-                tintColor = UIColor(colorSet: commandBarTokens.itemIconColor.pressed)
+                backgroundColor = UIColor(dynamicColor: commandBarTokens.itemBackgroundColor.pressed)
+                tintColor = UIColor(dynamicColor: commandBarTokens.itemIconColor.pressed)
             } else {
-                backgroundColor = UIColor(colorSet: commandBarTokens.itemBackgroundColor.rest)
+                backgroundColor = UIColor(dynamicColor: commandBarTokens.itemBackgroundColor.rest)
             }
         }
     }
@@ -114,8 +114,8 @@ class CommandBarButton: UIButton {
 extension CommandBarButton: UIPointerInteractionDelegate {
     @available(iOS 13.4, *)
     public func pointerInteraction(_ interaction: UIPointerInteraction, willEnter region: UIPointerRegion, animator: UIPointerInteractionAnimating) {
-        backgroundColor = UIColor(colorSet: isSelected ? commandBarTokens.itemBackgroundColor.selected : commandBarTokens.itemBackgroundColor.hover)
-        tintColor = UIColor(colorSet: isSelected ? commandBarTokens.itemIconColor.selected : commandBarTokens.itemIconColor.hover)
+        backgroundColor = UIColor(dynamicColor: isSelected ? commandBarTokens.itemBackgroundColor.selected : commandBarTokens.itemBackgroundColor.hover)
+        tintColor = UIColor(dynamicColor: isSelected ? commandBarTokens.itemIconColor.selected : commandBarTokens.itemIconColor.hover)
     }
 
     @available(iOS 13.4, *)

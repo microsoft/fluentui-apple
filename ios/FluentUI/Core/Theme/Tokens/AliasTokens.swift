@@ -16,34 +16,34 @@ public final class AliasTokens {
         case neutralDisabled
         case neutralInverted
     }
-    public lazy var foregroundColors: TokenSet<ForegroundColorsTokens, ColorSet> = .init { [weak self] token in
+    public lazy var foregroundColors: TokenSet<ForegroundColorsTokens, DynamicColor> = .init { [weak self] token in
         guard let strongSelf = self else { preconditionFailure() }
         switch token {
         case .neutral1:
-            return ColorSet(light: strongSelf.globalTokens.neutralColors[.grey14],
-                            lightHighContrast: strongSelf.globalTokens.neutralColors[.black],
-                            dark: strongSelf.globalTokens.neutralColors[.white],
-                            darkHighContrast: strongSelf.globalTokens.neutralColors[.white])
+            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey14],
+                                lightHighContrast: strongSelf.globalTokens.neutralColors[.black],
+                                dark: strongSelf.globalTokens.neutralColors[.white],
+                                darkHighContrast: strongSelf.globalTokens.neutralColors[.white])
         case .neutral2:
-            return ColorSet(light: strongSelf.globalTokens.neutralColors[.grey26],
-                            lightHighContrast: strongSelf.globalTokens.neutralColors[.black],
-                            dark: strongSelf.globalTokens.neutralColors[.grey84],
-                            darkHighContrast: strongSelf.globalTokens.neutralColors[.white])
+            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey26],
+                                lightHighContrast: strongSelf.globalTokens.neutralColors[.black],
+                                dark: strongSelf.globalTokens.neutralColors[.grey84],
+                                darkHighContrast: strongSelf.globalTokens.neutralColors[.white])
         case .neutral3:
-            return ColorSet(light: strongSelf.globalTokens.neutralColors[.grey38],
-                            lightHighContrast: strongSelf.globalTokens.neutralColors[.grey14],
-                            dark: strongSelf.globalTokens.neutralColors[.grey68],
-                            darkHighContrast: strongSelf.globalTokens.neutralColors[.grey84])
+            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey38],
+                                lightHighContrast: strongSelf.globalTokens.neutralColors[.grey14],
+                                dark: strongSelf.globalTokens.neutralColors[.grey68],
+                                darkHighContrast: strongSelf.globalTokens.neutralColors[.grey84])
         case .neutralDisabled:
-            return ColorSet(light: strongSelf.globalTokens.neutralColors[.grey74],
-                            lightHighContrast: strongSelf.globalTokens.neutralColors[.grey38],
-                            dark: strongSelf.globalTokens.neutralColors[.grey36],
-                            darkHighContrast: strongSelf.globalTokens.neutralColors[.grey62])
+            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey74],
+                                lightHighContrast: strongSelf.globalTokens.neutralColors[.grey38],
+                                dark: strongSelf.globalTokens.neutralColors[.grey36],
+                                darkHighContrast: strongSelf.globalTokens.neutralColors[.grey62])
         case .neutralInverted:
-            return ColorSet(light: strongSelf.globalTokens.neutralColors[.white],
-                            lightHighContrast: strongSelf.globalTokens.neutralColors[.white],
-                            dark: strongSelf.globalTokens.neutralColors[.black],
-                            darkHighContrast: strongSelf.globalTokens.neutralColors[.black])
+            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.white],
+                                lightHighContrast: strongSelf.globalTokens.neutralColors[.white],
+                                dark: strongSelf.globalTokens.neutralColors[.black],
+                                darkHighContrast: strongSelf.globalTokens.neutralColors[.black])
         }
     }
 
@@ -58,33 +58,33 @@ public final class AliasTokens {
         case neutralDisabled
         case brandRest
     }
-    public lazy var backgroundColors: TokenSet<BackgroundColorsTokens, ColorSet> = .init { [weak self] token in
+    public lazy var backgroundColors: TokenSet<BackgroundColorsTokens, DynamicColor> = .init { [weak self] token in
         guard let strongSelf = self else { preconditionFailure() }
         switch token {
         case .neutral1:
-            return ColorSet(light: strongSelf.globalTokens.neutralColors[.white],
-                            dark: strongSelf.globalTokens.neutralColors[.black],
-                            darkElevated: strongSelf.globalTokens.neutralColors[.grey4])
+            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.white],
+                                dark: strongSelf.globalTokens.neutralColors[.black],
+                                darkElevated: strongSelf.globalTokens.neutralColors[.grey4])
         case .neutral2:
-            return ColorSet(light: strongSelf.globalTokens.neutralColors[.grey98],
-                            dark: strongSelf.globalTokens.neutralColors[.grey4],
-                            darkElevated: strongSelf.globalTokens.neutralColors[.grey8])
+            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey98],
+                                dark: strongSelf.globalTokens.neutralColors[.grey4],
+                                darkElevated: strongSelf.globalTokens.neutralColors[.grey8])
         case .neutral3:
-            return ColorSet(light: strongSelf.globalTokens.neutralColors[.grey96],
-                            dark: strongSelf.globalTokens.neutralColors[.grey8],
-                            darkElevated: strongSelf.globalTokens.neutralColors[.grey12])
+            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey96],
+                                dark: strongSelf.globalTokens.neutralColors[.grey8],
+                                darkElevated: strongSelf.globalTokens.neutralColors[.grey12])
         case .neutral4:
-            return ColorSet(light: strongSelf.globalTokens.neutralColors[.grey94],
-                            dark: strongSelf.globalTokens.neutralColors[.grey12],
-                            darkElevated: strongSelf.globalTokens.neutralColors[.grey16])
+            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey94],
+                                dark: strongSelf.globalTokens.neutralColors[.grey12],
+                                darkElevated: strongSelf.globalTokens.neutralColors[.grey16])
         case .neutral5:
-            return ColorSet(light: strongSelf.globalTokens.neutralColors[.grey92],
-                            dark: strongSelf.globalTokens.neutralColors[.grey36],
-                            darkElevated: strongSelf.globalTokens.neutralColors[.grey36])
+            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey92],
+                                dark: strongSelf.globalTokens.neutralColors[.grey36],
+                                darkElevated: strongSelf.globalTokens.neutralColors[.grey36])
         case .neutralDisabled:
-            return ColorSet(light: strongSelf.globalTokens.neutralColors[.grey88],
-                            dark: strongSelf.globalTokens.neutralColors[.grey84],
-                            darkElevated: strongSelf.globalTokens.neutralColors[.grey84])
+            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey88],
+                                dark: strongSelf.globalTokens.neutralColors[.grey84],
+                                darkElevated: strongSelf.globalTokens.neutralColors[.grey84])
         case .brandRest:
             return strongSelf.globalTokens.brandColors[.primary]
         }
@@ -96,21 +96,21 @@ public final class AliasTokens {
         case neutral1
         case neutral2
     }
-    public lazy var strokeColors: TokenSet<StrokeColorsTokens, ColorSet> = .init { [weak self] token in
+    public lazy var strokeColors: TokenSet<StrokeColorsTokens, DynamicColor> = .init { [weak self] token in
         guard let strongSelf = self else { preconditionFailure() }
         switch token {
         case .neutral1:
-            return ColorSet(light: strongSelf.globalTokens.neutralColors[.grey94],
-                            lightHighContrast: strongSelf.globalTokens.neutralColors[.grey38],
-                            dark: strongSelf.globalTokens.neutralColors[.grey24],
-                            darkHighContrast: strongSelf.globalTokens.neutralColors[.grey68],
-                            darkElevated: strongSelf.globalTokens.neutralColors[.grey32])
+            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey94],
+                                lightHighContrast: strongSelf.globalTokens.neutralColors[.grey38],
+                                dark: strongSelf.globalTokens.neutralColors[.grey24],
+                                darkHighContrast: strongSelf.globalTokens.neutralColors[.grey68],
+                                darkElevated: strongSelf.globalTokens.neutralColors[.grey32])
         case .neutral2:
-            return ColorSet(light: strongSelf.globalTokens.neutralColors[.grey88],
-                            lightHighContrast: strongSelf.globalTokens.neutralColors[.grey38],
-                            dark: strongSelf.globalTokens.neutralColors[.grey32],
-                            darkHighContrast: strongSelf.globalTokens.neutralColors[.grey68],
-                            darkElevated: strongSelf.globalTokens.neutralColors[.grey36])
+            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey88],
+                                lightHighContrast: strongSelf.globalTokens.neutralColors[.grey38],
+                                dark: strongSelf.globalTokens.neutralColors[.grey32],
+                                darkHighContrast: strongSelf.globalTokens.neutralColors[.grey68],
+                                darkElevated: strongSelf.globalTokens.neutralColors[.grey36])
         }
     }
 

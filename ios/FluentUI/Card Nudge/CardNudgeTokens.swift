@@ -43,11 +43,11 @@ public class CardNudgeTokens: ControlTokens {
 
     /// Creates an instance of `CardNudgeTokens` with optional token value overrides.
     public init(style: MSFCardNudgeStyle,
-                accentColor: ColorSet? = nil,
+                accentColor: DynamicColor? = nil,
                 accentIconSize: CGFloat? = nil,
                 accentPadding: CGFloat? = nil,
-                backgroundColor: ColorSet? = nil,
-                buttonBackgroundColor: ColorSet? = nil,
+                backgroundColor: DynamicColor? = nil,
+                buttonBackgroundColor: DynamicColor? = nil,
                 buttonInnerPaddingHorizontal: CGFloat? = nil,
                 circleRadius: CGFloat? = nil,
                 circleSize: CGFloat? = nil,
@@ -57,10 +57,10 @@ public class CardNudgeTokens: ControlTokens {
                 interTextVerticalPadding: CGFloat? = nil,
                 mainContentVerticalPadding: CGFloat? = nil,
                 minimumHeight: CGFloat? = nil,
-                outlineColor: ColorSet? = nil,
+                outlineColor: DynamicColor? = nil,
                 outlineWidth: CGFloat? = nil,
-                subtitleTextColor: ColorSet? = nil,
-                textColor: ColorSet? = nil,
+                subtitleTextColor: DynamicColor? = nil,
+                textColor: DynamicColor? = nil,
                 verticalPadding: CGFloat? = nil) {
 
         self.style = style
@@ -131,13 +131,13 @@ public class CardNudgeTokens: ControlTokens {
 
     // MARK: - Design Tokens
 
-    lazy var accentColor: ColorSet = globalTokens.brandColors[.shade20]
+    lazy var accentColor: DynamicColor = globalTokens.brandColors[.shade20]
 
     lazy var accentIconSize: CGFloat = globalTokens.iconSize[.xxSmall]
 
     lazy var accentPadding: CGFloat = globalTokens.spacing[.xxSmall]
 
-    lazy var backgroundColor: ColorSet = {
+    lazy var backgroundColor: DynamicColor = {
         switch style {
         case .standard:
             return aliasTokens.backgroundColors[.neutral2]
@@ -146,7 +146,7 @@ public class CardNudgeTokens: ControlTokens {
         }
     }()
 
-    lazy var buttonBackgroundColor: ColorSet = globalTokens.brandColors[.tint30]
+    lazy var buttonBackgroundColor: DynamicColor = globalTokens.brandColors[.tint30]
 
     lazy var buttonInnerPaddingHorizontal: CGFloat = globalTokens.spacing[.small]
 
@@ -166,7 +166,7 @@ public class CardNudgeTokens: ControlTokens {
 
     lazy var minimumHeight: CGFloat = 56.0
 
-    lazy var outlineColor: ColorSet = {
+    lazy var outlineColor: DynamicColor = {
         switch style {
         case .standard:
             return aliasTokens.backgroundColors[.neutral2]
@@ -177,9 +177,9 @@ public class CardNudgeTokens: ControlTokens {
 
     lazy var outlineWidth: CGFloat = globalTokens.borderSize[.thin]
 
-    lazy var subtitleTextColor: ColorSet = aliasTokens.foregroundColors[.neutral3]
+    lazy var subtitleTextColor: DynamicColor = aliasTokens.foregroundColors[.neutral3]
 
-    lazy var textColor: ColorSet = {
+    lazy var textColor: DynamicColor = {
         switch style {
         case .standard:
             return aliasTokens.foregroundColors[.neutral1]
