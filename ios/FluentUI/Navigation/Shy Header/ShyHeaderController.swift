@@ -442,16 +442,8 @@ class ShyHeaderController: UIViewController {
         let momentum: CGFloat = abs(velocity.y)
         let springVelocity = min(momentum, 3.0) // 3.0 arbitrarily decided through manual testing
 
-        /// if the user's finger is not moving, we expand/collapse based on current progress
-        /// otherwise, we use velocity to determine which direction to move the header
-        let expanding: Bool
-        if velocity.y == 0.0 {
-            let currentProgress = shyHeaderView.exposure.progress
-            expanding = currentProgress >= 0.5
-        } else {
-            expanding = velocity.y >= 0.0
-        }
-
+        /// we expand/collapse based on current progress
+        let expanding = shyHeaderView.exposure.progress >= 0.5
         let progress: CGFloat = expanding ? 1.0 : 0.0
 
         UIView.animate(withDuration: ShyHeaderController.Constants.headerShowHideAnimationDuration,
