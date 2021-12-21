@@ -59,11 +59,11 @@ public struct CardNudge: View, TokenizedControlInternal {
             ZStack {
                 RoundedRectangle(cornerRadius: tokens.circleRadius)
                     .frame(width: tokens.circleSize, height: tokens.circleSize)
-                    .dynamicForegroundColor(tokens.buttonBackgroundColor)
+                    .foregroundColor(Color(colorSet: tokens.buttonBackgroundColor))
                 Image(uiImage: icon)
                     .renderingMode(.template)
                     .frame(width: tokens.iconSize, height: tokens.iconSize, alignment: .center)
-                    .dynamicForegroundColor(tokens.accentColor)
+                    .foregroundColor(Color(colorSet: tokens.accentColor))
             }
             .padding(.trailing, tokens.horizontalPadding)
         }
@@ -80,7 +80,7 @@ public struct CardNudge: View, TokenizedControlInternal {
                 .font(.subheadline)
                 .fontWeight(.medium)
                 .lineLimit(1)
-                .dynamicForegroundColor(tokens.textColor)
+                .foregroundColor(Color(colorSet: tokens.textColor))
 
             if hasSecondTextRow {
                 HStack(spacing: tokens.accentPadding) {
@@ -88,20 +88,20 @@ public struct CardNudge: View, TokenizedControlInternal {
                         Image(uiImage: accentIcon)
                             .renderingMode(.template)
                             .frame(width: tokens.accentIconSize, height: tokens.accentIconSize)
-                            .dynamicForegroundColor(tokens.accentColor)
+                            .foregroundColor(Color(colorSet: tokens.accentColor))
                     }
                     if let accent = state.accentText {
                         Text(accent)
                             .font(.subheadline)
                             .layoutPriority(1)
                             .lineLimit(1)
-                            .dynamicForegroundColor(tokens.accentColor)
+                            .foregroundColor(Color(colorSet: tokens.accentColor))
                     }
                     if let subtitle = state.subtitle {
                         Text(subtitle)
                             .font(.subheadline)
                             .lineLimit(1)
-                            .dynamicForegroundColor(tokens.subtitleTextColor)
+                            .foregroundColor(Color(colorSet: tokens.subtitleTextColor))
                     }
                 }
             }
@@ -119,10 +119,10 @@ public struct CardNudge: View, TokenizedControlInternal {
                 .lineLimit(1)
                 .padding(.horizontal, tokens.buttonInnerPaddingHorizontal)
                 .padding(.vertical, tokens.verticalPadding)
-                .dynamicForegroundColor(tokens.accentColor)
+                .foregroundColor(Color(colorSet: tokens.accentColor))
                 .background(
                     RoundedRectangle(cornerRadius: tokens.circleRadius)
-                        .dynamicForegroundColor(tokens.buttonBackgroundColor)
+                        .foregroundColor(Color(colorSet: tokens.buttonBackgroundColor))
                 )
             }
             if let dismissAction = state.dismissButtonAction {
@@ -134,7 +134,7 @@ public struct CardNudge: View, TokenizedControlInternal {
                 .padding(.horizontal, tokens.buttonInnerPaddingHorizontal)
                 .padding(.vertical, tokens.verticalPadding)
                 .accessibility(identifier: "Accessibility.Dismiss.Label")
-                .dynamicForegroundColor(tokens.textColor)
+                .foregroundColor(Color(colorSet: tokens.textColor))
             }
         }
     }
@@ -158,9 +158,9 @@ public struct CardNudge: View, TokenizedControlInternal {
             .background(
                 RoundedRectangle(cornerRadius: tokens.cornerRadius)
                     .strokeBorder(lineWidth: tokens.outlineWidth)
-                    .dynamicForegroundColor(tokens.outlineColor)
+                    .foregroundColor(Color(colorSet: tokens.outlineColor))
                     .background(
-                        DynamicColor(tokens.backgroundColor)
+                        Color(colorSet: tokens.backgroundColor)
                             .cornerRadius(tokens.cornerRadius)
                     )
             )

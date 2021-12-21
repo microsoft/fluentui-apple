@@ -162,5 +162,23 @@ public struct ColorSet {
         }
         return getColorForContrast(`default`, highContrast, contrast)
     }
+}
 
+// MARK: - Extensions
+
+extension Color {
+    /// Creates a dynamic color object that returns the appropriate color value based on the current
+    /// rendering context.
+    ///
+    /// - Parameter colorSet: The set of color values that may be applied based on the current context.
+    init(colorSet: ColorSet) {
+        self.init(UIColor(colorSet: colorSet))
+    }
+
+    /// Creates a Color from a `ColorValue` instance.
+    ///
+    /// - Parameter colorValue: Color value to use to initialize this color.
+    init(colorValue: ColorValue) {
+        self.init(UIColor(colorValue: colorValue))
+    }
 }
