@@ -87,7 +87,7 @@ class MSFDividerStateImpl: NSObject, ObservableObject, MSFDividerState {
     let thickness: CGFloat = UIScreen.main.devicePixel
 
     var padding: CGFloat {
-            return tokens.padding
+        return tokens.padding
     }
 
     var tokens: MSFDividerTokens

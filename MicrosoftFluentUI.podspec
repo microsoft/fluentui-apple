@@ -139,7 +139,7 @@ fi', :execution_position => :before_compile }
 
   s.subspec 'Divider_ios' do |divider_ios|
     divider_ios.platform = :ios
-    divider_ios.dependency 'MicrosoftFluentUIVnext/Core_ios'
+    divider_ios.dependency 'MicrosoftFluentUI/Core_ios'
     divider_ios.source_files = ["ios/FluentUI/Vnext/Divider/**/*.{swift,h}"]
   end
 
