@@ -117,8 +117,8 @@ public final class AliasTokens {
         case .brandSelected:
             return strongSelf.globalTokens.brandColors[.shade20]
         case .brandDisabled:
-            return ColorSet(light: strongSelf.globalTokens.neutralColors[.grey88],
-                            dark: strongSelf.globalTokens.neutralColors[.grey84])
+            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey88],
+                                dark: strongSelf.globalTokens.neutralColors[.grey84])
         }
     }
 
@@ -158,33 +158,33 @@ public final class AliasTokens {
         case brandAmbient
         case brandKey
     }
-    lazy public var shadowColors: TokenSet<ShadowColorsTokens, ColorSet> = .init { [weak self] token in
+    lazy public var shadowColors: TokenSet<ShadowColorsTokens, DynamicColor> = .init { [weak self] token in
         guard let strongSelf = self else { preconditionFailure() }
         switch token {
         case .neutralAmbient:
-            return ColorSet(light: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.12),
-                            dark: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.24))
+            return DynamicColor(light: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.12),
+                                dark: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.24))
         case .neutralKey:
-            return ColorSet(light: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.14),
-                            dark: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.28))
+            return DynamicColor(light: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.14),
+                                dark: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.28))
         case .neutralAmbientLighter:
-            return ColorSet(light: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.06),
-                            dark: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.12))
+            return DynamicColor(light: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.06),
+                                dark: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.12))
         case .neutralKeyLighter:
-            return ColorSet(light: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.07),
-                            dark: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.14))
+            return DynamicColor(light: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.07),
+                                dark: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.14))
         case .neutralAmbientDarker:
-            return ColorSet(light: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.20),
-                            dark: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.40))
+            return DynamicColor(light: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.20),
+                                dark: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.40))
         case .neutralKeyDarker:
-            return ColorSet(light: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.24),
-                            dark: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.48))
+            return DynamicColor(light: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.24),
+                                dark: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.48))
         case .brandAmbient:
-            return ColorSet(light: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.30),
-                            dark: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.30))
+            return DynamicColor(light: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.30),
+                                dark: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.30))
         case .brandKey:
-            return ColorSet(light: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.25),
-                            dark: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.25))
+            return DynamicColor(light: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.25),
+                                dark: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.25))
         }
     }
 

@@ -97,14 +97,14 @@ public class ButtonTokens: ControlTokens {
         }
     }()
 
-    lazy var titleColor: ButtonColorSets = .init(
+    lazy var titleColor: ButtonDynamicColors = .init(
         rest: aliasTokens.foregroundColors[.brandRest],
         hover: aliasTokens.foregroundColors[.brandHover],
         pressed: aliasTokens.foregroundColors[.brandPressed],
         selected: aliasTokens.foregroundColors[.brandSelected],
         disabled: aliasTokens.foregroundColors[.brandDisabled]
     )
-    lazy var borderColor: ButtonColorSets = .init(
+    lazy var borderColor: ButtonDynamicColors = .init(
         rest: aliasTokens.backgroundColors[.brandRest],
         hover: aliasTokens.backgroundColors[.brandHover],
         pressed: aliasTokens.backgroundColors[.brandPressed],
@@ -112,14 +112,14 @@ public class ButtonTokens: ControlTokens {
         disabled: aliasTokens.backgroundColors[.brandDisabled]
     )
     // TODO
-    lazy var backgroundColor: ButtonColorSets = .init(
+    lazy var backgroundColor: ButtonDynamicColors = .init(
         rest: aliasTokens.backgroundColors[.neutralDisabled], // should be clear
         hover: aliasTokens.backgroundColors[.neutralDisabled], // should be clear
         pressed: aliasTokens.backgroundColors[.neutralDisabled], // should be clear
         selected: aliasTokens.backgroundColors[.neutralDisabled], // should be clear
         disabled: aliasTokens.backgroundColors[.neutralDisabled] // should be clear
     )
-    lazy var iconColor: ButtonColorSets = .init(
+    lazy var iconColor: ButtonDynamicColors = .init(
         rest: aliasTokens.foregroundColors[.brandRest],
         hover: aliasTokens.foregroundColors[.brandHover],
         pressed: aliasTokens.foregroundColors[.brandPressed],

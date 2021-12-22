@@ -116,20 +116,20 @@ struct FluentButtonBody: View {
         let borderColor: UIColor
         let backgroundColor: UIColor
         if isDisabled {
-            iconColor = UIColor(colorSet: tokens.iconColor.disabled)
-            titleColor = UIColor(colorSet: tokens.titleColor.disabled)
-            borderColor = UIColor(colorSet: tokens.borderColor.disabled)
-            backgroundColor = UIColor(colorSet: tokens.backgroundColor.disabled)
+            iconColor = UIColor(dynamicColor: tokens.iconColor.disabled)
+            titleColor = UIColor(dynamicColor: tokens.titleColor.disabled)
+            borderColor = UIColor(dynamicColor: tokens.borderColor.disabled)
+            backgroundColor = UIColor(dynamicColor: tokens.backgroundColor.disabled)
         } else if isPressed {
-            iconColor = UIColor(colorSet: tokens.iconColor.pressed)
-            titleColor = UIColor(colorSet: tokens.titleColor.pressed)
-            borderColor = UIColor(colorSet: tokens.borderColor.pressed)
-            backgroundColor = UIColor(colorSet: tokens.backgroundColor.pressed)
+            iconColor = UIColor(dynamicColor: tokens.iconColor.pressed)
+            titleColor = UIColor(dynamicColor: tokens.titleColor.pressed)
+            borderColor = UIColor(dynamicColor: tokens.borderColor.pressed)
+            backgroundColor = UIColor(dynamicColor: tokens.backgroundColor.pressed)
         } else {
-            iconColor = UIColor(colorSet: tokens.iconColor.rest)
-            titleColor = UIColor(colorSet: tokens.titleColor.rest)
-            borderColor = UIColor(colorSet: tokens.borderColor.rest)
-            backgroundColor = UIColor(colorSet: tokens.backgroundColor.rest)
+            iconColor = UIColor(dynamicColor: tokens.iconColor.rest)
+            titleColor = UIColor(dynamicColor: tokens.titleColor.rest)
+            borderColor = UIColor(dynamicColor: tokens.borderColor.rest)
+            backgroundColor = UIColor(dynamicColor: tokens.backgroundColor.rest)
         }
 
         @ViewBuilder
@@ -182,11 +182,11 @@ struct FluentButtonBody: View {
             if isFloatingStyle {
                 buttonBackground
                     .clipShape(Capsule())
-                    .shadow(color: Color(colorSet: shadowInfo.colorOne),
+                    .shadow(color: Color(dynamicColor: shadowInfo.colorOne),
                             radius: shadowInfo.blurOne,
                             x: shadowInfo.xOne,
                             y: shadowInfo.yOne)
-                    .shadow(color: Color(colorSet: shadowInfo.colorTwo),
+                    .shadow(color: Color(dynamicColor: shadowInfo.colorTwo),
                             radius: shadowInfo.blurTwo,
                             x: shadowInfo.xTwo,
                             y: shadowInfo.yTwo)
