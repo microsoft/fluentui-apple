@@ -37,7 +37,7 @@ public class CommandBar: UIView, TokenizedControlInternal, ControlConfiguration 
             self.trailingButton = button(forItem: trailingItem, isPersistSelection: false)
         }
 
-        backgroundColor = UIColor(colorSet: tokens.backgroundColor)
+        backgroundColor = UIColor(dynamicColor: tokens.backgroundColor)
         translatesAutoresizingMaskIntoConstraints = false
 
         NotificationCenter.default.addObserver(self,

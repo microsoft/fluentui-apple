@@ -73,20 +73,20 @@ extension UIColor {
     /// Creates a dynamic color object that returns the appropriate color value based on the current
     /// rendering context.
     ///
-    /// - Parameter colorSet: The set of color values that may be applied based on the current context.
-    convenience init(colorSet: ColorSet) {
+    /// - Parameter dynamicColor: The set of color values that may be applied based on the current context.
+    convenience init(dynamicColor: DynamicColor) {
         self.init { traits -> UIColor in
-            let colorValue = colorSet.value(colorScheme: (traits.userInterfaceStyle == .dark ? .dark : .light),
+            let colorValue = dynamicColor.value(colorScheme: (traits.userInterfaceStyle == .dark ? .dark : .light),
                                             contrast: traits.accessibilityContrast == .high ? .increased : .standard,
                                             isElevated: traits.userInterfaceLevel == .elevated)
             return UIColor(colorValue: colorValue)
         }
     }
 
-    var colorSet: ColorSet? {
-        // Only the light color value is mandatory when making a ColorSet.
+    var dynamicColor: DynamicColor? {
+        // Only the light color value is mandatory when making a DynamicColor.
         if let lightColorValue = resolvedColorValue(userInterfaceStyle: .light) {
-            let colors = ColorSet(
+            let colors = DynamicColor(
                 light: lightColorValue,
                 lightHighContrast: resolvedColorValue(userInterfaceStyle: .light,
                                                       accessibilityContrast: .high),
