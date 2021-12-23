@@ -111,25 +111,25 @@ struct FluentButtonBody: View {
         let isDisabled = !isEnabled
         let isFloatingStyle = tokens.style.isFloatingStyle
         let shouldUsePressedShadow = isDisabled || isPressed
-        let iconColor: UIColor
-        let titleColor: UIColor
-        let borderColor: UIColor
-        let backgroundColor: UIColor
+        let iconColor: Color
+        let titleColor: Color
+        let borderColor: Color
+        let backgroundColor: Color
         if isDisabled {
-            iconColor = UIColor(dynamicColor: tokens.iconColor.disabled)
-            titleColor = UIColor(dynamicColor: tokens.titleColor.disabled)
-            borderColor = UIColor(dynamicColor: tokens.borderColor.disabled)
-            backgroundColor = UIColor(dynamicColor: tokens.backgroundColor.disabled)
+            iconColor = Color(dynamicColor: tokens.iconColor.disabled)
+            titleColor = Color(dynamicColor: tokens.titleColor.disabled)
+            borderColor = Color(dynamicColor: tokens.borderColor.disabled)
+            backgroundColor = Color(dynamicColor: tokens.backgroundColor.disabled)
         } else if isPressed {
-            iconColor = UIColor(dynamicColor: tokens.iconColor.pressed)
-            titleColor = UIColor(dynamicColor: tokens.titleColor.pressed)
-            borderColor = UIColor(dynamicColor: tokens.borderColor.pressed)
-            backgroundColor = UIColor(dynamicColor: tokens.backgroundColor.pressed)
+            iconColor = Color(dynamicColor: tokens.iconColor.pressed)
+            titleColor = Color(dynamicColor: tokens.titleColor.pressed)
+            borderColor = Color(dynamicColor: tokens.borderColor.pressed)
+            backgroundColor = Color(dynamicColor: tokens.backgroundColor.pressed)
         } else {
-            iconColor = UIColor(dynamicColor: tokens.iconColor.rest)
-            titleColor = UIColor(dynamicColor: tokens.titleColor.rest)
-            borderColor = UIColor(dynamicColor: tokens.borderColor.rest)
-            backgroundColor = UIColor(dynamicColor: tokens.backgroundColor.rest)
+            iconColor = Color(dynamicColor: tokens.iconColor.rest)
+            titleColor = Color(dynamicColor: tokens.titleColor.rest)
+            borderColor = Color(dynamicColor: tokens.borderColor.rest)
+            backgroundColor = Color(dynamicColor: tokens.backgroundColor.rest)
         }
 
         @ViewBuilder
@@ -138,15 +138,13 @@ struct FluentButtonBody: View {
                 if let image = state.image {
                     Image(uiImage: image)
                         .resizable()
-                        .foregroundColor(Color(iconColor))
+                        .foregroundColor(iconColor)
                         .frame(width: tokens.iconSize, height: tokens.iconSize, alignment: .center)
                 }
                 if let text = state.text {
                     Text(text)
-                        .fontWeight(.medium)
                         .multilineTextAlignment(.center)
-                        .scalableFont(font: tokens.textFont,
-                                      shouldScale: !isFloatingStyle)
+                        .font(.fluent(tokens.textFont, shouldScale: !isFloatingStyle))
                         .modifyIf(isFloatingStyle, { view in
                             view.frame(minHeight: tokens.textMinimumHeight)
                         })
@@ -157,7 +155,7 @@ struct FluentButtonBody: View {
                 view.padding(.horizontal, tokens.textAdditionalHorizontalPadding )
             })
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .foregroundColor(Color(titleColor))
+            .foregroundColor(titleColor)
         }
 
         @ViewBuilder
@@ -166,12 +164,12 @@ struct FluentButtonBody: View {
                 buttonContent.background(
                     RoundedRectangle(cornerRadius: tokens.borderRadius)
                         .strokeBorder(lineWidth: tokens.borderSize, antialiased: false)
-                        .foregroundColor(Color(borderColor))
+                        .foregroundColor(borderColor)
                         .contentShape(Rectangle()))
             } else {
                 buttonContent.background(
                     RoundedRectangle(cornerRadius: tokens.borderRadius)
-                        .fill(Color(backgroundColor)))
+                        .fill(backgroundColor))
             }
         }
 

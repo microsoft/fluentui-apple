@@ -83,8 +83,16 @@ public class ButtonTokens: ControlTokens {
             return globalTokens.spacing[.large]
         }
     }()
-    // TODO
-    lazy var textFont: UIFont = .systemFont(ofSize: 10)
+    lazy var textFont: FontInfo = {
+        switch size {
+        case .small:
+            return aliasTokens.typography[.caption1Strong]
+        case .medium:
+            return aliasTokens.typography[.caption1Strong]
+        case .large:
+            return aliasTokens.typography[.body1Strong]
+        }
+    }()
     lazy var textMinimumHeight: CGFloat = globalTokens.iconSize[.medium]
     lazy var textAdditionalHorizontalPadding: CGFloat = {
         switch size {
@@ -111,13 +119,12 @@ public class ButtonTokens: ControlTokens {
         selected: aliasTokens.backgroundColors[.brandSelected],
         disabled: aliasTokens.backgroundColors[.brandDisabled]
     )
-    // TODO
     lazy var backgroundColor: ButtonDynamicColors = .init(
-        rest: aliasTokens.backgroundColors[.neutralDisabled], // should be clear
-        hover: aliasTokens.backgroundColors[.neutralDisabled], // should be clear
-        pressed: aliasTokens.backgroundColors[.neutralDisabled], // should be clear
-        selected: aliasTokens.backgroundColors[.neutralDisabled], // should be clear
-        disabled: aliasTokens.backgroundColors[.neutralDisabled] // should be clear
+        rest: DynamicColor(light: ColorValue(r: 0, g: 0, b: 0, a: 0)),
+        hover: DynamicColor(light: ColorValue(r: 0, g: 0, b: 0, a: 0)),
+        pressed: DynamicColor(light: ColorValue(r: 0, g: 0, b: 0, a: 0)),
+        selected: DynamicColor(light: ColorValue(r: 0, g: 0, b: 0, a: 0)),
+        disabled: DynamicColor(light: ColorValue(r: 0, g: 0, b: 0, a: 0))
     )
     lazy var iconColor: ButtonDynamicColors = .init(
         rest: aliasTokens.foregroundColors[.brandRest],

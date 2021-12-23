@@ -188,6 +188,64 @@ public final class AliasTokens {
         }
     }
 
+    // MARK: - Typography
+
+    public enum TypographyTokens: CaseIterable {
+        case display
+        case largeTitle
+        case title1
+        case title2
+        case title3
+        case body1Strong
+        case body1
+        case body2Strong
+        case body2
+        case caption1Strong
+        case caption1
+        case caption2
+    }
+    lazy public var typography: TokenSet<TypographyTokens, FontInfo> = .init { [weak self] token in
+        guard let strongSelf = self else { preconditionFailure() }
+        switch token {
+        case .display:
+            return .init(size: strongSelf.globalTokens.fontSize[.size900],
+                         weight: strongSelf.globalTokens.fontWeight[.bold])
+        case .largeTitle:
+            return .init(size: strongSelf.globalTokens.fontSize[.size800],
+                         weight: strongSelf.globalTokens.fontWeight[.bold])
+        case .title1:
+            return .init(size: strongSelf.globalTokens.fontSize[.size700],
+                         weight: strongSelf.globalTokens.fontWeight[.bold])
+        case .title2:
+            return .init(size: strongSelf.globalTokens.fontSize[.size600],
+                         weight: strongSelf.globalTokens.fontWeight[.semibold])
+        case .title3:
+            return .init(size: strongSelf.globalTokens.fontSize[.size500],
+                         weight: strongSelf.globalTokens.fontWeight[.semibold])
+        case .body1Strong:
+            return .init(size: strongSelf.globalTokens.fontSize[.size400],
+                         weight: strongSelf.globalTokens.fontWeight[.semibold])
+        case .body1:
+            return .init(size: strongSelf.globalTokens.fontSize[.size400],
+                         weight: strongSelf.globalTokens.fontWeight[.regular])
+        case .body2Strong:
+            return .init(size: strongSelf.globalTokens.fontSize[.size300],
+                         weight: strongSelf.globalTokens.fontWeight[.semibold])
+        case .body2:
+            return .init(size: strongSelf.globalTokens.fontSize[.size300],
+                         weight: strongSelf.globalTokens.fontWeight[.regular])
+        case .caption1Strong:
+            return .init(size: strongSelf.globalTokens.fontSize[.size200],
+                         weight: strongSelf.globalTokens.fontWeight[.semibold])
+        case .caption1:
+            return .init(size: strongSelf.globalTokens.fontSize[.size200],
+                         weight: strongSelf.globalTokens.fontWeight[.regular])
+        case .caption2:
+            return .init(size: strongSelf.globalTokens.fontSize[.size100],
+                         weight: strongSelf.globalTokens.fontWeight[.regular])
+        }
+    }
+
     // MARK: - Shadow
 
     public enum ShadowTokens: CaseIterable {
