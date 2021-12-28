@@ -181,6 +181,9 @@
 		923DB9D7274CB66D00D8E58A /* ControlHostingContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923DB9D6274CB66D00D8E58A /* ControlHostingContainer.swift */; };
 		923DF2E72712B6AB00637646 /* libFluentUI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FD01166228A820600D25925 /* libFluentUI.a */; };
 		923DF2E82712B6C400637646 /* FluentUIResources-ios.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A5DA88FC226FAA01000A8EA8 /* FluentUIResources-ios.bundle */; };
+		924268A2277AD9F700C5A452 /* FontTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 924268A1277AD9F700C5A452 /* FontTests.swift */; };
+		925728F7276D6AF800EE1019 /* ShadowInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925728F6276D6AF800EE1019 /* ShadowInfo.swift */; };
+		925728F9276D6B5800EE1019 /* FontInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925728F8276D6B5800EE1019 /* FontInfo.swift */; };
 		925D461D26FD133600179583 /* GlobalTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925D461B26FD133600179583 /* GlobalTokens.swift */; };
 		925D462026FD18B200179583 /* AliasTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925D461E26FD18B200179583 /* AliasTokens.swift */; };
 		9275105626815A7100F12730 /* MSFPersonaButtonCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9275105426815A7100F12730 /* MSFPersonaButtonCarousel.swift */; };
@@ -301,6 +304,9 @@
 		923DB9D2274CB65700D8E58A /* TokenizedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenizedControl.swift; sourceTree = "<group>"; };
 		923DB9D3274CB65700D8E58A /* FluentTheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FluentTheme.swift; sourceTree = "<group>"; };
 		923DB9D6274CB66D00D8E58A /* ControlHostingContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlHostingContainer.swift; sourceTree = "<group>"; };
+		924268A1277AD9F700C5A452 /* FontTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontTests.swift; sourceTree = "<group>"; };
+		925728F6276D6AF800EE1019 /* ShadowInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowInfo.swift; sourceTree = "<group>"; };
+		925728F8276D6B5800EE1019 /* FontInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontInfo.swift; sourceTree = "<group>"; };
 		925D461B26FD133600179583 /* GlobalTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalTokens.swift; sourceTree = "<group>"; };
 		925D461E26FD18B200179583 /* AliasTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AliasTokens.swift; sourceTree = "<group>"; };
 		9275105426815A7100F12730 /* MSFPersonaButtonCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFPersonaButtonCarousel.swift; sourceTree = "<group>"; };
@@ -776,7 +782,9 @@
 				925D461E26FD18B200179583 /* AliasTokens.swift */,
 				92DEE2232723D34400E31ED0 /* ControlTokens.swift */,
 				92E7AD4E26FE51FF00AE7FF8 /* DynamicColor.swift */,
+				925728F8276D6B5800EE1019 /* FontInfo.swift */,
 				925D461B26FD133600179583 /* GlobalTokens.swift */,
+				925728F6276D6AF800EE1019 /* ShadowInfo.swift */,
 				923DB9D2274CB65700D8E58A /* TokenizedControl.swift */,
 				92EE82AC27025A94009D52B5 /* TokenSet.swift */,
 			);
@@ -942,6 +950,7 @@
 				8FA3CB5A246B19EA0049E431 /* ColorTests.swift */,
 				FD053A342224CA33009B6378 /* DatePickerControllerTests.swift */,
 				A5CEC15F20D980B30016922A /* FluentUITests.swift */,
+				924268A1277AD9F700C5A452 /* FontTests.swift */,
 				A5CEC16120D980B30016922A /* Info.plist */,
 			);
 			path = FluentUI.Tests;
@@ -1608,6 +1617,7 @@
 				5314E08A25F00F2D0099271A /* CommandBar.swift in Sources */,
 				5314E18D25F0195C0099271A /* ShimmerView.swift in Sources */,
 				80AECC22263339E5005AF2F3 /* BottomSheetPassthroughView.swift in Sources */,
+				925728F9276D6B5800EE1019 /* FontInfo.swift in Sources */,
 				5314E1CD25F01B730099271A /* AnimationSynchronizer.swift in Sources */,
 				53097D252702890900A6E4DC /* ListCell.swift in Sources */,
 				92088EF92666DB2C003F571A /* PersonaButton.swift in Sources */,
@@ -1626,6 +1636,7 @@
 				92DEE2252723D34400E31ED0 /* ControlTokens.swift in Sources */,
 				5314E0E425F012C00099271A /* NavigationController.swift in Sources */,
 				5373D5712694D66F0032A3B4 /* Theming.swift in Sources */,
+				925728F7276D6AF800EE1019 /* ShadowInfo.swift in Sources */,
 				5328D97326FBA3D700F3723B /* IndeterminateProgressBarModifiers.swift in Sources */,
 				923DB9D7274CB66D00D8E58A /* ControlHostingContainer.swift in Sources */,
 				5314E03B25F00E3D0099271A /* BadgeStringExtractor.swift in Sources */,
@@ -1653,6 +1664,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				924268A2277AD9F700C5A452 /* FontTests.swift in Sources */,
 				A5CEC16020D980B30016922A /* FluentUITests.swift in Sources */,
 				8FA3CB5B246B19EA0049E431 /* ColorTests.swift in Sources */,
 				FD053A352224CA33009B6378 /* DatePickerControllerTests.swift in Sources */,
