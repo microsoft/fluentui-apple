@@ -22,7 +22,7 @@ public struct FontInfo {
 extension Font {
     static func fluent(_ fontInfo: FontInfo, shouldScale: Bool = true) -> Font {
         let size = shouldScale ?
-            UIFontMetrics(forTextStyle: .body).scaledValue(for: fontInfo.size) :
+            UIFontMetrics.default.scaledValue(for: fontInfo.size) :
             fontInfo.size
 
         let font: Font
@@ -39,15 +39,32 @@ extension Font {
 extension UIFont {
     static func fluent(_ fontInfo: FontInfo, shouldScale: Bool = true) -> UIFont {
         let size = shouldScale ?
-            UIFontMetrics(forTextStyle: .body).scaledValue(for: fontInfo.size) :
+            UIFontMetrics.default.scaledValue(for: fontInfo.size) :
             fontInfo.size
 
         if let name = fontInfo.name,
            let font = UIFont(name: name, size: size) {
-            return font
+            return font.withWeight(uiWeight(fontInfo.weight))
         } else {
             return .systemFont(ofSize: size, weight: uiWeight(fontInfo.weight))
         }
+    }
+
+    private func withWeight(_ weight: UIFont.Weight) -> UIFont {
+        var attributes = fontDescriptor.fontAttributes
+        var traits = (attributes[.traits] as? [UIFontDescriptor.TraitKey: Any]) ?? [:]
+
+        traits[.weight] = weight
+
+        // We need to remove `.name` since it may clash with the requested font weight, but
+        // `.family` will ensure that e.g. Helvetica stays Helvetica.
+        attributes[.name] = nil
+        attributes[.traits] = traits
+        attributes[.family] = familyName
+
+        let descriptor = UIFontDescriptor(fontAttributes: attributes)
+
+        return UIFont(descriptor: descriptor, size: pointSize)
     }
 
     private static func uiWeight(_ weight: Font.Weight) -> UIFont.Weight {
