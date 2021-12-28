@@ -3,7 +3,7 @@
 //  Licensed under the MIT License.
 //
 
-import CoreGraphics
+import SwiftUI
 
 /// Global Tokens represent a unified set of constants to be used by Fluent UI.
 public final class GlobalTokens {
@@ -200,6 +200,62 @@ public final class GlobalTokens {
             return ColorValue(0xFAFAFA)
         case .white:
             return ColorValue(0xFFFFFF)
+        }
+    }
+
+    // MARK: - FontSize
+    public enum FontSizeToken: CaseIterable {
+        case size100
+        case size200
+        case size300
+        case size400
+        case size500
+        case size600
+        case size700
+        case size800
+        case size900
+    }
+    lazy public var fontSize: TokenSet<FontSizeToken, CGFloat> = .init { token in
+        switch token {
+        case .size100:
+            return 12.0
+        case .size200:
+            return 13.0
+        case .size300:
+            return 15.0
+        case .size400:
+            return 17.0
+        case .size500:
+            return 20.0
+        case .size600:
+            return 22.0
+        case .size700:
+            return 28.0
+        case .size800:
+            return 34.0
+        case .size900:
+            return 60.0
+        }
+    }
+
+    // MARK: - FontWeight
+
+    public enum FontWeightToken: CaseIterable {
+        case regular
+        case medium
+        case semibold
+        case bold
+    }
+    lazy public var fontWeight: TokenSet<FontWeightToken, Font.Weight> = .init { token in
+        switch token {
+        case .regular:
+            return .regular
+        case .medium:
+            return .medium
+        case .semibold:
+            return .semibold
+        case .bold:
+            return .bold
         }
     }
 
