@@ -5,7 +5,18 @@
 
 import SwiftUI
 
+/// Represents the description of a font used by FluentUI components.
 public struct FontInfo {
+
+    /// Creates a `FontInfo` instance using the specified information.
+    ///
+    /// This struct simply stores information about a future font. Fluent will use this information to create the appropriate font object internally as needed.
+    ///
+    /// - Parameter name: An optional name for the font. If none is provided, defaults to the standard system font.
+    /// - Parameter size: The point size to use for the font.
+    /// - Parameter weight: The weight to use for the font. Defaults to `.regular`.
+    ///
+    /// - Returns: A struct containing the information needed to create a font object.
     public init(name: String? = nil, size: CGFloat, weight: Font.Weight = .regular) {
         self.name = name
         self.size = size
