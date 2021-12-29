@@ -52,7 +52,9 @@ public class ButtonTokens: ControlTokens {
             return globalTokens.borderRadius[.xLarge]
         }
     }()
+
     lazy var borderSize: CGFloat = globalTokens.borderSize[.none]
+
     lazy var iconSize: CGFloat = {
         switch size {
         case .small:
@@ -63,6 +65,7 @@ public class ButtonTokens: ControlTokens {
             return globalTokens.iconSize[.small]
         }
     }()
+
     lazy var interspace: CGFloat = {
         switch size {
         case .small:
@@ -73,6 +76,7 @@ public class ButtonTokens: ControlTokens {
             return globalTokens.spacing[.xSmall]
         }
     }()
+
     lazy var padding: CGFloat = {
         switch size {
         case .small:
@@ -83,6 +87,7 @@ public class ButtonTokens: ControlTokens {
             return globalTokens.spacing[.large]
         }
     }()
+
     lazy var textFont: FontInfo = {
         switch size {
         case .small:
@@ -93,7 +98,9 @@ public class ButtonTokens: ControlTokens {
             return aliasTokens.typography[.body1Strong]
         }
     }()
+
     lazy var textMinimumHeight: CGFloat = globalTokens.iconSize[.medium]
+
     lazy var textAdditionalHorizontalPadding: CGFloat = {
         switch size {
         case .small:
@@ -105,13 +112,27 @@ public class ButtonTokens: ControlTokens {
         }
     }()
 
-    lazy var titleColor: ButtonDynamicColors = .init(
-        rest: aliasTokens.foregroundColors[.brandRest],
-        hover: aliasTokens.foregroundColors[.brandHover],
-        pressed: aliasTokens.foregroundColors[.brandPressed],
-        selected: aliasTokens.foregroundColors[.brandSelected],
-        disabled: aliasTokens.foregroundColors[.brandDisabled]
-    )
+    lazy var titleColor: ButtonDynamicColors = {
+        switch style {
+        case .primary:
+            return .init(
+                rest: aliasTokens.foregroundColors[.neutralInverted],
+                hover: aliasTokens.foregroundColors[.neutralInverted],
+                pressed: aliasTokens.foregroundColors[.neutralInverted],
+                selected: aliasTokens.foregroundColors[.neutralInverted],
+                disabled: aliasTokens.foregroundColors[.neutralInverted]
+            )
+        default:
+            return .init(
+                rest: aliasTokens.foregroundColors[.brandRest],
+                hover: aliasTokens.foregroundColors[.brandHover],
+                pressed: aliasTokens.foregroundColors[.brandPressed],
+                selected: aliasTokens.foregroundColors[.brandSelected],
+                disabled: aliasTokens.foregroundColors[.brandDisabled]
+            )
+        }
+    }()
+
     lazy var borderColor: ButtonDynamicColors = .init(
         rest: aliasTokens.backgroundColors[.brandRest],
         hover: aliasTokens.backgroundColors[.brandHover],
@@ -119,21 +140,49 @@ public class ButtonTokens: ControlTokens {
         selected: aliasTokens.backgroundColors[.brandSelected],
         disabled: aliasTokens.backgroundColors[.brandDisabled]
     )
-    lazy var backgroundColor: ButtonDynamicColors = .init(
-        rest: DynamicColor(light: ColorValue(r: 0, g: 0, b: 0, a: 0)),
-        hover: DynamicColor(light: ColorValue(r: 0, g: 0, b: 0, a: 0)),
-        pressed: DynamicColor(light: ColorValue(r: 0, g: 0, b: 0, a: 0)),
-        selected: DynamicColor(light: ColorValue(r: 0, g: 0, b: 0, a: 0)),
-        disabled: DynamicColor(light: ColorValue(r: 0, g: 0, b: 0, a: 0))
-    )
-    lazy var iconColor: ButtonDynamicColors = .init(
-        rest: aliasTokens.foregroundColors[.brandRest],
-        hover: aliasTokens.foregroundColors[.brandHover],
-        pressed: aliasTokens.foregroundColors[.brandPressed],
-        selected: aliasTokens.foregroundColors[.brandSelected],
-        disabled: aliasTokens.foregroundColors[.brandDisabled]
-    )
+
+    lazy var backgroundColor: ButtonDynamicColors = {
+        switch style {
+        case .primary:
+            return .init(
+                rest: aliasTokens.backgroundColors[.brandRest],
+                hover: aliasTokens.backgroundColors[.brandHover],
+                pressed: aliasTokens.backgroundColors[.brandPressed],
+                selected: aliasTokens.backgroundColors[.brandSelected],
+                disabled: aliasTokens.backgroundColors[.brandDisabled])
+        default:
+            return .init(
+                rest: DynamicColor(light: ColorValue(r: 0, g: 0, b: 0, a: 0)),
+                hover: DynamicColor(light: ColorValue(r: 0, g: 0, b: 0, a: 0)),
+                pressed: DynamicColor(light: ColorValue(r: 0, g: 0, b: 0, a: 0)),
+                selected: DynamicColor(light: ColorValue(r: 0, g: 0, b: 0, a: 0)),
+                disabled: DynamicColor(light: ColorValue(r: 0, g: 0, b: 0, a: 0))
+            )
+        }
+    }()
+
+    lazy var iconColor: ButtonDynamicColors = {
+        switch style {
+        case .primary:
+            return .init(
+                rest: aliasTokens.foregroundColors[.neutralInverted],
+                hover: aliasTokens.foregroundColors[.neutralInverted],
+                pressed: aliasTokens.foregroundColors[.neutralInverted],
+                selected: aliasTokens.foregroundColors[.neutralInverted],
+                disabled: aliasTokens.foregroundColors[.neutralInverted]
+            )
+        default:
+            return .init(
+                rest: aliasTokens.foregroundColors[.brandRest],
+                hover: aliasTokens.foregroundColors[.brandHover],
+                pressed: aliasTokens.foregroundColors[.brandPressed],
+                selected: aliasTokens.foregroundColors[.brandSelected],
+                disabled: aliasTokens.foregroundColors[.brandDisabled]
+            )
+        }
+    }()
 
     lazy var restShadow: ShadowInfo = aliasTokens.elevation[.interactiveElevation1Rest]
+
     lazy var pressedShadow: ShadowInfo = aliasTokens.elevation[.interactiveElevation1Pressed]
 }

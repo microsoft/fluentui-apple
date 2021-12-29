@@ -259,9 +259,9 @@ AP_MSFButtonTokens:
   # shadow2OffsetY: [ rest: $Shadow.shadow8.y2, hover: $Shadow.shadow2.y2, pressed: $Shadow.shadow2.y2, selected: $Shadow.shadow2.y2, disabled: $Shadow.shadow2.y2 ]
 
 MSFPrimaryButtonTokens extends MSFButtonTokens:
-  backgroundColor: [ rest: $Colors.Background.brandRest, hover: $Colors.Background.brandHover, pressed: $Colors.Background.brandPressed, selected: $Colors.Background.brandSelected, disabled: $Colors.Background.brandDisabled ]
-  iconColor: [ rest: $Colors.Foreground.neutralInverted, hover: $Colors.Foreground.neutralInverted, pressed: $Colors.Foreground.neutralInverted, selected: $Colors.Foreground.neutralInverted, disabled: $Colors.Foreground.neutralInverted ]
-  textColor: [ rest: $Colors.Foreground.neutralInverted, hover: $Colors.Foreground.neutralInverted, pressed: $Colors.Foreground.neutralInverted, selected: $Colors.Foreground.neutralInverted, disabled: $Colors.Foreground.neutralInverted ]
+  # backgroundColor: [ rest: $Colors.Background.brandRest, hover: $Colors.Background.brandHover, pressed: $Colors.Background.brandPressed, selected: $Colors.Background.brandSelected, disabled: $Colors.Background.brandDisabled ]
+  # iconColor: [ rest: $Colors.Foreground.neutralInverted, hover: $Colors.Foreground.neutralInverted, pressed: $Colors.Foreground.neutralInverted, selected: $Colors.Foreground.neutralInverted, disabled: $Colors.Foreground.neutralInverted ]
+  # textColor: [ rest: $Colors.Foreground.neutralInverted, hover: $Colors.Foreground.neutralInverted, pressed: $Colors.Foreground.neutralInverted, selected: $Colors.Foreground.neutralInverted, disabled: $Colors.Foreground.neutralInverted ]
 
 MSFSecondaryButtonTokens extends MSFButtonTokens:
   borderColor: [ rest: $Colors.Stroke.brandRest, hover: $Colors.Stroke.brandHover, pressed: $Colors.Stroke.brandPressed, selected: $Colors.Stroke.brandSelected, disabled: $Colors.Stroke.brandDisabled ]
