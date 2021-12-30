@@ -236,56 +236,6 @@ AP_MSFAvatarGroupTokens:
 MSFAvatarGroupStackTokens extends MSFAvatarGroupTokens:
   interspace: [ xSmall: -2pt, small: -2pt, medium: -4pt, large: -8pt, xlarge: -12pt, xxlarge: -12pt ]
 
-AP_MSFButtonTokens:
-  # backgroundColor: [ rest: NamedColor(clear), hover: NamedColor(clear), pressed: NamedColor(clear), selected: NamedColor(clear), disabled: NamedColor(clear) ]
-  # borderColor: [ rest: $Colors.Background.brandRest, hover: $Colors.Background.brandHover, pressed: $Colors.Background.brandPressed, selected: $Colors.Background.brandSelected, disabled: $Colors.Background.brandDisabled ]
-  # borderRadius: [ small: $Border.radius.large, medium: $Border.radius.large, large: $Border.radius.xLarge ]
-  # borderSize: [ small: $Border.size.none, medium: $Border.size.none, large: $Border.size.none ]
-  # iconColor: [ rest: $Colors.Foreground.brandRest, hover: $Colors.Foreground.brandHover, pressed: $Colors.Foreground.brandPressed, selected: $Colors.Foreground.brandSelected, disabled: $Colors.Foreground.brandDisabled ]
-  # iconSize: [ small: $Icon.size.xSmall, medium: $Icon.size.small, large: $Icon.size.small ]
-  # interspace: [ small: $Spacing.xxSmall, medium: $Spacing.xSmall, large: $Spacing.xSmall ]
-  # padding: [ small: $Spacing.xSmall, medium: $Spacing.small, large: $Spacing.large ]
-  # textColor: [ rest: $Colors.Foreground.brandRest, hover: $Colors.Foreground.brandHover, pressed: $Colors.Foreground.brandPressed, selected: $Colors.Foreground.brandSelected, disabled: $Colors.Foreground.brandDisabled ]
-  # textFont: [ small: $Typography.footnote, medium: $Typography.subheadline, large: $Typography.subheadline ]
-  # textMinimumHeight: [ small: $Icon.size.medium, medium: $Icon.size.medium, large: $Icon.size.medium ]
-  # textAdditionalHorizontalPadding: [ small: $Spacing.xSmall, medium: $Spacing.xSmall, large: $Spacing.xxSmall ]
-  # shadow1Color: [ rest: $Shadow.shadow8.color1, hover: $Shadow.shadow2.color1, pressed: $Shadow.shadow2.color1, selected: $Shadow.shadow2.color1, disabled: $Shadow.shadow2.color1]
-  # shadow1Blur: [ rest: $Shadow.shadow8.blur1, hover: $Shadow.shadow2.blur1, pressed: $Shadow.shadow2.blur1, selected: $Shadow.shadow2.blur1, disabled: $Shadow.shadow2.blur1 ]
-  # shadow1OffsetX: [ rest: $Shadow.shadow8.x1, hover: $Shadow.shadow2.x1, pressed: $Shadow.shadow2.x1, selected: $Shadow.shadow2.x1, disabled: $Shadow.shadow2.x1 ]
-  # shadow1OffsetY: [ rest: $Shadow.shadow8.y1, hover: $Shadow.shadow2.y1, pressed: $Shadow.shadow2.y1, selected: $Shadow.shadow2.y1, disabled: $Shadow.shadow2.y1 ]
-  # shadow2Color: [ rest: $Shadow.shadow8.color2, hover: $Shadow.shadow2.color2, pressed: $Shadow.shadow2.color2, selected: $Shadow.shadow2.color2, disabled: $Shadow.shadow2.color2 ]
-  # shadow2Blur: [ rest: $Shadow.shadow8.blur2 , hover: $Shadow.shadow2.blur2, pressed: $Shadow.shadow2.blur2, selected: $Shadow.shadow2.blur2, disabled: $Shadow.shadow2.blur2 ]
-  # shadow2OffsetX: [ rest: $Shadow.shadow8.x2, hover: $Shadow.shadow2.x2, pressed: $Shadow.shadow2.x2, selected: $Shadow.shadow2.x2, disabled: $Shadow.shadow2.x2 ]
-  # shadow2OffsetY: [ rest: $Shadow.shadow8.y2, hover: $Shadow.shadow2.y2, pressed: $Shadow.shadow2.y2, selected: $Shadow.shadow2.y2, disabled: $Shadow.shadow2.y2 ]
-
-MSFPrimaryButtonTokens extends MSFButtonTokens:
-  # backgroundColor: [ rest: $Colors.Background.brandRest, hover: $Colors.Background.brandHover, pressed: $Colors.Background.brandPressed, selected: $Colors.Background.brandSelected, disabled: $Colors.Background.brandDisabled ]
-  # iconColor: [ rest: $Colors.Foreground.neutralInverted, hover: $Colors.Foreground.neutralInverted, pressed: $Colors.Foreground.neutralInverted, selected: $Colors.Foreground.neutralInverted, disabled: $Colors.Foreground.neutralInverted ]
-  # textColor: [ rest: $Colors.Foreground.neutralInverted, hover: $Colors.Foreground.neutralInverted, pressed: $Colors.Foreground.neutralInverted, selected: $Colors.Foreground.neutralInverted, disabled: $Colors.Foreground.neutralInverted ]
-
-MSFSecondaryButtonTokens extends MSFButtonTokens:
-  # borderColor: [ rest: $Colors.Stroke.brandRest, hover: $Colors.Stroke.brandHover, pressed: $Colors.Stroke.brandPressed, selected: $Colors.Stroke.brandSelected, disabled: $Colors.Stroke.brandDisabled ]
-  # borderSize: [ small: $Border.size.thin, medium: $Border.size.thin, large: $Border.size.thin ]
-
-MSFGhostButtonTokens extends MSFButtonTokens:
-  # borderColor: [ rest: NamedColor(clear), hover: NamedColor(clear), pressed: NamedColor(clear), selected: $Colors.Brand.shade10, disabled: NamedColor(clear) ]
-
-MSFAccentFloatingActionButtonTokens extends MSFButtonTokens:
-  backgroundColor:  [ rest: $Colors.Background.brandRest, hover: $Colors.Background.brandHover, pressed: $Colors.Background.brandPressed, selected: $Colors.Background.brandSelected, disabled: $Colors.Background.brandDisabled ]
-  iconColor: [ rest: $Colors.Foreground.neutralInverted, hover: $Colors.Foreground.neutralInverted, pressed: $Colors.Foreground.neutralInverted, selected: $Colors.Foreground.neutralInverted, disabled: $Colors.Foreground.neutralInverted ]
-  iconSize: [ small: $Icon.size.medium, medium: $Icon.size.medium, large: $Icon.size.medium ]
-  padding: [ small: $Spacing.small, medium: $Spacing.small, large: $Spacing.medium ]
-  textFont: [ small: "Font(15px, regular)", medium: "Font(15px, regular)", large: "Font(17px, regular)" ]
-  textColor: [ rest: $Colors.Foreground.neutralInverted, hover: $Colors.Foreground.neutralInverted, pressed: $Colors.Foreground.neutralInverted, selected: $Colors.Foreground.neutralInverted, disabled: $Colors.Foreground.neutralInverted ]
-
-MSFSubtleFloatingActionButtonTokens extends MSFButtonTokens:
-  backgroundColor: [ rest: $Colors.Background.neutral1, hover: $Colors.Background.neutral1, pressed: $Colors.Background.neutral5, selected: $Colors.Background.neutral1, disabled: $Colors.Background.neutral1 ]
-  iconColor: [ rest: $Colors.Foreground.neutral3, hover: $Colors.Foreground.neutral3, pressed: $Colors.Foreground.neutral3, selected: $Colors.Foreground.brandRest, disabled: $Colors.Foreground.neutralDisabled ]
-  iconSize: [ small: $Icon.size.medium, medium: $Icon.size.medium, large: $Icon.size.medium ]
-  padding: [ small: $Spacing.small, medium: $Spacing.small, large: $Spacing.medium ]
-  textFont: [ small: "Font(15px, regular)", medium: "Font(15px, regular)", large: "Font(17px, regular)" ]
-  textColor: [ rest: $Colors.Foreground.neutral3, hover: $Colors.Foreground.neutral3, pressed: $Colors.Foreground.neutral3, selected: $Colors.Foreground.brandRest, disabled: $Colors.Foreground.neutralDisabled ]
-
 AP_MSFDividerTokens:
   color: $Colors.Stroke.neutral1
   spacing: [ none: $Spacing.none, medium: $Spacing.medium]

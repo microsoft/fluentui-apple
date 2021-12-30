@@ -117,17 +117,17 @@ struct FluentButtonBody: View {
         let backgroundColor: Color
         if isDisabled {
             iconColor = Color(dynamicColor: tokens.iconColor.disabled)
-            titleColor = Color(dynamicColor: tokens.titleColor.disabled)
+            titleColor = Color(dynamicColor: tokens.textColor.disabled)
             borderColor = Color(dynamicColor: tokens.borderColor.disabled)
             backgroundColor = Color(dynamicColor: tokens.backgroundColor.disabled)
         } else if isPressed {
             iconColor = Color(dynamicColor: tokens.iconColor.pressed)
-            titleColor = Color(dynamicColor: tokens.titleColor.pressed)
+            titleColor = Color(dynamicColor: tokens.textColor.pressed)
             borderColor = Color(dynamicColor: tokens.borderColor.pressed)
             backgroundColor = Color(dynamicColor: tokens.backgroundColor.pressed)
         } else {
             iconColor = Color(dynamicColor: tokens.iconColor.rest)
-            titleColor = Color(dynamicColor: tokens.titleColor.rest)
+            titleColor = Color(dynamicColor: tokens.textColor.rest)
             borderColor = Color(dynamicColor: tokens.borderColor.rest)
             backgroundColor = Color(dynamicColor: tokens.backgroundColor.rest)
         }
