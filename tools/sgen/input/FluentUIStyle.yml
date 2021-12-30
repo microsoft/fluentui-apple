@@ -264,11 +264,11 @@ MSFPrimaryButtonTokens extends MSFButtonTokens:
   # textColor: [ rest: $Colors.Foreground.neutralInverted, hover: $Colors.Foreground.neutralInverted, pressed: $Colors.Foreground.neutralInverted, selected: $Colors.Foreground.neutralInverted, disabled: $Colors.Foreground.neutralInverted ]
 
 MSFSecondaryButtonTokens extends MSFButtonTokens:
-  borderColor: [ rest: $Colors.Stroke.brandRest, hover: $Colors.Stroke.brandHover, pressed: $Colors.Stroke.brandPressed, selected: $Colors.Stroke.brandSelected, disabled: $Colors.Stroke.brandDisabled ]
-  borderSize: [ small: $Border.size.thin, medium: $Border.size.thin, large: $Border.size.thin ]
+  # borderColor: [ rest: $Colors.Stroke.brandRest, hover: $Colors.Stroke.brandHover, pressed: $Colors.Stroke.brandPressed, selected: $Colors.Stroke.brandSelected, disabled: $Colors.Stroke.brandDisabled ]
+  # borderSize: [ small: $Border.size.thin, medium: $Border.size.thin, large: $Border.size.thin ]
 
 MSFGhostButtonTokens extends MSFButtonTokens:
-  borderColor: [ rest: NamedColor(clear), hover: NamedColor(clear), pressed: NamedColor(clear), selected: $Colors.Brand.shade10, disabled: NamedColor(clear) ]
+  # borderColor: [ rest: NamedColor(clear), hover: NamedColor(clear), pressed: NamedColor(clear), selected: $Colors.Brand.shade10, disabled: NamedColor(clear) ]
 
 MSFAccentFloatingActionButtonTokens extends MSFButtonTokens:
   backgroundColor:  [ rest: $Colors.Background.brandRest, hover: $Colors.Background.brandHover, pressed: $Colors.Background.brandPressed, selected: $Colors.Background.brandSelected, disabled: $Colors.Background.brandDisabled ]

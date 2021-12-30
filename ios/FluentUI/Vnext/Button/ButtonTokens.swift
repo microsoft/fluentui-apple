@@ -53,7 +53,14 @@ public class ButtonTokens: ControlTokens {
         }
     }()
 
-    lazy var borderSize: CGFloat = globalTokens.borderSize[.none]
+    lazy var borderSize: CGFloat = {
+        switch style {
+        case .secondary:
+            return globalTokens.borderSize[.thin]
+        default:
+            return globalTokens.borderSize[.none]
+        }
+    }()
 
     lazy var iconSize: CGFloat = {
         switch size {
@@ -133,13 +140,33 @@ public class ButtonTokens: ControlTokens {
         }
     }()
 
-    lazy var borderColor: ButtonDynamicColors = .init(
-        rest: aliasTokens.backgroundColors[.brandRest],
-        hover: aliasTokens.backgroundColors[.brandHover],
-        pressed: aliasTokens.backgroundColors[.brandPressed],
-        selected: aliasTokens.backgroundColors[.brandSelected],
-        disabled: aliasTokens.backgroundColors[.brandDisabled]
-    )
+    lazy var borderColor: ButtonDynamicColors = {
+        switch style {
+        case .primary:
+            return .init(
+                rest: aliasTokens.backgroundColors[.brandRest],
+                hover: aliasTokens.backgroundColors[.brandHover],
+                pressed: aliasTokens.backgroundColors[.brandPressed],
+                selected: aliasTokens.backgroundColors[.brandSelected],
+                disabled: aliasTokens.backgroundColors[.brandDisabled]
+            )
+        case .ghost:
+            return .init(
+                rest: DynamicColor(light: ColorValue(r: 0, g: 0, b: 0, a: 0)),
+                hover: DynamicColor(light: ColorValue(r: 0, g: 0, b: 0, a: 0)),
+                pressed: DynamicColor(light: ColorValue(r: 0, g: 0, b: 0, a: 0)),
+                selected: DynamicColor(light: ColorValue(r: 0, g: 0, b: 0, a: 0)),
+                disabled: DynamicColor(light: ColorValue(r: 0, g: 0, b: 0, a: 0))
+            )
+        default:
+            return .init(
+                rest: aliasTokens.backgroundColors[.brandRest],
+                hover: aliasTokens.backgroundColors[.brandHover],
+                pressed: aliasTokens.backgroundColors[.brandPressed],
+                selected: aliasTokens.backgroundColors[.brandSelected],
+                disabled: aliasTokens.backgroundColors[.brandDisabled]
+            )}
+    }()
 
     lazy var backgroundColor: ButtonDynamicColors = {
         switch style {
