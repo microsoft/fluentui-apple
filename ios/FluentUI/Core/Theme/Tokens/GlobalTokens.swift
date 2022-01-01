@@ -3,7 +3,6 @@
 //  Licensed under the MIT License.
 //
 
-import CoreGraphics
 import SwiftUI
 
 /// Global Tokens represent a unified set of constants to be used by Fluent UI.
