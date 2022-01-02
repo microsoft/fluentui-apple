@@ -81,13 +81,20 @@ public class ButtonTokens: ControlTokens {
     }()
 
     lazy var interspace: CGFloat = {
-        switch size {
-        case .small:
-            return globalTokens.spacing[.xxSmall]
-        case .medium:
+        switch style {
+        case .accentFloating:
             return globalTokens.spacing[.xSmall]
-        case .large:
+        case .subtleFloating:
             return globalTokens.spacing[.xSmall]
+        default:
+            switch size {
+            case .small:
+                return globalTokens.spacing[.xxSmall]
+            case .medium:
+                return globalTokens.spacing[.xSmall]
+            case .large:
+                return globalTokens.spacing[.xSmall]
+            }
         }
     }()
 

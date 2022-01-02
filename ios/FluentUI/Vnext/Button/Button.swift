@@ -111,25 +111,25 @@ struct FluentButtonBody: View {
         let isDisabled = !isEnabled
         let isFloatingStyle = tokens.style.isFloatingStyle
         let shouldUsePressedShadow = isDisabled || isPressed
-        let iconColor: Color
-        let titleColor: Color
-        let borderColor: Color
-        let backgroundColor: Color
+        let iconColor: DynamicColor
+        let titleColor: DynamicColor
+        let borderColor: DynamicColor
+        let backgroundColor: DynamicColor
         if isDisabled {
-            iconColor = Color(dynamicColor: tokens.iconColor.disabled)
-            titleColor = Color(dynamicColor: tokens.textColor.disabled)
-            borderColor = Color(dynamicColor: tokens.borderColor.disabled)
-            backgroundColor = Color(dynamicColor: tokens.backgroundColor.disabled)
+            iconColor = tokens.iconColor.disabled
+            titleColor = tokens.textColor.disabled
+            borderColor = tokens.borderColor.disabled
+            backgroundColor = tokens.backgroundColor.disabled
         } else if isPressed {
-            iconColor = Color(dynamicColor: tokens.iconColor.pressed)
-            titleColor = Color(dynamicColor: tokens.textColor.pressed)
-            borderColor = Color(dynamicColor: tokens.borderColor.pressed)
-            backgroundColor = Color(dynamicColor: tokens.backgroundColor.pressed)
+            iconColor = tokens.iconColor.pressed
+            titleColor = tokens.textColor.pressed
+            borderColor = tokens.borderColor.pressed
+            backgroundColor = tokens.backgroundColor.pressed
         } else {
-            iconColor = Color(dynamicColor: tokens.iconColor.rest)
-            titleColor = Color(dynamicColor: tokens.textColor.rest)
-            borderColor = Color(dynamicColor: tokens.borderColor.rest)
-            backgroundColor = Color(dynamicColor: tokens.backgroundColor.rest)
+            iconColor = tokens.iconColor.rest
+            titleColor = tokens.textColor.rest
+            borderColor = tokens.borderColor.rest
+            backgroundColor = tokens.backgroundColor.rest
         }
 
         @ViewBuilder
@@ -138,7 +138,7 @@ struct FluentButtonBody: View {
                 if let image = state.image {
                     Image(uiImage: image)
                         .resizable()
-                        .foregroundColor(iconColor)
+                        .foregroundColor(Color(dynamicColor: iconColor))
                         .frame(width: tokens.iconSize, height: tokens.iconSize, alignment: .center)
                 }
                 if let text = state.text {
@@ -155,7 +155,7 @@ struct FluentButtonBody: View {
                 view.padding(.horizontal, tokens.textAdditionalHorizontalPadding )
             })
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .foregroundColor(titleColor)
+            .foregroundColor(Color(dynamicColor: titleColor))
         }
 
         @ViewBuilder
@@ -164,12 +164,12 @@ struct FluentButtonBody: View {
                 buttonContent.background(
                     RoundedRectangle(cornerRadius: tokens.borderRadius)
                         .strokeBorder(lineWidth: tokens.borderSize, antialiased: false)
-                        .foregroundColor(borderColor)
+                        .foregroundColor(Color(dynamicColor: borderColor))
                         .contentShape(Rectangle()))
             } else {
                 buttonContent.background(
                     RoundedRectangle(cornerRadius: tokens.borderRadius)
-                        .fill(backgroundColor))
+                        .fill(Color(dynamicColor: backgroundColor)))
             }
         }
 
