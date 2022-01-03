@@ -45,5 +45,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Switch to current version of Xcode
+      run: scripts/xcode_select_current_version.sh
     - name: scripts/xcodebuild_wrapper.sh ${{ matrix.build_command }}
       run: scripts/xcodebuild_wrapper.sh ${{ matrix.build_command }}
