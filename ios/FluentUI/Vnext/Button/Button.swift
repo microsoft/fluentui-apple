@@ -112,22 +112,22 @@ struct FluentButtonBody: View {
         let isFloatingStyle = tokens.style.isFloatingStyle
         let shouldUsePressedShadow = isDisabled || isPressed
         let iconColor: DynamicColor
-        let titleColor: DynamicColor
+        let textColor: DynamicColor
         let borderColor: DynamicColor
         let backgroundColor: DynamicColor
         if isDisabled {
             iconColor = tokens.iconColor.disabled
-            titleColor = tokens.textColor.disabled
+            textColor = tokens.textColor.disabled
             borderColor = tokens.borderColor.disabled
             backgroundColor = tokens.backgroundColor.disabled
         } else if isPressed {
             iconColor = tokens.iconColor.pressed
-            titleColor = tokens.textColor.pressed
+            textColor = tokens.textColor.pressed
             borderColor = tokens.borderColor.pressed
             backgroundColor = tokens.backgroundColor.pressed
         } else {
             iconColor = tokens.iconColor.rest
-            titleColor = tokens.textColor.rest
+            textColor = tokens.textColor.rest
             borderColor = tokens.borderColor.rest
             backgroundColor = tokens.backgroundColor.rest
         }
@@ -155,7 +155,7 @@ struct FluentButtonBody: View {
                 view.padding(.horizontal, tokens.textAdditionalHorizontalPadding )
             })
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .foregroundColor(Color(dynamicColor: titleColor))
+            .foregroundColor(Color(dynamicColor: textColor))
         }
 
         @ViewBuilder

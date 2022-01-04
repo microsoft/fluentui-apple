@@ -224,11 +224,11 @@ public class ButtonTokens: ControlTokens {
             )
         case .ghost:
             return .init(
-                rest: DynamicColor(light: ColorValue(r: 0, g: 0, b: 0, a: 0)),
-                hover: DynamicColor(light: ColorValue(r: 0, g: 0, b: 0, a: 0)),
-                pressed: DynamicColor(light: ColorValue(r: 0, g: 0, b: 0, a: 0)),
-                selected: DynamicColor(light: ColorValue(r: 0, g: 0, b: 0, a: 0)),
-                disabled: DynamicColor(light: ColorValue(r: 0, g: 0, b: 0, a: 0))
+                rest: DynamicColor(light: ColorValue.clear),
+                hover: DynamicColor(light: ColorValue.clear),
+                pressed: DynamicColor(light: ColorValue.clear),
+                selected: DynamicColor(light: ColorValue.clear),
+                disabled: DynamicColor(light: ColorValue.clear)
             )
         default:
             return .init(
@@ -268,11 +268,11 @@ public class ButtonTokens: ControlTokens {
             )
         default:
             return .init(
-                rest: DynamicColor(light: ColorValue(r: 0, g: 0, b: 0, a: 0)),
-                hover: DynamicColor(light: ColorValue(r: 0, g: 0, b: 0, a: 0)),
-                pressed: DynamicColor(light: ColorValue(r: 0, g: 0, b: 0, a: 0)),
-                selected: DynamicColor(light: ColorValue(r: 0, g: 0, b: 0, a: 0)),
-                disabled: DynamicColor(light: ColorValue(r: 0, g: 0, b: 0, a: 0))
+                rest: DynamicColor(light: ColorValue.clear),
+                hover: DynamicColor(light: ColorValue.clear),
+                pressed: DynamicColor(light: ColorValue.clear),
+                selected: DynamicColor(light: ColorValue.clear),
+                disabled: DynamicColor(light: ColorValue.clear)
             )
         }
     }()
