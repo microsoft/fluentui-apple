@@ -403,6 +403,58 @@ AP_MSFPersonaViewTokens:
   labelFont: $Typography.headline
   sublabelColor: $Colors.Foreground.neutral1
 
+AP_MSFPillButtonBarTokens:
+  cornerRadius: $Spacing.medium
+  maxButtonsSpacing: 10pt
+  minButtonsSpacing: $Spacing.xSmall
+  minButtonVisibleWidth: $Spacing.large
+  minButtonWidth: 56pt
+  minHeight: 28pt
+  sideInset: $Spacing.medium
+  hoverBackgroundColor: [ primary: "FluentUIColor(light: NamedColor(grey94), dark: NamedColor(grey8))",
+                          onBrand: "FluentUIColor(light: $Colors.Brand.shade10, dark: NamedColor(grey8))" ]
+
+AP_MSFPillButtonTokens:
+  bottomInset: 6pt
+  font: "Font(15px, regular)"
+  horizontalInset: $Spacing.medium
+  topInset: 6pt
+  unreadDotOffsetX: 6pt
+  unreadDotOffsetY: 3pt
+  unreadDotSize: 6pt
+  backgroundColor: [ rest: "FluentUIColor(light: NamedColor(grey94), dark: NamedColor(grey8))",
+                     hover: "FluentUIColor(light: NamedColor(grey94), dark: NamedColor(grey8))",
+                     selected: $Colors.Brand.primary,
+                     disabled: "FluentUIColor(light: NamedColor(grey94), dark: NamedColor(grey8))",
+                     selectedDisabled: "FluentUIColor(light: NamedColor(grey80), dark: NamedColor(grey30))",
+                     highlighted: "FluentUIColor(light: NamedColor(grey94), dark: NamedColor(grey8))",
+                     selectedHighlighted: $Colors.Brand.primary ]
+  titleColor: [ rest: "FluentUIColor(light: NamedColor(grey38), dark: NamedColor(grey84))",
+                selected: "FluentUIColor(light: NamedColor(white), dark: NamedColor(black)",
+                disabled: "FluentUIColor(light: NamedColor(grey70), dark: NamedColor(grey26))",
+                selectedDisabled: "FluentUIColor(light: NamedColor(grey94), dark: NamedColor(grey44))",
+                highlighted: "FluentUIColor(light: NamedColor(grey38), dark: NamedColor(grey84))",
+                selectedHighlighted: "FluentUIColor(light: NamedColor(white), dark: NamedColor(black)" ]
+  unreadDotColor: [ rest: $Colors.Brand.primary,
+                    disabled: "FluentUIColor(light: NamedColor(grey70), dark: NamedColor(grey26))" ]
+
+MSFOnBrandPillButtonTokens extends MSFPillButtonTokens:
+  backgroundColor: [ rest: "FluentUIColor(light: $Colors.Brand.shade10, dark: NamedColor(grey8))",
+                     hover: "FluentUIColor(light: $Colors.Brand.shade10, dark: NamedColor(grey8))",
+                     selected: "FluentUIColor(light: NamedColor(white), dark: NamedColor(grey32))",
+                     disabled: "FluentUIColor(light: $Colors.Brand.shade20, dark: NamedColor(grey8))",
+                     selectedDisabled: "FluentUIColor(light: NamedColor(white), dark: NamedColor(grey30))",
+                     highlighted: "FluentUIColor(light: $Colors.Brand.shade10, dark: NamedColor(grey8))",
+                     selectedHighlighted: "FluentUIColor(light: NamedColor(grey38), dark: NamedColor(grey84))" ]
+  titleColor: [ rest: "FluentUIColor(light: NamedColor(white), dark: NamedColor(grey84))",
+                selected: "FluentUIColor(light: $Colors.Brand.primary, dark: NamedColor(white)",
+                disabled: "FluentUIColor(light: $Colors.Brand.shade10, dark: NamedColor(grey26))",
+                selectedDisabled: "FluentUIColor(light: NamedColor(grey74), dark: NamedColor(grey44))",
+                highlighted: "FluentUIColor(light: NamedColor(white), dark: NamedColor(grey84))",
+                selectedHighlighted: "FluentUIColor(light: NamedColor(white), dark: NamedColor(black)" ]
+  unreadDotColor: [ rest: "FluentUIColor(light: NamedColor(white), dark: NamedColor(grey84))", 
+                    disabled: "FluentUIColor(light: $Colors.Brand.shade10, dark: NamedColor(grey26))" ]
+
 MSFPrimaryHeaderTokens extends MSFHeaderFooterTokens:
   textColor: $Colors.Foreground.neutral1
   textFont: $Typography.headline
