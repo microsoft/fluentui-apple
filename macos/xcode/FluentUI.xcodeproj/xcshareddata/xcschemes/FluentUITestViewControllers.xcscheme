@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1020"
+   LastUpgradeVersion = "1310"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E61C96B12295E8D60006561F"
-               BuildableName = "FluentUI.framework"
-               BlueprintName = "FluentUI"
+               BlueprintIdentifier = "E6A92D2324BEA85900562BCA"
+               BuildableName = "libFluentUITestViewControllers.a"
+               BlueprintName = "FluentUITestViewControllers"
                ReferencedContainer = "container:FluentUI.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -30,16 +30,6 @@
       enableAddressSanitizer = "YES"
       enableASanStackUseAfterReturn = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E61C96BA2295E8D60006561F"
-               BuildableName = "FluentUIUnitTests.xctest"
-               BlueprintName = "FluentUITests"
-               ReferencedContainer = "container:FluentUI.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
@@ -54,15 +44,6 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E61C96B12295E8D60006561F"
-            BuildableName = "FluentUI.framework"
-            BlueprintName = "FluentUI"
-            ReferencedContainer = "container:FluentUI.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -73,9 +54,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E61C96B12295E8D60006561F"
-            BuildableName = "FluentUI.framework"
-            BlueprintName = "FluentUI"
+            BlueprintIdentifier = "E6A92D2324BEA85900562BCA"
+            BuildableName = "libFluentUITestViewControllers.a"
+            BlueprintName = "FluentUITestViewControllers"
             ReferencedContainer = "container:FluentUI.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
