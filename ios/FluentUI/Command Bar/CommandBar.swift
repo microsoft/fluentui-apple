@@ -86,7 +86,7 @@ public class CommandBar: UIView, TokenizedControlInternal, ControlConfiguration 
 
     // MARK: - TokenizedControl
 
-    public var tokenKey: String { "\(type(of: self))"}
+    public var tokenKeyComponents: [AnyObject] { [type(of: self)] }
     var state: CommandBar { self }
     var tokens: CommandBarTokens { fluentTheme.tokens(for: self) }
     var defaultTokens: CommandBarTokens { .init() }

@@ -27,7 +27,7 @@ import SwiftUI
     public func register<T: TokenizedControl>(tokens: T.TokenType, for control: T) {
         tokens.globalTokens = globalTokens
         tokens.aliasTokens = aliasTokens
-        controlTokens[control.tokenKey] = tokens
+        controlTokens[tokenKey(control.tokenKeyComponents)] = tokens
     }
 
     /// Returns the appropriate `ControlTokens` instance that was provided a given `TokenizedControl`.
@@ -43,7 +43,7 @@ import SwiftUI
     func tokens<T: TokenizedControlInternal>(for control: T) -> T.TokenType {
         if let tokens = control.state.overrideTokens {
             return tokens
-        } else if let tokens = controlTokens[control.tokenKey] as? T.TokenType {
+        } else if let tokens = controlTokens[tokenKey(control.tokenKeyComponents)] as? T.TokenType {
             return tokens
         } else {
             // Register the default tokens to make future lookups more efficient.
@@ -57,6 +57,10 @@ import SwiftUI
 
     var globalTokens: GlobalTokens
     var aliasTokens: AliasTokens
+
+    private func tokenKey(_ components: [AnyObject]) -> String {
+        return components.map({ $0.description }).joined(separator: "-")
+    }
 
     private var controlTokens: [String: ControlTokens] = [:]
 }

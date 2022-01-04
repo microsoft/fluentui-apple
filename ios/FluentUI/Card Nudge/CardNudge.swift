@@ -47,7 +47,7 @@ public typealias CardNudgeButtonAction = ((_ state: MSFCardNudgeState) -> Void)
 
 /// View that represents the CardNudge.
 public struct CardNudge: View, TokenizedControlInternal {
-    public let tokenKey: String
+    public let tokenKeyComponents: [AnyObject]
 
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @ObservedObject var state: MSFCardNudgeStateImpl
@@ -173,7 +173,7 @@ public struct CardNudge: View, TokenizedControlInternal {
         self.state = state
 
         // We want separate lookup keys for `.standard` and `.outline` controls.
-        self.tokenKey = "\(type(of: self))_\(style.rawValue)"
+        self.tokenKeyComponents = [type(of: self), style.rawValue] as [AnyObject]
     }
 }
 

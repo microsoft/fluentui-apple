@@ -9,11 +9,11 @@ import SwiftUI
 public protocol TokenizedControl {
     associatedtype TokenType: ControlTokens
 
-    /// The unique key to use for token cacheing for a given `TokenizedControl`.
+    /// The components of a unique key to use for token cacheing for a given `TokenizedControl`.
     ///
-    /// In most cases, this will simply return `"\(type(of: self)"`. However, some controls may want to cache multiple token sets
-    /// (e.g. one for each style for a control), and will thus add additional data 
-    var tokenKey: String { get }
+    /// In most cases, this will simply return `"type(of: self)"`. However, some controls may want to cache multiple token sets
+    /// (e.g. one for each style for a control), and will thus add additional data to the array.
+    var tokenKeyComponents: [AnyObject] { get }
 
     /// Modifier function that updates the design tokens for a given control.
     ///

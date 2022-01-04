@@ -44,9 +44,7 @@ public class ButtonTokens: ControlTokens {
 
     lazy var borderRadius: CGFloat = {
         switch size {
-        case .small:
-            return globalTokens.borderRadius[.large]
-        case .medium:
+        case .small, .medium:
             return globalTokens.borderRadius[.large]
         case .large:
             return globalTokens.borderRadius[.xLarge]
@@ -55,70 +53,45 @@ public class ButtonTokens: ControlTokens {
 
     lazy var borderSize: CGFloat = {
         switch style {
+        case .primary, .ghost, .accentFloating, .subtleFloating:
+            return globalTokens.borderSize[.none]
         case .secondary:
             return globalTokens.borderSize[.thin]
-        default:
-            return globalTokens.borderSize[.none]
         }
     }()
 
     lazy var iconSize: CGFloat = {
         switch style {
-        case .accentFloating:
-            return globalTokens.iconSize[.medium]
-        case .subtleFloating:
-            return globalTokens.iconSize[.medium]
-        default:
+        case .primary, .secondary, .ghost:
             switch size {
             case .small:
                 return globalTokens.iconSize[.xSmall]
-            case .medium:
-                return globalTokens.iconSize[.small]
-            case .large:
+            case .medium,
+                    .large:
                 return globalTokens.iconSize[.small]
             }
+        case .accentFloating, .subtleFloating:
+            return globalTokens.iconSize[.medium]
         }
     }()
 
     lazy var interspace: CGFloat = {
         switch style {
-        case .accentFloating:
-            return globalTokens.spacing[.xSmall]
-        case .subtleFloating:
-            return globalTokens.spacing[.xSmall]
-        default:
+        case .primary, .secondary, .ghost:
             switch size {
             case .small:
                 return globalTokens.spacing[.xxSmall]
-            case .medium:
-                return globalTokens.spacing[.xSmall]
-            case .large:
+            case .medium, .large:
                 return globalTokens.spacing[.xSmall]
             }
+        case .accentFloating, .subtleFloating:
+            return globalTokens.spacing[.xSmall]
         }
     }()
 
     lazy var padding: CGFloat = {
         switch style {
-        case .accentFloating:
-            switch size {
-            case .small:
-                return globalTokens.spacing[.small]
-            case .medium:
-                return globalTokens.spacing[.small]
-            case .large:
-                return globalTokens.spacing[.medium]
-            }
-        case .subtleFloating:
-            switch size {
-            case .small:
-                return globalTokens.spacing[.small]
-            case .medium:
-                return globalTokens.spacing[.small]
-            case .large:
-                return globalTokens.spacing[.medium]
-            }
-        default:
+        case .primary, .secondary, .ghost:
             switch size {
             case .small:
                 return globalTokens.spacing[.xSmall]
@@ -127,35 +100,43 @@ public class ButtonTokens: ControlTokens {
             case .large:
                 return globalTokens.spacing[.large]
             }
+        case .accentFloating:
+            switch size {
+            case .small, .medium:
+                return globalTokens.spacing[.small]
+            case .large:
+                return globalTokens.spacing[.medium]
+            }
+        case .subtleFloating:
+            switch size {
+            case .small, .medium:
+                return globalTokens.spacing[.small]
+            case .large:
+                return globalTokens.spacing[.medium]
+            }
         }
     }()
 
     lazy var textFont: FontInfo = {
         switch style {
+        case .primary, .secondary, .ghost:
+            switch size {
+            case .small, .medium:
+                return aliasTokens.typography[.caption1Strong]
+            case .large:
+                return aliasTokens.typography[.body1Strong]
+            }
         case .accentFloating:
             switch size {
-            case .small:
-                return aliasTokens.typography[.body2Strong]
-            case .medium:
+            case .small, .medium:
                 return aliasTokens.typography[.body2Strong]
             case .large:
                 return aliasTokens.typography[.body1Strong]
             }
         case .subtleFloating:
             switch size {
-            case .small:
+            case .small, .medium:
                 return aliasTokens.typography[.body2Strong]
-            case .medium:
-                return aliasTokens.typography[.body2Strong]
-            case .large:
-                return aliasTokens.typography[.body1Strong]
-            }
-        default:
-            switch size {
-            case .small:
-                return aliasTokens.typography[.caption1Strong]
-            case .medium:
-                return aliasTokens.typography[.caption1Strong]
             case .large:
                 return aliasTokens.typography[.body1Strong]
             }
@@ -166,9 +147,7 @@ public class ButtonTokens: ControlTokens {
 
     lazy var textAdditionalHorizontalPadding: CGFloat = {
         switch size {
-        case .small:
-            return globalTokens.spacing[.xSmall]
-        case .medium:
+        case .small, .medium:
             return globalTokens.spacing[.xSmall]
         case .large:
             return globalTokens.spacing[.xxSmall]
@@ -177,15 +156,7 @@ public class ButtonTokens: ControlTokens {
 
     lazy var textColor: ButtonDynamicColors = {
         switch style {
-        case .primary:
-            return .init(
-                rest: aliasTokens.foregroundColors[.neutralInverted],
-                hover: aliasTokens.foregroundColors[.neutralInverted],
-                pressed: aliasTokens.foregroundColors[.neutralInverted],
-                selected: aliasTokens.foregroundColors[.neutralInverted],
-                disabled: aliasTokens.foregroundColors[.neutralInverted]
-            )
-        case .accentFloating:
+        case .primary, .accentFloating:
             return .init(
                 rest: aliasTokens.foregroundColors[.neutralInverted],
                 hover: aliasTokens.foregroundColors[.neutralInverted],
@@ -201,7 +172,7 @@ public class ButtonTokens: ControlTokens {
                 selected: aliasTokens.foregroundColors[.brandRest],
                 disabled: aliasTokens.foregroundColors[.neutralDisabled]
             )
-        default:
+        case .secondary, .ghost:
             return .init(
                 rest: aliasTokens.foregroundColors[.brandRest],
                 hover: aliasTokens.foregroundColors[.brandHover],
@@ -222,51 +193,15 @@ public class ButtonTokens: ControlTokens {
                 selected: aliasTokens.backgroundColors[.brandSelected],
                 disabled: aliasTokens.backgroundColors[.brandDisabled]
             )
+        case .secondary, .accentFloating, .subtleFloating:
+            return .init(
+                rest: aliasTokens.backgroundColors[.brandRest],
+                hover: aliasTokens.backgroundColors[.brandHover],
+                pressed: aliasTokens.backgroundColors[.brandPressed],
+                selected: aliasTokens.backgroundColors[.brandSelected],
+                disabled: aliasTokens.backgroundColors[.brandDisabled]
+            )
         case .ghost:
-            return .init(
-                rest: DynamicColor(light: ColorValue.clear),
-                hover: DynamicColor(light: ColorValue.clear),
-                pressed: DynamicColor(light: ColorValue.clear),
-                selected: DynamicColor(light: ColorValue.clear),
-                disabled: DynamicColor(light: ColorValue.clear)
-            )
-        default:
-            return .init(
-                rest: aliasTokens.backgroundColors[.brandRest],
-                hover: aliasTokens.backgroundColors[.brandHover],
-                pressed: aliasTokens.backgroundColors[.brandPressed],
-                selected: aliasTokens.backgroundColors[.brandSelected],
-                disabled: aliasTokens.backgroundColors[.brandDisabled]
-            )}
-    }()
-
-    lazy var backgroundColor: ButtonDynamicColors = {
-        switch style {
-        case .primary:
-            return .init(
-                rest: aliasTokens.backgroundColors[.brandRest],
-                hover: aliasTokens.backgroundColors[.brandHover],
-                pressed: aliasTokens.backgroundColors[.brandPressed],
-                selected: aliasTokens.backgroundColors[.brandSelected],
-                disabled: aliasTokens.backgroundColors[.brandDisabled]
-            )
-        case .accentFloating:
-            return .init(
-                rest: aliasTokens.backgroundColors[.brandRest],
-                hover: aliasTokens.backgroundColors[.brandHover],
-                pressed: aliasTokens.backgroundColors[.brandPressed],
-                selected: aliasTokens.backgroundColors[.brandSelected],
-                disabled: aliasTokens.backgroundColors[.brandDisabled]
-            )
-        case .subtleFloating:
-            return .init(
-                rest: aliasTokens.backgroundColors[.neutral1],
-                hover: aliasTokens.backgroundColors[.neutral1],
-                pressed: aliasTokens.backgroundColors[.neutral5],
-                selected: aliasTokens.backgroundColors[.neutral1],
-                disabled: aliasTokens.backgroundColors[.neutral1]
-            )
-        default:
             return .init(
                 rest: DynamicColor(light: ColorValue.clear),
                 hover: DynamicColor(light: ColorValue.clear),
@@ -277,9 +212,38 @@ public class ButtonTokens: ControlTokens {
         }
     }()
 
+    lazy var backgroundColor: ButtonDynamicColors = {
+        switch style {
+        case .primary, .accentFloating:
+            return .init(
+                rest: aliasTokens.backgroundColors[.brandRest],
+                hover: aliasTokens.backgroundColors[.brandHover],
+                pressed: aliasTokens.backgroundColors[.brandPressed],
+                selected: aliasTokens.backgroundColors[.brandSelected],
+                disabled: aliasTokens.backgroundColors[.brandDisabled]
+            )
+        case .secondary, .ghost:
+            return .init(
+                rest: DynamicColor(light: ColorValue.clear),
+                hover: DynamicColor(light: ColorValue.clear),
+                pressed: DynamicColor(light: ColorValue.clear),
+                selected: DynamicColor(light: ColorValue.clear),
+                disabled: DynamicColor(light: ColorValue.clear)
+            )
+        case .subtleFloating:
+            return .init(
+                rest: aliasTokens.backgroundColors[.neutral1],
+                hover: aliasTokens.backgroundColors[.neutral1],
+                pressed: aliasTokens.backgroundColors[.neutral5],
+                selected: aliasTokens.backgroundColors[.neutral1],
+                disabled: aliasTokens.backgroundColors[.neutral1]
+            )
+        }
+    }()
+
     lazy var iconColor: ButtonDynamicColors = {
         switch style {
-        case .primary:
+        case .primary, .accentFloating:
             return .init(
                 rest: aliasTokens.foregroundColors[.neutralInverted],
                 hover: aliasTokens.foregroundColors[.neutralInverted],
@@ -287,13 +251,13 @@ public class ButtonTokens: ControlTokens {
                 selected: aliasTokens.foregroundColors[.neutralInverted],
                 disabled: aliasTokens.foregroundColors[.neutralInverted]
             )
-        case .accentFloating:
+        case .secondary, .ghost:
             return .init(
-                rest: aliasTokens.foregroundColors[.neutralInverted],
-                hover: aliasTokens.foregroundColors[.neutralInverted],
-                pressed: aliasTokens.foregroundColors[.neutralInverted],
-                selected: aliasTokens.foregroundColors[.neutralInverted],
-                disabled: aliasTokens.foregroundColors[.neutralInverted]
+                rest: aliasTokens.foregroundColors[.brandRest],
+                hover: aliasTokens.foregroundColors[.brandHover],
+                pressed: aliasTokens.foregroundColors[.brandPressed],
+                selected: aliasTokens.foregroundColors[.brandSelected],
+                disabled: aliasTokens.foregroundColors[.brandDisabled]
             )
         case .subtleFloating:
             return .init(
@@ -302,14 +266,6 @@ public class ButtonTokens: ControlTokens {
                 pressed: aliasTokens.foregroundColors[.neutral3],
                 selected: aliasTokens.foregroundColors[.brandRest],
                 disabled: aliasTokens.foregroundColors[.neutralDisabled]
-            )
-        default:
-            return .init(
-                rest: aliasTokens.foregroundColors[.brandRest],
-                hover: aliasTokens.foregroundColors[.brandHover],
-                pressed: aliasTokens.foregroundColors[.brandPressed],
-                selected: aliasTokens.foregroundColors[.brandSelected],
-                disabled: aliasTokens.foregroundColors[.brandDisabled]
             )
         }
     }()

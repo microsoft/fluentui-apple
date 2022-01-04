@@ -30,7 +30,7 @@ import UIKit
 
 /// View that represents the button.
 public struct FluentButton: View, TokenizedControlInternal {
-    public let tokenKey: String
+    public let tokenKeyComponents: [AnyObject]
 
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @ObservedObject var state: MSFButtonStateImpl
@@ -56,7 +56,7 @@ public struct FluentButton: View, TokenizedControlInternal {
         self.state = state
 
         // We want separate lookup keys for each permutation of `style` and `size`.
-        self.tokenKey = "\(type(of: self))_\(style.rawValue)_\(size.rawValue)"
+        self.tokenKeyComponents = [type(of: self), style.rawValue, size.rawValue] as [AnyObject]
     }
 
     public var body: some View {
