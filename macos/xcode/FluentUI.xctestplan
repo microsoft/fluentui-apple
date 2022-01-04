@@ -40,7 +40,8 @@
       "containerPath" : "container:FluentUI.xcodeproj",
       "identifier" : "8F5368012295F4BF0098AC8F",
       "name" : "FluentUITests"
-    }
+    },
+    "undefinedBehaviorSanitizerEnabled" : true
   },
   "testTargets" : [
     {
