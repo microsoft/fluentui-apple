@@ -23,6 +23,7 @@ class DemoListViewController: DemoTableViewController {
         let navigationController = UINavigationController(rootViewController: demoListViewController)
         navigationController.navigationBar.isTranslucent = true
         navigationController.navigationBar.prefersLargeTitles = true
+        navigationController.toolbar.isTranslucent = true
 
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
