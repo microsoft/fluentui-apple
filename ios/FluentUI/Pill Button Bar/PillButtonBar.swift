@@ -312,7 +312,7 @@ open class PillButtonBar: UIScrollView {
             let button = createButtonWithItem(item)
             buttons.append(button)
             stackView.addArrangedSubview(button)
-            
+
             // in case pillbuttonbar is used as .tabbar, adding our own index would be repetitive
             if self.accessibilityTraits != .tabBar {
                 button.accessibilityHint = String(format: "Accessibility.MSPillButtonBar.Hint".localized, index + 1, items.count)
