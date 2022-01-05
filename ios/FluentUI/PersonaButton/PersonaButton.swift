@@ -51,15 +51,23 @@ import SwiftUI
 
     /// Secondary text to be displayed under the persona image (e.g. last name or email address).
     var secondaryText: String? { get set }
+
+    /// Design token set for this control, to use in place of the control's default Fluent tokens.
+    var overrideTokens: PersonaButtonTokens? { get set }
 }
 
 /// View that represents a persona button.
-public struct PersonaButton: View {
-    @Environment(\.theme) var theme: FluentUIStyle
-    @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
+public struct PersonaButton: TokenizedControlConfigurableView, TokenizedControlStorage {
+    public var tokenKeyComponents: [AnyObject] { [type(of: self), state.size.rawValue] as [AnyObject] }
+
+    @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @Environment(\.sizeCategory) var sizeCategory: ContentSizeCategory
-    @ObservedObject var tokens: MSFPersonaButtonTokens
+
     @ObservedObject var state: MSFPersonaButtonStateImpl
+
+    var tokens: PersonaButtonTokens { fluentTheme.tokens(for: self) }
+    var defaultTokens: PersonaButtonTokens { .init(size: state.buttonSize) }
+    var overrideTokens: PersonaButtonTokens? { state.overrideTokens }
 
     /// Creates a new PersonaButton instance.
     /// - Parameters:
@@ -67,13 +75,11 @@ public struct PersonaButton: View {
     public init(size: MSFPersonaButtonSize) {
         let state = MSFPersonaButtonStateImpl(size: size)
         self.state = state
-        self.tokens = state.tokens
     }
 
     internal init(state: MSFPersonaButtonStateImpl, action: (() -> Void)?) {
         state.onTapAction = action
         self.state = state
-        self.tokens = state.tokens
     }
 
     @ViewBuilder
@@ -126,19 +132,16 @@ public struct PersonaButton: View {
         }
         .frame(minWidth: adjustedWidth, maxWidth: adjustedWidth, minHeight: 0, maxHeight: .infinity)
         .background(Color(tokens.backgroundColor))
-        .designTokens(tokens,
-                      from: theme,
-                      with: windowProvider)
     }
 }
 
 /// Properties that make up PersonaButton content
-class MSFPersonaButtonStateImpl: NSObject, ObservableObject, Identifiable, MSFPersonaButtonState {
+class MSFPersonaButtonStateImpl: NSObject, ObservableObject, Identifiable, ControlConfiguration, MSFPersonaButtonState {
     @Published var buttonSize: MSFPersonaButtonSize
     @Published var onTapAction: (() -> Void)?
+    @Published var overrideTokens: PersonaButtonTokens?
 
     let avatarState: MSFAvatarStateImpl
-    let tokens: MSFPersonaButtonTokens
     let id = UUID()
 
     var avatarBackgroundColor: UIColor? {
@@ -282,7 +285,6 @@ class MSFPersonaButtonStateImpl: NSObject, ObservableObject, Identifiable, MSFPe
     init(size: MSFPersonaButtonSize) {
         self.buttonSize = size
         self.avatarState = MSFAvatarStateImpl(style: .default, size: size.avatarSize)
-        self.tokens = MSFPersonaButtonTokens(size: size)
 
         super.init()
     }

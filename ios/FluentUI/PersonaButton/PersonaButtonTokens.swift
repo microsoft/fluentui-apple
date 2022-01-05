@@ -31,7 +31,7 @@ import UIKit
 
 /// Representation of design tokens to persona buttons at runtime which interfaces with the Design Token System auto-generated code.
 /// Updating these properties causes the SwiftUI persona button to update its view automatically.
-class MSFPersonaButtonTokens: MSFTokensBase, ObservableObject {
+public class PersonaButtonTokens: ControlTokens {
     @Published public var avatarInterspace: CGFloat!
     @Published public var backgroundColor: UIColor!
     @Published public var horizontalAvatarPadding: CGFloat!
@@ -42,48 +42,12 @@ class MSFPersonaButtonTokens: MSFTokensBase, ObservableObject {
     @Published public var sublabelFont: UIFont!
     @Published public var verticalPadding: CGFloat!
 
-    var size: MSFPersonaButtonSize {
-        didSet {
-            if oldValue != size {
-                updateForCurrentTheme()
-            }
-        }
-    }
+    var size: MSFPersonaButtonSize
 
     init(size: MSFPersonaButtonSize) {
         self.size = size
 
         super.init()
 
-        self.themeAware = true
-
-        updateForCurrentTheme()
-    }
-
-    @objc open func didChangeAppearanceProxy() {
-        updateForCurrentTheme()
-    }
-
-    override func updateForCurrentTheme() {
-        let currentTheme = theme
-        let appearanceProxy = currentTheme.MSFPersonaButtonTokens
-
-        backgroundColor = appearanceProxy.backgroundColor
-        horizontalTextPadding = appearanceProxy.horizontalTextPadding
-        labelColor = appearanceProxy.labelColor
-        sublabelColor = appearanceProxy.sublabelColor
-        sublabelFont = appearanceProxy.sublabelFont
-        verticalPadding = appearanceProxy.verticalPadding
-
-        switch size {
-        case .small:
-            avatarInterspace = appearanceProxy.avatarInterspace.small
-            labelFont = appearanceProxy.labelFont.small
-            horizontalAvatarPadding = appearanceProxy.horizontalAvatarPadding.small
-        case .large:
-            avatarInterspace = appearanceProxy.avatarInterspace.large
-            labelFont = appearanceProxy.labelFont.large
-            horizontalAvatarPadding = appearanceProxy.horizontalAvatarPadding.large
-        }
     }
 }

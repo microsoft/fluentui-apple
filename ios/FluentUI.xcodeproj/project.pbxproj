@@ -187,8 +187,8 @@
 		925D461D26FD133600179583 /* GlobalTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925D461B26FD133600179583 /* GlobalTokens.swift */; };
 		925D462026FD18B200179583 /* AliasTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925D461E26FD18B200179583 /* AliasTokens.swift */; };
 		9275105626815A7100F12730 /* MSFPersonaButtonCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9275105426815A7100F12730 /* MSFPersonaButtonCarousel.swift */; };
+		927EB2BD278627440069753D /* PersonaButtonModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927EB2BC278627440069753D /* PersonaButtonModifiers.swift */; };
 		9298798B2669A875002B1EB4 /* PersonaButtonTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927E34C62668350800998031 /* PersonaButtonTokens.swift */; };
-		92987990266A8E1C002B1EB4 /* MSFPersonaButtonTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9298798D266A8E1C002B1EB4 /* MSFPersonaButtonTokens.generated.swift */; };
 		92987992266A8E1C002B1EB4 /* MSFPersonaButtonCarouselTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9298798E266A8E1C002B1EB4 /* MSFPersonaButtonCarouselTokens.generated.swift */; };
 		929DD257266ED3AC00E8175E /* PersonaButtonCarouselTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 929DD255266ED3AC00E8175E /* PersonaButtonCarouselTokens.swift */; };
 		929DD25A266ED3B600E8175E /* PersonaButtonCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 929DD258266ED3B600E8175E /* PersonaButtonCarousel.swift */; };
@@ -315,7 +315,7 @@
 		925D461E26FD18B200179583 /* AliasTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AliasTokens.swift; sourceTree = "<group>"; };
 		9275105426815A7100F12730 /* MSFPersonaButtonCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFPersonaButtonCarousel.swift; sourceTree = "<group>"; };
 		927E34C62668350800998031 /* PersonaButtonTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaButtonTokens.swift; sourceTree = "<group>"; };
-		9298798D266A8E1C002B1EB4 /* MSFPersonaButtonTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFPersonaButtonTokens.generated.swift; sourceTree = "<group>"; };
+		927EB2BC278627440069753D /* PersonaButtonModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaButtonModifiers.swift; sourceTree = "<group>"; };
 		9298798E266A8E1C002B1EB4 /* MSFPersonaButtonCarouselTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFPersonaButtonCarouselTokens.generated.swift; sourceTree = "<group>"; };
 		929DD255266ED3AC00E8175E /* PersonaButtonCarouselTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonaButtonCarouselTokens.swift; sourceTree = "<group>"; };
 		929DD258266ED3B600E8175E /* PersonaButtonCarousel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonaButtonCarousel.swift; sourceTree = "<group>"; };
@@ -764,8 +764,8 @@
 			isa = PBXGroup;
 			children = (
 				92B7E6A12684262900EFC15E /* MSFPersonaButton.swift */,
-				9298798D266A8E1C002B1EB4 /* MSFPersonaButtonTokens.generated.swift */,
 				92088EF72666DB2C003F571A /* PersonaButton.swift */,
+				927EB2BC278627440069753D /* PersonaButtonModifiers.swift */,
 				927E34C62668350800998031 /* PersonaButtonTokens.swift */,
 			);
 			path = PersonaButton;
@@ -1501,7 +1501,6 @@
 				5314E14525F016860099271A /* CardPresentationController.swift in Sources */,
 				5314E0A925F010070099271A /* DrawerTransitionAnimator.swift in Sources */,
 				5314E06525F00EFD0099271A /* CalendarViewDayMonthCell.swift in Sources */,
-				92987990266A8E1C002B1EB4 /* MSFPersonaButtonTokens.generated.swift in Sources */,
 				5314E08B25F00F2D0099271A /* CommandBarItem.swift in Sources */,
 				5314E06225F00EFD0099271A /* CalendarViewDayTodayCell.swift in Sources */,
 				5314E08025F00F1A0099271A /* DateTimePickerViewComponent.swift in Sources */,
@@ -1574,6 +1573,7 @@
 				925D461D26FD133600179583 /* GlobalTokens.swift in Sources */,
 				9275105626815A7100F12730 /* MSFPersonaButtonCarousel.swift in Sources */,
 				5314E0BC25F0106F0099271A /* HUDView.swift in Sources */,
+				927EB2BD278627440069753D /* PersonaButtonModifiers.swift in Sources */,
 				5314E0F225F012C80099271A /* ShyHeaderView.swift in Sources */,
 				53097D232702890900A6E4DC /* MSFListTokens.generated.swift in Sources */,
 				5314E02825F00DA80099271A /* BlurringView.swift in Sources */,
