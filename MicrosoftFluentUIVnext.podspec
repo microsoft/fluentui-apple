@@ -12,7 +12,7 @@ Pod::Spec.new do |s|
 
 # iOS
 
-  s.ios.deployment_target = "14.0"
+  s.ios.deployment_target = "13.0"
   
   s.subspec 'ActivityIndicator_ios' do |activityindicator_ios|
     activityindicator_ios.platform = :ios
