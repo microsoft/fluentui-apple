@@ -39,4 +39,10 @@ public extension ActivityIndicator {
         state.hidesWhenStopped = hidesWhenStopped
         return self
     }
+
+    /// Provides a custom design token set to be used when drawing this control.
+    func customTokens(_ tokens: ActivityIndicatorTokens) -> ActivityIndicator {
+        state.overrideTokens = tokens
+        return self
+    }
 }

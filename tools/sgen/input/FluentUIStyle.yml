@@ -127,11 +127,6 @@ Shadow:
     shadow28: [ blur1: 14pt, color1: $Colors.Elevation.highElevation1, x1: 0pt, y1: 14pt, blur2: 4pt, color2: $Colors.Elevation.highElevation2, x2: 0pt, y2: 0pt ]
     shadow64: [ blur1: 32pt, color1: $Colors.Elevation.highElevation1, x1: 0pt, y1: 32pt, blur2: 4pt, color2: $Colors.Elevation.highElevation2, x2: 0pt, y2: 0pt ]
 
-AP_MSFActivityIndicatorTokens:
-  defaultColor: $Colors.Foreground.neutral4
-  size: [ xSmall: 12pt, small: 16pt, medium: 24pt, large: 32pt, xLarge: 36pt ]
-  thickness: [ xSmall: 1pt, small: 1pt, medium: 2pt, large: 3pt, xLarge: 4pt ]
-
 AP_MSFAvatarTokens:
   backgroundDefaultColor: "FluentUIColor(light: NamedColor(white), dark: $Colors.Brand.primary)"
   borderRadius: [ xSmall: $Border.radius.none, small: $Border.radius.none, medium: $Border.radius.none, large: $Border.radius.none, xlarge: $Border.radius.none, xxlarge: $Border.radius.none ]

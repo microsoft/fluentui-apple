@@ -12,7 +12,7 @@ Pod::Spec.new do |s|
 
 # iOS
 
-  s.ios.deployment_target = "13.0"
+  s.ios.deployment_target = "14.0"
   
   s.subspec 'ActivityIndicator_ios' do |activityindicator_ios|
     activityindicator_ios.platform = :ios
@@ -60,7 +60,7 @@ xcodebuild ${XCODEBUILDPARAMS} -project ${PROJECT_FILE_PATH} -target "MicrosoftF
                               :execution_position => :before_compile }
     core_ios.preserve_paths = ["ios/FluentUI/Core/Core.resources.xcfilelist",
                                "scripts/removeUnusedResourcesFromAssets.swift"]
-    core_ios.source_files = ["ios/FluentUI/Core/*.{swift,h}",
+    core_ios.source_files = ["ios/FluentUI/Core/**/*.{swift,h}",
                              "ios/FluentUI/Extensions/*.{swift,h}"]
   end
 
