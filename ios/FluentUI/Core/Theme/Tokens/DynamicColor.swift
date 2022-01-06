@@ -7,10 +7,7 @@ import SwiftUI
 
 /// A platform-agnostic representation of a 32-bit RGBA color value.
 public struct ColorValue {
-    var r: CGFloat { CGFloat((hexValue & 0xFF000000) >> 24) / 255.0 }
-    var g: CGFloat { CGFloat((hexValue & 0x00FF0000) >> 16) / 255.0 }
-    var b: CGFloat { CGFloat((hexValue & 0x0000FF00) >> 8) / 255.0 }
-    var a: CGFloat { CGFloat(hexValue & 0x000000FF) / 255.0 }
+    public static let clear: ColorValue = .init(r: 0.0, g: 0.0, b: 0.0, a: 0.0)
 
     /// Creates a color value instance with the specified three-channel, 8-bit-per-channel color value, usually in hex.
     ///
@@ -44,6 +41,11 @@ public struct ColorValue {
                    (min(UInt32(b * 255.0), 0xFF) << 8) |
                    (min(UInt32(a * 255.0), 0xFF))
     }
+
+    var r: CGFloat { CGFloat((hexValue & 0xFF000000) >> 24) / 255.0 }
+    var g: CGFloat { CGFloat((hexValue & 0x00FF0000) >> 16) / 255.0 }
+    var b: CGFloat { CGFloat((hexValue & 0x0000FF00) >> 8) / 255.0 }
+    var a: CGFloat { CGFloat(hexValue & 0x000000FF) / 255.0 }
 
     // Value is stored in RGBA format.
     private let hexValue: UInt32

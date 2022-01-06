@@ -22,7 +22,6 @@
 		5306075726A1E6A4002D49CF /* AvatarGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5306075126A1E6A4002D49CF /* AvatarGroup.swift */; };
 		5306076126A201C8002D49CF /* Persona.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EF53C2215AF1AB00573E8F /* Persona.swift */; };
 		53097D05270288FB00A6E4DC /* MSFButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097CFF270288FB00A6E4DC /* MSFButton.swift */; };
-		53097D07270288FB00A6E4DC /* MSFButtonTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D00270288FB00A6E4DC /* MSFButtonTokens.generated.swift */; };
 		53097D09270288FB00A6E4DC /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D01270288FB00A6E4DC /* Button.swift */; };
 		53097D0B270288FB00A6E4DC /* ButtonModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D02270288FB00A6E4DC /* ButtonModifiers.swift */; };
 		53097D0D270288FB00A6E4DC /* ButtonTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D03270288FB00A6E4DC /* ButtonTokens.swift */; };
@@ -250,7 +249,6 @@
 		5306075026A1E6A4002D49CF /* MSFAvatarGroupTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFAvatarGroupTokens.generated.swift; sourceTree = "<group>"; };
 		5306075126A1E6A4002D49CF /* AvatarGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarGroup.swift; sourceTree = "<group>"; };
 		53097CFF270288FB00A6E4DC /* MSFButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFButton.swift; sourceTree = "<group>"; };
-		53097D00270288FB00A6E4DC /* MSFButtonTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFButtonTokens.generated.swift; sourceTree = "<group>"; };
 		53097D01270288FB00A6E4DC /* Button.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		53097D02270288FB00A6E4DC /* ButtonModifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonModifiers.swift; sourceTree = "<group>"; };
 		53097D03270288FB00A6E4DC /* ButtonTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonTokens.swift; sourceTree = "<group>"; };
@@ -709,7 +707,6 @@
 				53097D02270288FB00A6E4DC /* ButtonModifiers.swift */,
 				53097D03270288FB00A6E4DC /* ButtonTokens.swift */,
 				53097CFF270288FB00A6E4DC /* MSFButton.swift */,
-				53097D00270288FB00A6E4DC /* MSFButtonTokens.generated.swift */,
 			);
 			path = Button;
 			sourceTree = "<group>";
@@ -1554,7 +1551,6 @@
 				436F6B3F26F4924200D18073 /* MSFNotificationTokens.generated.swift in Sources */,
 				5373D5692694D65C0032A3B4 /* MSFAvatarTokens.generated.swift in Sources */,
 				5373D56B2694D65C0032A3B4 /* MSFAvatarPresence.swift in Sources */,
-				53097D07270288FB00A6E4DC /* MSFButtonTokens.generated.swift in Sources */,
 				5314E0AA25F010070099271A /* DrawerShadowView.swift in Sources */,
 				5314E0E725F012C00099271A /* UINavigationItem+Navigation.swift in Sources */,
 				920945492703DDA000B38E1A /* CardNudgeTokens.swift in Sources */,
