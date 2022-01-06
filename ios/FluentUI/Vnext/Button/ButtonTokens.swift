@@ -31,12 +31,77 @@ import UIKit
 /// Representation of design tokens to buttons at runtime which interfaces with the Design Token System auto-generated code.
 /// Updating these properties causes the SwiftUI button to update its view automatically.
 public class ButtonTokens: ControlTokens {
+    /// Creates an instance of `ButtonTokens`.
     public init(style: MSFButtonStyle,
                 size: MSFButtonSize) {
         self.style = style
         self.size = size
 
         super.init()
+    }
+
+    /// Creates an instance of `ButtonTokens` with optional token value overrides.
+    convenience public init(style: MSFButtonStyle,
+                            size: MSFButtonSize,
+                            borderRadius: CGFloat? = nil,
+                            borderSize: CGFloat? = nil,
+                            iconSize: CGFloat? = nil,
+                            interspace: CGFloat? = nil,
+                            padding: CGFloat? = nil,
+                            textFont: FontInfo? = nil,
+                            textMinimumHeight: CGFloat? = nil,
+                            textAdditionalHorizontalPadding: CGFloat? = nil,
+                            textColor: ButtonDynamicColors? = nil,
+                            borderColor: ButtonDynamicColors? = nil,
+                            backgroundColor: ButtonDynamicColors? = nil,
+                            iconColor: ButtonDynamicColors? = nil,
+                            restShadow: ShadowInfo? = nil,
+                            pressedShadow: ShadowInfo? = nil) {
+        self.init(style: style, size: size)
+
+        // Optional overrides
+        if let borderRadius = borderRadius {
+            self.borderRadius = borderRadius
+        }
+        if let borderSize = borderSize {
+            self.borderSize = borderSize
+        }
+        if let iconSize = iconSize {
+            self.iconSize = iconSize
+        }
+        if let interspace = interspace {
+            self.interspace = interspace
+        }
+        if let padding = padding {
+            self.padding = padding
+        }
+        if let textFont = textFont {
+            self.textFont = textFont
+        }
+        if let textMinimumHeight = textMinimumHeight {
+            self.textMinimumHeight = textMinimumHeight
+        }
+        if let textAdditionalHorizontalPadding = textAdditionalHorizontalPadding {
+            self.textAdditionalHorizontalPadding = textAdditionalHorizontalPadding
+        }
+        if let textColor = textColor {
+            self.textColor = textColor
+        }
+        if let borderColor = borderColor {
+            self.borderColor = borderColor
+        }
+        if let backgroundColor = backgroundColor {
+            self.backgroundColor = backgroundColor
+        }
+        if let iconColor = iconColor {
+            self.iconColor = iconColor
+        }
+        if let restShadow = restShadow {
+            self.restShadow = restShadow
+        }
+        if let pressedShadow = pressedShadow {
+            self.pressedShadow = pressedShadow
+        }
     }
 
     let style: MSFButtonStyle
