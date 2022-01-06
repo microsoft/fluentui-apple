@@ -317,7 +317,7 @@ open class PillButtonBar: UIScrollView {
             if #available(iOS 14.6, *) {
                 // in case pillbuttonbar is used as .tabbar, adding our own index would be repetitive
                 // However, iOS 14.0 - 14.5 `.tabBar` accessibilityTrait does not read out the index automatically
-                shouldAddAccessibilityHint = self.accessibilityTraits != .tabBar
+                shouldAddAccessibilityHint = !self.accessibilityTraits.contains(.tabBar)
             }
 
             if shouldAddAccessibilityHint {
