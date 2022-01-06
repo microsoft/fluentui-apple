@@ -53,7 +53,7 @@ public extension CardNudge {
     }
 
     /// Provides a custom design token set to be used when drawing this control.
-    func customTokens(_ tokens: CardNudgeTokens) -> CardNudge {
+    func overrideTokens(_ tokens: CardNudgeTokens) -> CardNudge {
         state.overrideTokens = tokens
         return self
     }

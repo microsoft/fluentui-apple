@@ -22,19 +22,21 @@ import UIKit
     var text: String? { get set }
 
     /// Defines the size of the button.
-    var size: MSFButtonSize { get }
+    var size: MSFButtonSize { get set }
 
     /// Defines the style of the button.
-    var style: MSFButtonStyle { get }
+    var style: MSFButtonStyle { get set }
 }
 
 /// View that represents the button.
 public struct FluentButton: View, TokenizedControlInternal {
-    public let tokenKeyComponents: [AnyObject]
+    // We want separate lookup keys for each permutation of `style` and `size`.
+    public var tokenKeyComponents: [AnyObject] { [type(of: self), state.style.rawValue, state.size.rawValue] as [AnyObject] }
 
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @ObservedObject var state: MSFButtonStateImpl
     var tokens: ButtonTokens { fluentTheme.tokens(for: self) }
+    var defaultTokens: ButtonTokens { .init(style: self.state.style, size: self.state.size) }
 
     /// Creates a FluentButton.
     /// - Parameters:
@@ -54,9 +56,6 @@ public struct FluentButton: View, TokenizedControlInternal {
         state.text = text
         state.image = image
         self.state = state
-
-        // We want separate lookup keys for each permutation of `style` and `size`.
-        self.tokenKeyComponents = [type(of: self), style.rawValue, size.rawValue] as [AnyObject]
     }
 
     public var body: some View {
@@ -75,6 +74,8 @@ class MSFButtonStateImpl: NSObject, ObservableObject, ControlConfiguration, MSFB
     @Published var disabled: Bool?
     @Published var text: String?
     @Published var overrideTokens: ButtonTokens?
+    @Published var size: MSFButtonSize
+    @Published var style: MSFButtonStyle
 
     var isDisabled: Bool {
         get {
@@ -84,11 +85,6 @@ class MSFButtonStateImpl: NSObject, ObservableObject, ControlConfiguration, MSFB
             disabled = newValue
         }
     }
-
-    let size: MSFButtonSize
-    let style: MSFButtonStyle
-
-    var defaultTokens: ButtonTokens { .init(style: self.style, size: self.size) }
 
     init(style: MSFButtonStyle,
          size: MSFButtonSize,

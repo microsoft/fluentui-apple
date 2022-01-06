@@ -66,7 +66,7 @@ public class CommandBar: UIView, TokenizedControlInternal, ControlConfiguration 
         }
     }
 
-    public func customTokens(_ tokens: CommandBarTokens) -> Self {
+    public func overrideTokens(_ tokens: CommandBarTokens) -> Self {
         overrideTokens = tokens
         return self
     }

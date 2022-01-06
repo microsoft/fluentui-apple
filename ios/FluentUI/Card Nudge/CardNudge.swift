@@ -11,7 +11,7 @@ public typealias CardNudgeButtonAction = ((_ state: MSFCardNudgeState) -> Void)
 /// Properties that can be used to customize the appearance of the `CardNudge`.
 @objc public protocol MSFCardNudgeState: NSObjectProtocol {
     /// Style to draw the control.
-    @objc var style: MSFCardNudgeStyle { get }
+    @objc var style: MSFCardNudgeStyle { get set }
 
     /// Text for the main title area of the control.
     @objc var title: String { get set }
@@ -47,11 +47,13 @@ public typealias CardNudgeButtonAction = ((_ state: MSFCardNudgeState) -> Void)
 
 /// View that represents the CardNudge.
 public struct CardNudge: View, TokenizedControlInternal {
-    public let tokenKeyComponents: [AnyObject]
+    // We want separate lookup keys for `.standard` and `.outline` controls.
+    public var tokenKeyComponents: [AnyObject] { [type(of: self), state.style.rawValue] as [AnyObject] }
 
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @ObservedObject var state: MSFCardNudgeStateImpl
     var tokens: CardNudgeTokens { fluentTheme.tokens(for: self) }
+    var defaultTokens: CardNudgeTokens { .init(style: self.state.style) }
 
     @ViewBuilder
     var icon: some View {
@@ -171,40 +173,34 @@ public struct CardNudge: View, TokenizedControlInternal {
     init(style: MSFCardNudgeStyle, title: String) {
         let state = MSFCardNudgeStateImpl(style: style, title: title)
         self.state = state
-
-        // We want separate lookup keys for `.standard` and `.outline` controls.
-        self.tokenKeyComponents = [type(of: self), style.rawValue] as [AnyObject]
     }
 }
 
 class MSFCardNudgeStateImpl: NSObject, ControlConfiguration, MSFCardNudgeState {
-    @Published @objc public var title: String
-    @Published @objc public var subtitle: String?
-    @Published @objc public var mainIcon: UIImage?
-    @Published @objc public var accentIcon: UIImage?
-    @Published @objc public var accentText: String?
+    @Published var title: String
+    @Published var subtitle: String?
+    @Published var mainIcon: UIImage?
+    @Published var accentIcon: UIImage?
+    @Published var accentText: String?
 
     /// Title to display in the action button on the trailing edge of the control.
     ///
     /// To show an action button, provide values for both `actionButtonTitle` and  `actionButtonAction`.
-    @Published @objc public var actionButtonTitle: String?
+    @Published var actionButtonTitle: String?
 
     /// Action to be dispatched by the action button on the trailing edge of the control.
     ///
     /// To show an action button, provide values for both `actionButtonTitle` and  `actionButtonAction`.
-    @Published @objc public var actionButtonAction: CardNudgeButtonAction?
+    @Published var actionButtonAction: CardNudgeButtonAction?
 
     /// Action to be dispatched by the dismiss ("close") button on the trailing edge of the control.
-    @Published @objc public var dismissButtonAction: CardNudgeButtonAction?
+    @Published var dismissButtonAction: CardNudgeButtonAction?
 
     /// Design token set for this control, to use in place of the control's default Fluent tokens.
-    @Published @objc public var overrideTokens: CardNudgeTokens?
+    @Published var overrideTokens: CardNudgeTokens?
 
     /// Style to draw the control.
-    let style: MSFCardNudgeStyle
-
-    /// On-demand default token set.
-    var defaultTokens: CardNudgeTokens { .init(style: self.style) }
+    @Published var style: MSFCardNudgeStyle
 
     @objc init(style: MSFCardNudgeStyle, title: String) {
         self.style = style
