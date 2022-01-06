@@ -950,8 +950,8 @@ open class TableViewCell: UITableViewCell {
         contentView.addSubview(subtitleLabel)
         contentView.addSubview(footerLabel)
         contentView.addSubview(selectionImageView)
-        addSubview(topSeparator.view)
-        addSubview(bottomSeparator.view)
+        contentView.addSubview(topSeparator.view)
+        contentView.addSubview(bottomSeparator.view)
 
         setupBackgroundColors()
 
@@ -1066,9 +1066,6 @@ open class TableViewCell: UITableViewCell {
 
         layoutContentSubviews()
         contentView.flipSubviewsForRTL()
-
-        layoutSeparator(topSeparator, with: topSeparatorType, at: 0)
-        layoutSeparator(bottomSeparator, with: bottomSeparatorType, at: frame.height - bottomSeparator.state.thickness)
     }
 
     open func layoutContentSubviews() {
@@ -1117,6 +1114,9 @@ open class TableViewCell: UITableViewCell {
             let yOffset = UIScreen.main.roundToDevicePixels((contentView.frame.height - _accessoryType.size.height) / 2)
             accessoryTypeView.frame = CGRect(origin: CGPoint(x: xOffset, y: yOffset), size: _accessoryType.size)
         }
+
+        layoutSeparator(topSeparator, with: topSeparatorType, at: 0)
+        layoutSeparator(bottomSeparator, with: bottomSeparatorType, at: frame.height - bottomSeparator.state.thickness)
     }
 
     private func layoutLabelViews(label: UILabel, numberOfLines: Int, topOffset: CGFloat, leadingAccessoryView: UIView?, leadingAccessoryViewSize: CGSize, trailingAccessoryView: UIView?, trailingAccessoryViewSize: CGSize) {
@@ -1170,7 +1170,6 @@ open class TableViewCell: UITableViewCell {
             width: frame.width - separatorLeadingInset(for: type),
             height: separator.state.thickness
         )
-        separator.view.flipForRTL()
     }
 
     func separatorLeadingInset(for type: SeparatorType) -> CGFloat {
