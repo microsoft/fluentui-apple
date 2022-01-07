@@ -121,7 +121,6 @@ class MSFListCellTokens: MSFCellBaseTokens {
             leadingViewSize = appearanceProxy.leadingViewSize.xlarge
         }
 
-        borderColor = appearanceProxy.borderColor
         disclosureIconForegroundColor = appearanceProxy.disclosureIconForegroundColor
         labelColor = appearanceProxy.labelColor
         leadingViewColor = appearanceProxy.leadingViewColor

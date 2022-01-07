@@ -23,7 +23,6 @@ class MSFPersonaViewTokens: MSFCellBaseTokens {
         let personaViewAP = currentTheme.MSFPersonaViewTokens
         let listCellAP = currentTheme.MSFListCellTokens
 
-        borderColor = listCellAP.borderColor
         disclosureIconForegroundColor = listCellAP.disclosureIconForegroundColor
         labelColor = listCellAP.labelColor
         leadingViewColor = listCellAP.leadingViewColor
