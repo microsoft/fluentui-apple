@@ -9,7 +9,7 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
 
     var customSeparatorColor: UIColor? {
         didSet {
-            bottomSeparator.backgroundColor = customSeparatorColor
+            bottomSeparator.state.color = customSeparatorColor
         }
     }
 

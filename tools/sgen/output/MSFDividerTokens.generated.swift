@@ -17,7 +17,7 @@ extension FluentUIStyle {
 
 		// MARK: - color 
 		open var color: UIColor {
-			return mainProxy().Colors.Stroke.neutral1
+			return mainProxy().Colors.Stroke.neutral2
 		}
 
 		// MARK: - spacing

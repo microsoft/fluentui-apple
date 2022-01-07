@@ -122,9 +122,9 @@ open class ActionsCell: UITableViewCell, TokenizedControlInternal {
     private var action1Type: ActionType = .regular
     private var action2Type: ActionType = .regular
 
-    private let topSeparator = Separator(style: .default, orientation: .horizontal)
-    private let bottomSeparator = Separator(style: .default, orientation: .horizontal)
-    private let verticalSeparator = Separator(style: .default, orientation: .vertical)
+    private let topSeparator = MSFDivider()
+    private let bottomSeparator = MSFDivider()
+    private let verticalSeparator = MSFDivider(orientation: .vertical)
 
     public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         self.tokenSet = TableViewCellTokenSet(customViewSize: { .default })
@@ -132,9 +132,9 @@ open class ActionsCell: UITableViewCell, TokenizedControlInternal {
 
         contentView.addSubview(action1Button)
         contentView.addSubview(action2Button)
-        contentView.addSubview(verticalSeparator)
-        addSubview(topSeparator)
-        addSubview(bottomSeparator)
+        contentView.addSubview(verticalSeparator.view)
+        addSubview(topSeparator.view)
+        addSubview(bottomSeparator.view)
 
         // hide system separator so we can draw our own. We prefer the container UITableView to set separatorStyle = .none
         separatorInset = UIEdgeInsets(top: 0, left: CGFloat.greatestFiniteMagnitude, bottom: 0, right: 0)
@@ -177,7 +177,7 @@ open class ActionsCell: UITableViewCell, TokenizedControlInternal {
             self.action2Type = action2Type
         }
         action2Button.isHidden = !hasAction
-        verticalSeparator.isHidden = !hasAction
+        verticalSeparator.view.isHidden = !hasAction
 
         updateActionTitleColors()
     }
@@ -199,11 +199,11 @@ open class ActionsCell: UITableViewCell, TokenizedControlInternal {
 
         if actionCount > 1 {
             action2Button.frame = CGRect(x: left, y: 0, width: frame.width - left, height: frame.height)
-            verticalSeparator.frame = CGRect(x: left, y: 0, width: verticalSeparator.frame.width, height: frame.height)
+            verticalSeparator.view.frame = CGRect(x: left, y: 0, width: verticalSeparator.view.frame.width, height: frame.height)
         }
 
         layoutHorizontalSeparator(topSeparator, with: topSeparatorType, at: 0)
-        layoutHorizontalSeparator(bottomSeparator, with: bottomSeparatorType, at: frame.height - bottomSeparator.frame.height)
+        layoutHorizontalSeparator(bottomSeparator, with: bottomSeparatorType, at: frame.height - bottomSeparator.view.frame.height)
     }
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
@@ -250,20 +250,20 @@ open class ActionsCell: UITableViewCell, TokenizedControlInternal {
         button.titleLabel?.textAlignment = .center
     }
 
-    private func layoutHorizontalSeparator(_ separator: Separator, with type: TableViewCell.SeparatorType, at verticalOffset: CGFloat) {
+    private func layoutHorizontalSeparator(_ separator: MSFDivider, with type: TableViewCell.SeparatorType, at verticalOffset: CGFloat) {
         let horizontalOffset = type == .inset ? safeAreaInsets.left + TableViewCellTokenSet.horizontalSpacing : 0
 
-        separator.frame = CGRect(
+        separator.view.frame = CGRect(
             x: horizontalOffset,
             y: verticalOffset,
             width: frame.width - horizontalOffset,
-            height: separator.frame.height
+            height: separator.view.frame.height
         )
-        separator.flipForRTL()
+        separator.view.flipForRTL()
     }
 
-    private func updateHorizontalSeparator(_ separator: Separator, with type: TableViewCell.SeparatorType) {
-        separator.isHidden = type == .none
+    private func updateHorizontalSeparator(_ separator: MSFDivider, with type: TableViewCell.SeparatorType) {
+        separator.view.isHidden = type == .none
         setNeedsLayout()
     }
 

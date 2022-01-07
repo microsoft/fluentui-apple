@@ -46,6 +46,7 @@ class DividerDemoController: UITableViewController {
         case .dividerDemo:
             let cell = TableViewCell()
             cell.backgroundColor = Colors.surfacePrimary
+            let contentView = cell.contentView
 
             let spacing: MSFDividerSpacing = section == .defaultMedium ? .medium : .none
             let color = section == .customColor ? Colors.communicationBlue : nil
@@ -56,6 +57,7 @@ class DividerDemoController: UITableViewController {
             verticalStack.isLayoutMarginsRelativeArrangement = true
             verticalStack.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0)
             verticalStack.addArrangedSubview(coloredDivider(spacing: spacing, color: color).view)
+            verticalStack.distribution = .equalCentering
 
             let horizontalStack = UIStackView()
             horizontalStack.distribution = .equalCentering
@@ -72,12 +74,12 @@ class DividerDemoController: UITableViewController {
 
             verticalStack.addArrangedSubview(coloredDivider(spacing: spacing, color: color).view)
 
-            cell.contentView.addSubview(verticalStack)
+            contentView.addSubview(verticalStack)
             NSLayoutConstraint.activate([
-                cell.contentView.leadingAnchor.constraint(equalTo: verticalStack.leadingAnchor),
-                cell.contentView.trailingAnchor.constraint(equalTo: verticalStack.trailingAnchor),
-                cell.contentView.topAnchor.constraint(equalTo: verticalStack.topAnchor),
-                cell.contentView.bottomAnchor.constraint(equalTo: verticalStack.bottomAnchor)
+                contentView.leadingAnchor.constraint(equalTo: verticalStack.leadingAnchor),
+                contentView.trailingAnchor.constraint(equalTo: verticalStack.trailingAnchor),
+                contentView.topAnchor.constraint(equalTo: verticalStack.topAnchor),
+                contentView.bottomAnchor.constraint(equalTo: verticalStack.bottomAnchor)
             ])
 
             return cell
@@ -111,8 +113,13 @@ class DividerDemoController: UITableViewController {
     private func coloredDivider(orientation: MSFDividerOrientation = .horizontal, spacing: MSFDividerSpacing, color: UIColor?) -> MSFDivider {
         let divider = MSFDivider(orientation: orientation, spacing: spacing)
         divider.state.color = color
+
+        dividers.append(divider)
+
         return divider
     }
+
+    private var dividers: [MSFDivider] = []
 
     private enum DividerDemoSection: CaseIterable {
         case swiftUI
@@ -139,7 +146,7 @@ class DividerDemoController: UITableViewController {
         var title: String {
             switch self {
             case .swiftUI:
-                return "SwfitUI"
+                return "SwiftUI"
             case .defaultNone:
                 return "No spacing"
             case .defaultMedium:

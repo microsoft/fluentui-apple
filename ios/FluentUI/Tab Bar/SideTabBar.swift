@@ -117,8 +117,8 @@ open class SideTabBar: UIView {
         backgroundView.translatesAutoresizingMaskIntoConstraints = false
         contain(view: backgroundView)
 
-        borderLine.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(borderLine)
+        borderLine.view.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(borderLine.view)
 
         addSubview(topStackView)
         addSubview(bottomStackView)
@@ -129,9 +129,9 @@ open class SideTabBar: UIView {
         shouldGroupAccessibilityChildren = true
 
         NSLayoutConstraint.activate([widthAnchor.constraint(equalToConstant: Constants.viewWidth),
-                                     borderLine.leadingAnchor.constraint(equalTo: trailingAnchor),
-                                     borderLine.bottomAnchor.constraint(equalTo: bottomAnchor),
-                                     borderLine.topAnchor.constraint(equalTo: topAnchor)])
+                                     borderLine.view.leadingAnchor.constraint(equalTo: trailingAnchor),
+                                     borderLine.view.bottomAnchor.constraint(equalTo: bottomAnchor),
+                                     borderLine.view.topAnchor.constraint(equalTo: topAnchor)])
     }
 
     @available(*, unavailable)
@@ -162,7 +162,7 @@ open class SideTabBar: UIView {
     }
 
     private var layoutConstraints: [NSLayoutConstraint] = []
-    private let borderLine = Separator(style: .shadow, orientation: .vertical)
+    private let borderLine = MSFDivider(orientation: .vertical)
 
     private let backgroundView: UIVisualEffectView = {
         var style = UIBlurEffect.Style.regular
