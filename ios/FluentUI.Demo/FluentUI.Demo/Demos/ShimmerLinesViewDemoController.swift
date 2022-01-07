@@ -84,5 +84,5 @@ class ShimmerViewDemoController: DemoController {
         container.addArrangedSubview(shimmeringImageView(.concealing))
     }
 
-    private let dividers: [MSFDivider] = (1...9).map { _ in MSFDivider() }
+    private let dividers: [MSFDivider] = (0..<9).map { _ in MSFDivider() }
 }

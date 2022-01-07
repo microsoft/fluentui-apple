@@ -50,7 +50,7 @@ class BadgeFieldDemoController: DemoController {
         return badgeField
     }
 
-    private let dividers: [MSFDivider] = (1...2).map { _ in MSFDivider() }
+    private let dividers: [MSFDivider] = (0..<2).map { _ in MSFDivider() }
 }
 
 extension BadgeFieldDemoController: BadgeFieldDelegate {
