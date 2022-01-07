@@ -148,7 +148,6 @@
 		5314E30325F0260E0099271A /* AccessibleViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD599D052134A682008845EE /* AccessibleViewDelegate.swift */; };
 		5328D97126FBA3D700F3723B /* IndeterminateProgressBarTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5328D96C26FBA3D600F3723B /* IndeterminateProgressBarTokens.swift */; };
 		5328D97326FBA3D700F3723B /* IndeterminateProgressBarModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5328D96D26FBA3D600F3723B /* IndeterminateProgressBarModifiers.swift */; };
-		5328D97526FBA3D700F3723B /* MSFIndeterminateProgressBarTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5328D96E26FBA3D700F3723B /* MSFIndeterminateProgressBarTokens.generated.swift */; };
 		5328D97726FBA3D700F3723B /* IndeterminateProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5328D96F26FBA3D700F3723B /* IndeterminateProgressBar.swift */; };
 		532FE3D226EA6D74007539C0 /* MSFActivityIndicatorTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532FE3CD26EA6D73007539C0 /* MSFActivityIndicatorTokens.generated.swift */; };
 		532FE3D426EA6D74007539C0 /* ActivityIndicatorTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532FE3CE26EA6D73007539C0 /* ActivityIndicatorTokens.swift */; };
@@ -163,6 +162,7 @@
 		5373D5732694D66F0032A3B4 /* UIKit+SwiftUI_interoperability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5373D56D2694D66F0032A3B4 /* UIKit+SwiftUI_interoperability.swift */; };
 		5373D5752694D66F0032A3B4 /* FluentUIStyle.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5373D56E2694D66F0032A3B4 /* FluentUIStyle.generated.swift */; };
 		5373D5772694D66F0032A3B4 /* SwiftUI+ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5373D56F2694D66F0032A3B4 /* SwiftUI+ViewModifiers.swift */; };
+		53E2EE07278799B30086D30D /* MSFIndeterminateProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E2EE06278799B30086D30D /* MSFIndeterminateProgressBar.swift */; };
 		6EB4B25F270ED6B30005B808 /* BadgeLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB4B25D270ED6450005B808 /* BadgeLabel.swift */; };
 		6ED5E55126D3D39400D8BE81 /* BadgeLabelButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED4C11C2696AE4000C30BD6 /* BadgeLabelButton.swift */; };
 		6ED5E55226D3D39400D8BE81 /* UIBarButtonItem+BadgeValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED4C11A2695A6E800C30BD6 /* UIBarButtonItem+BadgeValue.swift */; };
@@ -265,7 +265,6 @@
 		53097D4527028B1100A6E4DC /* ButtonLegacy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonLegacy.swift; sourceTree = "<group>"; };
 		5328D96C26FBA3D600F3723B /* IndeterminateProgressBarTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBarTokens.swift; sourceTree = "<group>"; };
 		5328D96D26FBA3D600F3723B /* IndeterminateProgressBarModifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBarModifiers.swift; sourceTree = "<group>"; };
-		5328D96E26FBA3D700F3723B /* MSFIndeterminateProgressBarTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFIndeterminateProgressBarTokens.generated.swift; sourceTree = "<group>"; };
 		5328D96F26FBA3D700F3723B /* IndeterminateProgressBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBar.swift; sourceTree = "<group>"; };
 		532FE3CD26EA6D73007539C0 /* MSFActivityIndicatorTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFActivityIndicatorTokens.generated.swift; sourceTree = "<group>"; };
 		532FE3CE26EA6D73007539C0 /* ActivityIndicatorTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorTokens.swift; sourceTree = "<group>"; };
@@ -281,6 +280,7 @@
 		5373D56E2694D66F0032A3B4 /* FluentUIStyle.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FluentUIStyle.generated.swift; sourceTree = "<group>"; };
 		5373D56F2694D66F0032A3B4 /* SwiftUI+ViewModifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SwiftUI+ViewModifiers.swift"; sourceTree = "<group>"; };
 		53BCB0CD253A4E8C00620960 /* Obscurable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Obscurable.swift; sourceTree = "<group>"; };
+		53E2EE06278799B30086D30D /* MSFIndeterminateProgressBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFIndeterminateProgressBar.swift; sourceTree = "<group>"; };
 		53FC90C02567300A008A06FD /* FluentUI_common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUI_common.xcconfig; sourceTree = "<group>"; };
 		53FC90F525673626008A06FD /* FluentUI_release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUI_release.xcconfig; sourceTree = "<group>"; };
 		53FC90F625673626008A06FD /* FluentUI_debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUI_debug.xcconfig; sourceTree = "<group>"; };
@@ -635,7 +635,7 @@
 				5328D96F26FBA3D700F3723B /* IndeterminateProgressBar.swift */,
 				5328D96D26FBA3D600F3723B /* IndeterminateProgressBarModifiers.swift */,
 				5328D96C26FBA3D600F3723B /* IndeterminateProgressBarTokens.swift */,
-				5328D96E26FBA3D700F3723B /* MSFIndeterminateProgressBarTokens.generated.swift */,
+				53E2EE06278799B30086D30D /* MSFIndeterminateProgressBar.swift */,
 			);
 			path = IndeterminateProgressBar;
 			sourceTree = "<group>";
@@ -1482,6 +1482,7 @@
 				5314E1A725F01A7C0099271A /* ActionsCell.swift in Sources */,
 				5314E07B25F00F1A0099271A /* DateTimePickerViewDataSource.swift in Sources */,
 				532FE3D426EA6D74007539C0 /* ActivityIndicatorTokens.swift in Sources */,
+				53E2EE07278799B30086D30D /* MSFIndeterminateProgressBar.swift in Sources */,
 				532FE3D626EA6D74007539C0 /* ActivityIndicatorModifiers.swift in Sources */,
 				5314E2F525F025C60099271A /* CalendarConfiguration.swift in Sources */,
 				43A35007272B67D30031654A /* EnvironmentValues+Extensions.swift in Sources */,
@@ -1586,7 +1587,6 @@
 				5314E12925F016230099271A /* PillButtonStyle.swift in Sources */,
 				5306075726A1E6A4002D49CF /* AvatarGroup.swift in Sources */,
 				92A1E4F526A791590007ED60 /* MSFCardNudge.swift in Sources */,
-				5328D97526FBA3D700F3723B /* MSFIndeterminateProgressBarTokens.generated.swift in Sources */,
 				5314E1C425F01B4E0099271A /* TwoLineTitleView.swift in Sources */,
 				5314E0CF25F011F10099271A /* Label.swift in Sources */,
 				5314E13925F016370099271A /* PopupMenuController.swift in Sources */,
