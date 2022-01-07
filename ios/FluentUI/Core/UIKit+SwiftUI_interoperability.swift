@@ -6,7 +6,7 @@
 import UIKit
 import SwiftUI
 
-/// This is a generic UIView wrapper to allow SwiftUI to use views from non-SwiftUI environments.
+/// This is a generic UIView wrapper that allows SwiftUI to use UIKit views in its hierarchy.
 struct UIViewAdapter: UIViewRepresentable {
 
     var makeView: () -> UIView
@@ -16,18 +16,14 @@ struct UIViewAdapter: UIViewRepresentable {
     }
 
     func makeUIView(context: Context) -> UIView {
-        return makeView()
+        let view = makeView()
+
+        // Ensures that the UIView respects the frame defined in the SwiftUI layer.
+        view.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
+        view.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+
+        return view
     }
 
-    func updateUIView(_ view: UIView, context: Context) {
-        // This logic should be removed wnce the "wrapping in a UIStackView" workaround is removed.
-        guard let stackView = view as? UIStackView else {
-            return
-        }
-
-        for view in stackView.arrangedSubviews {
-            view.removeFromSuperview()
-        }
-        stackView.addArrangedSubview(makeView())
-    }
+    func updateUIView(_ view: UIView, context: Context) { }
 }
