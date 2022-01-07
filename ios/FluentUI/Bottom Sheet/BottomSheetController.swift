@@ -411,10 +411,14 @@ public class BottomSheetController: UIViewController {
     public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
 
-        if size.height != view.frame.height {
+        if size.height != view.frame.height && currentExpansionState == .intermediate {
             // The view is resizing and we can't guarantee the animation target frame is valid anymore.
             // Completing the animation ensures the sheet will be correctly positioned on the next layout pass
             completeAnimationsIfNeeded(skipToEnd: true)
+
+            if panGestureRecognizer.state != .possible {
+                panGestureRecognizer.state = .cancelled
+            }
         }
     }
 
