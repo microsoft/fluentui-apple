@@ -57,6 +57,7 @@ class DividerDemoController: UITableViewController {
             verticalStack.isLayoutMarginsRelativeArrangement = true
             verticalStack.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0)
             verticalStack.addArrangedSubview(coloredDivider(spacing: spacing, color: color).view)
+            verticalStack.distribution = .equalCentering
 
             let horizontalStack = UIStackView()
             horizontalStack.distribution = .equalCentering
@@ -112,10 +113,6 @@ class DividerDemoController: UITableViewController {
     private func coloredDivider(orientation: MSFDividerOrientation = .horizontal, spacing: MSFDividerSpacing, color: UIColor?) -> MSFDivider {
         let divider = MSFDivider(orientation: orientation, spacing: spacing)
         divider.state.color = color
-
-        let sizeAnchor = orientation == .horizontal ? divider.view.heightAnchor : divider.view.widthAnchor
-        let size = divider.state.thickness + 2 * divider.state.padding
-        NSLayoutConstraint.activate([sizeAnchor.constraint(equalToConstant: size)])
 
         dividers.append(divider)
 
