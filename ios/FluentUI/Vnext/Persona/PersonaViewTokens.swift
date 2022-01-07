@@ -41,7 +41,7 @@ class MSFPersonaViewTokens: MSFCellBaseTokens {
         iconInterspace = personaViewAP.iconInterspace
         labelAccessoryInterspace = personaViewAP.labelAccessoryInterspace
         labelAccessorySize = personaViewAP.labelAccessorySize
-        leadingViewSize = listCellAP.leadingViewSize.xlarge
+        leadingViewSize = listCellAP.leadingViewSize.large
         sublabelAccessorySize = listCellAP.sublabelAccessorySize
         trailingItemSize = listCellAP.trailingItemSize
 

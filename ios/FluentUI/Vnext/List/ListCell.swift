@@ -194,9 +194,12 @@ struct MSFListCellView: View {
                     let sublabelAccessorySize = tokens.sublabelAccessorySize
 
                     if let leadingView = state.leadingView {
-                        leadingView
-                            .frame(width: tokens.leadingViewSize, height: tokens.leadingViewSize)
-                            .padding(.trailing, tokens.iconInterspace)
+                        HStack(alignment: .center, spacing: 0) {
+                            leadingView
+                                .frame(width: tokens.leadingViewSize, height: tokens.leadingViewSize)
+                        }
+                        .frame(width: tokens.horizontalCellPadding * 2)
+                        .padding(.trailing, tokens.horizontalCellPadding / 2)
                     }
 
                     VStack(alignment: .leading, spacing: 0) {
@@ -322,10 +325,10 @@ struct ListCellButtonStyle: ButtonStyle {
         }
         return configuration.label
             .contentShape(Rectangle())
-            .padding(EdgeInsets(top: tokens.horizontalCellPadding / 2,
-                                leading: tokens.horizontalCellPadding,
-                                bottom: tokens.horizontalCellPadding / 2,
-                                trailing: tokens.horizontalCellPadding))
+            .padding(EdgeInsets(top: tokens.horizontalCellPadding / 3,
+                                leading: tokens.horizontalCellPadding / 2,
+                                bottom: tokens.horizontalCellPadding / 3,
+                                trailing: tokens.horizontalCellPadding / 2))
             .frame(minHeight: height)
             .background(backgroundColor(configuration.isPressed))
     }

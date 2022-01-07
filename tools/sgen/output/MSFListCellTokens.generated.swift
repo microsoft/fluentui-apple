@@ -86,7 +86,7 @@ extension FluentUIStyle {
 
 		// MARK: - horizontalCellPadding 
 		open var horizontalCellPadding: CGFloat {
-			return mainProxy().Spacing.medium
+			return mainProxy().Spacing.xLarge
 		}
 
 		// MARK: - iconInterspace 
@@ -142,11 +142,6 @@ extension FluentUIStyle {
 			// MARK: - small 
 			open var small: CGFloat {
 				return mainProxy().Icon.size.xSmall
-			}
-
-			// MARK: - xlarge 
-			open var xlarge: CGFloat {
-				return CGFloat(52.0)
 			}
 		}
 

@@ -13,7 +13,6 @@ import SwiftUI
     case small
     case medium
     case large
-    case xlarge
 }
 
 /// Pre-defined accessory types
@@ -117,8 +116,6 @@ class MSFListCellTokens: MSFCellBaseTokens {
             leadingViewSize = appearanceProxy.leadingViewSize.medium
         case .large:
             leadingViewSize = appearanceProxy.leadingViewSize.large
-        case .xlarge:
-            leadingViewSize = appearanceProxy.leadingViewSize.xlarge
         }
 
         disclosureIconForegroundColor = appearanceProxy.disclosureIconForegroundColor
