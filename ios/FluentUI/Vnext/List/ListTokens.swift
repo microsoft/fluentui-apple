@@ -84,8 +84,10 @@ class MSFCellBaseTokens: MSFTokensBase, ObservableObject {
     @Published public var labelAccessorySize: CGFloat!
     @Published public var cellLeadingViewSize: MSFListCellLeadingViewSize!
     @Published public var leadingViewSize: CGFloat!
+    @Published public var leadingViewArea: CGFloat!
     @Published public var sublabelAccessorySize: CGFloat!
     @Published public var trailingItemSize: CGFloat!
+    @Published public var verticalCellPadding: CGFloat!
 
     @Published public var footnoteFont: UIFont!
     @Published public var sublabelFont: UIFont!
@@ -136,8 +138,10 @@ class MSFListCellTokens: MSFCellBaseTokens {
         iconInterspace = appearanceProxy.iconInterspace
         labelAccessoryInterspace = appearanceProxy.labelAccessoryInterspace
         labelAccessorySize = appearanceProxy.labelAccessorySize
+        leadingViewArea = appearanceProxy.leadingViewArea
         sublabelAccessorySize = appearanceProxy.sublabelAccessorySize
         trailingItemSize = appearanceProxy.trailingItemSize
+        verticalCellPadding = appearanceProxy.verticalCellPadding
 
         footnoteFont = appearanceProxy.footnoteFont
         sublabelFont = appearanceProxy.sublabelFont

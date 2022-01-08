@@ -363,19 +363,21 @@ AP_MSFListCellTokens:
   disclosureInterspace: $Spacing.xxSmall
   disclosureSize: $Icon.size.small
   footnoteFont: $Typography.caption1
-  horizontalCellPadding: $Spacing.xLarge
+  horizontalCellPadding: $Spacing.small
   iconInterspace: $Spacing.medium
   labelAccessoryInterspace: $Spacing.xSmall
   labelAccessorySize: $Icon.size.xxSmall
   labelColor: $Colors.Foreground.neutral1
   labelFont: $Typography.body
   leadingViewColor: $Colors.Foreground.neutral4
+  leadingViewArea: $Spacing.xxxLarge
   leadingViewSize: [ small: $Icon.size.xSmall, medium: $Icon.size.medium, large: $Icon.size.xxLarge ]
   sublabelAccessorySize: $Icon.size.xxSmall
   sublabelColor: $Colors.Foreground.neutral3
   sublabelFont: $Typography.subheadline
   trailingItemForegroundColor: $Colors.Foreground.neutral3
   trailingItemSize: $Icon.size.medium
+  verticalCellPadding: $Spacing.xSmall
 
 AP_MSFListTokens:
   borderColor: $Colors.Stroke.neutral1

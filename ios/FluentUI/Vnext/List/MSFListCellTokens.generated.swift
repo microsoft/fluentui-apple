@@ -85,7 +85,7 @@ extension FluentUIStyle {
 
 		// MARK: - horizontalCellPadding 
 		open var horizontalCellPadding: CGFloat {
-			return mainProxy().Spacing.xLarge
+			return mainProxy().Spacing.small
 		}
 
 		// MARK: - iconInterspace 
@@ -111,6 +111,11 @@ extension FluentUIStyle {
 		// MARK: - labelFont 
 		open var labelFont: UIFont {
 			return mainProxy().Typography.body
+		}
+
+		// MARK: - leadingViewArea 
+		open var leadingViewArea: CGFloat {
+			return mainProxy().Spacing.xxxLarge
 		}
 
 		// MARK: - leadingViewColor 
@@ -168,6 +173,11 @@ extension FluentUIStyle {
 		// MARK: - trailingItemSize 
 		open var trailingItemSize: CGFloat {
 			return mainProxy().Icon.size.medium
+		}
+
+		// MARK: - verticalCellPadding 
+		open var verticalCellPadding: CGFloat {
+			return mainProxy().Spacing.xSmall
 		}
 	}
 
