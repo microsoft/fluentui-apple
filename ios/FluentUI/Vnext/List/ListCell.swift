@@ -198,7 +198,7 @@ struct MSFListCellView: View {
                             leadingView
                                 .frame(width: tokens.leadingViewSize, height: tokens.leadingViewSize)
                         }
-                        .frame(width: tokens.leadingViewArea)
+                        .frame(width: tokens.leadingViewAreaSize)
                         .padding(.trailing, tokens.horizontalCellPadding)
                     }
 

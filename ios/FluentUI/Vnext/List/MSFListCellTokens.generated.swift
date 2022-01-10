@@ -36,6 +36,7 @@ extension FluentUIStyle {
 			}
 		}
 
+
 		// MARK: - cellHeight
 		open var cellHeight: cellHeightAppearanceProxy {
 			return cellHeightAppearanceProxy(proxy: mainProxy)
@@ -113,8 +114,8 @@ extension FluentUIStyle {
 			return mainProxy().Typography.body
 		}
 
-		// MARK: - leadingViewArea 
-		open var leadingViewArea: CGFloat {
+		// MARK: - leadingViewAreaSize 
+		open var leadingViewAreaSize: CGFloat {
 			return mainProxy().Spacing.xxxLarge
 		}
 
