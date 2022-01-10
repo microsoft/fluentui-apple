@@ -321,7 +321,7 @@ open class PillButtonBar: UIScrollView {
             }
 
             if shouldAddAccessibilityHint {
-                button.accessibilityHint = String(format: "Accessibility.MSPillButtonBar.Hint".localized, index + 1, items.count)
+                button.accessibilityHint = String.localizedStringWithFormat("Accessibility.MSPillButtonBar.Hint".localized, index + 1, items.count)
             }
 
             if let customButtonBackgroundColor = self.customPillButtonBackgroundColor {
