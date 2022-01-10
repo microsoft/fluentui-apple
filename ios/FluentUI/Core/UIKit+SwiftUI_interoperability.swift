@@ -15,15 +15,19 @@ struct UIViewAdapter: UIViewRepresentable {
         self.makeView = makeView
     }
 
-    func makeUIView(context: Context) -> UIView {
-        let view = makeView()
-
-        // Ensures that the UIView respects the frame defined in the SwiftUI layer.
-        view.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
-        view.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-
-        return view
+    func makeUIView(context: Context) -> UIStackView {
+        // Using a UIStackView as the container ensures that the content
+        // UIView respects the frame defined in the SwiftUI layer.
+        return UIStackView(arrangedSubviews: [makeView()])
     }
 
-    func updateUIView(_ view: UIView, context: Context) { }
+    func updateUIView(_ stackview: UIStackView, context: Context) {
+        // The UIStackView container needs to update its arranged subviews to cover
+        // the case where the makeview property now provides a different view.
+        stackview.arrangedSubviews.forEach({ subview in
+            subview.removeFromSuperview()
+        })
+
+        stackview.addArrangedSubview(makeView())
+    }
 }
