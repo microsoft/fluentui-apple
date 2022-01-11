@@ -191,7 +191,10 @@ public struct Avatar: View {
         // Creates positioning coordinates for the presence cutout (enabling the transparency of the presence icon)
         let outerGapAndRingThicknesCombined: CGFloat = ringOuterGap + ringThickness
         let presenceIconFrameDiffRelativeToOuterRing: CGFloat = ringOuterGapSize - (presenceIconFrameSideRelativeToInnerRing + outerGapAndRingThicknesCombined)
-        let presenceCutoutOriginCoordinates: CGFloat = ringOuterGapSize - presenceIconFrameDiffRelativeToOuterRing - presenceIconOutlineSize
+        let presenceCutoutOriginXLTR = ringOuterGapSize - presenceIconFrameDiffRelativeToOuterRing - presenceIconOutlineSize
+        let presenceCutoutOriginXRTL = presenceIconFrameDiffRelativeToOuterRing
+        let presenceCutoutOriginX: CGFloat = Locale.current.isRightToLeftLayoutDirection() ? presenceCutoutOriginXRTL : presenceCutoutOriginXLTR
+        let presenceCutoutOriginY = presenceCutoutOriginXLTR
         let presenceIconFrameSideRelativeToOuterRing: CGFloat = presenceIconFrameSideRelativeToInnerRing + outerGapAndRingThicknesCombined
         let overallFrameSide = max(ringOuterGapSize, presenceIconFrameSideRelativeToOuterRing)
 
@@ -302,7 +305,8 @@ public struct Avatar: View {
                              alignment: .center)
                     .modifyIf(shouldDisplayPresence, { thisView in
                             thisView
-                                .clipShape(PresenceCutout(presenceCutoutOriginCoordinates: presenceCutoutOriginCoordinates,
+                                .clipShape(PresenceCutout(originX: presenceCutoutOriginX,
+                                                          originY: presenceCutoutOriginY,
                                                           presenceIconOutlineSize: presenceIconOutlineSize),
                                            style: FillStyle(eoFill: true))
                                 .overlay(Circle()
@@ -359,24 +363,26 @@ public struct Avatar: View {
     private let animationDuration: Double = 0.1
 
     private struct PresenceCutout: Shape {
-        var presenceCutoutOriginCoordinates: CGFloat
+        var originX: CGFloat
+        var originY: CGFloat
         var presenceIconOutlineSize: CGFloat
 
-        var animatableData: AnimatablePair<CGFloat, CGFloat> {
+        var animatableData: AnimatablePair<AnimatablePair<CGFloat, CGFloat>, CGFloat> {
             get {
-                AnimatablePair(presenceCutoutOriginCoordinates, presenceIconOutlineSize)
+                AnimatablePair(AnimatablePair(originX, originY), presenceIconOutlineSize)
             }
 
             set {
-                presenceCutoutOriginCoordinates = newValue.first
+                originX = newValue.first.first
+                originY = newValue.first.second
                 presenceIconOutlineSize = newValue.second
             }
         }
 
         func path(in rect: CGRect) -> Path {
             var cutoutFrame = Rectangle().path(in: rect)
-            cutoutFrame.addPath(Circle().path(in: CGRect(x: presenceCutoutOriginCoordinates,
-                                                         y: presenceCutoutOriginCoordinates,
+            cutoutFrame.addPath(Circle().path(in: CGRect(x: originX,
+                                                         y: originY,
                                                          width: presenceIconOutlineSize,
                                                          height: presenceIconOutlineSize)))
             return cutoutFrame
