@@ -247,9 +247,9 @@ fi', :execution_position => :before_compile }
 
   s.subspec 'PopupMenu_ios' do |popupmenu_ios|
     popupmenu_ios.platform = :ios
-    popupmenu_ios.dependency 'MicrosoftFluentUI/Divider_ios'
     popupmenu_ios.dependency 'MicrosoftFluentUI/Drawer_ios'
     popupmenu_ios.dependency 'MicrosoftFluentUI/Label_ios'
+    popupmenu_ios.dependency 'MicrosoftFluentUI/Separator_ios'
     popupmenu_ios.dependency 'MicrosoftFluentUI/TableView_ios'
     popupmenu_ios.source_files = ["ios/FluentUI/Popup Menu/**/*.{swift,h}"]
   end
