@@ -12,7 +12,7 @@ Pod::Spec.new do |s|
 
 # iOS
 
-  s.ios.deployment_target = "13.0"
+  s.ios.deployment_target = "14.0"
   
   s.subspec 'ActivityIndicator_ios' do |activityindicator_ios|
     activityindicator_ios.platform = :ios
@@ -82,6 +82,7 @@ xcodebuild ${XCODEBUILDPARAMS} -project ${PROJECT_FILE_PATH} -target "MicrosoftF
   s.subspec 'List_ios' do |list_ios|
     list_ios.platform = :ios
     list_ios.dependency 'MicrosoftFluentUIVnext/Core_ios'
+    list_ios.dependency 'MicrosoftFluentUIVnext/Divider_ios'
     list_ios.source_files = ["ios/FluentUI/Vnext/List/**/*.{swift,h}"]
   end
 
