@@ -47,13 +47,9 @@ public typealias CardNudgeButtonAction = ((_ state: MSFCardNudgeState) -> Void)
 
 /// View that represents the CardNudge.
 public struct CardNudge: View, TokenizedControlInternal {
-    // We want separate lookup keys for `.standard` and `.outline` controls.
-    public var tokenKeyComponents: [AnyObject] { [type(of: self), state.style.rawValue] as [AnyObject] }
-
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @ObservedObject var state: MSFCardNudgeStateImpl
-    var tokens: CardNudgeTokens { fluentTheme.tokens(for: self) }
-    var defaultTokens: CardNudgeTokens { .init(style: self.state.style) }
+    var tokens: CardNudgeTokens { state.tokens }
 
     @ViewBuilder
     var icon: some View {
@@ -168,9 +164,11 @@ public struct CardNudge: View, TokenizedControlInternal {
             )
             .padding(.vertical, tokens.verticalPadding)
             .padding(.horizontal, tokens.horizontalPadding)
+            .resolveTokens(self)
+            .resolveTokenModifier(self, value: state.style)
     }
 
-    init(style: MSFCardNudgeStyle, title: String) {
+    public init(style: MSFCardNudgeStyle, title: String) {
         let state = MSFCardNudgeStateImpl(style: style, title: title)
         self.state = state
     }
@@ -202,28 +200,15 @@ class MSFCardNudgeStateImpl: NSObject, ControlConfiguration, MSFCardNudgeState {
     /// Style to draw the control.
     @Published var style: MSFCardNudgeStyle
 
+    @Published var tokens: CardNudgeTokens
+
+    var defaultTokens: CardNudgeTokens { .init(style: self.style) }
+
     @objc init(style: MSFCardNudgeStyle, title: String) {
         self.style = style
         self.title = title
+        self.tokens = CardNudgeTokens(style: style)
 
         super.init()
-    }
-
-    @objc convenience init(style: MSFCardNudgeStyle,
-                           title: String,
-                           subtitle: String? = nil,
-                           mainIcon: UIImage? = nil,
-                           accentText: String? = nil,
-                           actionButtonTitle: String? = nil,
-                           actionButtonAction: CardNudgeButtonAction? = nil,
-                           dismissButtonAction: CardNudgeButtonAction? = nil) {
-        self.init(style: style, title: title)
-
-        self.subtitle = subtitle
-        self.mainIcon = mainIcon
-        self.accentText = accentText
-        self.actionButtonTitle = actionButtonTitle
-        self.actionButtonAction = actionButtonAction
-        self.dismissButtonAction = dismissButtonAction
     }
 }

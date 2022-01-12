@@ -30,13 +30,9 @@ import UIKit
 
 /// View that represents the button.
 public struct FluentButton: View, TokenizedControlInternal {
-    // We want separate lookup keys for each permutation of `style` and `size`.
-    public var tokenKeyComponents: [AnyObject] { [type(of: self), state.style.rawValue, state.size.rawValue] as [AnyObject] }
-
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @ObservedObject var state: MSFButtonStateImpl
-    var tokens: ButtonTokens { fluentTheme.tokens(for: self) }
-    var defaultTokens: ButtonTokens { .init(style: self.state.style, size: self.state.size) }
+    var tokens: ButtonTokens { state.tokens }
 
     /// Creates a FluentButton.
     /// - Parameters:
@@ -65,6 +61,9 @@ public struct FluentButton: View, TokenizedControlInternal {
                 button.disabled(state.disabled!)
             })
             .frame(maxWidth: .infinity)
+            .resolveTokens(self)
+            .resolveTokenModifier(self, value: state.size)
+            .resolveTokenModifier(self, value: state.style)
     }
 }
 
@@ -73,9 +72,12 @@ class MSFButtonStateImpl: NSObject, ObservableObject, ControlConfiguration, MSFB
     @Published var image: UIImage?
     @Published var disabled: Bool?
     @Published var text: String?
-    @Published var overrideTokens: ButtonTokens?
     @Published var size: MSFButtonSize
     @Published var style: MSFButtonStyle
+
+    @Published var overrideTokens: ButtonTokens?
+    @Published var tokens: ButtonTokens
+    var defaultTokens: ButtonTokens { .init(style: self.style, size: self.size) }
 
     var isDisabled: Bool {
         get {
@@ -92,6 +94,7 @@ class MSFButtonStateImpl: NSObject, ObservableObject, ControlConfiguration, MSFB
         self.size = size
         self.style = style
         self.action = action
+        self.tokens = ButtonTokens(style: style, size: size)
         super.init()
     }
 }
