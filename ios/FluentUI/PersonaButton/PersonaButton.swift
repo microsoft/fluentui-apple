@@ -57,18 +57,7 @@ import SwiftUI
 }
 
 /// View that represents a persona button.
-public struct PersonaButton: TokenizedControlConfigurableView, TokenizedControlStorage {
-    public var tokenKeyComponents: [AnyObject] { [type(of: self), state.size.rawValue] as [AnyObject] }
-
-    @Environment(\.fluentTheme) var fluentTheme: FluentTheme
-    @Environment(\.sizeCategory) var sizeCategory: ContentSizeCategory
-
-    @ObservedObject var state: MSFPersonaButtonStateImpl
-
-    var tokens: PersonaButtonTokens { fluentTheme.tokens(for: self) }
-    var defaultTokens: PersonaButtonTokens { .init(size: state.buttonSize) }
-    var overrideTokens: PersonaButtonTokens? { state.overrideTokens }
-
+public struct PersonaButton: View, TokenizedControlInternal {
     /// Creates a new PersonaButton instance.
     /// - Parameters:
     ///   - size: The MSFPersonaButtonSize value used by the PersonaButton.
@@ -77,7 +66,27 @@ public struct PersonaButton: TokenizedControlConfigurableView, TokenizedControlS
         self.state = state
     }
 
-    internal init(state: MSFPersonaButtonStateImpl, action: (() -> Void)?) {
+    public var body: some View {
+        let action = state.onTapAction ?? {}
+        SwiftUI.Button(action: action) {
+            VStack(spacing: 0) {
+                avatarView
+                personaText
+                Spacer(minLength: tokens.verticalPadding)
+            }
+        }
+        .frame(minWidth: adjustedWidth, maxWidth: adjustedWidth, minHeight: 0, maxHeight: .infinity)
+        .background(Color(tokens.backgroundColor))
+        .resolveTokens(self)
+        .resolveTokenModifier(self, value: state.buttonSize)
+    }
+
+    @Environment(\.fluentTheme) var fluentTheme: FluentTheme
+    @Environment(\.sizeCategory) var sizeCategory: ContentSizeCategory
+    @ObservedObject var state: MSFPersonaButtonStateImpl
+    var tokens: PersonaButtonTokens { state.tokens }
+
+    init(state: MSFPersonaButtonStateImpl, action: (() -> Void)?) {
         state.onTapAction = action
         self.state = state
     }
@@ -120,26 +129,25 @@ public struct PersonaButton: TokenizedControlConfigurableView, TokenizedControlS
 
         return state.avatarState.size.size + (2 * tokens.horizontalAvatarPadding) + (accessibilityAdjustments[sizeCategory]?[state.buttonSize] ?? 0)
     }
-
-    public var body: some View {
-        let action = state.onTapAction ?? {}
-        SwiftUI.Button(action: action) {
-            VStack(spacing: 0) {
-                avatarView
-                personaText
-                Spacer(minLength: tokens.verticalPadding)
-            }
-        }
-        .frame(minWidth: adjustedWidth, maxWidth: adjustedWidth, minHeight: 0, maxHeight: .infinity)
-        .background(Color(tokens.backgroundColor))
-    }
 }
 
 /// Properties that make up PersonaButton content
 class MSFPersonaButtonStateImpl: NSObject, ObservableObject, Identifiable, ControlConfiguration, MSFPersonaButtonState {
+    /// Creates and initializes a `MSFPersonaButtonStateImpl`
+    /// - Parameters:
+    ///   - size: The size of the persona button
+    init(size: MSFPersonaButtonSize) {
+        self.buttonSize = size
+        self.avatarState = MSFAvatarStateImpl(style: .default, size: size.avatarSize)
+        self.tokens = PersonaButtonTokens(size: size)
+        super.init()
+    }
+
     @Published var buttonSize: MSFPersonaButtonSize
     @Published var onTapAction: (() -> Void)?
+    @Published var tokens: PersonaButtonTokens
     @Published var overrideTokens: PersonaButtonTokens?
+    var defaultTokens: PersonaButtonTokens { .init(size: buttonSize) }
 
     let avatarState: MSFAvatarStateImpl
     let id = UUID()
@@ -277,15 +285,5 @@ class MSFPersonaButtonStateImpl: NSObject, ObservableObject, Identifiable, Contr
         set {
             avatarState.style = newValue
         }
-    }
-
-    /// Creates and initializes a `MSFPersonaButtonStateImpl`
-    /// - Parameters:
-    ///   - size: The size of the persona button
-    init(size: MSFPersonaButtonSize) {
-        self.buttonSize = size
-        self.avatarState = MSFAvatarStateImpl(style: .default, size: size.avatarSize)
-
-        super.init()
     }
 }
