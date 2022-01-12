@@ -75,7 +75,8 @@ class NotificationViewDemoControllerSwiftUI: DemoTableViewController, UIPickerVi
 
         case .notificationTitle,
                 .message,
-                .actionButtonTitle:
+                .actionButtonTitle,
+                .delayTime:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier) as? TableViewCell else {
                 return UITableViewCell()
             }
@@ -88,6 +89,8 @@ class NotificationViewDemoControllerSwiftUI: DemoTableViewController, UIPickerVi
                     return [messageTextField, messageButton.view]
                 case .actionButtonTitle:
                     return [actionButtonTitleTextField, actionButtonTitleButton.view]
+                case .delayTime:
+                    return [delayTimeTextField, delayTimeButton.view]
                 default:
                     return []
                 }
@@ -203,7 +206,8 @@ class NotificationViewDemoControllerSwiftUI: DemoTableViewController, UIPickerVi
                         .setImage]
             case .action:
                 return [.hasActionButtonAction,
-                        .hasMessageAction]
+                        .hasMessageAction,
+                        .delayTime]
             case .style:
                 return [.style]
             }
@@ -232,6 +236,7 @@ class NotificationViewDemoControllerSwiftUI: DemoTableViewController, UIPickerVi
         case setImage
         case hasActionButtonAction
         case hasMessageAction
+        case delayTime
         case style
 
         var title: String {
@@ -252,6 +257,8 @@ class NotificationViewDemoControllerSwiftUI: DemoTableViewController, UIPickerVi
                 return "Has Action Button Action"
             case .hasMessageAction:
                 return "Has Message Action"
+            case .delayTime:
+                return "Auto-Dismiss Delay Time (Seconds)"
             case .style:
                 return "Style"
             }
@@ -336,6 +343,44 @@ class NotificationViewDemoControllerSwiftUI: DemoTableViewController, UIPickerVi
         return textField
     }()
 
+    private var delayTime: TimeInterval = 2.0 {
+        didSet {
+            if oldValue != delayTime {
+                notification.state.delayTime = delayTime
+            }
+        }
+    }
+
+    private lazy var delayTimeButton: MSFButton = {
+        let delayTimeButton = MSFButton(style: .secondary, size: .small) { [weak self] button in
+            guard let strongSelf = self else {
+                return
+            }
+
+            if let text = strongSelf.delayTimeTextField.text, let textToTimeInterval = TimeInterval(text) {
+                strongSelf.delayTime = textToTimeInterval
+                button.state.isDisabled = true
+            }
+
+            strongSelf.delayTimeTextField.resignFirstResponder()
+        }
+
+        let delayTimeButtonState = delayTimeButton.state
+        delayTimeButtonState.text = "Set"
+        delayTimeButtonState.isDisabled = true
+
+        return delayTimeButton
+    }()
+
+    private lazy var delayTimeTextField: UITextField = {
+        let textField = UITextField(frame: .zero)
+        textField.delegate = self
+        textField.text = "\(delayTime)"
+        textField.isEnabled = true
+
+        return textField
+    }()
+
     private var actionButtonTitle: String = "Undo" {
         didSet {
             if oldValue != actionButtonTitle {
@@ -412,19 +457,25 @@ class NotificationViewDemoControllerSwiftUI: DemoTableViewController, UIPickerVi
     private var style: MSFNotificationStyle = MSFNotificationStyle.primaryToast {
         didSet {
             if oldValue != style {
-                notification.style = style
-
-                switch style {
-                case .primaryToast, .primaryBar, .primaryOutlineBar, .neutralBar:
-                    notification.delayTime = 2
-                default:
-                    notification.delayTime = .infinity
-                }
+                // Create another instance of the demo notification to show
+                notification = MSFNotification(style: style, message: message, delayTime: delayTime)
             }
         }
     }
 
-    private var notification: MSFNotification = MSFNotification(style: .primaryToast, message: "Mail Archived")
+    private var notification: MSFNotification = MSFNotification(style: .primaryToast, message: "Mail Archived", delayTime: 2.0) {
+        didSet {
+            if oldValue != notification {
+                notification.state.title = oldValue.state.title
+                notification.state.image = oldValue.state.image
+                notification.state.actionButtonTitle = oldValue.state.actionButtonTitle
+                notification.state.actionButtonAction = oldValue.state.actionButtonAction
+                notification.state.messageButtonAction = oldValue.state.messageButtonAction
+                notification.state.dismissAction = { self.notification.hide() }
+                tableView.reloadRows(at: [IndexPath(item: 0, section: 0)], with: .automatic)
+            }
+        }
+    }
 
     private func initDemoNotification() {
         let state = notification.state
@@ -439,14 +490,21 @@ class NotificationViewDemoControllerSwiftUI: DemoTableViewController, UIPickerVi
                 }
             }
         }
+        state.dismissAction = { [weak self] in
+            self?.notification.hide() }
     }
 
     @objc private func showNotification() {
         // Create another instance of the demo notification to show
-        let newNotification = MSFNotification(style: style, message: message)
-        newNotification.state = notification.state
+        let newNotification = MSFNotification(style: style, message: message, delayTime: delayTime)
+        newNotification.state.title = notification.state.title
+        newNotification.state.image = notification.state.image
+        newNotification.state.actionButtonTitle = notification.state.actionButtonTitle
+        newNotification.state.actionButtonAction = notification.state.actionButtonAction
+        newNotification.state.messageButtonAction = notification.state.messageButtonAction
+        newNotification.state.dismissAction = { newNotification.hide() }
         newNotification.showNotification(in: view) {
-            $0.hide(after: newNotification.delayTime)
+            $0.hide(after: newNotification.state.delayTime)
         }
     }
 }
@@ -456,13 +514,16 @@ class NotificationViewDemoControllerSwiftUI: DemoTableViewController, UIPickerVi
 extension NotificationViewDemoControllerSwiftUI: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let text = textField.text ?? ""
-        let button = textField == notificationTitleTextField ? notificationTitleButton : (textField == messageTextField ? messageButton : actionButtonTitleButton)
         if textField == notificationTitleTextField {
-            button.state.isDisabled = text == notificationTitle
+            notificationTitleButton.state.isDisabled = text == notificationTitle
         } else if textField == messageTextField {
-            button.state.isDisabled = text == message
-        } else {
-            button.state.isDisabled = text == actionButtonTitle
+            messageButton.state.isDisabled = text == message
+        } else if textField == actionButtonTitleTextField {
+            actionButtonTitleButton.state.isDisabled = text == actionButtonTitle
+        } else if textField == delayTimeTextField {
+            if let timeIntervalText = TimeInterval(text) {
+                delayTimeButton.state.isDisabled = timeIntervalText == delayTime
+            }
         }
 
         return true

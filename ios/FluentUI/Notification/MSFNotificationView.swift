@@ -21,10 +21,11 @@ import UIKit
     ///   - theme: The FluentUIStyle instance representing the theme to be overriden for this Notification.
     @objc public init(style: MSFNotificationStyle,
                       message: String,
+                      delayTime: TimeInterval,
                       theme: FluentUIStyle? = nil) {
         super.init()
 
-        notification = NotificationViewSwiftUI(style: style, message: message, dismissAction: { self.hide() })
+        notification = NotificationViewSwiftUI(style: style, message: message, delayTime: delayTime)
         hostingController = FluentUIHostingController(rootView: AnyView(notification
                                                                             .windowProvider(self)
                                                                             .modifyIf(theme != nil, { notification in
@@ -35,27 +36,8 @@ import UIKit
     }
 
     public var state: MSFNotificationState {
-        get {
             return notification.state
-        }
-
-        set {
-            notification.state = newValue as! MSFNotificationStateImpl
-        }
     }
-
-    public var style: MSFNotificationStyle {
-        get {
-            return notification.state.style
-        }
-
-        set {
-            notification.state.style = newValue
-            notification.tokens.style = newValue
-        }
-    }
-
-    public var delayTime: TimeInterval = 2
 
     // MARK: - FluentUIWindowProvider
 
@@ -66,7 +48,7 @@ import UIKit
     // MARK: - Show/Hide Methods
 
     public func showNotification(in view: UIView, completion: ((MSFNotification) -> Void)? = nil) {
-        if isShown {
+        guard !isShown else {
             return
         }
 
@@ -130,12 +112,22 @@ import UIKit
     }
 
     @objc public func hide(after delay: TimeInterval = 0, completion: (() -> Void)? = nil) {
-        if !isShown || delay == .infinity {
+        var updatedDelay = delay
+        if updatedDelay != 0 {
+            switch self.state.style {
+            case .primaryToast, .primaryBar, .primaryOutlineBar, .neutralBar:
+                break
+            default:
+                updatedDelay = .infinity
+            }
+        }
+
+        guard isShown && updatedDelay != .infinity else {
             return
         }
 
-        if delay > 0 {
-            DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [weak self] in
+        if updatedDelay > 0 {
+            DispatchQueue.main.asyncAfter(deadline: .now() + updatedDelay) { [weak self] in
                 self?.hide(completion: completion)
             }
             return
@@ -156,18 +148,16 @@ import UIKit
             self.completionsForHide.forEach { $0() }
             self.completionsForHide.removeAll()
         }
-        if animated {
-            if !isHiding {
-                isHiding = true
-                UIView.animate(withDuration: notification.tokens.style.animationDurationForHide, animations: {
-                    self.constraintWhenShown.isActive = false
-                    self.constraintWhenHidden.isActive = true
-                    hostingControllerView?.superview?.layoutIfNeeded()
-                }, completion: { _ in
-                    self.isHiding = false
-                    completionForHide()
-                })
-            }
+        if animated && !isHiding {
+            isHiding = true
+            UIView.animate(withDuration: notification.tokens.style.animationDurationForHide, animations: {
+                self.constraintWhenShown.isActive = false
+                self.constraintWhenHidden.isActive = true
+                hostingControllerView?.superview?.layoutIfNeeded()
+            }, completion: { _ in
+                self.isHiding = false
+                completionForHide()
+            })
         }
     }
 

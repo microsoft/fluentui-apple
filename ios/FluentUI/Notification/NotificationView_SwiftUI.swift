@@ -6,15 +6,18 @@
 import SwiftUI
 
 /// Properties that can be used to customize the appearance of the `Notification`.
-@objc public protocol MSFNotificationState {
+public protocol MSFNotificationState: NSObjectProtocol {
     /// Style to draw the control.
     var style: MSFNotificationStyle { get }
 
-    /// Optional text to draw above the message area.
-    var title: String? { get set }
-
     /// Text for the main title area of the control. If there is a title, the message becomes subtext.
     var message: String { get set }
+
+    /// Time it takes until notification auto-dismisses
+    var delayTime: TimeInterval { get set }
+
+    /// Optional text to draw above the message area.
+    var title: String? { get set }
 
     /// Optional icon to draw at the leading edge of the control.
     var image: UIImage? { get set }
@@ -31,6 +34,9 @@ import SwiftUI
 
     /// Action to be dispatched by tapping on the toast/bar notification.
     var messageButtonAction: (() -> Void)? { get set }
+
+    /// Action to be dispatched when dismissing toast/bar notification.
+    var dismissAction: (() -> Void)? { get set }
 }
 
 /// View that represents the Notification.
@@ -43,26 +49,12 @@ public struct NotificationViewSwiftUI: View {
     @ObservedObject var state: MSFNotificationStateImpl
 
     public init(style: MSFNotificationStyle,
-                title: String = "",
                 message: String,
-                image: UIImage? = nil,
-                actionButtonTitle: String = "",
-                actionButtonAction: (() -> Void)? = nil,
-                messageButtonAction: (() -> Void)? = nil,
-                dismissAction: @escaping (() -> Void)) {
-        let state = MSFNotificationStateImpl(style: style,
-                                             title: title,
-                                             message: message,
-                                             image: image,
-                                             actionButtonTitle: actionButtonTitle,
-                                             actionButtonAction: actionButtonAction,
-                                             messageButtonAction: messageButtonAction)
+                delayTime: TimeInterval) {
+        let state = MSFNotificationStateImpl(style: style, message: message, delayTime: delayTime)
         self.state = state
         self.tokens = state.tokens
-        self.dismissAction = dismissAction
     }
-
-    public var dismissAction: (() -> Void)
 
     private var hasImage: Bool {
         state.style.isToast && state.image != nil
@@ -123,11 +115,11 @@ public struct NotificationViewSwiftUI: View {
 
     @ViewBuilder
     var button: some View {
-        if let action = state.actionButtonAction, let actionTitle = state.actionButtonTitle {
+        if let buttonAction = state.actionButtonAction, let actionTitle = state.actionButtonTitle, let dismissAction = state.dismissAction {
             if actionTitle.isEmpty {
                 SwiftUI.Button(action: {
                     dismissAction()
-                    action()
+                    buttonAction()
                 }, label: {
                     Image("dismiss-20x20", bundle: FluentUIFramework.resourceBundle)
                 })
@@ -136,17 +128,15 @@ public struct NotificationViewSwiftUI: View {
                 .accessibility(identifier: "Accessibility.Dismiss.Label")
                 .foregroundColor(Color(tokens.foregroundColor))
             } else {
-                if let action = state.actionButtonAction {
-                    SwiftUI.Button(actionTitle) {
-                        dismissAction()
-                        action()
-                    }
-                    .lineLimit(1)
-                    .foregroundColor(Color(tokens.foregroundColor))
-                    .padding(.horizontal, tokens.horizontalPadding)
-                    .padding(.vertical, tokens.verticalPadding)
-                    .font(Font(tokens.boldTextFont))
+                SwiftUI.Button(actionTitle) {
+                    dismissAction()
+                    buttonAction()
                 }
+                .lineLimit(1)
+                .foregroundColor(Color(tokens.foregroundColor))
+                .padding(.horizontal, tokens.horizontalPadding)
+                .padding(.vertical, tokens.verticalPadding)
+                .font(Font(tokens.boldTextFont))
             }
         }
     }
@@ -168,13 +158,14 @@ public struct NotificationViewSwiftUI: View {
     }
 
     public var body: some View {
+        // Note: we are using keyWindow's width because GeometryReader relies on the bounds of the hosting controller which cannot be set accurately at this point
         if let windowWidth = UIApplication.shared.keyWindow?.bounds.width {
             let width = windowWidth - safeAreaInsets.leading - safeAreaInsets.trailing
             innerContents
                 .onTapGesture {
-                    if let action = state.messageButtonAction {
+                    if let messageAction = state.messageButtonAction, let dismissAction = state.dismissAction {
                         dismissAction()
-                        action()
+                        messageAction()
                     }
                 }
                 .frame(width: state.style.isToast && horizontalSizeClass == .regular ? width / 2 : width - (2 * tokens.presentationOffset))
@@ -185,8 +176,14 @@ public struct NotificationViewSwiftUI: View {
                             RoundedRectangle(cornerRadius: tokens.cornerRadius)
                                 .fill(Color(tokens.backgroundColor))
                         )
-                        .shadow(color: Color(tokens.ambientShadowColor), radius: tokens.ambientShadowBlur, x: tokens.ambientShadowOffsetX, y: tokens.ambientShadowOffsetY)
-                        .shadow(color: Color(tokens.perimeterShadowColor), radius: tokens.perimeterShadowBlur, x: tokens.perimeterShadowOffsetX, y: tokens.perimeterShadowOffsetY)
+                        .shadow(color: Color(tokens.ambientShadowColor),
+                                radius: tokens.ambientShadowBlur,
+                                x: tokens.ambientShadowOffsetX,
+                                y: tokens.ambientShadowOffsetY)
+                        .shadow(color: Color(tokens.perimeterShadowColor),
+                                radius: tokens.perimeterShadowBlur,
+                                x: tokens.perimeterShadowOffsetX,
+                                y: tokens.perimeterShadowOffsetY)
                 )
                 .designTokens(tokens,
                               from: theme,
@@ -195,10 +192,11 @@ public struct NotificationViewSwiftUI: View {
     }
 }
 
-class MSFNotificationStateImpl: NSObject, ObservableObject, MSFNotificationState {
+class MSFNotificationStateImpl: NSObject, ObservableObject, Identifiable, MSFNotificationState {
     @Published public var style: MSFNotificationStyle
-    @Published public var title: String?
     @Published public var message: String
+    @Published public var delayTime: TimeInterval
+    @Published public var title: String?
     @Published public var image: UIImage?
 
     /// Title to display in the action button on the trailing edge of the control.
@@ -214,30 +212,35 @@ class MSFNotificationStateImpl: NSObject, ObservableObject, MSFNotificationState
     /// Action to be dispatched by tapping on the toast/bar notification.
     @Published public var messageButtonAction: (() -> Void)?
 
+    /// Action to be dispatched when dismissing toast/bar notification.
+    @Published public var dismissAction: (() -> Void)?
+
     let tokens: MSFNotificationTokens
 
-    init(style: MSFNotificationStyle,
-         message: String) {
+    init(style: MSFNotificationStyle, message: String, delayTime: TimeInterval) {
         self.style = style
         self.message = message
+        self.delayTime = delayTime
         self.tokens = MSFNotificationTokens(style: style)
         super.init()
     }
 
     convenience init(style: MSFNotificationStyle,
-                     title: String,
                      message: String,
-                     image: UIImage?,
-                     actionButtonTitle: String,
-                     actionButtonAction: (() -> Void)?,
-                     messageButtonAction: (() -> Void)?) {
-        self.init(style: style,
-                  message: message)
+                     delayTime: TimeInterval,
+                     title: String? = nil,
+                     image: UIImage? = nil,
+                     actionButtonTitle: String? = nil,
+                     actionButtonAction: (() -> Void)? = nil,
+                     messageButtonAction: (() -> Void)? = nil,
+                     dismissAction: (() -> Void)? = nil) {
+        self.init(style: style, message: message, delayTime: delayTime)
 
         self.title = title
         self.image = image
         self.actionButtonTitle = actionButtonTitle
         self.actionButtonAction = actionButtonAction
         self.messageButtonAction = messageButtonAction
+        self.dismissAction = dismissAction
     }
 }
