@@ -46,6 +46,11 @@ class PopupMenuDemoController: DemoController {
         navigationController?.isToolbarHidden = false
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.isToolbarHidden = true
+    }
+
     private func createAccessoryView(text: String) -> UIView {
         let accessoryView = BadgeView(dataSource: BadgeViewDataSource(text: text, style: .default, size: .small))
         accessoryView.isUserInteractionEnabled = false
