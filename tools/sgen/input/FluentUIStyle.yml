@@ -267,11 +267,6 @@ AP_MSFHeaderFooterTokens:
   textColor: $Colors.Foreground.neutral3
   textFont: $Typography.caption1
 
-AP_MSFIndeterminateProgressBarTokens:
-  backgroundColor: $Colors.Background.surfaceQuaternary
-  gradientColor: $Colors.Brand.primary
-  height: 2pt
-
 AP_MSFListCellTokens:
   backgroundColor: [ rest: $Colors.Background.neutral1, pressed: $Colors.Background.neutral5 ]
   borderColor: $Colors.Stroke.neutral1

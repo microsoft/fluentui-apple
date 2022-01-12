@@ -60,7 +60,7 @@ xcodebuild ${XCODEBUILDPARAMS} -project ${PROJECT_FILE_PATH} -target "MicrosoftF
                               :execution_position => :before_compile }
     core_ios.preserve_paths = ["ios/FluentUI/Core/Core.resources.xcfilelist",
                                "scripts/removeUnusedResourcesFromAssets.swift"]
-    core_ios.source_files = ["ios/FluentUI/Core/*.{swift,h}",
+    core_ios.source_files = ["ios/FluentUI/Core/**/*.{swift,h}",
                              "ios/FluentUI/Extensions/*.{swift,h}"]
   end
 
@@ -77,6 +77,12 @@ xcodebuild ${XCODEBUILDPARAMS} -project ${PROJECT_FILE_PATH} -target "MicrosoftF
     drawer_ios.dependency 'MicrosoftFluentUIVnext/Separator_ios'
     drawer_ios.dependency 'MicrosoftFluentUIVnext/TouchForwardingView_ios'
     drawer_ios.source_files = ["ios/FluentUI/Drawer/**/*.{swift,h}"]
+  end
+
+  s.subspec 'IndeterminateProgressBar_ios' do |indeterminateProgressBar_ios|
+    indeterminateProgressBar_ios.platform = :ios
+    indeterminateProgressBar_ios.dependency 'MicrosoftFluentUIVnext/Core_ios'
+    indeterminateProgressBar_ios.source_files = ["ios/FluentUI/IndeterminateProgressBar/**/*.{swift,h}"]
   end
 
   s.subspec 'List_ios' do |list_ios|
