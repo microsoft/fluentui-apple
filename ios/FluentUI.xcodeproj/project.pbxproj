@@ -222,7 +222,7 @@
 		53FC90F525673626008A06FD /* FluentUI_release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUI_release.xcconfig; sourceTree = "<group>"; };
 		53FC90F625673626008A06FD /* FluentUI_debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUI_debug.xcconfig; sourceTree = "<group>"; };
 		53FC90F725673626008A06FD /* FluentUITests.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUITests.xcconfig; sourceTree = "<group>"; };
-		53FC90F925673627008A06FD /* FluentUILib.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUILib.xcconfig; sourceTree = "<group>"; };
+		53FC90F925673627008A06FD /* FluentUILib_common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUILib_common.xcconfig; sourceTree = "<group>"; };
 		53FC90FA25673627008A06FD /* FluentUIResources.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUIResources.xcconfig; sourceTree = "<group>"; };
 		6EB4B25D270ED6450005B808 /* BadgeLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeLabel.swift; sourceTree = "<group>"; };
 		6ED4C11A2695A6E800C30BD6 /* UIBarButtonItem+BadgeValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBarButtonItem+BadgeValue.swift"; sourceTree = "<group>"; };
@@ -309,6 +309,8 @@
 		C0EAAEAC2347E1DF00C7244E /* ShimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerView.swift; sourceTree = "<group>"; };
 		C708B04B260A8696007190FA /* SegmentItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentItem.swift; sourceTree = "<group>"; };
 		C708B055260A86FA007190FA /* SegmentPillButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentPillButton.swift; sourceTree = "<group>"; };
+		C7752C7B2790C1F40012F860 /* FluentUILib_release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUILib_release.xcconfig; sourceTree = "<group>"; };
+		C7752C7C2790C1F40012F860 /* FluentUILib_debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUILib_debug.xcconfig; sourceTree = "<group>"; };
 		C77A04B625F03DD1001B3EB6 /* String+Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Date.swift"; sourceTree = "<group>"; };
 		C77A04EC25F046EB001B3EB6 /* Date+CellFileAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+CellFileAccessoryView.swift"; sourceTree = "<group>"; };
 		CCC18C2B2501B22F00BE830E /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
@@ -594,7 +596,9 @@
 				53FC90C02567300A008A06FD /* FluentUI_common.xcconfig */,
 				53FC90F625673626008A06FD /* FluentUI_debug.xcconfig */,
 				53FC90F525673626008A06FD /* FluentUI_release.xcconfig */,
-				53FC90F925673627008A06FD /* FluentUILib.xcconfig */,
+				53FC90F925673627008A06FD /* FluentUILib_common.xcconfig */,
+				C7752C7C2790C1F40012F860 /* FluentUILib_debug.xcconfig */,
+				C7752C7B2790C1F40012F860 /* FluentUILib_release.xcconfig */,
 				53FC90FA25673627008A06FD /* FluentUIResources.xcconfig */,
 				53FC90F725673626008A06FD /* FluentUITests.xcconfig */,
 			);
@@ -1561,21 +1565,21 @@
 /* Begin XCBuildConfiguration section */
 		8FD0116B228A820600D25925 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 53FC90F925673627008A06FD /* FluentUILib.xcconfig */;
+			baseConfigurationReference = C7752C7C2790C1F40012F860 /* FluentUILib_debug.xcconfig */;
 			buildSettings = {
 			};
 			name = Debug;
 		};
 		8FD0116C228A820600D25925 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 53FC90F925673627008A06FD /* FluentUILib.xcconfig */;
+			baseConfigurationReference = C7752C7B2790C1F40012F860 /* FluentUILib_release.xcconfig */;
 			buildSettings = {
 			};
 			name = Release;
 		};
 		8FD0116D228A820600D25925 /* Dogfood */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 53FC90F925673627008A06FD /* FluentUILib.xcconfig */;
+			baseConfigurationReference = C7752C7B2790C1F40012F860 /* FluentUILib_release.xcconfig */;
 			buildSettings = {
 			};
 			name = Dogfood;
