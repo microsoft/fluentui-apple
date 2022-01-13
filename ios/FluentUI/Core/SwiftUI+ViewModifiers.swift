@@ -6,7 +6,6 @@
 import SwiftUI
 
 struct ScalableFont: ViewModifier {
-    @Environment(\.sizeCategory) var sizeCategory: ContentSizeCategory
     let font: UIFont
     let shouldScale: Bool
 
@@ -15,19 +14,13 @@ struct ScalableFont: ViewModifier {
         let size = font.fixedFont.pointSize
         let scalableFont: Font
 
-            if #available(iOS 14.0, *) {
-                if shouldScale {
-                    scalableFont = .custom(familyName,
-                                           size: size)
-                } else {
-                    scalableFont = .custom(familyName,
-                                           fixedSize: size)
-                }
-            } else {
-                let scaledFontSize = shouldScale ? UIFontMetrics.default.scaledValue(for: size) : size
-                scalableFont = .custom(familyName,
-                                       size: scaledFontSize)
-            }
+        if shouldScale {
+            scalableFont = .custom(familyName,
+                                   size: size)
+        } else {
+            scalableFont = .custom(familyName,
+                                   fixedSize: size)
+        }
 
         return content.font(scalableFont)
     }
@@ -53,18 +46,14 @@ extension View {
     /// - Parameter isEnabled: Whether the pointer interaction should be enabled.
     /// - Returns: The modified view.
     func pointerInteraction(_ isEnabled: Bool) -> AnyView {
-        if #available(iOS 13.4, *) {
-            if isEnabled {
-                return AnyView(self.hoverEffect())
-            }
+        if isEnabled {
+            return AnyView(self.hoverEffect())
         }
 
         return AnyView(self)
     }
 
     /// Applies a scalable SwiftUI Font type in a scalable way.
-    /// Custom fonts on iOS 13 are not scalable. This modifier works around that by adjusting to the
-    /// sizeCategory environment object and returns the SwiftUI Font in the correct size.
     /// - Parameters:
     ///   - font: UIFont instance of that needs to be converted into a scalable SwiftUI Font struct.
     ///   - shouldScale: Whether the SwiftUI Font returned should be scaled or not.

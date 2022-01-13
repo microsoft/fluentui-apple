@@ -271,6 +271,18 @@ open class BadgeView: UIView {
         }
     }
 
+    /**
+     The maximum allowed size point for the label's font. This property can be used
+     to restrict the largest size of the label when scaling due to Dynamic Type. The
+     default value is 0, indicating there is no maximum size.
+     */
+    open var maxFontSize: CGFloat = 0 {
+        didSet {
+            label.maxFontSize = maxFontSize
+            invalidateIntrinsicContentSize()
+        }
+    }
+
     open override var intrinsicContentSize: CGSize {
         return sizeThatFits(CGSize(width: CGFloat.infinity, height: CGFloat.infinity))
     }
@@ -327,15 +339,7 @@ open class BadgeView: UIView {
     open override func layoutSubviews() {
         super.layoutSubviews()
         backgroundView.frame = bounds
-
-        let labelHeight = label.font.deviceLineHeight
-        let labelSize = label.sizeThatFits(CGSize(width: CGFloat.infinity, height: CGFloat.infinity))
-        let fittingLabelWidth = UIScreen.main.roundToDevicePixels(labelSize.width)
-
-        let minLabelWidth = minWidth - size.horizontalPadding * 2
-        let maxLabelWidth = frame.width - size.horizontalPadding * 2
-        let labelWidth = max(minLabelWidth, min(maxLabelWidth, fittingLabelWidth))
-        label.frame = CGRect(x: size.horizontalPadding, y: size.verticalPadding, width: labelWidth, height: labelHeight)
+        label.frame = bounds.insetBy(dx: -size.horizontalPadding, dy: -size.verticalPadding)
     }
 
     func reload() {
@@ -349,7 +353,10 @@ open class BadgeView: UIView {
         let labelSize = label.sizeThatFits(CGSize(width: CGFloat.infinity, height: CGFloat.infinity))
         let width = UIScreen.main.roundToDevicePixels(labelSize.width) + self.size.horizontalPadding * 2
         let maxWidth = size.width > 0 ? size.width : .infinity
-        return CGSize(width: max(minWidth, min(width, maxWidth)), height: self.size.height)
+        let height = UIScreen.main.roundToDevicePixels(labelSize.height) + self.size.verticalPadding * 2
+        let maxHeight = size.height > 0 ? size.height : .infinity
+
+        return CGSize(width: max(minWidth, min(width, maxWidth)), height: min(height, maxHeight))
     }
 
     open override func didMoveToWindow() {

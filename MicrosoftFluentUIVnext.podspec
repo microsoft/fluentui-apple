@@ -12,7 +12,7 @@ Pod::Spec.new do |s|
 
 # iOS
 
-  s.ios.deployment_target = "13.0"
+  s.ios.deployment_target = "14.0"
   
   s.subspec 'ActivityIndicator_ios' do |activityindicator_ios|
     activityindicator_ios.platform = :ios
@@ -64,11 +64,17 @@ xcodebuild ${XCODEBUILDPARAMS} -project ${PROJECT_FILE_PATH} -target "MicrosoftF
                              "ios/FluentUI/Extensions/*.{swift,h}"]
   end
 
+  s.subspec 'Divider_ios' do |divider_ios|
+    divider_ios.platform = :ios
+    divider_ios.dependency 'MicrosoftFluentUIVnext/Core_ios'
+    divider_ios.source_files = ["ios/FluentUI/Vnext/Divider/**/*.{swift,h}"]
+  end
+
   s.subspec 'Drawer_ios' do |drawer_ios|
     drawer_ios.platform = :ios
     drawer_ios.dependency 'MicrosoftFluentUIVnext/Obscurable_ios'
     drawer_ios.dependency 'MicrosoftFluentUIVnext/ResizingHandleView_ios'
-    drawer_ios.dependency 'MicrosoftFluentUIVnext/Separator_ios'
+    drawer_ios.dependency 'MicrosoftFluentUIVnext/Divider_ios'
     drawer_ios.dependency 'MicrosoftFluentUIVnext/TouchForwardingView_ios'
     drawer_ios.source_files = ["ios/FluentUI/Drawer/**/*.{swift,h}"]
   end
@@ -76,6 +82,7 @@ xcodebuild ${XCODEBUILDPARAMS} -project ${PROJECT_FILE_PATH} -target "MicrosoftF
   s.subspec 'List_ios' do |list_ios|
     list_ios.platform = :ios
     list_ios.dependency 'MicrosoftFluentUIVnext/Core_ios'
+    list_ios.dependency 'MicrosoftFluentUIVnext/Divider_ios'
     list_ios.source_files = ["ios/FluentUI/Vnext/List/**/*.{swift,h}"]
   end
 

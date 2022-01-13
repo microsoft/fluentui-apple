@@ -153,5 +153,9 @@ class DemoController: UIViewController {
             container.frame = view.bounds
             container.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         }
+
+        // Child scroll views interfere with largeTitleDisplayMode, so let's
+        // disable it for all DemoController subclasses.
+        self.navigationItem.largeTitleDisplayMode = .never
     }
 }

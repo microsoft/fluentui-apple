@@ -924,8 +924,8 @@ open class TableViewCell: UITableViewCell {
         return imageView
     }()
 
-    internal let topSeparator = Separator(style: .default, orientation: .horizontal)
-    internal let bottomSeparator = Separator(style: .default, orientation: .horizontal)
+    internal let topSeparator = MSFDivider()
+    internal let bottomSeparator = MSFDivider()
 
     private var superTableView: UITableView? {
         return findSuperview(of: UITableView.self) as? UITableView
@@ -950,8 +950,8 @@ open class TableViewCell: UITableViewCell {
         contentView.addSubview(subtitleLabel)
         contentView.addSubview(footerLabel)
         contentView.addSubview(selectionImageView)
-        addSubview(topSeparator)
-        addSubview(bottomSeparator)
+        contentView.addSubview(topSeparator.view)
+        contentView.addSubview(bottomSeparator.view)
 
         setupBackgroundColors()
 
@@ -1066,9 +1066,6 @@ open class TableViewCell: UITableViewCell {
 
         layoutContentSubviews()
         contentView.flipSubviewsForRTL()
-
-        layoutSeparator(topSeparator, with: topSeparatorType, at: 0)
-        layoutSeparator(bottomSeparator, with: bottomSeparatorType, at: frame.height - bottomSeparator.frame.height)
     }
 
     open func layoutContentSubviews() {
@@ -1117,6 +1114,9 @@ open class TableViewCell: UITableViewCell {
             let yOffset = UIScreen.main.roundToDevicePixels((contentView.frame.height - _accessoryType.size.height) / 2)
             accessoryTypeView.frame = CGRect(origin: CGPoint(x: xOffset, y: yOffset), size: _accessoryType.size)
         }
+
+        layoutSeparator(topSeparator, with: topSeparatorType, at: 0)
+        layoutSeparator(bottomSeparator, with: bottomSeparatorType, at: frame.height - bottomSeparator.state.thickness)
     }
 
     private func layoutLabelViews(label: UILabel, numberOfLines: Int, topOffset: CGFloat, leadingAccessoryView: UIView?, leadingAccessoryViewSize: CGSize, trailingAccessoryView: UIView?, trailingAccessoryViewSize: CGSize) {
@@ -1163,14 +1163,13 @@ open class TableViewCell: UITableViewCell {
         trailingAccessoryView?.frame.origin.y += offset
     }
 
-    private func layoutSeparator(_ separator: Separator, with type: SeparatorType, at verticalOffset: CGFloat) {
-        separator.frame = CGRect(
+    private func layoutSeparator(_ separator: MSFDivider, with type: SeparatorType, at verticalOffset: CGFloat) {
+        separator.view.frame = CGRect(
             x: separatorLeadingInset(for: type),
             y: verticalOffset,
             width: frame.width - separatorLeadingInset(for: type),
-            height: separator.frame.height
+            height: separator.state.thickness
         )
-        separator.flipForRTL()
     }
 
     func separatorLeadingInset(for type: SeparatorType) -> CGFloat {
@@ -1402,8 +1401,8 @@ open class TableViewCell: UITableViewCell {
         }
     }
 
-    private func updateSeparator(_ separator: Separator, with type: SeparatorType) {
-        separator.isHidden = type == .none
+    private func updateSeparator(_ separator: MSFDivider, with type: SeparatorType) {
+        separator.view.isHidden = type == .none
         setNeedsLayout()
     }
 
@@ -1492,13 +1491,7 @@ internal class TableViewCellAccessoryView: UIView {
         button.accessibilityLabel = "Accessibility.TableViewCell.MoreActions.Label".localized
         button.accessibilityHint = "Accessibility.TableViewCell.MoreActions.Hint".localized
         button.addTarget(self, action: #selector(handleOnAccessoryTapped), for: .touchUpInside)
-
-        if #available(iOS 13.4, *) {
-            // Workaround check for beta iOS versions missing the Pointer Interactions API
-            if arePointerInteractionAPIsAvailable() {
-                button.isPointerInteractionEnabled = true
-            }
-        }
+        button.isPointerInteractionEnabled = true
 
         return button
     }()
