@@ -6,29 +6,48 @@
 import UIKit
 import SwiftUI
 
-/// Properties that make up section content
-@objc public class MSFListSectionState: NSObject, ObservableObject, Identifiable {
-    public var id = UUID()
-    @objc @Published public var cells: [MSFListCellState] = []
-    @objc @Published public var title: String?
-    @objc @Published public var backgroundColor: UIColor?
-    @objc @Published public var hasDividers: Bool = false
-    @objc @Published public var style: MSFHeaderFooterStyle = .headerPrimary {
-        didSet {
-            if style != oldValue {
-                headerTokens.style = style
-                headerTokens.updateForCurrentTheme()
-            }
-        }
+/// UIKit wrapper that exposes the SwiftUI List implementation
+@objc open class MSFList: NSObject, FluentUIWindowProvider {
+
+    @objc public init(sections: [MSFListSectionState],
+                      theme: FluentUIStyle? = nil) {
+        super.init()
+
+        listView = MSFListView(sections: sections)
+        hostingController = FluentUIHostingController(rootView: AnyView(listView
+                                                                            .windowProvider(self)
+                                                                            .modifyIf(theme != nil, { listView in
+                                                                                listView.customTheme(theme!)
+                                                                            })))
+        hostingController.disableSafeAreaInsets()
+        view.backgroundColor = UIColor.clear
     }
 
-    var headerTokens = MSFHeaderFooterTokens(style: .headerPrimary)
+    @objc public convenience init(sections: [MSFListSectionState]) {
+        self.init(sections: sections,
+                  theme: nil)
+    }
+
+    @objc open var view: UIView {
+        return hostingController.view
+    }
+
+    @objc open var state: MSFListState {
+        return listView.state
+    }
+
+    var window: UIWindow? {
+        return self.view.window
+    }
+
+    private var hostingController: FluentUIHostingController!
+
+    private var listView: MSFListView!
 }
 
-/// Properties that make up list content
-@objc public class MSFListState: NSObject, ObservableObject {
-    @objc @Published public var sections: [MSFListSectionState] = []
-}
+/// Protocol goes here
+
+
 
 public struct MSFListView: View {
     @Environment(\.theme) var theme: FluentUIStyle
@@ -97,41 +116,26 @@ public struct MSFListView: View {
     }
 }
 
-/// UIKit wrapper that exposes the SwiftUI List implementation
-@objc open class MSFList: NSObject, FluentUIWindowProvider {
-
-    @objc public init(sections: [MSFListSectionState],
-                      theme: FluentUIStyle? = nil) {
-        super.init()
-
-        listView = MSFListView(sections: sections)
-        hostingController = FluentUIHostingController(rootView: AnyView(listView
-                                                                            .windowProvider(self)
-                                                                            .modifyIf(theme != nil, { listView in
-                                                                                listView.customTheme(theme!)
-                                                                            })))
-        hostingController.disableSafeAreaInsets()
-        view.backgroundColor = UIColor.clear
+/// Properties that make up section content
+@objc public class MSFListSectionState: NSObject, ObservableObject, Identifiable {
+    public var id = UUID()
+    @objc @Published public var cells: [MSFListCellState] = []
+    @objc @Published public var title: String?
+    @objc @Published public var backgroundColor: UIColor?
+    @objc @Published public var hasDividers: Bool = false
+    @objc @Published public var style: MSFHeaderFooterStyle = .headerPrimary {
+        didSet {
+            if style != oldValue {
+                headerTokens.style = style
+                headerTokens.updateForCurrentTheme()
+            }
+        }
     }
 
-    @objc public convenience init(sections: [MSFListSectionState]) {
-        self.init(sections: sections,
-                  theme: nil)
-    }
+    var headerTokens = MSFHeaderFooterTokens(style: .headerPrimary)
+}
 
-    @objc open var view: UIView {
-        return hostingController.view
-    }
-
-    @objc open var state: MSFListState {
-        return listView.state
-    }
-
-    var window: UIWindow? {
-        return self.view.window
-    }
-
-    private var hostingController: FluentUIHostingController!
-
-    private var listView: MSFListView!
+/// Properties that make up list content
+@objc public class MSFListState: NSObject, ObservableObject {
+    @objc @Published public var sections: [MSFListSectionState] = []
 }
