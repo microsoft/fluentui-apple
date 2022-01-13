@@ -7,35 +7,28 @@ import UIKit
 
 /// Representation of design tokens to controls at runtime which interfaces with the Design Token System auto-generated code.
 /// Updating these properties causes the SwiftUI controls to update its view automatically.
-class MSFPersonaButtonCarouselTokens: MSFTokensBase, ObservableObject {
-    @Published var backgroundColor: UIColor!
+public class PersonaButtonCarouselTokens: ControlTokens {
 
-    var size: MSFPersonaButtonSize {
-        didSet {
-            if oldValue != size {
-                updateForCurrentTheme()
-            }
+    /// Creates an instance of `PersonaButtonCarouselTokens` with optional token value overrides.
+    public convenience init(size: MSFPersonaButtonSize,
+                            backgroundColor: DynamicColor? = nil) {
+        self.init(size: size)
+
+        // Overrides
+
+        if let backgroundColor = backgroundColor {
+            self.backgroundColor = backgroundColor
         }
     }
 
     init(size: MSFPersonaButtonSize) {
         self.size = size
-
         super.init()
-
-        self.themeAware = true
-
-        updateForCurrentTheme()
     }
 
-    @objc open func didChangeAppearanceProxy() {
-        updateForCurrentTheme()
-    }
+    var size: MSFPersonaButtonSize
 
-    override func updateForCurrentTheme() {
-        let currentTheme = theme
-        let appearanceProxy = currentTheme.MSFPersonaButtonCarouselTokens
+    // MARK: - Design Tokens
 
-        backgroundColor = appearanceProxy.backgroundColor
-    }
+    lazy var backgroundColor: DynamicColor = aliasTokens.backgroundColors[.neutral1]
 }
