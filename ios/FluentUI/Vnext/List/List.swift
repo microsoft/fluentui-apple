@@ -53,6 +53,9 @@ import SwiftUI
     /// Configures the Section's `HeaderFooter` style.
     var style: MSFHeaderFooterStyle { get set }
 
+    /// The number of Cells in the Section.
+    var count: Int { get }
+
     /// Creates a new Cell within the Section.
     func createCell() -> MSFListCellState
 
@@ -63,12 +66,16 @@ import SwiftUI
     /// - Parameter index: The zero-based index of the Cell in the Section.
     func getCellState(at index: Int) -> MSFListCellState
 
-    /// Remove an Cell from the Section.
+    /// Remove a Cell from the Section.
     /// - Parameter index: The zero-based index of the Cell that will be removed from the Section.
     func removeCell(at index: Int)
 }
 
+/// Properties that can be used to customize the appearance of the List.
 @objc public protocol MSFListState {
+    /// The number of Sections in the List.
+    var count: Int { get }
+
     /// Creates a new Section within the List.
     func createSection() -> MSFListSectionState
 
@@ -79,7 +86,7 @@ import SwiftUI
     /// - Parameter index: The zero-based index of the Section in the List.
     func getSectionState(at index: Int) -> MSFListSectionState
 
-    /// Remove an Section from the List.
+    /// Remove a Section from the List.
     /// - Parameter index: The zero-based index of the Section that will be removed from the List.
     func removeSection(at index: Int)
 }
@@ -187,6 +194,10 @@ class MSFListSectionStateImpl: NSObject, ObservableObject, Identifiable, MSFList
     @Published var backgroundColor: UIColor?
     @Published var hasDividers: Bool = false
 
+    var count: Int {
+        return cells.count
+    }
+
     var style: MSFHeaderFooterStyle {
         get {
             return headerTokens.style
@@ -235,6 +246,10 @@ class MSFListStateImpl: NSObject, ObservableObject, MSFListState {
     }
 
     @Published var sections: [MSFListSectionStateImpl] = []
+
+    var count: Int {
+        return sections.count
+    }
 
     var tokens: MSFListTokens
 

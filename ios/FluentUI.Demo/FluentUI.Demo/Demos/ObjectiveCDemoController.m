@@ -71,9 +71,10 @@
     [self.container addArrangedSubview:listVnextLabel];
     
     _testList = [[MSFList alloc] initWithTheme:nil];
-    MSFListCellState *listCell1 = [[[_testList state] createSection] createCell];
-    MSFListCellState *listCell2 = [[[_testList state] getSectionStateAt:0] createCell];
-    MSFListCellState *listCell3 = [[[_testList state] getSectionStateAt:0] createCell];
+    id<MSFListSectionState> sectionState = [[_testList state] createSection];
+    MSFListCellState *listCell1 = [sectionState createCell];
+    MSFListCellState *listCell2 = [sectionState createCell];
+    MSFListCellState *listCell3 = [sectionState createCell];
 
     MSFListCellState *childCell = [[MSFListCellState alloc] init];
     [childCell setTitle:@"Child Cell"];
