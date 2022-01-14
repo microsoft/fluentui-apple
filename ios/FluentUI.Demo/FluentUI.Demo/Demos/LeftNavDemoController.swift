@@ -125,123 +125,7 @@ class LeftNavMenuViewController: UIViewController {
 
     private var statusCell = MSFListCellState()
 
-    private var leftNavMenuSections: [MSFListSectionState] {
-        let defaultMenuAction = {
-            guard let menuAction = self.menuAction else {
-                return
-            }
-            menuAction()
-        }
-
-        var statusCellChildren: [MSFListCellState] = []
-
-        for presence in LeftNavPresence.allCases {
-            let statusCellChild = MSFListCellState()
-            statusCellChild.leadingViewSize = .small
-            statusCellChild.title = presence.cellTitle()
-            statusCellChild.leadingUIView = presence.imageView()
-            statusCellChild.backgroundColor = .systemBackground
-            statusCellChild.onTapAction = {
-                self.setPresence(presence: presence)
-            }
-
-            statusCellChildren.append(statusCellChild)
-        }
-
-        let resetStatusCell = MSFListCellState()
-        resetStatusCell.title = "Reset status"
-        resetStatusCell.leadingViewSize = .small
-        resetStatusCell.backgroundColor = .systemBackground
-        let resetStatusImageView = UIImageView(image: UIImage(named: "ic_fluent_arrow_sync_24_regular"))
-        resetStatusImageView.tintColor = FluentUIThemeManager.S.Colors.Foreground.neutral4
-        resetStatusCell.leadingUIView = resetStatusImageView
-        resetStatusCell.onTapAction = {
-            self.setPresence(presence: .available)
-        }
-        statusCellChildren.append(resetStatusCell)
-
-        statusCell.title = LeftNavPresence.available.cellTitle()
-        statusCell.backgroundColor = .systemBackground
-        let statusImageView = LeftNavPresence.available.imageView()
-        statusImageView.tintColor = FluentUIThemeManager.S.Colors.Presence.available
-        statusCell.leadingUIView = statusImageView
-        statusCell.children = statusCellChildren
-
-        let statusMessageCell = MSFListCellState()
-        statusMessageCell.backgroundColor = .systemBackground
-        statusMessageCell.title = "Set Status Message"
-        let statusMessageImageView = UIImageView(image: UIImage(named: "ic_fluent_status_24_regular"))
-        statusMessageImageView.tintColor = FluentUIThemeManager.S.Colors.Foreground.neutral4
-        statusMessageCell.leadingUIView = statusMessageImageView
-        statusMessageCell.onTapAction = defaultMenuAction
-
-        let notificationsCell = MSFListCellState()
-        notificationsCell.backgroundColor = .systemBackground
-        notificationsCell.title = "Notifications"
-        notificationsCell.subtitle = "On"
-        notificationsCell.layoutType = .twoLines
-        let notificationsImageView = UIImageView(image: UIImage(named: "ic_fluent_alert_24_regular"))
-        notificationsImageView.tintColor = FluentUIThemeManager.S.Colors.Foreground.neutral4
-        notificationsCell.leadingUIView = notificationsImageView
-        notificationsCell.onTapAction = defaultMenuAction
-
-        let settingsCell = MSFListCellState()
-        settingsCell.backgroundColor = .systemBackground
-        settingsCell.title = "Settings"
-        let settingsImageView = UIImageView(image: UIImage(named: "ic_fluent_settings_24_regular"))
-        settingsImageView.tintColor = FluentUIThemeManager.S.Colors.Foreground.neutral4
-        settingsCell.leadingUIView = settingsImageView
-        settingsCell.onTapAction = defaultMenuAction
-
-        let whatsNewCell = MSFListCellState()
-        whatsNewCell.backgroundColor = .systemBackground
-        whatsNewCell.title = "What's new"
-        let whatsNewImageView = UIImageView(image: UIImage(named: "ic_fluent_lightbulb_24_regular"))
-        whatsNewImageView.tintColor = FluentUIThemeManager.S.Colors.Foreground.neutral4
-        whatsNewCell.leadingUIView = whatsNewImageView
-        whatsNewCell.onTapAction = defaultMenuAction
-
-        let menuSection = MSFListSectionState()
-        menuSection.cells = [statusCell, statusMessageCell, notificationsCell, settingsCell, whatsNewCell]
-
-        let microsoftAccountCell = MSFListCellState()
-        microsoftAccountCell.backgroundColor = .systemBackground
-        microsoftAccountCell.layoutType = .twoLines
-        microsoftAccountCell.title = "Contoso"
-        microsoftAccountCell.subtitle = "kat.larrson@contoso.com"
-        microsoftAccountCell.accessoryType = .checkmark
-        let orgAvatar = MSFAvatar(style: .group, size: .large)
-        orgAvatar.state.primaryText = "Kat Larrson"
-        microsoftAccountCell.leadingUIView = orgAvatar.view
-        microsoftAccountCell.leadingViewSize = .large
-
-        let msaAccountCell = MSFListCellState()
-        msaAccountCell.backgroundColor = .systemBackground
-        msaAccountCell.layoutType = .twoLines
-        msaAccountCell.title = "Personal"
-        msaAccountCell.subtitle = "kat.larrson@live.com"
-        let msaAvatar = MSFAvatar(style: .group, size: .large)
-        msaAvatar.state.primaryText = "kat.larrson@live.com"
-        msaAccountCell.leadingUIView = msaAvatar.view
-        msaAccountCell.leadingViewSize = .large
-
-        let addAccountCell = MSFListCellState()
-        addAccountCell.backgroundColor = .systemBackground
-        addAccountCell.title = "Add Account"
-        let addAccountImageView = UIImageView(image: UIImage(named: "ic_fluent_add_24_regular"))
-        addAccountImageView.tintColor = FluentUIThemeManager.S.Colors.Foreground.neutral4
-        addAccountCell.leadingUIView = addAccountImageView
-        addAccountCell.onTapAction = defaultMenuAction
-
-        let accountsSection = MSFListSectionState()
-        accountsSection.title = "Accounts and Orgs"
-        accountsSection.backgroundColor = .systemBackground
-        accountsSection.cells = [microsoftAccountCell, msaAccountCell, addAccountCell]
-
-        return [menuSection, accountsSection]
-    }
-
-    private var leftNavMenuList = MSFList(sections: [])
+    private var leftNavMenuList = MSFList()
 
     private var leftNavAccountViewHeightConstraint: NSLayoutConstraint?
 
@@ -277,10 +161,120 @@ class LeftNavMenuViewController: UIViewController {
                                                  left: Constant.margin,
                                                  bottom: Constant.margin,
                                                  right: Constant.margin)
+        let defaultMenuAction = {
+            guard let menuAction = self.menuAction else {
+                return
+            }
+            menuAction()
+        }
+
+        var statusCellChildren: [MSFListCellState] = []
+
+        for presence in LeftNavPresence.allCases {
+            let statusCellChild = MSFListCellState()
+            statusCellChild.leadingViewSize = .small
+            statusCellChild.title = presence.cellTitle()
+            statusCellChild.leadingUIView = presence.imageView()
+            statusCellChild.backgroundColor = .systemBackground
+            statusCellChild.onTapAction = {
+                self.setPresence(presence: presence)
+            }
+
+            statusCellChildren.append(statusCellChild)
+        }
+
+        let resetStatusCell = MSFListCellState()
+        resetStatusCell.title = "Reset status"
+        resetStatusCell.leadingViewSize = .small
+        resetStatusCell.backgroundColor = .systemBackground
+        let resetStatusImageView = UIImageView(image: UIImage(named: "ic_fluent_arrow_sync_24_regular"))
+        resetStatusImageView.tintColor = FluentUIThemeManager.S.Colors.Foreground.neutral4
+        resetStatusCell.leadingUIView = resetStatusImageView
+        resetStatusCell.onTapAction = {
+            self.setPresence(presence: .available)
+        }
+        statusCellChildren.append(resetStatusCell)
+
+        let menuSection = leftNavMenuList.state.createSection()
+
+        statusCell = menuSection.createCell()
+        statusCell.title = LeftNavPresence.available.cellTitle()
+        statusCell.backgroundColor = .systemBackground
+        let statusImageView = LeftNavPresence.available.imageView()
+        statusImageView.tintColor = FluentUIThemeManager.S.Colors.Presence.available
+        statusCell.leadingUIView = statusImageView
+        statusCell.children = statusCellChildren
+
+        let statusMessageCell = menuSection.createCell()
+        statusMessageCell.backgroundColor = .systemBackground
+        statusMessageCell.title = "Set Status Message"
+        let statusMessageImageView = UIImageView(image: UIImage(named: "ic_fluent_status_24_regular"))
+        statusMessageImageView.tintColor = FluentUIThemeManager.S.Colors.Foreground.neutral4
+        statusMessageCell.leadingUIView = statusMessageImageView
+        statusMessageCell.onTapAction = defaultMenuAction
+
+        let notificationsCell = menuSection.createCell()
+        notificationsCell.backgroundColor = .systemBackground
+        notificationsCell.title = "Notifications"
+        notificationsCell.subtitle = "On"
+        notificationsCell.layoutType = .twoLines
+        let notificationsImageView = UIImageView(image: UIImage(named: "ic_fluent_alert_24_regular"))
+        notificationsImageView.tintColor = FluentUIThemeManager.S.Colors.Foreground.neutral4
+        notificationsCell.leadingUIView = notificationsImageView
+        notificationsCell.onTapAction = defaultMenuAction
+
+        let settingsCell = menuSection.createCell()
+        settingsCell.backgroundColor = .systemBackground
+        settingsCell.title = "Settings"
+        let settingsImageView = UIImageView(image: UIImage(named: "ic_fluent_settings_24_regular"))
+        settingsImageView.tintColor = FluentUIThemeManager.S.Colors.Foreground.neutral4
+        settingsCell.leadingUIView = settingsImageView
+        settingsCell.onTapAction = defaultMenuAction
+
+        let whatsNewCell = menuSection.createCell()
+        whatsNewCell.backgroundColor = .systemBackground
+        whatsNewCell.title = "What's new"
+        let whatsNewImageView = UIImageView(image: UIImage(named: "ic_fluent_lightbulb_24_regular"))
+        whatsNewImageView.tintColor = FluentUIThemeManager.S.Colors.Foreground.neutral4
+        whatsNewCell.leadingUIView = whatsNewImageView
+        whatsNewCell.onTapAction = defaultMenuAction
+
+        let accountsSection = leftNavMenuList.state.createSection()
+        accountsSection.title = "Accounts and Orgs"
+        accountsSection.backgroundColor = .systemBackground
+
+        let microsoftAccountCell = accountsSection.createCell()
+        microsoftAccountCell.backgroundColor = .systemBackground
+        microsoftAccountCell.layoutType = .twoLines
+        microsoftAccountCell.title = "Contoso"
+        microsoftAccountCell.subtitle = "kat.larrson@contoso.com"
+        microsoftAccountCell.accessoryType = .checkmark
+        let orgAvatar = MSFAvatar(style: .group, size: .large)
+        orgAvatar.state.primaryText = "Kat Larrson"
+        microsoftAccountCell.leadingUIView = orgAvatar.view
+        microsoftAccountCell.leadingViewSize = .large
+
+        let msaAccountCell = accountsSection.createCell()
+        msaAccountCell.backgroundColor = .systemBackground
+        msaAccountCell.layoutType = .twoLines
+        msaAccountCell.title = "Personal"
+        msaAccountCell.subtitle = "kat.larrson@live.com"
+        let msaAvatar = MSFAvatar(style: .group, size: .large)
+        msaAvatar.state.primaryText = "kat.larrson@live.com"
+        msaAccountCell.leadingUIView = msaAvatar.view
+        msaAccountCell.leadingViewSize = .large
+
+        let addAccountCell = accountsSection.createCell()
+        addAccountCell.backgroundColor = .systemBackground
+        addAccountCell.title = "Add Account"
+        let addAccountImageView = UIImageView(image: UIImage(named: "ic_fluent_add_24_regular"))
+        addAccountImageView.tintColor = FluentUIThemeManager.S.Colors.Foreground.neutral4
+        addAccountCell.leadingUIView = addAccountImageView
+        addAccountCell.onTapAction = defaultMenuAction
+
         let accountView = leftNavAccountView
         let menuListView = leftNavMenuList.view
         menuListView.translatesAutoresizingMaskIntoConstraints = false
-        leftNavMenuList.state.sections = leftNavMenuSections
 
         contentView.addSubview(accountView)
         contentView.addSubview(menuListView)
