@@ -23,7 +23,6 @@ class MSFPersonaViewTokens: MSFCellBaseTokens {
         let personaViewAP = currentTheme.MSFPersonaViewTokens
         let listCellAP = currentTheme.MSFListCellTokens
 
-        borderColor = listCellAP.borderColor
         disclosureIconForegroundColor = listCellAP.disclosureIconForegroundColor
         labelColor = listCellAP.labelColor
         leadingViewColor = listCellAP.leadingViewColor
@@ -42,9 +41,11 @@ class MSFPersonaViewTokens: MSFCellBaseTokens {
         iconInterspace = personaViewAP.iconInterspace
         labelAccessoryInterspace = personaViewAP.labelAccessoryInterspace
         labelAccessorySize = personaViewAP.labelAccessorySize
-        leadingViewSize = listCellAP.leadingViewSize.xlarge
+        leadingViewSize = listCellAP.leadingViewSize.large
+        leadingViewAreaSize = listCellAP.leadingViewAreaSize
         sublabelAccessorySize = listCellAP.sublabelAccessorySize
         trailingItemSize = listCellAP.trailingItemSize
+        verticalCellPadding = listCellAP.verticalCellPadding
 
         footnoteFont = personaViewAP.footnoteFont
         sublabelFont = listCellAP.sublabelFont

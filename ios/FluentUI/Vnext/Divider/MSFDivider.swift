@@ -48,9 +48,6 @@ import SwiftUI
                                                                             })))
         hostingController.disableSafeAreaInsets()
         view.backgroundColor = UIColor.clear
-        let sizeAnchor = orientation == .horizontal ? view.heightAnchor : view.widthAnchor
-        let size = UIScreen.main.devicePixel + 2 * divider.tokens.padding
-        NSLayoutConstraint.activate([sizeAnchor.constraint(equalToConstant: size)])
     }
 
     var window: UIWindow? {

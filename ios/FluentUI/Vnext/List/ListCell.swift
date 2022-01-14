@@ -188,15 +188,18 @@ struct MSFListCellView: View {
                 }
             }, label: {
                 HStack(spacing: 0) {
-                    let hasTitle = !state.title.isEmpty
-                    let labelAccessoryInterspace = tokens.labelAccessoryInterspace
-                    let labelAccessorySize = tokens.labelAccessorySize
-                    let sublabelAccessorySize = tokens.sublabelAccessorySize
+                    let hasTitle: Bool = !state.title.isEmpty
+                    let labelAccessoryInterspace: CGFloat = tokens.labelAccessoryInterspace
+                    let labelAccessorySize: CGFloat = tokens.labelAccessorySize
+                    let sublabelAccessorySize: CGFloat = tokens.sublabelAccessorySize
 
                     if let leadingView = state.leadingView {
-                        leadingView
-                            .frame(width: tokens.leadingViewSize, height: tokens.leadingViewSize)
-                            .padding(.trailing, tokens.iconInterspace)
+                        HStack(alignment: .center, spacing: 0) {
+                            leadingView
+                                .frame(width: tokens.leadingViewSize, height: tokens.leadingViewSize)
+                        }
+                        .frame(width: tokens.leadingViewAreaSize)
+                        .padding(.trailing, tokens.horizontalCellPadding)
                     }
 
                     VStack(alignment: .leading, spacing: 0) {
@@ -284,8 +287,7 @@ struct MSFListCellView: View {
             if state.hasDivider {
                 let padding = tokens.horizontalCellPadding +
                     (state.leadingView != nil ? (tokens.leadingViewSize + tokens.iconInterspace) : 0)
-                Divider()
-                    .overlay(Color(tokens.borderColor))
+                FluentDivider()
                     .padding(.leading, padding)
             }
 
@@ -310,6 +312,8 @@ struct ListCellButtonStyle: ButtonStyle {
 
     func makeBody(configuration: Self.Configuration) -> some View {
         let height: CGFloat
+        let horizontalCellPadding: CGFloat = tokens.horizontalCellPadding
+        let verticalCellPadding: CGFloat = tokens.verticalCellPadding
         switch state.layoutType {
         case .automatic:
             height = !state.footnote.isEmpty ? tokens.cellHeightThreeLines :
@@ -323,10 +327,10 @@ struct ListCellButtonStyle: ButtonStyle {
         }
         return configuration.label
             .contentShape(Rectangle())
-            .padding(EdgeInsets(top: tokens.horizontalCellPadding / 2,
-                                leading: tokens.horizontalCellPadding,
-                                bottom: tokens.horizontalCellPadding / 2,
-                                trailing: tokens.horizontalCellPadding))
+            .padding(EdgeInsets(top: verticalCellPadding,
+                                leading: horizontalCellPadding,
+                                bottom: verticalCellPadding,
+                                trailing: horizontalCellPadding))
             .frame(minHeight: height)
             .background(backgroundColor(configuration.isPressed))
     }

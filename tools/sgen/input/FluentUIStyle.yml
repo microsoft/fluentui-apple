@@ -237,7 +237,7 @@ MSFAvatarGroupStackTokens extends MSFAvatarGroupTokens:
   interspace: [ xSmall: -2pt, small: -2pt, medium: -4pt, large: -8pt, xlarge: -12pt, xxlarge: -12pt ]
 
 AP_MSFDividerTokens:
-  color: $Colors.Stroke.neutral1
+  color: $Colors.Stroke.neutral2
   spacing: [ none: $Spacing.none, medium: $Spacing.medium]
 
 AP_MSFDrawerTokens:
@@ -269,25 +269,26 @@ AP_MSFHeaderFooterTokens:
 
 AP_MSFListCellTokens:
   backgroundColor: [ rest: $Colors.Background.neutral1, pressed: $Colors.Background.neutral5 ]
-  borderColor: $Colors.Stroke.neutral1
   cellHeight: [ oneLine: 48pt, twoLines: 64pt, threeLines: 84pt ]
   disclosureIconForegroundColor: $Colors.Foreground.neutral4
   disclosureInterspace: $Spacing.xxSmall
   disclosureSize: $Icon.size.small
   footnoteFont: $Typography.caption1
-  horizontalCellPadding: $Spacing.medium
+  horizontalCellPadding: $Spacing.small
   iconInterspace: $Spacing.medium
   labelAccessoryInterspace: $Spacing.xSmall
   labelAccessorySize: $Icon.size.xxSmall
   labelColor: $Colors.Foreground.neutral1
   labelFont: $Typography.body
   leadingViewColor: $Colors.Foreground.neutral4
-  leadingViewSize: [ small: $Icon.size.xSmall, medium: $Icon.size.medium, large: $Icon.size.xxLarge, xlarge: 52pt ]
+  leadingViewAreaSize: $Spacing.xxxLarge
+  leadingViewSize: [ small: $Icon.size.xSmall, medium: $Icon.size.medium, large: $Icon.size.xxLarge ]
   sublabelAccessorySize: $Icon.size.xxSmall
   sublabelColor: $Colors.Foreground.neutral3
   sublabelFont: $Typography.subheadline
   trailingItemForegroundColor: $Colors.Foreground.neutral3
   trailingItemSize: $Icon.size.medium
+  verticalCellPadding: $Spacing.xSmall
 
 AP_MSFListTokens:
   borderColor: $Colors.Stroke.neutral1

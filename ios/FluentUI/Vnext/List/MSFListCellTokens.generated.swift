@@ -37,11 +37,6 @@ extension FluentUIStyle {
 		}
 
 
-		// MARK: - borderColor 
-		open var borderColor: UIColor {
-			return mainProxy().Colors.Stroke.neutral1
-		}
-
 		// MARK: - cellHeight
 		open var cellHeight: cellHeightAppearanceProxy {
 			return cellHeightAppearanceProxy(proxy: mainProxy)
@@ -91,7 +86,7 @@ extension FluentUIStyle {
 
 		// MARK: - horizontalCellPadding 
 		open var horizontalCellPadding: CGFloat {
-			return mainProxy().Spacing.medium
+			return mainProxy().Spacing.small
 		}
 
 		// MARK: - iconInterspace 
@@ -117,6 +112,11 @@ extension FluentUIStyle {
 		// MARK: - labelFont 
 		open var labelFont: UIFont {
 			return mainProxy().Typography.body
+		}
+
+		// MARK: - leadingViewAreaSize 
+		open var leadingViewAreaSize: CGFloat {
+			return mainProxy().Spacing.xxxLarge
 		}
 
 		// MARK: - leadingViewColor 
@@ -148,11 +148,6 @@ extension FluentUIStyle {
 			open var small: CGFloat {
 				return mainProxy().Icon.size.xSmall
 			}
-
-			// MARK: - xlarge 
-			open var xlarge: CGFloat {
-				return CGFloat(52.0)
-			}
 		}
 
 
@@ -179,6 +174,11 @@ extension FluentUIStyle {
 		// MARK: - trailingItemSize 
 		open var trailingItemSize: CGFloat {
 			return mainProxy().Icon.size.medium
+		}
+
+		// MARK: - verticalCellPadding 
+		open var verticalCellPadding: CGFloat {
+			return mainProxy().Spacing.xSmall
 		}
 	}
 
