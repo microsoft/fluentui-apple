@@ -39,10 +39,18 @@ import SwiftUI
     private var listView: MSFListView!
 }
 
+/// Properties that can be used to customize the appearance of the List Section.
 @objc public protocol MSFListSectionState {
+    /// Sets the Section title.
     var title: String? { get set }
+
+    /// Sets a custom background color for the List Section.
     var backgroundColor: UIColor? { get set }
+
+    /// Configures divider presence within the Section.
     var hasDividers: Bool { get set }
+
+    /// Configures the Section's `HeaderFooter` style.
     var style: MSFHeaderFooterStyle { get set }
 
     /// Creates a new Cell within the Section.
@@ -85,7 +93,6 @@ public struct MSFListView: View {
     public init() {
         self.state = MSFListStateImpl()
         self.tokens = MSFListTokens()
-//        self.state.sections = sections
     }
 
     public var body: some View {
@@ -102,6 +109,7 @@ public struct MSFListView: View {
                             MSFListCellView(state: cellState)
                                 .frame(maxWidth: .infinity)
                         }
+
                         if section.hasDividers {
                             FluentDivider()
                         }
@@ -130,6 +138,7 @@ public struct MSFListView: View {
         return lastCell
     }
 
+    /// Updates the status of dividers presence within the entire List.
     private func updateCellDividers() -> [MSFListSectionStateImpl] {
         state.sections.forEach { section in
             section.cells.forEach { cell in
