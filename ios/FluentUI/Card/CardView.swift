@@ -226,7 +226,7 @@ open class CardView: UIView {
         case .vertical:
             primaryLabel.textAlignment = .center
             primaryLabel.style = .caption1
-		}
+        }
         addSubview(primaryLabel)
 
         // Subtitle
