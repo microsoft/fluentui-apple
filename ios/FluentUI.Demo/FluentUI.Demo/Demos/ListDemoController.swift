@@ -67,19 +67,18 @@ class ListDemoController: DemoController {
         let collapsibleSection = list.state.createSection()
         collapsibleSection.title = "AvatarSection"
         for index in 0...1 {
-            listCell = MSFListCellState()
+            listCell = collapsibleSection.createCell()
             avatar = createAvatarView(size: .medium,
                                       name: samplePersonas[index].name,
                                       image: samplePersonas[index].image,
                                       style: .default)
             listCell.title = avatar.state.primaryText ?? ""
             listCell.leadingUIView = avatar.view
-            collapsibleSection.cells.append(listCell)
-            collapsibleSection.hasDividers = true
+        collapsibleSection.hasDividers = true
         }
-        collapsibleSection.cells[0].children = children
-        collapsibleSection.cells[0].isExpanded = true
-        collapsibleSection.cells[1].onTapAction = {
+        collapsibleSection.getCellState(at: 0).children = children
+        collapsibleSection.getCellState(at: 0).isExpanded = true
+        collapsibleSection.getCellState(at: 1).onTapAction = {
             self.showAlertForAvatarTapped(name: samplePersonas[1].name)
         }
 
@@ -96,7 +95,7 @@ class ListDemoController: DemoController {
                 indexPath.row = rowIndex
                 showsLabelAccessoryView = TableViewCellSampleData.hasLabelAccessoryViews(at: indexPath)
                 cell = section.item
-                listCell = MSFListCellState()
+                listCell = sectionState.createCell()
                 listCell.title = cell.text1
                 listCell.subtitle = cell.text2
                 listCell.footnote = cell.text3
@@ -117,7 +116,6 @@ class ListDemoController: DemoController {
                     indexPath.section = sectionIndex
                     self.showAlertForCellTapped(indexPath: indexPath)
                 }
-                sectionState.cells.append(listCell)
             }
         }
 

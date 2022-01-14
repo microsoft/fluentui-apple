@@ -40,11 +40,24 @@ import SwiftUI
 }
 
 @objc public protocol MSFListSectionState {
-    var cells: [MSFListCellState] { get set }
     var title: String? { get set }
     var backgroundColor: UIColor? { get set }
     var hasDividers: Bool { get set }
     var style: MSFHeaderFooterStyle { get set }
+
+    /// Creates a new Cell within the Section.
+    func createCell() -> MSFListCellState
+
+    /// Creates a new Cell within the Section at a specific index.
+    func createCell(at index: Int) -> MSFListCellState
+
+    /// Retrieves the state object for a specific Cell so its appearance can be customized.
+    /// - Parameter index: The zero-based index of the Cell in the Section.
+    func getCellState(at index: Int) -> MSFListCellState
+
+    /// Remove an Cell from the Section.
+    /// - Parameter index: The zero-based index of the Cell that will be removed from the Section.
+    func removeCell(at index: Int)
 }
 
 @objc public protocol MSFListState {
@@ -132,21 +145,55 @@ public struct MSFListView: View {
 
 /// Properties that make up section content
 class MSFListSectionStateImpl: NSObject, ObservableObject, Identifiable, MSFListSectionState {
+    func createCell() -> MSFListCellState {
+        return createCell(at: cells.endIndex)
+    }
+
+    func createCell(at index: Int) -> MSFListCellState {
+        guard index <= cells.count && index >= 0 else {
+            preconditionFailure("Index is out of bounds")
+        }
+        let cell = MSFListCellState()
+        cells.insert(cell, at: index)
+        return cell
+    }
+
+    func getCellState(at index: Int) -> MSFListCellState {
+        guard cells.indices.contains(index) else {
+            preconditionFailure("Index is out of bounds")
+        }
+        return cells[index]
+    }
+
+    func removeCell(at index: Int) {
+        guard cells.indices.contains(index) else {
+            preconditionFailure("Index is out of bounds")
+        }
+        cells.remove(at: index)
+    }
+
     var id = UUID()
     @Published var cells: [MSFListCellState] = []
     @Published var title: String?
     @Published var backgroundColor: UIColor?
     @Published var hasDividers: Bool = false
-    @Published var style: MSFHeaderFooterStyle = .headerPrimary {
-        didSet {
-            if style != oldValue {
-                headerTokens.style = style
-                headerTokens.updateForCurrentTheme()
-            }
+
+    var style: MSFHeaderFooterStyle {
+        get {
+            return headerTokens.style
+        }
+        set {
+            headerTokens.style = newValue
+            headerTokens.updateForCurrentTheme()
         }
     }
 
-    var headerTokens = MSFHeaderFooterTokens(style: .headerPrimary)
+    var headerTokens: MSFHeaderFooterTokens
+
+    init(style: MSFHeaderFooterStyle = .headerPrimary) {
+        self.headerTokens = MSFHeaderFooterTokens(style: style)
+        super.init()
+    }
 }
 
 /// Properties that make up list content
