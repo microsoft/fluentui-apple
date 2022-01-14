@@ -33,9 +33,9 @@ public enum CardStyle: Int, CaseIterable {
     var width: CGFloat {
         switch self {
         case .horizontal:
-            return 156
+            return 175
         case .vertical:
-            return 120
+            return 97
         }
     }
 }
@@ -169,7 +169,6 @@ open class CardView: UIView {
     private let primaryLabel: Label = {
         let primaryLabel = Label()
         primaryLabel.translatesAutoresizingMaskIntoConstraints = false
-        primaryLabel.style = .subhead
         primaryLabel.colorStyle = .primary
         return primaryLabel
     }()
@@ -178,7 +177,6 @@ open class CardView: UIView {
     private let secondaryLabel: Label = {
         let secondaryLabel = Label()
         secondaryLabel.translatesAutoresizingMaskIntoConstraints = false
-        secondaryLabel.style = .footnote
         secondaryLabel.colorStyle = .secondary
         return secondaryLabel
     }()
@@ -221,13 +219,27 @@ open class CardView: UIView {
         // Title
         primaryLabel.text = title
         primaryLabel.numberOfLines = twoLineTitle ? Constants.twoLineTitle : Constants.defaultTitleNumberOfLines
-        primaryLabel.textAlignment = .natural
+        switch style {
+        case .horizontal:
+            primaryLabel.textAlignment = .natural
+            primaryLabel.style = .subhead
+        case .vertical:
+            primaryLabel.textAlignment = .center
+            primaryLabel.style = .caption1
+		}
         addSubview(primaryLabel)
 
         // Subtitle
         if let secondaryText = secondaryText {
             secondaryLabel.text = secondaryText
-            secondaryLabel.textAlignment = .natural
+            switch style {
+            case .horizontal:
+                secondaryLabel.textAlignment = .natural
+                secondaryLabel.style = .footnote
+            case .vertical:
+                secondaryLabel.textAlignment = .center
+                secondaryLabel.style = .caption2
+            }
             addSubview(secondaryLabel)
         }
 
@@ -325,12 +337,12 @@ open class CardView: UIView {
         static let paddingTrailing: CGFloat = 16.0
         static let paddingLeading: CGFloat = 12.0
         // Horizontal card layout constants
-        static let horizontalPadding: CGFloat = 6.0
+        static let horizontalPadding: CGFloat = 18.0
         static let horizontalContentSpacing: CGFloat = 12.0
         // Vertical card layout constants
-        static let verticalPaddingBottom: CGFloat = 8.0
-        static let verticalPaddingTop: CGFloat = 10.0
-        static let verticalContentSpacing: CGFloat = 2.0
+        static let verticalPaddingBottom: CGFloat = 12.0
+        static let verticalPaddingTop: CGFloat = 18.0
+        static let verticalContentSpacing: CGFloat = 8.0
     }
 
     private var layoutConstraints: [NSLayoutConstraint] = []
@@ -354,8 +366,10 @@ open class CardView: UIView {
 
             layoutConstraints.append(contentsOf: [
                 iconView.centerYAnchor.constraint(equalTo: centerYAnchor),
-                primaryLabel.leadingAnchor.constraint(equalTo: iconView.trailingAnchor, constant: Constants.horizontalContentSpacing)
-            ])
+                primaryLabel.leadingAnchor.constraint(equalTo: iconView.trailingAnchor, constant: Constants.horizontalContentSpacing),
+                iconView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.paddingLeading),
+                primaryLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.paddingTrailing)
+			])
 
             // Center the title vertically if there is no subtitle
             if secondaryText == nil && !twoLineTitle {
@@ -368,8 +382,10 @@ open class CardView: UIView {
 
             layoutConstraints.append(contentsOf: [
                 iconView.topAnchor.constraint(equalTo: topAnchor, constant: Constants.verticalPaddingTop),
+                iconView.centerXAnchor.constraint(equalTo: centerXAnchor),
                 primaryLabel.topAnchor.constraint(equalTo: iconView.bottomAnchor, constant: Constants.verticalContentSpacing),
-                primaryLabel.leadingAnchor.constraint(equalTo: iconView.leadingAnchor)
+                primaryLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.paddingLeading),
+                primaryLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.paddingLeading)
             ])
         }
 
@@ -378,10 +394,8 @@ open class CardView: UIView {
         layoutConstraints.append(contentsOf: [
             widthAnchor.constraint(equalToConstant: style.width),
             heightConstraint,
-            iconView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.paddingLeading),
             iconView.widthAnchor.constraint(equalToConstant: Constants.iconWidth),
-            iconView.heightAnchor.constraint(equalToConstant: Constants.iconHeight),
-            primaryLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.paddingTrailing)
+            iconView.heightAnchor.constraint(equalToConstant: Constants.iconHeight)
         ])
 
         if secondaryText != nil {
