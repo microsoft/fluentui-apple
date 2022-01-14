@@ -360,8 +360,8 @@ open class CardView: UIView {
         /// In all cases, the text height is: 2 * title's height
         var height: CGFloat = ceil(2 * primaryLabel.intrinsicContentSize.height)
 
-		switch style {
-		case .horizontal:
+        switch style {
+        case .horizontal:
             height += Constants.horizontalBaseHeight
 
             layoutConstraints.append(contentsOf: [
@@ -371,7 +371,7 @@ open class CardView: UIView {
                 primaryLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.paddingTrailing)
 			])
 
-			// Center the title vertically if there is no subtitle
+            // Center the title vertically if there is no subtitle
             if secondaryText == nil && !twoLineTitle {
                 layoutConstraints.append(primaryLabel.centerYAnchor.constraint(equalTo: centerYAnchor))
             } else {
@@ -407,7 +407,7 @@ open class CardView: UIView {
         }
 
         NSLayoutConstraint.activate(layoutConstraints)
-	}
+    }
 
     @objc private func handleCardTapped(_ recognizer: UITapGestureRecognizer) {
         delegate?.didTapCard?(self)
