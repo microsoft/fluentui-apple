@@ -219,27 +219,27 @@ open class CardView: UIView {
         // Title
         primaryLabel.text = title
         primaryLabel.numberOfLines = twoLineTitle ? Constants.twoLineTitle : Constants.defaultTitleNumberOfLines
-		switch style {
-		case .horizontal:
-			primaryLabel.textAlignment = .natural
-			primaryLabel.style = .subhead
-		case .vertical:
-			primaryLabel.textAlignment = .center
-			primaryLabel.style = .caption1
+        switch style {
+        case .horizontal:
+            primaryLabel.textAlignment = .natural
+            primaryLabel.style = .subhead
+        case .vertical:
+            primaryLabel.textAlignment = .center
+            primaryLabel.style = .caption1
 		}
         addSubview(primaryLabel)
 
         // Subtitle
         if let secondaryText = secondaryText {
             secondaryLabel.text = secondaryText
-			switch style {
-			case .horizontal:
-				secondaryLabel.textAlignment = .natural
-				secondaryLabel.style = .footnote
-			case .vertical:
-				secondaryLabel.textAlignment = .center
-				secondaryLabel.style = .caption2
-			}
+            switch style {
+            case .horizontal:
+                secondaryLabel.textAlignment = .natural
+                secondaryLabel.style = .footnote
+            case .vertical:
+                secondaryLabel.textAlignment = .center
+                secondaryLabel.style = .caption2
+            }
             addSubview(secondaryLabel)
         }
 
@@ -362,51 +362,51 @@ open class CardView: UIView {
 
 		switch style {
 		case .horizontal:
-			height += Constants.horizontalBaseHeight
+            height += Constants.horizontalBaseHeight
 
-			layoutConstraints.append(contentsOf: [
-				iconView.centerYAnchor.constraint(equalTo: centerYAnchor),
-				primaryLabel.leadingAnchor.constraint(equalTo: iconView.trailingAnchor, constant: Constants.horizontalContentSpacing),
-				iconView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.paddingLeading),
-				primaryLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.paddingTrailing)
+            layoutConstraints.append(contentsOf: [
+                iconView.centerYAnchor.constraint(equalTo: centerYAnchor),
+                primaryLabel.leadingAnchor.constraint(equalTo: iconView.trailingAnchor, constant: Constants.horizontalContentSpacing),
+                iconView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.paddingLeading),
+                primaryLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.paddingTrailing)
 			])
 
 			// Center the title vertically if there is no subtitle
-			if secondaryText == nil && !twoLineTitle {
-				layoutConstraints.append(primaryLabel.centerYAnchor.constraint(equalTo: centerYAnchor))
-			} else {
-				layoutConstraints.append(primaryLabel.topAnchor.constraint(equalTo: topAnchor, constant: Constants.horizontalPadding))
-			}
-		case .vertical:
-			height += Constants.verticalBaseHeight
+            if secondaryText == nil && !twoLineTitle {
+                layoutConstraints.append(primaryLabel.centerYAnchor.constraint(equalTo: centerYAnchor))
+            } else {
+                layoutConstraints.append(primaryLabel.topAnchor.constraint(equalTo: topAnchor, constant: Constants.horizontalPadding))
+            }
+        case .vertical:
+            height += Constants.verticalBaseHeight
 
-			layoutConstraints.append(contentsOf: [
-				iconView.topAnchor.constraint(equalTo: topAnchor, constant: Constants.verticalPaddingTop),
-				iconView.centerXAnchor.constraint(equalTo: centerXAnchor),
-				primaryLabel.topAnchor.constraint(equalTo: iconView.bottomAnchor, constant: Constants.verticalContentSpacing),
-				primaryLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.paddingLeading),
-				primaryLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.paddingLeading)
-			])
-		}
+            layoutConstraints.append(contentsOf: [
+                iconView.topAnchor.constraint(equalTo: topAnchor, constant: Constants.verticalPaddingTop),
+                iconView.centerXAnchor.constraint(equalTo: centerXAnchor),
+                primaryLabel.topAnchor.constraint(equalTo: iconView.bottomAnchor, constant: Constants.verticalContentSpacing),
+                primaryLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.paddingLeading),
+                primaryLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.paddingLeading)
+            ])
+        }
 
-		heightConstraint.constant = height
+        heightConstraint.constant = height
 
-		layoutConstraints.append(contentsOf: [
-			widthAnchor.constraint(equalToConstant: style.width),
-			heightConstraint,
-			iconView.widthAnchor.constraint(equalToConstant: Constants.iconWidth),
-			iconView.heightAnchor.constraint(equalToConstant: Constants.iconHeight)
-		])
+        layoutConstraints.append(contentsOf: [
+            widthAnchor.constraint(equalToConstant: style.width),
+            heightConstraint,
+            iconView.widthAnchor.constraint(equalToConstant: Constants.iconWidth),
+            iconView.heightAnchor.constraint(equalToConstant: Constants.iconHeight)
+        ])
 
-		if secondaryText != nil {
-			layoutConstraints.append(contentsOf: [
-				secondaryLabel.leadingAnchor.constraint(equalTo: primaryLabel.leadingAnchor),
-				secondaryLabel.topAnchor.constraint(equalTo: primaryLabel.bottomAnchor),
-				secondaryLabel.trailingAnchor.constraint(equalTo: primaryLabel.trailingAnchor)
-			])
-		}
+        if secondaryText != nil {
+            layoutConstraints.append(contentsOf: [
+                secondaryLabel.leadingAnchor.constraint(equalTo: primaryLabel.leadingAnchor),
+                secondaryLabel.topAnchor.constraint(equalTo: primaryLabel.bottomAnchor),
+                secondaryLabel.trailingAnchor.constraint(equalTo: primaryLabel.trailingAnchor)
+            ])
+        }
 
-		NSLayoutConstraint.activate(layoutConstraints)
+        NSLayoutConstraint.activate(layoutConstraints)
 	}
 
     @objc private func handleCardTapped(_ recognizer: UITapGestureRecognizer) {
