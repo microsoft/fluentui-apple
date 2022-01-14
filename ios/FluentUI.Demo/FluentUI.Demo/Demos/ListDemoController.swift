@@ -16,10 +16,8 @@ class ListDemoController: DemoController {
         var indexPath = IndexPath(row: 0, section: 0)
         var showsLabelAccessoryView: Bool
 
-        var list: MSFList
+        let list: MSFList = MSFList()
         var listCell: MSFListCellState
-        var listSection: MSFListSectionState
-        var listData: [MSFListSectionState] = []
 
         let samplePersonas: [PersonaData] = [
             PersonaData(name: "Kat Larrson", email: "kat.larrson@contoso.com", subtitle: "Designer", image: UIImage(named: "avatar_kat_larsson"), color: Colors.Palette.cyanBlue10.color),
@@ -66,9 +64,8 @@ class ListDemoController: DemoController {
         }
 
         /// Custom Leading View with collapsible children items
-        listSection = MSFListSectionState()
-        listSection.title = "Avatar Section"
-        listSection.cells = []
+        let collapsibleSection = list.state.createSection()
+        collapsibleSection.title = "AvatarSection"
         for index in 0...1 {
             listCell = MSFListCellState()
             avatar = createAvatarView(size: .medium,
@@ -77,25 +74,24 @@ class ListDemoController: DemoController {
                                       style: .default)
             listCell.title = avatar.state.primaryText ?? ""
             listCell.leadingUIView = avatar.view
-            listSection.cells.append(listCell)
-            listSection.hasDividers = true
+            collapsibleSection.cells.append(listCell)
+            collapsibleSection.hasDividers = true
         }
-        listSection.cells[0].children = children
-        listSection.cells[0].isExpanded = true
-        listSection.cells[1].onTapAction = {
+        collapsibleSection.cells[0].children = children
+        collapsibleSection.cells[0].isExpanded = true
+        collapsibleSection.cells[1].onTapAction = {
             self.showAlertForAvatarTapped(name: samplePersonas[1].name)
         }
-        listData.append(listSection)
 
         /// TableViewCell Sample Data Sections
         for sectionIndex in 0...sections.count - 1 {
             indexPath.section = sectionIndex
             section = sections[sectionIndex]
 
-            listSection = MSFListSectionState()
-            listSection.title = section.title
-            listSection.cells = []
-            listSection.style = MSFHeaderFooterStyle.headerSecondary
+            let sectionState = list.state.createSection()
+            sectionState.title = section.title
+            sectionState.style = MSFHeaderFooterStyle.headerSecondary
+            sectionState.hasDividers = true
             for rowIndex in 0...TableViewCellSampleData.numberOfItemsInSection - 1 {
                 indexPath.row = rowIndex
                 showsLabelAccessoryView = TableViewCellSampleData.hasLabelAccessoryViews(at: indexPath)
@@ -121,13 +117,9 @@ class ListDemoController: DemoController {
                     indexPath.section = sectionIndex
                     self.showAlertForCellTapped(indexPath: indexPath)
                 }
-                listSection.cells.append(listCell)
-                listSection.hasDividers = true
+                sectionState.cells.append(listCell)
             }
-            listData.append(listSection)
         }
-
-        list = MSFList(sections: listData)
 
         let listView = list.view
         listView.translatesAutoresizingMaskIntoConstraints = false

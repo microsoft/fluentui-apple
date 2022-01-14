@@ -10,9 +10,9 @@ struct Header: View {
     @Environment(\.theme) var theme: FluentUIStyle
     @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
     @ObservedObject var tokens: MSFHeaderFooterTokens
-    @ObservedObject var state: MSFListSectionState
+    @ObservedObject var state: MSFListSectionStateImpl
 
-    init(state: MSFListSectionState) {
+    init(state: MSFListSectionStateImpl) {
         self.state = state
         self.tokens = state.headerTokens
     }
