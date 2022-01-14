@@ -369,7 +369,7 @@ open class CardView: UIView {
                 primaryLabel.leadingAnchor.constraint(equalTo: iconView.trailingAnchor, constant: Constants.horizontalContentSpacing),
                 iconView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.paddingLeading),
                 primaryLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.paddingTrailing)
-			])
+            ])
 
             // Center the title vertically if there is no subtitle
             if secondaryText == nil && !twoLineTitle {
