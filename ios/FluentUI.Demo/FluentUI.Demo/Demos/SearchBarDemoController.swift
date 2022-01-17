@@ -7,6 +7,23 @@ import FluentUI
 import UIKit
 
 class SearchBarDemoController: DemoController, SearchBarDelegate {
+    private lazy var searchBarWithBadgeView: SearchBar = {
+        let searchBar = buildSearchBar(
+            autocorrectionType: .yes,
+            placeholderText: "Type badge to add a badge"
+        )
+        return searchBar
+    }()
+
+    private var badgeView: BadgeView = {
+        let dataSource = BadgeViewDataSource(text: "Kat Larrson")
+        let badge = BadgeView(dataSource: dataSource)
+        badge.disabledBackgroundColor = Colors.Palette.blueMagenta20.color
+        badge.disabledLabelTextColor = .white
+        badge.isActive = false
+        return badge
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -15,6 +32,7 @@ class SearchBarDemoController: DemoController, SearchBarDelegate {
 
         container.addArrangedSubview(searchBarNoAutocorrect)
         container.addArrangedSubview(searchBarAutocorrect)
+        container.addArrangedSubview(searchBarWithBadgeView)
     }
 
     func buildSearchBar(autocorrectionType: UITextAutocorrectionType, placeholderText: String) -> SearchBar {
@@ -33,7 +51,10 @@ class SearchBarDemoController: DemoController, SearchBarDelegate {
     }
 
     func searchBar(_ searchBar: SearchBar, didUpdateSearchText newSearchText: String?) {
-        searchBar.placeholderText = newSearchText ?? "search"
+        if searchBar == searchBarWithBadgeView && searchBar.searchText?.lowercased() == "badge" && searchBarWithBadgeView.badgeView == nil {
+            searchBarWithBadgeView.badgeView = badgeView
+            searchBar.searchText = ""
+        }
     }
 
     func searchBarDidFinishEditing(_ searchBar: SearchBar) {
@@ -45,5 +66,15 @@ class SearchBarDemoController: DemoController, SearchBarDelegate {
 
     func searchBarDidRequestSearch(_ searchBar: SearchBar) {
         searchBar.progressSpinner.state.isAnimating = true
+    }
+
+    func searchBar(_ searchBar: SearchBar, didUpdateBadgeView badgeView: BadgeView?) {
+        let badgeInfo = badgeView?.dataSource?.text ?? "nil"
+
+        let alert = UIAlertController(title: "Badge view updated: \(badgeInfo)", message: nil, preferredStyle: .alert)
+        present(alert, animated: true)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            alert.dismiss(animated: false)
+        }
     }
 }
