@@ -48,13 +48,13 @@ import UIKit
     // MARK: - Show/Hide Methods
 
     public func showNotification(in view: UIView, completion: ((MSFNotification) -> Void)? = nil) {
-        guard !isShown else {
+        guard self.view.window == nil else {
             return
         }
 
         let style = notification.tokens.style
         let presentationOffset: CGFloat! = notification.tokens.presentationOffset
-        if style.isToast, let currentToast = MSFNotification.currentToast {
+        if style.isToast, let currentToast = MSFNotification.currentToast, currentToast.view.window != nil {
             currentToast.hide {
                 self.showNotification(in: view, completion: completion)
             }
@@ -89,7 +89,6 @@ import UIKit
         }
         NSLayoutConstraint.activate(constraints)
 
-        isShown = true
         if style.isToast {
             MSFNotification.currentToast = self
         }
@@ -122,7 +121,7 @@ import UIKit
             }
         }
 
-        guard isShown && updatedDelay != .infinity else {
+        guard self.view.window != nil && updatedDelay != .infinity else {
             return
         }
 
@@ -139,7 +138,6 @@ import UIKit
         }
         let completionForHide = {
             hostingControllerView?.removeFromSuperview()
-            self.isShown = false
             if MSFNotification.currentToast == self {
                 MSFNotification.currentToast = nil
             }
@@ -180,5 +178,4 @@ import UIKit
     private var hostingController: FluentUIHostingController!
     private var notification: NotificationViewSwiftUI!
     private var isHiding: Bool = false
-    private var isShown: Bool = false
 }
