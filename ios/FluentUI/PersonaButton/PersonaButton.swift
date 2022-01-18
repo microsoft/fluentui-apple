@@ -13,7 +13,7 @@ import SwiftUI
     /// Handles tap events for the persona button.
     var onTapAction: (() -> Void)? { get set }
 
-    /// Indicates whether the image should interact with pointer hover (iPadOS 13.4+ only).
+    /// Indicates whether the image should interact with pointer hover.
     var hasPointerInteraction: Bool { get set }
 
     /// Indicates whether there is a gap between the ring and the image.

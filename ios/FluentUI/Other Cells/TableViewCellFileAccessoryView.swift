@@ -505,13 +505,7 @@ private class FileAccessoryViewActionView: UIButton {
         showsLargeContentViewer = true
         scalesLargeContentImage = true
         largeContentTitle = action.title
-
-        if #available(iOS 13.4, *) {
-            // Workaround check for beta iOS versions missing the Pointer Interactions API
-            if arePointerInteractionAPIsAvailable() {
-                isPointerInteractionEnabled = true
-            }
-        }
+        isPointerInteractionEnabled = true
     }
 
     @available(*, unavailable)

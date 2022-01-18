@@ -46,19 +46,12 @@ class CommandBarButton: UIButton {
         accessibilityHint = item.accessibilityHint
         contentEdgeInsets = CommandBarButton.contentEdgeInsets
 
-        if #available(iOS 14.0, *) {
-            menu = item.menu
-            showsMenuAsPrimaryAction = item.showsMenuAsPrimaryAction
-        }
+        menu = item.menu
+        showsMenuAsPrimaryAction = item.showsMenuAsPrimaryAction
 
         updateState()
 
-        if #available(iOS 13.4, *) {
-            // Workaround check for beta iOS versions missing the Pointer Interactions API
-            if arePointerInteractionAPIsAvailable() {
-                isPointerInteractionEnabled = true
-            }
-        }
+        isPointerInteractionEnabled = true
     }
 
     @available(*, unavailable)

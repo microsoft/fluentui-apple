@@ -8,6 +8,7 @@ import UIKit
 @objc public extension UIBarButtonItem {
     private struct AssociatedKeys {
         static var badgeValue: String = "badgeValue"
+        static var badgeAccessibilityLabel: String = "badgeAccessibilityLabel"
     }
 
     static let badgeValueDidChangeNotification = NSNotification.Name(rawValue: "UIBarButtonItemBadgeValueDidChangeNotification")
@@ -24,13 +25,21 @@ import UIKit
         }
     }
 
-    /// Convenience method to set the badge value to a number.
-    /// If the number is zero, the badge value will be hidden.
-    @objc func setBadgeNumber(_ number: UInt) {
-        if number > 0 {
-            badgeValue = NumberFormatter.localizedString(from: NSNumber(value: number), number: .none)
-        } else {
-            badgeValue = nil
+    @objc internal var badgeAccessibilityLabel: String? {
+        get {
+            return objc_getAssociatedObject(self, &AssociatedKeys.badgeAccessibilityLabel) as? String ?? nil
         }
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.badgeAccessibilityLabel, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+
+    /// Use this method on bar button item's instance to set the badge value and badge accessibility label.
+    /// - Parameters:
+    ///   - badgeValue: Value that will be displayed in a red oval above the bar button item. Set the badgeValue to nil to hide the red oval.
+    ///   - badgeAccessibilityLabel: Accessibility label for the badge. Combined with the item's accessibility label if not nil.
+    @objc func setBadgeValue(_ badgeValue: String?, badgeAccessibilityLabel: String?) {
+        self.badgeAccessibilityLabel = badgeAccessibilityLabel
+        self.badgeValue = badgeValue
     }
 }

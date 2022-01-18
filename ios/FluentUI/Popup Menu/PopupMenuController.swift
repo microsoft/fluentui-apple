@@ -128,7 +128,7 @@ open class PopupMenuController: DrawerController {
     /// set `separatorColor` to customize separator colors of  PopupMenuItem cells and the drawer
     @objc open var separatorColor: UIColor = Colors.Separator.default {
         didSet {
-            separator?.backgroundColor = separatorColor
+            divider.state.color = separatorColor
         }
     }
 
@@ -151,7 +151,7 @@ open class PopupMenuController: DrawerController {
         return view
     }()
 
-    private var separator: Separator?
+    private lazy var divider: MSFDivider = .init()
     private lazy var descriptionView: UIView = {
         let view = UIView()
         view.isAccessibilityElement = true
@@ -169,17 +169,15 @@ open class PopupMenuController: DrawerController {
             )
         )
 
-        separator = Separator()
-        if let separator = separator {
-            separator.backgroundColor = separatorColor
-            view.addSubview(separator)
-            separator.translatesAutoresizingMaskIntoConstraints = false
-            NSLayoutConstraint.activate([
-                separator.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                separator.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                separator.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-            ])
-        }
+        divider.state.color = separatorColor
+        view.addSubview(divider.view)
+        divider.view.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            divider.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            divider.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            divider.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+
         return view
     }()
     private let descriptionLabel: Label = {
@@ -254,10 +252,6 @@ open class PopupMenuController: DrawerController {
     private func initTableView() {
         tableView.backgroundColor = backgroundColor
         tableView.separatorStyle = .none
-        // Helps reduce the delay between touch and action due to a bug in iOS 11
-        if #available(iOS 12.0, *) { } else {
-            tableView.delaysContentTouches = false
-        }
         tableView.alwaysBounceVertical = false
         tableView.isAccessibilityElement = true
 

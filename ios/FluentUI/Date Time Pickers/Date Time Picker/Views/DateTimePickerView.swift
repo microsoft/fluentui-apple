@@ -48,8 +48,8 @@ class DateTimePickerView: UIControl {
     private let componentTypes: [DateTimePickerViewComponentType]!
     private let componentsByType: [DateTimePickerViewComponentType: DateTimePickerViewComponent]!
 
-    private let selectionTopSeparator = Separator()
-    private let selectionBottomSeparator = Separator()
+    private let selectionTopDivider = MSFDivider()
+    private let selectionBottomDivider = MSFDivider()
 
     private let gradientLayer: CAGradientLayer = {
         let gradientLayer = CAGradientLayer()
@@ -75,8 +75,8 @@ class DateTimePickerView: UIControl {
         }
 
         layer.addSublayer(gradientLayer)
-        addSubview(selectionTopSeparator)
-        addSubview(selectionBottomSeparator)
+        addSubview(selectionTopDivider.view)
+        addSubview(selectionBottomDivider.view)
         addInteraction(UILargeContentViewerInteraction())
 
         backgroundColor = Colors.DateTimePicker.background
@@ -153,15 +153,26 @@ class DateTimePickerView: UIControl {
             x += viewWidth
         }
 
-        let lineOffset = round((frame.height - DateTimePickerViewComponentCell.idealHeight - 2 * selectionTopSeparator.frame.height) / 2)
+        let selectionTopDividerView = selectionTopDivider.view
+        let selectionTopDividerHeight = selectionTopDividerView.frame.height
+        let selectionBottomDividerView = selectionBottomDivider.view
+        let selectionBottomDividerHeight = selectionTopDividerView.frame.height
+        let frameWidth = frame.width
+        let frameHeight = frame.height
+        let lineOffset = round((frameHeight - DateTimePickerViewComponentCell.idealHeight - 2 * selectionTopDividerHeight) / 2)
 
-        selectionTopSeparator.frame = CGRect(x: 0, y: lineOffset, width: frame.width, height: selectionTopSeparator.frame.height)
-
-        selectionBottomSeparator.frame = CGRect(
+        selectionTopDividerView.frame = CGRect(
             x: 0,
-            y: frame.height - lineOffset - selectionBottomSeparator.frame.height,
-            width: frame.width,
-            height: selectionBottomSeparator.frame.height
+            y: lineOffset,
+            width: frameWidth,
+            height: selectionTopDividerHeight
+        )
+
+        selectionBottomDividerView.frame = CGRect(
+            x: 0,
+            y: frameHeight - lineOffset - selectionBottomDividerHeight,
+            width: frameWidth,
+            height: selectionBottomDividerHeight
         )
 
         let gradientOffset = lineOffset - DateTimePickerViewComponentCell.idealHeight

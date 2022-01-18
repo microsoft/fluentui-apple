@@ -117,8 +117,8 @@ open class SideTabBar: UIView {
         backgroundView.translatesAutoresizingMaskIntoConstraints = false
         contain(view: backgroundView)
 
-        borderLine.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(borderLine)
+        borderLine.view.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(borderLine.view)
 
         addSubview(topStackView)
         addSubview(bottomStackView)
@@ -129,9 +129,9 @@ open class SideTabBar: UIView {
         shouldGroupAccessibilityChildren = true
 
         NSLayoutConstraint.activate([widthAnchor.constraint(equalToConstant: Constants.viewWidth),
-                                     borderLine.leadingAnchor.constraint(equalTo: trailingAnchor),
-                                     borderLine.bottomAnchor.constraint(equalTo: bottomAnchor),
-                                     borderLine.topAnchor.constraint(equalTo: topAnchor)])
+                                     borderLine.view.leadingAnchor.constraint(equalTo: trailingAnchor),
+                                     borderLine.view.bottomAnchor.constraint(equalTo: bottomAnchor),
+                                     borderLine.view.topAnchor.constraint(equalTo: topAnchor)])
     }
 
     @available(*, unavailable)
@@ -162,7 +162,7 @@ open class SideTabBar: UIView {
     }
 
     private var layoutConstraints: [NSLayoutConstraint] = []
-    private let borderLine = Separator(style: .shadow, orientation: .vertical)
+    private let borderLine = MSFDivider(orientation: .vertical)
 
     private let backgroundView: UIVisualEffectView = {
         var style = UIBlurEffect.Style.regular
@@ -265,29 +265,27 @@ open class SideTabBar: UIView {
 
     private func updateAccessibilityIndex() {
         // iOS 14.0 - 14.5 `.tabBar` accessibilityTrait does not read out the index automatically
-        if #available(iOS 14.0, *) {
-            if #available(iOS 14.6, *) {} else {
-                var totalCount: Int = 0
-                for section in Section.allCases {
-                    let currentStackView = stackView(in: section)
-                    totalCount += currentStackView.arrangedSubviews.count
-                }
+        if #available(iOS 14.6, *) {} else {
+            var totalCount: Int = 0
+            for section in Section.allCases {
+                let currentStackView = stackView(in: section)
+                totalCount += currentStackView.arrangedSubviews.count
+            }
 
-                var previousSectionCount: Int = 0
-                if let avatar = avatar, !avatar.view.isHidden {
-                    totalCount += 1
-                    previousSectionCount += 1
-                }
+            var previousSectionCount: Int = 0
+            if let avatar = avatar, !avatar.view.isHidden {
+                totalCount += 1
+                previousSectionCount += 1
+            }
 
-                for section in Section.allCases {
-                    let currentStackView = stackView(in: section)
+            for section in Section.allCases {
+                let currentStackView = stackView(in: section)
 
-                    for (index, itemView) in currentStackView.arrangedSubviews.enumerated() {
-                        let accessibilityIndex = index + 1 + previousSectionCount
-                        itemView.accessibilityHint = String.localizedStringWithFormat( "Accessibility.TabBarItemView.Hint".localized, accessibilityIndex, totalCount)
-                    }
-                    previousSectionCount += currentStackView.arrangedSubviews.count
+                for (index, itemView) in currentStackView.arrangedSubviews.enumerated() {
+                    let accessibilityIndex = index + 1 + previousSectionCount
+                    itemView.accessibilityHint = String.localizedStringWithFormat( "Accessibility.TabBarItemView.Hint".localized, accessibilityIndex, totalCount)
                 }
+                previousSectionCount += currentStackView.arrangedSubviews.count
             }
         }
     }
