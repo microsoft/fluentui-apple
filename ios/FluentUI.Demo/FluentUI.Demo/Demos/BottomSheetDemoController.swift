@@ -23,7 +23,7 @@ class BottomSheetDemoController: UIViewController {
 
         let bottomSheetViewController = BottomSheetController(headerContentView: headerView, expandedContentView: personaListView)
         bottomSheetViewController.hostedScrollView = personaListView
-        bottomSheetViewController.collapsedContentHeight = BottomSheetDemoController.headerHeight
+        bottomSheetViewController.headerContentHeight = BottomSheetDemoController.headerHeight
         bottomSheetViewController.delegate = self
 
         self.bottomSheetViewController = bottomSheetViewController
@@ -92,7 +92,6 @@ class BottomSheetDemoController: UIViewController {
     private let headerView: UIView = {
         let view = UIView()
         view.backgroundColor = Colors.surfaceQuaternary
-        view.heightAnchor.constraint(equalToConstant: headerHeight).isActive = true
 
         let label = Label()
         label.text = "Header view"

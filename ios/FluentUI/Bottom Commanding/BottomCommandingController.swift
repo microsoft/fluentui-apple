@@ -364,6 +364,7 @@ open class BottomCommandingController: UIViewController {
         headerView.addSubview(heroCommandStack)
 
         let sheetController = BottomSheetController(headerContentView: headerView, expandedContentView: makeSheetExpandedContent(with: tableView))
+        sheetController.headerContentHeight = Constants.BottomSheet.headerHeight
         sheetController.hostedScrollView = tableView
         sheetController.isHidden = isHidden
         sheetController.shouldAlwaysFillWidth = sheetShouldAlwaysFillWidth
@@ -384,7 +385,6 @@ open class BottomCommandingController: UIViewController {
             sheetController.view.topAnchor.constraint(equalTo: view.topAnchor),
             heroCommandStack.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: Constants.BottomSheet.headerLeadingTrailingMargin),
             heroCommandStack.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -Constants.BottomSheet.headerLeadingTrailingMargin),
-            headerView.heightAnchor.constraint(equalToConstant: Constants.BottomSheet.headerHeight),
             heroStackTopConstraint
         ])
 
