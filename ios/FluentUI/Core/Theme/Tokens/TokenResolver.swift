@@ -5,28 +5,30 @@
 
 import SwiftUI
 
-/// Determines which tokens to use, and ensures they refer to the correct `FluentTheme` instance.
-func resolvedTokens<T: TokenizedControlInternal>(for control: T, fluentTheme: FluentTheme) -> T.TokenType {
-    let tokens = control.state.overrideTokens ?? fluentTheme.tokens(for: control) ?? control.state.defaultTokens
-    tokens.fluentTheme = fluentTheme
-    return tokens
-}
-
-struct TokenResolver<T: TokenizedControlInternal>: ViewModifier {
+/// A `ViewModifier` that will update the tokens on a given `TokenizedControlInternal` instance based on the current `FluentTheme` and `overrideTokens`.
+struct TokenResolver<ControlType: TokenizedControlInternal>: ViewModifier {
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
-    let control: T
+    let control: ControlType
+
+    /// Helper func to determine which tokens to use, and ensures they refer to the correct `FluentTheme` instance.
+    static func tokens(for control: ControlType, fluentTheme: FluentTheme) -> ControlType.TokenType {
+        let tokens = control.state.overrideTokens ?? fluentTheme.tokens(for: control) ?? control.state.defaultTokens
+        tokens.fluentTheme = fluentTheme
+        return tokens
+    }
 
     func body(content: Content) -> some View {
         content
             .onChange(of: fluentTheme) { newValue in
-                control.state.tokens = resolvedTokens(for: control, fluentTheme: newValue)
+                control.state.tokens = Self.tokens(for: control, fluentTheme: newValue)
             }
             .onChange(of: control.state.overrideTokens) { _ in
-                control.state.tokens = resolvedTokens(for: control, fluentTheme: fluentTheme)
+                control.state.tokens = Self.tokens(for: control, fluentTheme: fluentTheme)
             }
     }
 }
 
+/// A `ViewModifier` that will update the tokens on a given `TokenizedControlInternal` instance by observing a specific value.
 struct TokenModifierResolver<ControlType: TokenizedControlInternal, Value: Equatable>: ViewModifier {
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     let control: ControlType
@@ -35,7 +37,7 @@ struct TokenModifierResolver<ControlType: TokenizedControlInternal, Value: Equat
     func body(content: Content) -> some View {
         content
             .onChange(of: value) { _ in
-                control.state.tokens = resolvedTokens(for: control, fluentTheme: fluentTheme)
+                control.state.tokens = TokenResolver.tokens(for: control, fluentTheme: fluentTheme)
             }
     }
 }
