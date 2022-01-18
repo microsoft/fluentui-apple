@@ -12,7 +12,6 @@
 @property (nonatomic) UIStackView *container;
 @property (nonatomic) UIScrollView *scrollingContainer;
 @property (nonatomic) MSFButton *testButton;
-@property (nonatomic) MSFList *testList;
 
 @end
 
@@ -65,13 +64,13 @@
 
     MSFButtonLegacy *resetButton = [self createButtonWithTitle:@"Reset Button" action:@selector(resetButton)];
     [self.container addArrangedSubview:resetButton];
-    
+
     UILabel *listVnextLabel = [[UILabel alloc] init];
     [listVnextLabel setText:@"List (vNext)"];
     [self.container addArrangedSubview:listVnextLabel];
-    
-    _testList = [[MSFList alloc] initWithTheme:nil];
-    id<MSFListSectionState> sectionState = [[_testList state] createSection];
+
+    MSFList *testList = [[MSFList alloc] initWithTheme:nil];
+    id<MSFListSectionState> sectionState = [[testList state] createSection];
     MSFListCellState *listCell1 = [sectionState createCell];
     MSFListCellState *listCell2 = [sectionState createCell];
     MSFListCellState *listCell3 = [sectionState createCell];
@@ -101,10 +100,10 @@
         [self showAlertForCellTapped:@"Sample Title3"];
     }];
 
-    UIView *listView = [_testList view];
+    UIView *listView = [testList view];
     listView.translatesAutoresizingMaskIntoConstraints = false;
 
-    [self.container addArrangedSubview:[_testList view]];
+    [self.container addArrangedSubview:[testList view]];
 
     [[[listView heightAnchor] constraintEqualToConstant:250] setActive:YES];
 }

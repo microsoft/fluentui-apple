@@ -83,7 +83,7 @@ class ListDemoController: DemoController {
         }
 
         /// TableViewCell Sample Data Sections
-        for sectionIndex in 0...sections.count - 1 {
+        for sectionIndex in 0..<sections.count {
             indexPath.section = sectionIndex
             section = sections[sectionIndex]
 
@@ -91,7 +91,7 @@ class ListDemoController: DemoController {
             sectionState.title = section.title
             sectionState.style = MSFHeaderFooterStyle.headerSecondary
             sectionState.hasDividers = true
-            for rowIndex in 0...TableViewCellSampleData.numberOfItemsInSection - 1 {
+            for rowIndex in 0..<TableViewCellSampleData.numberOfItemsInSection {
                 indexPath.row = rowIndex
                 showsLabelAccessoryView = TableViewCellSampleData.hasLabelAccessoryViews(at: indexPath)
                 cell = section.item

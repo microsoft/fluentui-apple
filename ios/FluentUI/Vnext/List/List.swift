@@ -54,9 +54,9 @@ import SwiftUI
     var style: MSFHeaderFooterStyle { get set }
 
     /// The number of Cells in the Section.
-    var count: Int { get }
+    var cellCount: Int { get }
 
-    /// Creates a new Cell within the Section.
+    /// Creates a new Cell and appends it to the array of cells in a Section.
     func createCell() -> MSFListCellState
 
     /// Creates a new Cell within the Section at a specific index.
@@ -74,9 +74,9 @@ import SwiftUI
 /// Properties that can be used to customize the appearance of the List.
 @objc public protocol MSFListState {
     /// The number of Sections in the List.
-    var count: Int { get }
+    var sectionCount: Int { get }
 
-    /// Creates a new Section within the List.
+    /// Creates a new Section and appends it to the array of sections in a List.
     func createSection() -> MSFListSectionState
 
     /// Creates a new Section within the List at a specific index.
@@ -92,11 +92,6 @@ import SwiftUI
 }
 
 public struct MSFListView: View {
-    @Environment(\.theme) var theme: FluentUIStyle
-    @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
-    @ObservedObject var tokens: MSFListTokens
-    @ObservedObject var state: MSFListStateImpl
-
     public init() {
         self.state = MSFListStateImpl()
         self.tokens = MSFListTokens()
@@ -130,6 +125,11 @@ public struct MSFListView: View {
                           from: theme,
                           with: windowProvider)
     }
+
+    @Environment(\.theme) var theme: FluentUIStyle
+    @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
+    @ObservedObject var tokens: MSFListTokens
+    @ObservedObject var state: MSFListStateImpl
 
     /// Finds the last cell directly adjacent to the end of a list section. This is used to remove the redundant separator that is
     /// inserted between each cell. Used as a fix until we are able to use the new List Separators in iOS 15.
@@ -189,12 +189,12 @@ class MSFListSectionStateImpl: NSObject, ObservableObject, Identifiable, MSFList
     }
 
     var id = UUID()
-    @Published var cells: [MSFListCellState] = []
+    @Published private(set) var cells: [MSFListCellState] = []
     @Published var title: String?
     @Published var backgroundColor: UIColor?
     @Published var hasDividers: Bool = false
 
-    var count: Int {
+    var cellCount: Int {
         return cells.count
     }
 
@@ -204,7 +204,6 @@ class MSFListSectionStateImpl: NSObject, ObservableObject, Identifiable, MSFList
         }
         set {
             headerTokens.style = newValue
-            headerTokens.updateForCurrentTheme()
         }
     }
 
@@ -245,9 +244,9 @@ class MSFListStateImpl: NSObject, ObservableObject, MSFListState {
         sections.remove(at: index)
     }
 
-    @Published var sections: [MSFListSectionStateImpl] = []
+    @Published private(set) var sections: [MSFListSectionStateImpl] = []
 
-    var count: Int {
+    var sectionCount: Int {
         return sections.count
     }
 

@@ -51,7 +51,7 @@ class LeftNavDemoController: DemoController {
     }
 
     private lazy var navigationButton: UIView = {
-        return createButton(title: "Show Left Navigation Menu", action: { [weak self ] _ in
+        return createButton(title: "Show Left Navigation Menu", action: { [weak self] _ in
             if let strongSelf = self {
                 strongSelf.showLeftNavButtonTapped()
             }
@@ -132,16 +132,17 @@ class LeftNavMenuViewController: UIViewController {
     private lazy var leftNavAccountView: UIView = {
         let chevron = UIImageView(image: UIImage(named: "ic_fluent_ios_chevron_right_20_filled"))
         chevron.tintColor = Colors.textPrimary
+        let personaState = persona.state
 
-        persona.state.presence = .available
-        persona.state.primaryText = "Kat Larrson"
-        persona.state.secondaryText = "Designer"
-        persona.state.image = UIImage(named: "avatar_kat_larsson")
-        persona.state.titleTrailingAccessoryUIView = chevron
-        persona.state.backgroundColor = .systemBackground
-        persona.state.onTapAction = {
-            self.dismiss(animated: true, completion: {
-                guard let menuAction = self.menuAction else {
+        personaState.presence = .available
+        personaState.primaryText = "Kat Larrson"
+        personaState.secondaryText = "Designer"
+        personaState.image = UIImage(named: "avatar_kat_larsson")
+        personaState.titleTrailingAccessoryUIView = chevron
+        personaState.backgroundColor = .systemBackground
+        personaState.onTapAction = {
+            self.dismiss(animated: true, completion: { [weak self] in
+                guard let menuAction = self?.menuAction else {
                     return
                 }
 
