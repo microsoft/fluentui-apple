@@ -17,26 +17,20 @@ public struct ButtonDynamicColors {
 /// Design token set for the `CommandBar` control.
 public class CommandBarTokens: ControlTokens {
     /// Creates an instance of `CommandBarTokens`.
-    convenience public override init() {
-        self.init(backgroundColor: nil,
-                groupBorderRadius: nil,
-                groupInterspace: nil,
-                itemBackgroundColor: nil,
-                itemFixedIconColor: nil,
-                itemIconColor: nil,
-                itemInterspace: nil)
+    public override init() {
+        super.init()
     }
 
     /// Creates an instance of `CommandBarTokens` with optional token value overrides.
-    public init(backgroundColor: DynamicColor? = nil,
-                groupBorderRadius: CGFloat? = nil,
-                groupInterspace: CGFloat? = nil,
-                itemBackgroundColor: ButtonDynamicColors? = nil,
-                itemFixedIconColor: DynamicColor? = nil,
-                itemIconColor: ButtonDynamicColors? = nil,
-                itemInterspace: CGFloat? = nil) {
+    convenience public init(backgroundColor: DynamicColor? = nil,
+                            groupBorderRadius: CGFloat? = nil,
+                            groupInterspace: CGFloat? = nil,
+                            itemBackgroundColor: ButtonDynamicColors? = nil,
+                            itemFixedIconColor: DynamicColor? = nil,
+                            itemIconColor: ButtonDynamicColors? = nil,
+                            itemInterspace: CGFloat? = nil) {
 
-        super.init()
+        self.init()
 
         if let backgroundColor = backgroundColor {
             self.backgroundColor = backgroundColor

@@ -66,7 +66,7 @@ public class CommandBar: UIView, TokenizedControlInternal, ControlConfiguration 
         }
     }
 
-    public func customTokens(_ tokens: CommandBarTokens) -> Self {
+    public func overrideTokens(_ tokens: CommandBarTokens?) -> Self {
         overrideTokens = tokens
         return self
     }
@@ -86,9 +86,10 @@ public class CommandBar: UIView, TokenizedControlInternal, ControlConfiguration 
 
     // MARK: - TokenizedControl
 
-    public var tokenKey: String { "\(type(of: self))"}
+    public typealias TokenType = CommandBarTokens
+
     var state: CommandBar { self }
-    var tokens: CommandBarTokens { fluentTheme.tokens(for: self) }
+    var tokens: CommandBarTokens = .init()
     var defaultTokens: CommandBarTokens { .init() }
     var overrideTokens: CommandBarTokens? {
         didSet {
@@ -271,7 +272,8 @@ public class CommandBar: UIView, TokenizedControlInternal, ControlConfiguration 
     }
 
     private func updateButtonTokens() {
-        let tokens = self.tokens
+        let tokens = TokenResolver.tokens(for: self, fluentTheme: fluentTheme)
+        self.tokens = tokens
         for button in itemsToButtonsMap.values {
             button.commandBarTokens = tokens
         }

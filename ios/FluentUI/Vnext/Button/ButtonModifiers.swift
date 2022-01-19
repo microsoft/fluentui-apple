@@ -15,4 +15,9 @@ public extension FluentButton {
         state.accessibilityLabel = accessibilityLabel
         return self
     }
+
+    func overrideTokens(_ tokens: ButtonTokens?) -> FluentButton {
+        state.overrideTokens = tokens
+        return self
+    }
 }

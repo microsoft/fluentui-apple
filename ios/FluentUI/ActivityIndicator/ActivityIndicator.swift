@@ -27,16 +27,12 @@ import UIKit
 
 /// View that represents the Activity Indicator.
 public struct ActivityIndicator: View, TokenizedControlInternal {
-    public let tokenKey: String
 
     /// Creates the ActivityIndicator.
     /// - Parameter size: The MSFActivityIndicatorSize value used by the Activity Indicator.
     public init(size: MSFActivityIndicatorSize) {
         let state = MSFActivityIndicatorStateImpl(size: size)
         self.state = state
-
-        // Creates separate lookup keys for all different sizes.
-        self.tokenKey = "\(type(of: self))_\(size.rawValue)"
     }
 
     public var body: some View {
@@ -62,6 +58,8 @@ public struct ActivityIndicator: View, TokenizedControlInternal {
         SemiRing(color: color,
                  thickness: tokens.thickness,
                  accessibilityLabel: accessibilityLabel)
+            .resolveTokens(self)
+            .resolveTokenModifier(self, value: state.size)
             .modifyIf(state.isAnimating, { animatedView in
                 animatedView
                     .rotationEffect(.degrees(rotationAngle), anchor: .center)
@@ -83,7 +81,7 @@ public struct ActivityIndicator: View, TokenizedControlInternal {
                    alignment: .center)
     }
 
-    var tokens: ActivityIndicatorTokens { fluentTheme.tokens(for: self) }
+    var tokens: ActivityIndicatorTokens { state.tokens }
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @ObservedObject var state: MSFActivityIndicatorStateImpl
     @State var rotationAngle: Double = 0.0
@@ -134,21 +132,18 @@ public struct ActivityIndicator: View, TokenizedControlInternal {
 
 /// Properties available to customize the state of the Activity Indicator
 class MSFActivityIndicatorStateImpl: NSObject, ObservableObject, ControlConfiguration, MSFActivityIndicatorState {
-    /// Design token set for this control, to use in place of the control's default Fluent tokens.
-    @Published public var overrideTokens: ActivityIndicatorTokens?
+    @Published var overrideTokens: ActivityIndicatorTokens?
+    @Published var tokens: ActivityIndicatorTokens
+    var defaultTokens: ActivityIndicatorTokens { .init(size: self.size) }
 
-    /// On-demand default token set.
-    var defaultTokens: ActivityIndicatorTokens
     @Published var color: UIColor?
     @Published var isAnimating: Bool = false
     @Published var hidesWhenStopped: Bool = true
-
-    // TODO: Setting this property needs to cause the tokens to update
-    var size: MSFActivityIndicatorSize
+    @Published var size: MSFActivityIndicatorSize
 
     init(size: MSFActivityIndicatorSize) {
         self.size = size
-        self.defaultTokens = ActivityIndicatorTokens(size: size)
+        self.tokens = ActivityIndicatorTokens(size: size)
 
         super.init()
     }

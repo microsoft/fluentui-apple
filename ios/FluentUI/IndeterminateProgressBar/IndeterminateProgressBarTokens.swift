@@ -6,31 +6,35 @@
 import SwiftUI
 import UIKit
 
-/// Representation of design tokens for the Indeterminate Progress Bar at runtime which interfaces with the Design Token System auto-generated code.
-/// Updating these properties causes the SwiftUI Indeterminate Progress Bar to update its view automatically.
-class MSFIndeterminateProgressBarTokens: MSFTokensBase, ObservableObject {
-    @Published public var backgroundColor: UIColor!
-    @Published public var gradientColor: UIColor!
-    @Published public var height: CGFloat!
+/// Representation of design tokens for the Indeterminate Progress Bar.
+public class IndeterminateProgressBarTokens: ControlTokens {
 
-    override init() {
+    /// Creates a new instance of the IndeterminateProgressBarTokens.
+    /// - Parameters:
+    ///   - backgroundColor: Optional override value of the background color.
+    ///   - gradientColor: Optional override value of the gradient color.
+    ///   - height: Optional override value of the height.
+    public init(backgroundColor: DynamicColor? = nil,
+                gradientColor: DynamicColor? = nil,
+                height: CGFloat? = nil) {
         super.init()
 
-        self.themeAware = true
+        if let backgroundColor = backgroundColor {
+            self.backgroundColor = backgroundColor
+        }
 
-        updateForCurrentTheme()
+        if let gradientColor = gradientColor {
+            self.gradientColor = gradientColor
+        }
+
+        if let height = height {
+            self.height = height
+        }
     }
 
-    override func updateForCurrentTheme() {
-        let currentTheme = theme
-        let appearanceProxy = currentTheme.MSFIndeterminateProgressBarTokens
+    lazy var backgroundColor: DynamicColor = aliasTokens.backgroundColors[.surfaceQuaternary]
 
-        backgroundColor = appearanceProxy.backgroundColor
-        gradientColor = appearanceProxy.gradientColor
-        height = appearanceProxy.height
-    }
+    lazy var gradientColor: DynamicColor = globalTokens.brandColors[.primary]
 
-    @objc open func didChangeAppearanceProxy() {
-        updateForCurrentTheme()
-    }
+    lazy var height: CGFloat = 2
 }

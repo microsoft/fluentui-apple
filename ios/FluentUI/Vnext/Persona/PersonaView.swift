@@ -208,10 +208,10 @@ public struct PersonaView: View {
 
     public init() {
         tokens = MSFPersonaViewTokens()
-        let avatar = Avatar(style: .default, size: .xlarge)
+        let avatar = Avatar(style: .default, size: .large)
         state = MSFPersonaViewStateImpl(avatarState: avatar.state)
         state.leadingView = AnyView(avatar)
-        state.leadingViewSize = .xlarge
+        state.leadingViewSize = .large
         state.layoutType = .threeLines
     }
 

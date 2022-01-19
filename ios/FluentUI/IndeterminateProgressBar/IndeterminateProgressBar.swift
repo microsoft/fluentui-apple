@@ -6,49 +6,6 @@
 import SwiftUI
 import UIKit
 
-/// UIKit wrapper that exposes the SwiftUI Indeterminate Progress Bar implementation
-@objc open class MSFIndeterminateProgressBar: NSObject, FluentUIWindowProvider {
-
-    /// The UIView representing the Indeterminate Progress Bar.
-    @objc open var view: UIView {
-        return hostingController.view
-    }
-
-    /// The object that groups properties that allow control over the Indeterminate Progress Bar appearance.
-    @objc open var state: MSFIndeterminateProgressBarState {
-        return self.indeterminateProgressBarView.state
-    }
-
-    /// Creates a new MSFIndeterminateProgressBar instance.
-    @objc public override convenience init() {
-        self.init(theme: nil)
-    }
-
-    /// Creates a new MSFIndeterminateProgressBar instance.
-    /// - Parameters:
-    ///   - theme: The FluentUIStyle instance representing the theme to be overriden for this Indeterminate Progress Bar
-    @objc public init(theme: FluentUIStyle? = nil) {
-        super.init()
-
-        indeterminateProgressBarView = IndeterminateProgressBar()
-        hostingController = FluentUIHostingController(rootView: AnyView(indeterminateProgressBarView
-                                                                            .windowProvider(self)
-                                                                            .modifyIf(theme != nil, { indeterminateProgressBarView in
-                                                                                indeterminateProgressBarView.customTheme(theme!)
-                                                                            })))
-        hostingController.disableSafeAreaInsets()
-        view.backgroundColor = UIColor.clear
-    }
-
-    var window: UIWindow? {
-        return self.view.window
-    }
-
-    private var hostingController: FluentUIHostingController!
-
-    private var indeterminateProgressBarView: IndeterminateProgressBar!
-}
-
 /// Properties available to customize the state of the Indeterminate Progress Bar.
 @objc public protocol MSFIndeterminateProgressBarState {
     /// Defines whether the Indeterminate Progress Bar is animating or stopped.
@@ -61,25 +18,17 @@ import UIKit
 /// View that represents the Indeterminate Progress Bar control.
 /// Use the ProgressView SwiftUI View (https://developer.apple.com/documentation/swiftui/progressview)
 /// provided in the SwiftUI framework to render the default OS indeterminate spinner or a progress bar with a specific progress value.
-public struct IndeterminateProgressBar: View {
-    @Environment(\.theme) var theme: FluentUIStyle
-    @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
-    @ObservedObject var tokens: MSFIndeterminateProgressBarTokens
-    @ObservedObject var state: MSFIndeterminateProgressBarStateImpl
-    @State var startPoint: UnitPoint = Constants.initialStartPoint
-    @State var endPoint: UnitPoint = Constants.initialEndPoint
-
+public struct IndeterminateProgressBar: View, TokenizedControlInternal {
     /// Creates the Indeterminate Progress Bar.
     public init() {
         let state = MSFIndeterminateProgressBarStateImpl()
         self.state = state
-        self.tokens = state.tokens
     }
 
     public var body: some View {
         let height = tokens.height
-        let gradientColor = Color(tokens.gradientColor)
-        let backgroundColor = Color(tokens.backgroundColor)
+        let gradientColor = Color(dynamicColor: tokens.gradientColor)
+        let backgroundColor = Color(dynamicColor: tokens.backgroundColor)
 
         Rectangle()
             .fill(LinearGradient(gradient: Gradient(colors: [backgroundColor, gradientColor, backgroundColor]),
@@ -106,10 +55,14 @@ public struct IndeterminateProgressBar: View {
             .modifyIf(!state.isAnimating && state.hidesWhenStopped, { view in
                 view.hidden()
             })
-            .designTokens(tokens,
-                          from: theme,
-                          with: windowProvider)
+            .resolveTokens(self)
     }
+
+    var tokens: IndeterminateProgressBarTokens { state.tokens }
+    @Environment(\.fluentTheme) var fluentTheme: FluentTheme
+    @ObservedObject var state: MSFIndeterminateProgressBarStateImpl
+    @State var startPoint: UnitPoint = Constants.initialStartPoint
+    @State var endPoint: UnitPoint = Constants.initialEndPoint
 
     private func startAnimation() {
         stopAnimation()
@@ -139,13 +92,17 @@ public struct IndeterminateProgressBar: View {
 }
 
 /// Properties available to customize the state of the Indeterminate Progress Bar
-class MSFIndeterminateProgressBarStateImpl: NSObject, ObservableObject, MSFIndeterminateProgressBarState {
+class MSFIndeterminateProgressBarStateImpl: NSObject,
+                                            ObservableObject,
+                                            ControlConfiguration,
+                                            MSFIndeterminateProgressBarState {
     @Published var isAnimating: Bool = false
     @Published var hidesWhenStopped: Bool = true
+    @Published var tokens: IndeterminateProgressBarTokens = .init()
 
-    let tokens: MSFIndeterminateProgressBarTokens
+    /// Design token set for this control, to use in place of the control's default Fluent tokens.
+    @Published @objc public var overrideTokens: IndeterminateProgressBarTokens?
 
-    override init() {
-        self.tokens = MSFIndeterminateProgressBarTokens()
-    }
+    /// On-demand default token set.
+    var defaultTokens: IndeterminateProgressBarTokens { .init() }
 }

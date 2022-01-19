@@ -48,7 +48,7 @@ public struct NotificationDemoView: View {
                             Text("Content")
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .font(.title)
-                            Divider()
+                            FluentDivider()
                         }
 
                         TextField("Title", text: $title)
@@ -74,7 +74,7 @@ public struct NotificationDemoView: View {
                             Text("Action")
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .font(.title)
-                            Divider()
+                            FluentDivider()
                         }
                         FluentUIDemoToggle(titleKey: "Has Action Button Action", isOn: $hasActionButtonAction)
                         FluentUIDemoToggle(titleKey: "Has Message Action", isOn: $hasMessageAction)
@@ -85,7 +85,7 @@ public struct NotificationDemoView: View {
                             Text("Style")
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .font(.title)
-                            Divider()
+                            FluentDivider()
                         }
 
                         Picker(selection: $style, label: EmptyView()) {

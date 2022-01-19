@@ -19,6 +19,7 @@ class ButtonDemoController: UITableViewController {
         super.viewDidLoad()
 
         tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: ButtonDemoController.cellReuseIdentifier)
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -46,25 +47,28 @@ class ButtonDemoController: UITableViewController {
         case .textAndIcon,
              .textOnly,
              .iconOnly:
-            let cell = UITableViewCell()
+            let cell = tableView.dequeueReusableCell(withIdentifier: ButtonDemoController.cellReuseIdentifier, for: indexPath)
+            let subviews = cell.contentView.subviews
+            subviews.forEach { subview in
+                subview.removeFromSuperview()
+            }
 
             let image = row == .textOnly ? nil : section.image
             let text = row == .iconOnly ? nil : "Button"
 
-            let button = MSFButton(style: section.buttonStyle,
-                                   size: section.buttonSize) { _ in
-                self.didPressButton()
-            }
+            let button = dequeueDemoButton(indexPath: indexPath,
+                                           style: section.buttonStyle,
+                                           size: section.buttonSize,
+                                           disabled: false)
             button.state.image = image
             button.state.text = text
 
-            let disabledButton = MSFButton(style: section.buttonStyle,
-                                           size: section.buttonSize) { _ in
-                self.didPressButton()
-            }
+            let disabledButton = dequeueDemoButton(indexPath: indexPath,
+                                                   style: section.buttonStyle,
+                                                   size: section.buttonSize,
+                                                   disabled: true)
             disabledButton.state.image = image
             disabledButton.state.text = text
-            disabledButton.state.isDisabled = true
 
             let rowContentView = UIStackView(arrangedSubviews: [button.view, disabledButton.view])
             rowContentView.isLayoutMarginsRelativeArrangement = true
@@ -109,7 +113,32 @@ class ButtonDemoController: UITableViewController {
         }
     }
 
-    func didPressButton() {
+    // MARK: - Private helpers
+
+    private static let cellReuseIdentifier: String = "cellReuseIdentifier"
+
+    private var buttons: [String: MSFButton] = [:]
+
+    private func dequeueDemoButton(indexPath: IndexPath,
+                                   style: MSFButtonStyle,
+                                   size: MSFButtonSize,
+                                   disabled: Bool) -> MSFButton {
+        let key = "\(indexPath)-\(disabled)"
+        if let button = buttons[key] {
+            return button
+        } else {
+            let button = MSFButton(style: style,
+                                   size: size) { _ in
+                self.didPressButton()
+            }
+            button.state.isDisabled = disabled
+            buttons[key] = button
+
+            return button
+        }
+    }
+
+    private func didPressButton() {
         let alert = UIAlertController(title: "A button was pressed",
                                       message: nil,
                                       preferredStyle: .alert)

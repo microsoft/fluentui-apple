@@ -86,6 +86,7 @@ public final class AliasTokens {
         case brandPressed
         case brandSelected
         case brandDisabled
+        case surfaceQuaternary
     }
     public lazy var backgroundColors: TokenSet<BackgroundColorsTokens, DynamicColor> = .init { [weak self] token in
         guard let strongSelf = self else { preconditionFailure() }
@@ -125,6 +126,9 @@ public final class AliasTokens {
         case .brandDisabled:
             return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey88],
                                 dark: strongSelf.globalTokens.neutralColors[.grey84])
+        case .surfaceQuaternary:
+            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey88],
+                                dark: strongSelf.globalTokens.neutralColors[.grey26])
         }
     }
 

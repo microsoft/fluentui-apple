@@ -194,7 +194,6 @@ open class SegmentedControl: UIControl {
 
         return view
     }()
-    private let bottomSeparator = Separator()
     private let pillContainerView: UIView = {
         let view = UIView()
         view.layer.cornerCurve = .continuous

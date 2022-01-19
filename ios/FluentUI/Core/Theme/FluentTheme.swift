@@ -24,10 +24,8 @@ import SwiftUI
     /// - Parameters:
     ///   - tokens: A custom set of tokens.
     ///   - control: The control to use custom tokens on.
-    public func register<T: TokenizedControl>(tokens: T.TokenType, for control: T) {
-        tokens.globalTokens = globalTokens
-        tokens.aliasTokens = aliasTokens
-        controlTokens[control.tokenKey] = tokens
+    public func register<T: TokenizedControl>(controlType: T.Type, tokens: @escaping (T) -> T.TokenType) {
+        controlTokens[tokenKey(controlType)] = tokens
     }
 
     /// Returns the appropriate `ControlTokens` instance that was provided a given `TokenizedControl`.
@@ -40,16 +38,13 @@ import SwiftUI
     /// - Parameter control: The control to fetch tokens for.
     ///
     /// - Returns: The appropriate `ControlTokens` for the given control. See Discussion for more details.
-    func tokens<T: TokenizedControlInternal>(for control: T) -> T.TokenType {
+    func tokens<T: TokenizedControlInternal>(for control: T) -> T.TokenType? {
         if let tokens = control.state.overrideTokens {
             return tokens
-        } else if let tokens = controlTokens[control.tokenKey] as? T.TokenType {
-            return tokens
+        } else if let lookup = controlTokens[tokenKey(type(of: control))] as? (T) -> T.TokenType {
+            return lookup(control)
         } else {
-            // Register the default tokens to make future lookups more efficient.
-            let tokens = control.state.defaultTokens
-            self.register(tokens: tokens, for: control)
-            return tokens
+            return nil
         }
     }
 
@@ -58,7 +53,11 @@ import SwiftUI
     var globalTokens: GlobalTokens
     var aliasTokens: AliasTokens
 
-    private var controlTokens: [String: ControlTokens] = [:]
+    private func tokenKey<T: TokenizedControl>(_ controlType: T.Type) -> String {
+        return "\(controlType))"
+    }
+
+    private var controlTokens: [String: Any] = [:]
 }
 
 // MARK: - FluentThemeable
