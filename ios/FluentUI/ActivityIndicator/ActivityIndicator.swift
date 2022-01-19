@@ -58,8 +58,6 @@ public struct ActivityIndicator: View, TokenizedControlInternal {
         SemiRing(color: color,
                  thickness: tokens.thickness,
                  accessibilityLabel: accessibilityLabel)
-            .resolveTokens(self)
-            .resolveTokenModifier(self, value: state.size)
             .modifyIf(state.isAnimating, { animatedView in
                 animatedView
                     .rotationEffect(.degrees(rotationAngle), anchor: .center)
@@ -79,6 +77,8 @@ public struct ActivityIndicator: View, TokenizedControlInternal {
             .frame(width: side,
                    height: side,
                    alignment: .center)
+            .resolveTokens(self)
+            .resolveTokenModifier(self, value: state.size)
     }
 
     var tokens: ActivityIndicatorTokens { state.tokens }
