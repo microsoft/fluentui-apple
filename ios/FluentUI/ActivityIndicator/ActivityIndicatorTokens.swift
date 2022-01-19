@@ -13,74 +13,67 @@ import UIKit
     case medium
     case large
     case xLarge
-
-    var size: CGFloat {
-        switch self {
-        case .xSmall:
-            return FluentUIThemeManager.S.MSFActivityIndicatorTokens.size.xSmall
-        case .small:
-            return FluentUIThemeManager.S.MSFActivityIndicatorTokens.size.small
-        case .medium:
-            return FluentUIThemeManager.S.MSFActivityIndicatorTokens.size.medium
-        case .large:
-            return FluentUIThemeManager.S.MSFActivityIndicatorTokens.size.large
-        case .xLarge:
-            return FluentUIThemeManager.S.MSFActivityIndicatorTokens.size.xLarge
-        }
-    }
 }
 
-/// Representation of design tokens to buttons at runtime which interfaces with the Design Token System auto-generated code.
-/// Updating these properties causes the SwiftUI button to update its view automatically.
-class MSFActivityIndicatorTokens: MSFTokensBase, ObservableObject {
-    @Published public var activityIndicatorSize: CGFloat!
-    @Published public var defaultColor: UIColor!
-    @Published public var thickness: CGFloat!
+/// Design token set for the `ActivityIndicator` control.
+public class ActivityIndicatorTokens: ControlTokens {
+    /// Creates an instance of `ActivityIndicatorTokens` with optional token value overrides.
+    /// - Parameters:
+    ///   - size: MSFActivityIndicatorSize enumeration value that will define pre-defined values for side and thickness.
+    ///   - defaultColor: The default color of the Activity Indicator.
+    ///   - side: The value for the side of the square frame of an Activity Indicator.
+    ///   - thickness: The value for the thickness of the ActivityIndicator ring.
+    public init(size: MSFActivityIndicatorSize,
+                defaultColor: DynamicColor? = nil,
+                side: CGFloat? = nil,
+                thickness: CGFloat? = nil) {
 
-    var size: MSFActivityIndicatorSize {
-        didSet {
-            if oldValue != size {
-                updateForCurrentTheme()
-            }
-        }
-    }
-
-    init(size: MSFActivityIndicatorSize) {
         self.size = size
-
         super.init()
 
-        self.themeAware = true
-
-        updateForCurrentTheme()
-    }
-
-    override func updateForCurrentTheme() {
-        let currentTheme = theme
-        let appearanceProxy = currentTheme.MSFActivityIndicatorTokens
-
-        defaultColor = appearanceProxy.defaultColor
-
-        switch size {
-        case .xSmall:
-            activityIndicatorSize = appearanceProxy.size.xSmall
-            thickness = appearanceProxy.thickness.xSmall
-        case .small:
-            activityIndicatorSize = appearanceProxy.size.small
-            thickness = appearanceProxy.thickness.small
-        case .medium:
-            activityIndicatorSize = appearanceProxy.size.medium
-            thickness = appearanceProxy.thickness.medium
-        case .large:
-            activityIndicatorSize = appearanceProxy.size.large
-            thickness = appearanceProxy.thickness.large
-        case .xLarge:
-            activityIndicatorSize = appearanceProxy.size.xLarge
-            thickness = appearanceProxy.thickness.xLarge
+        // Optional overrides
+        if let defaultColor = defaultColor {
+            self.defaultColor = defaultColor
+        }
+        if let side = side {
+            self.side = side
+        }
+        if let thickness = thickness {
+            self.thickness = thickness
         }
     }
 
-    @objc open func didChangeAppearanceProxy() {
-        updateForCurrentTheme()
-    }
+    let size: MSFActivityIndicatorSize
+
+    // MARK: - Design Tokens
+
+    lazy var defaultColor: DynamicColor = aliasTokens.foregroundColors[.neutral4]
+
+    lazy var side: CGFloat = {
+        switch size {
+        case .xSmall:
+            return 12
+        case .small:
+            return 16
+        case .medium:
+            return 24
+        case .large:
+            return 32
+        case .xLarge:
+            return 36
+        }
+    }()
+
+    lazy var thickness: CGFloat = {
+        switch size {
+        case .xSmall, .small:
+            return 1
+        case .medium:
+            return 2
+        case .large:
+            return 3
+        case .xLarge:
+            return 4
+        }
+    }()
 }

@@ -13,6 +13,7 @@ public final class AliasTokens {
         case neutral1
         case neutral2
         case neutral3
+        case neutral4
         case neutralDisabled
         case neutralInverted
         case brandRest
@@ -38,6 +39,11 @@ public final class AliasTokens {
             return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey38],
                                 lightHighContrast: strongSelf.globalTokens.neutralColors[.grey14],
                                 dark: strongSelf.globalTokens.neutralColors[.grey68],
+                                darkHighContrast: strongSelf.globalTokens.neutralColors[.grey84])
+        case .neutral4:
+            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey50],
+                                lightHighContrast: strongSelf.globalTokens.neutralColors[.grey26],
+                                dark: strongSelf.globalTokens.neutralColors[.grey52],
                                 darkHighContrast: strongSelf.globalTokens.neutralColors[.grey84])
         case .neutralDisabled:
             return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey74],
