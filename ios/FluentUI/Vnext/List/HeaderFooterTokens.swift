@@ -24,7 +24,13 @@ class MSFHeaderFooterTokens: MSFTokensBase, ObservableObject {
 
     @Published public var textFont: UIFont!
 
-    @Published public var style: MSFHeaderFooterStyle!
+    var style: MSFHeaderFooterStyle {
+            didSet {
+                if oldValue != style {
+                    updateForCurrentTheme()
+                }
+            }
+        }
 
     init(style: MSFHeaderFooterStyle) {
         self.style = style
@@ -46,7 +52,7 @@ class MSFHeaderFooterTokens: MSFTokensBase, ObservableObject {
         switch style {
         case .headerSecondary:
             appearanceProxy = currentTheme.MSFHeaderFooterTokens
-        case .headerPrimary, .none:
+        case .headerPrimary:
             appearanceProxy = currentTheme.MSFPrimaryHeaderTokens
         }
 

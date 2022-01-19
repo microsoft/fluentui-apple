@@ -51,10 +51,11 @@ class LeftNavDemoController: DemoController {
     }
 
     private lazy var navigationButton: UIView = {
-        return createButton(title: "Show Left Navigation Menu", action: { [weak self ] _ in
-            if let strongSelf = self {
-                strongSelf.showLeftNavButtonTapped()
+        return createButton(title: "Show Left Navigation Menu", action: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
             }
+            strongSelf.showLeftNavButtonTapped()
         }).view
     }()
 
@@ -125,7 +126,42 @@ class LeftNavMenuViewController: UIViewController {
 
     private var statusCell = MSFListCellState()
 
-    private var leftNavMenuSections: [MSFListSectionState] {
+    private var leftNavMenuList = MSFList()
+
+    private var leftNavAccountViewHeightConstraint: NSLayoutConstraint?
+
+    private lazy var leftNavAccountView: UIView = {
+        let chevron = UIImageView(image: UIImage(named: "ic_fluent_ios_chevron_right_20_filled"))
+        chevron.tintColor = Colors.textPrimary
+        let personaState = persona.state
+
+        personaState.presence = .available
+        personaState.primaryText = "Kat Larrson"
+        personaState.secondaryText = "Designer"
+        personaState.image = UIImage(named: "avatar_kat_larsson")
+        personaState.titleTrailingAccessoryUIView = chevron
+        personaState.backgroundColor = .systemBackground
+        personaState.onTapAction = {
+            self.dismiss(animated: true, completion: { [weak self] in
+                guard let strongSelf = self else {
+                    return
+                }
+                strongSelf.menuAction?()
+            })
+        }
+
+        let personaView = persona.view
+        personaView.translatesAutoresizingMaskIntoConstraints = false
+        return personaView
+    }()
+
+    private var leftNavContentView: UIView {
+        let contentView = UIView()
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.layoutMargins = UIEdgeInsets(top: Constant.margin,
+                                                 left: Constant.margin,
+                                                 bottom: Constant.margin,
+                                                 right: Constant.margin)
         let defaultMenuAction = {
             guard let menuAction = self.menuAction else {
                 return
@@ -160,6 +196,9 @@ class LeftNavMenuViewController: UIViewController {
         }
         statusCellChildren.append(resetStatusCell)
 
+        let menuSection = leftNavMenuList.state.createSection()
+
+        statusCell = menuSection.createCell()
         statusCell.title = LeftNavPresence.available.cellTitle()
         statusCell.backgroundColor = .systemBackground
         let statusImageView = LeftNavPresence.available.imageView()
@@ -167,7 +206,7 @@ class LeftNavMenuViewController: UIViewController {
         statusCell.leadingUIView = statusImageView
         statusCell.children = statusCellChildren
 
-        let statusMessageCell = MSFListCellState()
+        let statusMessageCell = menuSection.createCell()
         statusMessageCell.backgroundColor = .systemBackground
         statusMessageCell.title = "Set Status Message"
         let statusMessageImageView = UIImageView(image: UIImage(named: "ic_fluent_status_24_regular"))
@@ -175,7 +214,7 @@ class LeftNavMenuViewController: UIViewController {
         statusMessageCell.leadingUIView = statusMessageImageView
         statusMessageCell.onTapAction = defaultMenuAction
 
-        let notificationsCell = MSFListCellState()
+        let notificationsCell = menuSection.createCell()
         notificationsCell.backgroundColor = .systemBackground
         notificationsCell.title = "Notifications"
         notificationsCell.subtitle = "On"
@@ -185,7 +224,7 @@ class LeftNavMenuViewController: UIViewController {
         notificationsCell.leadingUIView = notificationsImageView
         notificationsCell.onTapAction = defaultMenuAction
 
-        let settingsCell = MSFListCellState()
+        let settingsCell = menuSection.createCell()
         settingsCell.backgroundColor = .systemBackground
         settingsCell.title = "Settings"
         let settingsImageView = UIImageView(image: UIImage(named: "ic_fluent_settings_24_regular"))
@@ -193,7 +232,7 @@ class LeftNavMenuViewController: UIViewController {
         settingsCell.leadingUIView = settingsImageView
         settingsCell.onTapAction = defaultMenuAction
 
-        let whatsNewCell = MSFListCellState()
+        let whatsNewCell = menuSection.createCell()
         whatsNewCell.backgroundColor = .systemBackground
         whatsNewCell.title = "What's new"
         let whatsNewImageView = UIImageView(image: UIImage(named: "ic_fluent_lightbulb_24_regular"))
@@ -201,10 +240,11 @@ class LeftNavMenuViewController: UIViewController {
         whatsNewCell.leadingUIView = whatsNewImageView
         whatsNewCell.onTapAction = defaultMenuAction
 
-        let menuSection = MSFListSectionState()
-        menuSection.cells = [statusCell, statusMessageCell, notificationsCell, settingsCell, whatsNewCell]
+        let accountsSection = leftNavMenuList.state.createSection()
+        accountsSection.title = "Accounts and Orgs"
+        accountsSection.backgroundColor = .systemBackground
 
-        let microsoftAccountCell = MSFListCellState()
+        let microsoftAccountCell = accountsSection.createCell()
         microsoftAccountCell.backgroundColor = .systemBackground
         microsoftAccountCell.layoutType = .twoLines
         microsoftAccountCell.title = "Contoso"
@@ -215,7 +255,7 @@ class LeftNavMenuViewController: UIViewController {
         microsoftAccountCell.leadingUIView = orgAvatar.view
         microsoftAccountCell.leadingViewSize = .large
 
-        let msaAccountCell = MSFListCellState()
+        let msaAccountCell = accountsSection.createCell()
         msaAccountCell.backgroundColor = .systemBackground
         msaAccountCell.layoutType = .twoLines
         msaAccountCell.title = "Personal"
@@ -225,7 +265,7 @@ class LeftNavMenuViewController: UIViewController {
         msaAccountCell.leadingUIView = msaAvatar.view
         msaAccountCell.leadingViewSize = .large
 
-        let addAccountCell = MSFListCellState()
+        let addAccountCell = accountsSection.createCell()
         addAccountCell.backgroundColor = .systemBackground
         addAccountCell.title = "Add Account"
         let addAccountImageView = UIImageView(image: UIImage(named: "ic_fluent_add_24_regular"))
@@ -233,54 +273,9 @@ class LeftNavMenuViewController: UIViewController {
         addAccountCell.leadingUIView = addAccountImageView
         addAccountCell.onTapAction = defaultMenuAction
 
-        let accountsSection = MSFListSectionState()
-        accountsSection.title = "Accounts and Orgs"
-        accountsSection.backgroundColor = .systemBackground
-        accountsSection.cells = [microsoftAccountCell, msaAccountCell, addAccountCell]
-
-        return [menuSection, accountsSection]
-    }
-
-    private var leftNavMenuList = MSFList(sections: [])
-
-    private var leftNavAccountViewHeightConstraint: NSLayoutConstraint?
-
-    private lazy var leftNavAccountView: UIView = {
-        let chevron = UIImageView(image: UIImage(named: "ic_fluent_ios_chevron_right_20_filled"))
-        chevron.tintColor = Colors.textPrimary
-
-        persona.state.presence = .available
-        persona.state.primaryText = "Kat Larrson"
-        persona.state.secondaryText = "Designer"
-        persona.state.image = UIImage(named: "avatar_kat_larsson")
-        persona.state.titleTrailingAccessoryUIView = chevron
-        persona.state.backgroundColor = .systemBackground
-        persona.state.onTapAction = {
-            self.dismiss(animated: true, completion: {
-                guard let menuAction = self.menuAction else {
-                    return
-                }
-
-                menuAction()
-            })
-        }
-
-        let personaView = persona.view
-        personaView.translatesAutoresizingMaskIntoConstraints = false
-        return personaView
-    }()
-
-    private var leftNavContentView: UIView {
-        let contentView = UIView()
-        contentView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.layoutMargins = UIEdgeInsets(top: Constant.margin,
-                                                 left: Constant.margin,
-                                                 bottom: Constant.margin,
-                                                 right: Constant.margin)
         let accountView = leftNavAccountView
         let menuListView = leftNavMenuList.view
         menuListView.translatesAutoresizingMaskIntoConstraints = false
-        leftNavMenuList.state.sections = leftNavMenuSections
 
         contentView.addSubview(accountView)
         contentView.addSubview(menuListView)
