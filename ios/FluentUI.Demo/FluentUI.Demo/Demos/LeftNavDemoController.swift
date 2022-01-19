@@ -142,11 +142,10 @@ class LeftNavMenuViewController: UIViewController {
         personaState.backgroundColor = .systemBackground
         personaState.onTapAction = {
             self.dismiss(animated: true, completion: { [weak self] in
-                guard let menuAction = self?.menuAction else {
+                guard let strongSelf = self else {
                     return
                 }
-
-                menuAction()
+                strongSelf.menuAction?()
             })
         }
 
