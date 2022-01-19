@@ -159,7 +159,7 @@ public struct NotificationViewSwiftUI: View {
     }
 
     public var body: some View {
-        // Note: we are using keyWindow's width because GeometryReader relies on the bounds of the hosting controller which cannot be set accurately at this point
+        // Note: we are using viewController's width because GeometryReader relies on the bounds of the hosting controller which cannot be set accurately at this point
         if let viewWidth = viewController?.view.bounds.width {
             let width = viewWidth - safeAreaInsets.leading - safeAreaInsets.trailing
             innerContents

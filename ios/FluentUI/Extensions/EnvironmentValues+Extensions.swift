@@ -30,7 +30,7 @@ struct ViewControllerHolder {
 
 struct ViewControllerKey: EnvironmentKey {
     static var defaultValue: ViewControllerHolder {
-        return ViewControllerHolder(value: UIApplication.shared.windows.first?.rootViewController)
+        return ViewControllerHolder(value: UIApplication.shared.keyWindow?.rootViewController)
     }
 }
 

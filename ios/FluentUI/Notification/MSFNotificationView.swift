@@ -62,7 +62,8 @@ import UIKit
         }
 
         hostingController = FluentUIHostingController(rootView: AnyView(notification
-                                                                                .windowProvider(self)
+                                                                            .windowProvider(self)
+                                                                            .environment(\.viewController, view.findContainingViewController())
                                                                            ))
         hostingController.disableSafeAreaInsets()
         var hostingControllerView: UIView! = hostingController.view
