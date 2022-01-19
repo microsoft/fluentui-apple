@@ -6,7 +6,7 @@
 import SwiftUI
 
 /// Properties that can be used to customize the appearance of the `Notification`.
-public protocol MSFNotificationState: NSObjectProtocol {
+@objc public protocol MSFNotificationState: NSObjectProtocol {
     /// Style to draw the control.
     var style: MSFNotificationStyle { get }
 

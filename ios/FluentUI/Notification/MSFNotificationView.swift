@@ -35,8 +35,8 @@ import UIKit
         hostingController.disableSafeAreaInsets()
     }
 
-    public var state: MSFNotificationState {
-            return notification.state
+    @objc public var state: MSFNotificationState {
+        return notification.state
     }
 
     // MARK: - FluentUIWindowProvider
