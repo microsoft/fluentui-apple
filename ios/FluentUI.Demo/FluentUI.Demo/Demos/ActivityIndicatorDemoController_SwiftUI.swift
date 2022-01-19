@@ -45,7 +45,7 @@ struct ActivityIndicatorDemoView: View {
                             Text("Settings")
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .font(.title)
-                            Divider()
+                            FluentDivider()
                         }
 
                         FluentUIDemoToggle(titleKey: "Animating", isOn: $isAnimating)
@@ -58,7 +58,7 @@ struct ActivityIndicatorDemoView: View {
                             Text("Size")
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .font(.title)
-                            Divider()
+                            FluentDivider()
                         }
 
                         Picker(selection: $size, label: EmptyView()) {

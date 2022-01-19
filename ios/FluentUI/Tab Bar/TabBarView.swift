@@ -87,14 +87,14 @@ open class TabBarView: UIView {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         contain(view: stackView, withInsets: .zero, respectingSafeAreaInsets: true)
 
-        topBorderLine.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(topBorderLine)
+        topBorderLine.view.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(topBorderLine.view)
 
         heightConstraint = stackView.heightAnchor.constraint(equalToConstant: traitCollection.userInterfaceIdiom == .phone ? Constants.phonePortraitHeight : Constants.padHeight)
         NSLayoutConstraint.activate([heightConstraint!,
-                                     topBorderLine.bottomAnchor.constraint(equalTo: topAnchor),
-                                     topBorderLine.leadingAnchor.constraint(equalTo: leadingAnchor),
-                                     topBorderLine.trailingAnchor.constraint(equalTo: trailingAnchor)])
+                                     topBorderLine.view.bottomAnchor.constraint(equalTo: topAnchor),
+                                     topBorderLine.view.leadingAnchor.constraint(equalTo: leadingAnchor),
+                                     topBorderLine.view.trailingAnchor.constraint(equalTo: trailingAnchor)])
 
         addInteraction(UILargeContentViewerInteraction())
 
@@ -155,7 +155,7 @@ open class TabBarView: UIView {
         return stackView
     }()
 
-    private let topBorderLine = Separator(style: .shadow, orientation: .horizontal)
+    private let topBorderLine = MSFDivider()
 
     private func updateHeight() {
         if traitCollection.userInterfaceIdiom == .phone {

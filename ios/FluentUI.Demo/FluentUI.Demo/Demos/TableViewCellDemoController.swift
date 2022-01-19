@@ -8,8 +8,16 @@ import UIKit
 
 // MARK: TableViewCellDemoController
 
-class TableViewCellDemoController: DemoController {
+class TableViewCellDemoController: UITableViewController {
     let sections: [TableViewSampleData.Section] = TableViewCellSampleData.sections
+
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(style: .grouped)
+    }
+
+    required init?(coder: NSCoder) {
+        preconditionFailure("init(coder:) has not been implemented")
+    }
 
     private var isGrouped: Bool = false {
         didSet {
@@ -40,8 +48,6 @@ class TableViewCellDemoController: DemoController {
         }
     }
 
-    private var tableView: UITableView!
-
     private var styleButtonTitle: String {
         return isGrouped ? "Switch to Plain style" : "Switch to Grouped style"
     }
@@ -49,16 +55,11 @@ class TableViewCellDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        tableView = UITableView(frame: view.bounds, style: .grouped)
-        tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
         tableView.register(TableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: TableViewHeaderFooterView.identifier)
-        tableView.dataSource = self
-        tableView.delegate = self
         tableView.separatorStyle = .none
         tableView.sectionFooterHeight = 0
         updateTableView()
-        view.addSubview(tableView)
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Select", style: .plain, target: self, action: #selector(selectionBarButtonTapped))
 
@@ -105,16 +106,16 @@ class TableViewCellDemoController: DemoController {
 
 // MARK: - TableViewCellDemoController: UITableViewDataSource
 
-extension TableViewCellDemoController: UITableViewDataSource {
-    func numberOfSections(in tableView: UITableView) -> Int {
+extension TableViewCellDemoController {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count
     }
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return TableViewCellSampleData.numberOfItemsInSection
     }
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier) as? TableViewCell else {
             return UITableViewCell()
         }
@@ -160,20 +161,20 @@ extension TableViewCellDemoController: UITableViewDataSource {
 
 // MARK: - TableViewCellDemoController: UITableViewDelegate
 
-extension TableViewCellDemoController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+extension TableViewCellDemoController {
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: TableViewHeaderFooterView.identifier) as? TableViewHeaderFooterView
         let section = sections[section]
         header?.setup(style: section.headerStyle, title: section.title)
         return header
     }
 
-    func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
         let title = sections[indexPath.section].item.text1
         showAlertForDetailButtonTapped(title: title)
     }
 
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if isInSelectionMode {
             updateNavigationTitle()
         } else {
@@ -181,7 +182,7 @@ extension TableViewCellDemoController: UITableViewDelegate {
         }
     }
 
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         if isInSelectionMode {
             updateNavigationTitle()
         }
