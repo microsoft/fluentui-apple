@@ -17,54 +17,34 @@ import SwiftUI
 /// Design token set for the `CardNudge` control.
 public class CardNudgeTokens: ControlTokens {
     /// Creates an instance of `CardNudgeTokens`.
-    convenience public init(style: MSFCardNudgeStyle) {
-        self.init(style: style,
-                  accentColor: nil,
-                  accentIconSize: nil,
-                  accentPadding: nil,
-                  backgroundColor: nil,
-                  buttonBackgroundColor: nil,
-                  buttonInnerPaddingHorizontal: nil,
-                  circleRadius: nil,
-                  circleSize: nil,
-                  cornerRadius: nil,
-                  horizontalPadding: nil,
-                  iconSize: nil,
-                  interTextVerticalPadding: nil,
-                  mainContentVerticalPadding: nil,
-                  minimumHeight: nil,
-                  outlineColor: nil,
-                  outlineWidth: nil,
-                  subtitleTextColor: nil,
-                  textColor: nil,
-                  verticalPadding: nil
-        )
+    public init(style: MSFCardNudgeStyle) {
+        self.style = style
+        super.init()
     }
 
     /// Creates an instance of `CardNudgeTokens` with optional token value overrides.
-    public init(style: MSFCardNudgeStyle,
-                accentColor: DynamicColor? = nil,
-                accentIconSize: CGFloat? = nil,
-                accentPadding: CGFloat? = nil,
-                backgroundColor: DynamicColor? = nil,
-                buttonBackgroundColor: DynamicColor? = nil,
-                buttonInnerPaddingHorizontal: CGFloat? = nil,
-                circleRadius: CGFloat? = nil,
-                circleSize: CGFloat? = nil,
-                cornerRadius: CGFloat? = nil,
-                horizontalPadding: CGFloat? = nil,
-                iconSize: CGFloat? = nil,
-                interTextVerticalPadding: CGFloat? = nil,
-                mainContentVerticalPadding: CGFloat? = nil,
-                minimumHeight: CGFloat? = nil,
-                outlineColor: DynamicColor? = nil,
-                outlineWidth: CGFloat? = nil,
-                subtitleTextColor: DynamicColor? = nil,
-                textColor: DynamicColor? = nil,
-                verticalPadding: CGFloat? = nil) {
+    convenience public init(style: MSFCardNudgeStyle,
+                            accentColor: DynamicColor? = nil,
+                            accentIconSize: CGFloat? = nil,
+                            accentPadding: CGFloat? = nil,
+                            backgroundColor: DynamicColor? = nil,
+                            buttonBackgroundColor: DynamicColor? = nil,
+                            buttonInnerPaddingHorizontal: CGFloat? = nil,
+                            circleRadius: CGFloat? = nil,
+                            circleSize: CGFloat? = nil,
+                            cornerRadius: CGFloat? = nil,
+                            horizontalPadding: CGFloat? = nil,
+                            iconSize: CGFloat? = nil,
+                            interTextVerticalPadding: CGFloat? = nil,
+                            mainContentVerticalPadding: CGFloat? = nil,
+                            minimumHeight: CGFloat? = nil,
+                            outlineColor: DynamicColor? = nil,
+                            outlineWidth: CGFloat? = nil,
+                            subtitleTextColor: DynamicColor? = nil,
+                            textColor: DynamicColor? = nil,
+                            verticalPadding: CGFloat? = nil) {
 
-        self.style = style
-        super.init()
+        self.init(style: style)
 
         // Optional overrides
         if let accentColor = accentColor {

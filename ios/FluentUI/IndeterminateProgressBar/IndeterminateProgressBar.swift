@@ -19,14 +19,10 @@ import UIKit
 /// Use the ProgressView SwiftUI View (https://developer.apple.com/documentation/swiftui/progressview)
 /// provided in the SwiftUI framework to render the default OS indeterminate spinner or a progress bar with a specific progress value.
 public struct IndeterminateProgressBar: View, TokenizedControlInternal {
-    public var tokenKeyComponents: [AnyObject]
-
     /// Creates the Indeterminate Progress Bar.
     public init() {
         let state = MSFIndeterminateProgressBarStateImpl()
         self.state = state
-
-        self.tokenKeyComponents = [type(of: self)] as [AnyObject]
     }
 
     public var body: some View {
@@ -59,9 +55,10 @@ public struct IndeterminateProgressBar: View, TokenizedControlInternal {
             .modifyIf(!state.isAnimating && state.hidesWhenStopped, { view in
                 view.hidden()
             })
+            .resolveTokens(self)
     }
 
-    var tokens: IndeterminateProgressBarTokens { fluentTheme.tokens(for: self) }
+    var tokens: IndeterminateProgressBarTokens { state.tokens }
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @ObservedObject var state: MSFIndeterminateProgressBarStateImpl
     @State var startPoint: UnitPoint = Constants.initialStartPoint
@@ -101,6 +98,7 @@ class MSFIndeterminateProgressBarStateImpl: NSObject,
                                             MSFIndeterminateProgressBarState {
     @Published var isAnimating: Bool = false
     @Published var hidesWhenStopped: Bool = true
+    @Published var tokens: IndeterminateProgressBarTokens = .init()
 
     /// Design token set for this control, to use in place of the control's default Fluent tokens.
     @Published @objc public var overrideTokens: IndeterminateProgressBarTokens?

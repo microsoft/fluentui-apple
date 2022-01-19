@@ -16,7 +16,7 @@ public extension FluentButton {
         return self
     }
 
-    func customTokens(_ tokens: ButtonTokens) -> FluentButton {
+    func overrideTokens(_ tokens: ButtonTokens?) -> FluentButton {
         state.overrideTokens = tokens
         return self
     }
