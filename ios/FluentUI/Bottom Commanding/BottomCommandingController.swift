@@ -274,7 +274,7 @@ open class BottomCommandingController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.addLayoutGuide(commandingLayoutGuide)
 
-        setupCommandingLayout()
+        setupCommandingLayout(traitCollection: traitCollection)
 
         if let contentViewController = contentViewController {
             addChildContentViewController(contentViewController)
@@ -284,23 +284,34 @@ open class BottomCommandingController: UIViewController {
     public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 
-        if previousTraitCollection?.horizontalSizeClass != traitCollection.horizontalSizeClass {
+        if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
+            updateSheetPreferredExpandedContentHeight()
+        }
+    }
+
+    public override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.willTransition(to: newCollection, with: coordinator)
+
+        if newCollection.horizontalSizeClass != traitCollection.horizontalSizeClass && newCollection.userInterfaceIdiom == .pad {
             // On a horizontal size class change the top level sheet / bar surfaces get recreated,
-            // but the item views, containers and bindings persist and are rearranged during the individual setup functions.
+            // but the item views, containers and bindings persist and are reused during the individual setup functions.
             if let bottomSheetController = bottomSheetController {
+                _isHidden = bottomSheetController.isHidden
                 bottomSheetController.willMove(toParent: nil)
                 bottomSheetController.removeFromParent()
                 bottomSheetController.view.removeFromSuperview()
+                self.bottomSheetController = nil
             }
-            bottomSheetController = nil
-            bottomBarView?.removeFromSuperview()
-            bottomBarView = nil
 
-            setupCommandingLayout()
-        }
+            if bottomBarView != nil {
+                completeBottomBarAnimationsIfNeeded(skipToEnd: true)
+                bottomBarView?.removeFromSuperview()
+                bottomBarView = nil
+            }
 
-        if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
-            updateSheetPreferredExpandedContentHeight()
+            // Force a layout pass after we set up the new layout to give the commanding surface a sane initial frame.
+            // We do this to avoid a jarring animation during screen rotation.
+            setupCommandingLayout(traitCollection: newCollection, forceLayoutPass: false)
         }
     }
 
@@ -320,15 +331,15 @@ open class BottomCommandingController: UIViewController {
         }
     }
 
-    private func setupCommandingLayout() {
+    private func setupCommandingLayout(traitCollection: UITraitCollection, forceLayoutPass: Bool = false) {
         if traitCollection.horizontalSizeClass == .regular && traitCollection.userInterfaceIdiom == .pad {
-            setupBottomBarLayout()
+            setupBottomBarLayout(forceLayoutPass: forceLayoutPass)
         } else {
-            setupBottomSheetLayout()
+            setupBottomSheetLayout(forceLayoutPass: forceLayoutPass)
         }
     }
 
-    private func setupBottomBarLayout() {
+    private func setupBottomBarLayout(forceLayoutPass: Bool = false) {
         NSLayoutConstraint.deactivate(layoutGuideConstraints)
         NSLayoutConstraint.activate(heroCommandWidthConstraints)
         heroCommandStack.distribution = .equalSpacing
@@ -352,10 +363,13 @@ open class BottomCommandingController: UIViewController {
         self.bottomBarView = bottomBarView
         reloadHeroCommandStack()
 
+        if forceLayoutPass {
+            view.layoutIfNeeded()
+        }
         delegate?.bottomCommandingControllerCollapsedHeightInSafeAreaDidChange?(self)
     }
 
-    private func setupBottomSheetLayout() {
+    private func setupBottomSheetLayout(forceLayoutPass: Bool = false) {
         NSLayoutConstraint.deactivate(layoutGuideConstraints)
         NSLayoutConstraint.deactivate(heroCommandWidthConstraints)
         heroCommandStack.distribution = .fillEqually
@@ -401,6 +415,10 @@ open class BottomCommandingController: UIViewController {
         reloadHeroCommandStack()
         updateSheetHeaderSizingParameters()
         updateSheetPreferredExpandedContentHeight()
+
+        if forceLayoutPass {
+            view.layoutIfNeeded()
+        }
     }
 
     private func makeBottomBarByEmbedding(contentView: UIView) -> UIView {
@@ -477,7 +495,7 @@ open class BottomCommandingController: UIViewController {
     private func reloadHeroCommandStack() {
         let heroViews = extendedHeroItems.map { createAndBindHeroCommandView(with: $0) }
         heroCommandStack.removeAllSubviews()
-        heroViews.forEach {heroCommandStack.addArrangedSubview($0) }
+        heroViews.forEach { heroCommandStack.addArrangedSubview($0) }
     }
 
     private lazy var moreHeroItem: CommandingItem = CommandingItem(title: Constants.BottomBar.moreButtonTitle, image: Constants.BottomBar.moreButtonIcon ?? UIImage(), action: handleMoreCommandTap)

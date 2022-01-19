@@ -312,7 +312,7 @@ public class BottomSheetController: UIViewController {
         }
 
         view.addSubview(bottomSheetView)
-        bottomSheetView.isHidden = isHidden
+        bottomSheetView.isHidden = currentExpansionState == .hidden
 
         // The non-zero frame here ensures the layout engine won't complain if it tries to calculate
         // sheet content layout before view.bounds is set to a non-zero rect.
@@ -442,6 +442,11 @@ public class BottomSheetController: UIViewController {
                 panGestureRecognizer.state = .cancelled
             }
         }
+    }
+
+    public override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.willTransition(to: newCollection, with: coordinator)
+        completeAnimationsIfNeeded(skipToEnd: true)
     }
 
     // MARK: - Gesture handling
