@@ -76,8 +76,9 @@ class ListDemoController: DemoController {
             listCell.leadingUIView = avatar.view
         collapsibleSection.hasDividers = true
         }
-        collapsibleSection.getCellState(at: 0).children = children
-        collapsibleSection.getCellState(at: 0).isExpanded = true
+        let firstCellState = collapsibleSection.getCellState(at: 0)
+        firstCellState.children = children
+        firstCellState.isExpanded = true
         collapsibleSection.getCellState(at: 1).onTapAction = {
             self.showAlertForAvatarTapped(name: samplePersonas[1].name)
         }

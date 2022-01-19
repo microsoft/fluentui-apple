@@ -52,9 +52,10 @@ class LeftNavDemoController: DemoController {
 
     private lazy var navigationButton: UIView = {
         return createButton(title: "Show Left Navigation Menu", action: { [weak self] _ in
-            if let strongSelf = self {
-                strongSelf.showLeftNavButtonTapped()
+            guard let strongSelf = self else {
+                return
             }
+            strongSelf.showLeftNavButtonTapped()
         }).view
     }()
 

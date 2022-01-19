@@ -60,6 +60,7 @@ import SwiftUI
     func createCell() -> MSFListCellState
 
     /// Creates a new Cell within the Section at a specific index.
+    /// - Parameter index: The zero-based index of the Cell that will be inserted into the Section.
     func createCell(at index: Int) -> MSFListCellState
 
     /// Retrieves the state object for a specific Cell so its appearance can be customized.
@@ -80,6 +81,7 @@ import SwiftUI
     func createSection() -> MSFListSectionState
 
     /// Creates a new Section within the List at a specific index.
+    /// - Parameter index: The zero-based index of the Section that will be inserted into the List.
     func createSection(at index: Int) -> MSFListSectionState
 
     /// Retrieves the state object for a specific Section so its appearance can be customized.
