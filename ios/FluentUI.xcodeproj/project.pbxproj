@@ -187,13 +187,13 @@
 		925D461D26FD133600179583 /* GlobalTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925D461B26FD133600179583 /* GlobalTokens.swift */; };
 		925D462026FD18B200179583 /* AliasTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925D461E26FD18B200179583 /* AliasTokens.swift */; };
 		9275105626815A7100F12730 /* MSFPersonaButtonCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9275105426815A7100F12730 /* MSFPersonaButtonCarousel.swift */; };
-		927EB2BD278627440069753D /* PersonaButtonModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927EB2BC278627440069753D /* PersonaButtonModifiers.swift */; };
 		9298798B2669A875002B1EB4 /* PersonaButtonTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927E34C62668350800998031 /* PersonaButtonTokens.swift */; };
+		92987990266A8E1C002B1EB4 /* MSFPersonaButtonTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9298798D266A8E1C002B1EB4 /* MSFPersonaButtonTokens.generated.swift */; };
+		92987992266A8E1C002B1EB4 /* MSFPersonaButtonCarouselTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9298798E266A8E1C002B1EB4 /* MSFPersonaButtonCarouselTokens.generated.swift */; };
 		929DD257266ED3AC00E8175E /* PersonaButtonCarouselTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 929DD255266ED3AC00E8175E /* PersonaButtonCarouselTokens.swift */; };
 		929DD25A266ED3B600E8175E /* PersonaButtonCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 929DD258266ED3B600E8175E /* PersonaButtonCarousel.swift */; };
 		92A1E4F526A791590007ED60 /* MSFCardNudge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A1E4F326A791590007ED60 /* MSFCardNudge.swift */; };
 		92B7E6A326864AE900EFC15E /* MSFPersonaButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92B7E6A12684262900EFC15E /* MSFPersonaButton.swift */; };
-		92D49054278FF4E50085C018 /* PersonaButtonCarouselModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D49053278FF4E50085C018 /* PersonaButtonCarouselModifiers.swift */; };
 		92D5598226A0FD2800328FD3 /* CardNudge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D5598026A0FD2800328FD3 /* CardNudge.swift */; };
 		92DEE2252723D34400E31ED0 /* ControlTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92DEE2232723D34400E31ED0 /* ControlTokens.swift */; };
 		92E7AD5026FE51FF00AE7FF8 /* DynamicColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E7AD4E26FE51FF00AE7FF8 /* DynamicColor.swift */; };
@@ -315,12 +315,12 @@
 		925D461E26FD18B200179583 /* AliasTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AliasTokens.swift; sourceTree = "<group>"; };
 		9275105426815A7100F12730 /* MSFPersonaButtonCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFPersonaButtonCarousel.swift; sourceTree = "<group>"; };
 		927E34C62668350800998031 /* PersonaButtonTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaButtonTokens.swift; sourceTree = "<group>"; };
-		927EB2BC278627440069753D /* PersonaButtonModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaButtonModifiers.swift; sourceTree = "<group>"; };
+		9298798D266A8E1C002B1EB4 /* MSFPersonaButtonTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFPersonaButtonTokens.generated.swift; sourceTree = "<group>"; };
+		9298798E266A8E1C002B1EB4 /* MSFPersonaButtonCarouselTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFPersonaButtonCarouselTokens.generated.swift; sourceTree = "<group>"; };
 		929DD255266ED3AC00E8175E /* PersonaButtonCarouselTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonaButtonCarouselTokens.swift; sourceTree = "<group>"; };
 		929DD258266ED3B600E8175E /* PersonaButtonCarousel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonaButtonCarousel.swift; sourceTree = "<group>"; };
 		92A1E4F326A791590007ED60 /* MSFCardNudge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFCardNudge.swift; sourceTree = "<group>"; };
 		92B7E6A12684262900EFC15E /* MSFPersonaButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFPersonaButton.swift; sourceTree = "<group>"; };
-		92D49053278FF4E50085C018 /* PersonaButtonCarouselModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaButtonCarouselModifiers.swift; sourceTree = "<group>"; };
 		92D5598026A0FD2800328FD3 /* CardNudge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardNudge.swift; sourceTree = "<group>"; };
 		92DEE2232723D34400E31ED0 /* ControlTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlTokens.swift; sourceTree = "<group>"; };
 		92E7AD4E26FE51FF00AE7FF8 /* DynamicColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicColor.swift; sourceTree = "<group>"; };
@@ -764,8 +764,8 @@
 			isa = PBXGroup;
 			children = (
 				92B7E6A12684262900EFC15E /* MSFPersonaButton.swift */,
+				9298798D266A8E1C002B1EB4 /* MSFPersonaButtonTokens.generated.swift */,
 				92088EF72666DB2C003F571A /* PersonaButton.swift */,
-				927EB2BC278627440069753D /* PersonaButtonModifiers.swift */,
 				927E34C62668350800998031 /* PersonaButtonTokens.swift */,
 			);
 			path = PersonaButton;
@@ -818,8 +818,8 @@
 			isa = PBXGroup;
 			children = (
 				9275105426815A7100F12730 /* MSFPersonaButtonCarousel.swift */,
+				9298798E266A8E1C002B1EB4 /* MSFPersonaButtonCarouselTokens.generated.swift */,
 				929DD258266ED3B600E8175E /* PersonaButtonCarousel.swift */,
-				92D49053278FF4E50085C018 /* PersonaButtonCarouselModifiers.swift */,
 				929DD255266ED3AC00E8175E /* PersonaButtonCarouselTokens.swift */,
 			);
 			path = PersonaButtonCarousel;
@@ -1501,6 +1501,7 @@
 				5314E14525F016860099271A /* CardPresentationController.swift in Sources */,
 				5314E0A925F010070099271A /* DrawerTransitionAnimator.swift in Sources */,
 				5314E06525F00EFD0099271A /* CalendarViewDayMonthCell.swift in Sources */,
+				92987990266A8E1C002B1EB4 /* MSFPersonaButtonTokens.generated.swift in Sources */,
 				5314E08B25F00F2D0099271A /* CommandBarItem.swift in Sources */,
 				5314E06225F00EFD0099271A /* CalendarViewDayTodayCell.swift in Sources */,
 				5314E08025F00F1A0099271A /* DateTimePickerViewComponent.swift in Sources */,
@@ -1519,6 +1520,7 @@
 				5314E13725F016370099271A /* PopupMenuProtocols.swift in Sources */,
 				5314E19725F019650099271A /* TabBarItem.swift in Sources */,
 				92B7E6A326864AE900EFC15E /* MSFPersonaButton.swift in Sources */,
+				92987992266A8E1C002B1EB4 /* MSFPersonaButtonCarouselTokens.generated.swift in Sources */,
 				5314E1BB25F01B070099271A /* TouchForwardingView.swift in Sources */,
 				5314E2EC25F025710099271A /* DayOfMonth.swift in Sources */,
 				5306075526A1E6A4002D49CF /* MSFAvatarGroupTokens.generated.swift in Sources */,
@@ -1555,7 +1557,6 @@
 				5314E0AA25F010070099271A /* DrawerShadowView.swift in Sources */,
 				5314E0E725F012C00099271A /* UINavigationItem+Navigation.swift in Sources */,
 				920945492703DDA000B38E1A /* CardNudgeTokens.swift in Sources */,
-				92D49054278FF4E50085C018 /* PersonaButtonCarouselModifiers.swift in Sources */,
 				5314E25D25F0238E0099271A /* UIFont+Extension.swift in Sources */,
 				C77A04B825F03DD1001B3EB6 /* String+Date.swift in Sources */,
 				5314E10125F012E60099271A /* NotificationView.swift in Sources */,
@@ -1572,7 +1573,6 @@
 				925D461D26FD133600179583 /* GlobalTokens.swift in Sources */,
 				9275105626815A7100F12730 /* MSFPersonaButtonCarousel.swift in Sources */,
 				5314E0BC25F0106F0099271A /* HUDView.swift in Sources */,
-				927EB2BD278627440069753D /* PersonaButtonModifiers.swift in Sources */,
 				5314E0F225F012C80099271A /* ShyHeaderView.swift in Sources */,
 				53097D232702890900A6E4DC /* MSFListTokens.generated.swift in Sources */,
 				5314E02825F00DA80099271A /* BlurringView.swift in Sources */,

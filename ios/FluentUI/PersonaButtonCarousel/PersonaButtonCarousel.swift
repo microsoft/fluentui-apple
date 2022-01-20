@@ -81,12 +81,15 @@ import SwiftUI
 }
 
 /// View that represents a carousel of `PersonaButton` instances.
-public struct PersonaButtonCarousel: View, TokenizedControlInternal {
-    /// Creates a new `PersonaButtonCarousel` instance.
-    /// - Parameters:
-    ///   - size: The MSFPersonaButtonSize value used by the `PersonaButtonCarousel`.
+public struct PersonaButtonCarousel: View {
+    @Environment(\.theme) var theme: FluentUIStyle
+    @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
+    @ObservedObject var tokens: MSFPersonaButtonCarouselTokens
+    @ObservedObject var state: MSFPersonaCarouselStateImpl
+
     public init(size: MSFPersonaButtonSize) {
         let carouselState = MSFPersonaCarouselStateImpl(size: size)
+        tokens = carouselState.tokens
         state = carouselState
     }
 
@@ -104,30 +107,25 @@ public struct PersonaButtonCarousel: View, TokenizedControlInternal {
                 }
             }
         }
-        .background(Color(dynamicColor: tokens.backgroundColor))
-        .resolveTokens(self)
-        .resolveTokenModifier(self, value: state.buttonSize)
+        .background(Color(tokens.backgroundColor))
+        .designTokens(tokens,
+                      from: theme,
+                      with: windowProvider)
     }
-
-    @Environment(\.fluentTheme) var fluentTheme: FluentTheme
-    @ObservedObject var state: MSFPersonaCarouselStateImpl
-    var tokens: PersonaButtonCarouselTokens { state.tokens }
 }
 
 /// Properties that make up PersonaButtonCarousel content
-class MSFPersonaCarouselStateImpl: NSObject, ObservableObject, Identifiable, ControlConfiguration, MSFPersonaCarouselState {
+class MSFPersonaCarouselStateImpl: NSObject, ObservableObject, Identifiable, MSFPersonaCarouselState {
+    let tokens: MSFPersonaButtonCarouselTokens
     let buttonSize: MSFPersonaButtonSize
 
     @Published var onTapAction: ((_ personaButtonState: MSFPersonaCarouselButtonState, _ index: Int) -> Void)?
-    @Published var buttons: [MSFPersonaCarouselButtonStateImpl] = []
 
-    @Published var tokens: PersonaButtonCarouselTokens
-    @Published var overrideTokens: PersonaButtonCarouselTokens?
-    var defaultTokens: PersonaButtonCarouselTokens { .init(size: buttonSize) }
+    @Published var buttons: [MSFPersonaCarouselButtonStateImpl] = []
 
     init(size: MSFPersonaButtonSize) {
         self.buttonSize = size
-        self.tokens = PersonaButtonCarouselTokens(size: size)
+        self.tokens = MSFPersonaButtonCarouselTokens(size: size)
 
         super.init()
     }
