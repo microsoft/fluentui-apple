@@ -231,10 +231,6 @@ AP_MSFAvatarGroupTokens:
 MSFAvatarGroupStackTokens extends MSFAvatarGroupTokens:
   interspace: [ xSmall: -2pt, small: -2pt, medium: -4pt, large: -8pt, xlarge: -12pt, xxlarge: -12pt ]
 
-AP_MSFDividerTokens:
-  color: $Colors.Stroke.neutral2
-  spacing: [ none: $Spacing.none, medium: $Spacing.medium]
-
 AP_MSFDrawerTokens:
   backgroundDimmedColor: $Colors.Elevation.highElevation
   drawerBackground: "FluentUIColor(light: $Colors.Background.neutral1, dark: $Colors.Background.neutral3)"
