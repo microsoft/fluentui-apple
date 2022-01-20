@@ -382,8 +382,10 @@ open class BadgeView: UIView {
         backgroundView.frame = bounds
 
         if let customViewSize = customViewSize(for: frame.size), customViewSize != .zero {
-            dataSource?.customView?.frame = CGRect(origin: CGPoint(x: customViewPadding.left, y: (frame.height - customViewSize.height) / 2), size: customViewSize)
-            label.frame = CGRect(origin: CGPoint(x: customViewPadding.left + customViewPadding.right + customViewSize.width, y: (frame.height - labelSize.height) / 2), size: labelSize)
+			let customViewOrigin = CGPoint(x: customViewPadding.left, y: (frame.height - customViewSize.height) / 2)
+            dataSource?.customView?.frame = CGRect(origin: customViewOrigin, size: customViewSize)
+			let labelOrigin = CGPoint(x: customViewPadding.left + customViewPadding.right + customViewSize.width, y: (frame.height - labelSize.height) / 2)
+            label.frame = CGRect(origin: labelOrigin, size: labelSize)
         } else {
             label.frame = bounds.insetBy(dx: -size.horizontalPadding, dy: -size.verticalPadding)
         }
@@ -409,7 +411,9 @@ open class BadgeView: UIView {
         let height: CGFloat
 
         if let customViewSize = customViewSize(for: size), customViewSize != .zero {
-            height = max(customViewSize.height + customViewPadding.top + customViewPadding.bottom, labelSize.height + self.size.verticalPadding * 2)
+			let heightForCustomView = customViewSize.height + customViewPadding.top + customViewPadding.bottom
+			let heightForLabel = labelSize.height + self.size.verticalPadding * 2
+            height = max(heightForCustomView, heightForLabel)
             width = labelSize.width + customViewSize.width + customViewPadding.left + customViewPadding.right + self.size.horizontalPadding
         } else {
             height = labelSize.height + self.size.verticalPadding * 2
