@@ -212,7 +212,6 @@
 		D6F4098B274F14B8001B80D4 /* MSFPillButtonTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F4098A274F14B8001B80D4 /* MSFPillButtonTokens.generated.swift */; };
 		D6F4098D274F19CE001B80D4 /* MSFPillButtonBarTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F4098C274F19CE001B80D4 /* MSFPillButtonBarTokens.generated.swift */; };
 		D6F4098F274F1A1C001B80D4 /* PillButtonBarTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F4098E274F1A1C001B80D4 /* PillButtonBarTokens.swift */; };
-		EC02A5F127472EC300E81B3E /* MSFDividerTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC02A5F027472EC300E81B3E /* MSFDividerTokens.generated.swift */; };
 		EC02A5F327472EF400E81B3E /* DividerTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC02A5F227472EF400E81B3E /* DividerTokens.swift */; };
 		EC02A5F5274DD19600E81B3E /* MSFDivider.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC02A5F4274DD19500E81B3E /* MSFDivider.swift */; };
 		EC6A71EA273DBA520076A586 /* Divider.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6A71E9273DBA520076A586 /* Divider.swift */; };
@@ -390,7 +389,6 @@
 		D6F4098A274F14B8001B80D4 /* MSFPillButtonTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFPillButtonTokens.generated.swift; sourceTree = "<group>"; };
 		D6F4098C274F19CE001B80D4 /* MSFPillButtonBarTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFPillButtonBarTokens.generated.swift; sourceTree = "<group>"; };
 		D6F4098E274F1A1C001B80D4 /* PillButtonBarTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButtonBarTokens.swift; sourceTree = "<group>"; };
-		EC02A5F027472EC300E81B3E /* MSFDividerTokens.generated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFDividerTokens.generated.swift; sourceTree = "<group>"; };
 		EC02A5F227472EF400E81B3E /* DividerTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DividerTokens.swift; sourceTree = "<group>"; };
 		EC02A5F4274DD19500E81B3E /* MSFDivider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFDivider.swift; sourceTree = "<group>"; };
 		EC6A71E9273DBA520076A586 /* Divider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Divider.swift; sourceTree = "<group>"; };
@@ -1113,7 +1111,6 @@
 			isa = PBXGroup;
 			children = (
 				EC6A71E9273DBA520076A586 /* Divider.swift */,
-				EC02A5F027472EC300E81B3E /* MSFDividerTokens.generated.swift */,
 				EC02A5F227472EF400E81B3E /* DividerTokens.swift */,
 				EC02A5F4274DD19500E81B3E /* MSFDivider.swift */,
 			);
@@ -1638,7 +1635,6 @@
 				53097D252702890900A6E4DC /* ListCell.swift in Sources */,
 				92088EF92666DB2C003F571A /* PersonaButton.swift in Sources */,
 				5314E13425F016370099271A /* PopupMenuItem.swift in Sources */,
-				EC02A5F127472EC300E81B3E /* MSFDividerTokens.generated.swift in Sources */,
 				5314E13825F016370099271A /* PopupMenuSection.swift in Sources */,
 				5314E07C25F00F1A0099271A /* DateTimePickerViewLayout.swift in Sources */,
 				5314E11625F015EA0099271A /* PersonaBadgeViewDataSource.swift in Sources */,
