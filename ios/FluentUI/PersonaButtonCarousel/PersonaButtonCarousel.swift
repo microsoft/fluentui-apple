@@ -82,6 +82,9 @@ import SwiftUI
 
 /// View that represents a carousel of `PersonaButton` instances.
 public struct PersonaButtonCarousel: View, TokenizedControlInternal {
+    /// Creates a new `PersonaButtonCarousel` instance.
+    /// - Parameters:
+    ///   - size: The MSFPersonaButtonSize value used by the `PersonaButtonCarousel`.
     public init(size: MSFPersonaButtonSize) {
         let carouselState = MSFPersonaCarouselStateImpl(size: size)
         state = carouselState

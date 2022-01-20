@@ -58,9 +58,9 @@ import SwiftUI
 
 /// View that represents a persona button.
 public struct PersonaButton: View, TokenizedControlInternal {
-    /// Creates a new PersonaButton instance.
+    /// Creates a new `PersonaButton` instance.
     /// - Parameters:
-    ///   - size: The MSFPersonaButtonSize value used by the PersonaButton.
+    ///   - size: The` MSFPersonaButtonSize` value used by the `PersonaButton`.
     public init(size: MSFPersonaButtonSize) {
         let state = MSFPersonaButtonStateImpl(size: size)
         self.state = state
