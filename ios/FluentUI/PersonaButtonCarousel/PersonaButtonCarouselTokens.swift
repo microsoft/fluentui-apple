@@ -10,20 +10,19 @@ import UIKit
 public class PersonaButtonCarouselTokens: ControlTokens {
 
     /// Creates an instance of `PersonaButtonCarouselTokens` with optional token value overrides.
-    public convenience init(size: MSFPersonaButtonSize,
-                            backgroundColor: DynamicColor? = nil) {
-        self.init(size: size)
+    /// - Parameters:
+    ///   - size: `MSFPersonaButtonSize` enumeration value that will define pre-defined values for fonts and spacing.
+    ///   - backgroundColor: The background color for the `PersonaButtonCarousel`.
+    public init(size: MSFPersonaButtonSize,
+                backgroundColor: DynamicColor? = nil) {
+        self.size = size
+        super.init()
 
         // Overrides
 
         if let backgroundColor = backgroundColor {
             self.backgroundColor = backgroundColor
         }
-    }
-
-    init(size: MSFPersonaButtonSize) {
-        self.size = size
-        super.init()
     }
 
     var size: MSFPersonaButtonSize

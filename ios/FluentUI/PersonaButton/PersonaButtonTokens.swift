@@ -34,17 +34,29 @@ import UIKit
 public class PersonaButtonTokens: ControlTokens {
 
     /// Creates an instance of `PersonaButtonTokens` with optional token value overrides.
-    public convenience init(size: MSFPersonaButtonSize,
-                            avatarInterspace: CGFloat?  = nil,
-                            backgroundColor: DynamicColor?  = nil,
-                            horizontalAvatarPadding: CGFloat?  = nil,
-                            horizontalTextPadding: CGFloat?  = nil,
-                            labelColor: DynamicColor?  = nil,
-                            labelFont: FontInfo?  = nil,
-                            sublabelColor: DynamicColor?  = nil,
-                            sublabelFont: FontInfo?  = nil,
-                            verticalPadding: CGFloat?  = nil) {
-        self.init(size: size)
+    /// - Parameters:
+    ///   - size: `MSFPersonaButtonSize` enumeration value that will define pre-defined values for fonts and spacing.
+    ///   - avatarInterspace: The amount of space between the control's `Avatar` and text labels.
+    ///   - backgroundColor: The background color for the `PersonaButton`.
+    ///   - horizontalAvatarPadding: How much space should be reserved to the left and right of the control's `Avatar`.
+    ///   - horizontalTextPadding: How much space should be reserved to the left and right of the control's labels.
+    ///   - labelColor: The `DynamicColor` to use for the control's primary label.
+    ///   - labelFont: The `FontInfo` to use for the control's primary label.
+    ///   - sublabelColor: The `DynamicColor` to use for the control's secondary label.
+    ///   - sublabelFont: The `FontInfo` to use for the control's secondary label.
+    ///   - verticalPadding: How much padding to add above the `Avatar` and below the lowest text label.
+    public init(size: MSFPersonaButtonSize,
+                avatarInterspace: CGFloat?  = nil,
+                backgroundColor: DynamicColor?  = nil,
+                horizontalAvatarPadding: CGFloat?  = nil,
+                horizontalTextPadding: CGFloat?  = nil,
+                labelColor: DynamicColor?  = nil,
+                labelFont: FontInfo?  = nil,
+                sublabelColor: DynamicColor?  = nil,
+                sublabelFont: FontInfo?  = nil,
+                verticalPadding: CGFloat?  = nil) {
+        self.size = size
+        super.init()
 
         // Overrides
         if let avatarInterspace = avatarInterspace {
@@ -74,11 +86,6 @@ public class PersonaButtonTokens: ControlTokens {
         if let verticalPadding = verticalPadding {
             self.verticalPadding = verticalPadding
         }
-    }
-
-    init(size: MSFPersonaButtonSize) {
-        self.size = size
-        super.init()
     }
 
     var size: MSFPersonaButtonSize
