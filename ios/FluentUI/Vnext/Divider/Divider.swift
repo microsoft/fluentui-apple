@@ -67,11 +67,6 @@ public struct FluentDivider: View, TokenizedControlInternal {
             .resolveTokenModifier(self, value: state.orientation)
     }
 
-    public func overrideTokens(_ tokens: DividerTokens?) -> FluentDivider {
-        state.overrideTokens = tokens
-        return self
-    }
-
     var tokens: DividerTokens { state.tokens }
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @ObservedObject var state: MSFDividerStateImpl
