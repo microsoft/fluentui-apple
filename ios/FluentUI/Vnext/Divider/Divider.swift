@@ -76,7 +76,7 @@ public struct FluentDivider: View, TokenizedControlInternal {
 class MSFDividerStateImpl: NSObject, ObservableObject, ControlConfiguration, MSFDividerState {
     @Published var overrideTokens: DividerTokens?
     @Published var tokens: DividerTokens
-    var defaultTokens: DividerTokens {.init()}
+    var defaultTokens: DividerTokens { .init(spacing: self.spacing) }
 
     @Published var color: UIColor?
     @Published var orientation: MSFDividerOrientation

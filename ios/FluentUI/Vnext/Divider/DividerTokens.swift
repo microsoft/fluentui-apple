@@ -19,7 +19,7 @@ public class DividerTokens: ControlTokens {
     ///   - spacing: MSFDividerSpacing enumeration value that will define pre-defined value for the padding
     ///   - padding: CGFloat that defines the padding around the Fluent Divider
     ///   - color: The color of the Fluent Divider
-    public init(spacing: MSFDividerSpacing = .none,
+    public init(spacing: MSFDividerSpacing,
                 padding: CGFloat? = nil,
                 color: DynamicColor? = nil) {
         self.spacing = spacing
