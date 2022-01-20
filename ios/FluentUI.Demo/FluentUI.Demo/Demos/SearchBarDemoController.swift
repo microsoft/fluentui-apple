@@ -15,7 +15,7 @@ class SearchBarDemoController: DemoController, SearchBarDelegate {
         return searchBar
     }()
 
-    private var badgeView: BadgeView = {
+    private var badgeView: UIView = {
         let dataSource = BadgeViewDataSource(text: "Kat Larrson")
         let badge = BadgeView(dataSource: dataSource)
         badge.disabledBackgroundColor = Colors.Palette.blueMagenta20.color
@@ -51,8 +51,8 @@ class SearchBarDemoController: DemoController, SearchBarDelegate {
     }
 
     func searchBar(_ searchBar: SearchBar, didUpdateSearchText newSearchText: String?) {
-        if searchBar == searchBarWithBadgeView && searchBar.searchText?.lowercased() == "badge" && searchBarWithBadgeView.badgeView == nil {
-            searchBarWithBadgeView.badgeView = badgeView
+        if searchBar == searchBarWithBadgeView && searchBar.searchText?.lowercased() == "badge" && searchBarWithBadgeView.leadingView == nil {
+            searchBarWithBadgeView.leadingView = badgeView
             searchBar.searchText = ""
         }
     }

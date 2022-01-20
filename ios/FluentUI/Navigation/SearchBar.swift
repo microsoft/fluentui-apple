@@ -42,7 +42,7 @@ public protocol SearchBarDelegate: AnyObject {
     @objc optional func searchBarDidFinishEditing(_ searchBar: SearchBar)
     func searchBarDidCancel(_ searchBar: SearchBar)
     @objc optional func searchBarDidRequestSearch(_ searchBar: SearchBar)
-    @objc optional func searchBar(_ searchBar: SearchBar, didUpdateBadgeView badgeView: BadgeView?)
+    @objc optional func searchBar(_ searchBar: SearchBar, didUpdateLeadingView leadingView: UIView?)
 }
 
 // MARK: - SearchBar
@@ -254,16 +254,16 @@ open class SearchBar: UIView {
         return button
     }()
 
-    @objc public var badgeView: BadgeView? {
+    @objc public var leadingView: UIView? {
         didSet {
-            guard oldValue != badgeView else {
+            guard oldValue != leadingView else {
                 return
             }
 
             oldValue?.removeFromSuperview()
-            setupLayoutForBadgeView()
+            setupLayoutForLeadingView()
             onContentChanged()
-            delegate?.searchBar?(self, didUpdateBadgeView: badgeView)
+            delegate?.searchBar?(self, didUpdateLeadingView: leadingView)
         }
     }
 
@@ -337,7 +337,7 @@ open class SearchBar: UIView {
         isActive = false
         searchTextField.resignFirstResponder()
         searchTextField.text = nil
-        badgeView = nil
+        leadingView = nil
         searchTextDidChange(shouldUpdateDelegate: false)
         delegate?.searchBarDidCancel(self)
         hideCancelButton()
@@ -445,24 +445,24 @@ open class SearchBar: UIView {
         NSLayoutConstraint.activate(constraints)
     }
 
-    private func setupLayoutForBadgeView() {
-        guard let badgeView = badgeView else {
+    private func setupLayoutForLeadingView() {
+        guard let leadingView = leadingView else {
             textFieldLeadingConstraint?.constant = Constants.searchTextFieldLeadingInset
             return
         }
 
-        let badgeViewSize = badgeView.sizeThatFits(searchTextFieldBackgroundView.frame.size)
+        let leadingViewSize = leadingView.sizeThatFits(searchTextFieldBackgroundView.frame.size)
 
-        textFieldLeadingConstraint?.constant = Constants.searchIconInset + badgeViewSize.width + Constants.searchTextFieldLeadingInset
+        textFieldLeadingConstraint?.constant = Constants.searchIconInset + leadingViewSize.width + Constants.searchTextFieldLeadingInset
 
-        searchTextFieldBackgroundView.addSubview(badgeView)
-        badgeView.translatesAutoresizingMaskIntoConstraints = false
+        searchTextFieldBackgroundView.addSubview(leadingView)
+        leadingView.translatesAutoresizingMaskIntoConstraints = false
 
         var constraints = [NSLayoutConstraint]()
-        constraints.append(badgeView.leadingAnchor.constraint(equalTo: searchIconImageViewContainerView.trailingAnchor, constant: Constants.searchIconInset))
-        constraints.append(badgeView.centerYAnchor.constraint(equalTo: searchTextFieldBackgroundView.centerYAnchor))
-        constraints.append(badgeView.widthAnchor.constraint(equalToConstant: badgeViewSize.width))
-        constraints.append(badgeView.heightAnchor.constraint(equalToConstant: badgeViewSize.height))
+        constraints.append(leadingView.leadingAnchor.constraint(equalTo: searchIconImageViewContainerView.trailingAnchor, constant: Constants.searchIconInset))
+        constraints.append(leadingView.centerYAnchor.constraint(equalTo: searchTextFieldBackgroundView.centerYAnchor))
+        constraints.append(leadingView.widthAnchor.constraint(equalToConstant: leadingViewSize.width))
+        constraints.append(leadingView.heightAnchor.constraint(equalToConstant: leadingViewSize.height))
         NSLayoutConstraint.activate(constraints)
     }
 
@@ -489,7 +489,7 @@ open class SearchBar: UIView {
     // Clears all text by setting searchText to nil
     @objc private func clearButtonTapped(sender: UIButton) {
         searchTextField.text = nil
-        badgeView = nil
+        leadingView = nil
         searchTextDidChange(shouldUpdateDelegate: true)
         _ = searchTextField.becomeFirstResponder()
     }
@@ -523,7 +523,7 @@ open class SearchBar: UIView {
     }
 
     private func onContentChanged() {
-        let hasContent = searchTextField.text?.isEmpty == false || badgeView != nil
+        let hasContent = searchTextField.text?.isEmpty == false || leadingView != nil
 
         UIView.animate(withDuration: 0.1) {
             self.attributePlaceholderText()
@@ -592,7 +592,7 @@ extension SearchBar: UITextFieldDelegate {
 
     public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if textField == searchTextField && string == "" && range == NSRange(location: 0, length: 0) {
-            badgeView = nil
+            leadingView = nil
         }
         return true
     }
@@ -604,7 +604,7 @@ extension UINavigationItem {
     var accessorySearchBar: SearchBar? { return accessoryView as? SearchBar }
 }
 
-// MARK: - SearchBarField
+// MARK: - SearchBarTextField
 
 private class SearchBarTextField: UITextField {
     override func deleteBackward() {
