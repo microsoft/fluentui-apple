@@ -8,11 +8,10 @@ import UIKit
 
 class SearchBarDemoController: DemoController, SearchBarDelegate {
     private lazy var searchBarWithBadgeView: SearchBar = {
-        let searchBar = buildSearchBar(
+        buildSearchBar(
             autocorrectionType: .yes,
             placeholderText: "Type badge to add a badge"
         )
-        return searchBar
     }()
 
     private var badgeView: UIView = {
@@ -68,8 +67,8 @@ class SearchBarDemoController: DemoController, SearchBarDelegate {
         searchBar.progressSpinner.state.isAnimating = true
     }
 
-    func searchBar(_ searchBar: SearchBar, didUpdateBadgeView badgeView: BadgeView?) {
-        let badgeInfo = badgeView?.dataSource?.text ?? "nil"
+    func searchBar(_ searchBar: SearchBar, didUpdateLeadingView leadingView: UIView?) {
+        let badgeInfo = (leadingView as? BadgeView)?.dataSource?.text ?? "nil"
 
         let alert = UIAlertController(title: "Badge view updated: \(badgeInfo)", message: nil, preferredStyle: .alert)
         present(alert, animated: true)

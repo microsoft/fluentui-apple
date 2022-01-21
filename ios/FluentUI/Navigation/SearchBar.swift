@@ -407,10 +407,10 @@ open class SearchBar: UIView {
         searchTextFieldBackgroundView.addSubview(searchTextField)
         searchTextField.translatesAutoresizingMaskIntoConstraints = false
 
-        textFieldLeadingConstraint = searchTextField.leadingAnchor.constraint(equalTo: searchIconImageViewContainerView.trailingAnchor, constant: Constants.searchTextFieldLeadingInset)
-        textFieldLeadingConstraint?.isActive = true
         constraints.append(searchTextField.centerYAnchor.constraint(equalTo: searchTextFieldBackgroundView.centerYAnchor))
         constraints.append(searchTextField.heightAnchor.constraint(equalTo: searchTextFieldBackgroundView.heightAnchor, constant: -2 * Constants.searchTextFieldVerticalInset))
+        constraints.append(searchTextField.leadingAnchor.constraint(equalTo: searchIconImageViewContainerView.trailingAnchor, constant: Constants.searchTextFieldLeadingInset))
+        textFieldLeadingConstraint = constraints.last
 
         // progressSpinner
         let progressSpinnerView = progressSpinner.view
@@ -446,24 +446,23 @@ open class SearchBar: UIView {
     }
 
     private func setupLayoutForLeadingView() {
+        textFieldLeadingConstraint?.isActive = leadingView == nil
+
         guard let leadingView = leadingView else {
-            textFieldLeadingConstraint?.constant = Constants.searchTextFieldLeadingInset
             return
         }
 
-        let leadingViewSize = leadingView.sizeThatFits(searchTextFieldBackgroundView.frame.size)
-
-        textFieldLeadingConstraint?.constant = Constants.searchIconInset + leadingViewSize.width + Constants.searchTextFieldLeadingInset
-
         searchTextFieldBackgroundView.addSubview(leadingView)
+        let leadingViewSize = leadingView.sizeThatFits(searchTextFieldBackgroundView.frame.size)
         leadingView.translatesAutoresizingMaskIntoConstraints = false
 
-        var constraints = [NSLayoutConstraint]()
-        constraints.append(leadingView.leadingAnchor.constraint(equalTo: searchIconImageViewContainerView.trailingAnchor, constant: Constants.searchIconInset))
-        constraints.append(leadingView.centerYAnchor.constraint(equalTo: searchTextFieldBackgroundView.centerYAnchor))
-        constraints.append(leadingView.widthAnchor.constraint(equalToConstant: leadingViewSize.width))
-        constraints.append(leadingView.heightAnchor.constraint(equalToConstant: leadingViewSize.height))
-        NSLayoutConstraint.activate(constraints)
+        NSLayoutConstraint.activate([
+            leadingView.leadingAnchor.constraint(equalTo: searchIconImageViewContainerView.trailingAnchor, constant: Constants.searchIconInset),
+            leadingView.trailingAnchor.constraint(equalTo: searchTextField.leadingAnchor, constant: -Constants.searchTextFieldLeadingInset),
+            leadingView.centerYAnchor.constraint(equalTo: searchTextFieldBackgroundView.centerYAnchor),
+            leadingView.widthAnchor.constraint(equalToConstant: leadingViewSize.width),
+            leadingView.heightAnchor.constraint(equalToConstant: leadingViewSize.height)
+        ])
     }
 
     private func updateColorsForStyle() {
@@ -591,7 +590,7 @@ extension SearchBar: UITextFieldDelegate {
     }
 
     public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if textField == searchTextField && string == "" && range == NSRange(location: 0, length: 0) {
+        if textField == searchTextField && string.isEmpty && range == NSRange(location: 0, length: 0) {
             leadingView = nil
         }
         return true
