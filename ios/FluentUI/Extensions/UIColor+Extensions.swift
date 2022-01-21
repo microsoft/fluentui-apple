@@ -83,7 +83,7 @@ extension UIColor {
         }
     }
 
-    var dynamicColor: DynamicColor? {
+    public var dynamicColor: DynamicColor? {
         // Only the light color value is mandatory when making a DynamicColor.
         if let lightColorValue = resolvedColorValue(userInterfaceStyle: .light) {
             let colors = DynamicColor(

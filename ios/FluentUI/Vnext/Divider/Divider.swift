@@ -13,9 +13,6 @@ import SwiftUI
 
 /// Properties that can be used to customize the appearance of the Divider.
 @objc public protocol MSFDividerState {
-    /// Sets a custom color for the Divider.
-    var color: UIColor? { get set }
-
     /// Defines the orientation of the Divider.
     var orientation: MSFDividerOrientation { get set }
 
@@ -24,6 +21,9 @@ import SwiftUI
 
     /// Defines the thickness of the Divider.
     var thickness: CGFloat { get }
+
+    /// Custom design token set for this control
+    var overrideTokens: DividerTokens? { get set }
 }
 
 /// View that represents the Divider.
@@ -42,13 +42,7 @@ public struct FluentDivider: View, TokenizedControlInternal {
 
     public var body: some View {
         let isHorizontal = state.orientation == .horizontal
-        let color: Color = {
-            guard let stateUIColor = state.color else {
-                return Color(dynamicColor: tokens.color)
-            }
-
-            return Color(stateUIColor)
-        }()
+        let color = Color(dynamicColor: tokens.color)
 
         return Rectangle()
             .fill(color)
@@ -78,7 +72,6 @@ class MSFDividerStateImpl: NSObject, ObservableObject, ControlConfiguration, MSF
     @Published var tokens: DividerTokens
     var defaultTokens: DividerTokens { .init(spacing: self.spacing) }
 
-    @Published var color: UIColor?
     @Published var orientation: MSFDividerOrientation
 
     @Published var spacing: MSFDividerSpacing

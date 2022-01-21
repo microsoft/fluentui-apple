@@ -112,11 +112,17 @@ class DividerDemoController: UITableViewController {
 
     private func coloredDivider(orientation: MSFDividerOrientation = .horizontal, spacing: MSFDividerSpacing, color: UIColor?) -> MSFDivider {
         let divider = MSFDivider(orientation: orientation, spacing: spacing)
-        divider.state.color = color
+        let dividerTokens = customDividerTokens(spacing: spacing, color: color)
+        divider.state.overrideTokens = dividerTokens
 
         dividers.append(divider)
 
         return divider
+    }
+
+    private func customDividerTokens(spacing: MSFDividerSpacing, color: UIColor?) -> DividerTokens {
+        let customColor = color?.dynamicColor
+        return DividerTokens(spacing: spacing, color: customColor)
     }
 
     private var dividers: [MSFDivider] = []
