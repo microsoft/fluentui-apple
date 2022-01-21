@@ -43,6 +43,7 @@
 		923DF2DB271158C900637646 /* libFluentUI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 923DF2DA271158C900637646 /* libFluentUI.a */; };
 		923DF2DF27115B4700637646 /* FluentUIResources-ios.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 923DF2DC271158CD00637646 /* FluentUIResources-ios.bundle */; };
 		92561E732718AD090072ED00 /* DemoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92561E722718AD090072ED00 /* DemoTableViewController.swift */; };
+		92B45E4E279A1A0B00E72517 /* DemoAppearanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92B45E4D279A1A0B00E72517 /* DemoAppearanceController.swift */; };
 		92D5598426A1523400328FD3 /* CardNudgeDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D5598326A1523400328FD3 /* CardNudgeDemoController.swift */; };
 		92E977B726C7144F008E10A8 /* UIResponder+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E977B526C713F3008E10A8 /* UIResponder+Extensions.swift */; };
 		92E977B826C7144F008E10A8 /* DemoControllerScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E977B426C713F3008E10A8 /* DemoControllerScrollView.swift */; };
@@ -104,6 +105,7 @@
 		923DF2DA271158C900637646 /* libFluentUI.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libFluentUI.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		923DF2DC271158CD00637646 /* FluentUIResources-ios.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = "FluentUIResources-ios.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
 		92561E722718AD090072ED00 /* DemoTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoTableViewController.swift; sourceTree = "<group>"; };
+		92B45E4D279A1A0B00E72517 /* DemoAppearanceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoAppearanceController.swift; sourceTree = "<group>"; };
 		92D5598326A1523400328FD3 /* CardNudgeDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardNudgeDemoController.swift; sourceTree = "<group>"; };
 		92E4784B2661AED800BAA058 /* PersonaButtonCarouselDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaButtonCarouselDemoController.swift; sourceTree = "<group>"; };
 		92E977B426C713F3008E10A8 /* DemoControllerScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoControllerScrollView.swift; sourceTree = "<group>"; };
@@ -253,6 +255,7 @@
 				A5DCA75F211E3B4C005F4CB7 /* DemoController.swift */,
 				A5CEC21120E436F10016922A /* DemoListViewController.swift */,
 				92561E722718AD090072ED00 /* DemoTableViewController.swift */,
+				92B45E4D279A1A0B00E72517 /* DemoAppearanceController.swift */,
 			);
 			name = Shell;
 			sourceTree = "<group>";
@@ -517,6 +520,7 @@
 				B4414792228F6F740040E88E /* TableViewCellSampleData.swift in Sources */,
 				43488C4A270FB7E800124C71 /* NotificationViewDemoController_SwiftUI.swift in Sources */,
 				53097D3527028A7B00A6E4DC /* ButtonLegacyDemoController.swift in Sources */,
+				92B45E4E279A1A0B00E72517 /* DemoAppearanceController.swift in Sources */,
 				E6842974247B672000A29C40 /* SceneDelegate.swift in Sources */,
 				53097D3C27028AD000A6E4DC /* HUDDemoController.swift in Sources */,
 				92E977B826C7144F008E10A8 /* DemoControllerScrollView.swift in Sources */,

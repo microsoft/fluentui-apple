@@ -6,7 +6,7 @@
 import FluentUI
 import UIKit
 
-class ButtonDemoController: UITableViewController {
+class ButtonDemoController: UITableViewController, UIPopoverPresentationControllerDelegate {
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(style: .grouped)
     }
@@ -20,6 +20,21 @@ class ButtonDemoController: UITableViewController {
 
         tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: ButtonDemoController.cellReuseIdentifier)
+
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(showTheThing))
+    }
+
+    @objc func showTheThing(_ sender: UIBarButtonItem) {
+        let appearanceController = DemoAppearanceController()
+        appearanceController.modalPresentationStyle = .popover
+        appearanceController.popoverPresentationController?.barButtonItem = sender
+        appearanceController.popoverPresentationController?.permittedArrowDirections = .up
+        appearanceController.popoverPresentationController?.delegate = self
+        self.present(appearanceController, animated: true, completion: nil)
+    }
+
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .none
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
