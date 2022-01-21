@@ -83,6 +83,8 @@ extension UIColor {
         }
     }
 
+    /// `DynamicColor` representation of the `UIColor` object.
+    /// Requires the `UIColor` to be able to resolve its color values for at least the `.light` user interface style.
     public var dynamicColor: DynamicColor? {
         // Only the light color value is mandatory when making a DynamicColor.
         if let lightColorValue = resolvedColorValue(userInterfaceStyle: .light) {
