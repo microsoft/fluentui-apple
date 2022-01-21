@@ -136,13 +136,10 @@ public struct MSFListView: View {
     /// Finds the last cell directly adjacent to the end of a list section. This is used to remove the redundant separator that is
     /// inserted between each cell. Used as a fix until we are able to use the new List Separators in iOS 15.
     private func findLastCell(_ lastCell: MSFListCellState) -> MSFListCellState {
-        if let children = lastCell.children {
-            if lastCell.isExpanded {
-                guard let lastChild = children.last else {
-                    preconditionFailure("Does not contain any children cells")
-                }
-                return findLastCell(lastChild)
-            }
+        let childrenCellCount = lastCell.childrenCellCount
+        if childrenCellCount > 0, lastCell.isExpanded {
+            let lastChild = lastCell.getChildCellState(at: childrenCellCount - 1)
+            return findLastCell(lastChild)
         }
         return lastCell
     }
@@ -163,6 +160,34 @@ public struct MSFListView: View {
 
 /// Properties that make up section content
 class MSFListSectionStateImpl: NSObject, ObservableObject, Identifiable, MSFListSectionState {
+    var headerTokens: MSFHeaderFooterTokens
+    var id = UUID()
+
+    @Published private(set) var cells: [MSFListCellStateImpl] = []
+    @Published var title: String?
+    @Published var backgroundColor: UIColor?
+    @Published var hasDividers: Bool = false
+
+    init(style: MSFHeaderFooterStyle = .headerPrimary) {
+        self.headerTokens = MSFHeaderFooterTokens(style: style)
+        super.init()
+    }
+
+    // MARK: - MSFListSectionStateImpl accessors and modifiers
+
+    var cellCount: Int {
+        return cells.count
+    }
+
+    var style: MSFHeaderFooterStyle {
+        get {
+            return headerTokens.style
+        }
+        set {
+            headerTokens.style = newValue
+        }
+    }
+
     func createCell() -> MSFListCellState {
         return createCell(at: cells.endIndex)
     }
@@ -171,7 +196,7 @@ class MSFListSectionStateImpl: NSObject, ObservableObject, Identifiable, MSFList
         guard index <= cells.count && index >= 0 else {
             preconditionFailure("Index is out of bounds")
         }
-        let cell = MSFListCellState()
+        let cell = MSFListCellStateImpl()
         cells.insert(cell, at: index)
         return cell
     }
@@ -189,36 +214,24 @@ class MSFListSectionStateImpl: NSObject, ObservableObject, Identifiable, MSFList
         }
         cells.remove(at: index)
     }
-
-    var id = UUID()
-    @Published private(set) var cells: [MSFListCellState] = []
-    @Published var title: String?
-    @Published var backgroundColor: UIColor?
-    @Published var hasDividers: Bool = false
-
-    var cellCount: Int {
-        return cells.count
-    }
-
-    var style: MSFHeaderFooterStyle {
-        get {
-            return headerTokens.style
-        }
-        set {
-            headerTokens.style = newValue
-        }
-    }
-
-    var headerTokens: MSFHeaderFooterTokens
-
-    init(style: MSFHeaderFooterStyle = .headerPrimary) {
-        self.headerTokens = MSFHeaderFooterTokens(style: style)
-        super.init()
-    }
 }
 
 /// Properties that make up list content
 class MSFListStateImpl: NSObject, ObservableObject, MSFListState {
+    var tokens: MSFListTokens
+    @Published private(set) var sections: [MSFListSectionStateImpl] = []
+
+    override init() {
+        self.tokens = MSFListTokens()
+        super.init()
+    }
+
+    // MARK: - MSFListStateImpl accessors and modifiers
+
+    var sectionCount: Int {
+        return sections.count
+    }
+
     func createSection() -> MSFListSectionState {
         return createSection(at: sections.endIndex)
     }
@@ -244,18 +257,5 @@ class MSFListStateImpl: NSObject, ObservableObject, MSFListState {
             preconditionFailure("Index is out of bounds")
         }
         sections.remove(at: index)
-    }
-
-    @Published private(set) var sections: [MSFListSectionStateImpl] = []
-
-    var sectionCount: Int {
-        return sections.count
-    }
-
-    var tokens: MSFListTokens
-
-    override init() {
-        self.tokens = MSFListTokens()
-        super.init()
     }
 }

@@ -115,16 +115,15 @@ class LeftNavMenuViewController: UIViewController {
 
     private func setPresence(presence: LeftNavPresence) {
         self.persona.state.presence = presence.avatarPresence()
-        self.statusCell.isExpanded = false
-        self.statusCell.title = presence.cellTitle()
-        self.statusCell.leadingUIView = presence.imageView()
+        let statusCell = self.leftNavMenuList.state.getSectionState(at: 0).getCellState(at: 0)
+        statusCell.isExpanded = false
+        statusCell.title = presence.cellTitle()
+        statusCell.leadingUIView = presence.imageView()
     }
 
     private var leftNavAvatar = MSFAvatar(style: .default, size: .xlarge)
 
     private var persona = MSFPersonaView()
-
-    private var statusCell = MSFListCellState()
 
     private var leftNavMenuList = MSFList()
 
@@ -169,24 +168,29 @@ class LeftNavMenuViewController: UIViewController {
             menuAction()
         }
 
-        var statusCellChildren: [MSFListCellState] = []
+        let menuSection = leftNavMenuList.state.createSection()
+
+        let statusCell = menuSection.createCell()
+        statusCell.title = LeftNavPresence.available.cellTitle()
+        statusCell.backgroundColor = .systemBackground
+        let statusImageView = LeftNavPresence.available.imageView()
+        statusImageView.tintColor = FluentUIThemeManager.S.Colors.Presence.available
+        statusCell.leadingUIView = statusImageView
 
         for presence in LeftNavPresence.allCases {
-            let statusCellChild = MSFListCellState()
-            statusCellChild.leadingViewSize = .small
+            let statusCellChild = statusCell.createChildCell()
+            statusCellChild.leadingViewSize = MSFListCellLeadingViewSize.small
             statusCellChild.title = presence.cellTitle()
             statusCellChild.leadingUIView = presence.imageView()
             statusCellChild.backgroundColor = .systemBackground
             statusCellChild.onTapAction = {
                 self.setPresence(presence: presence)
             }
-
-            statusCellChildren.append(statusCellChild)
         }
 
-        let resetStatusCell = MSFListCellState()
+        let resetStatusCell = statusCell.createChildCell()
         resetStatusCell.title = "Reset status"
-        resetStatusCell.leadingViewSize = .small
+        resetStatusCell.leadingViewSize = MSFListCellLeadingViewSize.small
         resetStatusCell.backgroundColor = .systemBackground
         let resetStatusImageView = UIImageView(image: UIImage(named: "ic_fluent_arrow_sync_24_regular"))
         resetStatusImageView.tintColor = FluentUIThemeManager.S.Colors.Foreground.neutral4
@@ -194,17 +198,6 @@ class LeftNavMenuViewController: UIViewController {
         resetStatusCell.onTapAction = {
             self.setPresence(presence: .available)
         }
-        statusCellChildren.append(resetStatusCell)
-
-        let menuSection = leftNavMenuList.state.createSection()
-
-        statusCell = menuSection.createCell()
-        statusCell.title = LeftNavPresence.available.cellTitle()
-        statusCell.backgroundColor = .systemBackground
-        let statusImageView = LeftNavPresence.available.imageView()
-        statusImageView.tintColor = FluentUIThemeManager.S.Colors.Presence.available
-        statusCell.leadingUIView = statusImageView
-        statusCell.children = statusCellChildren
 
         let statusMessageCell = menuSection.createCell()
         statusMessageCell.backgroundColor = .systemBackground

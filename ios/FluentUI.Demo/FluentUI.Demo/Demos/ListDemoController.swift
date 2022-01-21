@@ -29,59 +29,54 @@ class ListDemoController: DemoController {
 
         var avatar: MSFAvatar
 
-        /// Subchildren list items
-        var subchildren: [MSFListCellState] = []
-        listCell = MSFListCellState()
-        avatar = createAvatarView(size: .medium,
-                                  name: samplePersonas[4].name,
-                                  image: samplePersonas[4].image,
-                                  style: .default)
-        listCell.title = avatar.state.primaryText ?? ""
-        listCell.leadingUIView = avatar.view
-        listCell.onTapAction = {
-            self.showAlertForAvatarTapped(name: samplePersonas[4].name)
-        }
-        listCell.hasDivider = true
-        subchildren.append(listCell)
-
-        /// Children list items
-        var children: [MSFListCellState] = []
-        for index in 2...3 {
-            listCell = MSFListCellState()
-            avatar = createAvatarView(size: .medium,
-                                      name: samplePersonas[index].name,
-                                      image: samplePersonas[index].image,
-                                      style: .default)
-            listCell.title = avatar.state.primaryText ?? ""
-            listCell.leadingUIView = avatar.view
-            children.append(listCell)
-            listCell.hasDivider = true
-        }
-        children[0].children = subchildren
-        children[0].isExpanded = true
-        children[1].onTapAction = {
-            self.showAlertForAvatarTapped(name: samplePersonas[3].name)
-        }
-
         /// Custom Leading View with collapsible children items
         let collapsibleSection = list.state.createSection()
         collapsibleSection.title = "AvatarSection"
         for index in 0...1 {
-            listCell = collapsibleSection.createCell()
-            avatar = createAvatarView(size: .medium,
-                                      name: samplePersonas[index].name,
-                                      image: samplePersonas[index].image,
-                                      style: .default)
-            listCell.title = avatar.state.primaryText ?? ""
-            listCell.leadingUIView = avatar.view
-        collapsibleSection.hasDividers = true
+            let collapsibleCell = collapsibleSection.createCell()
+            let avatar = createAvatarView(size: .medium,
+                                          name: samplePersonas[index].name,
+                                          image: samplePersonas[index].image,
+                                          style: .default)
+            collapsibleCell.title = avatar.state.primaryText ?? ""
+            collapsibleCell.leadingUIView = avatar.view
+            collapsibleSection.hasDividers = true
         }
-        let firstCellState = collapsibleSection.getCellState(at: 0)
-        firstCellState.children = children
-        firstCellState.isExpanded = true
         collapsibleSection.getCellState(at: 1).onTapAction = {
             self.showAlertForAvatarTapped(name: samplePersonas[1].name)
         }
+
+        /// Children list items
+        let firstCellState = collapsibleSection.getCellState(at: 0)
+        for index in 2...3 {
+            let childCell = firstCellState.createChildCell()
+            avatar = createAvatarView(size: .medium,
+                                           name: samplePersonas[index].name,
+                                           image: samplePersonas[index].image,
+                                           style: .default)
+            childCell.title = avatar.state.primaryText ?? ""
+            childCell.leadingUIView = avatar.view
+            childCell.hasDivider = true
+        }
+        firstCellState.isExpanded = true
+        firstCellState.getChildCellState(at: 1).onTapAction = {
+            self.showAlertForAvatarTapped(name: samplePersonas[3].name)
+        }
+
+        /// Subchildren list items
+        let firstChildState = firstCellState.getChildCellState(at: 0)
+        firstChildState.isExpanded = true
+        let firstSubChildState = firstChildState.createChildCell()
+        avatar = createAvatarView(size: .medium,
+                                  name: samplePersonas[4].name,
+                                  image: samplePersonas[4].image,
+                                  style: .default)
+        firstSubChildState.title = avatar.state.primaryText ?? ""
+        firstSubChildState.leadingUIView = avatar.view
+        firstSubChildState.onTapAction = {
+            self.showAlertForAvatarTapped(name: samplePersonas[4].name)
+        }
+        firstSubChildState.hasDivider = true
 
         /// TableViewCell Sample Data Sections
         for sectionIndex in 0..<sections.count {
