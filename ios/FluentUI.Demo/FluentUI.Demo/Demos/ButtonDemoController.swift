@@ -21,12 +21,16 @@ class ButtonDemoController: UITableViewController, UIPopoverPresentationControll
         tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: ButtonDemoController.cellReuseIdentifier)
 
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(showTheThing))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "gear"),
+                                                            style: .plain,
+                                                            target: self,
+                                                            action: #selector(showTheThing))
     }
 
     @objc func showTheThing(_ sender: UIBarButtonItem) {
         let appearanceController = DemoAppearanceController()
         appearanceController.modalPresentationStyle = .popover
+        appearanceController.preferredContentSize.height = 375
         appearanceController.popoverPresentationController?.barButtonItem = sender
         appearanceController.popoverPresentationController?.permittedArrowDirections = .up
         appearanceController.popoverPresentationController?.delegate = self
