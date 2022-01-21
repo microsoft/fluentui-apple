@@ -8,6 +8,7 @@ import UIKit
 
 public extension FluentDivider {
 
+    /// Provides a custom design token set to be used when drawing this control.
     func overrideTokens(_ tokens: DividerTokens?) -> FluentDivider {
         state.overrideTokens = tokens
         return self
