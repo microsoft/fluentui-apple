@@ -7,17 +7,9 @@ import UIKit
 import SwiftUI
 
 /// UIKit wrapper that exposes the SwiftUI Divider implementation.
-@objc open class MSFDivider: NSObject, FluentUIWindowProvider {
-
-    /// The UIView representing the Fluent Divider.
-    @objc open var view: UIView {
-        return hostingController.view
-    }
-
+@objc public class MSFDivider: ControlHostingContainer {
     /// The object that groups properties that allow control over the Divider appearance.
-    @objc open var state: MSFDividerState {
-        return divider.state
-    }
+    @objc public let state: MSFDividerState
 
     /// Creates a new MSFDivider instance.
     ///  - Parameters:
@@ -38,23 +30,8 @@ import SwiftUI
     @objc public init(orientation: MSFDividerOrientation,
                       spacing: MSFDividerSpacing,
                       theme: FluentUIStyle?) {
-        super.init()
-
-        divider = FluentDivider(orientation: orientation, spacing: spacing)
-        hostingController = FluentUIHostingController(rootView: AnyView(divider
-                                                                            .windowProvider(self)
-                                                                            .modifyIf(theme != nil, {divider in
-                                                                                divider.customTheme(theme!)
-                                                                            })))
-        hostingController.disableSafeAreaInsets()
-        view.backgroundColor = UIColor.clear
+        let divider = FluentDivider(orientation: orientation, spacing: spacing)
+        state = divider.state
+        super.init(AnyView(divider))
     }
-
-    var window: UIWindow? {
-        return self.view.window
-    }
-
-    private var hostingController: FluentUIHostingController!
-
-    private var divider: FluentDivider!
 }
