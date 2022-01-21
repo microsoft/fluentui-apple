@@ -58,7 +58,7 @@ public struct FluentDivider: View, TokenizedControlInternal {
                                   bottom: 0,
                                   trailing: tokens.padding))
             .resolveTokens(self)
-            .resolveTokenModifier(self, value: state.orientation)
+            .resolveTokenModifier(self, value: state.spacing)
     }
 
     var tokens: DividerTokens { state.tokens }
