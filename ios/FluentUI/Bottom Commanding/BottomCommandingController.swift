@@ -292,6 +292,7 @@ open class BottomCommandingController: UIViewController {
     public override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
         super.willTransition(to: newCollection, with: coordinator)
 
+        // Make sure we only reset our commanding style on iPad. On iPhone we only use the sheet style, so there's no need for unnecessary work.
         if newCollection.horizontalSizeClass != traitCollection.horizontalSizeClass && newCollection.userInterfaceIdiom == .pad {
             // On a horizontal size class change the top level sheet / bar surfaces get recreated,
             // but the item views, containers and bindings persist and are reused during the individual setup functions.
