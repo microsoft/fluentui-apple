@@ -59,31 +59,9 @@ extension UIColor {
         }
     }
 
-    /// Creates a UIColor from a `ColorValue` instance.
-    ///
-    /// - Parameter colorValue: Color value to use to initialize this color.
-    convenience init(colorValue: ColorValue) {
-        self.init(
-            red: colorValue.r,
-            green: colorValue.g,
-            blue: colorValue.b,
-            alpha: colorValue.a)
-    }
-
-    /// Creates a dynamic color object that returns the appropriate color value based on the current
-    /// rendering context.
-    ///
-    /// - Parameter dynamicColor: The set of color values that may be applied based on the current context.
-    convenience init(dynamicColor: DynamicColor) {
-        self.init { traits -> UIColor in
-            let colorValue = dynamicColor.value(colorScheme: (traits.userInterfaceStyle == .dark ? .dark : .light),
-                                            contrast: traits.accessibilityContrast == .high ? .increased : .standard,
-                                            isElevated: traits.userInterfaceLevel == .elevated)
-            return UIColor(colorValue: colorValue)
-        }
-    }
-
-    var dynamicColor: DynamicColor? {
+    /// `DynamicColor` representation of the `UIColor` object.
+    /// Requires the `UIColor` to be able to resolve its color values for at least the `.light` user interface style.
+    public var dynamicColor: DynamicColor? {
         // Only the light color value is mandatory when making a DynamicColor.
         if let lightColorValue = resolvedColorValue(userInterfaceStyle: .light) {
             let colors = DynamicColor(
@@ -106,6 +84,30 @@ extension UIColor {
             return colors
         } else {
             return nil
+        }
+    }
+
+    /// Creates a UIColor from a `ColorValue` instance.
+    ///
+    /// - Parameter colorValue: Color value to use to initialize this color.
+    convenience init(colorValue: ColorValue) {
+        self.init(
+            red: colorValue.r,
+            green: colorValue.g,
+            blue: colorValue.b,
+            alpha: colorValue.a)
+    }
+
+    /// Creates a dynamic color object that returns the appropriate color value based on the current
+    /// rendering context.
+    ///
+    /// - Parameter dynamicColor: The set of color values that may be applied based on the current context.
+    convenience init(dynamicColor: DynamicColor) {
+        self.init { traits -> UIColor in
+            let colorValue = dynamicColor.value(colorScheme: (traits.userInterfaceStyle == .dark ? .dark : .light),
+                                            contrast: traits.accessibilityContrast == .high ? .increased : .standard,
+                                            isElevated: traits.userInterfaceLevel == .elevated)
+            return UIColor(colorValue: colorValue)
         }
     }
 

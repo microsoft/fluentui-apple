@@ -49,30 +49,30 @@ class DividerDemoController: UITableViewController {
             let contentView = cell.contentView
 
             let spacing: MSFDividerSpacing = section == .defaultMedium ? .medium : .none
-            let color = section == .customColor ? Colors.communicationBlue : nil
+            let useCustomColor = section == .customColor
 
             let verticalStack = UIStackView()
             verticalStack.translatesAutoresizingMaskIntoConstraints = false
             verticalStack.axis = .vertical
             verticalStack.isLayoutMarginsRelativeArrangement = true
             verticalStack.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0)
-            verticalStack.addArrangedSubview(coloredDivider(spacing: spacing, color: color).view)
+            verticalStack.addArrangedSubview(makeDivider(spacing: spacing, customColor: useCustomColor).view)
             verticalStack.distribution = .equalCentering
 
             let horizontalStack = UIStackView()
             horizontalStack.distribution = .equalCentering
-            horizontalStack.addArrangedSubview(coloredDivider(orientation: .vertical, spacing: spacing, color: color).view)
+            horizontalStack.addArrangedSubview(makeDivider(orientation: .vertical, spacing: spacing, customColor: useCustomColor).view)
             let text1 = Label(style: .subhead, colorStyle: .regular)
             text1.text = "Text 1"
             horizontalStack.addArrangedSubview(text1)
-            horizontalStack.addArrangedSubview(coloredDivider(orientation: .vertical, spacing: spacing, color: color).view)
+            horizontalStack.addArrangedSubview(makeDivider(orientation: .vertical, spacing: spacing, customColor: useCustomColor).view)
             let text2 = Label(style: .subhead, colorStyle: .regular)
             text2.text = "Text 2"
             horizontalStack.addArrangedSubview(text2)
-            horizontalStack.addArrangedSubview(coloredDivider(orientation: .vertical, spacing: spacing, color: color).view)
+            horizontalStack.addArrangedSubview(makeDivider(orientation: .vertical, spacing: spacing, customColor: useCustomColor).view)
             verticalStack.addArrangedSubview(horizontalStack)
 
-            verticalStack.addArrangedSubview(coloredDivider(spacing: spacing, color: color).view)
+            verticalStack.addArrangedSubview(makeDivider(spacing: spacing, customColor: useCustomColor).view)
 
             contentView.addSubview(verticalStack)
             NSLayoutConstraint.activate([
@@ -110,13 +110,22 @@ class DividerDemoController: UITableViewController {
         }
     }
 
-    private func coloredDivider(orientation: MSFDividerOrientation = .horizontal, spacing: MSFDividerSpacing, color: UIColor?) -> MSFDivider {
+    private func makeDivider(orientation: MSFDividerOrientation = .horizontal, spacing: MSFDividerSpacing, customColor: Bool) -> MSFDivider {
         let divider = MSFDivider(orientation: orientation, spacing: spacing)
-        divider.state.color = color
+        if customColor {
+            let color = Colors.communicationBlue
+            let dividerTokens = customDividerTokens(spacing: spacing, color: color)
+            divider.state.overrideTokens = dividerTokens
+        }
 
         dividers.append(divider)
 
         return divider
+    }
+
+    private func customDividerTokens(spacing: MSFDividerSpacing, color: UIColor?) -> DividerTokens {
+        let customColor = color?.dynamicColor
+        return DividerTokens(spacing: spacing, color: customColor)
     }
 
     private var dividers: [MSFDivider] = []
