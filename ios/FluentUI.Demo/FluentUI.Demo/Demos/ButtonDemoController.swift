@@ -114,10 +114,16 @@ class ButtonDemoController: DemoTableViewController {
             guard let fluentTheme = self?.view.window?.fluentTheme else {
                 return
             }
-            let tokens = themeWideOverrideEnabled ? self?.themeWideOverrideTokens : nil
-            fluentTheme.register(controlType: FluentButton.self, tokens: { _ in
-                return tokens
-            })
+
+            var tokensClosure: ((FluentButton) -> ButtonTokens)?
+            if themeWideOverrideEnabled, let tokens = self?.themeWideOverrideTokens {
+                tokensClosure = { _ in
+                    return tokens
+                }
+            }
+
+            fluentTheme.register(controlType: FluentButton.self, tokens: tokensClosure)
+
         } onPerControlOverrideChanged: { [weak self] perControlOverrideEnabled in
             let tokens = perControlOverrideEnabled ? self?.perControlOverrideTokens : nil
             self?.buttons.forEach({ (_: String, value: MSFButton) in

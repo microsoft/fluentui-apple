@@ -97,10 +97,16 @@ class CardNudgeDemoController: DemoTableViewController {
             guard let fluentTheme = self?.view.window?.fluentTheme else {
                 return
             }
-            let tokens = themeWideOverrideEnabled ? self?.themeWideOverrideTokens : nil
-            fluentTheme.register(controlType: CardNudge.self, tokens: { _ in
-                return tokens
-            })
+
+            var tokensClosure: ((CardNudge) -> CardNudgeTokens)?
+            if themeWideOverrideEnabled, let tokens = self?.themeWideOverrideTokens {
+                tokensClosure = { _ in
+                    return tokens
+                }
+            }
+
+            fluentTheme.register(controlType: CardNudge.self, tokens: tokensClosure)
+
         } onPerControlOverrideChanged: { [weak self] perControlOverrideEnabled in
             let tokens = perControlOverrideEnabled ? self?.perControlOverrideTokens : nil
             self?.cardNudges.forEach({ cardNudge in
