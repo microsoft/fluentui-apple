@@ -7,7 +7,8 @@ import SwiftUI
 
 struct SafeAreaInsetsKey: EnvironmentKey {
     static var defaultValue: EdgeInsets {
-        UIApplication.shared.keyWindow?.safeAreaInsets.swiftUIInsets ?? EdgeInsets()
+        @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
+        return windowProvider?.window?.safeAreaInsets.swiftUIInsets ?? EdgeInsets()
     }
 }
 
@@ -21,22 +22,5 @@ extension EnvironmentValues {
 private extension UIEdgeInsets {
     var swiftUIInsets: EdgeInsets {
         EdgeInsets(top: top, leading: left, bottom: bottom, trailing: right)
-    }
-}
-
-struct ViewControllerHolder {
-    weak var value: UIViewController?
-}
-
-struct ViewControllerKey: EnvironmentKey {
-    static var defaultValue: ViewControllerHolder {
-        return ViewControllerHolder(value: UIApplication.shared.keyWindow?.rootViewController)
-    }
-}
-
-extension EnvironmentValues {
-    var viewController: UIViewController? {
-        get { return self[ViewControllerKey.self].value }
-        set { self[ViewControllerKey.self].value = newValue }
     }
 }

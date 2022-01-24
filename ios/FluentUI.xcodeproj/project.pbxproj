@@ -555,6 +555,15 @@
 			path = "Pill Button Bar";
 			sourceTree = "<group>";
 		};
+		4BA9B8B5279F2940007536F5 /* Notification */ = {
+			isa = PBXGroup;
+			children = (
+				43488C44270FAD0200124C71 /* NotificationView_SwiftUI.swift */,
+				4BBD651E2755FD9500A8B09E /* MSFNotificationView.swift */,
+			);
+			path = Notification;
+			sourceTree = "<group>";
+		};
 		5306074E26A1E6A4002D49CF /* AvatarGroup */ = {
 			isa = PBXGroup;
 			children = (
@@ -680,6 +689,7 @@
 		536AEF2125F1EC0300A36206 /* Vnext */ = {
 			isa = PBXGroup;
 			children = (
+				4BA9B8B5279F2940007536F5 /* Notification */,
 				536AEF2E25F1EC0300A36206 /* Button */,
 				EC6A71E8273DB98F0076A586 /* Divider */,
 				536AEF3225F1EC0300A36206 /* List */,
@@ -807,8 +817,6 @@
 				436F6B3D26F4924200D18073 /* MSFNotificationTokens.generated.swift */,
 				A5B6617223A41E2900E801DD /* NotificationView.swift */,
 				436F6B4026F4926B00D18073 /* MSFNotificationTokens.swift */,
-				43488C44270FAD0200124C71 /* NotificationView_SwiftUI.swift */,
-				4BBD651E2755FD9500A8B09E /* MSFNotificationView.swift */,
 			);
 			path = Notification;
 			sourceTree = "<group>";

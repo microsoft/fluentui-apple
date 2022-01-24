@@ -7,9 +7,8 @@ import FluentUI
 import UIKit
 
 class NotificationViewDemoControllerSwiftUI: DemoTableViewController, UIPickerViewDataSource, UIPickerViewDelegate {
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-
+    init() {
+        super.init(nibName: nil, bundle: nil)
         initDemoNotification()
     }
 
@@ -527,5 +526,28 @@ extension NotificationViewDemoControllerSwiftUI: UITextFieldDelegate {
         }
 
         return true
+    }
+}
+
+// MARK: - MSFNotificationStyle: styleString extension
+
+extension MSFNotificationStyle {
+    var styleString: String {
+        switch self {
+        case .primaryToast:
+            return "Primary Toast"
+        case .neutralToast:
+            return "Neutral Toast"
+        case .primaryBar:
+            return "Primary Bar"
+        case .primaryOutlineBar:
+            return "Primary Outline Bar"
+        case .neutralBar:
+            return "Neutral Bar"
+        case .dangerToast:
+            return "Danger Toast"
+        case .warningToast:
+            return "Warning Toast"
+        }
     }
 }

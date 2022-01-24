@@ -61,10 +61,6 @@ import UIKit
             return
         }
 
-        hostingController = FluentUIHostingController(rootView: AnyView(notification
-                                                                            .windowProvider(self)
-                                                                            .environment(\.viewController, view.findContainingViewController())
-                                                                           ))
         hostingController.disableSafeAreaInsets()
         var hostingControllerView: UIView! = hostingController.view
         hostingControllerView = hostingController.view
@@ -101,7 +97,11 @@ import UIKit
 
         if animated {
         view.layoutIfNeeded()
-            UIView.animate(withDuration: style.animationDurationForShow, delay: 0, usingSpringWithDamping: style.animationDampingRatio, initialSpringVelocity: 0, animations: {
+            UIView.animate(withDuration: style.animationDurationForShow,
+                           delay: 0,
+                           usingSpringWithDamping: style.animationDampingRatio,
+                           initialSpringVelocity: 0,
+                           animations: {
                 self.constraintWhenHidden.isActive = false
                 self.constraintWhenShown.isActive = true
                 view.layoutIfNeeded()
@@ -122,7 +122,7 @@ import UIKit
             }
         }
 
-        guard self.view.window != nil && updatedDelay != .infinity else {
+        guard self.view.window != nil && constraintWhenHidden != nil && updatedDelay != .infinity else {
             return
         }
 
