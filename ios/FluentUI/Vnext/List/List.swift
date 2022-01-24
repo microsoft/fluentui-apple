@@ -101,31 +101,31 @@ public struct MSFListView: View {
 
     public var body: some View {
         let sections = self.updateCellDividers()
-            ScrollView {
-                VStack(spacing: 0) {
-                    ForEach(sections, id: \.self) { section in
-                        if let sectionTitle = section.title, !sectionTitle.isEmpty {
-                            Header(state: section)
-                        }
+        ScrollView {
+            VStack(spacing: 0) {
+                ForEach(sections, id: \.self) { section in
+                    if let sectionTitle = section.title, !sectionTitle.isEmpty {
+                        Header(state: section)
+                    }
 
-                        ForEach(section.cells.indices, id: \.self) { index in
-                            let cellState = section.cells[index]
-                            MSFListCellView(state: cellState)
-                                .frame(maxWidth: .infinity)
-                        }
+                    ForEach(section.cells.indices, id: \.self) { index in
+                        let cellState = section.cells[index]
+                        MSFListCellView(state: cellState)
+                            .frame(maxWidth: .infinity)
+                    }
 
-                        if section.hasDividers {
-                            FluentDivider()
-                        }
+                    if section.hasDividers {
+                        FluentDivider()
                     }
                 }
             }
-            .animation(.default)
-            .environment(\.defaultMinListRowHeight, 0)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .designTokens(tokens,
-                          from: theme,
-                          with: windowProvider)
+        }
+        .animation(.default)
+        .environment(\.defaultMinListRowHeight, 0)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .designTokens(tokens,
+                      from: theme,
+                      with: windowProvider)
     }
 
     @Environment(\.theme) var theme: FluentUIStyle

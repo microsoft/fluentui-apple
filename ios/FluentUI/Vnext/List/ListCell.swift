@@ -6,10 +6,16 @@
 import UIKit
 import SwiftUI
 
-/// Properties that can be used to customize the appearance of the List Section.
+/// Properties that can be used to customize the appearance of the List Cell.
 @objc public protocol MSFListCellState {
     /// Custom view on the leading side of the Cell.
     var leadingUIView: UIView? { get set }
+
+    /// Size of the `leadingView`.
+    var leadingViewSize: MSFListCellLeadingViewSize { get set }
+
+    /// Custom view on the trailing side of the Cell.
+    var trailingUIView: UIView? { get set }
 
     /// Custom view on the leading side of the Cell title.
     var titleLeadingAccessoryUIView: UIView? { get set }
@@ -28,12 +34,6 @@ import SwiftUI
 
     /// Custom view on the trailing side of the Cell footnote.
     var footnoteTrailingAccessoryUIView: UIView? { get set }
-
-    /// Custom view on the trailing side of the Cell.
-    var trailingUIView: UIView? { get set }
-
-    /// Size of the `leadingView`.
-    var leadingViewSize: MSFListCellLeadingViewSize { get set }
 
     /// The first line of the Cell.
     var title: String { get set }
@@ -107,15 +107,6 @@ class MSFListCellStateImpl: NSObject, ObservableObject, Identifiable, MSFListCel
     @Published var footnoteTrailingAccessoryView: AnyView?
     @Published var trailingView: AnyView?
 
-    @Published var leadingViewSize: MSFListCellLeadingViewSize = .medium {
-        didSet {
-            if leadingViewSize != oldValue {
-                tokens.cellLeadingViewSize = leadingViewSize
-                tokens.updateForCurrentTheme()
-            }
-        }
-    }
-
     @Published var title: String = ""
     @Published var subtitle: String = ""
     @Published var footnote: String = ""
@@ -143,6 +134,26 @@ class MSFListCellStateImpl: NSObject, ObservableObject, Identifiable, MSFListCel
             }
 
             leadingView = AnyView(UIViewAdapter(view))
+        }
+    }
+
+    @Published var leadingViewSize: MSFListCellLeadingViewSize = .medium {
+        didSet {
+            if leadingViewSize != oldValue {
+                tokens.cellLeadingViewSize = leadingViewSize
+                tokens.updateForCurrentTheme()
+            }
+        }
+    }
+
+    var trailingUIView: UIView? {
+        didSet {
+            guard let view = trailingUIView else {
+                trailingView = nil
+                return
+            }
+
+            trailingView = AnyView(UIViewAdapter(view))
         }
     }
 
@@ -209,17 +220,6 @@ class MSFListCellStateImpl: NSObject, ObservableObject, Identifiable, MSFListCel
             }
 
             footnoteTrailingAccessoryView = AnyView(UIViewAdapter(view))
-        }
-    }
-
-    var trailingUIView: UIView? {
-        didSet {
-            guard let view = trailingUIView else {
-                trailingView = nil
-                return
-            }
-
-            trailingView = AnyView(UIViewAdapter(view))
         }
     }
 

@@ -27,36 +27,23 @@ class ListDemoController: DemoController {
             PersonaData(name: "Amanda Brady", subtitle: "Program Manager", image: UIImage(named: "avatar_amanda_brady"), color: Colors.Palette.magentaPink10.color)
         ]
 
-        var avatar: MSFAvatar
-
         /// Custom Leading View with collapsible children items
         let collapsibleSection = list.state.createSection()
         collapsibleSection.title = "AvatarSection"
-        for index in 0...1 {
+        for samplePersonaIndex in 0...1 {
             let collapsibleCell = collapsibleSection.createCell()
-            let avatar = createAvatarView(size: .medium,
-                                          name: samplePersonas[index].name,
-                                          image: samplePersonas[index].image,
-                                          style: .default)
-            collapsibleCell.title = avatar.state.primaryText ?? ""
-            collapsibleCell.leadingUIView = avatar.view
-            collapsibleSection.hasDividers = true
+            createSamplePersonaCell(cellState: collapsibleCell, samplePersonaIndex: samplePersonaIndex)
         }
+        collapsibleSection.hasDividers = true
         collapsibleSection.getCellState(at: 1).onTapAction = {
             self.showAlertForAvatarTapped(name: samplePersonas[1].name)
         }
 
         /// Children list items
         let firstCellState = collapsibleSection.getCellState(at: 0)
-        for index in 2...3 {
+        for samplePersonaIndex in 2...3 {
             let childCell = firstCellState.createChildCell()
-            avatar = createAvatarView(size: .medium,
-                                           name: samplePersonas[index].name,
-                                           image: samplePersonas[index].image,
-                                           style: .default)
-            childCell.title = avatar.state.primaryText ?? ""
-            childCell.leadingUIView = avatar.view
-            childCell.hasDivider = true
+            createSamplePersonaCell(cellState: childCell, samplePersonaIndex: samplePersonaIndex)
         }
         firstCellState.isExpanded = true
         firstCellState.getChildCellState(at: 1).onTapAction = {
@@ -67,12 +54,7 @@ class ListDemoController: DemoController {
         let firstChildState = firstCellState.getChildCellState(at: 0)
         firstChildState.isExpanded = true
         let firstSubChildState = firstChildState.createChildCell()
-        avatar = createAvatarView(size: .medium,
-                                  name: samplePersonas[4].name,
-                                  image: samplePersonas[4].image,
-                                  style: .default)
-        firstSubChildState.title = avatar.state.primaryText ?? ""
-        firstSubChildState.leadingUIView = avatar.view
+        createSamplePersonaCell(cellState: firstSubChildState, samplePersonaIndex: 4)
         firstSubChildState.onTapAction = {
             self.showAlertForAvatarTapped(name: samplePersonas[4].name)
         }
@@ -125,6 +107,16 @@ class ListDemoController: DemoController {
                                      demoControllerView.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: listView.bottomAnchor),
                                      demoControllerView.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: listView.leadingAnchor),
                                      demoControllerView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: listView.trailingAnchor)])
+    }
+
+    private func createSamplePersonaCell(cellState: MSFListCellState, samplePersonaIndex: Int) {
+        let avatar = createAvatarView(size: .medium,
+                                      name: samplePersonas[samplePersonaIndex].name,
+                                      image: samplePersonas[samplePersonaIndex].image,
+                                      style: .default)
+        cellState.title = avatar.state.primaryText ?? ""
+        cellState.leadingUIView = avatar.view
+        cellState.hasDivider = true
     }
 
     private func createAvatarView(size: MSFAvatarSize,

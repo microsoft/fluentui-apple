@@ -106,7 +106,7 @@ class LeftNavMenuViewController: UIViewController {
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         if let sizeCategory = previousTraitCollection?.preferredContentSizeCategory,
-            sizeCategory != self.traitCollection.preferredContentSizeCategory {
+            sizeCategory != traitCollection.preferredContentSizeCategory {
             leftNavAccountViewHeightConstraint?.constant = leftNavAccountView.intrinsicContentSize.height
         }
     }
@@ -114,11 +114,11 @@ class LeftNavMenuViewController: UIViewController {
     var menuAction: (() -> Void)?
 
     private func setPresence(presence: LeftNavPresence) {
-        self.persona.state.presence = presence.avatarPresence()
-        let statusCell = self.leftNavMenuList.state.getSectionState(at: 0).getCellState(at: 0)
+        persona.state.presence = presence.avatarPresence
+        let statusCell = leftNavMenuList.state.getSectionState(at: 0).getCellState(at: 0)
         statusCell.isExpanded = false
-        statusCell.title = presence.cellTitle()
-        statusCell.leadingUIView = presence.imageView()
+        statusCell.title = presence.cellTitle
+        statusCell.leadingUIView = presence.imageView
     }
 
     private var leftNavAvatar = MSFAvatar(style: .default, size: .xlarge)
@@ -171,17 +171,16 @@ class LeftNavMenuViewController: UIViewController {
         let menuSection = leftNavMenuList.state.createSection()
 
         let statusCell = menuSection.createCell()
-        statusCell.title = LeftNavPresence.available.cellTitle()
+        statusCell.title = LeftNavPresence.available.cellTitle
         statusCell.backgroundColor = .systemBackground
-        let statusImageView = LeftNavPresence.available.imageView()
-        statusImageView.tintColor = FluentUIThemeManager.S.Colors.Presence.available
+        let statusImageView = LeftNavPresence.available.imageView
         statusCell.leadingUIView = statusImageView
 
         for presence in LeftNavPresence.allCases {
             let statusCellChild = statusCell.createChildCell()
             statusCellChild.leadingViewSize = MSFListCellLeadingViewSize.small
-            statusCellChild.title = presence.cellTitle()
-            statusCellChild.leadingUIView = presence.imageView()
+            statusCellChild.title = presence.cellTitle
+            statusCellChild.leadingUIView = presence.imageView
             statusCellChild.backgroundColor = .systemBackground
             statusCellChild.onTapAction = {
                 self.setPresence(presence: presence)
@@ -190,7 +189,7 @@ class LeftNavMenuViewController: UIViewController {
 
         let resetStatusCell = statusCell.createChildCell()
         resetStatusCell.title = "Reset status"
-        resetStatusCell.leadingViewSize = MSFListCellLeadingViewSize.small
+        resetStatusCell.leadingViewSize = .small
         resetStatusCell.backgroundColor = .systemBackground
         let resetStatusImageView = UIImageView(image: UIImage(named: "ic_fluent_arrow_sync_24_regular"))
         resetStatusImageView.tintColor = FluentUIThemeManager.S.Colors.Foreground.neutral4
@@ -318,9 +317,8 @@ enum LeftNavPresence: Int, CaseIterable {
     case away
     case offline
 
-    func imageView() -> UIImageView {
+    var imageView: UIImageView {
         let imageView: UIImageView
-
         switch self {
         case .available:
             imageView = UIImageView(image: UIImage(named: "ic_fluent_presence_available_16_filled"))
@@ -338,11 +336,10 @@ enum LeftNavPresence: Int, CaseIterable {
             imageView = UIImageView(image: UIImage(named: "ic_fluent_presence_offline_16_regular"))
             imageView.tintColor = FluentUIThemeManager.S.Colors.Presence.offline
         }
-
         return imageView
     }
 
-    func cellTitle() -> String {
+    var cellTitle: String {
         let cellTitle: String
         switch self {
         case .available:
@@ -362,7 +359,7 @@ enum LeftNavPresence: Int, CaseIterable {
         return cellTitle
     }
 
-    func avatarPresence() -> MSFAvatarPresence {
+    var avatarPresence: MSFAvatarPresence {
         switch self {
         case .available:
             return .available
