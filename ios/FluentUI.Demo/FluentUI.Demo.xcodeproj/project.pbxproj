@@ -251,11 +251,11 @@
 		A591A3F520F42A9E001ED23B /* Shell */ = {
 			isa = PBXGroup;
 			children = (
+				92B45E4D279A1A0B00E72517 /* DemoAppearanceController.swift */,
 				E6842995247C350700A29C40 /* DemoColorThemes.swift */,
 				A5DCA75F211E3B4C005F4CB7 /* DemoController.swift */,
 				A5CEC21120E436F10016922A /* DemoListViewController.swift */,
 				92561E722718AD090072ED00 /* DemoTableViewController.swift */,
-				92B45E4D279A1A0B00E72517 /* DemoAppearanceController.swift */,
 			);
 			name = Shell;
 			sourceTree = "<group>";

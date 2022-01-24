@@ -6,39 +6,14 @@
 import FluentUI
 import UIKit
 
-class ButtonDemoController: UITableViewController, UIPopoverPresentationControllerDelegate {
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(style: .grouped)
-    }
-
-    required init?(coder: NSCoder) {
-        preconditionFailure("init(coder:) has not been implemented")
-    }
-
+class ButtonDemoController: DemoTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
         tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: ButtonDemoController.cellReuseIdentifier)
 
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "gear"),
-                                                            style: .plain,
-                                                            target: self,
-                                                            action: #selector(showTheThing))
-    }
-
-    @objc func showTheThing(_ sender: UIBarButtonItem) {
-        let appearanceController = DemoAppearanceController()
-        appearanceController.modalPresentationStyle = .popover
-        appearanceController.preferredContentSize.height = 375
-        appearanceController.popoverPresentationController?.barButtonItem = sender
-        appearanceController.popoverPresentationController?.permittedArrowDirections = .up
-        appearanceController.popoverPresentationController?.delegate = self
-        self.present(appearanceController, animated: true, completion: nil)
-    }
-
-    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
-        return .none
+        configureAppearancePopover()
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -130,6 +105,41 @@ class ButtonDemoController: UITableViewController, UIPopoverPresentationControll
         default:
             break
         }
+    }
+
+    // MARK: - Custom tokens
+
+    private func configureAppearancePopover() {
+        super.configureAppearancePopover { [weak self] themeWideOverrideEnabled in
+            guard let fluentTheme = self?.view.window?.fluentTheme else {
+                return
+            }
+            let tokens = themeWideOverrideEnabled ? self?.themeWideOverrideTokens : nil
+            fluentTheme.register(controlType: FluentButton.self, tokens: { _ in
+                return tokens
+            })
+        } onPerControlOverrideChanged: { [weak self] perControlOverrideEnabled in
+            let tokens = perControlOverrideEnabled ? self?.perControlOverrideTokens : nil
+            self?.buttons.forEach({ (_: String, value: MSFButton) in
+                value.state.overrideTokens = tokens
+            })
+        }
+    }
+
+    private var themeWideOverrideTokens: ButtonTokens {
+        return ButtonTokens(style: .primary,
+                            size: .large,
+                            textFont: .init(name: "Times",
+                                            size: 20.0,
+                                            weight: .regular))
+    }
+
+    private var perControlOverrideTokens: ButtonTokens {
+        return ButtonTokens(style: .primary,
+                            size: .large,
+                            textFont: .init(name: "Times",
+                                            size: 20.0,
+                                            weight: .regular))
     }
 
     // MARK: - Private helpers

@@ -158,4 +158,42 @@ class DemoController: UIViewController {
         // disable it for all DemoController subclasses.
         self.navigationItem.largeTitleDisplayMode = .never
     }
+
+    // MARK: - Demo Appearance Popover
+
+    func configureAppearancePopover(onThemeWideOverrideChanged: @escaping ((Bool) -> Void),
+                                    onPerControlOverrideChanged: @escaping ((Bool) -> Void)) {
+
+        appearanceController.popoverPresentationController?.delegate = self
+
+        // Store the callbacks from the individual demo controller
+        appearanceController.setupPerDemoCallbacks(onThemeWideOverrideChanged: onThemeWideOverrideChanged,
+                                                   onPerControlOverrideChanged: onPerControlOverrideChanged)
+
+        // Display the DemoAppearancePopover button
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "gear"),
+                                                            style: .plain,
+                                                            target: self,
+                                                            action: #selector(showAppearancePopover))
+    }
+
+    @objc func showAppearancePopover(_ sender: UIBarButtonItem) {
+        appearanceController.popoverPresentationController?.barButtonItem = sender
+        self.present(appearanceController, animated: true, completion: nil)
+    }
+
+    private let appearanceController: DemoAppearanceController = {
+        let appearanceController = DemoAppearanceController()
+        appearanceController.modalPresentationStyle = .popover
+        appearanceController.preferredContentSize.height = 375
+        appearanceController.popoverPresentationController?.permittedArrowDirections = .up
+        return appearanceController
+    }()
+}
+
+extension DemoController: UIPopoverPresentationControllerDelegate {
+    /// Overridden to allow for popover-style modal presentation on compact (e.g. iPhone) devices.
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .none
+    }
 }

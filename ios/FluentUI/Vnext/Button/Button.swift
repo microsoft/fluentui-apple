@@ -26,6 +26,9 @@ import UIKit
 
     /// Defines the style of the button.
     var style: MSFButtonStyle { get set }
+
+    /// Custom design token set for this button, to use in place of the control's default Fluent tokens.
+    var overrideTokens: ButtonTokens? { get set }
 }
 
 /// View that represents the button.

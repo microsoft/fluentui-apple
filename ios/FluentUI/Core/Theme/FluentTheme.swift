@@ -24,7 +24,7 @@ import SwiftUI
     /// - Parameters:
     ///   - tokens: A custom set of tokens.
     ///   - control: The control to use custom tokens on.
-    public func register<T: TokenizedControl>(controlType: T.Type, tokens: @escaping (T) -> T.TokenType) {
+    public func register<T: TokenizedControl>(controlType: T.Type, tokens: @escaping (T) -> T.TokenType?) {
         controlTokens[tokenKey(controlType)] = tokens
     }
 
@@ -41,7 +41,7 @@ import SwiftUI
     func tokens<T: TokenizedControlInternal>(for control: T) -> T.TokenType? {
         if let tokens = control.state.overrideTokens {
             return tokens
-        } else if let lookup = controlTokens[tokenKey(type(of: control))] as? (T) -> T.TokenType {
+        } else if let lookup = controlTokens[tokenKey(type(of: control))] as? (T) -> T.TokenType? {
             return lookup(control)
         } else {
             return nil

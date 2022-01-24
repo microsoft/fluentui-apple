@@ -14,9 +14,18 @@ class DemoAppearanceController: UIHostingController<DemoAppearanceView> {
         self.setupCallbacks(callbacks)
     }
 
+    var currentDemoListViewController: DemoListViewController? {
+        guard let navigationController = self.view.window?.rootViewController as? UINavigationController,
+              let currentDemoListViewController = navigationController.viewControllers.first as? DemoListViewController else {
+                  return nil
+              }
+        return currentDemoListViewController
+    }
+
     func setupCallbacks(_ callbacks: DemoAppearanceView.Callbacks) {
 
-        // Handled directly
+        self.callbacks = callbacks
+
         callbacks.onColorSchemeChanged = { [weak self] colorScheme in
             guard let window = self?.view.window else {
                 return
@@ -34,41 +43,25 @@ class DemoAppearanceController: UIHostingController<DemoAppearanceView> {
         }
 
         callbacks.onThemeChanged = { [weak self] theme in
-            guard let navigationController = self?.view.window?.rootViewController as? UINavigationController,
-                  let currentDemoListViewController = navigationController.viewControllers.first as? DemoListViewController,
+            guard let currentDemoListViewController = self?.currentDemoListViewController,
                   let window = self?.view.window else {
                 return
             }
             currentDemoListViewController.updateColorProviderFor(window: window, theme: theme)
         }
+    }
 
+    func setupPerDemoCallbacks(onThemeWideOverrideChanged: @escaping ((Bool) -> Void),
+                               onPerControlOverrideChanged: @escaping ((Bool) -> Void)) {
         // Passed back to caller
-        callbacks.onThemeWideOverrideChanged = { _ in
-
-        }
-        callbacks.onPerControlOverrideChanged = { _ in
-
-        }
-        self.callbacks = callbacks
+        callbacks?.onThemeWideOverrideChanged = onThemeWideOverrideChanged
+        callbacks?.onPerControlOverrideChanged = onPerControlOverrideChanged
     }
 
     private var callbacks: DemoAppearanceView.Callbacks?
 }
 
 struct DemoAppearanceView: View {
-    class Callbacks: ObservableObject {
-        var onColorSchemeChanged: ((DemoColorScheme) -> Void)?
-        var onThemeChanged: ((DemoColorTheme) -> Void)?
-        var onThemeWideOverrideChanged: ((Bool) -> Void)?
-        var onPerControlOverrideChanged: ((Bool) -> Void)?
-    }
-
-    @State private var colorScheme: DemoColorScheme = .auto
-    @State private var theme: DemoColorTheme = .default
-    @State private var themeWideOverride: Bool = false
-    @State private var perControlOverride: Bool = false
-
-    @ObservedObject var callbacks: Callbacks
 
     /// Picker for setting the app's color scheme.
     @ViewBuilder
@@ -142,9 +135,23 @@ struct DemoAppearanceView: View {
             }
     }
 
+    class Callbacks: ObservableObject {
+        var onColorSchemeChanged: ((DemoColorScheme) -> Void)?
+        var onThemeChanged: ((DemoColorTheme) -> Void)?
+        var onThemeWideOverrideChanged: ((_ themeWideOverrideEnabled: Bool) -> Void)?
+        var onPerControlOverrideChanged: ((_ perControlOverrideEnabled: Bool) -> Void)?
+    }
+
     enum DemoColorScheme {
         case auto
         case light
         case dark
     }
+
+    @ObservedObject var callbacks: Callbacks
+
+    @State private var colorScheme: DemoColorScheme = .auto
+    @State private var theme: DemoColorTheme = .default
+    @State private var themeWideOverride: Bool = false
+    @State private var perControlOverride: Bool = false
 }
