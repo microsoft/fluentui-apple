@@ -9,10 +9,10 @@ import SwiftUI
 
 class DemoAppearanceController: UIHostingController<DemoAppearanceView> {
     init() {
-        let callbacks = DemoAppearanceView.Callbacks()
-        self.callbacks = callbacks
+        let configuration = DemoAppearanceView.Configuration()
+        self.configuration = configuration
 
-        super.init(rootView: DemoAppearanceView(callbacks: callbacks))
+        super.init(rootView: DemoAppearanceView(configuration: configuration))
         self.setupCallbacks()
     }
 
@@ -24,7 +24,7 @@ class DemoAppearanceController: UIHostingController<DemoAppearanceView> {
         super.viewWillAppear(animated)
 
         // Ensure that the enclosed SwiftUI view always has the latest up-to-date info.
-        self.rootView = DemoAppearanceView(callbacks: callbacks)
+        self.rootView = DemoAppearanceView(configuration: configuration)
                     .theme(currentDemoListViewController?.theme ?? .default)
     }
 
@@ -37,7 +37,7 @@ class DemoAppearanceController: UIHostingController<DemoAppearanceView> {
     }
 
     func setupCallbacks() {
-        callbacks.onColorSchemeChanged = { [weak self] colorScheme in
+        configuration.onColorSchemeChanged = { [weak self] colorScheme in
             guard let window = self?.view.window else {
                 return
             }
@@ -53,7 +53,7 @@ class DemoAppearanceController: UIHostingController<DemoAppearanceView> {
             window.overrideUserInterfaceStyle = userInterfaceStyle
         }
 
-        callbacks.onThemeChanged = { [weak self] theme in
+        configuration.onThemeChanged = { [weak self] theme in
             guard let currentDemoListViewController = self?.currentDemoListViewController,
                   let window = self?.view.window else {
                 return
@@ -65,9 +65,9 @@ class DemoAppearanceController: UIHostingController<DemoAppearanceView> {
     func setupPerDemoCallbacks(onThemeWideOverrideChanged: @escaping ((Bool) -> Void),
                                onPerControlOverrideChanged: @escaping ((Bool) -> Void)) {
         // Passed back to caller
-        callbacks.onThemeWideOverrideChanged = onThemeWideOverrideChanged
-        callbacks.onPerControlOverrideChanged = onPerControlOverrideChanged
+        configuration.onThemeWideOverrideChanged = onThemeWideOverrideChanged
+        configuration.onPerControlOverrideChanged = onPerControlOverrideChanged
     }
 
-    private var callbacks: DemoAppearanceView.Callbacks
+    private var configuration: DemoAppearanceView.Configuration
 }

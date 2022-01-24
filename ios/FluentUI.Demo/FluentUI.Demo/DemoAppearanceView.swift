@@ -11,14 +11,14 @@ struct DemoAppearanceView: View {
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @Environment(\.colorScheme) var systemColorScheme: ColorScheme
 
-    @ObservedObject var callbacks: Callbacks
+    @ObservedObject var configuration: Configuration
 
     /// Picker for setting the app's color scheme.
     @ViewBuilder
     var appColorSchemePicker: some View {
         Text("App Color Scheme")
             .font(.headline)
-        Picker("Color Scheme", selection: $colorScheme) {
+        Picker("Color Scheme", selection: $configuration.colorScheme) {
             Text("Light").tag(ColorScheme.light)
             Text("Dark").tag(ColorScheme.dark)
         }
@@ -30,7 +30,7 @@ struct DemoAppearanceView: View {
     var themePicker: some View {
         Text("Theme")
             .font(.headline)
-        Picker("Theme", selection: $theme) {
+        Picker("Theme", selection: $configuration.theme) {
             Text("\(DemoColorTheme.default.name)").tag(DemoColorTheme.default)
             Text("\(DemoColorTheme.green.name)").tag(DemoColorTheme.green)
         }
@@ -42,26 +42,26 @@ struct DemoAppearanceView: View {
     var contents: some View {
         VStack {
             appColorSchemePicker
-                .disabled(callbacks.onColorSchemeChanged == nil)
+                .disabled(configuration.onColorSchemeChanged == nil)
             FluentDivider()
                 .padding()
 
             themePicker
-                .disabled(callbacks.onThemeChanged == nil)
+                .disabled(configuration.onThemeChanged == nil)
             FluentDivider()
                 .padding()
 
             Text("Control")
                 .font(.headline)
 
-            Toggle(isOn: $themeWideOverride) {
+            Toggle(isOn: $configuration.themeWideOverride) {
                 Text("Theme-wide override")
             }
-            .disabled(callbacks.onThemeWideOverrideChanged == nil)
-            Toggle(isOn: $perControlOverride) {
+            .disabled(configuration.onThemeWideOverrideChanged == nil)
+            Toggle(isOn: $configuration.perControlOverride) {
                 Text("Per-control override")
             }
-            .disabled(callbacks.onPerControlOverrideChanged == nil)
+            .disabled(configuration.onPerControlOverrideChanged == nil)
 
             Spacer()
         }
@@ -70,41 +70,44 @@ struct DemoAppearanceView: View {
     var body: some View {
         contents
             .padding()
-            .onChange(of: colorScheme) { newValue in
-                callbacks.onColorSchemeChanged?(newValue)
+            .onChange(of: configuration.colorScheme) { newValue in
+                configuration.onColorSchemeChanged?(newValue)
             }
-            .onChange(of: theme) { newValue in
-                callbacks.onThemeChanged?(newValue)
+            .onChange(of: configuration.theme) { newValue in
+                configuration.onThemeChanged?(newValue)
             }
-            .onChange(of: themeWideOverride) { newValue in
-                callbacks.onThemeWideOverrideChanged?(newValue)
+            .onChange(of: configuration.themeWideOverride) { newValue in
+                configuration.onThemeWideOverrideChanged?(newValue)
             }
-            .onChange(of: perControlOverride) { newValue in
-                callbacks.onPerControlOverrideChanged?(newValue)
+            .onChange(of: configuration.perControlOverride) { newValue in
+                configuration.onPerControlOverrideChanged?(newValue)
             }
     }
 
-    class Callbacks: ObservableObject {
+    class Configuration: ObservableObject {
+        // Data
+        @Published var colorScheme: ColorScheme = .light
+        @Published var theme: DemoColorTheme = .default
+        @Published var themeWideOverride: Bool = false
+        @Published var perControlOverride: Bool = false
+
+        // Callbacks
         var onColorSchemeChanged: ((ColorScheme) -> Void)?
         var onThemeChanged: ((DemoColorTheme) -> Void)?
         var onThemeWideOverrideChanged: ((_ themeWideOverrideEnabled: Bool) -> Void)?
         var onPerControlOverrideChanged: ((_ perControlOverrideEnabled: Bool) -> Void)?
     }
-
-    @State private var colorScheme: ColorScheme = .light
-    @State private var theme: DemoColorTheme = .default
-    @State private var themeWideOverride: Bool = false
-    @State private var perControlOverride: Bool = false
 }
 
+/// View modifiers
 extension DemoAppearanceView {
     func colorScheme(_ colorScheme: ColorScheme) -> Self {
-        self.colorScheme = colorScheme
+        self.configuration.colorScheme = colorScheme
         return self
     }
 
     func theme(_ theme: DemoColorTheme) -> Self {
-        self.theme = theme
+        self.configuration.theme = theme
         return self
     }
 }
