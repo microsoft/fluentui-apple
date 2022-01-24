@@ -31,6 +31,8 @@ class CardNudgeDemoController: DemoTableViewController {
                                                selector: #selector(updateCardNudgeSize),
                                                name: UIContentSizeCategory.didChangeNotification,
                                                object: nil)
+
+        self.configureAppearancePopover()
     }
 
     // MARK: - Table view data source
@@ -86,6 +88,35 @@ class CardNudgeDemoController: DemoTableViewController {
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return CardNudgeDemoSection.allCases[section].title
+    }
+
+    // MARK: - Custom tokens
+
+    private func configureAppearancePopover() {
+        super.configureAppearancePopover { [weak self] themeWideOverrideEnabled in
+            guard let fluentTheme = self?.view.window?.fluentTheme else {
+                return
+            }
+            let tokens = themeWideOverrideEnabled ? self?.themeWideOverrideTokens : nil
+            fluentTheme.register(controlType: CardNudge.self, tokens: { _ in
+                return tokens
+            })
+        } onPerControlOverrideChanged: { [weak self] perControlOverrideEnabled in
+            let tokens = perControlOverrideEnabled ? self?.perControlOverrideTokens : nil
+            self?.cardNudges.forEach({ cardNudge in
+                cardNudge.state.overrideTokens = tokens
+            })
+        }
+    }
+
+    private var themeWideOverrideTokens: CardNudgeTokens {
+        return CardNudgeTokens(style: .standard,
+                               backgroundColor: DynamicColor(light: ColorValue(0xFF0000)))
+    }
+
+    private var perControlOverrideTokens: CardNudgeTokens {
+        return CardNudgeTokens(style: .standard,
+                               backgroundColor: DynamicColor(light: ColorValue(0x00FFFF)))
     }
 
     // MARK: - Helpers
