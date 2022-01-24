@@ -45,6 +45,7 @@
 		92561E732718AD090072ED00 /* DemoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92561E722718AD090072ED00 /* DemoTableViewController.swift */; };
 		92B45E4E279A1A0B00E72517 /* DemoAppearanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92B45E4D279A1A0B00E72517 /* DemoAppearanceController.swift */; };
 		92D5598426A1523400328FD3 /* CardNudgeDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D5598326A1523400328FD3 /* CardNudgeDemoController.swift */; };
+		92DD1E8D279F496300FDEE0F /* DemoAppearanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92DD1E8C279F496300FDEE0F /* DemoAppearanceView.swift */; };
 		92E977B726C7144F008E10A8 /* UIResponder+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E977B526C713F3008E10A8 /* UIResponder+Extensions.swift */; };
 		92E977B826C7144F008E10A8 /* DemoControllerScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E977B426C713F3008E10A8 /* DemoControllerScrollView.swift */; };
 		A589F856211BA71000471C23 /* LabelDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A589F855211BA71000471C23 /* LabelDemoController.swift */; };
@@ -107,6 +108,7 @@
 		92561E722718AD090072ED00 /* DemoTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoTableViewController.swift; sourceTree = "<group>"; };
 		92B45E4D279A1A0B00E72517 /* DemoAppearanceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoAppearanceController.swift; sourceTree = "<group>"; };
 		92D5598326A1523400328FD3 /* CardNudgeDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardNudgeDemoController.swift; sourceTree = "<group>"; };
+		92DD1E8C279F496300FDEE0F /* DemoAppearanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoAppearanceView.swift; sourceTree = "<group>"; };
 		92E4784B2661AED800BAA058 /* PersonaButtonCarouselDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaButtonCarouselDemoController.swift; sourceTree = "<group>"; };
 		92E977B426C713F3008E10A8 /* DemoControllerScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoControllerScrollView.swift; sourceTree = "<group>"; };
 		92E977B526C713F3008E10A8 /* UIResponder+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIResponder+Extensions.swift"; sourceTree = "<group>"; };
@@ -252,6 +254,7 @@
 			isa = PBXGroup;
 			children = (
 				92B45E4D279A1A0B00E72517 /* DemoAppearanceController.swift */,
+				92DD1E8C279F496300FDEE0F /* DemoAppearanceView.swift */,
 				E6842995247C350700A29C40 /* DemoColorThemes.swift */,
 				A5DCA75F211E3B4C005F4CB7 /* DemoController.swift */,
 				A5CEC21120E436F10016922A /* DemoListViewController.swift */,
@@ -534,6 +537,7 @@
 				5328D97A26FBA3EA00F3723B /* IndeterminateProgressBarDemoController_SwiftUI.swift in Sources */,
 				B498141621E42C140077B48D /* TableViewCellDemoController.swift in Sources */,
 				FDCF7C8321BF35680058E9E6 /* SegmentedControlDemoController.swift in Sources */,
+				92DD1E8D279F496300FDEE0F /* DemoAppearanceView.swift in Sources */,
 				53097D4027028AE500A6E4DC /* PersonaButtonCarouselDemoController.swift in Sources */,
 				C0938E4A235F733100256251 /* ShimmerLinesViewDemoController.swift in Sources */,
 				80AECC0C2630F1BB005AF2F3 /* BottomCommandingDemoController.swift in Sources */,

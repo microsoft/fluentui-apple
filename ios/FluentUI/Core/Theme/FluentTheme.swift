@@ -102,7 +102,7 @@ public extension View {
     }
 }
 
-extension EnvironmentValues {
+public extension EnvironmentValues {
     var fluentTheme: FluentTheme {
         get {
             self[FluentThemeKey.self]

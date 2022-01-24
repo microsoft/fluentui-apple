@@ -178,17 +178,15 @@ class DemoController: UIViewController {
     }
 
     @objc func showAppearancePopover(_ sender: UIBarButtonItem) {
+        appearanceController.modalPresentationStyle = .popover
+        appearanceController.preferredContentSize.height = 375
         appearanceController.popoverPresentationController?.barButtonItem = sender
+        appearanceController.popoverPresentationController?.delegate = self
+        appearanceController.popoverPresentationController?.permittedArrowDirections = .up
         self.present(appearanceController, animated: true, completion: nil)
     }
 
-    private let appearanceController: DemoAppearanceController = {
-        let appearanceController = DemoAppearanceController()
-        appearanceController.modalPresentationStyle = .popover
-        appearanceController.preferredContentSize.height = 375
-        appearanceController.popoverPresentationController?.permittedArrowDirections = .up
-        return appearanceController
-    }()
+    private lazy var appearanceController: DemoAppearanceController = DemoAppearanceController()
 }
 
 extension DemoController: UIPopoverPresentationControllerDelegate {

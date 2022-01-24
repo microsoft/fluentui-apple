@@ -27,8 +27,6 @@ class DemoTableViewController: UITableViewController {
     func configureAppearancePopover(onThemeWideOverrideChanged: @escaping ((_ themeWideOverrideEnabled: Bool) -> Void),
                                     onPerControlOverrideChanged: @escaping ((_ perControlOverrideEnabled: Bool) -> Void)) {
 
-        appearanceController.popoverPresentationController?.delegate = self
-
         // Store the callbacks from the individual demo controller
         appearanceController.setupPerDemoCallbacks(onThemeWideOverrideChanged: onThemeWideOverrideChanged,
                                                    onPerControlOverrideChanged: onPerControlOverrideChanged)
@@ -41,17 +39,15 @@ class DemoTableViewController: UITableViewController {
     }
 
     @objc func showAppearancePopover(_ sender: UIBarButtonItem) {
+        appearanceController.modalPresentationStyle = .popover
+        appearanceController.preferredContentSize.height = 375
         appearanceController.popoverPresentationController?.barButtonItem = sender
+        appearanceController.popoverPresentationController?.delegate = self
+        appearanceController.popoverPresentationController?.permittedArrowDirections = .up
         self.present(appearanceController, animated: true, completion: nil)
     }
 
-    private let appearanceController: DemoAppearanceController = {
-        let appearanceController = DemoAppearanceController()
-        appearanceController.modalPresentationStyle = .popover
-        appearanceController.preferredContentSize.height = 375
-        appearanceController.popoverPresentationController?.permittedArrowDirections = .up
-        return appearanceController
-    }()
+    private lazy var appearanceController: DemoAppearanceController = DemoAppearanceController()
 }
 
 extension DemoTableViewController: UIPopoverPresentationControllerDelegate {
