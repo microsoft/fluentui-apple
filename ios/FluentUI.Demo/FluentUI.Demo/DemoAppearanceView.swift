@@ -8,7 +8,6 @@ import SwiftUI
 
 struct DemoAppearanceView: View {
 
-    @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @Environment(\.colorScheme) var systemColorScheme: ColorScheme
 
     @ObservedObject var configuration: Configuration
