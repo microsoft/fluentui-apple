@@ -35,6 +35,125 @@ public enum CardSize: Int, CaseIterable {
             return 214
         }
     }
+    
+    var verticalPadding: CGFloat {
+        switch self {
+        case .small:
+            return 8
+        case .large:
+            return 12
+        }
+    }
+
+    var leadingPadding: CGFloat {
+        switch self {
+        case .small:
+            return 16
+        case .large:
+            return 20
+        }
+    }
+
+    var trailingPadding: CGFloat {
+        switch self {
+        case .small:
+            return 12
+        case .large:
+            return 16
+        }
+    }
+    
+    var baseHeight: CGFloat {
+        switch self {
+        case .small:
+            return 28
+        case .large:
+            return 36
+        }
+    }
+
+    var primaryTextStyle: TextStyle {
+        switch self {
+        case .small:
+            return .caption1
+        case .large:
+            return .subhead
+        }
+    }
+    
+    var secondaryTextStyle: TextStyle {
+        switch self {
+        case .small:
+            return .caption2
+        case .large:
+            return .footnote
+        }
+    }
+
+	func labelHeight(for sizeCategory: UIContentSizeCategory) -> CGFloat {
+        var height: CGFloat = 0
+        switch self {
+        case .small:
+            switch sizeCategory {
+            case .extraSmall:
+                height = 27
+            case .small:
+                height = 27
+            case .medium:
+                height = 27
+            case .large:
+                height = 29
+            case .extraLarge:
+                height = 34
+            case .extraExtraLarge:
+                height = 39
+            case .extraExtraExtraLarge:
+                height = 44
+            case .accessibilityMedium:
+                height = 53
+            case .accessibilityLarge:
+                height = 63
+            case .accessibilityExtraLarge:
+                height = 77
+            case .accessibilityExtraExtraLarge:
+                height = 89
+            case .accessibilityExtraExtraExtraLarge:
+                height = 103
+            default:
+                break
+            }
+		case .large:
+            switch sizeCategory {
+            case .extraSmall:
+                height = 29
+            case .small:
+                height = 32
+            case .medium:
+                height = 34
+            case .large:
+                height = 36
+            case .extraLarge:
+                height = 41
+            case .extraExtraLarge:
+                height = 46
+            case .extraExtraExtraLarge:
+                height = 51
+            case .accessibilityMedium:
+                height = 60
+            case .accessibilityLarge:
+                height = 72
+            case .accessibilityExtraLarge:
+                height = 86
+            case .accessibilityExtraExtraLarge:
+                height = 101
+            case .accessibilityExtraExtraExtraLarge:
+                height = 118
+            default:
+                break
+            }
+        }
+        return height
+    }
 }
 
 /**
@@ -217,24 +336,14 @@ open class CardView: UIView {
         primaryLabel.text = title
         primaryLabel.numberOfLines = twoLineTitle ? Constants.twoLineTitle : Constants.defaultTitleNumberOfLines
         primaryLabel.textAlignment = .natural
-        switch size {
-        case .small:
-            primaryLabel.style = .caption1
-        case .large:
-            primaryLabel.style = .subhead
-        }
+        primaryLabel.style = size.primaryTextStyle
         addSubview(primaryLabel)
 
         // Subtitle
         if let secondaryText = secondaryText {
             secondaryLabel.text = secondaryText
             secondaryLabel.textAlignment = .natural
-            switch size {
-            case .small:
-                secondaryLabel.style = .caption2
-            case .large:
-                secondaryLabel.style = .footnote
-            }
+            secondaryLabel.style = size.secondaryTextStyle
             addSubview(secondaryLabel)
         }
 
@@ -264,14 +373,8 @@ open class CardView: UIView {
         super.traitCollectionDidChange(previousTraitCollection)
         if let previousTraitCollection = previousTraitCollection {
             if previousTraitCollection.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
-                var height: CGFloat = labelHeight(for: traitCollection.preferredContentSizeCategory, size: size)
-                switch size {
-                case .small:
-                   height += Constants.smallBaseHeight
-                case .large:
-                   height += Constants.largeBaseHeight
-                }
-
+				var height: CGFloat = size.labelHeight(for: traitCollection.preferredContentSizeCategory)
+                height += size.baseHeight
                 heightConstraint.constant = height
             }
 
@@ -326,18 +429,6 @@ open class CardView: UIView {
         static let defaultTitleNumberOfLines: Int = 1
         static let twoLineTitle: Int = 2
         static let horizontalContentSpacing: CGFloat = 12.0
-
-        /// Small card layout constants
-        static let smallBaseHeight: CGFloat = 2 * Constants.smallPadding
-        static let smallPadding: CGFloat = 14.0
-        static let smallPaddingTrailing: CGFloat = 12.0
-        static let smallPaddingLeading: CGFloat = 16.0
-
-        /// Large card layout constants
-        static let largeBaseHeight: CGFloat = 2 * Constants.largePadding
-        static let largePadding: CGFloat = 18.0
-        static let largePaddingTrailing: CGFloat = 16.0
-        static let largePaddingLeading: CGFloat = 20.0
     }
 
     private var layoutConstraints: [NSLayoutConstraint] = []
@@ -354,23 +445,7 @@ open class CardView: UIView {
         /// 3) Single-line Title + single-line subtitle
         /// In all cases, the text height is: 2 * title's height
         var height: CGFloat = ceil(2 * primaryLabel.intrinsicContentSize.height)
-
-        var paddingLeading: CGFloat = .zero
-        var paddingTrailing: CGFloat = .zero
-        var paddingTop: CGFloat = .zero
-        switch size {
-        case .small:
-            height += Constants.smallBaseHeight
-            paddingLeading = Constants.smallPaddingLeading
-            paddingTrailing = Constants.smallPaddingTrailing
-            paddingTop = Constants.smallPadding
-        case .large:
-            height += Constants.largeBaseHeight
-            paddingLeading = Constants.largePaddingLeading
-            paddingTrailing = Constants.largePaddingTrailing
-            paddingTop = Constants.largePadding
-        }
-
+        height += size.baseHeight
         heightConstraint.constant = height
 
         layoutConstraints.append(contentsOf: [
@@ -380,22 +455,20 @@ open class CardView: UIView {
             heightConstraint,
             iconView.widthAnchor.constraint(equalToConstant: Constants.iconWidth),
             iconView.heightAnchor.constraint(equalToConstant: Constants.iconHeight),
-            iconView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: paddingLeading),
-            primaryLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -paddingTrailing)
+            iconView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: size.leadingPadding),
+            primaryLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -size.trailingPadding),
+            primaryLabel.topAnchor.constraint(equalTo: topAnchor, constant: size.verticalPadding)
         ])
-
-        // Center the title vertically if there is no subtitle
-        if secondaryText == nil  && !twoLineTitle {
-            layoutConstraints.append(primaryLabel.centerYAnchor.constraint(equalTo: centerYAnchor))
+        
+        if secondaryText == nil {
+            layoutConstraints.append(primaryLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -size.verticalPadding))
         } else {
-            layoutConstraints.append(primaryLabel.topAnchor.constraint(equalTo: topAnchor, constant: paddingTop))
-        }
-
-        if secondaryText != nil {
             layoutConstraints.append(contentsOf: [
                 secondaryLabel.leadingAnchor.constraint(equalTo: primaryLabel.leadingAnchor),
                 secondaryLabel.topAnchor.constraint(equalTo: primaryLabel.bottomAnchor),
-                secondaryLabel.trailingAnchor.constraint(equalTo: primaryLabel.trailingAnchor)
+                secondaryLabel.trailingAnchor.constraint(equalTo: primaryLabel.trailingAnchor),
+                secondaryLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -size.verticalPadding),
+                primaryLabel.heightAnchor.constraint(equalTo: secondaryLabel.heightAnchor)
             ])
         }
 
@@ -404,71 +477,5 @@ open class CardView: UIView {
 
     @objc private func handleCardTapped(_ recognizer: UITapGestureRecognizer) {
         delegate?.didTapCard?(self)
-    }
-
-    private func labelHeight(for sizeCategory: UIContentSizeCategory, size: CardSize) -> CGFloat {
-        var height: CGFloat = 0
-
-        switch size {
-        case .small:
-            switch sizeCategory {
-            case .extraSmall:
-                height = 27
-            case .small:
-                height = 27
-            case .medium:
-                height = 27
-            case .large:
-                height = 29
-            case .extraLarge:
-                height = 34
-            case .extraExtraLarge:
-                height = 39
-            case .extraExtraExtraLarge:
-                height = 44
-            case .accessibilityMedium:
-                height = 53
-            case .accessibilityLarge:
-                height = 63
-            case .accessibilityExtraLarge:
-                height = 77
-            case .accessibilityExtraExtraLarge:
-                height = 89
-            case .accessibilityExtraExtraExtraLarge:
-                height = 103
-            default:
-                break
-            }
-        case .large:
-            switch sizeCategory {
-            case .extraSmall:
-                height = 29
-            case .small:
-                height = 32
-            case .medium:
-                height = 34
-            case .large:
-                height = 36
-            case .extraLarge:
-                height = 41
-            case .extraExtraLarge:
-                height = 46
-            case .extraExtraExtraLarge:
-                height = 51
-            case .accessibilityMedium:
-                height = 60
-            case .accessibilityLarge:
-                height = 72
-            case .accessibilityExtraLarge:
-                height = 86
-            case .accessibilityExtraExtraLarge:
-                height = 101
-            case .accessibilityExtraExtraExtraLarge:
-                height = 118
-            default:
-                break
-            }
-        }
-        return height
     }
 }
