@@ -373,7 +373,7 @@ open class CardView: UIView {
         super.traitCollectionDidChange(previousTraitCollection)
         if let previousTraitCollection = previousTraitCollection {
             if previousTraitCollection.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
-				var height: CGFloat = size.labelHeight(for: traitCollection.preferredContentSizeCategory)
+                var height: CGFloat = size.labelHeight(for: traitCollection.preferredContentSizeCategory)
                 height += size.baseHeight
                 heightConstraint.constant = height
             }
