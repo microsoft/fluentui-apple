@@ -7,6 +7,7 @@ import UIKit
 import FluentUI
 import SwiftUI
 
+/// Wrapper class to allow presenting of `DemoAppearanceView` from a UIKit host.
 class DemoAppearanceController: UIHostingController<DemoAppearanceView> {
     init() {
         let configuration = DemoAppearanceView.Configuration()

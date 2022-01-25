@@ -52,10 +52,13 @@ struct DemoAppearanceView: View {
             Text("Control")
                 .font(.headline)
 
+            // Theme-wide override toggle
             Toggle(isOn: $configuration.themeWideOverride) {
                 Text("Theme-wide override")
             }
             .disabled(configuration.onThemeWideOverrideChanged == nil)
+
+            // Per-control override toggle
             Toggle(isOn: $configuration.perControlOverride) {
                 Text("Per-control override")
             }
@@ -92,6 +95,7 @@ struct DemoAppearanceView: View {
             }
     }
 
+    /// Callback for handling color scheme changes.
     private func onColorSchemeChanged(_ colorScheme: ColorScheme) {
         guard let window = firstWindow else {
             return
@@ -108,6 +112,7 @@ struct DemoAppearanceView: View {
         window.overrideUserInterfaceStyle = userInterfaceStyle
     }
 
+    /// Callback for handling theme changes.
     private func onThemeChanged(_ theme: DemoColorTheme) {
         guard let currentDemoListViewController = currentDemoListViewController,
               let window = firstWindow else {
@@ -116,6 +121,7 @@ struct DemoAppearanceView: View {
         currentDemoListViewController.updateColorProviderFor(window: window, theme: theme)
     }
 
+    /// Container class for data and control-specific callbacks.
     class Configuration: ObservableObject {
         // Data
         @Published var colorScheme: ColorScheme = .light
@@ -127,6 +133,8 @@ struct DemoAppearanceView: View {
         var onThemeWideOverrideChanged: ((_ themeWideOverrideEnabled: Bool) -> Void)?
         var onPerControlOverrideChanged: ((_ perControlOverrideEnabled: Bool) -> Void)?
     }
+
+    // MARK: Helpers for accessing the surrounding UIKit environment.
 
     private var firstWindow: UIWindow? { UIApplication.shared.windows.first }
 
