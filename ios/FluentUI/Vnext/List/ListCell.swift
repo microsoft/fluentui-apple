@@ -139,10 +139,10 @@ class MSFListCellStateImpl: NSObject, ObservableObject, Identifiable, MSFListCel
 
     @Published var leadingViewSize: MSFListCellLeadingViewSize = .medium {
         didSet {
-            if leadingViewSize != oldValue {
-                tokens.cellLeadingViewSize = leadingViewSize
-                tokens.updateForCurrentTheme()
+            guard leadingViewSize != oldValue else {
+                return
             }
+            tokens.cellLeadingViewSize = leadingViewSize
         }
     }
 

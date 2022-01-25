@@ -19,20 +19,12 @@ class ListDemoController: DemoController {
         let list: MSFList = MSFList()
         var listCell: MSFListCellState
 
-        let samplePersonas: [PersonaData] = [
-            PersonaData(name: "Kat Larrson", email: "kat.larrson@contoso.com", subtitle: "Designer", image: UIImage(named: "avatar_kat_larsson"), color: Colors.Palette.cyanBlue10.color),
-            PersonaData(name: "Kristin Patterson", email: "kristin.patterson@contoso.com", subtitle: "Software Engineer", color: Colors.Palette.red10.color),
-            PersonaData(name: "Ashley McCarthy", image: UIImage(named: "avatar_ashley_mccarthy"), color: Colors.Palette.magenta20.color),
-            PersonaData(name: "Allan Munger", email: "allan.munger@contoso.com", subtitle: "Designer", image: UIImage(named: "avatar_allan_munger"), color: Colors.Palette.green10.color),
-            PersonaData(name: "Amanda Brady", subtitle: "Program Manager", image: UIImage(named: "avatar_amanda_brady"), color: Colors.Palette.magentaPink10.color)
-        ]
-
         /// Custom Leading View with collapsible children items
         let collapsibleSection = list.state.createSection()
         collapsibleSection.title = "AvatarSection"
         for samplePersonaIndex in 0...1 {
             let collapsibleCell = collapsibleSection.createCell()
-            createSamplePersonaCell(cellState: collapsibleCell, samplePersonaIndex: samplePersonaIndex)
+            createSamplePersonaCell(cellState: collapsibleCell, samplePersona: samplePersonas[samplePersonaIndex])
         }
         collapsibleSection.hasDividers = true
         collapsibleSection.getCellState(at: 1).onTapAction = {
@@ -43,7 +35,7 @@ class ListDemoController: DemoController {
         let firstCellState = collapsibleSection.getCellState(at: 0)
         for samplePersonaIndex in 2...3 {
             let childCell = firstCellState.createChildCell()
-            createSamplePersonaCell(cellState: childCell, samplePersonaIndex: samplePersonaIndex)
+            createSamplePersonaCell(cellState: childCell, samplePersona: samplePersonas[samplePersonaIndex])
         }
         firstCellState.isExpanded = true
         firstCellState.getChildCellState(at: 1).onTapAction = {
@@ -54,7 +46,7 @@ class ListDemoController: DemoController {
         let firstChildState = firstCellState.getChildCellState(at: 0)
         firstChildState.isExpanded = true
         let firstSubChildState = firstChildState.createChildCell()
-        createSamplePersonaCell(cellState: firstSubChildState, samplePersonaIndex: 4)
+        createSamplePersonaCell(cellState: firstSubChildState, samplePersona: samplePersonas[4])
         firstSubChildState.onTapAction = {
             self.showAlertForAvatarTapped(name: samplePersonas[4].name)
         }
@@ -109,10 +101,16 @@ class ListDemoController: DemoController {
                                      demoControllerView.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: listView.trailingAnchor)])
     }
 
-    private func createSamplePersonaCell(cellState: MSFListCellState, samplePersonaIndex: Int) {
+    struct PersonaDataNode {
+        let personaData: PersonaData
+        let children: [PersonaData]
+        let isCollapsed: Bool
+    }
+
+    private func createSamplePersonaCell(cellState: MSFListCellState, samplePersona: PersonaData) {
         let avatar = createAvatarView(size: .medium,
-                                      name: samplePersonas[samplePersonaIndex].name,
-                                      image: samplePersonas[samplePersonaIndex].image,
+                                      name: samplePersona.name,
+                                      image: samplePersona.image,
                                       style: .default)
         cellState.title = avatar.state.primaryText ?? ""
         cellState.leadingUIView = avatar.view
