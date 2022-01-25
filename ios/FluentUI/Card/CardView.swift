@@ -35,7 +35,7 @@ public enum CardSize: Int, CaseIterable {
             return 214
         }
     }
-    
+
     var verticalPadding: CGFloat {
         switch self {
         case .small:
@@ -62,7 +62,7 @@ public enum CardSize: Int, CaseIterable {
             return 16
         }
     }
-    
+
     var baseHeight: CGFloat {
         switch self {
         case .small:
@@ -80,7 +80,7 @@ public enum CardSize: Int, CaseIterable {
             return .subhead
         }
     }
-    
+
     var secondaryTextStyle: TextStyle {
         switch self {
         case .small:
@@ -90,7 +90,7 @@ public enum CardSize: Int, CaseIterable {
         }
     }
 
-	func labelHeight(for sizeCategory: UIContentSizeCategory) -> CGFloat {
+    func labelHeight(for sizeCategory: UIContentSizeCategory) -> CGFloat {
         var height: CGFloat = 0
         switch self {
         case .small:
@@ -122,7 +122,7 @@ public enum CardSize: Int, CaseIterable {
             default:
                 break
             }
-		case .large:
+        case .large:
             switch sizeCategory {
             case .extraSmall:
                 height = 29
@@ -459,7 +459,7 @@ open class CardView: UIView {
             primaryLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -size.trailingPadding),
             primaryLabel.topAnchor.constraint(equalTo: topAnchor, constant: size.verticalPadding)
         ])
-        
+
         if secondaryText == nil {
             layoutConstraints.append(primaryLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -size.verticalPadding))
         } else {
