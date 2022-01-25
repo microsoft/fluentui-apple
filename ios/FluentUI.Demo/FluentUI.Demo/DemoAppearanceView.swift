@@ -42,12 +42,10 @@ struct DemoAppearanceView: View {
     var contents: some View {
         VStack {
             appColorSchemePicker
-                .disabled(configuration.onColorSchemeChanged == nil)
             FluentDivider()
                 .padding()
 
             themePicker
-                .disabled(configuration.onThemeChanged == nil)
             FluentDivider()
                 .padding()
 
@@ -70,11 +68,13 @@ struct DemoAppearanceView: View {
     var body: some View {
         contents
             .padding()
+
+            // Changes
             .onChange(of: configuration.colorScheme) { newValue in
-                configuration.onColorSchemeChanged?(newValue)
+                onColorSchemeChanged(newValue)
             }
             .onChange(of: configuration.theme) { newValue in
-                configuration.onThemeChanged?(newValue)
+                onThemeChanged(newValue)
             }
             .onChange(of: configuration.themeWideOverride) { newValue in
                 configuration.onThemeWideOverrideChanged?(newValue)
@@ -82,6 +82,38 @@ struct DemoAppearanceView: View {
             .onChange(of: configuration.perControlOverride) { newValue in
                 configuration.onPerControlOverrideChanged?(newValue)
             }
+
+            // Updates on appear
+            .onAppear {
+                configuration.colorScheme = systemColorScheme
+            }
+            .onAppear {
+                configuration.theme = currentDemoListViewController?.theme ?? .default
+            }
+    }
+
+    private func onColorSchemeChanged(_ colorScheme: ColorScheme) {
+        guard let window = firstWindow else {
+            return
+        }
+        let userInterfaceStyle: UIUserInterfaceStyle
+        switch colorScheme {
+        case .light:
+            userInterfaceStyle = .light
+        case .dark:
+            userInterfaceStyle = .dark
+        @unknown default:
+            preconditionFailure("Unknown color scheme: \(colorScheme)")
+        }
+        window.overrideUserInterfaceStyle = userInterfaceStyle
+    }
+
+    private func onThemeChanged(_ theme: DemoColorTheme) {
+        guard let currentDemoListViewController = currentDemoListViewController,
+              let window = firstWindow else {
+                  return
+              }
+        currentDemoListViewController.updateColorProviderFor(window: window, theme: theme)
     }
 
     class Configuration: ObservableObject {
@@ -92,10 +124,18 @@ struct DemoAppearanceView: View {
         @Published var perControlOverride: Bool = false
 
         // Callbacks
-        var onColorSchemeChanged: ((ColorScheme) -> Void)?
-        var onThemeChanged: ((DemoColorTheme) -> Void)?
         var onThemeWideOverrideChanged: ((_ themeWideOverrideEnabled: Bool) -> Void)?
         var onPerControlOverrideChanged: ((_ perControlOverrideEnabled: Bool) -> Void)?
+    }
+
+    private var firstWindow: UIWindow? { UIApplication.shared.windows.first }
+
+    private var currentDemoListViewController: DemoListViewController? {
+        guard let navigationController = firstWindow?.rootViewController as? UINavigationController,
+              let currentDemoListViewController = navigationController.viewControllers.first as? DemoListViewController else {
+                  return nil
+              }
+        return currentDemoListViewController
     }
 }
 
