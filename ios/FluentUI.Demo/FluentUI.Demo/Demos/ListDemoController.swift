@@ -19,38 +19,25 @@ class ListDemoController: DemoController {
         let list: MSFList = MSFList()
         var listCell: MSFListCellState
 
+        //PersonaDataNode creation
+        var personaDataNodes: [PersonaDataNode] = []
+        for samplePersonaIndex in 0...5 {
+            let personaDataNode = PersonaDataNode(personaData: samplePersonas[samplePersonaIndex])
+            personaDataNodes.append(personaDataNode)
+        }
+
+        personaDataNodes[2].children = [personaDataNodes[4]]
+
+        personaDataNodes[0].children = [personaDataNodes[2], personaDataNodes[3]]
+
         /// Custom Leading View with collapsible children items
         let collapsibleSection = list.state.createSection()
         collapsibleSection.title = "AvatarSection"
         for samplePersonaIndex in 0...1 {
             let collapsibleCell = collapsibleSection.createCell()
-            createSamplePersonaCell(cellState: collapsibleCell, samplePersona: samplePersonas[samplePersonaIndex])
+            createSamplePersonaCell(cellState: collapsibleCell, personaDataNode: personaDataNodes[samplePersonaIndex])
         }
         collapsibleSection.hasDividers = true
-        collapsibleSection.getCellState(at: 1).onTapAction = {
-            self.showAlertForAvatarTapped(name: samplePersonas[1].name)
-        }
-
-        /// Children list items
-        let firstCellState = collapsibleSection.getCellState(at: 0)
-        for samplePersonaIndex in 2...3 {
-            let childCell = firstCellState.createChildCell()
-            createSamplePersonaCell(cellState: childCell, samplePersona: samplePersonas[samplePersonaIndex])
-        }
-        firstCellState.isExpanded = true
-        firstCellState.getChildCellState(at: 1).onTapAction = {
-            self.showAlertForAvatarTapped(name: samplePersonas[3].name)
-        }
-
-        /// Subchildren list items
-        let firstChildState = firstCellState.getChildCellState(at: 0)
-        firstChildState.isExpanded = true
-        let firstSubChildState = firstChildState.createChildCell()
-        createSamplePersonaCell(cellState: firstSubChildState, samplePersona: samplePersonas[4])
-        firstSubChildState.onTapAction = {
-            self.showAlertForAvatarTapped(name: samplePersonas[4].name)
-        }
-        firstSubChildState.hasDivider = true
 
         /// TableViewCell Sample Data Sections
         for sectionIndex in 0..<sections.count {
@@ -102,19 +89,33 @@ class ListDemoController: DemoController {
     }
 
     struct PersonaDataNode {
-        let personaData: PersonaData
-        let children: [PersonaData]
-        let isCollapsed: Bool
+        var personaData: PersonaData
+        var children: [PersonaDataNode] = []
+        var isExpanded: Bool = true
     }
 
-    private func createSamplePersonaCell(cellState: MSFListCellState, samplePersona: PersonaData) {
+    private func createSamplePersonaCell(cellState: MSFListCellState, personaDataNode: PersonaDataNode) {
+        let personaData = personaDataNode.personaData
+        let personaChildren = personaDataNode.children
         let avatar = createAvatarView(size: .medium,
-                                      name: samplePersona.name,
-                                      image: samplePersona.image,
+                                      name: personaData.name,
+                                      image: personaData.image,
                                       style: .default)
         cellState.title = avatar.state.primaryText ?? ""
         cellState.leadingUIView = avatar.view
+        cellState.isExpanded = personaDataNode.isExpanded
         cellState.hasDivider = true
+
+        guard !personaChildren.isEmpty else {
+            cellState.onTapAction = {
+                self.showAlertForAvatarTapped(name: personaData.name)
+            }
+            return
+        }
+
+        for index in 0..<personaChildren.count {
+            createSamplePersonaCell(cellState: cellState.createChildCell(), personaDataNode: personaChildren[index])
+        }
     }
 
     private func createAvatarView(size: MSFAvatarSize,
