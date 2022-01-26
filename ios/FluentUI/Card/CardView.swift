@@ -159,7 +159,7 @@ public enum CardSize: Int, CaseIterable {
 /**
  `CardView` is a UIView used to display information in a card
  
- A card has a title, an optional subtitle, an icon, a style, and a color style
+ A card has a title, an optional subtitle, an icon, a size, and a color style
  
  Use `titleNumberOfLines` and `subtitleNumberOfLines`  to set the number of lines the title and subtitle should have respectively. When the string can not fit in the number of lines set, it will get truncated
  
@@ -173,7 +173,7 @@ open class CardView: UIView {
     /// Delegate to handle user interaction with the CardView
     @objc public weak var delegate: CardDelegate?
 
-    /// All card styles have a title. Setting `primaryText` will refresh the layout constraints
+    /// All card sizes have a title. Setting `primaryText` will refresh the layout constraints.
     @objc open var primaryText: String {
         didSet {
             if primaryText != oldValue {
@@ -193,7 +193,7 @@ open class CardView: UIView {
         }
     }
 
-    /// The card's icon. Announcement is the only card style that doesn't include an icon
+    /// The card's icon.
     @objc open var icon: UIImage {
         didSet {
             if icon != oldValue {
@@ -304,8 +304,8 @@ open class CardView: UIView {
 
     /**
      Initializes `CardView`
-     
-     - Parameter style: The style of the card
+
+     - Parameter size: The size of the card
      - Parameter title: The title of the card
      - Parameter subtitle: The subtitle of the card - optional
      - Parameter icon: The icon of the card
