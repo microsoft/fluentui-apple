@@ -508,8 +508,8 @@ public class BottomSheetController: UIViewController {
     @objc private func handlePan(_ sender: UIPanGestureRecognizer) {
         switch sender.state {
         case .began:
-            currentExpansionState = .transitioning
             completeAnimationsIfNeeded()
+            currentExpansionState = .transitioning
             fallthrough
         case .changed:
             translateSheet(by: sender.translation(in: view))
@@ -596,7 +596,10 @@ public class BottomSheetController: UIViewController {
         completeAnimationsIfNeeded()
 
         if currentSheetVerticalOffset != offset(for: targetExpansionState) {
-            let animator = stateChangeAnimator(to: targetExpansionState, velocity: velocity)
+            let animator = stateChangeAnimator(to: targetExpansionState,
+                                               velocity: velocity,
+                                               interaction: interaction,
+                                               shouldNotifyDelegate: shouldNotifyDelegate)
             animator.addCompletion({ finalPosition in
                 completion?(finalPosition)
             })
@@ -636,7 +639,6 @@ public class BottomSheetController: UIViewController {
         }
 
         // Animation might be reversed, so we need to remember the original state
-        let originalBottomSheetHiddenState = bottomSheetView.isHidden
         let originalExpansionState = currentExpansionState
 
         bottomSheetView.isHidden = false
@@ -667,15 +669,12 @@ public class BottomSheetController: UIViewController {
             }
             strongSelf.targetExpansionState = nil
             strongSelf.panGestureRecognizer.isEnabled = strongSelf.isExpandable
-
-            if finalPosition == .end {
-                strongSelf.handleCompletedStateChange(to: targetExpansionState, interaction: interaction, shouldNotifyDelegate: shouldNotifyDelegate)
-            } else if finalPosition == .start {
-                strongSelf.bottomSheetView.isHidden = originalBottomSheetHiddenState
-                strongSelf.currentExpansionState = originalExpansionState
-            }
+            strongSelf.handleCompletedStateChange(to: finalPosition == .end ? targetExpansionState : originalExpansionState,
+                                                  interaction: interaction,
+                                                  shouldNotifyDelegate: shouldNotifyDelegate)
         })
 
+        view.layoutIfNeeded()
         currentExpansionState = .transitioning
         translationAnimator.pauseAnimation()
         return translationAnimator
