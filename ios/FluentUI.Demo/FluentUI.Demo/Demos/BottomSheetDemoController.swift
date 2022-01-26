@@ -24,7 +24,7 @@ class BottomSheetDemoController: UIViewController {
         let bottomSheetViewController = BottomSheetController(headerContentView: headerView, expandedContentView: expandedContentView)
         bottomSheetViewController.hostedScrollView = personaListView
         bottomSheetViewController.headerContentHeight = BottomSheetDemoController.headerHeight
-        bottomSheetViewController.collapsedContentHeight = 150
+        bottomSheetViewController.collapsedContentHeight = 70
         bottomSheetViewController.delegate = self
 
         self.bottomSheetViewController = bottomSheetViewController
@@ -100,9 +100,15 @@ class BottomSheetDemoController: UIViewController {
         view.addSubview(personaListView)
 
         let bottomView = UIView()
-        bottomView.backgroundColor = .systemTeal
+        bottomView.backgroundColor = Colors.surfaceQuaternary
         bottomView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(bottomView)
+
+        let label = Label()
+        label.text = "Bottom view"
+        label.translatesAutoresizingMaskIntoConstraints = false
+
+        bottomView.addSubview(label)
 
         NSLayoutConstraint.activate([
             personaListView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -111,8 +117,10 @@ class BottomSheetDemoController: UIViewController {
             personaListView.bottomAnchor.constraint(equalTo: bottomView.topAnchor),
             bottomView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             bottomView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            bottomView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            bottomView.heightAnchor.constraint(equalToConstant: 75)
+            bottomView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            bottomView.heightAnchor.constraint(equalToConstant: 30),
+            label.centerXAnchor.constraint(equalTo: bottomView.centerXAnchor),
+            label.centerYAnchor.constraint(equalTo: bottomView.centerYAnchor)
         ])
         return view
     }()
@@ -162,7 +170,7 @@ class BottomSheetDemoController: UIViewController {
         ]
     }
 
-    private static let headerHeight: CGFloat = 70
+    private static let headerHeight: CGFloat = 30
 
     private enum DemoItemType {
         case action
