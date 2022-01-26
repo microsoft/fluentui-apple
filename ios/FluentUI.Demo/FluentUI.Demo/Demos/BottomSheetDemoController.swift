@@ -21,9 +21,10 @@ class BottomSheetDemoController: UIViewController {
         view.addSubview(optionTableView)
         mainTableView = optionTableView
 
-        let bottomSheetViewController = BottomSheetController(headerContentView: headerView, expandedContentView: personaListView)
+        let bottomSheetViewController = BottomSheetController(headerContentView: headerView, expandedContentView: expandedContentView)
         bottomSheetViewController.hostedScrollView = personaListView
         bottomSheetViewController.headerContentHeight = BottomSheetDemoController.headerHeight
+        bottomSheetViewController.collapsedContentHeight = 70
         bottomSheetViewController.delegate = self
 
         self.bottomSheetViewController = bottomSheetViewController
@@ -66,6 +67,10 @@ class BottomSheetDemoController: UIViewController {
         bottomSheetViewController?.shouldHideCollapsedContent.toggle()
     }
 
+    @objc private func toggleFlexibleSheetHeight(_ sender: BooleanCell) {
+        bottomSheetViewController?.isFlexibleHeight = sender.isOn
+    }
+
     @objc private func toggleHandleUsingCustomAccessibilityLabel(_ sender: BooleanCell) {
         let isOn = sender.isOn
         bottomSheetViewController?.handleCollapseCustomAccessibilityLabel = isOn ? "Collapse Bottom Sheet" : nil
@@ -81,12 +86,43 @@ class BottomSheetDemoController: UIViewController {
         bottomSheetViewController?.preferredExpandedContentHeight = 400
     }
 
-    private let personaListView: PersonaListView = {
+    private lazy var personaListView: UIScrollView = {
         let personaListView = PersonaListView()
         personaListView.personaList = samplePersonas
         personaListView.backgroundColor = Colors.NavigationBar.background
         personaListView.translatesAutoresizingMaskIntoConstraints = false
         return personaListView
+    }()
+
+    private lazy var expandedContentView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(personaListView)
+
+        let bottomView = UIView()
+        bottomView.backgroundColor = Colors.surfaceQuaternary
+        bottomView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(bottomView)
+
+        let label = Label()
+        label.text = "Bottom view"
+        label.translatesAutoresizingMaskIntoConstraints = false
+
+        bottomView.addSubview(label)
+
+        NSLayoutConstraint.activate([
+            personaListView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            personaListView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            personaListView.topAnchor.constraint(equalTo: view.topAnchor),
+            personaListView.bottomAnchor.constraint(equalTo: bottomView.topAnchor),
+            bottomView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            bottomView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            bottomView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            bottomView.heightAnchor.constraint(equalToConstant: 30),
+            label.centerXAnchor.constraint(equalTo: bottomView.centerXAnchor),
+            label.centerYAnchor.constraint(equalTo: bottomView.centerYAnchor)
+        ])
+        return view
     }()
 
     private let headerView: UIView = {
@@ -127,13 +163,14 @@ class BottomSheetDemoController: UIViewController {
             DemoItem(title: "Should always fill width", type: .boolean, action: #selector(toggleFillWidth), isOn: bottomSheetViewController?.shouldAlwaysFillWidth ?? false),
             DemoItem(title: "Scroll to hide", type: .boolean, action: #selector(toggleScrollHiding), isOn: scrollHidingEnabled),
             DemoItem(title: "Hide collapsed content", type: .boolean, action: #selector(toggleCollapsedContentHiding), isOn: collapsedContentHidingEnabled),
+            DemoItem(title: "Flexible sheet height", type: .boolean, action: #selector(toggleFlexibleSheetHeight), isOn: bottomSheetViewController?.isFlexibleHeight ?? false),
             DemoItem(title: "Use custom handle accessibility label", type: .boolean, action: #selector(toggleHandleUsingCustomAccessibilityLabel), isOn: isHandleUsingCustomAccessibilityLabel),
             DemoItem(title: "Full screen sheet content", type: .action, action: #selector(fullScreenSheetContent)),
             DemoItem(title: "Fixed height sheet content", type: .action, action: #selector(fixedHeightSheetContent))
         ]
     }
 
-    private static let headerHeight: CGFloat = 70
+    private static let headerHeight: CGFloat = 30
 
     private enum DemoItemType {
         case action

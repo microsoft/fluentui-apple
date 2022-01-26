@@ -97,6 +97,23 @@ public class BottomSheetController: UIViewController {
         }
     }
 
+    /// Indicates if the sheet height is flexible.
+    ///
+    /// When set to `false`, the sheet height is static and always corresponds to the height of the maximum expansion state.
+    /// Interacting with the sheet will only vertically translate it, moving it partially on/off-screen.
+    ///
+    /// When set to `true`, moving the sheet beyond the `.collapsed` state will resize it.
+    ///
+    /// Use flexible height if you have views attached to the bottom of `expandedContentView` that should always be visible.
+    @objc open var isFlexibleHeight: Bool = false {
+        didSet {
+            guard isViewLoaded else {
+                return
+            }
+            view.setNeedsLayout()
+        }
+    }
+
     /// Height of `headerContentView`.
     ///
     /// Setting this is required when the `headerContentView` is non-nil.
@@ -490,18 +507,21 @@ public class BottomSheetController: UIViewController {
             return
         }
 
-        let currentOffset = currentSheetVerticalOffset
-        let collapsedOffset = offset(for: .collapsed)
-        let expandedOffset = offset(for: .expanded)
-
         var targetAlpha: CGFloat = 0.0
-        if currentOffset <= expandedOffset {
-            targetAlpha = 1.0
-        } else if currentOffset >= collapsedOffset {
-            targetAlpha = 0.0
-        } else {
-            targetAlpha = abs(currentOffset - collapsedOffset) / (collapsedOffset - expandedOffset)
+        if isExpandable {
+            let currentOffset = currentSheetVerticalOffset
+            let collapsedOffset = offset(for: .collapsed)
+            let expandedOffset = offset(for: .expanded)
+
+            if currentOffset <= expandedOffset {
+                targetAlpha = 1.0
+            } else if currentOffset >= collapsedOffset {
+                targetAlpha = 0.0
+            } else {
+                targetAlpha = abs(currentOffset - collapsedOffset) / (collapsedOffset - expandedOffset)
+            }
         }
+
         dimmingView.alpha = targetAlpha
     }
 
@@ -544,9 +564,17 @@ public class BottomSheetController: UIViewController {
     private func sheetFrame(offset: CGFloat) -> CGRect {
         let availableWidth: CGFloat = view.bounds.width
         let sheetWidth = shouldAlwaysFillWidth ? availableWidth : min(Constants.maxSheetWidth, availableWidth)
+        let sheetHeight: CGFloat
+
+        if isFlexibleHeight {
+            let minSheetHeight = collapsedSheetHeight
+            sheetHeight = max(minSheetHeight, view.bounds.maxY - offset)
+        } else {
+            sheetHeight = expandedSheetHeight
+        }
 
         return CGRect(origin: CGPoint(x: (view.bounds.width - sheetWidth) / 2, y: offset),
-                      size: CGSize(width: sheetWidth, height: expandedSheetHeight))
+                      size: CGSize(width: sheetWidth, height: sheetHeight))
     }
 
     private func translationRubberBandFactor(for currentOffset: CGFloat) -> CGFloat {
@@ -628,7 +656,8 @@ public class BottomSheetController: UIViewController {
             ? Constants.Spring.oscillatingDampingRatio
             : Constants.Spring.defaultDampingRatio
 
-        let springParams = UISpringTimingParameters(dampingRatio: damping, initialVelocity: CGVector(dx: 0.0, dy: springVelocity))
+        let springParams = UISpringTimingParameters(dampingRatio: damping,
+                                                    initialVelocity: CGVector(dx: springVelocity, dy: springVelocity))
         let translationAnimator = UIViewPropertyAnimator(duration: Constants.Spring.animationDuration, timingParameters: springParams)
 
         self.targetExpansionState = targetExpansionState
@@ -689,8 +718,7 @@ public class BottomSheetController: UIViewController {
 
         switch expansionState {
         case .collapsed:
-            let desiredVisiblePortion = (collapsedContentHeight > 0) ? collapsedContentHeight : headerContentHeight
-            offset = view.frame.maxY - (desiredVisiblePortion + (isExpandable ? ResizingHandleView.height : 0.0) + view.safeAreaInsets.bottom)
+            offset = view.frame.maxY - collapsedSheetHeight
         case .expanded:
             offset = view.frame.maxY - expandedSheetHeight
         case .hidden:
@@ -745,20 +773,33 @@ public class BottomSheetController: UIViewController {
 
     // Height of the sheet in the fully expanded state
     private var expandedSheetHeight: CGFloat {
+        guard isExpandable else {
+            return collapsedSheetHeight
+        }
+
         let height: CGFloat
-        let minHeight = headerContentHeight + (isExpandable ? ResizingHandleView.height : 0.0)
-        let maxHeight: CGFloat = view.frame.height - view.safeAreaInsets.top - Constants.minimumTopExpandedPadding
+        let maxHeight = view.frame.height - view.safeAreaInsets.top - Constants.minimumTopExpandedPadding
 
         if preferredExpandedContentHeight == 0 {
             height = maxHeight
         } else {
-            let idealHeight = minHeight + preferredExpandedContentHeight + view.safeAreaInsets.bottom
+            let idealHeight = currentResizingHandleHeight + headerContentHeight + preferredExpandedContentHeight + view.safeAreaInsets.bottom
             height = min(maxHeight, idealHeight)
         }
 
-        // Min height is required for cases when view.frame is .zero (before the initial layout pass)
+        // One case when the lower bound is required is when view.frame is .zero (like before the initial layout pass)
         // This gives the sheet some space to layout in so the layout engine doesn't complain.
-        return max(minHeight, height)
+        return max(collapsedSheetHeight, height)
+    }
+
+    // Height of the sheet in collapsed state
+    private var collapsedSheetHeight: CGFloat {
+        let visibleContentHeight = (collapsedContentHeight > 0) ? collapsedContentHeight : headerContentHeight
+        return currentResizingHandleHeight + visibleContentHeight + view.safeAreaInsets.bottom
+    }
+
+    private var currentResizingHandleHeight: CGFloat {
+        (isExpandable ? ResizingHandleView.height : 0.0)
     }
 
     private lazy var panGestureRecognizer: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
