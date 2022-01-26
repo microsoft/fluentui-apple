@@ -596,7 +596,10 @@ public class BottomSheetController: UIViewController {
         completeAnimationsIfNeeded()
 
         if currentSheetVerticalOffset != offset(for: targetExpansionState) {
-            let animator = stateChangeAnimator(to: targetExpansionState, velocity: velocity, interaction: interaction, shouldNotifyDelegate: shouldNotifyDelegate)
+            let animator = stateChangeAnimator(to: targetExpansionState,
+                                               velocity: velocity,
+                                               interaction: interaction,
+                                               shouldNotifyDelegate: shouldNotifyDelegate)
             animator.addCompletion({ finalPosition in
                 completion?(finalPosition)
             })
@@ -666,7 +669,9 @@ public class BottomSheetController: UIViewController {
             }
             strongSelf.targetExpansionState = nil
             strongSelf.panGestureRecognizer.isEnabled = strongSelf.isExpandable
-            strongSelf.handleCompletedStateChange(to: finalPosition == .end ? targetExpansionState : originalExpansionState, interaction: interaction, shouldNotifyDelegate: shouldNotifyDelegate)
+            strongSelf.handleCompletedStateChange(to: finalPosition == .end ? targetExpansionState : originalExpansionState,
+                                                  interaction: interaction,
+                                                  shouldNotifyDelegate: shouldNotifyDelegate)
         })
 
         view.layoutIfNeeded()
