@@ -16,8 +16,6 @@
 		43488C46270FAD1300124C71 /* NotificationView_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43488C44270FAD0200124C71 /* NotificationView_SwiftUI.swift */; };
 		436F6B3F26F4924200D18073 /* MSFNotificationTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436F6B3D26F4924200D18073 /* MSFNotificationTokens.generated.swift */; };
 		436F6B4226F4926B00D18073 /* MSFNotificationTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436F6B4026F4926B00D18073 /* MSFNotificationTokens.swift */; };
-		43A35007272B67D30031654A /* EnvironmentValues+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A35006272B67D20031654A /* EnvironmentValues+Extensions.swift */; };
-		4B790B5A275FFF170016A7CB /* UIApplication+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B790B59275FFF170016A7CB /* UIApplication+Extensions.swift */; };
 		4BBD651F2755FD9500A8B09E /* MSFNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBD651E2755FD9500A8B09E /* MSFNotificationView.swift */; };
 		5303259B26B31B6B00611D05 /* AvatarModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5303259926B31B6B00611D05 /* AvatarModifiers.swift */; };
 		5306075326A1E6A4002D49CF /* AvatarGroupTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5306074F26A1E6A4002D49CF /* AvatarGroupTokens.swift */; };
@@ -236,10 +234,8 @@
 		43488C44270FAD0200124C71 /* NotificationView_SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView_SwiftUI.swift; sourceTree = "<group>"; };
 		436F6B3D26F4924200D18073 /* MSFNotificationTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFNotificationTokens.generated.swift; sourceTree = "<group>"; };
 		436F6B4026F4926B00D18073 /* MSFNotificationTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFNotificationTokens.swift; sourceTree = "<group>"; };
-		43A35006272B67D20031654A /* EnvironmentValues+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "EnvironmentValues+Extensions.swift"; sourceTree = "<group>"; };
 		497DC2D724185885008D86F8 /* PillButtonBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButtonBar.swift; sourceTree = "<group>"; };
 		497DC2D824185885008D86F8 /* PillButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButton.swift; sourceTree = "<group>"; };
-		4B790B59275FFF170016A7CB /* UIApplication+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extensions.swift"; sourceTree = "<group>"; };
 		4BBD651E2755FD9500A8B09E /* MSFNotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFNotificationView.swift; sourceTree = "<group>"; };
 		5303259926B31B6B00611D05 /* AvatarModifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarModifiers.swift; sourceTree = "<group>"; };
 		5306074F26A1E6A4002D49CF /* AvatarGroupTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarGroupTokens.swift; sourceTree = "<group>"; };
@@ -558,8 +554,8 @@
 		4BA9B8B5279F2940007536F5 /* Notification */ = {
 			isa = PBXGroup;
 			children = (
-				43488C44270FAD0200124C71 /* NotificationView_SwiftUI.swift */,
 				4BBD651E2755FD9500A8B09E /* MSFNotificationView.swift */,
+				43488C44270FAD0200124C71 /* NotificationView_SwiftUI.swift */,
 			);
 			path = Notification;
 			sourceTree = "<group>";
@@ -814,9 +810,9 @@
 		A5B6617123A41DEC00E801DD /* Notification */ = {
 			isa = PBXGroup;
 			children = (
+				436F6B4026F4926B00D18073 /* MSFNotificationTokens.swift */,
 				436F6B3D26F4924200D18073 /* MSFNotificationTokens.generated.swift */,
 				A5B6617223A41E2900E801DD /* NotificationView.swift */,
-				436F6B4026F4926B00D18073 /* MSFNotificationTokens.swift */,
 			);
 			path = Notification;
 			sourceTree = "<group>";
@@ -824,7 +820,6 @@
 		A5B87AED211BCA4A0038C37C /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				43A35006272B67D20031654A /* EnvironmentValues+Extensions.swift */,
 				0AE866A626BA05D000E92108 /* Locale+Extensions.swift */,
 				FD41C8B422DD3EA20086F899 /* NSLayoutConstraint+Extensions.swift */,
 				A559BB7D212B6D100055E107 /* String+Extension.swift */,
@@ -834,7 +829,6 @@
 				A5B87B01211E20B50038C37C /* UIScreen+Extension.swift */,
 				FD41C8B122DD3BB70086F899 /* UIScrollView+Extensions.swift */,
 				A5B87B05211E23650038C37C /* UIView+Extensions.swift */,
-				4B790B59275FFF170016A7CB /* UIApplication+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1458,7 +1452,6 @@
 				532FE3D426EA6D74007539C0 /* ActivityIndicatorTokens.swift in Sources */,
 				532FE3D626EA6D74007539C0 /* ActivityIndicatorModifiers.swift in Sources */,
 				5314E2F525F025C60099271A /* CalendarConfiguration.swift in Sources */,
-				43A35007272B67D30031654A /* EnvironmentValues+Extensions.swift in Sources */,
 				5314E06B25F00F100099271A /* DateTimePicker.swift in Sources */,
 				5314E2BB25F024C60099271A /* CALayer+Extensions.swift in Sources */,
 				5314E12B25F016230099271A /* PillButtonBar.swift in Sources */,
@@ -1500,7 +1493,6 @@
 				5314E19625F019650099271A /* TabBarView.swift in Sources */,
 				5373D5752694D66F0032A3B4 /* FluentUIStyle.generated.swift in Sources */,
 				C708B05F260A8778007190FA /* SegmentPillButton.swift in Sources */,
-				4B790B5A275FFF170016A7CB /* UIApplication+Extensions.swift in Sources */,
 				5314E13525F016370099271A /* PopupMenuItemCell.swift in Sources */,
 				5314E2A025F024860099271A /* NSLayoutConstraint+Extensions.swift in Sources */,
 				929DD257266ED3AC00E8175E /* PersonaButtonCarouselTokens.swift in Sources */,

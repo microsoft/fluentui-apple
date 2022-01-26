@@ -42,7 +42,6 @@ import SwiftUI
 /// View that represents the Notification.
 public struct NotificationViewSwiftUI: View {
     @Environment(\.horizontalSizeClass) var horizontalSizeClass: UserInterfaceSizeClass?
-    @Environment(\.swiftUIInsets) private var safeAreaInsets: EdgeInsets
     @Environment(\.theme) var theme: FluentUIStyle
     @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
     @ObservedObject var tokens: MSFNotificationTokens
@@ -66,6 +65,10 @@ public struct NotificationViewSwiftUI: View {
 
     private var hasCenteredText: Bool {
         !state.style.isToast && state.actionButtonAction == nil
+    }
+
+    private var safeAreaInsets: UIEdgeInsets {
+        windowProvider?.window?.safeAreaInsets ?? UIEdgeInsets()
     }
 
     @ViewBuilder
@@ -160,7 +163,7 @@ public struct NotificationViewSwiftUI: View {
     public var body: some View {
         // Note: we are using viewController's width because GeometryReader relies on the bounds of the hosting controller which cannot be set accurately at this point
         if let windowWidth = windowProvider?.window?.bounds.width {
-            let width = windowWidth - safeAreaInsets.leading - safeAreaInsets.trailing
+            let width = windowWidth - safeAreaInsets.left - safeAreaInsets.right
             innerContents
                 .onTapGesture {
                     if let messageAction = state.messageButtonAction, let dismissAction = state.dismissAction {

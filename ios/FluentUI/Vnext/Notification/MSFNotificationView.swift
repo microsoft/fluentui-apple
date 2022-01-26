@@ -31,7 +31,7 @@ import UIKit
                                                                             .modifyIf(theme != nil, { notification in
                                                                                 notification.customTheme(theme!)
                                                                             })))
-        hostingController.view.backgroundColor = UIColor.clear
+        self.view.backgroundColor = UIColor.clear
         hostingController.disableSafeAreaInsets()
     }
 
@@ -61,28 +61,25 @@ import UIKit
             return
         }
 
-        hostingController.disableSafeAreaInsets()
-        var hostingControllerView: UIView! = hostingController.view
-        hostingControllerView = hostingController.view
-        hostingControllerView.translatesAutoresizingMaskIntoConstraints = false
+        self.view.translatesAutoresizingMaskIntoConstraints = false
         if let anchorView = anchorView, anchorView.superview == view {
-            view.insertSubview(hostingControllerView, belowSubview: anchorView)
+            view.insertSubview(self.view, belowSubview: anchorView)
         } else {
-            view.addSubview(hostingControllerView)
+            view.addSubview(self.view)
         }
 
         let anchor = anchorView?.topAnchor ?? view.safeAreaLayoutGuide.bottomAnchor
-        constraintWhenHidden = hostingControllerView.topAnchor.constraint(equalTo: anchor)
-        constraintWhenShown = hostingControllerView.bottomAnchor.constraint(equalTo: anchor, constant: -presentationOffset)
+        constraintWhenHidden = self.view.topAnchor.constraint(equalTo: anchor)
+        constraintWhenShown = self.view.bottomAnchor.constraint(equalTo: anchor, constant: -presentationOffset)
 
         var constraints = [NSLayoutConstraint]()
         constraints.append(animated ? constraintWhenHidden : constraintWhenShown)
         if style.needsFullWidth {
-            constraints.append(hostingControllerView.leadingAnchor.constraint(equalTo: view.leadingAnchor))
-            constraints.append(hostingControllerView.trailingAnchor.constraint(equalTo: view.trailingAnchor))
+            constraints.append(self.view.leadingAnchor.constraint(equalTo: view.leadingAnchor))
+            constraints.append(self.view.trailingAnchor.constraint(equalTo: view.trailingAnchor))
         } else {
-            constraints.append(hostingControllerView.centerXAnchor.constraint(equalTo: view.centerXAnchor))
-            constraints.append(hostingControllerView.widthAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.widthAnchor, constant: -2 * presentationOffset))
+            constraints.append(self.view.centerXAnchor.constraint(equalTo: view.centerXAnchor))
+            constraints.append(self.view.widthAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.widthAnchor, constant: -2 * presentationOffset))
         }
         NSLayoutConstraint.activate(constraints)
 
@@ -91,7 +88,7 @@ import UIKit
         }
 
         let completionForShow = { (_: Bool) in
-            UIAccessibility.post(notification: .layoutChanged, argument: hostingControllerView)
+            UIAccessibility.post(notification: .layoutChanged, argument: self.view)
             completion?(self)
         }
 
@@ -133,12 +130,11 @@ import UIKit
             return
         }
 
-        let hostingControllerView = self.hostingController.view
         if let completion = completion {
             completionsForHide.append(completion)
         }
         let completionForHide = {
-            hostingControllerView?.removeFromSuperview()
+            self.view.removeFromSuperview()
             if MSFNotification.currentToast == self {
                 MSFNotification.currentToast = nil
             }
@@ -152,7 +148,7 @@ import UIKit
             UIView.animate(withDuration: notification.tokens.style.animationDurationForHide, animations: {
                 self.constraintWhenShown.isActive = false
                 self.constraintWhenHidden.isActive = true
-                hostingControllerView?.superview?.layoutIfNeeded()
+                self.view.superview?.layoutIfNeeded()
             }, completion: { _ in
                 self.isHiding = false
                 completionForHide()
