@@ -648,7 +648,8 @@ public class BottomSheetController: UIViewController {
             ? Constants.Spring.oscillatingDampingRatio
             : Constants.Spring.defaultDampingRatio
 
-        let springParams = UISpringTimingParameters(dampingRatio: damping, initialVelocity: CGVector(dx: springVelocity, dy: springVelocity))
+        let springParams = UISpringTimingParameters(dampingRatio: damping,
+                                                    initialVelocity: CGVector(dx: springVelocity, dy: springVelocity))
         let translationAnimator = UIViewPropertyAnimator(duration: Constants.Spring.animationDuration, timingParameters: springParams)
 
         self.targetExpansionState = targetExpansionState
