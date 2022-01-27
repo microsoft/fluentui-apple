@@ -19,6 +19,7 @@ import SwiftUI
                                      size: size)
         state = avatarGroup.state
         super.init(AnyView(avatarGroup))
+        view.backgroundColor = UIColor.clear
     }
 
     /// The object that groups properties that allow control over the AvatarGroup appearance.
