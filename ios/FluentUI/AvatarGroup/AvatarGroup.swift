@@ -100,23 +100,6 @@ public struct AvatarGroup: View, TokenizedControlInternal {
         self.state = state
     }
 
-    /// Renders the avatar with an optional cutout
-    @ViewBuilder
-    private func avatarCutout(_ avatar: Avatar,
-                              _ needsCutout: Bool,
-                              _ xOrigin: CGFloat,
-                              _ yOrigin: CGFloat,
-                              _ cutoutSize: CGFloat,
-                              _ padding: CGFloat) -> some View {
-        avatar.modifyIf(needsCutout, { view in
-            view.clipShape(Avatar.AvatarCutout(xOrigin: xOrigin,
-                                               yOrigin: yOrigin,
-                                               cutoutSize: cutoutSize),
-                           style: FillStyle(eoFill: true))
-            })
-            .padding(.trailing, padding)
-    }
-
     public var body: some View {
         let avatars: [MSFAvatarStateImpl] = state.avatars
         let avatarViews: [Avatar] = avatars.map { Avatar($0) }
@@ -182,6 +165,23 @@ public struct AvatarGroup: View, TokenizedControlInternal {
     var tokens: AvatarGroupTokens { state.tokens }
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @ObservedObject var state: MSFAvatarGroupStateImpl
+
+    /// Renders the avatar with an optional cutout
+    @ViewBuilder
+    private func avatarCutout(_ avatar: Avatar,
+                              _ needsCutout: Bool,
+                              _ xOrigin: CGFloat,
+                              _ yOrigin: CGFloat,
+                              _ cutoutSize: CGFloat,
+                              _ padding: CGFloat) -> some View {
+        avatar.modifyIf(needsCutout, { view in
+            view.clipShape(Avatar.AvatarCutout(xOrigin: xOrigin,
+                                               yOrigin: yOrigin,
+                                               cutoutSize: cutoutSize),
+                           style: FillStyle(eoFill: true))
+            })
+            .padding(.trailing, padding)
+    }
 
     private func createOverflow(count: Int) -> Avatar {
         var avatar = Avatar(style: .overflow, size: tokens.size)
