@@ -381,7 +381,8 @@ struct MSFListCellView: View {
                             Image(uiImage: accessoryIcon)
                                 .resizable()
                                 .foregroundColor(Color(isDisclosure ? tokens.disclosureIconForegroundColor : tokens.trailingItemForegroundColor))
-                                .frame(width: isDisclosure ? disclosureSize : trailingItemSize, height: isDisclosure ? disclosureSize : trailingItemSize)
+                                .frame(width: isDisclosure ? disclosureSize : trailingItemSize,
+                                       height: isDisclosure ? disclosureSize : trailingItemSize)
                                 .padding(.leading, isDisclosure ? tokens.disclosureInterspace : tokens.iconInterspace)
                         }
                     }

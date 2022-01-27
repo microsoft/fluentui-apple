@@ -113,9 +113,8 @@ class LeftNavMenuViewController: UIViewController {
 
     var menuAction: (() -> Void)?
 
-    private func setPresence(presence: LeftNavPresence) {
+    private func setPresence(statusCell: MSFListCellState, presence: LeftNavPresence) {
         persona.state.presence = presence.avatarPresence
-        let statusCell = leftNavMenuList.state.getSectionState(at: 0).getCellState(at: 0)
         statusCell.isExpanded = false
         statusCell.title = presence.cellTitle
         statusCell.leadingUIView = presence.imageView
@@ -183,7 +182,7 @@ class LeftNavMenuViewController: UIViewController {
             statusCellChild.leadingUIView = presence.imageView
             statusCellChild.backgroundColor = .systemBackground
             statusCellChild.onTapAction = {
-                self.setPresence(presence: presence)
+                self.setPresence(statusCell: statusCell, presence: presence)
             }
         }
 
@@ -195,7 +194,7 @@ class LeftNavMenuViewController: UIViewController {
         resetStatusImageView.tintColor = FluentUIThemeManager.S.Colors.Foreground.neutral4
         resetStatusCell.leadingUIView = resetStatusImageView
         resetStatusCell.onTapAction = {
-            self.setPresence(presence: .available)
+            self.setPresence(statusCell: statusCell, presence: .available)
         }
 
         let statusMessageCell = menuSection.createCell()

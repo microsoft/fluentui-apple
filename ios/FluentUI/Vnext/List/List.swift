@@ -173,7 +173,7 @@ class MSFListSectionStateImpl: NSObject, ObservableObject, Identifiable, MSFList
         super.init()
     }
 
-    // MARK: - MSFListSectionStateImpl accessors and modifiers
+    // MARK: - MSFListSectionStateImpl accessors
 
     var cellCount: Int {
         return cells.count
