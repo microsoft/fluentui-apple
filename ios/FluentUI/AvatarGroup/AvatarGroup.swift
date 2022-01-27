@@ -135,28 +135,31 @@ public struct AvatarGroup: View, TokenizedControlInternal {
                 let isLastDisplayed = nextIndex == maxDisplayedAvatars
                 // If the avatar is part of Stack style and is not the last avatar in the sequence, create a cutout
                 let avatarView = avatarViews[index]
+
                 let needsCutout = tokens.style == .stack && (hasOverflow || !isLastDisplayed)
-                let avatarSize: CGFloat = avatarView.state.totalSize()
-                let nextAvatarSize: CGFloat = needsCutout ? avatarViews[nextIndex].state.totalSize() : 0
 
                 let currentAvatarHasRing = avatars[index].isRingVisible
                 let nextAvatarHasRing = !isLastDisplayed ? avatars[nextIndex].isRingVisible : false
+                let avatarSize: CGFloat = avatarView.state.totalSize()
+
+                let x = avatarSize + interspace - ringGapOffset
+                let noRingPaddingInterspace = nextAvatarHasRing ? interspace - ringOuterGap : interspace
+                let xPosition = currentAvatarHasRing ? x - ringOuterGap - ringOuterGap : x - ringOuterGap
+                let rtlRingPaddingInterspace = (nextAvatarHasRing ? -x - ringOuterGap : -x + ringOffset)
+                let rtlNoRingPaddingInterspace = (nextAvatarHasRing ? -x - ringOffset - ringOuterGap : -x)
+                let xPositionRTL = currentAvatarHasRing ? rtlRingPaddingInterspace : rtlNoRingPaddingInterspace
+                let xOrigin = Locale.current.isRightToLeftLayoutDirection() ? xPositionRTL : xPosition
+
+                let nextAvatarSize: CGFloat = needsCutout ? avatarViews[nextIndex].state.totalSize() : 0
                 let avatarSizeDifference = avatarSize - nextAvatarSize
                 let sizeDiff = !isLastDisplayed ? (currentAvatarHasRing ? avatarSizeDifference : avatarSizeDifference - ringGapOffset) :
                     currentAvatarHasRing ? (avatarSize - ringGapOffset) - imageSize : (avatarSize - (ringGapOffset * 2)) - imageSize
-                let x = avatarSize + interspace - ringGapOffset
+                let yOrigin = sizeDiff / 2
+
+                let cutoutSize = isLastDisplayed ? (ringOuterGap * 2) + imageSize : nextAvatarSize
 
                 let ringPaddingInterspace = nextAvatarHasRing ? interspace - (ringOffset + ringOuterGap) : interspace - ringOffset
-                let noRingPaddingInterspace = nextAvatarHasRing ? interspace - ringOuterGap : interspace
-                let rtlRingPaddingInterspace = (nextAvatarHasRing ? -x - ringOuterGap : -x + ringOffset)
-                let rtlNoRingPaddingInterspace = (nextAvatarHasRing ? -x - ringOffset - ringOuterGap : -x)
                 let stackPadding = (currentAvatarHasRing ? ringPaddingInterspace : noRingPaddingInterspace)
-
-                let xPosition = currentAvatarHasRing ? x - ringOuterGap - ringOuterGap : x - ringOuterGap
-                let xPositionRTL = currentAvatarHasRing ? rtlRingPaddingInterspace : rtlNoRingPaddingInterspace
-                let xOrigin = Locale.current.isRightToLeftLayoutDirection() ? xPositionRTL : xPosition
-                let yOrigin = sizeDiff / 2
-                let cutoutSize = isLastDisplayed ? (ringOuterGap * 2) + imageSize : nextAvatarSize
 
                 // Hand the rendering of the avatar to a helper function to appease Swift's
                 // strict type-checking timeout.
