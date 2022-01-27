@@ -101,10 +101,10 @@ public class AvatarGroupTokens: ControlTokens {
     ///   - ringOuterGap: CGFloat that defines the thickness of the space around the ring of the `Avatar`
     public init (style: MSFAvatarGroupStyle,
                  size: MSFAvatarSize,
-                 interspace: CGFloat?,
-                 ringInnerGap: CGFloat?,
-                 ringThickness: CGFloat?,
-                 ringOuterGap: CGFloat?) {
+                 interspace: CGFloat? = nil,
+                 ringInnerGap: CGFloat? = nil,
+                 ringThickness: CGFloat? = nil,
+                 ringOuterGap: CGFloat? = nil) {
         self.style = style
         self.size = size
 
