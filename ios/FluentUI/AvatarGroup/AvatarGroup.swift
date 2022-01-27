@@ -131,14 +131,13 @@ public struct AvatarGroup: View, TokenizedControlInternal {
         HStack(spacing: 0) {
             ForEach(0 ..< maxDisplayedAvatars, id: \.self) { index in
                 // If the avatar is part of Stack style and is not the last avatar in the sequence, create a cutout
-                let avatar = avatars[index]
                 let avatarView = avatarViews[index]
                 let needsCutout = tokens.style == .stack && (overflowCount > 0 || index + 1 < maxDisplayedAvatars)
                 let avatarSize: CGFloat = avatarView.state.totalSize()
                 let nextAvatarSize: CGFloat = needsCutout ? avatarViews[index + 1].state.totalSize() : 0
                 let isLastDisplayed = index == maxDisplayedAvatars - 1
 
-                let currentAvatarHasRing = avatar.isRingVisible
+                let currentAvatarHasRing = avatars[index].isRingVisible
                 let nextAvatarHasRing = index + 1 < maxDisplayedAvatars ? avatars[index + 1].isRingVisible : false
                 let avatarSizeDifference = avatarSize - nextAvatarSize
                 let sizeDiff = !isLastDisplayed ? (currentAvatarHasRing ? avatarSizeDifference : avatarSizeDifference - ringGapOffset) :
