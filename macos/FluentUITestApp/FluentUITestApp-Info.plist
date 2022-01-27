@@ -20,6 +20,8 @@
 	<string>0.4.3</string>
 	<key>CFBundleVersion</key>
 	<string>41</string>
+	<key>LSApplicationCategoryType</key>
+	<string>public.app-category.developer-tools</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>$(MACOSX_DEPLOYMENT_TARGET)</string>
 	<key>NSMainNibFile</key>
