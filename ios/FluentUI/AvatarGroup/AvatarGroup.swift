@@ -32,6 +32,9 @@ import SwiftUI
     /// Remove an Avatar from the AvatarGroup.
     /// - Parameter index: The zero-based index of the Avatar that will be removed from the AvatarGroup.
     func removeAvatar(at index: Int)
+
+    /// Custom design token set for this control
+    var overrideTokens: AvatarGroupTokens? { get set }
 }
 
 /// Enumeration of the styles used by the AvatarGroup.
@@ -89,7 +92,7 @@ public struct AvatarGroup: View {
     @Environment(\.theme) var theme: FluentUIStyle
     @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
     @ObservedObject var state: MSFAvatarGroupStateImpl
-    @ObservedObject var tokens: MSFAvatarGroupTokens
+    var tokens: AvatarGroupTokens
 
     /// Creates and initializes a SwiftUI AvatarGroup.
     /// - Parameters:
@@ -185,7 +188,7 @@ public struct AvatarGroup: View {
     }
 }
 
-class MSFAvatarGroupStateImpl: NSObject, ObservableObject, MSFAvatarGroupState {
+class MSFAvatarGroupStateImpl: NSObject, ObservableObject, ControlConfiguration, MSFAvatarGroupState {
     func createAvatar() -> MSFAvatarGroupAvatarState {
         return createAvatar(at: avatars.endIndex)
     }
@@ -217,20 +220,18 @@ class MSFAvatarGroupStateImpl: NSObject, ObservableObject, MSFAvatarGroupState {
     @Published var maxDisplayedAvatars: Int = Int.max
     @Published var overflowCount: Int = 0
 
-    var style: MSFAvatarGroupStyle {
-        get {
-            return tokens.style
-        }
-        set {
-            tokens.style = newValue
-        }
-    }
+    @Published var style: MSFAvatarGroupStyle
+    @Published var size: MSFAvatarSize
 
-    var tokens: MSFAvatarGroupTokens
+    @Published var overrideTokens: AvatarGroupTokens?
+    @Published var tokens: AvatarGroupTokens
+    var defaultTokens: AvatarGroupTokens { .init(style: self.style, size: self.size) }
 
     init(style: MSFAvatarGroupStyle,
          size: MSFAvatarSize) {
-        self.tokens = MSFAvatarGroupTokens(style: style,
+        self.style = style
+        self.size = size
+        self.tokens = AvatarGroupTokens(style: style,
                                            size: size)
         super.init()
     }
