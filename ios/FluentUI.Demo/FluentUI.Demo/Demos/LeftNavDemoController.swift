@@ -177,7 +177,7 @@ class LeftNavMenuViewController: UIViewController {
 
         for presence in LeftNavPresence.allCases {
             let statusCellChild = statusCell.createChildCell()
-            statusCellChild.leadingViewSize = MSFListCellLeadingViewSize.small
+            statusCellChild.leadingViewSize = .small
             statusCellChild.title = presence.cellTitle
             statusCellChild.leadingUIView = presence.imageView
             statusCellChild.backgroundColor = .systemBackground
