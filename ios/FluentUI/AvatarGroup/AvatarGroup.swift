@@ -88,12 +88,7 @@ import SwiftUI
 }
 
 /// View that represents the AvatarGroup.
-public struct AvatarGroup: View {
-    @Environment(\.theme) var theme: FluentUIStyle
-    @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
-    @ObservedObject var state: MSFAvatarGroupStateImpl
-    var tokens: AvatarGroupTokens
-
+public struct AvatarGroup: View, TokenizedControlInternal {
     /// Creates and initializes a SwiftUI AvatarGroup.
     /// - Parameters:
     ///   - style: The style of the avatar group.
@@ -103,7 +98,6 @@ public struct AvatarGroup: View {
         let state = MSFAvatarGroupStateImpl(style: style,
                                             size: size)
         self.state = state
-        self.tokens = state.tokens
     }
 
     /// Renders the avatar with an optional cutout
@@ -176,7 +170,14 @@ public struct AvatarGroup: View {
                 createOverflow(count: overflowCount)
             }
         }
+        .resolveTokens(self)
+        .resolveTokenModifier(self, value: state.style)
+        .resolveTokenModifier(self, value: state.size)
     }
+
+    var tokens: AvatarGroupTokens { state.tokens }
+    @Environment(\.fluentTheme) var fluentTheme: FluentTheme
+    @ObservedObject var state: MSFAvatarGroupStateImpl
 
     private func createOverflow(count: Int) -> Avatar {
         var avatar = Avatar(style: .overflow, size: tokens.size)
