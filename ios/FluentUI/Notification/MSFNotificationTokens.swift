@@ -72,7 +72,11 @@ class MSFNotificationTokens: MSFTokensBase, ObservableObject {
     public var regularTextFont: UIFont!
     public var footnoteTextFont: UIFont!
 
-    var style: MSFNotificationStyle
+    public var style: MSFNotificationStyle {
+        didSet {
+            updateForCurrentTheme()
+        }
+    }
 
     init(style: MSFNotificationStyle) {
         self.style = style
