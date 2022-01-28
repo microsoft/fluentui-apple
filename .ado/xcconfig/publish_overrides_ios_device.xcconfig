@@ -2,3 +2,4 @@
 
 // Explicitly build arm64e for iOS device builds in case our clients need it
 ARCHS = $(ARCHS_STANDARD) arm64e
+ENABLE_ADDRESS_SANITIZER = NO

@@ -13,9 +13,6 @@ import SwiftUI
 
 /// Properties that can be used to customize the appearance of the Divider.
 @objc public protocol MSFDividerState {
-    /// Sets a custom color for the Divider.
-    var color: UIColor? { get set }
-
     /// Defines the orientation of the Divider.
     var orientation: MSFDividerOrientation { get set }
 
@@ -25,16 +22,12 @@ import SwiftUI
     /// Defines the thickness of the Divider.
     var thickness: CGFloat { get }
 
-    /// Defines the padding of the Divider.
-    var padding: CGFloat { get }
+    /// Custom design token set for this control
+    var overrideTokens: DividerTokens? { get set }
 }
 
 /// View that represents the Divider.
-public struct FluentDivider: View {
-    @Environment(\.theme) var theme: FluentUIStyle
-    @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
-    @ObservedObject var state: MSFDividerStateImpl
-    @ObservedObject var tokens: MSFDividerTokens
+public struct FluentDivider: View, TokenizedControlInternal {
 
     /// Creates and initializes a SwiftUI Divider
     /// - Parameters:
@@ -45,14 +38,14 @@ public struct FluentDivider: View {
         let state = MSFDividerStateImpl(orientation: orientation, spacing: spacing)
 
         self.state = state
-        self.tokens = state.tokens
     }
 
     public var body: some View {
         let isHorizontal = state.orientation == .horizontal
+        let color = Color(dynamicColor: tokens.color)
 
         return Rectangle()
-            .fill(Color(state.color ?? tokens.color))
+            .fill(color)
             .frame(width: isHorizontal ? nil : state.thickness,
                    height: isHorizontal ? state.thickness : nil)
             .padding(isHorizontal ?
@@ -64,38 +57,32 @@ public struct FluentDivider: View {
                                   leading: tokens.padding,
                                   bottom: 0,
                                   trailing: tokens.padding))
-            .designTokens(tokens,
-                          from: theme,
-                          with: windowProvider)
+            .resolveTokens(self)
+            .resolveTokenModifier(self, value: state.spacing)
     }
+
+    var tokens: DividerTokens { state.tokens }
+    @Environment(\.fluentTheme) var fluentTheme: FluentTheme
+    @ObservedObject var state: MSFDividerStateImpl
 }
 
 /// Properties available to customize the Divider.
-class MSFDividerStateImpl: NSObject, ObservableObject, MSFDividerState {
-    @Published var color: UIColor?
+class MSFDividerStateImpl: NSObject, ObservableObject, ControlConfiguration, MSFDividerState {
+    @Published var overrideTokens: DividerTokens?
+    @Published var tokens: DividerTokens
+    var defaultTokens: DividerTokens { .init(spacing: self.spacing) }
+
     @Published var orientation: MSFDividerOrientation
 
-    var spacing: MSFDividerSpacing {
-        get {
-            return tokens.spacing
-        }
-        set {
-            tokens.spacing = newValue
-        }
-    }
+    @Published var spacing: MSFDividerSpacing
 
     let thickness: CGFloat = UIScreen.main.devicePixel
-
-    var padding: CGFloat {
-        return tokens.padding
-    }
-
-    var tokens: MSFDividerTokens
 
     init(orientation: MSFDividerOrientation,
          spacing: MSFDividerSpacing) {
         self.orientation = orientation
-        tokens = MSFDividerTokens(spacing: spacing)
+        self.spacing = spacing
+        tokens = DividerTokens(spacing: spacing)
         super.init()
     }
 }

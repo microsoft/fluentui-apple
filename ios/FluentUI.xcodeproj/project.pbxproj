@@ -212,10 +212,10 @@
 		D6F4098B274F14B8001B80D4 /* MSFPillButtonTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F4098A274F14B8001B80D4 /* MSFPillButtonTokens.generated.swift */; };
 		D6F4098D274F19CE001B80D4 /* MSFPillButtonBarTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F4098C274F19CE001B80D4 /* MSFPillButtonBarTokens.generated.swift */; };
 		D6F4098F274F1A1C001B80D4 /* PillButtonBarTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F4098E274F1A1C001B80D4 /* PillButtonBarTokens.swift */; };
-		EC02A5F127472EC300E81B3E /* MSFDividerTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC02A5F027472EC300E81B3E /* MSFDividerTokens.generated.swift */; };
 		EC02A5F327472EF400E81B3E /* DividerTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC02A5F227472EF400E81B3E /* DividerTokens.swift */; };
 		EC02A5F5274DD19600E81B3E /* MSFDivider.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC02A5F4274DD19500E81B3E /* MSFDivider.swift */; };
 		EC6A71EA273DBA520076A586 /* Divider.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6A71E9273DBA520076A586 /* Divider.swift */; };
+		ECA92184279A177D00B66117 /* DividerModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA92183279A177D00B66117 /* DividerModifiers.swift */; };
 		FD053A352224CA33009B6378 /* DatePickerControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD053A342224CA33009B6378 /* DatePickerControllerTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -286,7 +286,7 @@
 		53FC90F525673626008A06FD /* FluentUI_release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUI_release.xcconfig; sourceTree = "<group>"; };
 		53FC90F625673626008A06FD /* FluentUI_debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUI_debug.xcconfig; sourceTree = "<group>"; };
 		53FC90F725673626008A06FD /* FluentUITests.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUITests.xcconfig; sourceTree = "<group>"; };
-		53FC90F925673627008A06FD /* FluentUILib.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUILib.xcconfig; sourceTree = "<group>"; };
+		53FC90F925673627008A06FD /* FluentUILib_common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUILib_common.xcconfig; sourceTree = "<group>"; };
 		53FC90FA25673627008A06FD /* FluentUIResources.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUIResources.xcconfig; sourceTree = "<group>"; };
 		6EB4B25D270ED6450005B808 /* BadgeLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeLabel.swift; sourceTree = "<group>"; };
 		6ED4C11A2695A6E800C30BD6 /* UIBarButtonItem+BadgeValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBarButtonItem+BadgeValue.swift"; sourceTree = "<group>"; };
@@ -383,6 +383,8 @@
 		C0EAAEAC2347E1DF00C7244E /* ShimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerView.swift; sourceTree = "<group>"; };
 		C708B04B260A8696007190FA /* SegmentItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentItem.swift; sourceTree = "<group>"; };
 		C708B055260A86FA007190FA /* SegmentPillButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentPillButton.swift; sourceTree = "<group>"; };
+		C7752C7B2790C1F40012F860 /* FluentUILib_release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUILib_release.xcconfig; sourceTree = "<group>"; };
+		C7752C7C2790C1F40012F860 /* FluentUILib_debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUILib_debug.xcconfig; sourceTree = "<group>"; };
 		C77A04B625F03DD1001B3EB6 /* String+Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Date.swift"; sourceTree = "<group>"; };
 		C77A04EC25F046EB001B3EB6 /* Date+CellFileAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+CellFileAccessoryView.swift"; sourceTree = "<group>"; };
 		CCC18C2B2501B22F00BE830E /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
@@ -390,10 +392,10 @@
 		D6F4098A274F14B8001B80D4 /* MSFPillButtonTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFPillButtonTokens.generated.swift; sourceTree = "<group>"; };
 		D6F4098C274F19CE001B80D4 /* MSFPillButtonBarTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFPillButtonBarTokens.generated.swift; sourceTree = "<group>"; };
 		D6F4098E274F1A1C001B80D4 /* PillButtonBarTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButtonBarTokens.swift; sourceTree = "<group>"; };
-		EC02A5F027472EC300E81B3E /* MSFDividerTokens.generated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFDividerTokens.generated.swift; sourceTree = "<group>"; };
 		EC02A5F227472EF400E81B3E /* DividerTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DividerTokens.swift; sourceTree = "<group>"; };
 		EC02A5F4274DD19500E81B3E /* MSFDivider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFDivider.swift; sourceTree = "<group>"; };
 		EC6A71E9273DBA520076A586 /* Divider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Divider.swift; sourceTree = "<group>"; };
+		ECA92183279A177D00B66117 /* DividerModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DividerModifiers.swift; sourceTree = "<group>"; };
 		ECEBA8FB25EDF3380048EE24 /* SegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentedControl.swift; sourceTree = "<group>"; };
 		FC414E1E258876FB00069E73 /* CommandBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBar.swift; sourceTree = "<group>"; };
 		FC414E242588798000069E73 /* CommandBarButtonGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBarButtonGroupView.swift; sourceTree = "<group>"; };
@@ -734,7 +736,9 @@
 				53FC90C02567300A008A06FD /* FluentUI_common.xcconfig */,
 				53FC90F625673626008A06FD /* FluentUI_debug.xcconfig */,
 				53FC90F525673626008A06FD /* FluentUI_release.xcconfig */,
-				53FC90F925673627008A06FD /* FluentUILib.xcconfig */,
+				53FC90F925673627008A06FD /* FluentUILib_common.xcconfig */,
+				C7752C7C2790C1F40012F860 /* FluentUILib_debug.xcconfig */,
+				C7752C7B2790C1F40012F860 /* FluentUILib_release.xcconfig */,
 				53FC90FA25673627008A06FD /* FluentUIResources.xcconfig */,
 				53FC90F725673626008A06FD /* FluentUITests.xcconfig */,
 			);
@@ -1113,7 +1117,7 @@
 			isa = PBXGroup;
 			children = (
 				EC6A71E9273DBA520076A586 /* Divider.swift */,
-				EC02A5F027472EC300E81B3E /* MSFDividerTokens.generated.swift */,
+				ECA92183279A177D00B66117 /* DividerModifiers.swift */,
 				EC02A5F227472EF400E81B3E /* DividerTokens.swift */,
 				EC02A5F4274DD19500E81B3E /* MSFDivider.swift */,
 			);
@@ -1595,6 +1599,7 @@
 				5314E13925F016370099271A /* PopupMenuController.swift in Sources */,
 				9298798B2669A875002B1EB4 /* PersonaButtonTokens.swift in Sources */,
 				53E2EE0527860D010086D30D /* MSFActivityIndicator.swift in Sources */,
+				ECA92184279A177D00B66117 /* DividerModifiers.swift in Sources */,
 				5314E0A725F010070099271A /* DrawerController.swift in Sources */,
 				5314E07125F00F140099271A /* DatePickerSelectionManager.swift in Sources */,
 				5373D5672694D65C0032A3B4 /* Avatar.swift in Sources */,
@@ -1638,7 +1643,6 @@
 				53097D252702890900A6E4DC /* ListCell.swift in Sources */,
 				92088EF92666DB2C003F571A /* PersonaButton.swift in Sources */,
 				5314E13425F016370099271A /* PopupMenuItem.swift in Sources */,
-				EC02A5F127472EC300E81B3E /* MSFDividerTokens.generated.swift in Sources */,
 				5314E13825F016370099271A /* PopupMenuSection.swift in Sources */,
 				5314E07C25F00F1A0099271A /* DateTimePickerViewLayout.swift in Sources */,
 				5314E11625F015EA0099271A /* PersonaBadgeViewDataSource.swift in Sources */,
@@ -1789,21 +1793,21 @@
 /* Begin XCBuildConfiguration section */
 		8FD0116B228A820600D25925 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 53FC90F925673627008A06FD /* FluentUILib.xcconfig */;
+			baseConfigurationReference = C7752C7C2790C1F40012F860 /* FluentUILib_debug.xcconfig */;
 			buildSettings = {
 			};
 			name = Debug;
 		};
 		8FD0116C228A820600D25925 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 53FC90F925673627008A06FD /* FluentUILib.xcconfig */;
+			baseConfigurationReference = C7752C7B2790C1F40012F860 /* FluentUILib_release.xcconfig */;
 			buildSettings = {
 			};
 			name = Release;
 		};
 		8FD0116D228A820600D25925 /* Dogfood */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 53FC90F925673627008A06FD /* FluentUILib.xcconfig */;
+			baseConfigurationReference = C7752C7B2790C1F40012F860 /* FluentUILib_release.xcconfig */;
 			buildSettings = {
 			};
 			name = Dogfood;

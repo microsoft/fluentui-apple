@@ -21,29 +21,145 @@ public enum CardColorStyle: Int, CaseIterable {
     case custom
 }
 
-/// Card style can be horizontal, or vertical
-/// Both styles have a title, an icon and an optional subtitle. The whole card is clickable
-@objc(MSFCardStyle)
-public enum CardStyle: Int, CaseIterable {
-    /// Icon is positioned next to the title and subtitle is positioned below the title
-    case horizontal
-    /// Icon is at the top, title below the icon and subtitle below the title
-    case vertical
+/// Pre-defined sizes of the Card.
+@objc(MSFCardSize)
+public enum CardSize: Int, CaseIterable {
+    case small
+    case large
 
     var width: CGFloat {
         switch self {
-        case .horizontal:
-            return 156
-        case .vertical:
-            return 120
+        case .small:
+            return 164
+        case .large:
+            return 214
         }
+    }
+
+    var verticalPadding: CGFloat {
+        switch self {
+        case .small:
+            return 8
+        case .large:
+            return 12
+        }
+    }
+
+    var leadingPadding: CGFloat {
+        switch self {
+        case .small:
+            return 16
+        case .large:
+            return 20
+        }
+    }
+
+    var trailingPadding: CGFloat {
+        switch self {
+        case .small:
+            return 12
+        case .large:
+            return 16
+        }
+    }
+
+    var baseHeight: CGFloat {
+        switch self {
+        case .small:
+            return 28
+        case .large:
+            return 36
+        }
+    }
+
+    var primaryTextStyle: TextStyle {
+        switch self {
+        case .small:
+            return .caption1
+        case .large:
+            return .subhead
+        }
+    }
+
+    var secondaryTextStyle: TextStyle {
+        switch self {
+        case .small:
+            return .caption2
+        case .large:
+            return .footnote
+        }
+    }
+
+    func labelHeight(for sizeCategory: UIContentSizeCategory) -> CGFloat {
+        var height: CGFloat = 0
+        switch self {
+        case .small:
+            switch sizeCategory {
+            case .extraSmall:
+                height = 27
+            case .small:
+                height = 27
+            case .medium:
+                height = 27
+            case .large:
+                height = 29
+            case .extraLarge:
+                height = 34
+            case .extraExtraLarge:
+                height = 39
+            case .extraExtraExtraLarge:
+                height = 44
+            case .accessibilityMedium:
+                height = 53
+            case .accessibilityLarge:
+                height = 63
+            case .accessibilityExtraLarge:
+                height = 77
+            case .accessibilityExtraExtraLarge:
+                height = 89
+            case .accessibilityExtraExtraExtraLarge:
+                height = 103
+            default:
+                break
+            }
+        case .large:
+            switch sizeCategory {
+            case .extraSmall:
+                height = 29
+            case .small:
+                height = 32
+            case .medium:
+                height = 34
+            case .large:
+                height = 36
+            case .extraLarge:
+                height = 41
+            case .extraExtraLarge:
+                height = 46
+            case .extraExtraExtraLarge:
+                height = 51
+            case .accessibilityMedium:
+                height = 60
+            case .accessibilityLarge:
+                height = 72
+            case .accessibilityExtraLarge:
+                height = 86
+            case .accessibilityExtraExtraLarge:
+                height = 101
+            case .accessibilityExtraExtraExtraLarge:
+                height = 118
+            default:
+                break
+            }
+        }
+        return height
     }
 }
 
 /**
  `CardView` is a UIView used to display information in a card
  
- A card has a title, an optional subtitle, an icon, a style, and a color style
+ A card has a title, an optional subtitle, an icon, a size, and a color style
  
  Use `titleNumberOfLines` and `subtitleNumberOfLines`  to set the number of lines the title and subtitle should have respectively. When the string can not fit in the number of lines set, it will get truncated
  
@@ -57,7 +173,7 @@ open class CardView: UIView {
     /// Delegate to handle user interaction with the CardView
     @objc public weak var delegate: CardDelegate?
 
-    /// All card styles have a title. Setting `primaryText` will refresh the layout constraints
+    /// All card sizes have a title. Setting `primaryText` will refresh the layout constraints.
     @objc open var primaryText: String {
         didSet {
             if primaryText != oldValue {
@@ -77,7 +193,7 @@ open class CardView: UIView {
         }
     }
 
-    /// The card's icon. Announcement is the only card style that doesn't include an icon
+    /// The card's icon.
     @objc open var icon: UIImage {
         didSet {
             if icon != oldValue {
@@ -159,8 +275,8 @@ open class CardView: UIView {
         }
     }
 
-    /// The style of the card; vertical or horizontal. Style determines the layout of the content
-    private var style: CardStyle = .horizontal
+    /// The size of the card.
+    private var size: CardSize = .small
 
     /// The view of the icon. Appears on top of the text in vertical cards and besides the text in horizontal cards
     private var iconView: UIImageView
@@ -169,7 +285,6 @@ open class CardView: UIView {
     private let primaryLabel: Label = {
         let primaryLabel = Label()
         primaryLabel.translatesAutoresizingMaskIntoConstraints = false
-        primaryLabel.style = .subhead
         primaryLabel.colorStyle = .primary
         return primaryLabel
     }()
@@ -178,7 +293,6 @@ open class CardView: UIView {
     private let secondaryLabel: Label = {
         let secondaryLabel = Label()
         secondaryLabel.translatesAutoresizingMaskIntoConstraints = false
-        secondaryLabel.style = .footnote
         secondaryLabel.colorStyle = .secondary
         return secondaryLabel
     }()
@@ -190,24 +304,24 @@ open class CardView: UIView {
 
     /**
      Initializes `CardView`
-     
-     - Parameter style: The style of the card
+
+     - Parameter size: The size of the card
      - Parameter title: The title of the card
      - Parameter subtitle: The subtitle of the card - optional
      - Parameter icon: The icon of the card
      - Parameter colorStyle: The Card's color style; appColor, neutral, or custom
      **/
-    @objc public init(style: CardStyle,
+    @objc public init(size: CardSize,
                       title: String,
                       subtitle: String? = nil,
                       icon: UIImage,
                       colorStyle: CardColorStyle) {
         self.primaryText = title
-        self.style = style
+        self.size = size
         self.secondaryText = subtitle
         self.icon = icon
         self.colorStyle = colorStyle
-        customWidth = style.width
+        customWidth = size.width
         iconView = UIImageView(image: icon)
 
         super.init(frame: .zero)
@@ -222,12 +336,14 @@ open class CardView: UIView {
         primaryLabel.text = title
         primaryLabel.numberOfLines = twoLineTitle ? Constants.twoLineTitle : Constants.defaultTitleNumberOfLines
         primaryLabel.textAlignment = .natural
+        primaryLabel.style = size.primaryTextStyle
         addSubview(primaryLabel)
 
         // Subtitle
         if let secondaryText = secondaryText {
             secondaryLabel.text = secondaryText
             secondaryLabel.textAlignment = .natural
+            secondaryLabel.style = size.secondaryTextStyle
             addSubview(secondaryLabel)
         }
 
@@ -257,15 +373,8 @@ open class CardView: UIView {
         super.traitCollectionDidChange(previousTraitCollection)
         if let previousTraitCollection = previousTraitCollection {
             if previousTraitCollection.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
-                var height = style == .horizontal ? Constants.horizontalBaseHeight : Constants.verticalBaseHeight
-                let (singleLineHeight, twoLineHeight) = labelHeight(for: traitCollection.preferredContentSizeCategory)
-
-                if twoLineTitle {
-                   height += twoLineHeight
-                } else {
-                    height += 2 * singleLineHeight
-                }
-
+                var height: CGFloat = size.labelHeight(for: traitCollection.preferredContentSizeCategory)
+                height += size.baseHeight
                 heightConstraint.constant = height
             }
 
@@ -319,18 +428,7 @@ open class CardView: UIView {
         static let borderRadius: CGFloat = 8.0
         static let defaultTitleNumberOfLines: Int = 1
         static let twoLineTitle: Int = 2
-        static let verticalBaseHeight: CGFloat = Constants.verticalPaddingTop + Constants.iconHeight + Constants.verticalContentSpacing + Constants.verticalPaddingBottom
-        static let horizontalBaseHeight: CGFloat = 2 * Constants.horizontalPadding
-        // Layout constants
-        static let paddingTrailing: CGFloat = 16.0
-        static let paddingLeading: CGFloat = 12.0
-        // Horizontal card layout constants
-        static let horizontalPadding: CGFloat = 6.0
         static let horizontalContentSpacing: CGFloat = 12.0
-        // Vertical card layout constants
-        static let verticalPaddingBottom: CGFloat = 8.0
-        static let verticalPaddingTop: CGFloat = 10.0
-        static let verticalContentSpacing: CGFloat = 2.0
     }
 
     private var layoutConstraints: [NSLayoutConstraint] = []
@@ -341,54 +439,36 @@ open class CardView: UIView {
             layoutConstraints.removeAll()
         }
 
-        /// The possible text conigurations are:
+        /// The possible text configurations are:
         /// 1) Single-line Title
         /// 2) Two-line title
         /// 3) Single-line Title + single-line subtitle
         /// In all cases, the text height is: 2 * title's height
         var height: CGFloat = ceil(2 * primaryLabel.intrinsicContentSize.height)
-
-        switch style {
-        case .horizontal:
-            height += Constants.horizontalBaseHeight
-
-            layoutConstraints.append(contentsOf: [
-                iconView.centerYAnchor.constraint(equalTo: centerYAnchor),
-                primaryLabel.leadingAnchor.constraint(equalTo: iconView.trailingAnchor, constant: Constants.horizontalContentSpacing)
-            ])
-
-            // Center the title vertically if there is no subtitle
-            if secondaryText == nil && !twoLineTitle {
-                layoutConstraints.append(primaryLabel.centerYAnchor.constraint(equalTo: centerYAnchor))
-            } else {
-                layoutConstraints.append(primaryLabel.topAnchor.constraint(equalTo: topAnchor, constant: Constants.horizontalPadding))
-            }
-        case .vertical:
-            height += Constants.verticalBaseHeight
-
-            layoutConstraints.append(contentsOf: [
-                iconView.topAnchor.constraint(equalTo: topAnchor, constant: Constants.verticalPaddingTop),
-                primaryLabel.topAnchor.constraint(equalTo: iconView.bottomAnchor, constant: Constants.verticalContentSpacing),
-                primaryLabel.leadingAnchor.constraint(equalTo: iconView.leadingAnchor)
-            ])
-        }
-
+        height += size.baseHeight
         heightConstraint.constant = height
 
         layoutConstraints.append(contentsOf: [
-            widthAnchor.constraint(equalToConstant: style.width),
+            iconView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            primaryLabel.leadingAnchor.constraint(equalTo: iconView.trailingAnchor, constant: Constants.horizontalContentSpacing),
+            widthAnchor.constraint(equalToConstant: size.width),
             heightConstraint,
-            iconView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.paddingLeading),
             iconView.widthAnchor.constraint(equalToConstant: Constants.iconWidth),
             iconView.heightAnchor.constraint(equalToConstant: Constants.iconHeight),
-            primaryLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.paddingTrailing)
+            iconView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: size.leadingPadding),
+            primaryLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -size.trailingPadding),
+            primaryLabel.topAnchor.constraint(equalTo: topAnchor, constant: size.verticalPadding)
         ])
 
-        if secondaryText != nil {
+        if secondaryText == nil {
+            layoutConstraints.append(primaryLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -size.verticalPadding))
+        } else {
             layoutConstraints.append(contentsOf: [
                 secondaryLabel.leadingAnchor.constraint(equalTo: primaryLabel.leadingAnchor),
                 secondaryLabel.topAnchor.constraint(equalTo: primaryLabel.bottomAnchor),
-                secondaryLabel.trailingAnchor.constraint(equalTo: primaryLabel.trailingAnchor)
+                secondaryLabel.trailingAnchor.constraint(equalTo: primaryLabel.trailingAnchor),
+                secondaryLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -size.verticalPadding),
+                primaryLabel.heightAnchor.constraint(equalTo: secondaryLabel.heightAnchor)
             ])
         }
 
@@ -397,53 +477,5 @@ open class CardView: UIView {
 
     @objc private func handleCardTapped(_ recognizer: UITapGestureRecognizer) {
         delegate?.didTapCard?(self)
-    }
-
-    private func labelHeight(for sizeCategory: UIContentSizeCategory) -> (CGFloat, CGFloat) {
-        var singleLineHeight: CGFloat = 0
-        var twoLineHeight: CGFloat = 0
-
-        switch sizeCategory {
-        case .extraSmall:
-            singleLineHeight = 15
-            twoLineHeight = 30
-        case .small:
-            singleLineHeight = 16
-            twoLineHeight = 34
-        case .medium:
-            singleLineHeight = 17
-            twoLineHeight = 36
-        case .large:
-            singleLineHeight = 18
-            twoLineHeight = 38
-        case .extraLarge:
-            singleLineHeight = 21
-            twoLineHeight = 43
-        case .extraExtraLarge:
-            singleLineHeight = 23
-            twoLineHeight = 47
-        case .extraExtraExtraLarge:
-            singleLineHeight = 26
-            twoLineHeight = 52
-        case .accessibilityMedium:
-            singleLineHeight = 30
-            twoLineHeight = 61
-        case .accessibilityLarge:
-            singleLineHeight = 36
-            twoLineHeight = 72
-        case .accessibilityExtraLarge:
-            singleLineHeight = 43
-            twoLineHeight = 86
-        case .accessibilityExtraExtraLarge:
-            singleLineHeight = 51
-            twoLineHeight = 101
-        case .accessibilityExtraExtraExtraLarge:
-            singleLineHeight = 59
-            twoLineHeight = 117
-        default:
-            break
-        }
-
-        return (singleLineHeight, twoLineHeight)
     }
 }

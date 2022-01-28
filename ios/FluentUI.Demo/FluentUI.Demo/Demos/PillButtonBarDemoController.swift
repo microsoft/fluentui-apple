@@ -24,7 +24,7 @@ class PillButtonBarDemoController: DemoController {
         disableOnBrandSwitchView.addTarget(self, action: #selector(toggleOnBrandPills(switchView:)), for: .valueChanged)
 
         container.addArrangedSubview(createLabelWithText("onBrand"))
-        addRow(items: [createLabelWithText("Enable/Disable pills in onBrand Pill Bar"), disableOnBrandSwitchView], itemSpacing: 20, centerItems: true)
+        addSectionToggle(toggleTitle: createLabelWithText("Enable/Disable pills in onBrand Pill Bar"), switchView: disableOnBrandSwitchView)
         let onBrandBar = createBar(items: items, style: .onBrand)
         container.addArrangedSubview(onBrandBar)
         self.onBrandBar = onBrandBar
@@ -35,7 +35,7 @@ class PillButtonBarDemoController: DemoController {
         disableCustomOnBrandSwitchView.addTarget(self, action: #selector(toggleCustomOnBrandPills(switchView:)), for: .valueChanged)
 
         container.addArrangedSubview(createLabelWithText("onBrand With Custom Pills Background"))
-        addRow(items: [createLabelWithText("Enable/Disable pills in custom onBrand Pill Bar"), disableCustomOnBrandSwitchView], itemSpacing: 20, centerItems: true)
+        addSectionToggle(toggleTitle: createLabelWithText("Enable/Disable pills in custom onBrand Pill Bar"), switchView: disableCustomOnBrandSwitchView)
         let customBar = createBar(items: items, style: .onBrand, useCustomPillsColors: true)
         container.addArrangedSubview(customBar)
         self.customBar = customBar
@@ -46,7 +46,7 @@ class PillButtonBarDemoController: DemoController {
         disablePrimarySwitchView.addTarget(self, action: #selector(togglePrimaryPills(switchView:)), for: .valueChanged)
 
         container.addArrangedSubview(createLabelWithText("Primary"))
-        addRow(items: [createLabelWithText("Enable/Disable pills in Primary Pill bar"), disablePrimarySwitchView], itemSpacing: 20, centerItems: true)
+        addSectionToggle(toggleTitle: createLabelWithText("Enable/Disable pills in Primary Pill bar"), switchView: disablePrimarySwitchView)
         let primaryBar = createBar(items: items)
         container.addArrangedSubview(primaryBar)
         self.primaryBar = primaryBar
@@ -115,6 +115,13 @@ class PillButtonBarDemoController: DemoController {
         label.text = text
         label.textAlignment = .center
         return label
+    }
+
+    func addSectionToggle(toggleTitle: Label, switchView: UISwitch) {
+        toggleTitle.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        switchView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+
+        addRow(items: [toggleTitle, switchView], itemSpacing: 20, centerItems: true)
     }
 
     func fitViewIntoSuperview(_ view: UIView, margins: UIEdgeInsets) {

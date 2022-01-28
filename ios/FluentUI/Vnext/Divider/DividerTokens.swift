@@ -12,35 +12,41 @@ import UIKit
     case medium
 }
 
-/// Representation of design tokens to dividers at runtime which interfaces with the Design Token System auto-generated code
-/// Updating these properties causes the SwiftUI divider to updates its view automatically
-class MSFDividerTokens: MSFTokensBase, ObservableObject {
-    @Published public var color: UIColor!
-    @Published public var padding: CGFloat!
-
-    var spacing: MSFDividerSpacing
-
-    init(spacing: MSFDividerSpacing) {
+/// Design token set for the `FluentDivider` control.
+public class DividerTokens: ControlTokens {
+    /// Creates an instance of `MSFDividerTokens`with optional token value overrides.
+    /// - Parameters:
+    ///   - spacing: MSFDividerSpacing enumeration value that will define pre-defined value for the padding
+    ///   - padding: CGFloat that defines the padding around the Fluent Divider
+    ///   - color: The color of the Fluent Divider
+    public init(spacing: MSFDividerSpacing,
+                padding: CGFloat? = nil,
+                color: DynamicColor? = nil) {
         self.spacing = spacing
-
         super.init()
-        updateForCurrentTheme()
-    }
 
-    @objc open func didChangeAppearanceProxy() {
-        updateForCurrentTheme()
-    }
+        // Optional overrides
+        if let padding = padding {
+            self.padding = padding
+        }
 
-    override func updateForCurrentTheme() {
-        let appearanceProxy = theme.MSFDividerTokens
-
-        color = appearanceProxy.color
-
-        switch spacing {
-        case .none:
-            padding = appearanceProxy.spacing.none
-        case .medium:
-            padding = appearanceProxy.spacing.medium
+        if let color = color {
+            self.color = color
         }
     }
+
+    // MARK: - Design Tokens
+
+    let spacing: MSFDividerSpacing
+
+    lazy var padding: CGFloat = {
+        switch spacing {
+        case .none:
+            return globalTokens.spacing[.none]
+        case .medium:
+            return globalTokens.spacing[.medium]
+        }
+    }()
+
+    lazy var color: DynamicColor = aliasTokens.strokeColors[.neutral2]
 }
