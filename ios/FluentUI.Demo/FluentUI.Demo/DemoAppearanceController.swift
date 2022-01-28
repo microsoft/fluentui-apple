@@ -3,9 +3,9 @@
 //  Licensed under the MIT License.
 //
 
-import UIKit
 import FluentUI
 import SwiftUI
+import UIKit
 
 /// Wrapper class to allow presenting of `DemoAppearanceView` from a UIKit host.
 class DemoAppearanceController: UIHostingController<DemoAppearanceView> {
@@ -16,7 +16,7 @@ class DemoAppearanceController: UIHostingController<DemoAppearanceView> {
         super.init(rootView: DemoAppearanceView(configuration: configuration))
     }
 
-    @MainActor @objc required dynamic init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 

@@ -117,12 +117,16 @@ class CardNudgeDemoController: DemoTableViewController {
 
     private var themeWideOverrideTokens: CardNudgeTokens {
         return CardNudgeTokens(style: .standard,
-                               backgroundColor: DynamicColor(light: ColorValue(0xFF0000)))
+                               // "Seafoam"
+                               backgroundColor: DynamicColor(light: ColorValue(0xFBD2EB),
+                                                             dark: ColorValue(0x44002A)))
     }
 
     private var perControlOverrideTokens: CardNudgeTokens {
         return CardNudgeTokens(style: .standard,
-                               backgroundColor: DynamicColor(light: ColorValue(0x00FFFF)))
+                               // "Hot Pink"
+                               backgroundColor: DynamicColor(light: ColorValue(0xCFF7E4),
+                                                             dark: ColorValue(0x003D20)))
     }
 
     // MARK: - Helpers
