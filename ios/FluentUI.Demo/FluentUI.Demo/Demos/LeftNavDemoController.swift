@@ -166,46 +166,50 @@ class LeftNavMenuViewController: UIViewController {
                                                  left: Constant.margin,
                                                  bottom: Constant.margin,
                                                  right: Constant.margin)
-        let defaultMenuAction = {
-            guard let menuAction = self.menuAction else {
+        let defaultMenuAction = { [weak self] in
+            guard let strongSelf = self else {
                 return
             }
-            menuAction()
+            strongSelf.menuAction?()
         }
 
         let menuSection = leftNavMenuList.state.createSection()
 
-        statusCell = menuSection.createCell()
-        guard let statusCell = statusCell else {
-            return contentView
-        }
+        let statusCellState = menuSection.createCell()
 
-        statusCell.title = LeftNavPresence.available.cellTitle
-        statusCell.backgroundColor = .systemBackground
+        statusCellState.title = LeftNavPresence.available.cellTitle
+        statusCellState.backgroundColor = .systemBackground
         let statusImageView = LeftNavPresence.available.imageView
-        statusCell.leadingUIView = statusImageView
+        statusCellState.leadingUIView = statusImageView
 
         for presence in LeftNavPresence.allCases {
-            let statusCellChild = statusCell.createChildCell()
+            let statusCellChild = statusCellState.createChildCell()
             statusCellChild.leadingViewSize = .small
             statusCellChild.title = presence.cellTitle
             statusCellChild.leadingUIView = presence.imageView
             statusCellChild.backgroundColor = .systemBackground
-            statusCellChild.onTapAction = {
-                self.setPresence(presence: presence)
+            statusCellChild.onTapAction = { [weak self] in
+                guard let strongSelf = self else {
+                    return
+                }
+                strongSelf.setPresence(presence: presence)
             }
         }
 
-        let resetStatusCell = statusCell.createChildCell()
+        let resetStatusCell = statusCellState.createChildCell()
         resetStatusCell.title = "Reset status"
         resetStatusCell.leadingViewSize = .small
         resetStatusCell.backgroundColor = .systemBackground
         let resetStatusImageView = UIImageView(image: UIImage(named: "ic_fluent_arrow_sync_24_regular"))
         resetStatusImageView.tintColor = FluentUIThemeManager.S.Colors.Foreground.neutral4
         resetStatusCell.leadingUIView = resetStatusImageView
-        resetStatusCell.onTapAction = {
-            self.setPresence(presence: .available)
+        resetStatusCell.onTapAction = { [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+            strongSelf.setPresence(presence: .available)
         }
+        statusCell = statusCellState
 
         let statusMessageCell = menuSection.createCell()
         statusMessageCell.backgroundColor = .systemBackground
