@@ -267,8 +267,9 @@ open class NotificationView: UIView, FluentUIWindowProvider {
             constraints.append(leadingAnchor.constraint(equalTo: view.leadingAnchor))
             constraints.append(trailingAnchor.constraint(equalTo: view.trailingAnchor))
         } else {
-            constraints.append(centerXAnchor.constraint(equalTo: view.centerXAnchor))
-            constraints.append(widthAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.widthAnchor, constant: -2 * presentationOffset))
+            let offset = ((view.safeAreaLayoutGuide.layoutFrame.width - self.intrinsicContentSize.width) / 2) + presentationOffset
+            constraints.append(leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: offset))
+            constraints.append(trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -offset))
         }
         NSLayoutConstraint.activate(constraints)
 
