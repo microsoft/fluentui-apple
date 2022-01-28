@@ -21,17 +21,11 @@ class ListDemoController: DemoController {
         let personaDataNodes: [PersonaDataNode] = [
             PersonaDataNode(personaData: samplePersonas[0],
                             children: [ PersonaDataNode(personaData: samplePersonas[1],
-                                                        children: [ PersonaDataNode(personaData: samplePersonas[2],
-                                                                                    children: [],
-                                                                                    isExpanded: false) ],
+                                                        children: [ PersonaDataNode(personaData: samplePersonas[2]) ],
                                                         isExpanded: true),
-                                        PersonaDataNode(personaData: samplePersonas[3],
-                                                        children: [],
-                                                        isExpanded: false) ],
+                                        PersonaDataNode(personaData: samplePersonas[3]) ],
                             isExpanded: true),
-            PersonaDataNode(personaData: samplePersonas[4],
-                            children: [],
-                            isExpanded: false)
+            PersonaDataNode(personaData: samplePersonas[4])
         ]
 
         /// Custom Leading View with collapsible children items
@@ -88,8 +82,8 @@ class ListDemoController: DemoController {
 
     struct PersonaDataNode {
         var personaData: PersonaData
-        var children: [PersonaDataNode]
-        var isExpanded: Bool
+        var children: [PersonaDataNode] = []
+        var isExpanded: Bool = false
     }
 
     private func createSamplePersonaCell(cellState: MSFListCellState, personaDataNode: PersonaDataNode) {
@@ -105,8 +99,8 @@ class ListDemoController: DemoController {
         cellState.hasDivider = true
 
         cellState.onTapAction = personaChildren.isEmpty ? {
-                    self.showAlertForAvatarTapped(name: personaData.name)
-                } : nil
+            self.showAlertForAvatarTapped(name: personaData.name)
+        } : nil
 
         for persona in personaChildren {
             createSamplePersonaCell(cellState: cellState.createChildCell(), personaDataNode: persona)
@@ -118,7 +112,7 @@ class ListDemoController: DemoController {
                                   image: UIImage? = nil,
                                   style: MSFAvatarStyle) -> MSFAvatar {
         let avatarView = MSFAvatar(style: style,
-                                        size: size)
+                                   size: size)
         avatarView.state.primaryText = name
         avatarView.state.image = image
 

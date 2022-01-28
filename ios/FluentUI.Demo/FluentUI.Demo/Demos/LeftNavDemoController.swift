@@ -61,8 +61,8 @@ class LeftNavDemoController: DemoController {
 
     private lazy var drawerController: DrawerController = {
         let drawerController = DrawerController(sourceView: navigationButton,
-                                            sourceRect: navigationButton.bounds,
-                                            presentationDirection: .fromLeading)
+                                                sourceRect: navigationButton.bounds,
+                                                presentationDirection: .fromLeading)
         drawerController.presentationBackground = .black
         drawerController.preferredContentSize.width = 360
         drawerController.resizingBehavior = .dismiss
@@ -113,8 +113,12 @@ class LeftNavMenuViewController: UIViewController {
 
     var menuAction: (() -> Void)?
 
-    private func setPresence(statusCell: MSFListCellState, presence: LeftNavPresence) {
+    private func setPresence(presence: LeftNavPresence) {
         persona.state.presence = presence.avatarPresence
+
+        guard let statusCell = statusCell else {
+            return
+        }
         statusCell.isExpanded = false
         statusCell.title = presence.cellTitle
         statusCell.leadingUIView = presence.imageView
@@ -125,6 +129,8 @@ class LeftNavMenuViewController: UIViewController {
     private var persona = MSFPersonaView()
 
     private var leftNavMenuList = MSFList()
+
+    private var statusCell: MSFListCellState?
 
     private var leftNavAccountViewHeightConstraint: NSLayoutConstraint?
 
@@ -169,7 +175,11 @@ class LeftNavMenuViewController: UIViewController {
 
         let menuSection = leftNavMenuList.state.createSection()
 
-        let statusCell = menuSection.createCell()
+        statusCell = menuSection.createCell()
+        guard let statusCell = statusCell else {
+            return contentView
+        }
+
         statusCell.title = LeftNavPresence.available.cellTitle
         statusCell.backgroundColor = .systemBackground
         let statusImageView = LeftNavPresence.available.imageView
@@ -182,7 +192,7 @@ class LeftNavMenuViewController: UIViewController {
             statusCellChild.leadingUIView = presence.imageView
             statusCellChild.backgroundColor = .systemBackground
             statusCellChild.onTapAction = {
-                self.setPresence(statusCell: statusCell, presence: presence)
+                self.setPresence(presence: presence)
             }
         }
 
@@ -194,7 +204,7 @@ class LeftNavMenuViewController: UIViewController {
         resetStatusImageView.tintColor = FluentUIThemeManager.S.Colors.Foreground.neutral4
         resetStatusCell.leadingUIView = resetStatusImageView
         resetStatusCell.onTapAction = {
-            self.setPresence(statusCell: statusCell, presence: .available)
+            self.setPresence(presence: .available)
         }
 
         let statusMessageCell = menuSection.createCell()
@@ -282,7 +292,7 @@ class LeftNavMenuViewController: UIViewController {
                                      menuListView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
                                      menuListView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
                                      menuListView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
-        ])
+                                    ])
 
         return contentView
     }
