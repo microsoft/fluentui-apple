@@ -11,12 +11,33 @@ open class BadgeViewDataSource: NSObject {
     @objc open var text: String
     @objc open var style: BadgeView.Style
     @objc open var size: BadgeView.Size
+    @objc open var customView: UIView?
+    @objc open var customViewVerticalPadding: NSNumber?
+    @objc open var customViewPaddingLeft: NSNumber?
+    @objc open var customViewPaddingRight: NSNumber?
 
     @objc public init(text: String, style: BadgeView.Style = .default, size: BadgeView.Size = .medium) {
         self.text = text
         self.style = style
         self.size = size
         super.init()
+    }
+
+    @objc public convenience init(
+        text: String,
+        style: BadgeView.Style = .default,
+        size: BadgeView.Size = .medium,
+        customView: UIView? = nil,
+        customViewVerticalPadding: NSNumber? = nil,
+        customViewPaddingLeft: NSNumber? = nil,
+        customViewPaddingRight: NSNumber? = nil
+    ) {
+        self.init(text: text, style: style, size: size)
+
+        self.customView = customView
+        self.customViewVerticalPadding = customViewVerticalPadding
+        self.customViewPaddingLeft = customViewPaddingLeft
+        self.customViewPaddingRight = customViewPaddingRight
     }
 }
 
@@ -92,10 +113,6 @@ open class BadgeView: UIView {
             case .medium:
                 return 4
             }
-        }
-
-        var height: CGFloat {
-            return verticalPadding + labelTextStyle.font.deviceLineHeight + verticalPadding
         }
     }
 
@@ -300,6 +317,30 @@ open class BadgeView: UIView {
         }
     }
 
+    private var labelSize: CGSize {
+        let size = label.sizeThatFits(CGSize(width: CGFloat.infinity, height: CGFloat.infinity))
+        let width = UIScreen.main.roundToDevicePixels(size.width)
+        let height = UIScreen.main.roundToDevicePixels(size.height)
+        return CGSize(width: width, height: height)
+    }
+
+    private var customViewPadding: UIEdgeInsets {
+        let getFloat: (_ number: NSNumber?, _ defaultValue: CGFloat) -> CGFloat = { (number, defaultValue) in
+            if let number = number {
+                return CGFloat(truncating: number)
+            }
+            return defaultValue
+        }
+        let defaultVerticalPadding = size.verticalPadding
+        let defaultHorizontalPadding = size.horizontalPadding
+        return UIEdgeInsets(
+            top: getFloat(dataSource?.customViewVerticalPadding, defaultVerticalPadding),
+            left: getFloat(dataSource?.customViewPaddingLeft, defaultHorizontalPadding),
+            bottom: getFloat(dataSource?.customViewVerticalPadding, defaultVerticalPadding),
+            right: getFloat(dataSource?.customViewPaddingRight, defaultHorizontalPadding)
+        )
+    }
+
     private let backgroundView = UIView()
 
     private let label = Label()
@@ -339,21 +380,47 @@ open class BadgeView: UIView {
     open override func layoutSubviews() {
         super.layoutSubviews()
         backgroundView.frame = bounds
-        label.frame = bounds.insetBy(dx: -size.horizontalPadding, dy: -size.verticalPadding)
+
+        if let customViewSize = customViewSize(for: frame.size), customViewSize != .zero {
+			let customViewOrigin = CGPoint(x: customViewPadding.left, y: (frame.height - customViewSize.height) / 2)
+            dataSource?.customView?.frame = CGRect(origin: customViewOrigin, size: customViewSize)
+			let labelOrigin = CGPoint(x: customViewPadding.left + customViewPadding.right + customViewSize.width, y: (frame.height - labelSize.height) / 2)
+            label.frame = CGRect(origin: labelOrigin, size: labelSize)
+        } else {
+            label.frame = bounds.insetBy(dx: -size.horizontalPadding, dy: -size.verticalPadding)
+        }
+
+        flipSubviewsForRTL()
     }
 
     func reload() {
         label.text = dataSource?.text
         style = dataSource?.style ?? .default
         size = dataSource?.size ?? .medium
+
+        dataSource?.customView?.removeFromSuperview()
+        if let customView = dataSource?.customView {
+            addSubview(customView)
+        }
+
         setNeedsLayout()
     }
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
-        let labelSize = label.sizeThatFits(CGSize(width: CGFloat.infinity, height: CGFloat.infinity))
-        let width = UIScreen.main.roundToDevicePixels(labelSize.width) + self.size.horizontalPadding * 2
+        let width: CGFloat
+        let height: CGFloat
+
+        if let customViewSize = customViewSize(for: size), customViewSize != .zero {
+			let heightForCustomView = customViewSize.height + customViewPadding.top + customViewPadding.bottom
+			let heightForLabel = labelSize.height + self.size.verticalPadding * 2
+            height = max(heightForCustomView, heightForLabel)
+            width = labelSize.width + customViewSize.width + customViewPadding.left + customViewPadding.right + self.size.horizontalPadding
+        } else {
+            height = labelSize.height + self.size.verticalPadding * 2
+            width = labelSize.width + self.size.horizontalPadding * 2
+        }
+
         let maxWidth = size.width > 0 ? size.width : .infinity
-        let height = UIScreen.main.roundToDevicePixels(labelSize.height) + self.size.verticalPadding * 2
         let maxHeight = size.height > 0 ? size.height : .infinity
 
         return CGSize(width: max(minWidth, min(width, maxWidth)), height: min(height, maxHeight))
@@ -362,6 +429,13 @@ open class BadgeView: UIView {
     open override func didMoveToWindow() {
         super.didMoveToWindow()
         updateColors()
+    }
+
+    private func customViewSize(for size: CGSize) -> CGSize? {
+        guard let customView = dataSource?.customView else {
+            return nil
+        }
+        return customView.bounds == .zero ? customView.sizeThatFits(size) : customView.bounds.size
     }
 
     private func updateAccessibility() {

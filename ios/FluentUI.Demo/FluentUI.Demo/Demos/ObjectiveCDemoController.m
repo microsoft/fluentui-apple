@@ -64,21 +64,25 @@
 
     MSFButtonLegacy *resetButton = [self createButtonWithTitle:@"Reset Button" action:@selector(resetButton)];
     [self.container addArrangedSubview:resetButton];
-    
+
     UILabel *listVnextLabel = [[UILabel alloc] init];
     [listVnextLabel setText:@"List (vNext)"];
     [self.container addArrangedSubview:listVnextLabel];
+
+    MSFList *testList = [[MSFList alloc] initWithTheme:nil];
+    id<MSFListSectionState> sectionState = [[testList state] createSection];
+    MSFListCellState *listCell1 = [sectionState createCell];
+    MSFListCellState *listCell2 = [sectionState createCell];
+    MSFListCellState *listCell3 = [sectionState createCell];
 
     MSFListCellState *childCell = [[MSFListCellState alloc] init];
     [childCell setTitle:@"Child Cell"];
     NSArray *children = [NSArray arrayWithObject:childCell];
 
-    MSFListCellState *listCell1 = [[MSFListCellState alloc] init];
     [listCell1 setTitle:@"SampleTitle1"];
     [listCell1 setIsExpanded:TRUE];
     [listCell1 setChildren:children];
 
-    MSFListCellState *listCell2 = [[MSFListCellState alloc] init];
     [listCell2 setTitle:@"SampleTitle2"];
     [listCell2 setSubtitle:@"SampleTitle2"];
     [listCell2 setLayoutType:MSFListCellLayoutTypeTwoLines];
@@ -86,7 +90,6 @@
         [self showAlertForCellTapped:@"SampleTitle2"];
     }];
 
-    MSFListCellState *listCell3 = [[MSFListCellState alloc] init];
     [listCell3 setTitle:@"SampleTitle3"];
     [listCell3 setSubtitle:@"SampleTitle3"];
     UIImageView *image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"excelIcon"]];
@@ -97,16 +100,10 @@
         [self showAlertForCellTapped:@"Sample Title3"];
     }];
 
-    MSFListSectionState *section = [[MSFListSectionState alloc] init];
-    [section setCells:@[listCell1, listCell2, listCell3]];
-    NSArray *sections = @[section];
-
-    MSFList *list = [[MSFList alloc] initWithSections:sections];
-
-    UIView *listView = [list view];
+    UIView *listView = [testList view];
     listView.translatesAutoresizingMaskIntoConstraints = false;
 
-    [self.container addArrangedSubview:[list view]];
+    [self.container addArrangedSubview:[testList view]];
 
     [[[listView heightAnchor] constraintEqualToConstant:250] setActive:YES];
 }
