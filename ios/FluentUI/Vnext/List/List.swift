@@ -226,7 +226,7 @@ class MSFListStateImpl: NSObject, ObservableObject, MSFListState {
         super.init()
     }
 
-    // MARK: - MSFListStateImpl accessors and modifiers
+    // MARK: - MSFListStateImpl accessors
 
     var sectionCount: Int {
         return sections.count

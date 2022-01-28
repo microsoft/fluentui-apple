@@ -176,6 +176,7 @@ class LeftNavMenuViewController: UIViewController {
         let menuSection = leftNavMenuList.state.createSection()
 
         let statusCellState = menuSection.createCell()
+        statusCell = statusCellState
 
         statusCellState.title = LeftNavPresence.available.cellTitle
         statusCellState.backgroundColor = .systemBackground
@@ -209,7 +210,6 @@ class LeftNavMenuViewController: UIViewController {
             }
             strongSelf.setPresence(presence: .available)
         }
-        statusCell = statusCellState
 
         let statusMessageCell = menuSection.createCell()
         statusMessageCell.backgroundColor = .systemBackground
