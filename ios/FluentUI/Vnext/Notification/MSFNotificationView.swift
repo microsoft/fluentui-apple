@@ -31,7 +31,7 @@ import UIKit
                                                                             .modifyIf(theme != nil, { notification in
                                                                                 notification.customTheme(theme!)
                                                                             })))
-        self.view.backgroundColor = UIColor.clear
+        view.backgroundColor = UIColor.clear
         hostingController.disableSafeAreaInsets()
     }
 
@@ -42,13 +42,13 @@ import UIKit
     // MARK: - FluentUIWindowProvider
 
     var window: UIWindow? {
-        return self.view.window
+        return view.window
     }
 
     // MARK: - Show/Hide Methods
 
     public func showNotification(in view: UIView, completion: ((MSFNotification) -> Void)? = nil) {
-        guard self.view.window == nil else {
+        guard window == nil else {
             return
         }
 
@@ -109,22 +109,21 @@ import UIKit
     }
 
     @objc public func hide(after delay: TimeInterval = 0, completion: (() -> Void)? = nil) {
-        var updatedDelay = delay
-        if updatedDelay != 0 {
-            switch self.state.style {
+        let hideDelay: TimeInterval = {
+            switch state.style {
             case .primaryToast, .primaryBar, .primaryOutlineBar, .neutralBar:
-                break
-            default:
-                updatedDelay = .infinity
+                return delay
+            case .neutralToast, .dangerToast, .warningToast:
+                return (delay == 0) ? delay : .infinity
             }
-        }
+        }()
 
-        guard self.view.window != nil && constraintWhenHidden != nil && updatedDelay != .infinity else {
+        guard window != nil && constraintWhenHidden != nil && hideDelay != .infinity else {
             return
         }
 
-        if updatedDelay > 0 {
-            DispatchQueue.main.asyncAfter(deadline: .now() + updatedDelay) { [weak self] in
+        guard hideDelay == 0 else {
+            DispatchQueue.main.asyncAfter(deadline: .now() + hideDelay) { [weak self] in
                 self?.hide(completion: completion)
             }
             return
