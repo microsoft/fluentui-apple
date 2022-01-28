@@ -32,7 +32,7 @@ class DemoTableViewController: UITableViewController {
                                                    onPerControlOverrideChanged: onPerControlOverrideChanged)
 
         // Display the DemoAppearancePopover button
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "gear"),
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "ic_fluent_settings_24_regular"),
                                                             style: .plain,
                                                             target: self,
                                                             action: #selector(showAppearancePopover))

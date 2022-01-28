@@ -52,15 +52,11 @@ struct DemoAppearanceView: View {
                 .font(.headline)
 
             // Theme-wide override toggle
-            Toggle(isOn: $configuration.themeWideOverride) {
-                Text("Theme-wide override")
-            }
+            FluentUIDemoToggle(titleKey: "Theme-wide override", isOn: $configuration.themeWideOverride)
             .disabled(configuration.onThemeWideOverrideChanged == nil)
 
             // Per-control override toggle
-            Toggle(isOn: $configuration.perControlOverride) {
-                Text("Per-control override")
-            }
+            FluentUIDemoToggle(titleKey: "Per-control override", isOn: $configuration.perControlOverride)
             .disabled(configuration.onPerControlOverrideChanged == nil)
 
             Spacer()
