@@ -30,7 +30,7 @@ import UIKit
 
 /// Representation of design tokens to buttons at runtime which interfaces with the Design Token System auto-generated code.
 /// Updating these properties causes the SwiftUI button to update its view automatically.
-public class ButtonTokens: ControlTokens {
+open class ButtonTokens: ControlTokens {
     /// Creates an instance of `ButtonTokens`.
     public init(style: MSFButtonStyle,
                 size: MSFButtonSize) {
@@ -40,92 +40,28 @@ public class ButtonTokens: ControlTokens {
         super.init()
     }
 
-    /// Creates an instance of `ButtonTokens` with optional token value overrides.
-    convenience public init(style: MSFButtonStyle,
-                            size: MSFButtonSize,
-                            borderRadius: CGFloat? = nil,
-                            borderSize: CGFloat? = nil,
-                            iconSize: CGFloat? = nil,
-                            interspace: CGFloat? = nil,
-                            padding: CGFloat? = nil,
-                            textFont: FontInfo? = nil,
-                            textMinimumHeight: CGFloat? = nil,
-                            textAdditionalHorizontalPadding: CGFloat? = nil,
-                            textColor: ButtonDynamicColors? = nil,
-                            borderColor: ButtonDynamicColors? = nil,
-                            backgroundColor: ButtonDynamicColors? = nil,
-                            iconColor: ButtonDynamicColors? = nil,
-                            restShadow: ShadowInfo? = nil,
-                            pressedShadow: ShadowInfo? = nil) {
-        self.init(style: style, size: size)
+    public let style: MSFButtonStyle
+    public let size: MSFButtonSize
 
-        // Optional overrides
-        if let borderRadius = borderRadius {
-            self.borderRadius = borderRadius
-        }
-        if let borderSize = borderSize {
-            self.borderSize = borderSize
-        }
-        if let iconSize = iconSize {
-            self.iconSize = iconSize
-        }
-        if let interspace = interspace {
-            self.interspace = interspace
-        }
-        if let padding = padding {
-            self.padding = padding
-        }
-        if let textFont = textFont {
-            self.textFont = textFont
-        }
-        if let textMinimumHeight = textMinimumHeight {
-            self.textMinimumHeight = textMinimumHeight
-        }
-        if let textAdditionalHorizontalPadding = textAdditionalHorizontalPadding {
-            self.textAdditionalHorizontalPadding = textAdditionalHorizontalPadding
-        }
-        if let textColor = textColor {
-            self.textColor = textColor
-        }
-        if let borderColor = borderColor {
-            self.borderColor = borderColor
-        }
-        if let backgroundColor = backgroundColor {
-            self.backgroundColor = backgroundColor
-        }
-        if let iconColor = iconColor {
-            self.iconColor = iconColor
-        }
-        if let restShadow = restShadow {
-            self.restShadow = restShadow
-        }
-        if let pressedShadow = pressedShadow {
-            self.pressedShadow = pressedShadow
-        }
-    }
-
-    let style: MSFButtonStyle
-    let size: MSFButtonSize
-
-    lazy var borderRadius: CGFloat = {
+    open var borderRadius: CGFloat {
         switch size {
         case .small, .medium:
             return globalTokens.borderRadius[.large]
         case .large:
             return globalTokens.borderRadius[.xLarge]
         }
-    }()
+    }
 
-    lazy var borderSize: CGFloat = {
+    open var borderSize: CGFloat {
         switch style {
         case .primary, .ghost, .accentFloating, .subtleFloating:
             return globalTokens.borderSize[.none]
         case .secondary:
             return globalTokens.borderSize[.thin]
         }
-    }()
+    }
 
-    lazy var iconSize: CGFloat = {
+    open var iconSize: CGFloat {
         switch style {
         case .primary, .secondary, .ghost:
             switch size {
@@ -138,9 +74,9 @@ public class ButtonTokens: ControlTokens {
         case .accentFloating, .subtleFloating:
             return globalTokens.iconSize[.medium]
         }
-    }()
+    }
 
-    lazy var interspace: CGFloat = {
+    open var interspace: CGFloat {
         switch style {
         case .primary, .secondary, .ghost:
             switch size {
@@ -152,9 +88,9 @@ public class ButtonTokens: ControlTokens {
         case .accentFloating, .subtleFloating:
             return globalTokens.spacing[.xSmall]
         }
-    }()
+    }
 
-    lazy var padding: CGFloat = {
+    open var padding: CGFloat {
         switch style {
         case .primary, .secondary, .ghost:
             switch size {
@@ -180,9 +116,9 @@ public class ButtonTokens: ControlTokens {
                 return globalTokens.spacing[.medium]
             }
         }
-    }()
+    }
 
-    lazy var textFont: FontInfo = {
+    open var textFont: FontInfo {
         switch style {
         case .primary, .secondary, .ghost:
             switch size {
@@ -206,20 +142,20 @@ public class ButtonTokens: ControlTokens {
                 return aliasTokens.typography[.body1Strong]
             }
         }
-    }()
+    }
 
-    lazy var textMinimumHeight: CGFloat = globalTokens.iconSize[.medium]
+    open var textMinimumHeight: CGFloat { globalTokens.iconSize[.medium] }
 
-    lazy var textAdditionalHorizontalPadding: CGFloat = {
+    open var textAdditionalHorizontalPadding: CGFloat {
         switch size {
         case .small, .medium:
             return globalTokens.spacing[.xSmall]
         case .large:
             return globalTokens.spacing[.xxSmall]
         }
-    }()
+    }
 
-    lazy var textColor: ButtonDynamicColors = {
+    open var textColor: ButtonDynamicColors {
         switch style {
         case .primary, .accentFloating:
             return .init(
@@ -246,9 +182,9 @@ public class ButtonTokens: ControlTokens {
                 disabled: aliasTokens.foregroundColors[.brandDisabled]
             )
         }
-    }()
+    }
 
-    lazy var borderColor: ButtonDynamicColors = {
+    open var borderColor: ButtonDynamicColors {
         switch style {
         case .primary:
             return .init(
@@ -275,9 +211,9 @@ public class ButtonTokens: ControlTokens {
                 disabled: DynamicColor(light: ColorValue.clear)
             )
         }
-    }()
+    }
 
-    lazy var backgroundColor: ButtonDynamicColors = {
+    open var backgroundColor: ButtonDynamicColors {
         switch style {
         case .primary, .accentFloating:
             return .init(
@@ -304,9 +240,9 @@ public class ButtonTokens: ControlTokens {
                 disabled: aliasTokens.backgroundColors[.neutral1]
             )
         }
-    }()
+    }
 
-    lazy var iconColor: ButtonDynamicColors = {
+    open var iconColor: ButtonDynamicColors {
         switch style {
         case .primary, .accentFloating:
             return .init(
@@ -333,9 +269,9 @@ public class ButtonTokens: ControlTokens {
                 disabled: aliasTokens.foregroundColors[.neutralDisabled]
             )
         }
-    }()
+    }
 
-    lazy var restShadow: ShadowInfo = aliasTokens.elevation[.interactiveElevation1Rest]
+    open var restShadow: ShadowInfo { aliasTokens.elevation[.interactiveElevation1Rest] }
 
-    lazy var pressedShadow: ShadowInfo = aliasTokens.elevation[.interactiveElevation1Pressed]
+    open var pressedShadow: ShadowInfo { aliasTokens.elevation[.interactiveElevation1Pressed] }
 }
