@@ -8,13 +8,11 @@ import UIKit
 
 class SearchBarDemoController: DemoController, SearchBarDelegate {
     private lazy var searchBarWithBadgeView: SearchBar = {
-        buildSearchBar(
-            autocorrectionType: .yes,
-            placeholderText: "Type badge to add a badge"
-        )
+        buildSearchBar(autocorrectionType: .yes,
+                       placeholderText: "Type \"badge\" to add a leading badge")
     }()
 
-    private var badgeView: UIView = {
+    private lazy var badgeView: UIView = {
         let dataSource = BadgeViewDataSource(text: "Kat Larrson")
         let badge = BadgeView(dataSource: dataSource)
         badge.disabledBackgroundColor = Colors.Palette.blueMagenta20.color
