@@ -25,12 +25,12 @@ class MSFHeaderFooterTokens: MSFTokensBase, ObservableObject {
     @Published public var textFont: UIFont!
 
     var style: MSFHeaderFooterStyle {
-            didSet {
-                if oldValue != style {
-                    updateForCurrentTheme()
-                }
+        didSet {
+            if oldValue != style {
+                updateForCurrentTheme()
             }
         }
+    }
 
     init(style: MSFHeaderFooterStyle) {
         self.style = style

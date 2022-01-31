@@ -47,7 +47,7 @@ class NotificationViewDemoController: DemoController {
 
         var delayForHiding: TimeInterval {
             switch self {
-            case .primaryToast, .primaryBar, .primaryOutlineBar, .neutralBar:
+            case .primaryToast, .primaryToastWithImageAndTitle, .primaryBar, .primaryOutlineBar, .neutralBar:
                 return 2
             default:
                 return .infinity

@@ -25,7 +25,7 @@ public protocol PersonaViewState: MSFPersonaViewState {
 }
 
 /// Properties that make up PersonaView content
-class MSFPersonaViewStateImpl: MSFListCellState, PersonaViewState {
+class MSFPersonaViewStateImpl: MSFListCellStateImpl, PersonaViewState {
     override var backgroundColor: UIColor? {
         get {
             return avatarState.backgroundColor
