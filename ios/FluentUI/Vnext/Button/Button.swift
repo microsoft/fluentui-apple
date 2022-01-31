@@ -26,6 +26,9 @@ import UIKit
 
     /// Defines the style of the button.
     var style: MSFButtonStyle { get set }
+
+    /// Custom design token set for this control, to use in place of the control's default Fluent tokens.
+    var overrideTokens: ButtonTokens? { get set }
 }
 
 /// View that represents the button.
@@ -76,8 +79,12 @@ class MSFButtonStateImpl: NSObject, ObservableObject, ControlConfiguration, MSFB
     @Published var style: MSFButtonStyle
 
     @Published var overrideTokens: ButtonTokens?
-    @Published var tokens: ButtonTokens
-    var defaultTokens: ButtonTokens { .init(style: self.style, size: self.size) }
+    @Published var tokens: ButtonTokens {
+        didSet {
+            tokens.state = self
+        }
+    }
+    var defaultTokens: ButtonTokens { .init() }
 
     var isDisabled: Bool {
         get {
@@ -94,7 +101,7 @@ class MSFButtonStateImpl: NSObject, ObservableObject, ControlConfiguration, MSFB
         self.size = size
         self.style = style
         self.action = action
-        self.tokens = ButtonTokens(style: style, size: size)
+        self.tokens = ButtonTokens()
         super.init()
     }
 }

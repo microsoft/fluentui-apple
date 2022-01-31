@@ -31,17 +31,13 @@ import UIKit
 /// Representation of design tokens to buttons at runtime which interfaces with the Design Token System auto-generated code.
 /// Updating these properties causes the SwiftUI button to update its view automatically.
 open class ButtonTokens: ControlTokens {
-    /// Creates an instance of `ButtonTokens`.
-    public init(style: MSFButtonStyle,
-                size: MSFButtonSize) {
-        self.style = style
-        self.size = size
+    /// Defines the style of the button.
+    public var style: MSFButtonStyle { state?.style ?? .primary }
 
-        super.init()
-    }
+    /// Defines the size of the button.
+    public var size: MSFButtonSize { state?.size ?? .large }
 
-    public let style: MSFButtonStyle
-    public let size: MSFButtonSize
+    weak var state: MSFButtonState?
 
     open var borderRadius: CGFloat {
         switch size {
