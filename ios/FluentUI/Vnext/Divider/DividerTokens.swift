@@ -13,40 +13,24 @@ import UIKit
 }
 
 /// Design token set for the `FluentDivider` control.
-public class DividerTokens: ControlTokens {
-    /// Creates an instance of `MSFDividerTokens`with optional token value overrides.
-    /// - Parameters:
-    ///   - spacing: MSFDividerSpacing enumeration value that will define pre-defined value for the padding
-    ///   - padding: CGFloat that defines the padding around the Fluent Divider
-    ///   - color: The color of the Fluent Divider
-    public init(spacing: MSFDividerSpacing,
-                padding: CGFloat? = nil,
-                color: DynamicColor? = nil) {
-        self.spacing = spacing
-        super.init()
+open class DividerTokens: ControlTokens {
+    /// MSFDividerSpacing enumeration value that will define pre-defined value for the padding.
+    public var spacing: MSFDividerSpacing { state?.spacing ?? .none }
 
-        // Optional overrides
-        if let padding = padding {
-            self.padding = padding
-        }
-
-        if let color = color {
-            self.color = color
-        }
-    }
+    weak var state: MSFDividerState?
 
     // MARK: - Design Tokens
 
-    let spacing: MSFDividerSpacing
-
-    lazy var padding: CGFloat = {
+    /// Defines the padding around the Fluent Divider.
+    open var padding: CGFloat {
         switch spacing {
         case .none:
             return globalTokens.spacing[.none]
         case .medium:
             return globalTokens.spacing[.medium]
         }
-    }()
+    }
 
-    lazy var color: DynamicColor = aliasTokens.strokeColors[.neutral2]
+    /// The color of the Fluent Divider
+    open var color: DynamicColor { aliasTokens.strokeColors[.neutral2] }
 }

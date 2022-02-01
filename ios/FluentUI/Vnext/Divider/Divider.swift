@@ -58,7 +58,6 @@ public struct FluentDivider: View, TokenizedControlInternal {
                                   bottom: 0,
                                   trailing: tokens.padding))
             .resolveTokens(self)
-            .resolveTokenModifier(self, value: state.spacing)
     }
 
     var tokens: DividerTokens { state.tokens }
@@ -69,8 +68,12 @@ public struct FluentDivider: View, TokenizedControlInternal {
 /// Properties available to customize the Divider.
 class MSFDividerStateImpl: NSObject, ObservableObject, ControlConfiguration, MSFDividerState {
     @Published var overrideTokens: DividerTokens?
-    @Published var tokens: DividerTokens
-    var defaultTokens: DividerTokens { .init(spacing: self.spacing) }
+    @Published var tokens: DividerTokens = .init() {
+        didSet {
+            tokens.state = self
+        }
+    }
+    var defaultTokens: DividerTokens = .init()
 
     @Published var orientation: MSFDividerOrientation
 
@@ -82,7 +85,6 @@ class MSFDividerStateImpl: NSObject, ObservableObject, ControlConfiguration, MSF
          spacing: MSFDividerSpacing) {
         self.orientation = orientation
         self.spacing = spacing
-        tokens = DividerTokens(spacing: spacing)
         super.init()
     }
 }
