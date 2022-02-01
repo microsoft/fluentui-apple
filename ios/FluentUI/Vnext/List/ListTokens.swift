@@ -82,7 +82,6 @@ class MSFCellBaseTokens: MSFTokensBase, ObservableObject {
     @Published public var iconInterspace: CGFloat!
     @Published public var labelAccessoryInterspace: CGFloat!
     @Published public var labelAccessorySize: CGFloat!
-    @Published public var cellLeadingViewSize: MSFListCellLeadingViewSize!
     @Published public var leadingViewSize: CGFloat!
     @Published public var leadingViewAreaSize: CGFloat!
     @Published public var sublabelAccessorySize: CGFloat!
@@ -92,6 +91,14 @@ class MSFCellBaseTokens: MSFTokensBase, ObservableObject {
     @Published public var footnoteFont: UIFont!
     @Published public var sublabelFont: UIFont!
     @Published public var labelFont: UIFont!
+
+    var cellLeadingViewSize: MSFListCellLeadingViewSize! {
+        didSet {
+            if oldValue != cellLeadingViewSize {
+                updateForCurrentTheme()
+            }
+        }
+    }
 }
 
 class MSFListCellTokens: MSFCellBaseTokens {

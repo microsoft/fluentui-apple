@@ -43,6 +43,7 @@ public protocol SearchBarDelegate: AnyObject {
     @objc optional func searchBarDidFinishEditing(_ searchBar: SearchBar)
     func searchBarDidCancel(_ searchBar: SearchBar)
     @objc optional func searchBarDidRequestSearch(_ searchBar: SearchBar)
+    @objc optional func searchBar(_ searchBar: SearchBar, didUpdateLeadingView leadingView: UIView?)
 }
 
 // MARK: - SearchBar
@@ -185,6 +186,7 @@ open class SearchBar: UIView {
     // used to hide the cancelButton in non-active states
     private var searchTextFieldBackgroundViewTrailingConstraint: NSLayoutConstraint?
     private var cancelButtonTrailingConstraint: NSLayoutConstraint?
+    private var textFieldLeadingConstraint: NSLayoutConstraint?
 
     private lazy var searchIconImageViewContainerView = UIView()
 
@@ -197,8 +199,8 @@ open class SearchBar: UIView {
     }()
 
     // user interaction point
-    private lazy var searchTextField: UITextField = {
-        let textField = UITextField()
+    private lazy var searchTextField: SearchBarTextField = {
+        let textField = SearchBarTextField()
         textField.font = Fonts.body.withSize(Constants.fontSize)
         textField.delegate = self
         textField.returnKeyType = .search
@@ -252,6 +254,28 @@ open class SearchBar: UIView {
 
         return button
     }()
+
+    @objc public var leadingView: UIView? {
+        didSet {
+            guard oldValue != leadingView else {
+                return
+            }
+
+            oldValue?.removeFromSuperview()
+            setupLayoutForLeadingView()
+            onContentChanged()
+            delegate?.searchBar?(self, didUpdateLeadingView: leadingView)
+        }
+    }
+
+    @objc open var isEditable: Bool = true {
+        didSet {
+            if !isEditable {
+                _ = resignFirstResponder()
+            }
+            searchTextField.isUserInteractionEnabled = isEditable
+        }
+    }
 
     private var originalIsNavigationBarHidden: Bool = false
 
@@ -314,6 +338,7 @@ open class SearchBar: UIView {
         isActive = false
         searchTextField.resignFirstResponder()
         searchTextField.text = nil
+        leadingView = nil
         searchTextDidChange(shouldUpdateDelegate: false)
         delegate?.searchBarDidCancel(self)
         hideCancelButton()
@@ -383,9 +408,10 @@ open class SearchBar: UIView {
         searchTextFieldBackgroundView.addSubview(searchTextField)
         searchTextField.translatesAutoresizingMaskIntoConstraints = false
 
-        constraints.append(searchTextField.leadingAnchor.constraint(equalTo: searchIconImageViewContainerView.trailingAnchor, constant: Constants.searchTextFieldLeadingInset))
         constraints.append(searchTextField.centerYAnchor.constraint(equalTo: searchTextFieldBackgroundView.centerYAnchor))
         constraints.append(searchTextField.heightAnchor.constraint(equalTo: searchTextFieldBackgroundView.heightAnchor, constant: -2 * Constants.searchTextFieldVerticalInset))
+        constraints.append(searchTextField.leadingAnchor.constraint(equalTo: searchIconImageViewContainerView.trailingAnchor, constant: Constants.searchTextFieldLeadingInset))
+        textFieldLeadingConstraint = constraints.last
 
         // progressSpinner
         let progressSpinnerView = progressSpinner.view
@@ -420,6 +446,26 @@ open class SearchBar: UIView {
         NSLayoutConstraint.activate(constraints)
     }
 
+    private func setupLayoutForLeadingView() {
+        textFieldLeadingConstraint?.isActive = leadingView == nil
+
+        guard let leadingView = leadingView else {
+            return
+        }
+
+        searchTextFieldBackgroundView.addSubview(leadingView)
+        let leadingViewSize = leadingView.sizeThatFits(searchTextFieldBackgroundView.frame.size)
+        leadingView.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            leadingView.leadingAnchor.constraint(equalTo: searchIconImageViewContainerView.trailingAnchor, constant: Constants.searchIconInset),
+            leadingView.trailingAnchor.constraint(equalTo: searchTextField.leadingAnchor, constant: -Constants.searchTextFieldLeadingInset),
+            leadingView.centerYAnchor.constraint(equalTo: searchTextFieldBackgroundView.centerYAnchor),
+            leadingView.widthAnchor.constraint(equalToConstant: leadingViewSize.width),
+            leadingView.heightAnchor.constraint(equalToConstant: leadingViewSize.height)
+        ])
+    }
+
     private func updateColorsForStyle() {
         searchTextFieldBackgroundView.backgroundColor = style.backgroundColor
         searchIconImageView.tintColor = style.searchIconColor
@@ -443,6 +489,7 @@ open class SearchBar: UIView {
     // Clears all text by setting searchText to nil
     @objc private func clearButtonTapped(sender: UIButton) {
         searchTextField.text = nil
+        leadingView = nil
         searchTextDidChange(shouldUpdateDelegate: true)
         _ = searchTextField.becomeFirstResponder()
     }
@@ -472,7 +519,11 @@ open class SearchBar: UIView {
             delegate?.searchBar(self, didUpdateSearchText: newSearchText)
         }
 
-        let hasContent = newSearchText?.isEmpty == false
+        onContentChanged()
+    }
+
+    private func onContentChanged() {
+        let hasContent = searchTextField.text?.isEmpty == false || leadingView != nil
 
         UIView.animate(withDuration: 0.1) {
             self.attributePlaceholderText()
@@ -538,10 +589,36 @@ extension SearchBar: UITextFieldDelegate {
         dismissKeyboard()
         return false
     }
+
+    public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if textField == searchTextField && string.isEmpty && range == NSRange(location: 0, length: 0) {
+            leadingView = nil
+        }
+        return true
+    }
 }
 
 // MARK: - UINavigationItem extension
 
 extension UINavigationItem {
     var accessorySearchBar: SearchBar? { return accessoryView as? SearchBar }
+}
+
+// MARK: - SearchBarTextField
+
+private class SearchBarTextField: UITextField {
+    override func deleteBackward() {
+        // Triggers the delegate method even when the cursor (caret) is in the first postion (regardless of text being empty).
+        // Using the zero width space ("\u{200B}") as the emptyTextFieldString instead of this approach will cause Voice Over
+        // to read it out loud as "zero width space", which is not desirable.
+        if let selectionRange = selectedTextRange,
+           selectionRange.isEmpty,
+           offset(from: beginningOfDocument, to: selectionRange.start) == 0 {
+            _ = self.delegate?.textField?(self,
+                                          shouldChangeCharactersIn: NSRange(location: 0, length: 0),
+                                          replacementString: "")
+        }
+
+        super.deleteBackward()
+    }
 }

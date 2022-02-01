@@ -71,17 +71,15 @@
 
     MSFList *testList = [[MSFList alloc] initWithTheme:nil];
     id<MSFListSectionState> sectionState = [[testList state] createSection];
-    MSFListCellState *listCell1 = [sectionState createCell];
-    MSFListCellState *listCell2 = [sectionState createCell];
-    MSFListCellState *listCell3 = [sectionState createCell];
+    id<MSFListCellState> listCell1 = [sectionState createCell];
+    id<MSFListCellState> listCell2 = [sectionState createCell];
+    id<MSFListCellState> listCell3 = [sectionState createCell];
 
-    MSFListCellState *childCell = [[MSFListCellState alloc] init];
+    id<MSFListCellState> childCell = [listCell1 createChildCell];
     [childCell setTitle:@"Child Cell"];
-    NSArray *children = [NSArray arrayWithObject:childCell];
 
     [listCell1 setTitle:@"SampleTitle1"];
     [listCell1 setIsExpanded:TRUE];
-    [listCell1 setChildren:children];
 
     [listCell2 setTitle:@"SampleTitle2"];
     [listCell2 setSubtitle:@"SampleTitle2"];
