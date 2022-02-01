@@ -65,8 +65,6 @@ public struct FluentButton: View, TokenizedControlInternal {
             })
             .frame(maxWidth: .infinity)
             .resolveTokens(self)
-            .resolveTokenModifier(self, value: state.size)
-            .resolveTokenModifier(self, value: state.style)
     }
 }
 
@@ -79,12 +77,12 @@ class MSFButtonStateImpl: NSObject, ObservableObject, ControlConfiguration, MSFB
     @Published var style: MSFButtonStyle
 
     @Published var overrideTokens: ButtonTokens?
-    @Published var tokens: ButtonTokens {
+    @Published var tokens: ButtonTokens = .init() {
         didSet {
             tokens.state = self
         }
     }
-    var defaultTokens: ButtonTokens { .init() }
+    var defaultTokens: ButtonTokens = .init()
 
     var isDisabled: Bool {
         get {
@@ -101,7 +99,6 @@ class MSFButtonStateImpl: NSObject, ObservableObject, ControlConfiguration, MSFB
         self.size = size
         self.style = style
         self.action = action
-        self.tokens = ButtonTokens()
         super.init()
     }
 }
