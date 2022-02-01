@@ -16,40 +16,19 @@ import UIKit
 }
 
 /// Design token set for the `ActivityIndicator` control.
-public class ActivityIndicatorTokens: ControlTokens {
-    /// Creates an instance of `ActivityIndicatorTokens` with optional token value overrides.
-    /// - Parameters:
-    ///   - size: MSFActivityIndicatorSize enumeration value that will define pre-defined values for side and thickness.
-    ///   - defaultColor: The default color of the Activity Indicator.
-    ///   - side: The value for the side of the square frame of an Activity Indicator.
-    ///   - thickness: The value for the thickness of the ActivityIndicator ring.
-    public init(size: MSFActivityIndicatorSize,
-                defaultColor: DynamicColor? = nil,
-                side: CGFloat? = nil,
-                thickness: CGFloat? = nil) {
+open class ActivityIndicatorTokens: ControlTokens {
+    /// MSFActivityIndicatorSize enumeration value that will define pre-defined values for side and thickness.
+    public var size: MSFActivityIndicatorSize { state?.size ?? .large }
 
-        self.size = size
-        super.init()
-
-        // Optional overrides
-        if let defaultColor = defaultColor {
-            self.defaultColor = defaultColor
-        }
-        if let side = side {
-            self.side = side
-        }
-        if let thickness = thickness {
-            self.thickness = thickness
-        }
-    }
-
-    let size: MSFActivityIndicatorSize
+    weak var state: MSFActivityIndicatorState?
 
     // MARK: - Design Tokens
 
-    lazy var defaultColor: DynamicColor = aliasTokens.foregroundColors[.neutral4]
+    /// The default color of the Activity Indicator.
+    open var defaultColor: DynamicColor { aliasTokens.foregroundColors[.neutral4] }
 
-    lazy var side: CGFloat = {
+    /// The value for the side of the square frame of an Activity Indicator.
+    open var side: CGFloat {
         switch size {
         case .xSmall:
             return 12
@@ -62,9 +41,10 @@ public class ActivityIndicatorTokens: ControlTokens {
         case .xLarge:
             return 36
         }
-    }()
+    }
 
-    lazy var thickness: CGFloat = {
+    /// The value for the thickness of the ActivityIndicator ring.
+    open var thickness: CGFloat {
         switch size {
         case .xSmall, .small:
             return 1
@@ -75,5 +55,5 @@ public class ActivityIndicatorTokens: ControlTokens {
         case .xLarge:
             return 4
         }
-    }()
+    }
 }
