@@ -113,16 +113,15 @@ public struct AvatarGroup: View, TokenizedControlInternal {
         let ringOffset: CGFloat = tokens.ringThickness + tokens.ringInnerGap + ringOuterGap
         HStack(spacing: 0) {
             ForEach(0 ..< maxDisplayedAvatars, id: \.self) { index in
-                let nextIndex = index + 1
-                let isLastDisplayed = nextIndex == maxDisplayedAvatars
                 // If the avatar is part of Stack style and is not the last avatar in the sequence, create a cutout
                 let avatarView = avatarViews[index]
-                let needsCutout = tokens.style == .stack && (overflowCount > 0 || !isLastDisplayed)
+                let needsCutout = tokens.style == .stack && (overflowCount > 0 || index + 1 < maxDisplayedAvatars)
                 let avatarSize: CGFloat = avatarView.state.totalSize()
-                let nextAvatarSize: CGFloat = needsCutout ? avatarViews[nextIndex].state.totalSize() : 0
+                let nextAvatarSize: CGFloat = needsCutout ? avatarViews[index + 1].state.totalSize() : 0
+                let isLastDisplayed = index == maxDisplayedAvatars - 1
 
                 let currentAvatarHasRing = avatars[index].isRingVisible
-                let nextAvatarHasRing = !isLastDisplayed ? avatars[nextIndex].isRingVisible : false
+                let nextAvatarHasRing = index + 1 < maxDisplayedAvatars ? avatars[index + 1].isRingVisible : false
                 let avatarSizeDifference = avatarSize - nextAvatarSize
                 let sizeDiff = !isLastDisplayed ? (currentAvatarHasRing ? avatarSizeDifference : avatarSizeDifference - ringGapOffset) :
                     currentAvatarHasRing ? (avatarSize - ringGapOffset) - imageSize : (avatarSize - (ringGapOffset * 2)) - imageSize
