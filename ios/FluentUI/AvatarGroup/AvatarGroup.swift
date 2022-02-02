@@ -126,6 +126,7 @@ public struct AvatarGroup: View, TokenizedControlInternal {
                 let avatarSize: CGFloat = avatarView.state.totalSize()
 
                 let x = avatarSize + interspace - ringGapOffset
+                let noRingPaddingInterspace = nextAvatarHasRing ? interspace - ringOuterGap : interspace
                 let xPosition = currentAvatarHasRing ? x - ringOuterGap - ringOuterGap : x - ringOuterGap
                 let rtlRingPaddingInterspace = (nextAvatarHasRing ? -x - ringOuterGap : -x + ringOffset)
                 let rtlNoRingPaddingInterspace = (nextAvatarHasRing ? -x - ringOffset - ringOuterGap : -x)
@@ -141,7 +142,6 @@ public struct AvatarGroup: View, TokenizedControlInternal {
                 let cutoutSize = isLastDisplayed ? (ringOuterGap * 2) + imageSize : nextAvatarSize
 
                 let ringPaddingInterspace = nextAvatarHasRing ? interspace - (ringOffset + ringOuterGap) : interspace - ringOffset
-                let noRingPaddingInterspace = nextAvatarHasRing ? interspace - ringOuterGap : interspace
                 let stackPadding = (currentAvatarHasRing ? ringPaddingInterspace : noRingPaddingInterspace)
 
                 // Hand the rendering of the avatar to a helper function to appease Swift's
