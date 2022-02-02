@@ -110,7 +110,7 @@ public struct AvatarGroup: View, TokenizedControlInternal {
         let imageSize: CGFloat = tokens.size.size
         let ringOuterGap: CGFloat = tokens.ringOuterGap
         let ringGapOffset: CGFloat = ringOuterGap * 2
-        let ringOffset: CGFloat = tokens.ringThickness + tokens.ringInnerGap + ringOuterGap
+        let ringOffset: CGFloat = tokens.ringThickness + tokens.ringInnerGap + tokens.ringOuterGap
         HStack(spacing: 0) {
             ForEach(0 ..< maxDisplayedAvatars, id: \.self) { index in
                 // If the avatar is part of Stack style and is not the last avatar in the sequence, create a cutout
@@ -126,7 +126,7 @@ public struct AvatarGroup: View, TokenizedControlInternal {
                 let avatarSizeDifference = avatarSize - nextAvatarSize
                 let sizeDiff = !isLastDisplayed ? (currentAvatarHasRing ? avatarSizeDifference : avatarSizeDifference - ringGapOffset) :
                     currentAvatarHasRing ? (avatarSize - ringGapOffset) - imageSize : (avatarSize - (ringGapOffset * 2)) - imageSize
-                let x = avatarSize + interspace - ringGapOffset
+                let x = avatarSize + tokens.interspace - ringGapOffset
 
                 let ringPaddingInterspace = nextAvatarHasRing ? interspace - (ringOffset + ringOuterGap) : interspace - ringOffset
                 let noRingPaddingInterspace = nextAvatarHasRing ? interspace - ringOuterGap : interspace
