@@ -123,9 +123,22 @@ class DividerDemoController: UITableViewController {
         return divider
     }
 
-    private func customDividerTokens(spacing: MSFDividerSpacing, color: UIColor?) -> DividerTokens {
-        let customColor = color?.dynamicColor
-        return DividerTokens(spacing: spacing, color: customColor)
+    private func customDividerTokens(spacing: MSFDividerSpacing, color: UIColor) -> DividerTokens {
+        /// Private internal subclass of `DividerTokens`.
+        class CustomDividerTokens: DividerTokens {
+            init(customColor: UIColor) {
+                self.customColor = customColor
+                super.init()
+            }
+
+            override var color: DynamicColor {
+                return customColor.dynamicColor ?? super.color
+            }
+
+            private let customColor: UIColor
+        }
+
+        return CustomDividerTokens(customColor: color)
     }
 
     private var dividers: [MSFDivider] = []
