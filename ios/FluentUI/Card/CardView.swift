@@ -483,12 +483,12 @@ open class CardView: UIView {
         NSLayoutConstraint.activate(layoutConstraints)
     }
 
-	private func setLargeContentTitle() {
-		var largeContextText = primaryText
-		if let secondaryText = secondaryText, !twoLineTitle {
-			largeContextText += "\n" + secondaryText
-		}
-		largeContentTitle = largeContextText
+    private func setLargeContentTitle() {
+        var largeContextText = primaryText
+        if let secondaryText = secondaryText, !twoLineTitle {
+            largeContextText += "\n" + secondaryText
+        }
+        largeContentTitle = largeContextText
 	}
 
     @objc private func handleCardTapped(_ recognizer: UITapGestureRecognizer) {
