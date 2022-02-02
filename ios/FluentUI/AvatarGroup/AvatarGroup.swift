@@ -111,14 +111,13 @@ public struct AvatarGroup: View, TokenizedControlInternal {
         let ringOuterGap: CGFloat = tokens.ringOuterGap
         let ringGapOffset: CGFloat = ringOuterGap * 2
         let ringOffset: CGFloat = tokens.ringThickness + tokens.ringInnerGap + ringOuterGap
-        let hasOverflow = overflowCount > 0
         HStack(spacing: 0) {
             ForEach(0 ..< maxDisplayedAvatars, id: \.self) { index in
                 let nextIndex = index + 1
                 let isLastDisplayed = nextIndex == maxDisplayedAvatars
                 // If the avatar is part of Stack style and is not the last avatar in the sequence, create a cutout
                 let avatarView = avatarViews[index]
-                let needsCutout = tokens.style == .stack && (hasOverflow || !isLastDisplayed)
+                let needsCutout = tokens.style == .stack && (overflowCount > 0 || !isLastDisplayed)
                 let avatarSize: CGFloat = avatarView.state.totalSize()
                 let nextAvatarSize: CGFloat = needsCutout ? avatarViews[nextIndex].state.totalSize() : 0
 
@@ -150,7 +149,7 @@ public struct AvatarGroup: View, TokenizedControlInternal {
                                   cutoutSize,
                                   tokens.style == .stack ? stackPadding : interspace)
             }
-            if hasOverflow {
+            if overflowCount > 0 {
                 createOverflow(count: overflowCount)
             }
         }
