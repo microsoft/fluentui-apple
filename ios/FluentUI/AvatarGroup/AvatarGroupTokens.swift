@@ -53,13 +53,13 @@ public class AvatarGroupTokens: ControlTokens {
         case .stack:
             switch size {
             case .xsmall, .small:
-                return -2 // -spacing[.xxxsmall]
+                return -globalTokens.spacing[.xxxSmall]
             case .medium:
-                return -4 // -spacing[.xxsmall]
+                return -globalTokens.spacing[.xxSmall]
             case .large:
-                return -8 // -spacing[.xsmall]
+                return -globalTokens.spacing[.xSmall]
             case .xlarge, .xxlarge:
-                return -12 // -spacing[.small]
+                return -globalTokens.spacing[.small]
             }
         case .pile:
             switch size {
