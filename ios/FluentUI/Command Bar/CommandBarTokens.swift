@@ -16,67 +16,28 @@ public struct ButtonDynamicColors {
 
 /// Design token set for the `CommandBar` control.
 public class CommandBarTokens: ControlTokens {
-    /// Creates an instance of `CommandBarTokens`.
-    public override init() {
-        super.init()
-    }
+    open var backgroundColor: DynamicColor { aliasTokens.backgroundColors[.neutral1] }
 
-    /// Creates an instance of `CommandBarTokens` with optional token value overrides.
-    convenience public init(backgroundColor: DynamicColor? = nil,
-                            groupBorderRadius: CGFloat? = nil,
-                            groupInterspace: CGFloat? = nil,
-                            itemBackgroundColor: ButtonDynamicColors? = nil,
-                            itemFixedIconColor: DynamicColor? = nil,
-                            itemIconColor: ButtonDynamicColors? = nil,
-                            itemInterspace: CGFloat? = nil) {
+    open var groupBorderRadius: CGFloat { globalTokens.borderRadius[.xLarge] }
 
-        self.init()
+    open var groupInterspace: CGFloat { globalTokens.spacing[.medium] }
 
-        if let backgroundColor = backgroundColor {
-            self.backgroundColor = backgroundColor
-        }
-        if let groupBorderRadius = groupBorderRadius {
-            self.groupBorderRadius = groupBorderRadius
-        }
-        if let groupInterspace = groupInterspace {
-            self.groupInterspace = groupInterspace
-        }
-        if let itemBackgroundColor = itemBackgroundColor {
-            self.itemBackgroundColor = itemBackgroundColor
-        }
-        if let itemFixedIconColor = itemFixedIconColor {
-            self.itemFixedIconColor = itemFixedIconColor
-        }
-        if let itemIconColor = itemIconColor {
-            self.itemIconColor = itemIconColor
-        }
-        if let itemInterspace = itemInterspace {
-            self.itemInterspace = itemInterspace
-        }
-    }
-
-    lazy var backgroundColor: DynamicColor = aliasTokens.backgroundColors[.neutral1]
-
-    lazy var groupBorderRadius: CGFloat = globalTokens.borderRadius[.xLarge]
-
-    lazy var groupInterspace: CGFloat = globalTokens.spacing[.medium]
-
-    lazy var itemBackgroundColor: ButtonDynamicColors = .init(rest: aliasTokens.backgroundColors[.neutral4],
+    open var itemBackgroundColor: ButtonDynamicColors { .init(rest: aliasTokens.backgroundColors[.neutral4],
                                                               hover: DynamicColor(light: aliasTokens.backgroundColors[.neutral5].light,
                                                                                   dark: aliasTokens.strokeColors[.neutral2].dark),
                                                               pressed: DynamicColor(light: aliasTokens.backgroundColors[.neutralDisabled].light,
                                                                                     dark: aliasTokens.backgroundColors[.neutral5].dark),
                                                               selected: aliasTokens.backgroundColors[.brandRest],
-                                                              disabled: aliasTokens.strokeColors[.neutral1])
+                                                              disabled: aliasTokens.strokeColors[.neutral1]) }
 
-    lazy var itemFixedIconColor: DynamicColor = .init(light: aliasTokens.foregroundColors[.neutral1].light,
-                                                      dark: aliasTokens.foregroundColors[.neutral3].dark)
+    open var itemFixedIconColor: DynamicColor { .init(light: aliasTokens.foregroundColors[.neutral1].light,
+                                                      dark: aliasTokens.foregroundColors[.neutral3].dark) }
 
-    lazy var itemIconColor: ButtonDynamicColors = .init(rest: aliasTokens.foregroundColors[.neutral1],
+    open var itemIconColor: ButtonDynamicColors { .init(rest: aliasTokens.foregroundColors[.neutral1],
                                                         hover: aliasTokens.foregroundColors[.neutral1],
                                                         pressed: aliasTokens.foregroundColors[.neutral1],
                                                         selected: aliasTokens.foregroundColors[.neutralInverted],
-                                                        disabled: aliasTokens.foregroundColors[.neutralDisabled])
+                                                        disabled: aliasTokens.foregroundColors[.neutralDisabled]) }
 
-    lazy var itemInterspace: CGFloat = globalTokens.spacing[.xxxSmall]
+    open var itemInterspace: CGFloat { globalTokens.spacing[.xxxSmall] }
 }
