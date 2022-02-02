@@ -489,7 +489,7 @@ open class CardView: UIView {
             largeContextText += "\n" + secondaryText
         }
         largeContentTitle = largeContextText
-	}
+    }
 
     @objc private func handleCardTapped(_ recognizer: UITapGestureRecognizer) {
         delegate?.didTapCard?(self)
