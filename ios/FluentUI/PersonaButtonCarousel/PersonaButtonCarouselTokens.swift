@@ -9,25 +9,13 @@ import UIKit
 /// Updating these properties causes the SwiftUI controls to update its view automatically.
 public class PersonaButtonCarouselTokens: ControlTokens {
 
-    /// Creates an instance of `PersonaButtonCarouselTokens` with optional token value overrides.
-    /// - Parameters:
-    ///   - size: `MSFPersonaButtonSize` enumeration value that will define pre-defined values for fonts and spacing.
-    ///   - backgroundColor: The background color for the `PersonaButtonCarousel`.
-    public init(size: MSFPersonaButtonSize,
-                backgroundColor: DynamicColor? = nil) {
-        self.size = size
-        super.init()
+    /// `MSFPersonaButtonSize` enumeration value that will define pre-defined values for fonts and spacing.
+    public var size: MSFPersonaButtonSize { state?.buttonSize ?? .large }
 
-        // Overrides
-
-        if let backgroundColor = backgroundColor {
-            self.backgroundColor = backgroundColor
-        }
-    }
-
-    var size: MSFPersonaButtonSize
+    weak var state: MSFPersonaButtonCarouselState?
 
     // MARK: - Design Tokens
 
+    /// The background color for the `PersonaButtonCarousel`.
     lazy var backgroundColor: DynamicColor = aliasTokens.backgroundColors[.neutral1]
 }
