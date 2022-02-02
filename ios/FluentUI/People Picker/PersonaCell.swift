@@ -29,6 +29,22 @@ open class PersonaCell: TableViewCell {
             avatar.state.image = image
         }
 
+        if let loadImageAsync = persona.loadImageAsync {
+            loadImageAsync { image in
+                guard let image = image else {
+                    return
+                }
+                
+                if Thread.isMainThread {
+                    avatar.state.image = image
+                } else {
+                    DispatchQueue.main.async {
+                        avatar.state.image = image
+                    }
+                }
+            }
+        }
+
         if let color = persona.color {
             avatar.state.backgroundColor = color
             avatar.state.ringColor = color
