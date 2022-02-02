@@ -179,6 +179,7 @@ open class CardView: UIView {
             if primaryText != oldValue {
                 primaryLabel.text = primaryText
                 setupLayoutConstraints()
+                setLargeContentTitle()
             }
         }
     }
@@ -189,6 +190,7 @@ open class CardView: UIView {
             if secondaryText != oldValue {
                 secondaryLabel.text = secondaryText
                 setupLayoutConstraints()
+                setLargeContentTitle()
             }
         }
     }
@@ -217,6 +219,7 @@ open class CardView: UIView {
             if twoLineTitle != oldValue {
                 primaryLabel.numberOfLines = Constants.twoLineTitle
                 setupLayoutConstraints()
+                setLargeContentTitle()
             }
         }
     }
@@ -356,6 +359,11 @@ open class CardView: UIView {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleCardTapped(_:)))
         addGestureRecognizer(tapGesture)
 
+        // Large content viewer
+        addInteraction(UILargeContentViewerInteraction())
+        showsLargeContentViewer = true
+        setLargeContentTitle()
+
         setupLayoutConstraints()
     }
 
@@ -474,6 +482,14 @@ open class CardView: UIView {
 
         NSLayoutConstraint.activate(layoutConstraints)
     }
+
+	private func setLargeContentTitle() {
+		var largeContextText = primaryText
+		if let secondaryText = secondaryText, !twoLineTitle {
+			largeContextText += "\n" + secondaryText
+		}
+		largeContentTitle = largeContextText
+	}
 
     @objc private func handleCardTapped(_ recognizer: UITapGestureRecognizer) {
         delegate?.didTapCard?(self)
