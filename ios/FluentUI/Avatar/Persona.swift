@@ -43,7 +43,8 @@ public protocol Persona {
     /// The subtitle value for the persona.
     var subtitle: String { get }
 
-    /// Loads the image asynchronously. Implement this instead of use ``image``  property if it needs to be fetched asynchronously. Image caching should be handled in the implementation for optimial efficiency.
+    /// Loads the image asynchronously. This is called when setting up Persona row for presentation. Image caching should be handled in the implementation for optimal efficiency.
+    /// If the ``image`` is provided, it will be overrided by the loaded image when completion block is called, acting like a custom placeholder.
     /// - Parameter completion: The completion block that returns the image
     @objc optional func loadImageAsync(completion: @escaping (UIImage?) -> Void)
 }

@@ -30,11 +30,12 @@ open class PersonaCell: TableViewCell {
         }
 
         if let loadImageAsync = persona.loadImageAsync {
-            loadImageAsync { image in
-                guard let image = image else {
+            loadImageAsync { [weak avatar] image in
+                guard let avatar = avatar,
+                      let image = image else {
                     return
                 }
-                
+
                 if Thread.isMainThread {
                     avatar.state.image = image
                 } else {
