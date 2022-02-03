@@ -179,7 +179,7 @@ open class CardView: UIView {
             if primaryText != oldValue {
                 primaryLabel.text = primaryText
                 setupLayoutConstraints()
-                setLargeContentTitle()
+                updateLargeContentTitle()
             }
         }
     }
@@ -190,7 +190,7 @@ open class CardView: UIView {
             if secondaryText != oldValue {
                 secondaryLabel.text = secondaryText
                 setupLayoutConstraints()
-                setLargeContentTitle()
+                updateLargeContentTitle()
             }
         }
     }
@@ -200,6 +200,7 @@ open class CardView: UIView {
         didSet {
             if icon != oldValue {
                 iconView.image = icon
+                updateLargeContentImage()
             }
         }
     }
@@ -219,7 +220,7 @@ open class CardView: UIView {
             if twoLineTitle != oldValue {
                 primaryLabel.numberOfLines = Constants.twoLineTitle
                 setupLayoutConstraints()
-                setLargeContentTitle()
+                updateLargeContentTitle()
             }
         }
     }
@@ -362,7 +363,9 @@ open class CardView: UIView {
         // Large content viewer
         addInteraction(UILargeContentViewerInteraction())
         showsLargeContentViewer = true
-        setLargeContentTitle()
+        scalesLargeContentImage = true
+        updateLargeContentTitle()
+        updateLargeContentImage()
 
         setupLayoutConstraints()
     }
@@ -483,12 +486,16 @@ open class CardView: UIView {
         NSLayoutConstraint.activate(layoutConstraints)
     }
 
-    private func setLargeContentTitle() {
+    private func updateLargeContentTitle() {
         var largeContextText = primaryText
         if let secondaryText = secondaryText, !twoLineTitle {
             largeContextText += "\n" + secondaryText
         }
         largeContentTitle = largeContextText
+    }
+
+    private func updateLargeContentImage() {
+        largeContentImage = icon
     }
 
     @objc private func handleCardTapped(_ recognizer: UITapGestureRecognizer) {
