@@ -149,7 +149,6 @@ class MSFPersonaButtonStateImpl: NSObject, ObservableObject, Identifiable, Contr
         }
     }
     @Published var overrideTokens: PersonaButtonTokens?
-    var defaultTokens: PersonaButtonTokens = .init()
 
     let avatarState: MSFAvatarStateImpl
     let id = UUID()

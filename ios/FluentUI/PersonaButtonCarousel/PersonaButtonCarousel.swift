@@ -126,7 +126,6 @@ class MSFPersonaButtonCarouselStateImpl: NSObject, ObservableObject, Identifiabl
         }
     }
     @Published var overrideTokens: PersonaButtonCarouselTokens?
-    var defaultTokens: PersonaButtonCarouselTokens = .init()
 
     init(size: MSFPersonaButtonSize) {
         self.buttonSize = size

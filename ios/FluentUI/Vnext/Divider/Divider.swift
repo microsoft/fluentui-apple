@@ -73,7 +73,6 @@ class MSFDividerStateImpl: NSObject, ObservableObject, ControlConfiguration, MSF
             tokens.state = self
         }
     }
-    var defaultTokens: DividerTokens = .init()
 
     @Published var orientation: MSFDividerOrientation
 

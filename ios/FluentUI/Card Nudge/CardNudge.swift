@@ -205,8 +205,6 @@ class MSFCardNudgeStateImpl: NSObject, ControlConfiguration, MSFCardNudgeState {
         }
     }
 
-    var defaultTokens: CardNudgeTokens = .init()
-
     @objc init(style: MSFCardNudgeStyle, title: String) {
         self.style = style
         self.title = title

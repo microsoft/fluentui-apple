@@ -12,7 +12,7 @@ struct TokenResolver<ControlType: TokenizedControlInternal>: ViewModifier {
 
     /// Helper func to determine which tokens to use, and ensures they refer to the correct `FluentTheme` instance.
     static func tokens(for control: ControlType, fluentTheme: FluentTheme) -> ControlType.TokenType {
-        let tokens = control.state.overrideTokens ?? fluentTheme.tokens(for: control) ?? control.state.defaultTokens
+        let tokens = control.state.overrideTokens ?? fluentTheme.tokens(for: control) ?? ControlType.TokenType()
         tokens.fluentTheme = fluentTheme
         return tokens
     }

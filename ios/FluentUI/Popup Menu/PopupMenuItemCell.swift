@@ -14,14 +14,14 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
     }
 
     class CustomDividerTokens: DividerTokens {
-        var separatorColor: UIColor?
+        var customColor: UIColor?
         override var color: DynamicColor {
-            return separatorColor?.dynamicColor ?? super.color
+            return customColor?.dynamicColor ?? super.color
         }
 
-        init(_ separatorColor: UIColor?) {
-            self.separatorColor = separatorColor
-            super.init()
+        convenience init(_ customColor: UIColor?) {
+            self.init()
+            self.customColor = customColor
         }
     }
 

@@ -82,7 +82,6 @@ class MSFButtonStateImpl: NSObject, ObservableObject, ControlConfiguration, MSFB
             tokens.state = self
         }
     }
-    var defaultTokens: ButtonTokens = .init()
 
     var isDisabled: Bool {
         get {

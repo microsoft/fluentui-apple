@@ -137,7 +137,6 @@ class MSFActivityIndicatorStateImpl: NSObject, ObservableObject, ControlConfigur
             tokens.state = self
         }
     }
-    var defaultTokens: ActivityIndicatorTokens = .init()
 
     @Published var color: UIColor?
     @Published var isAnimating: Bool = false
