@@ -139,6 +139,9 @@ class MSFPersonaButtonStateImpl: NSObject, ObservableObject, Identifiable, Contr
         self.buttonSize = size
         self.avatarState = MSFAvatarStateImpl(style: .default, size: size.avatarSize)
         super.init()
+
+        // Ensure `tokens` has a weak reference back to this object to fetch `size` and `style`.
+        self.tokens.state = self
     }
 
     @Published var buttonSize: MSFPersonaButtonSize

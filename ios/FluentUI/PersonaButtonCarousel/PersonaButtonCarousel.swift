@@ -131,6 +131,9 @@ class MSFPersonaButtonCarouselStateImpl: NSObject, ObservableObject, Identifiabl
         self.buttonSize = size
 
         super.init()
+
+        // Ensure `tokens` has a weak reference back to this object to fetch `size` and `style`.
+        self.tokens.state = self
     }
 
     // MARK: - accessors and modifiers

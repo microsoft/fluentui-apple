@@ -147,5 +147,8 @@ class MSFActivityIndicatorStateImpl: NSObject, ObservableObject, ControlConfigur
         self.size = size
 
         super.init()
+
+        // Ensure `tokens` has a weak reference back to this object to fetch `size` and `style`.
+        self.tokens.state = self
     }
 }

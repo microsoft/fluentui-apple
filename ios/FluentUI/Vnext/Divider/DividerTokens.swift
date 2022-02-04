@@ -15,7 +15,10 @@ import UIKit
 /// Design token set for the `FluentDivider` control.
 open class DividerTokens: ControlTokens {
     /// MSFDividerSpacing enumeration value that will define pre-defined value for the padding.
-    public var spacing: MSFDividerSpacing { state?.spacing ?? .none }
+    public var spacing: MSFDividerSpacing {
+        guard let state = state else { preconditionFailure() }
+        return state.spacing
+    }
 
     weak var state: MSFDividerState?
 

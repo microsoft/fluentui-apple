@@ -210,5 +210,8 @@ class MSFCardNudgeStateImpl: NSObject, ControlConfiguration, MSFCardNudgeState {
         self.title = title
 
         super.init()
+
+        // Ensure `tokens` has a weak reference back to this object to fetch `size` and `style`.
+        self.tokens.state = self
     }
 }

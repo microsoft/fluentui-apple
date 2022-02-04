@@ -34,7 +34,10 @@ import UIKit
 public class PersonaButtonTokens: ControlTokens {
 
     /// `MSFPersonaButtonSize` enumeration value that will define pre-defined values for fonts and spacing.
-    public var size: MSFPersonaButtonSize { state?.buttonSize ?? .large }
+    public var size: MSFPersonaButtonSize {
+        guard let state = state else { preconditionFailure() }
+        return state.buttonSize
+    }
 
     weak var state: MSFPersonaButtonState?
 

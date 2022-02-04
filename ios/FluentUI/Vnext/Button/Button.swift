@@ -99,6 +99,9 @@ class MSFButtonStateImpl: NSObject, ObservableObject, ControlConfiguration, MSFB
         self.style = style
         self.action = action
         super.init()
+
+        // Ensure `tokens` has a weak reference back to this object to fetch `size` and `style`.
+        self.tokens.state = self
     }
 }
 

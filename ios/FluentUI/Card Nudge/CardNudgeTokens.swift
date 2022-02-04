@@ -17,7 +17,10 @@ import SwiftUI
 /// Design token set for the `CardNudge` control.
 open class CardNudgeTokens: ControlTokens {
     // Required state value
-    public var style: MSFCardNudgeStyle { state?.style ?? .standard }
+    public var style: MSFCardNudgeStyle {
+        guard let state = state else { preconditionFailure() }
+        return state.style
+    }
 
     weak var state: MSFCardNudgeState?
 
