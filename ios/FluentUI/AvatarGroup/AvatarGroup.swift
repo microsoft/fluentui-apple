@@ -6,60 +6,6 @@
 import UIKit
 import SwiftUI
 
-/// UIKit wrapper that exposes the SwiftUI AvatarGroup implementation.
-@objc open class MSFAvatarGroup: NSObject, FluentUIWindowProvider {
-
-    /// The UIView representing the AvatarGroup.
-    @objc open var view: UIView {
-        return hostingController.view
-    }
-
-    /// The object that groups properties that allow control over the AvatarGroup appearance.
-    @objc open var state: MSFAvatarGroupState {
-        return avatarGroup.state
-    }
-
-    /// Creates a new MSFAvatarGroup instance.
-    /// - Parameters:
-    ///   - style: The MSFAvatarGroupStyle value used by the AvatarGroup.
-    ///   - size: The MSFAvatarSize value used by the Avatars that will compose the AvatarGroup.
-    @objc public convenience init(style: MSFAvatarGroupStyle = .stack,
-                                  size: MSFAvatarSize = .large) {
-        self.init(style: style,
-                  size: size,
-                  theme: nil)
-    }
-
-    /// Creates a new MSFAvatarGroup instance.
-    /// - Parameters:
-    ///   - style: The MSFAvatarGroupStyle value used by the AvatarGroup.
-    ///   - size: The MSFAvatarSize value used by the Avatars that will compose the AvatarGroup.
-    ///   - theme: The FluentUIStyle instance representing the theme to be overriden for this AvatarGroup.
-    @objc public init(style: MSFAvatarGroupStyle,
-                      size: MSFAvatarSize,
-                      theme: FluentUIStyle?) {
-        super.init()
-
-        avatarGroup = AvatarGroup(style: style,
-                                  size: size)
-        hostingController = FluentUIHostingController(rootView: AnyView(avatarGroup
-                                                                            .windowProvider(self)
-                                                                            .modifyIf(theme != nil, { avatarGroupView in
-                                                                                avatarGroupView.customTheme(theme!)
-                                                                            })))
-        hostingController.disableSafeAreaInsets()
-        view.backgroundColor = UIColor.clear
-    }
-
-    var window: UIWindow? {
-        return self.view.window
-    }
-
-    private var hostingController: FluentUIHostingController!
-
-    private var avatarGroup: AvatarGroup!
-}
-
 /// Properties that can be used to customize the appearance of the AvatarGroup.
 @objc public protocol MSFAvatarGroupState {
 
@@ -86,6 +32,9 @@ import SwiftUI
     /// Remove an Avatar from the AvatarGroup.
     /// - Parameter index: The zero-based index of the Avatar that will be removed from the AvatarGroup.
     func removeAvatar(at index: Int)
+
+    /// Custom design token set for this control
+    var overrideTokens: AvatarGroupTokens? { get set }
 }
 
 /// Enumeration of the styles used by the AvatarGroup.
@@ -139,12 +88,7 @@ import SwiftUI
 }
 
 /// View that represents the AvatarGroup.
-public struct AvatarGroup: View {
-    @Environment(\.theme) var theme: FluentUIStyle
-    @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
-    @ObservedObject var state: MSFAvatarGroupStateImpl
-    @ObservedObject var tokens: MSFAvatarGroupTokens
-
+public struct AvatarGroup: View, TokenizedControlInternal {
     /// Creates and initializes a SwiftUI AvatarGroup.
     /// - Parameters:
     ///   - style: The style of the avatar group.
@@ -154,24 +98,6 @@ public struct AvatarGroup: View {
         let state = MSFAvatarGroupStateImpl(style: style,
                                             size: size)
         self.state = state
-        self.tokens = state.tokens
-    }
-
-    /// Renders the avatar with an optional cutout
-    @ViewBuilder
-    private func avatarCutout(_ avatar: Avatar,
-                              _ needsCutout: Bool,
-                              _ xOrigin: CGFloat,
-                              _ yOrigin: CGFloat,
-                              _ cutoutSize: CGFloat,
-                              _ padding: CGFloat) -> some View {
-        avatar.modifyIf(needsCutout, { view in
-            view.clipShape(Avatar.AvatarCutout(xOrigin: xOrigin,
-                                               yOrigin: yOrigin,
-                                               cutoutSize: cutoutSize),
-                           style: FillStyle(eoFill: true))
-            })
-            .padding(.trailing, padding)
     }
 
     public var body: some View {
@@ -227,6 +153,30 @@ public struct AvatarGroup: View {
                 createOverflow(count: overflowCount)
             }
         }
+        .resolveTokens(self)
+        .resolveTokenModifier(self, value: state.style)
+        .resolveTokenModifier(self, value: state.size)
+    }
+
+    var tokens: AvatarGroupTokens { state.tokens }
+    @Environment(\.fluentTheme) var fluentTheme: FluentTheme
+    @ObservedObject var state: MSFAvatarGroupStateImpl
+
+    /// Renders the avatar with an optional cutout
+    @ViewBuilder
+    private func avatarCutout(_ avatar: Avatar,
+                              _ needsCutout: Bool,
+                              _ xOrigin: CGFloat,
+                              _ yOrigin: CGFloat,
+                              _ cutoutSize: CGFloat,
+                              _ padding: CGFloat) -> some View {
+        avatar.modifyIf(needsCutout, { view in
+            view.clipShape(Avatar.AvatarCutout(xOrigin: xOrigin,
+                                               yOrigin: yOrigin,
+                                               cutoutSize: cutoutSize),
+                           style: FillStyle(eoFill: true))
+            })
+            .padding(.trailing, padding)
     }
 
     private func createOverflow(count: Int) -> Avatar {
@@ -239,7 +189,7 @@ public struct AvatarGroup: View {
     }
 }
 
-class MSFAvatarGroupStateImpl: NSObject, ObservableObject, MSFAvatarGroupState {
+class MSFAvatarGroupStateImpl: NSObject, ObservableObject, ControlConfiguration, MSFAvatarGroupState {
     func createAvatar() -> MSFAvatarGroupAvatarState {
         return createAvatar(at: avatars.endIndex)
     }
@@ -271,21 +221,19 @@ class MSFAvatarGroupStateImpl: NSObject, ObservableObject, MSFAvatarGroupState {
     @Published var maxDisplayedAvatars: Int = Int.max
     @Published var overflowCount: Int = 0
 
-    var style: MSFAvatarGroupStyle {
-        get {
-            return tokens.style
-        }
-        set {
-            tokens.style = newValue
-        }
-    }
+    @Published var style: MSFAvatarGroupStyle
+    @Published var size: MSFAvatarSize
 
-    var tokens: MSFAvatarGroupTokens
+    @Published var overrideTokens: AvatarGroupTokens?
+    @Published var tokens: AvatarGroupTokens
+    var defaultTokens: AvatarGroupTokens { .init(style: self.style, size: self.size) }
 
     init(style: MSFAvatarGroupStyle,
          size: MSFAvatarSize) {
-        self.tokens = MSFAvatarGroupTokens(style: style,
-                                           size: size)
+        self.style = style
+        self.size = size
+        self.tokens = AvatarGroupTokens(style: style,
+                                        size: size)
         super.init()
     }
 }

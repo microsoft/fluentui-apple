@@ -459,7 +459,7 @@ class AvatarGroupDemoController: DemoTableViewController {
                     let avatarGroup = demoAvatarGroupsBySection[section]![row]
                     if oldValue < avatarCount {
                         let avatarState = avatarGroup?.state.createAvatar()
-                        for index in 0...avatarCount - 1 {
+                        for index in 0..<avatarCount {
                             let samplePersona = samplePersonas[index]
                             avatarState!.image = samplePersona.image
                             avatarState!.isRingVisible = section.isMixedBorder ? index % 2 == 0 : section.showBorders
@@ -514,7 +514,7 @@ class AvatarGroupDemoController: DemoTableViewController {
             }).forEach { row in
                 let avatarGroup = MSFAvatarGroup(style: section.avatarStyle,
                                        size: row.avatarSize)
-                for index in 0...avatarCount - 1 {
+                for index in 0..<avatarCount {
                     let avatarState = avatarGroup.state.createAvatar()
                     let samplePersona = samplePersonas[index]
                     avatarState.image = samplePersona.image
