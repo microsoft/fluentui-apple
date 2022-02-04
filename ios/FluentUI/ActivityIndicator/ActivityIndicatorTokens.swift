@@ -19,11 +19,10 @@ import UIKit
 open class ActivityIndicatorTokens: ControlTokens {
     /// MSFActivityIndicatorSize enumeration value that will define pre-defined values for side and thickness.
     public var size: MSFActivityIndicatorSize {
-        guard let state = state else { preconditionFailure() }
         return state.size
     }
 
-    weak var state: MSFActivityIndicatorState?
+    unowned var state: MSFActivityIndicatorState!
 
     // MARK: - Design Tokens
 

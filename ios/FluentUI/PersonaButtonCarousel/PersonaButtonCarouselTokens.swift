@@ -11,11 +11,10 @@ public class PersonaButtonCarouselTokens: ControlTokens {
 
     /// `MSFPersonaButtonSize` enumeration value that will define pre-defined values for fonts and spacing.
     public var size: MSFPersonaButtonSize {
-        guard let state = state else { preconditionFailure() }
         return state.buttonSize
     }
 
-    weak var state: MSFPersonaButtonCarouselState?
+    unowned var state: MSFPersonaButtonCarouselState!
 
     // MARK: - Design Tokens
 

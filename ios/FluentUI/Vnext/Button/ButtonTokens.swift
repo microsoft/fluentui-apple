@@ -33,17 +33,15 @@ import UIKit
 open class ButtonTokens: ControlTokens {
     /// Defines the style of the button.
     public var style: MSFButtonStyle {
-        guard let state = state else { preconditionFailure() }
         return state.style
     }
 
     /// Defines the size of the button.
     public var size: MSFButtonSize {
-        guard let state = state else { preconditionFailure() }
         return state.size
     }
 
-    weak var state: MSFButtonState?
+    unowned var state: MSFButtonState!
 
     open var borderRadius: CGFloat {
         switch size {

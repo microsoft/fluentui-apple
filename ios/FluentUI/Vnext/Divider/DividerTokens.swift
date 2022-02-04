@@ -16,11 +16,10 @@ import UIKit
 open class DividerTokens: ControlTokens {
     /// MSFDividerSpacing enumeration value that will define pre-defined value for the padding.
     public var spacing: MSFDividerSpacing {
-        guard let state = state else { preconditionFailure() }
         return state.spacing
     }
 
-    weak var state: MSFDividerState?
+    unowned var state: MSFDividerState!
 
     // MARK: - Design Tokens
 

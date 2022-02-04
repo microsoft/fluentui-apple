@@ -11,17 +11,15 @@ public class AvatarGroupTokens: ControlTokens {
 
     /// Defines the style of the button.
     public var style: MSFAvatarGroupStyle {
-        guard let state = state else { preconditionFailure() }
         return state.style
     }
 
     /// Defines the size of the button.
     public var size: MSFAvatarSize {
-        guard let state = state else { preconditionFailure() }
         return state.size
     }
 
-    weak var state: MSFAvatarGroupState?
+    unowned var state: MSFAvatarGroupState!
 
     // MARK: - Design Tokens
 
