@@ -18,7 +18,6 @@
 		4BBD651F2755FD9500A8B09E /* MSFNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBD651E2755FD9500A8B09E /* MSFNotificationView.swift */; };
 		5303259B26B31B6B00611D05 /* AvatarModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5303259926B31B6B00611D05 /* AvatarModifiers.swift */; };
 		5306075326A1E6A4002D49CF /* AvatarGroupTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5306074F26A1E6A4002D49CF /* AvatarGroupTokens.swift */; };
-		5306075526A1E6A4002D49CF /* MSFAvatarGroupTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5306075026A1E6A4002D49CF /* MSFAvatarGroupTokens.generated.swift */; };
 		5306075726A1E6A4002D49CF /* AvatarGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5306075126A1E6A4002D49CF /* AvatarGroup.swift */; };
 		5306076126A201C8002D49CF /* Persona.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EF53C2215AF1AB00573E8F /* Persona.swift */; };
 		53097D05270288FB00A6E4DC /* MSFButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097CFF270288FB00A6E4DC /* MSFButton.swift */; };
@@ -216,6 +215,8 @@
 		EC02A5F5274DD19600E81B3E /* MSFDivider.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC02A5F4274DD19500E81B3E /* MSFDivider.swift */; };
 		EC6A71EA273DBA520076A586 /* Divider.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6A71E9273DBA520076A586 /* Divider.swift */; };
 		ECA92184279A177D00B66117 /* DividerModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA92183279A177D00B66117 /* DividerModifiers.swift */; };
+		ECA9218627A3301C00B66117 /* MSFAvatarGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA9218527A3301C00B66117 /* MSFAvatarGroup.swift */; };
+		ECA9218A27A33A2D00B66117 /* AvatarGroupModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA9218927A33A2D00B66117 /* AvatarGroupModifiers.swift */; };
 		FD053A352224CA33009B6378 /* DatePickerControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD053A342224CA33009B6378 /* DatePickerControllerTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -247,7 +248,6 @@
 		4BBD651E2755FD9500A8B09E /* MSFNotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFNotificationView.swift; sourceTree = "<group>"; };
 		5303259926B31B6B00611D05 /* AvatarModifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarModifiers.swift; sourceTree = "<group>"; };
 		5306074F26A1E6A4002D49CF /* AvatarGroupTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarGroupTokens.swift; sourceTree = "<group>"; };
-		5306075026A1E6A4002D49CF /* MSFAvatarGroupTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFAvatarGroupTokens.generated.swift; sourceTree = "<group>"; };
 		5306075126A1E6A4002D49CF /* AvatarGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarGroup.swift; sourceTree = "<group>"; };
 		53097CFF270288FB00A6E4DC /* MSFButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFButton.swift; sourceTree = "<group>"; };
 		53097D01270288FB00A6E4DC /* Button.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
@@ -396,6 +396,8 @@
 		EC02A5F4274DD19500E81B3E /* MSFDivider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFDivider.swift; sourceTree = "<group>"; };
 		EC6A71E9273DBA520076A586 /* Divider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Divider.swift; sourceTree = "<group>"; };
 		ECA92183279A177D00B66117 /* DividerModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DividerModifiers.swift; sourceTree = "<group>"; };
+		ECA9218527A3301C00B66117 /* MSFAvatarGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFAvatarGroup.swift; sourceTree = "<group>"; };
+		ECA9218927A33A2D00B66117 /* AvatarGroupModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarGroupModifiers.swift; sourceTree = "<group>"; };
 		ECEBA8FB25EDF3380048EE24 /* SegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentedControl.swift; sourceTree = "<group>"; };
 		FC414E1E258876FB00069E73 /* CommandBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBar.swift; sourceTree = "<group>"; };
 		FC414E242588798000069E73 /* CommandBarButtonGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBarButtonGroupView.swift; sourceTree = "<group>"; };
@@ -584,8 +586,9 @@
 			isa = PBXGroup;
 			children = (
 				5306075126A1E6A4002D49CF /* AvatarGroup.swift */,
+				ECA9218927A33A2D00B66117 /* AvatarGroupModifiers.swift */,
+				ECA9218527A3301C00B66117 /* MSFAvatarGroup.swift */,
 				5306074F26A1E6A4002D49CF /* AvatarGroupTokens.swift */,
-				5306075026A1E6A4002D49CF /* MSFAvatarGroupTokens.generated.swift */,
 			);
 			path = AvatarGroup;
 			sourceTree = "<group>";
@@ -1532,7 +1535,6 @@
 				92B7E6A326864AE900EFC15E /* MSFPersonaButton.swift in Sources */,
 				5314E1BB25F01B070099271A /* TouchForwardingView.swift in Sources */,
 				5314E2EC25F025710099271A /* DayOfMonth.swift in Sources */,
-				5306075526A1E6A4002D49CF /* MSFAvatarGroupTokens.generated.swift in Sources */,
 				5314E0B325F010400099271A /* EasyTapButton.swift in Sources */,
 				5314E19625F019650099271A /* TabBarView.swift in Sources */,
 				5373D5752694D66F0032A3B4 /* FluentUIStyle.generated.swift in Sources */,
@@ -1624,6 +1626,7 @@
 				80AECC21263339E3005AF2F3 /* BottomSheetController.swift in Sources */,
 				5314E24B25F0232F0099271A /* UIScreen+Extension.swift in Sources */,
 				5314E2E325F025500099271A /* FluentUIFramework.swift in Sources */,
+				ECA9218627A3301C00B66117 /* MSFAvatarGroup.swift in Sources */,
 				5314E0EC25F012C40099271A /* NavigationAnimator.swift in Sources */,
 				5314E17225F0191C0099271A /* Separator.swift in Sources */,
 				5314E14225F016860099271A /* CardPresenterNavigationController.swift in Sources */,
@@ -1651,6 +1654,7 @@
 				53097D252702890900A6E4DC /* ListCell.swift in Sources */,
 				92088EF92666DB2C003F571A /* PersonaButton.swift in Sources */,
 				5314E13425F016370099271A /* PopupMenuItem.swift in Sources */,
+				ECA9218A27A33A2D00B66117 /* AvatarGroupModifiers.swift in Sources */,
 				5314E13825F016370099271A /* PopupMenuSection.swift in Sources */,
 				5314E07C25F00F1A0099271A /* DateTimePickerViewLayout.swift in Sources */,
 				5314E11625F015EA0099271A /* PersonaBadgeViewDataSource.swift in Sources */,
