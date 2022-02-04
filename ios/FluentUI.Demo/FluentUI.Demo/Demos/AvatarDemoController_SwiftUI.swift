@@ -24,6 +24,7 @@ class AvatarDemoControllerSwiftUI: UIHostingController<AvatarDemoView> {
 
 struct AvatarDemoView: View {
     @State var useAlternateBackground: Bool = false
+    @State var isAnimated: Bool = true
     @State var isOutOfOffice: Bool = false
     @State var isRingVisible: Bool = true
     @State var isTransparent: Bool = true
@@ -51,6 +52,7 @@ struct AvatarDemoView: View {
                 .presence(presence)
                 .isOutOfOffice(isOutOfOffice)
                 .hasPointerInteraction(hasPointerInteraction)
+                .isAnimated(isAnimated)
                 .frame(maxWidth: .infinity, minHeight: 150, alignment: .center)
                 .background(useAlternateBackground ? Color.gray : Color.clear)
 
@@ -78,6 +80,7 @@ struct AvatarDemoView: View {
                         FluentUIDemoToggle(titleKey: "Set alternate background", isOn: $useAlternateBackground)
                         FluentUIDemoToggle(titleKey: "Transparency", isOn: $isTransparent)
                         FluentUIDemoToggle(titleKey: "iPad Pointer interaction", isOn: $hasPointerInteraction)
+                        FluentUIDemoToggle(titleKey: "Animate transitions", isOn: $isAnimated)
                     }
 
                     Group {
