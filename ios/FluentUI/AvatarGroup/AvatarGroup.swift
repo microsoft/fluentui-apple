@@ -233,7 +233,7 @@ class MSFAvatarGroupStateImpl: NSObject, ObservableObject, ControlConfiguration,
         self.style = style
         self.size = size
         self.tokens = AvatarGroupTokens(style: style,
-                                           size: size)
+                                        size: size)
         super.init()
     }
 }
