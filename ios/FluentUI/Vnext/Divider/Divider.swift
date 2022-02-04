@@ -86,7 +86,7 @@ class MSFDividerStateImpl: NSObject, ObservableObject, ControlConfiguration, MSF
         self.spacing = spacing
         super.init()
 
-        // Ensure `tokens` has a weak reference back to this object to fetch `size` and `style`.
+        // Ensure `tokens` has an unowned reference back to this object.
         self.tokens.state = self
     }
 }

@@ -238,7 +238,7 @@ class MSFAvatarGroupStateImpl: NSObject, ObservableObject, ControlConfiguration,
         self.size = size
         super.init()
 
-        // Ensure `tokens` has a weak reference back to this object to fetch `size` and `style`.
+        // Ensure `tokens` has an unowned reference back to this object to fetch `size` and `style`.
         self.tokens.state = self
     }
 }

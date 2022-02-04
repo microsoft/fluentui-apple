@@ -120,20 +120,13 @@ class MSFPersonaButtonCarouselStateImpl: NSObject, ObservableObject, Identifiabl
     @Published var onTapAction: ((_ personaButtonState: MSFPersonaCarouselButtonState, _ index: Int) -> Void)?
     @Published var buttons: [MSFPersonaCarouselButtonStateImpl] = []
 
-    @Published var tokens: PersonaButtonCarouselTokens = .init() {
-        didSet {
-            tokens.state = self
-        }
-    }
+    @Published var tokens: PersonaButtonCarouselTokens = .init()
     @Published var overrideTokens: PersonaButtonCarouselTokens?
 
     init(size: MSFPersonaButtonSize) {
         self.buttonSize = size
 
         super.init()
-
-        // Ensure `tokens` has a weak reference back to this object to fetch `size` and `style`.
-        self.tokens.state = self
     }
 
     // MARK: - accessors and modifiers

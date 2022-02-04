@@ -9,8 +9,6 @@ import UIKit
 /// Representation of design tokens for the Indeterminate Progress Bar.
 public class IndeterminateProgressBarTokens: ControlTokens {
 
-    weak public var state: MSFIndeterminateProgressBarState?
-
     /// Progress bar's background color.
     open var backgroundColor: DynamicColor { aliasTokens.backgroundColors[.surfaceQuaternary] }
 
