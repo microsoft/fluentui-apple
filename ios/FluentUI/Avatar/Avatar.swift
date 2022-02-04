@@ -127,6 +127,7 @@ import SwiftUI
 public struct Avatar: View {
     @Environment(\.theme) var theme: FluentUIStyle
     @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
+    @Environment(\.layoutDirection) var layoutDirection: LayoutDirection
     @ObservedObject var tokens: MSFAvatarTokens
     @ObservedObject var state: MSFAvatarStateImpl
 
@@ -193,7 +194,7 @@ public struct Avatar: View {
         let presenceIconFrameDiffRelativeToOuterRing: CGFloat = ringOuterGapSize - (presenceIconFrameSideRelativeToInnerRing + outerGapAndRingThicknesCombined)
         let presenceCutoutOriginXLTR = ringOuterGapSize - presenceIconFrameDiffRelativeToOuterRing - presenceIconOutlineSize
         let presenceCutoutOriginXRTL = presenceIconFrameDiffRelativeToOuterRing
-        let presenceCutoutOriginX: CGFloat = Locale.current.isRightToLeftLayoutDirection() ? presenceCutoutOriginXRTL : presenceCutoutOriginXLTR
+        let presenceCutoutOriginX: CGFloat = layoutDirection == .rightToLeft ? presenceCutoutOriginXRTL : presenceCutoutOriginXLTR
         let presenceCutoutOriginY = presenceCutoutOriginXLTR
         let presenceIconFrameSideRelativeToOuterRing: CGFloat = presenceIconFrameSideRelativeToInnerRing + outerGapAndRingThicknesCombined
         let overallFrameSide = max(ringOuterGapSize, presenceIconFrameSideRelativeToOuterRing)

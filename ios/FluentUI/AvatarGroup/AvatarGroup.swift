@@ -142,6 +142,7 @@ import SwiftUI
 public struct AvatarGroup: View {
     @Environment(\.theme) var theme: FluentUIStyle
     @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
+    @Environment(\.layoutDirection) var layoutDirection: LayoutDirection
     @ObservedObject var state: MSFAvatarGroupStateImpl
     @ObservedObject var tokens: MSFAvatarGroupTokens
 
@@ -210,7 +211,7 @@ public struct AvatarGroup: View {
 
                 let xPosition = currentAvatarHasRing ? x - ringOuterGap - ringOuterGap : x - ringOuterGap
                 let xPositionRTL = currentAvatarHasRing ? rtlRingPaddingInterspace : rtlNoRingPaddingInterspace
-                let xOrigin = Locale.current.isRightToLeftLayoutDirection() ? xPositionRTL : xPosition
+                let xOrigin = layoutDirection == .rightToLeft ? xPositionRTL : xPosition
                 let yOrigin = sizeDiff / 2
                 let cutoutSize = isLastDisplayed ? (ringOuterGap * 2) + imageSize : nextAvatarSize
 
