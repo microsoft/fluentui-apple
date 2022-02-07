@@ -88,6 +88,9 @@ import SwiftUI
     /// The image used to fill the ring as a custom color.
     var imageBasedRingColor: UIImage? { get set }
 
+    /// Defines whether the avatar state transitions are animated or not. Animations are enabled by default.
+    var isAnimated: Bool { get set }
+
     /// Whether the presence status displays its "Out of office" or standard image.
     var isOutOfOffice: Bool { get set }
 
@@ -328,7 +331,7 @@ public struct Avatar: View {
 
         return avatarBody
             .pointerInteraction(state.hasPointerInteraction)
-            .animation(.linear(duration: animationDuration))
+            .animation(state.isAnimated ? .linear(duration: animationDuration) : .none)
             .accessibilityElement(children: .ignore)
             .accessibility(addTraits: state.hasButtonAccessibilityTrait ? .isButton : .isImage)
             .accessibility(label: Text(accessibilityLabel))
@@ -472,6 +475,7 @@ class MSFAvatarStateImpl: NSObject, ObservableObject, MSFAvatarState {
     @Published var hasRingInnerGap: Bool = true
     @Published var image: UIImage?
     @Published var imageBasedRingColor: UIImage?
+    @Published var isAnimated: Bool = true
     @Published var isOutOfOffice: Bool = false
     @Published var isRingVisible: Bool = false
     @Published var isTransparent: Bool = true
