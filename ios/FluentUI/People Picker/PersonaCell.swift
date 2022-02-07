@@ -29,8 +29,8 @@ open class PersonaCell: TableViewCell {
             avatar.state.image = image
         }
 
-        if let loadImageAsync = persona.loadImageAsync {
-            loadImageAsync { [weak avatar] image in
+        if let fetchImage = persona.fetchImage {
+            fetchImage { [weak avatar] image in
                 guard let avatar = avatar,
                       let image = image else {
                     return
