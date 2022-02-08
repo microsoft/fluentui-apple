@@ -18,11 +18,7 @@ import UIKit
 /// Design token set for the `ActivityIndicator` control.
 open class ActivityIndicatorTokens: ControlTokens {
     /// MSFActivityIndicatorSize enumeration value that will define pre-defined values for side and thickness.
-    public var size: MSFActivityIndicatorSize {
-        return state.size
-    }
-
-    unowned var state: MSFActivityIndicatorState!
+    public internal(set) var size: MSFActivityIndicatorSize = .large
 
     // MARK: - Design Tokens
 

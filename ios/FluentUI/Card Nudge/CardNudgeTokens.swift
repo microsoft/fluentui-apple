@@ -17,11 +17,7 @@ import SwiftUI
 /// Design token set for the `CardNudge` control.
 open class CardNudgeTokens: ControlTokens {
     // Required state value
-    public var style: MSFCardNudgeStyle {
-        return state.style
-    }
-
-    unowned var state: MSFCardNudgeState!
+    public internal(set) var style: MSFCardNudgeStyle = .standard
 
     // MARK: - Design Tokens
 

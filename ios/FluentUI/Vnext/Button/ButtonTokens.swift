@@ -32,16 +32,10 @@ import UIKit
 /// Updating these properties causes the SwiftUI button to update its view automatically.
 open class ButtonTokens: ControlTokens {
     /// Defines the style of the button.
-    public var style: MSFButtonStyle {
-        return state.style
-    }
+    public internal(set) var style: MSFButtonStyle = .primary
 
     /// Defines the size of the button.
-    public var size: MSFButtonSize {
-        return state.size
-    }
-
-    unowned var state: MSFButtonState!
+    public internal(set) var size: MSFButtonSize = .small
 
     open var borderRadius: CGFloat {
         switch size {

@@ -138,17 +138,23 @@ class MSFPersonaButtonStateImpl: NSObject, ObservableObject, Identifiable, Contr
     init(size: MSFPersonaButtonSize) {
         self.buttonSize = size
         self.avatarState = MSFAvatarStateImpl(style: .default, size: size.avatarSize)
-        super.init()
 
-        // Ensure `tokens` has an unowned reference back to this object to fetch `buttonSize`.
-        self.tokens.state = self
+        let tokens = PersonaButtonTokens()
+        tokens.size = size
+        self.tokens = tokens
+
+        super.init()
     }
 
-    @Published var buttonSize: MSFPersonaButtonSize
-    @Published var onTapAction: (() -> Void)?
-    @Published var tokens: PersonaButtonTokens = .init() {
+    @Published var buttonSize: MSFPersonaButtonSize {
         didSet {
-            tokens.state = self
+            tokens.size = buttonSize
+        }
+    }
+    @Published var onTapAction: (() -> Void)?
+    @Published var tokens: PersonaButtonTokens {
+        didSet {
+            tokens.size = buttonSize
         }
     }
     @Published var overrideTokens: PersonaButtonTokens?

@@ -132,23 +132,28 @@ public struct ActivityIndicator: View, TokenizedControlInternal {
 /// Properties available to customize the state of the Activity Indicator
 class MSFActivityIndicatorStateImpl: NSObject, ObservableObject, ControlConfiguration, MSFActivityIndicatorState {
     @Published var overrideTokens: ActivityIndicatorTokens?
-    @Published var tokens: ActivityIndicatorTokens = .init() {
+    @Published var tokens: ActivityIndicatorTokens {
         didSet {
-            tokens.state = self
+            tokens.size = size
         }
     }
 
     @Published var color: UIColor?
     @Published var isAnimating: Bool = false
     @Published var hidesWhenStopped: Bool = true
-    @Published var size: MSFActivityIndicatorSize
+    @Published var size: MSFActivityIndicatorSize {
+        didSet {
+            tokens.size = size
+        }
+    }
 
     init(size: MSFActivityIndicatorSize) {
         self.size = size
 
-        super.init()
+        let tokens = ActivityIndicatorTokens()
+        tokens.size = size
+        self.tokens = tokens
 
-        // Ensure `tokens` has an unowned reference back to this object to fetch `size`.
-        self.tokens.state = self
+        super.init()
     }
 }

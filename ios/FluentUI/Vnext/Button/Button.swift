@@ -59,7 +59,7 @@ public struct FluentButton: View, TokenizedControlInternal {
 
     public var body: some View {
         Button(action: state.action, label: {})
-            .buttonStyle(FluentButtonStyle(state: state, tokens: tokens))
+            .buttonStyle(FluentButtonStyle(state: state))
             .modifyIf(state.disabled != nil, { button in
                 button.disabled(state.disabled!)
             })
@@ -73,13 +73,22 @@ class MSFButtonStateImpl: NSObject, ObservableObject, ControlConfiguration, MSFB
     @Published var image: UIImage?
     @Published var disabled: Bool?
     @Published var text: String?
-    @Published var size: MSFButtonSize
-    @Published var style: MSFButtonStyle
+    @Published var size: MSFButtonSize {
+        didSet {
+            tokens.size = size
+        }
+    }
+    @Published var style: MSFButtonStyle {
+        didSet {
+            tokens.style = style
+        }
+    }
 
     @Published var overrideTokens: ButtonTokens?
-    @Published var tokens: ButtonTokens = .init() {
+    @Published var tokens: ButtonTokens {
         didSet {
-            tokens.state = self
+            tokens.size = size
+            tokens.style = style
         }
     }
 
@@ -98,10 +107,13 @@ class MSFButtonStateImpl: NSObject, ObservableObject, ControlConfiguration, MSFB
         self.size = size
         self.style = style
         self.action = action
-        super.init()
 
-        // Ensure `tokens` has an unowned reference back to this object to fetch `size` and `style`.
-        self.tokens.state = self
+        let tokens = ButtonTokens()
+        tokens.size = size
+        tokens.style = style
+        self.tokens = tokens
+
+        super.init()
     }
 }
 
@@ -109,7 +121,7 @@ class MSFButtonStateImpl: NSObject, ObservableObject, ControlConfiguration, MSFB
 struct FluentButtonBody: View {
     @Environment(\.isEnabled) var isEnabled: Bool
     @ObservedObject var state: MSFButtonStateImpl
-    var tokens: ButtonTokens
+    var tokens: ButtonTokens { state.tokens }
     let isPressed: Bool
 
     var body: some View {
@@ -208,11 +220,9 @@ struct FluentButtonBody: View {
 /// ButtonStyle which configures the Button View according to its state and design tokens.
 struct FluentButtonStyle: ButtonStyle {
     @ObservedObject var state: MSFButtonStateImpl
-    var tokens: ButtonTokens
 
     func makeBody(configuration: Self.Configuration) -> some View {
         FluentButtonBody(state: state,
-                         tokens: tokens,
                          isPressed: configuration.isPressed)
     }
 }

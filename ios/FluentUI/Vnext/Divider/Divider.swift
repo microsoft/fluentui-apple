@@ -70,13 +70,17 @@ class MSFDividerStateImpl: NSObject, ObservableObject, ControlConfiguration, MSF
     @Published var overrideTokens: DividerTokens?
     @Published var tokens: DividerTokens = .init() {
         didSet {
-            tokens.state = self
+            tokens.spacing = spacing
         }
     }
 
     @Published var orientation: MSFDividerOrientation
 
-    @Published var spacing: MSFDividerSpacing
+    @Published var spacing: MSFDividerSpacing {
+        didSet {
+            tokens.spacing = spacing
+        }
+    }
 
     let thickness: CGFloat = UIScreen.main.devicePixel
 
@@ -84,9 +88,11 @@ class MSFDividerStateImpl: NSObject, ObservableObject, ControlConfiguration, MSF
          spacing: MSFDividerSpacing) {
         self.orientation = orientation
         self.spacing = spacing
-        super.init()
 
-        // Ensure `tokens` has an unowned reference back to this object.
-        self.tokens.state = self
+        let tokens = DividerTokens()
+        tokens.spacing = spacing
+        self.tokens = tokens
+
+        super.init()
     }
 }

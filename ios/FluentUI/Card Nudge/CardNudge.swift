@@ -197,11 +197,15 @@ class MSFCardNudgeStateImpl: NSObject, ControlConfiguration, MSFCardNudgeState {
     @Published var overrideTokens: CardNudgeTokens?
 
     /// Style to draw the control.
-    @Published var style: MSFCardNudgeStyle
+    @Published var style: MSFCardNudgeStyle {
+        didSet {
+            tokens.style = style
+        }
+    }
 
     @Published var tokens: CardNudgeTokens = .init() {
         didSet {
-            tokens.state = self
+            tokens.style = style
         }
     }
 
@@ -209,9 +213,10 @@ class MSFCardNudgeStateImpl: NSObject, ControlConfiguration, MSFCardNudgeState {
         self.style = style
         self.title = title
 
-        super.init()
+        let tokens = CardNudgeTokens()
+        tokens.style = style
+        self.tokens = tokens
 
-        // Ensure `tokens` has an unowned reference back to this object to fetch `style`.
-        self.tokens.state = self
+        super.init()
     }
 }

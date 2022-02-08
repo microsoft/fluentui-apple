@@ -222,13 +222,22 @@ class MSFAvatarGroupStateImpl: NSObject, ObservableObject, ControlConfiguration,
     @Published var maxDisplayedAvatars: Int = Int.max
     @Published var overflowCount: Int = 0
 
-    @Published var style: MSFAvatarGroupStyle
-    @Published var size: MSFAvatarSize
+    @Published var style: MSFAvatarGroupStyle {
+        didSet {
+            tokens.style = style
+        }
+    }
+    @Published var size: MSFAvatarSize {
+        didSet {
+            tokens.size = size
+        }
+    }
 
     @Published var overrideTokens: AvatarGroupTokens?
     @Published var tokens: AvatarGroupTokens = .init() {
         didSet {
-            tokens.state = self
+            tokens.style = style
+            tokens.size = size
         }
     }
 
@@ -236,10 +245,12 @@ class MSFAvatarGroupStateImpl: NSObject, ObservableObject, ControlConfiguration,
          size: MSFAvatarSize) {
         self.style = style
         self.size = size
-        super.init()
 
-        // Ensure `tokens` has an unowned reference back to this object to fetch `size` and `style`.
-        self.tokens.state = self
+        let tokens = AvatarGroupTokens()
+        tokens.style = style
+        tokens.size = size
+
+        super.init()
     }
 }
 

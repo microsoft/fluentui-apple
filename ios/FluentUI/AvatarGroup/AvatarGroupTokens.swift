@@ -10,16 +10,10 @@ import SwiftUI
 public class AvatarGroupTokens: ControlTokens {
 
     /// Defines the style of the button.
-    public var style: MSFAvatarGroupStyle {
-        return state.style
-    }
+    public internal(set) var style: MSFAvatarGroupStyle = .stack
 
     /// Defines the size of the button.
-    public var size: MSFAvatarSize {
-        return state.size
-    }
-
-    unowned var state: MSFAvatarGroupState!
+    public internal(set) var size: MSFAvatarSize = .large
 
     // MARK: - Design Tokens
 
