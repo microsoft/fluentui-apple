@@ -165,7 +165,6 @@ public struct CardNudge: View, TokenizedControlInternal {
             .padding(.vertical, tokens.verticalPadding)
             .padding(.horizontal, tokens.horizontalPadding)
             .resolveTokens(self)
-            .resolveTokenModifier(self, value: state.style)
     }
 
     public init(style: MSFCardNudgeStyle, title: String) {
@@ -198,16 +197,25 @@ class MSFCardNudgeStateImpl: NSObject, ControlConfiguration, MSFCardNudgeState {
     @Published var overrideTokens: CardNudgeTokens?
 
     /// Style to draw the control.
-    @Published var style: MSFCardNudgeStyle
+    @Published var style: MSFCardNudgeStyle {
+        didSet {
+            tokens.style = style
+        }
+    }
 
-    @Published var tokens: CardNudgeTokens
-
-    var defaultTokens: CardNudgeTokens { .init(style: self.style) }
+    @Published var tokens: CardNudgeTokens = .init() {
+        didSet {
+            tokens.style = style
+        }
+    }
 
     @objc init(style: MSFCardNudgeStyle, title: String) {
         self.style = style
         self.title = title
-        self.tokens = CardNudgeTokens(style: style)
+
+        let tokens = CardNudgeTokens()
+        tokens.style = style
+        self.tokens = tokens
 
         super.init()
     }

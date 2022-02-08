@@ -105,7 +105,7 @@ class ThemingDemoController: DemoController {
 
         addRow(items: [customThemeAvatarAccent.view, customThemeAvatarDefault.view, customThemeAvatarOutlinedPrimary.view], itemSpacing: 20)
 
-        customCardNudge.state.overrideTokens = customCardNudgeTokens
+        customCardNudge.state.overrideTokens = CustomCardNudgeTokens()
         customCardNudge.state.accentText = "I'm using the token pipeline!"
         customCardNudge.state.dismissButtonAction = { _ in
         }
@@ -203,12 +203,12 @@ open class CustomStyle: FluentUIStyle {
     }
 }
 
-private var customCardNudgeTokens: CardNudgeTokens {
+private class CustomCardNudgeTokens: CardNudgeTokens {
     let purplePrimary: DynamicColor = DynamicColor(light: ColorValue(0x6227A7), dark: ColorValue(0x7A7FEA))
-    return CardNudgeTokens(style: .standard,
-                           accentColor: purplePrimary,
-                           cornerRadius: 0.0,
-                           outlineColor: purplePrimary,
-                           subtitleTextColor: purplePrimary,
-                           textColor: purplePrimary)
+
+    override var accentColor: DynamicColor { purplePrimary }
+    override var cornerRadius: CGFloat { 0.0 }
+    override var outlineColor: DynamicColor { purplePrimary }
+    override var subtitleTextColor: DynamicColor { purplePrimary }
+    override var textColor: DynamicColor { purplePrimary }
 }

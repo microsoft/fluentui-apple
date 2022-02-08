@@ -17,7 +17,7 @@ import SwiftUI
     }
 
     /// The object that groups properties that allow control over the PersonaButtonCarousel appearance.
-    @objc open var state: MSFPersonaCarouselState {
+    @objc open var state: MSFPersonaButtonCarouselState {
         return self.personaButtonCarousel.state
     }
 

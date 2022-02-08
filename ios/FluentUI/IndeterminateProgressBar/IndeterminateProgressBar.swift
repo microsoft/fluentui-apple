@@ -102,7 +102,4 @@ class MSFIndeterminateProgressBarStateImpl: NSObject,
 
     /// Design token set for this control, to use in place of the control's default Fluent tokens.
     @Published @objc public var overrideTokens: IndeterminateProgressBarTokens?
-
-    /// On-demand default token set.
-    var defaultTokens: IndeterminateProgressBarTokens { .init() }
 }
