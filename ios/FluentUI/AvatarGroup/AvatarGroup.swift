@@ -208,9 +208,12 @@ public struct AvatarGroup: View {
                 let stackPadding = (currentAvatarHasRing ? ringPaddingInterspace : noRingPaddingInterspace)
 
                 let cutoutSize = isLastDisplayed ? (ringOuterGap * 2) + imageSize : nextAvatarSize
-                let xPosition = currentAvatarHasRing ? x - ringOuterGap - ringOuterGap : x - ringOuterGap
-                let xPositionRTL = -cutoutSize - interspace + ringOuterGap + (currentAvatarHasRing ? ringOffset : 0)
-                let xOrigin = layoutDirection == .rightToLeft ? xPositionRTL : xPosition
+                let xOrigin: CGFloat = {
+                    if layoutDirection == .rightToLeft {
+                        return -cutoutSize - interspace + ringOuterGap + (currentAvatarHasRing ? ringOffset : 0)
+                    }
+                    return x - ringOuterGap - (currentAvatarHasRing ? ringOuterGap : 0)
+                }()
                 let yOrigin = sizeDiff / 2
 
                 // Hand the rendering of the avatar to a helper function to appease Swift's
