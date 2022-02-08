@@ -205,15 +205,16 @@ public struct AvatarGroup: View {
 
                 let ringPaddingInterspace = nextAvatarHasRing ? interspace - (ringOffset + ringOuterGap) : interspace - ringOffset
                 let noRingPaddingInterspace = nextAvatarHasRing ? interspace - ringOuterGap : interspace
-                let rtlRingPaddingInterspace = (nextAvatarHasRing ? -x - ringOuterGap : -x + ringOffset)
-                let rtlNoRingPaddingInterspace = (nextAvatarHasRing ? -x - ringOffset - ringOuterGap : -x)
                 let stackPadding = (currentAvatarHasRing ? ringPaddingInterspace : noRingPaddingInterspace)
 
-                let xPosition = currentAvatarHasRing ? x - ringOuterGap - ringOuterGap : x - ringOuterGap
-                let xPositionRTL = currentAvatarHasRing ? rtlRingPaddingInterspace : rtlNoRingPaddingInterspace
-                let xOrigin = layoutDirection == .rightToLeft ? xPositionRTL : xPosition
-                let yOrigin = sizeDiff / 2
                 let cutoutSize = isLastDisplayed ? (ringOuterGap * 2) + imageSize : nextAvatarSize
+                let xOrigin: CGFloat = {
+                    if layoutDirection == .rightToLeft {
+                        return -cutoutSize - interspace + ringOuterGap + (currentAvatarHasRing ? ringOffset : 0)
+                    }
+                    return x - ringOuterGap - (currentAvatarHasRing ? ringOuterGap : 0)
+                }()
+                let yOrigin = sizeDiff / 2
 
                 // Hand the rendering of the avatar to a helper function to appease Swift's
                 // strict type-checking timeout.
