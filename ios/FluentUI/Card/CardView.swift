@@ -487,11 +487,13 @@ open class CardView: UIView {
     }
 
     private func updateLargeContentTitle() {
-        var largeContextText = primaryText
-        if let secondaryText = secondaryText, !twoLineTitle {
-            largeContextText += "\n" + secondaryText
-        }
-        largeContentTitle = largeContextText
+        largeContentTitle = {
+            guard let secondaryText = secondaryText, !twoLineTitle else {
+                return primaryText
+            }
+
+            return  "\(primaryText)\n\(secondaryText)"
+        }()
     }
 
     private func updateLargeContentImage() {
