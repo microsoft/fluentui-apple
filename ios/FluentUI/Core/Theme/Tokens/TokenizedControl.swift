@@ -34,7 +34,4 @@ protocol ControlConfiguration: NSObject, ObservableObject, Identifiable {
 
     /// Common token lookup method, which should contain a lookup via the current environment's `fluentTheme`.
     var tokens: TokenType { get set }
-
-    /// On-demand default token set.
-    var defaultTokens: TokenType { get }
 }

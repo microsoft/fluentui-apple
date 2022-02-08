@@ -78,7 +78,6 @@ public struct ActivityIndicator: View, TokenizedControlInternal {
                    height: side,
                    alignment: .center)
             .resolveTokens(self)
-            .resolveTokenModifier(self, value: state.size)
     }
 
     var tokens: ActivityIndicatorTokens { state.tokens }
@@ -133,17 +132,27 @@ public struct ActivityIndicator: View, TokenizedControlInternal {
 /// Properties available to customize the state of the Activity Indicator
 class MSFActivityIndicatorStateImpl: NSObject, ObservableObject, ControlConfiguration, MSFActivityIndicatorState {
     @Published var overrideTokens: ActivityIndicatorTokens?
-    @Published var tokens: ActivityIndicatorTokens
-    var defaultTokens: ActivityIndicatorTokens { .init(size: self.size) }
+    @Published var tokens: ActivityIndicatorTokens {
+        didSet {
+            tokens.size = size
+        }
+    }
 
     @Published var color: UIColor?
     @Published var isAnimating: Bool = false
     @Published var hidesWhenStopped: Bool = true
-    @Published var size: MSFActivityIndicatorSize
+    @Published var size: MSFActivityIndicatorSize {
+        didSet {
+            tokens.size = size
+        }
+    }
 
     init(size: MSFActivityIndicatorSize) {
         self.size = size
-        self.tokens = ActivityIndicatorTokens(size: size)
+
+        let tokens = ActivityIndicatorTokens()
+        tokens.size = size
+        self.tokens = tokens
 
         super.init()
     }

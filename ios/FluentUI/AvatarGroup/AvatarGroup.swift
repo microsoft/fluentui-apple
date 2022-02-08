@@ -19,6 +19,9 @@ import SwiftUI
     ///  Style of the AvatarGroup.
     var style: MSFAvatarGroupStyle { get set }
 
+    ///  Size of the AvatarGroup.
+    var size: MSFAvatarSize { get set }
+
     /// Creates a new Avatar within the AvatarGroup.
     func createAvatar() -> MSFAvatarGroupAvatarState
 
@@ -154,8 +157,6 @@ public struct AvatarGroup: View, TokenizedControlInternal {
             }
         }
         .resolveTokens(self)
-        .resolveTokenModifier(self, value: state.style)
-        .resolveTokenModifier(self, value: state.size)
     }
 
     var tokens: AvatarGroupTokens { state.tokens }
@@ -221,19 +222,34 @@ class MSFAvatarGroupStateImpl: NSObject, ObservableObject, ControlConfiguration,
     @Published var maxDisplayedAvatars: Int = Int.max
     @Published var overflowCount: Int = 0
 
-    @Published var style: MSFAvatarGroupStyle
-    @Published var size: MSFAvatarSize
+    @Published var style: MSFAvatarGroupStyle {
+        didSet {
+            tokens.style = style
+        }
+    }
+    @Published var size: MSFAvatarSize {
+        didSet {
+            tokens.size = size
+        }
+    }
 
     @Published var overrideTokens: AvatarGroupTokens?
-    @Published var tokens: AvatarGroupTokens
-    var defaultTokens: AvatarGroupTokens { .init(style: self.style, size: self.size) }
+    @Published var tokens: AvatarGroupTokens = .init() {
+        didSet {
+            tokens.style = style
+            tokens.size = size
+        }
+    }
 
     init(style: MSFAvatarGroupStyle,
          size: MSFAvatarSize) {
         self.style = style
         self.size = size
-        self.tokens = AvatarGroupTokens(style: style,
-                                        size: size)
+
+        let tokens = AvatarGroupTokens()
+        tokens.style = style
+        tokens.size = size
+
         super.init()
     }
 }
