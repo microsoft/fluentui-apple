@@ -208,7 +208,6 @@ public struct AvatarGroup: View {
                     let avatarSizeDifference = avatarSize - nextAvatarSize
                     let sizeDiff = !isLastDisplayed ? (currentAvatarHasRing ? avatarSizeDifference : avatarSizeDifference - ringGapOffset) :
                     currentAvatarHasRing ? (avatarSize - ringGapOffset) - imageSize : (avatarSize - (ringGapOffset * 2)) - imageSize
-                    let x = avatarSize + tokens.interspace - ringGapOffset
 
                     // Calculating the different interspace scenarios considering rings.
                     let ringPaddingInterspace = nextAvatarHasRing ? interspace - (ringOffset + ringOuterGap) : interspace - ringOffset
@@ -221,7 +220,7 @@ public struct AvatarGroup: View {
                         if layoutDirection == .rightToLeft {
                             return -cutoutSize - interspace + ringOuterGap + (currentAvatarHasRing ? ringOffset : 0)
                         }
-                        return x - ringOuterGap - (currentAvatarHasRing ? ringOuterGap : 0)
+                        return avatarSize + tokens.interspace - ringGapOffset - ringOuterGap - (currentAvatarHasRing ? ringOuterGap : 0)
                     }()
                     let yOrigin = sizeDiff / 2
 
