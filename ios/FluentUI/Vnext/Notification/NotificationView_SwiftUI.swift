@@ -37,22 +37,29 @@ import SwiftUI
 
     /// Action to be dispatched when dismissing toast/bar notification.
     var dismissAction: (() -> Void)? { get set }
+
+    /// Design token set for this control, to use in place of the control's default Fluent tokens.
+    var overrideTokens: NotificationTokens? { get set }
 }
 
 /// View that represents the Notification.
-public struct NotificationViewSwiftUI: View {
+public struct NotificationViewSwiftUI: View, TokenizedControlInternal {
     @Environment(\.horizontalSizeClass) var horizontalSizeClass: UserInterfaceSizeClass?
-    @Environment(\.theme) var theme: FluentUIStyle
-    @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
-    @ObservedObject var tokens: MSFNotificationTokens
+    @Environment(\.swiftUIInsets) private var safeAreaInsets: EdgeInsets
+    @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @ObservedObject var state: MSFNotificationStateImpl
+    var tokens: NotificationTokens { state.tokens }
+    public typealias TokenType = NotificationTokens
+    public func overrideTokens(_ tokens: NotificationTokens?) -> NotificationViewSwiftUI {
+        state.overrideTokens = tokens
+        return self
+    }
 
     public init(style: MSFNotificationStyle,
                 message: String,
                 delayTime: TimeInterval) {
         let state = MSFNotificationStateImpl(style: style, message: message, delayTime: delayTime)
         self.state = state
-        self.tokens = state.tokens
     }
 
     private var hasImage: Bool {
@@ -67,10 +74,6 @@ public struct NotificationViewSwiftUI: View {
         !state.style.isToast && state.actionButtonAction == nil
     }
 
-    private var safeAreaInsets: UIEdgeInsets {
-        windowProvider?.window?.safeAreaInsets ?? UIEdgeInsets()
-    }
-
     @ViewBuilder
     var image: some View {
         if state.style.isToast {
@@ -78,7 +81,7 @@ public struct NotificationViewSwiftUI: View {
                 Image(uiImage: image)
                     .renderingMode(.template)
                     .frame(width: image.size.width, height: image.size.height, alignment: .center)
-                    .foregroundColor(Color(tokens.foregroundColor))
+                    .foregroundColor(Color(dynamicColor: tokens.foregroundColor))
                     .padding(.vertical, tokens.verticalPadding)
                     .padding(.leading, tokens.horizontalPadding)
             }
@@ -90,18 +93,18 @@ public struct NotificationViewSwiftUI: View {
         if state.style.isToast && hasSecondTextRow {
             if let title = state.title {
                 Text(title)
-                    .font(Font(tokens.boldTextFont))
-                    .foregroundColor(Color(tokens.foregroundColor))
+                    .font(.fluent(tokens.boldTextFont))
+                    .foregroundColor(Color(dynamicColor: tokens.foregroundColor))
             }
         }
     }
 
     @ViewBuilder
     var messageLabel: some View {
-        let messageFont = hasSecondTextRow ? Font(tokens.footnoteTextFont) : (state.style.isToast ? Font(tokens.boldTextFont) : Font(tokens.regularTextFont))
+        let messageFont = hasSecondTextRow ? tokens.footnoteTextFont : (state.style.isToast ? tokens.boldTextFont : tokens.regularTextFont)
         Text(state.message)
-            .font(messageFont)
-            .foregroundColor(Color(tokens.foregroundColor))
+            .font(.fluent(messageFont))
+            .foregroundColor(Color(dynamicColor: tokens.foregroundColor))
     }
 
     @ViewBuilder
@@ -129,17 +132,17 @@ public struct NotificationViewSwiftUI: View {
                 .padding(.horizontal, tokens.horizontalPadding)
                 .padding(.vertical, tokens.verticalPadding)
                 .accessibility(identifier: "Accessibility.Dismiss.Label")
-                .foregroundColor(Color(tokens.foregroundColor))
+                .foregroundColor(Color(dynamicColor: tokens.foregroundColor))
             } else {
                 SwiftUI.Button(actionTitle) {
                     dismissAction()
                     buttonAction()
                 }
                 .lineLimit(1)
-                .foregroundColor(Color(tokens.foregroundColor))
+                .foregroundColor(Color(dynamicColor: tokens.foregroundColor))
                 .padding(.horizontal, tokens.horizontalPadding)
                 .padding(.vertical, tokens.verticalPadding)
-                .font(Font(tokens.boldTextFont))
+                .font(.fluent(tokens.boldTextFont))
             }
         }
     }
@@ -161,9 +164,9 @@ public struct NotificationViewSwiftUI: View {
     }
 
     public var body: some View {
-        // Note: we are using viewController's width because GeometryReader relies on the bounds of the hosting controller which cannot be set accurately at this point
-        if let windowWidth = windowProvider?.window?.bounds.width {
-            let width = windowWidth - safeAreaInsets.left - safeAreaInsets.right
+        // Note: we are using keyWindow's width because GeometryReader relies on the bounds of the hosting controller which cannot be set accurately at this point
+        if let windowWidth = UIApplication.shared.keyWindow?.bounds.width {
+            let width = windowWidth - safeAreaInsets.leading - safeAreaInsets.trailing
             innerContents
                 .onTapGesture {
                     if let messageAction = state.messageButtonAction, let dismissAction = state.dismissAction {
@@ -174,28 +177,27 @@ public struct NotificationViewSwiftUI: View {
                 .frame(width: state.style.isToast && horizontalSizeClass == .regular ? width / 2 : width - (2 * tokens.presentationOffset))
                 .background(
                     RoundedRectangle(cornerRadius: tokens.cornerRadius)
-                        .strokeBorder(Color(tokens.outlineColor), lineWidth: tokens.outlineWidth)
+                        .strokeBorder(Color(dynamicColor: tokens.outlineColor), lineWidth: tokens.outlineWidth)
                         .background(
                             RoundedRectangle(cornerRadius: tokens.cornerRadius)
-                                .fill(Color(tokens.backgroundColor))
+                                .fill(Color(dynamicColor: tokens.backgroundColor))
                         )
-                        .shadow(color: Color(tokens.ambientShadowColor),
+                        .shadow(color: Color(dynamicColor: tokens.ambientShadowColor),
                                 radius: tokens.ambientShadowBlur,
                                 x: tokens.ambientShadowOffsetX,
                                 y: tokens.ambientShadowOffsetY)
-                        .shadow(color: Color(tokens.perimeterShadowColor),
+                        .shadow(color: Color(dynamicColor: tokens.perimeterShadowColor),
                                 radius: tokens.perimeterShadowBlur,
                                 x: tokens.perimeterShadowOffsetX,
                                 y: tokens.perimeterShadowOffsetY)
                 )
-                .designTokens(tokens,
-                              from: theme,
-                              with: windowProvider)
+                .resolveTokens(self)
+                .resolveTokenModifier(self, value: state.style)
         }
     }
 }
 
-class MSFNotificationStateImpl: NSObject, ObservableObject, Identifiable, MSFNotificationState {
+class MSFNotificationStateImpl: NSObject, ControlConfiguration, MSFNotificationState {
     @Published public var style: MSFNotificationStyle
     @Published public var message: String
     @Published public var delayTime: TimeInterval
@@ -218,13 +220,17 @@ class MSFNotificationStateImpl: NSObject, ObservableObject, Identifiable, MSFNot
     /// Action to be dispatched when dismissing toast/bar notification.
     @Published public var dismissAction: (() -> Void)?
 
-    let tokens: MSFNotificationTokens
+    /// Design token set for this control, to use in place of the control's default Fluent tokens.
+    @Published var overrideTokens: NotificationTokens?
+    @Published var tokens: NotificationTokens
+    var defaultTokens: NotificationTokens { .init(style: style) }
 
-    init(style: MSFNotificationStyle, message: String, delayTime: TimeInterval) {
+    @objc init(style: MSFNotificationStyle, message: String, delayTime: TimeInterval) {
         self.style = style
         self.message = message
         self.delayTime = delayTime
-        self.tokens = MSFNotificationTokens(style: style)
+        self.tokens = NotificationTokens(style: style)
+
         super.init()
     }
 
