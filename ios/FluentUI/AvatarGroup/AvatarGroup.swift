@@ -234,7 +234,7 @@ class MSFAvatarGroupStateImpl: NSObject, ObservableObject, ControlConfiguration,
     }
 
     @Published var overrideTokens: AvatarGroupTokens?
-    @Published var tokens: AvatarGroupTokens = .init() {
+    @Published var tokens: AvatarGroupTokens {
         didSet {
             tokens.style = style
             tokens.size = size
@@ -249,6 +249,7 @@ class MSFAvatarGroupStateImpl: NSObject, ObservableObject, ControlConfiguration,
         let tokens = AvatarGroupTokens()
         tokens.style = style
         tokens.size = size
+        self.tokens = tokens
 
         super.init()
     }

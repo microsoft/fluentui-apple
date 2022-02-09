@@ -203,7 +203,7 @@ class MSFCardNudgeStateImpl: NSObject, ControlConfiguration, MSFCardNudgeState {
         }
     }
 
-    @Published var tokens: CardNudgeTokens = .init() {
+    @Published var tokens: CardNudgeTokens {
         didSet {
             tokens.style = style
         }

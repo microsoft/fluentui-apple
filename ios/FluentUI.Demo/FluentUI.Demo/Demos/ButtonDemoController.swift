@@ -116,36 +116,32 @@ class ButtonDemoController: DemoTableViewController {
             }
 
             var tokensClosure: ((FluentButton) -> ButtonTokens)?
-            if themeWideOverrideEnabled, let tokens = self?.themeWideOverrideTokens {
+            if themeWideOverrideEnabled {
                 tokensClosure = { _ in
-                    return tokens
+                    return ThemeWideOverrideButtonTokens()
                 }
             }
 
             fluentTheme.register(controlType: FluentButton.self, tokens: tokensClosure)
 
         } onPerControlOverrideChanged: { [weak self] perControlOverrideEnabled in
-            let tokens = perControlOverrideEnabled ? self?.perControlOverrideTokens : nil
             self?.buttons.forEach({ (_: String, value: MSFButton) in
+                let tokens = perControlOverrideEnabled ? PerControlOverrideButtonTokens() : nil
                 value.state.overrideTokens = tokens
             })
         }
     }
 
-    private var themeWideOverrideTokens: ButtonTokens {
-        return ButtonTokens(style: .primary,
-                            size: .large,
-                            textFont: .init(name: "Times",
-                                            size: 20.0,
-                                            weight: .regular))
+    private class ThemeWideOverrideButtonTokens: ButtonTokens {
+        override var textFont: FontInfo {
+            return FontInfo(name: "Times", size: 20.0, weight: .regular)
+        }
     }
 
-    private var perControlOverrideTokens: ButtonTokens {
-        return ButtonTokens(style: .primary,
-                            size: .large,
-                            textFont: .init(name: "Times",
-                                            size: 20.0,
-                                            weight: .regular))
+    private class PerControlOverrideButtonTokens: ButtonTokens {
+        override var textFont: FontInfo {
+            return FontInfo(name: "Papyrus", size: 20.0, weight: .regular)
+        }
     }
 
     // MARK: - Private helpers

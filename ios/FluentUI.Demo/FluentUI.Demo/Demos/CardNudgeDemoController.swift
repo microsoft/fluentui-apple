@@ -99,34 +99,36 @@ class CardNudgeDemoController: DemoTableViewController {
             }
 
             var tokensClosure: ((CardNudge) -> CardNudgeTokens)?
-            if themeWideOverrideEnabled, let tokens = self?.themeWideOverrideTokens {
+            if themeWideOverrideEnabled {
                 tokensClosure = { _ in
-                    return tokens
+                    return ThemeWideOverrideCardNudgeTokens()
                 }
             }
 
             fluentTheme.register(controlType: CardNudge.self, tokens: tokensClosure)
 
         } onPerControlOverrideChanged: { [weak self] perControlOverrideEnabled in
-            let tokens = perControlOverrideEnabled ? self?.perControlOverrideTokens : nil
             self?.cardNudges.forEach({ cardNudge in
+                let tokens = perControlOverrideEnabled ? PerControlOverrideCardNudgeTokens() : nil
                 cardNudge.state.overrideTokens = tokens
             })
         }
     }
 
-    private var themeWideOverrideTokens: CardNudgeTokens {
-        return CardNudgeTokens(style: .standard,
-                               // "Seafoam"
-                               backgroundColor: DynamicColor(light: ColorValue(0xFBD2EB),
-                                                             dark: ColorValue(0x44002A)))
+    private class ThemeWideOverrideCardNudgeTokens: CardNudgeTokens {
+        override var backgroundColor: DynamicColor {
+            // "Seafoam"
+            return DynamicColor(light: ColorValue(0xFBD2EB),
+                                dark: ColorValue(0x44002A))
+        }
     }
 
-    private var perControlOverrideTokens: CardNudgeTokens {
-        return CardNudgeTokens(style: .standard,
-                               // "Hot Pink"
-                               backgroundColor: DynamicColor(light: ColorValue(0xCFF7E4),
-                                                             dark: ColorValue(0x003D20)))
+    private class PerControlOverrideCardNudgeTokens: CardNudgeTokens {
+        override var backgroundColor: DynamicColor {
+            // "Hot Pink"
+            return DynamicColor(light: ColorValue(0xCFF7E4),
+                                dark: ColorValue(0x003D20))
+        }
     }
 
     // MARK: - Helpers
