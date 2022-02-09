@@ -220,7 +220,7 @@ public struct AvatarGroup: View {
                         if layoutDirection == .rightToLeft {
                             return -cutoutSize - interspace + ringOuterGap + (currentAvatarHasRing ? ringOffset : 0)
                         }
-                        return avatarSize + tokens.interspace - ringGapOffset - ringOuterGap - (currentAvatarHasRing ? ringOuterGap : 0)
+                        return avatarSize + interspace - ringGapOffset - ringOuterGap - (currentAvatarHasRing ? ringOuterGap : 0)
                     }()
                     let yOrigin = sizeDiff / 2
 
