@@ -9,32 +9,12 @@ import UIKit
 /// Representation of design tokens for the Indeterminate Progress Bar.
 public class IndeterminateProgressBarTokens: ControlTokens {
 
-    /// Creates a new instance of the IndeterminateProgressBarTokens.
-    /// - Parameters:
-    ///   - backgroundColor: Optional override value of the background color.
-    ///   - gradientColor: Optional override value of the gradient color.
-    ///   - height: Optional override value of the height.
-    public init(backgroundColor: DynamicColor? = nil,
-                gradientColor: DynamicColor? = nil,
-                height: CGFloat? = nil) {
-        super.init()
+    /// Progress bar's background color.
+    open var backgroundColor: DynamicColor { aliasTokens.backgroundColors[.surfaceQuaternary] }
 
-        if let backgroundColor = backgroundColor {
-            self.backgroundColor = backgroundColor
-        }
+    /// Progress bar's gradient color.
+    open var gradientColor: DynamicColor { globalTokens.brandColors[.primary] }
 
-        if let gradientColor = gradientColor {
-            self.gradientColor = gradientColor
-        }
-
-        if let height = height {
-            self.height = height
-        }
-    }
-
-    lazy var backgroundColor: DynamicColor = aliasTokens.backgroundColors[.surfaceQuaternary]
-
-    lazy var gradientColor: DynamicColor = globalTokens.brandColors[.primary]
-
-    lazy var height: CGFloat = 2
+    /// Progress bar's height.
+    open var height: CGFloat { 2 }
 }

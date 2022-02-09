@@ -38,10 +38,8 @@ import SwiftUI
     /// - Parameter control: The control to fetch tokens for.
     ///
     /// - Returns: The appropriate `ControlTokens` for the given control. See Discussion for more details.
-    func tokens<T: TokenizedControlInternal>(for control: T) -> T.TokenType? {
-        if let tokens = control.state.overrideTokens {
-            return tokens
-        } else if let lookup = controlTokens[tokenKey(type(of: control))] as? (T) -> T.TokenType {
+    func tokens<T: TokenizedControl>(for control: T) -> T.TokenType? {
+        if let lookup = controlTokens[tokenKey(type(of: control))] as? (T) -> T.TokenType {
             return lookup(control)
         } else {
             return nil

@@ -90,7 +90,6 @@ public class CommandBar: UIView, TokenizedControlInternal, ControlConfiguration 
 
     var state: CommandBar { self }
     var tokens: CommandBarTokens = .init()
-    var defaultTokens: CommandBarTokens { .init() }
     var overrideTokens: CommandBarTokens? {
         didSet {
             updateButtonTokens()

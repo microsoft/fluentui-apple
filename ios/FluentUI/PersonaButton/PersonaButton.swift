@@ -78,7 +78,6 @@ public struct PersonaButton: View, TokenizedControlInternal {
         .frame(minWidth: adjustedWidth, maxWidth: adjustedWidth, minHeight: 0, maxHeight: .infinity)
         .background(Color(dynamicColor: tokens.backgroundColor))
         .resolveTokens(self)
-        .resolveTokenModifier(self, value: state.buttonSize)
     }
 
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
@@ -139,15 +138,26 @@ class MSFPersonaButtonStateImpl: NSObject, ObservableObject, Identifiable, Contr
     init(size: MSFPersonaButtonSize) {
         self.buttonSize = size
         self.avatarState = MSFAvatarStateImpl(style: .default, size: size.avatarSize)
-        self.tokens = PersonaButtonTokens(size: size)
+
+        let tokens = PersonaButtonTokens()
+        tokens.size = size
+        self.tokens = tokens
+
         super.init()
     }
 
-    @Published var buttonSize: MSFPersonaButtonSize
+    @Published var buttonSize: MSFPersonaButtonSize {
+        didSet {
+            tokens.size = buttonSize
+        }
+    }
     @Published var onTapAction: (() -> Void)?
-    @Published var tokens: PersonaButtonTokens
+    @Published var tokens: PersonaButtonTokens {
+        didSet {
+            tokens.size = buttonSize
+        }
+    }
     @Published var overrideTokens: PersonaButtonTokens?
-    var defaultTokens: PersonaButtonTokens { .init(size: buttonSize) }
 
     let avatarState: MSFAvatarStateImpl
     let id = UUID()
