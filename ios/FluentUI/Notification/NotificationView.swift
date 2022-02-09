@@ -97,14 +97,19 @@ open class NotificationView: UIView, TokenizedControlInternal, ControlConfigurat
     private var perimeterShadow = CALayer()
     private var ambientShadow = CALayer()
 
-    @objc public override init(frame: CGRect) {
-        super.init(frame: frame)
+    @objc public init(style: MSFNotificationStyle) {
+        self.style = style
+
+        let tokens = NotificationTokens()
+        tokens.style = style
+        self.tokens = tokens
+
+        super.init(frame: .zero)
         initialize()
     }
 
-    @objc public required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        initialize()
+    required public init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 
     open override func removeFromSuperview() {
@@ -183,7 +188,6 @@ open class NotificationView: UIView, TokenizedControlInternal, ControlConfigurat
                           actionTitle: String = "",
                           action: (() -> Void)? = nil,
                           messageAction: (() -> Void)? = nil) -> Self {
-        tokens = NotificationTokens.init(style: style)
         let title = style.supportsTitle ? title : ""
         let isTitleEmpty = title.isEmpty
         let image = style.supportsImage ? image : nil
@@ -364,11 +368,21 @@ open class NotificationView: UIView, TokenizedControlInternal, ControlConfigurat
     }
 
     var state: NotificationView { self }
-    var defaultTokens: NotificationTokens { .init(style: tokens.style) }
+
+    /// Design token set for this control, to use in place of the control's default Fluent tokens.
     var overrideTokens: NotificationTokens?
-    var tokens: NotificationTokens = .init(style: .primaryToast) {
+
+    /// Style to draw the control.
+    public var style: MSFNotificationStyle {
+        didSet {
+            tokens.style = style
+        }
+    }
+
+    var tokens: NotificationTokens {
         didSet {
             if tokens.style != oldValue.style {
+                tokens.style = style
                 updateForStyle()
             }
         }

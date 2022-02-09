@@ -192,13 +192,11 @@ public struct NotificationViewSwiftUI: View, TokenizedControlInternal {
                                 y: tokens.perimeterShadowOffsetY)
                 )
                 .resolveTokens(self)
-                .resolveTokenModifier(self, value: state.style)
         }
     }
 }
 
 class MSFNotificationStateImpl: NSObject, ControlConfiguration, MSFNotificationState {
-    @Published public var style: MSFNotificationStyle
     @Published public var message: String
     @Published public var delayTime: TimeInterval
     @Published public var title: String?
@@ -222,14 +220,28 @@ class MSFNotificationStateImpl: NSObject, ControlConfiguration, MSFNotificationS
 
     /// Design token set for this control, to use in place of the control's default Fluent tokens.
     @Published var overrideTokens: NotificationTokens?
-    @Published var tokens: NotificationTokens
-    var defaultTokens: NotificationTokens { .init(style: style) }
+
+    /// Style to draw the control.
+    @Published public var style: MSFNotificationStyle {
+        didSet {
+            tokens.style = style
+        }
+    }
+
+    @Published var tokens: NotificationTokens {
+        didSet {
+            tokens.style = style
+        }
+    }
 
     @objc init(style: MSFNotificationStyle, message: String, delayTime: TimeInterval) {
         self.style = style
         self.message = message
         self.delayTime = delayTime
-        self.tokens = NotificationTokens(style: style)
+
+        let tokens = NotificationTokens()
+        tokens.style = style
+        self.tokens = tokens
 
         super.init()
     }
