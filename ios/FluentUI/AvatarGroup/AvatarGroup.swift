@@ -198,17 +198,17 @@ public struct AvatarGroup: View {
             HStack(spacing: 0) {
                 ForEach(enumeratedAvatars.prefix(avatarsToDisplay), id: \.1) { index, avatar in
                     let nextIndex = index + 1
+                    let isLastDisplayed = nextIndex == avatarsToDisplay
                     // If the avatar is part of Stack style and is not the last avatar in the sequence, create a cutout.
                     let avatarView = avatarViews[index]
-                    let needsCutout = tokens.style == .stack && (hasOverflow || nextIndex < maxDisplayedAvatars)
+                    let needsCutout = tokens.style == .stack && (hasOverflow || !isLastDisplayed)
                     let avatarSize: CGFloat = avatarView.state.totalSize()
                     let nextAvatarSize: CGFloat = needsCutout ? avatarViews[nextIndex].state.totalSize() : 0
-                    let isLastDisplayed = index == maxDisplayedAvatars - 1
 
                     // Calculating the size delta of the current and next avatar based off of ring visibility, which helps determine
                     // starting coordinates for the cutout.
                     let currentAvatarHasRing = avatar.isRingVisible
-                    let nextAvatarHasRing = nextIndex < maxDisplayedAvatars ? avatars[nextIndex].isRingVisible : false
+                    let nextAvatarHasRing = !isLastDisplayed ? avatars[nextIndex].isRingVisible : false
                     let avatarSizeDifference = avatarSize - nextAvatarSize
                     let sizeDiff = !isLastDisplayed ? (currentAvatarHasRing ? avatarSizeDifference : avatarSizeDifference - ringGapOffset) :
                     currentAvatarHasRing ? (avatarSize - ringGapOffset) - imageSize : (avatarSize - (ringGapOffset * 2)) - imageSize
