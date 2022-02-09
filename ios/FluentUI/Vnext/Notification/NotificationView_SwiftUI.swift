@@ -265,3 +265,25 @@ class MSFNotificationStateImpl: NSObject, ControlConfiguration, MSFNotificationS
         self.dismissAction = dismissAction
     }
 }
+
+@available(iOSApplicationExtension, unavailable)
+struct SafeAreaInsetsKey: EnvironmentKey {
+    static var defaultValue: EdgeInsets {
+        return UIApplication.shared.keyWindow?.safeAreaInsets.swiftUIInsets ?? EdgeInsets()
+    }
+}
+
+@available(iOSApplicationExtension, unavailable)
+extension EnvironmentValues {
+  var swiftUIInsets: EdgeInsets {
+    get { self[SafeAreaInsetsKey.self] }
+    set { self[SafeAreaInsetsKey.self] = newValue }
+  }
+}
+
+// Note: This may cause issues in RTL languages as leading should map to right and trailing to left in those cases.
+private extension UIEdgeInsets {
+    var swiftUIInsets: EdgeInsets {
+        EdgeInsets(top: top, leading: left, bottom: bottom, trailing: right)
+    }
+}

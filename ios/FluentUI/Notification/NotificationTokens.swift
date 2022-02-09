@@ -47,9 +47,14 @@ import UIKit
     }
 }
 
-public class NotificationTokens: ControlTokens {
+/// Design token set for the `Notification` control.
+open class NotificationTokens: ControlTokens {
+    /// Defines the style of the notification.
     public internal(set) var style: MSFNotificationStyle = .primaryToast
 
+    // MARK: - Design Tokens
+
+    /// The background color of the notification
     open var backgroundColor: DynamicColor {
         switch style {
         case .primaryToast:
@@ -69,6 +74,7 @@ public class NotificationTokens: ControlTokens {
         }
     }
 
+    /// The color of the notification's foreground elements like text and icons
     open var foregroundColor: DynamicColor {
         switch style {
         case .primaryToast:
@@ -88,6 +94,7 @@ public class NotificationTokens: ControlTokens {
         }
     }
 
+    /// The value for the corner radius of the frame of the notification
     open var cornerRadius: CGFloat {
         switch style.isToast {
         case true:
@@ -97,6 +104,7 @@ public class NotificationTokens: ControlTokens {
         }
     }
 
+    /// The value for the presentation offset of the notification
     open var presentationOffset: CGFloat {
         switch style.isToast {
         case true:
@@ -106,13 +114,20 @@ public class NotificationTokens: ControlTokens {
         }
     }
 
+    /// The value for the horizontal padding between the elements within a notification and its frame
     open var horizontalPadding: CGFloat = 19.0
+    /// The value for the vertical padding between the elements within a multi-line notification and its frame
     open var verticalPadding: CGFloat = 14.0
+    /// The value for the horizontal padding between the elements within a single-line notification and its frame
     open var verticalPaddingForOneLine: CGFloat = 18.0
+    /// The value for the horizontal spacing between the elements within a notification
     open var horizontalSpacing: CGFloat = 19.0
+    /// The value for the minimum height of a multi-line notification
     open var minimumHeight: CGFloat = 64.0
+    /// The value for the minimum height of a single-line notification
     open var minimumHeightForOneLine: CGFloat = 56.0
 
+    /// The color of the outline around the frame of a notification
     open var outlineColor: DynamicColor {
         switch style {
         case .primaryToast, .neutralToast, .primaryBar, .neutralBar, .dangerToast, .warningToast:
@@ -122,8 +137,10 @@ public class NotificationTokens: ControlTokens {
         }
     }
 
+    /// The width of the outline around the frame of a notification
     open var outlineWidth: CGFloat { globalTokens.borderSize[.thin] }
 
+    /// The color of the ambient shadow around a notification
     open var ambientShadowColor: DynamicColor {
         switch style.isToast {
         case true:
@@ -133,10 +150,14 @@ public class NotificationTokens: ControlTokens {
         }
     }
 
+    /// The blur amount for the ambient shadow around a notification
     open var ambientShadowBlur: CGFloat { aliasTokens.shadow[.shadow16].blurOne }
+    /// The X offset for the ambient shadow around a notification
     open var ambientShadowOffsetX: CGFloat { aliasTokens.shadow[.shadow16].xOne }
+    /// The Y offset for the ambient shadow around a notification
     open var ambientShadowOffsetY: CGFloat { aliasTokens.shadow[.shadow16].yOne }
 
+    /// The color of the perimeter shadow around a notification
     open var perimeterShadowColor: DynamicColor {
         switch style.isToast {
         case true:
@@ -146,10 +167,16 @@ public class NotificationTokens: ControlTokens {
         }
     }
 
+    /// The blur amount for the perimeter shadow around a notification
     open var perimeterShadowBlur: CGFloat { aliasTokens.shadow[.shadow16].blurTwo }
+    /// The X offset for the perimeter shadow around a notification
     open var perimeterShadowOffsetX: CGFloat { aliasTokens.shadow[.shadow16].xTwo }
+    /// The Y offset for the perimeter shadow around a notification
     open var perimeterShadowOffsetY: CGFloat { aliasTokens.shadow[.shadow16].yTwo }
+    /// The font for bold text within a notification
     open var boldTextFont: FontInfo { aliasTokens.typography[.body2Strong] }
+    /// The font for regular text within a notification
     open var regularTextFont: FontInfo { aliasTokens.typography[.body2] }
+    /// The font for footnote text within a notification
     open var footnoteTextFont: FontInfo { aliasTokens.typography[.caption1] }
 }

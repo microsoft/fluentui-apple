@@ -15,7 +15,6 @@
 		43488C46270FAD1300124C71 /* NotificationView_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43488C44270FAD0200124C71 /* NotificationView_SwiftUI.swift */; };
 		4BBD651F2755FD9500A8B09E /* MSFNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBD651E2755FD9500A8B09E /* MSFNotificationView.swift */; };
 		4BF01D9A27B37CF8005B32F2 /* NotificationTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BF01D9927B37CF8005B32F2 /* NotificationTokens.swift */; };
-		4BF01D9E27B3A55D005B32F2 /* EnvironmentValues+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BF01D9D27B3A55D005B32F2 /* EnvironmentValues+Extensions.swift */; };
 		4BF01DA027B3A862005B32F2 /* UIApplication+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BF01D9F27B3A861005B32F2 /* UIApplication+Extensions.swift */; };
 		5303259B26B31B6B00611D05 /* AvatarModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5303259926B31B6B00611D05 /* AvatarModifiers.swift */; };
 		5306075326A1E6A4002D49CF /* AvatarGroupTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5306074F26A1E6A4002D49CF /* AvatarGroupTokens.swift */; };
@@ -246,7 +245,6 @@
 		497DC2D824185885008D86F8 /* PillButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButton.swift; sourceTree = "<group>"; };
 		4BBD651E2755FD9500A8B09E /* MSFNotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFNotificationView.swift; sourceTree = "<group>"; };
 		4BF01D9927B37CF8005B32F2 /* NotificationTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationTokens.swift; sourceTree = "<group>"; };
-		4BF01D9D27B3A55D005B32F2 /* EnvironmentValues+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EnvironmentValues+Extensions.swift"; sourceTree = "<group>"; };
 		4BF01D9F27B3A861005B32F2 /* UIApplication+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extensions.swift"; sourceTree = "<group>"; };
 		5303259926B31B6B00611D05 /* AvatarModifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarModifiers.swift; sourceTree = "<group>"; };
 		5306074F26A1E6A4002D49CF /* AvatarGroupTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarGroupTokens.swift; sourceTree = "<group>"; };
@@ -878,7 +876,6 @@
 				A5B87B01211E20B50038C37C /* UIScreen+Extension.swift */,
 				FD41C8B122DD3BB70086F899 /* UIScrollView+Extensions.swift */,
 				A5B87B05211E23650038C37C /* UIView+Extensions.swift */,
-				4BF01D9D27B3A55D005B32F2 /* EnvironmentValues+Extensions.swift */,
 				4BF01D9F27B3A861005B32F2 /* UIApplication+Extensions.swift */,
 			);
 			path = Extensions;
@@ -1603,7 +1600,6 @@
 				5314E0E625F012C00099271A /* UIViewController+Navigation.swift in Sources */,
 				5314E29725F024760099271A /* String+Extension.swift in Sources */,
 				924D912D278E128600478B18 /* TokenResolver.swift in Sources */,
-				4BF01D9E27B3A55D005B32F2 /* EnvironmentValues+Extensions.swift in Sources */,
 				5314E12925F016230099271A /* PillButtonStyle.swift in Sources */,
 				5306075726A1E6A4002D49CF /* AvatarGroup.swift in Sources */,
 				92A1E4F526A791590007ED60 /* MSFCardNudge.swift in Sources */,

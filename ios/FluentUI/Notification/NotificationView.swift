@@ -383,7 +383,6 @@ open class NotificationView: UIView, TokenizedControlInternal, ControlConfigurat
         didSet {
             if tokens.style != oldValue.style {
                 tokens.style = style
-                updateForStyle()
             }
         }
     }
@@ -452,7 +451,6 @@ open class NotificationView: UIView, TokenizedControlInternal, ControlConfigurat
 
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        self.updateForStyle()
         self.updateWindowSpecificColors()
         self.setNeedsDisplay()
     }
