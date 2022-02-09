@@ -49,7 +49,7 @@ import UIKit
 
 public class NotificationTokens: ControlTokens {
     /// Creates an instance of `NotificationTokens`.
-    public override init() {
+    public override required init() {
         self.style = .primaryToast
         super.init()
     }
