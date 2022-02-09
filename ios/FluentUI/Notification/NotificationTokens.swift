@@ -48,6 +48,12 @@ import UIKit
 }
 
 public class NotificationTokens: ControlTokens {
+    /// Creates an instance of `NotificationTokens`.
+    public override init() {
+        self.style = .primaryToast
+        super.init()
+    }
+
     public init (style: MSFNotificationStyle,
                  backgroundColor: DynamicColor? = nil,
                  foregroundColor: DynamicColor? = nil,
