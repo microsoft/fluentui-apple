@@ -214,7 +214,7 @@ public struct AvatarGroup: View {
                     let stackPadding = interspace - (currentAvatarHasRing ? ringOffset : 0) - (nextAvatarHasRing ? ringOuterGap : 0)
 
                     // Finalized calculations for x and y coordinates of the Avatar if it needs a cutout, including RTL.
-                    let cutoutSize = isLastDisplayed ? (ringOuterGap * 2) + imageSize : nextAvatarSize
+                    let cutoutSize = isLastDisplayed ? ringGapOffset + imageSize : nextAvatarSize
                     let xOrigin: CGFloat = {
                         if layoutDirection == .rightToLeft {
                             return -cutoutSize - interspace + ringOuterGap + (currentAvatarHasRing ? ringOffset : 0)
