@@ -184,6 +184,7 @@ public struct AvatarGroup: View {
         let avatarsToDisplay: Int = min(maxDisplayedAvatars, avatarCount)
         let overflowCount: Int = (avatarCount > maxDisplayedAvatars ? avatarCount - maxDisplayedAvatars : 0) + state.overflowCount
         let hasOverflow: Bool = overflowCount > 0
+        let isStackStyle = tokens.style == .stack
 
         let interspace: CGFloat = tokens.interspace
         let imageSize: CGFloat = tokens.size.size
@@ -201,7 +202,7 @@ public struct AvatarGroup: View {
                     let isLastDisplayed = nextIndex == avatarsToDisplay
                     // If the avatar is part of Stack style and is not the last avatar in the sequence, create a cutout.
                     let avatarView = avatarViews[index]
-                    let needsCutout = tokens.style == .stack && (hasOverflow || !isLastDisplayed)
+                    let needsCutout = isStackStyle && (hasOverflow || !isLastDisplayed)
                     let avatarSize: CGFloat = avatarView.state.totalSize()
                     let nextAvatarSize: CGFloat = needsCutout ? avatarViews[nextIndex].state.totalSize() : 0
 
@@ -238,7 +239,7 @@ public struct AvatarGroup: View {
                                             .fill(style: FillStyle(eoFill: true)))
                             })
                     }
-                    .padding(.trailing, tokens.style == .stack ? stackPadding : interspace)
+                    .padding(.trailing, isStackStyle ? stackPadding : interspace)
                     .animation(Animation.linear(duration: animationDuration))
                     .transition(AnyTransition.move(edge: .leading))
                 }
