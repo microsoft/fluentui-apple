@@ -115,17 +115,17 @@ open class NotificationTokens: ControlTokens {
     }
 
     /// The value for the horizontal padding between the elements within a notification and its frame
-    open var horizontalPadding: CGFloat = 19.0
+    open var horizontalPadding: CGFloat { 19.0 }
     /// The value for the vertical padding between the elements within a multi-line notification and its frame
-    open var verticalPadding: CGFloat = 14.0
+    open var verticalPadding: CGFloat { 14.0 }
     /// The value for the horizontal padding between the elements within a single-line notification and its frame
-    open var verticalPaddingForOneLine: CGFloat = 18.0
+    open var verticalPaddingForOneLine: CGFloat { 18.0 }
     /// The value for the horizontal spacing between the elements within a notification
-    open var horizontalSpacing: CGFloat = 19.0
+    open var horizontalSpacing: CGFloat { 19.0 }
     /// The value for the minimum height of a multi-line notification
-    open var minimumHeight: CGFloat = 64.0
+    open var minimumHeight: CGFloat { 64.0 }
     /// The value for the minimum height of a single-line notification
-    open var minimumHeightForOneLine: CGFloat = 56.0
+    open var minimumHeightForOneLine: CGFloat { 56.0 }
 
     /// The color of the outline around the frame of a notification
     open var outlineColor: DynamicColor {
