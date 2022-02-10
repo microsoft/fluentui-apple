@@ -209,13 +209,6 @@ public struct AvatarGroup: View {
                     // starting coordinates for the cutout.
                     let currentAvatarHasRing = avatar.isRingVisible
                     let nextAvatarHasRing = !isLastDisplayed ? avatars[nextIndex].isRingVisible : false
-                    let avatarSizeDifference = avatarSize - nextAvatarSize
-                    let sizeDiff: CGFloat = {
-                        if isLastDisplayed {
-                            return avatarSize - imageSize - ringGapOffset - (currentAvatarHasRing ? 0 : ringGapOffset)
-                        }
-                        return avatarSizeDifference - (currentAvatarHasRing ? 0 : ringGapOffset)
-                    }()
 
                     // Calculating the different interspace scenarios considering rings.
                     let stackPadding = interspace - (currentAvatarHasRing ? ringOffset : 0) - (nextAvatarHasRing ? ringOuterGap : 0)
@@ -228,6 +221,8 @@ public struct AvatarGroup: View {
                         }
                         return avatarSize + interspace - ringGapOffset - ringOuterGap - (currentAvatarHasRing ? ringOuterGap : 0)
                     }()
+
+                    let sizeDiff = avatarSize - cutoutSize - (currentAvatarHasRing ? 0 : ringGapOffset)
                     let yOrigin = sizeDiff / 2
 
                     // Hand the rendering of the avatar to a helper function to appease Swift's
