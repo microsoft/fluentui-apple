@@ -28,10 +28,16 @@ jobs:
       packagesToPack: 'FluentUI.nuspec'
       buildProperties: buildNumber=$(sanitizedBuildNumber);commitId=$(Build.SourceVersion);repoUri=$(Build.Repository.Uri)
 
- - task: AzureArtifacts.manifest-generator-task.manifest-generator-task.ManifestGeneratorTask@0
-   displayName: 'Generation Task'
-   inputs:
-       BuildDropPath: '$(System.ArtifactsDirectory)/buildOutput'
+  - task: AzureArtifacts.manifest-generator-task.manifest-generator-task.ManifestGeneratorTask@0
+    displayName: 'Generation Task'
+    inputs:
+      BuildDropPath: '$(System.DefaultWorkingDirectory)'
+
+  - task: PublishPipelineArtifact@1
+    displayName: 'Publish Manifest'
+    inputs:
+      artifactName: SBom-$(System.JobAttempt)
+      targetPath: '$(System.DefaultWorkingDirectory)/_manifest'
 
   # push the package package
   - task: NuGetCommand@2
