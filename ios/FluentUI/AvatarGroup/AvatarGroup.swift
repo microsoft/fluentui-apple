@@ -210,8 +210,12 @@ public struct AvatarGroup: View {
                     let currentAvatarHasRing = avatar.isRingVisible
                     let nextAvatarHasRing = !isLastDisplayed ? avatars[nextIndex].isRingVisible : false
                     let avatarSizeDifference = avatarSize - nextAvatarSize
-                    let sizeDiff = !isLastDisplayed ? (currentAvatarHasRing ? avatarSizeDifference : avatarSizeDifference - ringGapOffset) :
-                    currentAvatarHasRing ? (avatarSize - ringGapOffset) - imageSize : (avatarSize - (ringGapOffset * 2)) - imageSize
+                    let sizeDiff: CGFloat = {
+                        if isLastDisplayed {
+                            return avatarSize - imageSize - ringGapOffset - (currentAvatarHasRing ? 0 : ringGapOffset)
+                        }
+                        return avatarSizeDifference - (currentAvatarHasRing ? 0 : ringGapOffset)
+                    }()
 
                     // Calculating the different interspace scenarios considering rings.
                     let ringPaddingInterspace = nextAvatarHasRing ? interspace - (ringOffset + ringOuterGap) : interspace - ringOffset
