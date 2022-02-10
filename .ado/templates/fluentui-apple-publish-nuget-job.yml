@@ -45,5 +45,4 @@ jobs:
     inputs:
       command: push
       packagesToPush: '$(Build.ArtifactStagingDirectory)/Microsoft.FluentUI.Apple.*.nupkg'
-      nuGetFeedType: external
-      publishFeedCredentials: Office
+      publishVstsFeed: Office
