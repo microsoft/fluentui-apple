@@ -2,6 +2,9 @@ jobs:
 - job: fluentui_apple_publish_nuget
   pool:
     vmImage: 'macos-11'
+  variables:
+  - name:EOCompliance-macos
+    value: true
   displayName: FluentUI Apple Publish NuGet
   timeoutInMinutes: 60 # how long to run the job before automatically cancelling
   cancelTimeoutInMinutes: 5 # how much time to give 'run always even if cancelled tasks' before killing them
