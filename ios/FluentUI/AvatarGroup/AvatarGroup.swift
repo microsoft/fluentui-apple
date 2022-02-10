@@ -218,9 +218,7 @@ public struct AvatarGroup: View {
                     }()
 
                     // Calculating the different interspace scenarios considering rings.
-                    let ringPaddingInterspace = nextAvatarHasRing ? interspace - (ringOffset + ringOuterGap) : interspace - ringOffset
-                    let noRingPaddingInterspace = nextAvatarHasRing ? interspace - ringOuterGap : interspace
-                    let stackPadding = (currentAvatarHasRing ? ringPaddingInterspace : noRingPaddingInterspace)
+                    let stackPadding = interspace - (currentAvatarHasRing ? ringOffset : 0) - (nextAvatarHasRing ? ringOuterGap : 0)
 
                     // Finalized calculations for x and y coordinates of the Avatar if it needs a cutout, including RTL.
                     let cutoutSize = isLastDisplayed ? (ringOuterGap * 2) + imageSize : nextAvatarSize
