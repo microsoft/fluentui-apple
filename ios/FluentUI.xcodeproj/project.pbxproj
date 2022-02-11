@@ -577,7 +577,6 @@
 			isa = PBXGroup;
 			children = (
 				4BBD651E2755FD9500A8B09E /* MSFNotificationView.swift */,
-				4BF01D9927B37CF8005B32F2 /* NotificationTokens.swift */,
 				43488C44270FAD0200124C71 /* NotificationView_SwiftUI.swift */,
 			);
 			path = Notification;
@@ -860,6 +859,7 @@
 			isa = PBXGroup;
 			children = (
 				A5B6617223A41E2900E801DD /* NotificationView.swift */,
+				4BF01D9927B37CF8005B32F2 /* NotificationTokens.swift */,
 			);
 			path = Notification;
 			sourceTree = "<group>";
