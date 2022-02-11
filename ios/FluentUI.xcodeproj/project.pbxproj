@@ -810,6 +810,7 @@
 			isa = PBXGroup;
 			children = (
 				925D461E26FD18B200179583 /* AliasTokens.swift */,
+				ECA921C527B5D10A00B66117 /* ButtonDynamicColors.swift */,
 				92DEE2232723D34400E31ED0 /* ControlTokens.swift */,
 				92E7AD4E26FE51FF00AE7FF8 /* DynamicColor.swift */,
 				925728F8276D6B5800EE1019 /* FontInfo.swift */,
@@ -818,7 +819,6 @@
 				923DB9D2274CB65700D8E58A /* TokenizedControl.swift */,
 				924D912C278E128600478B18 /* TokenResolver.swift */,
 				92EE82AC27025A94009D52B5 /* TokenSet.swift */,
-				ECA921C527B5D10A00B66117 /* ButtonDynamicColors.swift */,
 			);
 			path = Tokens;
 			sourceTree = "<group>";
