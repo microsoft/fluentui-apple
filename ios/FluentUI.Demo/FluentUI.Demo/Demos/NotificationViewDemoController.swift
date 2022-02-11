@@ -91,54 +91,52 @@ class NotificationViewDemoController: DemoController {
     }
 
     private func createNotificationView(forVariant variant: Variant) -> NotificationView {
-        let view = NotificationView()
         switch variant {
         case .primaryToast:
-            view.setup(style: .primaryToast,
-                              message: "Mail Archived",
-                              actionTitle: "Undo",
-                              action: { [weak self] in self?.showMessage("`Undo` tapped") })
+            return NotificationView(style: .primaryToast).setup(style: .primaryToast,
+                                                                message: "Mail Archived",
+                                                                actionTitle: "Undo",
+                                                                action: { [weak self] in self?.showMessage("`Undo` tapped") })
         case .primaryToastWithImageAndTitle:
-            view.setup(style: .primaryToast,
-                              title: "Kat's iPhoneX",
-                              message: "Listen to Emails • 7 mins",
-                              image: UIImage(named: "play-in-circle-24x24"),
-                              action: { [weak self] in self?.showMessage("`Dismiss` tapped") },
-                              messageAction: { [weak self] in self?.showMessage("`Listen to emails` tapped") })
+            return NotificationView(style: .primaryToast).setup(style: .primaryToast,
+                                                                title: "Kat's iPhoneX",
+                                                                message: "Listen to Emails • 7 mins",
+                                                                image: UIImage(named: "play-in-circle-24x24"),
+                                                                action: { [weak self] in self?.showMessage("`Dismiss` tapped") },
+                                                                messageAction: { [weak self] in self?.showMessage("`Listen to emails` tapped") })
         case .neutralToast:
-            view.setup(style: .neutralToast,
-                              message: "Some items require you to sign in to view them",
-                              actionTitle: "Sign in",
-                              action: { [weak self] in self?.showMessage("`Sign in` tapped") })
+            return NotificationView(style: .neutralToast).setup(style: .neutralToast,
+                                                                message: "Some items require you to sign in to view them",
+                                                                actionTitle: "Sign in",
+                                                                action: { [weak self] in self?.showMessage("`Sign in` tapped") })
         case .dangerToast:
-            view.setup(style: .dangerToast,
-                              message: "There was a problem, and your recent changes may not have saved",
-                              actionTitle: "Retry",
-                              action: { [weak self] in self?.showMessage("`Retry` tapped") })
+            return NotificationView(style: .dangerToast).setup(style: .dangerToast,
+                                                               message: "There was a problem, and your recent changes may not have saved",
+                                                               actionTitle: "Retry",
+                                                               action: { [weak self] in self?.showMessage("`Retry` tapped") })
         case .warningToast:
-            view.setup(style: .warningToast,
-                              message: "Read Only",
-                              action: { [weak self] in self?.showMessage("`Dismiss` tapped") })
+            return NotificationView(style: .warningToast).setup(style: .warningToast,
+                                                                message: "Read Only",
+                                                                action: { [weak self] in self?.showMessage("`Dismiss` tapped") })
         case .primaryBar:
-            view.setup(style: .primaryBar,
-                              message: "Updating...")
+            return NotificationView(style: .primaryBar).setup(style: .primaryBar,
+                                                              message: "Updating...")
         case .primaryOutlineBar:
-            view.setup(style: .primaryOutlineBar,
-                              message: "Mail Sent")
+            return NotificationView(style: .primaryOutlineBar).setup(style: .primaryOutlineBar,
+                                                                     message: "Mail Sent")
         case .neutralBar:
-            view.setup(style: .neutralBar,
-                              message: "No internet connection")
+            return NotificationView(style: .neutralBar).setup(style: .neutralBar,
+                                                              message: "No internet connection")
         case .persistentBarWithAction:
-            view.setup(style: .neutralBar,
-                              message: "This error can be taken action on with the action on the right.",
-                              actionTitle: "Action",
-                              action: { [weak self] in self?.showMessage("`Action` tapped") })
+            return NotificationView(style: .neutralBar).setup(style: .neutralBar,
+                                                              message: "This error can be taken action on with the action on the right.",
+                                                              actionTitle: "Action",
+                                                              action: { [weak self] in self?.showMessage("`Action` tapped") })
         case .persistentBarWithCancel:
-            view.setup(style: .neutralBar,
-                              message: "This error can be tapped or dismissed with the icon to the right.",
-                              action: { [weak self] in self?.showMessage("`Dismiss` tapped") },
-                              messageAction: { [weak self] in self?.showMessage("`Dismiss` tapped") })
+            return NotificationView(style: .neutralBar).setup(style: .neutralBar,
+                                                              message: "This error can be tapped or dismissed with the icon to the right.",
+                                                              action: { [weak self] in self?.showMessage("`Dismiss` tapped") },
+                                                              messageAction: { [weak self] in self?.showMessage("`Dismiss` tapped") })
         }
-        return view
     }
 }
