@@ -9,7 +9,7 @@ import UIKit
 
 /// A `PillButton` is a button in the shape of a pill that can have two states: on (Selected) and off (not selected)
 @objc(MSFPillButton)
-open class PillButton: UIButton, FluentUIWindowProvider, ControlConfiguration {
+open class PillButton: UIButton, FluentUIWindowProvider, TokenizedUIControlInternal, ControlConfiguration {
 
     /// Set `backgroundColor` to customize background color of the pill button
     @objc open var customBackgroundColor: UIColor? {
@@ -121,6 +121,9 @@ open class PillButton: UIButton, FluentUIWindowProvider, ControlConfiguration {
         return self
     }
 
+    public typealias TokenType = PillButtonTokens
+
+    var config: PillButton { self }
     var tokens: PillButtonTokens = .init()
     var overrideTokens: PillButtonTokens? {
         didSet {
@@ -246,8 +249,8 @@ open class PillButton: UIButton, FluentUIWindowProvider, ControlConfiguration {
     }
 
     private func updatePillButtonTokens() {
-//        let tokens = TokenResolver.tokens(for: self, fluentTheme: fluentTheme)
-//        self.tokens = tokens
+        let tokens = UIControlTokenResolver.tokens(for: self, fluentTheme: fluentTheme)
+        self.tokens = tokens
     }
 
     private var pillButtonTokens: MSFPillButtonTokens
