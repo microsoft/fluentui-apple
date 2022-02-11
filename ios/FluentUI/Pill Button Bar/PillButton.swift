@@ -112,7 +112,6 @@ open class PillButton: UIButton, TokenizedUIControlInternal, ControlConfiguratio
 
     @objc public let style: PillButtonStyle
 
-
     var config: PillButton { self }
     var tokens: PillButtonTokens = .init()
     var overrideTokens: PillButtonTokens? {
