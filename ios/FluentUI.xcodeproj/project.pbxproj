@@ -27,9 +27,7 @@
 		53097D192702890900A6E4DC /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D0F2702890800A6E4DC /* List.swift */; };
 		53097D1B2702890900A6E4DC /* MSFListCellTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D102702890800A6E4DC /* MSFListCellTokens.generated.swift */; };
 		53097D1D2702890900A6E4DC /* ListTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D112702890800A6E4DC /* ListTokens.swift */; };
-		53097D1F2702890900A6E4DC /* MSFHeaderFooterTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D122702890800A6E4DC /* MSFHeaderFooterTokens.generated.swift */; };
 		53097D212702890900A6E4DC /* ListHeaderFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D132702890800A6E4DC /* ListHeaderFooter.swift */; };
-		53097D232702890900A6E4DC /* MSFListTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D142702890800A6E4DC /* MSFListTokens.generated.swift */; };
 		53097D252702890900A6E4DC /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D152702890900A6E4DC /* ListCell.swift */; };
 		53097D292702895500A6E4DC /* MSFDrawerTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D262702895500A6E4DC /* MSFDrawerTokens.swift */; };
 		53097D2B2702895500A6E4DC /* MSFDrawerTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D272702895500A6E4DC /* MSFDrawerTokens.generated.swift */; };
@@ -257,9 +255,7 @@
 		53097D0F2702890800A6E4DC /* List.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
 		53097D102702890800A6E4DC /* MSFListCellTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFListCellTokens.generated.swift; sourceTree = "<group>"; };
 		53097D112702890800A6E4DC /* ListTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListTokens.swift; sourceTree = "<group>"; };
-		53097D122702890800A6E4DC /* MSFHeaderFooterTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFHeaderFooterTokens.generated.swift; sourceTree = "<group>"; };
 		53097D132702890800A6E4DC /* ListHeaderFooter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListHeaderFooter.swift; sourceTree = "<group>"; };
-		53097D142702890800A6E4DC /* MSFListTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFListTokens.generated.swift; sourceTree = "<group>"; };
 		53097D152702890900A6E4DC /* ListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
 		53097D262702895500A6E4DC /* MSFDrawerTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFDrawerTokens.swift; sourceTree = "<group>"; };
 		53097D272702895500A6E4DC /* MSFDrawerTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFDrawerTokens.generated.swift; sourceTree = "<group>"; };
@@ -737,9 +733,7 @@
 				53097D152702890900A6E4DC /* ListCell.swift */,
 				53097D132702890800A6E4DC /* ListHeaderFooter.swift */,
 				53097D112702890800A6E4DC /* ListTokens.swift */,
-				53097D122702890800A6E4DC /* MSFHeaderFooterTokens.generated.swift */,
 				53097D102702890800A6E4DC /* MSFListCellTokens.generated.swift */,
-				53097D142702890800A6E4DC /* MSFListTokens.generated.swift */,
 			);
 			path = List;
 			sourceTree = "<group>";
@@ -1510,7 +1504,6 @@
 				5314E2BB25F024C60099271A /* CALayer+Extensions.swift in Sources */,
 				5314E12B25F016230099271A /* PillButtonBar.swift in Sources */,
 				53097D09270288FB00A6E4DC /* Button.swift in Sources */,
-				53097D1F2702890900A6E4DC /* MSFHeaderFooterTokens.generated.swift in Sources */,
 				5314E07E25F00F1A0099271A /* DateTimePickerView.swift in Sources */,
 				5328D97726FBA3D700F3723B /* IndeterminateProgressBar.swift in Sources */,
 				5314E07625F00F160099271A /* DateTimePickerController.swift in Sources */,
@@ -1591,7 +1584,6 @@
 				5314E0BC25F0106F0099271A /* HUDView.swift in Sources */,
 				927EB2BD278627440069753D /* PersonaButtonModifiers.swift in Sources */,
 				5314E0F225F012C80099271A /* ShyHeaderView.swift in Sources */,
-				53097D232702890900A6E4DC /* MSFListTokens.generated.swift in Sources */,
 				5314E02825F00DA80099271A /* BlurringView.swift in Sources */,
 				5314E13625F016370099271A /* PopupMenuSectionHeaderView.swift in Sources */,
 				5314E05925F00EF50099271A /* CalendarViewDataSource.swift in Sources */,

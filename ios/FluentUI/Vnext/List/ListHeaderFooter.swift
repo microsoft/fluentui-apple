@@ -6,23 +6,17 @@
 import UIKit
 import SwiftUI
 
-struct Header: View {
-    @Environment(\.theme) var theme: FluentUIStyle
-    @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
-    @ObservedObject var tokens: MSFHeaderFooterTokens
-    @ObservedObject var state: MSFListSectionStateImpl
-
+struct Header: View, TokenizedControlInternal {
     init(state: MSFListSectionStateImpl) {
         self.state = state
-        self.tokens = state.headerTokens
     }
 
     var body: some View {
         HStack(spacing: 0) {
             if let title = state.title, !title.isEmpty {
                 Text(title)
-                    .scalableFont(font: tokens.textFont)
-                    .foregroundColor(Color(tokens.textColor))
+                    .scalableFont(font: .fluent(tokens.textFont))
+                    .foregroundColor(Color(dynamicColor: tokens.textColor))
             }
             Spacer()
         }
@@ -31,9 +25,11 @@ struct Header: View {
                             bottom: tokens.bottomPadding,
                             trailing: tokens.trailingPadding))
         .frame(minHeight: tokens.headerHeight)
-        .background(Color(state.backgroundColor ?? tokens.backgroundColor))
-        .designTokens(tokens,
-                      from: theme,
-                      with: windowProvider)
+        .background(Color(state.backgroundColor ?? Color(dynamicColor: tokens.backgroundColor)))
+        .resolveTokens(self)
     }
+
+    var tokens: MSFHeaderFooterTokens { state.headerTokens }
+    @Environment(\.fluentTheme) var fluentTheme: FluentTheme
+    @ObservedObject var state: MSFListSectionStateImpl
 }

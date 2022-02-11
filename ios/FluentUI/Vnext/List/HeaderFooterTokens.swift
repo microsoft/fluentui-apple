@@ -8,61 +8,58 @@ import SwiftUI
 
 /// HeaderFooter styles
 @objc public enum MSFHeaderFooterStyle: Int, CaseIterable {
-    case headerPrimary
-    case headerSecondary
+    case standard
+    case subtle
 }
 
-class MSFHeaderFooterTokens: MSFTokensBase, ObservableObject {
-    @Published public var backgroundColor: UIColor!
-    @Published public var textColor: UIColor!
+open class MSFHeaderFooterTokens: ControlTokens {
+    /// The MSFHeaderFooter style. Currently we only have primary and secondary styles.
+    public internal(set) var style: MSFHeaderFooterStyle = .standard
 
-    @Published public var headerHeight: CGFloat!
-    @Published public var topPadding: CGFloat!
-    @Published public var leadingPadding: CGFloat!
-    @Published public var bottomPadding: CGFloat!
-    @Published public var trailingPadding: CGFloat!
+    // MARK: - Design Tokens
 
-    @Published public var textFont: UIFont!
+    ///  The background color of the List Header
+    open var backgroundColor: DynamicColor { aliasTokens.backgroundColors[.neutral1] }
 
-    var style: MSFHeaderFooterStyle {
-        didSet {
-            if oldValue != style {
-                updateForCurrentTheme()
-            }
-        }
-    }
-
-    init(style: MSFHeaderFooterStyle) {
-        self.style = style
-
-        super.init()
-
-        self.themeAware = true
-        updateForCurrentTheme()
-    }
-
-    @objc open func didChangeAppearanceProxy() {
-        updateForCurrentTheme()
-    }
-
-    public override func updateForCurrentTheme() {
-        let currentTheme = theme
-        let appearanceProxy: AppearanceProxyType
-
+    /// The color of the List Header text
+    open var textColor: DynamicColor {
         switch style {
-        case .headerSecondary:
-            appearanceProxy = currentTheme.MSFHeaderFooterTokens
-        case .headerPrimary:
-            appearanceProxy = currentTheme.MSFPrimaryHeaderTokens
+        case .standard:
+            return aliasTokens.foregroundColors[.neutral1]
+        case .subtle:
+            return aliasTokens.foregroundColors[.neutral3]
         }
+    }
 
-        textColor = appearanceProxy.textColor
-        textFont = appearanceProxy.textFont
-        backgroundColor = appearanceProxy.backgroundColor
-        headerHeight = appearanceProxy.headerHeight
-        topPadding = appearanceProxy.topPadding
-        leadingPadding = appearanceProxy.leadingPadding
-        bottomPadding = appearanceProxy.bottomPadding
-        trailingPadding = appearanceProxy.trailingPadding
+    /// Height of the List Header
+    open var headerHeight: CGFloat { globalTokens.spacing[.xxxLarge] }
+
+    /// Top padding of the List Header
+    open var topPadding: CGFloat {
+        switch style {
+        case .standard:
+            return globalTokens.spacing[.medium]
+        case .subtle:
+            return globalTokens.spacing[.xLarge]
+        }
+    }
+
+    /// Leading padding of the List Header
+    open var leadingPadding: CGFloat { globalTokens.spacing[.medium] }
+
+    /// Bottom padding of the List Header
+    open var bottomPadding: CGFloat { globalTokens.spacing[.xSmall] }
+
+    /// Trailing padding of the List Header
+    open var trailingPadding: CGFloat { globalTokens.spacing[.medium] }
+
+    /// The font used for the List Header
+    open var textFont: FontInfo {
+        switch style {
+        case .standard:
+            return aliasTokens.typography[.body1Strong]
+        case .subtle:
+            return aliasTokens.typography[.caption1]
+        }
     }
 }

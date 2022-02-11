@@ -96,7 +96,6 @@ import SwiftUI
 public struct MSFListView: View {
     public init() {
         self.state = MSFListStateImpl()
-        self.tokens = MSFListTokens()
     }
 
     public var body: some View {
@@ -123,14 +122,10 @@ public struct MSFListView: View {
         .animation(.default)
         .environment(\.defaultMinListRowHeight, 0)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .designTokens(tokens,
-                      from: theme,
-                      with: windowProvider)
     }
 
     @Environment(\.theme) var theme: FluentUIStyle
     @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
-    @ObservedObject var tokens: MSFListTokens
     @ObservedObject var state: MSFListStateImpl
 
     /// Finds the last cell directly adjacent to the end of a list section. This is used to remove the redundant separator that is

@@ -40,27 +40,27 @@ import SwiftUI
 
 // MARK: ListCell Tokens
 
-class MSFListTokens: MSFTokensBase, ObservableObject {
-    @Published public var borderColor: UIColor!
-
-    override init() {
-        super.init()
-
-        self.themeAware = true
-        updateForCurrentTheme()
-    }
-
-    @objc open func didChangeAppearanceProxy() {
-        updateForCurrentTheme()
-    }
-
-    override func updateForCurrentTheme() {
-        let currentTheme = theme
-        let appearanceProxy = currentTheme.MSFListTokens
-
-        borderColor = appearanceProxy.borderColor
-    }
-}
+//class MSFListTokens: MSFTokensBase, ObservableObject {
+//    @Published public var borderColor: UIColor!
+//
+//    override init() {
+//        super.init()
+//
+//        self.themeAware = true
+//        updateForCurrentTheme()
+//    }
+//
+//    @objc open func didChangeAppearanceProxy() {
+//        updateForCurrentTheme()
+//    }
+//
+//    override func updateForCurrentTheme() {
+//        let currentTheme = theme
+//        let appearanceProxy = currentTheme.MSFListTokens
+//
+//        borderColor = appearanceProxy.borderColor
+//    }
+//}
 
 class MSFCellBaseTokens: MSFTokensBase, ObservableObject {
     @Published public var borderColor: UIColor!
