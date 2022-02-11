@@ -49,24 +49,16 @@ open class PillButton: UIButton, TokenizedUIControlInternal, ControlConfiguratio
     open override func didMoveToWindow() {
         super.didMoveToWindow()
 
-        pillButtonTokens.updateForCurrentTheme()
+        updatePillButtonTokens()
         updateAppearance()
     }
 
     @objc public init(pillBarItem: PillButtonBarItem, style: PillButtonStyle = .primary) {
         self.pillBarItem = pillBarItem
         self.style = style
-        self.pillButtonTokens = MSFPillButtonTokens(style: style)
+        tokens.style = style
         super.init(frame: .zero)
         setupView()
-
-        pillButtonTokens.themeDidUpdate = { [weak self] in
-            guard let strongSelf = self else {
-                return
-            }
-            strongSelf.unreadDotLayer = strongSelf.initUnreadDotLayer()
-            strongSelf.updateAppearance()
-        }
 
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(isUnreadValueDidChange),
@@ -132,7 +124,7 @@ open class PillButton: UIButton, TokenizedUIControlInternal, ControlConfiguratio
 
     private func setupView() {
         setTitle(pillBarItem.title, for: .normal)
-        titleLabel?.font = pillButtonTokens.font
+        titleLabel?.font = UIFont.fluent(tokens.font, shouldScale: false)
         layer.cornerRadius = PillButton.cornerRadius
         clipsToBounds = true
 
@@ -140,10 +132,10 @@ open class PillButton: UIButton, TokenizedUIControlInternal, ControlConfiguratio
         largeContentTitle = titleLabel?.text
         showsLargeContentViewer = true
 
-        contentEdgeInsets = UIEdgeInsets(top: pillButtonTokens.topInset,
-                                         left: pillButtonTokens.horizontalInset,
-                                         bottom: pillButtonTokens.bottomInset,
-                                         right: pillButtonTokens.horizontalInset)
+        contentEdgeInsets = UIEdgeInsets(top: tokens.topInset,
+                                         left: tokens.horizontalInset,
+                                         bottom: tokens.bottomInset,
+                                         right: tokens.horizontalInset)
 
     }
 
@@ -178,8 +170,8 @@ open class PillButton: UIButton, TokenizedUIControlInternal, ControlConfiguratio
     private func initUnreadDotLayer() -> CALayer {
         let unreadDotLayer = CALayer()
 
-        unreadDotLayer.bounds.size = CGSize(width: pillButtonTokens.unreadDotSize, height: pillButtonTokens.unreadDotSize)
-        unreadDotLayer.cornerRadius = pillButtonTokens.unreadDotSize / 2
+        unreadDotLayer.bounds.size = CGSize(width: tokens.unreadDotSize, height: tokens.unreadDotSize)
+        unreadDotLayer.cornerRadius = tokens.unreadDotSize / 2
 
         return unreadDotLayer
     }
@@ -195,11 +187,11 @@ open class PillButton: UIButton, TokenizedUIControlInternal, ControlConfiguratio
             let anchor = self.titleLabel?.frame ?? .zero
             let xPos: CGFloat
             if effectiveUserInterfaceLayoutDirection == .leftToRight {
-                xPos = round(anchor.maxX + pillButtonTokens.unreadDotOffsetX)
+                xPos = round(anchor.maxX + tokens.unreadDotOffsetX)
             } else {
-                xPos = round(anchor.minX - pillButtonTokens.unreadDotOffsetX - pillButtonTokens.unreadDotSize)
+                xPos = round(anchor.minX - tokens.unreadDotOffsetX - tokens.unreadDotSize)
             }
-            unreadDotLayer.frame.origin = CGPoint(x: xPos, y: anchor.minY + pillButtonTokens.unreadDotOffsetY)
+            unreadDotLayer.frame.origin = CGPoint(x: xPos, y: anchor.minY + tokens.unreadDotOffsetY)
             unreadDotLayer.backgroundColor = unreadDotColor.cgColor
         }
     }
@@ -211,15 +203,15 @@ open class PillButton: UIButton, TokenizedUIControlInternal, ControlConfiguratio
                     backgroundColor = customSelectedBackgroundColor
                 } else {
                     backgroundColor = isHighlighted
-                        ? pillButtonTokens.selectedHighlightedBackgroundColor
-                        : pillButtonTokens.selectedBackgroundColor
+                    ? UIColor(dynamicColor: tokens.backgroundColor.selectedHighlighted)
+                    : UIColor(dynamicColor: tokens.backgroundColor.selected)
                 }
 
-                setTitleColor(customSelectedTextColor ?? pillButtonTokens.selectedTitleColor, for: .normal)
-                setTitleColor(customSelectedTextColor ?? pillButtonTokens.selectedHighlightedTitleColor, for: .highlighted)
+                setTitleColor(customSelectedTextColor ?? UIColor(dynamicColor: tokens.titleColor.selected), for: .normal)
+                setTitleColor(customSelectedTextColor ?? UIColor(dynamicColor: tokens.titleColor.selectedHighlighted), for: .highlighted)
             } else {
-                backgroundColor = pillButtonTokens.selectedDisabledBackgroundColor
-                setTitleColor(pillButtonTokens.selectedDisabledTitleColor, for: .normal)
+                backgroundColor = UIColor(dynamicColor: tokens.backgroundColor.selectedDisabled)
+                setTitleColor(UIColor(dynamicColor: tokens.titleColor.selectedDisabled), for: .normal)
             }
         } else {
             if let customBackgroundColor = customBackgroundColor {
@@ -227,22 +219,22 @@ open class PillButton: UIButton, TokenizedUIControlInternal, ControlConfiguratio
             } else {
                 backgroundColor = isEnabled
                     ? (isHighlighted
-                        ? pillButtonTokens.highlightedBackgroundColor
-                        : pillButtonTokens.backgroundColor)
-                    : pillButtonTokens.disabledBackgroundColor
+                       ? UIColor(dynamicColor: tokens.backgroundColor.highlighted)
+                       : UIColor(dynamicColor: tokens.backgroundColor.rest))
+                : UIColor(dynamicColor: tokens.backgroundColor.disabled)
             }
 
             if isEnabled {
-                setTitleColor(customTextColor ?? pillButtonTokens.titleColor, for: .normal)
-                setTitleColor(customTextColor ?? pillButtonTokens.highlightedTitleColor, for: .highlighted)
+                setTitleColor(customTextColor ?? UIColor(dynamicColor: tokens.titleColor.rest), for: .normal)
+                setTitleColor(customTextColor ?? UIColor(dynamicColor: tokens.titleColor.highlighted), for: .highlighted)
             } else {
-                setTitleColor(pillButtonTokens.disabledTitleColor, for: .disabled)
+                setTitleColor(UIColor(dynamicColor: tokens.titleColor.disabled), for: .disabled)
             }
 
             if isEnabled {
-                unreadDotColor = customUnreadDotColor ?? pillButtonTokens.enabledUnreadDotColor
+                unreadDotColor = customUnreadDotColor ?? UIColor(dynamicColor: tokens.enabledUnreadDotColor)
             } else {
-                unreadDotColor = customUnreadDotColor ?? pillButtonTokens.disabledUnreadDotColor
+                unreadDotColor = customUnreadDotColor ?? UIColor(dynamicColor: tokens.disabledUnreadDotColor)
             }
         }
     }
@@ -251,6 +243,4 @@ open class PillButton: UIButton, TokenizedUIControlInternal, ControlConfiguratio
         let tokens = UIControlTokenResolver.tokens(for: self, fluentTheme: fluentTheme)
         self.tokens = tokens
     }
-
-    private var pillButtonTokens: MSFPillButtonTokens
 }
