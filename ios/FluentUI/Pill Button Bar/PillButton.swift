@@ -56,7 +56,6 @@ open class PillButton: UIButton, TokenizedUIControlInternal, ControlConfiguratio
     @objc public init(pillBarItem: PillButtonBarItem, style: PillButtonStyle = .primary) {
         self.pillBarItem = pillBarItem
         self.style = style
-        tokens.style = style
         super.init(frame: .zero)
         setupView()
 
@@ -227,6 +226,7 @@ open class PillButton: UIButton, TokenizedUIControlInternal, ControlConfiguratio
 
     private func updatePillButtonTokens() {
         let tokens = UIControlTokenResolver.tokens(for: self, fluentTheme: fluentTheme)
+        tokens.style = style
         self.tokens = tokens
     }
 
