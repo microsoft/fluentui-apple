@@ -7,48 +7,28 @@ import SwiftUI
 import UIKit
 
 /// UIKit wrapper that exposes the SwiftUI `Notification` implementation
-@objc open class MSFNotification: NSObject, FluentUIWindowProvider {
-
-    /// The UIView representing the Notification.
-    @objc open var view: UIView {
-        return hostingController.view
-    }
+@objc public class MSFNotification: ControlHostingContainer {
 
     /// Creates a new MSFNotification instance.
     /// - Parameters:
     ///   - style: The MSFNotification value used by the Notification.
     ///   - message: The primary text to display in the Notification.
-    ///   - theme: The FluentUIStyle instance representing the theme to be overriden for this Notification.
     @objc public init(style: MSFNotificationStyle,
                       message: String,
-                      delayTime: TimeInterval,
-                      theme: FluentUIStyle? = nil) {
-        super.init()
+                      delayTime: TimeInterval) {
 
         notification = NotificationViewSwiftUI(style: style, message: message, delayTime: delayTime)
-        hostingController = FluentUIHostingController(rootView: AnyView(notification
-                                                                            .windowProvider(self)
-                                                                            .modifyIf(theme != nil, { notification in
-                                                                                notification.customTheme(theme!)
-                                                                            })))
-        view.backgroundColor = UIColor.clear
-        hostingController.disableSafeAreaInsets()
+        super.init(AnyView(notification))
     }
 
     @objc public var state: MSFNotificationState {
         return notification.state
     }
 
-    // MARK: - FluentUIWindowProvider
-
-    var window: UIWindow? {
-        return view.window
-    }
-
     // MARK: - Show/Hide Methods
 
     public func showNotification(in view: UIView, completion: ((MSFNotification) -> Void)? = nil) {
-        guard window == nil else {
+        guard self.view.window == nil else {
             return
         }
 
@@ -118,7 +98,7 @@ import UIKit
             }
         }()
 
-        guard window != nil && constraintWhenHidden != nil && hideDelay != .infinity else {
+        guard self.view.window != nil && constraintWhenHidden != nil && hideDelay != .infinity else {
             return
         }
 
@@ -171,7 +151,6 @@ import UIKit
     private var completionsForHide: [() -> Void] = []
     private var constraintWhenHidden: NSLayoutConstraint!
     private var constraintWhenShown: NSLayoutConstraint!
-    private var hostingController: FluentUIHostingController!
     private var notification: NotificationViewSwiftUI!
     private var isHiding: Bool = false
 }
