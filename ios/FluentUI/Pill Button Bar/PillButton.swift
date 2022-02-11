@@ -11,6 +11,13 @@ import UIKit
 @objc(MSFPillButton)
 open class PillButton: UIButton, TokenizedUIControlInternal, ControlConfiguration {
 
+    open override func didMoveToWindow() {
+        super.didMoveToWindow()
+
+        updatePillButtonTokens()
+        updateAppearance()
+    }
+
     /// Set `backgroundColor` to customize background color of the pill button
     @objc open var customBackgroundColor: UIColor? {
         didSet {
@@ -46,13 +53,6 @@ open class PillButton: UIButton, TokenizedUIControlInternal, ControlConfiguratio
         }
     }
 
-    open override func didMoveToWindow() {
-        super.didMoveToWindow()
-
-        updatePillButtonTokens()
-        updateAppearance()
-    }
-
     @objc public init(pillBarItem: PillButtonBarItem, style: PillButtonStyle = .primary) {
         self.pillBarItem = pillBarItem
         self.style = style
@@ -66,17 +66,21 @@ open class PillButton: UIButton, TokenizedUIControlInternal, ControlConfiguratio
                                                object: pillBarItem)
     }
 
-    var unreadDotColor: UIColor = Colors.gray100
-
-    @objc public static let cornerRadius: CGFloat = 16.0
-
-    @objc public let pillBarItem: PillButtonBarItem
-
-    @objc public let style: PillButtonStyle
-
     public required init?(coder aDecoder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
     }
+
+    public override func layoutSubviews() {
+        super.layoutSubviews()
+        updateUnreadDot()
+    }
+
+    public func overrideTokens(_ tokens: PillButtonTokens?) -> Self {
+        overrideTokens = tokens
+        return self
+    }
+
+    public typealias TokenType = PillButtonTokens
 
     public override var isSelected: Bool {
         didSet {
@@ -102,17 +106,12 @@ open class PillButton: UIButton, TokenizedUIControlInternal, ControlConfiguratio
         }
     }
 
-    public override func layoutSubviews() {
-        super.layoutSubviews()
-        updateUnreadDot()
-    }
+    @objc public static let cornerRadius: CGFloat = 16.0
 
-    public func overrideTokens(_ tokens: PillButtonTokens?) -> Self {
-        overrideTokens = tokens
-        return self
-    }
+    @objc public let pillBarItem: PillButtonBarItem
 
-    public typealias TokenType = PillButtonTokens
+    @objc public let style: PillButtonStyle
+
 
     var config: PillButton { self }
     var tokens: PillButtonTokens = .init()
@@ -121,6 +120,8 @@ open class PillButton: UIButton, TokenizedUIControlInternal, ControlConfiguratio
             updatePillButtonTokens()
         }
     }
+
+    var unreadDotColor: UIColor = Colors.gray100
 
     private func setupView() {
         setTitle(pillBarItem.title, for: .normal)
@@ -152,20 +153,6 @@ open class PillButton: UIButton, TokenizedUIControlInternal, ControlConfiguratio
             accessibilityTraits.insert(.notEnabled)
         }
     }
-
-    private var isUnreadDotVisible: Bool = false {
-        didSet {
-            if oldValue != isUnreadDotVisible {
-                if isUnreadDotVisible {
-                    layer.addSublayer(unreadDotLayer)
-                } else {
-                    unreadDotLayer.removeFromSuperlayer()
-                }
-            }
-        }
-    }
-
-    private lazy var unreadDotLayer: CALayer = initUnreadDotLayer()
 
     private func initUnreadDotLayer() -> CALayer {
         let unreadDotLayer = CALayer()
@@ -242,5 +229,19 @@ open class PillButton: UIButton, TokenizedUIControlInternal, ControlConfiguratio
     private func updatePillButtonTokens() {
         let tokens = UIControlTokenResolver.tokens(for: self, fluentTheme: fluentTheme)
         self.tokens = tokens
+    }
+
+    private lazy var unreadDotLayer: CALayer = initUnreadDotLayer()
+
+    private var isUnreadDotVisible: Bool = false {
+        didSet {
+            if oldValue != isUnreadDotVisible {
+                if isUnreadDotVisible {
+                    layer.addSublayer(unreadDotLayer)
+                } else {
+                    unreadDotLayer.removeFromSuperlayer()
+                }
+            }
+        }
     }
 }
