@@ -642,6 +642,8 @@ public class BottomSheetController: UIViewController {
                 animator.stopAnimation(false)
                 animator.finishAnimation(at: .end)
             }
+        } else {
+            currentExpansionState = targetExpansionState
         }
     }
 
