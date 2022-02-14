@@ -516,7 +516,7 @@ class AvatarDemoController: DemoTableViewController {
             switch self {
             case .defaultWithImage,
                  .defaultWithInitials:
-                return "Kat Larrson"
+                return "Kat Larsson"
             case .groupWithImage,
                  .groupWithInitials:
                  return "NorthWind Traders"
