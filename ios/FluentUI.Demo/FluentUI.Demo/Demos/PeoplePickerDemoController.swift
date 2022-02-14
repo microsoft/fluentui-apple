@@ -36,6 +36,13 @@ class PeoplePickerSampleData {
 }
 
 final class AsyncImageDemoPersona: PersonaData {
+    static var samples: [AsyncImageDemoPersona] = {
+        return samplePersonas.map { persona in
+            AsyncImageDemoPersona(name: persona.name,
+                                  email: persona.email,
+                                  subtitle: persona.subtitle)
+        }
+    }()
 
     public func fetchImage(completion: @escaping (UIImage?) -> Void) {
         // for demo purposes, the "fetched" image is not being cached. The image will be "re-fetched" every time the cell appears on the screen.
@@ -46,14 +53,6 @@ final class AsyncImageDemoPersona: PersonaData {
         }
     }
 }
-
-var asyncImagePersonas: [AsyncImageDemoPersona] = {
-    return samplePersonas.map { persona in
-        AsyncImageDemoPersona(name: persona.name,
-                              email: persona.email,
-                              subtitle: persona.subtitle)
-    }
-}()
 
 // MARK: - PeoplePickerDemoController
 
@@ -113,7 +112,7 @@ class PeoplePickerDemoController: DemoController {
 
     @objc private func onAsyncImageSwitchValueChanged() {
         for peoplePicker in peoplePickers {
-            peoplePicker.availablePersonas = asyncImageSwitch.isOn ? asyncImagePersonas : samplePersonas
+            peoplePicker.availablePersonas = asyncImageSwitch.isOn ? AsyncImageDemoPersona.samples : samplePersonas
         }
     }
 }
