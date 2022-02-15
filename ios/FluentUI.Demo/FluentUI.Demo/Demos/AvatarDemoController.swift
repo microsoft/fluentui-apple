@@ -47,6 +47,7 @@ class AvatarDemoController: DemoTableViewController {
             return cell
 
         case .alternateBackground,
+             .animating,
              .imageBasedRingColor,
              .outOfOffice,
              .pointerInteraction,
@@ -137,6 +138,16 @@ class AvatarDemoController: DemoTableViewController {
         }
     }
 
+    private var isAnimated: Bool = true {
+        didSet {
+            if oldValue != isAnimated {
+                allDemoAvatarsCombined.forEach { avatar in
+                    avatar.state.isAnimated = isAnimated
+                }
+            }
+        }
+    }
+
     private var isUsingAlternateBackgroundColor: Bool = false {
         didSet {
             updateBackgroundColor()
@@ -146,7 +157,7 @@ class AvatarDemoController: DemoTableViewController {
     private var isPointerInteractionEnabled: Bool = false {
         didSet {
             if oldValue != isPointerInteractionEnabled {
-                for avatar in allDemoAvatarsCombined {
+                allDemoAvatarsCombined.forEach { avatar in
                     avatar.state.hasPointerInteraction = isPointerInteractionEnabled
                 }
             }
@@ -156,7 +167,7 @@ class AvatarDemoController: DemoTableViewController {
     private var isShowingPresence: Bool = false {
         didSet {
             if oldValue != isShowingPresence {
-                for avatar in allDemoAvatarsCombined {
+                allDemoAvatarsCombined.forEach { avatar in
                     avatar.state.presence = isShowingPresence ? nextPresence() : .none
                 }
             }
@@ -166,7 +177,7 @@ class AvatarDemoController: DemoTableViewController {
     private var isOutOfOffice: Bool = false {
         didSet {
             if oldValue != isOutOfOffice {
-                for avatar in allDemoAvatarsCombined {
+                allDemoAvatarsCombined.forEach { avatar in
                     avatar.state.isOutOfOffice = isOutOfOffice
                 }
             }
@@ -176,7 +187,7 @@ class AvatarDemoController: DemoTableViewController {
     private var isShowingRings: Bool = false {
         didSet {
             if oldValue != isShowingRings {
-                for avatar in allDemoAvatarsCombined {
+                allDemoAvatarsCombined.forEach { avatar in
                     avatar.state.isRingVisible = isShowingRings
                 }
             }
@@ -186,7 +197,7 @@ class AvatarDemoController: DemoTableViewController {
     private var isUsingImageBasedCustomColor: Bool = false {
         didSet {
             if oldValue != isUsingImageBasedCustomColor {
-                for avatar in allDemoAvatarsCombined {
+                allDemoAvatarsCombined.forEach { avatar in
                     avatar.state.imageBasedRingColor = isUsingImageBasedCustomColor ? AvatarDemoController.colorfulCustomImage : nil
                 }
             }
@@ -196,7 +207,7 @@ class AvatarDemoController: DemoTableViewController {
     private var isShowingRingInnerGap: Bool = true {
         didSet {
             if oldValue != isShowingRingInnerGap {
-                for avatar in allDemoAvatarsCombined {
+                allDemoAvatarsCombined.forEach { avatar in
                     avatar.state.hasRingInnerGap = isShowingRingInnerGap
                 }
             }
@@ -206,7 +217,7 @@ class AvatarDemoController: DemoTableViewController {
     private var isTransparent: Bool = true {
         didSet {
             if oldValue != isTransparent {
-                for avatar in allDemoAvatarsCombined {
+                allDemoAvatarsCombined.forEach { avatar in
                     avatar.state.isTransparent = isTransparent
                 }
             }
@@ -306,6 +317,8 @@ class AvatarDemoController: DemoTableViewController {
             return true
         case .alternateBackground:
             return self.isUsingAlternateBackgroundColor
+        case .animating:
+            return self.isAnimated
         case .imageBasedRingColor:
             return self.isUsingImageBasedCustomColor
         case .outOfOffice:
@@ -338,6 +351,8 @@ class AvatarDemoController: DemoTableViewController {
             return
         case .alternateBackground:
             self.isUsingAlternateBackgroundColor = isOn
+        case .animating:
+            self.isAnimated = isOn
         case .imageBasedRingColor:
             self.isUsingImageBasedCustomColor = isOn
         case .outOfOffice:
@@ -414,7 +429,8 @@ class AvatarDemoController: DemoTableViewController {
             case .swiftUI:
                 return [.swiftUIDemo]
             case .settings:
-                return [.alternateBackground,
+                return [.animating,
+                        .alternateBackground,
                         .pointerInteraction,
                         .transparency,
                         .presence,
@@ -443,6 +459,7 @@ class AvatarDemoController: DemoTableViewController {
 
     private enum AvatarDemoRow: CaseIterable {
         case accentWithFallback
+        case animating
         case alternateBackground
         case defaultWithImage
         case defaultWithInitials
@@ -474,6 +491,7 @@ class AvatarDemoController: DemoTableViewController {
                  .overflow:
                 return true
             case .alternateBackground,
+                 .animating,
                  .imageBasedRingColor,
                  .outOfOffice,
                  .pointerInteraction,
@@ -500,6 +518,7 @@ class AvatarDemoController: DemoTableViewController {
                  .outlinedWithFallback,
                  .overflow,
                  .alternateBackground,
+                 .animating,
                  .imageBasedRingColor,
                  .outOfOffice,
                  .pointerInteraction,
@@ -528,6 +547,7 @@ class AvatarDemoController: DemoTableViewController {
             case .overflow:
                 return "20"
             case .alternateBackground,
+                 .animating,
                  .imageBasedRingColor,
                  .outOfOffice,
                  .pointerInteraction,
@@ -558,6 +578,7 @@ class AvatarDemoController: DemoTableViewController {
             case .overflow:
                 return .overflow
             case .alternateBackground,
+                 .animating,
                  .imageBasedRingColor,
                  .outOfOffice,
                  .pointerInteraction,
@@ -576,6 +597,8 @@ class AvatarDemoController: DemoTableViewController {
                 return "Accent style (no initials, no image)"
             case .alternateBackground:
                 return "Use alternate background color"
+            case .animating:
+                return "Animate transitions"
             case.defaultWithImage:
                 return "Default style (image)"
             case .defaultWithInitials:

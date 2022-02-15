@@ -19,15 +19,7 @@ import UIKit
  When used as a notification bar some functionality like `title`, `image` and actions are not supported. A convenience method `setupAsBar` can be used to initialize notification bar and assign only supported properties.
  */
 @objc(MSFNotificationView)
-open class NotificationView: UIView, FluentUIWindowProvider {
-    var tokens: MSFNotificationTokens = MSFNotificationTokens(style: .primaryToast) {
-        didSet {
-            if tokens.style != oldValue.style {
-                updateForStyle()
-            }
-        }
-    }
-
+open class NotificationView: UIView, TokenizedControlInternal, ControlConfiguration {
     @objc public static var allowsMultipleToasts: Bool = false
 
     private static var currentToast: NotificationView? {
@@ -105,14 +97,19 @@ open class NotificationView: UIView, FluentUIWindowProvider {
     private var perimeterShadow = CALayer()
     private var ambientShadow = CALayer()
 
-    @objc public override init(frame: CGRect) {
-        super.init(frame: frame)
+    @objc public init(style: MSFNotificationStyle) {
+        self.style = style
+
+        let tokens = NotificationTokens()
+        tokens.style = style
+        self.tokens = tokens
+
+        super.init(frame: .zero)
         initialize()
     }
 
-    @objc public required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        initialize()
+    required public init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 
     open override func removeFromSuperview() {
@@ -191,8 +188,6 @@ open class NotificationView: UIView, FluentUIWindowProvider {
                           actionTitle: String = "",
                           action: (() -> Void)? = nil,
                           messageAction: (() -> Void)? = nil) -> Self {
-        tokens = MSFNotificationTokens.init(style: style)
-        tokens.windowProvider = self
         let title = style.supportsTitle ? title : ""
         let isTitleEmpty = title.isEmpty
         let image = style.supportsImage ? image : nil
@@ -361,8 +356,35 @@ open class NotificationView: UIView, FluentUIWindowProvider {
 
     open override func didMoveToWindow() {
         super.didMoveToWindow()
-        tokens.updateForCurrentTheme()
+        updateNotificationTokens()
         updateWindowSpecificColors()
+    }
+
+    // MARK: - TokenizedControl
+    public typealias TokenType = NotificationTokens
+    public func overrideTokens(_ tokens: NotificationTokens?) -> Self {
+        overrideTokens = tokens
+        return self
+    }
+
+    var state: NotificationView { self }
+
+    /// Design token set for this control, to use in place of the control's default Fluent tokens.
+    var overrideTokens: NotificationTokens?
+
+    /// Style to draw the control.
+    public var style: MSFNotificationStyle {
+        didSet {
+            tokens.style = style
+        }
+    }
+
+    var tokens: NotificationTokens {
+        didSet {
+            if tokens.style != oldValue.style {
+                tokens.style = style
+            }
+        }
     }
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
@@ -429,7 +451,6 @@ open class NotificationView: UIView, FluentUIWindowProvider {
 
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        self.updateForStyle()
         self.updateWindowSpecificColors()
         self.setNeedsDisplay()
     }
@@ -441,12 +462,12 @@ open class NotificationView: UIView, FluentUIWindowProvider {
         backgroundLayer.cornerRadius = tokens.cornerRadius
         backgroundLayer.cornerCurve = .continuous
 
-        perimeterShadow.shadowColor = tokens.perimeterShadowColor.cgColor
+        perimeterShadow.shadowColor = UIColor(dynamicColor: tokens.perimeterShadowColor).cgColor
         perimeterShadow.shadowRadius = tokens.perimeterShadowBlur
         perimeterShadow.shadowOffset = CGSize(width: tokens.perimeterShadowOffsetX, height: tokens.perimeterShadowOffsetY)
         perimeterShadow.shadowOpacity = 1.0
 
-        ambientShadow.shadowColor = tokens.ambientShadowColor.cgColor
+        ambientShadow.shadowColor = UIColor(dynamicColor: tokens.ambientShadowColor).cgColor
         ambientShadow.shadowRadius = tokens.ambientShadowBlur
         ambientShadow.shadowOffset = CGSize(width: tokens.ambientShadowOffsetX, height: tokens.ambientShadowOffsetY)
         ambientShadow.shadowOpacity = 1.0
@@ -456,9 +477,14 @@ open class NotificationView: UIView, FluentUIWindowProvider {
         updateWindowSpecificColors()
     }
 
+    private func updateNotificationTokens() {
+        let tokens = TokenResolver.tokens(for: self, fluentTheme: fluentTheme)
+        self.tokens = tokens
+    }
+
     private func updateWindowSpecificColors() {
-        backgroundLayer.backgroundColor = tokens.backgroundColor.cgColor
-        let foregroundColor = tokens.foregroundColor
+        backgroundLayer.backgroundColor = UIColor(dynamicColor: tokens.backgroundColor).cgColor
+        let foregroundColor = UIColor(dynamicColor: tokens.foregroundColor)
         imageView.tintColor = foregroundColor
         titleLabel.textColor = foregroundColor
         messageLabel.textColor = foregroundColor

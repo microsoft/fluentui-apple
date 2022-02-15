@@ -36,6 +36,7 @@ public class ControlHostingContainer: NSObject {
 
         // Set the initial appearance of our control.
         self.updateRootView()
+        view.backgroundColor = UIColor.clear
     }
 
     @objc private func themeDidChange(_ notification: Notification) {

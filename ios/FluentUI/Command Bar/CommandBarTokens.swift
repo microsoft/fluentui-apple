@@ -5,15 +5,6 @@
 
 import UIKit
 
-/// Represents the set of `DynamicColor` values for the various states of a button.
-public struct ButtonDynamicColors {
-    let rest: DynamicColor
-    let hover: DynamicColor
-    let pressed: DynamicColor
-    let selected: DynamicColor
-    let disabled: DynamicColor
-}
-
 /// Design token set for the `CommandBar` control.
 public class CommandBarTokens: ControlTokens {
     open var backgroundColor: DynamicColor { aliasTokens.backgroundColors[.neutral1] }
