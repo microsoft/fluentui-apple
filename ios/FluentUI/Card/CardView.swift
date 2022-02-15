@@ -179,6 +179,7 @@ open class CardView: UIView {
             if primaryText != oldValue {
                 primaryLabel.text = primaryText
                 setupLayoutConstraints()
+                updateLargeContentTitle()
             }
         }
     }
@@ -189,6 +190,7 @@ open class CardView: UIView {
             if secondaryText != oldValue {
                 secondaryLabel.text = secondaryText
                 setupLayoutConstraints()
+                updateLargeContentTitle()
             }
         }
     }
@@ -198,6 +200,7 @@ open class CardView: UIView {
         didSet {
             if icon != oldValue {
                 iconView.image = icon
+                updateLargeContentImage()
             }
         }
     }
@@ -217,6 +220,7 @@ open class CardView: UIView {
             if twoLineTitle != oldValue {
                 primaryLabel.numberOfLines = Constants.twoLineTitle
                 setupLayoutConstraints()
+                updateLargeContentTitle()
             }
         }
     }
@@ -356,6 +360,13 @@ open class CardView: UIView {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleCardTapped(_:)))
         addGestureRecognizer(tapGesture)
 
+        // Large content viewer
+        addInteraction(UILargeContentViewerInteraction())
+        showsLargeContentViewer = true
+        scalesLargeContentImage = true
+        updateLargeContentTitle()
+        updateLargeContentImage()
+
         setupLayoutConstraints()
     }
 
@@ -473,6 +484,20 @@ open class CardView: UIView {
         }
 
         NSLayoutConstraint.activate(layoutConstraints)
+    }
+
+    private func updateLargeContentTitle() {
+        largeContentTitle = {
+            guard let secondaryText = secondaryText, !twoLineTitle else {
+                return primaryText
+            }
+
+            return  "\(primaryText)\n\(secondaryText)"
+        }()
+    }
+
+    private func updateLargeContentImage() {
+        largeContentImage = icon
     }
 
     @objc private func handleCardTapped(_ recognizer: UITapGestureRecognizer) {

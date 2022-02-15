@@ -2,6 +2,9 @@ jobs:
 - job: fluentui_apple_publish_nuget
   pool:
     vmImage: 'macos-11'
+  variables:
+  - name: EOCompliance-Mac
+    value: true
   displayName: FluentUI Apple Publish NuGet
   timeoutInMinutes: 60 # how long to run the job before automatically cancelling
   cancelTimeoutInMinutes: 5 # how much time to give 'run always even if cancelled tasks' before killing them
@@ -25,11 +28,21 @@ jobs:
       packagesToPack: 'FluentUI.nuspec'
       buildProperties: buildNumber=$(sanitizedBuildNumber);commitId=$(Build.SourceVersion);repoUri=$(Build.Repository.Uri)
 
+  - task: AzureArtifacts.manifest-generator-task.manifest-generator-task.ManifestGeneratorTask@0
+    displayName: 'Generation Task'
+    inputs:
+      BuildDropPath: '$(System.DefaultWorkingDirectory)'
+
+  - task: PublishPipelineArtifact@1
+    displayName: 'Publish Manifest'
+    inputs:
+      artifactName: SBom-$(System.JobAttempt)
+      targetPath: '$(System.DefaultWorkingDirectory)/_manifest'
+
   # push the package package
   - task: NuGetCommand@2
     displayName: 'NuGet push'
     inputs:
       command: push
       packagesToPush: '$(Build.ArtifactStagingDirectory)/Microsoft.FluentUI.Apple.*.nupkg'
-      nuGetFeedType: external
-      publishFeedCredentials: Office
+      publishVstsFeed: Office

@@ -441,6 +441,7 @@ public class BottomSheetController: UIViewController {
         // so to avoid interfering we won't update the frame here.
         if currentExpansionState != .transitioning {
             bottomSheetView.frame = sheetFrame(offset: offset(for: currentExpansionState))
+            updateSheetLayoutGuideTopConstraint()
             updateExpandedContentAlpha()
             updateDimmingViewAlpha()
         }
@@ -525,6 +526,12 @@ public class BottomSheetController: UIViewController {
         dimmingView.alpha = targetAlpha
     }
 
+    private func updateSheetLayoutGuideTopConstraint() {
+        if sheetLayoutGuideTopConstraint.constant != currentSheetVerticalOffset {
+            sheetLayoutGuideTopConstraint.constant = currentSheetVerticalOffset
+        }
+    }
+
     @objc private func handlePan(_ sender: UIPanGestureRecognizer) {
         switch sender.state {
         case .began:
@@ -555,6 +562,7 @@ public class BottomSheetController: UIViewController {
         let targetOffset = min(max(bottomSheetView.frame.origin.y + offsetDelta, minOffset), maxOffset)
         bottomSheetView.frame = sheetFrame(offset: targetOffset)
 
+        updateSheetLayoutGuideTopConstraint()
         updateExpandedContentAlpha()
         updateDimmingViewAlpha()
     }
@@ -642,6 +650,8 @@ public class BottomSheetController: UIViewController {
                 animator.stopAnimation(false)
                 animator.finishAnimation(at: .end)
             }
+        } else {
+            currentExpansionState = targetExpansionState
         }
     }
 
@@ -676,6 +686,7 @@ public class BottomSheetController: UIViewController {
                 return
             }
             strongSelf.bottomSheetView.frame = strongSelf.sheetFrame(offset: targetVerticalOffset)
+            strongSelf.sheetLayoutGuideTopConstraint.constant = targetVerticalOffset
             strongSelf.view.layoutIfNeeded()
         }
 
@@ -745,6 +756,10 @@ public class BottomSheetController: UIViewController {
         if targetExpansionState == .hidden {
             bottomSheetView.isHidden = true
         }
+
+        // UIKit doesn't properly handle interrupted constraint animations, so we need to
+        // detect and fix a possible desync here
+        updateSheetLayoutGuideTopConstraint()
     }
 
     private func completeAnimationsIfNeeded(skipToEnd: Bool = false) {
@@ -764,12 +779,15 @@ public class BottomSheetController: UIViewController {
             sheetLayoutGuide.topAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor)
         ]
 
+        // This constraint is used to align the top of the layout guide with the top of the bottomSheetView.
         // BottomSheetView will go off-screen when it's hidden, so this constraint is not always required.
-        let breakableConstraint = sheetLayoutGuide.topAnchor.constraint(equalTo: bottomSheetView.topAnchor)
-        breakableConstraint.priority = .defaultHigh
+        let breakableTopConstraint = sheetLayoutGuideTopConstraint
+        breakableTopConstraint.priority = .defaultHigh
 
-        return requiredConstraints + [breakableConstraint]
+        return requiredConstraints + [breakableTopConstraint]
     }
+
+    private lazy var sheetLayoutGuideTopConstraint: NSLayoutConstraint = sheetLayoutGuide.topAnchor.constraint(equalTo: view.topAnchor)
 
     // Height of the sheet in the fully expanded state
     private var expandedSheetHeight: CGFloat {
