@@ -96,6 +96,16 @@ class MSFPersonaViewStateImpl: MSFListCellStateImpl, PersonaViewState {
         }
     }
 
+    var isAnimated: Bool {
+        get {
+            return avatarState.isAnimated
+        }
+
+        set {
+            avatarState.isAnimated = newValue
+        }
+    }
+
     var isOutOfOffice: Bool {
         get {
             return avatarState.isOutOfOffice
