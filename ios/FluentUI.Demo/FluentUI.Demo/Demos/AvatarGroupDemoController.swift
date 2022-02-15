@@ -138,7 +138,8 @@ class AvatarGroupDemoController: DemoTableViewController {
             NSLayoutConstraint.activate([
                 cell.contentView.leadingAnchor.constraint(equalTo: avatarGroupView.leadingAnchor, constant: -20),
                 cell.contentView.topAnchor.constraint(equalTo: avatarGroupView.topAnchor, constant: -15),
-                cell.contentView.bottomAnchor.constraint(equalTo: avatarGroupView.bottomAnchor, constant: 15)
+                cell.contentView.bottomAnchor.constraint(equalTo: avatarGroupView.bottomAnchor, constant: 15),
+                cell.contentView.trailingAnchor.constraint(equalTo: avatarGroupView.trailingAnchor, constant: 20)
             ])
 
             cell.backgroundColor = self.isUsingAlternateBackgroundColor ? Colors.tableCellBackgroundSelected : Colors.tableCellBackground
@@ -359,7 +360,7 @@ class AvatarGroupDemoController: DemoTableViewController {
         }
     }
 
-    private var maxDisplayedAvatars: Int = 4 {
+    private var maxDisplayedAvatars: Int = 3 {
         didSet {
             if oldValue != maxDisplayedAvatars {
                 maxAvatarsTextField.text = "\(maxDisplayedAvatars)"
@@ -439,8 +440,11 @@ class AvatarGroupDemoController: DemoTableViewController {
         return textField
     }()
 
-    private var avatarCount: Int = 5 {
+    private var avatarCount: Int = 4 {
         didSet {
+            guard oldValue != avatarCount && avatarCount >= 0 else {
+                return
+            }
             AvatarGroupDemoSection.allCases.filter({ section in
                 return section.isDemoSection
             }).forEach { section in
@@ -475,6 +479,10 @@ class AvatarGroupDemoController: DemoTableViewController {
     }
 
     @objc private func subtractAvatarCount(_ cell: ActionsCell) {
+        guard avatarCount > 0 else {
+            return
+        }
+
         avatarCount -= 1
     }
 

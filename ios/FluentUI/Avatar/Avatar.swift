@@ -180,7 +180,7 @@ public struct Avatar: View {
         let ringOuterGap: CGFloat = isRingVisible ? tokens.ringOuterGap : 0
         let avatarImageSize: CGFloat = tokens.avatarSize!
         let ringInnerGapSize: CGFloat = avatarImageSize + (ringInnerGap * 2)
-        let ringSize: CGFloat = ringInnerGapSize + ( ringThickness * 2)
+        let ringSize: CGFloat = ringInnerGapSize + (ringThickness * 2)
         let ringOuterGapSize: CGFloat = ringSize + (ringOuterGap * 2)
         let presenceIconSize: CGFloat = tokens.presenceIconSize!
         let presenceIconOutlineSize: CGFloat = presenceIconSize + (tokens.presenceIconOutlineThickness * 2)
@@ -354,6 +354,17 @@ public struct Avatar: View {
         var yOrigin: CGFloat
         var cutoutSize: CGFloat
 
+        public var animatableData: AnimatablePair<AnimatablePair<CGFloat, CGFloat>, CGFloat> {
+            get {
+                AnimatablePair(AnimatablePair(xOrigin, yOrigin), cutoutSize)
+            }
+            set {
+                xOrigin = newValue.first.first
+                yOrigin = newValue.first.second
+                cutoutSize = newValue.second
+            }
+        }
+
         public func path(in rect: CGRect) -> Path {
             var cutoutFrame = Rectangle().path(in: rect)
             cutoutFrame.addPath(Circle().path(in: CGRect(x: xOrigin,
@@ -468,7 +479,9 @@ public struct Avatar: View {
 }
 
 /// Properties available to customize the state of the avatar
-class MSFAvatarStateImpl: NSObject, ObservableObject, MSFAvatarState {
+class MSFAvatarStateImpl: NSObject, ObservableObject, Identifiable, MSFAvatarState {
+    public var id = UUID()
+
     @Published var backgroundColor: UIColor?
     @Published var foregroundColor: UIColor?
     @Published var hasButtonAccessibilityTrait: Bool = false
@@ -520,7 +533,7 @@ class MSFAvatarStateImpl: NSObject, ObservableObject, MSFAvatarState {
             return avatarImageSize + (ringOuterGap * 2)
         } else {
             let ringThickness: CGFloat = isRingVisible ? tokens.ringThickness : 0
-            let ringInnerGap: CGFloat = isRingVisible ? tokens.ringInnerGap : 0
+            let ringInnerGap: CGFloat = isRingVisible && hasRingInnerGap ? tokens.ringInnerGap : 0
             return ((ringInnerGap + ringThickness + ringOuterGap) * 2 + avatarImageSize)
         }
     }
