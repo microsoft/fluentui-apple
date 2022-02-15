@@ -81,6 +81,7 @@ open class PillButton: UIButton, TokenizedUIControlInternal, ControlConfiguratio
     var overrideTokens: PillButtonTokens? {
         didSet {
             updatePillButtonTokens()
+            updateAppearance()
         }
     }
 
