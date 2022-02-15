@@ -7,17 +7,34 @@ import UIKit
 
 /// Represents the set of `DynamicColor` values for the various states of a `PillButton`
 public struct PillButtonDynamicColors {
-    let rest: DynamicColor
-    let hover: DynamicColor
-    let selected: DynamicColor
-    let disabled: DynamicColor
-    let selectedDisabled: DynamicColor
-    let highlighted: DynamicColor
-    let selectedHighlighted: DynamicColor
+    public init (rest: DynamicColor,
+                 hover: DynamicColor? = nil,
+                 selected: DynamicColor,
+                 disabled: DynamicColor,
+                 selectedDisabled: DynamicColor,
+                 highlighted: DynamicColor? = nil,
+                 selectedHighlighted: DynamicColor? = nil) {
+        self.rest = rest
+        self.selected = selected
+        self.disabled = disabled
+        self.selectedDisabled = selectedDisabled
+
+        self.hover = hover ?? rest
+        self.highlighted = highlighted ?? rest
+        self.selectedHighlighted = selectedHighlighted ?? selected
+    }
+
+    public let rest: DynamicColor
+    public let hover: DynamicColor
+    public let selected: DynamicColor
+    public let disabled: DynamicColor
+    public let selectedDisabled: DynamicColor
+    public let highlighted: DynamicColor
+    public let selectedHighlighted: DynamicColor
 }
 
 /// Design token set for the `PillButton` control.
-public class PillButtonTokens: ControlTokens {
+open class PillButtonTokens: ControlTokens {
     /// Defines the style of the `PillButton`.
     public internal(set) var style: PillButtonStyle = .primary
 

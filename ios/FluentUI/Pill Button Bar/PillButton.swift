@@ -18,41 +18,6 @@ open class PillButton: UIButton, TokenizedUIControlInternal, ControlConfiguratio
         updateAppearance()
     }
 
-    /// Set `backgroundColor` to customize background color of the pill button
-    @objc open var customBackgroundColor: UIColor? {
-        didSet {
-            updateAppearance()
-        }
-    }
-
-    /// Set `selectedBackgroundColor` to customize background color of the pill button
-    @objc open var customSelectedBackgroundColor: UIColor? {
-        didSet {
-            updateAppearance()
-        }
-    }
-
-    /// Set `textColor` to customize background color of the pill button
-    @objc open var customTextColor: UIColor? {
-        didSet {
-            updateAppearance()
-        }
-    }
-
-    /// Set `selectedTextColor` to customize background color of the pill button
-    @objc open var customSelectedTextColor: UIColor? {
-        didSet {
-            updateAppearance()
-        }
-    }
-
-    /// Set `unreadDotColor` to customize color of the pill button unread dot
-    @objc open var customUnreadDotColor: UIColor? {
-        didSet {
-            updateAppearance()
-        }
-    }
-
     @objc public init(pillBarItem: PillButtonBarItem, style: PillButtonStyle = .primary) {
         self.pillBarItem = pillBarItem
         self.style = style
@@ -184,43 +149,33 @@ open class PillButton: UIButton, TokenizedUIControlInternal, ControlConfiguratio
     private func updateAppearance() {
         if isSelected {
             if isEnabled {
-                if let customSelectedBackgroundColor = customSelectedBackgroundColor {
-                    backgroundColor = customSelectedBackgroundColor
-                } else {
-                    backgroundColor = isHighlighted
-                    ? UIColor(dynamicColor: tokens.backgroundColor.selectedHighlighted)
-                    : UIColor(dynamicColor: tokens.backgroundColor.selected)
-                }
+                backgroundColor = isHighlighted
+                ? UIColor(dynamicColor: tokens.backgroundColor.selectedHighlighted)
+                : UIColor(dynamicColor: tokens.backgroundColor.selected)
 
-                setTitleColor(customSelectedTextColor ?? UIColor(dynamicColor: tokens.titleColor.selected), for: .normal)
-                setTitleColor(customSelectedTextColor ?? UIColor(dynamicColor: tokens.titleColor.selectedHighlighted), for: .highlighted)
+                setTitleColor(UIColor(dynamicColor: tokens.titleColor.selected), for: .normal)
+                setTitleColor(UIColor(dynamicColor: tokens.titleColor.selectedHighlighted), for: .highlighted)
             } else {
                 backgroundColor = UIColor(dynamicColor: tokens.backgroundColor.selectedDisabled)
                 setTitleColor(UIColor(dynamicColor: tokens.titleColor.selectedDisabled), for: .normal)
             }
         } else {
-            if let customBackgroundColor = customBackgroundColor {
-                backgroundColor = customBackgroundColor
-            } else {
-                backgroundColor = isEnabled
-                    ? (isHighlighted
-                       ? UIColor(dynamicColor: tokens.backgroundColor.highlighted)
-                       : UIColor(dynamicColor: tokens.backgroundColor.rest))
-                : UIColor(dynamicColor: tokens.backgroundColor.disabled)
-            }
+            backgroundColor = isEnabled
+            ? (isHighlighted
+               ? UIColor(dynamicColor: tokens.backgroundColor.highlighted)
+               : UIColor(dynamicColor: tokens.backgroundColor.rest))
+            : UIColor(dynamicColor: tokens.backgroundColor.disabled)
 
             if isEnabled {
-                setTitleColor(customTextColor ?? UIColor(dynamicColor: tokens.titleColor.rest), for: .normal)
-                setTitleColor(customTextColor ?? UIColor(dynamicColor: tokens.titleColor.highlighted), for: .highlighted)
+                setTitleColor(UIColor(dynamicColor: tokens.titleColor.rest), for: .normal)
+                setTitleColor(UIColor(dynamicColor: tokens.titleColor.highlighted), for: .highlighted)
             } else {
                 setTitleColor(UIColor(dynamicColor: tokens.titleColor.disabled), for: .disabled)
             }
 
-            if isEnabled {
-                unreadDotColor = customUnreadDotColor ?? UIColor(dynamicColor: tokens.enabledUnreadDotColor)
-            } else {
-                unreadDotColor = customUnreadDotColor ?? UIColor(dynamicColor: tokens.disabledUnreadDotColor)
-            }
+            unreadDotColor = isEnabled
+            ? UIColor(dynamicColor: tokens.enabledUnreadDotColor)
+            : UIColor(dynamicColor: tokens.disabledUnreadDotColor)
         }
     }
 

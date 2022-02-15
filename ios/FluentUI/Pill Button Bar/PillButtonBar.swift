@@ -82,6 +82,7 @@ open class PillButtonBar: UIScrollView, FluentUIWindowProvider {
     }
 
     @objc public let pillButtonStyle: PillButtonStyle
+    @objc public var pillButtonOverrideTokens: PillButtonTokens? = nil
 
     /// If set to nil, the previously selected item will be deselected and there won't be any items selected
     @objc public var selectedItem: PillButtonBarItem? {
@@ -323,24 +324,8 @@ open class PillButtonBar: UIScrollView, FluentUIWindowProvider {
                 button.accessibilityHint = String.localizedStringWithFormat("Accessibility.MSPillButtonBar.Hint".localized, index + 1, items.count)
             }
 
-            if let customButtonBackgroundColor = self.customPillButtonBackgroundColor {
-                button.customBackgroundColor = customButtonBackgroundColor
-            }
-
-            if let customSelectedButtonBackgroundColor = self.customSelectedPillButtonBackgroundColor {
-                button.customSelectedBackgroundColor = customSelectedButtonBackgroundColor
-            }
-
-            if let customButtonTextColor = self.customPillButtonTextColor {
-                button.customTextColor = customButtonTextColor
-            }
-
-            if let customSelectedButtonTextColor = self.customSelectedPillButtonTextColor {
-                button.customSelectedTextColor = customSelectedButtonTextColor
-            }
-
-            if let customPillButtonUnreadDotColor = self.customPillButtonUnreadDotColor {
-                button.customUnreadDotColor = customPillButtonUnreadDotColor
+            if let buttonOverrideTokens = pillButtonOverrideTokens {
+                button.overrideTokens = buttonOverrideTokens
             }
         }
     }
@@ -604,7 +589,7 @@ extension PillButtonBar: UIPointerInteractionDelegate {
         if customPillButtonBackgroundColor == nil, index < buttons.count {
             let pillButton = buttons[index]
             if !pillButton.isSelected {
-                pillButton.customBackgroundColor = (pillButtonStyle == .primary ? pillButtonBarTokens.hoverBackgroundColor : pillButtonBarTokens.onBrandHoverBackgroundColor)
+                pillButton.isHighlighted = true
             }
         }
     }
@@ -615,7 +600,7 @@ extension PillButtonBar: UIPointerInteractionDelegate {
         }
         if customPillButtonBackgroundColor == nil && index < buttons.count {
             let pillButton = buttons[index]
-            pillButton.customBackgroundColor = nil
+            pillButton.isHighlighted = false
         }
     }
 }
