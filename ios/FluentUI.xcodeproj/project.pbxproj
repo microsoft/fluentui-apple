@@ -12,7 +12,6 @@
 		0ACD82192620453B0035CD9F /* PersonaViewTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACD82172620453B0035CD9F /* PersonaViewTokens.swift */; };
 		0AD70F5826E7F2E3008774EC /* MSFCommandBarTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD70F5626E7F2E3008774EC /* MSFCommandBarTokens.generated.swift */; };
 		0AD70F5B26E80A5D008774EC /* CommandBarTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD70F5926E80A5D008774EC /* CommandBarTokens.swift */; };
-		0AE866A826BA05D000E92108 /* Locale+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE866A626BA05D000E92108 /* Locale+Extensions.swift */; };
 		43488C46270FAD1300124C71 /* NotificationView_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43488C44270FAD0200124C71 /* NotificationView_SwiftUI.swift */; };
 		436F6B3F26F4924200D18073 /* MSFNotificationTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436F6B3D26F4924200D18073 /* MSFNotificationTokens.generated.swift */; };
 		436F6B4226F4926B00D18073 /* MSFNotificationTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436F6B4026F4926B00D18073 /* MSFNotificationTokens.swift */; };
@@ -680,6 +679,7 @@
 		5340828B26CFF298007716E1 /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
+				0AE866A626BA05D000E92108 /* Locale+Extensions.swift */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -824,7 +824,6 @@
 		A5B87AED211BCA4A0038C37C /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				0AE866A626BA05D000E92108 /* Locale+Extensions.swift */,
 				FD41C8B422DD3EA20086F899 /* NSLayoutConstraint+Extensions.swift */,
 				A559BB7D212B6D100055E107 /* String+Extension.swift */,
 				A56CE7B522E68A7800AA77EE /* UIColor+Extensions.swift */,
@@ -1571,7 +1570,6 @@
 				53097D1B2702890900A6E4DC /* MSFListCellTokens.generated.swift in Sources */,
 				53097D172702890900A6E4DC /* HeaderFooterTokens.swift in Sources */,
 				EC02A5F5274DD19600E81B3E /* MSFDivider.swift in Sources */,
-				0AE866A826BA05D000E92108 /* Locale+Extensions.swift in Sources */,
 				80AECC21263339E3005AF2F3 /* BottomSheetController.swift in Sources */,
 				5314E24B25F0232F0099271A /* UIScreen+Extension.swift in Sources */,
 				5314E2E325F025500099271A /* FluentUIFramework.swift in Sources */,

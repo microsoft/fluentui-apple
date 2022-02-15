@@ -1,4 +1,4 @@
-# [Control Name]
+# Badge View
 
 ## Overview
 `BadgeView` is used to display short colored text over a colored background
