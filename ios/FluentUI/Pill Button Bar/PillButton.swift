@@ -44,8 +44,6 @@ open class PillButton: UIButton, TokenizedUIControlInternal, ControlConfiguratio
         return self
     }
 
-    public typealias TokenType = PillButtonTokens
-
     public override var isSelected: Bool {
         didSet {
             if oldValue != isSelected && isSelected == true {
