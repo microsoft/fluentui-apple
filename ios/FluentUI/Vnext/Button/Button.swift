@@ -32,7 +32,7 @@ import UIKit
 }
 
 /// View that represents the button.
-public struct FluentButton: View, TokenizedControlInternal {
+public struct FluentButton: View, TokenizedControlConfigurable {
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @ObservedObject var state: MSFButtonStateImpl
     var tokens: ButtonTokens { state.tokens }

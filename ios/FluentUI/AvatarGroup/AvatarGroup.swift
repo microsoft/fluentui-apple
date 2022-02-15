@@ -91,7 +91,7 @@ import SwiftUI
 }
 
 /// View that represents the AvatarGroup.
-public struct AvatarGroup: View {
+public struct AvatarGroup: View, TokenizedControlConfigurable {
     /// Creates and initializes a SwiftUI AvatarGroup.
     /// - Parameters:
     ///   - style: The style of the avatar group.

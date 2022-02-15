@@ -46,7 +46,7 @@ public typealias CardNudgeButtonAction = ((_ state: MSFCardNudgeState) -> Void)
 }
 
 /// View that represents the CardNudge.
-public struct CardNudge: View, TokenizedControlInternal {
+public struct CardNudge: View, TokenizedControlConfigurable {
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @ObservedObject var state: MSFCardNudgeStateImpl
     var tokens: CardNudgeTokens { state.tokens }
