@@ -8,29 +8,19 @@ import UIKit
 /// Represents the set of `DynamicColor` values for the various states of a `PillButton`
 public struct PillButtonDynamicColors {
     public init (rest: DynamicColor,
-                 hover: DynamicColor? = nil,
                  selected: DynamicColor,
                  disabled: DynamicColor,
-                 selectedDisabled: DynamicColor,
-                 highlighted: DynamicColor? = nil,
-                 selectedHighlighted: DynamicColor? = nil) {
+                 selectedDisabled: DynamicColor) {
         self.rest = rest
         self.selected = selected
         self.disabled = disabled
         self.selectedDisabled = selectedDisabled
-
-        self.hover = hover ?? rest
-        self.highlighted = highlighted ?? rest
-        self.selectedHighlighted = selectedHighlighted ?? selected
     }
 
     public let rest: DynamicColor
-    public let hover: DynamicColor
     public let selected: DynamicColor
     public let disabled: DynamicColor
     public let selectedDisabled: DynamicColor
-    public let highlighted: DynamicColor
-    public let selectedHighlighted: DynamicColor
 }
 
 /// Design token set for the `PillButton` control.
@@ -43,20 +33,14 @@ open class PillButtonTokens: ControlTokens {
         switch style {
         case .primary:
             return .init(rest: DynamicColor(light: globalTokens.neutralColors[.grey94], dark: globalTokens.neutralColors[.grey8]),
-                         hover: DynamicColor(light: globalTokens.neutralColors[.grey94], dark: globalTokens.neutralColors[.grey8]),
                          selected: globalTokens.brandColors[.primary],
                          disabled: DynamicColor(light: globalTokens.neutralColors[.grey94], dark: globalTokens.neutralColors[.grey8]),
-                         selectedDisabled: DynamicColor(light: globalTokens.neutralColors[.grey80], dark: globalTokens.neutralColors[.grey30]),
-                         highlighted: DynamicColor(light: globalTokens.neutralColors[.grey94], dark: globalTokens.neutralColors[.grey8]),
-                         selectedHighlighted: globalTokens.brandColors[.primary])
+                         selectedDisabled: DynamicColor(light: globalTokens.neutralColors[.grey80], dark: globalTokens.neutralColors[.grey30]))
         case .onBrand:
             return .init(rest: DynamicColor(light: globalTokens.brandColors[.shade10].light, dark: globalTokens.neutralColors[.grey8]),
-                         hover: DynamicColor(light: globalTokens.brandColors[.shade10].light, dark: globalTokens.neutralColors[.grey8]),
                          selected: DynamicColor(light: globalTokens.neutralColors[.white], dark: globalTokens.neutralColors[.grey32]),
                          disabled: DynamicColor(light: globalTokens.brandColors[.shade20].light, dark: globalTokens.neutralColors[.grey8]),
-                         selectedDisabled: DynamicColor(light: globalTokens.neutralColors[.white], dark: globalTokens.neutralColors[.grey30]),
-                         highlighted: DynamicColor(light: globalTokens.brandColors[.shade10].light, dark: globalTokens.neutralColors[.grey8]),
-                         selectedHighlighted: DynamicColor(light: globalTokens.neutralColors[.grey38], dark: globalTokens.neutralColors[.grey84]))
+                         selectedDisabled: DynamicColor(light: globalTokens.neutralColors[.white], dark: globalTokens.neutralColors[.grey30]))
         }
     }
 
@@ -65,20 +49,14 @@ open class PillButtonTokens: ControlTokens {
         switch style {
         case .primary:
             return .init(rest: DynamicColor(light: globalTokens.neutralColors[.grey38], dark: globalTokens.neutralColors[.grey84]),
-                         hover: DynamicColor(light: globalTokens.neutralColors[.grey38], dark: globalTokens.neutralColors[.grey84]),
                          selected: DynamicColor(light: globalTokens.neutralColors[.white], dark: globalTokens.neutralColors[.black]),
                          disabled: DynamicColor(light: globalTokens.neutralColors[.grey70], dark: globalTokens.neutralColors[.grey26]),
-                         selectedDisabled: DynamicColor(light: globalTokens.neutralColors[.grey94], dark: globalTokens.neutralColors[.grey44]),
-                         highlighted: DynamicColor(light: globalTokens.neutralColors[.grey38], dark: globalTokens.neutralColors[.grey84]),
-                         selectedHighlighted: DynamicColor(light: globalTokens.neutralColors[.white], dark: globalTokens.neutralColors[.black]))
+                         selectedDisabled: DynamicColor(light: globalTokens.neutralColors[.grey94], dark: globalTokens.neutralColors[.grey44]))
         case .onBrand:
             return .init(rest: DynamicColor(light: globalTokens.neutralColors[.white], dark: globalTokens.neutralColors[.grey84]),
-                         hover: DynamicColor(light: globalTokens.neutralColors[.white], dark: globalTokens.neutralColors[.grey84]),
                          selected: DynamicColor(light: globalTokens.brandColors[.primary].light, dark: globalTokens.neutralColors[.white]),
                          disabled: DynamicColor(light: globalTokens.brandColors[.shade10].light, dark: globalTokens.neutralColors[.grey26]),
-                         selectedDisabled: DynamicColor(light: globalTokens.neutralColors[.grey74], dark: globalTokens.neutralColors[.grey44]),
-                         highlighted: DynamicColor(light: globalTokens.neutralColors[.white], dark: globalTokens.neutralColors[.grey84]),
-                         selectedHighlighted: DynamicColor(light: globalTokens.neutralColors[.white], dark: globalTokens.neutralColors[.grey84]))
+                         selectedDisabled: DynamicColor(light: globalTokens.neutralColors[.grey74], dark: globalTokens.neutralColors[.grey44]))
         }
     }
 

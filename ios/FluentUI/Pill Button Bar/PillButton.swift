@@ -148,26 +148,19 @@ open class PillButton: UIButton, TokenizedUIControlInternal, ControlConfiguratio
     private func updateAppearance() {
         if isSelected {
             if isEnabled {
-                backgroundColor = isHighlighted
-                ? UIColor(dynamicColor: tokens.backgroundColor.selectedHighlighted)
-                : UIColor(dynamicColor: tokens.backgroundColor.selected)
-
+                backgroundColor = UIColor(dynamicColor: tokens.backgroundColor.selected)
                 setTitleColor(UIColor(dynamicColor: tokens.titleColor.selected), for: .normal)
-                setTitleColor(UIColor(dynamicColor: tokens.titleColor.selectedHighlighted), for: .highlighted)
             } else {
                 backgroundColor = UIColor(dynamicColor: tokens.backgroundColor.selectedDisabled)
                 setTitleColor(UIColor(dynamicColor: tokens.titleColor.selectedDisabled), for: .normal)
             }
         } else {
             backgroundColor = isEnabled
-            ? (isHighlighted
-               ? UIColor(dynamicColor: tokens.backgroundColor.highlighted)
-               : UIColor(dynamicColor: tokens.backgroundColor.rest))
+            ? UIColor(dynamicColor: tokens.backgroundColor.rest)
             : UIColor(dynamicColor: tokens.backgroundColor.disabled)
 
             if isEnabled {
                 setTitleColor(UIColor(dynamicColor: tokens.titleColor.rest), for: .normal)
-                setTitleColor(UIColor(dynamicColor: tokens.titleColor.highlighted), for: .highlighted)
             } else {
                 setTitleColor(UIColor(dynamicColor: tokens.titleColor.disabled), for: .disabled)
             }

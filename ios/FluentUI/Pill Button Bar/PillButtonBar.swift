@@ -513,26 +513,4 @@ extension PillButtonBar: UIPointerInteractionDelegate {
 
         return UIPointerStyle(effect: pointerEffect, shape: nil)
     }
-
-    public func pointerInteraction(_ interaction: UIPointerInteraction, willEnter region: UIPointerRegion, animator: UIPointerInteractionAnimating) {
-        guard let index = region.identifier as? Int else {
-            return
-        }
-        if pillButtonOverrideTokens == nil, index < buttons.count {
-            let pillButton = buttons[index]
-            if !pillButton.isSelected {
-                pillButton.isHighlighted = true
-            }
-        }
-    }
-
-    public func pointerInteraction(_ interaction: UIPointerInteraction, willExit region: UIPointerRegion, animator: UIPointerInteractionAnimating) {
-        guard let index = region.identifier as? Int else {
-            return
-        }
-        if pillButtonOverrideTokens == nil && index < buttons.count {
-            let pillButton = buttons[index]
-            pillButton.isHighlighted = false
-        }
-    }
 }
