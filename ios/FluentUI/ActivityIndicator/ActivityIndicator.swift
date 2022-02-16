@@ -26,7 +26,7 @@ import UIKit
 }
 
 /// View that represents the Activity Indicator.
-public struct ActivityIndicator: View, TokenizedControlConfigurable {
+public struct ActivityIndicator: View, ConfigurableTokenizedControl {
 
     /// Creates the ActivityIndicator.
     /// - Parameter size: The MSFActivityIndicatorSize value used by the Activity Indicator.

@@ -17,7 +17,7 @@ protocol ControlConfiguration: NSObject, ObservableObject, Identifiable {
 }
 
 /// SwiftUI-specific extension to `TokenizedControl` that adds information about `configuration`.
-protocol TokenizedControlConfigurable: TokenizedControlInternal {
+protocol ConfigurableTokenizedControl: TokenizedControlInternal {
     associatedtype ConfigurationType: ControlConfiguration where ConfigurationType.TokenType == TokenType
 
     /// Contains additional configuration information about the control.
@@ -27,7 +27,7 @@ protocol TokenizedControlConfigurable: TokenizedControlInternal {
 // MARK: - Extensions
 
 /// This set of extensions implements the `TokenizedControlInternal` APIs for SwiftUI components.
-extension TokenizedControlConfigurable {
+extension ConfigurableTokenizedControl {
     var overrideTokens: TokenType? { state.overrideTokens }
 
     func updateCurrentTokens(_ tokens: TokenType) {

@@ -173,7 +173,7 @@
 		8FD01188228A82A600D25925 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CEC16C20D98EE70016922A /* Colors.swift */; };
 		92088EF92666DB2C003F571A /* PersonaButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92088EF72666DB2C003F571A /* PersonaButton.swift */; };
 		920945492703DDA000B38E1A /* CardNudgeTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 920945472703DDA000B38E1A /* CardNudgeTokens.swift */; };
-		922A34DF27BB87990062721F /* TokenizedControlConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 922A34DE27BB87990062721F /* TokenizedControlConfigurable.swift */; };
+		922A34DF27BB87990062721F /* ConfigurableTokenizedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 922A34DE27BB87990062721F /* ConfigurableTokenizedControl.swift */; };
 		923DB9D4274CB65700D8E58A /* TokenizedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923DB9D2274CB65700D8E58A /* TokenizedControl.swift */; };
 		923DB9D5274CB65700D8E58A /* FluentTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923DB9D3274CB65700D8E58A /* FluentTheme.swift */; };
 		923DB9D7274CB66D00D8E58A /* ControlHostingContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923DB9D6274CB66D00D8E58A /* ControlHostingContainer.swift */; };
@@ -304,7 +304,7 @@
 		92079C8E26B66E5100D688DA /* CardNudgeModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardNudgeModifiers.swift; sourceTree = "<group>"; };
 		92088EF72666DB2C003F571A /* PersonaButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaButton.swift; sourceTree = "<group>"; };
 		920945472703DDA000B38E1A /* CardNudgeTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardNudgeTokens.swift; sourceTree = "<group>"; };
-		922A34DE27BB87990062721F /* TokenizedControlConfigurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenizedControlConfigurable.swift; sourceTree = "<group>"; };
+		922A34DE27BB87990062721F /* ConfigurableTokenizedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurableTokenizedControl.swift; sourceTree = "<group>"; };
 		923DB9D2274CB65700D8E58A /* TokenizedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenizedControl.swift; sourceTree = "<group>"; };
 		923DB9D3274CB65700D8E58A /* FluentTheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FluentTheme.swift; sourceTree = "<group>"; };
 		923DB9D6274CB66D00D8E58A /* ControlHostingContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlHostingContainer.swift; sourceTree = "<group>"; };
@@ -810,13 +810,13 @@
 			children = (
 				925D461E26FD18B200179583 /* AliasTokens.swift */,
 				ECA921C527B5D10A00B66117 /* ButtonDynamicColors.swift */,
+				922A34DE27BB87990062721F /* ConfigurableTokenizedControl.swift */,
 				92DEE2232723D34400E31ED0 /* ControlTokens.swift */,
 				92E7AD4E26FE51FF00AE7FF8 /* DynamicColor.swift */,
 				925728F8276D6B5800EE1019 /* FontInfo.swift */,
 				925D461B26FD133600179583 /* GlobalTokens.swift */,
 				925728F6276D6AF800EE1019 /* ShadowInfo.swift */,
 				923DB9D2274CB65700D8E58A /* TokenizedControl.swift */,
-				922A34DE27BB87990062721F /* TokenizedControlConfigurable.swift */,
 				924D912C278E128600478B18 /* TokenResolver.swift */,
 				92EE82AC27025A94009D52B5 /* TokenSet.swift */,
 			);
@@ -1514,7 +1514,7 @@
 				5314E07E25F00F1A0099271A /* DateTimePickerView.swift in Sources */,
 				5328D97726FBA3D700F3723B /* IndeterminateProgressBar.swift in Sources */,
 				5314E07625F00F160099271A /* DateTimePickerController.swift in Sources */,
-				922A34DF27BB87990062721F /* TokenizedControlConfigurable.swift in Sources */,
+				922A34DF27BB87990062721F /* ConfigurableTokenizedControl.swift in Sources */,
 				5314E14525F016860099271A /* CardPresentationController.swift in Sources */,
 				5314E0A925F010070099271A /* DrawerTransitionAnimator.swift in Sources */,
 				5314E06525F00EFD0099271A /* CalendarViewDayMonthCell.swift in Sources */,

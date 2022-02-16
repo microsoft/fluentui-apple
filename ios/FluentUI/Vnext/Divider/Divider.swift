@@ -27,7 +27,7 @@ import SwiftUI
 }
 
 /// View that represents the Divider.
-public struct FluentDivider: View, TokenizedControlConfigurable {
+public struct FluentDivider: View, ConfigurableTokenizedControl {
 
     /// Creates and initializes a SwiftUI Divider
     /// - Parameters:

@@ -43,7 +43,7 @@ import SwiftUI
 }
 
 /// View that represents the Notification.
-public struct NotificationViewSwiftUI: View, TokenizedControlConfigurable {
+public struct NotificationViewSwiftUI: View, ConfigurableTokenizedControl {
     @Environment(\.horizontalSizeClass) var horizontalSizeClass: UserInterfaceSizeClass?
     @Environment(\.swiftUIInsets) private var safeAreaInsets: EdgeInsets
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme

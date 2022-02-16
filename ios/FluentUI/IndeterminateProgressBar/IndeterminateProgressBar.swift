@@ -18,7 +18,7 @@ import UIKit
 /// View that represents the Indeterminate Progress Bar control.
 /// Use the ProgressView SwiftUI View (https://developer.apple.com/documentation/swiftui/progressview)
 /// provided in the SwiftUI framework to render the default OS indeterminate spinner or a progress bar with a specific progress value.
-public struct IndeterminateProgressBar: View, TokenizedControlConfigurable {
+public struct IndeterminateProgressBar: View, ConfigurableTokenizedControl {
     /// Creates the Indeterminate Progress Bar.
     public init() {
         let state = MSFIndeterminateProgressBarStateImpl()
