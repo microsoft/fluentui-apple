@@ -5,11 +5,11 @@ import UIKit
 /// Entry point for the app stylesheet
 extension FluentUIStyle {
 
-	// MARK: - MSFListCellTokens
-	open var MSFListCellTokens: MSFListCellTokensAppearanceProxy {
-		return MSFListCellTokensAppearanceProxy(proxy: { return self })
+	// MARK: - FluentListCellTokens
+	open var FluentListCellTokens: FluentListCellTokensAppearanceProxy {
+		return FluentListCellTokensAppearanceProxy(proxy: { return self })
 	}
-	open class MSFListCellTokensAppearanceProxy {
+	open class FluentListCellTokensAppearanceProxy {
 		public let mainProxy: () -> FluentUIStyle
 		public init(proxy: @escaping () -> FluentUIStyle) {
 			self.mainProxy = proxy
@@ -187,9 +187,9 @@ fileprivate var __AppearanceProxyHandle: UInt8 = 0
 fileprivate var __ThemeAwareHandle: UInt8 = 0
 fileprivate var __ObservingDidChangeThemeHandle: UInt8 = 0
 
-extension MSFListCellTokens: AppearaceProxyComponent {
+extension FluentListCellTokens: AppearaceProxyComponent {
 
-	public typealias AppearanceProxyType = FluentUIStyle.MSFListCellTokensAppearanceProxy
+	public typealias AppearanceProxyType = FluentUIStyle.FluentListCellTokensAppearanceProxy
 	public var appearanceProxy: AppearanceProxyType {
 		get {
 			if let proxy = objc_getAssociatedObject(self, &__AppearanceProxyHandle) as? AppearanceProxyType {
@@ -199,7 +199,7 @@ extension MSFListCellTokens: AppearaceProxyComponent {
 				return proxy
 			}
 
-			return FluentUIThemeManager.stylesheet(FluentUIStyle.shared()).MSFListCellTokens
+			return FluentUIThemeManager.stylesheet(FluentUIStyle.shared()).FluentListCellTokens
 		}
 		set {
 			objc_setAssociatedObject(self, &__AppearanceProxyHandle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)

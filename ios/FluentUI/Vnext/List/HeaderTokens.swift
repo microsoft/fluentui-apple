@@ -6,22 +6,22 @@
 import UIKit
 import SwiftUI
 
-/// HeaderFooter styles
-@objc public enum MSFHeaderFooterStyle: Int, CaseIterable {
+/// HeaderFooter styles.
+@objc public enum HeaderStyle: Int, CaseIterable {
     case standard
     case subtle
 }
 
-open class MSFHeaderFooterTokens: ControlTokens {
-    /// The MSFHeaderFooter style. Currently we only have primary and secondary styles.
-    public internal(set) var style: MSFHeaderFooterStyle = .standard
+open class HeaderTokens: ControlTokens {
+    /// The HeaderFooter style.
+    public internal(set) var style: HeaderStyle = .standard
 
     // MARK: - Design Tokens
 
-    ///  The background color of the List Header
+    ///  The background color of the List Header.
     open var backgroundColor: DynamicColor { aliasTokens.backgroundColors[.neutral1] }
 
-    /// The color of the List Header text
+    /// The color of the List Header text.
     open var textColor: DynamicColor {
         switch style {
         case .standard:
@@ -31,10 +31,10 @@ open class MSFHeaderFooterTokens: ControlTokens {
         }
     }
 
-    /// Height of the List Header
+    /// Height of the List Header.
     open var headerHeight: CGFloat { globalTokens.spacing[.xxxLarge] }
 
-    /// Top padding of the List Header
+    /// Top padding of the List Header.
     open var topPadding: CGFloat {
         switch style {
         case .standard:
@@ -44,16 +44,16 @@ open class MSFHeaderFooterTokens: ControlTokens {
         }
     }
 
-    /// Leading padding of the List Header
+    /// Leading padding of the List Header.
     open var leadingPadding: CGFloat { globalTokens.spacing[.medium] }
 
-    /// Bottom padding of the List Header
+    /// Bottom padding of the List Header.
     open var bottomPadding: CGFloat { globalTokens.spacing[.xSmall] }
 
-    /// Trailing padding of the List Header
+    /// Trailing padding of the List Header.
     open var trailingPadding: CGFloat { globalTokens.spacing[.medium] }
 
-    /// The font used for the List Header
+    /// The font used for the List Header.
     open var textFont: FontInfo {
         switch style {
         case .standard:

@@ -6,15 +6,15 @@
 import UIKit
 import SwiftUI
 
-/// Pre-defined styles of icons
-@objc public enum MSFListCellLeadingViewSize: Int, CaseIterable {
+/// Pre-defined styles of icons.
+@objc public enum FluentListCellLeadingViewSize: Int, CaseIterable {
     case small
     case medium
     case large
 }
 
-/// Pre-defined accessory types
-@objc public enum MSFListAccessoryType: Int, CaseIterable {
+/// Pre-defined accessory types.
+@objc public enum FluentListAccessoryType: Int, CaseIterable {
     case none
     case disclosure
     case detailButton
@@ -37,10 +37,6 @@ import SwiftUI
 }
 
 // MARK: ListCell Tokens
-
-open class MSFListTokens: ControlTokens {
-    open var borderColor: DynamicColor { aliasTokens.foregroundColors[.neutral1] }
-}
 
 class MSFCellBaseTokens: MSFTokensBase, ObservableObject {
     @Published public var borderColor: UIColor!
@@ -72,7 +68,7 @@ class MSFCellBaseTokens: MSFTokensBase, ObservableObject {
     @Published public var sublabelFont: UIFont!
     @Published public var labelFont: UIFont!
 
-    var cellLeadingViewSize: MSFListCellLeadingViewSize! {
+    var cellLeadingViewSize: FluentListCellLeadingViewSize! {
         didSet {
             if oldValue != cellLeadingViewSize {
                 updateForCurrentTheme()
@@ -81,8 +77,8 @@ class MSFCellBaseTokens: MSFTokensBase, ObservableObject {
     }
 }
 
-class MSFListCellTokens: MSFCellBaseTokens {
-    init(cellLeadingViewSize: MSFListCellLeadingViewSize = .medium) {
+class FluentListCellTokens: MSFCellBaseTokens {
+    init(cellLeadingViewSize: FluentListCellLeadingViewSize = .medium) {
         super.init()
 
         self.cellLeadingViewSize = cellLeadingViewSize
@@ -96,7 +92,7 @@ class MSFListCellTokens: MSFCellBaseTokens {
 
     override func updateForCurrentTheme() {
         let currentTheme = theme
-        let appearanceProxy = currentTheme.MSFListCellTokens
+        let appearanceProxy = currentTheme.FluentListCellTokens
 
         switch cellLeadingViewSize {
         case .small:

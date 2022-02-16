@@ -69,13 +69,13 @@
     [listVnextLabel setText:@"List (vNext)"];
     [self.container addArrangedSubview:listVnextLabel];
 
-    MSFList *testList = [[MSFList alloc] init];
-    id<MSFListSectionState> sectionState = [[testList state] createSection];
-    id<MSFListCellState> listCell1 = [sectionState createCell];
-    id<MSFListCellState> listCell2 = [sectionState createCell];
-    id<MSFListCellState> listCell3 = [sectionState createCell];
+    FluentList *testList = [[FluentList alloc] init];
+    id<FluentListSectionState> sectionState = [[testList state] createSection];
+    id<FluentListCellState> listCell1 = [sectionState createCell];
+    id<FluentListCellState> listCell2 = [sectionState createCell];
+    id<FluentListCellState> listCell3 = [sectionState createCell];
 
-    id<MSFListCellState> childCell = [listCell1 createChildCell];
+    id<FluentListCellState> childCell = [listCell1 createChildCell];
     [childCell setTitle:@"Child Cell"];
 
     [listCell1 setTitle:@"SampleTitle1"];
@@ -83,7 +83,7 @@
 
     [listCell2 setTitle:@"SampleTitle2"];
     [listCell2 setSubtitle:@"SampleTitle2"];
-    [listCell2 setLayoutType:MSFListCellLayoutTypeTwoLines];
+    [listCell2 setLayoutType:FluentListCellLayoutTypeTwoLines];
     [listCell2 setOnTapAction:^{
         [self showAlertForCellTapped:@"SampleTitle2"];
     }];
@@ -92,8 +92,8 @@
     [listCell3 setSubtitle:@"SampleTitle3"];
     UIImageView *image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"excelIcon"]];
     [listCell3 setLeadingUIView:image];
-    [listCell3 setAccessoryType:MSFListAccessoryTypeDisclosure];
-    [listCell3 setLayoutType:MSFListCellLayoutTypeTwoLines];
+    [listCell3 setAccessoryType:FluentListAccessoryTypeDisclosure];
+    [listCell3 setLayoutType:FluentListCellLayoutTypeTwoLines];
     [listCell3 setOnTapAction:^{
         [self showAlertForCellTapped:@"Sample Title3"];
     }];

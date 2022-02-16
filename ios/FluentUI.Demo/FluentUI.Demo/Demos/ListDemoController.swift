@@ -14,7 +14,7 @@ class ListDemoController: DemoController {
         var cell: TableViewCellSampleData.Item
         var showsLabelAccessoryView: Bool
 
-        var listCell: MSFListCellState
+        var listCell: FluentListCellState
 
         //PersonaDataNode creation
         let personaDataNodes: [PersonaDataNode] = [
@@ -40,7 +40,7 @@ class ListDemoController: DemoController {
         for (sectionIndex, section) in sections.enumerated() {
             let sectionState = list.state.createSection()
             sectionState.title = section.title
-            sectionState.style = MSFHeaderFooterStyle.subtle
+            sectionState.style = HeaderStyle.subtle
             sectionState.hasDividers = true
             for rowIndex in 0..<TableViewCellSampleData.numberOfItemsInSection {
                 showsLabelAccessoryView = TableViewCellSampleData.hasLabelAccessoryViews(at: IndexPath(row: rowIndex, section: sectionIndex))
@@ -50,7 +50,7 @@ class ListDemoController: DemoController {
                 listCell.subtitle = cell.text2
                 listCell.footnote = cell.text3
                 if !listCell.subtitle.isEmpty {
-                    listCell.leadingViewSize = MSFListCellLeadingViewSize.large
+                    listCell.leadingViewSize = FluentListCellLeadingViewSize.large
                     listCell.subtitleLeadingAccessoryUIView = showsLabelAccessoryView ? createCustomView(imageName: "success-12x12", imageType: "subtitle") : nil
                     listCell.subtitleTrailingAccessoryUIView = showsLabelAccessoryView ? createCustomView(imageName: "chevron-down-20x20", imageType: "subtitle") : nil
                 }
@@ -85,7 +85,7 @@ class ListDemoController: DemoController {
         var isExpanded: Bool = false
     }
 
-    private func createSamplePersonaCell(cellState: MSFListCellState, personaDataNode: PersonaDataNode) {
+    private func createSamplePersonaCell(cellState: FluentListCellState, personaDataNode: PersonaDataNode) {
         let personaData = personaDataNode.personaData
         let personaChildren = personaDataNode.children
         let avatar = createAvatarView(size: .medium,
@@ -142,7 +142,7 @@ class ListDemoController: DemoController {
         return customView
     }
 
-    private func accessoryType(for indexPath: Int) -> MSFListAccessoryType {
+    private func accessoryType(for indexPath: Int) -> FluentListAccessoryType {
         switch indexPath {
         case 0:
             return .none
@@ -178,5 +178,5 @@ class ListDemoController: DemoController {
         present(alert, animated: true)
     }
 
-    let list: MSFList = MSFList()
+    let list: FluentList = FluentList()
 }

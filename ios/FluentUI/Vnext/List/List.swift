@@ -7,19 +7,19 @@ import UIKit
 import SwiftUI
 
 /// UIKit wrapper that exposes the SwiftUI List implementation
-@objc public class MSFList: ControlHostingContainer {
+@objc public class FluentList: ControlHostingContainer {
 
     @objc public init() {
-        let list = MSFListView()
+        let list = FluentListView()
         state = list.state
         super.init(AnyView(list))
     }
 
-    @objc public let state: MSFListState
+    @objc public let state: FluentListState
 }
 
 /// Properties that can be used to customize the appearance of the List Section.
-@objc public protocol MSFListSectionState {
+@objc public protocol FluentListSectionState {
     /// Sets the Section title.
     var title: String? { get set }
 
@@ -29,22 +29,22 @@ import SwiftUI
     /// Configures divider presence within the Section.
     var hasDividers: Bool { get set }
 
-    /// Configures the Section's `HeaderFooter` style.
-    var style: MSFHeaderFooterStyle { get set }
+    /// Configures the Section's `Header` style.
+    var style: HeaderStyle { get set }
 
     /// The number of Cells in the Section.
     var cellCount: Int { get }
 
     /// Creates a new Cell and appends it to the array of cells in a Section.
-    func createCell() -> MSFListCellState
+    func createCell() -> FluentListCellState
 
     /// Creates a new Cell within the Section at a specific index.
     /// - Parameter index: The zero-based index of the Cell that will be inserted into the Section.
-    func createCell(at index: Int) -> MSFListCellState
+    func createCell(at index: Int) -> FluentListCellState
 
     /// Retrieves the state object for a specific Cell so its appearance can be customized.
     /// - Parameter index: The zero-based index of the Cell in the Section.
-    func getCellState(at index: Int) -> MSFListCellState
+    func getCellState(at index: Int) -> FluentListCellState
 
     /// Remove a Cell from the Section.
     /// - Parameter index: The zero-based index of the Cell that will be removed from the Section.
@@ -52,29 +52,29 @@ import SwiftUI
 }
 
 /// Properties that can be used to customize the appearance of the List.
-@objc public protocol MSFListState {
+@objc public protocol FluentListState {
     /// The number of Sections in the List.
     var sectionCount: Int { get }
 
     /// Creates a new Section and appends it to the array of sections in a List.
-    func createSection() -> MSFListSectionState
+    func createSection() -> FluentListSectionState
 
     /// Creates a new Section within the List at a specific index.
     /// - Parameter index: The zero-based index of the Section that will be inserted into the List.
-    func createSection(at index: Int) -> MSFListSectionState
+    func createSection(at index: Int) -> FluentListSectionState
 
     /// Retrieves the state object for a specific Section so its appearance can be customized.
     /// - Parameter index: The zero-based index of the Section in the List.
-    func getSectionState(at index: Int) -> MSFListSectionState
+    func getSectionState(at index: Int) -> FluentListSectionState
 
     /// Remove a Section from the List.
     /// - Parameter index: The zero-based index of the Section that will be removed from the List.
     func removeSection(at index: Int)
 }
 
-public struct MSFListView: View, TokenizedControlInternal {
+public struct FluentListView: View {
     public init() {
-        self.state = MSFListStateImpl()
+        self.state = FluentListStateImpl()
     }
 
     public var body: some View {
@@ -88,7 +88,7 @@ public struct MSFListView: View, TokenizedControlInternal {
 
                     ForEach(section.cells.indices, id: \.self) { index in
                         let cellState = section.cells[index]
-                        MSFListCellView(state: cellState)
+                        FluentListCellView(state: cellState)
                             .frame(maxWidth: .infinity)
                     }
 
@@ -101,15 +101,13 @@ public struct MSFListView: View, TokenizedControlInternal {
         .animation(.default)
         .environment(\.defaultMinListRowHeight, 0)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .resolveTokens(self)
     }
 
-    @Environment(\.fluentTheme) var fluentTheme: FluentTheme
-    @ObservedObject var state: MSFListStateImpl
+    @ObservedObject var state: FluentListStateImpl
 
     /// Finds the last cell directly adjacent to the end of a list section. This is used to remove the redundant separator that is
     /// inserted between each cell. Used as a fix until we are able to use the new List Separators in iOS 15.
-    private func findLastCell(_ lastCell: MSFListCellState) -> MSFListCellState {
+    private func findLastCell(_ lastCell: FluentListCellState) -> FluentListCellState {
         let childrenCellCount = lastCell.childrenCellCount
         if childrenCellCount > 0, lastCell.isExpanded {
             let lastChild = lastCell.getChildCellState(at: childrenCellCount - 1)
@@ -119,7 +117,7 @@ public struct MSFListView: View, TokenizedControlInternal {
     }
 
     /// Updates the status of dividers presence within the entire List.
-    private func updateCellDividers() -> [MSFListSectionStateImpl] {
+    private func updateCellDividers() -> [FluentListSectionStateImpl] {
         state.sections.forEach { section in
             section.cells.forEach { cell in
                 cell.hasDivider = section.hasDividers
@@ -130,17 +128,12 @@ public struct MSFListView: View, TokenizedControlInternal {
         }
         return state.sections
     }
-
-    public func overrideTokens(_ tokens: MSFListTokens?) -> MSFListView {
-        state.overrideTokens = tokens
-        return self
-    }
 }
 
 /// Properties that make up section content
-class MSFListSectionStateImpl: NSObject, ObservableObject, Identifiable, ControlConfiguration, MSFListSectionState {
-    init(style: MSFHeaderFooterStyle = .standard) {
-        let tokens = MSFHeaderFooterTokens()
+class FluentListSectionStateImpl: NSObject, ObservableObject, Identifiable, ControlConfiguration, FluentListSectionState {
+    init(style: HeaderStyle = .standard) {
+        let tokens = HeaderTokens()
         tokens.style = style
         self.tokens = tokens
 
@@ -149,44 +142,44 @@ class MSFListSectionStateImpl: NSObject, ObservableObject, Identifiable, Control
         super.init()
     }
 
-    @Published var overrideTokens: MSFHeaderFooterTokens?
-    @Published var tokens: MSFHeaderFooterTokens {
+    @Published var overrideTokens: HeaderTokens?
+    @Published var tokens: HeaderTokens {
         didSet {
             tokens.style = style
         }
     }
-    @Published private(set) var cells: [MSFListCellStateImpl] = []
+    @Published private(set) var cells: [FluentListCellStateImpl] = []
     @Published var title: String?
     @Published var backgroundColor: UIColor?
     @Published var hasDividers: Bool = false
     var id = UUID()
 
-    // MARK: - MSFListSectionStateImpl accessors
+    // MARK: - FluentListSectionStateImpl accessors
 
     var cellCount: Int {
         return cells.count
     }
 
-    var style: MSFHeaderFooterStyle {
+    var style: HeaderStyle {
         didSet {
             tokens.style = style
         }
     }
 
-    func createCell() -> MSFListCellState {
+    func createCell() -> FluentListCellState {
         return createCell(at: cells.endIndex)
     }
 
-    func createCell(at index: Int) -> MSFListCellState {
+    func createCell(at index: Int) -> FluentListCellState {
         guard index <= cells.count && index >= 0 else {
             preconditionFailure("Index is out of bounds")
         }
-        let cell = MSFListCellStateImpl()
+        let cell = FluentListCellStateImpl()
         cells.insert(cell, at: index)
         return cell
     }
 
-    func getCellState(at index: Int) -> MSFListCellState {
+    func getCellState(at index: Int) -> FluentListCellState {
         guard cells.indices.contains(index) else {
             preconditionFailure("Index is out of bounds")
         }
@@ -202,37 +195,29 @@ class MSFListSectionStateImpl: NSObject, ObservableObject, Identifiable, Control
 }
 
 /// Properties that make up list content
-class MSFListStateImpl: NSObject, ObservableObject, ControlConfiguration, MSFListState {
-    override init() {
-        let tokens = MSFListTokens()
-        self.tokens = tokens
-        super.init()
-    }
+class FluentListStateImpl: NSObject, ObservableObject, FluentListState {
+    @Published private(set) var sections: [FluentListSectionStateImpl] = []
 
-    @Published var overrideTokens: MSFListTokens?
-    @Published var tokens: MSFListTokens
-    @Published private(set) var sections: [MSFListSectionStateImpl] = []
-
-    // MARK: - MSFListStateImpl accessors
+    // MARK: - FluentListStateImpl accessors
 
     var sectionCount: Int {
         return sections.count
     }
 
-    func createSection() -> MSFListSectionState {
+    func createSection() -> FluentListSectionState {
         return createSection(at: sections.endIndex)
     }
 
-    func createSection(at index: Int) -> MSFListSectionState {
+    func createSection(at index: Int) -> FluentListSectionState {
         guard index <= sections.count && index >= 0 else {
             preconditionFailure("Index is out of bounds")
         }
-        let section = MSFListSectionStateImpl()
+        let section = FluentListSectionStateImpl()
         sections.insert(section, at: index)
         return section
     }
 
-    func getSectionState(at index: Int) -> MSFListSectionState {
+    func getSectionState(at index: Int) -> FluentListSectionState {
         guard sections.indices.contains(index) else {
             preconditionFailure("Index is out of bounds")
         }
