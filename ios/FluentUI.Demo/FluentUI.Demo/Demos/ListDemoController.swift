@@ -14,7 +14,6 @@ class ListDemoController: DemoController {
         var cell: TableViewCellSampleData.Item
         var showsLabelAccessoryView: Bool
 
-        let list: MSFList = MSFList()
         var listCell: MSFListCellState
 
         //PersonaDataNode creation
@@ -178,4 +177,6 @@ class ListDemoController: DemoController {
         alert.addAction(action)
         present(alert, animated: true)
     }
+
+    let list: MSFList = MSFList()
 }

@@ -73,11 +73,6 @@ import SwiftUI
 }
 
 public struct MSFListView: View, TokenizedControlInternal {
-    public func overrideTokens(_ tokens: MSFListTokens?) -> MSFListView {
-        state.overrideTokens = tokens
-        return self
-    }
-
     public init() {
         self.state = MSFListStateImpl()
     }
@@ -135,11 +130,15 @@ public struct MSFListView: View, TokenizedControlInternal {
         }
         return state.sections
     }
+
+    public func overrideTokens(_ tokens: MSFListTokens?) -> MSFListView {
+        state.overrideTokens = tokens
+        return self
+    }
 }
 
 /// Properties that make up section content
 class MSFListSectionStateImpl: NSObject, ObservableObject, Identifiable, ControlConfiguration, MSFListSectionState {
-
     init(style: MSFHeaderFooterStyle = .standard) {
         let tokens = MSFHeaderFooterTokens()
         tokens.style = style
@@ -168,7 +167,11 @@ class MSFListSectionStateImpl: NSObject, ObservableObject, Identifiable, Control
         return cells.count
     }
 
-    var style: MSFHeaderFooterStyle
+    var style: MSFHeaderFooterStyle {
+        didSet {
+            tokens.style = style
+        }
+    }
 
     func createCell() -> MSFListCellState {
         return createCell(at: cells.endIndex)
@@ -200,8 +203,6 @@ class MSFListSectionStateImpl: NSObject, ObservableObject, Identifiable, Control
 
 /// Properties that make up list content
 class MSFListStateImpl: NSObject, ObservableObject, ControlConfiguration, MSFListState {
-    @Published private(set) var sections: [MSFListSectionStateImpl] = []
-
     override init() {
         let tokens = MSFListTokens()
         self.tokens = tokens
@@ -210,6 +211,8 @@ class MSFListStateImpl: NSObject, ObservableObject, ControlConfiguration, MSFLis
 
     @Published var overrideTokens: MSFListTokens?
     @Published var tokens: MSFListTokens
+    @Published private(set) var sections: [MSFListSectionStateImpl] = []
+
     // MARK: - MSFListStateImpl accessors
 
     var sectionCount: Int {

@@ -7,8 +7,6 @@ import UIKit
 import SwiftUI
 
 struct Header: View, TokenizedControlInternal {
-    typealias TokenType = MSFHeaderFooterTokens
-
     init(state: MSFListSectionStateImpl) {
         self.state = state
     }
