@@ -83,13 +83,8 @@ class PillButtonBarDemoController: DemoController {
     }
 
     func createBar(items: [PillButtonBarItem], style: PillButtonStyle = .primary, centerAligned: Bool = false, disabledItems: Bool = false, useCustomPillsColors: Bool = false) -> UIView {
-        let pillButtonBackgroundColor = useCustomPillsColors ? Colors.textOnAccent : nil
-        let pillSelectedButtonBackgroundColor = useCustomPillsColors ? Colors.textPrimary : nil
-        let pillButtonTextColor = useCustomPillsColors ? Colors.textPrimary : nil
-        let pillSelectedButtontextColor = useCustomPillsColors ? Colors.textOnAccent : nil
-        let pillButtonUnreadDotColor = useCustomPillsColors ? Colors.textPrimary : nil
-
-        let bar = PillButtonBar(pillButtonStyle: style, pillButtonBackgroundColor: pillButtonBackgroundColor, selectedPillButtonBackgroundColor: pillSelectedButtonBackgroundColor, pillButtonTextColor: pillButtonTextColor, selectedPillButtonTextColor: pillSelectedButtontextColor, pillButtonUnreadDotColor: pillButtonUnreadDotColor)
+        let bar = PillButtonBar(pillButtonStyle: style)
+        bar.pillButtonOverrideTokens = useCustomPillsColors ? CustomPillButtonTokens() : nil
         bar.items = items
         _ = bar.selectItem(atIndex: 0)
         bar.barDelegate = self
@@ -175,6 +170,26 @@ class PillButtonBarDemoController: DemoController {
     private var customBar: UIView?
 
     private var primaryBar: UIView?
+
+    private class CustomPillButtonTokens: PillButtonTokens {
+        override var backgroundColor: PillButtonDynamicColors {
+            return .init(rest: Colors.textOnAccent.dynamicColor ?? super.backgroundColor.rest,
+                         selected: Colors.textPrimary.dynamicColor ?? super.backgroundColor.selected,
+                         disabled: Colors.surfaceQuaternary.dynamicColor ?? super.backgroundColor.disabled,
+                         selectedDisabled: Colors.surfaceSecondary.dynamicColor ?? super.backgroundColor.selectedDisabled)
+        }
+
+        override var titleColor: PillButtonDynamicColors {
+            return .init(rest: Colors.textPrimary.dynamicColor ?? super.titleColor.rest,
+                         selected: Colors.textOnAccent.dynamicColor ?? super.titleColor.selected,
+                         disabled: Colors.textDisabled.dynamicColor ?? super.titleColor.disabled,
+                         selectedDisabled: Colors.textDisabled.dynamicColor ?? super.titleColor.disabled)
+        }
+
+        override var enabledUnreadDotColor: DynamicColor {
+            return Colors.textPrimary.dynamicColor ?? super.enabledUnreadDotColor
+        }
+    }
 }
 
 // MARK: - PillButtonBarDemoController: PillButtonBarDelegate
