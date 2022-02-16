@@ -7,36 +7,15 @@ import UIKit
 import SwiftUI
 
 /// UIKit wrapper that exposes the SwiftUI List implementation
-@objc open class MSFList: NSObject, FluentUIWindowProvider {
+@objc public class MSFList: ControlHostingContainer {
 
-    @objc public init(theme: FluentUIStyle? = nil) {
-        super.init()
-
-        listView = MSFListView()
-        hostingController = FluentUIHostingController(rootView: AnyView(listView
-                                                                            .windowProvider(self)
-                                                                            .modifyIf(theme != nil, { listView in
-                                                                                listView.customTheme(theme!)
-                                                                            })))
-        hostingController.disableSafeAreaInsets()
-        view.backgroundColor = UIColor.clear
+    @objc public init() {
+        let list = MSFListView()
+        state = list.state
+        super.init(AnyView(list))
     }
 
-    @objc open var view: UIView {
-        return hostingController.view
-    }
-
-    @objc open var state: MSFListState {
-        return listView.state
-    }
-
-    var window: UIWindow? {
-        return self.view.window
-    }
-
-    private var hostingController: FluentUIHostingController!
-
-    private var listView: MSFListView!
+    @objc public let state: MSFListState
 }
 
 /// Properties that can be used to customize the appearance of the List Section.
@@ -93,7 +72,12 @@ import SwiftUI
     func removeSection(at index: Int)
 }
 
-public struct MSFListView: View {
+public struct MSFListView: View, TokenizedControlInternal {
+    public func overrideTokens(_ tokens: MSFListTokens?) -> MSFListView {
+        state.overrideTokens = tokens
+        return self
+    }
+
     public init() {
         self.state = MSFListStateImpl()
     }
@@ -122,10 +106,10 @@ public struct MSFListView: View {
         .animation(.default)
         .environment(\.defaultMinListRowHeight, 0)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .resolveTokens(self)
     }
 
-    @Environment(\.theme) var theme: FluentUIStyle
-    @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
+    @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @ObservedObject var state: MSFListStateImpl
 
     /// Finds the last cell directly adjacent to the end of a list section. This is used to remove the redundant separator that is
@@ -154,19 +138,29 @@ public struct MSFListView: View {
 }
 
 /// Properties that make up section content
-class MSFListSectionStateImpl: NSObject, ObservableObject, Identifiable, MSFListSectionState {
-    var headerTokens: MSFHeaderFooterTokens
-    var id = UUID()
+class MSFListSectionStateImpl: NSObject, ObservableObject, Identifiable, ControlConfiguration, MSFListSectionState {
 
+    init(style: MSFHeaderFooterStyle = .standard) {
+        let tokens = MSFHeaderFooterTokens()
+        tokens.style = style
+        self.tokens = tokens
+
+        self.style = style
+
+        super.init()
+    }
+
+    @Published var overrideTokens: MSFHeaderFooterTokens?
+    @Published var tokens: MSFHeaderFooterTokens {
+        didSet {
+            tokens.style = style
+        }
+    }
     @Published private(set) var cells: [MSFListCellStateImpl] = []
     @Published var title: String?
     @Published var backgroundColor: UIColor?
     @Published var hasDividers: Bool = false
-
-    init(style: MSFHeaderFooterStyle = .headerPrimary) {
-        self.headerTokens = MSFHeaderFooterTokens(style: style)
-        super.init()
-    }
+    var id = UUID()
 
     // MARK: - MSFListSectionStateImpl accessors
 
@@ -174,14 +168,7 @@ class MSFListSectionStateImpl: NSObject, ObservableObject, Identifiable, MSFList
         return cells.count
     }
 
-    var style: MSFHeaderFooterStyle {
-        get {
-            return headerTokens.style
-        }
-        set {
-            headerTokens.style = newValue
-        }
-    }
+    var style: MSFHeaderFooterStyle
 
     func createCell() -> MSFListCellState {
         return createCell(at: cells.endIndex)
@@ -212,15 +199,17 @@ class MSFListSectionStateImpl: NSObject, ObservableObject, Identifiable, MSFList
 }
 
 /// Properties that make up list content
-class MSFListStateImpl: NSObject, ObservableObject, MSFListState {
-    var tokens: MSFListTokens
+class MSFListStateImpl: NSObject, ObservableObject, ControlConfiguration, MSFListState {
     @Published private(set) var sections: [MSFListSectionStateImpl] = []
 
     override init() {
-        self.tokens = MSFListTokens()
+        let tokens = MSFListTokens()
+        self.tokens = tokens
         super.init()
     }
 
+    @Published var overrideTokens: MSFListTokens?
+    @Published var tokens: MSFListTokens
     // MARK: - MSFListStateImpl accessors
 
     var sectionCount: Int {

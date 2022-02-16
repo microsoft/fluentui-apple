@@ -26,6 +26,7 @@ open class MSFHeaderFooterTokens: ControlTokens {
         switch style {
         case .standard:
             return aliasTokens.foregroundColors[.neutral1]
+//            return globalTokens.brandColors[.primary]
         case .subtle:
             return aliasTokens.foregroundColors[.neutral3]
         }

@@ -7,11 +7,20 @@ import UIKit
 import SwiftUI
 
 struct Header: View, TokenizedControlInternal {
+    typealias TokenType = MSFHeaderFooterTokens
+
     init(state: MSFListSectionStateImpl) {
         self.state = state
     }
 
     var body: some View {
+        let backgroundColor: Color = {
+            guard let stateBackgroundColor = state.backgroundColor else {
+                return Color(dynamicColor: tokens.backgroundColor)
+            }
+            return Color(stateBackgroundColor)
+        }()
+
         HStack(spacing: 0) {
             if let title = state.title, !title.isEmpty {
                 Text(title)
@@ -25,11 +34,11 @@ struct Header: View, TokenizedControlInternal {
                             bottom: tokens.bottomPadding,
                             trailing: tokens.trailingPadding))
         .frame(minHeight: tokens.headerHeight)
-        .background(Color(state.backgroundColor ?? Color(dynamicColor: tokens.backgroundColor)))
+        .background(backgroundColor)
         .resolveTokens(self)
     }
 
-    var tokens: MSFHeaderFooterTokens { state.headerTokens }
+    var tokens: MSFHeaderFooterTokens { state.tokens }
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @ObservedObject var state: MSFListSectionStateImpl
 }

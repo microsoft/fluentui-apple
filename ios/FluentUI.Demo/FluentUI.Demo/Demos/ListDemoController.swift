@@ -41,7 +41,7 @@ class ListDemoController: DemoController {
         for (sectionIndex, section) in sections.enumerated() {
             let sectionState = list.state.createSection()
             sectionState.title = section.title
-            sectionState.style = MSFHeaderFooterStyle.headerSecondary
+            sectionState.style = MSFHeaderFooterStyle.subtle
             sectionState.hasDividers = true
             for rowIndex in 0..<TableViewCellSampleData.numberOfItemsInSection {
                 showsLabelAccessoryView = TableViewCellSampleData.hasLabelAccessoryViews(at: IndexPath(row: rowIndex, section: sectionIndex))
