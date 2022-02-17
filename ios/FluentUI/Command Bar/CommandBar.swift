@@ -88,12 +88,15 @@ public class CommandBar: UIView, TokenizedControlInternal, ControlConfiguration 
 
     public typealias TokenType = CommandBarTokens
 
-    var state: CommandBar { self }
     var tokens: CommandBarTokens = .init()
     var overrideTokens: CommandBarTokens? {
         didSet {
             updateButtonTokens()
         }
+    }
+
+    func updateCurrentTokens(_ tokens: CommandBarTokens) {
+        self.tokens = tokens
     }
 
     @objc private func themeDidChange(_ notification: Notification) {

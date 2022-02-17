@@ -367,8 +367,6 @@ open class NotificationView: UIView, TokenizedControlInternal, ControlConfigurat
         return self
     }
 
-    var state: NotificationView { self }
-
     /// Design token set for this control, to use in place of the control's default Fluent tokens.
     var overrideTokens: NotificationTokens?
 
@@ -385,6 +383,10 @@ open class NotificationView: UIView, TokenizedControlInternal, ControlConfigurat
                 tokens.style = style
             }
         }
+    }
+
+    func updateCurrentTokens(_ tokens: NotificationTokens) {
+        self.tokens = tokens
     }
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {

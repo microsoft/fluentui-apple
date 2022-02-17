@@ -43,13 +43,12 @@ import SwiftUI
 }
 
 /// View that represents the Notification.
-public struct NotificationViewSwiftUI: View, TokenizedControlInternal {
+public struct NotificationViewSwiftUI: View, ConfigurableTokenizedControl {
     @Environment(\.horizontalSizeClass) var horizontalSizeClass: UserInterfaceSizeClass?
     @Environment(\.swiftUIInsets) private var safeAreaInsets: EdgeInsets
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @ObservedObject var state: MSFNotificationStateImpl
     var tokens: NotificationTokens { state.tokens }
-    public typealias TokenType = NotificationTokens
     public func overrideTokens(_ tokens: NotificationTokens?) -> NotificationViewSwiftUI {
         state.overrideTokens = tokens
         return self
