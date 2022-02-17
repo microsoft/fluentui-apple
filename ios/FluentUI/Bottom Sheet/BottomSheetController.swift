@@ -647,7 +647,7 @@ public class BottomSheetController: UIViewController {
                 }
                 animator.startAnimation()
             } else {
-                animator.startAnimation()
+                animator.startAnimation() // moves the animator into active state so it can be stopped
                 animator.stopAnimation(false)
                 animator.finishAnimation(at: .end)
             }
