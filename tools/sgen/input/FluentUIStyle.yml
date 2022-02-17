@@ -286,17 +286,6 @@ AP_MSFPersonaViewTokens:
   labelFont: $Typography.headline
   sublabelColor: $Colors.Foreground.neutral1
 
-AP_MSFPillButtonBarTokens:
-  cornerRadius: $Spacing.medium
-  maxButtonsSpacing: 10pt
-  minButtonsSpacing: $Spacing.xSmall
-  minButtonVisibleWidth: $Spacing.large
-  minButtonWidth: 56pt
-  minHeight: 28pt
-  sideInset: $Spacing.medium
-  hoverBackgroundColor: [ primary: "FluentUIColor(light: NamedColor(grey94), dark: NamedColor(grey8))",
-                          onBrand: "FluentUIColor(light: $Colors.Brand.shade10, dark: NamedColor(grey8))" ]
-
 MSFPrimaryHeaderTokens extends MSFHeaderFooterTokens:
   textColor: $Colors.Foreground.neutral1
   textFont: $Typography.headline
