@@ -6,15 +6,15 @@
 import UIKit
 import SwiftUI
 
-/// HeaderFooter styles.
-@objc public enum HeaderStyle: Int, CaseIterable {
+/// Header styles.
+@objc public enum MSFHeaderStyle: Int, CaseIterable {
     case standard
     case subtle
 }
 
 open class HeaderTokens: ControlTokens {
-    /// The HeaderFooter style.
-    public internal(set) var style: HeaderStyle = .standard
+    /// The Header style.
+    public internal(set) var style: MSFHeaderStyle = .standard
 
     // MARK: - Design Tokens
 

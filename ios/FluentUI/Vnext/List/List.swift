@@ -12,13 +12,14 @@ import SwiftUI
     var title: String? { get set }
 
     /// Sets a custom background color for the List Section.
+    // TODO: Remove backgroundColor so that it will only be controlled by the tokens.
     var backgroundColor: UIColor? { get set }
 
     /// Configures divider presence within the Section.
     var hasDividers: Bool { get set }
 
     /// Configures the Section's `Header` style.
-    var style: HeaderStyle { get set }
+    var style: MSFHeaderStyle { get set }
 
     /// The number of Cells in the Section.
     var cellCount: Int { get }
@@ -120,7 +121,7 @@ public struct FluentList: View {
 
 /// Properties that make up section content
 class MSFListSectionStateImpl: NSObject, ObservableObject, Identifiable, ControlConfiguration, MSFListSectionState {
-    init(style: HeaderStyle = .standard) {
+    init(style: MSFHeaderStyle = .standard) {
         let tokens = HeaderTokens()
         tokens.style = style
         self.tokens = tokens
@@ -148,7 +149,7 @@ class MSFListSectionStateImpl: NSObject, ObservableObject, Identifiable, Control
         return cells.count
     }
 
-    var style: HeaderStyle {
+    var style: MSFHeaderStyle {
         didSet {
             tokens.style = style
         }
