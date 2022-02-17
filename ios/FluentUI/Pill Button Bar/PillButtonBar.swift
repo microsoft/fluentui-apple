@@ -5,14 +5,6 @@
 
 import UIKit
 
-// MARK: PillButtonBarDelegate
-
-@objc(MSFPillButtonBarDelegate)
-public protocol PillButtonBarDelegate {
-    /// Called after the button representing the item is tapped in the UI.
-    @objc optional func pillBar(_ pillBar: PillButtonBar, didSelectItem item: PillButtonBarItem, atIndex index: Int)
-}
-
 // MARK: PillButtonBarItem
 
 /// `PillButtonBarItem` is an item that can be presented as a pill shaped text button.
@@ -59,94 +51,29 @@ open class PillButtonBarItem: NSObject {
 /// Once a button is selected, the previously selected button will be deselected.
 @objc(MSFPillButtonBar)
 open class PillButtonBar: UIScrollView, FluentUIWindowProvider, ControlConfiguration, TokenizedControlInternal {
-    public typealias TokenType = PillButtonBarTokens
-
-    @objc public weak var barDelegate: PillButtonBarDelegate?
-
-    @objc public var centerAligned: Bool = false {
-        didSet {
-            adjustAlignment()
-        }
+    open override func didMoveToWindow() {
+        super.didMoveToWindow()
+        pillButtonBarTokens.updateForCurrentTheme()
     }
 
-    @objc public var items: [PillButtonBarItem]? {
-        didSet {
-            clearButtons()
+    open override func layoutSubviews() {
+        super.layoutSubviews()
 
-            if let items = items {
-                addButtonsWithItems(items)
-            }
-
-            setNeedsLayout()
-            needsButtonSizeReconfiguration = true
+        if bounds.width == 0 {
+            return
         }
-    }
 
-    @objc public let pillButtonStyle: PillButtonStyle
-
-    @objc public var pillButtonOverrideTokens: PillButtonTokens?
-
-    /// If set to nil, the previously selected item will be deselected and there won't be any items selected
-    @objc public var selectedItem: PillButtonBarItem? {
-        get {
-            return selectedButton?.pillBarItem
-        }
-        set {
-            if let item = newValue, let index = indexOfButtonWithItem(item) {
-                selectedButton = buttons[index]
+        if needsButtonSizeReconfiguration {
+            ensureMinimumButtonWidth()
+            updateHeightConstraint()
+            adjustButtonsForCurrentScrollFrame()
+            needsButtonSizeReconfiguration = false
+            if let selectedButton = selectedButton {
+                layoutIfNeeded()
+                scrollButtonToVisible(selectedButton)
             }
         }
     }
-
-    public func overrideTokens (_ tokens: PillButtonBarTokens?) -> Self {
-        overrideTokens = tokens
-        return self
-    }
-
-    var state: PillButtonBar { self }
-    var tokens: PillButtonBarTokens = .init()
-    var overrideTokens: PillButtonBarTokens? {
-        didSet {
-            updatePillButtonBarTokens()
-        }
-    }
-
-    private var buttonExtraSidePadding: CGFloat = 0.0
-
-    private var buttons = [PillButton]()
-
-    private var lastKnownScrollFrameWidth: CGFloat = 0.0
-
-    private var needsButtonSizeReconfiguration: Bool = false
-
-    private var selectedButton: PillButton? {
-        willSet {
-            selectedButton?.isSelected = false
-        }
-
-        didSet {
-            if let button = selectedButton {
-                button.isSelected = true
-            }
-        }
-    }
-
-    private lazy var stackView: UIStackView = initStackView()
-
-    private func initStackView() -> UIStackView {
-        let view = UIStackView()
-        view.alignment = .center
-        view.spacing = pillButtonBarTokens.minButtonsSpacing
-        return view
-    }
-
-    private var leadingConstraint: NSLayoutConstraint?
-
-    private var centerConstraint: NSLayoutConstraint?
-
-    private var heightConstraint: NSLayoutConstraint?
-
-    private var trailingConstraint: NSLayoutConstraint?
 
     public override var bounds: CGRect {
         didSet {
@@ -162,6 +89,10 @@ open class PillButtonBar: UIScrollView, FluentUIWindowProvider, ControlConfigura
         }
     }
 
+    public func overrideTokens (_ tokens: PillButtonBarTokens?) -> Self {
+        overrideTokens = tokens
+        return self
+    }
     /// Initializes the PillButtonBar using the provided style.
     ///
     /// - Parameters:
@@ -178,11 +109,6 @@ open class PillButtonBar: UIScrollView, FluentUIWindowProvider, ControlConfigura
 
     public required init?(coder aDecoder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
-    }
-
-    open override func didMoveToWindow() {
-        super.didMoveToWindow()
-        pillButtonBarTokens.updateForCurrentTheme()
     }
 
     @objc public func selectItem(_ item: PillButtonBarItem) {
@@ -234,23 +160,81 @@ open class PillButtonBar: UIScrollView, FluentUIWindowProvider, ControlConfigura
         buttons[index].isEnabled = true
     }
 
-    open override func layoutSubviews() {
-        super.layoutSubviews()
+    public typealias TokenType = PillButtonBarTokens
 
-        if bounds.width == 0 {
-            return
+    @objc public weak var barDelegate: PillButtonBarDelegate?
+
+    @objc public var centerAligned: Bool = false {
+        didSet {
+            adjustAlignment()
         }
+    }
 
-        if needsButtonSizeReconfiguration {
-            ensureMinimumButtonWidth()
-            updateHeightConstraint()
-            adjustButtonsForCurrentScrollFrame()
-            needsButtonSizeReconfiguration = false
-            if let selectedButton = selectedButton {
-                layoutIfNeeded()
-                scrollButtonToVisible(selectedButton)
+    @objc public var items: [PillButtonBarItem]? {
+        didSet {
+            clearButtons()
+
+            if let items = items {
+                addButtonsWithItems(items)
+            }
+
+            setNeedsLayout()
+            needsButtonSizeReconfiguration = true
+        }
+    }
+
+    @objc public let pillButtonStyle: PillButtonStyle
+
+    @objc public var pillButtonOverrideTokens: PillButtonTokens?
+
+    /// If set to nil, the previously selected item will be deselected and there won't be any items selected
+    @objc public var selectedItem: PillButtonBarItem? {
+        get {
+            return selectedButton?.pillBarItem
+        }
+        set {
+            if let item = newValue, let index = indexOfButtonWithItem(item) {
+                selectedButton = buttons[index]
             }
         }
+    }
+
+
+    var state: PillButtonBar { self }
+    var tokens: PillButtonBarTokens = .init()
+    var overrideTokens: PillButtonBarTokens? {
+        didSet {
+            updatePillButtonBarTokens()
+        }
+    }
+
+    private var buttonExtraSidePadding: CGFloat = 0.0
+
+    private var buttons = [PillButton]()
+
+    private var lastKnownScrollFrameWidth: CGFloat = 0.0
+
+    private var needsButtonSizeReconfiguration: Bool = false
+
+    private var selectedButton: PillButton? {
+        willSet {
+            selectedButton?.isSelected = false
+        }
+
+        didSet {
+            if let button = selectedButton {
+                button.isSelected = true
+            }
+        }
+    }
+
+    private lazy var stackView: UIStackView = initStackView()
+
+    private func initStackView() -> UIStackView {
+        let view = UIStackView()
+        view.alignment = .center
+        view.spacing = pillButtonBarTokens.minButtonsSpacing
+        return view
     }
 
     private func addButtonsWithItems(_ items: [PillButtonBarItem]) {
@@ -490,12 +474,20 @@ open class PillButtonBar: UIScrollView, FluentUIWindowProvider, ControlConfigura
         }
     }
 
-    private lazy var pillButtonBarTokens = MSFPillButtonBarTokens()
-
     private func updatePillButtonBarTokens() {
         let tokens = TokenResolver.tokens(for: self, fluentTheme: fluentTheme)
         self.tokens = tokens
     }
+
+    private lazy var pillButtonBarTokens = MSFPillButtonBarTokens()
+    
+    private var leadingConstraint: NSLayoutConstraint?
+
+    private var centerConstraint: NSLayoutConstraint?
+
+    private var heightConstraint: NSLayoutConstraint?
+
+    private var trailingConstraint: NSLayoutConstraint?
 }
 
 // MARK: PillButtonBar UIPointerInteractionDelegate
@@ -532,4 +524,12 @@ extension PillButtonBar: UIPointerInteractionDelegate {
 
         return UIPointerStyle(effect: pointerEffect, shape: nil)
     }
+}
+
+// MARK: PillButtonBarDelegate
+
+@objc(MSFPillButtonBarDelegate)
+public protocol PillButtonBarDelegate {
+    /// Called after the button representing the item is tapped in the UI.
+    @objc optional func pillBar(_ pillBar: PillButtonBar, didSelectItem item: PillButtonBarItem, atIndex index: Int)
 }
