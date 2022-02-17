@@ -50,10 +50,14 @@ public class BottomSheetController: UIViewController {
     ///   - headerContentView: Top part of the sheet content that is visible in both collapsed and expanded state.
     ///   - expandedContentView: Sheet content below the header which is only visible when the sheet is expanded.
     ///   - shouldShowDimmingView: Indicates if the main content is dimmed when the sheet is expanded.
-    @objc public init(headerContentView: UIView? = nil, expandedContentView: UIView, shouldShowDimmingView: Bool = true) {
+    @objc public init(headerContentView: UIView? = nil,
+                      expandedContentView: UIView,
+                      shouldShowDimmingView: Bool = true,
+                      usesIntegratedPresentation: Bool = false) {
         self.headerContentView = headerContentView
         self.expandedContentView = expandedContentView
         self.shouldShowDimmingView = shouldShowDimmingView
+        self.usesIntegratedPresentation = usesIntegratedPresentation
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -80,6 +84,7 @@ public class BottomSheetController: UIViewController {
                 panGestureRecognizer.isEnabled = isExpandable
                 if isViewLoaded {
                     move(to: .collapsed, animated: false)
+                    recalculateSheetFrame()
                 }
             }
         }
@@ -110,7 +115,7 @@ public class BottomSheetController: UIViewController {
             guard isViewLoaded else {
                 return
             }
-            view.setNeedsLayout()
+            recalculateSheetFrame()
         }
     }
 
@@ -136,7 +141,7 @@ public class BottomSheetController: UIViewController {
                 return
             }
             completeAnimationsIfNeeded(skipToEnd: true)
-            view.setNeedsLayout()
+            recalculateSheetFrame()
         }
     }
 
@@ -177,7 +182,7 @@ public class BottomSheetController: UIViewController {
                 return
             }
             completeAnimationsIfNeeded(skipToEnd: true)
-            view.setNeedsLayout()
+            recalculateSheetFrame()
         }
     }
 
@@ -187,7 +192,7 @@ public class BottomSheetController: UIViewController {
             guard shouldHideCollapsedContent != oldValue && isViewLoaded else {
                 return
             }
-            view.setNeedsLayout()
+            recalculateSheetFrame()
         }
     }
 
@@ -197,7 +202,7 @@ public class BottomSheetController: UIViewController {
             guard shouldAlwaysFillWidth != oldValue && isViewLoaded else {
                 return
             }
-            view.setNeedsLayout()
+            recalculateSheetFrame()
         }
     }
 
@@ -221,6 +226,27 @@ public class BottomSheetController: UIViewController {
     @objc public static var resizingHandleHeight: CGFloat {
         return ResizingHandleView.height
     }
+
+    // MARK: - Integrated presentation
+
+    public func addBottomSheetView(to hostView: UIView) {
+        precondition(usesIntegratedPresentation, "addBottomSheetView should only be used when integrated presentation is enabled")
+
+        self.hostView = hostView
+        hostView.addSubview(view)
+
+        recalculateSheetFrame()
+        NSLayoutConstraint.activate(makeLayoutGuideConstraints())
+    }
+
+    public func removeBottomSheetFromHostView() {
+        precondition(usesIntegratedPresentation, "removeBottomSheetFromHostView should only be used when integrated presentation is enabled")
+
+        view.removeFromSuperview()
+        hostView = nil
+    }
+
+    public let usesIntegratedPresentation: Bool
 
     // MARK: - Parametrized setters
 
@@ -312,23 +338,21 @@ public class BottomSheetController: UIViewController {
     // |  |  |--expandedContentView
     // |--overflowView
     public override func loadView() {
-        view = BottomSheetPassthroughView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.addLayoutGuide(sheetLayoutGuide)
-
         var constraints = [NSLayoutConstraint]()
 
-        if shouldShowDimmingView {
-            view.addSubview(dimmingView)
-            constraints.append(contentsOf: [
-                dimmingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                dimmingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                dimmingView.topAnchor.constraint(equalTo: view.topAnchor),
-                dimmingView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-            ])
+        if usesIntegratedPresentation {
+            view = bottomSheetView
+        } else {
+            view = BottomSheetPassthroughView()
+            view.translatesAutoresizingMaskIntoConstraints = false
+
+            hostView = view
+            view.addSubview(bottomSheetView)
+            constraints.append(contentsOf: makeLayoutGuideConstraints())
         }
 
-        view.addSubview(bottomSheetView)
+        view.addLayoutGuide(sheetLayoutGuide)
+
         bottomSheetView.isHidden = currentExpansionState == .hidden
 
         // The non-zero frame here ensures the layout engine won't complain if it tries to calculate
@@ -339,7 +363,7 @@ public class BottomSheetController: UIViewController {
         let overflowView = UIView()
         overflowView.translatesAutoresizingMaskIntoConstraints = false
         overflowView.backgroundColor = Colors.NavigationBar.background
-        view.addSubview(overflowView)
+        bottomSheetView.addSubview(overflowView)
 
         if let headerContentView = headerContentView {
             let heightConstraint = headerContentView.heightAnchor.constraint(equalToConstant: headerContentHeight)
@@ -353,8 +377,6 @@ public class BottomSheetController: UIViewController {
             overflowView.heightAnchor.constraint(equalToConstant: Constants.Spring.overflowHeight),
             overflowView.topAnchor.constraint(equalTo: bottomSheetView.bottomAnchor)
         ])
-
-        constraints.append(contentsOf: makeLayoutGuideConstraints())
 
         NSLayoutConstraint.activate(constraints)
     }
@@ -437,15 +459,38 @@ public class BottomSheetController: UIViewController {
     }
 
     public override func viewDidLayoutSubviews() {
+        guard hostView == view else {
+            return
+        }
+
+        recalculateSheetFrame()
+    }
+
+    public override func viewSafeAreaInsetsDidChange() {
+        recalculateSheetFrame()
+    }
+
+    public func recalculateSheetFrame() {
+        guard let hostView = hostView else {
+            return
+        }
+
         // In the transitioning state a pan gesture or an animator temporarily owns the sheet frame updates,
         // so to avoid interfering we won't update the frame here.
         if currentExpansionState != .transitioning {
-            bottomSheetView.frame = sheetFrame(offset: offset(for: currentExpansionState))
-            updateSheetLayoutGuideTopConstraint()
-            updateExpandedContentAlpha()
-            updateDimmingViewAlpha()
+            let newFrame = sheetFrame(offset: offset(for: currentExpansionState))
+            if newFrame != bottomSheetView.frame {
+                bottomSheetView.frame = newFrame
+                updateSheetLayoutGuideTopConstraint()
+                updateExpandedContentAlpha()
+                updateDimmingViewAlpha()
+            }
         }
-        collapsedHeightInSafeArea = view.safeAreaLayoutGuide.layoutFrame.maxY - offset(for: .collapsed)
+        collapsedHeightInSafeArea = hostView.safeAreaLayoutGuide.layoutFrame.maxY - offset(for: .collapsed)
+    }
+
+    public func hostViewBoundsDidChange() {
+        recalculateSheetFrame()
     }
 
     public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -524,9 +569,28 @@ public class BottomSheetController: UIViewController {
         }
 
         dimmingView.alpha = targetAlpha
+        ensureDimmingViewPresentIfNeeded()
+    }
+
+    private func ensureDimmingViewPresentIfNeeded() {
+        if dimmingView.alpha == 0.0 || !shouldShowDimmingView {
+            dimmingView.removeFromSuperview()
+        } else if let hostView = hostView, dimmingView.superview != hostView {
+            hostView.insertSubview(dimmingView, belowSubview: bottomSheetView)
+            NSLayoutConstraint.activate([
+                dimmingView.leadingAnchor.constraint(equalTo: hostView.leadingAnchor),
+                dimmingView.trailingAnchor.constraint(equalTo: hostView.trailingAnchor),
+                dimmingView.topAnchor.constraint(equalTo: hostView.topAnchor),
+                dimmingView.bottomAnchor.constraint(equalTo: hostView.bottomAnchor)
+            ])
+        }
     }
 
     private func updateSheetLayoutGuideTopConstraint() {
+        guard let sheetLayoutGuideTopConstraint = sheetLayoutGuideTopConstraint else {
+            return
+        }
+
         if sheetLayoutGuideTopConstraint.constant != currentSheetVerticalOffset {
             sheetLayoutGuideTopConstraint.constant = currentSheetVerticalOffset
         }
@@ -567,21 +631,22 @@ public class BottomSheetController: UIViewController {
         updateDimmingViewAlpha()
     }
 
-    // Source of truth for the sheet frame at a given offset from the top of the root view bounds.
+    // Source of truth for the sheet frame at a given offset from the top of the host view bounds.
     // The output is only meaningful once view.bounds is non-zero i.e. a layout pass has occured.
     private func sheetFrame(offset: CGFloat) -> CGRect {
-        let availableWidth: CGFloat = view.bounds.width
+        let hostViewBounds = hostView?.bounds ?? .zero
+        let availableWidth: CGFloat = hostViewBounds.width
         let sheetWidth = shouldAlwaysFillWidth ? availableWidth : min(Constants.maxSheetWidth, availableWidth)
         let sheetHeight: CGFloat
 
         if isFlexibleHeight {
             let minSheetHeight = collapsedSheetHeight
-            sheetHeight = max(minSheetHeight, view.bounds.maxY - offset)
+            sheetHeight = max(minSheetHeight, hostViewBounds.maxY - offset)
         } else {
             sheetHeight = expandedSheetHeight
         }
 
-        return CGRect(origin: CGPoint(x: (view.bounds.width - sheetWidth) / 2, y: offset),
+        return CGRect(origin: CGPoint(x: (hostViewBounds.width - sheetWidth) / 2, y: offset),
                       size: CGSize(width: sheetWidth, height: sheetHeight))
     }
 
@@ -686,7 +751,7 @@ public class BottomSheetController: UIViewController {
                 return
             }
             strongSelf.bottomSheetView.frame = strongSelf.sheetFrame(offset: targetVerticalOffset)
-            strongSelf.sheetLayoutGuideTopConstraint.constant = targetVerticalOffset
+            strongSelf.sheetLayoutGuideTopConstraint?.constant = targetVerticalOffset
             strongSelf.view.layoutIfNeeded()
         }
 
@@ -714,7 +779,7 @@ public class BottomSheetController: UIViewController {
                                                   shouldNotifyDelegate: shouldNotifyDelegate && finalPosition != .current)
         })
 
-        view.layoutIfNeeded()
+        hostView?.layoutIfNeeded()
         currentExpansionState = .transitioning
         return translationAnimator
     }
@@ -724,15 +789,19 @@ public class BottomSheetController: UIViewController {
     // Note: Since .transitioning state doesn't have a well defined offset, this function will
     // only return the current sheet offset in that case.
     private func offset(for expansionState: BottomSheetExpansionState) -> CGFloat {
+        guard let hostView = hostView else {
+            return 0
+        }
+
         let offset: CGFloat
 
         switch expansionState {
         case .collapsed:
-            offset = view.frame.maxY - collapsedSheetHeight
+            offset = hostView.frame.maxY - collapsedSheetHeight
         case .expanded:
-            offset = view.frame.maxY - expandedSheetHeight
+            offset = hostView.frame.maxY - expandedSheetHeight
         case .hidden:
-            offset = view.frame.maxY
+            offset = hostView.frame.maxY
         case .transitioning:
             offset = bottomSheetView.frame.minY
         }
@@ -757,6 +826,8 @@ public class BottomSheetController: UIViewController {
         // UIKit doesn't properly handle interrupted constraint animations, so we need to
         // detect and fix a possible desync here
         updateSheetLayoutGuideTopConstraint()
+
+        ensureDimmingViewPresentIfNeeded()
     }
 
     private func completeAnimationsIfNeeded(skipToEnd: Bool = false) {
@@ -769,36 +840,41 @@ public class BottomSheetController: UIViewController {
     }
 
     private func makeLayoutGuideConstraints() -> [NSLayoutConstraint] {
+        guard let hostView = hostView else {
+            return []
+        }
+
         let requiredConstraints = [
             sheetLayoutGuide.leadingAnchor.constraint(equalTo: bottomSheetView.leadingAnchor),
             sheetLayoutGuide.trailingAnchor.constraint(equalTo: bottomSheetView.trailingAnchor),
-            sheetLayoutGuide.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            sheetLayoutGuide.topAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor)
+            sheetLayoutGuide.bottomAnchor.constraint(equalTo: hostView.bottomAnchor),
+            sheetLayoutGuide.topAnchor.constraint(lessThanOrEqualTo: hostView.bottomAnchor)
         ]
 
         // This constraint is used to align the top of the layout guide with the top of the bottomSheetView.
         // BottomSheetView will go off-screen when it's hidden, so this constraint is not always required.
-        let breakableTopConstraint = sheetLayoutGuideTopConstraint
+        let breakableTopConstraint = sheetLayoutGuide.topAnchor.constraint(equalTo: hostView.topAnchor)
         breakableTopConstraint.priority = .defaultHigh
 
+        self.sheetLayoutGuideTopConstraint = breakableTopConstraint
         return requiredConstraints + [breakableTopConstraint]
     }
 
-    private lazy var sheetLayoutGuideTopConstraint: NSLayoutConstraint = sheetLayoutGuide.topAnchor.constraint(equalTo: view.topAnchor)
+    private var sheetLayoutGuideTopConstraint: NSLayoutConstraint?
 
     // Height of the sheet in the fully expanded state
     private var expandedSheetHeight: CGFloat {
-        guard isExpandable else {
+        guard isExpandable, let hostView = hostView else {
             return collapsedSheetHeight
         }
 
         let height: CGFloat
-        let maxHeight = view.frame.height - view.safeAreaInsets.top - Constants.minimumTopExpandedPadding
+        let maxHeight = hostView.frame.height - hostView.safeAreaInsets.top - Constants.minimumTopExpandedPadding
 
         if preferredExpandedContentHeight == 0 {
             height = maxHeight
         } else {
-            let idealHeight = currentResizingHandleHeight + headerContentHeight + preferredExpandedContentHeight + view.safeAreaInsets.bottom
+            let idealHeight = currentResizingHandleHeight + headerContentHeight + preferredExpandedContentHeight + hostView.safeAreaInsets.bottom
             height = min(maxHeight, idealHeight)
         }
 
@@ -810,7 +886,7 @@ public class BottomSheetController: UIViewController {
     // Height of the sheet in collapsed state
     private var collapsedSheetHeight: CGFloat {
         let visibleContentHeight = (collapsedContentHeight > 0) ? collapsedContentHeight : headerContentHeight
-        return currentResizingHandleHeight + visibleContentHeight + view.safeAreaInsets.bottom
+        return currentResizingHandleHeight + visibleContentHeight + (hostView?.safeAreaInsets.bottom ?? 0)
     }
 
     private var currentResizingHandleHeight: CGFloat {
@@ -838,6 +914,8 @@ public class BottomSheetController: UIViewController {
     }
 
     private let shouldShowDimmingView: Bool
+
+    private var hostView: UIView?
 
     private struct Constants {
         // Maximum offset beyond the normal bounds with additional resistance

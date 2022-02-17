@@ -21,7 +21,7 @@ class BottomSheetDemoController: UIViewController {
         view.addSubview(optionTableView)
         mainTableView = optionTableView
 
-        let bottomSheetViewController = BottomSheetController(headerContentView: headerView, expandedContentView: expandedContentView)
+        let bottomSheetViewController = BottomSheetController(headerContentView: headerView, expandedContentView: expandedContentView, usesIntegratedPresentation: true)
         bottomSheetViewController.hostedScrollView = personaListView
         bottomSheetViewController.headerContentHeight = BottomSheetDemoController.headerHeight
         bottomSheetViewController.collapsedContentHeight = 70
@@ -29,20 +29,20 @@ class BottomSheetDemoController: UIViewController {
 
         self.bottomSheetViewController = bottomSheetViewController
 
-        self.addChild(bottomSheetViewController)
-        view.addSubview(bottomSheetViewController.view)
+        addChild(bottomSheetViewController)
+        bottomSheetViewController.addBottomSheetView(to: view)
         bottomSheetViewController.didMove(toParent: self)
 
         NSLayoutConstraint.activate([
             optionTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             optionTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             optionTableView.topAnchor.constraint(equalTo: view.topAnchor),
-            optionTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            bottomSheetViewController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            bottomSheetViewController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            bottomSheetViewController.view.topAnchor.constraint(equalTo: view.topAnchor),
-            bottomSheetViewController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            optionTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+    }
+
+    override func viewDidLayoutSubviews() {
+        self.bottomSheetViewController?.hostViewBoundsDidChange()
     }
 
     private var mainTableView: UITableView?
@@ -84,7 +84,7 @@ class BottomSheetDemoController: UIViewController {
     @objc private func showTransientSheet() {
         let sheetContentView = UIView()
 
-        let secondarySheetController = BottomSheetController(expandedContentView: sheetContentView)
+        let secondarySheetController = BottomSheetController(expandedContentView: sheetContentView, usesIntegratedPresentation: true)
         secondarySheetController.collapsedContentHeight = 250
         secondarySheetController.isHidden = true
         secondarySheetController.shouldAlwaysFillWidth = false
@@ -95,7 +95,7 @@ class BottomSheetDemoController: UIViewController {
             secondarySheetController.setIsHidden(true, animated: true) { _ in
                 secondarySheetController.willMove(toParent: nil)
                 secondarySheetController.removeFromParent()
-                secondarySheetController.view.removeFromSuperview()
+                secondarySheetController.removeBottomSheetFromHostView()
             }
         }))
 
@@ -110,14 +110,10 @@ class BottomSheetDemoController: UIViewController {
         sheetContentView.addSubview(anotherOneButton)
 
         addChild(secondarySheetController)
-        view.addSubview(secondarySheetController.view)
+        secondarySheetController.addBottomSheetView(to: view)
         secondarySheetController.didMove(toParent: self)
 
         NSLayoutConstraint.activate([
-            secondarySheetController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            secondarySheetController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            secondarySheetController.view.topAnchor.constraint(equalTo: view.topAnchor),
-            secondarySheetController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             dismissButton.leadingAnchor.constraint(equalTo: sheetContentView.leadingAnchor, constant: 18),
             dismissButton.trailingAnchor.constraint(equalTo: sheetContentView.trailingAnchor, constant: -18),
             dismissButton.bottomAnchor.constraint(equalTo: sheetContentView.safeAreaLayoutGuide.bottomAnchor),
