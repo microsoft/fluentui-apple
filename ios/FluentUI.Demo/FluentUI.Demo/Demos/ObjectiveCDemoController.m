@@ -69,7 +69,7 @@
     [listVnextLabel setText:@"List (vNext)"];
     [self.container addArrangedSubview:listVnextLabel];
 
-    MSFList *testList = [[MSFList alloc] initWithTheme:nil];
+    MSFList *testList = [[MSFList alloc] init];
     id<MSFListSectionState> sectionState = [[testList state] createSection];
     id<MSFListCellState> listCell1 = [sectionState createCell];
     id<MSFListCellState> listCell2 = [sectionState createCell];
