@@ -480,7 +480,7 @@ open class PillButtonBar: UIScrollView, FluentUIWindowProvider, ControlConfigura
     }
 
     private lazy var pillButtonBarTokens = MSFPillButtonBarTokens()
-    
+
     private var leadingConstraint: NSLayoutConstraint?
 
     private var centerConstraint: NSLayoutConstraint?
