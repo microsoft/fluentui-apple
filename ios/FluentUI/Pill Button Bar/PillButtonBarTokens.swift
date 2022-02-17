@@ -46,10 +46,10 @@ class MSFPillButtonBarTokens: MSFTokensBase {
 /// Design token set for the `PillButtonBar` control
 open class PillButtonBarTokens: ControlTokens {
     /// Maximum spacing between `PillButton` controls
-    open var maxButtonSpacing: CGFloat { 10 }
+    open var maxButtonsSpacing: CGFloat { 10 }
 
     /// Minimum spacing between `PillButton` controls
-    open var minButtonSpacing: CGFloat { globalTokens.spacing[.xSmall] }
+    open var minButtonsSpacing: CGFloat { globalTokens.spacing[.xSmall] }
 
     /// Minimum width of the last button that must be showing on screen when the `PillButtonBar` loads or redraws
     open var minButtonVisibleWidth: CGFloat { globalTokens.spacing[.large] }
@@ -57,8 +57,8 @@ open class PillButtonBarTokens: ControlTokens {
     /// Minimum width of a `PillButton`
     open var minButtonWidth: CGFloat { 56 }
 
-    /// Minimum height of a `PillButton`
-    open var minButtonHeight: CGFloat { 28 }
+    /// Minimum height of the `PillButtonBar`
+    open var minHeight: CGFloat { 28 }
 
     /// Offset from the leading edge when the `PillButtonBar` loads or redraws
     open var sideInset: CGFloat { globalTokens.spacing[.medium] }
