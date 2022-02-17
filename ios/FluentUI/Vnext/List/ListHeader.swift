@@ -6,7 +6,7 @@
 import UIKit
 import SwiftUI
 
-struct Header: View, TokenizedControlInternal {
+struct Header: View, ConfigurableTokenizedControl {
     init(state: MSFListSectionStateImpl) {
         self.state = state
     }
