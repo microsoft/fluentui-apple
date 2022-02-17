@@ -647,6 +647,7 @@ public class BottomSheetController: UIViewController {
                 }
                 animator.startAnimation()
             } else {
+                animator.startAnimation()
                 animator.stopAnimation(false)
                 animator.finishAnimation(at: .end)
             }
