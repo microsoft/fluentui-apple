@@ -21,7 +21,7 @@ class MSFPersonaViewTokens: MSFCellBaseTokens {
     override func updateForCurrentTheme() {
         let currentTheme = theme
         let personaViewAP = currentTheme.MSFPersonaViewTokens
-        let listCellAP = currentTheme.FluentListCellTokens
+        let listCellAP = currentTheme.MSFListCellTokens
 
         disclosureIconForegroundColor = listCellAP.disclosureIconForegroundColor
         labelColor = listCellAP.labelColor

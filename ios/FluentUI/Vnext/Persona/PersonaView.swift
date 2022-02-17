@@ -25,7 +25,7 @@ public protocol PersonaViewState: MSFPersonaViewState {
 }
 
 /// Properties that make up PersonaView content
-class MSFPersonaViewStateImpl: FluentListCellStateImpl, PersonaViewState {
+class MSFPersonaViewStateImpl: MSFListCellStateImpl, PersonaViewState {
     override var backgroundColor: UIColor? {
         get {
             return avatarState.backgroundColor
@@ -226,7 +226,7 @@ public struct PersonaView: View {
     }
 
     public var body: some View {
-        FluentListCellView(state: state)
+        MSFListCellView(state: state)
             .designTokens(tokens,
                           from: theme,
                           with: windowProvider)

@@ -14,7 +14,7 @@ class ListDemoController: DemoController {
         var cell: TableViewCellSampleData.Item
         var showsLabelAccessoryView: Bool
 
-        var listCell: FluentListCellState
+        var listCell: MSFListCellState
 
         //PersonaDataNode creation
         let personaDataNodes: [PersonaDataNode] = [
@@ -50,7 +50,7 @@ class ListDemoController: DemoController {
                 listCell.subtitle = cell.text2
                 listCell.footnote = cell.text3
                 if !listCell.subtitle.isEmpty {
-                    listCell.leadingViewSize = FluentListCellLeadingViewSize.large
+                    listCell.leadingViewSize = MSFListCellLeadingViewSize.large
                     listCell.subtitleLeadingAccessoryUIView = showsLabelAccessoryView ? createCustomView(imageName: "success-12x12", imageType: "subtitle") : nil
                     listCell.subtitleTrailingAccessoryUIView = showsLabelAccessoryView ? createCustomView(imageName: "chevron-down-20x20", imageType: "subtitle") : nil
                 }
@@ -85,7 +85,7 @@ class ListDemoController: DemoController {
         var isExpanded: Bool = false
     }
 
-    private func createSamplePersonaCell(cellState: FluentListCellState, personaDataNode: PersonaDataNode) {
+    private func createSamplePersonaCell(cellState: MSFListCellState, personaDataNode: PersonaDataNode) {
         let personaData = personaDataNode.personaData
         let personaChildren = personaDataNode.children
         let avatar = createAvatarView(size: .medium,
@@ -142,7 +142,7 @@ class ListDemoController: DemoController {
         return customView
     }
 
-    private func accessoryType(for indexPath: Int) -> FluentListAccessoryType {
+    private func accessoryType(for indexPath: Int) -> MSFListAccessoryType {
         switch indexPath {
         case 0:
             return .none
@@ -178,5 +178,5 @@ class ListDemoController: DemoController {
         present(alert, animated: true)
     }
 
-    let list: FluentList = FluentList()
+    let list: MSFList = MSFList()
 }

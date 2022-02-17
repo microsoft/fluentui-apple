@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0A3CD0B127BCA36000DBE728 /* HeaderModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3CD0B027BCA36000DBE728 /* HeaderModifiers.swift */; };
+		0A3CD0B327BDD26B00DBE728 /* MSFList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3CD0B227BDD26A00DBE728 /* MSFList.swift */; };
 		0AA874162600237A00D47421 /* PersonaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA874142600237A00D47421 /* PersonaView.swift */; };
 		0ACD82122620451F0035CD9F /* MSFPersonaViewTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACD82102620451E0035CD9F /* MSFPersonaViewTokens.generated.swift */; };
 		0ACD82192620453B0035CD9F /* PersonaViewTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACD82172620453B0035CD9F /* PersonaViewTokens.swift */; };
@@ -232,6 +233,7 @@
 
 /* Begin PBXFileReference section */
 		0A3CD0B027BCA36000DBE728 /* HeaderModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderModifiers.swift; sourceTree = "<group>"; };
+		0A3CD0B227BDD26A00DBE728 /* MSFList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFList.swift; sourceTree = "<group>"; };
 		0AA874142600237A00D47421 /* PersonaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaView.swift; sourceTree = "<group>"; };
 		0ACD82102620451E0035CD9F /* MSFPersonaViewTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFPersonaViewTokens.generated.swift; sourceTree = "<group>"; };
 		0ACD82172620453B0035CD9F /* PersonaViewTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaViewTokens.swift; sourceTree = "<group>"; };
@@ -738,6 +740,7 @@
 				53097D152702890900A6E4DC /* ListCell.swift */,
 				53097D132702890800A6E4DC /* ListHeader.swift */,
 				53097D112702890800A6E4DC /* ListTokens.swift */,
+				0A3CD0B227BDD26A00DBE728 /* MSFList.swift */,
 				53097D102702890800A6E4DC /* MSFListCellTokens.generated.swift */,
 			);
 			path = List;
@@ -1565,6 +1568,7 @@
 				53097D0B270288FB00A6E4DC /* ButtonModifiers.swift in Sources */,
 				5314E28125F0240D0099271A /* DateComponents+Extensions.swift in Sources */,
 				5314E07025F00F140099271A /* DatePickerController.swift in Sources */,
+				0A3CD0B327BDD26B00DBE728 /* MSFList.swift in Sources */,
 				5373D5692694D65C0032A3B4 /* MSFAvatarTokens.generated.swift in Sources */,
 				5373D56B2694D65C0032A3B4 /* MSFAvatarPresence.swift in Sources */,
 				5314E0AA25F010070099271A /* DrawerShadowView.swift in Sources */,

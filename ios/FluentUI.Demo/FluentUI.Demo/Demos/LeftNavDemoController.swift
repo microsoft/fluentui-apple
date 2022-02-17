@@ -128,9 +128,9 @@ class LeftNavMenuViewController: UIViewController {
 
     private var persona = MSFPersonaView()
 
-    private var leftNavMenuList = FluentList()
+    private var leftNavMenuList = MSFList()
 
-    private var statusCell: FluentListCellState?
+    private var statusCell: MSFListCellState?
 
     private var leftNavAccountViewHeightConstraint: NSLayoutConstraint?
 

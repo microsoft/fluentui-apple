@@ -7,7 +7,7 @@ import UIKit
 import SwiftUI
 
 struct Header: View, TokenizedControlInternal {
-    init(state: FluentListSectionStateImpl) {
+    init(state: MSFListSectionStateImpl) {
         self.state = state
     }
 
@@ -38,5 +38,5 @@ struct Header: View, TokenizedControlInternal {
 
     var tokens: HeaderTokens { state.tokens }
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
-    @ObservedObject var state: FluentListSectionStateImpl
+    @ObservedObject var state: MSFListSectionStateImpl
 }

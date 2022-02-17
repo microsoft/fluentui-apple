@@ -6,20 +6,8 @@
 import UIKit
 import SwiftUI
 
-/// UIKit wrapper that exposes the SwiftUI List implementation
-@objc public class FluentList: ControlHostingContainer {
-
-    @objc public init() {
-        let list = FluentListView()
-        state = list.state
-        super.init(AnyView(list))
-    }
-
-    @objc public let state: FluentListState
-}
-
 /// Properties that can be used to customize the appearance of the List Section.
-@objc public protocol FluentListSectionState {
+@objc public protocol MSFListSectionState {
     /// Sets the Section title.
     var title: String? { get set }
 
@@ -36,15 +24,15 @@ import SwiftUI
     var cellCount: Int { get }
 
     /// Creates a new Cell and appends it to the array of cells in a Section.
-    func createCell() -> FluentListCellState
+    func createCell() -> MSFListCellState
 
     /// Creates a new Cell within the Section at a specific index.
     /// - Parameter index: The zero-based index of the Cell that will be inserted into the Section.
-    func createCell(at index: Int) -> FluentListCellState
+    func createCell(at index: Int) -> MSFListCellState
 
     /// Retrieves the state object for a specific Cell so its appearance can be customized.
     /// - Parameter index: The zero-based index of the Cell in the Section.
-    func getCellState(at index: Int) -> FluentListCellState
+    func getCellState(at index: Int) -> MSFListCellState
 
     /// Remove a Cell from the Section.
     /// - Parameter index: The zero-based index of the Cell that will be removed from the Section.
@@ -52,29 +40,29 @@ import SwiftUI
 }
 
 /// Properties that can be used to customize the appearance of the List.
-@objc public protocol FluentListState {
+@objc public protocol MSFListState {
     /// The number of Sections in the List.
     var sectionCount: Int { get }
 
     /// Creates a new Section and appends it to the array of sections in a List.
-    func createSection() -> FluentListSectionState
+    func createSection() -> MSFListSectionState
 
     /// Creates a new Section within the List at a specific index.
     /// - Parameter index: The zero-based index of the Section that will be inserted into the List.
-    func createSection(at index: Int) -> FluentListSectionState
+    func createSection(at index: Int) -> MSFListSectionState
 
     /// Retrieves the state object for a specific Section so its appearance can be customized.
     /// - Parameter index: The zero-based index of the Section in the List.
-    func getSectionState(at index: Int) -> FluentListSectionState
+    func getSectionState(at index: Int) -> MSFListSectionState
 
     /// Remove a Section from the List.
     /// - Parameter index: The zero-based index of the Section that will be removed from the List.
     func removeSection(at index: Int)
 }
 
-public struct FluentListView: View {
+public struct FluentList: View {
     public init() {
-        self.state = FluentListStateImpl()
+        self.state = MSFListStateImpl()
     }
 
     public var body: some View {
@@ -88,7 +76,7 @@ public struct FluentListView: View {
 
                     ForEach(section.cells.indices, id: \.self) { index in
                         let cellState = section.cells[index]
-                        FluentListCellView(state: cellState)
+                        MSFListCellView(state: cellState)
                             .frame(maxWidth: .infinity)
                     }
 
@@ -103,11 +91,11 @@ public struct FluentListView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 
-    @ObservedObject var state: FluentListStateImpl
+    @ObservedObject var state: MSFListStateImpl
 
     /// Finds the last cell directly adjacent to the end of a list section. This is used to remove the redundant separator that is
     /// inserted between each cell. Used as a fix until we are able to use the new List Separators in iOS 15.
-    private func findLastCell(_ lastCell: FluentListCellState) -> FluentListCellState {
+    private func findLastCell(_ lastCell: MSFListCellState) -> MSFListCellState {
         let childrenCellCount = lastCell.childrenCellCount
         if childrenCellCount > 0, lastCell.isExpanded {
             let lastChild = lastCell.getChildCellState(at: childrenCellCount - 1)
@@ -117,7 +105,7 @@ public struct FluentListView: View {
     }
 
     /// Updates the status of dividers presence within the entire List.
-    private func updateCellDividers() -> [FluentListSectionStateImpl] {
+    private func updateCellDividers() -> [MSFListSectionStateImpl] {
         state.sections.forEach { section in
             section.cells.forEach { cell in
                 cell.hasDivider = section.hasDividers
@@ -131,7 +119,7 @@ public struct FluentListView: View {
 }
 
 /// Properties that make up section content
-class FluentListSectionStateImpl: NSObject, ObservableObject, Identifiable, ControlConfiguration, FluentListSectionState {
+class MSFListSectionStateImpl: NSObject, ObservableObject, Identifiable, ControlConfiguration, MSFListSectionState {
     init(style: HeaderStyle = .standard) {
         let tokens = HeaderTokens()
         tokens.style = style
@@ -148,13 +136,13 @@ class FluentListSectionStateImpl: NSObject, ObservableObject, Identifiable, Cont
             tokens.style = style
         }
     }
-    @Published private(set) var cells: [FluentListCellStateImpl] = []
+    @Published private(set) var cells: [MSFListCellStateImpl] = []
     @Published var title: String?
     @Published var backgroundColor: UIColor?
     @Published var hasDividers: Bool = false
     var id = UUID()
 
-    // MARK: - FluentListSectionStateImpl accessors
+    // MARK: - MSFListSectionStateImpl accessors
 
     var cellCount: Int {
         return cells.count
@@ -166,20 +154,20 @@ class FluentListSectionStateImpl: NSObject, ObservableObject, Identifiable, Cont
         }
     }
 
-    func createCell() -> FluentListCellState {
+    func createCell() -> MSFListCellState {
         return createCell(at: cells.endIndex)
     }
 
-    func createCell(at index: Int) -> FluentListCellState {
+    func createCell(at index: Int) -> MSFListCellState {
         guard index <= cells.count && index >= 0 else {
             preconditionFailure("Index is out of bounds")
         }
-        let cell = FluentListCellStateImpl()
+        let cell = MSFListCellStateImpl()
         cells.insert(cell, at: index)
         return cell
     }
 
-    func getCellState(at index: Int) -> FluentListCellState {
+    func getCellState(at index: Int) -> MSFListCellState {
         guard cells.indices.contains(index) else {
             preconditionFailure("Index is out of bounds")
         }
@@ -195,29 +183,29 @@ class FluentListSectionStateImpl: NSObject, ObservableObject, Identifiable, Cont
 }
 
 /// Properties that make up list content
-class FluentListStateImpl: NSObject, ObservableObject, FluentListState {
-    @Published private(set) var sections: [FluentListSectionStateImpl] = []
+class MSFListStateImpl: NSObject, ObservableObject, MSFListState {
+    @Published private(set) var sections: [MSFListSectionStateImpl] = []
 
-    // MARK: - FluentListStateImpl accessors
+    // MARK: - MSFListStateImpl accessors
 
     var sectionCount: Int {
         return sections.count
     }
 
-    func createSection() -> FluentListSectionState {
+    func createSection() -> MSFListSectionState {
         return createSection(at: sections.endIndex)
     }
 
-    func createSection(at index: Int) -> FluentListSectionState {
+    func createSection(at index: Int) -> MSFListSectionState {
         guard index <= sections.count && index >= 0 else {
             preconditionFailure("Index is out of bounds")
         }
-        let section = FluentListSectionStateImpl()
+        let section = MSFListSectionStateImpl()
         sections.insert(section, at: index)
         return section
     }
 
-    func getSectionState(at index: Int) -> FluentListSectionState {
+    func getSectionState(at index: Int) -> MSFListSectionState {
         guard sections.indices.contains(index) else {
             preconditionFailure("Index is out of bounds")
         }

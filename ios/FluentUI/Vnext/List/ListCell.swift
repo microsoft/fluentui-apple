@@ -7,12 +7,12 @@ import UIKit
 import SwiftUI
 
 /// Properties that can be used to customize the appearance of the List Cell.
-@objc public protocol FluentListCellState {
+@objc public protocol MSFListCellState {
     /// Custom view on the leading side of the Cell.
     var leadingUIView: UIView? { get set }
 
     /// Size of the `leadingView`.
-    var leadingViewSize: FluentListCellLeadingViewSize { get set }
+    var leadingViewSize: MSFListCellLeadingViewSize { get set }
 
     /// Custom view on the trailing side of the Cell.
     var trailingUIView: UIView? { get set }
@@ -45,7 +45,7 @@ import SwiftUI
     var footnote: String { get set }
 
     /// Type of List accessory, located on the Cell's trailing side.
-    var accessoryType: FluentListAccessoryType { get set }
+    var accessoryType: MSFListAccessoryType { get set }
 
     /// Sets a custom background color for the Cell.
     var backgroundColor: UIColor? { get set }
@@ -66,7 +66,7 @@ import SwiftUI
     var isExpanded: Bool { get set }
 
     /// Sets the cell as a one-line, two-line, or three-line layout type.
-    var layoutType: FluentListCellLayoutType { get set }
+    var layoutType: MSFListCellLayoutType { get set }
 
     /// Configures divider visibility, which is located under the cell.
     var hasDivider: Bool { get set }
@@ -78,23 +78,23 @@ import SwiftUI
     var childrenCellCount: Int { get }
 
     /// Creates a new child cell and appends it to the array of children cells in a Cell.
-    func createChildCell() -> FluentListCellState
+    func createChildCell() -> MSFListCellState
 
     /// Creates a new child cell within the array of children cells at a specific index.
     /// - Parameter index: The zero-based index of the child cell that will be inserted into the array of children cells.
-    func createChildCell(at index: Int) -> FluentListCellState
+    func createChildCell(at index: Int) -> MSFListCellState
 
     /// Retrieves the state object for a specific child cell so its appearance can be customized.
     /// - Parameter index: The zero-based index of the child cell in the array of children cells.
-    func getChildCellState(at index: Int) -> FluentListCellState
+    func getChildCellState(at index: Int) -> MSFListCellState
 
     /// Remove a child cell from the Cell.
     /// - Parameter index: The zero-based index of the child cell that will be removed from the array of children cells.
     func removeChildCell(at index: Int)
 }
 
-/// `FluentListCellStateImpl` contains properties that make up a cell content.
-class FluentListCellStateImpl: NSObject, ObservableObject, Identifiable, FluentListCellState {
+/// `MSFListCellStateImpl` contains properties that make up a cell content.
+class MSFListCellStateImpl: NSObject, ObservableObject, Identifiable, MSFListCellState {
     var tokens: MSFCellBaseTokens
     var id = UUID()
 
@@ -110,20 +110,20 @@ class FluentListCellStateImpl: NSObject, ObservableObject, Identifiable, FluentL
     @Published var title: String = ""
     @Published var subtitle: String = ""
     @Published var footnote: String = ""
-    @Published var accessoryType: FluentListAccessoryType = .none
+    @Published var accessoryType: MSFListAccessoryType = .none
     @Published var backgroundColor: UIColor?
     @Published var highlightedBackgroundColor: UIColor?
     @Published var titleLineLimit: Int = 0
     @Published var subtitleLineLimit: Int = 0
     @Published var footnoteLineLimit: Int = 0
     @Published var isExpanded: Bool = false
-    @Published var layoutType: FluentListCellLayoutType = .automatic
+    @Published var layoutType: MSFListCellLayoutType = .automatic
     @Published var hasDivider: Bool = false
-    @Published private(set) var children: [FluentListCellStateImpl] = []
+    @Published private(set) var children: [MSFListCellStateImpl] = []
     var onTapAction: (() -> Void)?
 
-    init(cellLeadingViewSize: FluentListCellLeadingViewSize = .medium) {
-        self.tokens = FluentListCellTokens(cellLeadingViewSize: cellLeadingViewSize)
+    init(cellLeadingViewSize: MSFListCellLeadingViewSize = .medium) {
+        self.tokens = MSFListCellTokens(cellLeadingViewSize: cellLeadingViewSize)
     }
 
     var leadingUIView: UIView? {
@@ -137,7 +137,7 @@ class FluentListCellStateImpl: NSObject, ObservableObject, Identifiable, FluentL
         }
     }
 
-    @Published var leadingViewSize: FluentListCellLeadingViewSize = .medium {
+    @Published var leadingViewSize: MSFListCellLeadingViewSize = .medium {
         didSet {
             guard leadingViewSize != oldValue else {
                 return
@@ -227,20 +227,20 @@ class FluentListCellStateImpl: NSObject, ObservableObject, Identifiable, FluentL
         return children.count
     }
 
-    func createChildCell() -> FluentListCellState {
+    func createChildCell() -> MSFListCellState {
         return createChildCell(at: children.endIndex)
     }
 
-    func createChildCell(at index: Int) -> FluentListCellState {
+    func createChildCell(at index: Int) -> MSFListCellState {
         guard index <= children.count && index >= 0 else {
             preconditionFailure("Index is out of bounds")
         }
-        let cell = FluentListCellStateImpl()
+        let cell = MSFListCellStateImpl()
         children.insert(cell, at: index)
         return cell
     }
 
-    func getChildCellState(at index: Int) -> FluentListCellState {
+    func getChildCellState(at index: Int) -> MSFListCellState {
         guard children.indices.contains(index) else {
             preconditionFailure("Index is out of bounds")
         }
@@ -256,7 +256,7 @@ class FluentListCellStateImpl: NSObject, ObservableObject, Identifiable, FluentL
 }
 
 /// Pre-defined layout heights of cells
-@objc public enum FluentListCellLayoutType: Int, CaseIterable {
+@objc public enum MSFListCellLayoutType: Int, CaseIterable {
     case automatic
     case oneLine
     case twoLines
@@ -264,13 +264,13 @@ class FluentListCellStateImpl: NSObject, ObservableObject, Identifiable, FluentL
 }
 
 /// View for List Cells
-struct FluentListCellView: View {
+struct MSFListCellView: View {
     @Environment(\.theme) var theme: FluentUIStyle
     @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
     @ObservedObject var tokens: MSFCellBaseTokens
-    @ObservedObject var state: FluentListCellStateImpl
+    @ObservedObject var state: MSFListCellStateImpl
 
-    init(state: FluentListCellStateImpl) {
+    init(state: MSFListCellStateImpl) {
         self.state = state
         self.tokens = state.tokens
     }
@@ -279,7 +279,7 @@ struct FluentListCellView: View {
 
         @ViewBuilder
         var cellContent: some View {
-            let children: [FluentListCellStateImpl] = state.children
+            let children: [MSFListCellStateImpl] = state.children
             let hasChildren: Bool = children.count > 0
             let horizontalCellPadding: CGFloat = tokens.horizontalCellPadding
             let leadingViewSize: CGFloat = tokens.leadingViewSize
@@ -399,7 +399,7 @@ struct FluentListCellView: View {
 
             if hasChildren, state.isExpanded == true {
                 ForEach(children, id: \.self) { child in
-                    FluentListCellView(state: child)
+                    MSFListCellView(state: child)
                         .frame(maxWidth: .infinity)
                         .padding(.leading, (horizontalCellPadding + leadingViewSize))
                 }
@@ -414,7 +414,7 @@ struct FluentListCellView: View {
 
 struct ListCellButtonStyle: ButtonStyle {
     let tokens: MSFCellBaseTokens
-    let state: FluentListCellState
+    let state: MSFListCellState
 
     func makeBody(configuration: Self.Configuration) -> some View {
         let height: CGFloat
