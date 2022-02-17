@@ -50,7 +50,7 @@ open class PillButtonBarItem: NSObject {
 /// Set the `selectedItem` property if the selection needs to be programatically changed.
 /// Once a button is selected, the previously selected button will be deselected.
 @objc(MSFPillButtonBar)
-open class PillButtonBar: UIScrollView, FluentUIWindowProvider, ControlConfiguration, TokenizedControlInternal {
+open class PillButtonBar: UIScrollView, ControlConfiguration, TokenizedControlInternal {
     open override func didMoveToWindow() {
         super.didMoveToWindow()
         pillButtonBarTokens.updateForCurrentTheme()
