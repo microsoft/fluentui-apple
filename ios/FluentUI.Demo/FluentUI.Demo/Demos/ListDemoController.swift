@@ -14,7 +14,6 @@ class ListDemoController: DemoController {
         var cell: TableViewCellSampleData.Item
         var showsLabelAccessoryView: Bool
 
-        let list: MSFList = MSFList()
         var listCell: MSFListCellState
 
         //PersonaDataNode creation
@@ -41,7 +40,7 @@ class ListDemoController: DemoController {
         for (sectionIndex, section) in sections.enumerated() {
             let sectionState = list.state.createSection()
             sectionState.title = section.title
-            sectionState.style = MSFHeaderFooterStyle.headerSecondary
+            sectionState.style = MSFHeaderStyle.subtle
             sectionState.hasDividers = true
             for rowIndex in 0..<TableViewCellSampleData.numberOfItemsInSection {
                 showsLabelAccessoryView = TableViewCellSampleData.hasLabelAccessoryViews(at: IndexPath(row: rowIndex, section: sectionIndex))
@@ -178,4 +177,6 @@ class ListDemoController: DemoController {
         alert.addAction(action)
         present(alert, animated: true)
     }
+
+    let list: MSFList = MSFList()
 }

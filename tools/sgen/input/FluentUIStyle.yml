@@ -242,16 +242,6 @@ AP_MSFDrawerTokens:
   cornerRadius: $Border.radius.xxLarge
   shadowOffset: $Spacing.xSmall
 
-AP_MSFHeaderFooterTokens:
-  backgroundColor: $Colors.Background.neutral1
-  headerHeight: $Spacing.xxxLarge
-  topPadding: $Spacing.xLarge
-  leadingPadding: $Spacing.medium
-  bottomPadding: $Spacing.xSmall
-  trailingPadding: $Spacing.medium
-  textColor: $Colors.Foreground.neutral3
-  textFont: $Typography.caption1
-
 AP_MSFListCellTokens:
   backgroundColor: [ rest: $Colors.Background.neutral1, pressed: $Colors.Background.neutral5 ]
   cellHeight: [ oneLine: 48pt, twoLines: 64pt, threeLines: 84pt ]
@@ -275,9 +265,6 @@ AP_MSFListCellTokens:
   trailingItemSize: $Icon.size.medium
   verticalCellPadding: $Spacing.xSmall
 
-AP_MSFListTokens:
-  borderColor: $Colors.Stroke.neutral1
-
 AP_MSFPersonaViewTokens:
   footnoteFont: $Typography.footnote
   iconInterspace: $Spacing.small
@@ -285,8 +272,3 @@ AP_MSFPersonaViewTokens:
   labelAccessorySize: $Icon.size.xSmall
   labelFont: $Typography.headline
   sublabelColor: $Colors.Foreground.neutral1
-
-MSFPrimaryHeaderTokens extends MSFHeaderFooterTokens:
-  textColor: $Colors.Foreground.neutral1
-  textFont: $Typography.headline
-  topPadding: $Spacing.medium
