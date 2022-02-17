@@ -8,6 +8,9 @@ import SwiftUI
 /// Global Tokens represent a unified set of constants to be used by Fluent UI.
 public final class GlobalTokens {
 
+    // MARK: - SharedColors
+    lazy public var sharedColors: SharedColors = .init()
+
     // MARK: - BrandColors
 
     public enum BrandColorsTokens: CaseIterable {
