@@ -205,7 +205,7 @@ public final class GlobalTokens {
 
     // MARK: - SharedColors
 
-    public enum SharedColors: CaseIterable {
+    public enum SharedColorSets: CaseIterable {
         case darkRed
         case burgundy
         case cranberry
@@ -272,7 +272,7 @@ public final class GlobalTokens {
         case tint60
     }
 
-    lazy public var sharedColors: TokenSet<SharedColors, TokenSet<SharedColorsTokens, ColorValue>> = .init { sharedColor in
+    lazy public var sharedColors: TokenSet<SharedColorSets, TokenSet<SharedColorsTokens, ColorValue>> = .init { sharedColor in
         switch sharedColor {
         case .anchor:
             return TokenSet<SharedColorsTokens, ColorValue>.init { token in
@@ -280,38 +280,38 @@ public final class GlobalTokens {
                 case .primary:
                     return ColorValue(0x394146)
                 case .shade10:
-                    return ColorValue(0x333a3f)
+                    return ColorValue(0x333A3F)
                 case .shade20:
-                    return ColorValue(0x2b3135)
+                    return ColorValue(0x2B3135)
                 case .shade30:
                     return ColorValue(0x202427)
                 case .shade40:
                     return ColorValue(0x111315)
                 case .shade50:
-                    return ColorValue(0x090a0b)
+                    return ColorValue(0x090A0B)
                 case .tint10:
-                    return ColorValue(0x4d565c)
+                    return ColorValue(0x4D565C)
                 case .tint20:
-                    return ColorValue(0x626c72)
+                    return ColorValue(0x626C72)
                 case .tint30:
-                    return ColorValue(0x808a90)
+                    return ColorValue(0x808A90)
                 case .tint40:
-                    return ColorValue(0xbcc3c7)
+                    return ColorValue(0xBCC3C7)
                 case .tint50:
-                    return ColorValue(0xdbdfe1)
+                    return ColorValue(0xDBDFE1)
                 case .tint60:
-                    return ColorValue(0xf6f7f8)
+                    return ColorValue(0xF6F7F8)
                 }
             }
         case .beige:
             return TokenSet<SharedColorsTokens, ColorValue>.init { token in
                 switch token {
                 case .primary:
-                    return ColorValue(0x7a7574)
+                    return ColorValue(0x7A7574)
                 case .shade10:
-                    return ColorValue(0x6e6968)
+                    return ColorValue(0x6E6968)
                 case .shade20:
-                    return ColorValue(0x5d5958)
+                    return ColorValue(0x5D5958)
                 case .shade30:
                     return ColorValue(0x444241)
                 case .shade40:
@@ -319,57 +319,57 @@ public final class GlobalTokens {
                 case .shade50:
                     return ColorValue(0x141313)
                 case .tint10:
-                    return ColorValue(0x8a8584)
+                    return ColorValue(0x8A8584)
                 case .tint20:
-                    return ColorValue(0x9a9594)
+                    return ColorValue(0x9A9594)
                 case .tint30:
-                    return ColorValue(0xafabaa)
+                    return ColorValue(0xAFABAA)
                 case .tint40:
-                    return ColorValue(0xd7d4d4)
+                    return ColorValue(0xD7D4D4)
                 case .tint50:
-                    return ColorValue(0xeae8e8)
+                    return ColorValue(0xEAE8E8)
                 case .tint60:
-                    return ColorValue(0xfaf9f9)
+                    return ColorValue(0xFAF9F9)
                 }
             }
         case .berry:
             return TokenSet<SharedColorsTokens, ColorValue>.init { token in
                 switch token {
                 case .primary:
-                    return ColorValue(0xc239b3)
+                    return ColorValue(0xC239B3)
                 case .shade10:
-                    return ColorValue(0xaf33a1)
+                    return ColorValue(0xAF33A1)
                 case .shade20:
-                    return ColorValue(0x932b88)
+                    return ColorValue(0x932B88)
                 case .shade30:
-                    return ColorValue(0x6d2064)
+                    return ColorValue(0x6D2064)
                 case .shade40:
-                    return ColorValue(0x3a1136)
+                    return ColorValue(0x3A1136)
                 case .shade50:
-                    return ColorValue(0x1f091d)
+                    return ColorValue(0x1F091D)
                 case .tint10:
-                    return ColorValue(0xc94cbc)
+                    return ColorValue(0xC94CBC)
                 case .tint20:
-                    return ColorValue(0xd161c4)
+                    return ColorValue(0xD161C4)
                 case .tint30:
-                    return ColorValue(0xda7ed0)
+                    return ColorValue(0xDA7ED0)
                 case .tint40:
-                    return ColorValue(0xedbbe7)
+                    return ColorValue(0xEDBBE7)
                 case .tint50:
-                    return ColorValue(0xf5daf2)
+                    return ColorValue(0xF5DAF2)
                 case .tint60:
-                    return ColorValue(0xfdf5fc)
+                    return ColorValue(0xFDF5FC)
                 }
             }
         case .blue:
             return TokenSet<SharedColorsTokens, ColorValue>.init { token in
                 switch token {
                 case .primary:
-                    return ColorValue(0x0078d4)
+                    return ColorValue(0x0078D4)
                 case .shade10:
-                    return ColorValue(0x006cbf)
+                    return ColorValue(0x006CBF)
                 case .shade20:
-                    return ColorValue(0x005ba1)
+                    return ColorValue(0x005BA1)
                 case .shade30:
                     return ColorValue(0x004377)
                 case .shade40:
@@ -377,133 +377,133 @@ public final class GlobalTokens {
                 case .shade50:
                     return ColorValue(0x001322)
                 case .tint10:
-                    return ColorValue(0x1a86d9)
+                    return ColorValue(0x1A86D9)
                 case .tint20:
-                    return ColorValue(0x3595de)
+                    return ColorValue(0x3595DE)
                 case .tint30:
-                    return ColorValue(0x5caae5)
+                    return ColorValue(0x5CAAE5)
                 case .tint40:
-                    return ColorValue(0xa9d3f2)
+                    return ColorValue(0xA9D3F2)
                 case .tint50:
-                    return ColorValue(0xd0e7f8)
+                    return ColorValue(0xD0E7F8)
                 case .tint60:
-                    return ColorValue(0xf3f9fd)
+                    return ColorValue(0xF3F9FD)
                 }
             }
         case .brass:
             return TokenSet<SharedColorsTokens, ColorValue>.init { token in
                 switch token {
                 case .primary:
-                    return ColorValue(0x986f0b)
+                    return ColorValue(0x986F0B)
                 case .shade10:
-                    return ColorValue(0x89640a)
+                    return ColorValue(0x89640A)
                 case .shade20:
                     return ColorValue(0x745408)
                 case .shade30:
-                    return ColorValue(0x553e06)
+                    return ColorValue(0x553E06)
                 case .shade40:
-                    return ColorValue(0x2e2103)
+                    return ColorValue(0x2E2103)
                 case .shade50:
                     return ColorValue(0x181202)
                 case .tint10:
-                    return ColorValue(0xa47d1e)
+                    return ColorValue(0xA47D1E)
                 case .tint20:
-                    return ColorValue(0xb18c34)
+                    return ColorValue(0xB18C34)
                 case .tint30:
-                    return ColorValue(0xc1a256)
+                    return ColorValue(0xC1A256)
                 case .tint40:
-                    return ColorValue(0xe0cea2)
+                    return ColorValue(0xE0CEA2)
                 case .tint50:
-                    return ColorValue(0xefe4cb)
+                    return ColorValue(0xEFE4CB)
                 case .tint60:
-                    return ColorValue(0xfbf8f2)
+                    return ColorValue(0xFBF8F2)
                 }
             }
         case .bronze:
             return TokenSet<SharedColorsTokens, ColorValue>.init { token in
                 switch token {
                 case .primary:
-                    return ColorValue(0xa74109)
+                    return ColorValue(0xA74109)
                 case .shade10:
-                    return ColorValue(0x963a08)
+                    return ColorValue(0x963A08)
                 case .shade20:
-                    return ColorValue(0x7f3107)
+                    return ColorValue(0x7F3107)
                 case .shade30:
-                    return ColorValue(0x5e2405)
+                    return ColorValue(0x5E2405)
                 case .shade40:
                     return ColorValue(0x321303)
                 case .shade50:
-                    return ColorValue(0x1b0a01)
+                    return ColorValue(0x1B0A01)
                 case .tint10:
-                    return ColorValue(0xb2521e)
+                    return ColorValue(0xB2521E)
                 case .tint20:
-                    return ColorValue(0xbc6535)
+                    return ColorValue(0xBC6535)
                 case .tint30:
-                    return ColorValue(0xca8057)
+                    return ColorValue(0xCA8057)
                 case .tint40:
-                    return ColorValue(0xe5bba4)
+                    return ColorValue(0xE5BBA4)
                 case .tint50:
-                    return ColorValue(0xf1d9cc)
+                    return ColorValue(0xF1D9CC)
                 case .tint60:
-                    return ColorValue(0xfbf5f2)
+                    return ColorValue(0xFBF5F2)
                 }
             }
         case .brown:
             return TokenSet<SharedColorsTokens, ColorValue>.init { token in
                 switch token {
                 case .primary:
-                    return ColorValue(0x8e562e)
+                    return ColorValue(0x8E562E)
                 case .shade10:
-                    return ColorValue(0x804d29)
+                    return ColorValue(0x804D29)
                 case .shade20:
-                    return ColorValue(0x6c4123)
+                    return ColorValue(0x6C4123)
                 case .shade30:
-                    return ColorValue(0x50301a)
+                    return ColorValue(0x50301A)
                 case .shade40:
-                    return ColorValue(0x2b1a0e)
+                    return ColorValue(0x2B1A0E)
                 case .shade50:
-                    return ColorValue(0x170e07)
+                    return ColorValue(0x170E07)
                 case .tint10:
-                    return ColorValue(0x9c663f)
+                    return ColorValue(0x9C663F)
                 case .tint20:
-                    return ColorValue(0xa97652)
+                    return ColorValue(0xA97652)
                 case .tint30:
-                    return ColorValue(0xbb8f6f)
+                    return ColorValue(0xBB8F6F)
                 case .tint40:
-                    return ColorValue(0xddc3b0)
+                    return ColorValue(0xDDC3B0)
                 case .tint50:
-                    return ColorValue(0xedded3)
+                    return ColorValue(0xEDDED3)
                 case .tint60:
-                    return ColorValue(0xfaf7f4)
+                    return ColorValue(0xFAF7F4)
                 }
             }
         case .burgundy:
             return TokenSet<SharedColorsTokens, ColorValue>.init { token in
                 switch token {
                 case .primary:
-                    return ColorValue(0xa4262c)
+                    return ColorValue(0xA4262C)
                 case .shade10:
                     return ColorValue(0x942228)
                 case .shade20:
-                    return ColorValue(0x7d1d21)
+                    return ColorValue(0x7D1D21)
                 case .shade30:
-                    return ColorValue(0x5c1519)
+                    return ColorValue(0x5C1519)
                 case .shade40:
-                    return ColorValue(0x310b0d)
+                    return ColorValue(0x310B0D)
                 case .shade50:
-                    return ColorValue(0x1a0607)
+                    return ColorValue(0x1A0607)
                 case .tint10:
-                    return ColorValue(0xaf393e)
+                    return ColorValue(0xAF393E)
                 case .tint20:
-                    return ColorValue(0xba4d52)
+                    return ColorValue(0xBA4D52)
                 case .tint30:
-                    return ColorValue(0xc86c70)
+                    return ColorValue(0xC86C70)
                 case .tint40:
-                    return ColorValue(0xe4afb2)
+                    return ColorValue(0xE4AFB2)
                 case .tint50:
-                    return ColorValue(0xf0d3d4)
+                    return ColorValue(0xF0D3D4)
                 case .tint60:
-                    return ColorValue(0xfbf4f4)
+                    return ColorValue(0xFBF4F4)
                 }
             }
         case .charcoal:
@@ -514,7 +514,7 @@ public final class GlobalTokens {
                 case .shade10:
                     return ColorValue(0x333333)
                 case .shade20:
-                    return ColorValue(0x2b2b2b)
+                    return ColorValue(0x2B2B2B)
                 case .shade30:
                     return ColorValue(0x202020)
                 case .shade40:
@@ -528,98 +528,98 @@ public final class GlobalTokens {
                 case .tint30:
                     return ColorValue(0x888888)
                 case .tint40:
-                    return ColorValue(0xc4c4c4)
+                    return ColorValue(0xC4C4C4)
                 case .tint50:
-                    return ColorValue(0xdfdfdf)
+                    return ColorValue(0xDFDFDF)
                 case .tint60:
-                    return ColorValue(0xf7f7f7)
+                    return ColorValue(0xF7F7F7)
                 }
             }
         case .cornflower:
             return TokenSet<SharedColorsTokens, ColorValue>.init { token in
                 switch token {
                 case .primary:
-                    return ColorValue(0x4f6bed)
+                    return ColorValue(0x4F6BED)
                 case .shade10:
-                    return ColorValue(0x4760d5)
+                    return ColorValue(0x4760D5)
                 case .shade20:
-                    return ColorValue(0x3c51b4)
+                    return ColorValue(0x3C51B4)
                 case .shade30:
-                    return ColorValue(0x2c3c85)
+                    return ColorValue(0x2C3C85)
                 case .shade40:
                     return ColorValue(0x182047)
                 case .shade50:
-                    return ColorValue(0x0d1126)
+                    return ColorValue(0x0D1126)
                 case .tint10:
-                    return ColorValue(0x637cef)
+                    return ColorValue(0x637CEF)
                 case .tint20:
-                    return ColorValue(0x778df1)
+                    return ColorValue(0x778DF1)
                 case .tint30:
-                    return ColorValue(0x93a4f4)
+                    return ColorValue(0x93A4F4)
                 case .tint40:
-                    return ColorValue(0xc8d1fa)
+                    return ColorValue(0xC8D1FA)
                 case .tint50:
-                    return ColorValue(0xe1e6fc)
+                    return ColorValue(0xE1E6FC)
                 case .tint60:
-                    return ColorValue(0xf7f9fe)
+                    return ColorValue(0xF7F9FE)
                 }
             }
         case .cranberry:
             return TokenSet<SharedColorsTokens, ColorValue>.init { token in
                 switch token {
                 case .primary:
-                    return ColorValue(0xc50f1f)
+                    return ColorValue(0xC50F1F)
                 case .shade10:
-                    return ColorValue(0xb10e1c)
+                    return ColorValue(0xB10E1C)
                 case .shade20:
-                    return ColorValue(0x960b18)
+                    return ColorValue(0x960B18)
                 case .shade30:
-                    return ColorValue(0x6e0811)
+                    return ColorValue(0x6E0811)
                 case .shade40:
-                    return ColorValue(0x3b0509)
+                    return ColorValue(0x3B0509)
                 case .shade50:
                     return ColorValue(0x200205)
                 case .tint10:
-                    return ColorValue(0xcc2635)
+                    return ColorValue(0xCC2635)
                 case .tint20:
-                    return ColorValue(0xd33f4c)
+                    return ColorValue(0xD33F4C)
                 case .tint30:
-                    return ColorValue(0xdc626d)
+                    return ColorValue(0xDC626D)
                 case .tint40:
-                    return ColorValue(0xeeacb2)
+                    return ColorValue(0xEEACB2)
                 case .tint50:
-                    return ColorValue(0xf6d1d5)
+                    return ColorValue(0xF6D1D5)
                 case .tint60:
-                    return ColorValue(0xfdf3f4)
+                    return ColorValue(0xFDF3F4)
                 }
             }
         case .cyan:
             return TokenSet<SharedColorsTokens, ColorValue>.init { token in
                 switch token {
                 case .primary:
-                    return ColorValue(0x0099bc)
+                    return ColorValue(0x0099BC)
                 case .shade10:
-                    return ColorValue(0x008aa9)
+                    return ColorValue(0x008AA9)
                 case .shade20:
-                    return ColorValue(0x00748f)
+                    return ColorValue(0x00748F)
                 case .shade30:
                     return ColorValue(0x005669)
                 case .shade40:
-                    return ColorValue(0x002e38)
+                    return ColorValue(0x002E38)
                 case .shade50:
-                    return ColorValue(0x00181e)
+                    return ColorValue(0x00181E)
                 case .tint10:
-                    return ColorValue(0x18a4c4)
+                    return ColorValue(0x18A4C4)
                 case .tint20:
-                    return ColorValue(0x31afcc)
+                    return ColorValue(0x31AFCC)
                 case .tint30:
-                    return ColorValue(0x56bfd7)
+                    return ColorValue(0x56BFD7)
                 case .tint40:
-                    return ColorValue(0xa4deeb)
+                    return ColorValue(0xA4DEEB)
                 case .tint50:
-                    return ColorValue(0xcdedf4)
+                    return ColorValue(0xCDEDF4)
                 case .tint60:
-                    return ColorValue(0xf2fafc)
+                    return ColorValue(0xF2FAFC)
                 }
             }
         case .darkBlue:
@@ -628,152 +628,152 @@ public final class GlobalTokens {
                 case .primary:
                     return ColorValue(0x003966)
                 case .shade10:
-                    return ColorValue(0x00335c)
+                    return ColorValue(0x00335C)
                 case .shade20:
-                    return ColorValue(0x002b4e)
+                    return ColorValue(0x002B4E)
                 case .shade30:
                     return ColorValue(0x002039)
                 case .shade40:
-                    return ColorValue(0x00111f)
+                    return ColorValue(0x00111F)
                 case .shade50:
                     return ColorValue(0x000910)
                 case .tint10:
-                    return ColorValue(0x0e4a78)
+                    return ColorValue(0x0E4A78)
                 case .tint20:
-                    return ColorValue(0x215c8b)
+                    return ColorValue(0x215C8B)
                 case .tint30:
-                    return ColorValue(0x4178a3)
+                    return ColorValue(0x4178A3)
                 case .tint40:
-                    return ColorValue(0x92b5d1)
+                    return ColorValue(0x92B5D1)
                 case .tint50:
-                    return ColorValue(0xc2d6e7)
+                    return ColorValue(0xC2D6E7)
                 case .tint60:
-                    return ColorValue(0xeff4f9)
+                    return ColorValue(0xEFF4F9)
                 }
             }
         case .darkBrown:
             return TokenSet<SharedColorsTokens, ColorValue>.init { token in
                 switch token {
                 case .primary:
-                    return ColorValue(0x4d291c)
+                    return ColorValue(0x4D291C)
                 case .shade10:
                     return ColorValue(0x452519)
                 case .shade20:
-                    return ColorValue(0x3a1f15)
+                    return ColorValue(0x3A1F15)
                 case .shade30:
-                    return ColorValue(0x2b1710)
+                    return ColorValue(0x2B1710)
                 case .shade40:
-                    return ColorValue(0x170c08)
+                    return ColorValue(0x170C08)
                 case .shade50:
-                    return ColorValue(0x0c0704)
+                    return ColorValue(0x0C0704)
                 case .tint10:
-                    return ColorValue(0x623a2b)
+                    return ColorValue(0x623A2B)
                 case .tint20:
-                    return ColorValue(0x784d3e)
+                    return ColorValue(0x784D3E)
                 case .tint30:
-                    return ColorValue(0x946b5c)
+                    return ColorValue(0x946B5C)
                 case .tint40:
-                    return ColorValue(0xcaada3)
+                    return ColorValue(0xCAADA3)
                 case .tint50:
-                    return ColorValue(0xe3d2cb)
+                    return ColorValue(0xE3D2CB)
                 case .tint60:
-                    return ColorValue(0xf8f3f2)
+                    return ColorValue(0xF8F3F2)
                 }
             }
         case .darkGreen:
             return TokenSet<SharedColorsTokens, ColorValue>.init { token in
                 switch token {
                 case .primary:
-                    return ColorValue(0x0b6a0b)
+                    return ColorValue(0x0B6A0B)
                 case .shade10:
-                    return ColorValue(0x0a5f0a)
+                    return ColorValue(0x0A5F0A)
                 case .shade20:
                     return ColorValue(0x085108)
                 case .shade30:
-                    return ColorValue(0x063b06)
+                    return ColorValue(0x063B06)
                 case .shade40:
                     return ColorValue(0x032003)
                 case .shade50:
                     return ColorValue(0x021102)
                 case .tint10:
-                    return ColorValue(0x1a7c1a)
+                    return ColorValue(0x1A7C1A)
                 case .tint20:
-                    return ColorValue(0x2d8e2d)
+                    return ColorValue(0x2D8E2D)
                 case .tint30:
-                    return ColorValue(0x4da64d)
+                    return ColorValue(0x4DA64D)
                 case .tint40:
-                    return ColorValue(0x9ad29a)
+                    return ColorValue(0x9AD29A)
                 case .tint50:
-                    return ColorValue(0xc6e7c6)
+                    return ColorValue(0xC6E7C6)
                 case .tint60:
-                    return ColorValue(0xf0f9f0)
+                    return ColorValue(0xF0F9F0)
                 }
             }
         case .darkOrange:
             return TokenSet<SharedColorsTokens, ColorValue>.init { token in
                 switch token {
                 case .primary:
-                    return ColorValue(0xda3b01)
+                    return ColorValue(0xDA3B01)
                 case .shade10:
-                    return ColorValue(0xc43501)
+                    return ColorValue(0xC43501)
                 case .shade20:
-                    return ColorValue(0xa62d01)
+                    return ColorValue(0xA62D01)
                 case .shade30:
-                    return ColorValue(0x7a2101)
+                    return ColorValue(0x7A2101)
                 case .shade40:
                     return ColorValue(0x411200)
                 case .shade50:
                     return ColorValue(0x230900)
                 case .tint10:
-                    return ColorValue(0xde501c)
+                    return ColorValue(0xDE501C)
                 case .tint20:
-                    return ColorValue(0xe36537)
+                    return ColorValue(0xE36537)
                 case .tint30:
-                    return ColorValue(0xe9835e)
+                    return ColorValue(0xE9835E)
                 case .tint40:
-                    return ColorValue(0xf4bfab)
+                    return ColorValue(0xF4BFAB)
                 case .tint50:
-                    return ColorValue(0xf9dcd1)
+                    return ColorValue(0xF9DCD1)
                 case .tint60:
-                    return ColorValue(0xfdf6f3)
+                    return ColorValue(0xFDF6F3)
                 }
             }
         case .darkPurple:
             return TokenSet<SharedColorsTokens, ColorValue>.init { token in
                 switch token {
                 case .primary:
-                    return ColorValue(0x401b6c)
+                    return ColorValue(0x401B6C)
                 case .shade10:
-                    return ColorValue(0x3a1861)
+                    return ColorValue(0x3A1861)
                 case .shade20:
                     return ColorValue(0x311552)
                 case .shade30:
-                    return ColorValue(0x240f3c)
+                    return ColorValue(0x240F3C)
                 case .shade40:
                     return ColorValue(0x130820)
                 case .shade50:
-                    return ColorValue(0x0a0411)
+                    return ColorValue(0x0A0411)
                 case .tint10:
-                    return ColorValue(0x512b7e)
+                    return ColorValue(0x512B7E)
                 case .tint20:
-                    return ColorValue(0x633e8f)
+                    return ColorValue(0x633E8F)
                 case .tint30:
-                    return ColorValue(0x7e5ca7)
+                    return ColorValue(0x7E5CA7)
                 case .tint40:
-                    return ColorValue(0xb9a3d3)
+                    return ColorValue(0xB9A3D3)
                 case .tint50:
-                    return ColorValue(0xd8cce7)
+                    return ColorValue(0xD8CCE7)
                 case .tint60:
-                    return ColorValue(0xf5f2f9)
+                    return ColorValue(0xF5F2F9)
                 }
             }
         case .darkRed:
             return TokenSet<SharedColorsTokens, ColorValue>.init { token in
                 switch token {
                 case .primary:
-                    return ColorValue(0x750b1c)
+                    return ColorValue(0x750B1C)
                 case .shade10:
-                    return ColorValue(0x690a19)
+                    return ColorValue(0x690A19)
                 case .shade20:
                     return ColorValue(0x590815)
                 case .shade30:
@@ -783,17 +783,17 @@ public final class GlobalTokens {
                 case .shade50:
                     return ColorValue(0x130204)
                 case .tint10:
-                    return ColorValue(0x861b2c)
+                    return ColorValue(0x861B2C)
                 case .tint20:
-                    return ColorValue(0x962f3f)
+                    return ColorValue(0x962F3F)
                 case .tint30:
-                    return ColorValue(0xac4f5e)
+                    return ColorValue(0xAC4F5E)
                 case .tint40:
-                    return ColorValue(0xd69ca5)
+                    return ColorValue(0xD69CA5)
                 case .tint50:
-                    return ColorValue(0xe9c7cd)
+                    return ColorValue(0xE9C7CD)
                 case .tint60:
-                    return ColorValue(0xf9f0f2)
+                    return ColorValue(0xF9F0F2)
                 }
             }
         case .darkTeal:
@@ -802,27 +802,27 @@ public final class GlobalTokens {
                 case .primary:
                     return ColorValue(0x006666)
                 case .shade10:
-                    return ColorValue(0x005c5c)
+                    return ColorValue(0x005C5C)
                 case .shade20:
-                    return ColorValue(0x004e4e)
+                    return ColorValue(0x004E4E)
                 case .shade30:
                     return ColorValue(0x003939)
                 case .shade40:
-                    return ColorValue(0x001f1f)
+                    return ColorValue(0x001F1F)
                 case .shade50:
                     return ColorValue(0x001010)
                 case .tint10:
-                    return ColorValue(0x0e7878)
+                    return ColorValue(0x0E7878)
                 case .tint20:
-                    return ColorValue(0x218b8b)
+                    return ColorValue(0x218B8B)
                 case .tint30:
-                    return ColorValue(0x41a3a3)
+                    return ColorValue(0x41A3A3)
                 case .tint40:
-                    return ColorValue(0x92d1d1)
+                    return ColorValue(0x92D1D1)
                 case .tint50:
-                    return ColorValue(0xc2e7e7)
+                    return ColorValue(0xC2E7E7)
                 case .tint60:
-                    return ColorValue(0xeff9f9)
+                    return ColorValue(0xEFF9F9)
                 }
             }
         case .forest:
@@ -839,48 +839,48 @@ public final class GlobalTokens {
                 case .shade40:
                     return ColorValue(0x162702)
                 case .shade50:
-                    return ColorValue(0x0c1501)
+                    return ColorValue(0x0C1501)
                 case .tint10:
                     return ColorValue(0x599116)
                 case .tint20:
-                    return ColorValue(0x6ba02b)
+                    return ColorValue(0x6BA02B)
                 case .tint30:
-                    return ColorValue(0x85b44c)
+                    return ColorValue(0x85B44C)
                 case .tint40:
-                    return ColorValue(0xbdd99b)
+                    return ColorValue(0xBDD99B)
                 case .tint50:
-                    return ColorValue(0xdbebc7)
+                    return ColorValue(0xDBEBC7)
                 case .tint60:
-                    return ColorValue(0xf6faf0)
+                    return ColorValue(0xF6FAF0)
                 }
             }
         case .gold:
             return TokenSet<SharedColorsTokens, ColorValue>.init { token in
                 switch token {
                 case .primary:
-                    return ColorValue(0xc19c00)
+                    return ColorValue(0xC19C00)
                 case .shade10:
-                    return ColorValue(0xae8c00)
+                    return ColorValue(0xAE8C00)
                 case .shade20:
                     return ColorValue(0x937700)
                 case .shade30:
-                    return ColorValue(0x6c5700)
+                    return ColorValue(0x6C5700)
                 case .shade40:
-                    return ColorValue(0x3a2f00)
+                    return ColorValue(0x3A2F00)
                 case .shade50:
-                    return ColorValue(0x1f1900)
+                    return ColorValue(0x1F1900)
                 case .tint10:
-                    return ColorValue(0xc8a718)
+                    return ColorValue(0xC8A718)
                 case .tint20:
-                    return ColorValue(0xd0b232)
+                    return ColorValue(0xD0B232)
                 case .tint30:
-                    return ColorValue(0xdac157)
+                    return ColorValue(0xDAC157)
                 case .tint40:
-                    return ColorValue(0xecdfa5)
+                    return ColorValue(0xECDFA5)
                 case .tint50:
-                    return ColorValue(0xf5eece)
+                    return ColorValue(0xF5EECE)
                 case .tint60:
-                    return ColorValue(0xfdfbf2)
+                    return ColorValue(0xFDFBF2)
                 }
             }
         case .grape:
@@ -889,38 +889,38 @@ public final class GlobalTokens {
                 case .primary:
                     return ColorValue(0x881798)
                 case .shade10:
-                    return ColorValue(0x7a1589)
+                    return ColorValue(0x7A1589)
                 case .shade20:
                     return ColorValue(0x671174)
                 case .shade30:
-                    return ColorValue(0x4c0d55)
+                    return ColorValue(0x4C0D55)
                 case .shade40:
-                    return ColorValue(0x29072e)
+                    return ColorValue(0x29072E)
                 case .shade50:
                     return ColorValue(0x160418)
                 case .tint10:
-                    return ColorValue(0x952aa4)
+                    return ColorValue(0x952AA4)
                 case .tint20:
-                    return ColorValue(0xa33fb1)
+                    return ColorValue(0xA33FB1)
                 case .tint30:
-                    return ColorValue(0xb55fc1)
+                    return ColorValue(0xB55FC1)
                 case .tint40:
-                    return ColorValue(0xd9a7e0)
+                    return ColorValue(0xD9A7E0)
                 case .tint50:
-                    return ColorValue(0xeaceef)
+                    return ColorValue(0xEACEEF)
                 case .tint60:
-                    return ColorValue(0xfaf2fb)
+                    return ColorValue(0xFAF2FB)
                 }
             }
         case .green:
             return TokenSet<SharedColorsTokens, ColorValue>.init { token in
                 switch token {
                 case .primary:
-                    return ColorValue(0x107c10)
+                    return ColorValue(0x107C10)
                 case .shade10:
-                    return ColorValue(0x0e700e)
+                    return ColorValue(0x0E700E)
                 case .shade20:
-                    return ColorValue(0x0c5e0c)
+                    return ColorValue(0x0C5E0C)
                 case .shade30:
                     return ColorValue(0x094509)
                 case .shade40:
@@ -928,655 +928,655 @@ public final class GlobalTokens {
                 case .shade50:
                     return ColorValue(0x031403)
                 case .tint10:
-                    return ColorValue(0x218c21)
+                    return ColorValue(0x218C21)
                 case .tint20:
-                    return ColorValue(0x359b35)
+                    return ColorValue(0x359B35)
                 case .tint30:
-                    return ColorValue(0x54b054)
+                    return ColorValue(0x54B054)
                 case .tint40:
-                    return ColorValue(0x9fd89f)
+                    return ColorValue(0x9FD89F)
                 case .tint50:
-                    return ColorValue(0xc9eac9)
+                    return ColorValue(0xC9EAC9)
                 case .tint60:
-                    return ColorValue(0xf1faf1)
+                    return ColorValue(0xF1FAF1)
                 }
             }
         case .hotPink:
             return TokenSet<SharedColorsTokens, ColorValue>.init { token in
                 switch token {
                 case .primary:
-                    return ColorValue(0xe3008c)
+                    return ColorValue(0xE3008C)
                 case .shade10:
-                    return ColorValue(0xcc007e)
+                    return ColorValue(0xCC007E)
                 case .shade20:
-                    return ColorValue(0xad006a)
+                    return ColorValue(0xAD006A)
                 case .shade30:
-                    return ColorValue(0x7f004e)
+                    return ColorValue(0x7F004E)
                 case .shade40:
-                    return ColorValue(0x44002a)
+                    return ColorValue(0x44002A)
                 case .shade50:
                     return ColorValue(0x240016)
                 case .tint10:
-                    return ColorValue(0xe61c99)
+                    return ColorValue(0xE61C99)
                 case .tint20:
-                    return ColorValue(0xea38a6)
+                    return ColorValue(0xEA38A6)
                 case .tint30:
-                    return ColorValue(0xee5fb7)
+                    return ColorValue(0xEE5FB7)
                 case .tint40:
-                    return ColorValue(0xf7adda)
+                    return ColorValue(0xF7ADDA)
                 case .tint50:
-                    return ColorValue(0xfbd2eb)
+                    return ColorValue(0xFBD2EB)
                 case .tint60:
-                    return ColorValue(0xfef4fa)
+                    return ColorValue(0xFEF4FA)
                 }
             }
         case .lavender:
             return TokenSet<SharedColorsTokens, ColorValue>.init { token in
                 switch token {
                 case .primary:
-                    return ColorValue(0x7160e8)
+                    return ColorValue(0x7160E8)
                 case .shade10:
-                    return ColorValue(0x6656d1)
+                    return ColorValue(0x6656D1)
                 case .shade20:
-                    return ColorValue(0x5649b0)
+                    return ColorValue(0x5649B0)
                 case .shade30:
-                    return ColorValue(0x3f3682)
+                    return ColorValue(0x3F3682)
                 case .shade40:
-                    return ColorValue(0x221d46)
+                    return ColorValue(0x221D46)
                 case .shade50:
-                    return ColorValue(0x120f25)
+                    return ColorValue(0x120F25)
                 case .tint10:
-                    return ColorValue(0x8172eb)
+                    return ColorValue(0x8172EB)
                 case .tint20:
-                    return ColorValue(0x9184ee)
+                    return ColorValue(0x9184EE)
                 case .tint30:
-                    return ColorValue(0xa79cf1)
+                    return ColorValue(0xA79CF1)
                 case .tint40:
-                    return ColorValue(0xd2ccf8)
+                    return ColorValue(0xD2CCF8)
                 case .tint50:
-                    return ColorValue(0xe7e4fb)
+                    return ColorValue(0xE7E4FB)
                 case .tint60:
-                    return ColorValue(0xf9f8fe)
+                    return ColorValue(0xF9F8FE)
                 }
             }
         case .lightBlue:
             return TokenSet<SharedColorsTokens, ColorValue>.init { token in
                 switch token {
                 case .primary:
-                    return ColorValue(0x3a96dd)
+                    return ColorValue(0x3A96DD)
                 case .shade10:
-                    return ColorValue(0x3487c7)
+                    return ColorValue(0x3487C7)
                 case .shade20:
-                    return ColorValue(0x2c72a8)
+                    return ColorValue(0x2C72A8)
                 case .shade30:
-                    return ColorValue(0x20547c)
+                    return ColorValue(0x20547C)
                 case .shade40:
-                    return ColorValue(0x112d42)
+                    return ColorValue(0x112D42)
                 case .shade50:
                     return ColorValue(0x091823)
                 case .tint10:
-                    return ColorValue(0x4fa1e1)
+                    return ColorValue(0x4FA1E1)
                 case .tint20:
-                    return ColorValue(0x65ade5)
+                    return ColorValue(0x65ADE5)
                 case .tint30:
-                    return ColorValue(0x83bdeb)
+                    return ColorValue(0x83BDEB)
                 case .tint40:
-                    return ColorValue(0xbfddf5)
+                    return ColorValue(0xBFDDF5)
                 case .tint50:
-                    return ColorValue(0xdcedfa)
+                    return ColorValue(0xDCEDFA)
                 case .tint60:
-                    return ColorValue(0xf6fafe)
+                    return ColorValue(0xF6FAFE)
                 }
             }
         case .lightGreen:
             return TokenSet<SharedColorsTokens, ColorValue>.init { token in
                 switch token {
                 case .primary:
-                    return ColorValue(0x13a10e)
+                    return ColorValue(0x13A10E)
                 case .shade10:
-                    return ColorValue(0x11910d)
+                    return ColorValue(0x11910D)
                 case .shade20:
-                    return ColorValue(0x0e7a0b)
+                    return ColorValue(0x0E7A0B)
                 case .shade30:
-                    return ColorValue(0x0b5a08)
+                    return ColorValue(0x0B5A08)
                 case .shade40:
                     return ColorValue(0x063004)
                 case .shade50:
-                    return ColorValue(0x031a02)
+                    return ColorValue(0x031A02)
                 case .tint10:
-                    return ColorValue(0x27ac22)
+                    return ColorValue(0x27AC22)
                 case .tint20:
-                    return ColorValue(0x3db838)
+                    return ColorValue(0x3DB838)
                 case .tint30:
-                    return ColorValue(0x5ec75a)
+                    return ColorValue(0x5EC75A)
                 case .tint40:
-                    return ColorValue(0xa7e3a5)
+                    return ColorValue(0xA7E3A5)
                 case .tint50:
-                    return ColorValue(0xcef0cd)
+                    return ColorValue(0xCEF0CD)
                 case .tint60:
-                    return ColorValue(0xf2fbf2)
+                    return ColorValue(0xF2FBF2)
                 }
             }
         case .lightTeal:
             return TokenSet<SharedColorsTokens, ColorValue>.init { token in
                 switch token {
                 case .primary:
-                    return ColorValue(0x00b7c3)
+                    return ColorValue(0x00B7C3)
                 case .shade10:
-                    return ColorValue(0x00a5af)
+                    return ColorValue(0x00A5AF)
                 case .shade20:
-                    return ColorValue(0x008b94)
+                    return ColorValue(0x008B94)
                 case .shade30:
-                    return ColorValue(0x00666d)
+                    return ColorValue(0x00666D)
                 case .shade40:
-                    return ColorValue(0x00373a)
+                    return ColorValue(0x00373A)
                 case .shade50:
-                    return ColorValue(0x001d1f)
+                    return ColorValue(0x001D1F)
                 case .tint10:
-                    return ColorValue(0x18bfca)
+                    return ColorValue(0x18BFCA)
                 case .tint20:
-                    return ColorValue(0x32c8d1)
+                    return ColorValue(0x32C8D1)
                 case .tint30:
-                    return ColorValue(0x58d3db)
+                    return ColorValue(0x58D3DB)
                 case .tint40:
-                    return ColorValue(0xa6e9ed)
+                    return ColorValue(0xA6E9ED)
                 case .tint50:
-                    return ColorValue(0xcef3f5)
+                    return ColorValue(0xCEF3F5)
                 case .tint60:
-                    return ColorValue(0xf2fcfd)
+                    return ColorValue(0xF2FCFD)
                 }
             }
         case .lilac:
             return TokenSet<SharedColorsTokens, ColorValue>.init { token in
                 switch token {
                 case .primary:
-                    return ColorValue(0xb146c2)
+                    return ColorValue(0xB146C2)
                 case .shade10:
-                    return ColorValue(0x9f3faf)
+                    return ColorValue(0x9F3FAF)
                 case .shade20:
                     return ColorValue(0x863593)
                 case .shade30:
-                    return ColorValue(0x63276d)
+                    return ColorValue(0x63276D)
                 case .shade40:
-                    return ColorValue(0x35153a)
+                    return ColorValue(0x35153A)
                 case .shade50:
-                    return ColorValue(0x1c0b1f)
+                    return ColorValue(0x1C0B1F)
                 case .tint10:
-                    return ColorValue(0xba58c9)
+                    return ColorValue(0xBA58C9)
                 case .tint20:
-                    return ColorValue(0xc36bd1)
+                    return ColorValue(0xC36BD1)
                 case .tint30:
-                    return ColorValue(0xcf87da)
+                    return ColorValue(0xCF87DA)
                 case .tint40:
-                    return ColorValue(0xe6bfed)
+                    return ColorValue(0xE6BFED)
                 case .tint50:
-                    return ColorValue(0xf2dcf5)
+                    return ColorValue(0xF2DCF5)
                 case .tint60:
-                    return ColorValue(0xfcf6fd)
+                    return ColorValue(0xFCF6FD)
                 }
             }
         case .lime:
             return TokenSet<SharedColorsTokens, ColorValue>.init { token in
                 switch token {
                 case .primary:
-                    return ColorValue(0x73aa24)
+                    return ColorValue(0x73AA24)
                 case .shade10:
                     return ColorValue(0x689920)
                 case .shade20:
-                    return ColorValue(0x57811b)
+                    return ColorValue(0x57811B)
                 case .shade30:
-                    return ColorValue(0x405f14)
+                    return ColorValue(0x405F14)
                 case .shade40:
-                    return ColorValue(0x23330b)
+                    return ColorValue(0x23330B)
                 case .shade50:
-                    return ColorValue(0x121b06)
+                    return ColorValue(0x121B06)
                 case .tint10:
-                    return ColorValue(0x81b437)
+                    return ColorValue(0x81B437)
                 case .tint20:
-                    return ColorValue(0x90be4c)
+                    return ColorValue(0x90BE4C)
                 case .tint30:
-                    return ColorValue(0xa4cc6c)
+                    return ColorValue(0xA4CC6C)
                 case .tint40:
-                    return ColorValue(0xcfe5af)
+                    return ColorValue(0xCFE5AF)
                 case .tint50:
-                    return ColorValue(0xe5f1d3)
+                    return ColorValue(0xE5F1D3)
                 case .tint60:
-                    return ColorValue(0xf8fcf4)
+                    return ColorValue(0xF8FCF4)
                 }
             }
         case .magenta:
             return TokenSet<SharedColorsTokens, ColorValue>.init { token in
                 switch token {
                 case .primary:
-                    return ColorValue(0xbf0077)
+                    return ColorValue(0xBF0077)
                 case .shade10:
-                    return ColorValue(0xac006b)
+                    return ColorValue(0xAC006B)
                 case .shade20:
-                    return ColorValue(0x91005a)
+                    return ColorValue(0x91005A)
                 case .shade30:
-                    return ColorValue(0x6b0043)
+                    return ColorValue(0x6B0043)
                 case .shade40:
                     return ColorValue(0x390024)
                 case .shade50:
-                    return ColorValue(0x1f0013)
+                    return ColorValue(0x1F0013)
                 case .tint10:
-                    return ColorValue(0xc71885)
+                    return ColorValue(0xC71885)
                 case .tint20:
-                    return ColorValue(0xce3293)
+                    return ColorValue(0xCE3293)
                 case .tint30:
-                    return ColorValue(0xd957a8)
+                    return ColorValue(0xD957A8)
                 case .tint40:
-                    return ColorValue(0xeca5d1)
+                    return ColorValue(0xECA5D1)
                 case .tint50:
-                    return ColorValue(0xf5cee6)
+                    return ColorValue(0xF5CEE6)
                 case .tint60:
-                    return ColorValue(0xfcf2f9)
+                    return ColorValue(0xFCF2F9)
                 }
             }
         case .marigold:
             return TokenSet<SharedColorsTokens, ColorValue>.init { token in
                 switch token {
                 case .primary:
-                    return ColorValue(0xeaa300)
+                    return ColorValue(0xEAA300)
                 case .shade10:
-                    return ColorValue(0xd39300)
+                    return ColorValue(0xD39300)
                 case .shade20:
-                    return ColorValue(0xb27c00)
+                    return ColorValue(0xB27C00)
                 case .shade30:
-                    return ColorValue(0x835b00)
+                    return ColorValue(0x835B00)
                 case .shade40:
                     return ColorValue(0x463100)
                 case .shade50:
-                    return ColorValue(0x251a00)
+                    return ColorValue(0x251A00)
                 case .tint10:
-                    return ColorValue(0xedad1c)
+                    return ColorValue(0xEDAD1C)
                 case .tint20:
-                    return ColorValue(0xefb839)
+                    return ColorValue(0xEFB839)
                 case .tint30:
-                    return ColorValue(0xf2c661)
+                    return ColorValue(0xF2C661)
                 case .tint40:
-                    return ColorValue(0xf9e2ae)
+                    return ColorValue(0xF9E2AE)
                 case .tint50:
-                    return ColorValue(0xfcefd3)
+                    return ColorValue(0xFCEFD3)
                 case .tint60:
-                    return ColorValue(0xfefbf4)
+                    return ColorValue(0xFEFBF4)
                 }
             }
         case .mink:
             return TokenSet<SharedColorsTokens, ColorValue>.init { token in
                 switch token {
                 case .primary:
-                    return ColorValue(0x5d5a58)
+                    return ColorValue(0x5D5A58)
                 case .shade10:
-                    return ColorValue(0x54514f)
+                    return ColorValue(0x54514F)
                 case .shade20:
                     return ColorValue(0x474443)
                 case .shade30:
                     return ColorValue(0x343231)
                 case .shade40:
-                    return ColorValue(0x1c1b1a)
+                    return ColorValue(0x1C1B1A)
                 case .shade50:
-                    return ColorValue(0x0f0e0e)
+                    return ColorValue(0x0F0E0E)
                 case .tint10:
-                    return ColorValue(0x706d6b)
+                    return ColorValue(0x706D6B)
                 case .tint20:
-                    return ColorValue(0x84817e)
+                    return ColorValue(0x84817E)
                 case .tint30:
-                    return ColorValue(0x9e9b99)
+                    return ColorValue(0x9E9B99)
                 case .tint40:
-                    return ColorValue(0xcecccb)
+                    return ColorValue(0xCECCCB)
                 case .tint50:
-                    return ColorValue(0xe5e4e3)
+                    return ColorValue(0xE5E4E3)
                 case .tint60:
-                    return ColorValue(0xf8f8f8)
+                    return ColorValue(0xF8F8F8)
                 }
             }
         case .navy:
             return TokenSet<SharedColorsTokens, ColorValue>.init { token in
                 switch token {
                 case .primary:
-                    return ColorValue(0x0027b4)
+                    return ColorValue(0x0027B4)
                 case .shade10:
-                    return ColorValue(0x0023a2)
+                    return ColorValue(0x0023A2)
                 case .shade20:
-                    return ColorValue(0x001e89)
+                    return ColorValue(0x001E89)
                 case .shade30:
                     return ColorValue(0x001665)
                 case .shade40:
-                    return ColorValue(0x000c36)
+                    return ColorValue(0x000C36)
                 case .shade50:
-                    return ColorValue(0x00061d)
+                    return ColorValue(0x00061D)
                 case .tint10:
-                    return ColorValue(0x173bbd)
+                    return ColorValue(0x173BBD)
                 case .tint20:
-                    return ColorValue(0x3050c6)
+                    return ColorValue(0x3050C6)
                 case .tint30:
-                    return ColorValue(0x546fd2)
+                    return ColorValue(0x546FD2)
                 case .tint40:
-                    return ColorValue(0xa3b2e8)
+                    return ColorValue(0xA3B2E8)
                 case .tint50:
-                    return ColorValue(0xccd5f3)
+                    return ColorValue(0xCCD5F3)
                 case .tint60:
-                    return ColorValue(0xf2f4fc)
+                    return ColorValue(0xF2F4FC)
                 }
             }
         case .orange:
             return TokenSet<SharedColorsTokens, ColorValue>.init { token in
                 switch token {
                 case .primary:
-                    return ColorValue(0xf7630c)
+                    return ColorValue(0xF7630C)
                 case .shade10:
-                    return ColorValue(0xde590b)
+                    return ColorValue(0xDE590B)
                 case .shade20:
-                    return ColorValue(0xbc4b09)
+                    return ColorValue(0xBC4B09)
                 case .shade30:
-                    return ColorValue(0x8a3707)
+                    return ColorValue(0x8A3707)
                 case .shade40:
-                    return ColorValue(0x4a1e04)
+                    return ColorValue(0x4A1E04)
                 case .shade50:
                     return ColorValue(0x271002)
                 case .tint10:
-                    return ColorValue(0xf87528)
+                    return ColorValue(0xF87528)
                 case .tint20:
-                    return ColorValue(0xf98845)
+                    return ColorValue(0xF98845)
                 case .tint30:
-                    return ColorValue(0xfaa06b)
+                    return ColorValue(0xFAA06B)
                 case .tint40:
-                    return ColorValue(0xfdcfb4)
+                    return ColorValue(0xFDCFB4)
                 case .tint50:
-                    return ColorValue(0xfee5d7)
+                    return ColorValue(0xFEE5D7)
                 case .tint60:
-                    return ColorValue(0xfff9f5)
+                    return ColorValue(0xFFF9F5)
                 }
             }
         case .orchid:
             return TokenSet<SharedColorsTokens, ColorValue>.init { token in
                 switch token {
                 case .primary:
-                    return ColorValue(0x8764b8)
+                    return ColorValue(0x8764B8)
                 case .shade10:
-                    return ColorValue(0x795aa6)
+                    return ColorValue(0x795AA6)
                 case .shade20:
-                    return ColorValue(0x674c8c)
+                    return ColorValue(0x674C8C)
                 case .shade30:
-                    return ColorValue(0x4c3867)
+                    return ColorValue(0x4C3867)
                 case .shade40:
-                    return ColorValue(0x281e37)
+                    return ColorValue(0x281E37)
                 case .shade50:
-                    return ColorValue(0x16101d)
+                    return ColorValue(0x16101D)
                 case .tint10:
-                    return ColorValue(0x9373c0)
+                    return ColorValue(0x9373C0)
                 case .tint20:
-                    return ColorValue(0xa083c9)
+                    return ColorValue(0xA083C9)
                 case .tint30:
-                    return ColorValue(0xb29ad4)
+                    return ColorValue(0xB29AD4)
                 case .tint40:
-                    return ColorValue(0xd7caea)
+                    return ColorValue(0xD7CAEA)
                 case .tint50:
-                    return ColorValue(0xe9e2f4)
+                    return ColorValue(0xE9E2F4)
                 case .tint60:
-                    return ColorValue(0xf9f8fc)
+                    return ColorValue(0xF9F8FC)
                 }
             }
         case .peach:
             return TokenSet<SharedColorsTokens, ColorValue>.init { token in
                 switch token {
                 case .primary:
-                    return ColorValue(0xff8c00)
+                    return ColorValue(0xFF8C00)
                 case .shade10:
-                    return ColorValue(0xe67e00)
+                    return ColorValue(0xE67E00)
                 case .shade20:
-                    return ColorValue(0xc26a00)
+                    return ColorValue(0xC26A00)
                 case .shade30:
-                    return ColorValue(0x8f4e00)
+                    return ColorValue(0x8F4E00)
                 case .shade40:
-                    return ColorValue(0x4d2a00)
+                    return ColorValue(0x4D2A00)
                 case .shade50:
                     return ColorValue(0x291600)
                 case .tint10:
-                    return ColorValue(0xff9a1f)
+                    return ColorValue(0xFF9A1F)
                 case .tint20:
-                    return ColorValue(0xffa83d)
+                    return ColorValue(0xFFA83D)
                 case .tint30:
-                    return ColorValue(0xffba66)
+                    return ColorValue(0xFFBA66)
                 case .tint40:
-                    return ColorValue(0xffddb3)
+                    return ColorValue(0xFFDDB3)
                 case .tint50:
-                    return ColorValue(0xffedd6)
+                    return ColorValue(0xFFEDD6)
                 case .tint60:
-                    return ColorValue(0xfffaf5)
+                    return ColorValue(0xFFFAF5)
                 }
             }
         case .pink:
             return TokenSet<SharedColorsTokens, ColorValue>.init { token in
                 switch token {
                 case .primary:
-                    return ColorValue(0xe43ba6)
+                    return ColorValue(0xE43BA6)
                 case .shade10:
-                    return ColorValue(0xcd3595)
+                    return ColorValue(0xCD3595)
                 case .shade20:
-                    return ColorValue(0xad2d7e)
+                    return ColorValue(0xAD2D7E)
                 case .shade30:
-                    return ColorValue(0x80215d)
+                    return ColorValue(0x80215D)
                 case .shade40:
                     return ColorValue(0x441232)
                 case .shade50:
-                    return ColorValue(0x24091b)
+                    return ColorValue(0x24091B)
                 case .tint10:
-                    return ColorValue(0xe750b0)
+                    return ColorValue(0xE750B0)
                 case .tint20:
-                    return ColorValue(0xea66ba)
+                    return ColorValue(0xEA66BA)
                 case .tint30:
-                    return ColorValue(0xef85c8)
+                    return ColorValue(0xEF85C8)
                 case .tint40:
-                    return ColorValue(0xf7c0e3)
+                    return ColorValue(0xF7C0E3)
                 case .tint50:
-                    return ColorValue(0xfbddf0)
+                    return ColorValue(0xFBDDF0)
                 case .tint60:
-                    return ColorValue(0xfef6fb)
+                    return ColorValue(0xFEF6FB)
                 }
             }
         case .platinum:
             return TokenSet<SharedColorsTokens, ColorValue>.init { token in
                 switch token {
                 case .primary:
-                    return ColorValue(0x69797e)
+                    return ColorValue(0x69797E)
                 case .shade10:
-                    return ColorValue(0x5f6d71)
+                    return ColorValue(0x5F6D71)
                 case .shade20:
-                    return ColorValue(0x505c60)
+                    return ColorValue(0x505C60)
                 case .shade30:
-                    return ColorValue(0x3b4447)
+                    return ColorValue(0x3B4447)
                 case .shade40:
-                    return ColorValue(0x1f2426)
+                    return ColorValue(0x1F2426)
                 case .shade50:
                     return ColorValue(0x111314)
                 case .tint10:
-                    return ColorValue(0x79898d)
+                    return ColorValue(0x79898D)
                 case .tint20:
-                    return ColorValue(0x89989d)
+                    return ColorValue(0x89989D)
                 case .tint30:
-                    return ColorValue(0xa0adb2)
+                    return ColorValue(0xA0ADB2)
                 case .tint40:
-                    return ColorValue(0xcdd6d8)
+                    return ColorValue(0xCDD6D8)
                 case .tint50:
-                    return ColorValue(0xe4e9ea)
+                    return ColorValue(0xE4E9EA)
                 case .tint60:
-                    return ColorValue(0xf8f9fa)
+                    return ColorValue(0xF8F9FA)
                 }
             }
         case .plum:
             return TokenSet<SharedColorsTokens, ColorValue>.init { token in
                 switch token {
                 case .primary:
-                    return ColorValue(0x77004d)
+                    return ColorValue(0x77004D)
                 case .shade10:
-                    return ColorValue(0x6b0045)
+                    return ColorValue(0x6B0045)
                 case .shade20:
-                    return ColorValue(0x5a003b)
+                    return ColorValue(0x5A003B)
                 case .shade30:
-                    return ColorValue(0x43002b)
+                    return ColorValue(0x43002B)
                 case .shade40:
                     return ColorValue(0x240017)
                 case .shade50:
-                    return ColorValue(0x13000c)
+                    return ColorValue(0x13000C)
                 case .tint10:
-                    return ColorValue(0x87105d)
+                    return ColorValue(0x87105D)
                 case .tint20:
-                    return ColorValue(0x98246f)
+                    return ColorValue(0x98246F)
                 case .tint30:
-                    return ColorValue(0xad4589)
+                    return ColorValue(0xAD4589)
                 case .tint40:
-                    return ColorValue(0xd696c0)
+                    return ColorValue(0xD696C0)
                 case .tint50:
-                    return ColorValue(0xe9c4dc)
+                    return ColorValue(0xE9C4DC)
                 case .tint60:
-                    return ColorValue(0xfaf0f6)
+                    return ColorValue(0xFAF0F6)
                 }
             }
         case .pumpkin:
             return TokenSet<SharedColorsTokens, ColorValue>.init { token in
                 switch token {
                 case .primary:
-                    return ColorValue(0xca5010)
+                    return ColorValue(0xCA5010)
                 case .shade10:
-                    return ColorValue(0xb6480e)
+                    return ColorValue(0xB6480E)
                 case .shade20:
-                    return ColorValue(0x9a3d0c)
+                    return ColorValue(0x9A3D0C)
                 case .shade30:
-                    return ColorValue(0x712d09)
+                    return ColorValue(0x712D09)
                 case .shade40:
-                    return ColorValue(0x3d1805)
+                    return ColorValue(0x3D1805)
                 case .shade50:
-                    return ColorValue(0x200d03)
+                    return ColorValue(0x200D03)
                 case .tint10:
-                    return ColorValue(0xd06228)
+                    return ColorValue(0xD06228)
                 case .tint20:
-                    return ColorValue(0xd77440)
+                    return ColorValue(0xD77440)
                 case .tint30:
-                    return ColorValue(0xdf8e64)
+                    return ColorValue(0xDF8E64)
                 case .tint40:
-                    return ColorValue(0xefc4ad)
+                    return ColorValue(0xEFC4AD)
                 case .tint50:
-                    return ColorValue(0xf7dfd2)
+                    return ColorValue(0xF7DFD2)
                 case .tint60:
-                    return ColorValue(0xfdf7f4)
+                    return ColorValue(0xFDF7F4)
                 }
             }
         case .purple:
             return TokenSet<SharedColorsTokens, ColorValue>.init { token in
                 switch token {
                 case .primary:
-                    return ColorValue(0x5c2e91)
+                    return ColorValue(0x5C2E91)
                 case .shade10:
                     return ColorValue(0x532982)
                 case .shade20:
-                    return ColorValue(0x46236e)
+                    return ColorValue(0x46236E)
                 case .shade30:
-                    return ColorValue(0x341a51)
+                    return ColorValue(0x341A51)
                 case .shade40:
-                    return ColorValue(0x1c0e2b)
+                    return ColorValue(0x1C0E2B)
                 case .shade50:
-                    return ColorValue(0x0f0717)
+                    return ColorValue(0x0F0717)
                 case .tint10:
-                    return ColorValue(0x6b3f9e)
+                    return ColorValue(0x6B3F9E)
                 case .tint20:
-                    return ColorValue(0x7c52ab)
+                    return ColorValue(0x7C52AB)
                 case .tint30:
-                    return ColorValue(0x9470bd)
+                    return ColorValue(0x9470BD)
                 case .tint40:
-                    return ColorValue(0xc6b1de)
+                    return ColorValue(0xC6B1DE)
                 case .tint50:
-                    return ColorValue(0xe0d3ed)
+                    return ColorValue(0xE0D3ED)
                 case .tint60:
-                    return ColorValue(0xf7f4fb)
+                    return ColorValue(0xF7F4FB)
                 }
             }
         case .red:
             return TokenSet<SharedColorsTokens, ColorValue>.init { token in
                 switch token {
                 case .primary:
-                    return ColorValue(0xd13438)
+                    return ColorValue(0xD13438)
                 case .shade10:
-                    return ColorValue(0xbc2f32)
+                    return ColorValue(0xBC2F32)
                 case .shade20:
-                    return ColorValue(0x9f282b)
+                    return ColorValue(0x9F282B)
                 case .shade30:
-                    return ColorValue(0x751d1f)
+                    return ColorValue(0x751D1F)
                 case .shade40:
-                    return ColorValue(0x3f1011)
+                    return ColorValue(0x3F1011)
                 case .shade50:
                     return ColorValue(0x210809)
                 case .tint10:
-                    return ColorValue(0xd7494c)
+                    return ColorValue(0xD7494C)
                 case .tint20:
-                    return ColorValue(0xdc5e62)
+                    return ColorValue(0xDC5E62)
                 case .tint30:
-                    return ColorValue(0xe37d80)
+                    return ColorValue(0xE37D80)
                 case .tint40:
-                    return ColorValue(0xf1bbbc)
+                    return ColorValue(0xF1BBBC)
                 case .tint50:
-                    return ColorValue(0xf8dadb)
+                    return ColorValue(0xF8DADB)
                 case .tint60:
-                    return ColorValue(0xfdf6f6)
+                    return ColorValue(0xFDF6F6)
                 }
             }
         case .royalBlue:
             return TokenSet<SharedColorsTokens, ColorValue>.init { token in
                 switch token {
                 case .primary:
-                    return ColorValue(0x004e8c)
+                    return ColorValue(0x004E8C)
                 case .shade10:
-                    return ColorValue(0x00467e)
+                    return ColorValue(0x00467E)
                 case .shade20:
-                    return ColorValue(0x003b6a)
+                    return ColorValue(0x003B6A)
                 case .shade30:
-                    return ColorValue(0x002c4e)
+                    return ColorValue(0x002C4E)
                 case .shade40:
-                    return ColorValue(0x00172a)
+                    return ColorValue(0x00172A)
                 case .shade50:
-                    return ColorValue(0x000c16)
+                    return ColorValue(0x000C16)
                 case .tint10:
-                    return ColorValue(0x125e9a)
+                    return ColorValue(0x125E9A)
                 case .tint20:
-                    return ColorValue(0x286fa8)
+                    return ColorValue(0x286FA8)
                 case .tint30:
-                    return ColorValue(0x4a89ba)
+                    return ColorValue(0x4A89BA)
                 case .tint40:
-                    return ColorValue(0x9abfdc)
+                    return ColorValue(0x9ABFDC)
                 case .tint50:
-                    return ColorValue(0xc7dced)
+                    return ColorValue(0xC7DCED)
                 case .tint60:
-                    return ColorValue(0xf0f6fa)
+                    return ColorValue(0xF0F6FA)
                 }
             }
         case .seafoam:
             return TokenSet<SharedColorsTokens, ColorValue>.init { token in
                 switch token {
                 case .primary:
-                    return ColorValue(0x00cc6a)
+                    return ColorValue(0x00CC6A)
                 case .shade10:
-                    return ColorValue(0x00b85f)
+                    return ColorValue(0x00B85F)
                 case .shade20:
-                    return ColorValue(0x009b51)
+                    return ColorValue(0x009B51)
                 case .shade30:
-                    return ColorValue(0x00723b)
+                    return ColorValue(0x00723B)
                 case .shade40:
-                    return ColorValue(0x003d20)
+                    return ColorValue(0x003D20)
                 case .shade50:
                     return ColorValue(0x002111)
                 case .tint10:
-                    return ColorValue(0x19d279)
+                    return ColorValue(0x19D279)
                 case .tint20:
-                    return ColorValue(0x34d889)
+                    return ColorValue(0x34D889)
                 case .tint30:
-                    return ColorValue(0x5ae0a0)
+                    return ColorValue(0x5AE0A0)
                 case .tint40:
-                    return ColorValue(0xa8f0cd)
+                    return ColorValue(0xA8F0CD)
                 case .tint50:
-                    return ColorValue(0xcff7e4)
+                    return ColorValue(0xCFF7E4)
                 case .tint60:
-                    return ColorValue(0xf3fdf8)
+                    return ColorValue(0xF3FDF8)
                 }
             }
         case .silver:
@@ -1585,56 +1585,56 @@ public final class GlobalTokens {
                 case .primary:
                     return ColorValue(0x859599)
                 case .shade10:
-                    return ColorValue(0x78868a)
+                    return ColorValue(0x78868A)
                 case .shade20:
                     return ColorValue(0x657174)
                 case .shade30:
-                    return ColorValue(0x4a5356)
+                    return ColorValue(0x4A5356)
                 case .shade40:
-                    return ColorValue(0x282d2e)
+                    return ColorValue(0x282D2E)
                 case .shade50:
                     return ColorValue(0x151818)
                 case .tint10:
-                    return ColorValue(0x92a1a5)
+                    return ColorValue(0x92A1A5)
                 case .tint20:
-                    return ColorValue(0xa0aeb1)
+                    return ColorValue(0xA0AEB1)
                 case .tint30:
-                    return ColorValue(0xb3bfc2)
+                    return ColorValue(0xB3BFC2)
                 case .tint40:
-                    return ColorValue(0xd8dfe0)
+                    return ColorValue(0xD8DFE0)
                 case .tint50:
-                    return ColorValue(0xeaeeef)
+                    return ColorValue(0xEAEEEF)
                 case .tint60:
-                    return ColorValue(0xfafbfb)
+                    return ColorValue(0xFAFBFB)
                 }
             }
         case .steel:
             return TokenSet<SharedColorsTokens, ColorValue>.init { token in
                 switch token {
                 case .primary:
-                    return ColorValue(0x005b70)
+                    return ColorValue(0x005B70)
                 case .shade10:
                     return ColorValue(0x005265)
                 case .shade20:
                     return ColorValue(0x004555)
                 case .shade30:
-                    return ColorValue(0x00333f)
+                    return ColorValue(0x00333F)
                 case .shade40:
-                    return ColorValue(0x001b22)
+                    return ColorValue(0x001B22)
                 case .shade50:
-                    return ColorValue(0x000f12)
+                    return ColorValue(0x000F12)
                 case .tint10:
-                    return ColorValue(0x0f6c81)
+                    return ColorValue(0x0F6C81)
                 case .tint20:
-                    return ColorValue(0x237d92)
+                    return ColorValue(0x237D92)
                 case .tint30:
-                    return ColorValue(0x4496a9)
+                    return ColorValue(0x4496A9)
                 case .tint40:
-                    return ColorValue(0x94c8d4)
+                    return ColorValue(0x94C8D4)
                 case .tint50:
-                    return ColorValue(0xc3e1e8)
+                    return ColorValue(0xC3E1E8)
                 case .tint60:
-                    return ColorValue(0xeff7f9)
+                    return ColorValue(0xEFF7F9)
                 }
             }
         case .teal:
@@ -1647,7 +1647,7 @@ public final class GlobalTokens {
                 case .shade20:
                     return ColorValue(0x026467)
                 case .shade30:
-                    return ColorValue(0x02494c)
+                    return ColorValue(0x02494C)
                 case .shade40:
                     return ColorValue(0x012728)
                 case .shade50:
@@ -1655,44 +1655,44 @@ public final class GlobalTokens {
                 case .tint10:
                     return ColorValue(0x159195)
                 case .tint20:
-                    return ColorValue(0x2aa0a4)
+                    return ColorValue(0x2AA0A4)
                 case .tint30:
-                    return ColorValue(0x4cb4b7)
+                    return ColorValue(0x4CB4B7)
                 case .tint40:
-                    return ColorValue(0x9bd9db)
+                    return ColorValue(0x9BD9DB)
                 case .tint50:
-                    return ColorValue(0xc7ebec)
+                    return ColorValue(0xC7EBEC)
                 case .tint60:
-                    return ColorValue(0xf0fafa)
+                    return ColorValue(0xF0FAFA)
                 }
             }
         case .yellow:
             return TokenSet<SharedColorsTokens, ColorValue>.init { token in
                 switch token {
                 case .primary:
-                    return ColorValue(0xfde300)
+                    return ColorValue(0xFDE300)
                 case .shade10:
-                    return ColorValue(0xe4cc00)
+                    return ColorValue(0xE4CC00)
                 case .shade20:
-                    return ColorValue(0xc0ad00)
+                    return ColorValue(0xC0AD00)
                 case .shade30:
-                    return ColorValue(0x8e7f00)
+                    return ColorValue(0x8E7F00)
                 case .shade40:
-                    return ColorValue(0x4c4400)
+                    return ColorValue(0x4C4400)
                 case .shade50:
                     return ColorValue(0x282400)
                 case .tint10:
-                    return ColorValue(0xfde61e)
+                    return ColorValue(0xFDE61E)
                 case .tint20:
-                    return ColorValue(0xfdea3d)
+                    return ColorValue(0xFDEA3D)
                 case .tint30:
-                    return ColorValue(0xfeee66)
+                    return ColorValue(0xFEEE66)
                 case .tint40:
-                    return ColorValue(0xfef7b2)
+                    return ColorValue(0xFEF7B2)
                 case .tint50:
-                    return ColorValue(0xfffad6)
+                    return ColorValue(0xFFFAD6)
                 case .tint60:
-                    return ColorValue(0xfffef5)
+                    return ColorValue(0xFFFEF5)
                 }
             }
         }

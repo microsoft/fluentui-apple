@@ -13,11 +13,11 @@ class ColorTokensDemoController: DemoTableViewController {
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return GlobalTokens.SharedColors.allCases.count
+        return GlobalTokens.SharedColorSets.allCases.count
     }
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return GlobalTokens.SharedColors.allCases[section].text
+        return GlobalTokens.SharedColorSets.allCases[section].text
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -26,9 +26,9 @@ class ColorTokensDemoController: DemoTableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellID, for: indexPath)
-        let colorSet = GlobalTokens.SharedColors.allCases[indexPath.section]
+        let colorSet = GlobalTokens.SharedColorSets.allCases[indexPath.section]
         let colorValue = GlobalTokens.SharedColorsTokens.allCases[indexPath.row]
-        cell.backgroundConfiguration?.backgroundColor = UIColor(colorValue: GlobalTokens().sharedColors[colorSet][colorValue])
+        cell.backgroundConfiguration?.backgroundColor = UIColor(colorValue: globalTokens.sharedColors[colorSet][colorValue])
         cell.selectionStyle = .none
 
         var contentConfiguration = cell.defaultContentConfiguration()
@@ -40,6 +40,13 @@ class ColorTokensDemoController: DemoTableViewController {
         return cell
     }
 
+    private var globalTokens: GlobalTokens {
+        guard let fluentTheme = self.view.window?.fluentTheme else {
+            return GlobalTokens()
+        }
+        return fluentTheme.globalTokens
+    }
+
     private struct Constants {
         static let cellID: String = "cellID"
     }
@@ -47,107 +54,107 @@ class ColorTokensDemoController: DemoTableViewController {
 
 // MARK: - Private extensions
 
-private extension GlobalTokens.SharedColors {
+private extension GlobalTokens.SharedColorSets {
     var text: String {
         switch self {
         case .anchor:
-            return "anchor"
+            return "Anchor"
         case .beige:
-            return "beige"
+            return "Beige"
         case .berry:
-            return "berry"
+            return "Berry"
         case .blue:
-            return "blue"
+            return "Blue"
         case .brass:
-            return "brass"
+            return "Brass"
         case .bronze:
-            return "bronze"
+            return "Bronze"
         case .brown:
-            return "brown"
+            return "Brown"
         case .burgundy:
-            return "burgundy"
+            return "Burgundy"
         case .charcoal:
-            return "charcoal"
+            return "Charcoal"
         case .cornflower:
-            return "cornflower"
+            return "Cornflower"
         case .cranberry:
-            return "cranberry"
+            return "Cranberry"
         case .cyan:
-            return "cyan"
+            return "Cyan"
         case .darkBlue:
-            return "darkBlue"
+            return "Dark Blue"
         case .darkBrown:
-            return "darkBrown"
+            return "Dark Brown"
         case .darkGreen:
-            return "darkGreen"
+            return "Dark Green"
         case .darkOrange:
-            return "darkOrange"
+            return "Dark Orange"
         case .darkPurple:
-            return "darkPurple"
+            return "Dark Purple"
         case .darkRed:
-            return "darkRed"
+            return "Dark Red"
         case .darkTeal:
-            return "darkTeal"
+            return "Dark Teal"
         case .forest:
-            return "forest"
+            return "Forest"
         case .gold:
-            return "gold"
+            return "Gold"
         case .grape:
-            return "grape"
+            return "Grape"
         case .green:
-            return "green"
+            return "Green"
         case .hotPink:
-            return "hotPink"
+            return "HotPink"
         case .lavender:
-            return "lavender"
+            return "Lavender"
         case .lightBlue:
-            return "lightBlue"
+            return "Light Blue"
         case .lightGreen:
-            return "lightGreen"
+            return "Light Green"
         case .lightTeal:
-            return "lightTeal"
+            return "Light Teal"
         case .lilac:
-            return "lilac"
+            return "Lilac"
         case .lime:
-            return "lime"
+            return "Lime"
         case .magenta:
-            return "magenta"
+            return "Magenta"
         case .marigold:
-            return "marigold"
+            return "Marigold"
         case .mink:
-            return "mink"
+            return "Mink"
         case .navy:
-            return "navy"
+            return "Navy"
         case .orange:
-            return "orange"
+            return "Orange"
         case .orchid:
-            return "orchid"
+            return "Orchid"
         case .peach:
-            return "peach"
+            return "Peach"
         case .pink:
-            return "pink"
+            return "Pink"
         case .platinum:
-            return "platinum"
+            return "Platinum"
         case .plum:
-            return "plum"
+            return "Plum"
         case .pumpkin:
-            return "pumpkin"
+            return "Pumpkin"
         case .purple:
-            return "purple"
+            return "Purple"
         case .red:
-            return "red"
+            return "Red"
         case .royalBlue:
-            return "royalBlue"
+            return "RoyalBlue"
         case .seafoam:
-            return "seafoam"
+            return "Seafoam"
         case .silver:
-            return "silver"
+            return "Silver"
         case .steel:
-            return "steel"
+            return "Steel"
         case .teal:
-            return "teal"
+            return "Teal"
         case .yellow:
-            return "yellow"
+            return "Yellow"
         }
     }
 }
