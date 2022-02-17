@@ -199,7 +199,11 @@ open class PillButtonBar: UIScrollView, ControlConfiguration, TokenizedControlIn
         }
     }
 
-    var state: PillButtonBar { self }
+    /// Sets the current tokens to be used for drawing.
+    func updateCurrentTokens(_ tokens: TokenType) {
+        self.tokens = tokens
+    }
+
     var tokens: PillButtonBarTokens = .init()
     var overrideTokens: PillButtonBarTokens? {
         didSet {
