@@ -24,6 +24,7 @@ struct Demos {
         DemoDescriptor("AvatarGroup", AvatarGroupDemoController.self),
         DemoDescriptor("Button", ButtonDemoController.self),
         DemoDescriptor("CardNudge", CardNudgeDemoController.self),
+        DemoDescriptor("ColorTokens", ColorTokensDemoController.self),
         DemoDescriptor("CommandBar", CommandBarDemoController.self),
         DemoDescriptor("Divider", DividerDemoController.self),
         DemoDescriptor("DrawerController", DrawerDemoController.self),

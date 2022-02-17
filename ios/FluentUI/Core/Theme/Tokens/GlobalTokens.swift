@@ -206,64 +206,64 @@ public final class GlobalTokens {
     // MARK: - SharedColors
 
     public enum SharedColors: CaseIterable {
-        case anchor
-        case beige
-        case berry
-        case blue
-        case brass
-        case bronze
-        case brown
-        case burgundy
-        case charcoal
-        case cornflower
-        case cranberry
-        case cyan
-        case darkBlue
-        case darkBrown
-        case darkGreen
-        case darkOrange
-        case darkPurple
         case darkRed
-        case darkTeal
-        case forest
-        case gold
-        case grape
-        case green
-        case hotPink
-        case lavender
-        case lightBlue
-        case lightGreen
-        case lightTeal
-        case lilac
-        case lime
-        case magenta
-        case marigold
-        case mink
-        case navy
-        case orange
-        case orchid
-        case peach
-        case pink
-        case platinum
-        case plum
-        case pumpkin
-        case purple
+        case burgundy
+        case cranberry
         case red
-        case royalBlue
-        case seafoam
-        case silver
-        case steel
-        case teal
+        case darkOrange
+        case bronze
+        case pumpkin
+        case orange
+        case peach
+        case marigold
         case yellow
+        case gold
+        case brass
+        case brown
+        case darkBrown
+        case lime
+        case forest
+        case seafoam
+        case lightGreen
+        case green
+        case darkGreen
+        case lightTeal
+        case teal
+        case darkTeal
+        case cyan
+        case steel
+        case lightBlue
+        case blue
+        case royalBlue
+        case darkBlue
+        case cornflower
+        case navy
+        case lavender
+        case purple
+        case darkPurple
+        case orchid
+        case grape
+        case berry
+        case lilac
+        case pink
+        case hotPink
+        case magenta
+        case plum
+        case beige
+        case mink
+        case silver
+        case platinum
+        case anchor
+        case charcoal
     }
 
     public enum SharedColorsTokens: CaseIterable {
-        case primary
-        case shade10
-        case shade20
-        case shade30
-        case shade40
         case shade50
+        case shade40
+        case shade30
+        case shade20
+        case shade10
+        case primary
         case tint10
         case tint20
         case tint30
