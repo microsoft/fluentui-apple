@@ -10,7 +10,7 @@ import UIKit
  Provide `itemGroups` in `init` to set the buttons in the scrollable area. Optional `leadingItem` and `trailingItem` add fixed buttons in leading and trailing positions. Each `CommandBarItem` will be represented as a button.
  */
 @objc(MSFCommandBar)
-public class CommandBar: UIView, TokenizedControlInternal, ControlConfiguration {
+public class CommandBar: UIView, TokenizedControlInternal {
     // Hierarchy:
     //
     // leadingButton
