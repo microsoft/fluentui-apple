@@ -58,7 +58,7 @@ open class PillButtonBarItem: NSObject {
 /// Set the `selectedItem` property if the selection needs to be programatically changed.
 /// Once a button is selected, the previously selected button will be deselected.
 @objc(MSFPillButtonBar)
-open class PillButtonBar: UIScrollView, FluentUIWindowProvider {
+open class PillButtonBar: UIScrollView, FluentUIWindowProvider, ControlConfiguration {
 
     @objc public weak var barDelegate: PillButtonBarDelegate?
 
@@ -94,6 +94,18 @@ open class PillButtonBar: UIScrollView, FluentUIWindowProvider {
             if let item = newValue, let index = indexOfButtonWithItem(item) {
                 selectedButton = buttons[index]
             }
+        }
+    }
+
+    public func overrideTokens (_ tokens: PillButtonBarTokens?) -> Self {
+        overrideTokens = tokens
+        return self
+    }
+
+    var tokens: PillButtonBarTokens = .init()
+    var overrideTokens: PillButtonBarTokens? {
+        didSet {
+            updatePillButtonBarTokens()
         }
     }
 
@@ -477,6 +489,11 @@ open class PillButtonBar: UIScrollView, FluentUIWindowProvider {
     }
 
     private lazy var pillButtonBarTokens = MSFPillButtonBarTokens()
+
+    private func updatePillButtonBarTokens() {
+//        let tokens = TokenResolve.tokens(for: self, fluentTheme: fluentTheme)
+//        self.tokens = tokens
+    }
 }
 
 // MARK: PillButtonBar UIPointerInteractionDelegate
