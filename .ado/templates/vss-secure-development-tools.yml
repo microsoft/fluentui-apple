@@ -2,31 +2,31 @@ steps:
   - task: securedevelopmentteam.vss-secure-development-tools.build-task-credscan.CredScan@3
     displayName: 'Run Credential Scanner'
     inputs:
-        debugMode: false
+      debugMode: false
     condition: succeededOrFailed()
 
   - task: securedevelopmentteam.vss-secure-development-tools.build-task-publishsecurityanalysislogs.PublishSecurityAnalysisLogs@3
     displayName: 'Publish Security Analysis Logs'
     inputs:
-        ArtifactName: SecurityAnalysisLogs
-        ArtifactType: M365
+      ArtifactName: SecurityAnalysisLogs
+      ArtifactType: M365
     condition: succeededOrFailed()
 
   - task: AssetRetention@3
-      inputs:
-        ArrowServiceConnection: 'Arrow_office_MAX_PROD'
-        AssetGroupName: '$(System.TeamProject)_$(Build.DefinitionName)'
-        AssetNumber: '$(Build.BuildId)'
-        IsShipped: false
-        DropsToRetain: 'CodeAnalysisLogs'
-      condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+    inputs:
+      ArrowServiceConnection: 'Arrow_office_MAX_PROD'
+      AssetGroupName: '$(System.TeamProject)_$(Build.DefinitionName)'
+      AssetNumber: '$(Build.BuildId)'
+      IsShipped: false
+      DropsToRetain: 'CodeAnalysisLogs'
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
 
   - task: securedevelopmentteam.vss-secure-development-tools.build-task-postanalysis.PostAnalysis@2
-      condition: succeededOrFailed()
-      displayName: 'Guardian Break'
-      inputs:
-        GdnBreakPolicyMinSev: Warning
-        GdnBreakAllTools: true
-        GdnBreakGdnToolCredScan: true
-        GdnBreakGdnToolCredScanSeverity: Warning
-        GdnBreakPolicy: M365
+    condition: succeededOrFailed()
+    displayName: 'Guardian Break'
+    inputs:
+      GdnBreakPolicyMinSev: Warning
+      GdnBreakAllTools: true
+      GdnBreakGdnToolCredScan: true
+      GdnBreakGdnToolCredScanSeverity: Warning
+      GdnBreakPolicy: M365
