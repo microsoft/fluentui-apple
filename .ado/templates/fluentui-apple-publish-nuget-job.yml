@@ -1,4 +1,11 @@
 jobs:
+- job: credScan
+  displayName: Secure Development Tools
+  pool:
+    vmImage: windows-2019
+  steps:
+  - template: vss-secure-development-tools.yml
+
 - job: fluentui_apple_publish_nuget
   pool:
     vmImage: 'macos-11'
