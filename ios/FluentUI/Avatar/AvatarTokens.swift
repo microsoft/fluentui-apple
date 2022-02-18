@@ -223,8 +223,7 @@ open class AvatarTokens: ControlTokens {
         case .default, .group:
             return .init(light: globalTokens.brandColors[.primary].light, dark: globalTokens.neutralColors[.black])
         case .accent:
-            // this was $Icon.accentColor, but we don't seem to have that. icon.accent color was just black and white, though
-            return .init(light: globalTokens.neutralColors[.white], dark: globalTokens.neutralColors[.black])
+            return aliasTokens.foregroundColors[.neutralInverted]
         case .outlined:
             return .init(light: globalTokens.neutralColors[.grey42], dark: globalTokens.neutralColors[.grey78])
         case .outlinedPrimary:
