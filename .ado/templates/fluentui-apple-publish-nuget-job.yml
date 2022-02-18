@@ -3,6 +3,7 @@ jobs:
   displayName: Secure Development Tools
   variables:
     tags: production, externalfacing
+    group: InfoSec-SecurityResults
   pool:
     vmImage: windows-2019
   steps:
