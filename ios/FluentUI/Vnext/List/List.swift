@@ -6,52 +6,20 @@
 import UIKit
 import SwiftUI
 
-/// UIKit wrapper that exposes the SwiftUI List implementation
-@objc open class MSFList: NSObject, FluentUIWindowProvider {
-
-    @objc public init(theme: FluentUIStyle? = nil) {
-        super.init()
-
-        listView = MSFListView()
-        hostingController = FluentUIHostingController(rootView: AnyView(listView
-                                                                            .windowProvider(self)
-                                                                            .modifyIf(theme != nil, { listView in
-                                                                                listView.customTheme(theme!)
-                                                                            })))
-        hostingController.disableSafeAreaInsets()
-        view.backgroundColor = UIColor.clear
-    }
-
-    @objc open var view: UIView {
-        return hostingController.view
-    }
-
-    @objc open var state: MSFListState {
-        return listView.state
-    }
-
-    var window: UIWindow? {
-        return self.view.window
-    }
-
-    private var hostingController: FluentUIHostingController!
-
-    private var listView: MSFListView!
-}
-
 /// Properties that can be used to customize the appearance of the List Section.
 @objc public protocol MSFListSectionState {
     /// Sets the Section title.
     var title: String? { get set }
 
     /// Sets a custom background color for the List Section.
+    // TODO: Remove backgroundColor so that it will only be controlled by the tokens.
     var backgroundColor: UIColor? { get set }
 
     /// Configures divider presence within the Section.
     var hasDividers: Bool { get set }
 
-    /// Configures the Section's `HeaderFooter` style.
-    var style: MSFHeaderFooterStyle { get set }
+    /// Configures the Section's `Header` style.
+    var style: MSFHeaderStyle { get set }
 
     /// The number of Cells in the Section.
     var cellCount: Int { get }
@@ -93,10 +61,9 @@ import SwiftUI
     func removeSection(at index: Int)
 }
 
-public struct MSFListView: View {
+public struct FluentList: View {
     public init() {
         self.state = MSFListStateImpl()
-        self.tokens = MSFListTokens()
     }
 
     public var body: some View {
@@ -123,14 +90,8 @@ public struct MSFListView: View {
         .animation(.default)
         .environment(\.defaultMinListRowHeight, 0)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .designTokens(tokens,
-                      from: theme,
-                      with: windowProvider)
     }
 
-    @Environment(\.theme) var theme: FluentUIStyle
-    @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
-    @ObservedObject var tokens: MSFListTokens
     @ObservedObject var state: MSFListStateImpl
 
     /// Finds the last cell directly adjacent to the end of a list section. This is used to remove the redundant separator that is
@@ -159,19 +120,28 @@ public struct MSFListView: View {
 }
 
 /// Properties that make up section content
-class MSFListSectionStateImpl: NSObject, ObservableObject, Identifiable, MSFListSectionState {
-    var headerTokens: MSFHeaderFooterTokens
-    var id = UUID()
+class MSFListSectionStateImpl: NSObject, ObservableObject, Identifiable, ControlConfiguration, MSFListSectionState {
+    init(style: MSFHeaderStyle = .standard) {
+        let tokens = HeaderTokens()
+        tokens.style = style
+        self.tokens = tokens
 
+        self.style = style
+
+        super.init()
+    }
+
+    @Published var overrideTokens: HeaderTokens?
+    @Published var tokens: HeaderTokens {
+        didSet {
+            tokens.style = style
+        }
+    }
     @Published private(set) var cells: [MSFListCellStateImpl] = []
     @Published var title: String?
     @Published var backgroundColor: UIColor?
     @Published var hasDividers: Bool = false
-
-    init(style: MSFHeaderFooterStyle = .headerPrimary) {
-        self.headerTokens = MSFHeaderFooterTokens(style: style)
-        super.init()
-    }
+    var id = UUID()
 
     // MARK: - MSFListSectionStateImpl accessors
 
@@ -179,12 +149,9 @@ class MSFListSectionStateImpl: NSObject, ObservableObject, Identifiable, MSFList
         return cells.count
     }
 
-    var style: MSFHeaderFooterStyle {
-        get {
-            return headerTokens.style
-        }
-        set {
-            headerTokens.style = newValue
+    var style: MSFHeaderStyle {
+        didSet {
+            tokens.style = style
         }
     }
 
@@ -218,13 +185,7 @@ class MSFListSectionStateImpl: NSObject, ObservableObject, Identifiable, MSFList
 
 /// Properties that make up list content
 class MSFListStateImpl: NSObject, ObservableObject, MSFListState {
-    var tokens: MSFListTokens
     @Published private(set) var sections: [MSFListSectionStateImpl] = []
-
-    override init() {
-        self.tokens = MSFListTokens()
-        super.init()
-    }
 
     // MARK: - MSFListStateImpl accessors
 
