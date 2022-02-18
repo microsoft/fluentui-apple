@@ -200,6 +200,7 @@ public struct AvatarGroup: View, ConfigurableTokenizedControl {
                    minHeight: groupHeight,
                    maxHeight: .infinity,
                    alignment: .leading)
+            .resolveTokens(self)
         }
 
         return avatarGroupContent
