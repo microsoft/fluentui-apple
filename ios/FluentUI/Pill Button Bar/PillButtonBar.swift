@@ -5,14 +5,6 @@
 
 import UIKit
 
-// MARK: PillButtonBarDelegate
-
-@objc(MSFPillButtonBarDelegate)
-public protocol PillButtonBarDelegate {
-    /// Called after the button representing the item is tapped in the UI.
-    @objc optional func pillBar(_ pillBar: PillButtonBar, didSelectItem item: PillButtonBarItem, atIndex index: Int)
-}
-
 // MARK: PillButtonBarItem
 
 /// `PillButtonBarItem` is an item that can be presented as a pill shaped text button.
@@ -58,81 +50,30 @@ open class PillButtonBarItem: NSObject {
 /// Set the `selectedItem` property if the selection needs to be programatically changed.
 /// Once a button is selected, the previously selected button will be deselected.
 @objc(MSFPillButtonBar)
-open class PillButtonBar: UIScrollView, FluentUIWindowProvider {
-
-    @objc public weak var barDelegate: PillButtonBarDelegate?
-
-    @objc public var centerAligned: Bool = false {
-        didSet {
-            adjustAlignment()
-        }
+open class PillButtonBar: UIScrollView, TokenizedControlInternal {
+    open override func didMoveToWindow() {
+        super.didMoveToWindow()
+        updatePillButtonBarTokens()
     }
 
-    @objc public var items: [PillButtonBarItem]? {
-        didSet {
-            clearButtons()
+    open override func layoutSubviews() {
+        super.layoutSubviews()
 
-            if let items = items {
-                addButtonsWithItems(items)
-            }
-
-            setNeedsLayout()
-            needsButtonSizeReconfiguration = true
+        if bounds.width == 0 {
+            return
         }
-    }
 
-    @objc public let pillButtonStyle: PillButtonStyle
-
-    @objc public var pillButtonOverrideTokens: PillButtonTokens?
-
-    /// If set to nil, the previously selected item will be deselected and there won't be any items selected
-    @objc public var selectedItem: PillButtonBarItem? {
-        get {
-            return selectedButton?.pillBarItem
-        }
-        set {
-            if let item = newValue, let index = indexOfButtonWithItem(item) {
-                selectedButton = buttons[index]
+        if needsButtonSizeReconfiguration {
+            ensureMinimumButtonWidth()
+            updateHeightConstraint()
+            adjustButtonsForCurrentScrollFrame()
+            needsButtonSizeReconfiguration = false
+            if let selectedButton = selectedButton {
+                layoutIfNeeded()
+                scrollButtonToVisible(selectedButton)
             }
         }
     }
-
-    private var buttonExtraSidePadding: CGFloat = 0.0
-
-    private var buttons = [PillButton]()
-
-    private var lastKnownScrollFrameWidth: CGFloat = 0.0
-
-    private var needsButtonSizeReconfiguration: Bool = false
-
-    private var selectedButton: PillButton? {
-        willSet {
-            selectedButton?.isSelected = false
-        }
-
-        didSet {
-            if let button = selectedButton {
-                button.isSelected = true
-            }
-        }
-    }
-
-    private lazy var stackView: UIStackView = initStackView()
-
-    private func initStackView() -> UIStackView {
-        let view = UIStackView()
-        view.alignment = .center
-        view.spacing = pillButtonBarTokens.minButtonsSpacing
-        return view
-    }
-
-    private var leadingConstraint: NSLayoutConstraint?
-
-    private var centerConstraint: NSLayoutConstraint?
-
-    private var heightConstraint: NSLayoutConstraint?
-
-    private var trailingConstraint: NSLayoutConstraint?
 
     public override var bounds: CGRect {
         didSet {
@@ -141,13 +82,17 @@ open class PillButtonBar: UIScrollView, FluentUIWindowProvider {
                 // time into a superview. First time layout already has buttons in default sizes, recreate
                 // them so that the next time we layout subviews we'll recalculate their optimal sizes.
                 recreateButtons()
-                stackView.spacing = pillButtonBarTokens.minButtonsSpacing
+                stackView.spacing = tokens.minButtonsSpacing
             }
 
             lastKnownScrollFrameWidth = bounds.width
         }
     }
 
+    public func overrideTokens (_ tokens: PillButtonBarTokens?) -> Self {
+        overrideTokens = tokens
+        return self
+    }
     /// Initializes the PillButtonBar using the provided style.
     ///
     /// - Parameters:
@@ -164,11 +109,6 @@ open class PillButtonBar: UIScrollView, FluentUIWindowProvider {
 
     public required init?(coder aDecoder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
-    }
-
-    open override func didMoveToWindow() {
-        super.didMoveToWindow()
-        pillButtonBarTokens.updateForCurrentTheme()
     }
 
     @objc public func selectItem(_ item: PillButtonBarItem) {
@@ -220,23 +160,82 @@ open class PillButtonBar: UIScrollView, FluentUIWindowProvider {
         buttons[index].isEnabled = true
     }
 
-    open override func layoutSubviews() {
-        super.layoutSubviews()
+    @objc public weak var barDelegate: PillButtonBarDelegate?
 
-        if bounds.width == 0 {
-            return
+    @objc public var centerAligned: Bool = false {
+        didSet {
+            adjustAlignment()
         }
+    }
 
-        if needsButtonSizeReconfiguration {
-            ensureMinimumButtonWidth()
-            updateHeightConstraint()
-            adjustButtonsForCurrentScrollFrame()
-            needsButtonSizeReconfiguration = false
-            if let selectedButton = selectedButton {
-                layoutIfNeeded()
-                scrollButtonToVisible(selectedButton)
+    @objc public var items: [PillButtonBarItem]? {
+        didSet {
+            clearButtons()
+
+            if let items = items {
+                addButtonsWithItems(items)
+            }
+
+            setNeedsLayout()
+            needsButtonSizeReconfiguration = true
+        }
+    }
+
+    @objc public let pillButtonStyle: PillButtonStyle
+
+    @objc public var pillButtonOverrideTokens: PillButtonTokens?
+
+    /// If set to nil, the previously selected item will be deselected and there won't be any items selected
+    @objc public var selectedItem: PillButtonBarItem? {
+        get {
+            return selectedButton?.pillBarItem
+        }
+        set {
+            if let item = newValue, let index = indexOfButtonWithItem(item) {
+                selectedButton = buttons[index]
             }
         }
+    }
+
+    /// Sets the current tokens to be used for drawing.
+    func updateCurrentTokens(_ tokens: TokenType) {
+        self.tokens = tokens
+    }
+
+    var tokens: PillButtonBarTokens = .init()
+    var overrideTokens: PillButtonBarTokens? {
+        didSet {
+            updatePillButtonBarTokens()
+        }
+    }
+
+    private var buttonExtraSidePadding: CGFloat = 0.0
+
+    private var buttons = [PillButton]()
+
+    private var lastKnownScrollFrameWidth: CGFloat = 0.0
+
+    private var needsButtonSizeReconfiguration: Bool = false
+
+    private var selectedButton: PillButton? {
+        willSet {
+            selectedButton?.isSelected = false
+        }
+
+        didSet {
+            if let button = selectedButton {
+                button.isSelected = true
+            }
+        }
+    }
+
+    private lazy var stackView: UIStackView = initStackView()
+
+    private func initStackView() -> UIStackView {
+        let view = UIStackView()
+        view.alignment = .center
+        view.spacing = tokens.minButtonsSpacing
+        return view
     }
 
     private func addButtonsWithItems(_ items: [PillButtonBarItem]) {
@@ -267,7 +266,7 @@ open class PillButtonBar: UIScrollView, FluentUIWindowProvider {
         trailingConstraint?.isActive = !centerAligned
         centerConstraint?.isActive = centerAligned
 
-        contentInset.left = centerAligned ? 0.0 : pillButtonBarTokens.sideInset
+        contentInset.left = centerAligned ? 0.0 : tokens.sideInset
         contentInset.right = contentInset.left
         scrollToOrigin()
     }
@@ -280,8 +279,8 @@ open class PillButtonBar: UIScrollView, FluentUIWindowProvider {
     ///  portion of it visible and there's a clear indication that the view is scrollable. To achieve this, this function calculates
     ///  a new spacing and padding that will shift the last visible button farther in the view.
     private func adjustButtonsForCurrentScrollFrame() {
-        var visibleWidth = frame.width - (pillButtonBarTokens.minButtonsSpacing + pillButtonBarTokens.minButtonVisibleWidth)
-        var visibleButtonsWidth: CGFloat = pillButtonBarTokens.sideInset
+        var visibleWidth = frame.width - (tokens.minButtonsSpacing + tokens.minButtonVisibleWidth)
+        var visibleButtonsWidth: CGFloat = tokens.sideInset
         var visibleButtonCount = 0
         for button in buttons {
             button.layoutIfNeeded()
@@ -291,12 +290,12 @@ open class PillButtonBar: UIScrollView, FluentUIWindowProvider {
                 break
             }
 
-            visibleButtonsWidth += pillButtonBarTokens.minButtonsSpacing
+            visibleButtonsWidth += tokens.minButtonsSpacing
         }
 
         if visibleButtonCount == buttons.count {
             // If the last visible button is the last button, not need to account for space in a next button
-            visibleWidth += pillButtonBarTokens.minButtonVisibleWidth
+            visibleWidth += tokens.minButtonVisibleWidth
         }
 
         if visibleButtonsWidth <= visibleWidth {
@@ -304,7 +303,7 @@ open class PillButtonBar: UIScrollView, FluentUIWindowProvider {
             return
         }
 
-        let optimalVisibleButtonWidth = frame.width + pillButtonBarTokens.minButtonVisibleWidth
+        let optimalVisibleButtonWidth = frame.width + tokens.minButtonVisibleWidth
         let totalAdjustment = optimalVisibleButtonWidth - visibleButtonsWidth
         if totalAdjustment < 0.0 {
             return
@@ -345,7 +344,7 @@ open class PillButtonBar: UIScrollView, FluentUIWindowProvider {
         }
 
         let spacingAdjustment = ceil((totalSpace) / CGFloat(numberOfButtons))
-        let newSpacing = min(pillButtonBarTokens.maxButtonsSpacing, pillButtonBarTokens.minButtonsSpacing + spacingAdjustment)
+        let newSpacing = min(tokens.maxButtonsSpacing, tokens.minButtonsSpacing + spacingAdjustment)
         let spacingChange = newSpacing - stackView.spacing
         stackView.spacing = newSpacing
         return spacingChange * CGFloat(numberOfButtons)
@@ -367,8 +366,8 @@ open class PillButtonBar: UIScrollView, FluentUIWindowProvider {
         for button in buttons {
             button.layoutIfNeeded()
             let buttonWidth = button.frame.width
-            if buttonWidth > 0, buttonWidth < pillButtonBarTokens.minButtonWidth {
-                let extraInset = floor((pillButtonBarTokens.minButtonWidth - button.frame.width) / 2)
+            if buttonWidth > 0, buttonWidth < tokens.minButtonWidth {
+                let extraInset = floor((tokens.minButtonWidth - button.frame.width) / 2)
                 button.contentEdgeInsets.left += extraInset
                 button.contentEdgeInsets.right = button.contentEdgeInsets.left
                 button.layoutIfNeeded()
@@ -424,7 +423,7 @@ open class PillButtonBar: UIScrollView, FluentUIWindowProvider {
         trailingConstraint = stackView.trailingAnchor.constraint(equalTo: trailingAnchor)
         centerConstraint = stackView.centerXAnchor.constraint(equalTo: centerXAnchor)
 
-        heightConstraint = heightAnchor.constraint(equalToConstant: pillButtonBarTokens.minHeight)
+        heightConstraint = heightAnchor.constraint(equalToConstant: tokens.minHeight)
         heightConstraint?.isActive = true
 
         adjustAlignment()
@@ -439,13 +438,13 @@ open class PillButtonBar: UIScrollView, FluentUIWindowProvider {
         let viewLeadingPosition = bounds.origin.x
         let viewTrailingPosition = viewLeadingPosition + frame.size.width
 
-        let extraScrollWidth = pillButtonBarTokens.minButtonVisibleWidth + stackView.spacing + buttonExtraSidePadding
+        let extraScrollWidth = tokens.minButtonVisibleWidth + stackView.spacing + buttonExtraSidePadding
         var offSet = contentOffset.x
         if buttonLeftPosition < viewLeadingPosition {
             offSet = buttonLeftPosition - extraScrollWidth
-            offSet = max(offSet, -pillButtonBarTokens.sideInset)
+            offSet = max(offSet, -tokens.sideInset)
         } else if buttonRightPosition > viewTrailingPosition {
-            let maxOffsetX = contentSize.width - frame.size.width + pillButtonBarTokens.sideInset
+            let maxOffsetX = contentSize.width - frame.size.width + tokens.sideInset
             offSet = buttonRightPosition - frame.size.width + extraScrollWidth
             offSet = min(offSet, maxOffsetX)
         }
@@ -469,14 +468,25 @@ open class PillButtonBar: UIScrollView, FluentUIWindowProvider {
     }
 
     private func updateHeightConstraint() {
-        var maxHeight: CGFloat = pillButtonBarTokens.minHeight
+        var maxHeight: CGFloat = tokens.minHeight
         buttons.forEach { maxHeight = max(maxHeight, $0.frame.size.height) }
         if let heightConstraint = heightConstraint, maxHeight != heightConstraint.constant {
             heightConstraint.constant = maxHeight
         }
     }
 
-    private lazy var pillButtonBarTokens = MSFPillButtonBarTokens()
+    private func updatePillButtonBarTokens() {
+        let tokens = TokenResolver.tokens(for: self, fluentTheme: fluentTheme)
+        self.tokens = tokens
+    }
+
+    private var leadingConstraint: NSLayoutConstraint?
+
+    private var centerConstraint: NSLayoutConstraint?
+
+    private var heightConstraint: NSLayoutConstraint?
+
+    private var trailingConstraint: NSLayoutConstraint?
 }
 
 // MARK: PillButtonBar UIPointerInteractionDelegate
@@ -513,4 +523,12 @@ extension PillButtonBar: UIPointerInteractionDelegate {
 
         return UIPointerStyle(effect: pointerEffect, shape: nil)
     }
+}
+
+// MARK: PillButtonBarDelegate
+
+@objc(MSFPillButtonBarDelegate)
+public protocol PillButtonBarDelegate {
+    /// Called after the button representing the item is tapped in the UI.
+    @objc optional func pillBar(_ pillBar: PillButtonBar, didSelectItem item: PillButtonBarItem, atIndex index: Int)
 }

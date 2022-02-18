@@ -9,7 +9,7 @@ import UIKit
 
 /// A `PillButton` is a button in the shape of a pill that can have two states: on (Selected) and off (not selected)
 @objc(MSFPillButton)
-open class PillButton: UIButton, TokenizedControlInternal, ControlConfiguration {
+open class PillButton: UIButton, TokenizedControlInternal {
 
     open override func didMoveToWindow() {
         super.didMoveToWindow()
