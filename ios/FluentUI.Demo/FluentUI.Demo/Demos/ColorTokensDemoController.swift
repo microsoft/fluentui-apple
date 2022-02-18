@@ -27,13 +27,16 @@ class ColorTokensDemoController: DemoTableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellID, for: indexPath)
         let colorSet = GlobalTokens.SharedColorSets.allCases[indexPath.section]
-        let colorValue = GlobalTokens.SharedColorsTokens.allCases[indexPath.row]
-        cell.backgroundConfiguration?.backgroundColor = UIColor(colorValue: globalTokens.sharedColors[colorSet][colorValue])
+        let colorToken = GlobalTokens.SharedColorsTokens.allCases[indexPath.row]
+
+        cell.backgroundConfiguration?.backgroundColor = UIColor(colorValue: globalTokens.sharedColors[colorSet][colorToken])
         cell.selectionStyle = .none
 
         var contentConfiguration = cell.defaultContentConfiguration()
-        let textColor = indexPath.row > 8 ? UIColor.black : UIColor.white
-        contentConfiguration.attributedText = NSAttributedString(string: colorValue.text, attributes: [.foregroundColor: textColor])
+        contentConfiguration.attributedText = NSAttributedString(string: colorToken.text,
+                                                                 attributes: [
+                                                                    .foregroundColor: colorToken.textColor
+                                                                 ])
         contentConfiguration.textProperties.alignment = .center
         cell.contentConfiguration = contentConfiguration
 
@@ -144,7 +147,7 @@ private extension GlobalTokens.SharedColorSets {
         case .red:
             return "Red"
         case .royalBlue:
-            return "RoyalBlue"
+            return "Royal Blue"
         case .seafoam:
             return "Seafoam"
         case .silver:
@@ -186,7 +189,15 @@ private extension GlobalTokens.SharedColorsTokens {
             return "tint50"
         case .tint60:
             return "tint60"
+        }
+    }
 
+    var textColor: UIColor {
+        switch self {
+        case .shade50, .shade40, .shade30, .shade20, .shade10, .primary, .tint10, .tint20, .tint30:
+            return .white
+        case .tint40, .tint50, .tint60:
+            return .black
         }
     }
 }
