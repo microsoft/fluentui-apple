@@ -99,14 +99,14 @@ public struct Avatar: View {
         state.secondaryText = secondaryText
 
         self.state = state
-        self.tokens = state.tokens
+        self.tokens = state.oldTokens
     }
 
     // This initializer should be used by internal container views. These containers should first initialize
     // MSFAvatarStateImpl using style and size, and then use that state and this initializer in their ViewBuilder.
     init(_ avatarState: MSFAvatarStateImpl) {
         state = avatarState
-        tokens = avatarState.tokens
+        tokens = avatarState.oldTokens
     }
 
     public var body: some View {
@@ -425,7 +425,7 @@ public struct Avatar: View {
 }
 
 /// Properties available to customize the state of the avatar
-class MSFAvatarStateImpl: NSObject, ObservableObject, Identifiable, MSFAvatarState {
+class MSFAvatarStateImpl: NSObject, ObservableObject, Identifiable, ControlConfiguration, MSFAvatarState {
     public var id = UUID()
 
     @Published var backgroundColor: UIColor?
@@ -444,29 +444,39 @@ class MSFAvatarStateImpl: NSObject, ObservableObject, Identifiable, MSFAvatarSta
     @Published var ringColor: UIColor?
     @Published var secondaryText: String?
 
-    var size: MSFAvatarSize {
-        get {
-            return tokens.size
-        }
-        set {
-            tokens.size = newValue
+    @Published var style: MSFAvatarStyle {
+        didSet {
+            tokens.style = style
         }
     }
 
-    var style: MSFAvatarStyle {
-        get {
-            return tokens.style
-        }
-        set {
-            tokens.style = newValue
+    @Published var size: MSFAvatarSize {
+        didSet {
+            tokens.size = size
         }
     }
 
-    var tokens: MSFAvatarTokens
+    @Published var overrideTokens: AvatarTokens?
+    @Published var tokens: AvatarTokens {
+        didSet {
+            tokens.style = style
+            tokens.size = size
+        }
+    }
+
+    var oldTokens: MSFAvatarTokens
 
     init(style: MSFAvatarStyle,
          size: MSFAvatarSize) {
-        self.tokens = MSFAvatarTokens(style: style,
+        self.style = style
+        self.size = size
+
+        let tokens = AvatarTokens()
+        tokens.style = style
+        tokens.size = size
+        self.tokens = tokens
+
+        self.oldTokens = MSFAvatarTokens(style: style,
                                       size: size)
         super.init()
     }
