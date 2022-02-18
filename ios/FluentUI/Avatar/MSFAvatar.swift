@@ -19,7 +19,6 @@ import SwiftUI
                         size: size)
         state = avatar.state
         super.init(AnyView(avatar))
-        view.backgroundColor = UIColor.clear
     }
 
     /// The object that groups properties that allow control over the Avatar appearance.
