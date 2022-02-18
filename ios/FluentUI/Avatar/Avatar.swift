@@ -74,12 +74,6 @@ import SwiftUI
 
 /// View that represents the avatar.
 public struct Avatar: View, ConfigurableTokenizedControl {
-    @Environment(\.theme) var theme: FluentUIStyle
-    @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
-    @Environment(\.layoutDirection) var layoutDirection: LayoutDirection
-    var tokens: AvatarTokens
-    @ObservedObject var state: MSFAvatarStateImpl
-
     /// Creates and initializes a SwiftUI Avatar
     /// - Parameters:
     ///   - style: The style of the avatar.
@@ -100,13 +94,6 @@ public struct Avatar: View, ConfigurableTokenizedControl {
 
         self.state = state
         self.tokens = state.tokens
-    }
-
-    // This initializer should be used by internal container views. These containers should first initialize
-    // MSFAvatarStateImpl using style and size, and then use that state and this initializer in their ViewBuilder.
-    init(_ avatarState: MSFAvatarStateImpl) {
-        state = avatarState
-        tokens = avatarState.tokens
     }
 
     public var body: some View {
@@ -320,34 +307,18 @@ public struct Avatar: View, ConfigurableTokenizedControl {
         }
     }
 
-    private let animationDuration: Double = 0.1
-
-    private struct PresenceCutout: Shape {
-        var originX: CGFloat
-        var originY: CGFloat
-        var presenceIconOutlineSize: CGFloat
-
-        var animatableData: AnimatablePair<AnimatablePair<CGFloat, CGFloat>, CGFloat> {
-            get {
-                AnimatablePair(AnimatablePair(originX, originY), presenceIconOutlineSize)
-            }
-
-            set {
-                originX = newValue.first.first
-                originY = newValue.first.second
-                presenceIconOutlineSize = newValue.second
-            }
-        }
-
-        func path(in rect: CGRect) -> Path {
-            var cutoutFrame = Rectangle().path(in: rect)
-            cutoutFrame.addPath(Circle().path(in: CGRect(x: originX,
-                                                         y: originY,
-                                                         width: presenceIconOutlineSize,
-                                                         height: presenceIconOutlineSize)))
-            return cutoutFrame
-        }
+    // This initializer should be used by internal container views. These containers should first initialize
+    // MSFAvatarStateImpl using style and size, and then use that state and this initializer in their ViewBuilder.
+    init(_ avatarState: MSFAvatarStateImpl) {
+        state = avatarState
+        tokens = avatarState.tokens
     }
+
+    @Environment(\.theme) var theme: FluentUIStyle
+    @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
+    @Environment(\.layoutDirection) var layoutDirection: LayoutDirection
+    var tokens: AvatarTokens
+    @ObservedObject var state: MSFAvatarStateImpl
 
     private static func initialsHashCode(fromPrimaryText primaryText: String?, secondaryText: String?) -> Int {
         var combined: String
@@ -421,6 +392,35 @@ public struct Avatar: View, ConfigurableTokenizedControl {
         }
         return hash
     }
+
+    private struct PresenceCutout: Shape {
+        var originX: CGFloat
+        var originY: CGFloat
+        var presenceIconOutlineSize: CGFloat
+
+        var animatableData: AnimatablePair<AnimatablePair<CGFloat, CGFloat>, CGFloat> {
+            get {
+                AnimatablePair(AnimatablePair(originX, originY), presenceIconOutlineSize)
+            }
+
+            set {
+                originX = newValue.first.first
+                originY = newValue.first.second
+                presenceIconOutlineSize = newValue.second
+            }
+        }
+
+        func path(in rect: CGRect) -> Path {
+            var cutoutFrame = Rectangle().path(in: rect)
+            cutoutFrame.addPath(Circle().path(in: CGRect(x: originX,
+                                                         y: originY,
+                                                         width: presenceIconOutlineSize,
+                                                         height: presenceIconOutlineSize)))
+            return cutoutFrame
+        }
+    }
+
+    private let animationDuration: Double = 0.1
 }
 
 /// Properties available to customize the state of the avatar
