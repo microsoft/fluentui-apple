@@ -28,158 +28,18 @@ import SwiftUI
     var size: CGFloat {
         switch self {
         case .xsmall:
-            return FluentUIThemeManager.S.MSFAvatarTokens.size.xSmall
+            return 16
         case .small:
-            return FluentUIThemeManager.S.MSFAvatarTokens.size.small
+            return 24
         case .medium:
-            return FluentUIThemeManager.S.MSFAvatarTokens.size.medium
+            return 32
         case .large:
-            return FluentUIThemeManager.S.MSFAvatarTokens.size.large
+            return 40
         case .xlarge:
-            return FluentUIThemeManager.S.MSFAvatarTokens.size.xlarge
+            return 52
         case .xxlarge:
-            return FluentUIThemeManager.S.MSFAvatarTokens.size.xxlarge
+            return 72
         }
-    }
-}
-
-/// Representation of design tokens to buttons at runtime which interfaces with the Design Token System auto-generated code.
-/// Updating these properties causes the SwiftUI button to update its view automatically.
-class MSFAvatarTokens: MSFTokensBase, ObservableObject {
-    @Published public var avatarSize: CGFloat!
-    @Published public var borderRadius: CGFloat!
-    @Published public var textFont: UIFont!
-
-    @Published public var ringDefaultColor: UIColor!
-    @Published public var ringGapColor: UIColor!
-    @Published public var ringThickness: CGFloat!
-    @Published public var ringInnerGap: CGFloat!
-    @Published public var ringOuterGap: CGFloat!
-
-    @Published public var presenceIconSize: CGFloat!
-    @Published public var presenceIconOutlineThickness: CGFloat!
-    @Published public var presenceOutlineColor: UIColor!
-
-    @Published public var backgroundCalculatedColorOptions: [UIColor]!
-    @Published public var backgroundDefaultColor: UIColor!
-    @Published public var foregroundCalculatedColorOptions: [UIColor]!
-    @Published public var foregroundDefaultColor: UIColor!
-
-    var style: MSFAvatarStyle {
-        didSet {
-            if oldValue != style {
-                updateForCurrentTheme()
-            }
-        }
-    }
-
-    var size: MSFAvatarSize {
-        didSet {
-            if oldValue != size {
-                updateForCurrentTheme()
-            }
-        }
-    }
-
-    init(style: MSFAvatarStyle,
-         size: MSFAvatarSize) {
-        self.style = style
-        self.size = size
-
-        super.init()
-
-        self.themeAware = true
-
-        updateForCurrentTheme()
-    }
-
-    override func updateForCurrentTheme() {
-        let currentTheme = theme
-        var appearanceProxy: AppearanceProxyType
-
-        switch style {
-        case .default:
-            appearanceProxy = currentTheme.MSFAvatarTokens
-        case .accent:
-            appearanceProxy = currentTheme.MSFAccentAvatarTokens
-        case .outlined:
-            appearanceProxy = currentTheme.MSFOutlinedAvatarTokens
-        case .outlinedPrimary:
-            appearanceProxy = currentTheme.MSFOutlinedPrimaryAvatarTokens
-        case .overflow:
-            appearanceProxy = currentTheme.MSFOverflowAvatarTokens
-        case .group:
-            appearanceProxy = currentTheme.MSFGroupAvatarTokens
-        }
-
-        ringDefaultColor = appearanceProxy.ringDefaultColor
-        ringGapColor = appearanceProxy.ringGapColor
-        presenceOutlineColor = appearanceProxy.presenceIconOutlineColor
-        backgroundDefaultColor = appearanceProxy.backgroundDefaultColor
-        backgroundCalculatedColorOptions = appearanceProxy.textCalculatedBackgroundColors
-        foregroundDefaultColor = appearanceProxy.foregroundDefaultColor
-        foregroundCalculatedColorOptions = appearanceProxy.textCalculatedForegroundColors
-
-        switch size {
-        case .xsmall:
-            avatarSize = appearanceProxy.size.xSmall
-            borderRadius = appearanceProxy.borderRadius.xSmall
-            ringThickness = appearanceProxy.ringThickness.xSmall
-            ringInnerGap = appearanceProxy.ringInnerGap.xSmall
-            ringOuterGap = appearanceProxy.ringOuterGap.xSmall
-            presenceIconSize = appearanceProxy.presenceIconSize.xSmall
-            presenceIconOutlineThickness = appearanceProxy.presenceIconOutlineThickness.xSmall
-            textFont = appearanceProxy.textFont.xSmall
-        case .small:
-            avatarSize = appearanceProxy.size.small
-            borderRadius = appearanceProxy.borderRadius.small
-            ringThickness = appearanceProxy.ringThickness.small
-            ringInnerGap = appearanceProxy.ringInnerGap.small
-            ringOuterGap = appearanceProxy.ringOuterGap.small
-            presenceIconSize = appearanceProxy.presenceIconSize.small
-            presenceIconOutlineThickness = appearanceProxy.presenceIconOutlineThickness.small
-            textFont = appearanceProxy.textFont.small
-        case .medium:
-            avatarSize = appearanceProxy.size.medium
-            borderRadius = appearanceProxy.borderRadius.medium
-            ringThickness = appearanceProxy.ringThickness.medium
-            ringInnerGap = appearanceProxy.ringInnerGap.medium
-            ringOuterGap = appearanceProxy.ringOuterGap.medium
-            presenceIconSize = appearanceProxy.presenceIconSize.medium
-            presenceIconOutlineThickness = appearanceProxy.presenceIconOutlineThickness.medium
-            textFont = appearanceProxy.textFont.medium
-        case .large:
-            avatarSize = appearanceProxy.size.large
-            borderRadius = appearanceProxy.borderRadius.large
-            ringThickness = appearanceProxy.ringThickness.large
-            ringInnerGap = appearanceProxy.ringInnerGap.large
-            ringOuterGap = appearanceProxy.ringOuterGap.large
-            presenceIconSize = appearanceProxy.presenceIconSize.large
-            presenceIconOutlineThickness = appearanceProxy.presenceIconOutlineThickness.large
-            textFont = appearanceProxy.textFont.large
-        case .xlarge:
-            avatarSize = appearanceProxy.size.xlarge
-            borderRadius = appearanceProxy.borderRadius.xlarge
-            ringThickness = appearanceProxy.ringThickness.xlarge
-            ringInnerGap = appearanceProxy.ringInnerGap.xlarge
-            ringOuterGap = appearanceProxy.ringOuterGap.xlarge
-            presenceIconSize = appearanceProxy.presenceIconSize.xlarge
-            presenceIconOutlineThickness = appearanceProxy.presenceIconOutlineThickness.xlarge
-            textFont = appearanceProxy.textFont.xlarge
-        case .xxlarge:
-            avatarSize = appearanceProxy.size.xxlarge
-            borderRadius = appearanceProxy.borderRadius.xxlarge
-            ringThickness = appearanceProxy.ringThickness.xxlarge
-            ringInnerGap = appearanceProxy.ringInnerGap.xxlarge
-            ringOuterGap = appearanceProxy.ringOuterGap.xxlarge
-            presenceIconSize = appearanceProxy.presenceIconSize.xxlarge
-            presenceIconOutlineThickness = appearanceProxy.presenceIconOutlineThickness.xxlarge
-            textFont = appearanceProxy.textFont.xxlarge
-        }
-    }
-
-    @objc open func didChangeAppearanceProxy() {
-        updateForCurrentTheme()
     }
 }
 
@@ -196,20 +56,7 @@ open class AvatarTokens: ControlTokens {
 
     /// The size of the content of the `Avatar`.
     open var avatarSize: CGFloat {
-        switch size {
-        case .xsmall:
-            return 16
-        case .small:
-            return 24
-        case .medium:
-            return 32
-        case .large:
-            return 40
-        case .xlarge:
-            return 52
-        case .xxlarge:
-            return 72
-        }
+        return size.size
     }
 
     /// The radius of the corners of the `Avatar`.
