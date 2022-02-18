@@ -1,6 +1,8 @@
 jobs:
 - job: credScan
   displayName: Secure Development Tools
+  variables:
+    tags: production, externalfacing
   pool:
     vmImage: windows-2019
   steps:
