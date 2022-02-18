@@ -33,14 +33,34 @@ class ColorTokensDemoController: DemoTableViewController {
         cell.selectionStyle = .none
 
         var contentConfiguration = cell.defaultContentConfiguration()
-        contentConfiguration.attributedText = NSAttributedString(string: colorToken.text,
+        let text = "\(colorSet.text) \(colorToken.text)"
+        contentConfiguration.attributedText = NSAttributedString(string: text,
                                                                  attributes: [
-                                                                    .foregroundColor: colorToken.textColor
+                                                                    .foregroundColor: textColor(for: colorToken, in: colorSet)
                                                                  ])
         contentConfiguration.textProperties.alignment = .center
         cell.contentConfiguration = contentConfiguration
 
         return cell
+    }
+
+    private func textColor(for colorToken: GlobalTokens.SharedColorsTokens, in colorSet: GlobalTokens.SharedColorSets) -> UIColor {
+        // Yellow is special: it's much lighter than the other colors, so it needs a different text color scale.
+        if colorSet == .yellow {
+            switch colorToken {
+            case .shade50, .shade40, .shade30, .shade20, .shade10:
+                return .white
+            case .primary, .tint10, .tint20, .tint30, .tint40, .tint50, .tint60:
+                return .black
+            }
+        } else {
+            switch colorToken {
+            case .shade50, .shade40, .shade30, .shade20, .shade10, .primary, .tint10, .tint20, .tint30:
+                return .white
+            case .tint40, .tint50, .tint60:
+                return .black
+            }
+        }
     }
 
     private var globalTokens: GlobalTokens {
@@ -166,38 +186,29 @@ private extension GlobalTokens.SharedColorsTokens {
     var text: String {
         switch self {
         case .shade50:
-            return "shade50"
+            return "Shade 50"
         case .shade40:
-            return "shade40"
+            return "Shade 40"
         case .shade30:
-            return "shade30"
+            return "Shade 30"
         case .shade20:
-            return "shade20"
+            return "Shade 20"
         case .shade10:
-            return "shade10"
+            return "Shade 10"
         case .primary:
-            return "primary"
+            return "Primary"
         case .tint10:
-            return "tint10"
+            return "Tint 10"
         case .tint20:
-            return "tint20"
+            return "Tint 20"
         case .tint30:
-            return "tint30"
+            return "Tint 30"
         case .tint40:
-            return "tint40"
+            return "Tint 40"
         case .tint50:
-            return "tint50"
+            return "Tint 50"
         case .tint60:
-            return "tint60"
-        }
-    }
-
-    var textColor: UIColor {
-        switch self {
-        case .shade50, .shade40, .shade30, .shade20, .shade10, .primary, .tint10, .tint20, .tint30:
-            return .white
-        case .tint40, .tint50, .tint60:
-            return .black
+            return "Tint 60"
         }
     }
 }
