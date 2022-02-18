@@ -6,43 +6,6 @@
 import UIKit
 import SwiftUI
 
-/// Pre-defined styles of the avatar
-@objc public enum MSFAvatarStyle: Int, CaseIterable {
-    case `default`
-    case accent
-    case group
-    case outlined
-    case outlinedPrimary
-    case overflow
-}
-
-/// Pre-defined sizes of the avatar
-@objc public enum MSFAvatarSize: Int, CaseIterable {
-    case xsmall
-    case small
-    case medium
-    case large
-    case xlarge
-    case xxlarge
-
-    var size: CGFloat {
-        switch self {
-        case .xsmall:
-            return 16
-        case .small:
-            return 24
-        case .medium:
-            return 32
-        case .large:
-            return 40
-        case .xlarge:
-            return 52
-        case .xxlarge:
-            return 72
-        }
-    }
-}
-
 /// Design token set for the `Avatar` control.
 open class AvatarTokens: ControlTokens {
     // MARK: - Design Tokens
@@ -276,4 +239,41 @@ open class AvatarTokens: ControlTokens {
 
     /// Defines the size of the `Avatar`.
     public internal(set) var size: MSFAvatarSize = .large
+}
+
+/// Pre-defined styles of the avatar
+@objc public enum MSFAvatarStyle: Int, CaseIterable {
+    case `default`
+    case accent
+    case group
+    case outlined
+    case outlinedPrimary
+    case overflow
+}
+
+/// Pre-defined sizes of the avatar
+@objc public enum MSFAvatarSize: Int, CaseIterable {
+    case xsmall
+    case small
+    case medium
+    case large
+    case xlarge
+    case xxlarge
+
+    var size: CGFloat {
+        switch self {
+        case .xsmall:
+            return 16
+        case .small:
+            return 24
+        case .medium:
+            return 32
+        case .large:
+            return 40
+        case .xlarge:
+            return 52
+        case .xxlarge:
+            return 72
+        }
+    }
 }
