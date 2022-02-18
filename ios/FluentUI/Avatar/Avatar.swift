@@ -73,7 +73,7 @@ import SwiftUI
 }
 
 /// View that represents the avatar.
-public struct Avatar: View {
+public struct Avatar: View, ConfigurableTokenizedControl {
     @Environment(\.theme) var theme: FluentUIStyle
     @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
     @Environment(\.layoutDirection) var layoutDirection: LayoutDirection
