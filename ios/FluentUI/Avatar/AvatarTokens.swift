@@ -45,13 +45,6 @@ import SwiftUI
 
 /// Design token set for the `Avatar` control.
 open class AvatarTokens: ControlTokens {
-
-    /// Defines the style of the `Avatar`.
-    public internal(set) var style: MSFAvatarStyle = .default
-
-    /// Defines the size of the `Avatar`.
-    public internal(set) var size: MSFAvatarSize = .large
-
     // MARK: - Design Tokens
 
     /// The size of the content of the `Avatar`.
@@ -277,4 +270,10 @@ open class AvatarTokens: ControlTokens {
             return aliasTokens.foregroundColors[.neutral3]
         }
     }
+
+    /// Defines the style of the `Avatar`.
+    public internal(set) var style: MSFAvatarStyle = .default
+
+    /// Defines the size of the `Avatar`.
+    public internal(set) var size: MSFAvatarSize = .large
 }
