@@ -153,7 +153,6 @@
 		535559E42711411E0094A871 /* FluentUIHostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535559E22711411E0094A871 /* FluentUIHostingController.swift */; };
 		5373D5652694D65C0032A3B4 /* AvatarTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5373D5602694D65C0032A3B4 /* AvatarTokens.swift */; };
 		5373D5672694D65C0032A3B4 /* Avatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5373D5612694D65C0032A3B4 /* Avatar.swift */; };
-		5373D5692694D65C0032A3B4 /* MSFAvatarTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5373D5622694D65C0032A3B4 /* MSFAvatarTokens.generated.swift */; };
 		5373D56B2694D65C0032A3B4 /* MSFAvatarPresence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5373D5632694D65C0032A3B4 /* MSFAvatarPresence.swift */; };
 		5373D5712694D66F0032A3B4 /* Theming.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5373D56C2694D66F0032A3B4 /* Theming.swift */; };
 		5373D5732694D66F0032A3B4 /* UIKit+SwiftUI_interoperability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5373D56D2694D66F0032A3B4 /* UIKit+SwiftUI_interoperability.swift */; };
@@ -274,7 +273,6 @@
 		535559E22711411E0094A871 /* FluentUIHostingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FluentUIHostingController.swift; sourceTree = "<group>"; };
 		5373D5602694D65C0032A3B4 /* AvatarTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarTokens.swift; sourceTree = "<group>"; };
 		5373D5612694D65C0032A3B4 /* Avatar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Avatar.swift; sourceTree = "<group>"; };
-		5373D5622694D65C0032A3B4 /* MSFAvatarTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFAvatarTokens.generated.swift; sourceTree = "<group>"; };
 		5373D5632694D65C0032A3B4 /* MSFAvatarPresence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFAvatarPresence.swift; sourceTree = "<group>"; };
 		5373D56C2694D66F0032A3B4 /* Theming.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theming.swift; sourceTree = "<group>"; };
 		5373D56D2694D66F0032A3B4 /* UIKit+SwiftUI_interoperability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIKit+SwiftUI_interoperability.swift"; sourceTree = "<group>"; };
@@ -1115,7 +1113,6 @@
 				5373D5602694D65C0032A3B4 /* AvatarTokens.swift */,
 				EC5982D727BF348700FD048D /* MSFAvatar.swift */,
 				5373D5632694D65C0032A3B4 /* MSFAvatarPresence.swift */,
-				5373D5622694D65C0032A3B4 /* MSFAvatarTokens.generated.swift */,
 				B4EF53C2215AF1AB00573E8F /* Persona.swift */,
 			);
 			path = Avatar;
@@ -1570,7 +1567,6 @@
 				5314E28125F0240D0099271A /* DateComponents+Extensions.swift in Sources */,
 				5314E07025F00F140099271A /* DatePickerController.swift in Sources */,
 				0A3CD0B327BDD26B00DBE728 /* MSFList.swift in Sources */,
-				5373D5692694D65C0032A3B4 /* MSFAvatarTokens.generated.swift in Sources */,
 				5373D56B2694D65C0032A3B4 /* MSFAvatarPresence.swift in Sources */,
 				EC5982D827BF348700FD048D /* MSFAvatar.swift in Sources */,
 				5314E0AA25F010070099271A /* DrawerShadowView.swift in Sources */,
