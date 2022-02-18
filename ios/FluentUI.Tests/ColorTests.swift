@@ -26,18 +26,16 @@ class ColorTests: XCTestCase {
     ///    - Background: shade30
     ///    - Foreground: tint40
     func testAvatarColorsMatch() {
-        let lightModeTraitCollection = UITraitCollection(userInterfaceStyle: .light)
-        let darkModeTraitCollection = UITraitCollection(userInterfaceStyle: .dark)
-
-        let backgroundColors = FluentUIThemeManager.defaultTheme().MSFAvatarTokens.textCalculatedBackgroundColors
-        let foregroundColors = FluentUIThemeManager.defaultTheme().MSFAvatarTokens.textCalculatedForegroundColors
+        let avatarTokens = AvatarTokens()
+        let backgroundColors = avatarTokens.backgroundCalculatedColorOptions
+        let foregroundColors = avatarTokens.foregroundCalculatedColorOptions
 
         for (index, bgColor) in backgroundColors.enumerated() {
             let fgColor = foregroundColors[index]
-            let bgLightColor = bgColor.resolvedColor(with: lightModeTraitCollection)
-            let bgDarkColor = bgColor.resolvedColor(with: darkModeTraitCollection)
-            let fgLightColor = fgColor.resolvedColor(with: lightModeTraitCollection)
-            let fgDarkColor = fgColor.resolvedColor(with: darkModeTraitCollection)
+            let bgLightColor = UIColor(colorValue: bgColor.light)
+            let bgDarkColor = UIColor(colorValue: bgColor.dark!)
+            let fgLightColor = UIColor(colorValue: fgColor.light)
+            let fgDarkColor = UIColor(colorValue: fgColor.dark!)
 
             XCTAssertEqual(bgLightColor,
                            fgDarkColor,
