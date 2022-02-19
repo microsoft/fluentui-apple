@@ -17,21 +17,11 @@ public protocol TokenizedControl {
     func overrideTokens(_ tokens: TokenType?) -> Self
 }
 
-/// Internal extension to `TokenizedControl` that adds information about `configuration`.
+/// Internal extension to `TokenizedControl` that adds the ability to modify the active tokens.
 protocol TokenizedControlInternal: TokenizedControl {
-    associatedtype ConfigurationType: ControlConfiguration where ConfigurationType.TokenType == TokenType
+    /// Sets the current tokens to be used for drawing.
+    func updateCurrentTokens(_ tokens: TokenType)
 
-    /// Contains additional configuration information about the control.
-    var state: ConfigurationType { get }
-}
-
-/// Internal protocol for all controls' internal `configuration` objects.
-protocol ControlConfiguration: NSObject, ObservableObject, Identifiable {
-    associatedtype TokenType: ControlTokens
-
-    /// Custom design token set for this control, to use in place of the control's default Fluent tokens.
-    var overrideTokens: TokenType? { get set }
-
-    /// Common token lookup method, which should contain a lookup via the current environment's `fluentTheme`.
-    var tokens: TokenType { get set }
+    /// Fetches the current token override.
+    var overrideTokens: TokenType? { get }
 }

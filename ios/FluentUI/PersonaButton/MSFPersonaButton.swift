@@ -7,50 +7,17 @@ import SwiftUI
 import UIKit
 
 /// UIKit wrapper that exposes the SwiftUI PersonaButton implementation
-@objc open class MSFPersonaButton: NSObject, FluentUIWindowProvider {
+@objc public class MSFPersonaButton: ControlHostingContainer {
 
-    /// The UIView representing the PersonaButton.
-    @objc open var view: UIView {
-        return hostingController.view
+    /// Creates a new MSFPersonaButton instance.
+    /// - Parameters:
+    ///   - size: The MSFPersonaButtonSize value used by the PersonaButton.
+    @objc public init(size: MSFPersonaButtonSize = .large) {
+        let personaButton = PersonaButton(size: size)
+        state = personaButton.state
+        super.init(AnyView(personaButton))
     }
 
     /// The object that groups properties that allow control over the PersonaButton appearance.
-    @objc open var state: MSFPersonaButtonState {
-        return personaButton.state
-    }
-
-    /// Creates a new MSFPersonaButton instance.
-    /// - Parameters:
-    ///   - size: The MSFPersonaButtonSize value used by the PersonaButton.
-    @objc public convenience init(size: MSFPersonaButtonSize = .large) {
-        self.init(size: size, theme: nil)
-    }
-
-    /// Creates a new MSFPersonaButton instance.
-    /// - Parameters:
-    ///   - size: The MSFPersonaButtonSize value used by the PersonaButton.
-    ///   - theme: The FluentUIStyle instance representing the theme to be overriden for this PersonaButton.
-    @objc public init(size: MSFPersonaButtonSize = .large,
-                      theme: FluentUIStyle? = nil) {
-        super.init()
-
-        personaButton = PersonaButton(size: size)
-        hostingController = FluentUIHostingController(rootView: AnyView(personaButton
-                                                                            .windowProvider(self)
-                                                                            .modifyIf(theme != nil, { personaButton in
-                                                                                personaButton.customTheme(theme!)
-                                                                            })))
-        hostingController.disableSafeAreaInsets()
-        view.backgroundColor = UIColor.clear
-    }
-
-    // MARK: - FluentUIWindowProvider
-
-    var window: UIWindow? {
-        return self.view.window
-    }
-
-    private var hostingController: FluentUIHostingController!
-
-    private var personaButton: PersonaButton!
+    @objc public let state: MSFPersonaButtonState
 }

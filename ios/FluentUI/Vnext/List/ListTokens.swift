@@ -6,16 +6,14 @@
 import UIKit
 import SwiftUI
 
-// MARK: List Tokens
-
-/// Pre-defined styles of icons
+/// Pre-defined styles of icons.
 @objc public enum MSFListCellLeadingViewSize: Int, CaseIterable {
     case small
     case medium
     case large
 }
 
-/// Pre-defined accessory types
+/// Pre-defined accessory types.
 @objc public enum MSFListAccessoryType: Int, CaseIterable {
     case none
     case disclosure
@@ -39,28 +37,6 @@ import SwiftUI
 }
 
 // MARK: ListCell Tokens
-
-class MSFListTokens: MSFTokensBase, ObservableObject {
-    @Published public var borderColor: UIColor!
-
-    override init() {
-        super.init()
-
-        self.themeAware = true
-        updateForCurrentTheme()
-    }
-
-    @objc open func didChangeAppearanceProxy() {
-        updateForCurrentTheme()
-    }
-
-    override func updateForCurrentTheme() {
-        let currentTheme = theme
-        let appearanceProxy = currentTheme.MSFListTokens
-
-        borderColor = appearanceProxy.borderColor
-    }
-}
 
 class MSFCellBaseTokens: MSFTokensBase, ObservableObject {
     @Published public var borderColor: UIColor!

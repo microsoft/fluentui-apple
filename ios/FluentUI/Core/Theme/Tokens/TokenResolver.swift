@@ -12,7 +12,7 @@ struct TokenResolver<ControlType: TokenizedControlInternal>: ViewModifier {
 
     /// Helper func to determine which tokens to use, and ensures they refer to the correct `FluentTheme` instance.
     static func tokens(for control: ControlType, fluentTheme: FluentTheme) -> ControlType.TokenType {
-        let tokens = control.state.overrideTokens ?? fluentTheme.tokens(for: control) ?? ControlType.TokenType()
+        let tokens = control.overrideTokens ?? fluentTheme.tokens(for: control) ?? ControlType.TokenType()
         tokens.fluentTheme = fluentTheme
         return tokens
     }
@@ -20,10 +20,10 @@ struct TokenResolver<ControlType: TokenizedControlInternal>: ViewModifier {
     func body(content: Content) -> some View {
         content
             .onChange(of: fluentTheme) { newValue in
-                control.state.tokens = Self.tokens(for: control, fluentTheme: newValue)
+                control.updateCurrentTokens(Self.tokens(for: control, fluentTheme: newValue))
             }
-            .onChange(of: control.state.overrideTokens) { _ in
-                control.state.tokens = Self.tokens(for: control, fluentTheme: fluentTheme)
+            .onChange(of: control.overrideTokens) { _ in
+                control.updateCurrentTokens(Self.tokens(for: control, fluentTheme: fluentTheme))
             }
     }
 }

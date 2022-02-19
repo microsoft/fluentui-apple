@@ -58,6 +58,14 @@ public extension Avatar {
         return self
     }
 
+    /// Defines whether the avatar state transitions are animated or not. Animations are enabled by default.
+    /// - Parameter isAnimated: Boolean value to set the property.
+    /// - Returns: The modified Avatar with the property set.
+    func isAnimated(_ isAnimated: Bool) -> Avatar {
+        state.isAnimated = isAnimated
+        return self
+    }
+
     /// Whether the presence status displays its "Out of office" or standard image.
     /// - Parameter isOutOfOffice: Boolean value to set the property.
     /// - Returns: The modified Avatar with the property set.

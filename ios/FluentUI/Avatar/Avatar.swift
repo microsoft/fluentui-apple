@@ -88,6 +88,9 @@ import SwiftUI
     /// The image used to fill the ring as a custom color.
     var imageBasedRingColor: UIImage? { get set }
 
+    /// Defines whether the avatar state transitions are animated or not. Animations are enabled by default.
+    var isAnimated: Bool { get set }
+
     /// Whether the presence status displays its "Out of office" or standard image.
     var isOutOfOffice: Bool { get set }
 
@@ -127,6 +130,7 @@ import SwiftUI
 public struct Avatar: View {
     @Environment(\.theme) var theme: FluentUIStyle
     @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
+    @Environment(\.layoutDirection) var layoutDirection: LayoutDirection
     @ObservedObject var tokens: MSFAvatarTokens
     @ObservedObject var state: MSFAvatarStateImpl
 
@@ -176,7 +180,7 @@ public struct Avatar: View {
         let ringOuterGap: CGFloat = isRingVisible ? tokens.ringOuterGap : 0
         let avatarImageSize: CGFloat = tokens.avatarSize!
         let ringInnerGapSize: CGFloat = avatarImageSize + (ringInnerGap * 2)
-        let ringSize: CGFloat = ringInnerGapSize + ( ringThickness * 2)
+        let ringSize: CGFloat = ringInnerGapSize + (ringThickness * 2)
         let ringOuterGapSize: CGFloat = ringSize + (ringOuterGap * 2)
         let presenceIconSize: CGFloat = tokens.presenceIconSize!
         let presenceIconOutlineSize: CGFloat = presenceIconSize + (tokens.presenceIconOutlineThickness * 2)
@@ -193,7 +197,7 @@ public struct Avatar: View {
         let presenceIconFrameDiffRelativeToOuterRing: CGFloat = ringOuterGapSize - (presenceIconFrameSideRelativeToInnerRing + outerGapAndRingThicknesCombined)
         let presenceCutoutOriginXLTR = ringOuterGapSize - presenceIconFrameDiffRelativeToOuterRing - presenceIconOutlineSize
         let presenceCutoutOriginXRTL = presenceIconFrameDiffRelativeToOuterRing
-        let presenceCutoutOriginX: CGFloat = Locale.current.isRightToLeftLayoutDirection() ? presenceCutoutOriginXRTL : presenceCutoutOriginXLTR
+        let presenceCutoutOriginX: CGFloat = layoutDirection == .rightToLeft ? presenceCutoutOriginXRTL : presenceCutoutOriginXLTR
         let presenceCutoutOriginY = presenceCutoutOriginXLTR
         let presenceIconFrameSideRelativeToOuterRing: CGFloat = presenceIconFrameSideRelativeToInnerRing + outerGapAndRingThicknesCombined
         let overallFrameSide = max(ringOuterGapSize, presenceIconFrameSideRelativeToOuterRing)
@@ -328,7 +332,7 @@ public struct Avatar: View {
 
         return avatarBody
             .pointerInteraction(state.hasPointerInteraction)
-            .animation(.linear(duration: animationDuration))
+            .animation(state.isAnimated ? .linear(duration: animationDuration) : .none)
             .accessibilityElement(children: .ignore)
             .accessibility(addTraits: state.hasButtonAccessibilityTrait ? .isButton : .isImage)
             .accessibility(label: Text(accessibilityLabel))
@@ -349,6 +353,17 @@ public struct Avatar: View {
         var xOrigin: CGFloat
         var yOrigin: CGFloat
         var cutoutSize: CGFloat
+
+        public var animatableData: AnimatablePair<AnimatablePair<CGFloat, CGFloat>, CGFloat> {
+            get {
+                AnimatablePair(AnimatablePair(xOrigin, yOrigin), cutoutSize)
+            }
+            set {
+                xOrigin = newValue.first.first
+                yOrigin = newValue.first.second
+                cutoutSize = newValue.second
+            }
+        }
 
         public func path(in rect: CGRect) -> Path {
             var cutoutFrame = Rectangle().path(in: rect)
@@ -464,7 +479,9 @@ public struct Avatar: View {
 }
 
 /// Properties available to customize the state of the avatar
-class MSFAvatarStateImpl: NSObject, ObservableObject, MSFAvatarState {
+class MSFAvatarStateImpl: NSObject, ObservableObject, Identifiable, MSFAvatarState {
+    public var id = UUID()
+
     @Published var backgroundColor: UIColor?
     @Published var foregroundColor: UIColor?
     @Published var hasButtonAccessibilityTrait: Bool = false
@@ -472,6 +489,7 @@ class MSFAvatarStateImpl: NSObject, ObservableObject, MSFAvatarState {
     @Published var hasRingInnerGap: Bool = true
     @Published var image: UIImage?
     @Published var imageBasedRingColor: UIImage?
+    @Published var isAnimated: Bool = true
     @Published var isOutOfOffice: Bool = false
     @Published var isRingVisible: Bool = false
     @Published var isTransparent: Bool = true
@@ -515,7 +533,7 @@ class MSFAvatarStateImpl: NSObject, ObservableObject, MSFAvatarState {
             return avatarImageSize + (ringOuterGap * 2)
         } else {
             let ringThickness: CGFloat = isRingVisible ? tokens.ringThickness : 0
-            let ringInnerGap: CGFloat = isRingVisible ? tokens.ringInnerGap : 0
+            let ringInnerGap: CGFloat = isRingVisible && hasRingInnerGap ? tokens.ringInnerGap : 0
             return ((ringInnerGap + ringThickness + ringOuterGap) * 2 + avatarImageSize)
         }
     }
