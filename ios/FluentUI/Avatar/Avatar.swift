@@ -483,8 +483,8 @@ class MSFAvatarStateImpl: NSObject, ObservableObject, Identifiable, ControlConfi
         if !isRingVisible {
             return avatarImageSize + (ringOuterGap * 2)
         } else {
-            let ringThickness: CGFloat = isRingVisible ? tokens.ringThickness : 0
-            let ringInnerGap: CGFloat = isRingVisible && hasRingInnerGap ? tokens.ringInnerGap : 0
+            let ringThickness: CGFloat = tokens.ringThickness
+            let ringInnerGap: CGFloat = hasRingInnerGap ? tokens.ringInnerGap : 0
             return ((ringInnerGap + ringThickness + ringOuterGap) * 2 + avatarImageSize)
         }
     }

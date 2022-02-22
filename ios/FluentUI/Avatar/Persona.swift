@@ -42,6 +42,11 @@ public protocol Persona {
 
     /// The subtitle value for the persona.
     var subtitle: String { get }
+
+    /// Fetches the image asynchronously. This is called when setting up persona row for presentation. Image caching should be handled in the implementation for optimal efficiency.
+    /// If the ``image`` is provided, it will be overrided by the fetched image when completion block is called, acting like a custom placeholder.
+    /// - Parameter completion: The completion block that returns the image
+    @objc optional func fetchImage(completion: @escaping (UIImage?) -> Void)
 }
 
 extension Persona {

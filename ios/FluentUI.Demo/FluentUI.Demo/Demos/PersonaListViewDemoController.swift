@@ -7,7 +7,7 @@ import FluentUI
 import UIKit
 
 let samplePersonas: [PersonaData] = [
-    PersonaData(name: "Kat Larrson", email: "kat.larrson@contoso.com", subtitle: "Designer", image: UIImage(named: "avatar_kat_larsson")),
+    PersonaData(name: "Kat Larsson", email: "kat.larsson@contoso.com", subtitle: "Designer", image: UIImage(named: "avatar_kat_larsson")),
     PersonaData(name: "Kristin Patterson", email: "kristin.patterson@contoso.com", subtitle: "Software Engineer"),
     PersonaData(name: "Ashley McCarthy", image: UIImage(named: "avatar_ashley_mccarthy")),
     PersonaData(name: "Allan Munger", email: "allan.munger@contoso.com", subtitle: "Designer", image: UIImage(named: "avatar_allan_munger")),
