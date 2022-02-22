@@ -1,4 +1,3 @@
-#include "publish_staticanalysis.xcconfig"
 // For publish builds, only provide line tables for symbolizing crashes
 CLANG_DEBUG_INFORMATION_LEVEL=line-tables-only
 OTHER_SWIFT_FLAGS=-gline-tables-only

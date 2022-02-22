@@ -647,12 +647,11 @@ public class BottomSheetController: UIViewController {
                 }
                 animator.startAnimation()
             } else {
-                animator.startAnimation() // moves the animator into active state so it can be stopped
                 animator.stopAnimation(false)
                 animator.finishAnimation(at: .end)
             }
         } else {
-            handleCompletedStateChange(to: targetExpansionState, interaction: interaction, shouldNotifyDelegate: shouldNotifyDelegate)
+            currentExpansionState = targetExpansionState
         }
     }
 
@@ -710,13 +709,14 @@ public class BottomSheetController: UIViewController {
             }
             strongSelf.targetExpansionState = nil
             strongSelf.panGestureRecognizer.isEnabled = strongSelf.isExpandable
-            strongSelf.handleCompletedStateChange(to: finalPosition == .start ? originalExpansionState : targetExpansionState,
+            strongSelf.handleCompletedStateChange(to: finalPosition == .end ? targetExpansionState : originalExpansionState,
                                                   interaction: interaction,
-                                                  shouldNotifyDelegate: shouldNotifyDelegate && finalPosition != .current)
+                                                  shouldNotifyDelegate: shouldNotifyDelegate)
         })
 
         view.layoutIfNeeded()
         currentExpansionState = .transitioning
+        translationAnimator.pauseAnimation()
         return translationAnimator
     }
 
@@ -753,7 +753,9 @@ public class BottomSheetController: UIViewController {
             hostedScrollView?.setContentOffset(.zero, animated: true)
         }
 
-        bottomSheetView.isHidden = targetExpansionState == .hidden
+        if targetExpansionState == .hidden {
+            bottomSheetView.isHidden = true
+        }
 
         // UIKit doesn't properly handle interrupted constraint animations, so we need to
         // detect and fix a possible desync here

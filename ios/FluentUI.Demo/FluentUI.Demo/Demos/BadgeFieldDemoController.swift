@@ -11,7 +11,7 @@ class BadgeFieldDemoController: DemoController {
         super.viewDidLoad()
 
         let badgeDataSources1 = [
-            BadgeViewDataSource(text: "Kat Larsson", style: .default),
+            BadgeViewDataSource(text: "Kat Larrson", style: .default),
             BadgeViewDataSource(text: "Allan Munger", style: .default),
             BadgeViewDataSource(text: "Mona Kane", style: .default),
             BadgeViewDataSource(text: "Mauricio August", style: .default),

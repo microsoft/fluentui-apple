@@ -343,7 +343,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
     var showsTopAccessoryView: Bool = false
 
     var personaData: PersonaData = {
-        let personaData = PersonaData(name: "Kat Larsson", image: UIImage(named: "avatar_kat_larsson"))
+        let personaData = PersonaData(name: "Kat Larrson", image: UIImage(named: "avatar_kat_larsson"))
         personaData.hasRingInnerGap = false
         return personaData
     }()
