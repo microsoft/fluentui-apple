@@ -42,6 +42,7 @@
 		8F0B8116267021A700463726 /* AppCenterCrashes in Frameworks */ = {isa = PBXBuildFile; productRef = 8F0B8115267021A700463726 /* AppCenterCrashes */; };
 		923DF2DB271158C900637646 /* libFluentUI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 923DF2DA271158C900637646 /* libFluentUI.a */; };
 		923DF2DF27115B4700637646 /* FluentUIResources-ios.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 923DF2DC271158CD00637646 /* FluentUIResources-ios.bundle */; };
+		9245E1F927BECDBB007616F3 /* ColorTokensDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9245E1F827BECDBB007616F3 /* ColorTokensDemoController.swift */; };
 		92561E732718AD090072ED00 /* DemoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92561E722718AD090072ED00 /* DemoTableViewController.swift */; };
 		92B45E4E279A1A0B00E72517 /* DemoAppearanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92B45E4D279A1A0B00E72517 /* DemoAppearanceController.swift */; };
 		92D5598426A1523400328FD3 /* CardNudgeDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D5598326A1523400328FD3 /* CardNudgeDemoController.swift */; };
@@ -105,6 +106,7 @@
 		80B1F7002628D8BB004DFEE5 /* BottomSheetDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetDemoController.swift; sourceTree = "<group>"; };
 		923DF2DA271158C900637646 /* libFluentUI.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libFluentUI.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		923DF2DC271158CD00637646 /* FluentUIResources-ios.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = "FluentUIResources-ios.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9245E1F827BECDBB007616F3 /* ColorTokensDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTokensDemoController.swift; sourceTree = "<group>"; };
 		92561E722718AD090072ED00 /* DemoTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoTableViewController.swift; sourceTree = "<group>"; };
 		92B45E4D279A1A0B00E72517 /* DemoAppearanceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoAppearanceController.swift; sourceTree = "<group>"; };
 		92D5598326A1523400328FD3 /* CardNudgeDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardNudgeDemoController.swift; sourceTree = "<group>"; };
@@ -327,6 +329,7 @@
 				92D5598326A1523400328FD3 /* CardNudgeDemoController.swift */,
 				CCC18C2E2501C75F00BE830E /* CardViewDemoController.swift */,
 				114CF8B72423E10900D064AA /* ColorDemoController.swift */,
+				9245E1F827BECDBB007616F3 /* ColorTokensDemoController.swift */,
 				FC414E3625888BC300069E73 /* CommandBarDemoController.swift */,
 				FD7254EC21471A3F002F4069 /* DateTimePickerDemoController.swift */,
 				EC6A71EB273DE6DF0076A586 /* DividerDemoController.swift */,
@@ -499,6 +502,7 @@
 				5303259326B3198A00611D05 /* AvatarDemoController_SwiftUI.swift in Sources */,
 				92D5598426A1523400328FD3 /* CardNudgeDemoController.swift in Sources */,
 				5303259826B31A6300611D05 /* FluentUIDemoToggle.swift in Sources */,
+				9245E1F927BECDBB007616F3 /* ColorTokensDemoController.swift in Sources */,
 				A5DCA760211E3B4C005F4CB7 /* DemoController.swift in Sources */,
 				53097D3327028A7B00A6E4DC /* LeftNavDemoController.swift in Sources */,
 				5328D97B26FBA3EA00F3723B /* IndeterminateProgressBarDemoController.swift in Sources */,
