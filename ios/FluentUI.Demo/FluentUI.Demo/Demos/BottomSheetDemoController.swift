@@ -91,23 +91,31 @@ class BottomSheetDemoController: UIViewController {
         secondarySheetController.shouldHideCollapsedContent = false
         secondarySheetController.isFlexibleHeight = true
 
-        let dismissButton = Button(primaryAction: UIAction(title: "Dismiss", handler: { _ in
+        let dismissButton = MSFButton(style: .primary, size: .large) { _ in
             secondarySheetController.setIsHidden(true, animated: true) { _ in
                 secondarySheetController.willMove(toParent: nil)
                 secondarySheetController.removeFromParent()
                 secondarySheetController.view.removeFromSuperview()
             }
-        }))
+        }
+        dismissButton.state.text = "Dismiss"
 
-        dismissButton.style = .primaryFilled
-        dismissButton.translatesAutoresizingMaskIntoConstraints = false
-        sheetContentView.addSubview(dismissButton)
+        let dismissButtonView = dismissButton.view
+        dismissButtonView.translatesAutoresizingMaskIntoConstraints = false
+        sheetContentView.addSubview(dismissButtonView)
 
-        let anotherOneButton = Button(primaryAction: UIAction(title: "Show another sheet", handler: { _ in
-            self.showTransientSheet()
-        }))
-        anotherOneButton.translatesAutoresizingMaskIntoConstraints = false
-        sheetContentView.addSubview(anotherOneButton)
+        let anotherOneButton = MSFButton(style: .secondary, size: .large) { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.showTransientSheet()
+        }
+        anotherOneButton.state.text = "Show another sheet"
+
+        let anotherOneButtonView = anotherOneButton.view
+        anotherOneButtonView.translatesAutoresizingMaskIntoConstraints = false
+        sheetContentView.addSubview(anotherOneButtonView)
 
         addChild(secondarySheetController)
         view.addSubview(secondarySheetController.view)
@@ -118,12 +126,12 @@ class BottomSheetDemoController: UIViewController {
             secondarySheetController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             secondarySheetController.view.topAnchor.constraint(equalTo: view.topAnchor),
             secondarySheetController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            dismissButton.leadingAnchor.constraint(equalTo: sheetContentView.leadingAnchor, constant: 18),
-            dismissButton.trailingAnchor.constraint(equalTo: sheetContentView.trailingAnchor, constant: -18),
-            dismissButton.bottomAnchor.constraint(equalTo: sheetContentView.safeAreaLayoutGuide.bottomAnchor),
-            anotherOneButton.leadingAnchor.constraint(equalTo: dismissButton.leadingAnchor),
-            anotherOneButton.trailingAnchor.constraint(equalTo: dismissButton.trailingAnchor),
-            anotherOneButton.bottomAnchor.constraint(equalTo: dismissButton.topAnchor, constant: -18)
+            dismissButtonView.leadingAnchor.constraint(equalTo: sheetContentView.leadingAnchor, constant: 18),
+            dismissButtonView.trailingAnchor.constraint(equalTo: sheetContentView.trailingAnchor, constant: -18),
+            dismissButtonView.bottomAnchor.constraint(equalTo: sheetContentView.safeAreaLayoutGuide.bottomAnchor),
+            anotherOneButtonView.leadingAnchor.constraint(equalTo: dismissButtonView.leadingAnchor),
+            anotherOneButtonView.trailingAnchor.constraint(equalTo: dismissButtonView.trailingAnchor),
+            anotherOneButtonView.bottomAnchor.constraint(equalTo: dismissButtonView.topAnchor, constant: -18)
         ])
 
         // We need to layout before unhiding to ensure the sheet controller
