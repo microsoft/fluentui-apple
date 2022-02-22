@@ -90,7 +90,7 @@ extension UIColor {
     /// Creates a UIColor from a `ColorValue` instance.
     ///
     /// - Parameter colorValue: Color value to use to initialize this color.
-    convenience init(colorValue: ColorValue) {
+    public convenience init(colorValue: ColorValue) {
         self.init(
             red: colorValue.r,
             green: colorValue.g,

@@ -48,8 +48,8 @@ import SwiftUI
 
     static var shared: FluentTheme = .init()
 
-    var globalTokens: GlobalTokens
-    var aliasTokens: AliasTokens
+    public private(set) var globalTokens: GlobalTokens
+    public private(set) var aliasTokens: AliasTokens
 
     private func tokenKey<T: TokenizedControl>(_ controlType: T.Type) -> String {
         return "\(controlType))"
