@@ -242,7 +242,7 @@ class PersonaButtonCarouselDemoController: DemoTableViewController {
     private static let smallButtonReuseIdentifier: String = "smallButtonReuseIdentifier"
 
     private let personas: [PersonaData] = [
-        PersonaData(firstName: "Kat", lastName: "Larrson", image: UIImage(named: "avatar_kat_larsson")),
+        PersonaData(firstName: "Kat", lastName: "Larsson", image: UIImage(named: "avatar_kat_larsson")),
         PersonaData(firstName: "Ashley", lastName: "McCarthy", image: UIImage(named: "avatar_ashley_mccarthy")),
         PersonaData(firstName: "Allan", lastName: "Munger", image: UIImage(named: "avatar_allan_munger")),
         PersonaData(firstName: "Amanda", lastName: "Brady", image: UIImage(named: "avatar_amanda_brady")),

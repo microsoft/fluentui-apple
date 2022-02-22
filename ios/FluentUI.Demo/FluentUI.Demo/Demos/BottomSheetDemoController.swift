@@ -11,7 +11,7 @@ class BottomSheetDemoController: UIViewController {
     override func loadView() {
         view = UIView()
 
-        let optionTableView = UITableView(frame: .zero, style: .plain)
+        let optionTableView = UITableView(frame: .zero, style: .insetGrouped)
         optionTableView.translatesAutoresizingMaskIntoConstraints = false
         optionTableView.register(BooleanCell.self, forCellReuseIdentifier: BooleanCell.identifier)
         optionTableView.register(ActionsCell.self, forCellReuseIdentifier: ActionsCell.identifier)
@@ -77,13 +77,59 @@ class BottomSheetDemoController: UIViewController {
         bottomSheetViewController?.handleExpandCustomAccessibilityLabel = isOn ? "Expand Bottom Sheet" : nil
     }
 
-    @objc private func fullScreenSheetContent() {
-        // This is also the default value which results in a full screen sheet.
-        bottomSheetViewController?.preferredExpandedContentHeight = 0
+    @objc private func toggleFullScreenSheetContent(_ sender: BooleanCell) {
+        bottomSheetViewController?.preferredExpandedContentHeight = sender.isOn ? 0 : 400
     }
 
-    @objc private func fixedHeightSheetContent() {
-        bottomSheetViewController?.preferredExpandedContentHeight = 400
+    @objc private func showTransientSheet() {
+        let sheetContentView = UIView()
+
+        let secondarySheetController = BottomSheetController(expandedContentView: sheetContentView)
+        secondarySheetController.collapsedContentHeight = 250
+        secondarySheetController.isHidden = true
+        secondarySheetController.shouldAlwaysFillWidth = false
+        secondarySheetController.shouldHideCollapsedContent = false
+        secondarySheetController.isFlexibleHeight = true
+
+        let dismissButton = Button(primaryAction: UIAction(title: "Dismiss", handler: { _ in
+            secondarySheetController.setIsHidden(true, animated: true) { _ in
+                secondarySheetController.willMove(toParent: nil)
+                secondarySheetController.removeFromParent()
+                secondarySheetController.view.removeFromSuperview()
+            }
+        }))
+
+        dismissButton.style = .primaryFilled
+        dismissButton.translatesAutoresizingMaskIntoConstraints = false
+        sheetContentView.addSubview(dismissButton)
+
+        let anotherOneButton = Button(primaryAction: UIAction(title: "Show another sheet", handler: { _ in
+            self.showTransientSheet()
+        }))
+        anotherOneButton.translatesAutoresizingMaskIntoConstraints = false
+        sheetContentView.addSubview(anotherOneButton)
+
+        addChild(secondarySheetController)
+        view.addSubview(secondarySheetController.view)
+        secondarySheetController.didMove(toParent: self)
+
+        NSLayoutConstraint.activate([
+            secondarySheetController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            secondarySheetController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            secondarySheetController.view.topAnchor.constraint(equalTo: view.topAnchor),
+            secondarySheetController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            dismissButton.leadingAnchor.constraint(equalTo: sheetContentView.leadingAnchor, constant: 18),
+            dismissButton.trailingAnchor.constraint(equalTo: sheetContentView.trailingAnchor, constant: -18),
+            dismissButton.bottomAnchor.constraint(equalTo: sheetContentView.safeAreaLayoutGuide.bottomAnchor),
+            anotherOneButton.leadingAnchor.constraint(equalTo: dismissButton.leadingAnchor),
+            anotherOneButton.trailingAnchor.constraint(equalTo: dismissButton.trailingAnchor),
+            anotherOneButton.bottomAnchor.constraint(equalTo: dismissButton.topAnchor, constant: -18)
+        ])
+
+        // We need to layout before unhiding to ensure the sheet controller
+        // has a meaningful initial frame to use for the animation.
+        view.layoutIfNeeded()
+        secondarySheetController.isHidden = false
     }
 
     private lazy var personaListView: UIScrollView = {
@@ -156,17 +202,21 @@ class BottomSheetDemoController: UIViewController {
 
     private var interactiveHidingAnimator: UIViewAnimating?
 
-    private var demoOptionItems: [DemoItem] {
+    private var demoOptionItems: [[DemoItem]] {
         [
-            DemoItem(title: "Expandable", type: .boolean, action: #selector(toggleExpandable), isOn: bottomSheetViewController?.isExpandable ?? true),
-            DemoItem(title: "Hidden", type: .boolean, action: #selector(toggleHidden), isOn: bottomSheetViewController?.isHidden ?? false),
-            DemoItem(title: "Should always fill width", type: .boolean, action: #selector(toggleFillWidth), isOn: bottomSheetViewController?.shouldAlwaysFillWidth ?? false),
-            DemoItem(title: "Scroll to hide", type: .boolean, action: #selector(toggleScrollHiding), isOn: scrollHidingEnabled),
-            DemoItem(title: "Hide collapsed content", type: .boolean, action: #selector(toggleCollapsedContentHiding), isOn: collapsedContentHidingEnabled),
-            DemoItem(title: "Flexible sheet height", type: .boolean, action: #selector(toggleFlexibleSheetHeight), isOn: bottomSheetViewController?.isFlexibleHeight ?? false),
-            DemoItem(title: "Use custom handle accessibility label", type: .boolean, action: #selector(toggleHandleUsingCustomAccessibilityLabel), isOn: isHandleUsingCustomAccessibilityLabel),
-            DemoItem(title: "Full screen sheet content", type: .action, action: #selector(fullScreenSheetContent)),
-            DemoItem(title: "Fixed height sheet content", type: .action, action: #selector(fixedHeightSheetContent))
+            [
+                DemoItem(title: "Expandable", type: .boolean, action: #selector(toggleExpandable), isOn: bottomSheetViewController?.isExpandable ?? true),
+                DemoItem(title: "Hidden", type: .boolean, action: #selector(toggleHidden), isOn: bottomSheetViewController?.isHidden ?? false),
+                DemoItem(title: "Should always fill width", type: .boolean, action: #selector(toggleFillWidth), isOn: bottomSheetViewController?.shouldAlwaysFillWidth ?? false),
+                DemoItem(title: "Scroll to hide", type: .boolean, action: #selector(toggleScrollHiding), isOn: scrollHidingEnabled),
+                DemoItem(title: "Hide collapsed content", type: .boolean, action: #selector(toggleCollapsedContentHiding), isOn: collapsedContentHidingEnabled),
+                DemoItem(title: "Flexible sheet height", type: .boolean, action: #selector(toggleFlexibleSheetHeight), isOn: bottomSheetViewController?.isFlexibleHeight ?? false),
+                DemoItem(title: "Use custom handle accessibility label", type: .boolean, action: #selector(toggleHandleUsingCustomAccessibilityLabel), isOn: isHandleUsingCustomAccessibilityLabel),
+                DemoItem(title: "Full screen sheet content", type: .boolean, action: #selector(toggleFullScreenSheetContent), isOn: bottomSheetViewController?.preferredExpandedContentHeight == 0)
+            ],
+            [
+                DemoItem(title: "Show transient sheet", type: .action, action: #selector(showTransientSheet))
+            ]
         ]
     }
 
@@ -215,15 +265,19 @@ extension BottomSheetDemoController: UITableViewDelegate {
 
 extension BottomSheetDemoController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return demoOptionItems.count
     }
 
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return demoOptionItems[section].count
+    }
+
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return section == 0 ? "Settings" : nil
+    }
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let item = demoOptionItems[indexPath.row]
+        let item = demoOptionItems[indexPath.section][indexPath.row]
 
         if item.type == .boolean {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: BooleanCell.identifier) as? BooleanCell else {
