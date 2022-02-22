@@ -90,47 +90,6 @@ class CardNudgeDemoController: DemoTableViewController {
         return CardNudgeDemoSection.allCases[section].title
     }
 
-    // MARK: - Custom tokens
-
-    private func configureAppearancePopover() {
-        super.configureAppearancePopover { [weak self] themeWideOverrideEnabled in
-            guard let fluentTheme = self?.view.window?.fluentTheme else {
-                return
-            }
-
-            var tokensClosure: ((CardNudge) -> CardNudgeTokens)?
-            if themeWideOverrideEnabled {
-                tokensClosure = { _ in
-                    return ThemeWideOverrideCardNudgeTokens()
-                }
-            }
-
-            fluentTheme.register(controlType: CardNudge.self, tokens: tokensClosure)
-
-        } onPerControlOverrideChanged: { [weak self] perControlOverrideEnabled in
-            self?.cardNudges.forEach({ cardNudge in
-                let tokens = perControlOverrideEnabled ? PerControlOverrideCardNudgeTokens() : nil
-                cardNudge.state.overrideTokens = tokens
-            })
-        }
-    }
-
-    private class ThemeWideOverrideCardNudgeTokens: CardNudgeTokens {
-        override var backgroundColor: DynamicColor {
-            // "Seafoam"
-            return DynamicColor(light: ColorValue(0xFBD2EB),
-                                dark: ColorValue(0x44002A))
-        }
-    }
-
-    private class PerControlOverrideCardNudgeTokens: CardNudgeTokens {
-        override var backgroundColor: DynamicColor {
-            // "Hot Pink"
-            return DynamicColor(light: ColorValue(0xCFF7E4),
-                                dark: ColorValue(0x003D20))
-        }
-    }
-
     // MARK: - Helpers
 
     private func updateSetting(for row: CardNudgeDemoRow, isOn: Bool) {
@@ -267,6 +226,56 @@ class CardNudgeDemoController: DemoTableViewController {
             case .actionButton:
                 return "Action Button"
             }
+        }
+    }
+}
+
+extension CardNudgeDemoController: DemoAppearanceDelegate {
+    func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
+        guard let fluentTheme = self.view.window?.fluentTheme else {
+            return
+        }
+
+        var tokensClosure: ((CardNudge) -> CardNudgeTokens)?
+        if isOverrideEnabled {
+            tokensClosure = { _ in
+                return ThemeWideOverrideCardNudgeTokens()
+            }
+        }
+
+        fluentTheme.register(controlType: CardNudge.self, tokens: tokensClosure)
+    }
+
+    func perControlOverrideDidChange(isOverrideEnabled: Bool) {
+        self.cardNudges.forEach({ cardNudge in
+            let tokens = isOverrideEnabled ? PerControlOverrideCardNudgeTokens() : nil
+            cardNudge.state.overrideTokens = tokens
+        })
+    }
+
+    func isThemeWideOverrideApplied() -> Bool {
+        guard let fluentTheme = self.view.window?.fluentTheme else {
+            return false
+        }
+
+        return fluentTheme.tokenOverride(for: CardNudge.self) != nil
+    }
+
+    // MARK: - Custom tokens
+
+    private class ThemeWideOverrideCardNudgeTokens: CardNudgeTokens {
+        override var backgroundColor: DynamicColor {
+            // "Hot Pink"
+            return DynamicColor(light: ColorValue(0xFBD2EB),
+                                dark: ColorValue(0x44002A))
+        }
+    }
+
+    private class PerControlOverrideCardNudgeTokens: CardNudgeTokens {
+        override var backgroundColor: DynamicColor {
+            // "Seafoam"
+            return DynamicColor(light: ColorValue(0xCFF7E4),
+                                dark: ColorValue(0x003D20))
         }
     }
 }

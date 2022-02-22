@@ -48,16 +48,20 @@ struct DemoAppearanceView: View {
             FluentDivider()
                 .padding()
 
-            Text("Control")
-                .font(.headline)
+            if showThemeWideOverrideToggle || showPerControlOverrideToggle {
+                Text("Control")
+                    .font(.headline)
+            }
 
             // Theme-wide override toggle
-            FluentUIDemoToggle(titleKey: "Theme-wide override", isOn: $configuration.themeWideOverride)
-            .disabled(configuration.onThemeWideOverrideChanged == nil)
+            if showThemeWideOverrideToggle {
+                FluentUIDemoToggle(titleKey: "Theme-wide override", isOn: $configuration.themeWideOverride)
+            }
 
             // Per-control override toggle
-            FluentUIDemoToggle(titleKey: "Per-control override", isOn: $configuration.perControlOverride)
-            .disabled(configuration.onPerControlOverrideChanged == nil)
+            if showPerControlOverrideToggle {
+                FluentUIDemoToggle(titleKey: "Per-control override", isOn: $configuration.perControlOverride)
+            }
 
             Spacer()
         }
@@ -84,10 +88,25 @@ struct DemoAppearanceView: View {
             // Updates on appear
             .onAppear {
                 configuration.colorScheme = systemColorScheme
-            }
-            .onAppear {
                 configuration.theme = currentDemoListViewController?.theme ?? .default
+                if let isThemeOverrideEnabled = configuration.themeOverridePreviouslyApplied {
+                    configuration.themeWideOverride = isThemeOverrideEnabled()
+                }
             }
+    }
+
+    /// Container class for data and control-specific callbacks.
+    class Configuration: ObservableObject {
+        // Data
+        @Published var colorScheme: ColorScheme = .light
+        @Published var theme: DemoColorTheme = .default
+        @Published var themeWideOverride: Bool = false
+        @Published var perControlOverride: Bool = false
+
+        // Callbacks
+        var onThemeWideOverrideChanged: ((_ themeWideOverrideEnabled: Bool) -> Void)?
+        var onPerControlOverrideChanged: ((_ perControlOverrideEnabled: Bool) -> Void)?
+        var themeOverridePreviouslyApplied: (() -> Bool)?
     }
 
     /// Callback for handling color scheme changes.
@@ -116,17 +135,12 @@ struct DemoAppearanceView: View {
         currentDemoListViewController.updateColorProviderFor(window: window, theme: theme)
     }
 
-    /// Container class for data and control-specific callbacks.
-    class Configuration: ObservableObject {
-        // Data
-        @Published var colorScheme: ColorScheme = .light
-        @Published var theme: DemoColorTheme = .default
-        @Published var themeWideOverride: Bool = false
-        @Published var perControlOverride: Bool = false
+    private var showThemeWideOverrideToggle: Bool {
+        return configuration.onThemeWideOverrideChanged != nil && configuration.themeOverridePreviouslyApplied != nil
+    }
 
-        // Callbacks
-        var onThemeWideOverrideChanged: ((_ themeWideOverrideEnabled: Bool) -> Void)?
-        var onPerControlOverrideChanged: ((_ perControlOverrideEnabled: Bool) -> Void)?
+    private var showPerControlOverrideToggle: Bool {
+        return configuration.onPerControlOverrideChanged != nil
     }
 
     // MARK: Helpers for accessing the surrounding UIKit environment.

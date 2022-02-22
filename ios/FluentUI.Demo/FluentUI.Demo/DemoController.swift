@@ -166,10 +166,6 @@ class DemoController: UIViewController {
 
         appearanceController.popoverPresentationController?.delegate = self
 
-        // Store the callbacks from the individual demo controller
-        appearanceController.setupPerDemoCallbacks(onThemeWideOverrideChanged: onThemeWideOverrideChanged,
-                                                   onPerControlOverrideChanged: onPerControlOverrideChanged)
-
         // Display the DemoAppearancePopover button
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "ic_fluent_settings_24_regular"),
                                                             style: .plain,

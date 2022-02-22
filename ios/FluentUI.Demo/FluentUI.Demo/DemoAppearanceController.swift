@@ -7,8 +7,16 @@ import FluentUI
 import SwiftUI
 import UIKit
 
+protocol DemoAppearanceDelegate: NSObjectProtocol {
+    func themeWideOverrideDidChange(isOverrideEnabled: Bool)
+    func perControlOverrideDidChange(isOverrideEnabled: Bool)
+
+    func isThemeWideOverrideApplied() -> Bool
+}
+
 /// Wrapper class to allow presenting of `DemoAppearanceView` from a UIKit host.
-class DemoAppearanceController: UIHostingController<DemoAppearanceView> {
+class DemoAppearanceController: UIHostingController<DemoAppearanceView>, ObservableObject {
+
     init() {
         let configuration = DemoAppearanceView.Configuration()
         self.configuration = configuration
@@ -20,11 +28,18 @@ class DemoAppearanceController: UIHostingController<DemoAppearanceView> {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func setupPerDemoCallbacks(onThemeWideOverrideChanged: @escaping ((Bool) -> Void),
-                               onPerControlOverrideChanged: @escaping ((Bool) -> Void)) {
-        // Passed back to caller
-        configuration.onThemeWideOverrideChanged = onThemeWideOverrideChanged
-        configuration.onPerControlOverrideChanged = onPerControlOverrideChanged
+    weak var delegate: DemoAppearanceDelegate? {
+        didSet {
+            configuration.onThemeWideOverrideChanged = { [weak self] newValue in
+                self?.delegate?.themeWideOverrideDidChange(isOverrideEnabled: newValue)
+            }
+            configuration.onPerControlOverrideChanged = { [weak self] newValue in
+                self?.delegate?.perControlOverrideDidChange(isOverrideEnabled: newValue)
+            }
+            configuration.themeOverridePreviouslyApplied = { [weak self] in
+                self?.delegate?.isThemeWideOverrideApplied() ?? false
+            }
+        }
     }
 
     private var configuration: DemoAppearanceView.Configuration

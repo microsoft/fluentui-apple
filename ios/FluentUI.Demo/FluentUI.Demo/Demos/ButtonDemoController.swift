@@ -12,8 +12,6 @@ class ButtonDemoController: DemoTableViewController {
 
         tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: ButtonDemoController.cellReuseIdentifier)
-
-        configureAppearancePopover()
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -104,43 +102,6 @@ class ButtonDemoController: DemoTableViewController {
                                                      animated: true)
         default:
             break
-        }
-    }
-
-    // MARK: - Custom tokens
-
-    private func configureAppearancePopover() {
-        super.configureAppearancePopover { [weak self] themeWideOverrideEnabled in
-            guard let fluentTheme = self?.view.window?.fluentTheme else {
-                return
-            }
-
-            var tokensClosure: ((FluentButton) -> ButtonTokens)?
-            if themeWideOverrideEnabled {
-                tokensClosure = { _ in
-                    return ThemeWideOverrideButtonTokens()
-                }
-            }
-
-            fluentTheme.register(controlType: FluentButton.self, tokens: tokensClosure)
-
-        } onPerControlOverrideChanged: { [weak self] perControlOverrideEnabled in
-            self?.buttons.forEach({ (_: String, value: MSFButton) in
-                let tokens = perControlOverrideEnabled ? PerControlOverrideButtonTokens() : nil
-                value.state.overrideTokens = tokens
-            })
-        }
-    }
-
-    private class ThemeWideOverrideButtonTokens: ButtonTokens {
-        override var textFont: FontInfo {
-            return FontInfo(name: "Times", size: 20.0, weight: .regular)
-        }
-    }
-
-    private class PerControlOverrideButtonTokens: ButtonTokens {
-        override var textFont: FontInfo {
-            return FontInfo(name: "Papyrus", size: 20.0, weight: .regular)
         }
     }
 
@@ -340,6 +301,52 @@ class ButtonDemoController: DemoTableViewController {
             case .swiftUIDemo:
                 return false
             }
+        }
+    }
+}
+
+extension ButtonDemoController: DemoAppearanceDelegate {
+    func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
+        guard let fluentTheme = self.view.window?.fluentTheme else {
+            return
+        }
+
+        var tokensClosure: ((FluentButton) -> ButtonTokens)?
+        if isOverrideEnabled {
+            tokensClosure = { _ in
+                return ThemeWideOverrideButtonTokens()
+            }
+        }
+
+        fluentTheme.register(controlType: FluentButton.self, tokens: tokensClosure)
+    }
+
+    func perControlOverrideDidChange(isOverrideEnabled: Bool) {
+        self.buttons.forEach({ (_: String, value: MSFButton) in
+            let tokens = isOverrideEnabled ? PerControlOverrideButtonTokens() : nil
+            value.state.overrideTokens = tokens
+        })
+    }
+
+    func isThemeWideOverrideApplied() -> Bool {
+        guard let fluentTheme = self.view.window?.fluentTheme else {
+            return false
+        }
+
+        return fluentTheme.tokenOverride(for: FluentButton.self) != nil
+    }
+
+    // MARK: - Custom tokens
+
+    private class ThemeWideOverrideButtonTokens: ButtonTokens {
+        override var textFont: FontInfo {
+            return FontInfo(name: "Times", size: 20.0, weight: .regular)
+        }
+    }
+
+    private class PerControlOverrideButtonTokens: ButtonTokens {
+        override var textFont: FontInfo {
+            return FontInfo(name: "Papyrus", size: 20.0, weight: .regular)
         }
     }
 }
