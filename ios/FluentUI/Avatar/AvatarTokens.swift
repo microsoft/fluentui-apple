@@ -35,7 +35,6 @@ open class AvatarTokens: ControlTokens {
     }
 
     /// The font used for text in the `Avatar`
-    // We seem to have some odd font choices
     open var textFont: FontInfo {
         switch size {
         case .xsmall:

@@ -84,7 +84,6 @@ class ThemingDemoController: DemoController {
 
         addRow(items: [customThemeButtonPrimary.view, customThemeButtonSecondary.view, customThemeButtonGhost.view], itemSpacing: 20)
 
-//        let overridingTheme = CustomStyle()
         let customThemeAvatarAccent = MSFAvatar(style: .accent,
                                                   size: .xlarge)
         customThemeAvatarAccent.state.isRingVisible = true

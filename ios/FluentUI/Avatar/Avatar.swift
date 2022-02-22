@@ -336,6 +336,7 @@ public struct Avatar: View, ConfigurableTokenizedControl {
 
     private static func initialsCalculatedColor(fromPrimaryText primaryText: String?, secondaryText: String?, colorOptions: [DynamicColor]? = nil) -> DynamicColor {
         guard let colors = colorOptions else {
+            // return black if there are no color options
             return .init(light: ColorValue(0x000000))
         }
 
