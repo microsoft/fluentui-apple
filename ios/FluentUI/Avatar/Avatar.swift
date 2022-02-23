@@ -135,15 +135,15 @@ public struct Avatar: View, ConfigurableTokenizedControl {
         let overallFrameSide = max(ringOuterGapSize, presenceIconFrameSideRelativeToOuterRing)
 
         let foregroundColor = state.foregroundColor?.dynamicColor ?? ( !shouldUseCalculatedColors ?
-                                                         tokens.foregroundDefaultColor :
-                                                            Avatar.initialsCalculatedColor(fromPrimaryText: state.primaryText,
-                                                                                           secondaryText: state.secondaryText,
-                                                                                           colorOptions: tokens.foregroundCalculatedColorOptions))
+                                                                       tokens.foregroundDefaultColor :
+                                                                        initialsCalculatedColor(fromPrimaryText: state.primaryText,
+                                                                                                secondaryText: state.secondaryText,
+                                                                                                colorOptions: tokens.foregroundCalculatedColorOptions))
         let backgroundColor = state.backgroundColor?.dynamicColor ?? ( !shouldUseCalculatedColors ?
-                                                            tokens.backgroundDefaultColor :
-                                                            Avatar.initialsCalculatedColor(fromPrimaryText: state.primaryText,
-                                                                                           secondaryText: state.secondaryText,
-                                                                                           colorOptions: tokens.backgroundCalculatedColorOptions))
+                                                                       tokens.backgroundDefaultColor :
+                                                                        initialsCalculatedColor(fromPrimaryText: state.primaryText,
+                                                                                                secondaryText: state.secondaryText,
+                                                                                                colorOptions: tokens.backgroundCalculatedColorOptions))
         let ringGapColor = Color(dynamicColor: tokens.ringGapColor).opacity(isTransparent ? 0 : 1)
         let ringColor = !isRingVisible ? Color.clear :
         Color(dynamicColor: state.ringColor?.dynamicColor ?? ( !shouldUseCalculatedColors ?
@@ -312,8 +312,7 @@ public struct Avatar: View, ConfigurableTokenizedControl {
         state = avatarState
     }
 
-    @Environment(\.theme) var theme: FluentUIStyle
-    @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
+    @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @Environment(\.layoutDirection) var layoutDirection: LayoutDirection
     var tokens: AvatarTokens { state.tokens }
     @ObservedObject var state: MSFAvatarStateImpl
@@ -332,14 +331,13 @@ public struct Avatar: View, ConfigurableTokenizedControl {
         return Int(abs(javaHashCode(combinedHashable)))
     }
 
-    private static func initialsCalculatedColor(fromPrimaryText primaryText: String?, secondaryText: String?, colorOptions: [DynamicColor]? = nil) -> DynamicColor {
+    private func initialsCalculatedColor(fromPrimaryText primaryText: String?, secondaryText: String?, colorOptions: [DynamicColor]? = nil) -> DynamicColor {
         guard let colors = colorOptions else {
-            // return black if there are no color options
-            return .init(light: ColorValue(0x000000))
+            return .init(light: fluentTheme.globalTokens.neutralColors[.black])
         }
 
         // Set the color based on the primary text and secondary text
-        let hashCode = initialsHashCode(fromPrimaryText: primaryText, secondaryText: secondaryText)
+        let hashCode = Avatar.initialsHashCode(fromPrimaryText: primaryText, secondaryText: secondaryText)
         return colors[hashCode % colors.count]
     }
 
