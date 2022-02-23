@@ -1841,6 +1841,7 @@ public final class GlobalTokens {
         case medium
         case large
         case xLarge
+        case xxLarge
         case circle
     }
     lazy public var borderRadius: TokenSet<BorderRadiusToken, CGFloat> = .init { token in
@@ -1855,6 +1856,8 @@ public final class GlobalTokens {
             return 8
         case .xLarge:
             return 12
+        case .xxLarge:
+            return 14
         case .circle:
             return 9999
         }
