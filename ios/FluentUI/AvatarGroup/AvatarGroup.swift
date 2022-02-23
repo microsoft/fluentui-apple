@@ -206,7 +206,13 @@ public struct AvatarGroup: View, ConfigurableTokenizedControl {
         return avatarGroupContent
     }
 
-    var tokens: AvatarGroupTokens { state.tokens }
+    let defaultTokens: AvatarGroupTokens = .init()
+    var tokens: AvatarGroupTokens {
+        let tokens = tokens(for: fluentTheme)
+        tokens.size = state.size
+        tokens.style = state.style
+        return tokens
+    }
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @Environment(\.layoutDirection) var layoutDirection: LayoutDirection
     @ObservedObject var state: MSFAvatarGroupStateImpl
@@ -232,7 +238,7 @@ class MSFAvatarGroupStateImpl: NSObject, ObservableObject, ControlConfiguration,
         guard index <= avatars.count && index >= 0 else {
             preconditionFailure("Index is out of bounds")
         }
-        let avatar = MSFAvatarGroupAvatarStateImpl(size: tokens.size)
+        let avatar = MSFAvatarGroupAvatarStateImpl(size: size)
         avatars.insert(avatar, at: index)
         return avatar
     }
@@ -255,34 +261,15 @@ class MSFAvatarGroupStateImpl: NSObject, ObservableObject, ControlConfiguration,
     @Published var maxDisplayedAvatars: Int = Int.max
     @Published var overflowCount: Int = 0
 
-    @Published var style: MSFAvatarGroupStyle {
-        didSet {
-            tokens.style = style
-        }
-    }
-    @Published var size: MSFAvatarSize {
-        didSet {
-            tokens.size = size
-        }
-    }
+    @Published var style: MSFAvatarGroupStyle
+    @Published var size: MSFAvatarSize
 
     @Published var overrideTokens: AvatarGroupTokens?
-    @Published var tokens: AvatarGroupTokens = .init() {
-        didSet {
-            tokens.style = style
-            tokens.size = size
-        }
-    }
 
     init(style: MSFAvatarGroupStyle,
          size: MSFAvatarSize) {
         self.style = style
         self.size = size
-
-        let tokens = AvatarGroupTokens()
-        tokens.style = style
-        tokens.size = size
-        self.tokens = tokens
 
         super.init()
     }

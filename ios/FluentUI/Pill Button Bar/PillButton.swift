@@ -74,16 +74,13 @@ open class PillButton: UIButton, TokenizedControlInternal {
 
     @objc public let style: PillButtonStyle
 
+    let defaultTokens: PillButtonTokens = .init()
     var tokens: PillButtonTokens = .init()
     var overrideTokens: PillButtonTokens? {
         didSet {
             updatePillButtonTokens()
             updateAppearance()
         }
-    }
-
-    func updateCurrentTokens(_ tokens: PillButtonTokens) {
-        self.tokens = tokens
     }
 
     var unreadDotColor: UIColor = Colors.gray100
@@ -175,7 +172,7 @@ open class PillButton: UIButton, TokenizedControlInternal {
     }
 
     private func updatePillButtonTokens() {
-        let tokens = TokenResolver.tokens(for: self, fluentTheme: fluentTheme)
+        let tokens = tokens(for: fluentTheme)
         tokens.style = style
         self.tokens = tokens
     }

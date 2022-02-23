@@ -122,21 +122,11 @@ public struct FluentList: View {
 /// Properties that make up section content
 class MSFListSectionStateImpl: NSObject, ObservableObject, Identifiable, ControlConfiguration, MSFListSectionState {
     init(style: MSFHeaderStyle = .standard) {
-        let tokens = HeaderTokens()
-        tokens.style = style
-        self.tokens = tokens
-
         self.style = style
-
         super.init()
     }
 
     @Published var overrideTokens: HeaderTokens?
-    @Published var tokens: HeaderTokens {
-        didSet {
-            tokens.style = style
-        }
-    }
     @Published private(set) var cells: [MSFListCellStateImpl] = []
     @Published var title: String?
     @Published var backgroundColor: UIColor?
@@ -149,11 +139,7 @@ class MSFListSectionStateImpl: NSObject, ObservableObject, Identifiable, Control
         return cells.count
     }
 
-    var style: MSFHeaderStyle {
-        didSet {
-            tokens.style = style
-        }
-    }
+    var style: MSFHeaderStyle
 
     func createCell() -> MSFListCellState {
         return createCell(at: cells.endIndex)

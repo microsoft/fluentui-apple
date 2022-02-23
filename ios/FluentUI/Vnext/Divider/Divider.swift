@@ -57,10 +57,14 @@ public struct FluentDivider: View, ConfigurableTokenizedControl {
                                   leading: tokens.padding,
                                   bottom: 0,
                                   trailing: tokens.padding))
-            .resolveTokens(self)
     }
 
-    var tokens: DividerTokens { state.tokens }
+    let defaultTokens: DividerTokens = .init()
+    var tokens: DividerTokens {
+        let tokens = tokens(for: fluentTheme)
+        tokens.spacing = state.spacing
+        return tokens
+    }
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @ObservedObject var state: MSFDividerStateImpl
 }
@@ -68,19 +72,10 @@ public struct FluentDivider: View, ConfigurableTokenizedControl {
 /// Properties available to customize the Divider.
 class MSFDividerStateImpl: NSObject, ObservableObject, ControlConfiguration, MSFDividerState {
     @Published var overrideTokens: DividerTokens?
-    @Published var tokens: DividerTokens = .init() {
-        didSet {
-            tokens.spacing = spacing
-        }
-    }
 
     @Published var orientation: MSFDividerOrientation
 
-    @Published var spacing: MSFDividerSpacing {
-        didSet {
-            tokens.spacing = spacing
-        }
-    }
+    @Published var spacing: MSFDividerSpacing
 
     let thickness: CGFloat = UIScreen.main.devicePixel
 
@@ -88,10 +83,6 @@ class MSFDividerStateImpl: NSObject, ObservableObject, ControlConfiguration, MSF
          spacing: MSFDividerSpacing) {
         self.orientation = orientation
         self.spacing = spacing
-
-        let tokens = DividerTokens()
-        tokens.spacing = spacing
-        self.tokens = tokens
 
         super.init()
     }

@@ -33,10 +33,13 @@ struct Header: View, ConfigurableTokenizedControl {
                             trailing: tokens.trailingPadding))
         .frame(minHeight: tokens.headerHeight)
         .background(backgroundColor)
-        .resolveTokens(self)
     }
 
-    var tokens: HeaderTokens { state.tokens }
+    let defaultTokens: HeaderTokens = .init()
+    var tokens: HeaderTokens {
+        let tokens = tokens(for: fluentTheme)
+        return tokens
+    }
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @ObservedObject var state: MSFListSectionStateImpl
 }

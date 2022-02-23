@@ -88,15 +88,12 @@ public class CommandBar: UIView, TokenizedControlInternal {
 
     public typealias TokenType = CommandBarTokens
 
+    let defaultTokens: CommandBarTokens = .init()
     var tokens: CommandBarTokens = .init()
     var overrideTokens: CommandBarTokens? {
         didSet {
             updateButtonTokens()
         }
-    }
-
-    func updateCurrentTokens(_ tokens: CommandBarTokens) {
-        self.tokens = tokens
     }
 
     @objc private func themeDidChange(_ notification: Notification) {
@@ -274,7 +271,7 @@ public class CommandBar: UIView, TokenizedControlInternal {
     }
 
     private func updateButtonTokens() {
-        let tokens = TokenResolver.tokens(for: self, fluentTheme: fluentTheme)
+        let tokens = tokens(for: fluentTheme)
         self.tokens = tokens
         for button in itemsToButtonsMap.values {
             button.commandBarTokens = tokens

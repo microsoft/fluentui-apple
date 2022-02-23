@@ -180,7 +180,6 @@
 		923DF2E72712B6AB00637646 /* libFluentUI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FD01166228A820600D25925 /* libFluentUI.a */; };
 		923DF2E82712B6C400637646 /* FluentUIResources-ios.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A5DA88FC226FAA01000A8EA8 /* FluentUIResources-ios.bundle */; };
 		924268A2277AD9F700C5A452 /* FontTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 924268A1277AD9F700C5A452 /* FontTests.swift */; };
-		924D912D278E128600478B18 /* TokenResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 924D912C278E128600478B18 /* TokenResolver.swift */; };
 		925728F7276D6AF800EE1019 /* ShadowInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925728F6276D6AF800EE1019 /* ShadowInfo.swift */; };
 		925728F9276D6B5800EE1019 /* FontInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925728F8276D6B5800EE1019 /* FontInfo.swift */; };
 		925D461D26FD133600179583 /* GlobalTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925D461B26FD133600179583 /* GlobalTokens.swift */; };
@@ -216,7 +215,6 @@
 		ECA9218627A3301C00B66117 /* MSFAvatarGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA9218527A3301C00B66117 /* MSFAvatarGroup.swift */; };
 		ECA9218A27A33A2D00B66117 /* AvatarGroupModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA9218927A33A2D00B66117 /* AvatarGroupModifiers.swift */; };
 		ECA921C627B5D10B00B66117 /* ButtonDynamicColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA921C527B5D10A00B66117 /* ButtonDynamicColors.swift */; };
-		ECA921C827B5FFD100B66117 /* UIControlTokenResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA921C727B5FFD100B66117 /* UIControlTokenResolver.swift */; };
 		FD053A352224CA33009B6378 /* DatePickerControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD053A342224CA33009B6378 /* DatePickerControllerTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -309,7 +307,6 @@
 		923DB9D3274CB65700D8E58A /* FluentTheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FluentTheme.swift; sourceTree = "<group>"; };
 		923DB9D6274CB66D00D8E58A /* ControlHostingContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlHostingContainer.swift; sourceTree = "<group>"; };
 		924268A1277AD9F700C5A452 /* FontTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontTests.swift; sourceTree = "<group>"; };
-		924D912C278E128600478B18 /* TokenResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenResolver.swift; sourceTree = "<group>"; };
 		925728F6276D6AF800EE1019 /* ShadowInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowInfo.swift; sourceTree = "<group>"; };
 		925728F8276D6B5800EE1019 /* FontInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontInfo.swift; sourceTree = "<group>"; };
 		925D461B26FD133600179583 /* GlobalTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalTokens.swift; sourceTree = "<group>"; };
@@ -398,7 +395,6 @@
 		ECA9218527A3301C00B66117 /* MSFAvatarGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFAvatarGroup.swift; sourceTree = "<group>"; };
 		ECA9218927A33A2D00B66117 /* AvatarGroupModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarGroupModifiers.swift; sourceTree = "<group>"; };
 		ECA921C527B5D10A00B66117 /* ButtonDynamicColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonDynamicColors.swift; sourceTree = "<group>"; };
-		ECA921C727B5FFD100B66117 /* UIControlTokenResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIControlTokenResolver.swift; sourceTree = "<group>"; };
 		ECEBA8FB25EDF3380048EE24 /* SegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentedControl.swift; sourceTree = "<group>"; };
 		FC414E1E258876FB00069E73 /* CommandBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBar.swift; sourceTree = "<group>"; };
 		FC414E242588798000069E73 /* CommandBarButtonGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBarButtonGroupView.swift; sourceTree = "<group>"; };
@@ -816,7 +812,6 @@
 				925D461B26FD133600179583 /* GlobalTokens.swift */,
 				925728F6276D6AF800EE1019 /* ShadowInfo.swift */,
 				923DB9D2274CB65700D8E58A /* TokenizedControl.swift */,
-				924D912C278E128600478B18 /* TokenResolver.swift */,
 				92EE82AC27025A94009D52B5 /* TokenSet.swift */,
 			);
 			path = Tokens;
@@ -1600,7 +1595,6 @@
 				532FE3D826EA6D74007539C0 /* ActivityIndicator.swift in Sources */,
 				5314E0E625F012C00099271A /* UIViewController+Navigation.swift in Sources */,
 				5314E29725F024760099271A /* String+Extension.swift in Sources */,
-				924D912D278E128600478B18 /* TokenResolver.swift in Sources */,
 				5314E12925F016230099271A /* PillButtonStyle.swift in Sources */,
 				5306075726A1E6A4002D49CF /* AvatarGroup.swift in Sources */,
 				92A1E4F526A791590007ED60 /* MSFCardNudge.swift in Sources */,

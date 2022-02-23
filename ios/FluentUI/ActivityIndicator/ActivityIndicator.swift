@@ -77,10 +77,14 @@ public struct ActivityIndicator: View, ConfigurableTokenizedControl {
             .frame(width: side,
                    height: side,
                    alignment: .center)
-            .resolveTokens(self)
     }
 
-    var tokens: ActivityIndicatorTokens { state.tokens }
+    let defaultTokens: ActivityIndicatorTokens = .init()
+    var tokens: ActivityIndicatorTokens {
+        let tokens = tokens(for: fluentTheme)
+        tokens.size = state.size
+        return tokens
+    }
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @ObservedObject var state: MSFActivityIndicatorStateImpl
     @State var rotationAngle: Double = 0.0
@@ -132,28 +136,14 @@ public struct ActivityIndicator: View, ConfigurableTokenizedControl {
 /// Properties available to customize the state of the Activity Indicator
 class MSFActivityIndicatorStateImpl: NSObject, ObservableObject, ControlConfiguration, MSFActivityIndicatorState {
     @Published var overrideTokens: ActivityIndicatorTokens?
-    @Published var tokens: ActivityIndicatorTokens {
-        didSet {
-            tokens.size = size
-        }
-    }
 
     @Published var color: UIColor?
     @Published var isAnimating: Bool = false
     @Published var hidesWhenStopped: Bool = true
-    @Published var size: MSFActivityIndicatorSize {
-        didSet {
-            tokens.size = size
-        }
-    }
+    @Published var size: MSFActivityIndicatorSize
 
     init(size: MSFActivityIndicatorSize) {
         self.size = size
-
-        let tokens = ActivityIndicatorTokens()
-        tokens.size = size
-        self.tokens = tokens
-
         super.init()
     }
 }

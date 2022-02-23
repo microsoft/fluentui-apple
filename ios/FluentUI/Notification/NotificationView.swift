@@ -19,7 +19,7 @@ import UIKit
  When used as a notification bar some functionality like `title`, `image` and actions are not supported. A convenience method `setupAsBar` can be used to initialize notification bar and assign only supported properties.
  */
 @objc(MSFNotificationView)
-open class NotificationView: UIView, TokenizedControlInternal, ControlConfiguration {
+open class NotificationView: UIView, TokenizedControlInternal {
     @objc public static var allowsMultipleToasts: Bool = false
 
     private static var currentToast: NotificationView? {
@@ -377,16 +377,13 @@ open class NotificationView: UIView, TokenizedControlInternal, ControlConfigurat
         }
     }
 
+    var defaultTokens: NotificationTokens = .init()
     var tokens: NotificationTokens {
         didSet {
             if tokens.style != oldValue.style {
                 tokens.style = style
             }
         }
-    }
-
-    func updateCurrentTokens(_ tokens: NotificationTokens) {
-        self.tokens = tokens
     }
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
@@ -480,7 +477,7 @@ open class NotificationView: UIView, TokenizedControlInternal, ControlConfigurat
     }
 
     private func updateNotificationTokens() {
-        let tokens = TokenResolver.tokens(for: self, fluentTheme: fluentTheme)
+        let tokens = tokens(for: fluentTheme)
         self.tokens = tokens
     }
 

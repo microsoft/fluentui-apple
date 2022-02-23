@@ -19,9 +19,20 @@ public protocol TokenizedControl {
 
 /// Internal extension to `TokenizedControl` that adds the ability to modify the active tokens.
 protocol TokenizedControlInternal: TokenizedControl {
-    /// Sets the current tokens to be used for drawing.
-    func updateCurrentTokens(_ tokens: TokenType)
+    /// Default token set.
+    var defaultTokens: TokenType { get }
 
     /// Fetches the current token override.
     var overrideTokens: TokenType? { get }
+}
+
+// MARK: - Extensions
+
+extension TokenizedControlInternal {
+    /// Returns the correct token set for a given tokenizable control.
+    func tokens(for fluentTheme: FluentTheme) -> TokenType {
+        let tokens = overrideTokens ?? fluentTheme.tokens(for: self) ?? defaultTokens
+        tokens.fluentTheme = fluentTheme
+        return tokens
+    }
 }
