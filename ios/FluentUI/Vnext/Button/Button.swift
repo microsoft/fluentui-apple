@@ -65,10 +65,9 @@ public struct FluentButton: View, ConfigurableTokenizedControl {
 
     public var body: some View {
         Button(action: state.action, label: {})
-            .buttonStyle(FluentButtonStyle(state: state, tokens: tokens))
-            .modifyIf(state.disabled != nil, { button in
-                button.disabled(state.disabled!)
-            })
+            .buttonStyle(FluentButtonStyle(state: state,
+                                           tokensLookup: { tokens }))
+            .disabled(state.disabled ?? false)
             .frame(maxWidth: .infinity)
     }
 }
@@ -107,7 +106,8 @@ class MSFButtonStateImpl: NSObject, ObservableObject, ControlConfiguration, MSFB
 struct FluentButtonBody: View {
     @Environment(\.isEnabled) var isEnabled: Bool
     @ObservedObject var state: MSFButtonStateImpl
-    var tokens: ButtonTokens
+    var tokens: ButtonTokens { tokensLookup() }
+    let tokensLookup: (() -> ButtonTokens)
     let isPressed: Bool
 
     var body: some View {
@@ -206,11 +206,11 @@ struct FluentButtonBody: View {
 /// ButtonStyle which configures the Button View according to its state and design tokens.
 struct FluentButtonStyle: ButtonStyle {
     @ObservedObject var state: MSFButtonStateImpl
-    var tokens: ButtonTokens
+    let tokensLookup: () -> ButtonTokens
 
     func makeBody(configuration: Self.Configuration) -> some View {
         FluentButtonBody(state: state,
-                         tokens: tokens,
+                         tokensLookup: tokensLookup,
                          isPressed: configuration.isPressed)
     }
 }
