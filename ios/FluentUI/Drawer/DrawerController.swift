@@ -104,7 +104,12 @@ public protocol DrawerControllerDelegate: AnyObject {
  */
 
 @objc(MSFDrawerController)
-open class DrawerController: UIViewController, FluentUIWindowProvider {
+open class DrawerController: UIViewController, FluentUIWindowProvider, TokenizedControlInternal {
+
+    public func overrideTokens(_ tokens: DrawerTokens?) -> Self {
+        overrideTokens = tokens
+        return self
+    }
 
     private struct Constants {
         static let resistanceCoefficient: CGFloat = 0.1
@@ -564,6 +569,22 @@ open class DrawerController: UIViewController, FluentUIWindowProvider {
 
     open override func accessibilityPerformEscape() -> Bool {
         return dismissPresentingViewController(animated: true)
+    }
+
+    func updateCurrentTokens(_ tokens: DrawerTokens) {
+        self.tokens = tokens
+    }
+
+    var tokens: DrawerTokens = .init()
+    var overrideTokens: DrawerTokens? {
+        didSet {
+            updateDrawerTokens()
+        }
+    }
+
+    private func updateDrawerTokens() {
+        let tokens = TokenResolver.tokens(for: self, fluentTheme: view.fluentTheme)
+        self.tokens = tokens
     }
 
     // Change of presentation direction's orientation is not supported
