@@ -309,9 +309,9 @@ public struct Avatar: View {
                              alignment: .center)
                     .modifyIf(shouldDisplayPresence, { thisView in
                             thisView
-                                .clipShape(PresenceCutout(originX: presenceCutoutOriginX,
-                                                          originY: presenceCutoutOriginY,
-                                                          presenceIconOutlineSize: presenceIconOutlineSize),
+                                .clipShape(CircleCutout(xOrigin: presenceCutoutOriginX,
+                                                          yOrigin: presenceCutoutOriginY,
+                                                          cutoutSize: presenceIconOutlineSize),
                                            style: FillStyle(eoFill: true))
                                 .overlay(Circle()
                                             .foregroundColor(Color(tokens.ringGapColor).opacity(isTransparent ? 0 : 1))
@@ -342,14 +342,14 @@ public struct Avatar: View {
                           with: windowProvider)
     }
 
-    /// `AvatarCutout`: Cutout shape for an Avatar
+    /// `CircleCutout`: Cutout shape for a circle
     ///
     /// `xOrigin`: beginning location of cutout on the x axis
     ///
     /// `yOrigin`: beginning location of cutout on the y axis
     ///
-    /// `cutoutSize`: dimensions of cutout shape of the Avatar
-    public struct AvatarCutout: Shape {
+    /// `cutoutSize`: diameter of the circle to cut out
+    public struct CircleCutout: Shape {
         var xOrigin: CGFloat
         var yOrigin: CGFloat
         var cutoutSize: CGFloat
@@ -376,33 +376,6 @@ public struct Avatar: View {
     }
 
     private let animationDuration: Double = 0.1
-
-    private struct PresenceCutout: Shape {
-        var originX: CGFloat
-        var originY: CGFloat
-        var presenceIconOutlineSize: CGFloat
-
-        var animatableData: AnimatablePair<AnimatablePair<CGFloat, CGFloat>, CGFloat> {
-            get {
-                AnimatablePair(AnimatablePair(originX, originY), presenceIconOutlineSize)
-            }
-
-            set {
-                originX = newValue.first.first
-                originY = newValue.first.second
-                presenceIconOutlineSize = newValue.second
-            }
-        }
-
-        func path(in rect: CGRect) -> Path {
-            var cutoutFrame = Rectangle().path(in: rect)
-            cutoutFrame.addPath(Circle().path(in: CGRect(x: originX,
-                                                         y: originY,
-                                                         width: presenceIconOutlineSize,
-                                                         height: presenceIconOutlineSize)))
-            return cutoutFrame
-        }
-    }
 
     private static func initialsHashCode(fromPrimaryText primaryText: String?, secondaryText: String?) -> Int {
         var combined: String
