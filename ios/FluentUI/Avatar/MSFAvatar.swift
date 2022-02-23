@@ -16,7 +16,7 @@ import SwiftUI
     @objc public init(style: MSFAvatarStyle = .default,
                       size: MSFAvatarSize = .large) {
         let avatar = Avatar(style: style,
-                        size: size)
+                            size: size)
         state = avatar.state
         super.init(AnyView(avatar))
     }
