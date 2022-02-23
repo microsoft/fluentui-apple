@@ -93,7 +93,6 @@ public struct Avatar: View, ConfigurableTokenizedControl {
         state.secondaryText = secondaryText
 
         self.state = state
-        self.tokens = state.tokens
     }
 
     public var body: some View {
@@ -311,13 +310,12 @@ public struct Avatar: View, ConfigurableTokenizedControl {
     // MSFAvatarStateImpl using style and size, and then use that state and this initializer in their ViewBuilder.
     init(_ avatarState: MSFAvatarStateImpl) {
         state = avatarState
-        tokens = avatarState.tokens
     }
 
     @Environment(\.theme) var theme: FluentUIStyle
     @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
     @Environment(\.layoutDirection) var layoutDirection: LayoutDirection
-    var tokens: AvatarTokens
+    var tokens: AvatarTokens { state.tokens }
     @ObservedObject var state: MSFAvatarStateImpl
 
     private static func initialsHashCode(fromPrimaryText primaryText: String?, secondaryText: String?) -> Int {
