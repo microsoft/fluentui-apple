@@ -65,7 +65,6 @@ class ThemingDemoController: DemoController {
         addTitle(text: "Theme overriding")
         addDescription(text: "A theme can also be applied to a specific control or SwiftUI view hierarichy. This has the highest priority for the controls.")
 
-        let overridingTheme = CustomStyle()
         let customThemeButtonPrimary = MSFButton(style: .primary,
                                                       size: .medium,
                                                       action: nil)
@@ -86,20 +85,17 @@ class ThemingDemoController: DemoController {
         addRow(items: [customThemeButtonPrimary.view, customThemeButtonSecondary.view, customThemeButtonGhost.view], itemSpacing: 20)
 
         let customThemeAvatarAccent = MSFAvatar(style: .accent,
-                                                  size: .xlarge,
-                                                  theme: overridingTheme)
+                                                  size: .xlarge)
         customThemeAvatarAccent.state.isRingVisible = true
         customThemeAvatarAccent.state.presence = .available
 
         let customThemeAvatarDefault = MSFAvatar(style: .default,
-                                                   size: .xlarge,
-                                                   theme: overridingTheme)
+                                                   size: .xlarge)
         customThemeAvatarDefault.state.isRingVisible = true
         customThemeAvatarDefault.state.presence = .busy
 
         let customThemeAvatarOutlinedPrimary = MSFAvatar(style: .outlinedPrimary,
-                                                           size: .xlarge,
-                                                           theme: overridingTheme)
+                                                           size: .xlarge)
         customThemeAvatarOutlinedPrimary.state.isRingVisible = true
         customThemeAvatarOutlinedPrimary.state.presence = .away
 

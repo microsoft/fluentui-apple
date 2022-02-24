@@ -7,12 +7,12 @@ import UIKit
 import SwiftUI
 
 /// Design token set for the `AvatarGroup` control
-public class AvatarGroupTokens: ControlTokens {
+open class AvatarGroupTokens: ControlTokens {
 
-    /// Defines the style of the button.
+    /// Defines the style of the `Avatar` controls in the `AvatarGroup`.
     public internal(set) var style: MSFAvatarGroupStyle = .stack
 
-    /// Defines the size of the button.
+    /// Defines the size of the `Avatar` controls in the `AvatarGroup`.
     public internal(set) var size: MSFAvatarSize = .large
 
     // MARK: - Design Tokens
@@ -54,7 +54,9 @@ public class AvatarGroupTokens: ControlTokens {
     /// CGFloat that defines the thickness of the ring around the `Avatar`.
     open var ringThickness: CGFloat {
         switch size {
-        case .xsmall, .small, .medium, .large, .xlarge:
+        case .xsmall, .small:
+            return globalTokens.borderSize[.thin]
+        case .medium, .large, .xlarge:
             return globalTokens.borderSize[.thick]
         case .xxlarge:
             return globalTokens.borderSize[.thicker]
