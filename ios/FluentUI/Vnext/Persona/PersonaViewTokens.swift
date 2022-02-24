@@ -6,49 +6,16 @@
 import UIKit
 import SwiftUI
 
-class MSFPersonaViewTokens: MSFCellBaseTokens {
-    override init() {
-        super.init()
+public class MSFPersonaViewTokens: MSFCellBaseTokens {
+    open override var sublabelColor: DynamicColor { aliasTokens.foregroundColors[.neutral1] }
 
-        self.themeAware = true
-        updateForCurrentTheme()
-    }
+    open override var iconInterspace: CGFloat { globalTokens.spacing[.small] }
 
-    @objc open func didChangeAppearanceProxy() {
-        updateForCurrentTheme()
-    }
+    open override var labelAccessoryInterspace: CGFloat { globalTokens.spacing[.xxxSmall] }
 
-    override func updateForCurrentTheme() {
-        let currentTheme = theme
-        let personaViewAP = currentTheme.MSFPersonaViewTokens
-        let listCellAP = currentTheme.MSFListCellTokens
+    open override var labelAccessorySize: CGFloat { globalTokens.iconSize[.xSmall] }
 
-        disclosureIconForegroundColor = listCellAP.disclosureIconForegroundColor
-        labelColor = listCellAP.labelColor
-        leadingViewColor = listCellAP.leadingViewColor
-        sublabelColor = personaViewAP.sublabelColor
-        trailingItemForegroundColor = listCellAP.trailingItemForegroundColor
+    open override var labelFont: FontInfo { aliasTokens.typography[.body1Strong] }
 
-        backgroundColor = listCellAP.backgroundColor.rest
-        highlightedBackgroundColor = listCellAP.backgroundColor.pressed
-
-        cellHeightOneLine = listCellAP.cellHeight.oneLine
-        cellHeightTwoLines = listCellAP.cellHeight.twoLines
-        cellHeightThreeLines = listCellAP.cellHeight.threeLines
-        disclosureInterspace = listCellAP.disclosureInterspace
-        disclosureSize = listCellAP.disclosureSize
-        horizontalCellPadding = listCellAP.horizontalCellPadding
-        iconInterspace = personaViewAP.iconInterspace
-        labelAccessoryInterspace = personaViewAP.labelAccessoryInterspace
-        labelAccessorySize = personaViewAP.labelAccessorySize
-        leadingViewSize = listCellAP.leadingViewSize.large
-        leadingViewAreaSize = listCellAP.leadingViewAreaSize
-        sublabelAccessorySize = listCellAP.sublabelAccessorySize
-        trailingItemSize = listCellAP.trailingItemSize
-        verticalCellPadding = listCellAP.verticalCellPadding
-
-        footnoteFont = personaViewAP.footnoteFont
-        sublabelFont = listCellAP.sublabelFont
-        labelFont = personaViewAP.labelFont
-    }
+    open override var footnoteFont: FontInfo { aliasTokens.typography[.caption1] }
 }

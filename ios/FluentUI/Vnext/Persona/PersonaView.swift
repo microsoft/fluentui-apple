@@ -25,7 +25,7 @@ public protocol PersonaViewState: MSFPersonaViewState {
 }
 
 /// Properties that make up PersonaView content
-class MSFPersonaViewStateImpl: MSFListCellStateImpl, PersonaViewState {
+class MSFPersonaViewStateImpl: MSFListCellStateImplBase, ControlConfiguration, PersonaViewState {
     override var backgroundColor: UIColor? {
         get {
             return avatarState.backgroundColor
@@ -200,24 +200,20 @@ class MSFPersonaViewStateImpl: MSFListCellStateImpl, PersonaViewState {
 
     init(avatarState: MSFAvatarState) {
         self.avatarState = avatarState
+        self.tokens = MSFPersonaViewTokens()
 
         super.init()
-
-        self.tokens = MSFPersonaViewTokens()
     }
 
     private var avatarState: MSFAvatarState
+
+    @Published var overrideTokens: MSFPersonaViewTokens?
+    @Published var tokens: MSFPersonaViewTokens = .init()
 }
 
 /// View for PersonaView
-public struct PersonaView: View {
-    @Environment(\.theme) var theme: FluentUIStyle
-    @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
-    @ObservedObject var tokens: MSFPersonaViewTokens
-    @ObservedObject var state: MSFPersonaViewStateImpl
-
+public struct PersonaView: View, ConfigurableTokenizedControl {
     public init() {
-        tokens = MSFPersonaViewTokens()
         let avatar = Avatar(style: .default, size: .large)
         state = MSFPersonaViewStateImpl(avatarState: avatar.state)
         state.leadingView = AnyView(avatar)
@@ -227,44 +223,15 @@ public struct PersonaView: View {
 
     public var body: some View {
         MSFListCellView(state: state)
-            .designTokens(tokens,
-                          from: theme,
-                          with: windowProvider)
-    }
-}
-
-/// UIKit wrapper that exposes the SwiftUI PersonaView implementation
-@objc open class MSFPersonaView: NSObject, FluentUIWindowProvider {
-    @objc public init(theme: FluentUIStyle? = nil) {
-        super.init()
-
-        personaView = PersonaView()
-        hostingController = FluentUIHostingController(rootView: AnyView(personaView
-                                                                            .windowProvider(self)
-                                                                            .modifyIf(theme != nil, { personaView in
-                                                                                personaView.customTheme(theme!)
-                                                                            })))
-        hostingController.disableSafeAreaInsets()
-        view.backgroundColor = UIColor.clear
+            .resolveTokens(self)
     }
 
-    @objc public convenience override init() {
-        self.init(theme: nil)
+    var tokens: MSFPersonaViewTokens { state.tokens }
+    @Environment(\.fluentTheme) var fluentTheme: FluentTheme
+    @ObservedObject var state: MSFPersonaViewStateImpl
+
+    public func overrideTokens(_ tokens: MSFPersonaViewTokens?) -> PersonaView {
+        state.overrideTokens = tokens
+        return self
     }
-
-    @objc open var view: UIView {
-        return hostingController.view
-    }
-
-    @objc open var state: MSFPersonaViewState {
-        return personaView.state
-    }
-
-    var window: UIWindow? {
-        return self.view.window
-    }
-
-    private var hostingController: FluentUIHostingController!
-
-    private var personaView: PersonaView!
 }

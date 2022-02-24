@@ -10,7 +10,7 @@
 		0A3CD0B127BCA36000DBE728 /* HeaderModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3CD0B027BCA36000DBE728 /* HeaderModifiers.swift */; };
 		0A3CD0B327BDD26B00DBE728 /* MSFList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3CD0B227BDD26A00DBE728 /* MSFList.swift */; };
 		0AA874162600237A00D47421 /* PersonaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA874142600237A00D47421 /* PersonaView.swift */; };
-		0ACD82122620451F0035CD9F /* MSFPersonaViewTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACD82102620451E0035CD9F /* MSFPersonaViewTokens.generated.swift */; };
+		0AC8A8B227C72D4600D9FAF5 /* MSFPersonaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC8A8B127C72D4600D9FAF5 /* MSFPersonaView.swift */; };
 		0ACD82192620453B0035CD9F /* PersonaViewTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACD82172620453B0035CD9F /* PersonaViewTokens.swift */; };
 		0AD70F5B26E80A5D008774EC /* CommandBarTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD70F5926E80A5D008774EC /* CommandBarTokens.swift */; };
 		43488C46270FAD1300124C71 /* NotificationView_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43488C44270FAD0200124C71 /* NotificationView_SwiftUI.swift */; };
@@ -27,7 +27,6 @@
 		53097D0D270288FB00A6E4DC /* ButtonTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D03270288FB00A6E4DC /* ButtonTokens.swift */; };
 		53097D172702890900A6E4DC /* HeaderTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D0E2702890800A6E4DC /* HeaderTokens.swift */; };
 		53097D192702890900A6E4DC /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D0F2702890800A6E4DC /* List.swift */; };
-		53097D1B2702890900A6E4DC /* MSFListCellTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D102702890800A6E4DC /* MSFListCellTokens.generated.swift */; };
 		53097D1D2702890900A6E4DC /* ListTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D112702890800A6E4DC /* ListTokens.swift */; };
 		53097D212702890900A6E4DC /* ListHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D132702890800A6E4DC /* ListHeader.swift */; };
 		53097D252702890900A6E4DC /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D152702890900A6E4DC /* ListCell.swift */; };
@@ -232,7 +231,7 @@
 		0A3CD0B027BCA36000DBE728 /* HeaderModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderModifiers.swift; sourceTree = "<group>"; };
 		0A3CD0B227BDD26A00DBE728 /* MSFList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFList.swift; sourceTree = "<group>"; };
 		0AA874142600237A00D47421 /* PersonaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaView.swift; sourceTree = "<group>"; };
-		0ACD82102620451E0035CD9F /* MSFPersonaViewTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFPersonaViewTokens.generated.swift; sourceTree = "<group>"; };
+		0AC8A8B127C72D4600D9FAF5 /* MSFPersonaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFPersonaView.swift; sourceTree = "<group>"; };
 		0ACD82172620453B0035CD9F /* PersonaViewTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaViewTokens.swift; sourceTree = "<group>"; };
 		0AD70F5926E80A5D008774EC /* CommandBarTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBarTokens.swift; sourceTree = "<group>"; };
 		0AE866A626BA05D000E92108 /* Locale+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Locale+Extensions.swift"; sourceTree = "<group>"; };
@@ -255,7 +254,6 @@
 		53097D03270288FB00A6E4DC /* ButtonTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonTokens.swift; sourceTree = "<group>"; };
 		53097D0E2702890800A6E4DC /* HeaderTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderTokens.swift; sourceTree = "<group>"; };
 		53097D0F2702890800A6E4DC /* List.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
-		53097D102702890800A6E4DC /* MSFListCellTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFListCellTokens.generated.swift; sourceTree = "<group>"; };
 		53097D112702890800A6E4DC /* ListTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListTokens.swift; sourceTree = "<group>"; };
 		53097D132702890800A6E4DC /* ListHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListHeader.swift; sourceTree = "<group>"; };
 		53097D152702890900A6E4DC /* ListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
@@ -538,9 +536,9 @@
 		0AA8741326001F0500D47421 /* Persona */ = {
 			isa = PBXGroup;
 			children = (
-				0ACD82102620451E0035CD9F /* MSFPersonaViewTokens.generated.swift */,
 				0AA874142600237A00D47421 /* PersonaView.swift */,
 				0ACD82172620453B0035CD9F /* PersonaViewTokens.swift */,
+				0AC8A8B127C72D4600D9FAF5 /* MSFPersonaView.swift */,
 			);
 			path = Persona;
 			sourceTree = "<group>";
@@ -734,7 +732,6 @@
 				53097D132702890800A6E4DC /* ListHeader.swift */,
 				53097D112702890800A6E4DC /* ListTokens.swift */,
 				0A3CD0B227BDD26A00DBE728 /* MSFList.swift */,
-				53097D102702890800A6E4DC /* MSFListCellTokens.generated.swift */,
 			);
 			path = List;
 			sourceTree = "<group>";
@@ -1522,6 +1519,7 @@
 				ECA921C627B5D10B00B66117 /* ButtonDynamicColors.swift in Sources */,
 				5314E12A25F016230099271A /* PillButton.swift in Sources */,
 				4BF01D9A27B37CF8005B32F2 /* NotificationTokens.swift in Sources */,
+				0AC8A8B227C72D4600D9FAF5 /* MSFPersonaView.swift in Sources */,
 				5314E0E525F012C00099271A /* NavigationBar.swift in Sources */,
 				C708B064260A87F7007190FA /* SegmentItem.swift in Sources */,
 				5328D97126FBA3D700F3723B /* IndeterminateProgressBarTokens.swift in Sources */,
@@ -1614,7 +1612,6 @@
 				43488C46270FAD1300124C71 /* NotificationView_SwiftUI.swift in Sources */,
 				5314E06425F00EFD0099271A /* CalendarViewMonthBannerView.swift in Sources */,
 				5314E18E25F0195C0099271A /* ShimmerLinesView.swift in Sources */,
-				53097D1B2702890900A6E4DC /* MSFListCellTokens.generated.swift in Sources */,
 				53097D172702890900A6E4DC /* HeaderTokens.swift in Sources */,
 				EC02A5F5274DD19600E81B3E /* MSFDivider.swift in Sources */,
 				80AECC21263339E3005AF2F3 /* BottomSheetController.swift in Sources */,
@@ -1681,7 +1678,6 @@
 				5314E06025F00EFD0099271A /* CalendarViewWeekdayHeadingView.swift in Sources */,
 				53097D1D2702890900A6E4DC /* ListTokens.swift in Sources */,
 				5314E05A25F00EF50099271A /* CalendarViewLayout.swift in Sources */,
-				0ACD82122620451F0035CD9F /* MSFPersonaViewTokens.generated.swift in Sources */,
 				5314E1B025F01A980099271A /* Tooltip.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
