@@ -143,34 +143,3 @@ AP_MSFDrawerTokens:
   minMargin: [horizontal: $Spacing.xxxLarge, vertical: $Spacing.large]
   cornerRadius: $Border.radius.xxLarge
   shadowOffset: $Spacing.xSmall
-
-AP_MSFListCellTokens:
-  backgroundColor: [ rest: $Colors.Background.neutral1, pressed: $Colors.Background.neutral5 ]
-  cellHeight: [ oneLine: 48pt, twoLines: 64pt, threeLines: 84pt ]
-  disclosureIconForegroundColor: $Colors.Foreground.neutral4
-  disclosureInterspace: $Spacing.xxSmall
-  disclosureSize: $Icon.size.small
-  footnoteFont: $Typography.caption1
-  horizontalCellPadding: $Spacing.small
-  iconInterspace: $Spacing.medium
-  labelAccessoryInterspace: $Spacing.xSmall
-  labelAccessorySize: $Icon.size.xxSmall
-  labelColor: $Colors.Foreground.neutral1
-  labelFont: $Typography.body
-  leadingViewColor: $Colors.Foreground.neutral4
-  leadingViewAreaSize: $Spacing.xxxLarge
-  leadingViewSize: [ small: $Icon.size.xSmall, medium: $Icon.size.medium, large: $Icon.size.xxLarge ]
-  sublabelAccessorySize: $Icon.size.xxSmall
-  sublabelColor: $Colors.Foreground.neutral3
-  sublabelFont: $Typography.subheadline
-  trailingItemForegroundColor: $Colors.Foreground.neutral3
-  trailingItemSize: $Icon.size.medium
-  verticalCellPadding: $Spacing.xSmall
-
-AP_MSFPersonaViewTokens:
-  footnoteFont: $Typography.footnote
-  iconInterspace: $Spacing.small
-  labelAccessoryInterspace: $Spacing.xxxSmall
-  labelAccessorySize: $Icon.size.xSmall
-  labelFont: $Typography.headline
-  sublabelColor: $Colors.Foreground.neutral1
