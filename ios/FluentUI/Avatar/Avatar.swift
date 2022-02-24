@@ -342,39 +342,6 @@ public struct Avatar: View {
                           with: windowProvider)
     }
 
-    /// `CircleCutout`: Cutout shape for a circle
-    ///
-    /// `xOrigin`: beginning location of cutout on the x axis
-    ///
-    /// `yOrigin`: beginning location of cutout on the y axis
-    ///
-    /// `cutoutSize`: diameter of the circle to cut out
-    public struct CircleCutout: Shape {
-        var xOrigin: CGFloat
-        var yOrigin: CGFloat
-        var cutoutSize: CGFloat
-
-        public var animatableData: AnimatablePair<AnimatablePair<CGFloat, CGFloat>, CGFloat> {
-            get {
-                AnimatablePair(AnimatablePair(xOrigin, yOrigin), cutoutSize)
-            }
-            set {
-                xOrigin = newValue.first.first
-                yOrigin = newValue.first.second
-                cutoutSize = newValue.second
-            }
-        }
-
-        public func path(in rect: CGRect) -> Path {
-            var cutoutFrame = Rectangle().path(in: rect)
-            cutoutFrame.addPath(Circle().path(in: CGRect(x: xOrigin,
-                                                         y: yOrigin,
-                                                         width: cutoutSize,
-                                                         height: cutoutSize)))
-            return cutoutFrame
-        }
-    }
-
     private let animationDuration: Double = 0.1
 
     private static func initialsHashCode(fromPrimaryText primaryText: String?, secondaryText: String?) -> Int {

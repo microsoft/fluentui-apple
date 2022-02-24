@@ -174,6 +174,7 @@
 		C708B064260A87F7007190FA /* SegmentItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C708B04B260A8696007190FA /* SegmentItem.swift */; };
 		C77A04B825F03DD1001B3EB6 /* String+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77A04B625F03DD1001B3EB6 /* String+Date.swift */; };
 		C77A04EE25F046EB001B3EB6 /* Date+CellFileAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77A04EC25F046EB001B3EB6 /* Date+CellFileAccessoryView.swift */; };
+		EC5982DA27C703EE00FD048D /* CircleCutout.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5982D927C703ED00FD048D /* CircleCutout.swift */; };
 		FD053A352224CA33009B6378 /* DatePickerControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD053A342224CA33009B6378 /* DatePickerControllerTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -312,6 +313,7 @@
 		C77A04B625F03DD1001B3EB6 /* String+Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Date.swift"; sourceTree = "<group>"; };
 		C77A04EC25F046EB001B3EB6 /* Date+CellFileAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+CellFileAccessoryView.swift"; sourceTree = "<group>"; };
 		CCC18C2B2501B22F00BE830E /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
+		EC5982D927C703ED00FD048D /* CircleCutout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleCutout.swift; sourceTree = "<group>"; };
 		ECEBA8FB25EDF3380048EE24 /* SegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentedControl.swift; sourceTree = "<group>"; };
 		FC414E1E258876FB00069E73 /* CommandBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBar.swift; sourceTree = "<group>"; };
 		FC414E242588798000069E73 /* CommandBarButtonGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBarButtonGroupView.swift; sourceTree = "<group>"; };
@@ -920,6 +922,7 @@
 				5373D5612694D65C0032A3B4 /* Avatar.swift */,
 				5303259926B31B6B00611D05 /* AvatarModifiers.swift */,
 				5373D5602694D65C0032A3B4 /* AvatarTokens.swift */,
+				EC5982D927C703ED00FD048D /* CircleCutout.swift */,
 				5373D5632694D65C0032A3B4 /* MSFAvatarPresence.swift */,
 				5373D5622694D65C0032A3B4 /* MSFAvatarTokens.generated.swift */,
 				B4EF53C2215AF1AB00573E8F /* Persona.swift */,
@@ -1290,6 +1293,7 @@
 				6ED5E55126D3D39400D8BE81 /* BadgeLabelButton.swift in Sources */,
 				6ED5E55226D3D39400D8BE81 /* UIBarButtonItem+BadgeValue.swift in Sources */,
 				5314E0ED25F012C40099271A /* ContentScrollViewTraits.swift in Sources */,
+				EC5982DA27C703EE00FD048D /* CircleCutout.swift in Sources */,
 				5314E03A25F00E3D0099271A /* BadgeView.swift in Sources */,
 				5314E1A325F01A7C0099271A /* TableViewHeaderFooterView.swift in Sources */,
 				5314E30325F0260E0099271A /* AccessibleViewDelegate.swift in Sources */,
