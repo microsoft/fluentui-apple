@@ -3,7 +3,7 @@ jobs:
   pool:
     vmImage: 'macos-11'
   variables:
-  - name: EOCompliance-Mac
+  - name: BUILDSECMON_OPT_IN
     value: true
   displayName: FluentUI Apple Publish NuGet
   timeoutInMinutes: 60 # how long to run the job before automatically cancelling

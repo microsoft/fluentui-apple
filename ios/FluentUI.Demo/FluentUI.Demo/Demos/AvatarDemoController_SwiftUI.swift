@@ -30,7 +30,7 @@ struct AvatarDemoView: View {
     @State var isTransparent: Bool = true
     @State var hasPointerInteraction: Bool = false
     @State var hasRingInnerGap: Bool = true
-    @State var primaryText: String = "Kat Larrson"
+    @State var primaryText: String = "Kat Larsson"
     @State var secondaryText: String = ""
     @State var presence: MSFAvatarPresence = .none
     @State var showImage: Bool = false
