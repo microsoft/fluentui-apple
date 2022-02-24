@@ -215,11 +215,10 @@ public struct AvatarGroup: View {
                         avatarView
                             .transition(.identity)
                             .modifyIf(needsCutout, { view in
-                                view.mask(Avatar.CircleCutout(
-                                    xOrigin: xOrigin,
-                                    yOrigin: yOrigin,
-                                    cutoutSize: cutoutSize)
-                                            .fill(style: FillStyle(eoFill: true)))
+                                view.clipShape(CircleCutout(xOrigin: xOrigin,
+                                                            yOrigin: yOrigin,
+                                                            cutoutSize: cutoutSize),
+                                               style: FillStyle(eoFill: true))
                             })
                     }
                     .padding(.trailing, isStackStyle ? stackPadding : interspace)
