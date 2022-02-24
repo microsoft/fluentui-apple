@@ -19,6 +19,9 @@ public protocol TokenizedControl {
 
 /// Internal extension to `TokenizedControl` that adds the ability to modify the active tokens.
 protocol TokenizedControlInternal: TokenizedControl {
+    /// The current `FluentTheme` applied to this control. Usually acquired via the environment.
+    var fluentTheme: FluentTheme { get }
+
     /// Default token set.
     var defaultTokens: TokenType { get }
 
@@ -30,7 +33,7 @@ protocol TokenizedControlInternal: TokenizedControl {
 
 extension TokenizedControlInternal {
     /// Returns the correct token set for a given tokenizable control.
-    func tokens(for fluentTheme: FluentTheme) -> TokenType {
+    func resolvedTokens() -> TokenType {
         let tokens = overrideTokens ?? fluentTheme.tokens(for: self) ?? defaultTokens
         tokens.fluentTheme = fluentTheme
         return tokens

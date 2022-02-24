@@ -472,8 +472,7 @@ open class PillButtonBar: UIScrollView, TokenizedControlInternal {
     }
 
     private func updatePillButtonBarTokens() {
-        let tokens = tokens(for: fluentTheme)
-        self.tokens = tokens
+        self.tokens = resolvedTokens()
     }
 
     private var leadingConstraint: NSLayoutConstraint?

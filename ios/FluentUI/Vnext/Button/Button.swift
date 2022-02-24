@@ -37,7 +37,7 @@ public struct FluentButton: View, ConfigurableTokenizedControl {
     @ObservedObject var state: MSFButtonStateImpl
     let defaultTokens: ButtonTokens = .init()
     var tokens: ButtonTokens {
-        let tokens = tokens(for: fluentTheme)
+        let tokens = resolvedTokens()
         tokens.size = state.size
         tokens.style = state.style
         return tokens

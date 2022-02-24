@@ -37,8 +37,7 @@ struct Header: View, ConfigurableTokenizedControl {
 
     let defaultTokens: HeaderTokens = .init()
     var tokens: HeaderTokens {
-        let tokens = tokens(for: fluentTheme)
-        return tokens
+        return resolvedTokens()
     }
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @ObservedObject var state: MSFListSectionStateImpl

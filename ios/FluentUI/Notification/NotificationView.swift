@@ -477,8 +477,7 @@ open class NotificationView: UIView, TokenizedControlInternal {
     }
 
     private func updateNotificationTokens() {
-        let tokens = tokens(for: fluentTheme)
-        self.tokens = tokens
+        self.tokens = resolvedTokens()
     }
 
     private func updateWindowSpecificColors() {

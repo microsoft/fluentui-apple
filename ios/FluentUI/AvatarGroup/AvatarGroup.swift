@@ -208,7 +208,7 @@ public struct AvatarGroup: View, ConfigurableTokenizedControl {
 
     let defaultTokens: AvatarGroupTokens = .init()
     var tokens: AvatarGroupTokens {
-        let tokens = tokens(for: fluentTheme)
+        let tokens = resolvedTokens()
         tokens.size = state.size
         tokens.style = state.style
         return tokens

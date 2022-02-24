@@ -81,7 +81,7 @@ public struct ActivityIndicator: View, ConfigurableTokenizedControl {
 
     let defaultTokens: ActivityIndicatorTokens = .init()
     var tokens: ActivityIndicatorTokens {
-        let tokens = tokens(for: fluentTheme)
+        let tokens = resolvedTokens()
         tokens.size = state.size
         return tokens
     }
