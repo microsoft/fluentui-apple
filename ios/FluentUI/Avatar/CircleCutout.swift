@@ -3,7 +3,6 @@
 //  Licensed under the MIT License.
 //
 
-import UIKit
 import SwiftUI
 
 /// `CircleCutout`: Cutout shape for a circle
@@ -14,11 +13,16 @@ import SwiftUI
 ///
 /// `cutoutSize`: diameter of the circle to cut out
 struct CircleCutout: Shape {
-    var xOrigin: CGFloat
-    var yOrigin: CGFloat
-    var cutoutSize: CGFloat
+    func path(in rect: CGRect) -> Path {
+        var cutoutFrame = Rectangle().path(in: rect)
+        cutoutFrame.addPath(Circle().path(in: CGRect(x: xOrigin,
+                                                     y: yOrigin,
+                                                     width: cutoutSize,
+                                                     height: cutoutSize)))
+        return cutoutFrame
+    }
 
-    public var animatableData: AnimatablePair<AnimatablePair<CGFloat, CGFloat>, CGFloat> {
+    var animatableData: AnimatablePair<AnimatablePair<CGFloat, CGFloat>, CGFloat> {
         get {
             AnimatablePair(AnimatablePair(xOrigin, yOrigin), cutoutSize)
         }
@@ -29,12 +33,7 @@ struct CircleCutout: Shape {
         }
     }
 
-    public func path(in rect: CGRect) -> Path {
-        var cutoutFrame = Rectangle().path(in: rect)
-        cutoutFrame.addPath(Circle().path(in: CGRect(x: xOrigin,
-                                                     y: yOrigin,
-                                                     width: cutoutSize,
-                                                     height: cutoutSize)))
-        return cutoutFrame
-    }
+    var xOrigin: CGFloat
+    var yOrigin: CGFloat
+    var cutoutSize: CGFloat
 }
