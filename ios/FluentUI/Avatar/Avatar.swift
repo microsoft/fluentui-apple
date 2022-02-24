@@ -304,28 +304,28 @@ public struct Avatar: View {
                                                         .clipShape(Circle())
                                                         .transition(.opacity),
                                                      alignment: .center)
-                                )
+                                        )
                                 .contentShape(Circle()),
                              alignment: .center)
                     .modifyIf(shouldDisplayPresence, { thisView in
-                            thisView
-                                .clipShape(CircleCutout(xOrigin: presenceCutoutOriginX,
-                                                          yOrigin: presenceCutoutOriginY,
-                                                          cutoutSize: presenceIconOutlineSize),
-                                           style: FillStyle(eoFill: true))
-                                .overlay(Circle()
-                                            .foregroundColor(Color(tokens.ringGapColor).opacity(isTransparent ? 0 : 1))
-                                            .frame(width: presenceIconOutlineSize, height: presenceIconOutlineSize, alignment: .center)
-                                            .overlay(presence.image(isOutOfOffice: isOutOfOffice)
-                                                        .interpolation(.high)
-                                                        .resizable()
-                                                        .frame(width: presenceIconSize, height: presenceIconSize, alignment: .center)
-                                                        .foregroundColor(presence.color(isOutOfOffice: isOutOfOffice)))
-                                            .contentShape(Circle())
-                                            .frame(width: presenceIconFrameSideRelativeToOuterRing, height: presenceIconFrameSideRelativeToOuterRing,
-                                                   alignment: .bottomTrailing),
-                                         alignment: .topLeading)
-                                .frame(width: overallFrameSide, height: overallFrameSide, alignment: .topLeading)
+                        thisView
+                            .clipShape(CircleCutout(xOrigin: presenceCutoutOriginX,
+                                                    yOrigin: presenceCutoutOriginY,
+                                                    cutoutSize: presenceIconOutlineSize),
+                                       style: FillStyle(eoFill: true))
+                            .overlay(Circle()
+                                        .foregroundColor(Color(tokens.ringGapColor).opacity(isTransparent ? 0 : 1))
+                                        .frame(width: presenceIconOutlineSize, height: presenceIconOutlineSize, alignment: .center)
+                                        .overlay(presence.image(isOutOfOffice: isOutOfOffice)
+                                                    .interpolation(.high)
+                                                    .resizable()
+                                                    .frame(width: presenceIconSize, height: presenceIconSize, alignment: .center)
+                                                    .foregroundColor(presence.color(isOutOfOffice: isOutOfOffice)))
+                                        .contentShape(Circle())
+                                        .frame(width: presenceIconFrameSideRelativeToOuterRing, height: presenceIconFrameSideRelativeToOuterRing,
+                                               alignment: .bottomTrailing),
+                                     alignment: .topLeading)
+                            .frame(width: overallFrameSide, height: overallFrameSide, alignment: .topLeading)
                     })
             }
         }
