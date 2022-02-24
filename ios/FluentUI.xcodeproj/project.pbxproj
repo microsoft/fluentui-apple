@@ -32,7 +32,6 @@
 		53097D212702890900A6E4DC /* ListHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D132702890800A6E4DC /* ListHeader.swift */; };
 		53097D252702890900A6E4DC /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D152702890900A6E4DC /* ListCell.swift */; };
 		53097D292702895500A6E4DC /* MSFDrawerTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D262702895500A6E4DC /* MSFDrawerTokens.swift */; };
-		53097D2B2702895500A6E4DC /* MSFDrawerTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D272702895500A6E4DC /* MSFDrawerTokens.generated.swift */; };
 		53097D4727028B1200A6E4DC /* ButtonLegacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D4527028B1100A6E4DC /* ButtonLegacy.swift */; };
 		5314E01625F00CF70099271A /* BarButtonItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52648DB2316F4F9003342A0 /* BarButtonItems.swift */; };
 		5314E02825F00DA80099271A /* BlurringView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA1AF8B21484625001AE720 /* BlurringView.swift */; };
@@ -216,7 +215,6 @@
 		ECA9218627A3301C00B66117 /* MSFAvatarGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA9218527A3301C00B66117 /* MSFAvatarGroup.swift */; };
 		ECA9218A27A33A2D00B66117 /* AvatarGroupModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA9218927A33A2D00B66117 /* AvatarGroupModifiers.swift */; };
 		ECA921C627B5D10B00B66117 /* ButtonDynamicColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA921C527B5D10A00B66117 /* ButtonDynamicColors.swift */; };
-		ECA921C827B5FFD100B66117 /* UIControlTokenResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA921C727B5FFD100B66117 /* UIControlTokenResolver.swift */; };
 		FD053A352224CA33009B6378 /* DatePickerControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD053A342224CA33009B6378 /* DatePickerControllerTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -262,7 +260,6 @@
 		53097D132702890800A6E4DC /* ListHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListHeader.swift; sourceTree = "<group>"; };
 		53097D152702890900A6E4DC /* ListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
 		53097D262702895500A6E4DC /* MSFDrawerTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFDrawerTokens.swift; sourceTree = "<group>"; };
-		53097D272702895500A6E4DC /* MSFDrawerTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFDrawerTokens.generated.swift; sourceTree = "<group>"; };
 		53097D4527028B1100A6E4DC /* ButtonLegacy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonLegacy.swift; sourceTree = "<group>"; };
 		5328D96C26FBA3D600F3723B /* IndeterminateProgressBarTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBarTokens.swift; sourceTree = "<group>"; };
 		5328D96D26FBA3D600F3723B /* IndeterminateProgressBarModifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBarModifiers.swift; sourceTree = "<group>"; };
@@ -398,7 +395,6 @@
 		ECA9218527A3301C00B66117 /* MSFAvatarGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFAvatarGroup.swift; sourceTree = "<group>"; };
 		ECA9218927A33A2D00B66117 /* AvatarGroupModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarGroupModifiers.swift; sourceTree = "<group>"; };
 		ECA921C527B5D10A00B66117 /* ButtonDynamicColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonDynamicColors.swift; sourceTree = "<group>"; };
-		ECA921C727B5FFD100B66117 /* UIControlTokenResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIControlTokenResolver.swift; sourceTree = "<group>"; };
 		ECEBA8FB25EDF3380048EE24 /* SegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentedControl.swift; sourceTree = "<group>"; };
 		FC414E1E258876FB00069E73 /* CommandBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBar.swift; sourceTree = "<group>"; };
 		FC414E242588798000069E73 /* CommandBarButtonGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBarButtonGroupView.swift; sourceTree = "<group>"; };
@@ -890,7 +886,6 @@
 				A5B87AF5211E16360038C37C /* DrawerPresentationController.swift */,
 				A5237ACC21ED6CA70040BF27 /* DrawerShadowView.swift */,
 				A5B87AF4211E16360038C37C /* DrawerTransitionAnimator.swift */,
-				53097D272702895500A6E4DC /* MSFDrawerTokens.generated.swift */,
 				53097D262702895500A6E4DC /* MSFDrawerTokens.swift */,
 			);
 			path = Drawer;
@@ -1675,7 +1670,6 @@
 				5314E19825F019650099271A /* SideTabBar.swift in Sources */,
 				5314E10A25F014600099271A /* Obscurable.swift in Sources */,
 				53097D212702890900A6E4DC /* ListHeader.swift in Sources */,
-				53097D2B2702895500A6E4DC /* MSFDrawerTokens.generated.swift in Sources */,
 				5314E07D25F00F1A0099271A /* DateTimePickerViewComponentTableView.swift in Sources */,
 				5314E03125F00DDD0099271A /* CardView.swift in Sources */,
 				5314E08925F00F2D0099271A /* CommandBarButtonGroupView.swift in Sources */,
