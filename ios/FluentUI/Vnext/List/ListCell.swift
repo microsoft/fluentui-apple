@@ -341,8 +341,8 @@ struct MSFListCellView: View, ConfigurableTokenizedControl {
                             }
                             if !state.subtitle.isEmpty {
                                 Text(state.subtitle)
-//                                    .scalableFont(font: .fluent(state.footnote.isEmpty ? tokens.footnoteFont : tokens.sublabelFont))
-                                    .scalableFont(font: state.footnote.isEmpty ? .fluent(tokens.footnoteFont) : .fluent(tokens.sublabelFont))
+                                    .scalableFont(font: .fluent(state.footnote.isEmpty ?
+                                                                tokens.footnoteFont : tokens.sublabelFont))
                                     .foregroundColor(Color(dynamicColor: tokens.sublabelColor))
                                     .lineLimit(state.subtitleLineLimit == 0 ? nil : state.subtitleLineLimit)
                             }
@@ -387,8 +387,8 @@ struct MSFListCellView: View, ConfigurableTokenizedControl {
                             let disclosureSize = tokens.disclosureSize
                             Image(uiImage: accessoryIcon)
                                 .resizable()
-//                                .foregroundColor(Color(isDisclosure ? tokens.disclosureIconForegroundColor : tokens.trailingItemForegroundColor))
-                                .foregroundColor(isDisclosure ? Color(dynamicColor: tokens.disclosureIconForegroundColor) : Color(dynamicColor: tokens.trailingItemForegroundColor))
+                                .foregroundColor(Color(dynamicColor: isDisclosure ?
+                                                       tokens.disclosureIconForegroundColor : tokens.trailingItemForegroundColor))
                                 .frame(width: isDisclosure ? disclosureSize : trailingItemSize,
                                        height: isDisclosure ? disclosureSize : trailingItemSize)
                                 .padding(.leading, isDisclosure ? tokens.disclosureInterspace : tokens.iconInterspace)

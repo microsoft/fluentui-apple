@@ -215,6 +215,7 @@ public struct PersonaView: View {
         state.leadingView = AnyView(avatar)
         state.leadingViewSize = .large
         state.layoutType = .threeLines
+        state.overrideTokens = MSFPersonaViewTokens()
     }
 
     public var body: some View {
