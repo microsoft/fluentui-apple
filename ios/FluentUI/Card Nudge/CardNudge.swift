@@ -49,7 +49,12 @@ public typealias CardNudgeButtonAction = ((_ state: MSFCardNudgeState) -> Void)
 public struct CardNudge: View, ConfigurableTokenizedControl {
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @ObservedObject var state: MSFCardNudgeStateImpl
-    var tokens: CardNudgeTokens { state.tokens }
+    let defaultTokens: CardNudgeTokens = .init()
+    var tokens: CardNudgeTokens {
+        let tokens = resolvedTokens
+        tokens.style = state.style
+        return tokens
+    }
 
     @ViewBuilder
     var icon: some View {
@@ -164,7 +169,6 @@ public struct CardNudge: View, ConfigurableTokenizedControl {
             )
             .padding(.vertical, tokens.verticalPadding)
             .padding(.horizontal, tokens.horizontalPadding)
-            .resolveTokens(self)
     }
 
     public init(style: MSFCardNudgeStyle, title: String) {
@@ -197,25 +201,11 @@ class MSFCardNudgeStateImpl: NSObject, ControlConfiguration, MSFCardNudgeState {
     @Published var overrideTokens: CardNudgeTokens?
 
     /// Style to draw the control.
-    @Published var style: MSFCardNudgeStyle {
-        didSet {
-            tokens.style = style
-        }
-    }
-
-    @Published var tokens: CardNudgeTokens {
-        didSet {
-            tokens.style = style
-        }
-    }
+    @Published var style: MSFCardNudgeStyle
 
     @objc init(style: MSFCardNudgeStyle, title: String) {
         self.style = style
         self.title = title
-
-        let tokens = CardNudgeTokens()
-        tokens.style = style
-        self.tokens = tokens
 
         super.init()
     }

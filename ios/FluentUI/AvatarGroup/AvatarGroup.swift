@@ -148,8 +148,8 @@ public struct AvatarGroup: View, ConfigurableTokenizedControl {
                     // If the avatar is part of Stack style and is not the last avatar in the sequence, create a cutout.
                     let avatarView = avatarViews[index]
                     let needsCutout = isStackStyle && (hasOverflow || !isLastDisplayed)
-                    let avatarSize: CGFloat = avatarView.state.totalSize()
-                    let nextAvatarSize: CGFloat = needsCutout ? avatarViews[nextIndex].state.totalSize() : 0
+                    let avatarSize: CGFloat = avatarView.totalSize
+                    let nextAvatarSize: CGFloat = needsCutout ? avatarViews[nextIndex].totalSize : 0
 
                     // Calculating the size delta of the current and next avatar based off of ring visibility, which helps determine
                     // starting coordinates for the cutout.
@@ -201,13 +201,18 @@ public struct AvatarGroup: View, ConfigurableTokenizedControl {
                    minHeight: groupHeight,
                    maxHeight: .infinity,
                    alignment: .leading)
-            .resolveTokens(self)
         }
 
         return avatarGroupContent
     }
 
-    var tokens: AvatarGroupTokens { state.tokens }
+    let defaultTokens: AvatarGroupTokens = .init()
+    var tokens: AvatarGroupTokens {
+        let tokens = resolvedTokens
+        tokens.size = state.size
+        tokens.style = state.style
+        return tokens
+    }
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @Environment(\.layoutDirection) var layoutDirection: LayoutDirection
     @ObservedObject var state: MSFAvatarGroupStateImpl
@@ -233,7 +238,7 @@ class MSFAvatarGroupStateImpl: NSObject, ObservableObject, ControlConfiguration,
         guard index <= avatars.count && index >= 0 else {
             preconditionFailure("Index is out of bounds")
         }
-        let avatar = MSFAvatarGroupAvatarStateImpl(size: tokens.size)
+        let avatar = MSFAvatarGroupAvatarStateImpl(size: size)
         avatars.insert(avatar, at: index)
         return avatar
     }
@@ -256,34 +261,15 @@ class MSFAvatarGroupStateImpl: NSObject, ObservableObject, ControlConfiguration,
     @Published var maxDisplayedAvatars: Int = Int.max
     @Published var overflowCount: Int = 0
 
-    @Published var style: MSFAvatarGroupStyle {
-        didSet {
-            tokens.style = style
-        }
-    }
-    @Published var size: MSFAvatarSize {
-        didSet {
-            tokens.size = size
-        }
-    }
+    @Published var style: MSFAvatarGroupStyle
+    @Published var size: MSFAvatarSize
 
     @Published var overrideTokens: AvatarGroupTokens?
-    @Published var tokens: AvatarGroupTokens {
-        didSet {
-            tokens.style = style
-            tokens.size = size
-        }
-    }
 
     init(style: MSFAvatarGroupStyle,
          size: MSFAvatarSize) {
         self.style = style
         self.size = size
-
-        let tokens = AvatarGroupTokens()
-        tokens.style = style
-        tokens.size = size
-        self.tokens = tokens
 
         super.init()
     }

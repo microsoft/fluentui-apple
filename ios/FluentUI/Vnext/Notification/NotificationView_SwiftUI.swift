@@ -48,7 +48,12 @@ public struct NotificationViewSwiftUI: View, ConfigurableTokenizedControl {
     @Environment(\.swiftUIInsets) private var safeAreaInsets: EdgeInsets
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @ObservedObject var state: MSFNotificationStateImpl
-    var tokens: NotificationTokens { state.tokens }
+    let defaultTokens: NotificationTokens = .init()
+    var tokens: NotificationTokens {
+        let tokens = resolvedTokens
+        tokens.style = state.style
+        return tokens
+    }
     public func overrideTokens(_ tokens: NotificationTokens?) -> NotificationViewSwiftUI {
         state.overrideTokens = tokens
         return self
@@ -190,7 +195,6 @@ public struct NotificationViewSwiftUI: View, ConfigurableTokenizedControl {
                                 x: tokens.perimeterShadowOffsetX,
                                 y: tokens.perimeterShadowOffsetY)
                 )
-                .resolveTokens(self)
         }
     }
 }
@@ -221,26 +225,12 @@ class MSFNotificationStateImpl: NSObject, ControlConfiguration, MSFNotificationS
     @Published var overrideTokens: NotificationTokens?
 
     /// Style to draw the control.
-    @Published public var style: MSFNotificationStyle {
-        didSet {
-            tokens.style = style
-        }
-    }
-
-    @Published var tokens: NotificationTokens {
-        didSet {
-            tokens.style = style
-        }
-    }
+    @Published public var style: MSFNotificationStyle
 
     @objc init(style: MSFNotificationStyle, message: String, delayTime: TimeInterval) {
         self.style = style
         self.message = message
         self.delayTime = delayTime
-
-        let tokens = NotificationTokens()
-        tokens.style = style
-        self.tokens = tokens
 
         super.init()
     }

@@ -270,7 +270,6 @@ public struct Avatar: View, ConfigurableTokenizedControl {
             .accessibility(addTraits: state.hasButtonAccessibilityTrait ? .isButton : .isImage)
             .accessibility(label: Text(accessibilityLabel))
             .accessibility(value: Text(presence.string() ?? ""))
-            .resolveTokens(self)
     }
 
     /// `AvatarCutout`: Cutout shape for an Avatar
@@ -312,9 +311,28 @@ public struct Avatar: View, ConfigurableTokenizedControl {
         state = avatarState
     }
 
+    /// Calculates the size of the avatar, including ring spacing
+    var totalSize: CGFloat {
+        let avatarImageSize: CGFloat = state.size.size
+        let ringOuterGap: CGFloat = tokens.ringOuterGap
+        if !state.isRingVisible {
+            return avatarImageSize + (ringOuterGap * 2)
+        } else {
+            let ringThickness: CGFloat = tokens.ringThickness
+            let ringInnerGap: CGFloat = state.hasRingInnerGap ? tokens.ringInnerGap : 0
+            return ((ringInnerGap + ringThickness + ringOuterGap) * 2 + avatarImageSize)
+        }
+    }
+
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @Environment(\.layoutDirection) var layoutDirection: LayoutDirection
-    var tokens: AvatarTokens { state.tokens }
+    let defaultTokens: AvatarTokens = .init()
+    var tokens: AvatarTokens {
+        let tokens = resolvedTokens
+        tokens.size = state.size
+        tokens.style = state.style
+        return tokens
+    }
     @ObservedObject var state: MSFAvatarStateImpl
 
     private static func initialsHashCode(fromPrimaryText primaryText: String?, secondaryText: String?) -> Int {
@@ -440,48 +458,16 @@ class MSFAvatarStateImpl: NSObject, ObservableObject, Identifiable, ControlConfi
     @Published var ringColor: UIColor?
     @Published var secondaryText: String?
 
-    @Published var style: MSFAvatarStyle {
-        didSet {
-            tokens.style = style
-        }
-    }
-
-    @Published var size: MSFAvatarSize {
-        didSet {
-            tokens.size = size
-        }
-    }
+    @Published var style: MSFAvatarStyle
+    @Published var size: MSFAvatarSize
 
     @Published var overrideTokens: AvatarTokens?
-    @Published var tokens: AvatarTokens {
-        didSet {
-            tokens.style = style
-            tokens.size = size
-        }
-    }
 
     init(style: MSFAvatarStyle,
          size: MSFAvatarSize) {
         self.style = style
         self.size = size
 
-        let tokens = AvatarTokens()
-        tokens.style = style
-        tokens.size = size
-        self.tokens = tokens
         super.init()
-    }
-
-    /// Calculates the size of the avatar, including ring spacing
-    func totalSize() -> CGFloat {
-        let avatarImageSize: CGFloat = size.size
-        let ringOuterGap: CGFloat = tokens.ringOuterGap
-        if !isRingVisible {
-            return avatarImageSize + (ringOuterGap * 2)
-        } else {
-            let ringThickness: CGFloat = tokens.ringThickness
-            let ringInnerGap: CGFloat = hasRingInnerGap ? tokens.ringInnerGap : 0
-            return ((ringInnerGap + ringThickness + ringOuterGap) * 2 + avatarImageSize)
-        }
     }
 }
