@@ -25,7 +25,7 @@ public protocol PersonaViewState: MSFPersonaViewState {
 }
 
 /// Properties that make up PersonaView content
-class MSFPersonaViewStateImpl: MSFListCellStateImplBase, ControlConfiguration, PersonaViewState {
+class MSFPersonaViewStateImpl: MSFListCellStateImpl, PersonaViewState {
     override var backgroundColor: UIColor? {
         get {
             return avatarState.backgroundColor
@@ -200,19 +200,15 @@ class MSFPersonaViewStateImpl: MSFListCellStateImplBase, ControlConfiguration, P
 
     init(avatarState: MSFAvatarState) {
         self.avatarState = avatarState
-        self.tokens = MSFPersonaViewTokens()
 
         super.init()
     }
 
     private var avatarState: MSFAvatarState
-
-    @Published var overrideTokens: MSFPersonaViewTokens?
-    @Published var tokens: MSFPersonaViewTokens = .init()
 }
 
 /// View for PersonaView
-public struct PersonaView: View, ConfigurableTokenizedControl {
+public struct PersonaView: View {
     public init() {
         let avatar = Avatar(style: .default, size: .large)
         state = MSFPersonaViewStateImpl(avatarState: avatar.state)
@@ -223,15 +219,7 @@ public struct PersonaView: View, ConfigurableTokenizedControl {
 
     public var body: some View {
         MSFListCellView(state: state)
-            .resolveTokens(self)
     }
 
-    var tokens: MSFPersonaViewTokens { state.tokens }
-    @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @ObservedObject var state: MSFPersonaViewStateImpl
-
-    public func overrideTokens(_ tokens: MSFPersonaViewTokens?) -> PersonaView {
-        state.overrideTokens = tokens
-        return self
-    }
 }

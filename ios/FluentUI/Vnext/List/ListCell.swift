@@ -93,20 +93,17 @@ import SwiftUI
     func removeChildCell(at index: Int)
 }
 
-class MSFListCellStateImpl: MSFListCellStateImplBase, ControlConfiguration {
-    init(state: MSFListCellStateImplBase,
-         cellLeadingViewSize: MSFListCellLeadingViewSize = .medium) {
+/// `MSFListCellStateImpl` contains properties that make up a cell content.
+class MSFListCellStateImpl: NSObject, ObservableObject, Identifiable, ControlConfiguration, MSFListCellState {
+    init(cellLeadingViewSize: MSFListCellLeadingViewSize = .medium) {
         let tokens = MSFCellBaseTokens()
         tokens.cellLeadingViewSize = cellLeadingViewSize
         self.tokens = tokens
-        self.state = state
-
-        super.init()
 
         self.leadingViewSize = cellLeadingViewSize
-    }
 
-    private var state: MSFListCellStateImplBase
+        super.init()
+    }
 
     @Published var overrideTokens: MSFCellBaseTokens?
     @Published var tokens: MSFCellBaseTokens {
@@ -114,28 +111,6 @@ class MSFListCellStateImpl: MSFListCellStateImplBase, ControlConfiguration {
             tokens.cellLeadingViewSize = leadingViewSize
         }
     }
-
-}
-
-/// `MSFListCellStateImpl` contains properties that make up a cell content.
-class MSFListCellStateImplBase: NSObject, ObservableObject, Identifiable, MSFListCellState {
-//    init(cellLeadingViewSize: MSFListCellLeadingViewSize = .medium) {
-//        let tokens = MSFCellBaseTokens()
-//        tokens.cellLeadingViewSize = cellLeadingViewSize
-//        self.tokens = tokens
-//
-//        self.leadingViewSize = cellLeadingViewSize
-//
-//        super.init()
-//    }
-//
-//    @Published var overrideTokens: MSFCellBaseTokens?
-//    @Published var tokens: MSFCellBaseTokens {
-//        didSet {
-//            tokens.cellLeadingViewSize = leadingViewSize
-//        }
-//    }
-    var id = UUID()
 
     @Published var leadingView: AnyView?
     @Published var titleLeadingAccessoryView: AnyView?
@@ -160,6 +135,7 @@ class MSFListCellStateImplBase: NSObject, ObservableObject, Identifiable, MSFLis
     @Published var hasDivider: Bool = false
     @Published private(set) var children: [MSFListCellStateImpl] = []
     var onTapAction: (() -> Void)?
+    var id = UUID()
 
     var leadingUIView: UIView? {
         didSet {
@@ -177,7 +153,7 @@ class MSFListCellStateImplBase: NSObject, ObservableObject, Identifiable, MSFLis
             guard leadingViewSize != oldValue else {
                 return
             }
-//            tokens.cellLeadingViewSize = leadingViewSize
+            tokens.cellLeadingViewSize = leadingViewSize
         }
     }
 
@@ -301,9 +277,8 @@ class MSFListCellStateImplBase: NSObject, ObservableObject, Identifiable, MSFLis
 /// View for List Cells
 struct MSFListCellView: View, ConfigurableTokenizedControl {
 
-    init(state: MSFListCellStateImplBase) {
+    init(state: MSFListCellStateImpl) {
         self.state = state
-        let cellState: MSFListCellStateImpl = MSFListCellStateImpl(state: state)
     }
 
     var body: some View {
@@ -449,7 +424,7 @@ struct MSFListCellView: View, ConfigurableTokenizedControl {
 
     var tokens: MSFCellBaseTokens { state.tokens }
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
-    @ObservedObject var state: MSFListCellStateImplBase
+    @ObservedObject var state: MSFListCellStateImpl
 }
 
 struct ListCellButtonStyle: ButtonStyle {
