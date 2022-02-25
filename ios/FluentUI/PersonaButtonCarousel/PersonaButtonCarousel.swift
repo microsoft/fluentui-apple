@@ -105,12 +105,14 @@ public struct PersonaButtonCarousel: View, ConfigurableTokenizedControl {
             }
         }
         .background(Color(dynamicColor: tokens.backgroundColor))
-        .resolveTokens(self)
     }
 
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @ObservedObject var state: MSFPersonaButtonCarouselStateImpl
-    var tokens: PersonaButtonCarouselTokens { state.tokens }
+    let defaultTokens: PersonaButtonCarouselTokens = .init()
+    var tokens: PersonaButtonCarouselTokens {
+        return resolvedTokens
+    }
 }
 
 /// Properties that make up PersonaButtonCarousel content
@@ -120,7 +122,6 @@ class MSFPersonaButtonCarouselStateImpl: NSObject, ObservableObject, Identifiabl
     @Published var onTapAction: ((_ personaButtonState: MSFPersonaCarouselButtonState, _ index: Int) -> Void)?
     @Published var buttons: [MSFPersonaCarouselButtonStateImpl] = []
 
-    @Published var tokens: PersonaButtonCarouselTokens = .init()
     @Published var overrideTokens: PersonaButtonCarouselTokens?
 
     init(size: MSFPersonaButtonSize) {
