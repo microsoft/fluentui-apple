@@ -111,7 +111,7 @@ public struct PersonaButtonCarousel: View, ConfigurableTokenizedControl {
     @ObservedObject var state: MSFPersonaButtonCarouselStateImpl
     let defaultTokens: PersonaButtonCarouselTokens = .init()
     var tokens: PersonaButtonCarouselTokens {
-        return resolvedTokens()
+        return resolvedTokens
     }
 }
 

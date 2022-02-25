@@ -84,7 +84,7 @@ public struct PersonaButton: View, ConfigurableTokenizedControl {
     @ObservedObject var state: MSFPersonaButtonStateImpl
     let defaultTokens: PersonaButtonTokens = .init()
     var tokens: PersonaButtonTokens {
-        let tokens = resolvedTokens()
+        let tokens = resolvedTokens
         tokens.size = state.buttonSize
         return tokens
     }

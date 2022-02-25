@@ -148,8 +148,8 @@ public struct AvatarGroup: View, ConfigurableTokenizedControl {
                     // If the avatar is part of Stack style and is not the last avatar in the sequence, create a cutout.
                     let avatarView = avatarViews[index]
                     let needsCutout = isStackStyle && (hasOverflow || !isLastDisplayed)
-                    let avatarSize: CGFloat = avatarView.totalSize()
-                    let nextAvatarSize: CGFloat = needsCutout ? avatarViews[nextIndex].totalSize() : 0
+                    let avatarSize: CGFloat = avatarView.totalSize
+                    let nextAvatarSize: CGFloat = needsCutout ? avatarViews[nextIndex].totalSize : 0
 
                     // Calculating the size delta of the current and next avatar based off of ring visibility, which helps determine
                     // starting coordinates for the cutout.
@@ -208,7 +208,7 @@ public struct AvatarGroup: View, ConfigurableTokenizedControl {
 
     let defaultTokens: AvatarGroupTokens = .init()
     var tokens: AvatarGroupTokens {
-        let tokens = resolvedTokens()
+        let tokens = resolvedTokens
         tokens.size = state.size
         tokens.style = state.style
         return tokens

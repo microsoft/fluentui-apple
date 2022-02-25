@@ -51,7 +51,7 @@ public struct CardNudge: View, ConfigurableTokenizedControl {
     @ObservedObject var state: MSFCardNudgeStateImpl
     let defaultTokens: CardNudgeTokens = .init()
     var tokens: CardNudgeTokens {
-        let tokens = resolvedTokens()
+        let tokens = resolvedTokens
         tokens.style = state.style
         return tokens
     }

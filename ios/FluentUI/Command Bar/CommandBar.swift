@@ -271,7 +271,7 @@ public class CommandBar: UIView, TokenizedControlInternal {
     }
 
     private func updateButtonTokens() {
-        self.tokens = resolvedTokens()
+        self.tokens = resolvedTokens
         for button in itemsToButtonsMap.values {
             button.commandBarTokens = tokens
         }

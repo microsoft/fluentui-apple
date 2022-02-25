@@ -472,7 +472,7 @@ open class PillButtonBar: UIScrollView, TokenizedControlInternal {
     }
 
     private func updatePillButtonBarTokens() {
-        self.tokens = resolvedTokens()
+        self.tokens = resolvedTokens
     }
 
     private var leadingConstraint: NSLayoutConstraint?

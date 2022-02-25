@@ -61,7 +61,7 @@ public struct IndeterminateProgressBar: View, ConfigurableTokenizedControl {
 
     let defaultTokens: IndeterminateProgressBarTokens = .init()
     var tokens: IndeterminateProgressBarTokens {
-        return resolvedTokens()
+        return resolvedTokens
     }
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @Environment(\.layoutDirection) var layoutDirection: LayoutDirection

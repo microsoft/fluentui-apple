@@ -61,7 +61,7 @@ public struct FluentDivider: View, ConfigurableTokenizedControl {
 
     let defaultTokens: DividerTokens = .init()
     var tokens: DividerTokens {
-        let tokens = resolvedTokens()
+        let tokens = resolvedTokens
         tokens.spacing = state.spacing
         return tokens
     }

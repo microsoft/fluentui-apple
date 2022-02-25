@@ -172,7 +172,7 @@ open class PillButton: UIButton, TokenizedControlInternal {
     }
 
     private func updatePillButtonTokens() {
-        let tokens = resolvedTokens()
+        let tokens = resolvedTokens
         tokens.style = style
         self.tokens = tokens
     }

@@ -50,7 +50,7 @@ public struct NotificationViewSwiftUI: View, ConfigurableTokenizedControl {
     @ObservedObject var state: MSFNotificationStateImpl
     let defaultTokens: NotificationTokens = .init()
     var tokens: NotificationTokens {
-        let tokens = resolvedTokens()
+        let tokens = resolvedTokens
         tokens.style = state.style
         return tokens
     }
