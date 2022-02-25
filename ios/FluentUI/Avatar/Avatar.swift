@@ -304,28 +304,28 @@ public struct Avatar: View {
                                                         .clipShape(Circle())
                                                         .transition(.opacity),
                                                      alignment: .center)
-                                )
+                                        )
                                 .contentShape(Circle()),
                              alignment: .center)
                     .modifyIf(shouldDisplayPresence, { thisView in
-                            thisView
-                                .clipShape(PresenceCutout(originX: presenceCutoutOriginX,
-                                                          originY: presenceCutoutOriginY,
-                                                          presenceIconOutlineSize: presenceIconOutlineSize),
-                                           style: FillStyle(eoFill: true))
-                                .overlay(Circle()
-                                            .foregroundColor(Color(tokens.ringGapColor).opacity(isTransparent ? 0 : 1))
-                                            .frame(width: presenceIconOutlineSize, height: presenceIconOutlineSize, alignment: .center)
-                                            .overlay(presence.image(isOutOfOffice: isOutOfOffice)
-                                                        .interpolation(.high)
-                                                        .resizable()
-                                                        .frame(width: presenceIconSize, height: presenceIconSize, alignment: .center)
-                                                        .foregroundColor(presence.color(isOutOfOffice: isOutOfOffice)))
-                                            .contentShape(Circle())
-                                            .frame(width: presenceIconFrameSideRelativeToOuterRing, height: presenceIconFrameSideRelativeToOuterRing,
-                                                   alignment: .bottomTrailing),
-                                         alignment: .topLeading)
-                                .frame(width: overallFrameSide, height: overallFrameSide, alignment: .topLeading)
+                        thisView
+                            .clipShape(CircleCutout(xOrigin: presenceCutoutOriginX,
+                                                    yOrigin: presenceCutoutOriginY,
+                                                    cutoutSize: presenceIconOutlineSize),
+                                       style: FillStyle(eoFill: true))
+                            .overlay(Circle()
+                                        .foregroundColor(Color(tokens.ringGapColor).opacity(isTransparent ? 0 : 1))
+                                        .frame(width: presenceIconOutlineSize, height: presenceIconOutlineSize, alignment: .center)
+                                        .overlay(presence.image(isOutOfOffice: isOutOfOffice)
+                                                    .interpolation(.high)
+                                                    .resizable()
+                                                    .frame(width: presenceIconSize, height: presenceIconSize, alignment: .center)
+                                                    .foregroundColor(presence.color(isOutOfOffice: isOutOfOffice)))
+                                        .contentShape(Circle())
+                                        .frame(width: presenceIconFrameSideRelativeToOuterRing, height: presenceIconFrameSideRelativeToOuterRing,
+                                               alignment: .bottomTrailing),
+                                     alignment: .topLeading)
+                            .frame(width: overallFrameSide, height: overallFrameSide, alignment: .topLeading)
                     })
             }
         }
@@ -342,67 +342,7 @@ public struct Avatar: View {
                           with: windowProvider)
     }
 
-    /// `AvatarCutout`: Cutout shape for an Avatar
-    ///
-    /// `xOrigin`: beginning location of cutout on the x axis
-    ///
-    /// `yOrigin`: beginning location of cutout on the y axis
-    ///
-    /// `cutoutSize`: dimensions of cutout shape of the Avatar
-    public struct AvatarCutout: Shape {
-        var xOrigin: CGFloat
-        var yOrigin: CGFloat
-        var cutoutSize: CGFloat
-
-        public var animatableData: AnimatablePair<AnimatablePair<CGFloat, CGFloat>, CGFloat> {
-            get {
-                AnimatablePair(AnimatablePair(xOrigin, yOrigin), cutoutSize)
-            }
-            set {
-                xOrigin = newValue.first.first
-                yOrigin = newValue.first.second
-                cutoutSize = newValue.second
-            }
-        }
-
-        public func path(in rect: CGRect) -> Path {
-            var cutoutFrame = Rectangle().path(in: rect)
-            cutoutFrame.addPath(Circle().path(in: CGRect(x: xOrigin,
-                                                         y: yOrigin,
-                                                         width: cutoutSize,
-                                                         height: cutoutSize)))
-            return cutoutFrame
-        }
-    }
-
     private let animationDuration: Double = 0.1
-
-    private struct PresenceCutout: Shape {
-        var originX: CGFloat
-        var originY: CGFloat
-        var presenceIconOutlineSize: CGFloat
-
-        var animatableData: AnimatablePair<AnimatablePair<CGFloat, CGFloat>, CGFloat> {
-            get {
-                AnimatablePair(AnimatablePair(originX, originY), presenceIconOutlineSize)
-            }
-
-            set {
-                originX = newValue.first.first
-                originY = newValue.first.second
-                presenceIconOutlineSize = newValue.second
-            }
-        }
-
-        func path(in rect: CGRect) -> Path {
-            var cutoutFrame = Rectangle().path(in: rect)
-            cutoutFrame.addPath(Circle().path(in: CGRect(x: originX,
-                                                         y: originY,
-                                                         width: presenceIconOutlineSize,
-                                                         height: presenceIconOutlineSize)))
-            return cutoutFrame
-        }
-    }
 
     private static func initialsHashCode(fromPrimaryText primaryText: String?, secondaryText: String?) -> Int {
         var combined: String
