@@ -11,7 +11,7 @@ class BottomCommandingDemoController: UIViewController {
     override func loadView() {
         view = UIView()
 
-        let optionTableViewController = UITableViewController(style: .plain)
+        let optionTableViewController = UITableViewController(style: .insetGrouped)
         mainTableViewController = optionTableViewController
 
         let optionTableView: UITableView = optionTableViewController.tableView
@@ -81,11 +81,16 @@ class BottomCommandingDemoController: UIViewController {
 
     private lazy var currentExpandedListSections: [CommandingSection] = shortCommandSectionList
 
-    private var demoOptionItems: [DemoItem] {
-        return [DemoItem(title: "Hidden", type: .boolean, action: #selector(toggleHidden), isOn: bottomCommandingController?.isHidden ?? false),
+    private var demoOptionItems: [[DemoItem]] {
+        return [
+            [
+                DemoItem(title: "Hidden", type: .boolean, action: #selector(toggleHidden), isOn: bottomCommandingController?.isHidden ?? false),
                 DemoItem(title: "Scroll to hide", type: .boolean, action: #selector(toggleScrollHiding), isOn: scrollHidingEnabled),
                 DemoItem(title: "Sheet more button", type: .boolean, action: #selector(toggleSheetMoreButton), isOn: bottomCommandingController?.prefersSheetMoreButtonVisible ?? true),
-                DemoItem(title: "Sheet should always fill width", type: .boolean, action: #selector(toggleFillWidth), isOn: bottomCommandingController?.sheetShouldAlwaysFillWidth ?? true),
+                DemoItem(title: "Sheet should always fill width", type: .boolean, action: #selector(toggleFillWidth), isOn: bottomCommandingController?.sheetShouldAlwaysFillWidth ?? true)
+            ],
+            [
+                DemoItem(title: "Hero command count", type: .stepper, action: nil),
                 DemoItem(title: "Expanded list items", type: .boolean, action: #selector(toggleExpandedItems), isOn: expandedItemsVisible),
                 DemoItem(title: "Additional expanded list items", type: .boolean, action: #selector(toggleAdditionalExpandedItems(_:)), isOn: additionalExpandedItemsVisible),
                 DemoItem(title: "Popover on hero command tap", type: .boolean, action: #selector(toggleHeroPopover)),
@@ -97,8 +102,8 @@ class BottomCommandingDemoController: UIViewController {
                 DemoItem(title: "Change hero command titles", type: .action, action: #selector(changeHeroCommandTitle)),
                 DemoItem(title: "Change hero command images", type: .action, action: #selector(changeHeroCommandIcon)),
                 DemoItem(title: "Change list command titles", type: .action, action: #selector(changeListCommandTitle)),
-                DemoItem(title: "Change list command images", type: .action, action: #selector(changeListCommandIcon)),
-                DemoItem(title: "Hero command count", type: .stepper, action: nil)
+                DemoItem(title: "Change list command images", type: .action, action: #selector(changeListCommandIcon))
+            ]
         ]
     }
 
@@ -325,15 +330,26 @@ extension BottomCommandingDemoController: UITableViewDelegate {
 
 extension BottomCommandingDemoController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return demoOptionItems.count
     }
 
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return demoOptionItems[section].count
+    }
+
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        switch section {
+        case 0:
+            return "Settings"
+        case 1:
+            return "Command settings"
+        default:
+            return nil
+        }
+    }
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let item = demoOptionItems[indexPath.row]
+        let item = demoOptionItems[indexPath.section][indexPath.row]
 
         if item.type == .boolean {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: BooleanCell.identifier) as? BooleanCell else {

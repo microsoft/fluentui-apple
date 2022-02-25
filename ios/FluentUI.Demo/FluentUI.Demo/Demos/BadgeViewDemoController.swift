@@ -49,7 +49,7 @@ class BadgeViewDemoController: DemoController {
     func addBadgeSection(title: String, style: BadgeView.Style, isEnabled: Bool = true, overrideColor: Bool = false) {
         addTitle(text: title)
         for size in BadgeView.Size.allCases.reversed() {
-            let badge = createBadge(text: "Kat Larrson", style: style, size: size, isEnabled: isEnabled)
+            let badge = createBadge(text: "Kat Larsson", style: style, size: size, isEnabled: isEnabled)
             if overrideColor {
                 if isEnabled {
                     badge.backgroundColor = Colors.Palette.blueMagenta20.color
@@ -83,7 +83,7 @@ class BadgeViewDemoController: DemoController {
 
         for (size, customView) in dataSource {
             let badge = createBadge(
-                text: "Kat Larrson",
+                text: "Kat Larsson",
                 style: .default,
                 size: size,
                 isEnabled: false,
