@@ -97,8 +97,8 @@ import SwiftUI
 class MSFListCellStateImpl: NSObject, ObservableObject, Identifiable, ControlConfiguration, MSFListCellState {
     init(cellLeadingViewSize: MSFListCellLeadingViewSize = .medium) {
         let tokens = MSFCellBaseTokens()
-        tokens.cellLeadingViewSize = cellLeadingViewSize
-        self.tokens = tokens
+//        tokens.cellLeadingViewSize = cellLeadingViewSize
+//        self.tokens = tokens
 
         self.leadingViewSize = cellLeadingViewSize
 
@@ -106,11 +106,11 @@ class MSFListCellStateImpl: NSObject, ObservableObject, Identifiable, ControlCon
     }
 
     @Published var overrideTokens: MSFCellBaseTokens?
-    @Published var tokens: MSFCellBaseTokens {
-        didSet {
-            tokens.cellLeadingViewSize = leadingViewSize
-        }
-    }
+//    @Published var tokens: MSFCellBaseTokens {
+//        didSet {
+//            tokens.cellLeadingViewSize = leadingViewSize
+//        }
+//    }
 
     @Published var leadingView: AnyView?
     @Published var titleLeadingAccessoryView: AnyView?
@@ -148,14 +148,14 @@ class MSFListCellStateImpl: NSObject, ObservableObject, Identifiable, ControlCon
         }
     }
 
-    @Published var leadingViewSize: MSFListCellLeadingViewSize = .medium {
-        didSet {
-            guard leadingViewSize != oldValue else {
-                return
-            }
-            tokens.cellLeadingViewSize = leadingViewSize
-        }
-    }
+    @Published var leadingViewSize: MSFListCellLeadingViewSize
+//        didSet {
+//            guard leadingViewSize != oldValue else {
+//                return
+//            }
+//            tokens.cellLeadingViewSize = leadingViewSize
+//        }
+//    }
 
     var trailingUIView: UIView? {
         didSet {
@@ -414,7 +414,7 @@ struct MSFListCellView: View, ConfigurableTokenizedControl {
             }
         }
 
-        return cellContent.resolveTokens(self)
+        return cellContent
     }
 
     func overrideTokens(_ tokens: MSFCellBaseTokens?) -> MSFListCellView {
@@ -422,7 +422,12 @@ struct MSFListCellView: View, ConfigurableTokenizedControl {
         return self
     }
 
-    var tokens: MSFCellBaseTokens { state.tokens }
+    let defaultTokens: MSFCellBaseTokens = .init()
+    var tokens: MSFCellBaseTokens {
+        let tokens = resolvedTokens
+        tokens.cellLeadingViewSize = state.leadingViewSize
+        return tokens
+    }
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @ObservedObject var state: MSFListCellStateImpl
 }
