@@ -1,8 +1,16 @@
 jobs:
+- job: Compliance
+  pool: OE-OfficePublic
+  steps:
+    - task: securedevelopmentteam.vss-secure-development-tools.build-task-credscan.CredScan@3
+      displayName: 'Run Credential Scanner'
+
 - job: fluentui_apple_publish_nuget
+  dependsOn: Compliance
   pool:
     vmImage: 'macos-11'
   variables:
+  - group: InfoSec-SecurityResults
   - name: BUILDSECMON_OPT_IN
     value: true
   displayName: FluentUI Apple Publish NuGet
@@ -46,3 +54,5 @@ jobs:
       command: push
       packagesToPush: '$(Build.ArtifactStagingDirectory)/Microsoft.FluentUI.Apple.*.nupkg'
       publishVstsFeed: Office
+
+  - task: ComponentGovernanceComponentDetection@0
