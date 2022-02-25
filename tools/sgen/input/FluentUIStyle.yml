@@ -127,23 +127,6 @@ Shadow:
     shadow28: [ blur1: 14pt, color1: $Colors.Elevation.highElevation1, x1: 0pt, y1: 14pt, blur2: 4pt, color2: $Colors.Elevation.highElevation2, x2: 0pt, y2: 0pt ]
     shadow64: [ blur1: 32pt, color1: $Colors.Elevation.highElevation1, x1: 0pt, y1: 32pt, blur2: 4pt, color2: $Colors.Elevation.highElevation2, x2: 0pt, y2: 0pt ]
 
-AP_MSFDrawerTokens:
-  backgroundDimmedColor: $Colors.Elevation.highElevation
-  drawerBackground: "FluentUIColor(light: $Colors.Background.neutral1, dark: $Colors.Background.neutral3)"
-  popoverContentBackground: "FluentUIColor(light: $Colors.Background.surfacePrimary, dark: $Colors.Background.surfaceQuaternary)"
-  navigationBarBackground: "FluentUIColor(light: $Colors.Background.surfacePrimary, dark: NamedColor(grey14))"
-  shadow1Color: $Shadow.shadow28.color1
-  shadow1Blur: $Shadow.shadow28.blur1
-  shadow1OffsetX: $Shadow.shadow28.x1
-  shadow1OffsetY: $Shadow.shadow28.y1
-  shadow2Color: $Shadow.shadow28.color2
-  shadow2Blur: $Shadow.shadow28.blur2
-  shadow2OffsetX: $Shadow.shadow28.x2
-  shadow2OffsetY: $Shadow.shadow28.y2
-  minMargin: [horizontal: $Spacing.xxxLarge, vertical: $Spacing.large]
-  cornerRadius: $Border.radius.xxLarge
-  shadowOffset: $Spacing.xSmall
-
 AP_MSFListCellTokens:
   backgroundColor: [ rest: $Colors.Background.neutral1, pressed: $Colors.Background.neutral5 ]
   cellHeight: [ oneLine: 48pt, twoLines: 64pt, threeLines: 84pt ]
