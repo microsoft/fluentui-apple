@@ -96,22 +96,12 @@ import SwiftUI
 /// `MSFListCellStateImpl` contains properties that make up a cell content.
 class MSFListCellStateImpl: NSObject, ObservableObject, Identifiable, ControlConfiguration, MSFListCellState {
     init(cellLeadingViewSize: MSFListCellLeadingViewSize = .medium) {
-        let tokens = MSFCellBaseTokens()
-//        tokens.cellLeadingViewSize = cellLeadingViewSize
-//        self.tokens = tokens
-
         self.leadingViewSize = cellLeadingViewSize
 
         super.init()
     }
 
     @Published var overrideTokens: MSFCellBaseTokens?
-//    @Published var tokens: MSFCellBaseTokens {
-//        didSet {
-//            tokens.cellLeadingViewSize = leadingViewSize
-//        }
-//    }
-
     @Published var leadingView: AnyView?
     @Published var titleLeadingAccessoryView: AnyView?
     @Published var titleTrailingAccessoryView: AnyView?
@@ -149,13 +139,6 @@ class MSFListCellStateImpl: NSObject, ObservableObject, Identifiable, ControlCon
     }
 
     @Published var leadingViewSize: MSFListCellLeadingViewSize
-//        didSet {
-//            guard leadingViewSize != oldValue else {
-//                return
-//            }
-//            tokens.cellLeadingViewSize = leadingViewSize
-//        }
-//    }
 
     var trailingUIView: UIView? {
         didSet {
