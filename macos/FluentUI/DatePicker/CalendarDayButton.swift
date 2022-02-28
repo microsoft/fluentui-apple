@@ -128,7 +128,7 @@ class CalendarDayButton: NSButton {
 	override var wantsUpdateLayer: Bool {
 		return true
 	}
-	
+
 	override var allowsVibrancy: Bool {
 		return true
 	}
