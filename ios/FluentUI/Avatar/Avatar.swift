@@ -169,14 +169,18 @@ public struct Avatar: View {
         let shouldDisplayPresence = presence != .none
         let isRingVisible = state.isRingVisible
         let hasRingInnerGap = state.hasRingInnerGap
+        let ringThicknessToken: CGFloat = tokens.ringThickness
         let isTransparent = state.isTransparent
         let isOutOfOffice = state.isOutOfOffice
         let initialsString: String = ((style == .overflow) ? state.primaryText ?? "" : Avatar.initialsText(fromPrimaryText: state.primaryText,
                                                                                                            secondaryText: state.secondaryText))
         let shouldUseCalculatedColors = !initialsString.isEmpty && style != .overflow
 
-        let ringInnerGap: CGFloat = isRingVisible && hasRingInnerGap ? tokens.ringInnerGap : 0
-        let ringThickness: CGFloat = isRingVisible ? tokens.ringThickness : 0
+        // Adding ringInnerGapOffset to ringInnerGap & ringThickness to accommodate for a small space between
+        // the ring and avatar when the ring is visible and there is no inner ring gap
+        let ringInnerGapOffset = 0.5
+        let ringInnerGap: CGFloat = isRingVisible ? (hasRingInnerGap ? tokens.ringInnerGap : -ringInnerGapOffset) : 0
+        let ringThickness: CGFloat = isRingVisible ? (hasRingInnerGap ? ringThicknessToken : ringThicknessToken + ringInnerGapOffset) : 0
         let ringOuterGap: CGFloat = isRingVisible ? tokens.ringOuterGap : 0
         let avatarImageSize: CGFloat = tokens.avatarSize!
         let ringInnerGapSize: CGFloat = avatarImageSize + (ringInnerGap * 2)
@@ -260,7 +264,7 @@ public struct Avatar: View {
             if let imageBasedRingColor = state.imageBasedRingColor {
                 // The potentially maximum size of the ring view must be used in order to avoid abrupt
                 // transitions during the animation as the ImagePaint scale value is not animatable.
-                let ringMaxSize = avatarImageSize + (tokens.ringInnerGap + tokens.ringThickness) * 2
+                let ringMaxSize = avatarImageSize + (tokens.ringInnerGap + ringThicknessToken) * 2
                 let scaleFactor = ringMaxSize / imageBasedRingColor.size.width
 
                 // ImagePaint is being used as creating a Color struct from a UIColor created with
