@@ -8,12 +8,21 @@ import UIKit
 /// Design token set for the `Drawer` control
 open class DrawerTokens: ControlTokens {
     /// `ShadowInfo` for the shadow used in the `Drawer` control.
-    open var shadow: ShadowInfo { return aliasTokens.shadow[.shadow28] }
+    open var shadow: ShadowInfo { return .init(colorOne: DynamicColor(light: ColorValue(r: 0, g: 0, b: 0, a: 0.03),
+                                                                      dark: ColorValue(r: 0, g: 0, b: 0, a: 0.07)),
+                                               blurOne: 14,
+                                               xOne: 0,
+                                               yOne: 14,
+                                               colorTwo: DynamicColor(light: ColorValue(r: 0, g: 0, b: 0, a: 0.33),
+                                                                      dark: ColorValue(r: 0, g: 0, b: 0, a: 0.66)),
+                                               blurTwo: 4,
+                                               xTwo: 0,
+                                               yTwo: 0) }
 
     /// Color used when dimming the background while showing the `Drawer` control.
     open var backgroundDimmedColor: DynamicColor {
-        return DynamicColor(light: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.40),
-                            dark: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.60))
+        return DynamicColor(light: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.66),
+                            dark: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.99))
     }
 
     /// Color used for the background of the content of the `Drawer` control.
