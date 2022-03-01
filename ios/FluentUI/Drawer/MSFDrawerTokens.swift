@@ -32,7 +32,7 @@ open class DrawerTokens: ControlTokens {
     }
 
     /// Corner radius for the popover style `Drawer` control.
-    open var cornerRadius: CGFloat { return globalTokens.borderRadius[.xxLarge] }
+    open var cornerRadius: CGFloat { return 14 }
 
     /// Minimum horizontal margin for the `Drawer` control.
     open var minHorizontalMargin: CGFloat { return globalTokens.spacing[.xxxLarge] }
