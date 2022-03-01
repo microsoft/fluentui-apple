@@ -22,6 +22,10 @@ class DemoAppearanceController: UIHostingController<DemoAppearanceView>, Observa
         self.configuration = configuration
 
         super.init(rootView: DemoAppearanceView(configuration: configuration))
+
+        self.modalPresentationStyle = .popover
+        self.preferredContentSize.height = 375
+        self.popoverPresentationController?.permittedArrowDirections = .up
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -30,14 +34,21 @@ class DemoAppearanceController: UIHostingController<DemoAppearanceView>, Observa
 
     weak var delegate: DemoAppearanceDelegate? {
         didSet {
-            configuration.onThemeWideOverrideChanged = { [weak self] newValue in
-                self?.delegate?.themeWideOverrideDidChange(isOverrideEnabled: newValue)
-            }
-            configuration.onPerControlOverrideChanged = { [weak self] newValue in
-                self?.delegate?.perControlOverrideDidChange(isOverrideEnabled: newValue)
-            }
-            configuration.themeOverridePreviouslyApplied = { [weak self] in
-                self?.delegate?.isThemeWideOverrideApplied() ?? false
+            // Only set up callbacks if we have a valid delegate.
+            if delegate != nil {
+                configuration.onThemeWideOverrideChanged = { [weak self] newValue in
+                    self?.delegate?.themeWideOverrideDidChange(isOverrideEnabled: newValue)
+                }
+                configuration.onPerControlOverrideChanged = { [weak self] newValue in
+                    self?.delegate?.perControlOverrideDidChange(isOverrideEnabled: newValue)
+                }
+                configuration.themeOverridePreviouslyApplied = { [weak self] in
+                    self?.delegate?.isThemeWideOverrideApplied() ?? false
+                }
+            } else {
+                configuration.onThemeWideOverrideChanged = nil
+                configuration.onPerControlOverrideChanged = nil
+                configuration.themeOverridePreviouslyApplied = nil
             }
         }
     }

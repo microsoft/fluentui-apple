@@ -9,8 +9,8 @@ import SwiftUI
 struct DemoAppearanceView: View {
 
     @Environment(\.colorScheme) var systemColorScheme: ColorScheme
-
     @ObservedObject var configuration: Configuration
+    @State var showingThemeWideAlert: Bool = false
 
     /// Picker for setting the app's color scheme.
     @ViewBuilder
@@ -77,9 +77,15 @@ struct DemoAppearanceView: View {
             }
             .onChange(of: configuration.theme) { newValue in
                 onThemeChanged(newValue)
+
+                // Different themes can have different overrides, so update as needed.
+                updateToggleConfiguration()
             }
             .onChange(of: configuration.themeWideOverride) { newValue in
                 configuration.onThemeWideOverrideChanged?(newValue)
+
+                // TODO: Still working through some issues with the theme-wide override tokens, so inform the user how to make it visible for now.
+                showingThemeWideAlert = true
             }
             .onChange(of: configuration.perControlOverride) { newValue in
                 configuration.onPerControlOverrideChanged?(newValue)
@@ -87,12 +93,22 @@ struct DemoAppearanceView: View {
 
             // Updates on appear
             .onAppear {
-                configuration.colorScheme = systemColorScheme
-                configuration.theme = currentDemoListViewController?.theme ?? .default
-                if let isThemeOverrideEnabled = configuration.themeOverridePreviouslyApplied {
-                    configuration.themeWideOverride = isThemeOverrideEnabled()
-                }
+                updateToggleConfiguration()
             }
+
+            // TODO: Still working through some issues with the theme-wide override tokens, so inform the user how to make it visible for now.
+            .alert(isPresented: $showingThemeWideAlert) {
+                Alert(title: Text("Theme-wide override"),
+                      message: Text("Changes to \"Theme-wide override\" tokens will only take effect when the control redraws for some othe reason.\n\nTry backing out of this view and re-entering it."))
+            }
+    }
+
+    private func updateToggleConfiguration() {
+        configuration.colorScheme = systemColorScheme
+        configuration.theme = currentDemoListViewController?.theme ?? .default
+        if let isThemeOverrideEnabled = configuration.themeOverridePreviouslyApplied {
+            configuration.themeWideOverride = isThemeOverrideEnabled()
+        }
     }
 
     /// Container class for data and control-specific callbacks.

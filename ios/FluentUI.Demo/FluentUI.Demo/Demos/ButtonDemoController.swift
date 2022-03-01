@@ -329,11 +329,7 @@ extension ButtonDemoController: DemoAppearanceDelegate {
     }
 
     func isThemeWideOverrideApplied() -> Bool {
-        guard let fluentTheme = self.view.window?.fluentTheme else {
-            return false
-        }
-
-        return fluentTheme.tokenOverride(for: FluentButton.self) != nil
+        return self.view.window?.fluentTheme.tokenOverride(for: FluentButton.self) != nil
     }
 
     // MARK: - Custom tokens

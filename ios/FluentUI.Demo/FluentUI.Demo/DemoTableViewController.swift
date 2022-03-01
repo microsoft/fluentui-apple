@@ -11,6 +11,10 @@ class DemoTableViewController: UITableViewController {
         super.init(style: .insetGrouped)
     }
 
+    override init(style: UITableView.Style) {
+        super.init(style: style)
+    }
+
     required init?(coder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
     }
@@ -56,11 +60,8 @@ class DemoTableViewController: UITableViewController {
     }
 
     @objc func showAppearancePopover(_ sender: UIBarButtonItem) {
-        appearanceController.modalPresentationStyle = .popover
-        appearanceController.preferredContentSize.height = 375
         appearanceController.popoverPresentationController?.barButtonItem = sender
         appearanceController.popoverPresentationController?.delegate = self
-        appearanceController.popoverPresentationController?.permittedArrowDirections = .up
         self.present(appearanceController, animated: true, completion: nil)
     }
 

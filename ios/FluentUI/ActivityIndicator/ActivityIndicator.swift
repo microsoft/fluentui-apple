@@ -23,6 +23,9 @@ import UIKit
 
     /// The MSFActivityIndicatorSize value used by the Activity Indicator.
     var size: MSFActivityIndicatorSize { get set }
+
+    /// Design token set for this control, to use in place of the control's default Fluent tokens.
+    var overrideTokens: ActivityIndicatorTokens? { get set }
 }
 
 /// View that represents the Activity Indicator.

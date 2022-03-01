@@ -254,11 +254,7 @@ extension CardNudgeDemoController: DemoAppearanceDelegate {
     }
 
     func isThemeWideOverrideApplied() -> Bool {
-        guard let fluentTheme = self.view.window?.fluentTheme else {
-            return false
-        }
-
-        return fluentTheme.tokenOverride(for: CardNudge.self) != nil
+        return self.view.window?.fluentTheme.tokenOverride(for: CardNudge.self) != nil
     }
 
     // MARK: - Custom tokens
@@ -266,16 +262,16 @@ extension CardNudgeDemoController: DemoAppearanceDelegate {
     private class ThemeWideOverrideCardNudgeTokens: CardNudgeTokens {
         override var backgroundColor: DynamicColor {
             // "Hot Pink"
-            return DynamicColor(light: ColorValue(0xFBD2EB),
-                                dark: ColorValue(0x44002A))
+            return DynamicColor(light: GlobalTokens().sharedColors[.hotPink][.tint50],
+                                dark: GlobalTokens().sharedColors[.hotPink][.shade40])
         }
     }
 
     private class PerControlOverrideCardNudgeTokens: CardNudgeTokens {
         override var backgroundColor: DynamicColor {
             // "Seafoam"
-            return DynamicColor(light: ColorValue(0xCFF7E4),
-                                dark: ColorValue(0x003D20))
+            return DynamicColor(light: GlobalTokens().sharedColors[.seafoam][.tint50],
+                                dark: GlobalTokens().sharedColors[.seafoam][.shade40])
         }
     }
 }

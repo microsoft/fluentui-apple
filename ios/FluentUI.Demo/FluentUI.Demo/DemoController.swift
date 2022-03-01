@@ -157,14 +157,15 @@ class DemoController: UIViewController {
         // Child scroll views interfere with largeTitleDisplayMode, so let's
         // disable it for all DemoController subclasses.
         self.navigationItem.largeTitleDisplayMode = .never
+
+        configureAppearancePopover()
     }
 
     // MARK: - Demo Appearance Popover
 
-    func configureAppearancePopover(onThemeWideOverrideChanged: @escaping ((Bool) -> Void),
-                                    onPerControlOverrideChanged: @escaping ((Bool) -> Void)) {
-
-        appearanceController.popoverPresentationController?.delegate = self
+    func configureAppearancePopover() {
+        // If a subclass implements `DemoAppearanceDelegate`, becocontrolTokensHashme the delegate.
+        appearanceController.delegate = self as? DemoAppearanceDelegate
 
         // Display the DemoAppearancePopover button
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "ic_fluent_settings_24_regular"),
@@ -174,11 +175,8 @@ class DemoController: UIViewController {
     }
 
     @objc func showAppearancePopover(_ sender: UIBarButtonItem) {
-        appearanceController.modalPresentationStyle = .popover
-        appearanceController.preferredContentSize.height = 375
         appearanceController.popoverPresentationController?.barButtonItem = sender
         appearanceController.popoverPresentationController?.delegate = self
-        appearanceController.popoverPresentationController?.permittedArrowDirections = .up
         self.present(appearanceController, animated: true, completion: nil)
     }
 

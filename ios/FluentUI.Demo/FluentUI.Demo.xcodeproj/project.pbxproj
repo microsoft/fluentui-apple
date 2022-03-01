@@ -16,7 +16,6 @@
 		5306075926A1E73F002D49CF /* AvatarGroupDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5306075826A1E73F002D49CF /* AvatarGroupDemoController.swift */; };
 		53097D3327028A7B00A6E4DC /* LeftNavDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D2D27028A7B00A6E4DC /* LeftNavDemoController.swift */; };
 		53097D3527028A7B00A6E4DC /* ButtonLegacyDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D2F27028A7B00A6E4DC /* ButtonLegacyDemoController.swift */; };
-		53097D3627028A7B00A6E4DC /* ThemingDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D3027028A7B00A6E4DC /* ThemingDemoController.swift */; };
 		53097D3727028A7B00A6E4DC /* ButtonDemoController_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D3127028A7B00A6E4DC /* ButtonDemoController_SwiftUI.swift */; };
 		53097D3827028AA400A6E4DC /* ListDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8EA6AF2580D82A00F191CE /* ListDemoController.swift */; };
 		53097D3A27028AC900A6E4DC /* DateTimePickerDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7254EC21471A3F002F4069 /* DateTimePickerDemoController.swift */; };
@@ -91,7 +90,6 @@
 		5306075826A1E73F002D49CF /* AvatarGroupDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarGroupDemoController.swift; sourceTree = "<group>"; };
 		53097D2D27028A7B00A6E4DC /* LeftNavDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftNavDemoController.swift; sourceTree = "<group>"; };
 		53097D2F27028A7B00A6E4DC /* ButtonLegacyDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonLegacyDemoController.swift; sourceTree = "<group>"; };
-		53097D3027028A7B00A6E4DC /* ThemingDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemingDemoController.swift; sourceTree = "<group>"; };
 		53097D3127028A7B00A6E4DC /* ButtonDemoController_SwiftUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonDemoController_SwiftUI.swift; sourceTree = "<group>"; };
 		5328D97826FBA3E900F3723B /* IndeterminateProgressBarDemoController_SwiftUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBarDemoController_SwiftUI.swift; sourceTree = "<group>"; };
 		5328D97926FBA3E900F3723B /* IndeterminateProgressBarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBarDemoController.swift; sourceTree = "<group>"; };
@@ -317,7 +315,6 @@
 				53097D3127028A7B00A6E4DC /* ButtonDemoController_SwiftUI.swift */,
 				53097D2F27028A7B00A6E4DC /* ButtonLegacyDemoController.swift */,
 				53097D2D27028A7B00A6E4DC /* LeftNavDemoController.swift */,
-				53097D3027028A7B00A6E4DC /* ThemingDemoController.swift */,
 				5373D55E2694C3070032A3B4 /* AvatarDemoController.swift */,
 				5303259226B3198A00611D05 /* AvatarDemoController_SwiftUI.swift */,
 				5306075826A1E73F002D49CF /* AvatarGroupDemoController.swift */,
@@ -522,7 +519,6 @@
 				92561E732718AD090072ED00 /* DemoTableViewController.swift in Sources */,
 				497DC2DE24185896008D86F8 /* PillButtonBarDemoController.swift in Sources */,
 				B4EF53C5215C45C400573E8F /* PersonaListViewDemoController.swift in Sources */,
-				53097D3627028A7B00A6E4DC /* ThemingDemoController.swift in Sources */,
 				A5DCA75E211E3A92005F4CB7 /* DrawerDemoController.swift in Sources */,
 				B4414792228F6F740040E88E /* TableViewCellSampleData.swift in Sources */,
 				43488C4A270FB7E800124C71 /* NotificationViewDemoController_SwiftUI.swift in Sources */,

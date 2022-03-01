@@ -7,7 +7,7 @@ import FluentUI
 import UIKit
 import SwiftUI
 
-class DividerDemoController: UITableViewController {
+class DividerDemoController: DemoTableViewController {
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(style: .grouped)
     }
@@ -204,6 +204,45 @@ class DividerDemoController: UITableViewController {
             case .dividerDemo:
                 return ""
             }
+        }
+    }
+}
+
+extension DividerDemoController: DemoAppearanceDelegate {
+    func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
+        guard let fluentTheme = self.view.window?.fluentTheme else {
+            return
+        }
+        if isOverrideEnabled {
+            fluentTheme.register(controlType: FluentDivider.self, tokens: { _ in
+                ThemeWideOverrideDividerTokens()
+            })
+        } else {
+            fluentTheme.register(controlType: FluentDivider.self, tokens: nil)
+        }
+    }
+
+    func perControlOverrideDidChange(isOverrideEnabled: Bool) {
+        dividers.forEach { divider in
+            divider.state.overrideTokens = (isOverrideEnabled ? PerControlOverrideDividerTokens() : nil)
+        }
+    }
+
+    func isThemeWideOverrideApplied() -> Bool {
+        return self.view.window?.fluentTheme.tokenOverride(for: FluentDivider.self) != nil
+    }
+
+    // MARK: - Custom tokens
+
+    private class ThemeWideOverrideDividerTokens: DividerTokens {
+        override var color: DynamicColor {
+            return DynamicColor(light: GlobalTokens().sharedColors[.red][.primary])
+        }
+    }
+
+    private class PerControlOverrideDividerTokens: DividerTokens {
+        override var color: DynamicColor {
+            return DynamicColor(light: GlobalTokens().sharedColors[.green][.primary])
         }
     }
 }

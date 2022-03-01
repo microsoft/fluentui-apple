@@ -105,5 +105,6 @@ struct ButtonDemoView: View {
                 .padding()
             }
         }
+        .fluentTheme(UIApplication.shared.windows.first!.fluentTheme)
     }
 }
