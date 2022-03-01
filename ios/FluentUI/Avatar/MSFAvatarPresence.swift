@@ -23,19 +23,19 @@ import SwiftUI
         case .none:
             break
         case .available:
-            color = FluentUIThemeManager.S.Colors.Presence.available
+            color = UIColor(named: "FluentColors/presenceAvailable", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!
         case .away:
-            color = isOutOfOffice ? FluentUIThemeManager.S.Colors.Presence.outOfOffice : FluentUIThemeManager.S.Colors.Presence.away
+            color = UIColor(named: "FluentColors/presenceAway", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!
         case .busy:
-            color = FluentUIThemeManager.S.Colors.Presence.busy
+            color = UIColor(named: "FluentColors/presenceBusy", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!
         case .blocked:
-            color = FluentUIThemeManager.S.Colors.Presence.blocked
+            color = UIColor(named: "FluentColors/presenceBlocked", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!
         case .doNotDisturb:
-            color = FluentUIThemeManager.S.Colors.Presence.doNotDisturb
+            color = UIColor(named: "FluentColors/presenceDnd", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!
         case .offline:
-            color = isOutOfOffice ? FluentUIThemeManager.S.Colors.Presence.outOfOffice : FluentUIThemeManager.S.Colors.Presence.offline
+            color = UIColor(named: "FluentColors/presenceOffline", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!
         case .unknown:
-            color = FluentUIThemeManager.S.Colors.Presence.unknown
+            color = UIColor(named: "FluentColors/presenceUnknown", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!
         }
 
         return Color(color)

@@ -5,27 +5,6 @@
 
 import SwiftUI
 
-struct ScalableFont: ViewModifier {
-    let font: UIFont
-    let shouldScale: Bool
-
-    func body(content: Content) -> some View {
-        let familyName = font.familyName
-        let size = font.fixedFont.pointSize
-        let scalableFont: Font
-
-        if shouldScale {
-            scalableFont = .custom(familyName,
-                                   size: size)
-        } else {
-            scalableFont = .custom(familyName,
-                                   fixedSize: size)
-        }
-
-        return content.font(scalableFont)
-    }
-}
-
 extension View {
     /// Applies modifiers defined in a closure if a condition is met.
     /// - Parameters:
@@ -51,15 +30,5 @@ extension View {
         }
 
         return AnyView(self)
-    }
-
-    /// Applies a scalable SwiftUI Font type in a scalable way.
-    /// - Parameters:
-    ///   - font: UIFont instance of that needs to be converted into a scalable SwiftUI Font struct.
-    ///   - shouldScale: Whether the SwiftUI Font returned should be scaled or not.
-    /// - Returns: The resulting scaled Font.
-    func scalableFont(font: UIFont, shouldScale: Bool = true) -> some View {
-        modifier(ScalableFont(font: font,
-                              shouldScale: shouldScale))
     }
 }
