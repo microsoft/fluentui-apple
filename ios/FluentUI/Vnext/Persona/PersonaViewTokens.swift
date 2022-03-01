@@ -6,7 +6,7 @@
 import UIKit
 import SwiftUI
 
-public class MSFPersonaViewTokens: MSFCellBaseTokens {
+public class PersonaViewTokens: CellBaseTokens {
     open override var sublabelColor: DynamicColor { aliasTokens.foregroundColors[.neutral1] }
 
     open override var iconInterspace: CGFloat { globalTokens.spacing[.small] }

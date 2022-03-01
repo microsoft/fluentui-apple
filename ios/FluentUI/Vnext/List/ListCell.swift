@@ -101,7 +101,7 @@ class MSFListCellStateImpl: NSObject, ObservableObject, Identifiable, ControlCon
         super.init()
     }
 
-    @Published var overrideTokens: MSFCellBaseTokens?
+    @Published var overrideTokens: CellBaseTokens?
     @Published var leadingView: AnyView?
     @Published var titleLeadingAccessoryView: AnyView?
     @Published var titleTrailingAccessoryView: AnyView?
@@ -400,13 +400,13 @@ struct MSFListCellView: View, ConfigurableTokenizedControl {
         return cellContent
     }
 
-    func overrideTokens(_ tokens: MSFCellBaseTokens?) -> MSFListCellView {
+    func overrideTokens(_ tokens: CellBaseTokens?) -> MSFListCellView {
         state.overrideTokens = tokens
         return self
     }
 
-    let defaultTokens: MSFCellBaseTokens = .init()
-    var tokens: MSFCellBaseTokens {
+    let defaultTokens: CellBaseTokens = .init()
+    var tokens: CellBaseTokens {
         let tokens = resolvedTokens
         tokens.cellLeadingViewSize = state.leadingViewSize
         return tokens
@@ -416,7 +416,7 @@ struct MSFListCellView: View, ConfigurableTokenizedControl {
 }
 
 struct ListCellButtonStyle: ButtonStyle {
-    let tokens: MSFCellBaseTokens
+    let tokens: CellBaseTokens
     let state: MSFListCellState
 
     func makeBody(configuration: Self.Configuration) -> some View {

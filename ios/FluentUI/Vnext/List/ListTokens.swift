@@ -38,7 +38,7 @@ import SwiftUI
 
 // MARK: ListCell Tokens
 
-public class MSFCellBaseTokens: ControlTokens {
+open class CellBaseTokens: ControlTokens {
     public internal(set) var cellLeadingViewSize: MSFListCellLeadingViewSize = .medium
 
     open var disclosureIconForegroundColor: DynamicColor { aliasTokens.foregroundColors[.neutral4] }
