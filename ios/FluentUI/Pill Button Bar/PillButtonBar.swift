@@ -197,11 +197,7 @@ open class PillButtonBar: UIScrollView, TokenizedControlInternal {
         }
     }
 
-    /// Sets the current tokens to be used for drawing.
-    func updateCurrentTokens(_ tokens: PillButtonBarTokens) {
-        self.tokens = tokens
-    }
-
+    let defaultTokens: PillButtonBarTokens = .init()
     var tokens: PillButtonBarTokens = .init()
     var overrideTokens: PillButtonBarTokens? {
         didSet {
@@ -476,8 +472,7 @@ open class PillButtonBar: UIScrollView, TokenizedControlInternal {
     }
 
     private func updatePillButtonBarTokens() {
-        let tokens = TokenResolver.tokens(for: self, fluentTheme: fluentTheme)
-        self.tokens = tokens
+        self.tokens = resolvedTokens
     }
 
     private var leadingConstraint: NSLayoutConstraint?
