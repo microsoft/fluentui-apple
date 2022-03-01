@@ -501,6 +501,7 @@ open class DrawerController: UIViewController, FluentUIWindowProvider, Tokenized
         updateResizingHandleView()
         resizingGestureRecognizer?.isEnabled = false
 
+        updateDrawerTokens()
         updateAppearance()
     }
 
