@@ -562,15 +562,17 @@ open class DrawerController: UIViewController, FluentUIWindowProvider, Tokenized
         self.tokens = tokens
     }
 
+    var defaultTokens: DrawerTokens = .init()
     var tokens: DrawerTokens = .init()
     var overrideTokens: DrawerTokens? {
         didSet {
             updateDrawerTokens()
         }
     }
+    var fluentTheme: FluentTheme { return view.fluentTheme }
 
     private func updateDrawerTokens() {
-        let tokens = TokenResolver.tokens(for: self, fluentTheme: view.fluentTheme)
+        let tokens = resolvedTokens
         self.tokens = tokens
     }
 
