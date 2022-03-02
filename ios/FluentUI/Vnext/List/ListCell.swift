@@ -283,6 +283,7 @@ struct MSFListCellView: View {
             let hasChildren: Bool = children.count > 0
             let horizontalCellPadding: CGFloat = tokens.horizontalCellPadding
             let leadingViewSize: CGFloat = tokens.leadingViewSize
+            let leadingViewAreaSize: CGFloat = tokens.leadingViewAreaSize
 
             Button(action: state.onTapAction ?? {
                 if hasChildren {
@@ -392,7 +393,7 @@ struct MSFListCellView: View {
 
             if state.hasDivider {
                 let padding = horizontalCellPadding +
-                    (state.leadingView != nil ? (leadingViewSize + tokens.iconInterspace) : 0)
+                    (state.leadingView != nil ? horizontalCellPadding + leadingViewAreaSize : 0)
                 FluentDivider()
                     .padding(.leading, padding)
             }
@@ -401,7 +402,7 @@ struct MSFListCellView: View {
                 ForEach(children, id: \.self) { child in
                     MSFListCellView(state: child)
                         .frame(maxWidth: .infinity)
-                        .padding(.leading, (horizontalCellPadding + leadingViewSize))
+                        .padding(.leading, (horizontalCellPadding + leadingViewAreaSize))
                 }
             }
         }
