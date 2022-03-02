@@ -58,9 +58,6 @@ class LargeTitleView: UIView {
         }
     }
 
-    var avatarHeightConstraint: NSLayoutConstraint?
-    var avatarWidthConstraint: NSLayoutConstraint?
-
     var avatarAccessibilityLabel: String? {
         return avatarCustomAccessibilityLabel ?? "Accessibility.LargeTitle.ProfileView".localized
     }
