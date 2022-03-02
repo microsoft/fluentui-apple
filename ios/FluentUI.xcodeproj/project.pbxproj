@@ -31,8 +31,6 @@
 		53097D1D2702890900A6E4DC /* ListTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D112702890800A6E4DC /* ListTokens.swift */; };
 		53097D212702890900A6E4DC /* ListHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D132702890800A6E4DC /* ListHeader.swift */; };
 		53097D252702890900A6E4DC /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D152702890900A6E4DC /* ListCell.swift */; };
-		53097D292702895500A6E4DC /* MSFDrawerTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D262702895500A6E4DC /* MSFDrawerTokens.swift */; };
-		53097D2B2702895500A6E4DC /* MSFDrawerTokens.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D272702895500A6E4DC /* MSFDrawerTokens.generated.swift */; };
 		53097D4727028B1200A6E4DC /* ButtonLegacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D4527028B1100A6E4DC /* ButtonLegacy.swift */; };
 		5314E01625F00CF70099271A /* BarButtonItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52648DB2316F4F9003342A0 /* BarButtonItems.swift */; };
 		5314E02825F00DA80099271A /* BlurringView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA1AF8B21484625001AE720 /* BlurringView.swift */; };
@@ -210,6 +208,7 @@
 		EC02A5F327472EF400E81B3E /* DividerTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC02A5F227472EF400E81B3E /* DividerTokens.swift */; };
 		EC02A5F5274DD19600E81B3E /* MSFDivider.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC02A5F4274DD19500E81B3E /* MSFDivider.swift */; };
 		EC5982D827BF348700FD048D /* MSFAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5982D727BF348700FD048D /* MSFAvatar.swift */; };
+		EC5982DC27CEC02100FD048D /* DrawerTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5982DB27CEC02100FD048D /* DrawerTokens.swift */; };
 		EC6A71EA273DBA520076A586 /* Divider.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6A71E9273DBA520076A586 /* Divider.swift */; };
 		ECA92184279A177D00B66117 /* DividerModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA92183279A177D00B66117 /* DividerModifiers.swift */; };
 		ECA9218627A3301C00B66117 /* MSFAvatarGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA9218527A3301C00B66117 /* MSFAvatarGroup.swift */; };
@@ -259,8 +258,6 @@
 		53097D112702890800A6E4DC /* ListTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListTokens.swift; sourceTree = "<group>"; };
 		53097D132702890800A6E4DC /* ListHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListHeader.swift; sourceTree = "<group>"; };
 		53097D152702890900A6E4DC /* ListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
-		53097D262702895500A6E4DC /* MSFDrawerTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFDrawerTokens.swift; sourceTree = "<group>"; };
-		53097D272702895500A6E4DC /* MSFDrawerTokens.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFDrawerTokens.generated.swift; sourceTree = "<group>"; };
 		53097D4527028B1100A6E4DC /* ButtonLegacy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonLegacy.swift; sourceTree = "<group>"; };
 		5328D96C26FBA3D600F3723B /* IndeterminateProgressBarTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBarTokens.swift; sourceTree = "<group>"; };
 		5328D96D26FBA3D600F3723B /* IndeterminateProgressBarModifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBarModifiers.swift; sourceTree = "<group>"; };
@@ -390,6 +387,7 @@
 		EC02A5F227472EF400E81B3E /* DividerTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DividerTokens.swift; sourceTree = "<group>"; };
 		EC02A5F4274DD19500E81B3E /* MSFDivider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFDivider.swift; sourceTree = "<group>"; };
 		EC5982D727BF348700FD048D /* MSFAvatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFAvatar.swift; sourceTree = "<group>"; };
+		EC5982DB27CEC02100FD048D /* DrawerTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerTokens.swift; sourceTree = "<group>"; };
 		EC6A71E9273DBA520076A586 /* Divider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Divider.swift; sourceTree = "<group>"; };
 		ECA92183279A177D00B66117 /* DividerModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DividerModifiers.swift; sourceTree = "<group>"; };
 		ECA9218527A3301C00B66117 /* MSFAvatarGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFAvatarGroup.swift; sourceTree = "<group>"; };
@@ -884,9 +882,8 @@
 				A5B87AF3211E16360038C37C /* DrawerController.swift */,
 				A5B87AF5211E16360038C37C /* DrawerPresentationController.swift */,
 				A5237ACC21ED6CA70040BF27 /* DrawerShadowView.swift */,
+				EC5982DB27CEC02100FD048D /* DrawerTokens.swift */,
 				A5B87AF4211E16360038C37C /* DrawerTransitionAnimator.swift */,
-				53097D272702895500A6E4DC /* MSFDrawerTokens.generated.swift */,
-				53097D262702895500A6E4DC /* MSFDrawerTokens.swift */,
 			);
 			path = Drawer;
 			sourceTree = "<group>";
@@ -1516,6 +1513,7 @@
 				5314E08025F00F1A0099271A /* DateTimePickerViewComponent.swift in Sources */,
 				5314E06325F00EFD0099271A /* CalendarViewDayMonthYearCell.swift in Sources */,
 				5314E1A225F01A7C0099271A /* ActivityIndicatorCell.swift in Sources */,
+				EC5982DC27CEC02100FD048D /* DrawerTokens.swift in Sources */,
 				5373D5652694D65C0032A3B4 /* AvatarTokens.swift in Sources */,
 				5314E06125F00EFD0099271A /* CalendarViewDayCell.swift in Sources */,
 				929DD25A266ED3B600E8175E /* PersonaButtonCarousel.swift in Sources */,
@@ -1575,7 +1573,6 @@
 				5314E28E25F024590099271A /* Date+Extensions.swift in Sources */,
 				0A3CD0B127BCA36000DBE728 /* HeaderModifiers.swift in Sources */,
 				5306076126A201C8002D49CF /* Persona.swift in Sources */,
-				53097D292702895500A6E4DC /* MSFDrawerTokens.swift in Sources */,
 				92E7AD5026FE51FF00AE7FF8 /* DynamicColor.swift in Sources */,
 				5314E14E25F016CD0099271A /* ResizingHandleView.swift in Sources */,
 				5314E1A625F01A7C0099271A /* BooleanCell.swift in Sources */,
@@ -1669,7 +1666,6 @@
 				5314E19825F019650099271A /* SideTabBar.swift in Sources */,
 				5314E10A25F014600099271A /* Obscurable.swift in Sources */,
 				53097D212702890900A6E4DC /* ListHeader.swift in Sources */,
-				53097D2B2702895500A6E4DC /* MSFDrawerTokens.generated.swift in Sources */,
 				5314E07D25F00F1A0099271A /* DateTimePickerViewComponentTableView.swift in Sources */,
 				5314E03125F00DDD0099271A /* CardView.swift in Sources */,
 				5314E08925F00F2D0099271A /* CommandBarButtonGroupView.swift in Sources */,
