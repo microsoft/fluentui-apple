@@ -95,11 +95,6 @@ struct DemoAppearanceView: View {
             .onChange(of: configuration.perControlOverride) { newValue in
                 configuration.onPerControlOverrideChanged?(newValue)
             }
-//
-//            // Updates on appear
-//            .onAppear {
-//                updateToggleConfiguration()
-//            }
 
             // TODO: Still working through some issues with the theme-wide override tokens, so inform the user how to make it visible for now.
             .alert(isPresented: $showingThemeWideAlert) {
