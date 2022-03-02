@@ -56,7 +56,7 @@ import SwiftUI
     public private(set) var aliasTokens: AliasTokens
 
     private func tokenKey<T: TokenizedControl>(_ controlType: T.Type) -> String {
-        return "\(controlType))"
+        return "\(controlType)"
     }
 
     private var controlTokens: [String: Any] = [:]

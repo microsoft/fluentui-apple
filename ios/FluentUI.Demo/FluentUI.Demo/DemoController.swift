@@ -164,9 +164,6 @@ class DemoController: UIViewController {
     // MARK: - Demo Appearance Popover
 
     func configureAppearancePopover() {
-        // If a subclass implements `DemoAppearanceDelegate`, becocontrolTokensHashme the delegate.
-        appearanceController.delegate = self as? DemoAppearanceDelegate
-
         // Display the DemoAppearancePopover button
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "ic_fluent_settings_24_regular"),
                                                             style: .plain,
@@ -180,7 +177,7 @@ class DemoController: UIViewController {
         self.present(appearanceController, animated: true, completion: nil)
     }
 
-    private lazy var appearanceController: DemoAppearanceController = DemoAppearanceController()
+    private lazy var appearanceController: DemoAppearanceController = .init(delegate: self as? DemoAppearanceDelegate)
 }
 
 extension DemoController: UIPopoverPresentationControllerDelegate {

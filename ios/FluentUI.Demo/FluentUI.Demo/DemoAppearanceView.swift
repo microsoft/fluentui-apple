@@ -12,6 +12,11 @@ struct DemoAppearanceView: View {
     @ObservedObject var configuration: Configuration
     @State var showingThemeWideAlert: Bool = false
 
+    init(configuration: Configuration) {
+        self.configuration = configuration
+        updateToggleConfiguration()
+    }
+
     /// Picker for setting the app's color scheme.
     @ViewBuilder
     var appColorSchemePicker: some View {
@@ -90,11 +95,11 @@ struct DemoAppearanceView: View {
             .onChange(of: configuration.perControlOverride) { newValue in
                 configuration.onPerControlOverrideChanged?(newValue)
             }
-
-            // Updates on appear
-            .onAppear {
-                updateToggleConfiguration()
-            }
+//
+//            // Updates on appear
+//            .onAppear {
+//                updateToggleConfiguration()
+//            }
 
             // TODO: Still working through some issues with the theme-wide override tokens, so inform the user how to make it visible for now.
             .alert(isPresented: $showingThemeWideAlert) {
@@ -107,7 +112,8 @@ struct DemoAppearanceView: View {
         configuration.colorScheme = systemColorScheme
         configuration.theme = currentDemoListViewController?.theme ?? .default
         if let isThemeOverrideEnabled = configuration.themeOverridePreviouslyApplied {
-            configuration.themeWideOverride = isThemeOverrideEnabled()
+            let newValue = isThemeOverrideEnabled()
+            configuration.themeWideOverride = newValue
         }
     }
 
