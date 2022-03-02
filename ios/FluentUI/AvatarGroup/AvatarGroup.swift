@@ -132,7 +132,7 @@ public struct AvatarGroup: View, ConfigurableTokenizedControl {
         let isStackStyle = tokens.style == .stack
 
         let interspace: CGFloat = tokens.interspace
-        let imageSize: CGFloat = tokens.size.size
+        let imageSize: CGFloat = avatarViews[0].contentSize
         let ringOuterGap: CGFloat = tokens.ringOuterGap
         let ringGapOffset: CGFloat = ringOuterGap * 2
         let ringOffset: CGFloat = tokens.ringThickness + tokens.ringInnerGap + tokens.ringOuterGap
