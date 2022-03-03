@@ -40,6 +40,10 @@ class DemoAppearanceController: UIHostingController<DemoAppearanceView>, Observa
         self.configuration = configuration
 
         super.init(rootView: DemoAppearanceView(configuration: configuration))
+//        self.rootView = updatedAppearanceView
+
+        configuration.onThemeChanged = self.onThemeChanged
+        configuration.onUserInterfaceStyleChanged = self.onUserInterfaceStyleChanged
 
         self.modalPresentationStyle = .popover
         self.preferredContentSize.height = 375
@@ -48,6 +52,46 @@ class DemoAppearanceController: UIHostingController<DemoAppearanceView>, Observa
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        updateToggleConfiguration()
+        configuration.isConfigured = true
+    }
+
+    private func updateToggleConfiguration() {
+        configuration.userInterfaceStyle = view.window?.overrideUserInterfaceStyle ?? .unspecified
+        configuration.theme = currentDemoListViewController?.theme ?? .default
+        if let isThemeOverrideEnabled = configuration.themeOverridePreviouslyApplied {
+            let newValue = isThemeOverrideEnabled()
+            configuration.themeWideOverride = newValue
+        }
+    }
+
+    /// Callback for handling theme changes.
+    private func onThemeChanged(_ theme: DemoColorTheme) {
+        guard let currentDemoListViewController = currentDemoListViewController,
+              let window = view.window else {
+                  return
+              }
+        currentDemoListViewController.updateColorProviderFor(window: window, theme: theme)
+
+        // Different themes can have different overrides, so update as needed.
+        updateToggleConfiguration()
+    }
+
+    /// Callback for handling color scheme changes.
+    private func onUserInterfaceStyleChanged(_ userInterfaceStyle: UIUserInterfaceStyle) {
+        view.window?.overrideUserInterfaceStyle = userInterfaceStyle
+    }
+
+    private var currentDemoListViewController: DemoListViewController? {
+        guard let navigationController = view.window?.rootViewController as? UINavigationController,
+              let currentDemoListViewController = navigationController.viewControllers.first as? DemoListViewController else {
+                  return nil
+              }
+        return currentDemoListViewController
     }
 
     private var configuration: DemoAppearanceView.Configuration

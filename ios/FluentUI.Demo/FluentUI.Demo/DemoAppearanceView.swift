@@ -6,25 +6,23 @@
 import FluentUI
 import SwiftUI
 
+/// This class displays the contents of the DemoAppearance popover. All actions are callback-based, allowing a
+/// wrapping component, DemoAppearanceController, to manage interop with our UIKit environment.
 struct DemoAppearanceView: View {
 
     @Environment(\.colorScheme) var systemColorScheme: ColorScheme
     @ObservedObject var configuration: Configuration
     @State var showingThemeWideAlert: Bool = false
 
-    init(configuration: Configuration) {
-        self.configuration = configuration
-        updateToggleConfiguration()
-    }
-
     /// Picker for setting the app's color scheme.
     @ViewBuilder
     var appColorSchemePicker: some View {
         Text("App Color Scheme")
             .font(.headline)
-        Picker("Color Scheme", selection: $configuration.colorScheme) {
-            Text("Light").tag(ColorScheme.light)
-            Text("Dark").tag(ColorScheme.dark)
+        Picker("Color Scheme", selection: $configuration.userInterfaceStyle) {
+            Text("System").tag(UIUserInterfaceStyle.unspecified)
+            Text("Light").tag(UIUserInterfaceStyle.light)
+            Text("Dark").tag(UIUserInterfaceStyle.dark)
         }
         .pickerStyle(.segmented)
     }
@@ -73,83 +71,58 @@ struct DemoAppearanceView: View {
     }
 
     var body: some View {
-        contents
-            .padding()
+        // Can't use `guard` in SwiftUI body, sadly
+        if configuration.isConfigured == false {
+            FluentUI.ActivityIndicator(size: .xLarge)
+                .isAnimating(true)
+        } else {
+            contents
+                .padding()
 
-            // Changes
-            .onChange(of: configuration.colorScheme) { newValue in
-                onColorSchemeChanged(newValue)
-            }
-            .onChange(of: configuration.theme) { newValue in
-                onThemeChanged(newValue)
+                // Changes
+                .onChange(of: configuration.userInterfaceStyle) { newValue in
+                    configuration.onUserInterfaceStyleChanged?(newValue)
+                }
+                .onChange(of: configuration.theme) { newValue in
+                    configuration.onThemeChanged?(newValue)
+                }
+                .onChange(of: configuration.themeWideOverride) { newValue in
+                    configuration.onThemeWideOverrideChanged?(newValue)
 
-                // Different themes can have different overrides, so update as needed.
-                updateToggleConfiguration()
-            }
-            .onChange(of: configuration.themeWideOverride) { newValue in
-                configuration.onThemeWideOverrideChanged?(newValue)
+                    // TODO: Still working through some issues with the theme-wide override tokens, so inform the user how to make it visible for now.
+                    showingThemeWideAlert = true
+                }
+                .onChange(of: configuration.perControlOverride) { newValue in
+                    configuration.onPerControlOverrideChanged?(newValue)
+                }
 
                 // TODO: Still working through some issues with the theme-wide override tokens, so inform the user how to make it visible for now.
-                showingThemeWideAlert = true
-            }
-            .onChange(of: configuration.perControlOverride) { newValue in
-                configuration.onPerControlOverrideChanged?(newValue)
-            }
-
-            // TODO: Still working through some issues with the theme-wide override tokens, so inform the user how to make it visible for now.
-            .alert(isPresented: $showingThemeWideAlert) {
-                Alert(title: Text("Theme-wide override"),
-                      message: Text("Changes to \"Theme-wide override\" tokens will only take effect when the control redraws for some othe reason.\n\nTry backing out of this view and re-entering it."))
-            }
-    }
-
-    private func updateToggleConfiguration() {
-        configuration.colorScheme = systemColorScheme
-        configuration.theme = currentDemoListViewController?.theme ?? .default
-        if let isThemeOverrideEnabled = configuration.themeOverridePreviouslyApplied {
-            let newValue = isThemeOverrideEnabled()
-            configuration.themeWideOverride = newValue
+                .alert(isPresented: $showingThemeWideAlert) {
+                    Alert(title: Text("Theme-wide override"),
+                          message: Text("Changes to \"Theme-wide override\" tokens will only take effect when the control redraws for some othe reason.\n\nTry backing out of this view and re-entering it."))
+                }
         }
     }
 
     /// Container class for data and control-specific callbacks.
     class Configuration: ObservableObject {
         // Data
-        @Published var colorScheme: ColorScheme = .light
+        @Published var userInterfaceStyle: UIUserInterfaceStyle = .unspecified
         @Published var theme: DemoColorTheme = .default
         @Published var themeWideOverride: Bool = false
         @Published var perControlOverride: Bool = false
 
-        // Callbacks
+        // Environment
+        @Published var isConfigured: Bool = false
+
+        // Window-specific callbacks
+        var onUserInterfaceStyleChanged: ((_ userInterfaceStyle: UIUserInterfaceStyle) -> Void)?
+        var onThemeChanged: ((_ theme: DemoColorTheme) -> Void)?
+
+        // Control-specific callbacks
         var onThemeWideOverrideChanged: ((_ themeWideOverrideEnabled: Bool) -> Void)?
         var onPerControlOverrideChanged: ((_ perControlOverrideEnabled: Bool) -> Void)?
         var themeOverridePreviouslyApplied: (() -> Bool)?
-    }
-
-    /// Callback for handling color scheme changes.
-    private func onColorSchemeChanged(_ colorScheme: ColorScheme) {
-        guard let window = firstWindow else {
-            return
-        }
-        let userInterfaceStyle: UIUserInterfaceStyle
-        switch colorScheme {
-        case .light:
-            userInterfaceStyle = .light
-        case .dark:
-            userInterfaceStyle = .dark
-        @unknown default:
-            preconditionFailure("Unknown color scheme: \(colorScheme)")
-        }
-        window.overrideUserInterfaceStyle = userInterfaceStyle
-    }
-
-    /// Callback for handling theme changes.
-    private func onThemeChanged(_ theme: DemoColorTheme) {
-        guard let currentDemoListViewController = currentDemoListViewController,
-              let window = firstWindow else {
-                  return
-              }
-        currentDemoListViewController.updateColorProviderFor(window: window, theme: theme)
     }
 
     private var showThemeWideOverrideToggle: Bool {
@@ -159,27 +132,10 @@ struct DemoAppearanceView: View {
     private var showPerControlOverrideToggle: Bool {
         return configuration.onPerControlOverrideChanged != nil
     }
-
-    // MARK: Helpers for accessing the surrounding UIKit environment.
-
-    private var firstWindow: UIWindow? { UIApplication.shared.windows.first }
-
-    private var currentDemoListViewController: DemoListViewController? {
-        guard let navigationController = firstWindow?.rootViewController as? UINavigationController,
-              let currentDemoListViewController = navigationController.viewControllers.first as? DemoListViewController else {
-                  return nil
-              }
-        return currentDemoListViewController
-    }
 }
 
 /// View modifiers
 extension DemoAppearanceView {
-    func colorScheme(_ colorScheme: ColorScheme) -> Self {
-        self.configuration.colorScheme = colorScheme
-        return self
-    }
-
     func theme(_ theme: DemoColorTheme) -> Self {
         self.configuration.theme = theme
         return self
