@@ -94,10 +94,14 @@ import SwiftUI
 }
 
 /// `MSFListCellStateImpl` contains properties that make up a cell content.
-class MSFListCellStateImpl: NSObject, ObservableObject, Identifiable, MSFListCellState {
-    var tokens: MSFCellBaseTokens
-    var id = UUID()
+class MSFListCellStateImpl: NSObject, ObservableObject, Identifiable, ControlConfiguration, MSFListCellState {
+    init(cellLeadingViewSize: MSFListCellLeadingViewSize = .medium) {
+        self.leadingViewSize = cellLeadingViewSize
 
+        super.init()
+    }
+
+    @Published var overrideTokens: CellBaseTokens?
     @Published var leadingView: AnyView?
     @Published var titleLeadingAccessoryView: AnyView?
     @Published var titleTrailingAccessoryView: AnyView?
@@ -121,10 +125,7 @@ class MSFListCellStateImpl: NSObject, ObservableObject, Identifiable, MSFListCel
     @Published var hasDivider: Bool = false
     @Published private(set) var children: [MSFListCellStateImpl] = []
     var onTapAction: (() -> Void)?
-
-    init(cellLeadingViewSize: MSFListCellLeadingViewSize = .medium) {
-        self.tokens = MSFListCellTokens(cellLeadingViewSize: cellLeadingViewSize)
-    }
+    var id = UUID()
 
     var leadingUIView: UIView? {
         didSet {
@@ -137,14 +138,7 @@ class MSFListCellStateImpl: NSObject, ObservableObject, Identifiable, MSFListCel
         }
     }
 
-    @Published var leadingViewSize: MSFListCellLeadingViewSize = .medium {
-        didSet {
-            guard leadingViewSize != oldValue else {
-                return
-            }
-            tokens.cellLeadingViewSize = leadingViewSize
-        }
-    }
+    @Published var leadingViewSize: MSFListCellLeadingViewSize
 
     var trailingUIView: UIView? {
         didSet {
@@ -264,15 +258,10 @@ class MSFListCellStateImpl: NSObject, ObservableObject, Identifiable, MSFListCel
 }
 
 /// View for List Cells
-struct MSFListCellView: View {
-    @Environment(\.theme) var theme: FluentUIStyle
-    @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
-    @ObservedObject var tokens: MSFCellBaseTokens
-    @ObservedObject var state: MSFListCellStateImpl
+struct MSFListCellView: View, ConfigurableTokenizedControl {
 
     init(state: MSFListCellStateImpl) {
         self.state = state
-        self.tokens = state.tokens
     }
 
     var body: some View {
@@ -316,8 +305,8 @@ struct MSFListCellView: View {
                             }
                             if hasTitle {
                                 Text(state.title)
-                                    .scalableFont(font: tokens.labelFont)
-                                    .foregroundColor(Color(tokens.labelColor))
+                                    .scalableFont(font: .fluent(tokens.labelFont))
+                                    .foregroundColor(Color(dynamicColor: tokens.labelColor))
                                     .lineLimit(state.titleLineLimit == 0 ? nil : state.titleLineLimit)
                             }
                             if let titleTrailingAccessoryView = state.titleTrailingAccessoryView {
@@ -335,8 +324,9 @@ struct MSFListCellView: View {
                             }
                             if !state.subtitle.isEmpty {
                                 Text(state.subtitle)
-                                    .scalableFont(font: state.footnote.isEmpty ? tokens.footnoteFont : tokens.sublabelFont)
-                                    .foregroundColor(Color(tokens.sublabelColor))
+                                    .scalableFont(font: .fluent(state.footnote.isEmpty ?
+                                                                tokens.footnoteFont : tokens.sublabelFont))
+                                    .foregroundColor(Color(dynamicColor: tokens.sublabelColor))
                                     .lineLimit(state.subtitleLineLimit == 0 ? nil : state.subtitleLineLimit)
                             }
                             if let subtitleTrailingAccessoryView = state.subtitleTrailingAccessoryView {
@@ -354,8 +344,8 @@ struct MSFListCellView: View {
                             }
                             if !state.footnote.isEmpty {
                                 Text(state.footnote)
-                                    .scalableFont(font: tokens.footnoteFont)
-                                    .foregroundColor(Color(tokens.sublabelColor))
+                                    .scalableFont(font: .fluent(tokens.footnoteFont))
+                                    .foregroundColor(Color(dynamicColor: tokens.sublabelColor))
                                     .lineLimit(state.footnoteLineLimit == 0 ? nil : state.footnoteLineLimit)
                             }
                             if let footnoteTrailingAccessoryView = state.footnoteTrailingAccessoryView {
@@ -380,7 +370,8 @@ struct MSFListCellView: View {
                             let disclosureSize = tokens.disclosureSize
                             Image(uiImage: accessoryIcon)
                                 .resizable()
-                                .foregroundColor(Color(isDisclosure ? tokens.disclosureIconForegroundColor : tokens.trailingItemForegroundColor))
+                                .foregroundColor(Color(dynamicColor: isDisclosure ?
+                                                       tokens.disclosureIconForegroundColor : tokens.trailingItemForegroundColor))
                                 .frame(width: isDisclosure ? disclosureSize : trailingItemSize,
                                        height: isDisclosure ? disclosureSize : trailingItemSize)
                                 .padding(.leading, isDisclosure ? tokens.disclosureInterspace : tokens.iconInterspace)
@@ -406,14 +397,26 @@ struct MSFListCellView: View {
             }
         }
 
-        return cellContent.designTokens(tokens,
-                                        from: theme,
-                                        with: windowProvider)
+        return cellContent
     }
+
+    func overrideTokens(_ tokens: CellBaseTokens?) -> MSFListCellView {
+        state.overrideTokens = tokens
+        return self
+    }
+
+    let defaultTokens: CellBaseTokens = .init()
+    var tokens: CellBaseTokens {
+        let tokens = resolvedTokens
+        tokens.cellLeadingViewSize = state.leadingViewSize
+        return tokens
+    }
+    @Environment(\.fluentTheme) var fluentTheme: FluentTheme
+    @ObservedObject var state: MSFListCellStateImpl
 }
 
 struct ListCellButtonStyle: ButtonStyle {
-    let tokens: MSFCellBaseTokens
+    let tokens: CellBaseTokens
     let state: MSFListCellState
 
     func makeBody(configuration: Self.Configuration) -> some View {
@@ -442,9 +445,23 @@ struct ListCellButtonStyle: ButtonStyle {
     }
 
     private func backgroundColor(_ isPressed: Bool = false) -> Color {
+        let highlightedBackgroundColor: Color = {
+            guard let stateHighlightedBackgroundColor = state.highlightedBackgroundColor else {
+                return Color(dynamicColor: tokens.highlightedBackgroundColor)
+            }
+            return Color(stateHighlightedBackgroundColor)
+        }()
+
+        let backgroundColor: Color = {
+            guard let stateBackgroundColor = state.backgroundColor else {
+                return Color(dynamicColor: tokens.backgroundColor)
+            }
+            return Color(stateBackgroundColor)
+        }()
+
         if isPressed {
-            return Color(state.highlightedBackgroundColor ?? tokens.highlightedBackgroundColor)
+            return highlightedBackgroundColor
         }
-        return Color(state.backgroundColor ?? tokens.backgroundColor)
+        return backgroundColor
     }
 }
