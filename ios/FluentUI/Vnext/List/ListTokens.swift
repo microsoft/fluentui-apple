@@ -38,96 +38,63 @@ import SwiftUI
 
 // MARK: ListCell Tokens
 
-class MSFCellBaseTokens: MSFTokensBase, ObservableObject {
-    @Published public var borderColor: UIColor!
-    @Published public var disclosureIconForegroundColor: UIColor!
-    @Published public var labelColor: UIColor!
-    @Published public var leadingViewColor: UIColor!
-    @Published public var sublabelColor: UIColor!
-    @Published public var trailingItemForegroundColor: UIColor!
+open class CellBaseTokens: ControlTokens {
+    public internal(set) var cellLeadingViewSize: MSFListCellLeadingViewSize = .medium
 
-    @Published public var backgroundColor: UIColor!
-    @Published public var highlightedBackgroundColor: UIColor!
+    open var disclosureIconForegroundColor: DynamicColor { aliasTokens.foregroundColors[.neutral4] }
 
-    @Published public var cellHeightOneLine: CGFloat!
-    @Published public var cellHeightTwoLines: CGFloat!
-    @Published public var cellHeightThreeLines: CGFloat!
-    @Published public var disclosureInterspace: CGFloat!
-    @Published public var disclosureSize: CGFloat!
-    @Published public var horizontalCellPadding: CGFloat!
-    @Published public var iconInterspace: CGFloat!
-    @Published public var labelAccessoryInterspace: CGFloat!
-    @Published public var labelAccessorySize: CGFloat!
-    @Published public var leadingViewSize: CGFloat!
-    @Published public var leadingViewAreaSize: CGFloat!
-    @Published public var sublabelAccessorySize: CGFloat!
-    @Published public var trailingItemSize: CGFloat!
-    @Published public var verticalCellPadding: CGFloat!
+    open var labelColor: DynamicColor { aliasTokens.foregroundColors[.neutral1] }
 
-    @Published public var footnoteFont: UIFont!
-    @Published public var sublabelFont: UIFont!
-    @Published public var labelFont: UIFont!
+    open var leadingViewColor: DynamicColor { aliasTokens.foregroundColors[.neutral1] }
 
-    var cellLeadingViewSize: MSFListCellLeadingViewSize! {
-        didSet {
-            if oldValue != cellLeadingViewSize {
-                updateForCurrentTheme()
-            }
-        }
-    }
-}
+    open var sublabelColor: DynamicColor { aliasTokens.foregroundColors[.neutral3] }
 
-class MSFListCellTokens: MSFCellBaseTokens {
-    init(cellLeadingViewSize: MSFListCellLeadingViewSize = .medium) {
-        super.init()
+    open var trailingItemForegroundColor: DynamicColor { aliasTokens.foregroundColors[.neutral3] }
 
-        self.cellLeadingViewSize = cellLeadingViewSize
-        self.themeAware = true
-        updateForCurrentTheme()
-    }
+    open var backgroundColor: DynamicColor { aliasTokens.backgroundColors[.neutral1] }
 
-    @objc open func didChangeAppearanceProxy() {
-        updateForCurrentTheme()
-    }
+    open var highlightedBackgroundColor: DynamicColor { aliasTokens.backgroundColors[.neutral5] }
 
-    override func updateForCurrentTheme() {
-        let currentTheme = theme
-        let appearanceProxy = currentTheme.MSFListCellTokens
+    open var cellHeightOneLine: CGFloat { globalTokens.spacing[.xxxLarge] }
 
+    open var cellHeightTwoLines: CGFloat { 64 }
+
+    open var cellHeightThreeLines: CGFloat { globalTokens.spacing[.xxxxLarge] }
+
+    open var disclosureInterspace: CGFloat { globalTokens.spacing[.xxSmall] }
+
+    open var disclosureSize: CGFloat { globalTokens.iconSize[.small] }
+
+    open var horizontalCellPadding: CGFloat { globalTokens.spacing[.small] }
+
+    open var iconInterspace: CGFloat { globalTokens.spacing[.medium] }
+
+    open var labelAccessoryInterspace: CGFloat { globalTokens.spacing[.xSmall] }
+
+    open var labelAccessorySize: CGFloat { globalTokens.iconSize[.xxSmall] }
+
+    open var leadingViewSize: CGFloat {
         switch cellLeadingViewSize {
         case .small:
-            leadingViewSize = appearanceProxy.leadingViewSize.small
-        case .medium, .none:
-            leadingViewSize = appearanceProxy.leadingViewSize.medium
+            return globalTokens.iconSize[.xSmall]
+        case .medium:
+            return globalTokens.iconSize[.medium]
         case .large:
-            leadingViewSize = appearanceProxy.leadingViewSize.large
+            return globalTokens.iconSize[.xxLarge]
         }
-
-        disclosureIconForegroundColor = appearanceProxy.disclosureIconForegroundColor
-        labelColor = appearanceProxy.labelColor
-        leadingViewColor = appearanceProxy.leadingViewColor
-        sublabelColor = appearanceProxy.sublabelColor
-        trailingItemForegroundColor = appearanceProxy.trailingItemForegroundColor
-
-        backgroundColor = appearanceProxy.backgroundColor.rest
-        highlightedBackgroundColor = appearanceProxy.backgroundColor.pressed
-
-        cellHeightOneLine = appearanceProxy.cellHeight.oneLine
-        cellHeightTwoLines = appearanceProxy.cellHeight.twoLines
-        cellHeightThreeLines = appearanceProxy.cellHeight.threeLines
-        disclosureInterspace = appearanceProxy.disclosureInterspace
-        disclosureSize = appearanceProxy.disclosureSize
-        horizontalCellPadding = appearanceProxy.horizontalCellPadding
-        iconInterspace = appearanceProxy.iconInterspace
-        labelAccessoryInterspace = appearanceProxy.labelAccessoryInterspace
-        labelAccessorySize = appearanceProxy.labelAccessorySize
-        leadingViewAreaSize = appearanceProxy.leadingViewAreaSize
-        sublabelAccessorySize = appearanceProxy.sublabelAccessorySize
-        trailingItemSize = appearanceProxy.trailingItemSize
-        verticalCellPadding = appearanceProxy.verticalCellPadding
-
-        footnoteFont = appearanceProxy.footnoteFont
-        sublabelFont = appearanceProxy.sublabelFont
-        labelFont = appearanceProxy.labelFont
     }
+
+    open var leadingViewAreaSize: CGFloat { globalTokens.spacing[.xxxLarge] }
+
+    open var sublabelAccessorySize: CGFloat { globalTokens.iconSize[.xxSmall] }
+
+    open var trailingItemSize: CGFloat { globalTokens.iconSize[.medium] }
+
+    open var verticalCellPadding: CGFloat { globalTokens.spacing[.xSmall] }
+
+    open var footnoteFont: FontInfo { aliasTokens.typography[.caption1] }
+
+    open var sublabelFont: FontInfo { aliasTokens.typography[.body2] }
+
+    open var labelFont: FontInfo { aliasTokens.typography[.body1] }
 }

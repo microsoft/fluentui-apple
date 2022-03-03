@@ -37,7 +37,7 @@ class DrawerPresentationController: UIPresentationController {
          source: UIViewController,
          presentationDirection: DrawerPresentationDirection,
          adjustHeightForKeyboard: Bool,
-         drawerTokens: MSFDrawerTokens) {
+         drawerTokens: DrawerTokens) {
         sourceViewController = source
         self.presentationDirection = presentationDirection
         self.drawerTokens = drawerTokens
@@ -88,7 +88,7 @@ class DrawerPresentationController: UIPresentationController {
     // Imitates the bottom shadow of navigation bar or top shadow of toolbar because original ones are hidden by presented view
     private lazy var divider = MSFDivider()
     // Tokens for drawer stylesheet
-    private var drawerTokens: MSFDrawerTokens
+    private var drawerTokens: DrawerTokens
 
     // MARK: Presentation
 
@@ -290,7 +290,7 @@ class DrawerPresentationController: UIPresentationController {
 
     func updateApperance() {
         shadowView.updateApperance()
-        dimmingView.dimmedBlackColor = drawerTokens.backgroundDimmedColor
+        dimmingView.dimmedBlackColor = UIColor(dynamicColor: drawerTokens.backgroundDimmedColor)
         backgroundView.backgroundColor = dimmingView.dimmedClearColor
     }
 
