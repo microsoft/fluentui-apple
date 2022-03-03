@@ -40,10 +40,7 @@ public class ControlHostingContainer: NSObject {
     }
 
     @objc private func themeDidChange(_ notification: Notification) {
-        if let window = self.view.window,
-           window.isEqual(notification.object) {
-            updateRootView()
-        }
+        updateRootView()
     }
 
     private func updateRootView() {

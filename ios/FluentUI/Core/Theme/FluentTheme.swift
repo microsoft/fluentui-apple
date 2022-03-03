@@ -6,7 +6,7 @@
 import SwiftUI
 
 /// Base class that allows for customization of global, alias, and control tokens.
-@objc public class FluentTheme: NSObject {
+@objc public class FluentTheme: NSObject, ObservableObject {
     /// Initializes and returns a new `FluentTheme`, with optional custom global and alias tokens.
     ///
     /// - Parameters globalTokens: An optional customized instance of `GlobalTokens`.
@@ -22,24 +22,28 @@ import SwiftUI
     /// Registers a custom set of `ControlTokens` for a given `TokenizedControl`.
     ///
     /// - Parameters:
-    ///   - tokens: A custom set of tokens.
     ///   - control: The control to use custom tokens on.
-    public func register<T: TokenizedControl>(controlType: T.Type, tokens: @escaping (T) -> T.TokenType) {
+    ///   - tokens: A closure that returns a custom set of tokens.
+    public func register<T: TokenizedControl>(controlType: T.Type, tokens: ((T) -> T.TokenType)?) {
         controlTokens[tokenKey(controlType)] = tokens
     }
 
-    /// Returns the appropriate `ControlTokens` instance that was provided a given `TokenizedControl`.
+    /// Returns the specified `ControlTokens` generator for a given `TokenizedControl`, if a lookup function has been registered.
     ///
-    /// This method returns the appropriate token based on a priority order. The first of these entries to be non-`nil` is returned:
-    /// 1. Instance-specific `overrideTokens`.
-    /// 2. Theme-wide custom tokens set via `register(tokens:for:)`.
-    /// 3. The control's own `defaultTokens`.
+    /// - Parameter control: The control to fetch the token generator for.
+    ///
+    /// - Returns: A `ControlTokens` generator for the given control, or `nil` if no lookup function has been registered.
+    public func tokenOverride<T: TokenizedControl>(for controlType: T.Type) -> ((T) -> T.TokenType)? {
+        return controlTokens[tokenKey(controlType)] as? ((T) -> T.TokenType)
+    }
+
+    /// Returns a custom `ControlTokens` instance for a given `TokenizedControl`, if a lookup function has been registered.
     ///
     /// - Parameter control: The control to fetch tokens for.
     ///
-    /// - Returns: The appropriate `ControlTokens` for the given control. See Discussion for more details.
+    /// - Returns: A `ControlTokens` instance for the given control, or `nil` if no lookup function has been registered.
     func tokens<T: TokenizedControl>(for control: T) -> T.TokenType? {
-        if let lookup = controlTokens[tokenKey(type(of: control))] as? (T) -> T.TokenType {
+        if let lookup = controlTokens[tokenKey(type(of: control))] as? ((T) -> T.TokenType) {
             return lookup(control)
         } else {
             return nil
@@ -52,7 +56,7 @@ import SwiftUI
     public private(set) var aliasTokens: AliasTokens
 
     private func tokenKey<T: TokenizedControl>(_ controlType: T.Type) -> String {
-        return "\(controlType))"
+        return "\(controlType)"
     }
 
     private var controlTokens: [String: Any] = [:]

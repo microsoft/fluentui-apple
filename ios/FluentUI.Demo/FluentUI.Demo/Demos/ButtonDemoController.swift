@@ -6,15 +6,7 @@
 import FluentUI
 import UIKit
 
-class ButtonDemoController: UITableViewController {
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(style: .grouped)
-    }
-
-    required init?(coder: NSCoder) {
-        preconditionFailure("init(coder:) has not been implemented")
-    }
-
+class ButtonDemoController: DemoTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -309,6 +301,48 @@ class ButtonDemoController: UITableViewController {
             case .swiftUIDemo:
                 return false
             }
+        }
+    }
+}
+
+extension ButtonDemoController: DemoAppearanceDelegate {
+    func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
+        guard let fluentTheme = self.view.window?.fluentTheme else {
+            return
+        }
+
+        var tokensClosure: ((FluentButton) -> ButtonTokens)?
+        if isOverrideEnabled {
+            tokensClosure = { _ in
+                return ThemeWideOverrideButtonTokens()
+            }
+        }
+
+        fluentTheme.register(controlType: FluentButton.self, tokens: tokensClosure)
+    }
+
+    func perControlOverrideDidChange(isOverrideEnabled: Bool) {
+        self.buttons.forEach({ (_: String, value: MSFButton) in
+            let tokens = isOverrideEnabled ? PerControlOverrideButtonTokens() : nil
+            value.state.overrideTokens = tokens
+        })
+    }
+
+    func isThemeWideOverrideApplied() -> Bool {
+        return self.view.window?.fluentTheme.tokenOverride(for: FluentButton.self) != nil
+    }
+
+    // MARK: - Custom tokens
+
+    private class ThemeWideOverrideButtonTokens: ButtonTokens {
+        override var textFont: FontInfo {
+            return FontInfo(name: "Times", size: 20.0, weight: .regular)
+        }
+    }
+
+    private class PerControlOverrideButtonTokens: ButtonTokens {
+        override var textFont: FontInfo {
+            return FontInfo(name: "Papyrus", size: 20.0, weight: .regular)
         }
     }
 }
