@@ -197,7 +197,8 @@ class LeftNavMenuViewController: UIViewController {
             }
         }
 
-        let tintDynamicColor = AliasTokens().foregroundColors[.neutral4]
+        let aliasTokens = AliasTokens()
+        let tintDynamicColor = aliasTokens.foregroundColors[.neutral4]
         let tintColor = UIColor(dynamicColor: tintDynamicColor)
 
         let resetStatusCell = statusCellState.createChildCell()
