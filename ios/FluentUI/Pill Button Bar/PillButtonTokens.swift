@@ -32,13 +32,13 @@ open class PillButtonTokens: ControlTokens {
     open var backgroundColor: PillButtonDynamicColors {
         switch style {
         case .primary:
-            return .init(rest: DynamicColor(light: globalTokens.neutralColors[.grey94], dark: globalTokens.neutralColors[.grey8]),
-                         selected: globalTokens.brandColors[.primary],
+            return .init(rest: aliasTokens.backgroundColors[.neutral4],
+                         selected: DynamicColor(light: aliasTokens.foregroundColors[.brandRest].light, dark: aliasTokens.backgroundColors[.brandRest].dark),
                          disabled: DynamicColor(light: globalTokens.neutralColors[.grey94], dark: globalTokens.neutralColors[.grey8]),
                          selectedDisabled: DynamicColor(light: globalTokens.neutralColors[.grey80], dark: globalTokens.neutralColors[.grey30]))
         case .onBrand:
-            return .init(rest: DynamicColor(light: globalTokens.brandColors[.shade10].light, dark: globalTokens.neutralColors[.grey8]),
-                         selected: DynamicColor(light: globalTokens.neutralColors[.white], dark: globalTokens.neutralColors[.grey32]),
+            return .init(rest: DynamicColor(light: aliasTokens.backgroundColors[.brandHover].light, dark: aliasTokens.backgroundColors[.neutral3].dark),
+                         selected: DynamicColor(light: aliasTokens.backgroundColors[.neutral1].light, dark: globalTokens.neutralColors[.grey32]),
                          disabled: DynamicColor(light: globalTokens.brandColors[.shade20].light, dark: globalTokens.neutralColors[.grey8]),
                          selectedDisabled: DynamicColor(light: globalTokens.neutralColors[.white], dark: globalTokens.neutralColors[.grey30]))
         }
@@ -48,13 +48,13 @@ open class PillButtonTokens: ControlTokens {
     open var titleColor: PillButtonDynamicColors {
         switch style {
         case .primary:
-            return .init(rest: DynamicColor(light: globalTokens.neutralColors[.grey38], dark: globalTokens.neutralColors[.grey84]),
-                         selected: DynamicColor(light: globalTokens.neutralColors[.white], dark: globalTokens.neutralColors[.black]),
+            return .init(rest: DynamicColor(light: aliasTokens.foregroundColors[.neutral2].light, dark: aliasTokens.foregroundColors[.neutral2].dark),
+                         selected: DynamicColor(light: aliasTokens.backgroundColors[.neutral1].light, dark: aliasTokens.foregroundColors[.neutralInverted].dark),
                          disabled: DynamicColor(light: globalTokens.neutralColors[.grey70], dark: globalTokens.neutralColors[.grey26]),
                          selectedDisabled: DynamicColor(light: globalTokens.neutralColors[.grey94], dark: globalTokens.neutralColors[.grey44]))
         case .onBrand:
-            return .init(rest: DynamicColor(light: globalTokens.neutralColors[.white], dark: globalTokens.neutralColors[.grey84]),
-                         selected: DynamicColor(light: globalTokens.brandColors[.primary].light, dark: globalTokens.neutralColors[.white]),
+            return .init(rest: DynamicColor(light: aliasTokens.foregroundColors[.neutralInverted].light, dark: aliasTokens.foregroundColors[.neutral2].dark),
+                         selected: DynamicColor(light: aliasTokens.foregroundColors[.brandRest].light, dark: aliasTokens.foregroundColors[.neutral1].dark),
                          disabled: DynamicColor(light: globalTokens.brandColors[.shade10].light, dark: globalTokens.neutralColors[.grey26]),
                          selectedDisabled: DynamicColor(light: globalTokens.neutralColors[.grey74], dark: globalTokens.neutralColors[.grey44]))
         }
@@ -64,9 +64,9 @@ open class PillButtonTokens: ControlTokens {
     open var enabledUnreadDotColor: DynamicColor {
         switch style {
         case .primary:
-            return globalTokens.brandColors[.primary]
+            return aliasTokens.foregroundColors[.brandRest]
         case .onBrand:
-            return DynamicColor(light: globalTokens.neutralColors[.white], dark: globalTokens.neutralColors[.grey84])
+            return DynamicColor(light: aliasTokens.foregroundColors[.neutralInverted].light, dark: aliasTokens.foregroundColors[.neutral2].dark)
         }
     }
 
