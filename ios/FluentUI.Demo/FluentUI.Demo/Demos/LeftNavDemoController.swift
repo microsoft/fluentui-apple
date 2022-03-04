@@ -197,12 +197,15 @@ class LeftNavMenuViewController: UIViewController {
             }
         }
 
+        let tintDynamicColor = AliasTokens().foregroundColors[.neutral4]
+        let tintColor = UIColor(dynamicColor: tintDynamicColor)
+
         let resetStatusCell = statusCellState.createChildCell()
         resetStatusCell.title = "Reset status"
         resetStatusCell.leadingViewSize = .small
         resetStatusCell.backgroundColor = .systemBackground
         let resetStatusImageView = UIImageView(image: UIImage(named: "ic_fluent_arrow_sync_24_regular"))
-        resetStatusImageView.tintColor = FluentUIThemeManager.S.Colors.Foreground.neutral4
+        resetStatusImageView.tintColor = tintColor
         resetStatusCell.leadingUIView = resetStatusImageView
         resetStatusCell.onTapAction = { [weak self] in
             guard let strongSelf = self else {
@@ -215,7 +218,7 @@ class LeftNavMenuViewController: UIViewController {
         statusMessageCell.backgroundColor = .systemBackground
         statusMessageCell.title = "Set Status Message"
         let statusMessageImageView = UIImageView(image: UIImage(named: "ic_fluent_status_24_regular"))
-        statusMessageImageView.tintColor = FluentUIThemeManager.S.Colors.Foreground.neutral4
+        statusMessageImageView.tintColor = tintColor
         statusMessageCell.leadingUIView = statusMessageImageView
         statusMessageCell.onTapAction = defaultMenuAction
 
@@ -225,7 +228,7 @@ class LeftNavMenuViewController: UIViewController {
         notificationsCell.subtitle = "On"
         notificationsCell.layoutType = .twoLines
         let notificationsImageView = UIImageView(image: UIImage(named: "ic_fluent_alert_24_regular"))
-        notificationsImageView.tintColor = FluentUIThemeManager.S.Colors.Foreground.neutral4
+        notificationsImageView.tintColor = tintColor
         notificationsCell.leadingUIView = notificationsImageView
         notificationsCell.onTapAction = defaultMenuAction
 
@@ -233,7 +236,7 @@ class LeftNavMenuViewController: UIViewController {
         settingsCell.backgroundColor = .systemBackground
         settingsCell.title = "Settings"
         let settingsImageView = UIImageView(image: UIImage(named: "ic_fluent_settings_24_regular"))
-        settingsImageView.tintColor = FluentUIThemeManager.S.Colors.Foreground.neutral4
+        settingsImageView.tintColor = tintColor
         settingsCell.leadingUIView = settingsImageView
         settingsCell.onTapAction = defaultMenuAction
 
@@ -241,7 +244,7 @@ class LeftNavMenuViewController: UIViewController {
         whatsNewCell.backgroundColor = .systemBackground
         whatsNewCell.title = "What's new"
         let whatsNewImageView = UIImageView(image: UIImage(named: "ic_fluent_lightbulb_24_regular"))
-        whatsNewImageView.tintColor = FluentUIThemeManager.S.Colors.Foreground.neutral4
+        whatsNewImageView.tintColor = tintColor
         whatsNewCell.leadingUIView = whatsNewImageView
         whatsNewCell.onTapAction = defaultMenuAction
 
@@ -274,7 +277,7 @@ class LeftNavMenuViewController: UIViewController {
         addAccountCell.backgroundColor = .systemBackground
         addAccountCell.title = "Add Account"
         let addAccountImageView = UIImageView(image: UIImage(named: "ic_fluent_add_24_regular"))
-        addAccountImageView.tintColor = FluentUIThemeManager.S.Colors.Foreground.neutral4
+        addAccountImageView.tintColor = tintColor
         addAccountCell.leadingUIView = addAccountImageView
         addAccountCell.onTapAction = defaultMenuAction
 
@@ -335,19 +338,19 @@ enum LeftNavPresence: Int, CaseIterable {
         switch self {
         case .available:
             imageView = UIImageView(image: UIImage(named: "ic_fluent_presence_available_16_filled"))
-            imageView.tintColor = FluentUIThemeManager.S.Colors.Presence.available
+            imageView.tintColor = FluentUI.Colors.Palette.presenceAvailable.color
         case .away, .beRightBack:
             imageView = UIImageView(image: UIImage(named: "ic_fluent_presence_away_16_filled"))
-            imageView.tintColor = FluentUIThemeManager.S.Colors.Presence.away
+            imageView.tintColor = FluentUI.Colors.Palette.presenceAway.color
         case .busy:
             imageView = UIImageView(image: UIImage(named: "ic_fluent_presence_busy_16_filled"))
-            imageView.tintColor = FluentUIThemeManager.S.Colors.Presence.busy
+            imageView.tintColor = FluentUI.Colors.Palette.presenceBusy.color
         case .doNotDisturb:
             imageView = UIImageView(image: UIImage(named: "ic_fluent_presence_dnd_16_filled"))
-            imageView.tintColor = FluentUIThemeManager.S.Colors.Presence.doNotDisturb
+            imageView.tintColor = FluentUI.Colors.Palette.presenceDnd.color
         case .offline:
             imageView = UIImageView(image: UIImage(named: "ic_fluent_presence_offline_16_regular"))
-            imageView.tintColor = FluentUIThemeManager.S.Colors.Presence.offline
+            imageView.tintColor = FluentUI.Colors.Palette.presenceOffline.color
         }
         return imageView
     }
