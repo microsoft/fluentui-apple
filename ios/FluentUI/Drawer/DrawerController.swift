@@ -782,10 +782,6 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
         presentationController.updateApperance()
     }
 
-    var window: UIWindow? {
-        return self.view.window
-    }
-
     private func offset(forResizingGesture gesture: UIPanGestureRecognizer) -> CGFloat {
         let presentationDirection = self.presentationDirection(for: view)
         let translation = gesture.translation(in: nil)
