@@ -96,7 +96,7 @@ class PersonaButtonCarouselDemoController: DemoTableViewController {
 
     // MARK: - Actions
 
-    private func didTap(on personaButtonState: MSFPersonaCarouselButtonState, at index: Int) {
+    private func didTap(on personaButtonState: MSFPersonaCarouselButtonConfiguration, at index: Int) {
         let primaryText: String = personaButtonState.primaryText ?? "n/a"
         let alert = UIAlertController(title: "\(primaryText) at index \(index) was selected", message: nil, preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .default, handler: nil)
@@ -112,7 +112,7 @@ class PersonaButtonCarouselDemoController: DemoTableViewController {
                 return (((persona.name.count > 0) ? persona.name : persona.email), nil)
             }
         }()
-        carousel.state.add(primaryText: text.0, secondaryText: text.1, image: persona.image)
+        carousel.configuration.add(primaryText: text.0, secondaryText: text.1, image: persona.image)
     }
 
     @objc private func handleAppendPersona() {
@@ -125,11 +125,11 @@ class PersonaButtonCarouselDemoController: DemoTableViewController {
 
     @objc private func handleRemovePersona() {
         carousels.forEach { (_ : MSFPersonaButtonSize, carousel: MSFPersonaButtonCarousel) in
-            let state = carousel.state
-            let count = state.count
+            let configuration = carousel.configuration
+            let count = configuration.count
             if count > 0 {
                 let random = Int.random(in: 0...count - 1)
-                state.remove(at: random)
+                configuration.remove(at: random)
             }
         }
     }
@@ -171,7 +171,7 @@ class PersonaButtonCarouselDemoController: DemoTableViewController {
             add(persona, to: carousel)
         }
         carousels[size] = carousel
-        carousel.state.onTapAction = { [weak self] (personaButtonState: MSFPersonaCarouselButtonState, index: Int) in
+        carousel.configuration.onTapAction = { [weak self] (personaButtonState: MSFPersonaCarouselButtonConfiguration, index: Int) in
             self?.didTap(on: personaButtonState, at: index)
         }
 
@@ -205,13 +205,13 @@ class PersonaButtonCarouselDemoController: DemoTableViewController {
 
         // Create the PersonaButton to be displayed
         let personaButton = MSFPersonaButton(size: size)
-        let personaButtonState = personaButton.state
+        let personaButtonConfiguration = personaButton.configuration
         let persona = personas[indexPath.item]
-        personaButtonState.image = persona.image
-        personaButtonState.primaryText = persona.name
-        personaButtonState.secondaryText = persona.email
-        personaButtonState.onTapAction = { [weak self, weak personaButtonState] in
-            let alert = UIAlertController(title: nil, message: "PersonaButton tapped: \(personaButtonState?.primaryText ?? "(none)")", preferredStyle: .alert)
+        personaButtonConfiguration.image = persona.image
+        personaButtonConfiguration.primaryText = persona.name
+        personaButtonConfiguration.secondaryText = persona.email
+        personaButtonConfiguration.onTapAction = { [weak self, weak personaButtonConfiguration] in
+            let alert = UIAlertController(title: nil, message: "PersonaButton tapped: \(personaButtonConfiguration?.primaryText ?? "(none)")", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default))
             self?.present(alert, animated: true)
         }

@@ -6,8 +6,8 @@
 import SwiftUI
 import UIKit
 
-/// Properties available to customize the state of the Indeterminate Progress Bar.
-@objc public protocol MSFIndeterminateProgressBarState {
+/// Properties available to customize the configuration of the Indeterminate Progress Bar.
+@objc public protocol MSFIndeterminateProgressBarConfiguration {
     /// Defines whether the Indeterminate Progress Bar is animating or stopped.
     var isAnimating: Bool { get set }
 
@@ -21,8 +21,8 @@ import UIKit
 public struct IndeterminateProgressBar: View, ConfigurableTokenizedControl {
     /// Creates the Indeterminate Progress Bar.
     public init() {
-        let state = MSFIndeterminateProgressBarStateImpl()
-        self.state = state
+        let configuration = MSFIndeterminateProgressBarConfigurationImpl()
+        self.configuration = configuration
         startPoint = Constants.Coordinates(isRTLLanguage).initialStartPoint
         endPoint = Constants.Coordinates(isRTLLanguage).initialEndPoint
     }
@@ -42,19 +42,19 @@ public struct IndeterminateProgressBar: View, ConfigurableTokenizedControl {
                    maxHeight: height,
                    alignment: .center)
             .background(backgroundColor)
-            .modifyIf(state.isAnimating, { view in
+            .modifyIf(configuration.isAnimating, { view in
                 view
                     .onAppear {
                         startAnimation()
                     }
             })
-            .modifyIf(!state.isAnimating) { view in
+            .modifyIf(!configuration.isAnimating) { view in
                 view
                     .onAppear {
                        stopAnimation()
                     }
             }
-            .modifyIf(!state.isAnimating && state.hidesWhenStopped, { view in
+            .modifyIf(!configuration.isAnimating && configuration.hidesWhenStopped, { view in
                 view.hidden()
             })
     }
@@ -65,7 +65,7 @@ public struct IndeterminateProgressBar: View, ConfigurableTokenizedControl {
     }
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @Environment(\.layoutDirection) var layoutDirection: LayoutDirection
-    @ObservedObject var state: MSFIndeterminateProgressBarStateImpl
+    @ObservedObject var configuration: MSFIndeterminateProgressBarConfigurationImpl
     @State var startPoint: UnitPoint = .zero
     @State var endPoint: UnitPoint = .zero
     var isRTLLanguage: Bool {
@@ -106,11 +106,11 @@ public struct IndeterminateProgressBar: View, ConfigurableTokenizedControl {
     }
 }
 
-/// Properties available to customize the state of the Indeterminate Progress Bar
-class MSFIndeterminateProgressBarStateImpl: NSObject,
-                                            ObservableObject,
-                                            ControlConfiguration,
-                                            MSFIndeterminateProgressBarState {
+/// Properties available to customize the configuration of the Indeterminate Progress Bar
+class MSFIndeterminateProgressBarConfigurationImpl: NSObject,
+                                                    ObservableObject,
+                                                    ControlConfiguration,
+                                                    MSFIndeterminateProgressBarConfiguration {
     @Published var isAnimating: Bool = false
     @Published var hidesWhenStopped: Bool = true
 

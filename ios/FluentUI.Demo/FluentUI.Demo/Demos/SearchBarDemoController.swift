@@ -58,11 +58,11 @@ class SearchBarDemoController: DemoController, SearchBarDelegate {
     }
 
     func searchBarDidCancel(_ searchBar: SearchBar) {
-        searchBar.progressSpinner.state.isAnimating = false
+        searchBar.progressSpinner.configuration.isAnimating = false
     }
 
     func searchBarDidRequestSearch(_ searchBar: SearchBar) {
-        searchBar.progressSpinner.state.isAnimating = true
+        searchBar.progressSpinner.configuration.isAnimating = true
     }
 
     func searchBar(_ searchBar: SearchBar, didUpdateLeadingView leadingView: UIView?) {

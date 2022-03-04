@@ -50,8 +50,8 @@ class SideTabBarDemoController: DemoController {
 
             strongSelf.modifyBadgeNumbers(increment: 1)
         }
-        incrementBadgeButton.state.image = UIImage(named: "ic_fluent_add_20_regular")
-        incrementBadgeButton.state.accessibilityLabel = "Increment badge numbers"
+        incrementBadgeButton.configuration.image = UIImage(named: "ic_fluent_add_20_regular")
+        incrementBadgeButton.configuration.accessibilityLabel = "Increment badge numbers"
 
         return incrementBadgeButton
     }()
@@ -65,8 +65,8 @@ class SideTabBarDemoController: DemoController {
 
             strongSelf.modifyBadgeNumbers(increment: -1)
         }
-        decrementBadgeButton.state.image = UIImage(named: "ic_fluent_subtract_20_regular")
-        decrementBadgeButton.state.accessibilityLabel = "Decrement badge numbers"
+        decrementBadgeButton.configuration.image = UIImage(named: "ic_fluent_subtract_20_regular")
+        decrementBadgeButton.configuration.accessibilityLabel = "Decrement badge numbers"
 
         return decrementBadgeButton
     }()
@@ -182,10 +182,10 @@ class SideTabBarDemoController: DemoController {
         if let image = UIImage(named: "avatar_kat_larsson"), show {
             avatar = MSFAvatar(style: .accent,
                                size: .medium)
-            if let avatarState = avatar?.state {
-                avatarState.primaryText = "Kat Larson"
-                avatarState.image = image
-                avatarState.hasPointerInteraction = true
+            if let avatarConfiguration = avatar?.configuration {
+                avatarConfiguration.primaryText = "Kat Larson"
+                avatarConfiguration.image = image
+                avatarConfiguration.hasPointerInteraction = true
             }
         }
 
@@ -207,8 +207,8 @@ class SideTabBarDemoController: DemoController {
     }
 
     private func updateBadgeButtons() {
-        incrementBadgeButton.state.isDisabled = !showBadgeNumbers
-        decrementBadgeButton.state.isDisabled = !showBadgeNumbers
+        incrementBadgeButton.configuration.isDisabled = !showBadgeNumbers
+        decrementBadgeButton.configuration.isDisabled = !showBadgeNumbers
     }
 
     private func modifyBadgeNumbers(increment: Int) {

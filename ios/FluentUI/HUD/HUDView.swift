@@ -188,8 +188,8 @@ class HUDView: UIView {
         switch type {
         case .activity:
             let activityIndicator = MSFActivityIndicator(size: .xLarge)
-            activityIndicator.state.color = Colors.HUD.activityIndicator
-            activityIndicator.state.isAnimating = true
+            activityIndicator.configuration.color = Colors.HUD.activityIndicator
+            activityIndicator.configuration.isAnimating = true
             return activityIndicator.view
         case .success:
             let imageView = UIImageView(image: .staticImageNamed("checkmark-36x36"))

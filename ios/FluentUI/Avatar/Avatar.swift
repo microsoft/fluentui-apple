@@ -7,7 +7,7 @@ import UIKit
 import SwiftUI
 
 /// Properties that can be used to customize the appearance of the Avatar.
-@objc public protocol MSFAvatarState {
+@objc public protocol MSFAvatarConfiguration {
     /// Sets the accessibility label for the Avatar.
     var accessibilityLabel: String? { get set }
 
@@ -19,7 +19,7 @@ import SwiftUI
     /// This property allows customizing the initials text color or the default image tint color.
     var foregroundColor: UIColor? { get set }
 
-    /// Configures the Avatar with a button accessibility trait overriding its default image trait.
+    /// Configuress the Avatar with a button accessibility trait overriding its default image trait.
     var hasButtonAccessibilityTrait: Bool { get set }
 
     /// Turns iPad Pointer interaction on/off.
@@ -86,25 +86,25 @@ public struct Avatar: View, ConfigurableTokenizedControl {
                 image: UIImage? = nil,
                 primaryText: String? = nil,
                 secondaryText: String? = nil) {
-        let state = MSFAvatarStateImpl(style: style,
-                                       size: size)
-        state.image = image
-        state.primaryText = primaryText
-        state.secondaryText = secondaryText
+        let configuration = MSFAvatarConfigurationImpl(style: style,
+                                                       size: size)
+        configuration.image = image
+        configuration.primaryText = primaryText
+        configuration.secondaryText = secondaryText
 
-        self.state = state
+        self.configuration = configuration
     }
 
     public var body: some View {
         let style = tokens.style
-        let presence = state.presence
+        let presence = configuration.presence
         let shouldDisplayPresence = presence != .none
-        let isRingVisible = state.isRingVisible
-        let hasRingInnerGap = state.hasRingInnerGap
-        let isTransparent = state.isTransparent
-        let isOutOfOffice = state.isOutOfOffice
-        let initialsString: String = ((style == .overflow) ? state.primaryText ?? "" : Avatar.initialsText(fromPrimaryText: state.primaryText,
-                                                                                                           secondaryText: state.secondaryText))
+        let isRingVisible = configuration.isRingVisible
+        let hasRingInnerGap = configuration.hasRingInnerGap
+        let isTransparent = configuration.isTransparent
+        let isOutOfOffice = configuration.isOutOfOffice
+        let initialsString: String = ((style == .overflow) ? configuration.primaryText ?? "" : Avatar.initialsText(fromPrimaryText: configuration.primaryText,
+                                                                                                           secondaryText: configuration.secondaryText))
         let shouldUseCalculatedColors = !initialsString.isEmpty && style != .overflow
 
         let ringInnerGap: CGFloat = isRingVisible && hasRingInnerGap ? tokens.ringInnerGap : 0
@@ -134,40 +134,40 @@ public struct Avatar: View, ConfigurableTokenizedControl {
         let presenceIconFrameSideRelativeToOuterRing: CGFloat = presenceIconFrameSideRelativeToInnerRing + outerGapAndRingThicknesCombined
         let overallFrameSide = max(ringOuterGapSize, presenceIconFrameSideRelativeToOuterRing)
 
-        let foregroundColor = state.foregroundColor?.dynamicColor ?? ( !shouldUseCalculatedColors ?
+        let foregroundColor = configuration.foregroundColor?.dynamicColor ?? ( !shouldUseCalculatedColors ?
                                                                        tokens.foregroundDefaultColor :
-                                                                        initialsCalculatedColor(fromPrimaryText: state.primaryText,
-                                                                                                secondaryText: state.secondaryText,
+                                                                        initialsCalculatedColor(fromPrimaryText: configuration.primaryText,
+                                                                                                secondaryText: configuration.secondaryText,
                                                                                                 colorOptions: tokens.foregroundCalculatedColorOptions))
-        let backgroundColor = state.backgroundColor?.dynamicColor ?? ( !shouldUseCalculatedColors ?
+        let backgroundColor = configuration.backgroundColor?.dynamicColor ?? ( !shouldUseCalculatedColors ?
                                                                        tokens.backgroundDefaultColor :
-                                                                        initialsCalculatedColor(fromPrimaryText: state.primaryText,
-                                                                                                secondaryText: state.secondaryText,
+                                                                        initialsCalculatedColor(fromPrimaryText: configuration.primaryText,
+                                                                                                secondaryText: configuration.secondaryText,
                                                                                                 colorOptions: tokens.backgroundCalculatedColorOptions))
         let ringGapColor = Color(dynamicColor: tokens.ringGapColor).opacity(isTransparent ? 0 : 1)
         let ringColor = !isRingVisible ? Color.clear :
-        Color(dynamicColor: state.ringColor?.dynamicColor ?? ( !shouldUseCalculatedColors ?
+        Color(dynamicColor: configuration.ringColor?.dynamicColor ?? ( !shouldUseCalculatedColors ?
                                                                tokens.ringDefaultColor :
                                                                 backgroundColor))
 
-        let shouldUseDefaultImage = (state.image == nil && initialsString.isEmpty && style != .overflow)
+        let shouldUseDefaultImage = (configuration.image == nil && initialsString.isEmpty && style != .overflow)
         let avatarImageInfo: (image: UIImage?, renderingMode: Image.TemplateRenderingMode) = {
             if shouldUseDefaultImage {
                 let isOutlinedStyle = style == .outlined || style == .outlinedPrimary
                 return (UIImage.staticImageNamed(isOutlinedStyle ? "person_48_regular" : "person_48_filled"), .template)
             }
 
-            return (state.image, .original)
+            return (configuration.image, .original)
         }()
         let avatarImageSizeRatio: CGFloat = (shouldUseDefaultImage) ? 0.7 : 1
 
         let accessibilityLabel: String = {
-            if let overriddenAccessibilityLabel = state.accessibilityLabel {
+            if let overriddenAccessibilityLabel = configuration.accessibilityLabel {
                 return overriddenAccessibilityLabel
             }
 
-            let defaultAccessibilityText = state.primaryText ?? state.secondaryText ?? ""
-            return (state.isOutOfOffice ?
+            let defaultAccessibilityText = configuration.primaryText ?? configuration.secondaryText ?? ""
+            return (configuration.isOutOfOffice ?
                         String.localizedStringWithFormat("Accessibility.AvatarView.LabelFormat".localized, defaultAccessibilityText, "Presence.OOF".localized) :
                         defaultAccessibilityText)
         }()
@@ -190,7 +190,7 @@ public struct Avatar: View, ConfigurableTokenizedControl {
         // This variable is not going to be computed in that scenario.
         @ViewBuilder
         var avatarRingView: some View {
-            if let imageBasedRingColor = state.imageBasedRingColor {
+            if let imageBasedRingColor = configuration.imageBasedRingColor {
                 // The potentially maximum size of the ring view must be used in order to avoid abrupt
                 // transitions during the animation as the ImagePaint scale value is not animatable.
                 let ringMaxSize = avatarImageSize + (tokens.ringInnerGap + tokens.ringThickness) * 2
@@ -264,10 +264,10 @@ public struct Avatar: View, ConfigurableTokenizedControl {
         }
 
         return avatarBody
-            .pointerInteraction(state.hasPointerInteraction)
-            .animation(state.isAnimated ? .linear(duration: animationDuration) : .none)
+            .pointerInteraction(configuration.hasPointerInteraction)
+            .animation(configuration.isAnimated ? .linear(duration: animationDuration) : .none)
             .accessibilityElement(children: .ignore)
-            .accessibility(addTraits: state.hasButtonAccessibilityTrait ? .isButton : .isImage)
+            .accessibility(addTraits: configuration.hasButtonAccessibilityTrait ? .isButton : .isImage)
             .accessibility(label: Text(accessibilityLabel))
             .accessibility(value: Text(presence.string() ?? ""))
     }
@@ -306,20 +306,20 @@ public struct Avatar: View, ConfigurableTokenizedControl {
     }
 
     // This initializer should be used by internal container views. These containers should first initialize
-    // MSFAvatarStateImpl using style and size, and then use that state and this initializer in their ViewBuilder.
-    init(_ avatarState: MSFAvatarStateImpl) {
-        state = avatarState
+    // MSFAvatarConfigurationImpl using style and size, and then use that configuration and this initializer in their ViewBuilder.
+    init(_ avatarConfiguration: MSFAvatarConfigurationImpl) {
+        configuration = avatarConfiguration
     }
 
     /// Calculates the size of the avatar, including ring spacing
     var totalSize: CGFloat {
         let avatarImageSize: CGFloat = tokens.avatarSize
         let ringOuterGap: CGFloat = tokens.ringOuterGap
-        if !state.isRingVisible {
+        if !configuration.isRingVisible {
             return avatarImageSize + (ringOuterGap * 2)
         } else {
             let ringThickness: CGFloat = tokens.ringThickness
-            let ringInnerGap: CGFloat = state.hasRingInnerGap ? tokens.ringInnerGap : 0
+            let ringInnerGap: CGFloat = configuration.hasRingInnerGap ? tokens.ringInnerGap : 0
             return ((ringInnerGap + ringThickness + ringOuterGap) * 2 + avatarImageSize)
         }
     }
@@ -333,11 +333,11 @@ public struct Avatar: View, ConfigurableTokenizedControl {
     let defaultTokens: AvatarTokens = .init()
     var tokens: AvatarTokens {
         let tokens = resolvedTokens
-        tokens.size = state.size
-        tokens.style = state.style
+        tokens.size = configuration.size
+        tokens.style = configuration.style
         return tokens
     }
-    @ObservedObject var state: MSFAvatarStateImpl
+    @ObservedObject var configuration: MSFAvatarConfigurationImpl
 
     private static func initialsHashCode(fromPrimaryText primaryText: String?, secondaryText: String?) -> Int {
         var combined: String
@@ -442,8 +442,8 @@ public struct Avatar: View, ConfigurableTokenizedControl {
     private let animationDuration: Double = 0.1
 }
 
-/// Properties available to customize the state of the avatar
-class MSFAvatarStateImpl: NSObject, ObservableObject, Identifiable, ControlConfiguration, MSFAvatarState {
+/// Properties available to customize the configuration of the avatar
+class MSFAvatarConfigurationImpl: NSObject, ObservableObject, Identifiable, ControlConfiguration, MSFAvatarConfiguration {
     public var id = UUID()
 
     @Published var backgroundColor: UIColor?

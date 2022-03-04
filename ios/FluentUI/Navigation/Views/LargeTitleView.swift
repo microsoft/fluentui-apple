@@ -28,19 +28,19 @@ class LargeTitleView: UIView {
         didSet {
             updateProfileButtonVisibility()
 
-            if let avatarState = avatar?.state {
-                avatarState.primaryText = personaData?.name
-                avatarState.secondaryText = personaData?.email
-                avatarState.image = personaData?.image
-                avatarState.imageBasedRingColor = personaData?.imageBasedRingColor
-                avatarState.hasRingInnerGap = personaData?.hasRingInnerGap ?? true
-                avatarState.isRingVisible = personaData?.isRingVisible ?? false
-                avatarState.presence = personaData?.presence ?? .none
-                avatarState.isOutOfOffice = personaData?.isOutOfOffice ?? false
+            if let avatarConfiguration = avatar?.configuration {
+                avatarConfiguration.primaryText = personaData?.name
+                avatarConfiguration.secondaryText = personaData?.email
+                avatarConfiguration.image = personaData?.image
+                avatarConfiguration.imageBasedRingColor = personaData?.imageBasedRingColor
+                avatarConfiguration.hasRingInnerGap = personaData?.hasRingInnerGap ?? true
+                avatarConfiguration.isRingVisible = personaData?.isRingVisible ?? false
+                avatarConfiguration.presence = personaData?.presence ?? .none
+                avatarConfiguration.isOutOfOffice = personaData?.isOutOfOffice ?? false
 
                 let color = personaData?.color
-                avatarState.backgroundColor = color
-                avatarState.ringColor = color
+                avatarConfiguration.backgroundColor = color
+                avatarConfiguration.ringColor = color
             }
         }
     }
@@ -51,9 +51,9 @@ class LargeTitleView: UIView {
             case .automatic:
                 return
             case .contracted:
-                avatar?.state.size = Constants.compactAvatarSize
+                avatar?.configuration.size = Constants.compactAvatarSize
             case .expanded:
-                avatar?.state.size = Constants.avatarSize
+                avatar?.configuration.size = Constants.avatarSize
             }
         }
     }
@@ -72,7 +72,7 @@ class LargeTitleView: UIView {
         didSet {
             if let style = avatarOverrideStyle {
                 updateProfileButtonVisibility()
-                avatar?.state.style = style
+                avatar?.configuration.style = style
             }
         }
     }
@@ -80,7 +80,7 @@ class LargeTitleView: UIView {
     var style: Style = .light {
         didSet {
             titleButton.setTitleColor(colorForStyle, for: .normal)
-            avatar?.state.style = style == .light ? .default : .accent
+            avatar?.configuration.style = style == .light ? .default : .accent
         }
     }
 
@@ -177,14 +177,14 @@ class LargeTitleView: UIView {
         let preferredFallbackImageStyle: MSFAvatarStyle = style == .light ? .default : .accent
         let avatar = MSFAvatar(style: preferredFallbackImageStyle,
                                size: Constants.avatarSize)
-        let avatarState = avatar.state
-        avatarState.primaryText = personaData?.name
-        avatarState.secondaryText = personaData?.email
-        avatarState.image = personaData?.image
+        let avatarConfiguration = avatar.configuration
+        avatarConfiguration.primaryText = personaData?.name
+        avatarConfiguration.secondaryText = personaData?.email
+        avatarConfiguration.image = personaData?.image
 
         if let color = personaData?.color {
-            avatarState.backgroundColor = color
-            avatarState.ringColor = color
+            avatarConfiguration.backgroundColor = color
+            avatarConfiguration.ringColor = color
         }
 
         self.avatar = avatar
@@ -223,7 +223,7 @@ class LargeTitleView: UIView {
         }
 
         if avatarSize == .automatic {
-            avatar?.state.size = Constants.avatarSize
+            avatar?.configuration.size = Constants.avatarSize
         }
 
         layoutIfNeeded()
@@ -235,22 +235,22 @@ class LargeTitleView: UIView {
         }
 
         if avatarSize == .automatic {
-            avatar?.state.size = Constants.compactAvatarSize
+            avatar?.configuration.size = Constants.compactAvatarSize
         }
 
         layoutIfNeeded()
     }
 
     private func updateAvatarViewPointerInteraction() {
-        avatar?.state.hasPointerInteraction = onAvatarTapped != nil
+        avatar?.configuration.hasPointerInteraction = onAvatarTapped != nil
     }
 
     private func updateAvatarAccessibility() {
         if let avatar = avatar {
             let accessibilityLabel = avatarAccessibilityLabel
-            let avatarState = avatar.state
-            avatarState.accessibilityLabel = accessibilityLabel
-            avatarState.hasButtonAccessibilityTrait = onAvatarTapped != nil
+            let avatarConfiguration = avatar.configuration
+            avatarConfiguration.accessibilityLabel = accessibilityLabel
+            avatarConfiguration.hasButtonAccessibilityTrait = onAvatarTapped != nil
 
             let avatarView = avatar.view
             avatarView.showsLargeContentViewer = true

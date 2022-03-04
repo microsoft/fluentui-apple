@@ -14,10 +14,10 @@ import UIKit
     ///   - size: The MSFPersonaButtonSize value used by the PersonaButtonCarousel.
     @objc public init(size: MSFPersonaButtonSize = .large) {
         let personaButtonCarousel = PersonaButtonCarousel(size: size)
-        state = personaButtonCarousel.state
+        configuration = personaButtonCarousel.configuration
         super.init(AnyView(personaButtonCarousel))
     }
 
     /// The object that groups properties that allow control over the PersonaButtonCarousel appearance.
-    @objc public let state: MSFPersonaButtonCarouselState
+    @objc public let configuration: MSFPersonaButtonCarouselConfiguration
 }

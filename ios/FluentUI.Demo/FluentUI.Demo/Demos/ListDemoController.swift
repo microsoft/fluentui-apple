@@ -14,7 +14,7 @@ class ListDemoController: DemoController {
         var cell: TableViewCellSampleData.Item
         var showsLabelAccessoryView: Bool
 
-        var listCell: MSFListCellState
+        var listCell: MSFListCellConfiguration
 
         //PersonaDataNode creation
         let personaDataNodes: [PersonaDataNode] = [
@@ -28,7 +28,7 @@ class ListDemoController: DemoController {
         ]
 
         /// Custom Leading View with collapsible children items
-        let collapsibleSection = list.state.createSection()
+        let collapsibleSection = list.configuration.createSection()
         collapsibleSection.title = "AvatarSection"
         for node in personaDataNodes {
             let collapsibleCell = collapsibleSection.createCell()
@@ -38,14 +38,14 @@ class ListDemoController: DemoController {
 
         /// TableViewCell Sample Data Sections
         for (sectionIndex, section) in sections.enumerated() {
-            let sectionState = list.state.createSection()
-            sectionState.title = section.title
-            sectionState.style = MSFHeaderStyle.subtle
-            sectionState.hasDividers = true
+            let sectionConfiguration = list.configuration.createSection()
+            sectionConfiguration.title = section.title
+            sectionConfiguration.style = MSFHeaderStyle.subtle
+            sectionConfiguration.hasDividers = true
             for rowIndex in 0..<TableViewCellSampleData.numberOfItemsInSection {
                 showsLabelAccessoryView = TableViewCellSampleData.hasLabelAccessoryViews(at: IndexPath(row: rowIndex, section: sectionIndex))
                 cell = section.item
-                listCell = sectionState.createCell()
+                listCell = sectionConfiguration.createCell()
                 listCell.title = cell.text1
                 listCell.subtitle = cell.text2
                 listCell.footnote = cell.text3
@@ -85,14 +85,14 @@ class ListDemoController: DemoController {
         var isExpanded: Bool = false
     }
 
-    private func createSamplePersonaCell(cellState: MSFListCellState, personaDataNode: PersonaDataNode) {
+    private func createSamplePersonaCell(cellState: MSFListCellConfiguration, personaDataNode: PersonaDataNode) {
         let personaData = personaDataNode.personaData
         let personaChildren = personaDataNode.children
         let avatar = createAvatarView(size: .medium,
                                       name: personaData.name,
                                       image: personaData.image,
                                       style: .default)
-        cellState.title = avatar.state.primaryText ?? ""
+        cellState.title = avatar.configuration.primaryText ?? ""
         cellState.leadingUIView = avatar.view
         cellState.isExpanded = personaDataNode.isExpanded
         cellState.hasDivider = true
@@ -112,8 +112,8 @@ class ListDemoController: DemoController {
                                   style: MSFAvatarStyle) -> MSFAvatar {
         let avatarView = MSFAvatar(style: style,
                                    size: size)
-        avatarView.state.primaryText = name
-        avatarView.state.image = image
+        avatarView.configuration.primaryText = name
+        avatarView.configuration.image = image
 
         return avatarView
     }

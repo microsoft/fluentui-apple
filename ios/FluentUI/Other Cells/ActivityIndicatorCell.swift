@@ -13,7 +13,7 @@ open class ActivityIndicatorCell: UITableViewCell {
 
     private let activityIndicator: MSFActivityIndicator = {
         let activityIndicator = MSFActivityIndicator(size: .small)
-        activityIndicator.state.isAnimating = true
+        activityIndicator.configuration.isAnimating = true
         return activityIndicator
     }()
 
@@ -36,7 +36,7 @@ open class ActivityIndicatorCell: UITableViewCell {
 
     open override func prepareForReuse() {
         super.prepareForReuse()
-        activityIndicator.state.isAnimating = true
+        activityIndicator.configuration.isAnimating = true
     }
 
     open override var intrinsicContentSize: CGSize {

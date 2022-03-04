@@ -74,7 +74,7 @@ class BadgeViewDemoController: DemoController {
         imageView.frame.size = CGSize(width: 20, height: 20)
 
         let avatar = MSFAvatar(style: .default, size: .xsmall)
-        avatar.state.image = UIImage(named: "avatar_kat_larsson")
+        avatar.configuration.image = UIImage(named: "avatar_kat_larsson")
 
         let dataSource: [(BadgeView.Size, UIView)] = [
             (.medium, imageView),

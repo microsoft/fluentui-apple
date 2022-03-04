@@ -433,7 +433,7 @@ class DrawerDemoController: DemoController {
 
                 let isResizingBehaviourNone = drawer.resizingBehavior == .none
                 drawer.resizingBehavior = isResizingBehaviourNone ? .expand : .none
-                sender.state.text = isResizingBehaviourNone ? "Resizing - None" : "Resizing - Expand"
+                sender.configuration.text = isResizingBehaviourNone ? "Resizing - None" : "Resizing - Expand"
             }).view)
         }
         views.append(spacer)
@@ -506,7 +506,7 @@ class DrawerDemoController: DemoController {
                 textField?.resignFirstResponder()
             }
         }
-        button.state.text = "Hide keyboard"
+        button.configuration.text = "Hide keyboard"
         return button
     }()
 }
@@ -520,11 +520,11 @@ extension DrawerDemoController: UITextFieldDelegate {
     }
 
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        hideKeyboardButton.state.isDisabled = false
+        hideKeyboardButton.configuration.isDisabled = false
     }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
-        hideKeyboardButton.state.isDisabled = true
+        hideKeyboardButton.configuration.isDisabled = true
     }
 }
 
@@ -549,6 +549,6 @@ extension DrawerDemoController: DrawerControllerDelegate {
     }
 
     func drawerControllerDidChangeExpandedState(_ controller: DrawerController) {
-        expandButton?.state.text = controller.isExpanded ? "Return to normal" : "Expand"
+        expandButton?.configuration.text = controller.isExpanded ? "Return to normal" : "Expand"
     }
 }

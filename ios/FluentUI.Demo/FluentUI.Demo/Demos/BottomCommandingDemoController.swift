@@ -243,7 +243,7 @@ class BottomCommandingDemoController: UIViewController {
                 strongSelf.bottomCommandingController?.heroItems = Array(strongSelf.heroItems[0..<newCount])
             }
         }
-        button.state.image = UIImage(named: "ic_fluent_add_20_regular")
+        button.configuration.image = UIImage(named: "ic_fluent_add_20_regular")
         button.accessibilityLabel = "Increment hero command count"
 
         return button
@@ -262,7 +262,7 @@ class BottomCommandingDemoController: UIViewController {
                 strongSelf.bottomCommandingController?.heroItems = Array(strongSelf.heroItems[0..<newCount])
             }
         }
-        button.state.image = UIImage(named: "ic_fluent_subtract_20_regular")
+        button.configuration.image = UIImage(named: "ic_fluent_subtract_20_regular")
         button.accessibilityLabel = "Decrement hero command count"
 
         return button

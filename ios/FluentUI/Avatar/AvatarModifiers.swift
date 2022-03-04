@@ -12,7 +12,7 @@ public extension Avatar {
     /// - Parameter accessibilityLabel: Accessibility label string.
     /// - Returns: The modified Avatar with the property set.
     func accessibilityLabel(_ accessibilityLabel: String?) -> Avatar {
-        state.accessibilityLabel = accessibilityLabel
+        configuration.accessibilityLabel = accessibilityLabel
         return self
     }
 
@@ -21,7 +21,7 @@ public extension Avatar {
     /// - Parameter backgroundColor: Background color.
     /// - Returns: The modified Avatar with the property set.
     func backgroundColor(_ backgroundColor: UIColor?) -> Avatar {
-        state.backgroundColor = backgroundColor
+        configuration.backgroundColor = backgroundColor
         return self
     }
 
@@ -30,7 +30,7 @@ public extension Avatar {
     /// - Parameter foregroundColor: Foreground color.
     /// - Returns: The modified Avatar with the property set.
     func foregroundColor(_ foregroundColor: UIColor?) -> Avatar {
-        state.foregroundColor = foregroundColor
+        configuration.foregroundColor = foregroundColor
         return self
     }
 
@@ -38,7 +38,7 @@ public extension Avatar {
     /// - Parameter hasPointerInteraction: Boolean value to set the property.
     /// - Returns: The modified Avatar with the property set.
     func hasPointerInteraction(_ hasPointerInteraction: Bool) -> Avatar {
-        state.hasPointerInteraction = hasPointerInteraction
+        configuration.hasPointerInteraction = hasPointerInteraction
         return self
     }
 
@@ -46,7 +46,7 @@ public extension Avatar {
     /// - Parameter hasRingInnerGap: Boolean value to set the property.
     /// - Returns: The modified Avatar with the property set.
     func hasRingInnerGap(_ hasRingInnerGap: Bool) -> Avatar {
-        state.hasRingInnerGap = hasRingInnerGap
+        configuration.hasRingInnerGap = hasRingInnerGap
         return self
     }
 
@@ -54,7 +54,7 @@ public extension Avatar {
     /// - Parameter imageBasedRingColor: Image to be used as a the ring fill pattern.
     /// - Returns: The modified Avatar with the property set.
     func imageBasedRingColor(_ imageBasedRingColor: UIImage?) -> Avatar {
-        state.imageBasedRingColor = imageBasedRingColor
+        configuration.imageBasedRingColor = imageBasedRingColor
         return self
     }
 
@@ -62,7 +62,7 @@ public extension Avatar {
     /// - Parameter isAnimated: Boolean value to set the property.
     /// - Returns: The modified Avatar with the property set.
     func isAnimated(_ isAnimated: Bool) -> Avatar {
-        state.isAnimated = isAnimated
+        configuration.isAnimated = isAnimated
         return self
     }
 
@@ -70,7 +70,7 @@ public extension Avatar {
     /// - Parameter isOutOfOffice: Boolean value to set the property.
     /// - Returns: The modified Avatar with the property set.
     func isOutOfOffice(_ isOutOfOffice: Bool) -> Avatar {
-        state.isOutOfOffice = isOutOfOffice
+        configuration.isOutOfOffice = isOutOfOffice
         return self
     }
 
@@ -79,7 +79,7 @@ public extension Avatar {
     /// - Parameter isRingVisible: Boolean value to set the property.
     /// - Returns: The modified Avatar with the property set.
     func isRingVisible(_ isRingVisible: Bool) -> Avatar {
-        state.isRingVisible = isRingVisible
+        configuration.isRingVisible = isRingVisible
         return self
     }
 
@@ -88,13 +88,13 @@ public extension Avatar {
     /// - Parameter isTransparent: Boolean value to set the property.
     /// - Returns: The modified Avatar with the property set.
     func isTransparent(_ isTransparent: Bool) -> Avatar {
-        state.isTransparent = isTransparent
+        configuration.isTransparent = isTransparent
         return self
     }
 
     /// Provides a custom design token set to be used when drawing this control
     func overrideTokens(_ tokens: AvatarTokens?) -> Avatar {
-        state.overrideTokens = tokens
+        configuration.overrideTokens = tokens
         return self
     }
 
@@ -104,7 +104,7 @@ public extension Avatar {
     /// - Parameter presence: The MSFAvatarPresence enum value.
     /// - Returns: The modified Avatar with the property set.
     func presence(_ presence: MSFAvatarPresence) -> Avatar {
-        state.presence = presence
+        configuration.presence = presence
         return self
     }
 
@@ -112,7 +112,7 @@ public extension Avatar {
     /// - Parameter ringColor: The color used to set the ring color.
     /// - Returns: The modified Avatar with the property set.
     func ringColor(_ ringColor: UIColor?) -> Avatar {
-        state.ringColor = ringColor
+        configuration.ringColor = ringColor
         return self
     }
 }

@@ -52,15 +52,15 @@ class ButtonDemoController: DemoTableViewController {
                                            style: section.buttonStyle,
                                            size: section.buttonSize,
                                            disabled: false)
-            button.state.image = image
-            button.state.text = text
+            button.configuration.image = image
+            button.configuration.text = text
 
             let disabledButton = dequeueDemoButton(indexPath: indexPath,
                                                    style: section.buttonStyle,
                                                    size: section.buttonSize,
                                                    disabled: true)
-            disabledButton.state.image = image
-            disabledButton.state.text = text
+            disabledButton.configuration.image = image
+            disabledButton.configuration.text = text
 
             let rowContentView = UIStackView(arrangedSubviews: [button.view, disabledButton.view])
             rowContentView.isLayoutMarginsRelativeArrangement = true
@@ -123,7 +123,7 @@ class ButtonDemoController: DemoTableViewController {
                                    size: size) { _ in
                 self.didPressButton()
             }
-            button.state.isDisabled = disabled
+            button.configuration.isDisabled = disabled
             buttons[key] = button
 
             return button
@@ -324,7 +324,7 @@ extension ButtonDemoController: DemoAppearanceDelegate {
     func perControlOverrideDidChange(isOverrideEnabled: Bool) {
         self.buttons.forEach({ (_: String, value: MSFButton) in
             let tokens = isOverrideEnabled ? PerControlOverrideButtonTokens() : nil
-            value.state.overrideTokens = tokens
+            value.configuration.overrideTokens = tokens
         })
     }
 

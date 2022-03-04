@@ -21,8 +21,8 @@ import UIKit
         super.init(AnyView(notification))
     }
 
-    @objc public var state: MSFNotificationState {
-        return notification.state
+    @objc public var configuration: MSFNotificationConfiguration {
+        return notification.configuration
     }
 
     // MARK: - Show/Hide Methods
@@ -90,7 +90,7 @@ import UIKit
 
     @objc public func hide(after delay: TimeInterval = 0, completion: (() -> Void)? = nil) {
         let hideDelay: TimeInterval = {
-            switch state.style {
+            switch configuration.style {
             case .primaryToast, .primaryBar, .primaryOutlineBar, .neutralBar:
                 return delay
             case .neutralToast, .dangerToast, .warningToast:

@@ -663,19 +663,19 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
 extension RootViewController: SearchBarDelegate {
     func searchBarDidBeginEditing(_ searchBar: SearchBar) {
-        searchBar.progressSpinner.state.isAnimating = false
+        searchBar.progressSpinner.configuration.isAnimating = false
     }
 
     func searchBar(_ searchBar: SearchBar, didUpdateSearchText newSearchText: String?) {
     }
 
     func searchBarDidCancel(_ searchBar: SearchBar) {
-        searchBar.progressSpinner.state.isAnimating = false
+        searchBar.progressSpinner.configuration.isAnimating = false
     }
 
     func searchBarDidRequestSearch(_ searchBar: SearchBar) {
         if showSearchProgressSpinner {
-            searchBar.progressSpinner.state.isAnimating = true
+            searchBar.progressSpinner.configuration.isAnimating = true
         }
     }
 

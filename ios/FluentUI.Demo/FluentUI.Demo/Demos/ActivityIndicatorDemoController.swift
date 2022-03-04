@@ -107,11 +107,11 @@ class ActivityIndicatorDemoController: DemoTableViewController {
         didSet {
             if oldValue != shouldHideWhenStopped {
                 defaultColorIndicators.values.forEach { indicator in
-                    indicator.state.hidesWhenStopped = shouldHideWhenStopped
+                    indicator.configuration.hidesWhenStopped = shouldHideWhenStopped
                 }
 
                 customColorIndicators.values.forEach { indicator in
-                    indicator.state.hidesWhenStopped = shouldHideWhenStopped
+                    indicator.configuration.hidesWhenStopped = shouldHideWhenStopped
                 }
             }
         }
@@ -121,11 +121,11 @@ class ActivityIndicatorDemoController: DemoTableViewController {
         didSet {
             if oldValue != isAnimating {
                 defaultColorIndicators.values.forEach { indicator in
-                    indicator.state.isAnimating = isAnimating
+                    indicator.configuration.isAnimating = isAnimating
                 }
 
                 customColorIndicators.values.forEach { indicator in
-                    indicator.state.isAnimating = isAnimating
+                    indicator.configuration.isAnimating = isAnimating
                 }
             }
         }
@@ -136,7 +136,7 @@ class ActivityIndicatorDemoController: DemoTableViewController {
 
         MSFActivityIndicatorSize.allCases.forEach { size in
             let indicator = MSFActivityIndicator(size: size)
-            indicator.state.isAnimating = true
+            indicator.configuration.isAnimating = true
             defaultColorIndicators.updateValue(indicator, forKey: size)
         }
 
@@ -148,8 +148,8 @@ class ActivityIndicatorDemoController: DemoTableViewController {
 
         MSFActivityIndicatorSize.allCases.forEach { size in
             let indicator = MSFActivityIndicator(size: size)
-            indicator.state.isAnimating = true
-            indicator.state.color = Colors.communicationBlue
+            indicator.configuration.isAnimating = true
+            indicator.configuration.color = Colors.communicationBlue
             customColorIndicators.updateValue(indicator, forKey: size)
         }
 
@@ -248,7 +248,7 @@ extension ActivityIndicatorDemoController: DemoAppearanceDelegate {
 
     func perControlOverrideDidChange(isOverrideEnabled: Bool) {
         defaultColorIndicators.values.forEach { activityIndicator in
-            activityIndicator.state.overrideTokens = (isOverrideEnabled ? PerControlOverrideActivityIndicatorTokens() : nil)
+            activityIndicator.configuration.overrideTokens = (isOverrideEnabled ? PerControlOverrideActivityIndicatorTokens() : nil)
         }
     }
 

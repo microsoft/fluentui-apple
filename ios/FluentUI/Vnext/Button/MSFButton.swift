@@ -15,7 +15,7 @@ import UIKit
     @objc public var action: ((_ sender: MSFButton) -> Void)?
 
     /// The object that groups properties that allow control over the button appearance.
-    @objc public let state: MSFButtonState
+    @objc public let configuration: MSFButtonConfiguration
 
     /// Creates a new MSFButton instance.
     /// - Parameters:
@@ -29,11 +29,11 @@ import UIKit
         let buttonView = FluentButton(style: style,
                                       size: size,
                                       action: {})
-        state = buttonView.state
+        configuration = buttonView.configuration
         super.init(AnyView(buttonView))
 
         // After initialization, set the new action to refer to our own.
-        buttonView.state.action = { [weak self] in
+        buttonView.configuration.action = { [weak self] in
             guard let strongSelf = self else {
                 return
             }
@@ -48,20 +48,20 @@ import UIKit
         view.addInteraction(largeContentViewerInteraction)
         largeContentViewerInteraction.gestureRecognizerForExclusionRelationship.delegate = self
         view.scalesLargeContentImage = true
-        view.showsLargeContentViewer = state.style.isFloatingStyle
+        view.showsLargeContentViewer = configuration.style.isFloatingStyle
 
-        // Unpleasant workaround to get the implementation of MSFButtonState.
+        // Unpleasant workaround to get the implementation of MSFButtonConfiguration.
         // Can be removed once we switch to Xcode 13.2 and can use
         // `.accessibilityShowsLargeContentViewerIfAvailable()`.
-        guard let stateImpl = state as? MSFButtonStateImpl else {
+        guard let configurationImpl = configuration as? MSFButtonConfigurationImpl else {
             return
         }
 
-        imagePropertySubscriber = stateImpl.$image.sink { buttonImage in
+        imagePropertySubscriber = configurationImpl.$image.sink { buttonImage in
             self.view.largeContentImage = buttonImage
         }
 
-        textPropertySubscriber = stateImpl.$text.sink { buttonText in
+        textPropertySubscriber = configurationImpl.$text.sink { buttonText in
             self.view.largeContentTitle = buttonText
         }
     }

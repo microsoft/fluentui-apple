@@ -40,7 +40,7 @@ class DemoController: UIViewController {
 
     func createButton(title: String, action: (( MSFButton) -> Void)?) -> MSFButton {
         let button = MSFButton(style: .secondary, size: .small, action: action)
-        button.state.text = title
+        button.configuration.text = title
         return button
     }
 

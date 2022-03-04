@@ -8,25 +8,25 @@ import SwiftUI
 public extension CardNudge {
     /// Optional subtext to draw below the main title area.
     func subtitle(_ subtitle: String?) -> CardNudge {
-        state.subtitle = subtitle
+        configuration.subtitle = subtitle
         return self
     }
 
     /// Optional icon to draw at the leading edge of the control.
     func mainIcon(_ mainIcon: UIImage?) -> CardNudge {
-        state.mainIcon = mainIcon
+        configuration.mainIcon = mainIcon
         return self
     }
 
     /// Optional accented text to draw below the main title area.
     func accentText(_ accentText: String?) -> CardNudge {
-        state.accentText = accentText
+        configuration.accentText = accentText
         return self
     }
 
     /// Optional small icon to draw at the leading edge of `accentText`.
     func accentIcon(_ accentIcon: UIImage?) -> CardNudge {
-        state.accentIcon = accentIcon
+        configuration.accentIcon = accentIcon
         return self
     }
 
@@ -34,7 +34,7 @@ public extension CardNudge {
     ///
     /// To show an action button, provide values for both `actionButtonTitle` and  `actionButtonAction`.
     func actionButtonTitle(_ actionButtonTitle: String?) -> CardNudge {
-        state.actionButtonTitle = actionButtonTitle
+        configuration.actionButtonTitle = actionButtonTitle
         return self
     }
 
@@ -42,19 +42,19 @@ public extension CardNudge {
     ///
     /// To show an action button, provide values for both `actionButtonTitle` and  `actionButtonAction`.
     func actionButtonAction(_ actionButtonAction: CardNudgeButtonAction?) -> CardNudge {
-        state.actionButtonAction = actionButtonAction
+        configuration.actionButtonAction = actionButtonAction
         return self
     }
 
     /// Action to be dispatched by the dismiss ("close") button on the trailing edge of the control.
     func dismissButtonAction(_ dismissButtonAction: CardNudgeButtonAction?) -> CardNudge {
-        state.dismissButtonAction = dismissButtonAction
+        configuration.dismissButtonAction = dismissButtonAction
         return self
     }
 
     /// Provides a custom design token set to be used when drawing this control.
     func overrideTokens(_ tokens: CardNudgeTokens?) -> CardNudge {
-        state.overrideTokens = tokens
+        configuration.overrideTokens = tokens
         return self
     }
 }

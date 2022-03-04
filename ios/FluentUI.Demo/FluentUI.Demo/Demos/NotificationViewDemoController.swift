@@ -83,7 +83,7 @@ class NotificationViewDemoController: DemoController {
                     $0.hide(after: variant.delayForHiding)
                 }
             })
-            showButton.state.text = "Show"
+            showButton.configuration.text = "Show"
             container.addArrangedSubview(showButton.view)
 
             container.alignment = .leading

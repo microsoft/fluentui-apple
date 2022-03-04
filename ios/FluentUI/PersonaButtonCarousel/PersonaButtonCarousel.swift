@@ -6,12 +6,12 @@
 import SwiftUI
 
 /// Properties that define the appearance of a `PersonaButtonCarousel`.
-@objc public protocol MSFPersonaButtonCarouselState {
+@objc public protocol MSFPersonaButtonCarouselConfiguration {
     /// Determines whether the carousel will display small or large avatars.
     var buttonSize: MSFPersonaButtonSize { get }
 
     /// Handles the event of tapping one of the `PersonaButton` items in a `PersonaButtonCarousel`.
-    var onTapAction: ((_ personaButtonState: MSFPersonaCarouselButtonState, _ index: Int) -> Void)? { get set }
+    var onTapAction: ((_ personaButtonConfiguration: MSFPersonaCarouselButtonConfiguration, _ index: Int) -> Void)? { get set }
 
     /// Number of `PersonaButton` instances in the carousel.
     var count: Int { get }
@@ -24,7 +24,7 @@ import SwiftUI
     ///   - image: The image to use as the persona's avatar
     ///
     /// - Returns: An optional reference to the added `PersonaButton`, which can be used to set additional properties or to update later.
-    @discardableResult func add(primaryText: String?, secondaryText: String?, image: UIImage?) -> MSFPersonaCarouselButtonState
+    @discardableResult func add(primaryText: String?, secondaryText: String?, image: UIImage?) -> MSFPersonaCarouselButtonConfiguration
 
     /// Retrieves the `PersonaButton` at a given index, or nil if the index is out of bounds.
     ///
@@ -32,13 +32,13 @@ import SwiftUI
     ///   - index: The index of the `PersonaButton` to retrieve
     ///
     /// - Returns: A reference to the  `PersonaButton` at the given index if one exists.
-    func personaButtonState(at index: Int) -> MSFPersonaCarouselButtonState?
+    func personaButtonConfiguration(at index: Int) -> MSFPersonaCarouselButtonConfiguration?
 
     /// Removes a `PersonaButton` from the carousel.
     ///
     /// - Parameters:
-    ///   - personaState: The reference to a `PersonaButton` to be removed.
-    func remove(_ personaState: MSFPersonaCarouselButtonState)
+    ///   - personaConfiguration: The reference to a `PersonaButton` to be removed.
+    func remove(_ personaConfiguration: MSFPersonaCarouselButtonConfiguration)
 
     /// Removes a `PersonaButton` from the carousel at the given index.
     ///
@@ -48,7 +48,7 @@ import SwiftUI
 }
 
 /// Properties that can be used to customize the appearance of the PersonaButton in the PersonaButtonCarousel.
-@objc public protocol MSFPersonaCarouselButtonState {
+@objc public protocol MSFPersonaCarouselButtonConfiguration {
     /// Background color for the persona image
     var avatarBackgroundColor: UIColor? { get set }
 
@@ -86,20 +86,20 @@ public struct PersonaButtonCarousel: View, ConfigurableTokenizedControl {
     /// - Parameters:
     ///   - size: The MSFPersonaButtonSize value used by the `PersonaButtonCarousel`.
     public init(size: MSFPersonaButtonSize) {
-        let carouselState = MSFPersonaButtonCarouselStateImpl(size: size)
-        state = carouselState
+        let carouselConfiguration = MSFPersonaButtonCarouselConfigurationImpl(size: size)
+        configuration = carouselConfiguration
     }
 
     public var body: some View {
         SwiftUI.ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 0) {
-                ForEach(state.buttons, id: \.self) { buttonState in
-                    PersonaButton(state: buttonState) { [weak state] in
-                        guard let strongState = state,
-                              let index = strongState.buttons.firstIndex(of: buttonState) else {
+                ForEach(configuration.buttons, id: \.self) { buttonConfiguration in
+                    PersonaButton(configuration: buttonConfiguration) { [weak configuration] in
+                        guard let strongConfiguration = configuration,
+                              let index = strongConfiguration.buttons.firstIndex(of: buttonConfiguration) else {
                             return
                         }
-                        strongState.onTapAction?(buttonState, index)
+                        strongConfiguration.onTapAction?(buttonConfiguration, index)
                     }
                 }
             }
@@ -108,7 +108,7 @@ public struct PersonaButtonCarousel: View, ConfigurableTokenizedControl {
     }
 
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
-    @ObservedObject var state: MSFPersonaButtonCarouselStateImpl
+    @ObservedObject var configuration: MSFPersonaButtonCarouselConfigurationImpl
     let defaultTokens: PersonaButtonCarouselTokens = .init()
     var tokens: PersonaButtonCarouselTokens {
         return resolvedTokens
@@ -116,11 +116,11 @@ public struct PersonaButtonCarousel: View, ConfigurableTokenizedControl {
 }
 
 /// Properties that make up PersonaButtonCarousel content
-class MSFPersonaButtonCarouselStateImpl: NSObject, ObservableObject, Identifiable, ControlConfiguration, MSFPersonaButtonCarouselState {
+class MSFPersonaButtonCarouselConfigurationImpl: NSObject, ObservableObject, Identifiable, ControlConfiguration, MSFPersonaButtonCarouselConfiguration {
     let buttonSize: MSFPersonaButtonSize
 
-    @Published var onTapAction: ((_ personaButtonState: MSFPersonaCarouselButtonState, _ index: Int) -> Void)?
-    @Published var buttons: [MSFPersonaCarouselButtonStateImpl] = []
+    @Published var onTapAction: ((_ personaButtonConfiguration: MSFPersonaCarouselButtonConfiguration, _ index: Int) -> Void)?
+    @Published var buttons: [MSFPersonaCarouselButtonConfigurationImpl] = []
 
     @Published var overrideTokens: PersonaButtonCarouselTokens?
 
@@ -136,8 +136,8 @@ class MSFPersonaButtonCarouselStateImpl: NSObject, ObservableObject, Identifiabl
         return self.buttons.count
     }
 
-    @discardableResult func add(primaryText: String?, secondaryText: String?, image: UIImage?) -> MSFPersonaCarouselButtonState {
-        let persona = MSFPersonaCarouselButtonStateImpl(size: self.buttonSize)
+    @discardableResult func add(primaryText: String?, secondaryText: String?, image: UIImage?) -> MSFPersonaCarouselButtonConfiguration {
+        let persona = MSFPersonaCarouselButtonConfigurationImpl(size: self.buttonSize)
 
         // Set passed-in properties
         persona.primaryText = primaryText
@@ -149,16 +149,16 @@ class MSFPersonaButtonCarouselStateImpl: NSObject, ObservableObject, Identifiabl
         return persona
     }
 
-    func personaButtonState(at index: Int) -> MSFPersonaCarouselButtonState? {
+    func personaButtonConfiguration(at index: Int) -> MSFPersonaCarouselButtonConfiguration? {
         guard index < self.count else {
             return nil
         }
         return self.buttons[index]
     }
 
-    func remove(_ personaState: MSFPersonaCarouselButtonState) {
-        self.buttons.removeAll { state in
-            state.isEqual(personaState)
+    func remove(_ personaConfiguration: MSFPersonaCarouselButtonConfiguration) {
+        self.buttons.removeAll { configuration in
+            configuration.isEqual(personaConfiguration)
         }
     }
 
@@ -170,8 +170,8 @@ class MSFPersonaButtonCarouselStateImpl: NSObject, ObservableObject, Identifiabl
     }
 }
 
-/// Subclass of `MSFPersonaButtonStateImpl` that explicitly conforms to `MSFPersonaCarouselButtonState`, which is
-/// itself a strict subset of `MSFPersonaButtonState`.
-class MSFPersonaCarouselButtonStateImpl: MSFPersonaButtonStateImpl, MSFPersonaCarouselButtonState {
+/// Subclass of `MSFPersonaButtonConfigurationImpl` that explicitly conforms to `MSFPersonaCarouselButtonConfiguration`, which is
+/// itself a strict subset of `MSFPersonaButtonConfiguration`.
+class MSFPersonaCarouselButtonConfigurationImpl: MSFPersonaButtonConfigurationImpl, MSFPersonaCarouselButtonConfiguration {
     // No custom initializer is needed
 }

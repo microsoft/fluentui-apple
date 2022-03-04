@@ -98,7 +98,7 @@ class BottomSheetDemoController: UIViewController {
                 secondarySheetController.view.removeFromSuperview()
             }
         }
-        dismissButton.state.text = "Dismiss"
+        dismissButton.configuration.text = "Dismiss"
 
         let dismissButtonView = dismissButton.view
         dismissButtonView.translatesAutoresizingMaskIntoConstraints = false
@@ -111,7 +111,7 @@ class BottomSheetDemoController: UIViewController {
 
             strongSelf.showTransientSheet()
         }
-        anotherOneButton.state.text = "Show another sheet"
+        anotherOneButton.configuration.text = "Show another sheet"
 
         let anotherOneButtonView = anotherOneButton.view
         anotherOneButtonView.translatesAutoresizingMaskIntoConstraints = false

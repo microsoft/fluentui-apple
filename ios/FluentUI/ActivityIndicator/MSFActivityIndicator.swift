@@ -14,10 +14,10 @@ import UIKit
     ///   - size: The MSFActivityIndicatorSize value used by the Activity Indicator.
     @objc public init(size: MSFActivityIndicatorSize = .medium) {
         let activityIndicator = ActivityIndicator(size: size)
-        state = activityIndicator.state
+        configuration = activityIndicator.configuration
         super.init(AnyView(activityIndicator))
     }
 
     /// The object that groups properties that allow control over the Activity Indicator appearance.
-    @objc public let state: MSFActivityIndicatorState
+    @objc public let configuration: MSFActivityIndicatorConfiguration
 }

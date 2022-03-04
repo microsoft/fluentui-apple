@@ -12,7 +12,7 @@ import SwiftUI
 }
 
 /// Properties that can be used to customize the appearance of the Divider.
-@objc public protocol MSFDividerState {
+@objc public protocol MSFDividerConfiguration {
     /// Defines the orientation of the Divider.
     var orientation: MSFDividerOrientation { get set }
 
@@ -35,19 +35,19 @@ public struct FluentDivider: View, ConfigurableTokenizedControl {
     ///   - spacing: The DividerSpacing used by the Divider.
     public init (orientation: MSFDividerOrientation = .horizontal,
                  spacing: MSFDividerSpacing = .none) {
-        let state = MSFDividerStateImpl(orientation: orientation, spacing: spacing)
+        let configuration = MSFDividerConfigurationImpl(orientation: orientation, spacing: spacing)
 
-        self.state = state
+        self.configuration = configuration
     }
 
     public var body: some View {
-        let isHorizontal = state.orientation == .horizontal
+        let isHorizontal = configuration.orientation == .horizontal
         let color = Color(dynamicColor: tokens.color)
 
         return Rectangle()
             .fill(color)
-            .frame(width: isHorizontal ? nil : state.thickness,
-                   height: isHorizontal ? state.thickness : nil)
+            .frame(width: isHorizontal ? nil : configuration.thickness,
+                   height: isHorizontal ? configuration.thickness : nil)
             .padding(isHorizontal ?
                      EdgeInsets(top: tokens.padding,
                                 leading: 0,
@@ -62,15 +62,15 @@ public struct FluentDivider: View, ConfigurableTokenizedControl {
     let defaultTokens: DividerTokens = .init()
     var tokens: DividerTokens {
         let tokens = resolvedTokens
-        tokens.spacing = state.spacing
+        tokens.spacing = configuration.spacing
         return tokens
     }
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
-    @ObservedObject var state: MSFDividerStateImpl
+    @ObservedObject var configuration: MSFDividerConfigurationImpl
 }
 
 /// Properties available to customize the Divider.
-class MSFDividerStateImpl: NSObject, ObservableObject, ControlConfiguration, MSFDividerState {
+class MSFDividerConfigurationImpl: NSObject, ObservableObject, ControlConfiguration, MSFDividerConfiguration {
     @Published var overrideTokens: DividerTokens?
 
     @Published var orientation: MSFDividerOrientation

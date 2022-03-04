@@ -1116,7 +1116,7 @@ open class TableViewCell: UITableViewCell {
         }
 
         layoutSeparator(topSeparator, with: topSeparatorType, at: 0)
-        layoutSeparator(bottomSeparator, with: bottomSeparatorType, at: frame.height - bottomSeparator.state.thickness)
+        layoutSeparator(bottomSeparator, with: bottomSeparatorType, at: frame.height - bottomSeparator.configuration.thickness)
     }
 
     private func layoutLabelViews(label: UILabel, numberOfLines: Int, topOffset: CGFloat, leadingAccessoryView: UIView?, leadingAccessoryViewSize: CGSize, trailingAccessoryView: UIView?, trailingAccessoryViewSize: CGSize) {
@@ -1168,7 +1168,7 @@ open class TableViewCell: UITableViewCell {
             x: separatorLeadingInset(for: type),
             y: verticalOffset,
             width: frame.width - separatorLeadingInset(for: type),
-            height: separator.state.thickness
+            height: separator.configuration.thickness
         )
     }
 

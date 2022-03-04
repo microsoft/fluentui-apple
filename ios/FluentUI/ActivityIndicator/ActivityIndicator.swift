@@ -6,8 +6,8 @@
 import SwiftUI
 import UIKit
 
-/// Properties available to customize the state of the Activity Indicator state
-@objc public protocol MSFActivityIndicatorState {
+/// Properties available to customize the configuration of the Activity Indicator configuration
+@objc public protocol MSFActivityIndicatorConfiguration {
 
     /// Sets the accessibility label for the Activity Indicator.
     var accessibilityLabel: String? { get set }
@@ -34,25 +34,25 @@ public struct ActivityIndicator: View, ConfigurableTokenizedControl {
     /// Creates the ActivityIndicator.
     /// - Parameter size: The MSFActivityIndicatorSize value used by the Activity Indicator.
     public init(size: MSFActivityIndicatorSize) {
-        let state = MSFActivityIndicatorStateImpl(size: size)
-        self.state = state
+        let configuration = MSFActivityIndicatorConfigurationImpl(size: size)
+        self.configuration = configuration
     }
 
     public var body: some View {
         let side = tokens.side
         let color: Color = {
-            guard let stateUIColor = state.color else {
+            guard let configurationUIColor = configuration.color else {
                 return Color(dynamicColor: tokens.defaultColor)
             }
 
-            return Color(stateUIColor)
+            return Color(configurationUIColor)
         }()
         let accessibilityLabel: String = {
-            if let overriddenAccessibilityLabel = state.accessibilityLabel {
+            if let overriddenAccessibilityLabel = configuration.accessibilityLabel {
                 return overriddenAccessibilityLabel
             }
 
-            return state.isAnimating ?
+            return configuration.isAnimating ?
                 "Accessibility.ActivityIndicator.Animating.label".localized
                 :
                 "Accessibility.ActivityIndicator.Stopped.label".localized
@@ -61,20 +61,20 @@ public struct ActivityIndicator: View, ConfigurableTokenizedControl {
         SemiRing(color: color,
                  thickness: tokens.thickness,
                  accessibilityLabel: accessibilityLabel)
-            .modifyIf(state.isAnimating, { animatedView in
+            .modifyIf(configuration.isAnimating, { animatedView in
                 animatedView
                     .rotationEffect(.degrees(rotationAngle), anchor: .center)
                     .onAppear {
                         startAnimation()
                     }
             })
-            .modifyIf(!state.isAnimating) { staticView in
+            .modifyIf(!configuration.isAnimating) { staticView in
                 staticView
                     .onAppear {
                        stopAnimation()
                     }
             }
-            .modifyIf(!state.isAnimating && state.hidesWhenStopped, { view in
+            .modifyIf(!configuration.isAnimating && configuration.hidesWhenStopped, { view in
                 view.hidden()
             })
             .frame(width: side,
@@ -85,11 +85,11 @@ public struct ActivityIndicator: View, ConfigurableTokenizedControl {
     let defaultTokens: ActivityIndicatorTokens = .init()
     var tokens: ActivityIndicatorTokens {
         let tokens = resolvedTokens
-        tokens.size = state.size
+        tokens.size = configuration.size
         return tokens
     }
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
-    @ObservedObject var state: MSFActivityIndicatorStateImpl
+    @ObservedObject var configuration: MSFActivityIndicatorConfigurationImpl
     @State var rotationAngle: Double = 0.0
 
     private struct SemiRing: View {
@@ -136,8 +136,8 @@ public struct ActivityIndicator: View, ConfigurableTokenizedControl {
     private let finalAnimationRotationAngle: Double = 360.0
 }
 
-/// Properties available to customize the state of the Activity Indicator
-class MSFActivityIndicatorStateImpl: NSObject, ObservableObject, ControlConfiguration, MSFActivityIndicatorState {
+/// Properties available to customize the configuration of the Activity Indicator
+class MSFActivityIndicatorConfigurationImpl: NSObject, ObservableObject, ControlConfiguration, MSFActivityIndicatorConfiguration {
     @Published var overrideTokens: ActivityIndicatorTokens?
 
     @Published var color: UIColor?

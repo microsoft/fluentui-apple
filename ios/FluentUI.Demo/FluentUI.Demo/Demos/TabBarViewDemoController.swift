@@ -32,7 +32,7 @@ class TabBarViewDemoController: DemoController {
 
             strongSelf.incrementBadgeNumbers()
         })
-        button.state.text = "+"
+        button.configuration.text = "+"
 
         return button
     }()
@@ -45,7 +45,7 @@ class TabBarViewDemoController: DemoController {
 
             strongSelf.decrementBadgeNumbers()
         })
-        button.state.text = "-"
+        button.configuration.text = "-"
 
         return button
     }()
@@ -146,8 +146,8 @@ class TabBarViewDemoController: DemoController {
     }
 
     private func updateBadgeButtons() {
-        incrementBadgeButton.state.isDisabled = !showBadgeNumbers
-        decrementBadgeButton.state.isDisabled = !showBadgeNumbers
+        incrementBadgeButton.configuration.isDisabled = !showBadgeNumbers
+        decrementBadgeButton.configuration.isDisabled = !showBadgeNumbers
     }
 
     private func modifyBadgeNumbers(increment: Int) {

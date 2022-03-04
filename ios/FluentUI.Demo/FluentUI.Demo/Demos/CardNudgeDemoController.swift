@@ -100,24 +100,24 @@ class CardNudgeDemoController: DemoTableViewController {
             break
         case .mainIcon:
             cardNudges.forEach { cardNudge in
-                cardNudge.state.mainIcon = (isOn ? UIImage(systemName: "gamecontroller") : nil)
+                cardNudge.configuration.mainIcon = (isOn ? UIImage(systemName: "gamecontroller") : nil)
             }
         case .subtitle:
             cardNudges.forEach { cardNudge in
-                cardNudge.state.subtitle = (isOn ? "Subtitle" : nil)
+                cardNudge.configuration.subtitle = (isOn ? "Subtitle" : nil)
             }
         case .accentIcon:
             cardNudges.forEach { cardNudge in
-                cardNudge.state.accentIcon = (isOn ? UIImage(named: "ic_fluent_presence_blocked_10_regular", in: FluentUIFramework.resourceBundle, with: nil) : nil)
+                cardNudge.configuration.accentIcon = (isOn ? UIImage(named: "ic_fluent_presence_blocked_10_regular", in: FluentUIFramework.resourceBundle, with: nil) : nil)
             }
         case .accentText:
             cardNudges.forEach { cardNudge in
-                cardNudge.state.accentText = (isOn ? "Accent" : nil)
+                cardNudge.configuration.accentText = (isOn ? "Accent" : nil)
             }
         case .dismissButton:
             cardNudges.forEach { cardNudge in
-                cardNudge.state.dismissButtonAction = (isOn ? { state in
-                    let alert = UIAlertController(title: "\(state.title) was dismissed", message: nil, preferredStyle: .alert)
+                cardNudge.configuration.dismissButtonAction = (isOn ? { configuration in
+                    let alert = UIAlertController(title: "\(configuration.title) was dismissed", message: nil, preferredStyle: .alert)
                     let action = UIAlertAction(title: "OK", style: .default, handler: nil)
                     alert.addAction(action)
                     self.present(alert, animated: true)
@@ -125,9 +125,9 @@ class CardNudgeDemoController: DemoTableViewController {
             }
         case .actionButton:
             cardNudges.forEach { cardNudge in
-                cardNudge.state.actionButtonTitle = (isOn ? "Action" : nil)
-                cardNudge.state.actionButtonAction = (isOn ? { state in
-                    let alert = UIAlertController(title: "\(state.title) action performed", message: nil, preferredStyle: .alert)
+                cardNudge.configuration.actionButtonTitle = (isOn ? "Action" : nil)
+                cardNudge.configuration.actionButtonAction = (isOn ? { configuration in
+                    let alert = UIAlertController(title: "\(configuration.title) action performed", message: nil, preferredStyle: .alert)
                     let action = UIAlertAction(title: "OK", style: .default, handler: nil)
                     alert.addAction(action)
                     self.present(alert, animated: true)
@@ -249,7 +249,7 @@ extension CardNudgeDemoController: DemoAppearanceDelegate {
     func perControlOverrideDidChange(isOverrideEnabled: Bool) {
         self.cardNudges.forEach({ cardNudge in
             let tokens = isOverrideEnabled ? PerControlOverrideCardNudgeTokens() : nil
-            cardNudge.state.overrideTokens = tokens
+            cardNudge.configuration.overrideTokens = tokens
         })
     }
 

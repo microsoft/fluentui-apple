@@ -473,7 +473,7 @@ open class SearchBar: UIView {
         // used for cursor or selection handle
         searchTextField.tintColor = style.tintColor
         clearButton.tintColor = style.clearIconColor
-        progressSpinner.state.color = style.progressSpinnerColor
+        progressSpinner.configuration.color = style.progressSpinnerColor
         cancelButton.setTitleColor(style.cancelButtonColor, for: .normal)
         attributePlaceholderText()
     }

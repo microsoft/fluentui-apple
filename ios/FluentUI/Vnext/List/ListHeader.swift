@@ -7,20 +7,20 @@ import UIKit
 import SwiftUI
 
 struct Header: View, ConfigurableTokenizedControl {
-    init(state: MSFListSectionStateImpl) {
-        self.state = state
+    init(configuration: MSFListSectionConfigurationImpl) {
+        self.configuration = configuration
     }
 
     var body: some View {
         let backgroundColor: Color = {
-            guard let stateBackgroundColor = state.backgroundColor else {
+            guard let configurationBackgroundColor = configuration.backgroundColor else {
                 return Color(dynamicColor: tokens.backgroundColor)
             }
-            return Color(stateBackgroundColor)
+            return Color(configurationBackgroundColor)
         }()
 
         HStack(spacing: 0) {
-            if let title = state.title, !title.isEmpty {
+            if let title = configuration.title, !title.isEmpty {
                 Text(title)
                     .font(.fluent(tokens.textFont))
                     .foregroundColor(Color(dynamicColor: tokens.textColor))
@@ -40,5 +40,5 @@ struct Header: View, ConfigurableTokenizedControl {
         return resolvedTokens
     }
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
-    @ObservedObject var state: MSFListSectionStateImpl
+    @ObservedObject var configuration: MSFListSectionConfigurationImpl
 }

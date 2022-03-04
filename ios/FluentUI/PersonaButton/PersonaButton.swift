@@ -6,7 +6,7 @@
 import SwiftUI
 
 /// Properties that define the appearance of a `PersonaButton`.
-@objc public protocol MSFPersonaButtonState {
+@objc public protocol MSFPersonaButtonConfiguration {
     /// Specifies whether to use small or large avatars.
     var buttonSize: MSFPersonaButtonSize { get set }
 
@@ -62,12 +62,12 @@ public struct PersonaButton: View, ConfigurableTokenizedControl {
     /// - Parameters:
     ///   - size: The` MSFPersonaButtonSize` value used by the `PersonaButton`.
     public init(size: MSFPersonaButtonSize) {
-        let state = MSFPersonaButtonStateImpl(size: size)
-        self.state = state
+        let configuration = MSFPersonaButtonConfigurationImpl(size: size)
+        self.configuration = configuration
     }
 
     public var body: some View {
-        let action = state.onTapAction ?? {}
+        let action = configuration.onTapAction ?? {}
         SwiftUI.Button(action: action) {
             VStack(spacing: 0) {
                 avatarView
@@ -81,29 +81,29 @@ public struct PersonaButton: View, ConfigurableTokenizedControl {
 
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @Environment(\.sizeCategory) var sizeCategory: ContentSizeCategory
-    @ObservedObject var state: MSFPersonaButtonStateImpl
+    @ObservedObject var configuration: MSFPersonaButtonConfigurationImpl
     let defaultTokens: PersonaButtonTokens = .init()
     var tokens: PersonaButtonTokens {
         let tokens = resolvedTokens
-        tokens.size = state.buttonSize
+        tokens.size = configuration.buttonSize
         return tokens
     }
 
-    init(state: MSFPersonaButtonStateImpl, action: (() -> Void)?) {
-        state.onTapAction = action
-        self.state = state
+    init(configuration: MSFPersonaButtonConfigurationImpl, action: (() -> Void)?) {
+        configuration.onTapAction = action
+        self.configuration = configuration
     }
 
     @ViewBuilder
     private var personaText: some View {
         Group {
-            Text(state.primaryText ?? "")
+            Text(configuration.primaryText ?? "")
                 .lineLimit(1)
                 .frame(alignment: .center)
                 .font(.fluent(tokens.labelFont))
                 .foregroundColor(Color(dynamicColor: tokens.labelColor))
-            if state.buttonSize.shouldShowSubtitle {
-                Text(state.secondaryText ?? "")
+            if configuration.buttonSize.shouldShowSubtitle {
+                Text(configuration.secondaryText ?? "")
                     .lineLimit(1)
                     .frame(alignment: .center)
                     .font(.fluent(tokens.sublabelFont))
@@ -114,7 +114,7 @@ public struct PersonaButton: View, ConfigurableTokenizedControl {
     }
 
     private var avatar: Avatar {
-        Avatar(state.avatarState)
+        Avatar(configuration.avatarConfiguration)
     }
 
     @ViewBuilder
@@ -134,18 +134,18 @@ public struct PersonaButton: View, ConfigurableTokenizedControl {
             .accessibilityExtraExtraExtraLarge: [ .large: 80, .small: 68 ]
         ]
 
-        return avatar.contentSize + (2 * tokens.horizontalAvatarPadding) + (accessibilityAdjustments[sizeCategory]?[state.buttonSize] ?? 0)
+        return avatar.contentSize + (2 * tokens.horizontalAvatarPadding) + (accessibilityAdjustments[sizeCategory]?[configuration.buttonSize] ?? 0)
     }
 }
 
 /// Properties that make up PersonaButton content
-class MSFPersonaButtonStateImpl: NSObject, ObservableObject, Identifiable, ControlConfiguration, MSFPersonaButtonState {
-    /// Creates and initializes a `MSFPersonaButtonStateImpl`
+class MSFPersonaButtonConfigurationImpl: NSObject, ObservableObject, Identifiable, ControlConfiguration, MSFPersonaButtonConfiguration {
+    /// Creates and initializes a `MSFPersonaButtonConfigurationImpl`
     /// - Parameters:
     ///   - size: The size of the persona button
     init(size: MSFPersonaButtonSize) {
         self.buttonSize = size
-        self.avatarState = MSFAvatarStateImpl(style: .default, size: size.avatarSize)
+        self.avatarConfiguration = MSFAvatarConfigurationImpl(style: .default, size: size.avatarSize)
 
         super.init()
     }
@@ -154,141 +154,141 @@ class MSFPersonaButtonStateImpl: NSObject, ObservableObject, Identifiable, Contr
     @Published var onTapAction: (() -> Void)?
     @Published var overrideTokens: PersonaButtonTokens?
 
-    let avatarState: MSFAvatarStateImpl
+    let avatarConfiguration: MSFAvatarConfigurationImpl
     let id = UUID()
 
     var avatarBackgroundColor: UIColor? {
         get {
-            return avatarState.backgroundColor
+            return avatarConfiguration.backgroundColor
         }
         set {
-            avatarState.backgroundColor = newValue
+            avatarConfiguration.backgroundColor = newValue
         }
     }
 
     var avatarForegroundColor: UIColor? {
         get {
-            return avatarState.foregroundColor
+            return avatarConfiguration.foregroundColor
         }
         set {
-            avatarState.foregroundColor = newValue
+            avatarConfiguration.foregroundColor = newValue
         }
     }
 
     var hasPointerInteraction: Bool {
         get {
-            return avatarState.hasPointerInteraction
+            return avatarConfiguration.hasPointerInteraction
         }
         set {
-            avatarState.hasPointerInteraction = newValue
+            avatarConfiguration.hasPointerInteraction = newValue
         }
     }
 
     var hasRingInnerGap: Bool {
         get {
-            return avatarState.hasRingInnerGap
+            return avatarConfiguration.hasRingInnerGap
         }
         set {
-            avatarState.hasRingInnerGap = newValue
+            avatarConfiguration.hasRingInnerGap = newValue
         }
     }
 
     var image: UIImage? {
         get {
-            return avatarState.image
+            return avatarConfiguration.image
         }
         set {
-            avatarState.image = newValue
+            avatarConfiguration.image = newValue
         }
     }
 
     var imageBasedRingColor: UIImage? {
         get {
-            return avatarState.imageBasedRingColor
+            return avatarConfiguration.imageBasedRingColor
         }
         set {
-            avatarState.imageBasedRingColor = newValue
+            avatarConfiguration.imageBasedRingColor = newValue
         }
     }
 
     var isOutOfOffice: Bool {
         get {
-            return avatarState.isOutOfOffice
+            return avatarConfiguration.isOutOfOffice
         }
         set {
-            avatarState.isOutOfOffice = newValue
+            avatarConfiguration.isOutOfOffice = newValue
         }
     }
 
     var isRingVisible: Bool {
         get {
-            return avatarState.isRingVisible
+            return avatarConfiguration.isRingVisible
         }
         set {
-            avatarState.isRingVisible = newValue
+            avatarConfiguration.isRingVisible = newValue
         }
     }
 
     var isTransparent: Bool {
         get {
-            return avatarState.isTransparent
+            return avatarConfiguration.isTransparent
         }
         set {
-            avatarState.isTransparent = newValue
+            avatarConfiguration.isTransparent = newValue
         }
     }
 
     var presence: MSFAvatarPresence {
         get {
-            return avatarState.presence
+            return avatarConfiguration.presence
         }
         set {
-            avatarState.presence = newValue
+            avatarConfiguration.presence = newValue
         }
     }
 
     var primaryText: String? {
         get {
-            return avatarState.primaryText
+            return avatarConfiguration.primaryText
         }
         set {
-            avatarState.primaryText = newValue
+            avatarConfiguration.primaryText = newValue
         }
     }
 
     var ringColor: UIColor? {
         get {
-            return avatarState.ringColor
+            return avatarConfiguration.ringColor
         }
         set {
-            avatarState.ringColor = newValue
+            avatarConfiguration.ringColor = newValue
         }
     }
 
     var secondaryText: String? {
         get {
-            return avatarState.secondaryText
+            return avatarConfiguration.secondaryText
         }
         set {
-            avatarState.secondaryText = newValue
+            avatarConfiguration.secondaryText = newValue
         }
     }
 
     var size: MSFAvatarSize {
         get {
-            return avatarState.size
+            return avatarConfiguration.size
         }
         set {
-            avatarState.size = newValue
+            avatarConfiguration.size = newValue
         }
     }
 
     var style: MSFAvatarStyle {
         get {
-            return avatarState.style
+            return avatarConfiguration.style
         }
         set {
-            avatarState.style = newValue
+            avatarConfiguration.style = newValue
         }
     }
 }

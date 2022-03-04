@@ -114,7 +114,7 @@ class LeftNavMenuViewController: UIViewController {
     var menuAction: (() -> Void)?
 
     private func setPresence(presence: LeftNavPresence) {
-        persona.state.presence = presence.avatarPresence
+        persona.configuration.presence = presence.avatarPresence
 
         guard let statusCell = statusCell else {
             return
@@ -130,22 +130,22 @@ class LeftNavMenuViewController: UIViewController {
 
     private var leftNavMenuList = MSFList()
 
-    private var statusCell: MSFListCellState?
+    private var statusCell: MSFListCellConfiguration?
 
     private var leftNavAccountViewHeightConstraint: NSLayoutConstraint?
 
     private lazy var leftNavAccountView: UIView = {
         let chevron = UIImageView(image: UIImage(named: "ic_fluent_ios_chevron_right_20_filled"))
         chevron.tintColor = Colors.textPrimary
-        let personaState = persona.state
+        let personaConfiguration = persona.configuration
 
-        personaState.presence = .available
-        personaState.primaryText = "Kat Larrson"
-        personaState.secondaryText = "Designer"
-        personaState.image = UIImage(named: "avatar_kat_larsson")
-        personaState.titleTrailingAccessoryUIView = chevron
-        personaState.backgroundColor = .systemBackground
-        personaState.onTapAction = {
+        personaConfiguration.presence = .available
+        personaConfiguration.primaryText = "Kat Larrson"
+        personaConfiguration.secondaryText = "Designer"
+        personaConfiguration.image = UIImage(named: "avatar_kat_larsson")
+        personaConfiguration.titleTrailingAccessoryUIView = chevron
+        personaConfiguration.backgroundColor = .systemBackground
+        personaConfiguration.onTapAction = {
             self.dismiss(animated: true, completion: { [weak self] in
                 guard let strongSelf = self else {
                     return
@@ -173,18 +173,18 @@ class LeftNavMenuViewController: UIViewController {
             strongSelf.menuAction?()
         }
 
-        let menuSection = leftNavMenuList.state.createSection()
+        let menuSection = leftNavMenuList.configuration.createSection()
 
-        let statusCellState = menuSection.createCell()
-        statusCell = statusCellState
+        let statusCellConfiguration = menuSection.createCell()
+        statusCell = statusCellConfiguration
 
-        statusCellState.title = LeftNavPresence.available.cellTitle
-        statusCellState.backgroundColor = .systemBackground
+        statusCellConfiguration.title = LeftNavPresence.available.cellTitle
+        statusCellConfiguration.backgroundColor = .systemBackground
         let statusImageView = LeftNavPresence.available.imageView
-        statusCellState.leadingUIView = statusImageView
+        statusCellConfiguration.leadingUIView = statusImageView
 
         for presence in LeftNavPresence.allCases {
-            let statusCellChild = statusCellState.createChildCell()
+            let statusCellChild = statusCellConfiguration.createChildCell()
             statusCellChild.leadingViewSize = .small
             statusCellChild.title = presence.cellTitle
             statusCellChild.leadingUIView = presence.imageView
@@ -201,7 +201,7 @@ class LeftNavMenuViewController: UIViewController {
         let tintDynamicColor = aliasTokens.foregroundColors[.neutral4]
         let tintColor = UIColor(dynamicColor: tintDynamicColor)
 
-        let resetStatusCell = statusCellState.createChildCell()
+        let resetStatusCell = statusCellConfiguration.createChildCell()
         resetStatusCell.title = "Reset status"
         resetStatusCell.leadingViewSize = .small
         resetStatusCell.backgroundColor = .systemBackground
@@ -249,7 +249,7 @@ class LeftNavMenuViewController: UIViewController {
         whatsNewCell.leadingUIView = whatsNewImageView
         whatsNewCell.onTapAction = defaultMenuAction
 
-        let accountsSection = leftNavMenuList.state.createSection()
+        let accountsSection = leftNavMenuList.configuration.createSection()
         accountsSection.title = "Accounts and Orgs"
         accountsSection.backgroundColor = .systemBackground
 
@@ -260,7 +260,7 @@ class LeftNavMenuViewController: UIViewController {
         microsoftAccountCell.subtitle = "kat.larrson@contoso.com"
         microsoftAccountCell.accessoryType = .checkmark
         let orgAvatar = MSFAvatar(style: .group, size: .large)
-        orgAvatar.state.primaryText = "Kat Larrson"
+        orgAvatar.configuration.primaryText = "Kat Larrson"
         microsoftAccountCell.leadingUIView = orgAvatar.view
         microsoftAccountCell.leadingViewSize = .large
 
@@ -270,7 +270,7 @@ class LeftNavMenuViewController: UIViewController {
         msaAccountCell.title = "Personal"
         msaAccountCell.subtitle = "kat.larrson@live.com"
         let msaAvatar = MSFAvatar(style: .group, size: .large)
-        msaAvatar.state.primaryText = "kat.larrson@live.com"
+        msaAvatar.configuration.primaryText = "kat.larrson@live.com"
         msaAccountCell.leadingUIView = msaAvatar.view
         msaAccountCell.leadingViewSize = .large
 

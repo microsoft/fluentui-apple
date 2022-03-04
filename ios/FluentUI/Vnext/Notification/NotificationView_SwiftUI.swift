@@ -6,7 +6,7 @@
 import SwiftUI
 
 /// Properties that can be used to customize the appearance of the `Notification`.
-@objc public protocol MSFNotificationState: NSObjectProtocol {
+@objc public protocol MSFNotificationConfiguration: NSObjectProtocol {
     /// Style to draw the control.
     var style: MSFNotificationStyle { get }
 
@@ -47,41 +47,41 @@ public struct NotificationViewSwiftUI: View, ConfigurableTokenizedControl {
     @Environment(\.horizontalSizeClass) var horizontalSizeClass: UserInterfaceSizeClass?
     @Environment(\.swiftUIInsets) private var safeAreaInsets: EdgeInsets
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
-    @ObservedObject var state: MSFNotificationStateImpl
+    @ObservedObject var configuration: MSFNotificationConfigurationImpl
     let defaultTokens: NotificationTokens = .init()
     var tokens: NotificationTokens {
         let tokens = resolvedTokens
-        tokens.style = state.style
+        tokens.style = configuration.style
         return tokens
     }
     public func overrideTokens(_ tokens: NotificationTokens?) -> NotificationViewSwiftUI {
-        state.overrideTokens = tokens
+        configuration.overrideTokens = tokens
         return self
     }
 
     public init(style: MSFNotificationStyle,
                 message: String,
                 delayTime: TimeInterval) {
-        let state = MSFNotificationStateImpl(style: style, message: message, delayTime: delayTime)
-        self.state = state
+        let configuration = MSFNotificationConfigurationImpl(style: style, message: message, delayTime: delayTime)
+        self.configuration = configuration
     }
 
     private var hasImage: Bool {
-        state.style.isToast && state.image != nil
+        configuration.style.isToast && configuration.image != nil
     }
 
     private var hasSecondTextRow: Bool {
-        state.style.isToast && state.title != ""
+        configuration.style.isToast && configuration.title != ""
     }
 
     private var hasCenteredText: Bool {
-        !state.style.isToast && state.actionButtonAction == nil
+        !configuration.style.isToast && configuration.actionButtonAction == nil
     }
 
     @ViewBuilder
     var image: some View {
-        if state.style.isToast {
-            if let image = state.image {
+        if configuration.style.isToast {
+            if let image = configuration.image {
                 Image(uiImage: image)
                     .renderingMode(.template)
                     .frame(width: image.size.width, height: image.size.height, alignment: .center)
@@ -94,8 +94,8 @@ public struct NotificationViewSwiftUI: View, ConfigurableTokenizedControl {
 
     @ViewBuilder
     var titleLabel: some View {
-        if state.style.isToast && hasSecondTextRow {
-            if let title = state.title {
+        if configuration.style.isToast && hasSecondTextRow {
+            if let title = configuration.title {
                 Text(title)
                     .font(.fluent(tokens.boldTextFont))
                     .foregroundColor(Color(dynamicColor: tokens.foregroundColor))
@@ -105,8 +105,8 @@ public struct NotificationViewSwiftUI: View, ConfigurableTokenizedControl {
 
     @ViewBuilder
     var messageLabel: some View {
-        let messageFont = hasSecondTextRow ? tokens.footnoteTextFont : (state.style.isToast ? tokens.boldTextFont : tokens.regularTextFont)
-        Text(state.message)
+        let messageFont = hasSecondTextRow ? tokens.footnoteTextFont : (configuration.style.isToast ? tokens.boldTextFont : tokens.regularTextFont)
+        Text(configuration.message)
             .font(.fluent(messageFont))
             .foregroundColor(Color(dynamicColor: tokens.foregroundColor))
     }
@@ -125,7 +125,7 @@ public struct NotificationViewSwiftUI: View, ConfigurableTokenizedControl {
 
     @ViewBuilder
     var button: some View {
-        if let buttonAction = state.actionButtonAction, let actionTitle = state.actionButtonTitle, let dismissAction = state.dismissAction {
+        if let buttonAction = configuration.actionButtonAction, let actionTitle = configuration.actionButtonTitle, let dismissAction = configuration.dismissAction {
             if actionTitle.isEmpty {
                 SwiftUI.Button(action: {
                     dismissAction()
@@ -173,12 +173,12 @@ public struct NotificationViewSwiftUI: View, ConfigurableTokenizedControl {
             let width = windowWidth - safeAreaInsets.leading - safeAreaInsets.trailing
             innerContents
                 .onTapGesture {
-                    if let messageAction = state.messageButtonAction, let dismissAction = state.dismissAction {
+                    if let messageAction = configuration.messageButtonAction, let dismissAction = configuration.dismissAction {
                         dismissAction()
                         messageAction()
                     }
                 }
-                .frame(width: state.style.isToast && horizontalSizeClass == .regular ? width / 2 : width - (2 * tokens.presentationOffset))
+                .frame(width: configuration.style.isToast && horizontalSizeClass == .regular ? width / 2 : width - (2 * tokens.presentationOffset))
                 .background(
                     RoundedRectangle(cornerRadius: tokens.cornerRadius)
                         .strokeBorder(Color(dynamicColor: tokens.outlineColor), lineWidth: tokens.outlineWidth)
@@ -199,7 +199,7 @@ public struct NotificationViewSwiftUI: View, ConfigurableTokenizedControl {
     }
 }
 
-class MSFNotificationStateImpl: NSObject, ControlConfiguration, MSFNotificationState {
+class MSFNotificationConfigurationImpl: NSObject, ControlConfiguration, MSFNotificationConfiguration {
     @Published public var message: String
     @Published public var delayTime: TimeInterval
     @Published public var title: String?

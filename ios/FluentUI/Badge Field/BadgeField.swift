@@ -602,7 +602,7 @@ open class BadgeField: UIView {
         badge.isActive = isActive
         badges.append(badge)
         addSubview(badge)
-        // Configure drag gesture
+        // Configures drag gesture
         let longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPressGesture(_:)))
         longPressGestureRecognizer.minimumPressDuration = Constants.dragAndDropMinimumPressDuration
         badge.addGestureRecognizer(longPressGestureRecognizer)

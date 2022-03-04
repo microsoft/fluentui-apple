@@ -268,7 +268,7 @@ class NotificationViewDemoControllerSwiftUI: DemoTableViewController, UIPickerVi
         didSet {
             if oldValue != notificationTitle {
                 notificationTitleTextField.text = "\(notificationTitle)"
-                notification.state.title = notificationTitle
+                notification.configuration.title = notificationTitle
             }
         }
     }
@@ -281,15 +281,15 @@ class NotificationViewDemoControllerSwiftUI: DemoTableViewController, UIPickerVi
 
             if let text = strongSelf.notificationTitleTextField.text {
                 strongSelf.notificationTitle = text
-                button.state.isDisabled = true
+                button.configuration.isDisabled = true
             }
 
             strongSelf.notificationTitleTextField.resignFirstResponder()
         }
 
-        let notificationTitleButtonState = notificationTitleButton.state
-        notificationTitleButtonState.text = "Set"
-        notificationTitleButtonState.isDisabled = true
+        let notificationTitleButtonConfiguration = notificationTitleButton.configuration
+        notificationTitleButtonConfiguration.text = "Set"
+        notificationTitleButtonConfiguration.isDisabled = true
 
         return notificationTitleButton
     }()
@@ -307,7 +307,7 @@ class NotificationViewDemoControllerSwiftUI: DemoTableViewController, UIPickerVi
         didSet {
             if oldValue != message {
                 messageTextField.text = "\(message)"
-                notification.state.message = message
+                notification.configuration.message = message
             }
         }
     }
@@ -320,13 +320,13 @@ class NotificationViewDemoControllerSwiftUI: DemoTableViewController, UIPickerVi
 
             if let text = strongSelf.messageTextField.text {
                 strongSelf.message = text
-                button.state.isDisabled = true
+                button.configuration.isDisabled = true
             }
 
             strongSelf.messageTextField.resignFirstResponder()
         }
 
-        let messageButtonState = messageButton.state
+        let messageButtonState = messageButton.configuration
         messageButtonState.text = "Set"
         messageButtonState.isDisabled = true
 
@@ -345,7 +345,7 @@ class NotificationViewDemoControllerSwiftUI: DemoTableViewController, UIPickerVi
     private var delayTime: TimeInterval = 2.0 {
         didSet {
             if oldValue != delayTime {
-                notification.state.delayTime = delayTime
+                notification.configuration.delayTime = delayTime
             }
         }
     }
@@ -358,13 +358,13 @@ class NotificationViewDemoControllerSwiftUI: DemoTableViewController, UIPickerVi
 
             if let text = strongSelf.delayTimeTextField.text, let textToTimeInterval = TimeInterval(text) {
                 strongSelf.delayTime = textToTimeInterval
-                button.state.isDisabled = true
+                button.configuration.isDisabled = true
             }
 
             strongSelf.delayTimeTextField.resignFirstResponder()
         }
 
-        let delayTimeButtonState = delayTimeButton.state
+        let delayTimeButtonState = delayTimeButton.configuration
         delayTimeButtonState.text = "Set"
         delayTimeButtonState.isDisabled = true
 
@@ -384,7 +384,7 @@ class NotificationViewDemoControllerSwiftUI: DemoTableViewController, UIPickerVi
         didSet {
             if oldValue != actionButtonTitle {
                 actionButtonTitleTextField.text = "\(actionButtonTitle)"
-                notification.state.actionButtonTitle = actionButtonTitle
+                notification.configuration.actionButtonTitle = actionButtonTitle
             }
         }
     }
@@ -397,13 +397,13 @@ class NotificationViewDemoControllerSwiftUI: DemoTableViewController, UIPickerVi
 
             if let text = strongSelf.actionButtonTitleTextField.text {
                 strongSelf.actionButtonTitle = text
-                button.state.isDisabled = true
+                button.configuration.isDisabled = true
             }
 
             strongSelf.actionButtonTitleTextField.resignFirstResponder()
         }
 
-        let actionButtonTitleButtonState = actionButtonTitleButton.state
+        let actionButtonTitleButtonState = actionButtonTitleButton.configuration
         actionButtonTitleButtonState.text = "Set"
         actionButtonTitleButtonState.isDisabled = true
 
@@ -422,7 +422,7 @@ class NotificationViewDemoControllerSwiftUI: DemoTableViewController, UIPickerVi
     private var setImage: Bool = false {
         didSet {
             if oldValue != setImage {
-                notification.state.image = setImage ? UIImage(named: "play-in-circle-24x24") : nil
+                notification.configuration.image = setImage ? UIImage(named: "play-in-circle-24x24") : nil
             }
         }
     }
@@ -430,7 +430,7 @@ class NotificationViewDemoControllerSwiftUI: DemoTableViewController, UIPickerVi
     private var hasActionButtonAction: Bool = true {
         didSet {
             if oldValue != hasActionButtonAction {
-                notification.state.actionButtonAction = hasActionButtonAction ? { [weak self] in
+                notification.configuration.actionButtonAction = hasActionButtonAction ? { [weak self] in
                     if let actionButtonTitle = self?.actionButtonTitle {
                         if actionButtonTitle.isEmpty {
                             self?.showMessage("`Dismiss` tapped")
@@ -446,7 +446,7 @@ class NotificationViewDemoControllerSwiftUI: DemoTableViewController, UIPickerVi
     private var hasMessageAction: Bool = false {
         didSet {
             if oldValue != hasMessageAction {
-                notification.state.messageButtonAction = hasMessageAction ? { [weak self] in
+                notification.configuration.messageButtonAction = hasMessageAction ? { [weak self] in
                     self?.showMessage("Message action tapped")
                 } : nil
             }
@@ -465,22 +465,22 @@ class NotificationViewDemoControllerSwiftUI: DemoTableViewController, UIPickerVi
     private var notification: MSFNotification = MSFNotification(style: .primaryToast, message: "Mail Archived", delayTime: 2.0) {
         didSet {
             if oldValue != notification {
-                notification.state.title = oldValue.state.title
-                notification.state.image = oldValue.state.image
-                notification.state.actionButtonTitle = oldValue.state.actionButtonTitle
-                notification.state.actionButtonAction = oldValue.state.actionButtonAction
-                notification.state.messageButtonAction = oldValue.state.messageButtonAction
-                notification.state.dismissAction = { self.notification.hide() }
+                notification.configuration.title = oldValue.configuration.title
+                notification.configuration.image = oldValue.configuration.image
+                notification.configuration.actionButtonTitle = oldValue.configuration.actionButtonTitle
+                notification.configuration.actionButtonAction = oldValue.configuration.actionButtonAction
+                notification.configuration.messageButtonAction = oldValue.configuration.messageButtonAction
+                notification.configuration.dismissAction = { self.notification.hide() }
                 tableView.reloadRows(at: [IndexPath(item: 0, section: 0)], with: .automatic)
             }
         }
     }
 
     private func initDemoNotification() {
-        let state = notification.state
-        state.title = notificationTitle
-        state.actionButtonTitle = actionButtonTitle
-        state.actionButtonAction = { [weak self] in
+        let configuration = notification.configuration
+        configuration.title = notificationTitle
+        configuration.actionButtonTitle = actionButtonTitle
+        configuration.actionButtonAction = { [weak self] in
             if let actionButtonTitle = self?.actionButtonTitle {
                 if actionButtonTitle.isEmpty {
                     self?.showMessage("`Dismiss` tapped")
@@ -489,21 +489,21 @@ class NotificationViewDemoControllerSwiftUI: DemoTableViewController, UIPickerVi
                 }
             }
         }
-        state.dismissAction = { [weak self] in
+        configuration.dismissAction = { [weak self] in
             self?.notification.hide() }
     }
 
     @objc private func showNotification() {
         // Create another instance of the demo notification to show
         let newNotification = MSFNotification(style: style, message: message, delayTime: delayTime)
-        newNotification.state.title = notification.state.title
-        newNotification.state.image = notification.state.image
-        newNotification.state.actionButtonTitle = notification.state.actionButtonTitle
-        newNotification.state.actionButtonAction = notification.state.actionButtonAction
-        newNotification.state.messageButtonAction = notification.state.messageButtonAction
-        newNotification.state.dismissAction = { newNotification.hide() }
+        newNotification.configuration.title = notification.configuration.title
+        newNotification.configuration.image = notification.configuration.image
+        newNotification.configuration.actionButtonTitle = notification.configuration.actionButtonTitle
+        newNotification.configuration.actionButtonAction = notification.configuration.actionButtonAction
+        newNotification.configuration.messageButtonAction = notification.configuration.messageButtonAction
+        newNotification.configuration.dismissAction = { newNotification.hide() }
         newNotification.showNotification(in: view) {
-            $0.hide(after: newNotification.state.delayTime)
+            $0.hide(after: newNotification.configuration.delayTime)
         }
     }
 }
@@ -514,14 +514,14 @@ extension NotificationViewDemoControllerSwiftUI: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let text = textField.text ?? ""
         if textField == notificationTitleTextField {
-            notificationTitleButton.state.isDisabled = text == notificationTitle
+            notificationTitleButton.configuration.isDisabled = text == notificationTitle
         } else if textField == messageTextField {
-            messageButton.state.isDisabled = text == message
+            messageButton.configuration.isDisabled = text == message
         } else if textField == actionButtonTitleTextField {
-            actionButtonTitleButton.state.isDisabled = text == actionButtonTitle
+            actionButtonTitleButton.configuration.isDisabled = text == actionButtonTitle
         } else if textField == delayTimeTextField {
             if let timeIntervalText = TimeInterval(text) {
-                delayTimeButton.state.isDisabled = timeIntervalText == delayTime
+                delayTimeButton.configuration.isDisabled = timeIntervalText == delayTime
             }
         }
 

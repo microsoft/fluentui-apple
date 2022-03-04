@@ -12,7 +12,7 @@ public extension ActivityIndicator {
     /// - Parameter accessibilityLabel: Accessibility label string.
     /// - Returns: The modified Activity Indicator with the property set.
     func accessibilityLabel(_ accessibilityLabel: String?) -> ActivityIndicator {
-        state.accessibilityLabel = accessibilityLabel
+        configuration.accessibilityLabel = accessibilityLabel
         return self
     }
 
@@ -20,7 +20,7 @@ public extension ActivityIndicator {
     /// - Parameter color: UIColor instance to be set.
     /// - Returns: The modified Activity Indicator with the property set.
     func color(_ color: UIColor?) -> ActivityIndicator {
-        state.color = color
+        configuration.color = color
         return self
     }
 
@@ -28,7 +28,7 @@ public extension ActivityIndicator {
     /// - Parameter isAnimating: Boolean value to set the property.
     /// - Returns: The modified Activity Indicator with the property set.
     func isAnimating(_ isAnimating: Bool) -> ActivityIndicator {
-        state.isAnimating = isAnimating
+        configuration.isAnimating = isAnimating
         return self
     }
 
@@ -36,13 +36,13 @@ public extension ActivityIndicator {
     /// - Parameter hidesWhenStopped: Boolean value to set the property.
     /// - Returns: The modified Activity Indicator with the property set.
     func hidesWhenStopped(_ hidesWhenStopped: Bool) -> ActivityIndicator {
-        state.hidesWhenStopped = hidesWhenStopped
+        configuration.hidesWhenStopped = hidesWhenStopped
         return self
     }
 
     /// Provides a custom design token set to be used when drawing this control.
     func overrideTokens(_ tokens: ActivityIndicatorTokens?) -> ActivityIndicator {
-        state.overrideTokens = tokens
+        configuration.overrideTokens = tokens
         return self
     }
 }

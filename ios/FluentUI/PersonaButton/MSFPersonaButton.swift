@@ -14,10 +14,10 @@ import UIKit
     ///   - size: The MSFPersonaButtonSize value used by the PersonaButton.
     @objc public init(size: MSFPersonaButtonSize = .large) {
         let personaButton = PersonaButton(size: size)
-        state = personaButton.state
+        configuration = personaButton.configuration
         super.init(AnyView(personaButton))
     }
 
     /// The object that groups properties that allow control over the PersonaButton appearance.
-    @objc public let state: MSFPersonaButtonState
+    @objc public let configuration: MSFPersonaButtonConfiguration
 }

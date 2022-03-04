@@ -17,10 +17,10 @@ import SwiftUI
                       size: MSFAvatarSize = .large) {
         let avatar = Avatar(style: style,
                             size: size)
-        state = avatar.state
+        configuration = avatar.configuration
         super.init(AnyView(avatar))
     }
 
     /// The object that groups properties that allow control over the Avatar appearance.
-    @objc public let state: MSFAvatarState
+    @objc public let configuration: MSFAvatarConfiguration
 }

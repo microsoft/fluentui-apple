@@ -7,7 +7,7 @@ import UIKit
 import SwiftUI
 
 /// Properties that can be used to customize the appearance of the List Cell.
-@objc public protocol MSFListCellState {
+@objc public protocol MSFListCellConfiguration {
     /// Custom view on the leading side of the Cell.
     var leadingUIView: UIView? { get set }
 
@@ -53,22 +53,22 @@ import SwiftUI
     /// Sets a custom highlighed background color for the Cell.
     var highlightedBackgroundColor: UIColor? { get set }
 
-    /// Configures max number of lines in the title.
+    /// Configuress max number of lines in the title.
     var titleLineLimit: Int { get set }
 
-    /// Configures max number of lines in the subtitle.
+    /// Configuress max number of lines in the subtitle.
     var subtitleLineLimit: Int { get set }
 
-    /// Configures max number of lines in the footnote.
+    /// Configuress max number of lines in the footnote.
     var footnoteLineLimit: Int { get set }
 
-    /// Configures whether the cell is expanded or collapsed if it has children cells.
+    /// Configuress whether the cell is expanded or collapsed if it has children cells.
     var isExpanded: Bool { get set }
 
     /// Sets the cell as a one-line, two-line, or three-line layout type.
     var layoutType: MSFListCellLayoutType { get set }
 
-    /// Configures divider visibility, which is located under the cell.
+    /// Configuress divider visibility, which is located under the cell.
     var hasDivider: Bool { get set }
 
     /// Assigns an action to the cell when it is tapped.
@@ -78,23 +78,23 @@ import SwiftUI
     var childrenCellCount: Int { get }
 
     /// Creates a new child cell and appends it to the array of children cells in a Cell.
-    func createChildCell() -> MSFListCellState
+    func createChildCell() -> MSFListCellConfiguration
 
     /// Creates a new child cell within the array of children cells at a specific index.
     /// - Parameter index: The zero-based index of the child cell that will be inserted into the array of children cells.
-    func createChildCell(at index: Int) -> MSFListCellState
+    func createChildCell(at index: Int) -> MSFListCellConfiguration
 
-    /// Retrieves the state object for a specific child cell so its appearance can be customized.
+    /// Retrieves the configuration object for a specific child cell so its appearance can be customized.
     /// - Parameter index: The zero-based index of the child cell in the array of children cells.
-    func getChildCellState(at index: Int) -> MSFListCellState
+    func getChildCellConfiguration(at index: Int) -> MSFListCellConfiguration
 
     /// Remove a child cell from the Cell.
     /// - Parameter index: The zero-based index of the child cell that will be removed from the array of children cells.
     func removeChildCell(at index: Int)
 }
 
-/// `MSFListCellStateImpl` contains properties that make up a cell content.
-class MSFListCellStateImpl: NSObject, ObservableObject, Identifiable, ControlConfiguration, MSFListCellState {
+/// `MSFListCellConfigurationImpl` contains properties that make up a cell content.
+class MSFListCellConfigurationImpl: NSObject, ObservableObject, Identifiable, ControlConfiguration, MSFListCellConfiguration {
     init(cellLeadingViewSize: MSFListCellLeadingViewSize = .medium) {
         self.leadingViewSize = cellLeadingViewSize
 
@@ -123,7 +123,7 @@ class MSFListCellStateImpl: NSObject, ObservableObject, Identifiable, ControlCon
     @Published var isExpanded: Bool = false
     @Published var layoutType: MSFListCellLayoutType = .automatic
     @Published var hasDivider: Bool = false
-    @Published private(set) var children: [MSFListCellStateImpl] = []
+    @Published private(set) var children: [MSFListCellConfigurationImpl] = []
     var onTapAction: (() -> Void)?
     var id = UUID()
 
@@ -221,20 +221,20 @@ class MSFListCellStateImpl: NSObject, ObservableObject, Identifiable, ControlCon
         return children.count
     }
 
-    func createChildCell() -> MSFListCellState {
+    func createChildCell() -> MSFListCellConfiguration {
         return createChildCell(at: children.endIndex)
     }
 
-    func createChildCell(at index: Int) -> MSFListCellState {
+    func createChildCell(at index: Int) -> MSFListCellConfiguration {
         guard index <= children.count && index >= 0 else {
             preconditionFailure("Index is out of bounds")
         }
-        let cell = MSFListCellStateImpl()
+        let cell = MSFListCellConfigurationImpl()
         children.insert(cell, at: index)
         return cell
     }
 
-    func getChildCellState(at index: Int) -> MSFListCellState {
+    func getChildCellConfiguration(at index: Int) -> MSFListCellConfiguration {
         guard children.indices.contains(index) else {
             preconditionFailure("Index is out of bounds")
         }
@@ -260,8 +260,8 @@ class MSFListCellStateImpl: NSObject, ObservableObject, Identifiable, ControlCon
 /// View for List Cells
 struct MSFListCellView: View, ConfigurableTokenizedControl {
 
-    init(state: MSFListCellStateImpl) {
-        self.state = state
+    init(configuration: MSFListCellConfigurationImpl) {
+        self.configuration = configuration
     }
 
     var body: some View {
@@ -273,13 +273,13 @@ struct MSFListCellView: View, ConfigurableTokenizedControl {
             let leadingViewAreaSize: CGFloat = tokens.leadingViewAreaSize
 
             HStack(spacing: 0) {
-                let hasTitle: Bool = !state.title.isEmpty
+                let hasTitle: Bool = !configuration.title.isEmpty
                 let labelAccessoryInterspace: CGFloat = tokens.labelAccessoryInterspace
                 let labelAccessorySize: CGFloat = tokens.labelAccessorySize
                 let sublabelAccessorySize: CGFloat = tokens.sublabelAccessorySize
                 let trailingItemSize: CGFloat = tokens.trailingItemSize
 
-                if let leadingView = state.leadingView {
+                if let leadingView = configuration.leadingView {
                     HStack(alignment: .center, spacing: 0) {
                         leadingView
                             .frame(width: leadingViewSize, height: leadingViewSize)
@@ -290,18 +290,18 @@ struct MSFListCellView: View, ConfigurableTokenizedControl {
 
                 VStack(alignment: .leading, spacing: 0) {
                     HStack(spacing: 0) {
-                        if let titleLeadingAccessoryView = state.titleLeadingAccessoryView {
+                        if let titleLeadingAccessoryView = configuration.titleLeadingAccessoryView {
                             titleLeadingAccessoryView
                                 .frame(width: labelAccessorySize, height: labelAccessorySize)
                                 .padding(.trailing, labelAccessoryInterspace)
                         }
                         if hasTitle {
-                            Text(state.title)
+                            Text(configuration.title)
                                 .font(.fluent(tokens.labelFont))
                                 .foregroundColor(Color(dynamicColor: tokens.labelColor))
-                                .lineLimit(state.titleLineLimit == 0 ? nil : state.titleLineLimit)
+                                .lineLimit(configuration.titleLineLimit == 0 ? nil : configuration.titleLineLimit)
                         }
-                        if let titleTrailingAccessoryView = state.titleTrailingAccessoryView {
+                        if let titleTrailingAccessoryView = configuration.titleTrailingAccessoryView {
                             titleTrailingAccessoryView
                                 .frame(width: labelAccessorySize, height: labelAccessorySize)
                                 .padding(.leading, labelAccessoryInterspace)
@@ -309,19 +309,19 @@ struct MSFListCellView: View, ConfigurableTokenizedControl {
                     }
 
                     HStack(spacing: 0) {
-                        if let subtitleLeadingAccessoryView = state.subtitleLeadingAccessoryView {
+                        if let subtitleLeadingAccessoryView = configuration.subtitleLeadingAccessoryView {
                             subtitleLeadingAccessoryView
                                 .frame(width: sublabelAccessorySize, height: sublabelAccessorySize)
                                 .padding(.trailing, labelAccessoryInterspace)
                         }
-                        if !state.subtitle.isEmpty {
-                            Text(state.subtitle)
-                                .font(.fluent(state.footnote.isEmpty ?
+                        if !configuration.subtitle.isEmpty {
+                            Text(configuration.subtitle)
+                                .font(.fluent(configuration.footnote.isEmpty ?
                                                             tokens.footnoteFont : tokens.sublabelFont))
                                 .foregroundColor(Color(dynamicColor: tokens.sublabelColor))
-                                .lineLimit(state.subtitleLineLimit == 0 ? nil : state.subtitleLineLimit)
+                                .lineLimit(configuration.subtitleLineLimit == 0 ? nil : configuration.subtitleLineLimit)
                         }
-                        if let subtitleTrailingAccessoryView = state.subtitleTrailingAccessoryView {
+                        if let subtitleTrailingAccessoryView = configuration.subtitleTrailingAccessoryView {
                             subtitleTrailingAccessoryView
                                 .frame(width: sublabelAccessorySize, height: sublabelAccessorySize)
                                 .padding(.leading, labelAccessoryInterspace)
@@ -329,18 +329,18 @@ struct MSFListCellView: View, ConfigurableTokenizedControl {
                     }
 
                     HStack(spacing: 0) {
-                        if let footnoteLeadingAccessoryView = state.footnoteLeadingAccessoryView {
+                        if let footnoteLeadingAccessoryView = configuration.footnoteLeadingAccessoryView {
                             footnoteLeadingAccessoryView
                                 .frame(width: labelAccessorySize, height: labelAccessorySize)
                                 .padding(.trailing, labelAccessoryInterspace)
                         }
-                        if !state.footnote.isEmpty {
-                            Text(state.footnote)
+                        if !configuration.footnote.isEmpty {
+                            Text(configuration.footnote)
                                 .font(.fluent(tokens.footnoteFont))
                                 .foregroundColor(Color(dynamicColor: tokens.sublabelColor))
-                                .lineLimit(state.footnoteLineLimit == 0 ? nil : state.footnoteLineLimit)
+                                .lineLimit(configuration.footnoteLineLimit == 0 ? nil : configuration.footnoteLineLimit)
                         }
-                        if let footnoteTrailingAccessoryView = state.footnoteTrailingAccessoryView {
+                        if let footnoteTrailingAccessoryView = configuration.footnoteTrailingAccessoryView {
                             footnoteTrailingAccessoryView
                                 .frame(width: labelAccessorySize, height: labelAccessorySize)
                                 .padding(.leading, labelAccessoryInterspace)
@@ -350,14 +350,14 @@ struct MSFListCellView: View, ConfigurableTokenizedControl {
 
                 Spacer()
 
-                if let trailingView = state.trailingView {
+                if let trailingView = configuration.trailingView {
                     trailingView
                         .frame(width: trailingItemSize, height: trailingItemSize)
                         .fixedSize()
                 }
 
                 HStack(spacing: 0) {
-                    if let accessoryType = state.accessoryType, accessoryType != .none, let accessoryIcon = accessoryType.icon {
+                    if let accessoryType = configuration.accessoryType, accessoryType != .none, let accessoryIcon = accessoryType.icon {
                         let isDisclosure = accessoryType == .disclosure
                         let disclosureSize = tokens.disclosureSize
                         Image(uiImage: accessoryIcon)
@@ -375,32 +375,32 @@ struct MSFListCellView: View, ConfigurableTokenizedControl {
 
         @ViewBuilder
         var cellContent: some View {
-            let children: [MSFListCellStateImpl] = state.children
+            let children: [MSFListCellConfigurationImpl] = configuration.children
             let hasChildren: Bool = children.count > 0
             let horizontalCellPadding: CGFloat = tokens.horizontalCellPadding
             let leadingViewAreaSize: CGFloat = tokens.leadingViewAreaSize
 
-            Button(action: state.onTapAction ?? {
+            Button(action: configuration.onTapAction ?? {
                 if hasChildren {
                     withAnimation {
-                        state.isExpanded.toggle()
+                        configuration.isExpanded.toggle()
                     }
                 }
             }, label: {
                 cellLabel
             })
-            .buttonStyle(ListCellButtonStyle(tokens: tokens, state: state))
+            .buttonStyle(ListCellButtonStyle(tokens: tokens, configuration: configuration))
 
-            if state.hasDivider {
+            if configuration.hasDivider {
                 let padding = horizontalCellPadding +
-                    (state.leadingView != nil ? horizontalCellPadding + leadingViewAreaSize : 0)
+                    (configuration.leadingView != nil ? horizontalCellPadding + leadingViewAreaSize : 0)
                 FluentDivider()
                     .padding(.leading, padding)
             }
 
-            if hasChildren, state.isExpanded == true {
+            if hasChildren, configuration.isExpanded == true {
                 ForEach(children, id: \.self) { child in
-                    MSFListCellView(state: child)
+                    MSFListCellView(configuration: child)
                         .frame(maxWidth: .infinity)
                         .padding(.leading, (horizontalCellPadding + leadingViewAreaSize))
                 }
@@ -411,32 +411,32 @@ struct MSFListCellView: View, ConfigurableTokenizedControl {
     }
 
     func overrideTokens(_ tokens: CellBaseTokens?) -> MSFListCellView {
-        state.overrideTokens = tokens
+        configuration.overrideTokens = tokens
         return self
     }
 
     let defaultTokens: CellBaseTokens = .init()
     var tokens: CellBaseTokens {
         let tokens = resolvedTokens
-        tokens.cellLeadingViewSize = state.leadingViewSize
+        tokens.cellLeadingViewSize = configuration.leadingViewSize
         return tokens
     }
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
-    @ObservedObject var state: MSFListCellStateImpl
+    @ObservedObject var configuration: MSFListCellConfigurationImpl
 }
 
 struct ListCellButtonStyle: ButtonStyle {
     let tokens: CellBaseTokens
-    let state: MSFListCellState
+    let configuration: MSFListCellConfiguration
 
     func makeBody(configuration: Self.Configuration) -> some View {
         let height: CGFloat
         let horizontalCellPadding: CGFloat = tokens.horizontalCellPadding
         let verticalCellPadding: CGFloat = tokens.verticalCellPadding
-        switch state.layoutType {
+        switch self.configuration.layoutType {
         case .automatic:
-            height = !state.footnote.isEmpty ? tokens.cellHeightThreeLines :
-                    (!state.subtitle.isEmpty ? tokens.cellHeightTwoLines : tokens.cellHeightOneLine)
+            height = !self.configuration.footnote.isEmpty ? tokens.cellHeightThreeLines :
+                    (!self.configuration.subtitle.isEmpty ? tokens.cellHeightTwoLines : tokens.cellHeightOneLine)
         case .oneLine:
             height = tokens.cellHeightOneLine
         case .twoLines:
@@ -456,17 +456,17 @@ struct ListCellButtonStyle: ButtonStyle {
 
     private func backgroundColor(_ isPressed: Bool = false) -> Color {
         let highlightedBackgroundColor: Color = {
-            guard let stateHighlightedBackgroundColor = state.highlightedBackgroundColor else {
+            guard let configurationHighlightedBackgroundColor = configuration.highlightedBackgroundColor else {
                 return Color(dynamicColor: tokens.highlightedBackgroundColor)
             }
-            return Color(stateHighlightedBackgroundColor)
+            return Color(configurationHighlightedBackgroundColor)
         }()
 
         let backgroundColor: Color = {
-            guard let stateBackgroundColor = state.backgroundColor else {
+            guard let configurationBackgroundColor = configuration.backgroundColor else {
                 return Color(dynamicColor: tokens.backgroundColor)
             }
-            return Color(stateBackgroundColor)
+            return Color(configurationBackgroundColor)
         }()
 
         if isPressed {

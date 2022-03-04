@@ -7,7 +7,7 @@ import SwiftUI
 import UIKit
 
 /// Properties that can be used to customize the appearance of the Button.
-@objc public protocol MSFButtonState {
+@objc public protocol MSFButtonConfiguration {
 
     /// The string representing the accessibility label of the button.
     var accessibilityLabel: String? { get set }
@@ -34,12 +34,12 @@ import UIKit
 /// View that represents the button.
 public struct FluentButton: View, ConfigurableTokenizedControl {
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
-    @ObservedObject var state: MSFButtonStateImpl
+    @ObservedObject var configuration: MSFButtonConfigurationImpl
     let defaultTokens: ButtonTokens = .init()
     var tokens: ButtonTokens {
         let tokens = resolvedTokens
-        tokens.size = state.size
-        tokens.style = state.style
+        tokens.size = configuration.size
+        tokens.style = configuration.style
         return tokens
     }
 
@@ -55,24 +55,24 @@ public struct FluentButton: View, ConfigurableTokenizedControl {
                 image: UIImage? = nil,
                 text: String? = nil,
                 action: @escaping () -> Void) {
-        let state = MSFButtonStateImpl(style: style,
-                                       size: size,
-                                       action: action)
-        state.text = text
-        state.image = image
-        self.state = state
+        let configuration = MSFButtonConfigurationImpl(style: style,
+                                                       size: size,
+                                                       action: action)
+        configuration.text = text
+        configuration.image = image
+        self.configuration = configuration
     }
 
     public var body: some View {
-        Button(action: state.action, label: {})
-            .buttonStyle(FluentButtonStyle(state: state,
+        Button(action: configuration.action, label: {})
+            .buttonStyle(FluentButtonStyle(configuration: configuration,
                                            tokensLookup: { tokens }))
-            .disabled(state.disabled ?? false)
+            .disabled(configuration.disabled ?? false)
             .frame(maxWidth: .infinity)
     }
 }
 
-class MSFButtonStateImpl: NSObject, ObservableObject, ControlConfiguration, MSFButtonState {
+class MSFButtonConfigurationImpl: NSObject, ObservableObject, ControlConfiguration, MSFButtonConfiguration {
     var action: () -> Void
     @Published var image: UIImage?
     @Published var disabled: Bool?
@@ -105,7 +105,7 @@ class MSFButtonStateImpl: NSObject, ObservableObject, ControlConfiguration, MSFB
 /// Body of the button adjusted for pressed or rest state
 struct FluentButtonBody: View {
     @Environment(\.isEnabled) var isEnabled: Bool
-    @ObservedObject var state: MSFButtonStateImpl
+    @ObservedObject var configuration: MSFButtonConfigurationImpl
     var tokens: ButtonTokens { tokensLookup() }
     let tokensLookup: (() -> ButtonTokens)
     let isPressed: Bool
@@ -138,13 +138,13 @@ struct FluentButtonBody: View {
         @ViewBuilder
         var buttonContent: some View {
             HStack(spacing: tokens.interspace) {
-                if let image = state.image {
+                if let image = configuration.image {
                     Image(uiImage: image)
                         .resizable()
                         .foregroundColor(Color(dynamicColor: iconColor))
                         .frame(width: tokens.iconSize, height: tokens.iconSize, alignment: .center)
                 }
-                if let text = state.text {
+                if let text = configuration.text {
                     Text(text)
                         .multilineTextAlignment(.center)
                         .font(.fluent(tokens.textFont, shouldScale: !isFloatingStyle))
@@ -154,7 +154,7 @@ struct FluentButtonBody: View {
                 }
             }
             .padding(tokens.padding)
-            .modifyIf(isFloatingStyle && !(state.text?.isEmpty ?? true), { view in
+            .modifyIf(isFloatingStyle && !(configuration.text?.isEmpty ?? true), { view in
                 view.padding(.horizontal, tokens.textAdditionalHorizontalPadding )
             })
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -203,13 +203,13 @@ struct FluentButtonBody: View {
     }
 }
 
-/// ButtonStyle which configures the Button View according to its state and design tokens.
+/// ButtonStyle which configures the Button View according to its configuration and design tokens.
 struct FluentButtonStyle: ButtonStyle {
-    @ObservedObject var state: MSFButtonStateImpl
+    @ObservedObject var configuration: MSFButtonConfigurationImpl
     let tokensLookup: () -> ButtonTokens
 
     func makeBody(configuration: Self.Configuration) -> some View {
-        FluentButtonBody(state: state,
+        FluentButtonBody(configuration: self.configuration,
                          tokensLookup: tokensLookup,
                          isPressed: configuration.isPressed)
     }

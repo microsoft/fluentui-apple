@@ -17,11 +17,11 @@ import SwiftUI
                       size: MSFAvatarSize) {
         let avatarGroup = AvatarGroup(style: style,
                                      size: size)
-        state = avatarGroup.state
+        configuration = avatarGroup.configuration
         super.init(AnyView(avatarGroup))
         view.backgroundColor = UIColor.clear
     }
 
     /// The object that groups properties that allow control over the AvatarGroup appearance.
-    @objc public let state: MSFAvatarGroupState
+    @objc public let configuration: MSFAvatarGroupConfiguration
 }

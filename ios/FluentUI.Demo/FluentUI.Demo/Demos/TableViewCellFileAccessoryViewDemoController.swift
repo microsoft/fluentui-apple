@@ -302,7 +302,7 @@ class TableViewCellFileAccessoryViewDemoController: DemoTableViewController {
 
             strongSelf.perform(selector)
         }
-        button.state.image = UIImage(named: plus ? "ic_fluent_add_20_regular" : "ic_fluent_subtract_20_regular")
+        button.configuration.image = UIImage(named: plus ? "ic_fluent_add_20_regular" : "ic_fluent_subtract_20_regular")
 
         return button
     }

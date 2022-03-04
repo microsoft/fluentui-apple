@@ -366,7 +366,7 @@ class AvatarGroupDemoController: DemoTableViewController {
                 maxAvatarsTextField.text = "\(maxDisplayedAvatars)"
 
                 for avatarGroup in allDemoAvatarGroupsCombined {
-                    avatarGroup.state.maxDisplayedAvatars = maxDisplayedAvatars
+                    avatarGroup.configuration.maxDisplayedAvatars = maxDisplayedAvatars
                 }
             }
         }
@@ -382,15 +382,15 @@ class AvatarGroupDemoController: DemoTableViewController {
             if let text = strongSelf.maxAvatarsTextField.text,
                let count = Int(text) {
                 strongSelf.maxDisplayedAvatars = count
-                button.state.isDisabled = true
+                button.configuration.isDisabled = true
             }
 
             strongSelf.maxAvatarsTextField.resignFirstResponder()
         }
 
-        let maxAvatarButtonState = maxAvatarButton.state
-        maxAvatarButtonState.text = "Set"
-        maxAvatarButtonState.isDisabled = true
+        let maxAvatarButtonConfiguration = maxAvatarButton.configuration
+        maxAvatarButtonConfiguration.text = "Set"
+        maxAvatarButtonConfiguration.isDisabled = true
 
         return maxAvatarButton
     }()
@@ -410,7 +410,7 @@ class AvatarGroupDemoController: DemoTableViewController {
                 overflowCountTextField.text = "\(overflowCount)"
 
                 for avatarGroup in allDemoAvatarGroupsCombined {
-                    avatarGroup.state.overflowCount = overflowCount
+                    avatarGroup.configuration.overflowCount = overflowCount
                 }
             }
         }
@@ -425,15 +425,15 @@ class AvatarGroupDemoController: DemoTableViewController {
             if let text = strongSelf.overflowCountTextField.text,
                let count = Int(text) {
                 strongSelf.overflowCount = count
-                button.state.isDisabled = true
+                button.configuration.isDisabled = true
             }
 
             strongSelf.overflowCountTextField.resignFirstResponder()
         }
 
-        let overflowCountButtonState = overflowCountButton.state
-        overflowCountButtonState.text = "Set"
-        overflowCountButtonState.isDisabled = true
+        let overflowCountButtonConfiguration = overflowCountButton.configuration
+        overflowCountButtonConfiguration.text = "Set"
+        overflowCountButtonConfiguration.isDisabled = true
 
         return overflowCountButton
     }()
@@ -462,16 +462,16 @@ class AvatarGroupDemoController: DemoTableViewController {
                 }).forEach { row in
                     let avatarGroup = demoAvatarGroupsBySection[section]![row]
                     if oldValue < avatarCount {
-                        let avatarState = avatarGroup?.state.createAvatar()
+                        let avatarConfiguration = avatarGroup?.configuration.createAvatar()
                         for index in 0..<avatarCount {
                             let samplePersona = samplePersonas[index]
-                            avatarState!.image = samplePersona.image
-                            avatarState!.isRingVisible = section.isMixedBorder ? index % 2 == 0 : section.showBorders
-                            avatarState!.primaryText = samplePersona.name
-                            avatarState!.secondaryText = samplePersona.email
+                            avatarConfiguration!.image = samplePersona.image
+                            avatarConfiguration!.isRingVisible = section.isMixedBorder ? index % 2 == 0 : section.showBorders
+                            avatarConfiguration!.primaryText = samplePersona.name
+                            avatarConfiguration!.secondaryText = samplePersona.email
                         }
                     } else {
-                        avatarGroup?.state.removeAvatar(at: avatarCount)
+                        avatarGroup?.configuration.removeAvatar(at: avatarCount)
                     }
 
                     avatarGroupsForCurrentSection.updateValue(avatarGroup!, forKey: row)
@@ -523,16 +523,16 @@ class AvatarGroupDemoController: DemoTableViewController {
                 let avatarGroup = MSFAvatarGroup(style: section.avatarStyle,
                                        size: row.avatarSize)
                 for index in 0..<avatarCount {
-                    let avatarState = avatarGroup.state.createAvatar()
+                    let avatarConfiguration = avatarGroup.configuration.createAvatar()
                     let samplePersona = samplePersonas[index]
-                    avatarState.image = samplePersona.image
-                    avatarState.isRingVisible = section.isMixedBorder ? index % 2 == 0 : section.showBorders
-                    avatarState.primaryText = samplePersona.name
-                    avatarState.secondaryText = samplePersona.email
+                    avatarConfiguration.image = samplePersona.image
+                    avatarConfiguration.isRingVisible = section.isMixedBorder ? index % 2 == 0 : section.showBorders
+                    avatarConfiguration.primaryText = samplePersona.name
+                    avatarConfiguration.secondaryText = samplePersona.email
                 }
 
-                avatarGroup.state.maxDisplayedAvatars = maxDisplayedAvatars
-                avatarGroup.state.overflowCount = overflowCount
+                avatarGroup.configuration.maxDisplayedAvatars = maxDisplayedAvatars
+                avatarGroup.configuration.overflowCount = overflowCount
                 avatarGroupsForCurrentSection.updateValue(avatarGroup, forKey: row)
                 allDemoAvatarGroupsCombined.append(avatarGroup)
             }
@@ -562,12 +562,12 @@ extension AvatarGroupDemoController: UITextFieldDelegate {
         let button = textField == maxAvatarsTextField ? maxAvatarButton : overflowCountButton
         if let count = UInt(text) {
             if textField == maxAvatarsTextField {
-                button.state.isDisabled = count <= 0 || count == maxDisplayedAvatars
+                button.configuration.isDisabled = count <= 0 || count == maxDisplayedAvatars
             } else {
-                button.state.isDisabled = count == overflowCount
+                button.configuration.isDisabled = count == overflowCount
             }
         } else {
-            button.state.isDisabled = true
+            button.configuration.isDisabled = true
         }
 
         return shouldChangeCharacters

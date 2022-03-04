@@ -17,10 +17,10 @@ import UIKit
     @objc public init(style: MSFCardNudgeStyle,
                       title: String) {
         let cardNudge = CardNudge(style: style, title: title)
-        state = cardNudge.state
+        configuration = cardNudge.configuration
         super.init(AnyView(cardNudge))
     }
 
     /// The object that groups properties that allow control over the Card Nudge appearance.
-    @objc public let state: MSFCardNudgeState
+    @objc public let configuration: MSFCardNudgeConfiguration
 }

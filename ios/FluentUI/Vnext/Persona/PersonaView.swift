@@ -6,221 +6,221 @@
 import UIKit
 import SwiftUI
 
-/// `MSFPersonaViewState` contains  PersonaView properties in addition to  MSFAvatarState protocol.
+/// `MSFPersonaViewConfiguration` contains  PersonaView properties in addition to  MSFAvatarConfiguration protocol.
 ///
 /// `TrailingAccessoryView` for `title` and `subtitle` allows for any custom UIView
 /// following each respective label.
 ///
 /// `onTapAction` provides tap gesture for PersonaView.
 ///
-@objc public protocol MSFPersonaViewState: MSFAvatarState {
+@objc public protocol MSFPersonaViewConfiguration: MSFAvatarConfiguration {
     var titleTrailingAccessoryUIView: UIView? { get set }
     var subtitleTrailingAccessoryUIView: UIView? { get set }
     var onTapAction: (() -> Void)? { get set }
 }
 
-public protocol PersonaViewState: MSFPersonaViewState {
+public protocol PersonaViewState: MSFPersonaViewConfiguration {
     var titleTrailingAccessoryView: AnyView? { get set }
     var subtitleTrailingAccessoryView: AnyView? { get set }
 }
 
 /// Properties that make up PersonaView content
-class MSFPersonaViewStateImpl: MSFListCellStateImpl, PersonaViewState {
+class MSFPersonaViewConfigurationImpl: MSFListCellConfigurationImpl, PersonaViewState {
     override var backgroundColor: UIColor? {
         get {
-            return avatarState.backgroundColor
+            return avatarConfiguration.backgroundColor
         }
 
         set {
-            avatarState.backgroundColor = newValue
+            avatarConfiguration.backgroundColor = newValue
         }
     }
 
     var foregroundColor: UIColor? {
         get {
-            return avatarState.foregroundColor
+            return avatarConfiguration.foregroundColor
         }
 
         set {
-            avatarState.foregroundColor = newValue
+            avatarConfiguration.foregroundColor = newValue
         }
     }
 
     var hasButtonAccessibilityTrait: Bool {
         get {
-            return avatarState.hasButtonAccessibilityTrait
+            return avatarConfiguration.hasButtonAccessibilityTrait
         }
 
         set {
-            avatarState.hasButtonAccessibilityTrait = newValue
+            avatarConfiguration.hasButtonAccessibilityTrait = newValue
         }
     }
 
     var hasPointerInteraction: Bool {
         get {
-            return avatarState.hasPointerInteraction
+            return avatarConfiguration.hasPointerInteraction
         }
 
         set {
-            avatarState.hasPointerInteraction = newValue
+            avatarConfiguration.hasPointerInteraction = newValue
         }
     }
 
     var hasRingInnerGap: Bool {
         get {
-            return avatarState.hasRingInnerGap
+            return avatarConfiguration.hasRingInnerGap
         }
 
         set {
-            avatarState.hasRingInnerGap = newValue
+            avatarConfiguration.hasRingInnerGap = newValue
         }
     }
 
     var image: UIImage? {
         get {
-            return avatarState.image
+            return avatarConfiguration.image
         }
 
         set {
-            avatarState.image = newValue
+            avatarConfiguration.image = newValue
         }
     }
 
     var imageBasedRingColor: UIImage? {
         get {
-            return avatarState.imageBasedRingColor
+            return avatarConfiguration.imageBasedRingColor
         }
 
         set {
-            avatarState.imageBasedRingColor = newValue
+            avatarConfiguration.imageBasedRingColor = newValue
         }
     }
 
     var isAnimated: Bool {
         get {
-            return avatarState.isAnimated
+            return avatarConfiguration.isAnimated
         }
 
         set {
-            avatarState.isAnimated = newValue
+            avatarConfiguration.isAnimated = newValue
         }
     }
 
     var isOutOfOffice: Bool {
         get {
-            return avatarState.isOutOfOffice
+            return avatarConfiguration.isOutOfOffice
         }
 
         set {
-            avatarState.isOutOfOffice = newValue
+            avatarConfiguration.isOutOfOffice = newValue
         }
     }
 
     var isRingVisible: Bool {
         get {
-            return avatarState.isRingVisible
+            return avatarConfiguration.isRingVisible
         }
 
         set {
-            avatarState.isRingVisible = newValue
+            avatarConfiguration.isRingVisible = newValue
         }
     }
 
     var isTransparent: Bool {
         get {
-            return avatarState.isTransparent
+            return avatarConfiguration.isTransparent
         }
 
         set {
-            avatarState.isTransparent = newValue
+            avatarConfiguration.isTransparent = newValue
         }
     }
 
     var presence: MSFAvatarPresence {
         get {
-            return avatarState.presence
+            return avatarConfiguration.presence
         }
 
         set {
-            avatarState.presence = newValue
+            avatarConfiguration.presence = newValue
         }
     }
 
     var primaryText: String? {
         get {
-            return avatarState.primaryText
+            return avatarConfiguration.primaryText
         }
 
         set {
-            avatarState.primaryText = newValue
+            avatarConfiguration.primaryText = newValue
             title = newValue ?? ""
         }
     }
 
     var ringColor: UIColor? {
         get {
-            return avatarState.ringColor
+            return avatarConfiguration.ringColor
         }
 
         set {
-            avatarState.ringColor = newValue
+            avatarConfiguration.ringColor = newValue
         }
     }
 
     var secondaryText: String? {
         get {
-            return avatarState.secondaryText
+            return avatarConfiguration.secondaryText
         }
 
         set {
-            avatarState.secondaryText = newValue
+            avatarConfiguration.secondaryText = newValue
             subtitle = newValue ?? ""
         }
     }
 
     var size: MSFAvatarSize {
         get {
-            return avatarState.size
+            return avatarConfiguration.size
         }
 
         set {
-            avatarState.size = newValue
+            avatarConfiguration.size = newValue
         }
     }
 
     var style: MSFAvatarStyle {
         get {
-            return avatarState.style
+            return avatarConfiguration.style
         }
 
         set {
-            avatarState.style = newValue
+            avatarConfiguration.style = newValue
         }
     }
 
-    init(avatarState: MSFAvatarState) {
-        self.avatarState = avatarState
+    init(avatarConfiguration: MSFAvatarConfiguration) {
+        self.avatarConfiguration = avatarConfiguration
 
         super.init()
     }
 
-    private var avatarState: MSFAvatarState
+    private var avatarConfiguration: MSFAvatarConfiguration
 }
 
 /// View for PersonaView
 public struct PersonaView: View {
     public init() {
         let avatar = Avatar(style: .default, size: .large)
-        state = MSFPersonaViewStateImpl(avatarState: avatar.state)
-        state.leadingView = AnyView(avatar)
-        state.leadingViewSize = .large
-        state.layoutType = .threeLines
-        state.overrideTokens = PersonaViewTokens()
+        configuration = MSFPersonaViewConfigurationImpl(avatarConfiguration: avatar.configuration)
+        configuration.leadingView = AnyView(avatar)
+        configuration.leadingViewSize = .large
+        configuration.layoutType = .threeLines
+        configuration.overrideTokens = PersonaViewTokens()
     }
 
     public var body: some View {
-        MSFListCellView(state: state)
+        MSFListCellView(configuration: configuration)
     }
 
-    @ObservedObject var state: MSFPersonaViewStateImpl
+    @ObservedObject var configuration: MSFPersonaViewConfigurationImpl
 }

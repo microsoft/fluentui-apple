@@ -129,7 +129,7 @@ open class PopupMenuController: DrawerController {
     @objc open var separatorColor: UIColor = Colors.Separator.default {
         didSet {
             let customTokens = PopupMenuItemCell.CustomDividerTokens(separatorColor)
-            divider.state.overrideTokens = customTokens
+            divider.configuration.overrideTokens = customTokens
         }
     }
 
@@ -171,7 +171,7 @@ open class PopupMenuController: DrawerController {
         )
 
         let customTokens = PopupMenuItemCell.CustomDividerTokens(separatorColor)
-        divider.state.overrideTokens = customTokens
+        divider.configuration.overrideTokens = customTokens
         view.addSubview(divider.view)
         divider.view.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([

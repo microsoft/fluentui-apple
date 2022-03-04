@@ -115,7 +115,7 @@ class DividerDemoController: DemoTableViewController {
         if customColor {
             let color = Colors.communicationBlue
             let dividerTokens = customDividerTokens(spacing: spacing, color: color)
-            divider.state.overrideTokens = dividerTokens
+            divider.configuration.overrideTokens = dividerTokens
         }
 
         dividers.append(divider)
@@ -224,7 +224,7 @@ extension DividerDemoController: DemoAppearanceDelegate {
 
     func perControlOverrideDidChange(isOverrideEnabled: Bool) {
         dividers.forEach { divider in
-            divider.state.overrideTokens = (isOverrideEnabled ? PerControlOverrideDividerTokens() : nil)
+            divider.configuration.overrideTokens = (isOverrideEnabled ? PerControlOverrideDividerTokens() : nil)
         }
     }
 

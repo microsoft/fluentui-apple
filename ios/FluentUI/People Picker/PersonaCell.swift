@@ -23,10 +23,10 @@ open class PersonaCell: TableViewCell {
     @objc open func setup(persona: Persona, accessoryType: TableViewCellAccessoryType = .none) {
         let avatar = MSFAvatar(style: .accent, size: Constants.avatarSize)
 
-        avatar.state.primaryText = persona.name
-        avatar.state.secondaryText = persona.email
+        avatar.configuration.primaryText = persona.name
+        avatar.configuration.secondaryText = persona.email
         if let image = persona.image {
-            avatar.state.image = image
+            avatar.configuration.image = image
         }
 
         if let fetchImage = persona.fetchImage {
@@ -37,18 +37,18 @@ open class PersonaCell: TableViewCell {
                 }
 
                 if Thread.isMainThread {
-                    avatar.state.image = image
+                    avatar.configuration.image = image
                 } else {
                     DispatchQueue.main.async {
-                        avatar.state.image = image
+                        avatar.configuration.image = image
                     }
                 }
             }
         }
 
         if let color = persona.color {
-            avatar.state.backgroundColor = color
-            avatar.state.ringColor = color
+            avatar.configuration.backgroundColor = color
+            avatar.configuration.ringColor = color
         }
 
         let avatarView = avatar.view

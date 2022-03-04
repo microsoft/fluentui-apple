@@ -70,12 +70,12 @@
     [self.container addArrangedSubview:listVnextLabel];
 
     MSFList *testList = [[MSFList alloc] init];
-    id<MSFListSectionState> sectionState = [[testList state] createSection];
-    id<MSFListCellState> listCell1 = [sectionState createCell];
-    id<MSFListCellState> listCell2 = [sectionState createCell];
-    id<MSFListCellState> listCell3 = [sectionState createCell];
+    id<MSFListSectionConfiguration> sectionConfiguration = [[testList configuration] createSection];
+    id<MSFListCellConfiguration> listCell1 = [sectionConfiguration createCell];
+    id<MSFListCellConfiguration> listCell2 = [sectionConfiguration createCell];
+    id<MSFListCellConfiguration> listCell3 = [sectionConfiguration createCell];
 
-    id<MSFListCellState> childCell = [listCell1 createChildCell];
+    id<MSFListCellConfiguration> childCell = [listCell1 createChildCell];
     [childCell setTitle:@"Child Cell"];
 
     [listCell1 setTitle:@"SampleTitle1"];
@@ -107,24 +107,24 @@
 }
 
 - (void)enableButton {
-    id<MSFButtonState> state = [self->_testButton state];
-    [state setText:@"Enabled"];
-    [state setIsDisabled:NO];
-    [state setImage:[UIImage imageNamed:@"Placeholder_20"]];
+    id<MSFButtonConfiguration> configuration = [self->_testButton configuration];
+    [configuration setText:@"Enabled"];
+    [configuration setIsDisabled:NO];
+    [configuration setImage:[UIImage imageNamed:@"Placeholder_20"]];
 }
 
 - (void)disableButton {
-    id<MSFButtonState> state = [self->_testButton state];
-    [state setText:@"Disabled"];
-    [state setIsDisabled:YES];
-    [state setImage:nil];
+    id<MSFButtonConfiguration> configuration = [self->_testButton configuration];
+    [configuration setText:@"Disabled"];
+    [configuration setIsDisabled:YES];
+    [configuration setImage:nil];
 }
 
 - (void)resetButton {
-    id<MSFButtonState> state = [self->_testButton state];
-    [state setText:@"Button (Vnext)"];
-    [state setImage:nil];
-    [state setIsDisabled:NO];
+    id<MSFButtonConfiguration> configuration = [self->_testButton configuration];
+    [configuration setText:@"Button (Vnext)"];
+    [configuration setImage:nil];
+    [configuration setIsDisabled:NO];
 }
 
 - (MSFButtonLegacy *)createButtonWithTitle:(NSString *)title action:(SEL)action {

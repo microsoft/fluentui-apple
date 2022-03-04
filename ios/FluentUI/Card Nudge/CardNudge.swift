@@ -6,10 +6,10 @@
 import SwiftUI
 
 /// Type of callback for both action and dismiss buttons.
-public typealias CardNudgeButtonAction = ((_ state: MSFCardNudgeState) -> Void)
+public typealias CardNudgeButtonAction = ((_ state: MSFCardNudgeConfiguration) -> Void)
 
 /// Properties that can be used to customize the appearance of the `CardNudge`.
-@objc public protocol MSFCardNudgeState: NSObjectProtocol {
+@objc public protocol MSFCardNudgeConfiguration: NSObjectProtocol {
     /// Style to draw the control.
     @objc var style: MSFCardNudgeStyle { get set }
 
@@ -48,17 +48,17 @@ public typealias CardNudgeButtonAction = ((_ state: MSFCardNudgeState) -> Void)
 /// View that represents the CardNudge.
 public struct CardNudge: View, ConfigurableTokenizedControl {
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
-    @ObservedObject var state: MSFCardNudgeStateImpl
+    @ObservedObject var configuration: MSFCardNudgeConfigurationImpl
     let defaultTokens: CardNudgeTokens = .init()
     var tokens: CardNudgeTokens {
         let tokens = resolvedTokens
-        tokens.style = state.style
+        tokens.style = configuration.style
         return tokens
     }
 
     @ViewBuilder
     var icon: some View {
-        if let icon = state.mainIcon {
+        if let icon = configuration.mainIcon {
             ZStack {
                 RoundedRectangle(cornerRadius: tokens.circleRadius)
                     .frame(width: tokens.circleSize, height: tokens.circleSize)
@@ -73,13 +73,13 @@ public struct CardNudge: View, ConfigurableTokenizedControl {
     }
 
     private var hasSecondTextRow: Bool {
-        state.accentIcon != nil || state.accentText != nil || state.subtitle != nil
+        configuration.accentIcon != nil || configuration.accentText != nil || configuration.subtitle != nil
     }
 
     @ViewBuilder
     var textContainer: some View {
         VStack(alignment: .leading, spacing: tokens.interTextVerticalPadding) {
-            Text(state.title)
+            Text(configuration.title)
                 .font(.subheadline)
                 .fontWeight(.medium)
                 .lineLimit(1)
@@ -87,20 +87,20 @@ public struct CardNudge: View, ConfigurableTokenizedControl {
 
             if hasSecondTextRow {
                 HStack(spacing: tokens.accentPadding) {
-                    if let accentIcon = state.accentIcon {
+                    if let accentIcon = configuration.accentIcon {
                         Image(uiImage: accentIcon)
                             .renderingMode(.template)
                             .frame(width: tokens.accentIconSize, height: tokens.accentIconSize)
                             .foregroundColor(Color(dynamicColor: tokens.accentColor))
                     }
-                    if let accent = state.accentText {
+                    if let accent = configuration.accentText {
                         Text(accent)
                             .font(.subheadline)
                             .layoutPriority(1)
                             .lineLimit(1)
                             .foregroundColor(Color(dynamicColor: tokens.accentColor))
                     }
-                    if let subtitle = state.subtitle {
+                    if let subtitle = configuration.subtitle {
                         Text(subtitle)
                             .font(.subheadline)
                             .lineLimit(1)
@@ -114,10 +114,10 @@ public struct CardNudge: View, ConfigurableTokenizedControl {
     @ViewBuilder
     var buttons: some View {
         HStack(spacing: 0) {
-            if let actionTitle = state.actionButtonTitle,
-                      let action = state.actionButtonAction {
+            if let actionTitle = configuration.actionButtonTitle,
+                      let action = configuration.actionButtonAction {
                 SwiftUI.Button(actionTitle) {
-                    action(state)
+                    action(configuration)
                 }
                 .lineLimit(1)
                 .padding(.horizontal, tokens.buttonInnerPaddingHorizontal)
@@ -128,9 +128,9 @@ public struct CardNudge: View, ConfigurableTokenizedControl {
                         .foregroundColor(Color(dynamicColor: tokens.buttonBackgroundColor))
                 )
             }
-            if let dismissAction = state.dismissButtonAction {
+            if let dismissAction = configuration.dismissButtonAction {
                 SwiftUI.Button(action: {
-                    dismissAction(state)
+                    dismissAction(configuration)
                 }, label: {
                     Image("dismiss-20x20", bundle: FluentUIFramework.resourceBundle)
                 })
@@ -172,12 +172,12 @@ public struct CardNudge: View, ConfigurableTokenizedControl {
     }
 
     public init(style: MSFCardNudgeStyle, title: String) {
-        let state = MSFCardNudgeStateImpl(style: style, title: title)
-        self.state = state
+        let configuration = MSFCardNudgeConfigurationImpl(style: style, title: title)
+        self.configuration = configuration
     }
 }
 
-class MSFCardNudgeStateImpl: NSObject, ControlConfiguration, MSFCardNudgeState {
+class MSFCardNudgeConfigurationImpl: NSObject, ControlConfiguration, MSFCardNudgeConfiguration {
     @Published var title: String
     @Published var subtitle: String?
     @Published var mainIcon: UIImage?

@@ -72,7 +72,7 @@ struct DemoAppearanceView: View {
 
     var body: some View {
         // Can't use `guard` in SwiftUI body, sadly
-        if configuration.isConfigured == false {
+        if configuration.isConfiguresd == false {
             FluentUI.ActivityIndicator(size: .xLarge)
                 .isAnimating(true)
         } else {
@@ -113,7 +113,7 @@ struct DemoAppearanceView: View {
         @Published var perControlOverride: Bool = false
 
         // Environment
-        @Published var isConfigured: Bool = false
+        @Published var isConfiguresd: Bool = false
 
         // Window-specific callbacks
         var onUserInterfaceStyleChanged: ((_ userInterfaceStyle: UIUserInterfaceStyle) -> Void)?

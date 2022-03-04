@@ -11,9 +11,9 @@ import SwiftUI
 
     @objc public init() {
         let list = FluentList()
-        state = list.state
+        configuration = list.configuration
         super.init(AnyView(list))
     }
 
-    @objc public let state: MSFListState
+    @objc public let configuration: MSFListConfiguration
 }

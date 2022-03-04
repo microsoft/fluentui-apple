@@ -12,12 +12,12 @@ public extension FluentButton {
     /// - Parameter accessibilityLabel: Accessibility label string.
     /// - Returns: The modified Button with the property set.
     func accessibilityLabel(_ accessibilityLabel: String?) -> FluentButton {
-        state.accessibilityLabel = accessibilityLabel
+        configuration.accessibilityLabel = accessibilityLabel
         return self
     }
 
     func overrideTokens(_ tokens: ButtonTokens?) -> FluentButton {
-        state.overrideTokens = tokens
+        configuration.overrideTokens = tokens
         return self
     }
 }

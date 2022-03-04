@@ -142,7 +142,7 @@ class AvatarDemoController: DemoTableViewController {
         didSet {
             if oldValue != isAnimated {
                 allDemoAvatarsCombined.forEach { avatar in
-                    avatar.state.isAnimated = isAnimated
+                    avatar.configuration.isAnimated = isAnimated
                 }
             }
         }
@@ -158,7 +158,7 @@ class AvatarDemoController: DemoTableViewController {
         didSet {
             if oldValue != isPointerInteractionEnabled {
                 allDemoAvatarsCombined.forEach { avatar in
-                    avatar.state.hasPointerInteraction = isPointerInteractionEnabled
+                    avatar.configuration.hasPointerInteraction = isPointerInteractionEnabled
                 }
             }
         }
@@ -168,7 +168,7 @@ class AvatarDemoController: DemoTableViewController {
         didSet {
             if oldValue != isShowingPresence {
                 allDemoAvatarsCombined.forEach { avatar in
-                    avatar.state.presence = isShowingPresence ? nextPresence() : .none
+                    avatar.configuration.presence = isShowingPresence ? nextPresence() : .none
                 }
             }
         }
@@ -178,7 +178,7 @@ class AvatarDemoController: DemoTableViewController {
         didSet {
             if oldValue != isOutOfOffice {
                 allDemoAvatarsCombined.forEach { avatar in
-                    avatar.state.isOutOfOffice = isOutOfOffice
+                    avatar.configuration.isOutOfOffice = isOutOfOffice
                 }
             }
         }
@@ -188,7 +188,7 @@ class AvatarDemoController: DemoTableViewController {
         didSet {
             if oldValue != isShowingRings {
                 allDemoAvatarsCombined.forEach { avatar in
-                    avatar.state.isRingVisible = isShowingRings
+                    avatar.configuration.isRingVisible = isShowingRings
                 }
             }
         }
@@ -198,7 +198,7 @@ class AvatarDemoController: DemoTableViewController {
         didSet {
             if oldValue != isUsingImageBasedCustomColor {
                 allDemoAvatarsCombined.forEach { avatar in
-                    avatar.state.imageBasedRingColor = isUsingImageBasedCustomColor ? AvatarDemoController.colorfulCustomImage : nil
+                    avatar.configuration.imageBasedRingColor = isUsingImageBasedCustomColor ? AvatarDemoController.colorfulCustomImage : nil
                 }
             }
         }
@@ -208,7 +208,7 @@ class AvatarDemoController: DemoTableViewController {
         didSet {
             if oldValue != isShowingRingInnerGap {
                 allDemoAvatarsCombined.forEach { avatar in
-                    avatar.state.hasRingInnerGap = isShowingRingInnerGap
+                    avatar.configuration.hasRingInnerGap = isShowingRingInnerGap
                 }
             }
         }
@@ -218,7 +218,7 @@ class AvatarDemoController: DemoTableViewController {
         didSet {
             if oldValue != isTransparent {
                 allDemoAvatarsCombined.forEach { avatar in
-                    avatar.state.isTransparent = isTransparent
+                    avatar.configuration.isTransparent = isTransparent
                 }
             }
         }
@@ -271,9 +271,9 @@ class AvatarDemoController: DemoTableViewController {
             }).forEach { row in
                 let avatar = MSFAvatar(style: row.avatarStyle,
                                        size: section.avatarSize)
-                let avatarState = avatar.state
-                avatarState.primaryText = row.avatarPrimaryText
-                avatarState.image = row.avatarImage
+                let avatarConfiguration = avatar.configuration
+                avatarConfiguration.primaryText = row.avatarPrimaryText
+                avatarConfiguration.image = row.avatarImage
 
                 avatarsForCurrentSection.updateValue(avatar, forKey: row)
                 allDemoAvatarsCombined.append(avatar)

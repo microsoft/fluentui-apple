@@ -12,7 +12,7 @@ public extension IndeterminateProgressBar {
     /// - Parameter isAnimating: Boolean value to set the property.
     /// - Returns: The modified Indeterminate Progress Bar with the property set.
     func isAnimating(_ isAnimating: Bool) -> IndeterminateProgressBar {
-        state.isAnimating = isAnimating
+        configuration.isAnimating = isAnimating
         return self
     }
 
@@ -20,13 +20,13 @@ public extension IndeterminateProgressBar {
     /// - Parameter hidesWhenStopped: Boolean value to set the property.
     /// - Returns: The modified Indeterminate Progress Bar with the property set.
     func hidesWhenStopped(_ hidesWhenStopped: Bool) -> IndeterminateProgressBar {
-        state.hidesWhenStopped = hidesWhenStopped
+        configuration.hidesWhenStopped = hidesWhenStopped
         return self
     }
 
     /// Provides a custom design token set to be used when drawing this control.
     func overrideTokens(_ tokens: IndeterminateProgressBarTokens?) -> IndeterminateProgressBar {
-        state.overrideTokens = tokens
+        configuration.overrideTokens = tokens
         return self
     }
 }

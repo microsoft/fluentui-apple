@@ -18,12 +18,12 @@ protocol ConfigurableTokenizedControl: TokenizedControlInternal {
     associatedtype ConfigurationType: ControlConfiguration where ConfigurationType.TokenType == TokenType
 
     /// Contains additional configuration information about the control.
-    var state: ConfigurationType { get }
+    var configuration: ConfigurationType { get }
 }
 
 // MARK: - Extensions
 
 /// This set of extensions implements the `TokenizedControlInternal` APIs for SwiftUI components.
 extension ConfigurableTokenizedControl {
-    var overrideTokens: TokenType? { state.overrideTokens }
+    var overrideTokens: TokenType? { configuration.overrideTokens }
 }

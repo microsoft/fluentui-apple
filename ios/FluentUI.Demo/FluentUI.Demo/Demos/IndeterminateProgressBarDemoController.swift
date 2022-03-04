@@ -113,7 +113,7 @@ class IndeterminateProgressBarDemoController: DemoTableViewController {
     private var shouldHideWhenStopped: Bool = true {
         didSet {
             if oldValue != shouldHideWhenStopped {
-                indeterminateProgressBar.state.hidesWhenStopped = shouldHideWhenStopped
+                indeterminateProgressBar.configuration.hidesWhenStopped = shouldHideWhenStopped
             }
         }
     }
@@ -121,14 +121,14 @@ class IndeterminateProgressBarDemoController: DemoTableViewController {
     private var isAnimating: Bool = true {
         didSet {
             if oldValue != isAnimating {
-                indeterminateProgressBar.state.isAnimating = isAnimating
+                indeterminateProgressBar.configuration.isAnimating = isAnimating
             }
         }
     }
 
     private let indeterminateProgressBar: MSFIndeterminateProgressBar = {
         let indeterminateProgressBar = MSFIndeterminateProgressBar()
-        indeterminateProgressBar.state.isAnimating = true
+        indeterminateProgressBar.configuration.isAnimating = true
 
         return indeterminateProgressBar
     }()

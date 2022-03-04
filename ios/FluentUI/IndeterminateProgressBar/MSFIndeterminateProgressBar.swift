@@ -12,10 +12,10 @@ import UIKit
     /// Creates a new MSFIndeterminateProgressBar instance.
     @objc public init() {
         let indeterminateProgressBar = IndeterminateProgressBar()
-        state = indeterminateProgressBar.state
+        configuration = indeterminateProgressBar.configuration
         super.init(AnyView(indeterminateProgressBar))
     }
 
     /// The object that groups properties that allow control over the Indeterminate Progress Bar appearance.
-    @objc public let state: MSFIndeterminateProgressBarState
+    @objc public let configuration: MSFIndeterminateProgressBarConfiguration
 }

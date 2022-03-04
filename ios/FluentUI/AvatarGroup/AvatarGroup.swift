@@ -7,7 +7,7 @@ import UIKit
 import SwiftUI
 
 /// Properties that can be used to customize the appearance of the AvatarGroup.
-@objc public protocol MSFAvatarGroupState {
+@objc public protocol MSFAvatarGroupConfiguration {
 
     /// Caps the number of displayed avatars and shows the remaining not displayed in the overflow avatar.
     var maxDisplayedAvatars: Int { get set }
@@ -23,14 +23,14 @@ import SwiftUI
     var size: MSFAvatarSize { get set }
 
     /// Creates a new Avatar within the AvatarGroup.
-    func createAvatar() -> MSFAvatarGroupAvatarState
+    func createAvatar() -> MSFAvatarGroupAvatarConfiguration
 
     /// Creates a new Avatar within the AvatarGroup at a specific index.
-    func createAvatar(at index: Int) -> MSFAvatarGroupAvatarState
+    func createAvatar(at index: Int) -> MSFAvatarGroupAvatarConfiguration
 
-    /// Retrieves the state object for a specific Avatar so its appearance can be customized.
+    /// Retrieves the configuration object for a specific Avatar so its appearance can be customized.
     /// - Parameter index: The zero-based index of the Avatar in the AvatarGroup.
-    func getAvatarState(at index: Int) -> MSFAvatarGroupAvatarState
+    func getAvatarConfiguration(at index: Int) -> MSFAvatarGroupAvatarConfiguration
 
     /// Remove an Avatar from the AvatarGroup.
     /// - Parameter index: The zero-based index of the Avatar that will be removed from the AvatarGroup.
@@ -49,7 +49,7 @@ import SwiftUI
 }
 
 /// Properties that can be used to customize the appearance of the Avatar in the AvatarGroup.
-@objc public protocol MSFAvatarGroupAvatarState {
+@objc public protocol MSFAvatarGroupAvatarConfiguration {
     /// Sets the accessibility label for the Avatar.
     var accessibilityLabel: String? { get set }
 
@@ -98,9 +98,9 @@ public struct AvatarGroup: View, ConfigurableTokenizedControl {
     ///   - size: The size of the avatars displayed in the avatar group.
     init(style: MSFAvatarGroupStyle,
          size: MSFAvatarSize) {
-        let state = MSFAvatarGroupStateImpl(style: style,
+        let configuration = MSFAvatarGroupConfigurationImpl(style: style,
                                             size: size)
-        self.state = state
+        self.configuration = configuration
     }
 
     /// Renders the avatar with an optional cutout for the Stack group style.
@@ -121,13 +121,13 @@ public struct AvatarGroup: View, ConfigurableTokenizedControl {
     }
 
     public var body: some View {
-        let avatars: [MSFAvatarStateImpl] = state.avatars
+        let avatars: [MSFAvatarConfigurationImpl] = configuration.avatars
         let avatarViews: [Avatar] = avatars.map { Avatar($0) }
         let enumeratedAvatars = Array(avatars.enumerated())
         let avatarCount: Int = avatars.count
-        let maxDisplayedAvatars: Int = state.maxDisplayedAvatars
+        let maxDisplayedAvatars: Int = configuration.maxDisplayedAvatars
         let avatarsToDisplay: Int = min(maxDisplayedAvatars, avatarCount)
-        let overflowCount: Int = (avatarCount > maxDisplayedAvatars ? avatarCount - maxDisplayedAvatars : 0) + state.overflowCount
+        let overflowCount: Int = (avatarCount > maxDisplayedAvatars ? avatarCount - maxDisplayedAvatars : 0) + configuration.overflowCount
         let hasOverflow: Bool = overflowCount > 0
         let isStackStyle = tokens.style == .stack
 
@@ -210,41 +210,41 @@ public struct AvatarGroup: View, ConfigurableTokenizedControl {
     let defaultTokens: AvatarGroupTokens = .init()
     var tokens: AvatarGroupTokens {
         let tokens = resolvedTokens
-        tokens.size = state.size
-        tokens.style = state.style
+        tokens.size = configuration.size
+        tokens.style = configuration.style
         return tokens
     }
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @Environment(\.layoutDirection) var layoutDirection: LayoutDirection
-    @ObservedObject var state: MSFAvatarGroupStateImpl
+    @ObservedObject var configuration: MSFAvatarGroupConfigurationImpl
 
     private let animationDuration: CGFloat = 0.1
 
     private func createOverflow(count: Int) -> Avatar {
-        var avatar = Avatar(style: .overflow, size: state.size)
-        let data = MSFAvatarStateImpl(style: .overflow, size: state.size)
+        var avatar = Avatar(style: .overflow, size: configuration.size)
+        let data = MSFAvatarConfigurationImpl(style: .overflow, size: configuration.size)
         data.primaryText = "\(count)"
         data.image = nil
-        avatar.state = data
+        avatar.configuration = data
         return avatar
     }
 }
 
-class MSFAvatarGroupStateImpl: NSObject, ObservableObject, ControlConfiguration, MSFAvatarGroupState {
-    func createAvatar() -> MSFAvatarGroupAvatarState {
+class MSFAvatarGroupConfigurationImpl: NSObject, ObservableObject, ControlConfiguration, MSFAvatarGroupConfiguration {
+    func createAvatar() -> MSFAvatarGroupAvatarConfiguration {
         return createAvatar(at: avatars.endIndex)
     }
 
-    func createAvatar(at index: Int) -> MSFAvatarGroupAvatarState {
+    func createAvatar(at index: Int) -> MSFAvatarGroupAvatarConfiguration {
         guard index <= avatars.count && index >= 0 else {
             preconditionFailure("Index is out of bounds")
         }
-        let avatar = MSFAvatarGroupAvatarStateImpl(size: size)
+        let avatar = MSFAvatarGroupAvatarConfigurationImpl(size: size)
         avatars.insert(avatar, at: index)
         return avatar
     }
 
-    func getAvatarState(at index: Int) -> MSFAvatarGroupAvatarState {
+    func getAvatarConfiguration(at index: Int) -> MSFAvatarGroupAvatarConfiguration {
         guard avatars.indices.contains(index) else {
             preconditionFailure("Index is out of bounds")
         }
@@ -258,7 +258,7 @@ class MSFAvatarGroupStateImpl: NSObject, ObservableObject, ControlConfiguration,
         avatars.remove(at: index)
     }
 
-    @Published var avatars: [MSFAvatarGroupAvatarStateImpl] = []
+    @Published var avatars: [MSFAvatarGroupAvatarConfigurationImpl] = []
     @Published var maxDisplayedAvatars: Int = Int.max
     @Published var overflowCount: Int = 0
 
@@ -276,7 +276,7 @@ class MSFAvatarGroupStateImpl: NSObject, ObservableObject, ControlConfiguration,
     }
 }
 
-class MSFAvatarGroupAvatarStateImpl: MSFAvatarStateImpl, MSFAvatarGroupAvatarState {
+class MSFAvatarGroupAvatarConfigurationImpl: MSFAvatarConfigurationImpl, MSFAvatarGroupAvatarConfiguration {
     init(size: MSFAvatarSize) {
         super.init(style: .default, size: size)
     }

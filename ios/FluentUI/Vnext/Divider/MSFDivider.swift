@@ -15,10 +15,10 @@ import SwiftUI
     @objc public init(orientation: MSFDividerOrientation = .horizontal,
                       spacing: MSFDividerSpacing = .none) {
         let divider = FluentDivider(orientation: orientation, spacing: spacing)
-        state = divider.state
+        configuration = divider.configuration
         super.init(AnyView(divider))
     }
 
     /// The object that groups properties that allow control over the Divider appearance.
-    @objc public let state: MSFDividerState
+    @objc public let configuration: MSFDividerConfiguration
 }

@@ -11,9 +11,9 @@ import SwiftUI
 
     @objc public init() {
         let personaView = PersonaView()
-        state = personaView.state
+        configuration = personaView.configuration
         super.init(AnyView(personaView))
     }
 
-    @objc public let state: MSFPersonaViewState
+    @objc public let configuration: MSFPersonaViewConfiguration
 }
