@@ -23,19 +23,19 @@ import SwiftUI
         case .none:
             break
         case .available:
-            color = UIColor(named: "FluentColors/presenceAvailable", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!
+            color = Colors.Palette.presenceAvailable.color
         case .away:
-            color = UIColor(named: "FluentColors/presenceAway", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!
+            color = isOutOfOffice ? Colors.Palette.presenceOof.color : Colors.Palette.presenceAway.color
         case .busy:
-            color = UIColor(named: "FluentColors/presenceBusy", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!
+            color = Colors.Palette.presenceBusy.color
         case .blocked:
-            color = UIColor(named: "FluentColors/presenceBlocked", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!
+            color = Colors.Palette.presenceBlocked.color
         case .doNotDisturb:
-            color = UIColor(named: "FluentColors/presenceDnd", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!
+            color = Colors.Palette.presenceDnd.color
         case .offline:
-            color = UIColor(named: "FluentColors/presenceOffline", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!
+            color = isOutOfOffice ? Colors.Palette.presenceOof.color : Colors.Palette.presenceOffline.color
         case .unknown:
-            color = UIColor(named: "FluentColors/presenceUnknown", in: FluentUIFramework.colorsBundle, compatibleWith: nil)!
+            color = Colors.Palette.presenceUnknown.color
         }
 
         return Color(color)
