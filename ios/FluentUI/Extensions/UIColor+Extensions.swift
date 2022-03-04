@@ -102,7 +102,7 @@ extension UIColor {
     /// rendering context.
     ///
     /// - Parameter dynamicColor: The set of color values that may be applied based on the current context.
-    convenience init(dynamicColor: DynamicColor) {
+    public convenience init(dynamicColor: DynamicColor) {
         self.init { traits -> UIColor in
             let colorValue = dynamicColor.value(colorScheme: (traits.userInterfaceStyle == .dark ? .dark : .light),
                                             contrast: traits.accessibilityContrast == .high ? .increased : .standard,

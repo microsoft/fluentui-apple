@@ -22,7 +22,7 @@ struct Header: View, ConfigurableTokenizedControl {
         HStack(spacing: 0) {
             if let title = state.title, !title.isEmpty {
                 Text(title)
-                    .scalableFont(font: .fluent(tokens.textFont))
+                    .font(.fluent(tokens.textFont))
                     .foregroundColor(Color(dynamicColor: tokens.textColor))
             }
             Spacer()

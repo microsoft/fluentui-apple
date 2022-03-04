@@ -97,7 +97,7 @@ public protocol DrawerControllerDelegate: AnyObject {
  */
 
 @objc(MSFDrawerController)
-open class DrawerController: UIViewController, FluentUIWindowProvider, TokenizedControlInternal {
+open class DrawerController: UIViewController, TokenizedControlInternal {
 
     public func overrideTokens(_ tokens: DrawerTokens?) -> Self {
         overrideTokens = tokens
@@ -780,10 +780,6 @@ open class DrawerController: UIViewController, FluentUIWindowProvider, Tokenized
             return
         }
         presentationController.updateApperance()
-    }
-
-    var window: UIWindow? {
-        return self.view.window
     }
 
     private func offset(forResizingGesture gesture: UIPanGestureRecognizer) -> CGFloat {

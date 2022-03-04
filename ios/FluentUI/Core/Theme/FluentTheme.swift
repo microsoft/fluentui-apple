@@ -69,6 +69,10 @@ public protocol FluentThemeable {
     var fluentTheme: FluentTheme { get set }
 }
 
+public extension Notification.Name {
+    static let didChangeTheme = Notification.Name("FluentUI.stylesheet.theme")
+}
+
 extension UIWindow: FluentThemeable {
     private struct Keys {
         static var fluentTheme: String = "fluentTheme_key"
