@@ -113,9 +113,13 @@ public struct PersonaButton: View, ConfigurableTokenizedControl {
         .padding(.horizontal, tokens.horizontalTextPadding)
     }
 
+    private var avatar: Avatar {
+        Avatar(state.avatarState)
+    }
+
     @ViewBuilder
     private var avatarView: some View {
-        Avatar(state.avatarState)
+        avatar
             .padding(.top, tokens.verticalPadding)
             .padding(.bottom, tokens.avatarInterspace)
     }
@@ -130,7 +134,7 @@ public struct PersonaButton: View, ConfigurableTokenizedControl {
             .accessibilityExtraExtraExtraLarge: [ .large: 80, .small: 68 ]
         ]
 
-        return state.avatarState.size.size + (2 * tokens.horizontalAvatarPadding) + (accessibilityAdjustments[sizeCategory]?[state.buttonSize] ?? 0)
+        return avatar.contentSize + (2 * tokens.horizontalAvatarPadding) + (accessibilityAdjustments[sizeCategory]?[state.buttonSize] ?? 0)
     }
 }
 

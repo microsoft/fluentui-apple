@@ -313,7 +313,7 @@ public struct Avatar: View, ConfigurableTokenizedControl {
 
     /// Calculates the size of the avatar, including ring spacing
     var totalSize: CGFloat {
-        let avatarImageSize: CGFloat = state.size.size
+        let avatarImageSize: CGFloat = tokens.avatarSize
         let ringOuterGap: CGFloat = tokens.ringOuterGap
         if !state.isRingVisible {
             return avatarImageSize + (ringOuterGap * 2)
@@ -322,6 +322,10 @@ public struct Avatar: View, ConfigurableTokenizedControl {
             let ringInnerGap: CGFloat = state.hasRingInnerGap ? tokens.ringInnerGap : 0
             return ((ringInnerGap + ringThickness + ringOuterGap) * 2 + avatarImageSize)
         }
+    }
+
+    var contentSize: CGFloat {
+        return tokens.avatarSize
     }
 
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme

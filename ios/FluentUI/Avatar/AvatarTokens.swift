@@ -12,7 +12,20 @@ open class AvatarTokens: ControlTokens {
 
     /// The size of the content of the `Avatar`.
     open var avatarSize: CGFloat {
-        return size.size
+        switch size {
+        case .xsmall:
+            return 16
+        case .small:
+            return 24
+        case .medium:
+            return 32
+        case .large:
+            return 40
+        case .xlarge:
+            return 52
+        case .xxlarge:
+            return 72
+        }
     }
 
     /// The radius of the corners of the `Avatar`.
@@ -253,21 +266,4 @@ open class AvatarTokens: ControlTokens {
     case large
     case xlarge
     case xxlarge
-
-    var size: CGFloat {
-        switch self {
-        case .xsmall:
-            return 16
-        case .small:
-            return 24
-        case .medium:
-            return 32
-        case .large:
-            return 40
-        case .xlarge:
-            return 52
-        case .xxlarge:
-            return 72
-        }
-    }
 }

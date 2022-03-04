@@ -58,9 +58,6 @@ class LargeTitleView: UIView {
         }
     }
 
-    var avatarHeightConstraint: NSLayoutConstraint?
-    var avatarWidthConstraint: NSLayoutConstraint?
-
     var avatarAccessibilityLabel: String? {
         return avatarCustomAccessibilityLabel ?? "Accessibility.LargeTitle.ProfileView".localized
     }
@@ -199,28 +196,6 @@ class LargeTitleView: UIView {
 
         avatarView.centerYAnchor.constraint(equalTo: contentStackView.centerYAnchor).isActive = true
 
-        let avatarHeightConstraint = NSLayoutConstraint(item: avatarView,
-                                                        attribute: .height,
-                                                        relatedBy: .equal,
-                                                        toItem: nil,
-                                                        attribute: .notAnAttribute,
-                                                        multiplier: 1,
-                                                        constant: Constants.avatarSize.size)
-        avatarView.addConstraint(avatarHeightConstraint)
-        avatarHeightConstraint.isActive = true
-        self.avatarHeightConstraint = avatarHeightConstraint
-
-        let avatarWidthConstraint = NSLayoutConstraint(item: avatarView,
-                                                       attribute: .width,
-                                                       relatedBy: .equal,
-                                                       toItem: nil,
-                                                       attribute: .notAnAttribute,
-                                                       multiplier: 1,
-                                                       constant: Constants.avatarSize.size)
-        avatarView.addConstraint(avatarWidthConstraint)
-        avatarWidthConstraint.isActive = true
-        self.avatarWidthConstraint = avatarWidthConstraint
-
         // title button setup
         contentStackView.addArrangedSubview(titleButton)
         titleButton.setTitle(nil, for: .normal)
@@ -249,8 +224,6 @@ class LargeTitleView: UIView {
 
         if avatarSize == .automatic {
             avatar?.state.size = Constants.avatarSize
-            avatarWidthConstraint?.constant = Constants.avatarSize.size
-            avatarHeightConstraint?.constant = Constants.avatarSize.size
         }
 
         layoutIfNeeded()
@@ -263,8 +236,6 @@ class LargeTitleView: UIView {
 
         if avatarSize == .automatic {
             avatar?.state.size = Constants.compactAvatarSize
-            avatarWidthConstraint?.constant = Constants.compactAvatarSize.size
-            avatarHeightConstraint?.constant = Constants.compactAvatarSize.size
         }
 
         layoutIfNeeded()

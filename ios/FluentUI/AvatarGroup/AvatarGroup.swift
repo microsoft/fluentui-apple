@@ -132,11 +132,12 @@ public struct AvatarGroup: View, ConfigurableTokenizedControl {
         let isStackStyle = tokens.style == .stack
 
         let interspace: CGFloat = tokens.interspace
-        let imageSize: CGFloat = tokens.size.size
         let ringOuterGap: CGFloat = tokens.ringOuterGap
         let ringGapOffset: CGFloat = ringOuterGap * 2
         let ringOffset: CGFloat = tokens.ringThickness + tokens.ringInnerGap + tokens.ringOuterGap
 
+        let overflowAvatar = createOverflow(count: overflowCount)
+        let imageSize: CGFloat = overflowAvatar.contentSize
         let groupHeight: CGFloat = imageSize + (ringOffset * 2)
 
         @ViewBuilder
@@ -191,7 +192,7 @@ public struct AvatarGroup: View, ConfigurableTokenizedControl {
 
                 if hasOverflow {
                     VStack {
-                        createOverflow(count: overflowCount)
+                        overflowAvatar
                     }
                     .animation(Animation.linear(duration: animationDuration))
                     .transition(AnyTransition.move(edge: .leading))
@@ -220,8 +221,8 @@ public struct AvatarGroup: View, ConfigurableTokenizedControl {
     private let animationDuration: CGFloat = 0.1
 
     private func createOverflow(count: Int) -> Avatar {
-        var avatar = Avatar(style: .overflow, size: tokens.size)
-        let data = MSFAvatarStateImpl(style: .overflow, size: tokens.size)
+        var avatar = Avatar(style: .overflow, size: state.size)
+        let data = MSFAvatarStateImpl(style: .overflow, size: state.size)
         data.primaryText = "\(count)"
         data.image = nil
         avatar.state = data
