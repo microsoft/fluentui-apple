@@ -1,7 +1,0 @@
-${PODS_ROOT}/Target Support Files/Pods-sgen/Pods-sgen-frameworks.sh
-${BUILT_PRODUCTS_DIR}/AEXML/AEXML.framework
-${BUILT_PRODUCTS_DIR}/Commander/Commander.framework
-${BUILT_PRODUCTS_DIR}/PathKit/PathKit.framework
-${BUILT_PRODUCTS_DIR}/XcodeProjCExt/XcodeProjCExt.framework
-${BUILT_PRODUCTS_DIR}/Yaml/Yaml.framework
-${BUILT_PRODUCTS_DIR}/xcodeproj/xcodeproj.framework
