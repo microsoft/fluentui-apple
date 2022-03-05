@@ -1125,9 +1125,9 @@
 			isa = PBXGroup;
 			children = (
 				ECEBA8FB25EDF3380048EE24 /* SegmentedControl.swift */,
+				EC5982DD27D2EA6100FD048D /* SegmentedControlTokens.swift */,
 				C708B04B260A8696007190FA /* SegmentItem.swift */,
 				C708B055260A86FA007190FA /* SegmentPillButton.swift */,
-				EC5982DD27D2EA6100FD048D /* SegmentedControlTokens.swift */,
 			);
 			path = SegmentedControl;
 			sourceTree = "<group>";
