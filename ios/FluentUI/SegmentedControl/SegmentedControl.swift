@@ -67,10 +67,6 @@ open class SegmentedControl: UIControl, TokenizedControlInternal {
     }
 
     private var _selectedSegmentIndex: Int = -1
-    private var customSegmentedControlBackgroundColor: UIColor?
-    private var customSegmentedControlSelectedButtonBackgroundColor: UIColor?
-    private var customSegmentedControlButtonTextColor: UIColor?
-    private var customSelectedSegmentedControlButtonTextColor: UIColor?
 
     private var items = [SegmentItem]()
     internal var style: SegmentedControlStyle {
@@ -129,34 +125,8 @@ open class SegmentedControl: UIControl, TokenizedControlInternal {
     ///
     /// - Parameter items: An array of Segmented Items representing the segments for this control.
     /// - Parameter style: A style used for rendering of the control.
-    @objc public convenience init(items: [SegmentItem], style: SegmentedControlStyle = .primaryPill) {
-        self.init(items: items,
-                  style: style,
-                  customSegmentedControlBackgroundColor: nil,
-                  customSegmentedControlSelectedButtonBackgroundColor: nil,
-                  customSegmentedControlButtonTextColor: nil,
-                  customSelectedSegmentedControlButtonTextColor: nil)
-    }
-
-    /// Initializes a segmented control with the specified titles, style, and colors (colors are for pill styles only).
-    ///
-    /// - Parameter items: An array of Segmented Items representing the segments for this control.
-    /// - Parameter style: A style used for rendering of the control.
-    /// - Parameter customSegmentedControlBackgroundColor: UIColor to use as the background color
-    /// - Parameter customSegmentedControlSelectedButtonBackgroundColor: UIColor to use as the selected button background color
-    /// - Parameter customSegmentedControlButtonTextColor: UIColor to use as the unselected button text color
-    /// - Parameter customSelectedSegmentedControlButtonTextColor: UIColor to use as the selected button text color
-    @objc public init(items: [SegmentItem],
-                      style: SegmentedControlStyle = .primaryPill,
-                      customSegmentedControlBackgroundColor: UIColor? = nil,
-                      customSegmentedControlSelectedButtonBackgroundColor: UIColor? = nil,
-                      customSegmentedControlButtonTextColor: UIColor? = nil,
-                      customSelectedSegmentedControlButtonTextColor: UIColor? = nil) {
+    @objc public init(items: [SegmentItem], style: SegmentedControlStyle = .primaryPill) {
         self.style = style
-        self.customSegmentedControlBackgroundColor = customSegmentedControlBackgroundColor
-        self.customSegmentedControlSelectedButtonBackgroundColor = customSegmentedControlSelectedButtonBackgroundColor
-        self.customSegmentedControlButtonTextColor = customSegmentedControlButtonTextColor
-        self.customSelectedSegmentedControlButtonTextColor = customSelectedSegmentedControlButtonTextColor
 
         super.init(frame: .zero)
 
@@ -187,26 +157,18 @@ open class SegmentedControl: UIControl, TokenizedControlInternal {
             return
         }
 
-        pillMaskedLabelsContainerView.backgroundColor = customSegmentedControlSelectedButtonBackgroundColor ?? (isEnabled ? UIColor(dynamicColor: tokens.selectedTabColor) : UIColor(dynamicColor: tokens.disabledSelectedTabColor))
-        backgroundView.backgroundColor = customSegmentedControlBackgroundColor ?? (isEnabled ? UIColor(dynamicColor: tokens.restTabColor) : UIColor(dynamicColor: tokens.disabledTabColor))
+        pillMaskedLabelsContainerView.backgroundColor = isEnabled ? UIColor(dynamicColor: tokens.selectedTabColor) : UIColor(dynamicColor: tokens.disabledSelectedTabColor)
+        backgroundView.backgroundColor = isEnabled ? UIColor(dynamicColor: tokens.restTabColor) : UIColor(dynamicColor: tokens.disabledTabColor)
         for maskedLabel in pillMaskedLabels {
             if isEnabled {
-                if let customSelectedButtonTextColor = self.customSelectedSegmentedControlButtonTextColor {
-                    maskedLabel.textColor = customSelectedButtonTextColor
-                } else {
-                        maskedLabel.textColor = UIColor(dynamicColor: tokens.selectedLabelColor)
-                }
+                maskedLabel.textColor = UIColor(dynamicColor: tokens.selectedLabelColor)
             } else {
                     maskedLabel.textColor = UIColor(dynamicColor: tokens.disabledSelectedLabelColor)
             }
         }
         for button in buttons {
             if isEnabled {
-                if let customButtonTextColor = self.customSegmentedControlButtonTextColor {
-                    button.setTitleColor(customButtonTextColor, for: .normal)
-                } else {
-                    button.setTitleColor(UIColor(dynamicColor: tokens.restLabelColor), for: .normal)
-                }
+                button.setTitleColor(UIColor(dynamicColor: tokens.restLabelColor), for: .normal)
             } else {
                     button.setTitleColor(UIColor(dynamicColor: tokens.disabledLabelColor), for: .normal)
             }
