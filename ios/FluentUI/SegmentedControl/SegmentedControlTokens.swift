@@ -8,7 +8,7 @@ import UIKit
 /// Design token set for the `SegmentedControl`.
 open class SegmentedControlTokens: ControlTokens {
     /// Defines the style of the `SegmentedControl`.
-    public internal(set) var style: SegmentedControl.Style = .primaryPill
+    public internal(set) var style: SegmentedControlStyle = .primaryPill
 
     /// Defines the background color of the unselected segments of the `SegmentedControl`.
     open var restTabColor: DynamicColor {
@@ -117,4 +117,13 @@ open class SegmentedControlTokens: ControlTokens {
 
     /// The font used for the label of the `SegmentedControl`.
     open var font: FontInfo { aliasTokens.typography[.body2] }
+}
+
+@objc(MSFSegmentedControlStyle)
+public enum SegmentedControlStyle: Int {
+    /// Segments are shows as labels inside a pill for use with a neutral or white background. Selection is indicated by a thumb under the selected label.
+    case primaryPill
+    /// Segments are shows as labels inside a pill for use on a branded background that features a prominent brand color in light mode and a muted grey in dark mode.
+    /// Selection is indicated by a thumb under the selected label.
+    case onBrandPill
 }

@@ -61,7 +61,7 @@ class SegmentedControlDemoController: DemoController {
         controlLabels[control]?.text = "\"\(segmentItems[control.selectedSegmentIndex].title)\" segment is selected"
     }
 
-    func addPillControl(items: [SegmentItem], style: SegmentedControl.Style, equalSegments: Bool = true, enabled: Bool = true) {
+    func addPillControl(items: [SegmentItem], style: SegmentedControlStyle, equalSegments: Bool = true, enabled: Bool = true) {
         let pillControl = SegmentedControl(items: items, style: style)
         pillControl.shouldSetEqualWidthForSegments = equalSegments
         pillControl.isEnabled = enabled

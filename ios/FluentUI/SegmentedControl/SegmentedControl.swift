@@ -28,15 +28,6 @@ open class SegmentedControl: UIControl, TokenizedControlInternal {
 
     var selectionChangeAnimationDuration: TimeInterval { return 0.2 }
 
-    @objc(MSFSegmentedControlStyle)
-    public enum Style: Int {
-        /// Segments are shows as labels inside a pill for use with a neutral or white background. Selection is indicated by a thumb under the selected label.
-        case primaryPill
-        /// Segments are shows as labels inside a pill for use on a branded background that features a prominent brand color in light mode and a muted grey in dark mode.
-        /// Selection is indicated by a thumb under the selected label.
-        case onBrandPill
-    }
-
     private struct Constants {
         static let selectionBarHeight: CGFloat = 1.5
         static let pillContainerHorizontalInset: CGFloat = 16
@@ -82,7 +73,7 @@ open class SegmentedControl: UIControl, TokenizedControlInternal {
     private var customSelectedSegmentedControlButtonTextColor: UIColor?
 
     private var items = [SegmentItem]()
-    internal var style: Style {
+    internal var style: SegmentedControlStyle {
         didSet {
             updateWindowSpecificColors()
         }
@@ -138,7 +129,7 @@ open class SegmentedControl: UIControl, TokenizedControlInternal {
     ///
     /// - Parameter items: An array of Segmented Items representing the segments for this control.
     /// - Parameter style: A style used for rendering of the control.
-    @objc public convenience init(items: [SegmentItem], style: Style = .primaryPill) {
+    @objc public convenience init(items: [SegmentItem], style: SegmentedControlStyle = .primaryPill) {
         self.init(items: items,
                   style: style,
                   customSegmentedControlBackgroundColor: nil,
@@ -156,7 +147,7 @@ open class SegmentedControl: UIControl, TokenizedControlInternal {
     /// - Parameter customSegmentedControlButtonTextColor: UIColor to use as the unselected button text color
     /// - Parameter customSelectedSegmentedControlButtonTextColor: UIColor to use as the selected button text color
     @objc public init(items: [SegmentItem],
-                      style: Style = .primaryPill,
+                      style: SegmentedControlStyle = .primaryPill,
                       customSegmentedControlBackgroundColor: UIColor? = nil,
                       customSegmentedControlSelectedButtonBackgroundColor: UIColor? = nil,
                       customSegmentedControlButtonTextColor: UIColor? = nil,
