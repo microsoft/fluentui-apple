@@ -78,11 +78,11 @@ open class SegmentedControl: UIControl, TokenizedControlInternal {
     // Hierarchy for pill styles:
     //
     // pillContainerView (used to create 16pt inset on either side)
-    // |--backgroundView (fill container view, uses customSegmentedControlBackgroundColor)
-    // |--buttons (uses customSegmentedControlButtonTextColor)
-    // |--pillMaskedLabelsContainerView (fill container view, uses customSegmentedControlSelectedButtonBackgroundColor)
+    // |--backgroundView (fill container view, uses restTabColor)
+    // |--buttons (uses restLabelColor)
+    // |--pillMaskedLabelsContainerView (fill container view, uses selectedTabColor)
     // |  |.mask -> selectionView
-    // |  |--pillMaskedLabels (uses customSelectedSegmentedControlButtonTextColor)
+    // |  |--pillMaskedLabels (uses selectedLabelColor)
 
     private let backgroundView: UIView = {
         let view = UIView()
