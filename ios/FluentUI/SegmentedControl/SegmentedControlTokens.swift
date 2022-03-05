@@ -104,7 +104,7 @@ open class SegmentedControlTokens: ControlTokens {
     open var verticalInset: CGFloat { 6.0 }
 
     /// The distance of the content from the leading and trailing edges of the `SegmentedControl`.
-    open var horizontalInset: CGFloat { 16.0 }
+    open var horizontalInset: CGFloat { globalTokens.spacing[.medium] }
 
     /// The distance of the unread dot from the trailing edge of the content of the `SegmentedControl`.
     open var unreadDotOffsetX: CGFloat { 6.0 }
