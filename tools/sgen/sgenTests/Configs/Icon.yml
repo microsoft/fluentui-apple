@@ -1,8 +1,0 @@
-Icon:
-  keys:
-    - style: {values: [regular, filled]}
-    - size: {values: [12, 24, 32], mapsTo: [small, normal, large]}
-  default: {size: 24, style: regular}
-  version: {size: 24, style: [regular, filled]}
-  names: 
-    - shifts24h
