@@ -28,7 +28,25 @@ private extension Colors {
 // MARK: SegmentedControl
 /// A styled segmented control that should be used instead of UISegmentedControl. It is designed to flex the button width proportionally to the control's width.
 @objc(MSFSegmentedControl)
-open class SegmentedControl: UIControl {
+open class SegmentedControl: UIControl, TokenizedControlInternal {
+    public func overrideTokens(_ tokens: SegmentedControlTokens?) -> Self {
+        overrideTokens = tokens
+        return self
+    }
+    var defaultTokens: SegmentedControlTokens = .init()
+    var tokens: SegmentedControlTokens = .init()
+    var overrideTokens: SegmentedControlTokens? {
+        didSet {
+            updateSegmentedControlTokens()
+            updateWindowSpecificColors()
+        }
+    }
+    private func updateSegmentedControlTokens() {
+        let tokens = resolvedTokens
+        tokens.style = style
+        self.tokens = tokens
+    }
+
     @objc(MSFSegmentedControlStyle)
     public enum Style: Int {
         /// Segments are shows as labels inside a pill for use with a neutral or white background. Selection is indicated by a thumb under the selected label.
