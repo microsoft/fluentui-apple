@@ -19,7 +19,7 @@ import SwiftUI
     /// This property allows customizing the initials text color or the default image tint color.
     var foregroundColor: UIColor? { get set }
 
-    /// Configuress the Avatar with a button accessibility trait overriding its default image trait.
+    /// Configures the Avatar with a button accessibility trait overriding its default image trait.
     var hasButtonAccessibilityTrait: Bool { get set }
 
     /// Turns iPad Pointer interaction on/off.

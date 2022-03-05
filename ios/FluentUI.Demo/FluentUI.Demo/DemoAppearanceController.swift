@@ -57,7 +57,7 @@ class DemoAppearanceController: UIHostingController<DemoAppearanceView>, Observa
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         updateToggleConfiguration()
-        configuration.isConfiguresd = true
+        configuration.isConfigured = true
     }
 
     private func updateToggleConfiguration() {

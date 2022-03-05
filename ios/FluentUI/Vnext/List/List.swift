@@ -15,10 +15,10 @@ import SwiftUI
     // TODO: Remove backgroundColor so that it will only be controlled by the tokens.
     var backgroundColor: UIColor? { get set }
 
-    /// Configuress divider presence within the Section.
+    /// Configures divider presence within the Section.
     var hasDividers: Bool { get set }
 
-    /// Configuress the Section's `Header` style.
+    /// Configures the Section's `Header` style.
     var style: MSFHeaderStyle { get set }
 
     /// The number of Cells in the Section.

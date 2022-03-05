@@ -53,22 +53,22 @@ import SwiftUI
     /// Sets a custom highlighed background color for the Cell.
     var highlightedBackgroundColor: UIColor? { get set }
 
-    /// Configuress max number of lines in the title.
+    /// Configures max number of lines in the title.
     var titleLineLimit: Int { get set }
 
-    /// Configuress max number of lines in the subtitle.
+    /// Configures max number of lines in the subtitle.
     var subtitleLineLimit: Int { get set }
 
-    /// Configuress max number of lines in the footnote.
+    /// Configures max number of lines in the footnote.
     var footnoteLineLimit: Int { get set }
 
-    /// Configuress whether the cell is expanded or collapsed if it has children cells.
+    /// Configures whether the cell is expanded or collapsed if it has children cells.
     var isExpanded: Bool { get set }
 
     /// Sets the cell as a one-line, two-line, or three-line layout type.
     var layoutType: MSFListCellLayoutType { get set }
 
-    /// Configuress divider visibility, which is located under the cell.
+    /// Configures divider visibility, which is located under the cell.
     var hasDivider: Bool { get set }
 
     /// Assigns an action to the cell when it is tapped.
