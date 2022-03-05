@@ -17,7 +17,7 @@ open class SegmentedControl: UIControl, TokenizedControlInternal {
     var overrideTokens: SegmentedControlTokens? {
         didSet {
             updateSegmentedControlTokens()
-            updateWindowSpecificColors()
+            updateColors()
         }
     }
     private func updateSegmentedControlTokens() {
@@ -39,7 +39,7 @@ open class SegmentedControl: UIControl, TokenizedControlInternal {
             for button in buttons {
                 button.isEnabled = isEnabled
             }
-            updateWindowSpecificColors()
+            updateColors()
         }
     }
 
@@ -71,7 +71,7 @@ open class SegmentedControl: UIControl, TokenizedControlInternal {
     private var items = [SegmentItem]()
     internal var style: SegmentedControlStyle {
         didSet {
-            updateWindowSpecificColors()
+            updateColors()
         }
     }
 
@@ -152,25 +152,21 @@ open class SegmentedControl: UIControl, TokenizedControlInternal {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
-    public func updateWindowSpecificColors() {
-        guard let window = window else {
-            return
-        }
-
+    public func updateColors() {
         pillMaskedLabelsContainerView.backgroundColor = isEnabled ? UIColor(dynamicColor: tokens.selectedTabColor) : UIColor(dynamicColor: tokens.disabledSelectedTabColor)
         backgroundView.backgroundColor = isEnabled ? UIColor(dynamicColor: tokens.restTabColor) : UIColor(dynamicColor: tokens.disabledTabColor)
         for maskedLabel in pillMaskedLabels {
             if isEnabled {
                 maskedLabel.textColor = UIColor(dynamicColor: tokens.selectedLabelColor)
             } else {
-                    maskedLabel.textColor = UIColor(dynamicColor: tokens.disabledSelectedLabelColor)
+                maskedLabel.textColor = UIColor(dynamicColor: tokens.disabledSelectedLabelColor)
             }
         }
         for button in buttons {
             if isEnabled {
                 button.setTitleColor(UIColor(dynamicColor: tokens.restLabelColor), for: .normal)
             } else {
-                    button.setTitleColor(UIColor(dynamicColor: tokens.disabledLabelColor), for: .normal)
+                button.setTitleColor(UIColor(dynamicColor: tokens.disabledLabelColor), for: .normal)
             }
 
             if let switchButton = button as? SegmentPillButton {
@@ -347,7 +343,7 @@ open class SegmentedControl: UIControl, TokenizedControlInternal {
 
     open override func didMoveToWindow() {
         super.didMoveToWindow()
-        updateWindowSpecificColors()
+        updateColors()
     }
 
     func intrinsicContentSizeInvalidatedForChildView() {
