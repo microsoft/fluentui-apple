@@ -298,17 +298,17 @@ open class SegmentedControl: UIControl, TokenizedControlInternal {
             return
         }
 
-        pillMaskedLabelsContainerView.backgroundColor = customSegmentedControlSelectedButtonBackgroundColor ?? (isEnabled ? style.selectionColor(for: window) : style.selectionColorDisabled)
-        backgroundView.backgroundColor = customSegmentedControlBackgroundColor ?? (isEnabled ? style.backgroundColor(for: window) : style.backgroundColorDisabled(for: window))
+        pillMaskedLabelsContainerView.backgroundColor = customSegmentedControlSelectedButtonBackgroundColor ?? (isEnabled ? UIColor(dynamicColor: tokens.selectedTabColor) : UIColor(dynamicColor: tokens.disabledSelectedTabColor))
+        backgroundView.backgroundColor = customSegmentedControlBackgroundColor ?? (isEnabled ? UIColor(dynamicColor: tokens.restTabColor) : UIColor(dynamicColor: tokens.disabledTabColor))
         for maskedLabel in pillMaskedLabels {
             if isEnabled {
                 if let customSelectedButtonTextColor = self.customSelectedSegmentedControlButtonTextColor {
                     maskedLabel.textColor = customSelectedButtonTextColor
                 } else {
-                        maskedLabel.textColor = style.segmentTextColorSelected(for: window)
+                        maskedLabel.textColor = UIColor(dynamicColor: tokens.selectedLabelColor)
                 }
             } else {
-                    maskedLabel.textColor = style.segmentTextColorSelectedAndDisabled(for: window)
+                    maskedLabel.textColor = UIColor(dynamicColor: tokens.disabledSelectedLabelColor)
             }
         }
         for button in buttons {
@@ -316,14 +316,14 @@ open class SegmentedControl: UIControl, TokenizedControlInternal {
                 if let customButtonTextColor = self.customSegmentedControlButtonTextColor {
                     button.setTitleColor(customButtonTextColor, for: .normal)
                 } else {
-                    button.setTitleColor(style.segmentTextColor, for: .normal)
+                    button.setTitleColor(UIColor(dynamicColor: tokens.restLabelColor), for: .normal)
                 }
             } else {
-                    button.setTitleColor(style.segmentTextColorDisabled(for: window), for: .normal)
+                    button.setTitleColor(UIColor(dynamicColor: tokens.disabledLabelColor), for: .normal)
             }
 
             if let switchButton = button as? SegmentPillButton {
-                switchButton.unreadDotColor = isEnabled ? style.segmentUnreadDotColor(for: window) : style.segmentTextColorDisabled(for: window)
+                switchButton.unreadDotColor = isEnabled ? UIColor(dynamicColor: tokens.enabledUnreadDotColor) : UIColor(dynamicColor: tokens.disabledLabelColor)
             }
         }
     }
