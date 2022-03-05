@@ -26,6 +26,8 @@ open class SegmentedControl: UIControl, TokenizedControlInternal {
         self.tokens = tokens
     }
 
+    var selectionChangeAnimationDuration: TimeInterval { return 0.2 }
+
     @objc(MSFSegmentedControlStyle)
     public enum Style: Int {
         /// Segments are shows as labels inside a pill for use with a neutral or white background. Selection is indicated by a thumb under the selected label.
@@ -33,15 +35,6 @@ open class SegmentedControl: UIControl, TokenizedControlInternal {
         /// Segments are shows as labels inside a pill for use on a branded background that features a prominent brand color in light mode and a muted grey in dark mode.
         /// Selection is indicated by a thumb under the selected label.
         case onBrandPill
-
-        var backgroundHasRoundedCorners: Bool { return self == .primaryPill || self == .onBrandPill }
-
-        var selectionChangeAnimationDuration: TimeInterval {
-            switch self {
-            case .primaryPill, .onBrandPill:
-                return 0.2
-            }
-        }
     }
 
     private struct Constants {
@@ -310,7 +303,7 @@ open class SegmentedControl: UIControl, TokenizedControlInternal {
 
         if animated {
             isAnimating = true
-            UIView.animate(withDuration: style.selectionChangeAnimationDuration, delay: 0, options: [.curveEaseOut, .beginFromCurrentState], animations: {
+            UIView.animate(withDuration: selectionChangeAnimationDuration, delay: 0, options: [.curveEaseOut, .beginFromCurrentState], animations: {
                 self.layoutSelectionView()
             }, completion: { _ in
                 self.isAnimating = false
