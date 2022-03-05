@@ -92,7 +92,7 @@ open class PillButtonTokens: ControlTokens {
     /// The distance of the unread dot from the trailing edge of the content of the `PillButton`.
     open var unreadDotOffsetX: CGFloat { 6.0 }
 
-    /// The distance of the unread dot from the bottom of the content of the `PillButton`.
+    /// The distance of the unread dot from the top of the content of the `PillButton`.
     open var unreadDotOffsetY: CGFloat { 3.0 }
 
     /// The size of the unread dot of the `PillButton`
