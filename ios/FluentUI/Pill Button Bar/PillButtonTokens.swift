@@ -32,7 +32,7 @@ open class PillButtonTokens: ControlTokens {
     open var backgroundColor: PillButtonDynamicColors {
         switch style {
         case .primary:
-            return .init(rest: aliasTokens.backgroundColors[.neutral4],
+            return .init(rest: aliasTokens.backgroundColors[.neutral3],
                          selected: aliasTokens.foregroundColors[.brandRest],
                          disabled: DynamicColor(light: globalTokens.neutralColors[.grey94], dark: globalTokens.neutralColors[.grey8]),
                          selectedDisabled: DynamicColor(light: globalTokens.neutralColors[.grey80], dark: globalTokens.neutralColors[.grey30]))
