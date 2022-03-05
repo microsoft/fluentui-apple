@@ -18,12 +18,23 @@ open class SegmentedControl: UIControl, TokenizedControlInternal {
         didSet {
             updateSegmentedControlTokens()
             updateColors()
+            updateButtons()
         }
     }
     private func updateSegmentedControlTokens() {
         let tokens = resolvedTokens
         tokens.style = style
         self.tokens = tokens
+    }
+    private func updateButtons() {
+        for button in buttons {
+            button.tokens = tokens
+            if isEnabled {
+                button.setTitleColor(UIColor(dynamicColor: tokens.restLabelColor), for: .normal)
+            } else {
+                button.setTitleColor(UIColor(dynamicColor: tokens.disabledLabelColor), for: .normal)
+            }
+        }
     }
 
     var selectionChangeAnimationDuration: TimeInterval { return 0.2 }
@@ -90,7 +101,7 @@ open class SegmentedControl: UIControl, TokenizedControlInternal {
 
         return view
     }()
-    private var buttons = [UIButton]()
+    private var buttons = [SegmentPillButton]()
     private let selectionView: UIView = {
         let view = UIView()
         view.layer.cornerCurve = .continuous
@@ -160,17 +171,6 @@ open class SegmentedControl: UIControl, TokenizedControlInternal {
                 maskedLabel.textColor = UIColor(dynamicColor: tokens.selectedLabelColor)
             } else {
                 maskedLabel.textColor = UIColor(dynamicColor: tokens.disabledSelectedLabelColor)
-            }
-        }
-        for button in buttons {
-            if isEnabled {
-                button.setTitleColor(UIColor(dynamicColor: tokens.restLabelColor), for: .normal)
-            } else {
-                button.setTitleColor(UIColor(dynamicColor: tokens.disabledLabelColor), for: .normal)
-            }
-
-            if let switchButton = button as? SegmentPillButton {
-                switchButton.unreadDotColor = isEnabled ? UIColor(dynamicColor: tokens.enabledUnreadDotColor) : UIColor(dynamicColor: tokens.disabledLabelColor)
             }
         }
     }
@@ -345,6 +345,7 @@ open class SegmentedControl: UIControl, TokenizedControlInternal {
         super.didMoveToWindow()
         updateSegmentedControlTokens()
         updateColors()
+        updateButtons()
     }
 
     func intrinsicContentSizeInvalidatedForChildView() {
@@ -372,13 +373,13 @@ open class SegmentedControl: UIControl, TokenizedControlInternal {
         }
     }
 
-    private func createPillButton(withItem item: SegmentItem) -> UIButton {
-        let button = SegmentPillButton(withItem: item)
+    private func createPillButton(withItem item: SegmentItem) -> SegmentPillButton {
+        let button = SegmentPillButton(withItem: item, tokens: tokens)
         button.addTarget(self, action: #selector(handleButtonTap(_:)), for: .touchUpInside)
         return button
     }
 
-    private func addMaskedPillLabel(over button: UIButton, at index: Int) {
+    private func addMaskedPillLabel(over button: SegmentPillButton, at index: Int) {
         let maskedLabel = UILabel()
         maskedLabel.text = button.currentTitle
         maskedLabel.font = button.titleLabel?.font
@@ -397,7 +398,7 @@ open class SegmentedControl: UIControl, TokenizedControlInternal {
         }
     }
 
-    @objc private func handleButtonTap(_ sender: UIButton) {
+    @objc private func handleButtonTap(_ sender: SegmentPillButton) {
         if let index = buttons.firstIndex(of: sender), selectedSegmentIndex != index {
             selectSegment(at: index, animated: isAnimated)
             sendActions(for: .valueChanged)
