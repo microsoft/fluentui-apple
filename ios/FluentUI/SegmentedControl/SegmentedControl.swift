@@ -343,6 +343,7 @@ open class SegmentedControl: UIControl, TokenizedControlInternal {
 
     open override func didMoveToWindow() {
         super.didMoveToWindow()
+        updateSegmentedControlTokens()
         updateColors()
     }
 
