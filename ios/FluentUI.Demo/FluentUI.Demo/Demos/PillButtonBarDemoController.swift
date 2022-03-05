@@ -89,6 +89,7 @@ class PillButtonBarDemoController: DemoController {
         _ = bar.selectItem(atIndex: 0)
         bar.barDelegate = self
         bar.centerAligned = centerAligned
+        bars.append(bar)
 
         if disabledItems {
             items.forEach { bar.disableItem($0) }
@@ -171,6 +172,8 @@ class PillButtonBarDemoController: DemoController {
 
     private var primaryBar: UIView?
 
+    private var bars: [PillButtonBar] = []
+
     private class CustomPillButtonTokens: PillButtonTokens {
         override var backgroundColor: PillButtonDynamicColors {
             return .init(rest: Colors.textOnAccent.dynamicColor ?? super.backgroundColor.rest,
@@ -200,5 +203,67 @@ extension PillButtonBarDemoController: PillButtonBarDelegate {
         let action = UIAlertAction(title: "OK", style: .default)
         alert.addAction(action)
         present(alert, animated: true)
+    }
+}
+
+extension PillButtonBarDemoController: DemoAppearanceDelegate {
+    func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
+        guard let fluentTheme = self.view.window?.fluentTheme else {
+            return
+        }
+
+        var tokensClosure: ((PillButton) -> PillButtonTokens)?
+        if isOverrideEnabled {
+            tokensClosure = { _ in
+                return ThemeWideOverridePillButtonTokens()
+            }
+        }
+
+        fluentTheme.register(controlType: PillButton.self, tokens: tokensClosure)
+    }
+
+    func perControlOverrideDidChange(isOverrideEnabled: Bool) {
+        self.bars.forEach({ bar in
+            let tokens = isOverrideEnabled ? PerControlOverridePillButtonTokens() : nil
+            bar.pillButtonOverrideTokens = tokens
+        })
+    }
+
+    func isThemeWideOverrideApplied() -> Bool {
+        return self.view.window?.fluentTheme.tokenOverride(for: PillButton.self) != nil
+    }
+
+    // MARK: - Custom tokens
+
+    private class ThemeWideOverridePillButtonTokens: PillButtonTokens {
+        override var font: FontInfo {
+            return FontInfo(name: "Times", size: 15.0, weight: .regular)
+        }
+    }
+
+    private class PerControlOverridePillButtonTokens: PillButtonTokens {
+        override var backgroundColor: PillButtonDynamicColors {
+            return .init(rest: DynamicColor(light: ColorValue(r: CGFloat.random(in: 0.25...0.5),
+                                                              g: CGFloat.random(in: 0.25...0.5),
+                                                              b: CGFloat.random(in: 0.25...0.5),
+                                                              a: 0.75)),
+                         selected: DynamicColor(light: ColorValue(r: CGFloat.random(in: 0.75...1),
+                                                                  g: CGFloat.random(in: 0.75...1),
+                                                                  b: CGFloat.random(in: 0.75...1),
+                                                                  a: 1)),
+                         disabled: super.backgroundColor.disabled,
+                         selectedDisabled: super.backgroundColor.selectedDisabled)
+        }
+
+        override var titleColor: PillButtonDynamicColors {
+            return .init(rest: DynamicColor(light: globalTokens.neutralColors[.white]),
+                         selected: DynamicColor(light: globalTokens.neutralColors[.black]),
+                         disabled: super.titleColor.disabled,
+                         selectedDisabled: super.titleColor.selectedDisabled)
+        }
+
+        override var font: FontInfo {
+            return FontInfo(name: "Papyrus", size: 10.0, weight: .regular)
+        }
     }
 }

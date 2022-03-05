@@ -183,7 +183,11 @@ open class PillButtonBar: UIScrollView, TokenizedControlInternal {
 
     @objc public let pillButtonStyle: PillButtonStyle
 
-    @objc public var pillButtonOverrideTokens: PillButtonTokens?
+    @objc public var pillButtonOverrideTokens: PillButtonTokens? {
+        didSet {
+            updatePillButtonTokens()
+        }
+    }
 
     /// If set to nil, the previously selected item will be deselected and there won't be any items selected
     @objc public var selectedItem: PillButtonBarItem? {
@@ -473,6 +477,12 @@ open class PillButtonBar: UIScrollView, TokenizedControlInternal {
 
     private func updatePillButtonBarTokens() {
         self.tokens = resolvedTokens
+    }
+
+    private func updatePillButtonTokens() {
+        for button in buttons {
+            button.overrideTokens = pillButtonOverrideTokens
+        }
     }
 
     private var leadingConstraint: NSLayoutConstraint?

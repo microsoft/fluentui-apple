@@ -169,6 +169,8 @@ open class PillButton: UIButton, TokenizedControlInternal {
             ? UIColor(dynamicColor: tokens.enabledUnreadDotColor)
             : UIColor(dynamicColor: tokens.disabledUnreadDotColor)
         }
+
+        titleLabel?.font = UIFont.fluent(tokens.font, shouldScale: false)
     }
 
     private func updatePillButtonTokens() {
