@@ -103,8 +103,8 @@ public struct Avatar: View, ConfigurableTokenizedControl {
         let hasRingInnerGap = configuration.hasRingInnerGap
         let isTransparent = configuration.isTransparent
         let isOutOfOffice = configuration.isOutOfOffice
-        let initialsString: String = ((style == .overflow) ? configuration.primaryText ?? "" : Avatar.initialsText(fromPrimaryText: configuration.primaryText,
-                                                                                                           secondaryText: configuration.secondaryText))
+        let initialsString: String = ((style == .overflow) ? (configuration.primaryText ?? "") : Avatar.initialsText(fromPrimaryText: configuration.primaryText,
+                                                                                                                     secondaryText: configuration.secondaryText))
         let shouldUseCalculatedColors = !initialsString.isEmpty && style != .overflow
 
         let ringInnerGap: CGFloat = isRingVisible && hasRingInnerGap ? tokens.ringInnerGap : 0
@@ -147,8 +147,8 @@ public struct Avatar: View, ConfigurableTokenizedControl {
         let ringGapColor = Color(dynamicColor: tokens.ringGapColor).opacity(isTransparent ? 0 : 1)
         let ringColor = !isRingVisible ? Color.clear :
         Color(dynamicColor: configuration.ringColor?.dynamicColor ?? ( !shouldUseCalculatedColors ?
-                                                               tokens.ringDefaultColor :
-                                                                backgroundColor))
+                                                                       tokens.ringDefaultColor :
+                                                                        backgroundColor))
 
         let shouldUseDefaultImage = (configuration.image == nil && initialsString.isEmpty && style != .overflow)
         let avatarImageInfo: (image: UIImage?, renderingMode: Image.TemplateRenderingMode) = {

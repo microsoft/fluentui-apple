@@ -326,9 +326,9 @@ class NotificationViewDemoControllerSwiftUI: DemoTableViewController, UIPickerVi
             strongSelf.messageTextField.resignFirstResponder()
         }
 
-        let messageButtonState = messageButton.configuration
-        messageButtonState.text = "Set"
-        messageButtonState.isDisabled = true
+        let messageButtonConfiguration = messageButton.configuration
+        messageButtonConfiguration.text = "Set"
+        messageButtonConfiguration.isDisabled = true
 
         return messageButton
     }()
@@ -364,9 +364,9 @@ class NotificationViewDemoControllerSwiftUI: DemoTableViewController, UIPickerVi
             strongSelf.delayTimeTextField.resignFirstResponder()
         }
 
-        let delayTimeButtonState = delayTimeButton.configuration
-        delayTimeButtonState.text = "Set"
-        delayTimeButtonState.isDisabled = true
+        let delayTimeButtonConfiguration = delayTimeButton.configuration
+        delayTimeButtonConfiguration.text = "Set"
+        delayTimeButtonConfiguration.isDisabled = true
 
         return delayTimeButton
     }()
@@ -403,9 +403,9 @@ class NotificationViewDemoControllerSwiftUI: DemoTableViewController, UIPickerVi
             strongSelf.actionButtonTitleTextField.resignFirstResponder()
         }
 
-        let actionButtonTitleButtonState = actionButtonTitleButton.configuration
-        actionButtonTitleButtonState.text = "Set"
-        actionButtonTitleButtonState.isDisabled = true
+        let actionButtonTitleButtonConfiguration = actionButtonTitleButton.configuration
+        actionButtonTitleButtonConfiguration.text = "Set"
+        actionButtonTitleButtonConfiguration.isDisabled = true
 
         return actionButtonTitleButton
     }()

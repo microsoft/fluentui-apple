@@ -96,8 +96,8 @@ class PersonaButtonCarouselDemoController: DemoTableViewController {
 
     // MARK: - Actions
 
-    private func didTap(on personaButtonState: MSFPersonaCarouselButtonConfiguration, at index: Int) {
-        let primaryText: String = personaButtonState.primaryText ?? "n/a"
+    private func didTap(on personaButtonConfiguration: MSFPersonaCarouselButtonConfiguration, at index: Int) {
+        let primaryText: String = personaButtonConfiguration.primaryText ?? "n/a"
         let alert = UIAlertController(title: "\(primaryText) at index \(index) was selected", message: nil, preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .default, handler: nil)
         alert.addAction(action)
@@ -171,8 +171,8 @@ class PersonaButtonCarouselDemoController: DemoTableViewController {
             add(persona, to: carousel)
         }
         carousels[size] = carousel
-        carousel.configuration.onTapAction = { [weak self] (personaButtonState: MSFPersonaCarouselButtonConfiguration, index: Int) in
-            self?.didTap(on: personaButtonState, at: index)
+        carousel.configuration.onTapAction = { [weak self] (personaButtonConfiguration: MSFPersonaCarouselButtonConfiguration, index: Int) in
+            self?.didTap(on: personaButtonConfiguration, at: index)
         }
 
         cell.contentView.addSubview(carousel.view)
