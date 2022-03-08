@@ -103,23 +103,6 @@ public struct AvatarGroup: View, ConfigurableTokenizedControl {
         self.state = state
     }
 
-    /// Renders the avatar with an optional cutout for the Stack group style.
-    @ViewBuilder
-    private func avatarCutout(_ avatar: Avatar,
-                              _ needsCutout: Bool,
-                              _ xOrigin: CGFloat,
-                              _ yOrigin: CGFloat,
-                              _ cutoutSize: CGFloat,
-                              _ padding: CGFloat) -> some View {
-        avatar.modifyIf(needsCutout, { view in
-            view.clipShape(Avatar.AvatarCutout(xOrigin: xOrigin,
-                                               yOrigin: yOrigin,
-                                               cutoutSize: cutoutSize),
-                           style: FillStyle(eoFill: true))
-            })
-            .padding(.trailing, padding)
-    }
-
     public var body: some View {
         let avatars: [MSFAvatarStateImpl] = state.avatars
         let avatarViews: [Avatar] = avatars.map { Avatar($0) }
@@ -178,11 +161,10 @@ public struct AvatarGroup: View, ConfigurableTokenizedControl {
                         avatarView
                             .transition(.identity)
                             .modifyIf(needsCutout, { view in
-                                view.mask(Avatar.AvatarCutout(
-                                    xOrigin: xOrigin,
-                                    yOrigin: yOrigin,
-                                    cutoutSize: cutoutSize)
-                                            .fill(style: FillStyle(eoFill: true)))
+                                view.clipShape(CircleCutout(xOrigin: xOrigin,
+                                                            yOrigin: yOrigin,
+                                                            cutoutSize: cutoutSize),
+                                               style: FillStyle(eoFill: true))
                             })
                     }
                     .padding(.trailing, isStackStyle ? stackPadding : interspace)

@@ -43,7 +43,6 @@ let package = Package(
                 "Bottom Commanding/BottomCommanding.resources.xcfilelist",
                 "Core/Core.resources.xcfilelist",
                 "HUD/HUD.resources.xcfilelist",
-                "Info.plist",
                 "Navigation/Navigation.resources.xcfilelist",
                 "Notification/Notification.resources.xcfilelist",
                 "Other Cells/OtherCells.resources.xcfilelist",
