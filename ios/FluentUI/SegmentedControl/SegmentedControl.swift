@@ -12,32 +12,6 @@ open class SegmentedControl: UIControl, TokenizedControlInternal {
         overrideTokens = tokens
         return self
     }
-    var defaultTokens: SegmentedControlTokens = .init()
-    var tokens: SegmentedControlTokens = .init()
-    var overrideTokens: SegmentedControlTokens? {
-        didSet {
-            updateSegmentedControlTokens()
-            updateColors()
-            updateButtons()
-        }
-    }
-    private func updateSegmentedControlTokens() {
-        let tokens = resolvedTokens
-        tokens.style = style
-        self.tokens = tokens
-    }
-    private func updateButtons() {
-        for button in buttons {
-            button.tokens = tokens
-            if isEnabled {
-                button.setTitleColor(UIColor(dynamicColor: tokens.restLabelColor), for: .normal)
-            } else {
-                button.setTitleColor(UIColor(dynamicColor: tokens.disabledLabelColor), for: .normal)
-            }
-        }
-    }
-
-    var selectionChangeAnimationDuration: TimeInterval { return 0.2 }
 
     private struct Constants {
         static let selectionBarHeight: CGFloat = 1.5
@@ -359,6 +333,34 @@ open class SegmentedControl: UIControl, TokenizedControlInternal {
         }
 
         return buttons[index] as UIView
+    }
+
+    var defaultTokens: SegmentedControlTokens = .init()
+    var tokens: SegmentedControlTokens = .init()
+    var overrideTokens: SegmentedControlTokens? {
+        didSet {
+            updateSegmentedControlTokens()
+            updateColors()
+            updateButtons()
+        }
+    }
+
+    var selectionChangeAnimationDuration: TimeInterval { return 0.2 }
+
+    private func updateSegmentedControlTokens() {
+        let tokens = resolvedTokens
+        tokens.style = style
+        self.tokens = tokens
+    }
+    private func updateButtons() {
+        for button in buttons {
+            button.tokens = tokens
+            if isEnabled {
+                button.setTitleColor(UIColor(dynamicColor: tokens.restLabelColor), for: .normal)
+            } else {
+                button.setTitleColor(UIColor(dynamicColor: tokens.disabledLabelColor), for: .normal)
+            }
+        }
     }
 
     private func addButtons(items: [SegmentItem]) {
