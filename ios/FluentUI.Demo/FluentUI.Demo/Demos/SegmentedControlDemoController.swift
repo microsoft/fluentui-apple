@@ -55,6 +55,11 @@ class SegmentedControlDemoController: DemoController {
         addTitle(text: "Disabled On Brand Pill")
 
         addPillControl(items: Array(segmentItems.prefix(2)), style: .onBrandPill, enabled: false)
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
     }
 
     @objc func updateLabel(forControl control: SegmentedControl) {
@@ -71,8 +76,10 @@ class SegmentedControlDemoController: DemoController {
         if style == .primaryPill {
             backgroundView.backgroundColor = Colors.navigationBarBackground
         } else {
-            backgroundView.backgroundColor = UIColor(light: Colors.communicationBlue, dark: Colors.navigationBarBackground)
+            setOnBrandBackgroundColorFor(backgroundView)
+            onBrandSegmentedControlViews.append(backgroundView)
         }
+        segmentedControls.append(pillControl)
 
         backgroundView.translatesAutoresizingMaskIntoConstraints = false
         pillControl.translatesAutoresizingMaskIntoConstraints = false
@@ -90,11 +97,30 @@ class SegmentedControlDemoController: DemoController {
         if enabled {
             controlLabels[pillControl] = addDescription(text: "", textAlignment: .center)
         }
+    }
 
-        segmentedControls.append(pillControl)
+    @objc func themeDidChange(_ notification: Notification) {
+        for background in onBrandSegmentedControlViews {
+            setOnBrandBackgroundColorFor(background)
+        }
+    }
+
+    func setOnBrandBackgroundColorFor(_ backgroundView: UIView) {
+        var lightColor: UIColor
+        var darkColor: UIColor
+        if let window = self.view.window {
+            lightColor = Colors.primary(for: window)
+            darkColor = UIColor(colorValue: window.fluentTheme.globalTokens.neutralColors[.grey12])
+        } else {
+            lightColor = Colors.communicationBlue
+            darkColor = Colors.navigationBarBackground
+        }
+
+        backgroundView.backgroundColor = UIColor(light: lightColor, dark: darkColor)
     }
 
     private var segmentedControls: [SegmentedControl] = []
+    private var onBrandSegmentedControlViews: [UIView] = []
 }
 
 extension SegmentedControlDemoController: DemoAppearanceDelegate {
