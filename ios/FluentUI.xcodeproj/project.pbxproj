@@ -205,6 +205,7 @@
 		EC02A5F327472EF400E81B3E /* DividerTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC02A5F227472EF400E81B3E /* DividerTokens.swift */; };
 		EC02A5F5274DD19600E81B3E /* MSFDivider.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC02A5F4274DD19500E81B3E /* MSFDivider.swift */; };
 		EC5982D827BF348700FD048D /* MSFAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5982D727BF348700FD048D /* MSFAvatar.swift */; };
+		EC5982DA27C703EE00FD048D /* CircleCutout.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5982D927C703ED00FD048D /* CircleCutout.swift */; };
 		EC5982DC27CEC02100FD048D /* DrawerTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5982DB27CEC02100FD048D /* DrawerTokens.swift */; };
 		EC6A71EA273DBA520076A586 /* Divider.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6A71E9273DBA520076A586 /* Divider.swift */; };
 		ECA92184279A177D00B66117 /* DividerModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA92183279A177D00B66117 /* DividerModifiers.swift */; };
@@ -381,6 +382,7 @@
 		EC02A5F227472EF400E81B3E /* DividerTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DividerTokens.swift; sourceTree = "<group>"; };
 		EC02A5F4274DD19500E81B3E /* MSFDivider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFDivider.swift; sourceTree = "<group>"; };
 		EC5982D727BF348700FD048D /* MSFAvatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFAvatar.swift; sourceTree = "<group>"; };
+		EC5982D927C703ED00FD048D /* CircleCutout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleCutout.swift; sourceTree = "<group>"; };
 		EC5982DB27CEC02100FD048D /* DrawerTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerTokens.swift; sourceTree = "<group>"; };
 		EC6A71E9273DBA520076A586 /* Divider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Divider.swift; sourceTree = "<group>"; };
 		ECA92183279A177D00B66117 /* DividerModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DividerModifiers.swift; sourceTree = "<group>"; };
@@ -1094,6 +1096,7 @@
 				5303259926B31B6B00611D05 /* AvatarModifiers.swift */,
 				5373D5602694D65C0032A3B4 /* AvatarTokens.swift */,
 				EC5982D727BF348700FD048D /* MSFAvatar.swift */,
+				EC5982D927C703ED00FD048D /* CircleCutout.swift */,
 				5373D5632694D65C0032A3B4 /* MSFAvatarPresence.swift */,
 				B4EF53C2215AF1AB00573E8F /* Persona.swift */,
 			);
@@ -1475,6 +1478,7 @@
 				6ED5E55126D3D39400D8BE81 /* BadgeLabelButton.swift in Sources */,
 				6ED5E55226D3D39400D8BE81 /* UIBarButtonItem+BadgeValue.swift in Sources */,
 				5314E0ED25F012C40099271A /* ContentScrollViewTraits.swift in Sources */,
+				EC5982DA27C703EE00FD048D /* CircleCutout.swift in Sources */,
 				5314E03A25F00E3D0099271A /* BadgeView.swift in Sources */,
 				53097D4727028B1200A6E4DC /* ButtonLegacy.swift in Sources */,
 				5314E1A325F01A7C0099271A /* TableViewHeaderFooterView.swift in Sources */,
