@@ -352,14 +352,16 @@ open class SegmentedControl: UIControl, TokenizedControlInternal {
         tokens.style = style
         self.tokens = tokens
     }
+
     private func updateButtons() {
-        for button in buttons {
+        for (index, button) in buttons.enumerated() {
             button.tokens = tokens
             if isEnabled {
                 button.setTitleColor(UIColor(dynamicColor: tokens.restLabelColor), for: .normal)
             } else {
                 button.setTitleColor(UIColor(dynamicColor: tokens.disabledLabelColor), for: .normal)
             }
+            pillMaskedLabels[index].font = button.titleLabel?.font
         }
     }
 
