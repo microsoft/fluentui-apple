@@ -169,14 +169,18 @@ public struct Avatar: View {
         let shouldDisplayPresence = presence != .none
         let isRingVisible = state.isRingVisible
         let hasRingInnerGap = state.hasRingInnerGap
+        let ringThicknessToken: CGFloat = tokens.ringThickness
         let isTransparent = state.isTransparent
         let isOutOfOffice = state.isOutOfOffice
         let initialsString: String = ((style == .overflow) ? state.primaryText ?? "" : Avatar.initialsText(fromPrimaryText: state.primaryText,
                                                                                                            secondaryText: state.secondaryText))
         let shouldUseCalculatedColors = !initialsString.isEmpty && style != .overflow
 
-        let ringInnerGap: CGFloat = isRingVisible && hasRingInnerGap ? tokens.ringInnerGap : 0
-        let ringThickness: CGFloat = isRingVisible ? tokens.ringThickness : 0
+        // Adding ringInnerGapOffset to ringInnerGap & ringThickness to accommodate for a small space between
+        // the ring and avatar when the ring is visible and there is no inner ring gap
+        let ringInnerGapOffset = 0.5
+        let ringInnerGap: CGFloat = isRingVisible ? (hasRingInnerGap ? tokens.ringInnerGap : -ringInnerGapOffset) : 0
+        let ringThickness: CGFloat = isRingVisible ? (hasRingInnerGap ? ringThicknessToken : ringThicknessToken + ringInnerGapOffset) : 0
         let ringOuterGap: CGFloat = isRingVisible ? tokens.ringOuterGap : 0
         let avatarImageSize: CGFloat = tokens.avatarSize!
         let ringInnerGapSize: CGFloat = avatarImageSize + (ringInnerGap * 2)
@@ -260,7 +264,7 @@ public struct Avatar: View {
             if let imageBasedRingColor = state.imageBasedRingColor {
                 // The potentially maximum size of the ring view must be used in order to avoid abrupt
                 // transitions during the animation as the ImagePaint scale value is not animatable.
-                let ringMaxSize = avatarImageSize + (tokens.ringInnerGap + tokens.ringThickness) * 2
+                let ringMaxSize = avatarImageSize + (tokens.ringInnerGap + ringThicknessToken) * 2
                 let scaleFactor = ringMaxSize / imageBasedRingColor.size.width
 
                 // ImagePaint is being used as creating a Color struct from a UIColor created with
@@ -304,28 +308,28 @@ public struct Avatar: View {
                                                         .clipShape(Circle())
                                                         .transition(.opacity),
                                                      alignment: .center)
-                                )
+                                        )
                                 .contentShape(Circle()),
                              alignment: .center)
                     .modifyIf(shouldDisplayPresence, { thisView in
-                            thisView
-                                .clipShape(PresenceCutout(originX: presenceCutoutOriginX,
-                                                          originY: presenceCutoutOriginY,
-                                                          presenceIconOutlineSize: presenceIconOutlineSize),
-                                           style: FillStyle(eoFill: true))
-                                .overlay(Circle()
-                                            .foregroundColor(Color(tokens.ringGapColor).opacity(isTransparent ? 0 : 1))
-                                            .frame(width: presenceIconOutlineSize, height: presenceIconOutlineSize, alignment: .center)
-                                            .overlay(presence.image(isOutOfOffice: isOutOfOffice)
-                                                        .interpolation(.high)
-                                                        .resizable()
-                                                        .frame(width: presenceIconSize, height: presenceIconSize, alignment: .center)
-                                                        .foregroundColor(presence.color(isOutOfOffice: isOutOfOffice)))
-                                            .contentShape(Circle())
-                                            .frame(width: presenceIconFrameSideRelativeToOuterRing, height: presenceIconFrameSideRelativeToOuterRing,
-                                                   alignment: .bottomTrailing),
-                                         alignment: .topLeading)
-                                .frame(width: overallFrameSide, height: overallFrameSide, alignment: .topLeading)
+                        thisView
+                            .clipShape(CircleCutout(xOrigin: presenceCutoutOriginX,
+                                                    yOrigin: presenceCutoutOriginY,
+                                                    cutoutSize: presenceIconOutlineSize),
+                                       style: FillStyle(eoFill: true))
+                            .overlay(Circle()
+                                        .foregroundColor(Color(tokens.ringGapColor).opacity(isTransparent ? 0 : 1))
+                                        .frame(width: presenceIconOutlineSize, height: presenceIconOutlineSize, alignment: .center)
+                                        .overlay(presence.image(isOutOfOffice: isOutOfOffice)
+                                                    .interpolation(.high)
+                                                    .resizable()
+                                                    .frame(width: presenceIconSize, height: presenceIconSize, alignment: .center)
+                                                    .foregroundColor(presence.color(isOutOfOffice: isOutOfOffice)))
+                                        .contentShape(Circle())
+                                        .frame(width: presenceIconFrameSideRelativeToOuterRing, height: presenceIconFrameSideRelativeToOuterRing,
+                                               alignment: .bottomTrailing),
+                                     alignment: .topLeading)
+                            .frame(width: overallFrameSide, height: overallFrameSide, alignment: .topLeading)
                     })
             }
         }
@@ -342,67 +346,7 @@ public struct Avatar: View {
                           with: windowProvider)
     }
 
-    /// `AvatarCutout`: Cutout shape for an Avatar
-    ///
-    /// `xOrigin`: beginning location of cutout on the x axis
-    ///
-    /// `yOrigin`: beginning location of cutout on the y axis
-    ///
-    /// `cutoutSize`: dimensions of cutout shape of the Avatar
-    public struct AvatarCutout: Shape {
-        var xOrigin: CGFloat
-        var yOrigin: CGFloat
-        var cutoutSize: CGFloat
-
-        public var animatableData: AnimatablePair<AnimatablePair<CGFloat, CGFloat>, CGFloat> {
-            get {
-                AnimatablePair(AnimatablePair(xOrigin, yOrigin), cutoutSize)
-            }
-            set {
-                xOrigin = newValue.first.first
-                yOrigin = newValue.first.second
-                cutoutSize = newValue.second
-            }
-        }
-
-        public func path(in rect: CGRect) -> Path {
-            var cutoutFrame = Rectangle().path(in: rect)
-            cutoutFrame.addPath(Circle().path(in: CGRect(x: xOrigin,
-                                                         y: yOrigin,
-                                                         width: cutoutSize,
-                                                         height: cutoutSize)))
-            return cutoutFrame
-        }
-    }
-
     private let animationDuration: Double = 0.1
-
-    private struct PresenceCutout: Shape {
-        var originX: CGFloat
-        var originY: CGFloat
-        var presenceIconOutlineSize: CGFloat
-
-        var animatableData: AnimatablePair<AnimatablePair<CGFloat, CGFloat>, CGFloat> {
-            get {
-                AnimatablePair(AnimatablePair(originX, originY), presenceIconOutlineSize)
-            }
-
-            set {
-                originX = newValue.first.first
-                originY = newValue.first.second
-                presenceIconOutlineSize = newValue.second
-            }
-        }
-
-        func path(in rect: CGRect) -> Path {
-            var cutoutFrame = Rectangle().path(in: rect)
-            cutoutFrame.addPath(Circle().path(in: CGRect(x: originX,
-                                                         y: originY,
-                                                         width: presenceIconOutlineSize,
-                                                         height: presenceIconOutlineSize)))
-            return cutoutFrame
-        }
-    }
 
     private static func initialsHashCode(fromPrimaryText primaryText: String?, secondaryText: String?) -> Int {
         var combined: String

@@ -268,6 +268,13 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
             return
         }
         let targetIndexPath = IndexPath(item: 0, section: max(focusDateRow - rowOffset, 0))
+
+        // There may be no items in the 0th section if we are constraining the calendar to today's date.
+        // Attempting to scroll in that case will throw an exception. But that's okay, there's no need
+        // to scroll there anyway, since the view will start at that date.
+        guard targetIndexPath.item < calendarView.collectionView.numberOfItems(inSection: targetIndexPath.section) else {
+            return
+        }
         calendarView.collectionView.scrollToItem(at: targetIndexPath, at: [.top], animated: animated)
         // TODO: Notify of visible date?
     }
