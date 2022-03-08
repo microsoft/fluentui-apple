@@ -131,6 +131,11 @@ open class SegmentedControl: UIControl, TokenizedControlInternal {
         addSubview(pillContainerView)
 
         setupLayoutConstraints()
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -449,6 +454,15 @@ open class SegmentedControl: UIControl, TokenizedControlInternal {
 
         let button = buttons[index]
         button.isSelected = isSelected
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        if let window = self.window,
+           window.isEqual(notification.object) {
+            updateSegmentedControlTokens()
+            updateColors()
+            updateButtons()
+        }
     }
 
     private func layoutSelectionView() {
