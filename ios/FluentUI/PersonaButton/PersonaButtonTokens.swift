@@ -31,59 +31,58 @@ import UIKit
 
 /// Representation of design tokens to persona buttons at runtime which interfaces with the Design Token System auto-generated code.
 /// Updating these properties causes the SwiftUI persona button to update its view automatically.
-class MSFPersonaButtonTokens: MSFTokensBase, ObservableObject {
-    @Published public var avatarInterspace: CGFloat!
-    @Published public var backgroundColor: UIColor!
-    @Published public var horizontalAvatarPadding: CGFloat!
-    @Published public var horizontalTextPadding: CGFloat!
-    @Published public var labelColor: UIColor!
-    @Published public var labelFont: UIFont!
-    @Published public var sublabelColor: UIColor!
-    @Published public var sublabelFont: UIFont!
-    @Published public var verticalPadding: CGFloat!
+public class PersonaButtonTokens: ControlTokens {
 
-    var size: MSFPersonaButtonSize {
-        didSet {
-            if oldValue != size {
-                updateForCurrentTheme()
-            }
-        }
-    }
+    /// `MSFPersonaButtonSize` enumeration value that will define pre-defined values for fonts and spacing.
+    public internal(set) var size: MSFPersonaButtonSize = .large
 
-    init(size: MSFPersonaButtonSize) {
-        self.size = size
+    // MARK: - Design Tokens
 
-        super.init()
-
-        self.themeAware = true
-
-        updateForCurrentTheme()
-    }
-
-    @objc open func didChangeAppearanceProxy() {
-        updateForCurrentTheme()
-    }
-
-    override func updateForCurrentTheme() {
-        let currentTheme = theme
-        let appearanceProxy = currentTheme.MSFPersonaButtonTokens
-
-        backgroundColor = appearanceProxy.backgroundColor
-        horizontalTextPadding = appearanceProxy.horizontalTextPadding
-        labelColor = appearanceProxy.labelColor
-        sublabelColor = appearanceProxy.sublabelColor
-        sublabelFont = appearanceProxy.sublabelFont
-        verticalPadding = appearanceProxy.verticalPadding
-
+    /// The amount of space between the control's `Avatar` and text labels.
+    open var avatarInterspace: CGFloat {
         switch size {
         case .small:
-            avatarInterspace = appearanceProxy.avatarInterspace.small
-            labelFont = appearanceProxy.labelFont.small
-            horizontalAvatarPadding = appearanceProxy.horizontalAvatarPadding.small
+            return globalTokens.spacing[.xSmall]
         case .large:
-            avatarInterspace = appearanceProxy.avatarInterspace.large
-            labelFont = appearanceProxy.labelFont.large
-            horizontalAvatarPadding = appearanceProxy.horizontalAvatarPadding.large
+            return globalTokens.spacing[.small]
         }
     }
+
+    /// The background color for the `PersonaButton`.
+    open var backgroundColor: DynamicColor { aliasTokens.backgroundColors[.neutral1] }
+
+    /// How much space should be reserved to the left and right of the control's `Avatar`.
+    open var horizontalAvatarPadding: CGFloat {
+        switch size {
+        case .small:
+            return globalTokens.spacing[.medium]
+        case .large:
+            return globalTokens.spacing[.xSmall]
+        }
+    }
+
+    /// How much space should be reserved to the left and right of the control's labels.
+    open var horizontalTextPadding: CGFloat { globalTokens.spacing[.xxxSmall] }
+
+    /// The `DynamicColor` to use for the control's primary label.
+    open var labelColor: DynamicColor { aliasTokens.foregroundColors[.neutral1] }
+
+    /// The `FontInfo` to use for the control's primary label.
+    open var labelFont: FontInfo {
+        switch size {
+        case .small:
+            return aliasTokens.typography[.caption1]
+        case .large:
+            return aliasTokens.typography[.body2]
+        }
+    }
+
+    /// The `DynamicColor` to use for the control's secondary label.
+    open var sublabelColor: DynamicColor { aliasTokens.foregroundColors[.neutral3] }
+
+    /// The `FontInfo` to use for the control's secondary label.
+    open var sublabelFont: FontInfo { aliasTokens.typography[.caption1] }
+
+    /// How much padding to add above the `Avatar` and below the lowest text label.
+    open var verticalPadding: CGFloat { globalTokens.spacing[.xSmall] }
 }

@@ -32,7 +32,7 @@ class CardViewDemoController: DemoController {
                         subtitle: "Subtitle",
                         icon: demoIcon,
                         colorStyle: .appColor)
-                    cardWithSubtitle.customBackgroundColor = Colors.Button.background
+                    cardWithSubtitle.customBackgroundColor = .clear
                     cardWithSubtitle.delegate = self
                     let cardWithLongTitle = CardView(
                         size: size,

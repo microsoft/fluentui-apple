@@ -13,74 +13,45 @@ import UIKit
     case medium
     case large
     case xLarge
-
-    var size: CGFloat {
-        switch self {
-        case .xSmall:
-            return FluentUIThemeManager.S.MSFActivityIndicatorTokens.size.xSmall
-        case .small:
-            return FluentUIThemeManager.S.MSFActivityIndicatorTokens.size.small
-        case .medium:
-            return FluentUIThemeManager.S.MSFActivityIndicatorTokens.size.medium
-        case .large:
-            return FluentUIThemeManager.S.MSFActivityIndicatorTokens.size.large
-        case .xLarge:
-            return FluentUIThemeManager.S.MSFActivityIndicatorTokens.size.xLarge
-        }
-    }
 }
 
-/// Representation of design tokens to buttons at runtime which interfaces with the Design Token System auto-generated code.
-/// Updating these properties causes the SwiftUI button to update its view automatically.
-class MSFActivityIndicatorTokens: MSFTokensBase, ObservableObject {
-    @Published public var activityIndicatorSize: CGFloat!
-    @Published public var defaultColor: UIColor!
-    @Published public var thickness: CGFloat!
+/// Design token set for the `ActivityIndicator` control.
+open class ActivityIndicatorTokens: ControlTokens {
+    /// MSFActivityIndicatorSize enumeration value that will define pre-defined values for side and thickness.
+    public internal(set) var size: MSFActivityIndicatorSize = .large
 
-    var size: MSFActivityIndicatorSize {
-        didSet {
-            if oldValue != size {
-                updateForCurrentTheme()
-            }
-        }
-    }
+    // MARK: - Design Tokens
 
-    init(size: MSFActivityIndicatorSize) {
-        self.size = size
+    /// The default color of the Activity Indicator.
+    open var defaultColor: DynamicColor { aliasTokens.foregroundColors[.neutral4] }
 
-        super.init()
-
-        self.themeAware = true
-
-        updateForCurrentTheme()
-    }
-
-    override func updateForCurrentTheme() {
-        let currentTheme = theme
-        let appearanceProxy = currentTheme.MSFActivityIndicatorTokens
-
-        defaultColor = appearanceProxy.defaultColor
-
+    /// The value for the side of the square frame of an Activity Indicator.
+    open var side: CGFloat {
         switch size {
         case .xSmall:
-            activityIndicatorSize = appearanceProxy.size.xSmall
-            thickness = appearanceProxy.thickness.xSmall
+            return 12
         case .small:
-            activityIndicatorSize = appearanceProxy.size.small
-            thickness = appearanceProxy.thickness.small
+            return 16
         case .medium:
-            activityIndicatorSize = appearanceProxy.size.medium
-            thickness = appearanceProxy.thickness.medium
+            return 24
         case .large:
-            activityIndicatorSize = appearanceProxy.size.large
-            thickness = appearanceProxy.thickness.large
+            return 32
         case .xLarge:
-            activityIndicatorSize = appearanceProxy.size.xLarge
-            thickness = appearanceProxy.thickness.xLarge
+            return 36
         }
     }
 
-    @objc open func didChangeAppearanceProxy() {
-        updateForCurrentTheme()
+    /// The value for the thickness of the ActivityIndicator ring.
+    open var thickness: CGFloat {
+        switch size {
+        case .xSmall, .small:
+            return 1
+        case .medium:
+            return 2
+        case .large:
+            return 3
+        case .xLarge:
+            return 4
+        }
     }
 }

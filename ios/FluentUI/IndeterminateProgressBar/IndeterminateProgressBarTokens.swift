@@ -6,31 +6,15 @@
 import SwiftUI
 import UIKit
 
-/// Representation of design tokens for the Indeterminate Progress Bar at runtime which interfaces with the Design Token System auto-generated code.
-/// Updating these properties causes the SwiftUI Indeterminate Progress Bar to update its view automatically.
-class MSFIndeterminateProgressBarTokens: MSFTokensBase, ObservableObject {
-    @Published public var backgroundColor: UIColor!
-    @Published public var gradientColor: UIColor!
-    @Published public var height: CGFloat!
+/// Representation of design tokens for the Indeterminate Progress Bar.
+public class IndeterminateProgressBarTokens: ControlTokens {
 
-    override init() {
-        super.init()
+    /// Progress bar's background color.
+    open var backgroundColor: DynamicColor { aliasTokens.backgroundColors[.surfaceQuaternary] }
 
-        self.themeAware = true
+    /// Progress bar's gradient color.
+    open var gradientColor: DynamicColor { globalTokens.brandColors[.primary] }
 
-        updateForCurrentTheme()
-    }
-
-    override func updateForCurrentTheme() {
-        let currentTheme = theme
-        let appearanceProxy = currentTheme.MSFIndeterminateProgressBarTokens
-
-        backgroundColor = appearanceProxy.backgroundColor
-        gradientColor = appearanceProxy.gradientColor
-        height = appearanceProxy.height
-    }
-
-    @objc open func didChangeAppearanceProxy() {
-        updateForCurrentTheme()
-    }
+    /// Progress bar's height.
+    open var height: CGFloat { 2 }
 }

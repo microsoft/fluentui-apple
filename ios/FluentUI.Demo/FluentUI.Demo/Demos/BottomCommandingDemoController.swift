@@ -264,7 +264,7 @@ class BottomCommandingDemoController: UIViewController {
 
     private lazy var customPopoverViewController: UIViewController = {
         let viewController = UIViewController()
-        viewController.view.backgroundColor = Colors.NavigationBar.background
+        viewController.view.backgroundColor = Colors.navigationBarBackground
         viewController.preferredContentSize = CGSize(width: 300, height: 300)
         viewController.modalPresentationStyle = .popover
 

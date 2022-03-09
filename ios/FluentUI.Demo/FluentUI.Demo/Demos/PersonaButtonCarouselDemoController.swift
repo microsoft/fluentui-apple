@@ -166,7 +166,7 @@ class PersonaButtonCarouselDemoController: DemoTableViewController {
             cell = tableView.dequeueReusableCell(withIdentifier: PersonaButtonCarouselDemoController.smallCarouselReuseIdentifier, for: indexPath)
         }
 
-        let carousel = MSFPersonaButtonCarousel(size: size, theme: nil)
+        let carousel = MSFPersonaButtonCarousel(size: size)
         personas.forEach { persona in
             add(persona, to: carousel)
         }

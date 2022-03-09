@@ -23,19 +23,19 @@ import SwiftUI
         case .none:
             break
         case .available:
-            color = FluentUIThemeManager.S.Colors.Presence.available
+            color = Colors.Palette.presenceAvailable.color
         case .away:
-            color = isOutOfOffice ? FluentUIThemeManager.S.Colors.Presence.outOfOffice : FluentUIThemeManager.S.Colors.Presence.away
+            color = isOutOfOffice ? Colors.Palette.presenceOof.color : Colors.Palette.presenceAway.color
         case .busy:
-            color = FluentUIThemeManager.S.Colors.Presence.busy
+            color = Colors.Palette.presenceBusy.color
         case .blocked:
-            color = FluentUIThemeManager.S.Colors.Presence.blocked
+            color = Colors.Palette.presenceBlocked.color
         case .doNotDisturb:
-            color = FluentUIThemeManager.S.Colors.Presence.doNotDisturb
+            color = Colors.Palette.presenceDnd.color
         case .offline:
-            color = isOutOfOffice ? FluentUIThemeManager.S.Colors.Presence.outOfOffice : FluentUIThemeManager.S.Colors.Presence.offline
+            color = isOutOfOffice ? Colors.Palette.presenceOof.color : Colors.Palette.presenceOffline.color
         case .unknown:
-            color = FluentUIThemeManager.S.Colors.Presence.unknown
+            color = Colors.Palette.presenceUnknown.color
         }
 
         return Color(color)

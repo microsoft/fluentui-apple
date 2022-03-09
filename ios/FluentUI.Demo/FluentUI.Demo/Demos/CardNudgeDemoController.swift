@@ -31,6 +31,8 @@ class CardNudgeDemoController: DemoTableViewController {
                                                selector: #selector(updateCardNudgeSize),
                                                name: UIContentSizeCategory.didChangeNotification,
                                                object: nil)
+
+        self.configureAppearancePopover()
     }
 
     // MARK: - Table view data source
@@ -224,6 +226,52 @@ class CardNudgeDemoController: DemoTableViewController {
             case .actionButton:
                 return "Action Button"
             }
+        }
+    }
+}
+
+extension CardNudgeDemoController: DemoAppearanceDelegate {
+    func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
+        guard let fluentTheme = self.view.window?.fluentTheme else {
+            return
+        }
+
+        var tokensClosure: ((CardNudge) -> CardNudgeTokens)?
+        if isOverrideEnabled {
+            tokensClosure = { _ in
+                return ThemeWideOverrideCardNudgeTokens()
+            }
+        }
+
+        fluentTheme.register(controlType: CardNudge.self, tokens: tokensClosure)
+    }
+
+    func perControlOverrideDidChange(isOverrideEnabled: Bool) {
+        self.cardNudges.forEach({ cardNudge in
+            let tokens = isOverrideEnabled ? PerControlOverrideCardNudgeTokens() : nil
+            cardNudge.state.overrideTokens = tokens
+        })
+    }
+
+    func isThemeWideOverrideApplied() -> Bool {
+        return self.view.window?.fluentTheme.tokenOverride(for: CardNudge.self) != nil
+    }
+
+    // MARK: - Custom tokens
+
+    private class ThemeWideOverrideCardNudgeTokens: CardNudgeTokens {
+        override var backgroundColor: DynamicColor {
+            // "Hot Pink"
+            return DynamicColor(light: GlobalTokens().sharedColors[.hotPink][.tint50],
+                                dark: GlobalTokens().sharedColors[.hotPink][.shade40])
+        }
+    }
+
+    private class PerControlOverrideCardNudgeTokens: CardNudgeTokens {
+        override var backgroundColor: DynamicColor {
+            // "Seafoam"
+            return DynamicColor(light: GlobalTokens().sharedColors[.seafoam][.tint50],
+                                dark: GlobalTokens().sharedColors[.seafoam][.shade40])
         }
     }
 }

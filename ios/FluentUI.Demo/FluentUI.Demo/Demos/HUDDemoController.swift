@@ -20,7 +20,7 @@ class HUDDemoController: DemoController {
         container.addArrangedSubview(createButton(title: "Show HUD with updating caption", action: #selector(showUpdateHUD)))
     }
 
-    @objc private func showActivityHUD(sender: UIButton) {
+    @objc private func showActivityHUD() {
         HUD.shared.show(in: view, with: HUDParams(caption: "Loading for 3 seconds"))
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             HUD.shared.hide()

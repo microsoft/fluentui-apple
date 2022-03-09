@@ -5,7 +5,8 @@
 import UIKit
 
 // MARK: SegmentedControl Colors
-public extension Colors {
+
+private extension Colors {
     struct SegmentedControl {
         struct PrimaryPill {
             static let background = UIColor(light: surfaceTertiary, dark: gray950)
@@ -193,7 +194,6 @@ open class SegmentedControl: UIControl {
 
         return view
     }()
-    private let bottomSeparator = Separator()
     private let pillContainerView: UIView = {
         let view = UIView()
         view.layer.cornerCurve = .continuous

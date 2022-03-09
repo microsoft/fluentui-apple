@@ -11,6 +11,10 @@ class DemoTableViewController: UITableViewController {
         super.init(style: .insetGrouped)
     }
 
+    override init(style: UITableView.Style) {
+        super.init(style: style)
+    }
+
     required init?(coder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
     }
@@ -18,7 +22,52 @@ class DemoTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        tableView.backgroundColor = Colors.Table.backgroundGrouped
+        tableView.backgroundColor = Colors.tableBackgroundGrouped
         tableView.separatorStyle = .none
+
+        configureAppearancePopover()
+    }
+
+    func showMessage(_ message: String, autoDismiss: Bool = true, completion: (() -> Void)? = nil) {
+        let alert = UIAlertController(title: message, message: nil, preferredStyle: .alert)
+        present(alert, animated: true)
+
+        if autoDismiss {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self.dismiss(animated: true)
+            }
+        } else {
+            let okAction = UIAlertAction(title: "OK", style: .default) { _ in
+                self.dismiss(animated: true, completion: completion)
+            }
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+            alert.addAction(okAction)
+            alert.addAction(cancelAction)
+        }
+    }
+
+    // MARK: - Demo Appearance Popover
+
+    func configureAppearancePopover() {
+        // Display the DemoAppearancePopover button
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "ic_fluent_settings_24_regular"),
+                                                            style: .plain,
+                                                            target: self,
+                                                            action: #selector(showAppearancePopover))
+    }
+
+    @objc func showAppearancePopover(_ sender: UIBarButtonItem) {
+        appearanceController.popoverPresentationController?.barButtonItem = sender
+        appearanceController.popoverPresentationController?.delegate = self
+        self.present(appearanceController, animated: true, completion: nil)
+    }
+
+    private lazy var appearanceController: DemoAppearanceController = .init(delegate: self as? DemoAppearanceDelegate)
+}
+
+extension DemoTableViewController: UIPopoverPresentationControllerDelegate {
+    /// Overridden to allow for popover-style modal presentation on compact (e.g. iPhone) devices.
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .none
     }
 }

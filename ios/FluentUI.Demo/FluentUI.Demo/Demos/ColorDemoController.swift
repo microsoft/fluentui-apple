@@ -105,7 +105,7 @@ class ColorDemoController: UIViewController {
         tableView.delegate = self
         tableView.separatorStyle = .none
         tableView.allowsSelection = false
-        tableView.backgroundColor = Colors.Table.background
+        tableView.backgroundColor = Colors.tableBackground
 
         let separator = Separator(style: .shadow, orientation: .horizontal)
         let stackView = UIStackView(arrangedSubviews: [segmentedControl, separator, tableView])
@@ -115,7 +115,8 @@ class ColorDemoController: UIViewController {
 
         view = UIView(frame: .zero)
         view.addSubview(stackView)
-        view.backgroundColor = Colors.NavigationBar.background
+
+        view.backgroundColor = Colors.navigationBarBackground
 
         if let currentDemoListViewController = currentDemoListViewController {
             segmentedControl.selectedSegmentIndex = DemoColorTheme.allCases.firstIndex(where: { $0.name == currentDemoListViewController.theme.name }) ?? 0
