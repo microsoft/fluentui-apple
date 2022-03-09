@@ -243,21 +243,15 @@ extension PillButtonBarDemoController: DemoAppearanceDelegate {
 
     private class PerControlOverridePillButtonTokens: PillButtonTokens {
         override var backgroundColor: PillButtonDynamicColors {
-            return .init(rest: DynamicColor(light: ColorValue(r: CGFloat.random(in: 0.25...0.5),
-                                                              g: CGFloat.random(in: 0.25...0.5),
-                                                              b: CGFloat.random(in: 0.25...0.5),
-                                                              a: 0.75)),
-                         selected: DynamicColor(light: ColorValue(r: CGFloat.random(in: 0.75...1),
-                                                                  g: CGFloat.random(in: 0.75...1),
-                                                                  b: CGFloat.random(in: 0.75...1),
-                                                                  a: 1)),
+            return .init(rest: DynamicColor(light: globalTokens.sharedColors[.steel][.tint40], dark: globalTokens.sharedColors[.steel][.shade30]),
+                         selected: DynamicColor(light: globalTokens.sharedColors[.pumpkin][.tint40], dark: globalTokens.sharedColors[.pumpkin][.shade30]),
                          disabled: super.backgroundColor.disabled,
                          selectedDisabled: super.backgroundColor.selectedDisabled)
         }
 
         override var titleColor: PillButtonDynamicColors {
-            return .init(rest: DynamicColor(light: globalTokens.neutralColors[.white]),
-                         selected: DynamicColor(light: globalTokens.neutralColors[.black]),
+            return .init(rest: DynamicColor(light: globalTokens.sharedColors[.steel][.shade30], dark: globalTokens.sharedColors[.steel][.tint40]),
+                         selected: DynamicColor(light: globalTokens.sharedColors[.pumpkin][.shade30], dark: globalTokens.sharedColors[.pumpkin][.tint40]),
                          disabled: super.titleColor.disabled,
                          selectedDisabled: super.titleColor.selectedDisabled)
         }
