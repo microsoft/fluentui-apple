@@ -34,7 +34,7 @@ class SegmentPillButton: UIButton {
     }
 
     private func updateTokenizedValues() {
-        titleLabel?.font = UIFont.fluent(tokens.font)
+        titleLabel?.font = UIFont.fluent(tokens.font, shouldScale: false)
         let verticalInset = tokens.verticalInset
         let horizontalInset = tokens.horizontalInset
         contentEdgeInsets = UIEdgeInsets(top: verticalInset, left: horizontalInset, bottom: verticalInset, right: horizontalInset)
