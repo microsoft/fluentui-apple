@@ -40,36 +40,4 @@ open class AvatarGroupTokens: ControlTokens {
             }
         }
     }
-
-    /// CGFloat that defines the thickness of the space between the `Avatar` and its ring.
-    open var ringInnerGap: CGFloat {
-        switch size {
-        case .xsmall, .small, .medium, .large, .xlarge:
-            return globalTokens.borderSize[.thick]
-        case .xxlarge:
-            return globalTokens.borderSize[.thicker]
-        }
-    }
-
-    /// CGFloat that defines the thickness of the ring around the `Avatar`.
-    open var ringThickness: CGFloat {
-        switch size {
-        case .xsmall, .small:
-            return globalTokens.borderSize[.thin]
-        case .medium, .large, .xlarge:
-            return globalTokens.borderSize[.thick]
-        case .xxlarge:
-            return globalTokens.borderSize[.thicker]
-        }
-    }
-
-    /// CGFloat that defines the thickness of the space around the ring of the `Avatar`.
-    open var ringOuterGap: CGFloat {
-        switch size {
-        case .xsmall, .small, .medium, .large, .xlarge:
-            return globalTokens.borderSize[.thick]
-        case .xxlarge:
-            return globalTokens.borderSize[.thicker]
-        }
-    }
 }

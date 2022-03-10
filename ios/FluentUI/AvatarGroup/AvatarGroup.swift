@@ -114,13 +114,14 @@ public struct AvatarGroup: View, ConfigurableTokenizedControl {
         let hasOverflow: Bool = overflowCount > 0
         let isStackStyle = tokens.style == .stack
 
-        let interspace: CGFloat = tokens.interspace
-        let ringOuterGap: CGFloat = tokens.ringOuterGap
-        let ringGapOffset: CGFloat = ringOuterGap * 2
-        let ringOffset: CGFloat = tokens.ringThickness + tokens.ringInnerGap + tokens.ringOuterGap
-
         let overflowAvatar = createOverflow(count: overflowCount)
         let imageSize: CGFloat = overflowAvatar.contentSize
+
+        let interspace: CGFloat = tokens.interspace
+        let avatarTokens = overflowAvatar.tokens
+        let ringOuterGap: CGFloat = avatarTokens.ringOuterGap
+        let ringGapOffset: CGFloat = ringOuterGap * 2
+        let ringOffset: CGFloat = avatarTokens.ringThickness + avatarTokens.ringInnerGap + avatarTokens.ringOuterGap
         let groupHeight: CGFloat = imageSize + (ringOffset * 2)
 
         @ViewBuilder
