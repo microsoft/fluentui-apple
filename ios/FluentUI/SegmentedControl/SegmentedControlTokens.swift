@@ -100,6 +100,11 @@ open class SegmentedControlTokens: ControlTokens {
         }
     }
 
+    /// The color of the unread dot when the `SegmentedControl` is disabled.
+    open var disabledUnreadDotColor: DynamicColor {
+        return disabledLabelColor
+    }
+
     /// The distance of the content from the top and bottom of the `SegmentedControl`.
     open var verticalInset: CGFloat { 6.0 }
 

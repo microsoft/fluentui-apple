@@ -94,7 +94,7 @@ class SegmentPillButton: UIButton {
                 xPos = anchor.minX - tokens.unreadDotOffsetX - tokens.unreadDotSize
             }
             unreadDotLayer.frame.origin = CGPoint(x: xPos, y: anchor.minY + tokens.unreadDotOffsetY)
-            let unreadDotColor = isEnabled ? tokens.enabledUnreadDotColor : tokens.disabledLabelColor
+            let unreadDotColor = isEnabled ? tokens.enabledUnreadDotColor : tokens.disabledUnreadDotColor
             unreadDotLayer.backgroundColor = UIColor(dynamicColor: unreadDotColor).cgColor
         }
     }
