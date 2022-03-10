@@ -14,9 +14,11 @@ open class SegmentedControlTokens: ControlTokens {
     open var restTabColor: DynamicColor {
         switch style {
         case .primaryPill:
-            return DynamicColor(light: aliasTokens.backgroundColors[.neutral4].light, dark: aliasTokens.backgroundColors[.neutral3].dark)
+            return DynamicColor(light: aliasTokens.backgroundColors[.neutral4].light,
+                                dark: aliasTokens.backgroundColors[.neutral3].dark)
         case .onBrandPill:
-            return DynamicColor(light: aliasTokens.backgroundColors[.brandHover].light, dark: aliasTokens.backgroundColors[.neutral3].dark)
+            return DynamicColor(light: aliasTokens.backgroundColors[.brandHover].light,
+                                dark: aliasTokens.backgroundColors[.neutral3].dark)
         }
     }
 
@@ -26,7 +28,8 @@ open class SegmentedControlTokens: ControlTokens {
         case .primaryPill:
             return aliasTokens.foregroundColors[.brandRest]
         case .onBrandPill:
-            return DynamicColor(light: aliasTokens.backgroundColors[.neutral1].light, dark: globalTokens.neutralColors[.grey32])
+            return DynamicColor(light: aliasTokens.backgroundColors[.neutral1].light,
+                                dark: globalTokens.neutralColors[.grey32])
         }
     }
 
@@ -34,9 +37,11 @@ open class SegmentedControlTokens: ControlTokens {
     open var disabledTabColor: DynamicColor {
         switch style {
         case .primaryPill:
-            return DynamicColor(light: globalTokens.neutralColors[.grey94], dark: globalTokens.neutralColors[.grey8])
+            return DynamicColor(light: globalTokens.neutralColors[.grey94],
+                                dark: globalTokens.neutralColors[.grey8])
         case .onBrandPill:
-            return DynamicColor(light: globalTokens.brandColors[.shade20].light, dark: globalTokens.neutralColors[.grey8])
+            return DynamicColor(light: globalTokens.brandColors[.shade20].light,
+                                dark: globalTokens.neutralColors[.grey8])
         }
     }
 
@@ -44,9 +49,11 @@ open class SegmentedControlTokens: ControlTokens {
     open var disabledSelectedTabColor: DynamicColor {
         switch style {
         case .primaryPill:
-            return DynamicColor(light: globalTokens.neutralColors[.grey80], dark: globalTokens.neutralColors[.grey30])
+            return DynamicColor(light: globalTokens.neutralColors[.grey80],
+                                dark: globalTokens.neutralColors[.grey30])
         case .onBrandPill:
-            return DynamicColor(light: globalTokens.neutralColors[.white], dark: globalTokens.neutralColors[.grey30])
+            return DynamicColor(light: globalTokens.neutralColors[.white],
+                                dark: globalTokens.neutralColors[.grey30])
         }
     }
 
@@ -54,9 +61,11 @@ open class SegmentedControlTokens: ControlTokens {
     open var restLabelColor: DynamicColor {
         switch style {
         case .primaryPill:
-            return DynamicColor(light: aliasTokens.foregroundColors[.neutral3].light, dark: aliasTokens.foregroundColors[.neutral2].dark)
+            return DynamicColor(light: aliasTokens.foregroundColors[.neutral3].light,
+                                dark: aliasTokens.foregroundColors[.neutral2].dark)
         case .onBrandPill:
-            return DynamicColor(light: aliasTokens.foregroundColors[.neutralInverted].light, dark: aliasTokens.foregroundColors[.neutral2].dark)
+            return DynamicColor(light: aliasTokens.foregroundColors[.neutralInverted].light,
+                                dark: aliasTokens.foregroundColors[.neutral2].dark)
         }
     }
 
@@ -64,9 +73,11 @@ open class SegmentedControlTokens: ControlTokens {
     open var selectedLabelColor: DynamicColor {
         switch style {
         case .primaryPill:
-            return DynamicColor(light: aliasTokens.backgroundColors[.neutral1].light, dark: aliasTokens.foregroundColors[.neutralInverted].dark)
+            return DynamicColor(light: aliasTokens.backgroundColors[.neutral1].light,
+                                dark: aliasTokens.foregroundColors[.neutralInverted].dark)
         case .onBrandPill:
-            return DynamicColor(light: aliasTokens.foregroundColors[.brandRest].light, dark: aliasTokens.foregroundColors[.neutral1].dark)
+            return DynamicColor(light: aliasTokens.foregroundColors[.brandRest].light,
+                                dark: aliasTokens.foregroundColors[.neutral1].dark)
         }
     }
 
@@ -74,9 +85,11 @@ open class SegmentedControlTokens: ControlTokens {
     open var disabledLabelColor: DynamicColor {
         switch style {
         case .primaryPill:
-            return DynamicColor(light: globalTokens.neutralColors[.grey70], dark: globalTokens.neutralColors[.grey26])
+            return DynamicColor(light: globalTokens.neutralColors[.grey70],
+                                dark: globalTokens.neutralColors[.grey26])
         case .onBrandPill:
-            return DynamicColor(light: globalTokens.brandColors[.shade10].light, dark: globalTokens.neutralColors[.grey26])
+            return DynamicColor(light: globalTokens.brandColors[.shade10].light,
+                                dark: globalTokens.neutralColors[.grey26])
         }
     }
 
@@ -84,9 +97,11 @@ open class SegmentedControlTokens: ControlTokens {
     open var disabledSelectedLabelColor: DynamicColor {
         switch style {
         case .primaryPill:
-            return DynamicColor(light: globalTokens.neutralColors[.grey94], dark: globalTokens.neutralColors[.grey44])
+            return DynamicColor(light: globalTokens.neutralColors[.grey94],
+                                dark: globalTokens.neutralColors[.grey44])
         case .onBrandPill:
-            return DynamicColor(light: globalTokens.neutralColors[.grey74], dark: globalTokens.neutralColors[.grey44])
+            return DynamicColor(light: globalTokens.neutralColors[.grey74],
+                                dark: globalTokens.neutralColors[.grey44])
         }
     }
 
@@ -96,7 +111,8 @@ open class SegmentedControlTokens: ControlTokens {
         case .primaryPill:
             return aliasTokens.foregroundColors[.brandRest]
         case .onBrandPill:
-            return DynamicColor(light: aliasTokens.foregroundColors[.neutralInverted].light, dark: aliasTokens.foregroundColors[.neutral2].dark)
+            return DynamicColor(light: aliasTokens.foregroundColors[.neutralInverted].light,
+                                dark: aliasTokens.foregroundColors[.neutral2].dark)
         }
     }
 

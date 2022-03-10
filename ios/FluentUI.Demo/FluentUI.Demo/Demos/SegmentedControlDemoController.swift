@@ -29,32 +29,42 @@ class SegmentedControlDemoController: DemoController {
 
         addTitle(text: "Primary Pill")
 
-        addPillControl(items: Array(segmentItems.prefix(3)), style: .primaryPill)
+        addPillControl(items: Array(segmentItems.prefix(3)),
+                       style: .primaryPill)
         container.addArrangedSubview(UIView())
 
         addTitle(text: "Primary Pill with unequal buttons")
 
-        addPillControl(items: Array(segmentItems.prefix(2)), style: .primaryPill, equalSegments: false)
+        addPillControl(items: Array(segmentItems.prefix(2)),
+                       style: .primaryPill,
+                       equalSegments: false)
         container.addArrangedSubview(UIView())
 
         addTitle(text: "Disabled Primary Pill")
 
-        addPillControl(items: Array(segmentItems.prefix(2)), style: .primaryPill, enabled: false)
+        addPillControl(items: Array(segmentItems.prefix(2)),
+                       style: .primaryPill,
+                       enabled: false)
         container.addArrangedSubview(UIView())
 
         addTitle(text: "On Brand Pill")
 
-        addPillControl(items: Array(segmentItems.prefix(4)), style: .onBrandPill)
+        addPillControl(items: Array(segmentItems.prefix(4)),
+                       style: .onBrandPill)
         container.addArrangedSubview(UIView())
 
         addTitle(text: "On Brand Pill with unequal buttons")
 
-        addPillControl(items: Array(segmentItems.prefix(2)), style: .onBrandPill, equalSegments: false)
+        addPillControl(items: Array(segmentItems.prefix(2)),
+                       style: .onBrandPill,
+                       equalSegments: false)
         container.addArrangedSubview(UIView())
 
         addTitle(text: "Disabled On Brand Pill")
 
-        addPillControl(items: Array(segmentItems.prefix(2)), style: .onBrandPill, enabled: false)
+        addPillControl(items: Array(segmentItems.prefix(2)),
+                       style: .onBrandPill,
+                       enabled: false)
     }
 
     @objc func updateLabel(forControl control: SegmentedControl) {
@@ -65,7 +75,9 @@ class SegmentedControlDemoController: DemoController {
         let pillControl = SegmentedControl(items: items, style: style)
         pillControl.shouldSetEqualWidthForSegments = equalSegments
         pillControl.isEnabled = enabled
-        pillControl.addTarget(self, action: #selector(updateLabel(forControl:)), for: .valueChanged)
+        pillControl.addTarget(self,
+                              action: #selector(updateLabel(forControl:)),
+                              for: .valueChanged)
 
         let backgroundView = BackgroundView(style: style)
         segmentedControls.append(pillControl)
@@ -75,8 +87,10 @@ class SegmentedControlDemoController: DemoController {
         backgroundView.addSubview(pillControl)
         container.addArrangedSubview(backgroundView)
         let margins = UIEdgeInsets(top: 16.0, left: 0, bottom: 16.0, right: 0)
-        var constraints = [backgroundView.topAnchor.constraint(equalTo: pillControl.topAnchor, constant: -margins.top),
-                           backgroundView.bottomAnchor.constraint(equalTo: pillControl.bottomAnchor, constant: margins.bottom)]
+        var constraints = [backgroundView.topAnchor.constraint(equalTo: pillControl.topAnchor,
+                                                               constant: -margins.top),
+                           backgroundView.bottomAnchor.constraint(equalTo: pillControl.bottomAnchor,
+                                                                  constant: margins.bottom)]
         if equalSegments {
             constraints.append(pillControl.centerXAnchor.constraint(equalTo: backgroundView.centerXAnchor))
         }

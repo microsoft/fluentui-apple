@@ -222,7 +222,8 @@ open class SegmentedControl: UIControl, TokenizedControlInternal {
     ///   - index: The index of the segment to set as selected
     ///   - animated: Whether or not to animate the change in selected segment
     @objc open func selectSegment(at index: Int, animated: Bool) {
-        precondition(index >= 0 && index < buttons.count, "SegmentedControl > try to selected segment index with invalid index: \(index)")
+        precondition(index >= 0 && index < buttons.count,
+                     "SegmentedControl > try to selected segment index with invalid index: \(index)")
 
         if index == _selectedSegmentIndex {
             return
@@ -239,7 +240,10 @@ open class SegmentedControl: UIControl, TokenizedControlInternal {
 
         if animated {
             isAnimating = true
-            UIView.animate(withDuration: selectionChangeAnimationDuration, delay: 0, options: [.curveEaseOut, .beginFromCurrentState], animations: {
+            UIView.animate(withDuration: selectionChangeAnimationDuration,
+                           delay: 0,
+                           options: [.curveEaseOut, .beginFromCurrentState],
+                           animations: {
                 self.layoutSelectionView()
             }, completion: { _ in
                 self.isAnimating = false
@@ -263,10 +267,14 @@ open class SegmentedControl: UIControl, TokenizedControlInternal {
             if shouldSetEqualWidthForSegments {
                 rightOffset = screen.roundToDevicePixels(CGFloat(index + 1) / CGFloat(buttons.count) * pillContainerView.frame.width)
             } else {
-                let maxSize = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
+                let maxSize = CGSize(width: CGFloat.greatestFiniteMagnitude,
+                                     height: CGFloat.greatestFiniteMagnitude)
                 rightOffset = leftOffset + screen.roundToDevicePixels(button.sizeThatFits(maxSize).width)
             }
-            button.frame = CGRect(x: leftOffset, y: 0, width: rightOffset - leftOffset, height: pillContainerView.frame.height)
+            button.frame = CGRect(x: leftOffset,
+                                  y: 0,
+                                  width: rightOffset - leftOffset,
+                                  height: pillContainerView.frame.height)
             leftOffset = rightOffset
         }
 
@@ -278,7 +286,8 @@ open class SegmentedControl: UIControl, TokenizedControlInternal {
     }
 
     open override var intrinsicContentSize: CGSize {
-        return sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
+        return sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude,
+                                   height: CGFloat.greatestFiniteMagnitude))
     }
 
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -325,7 +334,8 @@ open class SegmentedControl: UIControl, TokenizedControlInternal {
         }
         maxButtonHeight += (contentInset.top + contentInset.bottom)
 
-        return CGSize(width: min(maxButtonWidth, size.width), height: min(maxButtonHeight, size.height))
+        return CGSize(width: min(maxButtonWidth, size.width),
+                      height: min(maxButtonHeight, size.height))
     }
 
     open override func didMoveToWindow() {
@@ -425,10 +435,14 @@ open class SegmentedControl: UIControl, TokenizedControlInternal {
         pillContainerView.translatesAutoresizingMaskIntoConstraints = false
         pillMaskedLabelsContainerView.translatesAutoresizingMaskIntoConstraints = false
 
-        let pillContainerViewTopConstraint = pillContainerView.topAnchor.constraint(equalTo: topAnchor, constant: contentInset.top)
-        let pillContainerViewBottomConstraint = pillContainerView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -contentInset.bottom)
-        let pillContainerViewLeadingConstraint = pillContainerView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: contentInset.leading)
-        let pillContainerViewTrailingConstraint = pillContainerView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -contentInset.trailing)
+        let pillContainerViewTopConstraint = pillContainerView.topAnchor.constraint(equalTo: topAnchor,
+                                                                                    constant: contentInset.top)
+        let pillContainerViewBottomConstraint = pillContainerView.bottomAnchor.constraint(equalTo: bottomAnchor,
+                                                                                          constant: -contentInset.bottom)
+        let pillContainerViewLeadingConstraint = pillContainerView.leadingAnchor.constraint(equalTo: leadingAnchor,
+                                                                                            constant: contentInset.leading)
+        let pillContainerViewTrailingConstraint = pillContainerView.trailingAnchor.constraint(equalTo: trailingAnchor,
+                                                                                              constant: -contentInset.trailing)
         self.pillContainerViewTopConstraint = pillContainerViewTopConstraint
         self.pillContainerViewBottomConstraint = pillContainerViewBottomConstraint
         self.pillContainerViewLeadingConstraint = pillContainerViewLeadingConstraint
@@ -482,7 +496,8 @@ open class SegmentedControl: UIControl, TokenizedControlInternal {
 
     private func updateAccessibilityHints() {
         for (index, button) in buttons.enumerated() {
-            button.accessibilityHint = String.localizedStringWithFormat("Accessibility.MSPillButtonBar.Hint".localized, index + 1, items.count)
+            button.accessibilityHint = String.localizedStringWithFormat("Accessibility.MSPillButtonBar.Hint".localized,
+                                                                        index + 1, items.count)
         }
     }
 }

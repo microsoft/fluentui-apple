@@ -37,7 +37,10 @@ class SegmentPillButton: UIButton {
         titleLabel?.font = UIFont.fluent(tokens.font, shouldScale: false)
         let verticalInset = tokens.verticalInset
         let horizontalInset = tokens.horizontalInset
-        contentEdgeInsets = UIEdgeInsets(top: verticalInset, left: horizontalInset, bottom: verticalInset, right: horizontalInset)
+        contentEdgeInsets = UIEdgeInsets(top: verticalInset,
+                                         left: horizontalInset,
+                                         bottom: verticalInset,
+                                         right: horizontalInset)
     }
 
     init(withItem item: SegmentItem, tokens: SegmentedControlTokens) {
