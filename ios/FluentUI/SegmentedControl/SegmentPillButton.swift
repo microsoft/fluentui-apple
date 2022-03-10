@@ -70,15 +70,13 @@ class SegmentPillButton: UIButton {
 
     private let item: SegmentItem
 
-    private func initUnreadDotLayer() -> CALayer {
+    private lazy var unreadDotLayer: CALayer = {
         let unreadDotLayer = CALayer()
         let unreadDotSize = tokens.unreadDotSize
         unreadDotLayer.bounds.size = CGSize(width: unreadDotSize, height: unreadDotSize)
         unreadDotLayer.cornerRadius = unreadDotSize / 2
         return unreadDotLayer
-    }
-
-    private lazy var unreadDotLayer: CALayer = initUnreadDotLayer()
+    }()
 
     @objc private func isUnreadValueDidChange() {
         isUnreadDotVisible = item.isUnread
