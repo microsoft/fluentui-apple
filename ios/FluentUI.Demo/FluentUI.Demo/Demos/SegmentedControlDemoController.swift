@@ -159,8 +159,8 @@ class BackgroundView: UIView {
     }
 
     func updateBackgroundColor() {
-        var lightColor: UIColor
-        var darkColor: UIColor
+        let lightColor: UIColor
+        let darkColor: UIColor
         switch style {
         case .primaryPill:
             if let fluentTheme = window?.fluentTheme {
