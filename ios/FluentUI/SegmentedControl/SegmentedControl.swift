@@ -462,12 +462,12 @@ open class SegmentedControl: UIControl, TokenizedControlInternal {
     }
 
     @objc private func themeDidChange(_ notification: Notification) {
-        if let window = self.window,
-           window.isEqual(notification.object) {
-            updateSegmentedControlTokens()
-            updateColors()
-            updateButtons()
+        guard let window = window, window.isEqual(notification.object) else {
+            return
         }
+        updateSegmentedControlTokens()
+        updateColors()
+        updateButtons()
     }
 
     private func layoutSelectionView() {
