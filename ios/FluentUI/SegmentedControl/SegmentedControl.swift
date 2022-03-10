@@ -143,14 +143,22 @@ open class SegmentedControl: UIControl, TokenizedControlInternal {
     }
 
     public func updateColors() {
-        pillMaskedLabelsContainerView.backgroundColor = isEnabled ? UIColor(dynamicColor: tokens.selectedTabColor) : UIColor(dynamicColor: tokens.disabledSelectedTabColor)
-        backgroundView.backgroundColor = isEnabled ? UIColor(dynamicColor: tokens.restTabColor) : UIColor(dynamicColor: tokens.disabledTabColor)
+        let tabColor: DynamicColor
+        let selectedTabColor: DynamicColor
+        let selectedLabelColor: DynamicColor
+        if isEnabled {
+            tabColor = tokens.restTabColor
+            selectedTabColor = tokens.selectedTabColor
+            selectedLabelColor = tokens.selectedLabelColor
+        } else {
+            tabColor = tokens.disabledTabColor
+            selectedTabColor = tokens.disabledSelectedTabColor
+            selectedLabelColor = tokens.disabledSelectedLabelColor
+        }
+        backgroundView.backgroundColor = UIColor(dynamicColor: tabColor)
+        pillMaskedLabelsContainerView.backgroundColor = UIColor(dynamicColor: selectedTabColor)
         for maskedLabel in pillMaskedLabels {
-            if isEnabled {
-                maskedLabel.textColor = UIColor(dynamicColor: tokens.selectedLabelColor)
-            } else {
-                maskedLabel.textColor = UIColor(dynamicColor: tokens.disabledSelectedLabelColor)
-            }
+            maskedLabel.textColor = UIColor(dynamicColor: selectedLabelColor)
         }
     }
 
@@ -361,11 +369,8 @@ open class SegmentedControl: UIControl, TokenizedControlInternal {
     private func updateButtons() {
         for (index, button) in buttons.enumerated() {
             button.tokens = tokens
-            if isEnabled {
-                button.setTitleColor(UIColor(dynamicColor: tokens.restLabelColor), for: .normal)
-            } else {
-                button.setTitleColor(UIColor(dynamicColor: tokens.disabledLabelColor), for: .normal)
-            }
+            let labelColor = isEnabled ? tokens.restLabelColor : tokens.disabledLabelColor
+            button.setTitleColor(UIColor(dynamicColor: labelColor), for: .normal)
             pillMaskedLabels[index].font = button.titleLabel?.font
         }
     }
