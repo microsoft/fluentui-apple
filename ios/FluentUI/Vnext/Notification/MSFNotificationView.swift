@@ -7,7 +7,7 @@ import SwiftUI
 import UIKit
 
 /// UIKit wrapper that exposes the SwiftUI `Notification` implementation
-@objc public class MSFNotification: ControlHostingContainer {
+@objc open class MSFNotification: ControlHostingContainer {
 
     /// Creates a new MSFNotification instance.
     /// - Parameters:
