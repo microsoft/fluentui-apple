@@ -7,7 +7,7 @@ import UIKit
 import SwiftUI
 
 /// UIKit wrapper that exposes the SwiftUI List implementation
-@objc public class MSFList: ControlHostingContainer {
+@objc open class MSFList: ControlHostingContainer {
 
     @objc public init() {
         let list = FluentList()

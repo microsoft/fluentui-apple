@@ -7,7 +7,7 @@ import UIKit
 import SwiftUI
 
 /// UIKit wrapper that exposes the SwiftUI Avatar implementation.
-@objc public class MSFAvatar: ControlHostingContainer {
+@objc open class MSFAvatar: ControlHostingContainer {
 
     /// Creates a new MSFAvatar instance.
     /// - Parameters:
