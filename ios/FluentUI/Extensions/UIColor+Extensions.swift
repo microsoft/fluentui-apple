@@ -24,14 +24,14 @@ extension UIColor {
     /// - Parameter darkHighContrast: The override color for a dark, high contrast context. Optional.
     /// - Parameter darkElevated: The override color for a dark, elevated context. Optional.
     /// - Parameter darkElevatedHighContrast: The override color for a dark, elevated, high contrast context. Optional.
-    public convenience init(light: UIColor,
-                            lightHighContrast: UIColor? = nil,
-                            lightElevated: UIColor? = nil,
-                            lightElevatedHighContrast: UIColor? = nil,
-                            dark: UIColor? = nil,
-                            darkHighContrast: UIColor? = nil,
-                            darkElevated: UIColor? = nil,
-                            darkElevatedHighContrast: UIColor? = nil) {
+    @objc public convenience init(light: UIColor,
+                                  lightHighContrast: UIColor? = nil,
+                                  lightElevated: UIColor? = nil,
+                                  lightElevatedHighContrast: UIColor? = nil,
+                                  dark: UIColor? = nil,
+                                  darkHighContrast: UIColor? = nil,
+                                  darkElevated: UIColor? = nil,
+                                  darkElevatedHighContrast: UIColor? = nil) {
         self.init { traits -> UIColor in
             let getColorForContrast = { (_ default: UIColor?, highContrast: UIColor?) -> UIColor? in
                 if traits.accessibilityContrast == .high, let color = highContrast {
