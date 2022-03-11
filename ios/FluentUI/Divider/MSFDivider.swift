@@ -7,7 +7,7 @@ import UIKit
 import SwiftUI
 
 /// UIKit wrapper that exposes the SwiftUI Divider implementation.
-@objc public class MSFDivider: ControlHostingContainer {
+@objc open class MSFDivider: ControlHostingContainer {
     /// Creates a new MSFDivider instance.
     ///  - Parameters:
     ///   - orientation: The DividerOrientation used by the Divider.
