@@ -127,6 +127,7 @@ public struct AvatarGroup: View, ConfigurableTokenizedControl {
                 avatarMaxHeight = 0
             }
 
+            // Use the overflow tokens as a default in case we have no Avatars to show
             let overflowTokens = overflowAvatar.tokens
             let overflowMaxHeight = overflowTokens.avatarSize + 2 * (overflowTokens.ringThickness + overflowTokens.ringInnerGap + overflowTokens.ringOuterGap)
 
