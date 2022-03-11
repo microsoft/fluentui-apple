@@ -114,14 +114,25 @@ public struct AvatarGroup: View, ConfigurableTokenizedControl {
         let hasOverflow: Bool = overflowCount > 0
         let isStackStyle = tokens.style == .stack
 
-        let interspace: CGFloat = tokens.interspace
-        let ringOuterGap: CGFloat = tokens.ringOuterGap
-        let ringGapOffset: CGFloat = ringOuterGap * 2
-        let ringOffset: CGFloat = tokens.ringThickness + tokens.ringInnerGap + tokens.ringOuterGap
-
         let overflowAvatar = createOverflow(count: overflowCount)
-        let imageSize: CGFloat = overflowAvatar.contentSize
-        let groupHeight: CGFloat = imageSize + (ringOffset * 2)
+
+        let interspace: CGFloat = tokens.interspace
+
+        let groupHeight: CGFloat = {
+            let avatarMaxHeight: CGFloat
+            if let avatar = avatarViews.first {
+                let avatarTokens = avatar.tokens
+                avatarMaxHeight = avatarTokens.avatarSize + 2 * (avatarTokens.ringThickness + avatarTokens.ringInnerGap + avatarTokens.ringOuterGap)
+            } else {
+                avatarMaxHeight = 0
+            }
+
+            // Use the overflow tokens as a default in case we have no Avatars to show
+            let overflowTokens = overflowAvatar.tokens
+            let overflowMaxHeight = overflowTokens.avatarSize + 2 * (overflowTokens.ringThickness + overflowTokens.ringInnerGap + overflowTokens.ringOuterGap)
+
+            return max(avatarMaxHeight, overflowMaxHeight)
+        }()
 
         @ViewBuilder
         var avatarGroupContent: some View {
@@ -133,7 +144,7 @@ public struct AvatarGroup: View, ConfigurableTokenizedControl {
                     let avatarView = avatarViews[index]
                     let needsCutout = isStackStyle && (hasOverflow || !isLastDisplayed)
                     let avatarSize: CGFloat = avatarView.totalSize
-                    let nextAvatarSize: CGFloat = needsCutout ? avatarViews[nextIndex].totalSize : 0
+                    let nextAvatarSize: CGFloat = isLastDisplayed ? overflowAvatar.totalSize : avatarViews[nextIndex].totalSize
 
                     // Calculating the size delta of the current and next avatar based off of ring visibility, which helps determine
                     // starting coordinates for the cutout.
@@ -141,18 +152,21 @@ public struct AvatarGroup: View, ConfigurableTokenizedControl {
                     let nextAvatarHasRing = !isLastDisplayed ? avatars[nextIndex].isRingVisible : false
 
                     // Calculating the different interspace scenarios considering rings.
+                    let currentTokens = avatarView.tokens
+                    let ringOuterGap = currentTokens.ringOuterGap
+                    let ringOffset = currentTokens.ringInnerGap + currentTokens.ringThickness + ringOuterGap
                     let stackPadding = interspace - (currentAvatarHasRing ? ringOffset : 0) - (nextAvatarHasRing ? ringOuterGap : 0)
 
                     // Finalized calculations for x and y coordinates of the Avatar if it needs a cutout, including RTL.
-                    let cutoutSize = isLastDisplayed ? ringGapOffset + imageSize : nextAvatarSize
+                    let ringGapOffset = 2 * ringOuterGap
                     let xOrigin: CGFloat = {
                         if layoutDirection == .rightToLeft {
-                            return -cutoutSize - interspace + ringOuterGap + (currentAvatarHasRing ? ringOffset : 0)
+                            return -nextAvatarSize - interspace + ringOuterGap + (currentAvatarHasRing ? ringOffset : 0)
                         }
                         return avatarSize + interspace - ringGapOffset - ringOuterGap - (currentAvatarHasRing ? ringOuterGap : 0)
                     }()
 
-                    let sizeDiff = avatarSize - cutoutSize - (currentAvatarHasRing ? 0 : ringGapOffset)
+                    let sizeDiff = avatarSize - nextAvatarSize - (currentAvatarHasRing ? 0 : ringGapOffset)
                     let yOrigin = sizeDiff / 2
 
                     // Hand the rendering of the avatar to a helper function to appease Swift's
@@ -163,7 +177,7 @@ public struct AvatarGroup: View, ConfigurableTokenizedControl {
                             .modifyIf(needsCutout, { view in
                                 view.clipShape(CircleCutout(xOrigin: xOrigin,
                                                             yOrigin: yOrigin,
-                                                            cutoutSize: cutoutSize),
+                                                            cutoutSize: nextAvatarSize),
                                                style: FillStyle(eoFill: true))
                             })
                     }
