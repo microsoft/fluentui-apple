@@ -293,7 +293,7 @@ struct MSFListCellView: View {
                 }
             }, label: {
                 HStack(spacing: 0) {
-                    let hasTitle: Bool = !state.title.isEmpty
+                    let title = state.title
                     let labelAccessoryInterspace: CGFloat = tokens.labelAccessoryInterspace
                     let labelAccessorySize: CGFloat = tokens.labelAccessorySize
                     let sublabelAccessorySize: CGFloat = tokens.sublabelAccessorySize
@@ -315,8 +315,9 @@ struct MSFListCellView: View {
                                     .frame(width: labelAccessorySize, height: labelAccessorySize)
                                     .padding(.trailing, labelAccessoryInterspace)
                             }
-                            if hasTitle {
-                                Text(state.title)
+                            if !title.isEmpty {
+                                Text(title)
+                                    .animation(nil, value: title)
                                     .scalableFont(font: tokens.labelFont)
                                     .foregroundColor(Color(tokens.labelColor))
                                     .lineLimit(state.titleLineLimit == 0 ? nil : state.titleLineLimit)
