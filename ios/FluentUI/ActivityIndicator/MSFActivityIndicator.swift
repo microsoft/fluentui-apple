@@ -7,7 +7,7 @@ import SwiftUI
 import UIKit
 
 /// UIKit wrapper that exposes the SwiftUI Activity Indicator implementation
-@objc public class MSFActivityIndicator: ControlHostingContainer {
+@objc open class MSFActivityIndicator: ControlHostingContainer {
 
     /// Creates a new MSFActivityIndicator instance.
     /// - Parameters:

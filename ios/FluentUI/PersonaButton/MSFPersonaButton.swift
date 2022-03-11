@@ -7,7 +7,7 @@ import SwiftUI
 import UIKit
 
 /// UIKit wrapper that exposes the SwiftUI PersonaButton implementation
-@objc public class MSFPersonaButton: ControlHostingContainer {
+@objc open class MSFPersonaButton: ControlHostingContainer {
 
     /// Creates a new MSFPersonaButton instance.
     /// - Parameters:
