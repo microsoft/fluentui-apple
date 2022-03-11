@@ -167,7 +167,7 @@ class ColorDemoController: UIViewController {
                 colorView.updateBackgroundColor()
             }
         }
-        segmentedControl.updateWindowSpecificColors()
+        segmentedControl.updateColors()
     }
 
     private let tableView = UITableView(frame: .zero, style: .grouped)

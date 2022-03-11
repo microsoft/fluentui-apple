@@ -33,7 +33,8 @@ struct Demos {
         DemoDescriptor("List", ListDemoController.self),
         DemoDescriptor("NotificationView", NotificationViewDemoController.self),
         DemoDescriptor("PersonaButtonCarousel", PersonaButtonCarouselDemoController.self),
-        DemoDescriptor("PillButtonBar", PillButtonBarDemoController.self)
+        DemoDescriptor("PillButtonBar", PillButtonBarDemoController.self),
+        DemoDescriptor("SegmentedControl", SegmentedControlDemoController.self)
     ]
 
     static let controls: [DemoDescriptor] = [
@@ -53,7 +54,6 @@ struct Demos {
         DemoDescriptor("PersonaListView", PersonaListViewDemoController.self),
         DemoDescriptor("PopupMenuController", PopupMenuDemoController.self),
         DemoDescriptor("SearchBar", SearchBarDemoController.self),
-        DemoDescriptor("SegmentedControl", SegmentedControlDemoController.self),
         DemoDescriptor("ShimmerView", ShimmerViewDemoController.self),
         DemoDescriptor("SideTabBar", SideTabBarDemoController.self),
         DemoDescriptor("TabBarView", TabBarViewDemoController.self),

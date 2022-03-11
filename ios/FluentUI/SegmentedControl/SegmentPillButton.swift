@@ -17,8 +17,6 @@ class SegmentPillButton: UIButton {
         }
     }
 
-    var unreadDotColor: UIColor = Colors.gray100
-
     override var isSelected: Bool {
         didSet {
             if oldValue != isSelected && isSelected == true {
@@ -28,23 +26,40 @@ class SegmentPillButton: UIButton {
         }
     }
 
-    init(withItem item: SegmentItem) {
-        self.item = item
-        super.init(frame: .zero)
+    var tokens: SegmentedControlTokens {
+        didSet {
+            updateTokenizedValues()
+            updateUnreadDot()
+        }
+    }
 
-        self.contentEdgeInsets = Constants.insets
+    private func updateTokenizedValues() {
+        titleLabel?.font = UIFont.fluent(tokens.font, shouldScale: false)
+        let verticalInset = tokens.verticalInset
+        let horizontalInset = tokens.horizontalInset
+        contentEdgeInsets = UIEdgeInsets(top: verticalInset,
+                                         left: horizontalInset,
+                                         bottom: verticalInset,
+                                         right: horizontalInset)
+    }
+
+    init(withItem item: SegmentItem, tokens: SegmentedControlTokens) {
+        self.item = item
+        self.tokens = tokens
+        super.init(frame: .zero)
 
         let title = item.title
         self.setTitle(title, for: .normal)
         self.accessibilityLabel = title
         self.largeContentTitle = title
         self.showsLargeContentViewer = true
-        self.titleLabel?.font = UIFont.systemFont(ofSize: Constants.fontSize)
 
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(isUnreadValueDidChange),
                                                name: SegmentItem.isUnreadValueDidChangeNotification,
                                                object: item)
+
+        updateTokenizedValues()
     }
 
     required init?(coder: NSCoder) {
@@ -58,10 +73,11 @@ class SegmentPillButton: UIButton {
 
     private let item: SegmentItem
 
-    private let unreadDotLayer: CALayer = {
+    private lazy var unreadDotLayer: CALayer = {
         let unreadDotLayer = CALayer()
-        unreadDotLayer.bounds.size = CGSize(width: Constants.unreadDotSize, height: Constants.unreadDotSize)
-        unreadDotLayer.cornerRadius = Constants.unreadDotSize / 2
+        let unreadDotSize = tokens.unreadDotSize
+        unreadDotLayer.bounds.size = CGSize(width: unreadDotSize, height: unreadDotSize)
+        unreadDotLayer.cornerRadius = unreadDotSize / 2
         return unreadDotLayer
     }()
 
@@ -76,19 +92,13 @@ class SegmentPillButton: UIButton {
             let anchor = self.titleLabel?.frame ?? .zero
             let xPos: CGFloat
             if effectiveUserInterfaceLayoutDirection == .leftToRight {
-                xPos = anchor.maxX + Constants.unreadDotOffset.x
+                xPos = anchor.maxX + tokens.unreadDotOffsetX
             } else {
-                xPos = anchor.minX - Constants.unreadDotOffset.x - Constants.unreadDotSize
+                xPos = anchor.minX - tokens.unreadDotOffsetX - tokens.unreadDotSize
             }
-            unreadDotLayer.frame.origin = CGPoint(x: xPos, y: anchor.minY + Constants.unreadDotOffset.y)
-            unreadDotLayer.backgroundColor = unreadDotColor.cgColor
+            unreadDotLayer.frame.origin = CGPoint(x: xPos, y: anchor.minY + tokens.unreadDotOffsetY)
+            let unreadDotColor = isEnabled ? tokens.enabledUnreadDotColor : tokens.disabledUnreadDotColor
+            unreadDotLayer.backgroundColor = UIColor(dynamicColor: unreadDotColor).cgColor
         }
-    }
-
-    private struct Constants {
-        static let fontSize: CGFloat = 16
-        static let unreadDotOffset = CGPoint(x: 6, y: 3)
-        static let unreadDotSize: CGFloat = 6
-        static let insets = UIEdgeInsets(top: 6, left: 16, bottom: 6, right: 16)
     }
 }
