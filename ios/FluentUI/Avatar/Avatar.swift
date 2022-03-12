@@ -336,7 +336,9 @@ public struct Avatar: View {
 
         return avatarBody
             .pointerInteraction(state.hasPointerInteraction)
-            .animation(state.isAnimated ? .linear(duration: animationDuration) : .none)
+            .modifyIf(state.isAnimated, { thisView in
+                thisView.animation(.linear(duration: animationDuration))
+            })
             .accessibilityElement(children: .ignore)
             .accessibility(addTraits: state.hasButtonAccessibilityTrait ? .isButton : .isImage)
             .accessibility(label: Text(accessibilityLabel))
