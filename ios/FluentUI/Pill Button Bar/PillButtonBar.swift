@@ -105,6 +105,11 @@ open class PillButtonBar: UIScrollView, TokenizedControlInternal {
 
         let pointerInteraction = UIPointerInteraction(delegate: self)
         addInteraction(pointerInteraction)
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -483,6 +488,14 @@ open class PillButtonBar: UIScrollView, TokenizedControlInternal {
         for button in buttons {
             button.overrideTokens = pillButtonOverrideTokens
         }
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        guard let window = window, window.isEqual(notification.object) else {
+            return
+        }
+        updatePillButtonBarTokens()
+        updatePillButtonTokens()
     }
 
     private var leadingConstraint: NSLayoutConstraint?
