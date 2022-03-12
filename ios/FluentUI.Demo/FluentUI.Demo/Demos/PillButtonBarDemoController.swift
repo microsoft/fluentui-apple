@@ -95,10 +95,6 @@ class PillButtonBarDemoController: DemoController {
             items.forEach { bar.disableItem($0) }
         }
 
-//        let backgroundView = UIView()
-//        if style == .primary {
-//            backgroundView.backgroundColor = Colors.navigationBarBackground
-//        }
         let backgroundStyle: ColoredBackgroundStyle = {
             switch style {
             case .primary:
