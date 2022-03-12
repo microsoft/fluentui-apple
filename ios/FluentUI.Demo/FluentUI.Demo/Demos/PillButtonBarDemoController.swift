@@ -95,10 +95,19 @@ class PillButtonBarDemoController: DemoController {
             items.forEach { bar.disableItem($0) }
         }
 
-        let backgroundView = UIView()
-        if style == .primary {
-            backgroundView.backgroundColor = Colors.navigationBarBackground
-        }
+//        let backgroundView = UIView()
+//        if style == .primary {
+//            backgroundView.backgroundColor = Colors.navigationBarBackground
+//        }
+        let backgroundStyle: ColoredBackgroundStyle = {
+            switch style {
+            case .primary:
+                return .neutral
+            case .onBrand:
+                return .brand
+            }
+        }()
+        let backgroundView = ColoredBackgroundView(style: backgroundStyle)
 
         backgroundView.addSubview(bar)
         let margins = UIEdgeInsets(top: 16.0, left: 0, bottom: 16.0, right: 0.0)
