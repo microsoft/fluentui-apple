@@ -74,8 +74,8 @@
 		E6842974247B672000A29C40 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6842973247B672000A29C40 /* SceneDelegate.swift */; };
 		E6842996247C350700A29C40 /* DemoColorThemes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6842995247C350700A29C40 /* DemoColorThemes.swift */; };
 		EC02A5F9274EED9200E81B3E /* DividerDemoController_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC02A5F8274EED9200E81B3E /* DividerDemoController_SwiftUI.swift */; };
-		EC5982E027DC223C00FD048D /* ColoredBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5982DF27DC223C00FD048D /* ColoredBackgroundView.swift */; };
 		EC6A71EC273DE6DF0076A586 /* DividerDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6A71EB273DE6DF0076A586 /* DividerDemoController.swift */; };
+		ECCABFB227DFFA070037C70C /* ColoredPillBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECCABFB127DFFA070037C70C /* ColoredPillBackgroundView.swift */; };
 		FC414E3725888BC300069E73 /* CommandBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC414E3625888BC300069E73 /* CommandBarDemoController.swift */; };
 		FDCF7C8321BF35680058E9E6 /* SegmentedControlDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDCF7C8221BF35680058E9E6 /* SegmentedControlDemoController.swift */; };
 /* End PBXBuildFile section */
@@ -144,9 +144,9 @@
 		E6842973247B672000A29C40 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		E6842995247C350700A29C40 /* DemoColorThemes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoColorThemes.swift; sourceTree = "<group>"; };
 		EC02A5F8274EED9200E81B3E /* DividerDemoController_SwiftUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DividerDemoController_SwiftUI.swift; sourceTree = "<group>"; };
-		EC5982DF27DC223C00FD048D /* ColoredBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColoredBackgroundView.swift; sourceTree = "<group>"; };
 		EC6A71EB273DE6DF0076A586 /* DividerDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DividerDemoController.swift; sourceTree = "<group>"; };
 		EC8EA6AF2580D82A00F191CE /* ListDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListDemoController.swift; sourceTree = "<group>"; };
+		ECCABFB127DFFA070037C70C /* ColoredPillBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColoredPillBackgroundView.swift; sourceTree = "<group>"; };
 		FC414E3625888BC300069E73 /* CommandBarDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBarDemoController.swift; sourceTree = "<group>"; };
 		FD41C8F322E28EEB0086F899 /* NavigationControllerDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationControllerDemoController.swift; sourceTree = "<group>"; };
 		FD6AE76C225679A4002CFDFE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
@@ -367,7 +367,7 @@
 			isa = PBXGroup;
 			children = (
 				92E977B626C713F3008E10A8 /* ScrollView */,
-				EC5982DF27DC223C00FD048D /* ColoredBackgroundView.swift */,
+				ECCABFB127DFFA070037C70C /* ColoredPillBackgroundView.swift */,
 				B4414791228F6F740040E88E /* TableViewCellSampleData.swift */,
 				B4414793228F6FDF0040E88E /* OtherCellsSampleData.swift */,
 				B4EF66552295F729007FEAB0 /* TableViewHeaderFooterSampleData.swift */,
@@ -517,11 +517,11 @@
 				53097D3A27028AC900A6E4DC /* DateTimePickerDemoController.swift in Sources */,
 				53097D3827028AA400A6E4DC /* ListDemoController.swift in Sources */,
 				B4D852DB225C010A004B1B29 /* ButtonDemoController.swift in Sources */,
+				ECCABFB227DFFA070037C70C /* ColoredPillBackgroundView.swift in Sources */,
 				53097D4127028AEA00A6E4DC /* PopupMenuDemoController.swift in Sources */,
 				5306075926A1E73F002D49CF /* AvatarGroupDemoController.swift in Sources */,
 				92561E732718AD090072ED00 /* DemoTableViewController.swift in Sources */,
 				497DC2DE24185896008D86F8 /* PillButtonBarDemoController.swift in Sources */,
-				EC5982E027DC223C00FD048D /* ColoredBackgroundView.swift in Sources */,
 				B4EF53C5215C45C400573E8F /* PersonaListViewDemoController.swift in Sources */,
 				A5DCA75E211E3A92005F4CB7 /* DrawerDemoController.swift in Sources */,
 				B4414792228F6F740040E88E /* TableViewCellSampleData.swift in Sources */,

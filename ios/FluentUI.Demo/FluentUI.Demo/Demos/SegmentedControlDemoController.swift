@@ -79,7 +79,7 @@ class SegmentedControlDemoController: DemoController {
                               action: #selector(updateLabel(forControl:)),
                               for: .valueChanged)
 
-        let backgroundStyle: ColoredBackgroundStyle = {
+        let backgroundStyle: ColoredPillBackgroundStyle = {
             switch style {
             case .primaryPill:
                 return .neutral
@@ -87,7 +87,7 @@ class SegmentedControlDemoController: DemoController {
                 return .brand
             }
         }()
-        let backgroundView = ColoredBackgroundView(style: backgroundStyle)
+        let backgroundView = ColoredPillBackgroundView(style: backgroundStyle)
         segmentedControls.append(pillControl)
 
         backgroundView.translatesAutoresizingMaskIntoConstraints = false

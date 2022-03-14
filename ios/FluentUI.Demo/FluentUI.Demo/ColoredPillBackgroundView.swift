@@ -6,13 +6,13 @@
 import FluentUI
 import UIKit
 
-public enum ColoredBackgroundStyle: Int {
+enum ColoredPillBackgroundStyle: Int {
     case neutral
     case brand
 }
 
-class ColoredBackgroundView: UIView {
-    init(style: ColoredBackgroundStyle) {
+class ColoredPillBackgroundView: UIView {
+    init(style: ColoredPillBackgroundStyle) {
         self.style = style
         super.init(frame: .zero)
         updateBackgroundColor()
@@ -61,5 +61,5 @@ class ColoredBackgroundView: UIView {
         backgroundColor = UIColor(light: lightColor, dark: darkColor)
     }
 
-    let style: ColoredBackgroundStyle
+    let style: ColoredPillBackgroundStyle
 }
