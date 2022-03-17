@@ -225,16 +225,11 @@ open class Button: UIButton {
     }
 
     open override func didUpdateFocus(in context: UIFocusUpdateContext, with coordinator: UIFocusAnimationCoordinator) {
-        guard let window = window, style == .primaryFilled else {
+        guard style.isFilledStyle, (self == context.nextFocusedView || self == context.previouslyFocusedView) else {
             return
         }
-        let highlightedColor = UIColor(light: Colors.primaryTint10(for: window),
-                                     dark: Colors.primaryTint20(for: window))
-        if context.nextFocusedView == self {
-            backgroundColor = highlightedColor
-        } else if context.previouslyFocusedView == self {
-            backgroundColor = isHighlighted ? highlightedColor : Colors.primary(for: window)
-        }
+
+        updateBackgroundColor()
     }
 
     public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -412,12 +407,14 @@ open class Button: UIButton {
             } else {
                 switch style {
                 case .primaryFilled:
-                    backgroundColor = isHighlighted ? UIColor(light: Colors.primaryTint10(for: window),
-                                                              dark: Colors.primaryTint20(for: window))
+                    backgroundColor = isHighlighted || isFocused
+                    ? UIColor(light: Colors.primaryTint10(for: window),
+                            dark: Colors.primaryTint20(for: window))
                     : Colors.primary(for: window)
                 case .dangerFilled:
-                    backgroundColor = isHighlighted ? UIColor(light: Colors.Palette.dangerTint10.color,
-                                                              dark: Colors.Palette.dangerTint20.color)
+                    backgroundColor = isHighlighted || isFocused
+                    ? UIColor(light: Colors.Palette.dangerTint10.color,
+                            dark: Colors.Palette.dangerTint20.color)
                     : Colors.Palette.dangerPrimary.color
                 case .primaryOutline,
                         .dangerOutline,
