@@ -7,7 +7,7 @@ import UIKit
 import SwiftUI
 
 /// UIKit wrapper that exposes the SwiftUI PersonaView implementation
-@objc open class MSFPersonaView: ControlHostingContainer {
+@objc open class MSFPersonaView: ControlHostingView {
 
     @objc public init() {
         let personaView = PersonaView()

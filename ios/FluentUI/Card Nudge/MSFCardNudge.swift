@@ -7,7 +7,7 @@ import SwiftUI
 import UIKit
 
 /// UIKit wrapper that exposes the SwiftUI `CardNudge` implementation
-@objc open class MSFCardNudge: ControlHostingContainer {
+@objc open class MSFCardNudge: ControlHostingView {
 
     /// Creates a new MSFCardNudge instance.
     /// - Parameters:

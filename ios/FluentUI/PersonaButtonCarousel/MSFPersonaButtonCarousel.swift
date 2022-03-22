@@ -7,7 +7,7 @@ import SwiftUI
 import UIKit
 
 /// UIKit wrapper that exposes the SwiftUI PersonaButtonCarousel implementation
-@objc open class MSFPersonaButtonCarousel: ControlHostingContainer {
+@objc open class MSFPersonaButtonCarousel: ControlHostingView {
 
     /// Creates a new MSFPersonaButtonCarousel instance.
     /// - Parameters:

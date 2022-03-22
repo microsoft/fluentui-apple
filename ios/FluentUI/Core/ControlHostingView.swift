@@ -7,7 +7,7 @@ import SwiftUI
 import UIKit
 
 /// Common wrapper for hosting and exposing SwiftUI components to UIKit-based clients.
-open class ControlHostingContainer: UIView {
+open class ControlHostingView: UIView {
 
     /// The UIView representing the wrapped SwiftUI view.
     @objc public var view: UIView {

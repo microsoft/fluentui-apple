@@ -7,7 +7,7 @@ import UIKit
 import SwiftUI
 
 /// UIKit wrapper that exposes the SwiftUI AvatarGroup implementation.
-@objc open class MSFAvatarGroup: ControlHostingContainer {
+@objc open class MSFAvatarGroup: ControlHostingView {
 
     /// Creates a new MSFAvatarGroup instance.
     /// - Parameters:

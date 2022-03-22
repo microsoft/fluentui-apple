@@ -8,7 +8,7 @@ import SwiftUI
 import UIKit
 
 /// UIKit wrapper that exposes the SwiftUI Button implementation
-@objc open class MSFButton: ControlHostingContainer,
+@objc open class MSFButton: ControlHostingView,
                             UIGestureRecognizerDelegate {
 
     /// Closure that handles the button tap event.

@@ -7,7 +7,7 @@ import SwiftUI
 import UIKit
 
 /// UIKit wrapper that exposes the SwiftUI Indeterminate Progress Bar implementation
-@objc open class MSFIndeterminateProgressBar: ControlHostingContainer {
+@objc open class MSFIndeterminateProgressBar: ControlHostingView {
 
     /// Creates a new MSFIndeterminateProgressBar instance.
     @objc public init() {
