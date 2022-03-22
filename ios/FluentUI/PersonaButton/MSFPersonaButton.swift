@@ -18,6 +18,10 @@ import UIKit
         super.init(AnyView(personaButton))
     }
 
+    required public init?(coder: NSCoder) {
+        preconditionFailure("init(coder:) has not been implemented")
+    }
+
     /// The object that groups properties that allow control over the PersonaButton appearance.
     @objc public let state: MSFPersonaButtonState
 }

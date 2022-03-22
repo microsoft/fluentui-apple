@@ -18,6 +18,10 @@ import UIKit
         super.init(AnyView(activityIndicator))
     }
 
+    required public init?(coder: NSCoder) {
+        preconditionFailure("init(coder:) has not been implemented")
+    }
+
     /// The object that groups properties that allow control over the Activity Indicator appearance.
     @objc public let state: MSFActivityIndicatorState
 }

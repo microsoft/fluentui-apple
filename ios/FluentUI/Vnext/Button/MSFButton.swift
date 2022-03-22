@@ -43,6 +43,10 @@ import UIKit
         setupLargeContentViewer()
     }
 
+    required public init?(coder: NSCoder) {
+        preconditionFailure("init(coder:) has not been implemented")
+    }
+
     private func setupLargeContentViewer() {
         let largeContentViewerInteraction = UILargeContentViewerInteraction()
         view.addInteraction(largeContentViewerInteraction)

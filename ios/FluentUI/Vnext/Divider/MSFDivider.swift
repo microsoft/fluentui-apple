@@ -19,6 +19,10 @@ import SwiftUI
         super.init(AnyView(divider))
     }
 
+    required public init?(coder: NSCoder) {
+        preconditionFailure("init(coder:) has not been implemented")
+    }
+
     /// The object that groups properties that allow control over the Divider appearance.
     @objc public let state: MSFDividerState
 }

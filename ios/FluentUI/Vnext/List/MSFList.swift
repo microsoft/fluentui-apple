@@ -15,5 +15,9 @@ import SwiftUI
         super.init(AnyView(list))
     }
 
+    required public init?(coder: NSCoder) {
+        preconditionFailure("init(coder:) has not been implemented")
+    }
+
     @objc public let state: MSFListState
 }

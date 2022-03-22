@@ -21,6 +21,10 @@ import SwiftUI
         super.init(AnyView(avatar))
     }
 
+    required public init?(coder: NSCoder) {
+        preconditionFailure("init(coder:) has not been implemented")
+    }
+
     /// The object that groups properties that allow control over the Avatar appearance.
     @objc public let state: MSFAvatarState
 }

@@ -21,6 +21,10 @@ import UIKit
         super.init(AnyView(notification))
     }
 
+    required public init?(coder: NSCoder) {
+        preconditionFailure("init(coder:) has not been implemented")
+    }
+
     @objc public var state: MSFNotificationState {
         return notification.state
     }

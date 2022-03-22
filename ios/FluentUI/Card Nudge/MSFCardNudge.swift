@@ -21,6 +21,10 @@ import UIKit
         super.init(AnyView(cardNudge))
     }
 
-    /// The object that groups properties that allow control over the Card Nudge appearance.
+    required public init?(coder: NSCoder) {
+        preconditionFailure("init(coder:) has not been implemented")
+    }
+
+   /// The object that groups properties that allow control over the Card Nudge appearance.
     @objc public let state: MSFCardNudgeState
 }
