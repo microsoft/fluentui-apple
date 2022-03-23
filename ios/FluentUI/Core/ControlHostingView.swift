@@ -14,6 +14,13 @@ open class ControlHostingView: UIView {
         return self
     }
 
+    @objc public override var intrinsicContentSize: CGSize {
+        guard let hostedView = hostingController.view else {
+            return super.intrinsicContentSize
+        }
+        return hostedView.intrinsicContentSize
+    }
+
     /// Initializes and returns an instance of `ControlHostingContainer` that wraps `controlView`.
     ///
     /// Unfortunately this class can't use Swift generics, which are incompatible with Objective-C interop. Instead we have to wrap
