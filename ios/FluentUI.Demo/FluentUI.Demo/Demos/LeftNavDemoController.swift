@@ -103,6 +103,14 @@ class LeftNavMenuViewController: UIViewController {
         view = leftNavView
     }
 
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        if let sizeCategory = previousTraitCollection?.preferredContentSizeCategory,
+            sizeCategory != traitCollection.preferredContentSizeCategory {
+            leftNavAccountViewHeightConstraint?.constant = leftNavAccountView.intrinsicContentSize.height
+        }
+    }
+
     var menuAction: (() -> Void)?
 
     private func setPresence(presence: LeftNavPresence) {
@@ -123,6 +131,8 @@ class LeftNavMenuViewController: UIViewController {
     private var leftNavMenuList = MSFList()
 
     private var statusCell: MSFListCellState?
+
+    private var leftNavAccountViewHeightConstraint: NSLayoutConstraint?
 
     private lazy var leftNavAccountView: UIView = {
         let chevron = UIImageView(image: UIImage(named: "ic_fluent_ios_chevron_right_20_filled"))
@@ -279,7 +289,12 @@ class LeftNavMenuViewController: UIViewController {
         contentView.addSubview(accountView)
         contentView.addSubview(menuListView)
 
-        NSLayoutConstraint.activate([accountView.topAnchor.constraint(equalTo: contentView.topAnchor),
+        let accountViewHeightConstraint = accountView.heightAnchor.constraint(equalToConstant: accountView.intrinsicContentSize.height)
+        accountViewHeightConstraint.priority = .defaultHigh
+        leftNavAccountViewHeightConstraint = accountViewHeightConstraint
+
+        NSLayoutConstraint.activate([accountViewHeightConstraint,
+                                     accountView.topAnchor.constraint(equalTo: contentView.topAnchor),
                                      accountView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
                                      accountView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
                                      menuListView.topAnchor.constraint(equalTo: accountView.bottomAnchor),
@@ -299,8 +314,8 @@ class LeftNavMenuViewController: UIViewController {
 
         container.backgroundColor = .systemBackground
 
-        // No bottom constraint means `contentView` will bind to the top of `container`.
         NSLayoutConstraint.activate([container.safeAreaLayoutGuide.topAnchor.constraint(equalTo: contentView.topAnchor),
+                                     container.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
                                      container.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
                                      container.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)])
         return container
