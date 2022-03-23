@@ -49,10 +49,10 @@ import UIKit
 
     private func setupLargeContentViewer() {
         let largeContentViewerInteraction = UILargeContentViewerInteraction()
-        view.addInteraction(largeContentViewerInteraction)
+        self.addInteraction(largeContentViewerInteraction)
         largeContentViewerInteraction.gestureRecognizerForExclusionRelationship.delegate = self
-        view.scalesLargeContentImage = true
-        view.showsLargeContentViewer = state.style.isFloatingStyle
+        self.scalesLargeContentImage = true
+        self.showsLargeContentViewer = state.style.isFloatingStyle
 
         // Unpleasant workaround to get the implementation of MSFButtonState.
         // Can be removed once we switch to Xcode 13.2 and can use
@@ -62,11 +62,11 @@ import UIKit
         }
 
         imagePropertySubscriber = stateImpl.$image.sink { buttonImage in
-            self.view.largeContentImage = buttonImage
+            self.largeContentImage = buttonImage
         }
 
         textPropertySubscriber = stateImpl.$text.sink { buttonText in
-            self.view.largeContentTitle = buttonText
+            self.largeContentTitle = buttonText
         }
     }
 

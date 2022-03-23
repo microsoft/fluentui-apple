@@ -286,12 +286,12 @@ class TableViewCellFileAccessoryViewDemoController: DemoTableViewController {
         }
     }
 
-    private lazy var plusMinActionsButton: UIView = createPlusMinusButton(plus: true, #selector(incrementMinimumActionsCount)).view
-    private lazy var minusMinActionsButton: UIView = createPlusMinusButton(plus: false, #selector(decrementMinimumActionsCount)).view
-    private lazy var plusTopOverlapButton: UIView = createPlusMinusButton(plus: true, #selector(incrementTopActionsOverlap)).view
-    private lazy var minusTopOverlapButton: UIView = createPlusMinusButton(plus: false, #selector(decrementTopActionsOverlap)).view
-    private lazy var plusBottomOverlapButton: UIView = createPlusMinusButton(plus: true, #selector(incrementBottomActionsOverlap)).view
-    private lazy var minusBottomOverlapButton: UIView = createPlusMinusButton(plus: false, #selector(decrementBottomActionsOverlap)).view
+    private lazy var plusMinActionsButton: UIView = createPlusMinusButton(plus: true, #selector(incrementMinimumActionsCount))
+    private lazy var minusMinActionsButton: UIView = createPlusMinusButton(plus: false, #selector(decrementMinimumActionsCount))
+    private lazy var plusTopOverlapButton: UIView = createPlusMinusButton(plus: true, #selector(incrementTopActionsOverlap))
+    private lazy var minusTopOverlapButton: UIView = createPlusMinusButton(plus: false, #selector(decrementTopActionsOverlap))
+    private lazy var plusBottomOverlapButton: UIView = createPlusMinusButton(plus: true, #selector(incrementBottomActionsOverlap))
+    private lazy var minusBottomOverlapButton: UIView = createPlusMinusButton(plus: false, #selector(decrementBottomActionsOverlap))
 
     private func createPlusMinusButton(plus: Bool, _ selector: Selector) -> MSFButton {
         let button = MSFButton(style: .secondary,

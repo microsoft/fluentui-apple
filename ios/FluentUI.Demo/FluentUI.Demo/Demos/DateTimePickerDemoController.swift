@@ -43,7 +43,7 @@ class DateTimePickerDemoController: DemoController {
             }
 
             strongSelf.dateTimePicker.present(from: strongSelf, with: .date, startDate: strongSelf.startDate ?? Date(), datePickerType: strongSelf.datePickerType)
-        }).view)
+        }))
 
         container.addArrangedSubview(createButton(title: "Show date time picker", action: { [weak self] _ in
             guard let strongSelf = self else {
@@ -51,7 +51,7 @@ class DateTimePickerDemoController: DemoController {
             }
 
             strongSelf.dateTimePicker.present(from: strongSelf, with: .dateTime, startDate: strongSelf.startDate ?? Date(), datePickerType: strongSelf.datePickerType)
-        }).view)
+        }))
 
         container.addArrangedSubview(createButton(title: "Show date range picker (paged)", action: { [weak self] _ in
             guard let strongSelf = self else {
@@ -60,7 +60,7 @@ class DateTimePickerDemoController: DemoController {
 
             let (startDate, endDate, _) = strongSelf.calcDatePickerParams()
             strongSelf.dateTimePicker.present(from: strongSelf, with: .dateRange, startDate: startDate, endDate: endDate, datePickerType: strongSelf.datePickerType)
-        }).view)
+        }))
 
         container.addArrangedSubview(createButton(title: "Show date range picker (tabbed)", action: { [weak self] _ in
             guard let strongSelf = self else {
@@ -69,7 +69,7 @@ class DateTimePickerDemoController: DemoController {
 
             let (startDate, endDate, _) = strongSelf.calcDatePickerParams()
             strongSelf.dateTimePicker.present(from: strongSelf, with: .dateRange, startDate: startDate, endDate: endDate, datePickerType: strongSelf.datePickerType, dateRangePresentation: .tabbed)
-        }).view)
+        }))
 
         container.addArrangedSubview(createButton(title: "Show date time range picker", action: { [weak self] _ in
             guard let strongSelf = self else {
@@ -78,7 +78,7 @@ class DateTimePickerDemoController: DemoController {
 
             let (startDate, endDate, _) = strongSelf.calcDatePickerParams()
             strongSelf.dateTimePicker.present(from: strongSelf, with: .dateTimeRange, startDate: startDate, endDate: endDate, datePickerType: strongSelf.datePickerType)
-        }).view)
+        }))
 
         container.addArrangedSubview(createButton(title: "Show picker with custom subtitles or tabs", action: { [weak self] _ in
             guard let strongSelf = self else {
@@ -87,7 +87,7 @@ class DateTimePickerDemoController: DemoController {
 
             let (startDate, endDate, titles) = strongSelf.calcDatePickerParams()
             strongSelf.dateTimePicker.present(from: strongSelf, with: .dateRange, startDate: startDate, endDate: endDate, datePickerType: strongSelf.datePickerType, titles: titles)
-        }).view)
+        }))
 
         container.addArrangedSubview(createButton(title: "Show picker with left bar-button", action: { [weak self] _ in
             guard let strongSelf = self else {
@@ -97,7 +97,7 @@ class DateTimePickerDemoController: DemoController {
             let (startDate, endDate, titles) = strongSelf.calcDatePickerParams()
             let leftBarButtonItem = strongSelf.cancelButton(target: strongSelf, action: #selector(strongSelf.handleDidTapCancel))
             strongSelf.dateTimePicker.present(from: strongSelf, with: .dateRange, startDate: startDate, endDate: endDate, datePickerType: strongSelf.datePickerType, titles: titles, leftBarButtonItem: leftBarButtonItem)
-        }).view)
+        }))
 
         container.addArrangedSubview(createButton(title: "Show picker with left and right bar-buttons", action: { [weak self] _ in
             guard let strongSelf = self else {
@@ -108,7 +108,7 @@ class DateTimePickerDemoController: DemoController {
             let leftBarButtonItem = strongSelf.confirmButton(target: strongSelf, action: #selector(strongSelf.handleDidTapDone))
             let rightBarButtonItem = strongSelf.cancelButton(target: strongSelf, action: #selector(strongSelf.handleDidTapCancel)) // or simply assign UIBarButtonItem() to hide the default confirm button
             strongSelf.dateTimePicker.present(from: strongSelf, with: .dateRange, startDate: startDate, endDate: endDate, datePickerType: strongSelf.datePickerType, titles: titles, leftBarButtonItem: leftBarButtonItem, rightBarButtonItem: rightBarButtonItem)
-        }).view)
+        }))
 
         container.addArrangedSubview(UIView())
         container.addArrangedSubview(createDatePickerTypeUI())
@@ -122,7 +122,7 @@ class DateTimePickerDemoController: DemoController {
             strongSelf.startDate = nil
             strongSelf.endDate = nil
             strongSelf.dateLabel.text = "No date selected"
-        }).view)
+        }))
     }
 
     func createDatePickerTypeUI() -> UIStackView {

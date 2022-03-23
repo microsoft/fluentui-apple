@@ -32,38 +32,38 @@ import UIKit
     // MARK: - Show/Hide Methods
 
     public func showNotification(in view: UIView, completion: ((MSFNotification) -> Void)? = nil) {
-        guard self.view.window == nil else {
+        guard self.window == nil else {
             return
         }
 
         let style = notification.tokens.style
         let presentationOffset: CGFloat! = notification.tokens.presentationOffset
-        if style.isToast, let currentToast = MSFNotification.currentToast, currentToast.view.window != nil {
+        if style.isToast, let currentToast = MSFNotification.currentToast, currentToast.window != nil {
             currentToast.hide {
                 self.showNotification(in: view, completion: completion)
             }
             return
         }
 
-        self.view.translatesAutoresizingMaskIntoConstraints = false
+        self.translatesAutoresizingMaskIntoConstraints = false
         if let anchorView = anchorView, anchorView.superview == view {
-            view.insertSubview(self.view, belowSubview: anchorView)
+            view.insertSubview(self, belowSubview: anchorView)
         } else {
-            view.addSubview(self.view)
+            view.addSubview(self)
         }
 
         let anchor = anchorView?.topAnchor ?? view.safeAreaLayoutGuide.bottomAnchor
-        constraintWhenHidden = self.view.topAnchor.constraint(equalTo: anchor)
-        constraintWhenShown = self.view.bottomAnchor.constraint(equalTo: anchor, constant: -presentationOffset)
+        constraintWhenHidden = self.topAnchor.constraint(equalTo: anchor)
+        constraintWhenShown = self.bottomAnchor.constraint(equalTo: anchor, constant: -presentationOffset)
 
         var constraints = [NSLayoutConstraint]()
         constraints.append(animated ? constraintWhenHidden : constraintWhenShown)
         if style.needsFullWidth {
-            constraints.append(self.view.leadingAnchor.constraint(equalTo: view.leadingAnchor))
-            constraints.append(self.view.trailingAnchor.constraint(equalTo: view.trailingAnchor))
+            constraints.append(self.leadingAnchor.constraint(equalTo: view.leadingAnchor))
+            constraints.append(self.trailingAnchor.constraint(equalTo: view.trailingAnchor))
         } else {
-            constraints.append(self.view.centerXAnchor.constraint(equalTo: view.centerXAnchor))
-            constraints.append(self.view.widthAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.widthAnchor, constant: -2 * presentationOffset))
+            constraints.append(self.centerXAnchor.constraint(equalTo: view.centerXAnchor))
+            constraints.append(self.widthAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.widthAnchor, constant: -2 * presentationOffset))
         }
         NSLayoutConstraint.activate(constraints)
 
@@ -72,7 +72,7 @@ import UIKit
         }
 
         let completionForShow = { (_: Bool) in
-            UIAccessibility.post(notification: .layoutChanged, argument: self.view)
+            UIAccessibility.post(notification: .layoutChanged, argument: self)
             completion?(self)
         }
 
@@ -102,7 +102,7 @@ import UIKit
             }
         }()
 
-        guard self.view.window != nil && constraintWhenHidden != nil && hideDelay != .infinity else {
+        guard self.window != nil && constraintWhenHidden != nil && hideDelay != .infinity else {
             return
         }
 
@@ -117,7 +117,7 @@ import UIKit
             completionsForHide.append(completion)
         }
         let completionForHide = {
-            self.view.removeFromSuperview()
+            self.removeFromSuperview()
             if MSFNotification.currentToast == self {
                 MSFNotification.currentToast = nil
             }
@@ -131,7 +131,7 @@ import UIKit
             UIView.animate(withDuration: notification.tokens.style.animationDurationForHide, animations: {
                 self.constraintWhenShown.isActive = false
                 self.constraintWhenHidden.isActive = true
-                self.view.superview?.layoutIfNeeded()
+                self.superview?.layoutIfNeeded()
             }, completion: { _ in
                 self.isHiding = false
                 completionForHide()

@@ -34,7 +34,7 @@ class TableViewHeaderFooterViewDemoController: DemoController {
         container.setCustomSpacing(8, after: segmentedControl)
         container.backgroundColor = Colors.navigationBarBackground
 
-        container.addArrangedSubview(divider.view)
+        container.addArrangedSubview(divider)
 
         container.addArrangedSubview(groupedTableView)
         container.addArrangedSubview(plainTableView)

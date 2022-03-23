@@ -300,8 +300,8 @@ extension SideTabBarDemoController: UITableViewDataSource {
             }
 
             let stackView = UIStackView(frame: CGRect(x: 0, y: 0, width: 100, height: 40))
-            stackView.addArrangedSubview(decrementBadgeButton.view)
-            stackView.addArrangedSubview(incrementBadgeButton.view)
+            stackView.addArrangedSubview(decrementBadgeButton)
+            stackView.addArrangedSubview(incrementBadgeButton)
             stackView.distribution = .fillEqually
             stackView.alignment = .center
             stackView.spacing = 4

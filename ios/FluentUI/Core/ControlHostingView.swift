@@ -62,6 +62,9 @@ open class ControlHostingView: UIView {
             hostedView.bottomAnchor.constraint(equalTo: bottomAnchor),
             hostedView.topAnchor.constraint(equalTo: topAnchor)
         ]
+        requiredConstraints.forEach {
+            $0.priority = .defaultHigh
+        }
         self.addConstraints(requiredConstraints)
     }
 
@@ -74,7 +77,7 @@ open class ControlHostingView: UIView {
     }
 
     private var currentFluentTheme: FluentTheme {
-        if let windowFluentTheme = self.view.window?.fluentTheme {
+        if let windowFluentTheme = self.window?.fluentTheme {
             return windowFluentTheme
         } else {
             return FluentThemeKey.defaultValue

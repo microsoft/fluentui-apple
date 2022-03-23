@@ -102,8 +102,8 @@ class DrawerPresentationController: UIPresentationController {
             // Clipping is added to prevent any animation bug sliding over the navigation bar
             contentView.clipsToBounds = true
             if presentationDirection.isVertical && actualPresentationOffset == 0 {
-                divider.view.translatesAutoresizingMaskIntoConstraints = false
-                containerView.addSubview(divider.view)
+                divider.translatesAutoresizingMaskIntoConstraints = false
+                containerView.addSubview(divider)
             }
         }
         updateLayout()
@@ -142,7 +142,7 @@ class DrawerPresentationController: UIPresentationController {
             UIAccessibility.post(notification: .screenChanged, argument: focusElement)
             UIAccessibility.post(notification: .announcement, argument: "Accessibility.Alert".localized)
         } else {
-            divider.view.removeFromSuperview()
+            divider.removeFromSuperview()
             removePresentedViewMask()
             shadowView.owner = nil
         }
@@ -162,7 +162,7 @@ class DrawerPresentationController: UIPresentationController {
 
     override func dismissalTransitionDidEnd(_ completed: Bool) {
         if completed {
-            divider.view.removeFromSuperview()
+            divider.removeFromSuperview()
             removePresentedViewMask()
             shadowView.owner = nil
             UIAccessibility.post(notification: .screenChanged, argument: drawerPresentationControllerDelegate?.sourceObject)
@@ -243,7 +243,7 @@ class DrawerPresentationController: UIPresentationController {
         didSet {
             if keyboardHeight != oldValue {
                 updateContentViewFrame(animated: true, animationDuration: keyboardAnimationDuration)
-                divider.view.isHidden = keyboardHeight != 0
+                divider.isHidden = keyboardHeight != 0
             }
         }
     }
@@ -255,7 +255,7 @@ class DrawerPresentationController: UIPresentationController {
         super.containerViewWillLayoutSubviews()
         updateLayout()
         // In non-animated presentations presented view will be force-placed into containerView by UIKit after separator thus hiding it
-        containerView?.bringSubviewToFront(divider.view)
+        containerView?.bringSubviewToFront(divider)
     }
 
     func setExtraContentSize(_ extraContentSize: CGFloat, updatingLayout updateLayout: Bool = true, animated: Bool = false) {
@@ -319,8 +319,8 @@ class DrawerPresentationController: UIPresentationController {
             presentedView.frame = presentedViewFrame
         }
 
-        if divider.view.superview != nil {
-            divider.view.frame = frameForDivider(in: contentView.frame, withThickness: divider.view.frame.height)
+        if divider.superview != nil {
+            divider.frame = frameForDivider(in: contentView.frame, withThickness: divider.frame.height)
         }
         updateBackgroundAccessibilityFrame()
     }

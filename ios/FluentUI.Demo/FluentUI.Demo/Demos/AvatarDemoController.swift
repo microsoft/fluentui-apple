@@ -82,7 +82,7 @@ class AvatarDemoController: DemoTableViewController {
                 return cell
             }
 
-            let avatarView = avatar.view
+            let avatarView = avatar
 
             let titleLabel = Label(style: .body, colorStyle: .regular)
             titleLabel.text = row.title
