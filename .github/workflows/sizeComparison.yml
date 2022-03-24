@@ -1,0 +1,75 @@
+name: sizeComparison
+
+on:
+  push:
+    branches:
+      - main
+      - vnext-tokens
+  pull_request:
+    branches:
+      - main
+      - vnext-tokens
+
+jobs:
+  validateOld:
+    runs-on: macos-11
+    strategy:
+      fail-fast: true
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.pull_request.head.sha }} 
+    - name: Switch to current version of Xcode
+      run: scripts/xcode_select_current_version.sh
+    - name: pod lib lint
+      run: scripts/podliblint.sh
+    - name: validation
+      run: scripts/validation.sh
+  archiveOldBuild:
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    steps: 
+    - uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.pull_request.head.sha }}
+    - name: make archive dir
+      run: mkdir oldBuild
+    - name: Switch to current version of Xcode
+      run: scripts/xcode_select_current_version.sh
+    - name: scripts/xcodebuild_wrapper.sh 'ios_device_build Demo.Development Release build -archivePath oldBuild archive'
+      run: scripts/xcodebuild_wrapper.sh 'ios_device_build Demo.Development Release build -archivePath oldBuild archive'
+  validateNew:
+    runs-on: macos-11
+    strategy:
+      fail-fast: true
+    steps:
+    - uses: actions/checkout@v2
+    - name: Switch to current version of Xcode
+      run: scripts/xcode_select_current_version.sh
+    - name: pod lib lint
+      run: scripts/podliblint.sh
+    - name: validation
+      run: scripts/validation.sh
+  archiveNewBuild:
+    runs-on: macos-11
+    strategy:
+      fail-fast: false
+    steps: 
+    - uses: actions/checkout@v2
+    - name: make archive dir
+      run: mkdir newBuild
+    - name: Switch to current version of Xcode
+      run: scripts/xcode_select_current_version.sh
+    - name: scripts/xcodebuild_wrapper.sh 'ios_device_build Demo.Development Release build -archivePath newBuild archive'
+      run: scripts/xcodebuild_wrapper.sh 'ios_device_build Demo.Development Release build -archivePath newBuild archive'
+  printSizes:
+    runs-on: macos-11
+    strategy:
+      fail-fast: true
+    steps:
+    - name: print old size
+      run: du -sk oldBuild.xcarchive/Products/Applications/FluentUI.Demo.app
+    steps:
+    - name: print new size
+      run: du -sk newBuild.xcarchive/Products/Applications/FluentUI.Demo.app
