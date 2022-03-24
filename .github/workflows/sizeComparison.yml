@@ -43,6 +43,7 @@ jobs:
       fail-fast: true
     needs: [archiveOldBuild, archiveNewBuild]
     steps:
+    - uses: actions/checkout@v2
     - name: print contents of directory
       run: ls -la $GITHUB_WORKSPACE
     - name: print old size
