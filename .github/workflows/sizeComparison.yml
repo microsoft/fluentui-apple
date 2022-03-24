@@ -38,7 +38,7 @@ jobs:
     - name: Switch to current version of Xcode
       run: scripts/xcode_select_current_version.sh
     - name: scripts/xcodebuild_wrapper.sh 'ios_device_build Demo.Development Release build -archivePath oldBuild archive'
-      run: scripts/xcodebuild_wrapper.sh 'ios_device_build Demo.Development Release build -archivePath oldBuild archive'
+      run: scripts/xcodebuild_wrapper.sh ios_device_build Demo.Development Release build -archivePath oldBuild archive
   validateNew:
     runs-on: macos-11
     strategy:
@@ -62,11 +62,12 @@ jobs:
     - name: Switch to current version of Xcode
       run: scripts/xcode_select_current_version.sh
     - name: scripts/xcodebuild_wrapper.sh 'ios_device_build Demo.Development Release build -archivePath newBuild archive'
-      run: scripts/xcodebuild_wrapper.sh 'ios_device_build Demo.Development Release build -archivePath newBuild archive'
+      run: scripts/xcodebuild_wrapper.sh ios_device_build Demo.Development Release build -archivePath newBuild archive
   printSizes:
     runs-on: macos-11
     strategy:
       fail-fast: true
+    needs: [archiveOldBuild, archiveNewBuild]
     steps:
     - name: print old size
       run: du -sk oldBuild.xcarchive/Products/Applications/FluentUI.Demo.app
