@@ -11,20 +11,6 @@ on:
       - vnext-tokens
 
 jobs:
-  validateOld:
-    runs-on: macos-11
-    strategy:
-      fail-fast: true
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        ref: ${{ github.event.pull_request.head.sha }} 
-    - name: Switch to current version of Xcode
-      run: scripts/xcode_select_current_version.sh
-    - name: pod lib lint
-      run: scripts/podliblint.sh
-    - name: validation
-      run: scripts/validation.sh
   archiveOldBuild:
     runs-on: macos-11
     strategy:
@@ -37,18 +23,10 @@ jobs:
       run: scripts/xcode_select_current_version.sh
     - name: scripts/xcodebuild_wrapper.sh 'ios_device_build Demo.Development Release build -archivePath $GITHUB_WORKSPACE/oldBuild archive'
       run: scripts/xcodebuild_wrapper.sh ios_device_build Demo.Development Release build -archivePath $GITHUB_WORKSPACE/oldBuild archive
-  validateNew:
-    runs-on: macos-11
-    strategy:
-      fail-fast: true
-    steps:
-    - uses: actions/checkout@v2
-    - name: Switch to current version of Xcode
-      run: scripts/xcode_select_current_version.sh
-    - name: pod lib lint
-      run: scripts/podliblint.sh
-    - name: validation
-      run: scripts/validation.sh
+    - name: print contents of directory
+      run: ls -la $GITHUB_WORKSPACE
+    - name: print size
+      run: du -sk $GITHUB_WORKSPACE/oldBuild.xcarchive/Products/Applications/FluentUI.Demo.app
   archiveNewBuild:
     runs-on: macos-11
     strategy:
