@@ -65,6 +65,8 @@ jobs:
       fail-fast: true
     needs: [archiveOldBuild, archiveNewBuild]
     steps:
+    - name: print contents of directory
+      run: ls -la
     - name: print old size
       run: du -sk $GITHUB_WORKSPACE/oldBuild.xcarchive/Products/Applications/FluentUI.Demo.app
     - name: print new size
