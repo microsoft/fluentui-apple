@@ -70,6 +70,5 @@ jobs:
     steps:
     - name: print old size
       run: du -sk oldBuild.xcarchive/Products/Applications/FluentUI.Demo.app
-    steps:
     - name: print new size
       run: du -sk newBuild.xcarchive/Products/Applications/FluentUI.Demo.app
