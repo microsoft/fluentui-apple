@@ -33,12 +33,10 @@ jobs:
     - uses: actions/checkout@v2
       with:
         ref: ${{ github.event.pull_request.head.sha }}
-    - name: make archive dir
-      run: mkdir oldBuild
     - name: Switch to current version of Xcode
       run: scripts/xcode_select_current_version.sh
-    - name: scripts/xcodebuild_wrapper.sh 'ios_device_build Demo.Development Release build -archivePath oldBuild archive'
-      run: scripts/xcodebuild_wrapper.sh ios_device_build Demo.Development Release build -archivePath oldBuild archive
+    - name: scripts/xcodebuild_wrapper.sh 'ios_device_build Demo.Development Release build -archivePath $GITHUB_WORKSPACE/oldBuild archive'
+      run: scripts/xcodebuild_wrapper.sh ios_device_build Demo.Development Release build -archivePath $GITHUB_WORKSPACE/oldBuild archive
   validateNew:
     runs-on: macos-11
     strategy:
@@ -57,12 +55,10 @@ jobs:
       fail-fast: false
     steps: 
     - uses: actions/checkout@v2
-    - name: make archive dir
-      run: mkdir newBuild
     - name: Switch to current version of Xcode
       run: scripts/xcode_select_current_version.sh
-    - name: scripts/xcodebuild_wrapper.sh 'ios_device_build Demo.Development Release build -archivePath newBuild archive'
-      run: scripts/xcodebuild_wrapper.sh ios_device_build Demo.Development Release build -archivePath newBuild archive
+    - name: scripts/xcodebuild_wrapper.sh 'ios_device_build Demo.Development Release build -archivePath $GITHUB_WORKSPACE/newBuild archive'
+      run: scripts/xcodebuild_wrapper.sh ios_device_build Demo.Development Release build -archivePath $GITHUB_WORKSPACE/newBuild archive
   printSizes:
     runs-on: macos-11
     strategy:
@@ -70,6 +66,6 @@ jobs:
     needs: [archiveOldBuild, archiveNewBuild]
     steps:
     - name: print old size
-      run: du -sk oldBuild.xcarchive/Products/Applications/FluentUI.Demo.app
+      run: du -sk $GITHUB_WORKSPACE/oldBuild.xcarchive/Products/Applications/FluentUI.Demo.app
     - name: print new size
-      run: du -sk newBuild.xcarchive/Products/Applications/FluentUI.Demo.app
+      run: du -sk $GITHUB_WORKSPACE/newBuild.xcarchive/Products/Applications/FluentUI.Demo.app
