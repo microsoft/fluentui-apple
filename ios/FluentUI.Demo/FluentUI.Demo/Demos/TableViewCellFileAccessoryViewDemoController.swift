@@ -678,7 +678,7 @@ class TableViewCellFileAccessoryViewDemoController: DemoTableViewController {
         cell.titleNumberOfLinesForLargerDynamicType = 3
         cell.subtitleNumberOfLinesForLargerDynamicType = 2
 
-//        cell.backgroundColor = Colors.Table.Cell.background
+        cell.backgroundColor = Colors.tableCellBackgroundGrouped
         cell.topSeparatorType = .none
         cell.bottomSeparatorType = (top ? .inset : .none)
 
