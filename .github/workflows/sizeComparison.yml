@@ -62,5 +62,7 @@ jobs:
       uses: actions/download-artifact@v1
       with:
         name: baseSize
+    - name: Print out directoy
+      run: ls -la
     - name: Compare sizes
       run: scripts/compare_demo_sizes.sh
