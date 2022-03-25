@@ -31,7 +31,7 @@ jobs:
       uses: actions/upload-artifact@v1
       with:
         name: headSize
-        path: $GITHUB_WORKSPACE/headSize
+        path: headSize
   archiveBaseBuild:
     runs-on: macos-11
     strategy:
@@ -48,7 +48,7 @@ jobs:
       uses: actions/upload-artifact@v1
       with:
         name: baseSize
-        path: $GITHUB_WORKSPACE/baseSize
+        path: baseSize
   printSizes:
     runs-on: macos-11
     strategy:
