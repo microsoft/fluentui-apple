@@ -64,9 +64,9 @@ jobs:
         name: baseSize
     - name: Print out directoy
       run: ls -la
-    - name: cat head
-      run: cat headSize
-    - name: cat base
-      run: cat baseSize
+    - name: ls head
+      run: ls -la headSize
+    - name: ls base
+      run: ls -la baseSize
     - name: Compare sizes
       run: scripts/compare_demo_sizes.sh
