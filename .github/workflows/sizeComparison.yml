@@ -23,8 +23,6 @@ jobs:
       run: scripts/xcode_select_current_version.sh
     - name: scripts/xcodebuild_wrapper.sh 'ios_device_build Demo.Development Release build -archivePath $GITHUB_WORKSPACE/headBuild archive'
       run: scripts/xcodebuild_wrapper.sh ios_device_build Demo.Development Release build -archivePath $GITHUB_WORKSPACE/headBuild archive
-    - name: print contents of directory
-      run: ls -la $GITHUB_WORKSPACE
     - name: Create size file
       run: du -sk $GITHUB_WORKSPACE/headBuild.xcarchive/Products/Applications/FluentUI.Demo.app | cut -f1 >> $GITHUB_WORKSPACE/headSize
     - name: Upload head size artifact
@@ -57,7 +55,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Download head artifact
-      uses: actions/download-articaft@v1
+      uses: actions/download-artifact@v1
       with:
         name: headSize
     - name: Download base artifact
