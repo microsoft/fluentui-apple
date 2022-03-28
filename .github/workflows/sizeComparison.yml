@@ -16,7 +16,7 @@ jobs:
     strategy:
       fail-fast: false
     steps: 
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         ref: ${{ github.event.pull_request.head.sha }}
     - name: Switch to current version of Xcode
@@ -26,7 +26,7 @@ jobs:
     - name: Create size file
       run: du -sk $GITHUB_WORKSPACE/headBuild.xcarchive/Products/Applications/FluentUI.Demo.app | cut -f1 >> $GITHUB_WORKSPACE/headSize
     - name: Upload head size artifact
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v3
       with:
         name: headSize
         path: headSize
@@ -35,7 +35,7 @@ jobs:
     strategy:
       fail-fast: false
     steps: 
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Switch to current version of Xcode
       run: scripts/xcode_select_current_version.sh
     - name: scripts/xcodebuild_wrapper.sh 'ios_device_build Demo.Development Release build -archivePath $GITHUB_WORKSPACE/baseBuild archive'
@@ -43,7 +43,7 @@ jobs:
     - name: Create size file
       run: du -sk $GITHUB_WORKSPACE/baseBuild.xcarchive/Products/Applications/FluentUI.Demo.app | cut -f1 >> $GITHUB_WORKSPACE/baseSize
     - name: Upload base size artifact
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v3
       with:
         name: baseSize
         path: baseSize
@@ -53,20 +53,14 @@ jobs:
       fail-fast: true
     needs: [archiveHeadBuild, archiveBaseBuild]
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Download head artifact
-      uses: actions/download-artifact@v1
+      uses: actions/download-artifact@v3
       with:
         name: headSize
     - name: Download base artifact
-      uses: actions/download-artifact@v1
+      uses: actions/download-artifact@v3
       with:
         name: baseSize
-    - name: Print out directoy
-      run: ls -la
-    - name: ls head
-      run: ls -la headSize
-    - name: ls base
-      run: ls -la baseSize
     - name: Compare sizes
       run: scripts/compare_demo_sizes.sh
