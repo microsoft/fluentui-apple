@@ -14,7 +14,7 @@ struct AnimationCompletionModifier<Value>: AnimatableModifier where Value: Vecto
 
     init(animatableValue: Value, onComplete: @escaping () -> Void) {
         self.onComplete = onComplete
-        self.animatableData = animatableValue
+        animatableData = animatableValue
         targetValue = animatableValue
     }
 
