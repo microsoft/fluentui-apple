@@ -11,11 +11,19 @@ struct SquareShapedViewModifier: ViewModifier {
             content
                 .alignmentGuide(HorizontalAlignment.center) { (viewDimensions) -> CGFloat in
                     DispatchQueue.main.async {
-                        self.size = max(size, // ensures the View does not shrink
-                                        min(maxSize,
-                                            max(minSize,
-                                                max(viewDimensions.height,
-                                                    viewDimensions.width))))
+                        // Ensures the View does not shrink compared to its
+                        // previous size (calculated based on its content).
+                        size = max(size,
+                                   // Don't let the size be bigger than
+                                   // the maximum defined by the caller.
+                                   min(maxSize,
+                                       // Don't let the size be smaller than
+                                       // the minimum defined by the caller.
+                                       max(minSize,
+                                           // Sets the size the view with the
+                                           // longer side (width or height).
+                                           max(viewDimensions.height,
+                                               viewDimensions.width))))
                     }
 
                     return viewDimensions[HorizontalAlignment.center]
@@ -27,7 +35,7 @@ struct SquareShapedViewModifier: ViewModifier {
     }
 
     init(minSize: CGFloat, maxSize: CGFloat) {
-        self.size = minSize
+        size = minSize
         self.minSize = minSize
         self.maxSize = maxSize
     }
