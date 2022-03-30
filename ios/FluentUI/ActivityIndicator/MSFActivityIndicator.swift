@@ -7,7 +7,7 @@ import SwiftUI
 import UIKit
 
 /// UIKit wrapper that exposes the SwiftUI Activity Indicator implementation
-@objc open class MSFActivityIndicator: ControlHostingContainer {
+@objc open class MSFActivityIndicator: ControlHostingView {
 
     /// Creates a new MSFActivityIndicator instance.
     /// - Parameters:
@@ -16,6 +16,10 @@ import UIKit
         let activityIndicator = ActivityIndicator(size: size)
         state = activityIndicator.state
         super.init(AnyView(activityIndicator))
+    }
+
+    required public init?(coder: NSCoder) {
+        preconditionFailure("init(coder:) has not been implemented")
     }
 
     /// The object that groups properties that allow control over the Activity Indicator appearance.

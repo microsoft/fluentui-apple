@@ -8,7 +8,7 @@ import SwiftUI
 import UIKit
 
 /// UIKit wrapper that exposes the SwiftUI Button implementation
-@objc open class MSFButton: ControlHostingContainer,
+@objc open class MSFButton: ControlHostingView,
                             UIGestureRecognizerDelegate {
 
     /// Closure that handles the button tap event.
@@ -41,6 +41,10 @@ import UIKit
             strongSelf.action?(strongSelf)
         }
         setupLargeContentViewer()
+    }
+
+    required public init?(coder: NSCoder) {
+        preconditionFailure("init(coder:) has not been implemented")
     }
 
     private func setupLargeContentViewer() {

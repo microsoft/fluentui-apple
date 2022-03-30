@@ -7,12 +7,16 @@ import UIKit
 import SwiftUI
 
 /// UIKit wrapper that exposes the SwiftUI List implementation
-@objc open class MSFList: ControlHostingContainer {
+@objc open class MSFList: ControlHostingView {
 
     @objc public init() {
         let list = FluentList()
         state = list.state
         super.init(AnyView(list))
+    }
+
+    required public init?(coder: NSCoder) {
+        preconditionFailure("init(coder:) has not been implemented")
     }
 
     @objc public let state: MSFListState

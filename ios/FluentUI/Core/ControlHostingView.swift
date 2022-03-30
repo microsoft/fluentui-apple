@@ -7,11 +7,18 @@ import SwiftUI
 import UIKit
 
 /// Common wrapper for hosting and exposing SwiftUI components to UIKit-based clients.
-open class ControlHostingContainer: NSObject {
+open class ControlHostingView: UIView {
 
     /// The UIView representing the wrapped SwiftUI view.
     @objc public var view: UIView {
-        return hostingController.view
+        return self
+    }
+
+    @objc public override var intrinsicContentSize: CGSize {
+        guard let hostedView = hostingController.view else {
+            return super.intrinsicContentSize
+        }
+        return hostedView.intrinsicContentSize
     }
 
     /// Initializes and returns an instance of `ControlHostingContainer` that wraps `controlView`.
@@ -22,7 +29,7 @@ open class ControlHostingContainer: NSObject {
     /// - Parameter controlView: An `AnyView`-wrapped component to host.
     init(_ controlView: AnyView, disableSafeAreaInsets: Bool = true) {
         self.controlView = controlView
-        super.init()
+        super.init(frame: .zero)
 
         if disableSafeAreaInsets {
             hostingController.disableSafeAreaInsets()
@@ -36,7 +43,30 @@ open class ControlHostingContainer: NSObject {
 
         // Set the initial appearance of our control.
         self.updateRootView()
-        view.backgroundColor = UIColor.clear
+        self.configureHostedView()
+    }
+
+    required public init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    /// Adds `hostingController.view` to ourselves as a subview, and enables necessary constraints.
+    private func configureHostedView() {
+        guard let hostedView = hostingController.view else {
+            return
+        }
+        hostedView.backgroundColor = UIColor.clear
+
+        addSubview(hostedView)
+        hostedView.translatesAutoresizingMaskIntoConstraints = false
+
+        let requiredConstraints = [
+            hostedView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            hostedView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            hostedView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            hostedView.topAnchor.constraint(equalTo: topAnchor)
+        ]
+        self.addConstraints(requiredConstraints)
     }
 
     @objc private func themeDidChange(_ notification: Notification) {

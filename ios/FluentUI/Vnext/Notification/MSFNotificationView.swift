@@ -7,7 +7,7 @@ import SwiftUI
 import UIKit
 
 /// UIKit wrapper that exposes the SwiftUI `Notification` implementation
-@objc open class MSFNotification: ControlHostingContainer {
+@objc open class MSFNotification: ControlHostingView {
 
     /// Creates a new MSFNotification instance.
     /// - Parameters:
@@ -19,6 +19,10 @@ import UIKit
 
         notification = NotificationViewSwiftUI(style: style, message: message, delayTime: delayTime)
         super.init(AnyView(notification))
+    }
+
+    required public init?(coder: NSCoder) {
+        preconditionFailure("init(coder:) has not been implemented")
     }
 
     @objc public var state: MSFNotificationState {
