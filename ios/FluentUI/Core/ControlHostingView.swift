@@ -62,9 +62,6 @@ open class ControlHostingView: UIView {
             hostedView.bottomAnchor.constraint(equalTo: bottomAnchor),
             hostedView.topAnchor.constraint(equalTo: topAnchor)
         ]
-        requiredConstraints.forEach {
-            $0.priority = .defaultHigh
-        }
         self.addConstraints(requiredConstraints)
     }
 
