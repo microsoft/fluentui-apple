@@ -7,7 +7,7 @@ import UIKit
 import SwiftUI
 
 /// UIKit wrapper that exposes the SwiftUI AvatarGroup implementation.
-@objc open class MSFAvatarGroup: ControlHostingContainer {
+@objc open class MSFAvatarGroup: ControlHostingView {
 
     /// Creates a new MSFAvatarGroup instance.
     /// - Parameters:
@@ -20,6 +20,10 @@ import SwiftUI
         state = avatarGroup.state
         super.init(AnyView(avatarGroup))
         view.backgroundColor = UIColor.clear
+    }
+
+    required public init?(coder: NSCoder) {
+        preconditionFailure("init(coder:) has not been implemented")
     }
 
     /// The object that groups properties that allow control over the AvatarGroup appearance.

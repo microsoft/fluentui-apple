@@ -7,7 +7,7 @@ import UIKit
 import SwiftUI
 
 /// UIKit wrapper that exposes the SwiftUI Avatar implementation.
-@objc open class MSFAvatar: ControlHostingContainer {
+@objc open class MSFAvatar: ControlHostingView {
 
     /// Creates a new MSFAvatar instance.
     /// - Parameters:
@@ -19,6 +19,10 @@ import SwiftUI
                             size: size)
         state = avatar.state
         super.init(AnyView(avatar))
+    }
+
+    required public init?(coder: NSCoder) {
+        preconditionFailure("init(coder:) has not been implemented")
     }
 
     /// The object that groups properties that allow control over the Avatar appearance.

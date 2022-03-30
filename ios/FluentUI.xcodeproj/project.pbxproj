@@ -153,7 +153,7 @@
 		922A34DF27BB87990062721F /* ConfigurableTokenizedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 922A34DE27BB87990062721F /* ConfigurableTokenizedControl.swift */; };
 		923DB9D4274CB65700D8E58A /* TokenizedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923DB9D2274CB65700D8E58A /* TokenizedControl.swift */; };
 		923DB9D5274CB65700D8E58A /* FluentTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923DB9D3274CB65700D8E58A /* FluentTheme.swift */; };
-		923DB9D7274CB66D00D8E58A /* ControlHostingContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923DB9D6274CB66D00D8E58A /* ControlHostingContainer.swift */; };
+		923DB9D7274CB66D00D8E58A /* ControlHostingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923DB9D6274CB66D00D8E58A /* ControlHostingView.swift */; };
 		923DF2E72712B6AB00637646 /* libFluentUI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FD01166228A820600D25925 /* libFluentUI.a */; };
 		923DF2E82712B6C400637646 /* FluentUIResources-ios.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A5DA88FC226FAA01000A8EA8 /* FluentUIResources-ios.bundle */; };
 		924268A2277AD9F700C5A452 /* FontTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 924268A1277AD9F700C5A452 /* FontTests.swift */; };
@@ -254,7 +254,7 @@
 		922A34DE27BB87990062721F /* ConfigurableTokenizedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurableTokenizedControl.swift; sourceTree = "<group>"; };
 		923DB9D2274CB65700D8E58A /* TokenizedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenizedControl.swift; sourceTree = "<group>"; };
 		923DB9D3274CB65700D8E58A /* FluentTheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FluentTheme.swift; sourceTree = "<group>"; };
-		923DB9D6274CB66D00D8E58A /* ControlHostingContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlHostingContainer.swift; sourceTree = "<group>"; };
+		923DB9D6274CB66D00D8E58A /* ControlHostingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlHostingView.swift; sourceTree = "<group>"; };
 		924268A1277AD9F700C5A452 /* FontTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontTests.swift; sourceTree = "<group>"; };
 		925728F6276D6AF800EE1019 /* ShadowInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowInfo.swift; sourceTree = "<group>"; };
 		925728F8276D6B5800EE1019 /* FontInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontInfo.swift; sourceTree = "<group>"; };
@@ -867,7 +867,7 @@
 			children = (
 				925D461926FD124B00179583 /* Theme */,
 				A5CEC16C20D98EE70016922A /* Colors.swift */,
-				923DB9D6274CB66D00D8E58A /* ControlHostingContainer.swift */,
+				923DB9D6274CB66D00D8E58A /* ControlHostingView.swift */,
 				A559BB82212B7D870055E107 /* FluentUIFramework.swift */,
 				535559E22711411E0094A871 /* FluentUIHostingController.swift */,
 				A5CEC16E20D98F340016922A /* Fonts.swift */,
@@ -1514,7 +1514,7 @@
 				5314E0E425F012C00099271A /* NavigationController.swift in Sources */,
 				925728F7276D6AF800EE1019 /* ShadowInfo.swift in Sources */,
 				5328D97326FBA3D700F3723B /* IndeterminateProgressBarModifiers.swift in Sources */,
-				923DB9D7274CB66D00D8E58A /* ControlHostingContainer.swift in Sources */,
+				923DB9D7274CB66D00D8E58A /* ControlHostingView.swift in Sources */,
 				5314E03B25F00E3D0099271A /* BadgeStringExtractor.swift in Sources */,
 				5314E19825F019650099271A /* SideTabBar.swift in Sources */,
 				5314E10A25F014600099271A /* Obscurable.swift in Sources */,

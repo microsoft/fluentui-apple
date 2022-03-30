@@ -7,7 +7,7 @@ import SwiftUI
 import UIKit
 
 /// UIKit wrapper that exposes the SwiftUI PersonaButtonCarousel implementation
-@objc open class MSFPersonaButtonCarousel: ControlHostingContainer {
+@objc open class MSFPersonaButtonCarousel: ControlHostingView {
 
     /// Creates a new MSFPersonaButtonCarousel instance.
     /// - Parameters:
@@ -16,6 +16,10 @@ import UIKit
         let personaButtonCarousel = PersonaButtonCarousel(size: size)
         state = personaButtonCarousel.state
         super.init(AnyView(personaButtonCarousel))
+    }
+
+    required public init?(coder: NSCoder) {
+        preconditionFailure("init(coder:) has not been implemented")
     }
 
     /// The object that groups properties that allow control over the PersonaButtonCarousel appearance.

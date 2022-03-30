@@ -7,7 +7,7 @@ import SwiftUI
 import UIKit
 
 /// UIKit wrapper that exposes the SwiftUI PersonaButton implementation
-@objc open class MSFPersonaButton: ControlHostingContainer {
+@objc open class MSFPersonaButton: ControlHostingView {
 
     /// Creates a new MSFPersonaButton instance.
     /// - Parameters:
@@ -16,6 +16,10 @@ import UIKit
         let personaButton = PersonaButton(size: size)
         state = personaButton.state
         super.init(AnyView(personaButton))
+    }
+
+    required public init?(coder: NSCoder) {
+        preconditionFailure("init(coder:) has not been implemented")
     }
 
     /// The object that groups properties that allow control over the PersonaButton appearance.
