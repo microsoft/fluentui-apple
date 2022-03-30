@@ -290,7 +290,6 @@ class LeftNavMenuViewController: UIViewController {
         contentView.addSubview(menuListView)
 
         let accountViewHeightConstraint = accountView.heightAnchor.constraint(equalToConstant: accountView.intrinsicContentSize.height)
-        accountViewHeightConstraint.priority = .defaultHigh
         leftNavAccountViewHeightConstraint = accountViewHeightConstraint
 
         NSLayoutConstraint.activate([accountViewHeightConstraint,
