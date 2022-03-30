@@ -8,7 +8,7 @@ jobs:
 - job: fluentui_apple_publish_nuget
   dependsOn: Compliance
   pool:
-    vmImage: 'macos-11'
+    vmImage: 'macos-12'
   variables:
   - group: InfoSec-SecurityResults
   - name: BUILDSECMON_OPT_IN
