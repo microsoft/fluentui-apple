@@ -7,7 +7,7 @@ import UIKit
 import SwiftUI
 
 /// UIKit wrapper that exposes the SwiftUI Divider implementation.
-@objc open class MSFDivider: ControlHostingContainer {
+@objc open class MSFDivider: ControlHostingView {
     /// Creates a new MSFDivider instance.
     ///  - Parameters:
     ///   - orientation: The DividerOrientation used by the Divider.
@@ -17,6 +17,10 @@ import SwiftUI
         let divider = FluentDivider(orientation: orientation, spacing: spacing)
         state = divider.state
         super.init(AnyView(divider))
+    }
+
+    required public init?(coder: NSCoder) {
+        preconditionFailure("init(coder:) has not been implemented")
     }
 
     /// The object that groups properties that allow control over the Divider appearance.
