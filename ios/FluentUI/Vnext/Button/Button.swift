@@ -76,6 +76,7 @@ class MSFButtonStateImpl: NSObject, ObservableObject, ControlConfiguration, MSFB
     var action: () -> Void
     @Published var image: UIImage?
     @Published var disabled: Bool?
+    @Published var focused: Bool?
     @Published var text: String?
     @Published var size: MSFButtonSize
     @Published var style: MSFButtonStyle
@@ -88,6 +89,15 @@ class MSFButtonStateImpl: NSObject, ObservableObject, ControlConfiguration, MSFB
         }
         set {
             disabled = newValue
+        }
+    }
+
+    var isFocused: Bool {
+        get {
+            return focused ?? false
+        }
+        set {
+            focused = newValue
         }
     }
 
@@ -112,6 +122,7 @@ struct FluentButtonBody: View {
 
     var body: some View {
         let isDisabled = !isEnabled
+        let isFocused = state.isFocused
         let isFloatingStyle = tokens.style.isFloatingStyle
         let shouldUsePressedShadow = isDisabled || isPressed
         let iconColor: DynamicColor
@@ -128,6 +139,11 @@ struct FluentButtonBody: View {
             textColor = tokens.textColor.pressed
             borderColor = tokens.borderColor.pressed
             backgroundColor = tokens.backgroundColor.pressed
+        } else if isFocused {
+            iconColor = tokens.iconColor.hover
+            textColor = tokens.textColor.hover
+            borderColor = tokens.borderColor.hover
+            backgroundColor = tokens.backgroundColor.hover
         } else {
             iconColor = tokens.iconColor.rest
             textColor = tokens.textColor.rest

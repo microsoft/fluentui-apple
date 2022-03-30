@@ -11,6 +11,15 @@ import UIKit
 @objc open class MSFButton: ControlHostingView,
                             UIGestureRecognizerDelegate {
 
+    open override func didUpdateFocus(in context: UIFocusUpdateContext, with coordinator: UIFocusAnimationCoordinator) {
+        let style = state.style
+        guard style == .primary || style == .accentFloating, let stateImpl = state as? MSFButtonStateImpl else {
+            return
+        }
+
+        stateImpl.isFocused = !stateImpl.isFocused
+    }
+
     /// Closure that handles the button tap event.
     @objc public var action: ((_ sender: MSFButton) -> Void)?
 
