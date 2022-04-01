@@ -9,11 +9,7 @@ import UIKit
 /// Common wrapper for hosting and exposing SwiftUI components to UIKit-based clients.
 open class ControlHostingView: UIView {
 
-    /// The UIView representing the wrapped SwiftUI view.
-    @objc public var view: UIView {
-        return self
-    }
-
+    /// The intrinsic content size of the wrapped SwiftUI view.
     @objc public override var intrinsicContentSize: CGSize {
         guard let hostedView = hostingController.view else {
             return super.intrinsicContentSize
@@ -78,7 +74,7 @@ open class ControlHostingView: UIView {
     }
 
     private var currentFluentTheme: FluentTheme {
-        if let windowFluentTheme = self.view.window?.fluentTheme {
+        if let windowFluentTheme = self.window?.fluentTheme {
             return windowFluentTheme
         } else {
             return FluentThemeKey.defaultValue

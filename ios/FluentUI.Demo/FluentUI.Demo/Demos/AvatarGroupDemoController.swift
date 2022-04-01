@@ -131,7 +131,7 @@ class AvatarGroupDemoController: DemoTableViewController {
                 return cell
             }
 
-            let avatarGroupView = avatarGroup.view
+            let avatarGroupView = avatarGroup
             avatarGroupView.translatesAutoresizingMaskIntoConstraints = false
 
             cell.contentView.addSubview(avatarGroupView)
