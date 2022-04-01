@@ -76,7 +76,7 @@ class MSFButtonStateImpl: NSObject, ObservableObject, ControlConfiguration, MSFB
     var action: () -> Void
     @Published var image: UIImage?
     @Published var disabled: Bool?
-    @Published var focused: Bool?
+    @Published var isFocused: Bool = false
     @Published var text: String?
     @Published var size: MSFButtonSize
     @Published var style: MSFButtonStyle
@@ -89,15 +89,6 @@ class MSFButtonStateImpl: NSObject, ObservableObject, ControlConfiguration, MSFB
         }
         set {
             disabled = newValue
-        }
-    }
-
-    var isFocused: Bool {
-        get {
-            return focused ?? false
-        }
-        set {
-            focused = newValue
         }
     }
 
