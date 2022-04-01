@@ -11,7 +11,8 @@ import UIKit
 @objc open class MSFButton: ControlHostingView,
                             UIGestureRecognizerDelegate {
 
-    open override func didUpdateFocus(in context: UIFocusUpdateContext, with coordinator: UIFocusAnimationCoordinator) {
+    open override func didUpdateFocus(in context: UIFocusUpdateContext,
+                                      with coordinator: UIFocusAnimationCoordinator) {
         let style = state.style
         guard style == .primary || style == .accentFloating else {
             return
