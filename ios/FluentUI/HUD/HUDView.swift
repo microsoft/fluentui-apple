@@ -190,7 +190,7 @@ class HUDView: UIView {
             let activityIndicator = MSFActivityIndicator(size: .xLarge)
             activityIndicator.state.color = Colors.HUD.activityIndicator
             activityIndicator.state.isAnimating = true
-            return activityIndicator.view
+            return activityIndicator
         case .success:
             let imageView = UIImageView(image: .staticImageNamed("checkmark-36x36"))
             imageView.tintColor = Colors.HUD.activityIndicator

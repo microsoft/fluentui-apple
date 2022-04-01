@@ -51,7 +51,7 @@ open class PersonaCell: TableViewCell {
             avatar.state.ringColor = color
         }
 
-        let avatarView = avatar.view
+        let avatarView = avatar
         avatarView.accessibilityElementsHidden = true
         // Attempt to use email if name is empty
         let title = !persona.name.isEmpty ? persona.name : persona.email

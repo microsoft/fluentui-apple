@@ -54,7 +54,7 @@
                                               size:MSFButtonSizeMedium
                                             action:^(MSFButton *sender) {}];
     [self resetButton];
-    [self.container addArrangedSubview:[_testButton view]];
+    [self.container addArrangedSubview:_testButton];
 
     MSFButtonLegacy *enableButton = [self createButtonWithTitle:@"Enable Button" action:@selector(enableButton)];
     [self.container addArrangedSubview:enableButton];
@@ -98,12 +98,11 @@
         [self showAlertForCellTapped:@"Sample Title3"];
     }];
 
-    UIView *listView = [testList view];
-    listView.translatesAutoresizingMaskIntoConstraints = false;
+    testList.translatesAutoresizingMaskIntoConstraints = false;
 
-    [self.container addArrangedSubview:[testList view]];
+    [self.container addArrangedSubview:testList];
 
-    [[[listView heightAnchor] constraintEqualToConstant:250] setActive:YES];
+    [[[testList heightAnchor] constraintEqualToConstant:250] setActive:YES];
 }
 
 - (void)enableButton {

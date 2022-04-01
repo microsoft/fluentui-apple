@@ -18,7 +18,7 @@ class NavigationControllerDemoController: DemoController {
             }
 
             strongSelf.presentController(withLargeTitle: true)
-        }).view)
+        }))
 
         container.addArrangedSubview(createButton(title: "Show with collapsible search bar", action: { [weak self] _ in
             guard let strongSelf = self else {
@@ -28,7 +28,7 @@ class NavigationControllerDemoController: DemoController {
             strongSelf.presentController(withLargeTitle: true,
                                          accessoryView: strongSelf.createAccessoryView(),
                                          contractNavigationBarOnScroll: true)
-        }).view)
+        }))
 
         container.addArrangedSubview(createButton(title: "Show with fixed search bar", action: { [weak self] _ in
             guard let strongSelf = self else {
@@ -38,7 +38,7 @@ class NavigationControllerDemoController: DemoController {
             strongSelf.presentController(withLargeTitle: true,
                                          accessoryView: strongSelf.createAccessoryView(),
                                          contractNavigationBarOnScroll: false)
-        }).view)
+        }))
 
         container.addArrangedSubview(createButton(title: "Show without an avatar", action: { [weak self] _ in
             guard let strongSelf = self else {
@@ -49,7 +49,7 @@ class NavigationControllerDemoController: DemoController {
                                          style: .primary,
                                          accessoryView: strongSelf.createAccessoryView(),
                                          showAvatar: false)
-        }).view)
+        }))
 
         container.addArrangedSubview(createButton(title: "Show with pill segmented control", action: { [weak self] _ in
             guard let strongSelf = self else {
@@ -73,7 +73,7 @@ class NavigationControllerDemoController: DemoController {
             strongSelf.presentController(withLargeTitle: true,
                                          accessoryView: stackView,
                                          contractNavigationBarOnScroll: false)
-        }).view)
+        }))
 
         addTitle(text: "Large Title with System style")
         container.addArrangedSubview(createButton(title: "Show without accessory", action: { [weak self] _ in
@@ -83,7 +83,7 @@ class NavigationControllerDemoController: DemoController {
 
             strongSelf.presentController(withLargeTitle: true,
                                          style: .system)
-        }).view)
+        }))
         container.addArrangedSubview(createButton(title: "Show without accessory and shadow", action: { [weak self] _ in
             guard let strongSelf = self else {
                 return
@@ -93,7 +93,7 @@ class NavigationControllerDemoController: DemoController {
                                          style: .system,
                                          contractNavigationBarOnScroll: false,
                                          showShadow: false)
-        }).view)
+        }))
         container.addArrangedSubview(createButton(title: "Show with collapsible search bar", action: { [weak self] _ in
             guard let strongSelf = self else {
                 return
@@ -103,7 +103,7 @@ class NavigationControllerDemoController: DemoController {
                                          style: .system,
                                          accessoryView: strongSelf.createAccessoryView(with: .darkContent),
                                          contractNavigationBarOnScroll: true)
-        }).view)
+        }))
         container.addArrangedSubview(createButton(title: "Show with fixed search bar", action: { [weak self] _ in
             guard let strongSelf = self else {
                 return
@@ -113,7 +113,7 @@ class NavigationControllerDemoController: DemoController {
                                    style: .system,
                                    accessoryView: strongSelf.createAccessoryView(with: .darkContent),
                                    contractNavigationBarOnScroll: false)
-        }).view)
+        }))
 
         addTitle(text: "Regular Title")
         container.addArrangedSubview(createButton(title: "Show \"system\" with collapsible search bar", action: { [weak self] _ in
@@ -125,7 +125,7 @@ class NavigationControllerDemoController: DemoController {
                                          style: .system,
                                          accessoryView: strongSelf.createAccessoryView(with: .darkContent),
                                          contractNavigationBarOnScroll: true)
-        }).view)
+        }))
         container.addArrangedSubview(createButton(title: "Show \"primary\" with fixed search bar", action: { [weak self] _ in
             guard let strongSelf = self else {
                 return
@@ -134,7 +134,7 @@ class NavigationControllerDemoController: DemoController {
             strongSelf.presentController(withLargeTitle: false,
                                          accessoryView: strongSelf.createAccessoryView(),
                                          contractNavigationBarOnScroll: false)
-        }).view)
+        }))
 
         addTitle(text: "Size Customization")
         container.addArrangedSubview(createButton(title: "Show with expanded avatar, contracted title", action: { [weak self] _ in
@@ -146,7 +146,7 @@ class NavigationControllerDemoController: DemoController {
                                                           accessoryView: strongSelf.createAccessoryView())
             controller.msfNavigationBar.avatarSize = .expanded
             controller.msfNavigationBar.titleSize = .contracted
-        }).view)
+        }))
 
         addTitle(text: "Custom Navigation Bar Color")
         container.addArrangedSubview(createButton(title: "Show with gradient navigation bar color", action: { [weak self] _ in
@@ -157,7 +157,7 @@ class NavigationControllerDemoController: DemoController {
             strongSelf.presentController(withLargeTitle: true,
                                          style: .custom,
                                          accessoryView: strongSelf.createAccessoryView())
-        }).view)
+        }))
 
         addTitle(text: "Top Accessory View")
         container.addArrangedSubview(createButton(title: "Show with top search bar for large screen width", action: { [weak self] _ in
@@ -170,7 +170,7 @@ class NavigationControllerDemoController: DemoController {
                                          accessoryView: strongSelf.createAccessoryView(with: .darkContent),
                                          showsTopAccessory: true,
                                          contractNavigationBarOnScroll: false)
-        }).view)
+        }))
 
         addTitle(text: "Change Style Periodically")
         container.addArrangedSubview(createButton(title: "Change the style every second", action: { [weak self] _ in
@@ -184,7 +184,7 @@ class NavigationControllerDemoController: DemoController {
                                          showsTopAccessory: true,
                                          contractNavigationBarOnScroll: false,
                                          updateStylePeriodically: true)
-        }).view)
+        }))
     }
 
     @discardableResult

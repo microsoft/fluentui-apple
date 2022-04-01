@@ -46,11 +46,11 @@ class CalendarView: UIView {
 
         addSubview(weekdayHeadingView)
         addSubview(collectionView)
-        addSubview(collectionViewDivider.view)
+        addSubview(collectionViewDivider)
         addInteraction(UILargeContentViewerInteraction())
 
         if headerStyle == .light {
-            addSubview(headingViewDivider.view)
+            addSubview(headingViewDivider)
         }
     }
 
@@ -70,11 +70,11 @@ class CalendarView: UIView {
             height: weekdayHeadingViewSize.height
         )
 
-        headingViewDivider.view.frame = CGRect(
+        headingViewDivider.frame = CGRect(
             x: 0.0,
             y: weekdayHeadingView.frame.height,
             width: bounds.size.width,
-            height: headingViewDivider.view.frame.height
+            height: headingViewDivider.frame.height
         )
 
         // Collection view
@@ -91,11 +91,11 @@ class CalendarView: UIView {
         )
         collectionView.contentOffset = originalContentOffset
 
-        collectionViewDivider.view.frame = CGRect(
+        collectionViewDivider.frame = CGRect(
             x: 0.0,
-            y: collectionView.frame.maxY - collectionViewDivider.view.frame.height,
+            y: collectionView.frame.maxY - collectionViewDivider.frame.height,
             width: bounds.size.width,
-            height: collectionViewDivider.view.frame.height
+            height: collectionViewDivider.frame.height
         )
     }
 

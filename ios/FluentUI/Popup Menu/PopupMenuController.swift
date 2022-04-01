@@ -172,12 +172,12 @@ open class PopupMenuController: DrawerController {
 
         let customTokens = PopupMenuItemCell.CustomDividerTokens(separatorColor)
         divider.state.overrideTokens = customTokens
-        view.addSubview(divider.view)
-        divider.view.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(divider)
+        divider.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            divider.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            divider.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            divider.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            divider.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            divider.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            divider.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
 
         return view

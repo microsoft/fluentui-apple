@@ -170,7 +170,7 @@ class ShyHeaderView: UIView {
             if showsShadow {
                 initShadow()
             } else {
-                shadow.view.removeFromSuperview()
+                shadow.removeFromSuperview()
             }
         }
     }
@@ -194,7 +194,7 @@ class ShyHeaderView: UIView {
     }
 
     private func initShadow() {
-        let shadowView = shadow.view
+        let shadowView = shadow
         shadowView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(shadowView)
         NSLayoutConstraint.activate([

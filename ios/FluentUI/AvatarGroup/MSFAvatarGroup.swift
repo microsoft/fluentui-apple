@@ -19,7 +19,6 @@ import SwiftUI
                                      size: size)
         state = avatarGroup.state
         super.init(AnyView(avatarGroup))
-        view.backgroundColor = UIColor.clear
     }
 
     required public init?(coder: NSCoder) {

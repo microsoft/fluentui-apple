@@ -50,7 +50,7 @@ class NotificationViewDemoControllerSwiftUI: DemoTableViewController, UIPickerVi
         switch row {
         case .notification:
             let cell = UITableViewCell()
-            let notificationView = notification.view
+            let notificationView = notification
             let contentView = cell.contentView
             contentView.addSubview(notificationView)
             notificationView.translatesAutoresizingMaskIntoConstraints = false
@@ -83,13 +83,13 @@ class NotificationViewDemoControllerSwiftUI: DemoTableViewController, UIPickerVi
             let buttonView: [UIView] = {
                 switch row {
                 case .notificationTitle:
-                    return [notificationTitleTextField, notificationTitleButton.view]
+                    return [notificationTitleTextField, notificationTitleButton]
                 case .message:
-                    return [messageTextField, messageButton.view]
+                    return [messageTextField, messageButton]
                 case .actionButtonTitle:
-                    return [actionButtonTitleTextField, actionButtonTitleButton.view]
+                    return [actionButtonTitleTextField, actionButtonTitleButton]
                 case .delayTime:
-                    return [delayTimeTextField, delayTimeButton.view]
+                    return [delayTimeTextField, delayTimeButton]
                 default:
                     return []
                 }

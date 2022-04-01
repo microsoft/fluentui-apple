@@ -67,7 +67,7 @@ class ListDemoController: DemoController {
             }
         }
 
-        let listView = list.view
+        let listView = list
         listView.translatesAutoresizingMaskIntoConstraints = false
 
         let demoControllerView: UIView = self.view
@@ -93,7 +93,7 @@ class ListDemoController: DemoController {
                                       image: personaData.image,
                                       style: .default)
         cellState.title = avatar.state.primaryText ?? ""
-        cellState.leadingUIView = avatar.view
+        cellState.leadingUIView = avatar
         cellState.isExpanded = personaDataNode.isExpanded
         cellState.hasDivider = true
 

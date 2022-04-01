@@ -38,8 +38,8 @@ open class SideTabBar: UIView {
     /// Remember to enable pointer interactions on the avatar view if it handles pointer interactions.
     @objc open var avatar: MSFAvatar? {
         willSet {
-            avatar?.view.removeGestureRecognizer(avatarViewGestureRecognizer)
-            avatar?.view.removeFromSuperview()
+            avatar?.removeGestureRecognizer(avatarViewGestureRecognizer)
+            avatar?.removeFromSuperview()
         }
         didSet {
             if let avatar = avatar {
@@ -48,7 +48,7 @@ open class SideTabBar: UIView {
                 avatarState.accessibilityLabel = "Accessibility.LargeTitle.ProfileView".localized
                 avatarState.hasButtonAccessibilityTrait = delegate != nil
 
-                let avatarView = avatar.view
+                let avatarView = avatar
                 avatarView.translatesAutoresizingMaskIntoConstraints = false
                 avatarView.showsLargeContentViewer = true
                 avatarView.largeContentTitle = avatarState.accessibilityLabel
@@ -117,8 +117,8 @@ open class SideTabBar: UIView {
         backgroundView.translatesAutoresizingMaskIntoConstraints = false
         contain(view: backgroundView)
 
-        borderLine.view.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(borderLine.view)
+        borderLine.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(borderLine)
 
         addSubview(topStackView)
         addSubview(bottomStackView)
@@ -129,9 +129,9 @@ open class SideTabBar: UIView {
         shouldGroupAccessibilityChildren = true
 
         NSLayoutConstraint.activate([widthAnchor.constraint(equalToConstant: Constants.viewWidth),
-                                     borderLine.view.leadingAnchor.constraint(equalTo: trailingAnchor),
-                                     borderLine.view.bottomAnchor.constraint(equalTo: bottomAnchor),
-                                     borderLine.view.topAnchor.constraint(equalTo: topAnchor)])
+                                     borderLine.leadingAnchor.constraint(equalTo: trailingAnchor),
+                                     borderLine.bottomAnchor.constraint(equalTo: bottomAnchor),
+                                     borderLine.topAnchor.constraint(equalTo: topAnchor)])
     }
 
     @available(*, unavailable)
@@ -193,7 +193,7 @@ open class SideTabBar: UIView {
             // The avatar view's distance from the top of the side tab bar depends on safe layout guides.
             // There is a minimum spacing. If the layout guide spacing is large than the minimum spacing,
             // then the spacing will be layoutGuideSpacing + safeTopSpacing.
-            let avatarView = avatar.view
+            let avatarView = avatar
             let topSafeConstraint = avatarView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: Constants.avatarViewSafeTopSpacing)
             topSafeConstraint.priority = .defaultHigh
 
@@ -273,7 +273,7 @@ open class SideTabBar: UIView {
             }
 
             var previousSectionCount: Int = 0
-            if let avatar = avatar, !avatar.view.isHidden {
+            if let avatar = avatar, !avatar.isHidden {
                 totalCount += 1
                 previousSectionCount += 1
             }
