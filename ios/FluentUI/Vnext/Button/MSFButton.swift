@@ -18,9 +18,11 @@ import UIKit
             return
         }
 
-        if subviews.contains(context.nextFocusedView!) {
+        if let nextFocusedView = context.nextFocusedView,
+           subviews.contains(nextFocusedView) {
             stateImpl.isFocused = true
-        } else if subviews.contains(context.previouslyFocusedView!) {
+        } else if let previouslyFocusedView = context.previouslyFocusedView,
+                  subviews.contains(previouslyFocusedView) {
             stateImpl.isFocused = false
         }
     }
