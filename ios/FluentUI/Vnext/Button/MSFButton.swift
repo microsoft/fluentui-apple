@@ -17,7 +17,11 @@ import UIKit
             return
         }
 
-        stateImpl.isFocused = !stateImpl.isFocused
+        if subviews.contains(context.nextFocusedView!) {
+            stateImpl.isFocused = true
+        } else if subviews.contains(context.previouslyFocusedView!) {
+            stateImpl.isFocused = false
+        }
     }
 
     /// Closure that handles the button tap event.
