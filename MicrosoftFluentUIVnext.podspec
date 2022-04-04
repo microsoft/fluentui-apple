@@ -79,6 +79,14 @@ xcodebuild ${XCODEBUILDPARAMS} -project ${PROJECT_FILE_PATH} -target "MicrosoftF
     drawer_ios.source_files = ["ios/FluentUI/Drawer/**/*.{swift,h}"]
   end
 
+  s.subspec 'HUD_ios' do |hud_ios|
+    hud_ios.platform = :ios
+    hud_ios.dependency 'MicrosoftFluentUIVnext/ActivityIndicator_ios'
+    hud_ios.dependency 'MicrosoftFluentUIVnext/TouchForwardingView_ios'
+    hud_ios.preserve_paths = ["ios/FluentUI/Vnext/HUD/HUD.resources.xcfilelist"]
+    hud_ios.source_files = ["ios/FluentUI/Vnext/HUD/**/*.{swift,h}"]
+  end
+
   s.subspec 'IndeterminateProgressBar_ios' do |indeterminateProgressBar_ios|
     indeterminateProgressBar_ios.platform = :ios
     indeterminateProgressBar_ios.dependency 'MicrosoftFluentUIVnext/Core_ios'

@@ -70,8 +70,6 @@
 		5314E0A925F010070099271A /* DrawerTransitionAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87AF4211E16360038C37C /* DrawerTransitionAnimator.swift */; };
 		5314E0AA25F010070099271A /* DrawerShadowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5237ACC21ED6CA70040BF27 /* DrawerShadowView.swift */; };
 		5314E0B325F010400099271A /* EasyTapButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD5BBE42214C73CE008964B4 /* EasyTapButton.swift */; };
-		5314E0BC25F0106F0099271A /* HUDView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B483323221CC71940022B4CC /* HUDView.swift */; };
-		5314E0BD25F0106F0099271A /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = B483323421DEA8D70022B4CC /* HUD.swift */; };
 		5314E0CF25F011F10099271A /* Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = A589F853211BA03200471C23 /* Label.swift */; };
 		5314E0E425F012C00099271A /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C87F22DD13230086F899 /* NavigationController.swift */; };
 		5314E0E525F012C00099271A /* NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C87B22DD13230086F899 /* NavigationBar.swift */; };
@@ -149,7 +147,10 @@
 		532FE3D426EA6D74007539C0 /* ActivityIndicatorTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532FE3CE26EA6D73007539C0 /* ActivityIndicatorTokens.swift */; };
 		532FE3D626EA6D74007539C0 /* ActivityIndicatorModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532FE3CF26EA6D73007539C0 /* ActivityIndicatorModifiers.swift */; };
 		532FE3D826EA6D74007539C0 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532FE3D026EA6D74007539C0 /* ActivityIndicator.swift */; };
-		5336B16D27F77C9900B01E0D /* HUDModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5336B16C27F77C9900B01E0D /* HUDModifiers.swift */; };
+		5336B17627F77EB800B01E0D /* HUDModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5336B17027F77EB700B01E0D /* HUDModifiers.swift */; };
+		5336B17827F77EB800B01E0D /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5336B17227F77EB700B01E0D /* HUD.swift */; };
+		5336B17927F77EB800B01E0D /* HeadsUpDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5336B17327F77EB700B01E0D /* HeadsUpDisplay.swift */; };
+		5336B18027FB6D9B00B01E0D /* HUDTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5336B17F27FB6D9B00B01E0D /* HUDTokens.swift */; };
 		535559E42711411E0094A871 /* FluentUIHostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535559E22711411E0094A871 /* FluentUIHostingController.swift */; };
 		5373D5652694D65C0032A3B4 /* AvatarTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5373D5602694D65C0032A3B4 /* AvatarTokens.swift */; };
 		5373D5672694D65C0032A3B4 /* Avatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5373D5612694D65C0032A3B4 /* Avatar.swift */; };
@@ -268,7 +269,11 @@
 		532FE3CE26EA6D73007539C0 /* ActivityIndicatorTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorTokens.swift; sourceTree = "<group>"; };
 		532FE3CF26EA6D73007539C0 /* ActivityIndicatorModifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorModifiers.swift; sourceTree = "<group>"; };
 		532FE3D026EA6D74007539C0 /* ActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
-		5336B16C27F77C9900B01E0D /* HUDModifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUDModifiers.swift; sourceTree = "<group>"; };
+		5336B17027F77EB700B01E0D /* HUDModifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUDModifiers.swift; sourceTree = "<group>"; };
+		5336B17227F77EB700B01E0D /* HUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUD.swift; sourceTree = "<group>"; };
+		5336B17327F77EB700B01E0D /* HeadsUpDisplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeadsUpDisplay.swift; sourceTree = "<group>"; };
+		5336B17427F77EB700B01E0D /* HUD.resources.xcfilelist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcfilelist; path = HUD.resources.xcfilelist; sourceTree = "<group>"; };
+		5336B17F27FB6D9B00B01E0D /* HUDTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUDTokens.swift; sourceTree = "<group>"; };
 		535559E22711411E0094A871 /* FluentUIHostingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FluentUIHostingController.swift; sourceTree = "<group>"; };
 		5373D5602694D65C0032A3B4 /* AvatarTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarTokens.swift; sourceTree = "<group>"; };
 		5373D5612694D65C0032A3B4 /* Avatar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Avatar.swift; sourceTree = "<group>"; };
@@ -363,8 +368,6 @@
 		B46D3F922151D95F0029772C /* PersonaCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaCell.swift; sourceTree = "<group>"; };
 		B46D3F9C215985AC0029772C /* PersonaListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaListView.swift; sourceTree = "<group>"; };
 		B47B58B722F8E5840078DE38 /* PeoplePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeoplePicker.swift; sourceTree = "<group>"; };
-		B483323221CC71940022B4CC /* HUDView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDView.swift; sourceTree = "<group>"; };
-		B483323421DEA8D70022B4CC /* HUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUD.swift; sourceTree = "<group>"; };
 		B483323621DEB5A00022B4CC /* TouchForwardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchForwardingView.swift; sourceTree = "<group>"; };
 		B498141321E424920077B48D /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		B4A8BBCC21BF6D6900D5E3ED /* BadgeStringExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeStringExtractor.swift; sourceTree = "<group>"; };
@@ -695,6 +698,18 @@
 			path = Obscurable;
 			sourceTree = "<group>";
 		};
+		5336B16E27F77EB700B01E0D /* HUD */ = {
+			isa = PBXGroup;
+			children = (
+				5336B17327F77EB700B01E0D /* HeadsUpDisplay.swift */,
+				5336B17227F77EB700B01E0D /* HUD.swift */,
+				5336B17027F77EB700B01E0D /* HUDModifiers.swift */,
+				5336B17F27FB6D9B00B01E0D /* HUDTokens.swift */,
+				5336B17427F77EB700B01E0D /* HUD.resources.xcfilelist */,
+			);
+			path = HUD;
+			sourceTree = "<group>";
+		};
 		5340828B26CFF298007716E1 /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
@@ -706,10 +721,11 @@
 		536AEF2125F1EC0300A36206 /* Vnext */ = {
 			isa = PBXGroup;
 			children = (
-				4BA9B8B5279F2940007536F5 /* Notification */,
 				536AEF2E25F1EC0300A36206 /* Button */,
 				EC6A71E8273DB98F0076A586 /* Divider */,
+				5336B16E27F77EB700B01E0D /* HUD */,
 				536AEF3225F1EC0300A36206 /* List */,
+				4BA9B8B5279F2940007536F5 /* Notification */,
 				0AA8741326001F0500D47421 /* Persona */,
 			);
 			path = Vnext;
@@ -937,7 +953,6 @@
 				A5B87AF2211E13D00038C37C /* Drawer */,
 				5314DFF525F007020099271A /* EasyTapButton */,
 				A5B87AED211BCA4A0038C37C /* Extensions */,
-				B483323121CC71700022B4CC /* HUD */,
 				5314DFF425F0069C0099271A /* IndeterminateProgressBar */,
 				5314DFF025F0042E0099271A /* Label */,
 				FD41C86D22DD12A20086F899 /* Navigation */,
@@ -1048,16 +1063,6 @@
 				B444D6B02181403C0002B4D4 /* UITableViewCell+Extension.swift */,
 			);
 			path = "Table View";
-			sourceTree = "<group>";
-		};
-		B483323121CC71700022B4CC /* HUD */ = {
-			isa = PBXGroup;
-			children = (
-				5336B16C27F77C9900B01E0D /* HUDModifiers.swift */,
-				B483323421DEA8D70022B4CC /* HUD.swift */,
-				B483323221CC71940022B4CC /* HUDView.swift */,
-			);
-			path = HUD;
 			sourceTree = "<group>";
 		};
 		B4F118EA21C8270F00855942 /* Badge Field */ = {
@@ -1506,6 +1511,7 @@
 				923DB9D4274CB65700D8E58A /* TokenizedControl.swift in Sources */,
 				5314E06B25F00F100099271A /* DateTimePicker.swift in Sources */,
 				5314E2BB25F024C60099271A /* CALayer+Extensions.swift in Sources */,
+				5336B18027FB6D9B00B01E0D /* HUDTokens.swift in Sources */,
 				5314E12B25F016230099271A /* PillButtonBar.swift in Sources */,
 				53097D09270288FB00A6E4DC /* Button.swift in Sources */,
 				5314E07E25F00F1A0099271A /* DateTimePickerView.swift in Sources */,
@@ -1525,10 +1531,12 @@
 				5314E06125F00EFD0099271A /* CalendarViewDayCell.swift in Sources */,
 				929DD25A266ED3B600E8175E /* PersonaButtonCarousel.swift in Sources */,
 				ECA921C627B5D10B00B66117 /* ButtonDynamicColors.swift in Sources */,
+				5336B17927F77EB800B01E0D /* HeadsUpDisplay.swift in Sources */,
 				5314E12A25F016230099271A /* PillButton.swift in Sources */,
 				4BF01D9A27B37CF8005B32F2 /* NotificationTokens.swift in Sources */,
 				0AC8A8B227C72D4600D9FAF5 /* MSFPersonaView.swift in Sources */,
 				5314E0E525F012C00099271A /* NavigationBar.swift in Sources */,
+				5336B17627F77EB800B01E0D /* HUDModifiers.swift in Sources */,
 				C708B064260A87F7007190FA /* SegmentItem.swift in Sources */,
 				5328D97126FBA3D700F3723B /* IndeterminateProgressBarTokens.swift in Sources */,
 				5314E14325F016860099271A /* CardTransitionAnimator.swift in Sources */,
@@ -1545,6 +1553,7 @@
 				5314E13525F016370099271A /* PopupMenuItemCell.swift in Sources */,
 				530D9C5127EE388200BDCBBF /* SwiftUI+ViewPresentation.swift in Sources */,
 				5314E2A025F024860099271A /* NSLayoutConstraint+Extensions.swift in Sources */,
+				5336B17827F77EB800B01E0D /* HUD.swift in Sources */,
 				923DB9D5274CB65700D8E58A /* FluentTheme.swift in Sources */,
 				929DD257266ED3AC00E8175E /* PersonaButtonCarouselTokens.swift in Sources */,
 				0AD70F5B26E80A5D008774EC /* CommandBarTokens.swift in Sources */,
@@ -1559,7 +1568,6 @@
 				535559E42711411E0094A871 /* FluentUIHostingController.swift in Sources */,
 				5314E1B125F01A980099271A /* TooltipView.swift in Sources */,
 				5314E19525F019650099271A /* TabBarItemView.swift in Sources */,
-				5336B16D27F77C9900B01E0D /* HUDModifiers.swift in Sources */,
 				5314E03C25F00E3D0099271A /* BadgeField.swift in Sources */,
 				5314E05B25F00EF50099271A /* CalendarView.swift in Sources */,
 				92EE82AE27025A94009D52B5 /* TokenSet.swift in Sources */,
@@ -1588,7 +1596,6 @@
 				92F8054E272B2DF3000EAFDB /* CardNudgeModifiers.swift in Sources */,
 				925D461D26FD133600179583 /* GlobalTokens.swift in Sources */,
 				9275105626815A7100F12730 /* MSFPersonaButtonCarousel.swift in Sources */,
-				5314E0BC25F0106F0099271A /* HUDView.swift in Sources */,
 				927EB2BD278627440069753D /* PersonaButtonModifiers.swift in Sources */,
 				5314E0F225F012C80099271A /* ShyHeaderView.swift in Sources */,
 				5314E02825F00DA80099271A /* BlurringView.swift in Sources */,
@@ -1681,7 +1688,6 @@
 				5314E08C25F00F2D0099271A /* CommandBarButton.swift in Sources */,
 				EC6A71EA273DBA520076A586 /* Divider.swift in Sources */,
 				5314E21E25F022120099271A /* UIView+Extensions.swift in Sources */,
-				5314E0BD25F0106F0099271A /* HUD.swift in Sources */,
 				5314E06A25F00F100099271A /* GenericDateTimePicker.swift in Sources */,
 				5314E06025F00EFD0099271A /* CalendarViewWeekdayHeadingView.swift in Sources */,
 				53097D1D2702890900A6E4DC /* ListTokens.swift in Sources */,

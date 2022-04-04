@@ -5,6 +5,50 @@
 
 import SwiftUI
 
+public extension View {
+    /// Presents a Heads-up Display on top of the modified View.
+    /// - Parameters:
+    ///   - type: `MSFHUDType` enum value that defines the type of the HUD being presented.
+    ///   - isBlocking: Whether the interaction with the view will be blocked while the HUD is being presented.
+    ///   - isPresented: Controls whether the HUD is being presented.
+    ///   - label: Label of the HUD being presented.
+    ///
+    ///   - customView: Custom View displayed in the HUD being presented. This parameter is only used if the paramerter `type` is `.custom`.
+    ///
+    ///   - tapAction: Handler that is executed when the HUD is tapped while being presented.
+    /// - Returns: The modified view with the capability of presenting a HUD.
+    func presentHUD(type: HUDType,
+                    isBlocking: Bool = true,
+                    isPresented: Binding<Bool>,
+                    label: String? = nil,
+                    tapAction: (() -> Void)? = nil) -> some View {
+        self.presentingView(isPresented: isPresented,
+                            isBlocking: isBlocking) {
+            HeadsUpDisplay(type: type,
+                           isPresented: isPresented,
+                           label: label,
+                           tapAction: tapAction)
+        }
+    }
+}
+
+public extension HeadsUpDisplay {
+
+    /// Sets the label of the Heads-up Display.
+    /// - Parameter label: String to set the label value with.
+    /// - Returns: Modified Heads-up display with the new label.
+    func label(_ label: String) -> HeadsUpDisplay {
+        state.label = label
+        return self
+    }
+
+    /// Provides a custom design token set to be used when drawing this control.
+    func overrideTokens(_ tokens: HeadsUpDisplayTokens?) -> HeadsUpDisplay {
+        state.overrideTokens = tokens
+        return self
+    }
+}
+
 struct SquareShapedViewModifier: ViewModifier {
     func body(content: Content) -> some View {
         let modifiedContent = HStack {
@@ -46,7 +90,6 @@ struct SquareShapedViewModifier: ViewModifier {
 }
 
 extension View {
-
     /// Ensures that the modified View has equal height and width values based on the
     /// maximum of either dimension considering its dynamic content size.
     /// Minimum and maximum cap values need to be specified.
