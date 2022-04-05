@@ -125,16 +125,11 @@ struct FluentButtonBody: View {
             textColor = tokens.textColor.disabled
             borderColor = tokens.borderColor.disabled
             backgroundColor = tokens.backgroundColor.disabled
-        } else if isPressed {
+        } else if isPressed || isFocused {
             iconColor = tokens.iconColor.pressed
             textColor = tokens.textColor.pressed
             borderColor = tokens.borderColor.pressed
             backgroundColor = tokens.backgroundColor.pressed
-        } else if isFocused {
-            iconColor = tokens.iconColor.hover
-            textColor = tokens.textColor.hover
-            borderColor = tokens.borderColor.hover
-            backgroundColor = tokens.backgroundColor.hover
         } else {
             iconColor = tokens.iconColor.rest
             textColor = tokens.textColor.rest
