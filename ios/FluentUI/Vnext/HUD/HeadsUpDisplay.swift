@@ -4,7 +4,6 @@
 //
 
 import SwiftUI
-import UIKit
 
 /// Defines the content type of the Heads-up display.
 /// The `.activity` value will make the HUD display an Activity Indicator.
@@ -26,23 +25,23 @@ public enum HUDType: Equatable, Hashable {
     }
 }
 
-/// Properties available to customize the state of the Heads-up Display state.
+/// Properties available to customize the state of the Heads-up display state.
 public protocol MSFHUDState {
 
-    /// Label string presented by the Heads-up Display.
+    /// Label string presented by the Heads-up display.
     var label: String? { get set }
 
-    /// The action executed when the Heads up display is tapped.
+    /// The action executed when the Heads-up display is tapped.
     var tapAction: (() -> Void)? { get set }
 
-    /// The `HUDType` enum value of the Heads-up Display.
+    /// The `HUDType` enum value of the Heads-up display.
     var type: HUDType { get set }
 
     /// Design token set for this control, to use in place of the control's default Fluent tokens.
     var overrideTokens: HeadsUpDisplayTokens? { get set }
 }
 
-/// View that represents the Heads-up Display.
+/// View that represents the Heads-up display.
 public struct HeadsUpDisplay: View, ConfigurableTokenizedControl {
     public var body: some View {
         let label = state.label ?? ""
@@ -64,7 +63,7 @@ public struct HeadsUpDisplay: View, ConfigurableTokenizedControl {
                         case.activity:
                             preconditionFailure("HUDType.activity does not have an associated image.")
                         case .custom(let image):
-                            return image
+                            return image.withRenderingMode(.alwaysTemplate)
                         case .failure:
                             return UIImage.staticImageNamed("dismiss-36x36")!
                         case.success:
@@ -118,12 +117,12 @@ public struct HeadsUpDisplay: View, ConfigurableTokenizedControl {
         }
     }
 
-    /// UIKit wrapper that exposes the SwiftUI Heads-up Display implementation.
+    /// Initializes the SwiftUI View for the Heads-up display.
     /// - Parameters:
-    ///   - type: The `HUDType` enum value of the Heads-up Display.
-    ///   - isPresented: Binding boolean that controls whether the Heads-up Display is presented.
-    ///   - label: Label string presented by the Heads-up Display.
-    ///   - tapAction: Closure executed when the user taps on the Heads-up Display.
+    ///   - type: The `HUDType` enum value of the Heads-up display.
+    ///   - isPresented: Binding boolean that controls whether the Heads-up display is presented.
+    ///   - label: Label string presented by the Heads-up display.
+    ///   - tapAction: Closure executed when the user taps on the Heads-up display.
     public init(type: HUDType,
                 isPresented: Binding<Bool>? = nil,
                 label: String? = nil,
@@ -150,8 +149,6 @@ public struct HeadsUpDisplay: View, ConfigurableTokenizedControl {
     }
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @Binding var isPresented: Bool
-    @State var opacity: Double
-    @State var presentationScaleFactor: CGFloat
     @ObservedObject var state: MSFHUDStateImpl
 
     private func resetScaleFactor() {
@@ -176,37 +173,14 @@ public struct HeadsUpDisplay: View, ConfigurableTokenizedControl {
         }
     }
 
+    @State private var opacity: Double
+    @State private var presentationScaleFactor: CGFloat
+
     private struct Constants {
         static let presentationScaleFactorDefault: CGFloat = 1
-        static let opacityPresented: Double = 1
-        static let opacityDismissed: Double = 0
+        static let opacityPresented: Double = 1.0
+        static let opacityDismissed: Double = 0.0
     }
-}
-
-/// UIKit wrapper that exposes the SwiftUI Heads-up display implementation
-open class MSFHeadsUpDisplay: ControlHostingView {
-
-    /// Creates a new MSFActivityIndicator instance.
-    /// - Parameters:
-    ///   - type: The MSFHUDType value used by the Heads-up display.
-    ///   - label: The label for the Heads up display.
-    ///   - tapAction: The action executed when the Heads up display is tapped.
-    public init(type: HUDType = .activity,
-                label: String?,
-                tapAction: (() -> Void)? = nil) {
-        let hudView = HeadsUpDisplay(type: type,
-                                     label: label,
-                                     tapAction: tapAction)
-        state = hudView.state
-        super.init(AnyView(hudView))
-    }
-
-    required public init?(coder: NSCoder) {
-        preconditionFailure("init(coder:) has not been implemented")
-    }
-
-    /// The object that groups properties that allow control over the Activity Indicator appearance.
-    public var state: MSFHUDState
 }
 
 /// Properties available to customize the state of the HUD

@@ -64,57 +64,32 @@ public class HUDParams: NSObject {
 // MARK: - HUD
 
 @objc(MSFHUD)
+/// Represents the controller that is able to present the Heads-up display in a `UIView` or  from a`UIViewController`.
 public class HUD: NSObject {
-    struct Constants {
-        static let showAnimationDuration: TimeInterval = 0.2
-        static let hideAnimationDuration: TimeInterval = 0.2
-        static let autoDismissTime: TimeInterval = 1.0
-        static let showAnimationScale: CGFloat = 1.3
-        static let hideAnimationScale: CGFloat = 0.8
-        static let keyboardMarginTop: CGFloat = 50.0
-    }
 
-    @objc public static let shared = HUD()
+    // MARK: Public funcs
 
-    @objc public weak var delegate: HUDDelegate?
-
-    private var presentedHUDView: MSFHeadsUpDisplay? {
-        didSet {
-            oldValue?.removeFromSuperview()
-            if let presentedHUDView = presentedHUDView {
-                presentedHUDView.translatesAutoresizingMaskIntoConstraints = false
-                containerView.addSubview(presentedHUDView)
-            }
-        }
-    }
-
-    private lazy var containerView: TouchForwardingView = {
-        let view = TouchForwardingView()
-        view.backgroundColor = .clear
-        return view
-    }()
-
-    private var bottomConstraint: NSLayoutConstraint?
-    private var keyboardHeight: CGFloat = 0
-
-    private override init() {
-        super.init()
-
-        // Keyboard observation
-        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-
-    // Using a separate overload method for Objective-C instead of default parameters
+    /// Presents a Heads-up display.
+    /// - Parameter view: `UIView` in which the Heads-up display will be presented.
     @objc public func show(in view: UIView) {
+        // Using a separate overload method for Objective-C instead of default parameters
         show(in: view, with: HUDParams())
     }
 
+    /// Presents a Heads-up display.
+    /// - Parameters:
+    ///   - view: `UIView` in which the Heads-up display will be presented.
+    ///   - params: `HUDParams` containing the confirguration of the Heads-up display.
     @objc public func show(in view: UIView,
                            with params: HUDParams) {
         show(in: view, with: params, onTap: nil)
     }
 
+    /// Presents a Heads-up display.
+    /// - Parameters:
+    ///   - view: `UIView` in which the Heads-up display will be presented.
+    ///   - params: `HUDParams` containing the confirguration of the Heads-up display.
+    ///   - onTap: Closure or block that will be executed when the user taps on the Heads-up display.
     @objc public func show(in view: UIView,
                            with params: HUDParams,
                            onTap: (() -> Void)? = nil) {
@@ -145,7 +120,8 @@ public class HUD: NSObject {
 
         // Setup MSHUD view start state
         presentedHUDView.alpha = 0.0
-        presentedHUDView.transform = CGAffineTransform(scaleX: Constants.showAnimationScale, y: Constants.showAnimationScale)
+        presentedHUDView.transform = CGAffineTransform(scaleX: Constants.showAnimationScale,
+                                                       y: Constants.showAnimationScale)
 
         // Animate presentation
         UIView.animate(withDuration: Constants.showAnimationDuration, animations: {
@@ -163,11 +139,31 @@ public class HUD: NSObject {
         }
     }
 
-    // Using a separate overload method for Objective-C instead of default parameters
+    /// Presents a Heads-up display.
+    /// - Parameter controller: `UIViewController` for the Heads-up display to be presented from.
     @objc public func show(from controller: UIViewController) {
-        show(from: controller, with: HUDParams())
+        // Using a separate overload method for Objective-C instead of default parameters
+        show(from: controller,
+             with: HUDParams())
     }
 
+    /// Presents a Heads-up display.
+    /// - Parameters:
+    ///   - controller: `UIViewController` for the Heads-up display to be presented from.
+    ///   - params: `HUDParams` containing the confirguration of the Heads-up display.
+    @objc public func show(from controller: UIViewController,
+                           with params: HUDParams) {
+        // Using a separate overload method for Objective-C instead of default parameters
+        show(from: controller,
+             with: params,
+             onTap: nil)
+    }
+
+    /// Presents a Heads-up display.
+    /// - Parameters:
+    ///   - controller: `UIViewController` for the Heads-up display to be presented from.
+    ///   - params: `HUDParams` containing the confirguration of the Heads-up display.
+    ///   - onTap: Closure or block that will be executed when the user taps on the Heads-up display.
     @objc public func show(from controller: UIViewController,
                            with params: HUDParams,
                            onTap: (() -> Void)? = nil) {
@@ -181,11 +177,23 @@ public class HUD: NSObject {
              onTap: onTap)
     }
 
+    /// Presents a success Heads-up display.
+    /// - Parameters:
+    ///   - view: `UIView` in which the Heads-up display will be presented.
+    ///   - caption: Value of the caption of the presented Heads-up display.
     @objc public func showSuccess(in view: UIView,
                                   with caption: String = "") {
-        show(in: view, with: HUDParams(caption: caption, hudType: .success, isPersistent: false, isBlocking: true))
+        show(in: view,
+             with: HUDParams(caption: caption,
+                             hudType: .success,
+                             isPersistent: false,
+                             isBlocking: true))
     }
 
+    /// Presents a success Heads-up display.
+    /// - Parameters:
+    ///   - controller: `UIViewController` for the Heads-up display to be presented from.
+    ///   - caption: Value of the caption of the presented Heads-up display.
     @objc public func showSuccess(from controller: UIViewController,
                                   with caption: String = "") {
         guard let hostWindow = hostWindow(for: controller) else {
@@ -196,11 +204,23 @@ public class HUD: NSObject {
         showSuccess(in: hostWindow, with: caption)
     }
 
+    /// Presents a failure Heads-up display.
+    /// - Parameters:
+    ///   - view: `UIView` in which the Heads-up display will be presented.
+    ///   - caption: Value of the caption of the presented Heads-up display.
     @objc public func showFailure(in view: UIView,
                                   with caption: String = "") {
-        show(in: view, with: HUDParams(caption: caption, hudType: .failure, isPersistent: false, isBlocking: true))
+        show(in: view,
+             with: HUDParams(caption: caption,
+                             hudType: .failure,
+                             isPersistent: false,
+                             isBlocking: true))
     }
 
+    /// Presents a failure Heads-up display.
+    /// - Parameters:
+    ///   - controller: `UIViewController` for the Heads-up display to be presented from.
+    ///   - caption: Value of the caption of the presented Heads-up display.
     @objc public func showFailure(from controller: UIViewController,
                                   with caption: String = "") {
         guard let hostWindow = hostWindow(for: controller) else {
@@ -212,6 +232,8 @@ public class HUD: NSObject {
     }
 
     @objc(hideAnimated:)
+    /// Hides the presented Heads-up display.
+    /// - Parameter animated: Whether the hide operation should be animated.
     public func hide(animated: Bool = true) {
         guard let presentedHUDView = presentedHUDView else {
             return
@@ -219,7 +241,8 @@ public class HUD: NSObject {
 
         let transition = {
             presentedHUDView.alpha = 0.0
-            presentedHUDView.transform = CGAffineTransform(scaleX: Constants.hideAnimationScale, y: Constants.hideAnimationScale)
+            presentedHUDView.transform = CGAffineTransform(scaleX: Constants.hideAnimationScale,
+                                                           y: Constants.hideAnimationScale)
         }
 
         let completion = { (_ finished: Bool) in
@@ -228,24 +251,69 @@ public class HUD: NSObject {
                 return
             }
             self.resetIfNeeded()
-            UIAccessibility.post(notification: .screenChanged, argument: "Accessibility.HUD.Done".localized)
+            UIAccessibility.post(notification: .screenChanged,
+                                 argument: "Accessibility.HUD.Done".localized)
         }
 
         if animated {
-            UIView.animate(withDuration: Constants.hideAnimationDuration, animations: transition, completion: completion)
+            UIView.animate(withDuration: Constants.hideAnimationDuration,
+                           animations: transition,
+                           completion: completion)
         } else {
             transition()
             completion(true)
         }
     }
 
+    /// Updates the caption of the presented Heads-up display.
+    /// - Parameter caption: Value of the new caption.
     @objc public func update(with caption: String) {
-        guard let presentedHUD = presentedHUDView else {
+        guard let presentedHUDView = presentedHUDView else {
             return
         }
 
-        presentedHUD.state.label = caption
-        UIAccessibility.post(notification: .layoutChanged, argument: presentedHUD)
+        presentedHUDView.state.label = caption
+        UIAccessibility.post(notification: .layoutChanged, argument: presentedHUDView)
+    }
+
+    // MARK: Public properties
+
+    /// Shared instance of the `HUD` class.
+    @objc public static let shared = HUD()
+
+    /// Optional `HUDDelegate` instance.
+    @objc public weak var delegate: HUDDelegate?
+
+    /// Optional instance of custom `HeadsUpDisplayTokens` to overrided the design tokens.
+    public var overrideTokens: HeadsUpDisplayTokens? {
+        didSet {
+            presentedHUDView?.state.overrideTokens = overrideTokens
+        }
+    }
+
+    // MARK: Internal members
+
+    struct Constants {
+        static let showAnimationDuration: TimeInterval = 0.2
+        static let hideAnimationDuration: TimeInterval = 0.2
+        static let autoDismissTime: TimeInterval = 1.0
+        static let showAnimationScale: CGFloat = 1.3
+        static let hideAnimationScale: CGFloat = 0.8
+        static let keyboardMarginTop: CGFloat = 50.0
+    }
+
+    // MARK: Private funcs
+
+    private override init() {
+        super.init()
+
+        // Keyboard observation
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(handleKeyboardWillShow(_:)),
+                                               name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(handleKeyboardWillHide(_:)),
+                                               name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 
     private func hostWindow(for controller: UIViewController) -> UIWindow? {
@@ -291,4 +359,26 @@ public class HUD: NSObject {
         keyboardHeight = 0
         UIView.animate(withDuration: keyboardAnimationDuration, animations: updateBottomConstraintConstant)
     }
+
+    // MARK: Private properties
+
+    private var presentedHUDView: MSFHeadsUpDisplay? {
+        didSet {
+            oldValue?.removeFromSuperview()
+            if let presentedHUDView = presentedHUDView {
+                presentedHUDView.translatesAutoresizingMaskIntoConstraints = false
+                presentedHUDView.state.overrideTokens = overrideTokens
+                containerView.addSubview(presentedHUDView)
+            }
+        }
+    }
+
+    private lazy var containerView: TouchForwardingView = {
+        let view = TouchForwardingView()
+        view.backgroundColor = .clear
+        return view
+    }()
+
+    private var bottomConstraint: NSLayoutConstraint?
+    private var keyboardHeight: CGFloat = 0
 }

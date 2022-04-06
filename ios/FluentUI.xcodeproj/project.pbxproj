@@ -141,6 +141,7 @@
 		5314E2F525F025C60099271A /* CalendarConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF41ED82141A02200EC527C /* CalendarConfiguration.swift */; };
 		5314E30225F0260E0099271A /* AccessibilityContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD77752A219E455A00033D58 /* AccessibilityContainerView.swift */; };
 		5314E30325F0260E0099271A /* AccessibleViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD599D052134A682008845EE /* AccessibleViewDelegate.swift */; };
+		53229A0027FE108400C016A2 /* MSFHeadsUpDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532299FF27FE108400C016A2 /* MSFHeadsUpDisplay.swift */; };
 		5328D97126FBA3D700F3723B /* IndeterminateProgressBarTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5328D96C26FBA3D600F3723B /* IndeterminateProgressBarTokens.swift */; };
 		5328D97326FBA3D700F3723B /* IndeterminateProgressBarModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5328D96D26FBA3D600F3723B /* IndeterminateProgressBarModifiers.swift */; };
 		5328D97726FBA3D700F3723B /* IndeterminateProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5328D96F26FBA3D700F3723B /* IndeterminateProgressBar.swift */; };
@@ -263,6 +264,7 @@
 		53097D4527028B1100A6E4DC /* ButtonLegacy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonLegacy.swift; sourceTree = "<group>"; };
 		530D9C5027EE388200BDCBBF /* SwiftUI+ViewPresentation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SwiftUI+ViewPresentation.swift"; sourceTree = "<group>"; };
 		530D9C5227EE7B2C00BDCBBF /* SwiftUI+ViewAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SwiftUI+ViewAnimation.swift"; sourceTree = "<group>"; };
+		532299FF27FE108400C016A2 /* MSFHeadsUpDisplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFHeadsUpDisplay.swift; sourceTree = "<group>"; };
 		5328D96C26FBA3D600F3723B /* IndeterminateProgressBarTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBarTokens.swift; sourceTree = "<group>"; };
 		5328D96D26FBA3D600F3723B /* IndeterminateProgressBarModifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBarModifiers.swift; sourceTree = "<group>"; };
 		5328D96F26FBA3D700F3723B /* IndeterminateProgressBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBar.swift; sourceTree = "<group>"; };
@@ -705,6 +707,7 @@
 				5336B17227F77EB700B01E0D /* HUD.swift */,
 				5336B17027F77EB700B01E0D /* HUDModifiers.swift */,
 				5336B17F27FB6D9B00B01E0D /* HUDTokens.swift */,
+				532299FF27FE108400C016A2 /* MSFHeadsUpDisplay.swift */,
 				5336B17427F77EB700B01E0D /* HUD.resources.xcfilelist */,
 			);
 			path = HUD;
@@ -1566,6 +1569,7 @@
 				5314E0F325F012C80099271A /* ShyHeaderController.swift in Sources */,
 				EC02A5F327472EF400E81B3E /* DividerTokens.swift in Sources */,
 				535559E42711411E0094A871 /* FluentUIHostingController.swift in Sources */,
+				53229A0027FE108400C016A2 /* MSFHeadsUpDisplay.swift in Sources */,
 				5314E1B125F01A980099271A /* TooltipView.swift in Sources */,
 				5314E19525F019650099271A /* TabBarItemView.swift in Sources */,
 				5314E03C25F00E3D0099271A /* BadgeField.swift in Sources */,

@@ -265,3 +265,45 @@ class HUDDemoController: DemoTableViewController {
         }
     }
 }
+
+extension HUDDemoController: DemoAppearanceDelegate {
+    func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
+        guard let fluentTheme = self.view.window?.fluentTheme else {
+            return
+        }
+        if isOverrideEnabled {
+            fluentTheme.register(controlType: HeadsUpDisplay.self, tokens: { _ in
+                ThemeWideOverrideActivityHeadsUpDisplayTokens()
+            })
+        } else {
+            fluentTheme.register(controlType: HeadsUpDisplay.self, tokens: nil)
+        }
+
+    }
+
+    func perControlOverrideDidChange(isOverrideEnabled: Bool) {
+        HUD.shared.overrideTokens = isOverrideEnabled ? PerControlOverrideHeadsUpDisplayTokens() : nil
+    }
+
+    func isThemeWideOverrideApplied() -> Bool {
+        return view.window?.fluentTheme.tokenOverride(for: HeadsUpDisplay.self) != nil
+    }
+
+    // MARK: - Custom tokens
+
+    private class ThemeWideOverrideActivityHeadsUpDisplayTokens: HeadsUpDisplayTokens {
+        override var backgroundColor: DynamicColor {
+            return aliasTokens.backgroundColors[.brandHover]
+        }
+    }
+
+    private class PerControlOverrideHeadsUpDisplayTokens: HeadsUpDisplayTokens {
+        override var cornerRadius: CGFloat {
+            return globalTokens.borderRadius[.xLarge]
+        }
+
+        override var foregroundColor: DynamicColor {
+            return globalTokens.brandColors[.primary]
+        }
+    }
+}

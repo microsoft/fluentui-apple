@@ -6,7 +6,7 @@
 import SwiftUI
 
 public extension View {
-    /// Presents a Heads-up Display on top of the modified View.
+    /// Presents a Heads-up display on top of the modified View.
     /// - Parameters:
     ///   - type: `MSFHUDType` enum value that defines the type of the HUD being presented.
     ///   - isBlocking: Whether the interaction with the view will be blocked while the HUD is being presented.
@@ -34,7 +34,7 @@ public extension View {
 
 public extension HeadsUpDisplay {
 
-    /// Sets the label of the Heads-up Display.
+    /// Sets the label of the Heads-up display.
     /// - Parameter label: String to set the label value with.
     /// - Returns: Modified Heads-up display with the new label.
     func label(_ label: String) -> HeadsUpDisplay {
@@ -55,19 +55,25 @@ struct SquareShapedViewModifier: ViewModifier {
             content
                 .alignmentGuide(HorizontalAlignment.center) { (viewDimensions) -> CGFloat in
                     DispatchQueue.main.async {
+                        // Calculates the size the view with the
+                        // longer side (width or height).
+                        let longerSide = max(viewDimensions.height,
+                                             viewDimensions.width)
+
+                        // Don't let the size be smaller than
+                        // the minimum defined by the caller.
+                        let minimumCalculatedSize = max(minSize,
+                                                        longerSide)
+
+                        // Don't let the size be bigger than
+                        // the maximum defined by the caller.
+                        let maximumCalculatedSize = min(maxSize,
+                                                        minimumCalculatedSize)
+
                         // Ensures the View does not shrink compared to its
                         // previous size (calculated based on its content).
                         size = max(size,
-                                   // Don't let the size be bigger than
-                                   // the maximum defined by the caller.
-                                   min(maxSize,
-                                       // Don't let the size be smaller than
-                                       // the minimum defined by the caller.
-                                       max(minSize,
-                                           // Sets the size the view with the
-                                           // longer side (width or height).
-                                           max(viewDimensions.height,
-                                               viewDimensions.width))))
+                                   maximumCalculatedSize)
                     }
 
                     return viewDimensions[HorizontalAlignment.center]
