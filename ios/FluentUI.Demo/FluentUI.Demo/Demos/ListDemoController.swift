@@ -42,6 +42,7 @@ class ListDemoController: DemoController {
             sectionState.title = section.title
             sectionState.style = MSFHeaderStyle.subtle
             sectionState.hasDividers = true
+            sectionState.allowsSelection = true
             for rowIndex in 0..<TableViewCellSampleData.numberOfItemsInSection {
                 showsLabelAccessoryView = TableViewCellSampleData.hasLabelAccessoryViews(at: IndexPath(row: rowIndex, section: sectionIndex))
                 cell = section.item

@@ -24,6 +24,9 @@ import SwiftUI
     /// The number of Cells in the Section.
     var cellCount: Int { get }
 
+    /// Configures if the Section allows selection.
+    var allowsSelection: Bool { get set }
+
     /// Creates a new Cell and appends it to the array of cells in a Section.
     func createCell() -> MSFListCellState
 
@@ -131,7 +134,9 @@ class MSFListSectionStateImpl: NSObject, ObservableObject, Identifiable, Control
     @Published var title: String?
     @Published var backgroundColor: UIColor?
     @Published var hasDividers: Bool = false
+    @Published var allowsSelection: Bool = false
     var id = UUID()
+    var selectedCellState: MSFListCellStateImpl?
 
     // MARK: - MSFListSectionStateImpl accessors
 
@@ -151,6 +156,20 @@ class MSFListSectionStateImpl: NSObject, ObservableObject, Identifiable, Control
         }
         let cell = MSFListCellStateImpl()
         cells.insert(cell, at: index)
+        if allowsSelection {
+            cell.selectionAction = { [weak self] (selectedCell) in
+                guard let strongSelf = self else {
+                    return
+                }
+
+                if let previousCell = strongSelf.selectedCellState,
+                   previousCell != selectedCell {
+                    previousCell.isSelected = false
+                }
+                selectedCell.isSelected.toggle()
+                strongSelf.selectedCellState = selectedCell
+            }
+        }
         return cell
     }
 

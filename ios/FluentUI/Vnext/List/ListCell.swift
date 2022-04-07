@@ -126,6 +126,8 @@ class MSFListCellStateImpl: NSObject, ObservableObject, Identifiable, ControlCon
     @Published private(set) var children: [MSFListCellStateImpl] = []
     var onTapAction: (() -> Void)?
     var id = UUID()
+    var selectionAction: ((MSFListCellStateImpl) -> Void)?
+    @Published var isSelected: Bool = false
 
     var leadingUIView: UIView? {
         didSet {
@@ -380,11 +382,17 @@ struct MSFListCellView: View, ConfigurableTokenizedControl {
             let horizontalCellPadding: CGFloat = tokens.horizontalCellPadding
             let leadingViewAreaSize: CGFloat = tokens.leadingViewAreaSize
 
-            Button(action: state.onTapAction ?? {
+            Button(action: {
                 if hasChildren {
                     withAnimation {
                         state.isExpanded.toggle()
                     }
+                }
+                if let selectionAction = state.selectionAction {
+                    selectionAction(state)
+                }
+                if let onTapAction = state.onTapAction {
+                    onTapAction()
                 }
             }, label: {
                 cellLabel
@@ -427,7 +435,7 @@ struct MSFListCellView: View, ConfigurableTokenizedControl {
 
 struct ListCellButtonStyle: ButtonStyle {
     let tokens: CellBaseTokens
-    let state: MSFListCellState
+    @ObservedObject var state: MSFListCellStateImpl
 
     func makeBody(configuration: Self.Configuration) -> some View {
         let height: CGFloat
@@ -469,7 +477,7 @@ struct ListCellButtonStyle: ButtonStyle {
             return Color(stateBackgroundColor)
         }()
 
-        if isPressed {
+        if isPressed || state.isSelected {
             return highlightedBackgroundColor
         }
         return backgroundColor
