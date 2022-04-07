@@ -156,19 +156,17 @@ class MSFListSectionStateImpl: NSObject, ObservableObject, Identifiable, Control
         }
         let cell = MSFListCellStateImpl()
         cells.insert(cell, at: index)
-        if allowsSelection {
-            cell.selectionAction = { [weak self] (selectedCell) in
-                guard let strongSelf = self else {
-                    return
-                }
-
-                if let previousCell = strongSelf.selectedCellState,
-                   previousCell != selectedCell {
-                    previousCell.isSelected = false
-                }
-                selectedCell.isSelected.toggle()
-                strongSelf.selectedCellState = selectedCell
+        cell.selectionAction = { [weak self] (selectedCell) in
+            guard let strongSelf = self, strongSelf.allowsSelection else {
+                return
             }
+
+            if let previousCell = strongSelf.selectedCellState,
+               previousCell != selectedCell {
+                previousCell.isSelected = false
+            }
+            selectedCell.isSelected.toggle()
+            strongSelf.selectedCellState = selectedCell
         }
         return cell
     }
