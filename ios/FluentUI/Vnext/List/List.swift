@@ -161,9 +161,8 @@ class MSFListSectionStateImpl: NSObject, ObservableObject, Identifiable, Control
                 return
             }
 
-            if let previousCell = strongSelf.selectedCellState,
-               previousCell != selectedCell {
-                previousCell.isSelected = false
+            if let previousCell = strongSelf.selectedCellState {
+                previousCell.isSelected.toggle()
             }
             selectedCell.isSelected.toggle()
             strongSelf.selectedCellState = selectedCell
