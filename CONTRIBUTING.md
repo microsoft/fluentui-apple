@@ -27,7 +27,7 @@ Fluent UI Apple requires all [pull requests](https://help.github.com/en/github/c
 
 Fluent UI Apple doesn't have any external code dependencies, so developing in the repository is as easy as launching the appropriate Xcode project or workspace and building and running a test/demo app.
 
-For more platform-specific information, please see [the iOS readme file](ios/CONTRIBUTING.md) and the [the macOS readme file](macos/CONTRIBUTING.md).
+For more detailed instructions on how to run the demo app in specific platform, please see [the iOS readme file](ios/CONTRIBUTING.md) and the [the macOS readme file](macos/CONTRIBUTING.md).
 
 ## Checklist before creating a pull request
 Fill out all the information in your [PR description](https://github.com/microsoft/fluentui-apple/blob/main/.github/PULL_REQUEST_TEMPLATE.md#pull-request-checklist)
