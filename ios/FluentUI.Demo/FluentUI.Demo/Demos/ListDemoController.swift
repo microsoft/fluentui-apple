@@ -42,7 +42,7 @@ class ListDemoController: DemoController {
             sectionState.title = section.title
             sectionState.style = MSFHeaderStyle.subtle
             sectionState.hasDividers = true
-            sectionState.allowsSelection = true
+            sectionState.allowsSelection = (sectionIndex % 2) == 0
             for rowIndex in 0..<TableViewCellSampleData.numberOfItemsInSection {
                 showsLabelAccessoryView = TableViewCellSampleData.hasLabelAccessoryViews(at: IndexPath(row: rowIndex, section: sectionIndex))
                 cell = section.item
@@ -179,5 +179,9 @@ class ListDemoController: DemoController {
         present(alert, animated: true)
     }
 
-    let list: MSFList = MSFList()
+    let list: MSFList = {
+        let list = MSFList()
+        list.state.allowsSelection = true
+        return list
+    }()
 }

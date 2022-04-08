@@ -48,6 +48,8 @@ import SwiftUI
     /// The number of Sections in the List.
     var sectionCount: Int { get }
 
+    var allowsSelection: Bool { get set }
+
     /// Creates a new Section and appends it to the array of sections in a List.
     func createSection() -> MSFListSectionState
 
@@ -134,9 +136,9 @@ class MSFListSectionStateImpl: NSObject, ObservableObject, Identifiable, Control
     @Published var title: String?
     @Published var backgroundColor: UIColor?
     @Published var hasDividers: Bool = false
-    @Published var allowsSelection: Bool = false
+    var allowsSelection: Bool = false
     var id = UUID()
-    var selectedCellState: MSFListCellStateImpl?
+    var listSelectionAction: ((MSFListCellStateImpl) -> Bool)?
 
     // MARK: - MSFListSectionStateImpl accessors
 
@@ -156,16 +158,16 @@ class MSFListSectionStateImpl: NSObject, ObservableObject, Identifiable, Control
         }
         let cell = MSFListCellStateImpl()
         cells.insert(cell, at: index)
-        cell.selectionAction = { [weak self] (selectedCell) in
+        cell.selectionAction = { [weak self] (selectedCell) -> Bool in
             guard let strongSelf = self, strongSelf.allowsSelection else {
-                return
+                return false
             }
 
-            if let previousCell = strongSelf.selectedCellState {
-                previousCell.isSelected.toggle()
+            var handledSelection = false
+            if let listSelectionAction = strongSelf.listSelectionAction {
+                handledSelection = listSelectionAction(selectedCell)
             }
-            selectedCell.isSelected.toggle()
-            strongSelf.selectedCellState = selectedCell
+            return handledSelection
         }
         return cell
     }
@@ -195,6 +197,9 @@ class MSFListStateImpl: NSObject, ObservableObject, MSFListState {
         return sections.count
     }
 
+    var allowsSelection: Bool = false
+    var selectedCellState: MSFListCellStateImpl?
+
     func createSection() -> MSFListSectionState {
         return createSection(at: sections.endIndex)
     }
@@ -204,6 +209,18 @@ class MSFListStateImpl: NSObject, ObservableObject, MSFListState {
             preconditionFailure("Index is out of bounds")
         }
         let section = MSFListSectionStateImpl()
+        section.listSelectionAction = { [weak self] (selectedCell) -> Bool in
+            guard let strongSelf = self, strongSelf.allowsSelection else {
+                return false
+            }
+
+            if let previousCell = strongSelf.selectedCellState {
+                previousCell.isSelected.toggle()
+            }
+            selectedCell.isSelected.toggle()
+            strongSelf.selectedCellState = selectedCell
+            return true
+        }
         sections.insert(section, at: index)
         return section
     }
