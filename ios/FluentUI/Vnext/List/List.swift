@@ -48,6 +48,7 @@ import SwiftUI
     /// The number of Sections in the List.
     var sectionCount: Int { get }
 
+    /// Configures if the list allows selection, can be disabled at the Section level
     var allowsSelection: Bool { get set }
 
     /// Creates a new Section and appends it to the array of sections in a List.
