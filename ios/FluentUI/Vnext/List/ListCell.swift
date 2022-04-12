@@ -126,7 +126,7 @@ class MSFListCellStateImpl: NSObject, ObservableObject, Identifiable, ControlCon
     @Published private(set) var children: [MSFListCellStateImpl] = []
     var onTapAction: (() -> Void)?
     var id = UUID()
-    var selectionAction: ((MSFListCellStateImpl) -> Bool)?
+    var selectionAction: ((MSFListCellStateImpl) -> Void)?
     @Published var isSelected: Bool = false
 
     var leadingUIView: UIView? {

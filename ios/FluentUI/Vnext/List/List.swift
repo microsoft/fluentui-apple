@@ -139,7 +139,7 @@ class MSFListSectionStateImpl: NSObject, ObservableObject, Identifiable, Control
     @Published var hasDividers: Bool = false
     var allowsSelection: Bool = false
     var id = UUID()
-    var listSelectionAction: ((MSFListCellStateImpl) -> Bool)?
+    var listSelectionAction: ((MSFListCellStateImpl) -> Void)?
 
     // MARK: - MSFListSectionStateImpl accessors
 
@@ -159,16 +159,14 @@ class MSFListSectionStateImpl: NSObject, ObservableObject, Identifiable, Control
         }
         let cell = MSFListCellStateImpl()
         cells.insert(cell, at: index)
-        cell.selectionAction = { [weak self] (selectedCell) -> Bool in
+        cell.selectionAction = { [weak self] (selectedCell) in
             guard let strongSelf = self, strongSelf.allowsSelection else {
-                return false
+                return
             }
 
-            var handledSelection = false
             if let listSelectionAction = strongSelf.listSelectionAction {
-                handledSelection = listSelectionAction(selectedCell)
+                listSelectionAction(selectedCell)
             }
-            return handledSelection
         }
         return cell
     }
@@ -210,9 +208,9 @@ class MSFListStateImpl: NSObject, ObservableObject, MSFListState {
             preconditionFailure("Index is out of bounds")
         }
         let section = MSFListSectionStateImpl()
-        section.listSelectionAction = { [weak self] (selectedCell) -> Bool in
+        section.listSelectionAction = { [weak self] (selectedCell) in
             guard let strongSelf = self, strongSelf.allowsSelection else {
-                return false
+                return
             }
 
             if let previousCell = strongSelf.selectedCellState {
@@ -220,7 +218,6 @@ class MSFListStateImpl: NSObject, ObservableObject, MSFListState {
             }
             selectedCell.isSelected.toggle()
             strongSelf.selectedCellState = selectedCell
-            return true
         }
         sections.insert(section, at: index)
         return section
