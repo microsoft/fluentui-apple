@@ -389,12 +389,10 @@ struct MSFListCellView: View, ConfigurableTokenizedControl {
                         state.isExpanded.toggle()
                     }
                 }
-
-                var handledSelection = false
                 if let selectionAction = state.selectionAction {
-                    handledSelection = selectionAction(state)
+                    selectionAction(state)
                 }
-                if !handledSelection, let onTapAction = state.onTapAction {
+                if let onTapAction = state.onTapAction {
                     onTapAction()
                 }
             }, label: {
