@@ -174,6 +174,7 @@
 		C708B064260A87F7007190FA /* SegmentItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C708B04B260A8696007190FA /* SegmentItem.swift */; };
 		C77A04B825F03DD1001B3EB6 /* String+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77A04B625F03DD1001B3EB6 /* String+Date.swift */; };
 		C77A04EE25F046EB001B3EB6 /* Date+CellFileAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77A04EC25F046EB001B3EB6 /* Date+CellFileAccessoryView.swift */; };
+		CE6045DA27FE147100FFD972 /* PreviewCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6045D927FE147100FFD972 /* PreviewCard.swift */; };
 		EC5982DA27C703EE00FD048D /* CircleCutout.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5982D927C703ED00FD048D /* CircleCutout.swift */; };
 		FD053A352224CA33009B6378 /* DatePickerControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD053A342224CA33009B6378 /* DatePickerControllerTests.swift */; };
 /* End PBXBuildFile section */
@@ -313,6 +314,7 @@
 		C77A04B625F03DD1001B3EB6 /* String+Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Date.swift"; sourceTree = "<group>"; };
 		C77A04EC25F046EB001B3EB6 /* Date+CellFileAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+CellFileAccessoryView.swift"; sourceTree = "<group>"; };
 		CCC18C2B2501B22F00BE830E /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
+		CE6045D927FE147100FFD972 /* PreviewCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewCard.swift; sourceTree = "<group>"; };
 		EC5982D927C703ED00FD048D /* CircleCutout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleCutout.swift; sourceTree = "<group>"; };
 		ECEBA8FB25EDF3380048EE24 /* SegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentedControl.swift; sourceTree = "<group>"; };
 		FC414E1E258876FB00069E73 /* CommandBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBar.swift; sourceTree = "<group>"; };
@@ -743,15 +745,16 @@
 				5314DFEB25F002240099271A /* ActivityIndicator */,
 				C77A04F325F04CFB001B3EB6 /* Avatar */,
 				5306074E26A1E6A4002D49CF /* AvatarGroup */,
+				B4F118EA21C8270F00855942 /* Badge Field */,
 				5314DFF625F0079B0099271A /* BarButtonItems */,
 				80B52538264CA5BC00E3FD32 /* Bottom Commanding */,
 				80B1F6F52628CDEB004DFEE5 /* Bottom Sheet */,
 				5314DFEC25F0029C0099271A /* Button */,
-				CCC18C2A2501B1A900BE830E /* Card */,
-				B4F118EA21C8270F00855942 /* Badge Field */,
 				FDFB8AE921361C860046850A /* Calendar */,
+				CCC18C2A2501B1A900BE830E /* Card */,
 				92D5597C26A0FC9700328FD3 /* Card Nudge */,
 				FC414E1D258876D400069E73 /* Command Bar */,
+				A5CEC25720E6A64E0016922A /* Configuration */,
 				A5CEC16B20D98EBF0016922A /* Core */,
 				FD599D0021347FA0008845EE /* Date Time Pickers */,
 				5314DFEF25F003C60099271A /* DotView */,
@@ -771,7 +774,9 @@
 				497DC2D62418585D008D86F8 /* Pill Button Bar */,
 				A5961F9B218A251E00E2A506 /* Popup Menu */,
 				FD7254EE2147382D002F4069 /* Presenters */,
+				CE6663E927F114B700FD5DAD /* PreviewCard */,
 				5314DFF725F007FF0099271A /* ResizingHandleView */,
+				A5CEC17020D996120016922A /* Resources */,
 				ECEBA8F625EDEFF70048EE24 /* SegmentedControl */,
 				5314DFE625F000740099271A /* Separator */,
 				C0A0D75D233AEA9900F432FD /* Shimmer */,
@@ -781,8 +786,6 @@
 				5314DFF325F006060099271A /* TouchForwardingView */,
 				5314DFF825F008870099271A /* TwoLineTitleView */,
 				C0938E42235E8EAF00256251 /* Utilities */,
-				A5CEC17020D996120016922A /* Resources */,
-				A5CEC25720E6A64E0016922A /* Configuration */,
 			);
 			path = FluentUI;
 			sourceTree = "<group>";
@@ -936,6 +939,14 @@
 				CCC18C2B2501B22F00BE830E /* CardView.swift */,
 			);
 			path = Card;
+			sourceTree = "<group>";
+		};
+		CE6663E927F114B700FD5DAD /* PreviewCard */ = {
+			isa = PBXGroup;
+			children = (
+				CE6045D927FE147100FFD972 /* PreviewCard.swift */,
+			);
+			path = PreviewCard;
 			sourceTree = "<group>";
 		};
 		ECEBA8F625EDEFF70048EE24 /* SegmentedControl */ = {
@@ -1446,6 +1457,7 @@
 				5314E08C25F00F2D0099271A /* CommandBarButton.swift in Sources */,
 				5314E21E25F022120099271A /* UIView+Extensions.swift in Sources */,
 				5314E0BD25F0106F0099271A /* HUD.swift in Sources */,
+				CE6045DA27FE147100FFD972 /* PreviewCard.swift in Sources */,
 				5314E06A25F00F100099271A /* GenericDateTimePicker.swift in Sources */,
 				5314E06025F00EFD0099271A /* CalendarViewWeekdayHeadingView.swift in Sources */,
 				5314E05A25F00EF50099271A /* CalendarViewLayout.swift in Sources */,
