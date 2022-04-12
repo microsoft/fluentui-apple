@@ -208,9 +208,9 @@ class MSFListStateImpl: NSObject, ObservableObject, MSFListState {
             }
 
             if let previousCell = strongSelf.selectedCellState {
-                previousCell.isSelected.toggle()
+                previousCell.isSelected = false
             }
-            selectedCell.isSelected.toggle()
+            selectedCell.isSelected = true
             strongSelf.selectedCellState = selectedCell
         }
         sections.insert(section, at: index)
