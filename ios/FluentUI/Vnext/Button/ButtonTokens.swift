@@ -283,7 +283,7 @@ open class ButtonTokens: ControlTokens {
     /// Defines the shadow used when a floating button is pressed.
     open var pressedShadow: ShadowInfo { aliasTokens.elevation[.interactiveElevation1Pressed] }
 
-    /// Defiens the minimum height of the button.
+    /// Defines the minimum height of the button.
     open var minHeight: CGFloat {
         switch style {
         case .primary, .secondary, .ghost:
