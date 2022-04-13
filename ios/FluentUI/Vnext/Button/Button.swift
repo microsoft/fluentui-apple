@@ -116,6 +116,8 @@ struct FluentButtonBody: View {
         let isFocused = state.isFocused
         let isFloatingStyle = tokens.style.isFloatingStyle
         let shouldUsePressedShadow = isDisabled || isPressed
+        let verticalPadding = tokens.minVerticalPadding
+        let horizontalPadding = tokens.padding
         let iconColor: DynamicColor
         let textColor: DynamicColor
         let borderColor: DynamicColor
@@ -155,11 +157,14 @@ struct FluentButtonBody: View {
                         })
                 }
             }
-            .padding(tokens.padding)
+            .padding(EdgeInsets(top: verticalPadding,
+                                leading: horizontalPadding,
+                                bottom: verticalPadding,
+                                trailing: horizontalPadding))
             .modifyIf(isFloatingStyle && !(state.text?.isEmpty ?? true), { view in
                 view.padding(.horizontal, tokens.textAdditionalHorizontalPadding )
             })
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .frame(maxWidth: .infinity, minHeight: tokens.minHeight, maxHeight: .infinity)
             .foregroundColor(Color(dynamicColor: textColor))
         }
 
