@@ -89,7 +89,7 @@ open class ButtonTokens: ControlTokens {
     }
 
     /// Defines the horizontal padding around the contents of the button.
-    open var padding: CGFloat {
+    open var horizontalPadding: CGFloat {
         switch style {
         case .primary, .secondary, .ghost:
             switch size {

@@ -117,7 +117,7 @@ struct FluentButtonBody: View {
         let isFloatingStyle = tokens.style.isFloatingStyle
         let shouldUsePressedShadow = isDisabled || isPressed
         let verticalPadding = tokens.minVerticalPadding
-        let horizontalPadding = tokens.padding
+        let horizontalPadding = tokens.horizontalPadding
         let iconColor: DynamicColor
         let textColor: DynamicColor
         let borderColor: DynamicColor
