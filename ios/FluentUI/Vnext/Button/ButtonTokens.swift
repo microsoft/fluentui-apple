@@ -37,6 +37,7 @@ open class ButtonTokens: ControlTokens {
     /// Defines the size of the button.
     public internal(set) var size: MSFButtonSize = .small
 
+    /// Defines the radius of the corners of the button.
     open var borderRadius: CGFloat {
         switch size {
         case .small, .medium:
@@ -46,6 +47,7 @@ open class ButtonTokens: ControlTokens {
         }
     }
 
+    /// Defines the thickness of the border around the button.
     open var borderSize: CGFloat {
         switch style {
         case .primary, .ghost, .accentFloating, .subtleFloating:
@@ -55,6 +57,7 @@ open class ButtonTokens: ControlTokens {
         }
     }
 
+    /// Defines the size of the icon in the button.
     open var iconSize: CGFloat {
         switch style {
         case .primary, .secondary, .ghost:
@@ -70,6 +73,7 @@ open class ButtonTokens: ControlTokens {
         }
     }
 
+    /// Defines the space between the icon and text in the button.
     open var interspace: CGFloat {
         switch style {
         case .primary, .secondary, .ghost:
@@ -84,6 +88,7 @@ open class ButtonTokens: ControlTokens {
         }
     }
 
+    /// Defines the horizontal padding around the contents of the button.
     open var padding: CGFloat {
         switch style {
         case .primary, .secondary, .ghost:
@@ -112,6 +117,7 @@ open class ButtonTokens: ControlTokens {
         }
     }
 
+    /// Defines the font used for the text of the button.
     open var textFont: FontInfo {
         switch style {
         case .primary, .secondary, .ghost:
@@ -138,8 +144,10 @@ open class ButtonTokens: ControlTokens {
         }
     }
 
+    /// Defines the minimum height of the text of the button.
     open var textMinimumHeight: CGFloat { globalTokens.iconSize[.medium] }
 
+    /// Defines the additional padding added when a floating style button has text.
     open var textAdditionalHorizontalPadding: CGFloat {
         switch size {
         case .small, .medium:
@@ -149,6 +157,7 @@ open class ButtonTokens: ControlTokens {
         }
     }
 
+    /// Defines the color of the text of the button.
     open var textColor: ButtonDynamicColors {
         switch style {
         case .primary, .accentFloating:
@@ -178,6 +187,7 @@ open class ButtonTokens: ControlTokens {
         }
     }
 
+    /// Defines the color of the border around the button.
     open var borderColor: ButtonDynamicColors {
         switch style {
         case .primary:
@@ -207,6 +217,7 @@ open class ButtonTokens: ControlTokens {
         }
     }
 
+    /// Defines the color of the background of the button.
     open var backgroundColor: ButtonDynamicColors {
         switch style {
         case .primary, .accentFloating:
@@ -236,6 +247,7 @@ open class ButtonTokens: ControlTokens {
         }
     }
 
+    /// Defines the color of the icon of the button.
     open var iconColor: ButtonDynamicColors {
         switch style {
         case .primary, .accentFloating:
@@ -265,10 +277,13 @@ open class ButtonTokens: ControlTokens {
         }
     }
 
+    /// Defines the shadow used when a floating button is at rest.
     open var restShadow: ShadowInfo { aliasTokens.elevation[.interactiveElevation1Rest] }
 
+    /// Defines the shadow used when a floating button is pressed.
     open var pressedShadow: ShadowInfo { aliasTokens.elevation[.interactiveElevation1Pressed] }
 
+    /// Defiens the minimum height of the button.
     open var minHeight: CGFloat {
         switch style {
         case .primary, .secondary, .ghost:
@@ -290,6 +305,7 @@ open class ButtonTokens: ControlTokens {
         }
     }
 
+    /// Defines the minimum vertical padding around the content of the button.
     open var minVerticalPadding: CGFloat {
         switch size {
         case .small:
