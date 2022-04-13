@@ -8,9 +8,10 @@ import UIKit
 /**
  `CommandBar` is a horizontal scrollable list of icon buttons divided by groups.
  Provide `itemGroups` in `init` to set the buttons in the scrollable area. Optional `leadingItem` and `trailingItem` add fixed buttons in leading and trailing positions. Each `CommandBarItem` will be represented as a button.
+ Set the `delegate` property to determine whether a button can be selected and deselected, and listen to selection changes.
  */
 @objc(MSFCommandBar)
-public class CommandBar: UIView, TokenizedControlInternal {
+open class CommandBar: UIView {
     // Hierarchy:
     //
     // leadingButton
@@ -37,21 +38,10 @@ public class CommandBar: UIView, TokenizedControlInternal {
             self.trailingButton = button(forItem: trailingItem, isPersistSelection: false)
         }
 
-        backgroundColor = UIColor(dynamicColor: tokens.backgroundColor)
         translatesAutoresizingMaskIntoConstraints = false
-
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
 
         configureHierarchy()
         updateButtonsState()
-    }
-
-    public override func didMoveToWindow() {
-        super.didMoveToWindow()
-        updateButtonTokens()
     }
 
     @available(*, unavailable)
@@ -66,11 +56,6 @@ public class CommandBar: UIView, TokenizedControlInternal {
         }
     }
 
-    public func overrideTokens(_ tokens: CommandBarTokens?) -> Self {
-        overrideTokens = tokens
-        return self
-    }
-
     // MARK: Overrides
 
     public override var intrinsicContentSize: CGSize {
@@ -82,25 +67,6 @@ public class CommandBar: UIView, TokenizedControlInternal {
 
         containerMaskLayer.frame = containerView.bounds
         updateShadow()
-    }
-
-    // MARK: - TokenizedControl
-
-    public typealias TokenType = CommandBarTokens
-
-    let defaultTokens: CommandBarTokens = .init()
-    var tokens: CommandBarTokens = .init()
-    var overrideTokens: CommandBarTokens? {
-        didSet {
-            updateButtonTokens()
-        }
-    }
-
-    @objc private func themeDidChange(_ notification: Notification) {
-        if let window = self.window,
-           window.isEqual(notification.object) {
-            updateButtonTokens()
-        }
     }
 
     // MARK: - Private properties
@@ -134,13 +100,12 @@ public class CommandBar: UIView, TokenizedControlInternal {
 
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
-        let itemInterspace: CGFloat = tokens.itemInterspace
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.contentInset = UIEdgeInsets(
             top: 0,
-            left: leadingButton == nil ? CommandBar.insets.left : itemInterspace,
+            left: leadingButton == nil ? CommandBar.insets.left : CommandBar.fixedButtonSpacing,
             bottom: 0,
-            right: trailingButton == nil ? CommandBar.insets.right : itemInterspace
+            right: trailingButton == nil ? CommandBar.insets.right : CommandBar.fixedButtonSpacing
         )
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
@@ -165,7 +130,7 @@ public class CommandBar: UIView, TokenizedControlInternal {
 
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
-        stackView.spacing = tokens.groupInterspace
+        stackView.spacing = CommandBar.buttonGroupSpacing
 
         return stackView
     }()
@@ -178,7 +143,7 @@ public class CommandBar: UIView, TokenizedControlInternal {
                 }
 
                 return button
-            }, commandBarTokens: tokens)
+            })
         }
     }()
 
@@ -197,7 +162,6 @@ public class CommandBar: UIView, TokenizedControlInternal {
     }()
 
     private func configureHierarchy() {
-        let itemInterspace: CGFloat = tokens.itemInterspace
         addSubview(containerView)
 
         // Left and right button layout constraints
@@ -205,9 +169,9 @@ public class CommandBar: UIView, TokenizedControlInternal {
             addSubview(leadingButton)
             NSLayoutConstraint.activate([
                 leadingButton.topAnchor.constraint(equalTo: containerView.topAnchor),
-                leadingButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: itemInterspace),
+                leadingButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: CommandBar.fixedButtonSpacing),
                 containerView.bottomAnchor.constraint(equalTo: leadingButton.bottomAnchor),
-                containerView.leadingAnchor.constraint(equalTo: leadingButton.trailingAnchor, constant: itemInterspace)
+                containerView.leadingAnchor.constraint(equalTo: leadingButton.trailingAnchor, constant: CommandBar.fixedButtonSpacing)
             ])
         } else {
             NSLayoutConstraint.activate([
@@ -219,9 +183,9 @@ public class CommandBar: UIView, TokenizedControlInternal {
             addSubview(trailingButton)
             NSLayoutConstraint.activate([
                 trailingButton.topAnchor.constraint(equalTo: containerView.topAnchor),
-                trailingButton.leadingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: itemInterspace),
+                trailingButton.leadingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: CommandBar.fixedButtonSpacing),
                 containerView.bottomAnchor.constraint(equalTo: trailingButton.bottomAnchor),
-                trailingAnchor.constraint(equalTo: trailingButton.trailingAnchor, constant: itemInterspace)
+                trailingAnchor.constraint(equalTo: trailingButton.trailingAnchor, constant: CommandBar.fixedButtonSpacing)
             ])
         } else {
             NSLayoutConstraint.activate([
@@ -246,7 +210,7 @@ public class CommandBar: UIView, TokenizedControlInternal {
     }
 
     private func button(forItem item: CommandBarItem, isPersistSelection: Bool = true) -> CommandBarButton {
-        let button = CommandBarButton(item: item, isPersistSelection: isPersistSelection, commandBarTokens: tokens)
+        let button = CommandBarButton(item: item, isPersistSelection: isPersistSelection)
         button.addTarget(self, action: #selector(handleCommandButtonTapped(_:)), for: .touchUpInside)
 
         return button
@@ -270,22 +234,14 @@ public class CommandBar: UIView, TokenizedControlInternal {
         containerMaskLayer.locations = locations.map { NSNumber(value: Float($0)) }
     }
 
-    private func updateButtonTokens() {
-        self.tokens = resolvedTokens
-        for button in itemsToButtonsMap.values {
-            button.commandBarTokens = tokens
-        }
-    }
-
     @objc private func handleCommandButtonTapped(_ sender: CommandBarButton) {
         sender.item.handleTapped(sender)
         sender.updateState()
     }
 
-    private var themeObserver: NSObjectProtocol?
-
     private static let fadeViewWidth: CGFloat = 16.0
-
+    private static let buttonGroupSpacing: CGFloat = 16.0
+    private static let fixedButtonSpacing: CGFloat = 2.0
     private static let insets = UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)
 }
 
