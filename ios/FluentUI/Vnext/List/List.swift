@@ -190,7 +190,7 @@ class MSFListStateImpl: NSObject, ObservableObject, MSFListState {
         return sections.count
     }
 
-    var allowsSelection: Bool = false {
+    @Published var allowsSelection: Bool = false {
         didSet {
             if !allowsSelection {
                 if let selectedCell = selectedCellState {
