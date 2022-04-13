@@ -14,6 +14,10 @@ class PreviewCardDemoController: DemoTableViewController {
     required init?(coder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
     }
+// MARK: - Constraint Constant Attribute Values
+    private struct Constants {
+        static let constantOffset: CGFloat = 16.0
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         let previewCard = MSFPreviewCard(theme: nil)
@@ -21,10 +25,10 @@ class PreviewCardDemoController: DemoTableViewController {
         view.addSubview(previewCardView)
         previewCardView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            previewCardView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 16.0),
-            previewCardView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 16.0),
-            previewCardView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 16.0),
-            previewCardView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: 16.0)
+            previewCardView.topAnchor.constraint(equalTo: view.topAnchor, constant: Constants.constantOffset),
+            previewCardView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.constantOffset),
+            previewCardView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: Constants.constantOffset),
+            previewCardView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: Constants.constantOffset)
         ])
     }
 }
