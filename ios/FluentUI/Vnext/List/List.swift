@@ -190,7 +190,16 @@ class MSFListStateImpl: NSObject, ObservableObject, MSFListState {
         return sections.count
     }
 
-    var allowsSelection: Bool = false
+    var allowsSelection: Bool = false {
+        didSet {
+            if !allowsSelection {
+                if let selectedCell = selectedCellState {
+                    selectedCell.isSelected = false
+                    selectedCellState = nil
+                }
+            }
+        }
+    }
     var selectedCellState: MSFListCellStateImpl?
 
     func createSection() -> MSFListSectionState {
