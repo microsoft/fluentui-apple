@@ -126,7 +126,7 @@ class MSFListCellStateImpl: NSObject, ObservableObject, Identifiable, ControlCon
     @Published private(set) var children: [MSFListCellStateImpl] = []
     var onTapAction: (() -> Void)?
     var id = UUID()
-    var selectionAction: ((MSFListCellStateImpl) -> Void)?
+    var onSelectAction: ((MSFListCellStateImpl) -> Void)?
     @Published var isSelected: Bool = false
 
     var leadingUIView: UIView? {
@@ -232,7 +232,7 @@ class MSFListCellStateImpl: NSObject, ObservableObject, Identifiable, ControlCon
             preconditionFailure("Index is out of bounds")
         }
         let cell = MSFListCellStateImpl()
-        cell.selectionAction = selectionAction
+        cell.onSelectAction = onSelectAction
         children.insert(cell, at: index)
         return cell
     }
@@ -389,8 +389,8 @@ struct MSFListCellView: View, ConfigurableTokenizedControl {
                         state.isExpanded.toggle()
                     }
                 }
-                if let selectionAction = state.selectionAction {
-                    selectionAction(state)
+                if let onSelectAction = state.onSelectAction {
+                    onSelectAction(state)
                 }
                 if let onTapAction = state.onTapAction {
                     onTapAction()

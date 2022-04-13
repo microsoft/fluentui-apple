@@ -46,7 +46,7 @@ import SwiftUI
     var sectionCount: Int { get }
 
     /// Configures if the list allows selection
-    var allowsSelection: Bool { get set }
+    var isSelectable: Bool { get set }
 
     /// Creates a new Section and appends it to the array of sections in a List.
     func createSection() -> MSFListSectionState
@@ -135,7 +135,7 @@ class MSFListSectionStateImpl: NSObject, ObservableObject, Identifiable, Control
     @Published var backgroundColor: UIColor?
     @Published var hasDividers: Bool = false
     var id = UUID()
-    var listSelectionAction: ((MSFListCellStateImpl) -> Void)?
+    var onSelectAction: ((MSFListCellStateImpl) -> Void)?
 
     // MARK: - MSFListSectionStateImpl accessors
 
@@ -155,12 +155,12 @@ class MSFListSectionStateImpl: NSObject, ObservableObject, Identifiable, Control
         }
         let cell = MSFListCellStateImpl()
         cells.insert(cell, at: index)
-        cell.selectionAction = { [weak self] (selectedCell) in
+        cell.onSelectAction = { [weak self] (selectedCell) in
             guard let strongSelf = self,
-                  let listSelectionAction = strongSelf.listSelectionAction else {
+                  let onSelectAction = strongSelf.onSelectAction else {
                 return
             }
-            listSelectionAction(selectedCell)
+            onSelectAction(selectedCell)
         }
         return cell
     }
@@ -190,9 +190,9 @@ class MSFListStateImpl: NSObject, ObservableObject, MSFListState {
         return sections.count
     }
 
-    @Published var allowsSelection: Bool = false {
+    @Published var isSelectable: Bool = false {
         didSet {
-            if !allowsSelection {
+            if !isSelectable {
                 if let selectedCell = selectedCellState {
                     selectedCell.isSelected = false
                     selectedCellState = nil
@@ -211,8 +211,8 @@ class MSFListStateImpl: NSObject, ObservableObject, MSFListState {
             preconditionFailure("Index is out of bounds")
         }
         let section = MSFListSectionStateImpl()
-        section.listSelectionAction = { [weak self] (selectedCell) in
-            guard let strongSelf = self, strongSelf.allowsSelection else {
+        section.onSelectAction = { [weak self] (selectedCell) in
+            guard let strongSelf = self, strongSelf.isSelectable else {
                 return
             }
 

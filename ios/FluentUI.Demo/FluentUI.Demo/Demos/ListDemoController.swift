@@ -180,7 +180,7 @@ class ListDemoController: DemoController {
 
     let list: MSFList = {
         let list = MSFList()
-        list.state.allowsSelection = true
+        list.state.isSelectable = true
         return list
     }()
 }
