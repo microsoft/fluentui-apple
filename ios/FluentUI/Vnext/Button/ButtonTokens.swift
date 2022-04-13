@@ -268,4 +268,36 @@ open class ButtonTokens: ControlTokens {
     open var restShadow: ShadowInfo { aliasTokens.elevation[.interactiveElevation1Rest] }
 
     open var pressedShadow: ShadowInfo { aliasTokens.elevation[.interactiveElevation1Pressed] }
+
+    open var minHeight: CGFloat {
+        switch style {
+        case .primary, .secondary, .ghost:
+            switch size {
+            case .small:
+                return 28
+            case .medium:
+                return 40
+            case .large:
+                return 52
+            }
+        case .accentFloating, .subtleFloating:
+            switch size {
+            case .small, .medium:
+                return 48
+            case .large:
+                return 56
+            }
+        }
+    }
+
+    open var minVerticalPadding: CGFloat {
+        switch size {
+        case .small:
+            return 5
+        case .medium:
+            return 10
+        case .large:
+            return 15
+        }
+    }
 }
