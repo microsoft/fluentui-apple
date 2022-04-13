@@ -14,10 +14,8 @@ import UIKit
     ///   - style: The MSFNotification value used by the Notification.
     ///   - message: The primary text to display in the Notification.
     @objc public init(style: MSFNotificationStyle,
-                      message: String,
-                      delayTime: TimeInterval) {
-
-        notification = NotificationViewSwiftUI(style: style, message: message, delayTime: delayTime)
+                      message: String) {
+        notification = NotificationViewSwiftUI(style: style, message: message)
         super.init(AnyView(notification))
     }
 

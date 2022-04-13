@@ -13,9 +13,6 @@ import SwiftUI
     /// Text for the main title area of the control. If there is a title, the message becomes subtext.
     var message: String { get set }
 
-    /// Time it takes until notification auto-dismisses
-    var delayTime: TimeInterval { get set }
-
     /// Optional text to draw above the message area.
     var title: String? { get set }
 
@@ -45,9 +42,12 @@ import SwiftUI
 /// View that represents the Notification.
 public struct NotificationViewSwiftUI: View, ConfigurableTokenizedControl {
     @Environment(\.horizontalSizeClass) var horizontalSizeClass: UserInterfaceSizeClass?
-    @Environment(\.swiftUIInsets) private var safeAreaInsets: EdgeInsets
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
+    @Environment(\.viewController) private var viewControllerHolder: UIViewController?
     @ObservedObject var state: MSFNotificationStateImpl
+    @Binding var isPresented: Bool
+    @State private var height: CGFloat = 0
+    @State private var yOffsetFromBottom: CGFloat = 0
     let defaultTokens: NotificationTokens = .init()
     var tokens: NotificationTokens {
         let tokens = resolvedTokens
@@ -61,9 +61,27 @@ public struct NotificationViewSwiftUI: View, ConfigurableTokenizedControl {
 
     public init(style: MSFNotificationStyle,
                 message: String,
-                delayTime: TimeInterval) {
-        let state = MSFNotificationStateImpl(style: style, message: message, delayTime: delayTime)
+                isPresented: Binding<Bool>? = nil,
+                title: String = "",
+                image: UIImage? = nil,
+                actionButtonTitle: String = "",
+                actionButtonAction: (() -> Void)? = nil,
+                messageButtonAction: (() -> Void)? = nil,
+                dismissAction: (() -> Void)? = nil) {
+        let state = MSFNotificationStateImpl(style: style, message: message)
+        state.title = title
+        state.image = image
+        state.actionButtonTitle = actionButtonTitle
+        state.actionButtonAction = actionButtonAction
+        state.messageButtonAction = messageButtonAction
+        state.dismissAction = dismissAction
         self.state = state
+
+        if let isPresented = isPresented {
+            _isPresented = isPresented
+        } else {
+            _isPresented = .constant(true)
+        }
     }
 
     private var hasImage: Bool {
@@ -76,6 +94,18 @@ public struct NotificationViewSwiftUI: View, ConfigurableTokenizedControl {
 
     private var hasCenteredText: Bool {
         !state.style.isToast && state.actionButtonAction == nil
+    }
+
+    private func presentAnimated() {
+        withAnimation(.spring(response: tokens.style.animationDurationForShow, dampingFraction: tokens.style.animationDampingRatio, blendDuration: 0)) {
+            yOffsetFromBottom = 0
+        }
+    }
+
+    private func dismissAnimated() {
+        withAnimation(.spring(response: tokens.style.animationDurationForHide, dampingFraction: tokens.style.animationDampingRatio, blendDuration: 0)) {
+            yOffsetFromBottom = height + tokens.bottomPresentationPadding + (tokens.ambientShadowOffsetY / 2)
+        }
     }
 
     @ViewBuilder
@@ -128,6 +158,7 @@ public struct NotificationViewSwiftUI: View, ConfigurableTokenizedControl {
         if let buttonAction = state.actionButtonAction, let actionTitle = state.actionButtonTitle, let dismissAction = state.dismissAction {
             if actionTitle.isEmpty {
                 SwiftUI.Button(action: {
+                    isPresented = false
                     dismissAction()
                     buttonAction()
                 }, label: {
@@ -139,6 +170,7 @@ public struct NotificationViewSwiftUI: View, ConfigurableTokenizedControl {
                 .foregroundColor(Color(dynamicColor: tokens.foregroundColor))
             } else {
                 SwiftUI.Button(actionTitle) {
+                    isPresented = false
                     dismissAction()
                     buttonAction()
                 }
@@ -168,17 +200,27 @@ public struct NotificationViewSwiftUI: View, ConfigurableTokenizedControl {
     }
 
     public var body: some View {
-        // Note: we are using keyWindow's width because GeometryReader relies on the bounds of the hosting controller which cannot be set accurately at this point
-        if let windowWidth = UIApplication.shared.keyWindow?.bounds.width {
-            let width = windowWidth - safeAreaInsets.leading - safeAreaInsets.trailing
+        if let viewControllerWidth = viewControllerHolder?.view.frame.width {
             innerContents
+                .alignmentGuide(VerticalAlignment.bottom) { (viewDimensions) -> CGFloat in
+                    DispatchQueue.main.async {
+                        height = viewDimensions.height
+                        if isPresented == true {
+                            yOffsetFromBottom = 0
+                        } else {
+                            yOffsetFromBottom = height + tokens.bottomPresentationPadding + (tokens.ambientShadowOffsetY / 2)
+                        }
+                    }
+                    return viewDimensions[VerticalAlignment.bottom]
+                }
                 .onTapGesture {
                     if let messageAction = state.messageButtonAction, let dismissAction = state.dismissAction {
+                        isPresented = false
                         dismissAction()
                         messageAction()
                     }
                 }
-                .frame(width: state.style.isToast && horizontalSizeClass == .regular ? width / 2 : width - (2 * tokens.presentationOffset))
+                .frame(width: state.style.isToast && horizontalSizeClass == .regular ? viewControllerWidth / 2 : viewControllerWidth - (2 * tokens.presentationOffset), alignment: .bottom)
                 .background(
                     RoundedRectangle(cornerRadius: tokens.cornerRadius)
                         .strokeBorder(Color(dynamicColor: tokens.outlineColor), lineWidth: tokens.outlineWidth)
@@ -195,13 +237,22 @@ public struct NotificationViewSwiftUI: View, ConfigurableTokenizedControl {
                                 x: tokens.perimeterShadowOffsetX,
                                 y: tokens.perimeterShadowOffsetY)
                 )
+                .onChange(of: isPresented, perform: { present in
+                    if present {
+                        presentAnimated()
+                    } else {
+                        dismissAnimated()
+                    }
+                })
+                .frame(maxHeight: .infinity, alignment: .bottom)
+                .padding(.bottom, tokens.bottomPresentationPadding)
+                .offset(y: yOffsetFromBottom)
         }
     }
 }
 
 class MSFNotificationStateImpl: NSObject, ControlConfiguration, MSFNotificationState {
     @Published public var message: String
-    @Published public var delayTime: TimeInterval
     @Published public var title: String?
     @Published public var image: UIImage?
 
@@ -227,24 +278,22 @@ class MSFNotificationStateImpl: NSObject, ControlConfiguration, MSFNotificationS
     /// Style to draw the control.
     @Published public var style: MSFNotificationStyle
 
-    @objc init(style: MSFNotificationStyle, message: String, delayTime: TimeInterval) {
+    @objc init(style: MSFNotificationStyle, message: String) {
         self.style = style
         self.message = message
-        self.delayTime = delayTime
 
         super.init()
     }
 
     convenience init(style: MSFNotificationStyle,
                      message: String,
-                     delayTime: TimeInterval,
                      title: String? = nil,
                      image: UIImage? = nil,
                      actionButtonTitle: String? = nil,
                      actionButtonAction: (() -> Void)? = nil,
                      messageButtonAction: (() -> Void)? = nil,
                      dismissAction: (() -> Void)? = nil) {
-        self.init(style: style, message: message, delayTime: delayTime)
+        self.init(style: style, message: message)
 
         self.title = title
         self.image = image
@@ -252,27 +301,5 @@ class MSFNotificationStateImpl: NSObject, ControlConfiguration, MSFNotificationS
         self.actionButtonAction = actionButtonAction
         self.messageButtonAction = messageButtonAction
         self.dismissAction = dismissAction
-    }
-}
-
-@available(iOSApplicationExtension, unavailable)
-struct SafeAreaInsetsKey: EnvironmentKey {
-    static var defaultValue: EdgeInsets {
-        return UIApplication.shared.keyWindow?.safeAreaInsets.swiftUIInsets ?? EdgeInsets()
-    }
-}
-
-@available(iOSApplicationExtension, unavailable)
-extension EnvironmentValues {
-  var swiftUIInsets: EdgeInsets {
-    get { self[SafeAreaInsetsKey.self] }
-    set { self[SafeAreaInsetsKey.self] = newValue }
-  }
-}
-
-// Note: This may cause issues in RTL languages as leading should map to right and trailing to left in those cases.
-private extension UIEdgeInsets {
-    var swiftUIInsets: EdgeInsets {
-        EdgeInsets(top: top, leading: left, bottom: bottom, trailing: right)
     }
 }
