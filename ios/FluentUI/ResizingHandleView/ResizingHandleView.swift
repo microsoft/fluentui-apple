@@ -33,6 +33,11 @@ open class ResizingHandleView: UIView, TokenizedControlInternal {
         setContentCompressionResistancePriority(.required, for: .vertical)
         isUserInteractionEnabled = false
         layer.addSublayer(markLayer)
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -72,5 +77,13 @@ open class ResizingHandleView: UIView, TokenizedControlInternal {
 
     private func updateMarkColor() {
         markLayer.backgroundColor = UIColor(dynamicColor: tokens.markColor).cgColor
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        guard let window = window, window.isEqual(notification.object) else {
+            return
+        }
+        updateResizingHandleTokens()
+        updateMarkColor()
     }
 }
