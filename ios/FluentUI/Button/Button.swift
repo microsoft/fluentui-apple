@@ -224,6 +224,14 @@ open class Button: UIButton {
         update()
     }
 
+    open override func didUpdateFocus(in context: UIFocusUpdateContext, with coordinator: UIFocusAnimationCoordinator) {
+        guard style.isFilledStyle, (self == context.nextFocusedView || self == context.previouslyFocusedView) else {
+            return
+        }
+
+        updateBackgroundColor()
+    }
+
     public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 
@@ -391,32 +399,36 @@ open class Button: UIButton {
     }
 
     private func updateBackgroundColor() {
-        if let window = window {
-            let backgroundColor: UIColor
-
-            if !isEnabled {
-                backgroundColor = style.isFilledStyle ? Colors.Button.backgroundFilledDisabled : Colors.Button.background
-            } else {
-                switch style {
-                case .primaryFilled:
-                    backgroundColor = isHighlighted ? UIColor(light: Colors.primaryTint10(for: window),
-                                                              dark: Colors.primaryTint20(for: window))
-                    : Colors.primary(for: window)
-                case .dangerFilled:
-                    backgroundColor = isHighlighted ? UIColor(light: Colors.Palette.dangerTint10.color,
-                                                              dark: Colors.Palette.dangerTint20.color)
-                    : Colors.Palette.dangerPrimary.color
-                case .primaryOutline,
-                        .dangerOutline,
-                        .secondaryOutline,
-                        .tertiaryOutline,
-                        .borderless:
-                    backgroundColor = Colors.Button.background
-                }
-            }
-
-            self.backgroundColor = backgroundColor
+        guard let window = window else {
+            return
         }
+
+        let backgroundColor: UIColor
+
+        if !isEnabled {
+            backgroundColor = style.isFilledStyle ? Colors.Button.backgroundFilledDisabled : Colors.Button.background
+        } else {
+            switch style {
+            case .primaryFilled:
+                backgroundColor = isHighlighted || isFocused
+                ? UIColor(light: Colors.primaryTint10(for: window),
+                          dark: Colors.primaryTint20(for: window))
+                : Colors.primary(for: window)
+            case .dangerFilled:
+                backgroundColor = isHighlighted || isFocused
+                ? UIColor(light: Colors.Palette.dangerTint10.color,
+                          dark: Colors.Palette.dangerTint20.color)
+                : Colors.Palette.dangerPrimary.color
+            case .primaryOutline,
+                    .dangerOutline,
+                    .secondaryOutline,
+                    .tertiaryOutline,
+                    .borderless:
+                backgroundColor = Colors.Button.background
+            }
+        }
+
+        self.backgroundColor = backgroundColor
     }
 
     private func updateBorderColor() {
