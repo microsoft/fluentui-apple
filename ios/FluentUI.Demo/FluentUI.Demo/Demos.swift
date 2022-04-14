@@ -24,7 +24,8 @@ struct Demos {
         DemoDescriptor("AvatarGroup", AvatarGroupDemoController.self),
         DemoDescriptor("CardNudge", CardNudgeDemoController.self),
         DemoDescriptor("IndeterminateProgressBar", IndeterminateProgressBarDemoController.self),
-        DemoDescriptor("PersonaButtonCarousel", PersonaButtonCarouselDemoController.self)
+        DemoDescriptor("PersonaButtonCarousel", PersonaButtonCarouselDemoController.self),
+        DemoDescriptor("PreviewCard", PreviewCardDemoController.self)
     ]
 
     static let controls: [DemoDescriptor] = [
