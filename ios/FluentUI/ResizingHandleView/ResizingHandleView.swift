@@ -16,7 +16,7 @@ private extension Colors {
 // MARK: - ResizingHandleView
 
 @objc(MSFResizingHandleView)
-open class ResizingHandleView: UIView {
+open class ResizingHandleView: UIView, TokenizedControlInternal {
     private struct Constants {
         static let markSize = CGSize(width: 36, height: 4)
         static let markCornerRadius: CGFloat = 2
@@ -58,5 +58,27 @@ open class ResizingHandleView: UIView {
     open override func layoutSubviews() {
         super.layoutSubviews()
         markLayer.position = CGPoint(x: bounds.midX, y: bounds.midY)
+    }
+
+    public func overrideTokens(_ tokens: ResizingHandleTokens?) -> Self {
+        overrideTokens = tokens
+        return self
+    }
+
+    var defaultTokens: ResizingHandleTokens = .init()
+    var tokens: ResizingHandleTokens = .init()
+    var overrideTokens: ResizingHandleTokens? {
+        didSet {
+            updateResizingHandleTokens()
+            updateMarkColor()
+        }
+    }
+
+    private func updateResizingHandleTokens() {
+        self.tokens = resolvedTokens
+    }
+
+    private func updateMarkColor() {
+        markLayer.backgroundColor = UIColor(dynamicColor: tokens.markColor).cgColor
     }
 }
