@@ -526,7 +526,7 @@ public class BottomSheetController: UIViewController {
             // -------- fully undimmed (0.0)-----------
             // ----------------------------------------
             // ---------------------------------------- <--- high offset
-            
+
             let currentOffset = currentSheetVerticalOffset
             let highestDimmedOffset = offset(for: .expanded)
             let lowestUndimmedOffset = isHeightRestricted ? offset(for: .hidden) : offset(for: .collapsed)
@@ -704,7 +704,7 @@ public class BottomSheetController: UIViewController {
             }
             strongSelf.bottomSheetView.frame = strongSelf.sheetFrame(offset: targetVerticalOffset)
             strongSelf.sheetLayoutGuideTopConstraint.constant = targetVerticalOffset
-            
+
             strongSelf.updateDimmingViewAlpha()
             strongSelf.updateExpandedContentAlpha()
             strongSelf.view.layoutIfNeeded()
@@ -825,16 +825,16 @@ public class BottomSheetController: UIViewController {
         let idealHeight = currentResizingHandleHeight + visibleContentHeight + view.safeAreaInsets.bottom
         return min(idealHeight, maxSheetHeight)
     }
-    
+
     private var maxSheetHeight: CGFloat {
         let maxHeight: CGFloat
-        
+
         if view.frame != .zero {
             maxHeight = view.frame.height - view.safeAreaInsets.top - Constants.minimumTopExpandedPadding
         } else {
             maxHeight = Constants.defaultMaxSheetHeight
         }
-        
+
         return maxHeight
     }
 
@@ -857,7 +857,7 @@ public class BottomSheetController: UIViewController {
     private var targetExpansionState: BottomSheetExpansionState?
 
     private var isHiddenOrHiding: Bool { isHidden || targetExpansionState == .hidden }
-    
+
     private var isHeightRestricted: Bool {
         maxSheetHeight - collapsedSheetHeight < Constants.heightRestrictedThreshold
     }
@@ -887,7 +887,7 @@ public class BottomSheetController: UIViewController {
         static let maxSheetWidth: CGFloat = 610
         static let minSheetWidth: CGFloat = 300
         static let defaultMaxSheetHeight: CGFloat = 600
-        
+
         // When the difference in collapsed height and max sheet height is less than this,
         // we go into height restricted mode which skips the collapsed state and adjusts dimming.
         static let heightRestrictedThreshold: CGFloat = 50
