@@ -21,23 +21,37 @@ FluentUI for iOS provides [colors](FluentUI/Core/Colors.swift) and [typography](
 FluentUI for iOS includes an expanding set of controls written in Swift and supporting Objective-C. These controls implement the Fluent Design language and provide consistency across Microsoft experiences.
 
 Some of the controls available include:
-- ActivityIndicatorView
-- AvatarView
+- ActivityIndicator
+- Avatar
+- AvatarGroup
 - BadgeView
 - Button
+- BottomCommandingController
+- BottomSheetController
+- Card
+- CardNudge
+- Color
 - DateTimePicker
 - DrawerController
 - HUD
+- IndeterminateProgressBar
 - Label
 - NavigationController
 - NotificationView
+- PeoplePicker
+- PersonaButtonCarousel
 - PersonaListView
 - PillButtonBar
 - PopupMenuController
+- SearchBar
 - SegmentedControl
-- ShimmerLinesView
+- Separator
+- ShimmerView
+- SideTabBar
 - TabBarView
 - TableViewCell
+- TableViewCellFileAccessoryView
+- TableViewCellShimmer
 - Tooltip
 
 A full list of currently supported controls can be found here: [FluentUI](FluentUI).
