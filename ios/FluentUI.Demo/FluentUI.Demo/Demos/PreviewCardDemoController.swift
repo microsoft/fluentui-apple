@@ -14,10 +14,6 @@ class PreviewCardDemoController: DemoTableViewController {
     required init?(coder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
     }
-// MARK: - Constraint Constant Attribute Values
-    private struct Constants {
-        static let constantOffset: CGFloat = 16.0
-    }
     override func viewDidLoad() {
         super.viewDidLoad()
         let previewCard = MSFPreviewCard(theme: nil)
@@ -30,5 +26,9 @@ class PreviewCardDemoController: DemoTableViewController {
             previewCardView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: Constants.constantOffset),
             previewCardView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: Constants.constantOffset)
         ])
+    }
+// MARK: - Constraint Constant Attribute Values
+    private struct Constants {
+        static let constantOffset: CGFloat = 16.0
     }
 }

@@ -33,31 +33,33 @@ public struct PreviewCard: View {
 
     @Environment(\.theme) var theme: FluentUIStyle
     @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
-// MARK: - PreviewCard Box Properties
-    // TODO: - Update the hard values with tokens
-    private struct Constants {
-        static let boxMinWidth: CGFloat = 343
-        static let boxMinHeight: CGFloat = 147
-        static let boxRadius: CGFloat = 8
-        static let boxLineWidth: CGFloat = 0.5
-    }
     /// Creates inner PreviewCard view.
     @ViewBuilder
     var innerContents: some View {
         HStack {
             Spacer()
-                .frame(minWidth: Constants.boxMinWidth, minHeight: Constants.boxMinHeight)
+                .frame(minWidth: Constants.cardMinWidth, minHeight: Constants.cardMinHeight)
         }
     }
     /// Creates the PreviewCard.
     public var body: some View {
+// TODO: - Implement elevated card
+// TODO: - Update to implement light and dark mode
         innerContents
             .background(
-                RoundedRectangle(cornerRadius: Constants.boxRadius)
-                    .strokeBorder(Color(.black), lineWidth: Constants.boxLineWidth)
+                RoundedRectangle(cornerRadius: Constants.cardCornerRadius)
+                    .strokeBorder(Color(.black), lineWidth: Constants.cardLineWidth)
                     .background(
-                        RoundedRectangle(cornerRadius: Constants.boxRadius)
+                        RoundedRectangle(cornerRadius: Constants.cardCornerRadius)
                             .fill(.white)
                     )
     )}
+// MARK: - PreviewCard Box Properties
+    // TODO: - Update the hard values with tokens
+    private struct Constants {
+        static let cardMinWidth: CGFloat = 343
+        static let cardMinHeight: CGFloat = 147
+        static let cardCornerRadius: CGFloat = 8
+        static let cardLineWidth: CGFloat = 0.5
+    }
 }
