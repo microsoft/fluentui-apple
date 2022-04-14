@@ -72,7 +72,7 @@ class TabBarViewDemoController: DemoController {
                                 preferredArrowDirection: .down,
                                 offset: .init(x: 0, y: 6),
                                 dismissOn: .tapAnywhere)
-        }).view)
+        }))
 
         container.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
 
@@ -85,7 +85,7 @@ class TabBarViewDemoController: DemoController {
         addRow(text: "Use higher badge numbers", items: [useHigherBadgeNumbersSwitch], textWidth: Constants.switchSettingTextWidth)
         useHigherBadgeNumbersSwitch.addTarget(self, action: #selector(handleOnSwitchValueChanged), for: .valueChanged)
 
-        let buttonsStackView = UIStackView(arrangedSubviews: [incrementBadgeButton.view, decrementBadgeButton.view])
+        let buttonsStackView = UIStackView(arrangedSubviews: [incrementBadgeButton, decrementBadgeButton])
         buttonsStackView.spacing = 20
         addRow(text: "Modify badge numbers", items: [buttonsStackView], textWidth: Constants.buttonSettingTextWidth)
 

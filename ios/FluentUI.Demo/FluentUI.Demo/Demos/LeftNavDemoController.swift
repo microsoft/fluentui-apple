@@ -56,7 +56,7 @@ class LeftNavDemoController: DemoController {
                 return
             }
             strongSelf.showLeftNavButtonTapped()
-        }).view
+        })
     }()
 
     private lazy var drawerController: DrawerController = {
@@ -154,7 +154,7 @@ class LeftNavMenuViewController: UIViewController {
             })
         }
 
-        let personaView = persona.view
+        let personaView = persona
         personaView.translatesAutoresizingMaskIntoConstraints = false
         return personaView
     }()
@@ -261,7 +261,7 @@ class LeftNavMenuViewController: UIViewController {
         microsoftAccountCell.accessoryType = .checkmark
         let orgAvatar = MSFAvatar(style: .group, size: .large)
         orgAvatar.state.primaryText = "Kat Larrson"
-        microsoftAccountCell.leadingUIView = orgAvatar.view
+        microsoftAccountCell.leadingUIView = orgAvatar
         microsoftAccountCell.leadingViewSize = .large
 
         let msaAccountCell = accountsSection.createCell()
@@ -271,7 +271,7 @@ class LeftNavMenuViewController: UIViewController {
         msaAccountCell.subtitle = "kat.larrson@live.com"
         let msaAvatar = MSFAvatar(style: .group, size: .large)
         msaAvatar.state.primaryText = "kat.larrson@live.com"
-        msaAccountCell.leadingUIView = msaAvatar.view
+        msaAccountCell.leadingUIView = msaAvatar
         msaAccountCell.leadingViewSize = .large
 
         let addAccountCell = accountsSection.createCell()
@@ -283,7 +283,7 @@ class LeftNavMenuViewController: UIViewController {
         addAccountCell.onTapAction = defaultMenuAction
 
         let accountView = leftNavAccountView
-        let menuListView = leftNavMenuList.view
+        let menuListView = leftNavMenuList
         menuListView.translatesAutoresizingMaskIntoConstraints = false
 
         contentView.addSubview(accountView)

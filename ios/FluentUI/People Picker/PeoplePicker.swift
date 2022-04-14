@@ -142,7 +142,7 @@ open class PeoplePicker: BadgeField {
 
     func initialize() {
         personaSuggestionsView.addSubview(personaListView)
-        personaSuggestionsView.addSubview(divider.view)
+        personaSuggestionsView.addSubview(divider)
 
         personaListView.onPersonaSelected = { [unowned self] persona in
             self.pickPersona(persona: persona)
@@ -241,7 +241,7 @@ open class PeoplePicker: BadgeField {
 
         personaListView.frame = personaSuggestionsView.bounds
 
-        divider.view.frame = CGRect(x: 0, y: separatorY, width: personaSuggestionsView.frame.width, height: divider.view.frame.height)
+        divider.frame = CGRect(x: 0, y: separatorY, width: personaSuggestionsView.frame.width, height: divider.frame.height)
     }
 
     // MARK: Personas

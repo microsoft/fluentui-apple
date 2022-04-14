@@ -63,7 +63,7 @@ class NotificationViewDemoController: DemoController {
         container.addArrangedSubview(createButton(title: "Show", action: { [weak self] _ in
             self?.navigationController?.pushViewController(NotificationViewDemoControllerSwiftUI(),
                                                            animated: true)
-        }).view)
+        }))
 
         for (index, variant) in Variant.allCases.enumerated() {
             if index > 0 {
@@ -84,7 +84,7 @@ class NotificationViewDemoController: DemoController {
                 }
             })
             showButton.state.text = "Show"
-            container.addArrangedSubview(showButton.view)
+            container.addArrangedSubview(showButton)
 
             container.alignment = .leading
         }

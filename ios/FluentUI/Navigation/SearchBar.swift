@@ -414,7 +414,7 @@ open class SearchBar: UIView {
         textFieldLeadingConstraint = constraints.last
 
         // progressSpinner
-        let progressSpinnerView = progressSpinner.view
+        let progressSpinnerView = progressSpinner
         searchTextFieldBackgroundView.addSubview(progressSpinnerView)
         progressSpinnerView.translatesAutoresizingMaskIntoConstraints = false
 

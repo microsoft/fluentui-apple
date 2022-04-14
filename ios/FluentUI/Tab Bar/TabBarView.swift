@@ -87,14 +87,14 @@ open class TabBarView: UIView {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         contain(view: stackView, withInsets: .zero, respectingSafeAreaInsets: true)
 
-        topBorderLine.view.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(topBorderLine.view)
+        topBorderLine.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(topBorderLine)
 
         heightConstraint = stackView.heightAnchor.constraint(equalToConstant: traitCollection.userInterfaceIdiom == .phone ? Constants.phonePortraitHeight : Constants.padHeight)
         NSLayoutConstraint.activate([heightConstraint!,
-                                     topBorderLine.view.bottomAnchor.constraint(equalTo: topAnchor),
-                                     topBorderLine.view.leadingAnchor.constraint(equalTo: leadingAnchor),
-                                     topBorderLine.view.trailingAnchor.constraint(equalTo: trailingAnchor)])
+                                     topBorderLine.bottomAnchor.constraint(equalTo: topAnchor),
+                                     topBorderLine.leadingAnchor.constraint(equalTo: leadingAnchor),
+                                     topBorderLine.trailingAnchor.constraint(equalTo: trailingAnchor)])
 
         addInteraction(UILargeContentViewerInteraction())
 
