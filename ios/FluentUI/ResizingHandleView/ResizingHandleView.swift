@@ -5,14 +5,6 @@
 
 import UIKit
 
-// MARK: ResizingHandle Colors
-
-private extension Colors {
-    struct ResizingHandle {
-        public static var mark: UIColor = iconSecondary
-    }
-}
-
 // MARK: - ResizingHandleView
 
 @objc(MSFResizingHandleView)
@@ -24,11 +16,11 @@ open class ResizingHandleView: UIView, TokenizedControlInternal {
 
     @objc public static let height: CGFloat = 20
 
-    private let markLayer: CALayer = {
+    private lazy var markLayer: CALayer = {
         let markLayer = CALayer()
         markLayer.bounds.size = Constants.markSize
         markLayer.cornerRadius = Constants.markCornerRadius
-        markLayer.backgroundColor = Colors.ResizingHandle.mark.cgColor
+        markLayer.backgroundColor = UIColor(dynamicColor: tokens.markColor).cgColor
         return markLayer
     }()
 
