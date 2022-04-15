@@ -280,12 +280,12 @@ struct MSFListCellView: View, ConfigurableTokenizedControl {
             sublabelColor = Color(dynamicColor: tokens.sublabelColor)
             trailingItemColor = tokens.trailingItemForegroundColor
         }
+        let horizontalCellPadding: CGFloat = tokens.horizontalCellPadding
+        let leadingViewAreaSize: CGFloat = tokens.leadingViewAreaSize
 
         @ViewBuilder
         var cellLabel: some View {
-            let horizontalCellPadding: CGFloat = tokens.horizontalCellPadding
             let leadingViewSize: CGFloat = tokens.leadingViewSize
-            let leadingViewAreaSize: CGFloat = tokens.leadingViewAreaSize
 
             HStack(spacing: 0) {
                 let title = state.title
@@ -392,8 +392,6 @@ struct MSFListCellView: View, ConfigurableTokenizedControl {
         var cellContent: some View {
             let children: [MSFListCellStateImpl] = state.children
             let hasChildren: Bool = children.count > 0
-            let horizontalCellPadding: CGFloat = tokens.horizontalCellPadding
-            let leadingViewAreaSize: CGFloat = tokens.leadingViewAreaSize
 
             Button(action: {
                 if hasChildren {
