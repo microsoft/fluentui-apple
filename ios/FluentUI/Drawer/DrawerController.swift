@@ -250,7 +250,39 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
     /// Set `resizingHandleViewBackgroundColor` to customize background color of resizingHandleView if it is shown
     @objc open var resizingHandleViewBackgroundColor: UIColor {
         didSet {
-            resizingHandleView?.backgroundColor = resizingHandleViewBackgroundColor
+            updateResizingHandleTokens()
+        }
+    }
+
+    /// Set `resizingHandleViewMarkColor` to customize mark color of resizingHandleView if it is shown.
+    @objc open var resizingHandleViewMarkColor: UIColor? {
+        didSet {
+            updateResizingHandleTokens()
+        }
+    }
+
+    func updateResizingHandleTokens() {
+        resizingHandleView?.overrideTokens = CustomResizingHandleTokens(backgroundColor: resizingHandleViewBackgroundColor,
+                                                                        markColor: resizingHandleViewMarkColor)
+    }
+
+    class CustomResizingHandleTokens: ResizingHandleTokens {
+        var customBackgroundColor: UIColor?
+        var customMarkColor: UIColor?
+
+        override var markColor: DynamicColor {
+            return customMarkColor?.dynamicColor ?? super.markColor
+        }
+
+        override var backgroundColor: DynamicColor {
+            return customBackgroundColor?.dynamicColor ?? super.backgroundColor
+        }
+
+        convenience init(backgroundColor: UIColor?,
+                         markColor: UIColor?) {
+            self.init()
+            customBackgroundColor = backgroundColor
+            customMarkColor = markColor
         }
     }
 
