@@ -73,7 +73,7 @@ class ActivityIndicatorDemoController: DemoTableViewController {
             let activityIndicator = activityIndicatorDictionaries[activityIndicatorPath][activityIndicatorSize]
 
             cell.setup(title: activityIndicatorSize.description,
-                       customView: activityIndicator?.view)
+                       customView: activityIndicator)
             cell.titleNumberOfLines = 0
             return cell
         }

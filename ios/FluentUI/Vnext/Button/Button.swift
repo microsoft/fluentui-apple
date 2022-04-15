@@ -76,6 +76,7 @@ class MSFButtonStateImpl: NSObject, ObservableObject, ControlConfiguration, MSFB
     var action: () -> Void
     @Published var image: UIImage?
     @Published var disabled: Bool?
+    @Published var isFocused: Bool = false
     @Published var text: String?
     @Published var size: MSFButtonSize
     @Published var style: MSFButtonStyle
@@ -112,8 +113,11 @@ struct FluentButtonBody: View {
 
     var body: some View {
         let isDisabled = !isEnabled
+        let isFocused = state.isFocused
         let isFloatingStyle = tokens.style.isFloatingStyle
         let shouldUsePressedShadow = isDisabled || isPressed
+        let verticalPadding = tokens.minVerticalPadding
+        let horizontalPadding = tokens.horizontalPadding
         let iconColor: DynamicColor
         let textColor: DynamicColor
         let borderColor: DynamicColor
@@ -123,7 +127,7 @@ struct FluentButtonBody: View {
             textColor = tokens.textColor.disabled
             borderColor = tokens.borderColor.disabled
             backgroundColor = tokens.backgroundColor.disabled
-        } else if isPressed {
+        } else if isPressed || isFocused {
             iconColor = tokens.iconColor.pressed
             textColor = tokens.textColor.pressed
             borderColor = tokens.borderColor.pressed
@@ -153,11 +157,14 @@ struct FluentButtonBody: View {
                         })
                 }
             }
-            .padding(tokens.padding)
+            .padding(EdgeInsets(top: verticalPadding,
+                                leading: horizontalPadding,
+                                bottom: verticalPadding,
+                                trailing: horizontalPadding))
             .modifyIf(isFloatingStyle && !(state.text?.isEmpty ?? true), { view in
                 view.padding(.horizontal, tokens.textAdditionalHorizontalPadding )
             })
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .frame(maxWidth: .infinity, minHeight: tokens.minHeight, maxHeight: .infinity)
             .foregroundColor(Color(dynamicColor: textColor))
         }
 

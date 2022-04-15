@@ -54,7 +54,7 @@ class CardNudgeDemoController: DemoTableViewController {
              .outlineCard:
             let cell = tableView.dequeueReusableCell(withIdentifier: CardNudgeDemoController.controlReuseIdentifier, for: indexPath)
 
-            let view = cardNudges[indexPath.row].view
+            let view = cardNudges[indexPath.row]
             let contentView = cell.contentView
             contentView.addSubview(view)
             cell.selectionStyle = .none

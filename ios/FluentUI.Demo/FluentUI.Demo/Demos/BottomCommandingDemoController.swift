@@ -377,8 +377,8 @@ extension BottomCommandingDemoController: UITableViewDataSource {
             }
 
             let stackView = UIStackView(frame: CGRect(x: 0, y: 0, width: 100, height: 40))
-            stackView.addArrangedSubview(decrementHeroCommandCountButton.view)
-            stackView.addArrangedSubview(incrementHeroCommandCountButton.view)
+            stackView.addArrangedSubview(decrementHeroCommandCountButton)
+            stackView.addArrangedSubview(incrementHeroCommandCountButton)
             stackView.distribution = .fillEqually
             stackView.alignment = .center
             stackView.spacing = 4

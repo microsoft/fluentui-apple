@@ -455,7 +455,7 @@ open class BottomCommandingController: UIViewController {
 
     private func makeSheetExpandedContent(with tableView: UITableView) -> UIView {
         let view = UIView()
-        let dividerView = divider.view
+        let dividerView = divider
         dividerView.translatesAutoresizingMaskIntoConstraints = false
         tableView.translatesAutoresizingMaskIntoConstraints = false
 

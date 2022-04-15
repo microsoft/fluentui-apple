@@ -167,10 +167,9 @@ fi', :execution_position => :before_compile }
   s.subspec 'HUD_ios' do |hud_ios|
     hud_ios.platform = :ios
     hud_ios.dependency 'MicrosoftFluentUI/ActivityIndicator_ios'
-    hud_ios.dependency 'MicrosoftFluentUI/Label_ios'
     hud_ios.dependency 'MicrosoftFluentUI/TouchForwardingView_ios'
-    hud_ios.preserve_paths = ["ios/FluentUI/HUD/HUD.resources.xcfilelist"]
-    hud_ios.source_files = ["ios/FluentUI/HUD/**/*.{swift,h}"]
+    hud_ios.preserve_paths = ["ios/FluentUI/Vnext/HUD/HUD.resources.xcfilelist"]
+    hud_ios.source_files = ["ios/FluentUI/Vnext/HUD/**/*.{swift,h}"]
   end
 
   s.subspec 'IndeterminateProgressBar_ios' do |indeterminateprogressbar_ios|

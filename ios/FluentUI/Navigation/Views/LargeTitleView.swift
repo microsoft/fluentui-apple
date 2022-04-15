@@ -109,7 +109,7 @@ class LargeTitleView: UIView {
             return nil
         }
 
-        return avatar?.view
+        return avatar
     }
 
     private var colorForStyle: UIColor {
@@ -131,7 +131,7 @@ class LargeTitleView: UIView {
 
     private var showsProfileButton: Bool = true { // whether to display the customizable profile button
         didSet {
-            avatar?.view.isHidden = !showsProfileButton
+            avatar?.isHidden = !showsProfileButton
             setupAccessibility()
         }
     }
@@ -188,7 +188,7 @@ class LargeTitleView: UIView {
         }
 
         self.avatar = avatar
-        let avatarView = avatar.view
+        let avatarView = avatar
 
         avatarView.translatesAutoresizingMaskIntoConstraints = false
         avatarView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleAvatarViewTapped)))
@@ -252,7 +252,7 @@ class LargeTitleView: UIView {
             avatarState.accessibilityLabel = accessibilityLabel
             avatarState.hasButtonAccessibilityTrait = onAvatarTapped != nil
 
-            let avatarView = avatar.view
+            let avatarView = avatar
             avatarView.showsLargeContentViewer = true
             avatarView.largeContentTitle = accessibilityLabel
         }

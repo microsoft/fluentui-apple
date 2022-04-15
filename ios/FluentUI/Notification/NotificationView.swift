@@ -134,8 +134,8 @@ open class NotificationView: UIView, TokenizedControlInternal {
     }
 
     @objc open func initialize() {
-        addSubview(divider.view)
-        divider.view.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(divider)
+        divider.translatesAutoresizingMaskIntoConstraints = false
 
         addSubview(container)
         container.translatesAutoresizingMaskIntoConstraints = false
@@ -148,9 +148,9 @@ open class NotificationView: UIView, TokenizedControlInternal {
 
         let horizontalPadding: CGFloat! = tokens.horizontalPadding
         NSLayoutConstraint.activate([
-            divider.view.leadingAnchor.constraint(equalTo: leadingAnchor),
-            divider.view.trailingAnchor.constraint(equalTo: trailingAnchor),
-            divider.view.bottomAnchor.constraint(equalTo: topAnchor),
+            divider.leadingAnchor.constraint(equalTo: leadingAnchor),
+            divider.trailingAnchor.constraint(equalTo: trailingAnchor),
+            divider.bottomAnchor.constraint(equalTo: topAnchor),
             container.topAnchor.constraint(equalTo: topAnchor),
             container.bottomAnchor.constraint(equalTo: bottomAnchor),
             container.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: horizontalPadding),
@@ -471,7 +471,7 @@ open class NotificationView: UIView, TokenizedControlInternal {
         ambientShadow.shadowOffset = CGSize(width: tokens.ambientShadowOffsetX, height: tokens.ambientShadowOffsetY)
         ambientShadow.shadowOpacity = 1.0
 
-        divider.view.isHidden = !tokens.style.needsSeparator
+        divider.isHidden = !tokens.style.needsSeparator
 
         updateWindowSpecificColors()
     }

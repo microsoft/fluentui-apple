@@ -950,8 +950,8 @@ open class TableViewCell: UITableViewCell {
         contentView.addSubview(subtitleLabel)
         contentView.addSubview(footerLabel)
         contentView.addSubview(selectionImageView)
-        contentView.addSubview(topSeparator.view)
-        contentView.addSubview(bottomSeparator.view)
+        contentView.addSubview(topSeparator)
+        contentView.addSubview(bottomSeparator)
 
         setupBackgroundColors()
 
@@ -1164,7 +1164,7 @@ open class TableViewCell: UITableViewCell {
     }
 
     private func layoutSeparator(_ separator: MSFDivider, with type: SeparatorType, at verticalOffset: CGFloat) {
-        separator.view.frame = CGRect(
+        separator.frame = CGRect(
             x: separatorLeadingInset(for: type),
             y: verticalOffset,
             width: frame.width - separatorLeadingInset(for: type),
@@ -1402,7 +1402,7 @@ open class TableViewCell: UITableViewCell {
     }
 
     private func updateSeparator(_ separator: MSFDivider, with type: SeparatorType) {
-        separator.view.isHidden = type == .none
+        separator.isHidden = type == .none
         setNeedsLayout()
     }
 

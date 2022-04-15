@@ -20,21 +20,21 @@ class TooltipDemoController: DemoController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Show on title", style: .plain, target: self, action: #selector(showTitleTooltip))
 
         container.addArrangedSubview(createButton(title: "Show single-line tooltip below", action: { sender in
-            Tooltip.shared.show(with: "This is pointing up.", for: sender.view, preferredArrowDirection: .up)
-        }).view)
+            Tooltip.shared.show(with: "This is pointing up.", for: sender, preferredArrowDirection: .up)
+        }))
         container.addArrangedSubview(createButton(title: "Show double-line tooltip above", action: { sender in
-            Tooltip.shared.show(with: "This is a very long message, and this is also pointing down.", for: sender.view)
-        }).view)
+            Tooltip.shared.show(with: "This is a very long message, and this is also pointing down.", for: sender)
+        }))
         container.addArrangedSubview(createButton(title: "Show with tap on tooltip dismissal", action: { sender in
-            Tooltip.shared.show(with: "Tap on this tooltip to dismiss.", for: sender.view, preferredArrowDirection: .up, dismissOn: .tapOnTooltip)
-        }).view)
+            Tooltip.shared.show(with: "Tap on this tooltip to dismiss.", for: sender, preferredArrowDirection: .up, dismissOn: .tapOnTooltip)
+        }))
         container.addArrangedSubview(createButton(title: "Show with tap on tooltip or anchor dismissal", action: { [weak self] _ in
             guard let strongSelf = self else {
                 return
             }
 
             Tooltip.shared.show(with: "Tap on this tooltip or this title button to dismiss.", for: strongSelf.titleView, dismissOn: .tapOnTooltipOrAnchor)
-        }).view)
+        }))
         container.addArrangedSubview(createLeftRightButtons())
 
         edgeCaseStackView = createEdgeCaseButtons()
@@ -52,15 +52,15 @@ class TooltipDemoController: DemoController {
         container.spacing = 16.0
 
         let leftButton = createButton(title: "Show tooltip\n(with arrow left)", action: { sender in
-            Tooltip.shared.show(with: "This is pointing left.", for: sender.view, preferredArrowDirection: .left)
+            Tooltip.shared.show(with: "This is pointing left.", for: sender, preferredArrowDirection: .left)
         })
 
         let rightButton = createButton(title: "Show tooltip\n(with arrow right)", action: { sender in
-            Tooltip.shared.show(with: "This is pointing right.", for: sender.view, preferredArrowDirection: .right)
+            Tooltip.shared.show(with: "This is pointing right.", for: sender, preferredArrowDirection: .right)
         })
 
-        container.addArrangedSubview(leftButton.view)
-        container.addArrangedSubview(rightButton.view)
+        container.addArrangedSubview(leftButton)
+        container.addArrangedSubview(rightButton)
         return container
     }
 
@@ -71,8 +71,8 @@ class TooltipDemoController: DemoController {
         container.alignment = .fill
 
         let topleftButton = createButton(title: " ", action: { sender in
-            Tooltip.shared.show(with: "This is an offset tooltip.", for: sender.view, preferredArrowDirection: .up)
-        }).view
+            Tooltip.shared.show(with: "This is an offset tooltip.", for: sender, preferredArrowDirection: .up)
+        })
 
         let topRightButton = createButton(title: "", action: { [weak self] sender in
             guard let strongSelf = self else {
@@ -87,8 +87,8 @@ class TooltipDemoController: DemoController {
             var margins = Tooltip.defaultScreenMargins
             margins.top = edgeCaseStackView.convert(edgeCaseStackView.bounds, to: window).minY - window.safeAreaInsets.top
             margins.left = window.frame.inset(by: window.safeAreaInsets).midX
-            Tooltip.shared.show(with: "This is a very long, offset message.", for: sender.view, preferredArrowDirection: .right, screenMargins: margins)
-        }).view
+            Tooltip.shared.show(with: "This is a very long, offset message.", for: sender, preferredArrowDirection: .right, screenMargins: margins)
+        })
 
         let bottomLeftButton = createButton(title: "", action: { [weak self] sender in
             guard let strongSelf = self else {
@@ -100,12 +100,12 @@ class TooltipDemoController: DemoController {
             }
             var margins = Tooltip.defaultScreenMargins
             margins.right = window.frame.inset(by: window.safeAreaInsets).midX
-            Tooltip.shared.show(with: "This is a very long, offset message.", for: sender.view, preferredArrowDirection: .left, screenMargins: margins)
-        }).view
+            Tooltip.shared.show(with: "This is a very long, offset message.", for: sender, preferredArrowDirection: .left, screenMargins: margins)
+        })
 
         let bottomRightButton = createButton(title: "", action: { sender in
-            Tooltip.shared.show(with: "This is an offset tooltip.", for: sender.view)
-        }).view
+            Tooltip.shared.show(with: "This is an offset tooltip.", for: sender)
+        })
 
         for button in [topleftButton, topRightButton, bottomLeftButton, bottomRightButton] {
             button.widthAnchor.constraint(equalToConstant: 32.0).isActive = true

@@ -62,7 +62,7 @@ class ButtonDemoController: DemoTableViewController {
             disabledButton.state.image = image
             disabledButton.state.text = text
 
-            let rowContentView = UIStackView(arrangedSubviews: [button.view, disabledButton.view])
+            let rowContentView = UIStackView(arrangedSubviews: [button, disabledButton])
             rowContentView.isLayoutMarginsRelativeArrangement = true
             rowContentView.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 15, leading: 20, bottom: 15, trailing: 20)
             rowContentView.translatesAutoresizingMaskIntoConstraints = false

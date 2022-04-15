@@ -100,7 +100,7 @@ class BottomSheetDemoController: UIViewController {
         }
         dismissButton.state.text = "Dismiss"
 
-        let dismissButtonView = dismissButton.view
+        let dismissButtonView = dismissButton
         dismissButtonView.translatesAutoresizingMaskIntoConstraints = false
         sheetContentView.addSubview(dismissButtonView)
 
@@ -113,7 +113,7 @@ class BottomSheetDemoController: UIViewController {
         }
         anotherOneButton.state.text = "Show another sheet"
 
-        let anotherOneButtonView = anotherOneButton.view
+        let anotherOneButtonView = anotherOneButton
         anotherOneButtonView.translatesAutoresizingMaskIntoConstraints = false
         sheetContentView.addSubview(anotherOneButtonView)
 

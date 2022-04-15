@@ -38,7 +38,7 @@ class PopupMenuDemoController: DemoController {
                 return
             }
 
-            let buttonView = sender.view
+            let buttonView = sender
             let controller = PopupMenuController(sourceView: buttonView, sourceRect: buttonView.bounds, presentationDirection: .down)
 
             controller.addSections([
@@ -61,28 +61,28 @@ class PopupMenuDemoController: DemoController {
             }
 
             strongSelf.present(controller, animated: true)
-        }).view)
+        }))
 
         container.addArrangedSubview(createButton(title: "Show with scrollable items and no icons", action: { [weak self] sender in
             guard let strongSelf = self else {
                 return
             }
 
-            let buttonView = sender.view
+            let buttonView = sender
             let controller = PopupMenuController(sourceView: buttonView, sourceRect: buttonView.bounds, presentationDirection: .down)
 
             let items = samplePersonas.map { PopupMenuItem(title: !$0.name.isEmpty ? $0.name : $0.email) }
             controller.addItems(items)
 
             strongSelf.present(controller, animated: true)
-        }).view)
+        }))
 
         container.addArrangedSubview(createButton(title: "Show items with custom colors", action: { [weak self] sender in
             guard let strongSelf = self else {
                 return
             }
 
-            let buttonView = sender.view
+            let buttonView = sender
             let controller = PopupMenuController(sourceView: buttonView, sourceRect: buttonView.bounds, presentationDirection: .down)
 
             let items = [
@@ -108,14 +108,14 @@ class PopupMenuDemoController: DemoController {
             controller.separatorColor = .lightGray
 
             strongSelf.present(controller, animated: true)
-        }).view)
+        }))
 
         container.addArrangedSubview(createButton(title: "Show items without dismissal after being tapped", action: { [weak self] sender in
             guard let strongSelf = self else {
                 return
             }
 
-            let buttonView = sender.view
+            let buttonView = sender
             let controller = PopupMenuController(sourceView: buttonView, sourceRect: buttonView.bounds, presentationDirection: .down)
 
             let items = [
@@ -141,7 +141,7 @@ class PopupMenuDemoController: DemoController {
             controller.separatorColor = .lightGray
 
             strongSelf.present(controller, animated: true)
-        }).view)
+        }))
 
         container.addArrangedSubview(UIView())
         addTitle(text: "Show with...")

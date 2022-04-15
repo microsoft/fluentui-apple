@@ -84,9 +84,9 @@ class AvatarGroupDemoController: DemoTableViewController {
             let buttonView: [UIView] = {
                 switch row {
                 case .maxDisplayedAvatars:
-                    return [maxAvatarsTextField, maxAvatarButton.view]
+                    return [maxAvatarsTextField, maxAvatarButton]
                 case .overflow:
-                    return [overflowCountTextField, overflowCountButton.view]
+                    return [overflowCountTextField, overflowCountButton]
                 default:
                     return []
                 }
@@ -131,7 +131,7 @@ class AvatarGroupDemoController: DemoTableViewController {
                 return cell
             }
 
-            let avatarGroupView = avatarGroup.view
+            let avatarGroupView = avatarGroup
             avatarGroupView.translatesAutoresizingMaskIntoConstraints = false
 
             cell.contentView.addSubview(avatarGroupView)
