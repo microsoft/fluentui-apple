@@ -268,6 +268,18 @@ struct MSFListCellView: View, ConfigurableTokenizedControl {
     }
 
     var body: some View {
+        let labelColor: Color
+        let sublabelColor: Color
+        let trailingItemColor: DynamicColor
+        if state.isSelected {
+            labelColor = Color(dynamicColor: tokens.labelSelectedColor)
+            sublabelColor = Color(dynamicColor: tokens.sublabelSelectedColor)
+            trailingItemColor = tokens.trailingItemSelectedForegroundColor
+        } else {
+            labelColor = Color(dynamicColor: tokens.labelColor)
+            sublabelColor = Color(dynamicColor: tokens.sublabelColor)
+            trailingItemColor = tokens.trailingItemForegroundColor
+        }
 
         @ViewBuilder
         var cellLabel: some View {
@@ -301,7 +313,7 @@ struct MSFListCellView: View, ConfigurableTokenizedControl {
                         if !title.isEmpty {
                             Text(title)
                                 .font(.fluent(tokens.labelFont))
-                                .foregroundColor(Color(dynamicColor: tokens.labelColor))
+                                .foregroundColor(labelColor)
                                 .lineLimit(state.titleLineLimit == 0 ? nil : state.titleLineLimit)
                         }
                         if let titleTrailingAccessoryView = state.titleTrailingAccessoryView {
@@ -321,7 +333,7 @@ struct MSFListCellView: View, ConfigurableTokenizedControl {
                             Text(state.subtitle)
                                 .font(.fluent(state.footnote.isEmpty ?
                                                             tokens.footnoteFont : tokens.sublabelFont))
-                                .foregroundColor(Color(dynamicColor: tokens.sublabelColor))
+                                .foregroundColor(sublabelColor)
                                 .lineLimit(state.subtitleLineLimit == 0 ? nil : state.subtitleLineLimit)
                         }
                         if let subtitleTrailingAccessoryView = state.subtitleTrailingAccessoryView {
@@ -340,7 +352,7 @@ struct MSFListCellView: View, ConfigurableTokenizedControl {
                         if !state.footnote.isEmpty {
                             Text(state.footnote)
                                 .font(.fluent(tokens.footnoteFont))
-                                .foregroundColor(Color(dynamicColor: tokens.sublabelColor))
+                                .foregroundColor(sublabelColor)
                                 .lineLimit(state.footnoteLineLimit == 0 ? nil : state.footnoteLineLimit)
                         }
                         if let footnoteTrailingAccessoryView = state.footnoteTrailingAccessoryView {
@@ -366,7 +378,7 @@ struct MSFListCellView: View, ConfigurableTokenizedControl {
                         Image(uiImage: accessoryIcon)
                             .resizable()
                             .foregroundColor(Color(dynamicColor: isDisclosure ?
-                                                   tokens.disclosureIconForegroundColor : tokens.trailingItemForegroundColor))
+                                                   tokens.disclosureIconForegroundColor : trailingItemColor))
                             .frame(width: isDisclosure ? disclosureSize : trailingItemSize,
                                    height: isDisclosure ? disclosureSize : trailingItemSize)
                             .padding(.leading, isDisclosure ? tokens.disclosureInterspace : tokens.iconInterspace)
