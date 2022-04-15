@@ -48,14 +48,23 @@ open class CellBaseTokens: ControlTokens {
     /// Defines the color of the label of the Cell.
     open var labelColor: DynamicColor { aliasTokens.foregroundColors[.neutral1] }
 
+    /// Defines the color of the label when the Cell is selected.
+    open var labelSelectedColor: DynamicColor { aliasTokens.foregroundColors[.brandRest] }
+
     /// Defines the color of the leading view of the Cell.
     open var leadingViewColor: DynamicColor { aliasTokens.foregroundColors[.neutral1] }
 
     /// Defines the color of the sublabel of the Cell.
     open var sublabelColor: DynamicColor { aliasTokens.foregroundColors[.neutral3] }
 
+    /// Defines the color of the sublabel when the Cell is selected.
+    open var sublabelSelectedColor: DynamicColor { aliasTokens.foregroundColors[.brandRest] }
+
     /// Defines the foreground color of the trailing item of the Cell.
     open var trailingItemForegroundColor: DynamicColor { aliasTokens.foregroundColors[.neutral3] }
+
+    /// Defines the foreground color of the trailing item when the Cell is selected.
+    open var trailingItemSelectedForegroundColor: DynamicColor { aliasTokens.foregroundColors[.brandRest] }
 
     /// Defines the color of the background when the Cell is at rest.
     open var backgroundColor: DynamicColor { aliasTokens.backgroundColors[.neutral1] }
