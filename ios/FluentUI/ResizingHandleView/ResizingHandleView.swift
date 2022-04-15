@@ -67,7 +67,7 @@ open class ResizingHandleView: UIView, TokenizedControlInternal {
     var overrideTokens: ResizingHandleTokens? {
         didSet {
             updateResizingHandleTokens()
-            updateMarkColor()
+            updateColors()
         }
     }
 
@@ -75,8 +75,9 @@ open class ResizingHandleView: UIView, TokenizedControlInternal {
         self.tokens = resolvedTokens
     }
 
-    private func updateMarkColor() {
+    private func updateColors() {
         markLayer.backgroundColor = UIColor(dynamicColor: tokens.markColor).cgColor
+        backgroundColor = UIColor(dynamicColor: tokens.backgroundColor)
     }
 
     @objc private func themeDidChange(_ notification: Notification) {
@@ -84,6 +85,6 @@ open class ResizingHandleView: UIView, TokenizedControlInternal {
             return
         }
         updateResizingHandleTokens()
-        updateMarkColor()
+        updateColors()
     }
 }
