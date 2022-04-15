@@ -16,4 +16,9 @@ open class ResizingHandleTokens: ControlTokens {
                             dark: ColorValue(0x6E6E6E) /* gray500 */,
                             darkHighContrast: ColorValue(0x919191) /* gray400 */)
     }
+
+    /// Defines the background color of the `ResizingHandle`.
+    open var backgroundColor: DynamicColor {
+        return DynamicColor(light: ColorValue.clear)
+    }
 }
