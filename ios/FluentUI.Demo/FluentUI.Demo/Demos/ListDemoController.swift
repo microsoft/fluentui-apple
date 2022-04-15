@@ -178,5 +178,9 @@ class ListDemoController: DemoController {
         present(alert, animated: true)
     }
 
-    let list: MSFList = MSFList()
+    let list: MSFList = {
+        let list = MSFList()
+        list.state.isSelectable = true
+        return list
+    }()
 }

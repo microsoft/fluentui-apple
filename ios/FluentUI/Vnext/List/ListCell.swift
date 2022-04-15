@@ -126,6 +126,8 @@ class MSFListCellStateImpl: NSObject, ObservableObject, Identifiable, ControlCon
     @Published private(set) var children: [MSFListCellStateImpl] = []
     var onTapAction: (() -> Void)?
     var id = UUID()
+    var onSelectAction: ((MSFListCellStateImpl) -> Void)?
+    @Published var isSelected: Bool = false
 
     var leadingUIView: UIView? {
         didSet {
@@ -230,6 +232,7 @@ class MSFListCellStateImpl: NSObject, ObservableObject, Identifiable, ControlCon
             preconditionFailure("Index is out of bounds")
         }
         let cell = MSFListCellStateImpl()
+        cell.onSelectAction = onSelectAction
         children.insert(cell, at: index)
         return cell
     }
@@ -380,11 +383,17 @@ struct MSFListCellView: View, ConfigurableTokenizedControl {
             let horizontalCellPadding: CGFloat = tokens.horizontalCellPadding
             let leadingViewAreaSize: CGFloat = tokens.leadingViewAreaSize
 
-            Button(action: state.onTapAction ?? {
+            Button(action: {
                 if hasChildren {
                     withAnimation {
                         state.isExpanded.toggle()
                     }
+                }
+                if let onSelectAction = state.onSelectAction {
+                    onSelectAction(state)
+                }
+                if let onTapAction = state.onTapAction {
+                    onTapAction()
                 }
             }, label: {
                 cellLabel
@@ -427,7 +436,7 @@ struct MSFListCellView: View, ConfigurableTokenizedControl {
 
 struct ListCellButtonStyle: ButtonStyle {
     let tokens: CellBaseTokens
-    let state: MSFListCellState
+    @ObservedObject var state: MSFListCellStateImpl
 
     func makeBody(configuration: Self.Configuration) -> some View {
         let height: CGFloat
@@ -469,7 +478,8 @@ struct ListCellButtonStyle: ButtonStyle {
             return Color(stateBackgroundColor)
         }()
 
-        if isPressed {
+        // TODO: Add correct selection styling
+        if isPressed || state.isSelected {
             return highlightedBackgroundColor
         }
         return backgroundColor

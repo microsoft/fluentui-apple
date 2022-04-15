@@ -45,6 +45,9 @@ import SwiftUI
     /// The number of Sections in the List.
     var sectionCount: Int { get }
 
+    /// Configures if the list allows selection
+    var isSelectable: Bool { get set }
+
     /// Creates a new Section and appends it to the array of sections in a List.
     func createSection() -> MSFListSectionState
 
@@ -132,6 +135,7 @@ class MSFListSectionStateImpl: NSObject, ObservableObject, Identifiable, Control
     @Published var backgroundColor: UIColor?
     @Published var hasDividers: Bool = false
     var id = UUID()
+    var onSelectAction: ((MSFListCellStateImpl) -> Void)?
 
     // MARK: - MSFListSectionStateImpl accessors
 
@@ -151,6 +155,13 @@ class MSFListSectionStateImpl: NSObject, ObservableObject, Identifiable, Control
         }
         let cell = MSFListCellStateImpl()
         cells.insert(cell, at: index)
+        cell.onSelectAction = { [weak self] (selectedCell) in
+            guard let strongSelf = self,
+                  let onSelectAction = strongSelf.onSelectAction else {
+                return
+            }
+            onSelectAction(selectedCell)
+        }
         return cell
     }
 
@@ -179,6 +190,18 @@ class MSFListStateImpl: NSObject, ObservableObject, MSFListState {
         return sections.count
     }
 
+    @Published var isSelectable: Bool = false {
+        didSet {
+            if !isSelectable {
+                if let selectedCell = selectedCellState {
+                    selectedCell.isSelected = false
+                    selectedCellState = nil
+                }
+            }
+        }
+    }
+    var selectedCellState: MSFListCellStateImpl?
+
     func createSection() -> MSFListSectionState {
         return createSection(at: sections.endIndex)
     }
@@ -188,6 +211,17 @@ class MSFListStateImpl: NSObject, ObservableObject, MSFListState {
             preconditionFailure("Index is out of bounds")
         }
         let section = MSFListSectionStateImpl()
+        section.onSelectAction = { [weak self] (selectedCell) in
+            guard let strongSelf = self, strongSelf.isSelectable else {
+                return
+            }
+
+            if let previousCell = strongSelf.selectedCellState {
+                previousCell.isSelected = false
+            }
+            selectedCell.isSelected = true
+            strongSelf.selectedCellState = selectedCell
+        }
         sections.insert(section, at: index)
         return section
     }
