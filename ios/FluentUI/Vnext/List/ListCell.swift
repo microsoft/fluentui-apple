@@ -488,8 +488,7 @@ struct ListCellButtonStyle: ButtonStyle {
             return Color(stateBackgroundColor)
         }()
 
-        // TODO: Add correct selection styling
-        if isPressed || state.isSelected {
+        if isPressed && !state.isSelected {
             return highlightedBackgroundColor
         }
         return backgroundColor
