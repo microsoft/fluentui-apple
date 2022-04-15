@@ -43,10 +43,9 @@ import SwiftUI
 public struct NotificationViewSwiftUI: View, ConfigurableTokenizedControl {
     @Environment(\.horizontalSizeClass) var horizontalSizeClass: UserInterfaceSizeClass?
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
-    @Environment(\.viewController) private var viewControllerHolder: UIViewController?
     @ObservedObject var state: MSFNotificationStateImpl
     @Binding var isPresented: Bool
-    @State private var height: CGFloat = 0
+    @State private var dismissedOffset: CGFloat = 0
     @State private var yOffsetFromBottom: CGFloat = 0
     let defaultTokens: NotificationTokens = .init()
     var tokens: NotificationTokens {
@@ -54,6 +53,7 @@ public struct NotificationViewSwiftUI: View, ConfigurableTokenizedControl {
         tokens.style = state.style
         return tokens
     }
+
     public func overrideTokens(_ tokens: NotificationTokens?) -> NotificationViewSwiftUI {
         state.overrideTokens = tokens
         return self
@@ -84,32 +84,56 @@ public struct NotificationViewSwiftUI: View, ConfigurableTokenizedControl {
         }
     }
 
-    private var hasImage: Bool {
-        state.style.isToast && state.image != nil
-    }
-
-    private var hasSecondTextRow: Bool {
-        state.style.isToast && state.title != ""
-    }
-
-    private var hasCenteredText: Bool {
-        !state.style.isToast && state.actionButtonAction == nil
-    }
-
-    private func presentAnimated() {
-        withAnimation(.spring(response: tokens.style.animationDurationForShow, dampingFraction: tokens.style.animationDampingRatio, blendDuration: 0)) {
-            yOffsetFromBottom = 0
-        }
-    }
-
-    private func dismissAnimated() {
-        withAnimation(.spring(response: tokens.style.animationDurationForHide, dampingFraction: tokens.style.animationDampingRatio, blendDuration: 0)) {
-            yOffsetFromBottom = height + tokens.bottomPresentationPadding + (tokens.ambientShadowOffsetY / 2)
+    public var body: some View {
+        GeometryReader { geometryReader in
+            let width = geometryReader.size.width
+            innerContents
+                .onTapGesture {
+                    if let messageAction = state.messageButtonAction, let dismissAction = state.dismissAction {
+                        isPresented = false
+                        dismissAction()
+                        messageAction()
+                    }
+                }
+                .frame(width: state.style.isToast && horizontalSizeClass == .regular ? width / 2 : width - (2 * tokens.presentationOffset), alignment: .bottom)
+                .background(
+                    RoundedRectangle(cornerRadius: tokens.cornerRadius)
+                        .strokeBorder(Color(dynamicColor: tokens.outlineColor), lineWidth: tokens.outlineWidth)
+                        .background(
+                            RoundedRectangle(cornerRadius: tokens.cornerRadius)
+                                .fill(Color(dynamicColor: tokens.backgroundColor))
+                        )
+                        .shadow(color: Color(dynamicColor: tokens.ambientShadowColor),
+                                radius: tokens.ambientShadowBlur,
+                                x: tokens.ambientShadowOffsetX,
+                                y: tokens.ambientShadowOffsetY)
+                        .shadow(color: Color(dynamicColor: tokens.perimeterShadowColor),
+                                radius: tokens.perimeterShadowBlur,
+                                x: tokens.perimeterShadowOffsetX,
+                                y: tokens.perimeterShadowOffsetY)
+                )
+                .onChange(of: isPresented, perform: { present in
+                    if present {
+                        presentAnimated()
+                    } else {
+                        dismissAnimated()
+                    }
+                })
+                .padding(.bottom, tokens.bottomPresentationPadding)
+                .measureSize { viewSize in
+                    dismissedOffset = viewSize.height + (tokens.ambientShadowOffsetY / 2)
+                    if !isPresented {
+                        yOffsetFromBottom = dismissedOffset
+                    }
+                }
+                .frame(maxHeight: .infinity, alignment: .bottom)
+                .offset(y: yOffsetFromBottom)
+                .position(x: geometryReader.frame(in: .local).midX, y: geometryReader.frame(in: .local).midY)
         }
     }
 
     @ViewBuilder
-    var image: some View {
+    private var image: some View {
         if state.style.isToast {
             if let image = state.image {
                 Image(uiImage: image)
@@ -123,7 +147,7 @@ public struct NotificationViewSwiftUI: View, ConfigurableTokenizedControl {
     }
 
     @ViewBuilder
-    var titleLabel: some View {
+    private var titleLabel: some View {
         if state.style.isToast && hasSecondTextRow {
             if let title = state.title {
                 Text(title)
@@ -134,7 +158,7 @@ public struct NotificationViewSwiftUI: View, ConfigurableTokenizedControl {
     }
 
     @ViewBuilder
-    var messageLabel: some View {
+    private var messageLabel: some View {
         let messageFont = hasSecondTextRow ? tokens.footnoteTextFont : (state.style.isToast ? tokens.boldTextFont : tokens.regularTextFont)
         Text(state.message)
             .font(.fluent(messageFont))
@@ -142,7 +166,7 @@ public struct NotificationViewSwiftUI: View, ConfigurableTokenizedControl {
     }
 
     @ViewBuilder
-    var textContainer: some View {
+    private var textContainer: some View {
         VStack(alignment: .leading) {
             if hasSecondTextRow {
                 titleLabel
@@ -154,7 +178,7 @@ public struct NotificationViewSwiftUI: View, ConfigurableTokenizedControl {
     }
 
     @ViewBuilder
-    var button: some View {
+    private var button: some View {
         if let buttonAction = state.actionButtonAction, let actionTitle = state.actionButtonTitle, let dismissAction = state.dismissAction {
             if actionTitle.isEmpty {
                 SwiftUI.Button(action: {
@@ -184,7 +208,7 @@ public struct NotificationViewSwiftUI: View, ConfigurableTokenizedControl {
     }
 
     @ViewBuilder
-    var innerContents: some View {
+    private var innerContents: some View {
         if hasCenteredText {
             textContainer
         } else {
@@ -199,54 +223,27 @@ public struct NotificationViewSwiftUI: View, ConfigurableTokenizedControl {
         }
     }
 
-    public var body: some View {
-        if let viewControllerWidth = viewControllerHolder?.view.frame.width {
-            innerContents
-                .alignmentGuide(VerticalAlignment.bottom) { (viewDimensions) -> CGFloat in
-                    DispatchQueue.main.async {
-                        height = viewDimensions.height
-                        if isPresented == true {
-                            yOffsetFromBottom = 0
-                        } else {
-                            yOffsetFromBottom = height + tokens.bottomPresentationPadding + (tokens.ambientShadowOffsetY / 2)
-                        }
-                    }
-                    return viewDimensions[VerticalAlignment.bottom]
-                }
-                .onTapGesture {
-                    if let messageAction = state.messageButtonAction, let dismissAction = state.dismissAction {
-                        isPresented = false
-                        dismissAction()
-                        messageAction()
-                    }
-                }
-                .frame(width: state.style.isToast && horizontalSizeClass == .regular ? viewControllerWidth / 2 : viewControllerWidth - (2 * tokens.presentationOffset), alignment: .bottom)
-                .background(
-                    RoundedRectangle(cornerRadius: tokens.cornerRadius)
-                        .strokeBorder(Color(dynamicColor: tokens.outlineColor), lineWidth: tokens.outlineWidth)
-                        .background(
-                            RoundedRectangle(cornerRadius: tokens.cornerRadius)
-                                .fill(Color(dynamicColor: tokens.backgroundColor))
-                        )
-                        .shadow(color: Color(dynamicColor: tokens.ambientShadowColor),
-                                radius: tokens.ambientShadowBlur,
-                                x: tokens.ambientShadowOffsetX,
-                                y: tokens.ambientShadowOffsetY)
-                        .shadow(color: Color(dynamicColor: tokens.perimeterShadowColor),
-                                radius: tokens.perimeterShadowBlur,
-                                x: tokens.perimeterShadowOffsetX,
-                                y: tokens.perimeterShadowOffsetY)
-                )
-                .onChange(of: isPresented, perform: { present in
-                    if present {
-                        presentAnimated()
-                    } else {
-                        dismissAnimated()
-                    }
-                })
-                .frame(maxHeight: .infinity, alignment: .bottom)
-                .padding(.bottom, tokens.bottomPresentationPadding)
-                .offset(y: yOffsetFromBottom)
+    private var hasImage: Bool {
+        state.style.isToast && state.image != nil
+    }
+
+    private var hasSecondTextRow: Bool {
+        state.style.isToast && state.title != ""
+    }
+
+    private var hasCenteredText: Bool {
+        !state.style.isToast && state.actionButtonAction == nil
+    }
+
+    private func presentAnimated() {
+        withAnimation(.spring(response: tokens.style.animationDurationForShow, dampingFraction: tokens.style.animationDampingRatio, blendDuration: 0)) {
+            yOffsetFromBottom = 0
+        }
+    }
+
+    private func dismissAnimated() {
+        withAnimation(.linear(duration: tokens.style.animationDurationForHide)) {
+            yOffsetFromBottom = dismissedOffset
         }
     }
 }

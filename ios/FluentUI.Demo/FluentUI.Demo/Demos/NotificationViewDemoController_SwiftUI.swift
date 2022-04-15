@@ -22,7 +22,6 @@ class NotificationViewDemoControllerSwiftUI: UIHostingController<NotificationDem
 }
 
 struct NotificationDemoView: View {
-    @Environment(\.viewController) private var viewControllerHolder: UIViewController?
     @State var style: MSFNotificationStyle = .primaryToast
     @State var title: String = ""
     @State var message: String = "Mail Archived"
@@ -31,7 +30,6 @@ struct NotificationDemoView: View {
     @State var hasMessageAction: Bool = false
     @State var showImage: Bool = false
     @State var showAlert: Bool = false
-    @State var delayTime: String = "2.0"
     @State var isPresented: Bool = false
 
     public var body: some View {
@@ -61,7 +59,7 @@ struct NotificationDemoView: View {
                          text: "Show") {
                 if isPresented == false {
                     isPresented = true
-                    DispatchQueue.main.asyncAfter(deadline: .now() + (Double(delayTime) ?? 2.0)) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
                         isPresented = false
                     }
                 }
@@ -106,9 +104,6 @@ struct NotificationDemoView: View {
                         }
                         FluentUIDemoToggle(titleKey: "Has Action Button Action", isOn: $hasActionButtonAction)
                         FluentUIDemoToggle(titleKey: "Has Message Action", isOn: $hasMessageAction)
-                        TextField("Auto-Dismiss Delay Time (Seconds)", text: $delayTime)
-                            .keyboardType(.numbersAndPunctuation)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
                     }
 
                     Group {
@@ -145,6 +140,5 @@ struct NotificationDemoView: View {
                              actionButtonAction: actionButtonAction,
                              messageButtonAction: messageButtonAction,
                              dismissAction: dismissAction)
-        .clipped()
     }
 }

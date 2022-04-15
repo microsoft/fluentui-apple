@@ -21,6 +21,7 @@ struct PresentationModifier<PresentedView: View>: ViewModifier {
             .allowsHitTesting(isPresented && isBlocking)
 
             presentedView
+                .clipped()
         }
         .frame(maxWidth: .infinity,
                maxHeight: .infinity,
