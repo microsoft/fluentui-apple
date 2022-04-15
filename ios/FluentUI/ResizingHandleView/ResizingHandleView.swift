@@ -26,7 +26,7 @@ open class ResizingHandleView: UIView, TokenizedControlInternal {
 
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .clear
+        backgroundColor = UIColor(dynamicColor: tokens.backgroundColor)
         self.frame.size.height = ResizingHandleView.height
         autoresizingMask = .flexibleWidth
         setContentHuggingPriority(.required, for: .vertical)
