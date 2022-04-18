@@ -33,18 +33,12 @@ extension View {
     }
 
     /// Measures the size of a view, monitors when its size is updated, and takes a closure to be called when it does
-    /// - Parameter onChange: Block to be performed on size change
+    /// - Parameter action: Block to be performed on size change
     /// - Returns The modified view.
-    func measureSize(onChange: @escaping (CGSize) -> Void) -> some View {
-      background(
-        GeometryReader { geometryReader in
-          Color.clear
-            .preference(key: SizePreferenceKey.self,
-                        value: geometryReader.size)
-        }
-      )
-      .onPreferenceChange(SizePreferenceKey.self,
-                          perform: onChange)
+    func onSizeChange(perform action: @escaping (CGSize) -> Void) -> some View {
+        self.modifier(OnSizeChangeViewModifier())
+            .onPreferenceChange(SizePreferenceKey.self,
+                                perform: action)
     }
 }
 
@@ -52,4 +46,14 @@ extension View {
 struct SizePreferenceKey: PreferenceKey {
     static var defaultValue: CGSize = .zero
     static func reduce(value: inout CGSize, nextValue: () -> CGSize) {}
+}
+
+/// ViewModifier that uses GeometryReader to get the size of the content view and sets it in the SizePreferenceKey
+struct OnSizeChangeViewModifier: ViewModifier {
+    func body(content: Content) -> some View {
+        content.background(GeometryReader { geometryReader in
+            Color.clear.preference(key: SizePreferenceKey.self,
+                                   value: geometryReader.size)
+        })
+    }
 }

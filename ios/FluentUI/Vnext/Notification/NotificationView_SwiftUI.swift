@@ -45,8 +45,8 @@ public struct NotificationViewSwiftUI: View, ConfigurableTokenizedControl {
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @ObservedObject var state: MSFNotificationStateImpl
     @Binding var isPresented: Bool
-    @State private var dismissedOffset: CGFloat = 0
-    @State private var yOffsetFromBottom: CGFloat = 0
+    @State private var bottomOffsetForDismissedState: CGFloat = 0
+    @State private var bottomOffset: CGFloat = 0
     let defaultTokens: NotificationTokens = .init()
     var tokens: NotificationTokens {
         let tokens = resolvedTokens
@@ -86,7 +86,15 @@ public struct NotificationViewSwiftUI: View, ConfigurableTokenizedControl {
 
     public var body: some View {
         GeometryReader { geometryReader in
-            let width = geometryReader.size.width
+            let width: CGFloat = {
+                let geometryReaderWidth = geometryReader.size.width
+                let isFullLength = state.style.isToast && horizontalSizeClass == .regular
+                return isFullLength ? geometryReaderWidth / 2 : geometryReaderWidth - (2 * tokens.presentationOffset)
+            }()
+            let cornerRadius = tokens.cornerRadius
+            let ambientShadowOffsetY = tokens.ambientShadowOffsetY
+            let geometryReaderLocalFrame = geometryReader.frame(in: .local)
+
             innerContents
                 .onTapGesture {
                     if let messageAction = state.messageButtonAction, let dismissAction = state.dismissAction {
@@ -95,18 +103,18 @@ public struct NotificationViewSwiftUI: View, ConfigurableTokenizedControl {
                         messageAction()
                     }
                 }
-                .frame(width: state.style.isToast && horizontalSizeClass == .regular ? width / 2 : width - (2 * tokens.presentationOffset), alignment: .bottom)
+                .frame(width: width, alignment: .bottom)
                 .background(
-                    RoundedRectangle(cornerRadius: tokens.cornerRadius)
+                    RoundedRectangle(cornerRadius: cornerRadius)
                         .strokeBorder(Color(dynamicColor: tokens.outlineColor), lineWidth: tokens.outlineWidth)
                         .background(
-                            RoundedRectangle(cornerRadius: tokens.cornerRadius)
+                            RoundedRectangle(cornerRadius: cornerRadius)
                                 .fill(Color(dynamicColor: tokens.backgroundColor))
                         )
                         .shadow(color: Color(dynamicColor: tokens.ambientShadowColor),
                                 radius: tokens.ambientShadowBlur,
                                 x: tokens.ambientShadowOffsetX,
-                                y: tokens.ambientShadowOffsetY)
+                                y: ambientShadowOffsetY)
                         .shadow(color: Color(dynamicColor: tokens.perimeterShadowColor),
                                 radius: tokens.perimeterShadowBlur,
                                 x: tokens.perimeterShadowOffsetX,
@@ -120,15 +128,18 @@ public struct NotificationViewSwiftUI: View, ConfigurableTokenizedControl {
                     }
                 })
                 .padding(.bottom, tokens.bottomPresentationPadding)
-                .measureSize { viewSize in
-                    dismissedOffset = viewSize.height + (tokens.ambientShadowOffsetY / 2)
+                .onSizeChange { newSize in
+                    bottomOffsetForDismissedState = newSize.height + (ambientShadowOffsetY / 2)
+                    // Bottom offset is only updated when the notification isn't presented to account for the new notification height (if presented, offset doesn't need to be updated since it grows upward vertically)
                     if !isPresented {
-                        yOffsetFromBottom = dismissedOffset
+                        bottomOffset = bottomOffsetForDismissedState
                     }
                 }
-                .frame(maxHeight: .infinity, alignment: .bottom)
-                .offset(y: yOffsetFromBottom)
-                .position(x: geometryReader.frame(in: .local).midX, y: geometryReader.frame(in: .local).midY)
+                .frame(maxHeight: .infinity,
+                       alignment: .bottom)
+                .offset(y: bottomOffset)
+                .position(x: geometryReaderLocalFrame.midX,
+                          y: geometryReaderLocalFrame.midY)
         }
     }
 
@@ -136,9 +147,12 @@ public struct NotificationViewSwiftUI: View, ConfigurableTokenizedControl {
     private var image: some View {
         if state.style.isToast {
             if let image = state.image {
+                let imageSize = image.size
                 Image(uiImage: image)
                     .renderingMode(.template)
-                    .frame(width: image.size.width, height: image.size.height, alignment: .center)
+                    .frame(width: imageSize.width,
+                           height: imageSize.height,
+                           alignment: .center)
                     .foregroundColor(Color(dynamicColor: tokens.foregroundColor))
                     .padding(.vertical, tokens.verticalPadding)
                     .padding(.leading, tokens.horizontalPadding)
@@ -180,6 +194,10 @@ public struct NotificationViewSwiftUI: View, ConfigurableTokenizedControl {
     @ViewBuilder
     private var button: some View {
         if let buttonAction = state.actionButtonAction, let actionTitle = state.actionButtonTitle, let dismissAction = state.dismissAction {
+            let foregroundColor = tokens.foregroundColor
+            let horizontalPadding = tokens.horizontalPadding
+            let verticalPadding = tokens.verticalPadding
+
             if actionTitle.isEmpty {
                 SwiftUI.Button(action: {
                     isPresented = false
@@ -188,10 +206,10 @@ public struct NotificationViewSwiftUI: View, ConfigurableTokenizedControl {
                 }, label: {
                     Image("dismiss-20x20", bundle: FluentUIFramework.resourceBundle)
                 })
-                .padding(.horizontal, tokens.horizontalPadding)
-                .padding(.vertical, tokens.verticalPadding)
+                .padding(.horizontal, horizontalPadding)
+                .padding(.vertical, verticalPadding)
                 .accessibility(identifier: "Accessibility.Dismiss.Label")
-                .foregroundColor(Color(dynamicColor: tokens.foregroundColor))
+                .foregroundColor(Color(dynamicColor: foregroundColor))
             } else {
                 SwiftUI.Button(actionTitle) {
                     isPresented = false
@@ -199,9 +217,9 @@ public struct NotificationViewSwiftUI: View, ConfigurableTokenizedControl {
                     buttonAction()
                 }
                 .lineLimit(1)
-                .foregroundColor(Color(dynamicColor: tokens.foregroundColor))
-                .padding(.horizontal, tokens.horizontalPadding)
-                .padding(.vertical, tokens.verticalPadding)
+                .foregroundColor(Color(dynamicColor: foregroundColor))
+                .padding(.horizontal, horizontalPadding)
+                .padding(.vertical, verticalPadding)
                 .font(.fluent(tokens.boldTextFont))
             }
         }
@@ -236,14 +254,16 @@ public struct NotificationViewSwiftUI: View, ConfigurableTokenizedControl {
     }
 
     private func presentAnimated() {
-        withAnimation(.spring(response: tokens.style.animationDurationForShow, dampingFraction: tokens.style.animationDampingRatio, blendDuration: 0)) {
-            yOffsetFromBottom = 0
+        withAnimation(.spring(response: tokens.style.animationDurationForShow,
+                              dampingFraction: tokens.style.animationDampingRatio,
+                              blendDuration: 0)) {
+            bottomOffset = 0
         }
     }
 
     private func dismissAnimated() {
         withAnimation(.linear(duration: tokens.style.animationDurationForHide)) {
-            yOffsetFromBottom = dismissedOffset
+            bottomOffset = bottomOffsetForDismissedState
         }
     }
 }
