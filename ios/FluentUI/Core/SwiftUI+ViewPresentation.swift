@@ -25,6 +25,7 @@ struct PresentationModifier<PresentedView: View>: ViewModifier {
         .frame(maxWidth: .infinity,
                maxHeight: .infinity,
                alignment: .center)
+        .clipped()
     }
 
     var hasDimmedBackground: Bool
