@@ -19,7 +19,7 @@ open class ActivityIndicatorCell: UITableViewCell {
 
     public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        contentView.addSubview(activityIndicator.view)
+        contentView.addSubview(activityIndicator)
         backgroundColor = Colors.Table.Cell.background
     }
 
@@ -29,7 +29,7 @@ open class ActivityIndicatorCell: UITableViewCell {
 
     open override func layoutSubviews() {
         super.layoutSubviews()
-        let activityIndicatorView = activityIndicator.view
+        let activityIndicatorView = activityIndicator
         activityIndicatorView.sizeToFit()
         activityIndicatorView.center = CGPoint(x: UIScreen.main.roundToDevicePixels(contentView.frame.width / 2), y: UIScreen.main.roundToDevicePixels(contentView.frame.height / 2))
     }

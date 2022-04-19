@@ -17,7 +17,7 @@ public enum TextColorStyle: Int, CaseIterable {
     case warning
     case disabled
 
-    public func color(for window: UIWindow) -> UIColor {
+    func color(for window: UIWindow) -> UIColor {
         switch self {
         case .regular:
             return Colors.textPrimary

@@ -27,83 +27,34 @@ public protocol ColorProviding {
     @objc func primaryShade30Color(for window: UIWindow) -> UIColor?
 }
 
-open class ColorProvidingStyle: FluentUIStyle {
-
-    public init(colorProviding: ColorProviding,
-                window: UIWindow) {
-
-        self.colorProviding = colorProviding
-        self.window = window
-
-        super.init()
+private func brandedGlobalTokens(provider: ColorProviding, for window: UIWindow) -> GlobalTokens {
+    let globalTokens = GlobalTokens()
+    let brandColors = globalTokens.brandColors
+    if let primary = provider.primaryColor(for: window)?.dynamicColor {
+        brandColors[.primary] = primary
     }
-
-    open override var Colors: FluentUIStyle.ColorsAppearanceProxy {
-        return ColorProvidingColorsAppearanceProxy(proxy: { return self })
+    if let tint10 = provider.primaryTint10Color(for: window)?.dynamicColor {
+        brandColors[.tint10] = tint10
     }
-
-    class ColorProvidingColorsAppearanceProxy: FluentUIStyle.ColorsAppearanceProxy {
-
-        init(proxy: @escaping () -> ColorProvidingStyle) {
-
-            self.colorProvidingProxy = proxy()
-
-            super.init(proxy: proxy)
-        }
-
-        open override var Brand: FluentUIStyle.ColorsAppearanceProxy.BrandAppearanceProxy {
-            return ColorProvidingBrandAppearanceProxy(proxy: { return self.colorProvidingProxy })
-        }
-
-        private var colorProvidingProxy: ColorProvidingStyle
+    if let tint20 = provider.primaryTint20Color(for: window)?.dynamicColor {
+        brandColors[.tint20] = tint20
     }
-
-    class ColorProvidingBrandAppearanceProxy: FluentUIStyle.ColorsAppearanceProxy.BrandAppearanceProxy {
-
-        init(proxy: @escaping () -> ColorProvidingStyle) {
-
-            self.colorProvidingProxy = proxy()
-
-            super.init(proxy: proxy)
-        }
-
-        open override var primary: UIColor {
-            return colorProvidingProxy.colorProviding.primaryColor(for: colorProvidingProxy.window) ?? super.primary
-        }
-
-        open override var tint10: UIColor {
-            return colorProvidingProxy.colorProviding.primaryTint10Color(for: colorProvidingProxy.window) ?? super.tint10
-        }
-
-        open override var tint20: UIColor {
-            return colorProvidingProxy.colorProviding.primaryTint20Color(for: colorProvidingProxy.window) ?? super.tint20
-        }
-
-        open override var tint30: UIColor {
-            return colorProvidingProxy.colorProviding.primaryTint30Color(for: colorProvidingProxy.window) ?? super.tint30
-        }
-
-        open override var tint40: UIColor {
-            return colorProvidingProxy.colorProviding.primaryTint40Color(for: colorProvidingProxy.window) ?? super.tint40
-        }
-
-        open override var shade10: UIColor {
-            return colorProvidingProxy.colorProviding.primaryShade10Color(for: colorProvidingProxy.window) ?? super.shade10
-        }
-
-        open override var shade20: UIColor {
-            return colorProvidingProxy.colorProviding.primaryShade20Color(for: colorProvidingProxy.window) ?? super.shade20
-        }
-
-        open override var shade30: UIColor {
-            return colorProvidingProxy.colorProviding.primaryShade30Color(for: colorProvidingProxy.window) ?? super.shade30
-        }
-
-        private var colorProvidingProxy: ColorProvidingStyle
+    if let tint30 = provider.primaryTint30Color(for: window)?.dynamicColor {
+        brandColors[.tint30] = tint30
     }
-
-    private var window: UIWindow
-    private var colorProviding: ColorProviding
+    if let tint40 = provider.primaryTint40Color(for: window)?.dynamicColor {
+        brandColors[.tint40] = tint40
+    }
+    if let shade10 = provider.primaryShade10Color(for: window)?.dynamicColor {
+        brandColors[.shade10] = shade10
+    }
+    if let shade20 = provider.primaryShade20Color(for: window)?.dynamicColor {
+        brandColors[.shade20] = shade20
+    }
+    if let shade30 = provider.primaryShade30Color(for: window)?.dynamicColor {
+        brandColors[.shade30] = shade30
+    }
+    return globalTokens
 }
 
 // MARK: Colors
@@ -529,14 +480,26 @@ public final class Colors: NSObject {
         }
     }
 
+    /// Associates a `ColorProvider` with a given `UIWindow` instance.
+    ///
+    /// - Parameters:
+    ///   - provider: The `ColorProvider` whose colors should be used for controls in this window.
+    ///   - window: The window where these colors should be applied.
     @objc public static func setProvider(provider: ColorProviding, for window: UIWindow) {
         colorProvidersMap.setObject(provider, forKey: window)
 
-        // Reflect the ColorProviding implementation in the FluentUI Vnext stylesheet override for this window
-        let stylesheet = ColorProvidingStyle(colorProviding: provider,
-                                             window: window)
-        FluentUIThemeManager.setStylesheet(stylesheet: stylesheet,
-                                           for: window)
+        // Create an updated fluent theme as well
+        let globalTokens = brandedGlobalTokens(provider: provider, for: window)
+        window.fluentTheme = FluentTheme(globalTokens: globalTokens)
+    }
+
+    /// Removes any associated `ColorProvider` from the given `UIWindow` instance.
+    ///
+    /// - Parameters:
+    ///   - window: The window that should have its `ColorProvider` removed.
+    @objc public static func removeProvider(for window: UIWindow) {
+        colorProvidersMap.removeObject(forKey: window)
+        window.fluentTheme = FluentThemeKey.defaultValue
     }
 
     // MARK: Primary

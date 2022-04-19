@@ -92,6 +92,12 @@ public extension Avatar {
         return self
     }
 
+    /// Provides a custom design token set to be used when drawing this control
+    func overrideTokens(_ tokens: AvatarTokens?) -> Avatar {
+        state.overrideTokens = tokens
+        return self
+    }
+
     /// Defines the presence displayed by the Avatar.
     /// Image displayed depends on the value of the isOutOfOffice property.
     /// Presence is not displayed in the xsmall size.

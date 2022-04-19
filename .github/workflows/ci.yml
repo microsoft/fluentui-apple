@@ -6,11 +6,13 @@ on:
       - main
       - main_0.1
       - vnext-prototype
+      - vnext-tokens
   pull_request:
     branches:
       - main
       - main_0.1
       - vnext-prototype
+      - vnext-tokens
 
 jobs:
   validation:
