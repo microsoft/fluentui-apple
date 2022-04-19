@@ -53,6 +53,7 @@ class DemoController: UIViewController {
         description.numberOfLines = 0
         description.text = text
         description.textAlignment = textAlignment
+        description.numberOfLines = 0
         container.addArrangedSubview(description)
         return description
     }
@@ -62,6 +63,7 @@ class DemoController: UIViewController {
         titleLabel.text = text
         titleLabel.textAlignment = .center
         titleLabel.accessibilityTraits.insert(.header)
+        titleLabel.numberOfLines = 0
         container.addArrangedSubview(titleLabel)
     }
 
@@ -158,5 +160,32 @@ class DemoController: UIViewController {
         // Child scroll views interfere with largeTitleDisplayMode, so let's
         // disable it for all DemoController subclasses.
         self.navigationItem.largeTitleDisplayMode = .never
+
+        configureAppearancePopover()
+    }
+
+    // MARK: - Demo Appearance Popover
+
+    func configureAppearancePopover() {
+        // Display the DemoAppearancePopover button
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "ic_fluent_settings_24_regular"),
+                                                            style: .plain,
+                                                            target: self,
+                                                            action: #selector(showAppearancePopover))
+    }
+
+    @objc func showAppearancePopover(_ sender: UIBarButtonItem) {
+        appearanceController.popoverPresentationController?.barButtonItem = sender
+        appearanceController.popoverPresentationController?.delegate = self
+        self.present(appearanceController, animated: true, completion: nil)
+    }
+
+    private lazy var appearanceController: DemoAppearanceController = .init(delegate: self as? DemoAppearanceDelegate)
+}
+
+extension DemoController: UIPopoverPresentationControllerDelegate {
+    /// Overridden to allow for popover-style modal presentation on compact (e.g. iPhone) devices.
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .none
     }
 }

@@ -78,7 +78,7 @@ class BadgeViewDemoController: DemoController {
 
         let dataSource: [(BadgeView.Size, UIView)] = [
             (.medium, imageView),
-            (.small, avatar.view)
+            (.small, avatar)
         ]
 
         for (size, customView) in dataSource {

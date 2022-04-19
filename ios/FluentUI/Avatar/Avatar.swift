@@ -6,60 +6,6 @@
 import UIKit
 import SwiftUI
 
-/// UIKit wrapper that exposes the SwiftUI Avatar implementation.
-@objc open class MSFAvatar: NSObject, FluentUIWindowProvider {
-
-    /// The UIView representing the Avatar.
-    @objc open var view: UIView {
-        return hostingController.view
-    }
-
-    /// The object that groups properties that allow control over the Avatar appearance.
-    @objc open var state: MSFAvatarState {
-        return avatar.state
-    }
-
-    /// Creates a new MSFAvatar instance.
-    /// - Parameters:
-    ///   - style: The MSFAvatarStyle value used by the Avatar.
-    ///   - size: The MSFAvatarSize value used by the Avatar.
-    @objc public convenience init(style: MSFAvatarStyle = .default,
-                                  size: MSFAvatarSize = .large) {
-        self.init(style: style,
-                  size: size,
-                  theme: nil)
-    }
-
-    /// Creates a new MSFAvatar instance.
-    /// - Parameters:
-    ///   - style: The MSFAvatarStyle value used by the Avatar.
-    ///   - size: The MSFAvatarSize value used by the Avatar.
-    ///   - theme: The FluentUIStyle instance representing the theme to be overriden for this Avatar.
-    @objc public init(style: MSFAvatarStyle,
-                      size: MSFAvatarSize,
-                      theme: FluentUIStyle?) {
-        super.init()
-
-        avatar = Avatar(style: style,
-                        size: size)
-        hostingController = FluentUIHostingController(rootView: AnyView(avatar
-                                                                            .windowProvider(self)
-                                                                            .modifyIf(theme != nil, { avatar in
-                                                                                avatar.customTheme(theme!)
-                                                                            })))
-        hostingController.disableSafeAreaInsets()
-        view.backgroundColor = UIColor.clear
-    }
-
-    var window: UIWindow? {
-        return self.view.window
-    }
-
-    private var hostingController: FluentUIHostingController!
-
-    private var avatar: Avatar!
-}
-
 /// Properties that can be used to customize the appearance of the Avatar.
 @objc public protocol MSFAvatarState {
     /// Sets the accessibility label for the Avatar.
@@ -127,13 +73,7 @@ import SwiftUI
 }
 
 /// View that represents the avatar.
-public struct Avatar: View {
-    @Environment(\.theme) var theme: FluentUIStyle
-    @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
-    @Environment(\.layoutDirection) var layoutDirection: LayoutDirection
-    @ObservedObject var tokens: MSFAvatarTokens
-    @ObservedObject var state: MSFAvatarStateImpl
-
+public struct Avatar: View, ConfigurableTokenizedControl {
     /// Creates and initializes a SwiftUI Avatar
     /// - Parameters:
     ///   - style: The style of the avatar.
@@ -153,14 +93,6 @@ public struct Avatar: View {
         state.secondaryText = secondaryText
 
         self.state = state
-        self.tokens = state.tokens
-    }
-
-    // This initializer should be used by internal container views. These containers should first initialize
-    // MSFAvatarStateImpl using style and size, and then use that state and this initializer in their ViewBuilder.
-    init(_ avatarState: MSFAvatarStateImpl) {
-        state = avatarState
-        tokens = avatarState.tokens
     }
 
     public var body: some View {
@@ -182,11 +114,11 @@ public struct Avatar: View {
         let ringInnerGap: CGFloat = isRingVisible ? (hasRingInnerGap ? tokens.ringInnerGap : -ringInnerGapOffset) : 0
         let ringThickness: CGFloat = isRingVisible ? (hasRingInnerGap ? ringThicknessToken : ringThicknessToken + ringInnerGapOffset) : 0
         let ringOuterGap: CGFloat = isRingVisible ? tokens.ringOuterGap : 0
-        let avatarImageSize: CGFloat = tokens.avatarSize!
+        let avatarImageSize: CGFloat = tokens.avatarSize
         let ringInnerGapSize: CGFloat = avatarImageSize + (ringInnerGap * 2)
         let ringSize: CGFloat = ringInnerGapSize + (ringThickness * 2)
         let ringOuterGapSize: CGFloat = ringSize + (ringOuterGap * 2)
-        let presenceIconSize: CGFloat = tokens.presenceIconSize!
+        let presenceIconSize: CGFloat = tokens.presenceIconSize
         let presenceIconOutlineSize: CGFloat = presenceIconSize + (tokens.presenceIconOutlineThickness * 2)
 
         // Calculates the positioning of the presence icon ensuring its center is always on top of the avatar circle's edge
@@ -206,20 +138,21 @@ public struct Avatar: View {
         let presenceIconFrameSideRelativeToOuterRing: CGFloat = presenceIconFrameSideRelativeToInnerRing + outerGapAndRingThicknesCombined
         let overallFrameSide = max(ringOuterGapSize, presenceIconFrameSideRelativeToOuterRing)
 
-        let foregroundColor = state.foregroundColor ?? ( !shouldUseCalculatedColors ?
-                                                            tokens.foregroundDefaultColor! :
-                                                            Avatar.initialsCalculatedColor(fromPrimaryText: state.primaryText,
-                                                                                           secondaryText: state.secondaryText,
-                                                                                           colorOptions: tokens.foregroundCalculatedColorOptions))
-        let backgroundColor = state.backgroundColor ?? ( !shouldUseCalculatedColors ?
-                                                            tokens.backgroundDefaultColor! :
-                                                            Avatar.initialsCalculatedColor(fromPrimaryText: state.primaryText,
-                                                                                           secondaryText: state.secondaryText,
-                                                                                           colorOptions: tokens.backgroundCalculatedColorOptions))
-        let ringGapColor = Color(tokens.ringGapColor).opacity(isTransparent ? 0 : 1)
-        let ringColor = !isRingVisible ? Color.clear : Color(state.ringColor ?? ( !shouldUseCalculatedColors ?
-                                                                                    tokens.ringDefaultColor! :
-                                                                                    backgroundColor))
+        let foregroundColor = state.foregroundColor?.dynamicColor ?? ( !shouldUseCalculatedColors ?
+                                                                       tokens.foregroundDefaultColor :
+                                                                        initialsCalculatedColor(fromPrimaryText: state.primaryText,
+                                                                                                secondaryText: state.secondaryText,
+                                                                                                colorOptions: tokens.foregroundCalculatedColorOptions))
+        let backgroundColor = state.backgroundColor?.dynamicColor ?? ( !shouldUseCalculatedColors ?
+                                                                       tokens.backgroundDefaultColor :
+                                                                        initialsCalculatedColor(fromPrimaryText: state.primaryText,
+                                                                                                secondaryText: state.secondaryText,
+                                                                                                colorOptions: tokens.backgroundCalculatedColorOptions))
+        let ringGapColor = Color(dynamicColor: tokens.ringGapColor).opacity(isTransparent ? 0 : 1)
+        let ringColor = !isRingVisible ? Color.clear :
+        Color(dynamicColor: state.ringColor?.dynamicColor ?? ( !shouldUseCalculatedColors ?
+                                                               tokens.ringDefaultColor :
+                                                                backgroundColor))
 
         let shouldUseDefaultImage = (state.image == nil && initialsString.isEmpty && style != .overflow)
         let avatarImageInfo: (image: UIImage?, renderingMode: Image.TemplateRenderingMode) = {
@@ -249,11 +182,11 @@ public struct Avatar: View {
                 Image(uiImage: image)
                     .renderingMode(avatarImageInfo.renderingMode)
                     .resizable()
-                    .foregroundColor(Color(foregroundColor))
+                    .foregroundColor(Color(dynamicColor: foregroundColor))
             } else {
                 Text(initialsString)
-                    .foregroundColor(Color(foregroundColor))
-                    .font(Font(tokens.textFont))
+                    .foregroundColor(Color(dynamicColor: foregroundColor))
+                    .font(.fluent(tokens.textFont, shouldScale: false))
             }
         }
 
@@ -287,7 +220,7 @@ public struct Avatar: View {
                 avatarContent
                     .background(Rectangle()
                                     .frame(width: tokens.avatarSize, height: tokens.avatarSize, alignment: .center)
-                                    .foregroundColor(Color(backgroundColor)))
+                                    .foregroundColor(Color(dynamicColor: backgroundColor)))
                     .frame(width: tokens.avatarSize, height: tokens.avatarSize, alignment: .center)
                     .contentShape(RoundedRectangle(cornerRadius: tokens.borderRadius))
                     .clipShape(RoundedRectangle(cornerRadius: tokens.borderRadius))
@@ -298,7 +231,7 @@ public struct Avatar: View {
                     .overlay(avatarRingView
                                 .frame(width: ringSize, height: ringSize, alignment: .center)
                                 .overlay(Circle()
-                                            .foregroundColor(Color(backgroundColor))
+                                            .foregroundColor(Color(dynamicColor: backgroundColor))
                                             .frame(width: avatarImageSize, height: avatarImageSize, alignment: .center)
                                             .overlay(avatarContent
                                                         .frame(width: avatarImageSize * avatarImageSizeRatio,
@@ -318,7 +251,7 @@ public struct Avatar: View {
                                                     cutoutSize: presenceIconOutlineSize),
                                        style: FillStyle(eoFill: true))
                             .overlay(Circle()
-                                        .foregroundColor(Color(tokens.ringGapColor).opacity(isTransparent ? 0 : 1))
+                                        .foregroundColor(Color(dynamicColor: tokens.ringGapColor).opacity(isTransparent ? 0 : 1))
                                         .frame(width: presenceIconOutlineSize, height: presenceIconOutlineSize, alignment: .center)
                                         .overlay(presence.image(isOutOfOffice: isOutOfOffice)
                                                     .interpolation(.high)
@@ -343,12 +276,41 @@ public struct Avatar: View {
             .accessibility(addTraits: state.hasButtonAccessibilityTrait ? .isButton : .isImage)
             .accessibility(label: Text(accessibilityLabel))
             .accessibility(value: Text(presence.string() ?? ""))
-            .designTokens(tokens,
-                          from: theme,
-                          with: windowProvider)
     }
 
-    private let animationDuration: Double = 0.1
+    // This initializer should be used by internal container views. These containers should first initialize
+    // MSFAvatarStateImpl using style and size, and then use that state and this initializer in their ViewBuilder.
+    init(_ avatarState: MSFAvatarStateImpl) {
+        state = avatarState
+    }
+
+    /// Calculates the size of the avatar, including ring spacing
+    var totalSize: CGFloat {
+        let avatarImageSize: CGFloat = tokens.avatarSize
+        let ringOuterGap: CGFloat = tokens.ringOuterGap
+        if !state.isRingVisible {
+            return avatarImageSize + (ringOuterGap * 2)
+        } else {
+            let ringThickness: CGFloat = tokens.ringThickness
+            let ringInnerGap: CGFloat = state.hasRingInnerGap ? tokens.ringInnerGap : 0
+            return ((ringInnerGap + ringThickness + ringOuterGap) * 2 + avatarImageSize)
+        }
+    }
+
+    var contentSize: CGFloat {
+        return tokens.avatarSize
+    }
+
+    @Environment(\.fluentTheme) var fluentTheme: FluentTheme
+    @Environment(\.layoutDirection) var layoutDirection: LayoutDirection
+    let defaultTokens: AvatarTokens = .init()
+    var tokens: AvatarTokens {
+        let tokens = resolvedTokens
+        tokens.size = state.size
+        tokens.style = state.style
+        return tokens
+    }
+    @ObservedObject var state: MSFAvatarStateImpl
 
     private static func initialsHashCode(fromPrimaryText primaryText: String?, secondaryText: String?) -> Int {
         var combined: String
@@ -364,13 +326,13 @@ public struct Avatar: View {
         return Int(abs(javaHashCode(combinedHashable)))
     }
 
-    private static func initialsCalculatedColor(fromPrimaryText primaryText: String?, secondaryText: String?, colorOptions: [UIColor]? = nil) -> UIColor {
+    private func initialsCalculatedColor(fromPrimaryText primaryText: String?, secondaryText: String?, colorOptions: [DynamicColor]? = nil) -> DynamicColor {
         guard let colors = colorOptions else {
-            return .black
+            return .init(light: fluentTheme.globalTokens.neutralColors[.black])
         }
 
         // Set the color based on the primary text and secondary text
-        let hashCode = initialsHashCode(fromPrimaryText: primaryText, secondaryText: secondaryText)
+        let hashCode = Avatar.initialsHashCode(fromPrimaryText: primaryText, secondaryText: secondaryText)
         return colors[hashCode % colors.count]
     }
 
@@ -422,10 +384,39 @@ public struct Avatar: View {
         }
         return hash
     }
+
+    private struct PresenceCutout: Shape {
+        var originX: CGFloat
+        var originY: CGFloat
+        var presenceIconOutlineSize: CGFloat
+
+        var animatableData: AnimatablePair<AnimatablePair<CGFloat, CGFloat>, CGFloat> {
+            get {
+                AnimatablePair(AnimatablePair(originX, originY), presenceIconOutlineSize)
+            }
+
+            set {
+                originX = newValue.first.first
+                originY = newValue.first.second
+                presenceIconOutlineSize = newValue.second
+            }
+        }
+
+        func path(in rect: CGRect) -> Path {
+            var cutoutFrame = Rectangle().path(in: rect)
+            cutoutFrame.addPath(Circle().path(in: CGRect(x: originX,
+                                                         y: originY,
+                                                         width: presenceIconOutlineSize,
+                                                         height: presenceIconOutlineSize)))
+            return cutoutFrame
+        }
+    }
+
+    private let animationDuration: Double = 0.1
 }
 
 /// Properties available to customize the state of the avatar
-class MSFAvatarStateImpl: NSObject, ObservableObject, Identifiable, MSFAvatarState {
+class MSFAvatarStateImpl: NSObject, ObservableObject, Identifiable, ControlConfiguration, MSFAvatarState {
     public var id = UUID()
 
     @Published var backgroundColor: UIColor?
@@ -444,43 +435,16 @@ class MSFAvatarStateImpl: NSObject, ObservableObject, Identifiable, MSFAvatarSta
     @Published var ringColor: UIColor?
     @Published var secondaryText: String?
 
-    var size: MSFAvatarSize {
-        get {
-            return tokens.size
-        }
-        set {
-            tokens.size = newValue
-        }
-    }
+    @Published var style: MSFAvatarStyle
+    @Published var size: MSFAvatarSize
 
-    var style: MSFAvatarStyle {
-        get {
-            return tokens.style
-        }
-        set {
-            tokens.style = newValue
-        }
-    }
-
-    var tokens: MSFAvatarTokens
+    @Published var overrideTokens: AvatarTokens?
 
     init(style: MSFAvatarStyle,
          size: MSFAvatarSize) {
-        self.tokens = MSFAvatarTokens(style: style,
-                                      size: size)
-        super.init()
-    }
+        self.style = style
+        self.size = size
 
-    /// Calculates the size of the avatar, including ring spacing
-    func totalSize() -> CGFloat {
-        let avatarImageSize: CGFloat = size.size
-        let ringOuterGap: CGFloat = tokens.ringOuterGap
-        if !isRingVisible {
-            return avatarImageSize + (ringOuterGap * 2)
-        } else {
-            let ringThickness: CGFloat = tokens.ringThickness
-            let ringInnerGap: CGFloat = hasRingInnerGap ? tokens.ringInnerGap : 0
-            return ((ringInnerGap + ringThickness + ringOuterGap) * 2 + avatarImageSize)
-        }
+        super.init()
     }
 }

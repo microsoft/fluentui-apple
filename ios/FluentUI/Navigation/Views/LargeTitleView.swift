@@ -58,9 +58,6 @@ class LargeTitleView: UIView {
         }
     }
 
-    var avatarHeightConstraint: NSLayoutConstraint?
-    var avatarWidthConstraint: NSLayoutConstraint?
-
     var avatarAccessibilityLabel: String? {
         return avatarCustomAccessibilityLabel ?? "Accessibility.LargeTitle.ProfileView".localized
     }
@@ -112,7 +109,7 @@ class LargeTitleView: UIView {
             return nil
         }
 
-        return avatar?.view
+        return avatar
     }
 
     private var colorForStyle: UIColor {
@@ -134,7 +131,7 @@ class LargeTitleView: UIView {
 
     private var showsProfileButton: Bool = true { // whether to display the customizable profile button
         didSet {
-            avatar?.view.isHidden = !showsProfileButton
+            avatar?.isHidden = !showsProfileButton
             setupAccessibility()
         }
     }
@@ -191,35 +188,13 @@ class LargeTitleView: UIView {
         }
 
         self.avatar = avatar
-        let avatarView = avatar.view
+        let avatarView = avatar
 
         avatarView.translatesAutoresizingMaskIntoConstraints = false
         avatarView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleAvatarViewTapped)))
         contentStackView.addArrangedSubview(avatarView)
 
         avatarView.centerYAnchor.constraint(equalTo: contentStackView.centerYAnchor).isActive = true
-
-        let avatarHeightConstraint = NSLayoutConstraint(item: avatarView,
-                                                        attribute: .height,
-                                                        relatedBy: .equal,
-                                                        toItem: nil,
-                                                        attribute: .notAnAttribute,
-                                                        multiplier: 1,
-                                                        constant: Constants.avatarSize.size)
-        avatarView.addConstraint(avatarHeightConstraint)
-        avatarHeightConstraint.isActive = true
-        self.avatarHeightConstraint = avatarHeightConstraint
-
-        let avatarWidthConstraint = NSLayoutConstraint(item: avatarView,
-                                                       attribute: .width,
-                                                       relatedBy: .equal,
-                                                       toItem: nil,
-                                                       attribute: .notAnAttribute,
-                                                       multiplier: 1,
-                                                       constant: Constants.avatarSize.size)
-        avatarView.addConstraint(avatarWidthConstraint)
-        avatarWidthConstraint.isActive = true
-        self.avatarWidthConstraint = avatarWidthConstraint
 
         // title button setup
         contentStackView.addArrangedSubview(titleButton)
@@ -249,8 +224,6 @@ class LargeTitleView: UIView {
 
         if avatarSize == .automatic {
             avatar?.state.size = Constants.avatarSize
-            avatarWidthConstraint?.constant = Constants.avatarSize.size
-            avatarHeightConstraint?.constant = Constants.avatarSize.size
         }
 
         layoutIfNeeded()
@@ -263,8 +236,6 @@ class LargeTitleView: UIView {
 
         if avatarSize == .automatic {
             avatar?.state.size = Constants.compactAvatarSize
-            avatarWidthConstraint?.constant = Constants.compactAvatarSize.size
-            avatarHeightConstraint?.constant = Constants.compactAvatarSize.size
         }
 
         layoutIfNeeded()
@@ -281,7 +252,7 @@ class LargeTitleView: UIView {
             avatarState.accessibilityLabel = accessibilityLabel
             avatarState.hasButtonAccessibilityTrait = onAvatarTapped != nil
 
-            let avatarView = avatar.view
+            let avatarView = avatar
             avatarView.showsLargeContentViewer = true
             avatarView.largeContentTitle = accessibilityLabel
         }
