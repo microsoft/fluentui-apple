@@ -56,6 +56,11 @@ open class ControlHostingView: UIView {
         addSubview(hostedView)
         hostedView.translatesAutoresizingMaskIntoConstraints = false
 
+        // Initialize our frame with the hosted view's initial bounds so we don't start as a (0,0,0,0) view.
+        // Future updates will be handled by the autolayout constraints below.
+        hostedView.sizeToFit()
+        self.frame = hostedView.bounds
+
         let requiredConstraints = [
             hostedView.leadingAnchor.constraint(equalTo: leadingAnchor),
             hostedView.trailingAnchor.constraint(equalTo: trailingAnchor),
