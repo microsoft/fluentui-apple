@@ -202,7 +202,7 @@ class MSFListStateImpl: NSObject, ObservableObject, MSFListState {
         return sections.count
     }
 
-    @Published var allowsSelection: Bool = false {
+    var allowsSelection: Bool = false {
         didSet {
             if !allowsSelection {
                 if let selectedCell = selectedCellState {
@@ -213,7 +213,7 @@ class MSFListStateImpl: NSObject, ObservableObject, MSFListState {
         }
     }
 
-    @Published var selectionStyle: MSFListSelectionStyle = .trailingCheckmark {
+    var selectionStyle: MSFListSelectionStyle = .trailingCheckmark {
         didSet {
             for section in sections {
                 section.selectionStyle = selectionStyle
