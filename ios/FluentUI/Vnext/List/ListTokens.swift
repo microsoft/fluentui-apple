@@ -36,6 +36,12 @@ import SwiftUI
     }
 }
 
+/// Pre-defined styles for selection in the List.
+@objc public enum MSFListSelectionStyle: Int, CaseIterable {
+    case trailingCheckmark
+    // TODO: Add more styles, including a leading circle
+}
+
 // MARK: ListCell Tokens
 
 open class CellBaseTokens: ControlTokens {

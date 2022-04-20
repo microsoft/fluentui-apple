@@ -45,8 +45,11 @@ import SwiftUI
     /// The number of Sections in the List.
     var sectionCount: Int { get }
 
-    /// Configures if the list allows selection
+    /// Configures if the List allows selection.
     var isSelectable: Bool { get set }
+
+    /// Configures the selection style of the List.
+    var selectionStyle: MSFListSelectionStyle { get set }
 
     /// Creates a new Section and appends it to the array of sections in a List.
     func createSection() -> MSFListSectionState
@@ -145,6 +148,14 @@ class MSFListSectionStateImpl: NSObject, ObservableObject, Identifiable, Control
 
     var style: MSFHeaderStyle
 
+    var selectionStyle: MSFListSelectionStyle = .trailingCheckmark {
+        didSet {
+            for cell in cells {
+                cell.selectionStyle = selectionStyle
+            }
+        }
+    }
+
     func createCell() -> MSFListCellState {
         return createCell(at: cells.endIndex)
     }
@@ -200,6 +211,15 @@ class MSFListStateImpl: NSObject, ObservableObject, MSFListState {
             }
         }
     }
+
+    @Published var selectionStyle: MSFListSelectionStyle = .trailingCheckmark {
+        didSet {
+            for section in sections {
+                section.selectionStyle = selectionStyle
+            }
+        }
+    }
+
     var selectedCellState: MSFListCellStateImpl?
 
     func createSection() -> MSFListSectionState {

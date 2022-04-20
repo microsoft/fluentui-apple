@@ -128,6 +128,7 @@ class MSFListCellStateImpl: NSObject, ObservableObject, Identifiable, ControlCon
     var id = UUID()
     var onSelectAction: ((MSFListCellStateImpl) -> Void)?
     @Published var isSelected: Bool = false
+    var selectionStyle: MSFListSelectionStyle = .trailingCheckmark
 
     var leadingUIView: UIView? {
         didSet {
@@ -372,7 +373,10 @@ struct MSFListCellView: View, ConfigurableTokenizedControl {
                 }
 
                 HStack(spacing: 0) {
-                    let accessoryType = state.isSelected ? .checkmark : state.accessoryType
+                    let accessoryType =
+                        state.isSelected && state.selectionStyle == .trailingCheckmark
+                        ? .checkmark
+                        : state.accessoryType
                     if accessoryType != .none, let accessoryIcon = accessoryType.icon {
                         let isDisclosure = accessoryType == .disclosure
                         let disclosureSize = tokens.disclosureSize
