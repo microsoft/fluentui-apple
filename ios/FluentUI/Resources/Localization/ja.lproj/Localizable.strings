@@ -12,9 +12,6 @@
 "Accessibility.Dismiss.Hint" = "ダブルタップして閉じます";
 "Accessibility.Done.Label" = "完了";
 "Accessibility.MultiSelect.Hint" = "ダブルタップして、選択を切り替えます ";
-"Accessibility.Select.Hint" = "ダブルタップして選択します";
-"Accessibility.Selected.Hint" = "ダブルタップして詳細情報を表示します";
-"Accessibility.Selected.Value" = "選択済み";
 
 /* Accessibility label for the upper calendar date picker view. */
 "Accessibility.Calendar.Label" = "予定表";
