@@ -128,6 +128,7 @@ class MSFListCellStateImpl: NSObject, ObservableObject, Identifiable, ControlCon
     var id = UUID()
     var onSelectAction: ((MSFListCellStateImpl) -> Void)?
     @Published var isSelected: Bool = false
+    var selectionStyle: MSFListSelectionStyle = .trailingCheckmark
 
     var leadingUIView: UIView? {
         didSet {
@@ -268,12 +269,24 @@ struct MSFListCellView: View, ConfigurableTokenizedControl {
     }
 
     var body: some View {
+        let labelColor: Color
+        let sublabelColor: Color
+        let trailingItemColor: DynamicColor
+        if state.isSelected {
+            labelColor = Color(dynamicColor: tokens.labelSelectedColor)
+            sublabelColor = Color(dynamicColor: tokens.sublabelSelectedColor)
+            trailingItemColor = tokens.trailingItemSelectedForegroundColor
+        } else {
+            labelColor = Color(dynamicColor: tokens.labelColor)
+            sublabelColor = Color(dynamicColor: tokens.sublabelColor)
+            trailingItemColor = tokens.trailingItemForegroundColor
+        }
+        let horizontalCellPadding: CGFloat = tokens.horizontalCellPadding
+        let leadingViewAreaSize: CGFloat = tokens.leadingViewAreaSize
 
         @ViewBuilder
         var cellLabel: some View {
-            let horizontalCellPadding: CGFloat = tokens.horizontalCellPadding
             let leadingViewSize: CGFloat = tokens.leadingViewSize
-            let leadingViewAreaSize: CGFloat = tokens.leadingViewAreaSize
 
             HStack(spacing: 0) {
                 let title = state.title
@@ -301,7 +314,7 @@ struct MSFListCellView: View, ConfigurableTokenizedControl {
                         if !title.isEmpty {
                             Text(title)
                                 .font(.fluent(tokens.labelFont))
-                                .foregroundColor(Color(dynamicColor: tokens.labelColor))
+                                .foregroundColor(labelColor)
                                 .lineLimit(state.titleLineLimit == 0 ? nil : state.titleLineLimit)
                         }
                         if let titleTrailingAccessoryView = state.titleTrailingAccessoryView {
@@ -321,7 +334,7 @@ struct MSFListCellView: View, ConfigurableTokenizedControl {
                             Text(state.subtitle)
                                 .font(.fluent(state.footnote.isEmpty ?
                                                             tokens.footnoteFont : tokens.sublabelFont))
-                                .foregroundColor(Color(dynamicColor: tokens.sublabelColor))
+                                .foregroundColor(sublabelColor)
                                 .lineLimit(state.subtitleLineLimit == 0 ? nil : state.subtitleLineLimit)
                         }
                         if let subtitleTrailingAccessoryView = state.subtitleTrailingAccessoryView {
@@ -340,7 +353,7 @@ struct MSFListCellView: View, ConfigurableTokenizedControl {
                         if !state.footnote.isEmpty {
                             Text(state.footnote)
                                 .font(.fluent(tokens.footnoteFont))
-                                .foregroundColor(Color(dynamicColor: tokens.sublabelColor))
+                                .foregroundColor(sublabelColor)
                                 .lineLimit(state.footnoteLineLimit == 0 ? nil : state.footnoteLineLimit)
                         }
                         if let footnoteTrailingAccessoryView = state.footnoteTrailingAccessoryView {
@@ -360,13 +373,17 @@ struct MSFListCellView: View, ConfigurableTokenizedControl {
                 }
 
                 HStack(spacing: 0) {
-                    if let accessoryType = state.accessoryType, accessoryType != .none, let accessoryIcon = accessoryType.icon {
+                    let accessoryType =
+                        state.isSelected && state.selectionStyle == .trailingCheckmark
+                        ? .checkmark
+                        : state.accessoryType
+                    if accessoryType != .none, let accessoryIcon = accessoryType.icon {
                         let isDisclosure = accessoryType == .disclosure
                         let disclosureSize = tokens.disclosureSize
                         Image(uiImage: accessoryIcon)
                             .resizable()
                             .foregroundColor(Color(dynamicColor: isDisclosure ?
-                                                   tokens.disclosureIconForegroundColor : tokens.trailingItemForegroundColor))
+                                                   tokens.disclosureIconForegroundColor : trailingItemColor))
                             .frame(width: isDisclosure ? disclosureSize : trailingItemSize,
                                    height: isDisclosure ? disclosureSize : trailingItemSize)
                             .padding(.leading, isDisclosure ? tokens.disclosureInterspace : tokens.iconInterspace)
@@ -380,16 +397,13 @@ struct MSFListCellView: View, ConfigurableTokenizedControl {
         var cellContent: some View {
             let children: [MSFListCellStateImpl] = state.children
             let hasChildren: Bool = children.count > 0
-            let horizontalCellPadding: CGFloat = tokens.horizontalCellPadding
-            let leadingViewAreaSize: CGFloat = tokens.leadingViewAreaSize
 
             Button(action: {
                 if hasChildren {
                     withAnimation {
                         state.isExpanded.toggle()
                     }
-                }
-                if let onSelectAction = state.onSelectAction {
+                } else if let onSelectAction = state.onSelectAction {
                     onSelectAction(state)
                 }
                 if let onTapAction = state.onTapAction {
@@ -478,8 +492,7 @@ struct ListCellButtonStyle: ButtonStyle {
             return Color(stateBackgroundColor)
         }()
 
-        // TODO: Add correct selection styling
-        if isPressed || state.isSelected {
+        if isPressed && !state.isSelected {
             return highlightedBackgroundColor
         }
         return backgroundColor

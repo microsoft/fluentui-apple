@@ -45,8 +45,11 @@ import SwiftUI
     /// The number of Sections in the List.
     var sectionCount: Int { get }
 
-    /// Configures if the list allows selection
-    var isSelectable: Bool { get set }
+    /// Configures if the List allows selection.
+    var allowsSelection: Bool { get set }
+
+    /// Configures the selection style of the List.
+    var selectionStyle: MSFListSelectionStyle { get set }
 
     /// Creates a new Section and appends it to the array of sections in a List.
     func createSection() -> MSFListSectionState
@@ -145,6 +148,14 @@ class MSFListSectionStateImpl: NSObject, ObservableObject, Identifiable, Control
 
     var style: MSFHeaderStyle
 
+    var selectionStyle: MSFListSelectionStyle = .trailingCheckmark {
+        didSet {
+            for cell in cells {
+                cell.selectionStyle = selectionStyle
+            }
+        }
+    }
+
     func createCell() -> MSFListCellState {
         return createCell(at: cells.endIndex)
     }
@@ -154,7 +165,7 @@ class MSFListSectionStateImpl: NSObject, ObservableObject, Identifiable, Control
             preconditionFailure("Index is out of bounds")
         }
         let cell = MSFListCellStateImpl()
-        cells.insert(cell, at: index)
+        cell.selectionStyle = selectionStyle
         cell.onSelectAction = { [weak self] (selectedCell) in
             guard let strongSelf = self,
                   let onSelectAction = strongSelf.onSelectAction else {
@@ -162,6 +173,7 @@ class MSFListSectionStateImpl: NSObject, ObservableObject, Identifiable, Control
             }
             onSelectAction(selectedCell)
         }
+        cells.insert(cell, at: index)
         return cell
     }
 
@@ -190,9 +202,9 @@ class MSFListStateImpl: NSObject, ObservableObject, MSFListState {
         return sections.count
     }
 
-    @Published var isSelectable: Bool = false {
+    var allowsSelection: Bool = false {
         didSet {
-            if !isSelectable {
+            if !allowsSelection {
                 if let selectedCell = selectedCellState {
                     selectedCell.isSelected = false
                     selectedCellState = nil
@@ -200,6 +212,15 @@ class MSFListStateImpl: NSObject, ObservableObject, MSFListState {
             }
         }
     }
+
+    var selectionStyle: MSFListSelectionStyle = .trailingCheckmark {
+        didSet {
+            for section in sections {
+                section.selectionStyle = selectionStyle
+            }
+        }
+    }
+
     var selectedCellState: MSFListCellStateImpl?
 
     func createSection() -> MSFListSectionState {
@@ -211,8 +232,9 @@ class MSFListStateImpl: NSObject, ObservableObject, MSFListState {
             preconditionFailure("Index is out of bounds")
         }
         let section = MSFListSectionStateImpl()
+        section.selectionStyle = selectionStyle
         section.onSelectAction = { [weak self] (selectedCell) in
-            guard let strongSelf = self, strongSelf.isSelectable else {
+            guard let strongSelf = self, strongSelf.allowsSelection else {
                 return
             }
 
