@@ -109,7 +109,7 @@ class TabBarViewDemoController: DemoController {
             updatedTabBarView.items = [
                 homeItem,
                 TabBarItem(title: "New", image: UIImage(named: "New_24")!, selectedImage: UIImage(named: "New_Selected_24")!),
-              TabBarItem(title: "Open", image: UIImage(named: "Open_24")!, selectedImage: UIImage(named: "Open_Selected_24")!)
+                TabBarItem(title: "Open", image: UIImage(named: "Open_24")!, selectedImage: UIImage(named: "Open_Selected_24")!)
             ]
         } else {
             updatedTabBarView.items = [
@@ -191,5 +191,61 @@ extension TabBarViewDemoController: TabBarViewDelegate {
         let action = UIAlertAction(title: "OK", style: .default)
         alert.addAction(action)
         present(alert, animated: true)
+    }
+}
+
+// MARK: - TabBarViewDemoController: DemoAppearanceDelegate
+extension TabBarViewDemoController: DemoAppearanceDelegate {
+    func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
+        guard let fluentTheme = self.view.window?.fluentTheme else {
+            return
+        }
+
+        var tokensClosure: ((TabBarView) -> TabBarTokens)?
+        if isOverrideEnabled {
+            tokensClosure = { _ in
+                return ThemeWideOverrideTabBarTokens()
+            }
+        }
+
+        fluentTheme.register(controlType: TabBarView.self, tokens: tokensClosure)
+    }
+
+    func perControlOverrideDidChange(isOverrideEnabled: Bool) {
+        let tokens = (isOverrideEnabled ? PerControlOverrideTabBarItemTokens() : nil)
+        _ = tabBarView?.overrideTokens(tokens)
+    }
+
+    func isThemeWideOverrideApplied() -> Bool {
+        return self.view.window?.fluentTheme.tokenOverride(for: TabBarView.self) != nil
+    }
+
+    // MARK: - Custom tokens
+    private class ThemeWideOverrideTabBarTokens: TabBarTokens {
+        override var badgeHeight: CGFloat {
+            return .init(CGFloat(40.0))
+        }
+    }
+
+    private class PerControlOverrideTabBarItemTokens: TabBarTokens {
+        override var unselectedColor: DynamicColor {
+            return .init(
+                         light: globalTokens.sharedColors[.cornflower][.tint20], // ColorValue(0x6E6E6E) /* gray500 */,
+                         lightHighContrast: globalTokens.sharedColors[.cornflower][.tint40], // ColorValue(0x303030) /* gray700 */,
+                         dark: globalTokens.sharedColors[.teal][.tint40], // ColorValue(0x919191) /* gray400 */,
+                         darkHighContrast: globalTokens.sharedColors[.darkTeal][.tint40] /* gray200 */)
+        }
+
+        override var portraitImageSize: CGFloat {
+            return .init(CGFloat(14.0))
+        }
+
+        override var portraitImageWithLabelSize: CGFloat {
+            return .init(CGFloat(14.0))
+        }
+
+        override var landscapeImageSize: CGFloat {
+            return .init(CGFloat(14.0))
+        }
     }
 }
