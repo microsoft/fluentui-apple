@@ -46,7 +46,7 @@ import SwiftUI
     var sectionCount: Int { get }
 
     /// Configures if the List allows selection.
-    var isSelectable: Bool { get set }
+    var allowsSelection: Bool { get set }
 
     /// Configures the selection style of the List.
     var selectionStyle: MSFListSelectionStyle { get set }
@@ -201,9 +201,9 @@ class MSFListStateImpl: NSObject, ObservableObject, MSFListState {
         return sections.count
     }
 
-    @Published var isSelectable: Bool = false {
+    @Published var allowsSelection: Bool = false {
         didSet {
-            if !isSelectable {
+            if !allowsSelection {
                 if let selectedCell = selectedCellState {
                     selectedCell.isSelected = false
                     selectedCellState = nil
@@ -232,7 +232,7 @@ class MSFListStateImpl: NSObject, ObservableObject, MSFListState {
         }
         let section = MSFListSectionStateImpl()
         section.onSelectAction = { [weak self] (selectedCell) in
-            guard let strongSelf = self, strongSelf.isSelectable else {
+            guard let strongSelf = self, strongSelf.allowsSelection else {
                 return
             }
 
