@@ -406,8 +406,7 @@ struct MSFListCellView: View, ConfigurableTokenizedControl {
                     withAnimation {
                         state.isExpanded.toggle()
                     }
-                }
-                if let onSelectAction = state.onSelectAction {
+                } else if let onSelectAction = state.onSelectAction {
                     onSelectAction(state)
                 }
                 if let onTapAction = state.onTapAction {
