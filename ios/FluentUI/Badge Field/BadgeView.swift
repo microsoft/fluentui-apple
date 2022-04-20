@@ -144,7 +144,11 @@ open class BadgeView: UIView {
     @objc open var isSelected: Bool = false {
         didSet {
             updateColors()
-            updateAccessibility()
+            if isSelected {
+                accessibilityTraits.insert(.selected)
+            } else {
+                accessibilityTraits.remove(.selected)
+            }
         }
     }
 
@@ -364,7 +368,6 @@ open class BadgeView: UIView {
 
         isAccessibilityElement = true
         accessibilityTraits = .button
-        updateAccessibility()
 
         NotificationCenter.default.addObserver(self, selector: #selector(invalidateIntrinsicContentSize), name: UIContentSizeCategory.didChangeNotification, object: nil)
 
@@ -436,16 +439,6 @@ open class BadgeView: UIView {
             return nil
         }
         return customView.bounds == .zero ? customView.sizeThatFits(size) : customView.bounds.size
-    }
-
-    private func updateAccessibility() {
-        if isSelected {
-            accessibilityValue = "Accessibility.Selected.Value".localized
-            accessibilityHint = "Accessibility.Selected.Hint".localized
-        } else {
-            accessibilityValue = nil
-            accessibilityHint = "Accessibility.Select.Hint".localized
-        }
     }
 
     private func updateColors() {
