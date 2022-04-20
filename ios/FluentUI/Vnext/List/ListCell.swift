@@ -223,14 +223,6 @@ class MSFListCellStateImpl: NSObject, ObservableObject, Identifiable, ControlCon
         return children.count
     }
 
-    var trailingItem: MSFListAccessoryType {
-        if isSelected {
-            return .checkmark
-        } else {
-            return accessoryType
-        }
-    }
-
     func createChildCell() -> MSFListCellState {
         return createChildCell(at: children.endIndex)
     }
@@ -380,7 +372,8 @@ struct MSFListCellView: View, ConfigurableTokenizedControl {
                 }
 
                 HStack(spacing: 0) {
-                    if let accessoryType = state.trailingItem, accessoryType != .none, let accessoryIcon = accessoryType.icon {
+                    let accessoryType = state.isSelected ? .checkmark : state.accessoryType
+                    if accessoryType != .none, let accessoryIcon = accessoryType.icon {
                         let isDisclosure = accessoryType == .disclosure
                         let disclosureSize = tokens.disclosureSize
                         Image(uiImage: accessoryIcon)
