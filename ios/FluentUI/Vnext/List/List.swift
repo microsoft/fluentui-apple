@@ -165,7 +165,7 @@ class MSFListSectionStateImpl: NSObject, ObservableObject, Identifiable, Control
             preconditionFailure("Index is out of bounds")
         }
         let cell = MSFListCellStateImpl()
-        cells.insert(cell, at: index)
+        cell.selectionStyle = selectionStyle
         cell.onSelectAction = { [weak self] (selectedCell) in
             guard let strongSelf = self,
                   let onSelectAction = strongSelf.onSelectAction else {
@@ -173,6 +173,7 @@ class MSFListSectionStateImpl: NSObject, ObservableObject, Identifiable, Control
             }
             onSelectAction(selectedCell)
         }
+        cells.insert(cell, at: index)
         return cell
     }
 
@@ -231,6 +232,7 @@ class MSFListStateImpl: NSObject, ObservableObject, MSFListState {
             preconditionFailure("Index is out of bounds")
         }
         let section = MSFListSectionStateImpl()
+        section.selectionStyle = selectionStyle
         section.onSelectAction = { [weak self] (selectedCell) in
             guard let strongSelf = self, strongSelf.allowsSelection else {
                 return
