@@ -12,9 +12,6 @@
 "Accessibility.Dismiss.Hint" = "Dubbeltikken om te sluiten";
 "Accessibility.Done.Label" = "Gereed";
 "Accessibility.MultiSelect.Hint" = "Dubbeltikken om de selectie in of uit te schakelen";
-"Accessibility.Select.Hint" = "Dubbeltikken om te selecteren";
-"Accessibility.Selected.Hint" = "Dubbeltikken om details te zien";
-"Accessibility.Selected.Value" = "Geselecteerd";
 
 /* Accessibility label for the upper calendar date picker view. */
 "Accessibility.Calendar.Label" = "Agenda";
