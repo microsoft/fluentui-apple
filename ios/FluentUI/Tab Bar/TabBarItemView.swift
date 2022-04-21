@@ -131,11 +131,6 @@ class TabBarItemView: UIControl, TokenizedControlInternal {
 		])
 
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
-
-        NotificationCenter.default.addObserver(self,
                                                selector: #selector(badgeValueDidChange),
                                                name: TabBarItem.badgeValueDidChangeNotification,
                                                object: item)

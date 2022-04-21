@@ -30,22 +30,22 @@ open class TabBarTokens: ControlTokens {
     }
 
     /// The vertical spacing of the `TabBarItem` within the TabBar
-    open var spacingVertical: CGFloat { 3.0 }
+    open var spacingVertical: CGFloat { globalTokens.spacing[.xSmall] }
 
     /// The horizontal spacing of the `TabBarItem` within the TabBar
     open var spacingHorizontal: CGFloat { 8.0 }
 
     /// The size of the image associated with the `TabBarItem` when the device is in portrait mode
-    open var portraitImageSize: CGFloat { 28.0 }
+    open var portraitImageSize: CGFloat { globalTokens.iconSize[.large] }
 
     /// The size of the image associated with the `TabBarItem` when the device is in portrait mode and has a label
-    open var portraitImageWithLabelSize: CGFloat { 24.0 }
+    open var portraitImageWithLabelSize: CGFloat { globalTokens.iconSize[.medium] }
 
     /// The size of the image associated with the `TabBarItem` when the device is in landscape mode
     open var landscapeImageSize: CGFloat { 24.0 }
 
     /// The vertical offset of the `Badge` associated with this `TabBarItem`
-    open var badgeVerticalOffset: CGFloat { -4.0 }
+    open var badgeVerticalOffset: CGFloat { -globalTokens.spacing[.xxxSmall] }
 
     /// The vertical offset of the `BadgeLabel` associated with this `TabBarItem` when the device is in portrait mode
     open var badgePortraitTitleVerticalOffset: CGFloat { -2.0 }
@@ -66,7 +66,7 @@ open class TabBarTokens: ControlTokens {
     open var defaultBadgeMaxWidth: CGFloat { 42.0 }
 
     /// The width of the `BadgeLabel` border
-    open var badgeBorderWidth: CGFloat { 2.0 }
+    open var badgeBorderWidth: CGFloat { globalTokens.borderSize[.thick] }
 
     /// The horizontal padding for the `BadgeLabel`
     open var badgeHorizontalPadding: CGFloat { 10.0 }
