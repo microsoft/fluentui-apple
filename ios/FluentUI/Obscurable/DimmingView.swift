@@ -25,27 +25,6 @@ open class DimmingView: UIView {
 
     private var type: DimmingViewType
 
-    /// override default black dimmed color
-    public var dimmedBlackColor: UIColor? {
-        didSet {
-            setBackground(type: type)
-        }
-    }
-
-    /// override default white dimmed color
-    public var dimmedWhiteColor: UIColor? {
-        didSet {
-            setBackground(type: type)
-        }
-    }
-
-    /// override default clear  color
-    public var dimmedClearColor: UIColor? {
-        didSet {
-            setBackground(type: type)
-        }
-    }
-
     @objc public init(type: DimmingViewType) {
         self.type = type
         super.init(frame: .zero)
@@ -59,11 +38,11 @@ open class DimmingView: UIView {
     private func setBackground(type: DimmingViewType) {
         switch type {
         case .white:
-            backgroundColor = dimmedWhiteColor ?? UIColor(white: 1, alpha: Constants.whiteAlpha)
+            backgroundColor = UIColor(white: 1, alpha: Constants.whiteAlpha)
         case .black:
-            backgroundColor = dimmedBlackColor ?? UIColor(white: 0, alpha: Constants.blackAlpha)
+            backgroundColor = UIColor(white: 0, alpha: Constants.blackAlpha)
         case .none:
-            backgroundColor = dimmedClearColor ?? .clear
+            backgroundColor = .clear
         }
     }
 }
