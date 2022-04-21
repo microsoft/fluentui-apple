@@ -256,11 +256,8 @@ class TabBarItemView: UIControl, TokenizedControlInternal {
     }
 
     private func updateColors() {
-        if let window = window {
-            let primaryColor = Colors.primary(for: window)
-            titleLabel.highlightedTextColor = primaryColor
-            imageView.tintColor = isSelected ? primaryColor : UIColor(dynamicColor: tokens.unselectedColor)
-        }
+        titleLabel.highlightedTextColor = UIColor(dynamicColor: tokens.selectedColor)
+        imageView.tintColor = isSelected ? UIColor(dynamicColor: tokens.selectedColor) : UIColor(dynamicColor: tokens.unselectedColor)
     }
 
     private func updateLayout() {

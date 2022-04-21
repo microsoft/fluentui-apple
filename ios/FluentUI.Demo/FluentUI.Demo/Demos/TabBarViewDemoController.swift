@@ -222,20 +222,23 @@ extension TabBarViewDemoController: DemoAppearanceDelegate {
 
     // MARK: - Custom tokens
     private class ThemeWideOverrideTabBarTokens: TabBarTokens {
-        override var badgeHeight: CGFloat {
-            return .init(CGFloat(40.0))
+        override var selectedColor: DynamicColor {
+            return .init(
+                         light: globalTokens.sharedColors[.burgundy][.tint10],
+                         lightHighContrast: globalTokens.sharedColors[.pumpkin][.tint10],
+                         dark: globalTokens.sharedColors[.darkTeal][.tint40],
+                         darkHighContrast: globalTokens.sharedColors[.teal][.tint40])
+        }
+        override var unselectedColor: DynamicColor {
+            return .init(
+                         light: globalTokens.sharedColors[.darkTeal][.tint20],
+                         lightHighContrast: globalTokens.sharedColors[.teal][.tint40],
+                         dark: globalTokens.sharedColors[.pumpkin][.tint40],
+                         darkHighContrast: globalTokens.sharedColors[.burgundy][.tint40])
         }
     }
 
     private class PerControlOverrideTabBarItemTokens: TabBarTokens {
-        override var unselectedColor: DynamicColor {
-            return .init(
-                         light: globalTokens.sharedColors[.cornflower][.tint20], // ColorValue(0x6E6E6E) /* gray500 */,
-                         lightHighContrast: globalTokens.sharedColors[.cornflower][.tint40], // ColorValue(0x303030) /* gray700 */,
-                         dark: globalTokens.sharedColors[.teal][.tint40], // ColorValue(0x919191) /* gray400 */,
-                         darkHighContrast: globalTokens.sharedColors[.darkTeal][.tint40] /* gray200 */)
-        }
-
         override var portraitImageSize: CGFloat {
             return .init(CGFloat(14.0))
         }

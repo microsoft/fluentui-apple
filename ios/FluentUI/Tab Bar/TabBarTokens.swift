@@ -16,7 +16,12 @@ open class TabBarTokens: ControlTokens {
     /// The height of the `TabBar` when on a non-phone device
     open var padHeight: CGFloat { 48.0 }
 
-    /// Defines the background color of the  of the `TabBarItem`.
+    /// Defines the background color of the  of the `TabBarItem` when selected.
+    open var selectedColor: DynamicColor {
+        return self.aliasTokens.foregroundColors[.brandRest]
+    }
+
+    /// Defines the background color of the  of the `TabBarItem` when not selected.
     open var unselectedColor: DynamicColor {
         return DynamicColor(light: ColorValue(0x6E6E6E) /* gray500 */,
                             lightHighContrast: ColorValue(0x303030) /* gray700 */,
