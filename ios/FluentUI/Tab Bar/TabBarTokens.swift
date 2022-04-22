@@ -18,15 +18,15 @@ open class TabBarTokens: ControlTokens {
 
     /// Defines the background color of the  of the `TabBarItem` when selected.
     open var selectedColor: DynamicColor {
-        return self.aliasTokens.foregroundColors[.brandRest]
+        return aliasTokens.foregroundColors[.brandRest]
     }
 
     /// Defines the background color of the  of the `TabBarItem` when not selected.
     open var unselectedColor: DynamicColor {
         DynamicColor(light: ColorValue(0x6E6E6E) /* gray500 */,
-                            lightHighContrast: ColorValue(0x303030) /* gray700 */,
-                            dark: ColorValue(0x919191) /* gray400 */,
-                            darkHighContrast: ColorValue(0xC8C8C8) /* gray200 */)
+                     lightHighContrast: ColorValue(0x303030) /* gray700 */,
+                     dark: ColorValue(0x919191) /* gray400 */,
+                     darkHighContrast: ColorValue(0xC8C8C8) /* gray200 */)
     }
 
     /// The vertical spacing of the `TabBarItem` within the TabBar
@@ -75,8 +75,8 @@ open class TabBarTokens: ControlTokens {
     open var badgeCornerRadii: CGFloat { 10.0 }
 
     /// Font info for the title label when in portrait view
-    open var titleLabelPortrait: (TextStyle, FontInfo) { return (TextStyle.button2, .init(size: 10, weight: .medium)) }
+    open var titleLabelPortrait: FontInfo { return .init(size: 10, weight: .medium) }
 
     /// Font info for the title label when in landscape view
-    open var titleLabelLandscape: (TextStyle, FontInfo) { return (TextStyle.footnote, .init(size: 13, weight: .medium)) }
+    open var titleLabelLandscape: FontInfo { return .init(size: 13, weight: .medium) }
 }

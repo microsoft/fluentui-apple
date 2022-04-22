@@ -257,8 +257,8 @@ extension TabBarViewDemoController: DemoAppearanceDelegate {
             return CGFloat(35.0)
         }
 
-        override var titleLabelPortrait: (TextStyle, FontInfo) {
-            return (TextStyle.button2, .init(size: 15, weight: .bold))
+        override var titleLabelPortrait: FontInfo {
+            return .init(size: 15, weight: .bold)
         }
     }
 }
