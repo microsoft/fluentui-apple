@@ -188,6 +188,7 @@ open class TabBarView: UIView, TokenizedControlInternal {
     var overrideTokens: TabBarTokens? {
         didSet {
             updateTabBarTokens()
+            updateHeight()
         }
     }
 

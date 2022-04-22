@@ -250,5 +250,13 @@ extension TabBarViewDemoController: DemoAppearanceDelegate {
         override var landscapeImageSize: CGFloat {
             return CGFloat(14.0)
         }
+
+        override var phonePortraitHeight: CGFloat {
+            return CGFloat(35.0)
+        }
+
+        override var phoneLandscapeHeight: CGFloat {
+            return CGFloat(35.0)
+        }
     }
 }
