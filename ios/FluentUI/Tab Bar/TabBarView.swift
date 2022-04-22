@@ -195,15 +195,10 @@ open class TabBarView: UIView, TokenizedControlInternal {
     private func updateTabBarTokens() {
         tokens = resolvedTokens
 
-        for item in items {
-            if let index = items.firstIndex(of: item) {
-                let arrangedSubviews = stackView.arrangedSubviews
-
-                if arrangedSubviews.count > index {
-                    if let tabBarItemView = arrangedSubviews[index] as? TabBarItemView {
-                        tabBarItemView.overrideTokens = tokens
-                    }
-                }
+        let arrangedSubviews = stackView.arrangedSubviews
+        for subview in arrangedSubviews {
+            if let tabBarItemView = subview as? TabBarItemView {
+                tabBarItemView.overrideTokens = tokens
             }
         }
     }

@@ -23,7 +23,7 @@ open class TabBarTokens: ControlTokens {
 
     /// Defines the background color of the  of the `TabBarItem` when not selected.
     open var unselectedColor: DynamicColor {
-        return DynamicColor(light: ColorValue(0x6E6E6E) /* gray500 */,
+        DynamicColor(light: ColorValue(0x6E6E6E) /* gray500 */,
                             lightHighContrast: ColorValue(0x303030) /* gray700 */,
                             dark: ColorValue(0x919191) /* gray400 */,
                             darkHighContrast: ColorValue(0xC8C8C8) /* gray200 */)
@@ -54,7 +54,7 @@ open class TabBarTokens: ControlTokens {
     open var singleDigitBadgeHorizontalOffset: CGFloat { 14.0 }
 
     /// The horizontal offset of the `BadgeLabel` associated with this `TabBarItem` when the bade value is multiple digits
-    open var multiDigitBadgeHorizontalOffset: CGFloat { 12.0 }
+    open var multiDigitBadgeHorizontalOffset: CGFloat { globalTokens.spacing[.small] }
 
     /// The  height of the `BadgeLabel` associated with this `TabBarItem`
     open var badgeHeight: CGFloat { 16.0 }

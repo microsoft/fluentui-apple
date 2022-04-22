@@ -223,15 +223,13 @@ extension TabBarViewDemoController: DemoAppearanceDelegate {
     // MARK: - Custom tokens
     private class ThemeWideOverrideTabBarTokens: TabBarTokens {
         override var selectedColor: DynamicColor {
-            return .init(
-                         light: globalTokens.sharedColors[.burgundy][.tint10],
+            return .init(light: globalTokens.sharedColors[.burgundy][.tint10],
                          lightHighContrast: globalTokens.sharedColors[.pumpkin][.tint10],
                          dark: globalTokens.sharedColors[.darkTeal][.tint40],
                          darkHighContrast: globalTokens.sharedColors[.teal][.tint40])
         }
         override var unselectedColor: DynamicColor {
-            return .init(
-                         light: globalTokens.sharedColors[.darkTeal][.tint20],
+            return .init(light: globalTokens.sharedColors[.darkTeal][.tint20],
                          lightHighContrast: globalTokens.sharedColors[.teal][.tint40],
                          dark: globalTokens.sharedColors[.pumpkin][.tint40],
                          darkHighContrast: globalTokens.sharedColors[.burgundy][.tint40])
