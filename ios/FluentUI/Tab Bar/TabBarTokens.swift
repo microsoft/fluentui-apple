@@ -73,4 +73,10 @@ open class TabBarTokens: ControlTokens {
 
     /// The radii of the four corners of the `BadgeLabel`
     open var badgeCornerRadii: CGFloat { 10.0 }
+
+    /// Font info for the title label when in portrait view
+    open var titleLabelPortrait: (TextStyle, FontInfo) { return (TextStyle.button2, .init(size: 10, weight: .medium)) }
+
+    /// Font info for the title label when in landscape view
+    open var titleLabelLandscape: (TextStyle, FontInfo) { return (TextStyle.footnote, .init(size: 13, weight: .medium)) }
 }

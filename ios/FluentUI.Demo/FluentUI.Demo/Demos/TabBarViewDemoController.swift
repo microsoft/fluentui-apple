@@ -256,5 +256,9 @@ extension TabBarViewDemoController: DemoAppearanceDelegate {
         override var phoneLandscapeHeight: CGFloat {
             return CGFloat(35.0)
         }
+
+        override var titleLabelPortrait: (TextStyle, FontInfo) {
+            return (TextStyle.button2, .init(size: 15, weight: .bold))
+        }
     }
 }
