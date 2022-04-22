@@ -240,15 +240,15 @@ extension TabBarViewDemoController: DemoAppearanceDelegate {
 
     private class PerControlOverrideTabBarItemTokens: TabBarTokens {
         override var portraitImageSize: CGFloat {
-            return .init(CGFloat(14.0))
+            return CGFloat(14.0)
         }
 
         override var portraitImageWithLabelSize: CGFloat {
-            return .init(CGFloat(14.0))
+            return CGFloat(14.0)
         }
 
         override var landscapeImageSize: CGFloat {
-            return .init(CGFloat(14.0))
+            return CGFloat(14.0)
         }
     }
 }

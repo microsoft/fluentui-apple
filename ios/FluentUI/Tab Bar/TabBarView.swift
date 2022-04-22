@@ -96,7 +96,7 @@ open class TabBarView: UIView, TokenizedControlInternal {
         addSubview(topBorderLine)
 
         heightConstraint = stackView.heightAnchor.constraint(equalToConstant: traitCollection.userInterfaceIdiom == .phone ? tokens.phonePortraitHeight : tokens.padHeight)
-        NSLayoutConstraint.activate([heightConstraint!,
+        NSLayoutConstraint.activate([heightConstraint,
                                      topBorderLine.bottomAnchor.constraint(equalTo: topAnchor),
                                      topBorderLine.leadingAnchor.constraint(equalTo: leadingAnchor),
                                      topBorderLine.trailingAnchor.constraint(equalTo: trailingAnchor)])
@@ -150,7 +150,7 @@ open class TabBarView: UIView, TokenizedControlInternal {
         return UIVisualEffectView(effect: UIBlurEffect(style: style))
     }()
 
-    private var heightConstraint: NSLayoutConstraint?
+    private lazy var heightConstraint: NSLayoutConstraint = stackView.heightAnchor.constraint(equalToConstant: traitCollection.userInterfaceIdiom == .phone ? tokens.phonePortraitHeight : tokens.padHeight)
 
     private let showsItemTitles: Bool
 
@@ -167,7 +167,7 @@ open class TabBarView: UIView, TokenizedControlInternal {
     private func updateHeight() {
         if traitCollection.userInterfaceIdiom == .phone {
             let isPortrait = traitCollection.horizontalSizeClass == .compact && traitCollection.verticalSizeClass == .regular
-            heightConstraint?.constant = isPortrait ? tokens.phonePortraitHeight : tokens.phoneLandscapeHeight
+            heightConstraint.constant = isPortrait ? tokens.phonePortraitHeight : tokens.phoneLandscapeHeight
         }
     }
 
@@ -192,10 +192,9 @@ open class TabBarView: UIView, TokenizedControlInternal {
     }
 
     private func updateTabBarTokens() {
-        self.tokens = resolvedTokens
+        tokens = resolvedTokens
 
-        self.items.forEach({ item in
-            let tokens = resolvedTokens
+        for item in items {
             if let index = items.firstIndex(of: item) {
                 let arrangedSubviews = stackView.arrangedSubviews
 
@@ -205,7 +204,7 @@ open class TabBarView: UIView, TokenizedControlInternal {
                     }
                 }
             }
-        })
+        }
     }
 
     @objc private func themeDidChange(_ notification: Notification) {

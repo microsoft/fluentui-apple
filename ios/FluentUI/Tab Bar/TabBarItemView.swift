@@ -57,7 +57,7 @@ class TabBarItemView: UIControl, TokenizedControlInternal {
     }
 
     /// Maximum width for the badge view where the badge value is displayed.
-    var maxBadgeWidth: CGFloat = Constants.defaultBadgeMaxWidth {
+    lazy var maxBadgeWidth: CGFloat = tokens.defaultBadgeMaxWidth {
         didSet {
             if oldValue != maxBadgeWidth {
                 updateBadgeView()
@@ -175,7 +175,6 @@ class TabBarItemView: UIControl, TokenizedControlInternal {
     }
 
     private struct Constants {
-        static let unselectedColor: UIColor = Colors.textSecondary
         static let defaultBadgeMaxWidth: CGFloat = 42
     }
 
