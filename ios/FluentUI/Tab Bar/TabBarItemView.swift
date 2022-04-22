@@ -174,10 +174,6 @@ class TabBarItemView: UIControl, TokenizedControlInternal {
         updateLayout()
     }
 
-    private struct Constants {
-        static let defaultBadgeMaxWidth: CGFloat = 42
-    }
-
     private var badgeValue: String? {
         didSet {
             if oldValue != badgeValue {

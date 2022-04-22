@@ -238,23 +238,23 @@ extension TabBarViewDemoController: DemoAppearanceDelegate {
 
     private class PerControlOverrideTabBarItemTokens: TabBarTokens {
         override var portraitImageSize: CGFloat {
-            return CGFloat(14.0)
+            return 14.0
         }
 
         override var portraitImageWithLabelSize: CGFloat {
-            return CGFloat(14.0)
+            return 14.0
         }
 
         override var landscapeImageSize: CGFloat {
-            return CGFloat(14.0)
+            return 14.0
         }
 
         override var phonePortraitHeight: CGFloat {
-            return CGFloat(35.0)
+            return 35.0
         }
 
         override var phoneLandscapeHeight: CGFloat {
-            return CGFloat(35.0)
+            return 35.0
         }
 
         override var titleLabelPortrait: FontInfo {

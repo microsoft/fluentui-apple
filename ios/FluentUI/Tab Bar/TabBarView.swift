@@ -95,7 +95,6 @@ open class TabBarView: UIView, TokenizedControlInternal {
         topBorderLine.translatesAutoresizingMaskIntoConstraints = false
         addSubview(topBorderLine)
 
-        heightConstraint = stackView.heightAnchor.constraint(equalToConstant: traitCollection.userInterfaceIdiom == .phone ? tokens.phonePortraitHeight : tokens.padHeight)
         NSLayoutConstraint.activate([heightConstraint,
                                      topBorderLine.bottomAnchor.constraint(equalTo: topAnchor),
                                      topBorderLine.leadingAnchor.constraint(equalTo: leadingAnchor),

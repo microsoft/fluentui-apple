@@ -30,10 +30,10 @@ open class TabBarTokens: ControlTokens {
     }
 
     /// The vertical spacing of the `TabBarItem` within the TabBar
-    open var spacingVertical: CGFloat { globalTokens.spacing[.xSmall] }
+    open var spacingVertical: CGFloat { 3.0 }
 
     /// The horizontal spacing of the `TabBarItem` within the TabBar
-    open var spacingHorizontal: CGFloat { 8.0 }
+    open var spacingHorizontal: CGFloat { globalTokens.spacing[.xSmall] }
 
     /// The size of the image associated with the `TabBarItem` when the device is in portrait mode
     open var portraitImageSize: CGFloat { globalTokens.iconSize[.large] }
@@ -45,10 +45,10 @@ open class TabBarTokens: ControlTokens {
     open var landscapeImageSize: CGFloat { 24.0 }
 
     /// The vertical offset of the `Badge` associated with this `TabBarItem`
-    open var badgeVerticalOffset: CGFloat { -globalTokens.spacing[.xxxSmall] }
+    open var badgeVerticalOffset: CGFloat { -globalTokens.spacing[.xxSmall] }
 
     /// The vertical offset of the `BadgeLabel` associated with this `TabBarItem` when the device is in portrait mode
-    open var badgePortraitTitleVerticalOffset: CGFloat { -2.0 }
+    open var badgePortraitTitleVerticalOffset: CGFloat { -globalTokens.spacing[.xxxSmall] }
 
     /// The horizontal offset of the `BadgeLabel` associated with this `TabBarItem` when the bade value is a single digit
     open var singleDigitBadgeHorizontalOffset: CGFloat { 14.0 }
