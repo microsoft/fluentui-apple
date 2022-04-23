@@ -20,7 +20,7 @@ public protocol TabBarViewDelegate {
 /// Set up `items` array to determine the order of `TabBarItems` to show.
 /// Use `selectedItem` property to change the selected tab bar item.
 @objc(MSFTabBarView)
-open class TabBarView: UIView {
+open class TabBarView: UIView, TokenizedControlInternal {
     /// List of TabBarItems in the TabBarView. Order of the array is the order of the subviews.
     @objc open var items: [TabBarItem] = [] {
         willSet {
@@ -65,6 +65,11 @@ open class TabBarView: UIView {
 
     @objc public weak var delegate: TabBarViewDelegate?
 
+    open override func didMoveToWindow() {
+        super.didMoveToWindow()
+        updateTabBarTokens()
+    }
+
     /// Set the custom spacing after the specified item.
     /// - Parameter spacing The spacing.
     /// - Parameter item The item to add spacing after.
@@ -76,7 +81,7 @@ open class TabBarView: UIView {
     }
 
     /// Initializes MSTabBarView
-    /// - Parameter showsItemTitles: Determines whether or not to show the titles of the tab ba ritems.
+    /// - Parameter showsItemTitles: Determines whether or not to show the titles of the tab bar items.
     @objc public init(showsItemTitles: Bool = false) {
         self.showsItemTitles = showsItemTitles
         super.init(frame: .zero)
@@ -90,8 +95,7 @@ open class TabBarView: UIView {
         topBorderLine.translatesAutoresizingMaskIntoConstraints = false
         addSubview(topBorderLine)
 
-        heightConstraint = stackView.heightAnchor.constraint(equalToConstant: traitCollection.userInterfaceIdiom == .phone ? Constants.phonePortraitHeight : Constants.padHeight)
-        NSLayoutConstraint.activate([heightConstraint!,
+        NSLayoutConstraint.activate([heightConstraint,
                                      topBorderLine.bottomAnchor.constraint(equalTo: topAnchor),
                                      topBorderLine.leadingAnchor.constraint(equalTo: leadingAnchor),
                                      topBorderLine.trailingAnchor.constraint(equalTo: trailingAnchor)])
@@ -102,6 +106,11 @@ open class TabBarView: UIView {
         // add container trait to mimic default OS UITabbar experience
         accessibilityTraits.insert(UIAccessibilityTraits(rawValue: 0x200000000000))
         updateHeight()
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
     }
 
     required public init?(coder aDecoder: NSCoder) {
@@ -131,9 +140,6 @@ open class TabBarView: UIView {
 
     private struct Constants {
         static let maxTabCount: Int = 5
-        static let phonePortraitHeight: CGFloat = 48.0
-        static let phoneLandscapeHeight: CGFloat = 40.0
-        static let padHeight: CGFloat = 48.0
     }
 
     private let backgroundView: UIVisualEffectView = {
@@ -143,7 +149,7 @@ open class TabBarView: UIView {
         return UIVisualEffectView(effect: UIBlurEffect(style: style))
     }()
 
-    private var heightConstraint: NSLayoutConstraint?
+    private lazy var heightConstraint: NSLayoutConstraint = stackView.heightAnchor.constraint(equalToConstant: traitCollection.userInterfaceIdiom == .phone ? tokens.phonePortraitHeight : tokens.padHeight)
 
     private let showsItemTitles: Bool
 
@@ -160,7 +166,7 @@ open class TabBarView: UIView {
     private func updateHeight() {
         if traitCollection.userInterfaceIdiom == .phone {
             let isPortrait = traitCollection.horizontalSizeClass == .compact && traitCollection.verticalSizeClass == .regular
-            heightConstraint?.constant = isPortrait ? Constants.phonePortraitHeight : Constants.phoneLandscapeHeight
+            heightConstraint.constant = isPortrait ? tokens.phonePortraitHeight : tokens.phoneLandscapeHeight
         }
     }
 
@@ -169,5 +175,37 @@ open class TabBarView: UIView {
             selectedItem = item
             delegate?.tabBarView?(self, didSelect: item)
         }
+    }
+
+    public func overrideTokens(_ tokens: TabBarTokens?) -> Self {
+        overrideTokens = tokens
+        return self
+    }
+
+    var defaultTokens: TabBarTokens = .init()
+    var tokens: TabBarTokens = .init()
+    var overrideTokens: TabBarTokens? {
+        didSet {
+            updateTabBarTokens()
+            updateHeight()
+        }
+    }
+
+    private func updateTabBarTokens() {
+        tokens = resolvedTokens
+
+        let arrangedSubviews = stackView.arrangedSubviews
+        for subview in arrangedSubviews {
+            if let tabBarItemView = subview as? TabBarItemView {
+                tabBarItemView.overrideTokens = tokens
+            }
+        }
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        guard let window = window, window.isEqual(notification.object) else {
+            return
+        }
+        updateTabBarTokens()
     }
 }

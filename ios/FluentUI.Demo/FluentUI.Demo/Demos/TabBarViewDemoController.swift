@@ -109,7 +109,7 @@ class TabBarViewDemoController: DemoController {
             updatedTabBarView.items = [
                 homeItem,
                 TabBarItem(title: "New", image: UIImage(named: "New_24")!, selectedImage: UIImage(named: "New_Selected_24")!),
-              TabBarItem(title: "Open", image: UIImage(named: "Open_24")!, selectedImage: UIImage(named: "Open_Selected_24")!)
+                TabBarItem(title: "Open", image: UIImage(named: "Open_24")!, selectedImage: UIImage(named: "Open_Selected_24")!)
             ]
         } else {
             updatedTabBarView.items = [
@@ -191,5 +191,74 @@ extension TabBarViewDemoController: TabBarViewDelegate {
         let action = UIAlertAction(title: "OK", style: .default)
         alert.addAction(action)
         present(alert, animated: true)
+    }
+}
+
+// MARK: - TabBarViewDemoController: DemoAppearanceDelegate
+extension TabBarViewDemoController: DemoAppearanceDelegate {
+    func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
+        guard let fluentTheme = self.view.window?.fluentTheme else {
+            return
+        }
+
+        var tokensClosure: ((TabBarView) -> TabBarTokens)?
+        if isOverrideEnabled {
+            tokensClosure = { _ in
+                return ThemeWideOverrideTabBarTokens()
+            }
+        }
+
+        fluentTheme.register(controlType: TabBarView.self, tokens: tokensClosure)
+    }
+
+    func perControlOverrideDidChange(isOverrideEnabled: Bool) {
+        let tokens = (isOverrideEnabled ? PerControlOverrideTabBarItemTokens() : nil)
+        _ = tabBarView?.overrideTokens(tokens)
+    }
+
+    func isThemeWideOverrideApplied() -> Bool {
+        return self.view.window?.fluentTheme.tokenOverride(for: TabBarView.self) != nil
+    }
+
+    // MARK: - Custom tokens
+    private class ThemeWideOverrideTabBarTokens: TabBarTokens {
+        override var selectedColor: DynamicColor {
+            return .init(light: globalTokens.sharedColors[.burgundy][.tint10],
+                         lightHighContrast: globalTokens.sharedColors[.pumpkin][.tint10],
+                         dark: globalTokens.sharedColors[.darkTeal][.tint40],
+                         darkHighContrast: globalTokens.sharedColors[.teal][.tint40])
+        }
+        override var unselectedColor: DynamicColor {
+            return .init(light: globalTokens.sharedColors[.darkTeal][.tint20],
+                         lightHighContrast: globalTokens.sharedColors[.teal][.tint40],
+                         dark: globalTokens.sharedColors[.pumpkin][.tint40],
+                         darkHighContrast: globalTokens.sharedColors[.burgundy][.tint40])
+        }
+    }
+
+    private class PerControlOverrideTabBarItemTokens: TabBarTokens {
+        override var portraitImageSize: CGFloat {
+            return 14.0
+        }
+
+        override var portraitImageWithLabelSize: CGFloat {
+            return 14.0
+        }
+
+        override var landscapeImageSize: CGFloat {
+            return 14.0
+        }
+
+        override var phonePortraitHeight: CGFloat {
+            return 35.0
+        }
+
+        override var phoneLandscapeHeight: CGFloat {
+            return 35.0
+        }
+
+        override var titleLabelPortrait: FontInfo {
+            return .init(size: 15, weight: .bold)
+        }
     }
 }
