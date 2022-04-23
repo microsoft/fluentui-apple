@@ -42,7 +42,7 @@ open class TabBarTokens: ControlTokens {
     open var portraitImageWithLabelSize: CGFloat { globalTokens.iconSize[.medium] }
 
     /// The size of the image associated with the `TabBarItem` when the device is in landscape mode
-    open var landscapeImageSize: CGFloat { 24.0 }
+    open var landscapeImageSize: CGFloat { globalTokens.iconSize[.medium] }
 
     /// The vertical offset of the `Badge` associated with this `TabBarItem`
     open var badgeVerticalOffset: CGFloat { -globalTokens.spacing[.xxSmall] }
