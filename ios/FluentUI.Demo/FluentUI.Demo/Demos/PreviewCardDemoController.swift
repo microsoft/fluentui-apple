@@ -16,15 +16,19 @@ class PreviewCardDemoController: DemoTableViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        let previewCard = MSFPreviewCard(theme: nil)
-        let previewCardView = previewCard.view
-        view.addSubview(previewCardView)
-        previewCardView.translatesAutoresizingMaskIntoConstraints = false
+        let previewFlatCard = MSFPreviewCard(theme: nil, elevated: false)
+        let previewElevatedCard = MSFPreviewCard(theme: nil, elevated: true)
+        let previewFlatCardView = previewFlatCard.view
+        let previewElevatedCardView = previewElevatedCard.view
+        view.addSubview(previewFlatCardView)
+        view.addSubview(previewElevatedCardView)
+        previewFlatCardView.translatesAutoresizingMaskIntoConstraints = false
+        previewElevatedCardView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            previewCardView.topAnchor.constraint(equalTo: view.topAnchor, constant: Constants.constantOffset),
-            previewCardView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.constantOffset),
-            previewCardView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: Constants.constantOffset),
-            previewCardView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: Constants.constantOffset)
+            previewFlatCardView.topAnchor.constraint(equalTo: view.topAnchor, constant: Constants.constantOffset),
+            previewElevatedCardView.topAnchor.constraint(equalTo: previewFlatCardView.bottomAnchor, constant: Constants.constantOffset),
+            previewFlatCardView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.constantOffset),
+            previewElevatedCardView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.constantOffset)
         ])
     }
 // MARK: - Constraint Constant Attribute Values
