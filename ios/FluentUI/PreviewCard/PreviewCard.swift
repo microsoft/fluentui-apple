@@ -15,9 +15,9 @@ import SwiftUI
     /// Creates a new MSFPreviewCard instance.
     /// - Parameters:
     ///   - theme: The FluentUIStyle instance representing the theme to be overriden for this PreviewCard.
-    @objc public init(theme: FluentUIStyle?, elevated: Bool) {
+    @objc public init(theme: FluentUIStyle?, isElevated: Bool = false) {
         super.init()
-        previewCardView = PreviewCard(showEleavatedCard: elevated)
+        previewCardView = PreviewCard(isElevated: isElevated)
         hostingController = FluentUIHostingController(rootView: AnyView(previewCardView.windowProvider(self)))
         hostingController.disableSafeAreaInsets()
     }
@@ -28,24 +28,9 @@ import SwiftUI
     private var previewCardView: PreviewCard!
 }
 
-extension View {
-    /// Sets the height and width of the Preview Card.
-    func cardBorderModifiers() -> some View {
-        self
-            .frame(minWidth: PreviewCard.Constants.cardMinWidth, minHeight: PreviewCard.Constants.cardMinHeight)
-    }
-    /// Sets the background border style, radius, color, and linewidth of the Preview Card.
-    func cardBackgroundModifiers() -> some View {
-        self
-            .background(
-                RoundedRectangle(cornerRadius: PreviewCard.Constants.cardCornerRadius)
-                    .strokeBorder(Color(Color.RGBColorSpace.sRGB, red: PreviewCard.Constants.cardStrokeBorderColor, green: PreviewCard.Constants.cardStrokeBorderColor, blue: PreviewCard.Constants.cardStrokeBorderColor), lineWidth: PreviewCard.Constants.cardLineWidth)
-    )}
-}
-
 /// View that represents the PreviewCard.
 public struct PreviewCard: View {
-    var showEleavatedCard: Bool
+    var isElevated: Bool
     @Environment(\.theme) var theme: FluentUIStyle
     @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
     /// Creates inner PreviewCard view.
@@ -53,19 +38,28 @@ public struct PreviewCard: View {
     var innerContents: some View {
         HStack {
             Spacer()
-                .cardBorderModifiers()
-                .cardBackgroundModifiers()
-                .modifyIf(showEleavatedCard, { view in view
-                        .shadow(color: Color(.black.withAlphaComponent(0.14)),
+                /// Sets the height and width of the Preview Card.
+                .frame(minWidth: Constants.cardMinWidth, minHeight: Constants.cardMinHeight)
+                /// Sets the background border style, radius, color, and linewidth of the Preview Card.
+                .background(
+                    RoundedRectangle(cornerRadius: Constants.cardCornerRadius)
+                        .strokeBorder(Color(Color.RGBColorSpace.sRGB,
+                                            red: Constants.cardStrokeBorderColor,
+                                            green: Constants.cardStrokeBorderColor,
+                                            blue: Constants.cardStrokeBorderColor),
+                                      lineWidth: Constants.cardLineWidth)
+                /// Modifies the background shadow of PreviewCard if the card is elevated.
+                .modifyIf(isElevated, { view in view
+                        .shadow(color: Color(.black.withAlphaComponent(Constants.cardAmbientAlphaColor)),
                                 radius: Constants.cardShadowRadius,
                                 x: Constants.ambientShadowOffsetX,
                                 y: Constants.ambientShadowOffsetY)
-                        .shadow(color: Color(.black.withAlphaComponent(0.12)),
+                        .shadow(color: Color(.black.withAlphaComponent(Constants.cardPerimeterAlphaColor)),
                                 radius: Constants.cardShadowRadius,
                                 x: Constants.perimeterShadowOffsetX,
                                 y: Constants.perimeterShadowOffsetY)
                 })
-        }
+       )}
     }
     /// Creates the PreviewCard.
     public var body: some View {
@@ -87,5 +81,7 @@ public struct PreviewCard: View {
         static let perimeterShadowOffsetX: CGFloat = 0
         static let perimeterShadowOffsetY: CGFloat = 0
         static let cardStrokeBorderColor: Double = 0x61 / 255.0
+        static let cardAmbientAlphaColor: CGFloat = 0.14
+        static let cardPerimeterAlphaColor: CGFloat = 0.12
     }
 }

@@ -37,9 +37,6 @@ public protocol BottomSheetControllerDelegate: AnyObject {
     case collapsed // Sheet is collapsed
     case hidden // Sheet is hidden (fully off-screen)
     case transitioning // Sheet is between states, only used during user interaction / animation
-
-    // Target alpha of related views like the sheet content or dimming view.
-    var relatedViewAlpha: CGFloat { self == .expanded ? 1.0 : 0.0 }
 }
 
 @objc(MSFBottomSheetController)
@@ -488,12 +485,13 @@ public class BottomSheetController: UIViewController {
     }
 
     private func updateExpandedContentAlpha() {
-        let transitionLength = Constants.expandedContentAlphaTransitionLength
         let currentOffset = currentSheetVerticalOffset
         let collapsedOffset = offset(for: .collapsed)
+        let expandedOffset = offset(for: .expanded)
 
         var targetAlpha: CGFloat = 1.0
-        if shouldHideCollapsedContent {
+        if shouldHideCollapsedContent && !isHeightRestricted {
+            let transitionLength = min(Constants.expandedContentAlphaTransitionLength, abs(collapsedOffset - expandedOffset))
             if currentOffset >= collapsedOffset {
                 targetAlpha = 0.0
             } else if currentOffset < collapsedOffset && currentOffset > collapsedOffset - transitionLength {
@@ -510,19 +508,37 @@ public class BottomSheetController: UIViewController {
 
         var targetAlpha: CGFloat = 0.0
         if isExpandable {
-            let currentOffset = currentSheetVerticalOffset
-            let collapsedOffset = offset(for: .collapsed)
-            let expandedOffset = offset(for: .expanded)
+            // Offset marks top of the sheet in UIView coord space, so counterintuitively,
+            // lowest -> highest means .expanded -> .hidden
+            //             self.view top
+            // ---------------------------------------- <--- low offset
+            // ----------------------------------------
+            // -----------fully dimmed (1.0)-----------
+            // ----------------------------------------
+            // ********highest dimmed offset***********
+            // ----------------------------------------
+            // ----------------------------------------
+            // -------transition space (1.0-0.0)-------
+            // ----------------------------------------
+            // ----------------------------------------
+            // ********lowest undimmed offset**********
+            // ----------------------------------------
+            // -------- fully undimmed (0.0)-----------
+            // ----------------------------------------
+            // ---------------------------------------- <--- high offset
 
-            if currentOffset <= expandedOffset {
+            let currentOffset = currentSheetVerticalOffset
+            let highestDimmedOffset = offset(for: .expanded)
+            let lowestUndimmedOffset = isHeightRestricted ? offset(for: .hidden) : offset(for: .collapsed)
+
+            if currentOffset <= highestDimmedOffset {
                 targetAlpha = 1.0
-            } else if currentOffset >= collapsedOffset {
+            } else if currentOffset >= lowestUndimmedOffset {
                 targetAlpha = 0.0
             } else {
-                targetAlpha = abs(currentOffset - collapsedOffset) / (collapsedOffset - expandedOffset)
+                targetAlpha = abs(currentOffset - lowestUndimmedOffset) / (lowestUndimmedOffset - highestDimmedOffset)
             }
         }
-
         dimmingView.alpha = targetAlpha
     }
 
@@ -688,20 +704,10 @@ public class BottomSheetController: UIViewController {
             }
             strongSelf.bottomSheetView.frame = strongSelf.sheetFrame(offset: targetVerticalOffset)
             strongSelf.sheetLayoutGuideTopConstraint.constant = targetVerticalOffset
+
+            strongSelf.updateDimmingViewAlpha()
+            strongSelf.updateExpandedContentAlpha()
             strongSelf.view.layoutIfNeeded()
-        }
-
-        let targetRelatedViewAlpha = targetExpansionState.relatedViewAlpha
-        if shouldHideCollapsedContent && expandedContentView.alpha != targetRelatedViewAlpha {
-            translationAnimator.addAnimations {
-                self.expandedContentView.alpha = targetRelatedViewAlpha
-            }
-        }
-
-        if shouldShowDimmingView && dimmingView.alpha != targetRelatedViewAlpha {
-            translationAnimator.addAnimations {
-                self.dimmingView.alpha = targetRelatedViewAlpha
-            }
         }
 
         translationAnimator.addCompletion({ [weak self] finalPosition in
@@ -729,7 +735,13 @@ public class BottomSheetController: UIViewController {
 
         switch expansionState {
         case .collapsed:
-            offset = view.frame.maxY - collapsedSheetHeight
+            if !isHeightRestricted || !isExpandable {
+                offset = view.frame.maxY - collapsedSheetHeight
+            } else {
+                // When we're height restricted a distinct collapsed offset doesn't make sense,
+                // so we go straight to expanded.
+                fallthrough
+            }
         case .expanded:
             offset = view.frame.maxY - expandedSheetHeight
         case .hidden:
@@ -794,13 +806,12 @@ public class BottomSheetController: UIViewController {
         }
 
         let height: CGFloat
-        let maxHeight = view.frame.height - view.safeAreaInsets.top - Constants.minimumTopExpandedPadding
 
         if preferredExpandedContentHeight == 0 {
-            height = maxHeight
+            height = maxSheetHeight
         } else {
             let idealHeight = currentResizingHandleHeight + headerContentHeight + preferredExpandedContentHeight + view.safeAreaInsets.bottom
-            height = min(maxHeight, idealHeight)
+            height = min(maxSheetHeight, idealHeight)
         }
 
         // One case when the lower bound is required is when view.frame is .zero (like before the initial layout pass)
@@ -811,7 +822,20 @@ public class BottomSheetController: UIViewController {
     // Height of the sheet in collapsed state
     private var collapsedSheetHeight: CGFloat {
         let visibleContentHeight = (collapsedContentHeight > 0) ? collapsedContentHeight : headerContentHeight
-        return currentResizingHandleHeight + visibleContentHeight + view.safeAreaInsets.bottom
+        let idealHeight = currentResizingHandleHeight + visibleContentHeight + view.safeAreaInsets.bottom
+        return min(idealHeight, maxSheetHeight)
+    }
+
+    private var maxSheetHeight: CGFloat {
+        let maxHeight: CGFloat
+
+        if view.frame != .zero {
+            maxHeight = view.frame.height - view.safeAreaInsets.top - Constants.minimumTopExpandedPadding
+        } else {
+            maxHeight = Constants.defaultMaxSheetHeight
+        }
+
+        return maxHeight
     }
 
     private var currentResizingHandleHeight: CGFloat {
@@ -833,6 +857,10 @@ public class BottomSheetController: UIViewController {
     private var targetExpansionState: BottomSheetExpansionState?
 
     private var isHiddenOrHiding: Bool { isHidden || targetExpansionState == .hidden }
+
+    private var isHeightRestricted: Bool {
+        maxSheetHeight - collapsedSheetHeight < Constants.heightRestrictedThreshold
+    }
 
     private var currentSheetVerticalOffset: CGFloat {
         bottomSheetView.frame.minY
@@ -858,6 +886,11 @@ public class BottomSheetController: UIViewController {
 
         static let maxSheetWidth: CGFloat = 610
         static let minSheetWidth: CGFloat = 300
+        static let defaultMaxSheetHeight: CGFloat = 600
+
+        // When the difference in collapsed height and max sheet height is less than this,
+        // we go into height restricted mode which skips the collapsed state and adjusts dimming.
+        static let heightRestrictedThreshold: CGFloat = 50
 
         struct Spring {
             // Spring used in slow swipes - no oscillation

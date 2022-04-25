@@ -12,9 +12,6 @@
 "Accessibility.Dismiss.Hint" = "הקש פעמיים כדי לבטל";
 "Accessibility.Done.Label" = "בוצע";
 "Accessibility.MultiSelect.Hint" = "הקש פעמיים כדי להחליף מצב בחירה";
-"Accessibility.Select.Hint" = "הקש פעמיים כדי לבחור";
-"Accessibility.Selected.Hint" = "הקש פעמיים כדי להציג פרטים";
-"Accessibility.Selected.Value" = "נבחר";
 
 /* Accessibility label for the upper calendar date picker view. */
 "Accessibility.Calendar.Label" = "לוח שנה";

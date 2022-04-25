@@ -12,9 +12,6 @@
 "Accessibility.Dismiss.Hint" = "Faça duplo toque para dispensar";
 "Accessibility.Done.Label" = "Concluído";
 "Accessibility.MultiSelect.Hint" = "Toque duas vezes para ativar ou desativar a seleção";
-"Accessibility.Select.Hint" = "Faça duplo toque para selecionar";
-"Accessibility.Selected.Hint" = "Faça duplo toque para ver os detalhes";
-"Accessibility.Selected.Value" = "Selecionado";
 
 /* Accessibility label for the upper calendar date picker view. */
 "Accessibility.Calendar.Label" = "Calendário";
