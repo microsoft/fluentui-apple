@@ -54,6 +54,8 @@ class TableViewCellDemoController: DemoTableViewController {
 
     private var editButton: UIBarButtonItem?
 
+    private var perControlOverride: Bool = false
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -109,6 +111,10 @@ class TableViewCellDemoController: DemoTableViewController {
 }
 
 extension TableViewCellDemoController: DemoAppearanceDelegate {
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        perControlOverrideDidChange(isOverrideEnabled: perControlOverride)
+    }
+
     func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
         guard let fluentTheme = self.view.window?.fluentTheme else {
             return
@@ -125,6 +131,7 @@ extension TableViewCellDemoController: DemoAppearanceDelegate {
     }
 
     func perControlOverrideDidChange(isOverrideEnabled: Bool) {
+        perControlOverride = isOverrideEnabled
         let cells = self.tableView.visibleCells as! [TableViewCell]
         for cell in cells {
             let tokens = isOverrideEnabled ? PerControlOverrideTableViewCellTokens() : nil
