@@ -62,7 +62,6 @@ public struct PreviewCard: View {
     }
     /// Creates the PreviewCard.
     public var body: some View {
-// TODO: - Implement elevated card
 // TODO: - Update to implement light and dark mode
         innerContents
     }
