@@ -43,18 +43,17 @@ public struct PreviewCard: View {
                 /// Sets the background border style, radius, color, and linewidth of the Preview Card.
                 .background(
                     RoundedRectangle(cornerRadius: Constants.cardCornerRadius)
-                        .strokeBorder(Color(Color.RGBColorSpace.sRGB,
-                                            red: Constants.cardStrokeBorderColor,
+                        .strokeBorder(Color(red: Constants.cardStrokeBorderColor,
                                             green: Constants.cardStrokeBorderColor,
                                             blue: Constants.cardStrokeBorderColor),
                                       lineWidth: Constants.cardLineWidth)
                 /// Modifies the background shadow of PreviewCard if the card is elevated.
                 .modifyIf(isElevated, { view in view
-                        .shadow(color: Color(.black.withAlphaComponent(Constants.cardAmbientAlphaColor)),
+                        .shadow(color: .black.opacity(Constants.cardAmbientAlphaColor),
                                 radius: Constants.cardShadowRadius,
                                 x: Constants.ambientShadowOffsetX,
                                 y: Constants.ambientShadowOffsetY)
-                        .shadow(color: Color(.black.withAlphaComponent(Constants.cardPerimeterAlphaColor)),
+                        .shadow(color: .black.opacity(Constants.cardPerimeterAlphaColor),
                                 radius: Constants.cardShadowRadius,
                                 x: Constants.perimeterShadowOffsetX,
                                 y: Constants.perimeterShadowOffsetY)
