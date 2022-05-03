@@ -44,15 +44,6 @@ class NotificationViewDemoController: DemoController {
 
             }
         }
-
-        var delayForHiding: TimeInterval {
-            switch self {
-            case .primaryToast, .primaryToastWithImageAndTitle, .primaryBar, .primaryOutlineBar, .neutralBar:
-                return 2
-            default:
-                return .infinity
-            }
-        }
     }
 
     override func viewDidLoad() {
@@ -72,15 +63,14 @@ class NotificationViewDemoController: DemoController {
                 container.addArrangedSubview(UIView())
             }
             addTitle(text: variant.displayText)
-            container.addArrangedSubview(createNotificationView(forVariant: variant))
 
             let showButton = MSFButton(style: .secondary, size: .small, action: { [weak self] _ in
                 guard let strongSelf = self else {
                     return
                 }
 
-                strongSelf.createNotificationView(forVariant: variant).show(in: strongSelf.view) {
-                    $0.hide(after: variant.delayForHiding)
+                strongSelf.createNotificationView(forVariant: variant).showNotification(in: strongSelf.view) {
+                    $0.hide(after: 3.0)
                 }
             })
             showButton.state.text = "Show"
@@ -90,53 +80,80 @@ class NotificationViewDemoController: DemoController {
         }
     }
 
-    private func createNotificationView(forVariant variant: Variant) -> NotificationView {
+    private func createNotificationView(forVariant variant: Variant) -> MSFNotification {
         switch variant {
         case .primaryToast:
-            return NotificationView(style: .primaryToast).setup(style: .primaryToast,
-                                                                message: "Mail Archived",
-                                                                actionTitle: "Undo",
-                                                                action: { [weak self] in self?.showMessage("`Undo` tapped") })
+            let notification = MSFNotification(style: .primaryToast, message: "Mail Archived")
+            notification.state.actionButtonTitle = "Undo"
+            notification.state.actionButtonAction = { [weak self] in
+                self?.showMessage("`Undo` tapped")
+                notification.hide()
+            }
+            return notification
         case .primaryToastWithImageAndTitle:
-            return NotificationView(style: .primaryToast).setup(style: .primaryToast,
-                                                                title: "Kat's iPhoneX",
-                                                                message: "Listen to Emails • 7 mins",
-                                                                image: UIImage(named: "play-in-circle-24x24"),
-                                                                action: { [weak self] in self?.showMessage("`Dismiss` tapped") },
-                                                                messageAction: { [weak self] in self?.showMessage("`Listen to emails` tapped") })
+            let notification = MSFNotification(style: .primaryToast, message: "Listen to Emails • 7 mins")
+            notification.state.title = "Kat's iPhoneX"
+            notification.state.image = UIImage(named: "play-in-circle-24x24")
+            notification.state.actionButtonAction = { [weak self] in
+                self?.showMessage("`Dismiss` tapped")
+                notification.hide()
+            }
+            notification.state.messageButtonAction = { [weak self] in
+                self?.showMessage("`Listen to emails` tapped")
+                notification.hide()
+            }
+            return notification
         case .neutralToast:
-            return NotificationView(style: .neutralToast).setup(style: .neutralToast,
-                                                                message: "Some items require you to sign in to view them",
-                                                                actionTitle: "Sign in",
-                                                                action: { [weak self] in self?.showMessage("`Sign in` tapped") })
+            let notification = MSFNotification(style: .neutralToast, message: "Some items require you to sign in to view them")
+            notification.state.actionButtonTitle = "Sign in"
+            notification.state.actionButtonAction = { [weak self] in
+                self?.showMessage("`Sign in` tapped")
+                notification.hide()
+            }
+            return notification
         case .dangerToast:
-            return NotificationView(style: .dangerToast).setup(style: .dangerToast,
-                                                               message: "There was a problem, and your recent changes may not have saved",
-                                                               actionTitle: "Retry",
-                                                               action: { [weak self] in self?.showMessage("`Retry` tapped") })
+            let notification = MSFNotification(style: .dangerToast, message: "There was a problem, and your recent changes may not have saved")
+            notification.state.actionButtonTitle = "Retry"
+            notification.state.actionButtonAction = { [weak self] in
+                self?.showMessage("`Retry` tapped")
+                notification.hide()
+            }
+            return notification
         case .warningToast:
-            return NotificationView(style: .warningToast).setup(style: .warningToast,
-                                                                message: "Read Only",
-                                                                action: { [weak self] in self?.showMessage("`Dismiss` tapped") })
+            let notification = MSFNotification(style: .warningToast, message: "Read Only")
+            notification.state.actionButtonAction = { [weak self] in
+                self?.showMessage("`Dismiss` tapped")
+                notification.hide()
+            }
+            return notification
         case .primaryBar:
-            return NotificationView(style: .primaryBar).setup(style: .primaryBar,
-                                                              message: "Updating...")
+            let notification = MSFNotification(style: .primaryBar, message: "Updating...")
+            return notification
         case .primaryOutlineBar:
-            return NotificationView(style: .primaryOutlineBar).setup(style: .primaryOutlineBar,
-                                                                     message: "Mail Sent")
+            let notification = MSFNotification(style: .primaryOutlineBar, message: "Mail Sent")
+            return notification
         case .neutralBar:
-            return NotificationView(style: .neutralBar).setup(style: .neutralBar,
-                                                              message: "No internet connection")
+            let notification = MSFNotification(style: .neutralBar, message: "No internet connection")
+            return notification
         case .persistentBarWithAction:
-            return NotificationView(style: .neutralBar).setup(style: .neutralBar,
-                                                              message: "This error can be taken action on with the action on the right.",
-                                                              actionTitle: "Action",
-                                                              action: { [weak self] in self?.showMessage("`Action` tapped") })
+            let notification = MSFNotification(style: .neutralBar, message: "This error can be taken action on with the action on the right.")
+            notification.state.actionButtonTitle = "Action"
+            notification.state.actionButtonAction = { [weak self] in
+                self?.showMessage("`Action` tapped")
+                notification.hide()
+            }
+            return notification
         case .persistentBarWithCancel:
-            return NotificationView(style: .neutralBar).setup(style: .neutralBar,
-                                                              message: "This error can be tapped or dismissed with the icon to the right.",
-                                                              action: { [weak self] in self?.showMessage("`Dismiss` tapped") },
-                                                              messageAction: { [weak self] in self?.showMessage("`Dismiss` tapped") })
+            let notification = MSFNotification(style: .neutralBar, message: "This error can be tapped or dismissed with the icon to the right.")
+            notification.state.actionButtonAction = { [weak self] in
+                self?.showMessage("`Dismiss` tapped")
+                notification.hide()
+            }
+            notification.state.messageButtonAction = { [weak self] in
+                self?.showMessage("`Dismiss` tapped")
+                notification.hide()
+            }
+            return notification
         }
     }
 }

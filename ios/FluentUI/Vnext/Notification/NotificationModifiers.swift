@@ -18,7 +18,6 @@ public extension View {
     ///   - actionButtonTitle:Title to display in the action button on the trailing edge of the control.
     ///   - actionButtonAction: Action to be dispatched by the action button on the trailing edge of the control.
     ///   - messageButtonAction: Action to be dispatched by tapping on the toast/bar notification.
-    ///   - dismissAction: Action to be dispatched when dismissing toast/bar notification.
     /// - Returns: The modified view with the capability of presenting a Notification.
     func presentNotification(style: MSFNotificationStyle,
                              message: String,
@@ -39,8 +38,7 @@ public extension View {
                                     image: image,
                                     actionButtonTitle: actionButtonTitle,
                                     actionButtonAction: actionButtonAction,
-                                    messageButtonAction: messageButtonAction,
-                                    dismissAction: dismissAction)
+                                    messageButtonAction: messageButtonAction)
         }
     }
 }

@@ -36,7 +36,6 @@ struct NotificationDemoView: View {
         let image = showImage ? UIImage(named: "play-in-circle-24x24") : nil
         let actionButtonAction = hasActionButtonAction ? { showAlert = true } : nil
         let messageButtonAction = hasMessageAction ? { showAlert = true } : nil
-        let dismissAction = { showAlert = true }
 
         let notification = NotificationViewSwiftUI(style: style,
                                                    message: message,
@@ -44,8 +43,7 @@ struct NotificationDemoView: View {
                                                    image: image,
                                                    actionButtonTitle: actionButtonTitle,
                                                    actionButtonAction: actionButtonAction,
-                                                   messageButtonAction: messageButtonAction,
-                                                   dismissAction: dismissAction)
+                                                   messageButtonAction: messageButtonAction)
 
         VStack {
             notification
@@ -138,7 +136,6 @@ struct NotificationDemoView: View {
                              image: image,
                              actionButtonTitle: actionButtonTitle,
                              actionButtonAction: actionButtonAction,
-                             messageButtonAction: messageButtonAction,
-                             dismissAction: dismissAction)
+                             messageButtonAction: messageButtonAction)
     }
 }

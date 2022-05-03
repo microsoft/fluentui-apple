@@ -16,7 +16,7 @@ import UIKit
     @objc public init(style: MSFNotificationStyle,
                       message: String) {
         notification = NotificationViewSwiftUI(style: style, message: message)
-        super.init(AnyView(notification))
+        super.init(AnyView(notification))//, disableSafeAreaInsets: false)
     }
 
     required public init?(coder: NSCoder) {
@@ -56,13 +56,10 @@ import UIKit
 
         var constraints = [NSLayoutConstraint]()
         constraints.append(animated ? constraintWhenHidden : constraintWhenShown)
-        if style.needsFullWidth {
-            constraints.append(self.leadingAnchor.constraint(equalTo: view.leadingAnchor))
-            constraints.append(self.trailingAnchor.constraint(equalTo: view.trailingAnchor))
-        } else {
-            constraints.append(self.centerXAnchor.constraint(equalTo: view.centerXAnchor))
-            constraints.append(self.widthAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.widthAnchor, constant: -2 * presentationOffset))
-        }
+        constraints.append(self.leadingAnchor.constraint(equalTo: view.leadingAnchor))
+        constraints.append(self.trailingAnchor.constraint(equalTo: view.trailingAnchor))
+        constraints.append(self.heightAnchor.constraint(equalToConstant: super.intrinsicContentSize.height))
+//        constraints.append(self.heightAnchor.constraint(equalTo: super.heightAnchor))
         NSLayoutConstraint.activate(constraints)
 
         if style.isToast {
@@ -91,21 +88,12 @@ import UIKit
     }
 
     @objc public func hide(after delay: TimeInterval = 0, completion: (() -> Void)? = nil) {
-        let hideDelay: TimeInterval = {
-            switch state.style {
-            case .primaryToast, .primaryBar, .primaryOutlineBar, .neutralBar:
-                return delay
-            case .neutralToast, .dangerToast, .warningToast:
-                return (delay == 0) ? delay : .infinity
-            }
-        }()
-
-        guard self.window != nil && constraintWhenHidden != nil && hideDelay != .infinity else {
+        guard self.window != nil && constraintWhenHidden != nil else {
             return
         }
 
-        guard hideDelay == 0 else {
-            DispatchQueue.main.asyncAfter(deadline: .now() + hideDelay) { [weak self] in
+        guard delay == 0 else {
+            DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [weak self] in
                 self?.hide(completion: completion)
             }
             return
