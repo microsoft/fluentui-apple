@@ -12,9 +12,6 @@
 "Accessibility.Dismiss.Hint" = "Poklepáním zavřete.";
 "Accessibility.Done.Label" = "Hotovo";
 "Accessibility.MultiSelect.Hint" = "Výběr přepnete dvojitým poklepáním";
-"Accessibility.Select.Hint" = "Poklepáním vyberete.";
-"Accessibility.Selected.Hint" = "Poklepání zobrazíte podrobnosti.";
-"Accessibility.Selected.Value" = "Vybráno";
 
 /* Accessibility label for the upper calendar date picker view. */
 "Accessibility.Calendar.Label" = "Kalendář";

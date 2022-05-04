@@ -40,7 +40,6 @@ class DemoAppearanceController: UIHostingController<DemoAppearanceView>, Observa
         self.configuration = configuration
 
         super.init(rootView: DemoAppearanceView(configuration: configuration))
-//        self.rootView = updatedAppearanceView
 
         configuration.onThemeChanged = self.onThemeChanged
         configuration.onUserInterfaceStyleChanged = self.onUserInterfaceStyleChanged

@@ -12,9 +12,6 @@
 "Accessibility.Dismiss.Hint" = "Πατήστε δύο φορές για κλείσιμο";
 "Accessibility.Done.Label" = "Τέλος";
 "Accessibility.MultiSelect.Hint" = "Πατήστε δύο φορές για εναλλαγή της επιλογής";
-"Accessibility.Select.Hint" = "Πατήστε δύο φορές για επιλογή";
-"Accessibility.Selected.Hint" = "Πατήστε δύο φορές για εμφάνιση λεπτομερειών";
-"Accessibility.Selected.Value" = "Επιλεγμένο";
 
 /* Accessibility label for the upper calendar date picker view. */
 "Accessibility.Calendar.Label" = "Ημερολόγιο";

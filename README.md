@@ -57,46 +57,8 @@ For Objective-C
 #import <FluentUI/FluentUI-Swift.h>
 ```
 
-## Contributing
-
-Post bug reports, feature requests, and questions in [Issues](https://github.com/microsoft/fluentui-apple/issues).
-
-This project welcomes contributions and suggestions.  Most contributions require you to agree to a
-Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit https://cla.opensource.microsoft.com.
-
-When you submit a pull request, a CLA bot will automatically determine whether you need to provide
-a CLA and decorate the PR appropriately (e.g., status check, comment). Simply follow the instructions
-provided by the bot. You will only need to do this once across all repos using our CLA.
-
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
-For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
-contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
-
-### CocoaPods Setup
-
-If you are using Apple Silicon M1 machine then you need to install `ffi` in addition to CocoaPods. More details about the issue can be found [here](https://github.com/ffi/ffi/issues/870).
-
-```bash
-sudo arch -x86_64 gem install ffi
-```
-
-To execute any pod command on M1 machine you need to specify the architecture of the machine explicitly
-
-```bash
-arch -x86_64 pod lib lint
-```
-
-### Developing in the repo
-
-Fluent UI Apple requires all [pull requests](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-requests) to come from forks of the repository. Please see [Fork a Repo - GitHub Help](https://help.github.com/en/github/getting-started-with-github/fork-a-repo) for more details on how to set up a fork of Microsoft/fluentui-apple, keep it up-to-date, and submit pull requests back to this repository.
-
-Fluent UI Apple doesn't have any external code dependencies, so developing in the repository is as easy as launching the appropriate Xcode project or workspace and building and running a test app.
-
+## List of Available Controls
 For more platform-specific information, please see [the iOS readme file](ios/README.md) and the [the macOS readme file](macos/README.md).
-
-#### Swift Lint
-This project uses [SwiftLint](https://github.com/realm/SwiftLint) to automatically lint our Swift code for common errors. Please install it when developing in this repo by following the [SwiftLint Installation Instructions](https://realm.github.io/SwiftLint/).
 
 ## Changelog
 

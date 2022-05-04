@@ -313,6 +313,7 @@ struct MSFListCellView: View, ConfigurableTokenizedControl {
                         }
                         if !title.isEmpty {
                             Text(title)
+                                .animation(nil, value: title)
                                 .font(.fluent(tokens.labelFont))
                                 .foregroundColor(labelColor)
                                 .lineLimit(state.titleLineLimit == 0 ? nil : state.titleLineLimit)

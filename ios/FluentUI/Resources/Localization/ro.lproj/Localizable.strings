@@ -12,9 +12,6 @@
 "Accessibility.Dismiss.Hint" = "Atingeți de două ori pentru a îndepărta";
 "Accessibility.Done.Label" = "Gata";
 "Accessibility.MultiSelect.Hint" = "Atingeți de două ori pentru a comuta selecția";
-"Accessibility.Select.Hint" = "Atingeți de două ori pentru a selecta";
-"Accessibility.Selected.Hint" = "Atingeți de două ori pentru a vedea detaliile";
-"Accessibility.Selected.Value" = "Selectat";
 
 /* Accessibility label for the upper calendar date picker view. */
 "Accessibility.Calendar.Label" = "Calendar";
