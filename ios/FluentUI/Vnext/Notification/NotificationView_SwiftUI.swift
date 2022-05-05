@@ -44,7 +44,6 @@ public struct NotificationViewSwiftUI: View, ConfigurableTokenizedControl {
     @Binding var isPresented: Bool
     @State private var bottomOffsetForDismissedState: CGFloat = 0
     @State private var bottomOffset: CGFloat = 0
-    @State private var maxWidth: CGFloat = 0
     let defaultTokens: NotificationTokens = .init()
     var tokens: NotificationTokens {
         let tokens = resolvedTokens
@@ -52,12 +51,21 @@ public struct NotificationViewSwiftUI: View, ConfigurableTokenizedControl {
         return tokens
     }
 
+    // When true, the notification view will take up all proposed space
+    // and automatically position itself within it.
+    // isPresented only works when shouldPresentItself is true.
+    //
+    // When false, the view will have a fitting, flexible width and self-sized height.
+    // In this mode the notification should be positioned and presented externally.
+    let shouldPresentItself: Bool
+
     public func overrideTokens(_ tokens: NotificationTokens?) -> NotificationViewSwiftUI {
         state.overrideTokens = tokens
         return self
     }
 
     public init(style: MSFNotificationStyle,
+                shouldPresentItself: Bool = true,
                 message: String,
                 isPresented: Binding<Bool>? = nil,
                 title: String = "",
@@ -72,6 +80,7 @@ public struct NotificationViewSwiftUI: View, ConfigurableTokenizedControl {
         state.actionButtonAction = actionButtonAction
         state.messageButtonAction = messageButtonAction
         self.state = state
+        self.shouldPresentItself = shouldPresentItself
 
         if let isPresented = isPresented {
             _isPresented = isPresented
@@ -81,73 +90,65 @@ public struct NotificationViewSwiftUI: View, ConfigurableTokenizedControl {
     }
 
     public var body: some View {
-        ZStack {
-            if #available(iOS 15.0, *) {
-                Color.clear.background {
-                    GeometryReader { geometryReader in
-                        Color.clear.preference(key: WidthPreferenceKey.self, value: geometryReader.size.width)
-                    }
-                }
-                .frame(height: 0)
-                .onPreferenceChange(WidthPreferenceKey.self) { grWidth in
-                    maxWidth = grWidth
-                }
-                let width: CGFloat = {
-                    let isFullLength = state.style.isToast && horizontalSizeClass == .regular
-                    return isFullLength ? maxWidth / 2 : maxWidth - (2 * tokens.presentationOffset)
+        if !shouldPresentItself {
+            notification
+        } else {
+            GeometryReader { proxy in
+                let proposedSize = proxy.size
+                let proposedWidth = proposedSize.width
+                let calculatedNotificationWidth: CGFloat = {
+                    let isHalfLength = state.style.isToast && horizontalSizeClass == .regular
+                    return isHalfLength ? proposedWidth / 2 : proposedWidth - (2 * tokens.presentationOffset)
                 }()
-                let cornerRadius = tokens.cornerRadius
-                let ambientShadowOffsetY = tokens.ambientShadowOffsetY
 
-                VStack {
-//                    Spacer()
-                    innerContents
-                        .onTapGesture {
-                            if let messageAction = state.messageButtonAction {
-                                isPresented = false
-                                messageAction()
-                            }
+                notification
+                    .frame(width: calculatedNotificationWidth, alignment: .center)
+                    .onChange(of: isPresented, perform: { present in
+                        if present {
+                            presentAnimated()
+                        } else {
+                            dismissAnimated()
                         }
-                        .frame(width: width, alignment: .bottom)
-                        .background(
-                            RoundedRectangle(cornerRadius: cornerRadius)
-                                .strokeBorder(Color(dynamicColor: tokens.outlineColor), lineWidth: tokens.outlineWidth)
-                                .background(
-                                    RoundedRectangle(cornerRadius: cornerRadius)
-                                        .fill(Color(dynamicColor: tokens.backgroundColor))
-                                )
-                                .shadow(color: Color(dynamicColor: tokens.ambientShadowColor),
-                                        radius: tokens.ambientShadowBlur,
-                                        x: tokens.ambientShadowOffsetX,
-                                        y: ambientShadowOffsetY)
-                                .shadow(color: Color(dynamicColor: tokens.perimeterShadowColor),
-                                        radius: tokens.perimeterShadowBlur,
-                                        x: tokens.perimeterShadowOffsetX,
-                                        y: tokens.perimeterShadowOffsetY)
-                        )
-                        .onChange(of: isPresented, perform: { present in
-                            if present {
-                                presentAnimated()
-                            } else {
-                                dismissAnimated()
-                            }
-                        })
-                        .padding(.bottom, tokens.bottomPresentationPadding)
-                        .onSizeChange { newSize in
-                            bottomOffsetForDismissedState = newSize.height + (ambientShadowOffsetY / 2)
-                            // Bottom offset is only updated when the notification isn't presented to account for the new notification height (if presented, offset doesn't need to be updated since it grows upward vertically)
-                            if !isPresented {
-                                bottomOffset = bottomOffsetForDismissedState
-                            }
+                    })
+                    .padding(.bottom, tokens.bottomPresentationPadding)
+                    .onSizeChange { newSize in
+                        bottomOffsetForDismissedState = newSize.height + (tokens.ambientShadowOffsetY / 2)
+                        // Bottom offset is only updated when the notification isn't presented to account for the new notification height (if presented, offset doesn't need to be updated since it grows upward vertically)
+                        if !isPresented {
+                            bottomOffset = bottomOffsetForDismissedState
                         }
-                        .frame(maxHeight: .infinity,
-                               alignment: .bottom)
-                        .offset(y: bottomOffset)
-                }
-            } else {
-                // Fallback on earlier versions
+                    }
+                    .offset(y: bottomOffset)
+                    .frame(width: proposedWidth, height: proposedSize.height, alignment: .bottom)
             }
         }
+    }
+
+    public var notification: some View {
+        innerContents
+            .background(
+                RoundedRectangle(cornerRadius: tokens.cornerRadius)
+                    .strokeBorder(Color(dynamicColor: tokens.outlineColor), lineWidth: tokens.outlineWidth)
+                    .background(
+                        RoundedRectangle(cornerRadius: tokens.cornerRadius)
+                            .fill(Color(dynamicColor: tokens.backgroundColor))
+                    )
+                    .shadow(color: Color(dynamicColor: tokens.ambientShadowColor),
+                            radius: tokens.ambientShadowBlur,
+                            x: tokens.ambientShadowOffsetX,
+                            y: tokens.ambientShadowOffsetY)
+                    .shadow(color: Color(dynamicColor: tokens.perimeterShadowColor),
+                            radius: tokens.perimeterShadowBlur,
+                            x: tokens.perimeterShadowOffsetX,
+                            y: tokens.perimeterShadowOffsetY)
+            )
+            .onTapGesture {
+                if let messageAction = state.messageButtonAction {
+                    isPresented = false
+                    messageAction()
+                }
+            }
+
     }
 
     @ViewBuilder
@@ -233,7 +234,12 @@ public struct NotificationViewSwiftUI: View, ConfigurableTokenizedControl {
     @ViewBuilder
     private var innerContents: some View {
         if hasCenteredText {
-            textContainer
+            HStack {
+                Spacer()
+                textContainer
+                Spacer()
+            }
+            .frame(minHeight: tokens.minimumHeight)
         } else {
             HStack(spacing: tokens.horizontalSpacing) {
                 image
@@ -318,13 +324,5 @@ class MSFNotificationStateImpl: NSObject, ControlConfiguration, MSFNotificationS
         self.actionButtonTitle = actionButtonTitle
         self.actionButtonAction = actionButtonAction
         self.messageButtonAction = messageButtonAction
-    }
-}
-
-struct WidthPreferenceKey: PreferenceKey {
-    static var defaultValue: CGFloat = 0
-
-    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
-        value += nextValue()
     }
 }

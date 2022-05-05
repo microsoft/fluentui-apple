@@ -15,8 +15,8 @@ import UIKit
     ///   - message: The primary text to display in the Notification.
     @objc public init(style: MSFNotificationStyle,
                       message: String) {
-        notification = NotificationViewSwiftUI(style: style, message: message)
-        super.init(AnyView(notification))//, disableSafeAreaInsets: false)
+        notification = NotificationViewSwiftUI(style: style, shouldPresentItself: false, message: message)
+        super.init(AnyView(notification))
     }
 
     required public init?(coder: NSCoder) {
@@ -28,7 +28,6 @@ import UIKit
     }
 
     // MARK: - Show/Hide Methods
-
     public func showNotification(in view: UIView, completion: ((MSFNotification) -> Void)? = nil) {
         guard self.window == nil else {
             return
@@ -56,10 +55,15 @@ import UIKit
 
         var constraints = [NSLayoutConstraint]()
         constraints.append(animated ? constraintWhenHidden : constraintWhenShown)
-        constraints.append(self.leadingAnchor.constraint(equalTo: view.leadingAnchor))
-        constraints.append(self.trailingAnchor.constraint(equalTo: view.trailingAnchor))
-        constraints.append(self.heightAnchor.constraint(equalToConstant: super.intrinsicContentSize.height))
-//        constraints.append(self.heightAnchor.constraint(equalTo: super.heightAnchor))
+        constraints.append(self.centerXAnchor.constraint(equalTo: view.centerXAnchor))
+
+        let isHalfLength = state.style.isToast && traitCollection.horizontalSizeClass == .regular
+        if isHalfLength {
+            constraints.append(self.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.5))
+        } else {
+            let padding = notification.tokens.presentationOffset
+            constraints.append(self.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -2 * padding))
+        }
         NSLayoutConstraint.activate(constraints)
 
         if style.isToast {
@@ -72,7 +76,7 @@ import UIKit
         }
 
         if animated {
-        view.layoutIfNeeded()
+            view.layoutIfNeeded()
             UIView.animate(withDuration: style.animationDurationForShow,
                            delay: 0,
                            usingSpringWithDamping: style.animationDampingRatio,
@@ -126,7 +130,6 @@ import UIKit
     }
 
     // MARK: - Private variables
-
     private static var allowsMultipleToasts: Bool = false
     private static var currentToast: MSFNotification? {
         didSet {
