@@ -104,7 +104,6 @@ class PillButtonBarDemoController: DemoController {
             }
         }()
         let backgroundView = ColoredPillBackgroundView(style: backgroundStyle)
-
         backgroundView.addSubview(bar)
         let margins = UIEdgeInsets(top: 16.0, left: 0, bottom: 16.0, right: 0.0)
         fitViewIntoSuperview(bar, margins: margins)

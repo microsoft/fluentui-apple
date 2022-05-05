@@ -44,6 +44,7 @@ struct DemoAppearanceView: View {
     var contents: some View {
         VStack {
             appColorSchemePicker
+
             FluentDivider()
                 .padding()
 
