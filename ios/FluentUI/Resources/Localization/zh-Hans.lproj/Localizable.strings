@@ -12,9 +12,6 @@
 "Accessibility.Dismiss.Hint" = "双击以关闭";
 "Accessibility.Done.Label" = "完成";
 "Accessibility.MultiSelect.Hint" = "双击以切换所选内容";
-"Accessibility.Select.Hint" = "双击进行选择";
-"Accessibility.Selected.Hint" = "双击以查看详细信息";
-"Accessibility.Selected.Value" = "已选择";
 
 /* Accessibility label for the upper calendar date picker view. */
 "Accessibility.Calendar.Label" = "日历";

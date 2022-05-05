@@ -84,7 +84,7 @@ class HUDDemoController: DemoTableViewController {
         }
     }
 
-    @objc private func showActivityHUD(sender: UIButton) {
+    @objc private func showActivityHUD() {
         HUD.shared.show(from: self,
                         with: HUDParams(caption: "Loading for 3 seconds"))
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {

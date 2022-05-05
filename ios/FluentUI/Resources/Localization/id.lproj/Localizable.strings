@@ -12,9 +12,6 @@
 "Accessibility.Dismiss.Hint" = "Ketuk dua kali untuk menutup";
 "Accessibility.Done.Label" = "Selesai";
 "Accessibility.MultiSelect.Hint" = "Ketuk dua kali untuk mematikan/menghidupkan pilihan";
-"Accessibility.Select.Hint" = "Ketuk dua kali untuk memilih";
-"Accessibility.Selected.Hint" = "Ketuk dua kali untuk melihat detail";
-"Accessibility.Selected.Value" = "Dipilih";
 
 /* Accessibility label for the upper calendar date picker view. */
 "Accessibility.Calendar.Label" = "Kalender";

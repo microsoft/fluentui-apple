@@ -15,7 +15,7 @@ class TableViewHeaderFooterViewDemoController: DemoController {
 
     private let segmentedControl: SegmentedControl = {
         let segmentedControl = SegmentedControl(items: TableViewHeaderFooterSampleData.tabTitles.map({return SegmentItem(title: $0)}), style: .primaryPill)
-        segmentedControl.addTarget(self, action: #selector(updateActiveTabContent), for: .valueChanged)
+        segmentedControl.addTarget(TableViewHeaderFooterViewDemoController.self, action: #selector(updateActiveTabContent), for: .valueChanged)
         return segmentedControl
     }()
     private lazy var groupedTableView: UITableView = createTableView(style: .grouped)
