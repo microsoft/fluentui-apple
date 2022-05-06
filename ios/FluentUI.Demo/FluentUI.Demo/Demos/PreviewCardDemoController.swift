@@ -20,6 +20,7 @@ class PreviewCardDemoController: DemoTableViewController {
         let previewElevatedCard = MSFPreviewCard(theme: nil, isElevated: true)
         let previewFlatCardView = previewFlatCard.view
         let previewElevatedCardView = previewElevatedCard.view
+        view.backgroundColor = Colors.surfaceSecondary
         view.addSubview(previewFlatCardView)
         view.addSubview(previewElevatedCardView)
         previewFlatCardView.translatesAutoresizingMaskIntoConstraints = false
