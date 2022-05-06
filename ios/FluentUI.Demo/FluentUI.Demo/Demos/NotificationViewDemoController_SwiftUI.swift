@@ -36,14 +36,13 @@ struct NotificationDemoView: View {
         let image = showImage ? UIImage(named: "play-in-circle-24x24") : nil
         let actionButtonAction = hasActionButtonAction ? { showAlert = true } : nil
         let messageButtonAction = hasMessageAction ? { showAlert = true } : nil
-
-        let notification = NotificationViewSwiftUI(style: style,
-                                                   message: message,
-                                                   title: title,
-                                                   image: image,
-                                                   actionButtonTitle: actionButtonTitle,
-                                                   actionButtonAction: actionButtonAction,
-                                                   messageButtonAction: messageButtonAction)
+        let notification = FluentNotification(style: style,
+                                              message: message,
+                                              title: title,
+                                              image: image,
+                                              actionButtonTitle: actionButtonTitle,
+                                              actionButtonAction: actionButtonAction,
+                                              messageButtonAction: messageButtonAction)
 
         VStack {
             notification

@@ -31,14 +31,14 @@ public extension View {
                              dismissAction: (() -> Void)? = nil) -> some View {
         self.presentingView(isPresented: isPresented,
                             isBlocking: isBlocking) {
-            NotificationViewSwiftUI(style: style,
-                                    message: message,
-                                    isPresented: isPresented,
-                                    title: title,
-                                    image: image,
-                                    actionButtonTitle: actionButtonTitle,
-                                    actionButtonAction: actionButtonAction,
-                                    messageButtonAction: messageButtonAction)
+            FluentNotification(style: style,
+                               message: message,
+                               isPresented: isPresented,
+                               title: title,
+                               image: image,
+                               actionButtonTitle: actionButtonTitle,
+                               actionButtonAction: actionButtonAction,
+                               messageButtonAction: messageButtonAction)
         }
     }
 }

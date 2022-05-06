@@ -37,35 +37,14 @@ import SwiftUI
 }
 
 /// View that represents the Notification.
-public struct NotificationViewSwiftUI: View, ConfigurableTokenizedControl {
-    @Environment(\.horizontalSizeClass) var horizontalSizeClass: UserInterfaceSizeClass?
-    @Environment(\.fluentTheme) var fluentTheme: FluentTheme
-    @ObservedObject var state: MSFNotificationStateImpl
-    @Binding var isPresented: Bool
-    @State private var bottomOffsetForDismissedState: CGFloat = 0
-    @State private var bottomOffset: CGFloat = 0
-    let defaultTokens: NotificationTokens = .init()
-    var tokens: NotificationTokens {
-        let tokens = resolvedTokens
-        tokens.style = state.style
-        return tokens
-    }
-
-    // When true, the notification view will take up all proposed space
-    // and automatically position itself within it.
-    // isPresented only works when shouldPresentItself is true.
-    //
-    // When false, the view will have a fitting, flexible width and self-sized height.
-    // In this mode the notification should be positioned and presented externally.
-    let shouldPresentItself: Bool
-
-    public func overrideTokens(_ tokens: NotificationTokens?) -> NotificationViewSwiftUI {
+public struct FluentNotification: View, ConfigurableTokenizedControl {
+    public func overrideTokens(_ tokens: NotificationTokens?) -> FluentNotification {
         state.overrideTokens = tokens
         return self
     }
 
     public init(style: MSFNotificationStyle,
-                shouldPresentItself: Bool = true,
+                shouldSelfPresent: Bool = true,
                 message: String,
                 isPresented: Binding<Bool>? = nil,
                 title: String = "",
@@ -80,7 +59,7 @@ public struct NotificationViewSwiftUI: View, ConfigurableTokenizedControl {
         state.actionButtonAction = actionButtonAction
         state.messageButtonAction = messageButtonAction
         self.state = state
-        self.shouldPresentItself = shouldPresentItself
+        self.shouldSelfPresent = shouldSelfPresent
 
         if let isPresented = isPresented {
             _isPresented = isPresented
@@ -90,7 +69,7 @@ public struct NotificationViewSwiftUI: View, ConfigurableTokenizedControl {
     }
 
     public var body: some View {
-        if !shouldPresentItself {
+        if !shouldSelfPresent {
             notification
         } else {
             GeometryReader { proxy in
@@ -124,7 +103,17 @@ public struct NotificationViewSwiftUI: View, ConfigurableTokenizedControl {
         }
     }
 
-    public var notification: some View {
+    @Environment(\.fluentTheme) var fluentTheme: FluentTheme
+    @ObservedObject var state: MSFNotificationStateImpl
+    let defaultTokens: NotificationTokens = .init()
+    var tokens: NotificationTokens {
+        let tokens = resolvedTokens
+        tokens.style = state.style
+        return tokens
+    }
+
+    @ViewBuilder
+    private var notification: some View {
         innerContents
             .background(
                 RoundedRectangle(cornerRadius: tokens.cornerRadius)
@@ -148,7 +137,6 @@ public struct NotificationViewSwiftUI: View, ConfigurableTokenizedControl {
                     messageAction()
                 }
             }
-
     }
 
     @ViewBuilder
@@ -277,6 +265,19 @@ public struct NotificationViewSwiftUI: View, ConfigurableTokenizedControl {
             bottomOffset = bottomOffsetForDismissedState
         }
     }
+
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass: UserInterfaceSizeClass?
+    @Binding private var isPresented: Bool
+    @State private var bottomOffsetForDismissedState: CGFloat = 0
+    @State private var bottomOffset: CGFloat = 0
+
+    // When true, the notification view will take up all proposed space
+    // and automatically position itself within it.
+    // isPresented only works when shouldSelfPresent is true.
+    //
+    // When false, the view will have a fitting, flexible width and self-sized height.
+    // In this mode the notification should be positioned and presented externally.
+    private let shouldSelfPresent: Bool
 }
 
 class MSFNotificationStateImpl: NSObject, ControlConfiguration, MSFNotificationState {

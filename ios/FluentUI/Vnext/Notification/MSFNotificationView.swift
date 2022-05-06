@@ -15,7 +15,9 @@ import UIKit
     ///   - message: The primary text to display in the Notification.
     @objc public init(style: MSFNotificationStyle,
                       message: String) {
-        notification = NotificationViewSwiftUI(style: style, shouldPresentItself: false, message: message)
+        notification = FluentNotification(style: style,
+                                          shouldSelfPresent: false,
+                                          message: message)
         super.init(AnyView(notification))
     }
 
@@ -144,6 +146,6 @@ import UIKit
     private var completionsForHide: [() -> Void] = []
     private var constraintWhenHidden: NSLayoutConstraint!
     private var constraintWhenShown: NSLayoutConstraint!
-    private var notification: NotificationViewSwiftUI!
+    private var notification: FluentNotification!
     private var isHiding: Bool = false
 }
