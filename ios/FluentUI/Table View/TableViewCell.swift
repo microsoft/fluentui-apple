@@ -1053,12 +1053,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     }
 
     public required init?(coder aDecoder: NSCoder) {
-//        preconditionFailure("init(coder:) has not been implemented")
-        let tokens = TableViewCellTokens()
-        self.tokens = tokens
-
-        super.init(coder: aDecoder)
-        initialize()
+        preconditionFailure("init(coder:) has not been implemented")
     }
 
     open func initialize() {
