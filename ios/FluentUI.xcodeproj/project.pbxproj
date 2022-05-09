@@ -1066,8 +1066,8 @@
 			children = (
 				B498141321E424920077B48D /* TableViewCell.swift */,
 				B4EF66502294A664007FEAB0 /* TableViewHeaderFooterView.swift */,
-				B444D6B02181403C0002B4D4 /* UITableViewCell+Extension.swift */,
 				2A9745DD281733D700E1A1FD /* TableViewTokens.swift */,
+                B444D6B02181403C0002B4D4 /* UITableViewCell+Extension.swift */,
 			);
 			path = "Table View";
 			sourceTree = "<group>";
