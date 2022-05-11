@@ -170,15 +170,6 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         case threeLines
 
         var customViewSize: CustomViewSize { return self == .oneLine ? .small : .medium }
-
-        var subtitleTextStyle: TextStyle {
-            switch self {
-            case .oneLine, .twoLines:
-                return TextStyles.subtitleTwoLines
-            case .threeLines:
-                return TextStyles.subtitleThreeLines
-            }
-        }
     }
 
     struct TextStyles {
@@ -344,7 +335,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                                    trailingAccessoryView: titleTrailingAccessoryView,
                                    labelAccessoryViewMarginTrailing: labelAccessoryViewMarginTrailing).height,
             subtitleHeight: labelSize(text: subtitle,
-                                      font: layoutType.subtitleTextStyle.font,
+                                      font: UIFont.fluent(layoutType == .twoLines ? tokens.subtitleTwoLinesFont : tokens.subtitleThreeLinesFont),
                                       numberOfLines: subtitleNumberOfLines,
                                       textAreaWidth: textAreaWidth,
                                       leadingAccessoryView: subtitleLeadingAccessoryView,
@@ -352,7 +343,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                                       trailingAccessoryView: subtitleTrailingAccessoryView,
                                       labelAccessoryViewMarginTrailing: labelAccessoryViewMarginTrailing).height,
             footerHeight: labelSize(text: footer,
-                                    font: TextStyles.footer.font,
+                                    font: UIFont.fluent(tokens.footerFont),
                                     numberOfLines: footerNumberOfLines,
                                     textAreaWidth: textAreaWidth,
                                     leadingAccessoryView: footerLeadingAccessoryView,
@@ -423,7 +414,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                                                      labelAccessoryViewMarginLeading: labelAccessoryViewMarginLeading)
         if layoutType == .twoLines || layoutType == .threeLines {
             let subtitleWidth = Self.labelPreferredWidth(text: subtitle,
-                                                         font: layoutType.subtitleTextStyle.font,
+                                                         font: UIFont.fluent(layoutType == .twoLines ? tokens.subtitleTwoLinesFont : tokens.subtitleThreeLinesFont),
                                                          leadingAccessoryView: subtitleLeadingAccessoryView,
                                                          trailingAccessoryView: subtitleTrailingAccessoryView,
                                                          labelAccessoryViewMarginTrailing: labelAccessoryViewMarginTrailing,
@@ -431,7 +422,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
             textAreaWidth = max(textAreaWidth, subtitleWidth)
             if layoutType == .threeLines {
                 let footerWidth = Self.labelPreferredWidth(text: footer,
-                                                           font: TextStyles.footer.font,
+                                                           font: UIFont.fluent(tokens.footerFont),
                                                            leadingAccessoryView: footerLeadingAccessoryView,
                                                            trailingAccessoryView: footerTrailingAccessoryView,
                                                            labelAccessoryViewMarginTrailing: labelAccessoryViewMarginTrailing,
@@ -940,7 +931,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
             subtitleLabel.isHidden = layoutType == .oneLine
             footerLabel.isHidden = layoutType != .threeLines
 
-            subtitleLabel.style = layoutType.subtitleTextStyle
+            subtitleLabel.font = UIFont.fluent(layoutType == .twoLines ? tokens.subtitleTwoLinesFont : tokens.subtitleThreeLinesFont)
 
             setNeedsLayout()
             invalidateIntrinsicContentSize()
@@ -998,8 +989,8 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
 
     private func updateFonts() {
         titleLabel.font = UIFont.fluent(tokens.titleFont)
-        subtitleLabel.font = UIFont.fluent(tokens.subtitleTwoLines)
-        footerLabel.font = UIFont.fluent(tokens.footer)
+        subtitleLabel.font = UIFont.fluent(layoutType == .twoLines ? tokens.subtitleTwoLinesFont : tokens.subtitleThreeLinesFont)
+        footerLabel.font = UIFont.fluent(tokens.footerFont)
     }
 
     private func updateLabelAccessoryView(oldValue: UIView?, newValue: UIView?, size: inout CGSize) {
@@ -1390,6 +1381,8 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         isInSelectionMode = false
 
         onAccessoryTapped = nil
+
+        updateTokens()
     }
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {

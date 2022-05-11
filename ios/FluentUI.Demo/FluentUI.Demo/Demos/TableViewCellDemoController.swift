@@ -56,6 +56,8 @@ class TableViewCellDemoController: DemoTableViewController {
 
     private var perControlOverride: Bool = false
 
+    private var overrideTokens: TableViewCellTokens?
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -111,10 +113,6 @@ class TableViewCellDemoController: DemoTableViewController {
 }
 
 extension TableViewCellDemoController: DemoAppearanceDelegate {
-    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        perControlOverrideDidChange(isOverrideEnabled: perControlOverride)
-    }
-
     func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
         guard let fluentTheme = self.view.window?.fluentTheme else {
             return
@@ -131,12 +129,8 @@ extension TableViewCellDemoController: DemoAppearanceDelegate {
     }
 
     func perControlOverrideDidChange(isOverrideEnabled: Bool) {
-        perControlOverride = isOverrideEnabled
-        let cells = self.tableView.visibleCells as! [TableViewCell]
-        for cell in cells {
-            let tokens = isOverrideEnabled ? PerControlOverrideTableViewCellTokens() : nil
-            cell.tableViewCellOverrideTokens = tokens
-        }
+        overrideTokens = isOverrideEnabled ? PerControlOverrideTableViewCellTokens() : nil
+        self.tableView.reloadData()
     }
 
     func isThemeWideOverrideApplied() -> Bool {
@@ -211,6 +205,10 @@ extension TableViewCellDemoController {
         cell.bottomSeparatorType = isLastInSection ? .full : .inset
 
         cell.isInSelectionMode = section.allowsMultipleSelection ? isInSelectionMode : false
+
+        if let overrideTokens = overrideTokens {
+            cell.tableViewCellOverrideTokens = overrideTokens
+        }
 
         return cell
     }
