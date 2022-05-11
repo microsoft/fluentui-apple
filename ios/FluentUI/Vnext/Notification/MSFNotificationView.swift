@@ -15,7 +15,9 @@ import UIKit
     ///   - message: The primary text to display in the Notification.
     @objc public init(style: MSFNotificationStyle,
                       message: String) {
-        notification = NotificationViewSwiftUI(style: style, message: message)
+        notification = FluentNotification(style: style,
+                                          shouldSelfPresent: false,
+                                          message: message)
         super.init(AnyView(notification))
     }
 
@@ -28,7 +30,6 @@ import UIKit
     }
 
     // MARK: - Show/Hide Methods
-
     public func showNotification(in view: UIView, completion: ((MSFNotification) -> Void)? = nil) {
         guard self.window == nil else {
             return
@@ -56,12 +57,14 @@ import UIKit
 
         var constraints = [NSLayoutConstraint]()
         constraints.append(animated ? constraintWhenHidden : constraintWhenShown)
-        if style.needsFullWidth {
-            constraints.append(self.leadingAnchor.constraint(equalTo: view.leadingAnchor))
-            constraints.append(self.trailingAnchor.constraint(equalTo: view.trailingAnchor))
+        constraints.append(self.centerXAnchor.constraint(equalTo: view.centerXAnchor))
+
+        let isHalfLength = state.style.isToast && traitCollection.horizontalSizeClass == .regular
+        if isHalfLength {
+            constraints.append(self.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.5))
         } else {
-            constraints.append(self.centerXAnchor.constraint(equalTo: view.centerXAnchor))
-            constraints.append(self.widthAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.widthAnchor, constant: -2 * presentationOffset))
+            let padding = notification.tokens.presentationOffset
+            constraints.append(self.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -2 * padding))
         }
         NSLayoutConstraint.activate(constraints)
 
@@ -75,7 +78,7 @@ import UIKit
         }
 
         if animated {
-        view.layoutIfNeeded()
+            view.layoutIfNeeded()
             UIView.animate(withDuration: style.animationDurationForShow,
                            delay: 0,
                            usingSpringWithDamping: style.animationDampingRatio,
@@ -91,21 +94,12 @@ import UIKit
     }
 
     @objc public func hide(after delay: TimeInterval = 0, completion: (() -> Void)? = nil) {
-        let hideDelay: TimeInterval = {
-            switch state.style {
-            case .primaryToast, .primaryBar, .primaryOutlineBar, .neutralBar:
-                return delay
-            case .neutralToast, .dangerToast, .warningToast:
-                return (delay == 0) ? delay : .infinity
-            }
-        }()
-
-        guard self.window != nil && constraintWhenHidden != nil && hideDelay != .infinity else {
+        guard self.window != nil && constraintWhenHidden != nil else {
             return
         }
 
-        guard hideDelay == 0 else {
-            DispatchQueue.main.asyncAfter(deadline: .now() + hideDelay) { [weak self] in
+        guard delay == 0 else {
+            DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [weak self] in
                 self?.hide(completion: completion)
             }
             return
@@ -138,7 +132,6 @@ import UIKit
     }
 
     // MARK: - Private variables
-
     private static var allowsMultipleToasts: Bool = false
     private static var currentToast: MSFNotification? {
         didSet {
@@ -153,6 +146,6 @@ import UIKit
     private var completionsForHide: [() -> Void] = []
     private var constraintWhenHidden: NSLayoutConstraint!
     private var constraintWhenShown: NSLayoutConstraint!
-    private var notification: NotificationViewSwiftUI!
+    private var notification: FluentNotification!
     private var isHiding: Bool = false
 }

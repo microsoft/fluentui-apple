@@ -6,7 +6,6 @@
 import SwiftUI
 
 public extension View {
-
     /// Presents a Notification on top of the modified View.
     /// - Parameters:
     ///   - style: `MSFNotificationStyle` enum value that defines the style of the Notification being presented.
@@ -18,7 +17,6 @@ public extension View {
     ///   - actionButtonTitle:Title to display in the action button on the trailing edge of the control.
     ///   - actionButtonAction: Action to be dispatched by the action button on the trailing edge of the control.
     ///   - messageButtonAction: Action to be dispatched by tapping on the toast/bar notification.
-    ///   - dismissAction: Action to be dispatched when dismissing toast/bar notification.
     /// - Returns: The modified view with the capability of presenting a Notification.
     func presentNotification(style: MSFNotificationStyle,
                              message: String,
@@ -32,15 +30,22 @@ public extension View {
                              dismissAction: (() -> Void)? = nil) -> some View {
         self.presentingView(isPresented: isPresented,
                             isBlocking: isBlocking) {
-            NotificationViewSwiftUI(style: style,
-                                    message: message,
-                                    isPresented: isPresented,
-                                    title: title,
-                                    image: image,
-                                    actionButtonTitle: actionButtonTitle,
-                                    actionButtonAction: actionButtonAction,
-                                    messageButtonAction: messageButtonAction,
-                                    dismissAction: dismissAction)
+            FluentNotification(style: style,
+                               message: message,
+                               isPresented: isPresented,
+                               title: title,
+                               image: image,
+                               actionButtonTitle: actionButtonTitle,
+                               actionButtonAction: actionButtonAction,
+                               messageButtonAction: messageButtonAction)
         }
+    }
+}
+
+public extension FluentNotification {
+    /// Provides a custom design token set to be used when drawing this control.
+    func overrideTokens(_ tokens: NotificationTokens?) -> FluentNotification {
+        state.overrideTokens = tokens
+        return self
     }
 }

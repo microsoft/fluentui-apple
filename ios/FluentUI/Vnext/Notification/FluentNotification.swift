@@ -32,50 +32,40 @@ import SwiftUI
     /// Action to be dispatched by tapping on the toast/bar notification.
     var messageButtonAction: (() -> Void)? { get set }
 
-    /// Action to be dispatched when dismissing toast/bar notification.
-    var dismissAction: (() -> Void)? { get set }
-
     /// Design token set for this control, to use in place of the control's default Fluent tokens.
     var overrideTokens: NotificationTokens? { get set }
 }
 
 /// View that represents the Notification.
-public struct NotificationViewSwiftUI: View, ConfigurableTokenizedControl {
-    @Environment(\.horizontalSizeClass) var horizontalSizeClass: UserInterfaceSizeClass?
-    @Environment(\.fluentTheme) var fluentTheme: FluentTheme
-    @ObservedObject var state: MSFNotificationStateImpl
-    @Binding var isPresented: Bool
-    @State private var bottomOffsetForDismissedState: CGFloat = 0
-    @State private var bottomOffset: CGFloat = 0
-    let defaultTokens: NotificationTokens = .init()
-    var tokens: NotificationTokens {
-        let tokens = resolvedTokens
-        tokens.style = state.style
-        return tokens
-    }
-
-    public func overrideTokens(_ tokens: NotificationTokens?) -> NotificationViewSwiftUI {
-        state.overrideTokens = tokens
-        return self
-    }
-
+public struct FluentNotification: View, ConfigurableTokenizedControl {
+    /// Creates the FluentNotification
+    /// - Parameters:
+    ///   - style: `MSFNotificationStyle` enum value that defines the style of the Notification being presented.
+    ///   - shouldSelfPresent: Whether the notification should  present itself (SwiftUI environment) or externally (UIKit environment)
+    ///   - message: Text for the main title area of the control. If there is a title, the message becomes subtext.
+    ///   - isPresented: Controls whether the Notification is being presented.
+    ///   - title: Optional text to draw above the message area.
+    ///   - image: Optional icon to draw at the leading edge of the control.
+    ///   - actionButtonTitle:Title to display in the action button on the trailing edge of the control.
+    ///   - actionButtonAction: Action to be dispatched by the action button on the trailing edge of the control.
+    ///   - messageButtonAction: Action to be dispatched by tapping on the toast/bar notification.
     public init(style: MSFNotificationStyle,
+                shouldSelfPresent: Bool = true,
                 message: String,
                 isPresented: Binding<Bool>? = nil,
                 title: String = "",
                 image: UIImage? = nil,
                 actionButtonTitle: String = "",
                 actionButtonAction: (() -> Void)? = nil,
-                messageButtonAction: (() -> Void)? = nil,
-                dismissAction: (() -> Void)? = nil) {
+                messageButtonAction: (() -> Void)? = nil) {
         let state = MSFNotificationStateImpl(style: style, message: message)
         state.title = title
         state.image = image
         state.actionButtonTitle = actionButtonTitle
         state.actionButtonAction = actionButtonAction
         state.messageButtonAction = messageButtonAction
-        state.dismissAction = dismissAction
         self.state = state
+        self.shouldSelfPresent = shouldSelfPresent
 
         if let isPresented = isPresented {
             _isPresented = isPresented
@@ -85,62 +75,74 @@ public struct NotificationViewSwiftUI: View, ConfigurableTokenizedControl {
     }
 
     public var body: some View {
-        GeometryReader { geometryReader in
-            let width: CGFloat = {
-                let geometryReaderWidth = geometryReader.size.width
-                let isFullLength = state.style.isToast && horizontalSizeClass == .regular
-                return isFullLength ? geometryReaderWidth / 2 : geometryReaderWidth - (2 * tokens.presentationOffset)
-            }()
-            let cornerRadius = tokens.cornerRadius
-            let ambientShadowOffsetY = tokens.ambientShadowOffsetY
-            let geometryReaderLocalFrame = geometryReader.frame(in: .local)
+        if !shouldSelfPresent {
+            notification
+        } else {
+            GeometryReader { proxy in
+                let proposedSize = proxy.size
+                let proposedWidth = proposedSize.width
+                let calculatedNotificationWidth: CGFloat = {
+                    let isHalfLength = state.style.isToast && horizontalSizeClass == .regular
+                    return isHalfLength ? proposedWidth / 2 : proposedWidth - (2 * tokens.presentationOffset)
+                }()
 
-            innerContents
-                .onTapGesture {
-                    if let messageAction = state.messageButtonAction, let dismissAction = state.dismissAction {
-                        isPresented = false
-                        dismissAction()
-                        messageAction()
+                notification
+                    .frame(width: calculatedNotificationWidth, alignment: .center)
+                    .onChange(of: isPresented, perform: { present in
+                        if present {
+                            presentAnimated()
+                        } else {
+                            dismissAnimated()
+                        }
+                    })
+                    .padding(.bottom, tokens.bottomPresentationPadding)
+                    .onSizeChange { newSize in
+                        bottomOffsetForDismissedState = newSize.height + (tokens.ambientShadowOffsetY / 2)
+                        // Bottom offset is only updated when the notification isn't presented to account for the new notification height (if presented, offset doesn't need to be updated since it grows upward vertically)
+                        if !isPresented {
+                            bottomOffset = bottomOffsetForDismissedState
+                        }
                     }
-                }
-                .frame(width: width, alignment: .bottom)
-                .background(
-                    RoundedRectangle(cornerRadius: cornerRadius)
-                        .strokeBorder(Color(dynamicColor: tokens.outlineColor), lineWidth: tokens.outlineWidth)
-                        .background(
-                            RoundedRectangle(cornerRadius: cornerRadius)
-                                .fill(Color(dynamicColor: tokens.backgroundColor))
-                        )
-                        .shadow(color: Color(dynamicColor: tokens.ambientShadowColor),
-                                radius: tokens.ambientShadowBlur,
-                                x: tokens.ambientShadowOffsetX,
-                                y: ambientShadowOffsetY)
-                        .shadow(color: Color(dynamicColor: tokens.perimeterShadowColor),
-                                radius: tokens.perimeterShadowBlur,
-                                x: tokens.perimeterShadowOffsetX,
-                                y: tokens.perimeterShadowOffsetY)
-                )
-                .onChange(of: isPresented, perform: { present in
-                    if present {
-                        presentAnimated()
-                    } else {
-                        dismissAnimated()
-                    }
-                })
-                .padding(.bottom, tokens.bottomPresentationPadding)
-                .onSizeChange { newSize in
-                    bottomOffsetForDismissedState = newSize.height + (ambientShadowOffsetY / 2)
-                    // Bottom offset is only updated when the notification isn't presented to account for the new notification height (if presented, offset doesn't need to be updated since it grows upward vertically)
-                    if !isPresented {
-                        bottomOffset = bottomOffsetForDismissedState
-                    }
-                }
-                .frame(maxHeight: .infinity,
-                       alignment: .bottom)
-                .offset(y: bottomOffset)
-                .position(x: geometryReaderLocalFrame.midX,
-                          y: geometryReaderLocalFrame.midY)
+                    .offset(y: bottomOffset)
+                    .frame(width: proposedWidth, height: proposedSize.height, alignment: .bottom)
+            }
         }
+    }
+
+    @Environment(\.fluentTheme) var fluentTheme: FluentTheme
+    @ObservedObject var state: MSFNotificationStateImpl
+    let defaultTokens: NotificationTokens = .init()
+    var tokens: NotificationTokens {
+        let tokens = resolvedTokens
+        tokens.style = state.style
+        return tokens
+    }
+
+    @ViewBuilder
+    private var notification: some View {
+        innerContents
+            .background(
+                RoundedRectangle(cornerRadius: tokens.cornerRadius)
+                    .strokeBorder(Color(dynamicColor: tokens.outlineColor), lineWidth: tokens.outlineWidth)
+                    .background(
+                        RoundedRectangle(cornerRadius: tokens.cornerRadius)
+                            .fill(Color(dynamicColor: tokens.backgroundColor))
+                    )
+                    .shadow(color: Color(dynamicColor: tokens.ambientShadowColor),
+                            radius: tokens.ambientShadowBlur,
+                            x: tokens.ambientShadowOffsetX,
+                            y: tokens.ambientShadowOffsetY)
+                    .shadow(color: Color(dynamicColor: tokens.perimeterShadowColor),
+                            radius: tokens.perimeterShadowBlur,
+                            x: tokens.perimeterShadowOffsetX,
+                            y: tokens.perimeterShadowOffsetY)
+            )
+            .onTapGesture {
+                if let messageAction = state.messageButtonAction {
+                    isPresented = false
+                    messageAction()
+                }
+            }
     }
 
     @ViewBuilder
@@ -193,7 +195,7 @@ public struct NotificationViewSwiftUI: View, ConfigurableTokenizedControl {
 
     @ViewBuilder
     private var button: some View {
-        if let buttonAction = state.actionButtonAction, let actionTitle = state.actionButtonTitle, let dismissAction = state.dismissAction {
+        if let buttonAction = state.actionButtonAction, let actionTitle = state.actionButtonTitle {
             let foregroundColor = tokens.foregroundColor
             let horizontalPadding = tokens.horizontalPadding
             let verticalPadding = tokens.verticalPadding
@@ -201,7 +203,6 @@ public struct NotificationViewSwiftUI: View, ConfigurableTokenizedControl {
             if actionTitle.isEmpty {
                 SwiftUI.Button(action: {
                     isPresented = false
-                    dismissAction()
                     buttonAction()
                 }, label: {
                     Image("dismiss-20x20", bundle: FluentUIFramework.resourceBundle)
@@ -213,7 +214,6 @@ public struct NotificationViewSwiftUI: View, ConfigurableTokenizedControl {
             } else {
                 SwiftUI.Button(actionTitle) {
                     isPresented = false
-                    dismissAction()
                     buttonAction()
                 }
                 .lineLimit(1)
@@ -228,7 +228,12 @@ public struct NotificationViewSwiftUI: View, ConfigurableTokenizedControl {
     @ViewBuilder
     private var innerContents: some View {
         if hasCenteredText {
-            textContainer
+            HStack {
+                Spacer()
+                textContainer
+                Spacer()
+            }
+            .frame(minHeight: tokens.minimumHeight)
         } else {
             HStack(spacing: tokens.horizontalSpacing) {
                 image
@@ -266,6 +271,19 @@ public struct NotificationViewSwiftUI: View, ConfigurableTokenizedControl {
             bottomOffset = bottomOffsetForDismissedState
         }
     }
+
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass: UserInterfaceSizeClass?
+    @Binding private var isPresented: Bool
+    @State private var bottomOffsetForDismissedState: CGFloat = 0
+    @State private var bottomOffset: CGFloat = 0
+
+    // When true, the notification view will take up all proposed space
+    // and automatically position itself within it.
+    // isPresented only works when shouldSelfPresent is true.
+    //
+    // When false, the view will have a fitting, flexible width and self-sized height.
+    // In this mode the notification should be positioned and presented externally.
+    private let shouldSelfPresent: Bool
 }
 
 class MSFNotificationStateImpl: NSObject, ControlConfiguration, MSFNotificationState {
@@ -286,9 +304,6 @@ class MSFNotificationStateImpl: NSObject, ControlConfiguration, MSFNotificationS
     /// Action to be dispatched by tapping on the toast/bar notification.
     @Published public var messageButtonAction: (() -> Void)?
 
-    /// Action to be dispatched when dismissing toast/bar notification.
-    @Published public var dismissAction: (() -> Void)?
-
     /// Design token set for this control, to use in place of the control's default Fluent tokens.
     @Published var overrideTokens: NotificationTokens?
 
@@ -308,8 +323,7 @@ class MSFNotificationStateImpl: NSObject, ControlConfiguration, MSFNotificationS
                      image: UIImage? = nil,
                      actionButtonTitle: String? = nil,
                      actionButtonAction: (() -> Void)? = nil,
-                     messageButtonAction: (() -> Void)? = nil,
-                     dismissAction: (() -> Void)? = nil) {
+                     messageButtonAction: (() -> Void)? = nil) {
         self.init(style: style, message: message)
 
         self.title = title
@@ -317,6 +331,5 @@ class MSFNotificationStateImpl: NSObject, ControlConfiguration, MSFNotificationS
         self.actionButtonTitle = actionButtonTitle
         self.actionButtonAction = actionButtonAction
         self.messageButtonAction = messageButtonAction
-        self.dismissAction = dismissAction
     }
 }
