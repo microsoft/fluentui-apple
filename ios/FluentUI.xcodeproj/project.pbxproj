@@ -578,10 +578,10 @@
 		4BA9B8B5279F2940007536F5 /* Notification */ = {
 			isa = PBXGroup;
 			children = (
+				43488C44270FAD0200124C71 /* FluentNotification.swift */,
 				4BBD651E2755FD9500A8B09E /* MSFNotificationView.swift */,
 				4B53505E27F63E3F0033B47F /* NotificationModifiers.swift */,
 				4BF01D9927B37CF8005B32F2 /* NotificationTokens.swift */,
-				43488C44270FAD0200124C71 /* FluentNotification.swift */,
 			);
 			path = Notification;
 			sourceTree = "<group>";

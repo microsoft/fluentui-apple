@@ -38,11 +38,17 @@ import SwiftUI
 
 /// View that represents the Notification.
 public struct FluentNotification: View, ConfigurableTokenizedControl {
-    public func overrideTokens(_ tokens: NotificationTokens?) -> FluentNotification {
-        state.overrideTokens = tokens
-        return self
-    }
-
+    /// Creates the FluentNotification
+    /// - Parameters:
+    ///   - style: `MSFNotificationStyle` enum value that defines the style of the Notification being presented.
+    ///   - shouldSelfPresent: Whether the notification should  present itself (SwiftUI environment) or externally (UIKit environment)
+    ///   - message: Text for the main title area of the control. If there is a title, the message becomes subtext.
+    ///   - isPresented: Controls whether the Notification is being presented.
+    ///   - title: Optional text to draw above the message area.
+    ///   - image: Optional icon to draw at the leading edge of the control.
+    ///   - actionButtonTitle:Title to display in the action button on the trailing edge of the control.
+    ///   - actionButtonAction: Action to be dispatched by the action button on the trailing edge of the control.
+    ///   - messageButtonAction: Action to be dispatched by tapping on the toast/bar notification.
     public init(style: MSFNotificationStyle,
                 shouldSelfPresent: Bool = true,
                 message: String,

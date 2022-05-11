@@ -6,7 +6,6 @@
 import SwiftUI
 
 public extension View {
-
     /// Presents a Notification on top of the modified View.
     /// - Parameters:
     ///   - style: `MSFNotificationStyle` enum value that defines the style of the Notification being presented.
@@ -40,5 +39,13 @@ public extension View {
                                actionButtonAction: actionButtonAction,
                                messageButtonAction: messageButtonAction)
         }
+    }
+}
+
+public extension FluentNotification {
+    /// Provides a custom design token set to be used when drawing this control.
+    func overrideTokens(_ tokens: NotificationTokens?) -> FluentNotification {
+        state.overrideTokens = tokens
+        return self
     }
 }
