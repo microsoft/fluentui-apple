@@ -62,6 +62,13 @@ open class ResizingHandleView: UIView, TokenizedControlInternal {
         return self
     }
 
+    /// Internal custom color to preserve deprecated Drawer API (resizingHandleViewBackgroundColor)
+    var customBackgroundColor: UIColor? {
+        didSet {
+            updateColors()
+        }
+    }
+
     var defaultTokens: ResizingHandleTokens = .init()
     var tokens: ResizingHandleTokens = .init()
     var overrideTokens: ResizingHandleTokens? {
@@ -77,7 +84,7 @@ open class ResizingHandleView: UIView, TokenizedControlInternal {
 
     private func updateColors() {
         markLayer.backgroundColor = UIColor(dynamicColor: tokens.markColor).cgColor
-        backgroundColor = UIColor(dynamicColor: tokens.backgroundColor)
+        backgroundColor = customBackgroundColor ?? UIColor(dynamicColor: tokens.backgroundColor)
     }
 
     @objc private func themeDidChange(_ notification: Notification) {

@@ -248,41 +248,22 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
     }
 
     /// Set `resizingHandleViewBackgroundColor` to customize background color of resizingHandleView if it is shown
-    @objc open var resizingHandleViewBackgroundColor: UIColor {
+    @available(*, deprecated, message: "Customization of the resizing handle view should be done through the resizingHandleViewOverrideTokens")
+    @objc open var resizingHandleViewBackgroundColor: UIColor? {
         didSet {
-            updateResizingHandleTokens()
+            guard let resizingHandleView = resizingHandleView else {
+                return
+            }
+            resizingHandleView.customBackgroundColor = resizingHandleViewBackgroundColor
         }
     }
 
-    /// Set `resizingHandleViewMarkColor` to customize mark color of resizingHandleView if it is shown.
-    @objc open var resizingHandleViewMarkColor: UIColor? {
+    @objc public var resizingHandleViewOverrideTokens: ResizingHandleTokens? {
         didSet {
-            updateResizingHandleTokens()
-        }
-    }
-
-    func updateResizingHandleTokens() {
-        resizingHandleView?.overrideTokens = CustomResizingHandleTokens(backgroundColor: resizingHandleViewBackgroundColor,
-                                                                        markColor: resizingHandleViewMarkColor)
-    }
-
-    class CustomResizingHandleTokens: ResizingHandleTokens {
-        var customBackgroundColor: UIColor?
-        var customMarkColor: UIColor?
-
-        override var markColor: DynamicColor {
-            return customMarkColor?.dynamicColor ?? super.markColor
-        }
-
-        override var backgroundColor: DynamicColor {
-            return customBackgroundColor?.dynamicColor ?? super.backgroundColor
-        }
-
-        convenience init(backgroundColor: UIColor?,
-                         markColor: UIColor?) {
-            self.init()
-            customBackgroundColor = backgroundColor
-            customMarkColor = markColor
+            guard let resizingHandleView = resizingHandleView else {
+                return
+            }
+            resizingHandleView.overrideTokens = resizingHandleViewOverrideTokens
         }
     }
 
@@ -454,7 +435,6 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
         self.presentationDirection = presentationDirection
         self.preferredMaximumExpansionHeight = preferredMaximumHeight
         self.backgroundColor = UIColor(dynamicColor: tokens.drawerContentBackground)
-        self.resizingHandleViewBackgroundColor = UIColor(dynamicColor: tokens.drawerContentBackground)
 
         super.init(nibName: nil, bundle: nil)
 
@@ -476,7 +456,6 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
         self.presentationDirection = presentationDirection
         self.preferredMaximumExpansionHeight = preferredMaximumHeight
         self.backgroundColor = UIColor(dynamicColor: tokens.drawerContentBackground)
-        self.resizingHandleViewBackgroundColor = UIColor(dynamicColor: tokens.drawerContentBackground)
 
         super.init(nibName: nil, bundle: nil)
 
@@ -768,7 +747,8 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
            if showsResizingHandle {
                if resizingHandleView == nil {
                    resizingHandleView = ResizingHandleView()
-                   resizingHandleView?.backgroundColor = resizingHandleViewBackgroundColor
+                   resizingHandleView?.customBackgroundColor = resizingHandleViewBackgroundColor
+                   resizingHandleView?.overrideTokens = resizingHandleViewOverrideTokens
                }
            } else {
                resizingHandleView = nil
@@ -796,7 +776,6 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
 
     private func updateAppearance() {
         view.backgroundColor = backgroundColor
-        resizingHandleView?.backgroundColor = resizingHandleViewBackgroundColor
         // if DrawerController is shown in UIPopoverPresentationController then we want to show different darkElevated color
         if !useCustomBackgroundColor {
             if presentationController is UIPopoverPresentationController {

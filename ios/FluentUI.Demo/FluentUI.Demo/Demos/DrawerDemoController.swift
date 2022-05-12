@@ -470,8 +470,14 @@ class DrawerDemoController: DemoController {
                                    contentController: contentController,
                                    resizingBehavior: .dismissOrExpand)
 
-        drawer.resizingHandleViewBackgroundColor = Colors.navigationBarBackground
+        drawer.resizingHandleViewOverrideTokens = CustomResizingHandleTokens()
         drawer.contentScrollView = personaListView
+    }
+
+    private class CustomResizingHandleTokens: ResizingHandleTokens {
+        override var backgroundColor: DynamicColor {
+            return Colors.navigationBarBackground.dynamicColor ?? super.backgroundColor
+        }
     }
 
     @objc private func handleScreenEdgePan(gesture: UIScreenEdgePanGestureRecognizer) {
