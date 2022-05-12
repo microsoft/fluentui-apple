@@ -193,13 +193,6 @@ open class TabBarView: UIView, TokenizedControlInternal {
 
     private func updateTabBarTokens() {
         tokens = resolvedTokens
-
-        let arrangedSubviews = stackView.arrangedSubviews
-        for subview in arrangedSubviews {
-            if let tabBarItemView = subview as? TabBarItemView {
-                tabBarItemView.overrideTokens = tokens
-            }
-        }
     }
 
     @objc private func themeDidChange(_ notification: Notification) {

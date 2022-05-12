@@ -222,33 +222,6 @@ extension TabBarViewDemoController: DemoAppearanceDelegate {
 
     // MARK: - Custom tokens
     private class ThemeWideOverrideTabBarTokens: TabBarTokens {
-        override var selectedColor: DynamicColor {
-            return .init(light: globalTokens.sharedColors[.burgundy][.tint10],
-                         lightHighContrast: globalTokens.sharedColors[.pumpkin][.tint10],
-                         dark: globalTokens.sharedColors[.darkTeal][.tint40],
-                         darkHighContrast: globalTokens.sharedColors[.teal][.tint40])
-        }
-        override var unselectedColor: DynamicColor {
-            return .init(light: globalTokens.sharedColors[.darkTeal][.tint20],
-                         lightHighContrast: globalTokens.sharedColors[.teal][.tint40],
-                         dark: globalTokens.sharedColors[.pumpkin][.tint40],
-                         darkHighContrast: globalTokens.sharedColors[.burgundy][.tint40])
-        }
-    }
-
-    private class PerControlOverrideTabBarItemTokens: TabBarTokens {
-        override var portraitImageSize: CGFloat {
-            return 14.0
-        }
-
-        override var portraitImageWithLabelSize: CGFloat {
-            return 14.0
-        }
-
-        override var landscapeImageSize: CGFloat {
-            return 14.0
-        }
-
         override var phonePortraitHeight: CGFloat {
             return 35.0
         }
@@ -256,9 +229,15 @@ extension TabBarViewDemoController: DemoAppearanceDelegate {
         override var phoneLandscapeHeight: CGFloat {
             return 35.0
         }
+    }
 
-        override var titleLabelPortrait: FontInfo {
-            return .init(size: 15, weight: .bold)
+    private class PerControlOverrideTabBarItemTokens: TabBarTokens {
+        override var phonePortraitHeight: CGFloat {
+            return 55.0
+        }
+
+        override var phoneLandscapeHeight: CGFloat {
+            return 55.0
         }
     }
 }
