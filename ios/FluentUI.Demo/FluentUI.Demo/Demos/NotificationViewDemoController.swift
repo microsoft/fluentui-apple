@@ -18,6 +18,8 @@ class NotificationViewDemoController: DemoController {
         case neutralBar
         case persistentBarWithAction
         case persistentBarWithCancel
+        case primaryToastWithStrikethroughAttribute
+        case neutralBarWithFontAttribute
 
         var displayText: String {
             switch self {
@@ -41,7 +43,10 @@ class NotificationViewDemoController: DemoController {
                 return "Persistent Bar with Action"
             case .persistentBarWithCancel:
                 return "Persistent Bar with Cancel"
-
+            case .primaryToastWithStrikethroughAttribute:
+                return "Primary Toast with Strikethrough Attribute"
+            case .neutralBarWithFontAttribute:
+                return "Neutral Bar with Font Attribute"
             }
         }
     }
@@ -83,7 +88,8 @@ class NotificationViewDemoController: DemoController {
     private func createNotificationView(forVariant variant: Variant) -> MSFNotification {
         switch variant {
         case .primaryToast:
-            let notification = MSFNotification(style: .primaryToast, message: "Mail Archived")
+            let notification = MSFNotification(style: .primaryToast)
+            notification.state.message = "Mail Archived"
             notification.state.actionButtonTitle = "Undo"
             notification.state.actionButtonAction = { [weak self] in
                 self?.showMessage("`Undo` tapped")
@@ -91,7 +97,8 @@ class NotificationViewDemoController: DemoController {
             }
             return notification
         case .primaryToastWithImageAndTitle:
-            let notification = MSFNotification(style: .primaryToast, message: "Listen to Emails • 7 mins")
+            let notification = MSFNotification(style: .primaryToast)
+            notification.state.message = "Listen to Emails • 7 mins"
             notification.state.title = "Kat's iPhoneX"
             notification.state.image = UIImage(named: "play-in-circle-24x24")
             notification.state.actionButtonAction = { [weak self] in
@@ -104,7 +111,8 @@ class NotificationViewDemoController: DemoController {
             }
             return notification
         case .neutralToast:
-            let notification = MSFNotification(style: .neutralToast, message: "Some items require you to sign in to view them")
+            let notification = MSFNotification(style: .neutralToast)
+            notification.state.message = "Some items require you to sign in to view them"
             notification.state.actionButtonTitle = "Sign in"
             notification.state.actionButtonAction = { [weak self] in
                 self?.showMessage("`Sign in` tapped")
@@ -112,7 +120,8 @@ class NotificationViewDemoController: DemoController {
             }
             return notification
         case .dangerToast:
-            let notification = MSFNotification(style: .dangerToast, message: "There was a problem, and your recent changes may not have saved")
+            let notification = MSFNotification(style: .dangerToast)
+            notification.state.message = "There was a problem, and your recent changes may not have saved"
             notification.state.actionButtonTitle = "Retry"
             notification.state.actionButtonAction = { [weak self] in
                 self?.showMessage("`Retry` tapped")
@@ -120,23 +129,28 @@ class NotificationViewDemoController: DemoController {
             }
             return notification
         case .warningToast:
-            let notification = MSFNotification(style: .warningToast, message: "Read Only")
+            let notification = MSFNotification(style: .warningToast)
+            notification.state.message = "Read Only"
             notification.state.actionButtonAction = { [weak self] in
                 self?.showMessage("`Dismiss` tapped")
                 notification.hide()
             }
             return notification
         case .primaryBar:
-            let notification = MSFNotification(style: .primaryBar, message: "Updating...")
+            let notification = MSFNotification(style: .primaryBar)
+            notification.state.message = "Updating..."
             return notification
         case .primaryOutlineBar:
-            let notification = MSFNotification(style: .primaryOutlineBar, message: "Mail Sent")
+            let notification = MSFNotification(style: .primaryOutlineBar)
+            notification.state.message = "Mail Sent"
             return notification
         case .neutralBar:
-            let notification = MSFNotification(style: .neutralBar, message: "No internet connection")
+            let notification = MSFNotification(style: .neutralBar)
+            notification.state.message = "No internet connection"
             return notification
         case .persistentBarWithAction:
-            let notification = MSFNotification(style: .neutralBar, message: "This error can be taken action on with the action on the right.")
+            let notification = MSFNotification(style: .neutralBar)
+            notification.state.message = "This error can be taken action on with the action on the right."
             notification.state.actionButtonTitle = "Action"
             notification.state.actionButtonAction = { [weak self] in
                 self?.showMessage("`Action` tapped")
@@ -144,12 +158,29 @@ class NotificationViewDemoController: DemoController {
             }
             return notification
         case .persistentBarWithCancel:
-            let notification = MSFNotification(style: .neutralBar, message: "This error can be tapped or dismissed with the icon to the right.")
+            let notification = MSFNotification(style: .neutralBar)
+            notification.state.message = "This error can be tapped or dismissed with the icon to the right."
             notification.state.actionButtonAction = { [weak self] in
                 self?.showMessage("`Dismiss` tapped")
                 notification.hide()
             }
             notification.state.messageButtonAction = { [weak self] in
+                self?.showMessage("`Dismiss` tapped")
+                notification.hide()
+            }
+            return notification
+        case .primaryToastWithStrikethroughAttribute:
+            let notification = MSFNotification(style: .primaryToast)
+            notification.state.attributedMessage = NSAttributedString(string: "This is a toast with a blue strikethrough attribute.", attributes: [.strikethroughStyle: 1, .strikethroughColor: UIColor.blue])
+            notification.state.actionButtonAction = { [weak self] in
+                self?.showMessage("`Dismiss` tapped")
+                notification.hide()
+            }
+            return notification
+        case .neutralBarWithFontAttribute:
+            let notification = MSFNotification(style: .neutralBar)
+            notification.state.attributedMessage = NSAttributedString(string: "This is a bar with red Papyrus font attribute.", attributes: [.font: UIFont.init(name: "Papyrus", size: 30.0)!, .foregroundColor: UIColor.red])
+            notification.state.actionButtonAction = { [weak self] in
                 self?.showMessage("`Dismiss` tapped")
                 notification.hide()
             }

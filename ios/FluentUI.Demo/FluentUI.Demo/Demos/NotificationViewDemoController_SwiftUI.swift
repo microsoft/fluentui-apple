@@ -27,18 +27,29 @@ struct NotificationDemoView: View {
     @State var message: String = "Mail Archived"
     @State var actionButtonTitle: String = "Undo"
     @State var hasActionButtonAction: Bool = true
+    @State var hasBlueStrikethroughAttribute: Bool = false
+    @State var hasLargeRedPapyrusFontAttribute: Bool = false
     @State var hasMessageAction: Bool = false
     @State var showImage: Bool = false
     @State var showAlert: Bool = false
     @State var isPresented: Bool = false
 
     public var body: some View {
+        let hasAttribute = hasBlueStrikethroughAttribute || hasLargeRedPapyrusFontAttribute
+        let bothAttributes = [NSAttributedString.Key.strikethroughStyle: 1, NSAttributedString.Key.strikethroughColor: UIColor.blue, .font: UIFont.init(name: "Papyrus", size: 30.0)!, .foregroundColor: UIColor.red] as [NSAttributedString.Key: Any]
+        let blueStrikethroughAttribute = [NSAttributedString.Key.strikethroughStyle: 1, NSAttributedString.Key.strikethroughColor: UIColor.blue] as [NSAttributedString.Key: Any]
+        let redPapyrusFontAttribute = [.font: UIFont.init(name: "Papyrus", size: 30.0)!, .foregroundColor: UIColor.red] as [NSAttributedString.Key: Any]
+        let attributedMessage = NSMutableAttributedString(string: message, attributes: (hasLargeRedPapyrusFontAttribute && hasBlueStrikethroughAttribute) ? bothAttributes : (hasLargeRedPapyrusFontAttribute ? redPapyrusFontAttribute : blueStrikethroughAttribute))
+        let attributedTitle = NSMutableAttributedString(string: title, attributes: (hasLargeRedPapyrusFontAttribute && hasBlueStrikethroughAttribute) ? bothAttributes : (hasLargeRedPapyrusFontAttribute ? redPapyrusFontAttribute : blueStrikethroughAttribute))
+
         let image = showImage ? UIImage(named: "play-in-circle-24x24") : nil
         let actionButtonAction = hasActionButtonAction ? { showAlert = true } : nil
         let messageButtonAction = hasMessageAction ? { showAlert = true } : nil
         let notification = FluentNotification(style: style,
                                               message: message,
+                                              attributedMessage: hasAttribute ? attributedMessage : NSAttributedString(string: ""),
                                               title: title,
+                                              attributedTitle: hasAttribute ? attributedTitle : NSAttributedString(string: ""),
                                               image: image,
                                               actionButtonTitle: actionButtonTitle,
                                               actionButtonAction: actionButtonAction,
@@ -89,6 +100,8 @@ struct NotificationDemoView: View {
                             .disableAutocorrection(true)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
 
+                        FluentUIDemoToggle(titleKey: "Has Attributed Text: Strikethrough", isOn: $hasBlueStrikethroughAttribute)
+                        FluentUIDemoToggle(titleKey: "Has Attributed Text: LargeRed Papyrus Font", isOn: $hasLargeRedPapyrusFontAttribute)
                         FluentUIDemoToggle(titleKey: "Set image", isOn: $showImage)
                     }
 
@@ -129,9 +142,11 @@ struct NotificationDemoView: View {
         }
         .presentNotification(style: style,
                              message: message,
+                             attributedMessage: hasAttribute ? attributedMessage : NSAttributedString(string: ""),
                              isBlocking: false,
                              isPresented: $isPresented,
                              title: title,
+                             attributedTitle: hasAttribute ? attributedTitle : NSAttributedString(string: ""),
                              image: image,
                              actionButtonTitle: actionButtonTitle,
                              actionButtonAction: actionButtonAction,

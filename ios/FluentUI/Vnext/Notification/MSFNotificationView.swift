@@ -13,11 +13,9 @@ import UIKit
     /// - Parameters:
     ///   - style: The MSFNotification value used by the Notification.
     ///   - message: The primary text to display in the Notification.
-    @objc public init(style: MSFNotificationStyle,
-                      message: String) {
+    @objc public init(style: MSFNotificationStyle) {
         notification = FluentNotification(style: style,
-                                          shouldSelfPresent: false,
-                                          message: message)
+                                          shouldSelfPresent: false)
         super.init(AnyView(notification))
     }
 
