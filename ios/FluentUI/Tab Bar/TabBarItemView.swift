@@ -262,6 +262,7 @@ class TabBarItemView: UIControl, TokenizedControlInternal {
         imageView.highlightedImage = item.selectedImage(isInPortraitMode: isInPortraitMode, labelIsHidden: titleLabel.isHidden)
 
         if isInPortraitMode {
+            container.axis = .vertical
             container.spacing = tokens.spacingVertical
             titleLabel.font = UIFont.fluent(tokens.titleLabelPortrait, shouldScale: false)
 
