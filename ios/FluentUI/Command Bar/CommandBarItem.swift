@@ -62,17 +62,47 @@ open class CommandBarItem: NSObject {
         self.accessibilityHint = accessibilityHint
     }
 
-    @objc public var iconImage: UIImage?
+    @objc public var iconImage: UIImage? {
+        didSet {
+            if iconImage != oldValue {
+                delegate?.commandBarItem(self, didChangeIconImageTo: iconImage)
+            }
+        }
+    }
 
     /// Title for the item. Only valid when `iconImage` is `nil`.
-    @objc public var title: String?
+    @objc public var title: String? {
+        didSet {
+            if title != oldValue {
+                delegate?.commandBarItem(self, didChangeTitleTo: title)
+            }
+        }
+    }
 
-    @objc public var titleFont: UIFont?
+    @objc public var titleFont: UIFont? {
+        didSet {
+            if titleFont != oldValue {
+                delegate?.commandBarItem(self, didChangeTitleFontTo: titleFont)
+            }
+        }
+    }
 
-    @objc public var isEnabled: Bool
+    @objc public var isEnabled: Bool {
+        didSet {
+            if isEnabled != oldValue {
+                delegate?.commandBarItem(self, didChangeEnabledTo: isEnabled)
+            }
+        }
+    }
 
     /// If `isPersistSelection` is `true`, this value would be changed to reflect the selection state of the button. Setting this value before providing to `CommandBar` would set the initial selection state.
-    @objc public var isSelected: Bool
+    @objc public var isSelected: Bool {
+        didSet {
+            if isSelected != oldValue {
+                delegate?.commandBarItem(self, didChangeSelectedTo: isSelected)
+            }
+        }
+    }
 
     /// Set `isSelected` to desired value in this handler. Default implementation is toggling `isSelected` property.
     @objc public var itemTappedHandler: ItemTappedHandler
@@ -90,4 +120,19 @@ open class CommandBarItem: NSObject {
     func handleTapped(_ sender: CommandBarButton) {
         itemTappedHandler(sender, self)
     }
+
+    weak var delegate: CommandBarItemDelegate?
+}
+
+protocol CommandBarItemDelegate: AnyObject {
+    /// Called after the `isEnabled` property is changed
+    func commandBarItem(_ item: CommandBarItem, didChangeEnabledTo value: Bool)
+    /// Called after the `isSelected` property is changed
+    func commandBarItem(_ item: CommandBarItem, didChangeSelectedTo value: Bool)
+    /// Called after the `title` property is changed
+    func commandBarItem(_ item: CommandBarItem, didChangeTitleTo value: String?)
+    /// Called after the `titleFont` property is changed
+    func commandBarItem(_ item: CommandBarItem, didChangeTitleFontTo value: UIFont?)
+    /// Called after the `iconImage` property is changed
+    func commandBarItem(_ item: CommandBarItem, didChangeIconImageTo value: UIImage?)
 }

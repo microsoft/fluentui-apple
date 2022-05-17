@@ -26,17 +26,30 @@ open class CommandBar: UIView {
 
     // MARK: - Public methods
 
+    @available(*, deprecated, renamed: "init(itemGroups:leadingItemGroups:trailingItemGroups:)")
     @objc public init(itemGroups: [CommandBarItemGroup], leadingItem: CommandBarItem? = nil, trailingItem: CommandBarItem? = nil) {
         self.itemGroups = itemGroups
 
+        self.leadingItemGroups = leadingItem != nil ? [[leadingItem!]] : []
+
+        self.trailingItemGroups = trailingItem != nil ? [[trailingItem!]] : []
+
         super.init(frame: .zero)
 
-        if let leadingItem = leadingItem {
-            self.leadingButton = button(forItem: leadingItem, isPersistSelection: false)
-        }
-        if let trailingItem = trailingItem {
-            self.trailingButton = button(forItem: trailingItem, isPersistSelection: false)
-        }
+        translatesAutoresizingMaskIntoConstraints = false
+
+        configureHierarchy()
+        updateButtonsState()
+    }
+
+    @objc public init(itemGroups: [CommandBarItemGroup], leadingItemGroups: [CommandBarItemGroup]? = nil, trailingItemGroups: [CommandBarItemGroup]? = nil) {
+        self.itemGroups = itemGroups
+
+        self.leadingItemGroups = leadingItemGroups != nil ? leadingItemGroups! : []
+
+        self.trailingItemGroups = trailingItemGroups != nil ? trailingItemGroups! : []
+
+        super.init(frame: .zero)
 
         translatesAutoresizingMaskIntoConstraints = false
 
@@ -69,16 +82,97 @@ open class CommandBar: UIView {
         updateShadow()
     }
 
+    /// Scrollable items shown in the center of the CommandBar
+    public var itemGroups: [CommandBarItemGroup] {
+        didSet {
+            for view in stackView.arrangedSubviews {
+                view.removeFromSuperview()
+            }
+
+            _buttonGroupViews = nil
+            for view in buttonGroupViews {
+                stackView.addArrangedSubview(view)
+            }
+        }
+    }
+
+    /// Items pinned to the leading end of the CommandBar
+    public var leadingItemGroups: [CommandBarItemGroup] {
+        didSet {
+            for view in leadingStackView.arrangedSubviews {
+                view.removeFromSuperview()
+            }
+
+            _leadingButtonGroupViews = nil
+            for view in leadingButtonGroupViews {
+                leadingStackView.addArrangedSubview(view)
+            }
+        }
+    }
+
+    /// Items pinned to the trailing end of the CommandBar
+    public var trailingItemGroups: [CommandBarItemGroup] {
+        didSet {
+            for view in trailingStackView.arrangedSubviews {
+                view.removeFromSuperview()
+            }
+
+            _trailingButtonGroupViews = nil
+            for view in trailingButtonGroupViews {
+                trailingStackView.addArrangedSubview(view)
+            }
+        }
+    }
+
     // MARK: - Private properties
 
-    private let itemGroups: [CommandBarItemGroup]
+    private var _itemsToButtonsMap: [CommandBarItem: CommandBarButton]?
+    /// Mapping of `CommandBarItem`s to `CommandBarButton`s for items in `itemGroups`. Mapping is
+    /// refreshed when `buttonGroupViews` is set.
+    private var itemsToButtonsMap: [CommandBarItem: CommandBarButton] {
+        if _itemsToButtonsMap == nil {
+            let allButtons = itemGroups.flatMap({ $0 }).map({ button(forItem: $0) })
 
-    private lazy var itemsToButtonsMap: [CommandBarItem: CommandBarButton] = {
-        let allButtons = itemGroups.flatMap({ $0 }).map({ button(forItem: $0) }) +
-            [leadingButton, trailingButton].compactMap({ $0 })
+            _itemsToButtonsMap = Dictionary(uniqueKeysWithValues: allButtons.map { ($0.item, $0) })
+        }
+        return _itemsToButtonsMap!
+    }
 
-        return Dictionary(uniqueKeysWithValues: allButtons.map { ($0.item, $0) })
-    }()
+    private var _trailingItemsToButtonsMap: [CommandBarItem: CommandBarButton]?
+    /// Mapping of `CommandBarItem`s to `CommandBarButton`s for items in `trailingItemGroups`. Mapping is
+    /// refreshed when `trailingButtonGroupViews` is set.
+    private var trailingItemsToButtonsMap: [CommandBarItem: CommandBarButton] {
+        if _trailingItemsToButtonsMap == nil {
+            let trailingButtons = trailingItemGroups.flatMap({ $0 }).map({ button(forItem: $0) })
+
+            _trailingItemsToButtonsMap = Dictionary(uniqueKeysWithValues: trailingButtons.map { ($0.item, $0) })
+        }
+        return _trailingItemsToButtonsMap!
+    }
+
+    private var _leadingItemsToButtonsMap: [CommandBarItem: CommandBarButton]?
+    /// Mapping of `CommandBarItem`s to `CommandBarButton`s for items in `leadingItemGroups`. Mapping is
+    /// refreshed when `leadingButtonGroupViews` is set.
+    private var leadingItemsToButtonsMap: [CommandBarItem: CommandBarButton] {
+        if _leadingItemsToButtonsMap == nil {
+            let leadingButtons = leadingItemGroups.flatMap({ $0 }).map({ button(forItem: $0) })
+
+            _leadingItemsToButtonsMap = Dictionary(uniqueKeysWithValues: leadingButtons.map { ($0.item, $0) })
+        }
+        return _leadingItemsToButtonsMap!
+    }
+
+    /// Checks each items-to-buttons map for given item, returns the corresponding button if found.
+    private func buttonFromButtonMaps(_ item: CommandBarItem) -> CommandBarButton? {
+        if itemsToButtonsMap[item] != nil {
+            return itemsToButtonsMap[item]
+        } else if leadingItemsToButtonsMap[item] != nil {
+            return leadingItemsToButtonsMap[item]
+        } else if trailingItemsToButtonsMap[item] != nil {
+            return trailingItemsToButtonsMap[item]
+        }
+        return nil
+    }
 
     // MARK: Views and Layers
 
@@ -103,9 +197,9 @@ open class CommandBar: UIView {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.contentInset = UIEdgeInsets(
             top: 0,
-            left: leadingButton == nil ? CommandBar.insets.left : CommandBar.fixedButtonSpacing,
+            left: leadingStackView.arrangedSubviews.isEmpty ? CommandBar.insets.left : CommandBar.fixedButtonSpacing,
             bottom: 0,
-            right: trailingButton == nil ? CommandBar.insets.right : CommandBar.fixedButtonSpacing
+            right: trailingStackView.arrangedSubviews.isEmpty ? CommandBar.insets.right : CommandBar.fixedButtonSpacing
         )
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
@@ -125,6 +219,7 @@ open class CommandBar: UIView {
         return scrollView
     }()
 
+    /// UIStackView for holding `CommandBarButtonGroupView`s shown in the center of the CommandBar
     private lazy var stackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: buttonGroupViews)
 
@@ -135,20 +230,90 @@ open class CommandBar: UIView {
         return stackView
     }()
 
-    private lazy var buttonGroupViews: [CommandBarButtonGroupView] = {
-        itemGroups.map { items in
-            CommandBarButtonGroupView(buttons: items.compactMap { item in
-                guard let button = itemsToButtonsMap[item] else {
-                    preconditionFailure("Button is not initialized in commandsToButtons")
-                }
+    /// UIStackView for holding `CommandBarButtonGroupView`s shown at the leading end of the CommandBar
+    private lazy var leadingStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: leadingButtonGroupViews)
 
-                return button
-            })
-        }
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .horizontal
+        stackView.spacing = CommandBar.buttonGroupSpacing
+
+        return stackView
     }()
 
-    private var leadingButton: CommandBarButton?
-    private var trailingButton: CommandBarButton?
+    /// UIStackView for holding `CommandBarButtonGroupView`s shown at the trailing end of the CommandBar
+    private lazy var trailingStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: trailingButtonGroupViews)
+
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .horizontal
+        stackView.spacing = CommandBar.buttonGroupSpacing
+
+        return stackView
+    }()
+
+    private var _buttonGroupViews: [CommandBarButtonGroupView]?
+    /// Array of `CommandBarButtonGroupView`s for items shown in center of CommandBar. Set
+    /// `_buttonGroupViews` to `nil` to update the array on the next call.
+    private var buttonGroupViews: [CommandBarButtonGroupView] {
+        if _buttonGroupViews == nil {
+            _itemsToButtonsMap = nil
+            _buttonGroupViews = itemGroups.map { items in
+                CommandBarButtonGroupView(buttons: items.compactMap { item in
+                    item.delegate = self
+                    guard let button = itemsToButtonsMap[item] else {
+                        preconditionFailure("Button is not initialized in commandsToButtons")
+                    }
+
+                    return button
+                })
+            }
+        }
+        return _buttonGroupViews!
+    }
+
+    private var _leadingButtonGroupViews: [CommandBarButtonGroupView]?
+    /// Array of `CommandBarButtonGroupView`s for items shown at leading end of CommandBar. Set
+    /// `_leadingButtonGroupViews` to `nil` to update the array on the next call.
+    private var leadingButtonGroupViews: [CommandBarButtonGroupView] {
+        if _leadingButtonGroupViews == nil {
+            _leadingItemsToButtonsMap = nil
+            _leadingButtonGroupViews = leadingItemGroups.map { items in
+                CommandBarButtonGroupView(buttons: items.compactMap { item in
+                    item.delegate = self
+                    guard let button = leadingItemsToButtonsMap[item] else {
+                        preconditionFailure("Button is not initialized in commandsToButtons")
+                    }
+
+                    return button
+                })
+            }
+        }
+        return _leadingButtonGroupViews!
+    }
+
+    private var _trailingButtonGroupViews: [CommandBarButtonGroupView]?
+    /// Array of `CommandBarButtonGroupView`s for items shown at trailing end of CommandBar. Set
+    /// `_trailingButtonGroupViews` to `nil` to update the array on the next call.
+    private var trailingButtonGroupViews: [CommandBarButtonGroupView] {
+        if _trailingButtonGroupViews == nil {
+            _trailingItemsToButtonsMap = nil
+            _trailingButtonGroupViews = trailingItemGroups.map { items in
+                CommandBarButtonGroupView(buttons: items.compactMap { item in
+                    item.delegate = self
+                    guard let button = trailingItemsToButtonsMap[item] else {
+                        preconditionFailure("Button is not initialized in commandsToButtons")
+                    }
+
+                    return button
+                })
+            }
+        }
+        return _trailingButtonGroupViews!
+    }
+
+    private var leadingConstraint: NSLayoutConstraint?
+    private var trailingConstraint: NSLayoutConstraint?
 
     private let containerMaskLayer: CAGradientLayer = {
         // A mask layer using alpha color channel.
@@ -164,34 +329,8 @@ open class CommandBar: UIView {
     private func configureHierarchy() {
         addSubview(containerView)
 
-        // Left and right button layout constraints
-        if let leadingButton = leadingButton {
-            addSubview(leadingButton)
-            NSLayoutConstraint.activate([
-                leadingButton.topAnchor.constraint(equalTo: containerView.topAnchor),
-                leadingButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: CommandBar.fixedButtonSpacing),
-                containerView.bottomAnchor.constraint(equalTo: leadingButton.bottomAnchor),
-                containerView.leadingAnchor.constraint(equalTo: leadingButton.trailingAnchor, constant: CommandBar.fixedButtonSpacing)
-            ])
-        } else {
-            NSLayoutConstraint.activate([
-                containerView.leadingAnchor.constraint(equalTo: leadingAnchor)
-            ])
-        }
-
-        if let trailingButton = trailingButton {
-            addSubview(trailingButton)
-            NSLayoutConstraint.activate([
-                trailingButton.topAnchor.constraint(equalTo: containerView.topAnchor),
-                trailingButton.leadingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: CommandBar.fixedButtonSpacing),
-                containerView.bottomAnchor.constraint(equalTo: trailingButton.bottomAnchor),
-                trailingAnchor.constraint(equalTo: trailingButton.trailingAnchor, constant: CommandBar.fixedButtonSpacing)
-            ])
-        } else {
-            NSLayoutConstraint.activate([
-                trailingAnchor.constraint(equalTo: containerView.trailingAnchor)
-            ])
-        }
+        // Constraint left and right item stack views
+        constrainLeadingAndTrailingStackViews()
 
         NSLayoutConstraint.activate([
             containerView.topAnchor.constraint(equalTo: topAnchor, constant: CommandBar.insets.top),
@@ -209,6 +348,44 @@ open class CommandBar: UIView {
         }
     }
 
+    private func constrainLeadingAndTrailingStackViews() {
+        if !leadingStackView.arrangedSubviews.isEmpty {
+            addSubview(leadingStackView)
+            leadingConstraint?.isActive = false
+            leadingConstraint = containerView.leadingAnchor.constraint(equalTo: leadingStackView.trailingAnchor, constant: CommandBar.fixedButtonSpacing)
+            NSLayoutConstraint.activate([
+                leadingStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: CommandBar.fixedButtonSpacing),
+                leadingStackView.topAnchor.constraint(equalTo: containerView.topAnchor),
+                leadingStackView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
+                leadingConstraint!
+            ])
+        } else {
+            leadingStackView.removeFromSuperview()
+            leadingConstraint = containerView.leadingAnchor.constraint(equalTo: leadingAnchor)
+            NSLayoutConstraint.activate([
+                leadingConstraint!
+            ])
+        }
+
+        if !trailingStackView.arrangedSubviews.isEmpty {
+            addSubview(trailingStackView)
+            trailingConstraint?.isActive = false
+            trailingConstraint = trailingStackView.leadingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: CommandBar.fixedButtonSpacing)
+            NSLayoutConstraint.activate([
+                trailingStackView.topAnchor.constraint(equalTo: containerView.topAnchor),
+                trailingStackView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
+                trailingAnchor.constraint(equalTo: trailingStackView.trailingAnchor, constant: CommandBar.fixedButtonSpacing),
+                trailingConstraint!
+            ])
+        } else {
+            trailingStackView.removeFromSuperview()
+            trailingConstraint = containerView.trailingAnchor.constraint(equalTo: trailingAnchor)
+            NSLayoutConstraint.activate([
+                trailingConstraint!
+            ])
+        }
+    }
+
     private func button(forItem item: CommandBarItem, isPersistSelection: Bool = true) -> CommandBarButton {
         let button = CommandBarButton(item: item, isPersistSelection: isPersistSelection)
         button.addTarget(self, action: #selector(handleCommandButtonTapped(_:)), for: .touchUpInside)
@@ -219,13 +396,13 @@ open class CommandBar: UIView {
     private func updateShadow() {
         var locations: [CGFloat] = [0, 0, 1]
 
-        if leadingButton != nil {
+        if !leadingStackView.arrangedSubviews.isEmpty {
             let leadingOffset = max(0, scrollView.contentOffset.x)
             let percentage = min(1, leadingOffset / scrollView.contentInset.left)
             locations[1] = CommandBar.fadeViewWidth / containerView.frame.width * percentage
         }
 
-        if trailingButton != nil {
+        if !trailingStackView.arrangedSubviews.isEmpty {
             let trailingOffset = max(0, stackView.frame.width - scrollView.frame.width - scrollView.contentOffset.x)
             let percentage = min(1, trailingOffset / scrollView.contentInset.right)
             locations[2] = 1 - CommandBar.fadeViewWidth / containerView.frame.width * percentage
@@ -251,4 +428,39 @@ extension CommandBar: UIScrollViewDelegate {
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         updateShadow()
     }
+}
+
+// MARK: - CommandBarItemDelegate
+
+extension CommandBar: CommandBarItemDelegate {
+    func commandBarItem(_ item: CommandBarItem, didChangeEnabledTo value: Bool) {
+        if let button: CommandBarButton = buttonFromButtonMaps(item) {
+            button.updateState()
+        }
+    }
+
+    func commandBarItem(_ item: CommandBarItem, didChangeSelectedTo value: Bool) {
+        if let button: CommandBarButton = buttonFromButtonMaps(item) {
+            button.updateState()
+        }
+    }
+
+    func commandBarItem(_ item: CommandBarItem, didChangeTitleTo value: String?) {
+        if let button: CommandBarButton = buttonFromButtonMaps(item) {
+            button.updateState()
+        }
+    }
+
+    func commandBarItem(_ item: CommandBarItem, didChangeTitleFontTo value: UIFont?) {
+        if let button: CommandBarButton = buttonFromButtonMaps(item) {
+            button.updateState()
+        }
+    }
+
+    func commandBarItem(_ item: CommandBarItem, didChangeIconImageTo value: UIImage?) {
+        if let button: CommandBarButton = buttonFromButtonMaps(item) {
+            button.updateState()
+        }
+    }
+
 }
