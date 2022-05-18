@@ -238,8 +238,32 @@ open class SideTabBar: UIView {
         let showItemTitles = section == .top ? showTopItemTitles : showBottomItemTitles
         var didRestoreSelection = false
 
+        // TODO: this is temporary to unblock testing and is for illustration purposes only
+        let tokens: TabBarTokens = .init()
+
         for item in allItems {
-            let tabBarItemView = TabBarItemView(item: item, showsTitle: showItemTitles, canResizeImage: false)
+            let tabBarItemView = TabBarItemView(item: item,
+                                                showsTitle: showItemTitles,
+                                                canResizeImage: false,
+                                                selectedColor: tokens.selectedColor,
+                                                unselectedColor: tokens.unselectedColor,
+                                                spacingVertical: tokens.spacingVertical,
+                                                spacingHorizontal: tokens.spacingHorizontal,
+                                                portraitImageSize: tokens.portraitImageSize,
+                                                portraitImageWithLabelSize: tokens.portraitImageWithLabelSize,
+                                                landscapeImageSize: tokens.landscapeImageSize,
+                                                badgeVerticalOffset: tokens.badgeVerticalOffset,
+                                                badgePortraitTitleVerticalOffset: tokens.badgePortraitTitleVerticalOffset,
+                                                singleDigitBadgeHorizontalOffset: tokens.singleDigitBadgeHorizontalOffset,
+                                                multiDigitBadgeHorizontalOffset: tokens.multiDigitBadgeHorizontalOffset,
+                                                badgeHeight: tokens.badgeHeight,
+                                                badgeMinWidth: tokens.badgeMinWidth,
+                                                defaultBadgeMaxWidth: tokens.defaultBadgeMaxWidth,
+                                                badgeBorderWidth: tokens.badgeBorderWidth,
+                                                badgeHorizontalPadding: tokens.badgeHorizontalPadding,
+                                                badgeCornerRadii: tokens.badgeCornerRadii,
+                                                titleLabelPortrait: tokens.titleLabelPortrait,
+                                                titleLabelLandscape: tokens.titleLabelLandscape)
             tabBarItemView.translatesAutoresizingMaskIntoConstraints = false
             tabBarItemView.alwaysShowTitleBelowImage = true
             tabBarItemView.maxBadgeWidth = Constants.viewWidth / 2 - badgePadding

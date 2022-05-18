@@ -609,7 +609,31 @@ open class BottomCommandingController: UIViewController {
         let itemImage = item.image ?? UIImage()
         let itemTitle = item.title ?? ""
         let tabItem = TabBarItem(title: itemTitle, image: itemImage, selectedImage: item.selectedImage, largeContentImage: item.largeImage)
-        let itemView = TabBarItemView(item: tabItem, showsTitle: itemTitle != "")
+
+        // TODO: this is temporary to unblock testing and is for illustration purposes only
+        let tokens: TabBarTokens = .init()
+        let itemView = TabBarItemView(item: tabItem,
+                                      showsTitle: itemTitle != "",
+                                      canResizeImage: false,
+                                      selectedColor: tokens.selectedColor,
+                                      unselectedColor: tokens.unselectedColor,
+                                      spacingVertical: tokens.spacingVertical,
+                                      spacingHorizontal: tokens.spacingHorizontal,
+                                      portraitImageSize: tokens.portraitImageSize,
+                                      portraitImageWithLabelSize: tokens.portraitImageWithLabelSize,
+                                      landscapeImageSize: tokens.landscapeImageSize,
+                                      badgeVerticalOffset: tokens.badgeVerticalOffset,
+                                      badgePortraitTitleVerticalOffset: tokens.badgePortraitTitleVerticalOffset,
+                                      singleDigitBadgeHorizontalOffset: tokens.singleDigitBadgeHorizontalOffset,
+                                      multiDigitBadgeHorizontalOffset: tokens.multiDigitBadgeHorizontalOffset,
+                                      badgeHeight: tokens.badgeHeight,
+                                      badgeMinWidth: tokens.badgeMinWidth,
+                                      defaultBadgeMaxWidth: tokens.defaultBadgeMaxWidth,
+                                      badgeBorderWidth: tokens.badgeBorderWidth,
+                                      badgeHorizontalPadding: tokens.badgeHorizontalPadding,
+                                      badgeCornerRadii: tokens.badgeCornerRadii,
+                                      titleLabelPortrait: tokens.titleLabelPortrait,
+                                      titleLabelLandscape: tokens.titleLabelLandscape)
 
         itemView.alwaysShowTitleBelowImage = true
         itemView.numberOfTitleLines = Constants.heroButtonMaxTitleLines

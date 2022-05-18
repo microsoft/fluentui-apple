@@ -35,7 +35,27 @@ open class TabBarView: UIView, TokenizedControlInternal {
             }
 
             for (index, item) in items.enumerated() {
-                let tabBarItemView = TabBarItemView(item: item, showsTitle: showsItemTitles)
+                let tabBarItemView = TabBarItemView(item: item,
+                                                    showsTitle: showsItemTitles,
+                                                    selectedColor: tokens.selectedColor,
+                                                    unselectedColor: tokens.unselectedColor,
+                                                    spacingVertical: tokens.spacingVertical,
+                                                    spacingHorizontal: tokens.spacingHorizontal,
+                                                    portraitImageSize: tokens.portraitImageSize,
+                                                    portraitImageWithLabelSize: tokens.portraitImageWithLabelSize,
+                                                    landscapeImageSize: tokens.landscapeImageSize,
+                                                    badgeVerticalOffset: tokens.badgeVerticalOffset,
+                                                    badgePortraitTitleVerticalOffset: tokens.badgePortraitTitleVerticalOffset,
+                                                    singleDigitBadgeHorizontalOffset: tokens.singleDigitBadgeHorizontalOffset,
+                                                    multiDigitBadgeHorizontalOffset: tokens.multiDigitBadgeHorizontalOffset,
+                                                    badgeHeight: tokens.badgeHeight,
+                                                    badgeMinWidth: tokens.badgeMinWidth,
+                                                    defaultBadgeMaxWidth: tokens.defaultBadgeMaxWidth,
+                                                    badgeBorderWidth: tokens.badgeBorderWidth,
+                                                    badgeHorizontalPadding: tokens.badgeHorizontalPadding,
+                                                    badgeCornerRadii: tokens.badgeCornerRadii,
+                                                    titleLabelPortrait: tokens.titleLabelPortrait,
+                                                    titleLabelLandscape: tokens.titleLabelLandscape)
                 let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTabBarItemTapped(_:)))
                 tabBarItemView.addGestureRecognizer(tapGesture)
 
@@ -193,6 +213,32 @@ open class TabBarView: UIView, TokenizedControlInternal {
 
     private func updateTabBarTokens() {
         tokens = resolvedTokens
+        let arrangedSubviews = stackView.arrangedSubviews
+        for subview in arrangedSubviews {
+            if let tabBarItemView = subview as? TabBarItemView {
+                tabBarItemView.selectedColor = tokens.selectedColor
+                tabBarItemView.unselectedColor = tokens.unselectedColor
+                tabBarItemView.spacingVertical = tokens.spacingVertical
+                tabBarItemView.spacingHorizontal = tokens.spacingHorizontal
+                tabBarItemView.portraitImageSize = tokens.portraitImageSize
+                tabBarItemView.portraitImageWithLabelSize = tokens.portraitImageWithLabelSize
+                tabBarItemView.landscapeImageSize = tokens.landscapeImageSize
+                tabBarItemView.badgeVerticalOffset = tokens.badgeVerticalOffset
+                tabBarItemView.badgePortraitTitleVerticalOffset = tokens.badgePortraitTitleVerticalOffset
+                tabBarItemView.singleDigitBadgeHorizontalOffset = tokens.singleDigitBadgeHorizontalOffset
+                tabBarItemView.multiDigitBadgeHorizontalOffset = tokens.multiDigitBadgeHorizontalOffset
+                tabBarItemView.badgeHeight = tokens.badgeHeight
+                tabBarItemView.badgeMinWidth = tokens.badgeMinWidth
+                tabBarItemView.defaultBadgeMaxWidth = tokens.defaultBadgeMaxWidth
+                tabBarItemView.badgeBorderWidth = tokens.badgeBorderWidth
+                tabBarItemView.badgeHorizontalPadding = tokens.badgeHorizontalPadding
+                tabBarItemView.badgeCornerRadii = tokens.badgeCornerRadii
+                tabBarItemView.titleLabelPortrait = tokens.titleLabelPortrait
+                tabBarItemView.titleLabelLandscape = tokens.titleLabelLandscape
+
+                tabBarItemView.refreshView()
+            }
+        }
     }
 
     @objc private func themeDidChange(_ notification: Notification) {
