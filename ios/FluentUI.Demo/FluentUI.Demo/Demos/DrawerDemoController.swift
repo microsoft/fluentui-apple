@@ -470,7 +470,7 @@ class DrawerDemoController: DemoController {
                                    contentController: contentController,
                                    resizingBehavior: .dismissOrExpand)
 
-        drawer.resizingHandleViewOverrideTokens = CustomResizingHandleTokens()
+        drawer.resizingHandleViewBackgroundColor = Colors.navigationBarBackground
         drawer.contentScrollView = personaListView
     }
 

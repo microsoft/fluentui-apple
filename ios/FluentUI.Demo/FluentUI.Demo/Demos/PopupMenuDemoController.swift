@@ -104,7 +104,7 @@ class PopupMenuDemoController: DemoController {
             controller.addItems(items)
 
             controller.backgroundColor = menuBackgroundColor
-            controller.resizingHandleViewOverrideTokens = CustomResizingHandleTokens()
+            controller.resizingHandleViewBackgroundColor = menuBackgroundColor
             controller.separatorColor = .lightGray
 
             strongSelf.present(controller, animated: true)
@@ -137,7 +137,7 @@ class PopupMenuDemoController: DemoController {
             controller.addItems(items)
 
             controller.backgroundColor = menuBackgroundColor
-            controller.resizingHandleViewOverrideTokens = CustomResizingHandleTokens()
+            controller.resizingHandleViewBackgroundColor = menuBackgroundColor
             controller.separatorColor = .lightGray
 
             strongSelf.present(controller, animated: true)
@@ -205,11 +205,5 @@ class PopupMenuDemoController: DemoController {
         ])
 
         present(controller, animated: true)
-    }
-
-    private class CustomResizingHandleTokens: ResizingHandleTokens {
-        override var backgroundColor: DynamicColor {
-            return UIColor.darkGray.dynamicColor ?? super.backgroundColor
-        }
     }
 }

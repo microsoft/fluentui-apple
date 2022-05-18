@@ -248,22 +248,13 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
     }
 
     /// Set `resizingHandleViewBackgroundColor` to customize background color of resizingHandleView if it is shown
-    @available(*, deprecated, message: "Customization of the resizing handle view should be done through the resizingHandleViewOverrideTokens")
     @objc open var resizingHandleViewBackgroundColor: UIColor? {
         didSet {
+            // TODO: Update this to conform to the new pattern after the conclusion of the sub-token discussion
             guard let resizingHandleView = resizingHandleView else {
                 return
             }
             resizingHandleView.customBackgroundColor = resizingHandleViewBackgroundColor
-        }
-    }
-
-    @objc public var resizingHandleViewOverrideTokens: ResizingHandleTokens? {
-        didSet {
-            guard let resizingHandleView = resizingHandleView else {
-                return
-            }
-            resizingHandleView.overrideTokens = resizingHandleViewOverrideTokens
         }
     }
 
@@ -748,7 +739,6 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
                if resizingHandleView == nil {
                    resizingHandleView = ResizingHandleView()
                    resizingHandleView?.customBackgroundColor = resizingHandleViewBackgroundColor
-                   resizingHandleView?.overrideTokens = resizingHandleViewOverrideTokens
                }
            } else {
                resizingHandleView = nil
