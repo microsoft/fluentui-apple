@@ -51,11 +51,11 @@ struct AttributedText: UIViewRepresentable {
         return label
     }
 
-    func updateUIView(_ uiView: UILabel, context: Context) {
+    func updateUIView(_ label: UILabel, context: Context) {
         // Update the UILabel's attributes if it changes.
         DispatchQueue.main.async {
-            uiView.attributedText = attributedString
-            uiView.preferredMaxLayoutWidth = uiView.bounds.width
+            label.attributedText = attributedString
+            label.preferredMaxLayoutWidth = label.bounds.width
         }
     }
 }

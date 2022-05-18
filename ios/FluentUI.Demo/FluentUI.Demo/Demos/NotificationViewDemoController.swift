@@ -171,7 +171,9 @@ class NotificationViewDemoController: DemoController {
             return notification
         case .primaryToastWithStrikethroughAttribute:
             let notification = MSFNotification(style: .primaryToast)
-            notification.state.attributedMessage = NSAttributedString(string: "This is a toast with a blue strikethrough attribute.", attributes: [.strikethroughStyle: 1, .strikethroughColor: UIColor.blue])
+            notification.state.attributedMessage = NSAttributedString(string: "This is a toast with a blue strikethrough attribute.",
+                                                                      attributes: [.strikethroughStyle: 1,
+                                                                                   .strikethroughColor: UIColor.blue])
             notification.state.actionButtonAction = { [weak self] in
                 self?.showMessage("`Dismiss` tapped")
                 notification.hide()
@@ -179,7 +181,10 @@ class NotificationViewDemoController: DemoController {
             return notification
         case .neutralBarWithFontAttribute:
             let notification = MSFNotification(style: .neutralBar)
-            notification.state.attributedMessage = NSAttributedString(string: "This is a bar with red Papyrus font attribute.", attributes: [.font: UIFont.init(name: "Papyrus", size: 30.0)!, .foregroundColor: UIColor.red])
+            notification.state.attributedMessage = NSAttributedString(string: "This is a bar with red Papyrus font attribute.",
+                                                                      attributes: [.font: UIFont.init(name: "Papyrus",
+                                                                                                      size: 30.0)!,
+                                                                                   .foregroundColor: UIColor.red])
             notification.state.actionButtonAction = { [weak self] in
                 self?.showMessage("`Dismiss` tapped")
                 notification.hide()

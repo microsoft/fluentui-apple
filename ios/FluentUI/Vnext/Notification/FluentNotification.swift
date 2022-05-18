@@ -49,10 +49,10 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
     ///   - style: `MSFNotificationStyle` enum value that defines the style of the Notification being presented.
     ///   - shouldSelfPresent: Whether the notification should  present itself (SwiftUI environment) or externally (UIKit environment)
     ///   - message: Optional text for the main title area of the control. If there is a title, the message becomes subtext.
-    ///   - attributedMessage: Optional attributed text for the main title area of the control. If there is a title, the message becomes subtext.
+    ///   - attributedMessage: Optional attributed text for the main title area of the control. If there is a title, the message becomes subtext. If set, it will override the message parameter.
     ///   - isPresented: Controls whether the Notification is being presented.
     ///   - title: Optional text to draw above the message area.
-    ///   - attributedTitle: Optional attributed text to draw above the message area.
+    ///   - attributedTitle: Optional attributed text to draw above the message area. If set, it will override the title parameter.
     ///   - image: Optional icon to draw at the leading edge of the control.
     ///   - actionButtonTitle:Title to display in the action button on the trailing edge of the control.
     ///   - actionButtonAction: Action to be dispatched by the action button on the trailing edge of the control.
@@ -60,10 +60,10 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
     public init(style: MSFNotificationStyle,
                 shouldSelfPresent: Bool = true,
                 message: String = "",
-                attributedMessage: NSAttributedString = NSAttributedString(string: ""),
+                attributedMessage: NSAttributedString? = nil,
                 isPresented: Binding<Bool>? = nil,
                 title: String = "",
-                attributedTitle: NSAttributedString = NSAttributedString(string: ""),
+                attributedTitle: NSAttributedString? = nil,
                 image: UIImage? = nil,
                 actionButtonTitle: String = "",
                 actionButtonAction: (() -> Void)? = nil,
@@ -178,7 +178,7 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
     @ViewBuilder
     private var titleLabel: some View {
         if state.style.isToast && hasSecondTextRow {
-            if let attributedTitle = state.attributedTitle, attributedTitle.string != "" {
+            if let attributedTitle = state.attributedTitle {
                 AttributedText(attributedTitle)
                     .fixedSize(horizontal: false, vertical: true)
             } else if let title = state.title {
@@ -191,7 +191,7 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
 
     @ViewBuilder
     private var messageLabel: some View {
-        if let attributedMessage = state.attributedMessage, attributedMessage.string != "" {
+        if let attributedMessage = state.attributedMessage {
             AttributedText(attributedMessage)
                 .fixedSize(horizontal: false, vertical: true)
         } else if let message = state.message {
@@ -274,11 +274,11 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
 
     private var hasSecondTextRow: Bool {
         let isToast = state.style.isToast
-        guard let attributedTitle = state.attributedTitle, attributedTitle.string != "" else {
+        guard state.attributedTitle != nil else {
             return isToast && state.title != ""
         }
 
-        return isToast && attributedTitle.string != ""
+        return isToast
     }
 
     private var hasCenteredText: Bool {

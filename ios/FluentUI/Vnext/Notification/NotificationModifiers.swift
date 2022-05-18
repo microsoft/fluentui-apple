@@ -22,11 +22,11 @@ public extension View {
     /// - Returns: The modified view with the capability of presenting a Notification.
     func presentNotification(style: MSFNotificationStyle,
                              message: String = "",
-                             attributedMessage: NSAttributedString = NSAttributedString(string: ""),
+                             attributedMessage: NSAttributedString? = nil,
                              isBlocking: Bool = true,
                              isPresented: Binding<Bool>,
                              title: String = "",
-                             attributedTitle: NSAttributedString = NSAttributedString(string: ""),
+                             attributedTitle: NSAttributedString? = nil,
                              image: UIImage? = nil,
                              actionButtonTitle: String = "",
                              actionButtonAction: (() -> Void)? = nil,
