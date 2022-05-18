@@ -248,9 +248,13 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
     }
 
     /// Set `resizingHandleViewBackgroundColor` to customize background color of resizingHandleView if it is shown
-    @objc open var resizingHandleViewBackgroundColor: UIColor {
+    @objc open var resizingHandleViewBackgroundColor: UIColor? {
         didSet {
-            resizingHandleView?.backgroundColor = resizingHandleViewBackgroundColor
+            // TODO: Update this to conform to the new pattern after the conclusion of the sub-token discussion
+            guard let resizingHandleView = resizingHandleView else {
+                return
+            }
+            resizingHandleView.customBackgroundColor = resizingHandleViewBackgroundColor
         }
     }
 
@@ -422,7 +426,6 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
         self.presentationDirection = presentationDirection
         self.preferredMaximumExpansionHeight = preferredMaximumHeight
         self.backgroundColor = UIColor(dynamicColor: tokens.drawerContentBackground)
-        self.resizingHandleViewBackgroundColor = UIColor(dynamicColor: tokens.drawerContentBackground)
 
         super.init(nibName: nil, bundle: nil)
 
@@ -444,7 +447,6 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
         self.presentationDirection = presentationDirection
         self.preferredMaximumExpansionHeight = preferredMaximumHeight
         self.backgroundColor = UIColor(dynamicColor: tokens.drawerContentBackground)
-        self.resizingHandleViewBackgroundColor = UIColor(dynamicColor: tokens.drawerContentBackground)
 
         super.init(nibName: nil, bundle: nil)
 
@@ -736,7 +738,7 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
            if showsResizingHandle {
                if resizingHandleView == nil {
                    resizingHandleView = ResizingHandleView()
-                   resizingHandleView?.backgroundColor = resizingHandleViewBackgroundColor
+                   resizingHandleView?.customBackgroundColor = resizingHandleViewBackgroundColor
                }
            } else {
                resizingHandleView = nil
@@ -764,7 +766,6 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
 
     private func updateAppearance() {
         view.backgroundColor = backgroundColor
-        resizingHandleView?.backgroundColor = resizingHandleViewBackgroundColor
         // if DrawerController is shown in UIPopoverPresentationController then we want to show different darkElevated color
         if !useCustomBackgroundColor {
             if presentationController is UIPopoverPresentationController {
