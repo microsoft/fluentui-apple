@@ -43,10 +43,11 @@ public struct PreviewCard: View {
             Spacer()
                 /// Creates placeholder image over PreviewCard.
             Image(uiImage: image)
-                /// Sets the height and width of the Preview Card.
+                /// Sets the image's shape
                 .clipShape(RoundedRectangle(cornerRadius: Constants.cardCornerRadius))
+                /// Sets the height and width of the PreviewCard.
                 .frame(minWidth: Constants.cardMinWidth, minHeight: Constants.cardMinHeight)
-                /// Sets the background border style, radius, color, and linewidth of the Preview Card.
+                /// Sets the background border style, radius, color, and linewidth of the PreviewCard.
                 .background(
                     RoundedRectangle(cornerRadius: Constants.cardCornerRadius)
                         .strokeBorder(Color(red: Constants.cardStrokeBorderColor,
