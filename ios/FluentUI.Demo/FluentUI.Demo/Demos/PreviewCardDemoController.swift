@@ -19,8 +19,8 @@ class PreviewCardDemoController: DemoTableViewController {
         guard let placeholderImage = UIImage.init(named: "W11_Placeholder") else {
             return
         }
-        let previewFlatCard = MSFPreviewCard(theme: nil, placeholderImage: placeholderImage)
-        let previewElevatedCard = MSFPreviewCard(theme: nil, isElevated: true, placeholderImage: placeholderImage)
+        let previewFlatCard = MSFPreviewCard(theme: nil, image: placeholderImage)
+        let previewElevatedCard = MSFPreviewCard(theme: nil, isElevated: true, image: placeholderImage)
         let previewFlatCardView = previewFlatCard.view
         let previewElevatedCardView = previewElevatedCard.view
         view.backgroundColor = Colors.surfaceSecondary

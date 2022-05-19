@@ -16,10 +16,10 @@ import SwiftUI
     /// - Parameters:
     ///   - theme: The FluentUIStyle instance representing the theme to be overriden for this PreviewCard.
     ///   - isElevated: Boolean determining if PreviewCard is flat or elevated.`
-    ///   - placeholderImage: The UIImage assigning an image over PreviewCard
-    @objc public init(theme: FluentUIStyle?, isElevated: Bool = false, placeholderImage: UIImage) {
+    ///   - image: The UIImage assigning an image over PreviewCard
+    @objc public init(theme: FluentUIStyle?, isElevated: Bool = false, image: UIImage) {
         super.init()
-        previewCardView = PreviewCard(isElevated: isElevated, placeholderImage: placeholderImage)
+        previewCardView = PreviewCard(isElevated: isElevated, image: image)
         hostingController = FluentUIHostingController(rootView: AnyView(previewCardView.windowProvider(self)))
         hostingController.disableSafeAreaInsets()
     }
@@ -33,7 +33,7 @@ import SwiftUI
 /// View that represents the PreviewCard.
 public struct PreviewCard: View {
     var isElevated: Bool
-    var placeholderImage: UIImage
+    var image: UIImage
     @Environment(\.theme) var theme: FluentUIStyle
     @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
     /// Creates inner PreviewCard view.
@@ -42,8 +42,9 @@ public struct PreviewCard: View {
         HStack {
             Spacer()
                 /// Creates placeholder image over PreviewCard.
-            Image(uiImage: placeholderImage)
+            Image(uiImage: image)
                 /// Sets the height and width of the Preview Card.
+                .clipShape(RoundedRectangle(cornerRadius: Constants.cardCornerRadius))
                 .frame(minWidth: Constants.cardMinWidth, minHeight: Constants.cardMinHeight)
                 /// Sets the background border style, radius, color, and linewidth of the Preview Card.
                 .background(
