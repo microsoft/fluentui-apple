@@ -202,16 +202,6 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     /// A constant representing the number of lines for a label in which no change will be made when the `preferredContentSizeCategory` returns a size greater than `.large`.
     @objc public static let defaultNumberOfLinesForLargerDynamicType: Int = -1
 
-    /// The default horizontal spacing in the cell.
-    @objc public var horizontalSpacing: CGFloat { tokens.horizontalSpacing }
-
-    /// The default leading padding in the cell.
-    @objc public var defaultPaddingLeading: CGFloat { tokens.paddingLeading }
-
-    /// The default trailing padding in the cell.
-    @objc public var defaultPaddingTrailing: CGFloat { tokens.paddingTrailing }
-
-    //TODO: Remove labelVerticalMarginForOneAndThreeLines
     /// The vertical margins for cells with one or three lines of text
     class var labelVerticalMarginForOneAndThreeLines: CGFloat { return Constants.labelVerticalMarginForOneAndThreeLines }
 
@@ -448,10 +438,12 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                                   trailingAccessoryView: UIView?,
                                   labelAccessoryViewMarginTrailing: CGFloat) -> CGSize {
         let leadingAccessoryViewWidth = Self.labelAccessoryViewSize(for: leadingAccessoryView).width
-        let leadingAccessoryAreaWidth = Self.labelLeadingAccessoryAreaWidth(viewWidth: leadingAccessoryViewWidth, labelAccessoryViewMarginTrailing: labelAccessoryViewMarginTrailing)
+        let leadingAccessoryAreaWidth = Self.labelLeadingAccessoryAreaWidth(viewWidth: leadingAccessoryViewWidth,
+                                                                            labelAccessoryViewMarginTrailing: labelAccessoryViewMarginTrailing)
 
         let trailingAccessoryViewWidth = Self.labelAccessoryViewSize(for: trailingAccessoryView).width
-        let trailingAccessoryAreaWidth = Self.labelTrailingAccessoryAreaWidth(viewWidth: trailingAccessoryViewWidth, text: text, labelAccessoryViewMarginLeading: labelAccessoryViewMarginLeading)
+        let trailingAccessoryAreaWidth = Self.labelTrailingAccessoryAreaWidth(viewWidth: trailingAccessoryViewWidth,
+                                                                              text: text, labelAccessoryViewMarginLeading: labelAccessoryViewMarginLeading)
 
         let availableWidth = textAreaWidth - (leadingAccessoryAreaWidth + trailingAccessoryAreaWidth)
         return text.preferredSize(for: font, width: availableWidth, numberOfLines: numberOfLines)
@@ -467,7 +459,8 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         labelWidth += labelLeadingAccessoryAreaWidth(viewWidth: leadingAccessoryView?.frame.width ?? 0,
                                                      labelAccessoryViewMarginTrailing: labelAccessoryViewMarginTrailing) +
         labelTrailingAccessoryAreaWidth(viewWidth: trailingAccessoryView?.frame.width ?? 0,
-                                        text: text, labelAccessoryViewMarginLeading: labelAccessoryViewMarginLeading)
+                                        text: text,
+                                        labelAccessoryViewMarginLeading: labelAccessoryViewMarginLeading)
         return labelWidth
     }
 
@@ -487,7 +480,9 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         }
     }
 
-    private static func selectionModeAreaWidth(isInSelectionMode: Bool, selectionImageMarginTrailing: CGFloat, selectionImageSize: CGFloat) -> CGFloat {
+    private static func selectionModeAreaWidth(isInSelectionMode: Bool,
+                                               selectionImageMarginTrailing: CGFloat,
+                                               selectionImageSize: CGFloat) -> CGFloat {
         return isInSelectionMode ? selectionImageSize + selectionImageMarginTrailing : 0
     }
 
@@ -495,13 +490,16 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         return size == .default ? layoutType.customViewSize : size
     }
 
-    private static func customViewLeadingOffset(isInSelectionMode: Bool, tokens: TableViewCellTokens) -> CGFloat {
+    private static func customViewLeadingOffset(isInSelectionMode: Bool,
+                                                tokens: TableViewCellTokens) -> CGFloat {
         return tokens.paddingLeading + selectionModeAreaWidth(isInSelectionMode: isInSelectionMode,
                                                               selectionImageMarginTrailing: tokens.selectionImageMarginTrailing,
                                                               selectionImageSize: tokens.selectionImageSize.width)
     }
 
-    private static func textAreaLeadingOffset(customViewSize: CustomViewSize, isInSelectionMode: Bool, tokens: TableViewCellTokens) -> CGFloat {
+    private static func textAreaLeadingOffset(customViewSize: CustomViewSize,
+                                              isInSelectionMode: Bool,
+                                              tokens: TableViewCellTokens) -> CGFloat {
         var textAreaLeadingOffset = customViewLeadingOffset(isInSelectionMode: isInSelectionMode, tokens: tokens)
         if customViewSize != .zero {
             textAreaLeadingOffset += customViewSize.size.width + customViewSize.trailingMargin
@@ -567,7 +565,9 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         return viewWidth != 0 ? viewWidth + labelAccessoryViewMarginTrailing : 0
     }
 
-    private static func labelTrailingAccessoryAreaWidth(viewWidth: CGFloat, text: String, labelAccessoryViewMarginLeading: CGFloat) -> CGFloat {
+    private static func labelTrailingAccessoryAreaWidth(viewWidth: CGFloat,
+                                                        text: String,
+                                                        labelAccessoryViewMarginLeading: CGFloat) -> CGFloat {
         return viewWidth != 0 ? labelTrailingAccessoryMarginLeading(text: text, labelAccessoryViewMarginLeading: labelAccessoryViewMarginLeading) + viewWidth : 0
     }
 
@@ -948,7 +948,9 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     }
 
     private var textAreaWidth: CGFloat {
-        let textAreaLeadingOffset = TableViewCell.textAreaLeadingOffset(customViewSize: customViewSize, isInSelectionMode: isInSelectionMode, tokens: tokens)
+        let textAreaLeadingOffset = TableViewCell.textAreaLeadingOffset(customViewSize: customViewSize,
+                                                                        isInSelectionMode: isInSelectionMode,
+                                                                        tokens: tokens)
         let textAreaTrailingOffset = TableViewCell.textAreaTrailingOffset(customAccessoryView: customAccessoryView,
                                                                           customAccessoryViewExtendsToEdge: customAccessoryViewExtendsToEdge,
                                                                           accessoryType: _accessoryType,
@@ -1140,7 +1142,11 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         invalidateIntrinsicContentSize()
 
         if animated {
-            UIView.animate(withDuration: tokens.selectionModeAnimationDuration, delay: 0, options: [.layoutSubviews], animations: layoutIfNeeded, completion: completion)
+            UIView.animate(withDuration: tokens.selectionModeAnimationDuration,
+                           delay: 0,
+                           options: [.layoutSubviews],
+                           animations: layoutIfNeeded,
+                           completion: completion)
         } else {
             completion(true)
         }
@@ -1240,9 +1246,18 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                                                           footerHeight: footerLabel.frame.height,
                                                           labelVerticalSpacing: tokens.labelVerticalSpacing)
         let textAreaTopOffset = UIScreen.main.roundToDevicePixels((contentView.frame.height - textAreaHeight) / 2)
-        adjustLabelViewsTop(by: textAreaTopOffset, label: titleLabel, leadingAccessoryView: titleLeadingAccessoryView, trailingAccessoryView: titleTrailingAccessoryView)
-        adjustLabelViewsTop(by: textAreaTopOffset, label: subtitleLabel, leadingAccessoryView: subtitleLeadingAccessoryView, trailingAccessoryView: subtitleTrailingAccessoryView)
-        adjustLabelViewsTop(by: textAreaTopOffset, label: footerLabel, leadingAccessoryView: footerLeadingAccessoryView, trailingAccessoryView: footerTrailingAccessoryView)
+        adjustLabelViewsTop(by: textAreaTopOffset,
+                            label: titleLabel,
+                            leadingAccessoryView: titleLeadingAccessoryView,
+                            trailingAccessoryView: titleTrailingAccessoryView)
+        adjustLabelViewsTop(by: textAreaTopOffset,
+                            label: subtitleLabel,
+                            leadingAccessoryView: subtitleLeadingAccessoryView,
+                            trailingAccessoryView: subtitleTrailingAccessoryView)
+        adjustLabelViewsTop(by: textAreaTopOffset,
+                            label: footerLabel,
+                            leadingAccessoryView: footerLeadingAccessoryView,
+                            trailingAccessoryView: footerTrailingAccessoryView)
 
         if let customAccessoryView = customAccessoryView {
             let trailingOffset = TableViewCell.customAccessoryViewTrailingOffset(customAccessoryView: customAccessoryView,
@@ -1274,7 +1289,9 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                                   leadingAccessoryViewSize: CGSize,
                                   trailingAccessoryView: UIView?,
                                   trailingAccessoryViewSize: CGSize) {
-        let textAreaLeadingOffset = TableViewCell.textAreaLeadingOffset(customViewSize: customViewSize, isInSelectionMode: isInSelectionMode, tokens: tokens)
+        let textAreaLeadingOffset = TableViewCell.textAreaLeadingOffset(customViewSize: customViewSize,
+                                                                        isInSelectionMode: isInSelectionMode,
+                                                                        tokens: tokens)
         let text = label.text ?? ""
         let size = text.preferredSize(for: label.font, width: textAreaWidth, numberOfLines: numberOfLines)
 
@@ -1288,7 +1305,8 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
             )
         }
 
-        let leadingAccessoryAreaWidth = TableViewCell.labelLeadingAccessoryAreaWidth(viewWidth: leadingAccessoryViewSize.width, labelAccessoryViewMarginTrailing: tokens.labelAccessoryViewMarginTrailing)
+        let leadingAccessoryAreaWidth = TableViewCell.labelLeadingAccessoryAreaWidth(viewWidth: leadingAccessoryViewSize.width,
+                                                                                     labelAccessoryViewMarginTrailing: tokens.labelAccessoryViewMarginTrailing)
         let labelSize = TableViewCell.labelSize(text: text,
                                                 font: label.font,
                                                 numberOfLines: numberOfLines,
@@ -1307,7 +1325,8 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         if let trailingAccessoryView = trailingAccessoryView {
             let yOffset = UIScreen.main.roundToDevicePixels(topOffset + (labelSize.height - trailingAccessoryViewSize.height) / 2)
             let availableWidth = textAreaWidth - labelSize.width - leadingAccessoryAreaWidth
-            let leadingMargin = TableViewCell.labelTrailingAccessoryMarginLeading(text: text, labelAccessoryViewMarginLeading: tokens.labelAccessoryViewMarginLeading)
+            let leadingMargin = TableViewCell.labelTrailingAccessoryMarginLeading(text: text,
+                                                                                  labelAccessoryViewMarginLeading: tokens.labelAccessoryViewMarginLeading)
             trailingAccessoryView.frame = CGRect(
                 x: label.frame.maxX + leadingMargin,
                 y: yOffset,
@@ -1568,7 +1587,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     }
 
     private func updateSelectionImageColor() {
-        selectionImageView.tintColor = isSelected ? UIColor(dynamicColor: GlobalTokens().brandColors[.primary]) : UIColor(dynamicColor: tokens.selectionIndicatorOffColor)
+        selectionImageView.tintColor = UIColor(dynamicColor: isSelected ? tokens.globalTokens.brandColors[.primary] : tokens.selectionIndicatorOffColor)
     }
 
     private func updateSeparator(_ separator: MSFDivider, with type: SeparatorType) {

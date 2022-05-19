@@ -54,8 +54,6 @@ class TableViewCellDemoController: DemoTableViewController {
 
     private var editButton: UIBarButtonItem?
 
-    private var perControlOverride: Bool = false
-
     private var overrideTokens: TableViewCellTokens?
 
     override func viewDidLoad() {
@@ -151,6 +149,9 @@ extension TableViewCellDemoController: DemoAppearanceDelegate {
             // "Brass"
             return DynamicColor(light: GlobalTokens().sharedColors[.brass][.tint50],
                                 dark: GlobalTokens().sharedColors[.brass][.shade40])
+        }
+        override var titleFont: FontInfo {
+            return FontInfo(name: "Papyrus", size: 20.0, weight: .regular)
         }
     }
 }

@@ -46,16 +46,16 @@ open class TableViewCellTokens: TableViewTokens {
     open var selectionIndicatorOffColor: DynamicColor { aliasTokens.foregroundColors[.neutral3] }
 
     /// The font for the title.
-    open var titleFont: FontInfo { aliasTokens.typography[.body1] }
+    open var titleFont: FontInfo { aliasTokens.typography[.body1] } //.body
 
     /// The font for the subtitle when the TableViewCell is two lines.
-    open var subtitleTwoLinesFont: FontInfo { aliasTokens.typography[.caption1] }
+    open var subtitleTwoLinesFont: FontInfo { aliasTokens.typography[.caption1] } //.footnote
 
     /// The font for the subtitle when the TableViewCell is three lines.
-    open var subtitleThreeLinesFont: FontInfo { aliasTokens.typography[.body2] }
+    open var subtitleThreeLinesFont: FontInfo { aliasTokens.typography[.body2] } //.subhead
 
     /// The font for the footer.
-    open var footerFont: FontInfo { aliasTokens.typography[.caption1] }
+    open var footerFont: FontInfo { aliasTokens.typography[.caption1] } //.footnote
 
     /// The leading margin for the labelAccessoryView.
     open var labelAccessoryViewMarginLeading: CGFloat { globalTokens.spacing[.xSmall] }
