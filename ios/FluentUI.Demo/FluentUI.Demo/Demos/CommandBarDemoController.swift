@@ -165,7 +165,7 @@ class CommandBarDemoController: DemoController {
         container.addArrangedSubview(defaultCommandBar!)
 
         let itemCustomizationContainer = UIStackView()
-        itemCustomizationContainer.spacing = 8.0
+        itemCustomizationContainer.spacing = CommandBarDemoController.verticalStackViewSpacing
         itemCustomizationContainer.axis = .vertical
         itemCustomizationContainer.backgroundColor = Colors.navigationBarBackground
 
@@ -357,4 +357,6 @@ class CommandBarDemoController: DemoController {
     @objc func refreshDefaultLeadingBarItems(sender: UIButton!) {
         defaultCommandBar?.leadingItemGroups = [[newItem(for: .keyboard)]]
     }
+    
+    private static let verticalStackViewSpacing: CGFloat = 8.0
 }
