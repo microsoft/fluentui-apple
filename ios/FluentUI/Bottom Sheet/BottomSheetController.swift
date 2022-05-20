@@ -445,7 +445,7 @@ public class BottomSheetController: UIViewController {
         collapsedHeightInSafeArea = view.safeAreaLayoutGuide.layoutFrame.maxY - offset(for: .collapsed)
     }
 
-    override public func viewSafeAreaInsetsDidChange() {
+    public override func viewSafeAreaInsetsDidChange() {
         super.viewSafeAreaInsetsDidChange()
         completeAnimationsIfNeeded(skipToEnd: true)
     }
