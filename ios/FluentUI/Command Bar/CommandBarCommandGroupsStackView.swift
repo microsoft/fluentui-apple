@@ -98,23 +98,7 @@ class CommandBarCommandGroupsStackView: UIStackView {
 // MARK: - CommandBarItemDelegate
 
 extension CommandBarCommandGroupsStackView: CommandBarItemDelegate {
-    func commandBarItem(_ item: CommandBarItem, didChangeEnabledTo value: Bool) {
-        itemsToButtonsMap[item]?.updateState()
-    }
-
-    func commandBarItem(_ item: CommandBarItem, didChangeSelectedTo value: Bool) {
-        itemsToButtonsMap[item]?.updateState()
-    }
-
-    func commandBarItem(_ item: CommandBarItem, didChangeTitleTo value: String?) {
-        itemsToButtonsMap[item]?.updateState()
-    }
-
-    func commandBarItem(_ item: CommandBarItem, didChangeTitleFontTo value: UIFont?) {
-        itemsToButtonsMap[item]?.updateState()
-    }
-
-    func commandBarItem(_ item: CommandBarItem, didChangeIconImageTo value: UIImage?) {
+    func commandBarItemPropertyDidChange(_ item: CommandBarItem) {
         itemsToButtonsMap[item]?.updateState()
     }
 }

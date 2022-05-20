@@ -357,6 +357,6 @@ class CommandBarDemoController: DemoController {
     @objc func refreshDefaultLeadingBarItems(sender: UIButton!) {
         defaultCommandBar?.leadingItemGroups = [[newItem(for: .keyboard)]]
     }
-    
+
     private static let verticalStackViewSpacing: CGFloat = 8.0
 }

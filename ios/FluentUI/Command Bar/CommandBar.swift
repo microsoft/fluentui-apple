@@ -33,16 +33,16 @@ open class CommandBar: UIView {
         self.itemGroups = itemGroups
 
         if let leadingItem = leadingItem {
-            self.leadingItemGroups = [[leadingItem]]
+            leadingItemGroups = [[leadingItem]]
         }
 
         if let trailingItem = trailingItem {
-            self.trailingItemGroups = [[trailingItem]]
+            trailingItemGroups = [[trailingItem]]
         }
 
-        self.leadingCommandGroupsStackView = CommandBarCommandGroupsStackView(itemGroups: self.leadingItemGroups)
-        self.centerCommandGroupsStackView = CommandBarCommandGroupsStackView(itemGroups: self.itemGroups)
-        self.trailingCommandGroupsStackView = CommandBarCommandGroupsStackView(itemGroups: self.trailingItemGroups)
+        leadingCommandGroupsStackView = CommandBarCommandGroupsStackView(itemGroups: leadingItemGroups)
+        mainCommandGroupsStackView = CommandBarCommandGroupsStackView(itemGroups: self.itemGroups)
+        trailingCommandGroupsStackView = CommandBarCommandGroupsStackView(itemGroups: trailingItemGroups)
 
         super.init(frame: .zero)
 
@@ -57,9 +57,9 @@ open class CommandBar: UIView {
         self.leadingItemGroups = leadingItemGroups
         self.trailingItemGroups = trailingItemGroups
 
-        self.leadingCommandGroupsStackView = CommandBarCommandGroupsStackView(itemGroups: self.leadingItemGroups)
-        self.centerCommandGroupsStackView = CommandBarCommandGroupsStackView(itemGroups: self.itemGroups)
-        self.trailingCommandGroupsStackView = CommandBarCommandGroupsStackView(itemGroups: self.trailingItemGroups)
+        leadingCommandGroupsStackView = CommandBarCommandGroupsStackView(itemGroups: self.leadingItemGroups)
+        mainCommandGroupsStackView = CommandBarCommandGroupsStackView(itemGroups: self.itemGroups)
+        trailingCommandGroupsStackView = CommandBarCommandGroupsStackView(itemGroups: self.trailingItemGroups)
 
         super.init(frame: .zero)
 
@@ -77,7 +77,7 @@ open class CommandBar: UIView {
     /// Apply `isEnabled` and `isSelected` state from `CommandBarItem` to the buttons
     @objc public func updateButtonsState() {
 		leadingCommandGroupsStackView.updateButtonsState()
-		centerCommandGroupsStackView.updateButtonsState()
+		mainCommandGroupsStackView.updateButtonsState()
 		trailingCommandGroupsStackView.updateButtonsState()
     }
 
@@ -97,7 +97,7 @@ open class CommandBar: UIView {
     /// Scrollable items shown in the center of the CommandBar
     public var itemGroups: [CommandBarItemGroup] {
         didSet {
-            centerCommandGroupsStackView.itemGroups = itemGroups
+            mainCommandGroupsStackView.itemGroups = itemGroups
         }
     }
 
@@ -128,13 +128,13 @@ open class CommandBar: UIView {
     // MARK: - Private properties
 
     /// UIStackView holding the items pinned to the leading end of the CommandBar
-	private var leadingCommandGroupsStackView: CommandBarCommandGroupsStackView
+    private var leadingCommandGroupsStackView: CommandBarCommandGroupsStackView
 
     /// UIStackView holding the items in the middle of the CommandBar
-	private var centerCommandGroupsStackView: CommandBarCommandGroupsStackView
+    private var mainCommandGroupsStackView: CommandBarCommandGroupsStackView
 
     /// UIStackView holding the items pinned to the trailing end of the CommandBar
-	private var trailingCommandGroupsStackView: CommandBarCommandGroupsStackView
+    private var trailingCommandGroupsStackView: CommandBarCommandGroupsStackView
 
     /// Leading constraint between the `containerView` and either the `leadingCommandGroupsStackView` or the parent view
     private var leadingConstraint: NSLayoutConstraint?
@@ -174,14 +174,14 @@ open class CommandBar: UIView {
         scrollView.alwaysBounceHorizontal = true
         scrollView.delegate = self
 
-        scrollView.addSubview(centerCommandGroupsStackView)
+        scrollView.addSubview(mainCommandGroupsStackView)
         NSLayoutConstraint.activate([
             scrollView.contentLayoutGuide.heightAnchor.constraint(equalTo: scrollView.heightAnchor),
 
-            centerCommandGroupsStackView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
-            centerCommandGroupsStackView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
-            scrollView.contentLayoutGuide.bottomAnchor.constraint(equalTo: centerCommandGroupsStackView.bottomAnchor),
-            scrollView.contentLayoutGuide.trailingAnchor.constraint(equalTo: centerCommandGroupsStackView.trailingAnchor)
+            mainCommandGroupsStackView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
+            mainCommandGroupsStackView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
+            scrollView.contentLayoutGuide.bottomAnchor.constraint(equalTo: mainCommandGroupsStackView.bottomAnchor),
+            scrollView.contentLayoutGuide.trailingAnchor.constraint(equalTo: mainCommandGroupsStackView.trailingAnchor)
         ])
 
         return scrollView
@@ -210,13 +210,13 @@ open class CommandBar: UIView {
             bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: CommandBar.insets.bottom)
         ])
 
-        centerCommandGroupsStackView.layoutIfNeeded()
+        mainCommandGroupsStackView.layoutIfNeeded()
 
         if UIView.userInterfaceLayoutDirection(for: semanticContentAttribute) == .rightToLeft {
             // Flip the scroll view to invert scrolling direction. Flip its content back because it's already in RTL.
             let flipTransform = CGAffineTransform(scaleX: -1, y: 1)
             scrollView.transform = flipTransform
-            centerCommandGroupsStackView.transform = flipTransform
+            mainCommandGroupsStackView.transform = flipTransform
             containerMaskLayer.setAffineTransform(flipTransform)
         }
     }
@@ -286,7 +286,7 @@ open class CommandBar: UIView {
         }
 
         if !trailingCommandGroupsStackView.itemGroups.isEmpty {
-            let trailingOffset = max(0, centerCommandGroupsStackView.frame.width - scrollView.frame.width - scrollView.contentOffset.x)
+            let trailingOffset = max(0, mainCommandGroupsStackView.frame.width - scrollView.frame.width - scrollView.contentOffset.x)
             let percentage = min(1, trailingOffset / scrollView.contentInset.right)
             locations[2] = 1 - CommandBar.fadeViewWidth / containerView.frame.width * percentage
         }

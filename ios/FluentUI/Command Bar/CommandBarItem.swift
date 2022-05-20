@@ -65,7 +65,7 @@ open class CommandBarItem: NSObject {
     @objc public var iconImage: UIImage? {
         didSet {
             if iconImage != oldValue {
-                delegate?.commandBarItem(self, didChangeIconImageTo: iconImage)
+                delegate?.commandBarItemPropertyDidChange(self)
             }
         }
     }
@@ -74,7 +74,7 @@ open class CommandBarItem: NSObject {
     @objc public var title: String? {
         didSet {
             if title != oldValue {
-                delegate?.commandBarItem(self, didChangeTitleTo: title)
+                delegate?.commandBarItemPropertyDidChange(self)
             }
         }
     }
@@ -82,7 +82,7 @@ open class CommandBarItem: NSObject {
     @objc public var titleFont: UIFont? {
         didSet {
             if titleFont != oldValue {
-                delegate?.commandBarItem(self, didChangeTitleFontTo: titleFont)
+                delegate?.commandBarItemPropertyDidChange(self)
             }
         }
     }
@@ -90,7 +90,7 @@ open class CommandBarItem: NSObject {
     @objc public var isEnabled: Bool {
         didSet {
             if isEnabled != oldValue {
-                delegate?.commandBarItem(self, didChangeEnabledTo: isEnabled)
+                delegate?.commandBarItemPropertyDidChange(self)
             }
         }
     }
@@ -99,7 +99,7 @@ open class CommandBarItem: NSObject {
     @objc public var isSelected: Bool {
         didSet {
             if isSelected != oldValue {
-                delegate?.commandBarItem(self, didChangeSelectedTo: isSelected)
+                delegate?.commandBarItemPropertyDidChange(self)
             }
         }
     }
@@ -125,14 +125,6 @@ open class CommandBarItem: NSObject {
 }
 
 protocol CommandBarItemDelegate: AnyObject {
-    /// Called after the `isEnabled` property is changed
-    func commandBarItem(_ item: CommandBarItem, didChangeEnabledTo value: Bool)
-    /// Called after the `isSelected` property is changed
-    func commandBarItem(_ item: CommandBarItem, didChangeSelectedTo value: Bool)
-    /// Called after the `title` property is changed
-    func commandBarItem(_ item: CommandBarItem, didChangeTitleTo value: String?)
-    /// Called after the `titleFont` property is changed
-    func commandBarItem(_ item: CommandBarItem, didChangeTitleFontTo value: UIFont?)
-    /// Called after the `iconImage` property is changed
-    func commandBarItem(_ item: CommandBarItem, didChangeIconImageTo value: UIImage?)
+    /// To be called after a `CommandBarItem` property changes
+    func commandBarItemPropertyDidChange(_ item: CommandBarItem)
 }
