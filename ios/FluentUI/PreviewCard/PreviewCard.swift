@@ -41,7 +41,7 @@ public struct PreviewCard: View {
     var innerContents: some View {
         HStack {
             Spacer()
-                /// Creates placeholder image over PreviewCard.
+                /// Creates image over PreviewCard.
             Image(uiImage: image)
                 /// Sets the image's shape
                 .clipShape(RoundedRectangle(cornerRadius: Constants.cardCornerRadius))
