@@ -8,16 +8,18 @@ import SwiftUI
 
 /// UIKit wrapper that exposes the SwiftUI PreviewCard implementation.
 @objc open class MSFPreviewCard: NSObject, FluentUIWindowProvider {
-    /// The UIView representing the Activity Indicator.
+    /// The UIView representing the PreviewCard.
     @objc open var view: UIView {
         return hostingController.view
     }
     /// Creates a new MSFPreviewCard instance.
     /// - Parameters:
     ///   - theme: The FluentUIStyle instance representing the theme to be overriden for this PreviewCard.
-    @objc public init(theme: FluentUIStyle?, isElevated: Bool = false) {
+    ///   - isElevated: Boolean determining if PreviewCard is flat or elevated.`
+    ///   - image: The UIImage assigning an image over PreviewCard
+    @objc public init(theme: FluentUIStyle?, isElevated: Bool = false, image: UIImage) {
         super.init()
-        previewCardView = PreviewCard(isElevated: isElevated)
+        previewCardView = PreviewCard(isElevated: isElevated, image: image)
         hostingController = FluentUIHostingController(rootView: AnyView(previewCardView.windowProvider(self)))
         hostingController.disableSafeAreaInsets()
     }
@@ -31,6 +33,7 @@ import SwiftUI
 /// View that represents the PreviewCard.
 public struct PreviewCard: View {
     var isElevated: Bool
+    var image: UIImage
     @Environment(\.theme) var theme: FluentUIStyle
     @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
     /// Creates inner PreviewCard view.
@@ -38,9 +41,13 @@ public struct PreviewCard: View {
     var innerContents: some View {
         HStack {
             Spacer()
-                /// Sets the height and width of the Preview Card.
+                /// Creates image over PreviewCard.
+            Image(uiImage: image)
+                /// Sets the image's shape
+                .clipShape(RoundedRectangle(cornerRadius: Constants.cardCornerRadius))
+                /// Sets the height and width of the PreviewCard.
                 .frame(minWidth: Constants.cardMinWidth, minHeight: Constants.cardMinHeight)
-                /// Sets the background border style, radius, color, and linewidth of the Preview Card.
+                /// Sets the background border style, radius, color, and linewidth of the PreviewCard.
                 .background(
                     RoundedRectangle(cornerRadius: Constants.cardCornerRadius)
                         .strokeBorder(Color(red: Constants.cardStrokeBorderColor,
@@ -62,14 +69,14 @@ public struct PreviewCard: View {
     }
     /// Creates the PreviewCard.
     public var body: some View {
-// TODO: - Update to implement light and dark mode
         innerContents
     }
 // MARK: - PreviewCard Box Properties
     // TODO: - Update the hard values with tokens
+    // TODO: - Create enum of multiple PreviewCard aspect ratios
     struct Constants {
         static let cardMinWidth: CGFloat = 343
-        static let cardMinHeight: CGFloat = 147
+        static let cardMinHeight: CGFloat = 192
         static let cardCornerRadius: CGFloat = 8
         static let cardLineWidth: CGFloat = 0.5
         static let cardBottomPadding: CGFloat = 20
