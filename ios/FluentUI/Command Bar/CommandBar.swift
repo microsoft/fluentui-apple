@@ -29,27 +29,19 @@ open class CommandBar: UIView {
     // MARK: - Public methods
 
     @available(*, renamed: "init(itemGroups:leadingItemGroups:trailingItemGroups:)")
-    @objc public init(itemGroups: [CommandBarItemGroup], leadingItem: CommandBarItem? = nil, trailingItem: CommandBarItem? = nil) {
-        self.itemGroups = itemGroups
+    @objc public convenience init(itemGroups: [CommandBarItemGroup], leadingItem: CommandBarItem? = nil, trailingItem: CommandBarItem? = nil) {
+        var leadingItems: [CommandBarItemGroup] = []
+        var trailingItems: [CommandBarItemGroup] = []
 
         if let leadingItem = leadingItem {
-            leadingItemGroups = [[leadingItem]]
+            leadingItems = [[leadingItem]]
         }
 
         if let trailingItem = trailingItem {
-            trailingItemGroups = [[trailingItem]]
+            trailingItems = [[trailingItem]]
         }
 
-        leadingCommandGroupsStackView = CommandBarCommandGroupsStackView(itemGroups: leadingItemGroups)
-        mainCommandGroupsStackView = CommandBarCommandGroupsStackView(itemGroups: self.itemGroups)
-        trailingCommandGroupsStackView = CommandBarCommandGroupsStackView(itemGroups: trailingItemGroups)
-
-        super.init(frame: .zero)
-
-        translatesAutoresizingMaskIntoConstraints = false
-
-        configureHierarchy()
-        updateButtonsState()
+        self.init(itemGroups: itemGroups, leadingItemGroups: leadingItems.isEmpty ? nil : leadingItems, trailingItemGroups: trailingItems.isEmpty ? nil : trailingItems)
     }
 
     @objc public init(itemGroups: [CommandBarItemGroup], leadingItemGroups: [CommandBarItemGroup]? = nil, trailingItemGroups: [CommandBarItemGroup]? = nil) {
@@ -66,19 +58,11 @@ open class CommandBar: UIView {
         translatesAutoresizingMaskIntoConstraints = false
 
         configureHierarchy()
-        updateButtonsState()
     }
 
     @available(*, unavailable)
     public required init?(coder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
-    }
-
-    /// Apply `isEnabled` and `isSelected` state from `CommandBarItem` to the buttons
-    @objc public func updateButtonsState() {
-		leadingCommandGroupsStackView.updateButtonsState()
-		mainCommandGroupsStackView.updateButtonsState()
-		trailingCommandGroupsStackView.updateButtonsState()
     }
 
     // MARK: Overrides

@@ -65,7 +65,7 @@ open class CommandBarItem: NSObject {
     @objc public var iconImage: UIImage? {
         didSet {
             if iconImage != oldValue {
-                delegate?.commandBarItemPropertyDidChange(self)
+                propertyChangedUpdateBlock?(self)
             }
         }
     }
@@ -74,23 +74,17 @@ open class CommandBarItem: NSObject {
     @objc public var title: String? {
         didSet {
             if title != oldValue {
-                delegate?.commandBarItemPropertyDidChange(self)
+                propertyChangedUpdateBlock?(self)
             }
         }
     }
 
-    @objc public var titleFont: UIFont? {
-        didSet {
-            if titleFont != oldValue {
-                delegate?.commandBarItemPropertyDidChange(self)
-            }
-        }
-    }
+    @objc public var titleFont: UIFont?
 
     @objc public var isEnabled: Bool {
         didSet {
             if isEnabled != oldValue {
-                delegate?.commandBarItemPropertyDidChange(self)
+                propertyChangedUpdateBlock?(self)
             }
         }
     }
@@ -99,7 +93,7 @@ open class CommandBarItem: NSObject {
     @objc public var isSelected: Bool {
         didSet {
             if isSelected != oldValue {
-                delegate?.commandBarItemPropertyDidChange(self)
+                propertyChangedUpdateBlock?(self)
             }
         }
     }
@@ -121,10 +115,6 @@ open class CommandBarItem: NSObject {
         itemTappedHandler(sender, self)
     }
 
-    weak var delegate: CommandBarItemDelegate?
-}
-
-protocol CommandBarItemDelegate: AnyObject {
-    /// To be called after a `CommandBarItem` property changes
-    func commandBarItemPropertyDidChange(_ item: CommandBarItem)
+    /// Call after a property is changed to trigger the update of a corresponding button
+    var propertyChangedUpdateBlock: ((CommandBarItem) -> Void)?
 }

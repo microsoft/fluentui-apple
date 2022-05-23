@@ -19,25 +19,18 @@ class CommandBarCommandGroupsStackView: UIStackView {
         axis = .horizontal
         spacing = CommandBarCommandGroupsStackView.buttonGroupSpacing
 
-        refreshButtonLayout()
+        updateButtonsShown()
     }
 
     required init(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        preconditionFailure("init(coder:) has not been implemented")
     }
 
     public var itemGroups: [CommandBarItemGroup] {
         didSet {
             if itemGroups != oldValue {
-                refreshButtonLayout()
+                updateButtonsShown()
             }
-        }
-    }
-
-    /// Updates the state of all buttons in the group
-    public func updateButtonsState() {
-        for button in itemsToButtonsMap.values {
-            button.updateState()
         }
     }
 
@@ -49,7 +42,7 @@ class CommandBarCommandGroupsStackView: UIStackView {
     // MARK: View Updates
 
     /// Refreshes the buttons shown in the `arrangedSubviews`
-    private func refreshButtonLayout() {
+    private func updateButtonsShown() {
         for view in arrangedSubviews {
             view.removeFromSuperview()
         }
@@ -65,9 +58,11 @@ class CommandBarCommandGroupsStackView: UIStackView {
         updateItemsToButtonsMap()
         buttonGroupViews = itemGroups.map { items in
                 CommandBarButtonGroupView(buttons: items.compactMap { item in
-                    item.delegate = self
                     guard let button = itemsToButtonsMap[item] else {
                         preconditionFailure("Button is not initialized in commandsToButtons")
+                    }
+                    item.propertyChangedUpdateBlock = { _ in
+                        button.updateState()
                     }
                     return button
                 })
@@ -93,12 +88,4 @@ class CommandBarCommandGroupsStackView: UIStackView {
     }
 
     private static let buttonGroupSpacing: CGFloat = 16
-}
-
-// MARK: - CommandBarItemDelegate
-
-extension CommandBarCommandGroupsStackView: CommandBarItemDelegate {
-    func commandBarItemPropertyDidChange(_ item: CommandBarItem) {
-        itemsToButtonsMap[item]?.updateState()
-    }
 }
