@@ -6,15 +6,16 @@
 import UIKit
 
 class TabBarItemView: UIControl, TokenizedControlInternal {
-    public func overrideTokens(_ tokens: TabBarTokens?) -> Self {
+    public func overrideTokens(_ tokens: TabBarItemTokens?) -> Self {
         overrideTokens = tokens
         return self
     }
+
     let item: TabBarItem
 
-    var defaultTokens: TabBarTokens = .init()
-    var tokens: TabBarTokens = .init()
-    var overrideTokens: TabBarTokens? {
+    var defaultTokens: TabBarItemTokens = .init()
+    var tokens: TabBarItemTokens = .init()
+    var overrideTokens: TabBarItemTokens? {
         didSet {
             updateTabBarItemTokens()
             updateColors()
