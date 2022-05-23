@@ -59,13 +59,13 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
     ///   - messageButtonAction: Action to be dispatched by tapping on the toast/bar notification.
     public init(style: MSFNotificationStyle,
                 shouldSelfPresent: Bool = true,
-                message: String = "",
+                message: String? = nil,
                 attributedMessage: NSAttributedString? = nil,
                 isPresented: Binding<Bool>? = nil,
-                title: String = "",
+                title: String? = nil,
                 attributedTitle: NSAttributedString? = nil,
                 image: UIImage? = nil,
-                actionButtonTitle: String = "",
+                actionButtonTitle: String? = nil,
                 actionButtonAction: (() -> Void)? = nil,
                 messageButtonAction: (() -> Void)? = nil) {
         let state = MSFNotificationStateImpl(style: style)
@@ -273,12 +273,11 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
     }
 
     private var hasSecondTextRow: Bool {
-        let isToast = state.style.isToast
-        guard state.attributedTitle != nil else {
-            return isToast && state.title != ""
+        guard state.attributedTitle != nil || state.title != nil else {
+            return false
         }
 
-        return isToast
+        return state.style.isToast
     }
 
     private var hasCenteredText: Bool {

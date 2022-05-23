@@ -45,11 +45,13 @@ struct NotificationDemoView: View {
         let image = showImage ? UIImage(named: "play-in-circle-24x24") : nil
         let actionButtonAction = hasActionButtonAction ? { showAlert = true } : nil
         let messageButtonAction = hasMessageAction ? { showAlert = true } : nil
+        let hasMessage = !message.isEmpty
+        let hasTitle = !title.isEmpty
         let notification = FluentNotification(style: style,
-                                              message: message,
-                                              attributedMessage: hasAttribute ? attributedMessage : nil,
-                                              title: title,
-                                              attributedTitle: hasAttribute ? attributedTitle : nil,
+                                              message: hasMessage ? message : nil,
+                                              attributedMessage: hasAttribute && hasMessage ? attributedMessage : nil,
+                                              title: hasTitle ? title : nil,
+                                              attributedTitle: hasAttribute && hasTitle ? attributedTitle : nil,
                                               image: image,
                                               actionButtonTitle: actionButtonTitle,
                                               actionButtonAction: actionButtonAction,
@@ -141,12 +143,12 @@ struct NotificationDemoView: View {
             }
         }
         .presentNotification(style: style,
-                             message: message,
-                             attributedMessage: hasAttribute ? attributedMessage : nil,
+                             message: hasMessage ? message : nil,
+                             attributedMessage: hasAttribute && hasMessage ? attributedMessage : nil,
                              isBlocking: false,
                              isPresented: $isPresented,
-                             title: title,
-                             attributedTitle: hasAttribute ? attributedTitle : nil,
+                             title: hasTitle ? title : nil,
+                             attributedTitle: hasAttribute && hasTitle ? attributedTitle : nil,
                              image: image,
                              actionButtonTitle: actionButtonTitle,
                              actionButtonAction: actionButtonAction,

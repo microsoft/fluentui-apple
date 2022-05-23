@@ -9,8 +9,8 @@ public extension View {
     /// Presents a Notification on top of the modified View.
     /// - Parameters:
     ///   - style: `MSFNotificationStyle` enum value that defines the style of the Notification being presented.
-    ///   - message: Text for the main title area of the control. If there is a title, the message becomes subtext.
-    ///   - attributedMessage: Attributed text for the main title area of the control. If there is a title, the message becomes subtext.
+    ///   - message: Optional text for the main title area of the control. If there is a title, the message becomes subtext.
+    ///   - attributedMessage: Optional attributed text for the main title area of the control. If there is a title, the message becomes subtext.
     ///   - isBlocking: Whether the interaction with the view will be blocked while the Notification is being presented.
     ///   - isPresented: Controls whether the Notification is being presented.
     ///   - title: Optional text to draw above the message area.
@@ -21,14 +21,14 @@ public extension View {
     ///   - messageButtonAction: Action to be dispatched by tapping on the toast/bar notification.
     /// - Returns: The modified view with the capability of presenting a Notification.
     func presentNotification(style: MSFNotificationStyle,
-                             message: String = "",
+                             message: String? = nil,
                              attributedMessage: NSAttributedString? = nil,
                              isBlocking: Bool = true,
                              isPresented: Binding<Bool>,
-                             title: String = "",
+                             title: String? = nil,
                              attributedTitle: NSAttributedString? = nil,
                              image: UIImage? = nil,
-                             actionButtonTitle: String = "",
+                             actionButtonTitle: String? = nil,
                              actionButtonAction: (() -> Void)? = nil,
                              messageButtonAction: (() -> Void)? = nil,
                              dismissAction: (() -> Void)? = nil) -> some View {

@@ -12,7 +12,7 @@ import UIKit
     /// Creates a new MSFNotification instance.
     /// - Parameters:
     ///   - style: The MSFNotification value used by the Notification.
-    ///   - message: The primary text to display in the Notification.
+    ///   - shouldSelfPresent: Whether the notification should  present itself (SwiftUI environment) or externally (UIKit environment)
     @objc public init(style: MSFNotificationStyle) {
         notification = FluentNotification(style: style,
                                           shouldSelfPresent: false)
