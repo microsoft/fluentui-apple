@@ -23,8 +23,8 @@ open class TabBarTokens: ControlTokens {
     open var tabBarItemUnselectedColor: DynamicColor? { nil }
 
     /// Font info for the title label when in portrait view
-    open var tabBarItemTitleLabelPortrait: FontInfo? { nil }
+    open var tabBarItemTitleLabelFontPortrait: FontInfo? { nil }
 
     /// Font info for the title label when in landscape view
-    open var tabBarItemTitleLabelLandscape: FontInfo? { nil }
+    open var tabBarItemTitleLabelFontLandscape: FontInfo? { nil }
 }

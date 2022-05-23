@@ -66,8 +66,8 @@ class TabBarItemTokens: ControlTokens {
     open var badgeCornerRadii: CGFloat { 10.0 }
 
     /// Font info for the title label when in portrait view
-    open var titleLabelPortrait: FontInfo { return .init(size: 10, weight: .medium) }
+    open var titleLabelFontPortrait: FontInfo { return .init(size: 10, weight: .medium) }
 
     /// Font info for the title label when in landscape view
-    open var titleLabelLandscape: FontInfo { return .init(size: 13, weight: .medium) }
+    open var titleLabelFontLandscape: FontInfo { return .init(size: 13, weight: .medium) }
 }

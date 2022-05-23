@@ -211,12 +211,12 @@ open class TabBarView: UIView, TokenizedControlInternal {
             tabBarTokens.tabBarItemUnselectedColor ?? super.unselectedColor
         }
 
-        override var titleLabelPortrait: FontInfo {
-            tabBarTokens.tabBarItemTitleLabelPortrait ?? super.titleLabelPortrait
+        override var titleLabelFontPortrait: FontInfo {
+            tabBarTokens.tabBarItemTitleLabelFontPortrait ?? super.titleLabelFontPortrait
         }
 
-        override var titleLabelLandscape: FontInfo {
-            tabBarTokens.tabBarItemTitleLabelLandscape ?? super.titleLabelLandscape
+        override var titleLabelFontLandscape: FontInfo {
+            tabBarTokens.tabBarItemTitleLabelFontLandscape ?? super.titleLabelFontLandscape
         }
 
     }
