@@ -31,3 +31,31 @@ struct UIViewAdapter: UIViewRepresentable {
         stackview.addArrangedSubview(makeView())
     }
 }
+
+/// UILabel wrapper that allows SwiftUI to support NSAttributedString
+struct AttributedText: UIViewRepresentable {
+
+    let attributedString: NSAttributedString
+
+    init(_ attributedString: NSAttributedString) {
+        self.attributedString = attributedString
+    }
+
+    func makeUIView(context: Context) -> UILabel {
+        let label = UILabel()
+
+        // Setting this ensures the UIViewRepresentable respects the parent view's width
+        label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 0
+        return label
+    }
+
+    func updateUIView(_ label: UILabel, context: Context) {
+        // Update the UILabel's attributes if it changes.
+        DispatchQueue.main.async {
+            label.attributedText = attributedString
+            label.preferredMaxLayoutWidth = label.bounds.width
+        }
+    }
+}
