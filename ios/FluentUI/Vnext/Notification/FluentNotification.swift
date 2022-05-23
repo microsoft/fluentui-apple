@@ -10,11 +10,17 @@ import SwiftUI
     /// Style to draw the control.
     var style: MSFNotificationStyle { get }
 
-    /// Text for the main title area of the control. If there is a title, the message becomes subtext.
-    var message: String { get set }
+    /// Optional text for the main title area of the control. If there is a title, the message becomes subtext.
+    var message: String? { get set }
+
+    /// Optional attributed text for the main title area of the control. If there is a title, the message becomes subtext.
+    var attributedMessage: NSAttributedString? { get set }
 
     /// Optional text to draw above the message area.
     var title: String? { get set }
+
+    /// Optional attributed text to draw above the message area.
+    var attributedTitle: NSAttributedString? { get set }
 
     /// Optional icon to draw at the leading edge of the control.
     var image: UIImage? { get set }
@@ -42,24 +48,31 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
     /// - Parameters:
     ///   - style: `MSFNotificationStyle` enum value that defines the style of the Notification being presented.
     ///   - shouldSelfPresent: Whether the notification should  present itself (SwiftUI environment) or externally (UIKit environment)
-    ///   - message: Text for the main title area of the control. If there is a title, the message becomes subtext.
+    ///   - message: Optional text for the main title area of the control. If there is a title, the message becomes subtext.
+    ///   - attributedMessage: Optional attributed text for the main title area of the control. If there is a title, the message becomes subtext. If set, it will override the message parameter.
     ///   - isPresented: Controls whether the Notification is being presented.
     ///   - title: Optional text to draw above the message area.
+    ///   - attributedTitle: Optional attributed text to draw above the message area. If set, it will override the title parameter.
     ///   - image: Optional icon to draw at the leading edge of the control.
     ///   - actionButtonTitle:Title to display in the action button on the trailing edge of the control.
     ///   - actionButtonAction: Action to be dispatched by the action button on the trailing edge of the control.
     ///   - messageButtonAction: Action to be dispatched by tapping on the toast/bar notification.
     public init(style: MSFNotificationStyle,
                 shouldSelfPresent: Bool = true,
-                message: String,
+                message: String? = nil,
+                attributedMessage: NSAttributedString? = nil,
                 isPresented: Binding<Bool>? = nil,
-                title: String = "",
+                title: String? = nil,
+                attributedTitle: NSAttributedString? = nil,
                 image: UIImage? = nil,
-                actionButtonTitle: String = "",
+                actionButtonTitle: String? = nil,
                 actionButtonAction: (() -> Void)? = nil,
                 messageButtonAction: (() -> Void)? = nil) {
-        let state = MSFNotificationStateImpl(style: style, message: message)
+        let state = MSFNotificationStateImpl(style: style)
+        state.message = message
+        state.attributedMessage = attributedMessage
         state.title = title
+        state.attributedTitle = attributedTitle
         state.image = image
         state.actionButtonTitle = actionButtonTitle
         state.actionButtonAction = actionButtonAction
@@ -165,7 +178,10 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
     @ViewBuilder
     private var titleLabel: some View {
         if state.style.isToast && hasSecondTextRow {
-            if let title = state.title {
+            if let attributedTitle = state.attributedTitle {
+                AttributedText(attributedTitle)
+                    .fixedSize(horizontal: false, vertical: true)
+            } else if let title = state.title {
                 Text(title)
                     .font(.fluent(tokens.boldTextFont))
                     .foregroundColor(Color(dynamicColor: tokens.foregroundColor))
@@ -175,10 +191,15 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
 
     @ViewBuilder
     private var messageLabel: some View {
-        let messageFont = hasSecondTextRow ? tokens.footnoteTextFont : (state.style.isToast ? tokens.boldTextFont : tokens.regularTextFont)
-        Text(state.message)
-            .font(.fluent(messageFont))
-            .foregroundColor(Color(dynamicColor: tokens.foregroundColor))
+        if let attributedMessage = state.attributedMessage {
+            AttributedText(attributedMessage)
+                .fixedSize(horizontal: false, vertical: true)
+        } else if let message = state.message {
+            let messageFont = hasSecondTextRow ? tokens.footnoteTextFont : (state.style.isToast ? tokens.boldTextFont : tokens.regularTextFont)
+            Text(message)
+                .font(.fluent(messageFont))
+                .foregroundColor(Color(dynamicColor: tokens.foregroundColor))
+        }
     }
 
     @ViewBuilder
@@ -243,6 +264,7 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
                     .layoutPriority(1)
             }
             .frame(minHeight: tokens.minimumHeight)
+            .clipped()
         }
     }
 
@@ -251,7 +273,11 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
     }
 
     private var hasSecondTextRow: Bool {
-        state.style.isToast && state.title != ""
+        guard state.attributedTitle != nil || state.title != nil else {
+            return false
+        }
+
+        return state.style.isToast
     }
 
     private var hasCenteredText: Bool {
@@ -287,8 +313,10 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
 }
 
 class MSFNotificationStateImpl: NSObject, ControlConfiguration, MSFNotificationState {
-    @Published public var message: String
+    @Published public var message: String?
+    @Published public var attributedMessage: NSAttributedString?
     @Published public var title: String?
+    @Published public var attributedTitle: NSAttributedString?
     @Published public var image: UIImage?
 
     /// Title to display in the action button on the trailing edge of the control.
@@ -310,23 +338,27 @@ class MSFNotificationStateImpl: NSObject, ControlConfiguration, MSFNotificationS
     /// Style to draw the control.
     @Published public var style: MSFNotificationStyle
 
-    @objc init(style: MSFNotificationStyle, message: String) {
+    @objc init(style: MSFNotificationStyle) {
         self.style = style
-        self.message = message
 
         super.init()
     }
 
     convenience init(style: MSFNotificationStyle,
-                     message: String,
+                     message: String? = nil,
+                     attributedMessage: NSAttributedString? = nil,
                      title: String? = nil,
+                     attributedTitle: NSAttributedString? = nil,
                      image: UIImage? = nil,
                      actionButtonTitle: String? = nil,
                      actionButtonAction: (() -> Void)? = nil,
                      messageButtonAction: (() -> Void)? = nil) {
-        self.init(style: style, message: message)
+        self.init(style: style)
 
+        self.message = message
+        self.attributedMessage = attributedMessage
         self.title = title
+        self.attributedTitle = attributedTitle
         self.image = image
         self.actionButtonTitle = actionButtonTitle
         self.actionButtonAction = actionButtonAction
