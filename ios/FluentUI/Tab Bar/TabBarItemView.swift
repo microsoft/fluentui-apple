@@ -258,7 +258,7 @@ class TabBarItemView: UIControl, TokenizedControlInternal {
         if isInPortraitMode {
             container.axis = .vertical
             container.spacing = tokens.spacingVertical
-            titleLabel.font = UIFont.fluent(tokens.titleLabelPortrait, shouldScale: false)
+            titleLabel.font = UIFont.fluent(tokens.titleLabelFontPortrait, shouldScale: false)
 
             if canResizeImage {
                 suggestImageSize = titleLabel.isHidden ? tokens.portraitImageSize : tokens.portraitImageWithLabelSize
@@ -266,7 +266,7 @@ class TabBarItemView: UIControl, TokenizedControlInternal {
         } else {
             container.axis = .horizontal
             container.spacing = tokens.spacingHorizontal
-            titleLabel.font = UIFont.fluent(tokens.titleLabelLandscape, shouldScale: false)
+            titleLabel.font = UIFont.fluent(tokens.titleLabelFontLandscape, shouldScale: false)
             if canResizeImage {
                  suggestImageSize = tokens.landscapeImageSize
             }

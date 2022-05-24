@@ -237,11 +237,11 @@ extension TabBarViewDemoController: DemoAppearanceDelegate {
     }
 
     private class PerControlOverrideTabBarItemTokens: TabBarTokens {
-        override var tabBarItemTitleLabelPortrait: FontInfo? {
+        override var tabBarItemTitleLabelFontPortrait: FontInfo? {
             return .init(size: 15, weight: .bold)
         }
 
-        override var tabBarItemTitleLabelLandscape: FontInfo? {
+        override var tabBarItemTitleLabelFontLandscape: FontInfo? {
             return .init(size: 15, weight: .bold)
         }
     }
