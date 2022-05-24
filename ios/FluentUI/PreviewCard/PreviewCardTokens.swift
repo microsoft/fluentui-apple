@@ -4,7 +4,6 @@
 //
 
 import SwiftUI
-import UIKit
 
 /// Pre-defined sizes of the PreviewCard.
 @objc public enum MSFPreviewCardSize: Int, CaseIterable {
