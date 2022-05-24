@@ -222,13 +222,13 @@ extension TabBarViewDemoController: DemoAppearanceDelegate {
 
     // MARK: - Custom tokens
     private class ThemeWideOverrideTabBarTokens: TabBarTokens {
-        override var selectedColor: DynamicColor {
+        override var tabBarItemSelectedColor: DynamicColor {
             return .init(light: globalTokens.sharedColors[.burgundy][.tint10],
                          lightHighContrast: globalTokens.sharedColors[.pumpkin][.tint10],
                          dark: globalTokens.sharedColors[.darkTeal][.tint40],
                          darkHighContrast: globalTokens.sharedColors[.teal][.tint40])
         }
-        override var unselectedColor: DynamicColor {
+        override var tabBarItemUnselectedColor: DynamicColor {
             return .init(light: globalTokens.sharedColors[.darkTeal][.tint20],
                          lightHighContrast: globalTokens.sharedColors[.teal][.tint40],
                          dark: globalTokens.sharedColors[.pumpkin][.tint40],
@@ -237,27 +237,11 @@ extension TabBarViewDemoController: DemoAppearanceDelegate {
     }
 
     private class PerControlOverrideTabBarItemTokens: TabBarTokens {
-        override var portraitImageSize: CGFloat {
-            return 14.0
+        override var tabBarItemTitleLabelFontPortrait: FontInfo? {
+            return .init(size: 15, weight: .bold)
         }
 
-        override var portraitImageWithLabelSize: CGFloat {
-            return 14.0
-        }
-
-        override var landscapeImageSize: CGFloat {
-            return 14.0
-        }
-
-        override var phonePortraitHeight: CGFloat {
-            return 35.0
-        }
-
-        override var phoneLandscapeHeight: CGFloat {
-            return 35.0
-        }
-
-        override var titleLabelPortrait: FontInfo {
+        override var tabBarItemTitleLabelFontLandscape: FontInfo? {
             return .init(size: 15, weight: .bold)
         }
     }

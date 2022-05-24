@@ -6,15 +6,16 @@
 import UIKit
 
 class TabBarItemView: UIControl, TokenizedControlInternal {
-    public func overrideTokens(_ tokens: TabBarTokens?) -> Self {
+    public func overrideTokens(_ tokens: TabBarItemTokens?) -> Self {
         overrideTokens = tokens
         return self
     }
+
     let item: TabBarItem
 
-    var defaultTokens: TabBarTokens = .init()
-    var tokens: TabBarTokens = .init()
-    var overrideTokens: TabBarTokens? {
+    var defaultTokens: TabBarItemTokens = .init()
+    var tokens: TabBarItemTokens = .init()
+    var overrideTokens: TabBarItemTokens? {
         didSet {
             updateTabBarItemTokens()
             updateColors()
@@ -257,7 +258,7 @@ class TabBarItemView: UIControl, TokenizedControlInternal {
         if isInPortraitMode {
             container.axis = .vertical
             container.spacing = tokens.spacingVertical
-            titleLabel.font = UIFont.fluent(tokens.titleLabelPortrait, shouldScale: false)
+            titleLabel.font = UIFont.fluent(tokens.titleLabelFontPortrait, shouldScale: false)
 
             if canResizeImage {
                 suggestImageSize = titleLabel.isHidden ? tokens.portraitImageSize : tokens.portraitImageWithLabelSize
@@ -265,7 +266,7 @@ class TabBarItemView: UIControl, TokenizedControlInternal {
         } else {
             container.axis = .horizontal
             container.spacing = tokens.spacingHorizontal
-            titleLabel.font = UIFont.fluent(tokens.titleLabelLandscape, shouldScale: false)
+            titleLabel.font = UIFont.fluent(tokens.titleLabelFontLandscape, shouldScale: false)
             if canResizeImage {
                  suggestImageSize = tokens.landscapeImageSize
             }
