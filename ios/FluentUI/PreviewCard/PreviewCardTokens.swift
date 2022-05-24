@@ -12,6 +12,7 @@ import UIKit
     case landscapeHeight
     case oldLandscapeHeight
     case squareHeight
+    /// CGFloat values for the height of individual PreviewCards.
     var cardHeight: CGFloat {
         switch self {
         case .ultrawideHeight:
