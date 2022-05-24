@@ -192,10 +192,11 @@ open class TabBarView: UIView, TokenizedControlInternal {
     }
 
     private class CustomTabBarItemTokens: TabBarItemTokens {
-        var tabBarTokens: TabBarTokens = .init()
+        var tabBarTokens: TabBarTokens
 
+        @available(*, unavailable)
         required init() {
-            super.init()
+            preconditionFailure("init() has not been implemented")
         }
 
         init (tabBarTokens: TabBarTokens) {
