@@ -7,9 +7,13 @@ import SwiftUI
 
 /// Pre-defined sizes of the PreviewCard.
 @objc public enum MSFPreviewCardSize: Int, CaseIterable {
+        /// 21:9 aspect ratio
     case ultrawideHeight
+        /// 16:9 aspect ratio
     case landscapeHeight
-    case oldLandscapeHeight
+        /// 4:3 aspect ratio
+    case fullscreenHeight
+        /// 1:1 aspect ratio
     case squareHeight
     /// CGFloat values for the height of individual PreviewCards.
     var cardHeight: CGFloat {
@@ -18,7 +22,7 @@ import SwiftUI
         return 147
         case .landscapeHeight:
         return 192
-        case .oldLandscapeHeight:
+        case .fullscreenHeight:
         return 257
         case .squareHeight:
         return 343

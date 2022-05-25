@@ -24,8 +24,8 @@ class PreviewCardDemoController: DemoController {
         let previewUltrawideElevatedCard = MSFPreviewCard(theme: nil, isElevated: true, image: placeholderImage, cardHeight: .ultrawideHeight)
         let previewLandscapeFlatCard = MSFPreviewCard(theme: nil, image: placeholderImage, cardHeight: .landscapeHeight)
         let previewLandscapeElevatedCard = MSFPreviewCard(theme: nil, isElevated: true, image: placeholderImage, cardHeight: .landscapeHeight)
-        let previewOldLanscapeFlatCard = MSFPreviewCard(theme: nil, image: placeholderImage, cardHeight: .oldLandscapeHeight)
-        let previewOldLanscapeElevatedCard = MSFPreviewCard(theme: nil, isElevated: true, image: placeholderImage, cardHeight: .oldLandscapeHeight)
+        let previewFullscreenFlatCard = MSFPreviewCard(theme: nil, image: placeholderImage, cardHeight: .fullscreenHeight)
+        let previewFullscreenElevatedCard = MSFPreviewCard(theme: nil, isElevated: true, image: placeholderImage, cardHeight: .fullscreenHeight)
         let previewSquareFlatCard = MSFPreviewCard(theme: nil, image: placeholderImage, cardHeight: .squareHeight)
         let previewSquareElevatedCard = MSFPreviewCard(theme: nil, isElevated: true, image: placeholderImage, cardHeight: .squareHeight)
 
@@ -33,8 +33,8 @@ class PreviewCardDemoController: DemoController {
         let previewUltrawideElevatedCardView = previewUltrawideElevatedCard.view
         let previewLanscapeFlatCardView = previewLandscapeFlatCard.view
         let previewLandscapeElevatedCardView = previewLandscapeElevatedCard.view
-        let previewOldLandscapeFlatCardView = previewOldLanscapeFlatCard.view
-        let previewOldLandscapeElevatedCardView = previewOldLanscapeElevatedCard.view
+        let previewFullscreenFlatCardView = previewFullscreenFlatCard.view
+        let previewFullscreenElevatedCardView = previewFullscreenElevatedCard.view
         let previewSquareFlatCardView = previewSquareFlatCard.view
         let previewSquareElevatedCardView = previewSquareElevatedCard.view
 
@@ -46,8 +46,8 @@ class PreviewCardDemoController: DemoController {
         container.addArrangedSubview(previewLandscapeElevatedCardView)
         addTitle(text: "16:9")
 
-        container.addArrangedSubview(previewOldLandscapeFlatCardView)
-        container.addArrangedSubview(previewOldLandscapeElevatedCardView)
+        container.addArrangedSubview(previewFullscreenFlatCardView)
+        container.addArrangedSubview(previewFullscreenElevatedCardView)
         addTitle(text: "4:3")
 
         container.addArrangedSubview(previewSquareFlatCardView)

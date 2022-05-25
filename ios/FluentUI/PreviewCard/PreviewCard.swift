@@ -78,7 +78,6 @@ public struct PreviewCard: View {
     }
 // MARK: - PreviewCard Box Properties
     // TODO: - Update the hard values with tokens
-    // TODO: - Create enum of multiple PreviewCard aspect ratios
     struct Constants {
         static let cardMinWidth: CGFloat = 343
         static let cardCornerRadius: CGFloat = 8
