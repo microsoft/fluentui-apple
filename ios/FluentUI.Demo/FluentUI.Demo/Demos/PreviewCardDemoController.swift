@@ -19,6 +19,7 @@ class PreviewCardDemoController: DemoController {
         guard let placeholderImage = UIImage.init(named: "W11_Placeholder") else {
             return
         }
+
         let previewUltrawideFlatCard = MSFPreviewCard(theme: nil, image: placeholderImage, cardHeight: .ultrawideHeight)
         let previewUltrawideElevatedCard = MSFPreviewCard(theme: nil, isElevated: true, image: placeholderImage, cardHeight: .ultrawideHeight)
         let previewLandscapeFlatCard = MSFPreviewCard(theme: nil, image: placeholderImage, cardHeight: .landscapeHeight)
@@ -27,6 +28,7 @@ class PreviewCardDemoController: DemoController {
         let previewOldLanscapeElevatedCard = MSFPreviewCard(theme: nil, isElevated: true, image: placeholderImage, cardHeight: .oldLandscapeHeight)
         let previewSquareFlatCard = MSFPreviewCard(theme: nil, image: placeholderImage, cardHeight: .squareHeight)
         let previewSquareElevatedCard = MSFPreviewCard(theme: nil, isElevated: true, image: placeholderImage, cardHeight: .squareHeight)
+
         let previewUltrawideFlatCardView = previewUltrawideFlatCard.view
         let previewUltrawideElevatedCardView = previewUltrawideElevatedCard.view
         let previewLanscapeFlatCardView = previewLandscapeFlatCard.view
@@ -35,15 +37,19 @@ class PreviewCardDemoController: DemoController {
         let previewOldLandscapeElevatedCardView = previewOldLanscapeElevatedCard.view
         let previewSquareFlatCardView = previewSquareFlatCard.view
         let previewSquareElevatedCardView = previewSquareElevatedCard.view
+
         container.addArrangedSubview(previewUltrawideFlatCardView)
         container.addArrangedSubview(previewUltrawideElevatedCardView)
         addTitle(text: "21:9")
+
         container.addArrangedSubview(previewLanscapeFlatCardView)
         container.addArrangedSubview(previewLandscapeElevatedCardView)
         addTitle(text: "16:9")
+
         container.addArrangedSubview(previewOldLandscapeFlatCardView)
         container.addArrangedSubview(previewOldLandscapeElevatedCardView)
         addTitle(text: "4:3")
+
         container.addArrangedSubview(previewSquareFlatCardView)
         container.addArrangedSubview(previewSquareElevatedCardView)
         addTitle(text: "1:1")
