@@ -6,16 +6,13 @@
 import UIKit
 
 class CommandBarCommandGroupsStackView: UIStackView {
-    init(itemGroups: [CommandBarItemGroup]? = nil) {
-        if let itemGroups = itemGroups {
-            self.itemGroups = itemGroups
-        } else {
-            self.itemGroups = []
-        }
+    init(itemGroups: [CommandBarItemGroup]? = nil, buttonsPersistSelection: Bool = true) {
+        self.itemGroups = itemGroups ?? []
+
+        self.buttonsPersistSelection = buttonsPersistSelection
 
         super.init(frame: .zero)
 
-        translatesAutoresizingMaskIntoConstraints = false
         axis = .horizontal
         spacing = CommandBarCommandGroupsStackView.buttonGroupSpacing
 
@@ -34,10 +31,18 @@ class CommandBarCommandGroupsStackView: UIStackView {
         }
     }
 
+    /// Updates the state of all buttons in the group
+    public func updateButtonsState() {
+        for button in itemsToButtonsMap.values {
+            button.updateState()
+        }
+    }
+
     // MARK: - Private properties
 
     private var buttonGroupViews: [CommandBarButtonGroupView] = []
     private var itemsToButtonsMap: [CommandBarItem: CommandBarButton] = [:]
+    private var buttonsPersistSelection: Bool
 
     // MARK: View Updates
 
@@ -59,7 +64,7 @@ class CommandBarCommandGroupsStackView: UIStackView {
         buttonGroupViews = itemGroups.map { items in
                 CommandBarButtonGroupView(buttons: items.compactMap { item in
                     guard let button = itemsToButtonsMap[item] else {
-                        preconditionFailure("Button is not initialized in commandsToButtons")
+                        preconditionFailure("Button is not initialized in map")
                     }
                     item.propertyChangedUpdateBlock = { _ in
                         button.updateState()
@@ -71,11 +76,11 @@ class CommandBarCommandGroupsStackView: UIStackView {
 
     /// Refreshes the `itemsToButtonsMap` of `CommandBarItem`s to their corresponding `CommandBarButton`
     private func updateItemsToButtonsMap() {
-        let allButtons = itemGroups.flatMap({ $0 }).map({ button(forItem: $0) })
+        let allButtons = itemGroups.flatMap({ $0 }).map({ createButton(forItem: $0, isPersistSelection: buttonsPersistSelection) })
         itemsToButtonsMap = Dictionary(uniqueKeysWithValues: allButtons.map { ($0.item, $0) })
     }
 
-    private func button(forItem item: CommandBarItem, isPersistSelection: Bool = true) -> CommandBarButton {
+    private func createButton(forItem item: CommandBarItem, isPersistSelection: Bool = true) -> CommandBarButton {
         let button = CommandBarButton(item: item, isPersistSelection: isPersistSelection)
         button.addTarget(self, action: #selector(handleCommandButtonTapped(_:)), for: .touchUpInside)
 

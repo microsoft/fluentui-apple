@@ -115,6 +115,6 @@ open class CommandBarItem: NSObject {
         itemTappedHandler(sender, self)
     }
 
-    /// Call after a property is changed to trigger the update of a corresponding button
+    /// Called after a property is changed to trigger the update of a corresponding button
     var propertyChangedUpdateBlock: ((CommandBarItem) -> Void)?
 }
