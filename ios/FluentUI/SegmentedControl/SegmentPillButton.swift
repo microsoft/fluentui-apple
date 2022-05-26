@@ -35,10 +35,10 @@ class SegmentPillButton: UIButton {
         self.contentEdgeInsets = Constants.insets
 
         let title = item.title
-        self.accessibilityLabel = title
-        self.largeContentTitle = title
         if let image = item.image {
             self.setImage(image, for: .normal)
+            self.accessibilityLabel = title
+            self.largeContentTitle = title
         } else {
             self.setTitle(title, for: .normal)
         }
