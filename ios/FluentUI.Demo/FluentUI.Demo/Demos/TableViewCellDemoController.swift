@@ -150,8 +150,11 @@ extension TableViewCellDemoController: DemoAppearanceDelegate {
             return DynamicColor(light: GlobalTokens().sharedColors[.brass][.tint50],
                                 dark: GlobalTokens().sharedColors[.brass][.shade40])
         }
-        override var titleFont: FontInfo {
-            return FontInfo(name: "Papyrus", size: 20.0, weight: .regular)
+
+        override var accessoryDisclosureIndicatorColor: DynamicColor {
+            // "Forest"
+            return DynamicColor(light: GlobalTokens().sharedColors[.forest][.tint10],
+                                dark: GlobalTokens().sharedColors[.forest][.shade40])
         }
     }
 }
@@ -207,9 +210,7 @@ extension TableViewCellDemoController {
 
         cell.isInSelectionMode = section.allowsMultipleSelection ? isInSelectionMode : false
 
-        if let overrideTokens = overrideTokens {
-            cell.tableViewCellOverrideTokens = overrideTokens
-        }
+        cell.tableViewCellOverrideTokens = overrideTokens
 
         return cell
     }

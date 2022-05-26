@@ -4,7 +4,7 @@
 //
 import UIKit
 
-open class TableViewTokens: ControlTokens {
+open class TableViewCellTokens: ControlTokens {
     /// The background color of the TableView.
     open var backgroundColor: DynamicColor {
         .init(light: globalTokens.neutralColors[.white],
@@ -16,9 +16,7 @@ open class TableViewTokens: ControlTokens {
         .init(light: aliasTokens.backgroundColors[.neutral2].light,
               dark: aliasTokens.backgroundColors[.neutral1].dark)
     }
-}
 
-open class TableViewCellTokens: TableViewTokens {
     /// The background color of the TableViewCell.
     open var cellBackgroundColor: DynamicColor { aliasTokens.backgroundColors[.neutral1] }
 
@@ -46,16 +44,16 @@ open class TableViewCellTokens: TableViewTokens {
     open var selectionIndicatorOffColor: DynamicColor { aliasTokens.foregroundColors[.neutral3] }
 
     /// The font for the title.
-    open var titleFont: FontInfo { aliasTokens.typography[.body1] } //.body
+    open var titleFont: FontInfo { aliasTokens.typography[.body1] }
 
     /// The font for the subtitle when the TableViewCell is two lines.
-    open var subtitleTwoLinesFont: FontInfo { aliasTokens.typography[.caption1] } //.footnote
+    open var subtitleTwoLinesFont: FontInfo { aliasTokens.typography[.caption1] }
 
     /// The font for the subtitle when the TableViewCell is three lines.
-    open var subtitleThreeLinesFont: FontInfo { aliasTokens.typography[.body2] } //.subhead
+    open var subtitleThreeLinesFont: FontInfo { aliasTokens.typography[.body2] }
 
     /// The font for the footer.
-    open var footerFont: FontInfo { aliasTokens.typography[.caption1] } //.footnote
+    open var footerFont: FontInfo { aliasTokens.typography[.caption1] }
 
     /// The leading margin for the labelAccessoryView.
     open var labelAccessoryViewMarginLeading: CGFloat { globalTokens.spacing[.xSmall] }
@@ -107,9 +105,7 @@ open class TableViewCellTokens: TableViewTokens {
 
     /// The trailing padding in the cell.
     open var paddingTrailing: CGFloat { globalTokens.spacing[.medium] }
-}
 
-open class TableViewCellAccessoryTokens: ControlTokens {
     /// The color for the accessoryDisclosureIndicator.
     open var accessoryDisclosureIndicatorColor: DynamicColor { aliasTokens.foregroundColors[.neutral4] }
 

@@ -34,16 +34,16 @@ public enum TableViewCellAccessoryType: Int {
         return icon
     }
 
-    func iconColor(for window: UIWindow) -> UIColor? {
+    func iconColor(tokens: TableViewCellTokens) -> UIColor? {
         switch self {
         case .none:
             return nil
         case .disclosureIndicator:
-            return Colors.Table.Cell.accessoryDisclosureIndicator
+            return UIColor(dynamicColor: tokens.accessoryDisclosureIndicatorColor)
         case .detailButton:
-            return Colors.Table.Cell.accessoryDetailButton
+            return UIColor(dynamicColor: tokens.accessoryDetailButtonColor)
         case .checkmark:
-            return Colors.primary(for: window)
+            return UIColor(dynamicColor: tokens.globalTokens.brandColors[.primary])
         }
     }
 
@@ -188,7 +188,6 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
 
     /**
      The height for the cell based on the text provided. Useful when `numberOfLines` of `title`, `subtitle`, `footer` is 1.
-     
      `smallHeight` - Height for the cell when only the `title` is provided in a single line of text.
      `mediumHeight` - Height for the cell when only the `title` and `subtitle` are provided in 2 lines of text.
      `largeHeight` - Height for the cell when the `title`, `subtitle`, and `footer` are provided in 3 lines of text.
@@ -918,7 +917,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
             if _accessoryType == oldValue {
                 return
             }
-            accessoryTypeView = _accessoryType == .none ? nil : TableViewCellAccessoryView(type: _accessoryType)
+            accessoryTypeView = _accessoryType == .none ? nil : TableViewCellAccessoryView(type: _accessoryType, tokens: tokens)
             initAccessibilityForAccessoryType()
             setNeedsLayout()
             invalidateIntrinsicContentSize()
@@ -931,7 +930,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
             subtitleLabel.isHidden = layoutType == .oneLine
             footerLabel.isHidden = layoutType != .threeLines
 
-            subtitleLabel.font = UIFont.fluent(layoutType == .twoLines ? tokens.subtitleTwoLinesFont : tokens.subtitleThreeLinesFont)
+            updateFonts()
 
             setNeedsLayout()
             invalidateIntrinsicContentSize()
@@ -1499,6 +1498,11 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         updateTextColors()
         updateSelectionImageColor()
         setupBackgroundColors()
+        updateAccessoryViewColor()
+    }
+
+    private func updateAccessoryViewColor() {
+        accessoryTypeView?.tokens = tokens
     }
 
     open func selectionDidChange() { }
@@ -1619,6 +1623,11 @@ internal class TableViewCellAccessoryView: UIView {
     override var intrinsicContentSize: CGSize { return type.size }
 
     let type: TableViewCellAccessoryType
+    var tokens: TableViewCellTokens {
+        didSet {
+            updateTintColor()
+        }
+    }
     var iconView: UIImageView?
     /// `onTapped` is called when `detailButton` is tapped
     var onTapped: (() -> Void)?
@@ -1630,8 +1639,9 @@ internal class TableViewCellAccessoryView: UIView {
         }
     }
 
-    init(type: TableViewCellAccessoryType) {
+    init(type: TableViewCellAccessoryType, tokens: TableViewCellTokens) {
         self.type = type
+        self.tokens = tokens
         super.init(frame: .zero)
 
         switch type {
@@ -1643,6 +1653,7 @@ internal class TableViewCellAccessoryView: UIView {
             addSubview(detailButton)
             detailButton.fitIntoSuperview()
         }
+        updateTintColor()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -1651,11 +1662,6 @@ internal class TableViewCellAccessoryView: UIView {
 
     override func sizeThatFits(_ size: CGSize) -> CGSize {
         return type.size
-    }
-
-    override func didMoveToWindow() {
-        super.didMoveToWindow()
-        updateWindowSpecificColors()
     }
 
     private func addIconView(type: TableViewCellAccessoryType) {
@@ -1685,13 +1691,12 @@ internal class TableViewCellAccessoryView: UIView {
         return button
     }()
 
-    private func updateWindowSpecificColors() {
-        if let window = window {
-            let iconColor = type.iconColor(for: window)
-            iconView?.tintColor = customTintColor ?? iconColor
-            if type == .detailButton {
-                detailButton.tintColor = iconColor
-            }
+    func updateTintColor() {
+        iconView?.tintColor = customTintColor
+        let iconColor = type.iconColor(tokens: tokens)
+        iconView?.tintColor = customTintColor ?? iconColor
+        if type == .detailButton {
+            detailButton.tintColor = iconColor
         }
     }
 }
