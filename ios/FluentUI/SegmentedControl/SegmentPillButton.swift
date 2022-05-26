@@ -38,7 +38,7 @@ class SegmentPillButton: UIButton {
         self.accessibilityLabel = title
         self.largeContentTitle = title
         if let image = item.image {
-            self.setImage(image.withRenderingMode(item.isTemplateImage ? .alwaysTemplate : .automatic), for: .normal)
+            self.setImage(image, for: .normal)
         } else {
             self.setTitle(title, for: .normal)
         }
