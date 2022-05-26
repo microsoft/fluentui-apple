@@ -22,7 +22,7 @@ public class SegmentItem: NSObject {
    }
 
     @objc public convenience init(title: String, isUnread: Bool = false) {
-        self.init(title: title, isUnread: isUnread)
+        self.init(title: title, image: nil, isUnread: isUnread)
     }
 
     @objc public init(title: String,
