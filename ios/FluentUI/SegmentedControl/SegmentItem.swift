@@ -20,12 +20,21 @@ public class SegmentItem: NSObject {
        }
    }
 
+    /// Creates a new instance of a `SegmentItem` that holds data used to create a segment in the `SegmentedControl`.
+    /// - Parameters
+    ///   - title: Title that will be displayed by the segment and used as the accessibility label and large content viewer title.
+    ///   - isUnread:  Whether the segment shows the mark that represents the "unread" state.
     @objc public convenience init(title: String, isUnread: Bool = false) {
         self.init(title: title,
                   image: nil,
                   isUnread: isUnread)
     }
 
+    /// Creates a new instance of a `SegmentItem` that holds data used to create a segment in the `SegmentedControl`.
+    /// - Parameters
+    ///   - title: Title that will be displayed by the segment if the image is nil, and used as the accessibility label and large content viewer title.
+    ///   - image: Image that will display instead of the title if not nil.
+    ///   - isUnread:  Whether the segment shows the mark that represents the "unread" state.
     @objc public init(title: String,
                       image: UIImage? = nil,
                       isUnread: Bool = false) {
