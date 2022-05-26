@@ -125,6 +125,7 @@ open class SegmentedControl: UIControl {
         static let selectionBarHeight: CGFloat = 1.5
         static let pillContainerHorizontalInset: CGFloat = 16
         static let pillButtonCornerRadius: CGFloat = 16
+        static let iPadMinimumWidth: CGFloat = 375
     }
 
     open override var isEnabled: Bool {
@@ -469,7 +470,7 @@ open class SegmentedControl: UIControl {
             let windowSafeAreaInsets = window.safeAreaInsets
             let windowWidth = window.bounds.width - windowSafeAreaInsets.left - windowSafeAreaInsets.right
             if traitCollection.userInterfaceIdiom == .pad {
-                maxButtonWidth = max(windowWidth / 2, 375.0)
+                maxButtonWidth = max(windowWidth / 2, Constants.iPadMinimumWidth)
             } else {
                 maxButtonWidth = windowWidth
             }
