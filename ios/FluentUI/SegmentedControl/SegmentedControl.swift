@@ -284,7 +284,7 @@ open class SegmentedControl: UIControl {
 
         pillMaskedContentContainerView.backgroundColor = customSegmentedControlSelectedButtonBackgroundColor ?? (isEnabled ? style.selectionColor(for: window) : style.selectionColorDisabled)
         backgroundView.backgroundColor = customSegmentedControlBackgroundColor ?? (isEnabled ? style.backgroundColor(for: window) : style.backgroundColorDisabled(for: window))
-        let maskedContentColor = isEnabled ? (customSelectedSegmentedControlButtonTextColor ?? style.segmentTextColorSelected(for: window)) : style.segmentTextColorDisabled(for: window)
+        let maskedContentColor = isEnabled ? (customSelectedSegmentedControlButtonTextColor ?? style.segmentTextColorSelected(for: window)) : style.segmentTextColorSelectedAndDisabled(for: window)
         for maskedLabel in pillMaskedLabels {
             guard let maskedLabel = maskedLabel else {
                 continue
