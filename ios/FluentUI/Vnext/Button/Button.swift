@@ -75,7 +75,7 @@ public struct FluentButton: View, ConfigurableTokenizedControl {
 
         @ViewBuilder
         var largeContentButton: some View {
-            if #available(iOS 15.0, *), state.style.isFloatingStyle {
+            if state.style.isFloatingStyle {
                 button.showsLargeContentViewer(text: state.text, image: state.image)
             } else {
                 button
