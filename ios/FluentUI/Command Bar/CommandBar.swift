@@ -14,24 +14,25 @@ import UIKit
 open class CommandBar: UIView {
     // Hierarchy:
     //
-    // leadingCommandGroupsStackView
-    // |--buttons
-    // containerView
-    // |--layer.mask -> containerMaskLayer (fill containerView)
-    // |--subviews
-    // |  |--scrollView (fill containerView)
-    // |  |  |--subviews
-    // |  |  |  |--stackView
-    // |  |  |  |  |--buttons (fill scrollView content)
-    // trailingCommandGroupsStackView
-    // |--buttons
+    // commandBarContainerStackView
+    // |--leadingCommandGroupsView
+    // |--|--buttons
+    // |--containerView
+    // |--|--layer.mask -> containerMaskLayer (fill containerView)
+    // |--|--subviews
+    // |--|  |--scrollView (fill containerView)
+    // |--|  |  |--subviews
+    // |--|  |  |  |--stackView
+    // |--|  |  |  |  |--buttons (fill scrollView content)
+    // |--trailingCommandGroupsView
+    // |--|--buttons
 
     // MARK: - Public methods
 
     @available(*, renamed: "init(itemGroups:leadingItemGroups:trailingItemGroups:)")
     @objc public convenience init(itemGroups: [CommandBarItemGroup], leadingItem: CommandBarItem? = nil, trailingItem: CommandBarItem? = nil) {
-        var leadingItems: [CommandBarItemGroup] = []
-        var trailingItems: [CommandBarItemGroup] = []
+        var leadingItems: [CommandBarItemGroup]?
+        var trailingItems: [CommandBarItemGroup]?
 
         if let leadingItem = leadingItem {
             leadingItems = [[leadingItem]]
@@ -41,7 +42,7 @@ open class CommandBar: UIView {
             trailingItems = [[trailingItem]]
         }
 
-        self.init(itemGroups: itemGroups, leadingItemGroups: leadingItems.isEmpty ? nil : leadingItems, trailingItemGroups: trailingItems.isEmpty ? nil : trailingItems)
+        self.init(itemGroups: itemGroups, leadingItemGroups: leadingItems, trailingItemGroups: trailingItems)
     }
 
     @objc public init(itemGroups: [CommandBarItemGroup], leadingItemGroups: [CommandBarItemGroup]? = nil, trailingItemGroups: [CommandBarItemGroup]? = nil) {
@@ -49,16 +50,18 @@ open class CommandBar: UIView {
         self.leadingItemGroups = leadingItemGroups
         self.trailingItemGroups = trailingItemGroups
 
-        leadingCommandGroupsStackView = CommandBarCommandGroupsStackView(itemGroups: self.leadingItemGroups, buttonsPersistSelection: false)
-        leadingCommandGroupsStackView.translatesAutoresizingMaskIntoConstraints = false
-        mainCommandGroupsStackView = CommandBarCommandGroupsStackView(itemGroups: self.itemGroups)
-        mainCommandGroupsStackView.translatesAutoresizingMaskIntoConstraints = false
-        trailingCommandGroupsStackView = CommandBarCommandGroupsStackView(itemGroups: self.trailingItemGroups, buttonsPersistSelection: false)
-        trailingCommandGroupsStackView.translatesAutoresizingMaskIntoConstraints = false
+        leadingCommandGroupsView = CommandBarCommandGroupsView(itemGroups: self.leadingItemGroups, buttonsPersistSelection: false)
+        leadingCommandGroupsView.translatesAutoresizingMaskIntoConstraints = false
+        mainCommandGroupsView = CommandBarCommandGroupsView(itemGroups: self.itemGroups)
+        mainCommandGroupsView.translatesAutoresizingMaskIntoConstraints = false
+        trailingCommandGroupsView = CommandBarCommandGroupsView(itemGroups: self.trailingItemGroups, buttonsPersistSelection: false)
+        trailingCommandGroupsView.translatesAutoresizingMaskIntoConstraints = false
+
+        commandBarContainerStackView = UIStackView()
+        commandBarContainerStackView.axis = .horizontal
+        commandBarContainerStackView.translatesAutoresizingMaskIntoConstraints = false
 
         super.init(frame: .zero)
-
-        translatesAutoresizingMaskIntoConstraints = false
 
         configureHierarchy()
     }
@@ -71,9 +74,9 @@ open class CommandBar: UIView {
     /// Apply `isEnabled` and `isSelected` state from `CommandBarItem` to the buttons
     @available(*, message: "Changes on CommandBarItem objects will automatically trigger updates to their corresponding CommandBarButtons. Calls to this method are no longer necessary.")
     @objc public func updateButtonsState() {
-        leadingCommandGroupsStackView.updateButtonsState()
-        mainCommandGroupsStackView.updateButtonsState()
-        trailingCommandGroupsStackView.updateButtonsState()
+        leadingCommandGroupsView.updateButtonsState()
+        mainCommandGroupsView.updateButtonsState()
+        trailingCommandGroupsView.updateButtonsState()
     }
 
     // MARK: Overrides
@@ -85,11 +88,7 @@ open class CommandBar: UIView {
     public override func layoutSubviews() {
         super.layoutSubviews()
 
-        scrollView.contentInset = scrollViewContentInset()
-
-        leadingCommandGroupsStackView.layoutIfNeeded()
-        mainCommandGroupsStackView.layoutIfNeeded()
-        trailingCommandGroupsStackView.layoutIfNeeded()
+        commandBarContainerStackView.layoutIfNeeded()
 
         containerMaskLayer.frame = containerView.bounds
         updateShadow()
@@ -98,7 +97,7 @@ open class CommandBar: UIView {
     /// Scrollable items shown in the center of the CommandBar
     public var itemGroups: [CommandBarItemGroup] {
         didSet {
-            mainCommandGroupsStackView.itemGroups = itemGroups
+            mainCommandGroupsView.itemGroups = itemGroups
         }
     }
 
@@ -109,8 +108,9 @@ open class CommandBar: UIView {
                 return
             }
 
-            leadingCommandGroupsStackView.itemGroups = leadingItemGroups
-            constrainLeadingCommandGroupsStackView()
+            leadingCommandGroupsView.itemGroups = leadingItemGroups
+            leadingCommandGroupsView.isHidden = leadingItemGroups.isEmpty
+            scrollView.contentInset = scrollViewContentInset()
         }
     }
 
@@ -121,27 +121,25 @@ open class CommandBar: UIView {
                 return
             }
 
-            trailingCommandGroupsStackView.itemGroups = trailingItemGroups
-            constrainTrailingCommandGroupsStackView()
+            trailingCommandGroupsView.itemGroups = trailingItemGroups
+            trailingCommandGroupsView.isHidden = trailingItemGroups.isEmpty
+            scrollView.contentInset = scrollViewContentInset()
         }
     }
 
     // MARK: - Private properties
 
-    /// UIStackView holding the items pinned to the leading end of the CommandBar
-    private var leadingCommandGroupsStackView: CommandBarCommandGroupsStackView
+    /// Container UIStackView that holds the leading, main and trailing views
+    private var commandBarContainerStackView: UIStackView
 
-    /// UIStackView holding the items in the middle of the CommandBar
-    private var mainCommandGroupsStackView: CommandBarCommandGroupsStackView
+    /// View holding the items pinned to the leading end of the CommandBar
+    private var leadingCommandGroupsView: CommandBarCommandGroupsView
 
-    /// UIStackView holding the items pinned to the trailing end of the CommandBar
-    private var trailingCommandGroupsStackView: CommandBarCommandGroupsStackView
+    /// View holding the items in the middle of the CommandBar
+    private var mainCommandGroupsView: CommandBarCommandGroupsView
 
-    /// Leading constraint between the `containerView` and either the `leadingCommandGroupsStackView` or the parent view
-    private var leadingConstraint: NSLayoutConstraint?
-
-    /// Trailing constraint between the `containerView` and either the `trailingCommandGroupsStackView` or the parent view
-    private var trailingConstraint: NSLayoutConstraint?
+    /// View holding the items pinned to the trailing end of the CommandBar
+    private var trailingCommandGroupsView: CommandBarCommandGroupsView
 
     // MARK: Views and Layers
 
@@ -170,14 +168,14 @@ open class CommandBar: UIView {
         scrollView.alwaysBounceHorizontal = true
         scrollView.delegate = self
 
-        scrollView.addSubview(mainCommandGroupsStackView)
+        scrollView.addSubview(mainCommandGroupsView)
         NSLayoutConstraint.activate([
             scrollView.contentLayoutGuide.heightAnchor.constraint(equalTo: scrollView.heightAnchor),
 
-            mainCommandGroupsStackView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
-            mainCommandGroupsStackView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
-            scrollView.contentLayoutGuide.bottomAnchor.constraint(equalTo: mainCommandGroupsStackView.bottomAnchor),
-            scrollView.contentLayoutGuide.trailingAnchor.constraint(equalTo: mainCommandGroupsStackView.trailingAnchor)
+            mainCommandGroupsView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
+            mainCommandGroupsView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
+            scrollView.contentLayoutGuide.bottomAnchor.constraint(equalTo: mainCommandGroupsView.bottomAnchor),
+            scrollView.contentLayoutGuide.trailingAnchor.constraint(equalTo: mainCommandGroupsView.trailingAnchor)
         ])
 
         return scrollView
@@ -195,96 +193,55 @@ open class CommandBar: UIView {
     }()
 
     private func configureHierarchy() {
-        addSubview(containerView)
+        leadingCommandGroupsView.isHidden = leadingCommandGroupsView.itemGroups.isEmpty
+        trailingCommandGroupsView.isHidden = trailingCommandGroupsView.itemGroups.isEmpty
 
-        // Constraint left and right item stack views
-        constrainLeadingCommandGroupsStackView()
-        constrainTrailingCommandGroupsStackView()
+        addSubview(commandBarContainerStackView)
 
-        scrollView.contentInset = scrollViewContentInset()
+        commandBarContainerStackView.addArrangedSubview(leadingCommandGroupsView)
+        commandBarContainerStackView.addArrangedSubview(containerView)
+        commandBarContainerStackView.addArrangedSubview(trailingCommandGroupsView)
 
         NSLayoutConstraint.activate([
-            containerView.topAnchor.constraint(equalTo: topAnchor, constant: CommandBar.insets.top),
-            bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: CommandBar.insets.bottom)
+            commandBarContainerStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            commandBarContainerStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            commandBarContainerStackView.topAnchor.constraint(equalTo: topAnchor),
+            commandBarContainerStackView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
 
         if UIView.userInterfaceLayoutDirection(for: semanticContentAttribute) == .rightToLeft {
             // Flip the scroll view to invert scrolling direction. Flip its content back because it's already in RTL.
             let flipTransform = CGAffineTransform(scaleX: -1, y: 1)
             scrollView.transform = flipTransform
-            leadingCommandGroupsStackView.transform = flipTransform
-            mainCommandGroupsStackView.transform = flipTransform
-            trailingCommandGroupsStackView.transform = flipTransform
+            leadingCommandGroupsView.transform = flipTransform
+            mainCommandGroupsView.transform = flipTransform
+            trailingCommandGroupsView.transform = flipTransform
             containerMaskLayer.setAffineTransform(flipTransform)
         }
-    }
 
-    private func constrainLeadingCommandGroupsStackView() {
-        if !leadingCommandGroupsStackView.itemGroups.isEmpty {
-            addSubview(leadingCommandGroupsStackView)
-            self.leadingConstraint?.isActive = false
-            let leadingConstraint: NSLayoutConstraint = containerView.leadingAnchor.constraint(equalTo: leadingCommandGroupsStackView.trailingAnchor, constant: CommandBar.fixedButtonSpacing)
-            NSLayoutConstraint.activate([
-                leadingCommandGroupsStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: CommandBar.fixedButtonSpacing),
-                leadingCommandGroupsStackView.topAnchor.constraint(equalTo: containerView.topAnchor),
-                leadingCommandGroupsStackView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
-                leadingConstraint
-            ])
-            self.leadingConstraint = leadingConstraint
-        } else {
-            leadingCommandGroupsStackView.removeFromSuperview()
-            self.leadingConstraint?.isActive = false
-            let leadingConstraint = containerView.leadingAnchor.constraint(equalTo: leadingAnchor)
-            NSLayoutConstraint.activate([
-                leadingConstraint
-            ])
-            self.leadingConstraint = leadingConstraint
-        }
-    }
-
-    private func constrainTrailingCommandGroupsStackView() {
-        if !trailingCommandGroupsStackView.itemGroups.isEmpty {
-            addSubview(trailingCommandGroupsStackView)
-            self.trailingConstraint?.isActive = false
-            let trailingConstraint = trailingCommandGroupsStackView.leadingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: CommandBar.fixedButtonSpacing)
-            NSLayoutConstraint.activate([
-                trailingCommandGroupsStackView.topAnchor.constraint(equalTo: containerView.topAnchor),
-                trailingCommandGroupsStackView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
-                trailingAnchor.constraint(equalTo: trailingCommandGroupsStackView.trailingAnchor, constant: CommandBar.fixedButtonSpacing),
-                trailingConstraint
-            ])
-            self.trailingConstraint = trailingConstraint
-        } else {
-            trailingCommandGroupsStackView.removeFromSuperview()
-            self.trailingConstraint?.isActive = false
-            let trailingConstraint = containerView.trailingAnchor.constraint(equalTo: trailingAnchor)
-            NSLayoutConstraint.activate([
-                trailingConstraint
-            ])
-            self.trailingConstraint = trailingConstraint
-        }
+        scrollView.contentInset = scrollViewContentInset()
     }
 
     private func scrollViewContentInset() -> UIEdgeInsets {
         UIEdgeInsets(
             top: 0,
-            left: leadingCommandGroupsStackView.itemGroups.isEmpty ? CommandBar.insets.left : CommandBar.fixedButtonSpacing,
+            left: leadingCommandGroupsView.isHidden ? CommandBar.insets.left : CommandBar.fixedButtonSpacing,
             bottom: 0,
-            right: trailingCommandGroupsStackView.itemGroups.isEmpty ? CommandBar.insets.right : CommandBar.fixedButtonSpacing
+            right: trailingCommandGroupsView.isHidden ? CommandBar.insets.right : CommandBar.fixedButtonSpacing
         )
     }
 
     private func updateShadow() {
         var locations: [CGFloat] = [0, 0, 1]
 
-        if !leadingCommandGroupsStackView.itemGroups.isEmpty {
+        if !leadingCommandGroupsView.isHidden {
             let leadingOffset = max(0, scrollView.contentOffset.x)
             let percentage = min(1, leadingOffset / scrollView.contentInset.left)
             locations[1] = CommandBar.fadeViewWidth / containerView.frame.width * percentage
         }
 
-        if !trailingCommandGroupsStackView.itemGroups.isEmpty {
-            let trailingOffset = max(0, mainCommandGroupsStackView.frame.width - scrollView.frame.width - scrollView.contentOffset.x)
+        if !trailingCommandGroupsView.isHidden {
+            let trailingOffset = max(0, mainCommandGroupsView.frame.width - scrollView.frame.width - scrollView.contentOffset.x)
             let percentage = min(1, trailingOffset / scrollView.contentInset.right)
             locations[2] = 1 - CommandBar.fadeViewWidth / containerView.frame.width * percentage
         }
@@ -293,7 +250,6 @@ open class CommandBar: UIView {
     }
 
     private static let fadeViewWidth: CGFloat = 16.0
-    private static let buttonGroupSpacing: CGFloat = 16.0
     private static let fixedButtonSpacing: CGFloat = 2.0
     private static let insets = UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)
 }

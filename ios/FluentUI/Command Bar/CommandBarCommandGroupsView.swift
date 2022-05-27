@@ -5,17 +5,21 @@
 
 import UIKit
 
-class CommandBarCommandGroupsStackView: UIStackView {
+class CommandBarCommandGroupsView: UIView {
     init(itemGroups: [CommandBarItemGroup]? = nil, buttonsPersistSelection: Bool = true) {
         self.itemGroups = itemGroups ?? []
 
         self.buttonsPersistSelection = buttonsPersistSelection
 
+        buttonGroupsStackView = UIStackView()
+
         super.init(frame: .zero)
 
-        axis = .horizontal
-        spacing = CommandBarCommandGroupsStackView.buttonGroupSpacing
+        buttonGroupsStackView.translatesAutoresizingMaskIntoConstraints = false
+        buttonGroupsStackView.axis = .horizontal
+        buttonGroupsStackView.spacing = CommandBarCommandGroupsView.buttonGroupSpacing
 
+        configureHierarchy()
         updateButtonsShown()
     }
 
@@ -40,21 +44,33 @@ class CommandBarCommandGroupsStackView: UIStackView {
 
     // MARK: - Private properties
 
+    private var buttonGroupsStackView: UIStackView
     private var buttonGroupViews: [CommandBarButtonGroupView] = []
     private var itemsToButtonsMap: [CommandBarItem: CommandBarButton] = [:]
     private var buttonsPersistSelection: Bool
 
     // MARK: View Updates
 
+    private func configureHierarchy() {
+        addSubview(buttonGroupsStackView)
+
+        NSLayoutConstraint.activate([
+            buttonGroupsStackView.topAnchor.constraint(equalTo: topAnchor, constant: CommandBarCommandGroupsView.insets.top),
+            bottomAnchor.constraint(equalTo: buttonGroupsStackView.bottomAnchor, constant: CommandBarCommandGroupsView.insets.top),
+            buttonGroupsStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            buttonGroupsStackView.trailingAnchor.constraint(equalTo: trailingAnchor)
+        ])
+    }
+
     /// Refreshes the buttons shown in the `arrangedSubviews`
     private func updateButtonsShown() {
-        for view in arrangedSubviews {
+        for view in buttonGroupsStackView.arrangedSubviews {
             view.removeFromSuperview()
         }
 
         updateButtonGroupViews()
         for view in buttonGroupViews {
-            addArrangedSubview(view)
+            buttonGroupsStackView.addArrangedSubview(view)
         }
     }
 
@@ -93,4 +109,5 @@ class CommandBarCommandGroupsStackView: UIStackView {
     }
 
     private static let buttonGroupSpacing: CGFloat = 16
+    private static let insets = UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)
 }

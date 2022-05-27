@@ -160,9 +160,10 @@ class CommandBarDemoController: DemoController {
 
         container.addArrangedSubview(createLabelWithText("Default"))
 
-        defaultCommandBar = CommandBar(itemGroups: createItemGroups(), leadingItemGroups: [[newItem(for: .keyboard)]])
-        defaultCommandBar?.backgroundColor = Colors.navigationBarBackground
-        container.addArrangedSubview(defaultCommandBar!)
+        let commandBar = CommandBar(itemGroups: createItemGroups(), leadingItemGroups: [[newItem(for: .keyboard)]])
+        commandBar.backgroundColor = Colors.navigationBarBackground
+        container.addArrangedSubview(commandBar)
+        defaultCommandBar = commandBar
 
         let itemCustomizationContainer = UIStackView()
         itemCustomizationContainer.spacing = CommandBarDemoController.verticalStackViewSpacing
@@ -213,7 +214,7 @@ class CommandBarDemoController: DemoController {
 
         container.addArrangedSubview(createLabelWithText("With Fixed Button"))
 
-		let fixedButtonCommandBar = CommandBar(itemGroups: createItemGroups(), leadingItemGroups: [[newItem(for: .copy)]], trailingItemGroups: [[newItem(for: .keyboard)]])
+        let fixedButtonCommandBar = CommandBar(itemGroups: createItemGroups(), leadingItemGroups: [[newItem(for: .copy)]], trailingItemGroups: [[newItem(for: .keyboard)]])
         fixedButtonCommandBar.backgroundColor = Colors.navigationBarBackground
         container.addArrangedSubview(fixedButtonCommandBar)
 
