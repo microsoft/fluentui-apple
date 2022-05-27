@@ -315,6 +315,59 @@ extension SideTabBarDemoController: UITableViewDataSource {
     }
 }
 
+// MARK: - SideTabBarDemoController: DemoAppearanceDelegate
+extension SideTabBarDemoController: DemoAppearanceDelegate {
+    func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
+        guard let fluentTheme = self.view.window?.fluentTheme else {
+            return
+        }
+
+        var tokensClosure: ((SideTabBar) -> SideTabBarTokens)?
+        if isOverrideEnabled {
+            tokensClosure = { _ in
+                return ThemeWideOverrideSideTabBarTokens()
+            }
+        }
+
+        fluentTheme.register(controlType: SideTabBar.self, tokens: tokensClosure)
+    }
+
+    func perControlOverrideDidChange(isOverrideEnabled: Bool) {
+        let tokens = (isOverrideEnabled ? PerControlOverrideSideTabBarItemTokens() : nil)
+        _ = sideTabBar.overrideTokens(tokens)
+    }
+
+    func isThemeWideOverrideApplied() -> Bool {
+        return self.view.window?.fluentTheme.tokenOverride(for: SideTabBar.self) != nil
+    }
+
+    // MARK: - Custom tokens
+    private class ThemeWideOverrideSideTabBarTokens: SideTabBarTokens {
+        override var tabBarItemSelectedColor: DynamicColor {
+            return .init(light: globalTokens.sharedColors[.burgundy][.tint10],
+                         lightHighContrast: globalTokens.sharedColors[.pumpkin][.tint10],
+                         dark: globalTokens.sharedColors[.darkTeal][.tint40],
+                         darkHighContrast: globalTokens.sharedColors[.teal][.tint40])
+        }
+        override var tabBarItemUnselectedColor: DynamicColor {
+            return .init(light: globalTokens.sharedColors[.darkTeal][.tint20],
+                         lightHighContrast: globalTokens.sharedColors[.teal][.tint40],
+                         dark: globalTokens.sharedColors[.pumpkin][.tint40],
+                         darkHighContrast: globalTokens.sharedColors[.burgundy][.tint40])
+        }
+    }
+
+    private class PerControlOverrideSideTabBarItemTokens: SideTabBarTokens {
+        override var tabBarItemTitleLabelFontPortrait: FontInfo? {
+            return .init(size: 15, weight: .bold)
+        }
+
+        override var tabBarItemTitleLabelFontLandscape: FontInfo? {
+            return .init(size: 15, weight: .bold)
+        }
+    }
+}
+
 extension SideTabBarDemoController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
        return false
