@@ -40,6 +40,30 @@ extension View {
             .onPreferenceChange(SizePreferenceKey.self,
                                 perform: action)
     }
+
+    /// Adds a large content viewer for the view
+    /// - Parameters
+    ///  - text: Optional String to display in the large content viewer.
+    ///  - image: Optional UIImage to display in the large content viewer.
+    /// - Returns: The modified view.
+    func showsLargeContentViewer(text: String?, image: UIImage?) -> AnyView {
+        if #available(iOS 15.0, *) {
+            if text != nil || image != nil {
+                return AnyView(self.accessibilityShowsLargeContentViewer({
+                    if let image = image {
+                        Image(uiImage: image)
+                    }
+                    if let text = text {
+                        Text(text)
+                    }
+                }))
+            }
+
+            return AnyView(self.accessibilityShowsLargeContentViewer())
+        }
+
+        return AnyView(self)
+    }
 }
 
 /// PreferenceKey that will store the measured size of the view
