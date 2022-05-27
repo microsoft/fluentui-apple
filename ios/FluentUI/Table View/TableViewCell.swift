@@ -316,7 +316,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         let textAreaHeight = Self.textAreaHeight(
             layoutType: layoutType,
             titleHeight: labelSize(text: title,
-                                   font: UIFont.fluent(tokens.titleFont),
+                                   font: TextStyles.title.font,
                                    numberOfLines: titleNumberOfLines,
                                    textAreaWidth: textAreaWidth,
                                    leadingAccessoryView: titleLeadingAccessoryView,
@@ -324,7 +324,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                                    trailingAccessoryView: titleTrailingAccessoryView,
                                    labelAccessoryViewMarginTrailing: labelAccessoryViewMarginTrailing).height,
             subtitleHeight: labelSize(text: subtitle,
-                                      font: UIFont.fluent(layoutType == .twoLines ? tokens.subtitleTwoLinesFont : tokens.subtitleThreeLinesFont),
+                                      font: layoutType == .twoLines ? TextStyles.subtitleTwoLines.font : TextStyles.subtitleThreeLines.font,
                                       numberOfLines: subtitleNumberOfLines,
                                       textAreaWidth: textAreaWidth,
                                       leadingAccessoryView: subtitleLeadingAccessoryView,
@@ -332,7 +332,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                                       trailingAccessoryView: subtitleTrailingAccessoryView,
                                       labelAccessoryViewMarginTrailing: labelAccessoryViewMarginTrailing).height,
             footerHeight: labelSize(text: footer,
-                                    font: UIFont.fluent(tokens.footerFont),
+                                    font: TextStyles.footer.font,
                                     numberOfLines: footerNumberOfLines,
                                     textAreaWidth: textAreaWidth,
                                     leadingAccessoryView: footerLeadingAccessoryView,
@@ -396,14 +396,14 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         let labelAccessoryViewMarginTrailing = tokens.labelAccessoryViewMarginTrailing
 
         var textAreaWidth = Self.labelPreferredWidth(text: title,
-                                                     font: UIFont.fluent(tokens.titleFont),
+                                                     font: TextStyles.title.font,
                                                      leadingAccessoryView: titleLeadingAccessoryView,
                                                      trailingAccessoryView: titleTrailingAccessoryView,
                                                      labelAccessoryViewMarginTrailing: labelAccessoryViewMarginTrailing,
                                                      labelAccessoryViewMarginLeading: labelAccessoryViewMarginLeading)
         if layoutType == .twoLines || layoutType == .threeLines {
             let subtitleWidth = Self.labelPreferredWidth(text: subtitle,
-                                                         font: UIFont.fluent(layoutType == .twoLines ? tokens.subtitleTwoLinesFont : tokens.subtitleThreeLinesFont),
+                                                         font: layoutType == .twoLines ? TextStyles.subtitleTwoLines.font : TextStyles.subtitleThreeLines.font,
                                                          leadingAccessoryView: subtitleLeadingAccessoryView,
                                                          trailingAccessoryView: subtitleTrailingAccessoryView,
                                                          labelAccessoryViewMarginTrailing: labelAccessoryViewMarginTrailing,
@@ -411,7 +411,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
             textAreaWidth = max(textAreaWidth, subtitleWidth)
             if layoutType == .threeLines {
                 let footerWidth = Self.labelPreferredWidth(text: footer,
-                                                           font: UIFont.fluent(tokens.footerFont),
+                                                           font: TextStyles.footer.font,
                                                            leadingAccessoryView: footerLeadingAccessoryView,
                                                            trailingAccessoryView: footerTrailingAccessoryView,
                                                            labelAccessoryViewMarginTrailing: labelAccessoryViewMarginTrailing,
@@ -989,9 +989,9 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     }()
 
     private func updateFonts() {
-        titleLabel.font = UIFont.fluent(tokens.titleFont)
-        subtitleLabel.font = UIFont.fluent(layoutType == .twoLines ? tokens.subtitleTwoLinesFont : tokens.subtitleThreeLinesFont)
-        footerLabel.font = UIFont.fluent(tokens.footerFont)
+        titleLabel.font = TextStyles.title.font
+        subtitleLabel.font = layoutType == .twoLines ? TextStyles.subtitleTwoLines.font : TextStyles.subtitleThreeLines.font
+        footerLabel.font = TextStyles.footer.font
     }
 
     private func updateLabelAccessoryView(oldValue: UIView?, newValue: UIView?, size: inout CGSize) {
