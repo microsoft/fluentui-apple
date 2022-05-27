@@ -404,13 +404,12 @@ open class SegmentedControl: UIControl {
     open override func layoutSubviews() {
         super.layoutSubviews()
 
-        if isAnimating {
+        guard let screen = window?.windowScene?.screen, !isAnimating else {
             return
         }
 
         var rightOffset: CGFloat = 0
         var leftOffset: CGFloat = 0
-        let screen = window?.windowScene?.screen ?? UIScreen.main
         for (index, button) in buttons.enumerated() {
             if shouldSetEqualWidthForSegments {
                 rightOffset = screen.roundToDevicePixels(CGFloat(index + 1) / CGFloat(buttons.count) * pillContainerView.frame.width)
@@ -442,10 +441,10 @@ open class SegmentedControl: UIControl {
     }
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
-        guard let window = window else {
+        guard let window = window,
+              let screen = window.windowScene?.screen else {
             return CGSize.zero
         }
-        let screen = window.windowScene?.screen ?? UIScreen.main
         var maxButtonHeight: CGFloat = 0.0
         var maxButtonWidth: CGFloat = 0.0
         var buttonsWidth: CGFloat = 0.0
