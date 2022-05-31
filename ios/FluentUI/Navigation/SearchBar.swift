@@ -575,6 +575,8 @@ open class SearchBar: UIView {
         searchTextField.resignFirstResponder()
     }
 
+    // MARK: - Cancel Button Accessibility Properties
+
     var cancelButtonAccessibilityHint: String? {
         get {return cancelButton.accessibilityHint}
         set {cancelButton.accessibilityHint = newValue}
@@ -590,6 +592,8 @@ open class SearchBar: UIView {
         set {cancelButton.accessibilityIdentifier = newValue}
     }
 
+    // MARK: - Clear Button Accessibility Properties
+
     var clearButtonAccessibilityHint: String? {
         get {return clearButton.accessibilityHint}
         set {clearButton.accessibilityHint = newValue}
@@ -604,6 +608,8 @@ open class SearchBar: UIView {
         get {return clearButton.accessibilityIdentifier}
         set {clearButton.accessibilityIdentifier = newValue}
     }
+
+    // MARK: - Search Text Field Accessibility Properties
 
     var searchTextFieldAccessibilityHint: String? {
         get {return searchTextField.accessibilityHint}
