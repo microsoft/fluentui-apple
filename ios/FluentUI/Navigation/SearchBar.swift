@@ -583,17 +583,17 @@ open class SearchBar: UIView {
         cancelButtonAccessibilityIdentifier = accessibilityIdentifier
     }
 
-    var cancelButtonAccessibilityHint: String? {
+    public var cancelButtonAccessibilityHint: String? {
         get {return cancelButton.accessibilityHint}
         set {cancelButton.accessibilityHint = newValue}
     }
 
-    var cancelButtonAccessibilityLabel: String? {
+    public var cancelButtonAccessibilityLabel: String? {
         get {return cancelButton.accessibilityLabel}
         set {cancelButton.accessibilityLabel = newValue}
     }
 
-    var cancelButtonAccessibilityIdentifier: String? {
+    public var cancelButtonAccessibilityIdentifier: String? {
         get {return cancelButton.accessibilityIdentifier}
         set {cancelButton.accessibilityIdentifier = newValue}
     }
@@ -606,17 +606,17 @@ open class SearchBar: UIView {
         clearButtonAccessibilityIdentifier = accessibilityIdentifier
     }
 
-    var clearButtonAccessibilityHint: String? {
+    public var clearButtonAccessibilityHint: String? {
         get {return clearButton.accessibilityHint}
         set {clearButton.accessibilityHint = newValue}
     }
 
-    var clearButtonAccessibilityLabel: String? {
+    public var clearButtonAccessibilityLabel: String? {
         get {return clearButton.accessibilityLabel}
         set {clearButton.accessibilityLabel = newValue}
     }
 
-    var clearButtonAccessibilityIdentifier: String? {
+    public var clearButtonAccessibilityIdentifier: String? {
         get {return clearButton.accessibilityIdentifier}
         set {clearButton.accessibilityIdentifier = newValue}
     }
@@ -629,17 +629,17 @@ open class SearchBar: UIView {
         searchTextFieldAccessibilityIdentifier = accessibilityIdentifier
     }
 
-    var searchTextFieldAccessibilityHint: String? {
+    public var searchTextFieldAccessibilityHint: String? {
         get {return searchTextField.accessibilityHint}
         set {searchTextField.accessibilityHint = newValue}
     }
 
-    var searchTextFieldAccessibilityLabel: String? {
+    public var searchTextFieldAccessibilityLabel: String? {
         get {return searchTextField.accessibilityLabel}
         set {searchTextField.accessibilityLabel = newValue}
     }
 
-    var searchTextFieldAccessibilityIdentifier: String? {
+    public var searchTextFieldAccessibilityIdentifier: String? {
         get {return searchTextField.accessibilityIdentifier}
         set {searchTextField.accessibilityIdentifier = newValue}
     }
