@@ -47,7 +47,7 @@ extension View {
     ///  - text: Optional String to display in the large content viewer.
     ///  - image: Optional UIImage to display in the large content viewer.
     /// - Returns: The modified view.
-    func showsLargeContentViewer(text: String?, image: UIImage?) -> some View {
+    func showsLargeContentViewer(text: String? = nil, image: UIImage? = nil) -> some View {
         self.modifier(LargeContentViewerModifier(text: text, image: image))
     }
 }
