@@ -577,6 +577,12 @@ open class SearchBar: UIView {
 
     // MARK: - Cancel Button Accessibility Properties
 
+    public func setAllCancelButtonAccessibilityProperties(accessibilityHint: String?, accessibilityLabel: String?, accessibilityIdentifier: String?){
+        cancelButtonAccessibilityHint = accessibilityHint
+        cancelButtonAccessibilityLabel = accessibilityLabel
+        cancelButtonAccessibilityIdentifier = accessibilityIdentifier
+    }
+
     var cancelButtonAccessibilityHint: String? {
         get {return cancelButton.accessibilityHint}
         set {cancelButton.accessibilityHint = newValue}
@@ -594,6 +600,12 @@ open class SearchBar: UIView {
 
     // MARK: - Clear Button Accessibility Properties
 
+    public func setAllClearButtonAccessibilityProperties(accessibilityHint: String?, accessibilityLabel: String?, accessibilityIdentifier: String?){
+        clearButtonAccessibilityHint = accessibilityHint
+        clearButtonAccessibilityLabel = accessibilityLabel
+        clearButtonAccessibilityIdentifier = accessibilityIdentifier
+    }
+
     var clearButtonAccessibilityHint: String? {
         get {return clearButton.accessibilityHint}
         set {clearButton.accessibilityHint = newValue}
@@ -610,6 +622,12 @@ open class SearchBar: UIView {
     }
 
     // MARK: - Search Text Field Accessibility Properties
+
+    public func setAllSearchTextFieldAccessibilityProperties(accessibilityHint: String?, accessibilityLabel: String?, accessibilityIdentifier: String?){
+        searchTextFieldAccessibilityHint = accessibilityHint
+        searchTextFieldAccessibilityLabel = accessibilityLabel
+        searchTextFieldAccessibilityIdentifier = accessibilityIdentifier
+    }
 
     var searchTextFieldAccessibilityHint: String? {
         get {return searchTextField.accessibilityHint}
