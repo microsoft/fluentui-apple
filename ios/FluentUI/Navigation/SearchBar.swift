@@ -580,6 +580,18 @@ open class SearchBar: UIView {
         element.accessibilityLabel = accessibilityLabel
         element.accessibilityIdentifier = accessibilityIdentifier
     }
+
+    public func setCancelButtonAccessibilityFields(hint: String?, label: String?, identifier: String?){
+        setAccessibilityFields(cancelButton, accessibilityHint: hint, accessibilityLabel: label, accessibilityIdentifier: identifier)
+    }
+
+    public func setClearButtonAccessibilityFields(hint: String?, label: String?, identifier: String?){
+        setAccessibilityFields(clearButton, accessibilityHint: hint, accessibilityLabel: label, accessibilityIdentifier: identifier)
+    }
+
+    public func setTextFieldAccessibilityFields(hint: String?, label: String?, identifier: String?){
+        setAccessibilityFields(searchTextField, accessibilityHint: hint, accessibilityLabel: label, accessibilityIdentifier: identifier)
+    }
 }
 
 // MARK: - SearchBar: UITextFieldDelegate
