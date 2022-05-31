@@ -574,6 +574,12 @@ open class SearchBar: UIView {
     private func dismissKeyboard() {
         searchTextField.resignFirstResponder()
     }
+
+    private func setAccessibilityFields(_ element: UIView, accessibilityHint: String?, accessibilityLabel: String?, accessibilityIdentifier: String?){
+        element.accessibilityHint = accessibilityHint
+        element.accessibilityLabel = accessibilityLabel
+        element.accessibilityIdentifier = accessibilityIdentifier
+    }
 }
 
 // MARK: - SearchBar: UITextFieldDelegate
