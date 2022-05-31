@@ -69,7 +69,7 @@ public struct FluentButton: View, ConfigurableTokenizedControl {
                                            tokensLookup: { tokens }))
             .disabled(state.disabled ?? false)
             .frame(maxWidth: .infinity)
-            .modifyIf(state.style.isFloatingStyle, {button in
+            .modifyIf(state.style.isFloatingStyle, { button in
                 button.showsLargeContentViewer(text: state.text, image: state.image)
             })
     }
