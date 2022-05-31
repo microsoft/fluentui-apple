@@ -604,6 +604,21 @@ open class SearchBar: UIView {
         get {return clearButton.accessibilityIdentifier}
         set {clearButton.accessibilityIdentifier = newValue}
     }
+
+    var searchTextFieldAccessibilityHint: String? {
+        get {return searchTextField.accessibilityHint}
+        set {searchTextField.accessibilityHint = newValue}
+    }
+
+    var searchTextFieldAccessibilityLabel: String? {
+        get {return searchTextField.accessibilityLabel}
+        set {searchTextField.accessibilityLabel = newValue}
+    }
+
+    var searchTextFieldAccessibilityIdentifier: String? {
+        get {return searchTextField.accessibilityIdentifier}
+        set {searchTextField.accessibilityIdentifier = newValue}
+    }
 }
 
 // MARK: - SearchBar: UITextFieldDelegate
