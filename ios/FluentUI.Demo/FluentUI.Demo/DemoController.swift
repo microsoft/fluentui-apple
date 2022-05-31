@@ -168,13 +168,22 @@ class DemoController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "ic_fluent_settings_24_regular"),
                                                             style: .plain,
                                                             target: self,
-                                                            action: #selector(showAppearancePopover))
+                                                            action: #selector(showAppearancePopover(_:)))
     }
 
-    @objc func showAppearancePopover(_ sender: UIBarButtonItem) {
-        appearanceController.popoverPresentationController?.barButtonItem = sender
+    @objc func showAppearancePopover(_ sender: AnyObject, presenter: UIViewController) {
+        if let barButtonItem = sender as? UIBarButtonItem {
+            appearanceController.popoverPresentationController?.barButtonItem = barButtonItem
+        } else if let sourceView = sender as? UIView {
+            appearanceController.popoverPresentationController?.sourceView = sourceView
+            appearanceController.popoverPresentationController?.sourceRect = sourceView.bounds
+        }
         appearanceController.popoverPresentationController?.delegate = self
-        self.present(appearanceController, animated: true, completion: nil)
+        presenter.present(appearanceController, animated: true, completion: nil)
+    }
+
+    @objc func showAppearancePopover(_ sender: AnyObject) {
+        showAppearancePopover(sender, presenter: self)
     }
 
     private lazy var appearanceController: DemoAppearanceController = .init(delegate: self as? DemoAppearanceDelegate)

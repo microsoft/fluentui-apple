@@ -231,6 +231,14 @@ class SideTabBarDemoController: DemoController {
         updateBadgeNumbers()
     }
 
+    /// Custom presentation logic to let `contentViewController` present the appearance popover.
+    @objc private func showAppearancePopoverLocal(_ sender: AnyObject) {
+        guard let contentViewController = contentViewController else {
+            return
+        }
+        super.showAppearancePopover(sender, presenter: contentViewController)
+    }
+
     private let optionsCellItems: [CellItem] = {
         return [CellItem(title: "Show Avatar View", type: .boolean, action: #selector(toggleAvatarView(_:)), isOn: true),
                 CellItem(title: "Show top item titles", type: .boolean, action: #selector(toggleShowTopItemTitles(_:))),
@@ -239,7 +247,8 @@ class SideTabBarDemoController: DemoController {
                 CellItem(title: "Use higher badge numbers", type: .boolean, action: #selector(toggleUseHigherBadgeNumbers(_:))),
                 CellItem(title: "Modify badge numbers", type: .stepper, action: nil),
                 CellItem(title: "Show tooltip for Home button", type: .action, action: #selector(showTooltipForHomeButton)),
-                CellItem(title: "Dismiss", type: .action, action: #selector(dismissSideTabBar))
+                CellItem(title: "Dismiss", type: .action, action: #selector(dismissSideTabBar)),
+                CellItem(title: "Show Appearance Popover", type: .action, action: #selector(showAppearancePopoverLocal(_:)))
         ]
     }()
 }
