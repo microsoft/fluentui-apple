@@ -41,28 +41,14 @@ extension View {
                                 perform: action)
     }
 
-    /// Adds a large content viewer for the view
+    /// Adds a large content viewer for the view. If the text and image are both nil,
+    /// the default large content viewer will be used.
     /// - Parameters
     ///  - text: Optional String to display in the large content viewer.
     ///  - image: Optional UIImage to display in the large content viewer.
     /// - Returns: The modified view.
-    func showsLargeContentViewer(text: String?, image: UIImage?) -> AnyView {
-        if #available(iOS 15.0, *) {
-            if text != nil || image != nil {
-                return AnyView(self.accessibilityShowsLargeContentViewer({
-                    if let image = image {
-                        Image(uiImage: image)
-                    }
-                    if let text = text {
-                        Text(text)
-                    }
-                }))
-            }
-
-            return AnyView(self.accessibilityShowsLargeContentViewer())
-        }
-
-        return AnyView(self)
+    func showsLargeContentViewer(text: String?, image: UIImage?) -> some View {
+        self.modifier(LargeContentViewerModifier(text: text, image: image))
     }
 }
 
@@ -79,5 +65,36 @@ struct OnSizeChangeViewModifier: ViewModifier {
             Color.clear.preference(key: SizePreferenceKey.self,
                                    value: geometryReader.size)
         })
+    }
+}
+
+/// ViewModifier for showing the large content viewer with optional text and optional image.
+/// If both the text and image are bil, the default large content viewer will be used.
+struct LargeContentViewerModifier: ViewModifier {
+    init (text: String?, image: UIImage?) {
+        self.text = text
+        self.image = image
+    }
+
+    var text: String?
+    var image: UIImage?
+
+    func body(content: Content) -> some View {
+        if #available(iOS 15.0, *) {
+            if text != nil || image != nil {
+                content.accessibilityShowsLargeContentViewer({
+                    if let image = image {
+                        Image(uiImage: image)
+                    }
+                    if let text = text {
+                        Text(text)
+                    }
+                })
+            } else {
+                content.accessibilityShowsLargeContentViewer()
+            }
+        } else {
+            content
+        }
     }
 }
