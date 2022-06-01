@@ -372,6 +372,8 @@ open class SideTabBar: UIView, TokenizedControlInternal {
         }
     }
 
+    // This custom tokens class is used to override only the four TabBarItemToken values
+    // that we want to expose publicly to consumers of the SideTabBar.
     private class CustomSideTabBarItemTokens: TabBarItemTokens {
         @available(*, unavailable)
         required init() {
