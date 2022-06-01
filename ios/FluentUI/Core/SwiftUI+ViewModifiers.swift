@@ -76,9 +76,6 @@ struct LargeContentViewerModifier: ViewModifier {
         self.image = image
     }
 
-    var text: String?
-    var image: UIImage?
-
     func body(content: Content) -> some View {
         if #available(iOS 15.0, *) {
             if text != nil || image != nil {
@@ -97,4 +94,7 @@ struct LargeContentViewerModifier: ViewModifier {
             content
         }
     }
+
+    private var text: String?
+    private var image: UIImage?
 }
