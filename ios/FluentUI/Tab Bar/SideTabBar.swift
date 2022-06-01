@@ -165,11 +165,11 @@ open class SideTabBar: UIView, TokenizedControlInternal {
     }()
 
     private lazy var topStackView: UIStackView = {
-        return createStackView(spacing: tokens.topTabBarItemSpacing)
+        return SideTabBar.createStackView(spacing: tokens.topTabBarItemSpacing)
     }()
 
     private lazy var bottomStackView: UIStackView = {
-        return createStackView(spacing: tokens.bottomTabBarItemSpacing)
+        return SideTabBar.createStackView(spacing: tokens.bottomTabBarItemSpacing)
     }()
 
     private lazy var avatarViewGestureRecognizer: UITapGestureRecognizer = {
@@ -326,7 +326,7 @@ open class SideTabBar: UIView, TokenizedControlInternal {
         return itemView(with: item, in: .bottom)
     }
 
-    private func createStackView(spacing: CGFloat) -> UIStackView {
+    private class func createStackView(spacing: CGFloat) -> UIStackView {
         let stackView = UIStackView(frame: .zero)
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
