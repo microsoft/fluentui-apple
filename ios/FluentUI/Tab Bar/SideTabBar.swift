@@ -368,7 +368,8 @@ open class SideTabBar: UIView, TokenizedControlInternal {
     var tokens: SideTabBarTokens = .init()
     var overrideTokens: SideTabBarTokens? {
         didSet {
-            updateSideTabBarTokens()        }
+            updateSideTabBarTokens()
+        }
     }
 
     private class CustomSideTabBarItemTokens: TabBarItemTokens {
