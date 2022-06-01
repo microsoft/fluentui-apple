@@ -16,7 +16,7 @@ open class SideTabBarTokens: ControlTokens {
     /// The minimum spacing for the avatar
     open var avatarViewMinTopSpacing: CGFloat { globalTokens.spacing[.xxLarge] }
 
-    /// The
+    /// The spacing for the avatar StackView
     open var avatarViewTopStackViewSpacing: CGFloat { 34.0 }
 
     /// The safe spacing for the bottom StackView

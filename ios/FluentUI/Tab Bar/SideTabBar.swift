@@ -409,7 +409,7 @@ open class SideTabBar: UIView, TokenizedControlInternal {
     }
 
     private func updateSideTabBarTokensForSection(in section: Section) {
-        var customSideTabBarItemTokens = CustomSideTabBarItemTokens.init(sideTabBarTokens: tokens)
+        let customSideTabBarItemTokens = CustomSideTabBarItemTokens.init(sideTabBarTokens: tokens)
         for subview in stackView(in: section).arrangedSubviews {
             if let tabBarItemView = subview as? TabBarItemView {
                 tabBarItemView.overrideTokens = customSideTabBarItemTokens
