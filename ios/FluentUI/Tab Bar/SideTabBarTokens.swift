@@ -37,15 +37,15 @@ open class SideTabBarTokens: ControlTokens {
     /// The padding for the badges on the bottom set of TabBarItems
     open var badgeBottomSectionPadding: CGFloat { 4.0 }
 
-    /// Defines the background color of the  of the `TabBarItem` when selected.
+    /// Optionally overrides the default background color of the  of the `TabBarItem` when selected.
     open var tabBarItemSelectedColor: DynamicColor? { nil }
 
-    /// Defines the background color of the  of the `TabBarItem` when not selected.
+    /// Optionally overrides the default background color of the  of the `TabBarItem` when not selected.
     open var tabBarItemUnselectedColor: DynamicColor? { nil }
 
-    /// Font info for the title label when in portrait view
+    /// Optionally overrides the default font info for the title label of the `TabBarItem`when in portrait view
     open var tabBarItemTitleLabelFontPortrait: FontInfo? { nil }
 
-    /// Font info for the title label when in landscape view
+    /// Optionally overrides the default font info for the title label of the `TabBarItem`when in landscape view
     open var tabBarItemTitleLabelFontLandscape: FontInfo? { nil }
 }
