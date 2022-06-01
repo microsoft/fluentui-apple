@@ -104,22 +104,22 @@ public extension Colors {
 // MARK: - TableViewCell
 
 /**
- `TableViewCell` is used to present a cell with one, two, or three lines of text with an optional custom view and an accessory.
- 
- The `title` is displayed as the first line of text with the `subtitle` as the second line and the `footer` the third line.
- 
- If a `subtitle` and `footer` are not provided the cell will be configured as a "small" size cell showing only the `title` line of text and a smaller custom view.
- 
- If a `subtitle` is provided and a `footer` is not provided the cell will display two lines of text and will leave space for the `title` if it is not provided.
- 
- If a `footer` is provided the cell will display three lines of text and will leave space for the `subtitle` and `title` if they are not provided.
- 
- If a `customView` is not provided the `customView` will be hidden and the displayed text will take up the empty space left by the hidden `customView`.
- 
- Specify `accessoryType` on setup to show either a disclosure indicator or a `detailButton`. The `detailButton` will display a button with an ellipsis icon which can be configured by passing in a closure to the cell's `onAccessoryTapped` property or by implementing UITableViewDelegate's `accessoryButtonTappedForRowWith` method.
- 
- NOTE: This cell implements its own custom separator. Make sure to remove the UITableViewCell built-in separator by setting `separatorStyle = .none` on your table view. To remove the cell's custom separator set `bottomSeparatorType` to `.none`.
- */
+`TableViewCell` is used to present a cell with one, two, or three lines of text with an optional custom view and an accessory.
+
+The `title` is displayed as the first line of text with the `subtitle` as the second line and the `footer` the third line.
+
+If a `subtitle` and `footer` are not provided the cell will be configured as a "small" size cell showing only the `title` line of text and a smaller custom view.
+
+If a `subtitle` is provided and a `footer` is not provided the cell will display two lines of text and will leave space for the `title` if it is not provided.
+
+If a `footer` is provided the cell will display three lines of text and will leave space for the `subtitle` and `title` if they are not provided.
+
+If a `customView` is not provided the `customView` will be hidden and the displayed text will take up the empty space left by the hidden `customView`.
+
+Specify `accessoryType` on setup to show either a disclosure indicator or a `detailButton`. The `detailButton` will display a button with an ellipsis icon which can be configured by passing in a closure to the cell's `onAccessoryTapped` property or by implementing UITableViewDelegate's `accessoryButtonTappedForRowWith` method.
+
+NOTE: This cell implements its own custom separator. Make sure to remove the UITableViewCell built-in separator by setting `separatorStyle = .none` on your table view. To remove the cell's custom separator set `bottomSeparatorType` to `.none`.
+*/
 @objc(MSFTableViewCell)
 open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     @objc(MSFTableViewCellCustomViewSize)
@@ -196,6 +196,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     @objc public static var mediumHeight: CGFloat { return height(title: "", subtitle: " ") }
     @objc public static var largeHeight: CGFloat { return height(title: "", subtitle: " ", footer: " ") }
 
+    /// Identifier string for TableViewCell
     @objc public static var identifier: String { return String(describing: self) }
 
     /// A constant representing the number of lines for a label in which no change will be made when the `preferredContentSizeCategory` returns a size greater than `.large`.
@@ -215,7 +216,6 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     }
 
     // MARK: - TableViewCell TokenizedControl
-    public typealias TokenType = TableViewCellTokens
     @objc public var tableViewCellOverrideTokens: TableViewCellTokens? {
         didSet {
             self.overrideTokens = tableViewCellOverrideTokens
@@ -755,6 +755,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     }
     private var _customViewSize: CustomViewSize = .default
 
+    /// The custom accessory view of the TableViewCell.
     @objc open private(set) var customAccessoryView: UIView? {
         didSet {
             oldValue?.removeFromSuperview()
@@ -1036,6 +1037,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         return findSuperview(of: UITableView.self) as? UITableView
     }
 
+    /// Initializes TableViewCell with the cell style.
     @objc public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         let tokens = TableViewCellTokens()
         self.tokens = tokens
@@ -1157,6 +1159,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
 
     private var isUsingCustomTextColors: Bool = false
 
+    /// Updates label text colors.
     public func updateTextColors() {
         if !isUsingCustomTextColors {
             titleLabel.textColor = UIColor(dynamicColor: tokens.titleColor)
