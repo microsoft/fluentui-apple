@@ -31,12 +31,6 @@ open class SideTabBarTokens: ControlTokens {
     /// The spacing between the bottom set of TabBarItems
     open var bottomTabBarItemSpacing: CGFloat { globalTokens.spacing[.xLarge] }
 
-    /// The size of the top set of TabBarItems
-    open var topTabBarItemSize: CGFloat { globalTokens.iconSize[.large] }
-
-    /// The size of the bottom set of TabBarItems
-    open var bottomTabBarItemSize: CGFloat { globalTokens.iconSize[.medium] }
-
     /// The padding for the badges on the top set of TabBarItems
     open var badgeTopSectionPadding: CGFloat { 2.0 }
 
