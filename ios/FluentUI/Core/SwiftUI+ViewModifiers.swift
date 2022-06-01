@@ -71,7 +71,7 @@ struct OnSizeChangeViewModifier: ViewModifier {
 /// ViewModifier for showing the large content viewer with optional text and optional image.
 /// If both the text and image are nil, the default large content viewer will be used.
 struct LargeContentViewerModifier: ViewModifier {
-    init (text: String?, image: UIImage?) {
+    init(text: String?, image: UIImage?) {
         self.text = text
         self.image = image
     }
