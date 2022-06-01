@@ -58,7 +58,10 @@ import UIKit
 
             strongSelf.action?(strongSelf)
         }
-        setupLargeContentViewer()
+
+        if #unavailable(iOS 15.0) {
+            setupLargeContentViewer()
+        }
     }
 
     required public init?(coder: NSCoder) {

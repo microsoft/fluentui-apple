@@ -64,11 +64,21 @@ public struct FluentButton: View, ConfigurableTokenizedControl {
     }
 
     public var body: some View {
-        Button(action: state.action, label: {})
-            .buttonStyle(FluentButtonStyle(state: state,
-                                           tokensLookup: { tokens }))
-            .disabled(state.disabled ?? false)
-            .frame(maxWidth: .infinity)
+        Button(action: state.action) {
+            if let image = state.image {
+                Image(uiImage: image)
+            }
+            if let text = state.text {
+                Text(text)
+            }
+        }
+        .buttonStyle(FluentButtonStyle(state: state,
+                                       tokensLookup: { tokens }))
+        .disabled(state.disabled ?? false)
+        .frame(maxWidth: .infinity)
+        .modifyIf(state.style.isFloatingStyle, { button in
+            button.showsLargeContentViewer()
+        })
     }
 }
 

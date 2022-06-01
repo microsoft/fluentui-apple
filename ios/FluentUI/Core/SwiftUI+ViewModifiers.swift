@@ -40,6 +40,16 @@ extension View {
             .onPreferenceChange(SizePreferenceKey.self,
                                 perform: action)
     }
+
+    /// Adds a large content viewer for the view. If the text and image are both nil,
+    /// the default large content viewer will be used.
+    /// - Parameters
+    ///  - text: Optional String to display in the large content viewer.
+    ///  - image: Optional UIImage to display in the large content viewer.
+    /// - Returns: The modified view.
+    func showsLargeContentViewer(text: String? = nil, image: UIImage? = nil) -> some View {
+        modifier(LargeContentViewerModifier(text: text, image: image))
+    }
 }
 
 /// PreferenceKey that will store the measured size of the view
@@ -56,4 +66,35 @@ struct OnSizeChangeViewModifier: ViewModifier {
                                    value: geometryReader.size)
         })
     }
+}
+
+/// ViewModifier for showing the large content viewer with optional text and optional image.
+/// If both the text and image are nil, the default large content viewer will be used.
+struct LargeContentViewerModifier: ViewModifier {
+    init(text: String?, image: UIImage?) {
+        self.text = text
+        self.image = image
+    }
+
+    func body(content: Content) -> some View {
+        if #available(iOS 15.0, *) {
+            if text != nil || image != nil {
+                content.accessibilityShowsLargeContentViewer({
+                    if let image = image {
+                        Image(uiImage: image)
+                    }
+                    if let text = text {
+                        Text(text)
+                    }
+                })
+            } else {
+                content.accessibilityShowsLargeContentViewer()
+            }
+        } else {
+            content
+        }
+    }
+
+    private var text: String?
+    private var image: UIImage?
 }
