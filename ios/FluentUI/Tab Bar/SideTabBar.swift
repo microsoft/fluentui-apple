@@ -373,8 +373,6 @@ open class SideTabBar: UIView, TokenizedControlInternal {
     }
 
     private class CustomSideTabBarItemTokens: TabBarItemTokens {
-        var sideTabBarTokens: SideTabBarTokens
-
         @available(*, unavailable)
         required init() {
             preconditionFailure("init() has not been implemented")
@@ -400,6 +398,8 @@ open class SideTabBar: UIView, TokenizedControlInternal {
         override var titleLabelFontLandscape: FontInfo {
             sideTabBarTokens.tabBarItemTitleLabelFontLandscape ?? super.titleLabelFontLandscape
         }
+
+        var sideTabBarTokens: SideTabBarTokens
     }
 
     private func updateSideTabBarTokens() {
@@ -409,9 +409,10 @@ open class SideTabBar: UIView, TokenizedControlInternal {
     }
 
     private func updateSideTabBarTokensForSection(in section: Section) {
+        customSideTabBarItemTokens = CustomSideTabBarItemTokens.init(sideTabBarTokens: tokens)
         for subview in stackView(in: section).arrangedSubviews {
             if let tabBarItemView = subview as? TabBarItemView {
-                tabBarItemView.overrideTokens = CustomSideTabBarItemTokens.init(sideTabBarTokens: tokens)
+                tabBarItemView.overrideTokens = customSideTabBarItemTokens
             }
         }
     }
