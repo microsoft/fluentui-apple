@@ -58,10 +58,30 @@ import UIKit
 
             strongSelf.action?(strongSelf)
         }
+
+        if #unavailable(iOS 15.0) {
+            setupLargeContentViewer()
+        }
     }
 
     required public init?(coder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
+    }
+
+    private func setupLargeContentViewer() {
+        let largeContentViewerInteraction = UILargeContentViewerInteraction()
+        self.addInteraction(largeContentViewerInteraction)
+        largeContentViewerInteraction.gestureRecognizerForExclusionRelationship.delegate = self
+        self.scalesLargeContentImage = true
+        self.showsLargeContentViewer = state.style.isFloatingStyle
+
+        imagePropertySubscriber = stateImpl.$image.sink { buttonImage in
+            self.largeContentImage = buttonImage
+        }
+
+        textPropertySubscriber = stateImpl.$text.sink { buttonText in
+            self.largeContentTitle = buttonText
+        }
     }
 
     private var textPropertySubscriber: AnyCancellable?
