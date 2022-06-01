@@ -34,16 +34,16 @@ public enum TableViewCellAccessoryType: Int {
         return icon
     }
 
-    func iconColor(for window: UIWindow) -> UIColor? {
+    func iconColor(tokens: TableViewCellTokens) -> UIColor? {
         switch self {
         case .none:
             return nil
         case .disclosureIndicator:
-            return Colors.Table.Cell.accessoryDisclosureIndicator
+            return UIColor(dynamicColor: tokens.accessoryDisclosureIndicatorColor)
         case .detailButton:
-            return Colors.Table.Cell.accessoryDetailButton
+            return UIColor(dynamicColor: tokens.accessoryDetailButtonColor)
         case .checkmark:
-            return Colors.primary(for: window)
+            return UIColor(dynamicColor: tokens.globalTokens.brandColors[.primary])
         }
     }
 
@@ -61,66 +61,66 @@ public enum TableViewCellAccessoryType: Int {
 // MARK: - Table Colors
 
 public extension Colors {
-    struct Table {
-        public struct Cell {
-            public static var background: UIColor = surfacePrimary
-            public static var backgroundGrouped = UIColor(light: surfacePrimary, dark: surfaceSecondary)
-            public static var backgroundSelected: UIColor = surfaceTertiary
-            public static var image: UIColor = iconSecondary
-            public static var title: UIColor = textPrimary
-            public static var subtitle: UIColor = textSecondary
-            public static var footer: UIColor = textSecondary
-            public static var accessoryDisclosureIndicator: UIColor = iconSecondary
-            public static var accessoryDetailButton: UIColor = iconSecondary
-            public static var selectionIndicatorOff: UIColor = iconSecondary
+    internal struct Table {
+        struct Cell {
+            static var background: UIColor = surfacePrimary
+            static var image: UIColor = iconSecondary
+            static var title: UIColor = textPrimary
+            static var subtitle: UIColor = textSecondary
+            static var accessoryDisclosureIndicator: UIColor = iconSecondary
+            static var accessoryDetailButton: UIColor = iconSecondary
+            static var selectionIndicatorOff: UIColor = iconSecondary
         }
-        public struct ActionCell {
-            public static var textDestructive: UIColor = error
-            public static var textDestructiveHighlighted: UIColor = error.withAlphaComponent(0.4)
-            public static var textCommunication: UIColor = communicationBlue
-            public static var textCommunicationHighlighted: UIColor = communicationBlue.withAlphaComponent(0.4)
+
+        struct ActionCell {
+            static var textDestructive: UIColor = error
+            static var textDestructiveHighlighted: UIColor = error.withAlphaComponent(0.4)
+            static var textCommunication: UIColor = communicationBlue
+            static var textCommunicationHighlighted: UIColor = communicationBlue.withAlphaComponent(0.4)
         }
-        public struct HeaderFooter {
-            public static var accessoryButtonText: UIColor = textSecondary
-            public static var background: UIColor = .clear
-            public static var backgroundDivider: UIColor = surfaceSecondary
-            public static var text: UIColor = textSecondary
-            public static var textDivider: UIColor = textSecondary
-            public static var textLink = UIColor(light: Palette.communicationBlueShade10.color, dark: communicationBlue)
+
+        struct HeaderFooter {
+            static var accessoryButtonText: UIColor = textSecondary
+            static var background: UIColor = .clear
+            static var backgroundDivider: UIColor = surfaceSecondary
+            static var text: UIColor = textSecondary
+            static var textDivider: UIColor = textSecondary
+            static var textLink = UIColor(light: Palette.communicationBlueShade10.color, dark: communicationBlue)
         }
-        public static var background: UIColor = surfacePrimary
-        public static var backgroundGrouped = UIColor(light: surfaceSecondary, dark: surfacePrimary)
+
+        static var background: UIColor = surfacePrimary
+        static var backgroundGrouped = UIColor(light: surfaceSecondary, dark: surfacePrimary)
     }
     // Objective-C support
-    @objc static var tableBackground: UIColor { return Table.background }
-    @objc static var tableBackgroundGrouped: UIColor { return Table.backgroundGrouped }
-    @objc static var tableCellBackground: UIColor { return Table.Cell.background }
-    @objc static var tableCellBackgroundGrouped: UIColor { return Table.Cell.backgroundGrouped }
-    @objc static var tableCellBackgroundSelected: UIColor { return Table.Cell.backgroundSelected }
-    @objc static var tableCellImage: UIColor { return Table.Cell.image }
+    @objc static var tableBackground: UIColor { return surfacePrimary }
+    @objc static var tableBackgroundGrouped: UIColor { return UIColor(light: surfaceSecondary, dark: surfacePrimary) }
+    @objc static var tableCellBackground: UIColor { return surfacePrimary }
+    @objc static var tableCellBackgroundGrouped: UIColor { return UIColor(light: surfacePrimary, dark: surfaceSecondary) }
+    @objc static var tableCellBackgroundSelected: UIColor { return surfaceTertiary }
+    @objc static var tableCellImage: UIColor { return iconSecondary }
 }
 
 // MARK: - TableViewCell
 
 /**
- `TableViewCell` is used to present a cell with one, two, or three lines of text with an optional custom view and an accessory.
+`TableViewCell` is used to present a cell with one, two, or three lines of text with an optional custom view and an accessory.
 
- The `title` is displayed as the first line of text with the `subtitle` as the second line and the `footer` the third line.
+The `title` is displayed as the first line of text with the `subtitle` as the second line and the `footer` the third line.
 
- If a `subtitle` and `footer` are not provided the cell will be configured as a "small" size cell showing only the `title` line of text and a smaller custom view.
+If a `subtitle` and `footer` are not provided the cell will be configured as a "small" size cell showing only the `title` line of text and a smaller custom view.
 
- If a `subtitle` is provided and a `footer` is not provided the cell will display two lines of text and will leave space for the `title` if it is not provided.
+If a `subtitle` is provided and a `footer` is not provided the cell will display two lines of text and will leave space for the `title` if it is not provided.
 
- If a `footer` is provided the cell will display three lines of text and will leave space for the `subtitle` and `title` if they are not provided.
+If a `footer` is provided the cell will display three lines of text and will leave space for the `subtitle` and `title` if they are not provided.
 
- If a `customView` is not provided the `customView` will be hidden and the displayed text will take up the empty space left by the hidden `customView`.
+If a `customView` is not provided the `customView` will be hidden and the displayed text will take up the empty space left by the hidden `customView`.
 
- Specify `accessoryType` on setup to show either a disclosure indicator or a `detailButton`. The `detailButton` will display a button with an ellipsis icon which can be configured by passing in a closure to the cell's `onAccessoryTapped` property or by implementing UITableViewDelegate's `accessoryButtonTappedForRowWith` method.
+Specify `accessoryType` on setup to show either a disclosure indicator or a `detailButton`. The `detailButton` will display a button with an ellipsis icon which can be configured by passing in a closure to the cell's `onAccessoryTapped` property or by implementing UITableViewDelegate's `accessoryButtonTappedForRowWith` method.
 
- NOTE: This cell implements its own custom separator. Make sure to remove the UITableViewCell built-in separator by setting `separatorStyle = .none` on your table view. To remove the cell's custom separator set `bottomSeparatorType` to `.none`.
- */
+NOTE: This cell implements its own custom separator. Make sure to remove the UITableViewCell built-in separator by setting `separatorStyle = .none` on your table view. To remove the cell's custom separator set `bottomSeparatorType` to `.none`.
+*/
 @objc(MSFTableViewCell)
-open class TableViewCell: UITableViewCell {
+open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     @objc(MSFTableViewCellCustomViewSize)
     public enum CustomViewSize: Int {
         case `default`
@@ -169,24 +169,6 @@ open class TableViewCell: UITableViewCell {
         case threeLines
 
         var customViewSize: CustomViewSize { return self == .oneLine ? .small : .medium }
-
-        var subtitleTextStyle: TextStyle {
-            switch self {
-            case .oneLine, .twoLines:
-                return TextStyles.subtitleTwoLines
-            case .threeLines:
-                return TextStyles.subtitleThreeLines
-            }
-        }
-
-        var labelVerticalMargin: CGFloat {
-            switch self {
-            case .oneLine, .threeLines:
-                return labelVerticalMarginForOneAndThreeLines
-            case .twoLines:
-                return labelVerticalMarginForTwoLines
-            }
-        }
     }
 
     struct TextStyles {
@@ -197,33 +179,14 @@ open class TableViewCell: UITableViewCell {
     }
 
     private struct Constants {
-        static let labelAccessoryViewMarginLeading: CGFloat = 8
-        static let labelAccessoryViewMarginTrailing: CGFloat = 8
-
-        static let customAccessoryViewMarginLeading: CGFloat = 8
-        static let customAccessoryViewMinVerticalMargin: CGFloat = 6
-
         static let labelVerticalMarginForOneAndThreeLines: CGFloat = 11
-        static let labelVerticalMarginForTwoLines: CGFloat = 12
-        static let labelVerticalSpacing: CGFloat = 0
 
-        static let minHeight: CGFloat = 48
-
-        static let selectionImageMarginTrailing: CGFloat = horizontalSpacing
         static let selectionImageOff = UIImage.staticImageNamed("selection-off")
         static let selectionImageOn = UIImage.staticImageNamed("selection-on")
-        static let selectionImageSize = CGSize(width: 24, height: 24)
-        static let selectionModeAnimationDuration: TimeInterval = 0.2
-
-        static let textAreaMinWidth: CGFloat = 100
-
-        static let enabledAlpha: CGFloat = 1
-        static let disabledAlpha: CGFloat = 0.35
     }
 
     /**
      The height for the cell based on the text provided. Useful when `numberOfLines` of `title`, `subtitle`, `footer` is 1.
-
      `smallHeight` - Height for the cell when only the `title` is provided in a single line of text.
      `mediumHeight` - Height for the cell when only the `title` and `subtitle` are provided in 2 lines of text.
      `largeHeight` - Height for the cell when the `title`, `subtitle`, and `footer` are provided in 3 lines of text.
@@ -232,24 +195,14 @@ open class TableViewCell: UITableViewCell {
     @objc public static var mediumHeight: CGFloat { return height(title: "", subtitle: " ") }
     @objc public static var largeHeight: CGFloat { return height(title: "", subtitle: " ", footer: " ") }
 
+    /// Identifier string for TableViewCell
     @objc public static var identifier: String { return String(describing: self) }
 
     /// A constant representing the number of lines for a label in which no change will be made when the `preferredContentSizeCategory` returns a size greater than `.large`.
     @objc public static let defaultNumberOfLinesForLargerDynamicType: Int = -1
 
-    /// The default horizontal spacing in the cell.
-    @objc public static let horizontalSpacing: CGFloat = 16
-
-    /// The default leading padding in the cell.
-    @objc public static let defaultPaddingLeading: CGFloat = horizontalSpacing
-
-    /// The default trailing padding in the cell.
-    @objc public static let defaultPaddingTrailing: CGFloat = horizontalSpacing
-
     /// The vertical margins for cells with one or three lines of text
     class var labelVerticalMarginForOneAndThreeLines: CGFloat { return Constants.labelVerticalMarginForOneAndThreeLines }
-    /// The vertical margins for cells with two lines of text
-    class var labelVerticalMarginForTwoLines: CGFloat { return Constants.labelVerticalMarginForTwoLines }
 
     private var separatorLeadingInsetForSmallCustomView: CGFloat {
         return paddingLeading + CustomViewSize.small.size.width + CustomViewSize.small.trailingMargin
@@ -261,9 +214,38 @@ open class TableViewCell: UITableViewCell {
         return paddingLeading
     }
 
+    // MARK: - TableViewCell TokenizedControl
+    @objc public var tableViewCellOverrideTokens: TableViewCellTokens? {
+        didSet {
+            self.overrideTokens = tableViewCellOverrideTokens
+        }
+    }
+
+    let defaultTokens: TableViewCellTokens = .init()
+    var tokens: TableViewCellTokens = .init()
+    /// Design token set for this control, to use in place of the control's default Fluent tokens.
+    var overrideTokens: TableViewCellTokens? {
+        didSet {
+            updateTokens()
+        }
+    }
+
+    public func overrideTokens(_ tokens: TableViewCellTokens?) -> Self {
+        overrideTokens = tokens
+        return self
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        guard let window = window, window.isEqual(notification.object) else {
+            return
+        }
+        updateTokens()
+    }
+
     /// The height of the cell based on the height of its content.
     ///
     /// - Parameters:
+    ///   - tokens: The TableViewCell tokens
     ///   - title: The title string
     ///   - subtitle: The subtitle string
     ///   - footer: The footer string
@@ -282,10 +264,9 @@ open class TableViewCell: UITableViewCell {
     ///   - customAccessoryViewExtendsToEdge: Boolean defining whether custom accessory view is extended to the trailing edge of the cell or not (ignored when accessory type is not `.none`)
     ///   - containerWidth: The width of the cell's super view (e.g. the table view's width)
     ///   - isInSelectionMode: Boolean describing if the cell is in multi-selection mode which shows/hides a checkmark image on the leading edge
-    ///   - paddingLeading: The cell's leading padding
-    ///   - paddingTrailing: The cell's trailing padding
     /// - Returns: a value representing the calculated height of the cell
-    @objc public class func height(title: String,
+    @objc public class func height(tokens: TableViewCellTokens = .init(),
+                                   title: String,
                                    subtitle: String = "",
                                    footer: String = "",
                                    titleLeadingAccessoryView: UIView? = nil,
@@ -302,35 +283,69 @@ open class TableViewCell: UITableViewCell {
                                    footerNumberOfLines: Int = 1,
                                    customAccessoryViewExtendsToEdge: Bool = false,
                                    containerWidth: CGFloat = .greatestFiniteMagnitude,
-                                   isInSelectionMode: Bool = false,
-                                   paddingLeading: CGFloat = defaultPaddingLeading,
-                                   paddingTrailing: CGFloat = defaultPaddingTrailing) -> CGFloat {
-        var layoutType = self.layoutType(subtitle: subtitle, footer: footer, subtitleLeadingAccessoryView: subtitleLeadingAccessoryView, subtitleTrailingAccessoryView: subtitleTrailingAccessoryView, footerLeadingAccessoryView: footerLeadingAccessoryView, footerTrailingAccessoryView: footerTrailingAccessoryView)
+                                   isInSelectionMode: Bool = false) -> CGFloat {
+        var layoutType = Self.layoutType(subtitle: subtitle,
+                                         footer: footer,
+                                         subtitleLeadingAccessoryView: subtitleLeadingAccessoryView,
+                                         subtitleTrailingAccessoryView: subtitleTrailingAccessoryView,
+                                         footerLeadingAccessoryView: footerLeadingAccessoryView,
+                                         footerTrailingAccessoryView: footerTrailingAccessoryView)
         customViewSize.validateLayoutTypeForHeightCalculation(&layoutType)
-        let customViewSize = self.customViewSize(from: customViewSize, layoutType: layoutType)
+        let customViewSize = Self.customViewSize(from: customViewSize, layoutType: layoutType)
 
-        let textAreaLeadingOffset = self.textAreaLeadingOffset(customViewSize: customViewSize, isInSelectionMode: isInSelectionMode, paddingLeading: paddingLeading)
-        let textAreaTrailingOffset = self.textAreaTrailingOffset(customAccessoryView: customAccessoryView, customAccessoryViewExtendsToEdge: customAccessoryViewExtendsToEdge, accessoryType: accessoryType, paddingTrailing: paddingTrailing)
+        let textAreaLeadingOffset = Self.textAreaLeadingOffset(customViewSize: customViewSize,
+                                                               isInSelectionMode: isInSelectionMode,
+                                                               tokens: tokens)
+        let textAreaTrailingOffset = Self.textAreaTrailingOffset(customAccessoryView: customAccessoryView,
+                                                                 customAccessoryViewExtendsToEdge: customAccessoryViewExtendsToEdge,
+                                                                 accessoryType: accessoryType,
+                                                                 paddingTrailing: tokens.paddingTrailing,
+                                                                 customAccessoryViewMarginLeading: tokens.customAccessoryViewMarginLeading)
         var textAreaWidth = containerWidth - (textAreaLeadingOffset + textAreaTrailingOffset)
-        if textAreaWidth < Constants.textAreaMinWidth, let customAccessoryView = customAccessoryView {
+        let textAreaMinWidth = tokens.textAreaMinWidth
+        let labelAccessoryViewMarginLeading = tokens.labelAccessoryViewMarginLeading
+        let labelAccessoryViewMarginTrailing = tokens.labelAccessoryViewMarginTrailing
+        if textAreaWidth < textAreaMinWidth, let customAccessoryView = customAccessoryView {
             let oldAccessoryViewWidth = customAccessoryView.frame.width
-            let availableWidth = oldAccessoryViewWidth - (Constants.textAreaMinWidth - textAreaWidth)
+            let availableWidth = oldAccessoryViewWidth - (textAreaMinWidth - textAreaWidth)
             customAccessoryView.frame.size = customAccessoryView.systemLayoutSizeFitting(CGSize(width: availableWidth, height: .infinity))
             textAreaWidth += oldAccessoryViewWidth - customAccessoryView.frame.width
         }
 
-        let textAreaHeight = self.textAreaHeight(
+        let textAreaHeight = Self.textAreaHeight(
             layoutType: layoutType,
-            titleHeight: labelSize(text: title, font: TextStyles.title.font, numberOfLines: titleNumberOfLines, textAreaWidth: textAreaWidth, leadingAccessoryView: titleLeadingAccessoryView, trailingAccessoryView: titleTrailingAccessoryView).height,
-            subtitleHeight: labelSize(text: subtitle, font: layoutType.subtitleTextStyle.font, numberOfLines: subtitleNumberOfLines, textAreaWidth: textAreaWidth, leadingAccessoryView: subtitleLeadingAccessoryView, trailingAccessoryView: subtitleTrailingAccessoryView).height,
-            footerHeight: labelSize(text: footer, font: TextStyles.footer.font, numberOfLines: footerNumberOfLines, textAreaWidth: textAreaWidth, leadingAccessoryView: footerLeadingAccessoryView, trailingAccessoryView: footerTrailingAccessoryView).height
+            titleHeight: labelSize(text: title,
+                                   font: TextStyles.title.font,
+                                   numberOfLines: titleNumberOfLines,
+                                   textAreaWidth: textAreaWidth,
+                                   leadingAccessoryView: titleLeadingAccessoryView,
+                                   labelAccessoryViewMarginLeading: labelAccessoryViewMarginLeading,
+                                   trailingAccessoryView: titleTrailingAccessoryView,
+                                   labelAccessoryViewMarginTrailing: labelAccessoryViewMarginTrailing).height,
+            subtitleHeight: labelSize(text: subtitle,
+                                      font: layoutType == .twoLines ? TextStyles.subtitleTwoLines.font : TextStyles.subtitleThreeLines.font,
+                                      numberOfLines: subtitleNumberOfLines,
+                                      textAreaWidth: textAreaWidth,
+                                      leadingAccessoryView: subtitleLeadingAccessoryView,
+                                      labelAccessoryViewMarginLeading: labelAccessoryViewMarginLeading,
+                                      trailingAccessoryView: subtitleTrailingAccessoryView,
+                                      labelAccessoryViewMarginTrailing: labelAccessoryViewMarginTrailing).height,
+            footerHeight: labelSize(text: footer,
+                                    font: TextStyles.footer.font,
+                                    numberOfLines: footerNumberOfLines,
+                                    textAreaWidth: textAreaWidth,
+                                    leadingAccessoryView: footerLeadingAccessoryView,
+                                    labelAccessoryViewMarginLeading: labelAccessoryViewMarginLeading,
+                                    trailingAccessoryView: footerTrailingAccessoryView,
+                                    labelAccessoryViewMarginTrailing: labelAccessoryViewMarginTrailing).height,
+            labelVerticalSpacing: tokens.labelVerticalSpacing
         )
 
-        let labelVerticalMargin = layoutType == .twoLines ? labelVerticalMarginForTwoLines : labelVerticalMarginForOneAndThreeLines
+        let labelVerticalMargin = layoutType == .twoLines ? tokens.labelVerticalMarginForTwoLines : tokens.labelVerticalMarginForOneAndThreeLines
 
-        var minHeight = Constants.minHeight
+        var minHeight = tokens.minHeight
         if let customAccessoryView = customAccessoryView {
-            minHeight = max(minHeight, customAccessoryView.frame.height + 2 * Constants.customAccessoryViewMinVerticalMargin)
+            minHeight = max(minHeight, customAccessoryView.frame.height + 2 * tokens.customAccessoryViewMinVerticalMargin)
         }
         return max(labelVerticalMargin * 2 + textAreaHeight, minHeight)
     }
@@ -338,6 +353,7 @@ open class TableViewCell: UITableViewCell {
     /// The preferred width of the cell based on the width of its content.
     ///
     /// - Parameters:
+    ///   - tokens: The TableViewCell tokens
     ///   - title: The title string
     ///   - subtitle: The subtitle string
     ///   - footer: The footer string
@@ -352,10 +368,9 @@ open class TableViewCell: UITableViewCell {
     ///   - accessoryType: The `TableViewCellAccessoryType` that the cell should display
     ///   - customAccessoryViewExtendsToEdge: Boolean defining whether custom accessory view is extended to the trailing edge of the cell or not (ignored when accessory type is not `.none`)
     ///   - isInSelectionMode: Boolean describing if the cell is in multi-selection mode which shows/hides a checkmark image on the leading edge
-    ///   - paddingLeading: The cell's leading padding
-    ///   - paddingTrailing: The cell's trailing padding
     /// - Returns: a value representing the preferred width of the cell
-    @objc public class func preferredWidth(title: String,
+    @objc public class func preferredWidth(tokens: TableViewCellTokens = .init(),
+                                           title: String,
                                            subtitle: String = "",
                                            footer: String = "",
                                            titleLeadingAccessoryView: UIView? = nil,
@@ -368,45 +383,91 @@ open class TableViewCell: UITableViewCell {
                                            customAccessoryView: UIView? = nil,
                                            accessoryType: TableViewCellAccessoryType = .none,
                                            customAccessoryViewExtendsToEdge: Bool = false,
-                                           isInSelectionMode: Bool = false,
-                                           paddingLeading: CGFloat = defaultPaddingLeading,
-                                           paddingTrailing: CGFloat = defaultPaddingTrailing) -> CGFloat {
-        let layoutType = self.layoutType(subtitle: subtitle, footer: footer, subtitleLeadingAccessoryView: subtitleLeadingAccessoryView, subtitleTrailingAccessoryView: subtitleTrailingAccessoryView, footerLeadingAccessoryView: footerLeadingAccessoryView, footerTrailingAccessoryView: footerTrailingAccessoryView)
-        let customViewSize = self.customViewSize(from: customViewSize, layoutType: layoutType)
+                                           isInSelectionMode: Bool = false) -> CGFloat {
+        let layoutType = Self.layoutType(subtitle: subtitle,
+                                         footer: footer,
+                                         subtitleLeadingAccessoryView: subtitleLeadingAccessoryView,
+                                         subtitleTrailingAccessoryView: subtitleTrailingAccessoryView,
+                                         footerLeadingAccessoryView: footerLeadingAccessoryView,
+                                         footerTrailingAccessoryView: footerTrailingAccessoryView)
+        let customViewSize = Self.customViewSize(from: customViewSize, layoutType: layoutType)
+        let labelAccessoryViewMarginLeading = tokens.labelAccessoryViewMarginLeading
+        let labelAccessoryViewMarginTrailing = tokens.labelAccessoryViewMarginTrailing
 
-        var textAreaWidth = labelPreferredWidth(text: title, font: TextStyles.title.font, leadingAccessoryView: titleLeadingAccessoryView, trailingAccessoryView: titleTrailingAccessoryView)
+        var textAreaWidth = Self.labelPreferredWidth(text: title,
+                                                     font: TextStyles.title.font,
+                                                     leadingAccessoryView: titleLeadingAccessoryView,
+                                                     trailingAccessoryView: titleTrailingAccessoryView,
+                                                     labelAccessoryViewMarginTrailing: labelAccessoryViewMarginTrailing,
+                                                     labelAccessoryViewMarginLeading: labelAccessoryViewMarginLeading)
         if layoutType == .twoLines || layoutType == .threeLines {
-            let subtitleWidth = labelPreferredWidth(text: subtitle, font: layoutType.subtitleTextStyle.font, leadingAccessoryView: subtitleLeadingAccessoryView, trailingAccessoryView: subtitleTrailingAccessoryView)
+            let subtitleWidth = Self.labelPreferredWidth(text: subtitle,
+                                                         font: layoutType == .twoLines ? TextStyles.subtitleTwoLines.font : TextStyles.subtitleThreeLines.font,
+                                                         leadingAccessoryView: subtitleLeadingAccessoryView,
+                                                         trailingAccessoryView: subtitleTrailingAccessoryView,
+                                                         labelAccessoryViewMarginTrailing: labelAccessoryViewMarginTrailing,
+                                                         labelAccessoryViewMarginLeading: labelAccessoryViewMarginLeading)
             textAreaWidth = max(textAreaWidth, subtitleWidth)
             if layoutType == .threeLines {
-                let footerWidth = labelPreferredWidth(text: footer, font: TextStyles.footer.font, leadingAccessoryView: footerLeadingAccessoryView, trailingAccessoryView: footerTrailingAccessoryView)
+                let footerWidth = Self.labelPreferredWidth(text: footer,
+                                                           font: TextStyles.footer.font,
+                                                           leadingAccessoryView: footerLeadingAccessoryView,
+                                                           trailingAccessoryView: footerTrailingAccessoryView,
+                                                           labelAccessoryViewMarginTrailing: labelAccessoryViewMarginTrailing,
+                                                           labelAccessoryViewMarginLeading: labelAccessoryViewMarginLeading)
                 textAreaWidth = max(textAreaWidth, footerWidth)
             }
         }
 
-        return textAreaLeadingOffset(customViewSize: customViewSize, isInSelectionMode: isInSelectionMode, paddingLeading: paddingLeading) +
-            textAreaWidth +
-            textAreaTrailingOffset(customAccessoryView: customAccessoryView, customAccessoryViewExtendsToEdge: customAccessoryViewExtendsToEdge, accessoryType: accessoryType, paddingTrailing: paddingTrailing)
+        return Self.textAreaLeadingOffset(customViewSize: customViewSize, isInSelectionMode: isInSelectionMode, tokens: tokens) + textAreaWidth +
+        Self.textAreaTrailingOffset(customAccessoryView: customAccessoryView,
+                                    customAccessoryViewExtendsToEdge: customAccessoryViewExtendsToEdge,
+                                    accessoryType: accessoryType,
+                                    paddingTrailing: tokens.paddingTrailing,
+                                    customAccessoryViewMarginLeading: tokens.customAccessoryViewMarginLeading)
     }
 
-    private static func labelSize(text: String, font: UIFont, numberOfLines: Int, textAreaWidth: CGFloat, leadingAccessoryView: UIView?, trailingAccessoryView: UIView?) -> CGSize {
-        let leadingAccessoryViewWidth = labelAccessoryViewSize(for: leadingAccessoryView).width
-        let leadingAccessoryAreaWidth = labelLeadingAccessoryAreaWidth(viewWidth: leadingAccessoryViewWidth)
+    private static func labelSize(text: String,
+                                  font: UIFont,
+                                  numberOfLines: Int,
+                                  textAreaWidth: CGFloat,
+                                  leadingAccessoryView: UIView?,
+                                  labelAccessoryViewMarginLeading: CGFloat,
+                                  trailingAccessoryView: UIView?,
+                                  labelAccessoryViewMarginTrailing: CGFloat) -> CGSize {
+        let leadingAccessoryViewWidth = Self.labelAccessoryViewSize(for: leadingAccessoryView).width
+        let leadingAccessoryAreaWidth = Self.labelLeadingAccessoryAreaWidth(viewWidth: leadingAccessoryViewWidth,
+                                                                            labelAccessoryViewMarginTrailing: labelAccessoryViewMarginTrailing)
 
-        let trailingAccessoryViewWidth = labelAccessoryViewSize(for: trailingAccessoryView).width
-        let trailingAccessoryAreaWidth = labelTrailingAccessoryAreaWidth(viewWidth: trailingAccessoryViewWidth, text: text)
+        let trailingAccessoryViewWidth = Self.labelAccessoryViewSize(for: trailingAccessoryView).width
+        let trailingAccessoryAreaWidth = Self.labelTrailingAccessoryAreaWidth(viewWidth: trailingAccessoryViewWidth,
+                                                                              text: text, labelAccessoryViewMarginLeading: labelAccessoryViewMarginLeading)
 
         let availableWidth = textAreaWidth - (leadingAccessoryAreaWidth + trailingAccessoryAreaWidth)
         return text.preferredSize(for: font, width: availableWidth, numberOfLines: numberOfLines)
     }
 
-    private static func labelPreferredWidth(text: String, font: UIFont, leadingAccessoryView: UIView?, trailingAccessoryView: UIView?) -> CGFloat {
+    private static func labelPreferredWidth(text: String,
+                                            font: UIFont,
+                                            leadingAccessoryView: UIView?,
+                                            trailingAccessoryView: UIView?,
+                                            labelAccessoryViewMarginTrailing: CGFloat,
+                                            labelAccessoryViewMarginLeading: CGFloat) -> CGFloat {
         var labelWidth = text.preferredSize(for: font).width
-        labelWidth += labelLeadingAccessoryAreaWidth(viewWidth: leadingAccessoryView?.frame.width ?? 0) + labelTrailingAccessoryAreaWidth(viewWidth: trailingAccessoryView?.frame.width ?? 0, text: text)
+        labelWidth += labelLeadingAccessoryAreaWidth(viewWidth: leadingAccessoryView?.frame.width ?? 0,
+                                                     labelAccessoryViewMarginTrailing: labelAccessoryViewMarginTrailing) +
+        labelTrailingAccessoryAreaWidth(viewWidth: trailingAccessoryView?.frame.width ?? 0,
+                                        text: text,
+                                        labelAccessoryViewMarginLeading: labelAccessoryViewMarginLeading)
         return labelWidth
     }
 
-    private static func layoutType(subtitle: String, footer: String, subtitleLeadingAccessoryView: UIView?, subtitleTrailingAccessoryView: UIView?, footerLeadingAccessoryView: UIView?, footerTrailingAccessoryView: UIView?) -> LayoutType {
+    private static func layoutType(subtitle: String,
+                                   footer: String,
+                                   subtitleLeadingAccessoryView: UIView?,
+                                   subtitleTrailingAccessoryView: UIView?,
+                                   footerLeadingAccessoryView: UIView?,
+                                   footerTrailingAccessoryView: UIView?) -> LayoutType {
         if footer == "" && footerLeadingAccessoryView == nil && footerTrailingAccessoryView == nil {
             if subtitle == "" && subtitleLeadingAccessoryView == nil && subtitleTrailingAccessoryView == nil {
                 return .oneLine
@@ -417,20 +478,27 @@ open class TableViewCell: UITableViewCell {
         }
     }
 
-    private static func selectionModeAreaWidth(isInSelectionMode: Bool) -> CGFloat {
-        return isInSelectionMode ? Constants.selectionImageSize.width + Constants.selectionImageMarginTrailing : 0
+    private static func selectionModeAreaWidth(isInSelectionMode: Bool,
+                                               selectionImageMarginTrailing: CGFloat,
+                                               selectionImageSize: CGFloat) -> CGFloat {
+        return isInSelectionMode ? selectionImageSize + selectionImageMarginTrailing : 0
     }
 
     private static func customViewSize(from size: CustomViewSize, layoutType: LayoutType) -> CustomViewSize {
         return size == .default ? layoutType.customViewSize : size
     }
 
-    private static func customViewLeadingOffset(isInSelectionMode: Bool, paddingLeading: CGFloat) -> CGFloat {
-        return paddingLeading + selectionModeAreaWidth(isInSelectionMode: isInSelectionMode)
+    private static func customViewLeadingOffset(isInSelectionMode: Bool,
+                                                tokens: TableViewCellTokens) -> CGFloat {
+        return tokens.paddingLeading + selectionModeAreaWidth(isInSelectionMode: isInSelectionMode,
+                                                              selectionImageMarginTrailing: tokens.selectionImageMarginTrailing,
+                                                              selectionImageSize: tokens.selectionImageSize.width)
     }
 
-    private static func textAreaLeadingOffset(customViewSize: CustomViewSize, isInSelectionMode: Bool, paddingLeading: CGFloat) -> CGFloat {
-        var textAreaLeadingOffset = customViewLeadingOffset(isInSelectionMode: isInSelectionMode, paddingLeading: paddingLeading)
+    private static func textAreaLeadingOffset(customViewSize: CustomViewSize,
+                                              isInSelectionMode: Bool,
+                                              tokens: TableViewCellTokens) -> CGFloat {
+        var textAreaLeadingOffset = customViewLeadingOffset(isInSelectionMode: isInSelectionMode, tokens: tokens)
         if customViewSize != .zero {
             textAreaLeadingOffset += customViewSize.size.width + customViewSize.trailingMargin
         }
@@ -438,32 +506,46 @@ open class TableViewCell: UITableViewCell {
         return textAreaLeadingOffset
     }
 
-    private static func textAreaTrailingOffset(customAccessoryView: UIView?, customAccessoryViewExtendsToEdge: Bool, accessoryType: TableViewCellAccessoryType, paddingTrailing: CGFloat) -> CGFloat {
+    private static func textAreaTrailingOffset(customAccessoryView: UIView?,
+                                               customAccessoryViewExtendsToEdge: Bool,
+                                               accessoryType: TableViewCellAccessoryType,
+                                               paddingTrailing: CGFloat,
+                                               customAccessoryViewMarginLeading: CGFloat) -> CGFloat {
         let customAccessoryViewAreaWidth: CGFloat
         if let customAccessoryView = customAccessoryView {
             // Trigger layout so we can have the frame calculated correctly at this point in time
             customAccessoryView.layoutIfNeeded()
-            customAccessoryViewAreaWidth = customAccessoryView.frame.width + Constants.customAccessoryViewMarginLeading
+            customAccessoryViewAreaWidth = customAccessoryView.frame.width + customAccessoryViewMarginLeading
         } else {
             customAccessoryViewAreaWidth = 0
         }
 
-        return customAccessoryViewAreaWidth + TableViewCell.customAccessoryViewTrailingOffset(customAccessoryView: customAccessoryView, customAccessoryViewExtendsToEdge: customAccessoryViewExtendsToEdge, accessoryType: accessoryType, paddingTrailing: paddingTrailing)
+        return customAccessoryViewAreaWidth + TableViewCell.customAccessoryViewTrailingOffset(customAccessoryView: customAccessoryView,
+                                                                                              customAccessoryViewExtendsToEdge: customAccessoryViewExtendsToEdge,
+                                                                                              accessoryType: accessoryType,
+                                                                                              paddingTrailing: paddingTrailing)
     }
 
-    private static func textAreaHeight(layoutType: TableViewCell.LayoutType, titleHeight: @autoclosure () -> CGFloat, subtitleHeight: @autoclosure () -> CGFloat, footerHeight: @autoclosure () -> CGFloat) -> CGFloat {
+    private static func textAreaHeight(layoutType: TableViewCell.LayoutType,
+                                       titleHeight: @autoclosure () -> CGFloat,
+                                       subtitleHeight: @autoclosure () -> CGFloat,
+                                       footerHeight: @autoclosure () -> CGFloat,
+                                       labelVerticalSpacing: CGFloat) -> CGFloat {
         var textAreaHeight = titleHeight()
         if layoutType == .twoLines || layoutType == .threeLines {
-            textAreaHeight += Constants.labelVerticalSpacing + subtitleHeight()
+            textAreaHeight += labelVerticalSpacing + subtitleHeight()
 
             if layoutType == .threeLines {
-                textAreaHeight += Constants.labelVerticalSpacing + footerHeight()
+                textAreaHeight += labelVerticalSpacing + footerHeight()
             }
         }
         return textAreaHeight
     }
 
-    private static func customAccessoryViewTrailingOffset(customAccessoryView: UIView?, customAccessoryViewExtendsToEdge: Bool, accessoryType: TableViewCellAccessoryType, paddingTrailing: CGFloat) -> CGFloat {
+    private static func customAccessoryViewTrailingOffset(customAccessoryView: UIView?,
+                                                          customAccessoryViewExtendsToEdge: Bool,
+                                                          accessoryType: TableViewCellAccessoryType,
+                                                          paddingTrailing: CGFloat) -> CGFloat {
         if accessoryType != .none {
             return accessoryType.size.width
         }
@@ -473,16 +555,18 @@ open class TableViewCell: UITableViewCell {
         return paddingTrailing
     }
 
-    private static func labelTrailingAccessoryMarginLeading(text: String) -> CGFloat {
-        return text == "" ? 0 : Constants.labelAccessoryViewMarginLeading
+    private static func labelTrailingAccessoryMarginLeading(text: String, labelAccessoryViewMarginLeading: CGFloat) -> CGFloat {
+        return text == "" ? 0 : labelAccessoryViewMarginLeading
     }
 
-    private static func labelLeadingAccessoryAreaWidth(viewWidth: CGFloat) -> CGFloat {
-        return viewWidth != 0 ? viewWidth + Constants.labelAccessoryViewMarginTrailing : 0
+    private static func labelLeadingAccessoryAreaWidth(viewWidth: CGFloat, labelAccessoryViewMarginTrailing: CGFloat) -> CGFloat {
+        return viewWidth != 0 ? viewWidth + labelAccessoryViewMarginTrailing : 0
     }
 
-    private static func labelTrailingAccessoryAreaWidth(viewWidth: CGFloat, text: String) -> CGFloat {
-        return viewWidth != 0 ? labelTrailingAccessoryMarginLeading(text: text) + viewWidth : 0
+    private static func labelTrailingAccessoryAreaWidth(viewWidth: CGFloat,
+                                                        text: String,
+                                                        labelAccessoryViewMarginLeading: CGFloat) -> CGFloat {
+        return viewWidth != 0 ? labelTrailingAccessoryMarginLeading(text: text, labelAccessoryViewMarginLeading: labelAccessoryViewMarginLeading) + viewWidth : 0
     }
 
     private static func labelAccessoryViewSize(for accessoryView: UIView?) -> CGSize {
@@ -497,24 +581,34 @@ open class TableViewCell: UITableViewCell {
     @objc public var footer: String { return footerLabel.text ?? "" }
 
     /// The leading padding.
-    @objc public var paddingLeading: CGFloat = defaultPaddingLeading {
-        didSet {
-            if oldValue != paddingLeading {
+    @objc public var paddingLeading: CGFloat {
+        get {
+            return _paddingLeading ?? tokens.paddingLeading
+        }
+        set {
+            if newValue != _paddingLeading {
+                _paddingLeading = newValue
                 setNeedsLayout()
                 invalidateIntrinsicContentSize()
             }
         }
     }
+    private var _paddingLeading: CGFloat?
 
     /// The trailing padding.
-    @objc public var paddingTrailing: CGFloat = defaultPaddingTrailing {
-        didSet {
-            if oldValue != paddingTrailing {
+    @objc public var paddingTrailing: CGFloat {
+        get {
+            return _paddingTrailing ?? tokens.paddingTrailing
+        }
+        set {
+            if newValue != _paddingTrailing {
+                _paddingTrailing = newValue
                 setNeedsLayout()
                 invalidateIntrinsicContentSize()
             }
         }
     }
+    private var _paddingTrailing: CGFloat?
 
     /// The maximum number of lines to be shown for `title`
     @objc open var titleNumberOfLines: Int {
@@ -660,6 +754,7 @@ open class TableViewCell: UITableViewCell {
     }
     private var _customViewSize: CustomViewSize = .default
 
+    /// The custom accessory view of the TableViewCell.
     @objc open private(set) var customAccessoryView: UIView? {
         didSet {
             oldValue?.removeFromSuperview()
@@ -704,7 +799,7 @@ open class TableViewCell: UITableViewCell {
     /// When `isEnabled` is `false`, disables ability for a user to interact with a cell and dims cell's contents
     @objc open var isEnabled: Bool = true {
         didSet {
-            contentView.alpha = isEnabled ? Constants.enabledAlpha : Constants.disabledAlpha
+            contentView.alpha = isEnabled ? tokens.enabledAlpha : tokens.disabledAlpha
             isUserInteractionEnabled = isEnabled
             initAccessoryTypeView()
             updateAccessibility()
@@ -724,6 +819,7 @@ open class TableViewCell: UITableViewCell {
     open override var intrinsicContentSize: CGSize {
         return CGSize(
             width: type(of: self).preferredWidth(
+                tokens: tokens,
                 title: titleLabel.text ?? "",
                 subtitle: subtitleLabel.text ?? "",
                 footer: footerLabel.text ?? "",
@@ -740,6 +836,7 @@ open class TableViewCell: UITableViewCell {
                 isInSelectionMode: isInSelectionMode
             ),
             height: type(of: self).height(
+                tokens: tokens,
                 title: titleLabel.text ?? "",
                 subtitle: subtitleLabel.text ?? "",
                 footer: footerLabel.text ?? "",
@@ -784,7 +881,7 @@ open class TableViewCell: UITableViewCell {
             }
             if let customSwitch = customAccessoryView as? UISwitch {
                 if isEnabled && customSwitch.isEnabled {
-                  return "Accessibility.TableViewCell.Switch.Hint".localized
+                    return "Accessibility.TableViewCell.Switch.Hint".localized
                 } else {
                     return nil
                 }
@@ -820,7 +917,7 @@ open class TableViewCell: UITableViewCell {
             if _accessoryType == oldValue {
                 return
             }
-            accessoryTypeView = _accessoryType == .none ? nil : TableViewCellAccessoryView(type: _accessoryType)
+            accessoryTypeView = _accessoryType == .none ? nil : TableViewCellAccessoryView(type: _accessoryType, tokens: tokens)
             initAccessibilityForAccessoryType()
             setNeedsLayout()
             invalidateIntrinsicContentSize()
@@ -832,9 +929,8 @@ open class TableViewCell: UITableViewCell {
         didSet {
             subtitleLabel.isHidden = layoutType == .oneLine
             footerLabel.isHidden = layoutType != .threeLines
-            if subtitleLabel.attributedText == nil {
-                subtitleLabel.style = layoutType.subtitleTextStyle
-            }
+
+            updateFonts()
 
             setNeedsLayout()
             invalidateIntrinsicContentSize()
@@ -851,8 +947,14 @@ open class TableViewCell: UITableViewCell {
     }
 
     private var textAreaWidth: CGFloat {
-        let textAreaLeadingOffset = TableViewCell.textAreaLeadingOffset(customViewSize: customViewSize, isInSelectionMode: isInSelectionMode, paddingLeading: paddingLeading)
-        let textAreaTrailingOffset = TableViewCell.textAreaTrailingOffset(customAccessoryView: customAccessoryView, customAccessoryViewExtendsToEdge: customAccessoryViewExtendsToEdge, accessoryType: _accessoryType, paddingTrailing: paddingTrailing)
+        let textAreaLeadingOffset = TableViewCell.textAreaLeadingOffset(customViewSize: customViewSize,
+                                                                        isInSelectionMode: isInSelectionMode,
+                                                                        tokens: tokens)
+        let textAreaTrailingOffset = TableViewCell.textAreaTrailingOffset(customAccessoryView: customAccessoryView,
+                                                                          customAccessoryViewExtendsToEdge: customAccessoryViewExtendsToEdge,
+                                                                          accessoryType: _accessoryType,
+                                                                          paddingTrailing: paddingTrailing,
+                                                                          customAccessoryViewMarginLeading: tokens.customAccessoryViewMarginLeading)
         return contentView.frame.width - (textAreaLeadingOffset + textAreaTrailingOffset)
     }
 
@@ -867,24 +969,30 @@ open class TableViewCell: UITableViewCell {
     }
 
     let titleLabel: Label = {
-        let label = Label(style: TextStyles.title)
+        let label = Label()
         label.lineBreakMode = .byTruncatingTail
         return label
     }()
 
     let subtitleLabel: Label = {
-        let label = Label(style: TextStyles.subtitleTwoLines)
+        let label = Label()
         label.lineBreakMode = .byTruncatingTail
         label.isHidden = true
         return label
     }()
 
     let footerLabel: Label = {
-        let label = Label(style: TextStyles.footer)
+        let label = Label()
         label.lineBreakMode = .byTruncatingTail
         label.isHidden = true
         return label
     }()
+
+    private func updateFonts() {
+        titleLabel.font = TextStyles.title.font
+        subtitleLabel.font = layoutType == .twoLines ? TextStyles.subtitleTwoLines.font : TextStyles.subtitleThreeLines.font
+        footerLabel.font = TextStyles.footer.font
+    }
 
     private func updateLabelAccessoryView(oldValue: UIView?, newValue: UIView?, size: inout CGSize) {
         if newValue == oldValue {
@@ -928,20 +1036,24 @@ open class TableViewCell: UITableViewCell {
         return findSuperview(of: UITableView.self) as? UITableView
     }
 
+    /// Initializes TableViewCell with the cell style.
     @objc public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        let tokens = TableViewCellTokens()
+        self.tokens = tokens
+
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
         initialize()
     }
 
     public required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        initialize()
+        preconditionFailure("init(coder:) has not been implemented")
     }
 
     open func initialize() {
         textLabel?.text = ""
 
         updateTextColors()
+        updateFonts()
 
         contentView.addSubview(titleLabel)
         contentView.addSubview(subtitleLabel)
@@ -958,7 +1070,15 @@ open class TableViewCell: UITableViewCell {
 
         updateAccessibility()
 
-        NotificationCenter.default.addObserver(self, selector: #selector(handleContentSizeCategoryDidChange), name: UIContentSizeCategory.didChangeNotification, object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(handleContentSizeCategoryDidChange),
+                                               name: UIContentSizeCategory.didChangeNotification,
+                                               object: nil)
     }
 
     /// Sets up the cell with text, a custom view, a custom accessory view, and an accessory type
@@ -970,7 +1090,12 @@ open class TableViewCell: UITableViewCell {
     ///   - customView: The custom view that appears near the leading edge next to the text
     ///   - customAccessoryView: The view acting as an accessory view that appears on the trailing edge, next to the accessory type if provided
     ///   - accessoryType: The type of accessory that appears on the trailing edge: a disclosure indicator or a details button with an ellipsis icon
-    @objc open func setup(title: String, subtitle: String = "", footer: String = "", customView: UIView? = nil, customAccessoryView: UIView? = nil, accessoryType: TableViewCellAccessoryType = .none) {
+    @objc open func setup(title: String,
+                          subtitle: String = "",
+                          footer: String = "",
+                          customView: UIView? = nil,
+                          customAccessoryView: UIView? = nil,
+                          accessoryType: TableViewCellAccessoryType = .none) {
         setup(title: title,
               attributedTitle: nil,
               subtitle: subtitle,
@@ -1061,7 +1186,11 @@ open class TableViewCell: UITableViewCell {
         invalidateIntrinsicContentSize()
 
         if animated {
-            UIView.animate(withDuration: Constants.selectionModeAnimationDuration, delay: 0, options: [.layoutSubviews], animations: layoutIfNeeded, completion: completion)
+            UIView.animate(withDuration: tokens.selectionModeAnimationDuration,
+                           delay: 0,
+                           options: [.layoutSubviews],
+                           animations: layoutIfNeeded,
+                           completion: completion)
         } else {
             completion(true)
         }
@@ -1073,11 +1202,12 @@ open class TableViewCell: UITableViewCell {
 
     private var isUsingCustomTextColors: Bool = false
 
+    /// Updates label text colors.
     public func updateTextColors() {
         if !isUsingCustomTextColors {
-            titleLabel.textColor = Colors.Table.Cell.title
-            subtitleLabel.textColor = Colors.Table.Cell.subtitle
-            footerLabel.textColor = Colors.Table.Cell.footer
+            titleLabel.textColor = UIColor(dynamicColor: tokens.titleColor)
+            subtitleLabel.textColor = UIColor(dynamicColor: tokens.subtitleColor)
+            footerLabel.textColor = UIColor(dynamicColor: tokens.footerColor)
         }
     }
 
@@ -1117,55 +1247,99 @@ open class TableViewCell: UITableViewCell {
 
     open func layoutContentSubviews() {
         if isInSelectionMode {
-            let selectionImageViewYOffset = UIScreen.main.roundToDevicePixels((contentView.frame.height - Constants.selectionImageSize.height) / 2)
+            let selectionImageViewYOffset = UIScreen.main.roundToDevicePixels((contentView.frame.height - tokens.selectionImageSize.height) / 2)
             selectionImageView.frame = CGRect(
                 origin: CGPoint(x: paddingLeading, y: selectionImageViewYOffset),
-                size: Constants.selectionImageSize
+                size: tokens.selectionImageSize
             )
         }
 
         if let customView = customView {
             let customViewYOffset = UIScreen.main.roundToDevicePixels((contentView.frame.height - customViewSize.size.height) / 2)
-            let customViewXOffset = TableViewCell.customViewLeadingOffset(isInSelectionMode: isInSelectionMode, paddingLeading: paddingLeading)
+            let customViewXOffset = TableViewCell.customViewLeadingOffset(isInSelectionMode: isInSelectionMode, tokens: tokens)
             customView.frame = CGRect(
                 origin: CGPoint(x: customViewXOffset, y: customViewYOffset),
                 size: customViewSize.size
             )
         }
 
-        layoutLabelViews(label: titleLabel, numberOfLines: titleNumberOfLines, topOffset: 0, leadingAccessoryView: titleLeadingAccessoryView, leadingAccessoryViewSize: titleLeadingAccessoryViewSize, trailingAccessoryView: titleTrailingAccessoryView, trailingAccessoryViewSize: titleTrailingAccessoryViewSize)
+        layoutLabelViews(label: titleLabel,
+                         numberOfLines: titleNumberOfLines,
+                         topOffset: 0,
+                         leadingAccessoryView: titleLeadingAccessoryView,
+                         leadingAccessoryViewSize: titleLeadingAccessoryViewSize,
+                         trailingAccessoryView: titleTrailingAccessoryView,
+                         trailingAccessoryViewSize: titleTrailingAccessoryViewSize)
 
         if layoutType == .twoLines || layoutType == .threeLines {
-            layoutLabelViews(label: subtitleLabel, numberOfLines: subtitleNumberOfLines, topOffset: titleLabel.frame.maxY + Constants.labelVerticalSpacing, leadingAccessoryView: subtitleLeadingAccessoryView, leadingAccessoryViewSize: subtitleLeadingAccessoryViewSize, trailingAccessoryView: subtitleTrailingAccessoryView, trailingAccessoryViewSize: subtitleTrailingAccessoryViewSize)
+            layoutLabelViews(label: subtitleLabel,
+                             numberOfLines: subtitleNumberOfLines,
+                             topOffset: titleLabel.frame.maxY + tokens.labelVerticalSpacing,
+                             leadingAccessoryView: subtitleLeadingAccessoryView,
+                             leadingAccessoryViewSize: subtitleLeadingAccessoryViewSize,
+                             trailingAccessoryView: subtitleTrailingAccessoryView,
+                             trailingAccessoryViewSize: subtitleTrailingAccessoryViewSize)
 
             if layoutType == .threeLines {
-                layoutLabelViews(label: footerLabel, numberOfLines: footerNumberOfLines, topOffset: subtitleLabel.frame.maxY + Constants.labelVerticalSpacing, leadingAccessoryView: footerLeadingAccessoryView, leadingAccessoryViewSize: footerLeadingAccessoryViewSize, trailingAccessoryView: footerTrailingAccessoryView, trailingAccessoryViewSize: footerTrailingAccessoryViewSize)
+                layoutLabelViews(label: footerLabel,
+                                 numberOfLines: footerNumberOfLines,
+                                 topOffset: subtitleLabel.frame.maxY + tokens.labelVerticalSpacing,
+                                 leadingAccessoryView: footerLeadingAccessoryView,
+                                 leadingAccessoryViewSize: footerLeadingAccessoryViewSize,
+                                 trailingAccessoryView: footerTrailingAccessoryView,
+                                 trailingAccessoryViewSize: footerTrailingAccessoryViewSize)
             }
         }
 
-        let textAreaHeight = TableViewCell.textAreaHeight(layoutType: layoutType, titleHeight: titleLabel.frame.height, subtitleHeight: subtitleLabel.frame.height, footerHeight: footerLabel.frame.height)
+        let textAreaHeight = TableViewCell.textAreaHeight(layoutType: layoutType,
+                                                          titleHeight: titleLabel.frame.height,
+                                                          subtitleHeight: subtitleLabel.frame.height,
+                                                          footerHeight: footerLabel.frame.height,
+                                                          labelVerticalSpacing: tokens.labelVerticalSpacing)
         let textAreaTopOffset = UIScreen.main.roundToDevicePixels((contentView.frame.height - textAreaHeight) / 2)
-        adjustLabelViewsTop(by: textAreaTopOffset, label: titleLabel, leadingAccessoryView: titleLeadingAccessoryView, trailingAccessoryView: titleTrailingAccessoryView)
-        adjustLabelViewsTop(by: textAreaTopOffset, label: subtitleLabel, leadingAccessoryView: subtitleLeadingAccessoryView, trailingAccessoryView: subtitleTrailingAccessoryView)
-        adjustLabelViewsTop(by: textAreaTopOffset, label: footerLabel, leadingAccessoryView: footerLeadingAccessoryView, trailingAccessoryView: footerTrailingAccessoryView)
+        adjustLabelViewsTop(by: textAreaTopOffset,
+                            label: titleLabel,
+                            leadingAccessoryView: titleLeadingAccessoryView,
+                            trailingAccessoryView: titleTrailingAccessoryView)
+        adjustLabelViewsTop(by: textAreaTopOffset,
+                            label: subtitleLabel,
+                            leadingAccessoryView: subtitleLeadingAccessoryView,
+                            trailingAccessoryView: subtitleTrailingAccessoryView)
+        adjustLabelViewsTop(by: textAreaTopOffset,
+                            label: footerLabel,
+                            leadingAccessoryView: footerLeadingAccessoryView,
+                            trailingAccessoryView: footerTrailingAccessoryView)
 
         if let customAccessoryView = customAccessoryView {
-            let trailingOffset = TableViewCell.customAccessoryViewTrailingOffset(customAccessoryView: customAccessoryView, customAccessoryViewExtendsToEdge: customAccessoryViewExtendsToEdge, accessoryType: _accessoryType, paddingTrailing: paddingTrailing)
+            let trailingOffset = TableViewCell.customAccessoryViewTrailingOffset(customAccessoryView: customAccessoryView,
+                                                                                 customAccessoryViewExtendsToEdge: customAccessoryViewExtendsToEdge,
+                                                                                 accessoryType: _accessoryType,
+                                                                                 paddingTrailing: paddingTrailing)
             let xOffset = contentView.frame.width - customAccessoryView.frame.width - trailingOffset
             let yOffset = UIScreen.main.roundToDevicePixels((contentView.frame.height - customAccessoryView.frame.height) / 2)
             customAccessoryView.frame = CGRect(origin: CGPoint(x: xOffset, y: yOffset), size: customAccessoryView.frame.size)
         }
 
         if let accessoryTypeView = accessoryTypeView {
-            let xOffset = contentView.frame.width - TableViewCell.customAccessoryViewTrailingOffset(customAccessoryView: customAccessoryView, customAccessoryViewExtendsToEdge: customAccessoryViewExtendsToEdge, accessoryType: _accessoryType, paddingTrailing: paddingTrailing)
+            let xOffset = contentView.frame.width - TableViewCell.customAccessoryViewTrailingOffset(customAccessoryView: customAccessoryView,
+                                                                                                    customAccessoryViewExtendsToEdge: customAccessoryViewExtendsToEdge,
+                                                                                                    accessoryType: _accessoryType,
+                                                                                                    paddingTrailing: paddingTrailing)
             let yOffset = UIScreen.main.roundToDevicePixels((contentView.frame.height - _accessoryType.size.height) / 2)
             accessoryTypeView.frame = CGRect(origin: CGPoint(x: xOffset, y: yOffset), size: _accessoryType.size)
         }
     }
 
-    private func layoutLabelViews(label: UILabel, numberOfLines: Int, topOffset: CGFloat, leadingAccessoryView: UIView?, leadingAccessoryViewSize: CGSize, trailingAccessoryView: UIView?, trailingAccessoryViewSize: CGSize) {
-        let textAreaLeadingOffset = TableViewCell.textAreaLeadingOffset(customViewSize: customViewSize, isInSelectionMode: isInSelectionMode, paddingLeading: paddingLeading)
-
+    private func layoutLabelViews(label: UILabel,
+                                  numberOfLines: Int,
+                                  topOffset: CGFloat,
+                                  leadingAccessoryView: UIView?,
+                                  leadingAccessoryViewSize: CGSize,
+                                  trailingAccessoryView: UIView?,
+                                  trailingAccessoryViewSize: CGSize) {
+        let textAreaLeadingOffset = TableViewCell.textAreaLeadingOffset(customViewSize: customViewSize,
+                                                                        isInSelectionMode: isInSelectionMode,
+                                                                        tokens: tokens)
         let text = label.text ?? ""
         let size = text.preferredSize(for: label.font, width: textAreaWidth, numberOfLines: numberOfLines)
 
@@ -1179,8 +1353,16 @@ open class TableViewCell: UITableViewCell {
             )
         }
 
-        let leadingAccessoryAreaWidth = TableViewCell.labelLeadingAccessoryAreaWidth(viewWidth: leadingAccessoryViewSize.width)
-        let labelSize = TableViewCell.labelSize(text: text, font: label.font, numberOfLines: numberOfLines, textAreaWidth: textAreaWidth, leadingAccessoryView: leadingAccessoryView, trailingAccessoryView: trailingAccessoryView)
+        let leadingAccessoryAreaWidth = TableViewCell.labelLeadingAccessoryAreaWidth(viewWidth: leadingAccessoryViewSize.width,
+                                                                                     labelAccessoryViewMarginTrailing: tokens.labelAccessoryViewMarginTrailing)
+        let labelSize = TableViewCell.labelSize(text: text,
+                                                font: label.font,
+                                                numberOfLines: numberOfLines,
+                                                textAreaWidth: textAreaWidth,
+                                                leadingAccessoryView: leadingAccessoryView,
+                                                labelAccessoryViewMarginLeading: tokens.labelAccessoryViewMarginLeading,
+                                                trailingAccessoryView: trailingAccessoryView,
+                                                labelAccessoryViewMarginTrailing: tokens.labelAccessoryViewMarginTrailing)
         label.frame = CGRect(
             x: textAreaLeadingOffset + leadingAccessoryAreaWidth,
             y: topOffset,
@@ -1191,7 +1373,8 @@ open class TableViewCell: UITableViewCell {
         if let trailingAccessoryView = trailingAccessoryView {
             let yOffset = UIScreen.main.roundToDevicePixels(topOffset + (labelSize.height - trailingAccessoryViewSize.height) / 2)
             let availableWidth = textAreaWidth - labelSize.width - leadingAccessoryAreaWidth
-            let leadingMargin = TableViewCell.labelTrailingAccessoryMarginLeading(text: text)
+            let leadingMargin = TableViewCell.labelTrailingAccessoryMarginLeading(text: text,
+                                                                                  labelAccessoryViewMarginLeading: tokens.labelAccessoryViewMarginLeading)
             trailingAccessoryView.frame = CGRect(
                 x: label.frame.maxX + leadingMargin,
                 y: yOffset,
@@ -1221,7 +1404,9 @@ open class TableViewCell: UITableViewCell {
         guard type == .inset else {
             return 0
         }
-        let baseOffset = safeAreaInsets.left + TableViewCell.selectionModeAreaWidth(isInSelectionMode: isInSelectionMode)
+        let baseOffset = safeAreaInsets.left + TableViewCell.selectionModeAreaWidth(isInSelectionMode: isInSelectionMode,
+                                                                                    selectionImageMarginTrailing: tokens.selectionImageMarginTrailing,
+                                                                                    selectionImageSize: tokens.selectionImageSize.width)
         switch customViewSize {
         case .zero:
             return baseOffset + separatorLeadingInsetForNoCustomView
@@ -1264,6 +1449,8 @@ open class TableViewCell: UITableViewCell {
         isInSelectionMode = false
 
         onAccessoryTapped = nil
+
+        updateTokens()
     }
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
@@ -1271,6 +1458,7 @@ open class TableViewCell: UITableViewCell {
         return CGSize(
             width: min(
                 type(of: self).preferredWidth(
+                    tokens: tokens,
                     title: titleLabel.text ?? "",
                     subtitle: subtitleLabel.text ?? "",
                     footer: footerLabel.text ?? "",
@@ -1289,6 +1477,7 @@ open class TableViewCell: UITableViewCell {
                 maxWidth
             ),
             height: type(of: self).height(
+                tokens: tokens,
                 title: titleLabel.text ?? "",
                 subtitle: subtitleLabel.text ?? "",
                 footer: footerLabel.text ?? "",
@@ -1306,9 +1495,7 @@ open class TableViewCell: UITableViewCell {
                 footerNumberOfLines: footerNumberOfLines,
                 customAccessoryViewExtendsToEdge: customAccessoryViewExtendsToEdge,
                 containerWidth: maxWidth,
-                isInSelectionMode: isInSelectionMode,
-                paddingLeading: paddingLeading,
-                paddingTrailing: paddingTrailing
+                isInSelectionMode: isInSelectionMode
             )
         )
     }
@@ -1352,7 +1539,20 @@ open class TableViewCell: UITableViewCell {
 
     open override func didMoveToWindow() {
         super.didMoveToWindow()
+        updateTokens()
+    }
+
+    private func updateTokens() {
+        tokens = resolvedTokens
+        updateFonts()
+        updateTextColors()
         updateSelectionImageColor()
+        setupBackgroundColors()
+        updateAccessoryViewColor()
+    }
+
+    private func updateAccessoryViewColor() {
+        accessoryTypeView?.tokens = tokens
     }
 
     open func selectionDidChange() { }
@@ -1410,10 +1610,10 @@ open class TableViewCell: UITableViewCell {
     }
 
     private func setupBackgroundColors() {
-        backgroundColor = Colors.Table.Cell.background
+        backgroundColor = UIColor(dynamicColor: tokens.cellBackgroundColor)
 
         let selectedStateBackgroundView = UIView()
-        selectedStateBackgroundView.backgroundColor = Colors.Table.Cell.backgroundSelected
+        selectedStateBackgroundView.backgroundColor = UIColor(dynamicColor: tokens.cellBackgroundSelectedColor)
         selectedBackgroundView = selectedStateBackgroundView
     }
 
@@ -1441,9 +1641,7 @@ open class TableViewCell: UITableViewCell {
     }
 
     private func updateSelectionImageColor() {
-        if let window = window {
-            selectionImageView.tintColor = isSelected ? Colors.primary(for: window) : Colors.Table.Cell.selectionIndicatorOff
-        }
+        selectionImageView.tintColor = UIColor(dynamicColor: isSelected ? tokens.globalTokens.brandColors[.primary] : tokens.selectionIndicatorOffColor)
     }
 
     private func updateSeparator(_ separator: Separator, with type: SeparatorType) {
@@ -1475,6 +1673,11 @@ internal class TableViewCellAccessoryView: UIView {
     override var intrinsicContentSize: CGSize { return type.size }
 
     let type: TableViewCellAccessoryType
+    var tokens: TableViewCellTokens {
+        didSet {
+            updateTintColor()
+        }
+    }
     var iconView: UIImageView?
     /// `onTapped` is called when `detailButton` is tapped
     var onTapped: (() -> Void)?
@@ -1486,8 +1689,9 @@ internal class TableViewCellAccessoryView: UIView {
         }
     }
 
-    init(type: TableViewCellAccessoryType) {
+    init(type: TableViewCellAccessoryType, tokens: TableViewCellTokens) {
         self.type = type
+        self.tokens = tokens
         super.init(frame: .zero)
 
         switch type {
@@ -1499,6 +1703,7 @@ internal class TableViewCellAccessoryView: UIView {
             addSubview(detailButton)
             detailButton.fitIntoSuperview()
         }
+        updateTintColor()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -1507,11 +1712,6 @@ internal class TableViewCellAccessoryView: UIView {
 
     override func sizeThatFits(_ size: CGSize) -> CGSize {
         return type.size
-    }
-
-    override func didMoveToWindow() {
-        super.didMoveToWindow()
-        updateWindowSpecificColors()
     }
 
     private func addIconView(type: TableViewCellAccessoryType) {
@@ -1541,13 +1741,12 @@ internal class TableViewCellAccessoryView: UIView {
         return button
     }()
 
-    private func updateWindowSpecificColors() {
-        if let window = window {
-            let iconColor = type.iconColor(for: window)
-            iconView?.tintColor = customTintColor ?? iconColor
-            if type == .detailButton {
-                detailButton.tintColor = iconColor
-            }
+    func updateTintColor() {
+        iconView?.tintColor = customTintColor
+        let iconColor = type.iconColor(tokens: tokens)
+        iconView?.tintColor = customTintColor ?? iconColor
+        if type == .detailButton {
+            detailButton.tintColor = iconColor
         }
     }
 }
