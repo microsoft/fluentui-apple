@@ -231,6 +231,14 @@ class SideTabBarDemoController: DemoController {
         updateBadgeNumbers()
     }
 
+    /// Custom presentation logic to let `contentViewController` present the appearance popover.
+    @objc private func showAppearancePopoverLocal(_ sender: AnyObject) {
+        guard let contentViewController = contentViewController else {
+            return
+        }
+        super.showAppearancePopover(sender, presenter: contentViewController)
+    }
+
     private let optionsCellItems: [CellItem] = {
         return [CellItem(title: "Show Avatar View", type: .boolean, action: #selector(toggleAvatarView(_:)), isOn: true),
                 CellItem(title: "Show top item titles", type: .boolean, action: #selector(toggleShowTopItemTitles(_:))),
@@ -239,7 +247,8 @@ class SideTabBarDemoController: DemoController {
                 CellItem(title: "Use higher badge numbers", type: .boolean, action: #selector(toggleUseHigherBadgeNumbers(_:))),
                 CellItem(title: "Modify badge numbers", type: .stepper, action: nil),
                 CellItem(title: "Show tooltip for Home button", type: .action, action: #selector(showTooltipForHomeButton)),
-                CellItem(title: "Dismiss", type: .action, action: #selector(dismissSideTabBar))
+                CellItem(title: "Dismiss", type: .action, action: #selector(dismissSideTabBar)),
+                CellItem(title: "Show Appearance Popover", type: .action, action: #selector(showAppearancePopoverLocal(_:)))
         ]
     }()
 }
@@ -312,6 +321,59 @@ extension SideTabBarDemoController: UITableViewDataSource {
         }
 
         return UITableViewCell()
+    }
+}
+
+// MARK: - SideTabBarDemoController: DemoAppearanceDelegate
+extension SideTabBarDemoController: DemoAppearanceDelegate {
+    func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
+        guard let fluentTheme = self.view.window?.fluentTheme else {
+            return
+        }
+
+        var tokensClosure: ((SideTabBar) -> SideTabBarTokens)?
+        if isOverrideEnabled {
+            tokensClosure = { _ in
+                return ThemeWideOverrideSideTabBarTokens()
+            }
+        }
+
+        fluentTheme.register(controlType: SideTabBar.self, tokens: tokensClosure)
+    }
+
+    func perControlOverrideDidChange(isOverrideEnabled: Bool) {
+        let tokens = (isOverrideEnabled ? PerControlOverrideSideTabBarItemTokens() : nil)
+        _ = sideTabBar.overrideTokens(tokens)
+    }
+
+    func isThemeWideOverrideApplied() -> Bool {
+        return self.view.window?.fluentTheme.tokenOverride(for: SideTabBar.self) != nil
+    }
+
+    // MARK: - Custom tokens
+    private class ThemeWideOverrideSideTabBarTokens: SideTabBarTokens {
+        override var tabBarItemSelectedColor: DynamicColor {
+            return .init(light: globalTokens.sharedColors[.burgundy][.tint10],
+                         lightHighContrast: globalTokens.sharedColors[.pumpkin][.tint10],
+                         dark: globalTokens.sharedColors[.darkTeal][.tint40],
+                         darkHighContrast: globalTokens.sharedColors[.teal][.tint40])
+        }
+        override var tabBarItemUnselectedColor: DynamicColor {
+            return .init(light: globalTokens.sharedColors[.darkTeal][.tint20],
+                         lightHighContrast: globalTokens.sharedColors[.teal][.tint40],
+                         dark: globalTokens.sharedColors[.pumpkin][.tint40],
+                         darkHighContrast: globalTokens.sharedColors[.burgundy][.tint40])
+        }
+    }
+
+    private class PerControlOverrideSideTabBarItemTokens: SideTabBarTokens {
+        override var tabBarItemTitleLabelFontPortrait: FontInfo? {
+            return .init(size: 15, weight: .bold)
+        }
+
+        override var tabBarItemTitleLabelFontLandscape: FontInfo? {
+            return .init(size: 15, weight: .bold)
+        }
     }
 }
 
