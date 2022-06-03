@@ -31,7 +31,7 @@ open class TableViewCellTokens: ControlTokens {
     /// The leading image color.
     open var imageColor: DynamicColor { aliasTokens.foregroundColors[.neutral1] }
 
-    /// The size dimensions of the customView
+    /// The size dimensions of the customView.
     open var customViewDimensions: CGSize {
         switch customViewSize {
         case .zero:
@@ -45,7 +45,7 @@ open class TableViewCellTokens: ControlTokens {
         }
     }
 
-    /// The trailing margin of the customView
+    /// The trailing margin of the customView.
     open var customViewTrailingMargin: CGFloat {
         switch customViewSize {
         case .zero:
@@ -142,7 +142,7 @@ open class TableViewCellTokens: ControlTokens {
     public internal(set) var customViewSize: MSFTableViewCellCustomViewSize = .default
 }
 
-/// Pre-defined sizes of the customView size
+/// Pre-defined sizes of the customView size.
 @objc public enum MSFTableViewCellCustomViewSize: Int, CaseIterable {
     case `default`
     case zero
