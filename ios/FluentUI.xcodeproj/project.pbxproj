@@ -176,6 +176,7 @@
 		C77A04EE25F046EB001B3EB6 /* Date+CellFileAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77A04EC25F046EB001B3EB6 /* Date+CellFileAccessoryView.swift */; };
 		CE33CD03283C04F800183683 /* PreviewCardTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE33CD02283C04F700183683 /* PreviewCardTokens.swift */; };
 		CE6045DA27FE147100FFD972 /* PreviewCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6045D927FE147100FFD972 /* PreviewCard.swift */; };
+		CEA84B182848053500F4BFA5 /* Attachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA84B172848053500F4BFA5 /* Attachment.swift */; };
 		EC5982DA27C703EE00FD048D /* CircleCutout.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5982D927C703ED00FD048D /* CircleCutout.swift */; };
 		FD053A352224CA33009B6378 /* DatePickerControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD053A342224CA33009B6378 /* DatePickerControllerTests.swift */; };
 /* End PBXBuildFile section */
@@ -317,6 +318,7 @@
 		CCC18C2B2501B22F00BE830E /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		CE33CD02283C04F700183683 /* PreviewCardTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewCardTokens.swift; sourceTree = "<group>"; };
 		CE6045D927FE147100FFD972 /* PreviewCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewCard.swift; sourceTree = "<group>"; };
+		CEA84B172848053500F4BFA5 /* Attachment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Attachment.swift; sourceTree = "<group>"; };
 		EC5982D927C703ED00FD048D /* CircleCutout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleCutout.swift; sourceTree = "<group>"; };
 		ECEBA8FB25EDF3380048EE24 /* SegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentedControl.swift; sourceTree = "<group>"; };
 		FC414E1E258876FB00069E73 /* CommandBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBar.swift; sourceTree = "<group>"; };
@@ -948,6 +950,7 @@
 			children = (
 				CE6045D927FE147100FFD972 /* PreviewCard.swift */,
 				CE33CD02283C04F700183683 /* PreviewCardTokens.swift */,
+				CEA84B172848053500F4BFA5 /* Attachment.swift */,
 			);
 			path = PreviewCard;
 			sourceTree = "<group>";
@@ -1423,6 +1426,7 @@
 				5314E17225F0191C0099271A /* Separator.swift in Sources */,
 				5314E14225F016860099271A /* CardPresenterNavigationController.swift in Sources */,
 				5314E11725F015EA0099271A /* PersonaCell.swift in Sources */,
+				CEA84B182848053500F4BFA5 /* Attachment.swift in Sources */,
 				5314E23025F022C80099271A /* UIScrollView+Extensions.swift in Sources */,
 				5314E16925F017940099271A /* SegmentedControl.swift in Sources */,
 				C77A04EE25F046EB001B3EB6 /* Date+CellFileAccessoryView.swift in Sources */,
