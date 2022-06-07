@@ -16,12 +16,10 @@ class PreviewCardDemoController: DemoController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        guard let previewCardPlaceholder = UIImage.init(named: "PreviewCard_Placeholder") else {
-            return
-        }
-        guard let thumbnailPlaceholder = UIImage.init(named: "Thumbnail_Placeholder") else {
-            return
-        }
+        guard let previewCardPlaceholder = UIImage.init(named: "PreviewCard_Placeholder"),
+        let thumbnailPlaceholder = UIImage.init(named: "Thumbnail_Placeholder") else {
+        return
+    }
 
         let previewUltrawideFlatCard = MSFPreviewCard(theme: nil, image: previewCardPlaceholder, cardHeight: .ultrawideHeight)
         let previewUltrawideElevatedCard = MSFPreviewCard(theme: nil, isElevated: true, image: previewCardPlaceholder, cardHeight: .ultrawideHeight)
