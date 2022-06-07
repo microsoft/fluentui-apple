@@ -17,9 +17,9 @@ import SwiftUI
     ///   - theme: The FluentUIStyle instance representing the theme to be overriden for this Attachment.
     ///   - thumbnail: The UIImage used as a thumbnail within the Attachment.
     ///   - isElevated: Boolean determining if PreviewCard is flat or elevated.`
-    @objc public init(theme: FluentUIStyle?, thumbnail: UIImage, isElevated: Bool = false) {
+    @objc public init(theme: FluentUIStyle?, thumbnail: UIImage, isElevated: Bool = false, text: String = "Text", subtext: String = "Subtext") {
         super.init()
-        attachmentView = Attachment(isElevated: isElevated, thumbnail: thumbnail)
+        attachmentView = Attachment(isElevated: isElevated, thumbnail: thumbnail, text: text, subtext: subtext)
         hostingController = FluentUIHostingController(rootView: AnyView(attachmentView.windowProvider(self)))
         hostingController.disableSafeAreaInsets()
         hostingController.view.backgroundColor = .clear
@@ -35,6 +35,8 @@ import SwiftUI
 public struct Attachment: View {
     var isElevated: Bool
     var thumbnail: UIImage
+    var text: String
+    var subtext: String
     @Environment(\.theme) var theme: FluentUIStyle
     @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
     /// Creates Attachment's thumbnail view.
@@ -42,34 +44,58 @@ public struct Attachment: View {
     var attachmentThumbnail: some View {
         HStack {
             Image(uiImage: thumbnail)
-                .frame(width: Constants.attachmentThumbnailWidth, height: Constants.attachmentThumbnailHeight)
-                .padding(EdgeInsets(top: Constants.attachmentThumbnailPaddingTop, leading: Constants.attachmentThumbnailPaddingLeading, bottom: Constants.atachmentZeroValue, trailing: Constants.atachmentZeroValue))
+                .frame(width: Constants.attachmentThumbnailWidth,
+                       height: Constants.attachmentThumbnailHeight)
+                .padding(EdgeInsets(
+                    top: Constants.attachmentThumbnailPaddingTop,
+                    leading: Constants.attachmentThumbnailPaddingLeading,
+                    bottom: Constants.atachmentZeroValue,
+                    trailing: Constants.atachmentZeroValue))
         }
     }
     /// Creates Attachment's entire text view.
     @ViewBuilder
     var attachmentText: some View {
         VStack(alignment: .leading) {
-            Text("Text")
+            Text(text)
                 .font(.body)
-                .foregroundColor(Color(red: Constants.attachmentTextColor, green: Constants.attachmentTextColor, blue: Constants.attachmentTextColor))
-                .frame(width: Constants.attachmentTextWidth, height: Constants.attachmentTextHeight, alignment: .leading)
-            Text("Subtext")
+                .foregroundColor(Color(
+                    red: Constants.attachmentTextColor,
+                    green: Constants.attachmentTextColor,
+                    blue: Constants.attachmentTextColor))
+                .frame(width: Constants.attachmentTextWidth,
+                       height: Constants.attachmentTextHeight,
+                       alignment: .leading)
+            Text(subtext)
                 .font(.caption)
-                .foregroundColor(Color(red: Constants.attachmentSubtextColor, green: Constants.attachmentSubtextColor, blue: Constants.attachmentSubtextColor))
-                .frame(width: Constants.attachmentSubtextWidth, height: Constants.attachmentSubtextHeight, alignment: .leading)
-                .padding(EdgeInsets(top: Constants.attachmentSubtextPaddingTop, leading: Constants.atachmentZeroValue, bottom: Constants.atachmentZeroValue, trailing: Constants.atachmentZeroValue))
+                .foregroundColor(Color(
+                    red: Constants.attachmentSubtextColor,
+                    green: Constants.attachmentSubtextColor,
+                    blue: Constants.attachmentSubtextColor))
+                .frame(width: Constants.attachmentSubtextWidth,
+                       height: Constants.attachmentSubtextHeight,
+                       alignment: .leading)
+                .padding(EdgeInsets(
+                    top: Constants.attachmentSubtextPaddingTop,
+                    leading: Constants.atachmentZeroValue,
+                    bottom: Constants.atachmentZeroValue,
+                    trailing: Constants.atachmentZeroValue))
         }
-        .frame(width: Constants.attachmentEntireTextWidth, height: Constants.attachmentEntireTextHeight)
-        .padding(EdgeInsets(top: Constants.atachmentZeroValue, leading: Constants.attachmentEntireTextPaddingLeading, bottom: Constants.atachmentZeroValue, trailing: Constants.atachmentZeroValue))
+        .frame(width: Constants.attachmentEntireTextWidth,
+               height: Constants.attachmentEntireTextHeight)
+        .padding(EdgeInsets(
+            top: Constants.atachmentZeroValue,
+            leading: Constants.attachmentEntireTextPaddingLeading,
+            bottom: Constants.atachmentZeroValue,
+            trailing: Constants.atachmentZeroValue))
     }
     /// Creates inner Attachment view containing the thumbnail and text.
     @ViewBuilder
     var innerContents: some View {
         HStack(spacing: 0) {
-        attachmentThumbnail
-        attachmentText
-        Spacer()
+            attachmentThumbnail
+            attachmentText
+            Spacer()
         }
         .frame(minWidth: Constants.attachmentWidth, minHeight: Constants.attachmentHeight)
     }
