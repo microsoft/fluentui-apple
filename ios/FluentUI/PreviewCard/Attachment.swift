@@ -49,8 +49,8 @@ public struct Attachment: View {
                 .padding(EdgeInsets(
                     top: Constants.attachmentThumbnailPaddingTop,
                     leading: Constants.attachmentThumbnailPaddingLeading,
-                    bottom: Constants.atachmentZeroValue,
-                    trailing: Constants.atachmentZeroValue))
+                    bottom: Constants.attachmentZeroValue,
+                    trailing: Constants.attachmentZeroValue))
         }
     }
     /// Creates Attachment's entire text view.
@@ -77,17 +77,17 @@ public struct Attachment: View {
                        alignment: .leading)
                 .padding(EdgeInsets(
                     top: Constants.attachmentSubtextPaddingTop,
-                    leading: Constants.atachmentZeroValue,
-                    bottom: Constants.atachmentZeroValue,
-                    trailing: Constants.atachmentZeroValue))
+                    leading: Constants.attachmentZeroValue,
+                    bottom: Constants.attachmentZeroValue,
+                    trailing: Constants.attachmentZeroValue))
         }
         .frame(width: Constants.attachmentEntireTextWidth,
                height: Constants.attachmentEntireTextHeight)
         .padding(EdgeInsets(
-            top: Constants.atachmentZeroValue,
+            top: Constants.attachmentZeroValue,
             leading: Constants.attachmentEntireTextPaddingLeading,
-            bottom: Constants.atachmentZeroValue,
-            trailing: Constants.atachmentZeroValue))
+            bottom: Constants.attachmentZeroValue,
+            trailing: Constants.attachmentZeroValue))
     }
     /// Creates inner Attachment view containing the thumbnail and text.
     @ViewBuilder
@@ -139,7 +139,7 @@ public struct Attachment: View {
         static let attachmentThumbnailPaddingLeading: CGFloat = 16
         static let attachmentSubtextPaddingTop: CGFloat = -8
         static let attachmentEntireTextPaddingLeading: CGFloat = 22
-        static let atachmentZeroValue: CGFloat = 0
+        static let attachmentZeroValue: CGFloat = 0
 
         static let cardMinWidth: CGFloat = 343
         static let cardCornerRadius: CGFloat = 8
