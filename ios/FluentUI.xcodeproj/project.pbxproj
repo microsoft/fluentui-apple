@@ -948,9 +948,9 @@
 		CE6663E927F114B700FD5DAD /* PreviewCard */ = {
 			isa = PBXGroup;
 			children = (
+				CEA84B172848053500F4BFA5 /* Attachment.swift */,
 				CE6045D927FE147100FFD972 /* PreviewCard.swift */,
 				CE33CD02283C04F700183683 /* PreviewCardTokens.swift */,
-				CEA84B172848053500F4BFA5 /* Attachment.swift */,
 			);
 			path = PreviewCard;
 			sourceTree = "<group>";
