@@ -204,22 +204,6 @@ class BottomCommandingDemoController: UIViewController {
         booleanCommands.forEach { $0.isOn.toggle() }
     }
 
-    @objc private func incrementHeroCommands() {
-        let currentCount = bottomCommandingController?.heroItems.count ?? 0
-        if currentCount < 4 {
-            let newCount = currentCount + 1
-            bottomCommandingController?.heroItems = Array(heroItems[0..<newCount])
-        }
-    }
-
-    @objc private func decrementHeroCommands() {
-        let currentCount = bottomCommandingController?.heroItems.count ?? 0
-        if currentCount > 1 {
-            let newCount = currentCount - 1
-            bottomCommandingController?.heroItems = Array(heroItems[0..<newCount])
-        }
-    }
-
     @objc private func commandAction(item: CommandingItem) {
         if heroItems.contains(item) {
             if heroCommandPopoverEnabled {
@@ -246,19 +230,41 @@ class BottomCommandingDemoController: UIViewController {
         present(alert, animated: true)
     }
 
-    private lazy var incrementHeroCommandCountButton: Button = {
-        let button = Button()
-        button.image = UIImage(named: "ic_fluent_add_20_regular")
+    private lazy var incrementHeroCommandCountButton: MSFButton = {
+        let button = MSFButton(style: .secondary,
+                               size: .small) { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            let currentCount = strongSelf.bottomCommandingController?.heroItems.count ?? 0
+            if currentCount < 4 {
+                let newCount = currentCount + 1
+                strongSelf.bottomCommandingController?.heroItems = Array(strongSelf.heroItems[0..<newCount])
+            }
+        }
+        button.state.image = UIImage(named: "ic_fluent_add_20_regular")
         button.accessibilityLabel = "Increment hero command count"
-        button.addTarget(self, action: #selector(incrementHeroCommands), for: .touchUpInside)
+
         return button
     }()
 
-    private lazy var decrementHeroCommandCountButton: Button = {
-        let button = Button()
-        button.image = UIImage(named: "ic_fluent_subtract_20_regular")
+    private lazy var decrementHeroCommandCountButton: MSFButton = {
+        let button = MSFButton(style: .secondary,
+                               size: .small) { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            let currentCount = strongSelf.bottomCommandingController?.heroItems.count ?? 0
+            if currentCount > 1 {
+                let newCount = currentCount - 1
+                strongSelf.bottomCommandingController?.heroItems = Array(strongSelf.heroItems[0..<newCount])
+            }
+        }
+        button.state.image = UIImage(named: "ic_fluent_subtract_20_regular")
         button.accessibilityLabel = "Decrement hero command count"
-        button.addTarget(self, action: #selector(decrementHeroCommands), for: .touchUpInside)
+
         return button
     }()
 

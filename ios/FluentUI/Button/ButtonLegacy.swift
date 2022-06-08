@@ -5,10 +5,10 @@
 
 import UIKit
 
-// MARK: ButtonStyle
+// MARK: MSFButtonLegacyStyle
 
-@objc(MSFButtonStyle)
-public enum ButtonStyle: Int, CaseIterable {
+@objc(MSFButtonLegacyStyle)
+public enum MSFButtonLegacyStyle: Int, CaseIterable {
     case primaryFilled
     case primaryOutline
     case dangerFilled
@@ -17,7 +17,7 @@ public enum ButtonStyle: Int, CaseIterable {
     case tertiaryOutline
     case borderless
 
-    public var contentEdgeInsets: UIEdgeInsets {
+    var contentEdgeInsets: UIEdgeInsets {
         switch self {
         case .dangerFilled, .dangerOutline, .primaryFilled, .primaryOutline:
             return UIEdgeInsets(top: 16, left: 20, bottom: 16, right: 20)
@@ -100,10 +100,10 @@ public enum ButtonStyle: Int, CaseIterable {
 
 public extension Colors {
     struct Button {
-        public static var background: UIColor = .clear
+        static var background: UIColor = .clear
         public static var backgroundFilledDisabled: UIColor = surfaceQuaternary
-        public static var borderDisabled: UIColor = surfaceQuaternary
-        public static var titleDisabled: UIColor = textDisabled
+        static var borderDisabled: UIColor = surfaceQuaternary
+        static var titleDisabled: UIColor = textDisabled
         public static var titleWithFilledBackground: UIColor = textOnAccent
     }
 }
@@ -112,13 +112,13 @@ public extension Colors {
 
 /// By default, `titleLabel`'s `adjustsFontForContentSizeCategory` is set to true to automatically update its font when device's content size category changes
 @IBDesignable
-@objc(MSFButton)
-open class Button: UIButton {
+@objc(MSFButtonLegacy)
+open class MSFButtonLegacy: UIButton {
     private struct Constants {
         static let borderWidth: CGFloat = 1
     }
 
-    @objc open var style: ButtonStyle = .secondaryOutline {
+    @objc open var style: MSFButtonLegacyStyle = .secondaryOutline {
         didSet {
             if style != oldValue {
                 update()
@@ -199,7 +199,7 @@ open class Button: UIButton {
         return rect
     }
 
-    @objc public init(style: ButtonStyle = .secondaryOutline) {
+    @objc public init(style: MSFButtonLegacyStyle = .secondaryOutline) {
         self.style = style
         super.init(frame: .zero)
         initialize()

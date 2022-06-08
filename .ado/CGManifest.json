@@ -1,0 +1,43 @@
+{
+    "Registrations": [ 
+        {
+            "Component": { 
+                "Type": "git", 
+                "RepositoryUrl": "https://github.com/alexdrone/S.swift"
+            },
+            "DevelopmentDependency": false
+        },
+        {
+            "Component": { 
+                "Type": "pod", 
+                "Name": "Commander",
+                "Version": "0.8",
+            },
+            "DevelopmentDependency": true
+        },
+        {
+            "Component": { 
+                "Type": "pod", 
+                "Name": "PathKit",
+                "Version": "1.0.0",
+            },
+            "DevelopmentDependency": true
+        },
+        {
+            "Component": { 
+                "Type": "pod", 
+                "Name": "xcodeproj",
+                "Version": "7.14.0",
+            },
+            "DevelopmentDependency": true
+        },
+        {
+            "Component": { 
+                "Type": "pod", 
+                "Name": "Yaml",
+                "Version": "3.4.4",
+            },
+            "DevelopmentDependency": true
+        },
+    ]
+}

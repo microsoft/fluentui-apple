@@ -286,19 +286,24 @@ class TableViewCellFileAccessoryViewDemoController: DemoTableViewController {
         }
     }
 
-    private lazy var plusMinActionsButton: UIButton = createPlusMinusButton(plus: true, #selector(incrementMinimumActionsCount))
-    private lazy var minusMinActionsButton: UIButton = createPlusMinusButton(plus: false, #selector(decrementMinimumActionsCount))
-    private lazy var plusTopOverlapButton: UIButton = createPlusMinusButton(plus: true, #selector(incrementTopActionsOverlap))
-    private lazy var minusTopOverlapButton: UIButton = createPlusMinusButton(plus: false, #selector(decrementTopActionsOverlap))
-    private lazy var plusBottomOverlapButton: UIButton = createPlusMinusButton(plus: true, #selector(incrementBottomActionsOverlap))
-    private lazy var minusBottomOverlapButton: UIButton = createPlusMinusButton(plus: false, #selector(decrementBottomActionsOverlap))
+    private lazy var plusMinActionsButton: UIView = createPlusMinusButton(plus: true, #selector(incrementMinimumActionsCount))
+    private lazy var minusMinActionsButton: UIView = createPlusMinusButton(plus: false, #selector(decrementMinimumActionsCount))
+    private lazy var plusTopOverlapButton: UIView = createPlusMinusButton(plus: true, #selector(incrementTopActionsOverlap))
+    private lazy var minusTopOverlapButton: UIView = createPlusMinusButton(plus: false, #selector(decrementTopActionsOverlap))
+    private lazy var plusBottomOverlapButton: UIView = createPlusMinusButton(plus: true, #selector(incrementBottomActionsOverlap))
+    private lazy var minusBottomOverlapButton: UIView = createPlusMinusButton(plus: false, #selector(decrementBottomActionsOverlap))
 
-    private func createPlusMinusButton(plus: Bool, _ selector: Selector) -> UIButton {
-        let button = Button(style: .secondaryOutline)
-        button.image = UIImage(named: plus ? "ic_fluent_add_20_regular" : "ic_fluent_subtract_20_regular")
-        button.addTarget(self,
-                         action: selector,
-                         for: .touchUpInside)
+    private func createPlusMinusButton(plus: Bool, _ selector: Selector) -> MSFButton {
+        let button = MSFButton(style: .secondary,
+                               size: .small) { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.perform(selector)
+        }
+        button.state.image = UIImage(named: plus ? "ic_fluent_add_20_regular" : "ic_fluent_subtract_20_regular")
+
         return button
     }
 
@@ -514,8 +519,9 @@ class TableViewCellFileAccessoryViewDemoController: DemoTableViewController {
 
         for accessoryView in topAccessoryViews + bottomAccessoryViews {
             if let cell = accessoryView.tableViewCell {
-                cell.paddingLeading = TableViewCell.defaultPaddingLeading + extraPadding
-                cell.paddingTrailing = TableViewCell.defaultPaddingTrailing + extraPadding
+                let tokens = TableViewCellTokens()
+                cell.paddingLeading = tokens.paddingLeading + extraPadding
+                cell.paddingTrailing = tokens.paddingTrailing + extraPadding
             }
         }
     }

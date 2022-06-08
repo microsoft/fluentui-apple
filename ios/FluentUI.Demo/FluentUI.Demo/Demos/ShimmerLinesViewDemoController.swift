@@ -60,27 +60,29 @@ class ShimmerViewDemoController: DemoController {
         }
 
         container.addArrangedSubview(shimmerViewLabel("A ShimmerLinesView needs no containerview or subviews"))
-        container.addArrangedSubview(Separator())
+        container.addArrangedSubview(dividers[0])
         container.addArrangedSubview(ShimmerLinesView())
-        container.addArrangedSubview(Separator())
+        container.addArrangedSubview(dividers[1])
 
         container.addArrangedSubview(shimmerViewLabel("ShimmerView shimmers all the top level subviews of its container view"))
-        container.addArrangedSubview(Separator())
+        container.addArrangedSubview(dividers[2])
         container.addArrangedSubview(shimmeringContentView(false))
-        container.addArrangedSubview(Separator())
+        container.addArrangedSubview(dividers[3])
 
         container.addArrangedSubview(shimmerViewLabel("With shimmersLeafViews set, the ShimmerView will shimmer the labels inside the stackview"))
-        container.addArrangedSubview(Separator())
+        container.addArrangedSubview(dividers[4])
         container.addArrangedSubview(shimmeringContentView(true))
-        container.addArrangedSubview(Separator())
+        container.addArrangedSubview(dividers[5])
 
         container.addArrangedSubview(shimmerViewLabel("Revealing style shimmer on an image: the gradient reveals its container view as it moves"))
-        container.addArrangedSubview(Separator())
+        container.addArrangedSubview(dividers[6])
         container.addArrangedSubview(shimmeringImageView(.revealing))
 
-        container.addArrangedSubview(Separator())
+        container.addArrangedSubview(dividers[7])
         container.addArrangedSubview(shimmerViewLabel("Concealing style shimmer on an image: the gradient conceals its container view as it moves"))
-        container.addArrangedSubview(Separator())
+        container.addArrangedSubview(dividers[8])
         container.addArrangedSubview(shimmeringImageView(.concealing))
     }
+
+    private let dividers: [MSFDivider] = (0..<9).map { _ in MSFDivider() }
 }

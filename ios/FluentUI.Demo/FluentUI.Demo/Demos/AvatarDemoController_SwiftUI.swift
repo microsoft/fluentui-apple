@@ -63,7 +63,7 @@ struct AvatarDemoView: View {
                             Text("Content")
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .font(.title)
-                            Divider()
+                            FluentDivider()
                         }
 
                         TextField("Primary Text", text: $primaryText)
@@ -88,7 +88,7 @@ struct AvatarDemoView: View {
                             Text("Ring")
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .font(.title)
-                            Divider()
+                            FluentDivider()
                         }
                         FluentUIDemoToggle(titleKey: "Ring visible", isOn: $isRingVisible)
                         FluentUIDemoToggle(titleKey: "Ring inner gap", isOn: $hasRingInnerGap)
@@ -100,7 +100,7 @@ struct AvatarDemoView: View {
                             Text("Presence")
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .font(.title)
-                            Divider()
+                            FluentDivider()
                         }
 
                         Picker(selection: $presence, label: EmptyView()) {
@@ -124,7 +124,7 @@ struct AvatarDemoView: View {
                             Text("Style")
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .font(.title)
-                            Divider()
+                            FluentDivider()
                         }
 
                         Picker(selection: $style, label: EmptyView()) {
@@ -144,7 +144,7 @@ struct AvatarDemoView: View {
                             Text("Size")
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .font(.title)
-                            Divider()
+                            FluentDivider()
                         }
 
                         Picker(selection: $size, label: EmptyView()) {

@@ -41,20 +41,34 @@ class SideTabBarDemoController: DemoController {
         }
     }
 
-    private lazy var incrementBadgeButton: Button = {
-        let button = Button()
-        button.image = UIImage(named: "ic_fluent_add_20_regular")
-        button.accessibilityLabel = "Increment badge numbers"
-        button.addTarget(self, action: #selector(incrementBadgeNumbers), for: .touchUpInside)
-        return button
+    private lazy var incrementBadgeButton: MSFButton = {
+        let incrementBadgeButton = MSFButton(style: .secondary,
+                                             size: .small) { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.modifyBadgeNumbers(increment: 1)
+        }
+        incrementBadgeButton.state.image = UIImage(named: "ic_fluent_add_20_regular")
+        incrementBadgeButton.state.accessibilityLabel = "Increment badge numbers"
+
+        return incrementBadgeButton
     }()
 
-    private lazy var decrementBadgeButton: Button = {
-        let button = Button()
-        button.image = UIImage(named: "ic_fluent_subtract_20_regular")
-        button.accessibilityLabel = "Decrement badge numbers"
-        button.addTarget(self, action: #selector(decrementBadgeNumbers), for: .touchUpInside)
-        return button
+    private lazy var decrementBadgeButton: MSFButton = {
+        let decrementBadgeButton = MSFButton(style: .secondary,
+                                             size: .small) { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.modifyBadgeNumbers(increment: -1)
+        }
+        decrementBadgeButton.state.image = UIImage(named: "ic_fluent_subtract_20_regular")
+        decrementBadgeButton.state.accessibilityLabel = "Decrement badge numbers"
+
+        return decrementBadgeButton
     }()
 
     private lazy var homeItem: TabBarItem = {
@@ -193,8 +207,8 @@ class SideTabBarDemoController: DemoController {
     }
 
     private func updateBadgeButtons() {
-        incrementBadgeButton.isEnabled = showBadgeNumbers
-        decrementBadgeButton.isEnabled = showBadgeNumbers
+        incrementBadgeButton.state.isDisabled = !showBadgeNumbers
+        decrementBadgeButton.state.isDisabled = !showBadgeNumbers
     }
 
     private func modifyBadgeNumbers(increment: Int) {
@@ -217,12 +231,12 @@ class SideTabBarDemoController: DemoController {
         updateBadgeNumbers()
     }
 
-    @objc private func incrementBadgeNumbers() {
-        modifyBadgeNumbers(increment: 1)
-    }
-
-    @objc private func decrementBadgeNumbers() {
-        modifyBadgeNumbers(increment: -1)
+    /// Custom presentation logic to let `contentViewController` present the appearance popover.
+    @objc private func showAppearancePopoverLocal(_ sender: AnyObject) {
+        guard let contentViewController = contentViewController else {
+            return
+        }
+        super.showAppearancePopover(sender, presenter: contentViewController)
     }
 
     private let optionsCellItems: [CellItem] = {
@@ -233,7 +247,8 @@ class SideTabBarDemoController: DemoController {
                 CellItem(title: "Use higher badge numbers", type: .boolean, action: #selector(toggleUseHigherBadgeNumbers(_:))),
                 CellItem(title: "Modify badge numbers", type: .stepper, action: nil),
                 CellItem(title: "Show tooltip for Home button", type: .action, action: #selector(showTooltipForHomeButton)),
-                CellItem(title: "Dismiss", type: .action, action: #selector(dismissSideTabBar))
+                CellItem(title: "Dismiss", type: .action, action: #selector(dismissSideTabBar)),
+                CellItem(title: "Show Appearance Popover", type: .action, action: #selector(showAppearancePopoverLocal(_:)))
         ]
     }()
 }
@@ -306,6 +321,59 @@ extension SideTabBarDemoController: UITableViewDataSource {
         }
 
         return UITableViewCell()
+    }
+}
+
+// MARK: - SideTabBarDemoController: DemoAppearanceDelegate
+extension SideTabBarDemoController: DemoAppearanceDelegate {
+    func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
+        guard let fluentTheme = self.view.window?.fluentTheme else {
+            return
+        }
+
+        var tokensClosure: ((SideTabBar) -> SideTabBarTokens)?
+        if isOverrideEnabled {
+            tokensClosure = { _ in
+                return ThemeWideOverrideSideTabBarTokens()
+            }
+        }
+
+        fluentTheme.register(controlType: SideTabBar.self, tokens: tokensClosure)
+    }
+
+    func perControlOverrideDidChange(isOverrideEnabled: Bool) {
+        let tokens = (isOverrideEnabled ? PerControlOverrideSideTabBarItemTokens() : nil)
+        _ = sideTabBar.overrideTokens(tokens)
+    }
+
+    func isThemeWideOverrideApplied() -> Bool {
+        return self.view.window?.fluentTheme.tokenOverride(for: SideTabBar.self) != nil
+    }
+
+    // MARK: - Custom tokens
+    private class ThemeWideOverrideSideTabBarTokens: SideTabBarTokens {
+        override var tabBarItemSelectedColor: DynamicColor {
+            return .init(light: globalTokens.sharedColors[.burgundy][.tint10],
+                         lightHighContrast: globalTokens.sharedColors[.pumpkin][.tint10],
+                         dark: globalTokens.sharedColors[.darkTeal][.tint40],
+                         darkHighContrast: globalTokens.sharedColors[.teal][.tint40])
+        }
+        override var tabBarItemUnselectedColor: DynamicColor {
+            return .init(light: globalTokens.sharedColors[.darkTeal][.tint20],
+                         lightHighContrast: globalTokens.sharedColors[.teal][.tint40],
+                         dark: globalTokens.sharedColors[.pumpkin][.tint40],
+                         darkHighContrast: globalTokens.sharedColors[.burgundy][.tint40])
+        }
+    }
+
+    private class PerControlOverrideSideTabBarItemTokens: SideTabBarTokens {
+        override var tabBarItemTitleLabelFontPortrait: FontInfo? {
+            return .init(size: 15, weight: .bold)
+        }
+
+        override var tabBarItemTitleLabelFontLandscape: FontInfo? {
+            return .init(size: 15, weight: .bold)
+        }
     }
 }
 

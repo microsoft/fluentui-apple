@@ -42,7 +42,7 @@ struct IndeterminateProgressBarDemoView: View {
                             Text("Settings")
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .font(.title)
-                            Divider()
+                            FluentDivider()
                         }
 
                         FluentUIDemoToggle(titleKey: "Animating", isOn: $isAnimating)

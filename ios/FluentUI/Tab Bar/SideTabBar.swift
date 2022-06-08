@@ -23,7 +23,7 @@ public protocol SideTabBarDelegate {
 /// View for a vertical side tab bar that can be used for app navigation.
 /// Optimized for horizontal regular + vertical regular size class configuration. Prefer using TabBarView for other size class configurations.
 @objc(MSFSideTabBar)
-open class SideTabBar: UIView {
+open class SideTabBar: UIView, TokenizedControlInternal {
     /// Delegate to handle user interactions in the side tab bar.
     @objc public weak var delegate: SideTabBarDelegate? {
         didSet {
@@ -128,10 +128,15 @@ open class SideTabBar: UIView {
         accessibilityTraits = .tabBar
         shouldGroupAccessibilityChildren = true
 
-        NSLayoutConstraint.activate([widthAnchor.constraint(equalToConstant: Constants.viewWidth),
+        NSLayoutConstraint.activate([widthAnchor.constraint(equalToConstant: tokens.sideTabBarWidth),
                                      borderLine.leadingAnchor.constraint(equalTo: trailingAnchor),
                                      borderLine.bottomAnchor.constraint(equalTo: bottomAnchor),
                                      borderLine.topAnchor.constraint(equalTo: topAnchor)])
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
     }
 
     @available(*, unavailable)
@@ -146,23 +151,11 @@ open class SideTabBar: UIView {
 
     private struct Constants {
         static let maxTabCount: Int = 5
-        static let viewWidth: CGFloat = 62
-        static let avatarViewSafeTopSpacing: CGFloat = 18
-        static let avatarViewMinTopSpacing: CGFloat = 36
-        static let avatarViewTopStackViewSpacing: CGFloat = 34
-        static let bottomStackViewSafeSpacing: CGFloat = 14
-        static let bottomStackViewMinSpacing: CGFloat = 24
-        static let topItemSpacing: CGFloat = 32
-        static let bottomItemSpacing: CGFloat = 24
-        static let topItemSize: CGFloat = 28
-        static let bottomItemSize: CGFloat = 24
-        static let badgeTopSectionPadding: CGFloat = 2
-        static let badgeBottomSectionPadding: CGFloat = 4
         static let numberOfTitleLines: Int = 2
     }
 
     private var layoutConstraints: [NSLayoutConstraint] = []
-    private let borderLine = Separator(style: .shadow, orientation: .vertical)
+    private let borderLine = MSFDivider(orientation: .vertical)
 
     private let backgroundView: UIVisualEffectView = {
         var style = UIBlurEffect.Style.regular
@@ -171,12 +164,12 @@ open class SideTabBar: UIView {
         return UIVisualEffectView(effect: UIBlurEffect(style: style))
     }()
 
-    private let topStackView: UIStackView = {
-        return createStackView(spacing: Constants.topItemSpacing)
+    private lazy var topStackView: UIStackView = {
+        return SideTabBar.createStackView(spacing: tokens.topTabBarItemSpacing)
     }()
 
-    private let bottomStackView: UIStackView = {
-        return createStackView(spacing: Constants.bottomItemSpacing)
+    private lazy var bottomStackView: UIStackView = {
+        return SideTabBar.createStackView(spacing: tokens.bottomTabBarItemSpacing)
     }()
 
     private lazy var avatarViewGestureRecognizer: UITapGestureRecognizer = {
@@ -191,23 +184,23 @@ open class SideTabBar: UIView {
 
         if let avatar = avatar {
             // The avatar view's distance from the top of the side tab bar depends on safe layout guides.
-            // There is a minimum spacing. If the layout guide spacing is large than the minimum spacing,
+            // There is a minimum spacing. If the layout guide spacing is larger than the minimum spacing,
             // then the spacing will be layoutGuideSpacing + safeTopSpacing.
             let avatarView = avatar
-            let topSafeConstraint = avatarView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: Constants.avatarViewSafeTopSpacing)
+            let topSafeConstraint = avatarView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: tokens.avatarViewSafeTopSpacing)
             topSafeConstraint.priority = .defaultHigh
 
             layoutConstraints.append(contentsOf: [
                 topSafeConstraint,
-                avatarView.topAnchor.constraint(greaterThanOrEqualTo: topAnchor, constant: Constants.avatarViewMinTopSpacing),
+                avatarView.topAnchor.constraint(greaterThanOrEqualTo: topAnchor, constant: tokens.avatarViewMinTopSpacing),
                 avatarView.centerXAnchor.constraint(equalTo: centerXAnchor),
-                topStackView.topAnchor.constraint(equalTo: avatarView.bottomAnchor, constant: Constants.avatarViewTopStackViewSpacing)
+                topStackView.topAnchor.constraint(equalTo: avatarView.bottomAnchor, constant: tokens.avatarViewTopStackViewSpacing)
             ])
         } else {
-            layoutConstraints.append(topStackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: Constants.topItemSpacing))
+            layoutConstraints.append(topStackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: tokens.topTabBarItemSpacing))
         }
 
-        let bottomSafeConstraint = bottomStackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -Constants.bottomStackViewSafeSpacing)
+        let bottomSafeConstraint = bottomStackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -tokens.bottomStackViewSafeSpacing)
         bottomSafeConstraint.priority = .defaultHigh
 
         layoutConstraints.append(contentsOf: [
@@ -216,7 +209,7 @@ open class SideTabBar: UIView {
             bottomStackView.centerXAnchor.constraint(equalTo: centerXAnchor),
             bottomStackView.widthAnchor.constraint(lessThanOrEqualTo: widthAnchor),
             bottomSafeConstraint,
-            bottomStackView.bottomAnchor.constraint(lessThanOrEqualTo: bottomAnchor, constant: -Constants.bottomStackViewMinSpacing)
+            bottomStackView.bottomAnchor.constraint(lessThanOrEqualTo: bottomAnchor, constant: -tokens.bottomStackViewMinSpacing)
         ])
 
         NSLayoutConstraint.activate(layoutConstraints)
@@ -234,7 +227,7 @@ open class SideTabBar: UIView {
         }
 
         let stackView = self.stackView(in: section)
-        let badgePadding = section == .top ? Constants.badgeTopSectionPadding : Constants.badgeBottomSectionPadding
+        let badgePadding = section == .top ? tokens.badgeTopSectionPadding : tokens.badgeBottomSectionPadding
         let showItemTitles = section == .top ? showTopItemTitles : showBottomItemTitles
         var didRestoreSelection = false
 
@@ -242,7 +235,7 @@ open class SideTabBar: UIView {
             let tabBarItemView = TabBarItemView(item: item, showsTitle: showItemTitles, canResizeImage: false)
             tabBarItemView.translatesAutoresizingMaskIntoConstraints = false
             tabBarItemView.alwaysShowTitleBelowImage = true
-            tabBarItemView.maxBadgeWidth = Constants.viewWidth / 2 - badgePadding
+            tabBarItemView.maxBadgeWidth = tokens.sideTabBarWidth / 2 - badgePadding
             tabBarItemView.numberOfTitleLines = Constants.numberOfTitleLines
 
             if itemView(with: item, in: section) != nil && section == .top && item == selectedTopItem {
@@ -364,5 +357,72 @@ open class SideTabBar: UIView {
         if let item = (recognizer.view as? TabBarItemView)?.item {
             delegate?.sideTabBar?(self, didSelect: item, fromTop: false)
         }
+    }
+
+    public func overrideTokens(_ tokens: SideTabBarTokens?) -> Self {
+        overrideTokens = tokens
+        return self
+    }
+
+    var defaultTokens: SideTabBarTokens = .init()
+    var tokens: SideTabBarTokens = .init()
+    var overrideTokens: SideTabBarTokens? {
+        didSet {
+            updateSideTabBarTokens()
+        }
+    }
+
+    // This custom tokens class is used to override only the four TabBarItemToken values
+    // that we want to expose publicly to consumers of the SideTabBar.
+    private class CustomSideTabBarItemTokens: TabBarItemTokens {
+        @available(*, unavailable)
+        required init() {
+            preconditionFailure("init() has not been implemented")
+        }
+
+        init (sideTabBarTokens: SideTabBarTokens) {
+            self.sideTabBarTokens = sideTabBarTokens
+            super.init()
+        }
+
+        override var selectedColor: DynamicColor {
+            sideTabBarTokens.tabBarItemSelectedColor ?? super.selectedColor
+        }
+
+        override var unselectedColor: DynamicColor {
+            sideTabBarTokens.tabBarItemUnselectedColor ?? super.unselectedColor
+        }
+
+        override var titleLabelFontPortrait: FontInfo {
+            sideTabBarTokens.tabBarItemTitleLabelFontPortrait ?? super.titleLabelFontPortrait
+        }
+
+        override var titleLabelFontLandscape: FontInfo {
+            sideTabBarTokens.tabBarItemTitleLabelFontLandscape ?? super.titleLabelFontLandscape
+        }
+
+        var sideTabBarTokens: SideTabBarTokens
+    }
+
+    private func updateSideTabBarTokens() {
+        tokens = resolvedTokens
+        updateSideTabBarTokensForSection(in: .top)
+        updateSideTabBarTokensForSection(in: .bottom)
+    }
+
+    private func updateSideTabBarTokensForSection(in section: Section) {
+        let customSideTabBarItemTokens = CustomSideTabBarItemTokens.init(sideTabBarTokens: tokens)
+        for subview in stackView(in: section).arrangedSubviews {
+            if let tabBarItemView = subview as? TabBarItemView {
+                tabBarItemView.overrideTokens = customSideTabBarItemTokens
+            }
+        }
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        guard let window = window, window.isEqual(notification.object) else {
+            return
+        }
+        updateSideTabBarTokens()
     }
 }

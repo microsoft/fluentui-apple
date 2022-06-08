@@ -8,7 +8,7 @@ import UIKit
 
 // MARK: TableViewCellDemoController
 
-class TableViewCellDemoController: UITableViewController {
+class TableViewCellDemoController: DemoTableViewController {
     let sections: [TableViewSampleData.Section] = TableViewCellSampleData.sections
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -44,13 +44,17 @@ class TableViewCellDemoController: UITableViewController {
             }
 
             updateNavigationTitle()
-            navigationItem.rightBarButtonItem?.title = isInSelectionMode ? "Done" : "Select"
+            editButton?.title = isInSelectionMode ? "Done" : "Select"
         }
     }
 
     private var styleButtonTitle: String {
         return isGrouped ? "Switch to Plain style" : "Switch to Grouped style"
     }
+
+    private var editButton: UIBarButtonItem?
+
+    private var overrideTokens: TableViewCellTokens?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,7 +65,9 @@ class TableViewCellDemoController: UITableViewController {
         tableView.sectionFooterHeight = 0
         updateTableView()
 
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Select", style: .plain, target: self, action: #selector(selectionBarButtonTapped))
+        let editButton = UIBarButtonItem(title: "Select", style: .plain, target: self, action: #selector(selectionBarButtonTapped))
+        navigationItem.rightBarButtonItems?.append(editButton)
+        self.editButton = editButton
 
         toolbarItems = [
             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
@@ -101,6 +107,55 @@ class TableViewCellDemoController: UITableViewController {
     private func updateTableView() {
         tableView.backgroundColor = isGrouped ? Colors.tableBackgroundGrouped : Colors.tableBackground
         tableView.reloadData()
+    }
+}
+
+extension TableViewCellDemoController: DemoAppearanceDelegate {
+    func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
+        guard let fluentTheme = self.view.window?.fluentTheme else {
+            return
+        }
+
+        var tokensClosure: ((TableViewCell) -> TableViewCellTokens)?
+        if isOverrideEnabled {
+            tokensClosure = { _ in
+                return ThemeWideOverrideTableViewCellTokens()
+            }
+        }
+
+        fluentTheme.register(controlType: TableViewCell.self, tokens: tokensClosure)
+    }
+
+    func perControlOverrideDidChange(isOverrideEnabled: Bool) {
+        overrideTokens = isOverrideEnabled ? PerControlOverrideTableViewCellTokens() : nil
+        self.tableView.reloadData()
+    }
+
+    func isThemeWideOverrideApplied() -> Bool {
+        return self.view.window?.fluentTheme.tokenOverride(for: TableViewCell.self) != nil
+    }
+
+    // MARK: - Custom tokens
+    private class ThemeWideOverrideTableViewCellTokens: TableViewCellTokens {
+        override var cellBackgroundColor: DynamicColor {
+            // "Berry"
+            return DynamicColor(light: GlobalTokens().sharedColors[.berry][.tint50],
+                                dark: GlobalTokens().sharedColors[.berry][.shade40])
+        }
+    }
+
+    private class PerControlOverrideTableViewCellTokens: TableViewCellTokens {
+        override var cellBackgroundColor: DynamicColor {
+            // "Brass"
+            return DynamicColor(light: GlobalTokens().sharedColors[.brass][.tint50],
+                                dark: GlobalTokens().sharedColors[.brass][.shade40])
+        }
+
+        override var accessoryDisclosureIndicatorColor: DynamicColor {
+            // "Forest"
+            return DynamicColor(light: GlobalTokens().sharedColors[.forest][.tint10],
+                                dark: GlobalTokens().sharedColors[.forest][.shade40])
+        }
     }
 }
 
@@ -154,6 +209,8 @@ extension TableViewCellDemoController {
         cell.bottomSeparatorType = isLastInSection ? .full : .inset
 
         cell.isInSelectionMode = section.allowsMultipleSelection ? isInSelectionMode : false
+
+        cell.tableViewCellOverrideTokens = overrideTokens
 
         return cell
     }

@@ -95,9 +95,9 @@ open class ActionsCell: UITableViewCell {
     private var action1Type: ActionType = .regular
     private var action2Type: ActionType = .regular
 
-    private let topSeparator = Separator(style: .default, orientation: .horizontal)
-    private let bottomSeparator = Separator(style: .default, orientation: .horizontal)
-    private let verticalSeparator = Separator(style: .default, orientation: .vertical)
+    private let topSeparator = MSFDivider()
+    private let bottomSeparator = MSFDivider()
+    private let verticalSeparator = MSFDivider(orientation: .vertical)
 
     public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -207,7 +207,7 @@ open class ActionsCell: UITableViewCell {
         button.titleLabel?.textAlignment = .center
     }
 
-    private func layoutHorizontalSeparator(_ separator: Separator, with type: TableViewCell.SeparatorType, at verticalOffset: CGFloat) {
+    private func layoutHorizontalSeparator(_ separator: MSFDivider, with type: TableViewCell.SeparatorType, at verticalOffset: CGFloat) {
         let horizontalOffset = type == .inset ? safeAreaInsets.left + Constants.horizontalSpacing : 0
 
         separator.frame = CGRect(
@@ -219,7 +219,7 @@ open class ActionsCell: UITableViewCell {
         separator.flipForRTL()
     }
 
-    private func updateHorizontalSeparator(_ separator: Separator, with type: TableViewCell.SeparatorType) {
+    private func updateHorizontalSeparator(_ separator: MSFDivider, with type: TableViewCell.SeparatorType) {
         separator.isHidden = type == .none
         setNeedsLayout()
     }

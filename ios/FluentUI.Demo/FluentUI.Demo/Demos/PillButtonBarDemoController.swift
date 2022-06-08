@@ -83,27 +83,27 @@ class PillButtonBarDemoController: DemoController {
     }
 
     func createBar(items: [PillButtonBarItem], style: PillButtonStyle = .primary, centerAligned: Bool = false, disabledItems: Bool = false, useCustomPillsColors: Bool = false) -> UIView {
-        let pillButtonBackgroundColor = useCustomPillsColors ? Colors.textOnAccent : nil
-        let pillSelectedButtonBackgroundColor = useCustomPillsColors ? Colors.textPrimary : nil
-        let pillButtonTextColor = useCustomPillsColors ? Colors.textPrimary : nil
-        let pillSelectedButtontextColor = useCustomPillsColors ? Colors.textOnAccent : nil
-        let pillButtonUnreadDotColor = useCustomPillsColors ? Colors.textPrimary : nil
-
-        let bar = PillButtonBar(pillButtonStyle: style, pillButtonBackgroundColor: pillButtonBackgroundColor, selectedPillButtonBackgroundColor: pillSelectedButtonBackgroundColor, pillButtonTextColor: pillButtonTextColor, selectedPillButtonTextColor: pillSelectedButtontextColor, pillButtonUnreadDotColor: pillButtonUnreadDotColor)
+        let bar = PillButtonBar(pillButtonStyle: style)
+        bar.pillButtonOverrideTokens = useCustomPillsColors ? CustomPillButtonTokens() : nil
         bar.items = items
         _ = bar.selectItem(atIndex: 0)
         bar.barDelegate = self
         bar.centerAligned = centerAligned
+        bars.append(bar)
 
         if disabledItems {
             items.forEach { bar.disableItem($0) }
         }
 
-        let backgroundView = UIView()
-        if style == .primary {
-            backgroundView.backgroundColor = Colors.navigationBarBackground
-        }
-
+        let backgroundStyle: ColoredPillBackgroundStyle = {
+            switch style {
+            case .primary:
+                return .neutral
+            case .onBrand:
+                return .brand
+            }
+        }()
+        let backgroundView = ColoredPillBackgroundView(style: backgroundStyle)
         backgroundView.addSubview(bar)
         let margins = UIEdgeInsets(top: 16.0, left: 0, bottom: 16.0, right: 0.0)
         fitViewIntoSuperview(bar, margins: margins)
@@ -175,6 +175,28 @@ class PillButtonBarDemoController: DemoController {
     private var customBar: UIView?
 
     private var primaryBar: UIView?
+
+    private var bars: [PillButtonBar] = []
+
+    private class CustomPillButtonTokens: PillButtonTokens {
+        override var backgroundColor: PillButtonDynamicColors {
+            return .init(rest: Colors.textOnAccent.dynamicColor ?? super.backgroundColor.rest,
+                         selected: Colors.textPrimary.dynamicColor ?? super.backgroundColor.selected,
+                         disabled: Colors.surfaceQuaternary.dynamicColor ?? super.backgroundColor.disabled,
+                         selectedDisabled: Colors.surfaceSecondary.dynamicColor ?? super.backgroundColor.selectedDisabled)
+        }
+
+        override var titleColor: PillButtonDynamicColors {
+            return .init(rest: Colors.textPrimary.dynamicColor ?? super.titleColor.rest,
+                         selected: Colors.textOnAccent.dynamicColor ?? super.titleColor.selected,
+                         disabled: Colors.textDisabled.dynamicColor ?? super.titleColor.disabled,
+                         selectedDisabled: Colors.textDisabled.dynamicColor ?? super.titleColor.disabled)
+        }
+
+        override var enabledUnreadDotColor: DynamicColor {
+            return Colors.textPrimary.dynamicColor ?? super.enabledUnreadDotColor
+        }
+    }
 }
 
 // MARK: - PillButtonBarDemoController: PillButtonBarDelegate
@@ -185,5 +207,61 @@ extension PillButtonBarDemoController: PillButtonBarDelegate {
         let action = UIAlertAction(title: "OK", style: .default)
         alert.addAction(action)
         present(alert, animated: true)
+    }
+}
+
+extension PillButtonBarDemoController: DemoAppearanceDelegate {
+    func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
+        guard let fluentTheme = self.view.window?.fluentTheme else {
+            return
+        }
+
+        var tokensClosure: ((PillButton) -> PillButtonTokens)?
+        if isOverrideEnabled {
+            tokensClosure = { _ in
+                return ThemeWideOverridePillButtonTokens()
+            }
+        }
+
+        fluentTheme.register(controlType: PillButton.self, tokens: tokensClosure)
+    }
+
+    func perControlOverrideDidChange(isOverrideEnabled: Bool) {
+        self.bars.forEach({ bar in
+            let tokens = isOverrideEnabled ? PerControlOverridePillButtonTokens() : nil
+            bar.pillButtonOverrideTokens = tokens
+        })
+    }
+
+    func isThemeWideOverrideApplied() -> Bool {
+        return self.view.window?.fluentTheme.tokenOverride(for: PillButton.self) != nil
+    }
+
+    // MARK: - Custom tokens
+
+    private class ThemeWideOverridePillButtonTokens: PillButtonTokens {
+        override var font: FontInfo {
+            return FontInfo(name: "Times", size: 15.0, weight: .regular)
+        }
+    }
+
+    private class PerControlOverridePillButtonTokens: PillButtonTokens {
+        override var backgroundColor: PillButtonDynamicColors {
+            return .init(rest: DynamicColor(light: globalTokens.sharedColors[.steel][.tint40], dark: globalTokens.sharedColors[.steel][.shade30]),
+                         selected: DynamicColor(light: globalTokens.sharedColors[.pumpkin][.tint40], dark: globalTokens.sharedColors[.pumpkin][.shade30]),
+                         disabled: super.backgroundColor.disabled,
+                         selectedDisabled: super.backgroundColor.selectedDisabled)
+        }
+
+        override var titleColor: PillButtonDynamicColors {
+            return .init(rest: DynamicColor(light: globalTokens.sharedColors[.steel][.shade30], dark: globalTokens.sharedColors[.steel][.tint40]),
+                         selected: DynamicColor(light: globalTokens.sharedColors[.pumpkin][.shade30], dark: globalTokens.sharedColors[.pumpkin][.tint40]),
+                         disabled: super.titleColor.disabled,
+                         selectedDisabled: super.titleColor.selectedDisabled)
+        }
+
+        override var font: FontInfo {
+            return FontInfo(name: "Papyrus", size: 10.0, weight: .regular)
+        }
     }
 }
