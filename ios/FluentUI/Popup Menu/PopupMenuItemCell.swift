@@ -29,7 +29,7 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
         static let labelVerticalMarginForOneLine: CGFloat = 15
         static let accessoryImageViewOffset: CGFloat = 5
 
-        static let imageViewSize: CustomViewSize = .small
+        static let imageViewSize: MSFTableViewCellCustomViewSize = .small
         static let accessoryImageViewSize: CGFloat = 8
 
         static let defaultAlpha: CGFloat = 1.0
@@ -46,7 +46,7 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
             return 0
         }
 
-        let imageViewSize: CustomViewSize = item.image != nil || preserveSpaceForImage ? Constants.imageViewSize : .zero
+        let imageViewSize: MSFTableViewCellCustomViewSize = item.image != nil || preserveSpaceForImage ? Constants.imageViewSize : .zero
         return preferredWidth(title: item.title, subtitle: item.subtitle ?? "", customViewSize: imageViewSize, customAccessoryView: item.accessoryView, accessoryType: .checkmark)
     }
 
@@ -67,7 +67,7 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
     }
     var preservesSpaceForImage: Bool = false
 
-    override var customViewSize: CustomViewSize {
+    override var customViewSize: MSFTableViewCellCustomViewSize {
         get { return customView != nil || preservesSpaceForImage ? Constants.imageViewSize : .zero }
         set { }
     }
