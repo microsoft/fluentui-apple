@@ -67,7 +67,7 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
     }
     var preservesSpaceForImage: Bool = false
 
-    override var customViewSizeType: MSFTableViewCellCustomViewSize {
+    override var customViewSize: MSFTableViewCellCustomViewSize {
         get { return customView != nil || preservesSpaceForImage ? Constants.imageViewSize : .zero }
         set { }
     }
