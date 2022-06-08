@@ -134,7 +134,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         case twoLines
         case threeLines
 
-        var customViewSize: MSFTableViewCellCustomViewSize { return self == .oneLine ? .small : .medium }
+        var customViewSizeType: MSFTableViewCellCustomViewSize { return self == .oneLine ? .small : .medium }
     }
 
     struct TextStyles {
@@ -246,6 +246,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                                          subtitleTrailingAccessoryView: subtitleTrailingAccessoryView,
                                          footerLeadingAccessoryView: footerLeadingAccessoryView,
                                          footerTrailingAccessoryView: footerTrailingAccessoryView)
+        // Layout type should accommodate for the customViewSize, even if it is only one line.
         if customViewSize == .medium && layoutType == .oneLine {
             layoutType = .twoLines
         }
@@ -443,7 +444,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     }
 
     private static func customViewSize(from size: MSFTableViewCellCustomViewSize, layoutType: LayoutType) -> MSFTableViewCellCustomViewSize {
-        return size == .default ? layoutType.customViewSize : size
+        return size == .default ? layoutType.customViewSizeType : size
     }
 
     private static func customViewLeadingOffset(isInSelectionMode: Bool,
@@ -458,7 +459,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                                               tokens: TableViewCellTokens) -> CGFloat {
         var textAreaLeadingOffset = customViewLeadingOffset(isInSelectionMode: isInSelectionMode, tokens: tokens)
         if customViewSize != .zero {
-            textAreaLeadingOffset += tokens.customViewDimensions.width + tokens.customViewTrailingMargin
+            textAreaLeadingOffset += tokens.customViewSize.width + tokens.customViewTrailingMargin
         }
 
         return textAreaLeadingOffset
@@ -694,25 +695,25 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     }
 
     /// Override to set a specific `MSFTableViewCellCustomViewSize` on the `customView`
-    @objc open var customViewSize: MSFTableViewCellCustomViewSize {
+    @objc open var customViewSizeType: MSFTableViewCellCustomViewSize {
         get {
             if customView == nil {
                 return .zero
             }
-            tokens.customViewSize = _customViewSize == .default ? layoutType.customViewSize : _customViewSize
-            return tokens.customViewSize
+            tokens.customViewSizeType = _customViewSizeType == .default ? layoutType.customViewSizeType : _customViewSizeType
+            return tokens.customViewSizeType
         }
         set {
-            if _customViewSize == newValue {
+            if _customViewSizeType == newValue {
                 return
             }
-            tokens.customViewSize = newValue
-            _customViewSize = newValue
+            tokens.customViewSizeType = newValue
+            _customViewSizeType = newValue
             setNeedsLayout()
             invalidateIntrinsicContentSize()
         }
     }
-    private var _customViewSize: MSFTableViewCellCustomViewSize = .default
+    private var _customViewSizeType: MSFTableViewCellCustomViewSize = .default
 
     /// The custom accessory view of the TableViewCell.
     @objc open private(set) var customAccessoryView: UIView? {
@@ -789,7 +790,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                 subtitleTrailingAccessoryView: subtitleTrailingAccessoryView,
                 footerLeadingAccessoryView: footerLeadingAccessoryView,
                 footerTrailingAccessoryView: footerTrailingAccessoryView,
-                customViewSize: customViewSize,
+                customViewSize: customViewSizeType,
                 customAccessoryView: customAccessoryView,
                 accessoryType: _accessoryType,
                 customAccessoryViewExtendsToEdge: customAccessoryViewExtendsToEdge,
@@ -806,7 +807,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                 subtitleTrailingAccessoryView: subtitleTrailingAccessoryView,
                 footerLeadingAccessoryView: footerLeadingAccessoryView,
                 footerTrailingAccessoryView: footerTrailingAccessoryView,
-                customViewSize: customViewSize,
+                customViewSize: customViewSizeType,
                 customAccessoryView: customAccessoryView,
                 accessoryType: _accessoryType,
                 titleNumberOfLines: titleNumberOfLines,
@@ -907,7 +908,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     }
 
     private var textAreaWidth: CGFloat {
-        let textAreaLeadingOffset = TableViewCell.textAreaLeadingOffset(customViewSize: customViewSize,
+        let textAreaLeadingOffset = TableViewCell.textAreaLeadingOffset(customViewSize: customViewSizeType,
                                                                         isInSelectionMode: isInSelectionMode,
                                                                         tokens: tokens)
         let textAreaTrailingOffset = TableViewCell.textAreaTrailingOffset(customAccessoryView: customAccessoryView,
@@ -1165,11 +1166,11 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         }
 
         if let customView = customView {
-            let customViewYOffset = UIScreen.main.roundToDevicePixels((contentView.frame.height - tokens.customViewDimensions.height) / 2)
+            let customViewYOffset = UIScreen.main.roundToDevicePixels((contentView.frame.height - tokens.customViewSize.height) / 2)
             let customViewXOffset = TableViewCell.customViewLeadingOffset(isInSelectionMode: isInSelectionMode, tokens: tokens)
             customView.frame = CGRect(
                 origin: CGPoint(x: customViewXOffset, y: customViewYOffset),
-                size: tokens.customViewDimensions
+                size: tokens.customViewSize
             )
         }
 
@@ -1250,7 +1251,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                                   leadingAccessoryViewSize: CGSize,
                                   trailingAccessoryView: UIView?,
                                   trailingAccessoryViewSize: CGSize) {
-        let textAreaLeadingOffset = TableViewCell.textAreaLeadingOffset(customViewSize: customViewSize,
+        let textAreaLeadingOffset = TableViewCell.textAreaLeadingOffset(customViewSize: customViewSizeType,
                                                                         isInSelectionMode: isInSelectionMode,
                                                                         tokens: tokens)
         let text = label.text ?? ""
@@ -1319,7 +1320,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         let baseOffset = safeAreaInsets.left + TableViewCell.selectionModeAreaWidth(isInSelectionMode: isInSelectionMode,
                                                                                     selectionImageMarginTrailing: tokens.selectionImageMarginTrailing,
                                                                                     selectionImageSize: tokens.selectionImageSize.width)
-        return baseOffset + paddingLeading + tokens.customViewDimensions.width + tokens.customViewTrailingMargin
+        return baseOffset + paddingLeading + tokens.customViewSize.width + tokens.customViewTrailingMargin
     }
 
     open override func prepareForReuse() {
@@ -1344,7 +1345,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         footerLeadingAccessoryView = nil
         footerTrailingAccessoryView = nil
 
-        customViewSize = .default
+        customViewSizeType = .default
         customAccessoryViewExtendsToEdge = false
 
         topSeparatorType = .none
@@ -1373,7 +1374,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                     subtitleTrailingAccessoryView: subtitleTrailingAccessoryView,
                     footerLeadingAccessoryView: footerLeadingAccessoryView,
                     footerTrailingAccessoryView: footerTrailingAccessoryView,
-                    customViewSize: customViewSize,
+                    customViewSize: customViewSizeType,
                     customAccessoryView: customAccessoryView,
                     accessoryType: _accessoryType,
                     customAccessoryViewExtendsToEdge: customAccessoryViewExtendsToEdge,
@@ -1392,7 +1393,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                 subtitleTrailingAccessoryView: subtitleTrailingAccessoryView,
                 footerLeadingAccessoryView: footerLeadingAccessoryView,
                 footerTrailingAccessoryView: footerTrailingAccessoryView,
-                customViewSize: customViewSize,
+                customViewSize: customViewSizeType,
                 customAccessoryView: customAccessoryView,
                 accessoryType: _accessoryType,
                 titleNumberOfLines: titleNumberOfLines,
