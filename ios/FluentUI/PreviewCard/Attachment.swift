@@ -14,9 +14,9 @@ import SwiftUI
     }
     /// Creates a new MSFAttachment instance.
     /// - Parameters:
-    ///   - theme: The FluentUIStyle instance representing the theme to be overriden for this Attachment.
+    ///   - theme: The FluentUIStyle instance representing the theme to be overridden for this Attachment.
     ///   - thumbnail: The UIImage used as a thumbnail within the Attachment.
-    ///   - isElevated: Boolean determining if PreviewCard is flat or elevated.`
+    ///   - isElevated: Boolean determining if PreviewCard is flat or elevated.
     @objc public init(theme: FluentUIStyle?, thumbnail: UIImage, isElevated: Bool = false, text: String = "Text", subtext: String = "Subtext") {
         super.init()
         attachmentView = Attachment(isElevated: isElevated, thumbnail: thumbnail, text: text, subtext: subtext)
