@@ -156,6 +156,10 @@ extension TableViewCellDemoController: DemoAppearanceDelegate {
             return DynamicColor(light: GlobalTokens().sharedColors[.forest][.tint10],
                                 dark: GlobalTokens().sharedColors[.forest][.shade40])
         }
+
+        override var customViewTrailingMargin: CGFloat {
+            return 0
+        }
     }
 }
 
