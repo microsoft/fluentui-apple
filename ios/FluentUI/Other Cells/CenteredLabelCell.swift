@@ -76,6 +76,7 @@ open class CenteredLabelCell: UITableViewCell, TokenizedControlInternal {
     @objc open func setup(text: String) {
         label.text = text
         label.font = UIFont.fluent(tokens.titleFont)
+        label.textColor = UIColor(dynamicColor: tokens.globalTokens.brandColors[.primary])
         setNeedsLayout()
     }
 
