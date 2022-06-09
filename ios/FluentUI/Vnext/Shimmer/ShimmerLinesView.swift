@@ -11,39 +11,29 @@ import UIKit
 @objc(MSFShimmerLinesView)
 open class ShimmerLinesView: ShimmerView {
 
-	/// Number of lines that will shimmer in this view. Use 0 if the number of lines should fill the available space.
-	@objc open var lineCount: Int = 3 {
-		didSet {
-			setNeedsLayout()
-		}
+	/// Creates the ShimmerLinesView
+	/// - Parameters:
+	///   - lineCount: Number of lines that will shimmer in this view. Use 0 if the number of lines should fill the available space.
+	///   - lineHeight: Height of shimmering line
+	///   - lineSpacing: Spacing between lines (if lines > 1)
+	///   - firstLineFillPercent: The percent the first line (if 2+ lines) should fill the available horizontal space
+	///   - lastLineFillPercent: The percent the last line should fill the available horizontal space.
+	@objc public init(lineCount: Int,
+					  lineHeight: CGFloat,
+					  lineSpacing: CGFloat,
+					  firstLineFillPercent: CGFloat,
+					  lastLineFillPercent: CGFloat) {
+		self.lineCount = lineCount
+		self.lineHeight = lineHeight
+		self.lineSpacing = lineSpacing
+		self.firstLineFillPercent = firstLineFillPercent
+		self.lastLineFillPercent = lastLineFillPercent
+
+		super.init()
 	}
 
-	/// Height of shimmering line
-	@objc open var lineHeight: CGFloat = 11 {
-		didSet {
-			setNeedsLayout()
-		}
-	}
-
-	/// Spacing between lines (if lines > 1)
-	@objc open var lineSpacing: CGFloat = 11 {
-		didSet {
-			setNeedsLayout()
-		}
-	}
-
-	/// The percent the first line (if 2+ lines) should fill the available horizontal space
-	@objc open var firstLineFillPercent: CGFloat = 0.94 {
-		didSet {
-			setNeedsLayout()
-		}
-	}
-
-	/// The percent the last line should fill the available horizontal space.
-	@objc open var lastLineFillPercent: CGFloat = 0.6 {
-		didSet {
-			setNeedsLayout()
-		}
+	required public init?(coder: NSCoder) {
+		preconditionFailure("init(coder:) has not been implemented")
 	}
 
 	open override func layoutSubviews() {
@@ -66,8 +56,7 @@ open class ShimmerLinesView: ShimmerView {
 			currentTop += lineHeight + lineSpacing
 		}
 
-		shimmeringLayer.frame = CGRect(x: -shimmerWidth, y: 0.0, width: frame.width + 2 * shimmerWidth, height: frame.height)
-
+		shimmeringLayer.frame = CGRect(x: -tokens.shimmerWidth, y: 0.0, width: frame.width + 2 * tokens.shimmerWidth, height: frame.height)
 		viewCoverLayers.forEach { $0.frame = flipRectForRTL($0.frame) }
 
 		updateShimmeringLayer()
@@ -90,9 +79,8 @@ open class ShimmerLinesView: ShimmerView {
 
 		for i in 0..<desiredLineCount {
 			let lineLayer = i < viewCoverLayers.count ? viewCoverLayers[i] : CALayer()
-
-			lineLayer.cornerRadius = labelCornerRadius >= 0 ? labelCornerRadius : cornerRadius
-			lineLayer.backgroundColor = viewTintColor.cgColor
+			lineLayer.cornerRadius = tokens.labelCornerRadius >= 0 ? tokens.labelCornerRadius : tokens.cornerRadius
+			lineLayer.backgroundColor = UIColor(dynamicColor: tokens.tintColor).cgColor
 
 			// Add layer
 			newLineLayers.append(lineLayer)
@@ -111,6 +99,36 @@ open class ShimmerLinesView: ShimmerView {
 		} else {
 			// Hardcoded lines count
 			return lineCount
+		}
+	}
+
+	private var lineCount: Int {
+		didSet {
+			setNeedsLayout()
+		}
+	}
+
+	private var lineHeight: CGFloat {
+		didSet {
+			setNeedsLayout()
+		}
+	}
+
+	private var lineSpacing: CGFloat {
+		didSet {
+			setNeedsLayout()
+		}
+	}
+
+	private var firstLineFillPercent: CGFloat {
+		didSet {
+			setNeedsLayout()
+		}
+	}
+
+	private var lastLineFillPercent: CGFloat {
+		didSet {
+			setNeedsLayout()
 		}
 	}
 }

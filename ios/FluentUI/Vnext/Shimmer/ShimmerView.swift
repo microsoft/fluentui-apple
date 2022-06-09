@@ -5,125 +5,9 @@
 
 import UIKit
 
-/// Shimmer style can be either concealing or revealing
-/// The style affects the default shimmer alpha value and the default shimmer tint color
-@objc(MSFShimmerViewStyle)
-public enum ShimmerStyle: Int, CaseIterable {
-    /// Concealing shimmer: the gradient conceals parts of the subviews as it moves leaving most parts of the subviews unblocked.
-    case concealing
-
-    /// Revealing shimmer: the gradient reveals parts of the subviews as it moves leaving most parts of the subview blocked.
-    case revealing
-
-    var defaultAlphaValue: CGFloat {
-        switch self {
-        case .concealing:
-            return 0
-        case .revealing:
-            return 0.4
-        }
-    }
-
-    var defaultTintColor: UIColor {
-        switch self {
-        case .concealing:
-            return Colors.Shimmer.gradientCenter
-        case .revealing:
-            return Colors.Shimmer.tint
-        }
-    }
-}
-
 /// View that converts the subviews of a container view into a loading state with the "shimmering" effect
 @objc(MSFShimmerView)
-open class ShimmerView: UIView {
-
-    /// The alpha value of the center of the gradient in the animation if shimmer is revealing shimmer
-    /// The alpha value of the view other than the gradient if shimmer is concealing shimmer
-    @objc open var shimmerAlpha: CGFloat {
-        didSet {
-            setNeedsLayout()
-        }
-    }
-
-    /// the width of the gradient in the animation
-    @objc open var shimmerWidth: CGFloat = defaultWidth {
-        didSet {
-            setNeedsLayout()
-        }
-    }
-
-    /// Angle of the direction of the gradient, in radian. 0 means horizontal, Pi/2 means vertical.
-    @objc open var shimmerAngle: CGFloat = defaultAngle {
-        didSet {
-            setNeedsLayout()
-        }
-    }
-
-    /// Speed of the animation, in point/seconds.
-    @objc open var shimmerSpeed: CGFloat = defaultSpeed {
-        didSet {
-            setNeedsLayout()
-        }
-    }
-
-    /// Delay between the end of a shimmering animation and the beginning of the next one.
-    @objc open var shimmerDelay: TimeInterval = defaultDelay {
-        didSet {
-            setNeedsLayout()
-        }
-    }
-
-    /// Tint color of the view if shimmer is revealing shimmer
-    /// Tint color of the middle of the gradient if shimmer is concealing shimmer
-    @objc open var viewTintColor: UIColor = Colors.Shimmer.tint {
-        didSet {
-            setNeedsLayout()
-        }
-    }
-
-    /// Corner radius on each view.
-    @objc open var cornerRadius: CGFloat = defaultCornerRadius {
-        didSet {
-            setNeedsLayout()
-        }
-    }
-
-    /// Corner radius on each UILabel. Set to  0 to disable and use default `cornerRadius`.
-    @objc open var labelCornerRadius: CGFloat = defaultLabelCornerRadius {
-        didSet {
-            setNeedsLayout()
-        }
-    }
-
-    /// True to enable shimmers to auto-adjust to font height for a UILabel -- this will more accurately reflect the text in the label rect rather than using the bounding box.
-    /// `labelHeight` will take precendence over this property.
-    @objc open var usesTextHeightForLabels: Bool = defaultUsesTextHeightForLabels {
-        didSet {
-            setNeedsLayout()
-        }
-    }
-
-    /// If greater than 0, a fixed height to use for all UILabels. This will take precedence over `usesTextHeightForLabels`. Set to less than 0 to disable.
-    @objc open var labelHeight: CGFloat = defaultLabelHeight {
-        didSet {
-            setNeedsLayout()
-        }
-    }
-
-    /// Determines whether we shimmer the top level subviews, or the leaf nodes of the view heirarchy
-    @objc open var shimmersLeafViews: Bool = defaultShimmersLeafViews {
-        didSet {
-            setNeedsLayout()
-        }
-    }
-
-    /// Determines whether the shimmer is a revealing shimmer or a concealing shimmer
-    @objc open var shimmerStyle: ShimmerStyle {
-        didSet {
-            setNeedsLayout()
-        }
-    }
+open class ShimmerView: UIView, TokenizedControlInternal, ControlConfiguration {
 
     /// Optional synchronizer to sync multiple shimmer views
     @objc open weak var animationSynchronizer: AnimationSynchronizerProtocol?
@@ -143,16 +27,20 @@ open class ShimmerView: UIView {
     /// - Parameter containerView: view to convert layout into a shimmer -- each of containerView's first-level subviews will be mirrored
     /// - Parameter excludedViews: subviews of `containerView` to exclude from shimmer
     /// - Parameter animationSynchronizer: optional synchronizer to sync multiple shimmer views
+    /// - Parameter shimmerStyle: determines whether the shimmer is a revealing shimmer or a concealing shimmer
     @objc public init(containerView: UIView? = nil,
                       excludedViews: [UIView] = [],
                       animationSynchronizer: AnimationSynchronizerProtocol? = nil,
-                      shimmerStyle: ShimmerStyle = .revealing) {
+                      shimmerStyle: MSFShimmerStyle = .revealing) {
+        self.style = shimmerStyle
+
+        let tokens = ShimmerTokens()
+        tokens.style = style
+        self.tokens = tokens
+
         self.containerView = containerView
         self.excludedViews = excludedViews
         self.animationSynchronizer = animationSynchronizer
-        self.shimmerStyle = shimmerStyle
-        self.viewTintColor = shimmerStyle.defaultTintColor
-        self.shimmerAlpha = shimmerStyle.defaultAlphaValue
         super.init(frame: CGRect(origin: .zero, size: containerView?.bounds.size ?? .zero))
 
         NotificationCenter.default.addObserver(self,
@@ -193,7 +81,7 @@ open class ShimmerView: UIView {
         viewCoverLayers.forEach { $0.removeFromSuperlayer() }
 
         let subviews: Set<UIView> = {
-            if shimmersLeafViews {
+            if tokens.shimmersLeafViews {
                 var leaves = [UIView]()
                 searchLeaves(in: viewToCover, output: &leaves)
                 return Set(leaves).subtracting(Set(excludedViews))
@@ -205,16 +93,16 @@ open class ShimmerView: UIView {
         viewCoverLayers = subviews.filter({ !$0.isHidden && !($0 is ShimmerView) }).map { subview in
             let coverLayer = CALayer()
 
-            let shouldApplyLabelCornerRadius = subview is UILabel && labelCornerRadius >= 0
-            coverLayer.cornerRadius = shouldApplyLabelCornerRadius ? labelCornerRadius : cornerRadius
-            coverLayer.backgroundColor = viewTintColor.cgColor
+            let shouldApplyLabelCornerRadius = subview is UILabel && tokens.labelCornerRadius >= 0
+            coverLayer.cornerRadius = shouldApplyLabelCornerRadius ? tokens.labelCornerRadius : tokens.cornerRadius
+            coverLayer.backgroundColor = UIColor(dynamicColor: tokens.tintColor).cgColor
 
             var coverFrame = viewToCover.convert(subview.bounds, from: subview)
             if let label = subview as? UILabel {
                 let viewLabelHeight: CGFloat? = {
-                    if labelHeight >= 0 {
-                        return labelHeight
-                    } else if usesTextHeightForLabels {
+                    if tokens.labelHeight >= 0 {
+                        return tokens.labelHeight
+                    } else if tokens.usesTextHeightForLabels {
                         return label.font.deviceLineHeight
                     }
                     return nil
@@ -236,13 +124,13 @@ open class ShimmerView: UIView {
 
     /// Update the gradient layer that animates to provide the shimmer effect (also updates the animation)
     func updateShimmeringLayer() {
-        let light = UIColor.white.withAlphaComponent(shimmerAlpha).cgColor
-        let dark = Colors.Shimmer.darkGradient.cgColor
-        shimmeringLayer.colors = shimmerStyle == .concealing ? [light, dark, light] : [dark, light, dark]
+        let light = UIColor.white.withAlphaComponent(tokens.shimmerAlpha).cgColor
+        let dark = UIColor(colorValue: tokens.darkGradient).cgColor
+        shimmeringLayer.colors = self.style == .concealing ? [light, dark, light] : [dark, light, dark]
 
         let isRTL = effectiveUserInterfaceLayoutDirection == .rightToLeft
         let startPoint = CGPoint(x: 0.0, y: 0.5)
-        let endPoint = CGPoint(x: 1.0, y: 0.5 - tan(shimmerAngle * (isRTL ? -1 : 1)))
+        let endPoint = CGPoint(x: 1.0, y: 0.5 - tan(tokens.shimmerAngle * (isRTL ? -1 : 1)))
         if isRTL {
             shimmeringLayer.startPoint = endPoint
             shimmeringLayer.endPoint = startPoint
@@ -251,7 +139,7 @@ open class ShimmerView: UIView {
             shimmeringLayer.endPoint = endPoint
         }
 
-        let widthPercentage = Float(shimmerWidth / shimmeringLayer.frame.width)
+        let widthPercentage = Float(tokens.shimmerWidth / shimmeringLayer.frame.width)
         let locationStart = NSNumber(value: 0.5 - widthPercentage / 2)
         let locationMiddle = NSNumber(value: 0.5)
         let locationEnd = NSNumber(value: 0.5 + widthPercentage / 2)
@@ -280,7 +168,7 @@ open class ShimmerView: UIView {
 
         let animation = CABasicAnimation(keyPath: "locations")
 
-        let widthPercentage = Float(shimmerWidth / shimmeringLayer.frame.width)
+        let widthPercentage = Float(tokens.shimmerWidth / shimmeringLayer.frame.width)
 
         let fromLocationStart = NSNumber(value: 0.0)
         let fromLocationMiddle = NSNumber(value: widthPercentage / 2.0)
@@ -294,17 +182,40 @@ open class ShimmerView: UIView {
         animation.fromValue = [fromLocationStart, fromLocationMiddle, fromLocationEnd]
         animation.toValue = [toLocationStart, toLocationMiddle, toLocationEnd]
 
-        let distance = (frame.width + shimmerWidth) / cos(shimmerAngle)
-        animation.duration = CFTimeInterval(distance / shimmerSpeed)
+        let distance = (frame.width + tokens.shimmerWidth) / cos(tokens.shimmerAngle)
+        animation.duration = CFTimeInterval(distance / tokens.shimmerSpeed)
         animation.fillMode = .forwards
 
         // Add animation (use a group to add a delay between animations)
         let animationGroup = CAAnimationGroup()
         animationGroup.animations = [animation]
-        animationGroup.duration = animation.duration + shimmerDelay
+        animationGroup.duration = animation.duration + tokens.shimmerDelay
         animationGroup.repeatCount = .infinity
         animationGroup.timeOffset = animationSynchronizer?.timeOffset(for: shimmeringLayer) ?? 0
         shimmeringLayer.add(animationGroup, forKey: "shimmering")
+    }
+
+    // MARK: - TokenizedControl
+    public typealias TokenType = ShimmerTokens
+    public func overrideTokens(_ tokens: ShimmerTokens?) -> Self {
+        overrideTokens = tokens
+        return self
+    }
+
+    /// Style to draw the control.
+    public var style: MSFShimmerStyle {
+        didSet {
+            tokens.style = style
+        }
+    }
+
+    var defaultTokens: ShimmerTokens = .init()
+    var tokens: ShimmerTokens = .init()
+    /// Design token set for this control, to use in place of the control's default Fluent tokens.
+    var overrideTokens: ShimmerTokens? {
+        didSet {
+            tokens = resolvedTokens
+        }
     }
 
     private func searchLeaves(in view: UIView, output: inout [UIView]) {
@@ -315,24 +226,5 @@ open class ShimmerView: UIView {
                 searchLeaves(in: v, output: &output)
             }
         }
-    }
-
-    private static let defaultWidth: CGFloat = 180
-    private static let defaultAngle: CGFloat = -(CGFloat.pi / 45.0)
-    private static let defaultSpeed: CGFloat = 350
-    private static let defaultDelay: TimeInterval = 0.4
-    private static let defaultCornerRadius: CGFloat = 4.0
-    private static let defaultLabelCornerRadius: CGFloat = 2.0
-    private static let defaultUsesTextHeightForLabels: Bool = false
-    private static let defaultLabelHeight: CGFloat = 11
-
-    private static let defaultShimmersLeafViews: Bool = false
-}
-
-public extension Colors {
-    struct Shimmer {
-        internal static var darkGradient: UIColor = .black
-        internal static var gradientCenter = UIColor(light: .white, dark: gray950)
-        public static var tint = UIColor(light: surfaceTertiary, lightHighContrast: Colors.Palette.gray400.color, dark: surfaceQuaternary, darkHighContrast: Colors.Palette.gray400.color)
     }
 }
