@@ -33,21 +33,27 @@ class ShimmerViewDemoController: DemoController {
 
         let shimmeringContentView = { (shimmersLeafViews: Bool) -> UIStackView in
             let containerView = contentView()
-            let shimmerView = ShimmerView(containerView: containerView, excludedViews: [], animationSynchronizer: nil)
+            // labelHeight must be < 0 so we actually use the bool usesTextHeightForLabels
+            let shimmerView = ShimmerView(containerView: containerView,
+                                          excludedViews: [],
+                                          animationSynchronizer: nil)
+                .overrideTokens(CustomShimmerTokens.init(shimmersLeafViews: shimmersLeafViews,
+                                                         usesTextHeightForLabels: true,
+                                                         labelHeight: -1))
             shimmerView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-            shimmerView.shimmersLeafViews = shimmersLeafViews
-            shimmerView.usesTextHeightForLabels = true
-            shimmerView.labelHeight = -1 // Must be < 0 so we actually use the bool usesTextHeightForLabels
             containerView.addSubview(shimmerView)
             return containerView
         }
 
-        let shimmeringImageView = { (shimmerStyle: ShimmerStyle) -> UIView in
-            let imageView = UIImageView(image: UIImage(named: "PlaceholderImage")?.withTintColor(Colors.Shimmer.tint, renderingMode: .alwaysOriginal))
+        let tintColor = DynamicColor(light: ColorValue(0xF1F1F1) /* gray50 */,
+                                     lightHighContrast: ColorValue(0x919191) /* gray400 */,
+                                     dark: ColorValue(0x424242) /* gray26 */,
+                                     darkHighContrast: ColorValue(0x919191) /* gray400 */)
+        let shimmeringImageView = { (shimmerStyle: MSFShimmerStyle) -> UIView in
+            let imageView = UIImageView(image: UIImage(named: "PlaceholderImage")?.withTintColor(UIColor(dynamicColor: tintColor), renderingMode: .alwaysOriginal))
             let containerView = UIStackView(arrangedSubviews: [imageView])
             let shimmerView = ShimmerView(containerView: containerView, excludedViews: [], animationSynchronizer: nil, shimmerStyle: shimmerStyle)
             shimmerView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-            shimmerView.shimmerStyle = shimmerStyle
             containerView.addSubview(shimmerView)
             return containerView
         }
@@ -61,7 +67,11 @@ class ShimmerViewDemoController: DemoController {
 
         container.addArrangedSubview(shimmerViewLabel("A ShimmerLinesView needs no containerview or subviews"))
         container.addArrangedSubview(dividers[0])
-        container.addArrangedSubview(ShimmerLinesView())
+        container.addArrangedSubview(ShimmerLinesView(lineCount: 3,
+                                                      lineHeight: 11,
+                                                      lineSpacing: 11,
+                                                      firstLineFillPercent: 0.94,
+                                                      lastLineFillPercent: 0.6))
         container.addArrangedSubview(dividers[1])
 
         container.addArrangedSubview(shimmerViewLabel("ShimmerView shimmers all the top level subviews of its container view"))
