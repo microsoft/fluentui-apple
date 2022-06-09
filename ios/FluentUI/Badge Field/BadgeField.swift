@@ -823,15 +823,25 @@ open class BadgeField: UIView {
     }
 
     open override func index(ofAccessibilityElement element: Any) -> Int {
-        if element as? UILabel == labelView {
+        guard element as? UILabel != labelView else {
+            // The label is always the first accessible element of the BadgeField.
             return 0
         }
 
-        let activeBadges = shouldUseConstrainedBadges ? constrainedBadges : badges
-        if let badge = element as? BadgeView, let index = activeBadges.firstIndex(of: badge) {
-            return isIntroductionLabelAccessible() ? index + 1 : index
+        guard element as? BadgeTextField != textField else {
+            // The text field is always the last accessible element of the BadgeField.
+            return accessibilityElementCount() - 1
         }
-        return accessibilityElementCount() - 1
+
+        let activeBadges = shouldUseConstrainedBadges ? constrainedBadges : badges
+        guard let badge = element as? BadgeView,
+              let index = activeBadges.firstIndex(of: badge) else {
+            // If it's an unknown element to the BadgeField, return NSNotFound
+            // which means the element does not exist in the control.
+            return NSNotFound
+        }
+
+        return isIntroductionLabelAccessible() ? index + 1 : index
     }
 
     private func isIntroductionLabelAccessible() -> Bool {
