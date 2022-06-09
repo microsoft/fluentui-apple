@@ -75,6 +75,7 @@ open class ActivityIndicatorCell: UITableViewCell, TokenizedControlInternal {
 
     open override func prepareForReuse() {
         super.prepareForReuse()
+        updateTokens()
         activityIndicator.state.isAnimating = true
     }
 

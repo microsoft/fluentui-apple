@@ -13,6 +13,8 @@ class OtherCellsDemoController: DemoController {
 
     private var tableView: UITableView!
 
+    private var overrideTokens: TableViewCellTokens?
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -29,6 +31,49 @@ class OtherCellsDemoController: DemoController {
         tableView.separatorColor = Colors.Separator.default
         tableView.tableFooterView = UIView(frame: .zero)
         view.addSubview(tableView)
+    }
+}
+
+extension OtherCellsDemoController: DemoAppearanceDelegate {
+    func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
+        guard let fluentTheme = self.view.window?.fluentTheme else {
+            return
+        }
+
+        var tokensClosure: ((ActionsCell) -> ActionsCellTokens)?
+        if isOverrideEnabled {
+            tokensClosure = { _ in
+                return ThemeWideOverrideActionsCellTokens()
+            }
+        }
+
+        fluentTheme.register(controlType: ActionsCell.self, tokens: tokensClosure)
+    }
+
+    func perControlOverrideDidChange(isOverrideEnabled: Bool) {
+        overrideTokens = isOverrideEnabled ? PerControlOverrideTableViewCellTokens() : nil
+        self.tableView.reloadData()
+    }
+
+    func isThemeWideOverrideApplied() -> Bool {
+        return self.view.window?.fluentTheme.tokenOverride(for: ActivityIndicatorCell.self) != nil
+    }
+
+    // MARK: - Custom tokens
+    private class ThemeWideOverrideActionsCellTokens: ActionsCellTokens {
+        override var regularTextColor: DynamicColor {
+            // "Charcoal"
+            return DynamicColor(light: GlobalTokens().sharedColors[.charcoal][.tint50],
+                                dark: GlobalTokens().sharedColors[.charcoal][.shade40])
+        }
+    }
+
+    private class PerControlOverrideTableViewCellTokens: TableViewCellTokens {
+        override var cellBackgroundColor: DynamicColor {
+            // "Burgundy"
+            return DynamicColor(light: GlobalTokens().sharedColors[.burgundy][.tint50],
+                                dark: GlobalTokens().sharedColors[.burgundy][.shade40])
+        }
     }
 }
 
@@ -59,6 +104,7 @@ extension OtherCellsDemoController: UITableViewDataSource {
 
         if let cell = tableView.dequeueReusableCell(withIdentifier: ActivityIndicatorCell.identifier) as? ActivityIndicatorCell,
            section.title == "ActivityIndicatorCell" {
+            cell.activityIndicatorCellOverrideTokens = overrideTokens
             return cell
         }
 
@@ -70,6 +116,7 @@ extension OtherCellsDemoController: UITableViewDataSource {
             cell.onValueChanged = { [unowned self, unowned cell] in
                 self.showAlertForSwitchTapped(isOn: cell.isOn)
             }
+            cell.tableViewCellOverrideTokens = overrideTokens
             return cell
         }
 
@@ -78,6 +125,7 @@ extension OtherCellsDemoController: UITableViewDataSource {
                 return UITableViewCell()
             }
             cell.setup(text: item.text1)
+            cell.centeredLabelCellOverrideTokens = overrideTokens
             return cell
         }
 

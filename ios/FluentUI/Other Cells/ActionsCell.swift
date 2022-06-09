@@ -234,6 +234,7 @@ open class ActionsCell: UITableViewCell, TokenizedControlInternal {
 
     open override func prepareForReuse() {
         super.prepareForReuse()
+        updateTokens()
         action1Button.removeTarget(nil, action: nil, for: .allEvents)
         action2Button.removeTarget(nil, action: nil, for: .allEvents)
     }
