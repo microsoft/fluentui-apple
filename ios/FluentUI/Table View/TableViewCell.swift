@@ -63,20 +63,9 @@ public enum TableViewCellAccessoryType: Int {
 public extension Colors {
     internal struct Table {
         struct Cell {
-            static var background: UIColor = surfacePrimary
             static var image: UIColor = iconSecondary
             static var title: UIColor = textPrimary
             static var subtitle: UIColor = textSecondary
-            static var accessoryDisclosureIndicator: UIColor = iconSecondary
-            static var accessoryDetailButton: UIColor = iconSecondary
-            static var selectionIndicatorOff: UIColor = iconSecondary
-        }
-
-        struct ActionCell {
-            static var textDestructive: UIColor = error
-            static var textDestructiveHighlighted: UIColor = error.withAlphaComponent(0.4)
-            static var textCommunication: UIColor = communicationBlue
-            static var textCommunicationHighlighted: UIColor = communicationBlue.withAlphaComponent(0.4)
         }
 
         struct HeaderFooter {

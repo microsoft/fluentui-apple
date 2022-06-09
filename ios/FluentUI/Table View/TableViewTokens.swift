@@ -129,6 +129,9 @@ open class TableViewCellTokens: ControlTokens {
     /// The leading padding in the cell.
     open var paddingLeading: CGFloat { globalTokens.spacing[.medium] }
 
+    /// The vertical padding in the cell.
+    open var paddingVertical: CGFloat = 11
+
     /// The trailing padding in the cell.
     open var paddingTrailing: CGFloat { globalTokens.spacing[.medium] }
 
@@ -148,4 +151,15 @@ open class TableViewCellTokens: ControlTokens {
     case zero
     case small
     case medium
+}
+
+open class ActionsCellTokens: TableViewCellTokens {
+    /// The trailing margin of the customView.
+    open var regularTextColor: DynamicColor { globalTokens.brandColors[.primary] }
+
+    open var destructiveTextColor: DynamicColor { DynamicColor(light: ColorValue(0xD92C2C),
+                                                    dark: ColorValue(0xE83A3A)) }
+
+    open var communicationTextColor: DynamicColor { DynamicColor(light: ColorValue(0x0078D4),
+                                                    dark: ColorValue(0x0086F0)) }
 }
