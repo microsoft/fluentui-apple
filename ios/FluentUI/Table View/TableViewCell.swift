@@ -698,9 +698,10 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     @objc open var customViewSize: MSFTableViewCellCustomViewSize {
         get {
             if customView == nil {
-                return .zero
+                tokens.customViewSize = .zero
+            } else {
+                tokens.customViewSize = _customViewSize == .default ? layoutType.customViewSize : _customViewSize
             }
-            tokens.customViewSize = _customViewSize == .default ? layoutType.customViewSize : _customViewSize
             return tokens.customViewSize
         }
         set {
