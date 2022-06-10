@@ -216,9 +216,9 @@ extension PillButtonBarDemoController: DemoAppearanceDelegate {
             return
         }
 
-        var tokensClosure: ((PillButton) -> PillButtonTokens)?
+        var tokensClosure: (() -> PillButtonTokens)?
         if isOverrideEnabled {
-            tokensClosure = { _ in
+            tokensClosure = {
                 return ThemeWideOverridePillButtonTokens()
             }
         }

@@ -201,9 +201,9 @@ extension TabBarViewDemoController: DemoAppearanceDelegate {
             return
         }
 
-        var tokensClosure: ((TabBarView) -> TabBarTokens)?
+        var tokensClosure: (() -> TabBarTokens)?
         if isOverrideEnabled {
-            tokensClosure = { _ in
+            tokensClosure = {
                 return ThemeWideOverrideTabBarTokens()
             }
         }

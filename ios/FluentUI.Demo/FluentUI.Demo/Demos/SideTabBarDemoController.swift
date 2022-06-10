@@ -331,9 +331,9 @@ extension SideTabBarDemoController: DemoAppearanceDelegate {
             return
         }
 
-        var tokensClosure: ((SideTabBar) -> SideTabBarTokens)?
+        var tokensClosure: (() -> SideTabBarTokens)?
         if isOverrideEnabled {
-            tokensClosure = { _ in
+            tokensClosure = {
                 return ThemeWideOverrideSideTabBarTokens()
             }
         }

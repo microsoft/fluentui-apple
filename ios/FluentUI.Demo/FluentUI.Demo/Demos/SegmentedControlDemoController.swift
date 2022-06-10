@@ -119,9 +119,9 @@ extension SegmentedControlDemoController: DemoAppearanceDelegate {
             return
         }
 
-        var tokensClosure: ((SegmentedControl) -> SegmentedControlTokens)?
+        var tokensClosure: (() -> SegmentedControlTokens)?
         if isOverrideEnabled {
-            tokensClosure = { _ in
+            tokensClosure = {
                 return ThemeWideOverrideSegmentedControlTokens()
             }
         }

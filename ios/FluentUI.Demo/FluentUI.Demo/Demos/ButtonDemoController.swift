@@ -311,9 +311,9 @@ extension ButtonDemoController: DemoAppearanceDelegate {
             return
         }
 
-        var tokensClosure: ((FluentButton) -> ButtonTokens)?
+        var tokensClosure: (() -> ButtonTokens)?
         if isOverrideEnabled {
-            tokensClosure = { _ in
+            tokensClosure = {
                 return ThemeWideOverrideButtonTokens()
             }
         }
