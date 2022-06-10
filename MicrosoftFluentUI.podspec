@@ -281,7 +281,7 @@ fi', :execution_position => :before_compile }
     shimmer_ios.platform = :ios
     shimmer_ios.dependency 'MicrosoftFluentUI/Core_ios'
     shimmer_ios.dependency 'MicrosoftFluentUI/Utilities_ios'
-    shimmer_ios.source_files = ["ios/FluentUI/Shimmer/**/*.{swift,h}"]
+    shimmer_ios.source_files = ["ios/FluentUI/Vnext/Shimmer/**/*.{swift,h}"]
   end
 
   s.subspec 'TabBar_ios' do |tabbar_ios|
