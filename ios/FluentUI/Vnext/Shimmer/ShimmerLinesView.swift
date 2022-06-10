@@ -14,18 +14,12 @@ open class ShimmerLinesView: ShimmerView {
 	/// Creates the ShimmerLinesView
 	/// - Parameters:
 	///   - lineCount: Number of lines that will shimmer in this view. Use 0 if the number of lines should fill the available space.
-	///   - lineHeight: Height of shimmering line
-	///   - lineSpacing: Spacing between lines (if lines > 1)
 	///   - firstLineFillPercent: The percent the first line (if 2+ lines) should fill the available horizontal space
 	///   - lastLineFillPercent: The percent the last line should fill the available horizontal space.
 	@objc public init(lineCount: Int,
-					  lineHeight: CGFloat,
-					  lineSpacing: CGFloat,
 					  firstLineFillPercent: CGFloat,
 					  lastLineFillPercent: CGFloat) {
 		self.lineCount = lineCount
-		self.lineHeight = lineHeight
-		self.lineSpacing = lineSpacing
 		self.firstLineFillPercent = firstLineFillPercent
 		self.lastLineFillPercent = lastLineFillPercent
 
@@ -51,9 +45,10 @@ open class ShimmerLinesView: ShimmerView {
 				}
 			}()
 
-			linelayer.frame = CGRect(x: 0, y: currentTop, width: fillPercent * frame.width, height: lineHeight)
+			let labelHeight = tokens.labelHeight
+			linelayer.frame = CGRect(x: 0, y: currentTop, width: fillPercent * frame.width, height: labelHeight)
 
-			currentTop += lineHeight + lineSpacing
+			currentTop += labelHeight + tokens.labelSpacing
 		}
 
 		shimmeringLayer.frame = CGRect(x: -tokens.shimmerWidth, y: 0.0, width: frame.width + 2 * tokens.shimmerWidth, height: frame.height)
@@ -65,7 +60,7 @@ open class ShimmerLinesView: ShimmerView {
 
 	open override func sizeThatFits(_ size: CGSize) -> CGSize {
 		let desiredLineCount = CGFloat(lineCount(for: size.height))
-		let height = desiredLineCount * lineHeight + (desiredLineCount - 1) * lineSpacing
+		let height = desiredLineCount * tokens.labelHeight + (desiredLineCount - 1) * tokens.labelSpacing
 		return CGSize(width: size.width, height: height)
 	}
 
@@ -94,41 +89,16 @@ open class ShimmerLinesView: ShimmerView {
 
 	@objc private func lineCount(for availableHeight: CGFloat) -> Int {
 		if lineCount == 0 {
+			let lineSpacing = tokens.labelSpacing
 			// Deduce lines count based on available height
-			return Int(floor((availableHeight + lineSpacing) / (lineHeight + lineSpacing)))
+			return Int(floor((availableHeight + lineSpacing) / (tokens.labelHeight + lineSpacing)))
 		} else {
 			// Hardcoded lines count
 			return lineCount
 		}
 	}
 
-	private var lineCount: Int {
-		didSet {
-			setNeedsLayout()
-		}
-	}
-
-	private var lineHeight: CGFloat {
-		didSet {
-			setNeedsLayout()
-		}
-	}
-
-	private var lineSpacing: CGFloat {
-		didSet {
-			setNeedsLayout()
-		}
-	}
-
-	private var firstLineFillPercent: CGFloat {
-		didSet {
-			setNeedsLayout()
-		}
-	}
-
-	private var lastLineFillPercent: CGFloat {
-		didSet {
-			setNeedsLayout()
-		}
-	}
+	private var lineCount: Int
+	private var firstLineFillPercent: CGFloat
+	private var lastLineFillPercent: CGFloat
 }

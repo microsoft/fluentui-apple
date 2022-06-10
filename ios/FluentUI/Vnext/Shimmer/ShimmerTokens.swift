@@ -74,55 +74,9 @@ open class ShimmerTokens: ControlTokens {
     /// Corner radius on each UILabel. Set to  0 to disable and use default `cornerRadius`.
     open var labelCornerRadius: CGFloat { globalTokens.borderRadius[.small] }
 
-    /// True to enable shimmers to auto-adjust to font height for a UILabel -- this will more accurately reflect the text in the label rect rather than using the bounding box.
-    open var usesTextHeightForLabels: Bool { false }
-
-    /// If greater than 0, a fixed height to use for all UILabels. This will take precedence over `usesTextHeightForLabels`. Set to less than 0 to disable.
+    /// Height of shimmering labels.
     open var labelHeight: CGFloat { 11.0 }
 
-    /// Determines whether we shimmer the top level subviews, or the leaf nodes of the view heirarchy
-    open var shimmersLeafViews: Bool { false }
-}
-
-// This custom tokens class is used to override only the three ShimmerTokens values
-// that we want to expose publicly to consumers of the Shimmer.
-open class CustomShimmerTokens: ShimmerTokens {
-    @available(*, unavailable)
-    required public init() {
-        preconditionFailure("init() has not been implemented")
-    }
-
-    public init (shimmersLeafViews: Bool?,
-                 usesTextHeightForLabels: Bool?,
-                 labelHeight: CGFloat?) {
-        if let shimmersLeafViews = shimmersLeafViews {
-            shimmersLeafViewsOverride = shimmersLeafViews
-        }
-
-        if let usesTextHeightForLabels = usesTextHeightForLabels {
-            usesTextHeightForLabelsOverride = usesTextHeightForLabels
-        }
-
-        if let labelHeight = labelHeight {
-            labelHeightOverride = labelHeight
-        }
-
-        super.init()
-    }
-
-    public override var shimmersLeafViews: Bool {
-        self.shimmersLeafViewsOverride ?? super.shimmersLeafViews
-    }
-
-    public override var usesTextHeightForLabels: Bool {
-        self.usesTextHeightForLabelsOverride ?? super.usesTextHeightForLabels
-    }
-
-    public override var labelHeight: CGFloat {
-        self.labelHeightOverride ?? super.labelHeight
-    }
-
-    var shimmersLeafViewsOverride: Bool?
-    var usesTextHeightForLabelsOverride: Bool?
-    var labelHeightOverride: CGFloat?
+    /// Spacing between (if lines > 1)
+    open var labelSpacing: CGFloat { 12.0 }
 }
