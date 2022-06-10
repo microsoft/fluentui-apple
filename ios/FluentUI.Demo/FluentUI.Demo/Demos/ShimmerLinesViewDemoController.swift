@@ -33,13 +33,11 @@ class ShimmerViewDemoController: DemoController {
 
         let shimmeringContentView = { (shimmersLeafViews: Bool) -> UIStackView in
             let containerView = contentView()
-            // labelHeight must be < 0 so we actually use the bool usesTextHeightForLabels
             let shimmerView = ShimmerView(containerView: containerView,
                                           excludedViews: [],
-                                          animationSynchronizer: nil)
-                .overrideTokens(CustomShimmerTokens.init(shimmersLeafViews: shimmersLeafViews,
-                                                         usesTextHeightForLabels: true,
-                                                         labelHeight: -1))
+                                          animationSynchronizer: nil,
+                                          shimmersLeafViews: shimmersLeafViews,
+                                          usesTextHeightForLabels: true)
             shimmerView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
             containerView.addSubview(shimmerView)
             return containerView
@@ -68,8 +66,6 @@ class ShimmerViewDemoController: DemoController {
         container.addArrangedSubview(shimmerViewLabel("A ShimmerLinesView needs no containerview or subviews"))
         container.addArrangedSubview(dividers[0])
         container.addArrangedSubview(ShimmerLinesView(lineCount: 3,
-                                                      lineHeight: 11,
-                                                      lineSpacing: 11,
                                                       firstLineFillPercent: 0.94,
                                                       lastLineFillPercent: 0.6))
         container.addArrangedSubview(dividers[1])

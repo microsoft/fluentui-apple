@@ -28,10 +28,14 @@ open class ShimmerView: UIView, TokenizedControlInternal, ControlConfiguration {
     /// - Parameter excludedViews: subviews of `containerView` to exclude from shimmer
     /// - Parameter animationSynchronizer: optional synchronizer to sync multiple shimmer views
     /// - Parameter shimmerStyle: determines whether the shimmer is a revealing shimmer or a concealing shimmer
+    /// - Parameter shimmersLeafViews: True to enable shimmers to auto-adjust to font height for a UILabel -- this will more accurately reflect the text in the label rect rather than using the bounding box.
+    /// - Parameter usesTextHeightForLabels: Determines whether we shimmer the top level subviews, or the leaf nodes of the view hierarchy. If false, we use default height of 11.0
     @objc public init(containerView: UIView? = nil,
                       excludedViews: [UIView] = [],
                       animationSynchronizer: AnimationSynchronizerProtocol? = nil,
-                      shimmerStyle: MSFShimmerStyle = .revealing) {
+                      shimmerStyle: MSFShimmerStyle = .revealing,
+                      shimmersLeafViews: Bool = false,
+                      usesTextHeightForLabels: Bool = false) {
         self.style = shimmerStyle
 
         let tokens = ShimmerTokens()
@@ -41,6 +45,8 @@ open class ShimmerView: UIView, TokenizedControlInternal, ControlConfiguration {
         self.containerView = containerView
         self.excludedViews = excludedViews
         self.animationSynchronizer = animationSynchronizer
+        self.shimmersLeafViews = shimmersLeafViews
+        self.usesTextHeightForLabels = usesTextHeightForLabels
         super.init(frame: CGRect(origin: .zero, size: containerView?.bounds.size ?? .zero))
 
         NotificationCenter.default.addObserver(self,
@@ -81,7 +87,7 @@ open class ShimmerView: UIView, TokenizedControlInternal, ControlConfiguration {
         viewCoverLayers.forEach { $0.removeFromSuperlayer() }
 
         let subviews: Set<UIView> = {
-            if tokens.shimmersLeafViews {
+            if shimmersLeafViews {
                 var leaves = [UIView]()
                 searchLeaves(in: viewToCover, output: &leaves)
                 return Set(leaves).subtracting(Set(excludedViews))
@@ -100,12 +106,11 @@ open class ShimmerView: UIView, TokenizedControlInternal, ControlConfiguration {
             var coverFrame = viewToCover.convert(subview.bounds, from: subview)
             if let label = subview as? UILabel {
                 let viewLabelHeight: CGFloat? = {
-                    if tokens.labelHeight >= 0 {
-                        return tokens.labelHeight
-                    } else if tokens.usesTextHeightForLabels {
+                    if usesTextHeightForLabels {
                         return label.font.deviceLineHeight
+                    } else {
+                        return tokens.labelHeight
                     }
-                    return nil
                 }()
 
                 if let viewLabelHeight = viewLabelHeight {
@@ -227,4 +232,7 @@ open class ShimmerView: UIView, TokenizedControlInternal, ControlConfiguration {
             }
         }
     }
+
+    private var shimmersLeafViews: Bool
+    private var usesTextHeightForLabels: Bool
 }
