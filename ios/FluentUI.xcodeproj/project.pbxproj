@@ -13,7 +13,6 @@
 		0AC8A8B227C72D4600D9FAF5 /* MSFPersonaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC8A8B127C72D4600D9FAF5 /* MSFPersonaView.swift */; };
 		0ACD82192620453B0035CD9F /* PersonaViewTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACD82172620453B0035CD9F /* PersonaViewTokens.swift */; };
 		0AD70F5B26E80A5D008774EC /* CommandBarTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD70F5926E80A5D008774EC /* CommandBarTokens.swift */; };
-		2A9745DE281733D700E1A1FD /* TableViewTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9745DD281733D700E1A1FD /* TableViewTokens.swift */; };
 		43488C46270FAD1300124C71 /* FluentNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43488C44270FAD0200124C71 /* FluentNotification.swift */; };
 		4B1596D3284ACB5F00C3D725 /* ShimmerTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1596D2284ACB5F00C3D725 /* ShimmerTokens.swift */; };
 		4B53505F27F63E3F0033B47F /* NotificationModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B53505E27F63E3F0033B47F /* NotificationModifiers.swift */; };
@@ -114,6 +113,7 @@
 		5314E1A225F01A7C0099271A /* ActivityIndicatorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E782C221793AB200A7DFCE /* ActivityIndicatorCell.swift */; };
 		5314E1A325F01A7C0099271A /* TableViewHeaderFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EF66502294A664007FEAB0 /* TableViewHeaderFooterView.swift */; };
 		5314E1A425F01A7C0099271A /* CenteredLabelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E782C62179509A00A7DFCE /* CenteredLabelCell.swift */; };
+		2A9745DE281733D700E1A1FD /* TableViewTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9745DD281733D700E1A1FD /* TableViewTokens.swift */; };
 		5314E1A525F01A7C0099271A /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B498141321E424920077B48D /* TableViewCell.swift */; };
 		5314E1A625F01A7C0099271A /* BooleanCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B441478C228CDA130040E88E /* BooleanCell.swift */; };
 		5314E1A725F01A7C0099271A /* ActionsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E782C02176AD5E00A7DFCE /* ActionsCell.swift */; };
@@ -250,7 +250,6 @@
 		1168630222E131CF0088B302 /* TabBarItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarItemView.swift; sourceTree = "<group>"; };
 		1168630322E131CF0088B302 /* TabBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
 		118D9847230BBA2300BC0B72 /* TabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItem.swift; sourceTree = "<group>"; };
-		2A9745DD281733D700E1A1FD /* TableViewTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewTokens.swift; sourceTree = "<group>"; };
 		43488C44270FAD0200124C71 /* FluentNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluentNotification.swift; sourceTree = "<group>"; };
 		497DC2D724185885008D86F8 /* PillButtonBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButtonBar.swift; sourceTree = "<group>"; };
 		497DC2D824185885008D86F8 /* PillButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButton.swift; sourceTree = "<group>"; };
@@ -381,6 +380,7 @@
 		B46D3F9C215985AC0029772C /* PersonaListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaListView.swift; sourceTree = "<group>"; };
 		B47B58B722F8E5840078DE38 /* PeoplePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeoplePicker.swift; sourceTree = "<group>"; };
 		B483323621DEB5A00022B4CC /* TouchForwardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchForwardingView.swift; sourceTree = "<group>"; };
+		2A9745DD281733D700E1A1FD /* TableViewTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewTokens.swift; sourceTree = "<group>"; };
 		B498141321E424920077B48D /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		B4A8BBCC21BF6D6900D5E3ED /* BadgeStringExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeStringExtractor.swift; sourceTree = "<group>"; };
 		B4BA27872319DC0D0001563C /* PersonaBadgeViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaBadgeViewDataSource.swift; sourceTree = "<group>"; };
@@ -390,7 +390,7 @@
 		B4EF53C2215AF1AB00573E8F /* Persona.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persona.swift; sourceTree = "<group>"; };
 		B4EF66502294A664007FEAB0 /* TableViewHeaderFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewHeaderFooterView.swift; sourceTree = "<group>"; };
 		C0938E43235E8ED500256251 /* AnimationSynchronizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationSynchronizer.swift; sourceTree = "<group>"; };
-		C0A0D76B233AEF6C00F432FD /* ShimmerLinesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShimmerLinesView.swift; sourceTree = "<group>"; usesTabs = 1; };
+		C0A0D76B233AEF6C00F432FD /* ShimmerLinesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShimmerLinesView.swift; sourceTree = "<group>"; };
 		C0EAAEAC2347E1DF00C7244E /* ShimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerView.swift; sourceTree = "<group>"; };
 		C708B04B260A8696007190FA /* SegmentItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentItem.swift; sourceTree = "<group>"; };
 		C708B055260A86FA007190FA /* SegmentPillButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentPillButton.swift; sourceTree = "<group>"; };
