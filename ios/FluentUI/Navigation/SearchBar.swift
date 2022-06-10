@@ -574,6 +574,57 @@ open class SearchBar: UIView {
     private func dismissKeyboard() {
         searchTextField.resignFirstResponder()
     }
+
+    // MARK: - Cancel Button Accessibility Properties
+
+    public var cancelButtonAccessibilityHint: String? {
+        get { return cancelButton.accessibilityHint }
+        set { cancelButton.accessibilityHint = newValue }
+    }
+
+    public var cancelButtonAccessibilityLabel: String? {
+        get { return cancelButton.accessibilityLabel }
+        set { cancelButton.accessibilityLabel = newValue }
+    }
+
+    public var cancelButtonAccessibilityIdentifier: String? {
+        get { return cancelButton.accessibilityIdentifier }
+        set { cancelButton.accessibilityIdentifier = newValue }
+    }
+
+    // MARK: - Clear Button Accessibility Properties
+
+    public var clearButtonAccessibilityHint: String? {
+        get { return clearButton.accessibilityHint }
+        set { clearButton.accessibilityHint = newValue }
+    }
+
+    public var clearButtonAccessibilityLabel: String? {
+        get { return clearButton.accessibilityLabel }
+        set { clearButton.accessibilityLabel = newValue }
+    }
+
+    public var clearButtonAccessibilityIdentifier: String? {
+        get { return clearButton.accessibilityIdentifier }
+        set { clearButton.accessibilityIdentifier = newValue }
+    }
+
+    // MARK: - Search Text Field Accessibility Properties
+
+    public var searchTextFieldAccessibilityHint: String? {
+        get { return searchTextField.accessibilityHint }
+        set { searchTextField.accessibilityHint = newValue }
+    }
+
+    public var searchTextFieldAccessibilityLabel: String? {
+        get { return searchTextField.accessibilityLabel }
+        set { searchTextField.accessibilityLabel = newValue }
+    }
+
+    public var searchTextFieldAccessibilityIdentifier: String? {
+        get { return searchTextField.accessibilityIdentifier }
+        set { searchTextField.accessibilityIdentifier = newValue }
+    }
 }
 
 // MARK: - SearchBar: UITextFieldDelegate
