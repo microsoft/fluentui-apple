@@ -108,8 +108,4 @@ open class CenteredLabelCell: UITableViewCell, TokenizedControlInternal {
     open override func setHighlighted(_ highlighted: Bool, animated: Bool) { }
 
     open override func setSelected(_ selected: Bool, animated: Bool) { }
-
-    private struct Constants {
-        static let paddingVertical: CGFloat = 11
-    }
 }

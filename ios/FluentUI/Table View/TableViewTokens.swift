@@ -154,12 +154,14 @@ open class TableViewCellTokens: ControlTokens {
 }
 
 open class ActionsCellTokens: TableViewCellTokens {
-    /// The trailing margin of the customView.
+    /// The regular text color in an ActionsCell
     open var regularTextColor: DynamicColor { globalTokens.brandColors[.primary] }
 
+    /// The destructive text color in an ActionsCell.
     open var destructiveTextColor: DynamicColor { DynamicColor(light: ColorValue(0xD92C2C),
                                                     dark: ColorValue(0xE83A3A)) }
 
+    /// The communication text color in an ActionsCell.
     open var communicationTextColor: DynamicColor { DynamicColor(light: ColorValue(0x0078D4),
                                                     dark: ColorValue(0x0086F0)) }
 }
