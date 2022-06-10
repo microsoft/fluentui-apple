@@ -49,9 +49,13 @@ class SegmentPillButton: UIButton {
         super.init(frame: .zero)
 
         let title = item.title
-        self.setTitle(title, for: .normal)
-        self.accessibilityLabel = title
-        self.largeContentTitle = title
+        if let image = item.image {
+            self.setImage(image, for: .normal)
+            self.accessibilityLabel = title
+            self.largeContentTitle = title
+        } else {
+            self.setTitle(title, for: .normal)
+        }
         self.showsLargeContentViewer = true
 
         NotificationCenter.default.addObserver(self,

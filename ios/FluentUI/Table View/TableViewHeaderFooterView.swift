@@ -396,7 +396,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         switch style {
         case .header, .footer, .headerPrimary:
             titleYOffset = style == .footer ? Constants.titleDefaultBottomMargin : Constants.titleDefaultTopMargin
-            titleHeight = contentView.frame.height - Constants.titleDefaultTopMargin - Constants.titleDefaultBottomMargin
+            titleHeight = contentView.frame.height - titleYOffset - Constants.titleDefaultBottomMargin
         case .divider, .dividerHighlighted:
             titleYOffset = Constants.titleDividerVerticalMargin
             titleHeight = contentView.frame.height - (Constants.titleDividerVerticalMargin * 2)

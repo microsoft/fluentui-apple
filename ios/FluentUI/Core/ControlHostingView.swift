@@ -14,7 +14,19 @@ open class ControlHostingView: UIView {
         guard let hostedView = hostingController.view else {
             return super.intrinsicContentSize
         }
+
+        // Our desired size should always be the same as our hosted view.
         return hostedView.intrinsicContentSize
+    }
+
+    /// Asks the view to calculate and return the size that best fits the specified size.
+    @objc public override func sizeThatFits(_ size: CGSize) -> CGSize {
+        guard let hostedView = hostingController.view else {
+            return super.sizeThatFits(size)
+        }
+
+        // Our desired size should always be the same as our hosted view.
+        return hostedView.sizeThatFits(size)
     }
 
     /// Initializes and returns an instance of `ControlHostingContainer` that wraps `controlView`.
@@ -55,11 +67,6 @@ open class ControlHostingView: UIView {
 
         addSubview(hostedView)
         hostedView.translatesAutoresizingMaskIntoConstraints = false
-
-        // Initialize our frame with the hosted view's initial bounds so we don't start as a (0,0,0,0) view.
-        // Future updates will be handled by the autolayout constraints below.
-        hostedView.sizeToFit()
-        self.frame = hostedView.bounds
 
         let requiredConstraints = [
             hostedView.leadingAnchor.constraint(equalTo: leadingAnchor),

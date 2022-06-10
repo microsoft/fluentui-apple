@@ -141,6 +141,8 @@ class CommandBarDemoController: DemoController {
         }
     }
 
+    var defaultCommandBar: CommandBar?
+
     let textField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -156,6 +158,110 @@ class CommandBarDemoController: DemoController {
         container.layoutMargins.left = 0
         view.backgroundColor = Colors.surfaceSecondary
 
+        container.addArrangedSubview(createLabelWithText("Default"))
+
+        let commandBar = CommandBar(itemGroups: createItemGroups(), leadingItemGroups: [[newItem(for: .keyboard)]])
+        commandBar.backgroundColor = Colors.navigationBarBackground
+        container.addArrangedSubview(commandBar)
+        defaultCommandBar = commandBar
+
+        let itemCustomizationContainer = UIStackView()
+        itemCustomizationContainer.spacing = CommandBarDemoController.verticalStackViewSpacing
+        itemCustomizationContainer.axis = .vertical
+        itemCustomizationContainer.backgroundColor = Colors.navigationBarBackground
+
+        itemCustomizationContainer.addArrangedSubview(UIView()) //Spacer
+
+        let refreshButton = MSFButton(style: .secondary,
+                                      size: .small) { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+            strongSelf.refreshDefaultBarItems()
+        }
+        refreshButton.state.text = "Refresh 'Default' Bar"
+        itemCustomizationContainer.addArrangedSubview(refreshButton)
+
+        let removeTrailingItemButton = MSFButton(style: .secondary,
+                                                 size: .small) { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+            strongSelf.removeDefaultTrailingBarItems()
+        }
+        removeTrailingItemButton.state.text = "Remove Trailing Button"
+        itemCustomizationContainer.addArrangedSubview(removeTrailingItemButton)
+
+        let refreshTrailingItemButton = MSFButton(style: .secondary,
+                                                  size: .small) { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+            strongSelf.refreshDefaultTrailingBarItems()
+        }
+        refreshTrailingItemButton.state.text = "Refresh Trailing Button"
+        itemCustomizationContainer.addArrangedSubview(refreshTrailingItemButton)
+
+        let removeLeadingItemButton = MSFButton(style: .secondary,
+                                                size: .small) { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+            strongSelf.removeDefaultLeadingBarItems()
+        }
+        removeLeadingItemButton.state.text = "Remove Leading Button"
+        itemCustomizationContainer.addArrangedSubview(removeLeadingItemButton)
+
+        let refreshLeadingItemButton = MSFButton(style: .secondary,
+                                                 size: .small) { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+            strongSelf.refreshDefaultLeadingBarItems()
+        }
+        refreshLeadingItemButton.state.text = "Refresh Leading Button"
+        itemCustomizationContainer.addArrangedSubview(refreshLeadingItemButton)
+
+        let customizationStackView = UIStackView()
+        customizationStackView.axis = .horizontal
+        customizationStackView.alignment = .fill
+        customizationStackView.distribution = .fillProportionally
+        customizationStackView.addArrangedSubview(createLabelWithText("'+' Item Enabled"))
+        let itemEnabledSwitch: UISwitch = UISwitch()
+        itemEnabledSwitch.isOn = true
+        itemEnabledSwitch.addTarget(self, action: #selector(itemEnabledValueChanged), for: .valueChanged)
+        customizationStackView.addArrangedSubview(itemEnabledSwitch)
+        itemCustomizationContainer.addArrangedSubview(customizationStackView)
+
+        itemCustomizationContainer.addArrangedSubview(UIView()) //Spacer
+
+        container.addArrangedSubview(itemCustomizationContainer)
+
+        container.addArrangedSubview(createLabelWithText("With Fixed Button"))
+
+        let fixedButtonCommandBar = CommandBar(itemGroups: createItemGroups(), leadingItemGroups: [[newItem(for: .copy)]], trailingItemGroups: [[newItem(for: .keyboard)]])
+        fixedButtonCommandBar.backgroundColor = Colors.navigationBarBackground
+        container.addArrangedSubview(fixedButtonCommandBar)
+
+        container.addArrangedSubview(createLabelWithText("In Input Accessory View"))
+
+        let textFieldContainer = UIView()
+        textFieldContainer.backgroundColor = Colors.navigationBarBackground
+        textFieldContainer.addSubview(textField)
+        NSLayoutConstraint.activate([
+            textField.topAnchor.constraint(equalTo: textFieldContainer.topAnchor, constant: 16.0),
+            textField.leadingAnchor.constraint(equalTo: textFieldContainer.leadingAnchor, constant: 16.0),
+            textFieldContainer.bottomAnchor.constraint(equalTo: textField.bottomAnchor, constant: 16.0),
+            textFieldContainer.trailingAnchor.constraint(equalTo: textField.trailingAnchor, constant: 16.0)
+        ])
+
+        container.addArrangedSubview(textFieldContainer)
+
+        let accessoryCommandBar = CommandBar(itemGroups: createItemGroups(), trailingItemGroups: [[newItem(for: .keyboard)]])
+        textField.inputAccessoryView = accessoryCommandBar
+    }
+
+    func createItemGroups() -> [CommandBarItemGroup] {
         let commandGroups: [[Command]] = [
             [
                 .add,
@@ -204,32 +310,7 @@ class CommandBarDemoController: DemoController {
                                           UIAction(title: "Copy Text", image: UIImage(named: "text24Regular"), handler: { _ in })])
         copyItem.showsMenuAsPrimaryAction = true
 
-        container.addArrangedSubview(createLabelWithText("Default"))
-
-        let defaultCommandBar = CommandBar(itemGroups: itemGroups)
-        container.addArrangedSubview(defaultCommandBar)
-
-        container.addArrangedSubview(createLabelWithText("With Fixed Button"))
-
-        let fixedButtonCommandBar = CommandBar(itemGroups: itemGroups, leadingItem: newItem(for: .copy), trailingItem: newItem(for: .keyboard))
-        container.addArrangedSubview(fixedButtonCommandBar)
-
-        container.addArrangedSubview(createLabelWithText("In Input Accessory View"))
-
-        let textFieldContainer = UIView()
-        textFieldContainer.backgroundColor = Colors.navigationBarBackground
-        textFieldContainer.addSubview(textField)
-        NSLayoutConstraint.activate([
-            textField.topAnchor.constraint(equalTo: textFieldContainer.topAnchor, constant: 16.0),
-            textField.leadingAnchor.constraint(equalTo: textFieldContainer.leadingAnchor, constant: 16.0),
-            textFieldContainer.bottomAnchor.constraint(equalTo: textField.bottomAnchor, constant: 16.0),
-            textFieldContainer.trailingAnchor.constraint(equalTo: textField.trailingAnchor, constant: 16.0)
-        ])
-
-        container.addArrangedSubview(textFieldContainer)
-
-        let accessoryCommandBar = CommandBar(itemGroups: itemGroups, trailingItem: newItem(for: .keyboard))
-        textField.inputAccessoryView = accessoryCommandBar
+        return itemGroups
     }
 
     func createLabelWithText(_ text: String = "") -> Label {
@@ -274,4 +355,34 @@ class CommandBarDemoController: DemoController {
             present(alert, animated: true)
         }
     }
+
+    @objc func itemEnabledValueChanged(sender: UISwitch!) {
+        guard let item: CommandBarItem = defaultCommandBar?.itemGroups[0][0] else {
+            return
+        }
+
+        item.isEnabled = sender.isOn
+    }
+
+    @objc func refreshDefaultBarItems() {
+        defaultCommandBar?.itemGroups = createItemGroups()
+    }
+
+    @objc func removeDefaultTrailingBarItems() {
+        defaultCommandBar?.trailingItemGroups = []
+    }
+
+    @objc func refreshDefaultTrailingBarItems() {
+        defaultCommandBar?.trailingItemGroups = [[newItem(for: .keyboard)]]
+    }
+
+    @objc func removeDefaultLeadingBarItems() {
+        defaultCommandBar?.leadingItemGroups = []
+    }
+
+    @objc func refreshDefaultLeadingBarItems() {
+        defaultCommandBar?.leadingItemGroups = [[newItem(for: .keyboard)]]
+    }
+
+    private static let verticalStackViewSpacing: CGFloat = 8.0
 }
