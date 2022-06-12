@@ -214,7 +214,7 @@ extension DividerDemoController: DemoAppearanceDelegate {
             return
         }
         if isOverrideEnabled {
-            fluentTheme.register(controlType: FluentDivider.self, tokens: { _ in
+            fluentTheme.register(controlType: FluentDivider.self, tokens: {
                 ThemeWideOverrideDividerTokens()
             })
         } else {

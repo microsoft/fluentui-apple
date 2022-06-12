@@ -116,9 +116,9 @@ extension TableViewCellDemoController: DemoAppearanceDelegate {
             return
         }
 
-        var tokensClosure: ((TableViewCell) -> TableViewCellTokens)?
+        var tokensClosure: (() -> TableViewCellTokens)?
         if isOverrideEnabled {
-            tokensClosure = { _ in
+            tokensClosure = {
                 return ThemeWideOverrideTableViewCellTokens()
             }
         }

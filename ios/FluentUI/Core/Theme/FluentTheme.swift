@@ -22,29 +22,29 @@ import SwiftUI
     /// Registers a custom set of `ControlTokens` for a given `TokenizedControl`.
     ///
     /// - Parameters:
-    ///   - control: The control to use custom tokens on.
+    ///   - controlType: The control type to use custom tokens on.
     ///   - tokens: A closure that returns a custom set of tokens.
-    public func register<T: TokenizedControl>(controlType: T.Type, tokens: ((T) -> T.TokenType)?) {
+    public func register<T: TokenizedControl>(controlType: T.Type, tokens: (() -> T.TokenType)?) {
         controlTokens[tokenKey(controlType)] = tokens
     }
 
     /// Returns the specified `ControlTokens` generator for a given `TokenizedControl`, if a lookup function has been registered.
     ///
-    /// - Parameter control: The control to fetch the token generator for.
+    /// - Parameter controlType: The control type to fetch the token generator for.
     ///
     /// - Returns: A `ControlTokens` generator for the given control, or `nil` if no lookup function has been registered.
-    public func tokenOverride<T: TokenizedControl>(for controlType: T.Type) -> ((T) -> T.TokenType)? {
-        return controlTokens[tokenKey(controlType)] as? ((T) -> T.TokenType)
+    public func tokenOverride<T: TokenizedControl>(for controlType: T.Type) -> (() -> T.TokenType)? {
+        return controlTokens[tokenKey(controlType)] as? (() -> T.TokenType)
     }
 
     /// Returns a custom `ControlTokens` instance for a given `TokenizedControl`, if a lookup function has been registered.
     ///
-    /// - Parameter control: The control to fetch tokens for.
+    /// - Parameter controlType: The control type to fetch tokens for.
     ///
     /// - Returns: A `ControlTokens` instance for the given control, or `nil` if no lookup function has been registered.
-    func tokens<T: TokenizedControl>(for control: T) -> T.TokenType? {
-        if let lookup = controlTokens[tokenKey(type(of: control))] as? ((T) -> T.TokenType) {
-            return lookup(control)
+    func tokens<T: TokenizedControl>(for controlType: T.Type) -> T.TokenType? {
+        if let lookup = controlTokens[tokenKey(controlType)] as? (() -> T.TokenType) {
+            return lookup()
         } else {
             return nil
         }
