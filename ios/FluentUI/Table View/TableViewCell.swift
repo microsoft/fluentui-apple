@@ -43,7 +43,7 @@ public enum TableViewCellAccessoryType: Int {
         case .detailButton:
             return UIColor(dynamicColor: tokens.accessoryDetailButtonColor)
         case .checkmark:
-            return UIColor(dynamicColor: tokens.globalTokens.brandColors[.primary])
+            return UIColor(dynamicColor: tokens.mainBrandColor)
         }
     }
 
@@ -1537,7 +1537,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     }
 
     private func updateSelectionImageColor() {
-        selectionImageView.tintColor = UIColor(dynamicColor: isSelected ? tokens.globalTokens.brandColors[.primary] : tokens.selectionIndicatorOffColor)
+        selectionImageView.tintColor = UIColor(dynamicColor: isSelected ? tokens.mainBrandColor : tokens.selectionIndicatorOffColor)
     }
 
     private func updateSeparator(_ separator: MSFDivider, with type: SeparatorType) {

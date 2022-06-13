@@ -73,6 +73,11 @@ open class ActivityIndicatorCell: UITableViewCell, TokenizedControlInternal {
         activityIndicatorView.center = CGPoint(x: UIScreen.main.roundToDevicePixels(contentView.frame.width / 2), y: UIScreen.main.roundToDevicePixels(contentView.frame.height / 2))
     }
 
+    open override func didMoveToWindow() {
+        super.didMoveToWindow()
+        updateTokens()
+    }
+
     open override func prepareForReuse() {
         super.prepareForReuse()
         updateTokens()

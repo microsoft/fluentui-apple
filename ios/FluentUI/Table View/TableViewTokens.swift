@@ -141,6 +141,9 @@ open class TableViewCellTokens: ControlTokens {
     /// The color for the accessoryDetailButtonColor.
     open var accessoryDetailButtonColor: DynamicColor { aliasTokens.foregroundColors[.neutral3] }
 
+    /// The main primary brand color of the theme.
+    open var mainBrandColor: DynamicColor { globalTokens.brandColors[.primary] }
+
     /// Defines the size of the customView size.
     public internal(set) var customViewSize: MSFTableViewCellCustomViewSize = .default
 }

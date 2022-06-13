@@ -13,7 +13,7 @@ class OtherCellsDemoController: DemoController {
 
     private var tableView: UITableView!
 
-    private var overrideTokens: TableViewCellTokens?
+    private var overrideTokens: ActionsCellTokens?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,14 +40,30 @@ extension OtherCellsDemoController: DemoAppearanceDelegate {
             return
         }
 
-        var tokensClosure: ((ActionsCell) -> ActionsCellTokens)?
+        var actionsTokensClosure: (() -> ActionsCellTokens)?
+        var activityTokensClosure: (() -> TableViewCellTokens)?
+        var booleanTokensClosure: (() -> TableViewCellTokens)?
+        var centeredTokensClosure: (() -> TableViewCellTokens)?
+
         if isOverrideEnabled {
-            tokensClosure = { _ in
+            actionsTokensClosure = {
                 return ThemeWideOverrideActionsCellTokens()
+            }
+            activityTokensClosure = {
+                return ThemeWideOverrideOtherCellTokens()
+            }
+            booleanTokensClosure = {
+                return ThemeWideOverrideOtherCellTokens()
+            }
+            centeredTokensClosure = {
+                return ThemeWideOverrideOtherCellTokens()
             }
         }
 
-        fluentTheme.register(controlType: ActionsCell.self, tokens: tokensClosure)
+        fluentTheme.register(controlType: ActionsCell.self, tokens: actionsTokensClosure)
+        fluentTheme.register(controlType: ActivityIndicatorCell.self, tokens: activityTokensClosure)
+        fluentTheme.register(controlType: BooleanCell.self, tokens: booleanTokensClosure)
+        fluentTheme.register(controlType: CenteredLabelCell.self, tokens: centeredTokensClosure)
     }
 
     func perControlOverrideDidChange(isOverrideEnabled: Bool) {
@@ -68,7 +84,15 @@ extension OtherCellsDemoController: DemoAppearanceDelegate {
         }
     }
 
-    private class PerControlOverrideTableViewCellTokens: TableViewCellTokens {
+    private class ThemeWideOverrideOtherCellTokens: TableViewCellTokens {
+        override var cellBackgroundColor: DynamicColor {
+            // "Charcoal"
+            return DynamicColor(light: GlobalTokens().sharedColors[.charcoal][.tint50],
+                                dark: GlobalTokens().sharedColors[.charcoal][.shade40])
+        }
+    }
+
+    private class PerControlOverrideTableViewCellTokens: ActionsCellTokens {
         override var cellBackgroundColor: DynamicColor {
             // "Burgundy"
             return DynamicColor(light: GlobalTokens().sharedColors[.burgundy][.tint50],
@@ -99,6 +123,7 @@ extension OtherCellsDemoController: UITableViewDataSource {
             cell.setup(action1Title: item.text1, action2Title: item.text2, action2Type: .destructive)
             let isLastInSection = indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1
             cell.bottomSeparatorType = isLastInSection ? .full : .inset
+            cell.actionsCellOverrideTokens = overrideTokens
             return cell
         }
 
