@@ -232,7 +232,7 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
                      SegmentItem(title: customEndTabTitle ?? "MSDateTimePicker.EndDate".localized)]
         segmentedControl = SegmentedControl(items: items,
                                             style: traitCollection.userInterfaceStyle == .dark ? .onBrandPill : .primaryPill)
-        segmentedControl?.addTarget(self, action: #selector(handleDidSelectStartEnd(_:)), for: .valueChanged)
+//        segmentedControl?.addTarget(self, action: #selector(handleDidSelectStartEnd(_:)), for: .valueChanged)
     }
 
     private func updateNavigationBar() {

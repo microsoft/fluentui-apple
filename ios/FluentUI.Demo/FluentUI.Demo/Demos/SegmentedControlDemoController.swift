@@ -75,9 +75,9 @@ class SegmentedControlDemoController: DemoController {
         let pillControl = SegmentedControl(items: items, style: style)
         pillControl.shouldSetEqualWidthForSegments = equalSegments
         pillControl.isEnabled = enabled
-        pillControl.addTarget(self,
-                              action: #selector(updateLabel(forControl:)),
-                              for: .valueChanged)
+//        pillControl.addTarget(self,
+//                              action: #selector(updateLabel(forControl:)),
+//                              for: .valueChanged)
 
         let backgroundStyle: ColoredPillBackgroundStyle = {
             switch style {

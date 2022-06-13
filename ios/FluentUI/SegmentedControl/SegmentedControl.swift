@@ -20,7 +20,7 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
         static let iPadMinimumWidth: CGFloat = 375
     }
 
-    open override var isEnabled: Bool {
+    open var isEnabled: Bool = true {
         didSet {
             for button in buttons {
                 button.isEnabled = isEnabled
@@ -465,7 +465,7 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
     @objc private func handleButtonTap(_ sender: SegmentPillButton) {
         if let index = buttons.firstIndex(of: sender), selectedSegmentIndex != index {
             selectSegment(at: index, animated: isAnimated)
-            sendActions(for: .valueChanged)
+//            sendActions(for: .valueChanged)
         }
     }
 
