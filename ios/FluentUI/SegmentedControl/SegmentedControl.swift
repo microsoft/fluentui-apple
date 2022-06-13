@@ -541,3 +541,11 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
         }
     }
 }
+
+// MARK: SegmentedControlDelegate
+
+@objc(MSFSegmentedControlDelegate)
+public protocol SegmentedControlDelegate {
+    /// Called after the button representing the item is tapped in the UI.
+    @objc optional func segmentedControl(_ segmentedControl: SegmentedControl, didSelectItem item: SegmentItem, atIndex index: Int)
+}
