@@ -13,9 +13,15 @@ class TableViewHeaderFooterViewDemoController: DemoController {
     private let plainSections: [TableViewHeaderFooterSampleData.Section] = TableViewHeaderFooterSampleData.plainSections
     private let divider = MSFDivider()
 
-    private let segmentedControl: SegmentedControl = {
+    private lazy var segmentedControl: SegmentedControl = {
         let segmentedControl = SegmentedControl(items: TableViewHeaderFooterSampleData.tabTitles.map({return SegmentItem(title: $0)}), style: .primaryPill)
-//        segmentedControl.addTarget(TableViewHeaderFooterViewDemoController.self, action: #selector(updateActiveTabContent), for: .valueChanged)
+        segmentedControl.onSelectAction = { [weak self] (_, _, _) in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.updateActiveTabContent()
+        }
         return segmentedControl
     }()
     private lazy var groupedTableView: UITableView = createTableView(style: .grouped)
