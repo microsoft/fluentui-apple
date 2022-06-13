@@ -160,8 +160,15 @@ class DateTimePickerController: UIViewController, GenericDateTimePicker {
             items = [SegmentItem(title: customStartTabTitle ?? "MSDateTimePicker.StartDate".localized),
                      SegmentItem(title: customEndTabTitle ?? "MSDateTimePicker.EndDate".localized)]
         }
-        segmentedControl = SegmentedControl(items: items, style: traitCollection.userInterfaceStyle == .dark ? .onBrandPill : .primaryPill)
-//        segmentedControl?.addTarget(self, action: #selector(handleDidSelectStartEnd(_:)), for: .valueChanged)
+        let segmentedControl = SegmentedControl(items: items, style: traitCollection.userInterfaceStyle == .dark ? .onBrandPill : .primaryPill)
+        segmentedControl.onSelectAction = { [weak self] (_, _, index) in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.handleDidSelectStartEnd(index)
+        }
+        self.segmentedControl = segmentedControl
     }
 
     private func initNavigationBar() {
@@ -211,8 +218,8 @@ class DateTimePickerController: UIViewController, GenericDateTimePicker {
         delegate?.dateTimePicker(self, didSelectStartDate: startDate, endDate: endDate)
     }
 
-    @objc private func handleDidSelectStartEnd(_ segmentedControl: SegmentedControl) {
-        mode = segmentedControl.selectedSegmentIndex == 0 ? .start : .end
+    @objc private func handleDidSelectStartEnd(_ selectedIndex: Int) {
+        mode = selectedIndex == 0 ? .start : .end
     }
 
     @objc private func handleDidTapDone(_ item: UIBarButtonItem) {
