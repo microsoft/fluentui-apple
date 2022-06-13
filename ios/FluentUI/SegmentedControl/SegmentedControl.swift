@@ -47,6 +47,8 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
             invalidateIntrinsicContentSize()
         }
     }
+    /// Delegate used to listen to selection changes
+    @objc public weak var segmentDelegate: SegmentedControlDelegate?
     @objc public var selectedSegmentIndex: Int {
         get { return _selectedSegmentIndex }
         set { selectSegment(at: newValue, animated: false) }
@@ -465,7 +467,9 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
     @objc private func handleButtonTap(_ sender: SegmentPillButton) {
         if let index = buttons.firstIndex(of: sender), selectedSegmentIndex != index {
             selectSegment(at: index, animated: isAnimated)
-//            sendActions(for: .valueChanged)
+            segmentDelegate?.segmentedControl?(self,
+                                               didSelectItem: items[index],
+                                               atIndex: index)
         }
     }
 
