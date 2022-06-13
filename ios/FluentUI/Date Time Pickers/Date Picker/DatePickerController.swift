@@ -230,9 +230,16 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
     private func initSegmentedControl() {
         let items = [SegmentItem(title: customStartTabTitle ?? "MSDateTimePicker.StartDate".localized),
                      SegmentItem(title: customEndTabTitle ?? "MSDateTimePicker.EndDate".localized)]
-        segmentedControl = SegmentedControl(items: items,
+        let segmentedControl = SegmentedControl(items: items,
                                             style: traitCollection.userInterfaceStyle == .dark ? .onBrandPill : .primaryPill)
-//        segmentedControl?.addTarget(self, action: #selector(handleDidSelectStartEnd(_:)), for: .valueChanged)
+        segmentedControl.onSelectAction = { [weak self] (_, _, index) in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.handleDidSelectStartEnd(index)
+        }
+        self.segmentedControl = segmentedControl
     }
 
     private func updateNavigationBar() {
@@ -322,8 +329,8 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
         dismiss()
     }
 
-    @objc private func handleDidSelectStartEnd(_ segmentedControl: SegmentedControl) {
-        selectionManager.selectionMode = segmentedControl.selectedSegmentIndex == 0 ? .start : .end
+    @objc private func handleDidSelectStartEnd(_ selectedIndex: Int) {
+        selectionManager.selectionMode = selectedIndex == 0 ? .start : .end
         updateNavigationBar()
         if let visibleDates = visibleDates, focusDate > visibleDates.endDate || focusDate < visibleDates.startDate {
             scrollToFocusDate(animated: false)
