@@ -159,14 +159,6 @@ class ColorDemoController: UIViewController {
         return segmentedControl
     }()
 
-    @objc private func segmentedControlValueChanged(sender: Any) {
-        if let segmentedControl = sender as? SegmentedControl, let window = self.view.window {
-            if let currentDemoListViewController = currentDemoListViewController {
-                currentDemoListViewController.updateColorProviderFor(window: window, theme: DemoColorTheme.allCases[segmentedControl.selectedSegmentIndex])
-            }
-        }
-    }
-
     @objc private func didChangeTheme() {
         // The controls in this controller are not fully theme-aware yet, so
         // we need to manually poke them and have them refresh their colors.
