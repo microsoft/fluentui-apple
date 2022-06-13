@@ -47,8 +47,8 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
             invalidateIntrinsicContentSize()
         }
     }
-    /// Delegate used to listen to selection changes
-    @objc public weak var segmentDelegate: SegmentedControlDelegate?
+    /// Action called when a segment is selected.
+    @objc public var onSelectAction: ((SegmentedControl, SegmentItem, Int) -> Void)?
     @objc public var selectedSegmentIndex: Int {
         get { return _selectedSegmentIndex }
         set { selectSegment(at: newValue, animated: false) }
@@ -465,11 +465,13 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
     }
 
     @objc private func handleButtonTap(_ sender: SegmentPillButton) {
-        if let index = buttons.firstIndex(of: sender), selectedSegmentIndex != index {
-            selectSegment(at: index, animated: isAnimated)
-            segmentDelegate?.segmentedControl?(self,
-                                               didSelectItem: items[index],
-                                               atIndex: index)
+        guard let index = buttons.firstIndex(of: sender), selectedSegmentIndex != index  else {
+            return
+        }
+
+        selectSegment(at: index, animated: isAnimated)
+        if let onSelectAction = onSelectAction {
+            onSelectAction(self, items[index], index)
         }
     }
 
@@ -544,12 +546,4 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
                                                                         index + 1, items.count)
         }
     }
-}
-
-// MARK: SegmentedControlDelegate
-
-@objc(MSFSegmentedControlDelegate)
-public protocol SegmentedControlDelegate {
-    /// Called after the button representing the item is tapped in the UI.
-    @objc optional func segmentedControl(_ segmentedControl: SegmentedControl, didSelectItem item: SegmentItem, atIndex index: Int)
 }
