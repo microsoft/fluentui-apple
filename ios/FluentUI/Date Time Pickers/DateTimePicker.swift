@@ -102,8 +102,8 @@ public class DateTimePicker: NSObject {
     ///   - datePickerType: The type of UI to use for picking dates: calendar or spinners representing date components (day, month, and year) or date (when time picking is also enabled). `.components` will be forced when VoiceOver is running. `.paged` date range presentation is not supported for `.components` date picker type (tabbed presentation will be used instead).
     ///   - dateRangePresentation: The `DateRangePresentation` in which to show any date pickers when `mode` is `.dateRange` or `.dateTimeRange`. Does not affect the time picker, which is always tabbed in range mode, but may change whether the date picker is presented in certain modes.
     ///   - titles: A `Titles` object that holds strings for use in overriding the default picker titles, subtitles, and tab titles. If a string is provided for a property that does not apply to the current mode, it will be ignored.
-    @objc public func present(from presentingController: UIViewController, with mode: DateTimePickerMode, startDate: Date = Date(), endDate: Date? = nil, datePickerType: DatePickerType = .calendar, dateRangePresentation: DateRangePresentation = .paged, titles: Titles? = nil) {
-        present(from: presentingController, with: mode, startDate: startDate, endDate: endDate, datePickerType: datePickerType, dateRangePresentation: dateRangePresentation, leftBarButtonItem: nil, rightBarButtonItem: nil)
+    @objc public func present(from presentingController: UIViewController, with mode: DateTimePickerMode, startDate: Date = Date(), endDate: Date? = nil, referenceStartDate: Date? = nil, referenceEndDate: Date? = nil, datePickerType: DatePickerType = .calendar, dateRangePresentation: DateRangePresentation = .paged, titles: Titles? = nil) {
+        present(from: presentingController, with: mode, startDate: startDate, endDate: endDate, referenceStartDate: referenceStartDate, referenceEndDate: referenceEndDate, datePickerType: datePickerType, dateRangePresentation: dateRangePresentation, leftBarButtonItem: nil, rightBarButtonItem: nil)
     }
 
     /// Presents a picker or set of pickers from a `presentingController` depending on the mode selected. Also handles accessibility replacement presentation.
@@ -119,7 +119,7 @@ public class DateTimePicker: NSObject {
     ///   - titles: A `Titles` object that holds strings for use in overriding the default picker titles, subtitles, and tab titles. If a string is provided for a property that does not apply to the current mode, it will be ignored.
     ///   - leftBarButtonItem: optional UIBarButtonItem to be presented as left bar-button.
     ///   - rightBarButtonItem: optional UIBarButtonItem to be presented as right bar-button. Note that if this view is presented, the Confirm button is not generated automatically.
-    @objc public func present(from presentingController: UIViewController, with mode: DateTimePickerMode, startDate: Date = Date(), endDate: Date? = nil, datePickerType: DatePickerType = .calendar, dateRangePresentation: DateRangePresentation = .paged, titles: Titles? = nil, leftBarButtonItem: UIBarButtonItem? = nil, rightBarButtonItem: UIBarButtonItem? = nil) {
+    @objc public func present(from presentingController: UIViewController, with mode: DateTimePickerMode, startDate: Date = Date(), endDate: Date? = nil, referenceStartDate: Date? = nil, referenceEndDate: Date? = nil, datePickerType: DatePickerType = .calendar, dateRangePresentation: DateRangePresentation = .paged, titles: Titles? = nil, leftBarButtonItem: UIBarButtonItem? = nil, rightBarButtonItem: UIBarButtonItem? = nil) {
         self.presentingController = presentingController
         self.mode = mode
         self.datePickerType = datePickerType
@@ -130,7 +130,7 @@ public class DateTimePicker: NSObject {
         switch mode {
         case .date, .dateRange:
             let endDate = mode == .date ? startDate : endDate ?? startDate.adding(days: Constants.defaultDateDaysRange)
-            presentDatePicker(startDate: startDate, endDate: endDate, dateRangePresentation: dateRangePresentation, titles: titles, leftBarButtonItem: leftBarButtonItem, rightBarButtonItem: rightBarButtonItem)
+            presentDatePicker(startDate: startDate, endDate: endDate, referenceStartDate: referenceStartDate, referenceEndDate: referenceEndDate, dateRangePresentation: dateRangePresentation, titles: titles, leftBarButtonItem: leftBarButtonItem, rightBarButtonItem: rightBarButtonItem)
         case .dateTime, .dateTimeRange:
             let endDate = mode == .dateTime ? startDate : endDate ?? startDate.adding(hours: Constants.defaultDateTimeHoursRange)
             presentDateTimePicker(startDate: startDate, endDate: endDate, dateRangePresentation: dateRangePresentation, titles: titles, leftBarButtonItem: leftBarButtonItem, rightBarButtonItem: rightBarButtonItem)
@@ -144,7 +144,7 @@ public class DateTimePicker: NSObject {
         presentingController = nil
     }
 
-    private func presentDatePicker(startDate: Date, endDate: Date, dateRangePresentation: DateRangePresentation, titles: Titles?, leftBarButtonItem: UIBarButtonItem?, rightBarButtonItem: UIBarButtonItem?) {
+    private func presentDatePicker(startDate: Date, endDate: Date, referenceStartDate: Date? = nil, referenceEndDate: Date? = nil, dateRangePresentation: DateRangePresentation, titles: Titles?, leftBarButtonItem: UIBarButtonItem?, rightBarButtonItem: UIBarButtonItem?) {
         guard let mode = mode else {
             preconditionFailure("Mode not set when presenting date picker")
         }
@@ -159,7 +159,7 @@ public class DateTimePicker: NSObject {
             let datePicker: GenericDateTimePicker
             switch datePickerType {
             case .calendar:
-                datePicker = DatePickerController(startDate: startDate, endDate: endDate, mode: mode, rangePresentation: dateRangePresentation, titles: titles, leftBarButtonItem: leftBarButtonItem, rightBarButtonItem: rightBarButtonItem)
+                datePicker = DatePickerController(startDate: startDate, endDate: endDate, referenceStartDate: referenceStartDate, referenceEndDate: referenceEndDate, mode: mode, rangePresentation: dateRangePresentation, titles: titles, leftBarButtonItem: leftBarButtonItem, rightBarButtonItem: rightBarButtonItem)
             case .components:
                 datePicker = DateTimePickerController(startDate: startDate, endDate: endDate, mode: mode, titles: titles, leftBarButtonItem: leftBarButtonItem, rightBarButtonItem: rightBarButtonItem)
             }
