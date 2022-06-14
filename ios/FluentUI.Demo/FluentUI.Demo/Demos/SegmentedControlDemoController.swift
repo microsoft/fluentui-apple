@@ -75,12 +75,12 @@ class SegmentedControlDemoController: DemoController {
         let pillControl = SegmentedControl(items: items, style: style)
         pillControl.shouldSetEqualWidthForSegments = equalSegments
         pillControl.isEnabled = enabled
-        pillControl.onSelectAction = { [weak self] (segmentedControl, _, _) in
+        pillControl.onSelectAction = { [weak self] (_, _) in
             guard let strongSelf = self else {
                 return
             }
 
-            strongSelf.updateLabel(forControl: segmentedControl)
+            strongSelf.updateLabel(forControl: pillControl)
         }
 
         let backgroundStyle: ColoredPillBackgroundStyle = {

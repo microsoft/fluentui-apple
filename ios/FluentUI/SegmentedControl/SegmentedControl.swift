@@ -48,7 +48,7 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
         }
     }
     /// Action called when a segment is selected.
-    @objc public var onSelectAction: ((SegmentedControl, SegmentItem, Int) -> Void)?
+    @objc public var onSelectAction: ((SegmentItem, Int) -> Void)?
     @objc public var selectedSegmentIndex: Int {
         get { return _selectedSegmentIndex }
         set { selectSegment(at: newValue, animated: false) }
@@ -471,7 +471,7 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
 
         selectSegment(at: index, animated: isAnimated)
         if let onSelectAction = onSelectAction {
-            onSelectAction(self, items[index], index)
+            onSelectAction(items[index], index)
         }
     }
 

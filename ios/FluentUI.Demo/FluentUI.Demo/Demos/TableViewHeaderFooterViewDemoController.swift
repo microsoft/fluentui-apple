@@ -15,7 +15,7 @@ class TableViewHeaderFooterViewDemoController: DemoController {
 
     private lazy var segmentedControl: SegmentedControl = {
         let segmentedControl = SegmentedControl(items: TableViewHeaderFooterSampleData.tabTitles.map({return SegmentItem(title: $0)}), style: .primaryPill)
-        segmentedControl.onSelectAction = { [weak self] (_, _, _) in
+        segmentedControl.onSelectAction = { [weak self] (_, _) in
             guard let strongSelf = self else {
                 return
             }

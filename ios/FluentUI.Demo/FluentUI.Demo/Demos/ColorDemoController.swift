@@ -147,7 +147,7 @@ class ColorDemoController: UIViewController {
 
     private lazy var segmentedControl: SegmentedControl = {
         let segmentedControl = SegmentedControl(items: DemoColorTheme.allCases.map({ return SegmentItem(title: $0.name) }), style: .primaryPill)
-        segmentedControl.onSelectAction = { [weak self] (_, _, index) in
+        segmentedControl.onSelectAction = { [weak self] (_, index) in
             guard let strongSelf = self,
                   let window = strongSelf.view.window,
                   let currentDemoListViewController = strongSelf.currentDemoListViewController else {
