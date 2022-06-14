@@ -99,6 +99,8 @@ public class DateTimePicker: NSObject {
     ///   - mode: Enum describing which mode of pickers should be presented
     ///   - startDate: The initial date selected on the presented pickers
     ///   - endDate: An optional end date to pick a range of dates. Ignored if mode is `.date` or `.dateTime`. If the mode selected is either `.dateRange` or `.dateTimeRange`, and this is omitted, it will be set to a default 1 day or 1 hour range, respectively.
+    ///   - referenceStartDate: An optional reference start date to set the first available date that can be picked
+    ///   - referenceEndDate: An optional reference end date to set the last available date that can be picked
     ///   - datePickerType: The type of UI to use for picking dates: calendar or spinners representing date components (day, month, and year) or date (when time picking is also enabled). `.components` will be forced when VoiceOver is running. `.paged` date range presentation is not supported for `.components` date picker type (tabbed presentation will be used instead).
     ///   - dateRangePresentation: The `DateRangePresentation` in which to show any date pickers when `mode` is `.dateRange` or `.dateTimeRange`. Does not affect the time picker, which is always tabbed in range mode, but may change whether the date picker is presented in certain modes.
     ///   - titles: A `Titles` object that holds strings for use in overriding the default picker titles, subtitles, and tab titles. If a string is provided for a property that does not apply to the current mode, it will be ignored.
@@ -114,6 +116,8 @@ public class DateTimePicker: NSObject {
     ///   - mode: Enum describing which mode of pickers should be presented
     ///   - startDate: The initial date selected on the presented pickers
     ///   - endDate: An optional end date to pick a range of dates. Ignored if mode is `.date` or `.dateTime`. If the mode selected is either `.dateRange` or `.dateTimeRange`, and this is omitted, it will be set to a default 1 day or 1 hour range, respectively.
+    ///   - referenceStartDate: An optional reference start date to set the first available date that can be picked
+    ///   - referenceEndDate: An optional reference end date to set the last available date that can be picked
     ///   - datePickerType: The type of UI to use for picking dates: calendar or spinners representing date components (day, month, and year) or date (when time picking is also enabled). `.components` will be forced when VoiceOver is running. `.paged` date range presentation is not supported for `.components` date picker type (tabbed presentation will be used instead).
     ///   - dateRangePresentation: The `DateRangePresentation` in which to show any date pickers when `mode` is `.dateRange` or `.dateTimeRange`. Does not affect the time picker, which is always tabbed in range mode, but may change whether the date picker is presented in certain modes.
     ///   - titles: A `Titles` object that holds strings for use in overriding the default picker titles, subtitles, and tab titles. If a string is provided for a property that does not apply to the current mode, it will be ignored.
@@ -167,7 +171,7 @@ public class DateTimePicker: NSObject {
         }
     }
 
-    private func presentDateTimePicker(startDate: Date, endDate: Date, dateRangePresentation: DateRangePresentation, titles: Titles?, leftBarButtonItem: UIBarButtonItem?, rightBarButtonItem: UIBarButtonItem?) {
+    private func presentDateTimePicker(startDate: Date, endDate: Date, referenceStartDate: Date? = nil, referenceEndDate: Date? = nil, dateRangePresentation: DateRangePresentation, titles: Titles?, leftBarButtonItem: UIBarButtonItem?, rightBarButtonItem: UIBarButtonItem?) {
         guard let mode = mode else {
             preconditionFailure("Mode not set when presenting date time picker")
         }
@@ -176,7 +180,7 @@ public class DateTimePicker: NSObject {
             (mode == .dateTime || Calendar.current.isDate(startDate, inSameDayAs: endDate) || dateRangePresentation == .tabbed) {
             let dateTimePicker = DateTimePickerController(startDate: startDate, endDate: endDate, mode: mode, titles: titles, leftBarButtonItem: leftBarButtonItem, rightBarButtonItem: rightBarButtonItem)
             // Create datePicker second to pick up the time that dateTimePicker rounded to the nearest minute interval
-            let datePicker = DatePickerController(startDate: dateTimePicker.startDate, endDate: dateTimePicker.endDate, mode: mode, rangePresentation: dateRangePresentation, titles: titles, leftBarButtonItem: leftBarButtonItem, rightBarButtonItem: rightBarButtonItem)
+            let datePicker = DatePickerController(startDate: dateTimePicker.startDate, endDate: dateTimePicker.endDate, referenceStartDate: referenceStartDate, referenceEndDate: referenceEndDate, mode: mode, rangePresentation: dateRangePresentation, titles: titles, leftBarButtonItem: leftBarButtonItem, rightBarButtonItem: rightBarButtonItem)
             present([datePicker, dateTimePicker])
         } else {
             let dateTimePicker = DateTimePickerController(startDate: startDate, endDate: endDate, mode: mode, titles: titles, leftBarButtonItem: leftBarButtonItem, rightBarButtonItem: rightBarButtonItem)
