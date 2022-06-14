@@ -77,7 +77,7 @@ extension OtherCellsDemoController: DemoAppearanceDelegate {
 
     // MARK: - Custom tokens
     private class ThemeWideOverrideActionsCellTokens: ActionsCellTokens {
-        override var regularTextColor: DynamicColor {
+        override var mainBrandColor: DynamicColor {
             // "Charcoal"
             return DynamicColor(light: GlobalTokens().sharedColors[.charcoal][.tint50],
                                 dark: GlobalTokens().sharedColors[.charcoal][.shade40])
