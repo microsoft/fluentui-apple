@@ -47,7 +47,8 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
             invalidateIntrinsicContentSize()
         }
     }
-    /// Action called when a segment is selected.
+    /// The closure for the action to be called when a segment is selected.
+    /// When called, the selected item and its index will be passed in to the closure.
     @objc public var onSelectAction: ((SegmentItem, Int) -> Void)?
     @objc public var selectedSegmentIndex: Int {
         get { return _selectedSegmentIndex }
