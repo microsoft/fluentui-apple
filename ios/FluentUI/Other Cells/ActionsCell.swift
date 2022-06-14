@@ -25,7 +25,7 @@ open class ActionsCell: UITableViewCell, TokenizedControlInternal {
         func highlightedTextColor(tokens: ActionsCellTokens) -> UIColor {
             switch self {
             case .regular:
-                return UIColor(dynamicColor: tokens.regularTextColor).withAlphaComponent(0.4)
+                return UIColor(dynamicColor: tokens.mainBrandColor).withAlphaComponent(0.4)
             case .destructive:
                 return UIColor(dynamicColor: tokens.destructiveTextColor).withAlphaComponent(0.4)
             case .communication:
@@ -36,7 +36,7 @@ open class ActionsCell: UITableViewCell, TokenizedControlInternal {
         func textColor(tokens: ActionsCellTokens) -> UIColor {
             switch self {
             case .regular:
-                return UIColor(dynamicColor: tokens.regularTextColor)
+                return UIColor(dynamicColor: tokens.mainBrandColor)
             case .destructive:
                 return UIColor(dynamicColor: tokens.destructiveTextColor)
             case .communication:

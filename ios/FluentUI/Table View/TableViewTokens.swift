@@ -157,9 +157,6 @@ open class TableViewCellTokens: ControlTokens {
 }
 
 open class ActionsCellTokens: TableViewCellTokens {
-    /// The regular text color in an ActionsCell
-    open var regularTextColor: DynamicColor { globalTokens.brandColors[.primary] }
-
     /// The destructive text color in an ActionsCell.
     open var destructiveTextColor: DynamicColor { DynamicColor(light: ColorValue(0xD92C2C),
                                                     dark: ColorValue(0xE83A3A)) }
