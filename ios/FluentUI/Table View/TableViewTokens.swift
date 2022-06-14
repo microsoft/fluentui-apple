@@ -129,6 +129,9 @@ open class TableViewCellTokens: ControlTokens {
     /// The leading padding in the cell.
     open var paddingLeading: CGFloat { globalTokens.spacing[.medium] }
 
+    /// The vertical padding in the cell.
+    open var paddingVertical: CGFloat = 11
+
     /// The trailing padding in the cell.
     open var paddingTrailing: CGFloat { globalTokens.spacing[.medium] }
 
@@ -137,6 +140,9 @@ open class TableViewCellTokens: ControlTokens {
 
     /// The color for the accessoryDetailButtonColor.
     open var accessoryDetailButtonColor: DynamicColor { aliasTokens.foregroundColors[.neutral3] }
+
+    /// The main primary brand color of the theme.
+    open var mainBrandColor: DynamicColor { globalTokens.brandColors[.primary] }
 
     /// Defines the size of the customView size.
     public internal(set) var customViewSize: MSFTableViewCellCustomViewSize = .default
@@ -148,4 +154,14 @@ open class TableViewCellTokens: ControlTokens {
     case zero
     case small
     case medium
+}
+
+open class ActionsCellTokens: TableViewCellTokens {
+    /// The destructive text color in an ActionsCell.
+    open var destructiveTextColor: DynamicColor { DynamicColor(light: ColorValue(0xD92C2C),
+                                                    dark: ColorValue(0xE83A3A)) }
+
+    /// The communication text color in an ActionsCell.
+    open var communicationTextColor: DynamicColor { DynamicColor(light: ColorValue(0x0078D4),
+                                                    dark: ColorValue(0x0086F0)) }
 }
