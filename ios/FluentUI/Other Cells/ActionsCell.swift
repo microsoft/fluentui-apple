@@ -15,51 +15,85 @@ import UIKit
  `topSeparatorType` and `bottomSeparatorType` can be used to show custom horizontal separators. Make sure to remove the `UITableViewCell` built-in separator by setting `separatorStyle = .none` on your table view.
  */
 @objc(MSFActionsCell)
-open class ActionsCell: UITableViewCell {
+open class ActionsCell: UITableViewCell, TokenizedControlInternal {
     @objc(MSFActionsCellActionType)
     public enum ActionType: Int {
         case regular
         case destructive
         case communication
 
-        func highlightedTextColor(for window: UIWindow) -> UIColor {
+        func highlightedTextColor(tokens: ActionsCellTokens) -> UIColor {
             switch self {
             case .regular:
-                return Colors.primary(for: window).withAlphaComponent(0.4)
+                return UIColor(dynamicColor: tokens.mainBrandColor).withAlphaComponent(0.4)
             case .destructive:
-                return Colors.Table.ActionCell.textDestructiveHighlighted
+                return UIColor(dynamicColor: tokens.destructiveTextColor).withAlphaComponent(0.4)
             case .communication:
-                return Colors.Table.ActionCell.textCommunicationHighlighted
+                return UIColor(dynamicColor: tokens.communicationTextColor).withAlphaComponent(0.4)
             }
         }
 
-        func textColor(for window: UIWindow) -> UIColor {
+        func textColor(tokens: ActionsCellTokens) -> UIColor {
             switch self {
             case .regular:
-                return Colors.primary(for: window)
+                return UIColor(dynamicColor: tokens.mainBrandColor)
             case .destructive:
-                return Colors.Table.ActionCell.textDestructive
+                return UIColor(dynamicColor: tokens.destructiveTextColor)
             case .communication:
-                return Colors.Table.ActionCell.textCommunication
+                return UIColor(dynamicColor: tokens.communicationTextColor)
             }
         }
     }
 
     public static let identifier: String = "ActionsCell"
 
-    @objc public class func height(action1Title: String, action2Title: String = "", containerWidth: CGFloat) -> CGFloat {
+    // MARK: - ActionsCell TokenizedControl
+    @objc public var actionsCellOverrideTokens: ActionsCellTokens? {
+        didSet {
+            self.overrideTokens = actionsCellOverrideTokens
+        }
+    }
+
+    let defaultTokens: ActionsCellTokens = .init()
+    var tokens: ActionsCellTokens = .init()
+    /// Design token set for this control, to use in place of the control's default Fluent tokens.
+    var overrideTokens: ActionsCellTokens? {
+        didSet {
+            updateTokens()
+        }
+    }
+
+    public func overrideTokens(_ tokens: ActionsCellTokens?) -> Self {
+        overrideTokens = tokens
+        return self
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        guard let window = window, window.isEqual(notification.object) else {
+            return
+        }
+        updateTokens()
+    }
+
+    private func updateTokens() {
+        tokens = resolvedTokens
+        updateActionTitleColors()
+        backgroundColor = UIColor(dynamicColor: tokens.cellBackgroundColor)
+    }
+
+    @objc public class func height(action1Title: String, action2Title: String = "", containerWidth: CGFloat, tokens: ActionsCellTokens) -> CGFloat {
         let actionCount: CGFloat = action2Title == "" ? 1 : 2
         let width = UIScreen.main.roundToDevicePixels(containerWidth / actionCount)
 
-        let actionTitleFont = TableViewCell.TextStyles.title.font
+        let actionTitleFont = UIFont.fluent(tokens.titleFont)
         let action1TitleHeight = action1Title.preferredSize(for: actionTitleFont, width: width).height
         let action2TitleHeight = action2Title.preferredSize(for: actionTitleFont, width: width).height
 
-        return max(Constants.verticalMargin * 2 + max(action1TitleHeight, action2TitleHeight), Constants.defaultHeight)
+        return max(tokens.paddingVertical * 2 + max(action1TitleHeight, action2TitleHeight), tokens.minHeight)
     }
 
-    @objc public class func preferredWidth(action1Title: String, action2Title: String = "") -> CGFloat {
-        let actionTitleFont = TableViewCell.TextStyles.title.font
+    @objc public class func preferredWidth(action1Title: String, action2Title: String = "", tokens: ActionsCellTokens) -> CGFloat {
+        let actionTitleFont = UIFont.fluent(tokens.titleFont)
         let action1TitleWidth = action1Title.preferredSize(for: actionTitleFont).width
         let action2TitleWidth = action2Title.preferredSize(for: actionTitleFont).width
 
@@ -112,10 +146,15 @@ open class ActionsCell: UITableViewCell {
         updateHorizontalSeparator(topSeparator, with: topSeparatorType)
         updateHorizontalSeparator(bottomSeparator, with: bottomSeparatorType)
 
-        backgroundColor = Colors.Table.Cell.background
+        backgroundColor = UIColor(dynamicColor: tokens.cellBackgroundColor)
 
         setupAction(action1Button)
         setupAction(action2Button)
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
     }
 
     public required init(coder aDecoder: NSCoder) {
@@ -174,25 +213,28 @@ open class ActionsCell: UITableViewCell {
             width: max(
                 type(of: self).preferredWidth(
                     action1Title: action1Button.currentTitle ?? "",
-                    action2Title: action2Button.currentTitle ?? ""
+                    action2Title: action2Button.currentTitle ?? "",
+                    tokens: tokens
                 ),
                 maxWidth
             ),
             height: type(of: self).height(
                 action1Title: action1Button.currentTitle ?? "",
                 action2Title: action2Button.currentTitle ?? "",
-                containerWidth: maxWidth
+                containerWidth: maxWidth,
+                tokens: tokens
             )
         )
     }
 
     open override func didMoveToWindow() {
         super.didMoveToWindow()
-        updateActionTitleColors()
+        updateTokens()
     }
 
     open override func prepareForReuse() {
         super.prepareForReuse()
+        updateTokens()
         action1Button.removeTarget(nil, action: nil, for: .allEvents)
         action2Button.removeTarget(nil, action: nil, for: .allEvents)
     }
@@ -202,13 +244,13 @@ open class ActionsCell: UITableViewCell {
     open override func setSelected(_ selected: Bool, animated: Bool) { }
 
     private func setupAction(_ button: UIButton) {
-        button.titleLabel?.font = TableViewCell.TextStyles.title.font
+        button.titleLabel?.font = UIFont.fluent(tokens.titleFont)
         button.titleLabel?.numberOfLines = 0
         button.titleLabel?.textAlignment = .center
     }
 
-    private func layoutHorizontalSeparator(_ separator: Separator, with type: TableViewCell.SeparatorType, at verticalOffset: CGFloat) {
-        let horizontalOffset = type == .inset ? safeAreaInsets.left + Constants.horizontalSpacing : 0
+    private func layoutHorizontalSeparator(_ separator: MSFDivider, with type: TableViewCell.SeparatorType, at verticalOffset: CGFloat) {
+        let horizontalOffset = type == .inset ? safeAreaInsets.left + tokens.horizontalSpacing : 0
 
         separator.frame = CGRect(
             x: horizontalOffset,
@@ -225,20 +267,12 @@ open class ActionsCell: UITableViewCell {
     }
 
     private func updateActionTitleColors() {
-        if let window = window {
-            action1Button.setTitleColor(action1Type.textColor(for: window), for: .normal)
-            action1Button.setTitleColor(action1Type.highlightedTextColor(for: window), for: .highlighted)
-            if !action2Button.isHidden {
-                action2Button.setTitleColor(action2Type.textColor(for: window), for: .normal)
-                action2Button.setTitleColor(action2Type.highlightedTextColor(for: window), for: .highlighted)
-            }
+        action1Button.setTitleColor(action1Type.textColor(tokens: tokens), for: .normal)
+        action1Button.setTitleColor(action1Type.highlightedTextColor(tokens: tokens), for: .highlighted)
+        if !action2Button.isHidden {
+            action2Button.setTitleColor(action2Type.textColor(tokens: tokens), for: .normal)
+            action2Button.setTitleColor(action2Type.highlightedTextColor(tokens: tokens), for: .highlighted)
         }
 
-    }
-
-    private struct Constants {
-        static let horizontalSpacing: CGFloat = 16
-        static let verticalMargin: CGFloat = 11
-        static let defaultHeight: CGFloat = 48
     }
 }

@@ -43,7 +43,7 @@ public enum TableViewCellAccessoryType: Int {
         case .detailButton:
             return UIColor(dynamicColor: tokens.accessoryDetailButtonColor)
         case .checkmark:
-            return UIColor(dynamicColor: tokens.globalTokens.brandColors[.primary])
+            return UIColor(dynamicColor: tokens.mainBrandColor)
         }
     }
 
@@ -63,20 +63,9 @@ public enum TableViewCellAccessoryType: Int {
 public extension Colors {
     internal struct Table {
         struct Cell {
-            static var background: UIColor = surfacePrimary
             static var image: UIColor = iconSecondary
             static var title: UIColor = textPrimary
             static var subtitle: UIColor = textSecondary
-            static var accessoryDisclosureIndicator: UIColor = iconSecondary
-            static var accessoryDetailButton: UIColor = iconSecondary
-            static var selectionIndicatorOff: UIColor = iconSecondary
-        }
-
-        struct ActionCell {
-            static var textDestructive: UIColor = error
-            static var textDestructiveHighlighted: UIColor = error.withAlphaComponent(0.4)
-            static var textCommunication: UIColor = communicationBlue
-            static var textCommunicationHighlighted: UIColor = communicationBlue.withAlphaComponent(0.4)
         }
 
         struct HeaderFooter {
@@ -697,9 +686,10 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     @objc open var customViewSize: MSFTableViewCellCustomViewSize {
         get {
             if customView == nil {
-                return .zero
+                tokens.customViewSize = .zero
+            } else {
+                tokens.customViewSize = _customViewSize == .default ? layoutType.customViewSize : _customViewSize
             }
-            tokens.customViewSize = _customViewSize == .default ? layoutType.customViewSize : _customViewSize
             return tokens.customViewSize
         }
         set {
@@ -1594,7 +1584,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     }
 
     private func updateSelectionImageColor() {
-        selectionImageView.tintColor = UIColor(dynamicColor: isSelected ? tokens.globalTokens.brandColors[.primary] : tokens.selectionIndicatorOffColor)
+        selectionImageView.tintColor = UIColor(dynamicColor: isSelected ? tokens.mainBrandColor : tokens.selectionIndicatorOffColor)
     }
 
     private func updateSeparator(_ separator: Separator, with type: SeparatorType) {
