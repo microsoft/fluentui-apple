@@ -294,6 +294,8 @@ open class BottomCommandingController: UIViewController {
 
         // Make sure we only reset our commanding style on iPad. On iPhone we only use the sheet style, so there's no need for unnecessary work.
         if newCollection.horizontalSizeClass != traitCollection.horizontalSizeClass && newCollection.userInterfaceIdiom == .pad {
+            dismissPresentedPopoverIfNeeded(with: .noUserAction, animated: false)
+
             // On a horizontal size class change the top level sheet / bar surfaces get recreated,
             // but the item views, containers and bindings persist and are reused during the individual setup functions.
             if let bottomSheetController = bottomSheetController {
@@ -318,18 +320,6 @@ open class BottomCommandingController: UIViewController {
 
     public override func viewSafeAreaInsetsDidChange() {
         updateSheetHeaderSizingParameters()
-    }
-
-    public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
-        if presentedViewController != nil {
-            dismiss(animated: false) { [weak self] in
-                guard let strongSelf = self else {
-                    return
-                }
-                strongSelf.delegate?.bottomCommandingController?(strongSelf, didDismissPopoverWith: .noUserAction)
-            }
-        }
     }
 
     private func setupCommandingLayout(traitCollection: UITraitCollection, forceLayoutPass: Bool = false) {
@@ -568,6 +558,7 @@ open class BottomCommandingController: UIViewController {
                 }
                 strongSelf.delegate?.bottomCommandingController?(strongSelf, didPresentPopoverWith: .moreButtonTap)
             }
+            presentedPopoverContentViewController = popoverContentViewController
         }
     }
 
@@ -579,6 +570,18 @@ open class BottomCommandingController: UIViewController {
             }
             if isFinished {
                 strongSelf.delegate?.bottomCommandingController?(strongSelf, sheetDidMoveTo: targetState, commandingInteraction: commandingInteraction, sheetInteraction: .noUserAction)
+            }
+        }
+    }
+
+    private func dismissPresentedPopoverIfNeeded(with interaction: BottomCommandingInteraction, animated: Bool) {
+        if let presentedViewController = presentedViewController, presentedViewController == presentedPopoverContentViewController {
+            dismiss(animated: animated) { [weak self] in
+                guard let strongSelf = self else {
+                    return
+                }
+                strongSelf.presentedPopoverContentViewController = nil
+                strongSelf.delegate?.bottomCommandingController?(strongSelf, didDismissPopoverWith: interaction)
             }
         }
     }
@@ -801,6 +804,8 @@ open class BottomCommandingController: UIViewController {
         isInSheetMode ? bottomSheetController?.view : bottomBarView
     }
 
+    private var presentedPopoverContentViewController: UIViewController?
+
     private var isTableViewLoaded: Bool = false
 
     private var isInSheetMode: Bool { bottomSheetController != nil }
@@ -957,14 +962,7 @@ extension BottomCommandingController: UITableViewDelegate {
         }
 
         if !binding.item.isToggleable {
-            if presentedViewController != nil {
-                dismiss(animated: true) { [weak self] in
-                    guard let strongSelf = self else {
-                        return
-                    }
-                    strongSelf.delegate?.bottomCommandingController?(strongSelf, didDismissPopoverWith: .commandTap)
-                }
-            }
+            dismissPresentedPopoverIfNeeded(with: .commandTap, animated: true)
             setSheetIsExpanded(to: false, commandingInteraction: .commandTap)
             binding.item.action?(binding.item)
         }
@@ -1046,6 +1044,7 @@ extension BottomCommandingController: BottomSheetControllerDelegate {
 
 extension BottomCommandingController: UIPopoverPresentationControllerDelegate {
     public func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+        presentedPopoverContentViewController = nil
         delegate?.bottomCommandingController?(self, didDismissPopoverWith: .otherUserAction)
     }
 }

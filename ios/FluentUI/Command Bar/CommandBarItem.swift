@@ -62,17 +62,41 @@ open class CommandBarItem: NSObject {
         self.accessibilityHint = accessibilityHint
     }
 
-    @objc public var iconImage: UIImage?
+    @objc public var iconImage: UIImage? {
+        didSet {
+            if iconImage != oldValue {
+                propertyChangedUpdateBlock?(self)
+            }
+        }
+    }
 
     /// Title for the item. Only valid when `iconImage` is `nil`.
-    @objc public var title: String?
+    @objc public var title: String? {
+        didSet {
+            if title != oldValue {
+                propertyChangedUpdateBlock?(self)
+            }
+        }
+    }
 
     @objc public var titleFont: UIFont?
 
-    @objc public var isEnabled: Bool
+    @objc public var isEnabled: Bool {
+        didSet {
+            if isEnabled != oldValue {
+                propertyChangedUpdateBlock?(self)
+            }
+        }
+    }
 
     /// If `isPersistSelection` is `true`, this value would be changed to reflect the selection state of the button. Setting this value before providing to `CommandBar` would set the initial selection state.
-    @objc public var isSelected: Bool
+    @objc public var isSelected: Bool {
+        didSet {
+            if isSelected != oldValue {
+                propertyChangedUpdateBlock?(self)
+            }
+        }
+    }
 
     /// Set `isSelected` to desired value in this handler. Default implementation is toggling `isSelected` property.
     @objc public var itemTappedHandler: ItemTappedHandler
@@ -90,4 +114,7 @@ open class CommandBarItem: NSObject {
     func handleTapped(_ sender: CommandBarButton) {
         itemTappedHandler(sender, self)
     }
+
+    /// Called after a property is changed to trigger the update of a corresponding button
+    var propertyChangedUpdateBlock: ((CommandBarItem) -> Void)?
 }
