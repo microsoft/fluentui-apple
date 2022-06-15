@@ -55,7 +55,7 @@ open class ControlHostingView: UIView {
     }
 
     required public init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+		preconditionFailure("init(coder:) has not been implemented")
     }
 
     /// Adds `hostingController.view` to ourselves as a subview, and enables necessary constraints.
