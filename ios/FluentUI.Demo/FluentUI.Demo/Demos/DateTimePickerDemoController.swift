@@ -44,6 +44,7 @@ class DateTimePickerDemoController: DemoController {
         container.addArrangedSubview(createButton(title: "Show picker with custom subtitles or tabs", action: #selector(presentCustomSubtitlePicker)))
         container.addArrangedSubview(createButton(title: "Show picker with left bar-button", action: #selector(presentLeftBarButtonPicker)))
         container.addArrangedSubview(createButton(title: "Show picker with left and right bar-buttons", action: #selector(presentRightBarButtonPicker)))
+        container.addArrangedSubview(createButton(title: "Show date picker with custom calendar configuration (First weekday: Monday, Range of reference dates: a month from today", action: #selector(presentCustomCalendarConfigurationPicker)))
         container.addArrangedSubview(UIView())
         container.addArrangedSubview(createDatePickerTypeUI())
         container.addArrangedSubview(createValidationUI())
@@ -164,6 +165,15 @@ class DateTimePickerDemoController: DemoController {
         let alert = UIAlertController(title: "Callback from picker", message: "User has pressed Confirm bar-button", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
         present(alert, animated: true)
+    }
+    
+    @objc private func presentCustomCalendarConfigurationPicker() {
+        let customCalendarConfiguration = CalendarConfiguration()
+        customCalendarConfiguration.referenceStartDate = Date()
+        customCalendarConfiguration.referenceEndDate = Calendar.current.date(byAdding: .month, value: 1, to: Date())!
+        customCalendarConfiguration.firstWeekday = 2
+        
+        dateTimePicker.present(from: self, with: .date, startDate: startDate ?? Date(), calendarConfiguration: customCalendarConfiguration, datePickerType: datePickerType)
     }
 
     @objc func resetDates() {
