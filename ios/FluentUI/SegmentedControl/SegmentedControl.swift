@@ -7,7 +7,7 @@ import UIKit
 // MARK: SegmentedControl
 /// A styled segmented control that should be used instead of UISegmentedControl. It is designed to flex the button width proportionally to the control's width.
 @objc(MSFSegmentedControl)
-open class SegmentedControl: UIControl, TokenizedControlInternal {
+open class SegmentedControl: UIView, TokenizedControlInternal {
     public func overrideTokens(_ tokens: SegmentedControlTokens?) -> Self {
         overrideTokens = tokens
         return self
@@ -20,7 +20,7 @@ open class SegmentedControl: UIControl, TokenizedControlInternal {
         static let iPadMinimumWidth: CGFloat = 375
     }
 
-    open override var isEnabled: Bool {
+    open var isEnabled: Bool = true {
         didSet {
             for button in buttons {
                 button.isEnabled = isEnabled
@@ -47,6 +47,9 @@ open class SegmentedControl: UIControl, TokenizedControlInternal {
             invalidateIntrinsicContentSize()
         }
     }
+    /// The closure for the action to be called when a segment is selected.
+    /// When called, the selected item and its index will be passed in to the closure.
+    @objc public var onSelectAction: ((SegmentItem, Int) -> Void)?
     @objc public var selectedSegmentIndex: Int {
         get { return _selectedSegmentIndex }
         set { selectSegment(at: newValue, animated: false) }
@@ -463,9 +466,13 @@ open class SegmentedControl: UIControl, TokenizedControlInternal {
     }
 
     @objc private func handleButtonTap(_ sender: SegmentPillButton) {
-        if let index = buttons.firstIndex(of: sender), selectedSegmentIndex != index {
-            selectSegment(at: index, animated: isAnimated)
-            sendActions(for: .valueChanged)
+        guard let index = buttons.firstIndex(of: sender), selectedSegmentIndex != index  else {
+            return
+        }
+
+        selectSegment(at: index, animated: isAnimated)
+        if let onSelectAction = onSelectAction {
+            onSelectAction(items[index], index)
         }
     }
 
