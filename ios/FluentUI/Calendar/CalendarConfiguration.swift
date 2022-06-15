@@ -24,7 +24,7 @@ open class CalendarConfiguration: NSObject {
     /// By default, this is the default 'referenceStartDate' plus 10 years.  If overridden, make sure it's after (greater than) the 'referenceStartDate'
     @objc open var referenceEndDate: Date
 
-    @objc init(calendar: Calendar = .current) {
+    @objc public init(calendar: Calendar = .current) {
         // Compute a start date (January 1st on a year a default number of years ago)
         let yearsAgo = calendar.dateByAdding(years: Constants.startYearsAgo, to: Date())
         var components = calendar.dateComponents([.year, .month, .day], from: yearsAgo)

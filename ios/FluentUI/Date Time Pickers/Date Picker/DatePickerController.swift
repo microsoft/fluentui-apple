@@ -78,6 +78,8 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
     private let calendarView = CalendarView()
     private var calendarViewDataSource: CalendarViewDataSource!
     private var segmentedControl: SegmentedControl?
+    
+    private let calendarConfiguration: CalendarConfiguration
 
     private var entireRangeIsVisible: Bool {
         guard let visibleDates = visibleDates else {
@@ -93,13 +95,14 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
     /// - Parameters:
     ///   - startDate: A date object for the start day or day/time to be initially selected.
     ///   - endDate: A date object for an end day or day/time to be initially selected.
+    ///   - calendarConfiguration: The configuration for the picker to override the default first weekday, reference start date, and reference end date
     ///   - datePickerMode: The MSDateTimePicker mode this is presented in.
     ///   - selectionMode: The side (start or end) of the current range to be selected on this picker.
     ///   - rangePresentation: The `DateRangePresentation` in which this controller is being presented if `mode` is `.dateRange` or `.dateTimeRange`.
     ///   - titles: A `Titles` object that holds strings for use in overriding the default picker title, subtitle, and tab titles. If title is not provided, titleview will show currently selected date. If tab titles are not provided, they will default to "Start Date" and "End Date".
     ///   - leftBarButtonItem: optional UIBarButtonItem to be presented as left bar-button.
     ///   - rightBarButtonItem: optional UIBarButtonItem to be presented oas right bar-button. Note that if this view is presented, the Confirm button is not generated automatically.
-    init(startDate: Date, endDate: Date, referenceStartDate: Date? = nil, referenceEndDate: Date? = nil, mode: DateTimePickerMode, selectionMode: DatePickerSelectionManager.SelectionMode = .start, rangePresentation: DateTimePicker.DateRangePresentation, titles: DateTimePicker.Titles?, leftBarButtonItem: UIBarButtonItem?, rightBarButtonItem: UIBarButtonItem?) {
+    init(startDate: Date, endDate: Date, calendarConfiguration: CalendarConfiguration? = nil, mode: DateTimePickerMode, selectionMode: DatePickerSelectionManager.SelectionMode = .start, rangePresentation: DateTimePicker.DateRangePresentation, titles: DateTimePicker.Titles?, leftBarButtonItem: UIBarButtonItem?, rightBarButtonItem: UIBarButtonItem?) {
         if !mode.singleSelection && rangePresentation == .paged {
             customTitle = selectionMode == .start ? titles?.startTitle : titles?.endTitle
             customSubtitle = selectionMode == .start ?
@@ -114,6 +117,7 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
         self.mode = mode
         self.leftBarButtonItem = leftBarButtonItem
         self.rightBarButtonItem = rightBarButtonItem
+        self.calendarConfiguration = calendarConfiguration ?? CalendarConfiguration.default
 
         super.init(nibName: nil, bundle: nil)
 
@@ -122,17 +126,7 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
             self.endDate = endDate
         }
         
-        let calendarConfiguration = CalendarConfiguration()
-        
-        if let referenceStartDate = referenceStartDate {
-            calendarConfiguration.referenceStartDate = referenceStartDate
-        }
-        
-        if let referenceEndDate = referenceEndDate {
-            calendarConfiguration.referenceEndDate = referenceEndDate
-        }
-        
-        calendarViewDataSource = CalendarViewDataSource(styleDataSource: self, calendarConfiguration: calendarConfiguration)
+        calendarViewDataSource = CalendarViewDataSource(styleDataSource: self, calendarConfiguration: self.calendarConfiguration)
 
         let startDate = startDate.startOfDay
         selectionManager = DatePickerSelectionManager(
@@ -156,7 +150,7 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        calendarView.weekdayHeadingView.setup(horizontalSizeClass: traitCollection.horizontalSizeClass, firstWeekday: CalendarConfiguration.default.firstWeekday)
+        calendarView.weekdayHeadingView.setup(horizontalSizeClass: traitCollection.horizontalSizeClass, firstWeekday: calendarConfiguration.firstWeekday)
 
         let collectionView = calendarView.collectionView
 
