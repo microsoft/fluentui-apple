@@ -69,10 +69,10 @@ protocol DateTimePickerViewDataSourceWithDate: DateTimePickerViewDataSource {
 // MARK: - DateTimePickerViewDataSourceFactory
 
 class DateTimePickerViewDataSourceFactory {
-    static func dataSource(withType type: DateTimePickerViewComponentType, mode: DateTimePickerViewMode) -> DateTimePickerViewDataSource {
+    static func dataSource(withType type: DateTimePickerViewComponentType, mode: DateTimePickerViewMode, calendarConfiguration: CalendarConfiguration? = nil) -> DateTimePickerViewDataSource {
         switch type {
         case .date:
-            return DateTimePickerViewDateDataSource()
+            return DateTimePickerViewDateDataSource(calendarConfiguration: calendarConfiguration)
         case .month:
             return DateTimePickerViewMonthDataSource()
         case .day:
@@ -283,12 +283,15 @@ private class DateTimePickerViewYearDataSource: DateTimePickerViewDataSource {
 private class DateTimePickerViewDateDataSource: DateTimePickerViewDataSource {
     private var numberOfDates: Int
     private let today = Calendar.sharedCalendarWithTimeZone(nil).startOfDay(for: Date())
-    private let referenceStartDate = Calendar.sharedCalendarWithTimeZone(nil).startOfDay(for: CalendarConfiguration.default.referenceStartDate)
+    private let referenceStartDate: Date
     private var dateComponents = DateComponents()
     private let calendar = Calendar.sharedCalendarWithTimeZone(nil)
 
-    init() {
-        let end = calendar.startOfDay(for: CalendarConfiguration.default.referenceEndDate)
+    init(calendarConfiguration: CalendarConfiguration? = nil) {
+        referenceStartDate = Calendar.sharedCalendarWithTimeZone(nil).startOfDay(for: calendarConfiguration?.referenceStartDate ?? CalendarConfiguration.default.referenceStartDate)
+        
+        let end = calendar.startOfDay(for: calendarConfiguration?.referenceEndDate ?? CalendarConfiguration.default.referenceEndDate)
+        
         numberOfDates = referenceStartDate.days(until: end)
     }
 

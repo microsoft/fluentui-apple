@@ -61,11 +61,11 @@ class DateTimePickerView: UIControl {
         return gradientLayer
     }()
 
-    init(mode: DateTimePickerViewMode) {
+    init(mode: DateTimePickerViewMode, calendarConfiguration: CalendarConfiguration? = nil) {
         self.mode = mode
 
         componentTypes = DateTimePickerViewLayout.componentTypes(fromDatePickerMode: mode)
-        componentsByType = DateTimePickerViewLayout.componentsByType(fromTypes: componentTypes, mode: mode)
+        componentsByType = DateTimePickerViewLayout.componentsByType(fromTypes: componentTypes, mode: mode, calendarConfiguration: calendarConfiguration)
 
         super.init(frame: .zero)
 

@@ -84,13 +84,13 @@ class DateTimePickerController: UIViewController, GenericDateTimePicker {
     private var segmentedControl: SegmentedControl?
 
     // TODO: Add availability back in? - contactAvailabilitySummaryDataSource: ContactAvailabilitySummaryDataSource?,
-    init(startDate: Date, endDate: Date, mode: DateTimePickerMode, titles: DateTimePicker.Titles?, leftBarButtonItem: UIBarButtonItem?, rightBarButtonItem: UIBarButtonItem?) {
+    init(startDate: Date, endDate: Date, calendarConfiguration: CalendarConfiguration? = nil, mode: DateTimePickerMode, titles: DateTimePicker.Titles?, leftBarButtonItem: UIBarButtonItem?, rightBarButtonItem: UIBarButtonItem?) {
         self.mode = mode.singleSelection ? .single : .start
         self.startDate = startDate.rounded(toNearestMinutes: DateTimePickerViewDataSourceConstants.minuteInterval) ?? startDate
         self.endDate = self.mode == .single ? self.startDate : (endDate.rounded(toNearestMinutes: DateTimePickerViewDataSourceConstants.minuteInterval) ?? endDate)
 
         let datePickerMode: DateTimePickerViewMode = mode.includesTime ? .dateTime : .date(startYear: DateTimePickerViewMode.defaultStartYear, endYear: DateTimePickerViewMode.defaultEndYear)
-        dateTimePickerView = DateTimePickerView(mode: datePickerMode)
+        dateTimePickerView = DateTimePickerView(mode: datePickerMode, calendarConfiguration: calendarConfiguration)
         dateTimePickerView.setDate(self.startDate, animated: false)
 
         customTitle = titles?.dateTimeTitle

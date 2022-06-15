@@ -169,7 +169,7 @@ public class DateTimePicker: NSObject {
             presentDatePicker(startDate: startDate, endDate: endDate, calendarConfiguration: calendarConfiguration, dateRangePresentation: dateRangePresentation, titles: titles, leftBarButtonItem: leftBarButtonItem, rightBarButtonItem: rightBarButtonItem)
         case .dateTime, .dateTimeRange:
             let endDate = mode == .dateTime ? startDate : endDate ?? startDate.adding(hours: Constants.defaultDateTimeHoursRange)
-            presentDateTimePicker(startDate: startDate, endDate: endDate, dateRangePresentation: dateRangePresentation, titles: titles, leftBarButtonItem: leftBarButtonItem, rightBarButtonItem: rightBarButtonItem)
+            presentDateTimePicker(startDate: startDate, endDate: endDate, calendarConfiguration: calendarConfiguration, dateRangePresentation: dateRangePresentation, titles: titles, leftBarButtonItem: leftBarButtonItem, rightBarButtonItem: rightBarButtonItem)
         }
     }
 
@@ -203,16 +203,16 @@ public class DateTimePicker: NSObject {
         }
     }
 
-    private func presentDateTimePicker(startDate: Date, endDate: Date, referenceStartDate: Date? = nil, referenceEndDate: Date? = nil, dateRangePresentation: DateRangePresentation, titles: Titles?, leftBarButtonItem: UIBarButtonItem?, rightBarButtonItem: UIBarButtonItem?) {
+    private func presentDateTimePicker(startDate: Date, endDate: Date, calendarConfiguration: CalendarConfiguration? = nil, dateRangePresentation: DateRangePresentation, titles: Titles?, leftBarButtonItem: UIBarButtonItem?, rightBarButtonItem: UIBarButtonItem?) {
         guard let mode = mode else {
             preconditionFailure("Mode not set when presenting date time picker")
         }
         // If we are not presenting a range, or if we have a range, but it is within the same calendar day, present both dateTimePicker and datePicker. Also presents this way if `presentation` is in `.tabbed` mode. Otherwise, present just a dateTimePicker.
         if datePickerType == .calendar &&
             (mode == .dateTime || Calendar.current.isDate(startDate, inSameDayAs: endDate) || dateRangePresentation == .tabbed) {
-            let dateTimePicker = DateTimePickerController(startDate: startDate, endDate: endDate, mode: mode, titles: titles, leftBarButtonItem: leftBarButtonItem, rightBarButtonItem: rightBarButtonItem)
+            let dateTimePicker = DateTimePickerController(startDate: startDate, endDate: endDate, calendarConfiguration: calendarConfiguration, mode: mode, titles: titles, leftBarButtonItem: leftBarButtonItem, rightBarButtonItem: rightBarButtonItem)
             // Create datePicker second to pick up the time that dateTimePicker rounded to the nearest minute interval
-            let datePicker = DatePickerController(startDate: dateTimePicker.startDate, endDate: dateTimePicker.endDate, calendarConfiguration: nil, mode: mode, rangePresentation: dateRangePresentation, titles: titles, leftBarButtonItem: leftBarButtonItem, rightBarButtonItem: rightBarButtonItem)
+            let datePicker = DatePickerController(startDate: dateTimePicker.startDate, endDate: dateTimePicker.endDate, calendarConfiguration: calendarConfiguration, mode: mode, rangePresentation: dateRangePresentation, titles: titles, leftBarButtonItem: leftBarButtonItem, rightBarButtonItem: rightBarButtonItem)
             present([datePicker, dateTimePicker])
         } else {
             let dateTimePicker = DateTimePickerController(startDate: startDate, endDate: endDate, mode: mode, titles: titles, leftBarButtonItem: leftBarButtonItem, rightBarButtonItem: rightBarButtonItem)

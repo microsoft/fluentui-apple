@@ -44,7 +44,8 @@ class DateTimePickerDemoController: DemoController {
         container.addArrangedSubview(createButton(title: "Show picker with custom subtitles or tabs", action: #selector(presentCustomSubtitlePicker)))
         container.addArrangedSubview(createButton(title: "Show picker with left bar-button", action: #selector(presentLeftBarButtonPicker)))
         container.addArrangedSubview(createButton(title: "Show picker with left and right bar-buttons", action: #selector(presentRightBarButtonPicker)))
-        container.addArrangedSubview(createButton(title: "Show date picker with custom calendar configuration (First weekday: Monday, Range of reference dates: a month from today", action: #selector(presentCustomCalendarConfigurationPicker)))
+        container.addArrangedSubview(createButton(title: "Show date picker with custom calendar configuration (First weekday: Monday, Range of reference dates: a month from today", action: #selector(presentCustomCalendarConfigurationDatePicker)))
+        container.addArrangedSubview(createButton(title: "Show date time picker with custom calendar configuration (First weekday: Monday, Range of reference dates: a month from today", action: #selector(presentCustomCalendarConfigurationDateTimePicker)))
         container.addArrangedSubview(UIView())
         container.addArrangedSubview(createDatePickerTypeUI())
         container.addArrangedSubview(createValidationUI())
@@ -167,13 +168,22 @@ class DateTimePickerDemoController: DemoController {
         present(alert, animated: true)
     }
     
-    @objc private func presentCustomCalendarConfigurationPicker() {
+    @objc private func presentCustomCalendarConfigurationDatePicker() {
         let customCalendarConfiguration = CalendarConfiguration()
         customCalendarConfiguration.referenceStartDate = Date()
         customCalendarConfiguration.referenceEndDate = Calendar.current.date(byAdding: .month, value: 1, to: Date())!
         customCalendarConfiguration.firstWeekday = 2
         
         dateTimePicker.present(from: self, with: .date, startDate: startDate ?? Date(), calendarConfiguration: customCalendarConfiguration, datePickerType: datePickerType)
+    }
+    
+    @objc private func presentCustomCalendarConfigurationDateTimePicker() {
+        let customCalendarConfiguration = CalendarConfiguration()
+        customCalendarConfiguration.referenceStartDate = Date()
+        customCalendarConfiguration.referenceEndDate = Calendar.current.date(byAdding: .month, value: 1, to: Date())!
+        customCalendarConfiguration.firstWeekday = 2
+        
+        dateTimePicker.present(from: self, with: .dateTime, startDate: startDate ?? Date(), calendarConfiguration: customCalendarConfiguration, datePickerType: datePickerType)
     }
 
     @objc func resetDates() {

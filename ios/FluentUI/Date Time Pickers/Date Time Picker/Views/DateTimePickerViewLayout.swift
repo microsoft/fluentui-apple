@@ -60,10 +60,10 @@ class DateTimePickerViewLayout {
         }
     }
 
-    static func componentsByType(fromTypes types: [DateTimePickerViewComponentType], mode: DateTimePickerViewMode) -> [DateTimePickerViewComponentType: DateTimePickerViewComponent] {
+    static func componentsByType(fromTypes types: [DateTimePickerViewComponentType], mode: DateTimePickerViewMode, calendarConfiguration: CalendarConfiguration? = nil) -> [DateTimePickerViewComponentType: DateTimePickerViewComponent] {
         return types.reduce([DateTimePickerViewComponentType: DateTimePickerViewComponent](), { map, type in
             var map = map
-            let dataSource = DateTimePickerViewDataSourceFactory.dataSource(withType: type, mode: mode)
+            let dataSource = DateTimePickerViewDataSourceFactory.dataSource(withType: type, mode: mode, calendarConfiguration: calendarConfiguration)
 
             // Set date on MSDateTimePickerViewDataSourceWithDate to properly set number of days for month
             (dataSource as? DateTimePickerViewDataSourceWithDate)?.date = Date()
