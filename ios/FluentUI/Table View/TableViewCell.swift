@@ -1036,20 +1036,38 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     ///
     /// - Parameters:
     ///   - title: Text that appears as the first line of text
+    ///   - attributedTitle: Optional attributed text for the first line of text. If this is not set, the title will be used
     ///   - subtitle: Text that appears as the second line of text
+    ///   - attributedSubtitle: Optional attributed text for the second line of text. If this is not set, the subtitle will be used
     ///   - footer: Text that appears as the third line of text
+    ///   - attributedFooter: Optional attributed text for the third line of text. If this is not set, the footer will be used
     ///   - customView: The custom view that appears near the leading edge next to the text
     ///   - customAccessoryView: The view acting as an accessory view that appears on the trailing edge, next to the accessory type if provided
     ///   - accessoryType: The type of accessory that appears on the trailing edge: a disclosure indicator or a details button with an ellipsis icon
-    @objc open func setup(title: String,
+    @objc open func setup(title: String = "",
+                          attributedTitle: NSAttributedString? = nil,
                           subtitle: String = "",
+                          attributedSubtitle: NSAttributedString? = nil,
                           footer: String = "",
+                          attributedFooter: NSAttributedString? = nil,
                           customView: UIView? = nil,
                           customAccessoryView: UIView? = nil,
                           accessoryType: TableViewCellAccessoryType = .none) {
-        titleLabel.text = title
-        subtitleLabel.text = subtitle
-        footerLabel.text = footer
+        if let attributedTitle = attributedTitle {
+            titleLabel.attributedText = attributedTitle
+        } else {
+            titleLabel.text = title
+        }
+        if let attributedSubtitle = attributedSubtitle {
+            subtitleLabel.attributedText = attributedSubtitle
+        } else {
+            subtitleLabel.text = subtitle
+        }
+        if let attributedFooter = attributedFooter {
+            footerLabel.attributedText = attributedFooter
+        } else {
+            footerLabel.text = footer
+        }
         self.customView = customView
         self.customAccessoryView = customAccessoryView
         _accessoryType = accessoryType
