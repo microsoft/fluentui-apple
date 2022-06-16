@@ -17,9 +17,6 @@ import UIKit
 
 /// Design token set for the `Shimmer` control.
 open class ShimmerTokens: ControlTokens {
-    /// Determines whether the shimmer is a revealing shimmer or a concealing shimmer
-    public internal(set) var style: MSFShimmerStyle = .revealing
-
     // MARK: - Design Tokens
 
     /// The alpha value of the center of the gradient in the animation if shimmer is revealing shimmer
@@ -41,22 +38,19 @@ open class ShimmerTokens: ControlTokens {
             return DynamicColor(light: globalTokens.neutralColors[.white],
                                 dark: globalTokens.neutralColors[.grey8])
         case .revealing:
-            return tint
+            return DynamicColor(light: ColorValue(0xF1F1F1) /* gray50 */,
+                                lightHighContrast: ColorValue(0x919191) /* gray400 */,
+                                dark: aliasTokens.backgroundColors[.surfaceQuaternary].dark,
+                                darkHighContrast: ColorValue(0x919191) /* gray400 */)
         }
     }
 
+    ///  Color of the darkest part of the shimmer's gradient.
     open var darkGradient: ColorValue {
         return globalTokens.neutralColors[.black]
     }
 
-    open var tint: DynamicColor {
-        return DynamicColor(light: ColorValue(0xF1F1F1) /* gray50 */,
-                            lightHighContrast: ColorValue(0x919191) /* gray400 */,
-                            dark: aliasTokens.backgroundColors[.surfaceQuaternary].dark,
-                            darkHighContrast: ColorValue(0x919191) /* gray400 */)
-    }
-
-    /// the width of the gradient in the animation
+    /// The width of the gradient in the animation.
     open var shimmerWidth: CGFloat { 180.0 }
 
     /// Angle of the direction of the gradient, in radian. 0 means horizontal, Pi/2 means vertical.
@@ -77,6 +71,9 @@ open class ShimmerTokens: ControlTokens {
     /// Height of shimmering labels.
     open var labelHeight: CGFloat { 11.0 }
 
-    /// Spacing between (if lines > 1)
-    open var labelSpacing: CGFloat { 12.0 }
+    /// Spacing between (if lines > 1).
+    open var labelSpacing: CGFloat { aliasTokens.globalTokens.spacing[.small] }
+
+    /// Determines whether the shimmer is a revealing shimmer or a concealing shimmer
+    public internal(set) var style: MSFShimmerStyle = .revealing
 }
