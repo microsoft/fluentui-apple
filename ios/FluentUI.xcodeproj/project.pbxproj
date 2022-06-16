@@ -192,6 +192,7 @@
 		929DD257266ED3AC00E8175E /* PersonaButtonCarouselTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 929DD255266ED3AC00E8175E /* PersonaButtonCarouselTokens.swift */; };
 		929DD25A266ED3B600E8175E /* PersonaButtonCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 929DD258266ED3B600E8175E /* PersonaButtonCarousel.swift */; };
 		92A1E4F526A791590007ED60 /* MSFCardNudge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A1E4F326A791590007ED60 /* MSFCardNudge.swift */; };
+		92B53837284AB62800017BDB /* TokenResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92B53836284AB62800017BDB /* TokenResolver.swift */; };
 		92B7E6A326864AE900EFC15E /* MSFPersonaButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92B7E6A12684262900EFC15E /* MSFPersonaButton.swift */; };
 		92D49054278FF4E50085C018 /* PersonaButtonCarouselModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D49053278FF4E50085C018 /* PersonaButtonCarouselModifiers.swift */; };
 		92D5598226A0FD2800328FD3 /* CardNudge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D5598026A0FD2800328FD3 /* CardNudge.swift */; };
@@ -331,6 +332,7 @@
 		929DD255266ED3AC00E8175E /* PersonaButtonCarouselTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonaButtonCarouselTokens.swift; sourceTree = "<group>"; };
 		929DD258266ED3B600E8175E /* PersonaButtonCarousel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonaButtonCarousel.swift; sourceTree = "<group>"; };
 		92A1E4F326A791590007ED60 /* MSFCardNudge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFCardNudge.swift; sourceTree = "<group>"; };
+		92B53836284AB62800017BDB /* TokenResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenResolver.swift; sourceTree = "<group>"; };
 		92B7E6A12684262900EFC15E /* MSFPersonaButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFPersonaButton.swift; sourceTree = "<group>"; };
 		92D49053278FF4E50085C018 /* PersonaButtonCarouselModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaButtonCarouselModifiers.swift; sourceTree = "<group>"; };
 		92D5598026A0FD2800328FD3 /* CardNudge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardNudge.swift; sourceTree = "<group>"; };
@@ -852,6 +854,7 @@
 				925728F6276D6AF800EE1019 /* ShadowInfo.swift */,
 				923DB9D2274CB65700D8E58A /* TokenizedControl.swift */,
 				92EE82AC27025A94009D52B5 /* TokenSet.swift */,
+				92B53836284AB62800017BDB /* TokenResolver.swift */,
 			);
 			path = Tokens;
 			sourceTree = "<group>";
@@ -1634,6 +1637,7 @@
 				92A1E4F526A791590007ED60 /* MSFCardNudge.swift in Sources */,
 				5314E1C425F01B4E0099271A /* TwoLineTitleView.swift in Sources */,
 				5314E0CF25F011F10099271A /* Label.swift in Sources */,
+				92B53837284AB62800017BDB /* TokenResolver.swift in Sources */,
 				5314E13925F016370099271A /* PopupMenuController.swift in Sources */,
 				9298798B2669A875002B1EB4 /* PersonaButtonTokens.swift in Sources */,
 				53E2EE0527860D010086D30D /* MSFActivityIndicator.swift in Sources */,
