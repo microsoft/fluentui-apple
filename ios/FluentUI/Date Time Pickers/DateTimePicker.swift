@@ -90,7 +90,7 @@ public class DateTimePicker: NSObject {
     private var presentedPickers: [GenericDateTimePicker]?
 
     private var datePickerType: DatePickerType = .calendar
-    
+
     /// Presents a picker or set of pickers from a `presentingController` depending on the mode selected. Also handles accessibility replacement presentation.
     /// The picker has a default range of dates available that works for most scenarios. To change that range, override referenceStartDate and referenceEndDate in the default instance of CalendarConfiguration.
     ///

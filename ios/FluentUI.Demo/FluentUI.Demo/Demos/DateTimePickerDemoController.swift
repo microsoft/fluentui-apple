@@ -160,7 +160,6 @@ class DateTimePickerDemoController: DemoController {
 
     @objc func presentDateRangePicker() {
         let (startDate, endDate, _) = calcDatePickerParams()
-        
         dateTimePicker.present(from: self, with: .dateRange, startDate: startDate, endDate: endDate, calendarConfiguration: calendarConfiguration, datePickerType: datePickerType)
     }
 

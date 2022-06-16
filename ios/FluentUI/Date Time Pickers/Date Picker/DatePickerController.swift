@@ -125,7 +125,7 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
             self.startDate = startDate
             self.endDate = endDate
         }
-        
+
         calendarViewDataSource = CalendarViewDataSource(styleDataSource: self, calendarConfiguration: self.calendarConfiguration)
 
         let startDate = startDate.startOfDay
