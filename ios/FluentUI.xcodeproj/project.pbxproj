@@ -750,7 +750,6 @@
 				536AEF3225F1EC0300A36206 /* List */,
 				4BA9B8B5279F2940007536F5 /* Notification */,
 				0AA8741326001F0500D47421 /* Persona */,
-				C0A0D75D233AEA9900F432FD /* Shimmer */,
 			);
 			path = Vnext;
 			sourceTree = "<group>";
@@ -982,6 +981,7 @@
 				5314DFF725F007FF0099271A /* ResizingHandleView */,
 				ECEBA8F625EDEFF70048EE24 /* SegmentedControl */,
 				5314DFE625F000740099271A /* Separator */,
+				C0A0D75D233AEA9900F432FD /* Shimmer */,
 				1168630122E131A20088B302 /* Tab Bar */,
 				B444D6B421825B510002B4D4 /* Table View */,
 				FD7DF05A21FA7F3200857267 /* Tooltip */,
