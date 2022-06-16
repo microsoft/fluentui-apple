@@ -160,7 +160,7 @@ public class DateTimePicker: NSObject {
         self.mode = mode
         self.datePickerType = datePickerType
         if UIAccessibility.isVoiceOverRunning {
-            presentDateTimePickerForAccessibility(startDate: startDate, endDate: endDate ?? startDate, titles: titles, leftBarButtonItem: leftBarButtonItem, rightBarButtonItem: rightBarButtonItem)
+            presentDateTimePickerForAccessibility(startDate: startDate, endDate: endDate ?? startDate, calendarConfiguration: calendarConfiguration, titles: titles, leftBarButtonItem: leftBarButtonItem, rightBarButtonItem: rightBarButtonItem)
             return
         }
         switch mode {
@@ -220,11 +220,11 @@ public class DateTimePicker: NSObject {
         }
     }
 
-    private func presentDateTimePickerForAccessibility(startDate: Date, endDate: Date, titles: Titles?, leftBarButtonItem: UIBarButtonItem?, rightBarButtonItem: UIBarButtonItem?) {
+    private func presentDateTimePickerForAccessibility(startDate: Date, endDate: Date, calendarConfiguration: CalendarConfiguration? = nil, titles: Titles?, leftBarButtonItem: UIBarButtonItem?, rightBarButtonItem: UIBarButtonItem?) {
         guard let mode = mode else {
             preconditionFailure("Mode not set when presenting date time picker for accessibility")
         }
-        let dateTimePicker = DateTimePickerController(startDate: startDate, endDate: endDate, mode: mode, titles: titles, leftBarButtonItem: leftBarButtonItem, rightBarButtonItem: rightBarButtonItem)
+        let dateTimePicker = DateTimePickerController(startDate: startDate, endDate: endDate, calendarConfiguration: calendarConfiguration, mode: mode, titles: titles, leftBarButtonItem: leftBarButtonItem, rightBarButtonItem: rightBarButtonItem)
         present([dateTimePicker])
     }
 
