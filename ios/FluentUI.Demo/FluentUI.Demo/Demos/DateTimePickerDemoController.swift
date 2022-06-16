@@ -84,26 +84,25 @@ class DateTimePickerDemoController: DemoController {
     }
     
     func createCustomCalendarConfigurationUI() -> UIStackView {
-        let container = UIStackView()
-        container.axis = .vertical
+        let customCalendarConfigurationTitleLabel = Label(style: .subhead, colorStyle: .regular)
+        customCalendarConfigurationTitleLabel.text = "Custom calendar configuration:"
+        
+        let customCalendarConfigurationBodyLabel = Label(style: .footnote, colorStyle: .regular)
+        customCalendarConfigurationBodyLabel.text = "First weekday: Monday\nReference start date: Today\nReference end date: One month from today"
+        customCalendarConfigurationBodyLabel.numberOfLines = 0
         
         let switchContainer = UIStackView()
         switchContainer.axis = .horizontal
         switchContainer.alignment = .center
         switchContainer.distribution = .equalSpacing
-        
-        let customCalendarConfigurationTitleLabel = Label(style: .subhead, colorStyle: .regular)
-        customCalendarConfigurationTitleLabel.text = "Custom calendar configuration:"
-        
         switchContainer.addArrangedSubview(customCalendarConfigurationTitleLabel)
         switchContainer.addArrangedSubview(customCalendarConfigurationSwitch)
-    
-        let customCalendarConfigurationLabel = Label(style: .footnote, colorStyle: .regular)
-        customCalendarConfigurationLabel.text = "First weekday: Monday\nReference start date: Today\nReference end date: One month from today"
-        customCalendarConfigurationLabel.numberOfLines = 0
         
+        let container = UIStackView()
+        container.axis = .vertical
         container.addArrangedSubview(switchContainer)
-        container.addArrangedSubview(customCalendarConfigurationLabel)
+        container.addArrangedSubview(customCalendarConfigurationBodyLabel)
+        
         return container
     }
 
