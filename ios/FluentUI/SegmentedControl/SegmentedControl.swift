@@ -31,7 +31,11 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
 
     @objc public var isAnimated: Bool = true
     @objc public var numberOfSegments: Int { return items.count }
-    @objc public var shouldSetEqualWidthForSegments: Bool = true
+    @objc public var shouldSetEqualWidthForSegments: Bool = true {
+        didSet {
+            updateStackDistribution()
+        }
+    }
 
     /// only used for pill style segment control. It is used to define the inset of the pillContainerView
     @objc public var contentInset: NSDirectionalEdgeInsets = NSDirectionalEdgeInsets(top: 0, leading: Constants.pillContainerHorizontalInset, bottom: 0, trailing: Constants.pillContainerHorizontalInset) {
@@ -99,6 +103,12 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
 
         return view
     }()
+    private let stackView: UIStackView = {
+       let stackView = UIStackView()
+        stackView.axis = .horizontal
+
+        return stackView
+    }()
     private var pillMaskedLabels = [UILabel?]()
     private var pillMaskedImages = [UIImageView?]()
     private var pillContainerViewTopConstraint: NSLayoutConstraint?
@@ -123,6 +133,7 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
 
         backgroundView.layer.cornerRadius = Constants.pillButtonCornerRadius
         pillContainerView.addSubview(backgroundView)
+        pillContainerView.addSubview(stackView)
         selectionView.backgroundColor = .black
         pillContainerView.addSubview(selectionView)
         pillMaskedContentContainerView.mask = selectionView
@@ -132,10 +143,10 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
         // We need to add pillMaskedContentContainerView to the container view
         // before the buttons in order to activate the label constraints, but
         // we want pillMaskedContentContainerView to show above the buttons.
-        pillContainerView.bringSubviewToFront(pillMaskedContentContainerView)
         pillContainerView.addInteraction(UILargeContentViewerInteraction())
         addSubview(pillContainerView)
 
+        updateStackDistribution()
         setupLayoutConstraints()
 
         NotificationCenter.default.addObserver(self,
@@ -186,7 +197,7 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
         items.insert(item, at: index)
 
         let button = createPillButton(withItem: item)
-        pillContainerView.addSubview(button)
+        stackView.addArrangedSubview(button)
         addMaskedContent(over: button, at: index, hasImage: item.image != nil)
         buttons.insert(button, at: index)
         updateButton(at: index, isSelected: false)
@@ -481,6 +492,7 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
         var constraints = [NSLayoutConstraint]()
         pillContainerView.translatesAutoresizingMaskIntoConstraints = false
         pillMaskedContentContainerView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.translatesAutoresizingMaskIntoConstraints = false
 
         let pillContainerViewTopConstraint = pillContainerView.topAnchor.constraint(equalTo: topAnchor,
                                                                                     constant: contentInset.top)
@@ -504,6 +516,10 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
             backgroundView.trailingAnchor.constraint(equalTo: pillContainerView.trailingAnchor),
             backgroundView.topAnchor.constraint(equalTo: pillContainerView.topAnchor),
             backgroundView.bottomAnchor.constraint(equalTo: pillContainerView.bottomAnchor),
+            stackView.leadingAnchor.constraint(equalTo: pillContainerView.leadingAnchor),
+            stackView.trailingAnchor.constraint(equalTo: pillContainerView.trailingAnchor),
+            stackView.topAnchor.constraint(equalTo: pillContainerView.topAnchor),
+            stackView.bottomAnchor.constraint(equalTo: pillContainerView.bottomAnchor),
 
             pillMaskedContentContainerView.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor),
             pillMaskedContentContainerView.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor),
@@ -546,5 +562,9 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
             button.accessibilityHint = String.localizedStringWithFormat("Accessibility.MSPillButtonBar.Hint".localized,
                                                                         index + 1, items.count)
         }
+    }
+
+    private func updateStackDistribution() {
+        stackView.distribution = shouldSetEqualWidthForSegments ? .fillEqually : .fill
     }
 }
