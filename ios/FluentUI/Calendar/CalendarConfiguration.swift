@@ -6,6 +6,8 @@
 import Foundation
 
 // MARK: CalendarConfiguration
+
+/// Representation of how a calendar can be configured, including what the first day of the week is, and what the range of shown dates are
 @objc(MSFCalendarConfiguration)
 open class CalendarConfiguration: NSObject {
     private struct Constants {
@@ -16,6 +18,7 @@ open class CalendarConfiguration: NSObject {
     // swiftlint:disable:next explicit_type_interface
     @objc public static let `default` = CalendarConfiguration()
 
+    /// By default, this is Sunday ('1')
     @objc open var firstWeekday: Int = Calendar.current.firstWeekday
 
     /// By default, this is today minus 3 years. If overridden, make sure it's before (less than) the 'referenceEndDate'
