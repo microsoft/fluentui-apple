@@ -80,9 +80,9 @@ class DateTimePickerViewDataSourceFactory {
         case .year:
             switch mode {
             case .date(let startYear, let endYear):
-                return DateTimePickerViewYearDataSource(startYear: startYear, endYear: endYear)
+                return DateTimePickerViewYearDataSource(startYear: calendarConfiguration?.referenceStartDate.year ?? startYear, endYear: calendarConfiguration?.referenceEndDate.year ?? endYear)
             case .dateTime, .dayOfMonth:
-                return DateTimePickerViewYearDataSource(startYear: DateTimePickerViewMode.defaultStartYear, endYear: DateTimePickerViewMode.defaultEndYear)
+                return DateTimePickerViewYearDataSource(startYear: calendarConfiguration?.referenceStartDate.year ?? DateTimePickerViewMode.defaultStartYear, endYear: calendarConfiguration?.referenceEndDate.year ?? DateTimePickerViewMode.defaultEndYear)
             }
         case .timeHour:
             return DateTimePickerViewHourDataSource()

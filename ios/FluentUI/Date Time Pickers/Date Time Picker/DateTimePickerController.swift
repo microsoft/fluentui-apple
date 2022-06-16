@@ -89,7 +89,7 @@ class DateTimePickerController: UIViewController, GenericDateTimePicker {
         self.startDate = startDate.rounded(toNearestMinutes: DateTimePickerViewDataSourceConstants.minuteInterval) ?? startDate
         self.endDate = self.mode == .single ? self.startDate : (endDate.rounded(toNearestMinutes: DateTimePickerViewDataSourceConstants.minuteInterval) ?? endDate)
 
-        let datePickerMode: DateTimePickerViewMode = mode.includesTime ? .dateTime : .date(startYear: DateTimePickerViewMode.defaultStartYear, endYear: DateTimePickerViewMode.defaultEndYear)
+        let datePickerMode: DateTimePickerViewMode = mode.includesTime ? .dateTime : .date(startYear: calendarConfiguration?.referenceStartDate.year ?? DateTimePickerViewMode.defaultStartYear, endYear: calendarConfiguration?.referenceEndDate.year ?? DateTimePickerViewMode.defaultEndYear)
         dateTimePickerView = DateTimePickerView(mode: datePickerMode, calendarConfiguration: calendarConfiguration)
         dateTimePickerView.setDate(self.startDate, animated: false)
 

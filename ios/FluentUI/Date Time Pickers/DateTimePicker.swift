@@ -187,8 +187,8 @@ public class DateTimePicker: NSObject {
         let startDate = startDate.startOfDay
         let endDate = endDate.startOfDay
         if datePickerType == .calendar && mode == .dateRange && dateRangePresentation == .paged {
-            let startDatePicker = DatePickerController(startDate: startDate, endDate: endDate, mode: mode, selectionMode: .start, rangePresentation: dateRangePresentation, titles: titles, leftBarButtonItem: leftBarButtonItem, rightBarButtonItem: rightBarButtonItem)
-            let endDatePicker = DatePickerController(startDate: startDate, endDate: endDate, mode: mode, selectionMode: .end, rangePresentation: dateRangePresentation, titles: titles, leftBarButtonItem: leftBarButtonItem, rightBarButtonItem: rightBarButtonItem)
+            let startDatePicker = DatePickerController(startDate: startDate, endDate: endDate, calendarConfiguration: calendarConfiguration, mode: mode, selectionMode: .start, rangePresentation: dateRangePresentation, titles: titles, leftBarButtonItem: leftBarButtonItem, rightBarButtonItem: rightBarButtonItem)
+            let endDatePicker = DatePickerController(startDate: startDate, endDate: endDate, calendarConfiguration: calendarConfiguration, mode: mode, selectionMode: .end, rangePresentation: dateRangePresentation, titles: titles, leftBarButtonItem: leftBarButtonItem, rightBarButtonItem: rightBarButtonItem)
             present([startDatePicker, endDatePicker])
         } else {
             let endDate = mode.singleSelection ? startDate : endDate
@@ -197,7 +197,7 @@ public class DateTimePicker: NSObject {
             case .calendar:
                 datePicker = DatePickerController(startDate: startDate, endDate: endDate, calendarConfiguration: calendarConfiguration, mode: mode, rangePresentation: dateRangePresentation, titles: titles, leftBarButtonItem: leftBarButtonItem, rightBarButtonItem: rightBarButtonItem)
             case .components:
-                datePicker = DateTimePickerController(startDate: startDate, endDate: endDate, mode: mode, titles: titles, leftBarButtonItem: leftBarButtonItem, rightBarButtonItem: rightBarButtonItem)
+                datePicker = DateTimePickerController(startDate: startDate, endDate: endDate, calendarConfiguration: calendarConfiguration, mode: mode, titles: titles, leftBarButtonItem: leftBarButtonItem, rightBarButtonItem: rightBarButtonItem)
             }
             present([datePicker])
         }
@@ -215,7 +215,7 @@ public class DateTimePicker: NSObject {
             let datePicker = DatePickerController(startDate: dateTimePicker.startDate, endDate: dateTimePicker.endDate, calendarConfiguration: calendarConfiguration, mode: mode, rangePresentation: dateRangePresentation, titles: titles, leftBarButtonItem: leftBarButtonItem, rightBarButtonItem: rightBarButtonItem)
             present([datePicker, dateTimePicker])
         } else {
-            let dateTimePicker = DateTimePickerController(startDate: startDate, endDate: endDate, mode: mode, titles: titles, leftBarButtonItem: leftBarButtonItem, rightBarButtonItem: rightBarButtonItem)
+            let dateTimePicker = DateTimePickerController(startDate: startDate, endDate: endDate, calendarConfiguration: calendarConfiguration, mode: mode, titles: titles, leftBarButtonItem: leftBarButtonItem, rightBarButtonItem: rightBarButtonItem)
             present([dateTimePicker])
         }
     }
