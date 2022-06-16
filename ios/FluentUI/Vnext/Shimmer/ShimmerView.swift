@@ -7,21 +7,28 @@ import UIKit
 
 /// View that converts the subviews of a container view into a loading state with the "shimmering" effect
 @objc(MSFShimmerView)
-open class ShimmerView: UIView, TokenizedControlInternal, ControlConfiguration {
+open class ShimmerView: UIView, TokenizedControlInternal {
 
     /// Optional synchronizer to sync multiple shimmer views
     @objc open weak var animationSynchronizer: AnimationSynchronizerProtocol?
 
     open override var intrinsicContentSize: CGSize { return bounds.size }
 
-    /// Layers covering the subviews of the container
-    var viewCoverLayers = [CALayer]()
+    open override func layoutSubviews() {
+        super.layoutSubviews()
 
-    /// Layer that slides to provide the "shimmer" effect
-    var shimmeringLayer = CAGradientLayer()
+        updateViewCoverLayers()
 
-    private weak var containerView: UIView?
-    private var excludedViews: [UIView]
+        let viewToCover = containerView ?? self
+
+        shimmeringLayer.frame = CGRect(x: -viewToCover.frame.width,
+                                       y: 0.0,
+                                       width: viewToCover.bounds.width + 2 * viewToCover.frame.width,
+                                       height: viewToCover.frame.height)
+
+        updateShimmeringLayer()
+        updateShimmeringAnimation()
+    }
 
     /// Create a shimmer view
     /// - Parameter containerView: view to convert layout into a shimmer -- each of containerView's first-level subviews will be mirrored
@@ -59,25 +66,25 @@ open class ShimmerView: UIView, TokenizedControlInternal, ControlConfiguration {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
-    open override func layoutSubviews() {
-        super.layoutSubviews()
-
-        updateViewCoverLayers()
-
-        let viewToCover = containerView ?? self
-
-        shimmeringLayer.frame = CGRect(x: -viewToCover.frame.width,
-                                       y: 0.0,
-                                       width: viewToCover.bounds.width + 2 * viewToCover.frame.width,
-                                       height: viewToCover.frame.height)
-
-        updateShimmeringLayer()
+    /// Manaully sync with the synchronizer
+    @objc public func syncAnimation() {
         updateShimmeringAnimation()
     }
 
-    /// Manaully sync with the synchronizer
-    @objc open func syncAnimation() {
-        updateShimmeringAnimation()
+    public var tokens: ShimmerTokens = .init()
+
+    // MARK: - TokenizedControl
+    public typealias TokenType = ShimmerTokens
+    public func overrideTokens(_ tokens: ShimmerTokens?) -> Self {
+        overrideTokens = tokens
+        return self
+    }
+
+    /// Style to draw the control.
+    public var style: MSFShimmerStyle {
+        didSet {
+            tokens.style = style
+        }
     }
 
     /// Update the frame of each layer covering views in the containerView
@@ -200,28 +207,19 @@ open class ShimmerView: UIView, TokenizedControlInternal, ControlConfiguration {
         shimmeringLayer.add(animationGroup, forKey: "shimmering")
     }
 
-    // MARK: - TokenizedControl
-    public typealias TokenType = ShimmerTokens
-    public func overrideTokens(_ tokens: ShimmerTokens?) -> Self {
-        overrideTokens = tokens
-        return self
-    }
-
-    /// Style to draw the control.
-    public var style: MSFShimmerStyle {
-        didSet {
-            tokens.style = style
-        }
-    }
-
     var defaultTokens: ShimmerTokens = .init()
-    var tokens: ShimmerTokens = .init()
     /// Design token set for this control, to use in place of the control's default Fluent tokens.
     var overrideTokens: ShimmerTokens? {
         didSet {
             tokens = resolvedTokens
         }
     }
+
+    /// Layers covering the subviews of the container
+    var viewCoverLayers = [CALayer]()
+
+    /// Layer that slides to provide the "shimmer" effect
+    var shimmeringLayer = CAGradientLayer()
 
     private func searchLeaves(in view: UIView, output: inout [UIView]) {
         for v in view.subviews {
@@ -235,4 +233,6 @@ open class ShimmerView: UIView, TokenizedControlInternal, ControlConfiguration {
 
     private var shimmersLeafViews: Bool
     private var usesTextHeightForLabels: Bool
+    private var excludedViews: [UIView]
+    private weak var containerView: UIView?
 }
