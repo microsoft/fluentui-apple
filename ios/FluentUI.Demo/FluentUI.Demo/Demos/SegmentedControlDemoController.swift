@@ -11,7 +11,13 @@ class SegmentedControlDemoController: DemoController {
         SegmentItem(title: "First"),
         SegmentItem(title: "Second", image: UIImage(named: "Placeholder_20")),
         SegmentItem(title: "Third", isUnread: true),
-        SegmentItem(title: "Fourth")
+        SegmentItem(title: "Fourth"),
+        SegmentItem(title: "Fifth"),
+        SegmentItem(title: "Sixth"),
+        SegmentItem(title: "Seventh"),
+        SegmentItem(title: "Eigth"),
+        SegmentItem(title: "Ninth"),
+        SegmentItem(title: "Tenth")
     ]
 
     var controlLabels = [SegmentedControl: Label]() {
@@ -35,7 +41,7 @@ class SegmentedControlDemoController: DemoController {
 
         addTitle(text: "Primary Pill with unequal buttons")
 
-        addPillControl(items: Array(segmentItems.prefix(2)),
+        addPillControl(items: Array(segmentItems.prefix(10)),
                        style: .primaryPill,
                        equalSegments: false)
         container.addArrangedSubview(UIView())
