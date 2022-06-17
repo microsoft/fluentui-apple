@@ -105,7 +105,7 @@ public class DateTimePicker: NSObject {
     @objc public func present(from presentingController: UIViewController, with mode: DateTimePickerMode, startDate: Date = Date(), endDate: Date? = nil, datePickerType: DatePickerType = .calendar, dateRangePresentation: DateRangePresentation = .paged, titles: Titles? = nil) {
         present(from: presentingController, with: mode, startDate: startDate, endDate: endDate, calendarConfiguration: nil, datePickerType: datePickerType, dateRangePresentation: dateRangePresentation, leftBarButtonItem: nil, rightBarButtonItem: nil)
     }
-    
+
     /// Presents a picker or set of pickers from a `presentingController` depending on the mode selected. Also handles accessibility replacement presentation.
     /// The picker has a default range of dates available that works for most scenarios. To change that range, override referenceStartDate and referenceEndDate in the default instance of CalendarConfiguration.
     ///
@@ -139,7 +139,7 @@ public class DateTimePicker: NSObject {
     @objc public func present(from presentingController: UIViewController, with mode: DateTimePickerMode, startDate: Date = Date(), endDate: Date? = nil, datePickerType: DatePickerType = .calendar, dateRangePresentation: DateRangePresentation = .paged, titles: Titles? = nil, leftBarButtonItem: UIBarButtonItem? = nil, rightBarButtonItem: UIBarButtonItem? = nil) {
         present(from: presentingController, with: mode, startDate: startDate, endDate: endDate, calendarConfiguration: nil, datePickerType: datePickerType, dateRangePresentation: dateRangePresentation, titles: titles, leftBarButtonItem: leftBarButtonItem, rightBarButtonItem: rightBarButtonItem)
     }
-    
+
     /// Presents a picker or set of pickers from a `presentingController` depending on the mode selected. Also handles accessibility replacement presentation.
     /// The picker has a default range of dates available that works for most scenarios. To change that range, override referenceStartDate and referenceEndDate in the default instance of CalendarConfiguration.
     ///

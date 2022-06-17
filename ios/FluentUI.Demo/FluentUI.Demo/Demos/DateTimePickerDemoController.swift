@@ -22,18 +22,16 @@ class DateTimePickerDemoController: DemoController {
             preconditionFailure("Unknown date picker type index")
         }
     }
-    
+
     private let customCalendarConfigurationSwitch = UISwitch()
     private var calendarConfiguration: CalendarConfiguration? {
-        if (customCalendarConfigurationSwitch.isOn)
-        {
+        if customCalendarConfigurationSwitch.isOn {
             let customCalendarConfiguration = CalendarConfiguration()
             customCalendarConfiguration.referenceStartDate = Date()
             customCalendarConfiguration.referenceEndDate = Calendar.current.date(byAdding: .month, value: 1, to: Date())!
             customCalendarConfiguration.firstWeekday = 2
             return customCalendarConfiguration
-        }
-        else {
+        } else {
             return nil
         }
     }
@@ -82,27 +80,27 @@ class DateTimePickerDemoController: DemoController {
 
         return container
     }
-    
+
     func createCustomCalendarConfigurationUI() -> UIStackView {
         let customCalendarConfigurationTitleLabel = Label(style: .subhead, colorStyle: .regular)
         customCalendarConfigurationTitleLabel.text = "Custom calendar configuration:"
-        
+
         let customCalendarConfigurationBodyLabel = Label(style: .footnote, colorStyle: .regular)
         customCalendarConfigurationBodyLabel.text = "First weekday: Monday\nReference start date: Today\nReference end date: One month from today"
         customCalendarConfigurationBodyLabel.numberOfLines = 0
-        
+
         let switchContainer = UIStackView()
         switchContainer.axis = .horizontal
         switchContainer.alignment = .center
         switchContainer.distribution = .equalSpacing
         switchContainer.addArrangedSubview(customCalendarConfigurationTitleLabel)
         switchContainer.addArrangedSubview(customCalendarConfigurationSwitch)
-        
+
         let container = UIStackView()
         container.axis = .vertical
         container.addArrangedSubview(switchContainer)
         container.addArrangedSubview(customCalendarConfigurationBodyLabel)
-        
+
         return container
     }
 

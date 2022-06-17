@@ -289,9 +289,9 @@ private class DateTimePickerViewDateDataSource: DateTimePickerViewDataSource {
 
     init(calendarConfiguration: CalendarConfiguration? = nil) {
         referenceStartDate = Calendar.sharedCalendarWithTimeZone(nil).startOfDay(for: calendarConfiguration?.referenceStartDate ?? CalendarConfiguration.default.referenceStartDate)
-        
+
         let end = calendar.startOfDay(for: calendarConfiguration?.referenceEndDate ?? CalendarConfiguration.default.referenceEndDate)
-        
+
         numberOfDates = referenceStartDate.days(until: end)
     }
 

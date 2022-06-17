@@ -78,7 +78,7 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
     private let calendarView = CalendarView()
     private var calendarViewDataSource: CalendarViewDataSource!
     private var segmentedControl: SegmentedControl?
-    
+
     private let calendarConfiguration: CalendarConfiguration
 
     private var entireRangeIsVisible: Bool {
