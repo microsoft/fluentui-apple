@@ -5,12 +5,12 @@
 
 There are variations of date pickers depending on the DateTimePickerMode, and DatePickerType
 
-| | DatePickerType: `calendar` | DatePickerType: `components`
-| - | - | - |
-| DateTimePickerMode: `date` | ![Date-Calendar.png](.attachments/Date-Calendar.png) | ![Date-Components.png](.attachments/Date-Components.png) |
-| DateTimePickerMode: `dateTime` | Page 1 and page 2: ![DateTime-Calendar-1.png](.attachments/DateTime-Calendar-1.png) ![DateTime-Calendar-2.png](.attachments/DateTime-Calendar-2.png) | ![DateTime-Components.png](.attachments/DateTime-Components.png) |
-| DateTimePickerMode: `dateRange` | Paged and Tabbed versions: ![DateRange-Calendar-Paged.png](.attachments/DateRange-Calendar-Paged.png) ![DateRange-Calendar-Tabbed.png](.attachments/DateRange-Calendar-Tabbed.png) | ![DateRange-Components.png](.attachments/DateRange-Components.png) |
-| DateTimePickerMode: `dateTimeRange` | ![DateTimeRange.png](.attachments/DateTimeRange.png) | ![DateTimeRange.png](.attachments/DateTimeRange.png) |
+| | DatePickerType: `calendar`| | DatePickerType: `components`|
+| - | - | - | - |
+| DateTimePickerMode: `date` | ![Date-Calendar.png](.attachments/Date-Calendar.png) | | ![Date-Components.png](.attachments/Date-Components.png) |
+| DateTimePickerMode: `dateTime` | Page 1: ![DateTime-Calendar-1.png](.attachments/DateTime-Calendar-1.png) | Page 2: ![DateTime-Calendar-2.png](.attachments/DateTime-Calendar-2.png) | ![DateTime-Components.png](.attachments/DateTime-Components.png) |
+| DateTimePickerMode: `dateRange` | Paged version: ![DateRange-Calendar-Paged.png](.attachments/DateRange-Calendar-Paged.png) | Tabbed version: ![DateRange-Calendar-Tabbed.png](.attachments/DateRange-Calendar-Tabbed.png) | ![DateRange-Components.png](.attachments/DateRange-Components.png) |
+| DateTimePickerMode: `dateTimeRange` | ![DateTimeRange.png](.attachments/DateTimeRange.png) | | ![DateTimeRange.png](.attachments/DateTimeRange.png) |
 
 ## Usage
 ```Swift
