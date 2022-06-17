@@ -287,29 +287,10 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
     open override func layoutSubviews() {
         super.layoutSubviews()
 
-        guard let screen = window?.windowScene?.screen, !isAnimating else {
-            return
-        }
+        stackView.layoutIfNeeded()
 
-        var rightOffset: CGFloat = 0
-        var leftOffset: CGFloat = 0
-        for (index, button) in buttons.enumerated() {
-            if shouldSetEqualWidthForSegments {
-                rightOffset = screen.roundToDevicePixels(CGFloat(index + 1) / CGFloat(buttons.count) * pillContainerView.frame.width)
-            } else {
-                let maxSize = CGSize(width: CGFloat.greatestFiniteMagnitude,
-                                     height: CGFloat.greatestFiniteMagnitude)
-                rightOffset = leftOffset + screen.roundToDevicePixels(button.sizeThatFits(maxSize).width)
-            }
-            button.frame = CGRect(x: leftOffset,
-                                  y: 0,
-                                  width: rightOffset - leftOffset,
-                                  height: pillContainerView.frame.height)
-            leftOffset = rightOffset
-        }
-
-            // flipSubviewsForRTL only works on direct children subviews
-            pillContainerView.flipSubviewsForRTL()
+        // flipSubviewsForRTL only works on direct children subviews
+        pillContainerView.flipSubviewsForRTL()
 
         flipSubviewsForRTL()
         layoutSelectionView()
@@ -333,41 +314,32 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
               let screen = window.windowScene?.screen else {
             return CGSize.zero
         }
-        var maxButtonHeight: CGFloat = 0.0
-        var maxButtonWidth: CGFloat = 0.0
-        var buttonsWidth: CGFloat = 0.0
+        var height: CGFloat = 0.0
+        var width: CGFloat = 0.0
 
         for button in buttons {
             let size = button.sizeThatFits(size)
-            maxButtonHeight = max(maxButtonHeight, screen.roundToDevicePixels(size.height))
-            if shouldSetEqualWidthForSegments {
-                maxButtonWidth = max(maxButtonWidth, screen.roundToDevicePixels(size.width))
-            } else {
-                buttonsWidth += screen.roundToDevicePixels(size.width)
+            height = max(height, screen.roundToDevicePixels(size.height))
+            if !shouldSetEqualWidthForSegments {
+                width += screen.roundToDevicePixels(size.width)
             }
-        }
-
-        if shouldSetEqualWidthForSegments {
-            maxButtonWidth *= CGFloat(buttons.count)
-        } else {
-            maxButtonWidth = buttonsWidth
         }
 
         if shouldSetEqualWidthForSegments {
             let windowSafeAreaInsets = window.safeAreaInsets
             let windowWidth = window.bounds.width - windowSafeAreaInsets.left - windowSafeAreaInsets.right
             if traitCollection.userInterfaceIdiom == .pad {
-                maxButtonWidth = max(windowWidth / 2, Constants.iPadMinimumWidth)
+                width = max(windowWidth / 2, Constants.iPadMinimumWidth)
             } else {
-                maxButtonWidth = windowWidth
+                width = windowWidth
             }
         } else {
-            maxButtonWidth += (contentInset.leading + contentInset.trailing)
+            width += (contentInset.leading + contentInset.trailing)
         }
-        maxButtonHeight += (contentInset.top + contentInset.bottom)
+        height += (contentInset.top + contentInset.bottom)
 
-        return CGSize(width: min(maxButtonWidth, size.width),
-                      height: min(maxButtonHeight, size.height))
+        return CGSize(width: min(width, size.width),
+                      height: min(height, size.height))
     }
 
     open override func didMoveToWindow() {
