@@ -114,8 +114,7 @@ public class DateTimePicker: NSObject {
     ///   - mode: Enum describing which mode of pickers should be presented
     ///   - startDate: The initial date selected on the presented pickers
     ///   - endDate: An optional end date to pick a range of dates. Ignored if mode is `.date` or `.dateTime`. If the mode selected is either `.dateRange` or `.dateTimeRange`, and this is omitted, it will be set to a default 1 day or 1 hour range, respectively.
-    ///   - referenceStartDate: An optional reference start date to set the first available date that can be picked
-    ///   - referenceEndDate: An optional reference end date to set the last available date that can be picked
+    ///   - calendarConfiguration: An optional configuration to modify what the first weekday is, and/or what the starting reference date is, and/or what the end reference date is
     ///   - datePickerType: The type of UI to use for picking dates: calendar or spinners representing date components (day, month, and year) or date (when time picking is also enabled). `.components` will be forced when VoiceOver is running. `.paged` date range presentation is not supported for `.components` date picker type (tabbed presentation will be used instead).
     ///   - dateRangePresentation: The `DateRangePresentation` in which to show any date pickers when `mode` is `.dateRange` or `.dateTimeRange`. Does not affect the time picker, which is always tabbed in range mode, but may change whether the date picker is presented in certain modes.
     ///   - titles: A `Titles` object that holds strings for use in overriding the default picker titles, subtitles, and tab titles. If a string is provided for a property that does not apply to the current mode, it will be ignored.
@@ -148,8 +147,7 @@ public class DateTimePicker: NSObject {
     ///   - mode: Enum describing which mode of pickers should be presented
     ///   - startDate: The initial date selected on the presented pickers
     ///   - endDate: An optional end date to pick a range of dates. Ignored if mode is `.date` or `.dateTime`. If the mode selected is either `.dateRange` or `.dateTimeRange`, and this is omitted, it will be set to a default 1 day or 1 hour range, respectively.
-    ///   - referenceStartDate: An optional reference start date to set the first available date that can be picked
-    ///   - referenceEndDate: An optional reference end date to set the last available date that can be picked
+    ///   - calendarConfiguration: An optional configuration to modify what the first weekday is, and/or what the starting reference date is, and/or what the end reference date is
     ///   - datePickerType: The type of UI to use for picking dates: calendar or spinners representing date components (day, month, and year) or date (when time picking is also enabled). `.components` will be forced when VoiceOver is running. `.paged` date range presentation is not supported for `.components` date picker type (tabbed presentation will be used instead).
     ///   - dateRangePresentation: The `DateRangePresentation` in which to show any date pickers when `mode` is `.dateRange` or `.dateTimeRange`. Does not affect the time picker, which is always tabbed in range mode, but may change whether the date picker is presented in certain modes.
     ///   - titles: A `Titles` object that holds strings for use in overriding the default picker titles, subtitles, and tab titles. If a string is provided for a property that does not apply to the current mode, it will be ignored.
