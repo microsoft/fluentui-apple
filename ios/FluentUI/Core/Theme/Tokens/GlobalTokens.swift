@@ -19,22 +19,22 @@ public final class GlobalTokens {
         case tint20
         case tint30
         case tint40
-        case communicationBlue10
-        case communicationBlue20
-        case communicationBlue30
-        case communicationBlue40
-        case communicationBlue50
-        case communicationBlue60
-        case communicationBlue70
-        case communicationBlue80
-        case communicationBlue90
-        case communicationBlue100
-        case communicationBlue110
-        case communicationBlue120
-        case communicationBlue130
-        case communicationBlue140
-        case communicationBlue150
-        case communicationBlue160
+        case comm10
+        case comm20
+        case comm30
+        case comm40
+        case comm50
+        case comm60
+        case comm70
+        case comm80
+        case comm90
+        case comm100
+        case comm110
+        case comm120
+        case comm130
+        case comm140
+        case comm150
+        case comm160
     }
 
     lazy public var brandColors: TokenSet<BrandColorsTokens, DynamicColor> = .init { token in
@@ -63,37 +63,37 @@ public final class GlobalTokens {
         case .tint40:
             // Communication Blue 140 and Communication Blue 20
             return DynamicColor(light: ColorValue(0xB4D6FA), dark: ColorValue(0x082338))
-        case .communicationBlue10:
+        case .comm10:
             return DynamicColor(light: ColorValue(0x061724))
-        case .communicationBlue20:
+        case .comm20:
             return DynamicColor(light: ColorValue(0x082338))
-        case .communicationBlue30:
+        case .comm30:
             return DynamicColor(light: ColorValue(0x0A2E4A))
-        case .communicationBlue40:
+        case .comm40:
             return DynamicColor(light: ColorValue(0x0C3B5E))
-        case .communicationBlue50:
+        case .comm50:
             return DynamicColor(light: ColorValue(0x0E4775))
-        case .communicationBlue60:
+        case .comm60:
             return DynamicColor(light: ColorValue(0x0F548C))
-        case .communicationBlue70:
+        case .comm70:
             return DynamicColor(light: ColorValue(0x115EA3))
-        case .communicationBlue80:
+        case .comm80:
             return DynamicColor(light: ColorValue(0x0F6CBD))
-        case .communicationBlue90:
+        case .comm90:
             return DynamicColor(light: ColorValue(0x2886DE))
-        case .communicationBlue100:
+        case .comm100:
             return DynamicColor(light: ColorValue(0x479EF5))
-        case .communicationBlue110:
+        case .comm110:
             return DynamicColor(light: ColorValue(0x62ABF5))
-        case .communicationBlue120:
+        case .comm120:
             return DynamicColor(light: ColorValue(0x77B7F7))
-        case .communicationBlue130:
+        case .comm130:
             return DynamicColor(light: ColorValue(0x96C6FA))
-        case .communicationBlue140:
+        case .comm140:
             return DynamicColor(light: ColorValue(0xB4D6FA))
-        case .communicationBlue150:
+        case .comm150:
             return DynamicColor(light: ColorValue(0xCFE4FA))
-        case .communicationBlue160:
+        case .comm160:
             return DynamicColor(light: ColorValue(0xEBF3FC))
         }
     }
