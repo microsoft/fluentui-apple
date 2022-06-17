@@ -19,6 +19,22 @@ public final class GlobalTokens {
         case tint20
         case tint30
         case tint40
+        case communicationBlue10
+        case communicationBlue20
+        case communicationBlue30
+        case communicationBlue40
+        case communicationBlue50
+        case communicationBlue60
+        case communicationBlue70
+        case communicationBlue80
+        case communicationBlue90
+        case communicationBlue100
+        case communicationBlue110
+        case communicationBlue120
+        case communicationBlue130
+        case communicationBlue140
+        case communicationBlue150
+        case communicationBlue160
     }
     /*
     public enum BrandColorsTokens: CaseIterable {
@@ -69,6 +85,38 @@ public final class GlobalTokens {
         case .tint40:
             // Communication Blue 140 and Communication Blue 20
             return DynamicColor(light: ColorValue(0xB4D6FA), dark: ColorValue(0x082338))
+        case .communicationBlue10:
+            <#code#>
+        case .communicationBlue20:
+            <#code#>
+        case .communicationBlue30:
+            <#code#>
+        case .communicationBlue40:
+            <#code#>
+        case .communicationBlue50:
+            <#code#>
+        case .communicationBlue60:
+            <#code#>
+        case .communicationBlue70:
+            <#code#>
+        case .communicationBlue80:
+            <#code#>
+        case .communicationBlue90:
+            <#code#>
+        case .communicationBlue100:
+            <#code#>
+        case .communicationBlue110:
+            <#code#>
+        case .communicationBlue120:
+            <#code#>
+        case .communicationBlue130:
+            <#code#>
+        case .communicationBlue140:
+            <#code#>
+        case .communicationBlue150:
+            <#code#>
+        case .communicationBlue160:
+            <#code#>
         }
     }
 
