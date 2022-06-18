@@ -40,29 +40,21 @@ public final class GlobalTokens {
     lazy public var brandColors: TokenSet<BrandColorsTokens, DynamicColor> = .init { token in
         switch token {
         case .primary:
-            // Communication Blue 80 and Communication Blue 90
-            return DynamicColor(light: ColorValue(0x0F6CBD), dark: ColorValue(0x2886DE))
+            return DynamicColor(light: ColorValue(0x0F6CBD) /*comm80*/, dark: ColorValue(0x2886DE) /*comm90*/)
         case .shade10:
-            // Communication Blue 70 and Communication Blue 100
-            return DynamicColor(light: ColorValue(0x115EA3), dark: ColorValue(0x292929))
+            return DynamicColor(light: ColorValue(0x115EA3) /*comm70*/, dark: ColorValue(0x292929) /*comm100*/)
         case .shade20:
-            // Communication Blue 60 and Communication Blue 110
-            return DynamicColor(light: ColorValue(0x0F548C), dark: ColorValue(0x479EF5))
+            return DynamicColor(light: ColorValue(0x0F548C) /*comm60*/, dark: ColorValue(0x479EF5) /*comm110*/)
         case .shade30:
-            // Communication Blue 50 and Communication Blue 120
-            return DynamicColor(light: ColorValue(0x0E4775), dark: ColorValue(0x77B7F7))
+            return DynamicColor(light: ColorValue(0x0E4775) /*comm50*/, dark: ColorValue(0x77B7F7) /*comm120*/)
         case .tint10:
-            // Communication Blue 90 and Communication Blue 80
-            return DynamicColor(light: ColorValue(0x2886DE), dark: ColorValue(0x0F6CBD))
+            return DynamicColor(light: ColorValue(0x2886DE) /*comm90*/, dark: ColorValue(0x0F6CBD) /*comm80*/)
         case .tint20:
-            // Communication Blue 100 and Communication Blue 70
-            return DynamicColor(light: ColorValue(0x292929), dark: ColorValue(0x115EA3))
+            return DynamicColor(light: ColorValue(0x292929) /*comm100*/, dark: ColorValue(0x115EA3) /*comm70*/)
         case .tint30:
-            // Communication Blue 110 and Communication Blue 94
-            return DynamicColor(light: ColorValue(0x479EF5), dark: ColorValue(0x0C3B5E))
+            return DynamicColor(light: ColorValue(0x479EF5) /*comm110*/, dark: ColorValue(0x0C3B5E) /*comm90*/)
         case .tint40:
-            // Communication Blue 140 and Communication Blue 20
-            return DynamicColor(light: ColorValue(0xB4D6FA), dark: ColorValue(0x082338))
+            return DynamicColor(light: ColorValue(0xB4D6FA) /*comm140*/, dark: ColorValue(0x082338) /*comm20*/)
         case .comm10:
             return DynamicColor(light: ColorValue(0x061724))
         case .comm20:
