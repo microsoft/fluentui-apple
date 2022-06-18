@@ -5,14 +5,12 @@ on:
     branches:
       - main
       - main_0.1
-      - vnext-prototype
       - fluent2-tokens
       - fluent2-colors
   pull_request:
     branches:
       - main
       - main_0.1
-      - vnext-prototype
       - fluent2-tokens
       - fluent2-colors
 
