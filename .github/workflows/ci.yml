@@ -6,14 +6,14 @@ on:
       - main
       - main_0.1
       - vnext-prototype
-      - vnext-tokens
+      - fluent2-tokens
       - fluent2-colors
   pull_request:
     branches:
       - main
       - main_0.1
       - vnext-prototype
-      - vnext-tokens
+      - fluent2-tokens
       - fluent2-colors
 
 jobs:
