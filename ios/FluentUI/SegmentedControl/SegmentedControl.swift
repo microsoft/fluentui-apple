@@ -81,6 +81,7 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
     private let backgroundView: UIView = {
         let view = UIView()
         view.layer.cornerCurve = .continuous
+        view.translatesAutoresizingMaskIntoConstraints = false
 
         return view
     }()
@@ -94,18 +95,22 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
     private let pillContainerView: UIView = {
         let view = UIView()
         view.layer.cornerCurve = .continuous
+        view.translatesAutoresizingMaskIntoConstraints = false
 
         return view
     }()
     private let pillMaskedContentContainerView: UIView = {
         let view = UIView()
         view.layer.cornerCurve = .continuous
+        view.isUserInteractionEnabled = false
+        view.translatesAutoresizingMaskIntoConstraints = false
 
         return view
     }()
     private let stackView: UIStackView = {
        let stackView = UIStackView()
         stackView.axis = .horizontal
+        stackView.translatesAutoresizingMaskIntoConstraints = false
 
         return stackView
     }()
@@ -137,12 +142,8 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
         selectionView.backgroundColor = .black
         pillContainerView.addSubview(selectionView)
         pillMaskedContentContainerView.mask = selectionView
-        pillMaskedContentContainerView.isUserInteractionEnabled = false
         pillContainerView.addSubview(pillMaskedContentContainerView)
         addButtons(items: items)
-        // We need to add pillMaskedContentContainerView to the container view
-        // before the buttons in order to activate the label constraints, but
-        // we want pillMaskedContentContainerView to show above the buttons.
         pillContainerView.addInteraction(UILargeContentViewerInteraction())
         addSubview(pillContainerView)
 
@@ -460,12 +461,6 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
     }
 
     private func setupLayoutConstraints () {
-        backgroundView.translatesAutoresizingMaskIntoConstraints = false
-        var constraints = [NSLayoutConstraint]()
-        pillContainerView.translatesAutoresizingMaskIntoConstraints = false
-        pillMaskedContentContainerView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-
         let pillContainerViewTopConstraint = pillContainerView.topAnchor.constraint(equalTo: topAnchor,
                                                                                     constant: contentInset.top)
         let pillContainerViewBottomConstraint = pillContainerView.bottomAnchor.constraint(equalTo: bottomAnchor,
@@ -479,15 +474,17 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
         self.pillContainerViewLeadingConstraint = pillContainerViewLeadingConstraint
         self.pillContainerViewTrailingConstraint = pillContainerViewTrailingConstraint
 
-        constraints.append(contentsOf: [
+        NSLayoutConstraint.activate([
             pillContainerViewTopConstraint,
             pillContainerViewBottomConstraint,
             pillContainerViewLeadingConstraint,
             pillContainerViewTrailingConstraint,
+
             backgroundView.leadingAnchor.constraint(equalTo: pillContainerView.leadingAnchor),
             backgroundView.trailingAnchor.constraint(equalTo: pillContainerView.trailingAnchor),
             backgroundView.topAnchor.constraint(equalTo: pillContainerView.topAnchor),
             backgroundView.bottomAnchor.constraint(equalTo: pillContainerView.bottomAnchor),
+
             stackView.leadingAnchor.constraint(equalTo: pillContainerView.leadingAnchor),
             stackView.trailingAnchor.constraint(equalTo: pillContainerView.trailingAnchor),
             stackView.topAnchor.constraint(equalTo: pillContainerView.topAnchor),
@@ -498,7 +495,6 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
             pillMaskedContentContainerView.topAnchor.constraint(equalTo: backgroundView.topAnchor),
             pillMaskedContentContainerView.bottomAnchor.constraint(equalTo: backgroundView.bottomAnchor)
         ])
-        NSLayoutConstraint.activate(constraints)
     }
 
     private func updateButton(at index: Int, isSelected: Bool) {
