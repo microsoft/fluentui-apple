@@ -25,15 +25,16 @@ class DateTimePickerDemoController: DemoController {
 
     private let customCalendarConfigurationSwitch = UISwitch()
     private var calendarConfiguration: CalendarConfiguration? {
-        if customCalendarConfigurationSwitch.isOn {
-            let customCalendarConfiguration = CalendarConfiguration()
-            customCalendarConfiguration.referenceStartDate = Date()
-            customCalendarConfiguration.referenceEndDate = Calendar.current.date(byAdding: .month, value: 1, to: Date())!
-            customCalendarConfiguration.firstWeekday = 2
-            return customCalendarConfiguration
-        } else {
+        guard customCalendarConfigurationSwitch.isOn else {
             return nil
         }
+
+        let customCalendarConfiguration = CalendarConfiguration()
+        customCalendarConfiguration.referenceStartDate = Date()
+        customCalendarConfiguration.referenceEndDate = Calendar.current.date(byAdding: .month, value: 1, to: Date())!
+        customCalendarConfiguration.firstWeekday = 2
+
+        return customCalendarConfiguration
     }
 
     private let validationSwitch = UISwitch()
