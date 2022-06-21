@@ -832,8 +832,9 @@ open class TableViewCell: UITableViewCell {
         didSet {
             subtitleLabel.isHidden = layoutType == .oneLine
             footerLabel.isHidden = layoutType != .threeLines
-
-            subtitleLabel.style = layoutType.subtitleTextStyle
+            if subtitleLabel.attributedText == nil {
+                subtitleLabel.style = layoutType.subtitleTextStyle
+            }
 
             setNeedsLayout()
             invalidateIntrinsicContentSize()
@@ -1080,6 +1081,7 @@ open class TableViewCell: UITableViewCell {
         }
     }
 
+    @available(*, deprecated, message: "Any color or stylistic changes on TableViewCell labels should be done through NSAttributedString.")
     /// To set color for title label
     /// - Parameter color: UIColor to set
     @objc public func setTitleLabelTextColor(color: UIColor) {
@@ -1087,6 +1089,7 @@ open class TableViewCell: UITableViewCell {
         isUsingCustomTextColors = true
     }
 
+    @available(*, deprecated, message: "Any color or stylistic changes on TableViewCell labels should be done through NSAttributedString.")
     /// To set color for subTitle label
     /// - Parameter color: UIColor to set
     @objc public func setSubTitleLabelTextColor(color: UIColor) {
