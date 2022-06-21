@@ -128,7 +128,7 @@ public final class AliasTokens {
         case .foregroundInverted1Colorful:
             return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm80].light)
         case .foregroundInverted2:
-            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.white], // TODO: should be comm80
+            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.comm80],
                                 dark: strongSelf.globalTokens.neutralColors[.white])
         case .foregroundInverted2Colorful:
             return DynamicColor(light: strongSelf.globalTokens.neutralColors[.white])
