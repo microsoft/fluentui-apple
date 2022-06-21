@@ -33,21 +33,21 @@ class ShimmerViewDemoController: DemoController {
 
         let shimmeringContentView = { (shimmersLeafViews: Bool) -> UIStackView in
             let containerView = contentView()
-            let shimmerView = ShimmerView(containerView: containerView, excludedViews: [], animationSynchronizer: nil)
+            let shimmerView = ShimmerView(containerView: containerView,
+                                          excludedViews: [],
+                                          animationSynchronizer: nil,
+                                          shimmersLeafViews: shimmersLeafViews,
+                                          usesTextHeightForLabels: true)
             shimmerView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-            shimmerView.shimmersLeafViews = shimmersLeafViews
-            shimmerView.usesTextHeightForLabels = true
-            shimmerView.labelHeight = -1 // Must be < 0 so we actually use the bool usesTextHeightForLabels
             containerView.addSubview(shimmerView)
             return containerView
         }
 
-        let shimmeringImageView = { (shimmerStyle: ShimmerStyle) -> UIView in
-            let imageView = UIImageView(image: UIImage(named: "PlaceholderImage")?.withTintColor(Colors.Shimmer.tint, renderingMode: .alwaysOriginal))
+        let shimmeringImageView = { (shimmerStyle: MSFShimmerStyle) -> UIView in
+            let imageView = UIImageView(image: UIImage(named: "PlaceholderImage")?.withTintColor(UIColor(dynamicColor: ShimmerView().tokens.tintColor), renderingMode: .alwaysOriginal))
             let containerView = UIStackView(arrangedSubviews: [imageView])
             let shimmerView = ShimmerView(containerView: containerView, excludedViews: [], animationSynchronizer: nil, shimmerStyle: shimmerStyle)
             shimmerView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-            shimmerView.shimmerStyle = shimmerStyle
             containerView.addSubview(shimmerView)
             return containerView
         }
@@ -61,7 +61,9 @@ class ShimmerViewDemoController: DemoController {
 
         container.addArrangedSubview(shimmerViewLabel("A ShimmerLinesView needs no containerview or subviews"))
         container.addArrangedSubview(dividers[0])
-        container.addArrangedSubview(ShimmerLinesView())
+        container.addArrangedSubview(ShimmerLinesView(lineCount: 3,
+                                                      firstLineFillPercent: 0.94,
+                                                      lastLineFillPercent: 0.6))
         container.addArrangedSubview(dividers[1])
 
         container.addArrangedSubview(shimmerViewLabel("ShimmerView shimmers all the top level subviews of its container view"))
