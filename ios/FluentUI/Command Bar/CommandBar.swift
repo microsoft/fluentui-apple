@@ -7,6 +7,7 @@ import UIKit
 
 /**
  `CommandBar` is a horizontal scrollable list of icon buttons divided by groups.
+ Set the `delegate` property to determine whether a button can be selected and deselected, and listen to selection changes.
  Provide `itemGroups` in `init` to set the buttons in the scrollable area. Optional `leadingItemGroups` and `trailingItemGroups` add buttons in leading and trailing positions. Each `CommandBarItem` will be represented as a button.
  */
 @objc(MSFCommandBar)
@@ -59,6 +60,7 @@ public class CommandBar: UIView, TokenizedControlInternal {
         trailingCommandGroupsView = CommandBarCommandGroupsView(itemGroups: self.trailingItemGroups,
                                                                 buttonsPersistSelection: false,
                                                                 tokens: tokens)
+
         trailingCommandGroupsView.translatesAutoresizingMaskIntoConstraints = false
 
         commandBarContainerStackView = UIStackView()
@@ -303,6 +305,7 @@ public class CommandBar: UIView, TokenizedControlInternal {
     private var themeObserver: NSObjectProtocol?
 
     private static let fadeViewWidth: CGFloat = 16.0
+
     private static let insets = UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)
 }
 
