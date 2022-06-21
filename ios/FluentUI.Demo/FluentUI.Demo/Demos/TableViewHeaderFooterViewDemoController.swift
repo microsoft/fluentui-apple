@@ -22,6 +22,7 @@ class TableViewHeaderFooterViewDemoController: DemoController {
 
             strongSelf.updateActiveTabContent()
         }
+
         return segmentedControl
     }()
     private lazy var groupedTableView: UITableView = createTableView(style: .grouped)

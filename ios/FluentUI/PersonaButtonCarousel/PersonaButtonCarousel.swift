@@ -164,7 +164,7 @@ class MSFPersonaButtonCarouselStateImpl: NSObject, ObservableObject, Identifiabl
 
     func remove(at index: Int) {
         guard index < self.count else {
-            fatalError("Attempting to remove item outside bounds of carousel")
+            preconditionFailure("Attempting to remove item outside bounds of carousel")
         }
         self.buttons.remove(at: index)
     }
