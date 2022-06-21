@@ -102,7 +102,7 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
     ///   - titles: A `Titles` object that holds strings for use in overriding the default picker title, subtitle, and tab titles. If title is not provided, titleview will show currently selected date. If tab titles are not provided, they will default to "Start Date" and "End Date".
     ///   - leftBarButtonItem: optional UIBarButtonItem to be presented as left bar-button.
     ///   - rightBarButtonItem: optional UIBarButtonItem to be presented oas right bar-button. Note that if this view is presented, the Confirm button is not generated automatically.
-    init(startDate: Date, endDate: Date, calendarConfiguration: CalendarConfiguration? = nil, mode: DateTimePickerMode, selectionMode: DatePickerSelectionManager.SelectionMode = .start, rangePresentation: DateTimePicker.DateRangePresentation, titles: DateTimePicker.Titles?, leftBarButtonItem: UIBarButtonItem?, rightBarButtonItem: UIBarButtonItem?) {
+    init(startDate: Date, endDate: Date, calendarConfiguration: CalendarConfiguration, mode: DateTimePickerMode, selectionMode: DatePickerSelectionManager.SelectionMode = .start, rangePresentation: DateTimePicker.DateRangePresentation, titles: DateTimePicker.Titles?, leftBarButtonItem: UIBarButtonItem?, rightBarButtonItem: UIBarButtonItem?) {
         if !mode.singleSelection && rangePresentation == .paged {
             customTitle = selectionMode == .start ? titles?.startTitle : titles?.endTitle
             customSubtitle = selectionMode == .start ?
@@ -117,7 +117,7 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
         self.mode = mode
         self.leftBarButtonItem = leftBarButtonItem
         self.rightBarButtonItem = rightBarButtonItem
-        self.calendarConfiguration = calendarConfiguration ?? CalendarConfiguration.default
+        self.calendarConfiguration = calendarConfiguration
 
         super.init(nibName: nil, bundle: nil)
 

@@ -60,7 +60,7 @@ class DateTimePickerViewLayout {
         }
     }
 
-    static func componentsByType(fromTypes types: [DateTimePickerViewComponentType], mode: DateTimePickerViewMode, calendarConfiguration: CalendarConfiguration? = nil) -> [DateTimePickerViewComponentType: DateTimePickerViewComponent] {
+    static func componentsByType(fromTypes types: [DateTimePickerViewComponentType], mode: DateTimePickerViewMode, calendarConfiguration: CalendarConfiguration) -> [DateTimePickerViewComponentType: DateTimePickerViewComponent] {
         return types.reduce([DateTimePickerViewComponentType: DateTimePickerViewComponent](), { map, type in
             var map = map
             let dataSource = DateTimePickerViewDataSourceFactory.dataSource(withType: type, mode: mode, calendarConfiguration: calendarConfiguration)

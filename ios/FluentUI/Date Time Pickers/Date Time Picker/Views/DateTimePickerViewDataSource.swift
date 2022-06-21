@@ -69,7 +69,7 @@ protocol DateTimePickerViewDataSourceWithDate: DateTimePickerViewDataSource {
 // MARK: - DateTimePickerViewDataSourceFactory
 
 class DateTimePickerViewDataSourceFactory {
-    static func dataSource(withType type: DateTimePickerViewComponentType, mode: DateTimePickerViewMode, calendarConfiguration: CalendarConfiguration? = nil) -> DateTimePickerViewDataSource {
+    static func dataSource(withType type: DateTimePickerViewComponentType, mode: DateTimePickerViewMode, calendarConfiguration: CalendarConfiguration) -> DateTimePickerViewDataSource {
         switch type {
         case .date:
             return DateTimePickerViewDateDataSource(calendarConfiguration: calendarConfiguration)
@@ -79,10 +79,10 @@ class DateTimePickerViewDataSourceFactory {
             return DateTimePickerViewDayDataSource()
         case .year:
             switch mode {
-            case .date(let startYear, let endYear):
-                return DateTimePickerViewYearDataSource(startYear: calendarConfiguration?.referenceStartDate.year ?? startYear, endYear: calendarConfiguration?.referenceEndDate.year ?? endYear)
+            case .date:
+                return DateTimePickerViewYearDataSource(startYear: calendarConfiguration.referenceStartDate.year, endYear: calendarConfiguration.referenceEndDate.year)
             case .dateTime, .dayOfMonth:
-                return DateTimePickerViewYearDataSource(startYear: calendarConfiguration?.referenceStartDate.year ?? DateTimePickerViewMode.defaultStartYear, endYear: calendarConfiguration?.referenceEndDate.year ?? DateTimePickerViewMode.defaultEndYear)
+                return DateTimePickerViewYearDataSource(startYear: calendarConfiguration.referenceStartDate.year, endYear: calendarConfiguration.referenceEndDate.year)
             }
         case .timeHour:
             return DateTimePickerViewHourDataSource()

@@ -181,15 +181,16 @@ public class DateTimePicker: NSObject {
     ///   - titles: A `Titles` object that holds strings for use in overriding the default picker titles, subtitles, and tab titles. If a string is provided for a property that does not apply to the current mode, it will be ignored.
     ///   - leftBarButtonItem: optional UIBarButtonItem to be presented as left bar-button.
     ///   - rightBarButtonItem: optional UIBarButtonItem to be presented as right bar-button. Note that if this view is presented, the Confirm button is not generated automatically.
-    @objc public func present(from presentingController: UIViewController, with mode: DateTimePickerMode, startDate: Date = Date(), endDate: Date? = nil, calendarConfiguration: CalendarConfiguration? = nil, datePickerType: DatePickerType = .calendar, dateRangePresentation: DateRangePresentation = .paged, titles: Titles? = nil, leftBarButtonItem: UIBarButtonItem? = nil, rightBarButtonItem: UIBarButtonItem? = nil) {
+    @objc public func present(from presentingController: UIViewController, with mode: DateTimePickerMode, startDate: Date = Date(), endDate: Date? = nil, calendarConfiguration: CalendarConfiguration?, datePickerType: DatePickerType = .calendar, dateRangePresentation: DateRangePresentation = .paged, titles: Titles? = nil, leftBarButtonItem: UIBarButtonItem? = nil, rightBarButtonItem: UIBarButtonItem? = nil) {
         self.presentingController = presentingController
         self.mode = mode
         self.datePickerType = datePickerType
+
         if UIAccessibility.isVoiceOverRunning {
             presentDateTimePickerForAccessibility(
                 startDate: startDate,
                 endDate: endDate ?? startDate,
-                calendarConfiguration: calendarConfiguration,
+                calendarConfiguration: calendarConfiguration ?? CalendarConfiguration.default,
                 titles: titles,
                 leftBarButtonItem: leftBarButtonItem,
                 rightBarButtonItem: rightBarButtonItem)
@@ -201,7 +202,7 @@ public class DateTimePicker: NSObject {
             presentDatePicker(
                 startDate: startDate,
                 endDate: endDate,
-                calendarConfiguration: calendarConfiguration,
+                calendarConfiguration: calendarConfiguration ?? CalendarConfiguration.default,
                 dateRangePresentation: dateRangePresentation,
                 titles: titles,
                 leftBarButtonItem: leftBarButtonItem,
@@ -211,7 +212,7 @@ public class DateTimePicker: NSObject {
             presentDateTimePicker(
                 startDate: startDate,
                 endDate: endDate,
-                calendarConfiguration: calendarConfiguration,
+                calendarConfiguration: calendarConfiguration ?? CalendarConfiguration.default,
                 dateRangePresentation: dateRangePresentation,
                 titles: titles,
                 leftBarButtonItem: leftBarButtonItem,
@@ -226,7 +227,7 @@ public class DateTimePicker: NSObject {
         presentingController = nil
     }
 
-    private func presentDatePicker(startDate: Date, endDate: Date, calendarConfiguration: CalendarConfiguration? = nil, dateRangePresentation: DateRangePresentation, titles: Titles?, leftBarButtonItem: UIBarButtonItem?, rightBarButtonItem: UIBarButtonItem?) {
+    private func presentDatePicker(startDate: Date, endDate: Date, calendarConfiguration: CalendarConfiguration, dateRangePresentation: DateRangePresentation, titles: Titles?, leftBarButtonItem: UIBarButtonItem?, rightBarButtonItem: UIBarButtonItem?) {
         guard let mode = mode else {
             preconditionFailure("Mode not set when presenting date picker")
         }
@@ -282,7 +283,7 @@ public class DateTimePicker: NSObject {
         }
     }
 
-    private func presentDateTimePicker(startDate: Date, endDate: Date, calendarConfiguration: CalendarConfiguration? = nil, dateRangePresentation: DateRangePresentation, titles: Titles?, leftBarButtonItem: UIBarButtonItem?, rightBarButtonItem: UIBarButtonItem?) {
+    private func presentDateTimePicker(startDate: Date, endDate: Date, calendarConfiguration: CalendarConfiguration, dateRangePresentation: DateRangePresentation, titles: Titles?, leftBarButtonItem: UIBarButtonItem?, rightBarButtonItem: UIBarButtonItem?) {
         guard let mode = mode else {
             preconditionFailure("Mode not set when presenting date time picker")
         }
@@ -321,7 +322,7 @@ public class DateTimePicker: NSObject {
         }
     }
 
-    private func presentDateTimePickerForAccessibility(startDate: Date, endDate: Date, calendarConfiguration: CalendarConfiguration? = nil, titles: Titles?, leftBarButtonItem: UIBarButtonItem?, rightBarButtonItem: UIBarButtonItem?) {
+    private func presentDateTimePickerForAccessibility(startDate: Date, endDate: Date, calendarConfiguration: CalendarConfiguration, titles: Titles?, leftBarButtonItem: UIBarButtonItem?, rightBarButtonItem: UIBarButtonItem?) {
         guard let mode = mode else {
             preconditionFailure("Mode not set when presenting date time picker for accessibility")
         }
