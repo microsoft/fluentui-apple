@@ -7,7 +7,7 @@ import SwiftUI
 import UIKit
 
 /// UIKit wrapper that exposes the SwiftUI `Notification` implementation
-@objc public class MSFNotification: ControlHostingContainer {
+@objc open class MSFNotification: ControlHostingView {
 
     /// Creates a new MSFNotification instance.
     /// - Parameters:
@@ -19,35 +19,39 @@ import UIKit
         super.init(AnyView(notification))
     }
 
+    required public init?(coder: NSCoder) {
+        preconditionFailure("init(coder:) has not been implemented")
+    }
+
     @objc public var state: MSFNotificationState {
         return notification.state
     }
 
     // MARK: - Show/Hide Methods
     public func showNotification(in view: UIView, completion: ((MSFNotification) -> Void)? = nil) {
-        guard self.view.window == nil else {
+        guard self.window == nil else {
             return
         }
 
         let style = notification.tokens.style
         let presentationOffset: CGFloat! = notification.tokens.presentationOffset
-        if style.isToast, let currentToast = MSFNotification.currentToast, currentToast.view.window != nil {
+        if style.isToast, let currentToast = MSFNotification.currentToast, currentToast.window != nil {
             currentToast.hide {
                 self.showNotification(in: view, completion: completion)
             }
             return
         }
 
-        self.view.translatesAutoresizingMaskIntoConstraints = false
+        self.translatesAutoresizingMaskIntoConstraints = false
         if let anchorView = anchorView, anchorView.superview == view {
-            view.insertSubview(self.view, belowSubview: anchorView)
+            view.insertSubview(self, belowSubview: anchorView)
         } else {
-            view.addSubview(self.view)
+            view.addSubview(self)
         }
 
         let anchor = anchorView?.topAnchor ?? view.safeAreaLayoutGuide.bottomAnchor
-        constraintWhenHidden = self.view.topAnchor.constraint(equalTo: anchor)
-        constraintWhenShown = self.view.bottomAnchor.constraint(equalTo: anchor, constant: -presentationOffset)
+        constraintWhenHidden = self.topAnchor.constraint(equalTo: anchor)
+        constraintWhenShown = self.bottomAnchor.constraint(equalTo: anchor, constant: -presentationOffset)
 
         var constraints = [NSLayoutConstraint]()
         constraints.append(animated ? constraintWhenHidden : constraintWhenShown)
@@ -67,7 +71,7 @@ import UIKit
         }
 
         let completionForShow = { (_: Bool) in
-            UIAccessibility.post(notification: .layoutChanged, argument: self.view)
+            UIAccessibility.post(notification: .layoutChanged, argument: self)
             completion?(self)
         }
 
@@ -103,7 +107,7 @@ import UIKit
             completionsForHide.append(completion)
         }
         let completionForHide = {
-            self.view.removeFromSuperview()
+            self.removeFromSuperview()
             if MSFNotification.currentToast == self {
                 MSFNotification.currentToast = nil
             }
@@ -117,7 +121,7 @@ import UIKit
             UIView.animate(withDuration: notification.tokens.style.animationDurationForHide, animations: {
                 self.constraintWhenShown.isActive = false
                 self.constraintWhenHidden.isActive = true
-                self.view.superview?.layoutIfNeeded()
+                self.superview?.layoutIfNeeded()
             }, completion: { _ in
                 self.isHiding = false
                 completionForHide()

@@ -56,10 +56,7 @@ class NotificationViewDemoController: DemoController {
         view.backgroundColor = Colors.surfaceSecondary
 
         addTitle(text: "SwiftUI Demo")
-        container.addArrangedSubview(createButton(title: "Show", action: { [weak self] _ in
-            self?.navigationController?.pushViewController(NotificationViewDemoControllerSwiftUI(),
-                                                           animated: true)
-        }).view)
+        container.addArrangedSubview(createButton(title: "Show", action: #selector(showSwiftUIDemo)))
 
         for (index, variant) in Variant.allCases.enumerated() {
             if index > 0 {
@@ -68,21 +65,9 @@ class NotificationViewDemoController: DemoController {
                 container.addArrangedSubview(UIView())
             }
             addTitle(text: variant.displayText)
-
-            let showButton = MSFButton(style: .secondary, size: .small, action: { [weak self] _ in
-                guard let strongSelf = self else {
-                    return
-                }
-
-                strongSelf.createNotificationView(forVariant: variant).showNotification(in: strongSelf.view) {
-                    $0.hide(after: 3.0)
-                }
-            })
-            showButton.state.text = "Show"
-            container.addArrangedSubview(showButton)
-
-            container.alignment = .leading
+            container.addArrangedSubview(createButton(title: "Show", action: #selector(showNotificationView)))
         }
+        container.alignment = .leading
     }
 
     private func createNotificationView(forVariant variant: Variant) -> MSFNotification {
@@ -194,10 +179,15 @@ class NotificationViewDemoController: DemoController {
     }
 
     @objc private func showNotificationView(sender: UIButton) {
-        guard let index = container.arrangedSubviews.filter({ $0 is UIButton }).firstIndex(of: sender), let variant = Variant(rawValue: index) else {
+        guard let index = container.arrangedSubviews.filter({ $0 is UIButton }).firstIndex(of: sender), let variant = Variant(rawValue: index - 1) else {
             preconditionFailure("showNotificationView is used for a button in the wrong container")
         }
 
-        createNotificationView(forVariant: variant).show(in: view) { $0.hide(after: variant.delayForHiding) }
+        createNotificationView(forVariant: variant).showNotification(in: view) { $0.hide(after: 3.0) }
+    }
+
+    @objc private func showSwiftUIDemo() {
+        navigationController?.pushViewController(NotificationViewDemoControllerSwiftUI(),
+                                                 animated: true)
     }
 }

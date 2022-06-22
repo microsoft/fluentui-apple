@@ -64,9 +64,7 @@ struct NotificationDemoView: View {
                     Alert(title: Text("Button tapped"))
                 })
 
-            FluentButton(style: .secondary,
-                         size: .small,
-                         text: "Show") {
+            Button("Show") {
                 if isPresented == false {
                     isPresented = true
                     DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
@@ -84,7 +82,7 @@ struct NotificationDemoView: View {
                             Text("Content")
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .font(.title)
-                            FluentDivider()
+                            Divider()
                         }
 
                         TextField("Title", text: $title)
@@ -112,7 +110,7 @@ struct NotificationDemoView: View {
                             Text("Action")
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .font(.title)
-                            FluentDivider()
+                            Divider()
                         }
                         FluentUIDemoToggle(titleKey: "Has Action Button Action", isOn: $hasActionButtonAction)
                         FluentUIDemoToggle(titleKey: "Has Message Action", isOn: $hasMessageAction)
@@ -123,7 +121,7 @@ struct NotificationDemoView: View {
                             Text("Style")
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .font(.title)
-                            FluentDivider()
+                            Divider()
                         }
 
                         Picker(selection: $style, label: EmptyView()) {
