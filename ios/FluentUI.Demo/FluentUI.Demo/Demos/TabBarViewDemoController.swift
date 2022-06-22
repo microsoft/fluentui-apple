@@ -74,7 +74,7 @@ class TabBarViewDemoController: DemoController {
         updatedTabBarView.delegate = self
 
         if showsItemTitles {
-            homeItem = TabBarItem(title: "Home", image: UIImage(named: "Home_28")!, selectedImage: UIImage(named: "Home_Selected_28")!)
+            homeItem = TabBarItem(title: "Home", image: UIImage(named: "Home_24")!, selectedImage: UIImage(named: "Home_Selected_24")!)
             updatedTabBarView.items = [
                 homeItem,
                 TabBarItem(title: "New", image: UIImage(named: "New_24")!, selectedImage: UIImage(named: "New_Selected_24")!),
