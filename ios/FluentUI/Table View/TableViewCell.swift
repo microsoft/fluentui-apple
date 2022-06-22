@@ -1081,7 +1081,7 @@ open class TableViewCell: UITableViewCell {
         }
     }
 
-    @available(*, deprecated, message: "Any color or stylistic changes on TableViewCell labels should be done through NSAttributedString.")
+    //Any color or stylistic changes on TableViewCell labels should be done through NSAttributedString
     /// To set color for title label
     /// - Parameter color: UIColor to set
     @objc public func setTitleLabelTextColor(color: UIColor) {
@@ -1089,7 +1089,7 @@ open class TableViewCell: UITableViewCell {
         isUsingCustomTextColors = true
     }
 
-    @available(*, deprecated, message: "Any color or stylistic changes on TableViewCell labels should be done through NSAttributedString.")
+    //Any color or stylistic changes on TableViewCell labels should be done through NSAttributedString
     /// To set color for subTitle label
     /// - Parameter color: UIColor to set
     @objc public func setSubTitleLabelTextColor(color: UIColor) {
@@ -1097,6 +1097,7 @@ open class TableViewCell: UITableViewCell {
         isUsingCustomTextColors = true
     }
 
+    //Any color or stylistic changes on TableViewCell labels should be done through NSAttributedString
     /// To set color for footer label
     /// - Parameter color: UIColor to set
     public func setFooterLabelTextColor(color: UIColor) {
