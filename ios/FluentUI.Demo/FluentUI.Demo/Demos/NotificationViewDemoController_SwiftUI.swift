@@ -33,6 +33,8 @@ struct NotificationDemoView: View {
     @State var showImage: Bool = false
     @State var showAlert: Bool = false
     @State var isPresented: Bool = false
+    @State var overrideTokens: Bool = false
+    @State var isFlexibleWidthToast: Bool = false
 
     public var body: some View {
         let hasAttribute = hasBlueStrikethroughAttribute || hasLargeRedPapyrusFontAttribute
@@ -48,6 +50,7 @@ struct NotificationDemoView: View {
         let hasMessage = !message.isEmpty
         let hasTitle = !title.isEmpty
         let notification = FluentNotification(style: style,
+                                              isFlexibleWidthToast: isFlexibleWidthToast,
                                               message: hasMessage ? message : nil,
                                               attributedMessage: hasAttribute && hasMessage ? attributedMessage : nil,
                                               title: hasTitle ? title : nil,
@@ -55,7 +58,7 @@ struct NotificationDemoView: View {
                                               image: image,
                                               actionButtonTitle: actionButtonTitle,
                                               actionButtonAction: actionButtonAction,
-                                              messageButtonAction: messageButtonAction)
+                                              messageButtonAction: messageButtonAction).overrideTokens(overrideTokens ? NotificationOverrideTokens() : nil)
 
         VStack {
             notification
@@ -103,7 +106,7 @@ struct NotificationDemoView: View {
                             .textFieldStyle(RoundedBorderTextFieldStyle())
 
                         FluentUIDemoToggle(titleKey: "Has Attributed Text: Strikethrough", isOn: $hasBlueStrikethroughAttribute)
-                        FluentUIDemoToggle(titleKey: "Has Attributed Text: LargeRed Papyrus Font", isOn: $hasLargeRedPapyrusFontAttribute)
+                        FluentUIDemoToggle(titleKey: "Has Attributed Text: Large Red Papyrus Font", isOn: $hasLargeRedPapyrusFontAttribute)
                         FluentUIDemoToggle(titleKey: "Set image", isOn: $showImage)
                     }
 
@@ -137,12 +140,16 @@ struct NotificationDemoView: View {
                         }
                         .labelsHidden()
                         .frame(maxWidth: .infinity, alignment: .leading)
+
+                        FluentUIDemoToggle(titleKey: "Override Tokens (Image Color and Horizontal Spacing)", isOn: $overrideTokens)
+                        FluentUIDemoToggle(titleKey: "Flexible Width Toast", isOn: $isFlexibleWidthToast)
                     }
                 }
                 .padding()
             }
         }
         .presentNotification(style: style,
+                             isFlexibleWidthToast: $isFlexibleWidthToast.wrappedValue,
                              message: hasMessage ? message : nil,
                              attributedMessage: hasAttribute && hasMessage ? attributedMessage : nil,
                              isBlocking: false,
@@ -152,6 +159,17 @@ struct NotificationDemoView: View {
                              image: image,
                              actionButtonTitle: actionButtonTitle,
                              actionButtonAction: actionButtonAction,
-                             messageButtonAction: messageButtonAction)
+                             messageButtonAction: messageButtonAction,
+                             overrideTokens: $overrideTokens.wrappedValue ? NotificationOverrideTokens() : nil)
+    }
+
+    private class NotificationOverrideTokens: NotificationTokens {
+        override var imageColor: DynamicColor {
+            return DynamicColor(light: GlobalTokens().sharedColors[.orange][.primary])
+        }
+
+        override var horizontalSpacing: CGFloat {
+            return 5.0
+        }
     }
 }
