@@ -174,8 +174,6 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
                            height: imageSize.height,
                            alignment: .center)
                     .foregroundColor(Color(dynamicColor: tokens.imageColor))
-                    .padding(.vertical, tokens.verticalPadding)
-                    .padding(.leading, tokens.horizontalPadding)
             }
         }
     }
@@ -215,7 +213,6 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
             }
             messageLabel
         }
-        .padding(.horizontal, !hasImage ? tokens.horizontalPadding : 0)
         .padding(.vertical, hasSecondTextRow ? tokens.verticalPadding : tokens.verticalPaddingForOneLine)
     }
 
@@ -223,9 +220,6 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
     private var button: some View {
         if let buttonAction = state.actionButtonAction {
             let foregroundColor = tokens.foregroundColor
-            let horizontalPadding = tokens.horizontalPadding
-            let verticalPadding = tokens.verticalPadding
-
             if let actionTitle = state.actionButtonTitle, !actionTitle.isEmpty {
                 SwiftUI.Button(actionTitle) {
                     isPresented = false
@@ -233,8 +227,6 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
                 }
                 .lineLimit(1)
                 .foregroundColor(Color(dynamicColor: foregroundColor))
-                .padding(.horizontal, horizontalPadding)
-                .padding(.vertical, verticalPadding)
                 .font(.fluent(tokens.boldTextFont))
             } else {
                 SwiftUI.Button(action: {
@@ -243,8 +235,6 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
                 }, label: {
                     Image("dismiss-20x20", bundle: FluentUIFramework.resourceBundle)
                 })
-                .padding(.horizontal, horizontalPadding)
-                .padding(.vertical, verticalPadding)
                 .accessibility(identifier: "Accessibility.Dismiss.Label")
                 .foregroundColor(Color(dynamicColor: foregroundColor))
             }
@@ -261,11 +251,13 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
             }
             .frame(minHeight: tokens.minimumHeight)
         } else {
-            HStack(spacing: tokens.horizontalSpacing) {
+            let horizontalSpacing = tokens.horizontalSpacing
+            HStack(spacing: isFlexibleWidthToast ? horizontalSpacing : 0) {
                 image
+                    .padding(.trailing, isFlexibleWidthToast ? 0 : horizontalSpacing)
                 textContainer
                 if !isFlexibleWidthToast {
-                    Spacer()
+                    Spacer(minLength: horizontalSpacing)
                 }
                 button
                     .layoutPriority(1)
@@ -274,6 +266,7 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
                 innerContentsSize = newSize
             }
             .frame(minHeight: tokens.minimumHeight)
+            .padding(.horizontal, tokens.horizontalPadding)
             .clipped()
         }
     }
