@@ -33,7 +33,7 @@ class TabBarViewDemoController: DemoController {
     }()
 
     private lazy var homeItem: TabBarItem = {
-        return TabBarItem(title: "Home", image: UIImage(named: "Home_28")!, selectedImage: UIImage(named: "Home_Selected_28")!, landscapeImage: UIImage(named: "Home_24")!, landscapeSelectedImage: UIImage(named: "Home_Selected_24")!)
+        return homeItem(shouldShowTitle: false)
     }()
 
     private var badgeNumbers: [UInt] = Constants.initialBadgeNumbers
@@ -110,13 +110,12 @@ class TabBarViewDemoController: DemoController {
             return TabBarItem(title: "Home",
                               image: UIImage(named: "Home_24")!,
                               selectedImage: UIImage(named: "Home_Selected_24")!)
-        } else {
-            return TabBarItem(title: "Home",
-                              image: UIImage(named: "Home_28")!,
-                              selectedImage: UIImage(named: "Home_Selected_28")!,
-                              landscapeImage: UIImage(named: "Home_24")!,
-                              landscapeSelectedImage: UIImage(named: "Home_Selected_24")!)
         }
+        return TabBarItem(title: "Home",
+                          image: UIImage(named: "Home_28")!,
+                          selectedImage: UIImage(named: "Home_Selected_28")!,
+                          landscapeImage: UIImage(named: "Home_24")!,
+                          landscapeSelectedImage: UIImage(named: "Home_Selected_24")!)
     }
 
     private func updateBadgeNumbers() {
