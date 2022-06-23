@@ -15,7 +15,7 @@ import UIKit
     ///   - isFlexibleWidthToast: Whether the width of the toast is set based  on the width of the screen or on its contents
     @objc public init(style: MSFNotificationStyle,
                       isFlexibleWidthToast: Bool = false) {
-        self.isFlexibleWidthToast = isFlexibleWidthToast
+        self.isFlexibleWidthToast = isFlexibleWidthToast && style.isToast
         notification = FluentNotification(style: style,
                                           shouldSelfPresent: false)
         super.init(AnyView(notification))
