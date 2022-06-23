@@ -23,7 +23,7 @@ open class ActivityIndicatorTokens: ControlTokens {
     // MARK: - Design Tokens
 
     /// The default color of the Activity Indicator.
-    open var defaultColor: DynamicColor { aliasTokens.foregroundColors[.neutral4] }
+    open var defaultColor: DynamicColor { aliasTokens.strokeColors[.stroke1] }
 
     /// The value for the side of the square frame of an Activity Indicator.
     open var side: CGFloat {
