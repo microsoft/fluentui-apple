@@ -32,9 +32,7 @@ class TabBarViewDemoController: DemoController {
         return createButton(title: "-", action: #selector(decrementBadgeNumbers))
     }()
 
-    private lazy var homeItem: TabBarItem = {
-        return homeItem(shouldShowTitle: false)
-    }()
+    private lazy var homeItem: TabBarItem = homeItem(shouldShowTitle: false)
 
     private var badgeNumbers: [UInt] = Constants.initialBadgeNumbers
     private var higherBadgeNumbers: [UInt] = Constants.initialHigherBadgeNumbers
