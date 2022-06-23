@@ -8,7 +8,7 @@ FluentUI for iOS is a native framework that provides the Microsoft UI experience
 
 - [Colors and typography](#colors-and-typography)
 - [Controls](#controls)
-- [Install and use FluentUI](#install-and-use-fluentui)
+- [Install and use FluentUI]([#install-and-use-fluentui](https://github.com/microsoft/fluentui-apple#install-and-use-fluentui))
 - [Demo app](#demo-app)
 - [Targets](#targets)
 
