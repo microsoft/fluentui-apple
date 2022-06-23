@@ -249,7 +249,7 @@ extension CardNudgeDemoController: DemoAppearanceDelegate {
     func perControlOverrideDidChange(isOverrideEnabled: Bool) {
         self.cardNudges.forEach({ cardNudge in
             let tokens = isOverrideEnabled ? PerControlOverrideCardNudgeTokens() : nil
-            cardNudge.state.overrideTokens = tokens
+            cardNudge.overrideTokens = tokens
         })
     }
 
@@ -260,6 +260,15 @@ extension CardNudgeDemoController: DemoAppearanceDelegate {
     // MARK: - Custom tokens
 
     private class ThemeWideOverrideCardNudgeTokens: CardNudgeTokens {
+        override var outlineWidth: CGFloat {
+            return 10.0
+        }
+
+        override var outlineColor: DynamicColor {
+            return DynamicColor(light: GlobalTokens().sharedColors[.darkRed][.tint50],
+                                dark: GlobalTokens().sharedColors[.darkRed][.shade40])
+        }
+
         override var backgroundColor: DynamicColor {
             // "Hot Pink"
             return DynamicColor(light: GlobalTokens().sharedColors[.hotPink][.tint50],

@@ -12,5 +12,5 @@ open class ControlTokens: NSObject {
     public var globalTokens: GlobalTokens { fluentTheme.globalTokens }
     public var aliasTokens: AliasTokens { fluentTheme.aliasTokens }
 
-    lazy var fluentTheme: FluentTheme = FluentTheme.shared
+    unowned var fluentTheme: FluentTheme = FluentTheme.shared
 }

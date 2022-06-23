@@ -7,14 +7,11 @@ import SwiftUI
 
 /// Defines a control with customizable design tokens.
 public protocol TokenizedControl {
+    /// The type of tokens associated with this `TokenizedControl`.
     associatedtype TokenType: ControlTokens
 
-    /// Modifier function that updates the design tokens for a given control.
-    ///
-    /// - Parameter tokens: The tokens to apply to this control.
-    ///
-    /// - Returns: A version of this control with these overridden tokens applied.
-    func overrideTokens(_ tokens: TokenType?) -> Self
+    /// Custom tokens to provide styling for this `TokenizedControl`.
+    var overrideTokens: TokenType? { get set }
 }
 
 /// Internal extension to `TokenizedControl` that adds the ability to modify the active tokens.
@@ -22,20 +19,19 @@ protocol TokenizedControlInternal: TokenizedControl {
     /// The current `FluentTheme` applied to this control. Usually acquired via the environment.
     var fluentTheme: FluentTheme { get }
 
-    /// Default token set.
-    var defaultTokens: TokenType { get }
-
-    /// Fetches the current token override.
-    var overrideTokens: TokenType? { get }
+    associatedtype ControlType: TokenizedControlInternal where ControlType.TokenType == TokenType
+    var tokenResolver: TokenResolver<ControlType> { get }
 }
 
 // MARK: - Extensions
 
 extension TokenizedControlInternal {
-    /// Returns the correct token set for a given tokenizable control.
-    var resolvedTokens: TokenType {
-        let tokens = overrideTokens ?? fluentTheme.tokens(for: type(of: self)) ?? defaultTokens
-        tokens.fluentTheme = fluentTheme
-        return tokens
+    /// Per-control override tokens.
+    public var overrideTokens: TokenType? {
+        get { tokenResolver.overrideTokens }
+        set { tokenResolver.overrideTokens = newValue }
     }
+
+    /// Theme-provided class-wide override tokens.
+    var themeTokens: TokenType? { fluentTheme.tokens(for: type(of: self)) }
 }

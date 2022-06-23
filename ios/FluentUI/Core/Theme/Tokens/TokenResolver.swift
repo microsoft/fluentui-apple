@@ -6,7 +6,7 @@
 import SwiftUI
 
 /// Contains all possible token overrides for a given control, and returns the appropriate token value for a given property.
-class TokenResolver<ControlType: TokenizedControl>: NSObject, ObservableObject {
+public class TokenResolver<ControlType: TokenizedControl>: NSObject, ObservableObject {
 
     /// Returns the appropriate token value for a given key path on this control's token set.
     ///
@@ -23,9 +23,9 @@ class TokenResolver<ControlType: TokenizedControl>: NSObject, ObservableObject {
         }
     }
 
-    /// Prepares all three token sets by installing the current `FluentTheme` and then allowing the control
-    /// to perform additional configuration (e.g. setting `style` or `size` properties) via this class's `tokenConfig` property.
-    func configure(_ tokenConfig: ((_ tokens: TokenType) -> Void)? = nil) {
+    /// Prepares all three token sets by installing the current `FluentTheme` and then allowing the control to perform
+    /// additional configuration (e.g. setting `style` or `size` properties) by invoking the `configuration` callback.
+    func update() {
         [overrideTokens, themeTokens, defaultTokens].forEach { tokens in
             guard let tokens = tokens else {
                 return
@@ -33,14 +33,14 @@ class TokenResolver<ControlType: TokenizedControl>: NSObject, ObservableObject {
             if let fluentTheme = fluentTheme {
                 tokens.fluentTheme = fluentTheme
             }
-            if let tokenConfig = tokenConfig {
-                tokenConfig(tokens)
+            if let configuration = configuration {
+                configuration(tokens)
             }
         }
     }
 
     /// Optional callback to configure a `ControlTokens` instance.
-    var tokenConfig: ((TokenType) -> Void)?
+    var configuration: ((TokenType) -> Void)?
 
     typealias TokenType = ControlType.TokenType
 
@@ -52,21 +52,17 @@ class TokenResolver<ControlType: TokenizedControl>: NSObject, ObservableObject {
         return fluentTheme?.tokens(for: ControlType.self)
     }
 }
-
 // MARK: - Extensions
 
 extension View {
-    /// Used to configure a given `TokenResolver` instance with the current Fluent theme, as well as an optional token configuration callback.
-    ///
-    /// This view modifier should be attached to a tokenized SwiftUI view's main `body` to ensure that the `TokenResolver` is properly
-    /// configured at render time.
-    func designTokens<ControlType: TokenizedControlInternal>(_ tokenResolver: TokenResolver<ControlType>,
+    func fluentTokens<ControlType: TokenizedControlInternal>(_ tokenResolver: TokenResolver<ControlType>,
                                                              _ fluentTheme: FluentTheme,
-                                                             _ tokenConfig: ((_ tokens: ControlType.TokenType) -> Void)? = nil) -> Self {
+                                                             _ configuration: ((_ tokens: ControlType.TokenType) -> Void)? = nil) -> some View {
         if fluentTheme != tokenResolver.fluentTheme {
             tokenResolver.fluentTheme = fluentTheme
         }
-        tokenResolver.configure(tokenConfig)
+        tokenResolver.configuration = configuration
+        tokenResolver.update()
         return self
     }
 }
