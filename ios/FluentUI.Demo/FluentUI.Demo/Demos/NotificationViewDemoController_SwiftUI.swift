@@ -39,7 +39,7 @@ struct NotificationDemoView: View {
     public var body: some View {
         let hasAttribute = hasBlueStrikethroughAttribute || hasLargeRedPapyrusFontAttribute
         let bothAttributes = [NSAttributedString.Key.strikethroughStyle: 1, NSAttributedString.Key.strikethroughColor: UIColor.blue, .font: UIFont.init(name: "Papyrus", size: 30.0)!, .foregroundColor: UIColor.red] as [NSAttributedString.Key: Any]
-        let blueStrikethroughAttribute = [NSAttributedString.Key.strikethroughStyle: 1, NSAttributedString.Key.strikethroughColor: UIColor.blue] as [NSAttributedString.Key: Any]
+        let blueStrikethroughAttribute = [.font: UIFont.preferredFont(forTextStyle: .body), NSAttributedString.Key.strikethroughStyle: 1, NSAttributedString.Key.strikethroughColor: UIColor.blue] as [NSAttributedString.Key: Any]
         let redPapyrusFontAttribute = [.font: UIFont.init(name: "Papyrus", size: 30.0)!, .foregroundColor: UIColor.red] as [NSAttributedString.Key: Any]
         let attributedMessage = NSMutableAttributedString(string: message, attributes: (hasLargeRedPapyrusFontAttribute && hasBlueStrikethroughAttribute) ? bothAttributes : (hasLargeRedPapyrusFontAttribute ? redPapyrusFontAttribute : blueStrikethroughAttribute))
         let attributedTitle = NSMutableAttributedString(string: title, attributes: (hasLargeRedPapyrusFontAttribute && hasBlueStrikethroughAttribute) ? bothAttributes : (hasLargeRedPapyrusFontAttribute ? redPapyrusFontAttribute : blueStrikethroughAttribute))
@@ -58,7 +58,8 @@ struct NotificationDemoView: View {
                                               image: image,
                                               actionButtonTitle: actionButtonTitle,
                                               actionButtonAction: actionButtonAction,
-                                              messageButtonAction: messageButtonAction).overrideTokens(overrideTokens ? NotificationOverrideTokens() : nil)
+                                              messageButtonAction: messageButtonAction)
+                            .overrideTokens(overrideTokens ? NotificationOverrideTokens() : nil)
 
         VStack {
             notification
@@ -165,7 +166,7 @@ struct NotificationDemoView: View {
 
     private class NotificationOverrideTokens: NotificationTokens {
         override var imageColor: DynamicColor {
-            return DynamicColor(light: GlobalTokens().sharedColors[.orange][.primary])
+            return DynamicColor(light: globalTokens.sharedColors[.orange][.primary])
         }
 
         override var horizontalSpacing: CGFloat {

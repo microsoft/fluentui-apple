@@ -178,7 +178,8 @@ class NotificationViewDemoController: DemoController {
         case .primaryToastWithStrikethroughAttribute:
             let notification = MSFNotification(style: .primaryToast)
             notification.state.attributedMessage = NSAttributedString(string: "This is a toast with a blue strikethrough attribute.",
-                                                                      attributes: [.strikethroughStyle: 1,
+                                                                      attributes: [.font: UIFont.preferredFont(forTextStyle: .body),
+                                                                                   .strikethroughStyle: 1,
                                                                                    .strikethroughColor: UIColor.blue])
             notification.state.actionButtonAction = { [weak self] in
                 self?.showMessage("`Dismiss` tapped")
