@@ -51,7 +51,6 @@ struct Demos {
         DemoDescriptor("Button", ButtonLegacyDemoController.self),
         DemoDescriptor("Card", CardViewDemoController.self),
         DemoDescriptor("Color", ColorDemoController.self),
-        DemoDescriptor("CommandBar", CommandBarDemoController.self),
         DemoDescriptor("DateTimePicker", DateTimePickerDemoController.self),
         DemoDescriptor("Label", LabelDemoController.self),
         DemoDescriptor("NavigationController", NavigationControllerDemoController.self),
