@@ -11,6 +11,8 @@
 		5306075326A1E6A4002D49CF /* AvatarGroupTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5306074F26A1E6A4002D49CF /* AvatarGroupTokens.swift */; };
 		5306075726A1E6A4002D49CF /* AvatarGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5306075126A1E6A4002D49CF /* AvatarGroup.swift */; };
 		5306076126A201C8002D49CF /* Persona.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EF53C2215AF1AB00573E8F /* Persona.swift */; };
+		530D9C5327EE7B2C00BDCBBF /* SwiftUI+ViewAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530D9C5227EE7B2C00BDCBBF /* SwiftUI+ViewAnimation.swift */; };
+		530D9C5127EE388200BDCBBF /* SwiftUI+ViewPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530D9C5027EE388200BDCBBF /* SwiftUI+ViewPresentation.swift */; };
 		5314E01625F00CF70099271A /* BarButtonItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52648DB2316F4F9003342A0 /* BarButtonItems.swift */; };
 		5314E01F25F00D080099271A /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CEC23020E451D00016922A /* Button.swift */; };
 		5314E02825F00DA80099271A /* BlurringView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA1AF8B21484625001AE720 /* BlurringView.swift */; };
@@ -49,8 +51,6 @@
 		5314E0A925F010070099271A /* DrawerTransitionAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87AF4211E16360038C37C /* DrawerTransitionAnimator.swift */; };
 		5314E0AA25F010070099271A /* DrawerShadowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5237ACC21ED6CA70040BF27 /* DrawerShadowView.swift */; };
 		5314E0B325F010400099271A /* EasyTapButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD5BBE42214C73CE008964B4 /* EasyTapButton.swift */; };
-		5314E0BC25F0106F0099271A /* HUDView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B483323221CC71940022B4CC /* HUDView.swift */; };
-		5314E0BD25F0106F0099271A /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = B483323421DEA8D70022B4CC /* HUD.swift */; };
 		5314E0CF25F011F10099271A /* Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = A589F853211BA03200471C23 /* Label.swift */; };
 		5314E0E425F012C00099271A /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C87F22DD13230086F899 /* NavigationController.swift */; };
 		5314E0E525F012C00099271A /* NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C87B22DD13230086F899 /* NavigationBar.swift */; };
@@ -134,6 +134,12 @@
 		5373D56B2694D65C0032A3B4 /* MSFAvatarPresence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5373D5632694D65C0032A3B4 /* MSFAvatarPresence.swift */; };
 		5373D5732694D66F0032A3B4 /* UIKit+SwiftUI_interoperability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5373D56D2694D66F0032A3B4 /* UIKit+SwiftUI_interoperability.swift */; };
 		5373D5772694D66F0032A3B4 /* SwiftUI+ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5373D56F2694D66F0032A3B4 /* SwiftUI+ViewModifiers.swift */; };
+		53A70ED82866122600759DC0 /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A70ED32866122600759DC0 /* HUD.swift */; };
+		53A70ED92866122600759DC0 /* HUDModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A70ED42866122600759DC0 /* HUDModifiers.swift */; };
+		53A70EDA2866122600759DC0 /* HUDTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A70ED52866122600759DC0 /* HUDTokens.swift */; };
+		53A70EDB2866122600759DC0 /* HeadsUpDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A70ED62866122600759DC0 /* HeadsUpDisplay.swift */; };
+		53A70EDC2866122600759DC0 /* MSFHeadsUpDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A70ED72866122600759DC0 /* MSFHeadsUpDisplay.swift */; };
+		53A70EDE286615E500759DC0 /* SwiftUI+ViewPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A70EDD286615E500759DC0 /* SwiftUI+ViewPresentation.swift */; };
 		53E2EE0527860D010086D30D /* MSFActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E2EE0427860D010086D30D /* MSFActivityIndicator.swift */; };
 		53E2EE07278799B30086D30D /* MSFIndeterminateProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E2EE06278799B30086D30D /* MSFIndeterminateProgressBar.swift */; };
 		6EB4B25F270ED6B30005B808 /* BadgeLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB4B25D270ED6450005B808 /* BadgeLabel.swift */; };
@@ -212,6 +218,8 @@
 		5303259926B31B6B00611D05 /* AvatarModifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarModifiers.swift; sourceTree = "<group>"; };
 		5306074F26A1E6A4002D49CF /* AvatarGroupTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarGroupTokens.swift; sourceTree = "<group>"; };
 		5306075126A1E6A4002D49CF /* AvatarGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarGroup.swift; sourceTree = "<group>"; };
+		530D9C5227EE7B2C00BDCBBF /* SwiftUI+ViewAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SwiftUI+ViewAnimation.swift"; sourceTree = "<group>"; };
+		530D9C5027EE388200BDCBBF /* SwiftUI+ViewPresentation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SwiftUI+ViewPresentation.swift"; sourceTree = "<group>"; };
 		5328D96C26FBA3D600F3723B /* IndeterminateProgressBarTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBarTokens.swift; sourceTree = "<group>"; };
 		5328D96D26FBA3D600F3723B /* IndeterminateProgressBarModifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBarModifiers.swift; sourceTree = "<group>"; };
 		5328D96F26FBA3D700F3723B /* IndeterminateProgressBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBar.swift; sourceTree = "<group>"; };
@@ -224,6 +232,12 @@
 		5373D5632694D65C0032A3B4 /* MSFAvatarPresence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFAvatarPresence.swift; sourceTree = "<group>"; };
 		5373D56D2694D66F0032A3B4 /* UIKit+SwiftUI_interoperability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIKit+SwiftUI_interoperability.swift"; sourceTree = "<group>"; };
 		5373D56F2694D66F0032A3B4 /* SwiftUI+ViewModifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SwiftUI+ViewModifiers.swift"; sourceTree = "<group>"; };
+		53A70ED32866122600759DC0 /* HUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUD.swift; sourceTree = "<group>"; };
+		53A70ED42866122600759DC0 /* HUDModifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUDModifiers.swift; sourceTree = "<group>"; };
+		53A70ED52866122600759DC0 /* HUDTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUDTokens.swift; sourceTree = "<group>"; };
+		53A70ED62866122600759DC0 /* HeadsUpDisplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeadsUpDisplay.swift; sourceTree = "<group>"; };
+		53A70ED72866122600759DC0 /* MSFHeadsUpDisplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFHeadsUpDisplay.swift; sourceTree = "<group>"; };
+		53A70EDD286615E500759DC0 /* SwiftUI+ViewPresentation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SwiftUI+ViewPresentation.swift"; sourceTree = "<group>"; };
 		53BCB0CD253A4E8C00620960 /* Obscurable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Obscurable.swift; sourceTree = "<group>"; };
 		53E2EE0427860D010086D30D /* MSFActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFActivityIndicator.swift; sourceTree = "<group>"; };
 		53E2EE06278799B30086D30D /* MSFIndeterminateProgressBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFIndeterminateProgressBar.swift; sourceTree = "<group>"; };
@@ -314,8 +328,6 @@
 		B46D3F922151D95F0029772C /* PersonaCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaCell.swift; sourceTree = "<group>"; };
 		B46D3F9C215985AC0029772C /* PersonaListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaListView.swift; sourceTree = "<group>"; };
 		B47B58B722F8E5840078DE38 /* PeoplePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeoplePicker.swift; sourceTree = "<group>"; };
-		B483323221CC71940022B4CC /* HUDView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDView.swift; sourceTree = "<group>"; };
-		B483323421DEA8D70022B4CC /* HUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUD.swift; sourceTree = "<group>"; };
 		B483323621DEB5A00022B4CC /* TouchForwardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchForwardingView.swift; sourceTree = "<group>"; };
 		B498141321E424920077B48D /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		B4A8BBCC21BF6D6900D5E3ED /* BadgeStringExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeStringExtractor.swift; sourceTree = "<group>"; };
@@ -871,7 +883,9 @@
 				A559BB82212B7D870055E107 /* FluentUIFramework.swift */,
 				535559E22711411E0094A871 /* FluentUIHostingController.swift */,
 				A5CEC16E20D98F340016922A /* Fonts.swift */,
+				530D9C5227EE7B2C00BDCBBF /* SwiftUI+ViewAnimation.swift */,
 				5373D56F2694D66F0032A3B4 /* SwiftUI+ViewModifiers.swift */,
+				53A70EDD286615E500759DC0 /* SwiftUI+ViewPresentation.swift */,
 				5373D56D2694D66F0032A3B4 /* UIKit+SwiftUI_interoperability.swift */,
 			);
 			path = Core;
@@ -934,8 +948,11 @@
 		B483323121CC71700022B4CC /* HUD */ = {
 			isa = PBXGroup;
 			children = (
-				B483323421DEA8D70022B4CC /* HUD.swift */,
-				B483323221CC71940022B4CC /* HUDView.swift */,
+				53A70ED62866122600759DC0 /* HeadsUpDisplay.swift */,
+				53A70ED32866122600759DC0 /* HUD.swift */,
+				53A70ED42866122600759DC0 /* HUDModifiers.swift */,
+				53A70ED52866122600759DC0 /* HUDTokens.swift */,
+				53A70ED72866122600759DC0 /* MSFHeadsUpDisplay.swift */,
 			);
 			path = HUD;
 			sourceTree = "<group>";
@@ -1443,7 +1460,6 @@
 				92F8054E272B2DF3000EAFDB /* CardNudgeModifiers.swift in Sources */,
 				925D461D26FD133600179583 /* GlobalTokens.swift in Sources */,
 				9275105626815A7100F12730 /* MSFPersonaButtonCarousel.swift in Sources */,
-				5314E0BC25F0106F0099271A /* HUDView.swift in Sources */,
 				927EB2BD278627440069753D /* PersonaButtonModifiers.swift in Sources */,
 				5314E0F225F012C80099271A /* ShyHeaderView.swift in Sources */,
 				5314E02825F00DA80099271A /* BlurringView.swift in Sources */,
@@ -1457,6 +1473,7 @@
 				5314E0E625F012C00099271A /* UIViewController+Navigation.swift in Sources */,
 				5314E29725F024760099271A /* String+Extension.swift in Sources */,
 				5314E12925F016230099271A /* PillButtonStyle.swift in Sources */,
+				530D9C5327EE7B2C00BDCBBF /* SwiftUI+ViewAnimation.swift in Sources */,
 				5306075726A1E6A4002D49CF /* AvatarGroup.swift in Sources */,
 				92A1E4F526A791590007ED60 /* MSFCardNudge.swift in Sources */,
 				5314E1C425F01B4E0099271A /* TwoLineTitleView.swift in Sources */,
@@ -1470,6 +1487,7 @@
 				5314E1A425F01A7C0099271A /* CenteredLabelCell.swift in Sources */,
 				5314E1A125F01A7C0099271A /* TableViewCellFileAccessoryView.swift in Sources */,
 				5314E1D625F01E4A0099271A /* SearchBar.swift in Sources */,
+				53A70EDB2866122600759DC0 /* HeadsUpDisplay.swift in Sources */,
 				5314E0A825F010070099271A /* DrawerPresentationController.swift in Sources */,
 				5314E06425F00EFD0099271A /* CalendarViewMonthBannerView.swift in Sources */,
 				5314E18E25F0195C0099271A /* ShimmerLinesView.swift in Sources */,
@@ -1483,11 +1501,14 @@
 				5314E11725F015EA0099271A /* PersonaCell.swift in Sources */,
 				5314E23025F022C80099271A /* UIScrollView+Extensions.swift in Sources */,
 				5314E16925F017940099271A /* SegmentedControl.swift in Sources */,
+				53A70ED92866122600759DC0 /* HUDModifiers.swift in Sources */,
 				C77A04EE25F046EB001B3EB6 /* Date+CellFileAccessoryView.swift in Sources */,
 				5373D5732694D66F0032A3B4 /* UIKit+SwiftUI_interoperability.swift in Sources */,
 				5314E09E25F00FE20099271A /* DotView.swift in Sources */,
 				5314E1A525F01A7C0099271A /* TableViewCell.swift in Sources */,
+				53A70EDE286615E500759DC0 /* SwiftUI+ViewPresentation.swift in Sources */,
 				5314E09525F00FA30099271A /* DimmingView.swift in Sources */,
+				53A70EDA2866122600759DC0 /* HUDTokens.swift in Sources */,
 				5306075326A1E6A4002D49CF /* AvatarGroupTokens.swift in Sources */,
 				5314E11825F015EA0099271A /* PeoplePicker.swift in Sources */,
 				5303259B26B31B6B00611D05 /* AvatarModifiers.swift in Sources */,
@@ -1521,8 +1542,9 @@
 				5314E08925F00F2D0099271A /* CommandBarButtonGroupView.swift in Sources */,
 				5314E08C25F00F2D0099271A /* CommandBarButton.swift in Sources */,
 				94A7EC1A2836DCB200BFFBAE /* CommandBarCommandGroupsView.swift in Sources */,
+				53A70EDC2866122600759DC0 /* MSFHeadsUpDisplay.swift in Sources */,
+				53A70ED82866122600759DC0 /* HUD.swift in Sources */,
 				5314E21E25F022120099271A /* UIView+Extensions.swift in Sources */,
-				5314E0BD25F0106F0099271A /* HUD.swift in Sources */,
 				5314E06A25F00F100099271A /* GenericDateTimePicker.swift in Sources */,
 				5314E06025F00EFD0099271A /* CalendarViewWeekdayHeadingView.swift in Sources */,
 				5314E05A25F00EF50099271A /* CalendarViewLayout.swift in Sources */,
