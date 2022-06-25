@@ -33,11 +33,13 @@ struct NotificationDemoView: View {
     @State var showImage: Bool = false
     @State var showAlert: Bool = false
     @State var isPresented: Bool = false
+    @State var overrideTokens: Bool = false
+    @State var isFlexibleWidthToast: Bool = false
 
     public var body: some View {
         let hasAttribute = hasBlueStrikethroughAttribute || hasLargeRedPapyrusFontAttribute
         let bothAttributes = [NSAttributedString.Key.strikethroughStyle: 1, NSAttributedString.Key.strikethroughColor: UIColor.blue, .font: UIFont.init(name: "Papyrus", size: 30.0)!, .foregroundColor: UIColor.red] as [NSAttributedString.Key: Any]
-        let blueStrikethroughAttribute = [NSAttributedString.Key.strikethroughStyle: 1, NSAttributedString.Key.strikethroughColor: UIColor.blue] as [NSAttributedString.Key: Any]
+        let blueStrikethroughAttribute = [.font: UIFont.preferredFont(forTextStyle: .body), NSAttributedString.Key.strikethroughStyle: 1, NSAttributedString.Key.strikethroughColor: UIColor.blue] as [NSAttributedString.Key: Any]
         let redPapyrusFontAttribute = [.font: UIFont.init(name: "Papyrus", size: 30.0)!, .foregroundColor: UIColor.red] as [NSAttributedString.Key: Any]
         let attributedMessage = NSMutableAttributedString(string: message, attributes: (hasLargeRedPapyrusFontAttribute && hasBlueStrikethroughAttribute) ? bothAttributes : (hasLargeRedPapyrusFontAttribute ? redPapyrusFontAttribute : blueStrikethroughAttribute))
         let attributedTitle = NSMutableAttributedString(string: title, attributes: (hasLargeRedPapyrusFontAttribute && hasBlueStrikethroughAttribute) ? bothAttributes : (hasLargeRedPapyrusFontAttribute ? redPapyrusFontAttribute : blueStrikethroughAttribute))
@@ -48,6 +50,7 @@ struct NotificationDemoView: View {
         let hasMessage = !message.isEmpty
         let hasTitle = !title.isEmpty
         let notification = FluentNotification(style: style,
+                                              isFlexibleWidthToast: isFlexibleWidthToast,
                                               message: hasMessage ? message : nil,
                                               attributedMessage: hasAttribute && hasMessage ? attributedMessage : nil,
                                               title: hasTitle ? title : nil,
@@ -56,6 +59,7 @@ struct NotificationDemoView: View {
                                               actionButtonTitle: actionButtonTitle,
                                               actionButtonAction: actionButtonAction,
                                               messageButtonAction: messageButtonAction)
+                            .overrideTokens(overrideTokens ? NotificationOverrideTokens() : nil)
 
         VStack {
             notification
@@ -103,7 +107,7 @@ struct NotificationDemoView: View {
                             .textFieldStyle(RoundedBorderTextFieldStyle())
 
                         FluentUIDemoToggle(titleKey: "Has Attributed Text: Strikethrough", isOn: $hasBlueStrikethroughAttribute)
-                        FluentUIDemoToggle(titleKey: "Has Attributed Text: LargeRed Papyrus Font", isOn: $hasLargeRedPapyrusFontAttribute)
+                        FluentUIDemoToggle(titleKey: "Has Attributed Text: Large Red Papyrus Font", isOn: $hasLargeRedPapyrusFontAttribute)
                         FluentUIDemoToggle(titleKey: "Set image", isOn: $showImage)
                     }
 
@@ -137,12 +141,16 @@ struct NotificationDemoView: View {
                         }
                         .labelsHidden()
                         .frame(maxWidth: .infinity, alignment: .leading)
+
+                        FluentUIDemoToggle(titleKey: "Override Tokens (Image Color and Horizontal Spacing)", isOn: $overrideTokens)
+                        FluentUIDemoToggle(titleKey: "Flexible Width Toast", isOn: $isFlexibleWidthToast)
                     }
                 }
                 .padding()
             }
         }
         .presentNotification(style: style,
+                             isFlexibleWidthToast: $isFlexibleWidthToast.wrappedValue,
                              message: hasMessage ? message : nil,
                              attributedMessage: hasAttribute && hasMessage ? attributedMessage : nil,
                              isBlocking: false,
@@ -152,6 +160,17 @@ struct NotificationDemoView: View {
                              image: image,
                              actionButtonTitle: actionButtonTitle,
                              actionButtonAction: actionButtonAction,
-                             messageButtonAction: messageButtonAction)
+                             messageButtonAction: messageButtonAction,
+                             overrideTokens: $overrideTokens.wrappedValue ? NotificationOverrideTokens() : nil)
+    }
+
+    private class NotificationOverrideTokens: NotificationTokens {
+        override var imageColor: DynamicColor {
+            return DynamicColor(light: globalTokens.sharedColors[.orange][.primary])
+        }
+
+        override var horizontalSpacing: CGFloat {
+            return 5.0
+        }
     }
 }

@@ -12,8 +12,10 @@ import UIKit
     /// Creates a new MSFNotification instance.
     /// - Parameters:
     ///   - style: The MSFNotification value used by the Notification.
-    ///   - shouldSelfPresent: Whether the notification should  present itself (SwiftUI environment) or externally (UIKit environment)
-    @objc public init(style: MSFNotificationStyle) {
+    ///   - isFlexibleWidthToast: Whether the width of the toast is set based  on the width of the screen or on its contents
+    @objc public init(style: MSFNotificationStyle,
+                      isFlexibleWidthToast: Bool = false) {
+        self.isFlexibleWidthToast = isFlexibleWidthToast && style.isToast
         notification = FluentNotification(style: style,
                                           shouldSelfPresent: false)
         super.init(AnyView(notification))
@@ -57,12 +59,18 @@ import UIKit
         constraints.append(animated ? constraintWhenHidden : constraintWhenShown)
         constraints.append(self.centerXAnchor.constraint(equalTo: view.centerXAnchor))
 
-        let isHalfLength = state.style.isToast && traitCollection.horizontalSizeClass == .regular
-        if isHalfLength {
-            constraints.append(self.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.5))
+        let horizontalPadding = -2 * notification.tokens.presentationOffset
+        let widthAnchor = self.widthAnchor
+        let viewWidthAnchor = view.widthAnchor
+        if isFlexibleWidthToast {
+            constraints.append(widthAnchor.constraint(lessThanOrEqualTo: viewWidthAnchor, constant: horizontalPadding))
         } else {
-            let padding = notification.tokens.presentationOffset
-            constraints.append(self.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -2 * padding))
+            let isHalfLength = state.style.isToast && traitCollection.horizontalSizeClass == .regular
+            if isHalfLength {
+                constraints.append(widthAnchor.constraint(equalTo: viewWidthAnchor, multiplier: 0.5))
+            } else {
+                constraints.append(widthAnchor.constraint(equalTo: viewWidthAnchor, constant: horizontalPadding))
+            }
         }
         NSLayoutConstraint.activate(constraints)
 
@@ -128,6 +136,8 @@ import UIKit
             })
         }
     }
+
+    var isFlexibleWidthToast: Bool
 
     // MARK: - Private variables
     private static var allowsMultipleToasts: Bool = false
