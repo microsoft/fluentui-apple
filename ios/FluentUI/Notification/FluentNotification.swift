@@ -47,7 +47,8 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
     /// Creates the FluentNotification
     /// - Parameters:
     ///   - style: `MSFNotificationStyle` enum value that defines the style of the Notification being presented.
-    ///   - shouldSelfPresent: Whether the notification should  present itself (SwiftUI environment) or externally (UIKit environment)
+    ///   - shouldSelfPresent: Whether the notification should  present itself (SwiftUI environment) or externally (UIKit environment).
+    ///   - isFlexibleWidthToast: Whether the width of the toast is set based  on the width of the screen or on its contents.
     ///   - message: Optional text for the main title area of the control. If there is a title, the message becomes subtext.
     ///   - attributedMessage: Optional attributed text for the main title area of the control. If there is a title, the message becomes subtext. If set, it will override the message parameter.
     ///   - isPresented: Controls whether the Notification is being presented.
@@ -59,6 +60,7 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
     ///   - messageButtonAction: Action to be dispatched by tapping on the toast/bar notification.
     public init(style: MSFNotificationStyle,
                 shouldSelfPresent: Bool = true,
+                isFlexibleWidthToast: Bool = false,
                 message: String? = nil,
                 attributedMessage: NSAttributedString? = nil,
                 isPresented: Binding<Bool>? = nil,
@@ -79,6 +81,7 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
         state.messageButtonAction = messageButtonAction
         self.state = state
         self.shouldSelfPresent = shouldSelfPresent
+        self.isFlexibleWidthToast = isFlexibleWidthToast && style.isToast
 
         if let isPresented = isPresented {
             _isPresented = isPresented
@@ -94,13 +97,15 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
             GeometryReader { proxy in
                 let proposedSize = proxy.size
                 let proposedWidth = proposedSize.width
+                let horizontalPadding = 2 * tokens.presentationOffset
                 let calculatedNotificationWidth: CGFloat = {
                     let isHalfLength = state.style.isToast && horizontalSizeClass == .regular
-                    return isHalfLength ? proposedWidth / 2 : proposedWidth - (2 * tokens.presentationOffset)
+                    return isHalfLength ? proposedWidth / 2 : proposedWidth - horizontalPadding
                 }()
 
                 notification
-                    .frame(width: calculatedNotificationWidth, alignment: .center)
+                    .frame(idealWidth: isFlexibleWidthToast ? innerContentsSize.width - horizontalPadding : calculatedNotificationWidth,
+                           maxWidth: isFlexibleWidthToast ? proposedWidth : calculatedNotificationWidth, alignment: .center)
                     .onChange(of: isPresented, perform: { present in
                         if present {
                             presentAnimated()
@@ -168,9 +173,7 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
                     .frame(width: imageSize.width,
                            height: imageSize.height,
                            alignment: .center)
-                    .foregroundColor(Color(dynamicColor: tokens.foregroundColor))
-                    .padding(.vertical, tokens.verticalPadding)
-                    .padding(.leading, tokens.horizontalPadding)
+                    .foregroundColor(Color(dynamicColor: tokens.imageColor))
             }
         }
     }
@@ -180,7 +183,7 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
         if state.style.isToast && hasSecondTextRow {
             if let attributedTitle = state.attributedTitle {
                 AttributedText(attributedTitle)
-                    .fixedSize(horizontal: false, vertical: true)
+                    .fixedSize(horizontal: isFlexibleWidthToast, vertical: true)
             } else if let title = state.title {
                 Text(title)
                     .font(.fluent(tokens.boldTextFont))
@@ -193,7 +196,7 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
     private var messageLabel: some View {
         if let attributedMessage = state.attributedMessage {
             AttributedText(attributedMessage)
-                .fixedSize(horizontal: false, vertical: true)
+                .fixedSize(horizontal: isFlexibleWidthToast, vertical: true)
         } else if let message = state.message {
             let messageFont = hasSecondTextRow ? tokens.footnoteTextFont : (state.style.isToast ? tokens.boldTextFont : tokens.regularTextFont)
             Text(message)
@@ -210,38 +213,30 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
             }
             messageLabel
         }
-        .padding(.horizontal, !hasImage ? tokens.horizontalPadding : 0)
         .padding(.vertical, hasSecondTextRow ? tokens.verticalPadding : tokens.verticalPaddingForOneLine)
     }
 
     @ViewBuilder
     private var button: some View {
-        if let buttonAction = state.actionButtonAction, let actionTitle = state.actionButtonTitle {
+        if let buttonAction = state.actionButtonAction {
             let foregroundColor = tokens.foregroundColor
-            let horizontalPadding = tokens.horizontalPadding
-            let verticalPadding = tokens.verticalPadding
-
-            if actionTitle.isEmpty {
-                SwiftUI.Button(action: {
-                    isPresented = false
-                    buttonAction()
-                }, label: {
-                    Image("dismiss-20x20", bundle: FluentUIFramework.resourceBundle)
-                })
-                .padding(.horizontal, horizontalPadding)
-                .padding(.vertical, verticalPadding)
-                .accessibility(identifier: "Accessibility.Dismiss.Label")
-                .foregroundColor(Color(dynamicColor: foregroundColor))
-            } else {
+            if let actionTitle = state.actionButtonTitle, !actionTitle.isEmpty {
                 SwiftUI.Button(actionTitle) {
                     isPresented = false
                     buttonAction()
                 }
                 .lineLimit(1)
                 .foregroundColor(Color(dynamicColor: foregroundColor))
-                .padding(.horizontal, horizontalPadding)
-                .padding(.vertical, verticalPadding)
                 .font(.fluent(tokens.boldTextFont))
+            } else {
+                SwiftUI.Button(action: {
+                    isPresented = false
+                    buttonAction()
+                }, label: {
+                    Image("dismiss-20x20", bundle: FluentUIFramework.resourceBundle)
+                })
+                .accessibility(identifier: "Accessibility.Dismiss.Label")
+                .foregroundColor(Color(dynamicColor: foregroundColor))
             }
         }
     }
@@ -256,14 +251,22 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
             }
             .frame(minHeight: tokens.minimumHeight)
         } else {
-            HStack(spacing: tokens.horizontalSpacing) {
+            let horizontalSpacing = tokens.horizontalSpacing
+            HStack(spacing: isFlexibleWidthToast ? horizontalSpacing : 0) {
                 image
+                    .padding(.trailing, isFlexibleWidthToast ? 0 : horizontalSpacing)
                 textContainer
-                Spacer(minLength: tokens.horizontalPadding)
+                if !isFlexibleWidthToast {
+                    Spacer(minLength: horizontalSpacing)
+                }
                 button
                     .layoutPriority(1)
             }
+            .onSizeChange { newSize in
+                innerContentsSize = newSize
+            }
             .frame(minHeight: tokens.minimumHeight)
+            .padding(.horizontal, tokens.horizontalPadding)
             .clipped()
         }
     }
@@ -302,6 +305,9 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
     @Binding private var isPresented: Bool
     @State private var bottomOffsetForDismissedState: CGFloat = 0
     @State private var bottomOffset: CGFloat = 0
+    @State private var innerContentsSize: CGSize = CGSize()
+    @State private var attributedMessageSize: CGSize = CGSize()
+    @State private var attributedTitleSize: CGSize = CGSize()
 
     // When true, the notification view will take up all proposed space
     // and automatically position itself within it.
@@ -310,6 +316,10 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
     // When false, the view will have a fitting, flexible width and self-sized height.
     // In this mode the notification should be positioned and presented externally.
     private let shouldSelfPresent: Bool
+
+    // When true, the notification will fit the size of its contents.
+    // When false, the notification will be fixed based on the size of the screen.
+    private let isFlexibleWidthToast: Bool
 }
 
 class MSFNotificationStateImpl: NSObject, ControlConfiguration, MSFNotificationState {

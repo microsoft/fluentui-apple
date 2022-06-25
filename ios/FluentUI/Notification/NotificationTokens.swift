@@ -60,17 +60,23 @@ open class NotificationTokens: ControlTokens {
         case .primaryToast:
             return globalTokens.brandColors[.tint40]
         case .neutralToast:
-            return DynamicColor(light: ColorValue(0xF7F7F7), dark: ColorValue(0x393939))
+            return DynamicColor(light: ColorValue(0xF7F7F7),
+                                dark: ColorValue(0x393939))
         case .primaryBar:
-            return DynamicColor(light: globalTokens.brandColors[.tint40].light, dark: globalTokens.brandColors[.tint10].dark)
+            return DynamicColor(light: globalTokens.brandColors[.tint40].light,
+                                dark: globalTokens.brandColors[.tint10].dark)
         case .primaryOutlineBar:
-            return DynamicColor(light: ColorValue(0xFFFFFF), dark: ColorValue(0x393939))
+            return DynamicColor(light: ColorValue(0xFFFFFF),
+                                dark: ColorValue(0x393939))
         case .neutralBar:
-            return DynamicColor(light: ColorValue(0xDFDFDF), dark: ColorValue(0x393939))
+            return DynamicColor(light: ColorValue(0xDFDFDF),
+                                dark: ColorValue(0x393939))
         case .dangerToast:
-            return DynamicColor(light: ColorValue(0xFDF6F6), dark: ColorValue(0x3F1011))
+            return DynamicColor(light: ColorValue(0xFDF6F6),
+                                dark: ColorValue(0x3F1011))
         case .warningToast:
-            return DynamicColor(light: ColorValue(0xFFFBD6), dark: ColorValue(0x4C4400))
+            return DynamicColor(light: ColorValue(0xFFFBD6),
+                                dark: ColorValue(0x4C4400))
         }
     }
 
@@ -78,19 +84,53 @@ open class NotificationTokens: ControlTokens {
     open var foregroundColor: DynamicColor {
         switch style {
         case .primaryToast:
-            return DynamicColor(light: globalTokens.brandColors[.shade10].light, dark: globalTokens.brandColors[.shade30].dark)
+            return DynamicColor(light: globalTokens.brandColors[.shade10].light,
+                                dark: globalTokens.brandColors[.shade30].dark)
         case .neutralToast:
-            return DynamicColor(light: ColorValue(0x393939), dark: ColorValue(0xF7F7F7))
+            return DynamicColor(light: ColorValue(0x393939),
+                                dark: ColorValue(0xF7F7F7))
         case .primaryBar:
-            return DynamicColor(light: globalTokens.brandColors[.shade20].light, dark: ColorValue(0x000000))
+            return DynamicColor(light: globalTokens.brandColors[.shade20].light,
+                                dark: ColorValue(0x000000))
         case .primaryOutlineBar:
-            return DynamicColor(light: globalTokens.brandColors[.primary].light, dark: ColorValue(0xF7F7F7))
+            return DynamicColor(light: globalTokens.brandColors[.primary].light,
+                                dark: ColorValue(0xF7F7F7))
         case .neutralBar:
-            return DynamicColor(light: ColorValue(0x090909), dark: ColorValue(0xF7F7F7))
+            return DynamicColor(light: ColorValue(0x090909),
+                                dark: ColorValue(0xF7F7F7))
         case .dangerToast:
-            return DynamicColor(light: ColorValue(0xBC2F34), dark: ColorValue(0xDC5F63))
+            return DynamicColor(light: ColorValue(0xBC2F34),
+                                dark: ColorValue(0xDC5F63))
         case .warningToast:
-            return DynamicColor(light: ColorValue(0x4C4400), dark: ColorValue(0xFDEA3D))
+            return DynamicColor(light: ColorValue(0x4C4400),
+                                dark: ColorValue(0xFDEA3D))
+        }
+    }
+
+    /// The color of the notification's icon image
+    open var imageColor: DynamicColor {
+        switch style {
+        case .primaryToast:
+            return DynamicColor(light: globalTokens.brandColors[.shade10].light,
+                                dark: globalTokens.brandColors[.shade30].dark)
+        case .neutralToast:
+            return DynamicColor(light: ColorValue(0x393939),
+                                dark: ColorValue(0xF7F7F7))
+        case .primaryBar:
+            return DynamicColor(light: globalTokens.brandColors[.shade20].light,
+                                dark: ColorValue(0x000000))
+        case .primaryOutlineBar:
+            return DynamicColor(light: globalTokens.brandColors[.primary].light,
+                                dark: ColorValue(0xF7F7F7))
+        case .neutralBar:
+            return DynamicColor(light: ColorValue(0x090909),
+                                dark: ColorValue(0xF7F7F7))
+        case .dangerToast:
+            return DynamicColor(light: ColorValue(0xBC2F34),
+                                dark: ColorValue(0xDC5F63))
+        case .warningToast:
+            return DynamicColor(light: ColorValue(0x4C4400),
+                                dark: ColorValue(0xFDEA3D))
         }
     }
 
