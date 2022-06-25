@@ -173,8 +173,8 @@ public struct HeadsUpDisplay: View, ConfigurableTokenizedControl {
         }
     }
 
-    @State private var opacity: Double
-    @State private var presentationScaleFactor: CGFloat
+    @State private var opacity: Double = Constants.opacityPresented
+    @State private var presentationScaleFactor: CGFloat = Constants.presentationScaleFactorDefault
 
     private struct Constants {
         static let presentationScaleFactorDefault: CGFloat = 1
