@@ -47,8 +47,8 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
     /// Creates the FluentNotification
     /// - Parameters:
     ///   - style: `MSFNotificationStyle` enum value that defines the style of the Notification being presented.
-    ///   - shouldSelfPresent: Whether the notification should  present itself (SwiftUI environment) or externally (UIKit environment)
-    ///   - isFlexibleWidthToast: Whether the width of the toast is set based  on the width of the screen or on its contents
+    ///   - shouldSelfPresent: Whether the notification should  present itself (SwiftUI environment) or externally (UIKit environment).
+    ///   - isFlexibleWidthToast: Whether the width of the toast is set based  on the width of the screen or on its contents.
     ///   - message: Optional text for the main title area of the control. If there is a title, the message becomes subtext.
     ///   - attributedMessage: Optional attributed text for the main title area of the control. If there is a title, the message becomes subtext. If set, it will override the message parameter.
     ///   - isPresented: Controls whether the Notification is being presented.
