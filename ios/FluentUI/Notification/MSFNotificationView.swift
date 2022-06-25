@@ -12,7 +12,6 @@ import UIKit
     /// Creates a new MSFNotification instance.
     /// - Parameters:
     ///   - style: The MSFNotification value used by the Notification.
-    ///   - shouldSelfPresent: Whether the notification should  present itself (SwiftUI environment) or externally (UIKit environment)
     @objc public init(style: MSFNotificationStyle) {
         notification = FluentNotification(style: style,
                                           shouldSelfPresent: false)
@@ -27,8 +26,10 @@ import UIKit
         return notification.state
     }
 
+    @objc public static var allowsMultipleToasts: Bool = false
+
     // MARK: - Show/Hide Methods
-    public func showNotification(in view: UIView, completion: ((MSFNotification) -> Void)? = nil) {
+    @objc public func showNotification(in view: UIView, completion: ((MSFNotification) -> Void)? = nil) {
         guard self.window == nil else {
             return
         }
@@ -130,7 +131,6 @@ import UIKit
     }
 
     // MARK: - Private variables
-    private static var allowsMultipleToasts: Bool = false
     private static var currentToast: MSFNotification? {
         didSet {
             if allowsMultipleToasts {
