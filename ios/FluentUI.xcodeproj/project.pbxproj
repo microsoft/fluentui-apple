@@ -192,6 +192,7 @@
 		ECA9218A27A33A2D00B66117 /* AvatarGroupModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA9218927A33A2D00B66117 /* AvatarGroupModifiers.swift */; };
 		ECA921C627B5D10B00B66117 /* ButtonDynamicColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA921C527B5D10A00B66117 /* ButtonDynamicColors.swift */; };
 		ECD7EE882863CD470022E737 /* NotificationTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BF01D9927B37CF8005B32F2 /* NotificationTokens.swift */; };
+		F5784DBA285D031800DBEAD6 /* docs in Resources */ = {isa = PBXBuildFile; fileRef = F5784DB9285D031800DBEAD6 /* docs */; };
 		FD053A352224CA33009B6378 /* DatePickerControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD053A342224CA33009B6378 /* DatePickerControllerTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -350,6 +351,7 @@
 		ECA9218927A33A2D00B66117 /* AvatarGroupModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarGroupModifiers.swift; sourceTree = "<group>"; };
 		ECA921C527B5D10A00B66117 /* ButtonDynamicColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonDynamicColors.swift; sourceTree = "<group>"; };
 		ECEBA8FB25EDF3380048EE24 /* SegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentedControl.swift; sourceTree = "<group>"; };
+		F5784DB9285D031800DBEAD6 /* docs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = docs; sourceTree = "<group>"; };
 		FC414E1E258876FB00069E73 /* CommandBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBar.swift; sourceTree = "<group>"; };
 		FC414E242588798000069E73 /* CommandBarButtonGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBarButtonGroupView.swift; sourceTree = "<group>"; };
 		FC414E2A25887A4B00069E73 /* CommandBarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBarButton.swift; sourceTree = "<group>"; };
@@ -789,6 +791,7 @@
 		A5CEC14720D980B20016922A = {
 			isa = PBXGroup;
 			children = (
+				F5784DB9285D031800DBEAD6 /* docs */,
 				A257F82B251D98F3002CAA6E /* FluentUI-ios.xcassets */,
 				A257F829251D98DD002CAA6E /* FluentUI-apple.xcassets */,
 				A5CEC15320D980B20016922A /* FluentUI */,
@@ -1322,6 +1325,7 @@
 				A542A9D8226FC01700204A52 /* Localizable.stringsdict in Resources */,
 				A257F82A251D98DD002CAA6E /* FluentUI-apple.xcassets in Resources */,
 				A257F82C251D98F3002CAA6E /* FluentUI-ios.xcassets in Resources */,
+				F5784DBA285D031800DBEAD6 /* docs in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
