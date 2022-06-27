@@ -49,7 +49,7 @@ public class PersonaButtonTokens: ControlTokens {
     }
 
     /// The background color for the `PersonaButton`.
-    open var backgroundColor: DynamicColor { aliasTokens.backgroundColors[.background2] }
+    open var backgroundColor: DynamicColor { aliasTokens.colors[.background2] }
 
     /// How much space should be reserved to the left and right of the control's `Avatar`.
     open var horizontalAvatarPadding: CGFloat {
@@ -65,7 +65,7 @@ public class PersonaButtonTokens: ControlTokens {
     open var horizontalTextPadding: CGFloat { globalTokens.spacing[.xxxSmall] }
 
     /// The `DynamicColor` to use for the control's primary label.
-    open var labelColor: DynamicColor { aliasTokens.foregroundColors[.foreground1] }
+    open var labelColor: DynamicColor { aliasTokens.colors[.foreground1] }
 
     /// The `FontInfo` to use for the control's primary label.
     open var labelFont: FontInfo {
@@ -78,7 +78,7 @@ public class PersonaButtonTokens: ControlTokens {
     }
 
     /// The `DynamicColor` to use for the control's secondary label.
-    open var sublabelColor: DynamicColor { aliasTokens.foregroundColors[.foreground2] }
+    open var sublabelColor: DynamicColor { aliasTokens.colors[.foreground2] }
 
     /// The `FontInfo` to use for the control's secondary label.
     open var sublabelFont: FontInfo { aliasTokens.typography[.caption1] }

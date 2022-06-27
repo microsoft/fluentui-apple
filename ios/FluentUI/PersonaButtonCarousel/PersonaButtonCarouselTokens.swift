@@ -12,5 +12,5 @@ public class PersonaButtonCarouselTokens: ControlTokens {
     // MARK: - Design Tokens
 
     /// The background color for the `PersonaButtonCarousel`.
-    open var backgroundColor: DynamicColor { aliasTokens.backgroundColors[.background1] }
+    open var backgroundColor: DynamicColor { aliasTokens.colors[.background1] }
 }

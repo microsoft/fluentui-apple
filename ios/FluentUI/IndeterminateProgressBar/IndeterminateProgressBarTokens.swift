@@ -10,10 +10,10 @@ import UIKit
 public class IndeterminateProgressBarTokens: ControlTokens {
 
     /// Progress bar's background color.
-    open var backgroundColor: DynamicColor { aliasTokens.strokeColors[.stroke1] }
+    open var backgroundColor: DynamicColor { aliasTokens.colors[.stroke1] }
 
     /// Progress bar's gradient color.
-    open var gradientColor: DynamicColor { aliasTokens.backgroundColors[.brandBackground1] }
+    open var gradientColor: DynamicColor { aliasTokens.colors[.brandBackground1] }
 
     /// Progress bar's height.
     open var height: CGFloat { 2 }
