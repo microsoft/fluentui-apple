@@ -265,22 +265,22 @@ extension CardNudgeDemoController: DemoAppearanceDelegate {
         }
 
         override var outlineColor: DynamicColor {
-            return DynamicColor(light: GlobalTokens().sharedColors[.darkRed][.tint50],
-                                dark: GlobalTokens().sharedColors[.darkRed][.shade40])
+            return DynamicColor(light: globalTokens.sharedColors[.darkRed][.tint50],
+                                dark: globalTokens.sharedColors[.darkRed][.shade40])
         }
 
         override var backgroundColor: DynamicColor {
             // "Hot Pink"
-            return DynamicColor(light: GlobalTokens().sharedColors[.hotPink][.tint50],
-                                dark: GlobalTokens().sharedColors[.hotPink][.shade40])
+            return DynamicColor(light: globalTokens.sharedColors[.hotPink][.tint50],
+                                dark: globalTokens.sharedColors[.hotPink][.shade40])
         }
     }
 
     private class PerControlOverrideCardNudgeTokens: CardNudgeTokens {
         override var backgroundColor: DynamicColor {
             // "Seafoam"
-            return DynamicColor(light: GlobalTokens().sharedColors[.seafoam][.tint50],
-                                dark: GlobalTokens().sharedColors[.seafoam][.shade40])
+            return DynamicColor(light: globalTokens.sharedColors[.seafoam][.tint50],
+                                dark: globalTokens.sharedColors[.seafoam][.shade40])
         }
     }
 }
