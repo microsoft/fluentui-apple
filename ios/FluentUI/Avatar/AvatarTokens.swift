@@ -69,11 +69,11 @@ open class AvatarTokens: ControlTokens {
     open var ringDefaultColor: DynamicColor {
         switch style {
         case .default, .group:
-            return globalTokens.brandColors[.tint10]
+            return aliasTokens.strokeColors[.brandStroke1]
         case .accent:
-            return globalTokens.brandColors[.shade10]
+            return aliasTokens.strokeColors[.brandStroke1]
         case .outlined, .overflow:
-            return aliasTokens.backgroundColors[.neutralDisabled]
+            return aliasTokens.strokeColors[.stroke1]
         case .outlinedPrimary:
             return .init(light: globalTokens.brandColors[.tint10].light, dark: globalTokens.neutralColors[.grey78])
         }
