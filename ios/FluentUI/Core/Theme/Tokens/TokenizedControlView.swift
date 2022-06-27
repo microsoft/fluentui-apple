@@ -28,3 +28,6 @@ extension TokenizedControlView {
         return self
     }
 }
+
+/// Common base type alias for all `state` objects.
+typealias ControlState = NSObject & ObservableObject & Identifiable

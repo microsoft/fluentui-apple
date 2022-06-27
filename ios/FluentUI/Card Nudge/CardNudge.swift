@@ -174,7 +174,7 @@ public struct CardNudge: View, TokenizedControlView {
     }
 }
 
-class MSFCardNudgeStateImpl: NSObject, ObservableObject, Identifiable, MSFCardNudgeState {
+class MSFCardNudgeStateImpl: ControlState, MSFCardNudgeState {
     @Published var title: String
     @Published var subtitle: String?
     @Published var mainIcon: UIImage?
