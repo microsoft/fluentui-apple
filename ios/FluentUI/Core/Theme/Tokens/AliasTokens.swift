@@ -7,278 +7,6 @@ import SwiftUI
 
 public final class AliasTokens {
 
-    // MARK: Colors
-
-    public enum ColorsTokens: CaseIterable {
-        // Foreground colors
-        case foreground1
-        case foreground2
-        case foreground3
-        case foregroundDisabled1
-        case foregroundDisabled2
-        case foregroundContrast
-        case foregroundOnColor
-        case foregroundInverted1
-        case foregroundInverted2
-        case brandForeground1
-        case brandForeground1Pressed
-        case brandForeground1Selected
-        case brandForeground2
-        case brandForeground3
-        case brandForeground4
-        case brandForeground5
-        case brandForegroundInverted
-        case brandForegroundDisabled
-        // Background colors
-        case background1
-        case background1Pressed
-        case background1Selected
-        case background2
-        case background2Pressed
-        case background2Selected
-        case background3
-        case background3Pressed
-        case background3Selected
-        case background4
-        case background4Pressed
-        case background4Selected
-        case background5
-        case background5Pressed
-        case background5Selected
-        case background5SelectedBrandFilled
-        case background5BrandTint
-        case background6
-        case background6Pressed
-        case background6Selected
-        case backgroundInverted
-        case backgroundDisabled
-        case brandBackground1
-        case brandBackground1Pressed
-        case brandBackground1Selected
-        case brandBackground2
-        case brandBackground2Pressed
-        case brandBackground2Selected
-        case brandBackground3
-        case brandBackground3Pressed
-        case brandBackground3Selected
-        case brandBackground4
-        case background5BrandFilledSelected
-        case background5BrandTintSelected
-        case brandBackgroundInverted
-        case brandBackgroundDisabled
-        case brandBackgroundInvertedDisabled
-        case stencil1
-        case stencil2
-        // Stroke colors
-        case stroke1
-        case stroke2
-        case strokeDisabled
-        case strokeAccessible
-        case strokeFocus1
-        case strokeFocus2
-        case brandStroke1
-        case brandStroke1Pressed
-        case brandStroke1Selected
-    }
-    public lazy var colors: TokenSet<ColorsTokens, DynamicColor> = .init { [weak self] token in
-        guard let strongSelf = self else { preconditionFailure() }
-        switch token {
-        // Foreground colors
-        case .foreground1:
-            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey14],
-                                dark: strongSelf.globalTokens.neutralColors[.white])
-        case .foreground2:
-            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey38],
-                                dark: strongSelf.globalTokens.neutralColors[.grey84])
-        case .foreground3:
-            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey50],
-                                dark: strongSelf.globalTokens.neutralColors[.grey68])
-        case .foregroundDisabled1:
-            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey74],
-                                dark: strongSelf.globalTokens.neutralColors[.grey36])
-        case .foregroundDisabled2:
-            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.white],
-                                dark: strongSelf.globalTokens.neutralColors[.grey24])
-        case .foregroundContrast:
-            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.black],
-                                dark: strongSelf.globalTokens.neutralColors[.black])
-        case .foregroundOnColor:
-            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.white],
-                                dark: strongSelf.globalTokens.neutralColors[.black])
-        case .foregroundInverted1:
-            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.white])
-        case .foregroundInverted2:
-            return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm80].light,
-                                dark: strongSelf.globalTokens.neutralColors[.white])
-        case .brandForeground1:
-            return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm80].light,
-                                dark: strongSelf.globalTokens.brandColors[.comm100].light)
-        case .brandForeground1Pressed:
-            return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm50].light,
-                                dark: strongSelf.globalTokens.brandColors[.comm140].light)
-        case .brandForeground1Selected:
-            return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm60].light,
-                                dark: strongSelf.globalTokens.brandColors[.comm120].light)
-        case .brandForeground2:
-            return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm160].light,
-                                dark: strongSelf.globalTokens.brandColors[.comm20].light)
-        case .brandForeground3:
-            return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm150].light)
-        case .brandForeground4:
-            return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm80].light,
-                                dark: strongSelf.globalTokens.brandColors[.comm120].light)
-        case .brandForeground5:
-            return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm70].light)
-        case .brandForegroundInverted:
-            return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm80].light,
-                                dark: strongSelf.globalTokens.neutralColors[.white])
-        case .brandForegroundDisabled:
-            return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm90].light)
-        // Background colors
-        case .background1:
-         return DynamicColor(light: strongSelf.globalTokens.neutralColors[.white],
-                             dark: strongSelf.globalTokens.neutralColors[.black])
-        case .background1Pressed:
-         return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey88],
-                             dark: strongSelf.globalTokens.neutralColors[.grey18])
-        case .background1Selected:
-         return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey92],
-                             dark: strongSelf.globalTokens.neutralColors[.grey14])
-        case .background2:
-         return DynamicColor(light: strongSelf.globalTokens.neutralColors[.white],
-                             dark: strongSelf.globalTokens.neutralColors[.grey12])
-        case .background2Pressed:
-         return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey88],
-                             dark: strongSelf.globalTokens.neutralColors[.grey30])
-        case .background2Selected:
-         return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey92],
-                             dark: strongSelf.globalTokens.neutralColors[.grey26])
-        case .background3:
-         return DynamicColor(light: strongSelf.globalTokens.neutralColors[.white],
-                             dark: strongSelf.globalTokens.neutralColors[.grey16])
-        case .background3Pressed:
-         return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey88],
-                             dark: strongSelf.globalTokens.neutralColors[.grey34])
-        case .background3Selected:
-         return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey92],
-                             dark: strongSelf.globalTokens.neutralColors[.grey30])
-        case .background4:
-         return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey98],
-                             dark: strongSelf.globalTokens.neutralColors[.grey20])
-        case .background4Pressed:
-         return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey86],
-                             dark: strongSelf.globalTokens.neutralColors[.grey38])
-        case .background4Selected:
-         return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey90],
-                             dark: strongSelf.globalTokens.neutralColors[.grey34])
-        case .background5:
-         return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey94],
-                             dark: strongSelf.globalTokens.neutralColors[.grey24])
-        case .background5Pressed:
-         return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey82],
-                             dark: strongSelf.globalTokens.neutralColors[.grey42])
-        case .background5Selected:
-         return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey86],
-                             dark: strongSelf.globalTokens.neutralColors[.grey38])
-        case .background5SelectedBrandFilled:
-            return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm80].light,
-                             dark: strongSelf.globalTokens.neutralColors[.grey38])
-        case .background5BrandTint:
-            return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm160].light,
-                             dark: strongSelf.globalTokens.neutralColors[.grey38])
-        case .background6:
-         return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey82],
-                             dark: strongSelf.globalTokens.neutralColors[.grey36])
-        case .background6Pressed:
-         return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey70],
-                             dark: strongSelf.globalTokens.neutralColors[.grey54])
-        case .background6Selected:
-         return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey74],
-                             dark: strongSelf.globalTokens.neutralColors[.grey50])
-        case .backgroundInverted:
-         return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey14],
-                             dark: strongSelf.globalTokens.neutralColors[.grey34])
-        case .backgroundDisabled:
-         return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey88],
-                             dark: strongSelf.globalTokens.neutralColors[.grey32])
-        case .brandBackground1:
-            return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm80].light,
-                                dark: strongSelf.globalTokens.brandColors[.comm100].light)
-        case .brandBackground1Pressed:
-            return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm50].light,
-                                dark: strongSelf.globalTokens.brandColors[.comm140].light)
-        case .brandBackground1Selected:
-            return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm60].light,
-                                dark: strongSelf.globalTokens.brandColors[.comm120].light)
-        case .brandBackground2:
-            return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm70].light)
-        case .brandBackground2Pressed:
-            return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm40].light)
-        case .brandBackground2Selected:
-            return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm80].light)
-        case .brandBackground3:
-            return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm60].light,
-                                dark: strongSelf.globalTokens.brandColors[.comm120].light)
-        case .brandBackground3Pressed:
-            return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm30].light,
-                                dark: strongSelf.globalTokens.brandColors[.comm160].light)
-        case .brandBackground3Selected:
-            return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm150].light)
-        case .brandBackground4:
-            return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm160].light,
-                                dark: strongSelf.globalTokens.brandColors[.comm20].light)
-        case .background5BrandFilledSelected:
-            return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm80].light,
-                                dark: strongSelf.globalTokens.neutralColors[.grey38])
-        case .background5BrandTintSelected:
-            return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm160].light,
-                                dark: strongSelf.globalTokens.neutralColors[.grey38])
-        case .brandBackgroundInverted:
-            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.white],
-                                dark: strongSelf.globalTokens.neutralColors[.white])
-        case .brandBackgroundDisabled:
-            return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm140].light,
-                                dark: strongSelf.globalTokens.brandColors[.comm40].light)
-        case .brandBackgroundInvertedDisabled:
-            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.white],
-                                dark: strongSelf.globalTokens.neutralColors[.grey86])
-        case .stencil1:
-         return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey90],
-                             dark: strongSelf.globalTokens.neutralColors[.grey34])
-        case .stencil2:
-         return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey98],
-                             dark: strongSelf.globalTokens.neutralColors[.grey20])
-        // Stroke colors
-        case .stroke1:
-            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey82],
-                                dark: strongSelf.globalTokens.neutralColors[.grey32])
-        case .stroke2:
-            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey88],
-                                dark: strongSelf.globalTokens.neutralColors[.grey24])
-        case .strokeDisabled:
-            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey88],
-                                dark: strongSelf.globalTokens.neutralColors[.grey26])
-        case .strokeAccessible:
-            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey38],
-                                dark: strongSelf.globalTokens.neutralColors[.grey62])
-        case .strokeFocus1:
-            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.white],
-                                dark: strongSelf.globalTokens.neutralColors[.black])
-        case .strokeFocus2:
-            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.black],
-                                dark: strongSelf.globalTokens.neutralColors[.white])
-        case .brandStroke1:
-            return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm80].light,
-                                dark: strongSelf.globalTokens.brandColors[.comm100].light)
-        case .brandStroke1Pressed:
-            return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm50].light,
-                                dark: strongSelf.globalTokens.brandColors[.comm140].light)
-        case .brandStroke1Selected:
-            return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm60].light,
-                                dark: strongSelf.globalTokens.brandColors[.comm120].light)
-        }
-    }
-
     // MARK: ForegroundColors
 
     public enum ForegroundColorsTokens: CaseIterable {
@@ -620,6 +348,278 @@ public final class AliasTokens {
             return strongSelf.shadow[.shadow02]
         case .interactiveElevation1Disabled:
             return strongSelf.shadow[.shadow02]
+        }
+    }
+
+    // MARK: Colors
+
+    public enum ColorsTokens: CaseIterable {
+        // Foreground colors
+        case foreground1
+        case foreground2
+        case foreground3
+        case foregroundDisabled1
+        case foregroundDisabled2
+        case foregroundContrast
+        case foregroundOnColor
+        case foregroundInverted1
+        case foregroundInverted2
+        case brandForeground1
+        case brandForeground1Pressed
+        case brandForeground1Selected
+        case brandForeground2
+        case brandForeground3
+        case brandForeground4
+        case brandForeground5
+        case brandForegroundInverted
+        case brandForegroundDisabled
+        // Background colors
+        case background1
+        case background1Pressed
+        case background1Selected
+        case background2
+        case background2Pressed
+        case background2Selected
+        case background3
+        case background3Pressed
+        case background3Selected
+        case background4
+        case background4Pressed
+        case background4Selected
+        case background5
+        case background5Pressed
+        case background5Selected
+        case background5SelectedBrandFilled
+        case background5BrandTint
+        case background6
+        case background6Pressed
+        case background6Selected
+        case backgroundInverted
+        case backgroundDisabled
+        case brandBackground1
+        case brandBackground1Pressed
+        case brandBackground1Selected
+        case brandBackground2
+        case brandBackground2Pressed
+        case brandBackground2Selected
+        case brandBackground3
+        case brandBackground3Pressed
+        case brandBackground3Selected
+        case brandBackground4
+        case background5BrandFilledSelected
+        case background5BrandTintSelected
+        case brandBackgroundInverted
+        case brandBackgroundDisabled
+        case brandBackgroundInvertedDisabled
+        case stencil1
+        case stencil2
+        // Stroke colors
+        case stroke1
+        case stroke2
+        case strokeDisabled
+        case strokeAccessible
+        case strokeFocus1
+        case strokeFocus2
+        case brandStroke1
+        case brandStroke1Pressed
+        case brandStroke1Selected
+    }
+    public lazy var colors: TokenSet<ColorsTokens, DynamicColor> = .init { [weak self] token in
+        guard let strongSelf = self else { preconditionFailure() }
+        switch token {
+        // Foreground colors
+        case .foreground1:
+            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey14],
+                                dark: strongSelf.globalTokens.neutralColors[.white])
+        case .foreground2:
+            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey38],
+                                dark: strongSelf.globalTokens.neutralColors[.grey84])
+        case .foreground3:
+            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey50],
+                                dark: strongSelf.globalTokens.neutralColors[.grey68])
+        case .foregroundDisabled1:
+            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey74],
+                                dark: strongSelf.globalTokens.neutralColors[.grey36])
+        case .foregroundDisabled2:
+            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.white],
+                                dark: strongSelf.globalTokens.neutralColors[.grey24])
+        case .foregroundContrast:
+            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.black],
+                                dark: strongSelf.globalTokens.neutralColors[.black])
+        case .foregroundOnColor:
+            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.white],
+                                dark: strongSelf.globalTokens.neutralColors[.black])
+        case .foregroundInverted1:
+            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.white])
+        case .foregroundInverted2:
+            return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm80].light,
+                                dark: strongSelf.globalTokens.neutralColors[.white])
+        case .brandForeground1:
+            return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm80].light,
+                                dark: strongSelf.globalTokens.brandColors[.comm100].light)
+        case .brandForeground1Pressed:
+            return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm50].light,
+                                dark: strongSelf.globalTokens.brandColors[.comm140].light)
+        case .brandForeground1Selected:
+            return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm60].light,
+                                dark: strongSelf.globalTokens.brandColors[.comm120].light)
+        case .brandForeground2:
+            return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm160].light,
+                                dark: strongSelf.globalTokens.brandColors[.comm20].light)
+        case .brandForeground3:
+            return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm150].light)
+        case .brandForeground4:
+            return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm80].light,
+                                dark: strongSelf.globalTokens.brandColors[.comm120].light)
+        case .brandForeground5:
+            return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm70].light)
+        case .brandForegroundInverted:
+            return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm80].light,
+                                dark: strongSelf.globalTokens.neutralColors[.white])
+        case .brandForegroundDisabled:
+            return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm90].light)
+        // Background colors
+        case .background1:
+         return DynamicColor(light: strongSelf.globalTokens.neutralColors[.white],
+                             dark: strongSelf.globalTokens.neutralColors[.black])
+        case .background1Pressed:
+         return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey88],
+                             dark: strongSelf.globalTokens.neutralColors[.grey18])
+        case .background1Selected:
+         return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey92],
+                             dark: strongSelf.globalTokens.neutralColors[.grey14])
+        case .background2:
+         return DynamicColor(light: strongSelf.globalTokens.neutralColors[.white],
+                             dark: strongSelf.globalTokens.neutralColors[.grey12])
+        case .background2Pressed:
+         return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey88],
+                             dark: strongSelf.globalTokens.neutralColors[.grey30])
+        case .background2Selected:
+         return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey92],
+                             dark: strongSelf.globalTokens.neutralColors[.grey26])
+        case .background3:
+         return DynamicColor(light: strongSelf.globalTokens.neutralColors[.white],
+                             dark: strongSelf.globalTokens.neutralColors[.grey16])
+        case .background3Pressed:
+         return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey88],
+                             dark: strongSelf.globalTokens.neutralColors[.grey34])
+        case .background3Selected:
+         return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey92],
+                             dark: strongSelf.globalTokens.neutralColors[.grey30])
+        case .background4:
+         return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey98],
+                             dark: strongSelf.globalTokens.neutralColors[.grey20])
+        case .background4Pressed:
+         return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey86],
+                             dark: strongSelf.globalTokens.neutralColors[.grey38])
+        case .background4Selected:
+         return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey90],
+                             dark: strongSelf.globalTokens.neutralColors[.grey34])
+        case .background5:
+         return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey94],
+                             dark: strongSelf.globalTokens.neutralColors[.grey24])
+        case .background5Pressed:
+         return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey82],
+                             dark: strongSelf.globalTokens.neutralColors[.grey42])
+        case .background5Selected:
+         return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey86],
+                             dark: strongSelf.globalTokens.neutralColors[.grey38])
+        case .background5SelectedBrandFilled:
+            return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm80].light,
+                             dark: strongSelf.globalTokens.neutralColors[.grey38])
+        case .background5BrandTint:
+            return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm160].light,
+                             dark: strongSelf.globalTokens.neutralColors[.grey38])
+        case .background6:
+         return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey82],
+                             dark: strongSelf.globalTokens.neutralColors[.grey36])
+        case .background6Pressed:
+         return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey70],
+                             dark: strongSelf.globalTokens.neutralColors[.grey54])
+        case .background6Selected:
+         return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey74],
+                             dark: strongSelf.globalTokens.neutralColors[.grey50])
+        case .backgroundInverted:
+         return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey14],
+                             dark: strongSelf.globalTokens.neutralColors[.grey34])
+        case .backgroundDisabled:
+         return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey88],
+                             dark: strongSelf.globalTokens.neutralColors[.grey32])
+        case .brandBackground1:
+            return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm80].light,
+                                dark: strongSelf.globalTokens.brandColors[.comm100].light)
+        case .brandBackground1Pressed:
+            return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm50].light,
+                                dark: strongSelf.globalTokens.brandColors[.comm140].light)
+        case .brandBackground1Selected:
+            return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm60].light,
+                                dark: strongSelf.globalTokens.brandColors[.comm120].light)
+        case .brandBackground2:
+            return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm70].light)
+        case .brandBackground2Pressed:
+            return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm40].light)
+        case .brandBackground2Selected:
+            return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm80].light)
+        case .brandBackground3:
+            return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm60].light,
+                                dark: strongSelf.globalTokens.brandColors[.comm120].light)
+        case .brandBackground3Pressed:
+            return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm30].light,
+                                dark: strongSelf.globalTokens.brandColors[.comm160].light)
+        case .brandBackground3Selected:
+            return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm150].light)
+        case .brandBackground4:
+            return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm160].light,
+                                dark: strongSelf.globalTokens.brandColors[.comm20].light)
+        case .background5BrandFilledSelected:
+            return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm80].light,
+                                dark: strongSelf.globalTokens.neutralColors[.grey38])
+        case .background5BrandTintSelected:
+            return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm160].light,
+                                dark: strongSelf.globalTokens.neutralColors[.grey38])
+        case .brandBackgroundInverted:
+            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.white],
+                                dark: strongSelf.globalTokens.neutralColors[.white])
+        case .brandBackgroundDisabled:
+            return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm140].light,
+                                dark: strongSelf.globalTokens.brandColors[.comm40].light)
+        case .brandBackgroundInvertedDisabled:
+            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.white],
+                                dark: strongSelf.globalTokens.neutralColors[.grey86])
+        case .stencil1:
+         return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey90],
+                             dark: strongSelf.globalTokens.neutralColors[.grey34])
+        case .stencil2:
+         return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey98],
+                             dark: strongSelf.globalTokens.neutralColors[.grey20])
+        // Stroke colors
+        case .stroke1:
+            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey82],
+                                dark: strongSelf.globalTokens.neutralColors[.grey32])
+        case .stroke2:
+            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey88],
+                                dark: strongSelf.globalTokens.neutralColors[.grey24])
+        case .strokeDisabled:
+            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey88],
+                                dark: strongSelf.globalTokens.neutralColors[.grey26])
+        case .strokeAccessible:
+            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey38],
+                                dark: strongSelf.globalTokens.neutralColors[.grey62])
+        case .strokeFocus1:
+            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.white],
+                                dark: strongSelf.globalTokens.neutralColors[.black])
+        case .strokeFocus2:
+            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.black],
+                                dark: strongSelf.globalTokens.neutralColors[.white])
+        case .brandStroke1:
+            return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm80].light,
+                                dark: strongSelf.globalTokens.brandColors[.comm100].light)
+        case .brandStroke1Pressed:
+            return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm50].light,
+                                dark: strongSelf.globalTokens.brandColors[.comm140].light)
+        case .brandStroke1Selected:
+            return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm60].light,
+                                dark: strongSelf.globalTokens.brandColors[.comm120].light)
         }
     }
 
