@@ -75,7 +75,7 @@ open class AvatarTokens: ControlTokens {
         case .outlined, .overflow:
             return aliasTokens.strokeColors[.stroke1]
         case .outlinedPrimary:
-            return .init(light: globalTokens.brandColors[.tint10].light, dark: globalTokens.neutralColors[.grey78])
+            return aliasTokens.strokeColors[.brandStroke1]
         }
     }
 
@@ -179,15 +179,15 @@ open class AvatarTokens: ControlTokens {
     open var backgroundDefaultColor: DynamicColor {
         switch style {
         case .default, .group:
-            return .init(light: globalTokens.neutralColors[.white], dark: globalTokens.brandColors[.primary].dark)
+            return aliasTokens.backgroundColors[.background1]
         case .accent:
-            return globalTokens.brandColors[.primary]
+            return aliasTokens.foregroundColors[.brandForeground1]
         case .outlined:
-            return .init(light: globalTokens.neutralColors[.grey94], dark: globalTokens.neutralColors[.grey26])
+            return aliasTokens.backgroundColors[.background5]
         case .outlinedPrimary:
-            return .init(light: globalTokens.brandColors[.tint40].light, dark: globalTokens.neutralColors[.grey26])
+            return aliasTokens.backgroundColors[.brandBackground4]
         case .overflow:
-            return aliasTokens.backgroundColors[.neutral4]
+            return aliasTokens.backgroundColors[.background5]
         }
     }
 
@@ -229,15 +229,15 @@ open class AvatarTokens: ControlTokens {
     open var foregroundDefaultColor: DynamicColor {
         switch style {
         case .default, .group:
-            return .init(light: globalTokens.brandColors[.primary].light, dark: globalTokens.neutralColors[.black])
+            return aliasTokens.foregroundColors[.brandForeground1]
         case .accent:
-            return aliasTokens.foregroundColors[.neutralInverted]
+            return aliasTokens.foregroundColors[.foregroundOnColor]
         case .outlined:
-            return .init(light: globalTokens.neutralColors[.grey42], dark: globalTokens.neutralColors[.grey78])
+            return aliasTokens.foregroundColors[.foreground2]
         case .outlinedPrimary:
-            return .init(light: globalTokens.brandColors[.primary].light, dark: globalTokens.neutralColors[.grey78])
+            return aliasTokens.foregroundColors[.brandForeground4]
         case .overflow:
-            return aliasTokens.foregroundColors[.neutral3]
+            return aliasTokens.foregroundColors[.foreground2]
         }
     }
 
