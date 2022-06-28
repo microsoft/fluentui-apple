@@ -91,10 +91,10 @@ open class TableViewCellTokens: ControlTokens {
     open var customAccessoryViewMarginLeading: CGFloat { globalTokens.spacing[.xSmall] }
 
     /// The minimum vertical margin for the customAccessoryView.
-    open var customAccessoryViewMinVerticalMargin: CGFloat = 6
+    open var customAccessoryViewMinVerticalMargin: CGFloat { 6 }
 
     /// The vertical margin for the label when it has one or three lines.
-    open var labelVerticalMarginForOneAndThreeLines: CGFloat = 11
+    open var labelVerticalMarginForOneAndThreeLines: CGFloat { 11 }
 
     /// The vertical margin for the label when it has two lines.
     open var labelVerticalMarginForTwoLines: CGFloat { globalTokens.spacing[.small] }
@@ -112,16 +112,16 @@ open class TableViewCellTokens: ControlTokens {
     open var selectionImageSize: CGSize { CGSize(width: globalTokens.iconSize[.medium], height: globalTokens.iconSize[.medium]) }
 
     /// The duration for the selectionModeAnimation.
-    open var selectionModeAnimationDuration: TimeInterval = 0.2
+    open var selectionModeAnimationDuration: TimeInterval { 0.2 }
 
     /// The minimum width for any text area.
-    open var textAreaMinWidth: CGFloat = 100
+    open var textAreaMinWidth: CGFloat { 100 }
 
     /// The alpha value that enables the user's ability to interact with a cell.
-    open var enabledAlpha: CGFloat = 1
+    open var enabledAlpha: CGFloat { 1 }
 
     /// The alpha value that disables the user's ability to interact with a cell; dims cell's contents.
-    open var disabledAlpha: CGFloat = 0.35
+    open var disabledAlpha: CGFloat { 0.35 }
 
     /// The default horizontal spacing in the cell.
     open var horizontalSpacing: CGFloat { globalTokens.spacing[.medium] }
@@ -130,7 +130,7 @@ open class TableViewCellTokens: ControlTokens {
     open var paddingLeading: CGFloat { globalTokens.spacing[.medium] }
 
     /// The vertical padding in the cell.
-    open var paddingVertical: CGFloat = 11
+    open var paddingVertical: CGFloat { 11 }
 
     /// The trailing padding in the cell.
     open var paddingTrailing: CGFloat { globalTokens.spacing[.medium] }
