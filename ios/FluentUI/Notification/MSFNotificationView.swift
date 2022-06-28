@@ -30,7 +30,20 @@ import UIKit
     }
 
     // MARK: - Show/Hide Methods
-    public func showNotification(in view: UIView, completion: ((MSFNotification) -> Void)? = nil) {
+    /// `showNotification` is used to present the view inside a container view:
+    /// insert into layout and show with optional animation. Constraints are used for the view positioning.
+    /// - Parameters:
+    ///   - view: The container view where this view will be presented.
+    ///   - anchorView: The view used as the bottom anchor for presentation
+    ///   (notification view is always presented up from the anchor). When no anchor view is provided the
+    ///   bottom anchor of the container's safe area is used.
+    ///   - animated: Indicates whether to use animation during presentation or not.
+    ///   - completion: The closure to be called after presentation is completed.
+    ///   Can be used to call `hide` with a delay.
+    @objc public func showNotification(in view: UIView,
+                                       from anchorView: UIView? = nil,
+                                       animated: Bool = true,
+                                       completion: ((MSFNotification) -> Void)? = nil) {
         guard self.window == nil else {
             return
         }
@@ -99,7 +112,15 @@ import UIKit
         }
     }
 
-    @objc public func hide(after delay: TimeInterval = 0, completion: (() -> Void)? = nil) {
+    /// `hide` is used to dismiss the presented view:
+    /// hide with optional animation and remove from the container.
+    /// - Parameters:
+    ///   - delay: The delay used for the start of dismissal. Default is 0.
+    ///   - animated: Indicates whether to use animation during dismissal or not.
+    ///   - completion: The closure to be called after dismissal is completed.
+    @objc public func hide(after delay: TimeInterval = 0,
+                           animated: Bool = true,
+                           completion: (() -> Void)? = nil) {
         guard self.window != nil && constraintWhenHidden != nil else {
             return
         }
@@ -137,10 +158,10 @@ import UIKit
         }
     }
 
+    @objc public static var allowsMultipleToasts: Bool = false
     var isFlexibleWidthToast: Bool
 
     // MARK: - Private variables
-    private static var allowsMultipleToasts: Bool = false
     private static var currentToast: MSFNotification? {
         didSet {
             if allowsMultipleToasts {
@@ -149,8 +170,6 @@ import UIKit
         }
     }
 
-    private var anchorView: UIView?
-    private var animated: Bool = true
     private var completionsForHide: [() -> Void] = []
     private var constraintWhenHidden: NSLayoutConstraint!
     private var constraintWhenShown: NSLayoutConstraint!
