@@ -181,7 +181,7 @@ open class AvatarTokens: ControlTokens {
         case .default, .group:
             return aliasTokens.backgroundColors[.background1]
         case .accent:
-            return aliasTokens.foregroundColors[.brandForeground1]
+            return aliasTokens.backgroundColors[.brandBackground1]
         case .outlined:
             return aliasTokens.backgroundColors[.background5]
         case .outlinedPrimary:
