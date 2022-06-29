@@ -236,9 +236,9 @@ extension CardNudgeDemoController: DemoAppearanceDelegate {
             return
         }
 
-        var tokensClosure: ((CardNudge) -> CardNudgeTokens)?
+        var tokensClosure: (() -> CardNudgeTokens)?
         if isOverrideEnabled {
-            tokensClosure = { _ in
+            tokensClosure = {
                 return ThemeWideOverrideCardNudgeTokens()
             }
         }
