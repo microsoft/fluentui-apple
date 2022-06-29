@@ -46,15 +46,11 @@ open class CommandBar: UIView {
     }
 
     @objc public init(itemGroups: [CommandBarItemGroup], leadingItemGroups: [CommandBarItemGroup]? = nil, trailingItemGroups: [CommandBarItemGroup]? = nil) {
-        self.itemGroups = itemGroups
-        self.leadingItemGroups = leadingItemGroups
-        self.trailingItemGroups = trailingItemGroups
-
-        leadingCommandGroupsView = CommandBarCommandGroupsView(itemGroups: self.leadingItemGroups, buttonsPersistSelection: false)
+        leadingCommandGroupsView = CommandBarCommandGroupsView(itemGroups: leadingItemGroups, buttonsPersistSelection: false)
         leadingCommandGroupsView.translatesAutoresizingMaskIntoConstraints = false
-        mainCommandGroupsView = CommandBarCommandGroupsView(itemGroups: self.itemGroups)
+        mainCommandGroupsView = CommandBarCommandGroupsView(itemGroups: itemGroups)
         mainCommandGroupsView.translatesAutoresizingMaskIntoConstraints = false
-        trailingCommandGroupsView = CommandBarCommandGroupsView(itemGroups: self.trailingItemGroups, buttonsPersistSelection: false)
+        trailingCommandGroupsView = CommandBarCommandGroupsView(itemGroups: trailingItemGroups, buttonsPersistSelection: false)
         trailingCommandGroupsView.translatesAutoresizingMaskIntoConstraints = false
 
         commandBarContainerStackView = UIStackView()
@@ -96,34 +92,47 @@ open class CommandBar: UIView {
 
     /// Scrollable items shown in the center of the CommandBar
     public var itemGroups: [CommandBarItemGroup] {
-        didSet {
-            mainCommandGroupsView.itemGroups = itemGroups
+        get {
+            mainCommandGroupsView.itemGroups
+        }
+        set {
+            mainCommandGroupsView.itemGroups = newValue
         }
     }
 
     /// Items pinned to the leading end of the CommandBar
     public var leadingItemGroups: [CommandBarItemGroup]? {
-        didSet {
-            guard let leadingItemGroups = leadingItemGroups else {
-                return
+        get {
+            leadingCommandGroupsView.itemGroups
+        }
+        set {
+            if let newValue = newValue {
+                leadingCommandGroupsView.itemGroups = newValue
+            } else {
+                leadingCommandGroupsView.itemGroups = []
             }
 
-            leadingCommandGroupsView.itemGroups = leadingItemGroups
-            leadingCommandGroupsView.isHidden = leadingItemGroups.isEmpty
+            leadingCommandGroupsView.isHidden = leadingCommandGroupsView.itemGroups.isEmpty
             scrollView.contentInset = scrollViewContentInset()
+            setNeedsLayout()
         }
     }
 
     /// Items pinned to the trailing end of the CommandBar
     public var trailingItemGroups: [CommandBarItemGroup]? {
-        didSet {
-            guard let trailingItemGroups = trailingItemGroups else {
-                return
+        get {
+            trailingCommandGroupsView.itemGroups
+        }
+        set {
+            if let newValue = newValue {
+                trailingCommandGroupsView.itemGroups = newValue
+            } else {
+                trailingCommandGroupsView.itemGroups = []
             }
 
-            trailingCommandGroupsView.itemGroups = trailingItemGroups
-            trailingCommandGroupsView.isHidden = trailingItemGroups.isEmpty
+            trailingCommandGroupsView.isHidden = trailingCommandGroupsView.itemGroups.isEmpty
             scrollView.contentInset = scrollViewContentInset()
+            setNeedsLayout()
         }
     }
 
