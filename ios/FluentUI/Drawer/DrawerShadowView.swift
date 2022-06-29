@@ -42,14 +42,14 @@ class DrawerShadowView: UIView {
 
     private var shadowDirection: DrawerPresentationDirection?
 
-    private var drawerTokens: DrawerTokens
+    private var drawerTokenResolver: TokenResolver<DrawerController>
 
     private var shadow1 = CALayer()
 
     private var shadow2 = CALayer()
 
-    init(shadowDirection: DrawerPresentationDirection?, tokens: DrawerTokens) {
-        self.drawerTokens = tokens
+    init(shadowDirection: DrawerPresentationDirection?, tokenResolver: TokenResolver<DrawerController>) {
+        self.drawerTokenResolver = tokenResolver
         super.init(frame: .zero)
         self.shadowDirection = shadowDirection
         updateApperance()
@@ -81,14 +81,14 @@ class DrawerShadowView: UIView {
         guard let shadowDirection = shadowDirection else {
             return
         }
-        shadow1.shadowColor = UIColor(dynamicColor: drawerTokens.shadow.colorOne).cgColor
-        shadow1.shadowRadius = drawerTokens.shadow.blurOne
+        shadow1.shadowColor = UIColor(dynamicColor: drawerTokenResolver.value(\.shadow).colorOne).cgColor
+        shadow1.shadowRadius = drawerTokenResolver.value(\.shadow).blurOne
         shadow1.shadowOpacity = 1 // delegate opacity to style sheet
         shadow1.shadowOffset = shadowOffset(for: shadowDirection, isFirst: true)
 
         if shadowDirection.isHorizontal {
-            shadow2.shadowColor = UIColor(dynamicColor: drawerTokens.shadow.colorTwo).cgColor
-            shadow2.shadowRadius = drawerTokens.shadow.blurTwo
+            shadow2.shadowColor = UIColor(dynamicColor: drawerTokenResolver.value(\.shadow).colorTwo).cgColor
+            shadow2.shadowRadius = drawerTokenResolver.value(\.shadow).blurTwo
             shadow2.shadowOpacity = 1 // delegate opacity to style sheet
             shadow2.shadowOffset = shadowOffset(for: shadowDirection)
         }
@@ -119,15 +119,15 @@ class DrawerShadowView: UIView {
         if let shadowDirection = shadowDirection {
             switch shadowDirection {
             case .down:
-                offset.height = drawerTokens.shadowOffset
+                offset.height = drawerTokenResolver.value(\.shadowOffset)
             case .up:
-                offset.height = -drawerTokens.shadowOffset
+                offset.height = -drawerTokenResolver.value(\.shadowOffset)
             case .fromLeading:
-                offset.width = isFirst ? drawerTokens.shadow.xOne : drawerTokens.shadow.xTwo
-                offset.height = isFirst ? drawerTokens.shadow.yOne : drawerTokens.shadow.yTwo
+                offset.width = isFirst ? drawerTokenResolver.value(\.shadow).xOne : drawerTokenResolver.value(\.shadow).xTwo
+                offset.height = isFirst ? drawerTokenResolver.value(\.shadow).yOne : drawerTokenResolver.value(\.shadow).yTwo
             case .fromTrailing:
-                offset.width = -1 * (isFirst ? drawerTokens.shadow.xOne : drawerTokens.shadow.xTwo)
-                offset.height = -1 * (isFirst ? drawerTokens.shadow.yOne : drawerTokens.shadow.yTwo)
+                offset.width = -1 * (isFirst ? drawerTokenResolver.value(\.shadow).xOne : drawerTokenResolver.value(\.shadow).xTwo)
+                offset.height = -1 * (isFirst ? drawerTokenResolver.value(\.shadow).yOne : drawerTokenResolver.value(\.shadow).yTwo)
             }
         }
         return offset
