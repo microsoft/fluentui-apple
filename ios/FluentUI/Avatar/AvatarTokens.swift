@@ -69,13 +69,13 @@ open class AvatarTokens: ControlTokens {
     open var ringDefaultColor: DynamicColor {
         switch style {
         case .default, .group:
-            return aliasTokens.strokeColors[.brandStroke1]
+            return aliasTokens.colors[.brandStroke1]
         case .accent:
-            return aliasTokens.strokeColors[.brandStroke1]
+            return aliasTokens.colors[.brandStroke1]
         case .outlined, .overflow:
-            return aliasTokens.strokeColors[.stroke1]
+            return aliasTokens.colors[.stroke1]
         case .outlinedPrimary:
-            return aliasTokens.strokeColors[.brandStroke1]
+            return aliasTokens.colors[.brandStroke1]
         }
     }
 
@@ -179,15 +179,15 @@ open class AvatarTokens: ControlTokens {
     open var backgroundDefaultColor: DynamicColor {
         switch style {
         case .default, .group:
-            return aliasTokens.backgroundColors[.background1]
+            return aliasTokens.colors[.background1]
         case .accent:
-            return aliasTokens.backgroundColors[.brandBackground1]
+            return aliasTokens.colors[.brandBackground1]
         case .outlined:
-            return aliasTokens.backgroundColors[.background5]
+            return aliasTokens.colors[.background5]
         case .outlinedPrimary:
-            return aliasTokens.backgroundColors[.brandBackground4]
+            return aliasTokens.colors[.brandBackground4]
         case .overflow:
-            return aliasTokens.backgroundColors[.background5]
+            return aliasTokens.colors[.background5]
         }
     }
 
@@ -229,15 +229,15 @@ open class AvatarTokens: ControlTokens {
     open var foregroundDefaultColor: DynamicColor {
         switch style {
         case .default, .group:
-            return aliasTokens.foregroundColors[.brandForeground1]
+            return aliasTokens.colors[.brandForeground1]
         case .accent:
-            return aliasTokens.foregroundColors[.foregroundOnColor]
+            return aliasTokens.colors[.foregroundOnColor]
         case .outlined:
-            return aliasTokens.foregroundColors[.foreground2]
+            return aliasTokens.colors[.foreground2]
         case .outlinedPrimary:
-            return aliasTokens.foregroundColors[.brandForeground4]
+            return aliasTokens.colors[.brandForeground4]
         case .overflow:
-            return aliasTokens.foregroundColors[.foreground2]
+            return aliasTokens.colors[.foreground2]
         }
     }
 
