@@ -68,14 +68,10 @@ open class AvatarTokens: ControlTokens {
     /// The default color of the ring around the `Avatar`.
     open var ringDefaultColor: DynamicColor {
         switch style {
-        case .default, .group:
-            return aliasTokens.colors[.brandStroke1]
-        case .accent:
+        case .default, .group, .accent, .outlinedPrimary:
             return aliasTokens.colors[.brandStroke1]
         case .outlined, .overflow:
             return aliasTokens.colors[.stroke1]
-        case .outlinedPrimary:
-            return aliasTokens.colors[.brandStroke1]
         }
     }
 
@@ -182,12 +178,10 @@ open class AvatarTokens: ControlTokens {
             return aliasTokens.colors[.background1]
         case .accent:
             return aliasTokens.colors[.brandBackground1]
-        case .outlined:
+        case .outlined, .overflow:
             return aliasTokens.colors[.background5]
         case .outlinedPrimary:
             return aliasTokens.colors[.brandBackground4]
-        case .overflow:
-            return aliasTokens.colors[.background5]
         }
     }
 
@@ -232,12 +226,10 @@ open class AvatarTokens: ControlTokens {
             return aliasTokens.colors[.brandForeground1]
         case .accent:
             return aliasTokens.colors[.foregroundOnColor]
-        case .outlined:
+        case .outlined, .overflow:
             return aliasTokens.colors[.foreground2]
         case .outlinedPrimary:
             return aliasTokens.colors[.brandForeground4]
-        case .overflow:
-            return aliasTokens.colors[.foreground2]
         }
     }
 
