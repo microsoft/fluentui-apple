@@ -82,21 +82,21 @@ open class SearchBar: UIView {
             }
         }
 
-        var placeholderColor: UIColor {
+        func placeholderColor(view: UIView) -> UIColor {
             switch self {
             case .lightContent:
-                return Colors.SearchBar.LightContent.placeholderText
+                return UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foreground3])
             case .darkContent:
-                return Colors.SearchBar.DarkContent.placeholderText
+                return UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foreground3])
             }
         }
 
-        var searchIconColor: UIColor {
+        func searchIconColor(view: UIView) -> UIColor {
             switch self {
             case .lightContent:
-                return Colors.SearchBar.LightContent.searchIcon
+                return UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foreground3])
             case .darkContent:
-                return Colors.SearchBar.DarkContent.searchIcon
+                return UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foreground3])
             }
         }
 
@@ -361,7 +361,7 @@ open class SearchBar: UIView {
             searchTextField.attributedPlaceholder = nil
             return
         }
-        let newAttributes = [NSAttributedString.Key.foregroundColor: style.placeholderColor]
+        let newAttributes = [NSAttributedString.Key.foregroundColor: style.placeholderColor(view: self)]
         let attributedPlaceholderText = NSAttributedString(string: newPlaceholder, attributes: newAttributes)
         searchTextField.attributedPlaceholder = attributedPlaceholderText
     }
@@ -468,7 +468,7 @@ open class SearchBar: UIView {
 
     private func updateColorsForStyle() {
         searchTextFieldBackgroundView.backgroundColor = style.backgroundColor(view: self)
-        searchIconImageView.tintColor = style.searchIconColor
+        searchIconImageView.tintColor = style.searchIconColor(view: self)
         searchTextField.textColor = style.textColor
         // used for cursor or selection handle
         searchTextField.tintColor = style.tintColor
