@@ -984,7 +984,7 @@ extension DrawerController: UIViewControllerTransitioningDelegate {
                                                                             source: source,
                                                                             presentationDirection: direction,
                                                                             adjustHeightForKeyboard: adjustsHeightForKeyboard,
-                                                                            drawerController: self)
+                                                                            drawerTokenResolver: tokenResolver)
             drawerPresentationController.drawerPresentationControllerDelegate = self
             return drawerPresentationController
         case .popover:
