@@ -64,12 +64,12 @@ open class SearchBar: UIView {
             }
         }
 
-        var cancelButtonColor: UIColor {
+        func cancelButtonColor(view: UIView) -> UIColor {
             switch self {
             case .lightContent:
-                return Colors.SearchBar.LightContent.cancelButton
+                return UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foreground2])
             case .darkContent:
-                return Colors.SearchBar.DarkContent.cancelButton
+                return UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foreground2])
             }
         }
 
@@ -474,7 +474,7 @@ open class SearchBar: UIView {
         searchTextField.tintColor = style.tintColor
         clearButton.tintColor = style.clearIconColor
         progressSpinner.state.color = style.progressSpinnerColor
-        cancelButton.setTitleColor(style.cancelButtonColor, for: .normal)
+        cancelButton.setTitleColor(style.cancelButtonColor(view: self), for: .normal)
         attributePlaceholderText()
     }
 
