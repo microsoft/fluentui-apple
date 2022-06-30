@@ -6,7 +6,8 @@
 import UIKit
 
 class CommandBarCommandGroupsView: UIView {
-    init(itemGroups: [CommandBarItemGroup]? = nil, buttonsPersistSelection: Bool = true) {
+    init(itemGroups: [CommandBarItemGroup]? = nil,
+         buttonsPersistSelection: Bool = true) {
         self.itemGroups = itemGroups ?? []
 
         self.buttonsPersistSelection = buttonsPersistSelection
@@ -17,13 +18,15 @@ class CommandBarCommandGroupsView: UIView {
 
         buttonGroupsStackView.translatesAutoresizingMaskIntoConstraints = false
         buttonGroupsStackView.axis = .horizontal
-        buttonGroupsStackView.spacing = CommandBarCommandGroupsView.buttonGroupSpacing
+        buttonGroupsStackView.spacing = Constants.buttonGroupSpacing
 
         addSubview(buttonGroupsStackView)
 
         NSLayoutConstraint.activate([
-            buttonGroupsStackView.topAnchor.constraint(equalTo: topAnchor, constant: CommandBarCommandGroupsView.insets.top),
-            bottomAnchor.constraint(equalTo: buttonGroupsStackView.bottomAnchor, constant: CommandBarCommandGroupsView.insets.top),
+            buttonGroupsStackView.topAnchor.constraint(equalTo: topAnchor,
+                                                       constant: Constants.insets.top),
+            bottomAnchor.constraint(equalTo: buttonGroupsStackView.bottomAnchor,
+                                    constant: Constants.insets.top),
             buttonGroupsStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
             buttonGroupsStackView.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
@@ -104,6 +107,11 @@ class CommandBarCommandGroupsView: UIView {
         sender.updateState()
     }
 
-    private static let buttonGroupSpacing: CGFloat = 16
-    private static let insets = UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)
+    private struct Constants {
+        static let buttonGroupSpacing: CGFloat = 16
+        static let insets = UIEdgeInsets(top: 8.0,
+                                         left: 8.0,
+                                         bottom: 8.0,
+                                         right: 8.0)
+    }
 }

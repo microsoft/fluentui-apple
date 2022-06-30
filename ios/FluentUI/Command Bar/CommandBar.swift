@@ -30,27 +30,35 @@ open class CommandBar: UIView {
     // MARK: - Public methods
 
     @available(*, renamed: "init(itemGroups:leadingItemGroups:trailingItemGroups:)")
-    @objc public convenience init(itemGroups: [CommandBarItemGroup], leadingItem: CommandBarItem? = nil, trailingItem: CommandBarItem? = nil) {
-        var leadingItems: [CommandBarItemGroup]?
-        var trailingItems: [CommandBarItemGroup]?
+    @objc public convenience init(itemGroups: [CommandBarItemGroup],
+                                  leadingItem: CommandBarItem? = nil,
+                                  trailingItem: CommandBarItem? = nil) {
+        var leadingItems: [CommandBarItemGroup] = []
+        var trailingItems: [CommandBarItemGroup] = []
 
         if let leadingItem = leadingItem {
-            leadingItems = [[leadingItem]]
+            leadingItems.append([leadingItem])
         }
 
         if let trailingItem = trailingItem {
-            trailingItems = [[trailingItem]]
+            trailingItems.append([trailingItem])
         }
 
-        self.init(itemGroups: itemGroups, leadingItemGroups: leadingItems, trailingItemGroups: trailingItems)
+        self.init(itemGroups: itemGroups,
+                  leadingItemGroups: leadingItems,
+                  trailingItemGroups: trailingItems)
     }
 
-    @objc public init(itemGroups: [CommandBarItemGroup], leadingItemGroups: [CommandBarItemGroup]? = nil, trailingItemGroups: [CommandBarItemGroup]? = nil) {
-        leadingCommandGroupsView = CommandBarCommandGroupsView(itemGroups: leadingItemGroups, buttonsPersistSelection: false)
+    @objc public init(itemGroups: [CommandBarItemGroup],
+                      leadingItemGroups: [CommandBarItemGroup]? = nil,
+                      trailingItemGroups: [CommandBarItemGroup]? = nil) {
+        leadingCommandGroupsView = CommandBarCommandGroupsView(itemGroups: leadingItemGroups,
+                                                               buttonsPersistSelection: false)
         leadingCommandGroupsView.translatesAutoresizingMaskIntoConstraints = false
         mainCommandGroupsView = CommandBarCommandGroupsView(itemGroups: itemGroups)
         mainCommandGroupsView.translatesAutoresizingMaskIntoConstraints = false
-        trailingCommandGroupsView = CommandBarCommandGroupsView(itemGroups: trailingItemGroups, buttonsPersistSelection: false)
+        trailingCommandGroupsView = CommandBarCommandGroupsView(itemGroups: trailingItemGroups,
+                                                                buttonsPersistSelection: false)
         trailingCommandGroupsView.translatesAutoresizingMaskIntoConstraints = false
 
         commandBarContainerStackView = UIStackView()
@@ -101,17 +109,12 @@ open class CommandBar: UIView {
     }
 
     /// Items pinned to the leading end of the CommandBar
-    public var leadingItemGroups: [CommandBarItemGroup]? {
+    public var leadingItemGroups: [CommandBarItemGroup] {
         get {
             leadingCommandGroupsView.itemGroups
         }
         set {
-            if let newValue = newValue {
-                leadingCommandGroupsView.itemGroups = newValue
-            } else {
-                leadingCommandGroupsView.itemGroups = []
-            }
-
+            leadingCommandGroupsView.itemGroups = newValue
             leadingCommandGroupsView.isHidden = leadingCommandGroupsView.itemGroups.isEmpty
             scrollView.contentInset = scrollViewContentInset()
             setNeedsLayout()
@@ -119,17 +122,12 @@ open class CommandBar: UIView {
     }
 
     /// Items pinned to the trailing end of the CommandBar
-    public var trailingItemGroups: [CommandBarItemGroup]? {
+    public var trailingItemGroups: [CommandBarItemGroup] {
         get {
             trailingCommandGroupsView.itemGroups
         }
         set {
-            if let newValue = newValue {
-                trailingCommandGroupsView.itemGroups = newValue
-            } else {
-                trailingCommandGroupsView.itemGroups = []
-            }
-
+            trailingCommandGroupsView.itemGroups = newValue
             trailingCommandGroupsView.isHidden = trailingCommandGroupsView.itemGroups.isEmpty
             scrollView.contentInset = scrollViewContentInset()
             setNeedsLayout()
@@ -232,12 +230,10 @@ open class CommandBar: UIView {
     }
 
     private func scrollViewContentInset() -> UIEdgeInsets {
-        UIEdgeInsets(
-            top: 0,
-            left: leadingCommandGroupsView.isHidden ? CommandBar.insets.left : CommandBar.fixedButtonSpacing,
-            bottom: 0,
-            right: trailingCommandGroupsView.isHidden ? CommandBar.insets.right : CommandBar.fixedButtonSpacing
-        )
+        UIEdgeInsets( top: 0,
+                      left: leadingCommandGroupsView.isHidden ? Constants.insets.left : Constants.fixedButtonSpacing,
+                      bottom: 0,
+                      right: trailingCommandGroupsView.isHidden ? Constants.insets.right : Constants.fixedButtonSpacing )
     }
 
     private func updateShadow() {
@@ -246,21 +242,23 @@ open class CommandBar: UIView {
         if !leadingCommandGroupsView.isHidden {
             let leadingOffset = max(0, scrollView.contentOffset.x)
             let percentage = min(1, leadingOffset / scrollView.contentInset.left)
-            locations[1] = CommandBar.fadeViewWidth / containerView.frame.width * percentage
+            locations[1] = Constants.fadeViewWidth / containerView.frame.width * percentage
         }
 
         if !trailingCommandGroupsView.isHidden {
             let trailingOffset = max(0, mainCommandGroupsView.frame.width - scrollView.frame.width - scrollView.contentOffset.x)
             let percentage = min(1, trailingOffset / scrollView.contentInset.right)
-            locations[2] = 1 - CommandBar.fadeViewWidth / containerView.frame.width * percentage
+            locations[2] = 1 - Constants.fadeViewWidth / containerView.frame.width * percentage
         }
 
         containerMaskLayer.locations = locations.map { NSNumber(value: Float($0)) }
     }
 
-    private static let fadeViewWidth: CGFloat = 16.0
-    private static let fixedButtonSpacing: CGFloat = 2.0
-    private static let insets = UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)
+    private struct Constants {
+        static let fadeViewWidth: CGFloat = 16.0
+        static let fixedButtonSpacing: CGFloat = 2.0
+        static let insets = UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)
+    }
 }
 
 // MARK: - Scroll view delegate

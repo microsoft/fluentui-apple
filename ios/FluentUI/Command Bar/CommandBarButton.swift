@@ -43,7 +43,7 @@ class CommandBarButton: UIButton {
         let accessibilityDescription = item.accessibilityLabel
         accessibilityLabel = (accessibilityDescription != nil) ? accessibilityDescription : item.title
         accessibilityHint = item.accessibilityHint
-        contentEdgeInsets = CommandBarButton.contentEdgeInsets
+        contentEdgeInsets = Constants.contentEdgeInsets
 
         menu = item.menu
         showsMenuAsPrimaryAction = item.showsMenuAsPrimaryAction
@@ -91,7 +91,7 @@ class CommandBarButton: UIButton {
     }
 
     private func updateStyle() {
-        tintColor = isSelected ? selectedTintColor : CommandBarButton.normalTintColor
+        tintColor = isSelected ? selectedTintColor : Constants.normalTintColor
         setTitleColor(tintColor, for: .normal)
 
         if !isPersistSelection {
@@ -100,15 +100,17 @@ class CommandBarButton: UIButton {
             if isSelected {
                 backgroundColor = selectedBackgroundColor
             } else if isHighlighted {
-                backgroundColor = CommandBarButton.highlightedBackgroundColor
+                backgroundColor = Constants.highlightedBackgroundColor
             } else {
-                backgroundColor = CommandBarButton.normalBackgroundColor
+                backgroundColor = Constants.normalBackgroundColor
             }
         }
     }
 
-    private static let contentEdgeInsets = UIEdgeInsets(top: 8.0, left: 10.0, bottom: 8.0, right: 10.0)
-    private static let normalTintColor: UIColor = Colors.textPrimary
-    private static let normalBackgroundColor = UIColor(light: Colors.gray50, dark: Colors.gray600)
-    private static let highlightedBackgroundColor = UIColor(light: Colors.gray100, dark: Colors.gray900)
+    private struct Constants {
+        static let contentEdgeInsets = UIEdgeInsets(top: 8.0, left: 10.0, bottom: 8.0, right: 10.0)
+        static let normalTintColor: UIColor = Colors.textPrimary
+        static let normalBackgroundColor = UIColor(light: Colors.gray50, dark: Colors.gray600)
+        static let highlightedBackgroundColor = UIColor(light: Colors.gray100, dark: Colors.gray900)
+    }
 }
