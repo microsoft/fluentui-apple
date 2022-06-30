@@ -55,12 +55,12 @@ open class SearchBar: UIView {
     public enum Style: Int {
         case lightContent, darkContent
 
-        var backgroundColor: UIColor {
+        func backgroundColor(view: UIView) -> UIColor {
             switch self {
             case .lightContent:
-                return Colors.SearchBar.LightContent.background
+                return UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background5])
             case .darkContent:
-                return Colors.SearchBar.DarkContent.background
+                return UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background5])
             }
         }
 
@@ -221,7 +221,7 @@ open class SearchBar: UIView {
     // backgroundview is used to achive an inset textfield
     private lazy var searchTextFieldBackgroundView: UIView = {
         let backgroundView = UIView()
-        backgroundView.backgroundColor = style.backgroundColor
+        backgroundView.backgroundColor = style.backgroundColor(view: self)
         backgroundView.layer.cornerRadius = Constants.searchTextFieldCornerRadius
         return backgroundView
     }()
@@ -467,7 +467,7 @@ open class SearchBar: UIView {
     }
 
     private func updateColorsForStyle() {
-        searchTextFieldBackgroundView.backgroundColor = style.backgroundColor
+        searchTextFieldBackgroundView.backgroundColor = style.backgroundColor(view: self)
         searchIconImageView.tintColor = style.searchIconColor
         searchTextField.textColor = style.textColor
         // used for cursor or selection handle
