@@ -8,12 +8,9 @@ import UIKit
 // MARK: DateTimePickerViewMode
 
 enum DateTimePickerViewMode {
-    case date(startYear: Int, endYear: Int)
+    case date
     case dateTime   /// Date hour/minute am/pm
     case dayOfMonth /// Week of month / Day of week
-
-    static let defaultStartYear: Int = CalendarConfiguration.default.referenceStartDate.year
-    static let defaultEndYear: Int = CalendarConfiguration.default.referenceEndDate.year
 }
 
 // MARK: - DateTimePickerViewDelegate
@@ -61,11 +58,11 @@ class DateTimePickerView: UIControl {
         return gradientLayer
     }()
 
-    init(mode: DateTimePickerViewMode) {
+    init(mode: DateTimePickerViewMode, calendarConfiguration: CalendarConfiguration) {
         self.mode = mode
 
         componentTypes = DateTimePickerViewLayout.componentTypes(fromDatePickerMode: mode)
-        componentsByType = DateTimePickerViewLayout.componentsByType(fromTypes: componentTypes, mode: mode)
+        componentsByType = DateTimePickerViewLayout.componentsByType(fromTypes: componentTypes, mode: mode, calendarConfiguration: calendarConfiguration)
 
         super.init(frame: .zero)
 

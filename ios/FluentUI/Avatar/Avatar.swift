@@ -272,6 +272,7 @@ public struct Avatar: View, ConfigurableTokenizedControl {
             .modifyIf(state.isAnimated, { thisView in
                 thisView.animation(.linear(duration: animationDuration))
             })
+            .showsLargeContentViewer(text: accessibilityLabel, image: shouldUseDefaultImage ? avatarImageInfo.image : nil)
             .accessibilityElement(children: .ignore)
             .accessibility(addTraits: state.hasButtonAccessibilityTrait ? .isButton : .isImage)
             .accessibility(label: Text(accessibilityLabel))
