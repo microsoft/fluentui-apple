@@ -100,30 +100,30 @@ open class SearchBar: UIView {
             }
         }
 
-        var textColor: UIColor {
+        func textColor(view: UIView) -> UIColor {
             switch self {
             case .lightContent:
-                return Colors.SearchBar.LightContent.text
+                return UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foreground1])
             case .darkContent:
-                return Colors.SearchBar.DarkContent.text
+                return UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foreground1])
             }
         }
 
-        var tintColor: UIColor {
+        func tintColor(view: UIView) -> UIColor {
             switch self {
             case .lightContent:
-                return Colors.SearchBar.LightContent.tint
+                return UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foreground3])
             case .darkContent:
-                return Colors.SearchBar.DarkContent.tint
+                return UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foreground3])
             }
         }
 
-        var progressSpinnerColor: UIColor {
+        func progressSpinnerColor(view: UIView) -> UIColor {
             switch self {
             case .lightContent:
-                return Colors.SearchBar.LightContent.progressSpinner
+                return UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foreground3])
             case .darkContent:
-                return Colors.SearchBar.DarkContent.progressSpinner
+                return UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foreground3])
             }
         }
     }
@@ -469,11 +469,11 @@ open class SearchBar: UIView {
     private func updateColorsForStyle() {
         searchTextFieldBackgroundView.backgroundColor = style.backgroundColor(view: self)
         searchIconImageView.tintColor = style.searchIconColor(view: self)
-        searchTextField.textColor = style.textColor
+        searchTextField.textColor = style.textColor(view: self)
         // used for cursor or selection handle
-        searchTextField.tintColor = style.tintColor
+        searchTextField.tintColor = style.tintColor(view: self)
         clearButton.tintColor = style.clearIconColor(view: self)
-        progressSpinner.state.color = style.progressSpinnerColor
+        progressSpinner.state.color = style.progressSpinnerColor(view: self)
         cancelButton.setTitleColor(style.cancelButtonColor(view: self), for: .normal)
         attributePlaceholderText()
     }
