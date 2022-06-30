@@ -32,9 +32,7 @@ class TabBarViewDemoController: DemoController {
         return createButton(title: "-", action: #selector(decrementBadgeNumbers))
     }()
 
-    private lazy var homeItem: TabBarItem = {
-        return TabBarItem(title: "Home", image: UIImage(named: "Home_28")!, selectedImage: UIImage(named: "Home_Selected_28")!, landscapeImage: UIImage(named: "Home_24")!, landscapeSelectedImage: UIImage(named: "Home_Selected_24")!)
-    }()
+    private lazy var homeItem: TabBarItem = homeItem(shouldShowTitle: false)
 
     private var badgeNumbers: [UInt] = Constants.initialBadgeNumbers
     private var higherBadgeNumbers: [UInt] = Constants.initialHigherBadgeNumbers
@@ -74,12 +72,14 @@ class TabBarViewDemoController: DemoController {
         updatedTabBarView.delegate = self
 
         if showsItemTitles {
+            homeItem = homeItem(shouldShowTitle: true)
             updatedTabBarView.items = [
                 homeItem,
                 TabBarItem(title: "New", image: UIImage(named: "New_24")!, selectedImage: UIImage(named: "New_Selected_24")!),
               TabBarItem(title: "Open", image: UIImage(named: "Open_24")!, selectedImage: UIImage(named: "Open_Selected_24")!)
             ]
         } else {
+            homeItem = homeItem(shouldShowTitle: false)
             updatedTabBarView.items = [
                 homeItem,
                 TabBarItem(title: "New", image: UIImage(named: "New_28")!, selectedImage: UIImage(named: "New_Selected_28")!, landscapeImage: UIImage(named: "New_24")!, landscapeSelectedImage: UIImage(named: "New_Selected_24")!),
@@ -101,6 +101,19 @@ class TabBarViewDemoController: DemoController {
 
         updateBadgeButtons()
         updateBadgeNumbers()
+    }
+
+    private func homeItem(shouldShowTitle: Bool) -> TabBarItem {
+        if shouldShowTitle {
+            return TabBarItem(title: "Home",
+                              image: UIImage(named: "Home_24")!,
+                              selectedImage: UIImage(named: "Home_Selected_24")!)
+        }
+        return TabBarItem(title: "Home",
+                          image: UIImage(named: "Home_28")!,
+                          selectedImage: UIImage(named: "Home_Selected_28")!,
+                          landscapeImage: UIImage(named: "Home_24")!,
+                          landscapeSelectedImage: UIImage(named: "Home_Selected_24")!)
     }
 
     private func updateBadgeNumbers() {
