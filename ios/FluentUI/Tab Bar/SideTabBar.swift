@@ -215,7 +215,7 @@ open class SideTabBar: UIView, TokenizedControlInternal {
         NSLayoutConstraint.activate(layoutConstraints)
     }
 
-    override public func didMoveToWindow() {
+    open override func didMoveToWindow() {
         super.didMoveToWindow()
         updateSideTabBarTokens()
     }
