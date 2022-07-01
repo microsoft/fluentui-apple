@@ -74,7 +74,7 @@ class TooltipView: UIView {
 
     private let messageLabel: UILabel = {
         let label = Label(style: Constants.messageLabelTextStyle)
-        label.textColor = Colors.Tooltip.text
+        label.textColor = UIColor(dynamicColor: label.fluentTheme.aliasTokens.colors[.foregroundInverted1])
         label.numberOfLines = 0
         return label
     }()
@@ -159,7 +159,7 @@ class TooltipView: UIView {
 
     private func updateWindowSpecificColors() {
         if let window = window {
-            let backgroundColor = UIColor(light: Colors.gray900.withAlphaComponent(0.95), dark: Colors.primary(for: window))
+            let backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.backgroundInverted])
             backgroundView.backgroundColor = backgroundColor
             arrowImageView.image = arrowImageViewBaseImage?.withTintColor(backgroundColor, renderingMode: .alwaysOriginal)
         }
