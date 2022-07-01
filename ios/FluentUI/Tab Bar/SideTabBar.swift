@@ -215,6 +215,11 @@ open class SideTabBar: UIView, TokenizedControlInternal {
         NSLayoutConstraint.activate(layoutConstraints)
     }
 
+    override public func didMoveToWindow() {
+        super.didMoveToWindow()
+        updateSideTabBarTokens()
+    }
+
     private func didUpdateItems(in section: Section) {
         for subview in stackView(in: section).arrangedSubviews {
             subview.removeFromSuperview()
