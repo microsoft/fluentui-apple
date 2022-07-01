@@ -5,14 +5,6 @@
 
 import UIKit
 
-// MARK: Tooltip Colors
-
-private extension Colors {
-    struct Tooltip {
-        static var text: UIColor = textOnAccent
-    }
-}
-
 // MARK: TooltipView
 
 class TooltipView: UIView {
