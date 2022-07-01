@@ -460,11 +460,11 @@ open class SearchBar: UIView {
         attributePlaceholderText()
     }
 
-    private func updateSearchingColors(){
+    private func updateSearchingColors() {
         searchIconImageView.tintColor = style.searchIconColor(view: self, isSearching: true)
     }
 
-    private func updateRestingColors(){
+    private func updateRestingColors() {
         searchIconImageView.tintColor = style.searchIconColor(view: self)
     }
 
