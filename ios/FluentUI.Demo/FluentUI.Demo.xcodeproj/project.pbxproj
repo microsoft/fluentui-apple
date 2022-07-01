@@ -664,7 +664,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.microsoft.OfficeUIFabricDemo-df";
 				PRODUCT_NAME = FluentUI.Demo;
 				PROVISIONING_PROFILE = "4596e7d8-5232-4b9f-82bf-63883e38cd5c";
-				PROVISIONING_PROFILE_SPECIFIER = "Office Fabric Demo Dogfood Distribution";
+				PROVISIONING_PROFILE_SPECIFIER = "Office Fabric Demo Dogfood development";
 				SWIFT_OBJC_BRIDGING_HEADER = "FluentUI.Demo/FluentUI.Demo-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -801,7 +801,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = 9KBH5RKYEW;
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = FluentUI.Demo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -811,10 +811,10 @@
 					"$(OTHER_LDFLAGS)",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.microsoft.OfficeUIFabricDemo-df";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.OfficeUIFabricDemo;
 				PRODUCT_NAME = FluentUI.Demo;
 				PROVISIONING_PROFILE = "63d62159-2691-4b44-9553-b668cc1746c1";
-				PROVISIONING_PROFILE_SPECIFIER = "Office Fabric Demo Dogfood development";
+				PROVISIONING_PROFILE_SPECIFIER = "iOS Team Provisioning Profile";
 				SWIFT_OBJC_BRIDGING_HEADER = "FluentUI.Demo/FluentUI.Demo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -830,7 +830,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = 9KBH5RKYEW;
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = FluentUI.Demo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -840,10 +840,10 @@
 					"$(OTHER_LDFLAGS)",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.microsoft.OfficeUIFabricDemo-df";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.OfficeUIFabricDemo;
 				PRODUCT_NAME = FluentUI.Demo;
 				PROVISIONING_PROFILE = "63d62159-2691-4b44-9553-b668cc1746c1";
-				PROVISIONING_PROFILE_SPECIFIER = "Office Fabric Demo Dogfood development";
+				PROVISIONING_PROFILE_SPECIFIER = "iOS Team Provisioning Profile";
 				SWIFT_OBJC_BRIDGING_HEADER = "FluentUI.Demo/FluentUI.Demo-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
