@@ -88,6 +88,11 @@ class TooltipView: UIView {
 
         super.init(frame: .zero)
 
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+
         isAccessibilityElement = true
 
         addSubview(backgroundView)
@@ -144,6 +149,11 @@ class TooltipView: UIView {
         updateWindowSpecificColors()
     }
 
+    @objc private func themeDidChange(_ notification: Notification) {
+        updateMessageLabelColor()
+        updateWindowSpecificColors()
+    }
+
     private func transformForArrowImageView() -> CGAffineTransform {
         switch positionController.arrowDirection {
         case .up:
@@ -163,6 +173,10 @@ class TooltipView: UIView {
             backgroundView.backgroundColor = backgroundColor
             arrowImageView.image = arrowImageViewBaseImage?.withTintColor(backgroundColor, renderingMode: .alwaysOriginal)
         }
+    }
+
+    private func updateMessageLabelColor() {
+        messageLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundInverted1])
     }
 
     // MARK: - Accessibility
