@@ -327,7 +327,7 @@ extension SideTabBarDemoController: UITableViewDataSource {
 // MARK: - SideTabBarDemoController: DemoAppearanceDelegate
 extension SideTabBarDemoController: DemoAppearanceDelegate {
     func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
-        guard let fluentTheme = self.view.window?.fluentTheme else {
+        guard let fluentTheme = contentViewController?.view.window?.fluentTheme else {
             return
         }
 
@@ -347,7 +347,7 @@ extension SideTabBarDemoController: DemoAppearanceDelegate {
     }
 
     func isThemeWideOverrideApplied() -> Bool {
-        return self.view.window?.fluentTheme.tokenOverride(for: SideTabBar.self) != nil
+        return contentViewController?.view.window?.fluentTheme.tokenOverride(for: SideTabBar.self) != nil
     }
 
     // MARK: - Custom tokens
