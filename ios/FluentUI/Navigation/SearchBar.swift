@@ -53,77 +53,77 @@ public protocol SearchBarDelegate: AnyObject {
 open class SearchBar: UIView {
     @objc(MSFSearchBarStyle)
     public enum Style: Int {
-        case lightContent, darkContent
+        case lightContent, darkContent, brandContent
 
         func backgroundColor(view: UIView) -> UIColor {
             switch self {
-            case .lightContent:
+            case .lightContent, .darkContent:
                 return UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background5])
-            case .darkContent:
-                return UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background5])
+            case .brandContent:
+                return UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.brandBackground2])
             }
         }
 
         func cancelButtonColor(view: UIView) -> UIColor {
             switch self {
-            case .lightContent:
-                return UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foreground2])
-            case .darkContent:
-                return UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foreground2])
+            case .lightContent, .darkContent:
+                return UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foreground1])
+            case .brandContent:
+                return UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foregroundOnColor])
             }
         }
 
         func clearIconColor(view: UIView) -> UIColor {
             switch self {
-            case .lightContent:
+            case .lightContent, .darkContent:
                 return UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foreground2])
-            case .darkContent:
-                return UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foreground2])
+            case .brandContent:
+                return UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.brandForeground2])
             }
         }
 
         func placeholderColor(view: UIView) -> UIColor {
             switch self {
-            case .lightContent:
+            case .lightContent, .darkContent:
                 return UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foreground3])
-            case .darkContent:
-                return UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foreground3])
+            case .brandContent:
+                return UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.brandForeground3])
             }
         }
 
-        func searchIconColor(view: UIView) -> UIColor {
+        func searchIconColor(view: UIView, isSearching: Bool = false) -> UIColor {
             switch self {
-            case .lightContent:
-                return UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foreground3])
-            case .darkContent:
-                return UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foreground3])
+            case .lightContent, .darkContent:
+                return isSearching ? UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foreground1]) : UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foreground3])
+            case .brandContent:
+                return isSearching ? UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foregroundOnColor]) : UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.brandForeground3])
             }
         }
 
         func textColor(view: UIView) -> UIColor {
             switch self {
-            case .lightContent:
+            case .lightContent, .darkContent:
                 return UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foreground1])
-            case .darkContent:
-                return UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foreground1])
+            case .brandContent:
+                return UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foregroundOnColor])
             }
         }
 
         func tintColor(view: UIView) -> UIColor {
             switch self {
-            case .lightContent:
+            case .lightContent, .darkContent:
                 return UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foreground3])
-            case .darkContent:
-                return UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foreground3])
+            case .brandContent:
+                return UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.brandForeground2])
             }
         }
 
         func progressSpinnerColor(view: UIView) -> UIColor {
             switch self {
-            case .lightContent:
+            case .lightContent, .darkContent:
                 return UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foreground3])
-            case .darkContent:
-                return UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foreground3])
+            case .brandContent:
+                return UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.brandForeground3])
             }
         }
     }
