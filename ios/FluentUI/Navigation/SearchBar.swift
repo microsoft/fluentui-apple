@@ -284,7 +284,16 @@ open class SearchBar: UIView {
 
     @objc public override init(frame: CGRect) {
         super.init(frame: frame)
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
         initialize()
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        updateColorsForStyle()
     }
 
     @objc public required init?(coder aDecoder: NSCoder) {
