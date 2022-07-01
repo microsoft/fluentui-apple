@@ -313,7 +313,7 @@ open class SearchBar: UIView {
         if isActive {
             return
         }
-
+        updateSearchingColors()
         attributePlaceholderText()
         showCancelButton()
 
@@ -335,6 +335,7 @@ open class SearchBar: UIView {
             return
         }
 
+        updateRestingColors()
         isActive = false
         searchTextField.resignFirstResponder()
         searchTextField.text = nil
@@ -476,6 +477,14 @@ open class SearchBar: UIView {
         progressSpinner.state.color = style.progressSpinnerColor(view: self)
         cancelButton.setTitleColor(style.cancelButtonColor(view: self), for: .normal)
         attributePlaceholderText()
+    }
+
+    private func updateSearchingColors(){
+        searchIconImageView.tintColor = style.searchIconColor(view: self, isSearching: true)
+    }
+
+    private func updateRestingColors(){
+        searchIconImageView.tintColor = style.searchIconColor(view: self)
     }
 
     // MARK: - UIActions
