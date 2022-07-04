@@ -13,11 +13,18 @@ class SearchBarDemoController: DemoController, SearchBarDelegate {
     }()
 
     private lazy var badgeView: UIView = {
-        let dataSource = BadgeViewDataSource(text: "Kat Larsson")
+        let imageView = UIImageView(image: UIImage(named: "avatar_kat_larsson"))
+        imageView.frame.size = CGSize(width: 20, height: 20)
+        imageView.layer.cornerRadius = 10
+        imageView.layer.masksToBounds = true
+
+        let dataSource = BadgeViewDataSource(text: "Kat Larsson (Beyondsoft Corporation)", customView: imageView)
         let badge = BadgeView(dataSource: dataSource)
+        badge.lineBreakMode = .byTruncatingTail
         badge.disabledBackgroundColor = Colors.Palette.blueMagenta20.color
         badge.disabledLabelTextColor = .white
         badge.isActive = false
+        badge.maxFontSize = 40
         return badge
     }()
 

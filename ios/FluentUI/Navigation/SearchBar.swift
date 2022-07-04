@@ -135,6 +135,7 @@ open class SearchBar: UIView {
         static let searchIconInset: CGFloat = 10.0
         static let searchTextFieldLeadingInset: CGFloat = 10.0
         static let searchTextFieldVerticalInset: CGFloat = 2
+        static let searchTextFieldInteractionMinWidth: CGFloat = 30
         static let clearButtonLeadingInset: CGFloat = 10
         static let clearButtonWidth: CGFloat = 8 + 16 + 8   // padding + image + padding
         static let clearButtonTrailingInset: CGFloat = 10
@@ -454,7 +455,9 @@ open class SearchBar: UIView {
         }
 
         searchTextFieldBackgroundView.addSubview(leadingView)
-        let leadingViewSize = leadingView.sizeThatFits(searchTextFieldBackgroundView.frame.size)
+        let leadingViewRenderSize = CGSize(width: searchTextFieldBackgroundView.frame.size.width - (Constants.searchIconImageViewDimension + Constants.searchIconInset + Constants.searchTextFieldLeadingInset + Constants.searchTextFieldInteractionMinWidth + Constants.clearButtonLeadingInset + Constants.clearButtonWidth + Constants.clearButtonTrailingInset),
+                                           height: searchTextFieldBackgroundView.frame.size.height)
+        let leadingViewSize = leadingView.sizeThatFits(leadingViewRenderSize)
         leadingView.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
