@@ -66,7 +66,6 @@ class TooltipView: UIView {
 
     private let messageLabel: UILabel = {
         let label = Label(style: Constants.messageLabelTextStyle)
-        label.textColor = UIColor(dynamicColor: label.fluentTheme.aliasTokens.colors[.foregroundInverted1])
         label.numberOfLines = 0
         return label
     }()
@@ -79,6 +78,8 @@ class TooltipView: UIView {
         arrowImageView = UIImageView(image: arrowImageViewBaseImage)
 
         super.init(frame: .zero)
+
+        updateColors()
 
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(themeDidChange),
@@ -136,14 +137,8 @@ class TooltipView: UIView {
         messageLabel.frame = backgroundView.frame.insetBy(dx: Constants.paddingHorizontal, dy: 0)
     }
 
-    override func didMoveToWindow() {
-        super.didMoveToWindow()
-        updateWindowSpecificColors()
-    }
-
     @objc private func themeDidChange(_ notification: Notification) {
-        updateMessageLabelColor()
-        updateWindowSpecificColors()
+        updateColors()
     }
 
     private func transformForArrowImageView() -> CGAffineTransform {
@@ -159,15 +154,10 @@ class TooltipView: UIView {
         }
     }
 
-    private func updateWindowSpecificColors() {
-        if let window = window {
-            let backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.backgroundInverted])
-            backgroundView.backgroundColor = backgroundColor
-            arrowImageView.image = arrowImageViewBaseImage?.withTintColor(backgroundColor, renderingMode: .alwaysOriginal)
-        }
-    }
-
-    private func updateMessageLabelColor() {
+    private func updateColors() {
+        let backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.backgroundInverted])
+        backgroundView.backgroundColor = backgroundColor
+        arrowImageView.image = arrowImageViewBaseImage?.withTintColor(backgroundColor, renderingMode: .alwaysOriginal)
         messageLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundInverted1])
     }
 
