@@ -15,7 +15,7 @@ class CommandBarButtonGroupView: UIView {
         translatesAutoresizingMaskIntoConstraints = false
 
         clipsToBounds = true
-        layer.cornerRadius = Constants.cornerRadius
+        layer.cornerRadius = LayoutConstants.cornerRadius
         layer.cornerCurve = .continuous
 
         configureHierarchy()
@@ -31,7 +31,7 @@ class CommandBarButtonGroupView: UIView {
         let stackView = UIStackView(arrangedSubviews: buttons)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
-        stackView.spacing = Constants.buttonPadding
+        stackView.spacing = LayoutConstants.buttonPadding
 
         return stackView
     }()
@@ -47,11 +47,11 @@ class CommandBarButtonGroupView: UIView {
     }
 
     private func applyInsets() {
-        buttons.first?.contentEdgeInsets.left += Constants.leftRightBuffer
-        buttons.last?.contentEdgeInsets.right += Constants.leftRightBuffer
+        buttons.first?.contentEdgeInsets.left += LayoutConstants.leftRightBuffer
+        buttons.last?.contentEdgeInsets.right += LayoutConstants.leftRightBuffer
     }
 
-    private struct Constants {
+    private struct LayoutConstants {
         static let cornerRadius: CGFloat = 8.0
         static let buttonPadding: CGFloat = 2.0
         static let leftRightBuffer: CGFloat = 2.0

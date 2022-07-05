@@ -33,15 +33,14 @@ open class CommandBar: UIView {
     @objc public convenience init(itemGroups: [CommandBarItemGroup],
                                   leadingItem: CommandBarItem? = nil,
                                   trailingItem: CommandBarItem? = nil) {
-        var leadingItems: [CommandBarItemGroup] = []
-        var trailingItems: [CommandBarItemGroup] = []
+        var leadingItems: [CommandBarItemGroup]?
+        var trailingItems: [CommandBarItemGroup]?
 
         if let leadingItem = leadingItem {
-            leadingItems.append([leadingItem])
+            leadingItems = [[leadingItem]]
         }
-
         if let trailingItem = trailingItem {
-            trailingItems.append([trailingItem])
+            trailingItems = [[trailingItem]]
         }
 
         self.init(itemGroups: itemGroups,
@@ -109,28 +108,22 @@ open class CommandBar: UIView {
     }
 
     /// Items pinned to the leading end of the CommandBar
-    public var leadingItemGroups: [CommandBarItemGroup] {
+    public var leadingItemGroups: [CommandBarItemGroup]? {
         get {
             leadingCommandGroupsView.itemGroups
         }
         set {
-            leadingCommandGroupsView.itemGroups = newValue
-            leadingCommandGroupsView.isHidden = leadingCommandGroupsView.itemGroups.isEmpty
-            scrollView.contentInset = scrollViewContentInset()
-            setNeedsLayout()
+            set(leadingCommandGroupsView, with: newValue)
         }
     }
 
     /// Items pinned to the trailing end of the CommandBar
-    public var trailingItemGroups: [CommandBarItemGroup] {
+    public var trailingItemGroups: [CommandBarItemGroup]? {
         get {
             trailingCommandGroupsView.itemGroups
         }
         set {
-            trailingCommandGroupsView.itemGroups = newValue
-            trailingCommandGroupsView.isHidden = trailingCommandGroupsView.itemGroups.isEmpty
-            scrollView.contentInset = scrollViewContentInset()
-            setNeedsLayout()
+            set(trailingCommandGroupsView, with: newValue)
         }
     }
 
@@ -231,9 +224,9 @@ open class CommandBar: UIView {
 
     private func scrollViewContentInset() -> UIEdgeInsets {
         UIEdgeInsets( top: 0,
-                      left: leadingCommandGroupsView.isHidden ? Constants.insets.left : Constants.fixedButtonSpacing,
+                      left: leadingCommandGroupsView.isHidden ? LayoutConstants.insets.left : LayoutConstants.fixedButtonSpacing,
                       bottom: 0,
-                      right: trailingCommandGroupsView.isHidden ? Constants.insets.right : Constants.fixedButtonSpacing )
+                      right: trailingCommandGroupsView.isHidden ? LayoutConstants.insets.right : LayoutConstants.fixedButtonSpacing )
     }
 
     private func updateShadow() {
@@ -242,19 +235,32 @@ open class CommandBar: UIView {
         if !leadingCommandGroupsView.isHidden {
             let leadingOffset = max(0, scrollView.contentOffset.x)
             let percentage = min(1, leadingOffset / scrollView.contentInset.left)
-            locations[1] = Constants.fadeViewWidth / containerView.frame.width * percentage
+            locations[1] = LayoutConstants.fadeViewWidth / containerView.frame.width * percentage
         }
 
         if !trailingCommandGroupsView.isHidden {
             let trailingOffset = max(0, mainCommandGroupsView.frame.width - scrollView.frame.width - scrollView.contentOffset.x)
             let percentage = min(1, trailingOffset / scrollView.contentInset.right)
-            locations[2] = 1 - Constants.fadeViewWidth / containerView.frame.width * percentage
+            locations[2] = 1 - LayoutConstants.fadeViewWidth / containerView.frame.width * percentage
         }
 
         containerMaskLayer.locations = locations.map { NSNumber(value: Float($0)) }
     }
 
-    private struct Constants {
+    /// Updates the provided `CommandBarCommandGroupsView` with the `items` array and marks the view as needing a layout
+    private func set(_ commandGroupsView: CommandBarCommandGroupsView, with items: [CommandBarItemGroup]?) {
+        if let items = items {
+            commandGroupsView.itemGroups = items
+        } else {
+            commandGroupsView.itemGroups = []
+        }
+
+        commandGroupsView.isHidden = commandGroupsView.itemGroups.isEmpty
+        scrollView.contentInset = scrollViewContentInset()
+        setNeedsLayout()
+    }
+
+    private struct LayoutConstants {
         static let fadeViewWidth: CGFloat = 16.0
         static let fixedButtonSpacing: CGFloat = 2.0
         static let insets = UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)

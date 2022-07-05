@@ -43,7 +43,7 @@ class CommandBarButton: UIButton {
         let accessibilityDescription = item.accessibilityLabel
         accessibilityLabel = (accessibilityDescription != nil) ? accessibilityDescription : item.title
         accessibilityHint = item.accessibilityHint
-        contentEdgeInsets = Constants.contentEdgeInsets
+        contentEdgeInsets = LayoutConstants.contentEdgeInsets
 
         menu = item.menu
         showsMenuAsPrimaryAction = item.showsMenuAsPrimaryAction
@@ -91,7 +91,7 @@ class CommandBarButton: UIButton {
     }
 
     private func updateStyle() {
-        tintColor = isSelected ? selectedTintColor : Constants.normalTintColor
+        tintColor = isSelected ? selectedTintColor : ColorConstants.normalTintColor
         setTitleColor(tintColor, for: .normal)
 
         if !isPersistSelection {
@@ -100,15 +100,18 @@ class CommandBarButton: UIButton {
             if isSelected {
                 backgroundColor = selectedBackgroundColor
             } else if isHighlighted {
-                backgroundColor = Constants.highlightedBackgroundColor
+                backgroundColor = ColorConstants.highlightedBackgroundColor
             } else {
-                backgroundColor = Constants.normalBackgroundColor
+                backgroundColor = ColorConstants.normalBackgroundColor
             }
         }
     }
 
-    private struct Constants {
+    private struct LayoutConstants {
         static let contentEdgeInsets = UIEdgeInsets(top: 8.0, left: 10.0, bottom: 8.0, right: 10.0)
+    }
+
+    private struct ColorConstants {
         static let normalTintColor: UIColor = Colors.textPrimary
         static let normalBackgroundColor = UIColor(light: Colors.gray50, dark: Colors.gray600)
         static let highlightedBackgroundColor = UIColor(light: Colors.gray100, dark: Colors.gray900)

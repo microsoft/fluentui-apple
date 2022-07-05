@@ -18,15 +18,15 @@ class CommandBarCommandGroupsView: UIView {
 
         buttonGroupsStackView.translatesAutoresizingMaskIntoConstraints = false
         buttonGroupsStackView.axis = .horizontal
-        buttonGroupsStackView.spacing = Constants.buttonGroupSpacing
+        buttonGroupsStackView.spacing = LayoutConstants.buttonGroupSpacing
 
         addSubview(buttonGroupsStackView)
 
         NSLayoutConstraint.activate([
             buttonGroupsStackView.topAnchor.constraint(equalTo: topAnchor,
-                                                       constant: Constants.insets.top),
+                                                       constant: LayoutConstants.insets.top),
             bottomAnchor.constraint(equalTo: buttonGroupsStackView.bottomAnchor,
-                                    constant: Constants.insets.top),
+                                    constant: LayoutConstants.insets.top),
             buttonGroupsStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
             buttonGroupsStackView.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
@@ -107,7 +107,7 @@ class CommandBarCommandGroupsView: UIView {
         sender.updateState()
     }
 
-    private struct Constants {
+    private struct LayoutConstants {
         static let buttonGroupSpacing: CGFloat = 16
         static let insets = UIEdgeInsets(top: 8.0,
                                          left: 8.0,
