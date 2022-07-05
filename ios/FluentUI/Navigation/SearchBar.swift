@@ -5,34 +5,6 @@
 
 import UIKit
 
-// MARK: Search Colors
-
-private extension Colors {
-    struct SearchBar {
-        struct DarkContent {
-            static var background = UIColor(light: surfaceTertiary, dark: LightContent.background)
-            static var cancelButton = UIColor(light: textSecondary, dark: LightContent.cancelButton)
-            static var clearIcon = UIColor(light: iconPrimary, dark: LightContent.clearIcon)
-            static var placeholderText = UIColor(light: textSecondary, dark: LightContent.placeholderText)
-            static var progressSpinner = UIColor(light: iconDisabled, dark: textPrimary)
-            static var searchIcon = UIColor(light: iconPrimary, dark: LightContent.searchIcon)
-            static var text = UIColor(light: textDominant, dark: LightContent.text)
-            static var tint = UIColor(light: iconSecondary, dark: LightContent.tint)
-        }
-
-        public struct LightContent {
-            public static var background = UIColor(light: UIColor.black.withAlphaComponent(0.2), dark: gray700, darkElevated: gray600)
-            public static var cancelButton: UIColor = LightContent.text
-            public static var clearIcon = UIColor(light: iconOnAccent, dark: textSecondary)
-            public static var placeholderText = UIColor(light: textOnAccent, dark: textSecondary)
-            public static var progressSpinner = UIColor(light: textOnAccent, dark: textSecondary)
-            public static var searchIcon: UIColor = placeholderText
-            public static var text = UIColor(light: textOnAccent, dark: textDominant)
-            public static var tint: UIColor = LightContent.text
-        }
-    }
-}
-
 // MARK: SearchBarDelegate
 
 /// Various state update methods coming from the SearchBar
@@ -53,77 +25,77 @@ public protocol SearchBarDelegate: AnyObject {
 open class SearchBar: UIView {
     @objc(MSFSearchBarStyle)
     public enum Style: Int {
-        case lightContent, darkContent
+        case lightContent, darkContent, brandContent
 
-        var backgroundColor: UIColor {
+        func backgroundColor(view: UIView) -> UIColor {
             switch self {
-            case .lightContent:
-                return Colors.SearchBar.LightContent.background
-            case .darkContent:
-                return Colors.SearchBar.DarkContent.background
+            case .lightContent, .darkContent:
+                return UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background5])
+            case .brandContent:
+                return UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.brandBackground2])
             }
         }
 
-        var cancelButtonColor: UIColor {
+        func cancelButtonColor(view: UIView) -> UIColor {
             switch self {
-            case .lightContent:
-                return Colors.SearchBar.LightContent.cancelButton
-            case .darkContent:
-                return Colors.SearchBar.DarkContent.cancelButton
+            case .lightContent, .darkContent:
+                return UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foreground1])
+            case .brandContent:
+                return UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foregroundOnColor])
             }
         }
 
-        var clearIconColor: UIColor {
+        func clearIconColor(view: UIView) -> UIColor {
             switch self {
-            case .lightContent:
-                return Colors.SearchBar.LightContent.clearIcon
-            case .darkContent:
-                return Colors.SearchBar.DarkContent.clearIcon
+            case .lightContent, .darkContent:
+                return UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foreground2])
+            case .brandContent:
+                return UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.brandForeground2])
             }
         }
 
-        var placeholderColor: UIColor {
+        func placeholderColor(view: UIView) -> UIColor {
             switch self {
-            case .lightContent:
-                return Colors.SearchBar.LightContent.placeholderText
-            case .darkContent:
-                return Colors.SearchBar.DarkContent.placeholderText
+            case .lightContent, .darkContent:
+                return UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foreground3])
+            case .brandContent:
+                return UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.brandForeground3])
             }
         }
 
-        var searchIconColor: UIColor {
+        func searchIconColor(view: UIView, isSearching: Bool = false) -> UIColor {
             switch self {
-            case .lightContent:
-                return Colors.SearchBar.LightContent.searchIcon
-            case .darkContent:
-                return Colors.SearchBar.DarkContent.searchIcon
+            case .lightContent, .darkContent:
+                return isSearching ? UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foreground1]) : UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foreground3])
+            case .brandContent:
+                return isSearching ? UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foregroundOnColor]) : UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.brandForeground3])
             }
         }
 
-        var textColor: UIColor {
+        func textColor(view: UIView) -> UIColor {
             switch self {
-            case .lightContent:
-                return Colors.SearchBar.LightContent.text
-            case .darkContent:
-                return Colors.SearchBar.DarkContent.text
+            case .lightContent, .darkContent:
+                return UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foreground1])
+            case .brandContent:
+                return UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foregroundOnColor])
             }
         }
 
-        var tintColor: UIColor {
+        func tintColor(view: UIView) -> UIColor {
             switch self {
-            case .lightContent:
-                return Colors.SearchBar.LightContent.tint
-            case .darkContent:
-                return Colors.SearchBar.DarkContent.tint
+            case .lightContent, .darkContent:
+                return UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foreground3])
+            case .brandContent:
+                return UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.brandForeground2])
             }
         }
 
-        var progressSpinnerColor: UIColor {
+        func progressSpinnerColor(view: UIView) -> UIColor {
             switch self {
-            case .lightContent:
-                return Colors.SearchBar.LightContent.progressSpinner
-            case .darkContent:
-                return Colors.SearchBar.DarkContent.progressSpinner
+            case .lightContent, .darkContent:
+                return UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foreground3])
+            case .brandContent:
+                return UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.brandForeground3])
             }
         }
     }
@@ -221,7 +193,7 @@ open class SearchBar: UIView {
     // backgroundview is used to achive an inset textfield
     private lazy var searchTextFieldBackgroundView: UIView = {
         let backgroundView = UIView()
-        backgroundView.backgroundColor = style.backgroundColor
+        backgroundView.backgroundColor = style.backgroundColor(view: self)
         backgroundView.layer.cornerRadius = Constants.searchTextFieldCornerRadius
         return backgroundView
     }()
@@ -284,7 +256,16 @@ open class SearchBar: UIView {
 
     @objc public override init(frame: CGRect) {
         super.init(frame: frame)
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
         initialize()
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        updateColorsForStyle()
     }
 
     @objc public required init?(coder aDecoder: NSCoder) {
@@ -313,7 +294,7 @@ open class SearchBar: UIView {
         if isActive {
             return
         }
-
+        updateSearchingColors()
         attributePlaceholderText()
         showCancelButton()
 
@@ -335,6 +316,7 @@ open class SearchBar: UIView {
             return
         }
 
+        updateRestingColors()
         isActive = false
         searchTextField.resignFirstResponder()
         searchTextField.text = nil
@@ -361,7 +343,7 @@ open class SearchBar: UIView {
             searchTextField.attributedPlaceholder = nil
             return
         }
-        let newAttributes = [NSAttributedString.Key.foregroundColor: style.placeholderColor]
+        let newAttributes = [NSAttributedString.Key.foregroundColor: style.placeholderColor(view: self)]
         let attributedPlaceholderText = NSAttributedString(string: newPlaceholder, attributes: newAttributes)
         searchTextField.attributedPlaceholder = attributedPlaceholderText
     }
@@ -467,15 +449,23 @@ open class SearchBar: UIView {
     }
 
     private func updateColorsForStyle() {
-        searchTextFieldBackgroundView.backgroundColor = style.backgroundColor
-        searchIconImageView.tintColor = style.searchIconColor
-        searchTextField.textColor = style.textColor
+        searchTextFieldBackgroundView.backgroundColor = style.backgroundColor(view: self)
+        searchIconImageView.tintColor = style.searchIconColor(view: self)
+        searchTextField.textColor = style.textColor(view: self)
         // used for cursor or selection handle
-        searchTextField.tintColor = style.tintColor
-        clearButton.tintColor = style.clearIconColor
-        progressSpinner.state.color = style.progressSpinnerColor
-        cancelButton.setTitleColor(style.cancelButtonColor, for: .normal)
+        searchTextField.tintColor = style.tintColor(view: self)
+        clearButton.tintColor = style.clearIconColor(view: self)
+        progressSpinner.state.color = style.progressSpinnerColor(view: self)
+        cancelButton.setTitleColor(style.cancelButtonColor(view: self), for: .normal)
         attributePlaceholderText()
+    }
+
+    private func updateSearchingColors() {
+        searchIconImageView.tintColor = style.searchIconColor(view: self, isSearching: true)
+    }
+
+    private func updateRestingColors() {
+        searchIconImageView.tintColor = style.searchIconColor(view: self)
     }
 
     // MARK: - UIActions
