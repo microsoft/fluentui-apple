@@ -153,10 +153,16 @@ open class ShimmerView: UIView {
         self.shimmerStyle = shimmerStyle
         self.shimmerAlpha = shimmerStyle.defaultAlphaValue
         super.init(frame: CGRect(origin: .zero, size: containerView?.bounds.size ?? .zero))
-        self.viewTintColor = shimmerStyle.defaultTintColor(view: self)
+
+        updateViewTintColor()
+
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(syncAnimation),
                                                name: UIAccessibility.reduceMotionStatusDidChangeNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
                                                object: nil)
     }
 
@@ -183,6 +189,14 @@ open class ShimmerView: UIView {
     /// Manaully sync with the synchronizer
     @objc open func syncAnimation() {
         updateShimmeringAnimation()
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        updateViewTintColor()
+    }
+    
+    private func updateViewTintColor(){
+        self.viewTintColor = shimmerStyle.defaultTintColor(view: self)
     }
 
     /// Update the frame of each layer covering views in the containerView
