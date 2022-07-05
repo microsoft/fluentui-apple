@@ -135,7 +135,7 @@ open class SearchBar: UIView {
         static let searchIconInset: CGFloat = 10.0
         static let searchTextFieldLeadingInset: CGFloat = 10.0
         static let searchTextFieldVerticalInset: CGFloat = 2
-        static let searchTextFieldInteractionMinWidth: CGFloat = 30
+        static let searchTextFieldInteractionMinWidth: CGFloat = 50
         static let clearButtonLeadingInset: CGFloat = 10
         static let clearButtonWidth: CGFloat = 8 + 16 + 8   // padding + image + padding
         static let clearButtonTrailingInset: CGFloat = 10
