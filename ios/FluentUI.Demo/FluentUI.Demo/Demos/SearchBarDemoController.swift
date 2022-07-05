@@ -18,7 +18,7 @@ class SearchBarDemoController: DemoController, SearchBarDelegate {
         imageView.layer.cornerRadius = 10
         imageView.layer.masksToBounds = true
 
-        let dataSource = BadgeViewDataSource(text: "Kat Larsson (Beyondsoft Corporation)", customView: imageView)
+        let dataSource = BadgeViewDataSource(text: "Kat Larsson", customView: imageView)
         let badge = BadgeView(dataSource: dataSource)
         badge.lineBreakMode = .byTruncatingTail
         badge.disabledBackgroundColor = Colors.Palette.blueMagenta20.color
