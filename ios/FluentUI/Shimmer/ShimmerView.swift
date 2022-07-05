@@ -24,12 +24,12 @@ public enum ShimmerStyle: Int, CaseIterable {
         }
     }
 
-    var defaultTintColor: UIColor {
+    func defaultTintColor(view: UIView) -> UIColor {
         switch self {
         case .concealing:
-            return Colors.Shimmer.gradientCenter
+            return UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.stencil2])
         case .revealing:
-            return Colors.Shimmer.tint
+            return UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.stencil1])
         }
     }
 }
@@ -151,10 +151,9 @@ open class ShimmerView: UIView {
         self.excludedViews = excludedViews
         self.animationSynchronizer = animationSynchronizer
         self.shimmerStyle = shimmerStyle
-        self.viewTintColor = shimmerStyle.defaultTintColor
         self.shimmerAlpha = shimmerStyle.defaultAlphaValue
         super.init(frame: CGRect(origin: .zero, size: containerView?.bounds.size ?? .zero))
-
+        self.viewTintColor = shimmerStyle.defaultTintColor(view: self)
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(syncAnimation),
                                                name: UIAccessibility.reduceMotionStatusDidChangeNotification,
