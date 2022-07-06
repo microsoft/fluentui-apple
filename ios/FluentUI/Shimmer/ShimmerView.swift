@@ -194,8 +194,8 @@ open class ShimmerView: UIView {
     @objc private func themeDidChange(_ notification: Notification) {
         updateViewTintColor()
     }
-    
-    private func updateViewTintColor(){
+
+    private func updateViewTintColor() {
         self.viewTintColor = shimmerStyle.defaultTintColor(view: self)
     }
 
