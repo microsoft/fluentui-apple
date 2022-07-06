@@ -25,6 +25,9 @@ import SwiftUI
     /// Optional icon to draw at the leading edge of the control.
     var image: UIImage? { get set }
 
+    /// Optional icon to display in the action button if no button title is provided.
+    var trailingImage: UIImage? { get set }
+
     /// Title to display in the action button on the trailing edge of the control.
     ///
     /// To show an action button, provide values for both `actionButtonTitle` and  `actionButtonAction`.
@@ -328,6 +331,7 @@ class MSFNotificationStateImpl: NSObject, ControlConfiguration, MSFNotificationS
     @Published public var title: String?
     @Published public var attributedTitle: NSAttributedString?
     @Published public var image: UIImage?
+    @Published public var trailingImage: UIImage?
 
     /// Title to display in the action button on the trailing edge of the control.
     ///
@@ -360,6 +364,7 @@ class MSFNotificationStateImpl: NSObject, ControlConfiguration, MSFNotificationS
                      title: String? = nil,
                      attributedTitle: NSAttributedString? = nil,
                      image: UIImage? = nil,
+                     trailingImage: UIImage? = nil,
                      actionButtonTitle: String? = nil,
                      actionButtonAction: (() -> Void)? = nil,
                      messageButtonAction: (() -> Void)? = nil) {
@@ -370,6 +375,7 @@ class MSFNotificationStateImpl: NSObject, ControlConfiguration, MSFNotificationS
         self.title = title
         self.attributedTitle = attributedTitle
         self.image = image
+        self.trailingImage = trailingImage
         self.actionButtonTitle = actionButtonTitle
         self.actionButtonAction = actionButtonAction
         self.messageButtonAction = messageButtonAction
