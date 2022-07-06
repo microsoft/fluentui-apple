@@ -33,15 +33,21 @@ open class CommandBar: UIView {
     @objc public convenience init(itemGroups: [CommandBarItemGroup],
                                   leadingItem: CommandBarItem? = nil,
                                   trailingItem: CommandBarItem? = nil) {
-        var leadingItems: [CommandBarItemGroup]?
-        var trailingItems: [CommandBarItemGroup]?
+        let leadingItems: [CommandBarItemGroup]? = {
+            guard let leadingItem = leadingItem else {
+                return nil
+            }
 
-        if let leadingItem = leadingItem {
-            leadingItems = [[leadingItem]]
-        }
-        if let trailingItem = trailingItem {
-            trailingItems = [[trailingItem]]
-        }
+            return [[leadingItem]]
+        }()
+
+        let trailingItems: [CommandBarItemGroup]? = {
+            guard let trailingItem = trailingItem else {
+                return nil
+            }
+
+            return [[trailingItem]]
+        }()
 
         self.init(itemGroups: itemGroups,
                   leadingItemGroups: leadingItems,
@@ -113,7 +119,7 @@ open class CommandBar: UIView {
             leadingCommandGroupsView.itemGroups
         }
         set {
-            set(leadingCommandGroupsView, with: newValue)
+            setupGroupsView(leadingCommandGroupsView, with: newValue)
         }
     }
 
@@ -123,7 +129,7 @@ open class CommandBar: UIView {
             trailingCommandGroupsView.itemGroups
         }
         set {
-            set(trailingCommandGroupsView, with: newValue)
+            setupGroupsView(trailingCommandGroupsView, with: newValue)
         }
     }
 
@@ -248,12 +254,8 @@ open class CommandBar: UIView {
     }
 
     /// Updates the provided `CommandBarCommandGroupsView` with the `items` array and marks the view as needing a layout
-    private func set(_ commandGroupsView: CommandBarCommandGroupsView, with items: [CommandBarItemGroup]?) {
-        if let items = items {
-            commandGroupsView.itemGroups = items
-        } else {
-            commandGroupsView.itemGroups = []
-        }
+    private func setupGroupsView(_ commandGroupsView: CommandBarCommandGroupsView, with items: [CommandBarItemGroup]?) {
+        commandGroupsView.itemGroups = items ?? []
 
         commandGroupsView.isHidden = commandGroupsView.itemGroups.isEmpty
         scrollView.contentInset = scrollViewContentInset()
@@ -263,7 +265,10 @@ open class CommandBar: UIView {
     private struct LayoutConstants {
         static let fadeViewWidth: CGFloat = 16.0
         static let fixedButtonSpacing: CGFloat = 2.0
-        static let insets = UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)
+        static let insets = UIEdgeInsets(top: 8.0,
+                                         left: 8.0,
+                                         bottom: 8.0,
+                                         right: 8.0)
     }
 }
 
