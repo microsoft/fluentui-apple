@@ -58,6 +58,7 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
     ///   - title: Optional text to draw above the message area.
     ///   - attributedTitle: Optional attributed text to draw above the message area. If set, it will override the title parameter.
     ///   - image: Optional icon to draw at the leading edge of the control.
+    ///   - trailingImage: Optional icon to show in the action button if no button title is provided.
     ///   - actionButtonTitle:Title to display in the action button on the trailing edge of the control.
     ///   - actionButtonAction: Action to be dispatched by the action button on the trailing edge of the control.
     ///   - messageButtonAction: Action to be dispatched by tapping on the toast/bar notification.
@@ -70,6 +71,7 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
                 title: String? = nil,
                 attributedTitle: NSAttributedString? = nil,
                 image: UIImage? = nil,
+                trailingImage: UIImage? = nil,
                 actionButtonTitle: String? = nil,
                 actionButtonAction: (() -> Void)? = nil,
                 messageButtonAction: (() -> Void)? = nil) {
@@ -79,6 +81,7 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
         state.title = title
         state.attributedTitle = attributedTitle
         state.image = image
+        state.trailingImage = trailingImage
         state.actionButtonTitle = actionButtonTitle
         state.actionButtonAction = actionButtonAction
         state.messageButtonAction = messageButtonAction
