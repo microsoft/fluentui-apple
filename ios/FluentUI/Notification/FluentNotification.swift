@@ -236,7 +236,11 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
                     isPresented = false
                     buttonAction()
                 }, label: {
-                    Image("dismiss-20x20", bundle: FluentUIFramework.resourceBundle)
+                    if let trailingImage = state.trailingImage {
+                        Image(uiImage: trailingImage)
+                    } else {
+                        Image("dismiss-20x20", bundle: FluentUIFramework.resourceBundle)
+                    }
                 })
                 .accessibility(identifier: "Accessibility.Dismiss.Label")
                 .foregroundColor(Color(dynamicColor: foregroundColor))
