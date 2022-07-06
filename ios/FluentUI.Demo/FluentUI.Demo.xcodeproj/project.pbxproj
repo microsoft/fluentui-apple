@@ -260,7 +260,6 @@
 				5340828A26CFF298007716E1 /* Recovered References */,
 			);
 			sourceTree = "<group>";
-			usesTabs = 0;
 		};
 		A5CEC20D20E436F10016922A /* Products */ = {
 			isa = PBXGroup;
