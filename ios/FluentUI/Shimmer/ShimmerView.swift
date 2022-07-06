@@ -24,12 +24,12 @@ public enum ShimmerStyle: Int, CaseIterable {
         }
     }
 
-    func defaultTintColor(view: UIView) -> UIColor {
+    func defaultTintColor(fluentTheme: FluentTheme) -> UIColor {
         switch self {
         case .concealing:
-            return UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.stencil2])
+            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.stencil2])
         case .revealing:
-            return UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.stencil1])
+            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.stencil1])
         }
     }
 }
@@ -196,7 +196,7 @@ open class ShimmerView: UIView {
     }
 
     private func updateViewTintColor() {
-        self.viewTintColor = shimmerStyle.defaultTintColor(view: self)
+        self.viewTintColor = shimmerStyle.defaultTintColor(fluentTheme: fluentTheme)
     }
 
     /// Update the frame of each layer covering views in the containerView
