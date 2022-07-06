@@ -31,6 +31,7 @@ struct NotificationDemoView: View {
     @State var hasLargeRedPapyrusFontAttribute: Bool = false
     @State var hasMessageAction: Bool = false
     @State var showImage: Bool = false
+    @State var showTrailingImage: Bool = false
     @State var showAlert: Bool = false
     @State var isPresented: Bool = false
     @State var overrideTokens: Bool = false
@@ -45,6 +46,7 @@ struct NotificationDemoView: View {
         let attributedTitle = NSMutableAttributedString(string: title, attributes: (hasLargeRedPapyrusFontAttribute && hasBlueStrikethroughAttribute) ? bothAttributes : (hasLargeRedPapyrusFontAttribute ? redPapyrusFontAttribute : blueStrikethroughAttribute))
 
         let image = showImage ? UIImage(named: "play-in-circle-24x24") : nil
+        let trailingImage = showTrailingImage ? UIImage(named: "Placeholder_24") : nil
         let actionButtonAction = hasActionButtonAction ? { showAlert = true } : nil
         let messageButtonAction = hasMessageAction ? { showAlert = true } : nil
         let hasMessage = !message.isEmpty
@@ -56,6 +58,7 @@ struct NotificationDemoView: View {
                                               title: hasTitle ? title : nil,
                                               attributedTitle: hasAttribute && hasTitle ? attributedTitle : nil,
                                               image: image,
+                                              trailingImage: trailingImage,
                                               actionButtonTitle: actionButtonTitle,
                                               actionButtonAction: actionButtonAction,
                                               messageButtonAction: messageButtonAction)
@@ -109,6 +112,7 @@ struct NotificationDemoView: View {
                         FluentUIDemoToggle(titleKey: "Has Attributed Text: Strikethrough", isOn: $hasBlueStrikethroughAttribute)
                         FluentUIDemoToggle(titleKey: "Has Attributed Text: Large Red Papyrus Font", isOn: $hasLargeRedPapyrusFontAttribute)
                         FluentUIDemoToggle(titleKey: "Set image", isOn: $showImage)
+                        FluentUIDemoToggle(titleKey: "Set trailing image", isOn: $showTrailingImage)
                     }
 
                     Group {
