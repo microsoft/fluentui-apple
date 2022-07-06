@@ -156,6 +156,12 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     /// A constant representing the number of lines for a label in which no change will be made when the `preferredContentSizeCategory` returns a size greater than `.large`.
     @objc public static let defaultNumberOfLinesForLargerDynamicType: Int = -1
 
+    /// The default leading padding in the cell.
+    @objc public static let defaultPaddingLeading: CGFloat = { TableViewCellTokens().paddingLeading }()
+
+    /// The default trailing padding in the cell.
+    @objc public static let defaultPaddingTrailing: CGFloat = { TableViewCellTokens().paddingTrailing }()
+
     /// The vertical margins for cells with one or three lines of text
     class var labelVerticalMarginForOneAndThreeLines: CGFloat { return Constants.labelVerticalMarginForOneAndThreeLines }
 
@@ -1162,17 +1168,17 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         }
     }
 
-    // Any color or stylistic changes on TableViewCell labels should be done through attributedTitle
     /// To set color for title label
     /// - Parameter color: UIColor to set
+    @available(*, deprecated, message: "Any color or stylistic changes on TableViewCell labels should be done through NSAttributedString (attributedTitle parameter of the setup method).")
     @objc public func setTitleLabelTextColor(color: UIColor) {
         titleLabel.textColor = color
         isUsingCustomTextColors = true
     }
 
-    // Any color or stylistic changes on TableViewCell labels should be done through attributedSubtitle
     /// To set color for subTitle label
     /// - Parameter color: UIColor to set
+    @available(*, deprecated, message: "Any color or stylistic changes on TableViewCell labels should be done through NSAttributedString (attributedSubtitle parameter of the setup method).")
     @objc public func setSubTitleLabelTextColor(color: UIColor) {
         subtitleLabel.textColor = color
         isUsingCustomTextColors = true
@@ -1181,6 +1187,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     // Any color or stylistic changes on TableViewCell labels should be done through attributedFooter
     /// To set color for footer label
     /// - Parameter color: UIColor to set
+    @available(*, deprecated, message: "Any color or stylistic changes on TableViewCell labels should be done through NSAttributedString (attributedFooter parameter of the setup method).")
     public func setFooterLabelTextColor(color: UIColor) {
         footerLabel.textColor = color
         isUsingCustomTextColors = true
