@@ -1076,18 +1076,24 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                           accessoryType: TableViewCellAccessoryType = .none) {
         if let attributedTitle = attributedTitle {
             titleLabel.attributedText = attributedTitle
+            isUsingAttributedTitle = true
         } else {
             titleLabel.text = title
+            isUsingAttributedTitle = false
         }
         if let attributedSubtitle = attributedSubtitle {
             subtitleLabel.attributedText = attributedSubtitle
+            isUsingAttributedSubtitle = true
         } else {
             subtitleLabel.text = subtitle
+            isUsingAttributedSubtitle = false
         }
         if let attributedFooter = attributedFooter {
             footerLabel.attributedText = attributedFooter
+            isUsingAttributedFooter = true
         } else {
             footerLabel.text = footer
+            isUsingAttributedFooter = false
         }
 
         self.customView = customView
@@ -1148,12 +1154,22 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
 
     private var isUsingCustomTextColors: Bool = false
 
+    private var isUsingAttributedTitle: Bool = false
+    private var isUsingAttributedSubtitle: Bool = false
+    private var isUsingAttributedFooter: Bool = false
+
     /// Updates label text colors.
     public func updateTextColors() {
         if !isUsingCustomTextColors {
-            titleLabel.textColor = UIColor(dynamicColor: tokens.titleColor)
-            subtitleLabel.textColor = UIColor(dynamicColor: tokens.subtitleColor)
-            footerLabel.textColor = UIColor(dynamicColor: tokens.footerColor)
+            if !isUsingAttributedTitle {
+                titleLabel.textColor = UIColor(dynamicColor: tokens.titleColor)
+            }
+            if !isUsingAttributedSubtitle {
+                subtitleLabel.textColor = UIColor(dynamicColor: tokens.subtitleColor)
+            }
+            if !isUsingAttributedFooter {
+                footerLabel.textColor = UIColor(dynamicColor: tokens.footerColor)
+            }
         }
     }
 
