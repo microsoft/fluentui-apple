@@ -226,7 +226,7 @@ open class CardView: UIView {
     }
 
     /// Set `customBackgroundColor` in order to set the background color when using the custom color style
-    @objc open var customBackgroundColor: UIColor = Constants.defaultBackgroundColor {
+    @objc open lazy var customBackgroundColor: UIColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background2]) {
         didSet {
             if customBackgroundColor != oldValue {
                 setupColors()
@@ -417,7 +417,7 @@ open class CardView: UIView {
                 layer.borderColor = UIColor(light: Colors.primaryTint30(for: window), dark: .clear).cgColor
             }
         case .neutral:
-            backgroundColor = Constants.defaultBackgroundColor
+            backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background2])
             primaryLabel.textColor = Colors.textPrimary
             secondaryLabel.textColor = Colors.textSecondary
             iconView.tintColor = Colors.iconSecondary
