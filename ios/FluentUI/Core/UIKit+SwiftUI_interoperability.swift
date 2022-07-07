@@ -36,9 +36,11 @@ struct UIViewAdapter: UIViewRepresentable {
 struct AttributedText: UIViewRepresentable {
 
     let attributedString: NSAttributedString
+    let width: CGFloat
 
-    init(_ attributedString: NSAttributedString) {
+    init(_ attributedString: NSAttributedString, _ width: CGFloat) {
         self.attributedString = attributedString
+        self.width = width
     }
 
     func makeUIView(context: Context) -> UILabel {
@@ -55,7 +57,7 @@ struct AttributedText: UIViewRepresentable {
         // Update the UILabel's attributes if it changes.
         DispatchQueue.main.async {
             label.attributedText = attributedString
-            label.preferredMaxLayoutWidth = label.bounds.width
+            label.preferredMaxLayoutWidth = width
         }
     }
 }
