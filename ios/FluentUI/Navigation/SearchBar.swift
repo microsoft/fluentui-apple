@@ -145,7 +145,7 @@ open class SearchBar: UIView {
         static let navigationBarTransitionHidingDelay: TimeInterval = 0.5
 
         static let defaultStyle: Style = .lightContent
-        
+
         static var searchIconInsettedWidth: CGFloat {
             searchIconImageViewDimension + searchIconInset
         }
