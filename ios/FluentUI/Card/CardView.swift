@@ -244,7 +244,7 @@ open class CardView: UIView {
     }
 
     /// Set `customSubtitleColor` in order to set the subtitle's text color when using the custom color style
-    @objc open var customSubtitleColor: UIColor = Colors.textSecondary {
+    @objc open lazy var customSubtitleColor: UIColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2]) {
         didSet {
             if customSubtitleColor != oldValue {
                 setupColors()
@@ -419,7 +419,7 @@ open class CardView: UIView {
         case .neutral:
             backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background2])
             primaryLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
-            secondaryLabel.textColor = Colors.textSecondary
+            secondaryLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
             iconView.tintColor = Colors.iconSecondary
             layer.borderColor = Constants.defaultBorderColor.cgColor
         case .custom:
