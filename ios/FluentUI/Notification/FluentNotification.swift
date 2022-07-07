@@ -118,6 +118,9 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
                 if let attributedTitle = state.attributedTitle {
                     AttributedText(attributedTitle, attributedTitleSize.width)
                         .fixedSize(horizontal: isFlexibleWidthToast, vertical: true)
+                        .onSizeChange { newSize in
+                            attributedTitleSize = newSize
+                        }
                 } else if let title = state.title {
                     Text(title)
                         .font(.fluent(tokens.boldTextFont))
@@ -131,6 +134,9 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
             if let attributedMessage = state.attributedMessage {
                 AttributedText(attributedMessage, attributedMessageSize.width)
                     .fixedSize(horizontal: isFlexibleWidthToast, vertical: true)
+                    .onSizeChange { newSize in
+                        attributedMessageSize = newSize
+                    }
             } else if let message = state.message {
                 let messageFont = hasSecondTextRow ? tokens.footnoteTextFont : (state.style.isToast ? tokens.boldTextFont : tokens.regularTextFont)
                 Text(message)
