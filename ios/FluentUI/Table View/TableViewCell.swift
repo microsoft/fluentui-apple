@@ -1056,9 +1056,15 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     }()
 
     private func updateFonts() {
-        titleLabel.font = TextStyles.title.font
-        subtitleLabel.font = layoutType == .twoLines ? TextStyles.subtitleTwoLines.font : TextStyles.subtitleThreeLines.font
-        footerLabel.font = TextStyles.footer.font
+        if attributedTitle == nil {
+            titleLabel.font = UIFont.fluent(tokens.titleFont)
+        }
+        if attributedSubtitle == nil {
+            subtitleLabel.font = UIFont.fluent(layoutType == .twoLines ? tokens.subtitleTwoLinesFont : tokens.subtitleThreeLinesFont)
+        }
+        if attributedFooter == nil {
+            footerLabel.font = UIFont.fluent(tokens.footerFont)
+        }
     }
 
     private func updateLabelAccessoryView(oldValue: UIView?, newValue: UIView?, size: inout CGSize) {
