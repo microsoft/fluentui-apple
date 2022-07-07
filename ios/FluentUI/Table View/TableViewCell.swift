@@ -126,12 +126,12 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         var customViewSize: MSFTableViewCellCustomViewSize { return self == .oneLine ? .small : .medium }
     }
 
-    struct TextStyles {
-        static let title: TextStyle = .body
-        static let subtitleTwoLines: TextStyle = .footnote
-        static let subtitleThreeLines: TextStyle = .subhead
-        static let footer: TextStyle = .footnote
-    }
+//    struct TextStyles {
+//        static let title: TextStyle = .body
+//        static let subtitleTwoLines: TextStyle = .footnote
+//        static let subtitleThreeLines: TextStyle = .subhead
+//        static let footer: TextStyle = .footnote
+//    }
 
     private struct Constants {
         static let labelVerticalMarginForOneAndThreeLines: CGFloat = 11
@@ -146,9 +146,15 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
      `mediumHeight` - Height for the cell when only the `title` and `subtitle` are provided in 2 lines of text.
      `largeHeight` - Height for the cell when the `title`, `subtitle`, and `footer` are provided in 3 lines of text.
      */
-    @objc public static var smallHeight: CGFloat { return height(title: "", customViewSize: .small) }
-    @objc public static var mediumHeight: CGFloat { return height(title: "", subtitle: " ") }
-    @objc public static var largeHeight: CGFloat { return height(title: "", subtitle: " ", footer: " ") }
+    @objc public static var smallHeight: CGFloat {
+        return 48
+    }
+    @objc public static var mediumHeight: CGFloat {
+        return 64
+    }
+    @objc public static var largeHeight: CGFloat {
+        return 84
+    }
 
     /// Identifier string for TableViewCell
     @objc public static var identifier: String { return String(describing: self) }
@@ -211,9 +217,9 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     ///   - isInSelectionMode: Boolean describing if the cell is in multi-selection mode which shows/hides a checkmark image on the leading edge
     /// - Returns: a value representing the calculated height of the cell
     @objc public class func height(tokens: TableViewCellTokens = .init(),
-                                   title: String,
-                                   subtitle: String = "",
-                                   footer: String = "",
+                                   title: Label,
+                                   subtitle: Label = Label(),
+                                   footer: Label = Label(),
                                    titleLeadingAccessoryView: UIView? = nil,
                                    titleTrailingAccessoryView: UIView? = nil,
                                    subtitleLeadingAccessoryView: UIView? = nil,
@@ -229,8 +235,12 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                                    customAccessoryViewExtendsToEdge: Bool = false,
                                    containerWidth: CGFloat = .greatestFiniteMagnitude,
                                    isInSelectionMode: Bool = false) -> CGFloat {
-        var layoutType = Self.layoutType(subtitle: subtitle,
-                                         footer: footer,
+        let titleText = title.text ?? ""
+        let subtitleText = subtitle.text ?? ""
+        let footerText = footer.text ?? ""
+
+        var layoutType = Self.layoutType(subtitle: subtitleText,
+                                         footer: footerText,
                                          subtitleLeadingAccessoryView: subtitleLeadingAccessoryView,
                                          subtitleTrailingAccessoryView: subtitleTrailingAccessoryView,
                                          footerLeadingAccessoryView: footerLeadingAccessoryView,
@@ -262,24 +272,24 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
 
         let textAreaHeight = Self.textAreaHeight(
             layoutType: layoutType,
-            titleHeight: labelSize(text: title,
-                                   font: TextStyles.title.font,
+            titleHeight: labelSize(text: titleText,
+                                   font: title.font,
                                    numberOfLines: titleNumberOfLines,
                                    textAreaWidth: textAreaWidth,
                                    leadingAccessoryView: titleLeadingAccessoryView,
                                    labelAccessoryViewMarginLeading: labelAccessoryViewMarginLeading,
                                    trailingAccessoryView: titleTrailingAccessoryView,
                                    labelAccessoryViewMarginTrailing: labelAccessoryViewMarginTrailing).height,
-            subtitleHeight: labelSize(text: subtitle,
-                                      font: layoutType == .twoLines ? TextStyles.subtitleTwoLines.font : TextStyles.subtitleThreeLines.font,
+            subtitleHeight: labelSize(text: subtitleText,
+                                      font: subtitle.font,
                                       numberOfLines: subtitleNumberOfLines,
                                       textAreaWidth: textAreaWidth,
                                       leadingAccessoryView: subtitleLeadingAccessoryView,
                                       labelAccessoryViewMarginLeading: labelAccessoryViewMarginLeading,
                                       trailingAccessoryView: subtitleTrailingAccessoryView,
                                       labelAccessoryViewMarginTrailing: labelAccessoryViewMarginTrailing).height,
-            footerHeight: labelSize(text: footer,
-                                    font: TextStyles.footer.font,
+            footerHeight: labelSize(text: footerText,
+                                    font: footer.font,
                                     numberOfLines: footerNumberOfLines,
                                     textAreaWidth: textAreaWidth,
                                     leadingAccessoryView: footerLeadingAccessoryView,
@@ -291,7 +301,15 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
 
         let labelVerticalMargin = layoutType == .twoLines ? tokens.labelVerticalMarginForTwoLines : tokens.labelVerticalMarginForOneAndThreeLines
 
-        var minHeight = tokens.minHeight
+        var minHeight: CGFloat
+        switch layoutType {
+        case .oneLine:
+            minHeight = tokens.minHeight
+        case .twoLines:
+            minHeight = tokens.mediumHeight
+        case .threeLines:
+            minHeight = tokens.largeHeight
+        }
         if let customAccessoryView = customAccessoryView {
             minHeight = max(minHeight, customAccessoryView.frame.height + 2 * tokens.customAccessoryViewMinVerticalMargin)
         }
@@ -318,9 +336,9 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     ///   - isInSelectionMode: Boolean describing if the cell is in multi-selection mode which shows/hides a checkmark image on the leading edge
     /// - Returns: a value representing the preferred width of the cell
     @objc public class func preferredWidth(tokens: TableViewCellTokens = .init(),
-                                           title: String,
-                                           subtitle: String = "",
-                                           footer: String = "",
+                                           title: Label,
+                                           subtitle: Label = Label(),
+                                           footer: Label = Label(),
                                            titleLeadingAccessoryView: UIView? = nil,
                                            titleTrailingAccessoryView: UIView? = nil,
                                            subtitleLeadingAccessoryView: UIView? = nil,
@@ -332,8 +350,12 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                                            accessoryType: TableViewCellAccessoryType = .none,
                                            customAccessoryViewExtendsToEdge: Bool = false,
                                            isInSelectionMode: Bool = false) -> CGFloat {
-        let layoutType = Self.layoutType(subtitle: subtitle,
-                                         footer: footer,
+        let titleText = title.text ?? ""
+        let subtitleText = subtitle.text ?? ""
+        let footerText = footer.text ?? ""
+
+        let layoutType = Self.layoutType(subtitle: subtitleText,
+                                         footer: footerText,
                                          subtitleLeadingAccessoryView: subtitleLeadingAccessoryView,
                                          subtitleTrailingAccessoryView: subtitleTrailingAccessoryView,
                                          footerLeadingAccessoryView: footerLeadingAccessoryView,
@@ -342,23 +364,23 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         let labelAccessoryViewMarginLeading = tokens.labelAccessoryViewMarginLeading
         let labelAccessoryViewMarginTrailing = tokens.labelAccessoryViewMarginTrailing
 
-        var textAreaWidth = Self.labelPreferredWidth(text: title,
-                                                     font: TextStyles.title.font,
+        var textAreaWidth = Self.labelPreferredWidth(text: titleText,
+                                                     font: title.font,
                                                      leadingAccessoryView: titleLeadingAccessoryView,
                                                      trailingAccessoryView: titleTrailingAccessoryView,
                                                      labelAccessoryViewMarginTrailing: labelAccessoryViewMarginTrailing,
                                                      labelAccessoryViewMarginLeading: labelAccessoryViewMarginLeading)
         if layoutType == .twoLines || layoutType == .threeLines {
-            let subtitleWidth = Self.labelPreferredWidth(text: subtitle,
-                                                         font: layoutType == .twoLines ? TextStyles.subtitleTwoLines.font : TextStyles.subtitleThreeLines.font,
+            let subtitleWidth = Self.labelPreferredWidth(text: subtitleText,
+                                                         font: subtitle.font,
                                                          leadingAccessoryView: subtitleLeadingAccessoryView,
                                                          trailingAccessoryView: subtitleTrailingAccessoryView,
                                                          labelAccessoryViewMarginTrailing: labelAccessoryViewMarginTrailing,
                                                          labelAccessoryViewMarginLeading: labelAccessoryViewMarginLeading)
             textAreaWidth = max(textAreaWidth, subtitleWidth)
             if layoutType == .threeLines {
-                let footerWidth = Self.labelPreferredWidth(text: footer,
-                                                           font: TextStyles.footer.font,
+                let footerWidth = Self.labelPreferredWidth(text: footerText,
+                                                           font: footer.font,
                                                            leadingAccessoryView: footerLeadingAccessoryView,
                                                            trailingAccessoryView: footerTrailingAccessoryView,
                                                            labelAccessoryViewMarginTrailing: labelAccessoryViewMarginTrailing,
@@ -771,9 +793,9 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         return CGSize(
             width: type(of: self).preferredWidth(
                 tokens: tokens,
-                title: titleLabel.text ?? "",
-                subtitle: subtitleLabel.text ?? "",
-                footer: footerLabel.text ?? "",
+                title: titleLabel,
+                subtitle: subtitleLabel,
+                footer: footerLabel,
                 titleLeadingAccessoryView: titleLeadingAccessoryView,
                 titleTrailingAccessoryView: titleTrailingAccessoryView,
                 subtitleLeadingAccessoryView: subtitleLeadingAccessoryView,
@@ -788,9 +810,9 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
             ),
             height: type(of: self).height(
                 tokens: tokens,
-                title: titleLabel.text ?? "",
-                subtitle: subtitleLabel.text ?? "",
-                footer: footerLabel.text ?? "",
+                title: titleLabel,
+                subtitle: subtitleLabel,
+                footer: footerLabel,
                 titleLeadingAccessoryView: titleLeadingAccessoryView,
                 titleTrailingAccessoryView: titleTrailingAccessoryView,
                 subtitleLeadingAccessoryView: subtitleLeadingAccessoryView,
@@ -1439,9 +1461,9 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
             width: min(
                 type(of: self).preferredWidth(
                     tokens: tokens,
-                    title: titleLabel.text ?? "",
-                    subtitle: subtitleLabel.text ?? "",
-                    footer: footerLabel.text ?? "",
+                    title: titleLabel,
+                    subtitle: subtitleLabel,
+                    footer: footerLabel,
                     titleLeadingAccessoryView: titleLeadingAccessoryView,
                     titleTrailingAccessoryView: titleTrailingAccessoryView,
                     subtitleLeadingAccessoryView: subtitleLeadingAccessoryView,
@@ -1458,9 +1480,9 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
             ),
             height: type(of: self).height(
                 tokens: tokens,
-                title: titleLabel.text ?? "",
-                subtitle: subtitleLabel.text ?? "",
-                footer: footerLabel.text ?? "",
+                title: titleLabel,
+                subtitle: subtitleLabel,
+                footer: footerLabel,
                 titleLeadingAccessoryView: titleLeadingAccessoryView,
                 titleTrailingAccessoryView: titleTrailingAccessoryView,
                 subtitleLeadingAccessoryView: subtitleLeadingAccessoryView,
