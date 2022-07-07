@@ -253,7 +253,7 @@ open class CardView: UIView {
     }
 
     /// Set `customIconTintColor` in order to set the icon's tint color when using the custom color style
-    @objc open var customIconTintColor: UIColor = Colors.iconSecondary {
+    @objc open lazy var customIconTintColor: UIColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2]) {
         didSet {
             if customIconTintColor != oldValue {
                 setupColors()
@@ -420,7 +420,7 @@ open class CardView: UIView {
             backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background2])
             primaryLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
             secondaryLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
-            iconView.tintColor = Colors.iconSecondary
+            iconView.tintColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
             layer.borderColor = Constants.defaultBorderColor.cgColor
         case .custom:
             backgroundColor = customBackgroundColor
