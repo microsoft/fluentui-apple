@@ -262,7 +262,7 @@ open class CardView: UIView {
     }
 
     /// Set `customBorderColor` in order to set the border's color when using the custom color style
-    @objc open var customBorderColor: UIColor = Constants.defaultBorderColor {
+    @objc open lazy var customBorderColor: UIColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.stroke1]) {
         didSet {
             if customBorderColor != oldValue {
                 setupColors()
@@ -421,7 +421,7 @@ open class CardView: UIView {
             primaryLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
             secondaryLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
             iconView.tintColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
-            layer.borderColor = Constants.defaultBorderColor.cgColor
+            layer.borderColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.stroke1]).cgColor
         case .custom:
             backgroundColor = customBackgroundColor
             primaryLabel.textColor = customTitleColor
