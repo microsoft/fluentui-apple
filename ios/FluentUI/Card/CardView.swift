@@ -235,7 +235,7 @@ open class CardView: UIView {
     }
 
     /// Set `customTitleColor` in order to set the title's text color when using the custom color style
-    @objc open var customTitleColor: UIColor = Colors.textPrimary {
+    @objc open lazy var customTitleColor: UIColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1]) {
         didSet {
             if customTitleColor != oldValue {
                 setupColors()
@@ -418,7 +418,7 @@ open class CardView: UIView {
             }
         case .neutral:
             backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background2])
-            primaryLabel.textColor = Colors.textPrimary
+            primaryLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
             secondaryLabel.textColor = Colors.textSecondary
             iconView.tintColor = Colors.iconSecondary
             layer.borderColor = Constants.defaultBorderColor.cgColor
