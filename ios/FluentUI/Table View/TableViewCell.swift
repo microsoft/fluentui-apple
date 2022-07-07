@@ -1196,18 +1196,21 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                           customAccessoryView: UIView? = nil,
                           accessoryType: TableViewCellAccessoryType = .none) {
         if let attributedTitle = attributedTitle {
-            titleLabel.attributedText = attributedTitle
+            self.attributedTitle = attributedTitle
         } else {
+            self.attributedTitle = nil
             titleLabel.text = title
         }
         if let attributedSubtitle = attributedSubtitle {
-            subtitleLabel.attributedText = attributedSubtitle
+            self.attributedSubtitle = attributedSubtitle
         } else {
+            self.attributedSubtitle = nil
             subtitleLabel.text = subtitle
         }
         if let attributedFooter = attributedFooter {
-            footerLabel.attributedText = attributedFooter
+            self.attributedFooter = attributedFooter
         } else {
+            self.attributedFooter = nil
             footerLabel.text = footer
         }
 
@@ -1269,12 +1272,45 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
 
     private var isUsingCustomTextColors: Bool = false
 
+    private var attributedTitle: NSAttributedString? {
+        get {
+            return titleLabel.attributedText
+        }
+        set {
+            titleLabel.attributedText = newValue
+        }
+    }
+
+    private var attributedSubtitle: NSAttributedString? {
+        get {
+            return subtitleLabel.attributedText
+        }
+        set {
+            subtitleLabel.attributedText = newValue
+        }
+    }
+
+    private var attributedFooter: NSAttributedString? {
+        get {
+            return footerLabel.attributedText
+        }
+        set {
+            footerLabel.attributedText = newValue
+        }
+    }
+
     /// Updates label text colors.
     public func updateTextColors() {
         if !isUsingCustomTextColors {
-            titleLabel.textColor = UIColor(dynamicColor: tokens.titleColor)
-            subtitleLabel.textColor = UIColor(dynamicColor: tokens.subtitleColor)
-            footerLabel.textColor = UIColor(dynamicColor: tokens.footerColor)
+            if attributedTitle == nil {
+                titleLabel.textColor = UIColor(dynamicColor: tokens.titleColor)
+            }
+            if attributedSubtitle == nil {
+                subtitleLabel.textColor = UIColor(dynamicColor: tokens.subtitleColor)
+            }
+            if attributedFooter == nil {
+                footerLabel.textColor = UIColor(dynamicColor: tokens.footerColor)
+            }
         }
     }
 
