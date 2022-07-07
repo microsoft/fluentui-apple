@@ -397,7 +397,7 @@ open class CardView: UIView {
                         layer.borderColor = UIColor(light: Colors.primaryTint30(for: window), dark: .clear).cgColor
                     }
                 case .neutral:
-                    layer.borderColor = Constants.defaultBorderColor.cgColor
+                    layer.borderColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.stroke1]).cgColor
                 case .custom:
                     layer.borderColor = customBorderColor.cgColor
                 }
@@ -432,8 +432,6 @@ open class CardView: UIView {
     }
 
     private struct Constants {
-        static let defaultBackgroundColor = UIColor(light: .white, dark: Colors.gray900)
-        static let defaultBorderColor = UIColor(light: Colors.dividerOnPrimary, dark: .clear)
         static let iconWidth: CGFloat = 24
         static let iconHeight: CGFloat = 24
         static let borderRadius: CGFloat = 8.0
