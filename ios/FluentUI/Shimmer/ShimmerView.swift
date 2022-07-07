@@ -24,12 +24,12 @@ public enum ShimmerStyle: Int, CaseIterable {
         }
     }
 
-    var defaultTintColor: UIColor {
+    func defaultTintColor(fluentTheme: FluentTheme) -> UIColor {
         switch self {
         case .concealing:
-            return Colors.Shimmer.gradientCenter
+            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.stencil2])
         case .revealing:
-            return Colors.Shimmer.tint
+            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.stencil1])
         }
     }
 }
@@ -151,13 +151,18 @@ open class ShimmerView: UIView {
         self.excludedViews = excludedViews
         self.animationSynchronizer = animationSynchronizer
         self.shimmerStyle = shimmerStyle
-        self.viewTintColor = shimmerStyle.defaultTintColor
         self.shimmerAlpha = shimmerStyle.defaultAlphaValue
         super.init(frame: CGRect(origin: .zero, size: containerView?.bounds.size ?? .zero))
+
+        updateViewTintColor()
 
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(syncAnimation),
                                                name: UIAccessibility.reduceMotionStatusDidChangeNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
                                                object: nil)
     }
 
@@ -184,6 +189,14 @@ open class ShimmerView: UIView {
     /// Manaully sync with the synchronizer
     @objc open func syncAnimation() {
         updateShimmeringAnimation()
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        updateViewTintColor()
+    }
+
+    private func updateViewTintColor() {
+        self.viewTintColor = shimmerStyle.defaultTintColor(fluentTheme: fluentTheme)
     }
 
     /// Update the frame of each layer covering views in the containerView
