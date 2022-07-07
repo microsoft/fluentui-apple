@@ -144,7 +144,11 @@ open class Link: NSButton {
 
 	@objc private func linkClicked() {
 		if let url = url {
-			NSWorkspace.shared.open(url as URL)
+			if #available(macOS 10.15, *) {
+				NSWorkspace.shared.open(url as URL, configuration: NSWorkspace.OpenConfiguration(), completionHandler: nil)
+			} else {
+				NSWorkspace.shared.open(url as URL)
+			}
 		}
 	}
 }
