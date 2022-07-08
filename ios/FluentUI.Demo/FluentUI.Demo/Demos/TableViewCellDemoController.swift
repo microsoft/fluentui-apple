@@ -122,18 +122,20 @@ extension TableViewCellDemoController {
         let section = sections[indexPath.section]
         let item = section.item
         if section.title == "Inverted double line cell" {
-            cell.setup(
-                attributedTitle: NSAttributedString(string: item.text1,
-                                                    attributes: [.font: TextStyle.footnote.font,
-                                                                 .foregroundColor: Colors.Table.Cell.footer]),
-                attributedSubtitle: NSAttributedString(string: item.text2,
-                                                       attributes: [.font: TextStyle.body.font,
-                                                                    .foregroundColor: Colors.Table.Cell.title]),
-                footer: TableViewCellSampleData.hasFullLengthLabelAccessoryView(at: indexPath) ? "" : item.text3,
-                customView: TableViewSampleData.createCustomView(imageName: item.image),
-                customAccessoryView: section.hasAccessory ? TableViewCellSampleData.customAccessoryView : nil,
-                accessoryType: TableViewCellSampleData.accessoryType(for: indexPath)
-            )
+            DispatchQueue.main.async {
+                cell.setup(
+                    attributedTitle: NSAttributedString(string: item.text1,
+                                                        attributes: [.font: TextStyle.footnote.font,
+                                                                     .foregroundColor: Colors.Table.Cell.footer]),
+                    attributedSubtitle: NSAttributedString(string: item.text2,
+                                                           attributes: [.font: TextStyle.body.font,
+                                                                        .foregroundColor: Colors.Table.Cell.title]),
+                    footer: TableViewCellSampleData.hasFullLengthLabelAccessoryView(at: indexPath) ? "" : item.text3,
+                    customView: TableViewSampleData.createCustomView(imageName: item.image),
+                    customAccessoryView: section.hasAccessory ? TableViewCellSampleData.customAccessoryView : nil,
+                    accessoryType: TableViewCellSampleData.accessoryType(for: indexPath)
+                )
+            }
         } else {
             cell.setup(
                 title: item.text1,
