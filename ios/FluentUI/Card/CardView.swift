@@ -330,6 +330,11 @@ open class CardView: UIView {
 
         super.init(frame: .zero)
 
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+
         translatesAutoresizingMaskIntoConstraints = false
 
         // View border and background
@@ -377,6 +382,10 @@ open class CardView: UIView {
 
     open override func didMoveToWindow() {
         super.didMoveToWindow()
+        setupColors()
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
         setupColors()
     }
 
