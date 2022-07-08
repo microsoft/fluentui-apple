@@ -124,7 +124,7 @@ class DemoListViewController: DemoTableViewController {
         var title: String {
             switch self {
             case .vNextControls:
-                return "vNext Controls"
+                return "Fluent 2 Controls"
             case .controls:
                 return "Controls"
 #if DEBUG
