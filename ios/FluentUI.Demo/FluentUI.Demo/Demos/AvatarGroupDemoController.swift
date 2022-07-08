@@ -75,6 +75,19 @@ class AvatarGroupDemoController: DemoTableViewController {
 
             return cell
 
+        case .customRingColor:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: BooleanCell.identifier) as? BooleanCell else {
+                return UITableViewCell()
+            }
+
+            cell.setup(title: row.title, isOn: self.isUsingImageBasedCustomColor)
+            cell.titleNumberOfLines = 0
+            cell.onValueChanged = { [weak self, weak cell] in
+                self?.isUsingImageBasedCustomColor = cell?.isOn ?? true
+            }
+
+            return cell
+
         case .maxDisplayedAvatars,
              .overflow:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier) as? TableViewCell else {
@@ -234,6 +247,7 @@ class AvatarGroupDemoController: DemoTableViewController {
             case .settings:
                 return [.avatarCount,
                         .alternateBackground,
+                        .customRingColor,
                         .maxDisplayedAvatars,
                         .overflow]
             case .avatarStackNoBorder,
@@ -261,6 +275,7 @@ class AvatarGroupDemoController: DemoTableViewController {
     private enum AvatarGroupDemoRow: CaseIterable {
         case avatarCount
         case alternateBackground
+        case customRingColor
         case maxDisplayedAvatars
         case overflow
         case xxlargeTitle
@@ -293,6 +308,7 @@ class AvatarGroupDemoController: DemoTableViewController {
                  .xsmallTitle,
                  .avatarCount,
                  .alternateBackground,
+                 .customRingColor,
                  .maxDisplayedAvatars,
                  .overflow:
                 return false
@@ -321,6 +337,7 @@ class AvatarGroupDemoController: DemoTableViewController {
                  .xsmallTitle,
                  .avatarCount,
                  .alternateBackground,
+                 .customRingColor,
                  .maxDisplayedAvatars,
                  .overflow:
                 preconditionFailure("Row should not display an Avatar Group")
@@ -333,6 +350,8 @@ class AvatarGroupDemoController: DemoTableViewController {
                 return "Avatar count"
             case .alternateBackground:
                 return "Use alternate background color"
+            case .customRingColor:
+                return "Use image based custom ring color"
             case.maxDisplayedAvatars:
                 return "Max displayed avatars"
             case .overflow:
@@ -493,6 +512,19 @@ class AvatarGroupDemoController: DemoTableViewController {
     private var isUsingAlternateBackgroundColor: Bool = false {
         didSet {
             updateBackgroundColor()
+        }
+    }
+
+    private var isUsingImageBasedCustomColor: Bool = false {
+        didSet {
+            if oldValue != isUsingImageBasedCustomColor {
+                allDemoAvatarGroupsCombined.forEach { group in
+                    for i in 0...maxDisplayedAvatars - 1 {
+                        let avatar = group.state.getAvatarState(at: i)
+                        avatar.imageBasedRingColor = isUsingImageBasedCustomColor ? AvatarDemoController.colorfulCustomImage : nil
+                    }
+                }
+            }
         }
     }
 
