@@ -468,7 +468,7 @@ class AvatarGroupDemoController: DemoTableViewController {
             guard oldValue != avatarCount && avatarCount >= 0 else {
                 return
             }
-            adjustMaxDisplayedAvatarsCount()
+            adjustMaxDisplayedAvatars()
             AvatarGroupDemoSection.allCases.filter({ section in
                 return section.isDemoSection
             }).forEach { section in
@@ -498,7 +498,7 @@ class AvatarGroupDemoController: DemoTableViewController {
         }
     }
 
-    private func adjustMaxDisplayedAvatarsCount() {
+    private func adjustMaxDisplayedAvatars() {
         maxDisplayedAvatars = min(avatarCount, maxDisplayedAvatars)
     }
 
@@ -527,9 +527,9 @@ class AvatarGroupDemoController: DemoTableViewController {
     private var isUsingImageBasedCustomColor: Bool = false {
         didSet {
             if oldValue != isUsingImageBasedCustomColor {
-                allDemoAvatarGroupsCombined.forEach { group in
-                    for i in 0...maxDisplayedAvatars - 1 {
-                        let avatar = group.state.getAvatarState(at: i)
+                for group in allDemoAvatarGroupsCombined {
+                    for index in 0...avatarCount - 1 {
+                        let avatar = group.state.getAvatarState(at: index)
                         avatar.imageBasedRingColor = isUsingImageBasedCustomColor ? AvatarDemoController.colorfulCustomImage : nil
                     }
                 }
