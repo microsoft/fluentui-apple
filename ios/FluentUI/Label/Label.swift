@@ -101,6 +101,9 @@ open class Label: UILabel {
     }
 
     private func updateFont() {
+        guard self.attributedText == nil else {
+            return
+        }
         let defaultFont = style.font
         if maxFontSize > 0 && defaultFont.pointSize > maxFontSize {
             font = defaultFont.withSize(maxFontSize)
@@ -111,6 +114,9 @@ open class Label: UILabel {
 
     private func updateTextColor() {
         if let window = window {
+            guard self.attributedText == nil else {
+                return
+            }
             super.textColor = _textColor ?? colorStyle.color(for: window)
         }
     }
