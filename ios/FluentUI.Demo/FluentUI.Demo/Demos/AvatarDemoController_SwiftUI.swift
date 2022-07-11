@@ -18,7 +18,7 @@ class AvatarDemoControllerSwiftUI: UIHostingController<AvatarDemoView> {
 
     init() {
         super.init(rootView: AvatarDemoView())
-        self.title = "Avatar Vnext (SwiftUI)"
+        self.title = "Avatar Fluent 2 (SwiftUI)"
     }
 }
 
