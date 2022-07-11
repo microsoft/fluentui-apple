@@ -402,11 +402,14 @@ class AvatarGroupDemoController: DemoTableViewController {
     }()
 
     @objc private func setMaxAvatarCount() {
-        if let text = maxAvatarsTextField.text, let count = Int(text) {
-            if count <= avatarCount {
-                maxDisplayedAvatars = count
+        let oldMax = maxDisplayedAvatars
+
+        if let text = maxAvatarsTextField.text, let newMax = Int(text) {
+            if newMax <= avatarCount {
+                maxDisplayedAvatars = newMax
+                updateAvatarsCustomColorRing(index1: oldMax, index2: newMax - 1)
             } else {
-                maxAvatarsTextField.text = "\(maxDisplayedAvatars)"
+                maxAvatarsTextField.text = "\(oldMax)"
             }
             maxAvatarButton.isEnabled = false
         }
@@ -526,13 +529,19 @@ class AvatarGroupDemoController: DemoTableViewController {
 
     private var isUsingImageBasedCustomColor: Bool = false {
         didSet {
-            if oldValue != isUsingImageBasedCustomColor {
-                for group in allDemoAvatarGroupsCombined {
-                    for index in 0...avatarCount - 1 {
-                        let avatar = group.state.getAvatarState(at: index)
-                        avatar.imageBasedRingColor = isUsingImageBasedCustomColor ? AvatarDemoController.colorfulCustomImage : nil
-                    }
-                }
+            updateAvatarsCustomColorRing(index1: 0, index2: avatarCount - 1)
+        }
+    }
+
+    private func updateAvatarsCustomColorRing(index1: Int, index2: Int) {
+        if index1 > index2 {
+            return
+        }
+
+        for group in allDemoAvatarGroupsCombined {
+            for index in index1...index2 {
+                let avatar = group.state.getAvatarState(at: index)
+                avatar.imageBasedRingColor = isUsingImageBasedCustomColor ? AvatarDemoController.colorfulCustomImage : nil
             }
         }
     }
