@@ -403,7 +403,7 @@ open class CardView: UIView {
                 switch colorStyle {
                 case .appColor:
                     if let window = window {
-                        layer.borderColor = UIColor(light: Colors.primaryTint30(for: window), dark: .clear).cgColor
+                        layer.borderColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.stroke1]).cgColor
                     }
                 case .neutral:
                     layer.borderColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.stroke1]).cgColor
@@ -418,12 +418,12 @@ open class CardView: UIView {
     private func setupColors() {
         switch colorStyle {
         case .appColor:
-            primaryLabel.textColor = UIColor(light: .black, dark: Colors.gray100)
-            secondaryLabel.textColor = UIColor(light: Colors.gray600, dark: Colors.gray400)
-            iconView.tintColor = UIColor(light: Colors.gray600, dark: Colors.gray500)
+            primaryLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
+            secondaryLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
+            iconView.tintColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1])
             if let window = window {
-                backgroundColor = UIColor(light: Colors.primaryTint40(for: window), dark: Colors.primaryTint30(for: window))
-                layer.borderColor = UIColor(light: Colors.primaryTint30(for: window), dark: .clear).cgColor
+                backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background2])
+                layer.borderColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.stroke1]).cgColor
             }
         case .neutral:
             backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background2])
