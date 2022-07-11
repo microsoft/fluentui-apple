@@ -329,7 +329,7 @@ open class CardView: UIView {
         iconView = UIImageView(image: icon)
 
         super.init(frame: .zero)
-
+        setupColors()
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(themeDidChange),
                                                name: .didChangeTheme,
@@ -380,11 +380,6 @@ open class CardView: UIView {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
-    open override func didMoveToWindow() {
-        super.didMoveToWindow()
-        setupColors()
-    }
-
     @objc private func themeDidChange(_ notification: Notification) {
         setupColors()
     }
@@ -402,9 +397,7 @@ open class CardView: UIView {
                 // Update border color
                 switch colorStyle {
                 case .appColor:
-                    if let window = window {
-                        layer.borderColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.stroke1]).cgColor
-                    }
+                    layer.borderColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.stroke1]).cgColor
                 case .neutral:
                     layer.borderColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.stroke1]).cgColor
                 case .custom:
@@ -421,10 +414,8 @@ open class CardView: UIView {
             primaryLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
             secondaryLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
             iconView.tintColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1])
-            if let window = window {
-                backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background2])
-                layer.borderColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.stroke1]).cgColor
-            }
+            backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background2])
+            layer.borderColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.stroke1]).cgColor
         case .neutral:
             backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background2])
             primaryLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
