@@ -427,7 +427,7 @@ open class BadgeView: UIView {
             let heightForCustomView = customViewSize.height + customViewPadding.top + customViewPadding.bottom
             let heightForLabel = labelSize.height + self.size.verticalPadding * 2
             height = max(heightForCustomView, heightForLabel)
-            width = labelSize.width + customViewSize.width + customViewPadding.left + customViewPadding.right + self.size.horizontalPadding
+            width = labelSize.width + customViewSize.width + customViewPadding.left + customViewPadding.right + self.size.horizontalPadding * 2
         } else {
             height = labelSize.height + self.size.verticalPadding * 2
             width = labelSize.width + self.size.horizontalPadding * 2
