@@ -57,7 +57,7 @@ open class Link: NSButton {
 	/// - Parameters:
 	///   - title: The visible text of the link that the user sees.
 	///   - url: The URL that is opened when the link is clicked.
-	@objc public convenience init(title: String, url: NSURL) {
+	@objc public convenience init(title: String, url: URL) {
 		self.init(frame: .zero, title: title, url: url)
 	}
 
@@ -82,7 +82,7 @@ open class Link: NSButton {
 	///   - frame: The position and size of this view in the superview's coordinate system.
 	///   - title: The visible text of the link that the user sees.
 	///   - url: The URL that is opened when the link is clicked.
-	public init(frame: NSRect = .zero, title: String = "", url: NSURL? = nil) {
+	public init(frame: NSRect = .zero, title: String = "", url: URL? = nil) {
 		super.init(frame: frame)
 		self.title = title
 		self.url = url
@@ -98,7 +98,7 @@ open class Link: NSButton {
 	}
 
 	/// The URL that is opened when the link is clicked
-	@objc public var url: NSURL?
+	@objc public var url: URL?
 
 	@objc public var showsUnderlineWhileMouseInside: Bool = false {
 		didSet {
@@ -144,7 +144,11 @@ open class Link: NSButton {
 
 	@objc private func linkClicked() {
 		if let url = url {
-			NSWorkspace.shared.open(url as URL)
+			if #available(macOS 10.15, *) {
+				NSWorkspace.shared.open(url, configuration: NSWorkspace.OpenConfiguration(), completionHandler: nil)
+			} else {
+				NSWorkspace.shared.open(url)
+			}
 		}
 	}
 }
