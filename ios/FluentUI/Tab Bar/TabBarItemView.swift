@@ -146,7 +146,8 @@ class TabBarItemView: UIControl {
     }
 
     private struct Constants {
-        static let unselectedColor: UIColor = Colors.textSecondary
+        // TODO: to be updated
+        // static let unselectedColor: UIColor =
         static let spacingVertical: CGFloat = 3
         static let spacingHorizontal: CGFloat = 8
         static let portraitImageSize: CGFloat = 28
@@ -163,6 +164,8 @@ class TabBarItemView: UIControl {
         static let badgeHorizontalPadding: CGFloat = 10
         static let badgeCorderRadii: CGFloat = 10
     }
+
+    lazy var unselectedColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground3])
 
     private var badgeValue: String? {
         didSet {
@@ -184,7 +187,7 @@ class TabBarItemView: UIControl {
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView(frame: .zero)
         imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = Constants.unselectedColor
+        imageView.tintColor = unselectedColor
 
         if canResizeImage {
             let sizeConstraints = (
@@ -200,11 +203,11 @@ class TabBarItemView: UIControl {
 
     private var imageViewSizeConstraints: (width: NSLayoutConstraint, height: NSLayoutConstraint)?
 
-    private let titleLabel: Label = {
+    private lazy var titleLabel: Label = {
         let titleLabel = Label()
         titleLabel.lineBreakMode = .byTruncatingTail
         titleLabel.textAlignment = .center
-        titleLabel.textColor = Constants.unselectedColor
+        titleLabel.textColor = unselectedColor
 
         return titleLabel
     }()
@@ -235,11 +238,9 @@ class TabBarItemView: UIControl {
     }
 
     private func updateColors() {
-        if let window = window {
-            let primaryColor = Colors.primary(for: window)
-            titleLabel.highlightedTextColor = primaryColor
-            imageView.tintColor = isSelected ? primaryColor : Constants.unselectedColor
-        }
+        let primaryColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1])
+        titleLabel.highlightedTextColor = primaryColor
+        imageView.tintColor = isSelected ? primaryColor : unselectedColor
     }
 
     private func updateLayout() {
