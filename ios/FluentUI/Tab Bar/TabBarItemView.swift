@@ -165,7 +165,7 @@ class TabBarItemView: UIControl {
         static let badgeCorderRadii: CGFloat = 10
     }
 
-    lazy var unselectedColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground3])
+    private lazy var unselectedColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground3])
 
     private var badgeValue: String? {
         didSet {
