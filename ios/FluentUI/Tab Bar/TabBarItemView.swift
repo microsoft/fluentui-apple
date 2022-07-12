@@ -207,7 +207,7 @@ class TabBarItemView: UIControl {
         let titleLabel = Label()
         titleLabel.lineBreakMode = .byTruncatingTail
         titleLabel.textAlignment = .center
-        titleLabel.textColor = unselectedColor
+        titleLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
 
         return titleLabel
     }()
