@@ -101,6 +101,7 @@ open class Label: UILabel {
     }
 
     private func updateFont() {
+        // If attributedText is set, it will be prioritized over any other label property changes
         guard self.attributedText == nil else {
             return
         }
@@ -113,10 +114,11 @@ open class Label: UILabel {
     }
 
     private func updateTextColor() {
+        // If attributedText is set, it will be prioritized over any other label property changes
+        guard self.attributedText == nil else {
+            return
+        }
         if let window = window {
-            guard self.attributedText == nil else {
-                return
-            }
             super.textColor = _textColor ?? colorStyle.color(for: window)
         }
     }
