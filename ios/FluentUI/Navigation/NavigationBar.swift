@@ -292,11 +292,20 @@ open class NavigationBar: UINavigationBar {
     @objc public override init(frame: CGRect) {
         super.init(frame: frame)
         initBase()
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
     }
 
     @objc public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         initBase()
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        updateColors(for: topItem)
     }
 
     /// Custom base initializer, used regardless of entry point
