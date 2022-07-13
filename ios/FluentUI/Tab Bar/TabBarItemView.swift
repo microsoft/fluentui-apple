@@ -8,6 +8,13 @@ import UIKit
 class TabBarItemView: UIControl {
     let item: TabBarItem
 
+    @objc private func themeDidChange(_ notification: Notification) {
+        guard let window = window, window.isEqual(notification.object) else {
+            return
+        }
+        updateColors()
+    }
+
     override var isEnabled: Bool {
         didSet {
             titleLabel.isEnabled = isEnabled
@@ -98,15 +105,20 @@ class TabBarItemView: UIControl {
         scalesLargeContentImage = true
 
         NSLayoutConstraint.activate([
-			container.centerXAnchor.constraint(equalTo: centerXAnchor),
-			container.centerYAnchor.constraint(equalTo: centerYAnchor),
-			container.widthAnchor.constraint(lessThanOrEqualTo: widthAnchor)
-		])
+            container.centerXAnchor.constraint(equalTo: centerXAnchor),
+            container.centerYAnchor.constraint(equalTo: centerYAnchor),
+            container.widthAnchor.constraint(lessThanOrEqualTo: widthAnchor)
+        ])
 
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(badgeValueDidChange),
                                                name: TabBarItem.badgeValueDidChangeNotification,
                                                object: item)
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
 
         badgeValue = item.badgeValue
         updateLayout()
