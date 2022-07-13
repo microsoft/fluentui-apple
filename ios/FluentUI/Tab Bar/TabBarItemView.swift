@@ -146,8 +146,6 @@ class TabBarItemView: UIControl {
     }
 
     private struct Constants {
-        // TODO: to be updated
-        // static let unselectedColor: UIColor =
         static let spacingVertical: CGFloat = 3
         static let spacingHorizontal: CGFloat = 8
         static let portraitImageSize: CGFloat = 28
