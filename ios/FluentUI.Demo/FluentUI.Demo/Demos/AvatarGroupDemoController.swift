@@ -407,7 +407,9 @@ class AvatarGroupDemoController: DemoTableViewController {
         if let text = maxAvatarsTextField.text, let newMax = Int(text) {
             if newMax <= avatarCount {
                 maxDisplayedAvatars = newMax
-                updateAvatarsCustomColorRing(index1: oldMax, index2: newMax - 1)
+                if oldMax < newMax {
+                    updateAvatarsCustomRingColor(for: oldMax..<newMax)
+                }
             } else {
                 maxAvatarsTextField.text = "\(oldMax)"
             }
@@ -529,17 +531,13 @@ class AvatarGroupDemoController: DemoTableViewController {
 
     private var isUsingImageBasedCustomColor: Bool = false {
         didSet {
-            updateAvatarsCustomColorRing(index1: 0, index2: avatarCount - 1)
+            updateAvatarsCustomRingColor(for: 0..<avatarCount)
         }
     }
 
-    private func updateAvatarsCustomColorRing(index1: Int, index2: Int) {
-        if index1 > index2 {
-            return
-        }
-
+    private func updateAvatarsCustomRingColor(for range: Range<Int>) {
         for group in allDemoAvatarGroupsCombined {
-            for index in index1...index2 {
+            for index in range {
                 let avatar = group.state.getAvatarState(at: index)
                 avatar.imageBasedRingColor = isUsingImageBasedCustomColor ? AvatarDemoController.colorfulCustomImage : nil
             }
