@@ -335,7 +335,7 @@ public class BottomSheetController: UIViewController {
 
         let overflowView = UIView()
         overflowView.translatesAutoresizingMaskIntoConstraints = false
-        overflowView.backgroundColor = Colors.NavigationBar.background
+        overflowView.backgroundColor = backgroundColor
         view.addSubview(overflowView)
 
         if let headerContentView = headerContentView {
@@ -409,13 +409,13 @@ public class BottomSheetController: UIViewController {
 
         // We need to have the shadow on a parent of the view that does the corner masking.
         // Otherwise the view will mask its own shadow.
-        bottomSheetView.layer.shadowColor = Constants.Shadow.color
+        bottomSheetView.layer.shadowColor = shadowColor
         bottomSheetView.layer.shadowOffset = Constants.Shadow.offset
         bottomSheetView.layer.shadowOpacity = Constants.Shadow.opacity
         bottomSheetView.layer.shadowRadius = Constants.Shadow.radius
 
         contentView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.backgroundColor = Colors.NavigationBar.background
+        contentView.backgroundColor = backgroundColor
         contentView.layer.cornerRadius = Constants.cornerRadius
         contentView.layer.cornerCurve = .continuous
         contentView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
@@ -873,6 +873,9 @@ public class BottomSheetController: UIViewController {
 
     private let shouldShowDimmingView: Bool
 
+    private lazy var shadowColor = UIColor(colorValue: self.view.fluentTheme.globalTokens.neutralColors[.black]).cgColor
+    private lazy var backgroundColor = UIColor(dynamicColor: self.view.fluentTheme.aliasTokens.colors[.background2])
+
     private struct Constants {
         // Maximum offset beyond the normal bounds with additional resistance
         static let maxRubberBandOffset: CGFloat = 20.0
@@ -915,7 +918,6 @@ public class BottomSheetController: UIViewController {
         }
 
         struct Shadow {
-            static let color: CGColor = UIColor.black.cgColor
             static let opacity: Float = 0.14
             static let radius: CGFloat = 8
             static let offset: CGSize = CGSize(width: 0, height: 4)
