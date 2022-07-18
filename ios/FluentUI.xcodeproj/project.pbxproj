@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -1321,11 +1321,13 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
+				"${DERIVED_SOURCES_DIR}/*-Swift.h",
 			);
 			name = "Copy FluentUI-Swift.h";
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"${target_dir}/*-Swift.h",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1333,6 +1335,7 @@
 		};
 		FD256C59218392B800EC9588 /* Run swiftlint */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
