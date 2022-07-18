@@ -7,6 +7,12 @@ import FluentUI
 import UIKit
 
 class SearchBarDemoController: DemoController, SearchBarDelegate {
+    private struct Constants {
+        static let badgeViewCornerRadius: CGFloat = 10
+        static let badgeViewSideLength: CGFloat = 20
+        static let badgeViewMaxFontSize: CGFloat = 40
+    }
+
     private lazy var searchBarWithBadgeView: SearchBar =
         buildSearchBar(autocorrectionType: .yes, placeholderText: "Type \"badge\" to add a leading badge")
     private lazy var searchBarWithAvatarBadgeView: SearchBar =
@@ -16,8 +22,8 @@ class SearchBarDemoController: DemoController, SearchBarDelegate {
 
     private lazy var avatarBadgeView: UIView = {
         let imageView = UIImageView(image: UIImage(named: "avatar_kat_larsson"))
-        imageView.frame.size = CGSize(width: 20, height: 20)
-        imageView.layer.cornerRadius = 10
+        imageView.frame.size = CGSize(width: Constants.badgeViewSideLength, height: Constants.badgeViewSideLength)
+        imageView.layer.cornerRadius = Constants.badgeViewCornerRadius
         imageView.layer.masksToBounds = true
         return buildBadgeView(text: "Kat Larsson", customView: imageView)
     }()
@@ -41,7 +47,7 @@ class SearchBarDemoController: DemoController, SearchBarDelegate {
         badge.disabledBackgroundColor = Colors.Palette.blueMagenta20.color
         badge.disabledLabelTextColor = .white
         badge.isActive = false
-        badge.maxFontSize = 40
+        badge.maxFontSize = Constants.badgeViewMaxFontSize
         return badge
     }
 
