@@ -12,6 +12,13 @@ import UIKit
     /// Creates a new MSFNotification instance.
     /// - Parameters:
     ///   - style: The MSFNotification value used by the Notification.
+    @objc public convenience init(style: MSFNotificationStyle) {
+        self.init(style: style, isFlexibleWidthToast: false)
+    }
+
+    /// Creates a new MSFNotification instance.
+    /// - Parameters:
+    ///   - style: The MSFNotification value used by the Notification.
     ///   - isFlexibleWidthToast: Whether the width of the toast is set based  on the width of the screen or on its contents
     @objc public init(style: MSFNotificationStyle,
                       isFlexibleWidthToast: Bool = false) {
