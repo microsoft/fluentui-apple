@@ -108,7 +108,6 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
                                height: imageSize.height,
                                alignment: .center)
                         .foregroundColor(Color(dynamicColor: tokens.imageColor))
-                        .accessibilityHidden(true)
                 }
             }
         }
