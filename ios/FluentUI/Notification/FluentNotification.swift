@@ -26,7 +26,11 @@ import SwiftUI
     var image: UIImage? { get set }
 
     /// Optional icon to display in the action button if no button title is provided.
+    /// If the trailingImage is set, the trailingImageAccessibilityLabel should also be set.
     var trailingImage: UIImage? { get set }
+
+    /// Optional localized accessibility label for the trailing image.
+    var trailingImageAccessibilityLabel: String? { get set }
 
     /// Title to display in the action button on the trailing edge of the control.
     ///
@@ -72,6 +76,7 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
                 attributedTitle: NSAttributedString? = nil,
                 image: UIImage? = nil,
                 trailingImage: UIImage? = nil,
+                trailingImageAccessibilityLabel: String? = nil,
                 actionButtonTitle: String? = nil,
                 actionButtonAction: (() -> Void)? = nil,
                 messageButtonAction: (() -> Void)? = nil) {
@@ -82,6 +87,7 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
         state.attributedTitle = attributedTitle
         state.image = image
         state.trailingImage = trailingImage
+        state.trailingImageAccessibilityLabel = trailingImageAccessibilityLabel
         state.actionButtonTitle = actionButtonTitle
         state.actionButtonAction = actionButtonAction
         state.messageButtonAction = messageButtonAction
@@ -176,6 +182,7 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
                     }, label: {
                         if let trailingImage = state.trailingImage {
                             Image(uiImage: trailingImage)
+                                .accessibilityLabel(state.trailingImageAccessibilityLabel ?? "")
                         } else {
                             Image("dismiss-20x20", bundle: FluentUIFramework.resourceBundle)
                                 .accessibilityLabel("Accessibility.Dismiss.Label".localized)
@@ -359,6 +366,7 @@ class MSFNotificationStateImpl: NSObject, ControlConfiguration, MSFNotificationS
     @Published public var attributedTitle: NSAttributedString?
     @Published public var image: UIImage?
     @Published public var trailingImage: UIImage?
+    @Published public var trailingImageAccessibilityLabel: String?
 
     /// Title to display in the action button on the trailing edge of the control.
     ///
@@ -392,6 +400,7 @@ class MSFNotificationStateImpl: NSObject, ControlConfiguration, MSFNotificationS
                      attributedTitle: NSAttributedString? = nil,
                      image: UIImage? = nil,
                      trailingImage: UIImage? = nil,
+                     trailingImageAccessibilityLabel: String? = nil,
                      actionButtonTitle: String? = nil,
                      actionButtonAction: (() -> Void)? = nil,
                      messageButtonAction: (() -> Void)? = nil) {
@@ -403,6 +412,7 @@ class MSFNotificationStateImpl: NSObject, ControlConfiguration, MSFNotificationS
         self.attributedTitle = attributedTitle
         self.image = image
         self.trailingImage = trailingImage
+        self.trailingImageAccessibilityLabel = trailingImageAccessibilityLabel
         self.actionButtonTitle = actionButtonTitle
         self.actionButtonAction = actionButtonAction
         self.messageButtonAction = messageButtonAction
