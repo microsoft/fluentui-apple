@@ -177,9 +177,9 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
                             Image(uiImage: trailingImage)
                         } else {
                             Image("dismiss-20x20", bundle: FluentUIFramework.resourceBundle)
+                                .accessibilityLabel("Accessibility.Dismiss.Label".localized)
                         }
                     })
-                    .accessibility(identifier: "Accessibility.Dismiss.Label")
                     .foregroundColor(Color(dynamicColor: foregroundColor))
                 }
             }
