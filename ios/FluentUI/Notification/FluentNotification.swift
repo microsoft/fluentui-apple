@@ -204,6 +204,10 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
                             Spacer(minLength: horizontalSpacing)
                         }
                     }
+                    .accessibilityElement(children: .combine)
+                    .modifyIf(state.messageButtonAction != nil, { messageButton in
+                        messageButton.accessibilityAddTraits(.isButton)
+                    })
                     button
                         .layoutPriority(1)
                 }
