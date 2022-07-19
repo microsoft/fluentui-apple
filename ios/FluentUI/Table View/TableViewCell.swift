@@ -962,13 +962,13 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     }()
 
     private func updateFonts() {
-        if attributedTitle == nil {
+        if !isAttributedTitleSet {
             titleLabel.font = UIFont.fluent(tokens.titleFont)
         }
-        if attributedSubtitle == nil {
+        if !isAttributedSubtitleSet {
             subtitleLabel.font = UIFont.fluent(layoutType == .twoLines ? tokens.subtitleTwoLinesFont : tokens.subtitleThreeLinesFont)
         }
-        if attributedFooter == nil {
+        if !isAttributedFooterSet {
             footerLabel.font = UIFont.fluent(tokens.footerFont)
         }
     }
@@ -1104,18 +1104,22 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                           accessoryType: TableViewCellAccessoryType = .none) {
         if let attributedTitle = attributedTitle {
             self.attributedTitle = attributedTitle
+            isAttributedTitleSet = true
         } else {
             self.attributedTitle = nil
             titleLabel.text = title
         }
         if let attributedSubtitle = attributedSubtitle {
             self.attributedSubtitle = attributedSubtitle
+            isAttributedSubtitleSet = true
         } else {
             self.attributedSubtitle = nil
             subtitleLabel.text = subtitle
         }
+
         if let attributedFooter = attributedFooter {
             self.attributedFooter = attributedFooter
+            isAttributedFooterSet = true
         } else {
             self.attributedFooter = nil
             footerLabel.text = footer
@@ -1185,8 +1189,11 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         }
         set {
             titleLabel.attributedText = newValue
+            isAttributedTitleSet = newValue == nil ? false : true
         }
     }
+
+    private var isAttributedTitleSet: Bool = false
 
     private var attributedSubtitle: NSAttributedString? {
         get {
@@ -1194,8 +1201,11 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         }
         set {
             subtitleLabel.attributedText = newValue
+            isAttributedSubtitleSet = newValue == nil ? false : true
         }
     }
+
+    private var isAttributedSubtitleSet: Bool = false
 
     private var attributedFooter: NSAttributedString? {
         get {
@@ -1203,19 +1213,22 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         }
         set {
             footerLabel.attributedText = newValue
+            isAttributedFooterSet = newValue == nil ? false : true
         }
     }
+
+    private var isAttributedFooterSet: Bool = false
 
     /// Updates label text colors.
     public func updateTextColors() {
         if !isUsingCustomTextColors {
-            if attributedTitle == nil {
+            if !isAttributedTitleSet {
                 titleLabel.textColor = UIColor(dynamicColor: tokens.titleColor)
             }
-            if attributedSubtitle == nil {
+            if !isAttributedSubtitleSet {
                 subtitleLabel.textColor = UIColor(dynamicColor: tokens.subtitleColor)
             }
-            if attributedFooter == nil {
+            if !isAttributedFooterSet {
                 footerLabel.textColor = UIColor(dynamicColor: tokens.footerColor)
             }
         }
