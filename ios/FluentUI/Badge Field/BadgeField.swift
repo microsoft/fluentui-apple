@@ -45,14 +45,6 @@ public protocol BadgeFieldDelegate: AnyObject {
     @objc optional func badgeFieldShouldKeepBadgesActiveOnEndEditing(_ badgeField: BadgeField) -> Bool
 }
 
-// MARK: - BadgeField Colors
-
-private extension Colors {
-    struct BadgeField {
-        static var background: UIColor = surfacePrimary
-    }
-}
-
 // MARK: - BadgeField
 /**
  BadgeField is a UIView that acts as a UITextField that can contains badges with enclosed text.
@@ -170,7 +162,7 @@ open class BadgeField: UIView {
 
     @objc public init() {
         super.init(frame: .zero)
-        backgroundColor = Colors.BadgeField.background
+        backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background1])
 
         labelView.style = Constants.textStyle
         labelView.colorStyle = Constants.labelColorStyle
