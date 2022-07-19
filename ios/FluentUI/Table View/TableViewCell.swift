@@ -126,13 +126,6 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         var customViewSize: MSFTableViewCellCustomViewSize { return self == .oneLine ? .small : .medium }
     }
 
-//    struct TextStyles {
-//        static let title: TextStyle = .body
-//        static let subtitleTwoLines: TextStyle = .footnote
-//        static let subtitleThreeLines: TextStyle = .subhead
-//        static let footer: TextStyle = .footnote
-//    }
-
     private struct Constants {
         static let labelVerticalMarginForOneAndThreeLines: CGFloat = 11
 
@@ -1284,6 +1277,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         }
 
         layoutLabelViews(label: titleLabel,
+                         preferredHeight: tokens.titleHeight,
                          numberOfLines: titleNumberOfLines,
                          topOffset: 0,
                          leadingAccessoryView: titleLeadingAccessoryView,
@@ -1293,6 +1287,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
 
         if layoutType == .twoLines || layoutType == .threeLines {
             layoutLabelViews(label: subtitleLabel,
+                             preferredHeight: layoutType == .twoLines ? tokens.subtitleTwoLineHeight : tokens.subtitleThreeLineHeight,
                              numberOfLines: subtitleNumberOfLines,
                              topOffset: titleLabel.frame.maxY + tokens.labelVerticalSpacing,
                              leadingAccessoryView: subtitleLeadingAccessoryView,
@@ -1302,6 +1297,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
 
             if layoutType == .threeLines {
                 layoutLabelViews(label: footerLabel,
+                                 preferredHeight: tokens.footerHeight,
                                  numberOfLines: footerNumberOfLines,
                                  topOffset: subtitleLabel.frame.maxY + tokens.labelVerticalSpacing,
                                  leadingAccessoryView: footerLeadingAccessoryView,
@@ -1354,6 +1350,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     }
 
     private func layoutLabelViews(label: UILabel,
+                                  preferredHeight: CGFloat,
                                   numberOfLines: Int,
                                   topOffset: CGFloat,
                                   leadingAccessoryView: UIView?,
@@ -1390,7 +1387,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
             x: textAreaLeadingOffset + leadingAccessoryAreaWidth,
             y: topOffset,
             width: labelSize.width,
-            height: labelSize.height
+            height: labelSize.height > preferredHeight ? labelSize.height : preferredHeight
         )
 
         if let trailingAccessoryView = trailingAccessoryView {
