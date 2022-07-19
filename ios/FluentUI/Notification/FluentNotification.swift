@@ -185,6 +185,7 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
             }
         }
 
+        let messageButtonAction = state.messageButtonAction
         @ViewBuilder
         var innerContents: some View {
             if hasCenteredText {
@@ -205,7 +206,7 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
                         }
                     }
                     .accessibilityElement(children: .combine)
-                    .modifyIf(state.messageButtonAction != nil, { messageButton in
+                    .modifyIf(messageButtonAction != nil, { messageButton in
                         messageButton.accessibilityAddTraits(.isButton)
                     })
                     button
@@ -240,7 +241,7 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
                                 y: tokens.perimeterShadowOffsetY)
                 )
                 .onTapGesture {
-                    if let messageAction = state.messageButtonAction {
+                    if let messageAction = messageButtonAction {
                         isPresented = false
                         messageAction()
                     }
