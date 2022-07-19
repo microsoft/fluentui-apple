@@ -286,7 +286,17 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
             }
         }
 
-        return presentableNotification
+        @ViewBuilder
+        var accessibleNotification: some View {
+            if #available(iOS 15.0, *) {
+                presentableNotification
+                    .accessibilityFocused($isNotificationFocused)
+            } else {
+                presentableNotification
+            }
+        }
+
+        return accessibleNotification
     }
 
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
@@ -320,12 +330,17 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
                               blendDuration: 0)) {
             bottomOffset = 0
         }
-        UIAccessibility.post(notification: .layoutChanged, argument: self)
+        if #available(iOS 15.0, *) {
+            isNotificationFocused = true
+        }
     }
 
     private func dismissAnimated() {
         withAnimation(.linear(duration: tokens.style.animationDurationForHide)) {
             bottomOffset = bottomOffsetForDismissedState
+        }
+        if #available(iOS 15.0, *) {
+            isNotificationFocused = false
         }
     }
 
@@ -336,6 +351,8 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
     @State private var innerContentsSize: CGSize = CGSize()
     @State private var attributedMessageSize: CGSize = CGSize()
     @State private var attributedTitleSize: CGSize = CGSize()
+    @available(iOS 15.0, *)
+    @AccessibilityFocusState var isNotificationFocused: Bool
 
     // When true, the notification view will take up all proposed space
     // and automatically position itself within it.
