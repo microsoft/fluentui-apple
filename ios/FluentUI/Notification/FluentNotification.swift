@@ -320,6 +320,7 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
                               blendDuration: 0)) {
             bottomOffset = 0
         }
+        UIAccessibility.post(notification: .layoutChanged, argument: self)
     }
 
     private func dismissAnimated() {
