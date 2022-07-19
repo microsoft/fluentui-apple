@@ -168,6 +168,7 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
                     .lineLimit(1)
                     .foregroundColor(Color(dynamicColor: foregroundColor))
                     .font(.fluent(tokens.boldTextFont))
+                    .hoverEffect()
                 } else {
                     SwiftUI.Button(action: {
                         isPresented = false
@@ -181,6 +182,7 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
                         }
                     })
                     .foregroundColor(Color(dynamicColor: foregroundColor))
+                    .hoverEffect()
                 }
             }
         }
@@ -208,6 +210,7 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
                     .accessibilityElement(children: .combine)
                     .modifyIf(messageButtonAction != nil, { messageButton in
                         messageButton.accessibilityAddTraits(.isButton)
+                            .hoverEffect()
                     })
                     button
                         .layoutPriority(1)
