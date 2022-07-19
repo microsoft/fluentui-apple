@@ -162,7 +162,12 @@ open class BadgeField: UIView {
 
     @objc public init() {
         super.init(frame: .zero)
-        backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background1])
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+
+        updateBackgroundColor()
 
         labelView.style = Constants.textStyle
         labelView.colorStyle = Constants.labelColorStyle
@@ -200,12 +205,22 @@ open class BadgeField: UIView {
         isAccessibilityElement = false
     }
 
+    @objc private func themeDidChange(_ notification: Notification) {
+        guard let window = window, window.isEqual(notification.object) else {
+            return
+        }
+        updateBackgroundColor()
+    }
+
+    private func updateBackgroundColor() {
+        backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background1])
+    }
+
     public required init?(coder aDecoder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
     deinit {
-
         UIDevice.current.endGeneratingDeviceOrientationNotifications()
     }
 
