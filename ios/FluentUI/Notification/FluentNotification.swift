@@ -197,11 +197,12 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
             } else {
                 let horizontalSpacing = tokens.horizontalSpacing
                 HStack(spacing: isFlexibleWidthToast ? horizontalSpacing : 0) {
-                    image
-                        .padding(.trailing, isFlexibleWidthToast ? 0 : horizontalSpacing)
-                    textContainer
-                    if !isFlexibleWidthToast {
-                        Spacer(minLength: horizontalSpacing)
+                    HStack(spacing: horizontalSpacing) {
+                        image
+                        textContainer
+                        if !isFlexibleWidthToast {
+                            Spacer(minLength: horizontalSpacing)
+                        }
                     }
                     button
                         .layoutPriority(1)
