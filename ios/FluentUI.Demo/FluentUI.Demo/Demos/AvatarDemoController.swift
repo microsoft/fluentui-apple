@@ -65,7 +65,8 @@ class AvatarDemoController: DemoTableViewController {
 
             return cell
 
-        case .imageBasedRingColor:
+        case .imageBasedRingColor,
+             .ring:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: BooleanCell.identifier) as? BooleanCell else {
                 return UITableViewCell()
             }
@@ -76,22 +77,11 @@ class AvatarDemoController: DemoTableViewController {
                 self?.updateSetting(for: row, isOn: cell?.isOn ?? true)
             }
 
-            customRingIndexPath = indexPath
-
-            return cell
-
-        case .ring:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: BooleanCell.identifier) as? BooleanCell else {
-                return UITableViewCell()
+            if row == .imageBasedRingColor {
+                customRingIndexPath = indexPath
+            } else {
+                ringIndexPath = indexPath
             }
-
-            cell.setup(title: row.title, isOn: self.isSettingOn(row: row))
-            cell.titleNumberOfLines = 0
-            cell.onValueChanged = { [weak self, weak cell] in
-                self?.updateSetting(for: row, isOn: cell?.isOn ?? true)
-            }
-
-            ringIndexPath = indexPath
 
             return cell
 
@@ -218,7 +208,7 @@ class AvatarDemoController: DemoTableViewController {
     private var isShowingRings: Bool = false {
         didSet {
             if oldValue != isShowingRings {
-                updateCustomRingCell()
+                switchOffCustomRingCell()
                 allDemoAvatarsCombined.forEach { avatar in
                     avatar.state.isRingVisible = isShowingRings
                 }
@@ -226,7 +216,7 @@ class AvatarDemoController: DemoTableViewController {
         }
     }
 
-    private func updateCustomRingCell() {
+    private func switchOffCustomRingCell() {
         guard let customRingIndexPath = customRingIndexPath, !isShowingRings else {
             return
         }
@@ -236,7 +226,7 @@ class AvatarDemoController: DemoTableViewController {
         updateSetting(for: .imageBasedRingColor, isOn: false)
     }
 
-    private func updateRingCell() {
+    private func switchOnRingCell() {
         guard let ringIndexPath = ringIndexPath, isUsingImageBasedCustomColor else {
             return
         }
@@ -249,7 +239,7 @@ class AvatarDemoController: DemoTableViewController {
     private var isUsingImageBasedCustomColor: Bool = false {
         didSet {
             if oldValue != isUsingImageBasedCustomColor {
-                updateRingCell()
+                switchOnRingCell()
                 allDemoAvatarsCombined.forEach { avatar in
                     avatar.state.imageBasedRingColor = isUsingImageBasedCustomColor ? AvatarDemoController.colorfulCustomImage : nil
                 }
