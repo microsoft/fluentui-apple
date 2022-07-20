@@ -19,7 +19,7 @@ IOS_DEVICE_XCCONFIG_EXTRA_ARG='-xcconfig .ado/xcconfig/publish_overrides_ios_dev
 
 function handle_exit_code()
 {
-	if [ $? -ne 0 ]
+	if [ $? -ne 1 ]
 	then
 		echo "Previous command exited with non-zero exit code"
 		# Intentionally changing the global EXIT_CODE variable
