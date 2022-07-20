@@ -8,7 +8,7 @@ import SwiftUI
 /// Properties that can be used to customize the appearance of the `Notification`.
 @objc public protocol MSFNotificationState: NSObjectProtocol {
     /// Style to draw the control.
-    var style: MSFNotificationStyle { get }
+    var style: MSFNotificationStyle { get set }
 
     /// Optional text for the main title area of the control. If there is a title, the message becomes subtext.
     var message: String? { get set }
