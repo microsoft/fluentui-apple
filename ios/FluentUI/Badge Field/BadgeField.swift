@@ -206,7 +206,7 @@ open class BadgeField: UIView {
     }
 
     @objc private func themeDidChange(_ notification: Notification) {
-        guard let window = window, window.isEqual(notification.object) else {
+        guard window?.isEqual(notification.object) == true else {
             return
         }
         updateBackgroundColor()
