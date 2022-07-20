@@ -45,7 +45,7 @@ struct AvatarDemoView: View {
                    image: showImage ? UIImage(named: "avatar_kat_larsson") : nil,
                    primaryText: primaryText,
                    secondaryText: secondaryText)
-                .isRingVisible(isRingVisible)
+                .isRingVisible(showImageBasedRingColor ? true : isRingVisible)
                 .hasRingInnerGap(hasRingInnerGap)
                 .imageBasedRingColor(showImageBasedRingColor ? AvatarDemoController.colorfulCustomImage : nil)
                 .isTransparent(isTransparent)
