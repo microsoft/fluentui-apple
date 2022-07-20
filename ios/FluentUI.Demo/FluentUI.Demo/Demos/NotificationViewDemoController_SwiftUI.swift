@@ -59,6 +59,7 @@ struct NotificationDemoView: View {
                                               attributedTitle: hasAttribute && hasTitle ? attributedTitle : nil,
                                               image: image,
                                               trailingImage: trailingImage,
+                                              trailingImageAccessibilityLabel: showTrailingImage ? "Circle" : nil,
                                               actionButtonTitle: actionButtonTitle,
                                               actionButtonAction: actionButtonAction,
                                               messageButtonAction: messageButtonAction)
