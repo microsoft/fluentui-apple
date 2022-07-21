@@ -59,7 +59,7 @@ import UIKit
         let presentationOffset: CGFloat! = notification.tokens.presentationOffset
         if style.isToast, let currentToast = MSFNotification.currentToast, currentToast.window != nil {
             currentToast.hide {
-                self.showNotification(in: view, completion: completion)
+                self.showNotification(in: view, from: anchorView, animated: animated, completion: completion)
             }
             return
         }
