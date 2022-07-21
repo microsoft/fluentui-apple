@@ -7,7 +7,7 @@ import Foundation
 import CoreGraphics // for CGFloat
 
 /// Base class for all Fluent control tokenization.
-open class ControlTokenSet<T: TokenSetKey>: ObservableObject {
+public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
     required public init() {}
 
     /// Allows us to index into this token set using square brackets.
@@ -76,6 +76,7 @@ open class ControlTokenSet<T: TokenSetKey>: ObservableObject {
     @Published private var valueOverrides: [T: ControlTokenValue]?
 }
 
+/// Union-type enumeration of all possible token values to be stored by a `ControlTokenSet`.
 public enum ControlTokenValue {
     case float(() -> CGFloat)
     case dynamicColor(() -> DynamicColor)
@@ -129,6 +130,7 @@ public enum ControlTokenValue {
 
 #if DEBUG
 extension ControlTokenValue: CustomStringConvertible {
+    /// Handy debug-only description for logging these values.
     public var description: String {
         switch self {
         case .float(let float):
