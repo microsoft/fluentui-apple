@@ -405,7 +405,11 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                                                                               text: text, labelAccessoryViewMarginLeading: labelAccessoryViewMarginLeading)
 
         let availableWidth = textAreaWidth - (leadingAccessoryAreaWidth + trailingAccessoryAreaWidth)
-        return text.preferredSize(for: font, width: availableWidth, numberOfLines: numberOfLines)
+
+        // The width from preferredSize() will hug the label, which results in cut-off text if the label has additional attributes.
+        // We want to have the available width to prevent any cut-off.
+        return CGSize(width: text.isEmpty ? 0 : availableWidth,
+                      height: text.preferredSize(for: font, width: availableWidth, numberOfLines: numberOfLines).height)
     }
 
     private static func labelPreferredWidth(text: String,
