@@ -786,7 +786,7 @@ open class BottomCommandingController: UIViewController {
             for item in section.items {
                 let titleLabel = Label()
                 titleLabel.text = item.title ?? ""
-                totalHeight += TableViewCell.height(title: titleLabel)
+                totalHeight += TableViewCell.height(title: item.title ?? "")
             }
         }
         return totalHeight

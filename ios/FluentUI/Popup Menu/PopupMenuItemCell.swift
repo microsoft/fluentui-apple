@@ -47,15 +47,7 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
         }
 
         let imageViewSize: MSFTableViewCellCustomViewSize = item.image != nil || preserveSpaceForImage ? Constants.imageViewSize : .zero
-        let titleLabel = Label()
-        titleLabel.text = item.title
-        let subtitleLabel = Label()
-        subtitleLabel.text = item.subtitle ?? ""
-        return preferredWidth(title: titleLabel,
-                              subtitle: subtitleLabel,
-                              customViewSize: imageViewSize,
-                              customAccessoryView: item.accessoryView,
-                              accessoryType: .checkmark)
+        return preferredWidth(title: item.title, subtitle: item.subtitle ?? "", customViewSize: imageViewSize, customAccessoryView: item.accessoryView, accessoryType: .checkmark)
     }
 
     static func preferredHeight(for item: PopupMenuTemplateItem) -> CGFloat {
@@ -64,16 +56,7 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
             return 0
         }
 
-        let titleLabel = Label()
-        titleLabel.text = item.title
-        let subtitleLabel = Label()
-        subtitleLabel.text = item.subtitle ?? ""
-
-        return height(title: titleLabel,
-                      subtitle: subtitleLabel,
-                      customViewSize: Constants.imageViewSize,
-                      customAccessoryView: item.accessoryView,
-                      accessoryType: .checkmark)
+        return height(title: item.title, subtitle: item.subtitle ?? "", customViewSize: Constants.imageViewSize, customAccessoryView: item.accessoryView, accessoryType: .checkmark)
     }
 
     var isHeader: Bool = false {
