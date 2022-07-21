@@ -280,6 +280,19 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         contentView.addGestureRecognizer(tapGesture)
 
         NotificationCenter.default.addObserver(self, selector: #selector(handleContentSizeCategoryDidChange), name: UIContentSizeCategory.didChangeNotification, object: nil)
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        guard let window = window, window.isEqual(notification.object) else {
+            return
+        }
+        updateTitleAndBackgroundColors()
+        updateAccessoryButtonTitleColor()
     }
 
     // MARK: Setup
@@ -468,12 +481,6 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
                 accessoryView: accessoryView
             )
         )
-    }
-
-    open override func didMoveToWindow() {
-        super.didMoveToWindow()
-        updateTitleAndBackgroundColors()
-        updateAccessoryButtonTitleColor()
     }
 
     private func updateTitleViewFont() {
