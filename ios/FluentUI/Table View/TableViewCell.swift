@@ -189,7 +189,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     ///   - footer: The footer string
     ///   - titleFont: The title font; If not set, it will default to the font definition in tokens
     ///   - subtitleFont: The subtitle font; If not set, it will default to the font definition in tokens
-    ///   - footerFont: The footer font; If not set, it will default to the font definition in tokens   
+    ///   - footerFont: The footer font; If not set, it will default to the font definition in tokens
     ///   - titleLeadingAccessoryView: The accessory view on the leading edge of the title
     ///   - titleTrailingAccessoryView: The accessory view on the trailing edge of the title
     ///   - subtitleLeadingAccessoryView: The accessory view on the leading edge of the subtitle
@@ -1104,6 +1104,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
             isAttributedTitleSet = true
         } else {
             self.attributedTitle = nil
+            isAttributedTitleSet = false
             titleLabel.text = title
         }
         if let attributedSubtitle = attributedSubtitle {
@@ -1111,6 +1112,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
             isAttributedSubtitleSet = true
         } else {
             self.attributedSubtitle = nil
+            isAttributedSubtitleSet = false
             subtitleLabel.text = subtitle
         }
 
@@ -1119,6 +1121,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
             isAttributedFooterSet = true
         } else {
             self.attributedFooter = nil
+            isAttributedFooterSet = false
             footerLabel.text = footer
         }
 
