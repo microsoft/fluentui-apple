@@ -59,7 +59,7 @@ import UIKit
         let presentationOffset: CGFloat! = notification.tokens.presentationOffset
         if style.isToast, let currentToast = MSFNotification.currentToast, currentToast.window != nil {
             currentToast.hide {
-                self.showNotification(in: view, completion: completion)
+                self.showNotification(in: view, from: anchorView, animated: animated, completion: completion)
             }
             return
         }
@@ -152,16 +152,20 @@ import UIKit
             self.completionsForHide.forEach { $0() }
             self.completionsForHide.removeAll()
         }
-        if animated && !isHiding {
-            isHiding = true
-            UIView.animate(withDuration: notification.tokens.style.animationDurationForHide, animations: {
-                self.constraintWhenShown.isActive = false
-                self.constraintWhenHidden.isActive = true
-                self.superview?.layoutIfNeeded()
-            }, completion: { _ in
-                self.isHiding = false
-                completionForHide()
-            })
+        if animated {
+            if !isHiding {
+                isHiding = true
+                UIView.animate(withDuration: notification.tokens.style.animationDurationForHide, animations: {
+                    self.constraintWhenShown.isActive = false
+                    self.constraintWhenHidden.isActive = true
+                    self.superview?.layoutIfNeeded()
+                }, completion: { _ in
+                    self.isHiding = false
+                    completionForHide()
+                })
+            }
+        } else {
+            completionForHide()
         }
     }
 
