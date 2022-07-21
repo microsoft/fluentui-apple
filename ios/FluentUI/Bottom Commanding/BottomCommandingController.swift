@@ -784,8 +784,6 @@ open class BottomCommandingController: UIViewController {
         for section in expandedListSections {
             totalHeight += TableViewHeaderFooterView.height(style: .header, title: section.title ?? "")
             for item in section.items {
-                let titleLabel = Label()
-                titleLabel.text = item.title ?? ""
                 totalHeight += TableViewCell.height(title: item.title ?? "")
             }
         }
