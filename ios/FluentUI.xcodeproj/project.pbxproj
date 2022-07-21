@@ -219,7 +219,7 @@
 		EC27B8662807A63C00A40B9A /* ResizingHandleTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC27B8652807A63C00A40B9A /* ResizingHandleTokens.swift */; };
 		EC5982D827BF348700FD048D /* MSFAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5982D727BF348700FD048D /* MSFAvatar.swift */; };
 		EC5982DA27C703EE00FD048D /* CircleCutout.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5982D927C703ED00FD048D /* CircleCutout.swift */; };
-		EC5982DC27CEC02100FD048D /* DrawerTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5982DB27CEC02100FD048D /* DrawerTokens.swift */; };
+		EC5982DC27CEC02100FD048D /* DrawerTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5982DB27CEC02100FD048D /* DrawerTokenSet.swift */; };
 		EC5982DE27D2EA6100FD048D /* SegmentedControlTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5982DD27D2EA6100FD048D /* SegmentedControlTokens.swift */; };
 		EC6A71EA273DBA520076A586 /* Divider.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6A71E9273DBA520076A586 /* Divider.swift */; };
 		ECA9218627A3301C00B66117 /* MSFAvatarGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA9218527A3301C00B66117 /* MSFAvatarGroup.swift */; };
@@ -410,7 +410,7 @@
 		EC27B8652807A63C00A40B9A /* ResizingHandleTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResizingHandleTokens.swift; sourceTree = "<group>"; };
 		EC5982D727BF348700FD048D /* MSFAvatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFAvatar.swift; sourceTree = "<group>"; };
 		EC5982D927C703ED00FD048D /* CircleCutout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleCutout.swift; sourceTree = "<group>"; };
-		EC5982DB27CEC02100FD048D /* DrawerTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerTokens.swift; sourceTree = "<group>"; };
+		EC5982DB27CEC02100FD048D /* DrawerTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerTokenSet.swift; sourceTree = "<group>"; };
 		EC5982DD27D2EA6100FD048D /* SegmentedControlTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControlTokens.swift; sourceTree = "<group>"; };
 		EC6A71E9273DBA520076A586 /* Divider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Divider.swift; sourceTree = "<group>"; };
 		ECA92183279A177D00B66117 /* DividerModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DividerModifiers.swift; sourceTree = "<group>"; };
@@ -916,7 +916,7 @@
 				A5B87AF3211E16360038C37C /* DrawerController.swift */,
 				A5B87AF5211E16360038C37C /* DrawerPresentationController.swift */,
 				A5237ACC21ED6CA70040BF27 /* DrawerShadowView.swift */,
-				EC5982DB27CEC02100FD048D /* DrawerTokens.swift */,
+				EC5982DB27CEC02100FD048D /* DrawerTokenSet.swift */,
 				A5B87AF4211E16360038C37C /* DrawerTransitionAnimator.swift */,
 			);
 			path = Drawer;
@@ -1547,7 +1547,7 @@
 				5314E08025F00F1A0099271A /* DateTimePickerViewComponent.swift in Sources */,
 				5314E06325F00EFD0099271A /* CalendarViewDayMonthYearCell.swift in Sources */,
 				5314E1A225F01A7C0099271A /* ActivityIndicatorCell.swift in Sources */,
-				EC5982DC27CEC02100FD048D /* DrawerTokens.swift in Sources */,
+				EC5982DC27CEC02100FD048D /* DrawerTokenSet.swift in Sources */,
 				5373D5652694D65C0032A3B4 /* AvatarTokens.swift in Sources */,
 				5314E06125F00EFD0099271A /* CalendarViewDayCell.swift in Sources */,
 				929DD25A266ED3B600E8175E /* PersonaButtonCarousel.swift in Sources */,
