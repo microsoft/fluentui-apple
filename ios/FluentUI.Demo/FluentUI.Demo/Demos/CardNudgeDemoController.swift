@@ -236,12 +236,18 @@ extension CardNudgeDemoController: DemoAppearanceDelegate {
             return
         }
 
+        let globalTokens = fluentTheme.globalTokens
         var tokens: [CardNudgeTokenSet.Tokens: ControlTokenValue] = [:]
 
         if isOverrideEnabled {
             tokens[.backgroundColor] = .dynamicColor({
-                DynamicColor(light: GlobalTokens().sharedColors[.hotPink][.tint50],
-                             dark: GlobalTokens().sharedColors[.hotPink][.shade40])
+                DynamicColor(light: globalTokens.sharedColors[.hotPink][.tint50],
+                             dark: globalTokens.sharedColors[.hotPink][.shade40])
+            })
+            tokens[.outlineWidth] = .float({ 10.0 })
+            tokens[.outlineColor] = .dynamicColor({
+                DynamicColor(light: globalTokens.sharedColors[.darkRed][.tint50],
+                             dark: globalTokens.sharedColors[.darkRed][.shade40])
             })
         }
         fluentTheme.register(tokenSetType: CardNudgeTokenSet.self, tokenSet: tokens)
@@ -259,11 +265,6 @@ extension CardNudgeDemoController: DemoAppearanceDelegate {
                 cardNudge.tokenSet[.backgroundColor] = .dynamicColor({
                     DynamicColor(light: globalTokens.sharedColors[.seafoam][.tint50],
                                  dark: globalTokens.sharedColors[.seafoam][.shade40])
-                })
-                cardNudge.tokenSet[.outlineWidth] = .float({ 10.0 })
-                cardNudge.tokenSet[.outlineColor] = .dynamicColor({
-                    DynamicColor(light: globalTokens.sharedColors[.darkRed][.tint50],
-                                 dark: globalTokens.sharedColors[.darkRed][.shade40])
                 })
             } else {
                 cardNudge.tokenSet.removeOverride(.backgroundColor)
