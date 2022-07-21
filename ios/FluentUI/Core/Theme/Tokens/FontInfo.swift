@@ -6,7 +6,7 @@
 import SwiftUI
 
 /// Represents the description of a font used by FluentUI components.
-public struct FontInfo {
+public struct FontInfo: Equatable {
 
     /// Creates a `FontInfo` instance using the specified information.
     ///
