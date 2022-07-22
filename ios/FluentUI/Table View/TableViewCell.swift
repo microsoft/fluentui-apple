@@ -406,10 +406,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
 
         let availableWidth = textAreaWidth - (leadingAccessoryAreaWidth + trailingAccessoryAreaWidth)
 
-        // The width from preferredSize() will hug the label, which results in cut-off text if the label has additional attributes.
-        // We want to have the available width to prevent any cut-off.
-        return CGSize(width: text.isEmpty ? 0 : availableWidth,
-                      height: text.preferredSize(for: font, width: availableWidth, numberOfLines: numberOfLines).height)
+        return text.preferredSize(for: font, width: availableWidth, numberOfLines: numberOfLines)
     }
 
     private static func labelPreferredWidth(text: String,
