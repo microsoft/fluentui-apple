@@ -690,7 +690,7 @@ class ModalViewController: UITableViewController {
             return UITableViewCell()
         }
         cell.setup(title: "Child Cell #\(1 + indexPath.row)")
-        cell.backgroundColor = isGrouped ? Colors.Table.Cell.backgroundGrouped : Colors.Table.Cell.background
+        cell.backgroundStyleType = isGrouped ? .grouped : .plain
         cell.topSeparatorType = isGrouped && indexPath.row == 0 ? .full : .none
         return cell
     }

@@ -54,6 +54,7 @@ extension OtherCellsDemoController: UITableViewDataSource {
             cell.setup(action1Title: item.text1, action2Title: item.text2, action2Type: .destructive)
             let isLastInSection = indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1
             cell.bottomSeparatorType = isLastInSection ? .full : .inset
+            cell.backgroundConfiguration?.backgroundColor = Colors.tableBackgroundGrouped
             return cell
         }
 
@@ -101,10 +102,6 @@ extension OtherCellsDemoController: UITableViewDelegate {
         let section = sections[section]
         header?.setup(style: section.headerStyle, title: section.title)
         return header
-    }
-
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.backgroundColor = Colors.tableCellBackgroundGrouped
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

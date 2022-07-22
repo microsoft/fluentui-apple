@@ -58,6 +58,25 @@ public enum TableViewCellAccessoryType: Int {
     }
 }
 
+// Different background color is shown based on if `TableViewCell` is shown in `TableView` as grouped or plain style
+@objc(MSFTableViewCellBackgroundStyleType)
+public enum TableViewCellBackgroundStyleType: Int {
+    case plain
+    case grouped
+    case clear
+
+    var defaultColor: UIColor {
+        switch self {
+        case .plain:
+            return Colors.Table.Cell.background
+        case .grouped:
+            return Colors.Table.Cell.backgroundGrouped
+        case .clear:
+            return .clear
+        }
+    }
+}
+
 // MARK: - Table Colors
 
 public extension Colors {
@@ -697,6 +716,14 @@ open class TableViewCell: UITableViewCell {
         didSet {
             if bottomSeparatorType != oldValue {
                 updateSeparator(bottomSeparator, with: bottomSeparatorType)
+            }
+        }
+    }
+
+    @objc public var backgroundStyleType: TableViewCellBackgroundStyleType = .plain {
+        didSet {
+            if backgroundStyleType != oldValue {
+                setupBackgroundColors()
             }
         }
     }
@@ -1362,6 +1389,15 @@ open class TableViewCell: UITableViewCell {
         updateSelectionImageView()
     }
 
+    open override func updateConfiguration(using state: UICellConfigurationState) {
+        // Customize the background color to use the tint color when the cell is highlighted or selected.
+        if state.isHighlighted || state.isSelected || state.isFocused {
+            backgroundConfiguration?.backgroundColor = Colors.Table.Cell.backgroundSelected
+        } else {
+            backgroundConfiguration?.backgroundColor = backgroundStyleType.defaultColor
+        }
+    }
+
     private func updateLayoutType() {
         layoutType = TableViewCell.layoutType(
             subtitle: subtitleLabel.text ?? "",
@@ -1410,11 +1446,10 @@ open class TableViewCell: UITableViewCell {
     }
 
     private func setupBackgroundColors() {
-        backgroundColor = Colors.Table.Cell.background
-
-        let selectedStateBackgroundView = UIView()
-        selectedStateBackgroundView.backgroundColor = Colors.Table.Cell.backgroundSelected
-        selectedBackgroundView = selectedStateBackgroundView
+        automaticallyUpdatesBackgroundConfiguration = false
+        var customBackgroundConfig = UIBackgroundConfiguration.clear()
+        customBackgroundConfig.backgroundColor = backgroundStyleType.defaultColor
+        backgroundConfiguration = customBackgroundConfig
     }
 
     private func initAccessibilityForAccessoryType() {

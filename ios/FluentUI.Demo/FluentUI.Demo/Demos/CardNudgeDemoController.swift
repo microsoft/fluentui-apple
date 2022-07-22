@@ -58,7 +58,7 @@ class CardNudgeDemoController: DemoTableViewController {
             let contentView = cell.contentView
             contentView.addSubview(view)
             cell.selectionStyle = .none
-            cell.backgroundColor = .systemBackground
+            cell.backgroundConfiguration?.backgroundColor = .systemBackground
             view.translatesAutoresizingMaskIntoConstraints = false
 
             let constraints = [
