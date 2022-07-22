@@ -42,6 +42,7 @@ public struct IndeterminateProgressBar: View, ConfigurableTokenizedControl {
                    maxHeight: height,
                    alignment: .center)
             .background(backgroundColor)
+            .accessibilityAddTraits(.isImage)
             .modifyIf(state.isAnimating, { view in
                 view
                     .onAppear {
