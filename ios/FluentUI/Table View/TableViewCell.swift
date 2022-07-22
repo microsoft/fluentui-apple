@@ -126,13 +126,6 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         var customViewSize: MSFTableViewCellCustomViewSize { return self == .oneLine ? .small : .medium }
     }
 
-    struct TextStyles {
-        static let title: TextStyle = .body
-        static let subtitleTwoLines: TextStyle = .footnote
-        static let subtitleThreeLines: TextStyle = .subhead
-        static let footer: TextStyle = .footnote
-    }
-
     private struct Constants {
         static let labelVerticalMarginForOneAndThreeLines: CGFloat = 11
 
@@ -194,6 +187,9 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     ///   - title: The title string
     ///   - subtitle: The subtitle string
     ///   - footer: The footer string
+    ///   - titleFont: The title font; If not set, it will default to the font definition in tokens
+    ///   - subtitleFont: The subtitle font; If not set, it will default to the font definition in tokens
+    ///   - footerFont: The footer font; If not set, it will default to the font definition in tokens
     ///   - titleLeadingAccessoryView: The accessory view on the leading edge of the title
     ///   - titleTrailingAccessoryView: The accessory view on the trailing edge of the title
     ///   - subtitleLeadingAccessoryView: The accessory view on the leading edge of the subtitle
@@ -214,6 +210,9 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                                    title: String,
                                    subtitle: String = "",
                                    footer: String = "",
+                                   titleFont: UIFont? = nil,
+                                   subtitleFont: UIFont? = nil,
+                                   footerFont: UIFont? = nil,
                                    titleLeadingAccessoryView: UIView? = nil,
                                    titleTrailingAccessoryView: UIView? = nil,
                                    subtitleLeadingAccessoryView: UIView? = nil,
@@ -263,7 +262,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         let textAreaHeight = Self.textAreaHeight(
             layoutType: layoutType,
             titleHeight: labelSize(text: title,
-                                   font: TextStyles.title.font,
+                                   font: titleFont ?? UIFont.fluent(tokens.titleFont),
                                    numberOfLines: titleNumberOfLines,
                                    textAreaWidth: textAreaWidth,
                                    leadingAccessoryView: titleLeadingAccessoryView,
@@ -271,7 +270,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                                    trailingAccessoryView: titleTrailingAccessoryView,
                                    labelAccessoryViewMarginTrailing: labelAccessoryViewMarginTrailing).height,
             subtitleHeight: labelSize(text: subtitle,
-                                      font: layoutType == .twoLines ? TextStyles.subtitleTwoLines.font : TextStyles.subtitleThreeLines.font,
+                                      font: subtitleFont ?? UIFont.fluent(layoutType == .twoLines ? tokens.subtitleTwoLinesFont : tokens.subtitleThreeLinesFont),
                                       numberOfLines: subtitleNumberOfLines,
                                       textAreaWidth: textAreaWidth,
                                       leadingAccessoryView: subtitleLeadingAccessoryView,
@@ -279,7 +278,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                                       trailingAccessoryView: subtitleTrailingAccessoryView,
                                       labelAccessoryViewMarginTrailing: labelAccessoryViewMarginTrailing).height,
             footerHeight: labelSize(text: footer,
-                                    font: TextStyles.footer.font,
+                                    font: footerFont ?? UIFont.fluent(tokens.subtitleThreeLinesFont),
                                     numberOfLines: footerNumberOfLines,
                                     textAreaWidth: textAreaWidth,
                                     leadingAccessoryView: footerLeadingAccessoryView,
@@ -291,7 +290,15 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
 
         let labelVerticalMargin = layoutType == .twoLines ? tokens.labelVerticalMarginForTwoLines : tokens.labelVerticalMarginForOneAndThreeLines
 
-        var minHeight = tokens.minHeight
+        var minHeight: CGFloat
+        switch layoutType {
+        case .oneLine:
+            minHeight = tokens.minHeight
+        case .twoLines:
+            minHeight = tokens.mediumHeight
+        case .threeLines:
+            minHeight = tokens.largeHeight
+        }
         if let customAccessoryView = customAccessoryView {
             minHeight = max(minHeight, customAccessoryView.frame.height + 2 * tokens.customAccessoryViewMinVerticalMargin)
         }
@@ -305,6 +312,9 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     ///   - title: The title string
     ///   - subtitle: The subtitle string
     ///   - footer: The footer string
+    ///   - titleFont: The title font; If not set, it will default to the font definition in tokens
+    ///   - subtitleFont: The subtitle font; If not set, it will default to the font definition in tokens
+    ///   - footerFont: The footer font; If not set, it will default to the font definition in tokens
     ///   - titleLeadingAccessoryView: The accessory view on the leading edge of the title
     ///   - titleTrailingAccessoryView: The accessory view on the trailing edge of the title
     ///   - subtitleLeadingAccessoryView: The accessory view on the leading edge of the subtitle
@@ -321,6 +331,9 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                                            title: String,
                                            subtitle: String = "",
                                            footer: String = "",
+                                           titleFont: UIFont? = nil,
+                                           subtitleFont: UIFont? = nil,
+                                           footerFont: UIFont? = nil,
                                            titleLeadingAccessoryView: UIView? = nil,
                                            titleTrailingAccessoryView: UIView? = nil,
                                            subtitleLeadingAccessoryView: UIView? = nil,
@@ -343,14 +356,14 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         let labelAccessoryViewMarginTrailing = tokens.labelAccessoryViewMarginTrailing
 
         var textAreaWidth = Self.labelPreferredWidth(text: title,
-                                                     font: TextStyles.title.font,
+                                                     font: titleFont ?? UIFont.fluent(tokens.titleFont),
                                                      leadingAccessoryView: titleLeadingAccessoryView,
                                                      trailingAccessoryView: titleTrailingAccessoryView,
                                                      labelAccessoryViewMarginTrailing: labelAccessoryViewMarginTrailing,
                                                      labelAccessoryViewMarginLeading: labelAccessoryViewMarginLeading)
         if layoutType == .twoLines || layoutType == .threeLines {
             let subtitleWidth = Self.labelPreferredWidth(text: subtitle,
-                                                         font: layoutType == .twoLines ? TextStyles.subtitleTwoLines.font : TextStyles.subtitleThreeLines.font,
+                                                         font: subtitleFont ?? UIFont.fluent(layoutType == .twoLines ? tokens.subtitleTwoLinesFont : tokens.subtitleThreeLinesFont),
                                                          leadingAccessoryView: subtitleLeadingAccessoryView,
                                                          trailingAccessoryView: subtitleTrailingAccessoryView,
                                                          labelAccessoryViewMarginTrailing: labelAccessoryViewMarginTrailing,
@@ -358,7 +371,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
             textAreaWidth = max(textAreaWidth, subtitleWidth)
             if layoutType == .threeLines {
                 let footerWidth = Self.labelPreferredWidth(text: footer,
-                                                           font: TextStyles.footer.font,
+                                                           font: footerFont ?? UIFont.fluent(tokens.footerFont),
                                                            leadingAccessoryView: footerLeadingAccessoryView,
                                                            trailingAccessoryView: footerTrailingAccessoryView,
                                                            labelAccessoryViewMarginTrailing: labelAccessoryViewMarginTrailing,
@@ -774,6 +787,9 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                 title: titleLabel.text ?? "",
                 subtitle: subtitleLabel.text ?? "",
                 footer: footerLabel.text ?? "",
+                titleFont: titleLabel.font,
+                subtitleFont: subtitleLabel.font,
+                footerFont: footerLabel.font,
                 titleLeadingAccessoryView: titleLeadingAccessoryView,
                 titleTrailingAccessoryView: titleTrailingAccessoryView,
                 subtitleLeadingAccessoryView: subtitleLeadingAccessoryView,
@@ -791,6 +807,9 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                 title: titleLabel.text ?? "",
                 subtitle: subtitleLabel.text ?? "",
                 footer: footerLabel.text ?? "",
+                titleFont: titleLabel.font,
+                subtitleFont: subtitleLabel.font,
+                footerFont: footerLabel.font,
                 titleLeadingAccessoryView: titleLeadingAccessoryView,
                 titleTrailingAccessoryView: titleTrailingAccessoryView,
                 subtitleLeadingAccessoryView: subtitleLeadingAccessoryView,
@@ -940,13 +959,13 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     }()
 
     private func updateFonts() {
-        if attributedTitle == nil {
+        if !isAttributedTitleSet {
             titleLabel.font = UIFont.fluent(tokens.titleFont)
         }
-        if attributedSubtitle == nil {
+        if !isAttributedSubtitleSet {
             subtitleLabel.font = UIFont.fluent(layoutType == .twoLines ? tokens.subtitleTwoLinesFont : tokens.subtitleThreeLinesFont)
         }
-        if attributedFooter == nil {
+        if !isAttributedFooterSet {
             footerLabel.font = UIFont.fluent(tokens.footerFont)
         }
     }
@@ -1082,20 +1101,27 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                           accessoryType: TableViewCellAccessoryType = .none) {
         if let attributedTitle = attributedTitle {
             self.attributedTitle = attributedTitle
+            isAttributedTitleSet = true
         } else {
             self.attributedTitle = nil
+            isAttributedTitleSet = false
             titleLabel.text = title
         }
         if let attributedSubtitle = attributedSubtitle {
             self.attributedSubtitle = attributedSubtitle
+            isAttributedSubtitleSet = true
         } else {
             self.attributedSubtitle = nil
+            isAttributedSubtitleSet = false
             subtitleLabel.text = subtitle
         }
+
         if let attributedFooter = attributedFooter {
             self.attributedFooter = attributedFooter
+            isAttributedFooterSet = true
         } else {
             self.attributedFooter = nil
+            isAttributedFooterSet = false
             footerLabel.text = footer
         }
 
@@ -1163,8 +1189,11 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         }
         set {
             titleLabel.attributedText = newValue
+            isAttributedTitleSet = newValue == nil ? false : true
         }
     }
+
+    private var isAttributedTitleSet: Bool = false
 
     private var attributedSubtitle: NSAttributedString? {
         get {
@@ -1172,8 +1201,11 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         }
         set {
             subtitleLabel.attributedText = newValue
+            isAttributedSubtitleSet = newValue == nil ? false : true
         }
     }
+
+    private var isAttributedSubtitleSet: Bool = false
 
     private var attributedFooter: NSAttributedString? {
         get {
@@ -1181,19 +1213,22 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         }
         set {
             footerLabel.attributedText = newValue
+            isAttributedFooterSet = newValue == nil ? false : true
         }
     }
+
+    private var isAttributedFooterSet: Bool = false
 
     /// Updates label text colors.
     public func updateTextColors() {
         if !isUsingCustomTextColors {
-            if attributedTitle == nil {
+            if !isAttributedTitleSet {
                 titleLabel.textColor = UIColor(dynamicColor: tokens.titleColor)
             }
-            if attributedSubtitle == nil {
+            if !isAttributedSubtitleSet {
                 subtitleLabel.textColor = UIColor(dynamicColor: tokens.subtitleColor)
             }
-            if attributedFooter == nil {
+            if !isAttributedFooterSet {
                 footerLabel.textColor = UIColor(dynamicColor: tokens.footerColor)
             }
         }
@@ -1249,6 +1284,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         }
 
         layoutLabelViews(label: titleLabel,
+                         preferredHeight: tokens.titleHeight,
                          numberOfLines: titleNumberOfLines,
                          topOffset: 0,
                          leadingAccessoryView: titleLeadingAccessoryView,
@@ -1258,6 +1294,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
 
         if layoutType == .twoLines || layoutType == .threeLines {
             layoutLabelViews(label: subtitleLabel,
+                             preferredHeight: layoutType == .twoLines ? tokens.subtitleTwoLineHeight : tokens.subtitleThreeLineHeight,
                              numberOfLines: subtitleNumberOfLines,
                              topOffset: titleLabel.frame.maxY + tokens.labelVerticalSpacing,
                              leadingAccessoryView: subtitleLeadingAccessoryView,
@@ -1267,6 +1304,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
 
             if layoutType == .threeLines {
                 layoutLabelViews(label: footerLabel,
+                                 preferredHeight: tokens.footerHeight,
                                  numberOfLines: footerNumberOfLines,
                                  topOffset: subtitleLabel.frame.maxY + tokens.labelVerticalSpacing,
                                  leadingAccessoryView: footerLeadingAccessoryView,
@@ -1319,6 +1357,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     }
 
     private func layoutLabelViews(label: UILabel,
+                                  preferredHeight: CGFloat,
                                   numberOfLines: Int,
                                   topOffset: CGFloat,
                                   leadingAccessoryView: UIView?,
@@ -1355,7 +1394,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
             x: textAreaLeadingOffset + leadingAccessoryAreaWidth,
             y: topOffset,
             width: labelSize.width,
-            height: labelSize.height
+            height: labelSize.height > preferredHeight ? labelSize.height : preferredHeight
         )
 
         if let trailingAccessoryView = trailingAccessoryView {
@@ -1442,6 +1481,9 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                     title: titleLabel.text ?? "",
                     subtitle: subtitleLabel.text ?? "",
                     footer: footerLabel.text ?? "",
+                    titleFont: titleLabel.font,
+                    subtitleFont: subtitleLabel.font,
+                    footerFont: footerLabel.font,
                     titleLeadingAccessoryView: titleLeadingAccessoryView,
                     titleTrailingAccessoryView: titleTrailingAccessoryView,
                     subtitleLeadingAccessoryView: subtitleLeadingAccessoryView,
@@ -1461,6 +1503,9 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                 title: titleLabel.text ?? "",
                 subtitle: subtitleLabel.text ?? "",
                 footer: footerLabel.text ?? "",
+                titleFont: titleLabel.font,
+                subtitleFont: subtitleLabel.font,
+                footerFont: footerLabel.font,
                 titleLeadingAccessoryView: titleLeadingAccessoryView,
                 titleTrailingAccessoryView: titleTrailingAccessoryView,
                 subtitleLeadingAccessoryView: subtitleLeadingAccessoryView,
