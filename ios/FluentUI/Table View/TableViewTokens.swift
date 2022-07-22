@@ -72,14 +72,26 @@ open class TableViewCellTokens: ControlTokens {
     /// The font for the title.
     open var titleFont: FontInfo { aliasTokens.typography[.body1] }
 
-    /// The font for the subtitle when the TableViewCell is two lines.
+    /// The font for the subtitle when the TableViewCell has two lines.
     open var subtitleTwoLinesFont: FontInfo { aliasTokens.typography[.caption1] }
 
-    /// The font for the subtitle when the TableViewCell is three lines.
+    /// The font for the subtitle when the TableViewCell has three lines.
     open var subtitleThreeLinesFont: FontInfo { aliasTokens.typography[.body2] }
 
     /// The font for the footer.
     open var footerFont: FontInfo { aliasTokens.typography[.caption1] }
+
+    /// The minimum height for the title label.
+    open var titleHeight: CGFloat { 22 }
+
+    /// The minimum height for the subtitle label when the TableViewCell has two lines.
+    open var subtitleTwoLineHeight: CGFloat { 18 }
+
+    /// The minimum height for the subtitle label when the TableViewCell has three lines.
+    open var subtitleThreeLineHeight: CGFloat { 20 }
+
+    /// The minimum height for the footer label.
+    open var footerHeight: CGFloat { 18 }
 
     /// The leading margin for the labelAccessoryView.
     open var labelAccessoryViewMarginLeading: CGFloat { globalTokens.spacing[.xSmall] }
@@ -102,8 +114,14 @@ open class TableViewCellTokens: ControlTokens {
     /// The vertical spacing for the label.
     open var labelVerticalSpacing: CGFloat { globalTokens.spacing[.none] }
 
-    /// The minimum TableViewCell height.
+    /// The minimum TableViewCell height; the height of a TableViewCell with one line of text.
     open var minHeight: CGFloat { globalTokens.spacing[.xxxLarge] }
+
+    /// The height of a TableViewCell with two lines of text.
+    open var mediumHeight: CGFloat { 64 }
+
+    /// The height of a TableViewCell with three lines of text.
+    open var largeHeight: CGFloat { 84 }
 
     /// The trailing margin for the selectionImage.
     open var selectionImageMarginTrailing: CGFloat { globalTokens.spacing[.medium] }
