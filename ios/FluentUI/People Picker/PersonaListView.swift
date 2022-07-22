@@ -185,7 +185,7 @@ extension PersonaListView: UITableViewDataSource {
             }
             let persona = personaList[indexPath.row]
             cell.setup(persona: persona, accessoryType: accessoryType)
-            cell.backgroundColor = .clear
+            cell.backgroundStyleType = .clear
             cell.accessibilityTraits = .button
             return cell
         case .searchDirectory:

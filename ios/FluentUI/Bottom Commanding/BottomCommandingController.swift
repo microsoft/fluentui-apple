@@ -649,7 +649,7 @@ open class BottomCommandingController: UIViewController {
             cell.setup(title: item.title ?? "", customView: iconView)
         }
         cell.isEnabled = item.isEnabled
-        cell.backgroundColor = Constants.tableViewBackgroundColor
+        cell.backgroundStyleType = .clear
 
         let shouldShowSeparator = expandedListSections
             .prefix(expandedListSections.count - 1)

@@ -41,7 +41,7 @@ open class CenteredLabelCell: UITableViewCell, TokenizedControlInternal {
 
     private func updateTokens() {
         tokens = resolvedTokens
-        backgroundColor = UIColor(dynamicColor: tokens.cellBackgroundColor)
+        backgroundConfiguration?.backgroundColor = UIColor(dynamicColor: tokens.cellBackgroundColor)
         label.font = UIFont.fluent(tokens.titleFont)
         label.textColor = UIColor(dynamicColor: tokens.mainBrandColor)
     }
