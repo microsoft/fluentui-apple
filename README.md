@@ -41,8 +41,13 @@ pod 'MicrosoftFluentUI', '~> X.X.X'
 
 - Download the latest changes from the [FluentUI for Apple](https://github.com/microsoft/fluentui-apple) repository.
 - Move the `fluentui-apple` folder into your project folder.
-- Move the relevant `FluentUI.xcodeproj` into your Xcode project depending on which platform you want to support.
-- In Xcode select your project -> your target -> General -> Embedded Binaries -> add `libFluentUI.a`.
+- For iOS platform
+    - Move `ios/FluentUI.xcodeproj` into your Xcode project.
+    - In Xcode select your project -> your target -> "General" -> "Frameworks, Libraries, and Embedded Content" -> add `libFluentUI.a`.
+    - In Xcode select your project -> your target -> "Build Phases" -> "Copy Bundle Resources" -> add `FluentUIResources-ios.bundle`.
+- For macOS platform
+    - Move `macos/xcode/FluentUI.xcodeproj` into your Xcode project.
+    - In Xcode select your project -> your target -> "General" -> "Frameworks, Libraries, and Embedded Content" -> add `FluentUI.framework`.
 
 ### Import and use FluentUI
 
