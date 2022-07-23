@@ -1430,9 +1430,9 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         guard type == .inset else {
             return 0
         }
-        let baseOffset = safeAreaInsets.left + TableViewCell.selectionModeAreaWidth(isInSelectionMode: isInSelectionMode,
-                                                                                    selectionImageMarginTrailing: tokens.selectionImageMarginTrailing,
-                                                                                    selectionImageSize: tokens.selectionImageSize.width)
+        let baseOffset = TableViewCell.selectionModeAreaWidth(isInSelectionMode: isInSelectionMode,
+                                                              selectionImageMarginTrailing: tokens.selectionImageMarginTrailing,
+                                                              selectionImageSize: tokens.selectionImageSize.width)
         return baseOffset + paddingLeading + tokens.customViewDimensions.width + tokens.customViewTrailingMargin
     }
 
