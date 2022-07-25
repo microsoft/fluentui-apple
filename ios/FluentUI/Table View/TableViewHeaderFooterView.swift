@@ -30,7 +30,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         func textColor(fluentTheme: FluentTheme) -> UIColor {
             switch self {
             case .regular:
-                return UIColor(dynamicColor: DynamicColor(light: fluentTheme.globalTokens.sharedColors[.red][.shade10], dark: fluentTheme.globalTokens.sharedColors[.red][.tint30]))
+                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
             case .primary:
                 return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1])
             }
