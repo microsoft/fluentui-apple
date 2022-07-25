@@ -32,7 +32,6 @@ extension View {
         return AnyView(self)
     }
 
-
     /// Measures the size of a view, monitors when its size is updated, and takes a closure to be called when it does
     /// - Parameter action: Block to be performed on size change
     /// - Returns The modified view.

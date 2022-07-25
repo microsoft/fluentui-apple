@@ -7,12 +7,25 @@ import UIKit
 
 /// Pre-defined styles of the notification
 @objc public enum MSFNotificationStyle: Int, CaseIterable {
+    /// Floating notification with brand colored text and background.
     case primaryToast
+
+    /// Floating notification with neutral colored text and background.
     case neutralToast
+
+    /// Bar notification with brand colored text and background.
     case primaryBar
+
+    /// Bar notification with brand colored text and neutral colored background.
     case primaryOutlineBar
+
+    /// Bar notification with neutral colored text and brackground.
     case neutralBar
+
+    /// Floating notification with red text and background.
     case dangerToast
+
+    ///Floating notification with yellow text and background.
     case warningToast
 
     var isToast: Bool {
