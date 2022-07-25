@@ -25,6 +25,7 @@ struct Demos {
         DemoDescriptor("CardNudge", CardNudgeDemoController.self),
         DemoDescriptor("ColorTokens", ColorTokensDemoController.self),
         DemoDescriptor("IndeterminateProgressBar", IndeterminateProgressBarDemoController.self),
+        DemoDescriptor("NotificationView", NotificationViewDemoController.self),
         DemoDescriptor("PersonaButtonCarousel", PersonaButtonCarouselDemoController.self)
     ]
 
@@ -42,7 +43,6 @@ struct Demos {
         DemoDescriptor("HUD", HUDDemoController.self),
         DemoDescriptor("Label", LabelDemoController.self),
         DemoDescriptor("NavigationController", NavigationControllerDemoController.self),
-        DemoDescriptor("NotificationView", NotificationViewDemoController.self),
         DemoDescriptor("PeoplePicker", PeoplePickerDemoController.self),
         DemoDescriptor("PersonaListView", PersonaListViewDemoController.self),
         DemoDescriptor("PillButtonBar", PillButtonBarDemoController.self),

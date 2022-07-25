@@ -191,7 +191,6 @@ fi', :execution_position => :before_compile }
     notification_ios.platform = :ios
     notification_ios.dependency 'MicrosoftFluentUI/Obscurable_ios'
     notification_ios.dependency 'MicrosoftFluentUI/Label_ios'
-    notification_ios.dependency 'MicrosoftFluentUI/Separator_ios'
     notification_ios.preserve_paths = ["ios/FluentUI/Notification/Notification.resources.xcfilelist"]
     notification_ios.source_files = ["ios/FluentUI/Notification/**/*.{swift,h}"]
   end
