@@ -30,7 +30,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         func textColor(fluentTheme: FluentTheme) -> UIColor {
             switch self {
             case .regular:
-                return Colors.Table.HeaderFooter.accessoryButtonText
+                return UIColor(dynamicColor: DynamicColor(light: fluentTheme.globalTokens.sharedColors[.red][.shade10], dark: fluentTheme.globalTokens.sharedColors[.red][.tint30]))
             case .primary:
                 return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1])
             }
@@ -52,9 +52,8 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
                 return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background1])
             case .divider:
                 return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.stroke2])
-            // This color might be changed
             case .dividerHighlighted:
-                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground2])
+                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandBackground4])
             }
         }
 
@@ -64,12 +63,10 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
                 return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
             case .divider:
                 return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
-            // This color might be changed
             case .dividerHighlighted:
-                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandBackground3])
-            // This color might be changed
+                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground4])
             case .headerPrimary:
-                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandBackground3])
+                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
             }
         }
 
