@@ -1011,8 +1011,8 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         return imageView
     }()
 
-    internal let topSeparator = MSFDivider()
-    internal let bottomSeparator = MSFDivider()
+    internal let topSeparator = Separator(style: .default, orientation: .horizontal)
+    internal let bottomSeparator = Separator(style: .default, orientation: .horizontal)
 
     private var superTableView: UITableView? {
         return findSuperview(of: UITableView.self) as? UITableView
@@ -1041,8 +1041,8 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         contentView.addSubview(subtitleLabel)
         contentView.addSubview(footerLabel)
         contentView.addSubview(selectionImageView)
-        contentView.addSubview(topSeparator)
-        contentView.addSubview(bottomSeparator)
+        addSubview(topSeparator)
+        addSubview(bottomSeparator)
 
         setupBackgroundColors()
 

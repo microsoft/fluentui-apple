@@ -135,12 +135,6 @@ fi', :execution_position => :before_compile }
                              "ios/FluentUI/Extensions/**/*.{swift,h}"]
   end
 
-  s.subspec 'Divider_ios' do |divider_ios|
-    divider_ios.platform = :ios
-    divider_ios.dependency 'MicrosoftFluentUI/Core_ios'
-    divider_ios.source_files = ["ios/FluentUI/Divider/**/*.{swift,h}"]
-  end
-
   s.subspec 'DotView_ios' do |dotview_ios|
     dotview_ios.platform = :ios
     dotview_ios.dependency 'MicrosoftFluentUI/Core_ios'
@@ -293,7 +287,6 @@ fi', :execution_position => :before_compile }
 
   s.subspec 'TableView_ios' do |tableview_ios|
     tableview_ios.platform = :ios
-    tableview_ios.dependency 'MicrosoftFluentUI/Divider_ios'
     tableview_ios.dependency 'MicrosoftFluentUI/Label_ios'
     tableview_ios.preserve_paths = ["ios/FluentUI/Table View/TableView.resources.xcfilelist"]
     tableview_ios.source_files = ["ios/FluentUI/Table View/**/*.{swift,h}"]
