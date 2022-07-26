@@ -49,7 +49,6 @@ Pod::Spec.new do |s|
   s.subspec 'BottomCommanding_ios' do |bottomcommanding_ios|
     bottomcommanding_ios.platform = :ios
     bottomcommanding_ios.dependency 'MicrosoftFluentUI/BottomSheet_ios'
-    bottomcommanding_ios.dependency 'MicrosoftFluentUI/Divider_ios'
     bottomcommanding_ios.dependency 'MicrosoftFluentUI/OtherCells_ios'
     bottomcommanding_ios.dependency 'MicrosoftFluentUI/TabBar_ios'
     bottomcommanding_ios.dependency 'MicrosoftFluentUI/TableView_ios'
@@ -73,7 +72,6 @@ Pod::Spec.new do |s|
   s.subspec 'Calendar_ios' do |calendar_ios|
     calendar_ios.platform = :ios
     calendar_ios.dependency 'MicrosoftFluentUI/BarButtonItems_ios'
-    calendar_ios.dependency 'MicrosoftFluentUI/Divider_ios'
     calendar_ios.dependency 'MicrosoftFluentUI/DotView_ios'
     calendar_ios.dependency 'MicrosoftFluentUI/Label_ios'
     calendar_ios.dependency 'MicrosoftFluentUI/Presenters_ios'
@@ -143,7 +141,6 @@ fi', :execution_position => :before_compile }
 
   s.subspec 'Drawer_ios' do |drawer_ios|
     drawer_ios.platform = :ios
-    drawer_ios.dependency 'MicrosoftFluentUI/Divider_ios'
     drawer_ios.dependency 'MicrosoftFluentUI/Obscurable_ios'
     drawer_ios.dependency 'MicrosoftFluentUI/ResizingHandleView_ios'
     drawer_ios.dependency 'MicrosoftFluentUI/TouchForwardingView_ios'
@@ -181,7 +178,6 @@ fi', :execution_position => :before_compile }
     navigation_ios.platform = :ios
     navigation_ios.dependency 'MicrosoftFluentUI/ActivityIndicator_ios'
     navigation_ios.dependency 'MicrosoftFluentUI/Avatar_ios'
-    navigation_ios.dependency 'MicrosoftFluentUI/Divider_ios'
     navigation_ios.dependency 'MicrosoftFluentUI/TwoLineTitleView_ios'
     navigation_ios.preserve_paths = ["ios/FluentUI/Navigation/Navigation.resources.xcfilelist"]
     navigation_ios.source_files = ["ios/FluentUI/Navigation/**/*.{swift,h}"]
@@ -189,7 +185,6 @@ fi', :execution_position => :before_compile }
 
   s.subspec 'Notification_ios' do |notification_ios|
     notification_ios.platform = :ios
-    notification_ios.dependency 'MicrosoftFluentUI/Divider_ios'
     notification_ios.dependency 'MicrosoftFluentUI/Obscurable_ios'
     notification_ios.dependency 'MicrosoftFluentUI/Label_ios'
     notification_ios.preserve_paths = ["ios/FluentUI/Notification/Notification.resources.xcfilelist"]
@@ -214,7 +209,6 @@ fi', :execution_position => :before_compile }
     peoplepicker_ios.platform = :ios
     peoplepicker_ios.dependency 'MicrosoftFluentUI/Avatar_ios'
     peoplepicker_ios.dependency 'MicrosoftFluentUI/BadgeField_ios'
-    peoplepicker_ios.dependency 'MicrosoftFluentUI/Divider_ios'
     peoplepicker_ios.dependency 'MicrosoftFluentUI/OtherCells_ios'
     peoplepicker_ios.source_files = ["ios/FluentUI/People Picker/**/*.{swift,h}"]
   end
@@ -239,7 +233,6 @@ fi', :execution_position => :before_compile }
 
   s.subspec 'PopupMenu_ios' do |popupmenu_ios|
     popupmenu_ios.platform = :ios
-    popupmenu_ios.dependency 'MicrosoftFluentUI/Divider_ios'
     popupmenu_ios.dependency 'MicrosoftFluentUI/Drawer_ios'
     popupmenu_ios.dependency 'MicrosoftFluentUI/Label_ios'
     popupmenu_ios.dependency 'MicrosoftFluentUI/TableView_ios'
@@ -260,7 +253,6 @@ fi', :execution_position => :before_compile }
 
   s.subspec 'SegmentedControl_ios' do |segmentedcontrol_ios|
     segmentedcontrol_ios.platform = :ios
-    segmentedcontrol_ios.dependency 'MicrosoftFluentUI/Divider_ios'
     segmentedcontrol_ios.source_files = ["ios/FluentUI/SegmentedControl/**/*.{swift,h}"]
   end
 
@@ -280,7 +272,6 @@ fi', :execution_position => :before_compile }
   s.subspec 'TabBar_ios' do |tabbar_ios|
     tabbar_ios.platform = :ios
     tabbar_ios.dependency 'MicrosoftFluentUI/Avatar_ios'
-    tabbar_ios.dependency 'MicrosoftFluentUI/Divider_ios'
     tabbar_ios.dependency 'MicrosoftFluentUI/Label_ios'
     tabbar_ios.source_files = ["ios/FluentUI/Tab Bar/**/*.{swift,h}"]
   end
