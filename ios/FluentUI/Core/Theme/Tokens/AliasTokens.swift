@@ -173,7 +173,7 @@ public final class AliasTokens {
         switch token {
         case .neutralAmbient:
             return DynamicColor(light: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.12),
-                                dark: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.24))
+                                dark: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.20))
         case .neutralKey:
             return DynamicColor(light: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.14),
                                 dark: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.28))
@@ -271,56 +271,56 @@ public final class AliasTokens {
         switch token {
         case .shadow02:
             return ShadowInfo(colorOne: strongSelf.shadowColors[.neutralKey],
-                              blurOne: 1,
+                              blurOne: 2,
                               xOne: 0,
                               yOne: 1,
                               colorTwo: strongSelf.shadowColors[.neutralAmbient],
-                              blurTwo: 1,
+                              blurTwo: 2,
                               xTwo: 0,
                               yTwo: 0)
         case .shadow04:
             return ShadowInfo(colorOne: strongSelf.shadowColors[.neutralKey],
-                              blurOne: 2,
+                              blurOne: 4,
                               xOne: 0,
                               yOne: 2,
                               colorTwo: strongSelf.shadowColors[.neutralAmbient],
-                              blurTwo: 1,
+                              blurTwo: 2,
                               xTwo: 0,
                               yTwo: 0)
         case .shadow08:
             return ShadowInfo(colorOne: strongSelf.shadowColors[.neutralKey],
-                              blurOne: 4,
+                              blurOne: 8,
                               xOne: 0,
                               yOne: 4,
                               colorTwo: strongSelf.shadowColors[.neutralAmbient],
-                              blurTwo: 1,
+                              blurTwo: 2,
                               xTwo: 0,
                               yTwo: 0)
         case .shadow16:
             return ShadowInfo(colorOne: strongSelf.shadowColors[.neutralKey],
-                              blurOne: 8,
+                              blurOne: 16,
                               xOne: 0,
                               yOne: 8,
                               colorTwo: strongSelf.shadowColors[.neutralAmbient],
-                              blurTwo: 1,
+                              blurTwo: 2,
                               xTwo: 0,
                               yTwo: 0)
         case .shadow28:
             return ShadowInfo(colorOne: strongSelf.shadowColors[.neutralKeyDarker],
-                              blurOne: 14,
+                              blurOne: 28,
                               xOne: 0,
                               yOne: 14,
                               colorTwo: strongSelf.shadowColors[.neutralAmbientDarker],
-                              blurTwo: 4,
+                              blurTwo: 8,
                               xTwo: 0,
                               yTwo: 0)
         case .shadow64:
             return ShadowInfo(colorOne: strongSelf.shadowColors[.neutralKeyDarker],
-                              blurOne: 32,
+                              blurOne: 64,
                               xOne: 0,
                               yOne: 32,
                               colorTwo: strongSelf.shadowColors[.neutralAmbientDarker],
-                              blurTwo: 4,
+                              blurTwo: 8,
                               xTwo: 0,
                               yTwo: 0)
         }
