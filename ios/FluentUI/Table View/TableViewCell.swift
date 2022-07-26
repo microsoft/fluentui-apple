@@ -446,18 +446,13 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         // We need to have .usesDeviceMetrics to ensure that there is no trailing clipping in our label.
         // However, it causes the bottom portion of the label to be clipped instead. Creating a calculated CGRect
         // for width and height accommodates for both scenarios so that there is no clipping.
-        let estimatedBoundsRectForWidth = attributedText.boundingRect(
-            with: CGSize(width: availableTextWidth, height: .greatestFiniteMagnitude),
-            options: [.usesLineFragmentOrigin, .usesFontLeading, .usesDeviceMetrics],
-            context: nil)
-        let estimatedBoundsRectForHeight = attributedText.boundingRect(
+        let estimatedBoundsHeight = attributedText.boundingRect(
             with: CGSize(width: availableTextWidth, height: .greatestFiniteMagnitude),
             options: [.usesLineFragmentOrigin, .usesFontLeading],
             context: nil)
 
         // We want the larger width value so that the label does not undergo any trucation.
-        return CGSize(width: ceil(max(estimatedBoundsRectForWidth.width, estimatedBoundsRectForHeight.width)),
-                      height: ceil(estimatedBoundsRectForHeight.height))
+        return CGSize(width: ceil(availableTextWidth), height: ceil(estimatedBoundsHeight.height))
 
     }
 
