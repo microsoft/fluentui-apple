@@ -18,12 +18,18 @@ open class TableViewCellTokens: ControlTokens {
     }
 
     /// The background color of the TableViewCell.
-    open var cellBackgroundColor: DynamicColor { aliasTokens.backgroundColors[.neutral1] }
+    open var cellBackgroundColor: DynamicColor {
+        .init(light: aliasTokens.backgroundColors[.neutral1].light,
+              dark: aliasTokens.backgroundColors[.neutral1].dark,
+              darkElevated: aliasTokens.backgroundColors[.neutral2].darkElevated)
+    }
 
     /// The grouped background color of the TableViewCell.
     open var cellBackgroundGrouped: DynamicColor {
         .init(light: aliasTokens.backgroundColors[.neutral1].light,
-              dark: aliasTokens.backgroundColors[.neutral2].dark)}
+              dark: aliasTokens.backgroundColors[.neutral3].dark,
+              darkElevated: ColorValue(0x212121))
+    }
 
     /// The selected background color of the TableViewCell.
     open var cellBackgroundSelectedColor: DynamicColor { aliasTokens.backgroundColors[.neutral5] }

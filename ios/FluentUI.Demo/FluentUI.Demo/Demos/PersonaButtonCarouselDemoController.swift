@@ -177,7 +177,7 @@ class PersonaButtonCarouselDemoController: DemoTableViewController {
 
         cell.contentView.addSubview(carousel)
         cell.selectionStyle = .none
-        cell.backgroundColor = .tertiarySystemFill
+        cell.backgroundConfiguration?.backgroundColor = .tertiarySystemFill
         var constraints: [NSLayoutConstraint] = []
         carousel.translatesAutoresizingMaskIntoConstraints = false
 
@@ -218,7 +218,7 @@ class PersonaButtonCarouselDemoController: DemoTableViewController {
 
         cell.contentView.addSubview(personaButton)
         cell.selectionStyle = .none
-        cell.backgroundColor = .tertiarySystemFill
+        cell.backgroundConfiguration?.backgroundColor = .tertiarySystemFill
         var constraints: [NSLayoutConstraint] = []
         personaButton.translatesAutoresizingMaskIntoConstraints = false
 
