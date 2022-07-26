@@ -1275,6 +1275,9 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
 
         layoutContentSubviews()
         contentView.flipSubviewsForRTL()
+
+        layoutSeparator(topSeparator, with: topSeparatorType, at: 0)
+        layoutSeparator(bottomSeparator, with: bottomSeparatorType, at: frame.height - bottomSeparator.frame.height)
     }
 
     open func layoutContentSubviews() {
@@ -1363,9 +1366,6 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
             let yOffset = UIScreen.main.roundToDevicePixels((contentView.frame.height - _accessoryType.size.height) / 2)
             accessoryTypeView.frame = CGRect(origin: CGPoint(x: xOffset, y: yOffset), size: _accessoryType.size)
         }
-
-        layoutSeparator(topSeparator, with: topSeparatorType, at: 0)
-        layoutSeparator(bottomSeparator, with: bottomSeparatorType, at: frame.height - bottomSeparator.state.thickness)
     }
 
     private func layoutLabelViews(label: UILabel,
@@ -1429,13 +1429,14 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         trailingAccessoryView?.frame.origin.y += offset
     }
 
-    private func layoutSeparator(_ separator: MSFDivider, with type: SeparatorType, at verticalOffset: CGFloat) {
+    private func layoutSeparator(_ separator: Separator, with type: SeparatorType, at verticalOffset: CGFloat) {
         separator.frame = CGRect(
             x: separatorLeadingInset(for: type),
             y: verticalOffset,
             width: frame.width - separatorLeadingInset(for: type),
-            height: separator.state.thickness
+            height: separator.frame.height
         )
+        separator.flipForRTL()
     }
 
     func separatorLeadingInset(for type: SeparatorType) -> CGFloat {
@@ -1681,7 +1682,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         selectionImageView.tintColor = UIColor(dynamicColor: isSelected ? tokens.mainBrandColor : tokens.selectionIndicatorOffColor)
     }
 
-    private func updateSeparator(_ separator: MSFDivider, with type: SeparatorType) {
+    private func updateSeparator(_ separator: Separator, with type: SeparatorType) {
         separator.isHidden = type == .none
         setNeedsLayout()
     }
