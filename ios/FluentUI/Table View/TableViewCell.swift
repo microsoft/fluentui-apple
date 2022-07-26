@@ -443,16 +443,21 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
 
     private static func preferredLabelSize(with attributedText: NSAttributedString,
                                            availableTextWidth: CGFloat = .greatestFiniteMagnitude) -> CGSize {
-        let estimatedBoundsWidth = attributedText.boundingRect(
+        // We need to have .usesDeviceMetrics to ensure that there is no trailing clipping in our label.
+        // However, it causes the bottom portion of the label to be clipped instead. Creating a caluclated CGRect
+        // for width and height accommodates for both scenarios so that there is no clipping.
+        let estimatedBoundsRectForWidth = attributedText.boundingRect(
             with: CGSize(width: availableTextWidth, height: .greatestFiniteMagnitude),
             options: [.usesLineFragmentOrigin, .usesFontLeading, .usesDeviceMetrics],
             context: nil)
-        let estimatedBoundsHeight = attributedText.boundingRect(
+        let estimatedBoundsRectForHeight = attributedText.boundingRect(
             with: CGSize(width: availableTextWidth, height: .greatestFiniteMagnitude),
             options: [.usesLineFragmentOrigin, .usesFontLeading],
             context: nil)
 
-        return CGSize(width: ceil(max(estimatedBoundsWidth.width, estimatedBoundsHeight.width)), height: ceil(estimatedBoundsHeight.height))
+        // We want the larger width value so that the label does not undergo any trucation.
+        return CGSize(width: ceil(max(estimatedBoundsRectForWidth.width, estimatedBoundsRectForHeight.width)),
+                      height: ceil(estimatedBoundsRectForHeight.height))
 
     }
 
@@ -1444,7 +1449,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
 
         if isAttributedTextSet, let attributedText = label.attributedText {
             visibleText = attributedText.string
-            size = Self.preferredLabelSize(with: attributedText)
+            size = Self.preferredLabelSize(with: attributedText, availableTextWidth: textAreaWidth)
         } else {
             visibleText = text
             size = text.preferredSize(for: label.font, width: textAreaWidth, numberOfLines: numberOfLines)
