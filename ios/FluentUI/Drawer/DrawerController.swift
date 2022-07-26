@@ -4,6 +4,7 @@
 //
 
 import UIKit
+import Combine
 
 // MARK: DrawerResizingBehavior
 
@@ -98,11 +99,6 @@ public protocol DrawerControllerDelegate: AnyObject {
 
 @objc(MSFDrawerController)
 open class DrawerController: UIViewController, TokenizedControlInternal {
-
-    public func overrideTokens(_ tokens: DrawerTokens?) -> Self {
-        overrideTokens = tokens
-        return self
-    }
 
     private struct Constants {
         static let resistanceCoefficient: CGFloat = 0.1
@@ -459,8 +455,8 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
         modalPresentationStyle = .custom
         transitioningDelegate = self
 
-        // Update appearance whenever overrideTokens changes.
-        overrideTokensSink = tokenSet.objectWillChange.sink { [weak self] _ in
+        // Update appearance whenever `tokenSet` changes.
+        tokenSetSink = tokenSet.objectWillChange.sink { [weak self] _ in
            self?.updateAppearance()
         }
     }
@@ -567,7 +563,7 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
     public typealias TokenSetKeyType = DrawerTokenSet.Tokens
     public var tokenSet: DrawerTokenSet = .init()
 
-    var overrideTokensSink: AnyCancellable?
+    var tokenSetSink: AnyCancellable?
     var fluentTheme: FluentTheme { return view.fluentTheme }
 
     // Change of presentation direction's orientation is not supported
