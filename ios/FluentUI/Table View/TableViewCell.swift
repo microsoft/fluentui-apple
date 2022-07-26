@@ -444,7 +444,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     private static func preferredLabelSize(with attributedText: NSAttributedString,
                                            availableTextWidth: CGFloat = .greatestFiniteMagnitude) -> CGSize {
         // We need to have .usesDeviceMetrics to ensure that there is no trailing clipping in our label.
-        // However, it causes the bottom portion of the label to be clipped instead. Creating a caluclated CGRect
+        // However, it causes the bottom portion of the label to be clipped instead. Creating a calculated CGRect
         // for width and height accommodates for both scenarios so that there is no clipping.
         let estimatedBoundsRectForWidth = attributedText.boundingRect(
             with: CGSize(width: availableTextWidth, height: .greatestFiniteMagnitude),
