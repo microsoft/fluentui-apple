@@ -126,10 +126,9 @@ open class PopupMenuController: DrawerController {
     }
 
     /// set `separatorColor` to customize separator colors of  PopupMenuItem cells and the drawer
-    @objc open var separatorColor: UIColor = Colors.dividerOnPrimary {
+    @objc open var separatorColor: UIColor = Colors.Separator.default {
         didSet {
-            let customTokens = PopupMenuItemCell.CustomDividerTokens(separatorColor)
-            divider.state.overrideTokens = customTokens
+            separator?.backgroundColor = separatorColor
         }
     }
 
@@ -152,7 +151,7 @@ open class PopupMenuController: DrawerController {
         return view
     }()
 
-    private lazy var divider: MSFDivider = .init()
+    private var separator: Separator?
     private lazy var descriptionView: UIView = {
         let view = UIView()
         view.isAccessibilityElement = true
@@ -170,16 +169,17 @@ open class PopupMenuController: DrawerController {
             )
         )
 
-        let customTokens = PopupMenuItemCell.CustomDividerTokens(separatorColor)
-        divider.state.overrideTokens = customTokens
-        view.addSubview(divider)
-        divider.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            divider.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            divider.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            divider.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
-
+        separator = Separator()
+        if let separator = separator {
+            separator.backgroundColor = separatorColor
+            view.addSubview(separator)
+            separator.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                separator.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                separator.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                separator.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            ])
+        }
         return view
     }()
     private let descriptionLabel: Label = {
