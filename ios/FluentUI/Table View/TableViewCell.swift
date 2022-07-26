@@ -58,6 +58,25 @@ public enum TableViewCellAccessoryType: Int {
     }
 }
 
+// Different background color is shown based on if `TableViewCell` is shown in `TableView` as grouped or plain style
+@objc(MSFTableViewCellBackgroundStyleType)
+public enum TableViewCellBackgroundStyleType: Int {
+    case plain
+    case grouped
+    case clear
+
+    func defaultColor(tokens: TableViewCellTokens) -> UIColor? {
+        switch self {
+        case .plain:
+            return UIColor(dynamicColor: tokens.cellBackgroundColor)
+        case .grouped:
+            return UIColor(dynamicColor: tokens.cellBackgroundGrouped)
+        case .clear:
+            return .clear
+        }
+    }
+}
+
 // MARK: - Table Colors
 
 public extension Colors {
@@ -825,6 +844,14 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         didSet {
             if bottomSeparatorType != oldValue {
                 updateSeparator(bottomSeparator, with: bottomSeparatorType)
+            }
+        }
+    }
+
+    @objc public var backgroundStyleType: TableViewCellBackgroundStyleType = .plain {
+        didSet {
+            if backgroundStyleType != oldValue {
+                setupBackgroundColors()
             }
         }
     }
@@ -1702,6 +1729,15 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         updateSelectionImageView()
     }
 
+    open override func updateConfiguration(using state: UICellConfigurationState) {
+        // Customize the background color to use the tint color when the cell is highlighted or selected.
+        if state.isHighlighted || state.isSelected || state.isFocused {
+            backgroundConfiguration?.backgroundColor = UIColor(dynamicColor: tokens.cellBackgroundSelectedColor)
+        } else {
+            backgroundConfiguration?.backgroundColor = backgroundStyleType.defaultColor(tokens: tokens)
+        }
+    }
+
     private func updateLayoutType() {
         layoutType = TableViewCell.layoutType(
             subtitle: subtitleLabel.text ?? "",
@@ -1750,11 +1786,10 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     }
 
     private func setupBackgroundColors() {
-        backgroundColor = UIColor(dynamicColor: tokens.cellBackgroundColor)
-
-        let selectedStateBackgroundView = UIView()
-        selectedStateBackgroundView.backgroundColor = UIColor(dynamicColor: tokens.cellBackgroundSelectedColor)
-        selectedBackgroundView = selectedStateBackgroundView
+        automaticallyUpdatesBackgroundConfiguration = false
+        var customBackgroundConfig = UIBackgroundConfiguration.clear()
+        customBackgroundConfig.backgroundColor = backgroundStyleType.defaultColor(tokens: tokens)
+        backgroundConfiguration = customBackgroundConfig
     }
 
     private func initAccessibilityForAccessoryType() {

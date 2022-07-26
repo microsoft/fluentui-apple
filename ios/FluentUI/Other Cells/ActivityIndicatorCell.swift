@@ -41,7 +41,7 @@ open class ActivityIndicatorCell: UITableViewCell, TokenizedControlInternal {
 
     private func updateTokens() {
         tokens = resolvedTokens
-        backgroundColor = UIColor(dynamicColor: tokens.cellBackgroundColor)
+        backgroundConfiguration?.backgroundColor = UIColor(dynamicColor: tokens.cellBackgroundColor)
     }
 
     private let activityIndicator: MSFActivityIndicator = {
@@ -59,7 +59,7 @@ open class ActivityIndicatorCell: UITableViewCell, TokenizedControlInternal {
                                                name: .didChangeTheme,
                                                object: nil)
 
-        backgroundColor = UIColor(dynamicColor: tokens.cellBackgroundColor)
+        backgroundConfiguration?.backgroundColor = UIColor(dynamicColor: tokens.cellBackgroundColor)
     }
 
     @objc public required init(coder aDecoder: NSCoder) {

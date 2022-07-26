@@ -78,7 +78,7 @@ open class ActionsCell: UITableViewCell, TokenizedControlInternal {
     private func updateTokens() {
         tokens = resolvedTokens
         updateActionTitleColors()
-        backgroundColor = UIColor(dynamicColor: tokens.cellBackgroundColor)
+        backgroundConfiguration?.backgroundColor = UIColor(dynamicColor: tokens.cellBackgroundColor)
     }
 
     @objc public class func height(action1Title: String, action2Title: String = "", containerWidth: CGFloat, tokens: ActionsCellTokens) -> CGFloat {
@@ -145,8 +145,7 @@ open class ActionsCell: UITableViewCell, TokenizedControlInternal {
         hideSystemSeparator()
         updateHorizontalSeparator(topSeparator, with: topSeparatorType)
         updateHorizontalSeparator(bottomSeparator, with: bottomSeparatorType)
-
-        backgroundColor = UIColor(dynamicColor: tokens.cellBackgroundColor)
+        backgroundConfiguration?.backgroundColor = UIColor(dynamicColor: tokens.cellBackgroundColor)
 
         setupAction(action1Button)
         setupAction(action2Button)
