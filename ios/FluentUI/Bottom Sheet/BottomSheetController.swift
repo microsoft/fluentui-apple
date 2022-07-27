@@ -409,10 +409,10 @@ public class BottomSheetController: UIViewController {
 
         // We need to have the shadow on a parent of the view that does the corner masking.
         // Otherwise the view will mask its own shadow.
-        bottomSheetView.layer.shadowColor = shadowColor
-        bottomSheetView.layer.shadowOffset = Constants.Shadow.offset
-        bottomSheetView.layer.shadowOpacity = Constants.Shadow.opacity
-        bottomSheetView.layer.shadowRadius = Constants.Shadow.radius
+        let shadow28 = view.fluentTheme.aliasTokens.shadow[.shadow28]
+        bottomSheetView.layer.shadowColor = UIColor(dynamicColor: shadow28.colorTwo).cgColor
+        bottomSheetView.layer.shadowOffset = CGSize(width: shadow28.xTwo, height: shadow28.yTwo)
+        bottomSheetView.layer.shadowRadius = shadow28.blurTwo
 
         contentView.translatesAutoresizingMaskIntoConstraints = false
         contentView.backgroundColor = backgroundColor
@@ -873,7 +873,6 @@ public class BottomSheetController: UIViewController {
 
     private let shouldShowDimmingView: Bool
 
-    private lazy var shadowColor = UIColor(colorValue: self.view.fluentTheme.globalTokens.neutralColors[.black]).cgColor
     private lazy var backgroundColor = UIColor(dynamicColor: self.view.fluentTheme.aliasTokens.colors[.background2])
 
     private struct Constants {
@@ -915,12 +914,6 @@ public class BottomSheetController: UIViewController {
 
             // Off-screen overflow that can be partially revealed during spring oscillation or rubber banding (dragging the sheet beyond limits)
             static let overflowHeight: CGFloat = 50.0
-        }
-
-        struct Shadow {
-            static let opacity: Float = 0.14
-            static let radius: CGFloat = 8
-            static let offset: CGSize = CGSize(width: 0, height: 4)
         }
     }
 }
