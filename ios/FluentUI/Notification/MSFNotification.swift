@@ -26,6 +26,14 @@ import UIKit
         notification = FluentNotification(style: style,
                                           shouldSelfPresent: false)
         super.init(AnyView(notification))
+        notification.state.actionButtonAction = style.shouldAlwaysShowActionButton
+        ? { [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+            strongSelf.hide()
+        }
+        : nil
     }
 
     required public init?(coder: NSCoder) {

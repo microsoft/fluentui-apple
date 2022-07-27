@@ -164,7 +164,7 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
 
         @ViewBuilder
         var button: some View {
-            if let buttonAction = state.actionButtonAction {
+            if let buttonAction = state.actionButtonAction ?? ((state.style.shouldAlwaysShowActionButton && shouldSelfPresent) ? dismissAnimated : nil) {
                 let foregroundColor = tokens.foregroundColor
                 if let actionTitle = state.actionButtonTitle, !actionTitle.isEmpty {
                     SwiftUI.Button(actionTitle) {
