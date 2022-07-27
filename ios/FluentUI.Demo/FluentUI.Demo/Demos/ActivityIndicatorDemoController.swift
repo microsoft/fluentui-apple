@@ -237,7 +237,7 @@ extension ActivityIndicatorDemoController: DemoAppearanceDelegate {
             return
         }
         fluentTheme.register(tokenSetType: ActivityIndicatorTokenSet.self,
-                             tokenSet: isOverrideEnabled ? themeWideOverrideActivityIndicatorTokens : [:])
+                             tokenSet: isOverrideEnabled ? themeWideOverrideActivityIndicatorTokens : nil)
     }
 
     func perControlOverrideDidChange(isOverrideEnabled: Bool) {
@@ -253,7 +253,7 @@ extension ActivityIndicatorDemoController: DemoAppearanceDelegate {
     }
 
     func isThemeWideOverrideApplied() -> Bool {
-        return self.view.window?.fluentTheme.tokens(for: ActivityIndicatorTokenSet.self) != nil
+        return self.view.window?.fluentTheme.tokens(for: ActivityIndicatorTokenSet.self)?.isEmpty == false
     }
 
     // MARK: - Custom tokens

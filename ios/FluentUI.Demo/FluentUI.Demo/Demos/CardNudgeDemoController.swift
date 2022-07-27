@@ -236,7 +236,7 @@ extension CardNudgeDemoController: DemoAppearanceDelegate {
             return
         }
         fluentTheme.register(tokenSetType: CardNudgeTokenSet.self,
-                             tokenSet: isOverrideEnabled ? themeWideOverrideCardNudgeTokens : [:])
+                             tokenSet: isOverrideEnabled ? themeWideOverrideCardNudgeTokens : nil)
     }
 
     func perControlOverrideDidChange(isOverrideEnabled: Bool) {
@@ -252,7 +252,7 @@ extension CardNudgeDemoController: DemoAppearanceDelegate {
     }
 
     func isThemeWideOverrideApplied() -> Bool {
-        return self.view.window?.fluentTheme.tokens(for: CardNudgeTokenSet.self) != nil
+        return self.view.window?.fluentTheme.tokens(for: CardNudgeTokenSet.self)?.isEmpty == false
     }
 
     // MARK: - Custom tokens

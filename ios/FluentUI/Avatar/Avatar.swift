@@ -75,7 +75,7 @@ import SwiftUI
 /// View that represents the avatar.
 public struct Avatar: View, TokenizedControlView {
     public typealias TokenSetKeyType = AvatarTokenSet.Tokens
-    public var tokenSet: AvatarTokenSet = .init()
+    @ObservedObject public var tokenSet: AvatarTokenSet = .init()
 
     /// Creates and initializes a SwiftUI Avatar
     /// - Parameters:

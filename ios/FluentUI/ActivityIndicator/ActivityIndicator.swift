@@ -30,7 +30,7 @@ public struct ActivityIndicator: View, TokenizedControlView {
 
     public typealias TokenSetType = ActivityIndicatorTokenSet
     public typealias TokenSetKeyType = ActivityIndicatorTokenSet.Tokens
-    public var tokenSet: ActivityIndicatorTokenSet = .init()
+    @ObservedObject public var tokenSet: ActivityIndicatorTokenSet = .init()
 
     /// Creates the ActivityIndicator.
     /// - Parameter size: The MSFActivityIndicatorSize value used by the Activity Indicator.

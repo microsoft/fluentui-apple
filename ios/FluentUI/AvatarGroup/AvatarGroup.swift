@@ -91,7 +91,7 @@ import SwiftUI
 public struct AvatarGroup: View, TokenizedControlView {
     public typealias TokenSetType = AvatarGroupTokenSet
     public typealias TokenSetKeyType = AvatarGroupTokenSet.Tokens
-    public var tokenSet: AvatarGroupTokenSet = .init()
+    @ObservedObject public var tokenSet: AvatarGroupTokenSet = .init()
 
     /// Creates and initializes a SwiftUI AvatarGroup.
     /// - Parameters:
