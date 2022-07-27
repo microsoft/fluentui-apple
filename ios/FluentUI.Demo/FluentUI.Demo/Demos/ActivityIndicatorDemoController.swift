@@ -237,7 +237,7 @@ extension ActivityIndicatorDemoController: DemoAppearanceDelegate {
             return
         }
         if isOverrideEnabled {
-            fluentTheme.register(controlType: ActivityIndicator.self, tokens: { _ in
+            fluentTheme.register(controlType: ActivityIndicator.self, tokens: {
                 ThemeWideOverrideActivityIndicatorTokens()
             })
         } else {

@@ -110,6 +110,10 @@ class DemoListViewController: DemoTableViewController {
         UserDefaults.standard.set(demo.title, forKey: DemoListViewController.lastDemoControllerKey)
     }
 
+    override func tableView(_ tableView: UITableView, canFocusRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+
     let cellReuseIdentifier: String = "TableViewCell"
     private static var isFirstLaunch: Bool = true
     private static let lastDemoControllerKey: String = "LastDemoController"

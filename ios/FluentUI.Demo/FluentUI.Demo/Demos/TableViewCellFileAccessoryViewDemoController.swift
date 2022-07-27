@@ -514,8 +514,9 @@ class TableViewCellFileAccessoryViewDemoController: DemoTableViewController {
 
         for accessoryView in topAccessoryViews + bottomAccessoryViews {
             if let cell = accessoryView.tableViewCell {
-                cell.paddingLeading = TableViewCell.defaultPaddingLeading + extraPadding
-                cell.paddingTrailing = TableViewCell.defaultPaddingTrailing + extraPadding
+                let tokens = TableViewCellTokens()
+                cell.paddingLeading = tokens.paddingLeading + extraPadding
+                cell.paddingTrailing = tokens.paddingTrailing + extraPadding
             }
         }
     }
@@ -678,7 +679,7 @@ class TableViewCellFileAccessoryViewDemoController: DemoTableViewController {
         cell.titleNumberOfLinesForLargerDynamicType = 3
         cell.subtitleNumberOfLinesForLargerDynamicType = 2
 
-        cell.backgroundColor = Colors.tableCellBackgroundGrouped
+        cell.backgroundStyleType = .grouped
         cell.topSeparatorType = .none
         cell.bottomSeparatorType = (top ? .inset : .none)
 

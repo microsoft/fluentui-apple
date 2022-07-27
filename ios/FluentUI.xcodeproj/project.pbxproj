@@ -11,6 +11,7 @@
 		4B53505F27F63E3F0033B47F /* NotificationModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B53505E27F63E3F0033B47F /* NotificationModifiers.swift */; };
 		4BBD651F2755FD9500A8B09E /* MSFNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBD651E2755FD9500A8B09E /* MSFNotificationView.swift */; };
 		4BF01DA027B3A862005B32F2 /* UIApplication+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BF01D9F27B3A861005B32F2 /* UIApplication+Extensions.swift */; };
+		2A9745DE281733D700E1A1FD /* TableViewTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9745DD281733D700E1A1FD /* TableViewTokens.swift */; };
 		5303259B26B31B6B00611D05 /* AvatarModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5303259926B31B6B00611D05 /* AvatarModifiers.swift */; };
 		5306075326A1E6A4002D49CF /* AvatarGroupTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5306074F26A1E6A4002D49CF /* AvatarGroupTokens.swift */; };
 		5306075726A1E6A4002D49CF /* AvatarGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5306075126A1E6A4002D49CF /* AvatarGroup.swift */; };
@@ -213,6 +214,7 @@
 		1168630322E131CF0088B302 /* TabBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
 		118D9847230BBA2300BC0B72 /* TabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItem.swift; sourceTree = "<group>"; };
 		43488C44270FAD0200124C71 /* FluentNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluentNotification.swift; sourceTree = "<group>"; };
+		2A9745DD281733D700E1A1FD /* TableViewTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewTokens.swift; sourceTree = "<group>"; };
 		497DC2D724185885008D86F8 /* PillButtonBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButtonBar.swift; sourceTree = "<group>"; };
 		497DC2D824185885008D86F8 /* PillButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButton.swift; sourceTree = "<group>"; };
 		4B53505E27F63E3F0033B47F /* NotificationModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationModifiers.swift; sourceTree = "<group>"; };
@@ -939,6 +941,7 @@
 			children = (
 				B498141321E424920077B48D /* TableViewCell.swift */,
 				B4EF66502294A664007FEAB0 /* TableViewHeaderFooterView.swift */,
+				2A9745DD281733D700E1A1FD /* TableViewTokens.swift */,
 				B444D6B02181403C0002B4D4 /* UITableViewCell+Extension.swift */,
 			);
 			path = "Table View";
@@ -1442,6 +1445,7 @@
 				5373D56B2694D65C0032A3B4 /* MSFAvatarPresence.swift in Sources */,
 				EC5982D827BF348700FD048D /* MSFAvatar.swift in Sources */,
 				5314E0AA25F010070099271A /* DrawerShadowView.swift in Sources */,
+				2A9745DE281733D700E1A1FD /* TableViewTokens.swift in Sources */,
 				5314E0E725F012C00099271A /* UINavigationItem+Navigation.swift in Sources */,
 				920945492703DDA000B38E1A /* CardNudgeTokens.swift in Sources */,
 				92D49054278FF4E50085C018 /* PersonaButtonCarouselModifiers.swift in Sources */,
