@@ -236,42 +236,43 @@ extension CardNudgeDemoController: DemoAppearanceDelegate {
             return
         }
 
-        var tokensClosure: (() -> CardNudgeTokens)?
-        if isOverrideEnabled {
-            tokensClosure = {
-                return ThemeWideOverrideCardNudgeTokens()
-            }
-        }
+        let globalTokens = fluentTheme.globalTokens
+        var tokens: [CardNudgeTokenSet.Tokens: ControlTokenValue] = [:]
 
-        fluentTheme.register(controlType: CardNudge.self, tokens: tokensClosure)
+        if isOverrideEnabled {
+            tokens[.backgroundColor] = .dynamicColor({
+                DynamicColor(light: globalTokens.sharedColors[.hotPink][.tint50],
+                             dark: globalTokens.sharedColors[.hotPink][.shade40])
+            })
+            tokens[.outlineWidth] = .float({ 10.0 })
+            tokens[.outlineColor] = .dynamicColor({
+                DynamicColor(light: globalTokens.sharedColors[.darkRed][.tint50],
+                             dark: globalTokens.sharedColors[.darkRed][.shade40])
+            })
+        }
+        fluentTheme.register(tokenSetType: CardNudgeTokenSet.self, tokenSet: tokens)
     }
 
     func perControlOverrideDidChange(isOverrideEnabled: Bool) {
+        guard let fluentTheme = self.view.window?.fluentTheme else {
+            return
+        }
+
+        let globalTokens = fluentTheme.globalTokens
+
         self.cardNudges.forEach({ cardNudge in
-            let tokens = isOverrideEnabled ? PerControlOverrideCardNudgeTokens() : nil
-            cardNudge.state.overrideTokens = tokens
+            if isOverrideEnabled {
+                cardNudge.tokenSet[.backgroundColor] = .dynamicColor({
+                    DynamicColor(light: globalTokens.sharedColors[.seafoam][.tint50],
+                                 dark: globalTokens.sharedColors[.seafoam][.shade40])
+                })
+            } else {
+                cardNudge.tokenSet.removeOverride(.backgroundColor)
+            }
         })
     }
 
     func isThemeWideOverrideApplied() -> Bool {
-        return self.view.window?.fluentTheme.tokenOverride(for: CardNudge.self) != nil
-    }
-
-    // MARK: - Custom tokens
-
-    private class ThemeWideOverrideCardNudgeTokens: CardNudgeTokens {
-        override var backgroundColor: DynamicColor {
-            // "Hot Pink"
-            return DynamicColor(light: GlobalTokens().sharedColors[.hotPink][.tint50],
-                                dark: GlobalTokens().sharedColors[.hotPink][.shade40])
-        }
-    }
-
-    private class PerControlOverrideCardNudgeTokens: CardNudgeTokens {
-        override var backgroundColor: DynamicColor {
-            // "Seafoam"
-            return DynamicColor(light: GlobalTokens().sharedColors[.seafoam][.tint50],
-                                dark: GlobalTokens().sharedColors[.seafoam][.shade40])
-        }
+        return self.view.window?.fluentTheme.tokens(for: CardNudgeTokenSet.self) != nil
     }
 }

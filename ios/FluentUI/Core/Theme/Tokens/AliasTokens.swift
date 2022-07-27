@@ -9,7 +9,7 @@ public final class AliasTokens {
 
     // MARK: ForegroundColors
 
-    public enum ForegroundColorsTokens: CaseIterable {
+    public enum ForegroundColorsTokens: TokenSetKey {
         case neutral1
         case neutral2
         case neutral3
@@ -74,7 +74,7 @@ public final class AliasTokens {
 
     // MARK: BackgroundColors
 
-    public enum BackgroundColorsTokens: CaseIterable {
+    public enum BackgroundColorsTokens: TokenSetKey {
         case neutral1
         case neutral2
         case neutral3
@@ -134,7 +134,7 @@ public final class AliasTokens {
 
     // MARK: StrokeColors
 
-    public enum StrokeColorsTokens: CaseIterable {
+    public enum StrokeColorsTokens: TokenSetKey {
         case neutral1
         case neutral2
     }
@@ -158,7 +158,7 @@ public final class AliasTokens {
 
     // MARK: - ShadowColors
 
-    public enum ShadowColorsTokens: CaseIterable {
+    public enum ShadowColorsTokens: TokenSetKey {
         case neutralAmbient
         case neutralKey
         case neutralAmbientLighter
@@ -200,7 +200,7 @@ public final class AliasTokens {
 
     // MARK: - Typography
 
-    public enum TypographyTokens: CaseIterable {
+    public enum TypographyTokens: TokenSetKey {
         case display
         case largeTitle
         case title1
@@ -258,7 +258,7 @@ public final class AliasTokens {
 
     // MARK: - Shadow
 
-    public enum ShadowTokens: CaseIterable {
+    public enum ShadowTokens: TokenSetKey {
         case shadow02
         case shadow04
         case shadow08
@@ -328,7 +328,7 @@ public final class AliasTokens {
 
     // MARK: Elevation
 
-    public enum ElevationTokens: CaseIterable {
+    public enum ElevationTokens: TokenSetKey {
         case interactiveElevation1Rest
         case interactiveElevation1Hover
         case interactiveElevation1Pressed

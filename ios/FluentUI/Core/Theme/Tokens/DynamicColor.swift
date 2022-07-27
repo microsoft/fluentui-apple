@@ -6,7 +6,8 @@
 import SwiftUI
 
 /// A platform-agnostic representation of a 32-bit RGBA color value.
-public struct ColorValue {
+public struct ColorValue: Equatable {
+
     public static let clear: ColorValue = .init(r: 0.0, g: 0.0, b: 0.0, a: 0.0)
 
     /// Creates a color value instance with the specified three-channel, 8-bit-per-channel color value, usually in hex.
@@ -52,7 +53,8 @@ public struct ColorValue {
 }
 
 /// Represents a set of color values to be used in different contexts.
-public struct DynamicColor {
+public struct DynamicColor: Equatable {
+
     /// Creates a dynamic color object that wraps a set of color values for various rendering contexts.
     ///
     /// - Parameter light: The default color for a light context. Required.
