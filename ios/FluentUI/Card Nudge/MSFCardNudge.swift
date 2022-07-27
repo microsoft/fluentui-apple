@@ -29,5 +29,6 @@ import UIKit
    /// The object that groups properties that allow control over the Card Nudge appearance.
     @objc public let state: MSFCardNudgeState
 
+    /// Access to the control's `ControlTokenSet` for reading default values and providing overrides.
     public let tokenSet: CardNudgeTokenSet
 }
