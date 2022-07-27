@@ -193,26 +193,24 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
     }
 
     private func updateSelectionColors() {
-        if let window = window {
-            if let item = item {
-                _imageView.tintColor = isSelected
-                    ? item.imageSelectedColor ?? Colors.primary(for: window)
-                    : item.imageColor
-                titleLabel.textColor = isSelected
-                    ? item.titleSelectedColor ?? Colors.primary(for: window)
-                    : item.titleColor
-                subtitleLabel.textColor = isSelected
-                    ? item.subtitleSelectedColor ?? Colors.primary(for: window)
-                    : item.subtitleColor
-                backgroundColor = item.backgroundColor
-            }
+        if let item = item {
+            _imageView.tintColor = isSelected
+                ? item.imageSelectedColor ?? UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1])
+                : item.imageColor
+            titleLabel.textColor = isSelected
+            ? item.titleSelectedColor ?? UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1])
+                : item.titleColor
+            subtitleLabel.textColor = isSelected
+                ? item.subtitleSelectedColor ?? UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1])
+                : item.subtitleColor
+            backgroundColor = item.backgroundColor
+        }
 
-            if isSelected && item?.isAccessoryCheckmarkVisible == true {
-                _accessoryType = .checkmark
-                accessoryTypeView?.customTintColor = item?.accessoryCheckmarkColor ?? Colors.primary(for: window)
-            } else {
-                _accessoryType = .none
-            }
+        if isSelected && item?.isAccessoryCheckmarkVisible == true {
+            _accessoryType = .checkmark
+            accessoryTypeView?.customTintColor = item?.accessoryCheckmarkColor ?? UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1])
+        } else {
+            _accessoryType = .none
         }
     }
 }

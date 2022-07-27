@@ -31,15 +31,15 @@ open class PopupMenuItem: NSObject, PopupMenuTemplateItem {
     @objc public lazy var subtitleColor: UIColor = Colors.Table.Cell.subtitle
     /// `image` tint color if it is rendered as template
     @objc public lazy var imageColor: UIColor = Colors.Table.Cell.image
-    /// `title` color when`isSelected` is true. If unset, Colors.primary will be used
+    /// `title` color when`isSelected` is true. If unset, brand foreground 1 will be used
     @objc public var titleSelectedColor: UIColor?
-    /// `subtitle` color when`isSelected` is true.  If unset, Colors.primary will be used
+    /// `subtitle` color when`isSelected` is true.  If unset, brand foreground 1 will be used
     @objc public var subtitleSelectedColor: UIColor?
-    /// tint color if `selectedImage` is rendered as template and `isSelected` is true.  Is unset, Colors.primary will be used
+    /// tint color if `selectedImage` is rendered as template and `isSelected` is true.  If unset, brand foreground 1 will be used
     @objc public var imageSelectedColor: UIColor?
     /// background color of PopupMenuItem corresponding cell
     @objc public var backgroundColor: UIColor = .clear
-    /// checkmark color `isAccessoryCheckmarkVisible` and `isSelected` is true. If unset, Colors.primary will be used
+    /// checkmark color `isAccessoryCheckmarkVisible` and `isSelected` is true. If unset, brand foreground 1 will be used
     @objc public var accessoryCheckmarkColor: UIColor?
 
     @objc public let onSelected: (() -> Void)?
@@ -88,10 +88,6 @@ open class PopupMenuItem: NSObject, PopupMenuTemplateItem {
         titleColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
         subtitleColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
         imageColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
-        titleSelectedColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1])
-        subtitleSelectedColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1])
-        imageSelectedColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1])
-        accessoryCheckmarkColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1])
     }
 
     @objc public convenience init(imageName: String, generateSelectedImage: Bool = true, title: String, subtitle: String? = nil, isEnabled: Bool = true, isSelected: Bool = false, executes executionMode: ExecutionMode = .onSelection, onSelected: (() -> Void)? = nil, isAccessoryCheckmarkVisible: Bool = true) {
