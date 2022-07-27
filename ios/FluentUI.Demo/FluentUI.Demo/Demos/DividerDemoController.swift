@@ -45,7 +45,6 @@ class DividerDemoController: DemoTableViewController {
             return cell
         case .dividerDemo:
             let cell = TableViewCell()
-            cell.backgroundColor = Colors.surfacePrimary
             let contentView = cell.contentView
 
             let spacing: MSFDividerSpacing = section == .defaultMedium ? .medium : .none

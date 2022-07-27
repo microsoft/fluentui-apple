@@ -222,7 +222,7 @@ extension TableViewCellDemoController {
         cell.subtitleNumberOfLinesForLargerDynamicType = section.numberOfLines == 1 ? 2 : TableViewCell.defaultNumberOfLinesForLargerDynamicType
         cell.footerNumberOfLinesForLargerDynamicType = section.numberOfLines == 1 ? 2 : TableViewCell.defaultNumberOfLinesForLargerDynamicType
 
-        cell.backgroundColor = isGrouped ? Colors.tableCellBackgroundGrouped : Colors.tableCellBackground
+        cell.backgroundStyleType = isGrouped ? .grouped : .plain
         cell.topSeparatorType = isGrouped && indexPath.row == 0 ? .full : .none
         let isLastInSection = indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1
         cell.bottomSeparatorType = isLastInSection ? .full : .inset
@@ -269,5 +269,9 @@ extension TableViewCellDemoController {
         let action = UIAlertAction(title: "OK", style: .default)
         alert.addAction(action)
         present(alert, animated: true)
+    }
+
+    override func tableView(_ tableView: UITableView, canFocusRowAt indexPath: IndexPath) -> Bool {
+        return true
     }
 }

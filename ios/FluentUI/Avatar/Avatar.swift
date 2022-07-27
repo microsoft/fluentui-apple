@@ -138,16 +138,16 @@ public struct Avatar: View, ConfigurableTokenizedControl {
         let presenceIconFrameSideRelativeToOuterRing: CGFloat = presenceIconFrameSideRelativeToInnerRing + outerGapAndRingThicknesCombined
         let overallFrameSide = max(ringOuterGapSize, presenceIconFrameSideRelativeToOuterRing)
 
-        let foregroundColor = state.foregroundColor?.dynamicColor ?? ( !shouldUseCalculatedColors ?
-                                                                       tokens.foregroundDefaultColor :
-                                                                        initialsCalculatedColor(fromPrimaryText: state.primaryText,
-                                                                                                secondaryText: state.secondaryText,
-                                                                                                colorOptions: tokens.foregroundCalculatedColorOptions))
-        let backgroundColor = state.backgroundColor?.dynamicColor ?? ( !shouldUseCalculatedColors ?
-                                                                       tokens.backgroundDefaultColor :
-                                                                        initialsCalculatedColor(fromPrimaryText: state.primaryText,
-                                                                                                secondaryText: state.secondaryText,
-                                                                                                colorOptions: tokens.backgroundCalculatedColorOptions))
+        let foregroundColor = state.foregroundColor?.dynamicColor ?? (
+            !shouldUseCalculatedColors ? tokens.foregroundDefaultColor :
+                CalculatedColors.foregroundColor(fromPrimaryText: state.primaryText,
+                                                 secondaryText: state.secondaryText,
+                                                 fluentTheme: fluentTheme))
+        let backgroundColor = state.backgroundColor?.dynamicColor ?? (
+            !shouldUseCalculatedColors ? tokens.backgroundDefaultColor :
+                CalculatedColors.backgroundColor(fromPrimaryText: state.primaryText,
+                                                 secondaryText: state.secondaryText,
+                                                 fluentTheme: fluentTheme))
         let ringGapColor = Color(dynamicColor: tokens.ringGapColor).opacity(isTransparent ? 0 : 1)
         let ringColor = !isRingVisible ? Color.clear :
         Color(dynamicColor: state.ringColor?.dynamicColor ?? ( !shouldUseCalculatedColors ?
@@ -313,30 +313,6 @@ public struct Avatar: View, ConfigurableTokenizedControl {
     }
     @ObservedObject var state: MSFAvatarStateImpl
 
-    private static func initialsHashCode(fromPrimaryText primaryText: String?, secondaryText: String?) -> Int {
-        var combined: String
-        if let secondaryText = secondaryText, let primaryText = primaryText, secondaryText.count > 0 {
-            combined = primaryText + secondaryText
-        } else if let primaryText = primaryText {
-            combined = primaryText
-        } else {
-            combined = ""
-        }
-
-        let combinedHashable = combined as NSString
-        return Int(abs(javaHashCode(combinedHashable)))
-    }
-
-    private func initialsCalculatedColor(fromPrimaryText primaryText: String?, secondaryText: String?, colorOptions: [DynamicColor]? = nil) -> DynamicColor {
-        guard let colors = colorOptions else {
-            return .init(light: fluentTheme.globalTokens.neutralColors[.black])
-        }
-
-        // Set the color based on the primary text and secondary text
-        let hashCode = Avatar.initialsHashCode(fromPrimaryText: primaryText, secondaryText: secondaryText)
-        return colors[hashCode % colors.count]
-    }
-
     private static func initialsText(fromPrimaryText primaryText: String?, secondaryText: String?) -> String {
         var initials = ""
 
@@ -374,18 +350,6 @@ public struct Avatar: View, ConfigurableTokenizedControl {
         return initials
     }
 
-    /// To ensure iOS and Android achieve the same result when generating string hash codes (e.g. to determine avatar colors) we've copied Java's String implementation of `hashCode`.
-    /// Must use Int32 as JVM specification is 32-bits for ints
-    /// - Returns: hash code of string
-    private static func javaHashCode(_ text: NSString) -> Int32 {
-        var hash: Int32 = 0
-        for i in 0..<text.length {
-            // Allow overflows, mimicking Java behavior
-            hash = 31 &* hash &+ Int32(text.character(at: i))
-        }
-        return hash
-    }
-
     private struct PresenceCutout: Shape {
         var originX: CGFloat
         var originY: CGFloat
@@ -411,6 +375,88 @@ public struct Avatar: View, ConfigurableTokenizedControl {
                                                          height: presenceIconOutlineSize)))
             return cutoutFrame
         }
+    }
+
+    /// Handles calculating colors for Avatar foreground and background.
+    private struct CalculatedColors {
+        static func backgroundColor(fromPrimaryText primaryText: String?,
+                                    secondaryText: String?,
+                                    fluentTheme: FluentTheme) -> DynamicColor {
+            // Set the color based on the primary text and secondary text
+            let hashCode = initialsHashCode(fromPrimaryText: primaryText, secondaryText: secondaryText)
+            let colorSet = colors[hashCode % colors.count]
+            return DynamicColor(light: fluentTheme.globalTokens.sharedColors[colorSet][.tint40],
+                                dark: fluentTheme.globalTokens.sharedColors[colorSet][.shade30])
+        }
+
+        static func foregroundColor(fromPrimaryText primaryText: String?,
+                                    secondaryText: String?,
+                                    fluentTheme: FluentTheme) -> DynamicColor {
+            // Set the color based on the primary text and secondary text
+            let hashCode = initialsHashCode(fromPrimaryText: primaryText, secondaryText: secondaryText)
+            let colorSet = colors[hashCode % colors.count]
+            return DynamicColor(light: fluentTheme.globalTokens.sharedColors[colorSet][.shade30],
+                                dark: fluentTheme.globalTokens.sharedColors[colorSet][.tint40])
+        }
+
+        private static func initialsHashCode(fromPrimaryText primaryText: String?, secondaryText: String?) -> Int {
+            var combined: String
+            if let secondaryText = secondaryText, let primaryText = primaryText, secondaryText.count > 0 {
+                combined = primaryText + secondaryText
+            } else if let primaryText = primaryText {
+                combined = primaryText
+            } else {
+                combined = ""
+            }
+
+            let combinedHashable = combined as NSString
+            return Int(abs(javaHashCode(combinedHashable)))
+        }
+
+        /// To ensure iOS and Android achieve the same result when generating string hash codes (e.g. to determine avatar colors) we've copied Java's String implementation of `hashCode`.
+        /// Must use Int32 as JVM specification is 32-bits for ints
+        /// - Returns: hash code of string
+        private static func javaHashCode(_ text: NSString) -> Int32 {
+            var hash: Int32 = 0
+            for i in 0..<text.length {
+                // Allow overflows, mimicking Java behavior
+                hash = 31 &* hash &+ Int32(text.character(at: i))
+            }
+            return hash
+        }
+
+        private static var colors: [GlobalTokens.SharedColorSets] = [
+            .darkRed,
+            .cranberry,
+            .red,
+            .pumpkin,
+            .peach,
+            .marigold,
+            .gold,
+            .brass,
+            .brown,
+            .forest,
+            .seafoam,
+            .darkGreen,
+            .lightTeal,
+            .teal,
+            .steel,
+            .blue,
+            .royalBlue,
+            .cornflower,
+            .navy,
+            .lavender,
+            .purple,
+            .grape,
+            .lilac,
+            .pink,
+            .magenta,
+            .plum,
+            .beige,
+            .mink,
+            .platinum,
+            .anchor
+        ]
     }
 
     private let animationDuration: Double = 0.1
