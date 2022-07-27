@@ -873,7 +873,7 @@ public class BottomSheetController: UIViewController {
 
     private let shouldShowDimmingView: Bool
 
-    private lazy var backgroundColor = UIColor(dynamicColor: self.view.fluentTheme.aliasTokens.colors[.background2])
+    private lazy var backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background2])
 
     private struct Constants {
         // Maximum offset beyond the normal bounds with additional resistance
