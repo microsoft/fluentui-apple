@@ -37,7 +37,7 @@ import UIKit
     }
 
     // MARK: - Show/Hide Methods
-    /// `showNotification` is used to present the view inside a container view:
+    /// `show` is used to present the view inside a container view:
     /// insert into layout and show with optional animation. Constraints are used for the view positioning.
     /// - Parameters:
     ///   - view: The container view where this view will be presented.
@@ -47,10 +47,10 @@ import UIKit
     ///   - animated: Indicates whether to use animation during presentation or not.
     ///   - completion: The closure to be called after presentation is completed.
     ///   Can be used to call `hide` with a delay.
-    @objc public func showNotification(in view: UIView,
-                                       from anchorView: UIView? = nil,
-                                       animated: Bool = true,
-                                       completion: ((MSFNotification) -> Void)? = nil) {
+    @objc public func show(in view: UIView,
+                           from anchorView: UIView? = nil,
+                           animated: Bool = true,
+                           completion: ((MSFNotification) -> Void)? = nil) {
         guard self.window == nil else {
             return
         }
@@ -59,7 +59,10 @@ import UIKit
         let presentationOffset: CGFloat! = notification.tokens.presentationOffset
         if style.isToast, let currentToast = MSFNotification.currentToast, currentToast.window != nil {
             currentToast.hide {
-                self.showNotification(in: view, from: anchorView, animated: animated, completion: completion)
+                self.show(in: view,
+                          from: anchorView,
+                          animated: animated,
+                          completion: completion)
             }
             return
         }
