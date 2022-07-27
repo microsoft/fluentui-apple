@@ -63,6 +63,15 @@ open class PopupMenuItem: NSObject, PopupMenuTemplateItem {
         super.init()
 
         initRequiredColors()
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        initRequiredColors()
     }
 
     private func initRequiredColors() {
