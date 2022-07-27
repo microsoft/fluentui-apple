@@ -6,6 +6,7 @@
 import CoreGraphics
 
 /// Represents a two-part shadow as used by FluentUI.
+/// Blur refers to the radius of the shadow's blur.
 public struct ShadowInfo {
     let colorOne: DynamicColor
     let blurOne: CGFloat
