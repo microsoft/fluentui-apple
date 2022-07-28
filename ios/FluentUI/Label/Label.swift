@@ -17,22 +17,22 @@ public enum TextColorStyle: Int, CaseIterable {
     case warning
     case disabled
 
-    func color(for window: UIWindow) -> UIColor {
+    func color(fluentTheme: FluentTheme) -> UIColor {
         switch self {
         case .regular:
-            return Colors.textPrimary
+            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
         case .secondary:
-            return Colors.textSecondary
+            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground3])
         case .white:
             return .white
         case .primary:
-            return Colors.primary(for: window)
+            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1])
         case .error:
-            return Colors.error
+            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.redForeground1])
         case .warning:
-            return UIColor(light: Colors.Palette.warningShade30.color, dark: Colors.warning)
+            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.yellowForeground1])
         case .disabled:
-            return Colors.textDisabled
+            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundDisabled1])
         }
     }
 }
@@ -118,9 +118,7 @@ open class Label: UILabel {
         guard self.attributedText == nil else {
             return
         }
-        if let window = window {
-            super.textColor = _textColor ?? colorStyle.color(for: window)
-        }
+        super.textColor = _textColor ?? colorStyle.color(fluentTheme: fluentTheme)
     }
 
     @objc private func handleContentSizeCategoryDidChange() {
