@@ -144,7 +144,7 @@ public struct AvatarGroup: View, TokenizedControlView {
         }()
 
         @ViewBuilder
-        func avatarViewInHStack(_ index: Int, _ avatar: MSFAvatarStateImpl) -> some View {
+        func avatarView(at index: Int, for avatar: MSFAvatarStateImpl) -> some View {
             let nextIndex = index + 1
             let isLastDisplayed = nextIndex == avatarsToDisplay
             // If the avatar is part of Stack style and is not the last avatar in the sequence, create a cutout.
@@ -196,7 +196,7 @@ public struct AvatarGroup: View, TokenizedControlView {
         var avatarGroupContent: some View {
             HStack(spacing: 0) {
                 ForEach(enumeratedAvatars.prefix(avatarsToDisplay), id: \.1) { index, avatar in
-                    avatarViewInHStack(index, avatar)
+                    avatarView(at: index, for: avatar)
                 }
 
                 if hasOverflow {

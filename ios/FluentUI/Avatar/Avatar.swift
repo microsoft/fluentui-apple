@@ -281,8 +281,7 @@ public struct Avatar: View, TokenizedControlView {
             .accessibility(label: Text(accessibilityLabel))
             .accessibility(value: Text(presence.string() ?? ""))
             .fluentTokens(tokenSet, fluentTheme) {
-                tokenSet.size = state.size
-                tokenSet.style = state.style
+                updateTokenSet()
             }
     }
 
@@ -294,6 +293,7 @@ public struct Avatar: View, TokenizedControlView {
 
     /// Calculates the size of the avatar, including ring spacing
     var totalSize: CGFloat {
+        updateTokenSet()
         let avatarImageSize: CGFloat = tokenSet[.avatarSize].float
         let ringOuterGap: CGFloat = tokenSet[.ringOuterGap].float
         if !state.isRingVisible {
@@ -312,6 +312,11 @@ public struct Avatar: View, TokenizedControlView {
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @Environment(\.layoutDirection) var layoutDirection: LayoutDirection
     @ObservedObject var state: MSFAvatarStateImpl
+
+    private func updateTokenSet() {
+        tokenSet.size = state.size
+        tokenSet.style = state.style
+    }
 
     private static func initialsText(fromPrimaryText primaryText: String?, secondaryText: String?) -> String {
         var initials = ""
