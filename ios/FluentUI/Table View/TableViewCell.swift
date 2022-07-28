@@ -75,7 +75,7 @@ public enum TableViewCellBackgroundStyleType: Int {
         case .plain:
             return UIColor(dynamicColor: tokens.cellBackgroundColor)
         case .grouped:
-            return UIColor(dynamicColor: tokens.cellBackgroundGrouped)
+            return UIColor(dynamicColor: tokens.cellBackgroundGroupedColor)
         case .clear:
             return .clear
         case .custom:

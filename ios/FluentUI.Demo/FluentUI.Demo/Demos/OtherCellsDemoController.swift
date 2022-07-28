@@ -85,7 +85,7 @@ extension OtherCellsDemoController: DemoAppearanceDelegate {
     }
 
     private class ThemeWideOverrideOtherCellTokens: TableViewCellTokens {
-        override var cellBackgroundGrouped: DynamicColor {
+        override var cellBackgroundGroupedColor: DynamicColor {
             // "Charcoal"
             return DynamicColor(light: GlobalTokens().sharedColors[.charcoal][.tint50],
                                 dark: GlobalTokens().sharedColors[.charcoal][.shade40])
@@ -93,7 +93,7 @@ extension OtherCellsDemoController: DemoAppearanceDelegate {
     }
 
     private class PerControlOverrideTableViewCellTokens: ActionsCellTokens {
-        override var cellBackgroundGrouped: DynamicColor {
+        override var cellBackgroundGroupedColor: DynamicColor {
             // "Burgundy"
             return DynamicColor(light: GlobalTokens().sharedColors[.burgundy][.tint50],
                                 dark: GlobalTokens().sharedColors[.burgundy][.shade40])
