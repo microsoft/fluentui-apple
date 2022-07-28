@@ -75,7 +75,7 @@ import SwiftUI
 /// View that represents the avatar.
 public struct Avatar: View, TokenizedControlView {
     public typealias TokenSetKeyType = AvatarTokenSet.Tokens
-    @ObservedObject public var tokenSet: AvatarTokenSet = .init()
+    @ObservedObject public var tokenSet: AvatarTokenSet
 
     /// Creates and initializes a SwiftUI Avatar
     /// - Parameters:
@@ -95,7 +95,7 @@ public struct Avatar: View, TokenizedControlView {
         state.primaryText = primaryText
         state.secondaryText = secondaryText
 
-        self.state = state
+        self.init(state)
     }
 
     public var body: some View {
@@ -280,20 +280,19 @@ public struct Avatar: View, TokenizedControlView {
             .accessibility(addTraits: state.hasButtonAccessibilityTrait ? .isButton : .isImage)
             .accessibility(label: Text(accessibilityLabel))
             .accessibility(value: Text(presence.string() ?? ""))
-            .fluentTokens(tokenSet, fluentTheme) {
-                updateTokenSet()
-            }
+            .fluentTokens(tokenSet, fluentTheme)
     }
 
     // This initializer should be used by internal container views. These containers should first initialize
     // MSFAvatarStateImpl using style and size, and then use that state and this initializer in their ViewBuilder.
     init(_ avatarState: MSFAvatarStateImpl) {
         state = avatarState
+        tokenSet = AvatarTokenSet(style: { avatarState.style },
+                                  size: { avatarState.size })
     }
 
     /// Calculates the size of the avatar, including ring spacing
     var totalSize: CGFloat {
-        updateTokenSet()
         let avatarImageSize: CGFloat = tokenSet[.avatarSize].float
         let ringOuterGap: CGFloat = tokenSet[.ringOuterGap].float
         if !state.isRingVisible {
@@ -312,11 +311,6 @@ public struct Avatar: View, TokenizedControlView {
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @Environment(\.layoutDirection) var layoutDirection: LayoutDirection
     @ObservedObject var state: MSFAvatarStateImpl
-
-    private func updateTokenSet() {
-        tokenSet.size = state.size
-        tokenSet.style = state.style
-    }
 
     private static func initialsText(fromPrimaryText primaryText: String?, secondaryText: String?) -> String {
         var initials = ""

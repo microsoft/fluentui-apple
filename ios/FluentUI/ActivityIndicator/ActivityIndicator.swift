@@ -30,13 +30,14 @@ public struct ActivityIndicator: View, TokenizedControlView {
 
     public typealias TokenSetType = ActivityIndicatorTokenSet
     public typealias TokenSetKeyType = ActivityIndicatorTokenSet.Tokens
-    @ObservedObject public var tokenSet: ActivityIndicatorTokenSet = .init()
+    @ObservedObject public var tokenSet: ActivityIndicatorTokenSet
 
     /// Creates the ActivityIndicator.
     /// - Parameter size: The MSFActivityIndicatorSize value used by the Activity Indicator.
     public init(size: MSFActivityIndicatorSize) {
         let state = MSFActivityIndicatorStateImpl(size: size)
         self.state = state
+        self.tokenSet = ActivityIndicatorTokenSet(size: { state.size })
     }
 
     public var body: some View {
@@ -81,9 +82,7 @@ public struct ActivityIndicator: View, TokenizedControlView {
             .frame(width: side,
                    height: side,
                    alignment: .center)
-            .fluentTokens(tokenSet, fluentTheme) {
-                tokenSet.size = state.size
-            }
+            .fluentTokens(tokenSet, fluentTheme)
     }
 
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme

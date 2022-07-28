@@ -48,7 +48,7 @@ public struct CardNudge: View, TokenizedControlView {
     public typealias TokenSetKeyType = CardNudgeTokenSet.Tokens
     public typealias TokenSetType = CardNudgeTokenSet
 
-    @ObservedObject public var tokenSet: CardNudgeTokenSet = .init()
+    @ObservedObject public var tokenSet: CardNudgeTokenSet
 
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @ObservedObject var state: MSFCardNudgeStateImpl
@@ -166,14 +166,13 @@ public struct CardNudge: View, TokenizedControlView {
             )
             .padding(.vertical, tokenSet[.verticalPadding].float)
             .padding(.horizontal, tokenSet[.horizontalPadding].float)
-            .fluentTokens(tokenSet, fluentTheme) {
-                tokenSet.style = state.style
-            }
+            .fluentTokens(tokenSet, fluentTheme)
     }
 
     public init(style: MSFCardNudgeStyle, title: String) {
         let state = MSFCardNudgeStateImpl(style: style, title: title)
         self.state = state
+        self.tokenSet = CardNudgeTokenSet(style: { state.style })
     }
 }
 

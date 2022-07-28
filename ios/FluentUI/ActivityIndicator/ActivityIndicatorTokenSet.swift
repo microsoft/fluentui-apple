@@ -16,7 +16,7 @@ import UIKit
 }
 
 /// Design token set for the `ActivityIndicator` control.
-open class ActivityIndicatorTokenSet: ControlTokenSet<ActivityIndicatorTokenSet.Tokens> {
+public class ActivityIndicatorTokenSet: ControlTokenSet<ActivityIndicatorTokenSet.Tokens> {
     public enum Tokens: TokenSetKey {
         /// The default color of the Activity Indicator.
         case defaultColor
@@ -28,8 +28,15 @@ open class ActivityIndicatorTokenSet: ControlTokenSet<ActivityIndicatorTokenSet.
         case thickness
     }
 
-    /// MSFActivityIndicatorSize enumeration value that will define pre-defined values for side and thickness.
-    public internal(set) var size: MSFActivityIndicatorSize = .large
+    init(size: @escaping () -> MSFActivityIndicatorSize) {
+        self.size = size
+        super.init()
+    }
+
+    @available(*, unavailable)
+    required init() {
+        preconditionFailure("init() has not been implemented")
+    }
 
     override func defaultValue(_ token: Tokens) -> ControlTokenValue {
         switch token {
@@ -38,7 +45,7 @@ open class ActivityIndicatorTokenSet: ControlTokenSet<ActivityIndicatorTokenSet.
 
         case .side:
             return .float {
-                switch self.size {
+                switch self.size() {
                 case .xSmall:
                     return 12
                 case .small:
@@ -54,7 +61,7 @@ open class ActivityIndicatorTokenSet: ControlTokenSet<ActivityIndicatorTokenSet.
 
         case .thickness:
             return .float {
-                switch self.size {
+                switch self.size() {
                 case .xSmall, .small:
                     return 1
                 case .medium:
@@ -67,4 +74,7 @@ open class ActivityIndicatorTokenSet: ControlTokenSet<ActivityIndicatorTokenSet.
             }
         }
     }
+
+    /// MSFActivityIndicatorSize enumeration value that will define pre-defined values for side and thickness.
+    var size: () -> MSFActivityIndicatorSize
 }

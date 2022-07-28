@@ -91,7 +91,7 @@ import SwiftUI
 public struct AvatarGroup: View, TokenizedControlView {
     public typealias TokenSetType = AvatarGroupTokenSet
     public typealias TokenSetKeyType = AvatarGroupTokenSet.Tokens
-    @ObservedObject public var tokenSet: AvatarGroupTokenSet = .init()
+    @ObservedObject public var tokenSet: AvatarGroupTokenSet
 
     /// Creates and initializes a SwiftUI AvatarGroup.
     /// - Parameters:
@@ -102,6 +102,8 @@ public struct AvatarGroup: View, TokenizedControlView {
         let state = MSFAvatarGroupStateImpl(style: style,
                                             size: size)
         self.state = state
+        self.tokenSet = AvatarGroupTokenSet(style: { state.style },
+                                            size: { state.size })
     }
 
     public var body: some View {
@@ -214,10 +216,7 @@ public struct AvatarGroup: View, TokenizedControlView {
         }
 
         return avatarGroupContent
-            .fluentTokens(tokenSet, fluentTheme) {
-                tokenSet.size = state.size
-                tokenSet.style = state.style
-            }
+            .fluentTokens(tokenSet, fluentTheme)
     }
 
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
@@ -227,12 +226,10 @@ public struct AvatarGroup: View, TokenizedControlView {
     private let animationDuration: CGFloat = 0.1
 
     private func createOverflow(count: Int) -> Avatar {
-        var avatar = Avatar(style: .overflow, size: state.size)
-        let data = MSFAvatarStateImpl(style: .overflow, size: state.size)
-        data.primaryText = "\(count)"
-        data.image = nil
-        avatar.state = data
-        return avatar
+        let state = MSFAvatarStateImpl(style: .overflow, size: state.size)
+        state.primaryText = "\(count)"
+        state.image = nil
+        return Avatar(state)
     }
 }
 

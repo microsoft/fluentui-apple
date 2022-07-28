@@ -7,25 +7,31 @@ import UIKit
 import SwiftUI
 
 /// Design token set for the `AvatarGroup` control
-open class AvatarGroupTokenSet: ControlTokenSet<AvatarGroupTokenSet.Tokens> {
+public class AvatarGroupTokenSet: ControlTokenSet<AvatarGroupTokenSet.Tokens> {
     public enum Tokens: TokenSetKey {
         /// CGFloat that defines the space between  the `Avatar` controls hosted by the `AvatarGroup`.
         case interspace
     }
 
-    /// Defines the style of the `Avatar` controls in the `AvatarGroup`.
-    public internal(set) var style: MSFAvatarGroupStyle = .stack
+    init(style: @escaping () -> MSFAvatarGroupStyle,
+         size: @escaping () -> MSFAvatarSize) {
+        self.style = style
+        self.size = size
+        super.init()
+    }
 
-    /// Defines the size of the `Avatar` controls in the `AvatarGroup`.
-    public internal(set) var size: MSFAvatarSize = .large
+    @available(*, unavailable)
+    required init() {
+        preconditionFailure("init() has not been implemented")
+    }
 
     override func defaultValue(_ token: Tokens) -> ControlTokenValue {
         return .float({
             switch token {
             case .interspace:
-                switch self.style {
+                switch self.style() {
                 case .stack:
-                    switch self.size {
+                    switch self.size() {
                     case .xsmall, .small:
                         return -self.globalTokens.spacing[.xxxSmall]
                     case .medium:
@@ -37,7 +43,7 @@ open class AvatarGroupTokenSet: ControlTokenSet<AvatarGroupTokenSet.Tokens> {
                     }
 
                 case .pile:
-                    switch self.size {
+                    switch self.size() {
                     case .xsmall, .small:
                         return self.globalTokens.spacing[.xxSmall]
                     case .medium, .large, .xlarge, .xxlarge:
@@ -47,4 +53,10 @@ open class AvatarGroupTokenSet: ControlTokenSet<AvatarGroupTokenSet.Tokens> {
             }
         })
     }
+
+    /// Defines the style of the `Avatar` controls in the `AvatarGroup`.
+    var style: () -> MSFAvatarGroupStyle
+
+    /// Defines the size of the `Avatar` controls in the `AvatarGroup`.
+    var size: () -> MSFAvatarSize
 }

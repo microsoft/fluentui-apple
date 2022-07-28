@@ -7,7 +7,7 @@ import UIKit
 import SwiftUI
 
 /// Design token set for the `Avatar` control.
-open class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
+public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
     public enum Tokens: TokenSetKey {
         /// The size of the content of the `Avatar`.
         case avatarSize
@@ -47,14 +47,25 @@ open class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
 
         /// The default color of the foreground of the `Avatar`
         case foregroundDefaultColor
+    }
 
+    init(style: @escaping () -> MSFAvatarStyle,
+         size: @escaping () -> MSFAvatarSize) {
+        self.style = style
+        self.size = size
+        super.init()
+    }
+
+    @available(*, unavailable)
+    required init() {
+        preconditionFailure("init() has not been implemented")
     }
 
     override func defaultValue(_ token: Tokens) -> ControlTokenValue {
         switch token {
         case .avatarSize:
             return .float({
-                switch self.size {
+                switch self.size() {
                 case .xsmall:
                     return 16
                 case .small:
@@ -72,11 +83,11 @@ open class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
 
         case .borderRadius:
             return .float({
-                switch self.style {
+                switch self.style() {
                 case .default, .accent, .outlined, .outlinedPrimary, .overflow:
                     return self.globalTokens.borderRadius[.none]
                 case .group:
-                    switch self.size {
+                    switch self.size() {
                     case .xsmall:
                         return self.globalTokens.borderRadius[.small]
                     case .small, .medium:
@@ -91,7 +102,7 @@ open class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
 
         case .textFont:
             return .fontInfo({
-                switch self.size {
+                switch self.size() {
                 case .xsmall:
                     return .init(size: 9, weight: self.globalTokens.fontWeight[.regular])
                 case .small:
@@ -109,7 +120,7 @@ open class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
 
         case .ringDefaultColor:
             return .dynamicColor({
-                switch self.style {
+                switch self.style() {
                 case .default, .group:
                     return self.globalTokens.brandColors[.tint10]
                 case .accent:
@@ -128,7 +139,7 @@ open class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
 
         case .ringThickness:
             return .float({
-                switch self.size {
+                switch self.size() {
                 case .xsmall, .small:
                     return self.globalTokens.borderSize[.thin]
                 case .medium, .large, .xlarge:
@@ -140,7 +151,7 @@ open class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
 
         case .ringInnerGap:
             return .float({
-                switch self.size {
+                switch self.size() {
                 case .xsmall, .small, .medium, .large, .xlarge:
                     return self.globalTokens.borderSize[.thick]
                 case .xxlarge:
@@ -150,7 +161,7 @@ open class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
 
         case .ringOuterGap:
             return .float({
-                switch self.size {
+                switch self.size() {
                 case .xsmall, .small, .medium, .large, .xlarge:
                     return self.globalTokens.borderSize[.thick]
                 case .xxlarge:
@@ -160,7 +171,7 @@ open class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
 
         case .presenceIconSize:
             return .float({
-                switch self.size {
+                switch self.size() {
                 case .xsmall:
                     return 0
                 case .small, .medium:
@@ -174,7 +185,7 @@ open class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
 
         case .presenceIconOutlineThickness:
             return .float({
-                switch self.size {
+                switch self.size() {
                 case .xsmall:
                     return self.globalTokens.borderSize[.none]
                 case .small, .medium, .large, .xlarge, .xxlarge:
@@ -189,7 +200,7 @@ open class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
 
         case .backgroundDefaultColor:
             return .dynamicColor({
-                switch self.style {
+                switch self.style() {
                 case .default, .group:
                     return .init(light: self.globalTokens.neutralColors[.white], dark: self.globalTokens.brandColors[.primary].dark)
                 case .accent:
@@ -205,7 +216,7 @@ open class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
 
         case .foregroundDefaultColor:
             return .dynamicColor({
-                switch self.style {
+                switch self.style() {
                 case .default, .group:
                     return .init(light: self.globalTokens.brandColors[.primary].light, dark: self.globalTokens.neutralColors[.black])
                 case .accent:
@@ -222,10 +233,10 @@ open class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
     }
 
     /// Defines the style of the `Avatar`.
-    public internal(set) var style: MSFAvatarStyle = .default
+    var style: () -> MSFAvatarStyle
 
     /// Defines the size of the `Avatar`.
-    public internal(set) var size: MSFAvatarSize = .large
+    var size: () -> MSFAvatarSize
 }
 
 /// Pre-defined styles of the avatar
