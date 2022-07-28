@@ -11,6 +11,15 @@ import UIKit
 open class ActivityIndicatorCell: UITableViewCell, TokenizedControlInternal {
     public static let identifier: String = "ActivityIndicatorCell"
 
+    @objc public var backgroundStyleType: TableViewCellBackgroundStyleType = .plain {
+        didSet {
+            if backgroundStyleType != oldValue {
+                setupBackgroundColors()
+                setNeedsUpdateConfiguration()
+            }
+        }
+    }
+
     // MARK: - ActivityIndicatorCell TokenizedControl
     @objc public var activityIndicatorCellOverrideTokens: TableViewCellTokens? {
         didSet {
@@ -41,7 +50,7 @@ open class ActivityIndicatorCell: UITableViewCell, TokenizedControlInternal {
 
     private func updateTokens() {
         tokens = resolvedTokens
-        backgroundConfiguration?.backgroundColor = UIColor(dynamicColor: tokens.cellBackgroundColor)
+        setupBackgroundColors()
     }
 
     private let activityIndicator: MSFActivityIndicator = {
@@ -59,7 +68,7 @@ open class ActivityIndicatorCell: UITableViewCell, TokenizedControlInternal {
                                                name: .didChangeTheme,
                                                object: nil)
 
-        backgroundConfiguration?.backgroundColor = UIColor(dynamicColor: tokens.cellBackgroundColor)
+        setupBackgroundColors()
     }
 
     @objc public required init(coder aDecoder: NSCoder) {
@@ -96,4 +105,12 @@ open class ActivityIndicatorCell: UITableViewCell, TokenizedControlInternal {
     open override func setHighlighted(_ highlighted: Bool, animated: Bool) { }
 
     open override func setSelected(_ selected: Bool, animated: Bool) { }
+
+    private func setupBackgroundColors() {
+        if backgroundStyleType != .custom {
+            var customBackgroundConfig = UIBackgroundConfiguration.clear()
+            customBackgroundConfig.backgroundColor = backgroundStyleType.defaultColor(tokens: tokens)
+            backgroundConfiguration = customBackgroundConfig
+        }
+    }
 }

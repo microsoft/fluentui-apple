@@ -58,21 +58,28 @@ public enum TableViewCellAccessoryType: Int {
     }
 }
 
-// Different background color is shown based on if `TableViewCell` is shown in `TableView` as grouped or plain style
+// Different background color is used for `TableViewCell` by getting the appropriate tokens and integrate with the cell's `UIBackgroundConfiguration`
 @objc(MSFTableViewCellBackgroundStyleType)
 public enum TableViewCellBackgroundStyleType: Int {
+    // use for flat list of cells
     case plain
+    // use for grouped list of cells
     case grouped
+    // clear background so that TableView's background can be shown
     case clear
+    // in case clients want to override the background on their own without using token system
+    case custom
 
     func defaultColor(tokens: TableViewCellTokens) -> UIColor? {
         switch self {
         case .plain:
             return UIColor(dynamicColor: tokens.cellBackgroundColor)
         case .grouped:
-            return UIColor(dynamicColor: tokens.cellBackgroundGrouped)
+            return UIColor(dynamicColor: tokens.cellBackgroundGroupedColor)
         case .clear:
             return .clear
+        case .custom:
+            return nil
         }
     }
 }
@@ -1730,11 +1737,13 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     }
 
     open override func updateConfiguration(using state: UICellConfigurationState) {
-        // Customize the background color to use the tint color when the cell is highlighted or selected.
-        if state.isHighlighted || state.isSelected || state.isFocused {
-            backgroundConfiguration?.backgroundColor = UIColor(dynamicColor: tokens.cellBackgroundSelectedColor)
-        } else {
-            backgroundConfiguration?.backgroundColor = backgroundStyleType.defaultColor(tokens: tokens)
+        if backgroundStyleType != .custom {
+            // Customize the background color to use the tint color when the cell is highlighted or selected.
+            if state.isHighlighted || state.isSelected || state.isFocused {
+                backgroundConfiguration?.backgroundColor = UIColor(dynamicColor: tokens.cellBackgroundSelectedColor)
+            } else {
+                backgroundConfiguration?.backgroundColor = backgroundStyleType.defaultColor(tokens: tokens)
+            }
         }
     }
 
@@ -1786,10 +1795,12 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     }
 
     private func setupBackgroundColors() {
-        automaticallyUpdatesBackgroundConfiguration = false
-        var customBackgroundConfig = UIBackgroundConfiguration.clear()
-        customBackgroundConfig.backgroundColor = backgroundStyleType.defaultColor(tokens: tokens)
-        backgroundConfiguration = customBackgroundConfig
+        if backgroundStyleType != .custom {
+            automaticallyUpdatesBackgroundConfiguration = false
+            var backgroundConfiguration = UIBackgroundConfiguration.clear()
+            backgroundConfiguration.backgroundColor = backgroundStyleType.defaultColor(tokens: tokens)
+            self.backgroundConfiguration = backgroundConfiguration
+        }
     }
 
     private func initAccessibilityForAccessoryType() {
