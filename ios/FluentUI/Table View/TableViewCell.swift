@@ -1797,9 +1797,9 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     private func setupBackgroundColors() {
         if backgroundStyleType != .custom {
             automaticallyUpdatesBackgroundConfiguration = false
-            var customBackgroundConfig = UIBackgroundConfiguration.clear()
-            customBackgroundConfig.backgroundColor = backgroundStyleType.defaultColor(tokens: tokens)
-            backgroundConfiguration = customBackgroundConfig
+            var backgroundConfiguration = UIBackgroundConfiguration.clear()
+            backgroundConfiguration.backgroundColor = backgroundStyleType.defaultColor(tokens: tokens)
+            self.backgroundConfiguration = backgroundConfiguration
         }
     }
 
