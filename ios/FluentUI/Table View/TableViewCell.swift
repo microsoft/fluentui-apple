@@ -212,6 +212,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         updateTokens()
     }
 
+    #warning("This method will be deprecated.")
     /// The height of the cell based on the height of its content.
     ///
     /// - Parameters:
@@ -425,6 +426,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         return max(labelVerticalMargin * 2 + textAreaHeight, minHeight)
     }
 
+    #warning("This method will be deprecated.")
     /// The preferred width of the cell based on the width of its content.
     ///
     /// - Parameters:
