@@ -7,7 +7,7 @@ import CoreGraphics
 
 /// Represents a two-part shadow as used by FluentUI.
 public struct ShadowInfo {
-    /// The color of the shador for shadow 1
+    /// The color of the shadow for shadow 1
     let colorOne: DynamicColor
 
     /// The radius of the shadow for shadow 1
@@ -19,7 +19,7 @@ public struct ShadowInfo {
     /// The size of the shadow on the y-axis (also, height) for shadow 1
     let yOne: CGFloat
 
-    /// The color of the shador for shadow 2
+    /// The color of the shadow for shadow 2
     let colorTwo: DynamicColor
 
     /// The radius of the shadow for shadow 2
