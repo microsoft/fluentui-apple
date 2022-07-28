@@ -89,6 +89,9 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
         contentView.addSubview(accessoryImageView)
 
         isAccessibilityElement = true
+
+        // until popupmenuitemcell actually supports token system, clients will override colors via cell's backgroundColor property
+        backgroundStyleType = .custom
     }
 
     func setup(item: PopupMenuTemplateItem) {
