@@ -8,6 +8,7 @@ on:
       - main_0.2
       - main_0.3
       - main_0.4
+      - main_0.6
       - fluent2-tokens
       - fluent2-colors
   pull_request:
@@ -17,6 +18,7 @@ on:
       - main_0.2
       - main_0.3
       - main_0.4
+      - main_0.6
       - fluent2-tokens
       - fluent2-colors
 
