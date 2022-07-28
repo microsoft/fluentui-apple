@@ -212,7 +212,6 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         updateTokens()
     }
 
-    #warning("This method will be deprecated.")
     /// The height of the cell based on the height of its content.
     ///
     /// - Parameters:
@@ -315,34 +314,34 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     ///   - containerWidth: The width of the cell's super view (e.g. the table view's width)
     ///   - isInSelectionMode: Boolean describing if the cell is in multi-selection mode which shows/hides a checkmark image on the leading edge
     /// - Returns: a value representing the calculated height of the cell
-    @objc public class func height(tokens: TableViewCellTokens = .init(),
-                                   title: String,
-                                   subtitle: String = "",
-                                   footer: String = "",
-                                   attributedTitle: NSAttributedString? = nil,
-                                   attributedSubtitle: NSAttributedString? = nil,
-                                   attributedFooter: NSAttributedString? = nil,
-                                   isAttributedTitleSet: Bool = false,
-                                   isAttributedSubtitleSet: Bool = false,
-                                   isAttributedFooterSet: Bool = false,
-                                   titleFont: UIFont? = nil,
-                                   subtitleFont: UIFont? = nil,
-                                   footerFont: UIFont? = nil,
-                                   titleLeadingAccessoryView: UIView? = nil,
-                                   titleTrailingAccessoryView: UIView? = nil,
-                                   subtitleLeadingAccessoryView: UIView? = nil,
-                                   subtitleTrailingAccessoryView: UIView? = nil,
-                                   footerLeadingAccessoryView: UIView? = nil,
-                                   footerTrailingAccessoryView: UIView? = nil,
-                                   customViewSize: MSFTableViewCellCustomViewSize = .default,
-                                   customAccessoryView: UIView? = nil,
-                                   accessoryType: TableViewCellAccessoryType = .none,
-                                   titleNumberOfLines: Int = 1,
-                                   subtitleNumberOfLines: Int = 1,
-                                   footerNumberOfLines: Int = 1,
-                                   customAccessoryViewExtendsToEdge: Bool = false,
-                                   containerWidth: CGFloat = .greatestFiniteMagnitude,
-                                   isInSelectionMode: Bool = false) -> CGFloat {
+    public class func height(tokens: TableViewCellTokens = .init(),
+                             title: String,
+                             subtitle: String = "",
+                             footer: String = "",
+                             attributedTitle: NSAttributedString? = nil,
+                             attributedSubtitle: NSAttributedString? = nil,
+                             attributedFooter: NSAttributedString? = nil,
+                             isAttributedTitleSet: Bool = false,
+                             isAttributedSubtitleSet: Bool = false,
+                             isAttributedFooterSet: Bool = false,
+                             titleFont: UIFont? = nil,
+                             subtitleFont: UIFont? = nil,
+                             footerFont: UIFont? = nil,
+                             titleLeadingAccessoryView: UIView? = nil,
+                             titleTrailingAccessoryView: UIView? = nil,
+                             subtitleLeadingAccessoryView: UIView? = nil,
+                             subtitleTrailingAccessoryView: UIView? = nil,
+                             footerLeadingAccessoryView: UIView? = nil,
+                             footerTrailingAccessoryView: UIView? = nil,
+                             customViewSize: MSFTableViewCellCustomViewSize = .default,
+                             customAccessoryView: UIView? = nil,
+                             accessoryType: TableViewCellAccessoryType = .none,
+                             titleNumberOfLines: Int = 1,
+                             subtitleNumberOfLines: Int = 1,
+                             footerNumberOfLines: Int = 1,
+                             customAccessoryViewExtendsToEdge: Bool = false,
+                             containerWidth: CGFloat = .greatestFiniteMagnitude,
+                             isInSelectionMode: Bool = false) -> CGFloat {
         var layoutType = Self.layoutType(subtitle: subtitle,
                                          footer: footer,
                                          subtitleLeadingAccessoryView: subtitleLeadingAccessoryView,
@@ -426,7 +425,6 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         return max(labelVerticalMargin * 2 + textAreaHeight, minHeight)
     }
 
-    #warning("This method will be deprecated.")
     /// The preferred width of the cell based on the width of its content.
     ///
     /// - Parameters:
@@ -513,30 +511,30 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     ///   - customAccessoryViewExtendsToEdge: Boolean defining whether custom accessory view is extended to the trailing edge of the cell or not (ignored when accessory type is not `.none`)
     ///   - isInSelectionMode: Boolean describing if the cell is in multi-selection mode which shows/hides a checkmark image on the leading edge
     /// - Returns: a value representing the preferred width of the cell
-    @objc public class func preferredWidth(tokens: TableViewCellTokens = .init(),
-                                           title: String,
-                                           subtitle: String = "",
-                                           footer: String = "",
-                                           attributedTitle: NSAttributedString? = nil,
-                                           attributedSubtitle: NSAttributedString? = nil,
-                                           attributedFooter: NSAttributedString? = nil,
-                                           isAttributedTitleSet: Bool = false,
-                                           isAttributedSubtitleSet: Bool = false,
-                                           isAttributedFooterSet: Bool = false,
-                                           titleFont: UIFont? = nil,
-                                           subtitleFont: UIFont? = nil,
-                                           footerFont: UIFont? = nil,
-                                           titleLeadingAccessoryView: UIView? = nil,
-                                           titleTrailingAccessoryView: UIView? = nil,
-                                           subtitleLeadingAccessoryView: UIView? = nil,
-                                           subtitleTrailingAccessoryView: UIView? = nil,
-                                           footerLeadingAccessoryView: UIView? = nil,
-                                           footerTrailingAccessoryView: UIView? = nil,
-                                           customViewSize: MSFTableViewCellCustomViewSize = .default,
-                                           customAccessoryView: UIView? = nil,
-                                           accessoryType: TableViewCellAccessoryType = .none,
-                                           customAccessoryViewExtendsToEdge: Bool = false,
-                                           isInSelectionMode: Bool = false) -> CGFloat {
+    public class func preferredWidth(tokens: TableViewCellTokens = .init(),
+                                     title: String,
+                                     subtitle: String = "",
+                                     footer: String = "",
+                                     attributedTitle: NSAttributedString? = nil,
+                                     attributedSubtitle: NSAttributedString? = nil,
+                                     attributedFooter: NSAttributedString? = nil,
+                                     isAttributedTitleSet: Bool = false,
+                                     isAttributedSubtitleSet: Bool = false,
+                                     isAttributedFooterSet: Bool = false,
+                                     titleFont: UIFont? = nil,
+                                     subtitleFont: UIFont? = nil,
+                                     footerFont: UIFont? = nil,
+                                     titleLeadingAccessoryView: UIView? = nil,
+                                     titleTrailingAccessoryView: UIView? = nil,
+                                     subtitleLeadingAccessoryView: UIView? = nil,
+                                     subtitleTrailingAccessoryView: UIView? = nil,
+                                     footerLeadingAccessoryView: UIView? = nil,
+                                     footerTrailingAccessoryView: UIView? = nil,
+                                     customViewSize: MSFTableViewCellCustomViewSize = .default,
+                                     customAccessoryView: UIView? = nil,
+                                     accessoryType: TableViewCellAccessoryType = .none,
+                                     customAccessoryViewExtendsToEdge: Bool = false,
+                                     isInSelectionMode: Bool = false) -> CGFloat {
         let layoutType = Self.layoutType(subtitle: subtitle,
                                          footer: footer,
                                          subtitleLeadingAccessoryView: subtitleLeadingAccessoryView,
