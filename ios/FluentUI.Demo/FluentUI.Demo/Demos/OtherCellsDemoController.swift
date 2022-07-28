@@ -124,12 +124,14 @@ extension OtherCellsDemoController: UITableViewDataSource {
             let isLastInSection = indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1
             cell.bottomSeparatorType = isLastInSection ? .full : .inset
             cell.actionsCellOverrideTokens = overrideTokens
+            cell.backgroundStyleType = .grouped
             return cell
         }
 
         if let cell = tableView.dequeueReusableCell(withIdentifier: ActivityIndicatorCell.identifier) as? ActivityIndicatorCell,
            section.title == "ActivityIndicatorCell" {
             cell.activityIndicatorCellOverrideTokens = overrideTokens
+            cell.backgroundStyleType = .grouped
             return cell
         }
 
@@ -142,6 +144,7 @@ extension OtherCellsDemoController: UITableViewDataSource {
                 self.showAlertForSwitchTapped(isOn: cell.isOn)
             }
             cell.tableViewCellOverrideTokens = overrideTokens
+            cell.backgroundStyleType = .grouped
             return cell
         }
 
@@ -151,6 +154,7 @@ extension OtherCellsDemoController: UITableViewDataSource {
             }
             cell.setup(text: item.text1)
             cell.centeredLabelCellOverrideTokens = overrideTokens
+            cell.backgroundStyleType = .grouped
             return cell
         }
 

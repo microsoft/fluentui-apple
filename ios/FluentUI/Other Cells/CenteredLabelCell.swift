@@ -41,7 +41,7 @@ open class CenteredLabelCell: UITableViewCell, TokenizedControlInternal {
 
     private func updateTokens() {
         tokens = resolvedTokens
-        backgroundConfiguration?.backgroundColor = UIColor(dynamicColor: tokens.cellBackgroundColor)
+        setupBackgroundColors()
         label.font = UIFont.fluent(tokens.titleFont)
         label.textColor = UIColor(dynamicColor: tokens.mainBrandColor)
     }
@@ -55,6 +55,14 @@ open class CenteredLabelCell: UITableViewCell, TokenizedControlInternal {
         return label
     }()
 
+    @objc public var backgroundStyleType: TableViewCellBackgroundStyleType = .plain {
+        didSet {
+            if backgroundStyleType != oldValue {
+                setupBackgroundColors()
+            }
+        }
+    }
+
     public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
@@ -64,6 +72,7 @@ open class CenteredLabelCell: UITableViewCell, TokenizedControlInternal {
                                                object: nil)
 
         contentView.addSubview(label)
+        setupBackgroundColors()
     }
 
     @objc public required init(coder aDecoder: NSCoder) {
@@ -108,4 +117,12 @@ open class CenteredLabelCell: UITableViewCell, TokenizedControlInternal {
     open override func setHighlighted(_ highlighted: Bool, animated: Bool) { }
 
     open override func setSelected(_ selected: Bool, animated: Bool) { }
+
+    private func setupBackgroundColors() {
+        if backgroundStyleType != .custom {
+            var customBackgroundConfig = UIBackgroundConfiguration.clear()
+            customBackgroundConfig.backgroundColor = backgroundStyleType.defaultColor(tokens: tokens)
+            backgroundConfiguration = customBackgroundConfig
+        }
+    }
 }
