@@ -84,11 +84,6 @@ open class Label: UILabel {
         initialize()
     }
 
-    open override func didMoveToWindow() {
-        super.didMoveToWindow()
-        updateTextColor()
-    }
-
     private func initialize() {
         // textColor is assigned in super.init to a default value and so we need to reset our cache afterwards
         _textColor = nil
@@ -97,7 +92,18 @@ open class Label: UILabel {
         updateTextColor()
         adjustsFontForContentSizeCategory = true
 
-        NotificationCenter.default.addObserver(self, selector: #selector(handleContentSizeCategoryDidChange), name: UIContentSizeCategory.didChangeNotification, object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(handleContentSizeCategoryDidChange),
+                                               name: UIContentSizeCategory.didChangeNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        updateTextColor()
     }
 
     private func updateFont() {
