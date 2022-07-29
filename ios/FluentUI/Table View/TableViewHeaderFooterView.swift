@@ -27,12 +27,12 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         case regular
         case primary
 
-        func textColor(for window: UIWindow) -> UIColor {
+        func textColor(fluentTheme: FluentTheme) -> UIColor {
             switch self {
             case .regular:
-                return Colors.Table.HeaderFooter.accessoryButtonText
+                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
             case .primary:
-                return UIColor(light: Colors.primaryShade10(for: window), dark: Colors.primary(for: window))
+                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1])
             }
         }
     }
@@ -46,27 +46,27 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         case footer
         case headerPrimary
 
-        func backgroundColor(for window: UIWindow) -> UIColor {
+        func backgroundColor(fluentTheme: FluentTheme) -> UIColor {
             switch self {
             case .header, .footer, .headerPrimary:
-                return Colors.Table.HeaderFooter.background
+                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background1])
             case .divider:
-                return Colors.Table.HeaderFooter.backgroundDivider
+                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.stroke2])
             case .dividerHighlighted:
-                return UIColor(light: Colors.primaryTint40(for: window), dark: Colors.surfaceSecondary)
+                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandBackground4])
             }
         }
 
-        func textColor(for window: UIWindow) -> UIColor {
+        func textColor(fluentTheme: FluentTheme) -> UIColor {
             switch self {
             case .header, .footer:
-                return Colors.Table.HeaderFooter.text
+                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
             case .divider:
-                return Colors.Table.HeaderFooter.textDivider
+                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
             case .dividerHighlighted:
-                return Colors.primary(for: window)
+                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground4])
             case .headerPrimary:
-                return Colors.textPrimary
+                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
             }
         }
 
@@ -277,6 +277,19 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         contentView.addGestureRecognizer(tapGesture)
 
         NotificationCenter.default.addObserver(self, selector: #selector(handleContentSizeCategoryDidChange), name: UIContentSizeCategory.didChangeNotification, object: nil)
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        guard let window = window, window.isEqual(notification.object) else {
+            return
+        }
+        updateTitleAndBackgroundColors()
+        updateAccessoryButtonTitleColor()
     }
 
     // MARK: Setup
@@ -467,12 +480,6 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         )
     }
 
-    open override func didMoveToWindow() {
-        super.didMoveToWindow()
-        updateTitleAndBackgroundColors()
-        updateAccessoryButtonTitleColor()
-    }
-
     private func updateTitleViewFont() {
         if let window = window {
             let titleFont = style.textFont()
@@ -486,17 +493,13 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
     }
 
     private func updateTitleAndBackgroundColors() {
-        if let window = window {
-            titleView.textColor = style.textColor(for: window)
-            backgroundView?.backgroundColor = style.backgroundColor(for: window)
-            titleView.font = style.textFont()
-        }
+        titleView.textColor = style.textColor(fluentTheme: fluentTheme)
+        backgroundView?.backgroundColor = style.backgroundColor(fluentTheme: fluentTheme)
+        titleView.font = style.textFont()
     }
 
     private func updateAccessoryButtonTitleColor() {
-        if let window = window {
-            accessoryButton?.setTitleColor(accessoryButtonStyle.textColor(for: window), for: .normal)
-        }
+        accessoryButton?.setTitleColor(accessoryButtonStyle.textColor(fluentTheme: fluentTheme), for: .normal)
     }
 
     private func updateAccessoryButtonTitleStyle() {
