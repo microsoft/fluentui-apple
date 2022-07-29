@@ -28,7 +28,6 @@ import UIKit
 /// View that represents the Activity Indicator.
 public struct ActivityIndicator: View, TokenizedControlView {
 
-    public typealias TokenSetType = ActivityIndicatorTokenSet
     public typealias TokenSetKeyType = ActivityIndicatorTokenSet.Tokens
     @ObservedObject public var tokenSet: ActivityIndicatorTokenSet
 

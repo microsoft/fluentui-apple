@@ -219,7 +219,7 @@ public struct Avatar: View, TokenizedControlView {
 
         @ViewBuilder
         var avatarBody: some View {
-            if state.style == .group {
+            if style == .group {
                 avatarContent
                     .background(Rectangle()
                                     .frame(width: tokenSet[.avatarSize].float, height: tokenSet[.avatarSize].float, alignment: .center)
@@ -283,8 +283,8 @@ public struct Avatar: View, TokenizedControlView {
             .fluentTokens(tokenSet, fluentTheme)
     }
 
-    // This initializer should be used by internal container views. These containers should first initialize
-    // MSFAvatarStateImpl using style and size, and then use that state and this initializer in their ViewBuilder.
+    /// Internal initializer. Used by our public init, and also by internal container views. These containers should first initialize
+    /// MSFAvatarStateImpl using style and size, and then use that state and this initializer in their ViewBuilder.
     init(_ avatarState: MSFAvatarStateImpl) {
         state = avatarState
         tokenSet = AvatarTokenSet(style: { avatarState.style },

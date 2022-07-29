@@ -559,7 +559,6 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
         return dismissPresentingViewController(animated: true)
     }
 
-    public typealias TokenSetType = DrawerTokenSet
     public typealias TokenSetKeyType = DrawerTokenSet.Tokens
     public var tokenSet: DrawerTokenSet = .init()
 

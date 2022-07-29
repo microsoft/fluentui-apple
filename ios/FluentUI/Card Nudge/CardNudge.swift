@@ -46,8 +46,6 @@ public typealias CardNudgeButtonAction = ((_ state: MSFCardNudgeState) -> Void)
 public struct CardNudge: View, TokenizedControlView {
 
     public typealias TokenSetKeyType = CardNudgeTokenSet.Tokens
-    public typealias TokenSetType = CardNudgeTokenSet
-
     @ObservedObject public var tokenSet: CardNudgeTokenSet
 
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
