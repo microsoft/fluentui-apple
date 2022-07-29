@@ -12,7 +12,7 @@
 		0AA874162600237A00D47421 /* PersonaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA874142600237A00D47421 /* PersonaView.swift */; };
 		0AC8A8B227C72D4600D9FAF5 /* MSFPersonaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC8A8B127C72D4600D9FAF5 /* MSFPersonaView.swift */; };
 		0ACD82192620453B0035CD9F /* PersonaViewTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACD82172620453B0035CD9F /* PersonaViewTokens.swift */; };
-		0AD70F5B26E80A5D008774EC /* CommandBarTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD70F5926E80A5D008774EC /* CommandBarTokens.swift */; };
+		0AD70F5B26E80A5D008774EC /* CommandBarTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD70F5926E80A5D008774EC /* CommandBarTokenSet.swift */; };
 		2A9745DE281733D700E1A1FD /* TableViewTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9745DD281733D700E1A1FD /* TableViewTokens.swift */; };
 		43488C46270FAD1300124C71 /* FluentNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43488C44270FAD0200124C71 /* FluentNotification.swift */; };
 		4B1596D3284ACB5F00C3D725 /* ShimmerTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1596D2284ACB5F00C3D725 /* ShimmerTokens.swift */; };
@@ -27,7 +27,7 @@
 		53097D05270288FB00A6E4DC /* MSFButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097CFF270288FB00A6E4DC /* MSFButton.swift */; };
 		53097D09270288FB00A6E4DC /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D01270288FB00A6E4DC /* Button.swift */; };
 		53097D0B270288FB00A6E4DC /* ButtonModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D02270288FB00A6E4DC /* ButtonModifiers.swift */; };
-		53097D0D270288FB00A6E4DC /* ButtonTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D03270288FB00A6E4DC /* ButtonTokens.swift */; };
+		53097D0D270288FB00A6E4DC /* ButtonTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D03270288FB00A6E4DC /* ButtonTokenSet.swift */; };
 		53097D172702890900A6E4DC /* HeaderTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D0E2702890800A6E4DC /* HeaderTokens.swift */; };
 		53097D192702890900A6E4DC /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D0F2702890800A6E4DC /* List.swift */; };
 		53097D1D2702890900A6E4DC /* ListTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D112702890800A6E4DC /* ListTokens.swift */; };
@@ -144,7 +144,7 @@
 		5314E30225F0260E0099271A /* AccessibilityContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD77752A219E455A00033D58 /* AccessibilityContainerView.swift */; };
 		5314E30325F0260E0099271A /* AccessibleViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD599D052134A682008845EE /* AccessibleViewDelegate.swift */; };
 		53229A0027FE108400C016A2 /* MSFHeadsUpDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532299FF27FE108400C016A2 /* MSFHeadsUpDisplay.swift */; };
-		5328D97126FBA3D700F3723B /* IndeterminateProgressBarTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5328D96C26FBA3D600F3723B /* IndeterminateProgressBarTokens.swift */; };
+		5328D97126FBA3D700F3723B /* IndeterminateProgressBarTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5328D96C26FBA3D600F3723B /* IndeterminateProgressBarTokenSet.swift */; };
 		5328D97326FBA3D700F3723B /* IndeterminateProgressBarModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5328D96D26FBA3D600F3723B /* IndeterminateProgressBarModifiers.swift */; };
 		5328D97726FBA3D700F3723B /* IndeterminateProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5328D96F26FBA3D700F3723B /* IndeterminateProgressBar.swift */; };
 		532FE3D426EA6D74007539C0 /* ActivityIndicatorTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532FE3CE26EA6D73007539C0 /* ActivityIndicatorTokenSet.swift */; };
@@ -245,7 +245,7 @@
 		0AA874142600237A00D47421 /* PersonaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaView.swift; sourceTree = "<group>"; };
 		0AC8A8B127C72D4600D9FAF5 /* MSFPersonaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFPersonaView.swift; sourceTree = "<group>"; };
 		0ACD82172620453B0035CD9F /* PersonaViewTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaViewTokens.swift; sourceTree = "<group>"; };
-		0AD70F5926E80A5D008774EC /* CommandBarTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBarTokens.swift; sourceTree = "<group>"; };
+		0AD70F5926E80A5D008774EC /* CommandBarTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBarTokenSet.swift; sourceTree = "<group>"; };
 		0AE866A626BA05D000E92108 /* Locale+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Locale+Extensions.swift"; sourceTree = "<group>"; };
 		0BCEFADD2485FEC00088CEE5 /* PopupMenuProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMenuProtocols.swift; sourceTree = "<group>"; };
 		1168630222E131CF0088B302 /* TabBarItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarItemView.swift; sourceTree = "<group>"; };
@@ -266,7 +266,7 @@
 		53097CFF270288FB00A6E4DC /* MSFButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFButton.swift; sourceTree = "<group>"; };
 		53097D01270288FB00A6E4DC /* Button.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		53097D02270288FB00A6E4DC /* ButtonModifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonModifiers.swift; sourceTree = "<group>"; };
-		53097D03270288FB00A6E4DC /* ButtonTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonTokens.swift; sourceTree = "<group>"; };
+		53097D03270288FB00A6E4DC /* ButtonTokenSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonTokenSet.swift; sourceTree = "<group>"; };
 		53097D0E2702890800A6E4DC /* HeaderTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderTokens.swift; sourceTree = "<group>"; };
 		53097D0F2702890800A6E4DC /* List.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
 		53097D112702890800A6E4DC /* ListTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListTokens.swift; sourceTree = "<group>"; };
@@ -276,7 +276,7 @@
 		530D9C5027EE388200BDCBBF /* SwiftUI+ViewPresentation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SwiftUI+ViewPresentation.swift"; sourceTree = "<group>"; };
 		530D9C5227EE7B2C00BDCBBF /* SwiftUI+ViewAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SwiftUI+ViewAnimation.swift"; sourceTree = "<group>"; };
 		532299FF27FE108400C016A2 /* MSFHeadsUpDisplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFHeadsUpDisplay.swift; sourceTree = "<group>"; };
-		5328D96C26FBA3D600F3723B /* IndeterminateProgressBarTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBarTokens.swift; sourceTree = "<group>"; };
+		5328D96C26FBA3D600F3723B /* IndeterminateProgressBarTokenSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBarTokenSet.swift; sourceTree = "<group>"; };
 		5328D96D26FBA3D600F3723B /* IndeterminateProgressBarModifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBarModifiers.swift; sourceTree = "<group>"; };
 		5328D96F26FBA3D700F3723B /* IndeterminateProgressBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBar.swift; sourceTree = "<group>"; };
 		532FE3CE26EA6D73007539C0 /* ActivityIndicatorTokenSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorTokenSet.swift; sourceTree = "<group>"; };
@@ -673,7 +673,7 @@
 			children = (
 				5328D96F26FBA3D700F3723B /* IndeterminateProgressBar.swift */,
 				5328D96D26FBA3D600F3723B /* IndeterminateProgressBarModifiers.swift */,
-				5328D96C26FBA3D600F3723B /* IndeterminateProgressBarTokens.swift */,
+				5328D96C26FBA3D600F3723B /* IndeterminateProgressBarTokenSet.swift */,
 				53E2EE06278799B30086D30D /* MSFIndeterminateProgressBar.swift */,
 			);
 			path = IndeterminateProgressBar;
@@ -760,7 +760,7 @@
 			children = (
 				53097D01270288FB00A6E4DC /* Button.swift */,
 				53097D02270288FB00A6E4DC /* ButtonModifiers.swift */,
-				53097D03270288FB00A6E4DC /* ButtonTokens.swift */,
+				53097D03270288FB00A6E4DC /* ButtonTokenSet.swift */,
 				53097CFF270288FB00A6E4DC /* MSFButton.swift */,
 			);
 			path = Button;
@@ -1175,7 +1175,7 @@
 				FC414E2A25887A4B00069E73 /* CommandBarButton.swift */,
 				FC414E242588798000069E73 /* CommandBarButtonGroupView.swift */,
 				94A7EC192836DCB100BFFBAE /* CommandBarCommandGroupsView.swift */,
-				0AD70F5926E80A5D008774EC /* CommandBarTokens.swift */,
+				0AD70F5926E80A5D008774EC /* CommandBarTokenSet.swift */,
 			);
 			path = "Command Bar";
 			sourceTree = "<group>";
@@ -1559,7 +1559,7 @@
 				5314E0E525F012C00099271A /* NavigationBar.swift in Sources */,
 				5336B17627F77EB800B01E0D /* HUDModifiers.swift in Sources */,
 				C708B064260A87F7007190FA /* SegmentItem.swift in Sources */,
-				5328D97126FBA3D700F3723B /* IndeterminateProgressBarTokens.swift in Sources */,
+				5328D97126FBA3D700F3723B /* IndeterminateProgressBarTokenSet.swift in Sources */,
 				5314E14325F016860099271A /* CardTransitionAnimator.swift in Sources */,
 				5314E0F825F012CB0099271A /* LargeTitleView.swift in Sources */,
 				8035CAB62633A4DB007B3FD1 /* BottomCommandingController.swift in Sources */,
@@ -1577,7 +1577,7 @@
 				5336B17827F77EB800B01E0D /* HUD.swift in Sources */,
 				923DB9D5274CB65700D8E58A /* FluentTheme.swift in Sources */,
 				929DD257266ED3AC00E8175E /* PersonaButtonCarouselTokens.swift in Sources */,
-				0AD70F5B26E80A5D008774EC /* CommandBarTokens.swift in Sources */,
+				0AD70F5B26E80A5D008774EC /* CommandBarTokenSet.swift in Sources */,
 				D6F4098927470E7F001B80D4 /* PillButtonTokens.swift in Sources */,
 				5314E26625F023B20099271A /* UIColor+Extensions.swift in Sources */,
 				5314E30225F0260E0099271A /* AccessibilityContainerView.swift in Sources */,
@@ -1671,7 +1671,7 @@
 				5314E09E25F00FE20099271A /* DotView.swift in Sources */,
 				5314E1A525F01A7C0099271A /* TableViewCell.swift in Sources */,
 				4BBD651F2755FD9500A8B09E /* MSFNotificationView.swift in Sources */,
-				53097D0D270288FB00A6E4DC /* ButtonTokens.swift in Sources */,
+				53097D0D270288FB00A6E4DC /* ButtonTokenSet.swift in Sources */,
 				5314E09525F00FA30099271A /* DimmingView.swift in Sources */,
 				5306075326A1E6A4002D49CF /* AvatarGroupTokenSet.swift in Sources */,
 				5314E11825F015EA0099271A /* PeoplePicker.swift in Sources */,

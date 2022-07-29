@@ -4,6 +4,7 @@
 //
 
 import UIKit
+import Combine
 
 /**
  `CommandBar` is a horizontal scrollable list of icon buttons divided by groups.
@@ -49,17 +50,18 @@ public class CommandBar: UIView, TokenizedControlInternal {
         self.itemGroups = itemGroups
         self.leadingItemGroups = leadingItemGroups
         self.trailingItemGroups = trailingItemGroups
+        self.tokenSet = CommandBarTokenSet()
 
         leadingCommandGroupsView = CommandBarCommandGroupsView(itemGroups: self.leadingItemGroups,
                                                                buttonsPersistSelection: false,
-                                                               tokens: tokens)
+                                                               tokenSet: tokenSet)
         leadingCommandGroupsView.translatesAutoresizingMaskIntoConstraints = false
         mainCommandGroupsView = CommandBarCommandGroupsView(itemGroups: self.itemGroups,
-                                                            tokens: tokens)
+                                                            tokenSet: tokenSet)
         mainCommandGroupsView.translatesAutoresizingMaskIntoConstraints = false
         trailingCommandGroupsView = CommandBarCommandGroupsView(itemGroups: self.trailingItemGroups,
                                                                 buttonsPersistSelection: false,
-                                                                tokens: tokens)
+                                                                tokenSet: tokenSet)
 
         trailingCommandGroupsView.translatesAutoresizingMaskIntoConstraints = false
 
@@ -75,6 +77,11 @@ public class CommandBar: UIView, TokenizedControlInternal {
                                                object: nil)
 
         configureHierarchy()
+
+        // Update appearance whenever `tokenSet` changes.
+        tokenSetSink = tokenSet.objectWillChange.sink { [weak self] _ in
+            self?.updateButtonTokens()
+        }
     }
 
     public override func didMoveToWindow() {
@@ -95,11 +102,6 @@ public class CommandBar: UIView, TokenizedControlInternal {
         trailingCommandGroupsView.updateButtonsState()
     }
 
-    public func overrideTokens(_ tokens: CommandBarTokens?) -> Self {
-        overrideTokens = tokens
-        return self
-    }
-
     // MARK: Overrides
 
     public override var intrinsicContentSize: CGSize {
@@ -117,15 +119,10 @@ public class CommandBar: UIView, TokenizedControlInternal {
 
     // MARK: - TokenizedControl
 
-    public typealias TokenType = CommandBarTokens
+    public typealias TokenSetKeyType = CommandBarTokenSet.Tokens
+    public var tokenSet: CommandBarTokenSet
 
-    let defaultTokens: CommandBarTokens = .init()
-    var tokens: CommandBarTokens = .init()
-    var overrideTokens: CommandBarTokens? {
-        didSet {
-            updateButtonTokens()
-        }
-    }
+    var tokenSetSink: AnyCancellable?
 
     @objc private func themeDidChange(_ notification: Notification) {
         if let window = self.window,
@@ -201,7 +198,7 @@ public class CommandBar: UIView, TokenizedControlInternal {
 
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
-        let itemInterspace: CGFloat = tokens.itemInterspace
+        let itemInterspace: CGFloat = tokenSet[.itemInterspace].float
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.contentInset = scrollViewContentInset()
         scrollView.showsVerticalScrollIndicator = false
@@ -264,7 +261,7 @@ public class CommandBar: UIView, TokenizedControlInternal {
     }
 
     private func scrollViewContentInset() -> UIEdgeInsets {
-        let fixedButtonSpacing = tokens.itemInterspace
+        let fixedButtonSpacing = tokenSet[.itemInterspace].float
         return UIEdgeInsets(top: 0,
                             left: leadingCommandGroupsView.isHidden ? CommandBar.insets.left : fixedButtonSpacing,
                             bottom: 0,
@@ -291,10 +288,9 @@ public class CommandBar: UIView, TokenizedControlInternal {
     }
 
     private func updateButtonTokens() {
-        self.tokens = resolvedTokens
-        leadingCommandGroupsView.tokens = tokens
-        mainCommandGroupsView.tokens = tokens
-        trailingCommandGroupsView.tokens = tokens
+        leadingCommandGroupsView.updateButtonGroupViews()
+        mainCommandGroupsView.updateButtonGroupViews()
+        trailingCommandGroupsView.updateButtonGroupViews()
     }
 
     @objc private func handleCommandButtonTapped(_ sender: CommandBarButton) {
