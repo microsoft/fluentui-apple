@@ -55,19 +55,12 @@ public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
         preconditionFailure("Override defaultValue in your ControlTokenSet")
     }
 
-    /// Prepares this token set by installing the current `FluentTheme` and then allowing the control to perform
-    /// additional configuration (e.g. setting `style` or `size` properties) by invoking the `configuration` callback.
+    /// Prepares this token set by installing the current `FluentTheme` if it has changed.
     ///
     /// - Parameter fluentTheme: The current `FluentTheme` for the control's environment.
-    /// - Parameter configuration: An optional callback for the control to perform additional configuration.
-    func update(_ fluentTheme: FluentTheme,
-                _ configuration: (() -> Void)? = nil) {
+    func update(_ fluentTheme: FluentTheme) {
         if fluentTheme != self.fluentTheme {
             self.fluentTheme = fluentTheme
-        }
-
-        if let configuration = configuration {
-            configuration()
         }
     }
 

@@ -24,7 +24,7 @@ import SwiftUI
     /// - Parameters:
     ///   - tokenSetType: The token set type to register custom tokens for.
     ///   - tokens: A custom set of tokens to register.
-    public func register<T: TokenSetKey>(tokenSetType: ControlTokenSet<T>.Type, tokenSet: [T: ControlTokenValue]) {
+    public func register<T: TokenSetKey>(tokenSetType: ControlTokenSet<T>.Type, tokenSet: [T: ControlTokenValue]?) {
         controlTokenSets[tokenKey(tokenSetType)] = tokenSet
     }
 
