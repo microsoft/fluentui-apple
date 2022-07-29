@@ -15,7 +15,7 @@ open class PillButton: UIButton, TokenizedControlInternal {
     open override func didMoveToWindow() {
         super.didMoveToWindow()
 
-        updatePillButtonTokens()
+        tokenSet.update(fluentTheme)
         updateAppearance()
     }
 
@@ -30,6 +30,19 @@ open class PillButton: UIButton, TokenizedControlInternal {
                                                selector: #selector(isUnreadValueDidChange),
                                                name: PillButtonBarItem.isUnreadValueDidChangeNotification,
                                                object: pillBarItem)
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+
+        // Update appearance whenever `tokenSet` changes.
+        tokenSetSink = tokenSet.objectWillChange.sink { [weak self] _ in
+            // Values will be updated on the next run loop iteration.
+            DispatchQueue.main.async {
+                self?.updateAppearance()
+            }
+        }
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -39,11 +52,6 @@ open class PillButton: UIButton, TokenizedControlInternal {
     public override func layoutSubviews() {
         super.layoutSubviews()
         updateUnreadDot()
-    }
-
-    public func overrideTokens(_ tokens: PillButtonTokens?) -> Self {
-        overrideTokens = tokens
-        return self
     }
 
     public override var isSelected: Bool {
@@ -97,11 +105,6 @@ open class PillButton: UIButton, TokenizedControlInternal {
                                          left: tokenSet[.horizontalInset].float,
                                          bottom: tokenSet[.bottomInset].float,
                                          right: tokenSet[.horizontalInset].float)
-
-        // Update appearance whenever `tokenSet` changes.
-        tokenSetSink = tokenSet.objectWillChange.sink { [weak self] _ in
-           self?.updateAppearance()
-        }
     }
 
     private func updateAccessibilityTraits() {
@@ -116,6 +119,13 @@ open class PillButton: UIButton, TokenizedControlInternal {
         } else {
             accessibilityTraits.insert(.notEnabled)
         }
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        guard let window = window, window.isEqual(notification.object) else {
+            return
+        }
+        tokenSet.update(fluentTheme)
     }
 
     private func initUnreadDotLayer() -> CALayer {

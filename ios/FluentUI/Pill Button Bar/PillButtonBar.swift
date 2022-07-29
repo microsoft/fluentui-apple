@@ -54,6 +54,8 @@ open class PillButtonBarItem: NSObject {
 open class PillButtonBar: UIScrollView, TokenizedControlInternal {
     open override func didMoveToWindow() {
         super.didMoveToWindow()
+
+        tokenSet.update(fluentTheme)
         updatePillButtonTokens()
     }
 
@@ -111,7 +113,10 @@ open class PillButtonBar: UIScrollView, TokenizedControlInternal {
 
         // Update appearance whenever `tokenSet` changes.
         tokenSetSink = tokenSet.objectWillChange.sink { [weak self] _ in
-           self?.updatePillButtonTokens()
+            // Values will be updated on the next run loop iteration.
+            DispatchQueue.main.async {
+                self?.updatePillButtonTokens()
+            }
         }
     }
 
