@@ -311,38 +311,36 @@ extension ButtonDemoController: DemoAppearanceDelegate {
             return
         }
 
-        var tokensClosure: (() -> ButtonTokens)?
-        if isOverrideEnabled {
-            tokensClosure = {
-                return ThemeWideOverrideButtonTokens()
-            }
-        }
-
-        fluentTheme.register(controlType: FluentButton.self, tokens: tokensClosure)
+        fluentTheme.register(tokenSetType: ButtonTokenSet.self, tokenSet: isOverrideEnabled ? themeWideOverrideButtonTokens : nil)
     }
 
     func perControlOverrideDidChange(isOverrideEnabled: Bool) {
-        self.buttons.forEach({ (_: String, value: MSFButton) in
-            let tokens = isOverrideEnabled ? PerControlOverrideButtonTokens() : nil
-            value.state.overrideTokens = tokens
+        self.buttons.forEach({ (_: String, button: MSFButton) in
+            perControlOverrideButtonTokens.forEach { (key: ButtonTokenSet.Tokens, value: ControlTokenValue) in
+                if isOverrideEnabled {
+                    button.tokenSet[key] = value
+                } else {
+                    button.tokenSet.removeOverride(key)
+                }
+            }
         })
     }
 
     func isThemeWideOverrideApplied() -> Bool {
-        return self.view.window?.fluentTheme.tokenOverride(for: FluentButton.self) != nil
+        return self.view.window?.fluentTheme.tokens(for: ButtonTokenSet.self)?.isEmpty == false
     }
 
     // MARK: - Custom tokens
 
-    private class ThemeWideOverrideButtonTokens: ButtonTokens {
-        override var textFont: FontInfo {
-            return FontInfo(name: "Times", size: 20.0, weight: .regular)
-        }
+    private var themeWideOverrideButtonTokens: [ButtonTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .textFont: .fontInfo { FontInfo(name: "Times", size: 20.0, weight: .regular) }
+        ]
     }
 
-    private class PerControlOverrideButtonTokens: ButtonTokens {
-        override var textFont: FontInfo {
-            return FontInfo(name: "Papyrus", size: 20.0, weight: .regular)
-        }
+    private var perControlOverrideButtonTokens: [ButtonTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .textFont: .fontInfo { FontInfo(name: "Papyrus", size: 20.0, weight: .regular) }
+        ]
     }
 }
