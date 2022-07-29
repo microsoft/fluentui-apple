@@ -218,9 +218,6 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     ///   - title: The title string
     ///   - subtitle: The subtitle string
     ///   - footer: The footer string
-    ///   - titleFont: The title font; If not set, it will default to the font definition in tokens
-    ///   - subtitleFont: The subtitle font; If not set, it will default to the font definition in tokens
-    ///   - footerFont: The footer font; If not set, it will default to the font definition in tokens
     ///   - titleLeadingAccessoryView: The accessory view on the leading edge of the title
     ///   - titleTrailingAccessoryView: The accessory view on the trailing edge of the title
     ///   - subtitleLeadingAccessoryView: The accessory view on the leading edge of the subtitle
@@ -240,9 +237,6 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     @objc public class func height(title: String,
                                    subtitle: String = "",
                                    footer: String = "",
-                                   titleFont: UIFont? = nil,
-                                   subtitleFont: UIFont? = nil,
-                                   footerFont: UIFont? = nil,
                                    titleLeadingAccessoryView: UIView? = nil,
                                    titleTrailingAccessoryView: UIView? = nil,
                                    subtitleLeadingAccessoryView: UIView? = nil,
@@ -262,9 +256,9 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                            title: title,
                            subtitle: subtitle,
                            footer: footer,
-                           titleFont: titleFont,
-                           subtitleFont: subtitleFont,
-                           footerFont: footerFont,
+                           titleFont: nil,
+                           subtitleFont: nil,
+                           footerFont: nil,
                            titleLeadingAccessoryView: titleLeadingAccessoryView,
                            titleTrailingAccessoryView: titleTrailingAccessoryView,
                            subtitleLeadingAccessoryView: subtitleLeadingAccessoryView,
@@ -431,9 +425,6 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     ///   - title: The title string
     ///   - subtitle: The subtitle string
     ///   - footer: The footer string
-    ///   - titleFont: The title font; If not set, it will default to the font definition in tokens
-    ///   - subtitleFont: The subtitle font; If not set, it will default to the font definition in tokens
-    ///   - footerFont: The footer font; If not set, it will default to the font definition in tokens
     ///   - titleLeadingAccessoryView: The accessory view on the leading edge of the title
     ///   - titleTrailingAccessoryView: The accessory view on the trailing edge of the title
     ///   - subtitleLeadingAccessoryView: The accessory view on the leading edge of the subtitle
@@ -449,9 +440,6 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     @objc public class func preferredWidth(title: String,
                                            subtitle: String = "",
                                            footer: String = "",
-                                           titleFont: UIFont? = nil,
-                                           subtitleFont: UIFont? = nil,
-                                           footerFont: UIFont? = nil,
                                            titleLeadingAccessoryView: UIView? = nil,
                                            titleTrailingAccessoryView: UIView? = nil,
                                            subtitleLeadingAccessoryView: UIView? = nil,
@@ -467,9 +455,9 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                                    title: title,
                                    subtitle: subtitle,
                                    footer: footer,
-                                   titleFont: titleFont,
-                                   subtitleFont: subtitleFont,
-                                   footerFont: footerFont,
+                                   titleFont: nil,
+                                   subtitleFont: nil,
+                                   footerFont: nil,
                                    titleLeadingAccessoryView: titleLeadingAccessoryView,
                                    titleTrailingAccessoryView: titleTrailingAccessoryView,
                                    subtitleLeadingAccessoryView: subtitleLeadingAccessoryView,
