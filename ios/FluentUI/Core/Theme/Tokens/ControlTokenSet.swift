@@ -75,6 +75,7 @@ public enum ControlTokenValue {
     case dynamicColor(() -> DynamicColor)
     case fontInfo(() -> FontInfo)
     case shadowInfo(() -> ShadowInfo)
+    case buttonDynamicColors(() -> ButtonDynamicColors)
 
     var float: CGFloat {
         if case .float(let float) = self {
@@ -119,6 +120,20 @@ public enum ControlTokenValue {
                               yTwo: 10.0)
         }
     }
+
+    var buttonDynamicColors: ButtonDynamicColors {
+        if case .buttonDynamicColors(let buttonDynamicColors) = self {
+            return buttonDynamicColors()
+        } else {
+            assertionFailure("Cannot convert token to ButtonDynamicColors: \(self)")
+            let defaultColor = DynamicColor(light: ColorValue(0xE3008C))
+            return ButtonDynamicColors(rest: defaultColor,
+                                       hover: defaultColor,
+                                       pressed: defaultColor,
+                                       selected: defaultColor,
+                                       disabled: defaultColor)
+        }
+    }
 }
 
 #if DEBUG
@@ -134,6 +149,8 @@ extension ControlTokenValue: CustomStringConvertible {
             return "ControlTokenValue.fontInfo (\(fontInfo())"
         case .shadowInfo(let shadowInfo):
             return "ControlTokenValue.shadowInfo (\(shadowInfo())"
+        case .buttonDynamicColors(let buttonDynamicColors):
+            return "ControlTokenValue.buttonDynamicColors (\(buttonDynamicColors())"
         }
     }
 }
