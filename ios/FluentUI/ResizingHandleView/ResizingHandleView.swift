@@ -4,6 +4,7 @@
 //
 
 import UIKit
+import Combine
 
 // MARK: - ResizingHandleView
 
@@ -20,13 +21,14 @@ open class ResizingHandleView: UIView, TokenizedControlInternal {
         let markLayer = CALayer()
         markLayer.bounds.size = Constants.markSize
         markLayer.cornerRadius = Constants.markCornerRadius
-        markLayer.backgroundColor = UIColor(dynamicColor: tokens.markColor).cgColor
+        markLayer.backgroundColor = UIColor(dynamicColor: tokenSet[.markColor].dynamicColor).cgColor
         return markLayer
     }()
 
     public override init(frame: CGRect) {
+        tokenSet = ResizingHandleTokenSet()
         super.init(frame: frame)
-        backgroundColor = UIColor(dynamicColor: tokens.backgroundColor)
+        backgroundColor = UIColor(dynamicColor: tokenSet[.backgroundColor].dynamicColor)
         self.frame.size.height = ResizingHandleView.height
         autoresizingMask = .flexibleWidth
         setContentHuggingPriority(.required, for: .vertical)
@@ -38,6 +40,14 @@ open class ResizingHandleView: UIView, TokenizedControlInternal {
                                                selector: #selector(themeDidChange),
                                                name: .didChangeTheme,
                                                object: nil)
+
+        // Update appearance whenever `tokenSet` changes.
+        tokenSetSink = tokenSet.objectWillChange.sink { [weak self] _ in
+            // Values will be updated on the next run loop iteration.
+            DispatchQueue.main.async {
+                self?.updateColors()
+            }
+        }
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -57,10 +67,10 @@ open class ResizingHandleView: UIView, TokenizedControlInternal {
         markLayer.position = CGPoint(x: bounds.midX, y: bounds.midY)
     }
 
-    public func overrideTokens(_ tokens: ResizingHandleTokens?) -> Self {
-        overrideTokens = tokens
-        return self
-    }
+    public typealias TokenSetKeyType = ResizingHandleTokenSet.Tokens
+    public var tokenSet: ResizingHandleTokenSet
+
+    var tokenSetSink: AnyCancellable?
 
     /// Internal custom color to preserve deprecated Drawer API (resizingHandleViewBackgroundColor)
     var customBackgroundColor: UIColor? {
@@ -69,29 +79,15 @@ open class ResizingHandleView: UIView, TokenizedControlInternal {
         }
     }
 
-    var defaultTokens: ResizingHandleTokens = .init()
-    var tokens: ResizingHandleTokens = .init()
-    var overrideTokens: ResizingHandleTokens? {
-        didSet {
-            updateResizingHandleTokens()
-            updateColors()
-        }
-    }
-
-    private func updateResizingHandleTokens() {
-        self.tokens = resolvedTokens
-    }
-
     private func updateColors() {
-        markLayer.backgroundColor = UIColor(dynamicColor: tokens.markColor).cgColor
-        backgroundColor = customBackgroundColor ?? UIColor(dynamicColor: tokens.backgroundColor)
+        markLayer.backgroundColor = UIColor(dynamicColor: tokenSet[.markColor].dynamicColor).cgColor
+        backgroundColor = customBackgroundColor ?? UIColor(dynamicColor: tokenSet[.backgroundColor].dynamicColor)
     }
 
     @objc private func themeDidChange(_ notification: Notification) {
         guard let window = window, window.isEqual(notification.object) else {
             return
         }
-        updateResizingHandleTokens()
         updateColors()
     }
 }
