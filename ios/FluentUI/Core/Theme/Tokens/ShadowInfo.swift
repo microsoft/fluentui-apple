@@ -13,10 +13,10 @@ public struct ShadowInfo {
     /// The radius of the shadow for shadow 1
     let blurOne: CGFloat
 
-    /// The size of the shadow on the x-axis (also, width) for shadow 1
+    /// The offset of the shadow on the x-axis for shadow 1, from the center of the control
     let xOne: CGFloat
 
-    /// The size of the shadow on the y-axis (also, height) for shadow 1
+    /// The offset of the shadow on the y-axis for shadow 1, from the center of the control
     let yOne: CGFloat
 
     /// The color of the shadow for shadow 2
