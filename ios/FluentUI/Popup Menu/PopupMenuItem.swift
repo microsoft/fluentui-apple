@@ -26,11 +26,11 @@ open class PopupMenuItem: NSObject, PopupMenuTemplateItem {
     @objc public var isSelected: Bool = false
 
     /// `title` color
-    @objc public lazy var titleColor: UIColor = Colors.Table.Cell.title
+    @objc public var titleColor: UIColor?
     /// `subtitle` color
-    @objc public lazy var subtitleColor: UIColor = Colors.Table.Cell.subtitle
+    @objc public var subtitleColor: UIColor?
     /// `image` tint color if it is rendered as template
-    @objc public lazy var imageColor: UIColor = Colors.Table.Cell.image
+    @objc public var imageColor: UIColor?
     /// `title` color when`isSelected` is true. If unset, brand foreground 1 will be used
     @objc public var titleSelectedColor: UIColor?
     /// `subtitle` color when`isSelected` is true.  If unset, brand foreground 1 will be used
@@ -61,33 +61,6 @@ open class PopupMenuItem: NSObject, PopupMenuTemplateItem {
         self.isAccessoryCheckmarkVisible = isAccessoryCheckmarkVisible
 
         super.init()
-
-        initRequiredColors()
-
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
-    }
-
-    @objc private func themeDidChange(_ notification: Notification) {
-        initRequiredColors()
-    }
-
-    private func initRequiredColors() {
-        guard let accessoryView = self.accessoryView else {
-            let view = UIView()
-            setRequiredColorsWithFluentTheme(fluentTheme: view.fluentTheme)
-            return
-        }
-
-        setRequiredColorsWithFluentTheme(fluentTheme: accessoryView.fluentTheme)
-    }
-
-    private func setRequiredColorsWithFluentTheme(fluentTheme: FluentTheme) {
-        titleColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
-        subtitleColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
-        imageColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
     }
 
     @objc public convenience init(imageName: String, generateSelectedImage: Bool = true, title: String, subtitle: String? = nil, isEnabled: Bool = true, isSelected: Bool = false, executes executionMode: ExecutionMode = .onSelection, onSelected: (() -> Void)? = nil, isAccessoryCheckmarkVisible: Bool = true) {

@@ -89,6 +89,18 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
         contentView.addSubview(accessoryImageView)
 
         isAccessibilityElement = true
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        guard let window = window, window.isEqual(notification.object) else {
+            return
+        }
+        updateColors()
     }
 
     func setup(item: PopupMenuTemplateItem) {
@@ -163,11 +175,6 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
         }
     }
 
-    override func didMoveToWindow() {
-        super.didMoveToWindow()
-        updateSelectionColors()
-    }
-
     private func updateAccessibilityTraits() {
         if isHeader {
             accessibilityTraits.remove(.button)
@@ -187,22 +194,22 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
         subtitleLabel.alpha = alpha
         customAccessoryView?.alpha = alpha
 
-        updateSelectionColors()
+        updateColors()
 
         _imageView.isHighlighted = isSelected
     }
 
-    private func updateSelectionColors() {
+    private func updateColors() {
         if let item = item {
             _imageView.tintColor = isSelected
                 ? item.imageSelectedColor ?? UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1])
-                : item.imageColor
+            : item.imageColor ?? UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
             titleLabel.textColor = isSelected
             ? item.titleSelectedColor ?? UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1])
-                : item.titleColor
+                : item.titleColor ?? UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
             subtitleLabel.textColor = isSelected
                 ? item.subtitleSelectedColor ?? UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1])
-                : item.subtitleColor
+                : item.subtitleColor ?? UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
             backgroundColor = item.backgroundColor
         }
 
