@@ -187,7 +187,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     /// The height of the cell based on the height of its content.
     ///
     /// - Parameters:
-    ///   - tokenSet: The TableViewCell tokens
+    ///   - tokenSet: The TableViewCell token set
     ///   - title: The title string
     ///   - subtitle: The subtitle string
     ///   - footer: The footer string
@@ -331,7 +331,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     /// The preferred width of the cell based on the width of its content.
     ///
     /// - Parameters:
-    ///   - tokenSet: The TableViewCell tokens
+    ///   - tokenSet: The TableViewCell token set
     ///   - title: The title string
     ///   - subtitle: The subtitle string
     ///   - footer: The footer string
@@ -1101,8 +1101,11 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
 
     /// Initializes TableViewCell with the cell style.
     @objc public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        self.tokenSet = TableViewCellTokenSet(customViewSize: { .default })
+        let tokenSet = TableViewCellTokenSet(customViewSize: { preconditionFailure("ControlTokenSet is not yet initialized") })
+        self.tokenSet = tokenSet
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
+
+        tokenSet.customViewSize = { self.customViewSize }
         initialize()
     }
 
