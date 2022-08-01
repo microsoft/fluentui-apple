@@ -96,7 +96,12 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
                                                object: nil)
     }
 
-    @objc private func themeDidChange(_ notification: Notification) {
+    override func didMoveToWindow() {
+        super.didMoveToWindow()
+        updateColors()
+    }
+
+    @objc override func themeDidChange(_ notification: Notification) {
         guard let window = window, window.isEqual(notification.object) else {
             return
         }
