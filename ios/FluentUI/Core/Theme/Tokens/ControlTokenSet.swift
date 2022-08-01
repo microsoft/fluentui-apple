@@ -107,7 +107,7 @@ public enum ControlTokenValue {
             return dynamicColor()
         } else {
             assertionFailure("Cannot convert token to DynamicColor: \(self)")
-            return DynamicColor(light: ColorValue(0xE3008C))
+            return fallbackColor
         }
     }
 
@@ -125,12 +125,11 @@ public enum ControlTokenValue {
             return shadowInfo()
         } else {
             assertionFailure("Cannot convert token to ShadowInfo: \(self)")
-            let defaultColor = DynamicColor(light: ColorValue(0xE3008C))
-            return ShadowInfo(colorOne: defaultColor,
+            return ShadowInfo(colorOne: fallbackColor,
                               blurOne: 10.0,
                               xOne: 10.0,
                               yOne: 10.0,
-                              colorTwo: defaultColor,
+                              colorTwo: fallbackColor,
                               blurTwo: 10.0,
                               xTwo: 10.0,
                               yTwo: 10.0)
@@ -142,12 +141,11 @@ public enum ControlTokenValue {
             return buttonDynamicColors()
         } else {
             assertionFailure("Cannot convert token to ButtonDynamicColors: \(self)")
-            let defaultColor = DynamicColor(light: ColorValue(0xE3008C))
-            return ButtonDynamicColors(rest: defaultColor,
-                                       hover: defaultColor,
-                                       pressed: defaultColor,
-                                       selected: defaultColor,
-                                       disabled: defaultColor)
+            return ButtonDynamicColors(rest: fallbackColor,
+                                       hover: fallbackColor,
+                                       pressed: fallbackColor,
+                                       selected: fallbackColor,
+                                       disabled: fallbackColor)
         }
     }
 
@@ -156,12 +154,22 @@ public enum ControlTokenValue {
             return pillButtonDynamicColors()
         } else {
             assertionFailure("Cannot convert token to PillButtonDynamicColors: \(self)")
-            let defaultColor = DynamicColor(light: ColorValue(0xE3008C))
-            return PillButtonDynamicColors(rest: defaultColor,
-                                           selected: defaultColor,
-                                           disabled: defaultColor,
-                                           selectedDisabled: defaultColor)
+            return PillButtonDynamicColors(rest: fallbackColor,
+                                           selected: fallbackColor,
+                                           disabled: fallbackColor,
+                                           selectedDisabled: fallbackColor)
         }
+    }
+
+    // MARK: - Helpers
+
+    private var fallbackColor: DynamicColor {
+#if DEBUG
+        // Use our global "Hot Pink" in debug builds, to help identify unintentional conversions.
+        return DynamicColor(light: ColorValue(0xE3008C))
+#else
+        return DynamicColor(light: 0x000000)
+#endif
     }
 }
 
