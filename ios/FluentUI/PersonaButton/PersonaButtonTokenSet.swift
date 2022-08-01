@@ -29,8 +29,7 @@ import UIKit
     }
 }
 
-/// Representation of design tokens to persona buttons at runtime which interfaces with the Design Token System auto-generated code.
-/// Updating these properties causes the SwiftUI persona button to update its view automatically.
+/// Design token set for the `PersonaButton` control.
 public class PersonaButtonTokenSet: ControlTokenSet<PersonaButtonTokenSet.Tokens> {
     public enum Tokens: TokenSetKey {
         /// The amount of space between the control's `Avatar` and text labels.
@@ -73,7 +72,6 @@ public class PersonaButtonTokenSet: ControlTokenSet<PersonaButtonTokenSet.Tokens
 
     override func defaultValue(_ token: Tokens) -> ControlTokenValue {
         switch token {
-            /// The amount of space between the control's `Avatar` and text labels.
         case .avatarInterspace:
             return .float {
                 switch self.size() {
@@ -84,11 +82,9 @@ public class PersonaButtonTokenSet: ControlTokenSet<PersonaButtonTokenSet.Tokens
                 }
             }
 
-            /// The background color for the `PersonaButton`.
         case .backgroundColor:
             return .dynamicColor { self.aliasTokens.backgroundColors[.neutral1] }
 
-            /// How much space should be reserved to the left and right of the control's `Avatar`.
         case .horizontalAvatarPadding:
             return .float {
                 switch self.size() {
@@ -99,15 +95,12 @@ public class PersonaButtonTokenSet: ControlTokenSet<PersonaButtonTokenSet.Tokens
                 }
             }
 
-            /// How much space should be reserved to the left and right of the control's labels.
         case .horizontalTextPadding:
             return .float { self.globalTokens.spacing[.xxxSmall] }
 
-            /// The `DynamicColor` to use for the control's primary label.
         case .labelColor:
             return .dynamicColor { self.aliasTokens.foregroundColors[.neutral1] }
 
-            /// The `FontInfo` to use for the control's primary label.
         case .labelFont:
             return .fontInfo {
                 switch self.size() {
@@ -118,15 +111,12 @@ public class PersonaButtonTokenSet: ControlTokenSet<PersonaButtonTokenSet.Tokens
                 }
             }
 
-            /// The `DynamicColor` to use for the control's secondary label.
         case .sublabelColor:
             return .dynamicColor { self.aliasTokens.foregroundColors[.neutral3] }
 
-            /// The `FontInfo` to use for the control's secondary label.
         case .sublabelFont:
             return .fontInfo { self.aliasTokens.typography[.caption1] }
 
-            /// How much padding to add above the `Avatar` and below the lowest text label.
         case .verticalPadding:
             return .float { self.globalTokens.spacing[.xSmall] }
         }
