@@ -198,7 +198,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         return self
     }
 
-    @objc func themeDidChange(_ notification: Notification) {
+    @objc private func themeDidChange(_ notification: Notification) {
         guard let window = window, window.isEqual(notification.object) else {
             return
         }
