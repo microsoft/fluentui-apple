@@ -4,172 +4,329 @@
 //
 import UIKit
 
-open class TableViewCellTokens: ControlTokens {
-    /// The background color of the TableView.
-    open var backgroundColor: DynamicColor {
-        .init(light: globalTokens.neutralColors[.white],
-              dark: globalTokens.neutralColors[.black])
+public class TableViewCellTokenSet: ControlTokenSet<TableViewCellTokenSet.Tokens> {
+    public enum Tokens: TokenSetKey {
+        /// The background color of the TableView.
+        case backgroundColor
+
+        /// The grouped background color of the TableView.
+        case backgroundGrouped
+
+        /// The background color of the TableViewCell.
+        case cellBackgroundColor
+
+        /// The grouped background color of the TableViewCell.
+        case cellBackgroundGrouped
+
+        /// The selected background color of the TableViewCell.
+        case cellBackgroundSelectedColor
+
+        /// The leading image color.
+        case imageColor
+
+        /// The size dimensions of the customView.
+        case customViewDimensions
+
+        /// The trailing margin of the customView.
+        case customViewTrailingMargin
+
+        /// The title label color.
+        case titleColor
+
+        /// The subtitle label color.
+        case subtitleColor
+
+        /// The footer label color.
+        case footerColor
+
+        /// The color of the selectionImageView when it is not selected.
+        case selectionIndicatorOffColor
+
+        /// The font for the title.
+        case titleFont
+
+        /// The font for the subtitle when the TableViewCell has two lines.
+        case subtitleTwoLinesFont
+
+        /// The font for the subtitle when the TableViewCell has three lines.
+        case subtitleThreeLinesFont
+
+        /// The font for the footer.
+        case footerFont
+
+        /// The minimum height for the title label.
+        case titleHeight
+
+        /// The minimum height for the subtitle label when the TableViewCell has two lines.
+        case subtitleTwoLineHeight
+
+        /// The minimum height for the subtitle label when the TableViewCell has three lines.
+        case subtitleThreeLineHeight
+
+        /// The minimum height for the footer label.
+        case footerHeight
+
+        /// The leading margin for the labelAccessoryView.
+        case labelAccessoryViewMarginLeading
+
+        /// The trailing margin for the labelAccessoryView.
+        case labelAccessoryViewMarginTrailing
+
+        /// The leading margin for the customAccessoryView.
+        case customAccessoryViewMarginLeading
+
+        /// The minimum vertical margin for the customAccessoryView.
+        case customAccessoryViewMinVerticalMargin
+
+        /// The vertical margin for the label when it has one or three lines.
+        case labelVerticalMarginForOneAndThreeLines
+
+        /// The vertical margin for the label when it has two lines.
+        case labelVerticalMarginForTwoLines
+
+        /// The vertical spacing for the label.
+        case labelVerticalSpacing
+
+        /// The minimum TableViewCell height; the height of a TableViewCell with one line of text.
+        case minHeight
+
+        /// The height of a TableViewCell with two lines of text.
+        case mediumHeight
+
+        /// The height of a TableViewCell with three lines of text.
+        case largeHeight
+
+        /// The trailing margin for the selectionImage.
+        case selectionImageMarginTrailing
+
+        /// The size for the selectionImage.
+        case selectionImageSize
+
+        /// The duration for the selectionModeAnimation.
+        case selectionModeAnimationDuration
+
+        /// The minimum width for any text area.
+        case textAreaMinWidth
+
+        /// The alpha value that enables the user's ability to interact with a cell.
+        case enabledAlpha
+
+        /// The alpha value that disables the user's ability to interact with a cell; dims cell's contents.
+        case disabledAlpha
+
+        /// The default horizontal spacing in the cell.
+        case horizontalSpacing
+
+        /// The leading padding in the cell.
+        case paddingLeading
+
+        /// The vertical padding in the cell.
+        case paddingVertical
+
+        /// The trailing padding in the cell.
+        case paddingTrailing
+
+        /// The color for the accessoryDisclosureIndicator.
+        case accessoryDisclosureIndicatorColor
+
+        /// The color for the accessoryDetailButtonColor.
+        case accessoryDetailButtonColor
+
+        /// The main primary brand color of the theme.
+        case mainBrandColor
+
+        /// The destructive text color in an ActionsCell.
+        case destructiveTextColor
+
+        /// The communication text color in an ActionsCell.
+        case communicationTextColor
     }
 
-    /// The grouped background color of the TableView.
-    open var backgroundGrouped: DynamicColor {
-        .init(light: aliasTokens.backgroundColors[.neutral2].light,
-              dark: aliasTokens.backgroundColors[.neutral1].dark)
+    init(customViewSize: @escaping () -> MSFTableViewCellCustomViewSize) {
+        self.customViewSize = customViewSize
+        super.init()
     }
 
-    /// The background color of the TableViewCell.
-    open var cellBackgroundColor: DynamicColor {
-        .init(light: aliasTokens.backgroundColors[.neutral1].light,
-              dark: aliasTokens.backgroundColors[.neutral1].dark,
-              darkElevated: aliasTokens.backgroundColors[.neutral2].darkElevated)
+    @available(*, unavailable)
+    required init() {
+        preconditionFailure("init() has not been implemented")
     }
 
-    /// The grouped background color of the TableViewCell.
-    open var cellBackgroundGrouped: DynamicColor {
-        .init(light: aliasTokens.backgroundColors[.neutral1].light,
-              dark: aliasTokens.backgroundColors[.neutral3].dark,
-              darkElevated: ColorValue(0x212121))
-    }
+    override func defaultValue(_ token: Tokens) -> ControlTokenValue {
+        switch token {
+        case .backgroundColor:
+            return .dynamicColor {
+                .init(light: self.globalTokens.neutralColors[.white],
+                      dark: self.globalTokens.neutralColors[.black])
+            }
 
-    /// The selected background color of the TableViewCell.
-    open var cellBackgroundSelectedColor: DynamicColor { aliasTokens.backgroundColors[.neutral5] }
+        case .backgroundGrouped:
+            return .dynamicColor {
+                .init(light: self.aliasTokens.backgroundColors[.neutral2].light,
+                      dark: self.aliasTokens.backgroundColors[.neutral1].dark)
+            }
 
-    /// The leading image color.
-    open var imageColor: DynamicColor { aliasTokens.foregroundColors[.neutral1] }
+        case .cellBackgroundColor:
+            return .dynamicColor {
+                .init(light: self.aliasTokens.backgroundColors[.neutral1].light,
+                      dark: self.aliasTokens.backgroundColors[.neutral1].dark,
+                      darkElevated: self.aliasTokens.backgroundColors[.neutral2].darkElevated)
+            }
 
-    /// The size dimensions of the customView.
-    open var customViewDimensions: CGSize {
-        switch customViewSize {
-        case .zero:
-            return .zero
-        case .small:
-            return CGSize(width: globalTokens.iconSize[.medium],
-                          height: globalTokens.iconSize[.medium])
-        case .medium, .default:
-            return CGSize(width: globalTokens.iconSize[.xxLarge],
-                          height: globalTokens.iconSize[.xxLarge])
+        case .cellBackgroundGrouped:
+            return .dynamicColor {
+                .init(light: self.aliasTokens.backgroundColors[.neutral1].light,
+                      dark: self.aliasTokens.backgroundColors[.neutral3].dark,
+                      darkElevated: ColorValue(0x212121))
+            }
+
+        case .cellBackgroundSelectedColor:
+            return .dynamicColor { self.aliasTokens.backgroundColors[.neutral5] }
+
+        case .imageColor:
+            return .dynamicColor { self.aliasTokens.foregroundColors[.neutral1] }
+
+        case .customViewDimensions:
+            return .float {
+                switch self.customViewSize() {
+                case .zero:
+                    return 0.0
+                case .small:
+                    return self.globalTokens.iconSize[.medium]
+                case .medium, .default:
+                    return self.globalTokens.iconSize[.xxLarge]
+                }
+            }
+
+        case .customViewTrailingMargin:
+            return .float {
+                switch self.customViewSize() {
+                case .zero:
+                    return self.globalTokens.spacing[.none]
+                case .small:
+                    return self.globalTokens.spacing[.medium]
+                case .medium, .default:
+                    return self.globalTokens.spacing[.small]
+                }
+            }
+
+        case .titleColor:
+            return .dynamicColor { self.aliasTokens.foregroundColors[.neutral1] }
+
+        case .subtitleColor:
+            return .dynamicColor { self.aliasTokens.foregroundColors[.neutral3] }
+
+        case .footerColor:
+            return .dynamicColor { self.aliasTokens.foregroundColors[.neutral3] }
+
+        case .selectionIndicatorOffColor:
+            return .dynamicColor { self.aliasTokens.foregroundColors[.neutral3] }
+
+        case .titleFont:
+            return .fontInfo { self.aliasTokens.typography[.body1] }
+
+        case .subtitleTwoLinesFont:
+            return .fontInfo { self.aliasTokens.typography[.caption1] }
+
+        case .subtitleThreeLinesFont:
+            return .fontInfo { self.aliasTokens.typography[.body2] }
+
+        case .footerFont:
+            return .fontInfo { self.aliasTokens.typography[.caption1] }
+
+        case .titleHeight:
+            return .float { 22 }
+
+        case .subtitleTwoLineHeight:
+            return .float { 18 }
+
+        case .subtitleThreeLineHeight:
+            return .float { 20 }
+
+        case .footerHeight:
+            return .float { 18 }
+
+        case .labelAccessoryViewMarginLeading:
+            return .float { self.globalTokens.spacing[.xSmall] }
+
+        case .labelAccessoryViewMarginTrailing:
+            return .float { self.globalTokens.spacing[.xSmall] }
+
+        case .customAccessoryViewMarginLeading:
+            return .float { self.globalTokens.spacing[.xSmall] }
+
+        case .customAccessoryViewMinVerticalMargin:
+            return .float { 6 }
+
+        case .labelVerticalMarginForOneAndThreeLines:
+            return .float { 11 }
+
+        case .labelVerticalMarginForTwoLines:
+            return .float { self.globalTokens.spacing[.small] }
+
+        case .labelVerticalSpacing:
+            return .float { self.globalTokens.spacing[.none] }
+
+        case .minHeight:
+            return .float { self.globalTokens.spacing[.xxxLarge] }
+
+        case .mediumHeight:
+            return .float { 64 }
+
+        case .largeHeight:
+            return .float { 84 }
+
+        case .selectionImageMarginTrailing:
+            return .float { self.globalTokens.spacing[.medium] }
+
+        case .selectionImageSize:
+            return .float { self.globalTokens.iconSize[.medium] }
+
+        case .selectionModeAnimationDuration:
+            return .float { 0.2 }
+
+        case .textAreaMinWidth:
+            return .float { 100 }
+
+        case .enabledAlpha:
+            return .float { 1 }
+
+        case .disabledAlpha:
+            return .float { 0.35 }
+
+        case .horizontalSpacing:
+            return .float { self.globalTokens.spacing[.medium] }
+
+        case .paddingLeading:
+            return .float { self.globalTokens.spacing[.medium] }
+
+        case .paddingVertical:
+            return .float { 11 }
+
+        case .paddingTrailing:
+            return .float { self.globalTokens.spacing[.medium] }
+
+        case .accessoryDisclosureIndicatorColor:
+            return .dynamicColor { self.aliasTokens.foregroundColors[.neutral4] }
+
+        case .accessoryDetailButtonColor:
+            return .dynamicColor { self.aliasTokens.foregroundColors[.neutral3] }
+
+        case .mainBrandColor:
+            return .dynamicColor { self.globalTokens.brandColors[.primary] }
+
+        case .destructiveTextColor:
+            return .dynamicColor { DynamicColor(light: ColorValue(0xD92C2C),
+                                                dark: ColorValue(0xE83A3A)) }
+
+        case .communicationTextColor:
+            return .dynamicColor { DynamicColor(light: ColorValue(0x0078D4),
+                                                dark: ColorValue(0x0086F0)) }
         }
     }
-
-    /// The trailing margin of the customView.
-    open var customViewTrailingMargin: CGFloat {
-        switch customViewSize {
-        case .zero:
-            return globalTokens.spacing[.none]
-        case .small:
-            return globalTokens.spacing[.medium]
-        case .medium, .default:
-            return globalTokens.spacing[.small]
-        }
-    }
-
-    /// The title label color.
-    open var titleColor: DynamicColor { aliasTokens.foregroundColors[.neutral1] }
-
-    /// The subtitle label color.
-    open var subtitleColor: DynamicColor { aliasTokens.foregroundColors[.neutral3] }
-
-    /// The footer label color.
-    open var footerColor: DynamicColor { aliasTokens.foregroundColors[.neutral3] }
-
-    /// The color of the selectionImageView when it is not selected.
-    open var selectionIndicatorOffColor: DynamicColor { aliasTokens.foregroundColors[.neutral3] }
-
-    /// The font for the title.
-    open var titleFont: FontInfo { aliasTokens.typography[.body1] }
-
-    /// The font for the subtitle when the TableViewCell has two lines.
-    open var subtitleTwoLinesFont: FontInfo { aliasTokens.typography[.caption1] }
-
-    /// The font for the subtitle when the TableViewCell has three lines.
-    open var subtitleThreeLinesFont: FontInfo { aliasTokens.typography[.body2] }
-
-    /// The font for the footer.
-    open var footerFont: FontInfo { aliasTokens.typography[.caption1] }
-
-    /// The minimum height for the title label.
-    open var titleHeight: CGFloat { 22 }
-
-    /// The minimum height for the subtitle label when the TableViewCell has two lines.
-    open var subtitleTwoLineHeight: CGFloat { 18 }
-
-    /// The minimum height for the subtitle label when the TableViewCell has three lines.
-    open var subtitleThreeLineHeight: CGFloat { 20 }
-
-    /// The minimum height for the footer label.
-    open var footerHeight: CGFloat { 18 }
-
-    /// The leading margin for the labelAccessoryView.
-    open var labelAccessoryViewMarginLeading: CGFloat { globalTokens.spacing[.xSmall] }
-
-    /// The trailing margin for the labelAccessoryView.
-    open var labelAccessoryViewMarginTrailing: CGFloat { globalTokens.spacing[.xSmall] }
-
-    /// The leading margin for the customAccessoryView.
-    open var customAccessoryViewMarginLeading: CGFloat { globalTokens.spacing[.xSmall] }
-
-    /// The minimum vertical margin for the customAccessoryView.
-    open var customAccessoryViewMinVerticalMargin: CGFloat { 6 }
-
-    /// The vertical margin for the label when it has one or three lines.
-    open var labelVerticalMarginForOneAndThreeLines: CGFloat { 11 }
-
-    /// The vertical margin for the label when it has two lines.
-    open var labelVerticalMarginForTwoLines: CGFloat { globalTokens.spacing[.small] }
-
-    /// The vertical spacing for the label.
-    open var labelVerticalSpacing: CGFloat { globalTokens.spacing[.none] }
-
-    /// The minimum TableViewCell height; the height of a TableViewCell with one line of text.
-    open var minHeight: CGFloat { globalTokens.spacing[.xxxLarge] }
-
-    /// The height of a TableViewCell with two lines of text.
-    open var mediumHeight: CGFloat { 64 }
-
-    /// The height of a TableViewCell with three lines of text.
-    open var largeHeight: CGFloat { 84 }
-
-    /// The trailing margin for the selectionImage.
-    open var selectionImageMarginTrailing: CGFloat { globalTokens.spacing[.medium] }
-
-    /// The size for the selectionImage.
-    open var selectionImageSize: CGSize { CGSize(width: globalTokens.iconSize[.medium], height: globalTokens.iconSize[.medium]) }
-
-    /// The duration for the selectionModeAnimation.
-    open var selectionModeAnimationDuration: TimeInterval { 0.2 }
-
-    /// The minimum width for any text area.
-    open var textAreaMinWidth: CGFloat { 100 }
-
-    /// The alpha value that enables the user's ability to interact with a cell.
-    open var enabledAlpha: CGFloat { 1 }
-
-    /// The alpha value that disables the user's ability to interact with a cell; dims cell's contents.
-    open var disabledAlpha: CGFloat { 0.35 }
-
-    /// The default horizontal spacing in the cell.
-    open var horizontalSpacing: CGFloat { globalTokens.spacing[.medium] }
-
-    /// The leading padding in the cell.
-    open var paddingLeading: CGFloat { globalTokens.spacing[.medium] }
-
-    /// The vertical padding in the cell.
-    open var paddingVertical: CGFloat { 11 }
-
-    /// The trailing padding in the cell.
-    open var paddingTrailing: CGFloat { globalTokens.spacing[.medium] }
-
-    /// The color for the accessoryDisclosureIndicator.
-    open var accessoryDisclosureIndicatorColor: DynamicColor { aliasTokens.foregroundColors[.neutral4] }
-
-    /// The color for the accessoryDetailButtonColor.
-    open var accessoryDetailButtonColor: DynamicColor { aliasTokens.foregroundColors[.neutral3] }
-
-    /// The main primary brand color of the theme.
-    open var mainBrandColor: DynamicColor { globalTokens.brandColors[.primary] }
 
     /// Defines the size of the customView size.
-    public internal(set) var customViewSize: MSFTableViewCellCustomViewSize = .default
+    var customViewSize: () -> MSFTableViewCellCustomViewSize
 }
 
 /// Pre-defined sizes of the customView size.
@@ -178,14 +335,4 @@ open class TableViewCellTokens: ControlTokens {
     case zero
     case small
     case medium
-}
-
-open class ActionsCellTokens: TableViewCellTokens {
-    /// The destructive text color in an ActionsCell.
-    open var destructiveTextColor: DynamicColor { DynamicColor(light: ColorValue(0xD92C2C),
-                                                    dark: ColorValue(0xE83A3A)) }
-
-    /// The communication text color in an ActionsCell.
-    open var communicationTextColor: DynamicColor { DynamicColor(light: ColorValue(0x0078D4),
-                                                    dark: ColorValue(0x0086F0)) }
 }

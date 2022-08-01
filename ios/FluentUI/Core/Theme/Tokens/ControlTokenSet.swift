@@ -5,6 +5,7 @@
 
 import Foundation
 import CoreGraphics // for CGFloat
+import Combine
 
 /// Base class for all Fluent control tokenization.
 public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
@@ -64,6 +65,20 @@ public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
         }
     }
 
+    /// Simplifies the process of observing changes to this token set.
+    ///
+    /// - Parameter receiveValue: A callback to be invoked after the token set has completed updating.
+    ///
+    /// - Returns: An `AnyCancellable` to track this observation.
+    func sinkChanges(receiveValue: @escaping () -> Void) -> AnyCancellable {
+        return self.objectWillChange.sink { [receiveValue] in
+            // Values will be updated on the next run loop iteration.
+            DispatchQueue.main.async {
+                receiveValue()
+            }
+        }
+    }
+
     @Published var fluentTheme: FluentTheme = FluentTheme.shared
 
     @Published private var valueOverrides: [T: ControlTokenValue]?
@@ -76,8 +91,9 @@ public enum ControlTokenValue {
     case fontInfo(() -> FontInfo)
     case shadowInfo(() -> ShadowInfo)
     case buttonDynamicColors(() -> ButtonDynamicColors)
+    case pillButtonDynamicColors(() -> PillButtonDynamicColors)
 
-    var float: CGFloat {
+    public var float: CGFloat {
         if case .float(let float) = self {
             return float()
         } else {
@@ -86,7 +102,7 @@ public enum ControlTokenValue {
         }
     }
 
-    var dynamicColor: DynamicColor {
+    public var dynamicColor: DynamicColor {
         if case .dynamicColor(let dynamicColor) = self {
             return dynamicColor()
         } else {
@@ -95,7 +111,7 @@ public enum ControlTokenValue {
         }
     }
 
-    var fontInfo: FontInfo {
+    public var fontInfo: FontInfo {
         if case .fontInfo(let fontInfo) = self {
             return fontInfo()
         } else {
@@ -104,7 +120,7 @@ public enum ControlTokenValue {
         }
     }
 
-    var shadowInfo: ShadowInfo {
+    public var shadowInfo: ShadowInfo {
         if case .shadowInfo(let shadowInfo) = self {
             return shadowInfo()
         } else {
@@ -121,7 +137,7 @@ public enum ControlTokenValue {
         }
     }
 
-    var buttonDynamicColors: ButtonDynamicColors {
+    public var buttonDynamicColors: ButtonDynamicColors {
         if case .buttonDynamicColors(let buttonDynamicColors) = self {
             return buttonDynamicColors()
         } else {
@@ -132,6 +148,19 @@ public enum ControlTokenValue {
                                        pressed: defaultColor,
                                        selected: defaultColor,
                                        disabled: defaultColor)
+        }
+    }
+
+    public var pillButtonDynamicColors: PillButtonDynamicColors {
+        if case .pillButtonDynamicColors(let pillButtonDynamicColors) = self {
+            return pillButtonDynamicColors()
+        } else {
+            assertionFailure("Cannot convert token to PillButtonDynamicColors: \(self)")
+            let defaultColor = DynamicColor(light: ColorValue(0xE3008C))
+            return PillButtonDynamicColors(rest: defaultColor,
+                                           selected: defaultColor,
+                                           disabled: defaultColor,
+                                           selectedDisabled: defaultColor)
         }
     }
 }
@@ -151,6 +180,8 @@ extension ControlTokenValue: CustomStringConvertible {
             return "ControlTokenValue.shadowInfo (\(shadowInfo())"
         case .buttonDynamicColors(let buttonDynamicColors):
             return "ControlTokenValue.buttonDynamicColors (\(buttonDynamicColors())"
+        case .pillButtonDynamicColors(let pillButtonDynamicColors):
+            return "ControlTokenValue.pillButtonDynamicColors (\(pillButtonDynamicColors()))"
         }
     }
 }

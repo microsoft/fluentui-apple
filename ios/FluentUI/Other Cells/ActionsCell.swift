@@ -4,6 +4,7 @@
 //
 
 import UIKit
+import Combine
 
 // MARK: ActionsCell
 
@@ -22,51 +23,34 @@ open class ActionsCell: UITableViewCell, TokenizedControlInternal {
         case destructive
         case communication
 
-        func highlightedTextColor(tokens: ActionsCellTokens) -> UIColor {
+        func highlightedTextColor(tokenSet: TableViewCellTokenSet) -> UIColor {
             switch self {
             case .regular:
-                return UIColor(dynamicColor: tokens.mainBrandColor).withAlphaComponent(0.4)
+                return UIColor(dynamicColor: tokenSet[.mainBrandColor].dynamicColor).withAlphaComponent(0.4)
             case .destructive:
-                return UIColor(dynamicColor: tokens.destructiveTextColor).withAlphaComponent(0.4)
+                return UIColor(dynamicColor: tokenSet[.destructiveTextColor].dynamicColor).withAlphaComponent(0.4)
             case .communication:
-                return UIColor(dynamicColor: tokens.communicationTextColor).withAlphaComponent(0.4)
+                return UIColor(dynamicColor: tokenSet[.communicationTextColor].dynamicColor).withAlphaComponent(0.4)
             }
         }
 
-        func textColor(tokens: ActionsCellTokens) -> UIColor {
+        func textColor(tokenSet: TableViewCellTokenSet) -> UIColor {
             switch self {
             case .regular:
-                return UIColor(dynamicColor: tokens.mainBrandColor)
+                return UIColor(dynamicColor: tokenSet[.mainBrandColor].dynamicColor)
             case .destructive:
-                return UIColor(dynamicColor: tokens.destructiveTextColor)
+                return UIColor(dynamicColor: tokenSet[.destructiveTextColor].dynamicColor)
             case .communication:
-                return UIColor(dynamicColor: tokens.communicationTextColor)
+                return UIColor(dynamicColor: tokenSet[.communicationTextColor].dynamicColor)
             }
         }
     }
 
     public static let identifier: String = "ActionsCell"
 
-    // MARK: - ActionsCell TokenizedControl
-    @objc public var actionsCellOverrideTokens: ActionsCellTokens? {
-        didSet {
-            self.overrideTokens = actionsCellOverrideTokens
-        }
-    }
-
-    let defaultTokens: ActionsCellTokens = .init()
-    var tokens: ActionsCellTokens = .init()
-    /// Design token set for this control, to use in place of the control's default Fluent tokens.
-    var overrideTokens: ActionsCellTokens? {
-        didSet {
-            updateTokens()
-        }
-    }
-
-    public func overrideTokens(_ tokens: ActionsCellTokens?) -> Self {
-        overrideTokens = tokens
-        return self
-    }
+    public typealias TokenSetKeyType = TableViewCellTokenSet.Tokens
+    public var tokenSet: TableViewCellTokenSet
+    var tokenSetSink: AnyCancellable?
 
     @objc private func themeDidChange(_ notification: Notification) {
         guard let window = window, window.isEqual(notification.object) else {
@@ -76,24 +60,23 @@ open class ActionsCell: UITableViewCell, TokenizedControlInternal {
     }
 
     private func updateTokens() {
-        tokens = resolvedTokens
         updateActionTitleColors()
-        backgroundConfiguration?.backgroundColor = UIColor(dynamicColor: tokens.cellBackgroundColor)
+        backgroundConfiguration?.backgroundColor = UIColor(dynamicColor: tokenSet[.cellBackgroundColor].dynamicColor)
     }
 
-    @objc public class func height(action1Title: String, action2Title: String = "", containerWidth: CGFloat, tokens: ActionsCellTokens) -> CGFloat {
+    public class func height(action1Title: String, action2Title: String = "", containerWidth: CGFloat, tokenSet: TableViewCellTokenSet) -> CGFloat {
         let actionCount: CGFloat = action2Title == "" ? 1 : 2
         let width = UIScreen.main.roundToDevicePixels(containerWidth / actionCount)
 
-        let actionTitleFont = UIFont.fluent(tokens.titleFont)
+        let actionTitleFont = UIFont.fluent(tokenSet[.titleFont].fontInfo)
         let action1TitleHeight = action1Title.preferredSize(for: actionTitleFont, width: width).height
         let action2TitleHeight = action2Title.preferredSize(for: actionTitleFont, width: width).height
 
-        return max(tokens.paddingVertical * 2 + max(action1TitleHeight, action2TitleHeight), tokens.minHeight)
+        return max(tokenSet[.paddingVertical].float * 2 + max(action1TitleHeight, action2TitleHeight), tokenSet[.minHeight].float)
     }
 
-    @objc public class func preferredWidth(action1Title: String, action2Title: String = "", tokens: ActionsCellTokens) -> CGFloat {
-        let actionTitleFont = UIFont.fluent(tokens.titleFont)
+    public class func preferredWidth(action1Title: String, action2Title: String = "", tokenSet: TableViewCellTokenSet) -> CGFloat {
+        let actionTitleFont = UIFont.fluent(tokenSet[.titleFont].fontInfo)
         let action1TitleWidth = action1Title.preferredSize(for: actionTitleFont).width
         let action2TitleWidth = action2Title.preferredSize(for: actionTitleFont).width
 
@@ -134,6 +117,7 @@ open class ActionsCell: UITableViewCell, TokenizedControlInternal {
     private let verticalSeparator = MSFDivider(orientation: .vertical)
 
     public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        self.tokenSet = TableViewCellTokenSet(customViewSize: { .default })
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         contentView.addSubview(action1Button)
@@ -145,7 +129,7 @@ open class ActionsCell: UITableViewCell, TokenizedControlInternal {
         hideSystemSeparator()
         updateHorizontalSeparator(topSeparator, with: topSeparatorType)
         updateHorizontalSeparator(bottomSeparator, with: bottomSeparatorType)
-        backgroundConfiguration?.backgroundColor = UIColor(dynamicColor: tokens.cellBackgroundColor)
+        backgroundConfiguration?.backgroundColor = UIColor(dynamicColor: tokenSet[.cellBackgroundColor].dynamicColor)
 
         setupAction(action1Button)
         setupAction(action2Button)
@@ -154,6 +138,11 @@ open class ActionsCell: UITableViewCell, TokenizedControlInternal {
                                                selector: #selector(themeDidChange),
                                                name: .didChangeTheme,
                                                object: nil)
+
+        // Update appearance whenever `tokenSet` changes.
+        tokenSetSink = tokenSet.sinkChanges { [weak self] in
+            self?.updateTokens()
+        }
     }
 
     public required init(coder aDecoder: NSCoder) {
@@ -210,18 +199,18 @@ open class ActionsCell: UITableViewCell, TokenizedControlInternal {
         let maxWidth = size.width != 0 ? size.width : .infinity
         return CGSize(
             width: max(
-                type(of: self).preferredWidth(
+                Self.preferredWidth(
                     action1Title: action1Button.currentTitle ?? "",
                     action2Title: action2Button.currentTitle ?? "",
-                    tokens: tokens
+                    tokenSet: tokenSet
                 ),
                 maxWidth
             ),
-            height: type(of: self).height(
+            height: Self.height(
                 action1Title: action1Button.currentTitle ?? "",
                 action2Title: action2Button.currentTitle ?? "",
                 containerWidth: maxWidth,
-                tokens: tokens
+                tokenSet: tokenSet
             )
         )
     }
@@ -243,13 +232,13 @@ open class ActionsCell: UITableViewCell, TokenizedControlInternal {
     open override func setSelected(_ selected: Bool, animated: Bool) { }
 
     private func setupAction(_ button: UIButton) {
-        button.titleLabel?.font = UIFont.fluent(tokens.titleFont)
+        button.titleLabel?.font = UIFont.fluent(tokenSet[.titleFont].fontInfo)
         button.titleLabel?.numberOfLines = 0
         button.titleLabel?.textAlignment = .center
     }
 
     private func layoutHorizontalSeparator(_ separator: MSFDivider, with type: TableViewCell.SeparatorType, at verticalOffset: CGFloat) {
-        let horizontalOffset = type == .inset ? safeAreaInsets.left + tokens.horizontalSpacing : 0
+        let horizontalOffset = type == .inset ? safeAreaInsets.left + tokenSet[.horizontalSpacing].float : 0
 
         separator.frame = CGRect(
             x: horizontalOffset,
@@ -266,11 +255,11 @@ open class ActionsCell: UITableViewCell, TokenizedControlInternal {
     }
 
     private func updateActionTitleColors() {
-        action1Button.setTitleColor(action1Type.textColor(tokens: tokens), for: .normal)
-        action1Button.setTitleColor(action1Type.highlightedTextColor(tokens: tokens), for: .highlighted)
+        action1Button.setTitleColor(action1Type.textColor(tokenSet: tokenSet), for: .normal)
+        action1Button.setTitleColor(action1Type.highlightedTextColor(tokenSet: tokenSet), for: .highlighted)
         if !action2Button.isHidden {
-            action2Button.setTitleColor(action2Type.textColor(tokens: tokens), for: .normal)
-            action2Button.setTitleColor(action2Type.highlightedTextColor(tokens: tokens), for: .highlighted)
+            action2Button.setTitleColor(action2Type.textColor(tokenSet: tokenSet), for: .normal)
+            action2Button.setTitleColor(action2Type.highlightedTextColor(tokenSet: tokenSet), for: .highlighted)
         }
 
     }
