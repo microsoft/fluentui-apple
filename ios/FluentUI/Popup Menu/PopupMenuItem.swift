@@ -26,11 +26,11 @@ open class PopupMenuItem: NSObject, PopupMenuTemplateItem {
     @objc public var isSelected: Bool = false
 
     /// `title` color
-    @objc public var titleColor: UIColor = Colors.Table.Cell.title
+    @objc public var titleColor: UIColor?
     /// `subtitle` color
-    @objc public var subtitleColor: UIColor = Colors.Table.Cell.subtitle
+    @objc public var subtitleColor: UIColor?
     /// `image` tint color if it is rendered as template
-    @objc public var imageColor: UIColor = Colors.Table.Cell.image
+    @objc public var imageColor: UIColor?
     /// `title` color when`isSelected` is true. If unset, Colors.primary will be used
     @objc public var titleSelectedColor: UIColor?
     /// `subtitle` color when`isSelected` is true.  If unset, Colors.primary will be used
