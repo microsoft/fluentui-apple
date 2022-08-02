@@ -441,16 +441,6 @@ public final class AliasTokens {
         case redBorderActive
         case redBorder1
         case redBorder2
-        // Green
-        case greenBackground1
-        case greenBackground2
-        case greenBackground3
-        case greenForeground1
-        case greenForeground2
-        case greenForeground3
-        case greenBorderActive
-        case greenBorder1
-        case greenBorder2
         // Dark orange
         case darkOrangeBackground1
         case darkOrangeBackground2
@@ -461,26 +451,6 @@ public final class AliasTokens {
         case darkOrangeBorderActive
         case darkOrangeBorder1
         case darkOrangeBorder2
-        // Yellow
-        case yellowBackground1
-        case yellowBackground2
-        case yellowBackground3
-        case yellowForeground1
-        case yellowForeground2
-        case yellowForeground3
-        case yellowBorderActive
-        case yellowBorder1
-        case yellowBorder2
-        // Berry
-        case berryBackground1
-        case berryBackground2
-        case berryBackground3
-        case berryForeground1
-        case berryForeground2
-        case berryForeground3
-        case berryBorderActive
-        case berryBorder1
-        case berryBorder2
         // Pumpkin
         case pumpkinBackground2
         case pumpkinForeground2
@@ -493,6 +463,16 @@ public final class AliasTokens {
         case marigoldBackground2
         case marigoldForeground2
         case marigoldBorderActive
+        // Yellow
+        case yellowBackground1
+        case yellowBackground2
+        case yellowBackground3
+        case yellowForeground1
+        case yellowForeground2
+        case yellowForeground3
+        case yellowBorderActive
+        case yellowBorder1
+        case yellowBorder2
         // Gold
         case goldBackground2
         case goldForeground2
@@ -513,6 +493,16 @@ public final class AliasTokens {
         case seafoamBackground2
         case seafoamForeground2
         case seafoamBorderActive
+        // Green
+        case greenBackground1
+        case greenBackground2
+        case greenBackground3
+        case greenForeground1
+        case greenForeground2
+        case greenForeground3
+        case greenBorderActive
+        case greenBorder1
+        case greenBorder2
         // Dark green
         case darkGreenBackground2
         case darkGreenForeground2
@@ -557,6 +547,16 @@ public final class AliasTokens {
         case grapeBackground2
         case grapeForeground2
         case grapeBorderActive
+        // Berry
+        case berryBackground1
+        case berryBackground2
+        case berryBackground3
+        case berryForeground1
+        case berryForeground2
+        case berryForeground3
+        case berryBorderActive
+        case berryBorder1
+        case berryBorder2
         // Lilac
         case lilacBackground2
         case lilacForeground2
