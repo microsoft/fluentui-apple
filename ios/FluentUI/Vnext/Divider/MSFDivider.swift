@@ -16,13 +16,18 @@ import SwiftUI
                       spacing: MSFDividerSpacing = .none) {
         let divider = FluentDivider(orientation: orientation, spacing: spacing)
         state = divider.state
+        tokenSet = divider.tokenSet
         super.init(AnyView(divider))
     }
 
+    @available(*, unavailable)
     required public init?(coder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
     /// The object that groups properties that allow control over the Divider appearance.
     @objc public let state: MSFDividerState
+
+    /// Access to the control's `ControlTokenSet` for reading default values and providing overrides.
+    public let tokenSet: DividerTokenSet
 }

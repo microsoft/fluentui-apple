@@ -51,19 +51,20 @@ import SwiftUI
 
     /// Secondary text to be displayed under the persona image (e.g. last name or email address).
     var secondaryText: String? { get set }
-
-    /// Design token set for this control, to use in place of the control's default Fluent tokens.
-    var overrideTokens: PersonaButtonTokens? { get set }
 }
 
 /// View that represents a persona button.
-public struct PersonaButton: View, ConfigurableTokenizedControl {
+public struct PersonaButton: View, TokenizedControlView {
+    public typealias TokenSetKeyType = PersonaButtonTokenSet.Tokens
+    @ObservedObject public var tokenSet: PersonaButtonTokenSet
+
     /// Creates a new `PersonaButton` instance.
     /// - Parameters:
     ///   - size: The` MSFPersonaButtonSize` value used by the `PersonaButton`.
     public init(size: MSFPersonaButtonSize) {
         let state = MSFPersonaButtonStateImpl(size: size)
         self.state = state
+        self.tokenSet = PersonaButtonTokenSet(size: { state.buttonSize })
     }
 
     public var body: some View {
@@ -72,26 +73,22 @@ public struct PersonaButton: View, ConfigurableTokenizedControl {
             VStack(spacing: 0) {
                 avatarView
                 personaText
-                Spacer(minLength: tokens.verticalPadding)
+                Spacer(minLength: tokenSet[.verticalPadding].float)
             }
         }
         .frame(minWidth: adjustedWidth, maxWidth: adjustedWidth, minHeight: 0, maxHeight: .infinity)
-        .background(Color(dynamicColor: tokens.backgroundColor))
+        .background(Color(dynamicColor: tokenSet[.backgroundColor].dynamicColor))
+        .fluentTokens(tokenSet, fluentTheme)
     }
 
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @Environment(\.sizeCategory) var sizeCategory: ContentSizeCategory
     @ObservedObject var state: MSFPersonaButtonStateImpl
-    let defaultTokens: PersonaButtonTokens = .init()
-    var tokens: PersonaButtonTokens {
-        let tokens = resolvedTokens
-        tokens.size = state.buttonSize
-        return tokens
-    }
 
     init(state: MSFPersonaButtonStateImpl, action: (() -> Void)?) {
         state.onTapAction = action
         self.state = state
+        self.tokenSet = PersonaButtonTokenSet(size: { state.buttonSize })
     }
 
     @ViewBuilder
@@ -100,17 +97,17 @@ public struct PersonaButton: View, ConfigurableTokenizedControl {
             Text(state.primaryText ?? "")
                 .lineLimit(1)
                 .frame(alignment: .center)
-                .font(.fluent(tokens.labelFont))
-                .foregroundColor(Color(dynamicColor: tokens.labelColor))
+                .font(.fluent(tokenSet[.labelFont].fontInfo))
+                .foregroundColor(Color(dynamicColor: tokenSet[.labelColor].dynamicColor))
             if state.buttonSize.shouldShowSubtitle {
                 Text(state.secondaryText ?? "")
                     .lineLimit(1)
                     .frame(alignment: .center)
-                    .font(.fluent(tokens.sublabelFont))
-                    .foregroundColor(Color(dynamicColor: tokens.sublabelColor))
+                    .font(.fluent(tokenSet[.sublabelFont].fontInfo))
+                    .foregroundColor(Color(dynamicColor: tokenSet[.sublabelColor].dynamicColor))
             }
         }
-        .padding(.horizontal, tokens.horizontalTextPadding)
+        .padding(.horizontal, tokenSet[.horizontalTextPadding].float)
     }
 
     private var avatar: Avatar {
@@ -120,8 +117,8 @@ public struct PersonaButton: View, ConfigurableTokenizedControl {
     @ViewBuilder
     private var avatarView: some View {
         avatar
-            .padding(.top, tokens.verticalPadding)
-            .padding(.bottom, tokens.avatarInterspace)
+            .padding(.top, tokenSet[.verticalPadding].float)
+            .padding(.bottom, tokenSet[.avatarInterspace].float)
     }
 
     /// Width of the button is conditional on the current size category
@@ -134,12 +131,12 @@ public struct PersonaButton: View, ConfigurableTokenizedControl {
             .accessibilityExtraExtraExtraLarge: [ .large: 80, .small: 68 ]
         ]
 
-        return avatar.contentSize + (2 * tokens.horizontalAvatarPadding) + (accessibilityAdjustments[sizeCategory]?[state.buttonSize] ?? 0)
+        return avatar.contentSize + (2 * tokenSet[.horizontalAvatarPadding].float) + (accessibilityAdjustments[sizeCategory]?[state.buttonSize] ?? 0)
     }
 }
 
 /// Properties that make up PersonaButton content
-class MSFPersonaButtonStateImpl: NSObject, ObservableObject, Identifiable, ControlConfiguration, MSFPersonaButtonState {
+class MSFPersonaButtonStateImpl: ControlState, MSFPersonaButtonState {
     /// Creates and initializes a `MSFPersonaButtonStateImpl`
     /// - Parameters:
     ///   - size: The size of the persona button
@@ -152,7 +149,6 @@ class MSFPersonaButtonStateImpl: NSObject, ObservableObject, Identifiable, Contr
 
     @Published var buttonSize: MSFPersonaButtonSize
     @Published var onTapAction: (() -> Void)?
-    @Published var overrideTokens: PersonaButtonTokens?
 
     let avatarState: MSFAvatarStateImpl
     let id = UUID()

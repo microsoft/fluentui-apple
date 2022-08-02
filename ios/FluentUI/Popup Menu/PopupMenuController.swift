@@ -128,8 +128,11 @@ open class PopupMenuController: DrawerController {
     /// set `separatorColor` to customize separator colors of  PopupMenuItem cells and the drawer
     @objc open var separatorColor: UIColor = Colors.Separator.default {
         didSet {
-            let customTokens = PopupMenuItemCell.CustomDividerTokens(separatorColor)
-            divider.state.overrideTokens = customTokens
+            guard let dynamicColor = separatorColor.dynamicColor else {
+                assertionFailure("Unable to create dynamic color from separator color: \(separatorColor)")
+                return
+            }
+            divider.tokenSet[.color] = .dynamicColor({ dynamicColor })
         }
     }
 
@@ -170,8 +173,9 @@ open class PopupMenuController: DrawerController {
             )
         )
 
-        let customTokens = PopupMenuItemCell.CustomDividerTokens(separatorColor)
-        divider.state.overrideTokens = customTokens
+        if let dynamicColor = separatorColor.dynamicColor {
+            divider.tokenSet[.color] = .dynamicColor({ dynamicColor })
+        }
         view.addSubview(divider)
         divider.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([

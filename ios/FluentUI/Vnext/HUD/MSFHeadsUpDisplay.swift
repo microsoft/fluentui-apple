@@ -21,6 +21,7 @@ open class MSFHeadsUpDisplay: ControlHostingView {
                                      label: label,
                                      tapAction: tapAction)
         state = hudView.state
+        tokenSet = hudView.tokenSet
         super.init(AnyView(hudView))
     }
 
@@ -30,4 +31,6 @@ open class MSFHeadsUpDisplay: ControlHostingView {
 
     /// The object that groups properties that allow control over the Activity Indicator appearance.
     public var state: MSFHUDState
+    public let tokenSet: HeadsUpDisplayTokenSet
+
 }
