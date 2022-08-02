@@ -97,6 +97,23 @@ extension UIWindow: FluentThemeable {
     }
 }
 
+@objc extension UIViewController: FluentThemeable {
+    private struct Keys {
+        static var fluentTheme: String = "fluentTheme_key"
+    }
+
+    /// The custom `FluentTheme` to apply to this UIViewController.
+    public var fluentTheme: FluentTheme {
+        get {
+            return objc_getAssociatedObject(self, &Keys.fluentTheme) as? FluentTheme ?? FluentThemeKey.defaultValue
+        }
+        set {
+            objc_setAssociatedObject(self, &Keys.fluentTheme, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            NotificationCenter.default.post(name: .didChangeTheme, object: self)
+        }
+    }
+}
+
 // MARK: - Environment
 
 public extension View {

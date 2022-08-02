@@ -52,6 +52,15 @@ public class BottomSheetController: UIViewController {
         self.expandedContentView = expandedContentView
         self.shouldShowDimmingView = shouldShowDimmingView
         super.init(nibName: nil, bundle: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(_themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+    }
+
+    @objc private func _themeDidChange(_ notification: Notification) {
+        setBottomSheetViewTokens(bottomSheetView: bottomSheetView)
+        setContentViewTokens()
     }
 
     @available(*, unavailable)
@@ -376,10 +385,6 @@ public class BottomSheetController: UIViewController {
     }()
 
     private lazy var bottomSheetView: UIView = {
-        let bottomSheetContentView = UIView()
-        bottomSheetContentView.translatesAutoresizingMaskIntoConstraints = false
-
-        bottomSheetContentView.addGestureRecognizer(panGestureRecognizer)
         panGestureRecognizer.delegate = self
 
         let stackView = UIStackView(arrangedSubviews: [resizingHandleView])
@@ -392,34 +397,40 @@ public class BottomSheetController: UIViewController {
         }
 
         stackView.addArrangedSubview(expandedContentView)
-        bottomSheetContentView.addSubview(stackView)
+        contentView.addSubview(stackView)
 
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: bottomSheetContentView.topAnchor),
-            stackView.leadingAnchor.constraint(equalTo: bottomSheetContentView.leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: bottomSheetContentView.trailingAnchor),
-            stackView.bottomAnchor.constraint(equalTo: bottomSheetContentView.bottomAnchor)
+            stackView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
 
-        return makeBottomSheetByEmbedding(contentView: bottomSheetContentView)
+        return makeBottomSheetByEmbedding()
     }()
 
-    private func makeBottomSheetByEmbedding(contentView: UIView) -> UIView {
+    private lazy var contentView: UIView = {
+        let bottomSheetContentView = UIView()
+        bottomSheetContentView.translatesAutoresizingMaskIntoConstraints = false
+
+        bottomSheetContentView.addGestureRecognizer(panGestureRecognizer)
+
+        return bottomSheetContentView
+    }()
+
+    private func makeBottomSheetByEmbedding() -> UIView {
         let bottomSheetView = UIView()
 
         // We need to have the shadow on a parent of the view that does the corner masking.
         // Otherwise the view will mask its own shadow.
-        let shadow28 = view.fluentTheme.aliasTokens.shadow[.shadow28]
-        bottomSheetView.layer.shadowColor = UIColor(dynamicColor: shadow28.colorTwo).cgColor
-        bottomSheetView.layer.shadowOffset = CGSize(width: shadow28.xTwo, height: shadow28.yTwo)
-        bottomSheetView.layer.shadowRadius = shadow28.blurTwo
+        setBottomSheetViewTokens(bottomSheetView: bottomSheetView)
 
         contentView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.backgroundColor = backgroundColor
         contentView.layer.cornerRadius = Constants.cornerRadius
         contentView.layer.cornerCurve = .continuous
         contentView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
         contentView.clipsToBounds = true
+        setContentViewTokens()
 
         bottomSheetView.addSubview(contentView)
 
@@ -431,6 +442,17 @@ public class BottomSheetController: UIViewController {
         ])
 
         return bottomSheetView
+    }
+
+    private func setBottomSheetViewTokens(bottomSheetView: UIView) {
+        let shadow28 = view.fluentTheme.aliasTokens.shadow[.shadow28]
+        bottomSheetView.layer.shadowColor = UIColor(dynamicColor: shadow28.colorTwo).cgColor
+        bottomSheetView.layer.shadowOffset = CGSize(width: shadow28.xTwo, height: shadow28.yTwo)
+        bottomSheetView.layer.shadowRadius = shadow28.blurTwo
+    }
+
+    private func setContentViewTokens() {
+        contentView.backgroundColor = backgroundColor
     }
 
     public override func viewDidLayoutSubviews() {
@@ -873,7 +895,7 @@ public class BottomSheetController: UIViewController {
 
     private let shouldShowDimmingView: Bool
 
-    private lazy var backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background2])
+    private lazy var backgroundColor = UIColor(dynamicColor: view.fluentTheme.globalTokens.brandColors[.primary]) // UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background2])
 
     private struct Constants {
         // Maximum offset beyond the normal bounds with additional resistance

@@ -132,6 +132,11 @@ class BottomSheetDemoController: UIViewController {
         secondarySheetController.isHidden = false
     }
 
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.configureAppearancePopover()
+    }
+
     private lazy var personaListView: UIScrollView = {
         let personaListView = PersonaListView()
         personaListView.personaList = samplePersonas
@@ -233,6 +238,31 @@ class BottomSheetDemoController: UIViewController {
         let type: DemoItemType
         let action: Selector?
         var isOn: Bool = false
+    }
+
+    // MARK: - Demo Appearance Popover
+
+    func configureAppearancePopover() {
+        // Display the DemoAppearancePopover button
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "ic_fluent_settings_24_regular"),
+                                                            style: .plain,
+                                                            target: self,
+                                                            action: #selector(showAppearancePopover))
+    }
+
+    @objc func showAppearancePopover(_ sender: UIBarButtonItem) {
+        appearanceController.popoverPresentationController?.barButtonItem = sender
+        appearanceController.popoverPresentationController?.delegate = self
+        self.present(appearanceController, animated: true, completion: nil)
+    }
+
+    private lazy var appearanceController: DemoAppearanceController = .init(delegate: self as? DemoAppearanceDelegate)
+}
+
+extension BottomSheetDemoController: UIPopoverPresentationControllerDelegate {
+    /// Overridden to allow for popover-style modal presentation on compact (e.g. iPhone) devices.
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .none
     }
 }
 
