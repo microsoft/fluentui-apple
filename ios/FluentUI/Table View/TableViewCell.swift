@@ -173,7 +173,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     class var labelVerticalMarginForOneAndThreeLines: CGFloat { return Constants.labelVerticalMarginForOneAndThreeLines }
 
     public typealias TokenSetKeyType = TableViewCellTokenSet.Tokens
-    public var tokenSet: TableViewCellTokenSet
+    public lazy var tokenSet: TableViewCellTokenSet = .init(customViewSize: { self.customViewSize })
 
     var tokenSetSink: AnyCancellable?
 
@@ -1101,11 +1101,8 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
 
     /// Initializes TableViewCell with the cell style.
     @objc public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        let tokenSet = TableViewCellTokenSet(customViewSize: { preconditionFailure("ControlTokenSet is not yet initialized") })
-        self.tokenSet = tokenSet
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
 
-        tokenSet.customViewSize = { self.customViewSize }
         initialize()
     }
 
