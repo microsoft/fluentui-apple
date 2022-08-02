@@ -76,6 +76,7 @@ public enum ControlTokenValue {
     case fontInfo(() -> FontInfo)
     case shadowInfo(() -> ShadowInfo)
     case buttonDynamicColors(() -> ButtonDynamicColors)
+    case pillButtonDynamicColors(() -> PillButtonDynamicColors)
 
     var float: CGFloat {
         if case .float(let float) = self {
@@ -134,6 +135,19 @@ public enum ControlTokenValue {
                                        disabled: defaultColor)
         }
     }
+
+    var pillButtonDynamicColors: PillButtonDynamicColors {
+        if case .pillButtonDynamicColors(let pillButtonDynamicColors) = self {
+            return pillButtonDynamicColors()
+        } else {
+            assertionFailure("Cannot convert token to PillButtonDynamicColors: \(self)")
+            let defaultColor = DynamicColor(light: ColorValue(0xE3008C))
+            return PillButtonDynamicColors(rest: defaultColor,
+                                           selected: defaultColor,
+                                           disabled: defaultColor,
+                                           selectedDisabled: defaultColor)
+        }
+    }
 }
 
 #if DEBUG
@@ -151,6 +165,8 @@ extension ControlTokenValue: CustomStringConvertible {
             return "ControlTokenValue.shadowInfo (\(shadowInfo())"
         case .buttonDynamicColors(let buttonDynamicColors):
             return "ControlTokenValue.buttonDynamicColors (\(buttonDynamicColors())"
+        case .pillButtonDynamicColors(let pillButtonDynamicColors):
+            return "ControlTokenValue.pillButtonDynamicColors (\(pillButtonDynamicColors()))"
         }
     }
 }

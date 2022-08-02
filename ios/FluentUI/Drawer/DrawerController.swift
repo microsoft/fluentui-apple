@@ -457,7 +457,10 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
 
         // Update appearance whenever `tokenSet` changes.
         tokenSetSink = tokenSet.objectWillChange.sink { [weak self] _ in
-           self?.updateAppearance()
+            // Values will be updated on the next run loop iteration.
+            DispatchQueue.main.async {
+                self?.updateAppearance()
+            }
         }
     }
 

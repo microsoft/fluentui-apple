@@ -80,12 +80,17 @@ public class CommandBar: UIView, TokenizedControlInternal {
 
         // Update appearance whenever `tokenSet` changes.
         tokenSetSink = tokenSet.objectWillChange.sink { [weak self] _ in
-            self?.updateButtonTokens()
+            // Values will be updated on the next run loop iteration.
+            DispatchQueue.main.async {
+                self?.updateButtonTokens()
+            }
         }
     }
 
     public override func didMoveToWindow() {
         super.didMoveToWindow()
+
+        tokenSet.update(fluentTheme)
         updateButtonTokens()
     }
 
@@ -127,7 +132,7 @@ public class CommandBar: UIView, TokenizedControlInternal {
     @objc private func themeDidChange(_ notification: Notification) {
         if let window = self.window,
            window.isEqual(notification.object) {
-            updateButtonTokens()
+            tokenSet.update(fluentTheme)
         }
     }
 
