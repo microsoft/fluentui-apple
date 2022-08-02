@@ -5,6 +5,7 @@
 
 import Foundation
 import CoreGraphics // for CGFloat
+import Combine
 
 /// Base class for all Fluent control tokenization.
 public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
@@ -64,6 +65,20 @@ public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
         }
     }
 
+    /// Simplifies the process of observing changes to this token set.
+    ///
+    /// - Parameter receiveValue: A callback to be invoked after the token set has completed updating.
+    ///
+    /// - Returns: An `AnyCancellable` to track this observation.
+    func sinkChanges(receiveValue: @escaping () -> Void) -> AnyCancellable {
+        return self.objectWillChange.sink { [receiveValue] in
+            // Values will be updated on the next run loop iteration.
+            DispatchQueue.main.async {
+                receiveValue()
+            }
+        }
+    }
+
     @Published var fluentTheme: FluentTheme = FluentTheme.shared
 
     @Published private var valueOverrides: [T: ControlTokenValue]?
@@ -78,7 +93,7 @@ public enum ControlTokenValue {
     case buttonDynamicColors(() -> ButtonDynamicColors)
     case pillButtonDynamicColors(() -> PillButtonDynamicColors)
 
-    var float: CGFloat {
+    public var float: CGFloat {
         if case .float(let float) = self {
             return float()
         } else {
@@ -87,16 +102,16 @@ public enum ControlTokenValue {
         }
     }
 
-    var dynamicColor: DynamicColor {
+    public var dynamicColor: DynamicColor {
         if case .dynamicColor(let dynamicColor) = self {
             return dynamicColor()
         } else {
             assertionFailure("Cannot convert token to DynamicColor: \(self)")
-            return DynamicColor(light: ColorValue(0xE3008C))
+            return fallbackColor
         }
     }
 
-    var fontInfo: FontInfo {
+    public var fontInfo: FontInfo {
         if case .fontInfo(let fontInfo) = self {
             return fontInfo()
         } else {
@@ -105,48 +120,56 @@ public enum ControlTokenValue {
         }
     }
 
-    var shadowInfo: ShadowInfo {
+    public var shadowInfo: ShadowInfo {
         if case .shadowInfo(let shadowInfo) = self {
             return shadowInfo()
         } else {
             assertionFailure("Cannot convert token to ShadowInfo: \(self)")
-            let defaultColor = DynamicColor(light: ColorValue(0xE3008C))
-            return ShadowInfo(colorOne: defaultColor,
+            return ShadowInfo(colorOne: fallbackColor,
                               blurOne: 10.0,
                               xOne: 10.0,
                               yOne: 10.0,
-                              colorTwo: defaultColor,
+                              colorTwo: fallbackColor,
                               blurTwo: 10.0,
                               xTwo: 10.0,
                               yTwo: 10.0)
         }
     }
 
-    var buttonDynamicColors: ButtonDynamicColors {
+    public var buttonDynamicColors: ButtonDynamicColors {
         if case .buttonDynamicColors(let buttonDynamicColors) = self {
             return buttonDynamicColors()
         } else {
             assertionFailure("Cannot convert token to ButtonDynamicColors: \(self)")
-            let defaultColor = DynamicColor(light: ColorValue(0xE3008C))
-            return ButtonDynamicColors(rest: defaultColor,
-                                       hover: defaultColor,
-                                       pressed: defaultColor,
-                                       selected: defaultColor,
-                                       disabled: defaultColor)
+            return ButtonDynamicColors(rest: fallbackColor,
+                                       hover: fallbackColor,
+                                       pressed: fallbackColor,
+                                       selected: fallbackColor,
+                                       disabled: fallbackColor)
         }
     }
 
-    var pillButtonDynamicColors: PillButtonDynamicColors {
+    public var pillButtonDynamicColors: PillButtonDynamicColors {
         if case .pillButtonDynamicColors(let pillButtonDynamicColors) = self {
             return pillButtonDynamicColors()
         } else {
             assertionFailure("Cannot convert token to PillButtonDynamicColors: \(self)")
-            let defaultColor = DynamicColor(light: ColorValue(0xE3008C))
-            return PillButtonDynamicColors(rest: defaultColor,
-                                           selected: defaultColor,
-                                           disabled: defaultColor,
-                                           selectedDisabled: defaultColor)
+            return PillButtonDynamicColors(rest: fallbackColor,
+                                           selected: fallbackColor,
+                                           disabled: fallbackColor,
+                                           selectedDisabled: fallbackColor)
         }
+    }
+
+    // MARK: - Helpers
+
+    private var fallbackColor: DynamicColor {
+#if DEBUG
+        // Use our global "Hot Pink" in debug builds, to help identify unintentional conversions.
+        return DynamicColor(light: ColorValue(0xE3008C))
+#else
+        return DynamicColor(light: 0x000000)
+#endif
     }
 }
 

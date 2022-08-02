@@ -89,7 +89,7 @@ open class BooleanCell: TableViewCell {
 
     open override func didMoveToWindow() {
         super.didMoveToWindow()
-        `switch`.onTintColor = UIColor(dynamicColor: tokens.mainBrandColor)
+        `switch`.onTintColor = UIColor(dynamicColor: tokenSet[.mainBrandColor].dynamicColor)
     }
 
     private func updateAccessibility() {
