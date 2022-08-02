@@ -21,13 +21,12 @@ import SwiftUI
 
     /// Defines the thickness of the Divider.
     var thickness: CGFloat { get }
-
-    /// Custom design token set for this control
-    var overrideTokens: DividerTokens? { get set }
 }
 
 /// View that represents the Divider.
-public struct FluentDivider: View, ConfigurableTokenizedControl {
+public struct FluentDivider: View, TokenizedControlView {
+    public typealias TokenSetKeyType = DividerTokenSet.Tokens
+    @ObservedObject public var tokenSet: DividerTokenSet
 
     /// Creates and initializes a SwiftUI Divider
     /// - Parameters:
@@ -38,41 +37,37 @@ public struct FluentDivider: View, ConfigurableTokenizedControl {
         let state = MSFDividerStateImpl(orientation: orientation, spacing: spacing)
 
         self.state = state
+        self.tokenSet = DividerTokenSet(spacing: { state.spacing })
     }
 
     public var body: some View {
         let isHorizontal = state.orientation == .horizontal
-        let color = Color(dynamicColor: tokens.color)
+        let color = Color(dynamicColor: tokenSet[.color].dynamicColor)
+        let padding = tokenSet[.padding].float
 
         return Rectangle()
             .fill(color)
             .frame(width: isHorizontal ? nil : state.thickness,
                    height: isHorizontal ? state.thickness : nil)
             .padding(isHorizontal ?
-                     EdgeInsets(top: tokens.padding,
+                     EdgeInsets(top: padding,
                                 leading: 0,
-                                bottom: tokens.padding,
+                                bottom: padding,
                                 trailing: 0)
                      : EdgeInsets(top: 0,
-                                  leading: tokens.padding,
+                                  leading: padding,
                                   bottom: 0,
-                                  trailing: tokens.padding)) `resolvedTokens` and restore `defaultTokens` (#924)):ios/FluentUI/Vnext/Divider/Divider.swift
+                                  trailing: padding))
+            .fluentTokens(tokenSet, fluentTheme)
     }
 
-    let defaultTokens: DividerTokens = .init()
-    var tokens: DividerTokens {
-        let tokens = resolvedTokens
-        tokens.spacing = state.spacing
-        return tokens
-    }
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @ObservedObject var state: MSFDividerStateImpl
 }
 
 /// Properties available to customize the Divider.
-class MSFDividerStateImpl: NSObject, ObservableObject, ControlConfiguration, MSFDividerState {
-    @Published var overrideTokens: DividerTokens? `resolvedTokens` and restore `defaultTokens` (#924)):ios/FluentUI/Vnext/Divider/Divider.swift
 
+class MSFDividerStateImpl: ControlState, MSFDividerState {
     @Published var orientation: MSFDividerOrientation
 
     @Published var spacing: MSFDividerSpacing

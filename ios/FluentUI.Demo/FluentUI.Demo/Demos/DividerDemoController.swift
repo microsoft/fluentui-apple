@@ -112,32 +112,13 @@ class DividerDemoController: UITableViewController {
 
     private func makeDivider(orientation: MSFDividerOrientation = .horizontal, spacing: MSFDividerSpacing, customColor: Bool) -> MSFDivider {
         let divider = MSFDivider(orientation: orientation, spacing: spacing)
-        if customColor {
-            let color = Colors.communicationBlue
-            let dividerTokens = customDividerTokens(spacing: spacing, color: color)
-            divider.state.overrideTokens = dividerTokens
+        if customColor, let color = self.view.window?.fluentTheme.globalTokens.brandColors[.primary] {
+            divider.tokenSet[.color] = .dynamicColor({ color })
         }
 
         dividers.append(divider)
 
         return divider
-    }
-
-    private func customDividerTokens(spacing: MSFDividerSpacing, color: UIColor) -> DividerTokens {
-        /// Private internal subclass of `DividerTokens`.
-        class CustomDividerTokens: DividerTokens {
-            var customColor: UIColor?
-            override var color: DynamicColor {
-                return customColor?.dynamicColor ?? super.color
-            }
-
-            convenience init(_ customColor: UIColor?) {
-                self.init()
-                self.customColor = customColor
-            }
-        }
-
-        return CustomDividerTokens(color)
     }
 
     private var dividers: [MSFDivider] = []
@@ -207,3 +188,47 @@ class DividerDemoController: UITableViewController {
         }
     }
 }
+<<<<<<< HEAD
+=======
+
+extension DividerDemoController: DemoAppearanceDelegate {
+    func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
+        guard let fluentTheme = self.view.window?.fluentTheme else {
+            return
+        }
+
+        fluentTheme.register(tokenSetType: DividerTokenSet.self,
+                             tokenSet: isOverrideEnabled ? themeWideOverrideDividerTokens : nil)
+    }
+
+    func perControlOverrideDidChange(isOverrideEnabled: Bool) {
+        dividers.forEach { divider in
+            perControlOverrideDividerTokens.forEach { (key: DividerTokenSet.Tokens, value: ControlTokenValue) in
+                if isOverrideEnabled {
+                    divider.tokenSet[key] = value
+                } else {
+                    divider.tokenSet.removeOverride(key)
+                }
+            }
+        }
+    }
+
+    func isThemeWideOverrideApplied() -> Bool {
+        return self.view.window?.fluentTheme.tokenOverride(for: FluentDivider.self) != nil
+    }
+
+    // MARK: - Custom tokens
+
+    private var themeWideOverrideDividerTokens: [DividerTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .color: .dynamicColor { DynamicColor(light: GlobalTokens().sharedColors[.red][.primary]) }
+        ]
+    }
+
+    private var perControlOverrideDividerTokens: [DividerTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .color: .dynamicColor { DynamicColor(light: GlobalTokens().sharedColors[.green][.primary]) }
+        ]
+    }
+}
+>>>>>>> c68014f6 ([Fluent2 TokenSet] Divider, HUD, PersonaButton, ResizingHandle (#1118))
