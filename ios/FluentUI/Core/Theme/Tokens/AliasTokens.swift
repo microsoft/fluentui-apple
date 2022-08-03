@@ -481,76 +481,98 @@ public final class AliasTokens {
         // Background colors
         case .background1:
          return DynamicColor(light: strongSelf.globalTokens.neutralColors[.white],
-                             dark: strongSelf.globalTokens.neutralColors[.black])
+                             dark: strongSelf.globalTokens.neutralColors[.black],
+                             darkElevated: strongSelf.globalTokens.neutralColors[.grey4])
         case .background1Pressed:
          return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey88],
-                             dark: strongSelf.globalTokens.neutralColors[.grey18])
+                             dark: strongSelf.globalTokens.neutralColors[.grey18],
+                             darkElevated: strongSelf.globalTokens.neutralColors[.grey18])
         case .background1Selected:
          return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey92],
-                             dark: strongSelf.globalTokens.neutralColors[.grey14])
+                             dark: strongSelf.globalTokens.neutralColors[.grey14],
+                             darkElevated: strongSelf.globalTokens.neutralColors[.grey14])
         case .background2:
          return DynamicColor(light: strongSelf.globalTokens.neutralColors[.white],
-                             dark: strongSelf.globalTokens.neutralColors[.grey12])
+                             dark: strongSelf.globalTokens.neutralColors[.grey12],
+                             darkElevated: strongSelf.globalTokens.neutralColors[.grey16])
         case .background2Pressed:
          return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey88],
-                             dark: strongSelf.globalTokens.neutralColors[.grey30])
+                             dark: strongSelf.globalTokens.neutralColors[.grey30],
+                             darkElevated: strongSelf.globalTokens.neutralColors[.grey30])
         case .background2Selected:
          return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey92],
-                             dark: strongSelf.globalTokens.neutralColors[.grey26])
+                             dark: strongSelf.globalTokens.neutralColors[.grey26],
+                             darkElevated: strongSelf.globalTokens.neutralColors[.grey26])
         case .background3:
          return DynamicColor(light: strongSelf.globalTokens.neutralColors[.white],
-                             dark: strongSelf.globalTokens.neutralColors[.grey16])
+                             dark: strongSelf.globalTokens.neutralColors[.grey16],
+                             darkElevated: strongSelf.globalTokens.neutralColors[.grey20])
         case .background3Pressed:
          return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey88],
-                             dark: strongSelf.globalTokens.neutralColors[.grey34])
+                             dark: strongSelf.globalTokens.neutralColors[.grey34],
+                             darkElevated: strongSelf.globalTokens.neutralColors[.grey34])
         case .background3Selected:
          return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey92],
-                             dark: strongSelf.globalTokens.neutralColors[.grey30])
+                             dark: strongSelf.globalTokens.neutralColors[.grey30],
+                             darkElevated: strongSelf.globalTokens.neutralColors[.grey30])
         case .background4:
          return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey98],
-                             dark: strongSelf.globalTokens.neutralColors[.grey20])
+                             dark: strongSelf.globalTokens.neutralColors[.grey20],
+                             darkElevated: strongSelf.globalTokens.neutralColors[.grey24])
         case .background4Pressed:
          return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey86],
-                             dark: strongSelf.globalTokens.neutralColors[.grey38])
+                             dark: strongSelf.globalTokens.neutralColors[.grey38],
+                             darkElevated: strongSelf.globalTokens.neutralColors[.grey38])
         case .background4Selected:
          return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey90],
-                             dark: strongSelf.globalTokens.neutralColors[.grey34])
+                             dark: strongSelf.globalTokens.neutralColors[.grey34],
+                             darkElevated: strongSelf.globalTokens.neutralColors[.grey34])
         case .background5:
          return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey94],
-                             dark: strongSelf.globalTokens.neutralColors[.grey24])
+                             dark: strongSelf.globalTokens.neutralColors[.grey24],
+                             darkElevated: strongSelf.globalTokens.neutralColors[.grey28])
         case .background5Pressed:
          return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey82],
-                             dark: strongSelf.globalTokens.neutralColors[.grey42])
+                             dark: strongSelf.globalTokens.neutralColors[.grey42],
+                             darkElevated: strongSelf.globalTokens.neutralColors[.grey42])
         case .background5Selected:
          return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey86],
-                             dark: strongSelf.globalTokens.neutralColors[.grey38])
+                             dark: strongSelf.globalTokens.neutralColors[.grey38],
+                             darkElevated: strongSelf.globalTokens.neutralColors[.grey38])
         case .background5SelectedBrandFilled:
             return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm80].light,
-                             dark: strongSelf.globalTokens.neutralColors[.grey38])
+                             dark: strongSelf.globalTokens.neutralColors[.grey38],
+                                darkElevated: strongSelf.globalTokens.neutralColors[.grey38])
         case .background5BrandTint:
             return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm160].light,
-                             dark: strongSelf.globalTokens.neutralColors[.grey38])
+                             dark: strongSelf.globalTokens.neutralColors[.grey38],
+                                darkElevated: strongSelf.globalTokens.neutralColors[.grey38])
         case .background6:
          return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey82],
-                             dark: strongSelf.globalTokens.neutralColors[.grey36])
+                             dark: strongSelf.globalTokens.neutralColors[.grey36],
+                             darkElevated: strongSelf.globalTokens.neutralColors[.grey40])
         case .background6Pressed:
          return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey70],
-                             dark: strongSelf.globalTokens.neutralColors[.grey54])
+                             dark: strongSelf.globalTokens.neutralColors[.grey54],
+                             darkElevated: strongSelf.globalTokens.neutralColors[.grey54])
         case .background6Selected:
          return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey74],
-                             dark: strongSelf.globalTokens.neutralColors[.grey50])
+                             dark: strongSelf.globalTokens.neutralColors[.grey50],
+                             darkElevated: strongSelf.globalTokens.neutralColors[.grey50])
         case .backgroundInverted:
          return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey14],
-                             dark: strongSelf.globalTokens.neutralColors[.grey34])
+                             dark: strongSelf.globalTokens.neutralColors[.grey34],
+                             darkElevated: strongSelf.globalTokens.neutralColors[.grey30])
         case .backgroundDisabled:
          return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey88],
-                             dark: strongSelf.globalTokens.neutralColors[.grey32])
+                             dark: strongSelf.globalTokens.neutralColors[.grey32],
+                             darkElevated: strongSelf.globalTokens.neutralColors[.grey32])
         case .brandBackground1:
             return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm80].light,
                                 dark: strongSelf.globalTokens.brandColors[.comm100].light)
         case .brandBackground1Pressed:
             return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm50].light,
-                                dark: strongSelf.globalTokens.brandColors[.comm140].light)
+                                dark: strongSelf.globalTokens.brandColors[.comm140].light
         case .brandBackground1Selected:
             return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm60].light,
                                 dark: strongSelf.globalTokens.brandColors[.comm120].light)
