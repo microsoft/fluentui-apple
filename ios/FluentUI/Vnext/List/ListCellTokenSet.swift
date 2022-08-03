@@ -44,7 +44,7 @@ import SwiftUI
 
 // MARK: ListCell Tokens
 
-public class CellBaseTokenSet: ControlTokenSet<CellBaseTokenSet.Tokens> {
+public class ListCellTokenSet: ControlTokenSet<ListCellTokenSet.Tokens> {
     public enum Tokens: TokenSetKey {
         /// Defines the foreground color of the disclosure icon of the Cell.
         case disclosureIconForegroundColor

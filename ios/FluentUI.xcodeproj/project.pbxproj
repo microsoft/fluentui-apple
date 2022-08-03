@@ -30,7 +30,7 @@
 		53097D0D270288FB00A6E4DC /* ButtonTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D03270288FB00A6E4DC /* ButtonTokenSet.swift */; };
 		53097D172702890900A6E4DC /* HeaderTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D0E2702890800A6E4DC /* HeaderTokenSet.swift */; };
 		53097D192702890900A6E4DC /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D0F2702890800A6E4DC /* List.swift */; };
-		53097D1D2702890900A6E4DC /* ListTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D112702890800A6E4DC /* ListTokens.swift */; };
+		53097D1D2702890900A6E4DC /* ListCellTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D112702890800A6E4DC /* ListCellTokenSet.swift */; };
 		53097D212702890900A6E4DC /* ListHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D132702890800A6E4DC /* ListHeader.swift */; };
 		53097D252702890900A6E4DC /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D152702890900A6E4DC /* ListCell.swift */; };
 		53097D4727028B1200A6E4DC /* ButtonLegacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53097D4527028B1100A6E4DC /* ButtonLegacy.swift */; };
@@ -269,7 +269,7 @@
 		53097D03270288FB00A6E4DC /* ButtonTokenSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonTokenSet.swift; sourceTree = "<group>"; };
 		53097D0E2702890800A6E4DC /* HeaderTokenSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderTokenSet.swift; sourceTree = "<group>"; };
 		53097D0F2702890800A6E4DC /* List.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
-		53097D112702890800A6E4DC /* ListTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListTokens.swift; sourceTree = "<group>"; };
+		53097D112702890800A6E4DC /* ListCellTokenSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListCellTokenSet.swift; sourceTree = "<group>"; };
 		53097D132702890800A6E4DC /* ListHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListHeader.swift; sourceTree = "<group>"; };
 		53097D152702890900A6E4DC /* ListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
 		53097D4527028B1100A6E4DC /* ButtonLegacy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonLegacy.swift; sourceTree = "<group>"; };
@@ -773,8 +773,8 @@
 				53097D0E2702890800A6E4DC /* HeaderTokenSet.swift */,
 				53097D0F2702890800A6E4DC /* List.swift */,
 				53097D152702890900A6E4DC /* ListCell.swift */,
+				53097D112702890800A6E4DC /* ListCellTokenSet.swift */,
 				53097D132702890800A6E4DC /* ListHeader.swift */,
-				53097D112702890800A6E4DC /* ListTokens.swift */,
 				0A3CD0B227BDD26A00DBE728 /* MSFList.swift */,
 			);
 			path = List;
@@ -1717,7 +1717,7 @@
 				5314E21E25F022120099271A /* UIView+Extensions.swift in Sources */,
 				5314E06A25F00F100099271A /* GenericDateTimePicker.swift in Sources */,
 				5314E06025F00EFD0099271A /* CalendarViewWeekdayHeadingView.swift in Sources */,
-				53097D1D2702890900A6E4DC /* ListTokens.swift in Sources */,
+				53097D1D2702890900A6E4DC /* ListCellTokenSet.swift in Sources */,
 				D6A0124A2810764B00C90535 /* TabBarTokens.swift in Sources */,
 				5314E05A25F00EF50099271A /* CalendarViewLayout.swift in Sources */,
 				5314E1B025F01A980099271A /* Tooltip.swift in Sources */,

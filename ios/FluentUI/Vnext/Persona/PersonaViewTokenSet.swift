@@ -6,8 +6,8 @@
 import UIKit
 import SwiftUI
 
-public class PersonaViewTokenSet: CellBaseTokenSet {
-    override func defaultValue(_ token: CellBaseTokenSet.Tokens) -> ControlTokenValue {
+public class PersonaViewTokenSet: ListCellTokenSet {
+    override func defaultValue(_ token: ListCellTokenSet.Tokens) -> ControlTokenValue {
         switch token {
         case .sublabelColor:
             return .dynamicColor { self.aliasTokens.foregroundColors[.neutral1] }

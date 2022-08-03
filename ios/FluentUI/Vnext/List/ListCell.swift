@@ -262,17 +262,17 @@ class MSFListCellStateImpl: ControlState, MSFListCellState {
 
 /// View for List Cells
 struct MSFListCellView: View, TokenizedControlView {
-    public typealias TokenSetKeyType = CellBaseTokenSet.Tokens
-    @ObservedObject public var tokenSet: CellBaseTokenSet
+    public typealias TokenSetKeyType = ListCellTokenSet.Tokens
+    @ObservedObject public var tokenSet: ListCellTokenSet
 
     init(state: MSFListCellStateImpl) {
         self.state = state
-        self.tokenSet = CellBaseTokenSet(cellLeadingViewSize: { state.leadingViewSize })
+        self.tokenSet = ListCellTokenSet(cellLeadingViewSize: { state.leadingViewSize })
     }
 
     /// Used by extended cells to provide custom `CellBaseTokenSet` subclasses.
     init(state: MSFListCellStateImpl,
-         tokenSet: CellBaseTokenSet) {
+         tokenSet: ListCellTokenSet) {
         self.state = state
         self.tokenSet = tokenSet
     }
@@ -451,7 +451,7 @@ struct MSFListCellView: View, TokenizedControlView {
 struct ListCellButtonStyle: ButtonStyle {
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @ObservedObject var state: MSFListCellStateImpl
-    @ObservedObject var tokenSet: CellBaseTokenSet
+    @ObservedObject var tokenSet: ListCellTokenSet
 
     func makeBody(configuration: Self.Configuration) -> some View {
         let height: CGFloat
