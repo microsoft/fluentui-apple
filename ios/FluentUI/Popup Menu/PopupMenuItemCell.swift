@@ -208,13 +208,13 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
         if let item = item {
             _imageView.tintColor = isSelected
                 ? item.imageSelectedColor ?? UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1])
-            : item.imageColor ?? UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
+            : item.imageColor
             titleLabel.textColor = isSelected
             ? item.titleSelectedColor ?? UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1])
-                : item.titleColor ?? UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
+                : item.titleColor
             subtitleLabel.textColor = isSelected
                 ? item.subtitleSelectedColor ?? UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1])
-                : item.subtitleColor ?? UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
+                : item.subtitleColor
             backgroundColor = item.backgroundColor
         }
 

@@ -9,7 +9,8 @@ import UIKit
  `PopupMenuItem` represents a menu item inside `PopupMenuController`.
  */
 @objc(MSFPopupMenuItem)
-open class PopupMenuItem: NSObject, PopupMenuTemplateItem {
+open class PopupMenuItem: NSObject, PopupMenuTemplateItem, FluentThemeable {
+    public var fluentTheme: FluentTheme
 
     @objc public var cellClass: PopupMenuItemTemplateCell.Type
 
@@ -26,11 +27,23 @@ open class PopupMenuItem: NSObject, PopupMenuTemplateItem {
     @objc public var isSelected: Bool = false
 
     /// `title` color
-    @objc public var titleColor: UIColor?
+    @objc public var titleColor: UIColor {
+        get { return customTitleColor ?? UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1]) }
+        set { customTitleColor = newValue }
+    }
+    var customTitleColor: UIColor?
     /// `subtitle` color
-    @objc public var subtitleColor: UIColor?
+    @objc public var subtitleColor: UIColor {
+        get { return customSubtitleColor ?? UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2]) }
+        set { customSubtitleColor = newValue }
+    }
+    var customSubtitleColor: UIColor?
     /// `image` tint color if it is rendered as template
-    @objc public var imageColor: UIColor?
+    @objc public var imageColor: UIColor {
+        get { return customImageColor ?? UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2]) }
+        set { customImageColor = newValue }
+    }
+    var customImageColor: UIColor?
     /// `title` color when`isSelected` is true. If unset, brand foreground 1 will be used
     @objc public var titleSelectedColor: UIColor?
     /// `subtitle` color when`isSelected` is true.  If unset, brand foreground 1 will be used
@@ -59,7 +72,7 @@ open class PopupMenuItem: NSObject, PopupMenuTemplateItem {
         self.executionMode = executionMode
         self.onSelected = onSelected
         self.isAccessoryCheckmarkVisible = isAccessoryCheckmarkVisible
-
+        self.fluentTheme = FluentTheme.shared
         super.init()
     }
 
