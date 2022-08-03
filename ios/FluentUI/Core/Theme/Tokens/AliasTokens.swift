@@ -572,7 +572,7 @@ public final class AliasTokens {
                                 dark: strongSelf.globalTokens.brandColors[.comm100].light)
         case .brandBackground1Pressed:
             return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm50].light,
-                                dark: strongSelf.globalTokens.brandColors[.comm140].light
+                                dark: strongSelf.globalTokens.brandColors[.comm140].light)
         case .brandBackground1Selected:
             return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm60].light,
                                 dark: strongSelf.globalTokens.brandColors[.comm120].light)
