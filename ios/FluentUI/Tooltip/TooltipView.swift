@@ -11,10 +11,6 @@ class TooltipView: UIView {
     private struct Constants {
         static let messageLabelTextStyle: TextStyle = .subhead
 
-        static let shadowRadius: CGFloat = 4
-        static let shadowOffset: CGFloat = 2
-        static let shadowOpacity: Float = 0.24
-
         static let maximumWidth: CGFloat = 500
 
         static let paddingHorizontal: CGFloat = 13
@@ -99,9 +95,10 @@ class TooltipView: UIView {
         addSubview(messageLabel)
 
         // Shadow
-        layer.shadowOpacity = Constants.shadowOpacity
-        layer.shadowRadius = Constants.shadowRadius
-        layer.shadowOffset = CGSize(width: 0.0, height: Constants.shadowOffset)
+        let shadow = fluentTheme.aliasTokens.shadow[.shadow16]
+        layer.shadowColor = UIColor(dynamicColor: shadow.colorOne).cgColor
+        layer.shadowRadius = shadow.blurOne
+        layer.shadowOffset = CGSize(width: shadow.xOne, height: shadow.yOne)
     }
 
     required init?(coder aDecoder: NSCoder) {
