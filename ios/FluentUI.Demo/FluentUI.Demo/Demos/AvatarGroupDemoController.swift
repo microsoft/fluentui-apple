@@ -106,6 +106,8 @@ class AvatarGroupDemoController: DemoTableViewController {
             }()
 
             let stackView = UIStackView(arrangedSubviews: buttonView)
+            stackView.shouldGroupAccessibilityChildren = true
+            stackView.accessibilityElements = buttonView
             stackView.frame = CGRect(x: 0,
                                      y: 0,
                                      width: 120,
