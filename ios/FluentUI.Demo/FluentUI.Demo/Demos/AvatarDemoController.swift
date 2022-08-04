@@ -334,7 +334,7 @@ class AvatarDemoController: DemoTableViewController {
             presence = presenceIterator.next()
         }
 
-        if presence! ==  .none {
+        if presence! == .none {
             presence = presenceIterator.next()
         }
 
