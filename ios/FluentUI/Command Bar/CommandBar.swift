@@ -97,9 +97,6 @@ open class CommandBar: UIView {
     public override func layoutSubviews() {
         super.layoutSubviews()
 
-        commandBarContainerStackView.layoutIfNeeded()
-
-        containerMaskLayer.frame = containerView.bounds
         updateShadow()
     }
 
@@ -149,8 +146,8 @@ open class CommandBar: UIView {
 
     // MARK: Views and Layers
 
-    private lazy var containerView: UIView = {
-        let containerView = UIView()
+    private lazy var containerView: MaskedView = {
+        let containerView = MaskedView()
         containerView.translatesAutoresizingMaskIntoConstraints = false
         containerView.layer.mask = containerMaskLayer
 
@@ -259,7 +256,6 @@ open class CommandBar: UIView {
 
         commandGroupsView.isHidden = commandGroupsView.itemGroups.isEmpty
         scrollView.contentInset = scrollViewContentInset()
-        setNeedsLayout()
     }
 
     private struct LayoutConstants {
@@ -277,5 +273,24 @@ open class CommandBar: UIView {
 extension CommandBar: UIScrollViewDelegate {
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         updateShadow()
+    }
+}
+
+/// A UIView subclass that udpates its mask frame during layoutSubviews. By default, the layer mask
+/// is not hooked into auto-layout and will not update its frame if its parent frame changes size. This implementation
+/// fixes that.
+private class MaskedView: UIView {
+    init() {
+        super.init(frame: .zero)
+    }
+
+    @available(*, unavailable)
+    required init(coder: NSCoder) {
+        preconditionFailure("init(coder:) has not been implemented")
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        layer.mask?.frame = bounds
     }
 }

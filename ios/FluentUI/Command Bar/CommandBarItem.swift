@@ -27,6 +27,7 @@ open class CommandBarItem: NSObject {
         self.isEnabled = isEnabled
         self.isSelected = isSelected
         self.itemTappedHandler = itemTappedHandler
+        self.isHidden = false
 
         super.init()
 
@@ -52,6 +53,7 @@ open class CommandBarItem: NSObject {
         self.isEnabled = isEnabled
         self.isSelected = isSelected
         self.itemTappedHandler = itemTappedHandler
+        self.isHidden = false
 
         super.init()
 
@@ -83,6 +85,14 @@ open class CommandBarItem: NSObject {
     @objc public var isEnabled: Bool {
         didSet {
             if isEnabled != oldValue {
+                propertyChangedUpdateBlock?(self)
+            }
+        }
+    }
+
+    @objc public var isHidden: Bool {
+        didSet {
+            if isHidden != oldValue {
                 propertyChangedUpdateBlock?(self)
             }
         }
