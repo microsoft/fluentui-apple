@@ -56,7 +56,7 @@ open class PillButtonBar: UIScrollView, TokenizedControlInternal {
         super.didMoveToWindow()
 
         tokenSet.update(fluentTheme)
-        updateAppearance()
+        updatePillButtonAppearance()
     }
 
     open override func layoutSubviews() {
@@ -115,7 +115,7 @@ open class PillButtonBar: UIScrollView, TokenizedControlInternal {
         tokenSetSink = tokenSet.objectWillChange.sink { [weak self] _ in
             // Values will be updated on the next run loop iteration.
             DispatchQueue.main.async {
-                self?.updateAppearance()
+                self?.updatePillButtonAppearance()
             }
         }
     }
@@ -198,7 +198,7 @@ open class PillButtonBar: UIScrollView, TokenizedControlInternal {
 
     public var pillButtonOverrideTokens: [PillButtonTokenSet.Tokens: ControlTokenValue]? {
         didSet {
-            updateAppearance()
+            updatePillButtonAppearance()
         }
     }
 
@@ -266,7 +266,7 @@ open class PillButtonBar: UIScrollView, TokenizedControlInternal {
             }
 
             if pillButtonOverrideTokens != nil {
-                updateAppearance()
+                updatePillButtonAppearance()
             }
         }
     }
@@ -485,7 +485,7 @@ open class PillButtonBar: UIScrollView, TokenizedControlInternal {
         }
     }
 
-    private func updateAppearance() {
+    private func updatePillButtonAppearance() {
         for button in buttons {
             button.tokenSet.replaceAllOverrides(with: pillButtonOverrideTokens)
         }
@@ -496,7 +496,7 @@ open class PillButtonBar: UIScrollView, TokenizedControlInternal {
             return
         }
         tokenSet.update(window.fluentTheme)
-        updateAppearance()
+        updatePillButtonAppearance()
     }
 
     private var leadingConstraint: NSLayoutConstraint?

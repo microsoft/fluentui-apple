@@ -12,7 +12,7 @@ public class PillButtonBarTokenSet: ControlTokenSet<PillButtonBarTokenSet.Tokens
         case maxButtonsSpacing
 
         /// Minimum spacing between `PillButton` controls
-        case  minButtonsSpacing
+        case minButtonsSpacing
 
         /// Minimum width of the last button that must be showing on screen when the `PillButtonBar` loads or redraws
         case minButtonVisibleWidth
