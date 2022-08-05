@@ -7,7 +7,7 @@ import UIKit
 import SwiftUI
 
 /// Design token set for the `ResizingHandleView` control.
-open class ResizingHandleTokenSet: ControlTokenSet<ResizingHandleTokenSet.Tokens> {
+public class ResizingHandleTokenSet: ControlTokenSet<ResizingHandleTokenSet.Tokens> {
     public enum Tokens: TokenSetKey {
         /// Defines the color of the mark of the `ResizingHandle`.
         case markColor

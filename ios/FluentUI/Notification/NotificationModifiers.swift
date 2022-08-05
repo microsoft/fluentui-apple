@@ -54,9 +54,4 @@ public extension View {
 }
 
 public extension FluentNotification {
-    /// Provides a custom design token set to be used when drawing this control.
-    func overrideTokens(_ tokens: NotificationTokens?) -> FluentNotification {
-        state.overrideTokens = tokens
-        return self
-    }
 }

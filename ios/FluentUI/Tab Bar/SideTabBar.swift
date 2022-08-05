@@ -141,7 +141,7 @@ open class SideTabBar: UIView, TokenizedControlInternal {
 
         // Update appearance whenever overrideTokens changes.
         tokenSetSink = tokenSet.sinkChanges { [weak self] in
-            self?.updateSideTabBarTokens()
+            self?.updateAppearance()
         }
     }
 
@@ -224,7 +224,9 @@ open class SideTabBar: UIView, TokenizedControlInternal {
 
     open override func didMoveToWindow() {
         super.didMoveToWindow()
-        updateSideTabBarTokens()
+
+        tokenSet.update(fluentTheme)
+        updateAppearance()
     }
 
     private func didUpdateItems(in section: Section) {
@@ -375,20 +377,25 @@ open class SideTabBar: UIView, TokenizedControlInternal {
     public var tokenSet: SideTabBarTokenSet = .init()
     var tokenSetSink: AnyCancellable?
 
-    private func updateSideTabBarTokens() {
+    private func updateAppearance() {
         updateSideTabBarTokensForSection(in: .top)
         updateSideTabBarTokensForSection(in: .bottom)
     }
 
     private func updateSideTabBarTokensForSection(in section: Section) {
         for subview in stackView(in: section).arrangedSubviews {
-            if let tabBarItemView = subview as? TabBarItemView,
-               var tabBarItemOverrides = tabBarItemView.tokenSet.valueOverrides {
+            if let tabBarItemView = subview as? TabBarItemView {
+                let tabBarItemTokenSet = tabBarItemView.tokenSet
+
                 /// Directly map our custom values to theirs.
-                tabBarItemOverrides[.selectedColor] = tokenSet.valueOverrides?[.tabBarItemSelectedColor]
-                tabBarItemOverrides[.unselectedColor] = tokenSet.valueOverrides?[.tabBarItemUnselectedColor]
-                tabBarItemOverrides[.titleLabelFontPortrait] = tokenSet.valueOverrides?[.tabBarItemTitleLabelFontPortrait]
-                tabBarItemOverrides[.titleLabelFontLandscape] = tokenSet.valueOverrides?[.tabBarItemTitleLabelFontLandscape]
+                tabBarItemTokenSet.setOverrideValue(tokenSet.overrideValue(forToken: .tabBarItemSelectedColor),
+                                                    forToken: .selectedColor)
+                tabBarItemTokenSet.setOverrideValue(tokenSet.overrideValue(forToken: .tabBarItemUnselectedColor),
+                                                    forToken: .unselectedColor)
+                tabBarItemTokenSet.setOverrideValue(tokenSet.overrideValue(forToken: .tabBarItemTitleLabelFontPortrait),
+                                                    forToken: .titleLabelFontPortrait)
+                tabBarItemTokenSet.setOverrideValue(tokenSet.overrideValue(forToken: .tabBarItemTitleLabelFontLandscape),
+                                                    forToken: .titleLabelFontLandscape)
             }
         }
     }
@@ -397,6 +404,7 @@ open class SideTabBar: UIView, TokenizedControlInternal {
         guard let window = window, window.isEqual(notification.object) else {
             return
         }
-        updateSideTabBarTokens()
+        tokenSet.update(window.fluentTheme)
+        updateAppearance()
     }
 }

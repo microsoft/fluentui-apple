@@ -88,6 +88,7 @@ open class ResizingHandleView: UIView, TokenizedControlInternal {
         guard let window = window, window.isEqual(notification.object) else {
             return
         }
+        tokenSet.update(window.fluentTheme)
         updateColors()
     }
 }

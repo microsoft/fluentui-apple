@@ -50,7 +50,7 @@ extension OtherCellsDemoController: DemoAppearanceDelegate {
     }
 
     func isThemeWideOverrideApplied() -> Bool {
-        return self.view.window?.fluentTheme.tokenOverride(for: ActivityIndicatorCell.self) != nil
+        return self.view.window?.fluentTheme.tokens(for: TableViewCellTokenSet.self) != nil
     }
 
     // MARK: - Custom tokens
@@ -107,13 +107,13 @@ extension OtherCellsDemoController: UITableViewDataSource {
             cell.setup(action1Title: item.text1, action2Title: item.text2, action2Type: .destructive)
             let isLastInSection = indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1
             cell.bottomSeparatorType = isLastInSection ? .full : .inset
-            applyOverrideTokens(to: cell.tokenSet)
+            cell.tokenSet.replaceAllOverrides(with: overrideTokens)
             return cell
         }
 
         if let cell = tableView.dequeueReusableCell(withIdentifier: ActivityIndicatorCell.identifier) as? ActivityIndicatorCell,
            section.title == "ActivityIndicatorCell" {
-            applyOverrideTokens(to: cell.tokenSet)
+            cell.tokenSet.replaceAllOverrides(with: overrideTokens)
             return cell
         }
 
@@ -125,7 +125,7 @@ extension OtherCellsDemoController: UITableViewDataSource {
             cell.onValueChanged = { [unowned self, unowned cell] in
                 self.showAlertForSwitchTapped(isOn: cell.isOn)
             }
-            applyOverrideTokens(to: cell.tokenSet)
+            cell.tokenSet.replaceAllOverrides(with: overrideTokens)
             return cell
         }
 
@@ -134,7 +134,7 @@ extension OtherCellsDemoController: UITableViewDataSource {
                 return UITableViewCell()
             }
             cell.setup(text: item.text1)
-            applyOverrideTokens(to: cell.tokenSet)
+            cell.tokenSet.replaceAllOverrides(with: overrideTokens)
             return cell
         }
 
@@ -146,16 +146,6 @@ extension OtherCellsDemoController: UITableViewDataSource {
         present(alert, animated: true)
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             alert.dismiss(animated: true)
-        }
-    }
-
-    private func applyOverrideTokens(to tokenSet: TableViewCellTokenSet) {
-        TableViewCellTokenSet.Tokens.allCases.forEach { token in
-            if let override = overrideTokens?[token] {
-                tokenSet[token] = override
-            } else {
-                tokenSet.removeOverride(token)
-            }
         }
     }
 }

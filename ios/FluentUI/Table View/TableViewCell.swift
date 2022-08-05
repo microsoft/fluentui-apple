@@ -181,7 +181,8 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         guard let window = window, window.isEqual(notification.object) else {
             return
         }
-        updateTokens()
+        tokenSet.update(window.fluentTheme)
+        updateAppearance()
     }
 
     /// The height of the cell based on the height of its content.
@@ -1143,7 +1144,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
 
         // Update appearance whenever `tokenSet` changes.
         tokenSetSink = tokenSet.sinkChanges { [weak self] in
-            self?.updateTokens()
+            self?.updateAppearance()
         }
     }
 
@@ -1576,7 +1577,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
 
         onAccessoryTapped = nil
 
-        updateTokens()
+        updateAppearance()
     }
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
@@ -1683,10 +1684,12 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
 
     open override func didMoveToWindow() {
         super.didMoveToWindow()
-        updateTokens()
+
+        tokenSet.update(fluentTheme)
+        updateAppearance()
     }
 
-    private func updateTokens() {
+    private func updateAppearance() {
         updateFonts()
         updateTextColors()
         updateSelectionImageColor()

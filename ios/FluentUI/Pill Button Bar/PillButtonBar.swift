@@ -56,7 +56,7 @@ open class PillButtonBar: UIScrollView, TokenizedControlInternal {
         super.didMoveToWindow()
 
         tokenSet.update(fluentTheme)
-        updatePillButtonTokens()
+        updateAppearance()
     }
 
     open override func layoutSubviews() {
@@ -115,7 +115,7 @@ open class PillButtonBar: UIScrollView, TokenizedControlInternal {
         tokenSetSink = tokenSet.objectWillChange.sink { [weak self] _ in
             // Values will be updated on the next run loop iteration.
             DispatchQueue.main.async {
-                self?.updatePillButtonTokens()
+                self?.updateAppearance()
             }
         }
     }
@@ -198,7 +198,7 @@ open class PillButtonBar: UIScrollView, TokenizedControlInternal {
 
     public var pillButtonOverrideTokens: [PillButtonTokenSet.Tokens: ControlTokenValue]? {
         didSet {
-            updatePillButtonTokens()
+            updateAppearance()
         }
     }
 
@@ -266,7 +266,7 @@ open class PillButtonBar: UIScrollView, TokenizedControlInternal {
             }
 
             if pillButtonOverrideTokens != nil {
-                updatePillButtonTokens()
+                updateAppearance()
             }
         }
     }
@@ -485,15 +485,9 @@ open class PillButtonBar: UIScrollView, TokenizedControlInternal {
         }
     }
 
-    private func updatePillButtonTokens() {
+    private func updateAppearance() {
         for button in buttons {
-            PillButtonTokenSet.Tokens.allCases.forEach { token in
-                if let tokenValue = pillButtonOverrideTokens?[token] {
-                    button.tokenSet[token] = tokenValue
-                } else {
-                    button.tokenSet.removeOverride(token)
-                }
-            }
+            button.tokenSet.replaceAllOverrides(with: pillButtonOverrideTokens)
         }
     }
 
@@ -501,7 +495,8 @@ open class PillButtonBar: UIScrollView, TokenizedControlInternal {
         guard let window = window, window.isEqual(notification.object) else {
             return
         }
-        updatePillButtonTokens()
+        tokenSet.update(window.fluentTheme)
+        updateAppearance()
     }
 
     private var leadingConstraint: NSLayoutConstraint?

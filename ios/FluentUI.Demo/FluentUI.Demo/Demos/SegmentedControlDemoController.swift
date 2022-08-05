@@ -134,7 +134,7 @@ extension SegmentedControlDemoController: DemoAppearanceDelegate {
     }
 
     func isThemeWideOverrideApplied() -> Bool {
-        return self.view.window?.fluentTheme.tokenOverride(for: SegmentedControl.self) != nil
+        return self.view.window?.fluentTheme.tokens(for: SegmentedControlTokenSet.self) != nil
     }
 
     // MARK: - Custom tokens

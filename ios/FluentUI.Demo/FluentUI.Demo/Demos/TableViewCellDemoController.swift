@@ -126,7 +126,7 @@ extension TableViewCellDemoController: DemoAppearanceDelegate {
     }
 
     func isThemeWideOverrideApplied() -> Bool {
-        return self.view.window?.fluentTheme.tokenOverride(for: TableViewCell.self) != nil
+        return self.view.window?.fluentTheme.tokens(for: TableViewCellTokenSet.self) != nil
     }
 
     // MARK: - Custom tokens
@@ -225,13 +225,7 @@ extension TableViewCellDemoController {
 
         cell.isInSelectionMode = section.allowsMultipleSelection ? isInSelectionMode : false
 
-        TableViewCellTokenSet.Tokens.allCases.forEach { token in
-            if let override = overrideTokens?[token] {
-                cell.tokenSet[token] = override
-            } else {
-                cell.tokenSet.removeOverride(token)
-            }
-        }
+        cell.tokenSet.replaceAllOverrides(with: overrideTokens)
 
         return cell
     }

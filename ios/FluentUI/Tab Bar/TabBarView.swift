@@ -68,7 +68,9 @@ open class TabBarView: UIView, TokenizedControlInternal {
 
     open override func didMoveToWindow() {
         super.didMoveToWindow()
-        updateTabBarTokens()
+
+        tokenSet.update(fluentTheme)
+        updateAppearance()
     }
 
     /// Set the custom spacing after the specified item.
@@ -115,7 +117,7 @@ open class TabBarView: UIView, TokenizedControlInternal {
 
         // Update appearance whenever `tokenSet` changes.
         tokenSetSink = tokenSet.sinkChanges { [weak self] in
-            self?.updateTabBarTokens()
+            self?.updateAppearance()
             self?.updateHeight()
         }
     }
@@ -188,16 +190,21 @@ open class TabBarView: UIView, TokenizedControlInternal {
     public var tokenSet: TabBarTokenSet = .init()
     private var tokenSetSink: AnyCancellable?
 
-    private func updateTabBarTokens() {
+    private func updateAppearance() {
         let arrangedSubviews = stackView.arrangedSubviews
         for subview in arrangedSubviews {
-            if let tabBarItemView = subview as? TabBarItemView,
-               var tabBarItemOverrides = tabBarItemView.tokenSet.valueOverrides {
+            if let tabBarItemView = subview as? TabBarItemView {
+                let tabBarItemTokenSet = tabBarItemView.tokenSet
+
                 /// Directly map our custom values to theirs.
-                tabBarItemOverrides[.selectedColor] = tokenSet.valueOverrides?[.tabBarItemSelectedColor]
-                tabBarItemOverrides[.unselectedColor] = tokenSet.valueOverrides?[.tabBarItemUnselectedColor]
-                tabBarItemOverrides[.titleLabelFontPortrait] = tokenSet.valueOverrides?[.tabBarItemTitleLabelFontPortrait]
-                tabBarItemOverrides[.titleLabelFontLandscape] = tokenSet.valueOverrides?[.tabBarItemTitleLabelFontLandscape]
+                tabBarItemTokenSet.setOverrideValue(tokenSet.overrideValue(forToken: .tabBarItemSelectedColor),
+                                                    forToken: .selectedColor)
+                tabBarItemTokenSet.setOverrideValue(tokenSet.overrideValue(forToken: .tabBarItemUnselectedColor),
+                                                    forToken: .unselectedColor)
+                tabBarItemTokenSet.setOverrideValue(tokenSet.overrideValue(forToken: .tabBarItemTitleLabelFontPortrait),
+                                                    forToken: .titleLabelFontPortrait)
+                tabBarItemTokenSet.setOverrideValue(tokenSet.overrideValue(forToken: .tabBarItemTitleLabelFontLandscape),
+                                                    forToken: .titleLabelFontLandscape)
             }
         }
     }
@@ -206,6 +213,7 @@ open class TabBarView: UIView, TokenizedControlInternal {
         guard let window = window, window.isEqual(notification.object) else {
             return
         }
-        updateTabBarTokens()
+        tokenSet.update(window.fluentTheme)
+        updateAppearance()
     }
 }

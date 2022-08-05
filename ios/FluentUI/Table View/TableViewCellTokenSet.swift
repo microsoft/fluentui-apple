@@ -316,12 +316,16 @@ public class TableViewCellTokenSet: ControlTokenSet<TableViewCellTokenSet.Tokens
             return .dynamicColor { self.globalTokens.brandColors[.primary] }
 
         case .destructiveTextColor:
-            return .dynamicColor { DynamicColor(light: ColorValue(0xD92C2C),
-                                                dark: ColorValue(0xE83A3A)) }
+            return .dynamicColor {
+                DynamicColor(light: ColorValue(0xD92C2C),
+                             dark: ColorValue(0xE83A3A))
+            }
 
         case .communicationTextColor:
-            return .dynamicColor { DynamicColor(light: ColorValue(0x0078D4),
-                                                dark: ColorValue(0x0086F0)) }
+            return .dynamicColor {
+                DynamicColor(light: ColorValue(0x0078D4),
+                             dark: ColorValue(0x0086F0))
+            }
         }
     }
 

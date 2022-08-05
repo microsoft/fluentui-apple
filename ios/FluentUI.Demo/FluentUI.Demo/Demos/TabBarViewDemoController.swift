@@ -224,7 +224,7 @@ extension TabBarViewDemoController: DemoAppearanceDelegate {
     }
 
     func isThemeWideOverrideApplied() -> Bool {
-        return self.view.window?.fluentTheme.tokenOverride(for: TabBarView.self) != nil
+        return self.view.window?.fluentTheme.tokens(for: TabBarTokenSet.self) != nil
     }
 
     // MARK: - Custom tokens

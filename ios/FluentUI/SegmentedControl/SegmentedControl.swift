@@ -363,6 +363,8 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
 
     open override func didMoveToWindow() {
         super.didMoveToWindow()
+
+        tokenSet.update(fluentTheme)
         updateColors()
         updateButtons()
     }
@@ -515,6 +517,7 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
         guard let window = window, window.isEqual(notification.object) else {
             return
         }
+        tokenSet.update(window.fluentTheme)
         updateColors()
         updateButtons()
     }

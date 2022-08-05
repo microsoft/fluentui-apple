@@ -20,10 +20,11 @@ open class ActivityIndicatorCell: UITableViewCell, TokenizedControlInternal {
         guard let window = window, window.isEqual(notification.object) else {
             return
         }
-        updateTokens()
+        tokenSet.update(window.fluentTheme)
+        updateAppearance()
     }
 
-    private func updateTokens() {
+    private func updateAppearance() {
         backgroundConfiguration?.backgroundColor = UIColor(dynamicColor: tokenSet[.cellBackgroundColor].dynamicColor)
     }
 
@@ -47,7 +48,7 @@ open class ActivityIndicatorCell: UITableViewCell, TokenizedControlInternal {
 
         // Update appearance whenever `tokenSet` changes.
         tokenSetSink = tokenSet.sinkChanges { [weak self] in
-            self?.updateTokens()
+            self?.updateAppearance()
         }
     }
 
@@ -64,12 +65,13 @@ open class ActivityIndicatorCell: UITableViewCell, TokenizedControlInternal {
 
     open override func didMoveToWindow() {
         super.didMoveToWindow()
-        updateTokens()
+        tokenSet.update(fluentTheme)
+        updateAppearance()
     }
 
     open override func prepareForReuse() {
         super.prepareForReuse()
-        updateTokens()
+        updateAppearance()
         activityIndicator.state.isAnimating = true
     }
 

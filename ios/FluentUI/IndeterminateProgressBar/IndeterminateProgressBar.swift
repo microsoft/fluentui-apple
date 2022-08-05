@@ -64,10 +64,6 @@ public struct IndeterminateProgressBar: View, TokenizedControlView {
             .fluentTokens(tokenSet, fluentTheme)
     }
 
-    let defaultTokens: IndeterminateProgressBarTokens = .init()
-    var tokens: IndeterminateProgressBarTokens {
-        return resolvedTokens
-    }
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @Environment(\.layoutDirection) var layoutDirection: LayoutDirection
     @ObservedObject var state: MSFIndeterminateProgressBarStateImpl
@@ -112,13 +108,8 @@ public struct IndeterminateProgressBar: View, TokenizedControlView {
 }
 
 /// Properties available to customize the state of the Indeterminate Progress Bar
-class MSFIndeterminateProgressBarStateImpl: NSObject,
-                                            ObservableObject,
-                                            ControlConfiguration,
+class MSFIndeterminateProgressBarStateImpl: ControlState,
                                             MSFIndeterminateProgressBarState {
     @Published var isAnimating: Bool = false
     @Published var hidesWhenStopped: Bool = true
-
-    /// Design token set for this control, to use in place of the control's default Fluent tokens.
-    @Published @objc public var overrideTokens: IndeterminateProgressBarTokens?
 }
