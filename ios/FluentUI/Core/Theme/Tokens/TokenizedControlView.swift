@@ -12,7 +12,7 @@ public protocol TokenizedControlOverridable: TokenizedControl {
     /// - Parameter tokens: The tokens to apply to this control.
     ///
     /// - Returns: A version of this control with these overridden tokens applied.
-    func overrideTokens(_ overrideTokens: TokenSetType?) -> Self
+    func overrideTokens(_ overrideTokens: [TokenSetKeyType: ControlTokenValue]?) -> Self
 }
 
 /// Internal union of `TokenizedControlOverridable` and `TokenizedControlInternal` protocols.
@@ -27,7 +27,7 @@ typealias ControlState = NSObject & ObservableObject & Identifiable
 extension TokenizedControlView {
     /// Modifier function that updates the design tokens for a given control.
     ///
-    /// - Parameter tokens: The tokens to apply to this control.
+    /// - Parameter overrideTokens: The tokens to apply to this control.
     ///
     /// - Returns: A version of this control with these overridden tokens applied.
     public func overrideTokens(_ overrideTokens: [TokenSetKeyType: ControlTokenValue]?) -> Self {

@@ -34,7 +34,7 @@ public extension View {
                              actionButtonTitle: String? = nil,
                              actionButtonAction: (() -> Void)? = nil,
                              messageButtonAction: (() -> Void)? = nil,
-                             overrideTokens: NotificationTokens? = nil) -> some View {
+                             overrideTokens: [NotificationTokenSet.Tokens: ControlTokenValue]? = nil) -> some View {
         self.presentingView(isPresented: isPresented,
                             isBlocking: isBlocking) {
             FluentNotification(style: style,
