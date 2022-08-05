@@ -6,15 +6,19 @@
 import UIKit
 import SwiftUI
 
-struct Header: View, ConfigurableTokenizedControl {
+struct Header: View, TokenizedControlView {
+    typealias TokenSetKeyType = HeaderTokenSet.Tokens
+    var tokenSet: HeaderTokenSet
+
     init(state: MSFListSectionStateImpl) {
         self.state = state
+        self.tokenSet = HeaderTokenSet(style: { state.style })
     }
 
     var body: some View {
         let backgroundColor: Color = {
             guard let stateBackgroundColor = state.backgroundColor else {
-                return Color(dynamicColor: tokens.backgroundColor)
+                return Color(dynamicColor: tokenSet[.backgroundColor].dynamicColor)
             }
             return Color(stateBackgroundColor)
         }()
@@ -22,23 +26,20 @@ struct Header: View, ConfigurableTokenizedControl {
         HStack(spacing: 0) {
             if let title = state.title, !title.isEmpty {
                 Text(title)
-                    .font(.fluent(tokens.textFont))
-                    .foregroundColor(Color(dynamicColor: tokens.textColor))
+                    .font(.fluent(tokenSet[.textFont].fontInfo))
+                    .foregroundColor(Color(dynamicColor: tokenSet[.textColor].dynamicColor))
             }
             Spacer()
         }
-        .padding(EdgeInsets(top: tokens.topPadding,
-                            leading: tokens.leadingPadding,
-                            bottom: tokens.bottomPadding,
-                            trailing: tokens.trailingPadding))
-        .frame(minHeight: tokens.headerHeight)
+        .padding(EdgeInsets(top: tokenSet[.topPadding].float,
+                            leading: tokenSet[.leadingPadding].float,
+                            bottom: tokenSet[.bottomPadding].float,
+                            trailing: tokenSet[.trailingPadding].float))
+        .frame(minHeight: tokenSet[.headerHeight].float)
         .background(backgroundColor)
+        .fluentTokens(tokenSet, fluentTheme)
     }
 
-    let defaultTokens: HeaderTokens = .init()
-    var tokens: HeaderTokens {
-        return resolvedTokens
-    }
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @ObservedObject var state: MSFListSectionStateImpl
 }

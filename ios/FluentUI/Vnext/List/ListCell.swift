@@ -94,14 +94,13 @@ import SwiftUI
 }
 
 /// `MSFListCellStateImpl` contains properties that make up a cell content.
-class MSFListCellStateImpl: NSObject, ObservableObject, Identifiable, ControlConfiguration, MSFListCellState {
+class MSFListCellStateImpl: ControlState, MSFListCellState {
     init(cellLeadingViewSize: MSFListCellLeadingViewSize = .medium) {
         self.leadingViewSize = cellLeadingViewSize
 
         super.init()
     }
 
-    @Published var overrideTokens: CellBaseTokens?
     @Published var leadingView: AnyView?
     @Published var titleLeadingAccessoryView: AnyView?
     @Published var titleTrailingAccessoryView: AnyView?
@@ -262,10 +261,20 @@ class MSFListCellStateImpl: NSObject, ObservableObject, Identifiable, ControlCon
 }
 
 /// View for List Cells
-struct MSFListCellView: View, ConfigurableTokenizedControl {
+struct MSFListCellView: View, TokenizedControlView {
+    public typealias TokenSetKeyType = ListCellTokenSet.Tokens
+    @ObservedObject public var tokenSet: ListCellTokenSet
 
     init(state: MSFListCellStateImpl) {
         self.state = state
+        self.tokenSet = ListCellTokenSet(cellLeadingViewSize: { state.leadingViewSize })
+    }
+
+    /// Used by extended cells to provide custom `CellBaseTokenSet` subclasses.
+    init(state: MSFListCellStateImpl,
+         tokenSet: ListCellTokenSet) {
+        self.state = state
+        self.tokenSet = tokenSet
     }
 
     var body: some View {
@@ -273,27 +282,27 @@ struct MSFListCellView: View, ConfigurableTokenizedControl {
         let sublabelColor: Color
         let trailingItemColor: DynamicColor
         if state.isSelected {
-            labelColor = Color(dynamicColor: tokens.labelSelectedColor)
-            sublabelColor = Color(dynamicColor: tokens.sublabelSelectedColor)
-            trailingItemColor = tokens.trailingItemSelectedForegroundColor
+            labelColor = Color(dynamicColor: tokenSet[.labelSelectedColor].dynamicColor)
+            sublabelColor = Color(dynamicColor: tokenSet[.sublabelSelectedColor].dynamicColor)
+            trailingItemColor = tokenSet[.trailingItemSelectedForegroundColor].dynamicColor
         } else {
-            labelColor = Color(dynamicColor: tokens.labelColor)
-            sublabelColor = Color(dynamicColor: tokens.sublabelColor)
-            trailingItemColor = tokens.trailingItemForegroundColor
+            labelColor = Color(dynamicColor: tokenSet[.labelColor].dynamicColor)
+            sublabelColor = Color(dynamicColor: tokenSet[.sublabelColor].dynamicColor)
+            trailingItemColor = tokenSet[.trailingItemForegroundColor].dynamicColor
         }
-        let horizontalCellPadding: CGFloat = tokens.horizontalCellPadding
-        let leadingViewAreaSize: CGFloat = tokens.leadingViewAreaSize
+        let horizontalCellPadding: CGFloat = tokenSet[.horizontalCellPadding].float
+        let leadingViewAreaSize: CGFloat = tokenSet[.leadingViewAreaSize].float
 
         @ViewBuilder
         var cellLabel: some View {
-            let leadingViewSize: CGFloat = tokens.leadingViewSize
+            let leadingViewSize: CGFloat = tokenSet[.leadingViewSize].float
 
             HStack(spacing: 0) {
                 let title = state.title
-                let labelAccessoryInterspace: CGFloat = tokens.labelAccessoryInterspace
-                let labelAccessorySize: CGFloat = tokens.labelAccessorySize
-                let sublabelAccessorySize: CGFloat = tokens.sublabelAccessorySize
-                let trailingItemSize: CGFloat = tokens.trailingItemSize
+                let labelAccessoryInterspace: CGFloat = tokenSet[.labelAccessoryInterspace].float
+                let labelAccessorySize: CGFloat = tokenSet[.labelAccessorySize].float
+                let sublabelAccessorySize: CGFloat = tokenSet[.sublabelAccessorySize].float
+                let trailingItemSize: CGFloat = tokenSet[.trailingItemSize].float
 
                 if let leadingView = state.leadingView {
                     HStack(alignment: .center, spacing: 0) {
@@ -314,7 +323,7 @@ struct MSFListCellView: View, ConfigurableTokenizedControl {
                         if !title.isEmpty {
                             Text(title)
                                 .animation(nil, value: title)
-                                .font(.fluent(tokens.labelFont))
+                                .font(.fluent(tokenSet[.labelFont].fontInfo))
                                 .foregroundColor(labelColor)
                                 .lineLimit(state.titleLineLimit == 0 ? nil : state.titleLineLimit)
                         }
@@ -334,7 +343,7 @@ struct MSFListCellView: View, ConfigurableTokenizedControl {
                         if !state.subtitle.isEmpty {
                             Text(state.subtitle)
                                 .font(.fluent(state.footnote.isEmpty ?
-                                                            tokens.footnoteFont : tokens.sublabelFont))
+                                                            tokenSet[.footnoteFont].fontInfo : tokenSet[.sublabelFont].fontInfo))
                                 .foregroundColor(sublabelColor)
                                 .lineLimit(state.subtitleLineLimit == 0 ? nil : state.subtitleLineLimit)
                         }
@@ -353,7 +362,7 @@ struct MSFListCellView: View, ConfigurableTokenizedControl {
                         }
                         if !state.footnote.isEmpty {
                             Text(state.footnote)
-                                .font(.fluent(tokens.footnoteFont))
+                                .font(.fluent(tokenSet[.footnoteFont].fontInfo))
                                 .foregroundColor(sublabelColor)
                                 .lineLimit(state.footnoteLineLimit == 0 ? nil : state.footnoteLineLimit)
                         }
@@ -380,14 +389,14 @@ struct MSFListCellView: View, ConfigurableTokenizedControl {
                         : state.accessoryType
                     if accessoryType != .none, let accessoryIcon = accessoryType.icon {
                         let isDisclosure = accessoryType == .disclosure
-                        let disclosureSize = tokens.disclosureSize
+                        let disclosureSize = tokenSet[.disclosureSize].float
                         Image(uiImage: accessoryIcon)
                             .resizable()
                             .foregroundColor(Color(dynamicColor: isDisclosure ?
-                                                   tokens.disclosureIconForegroundColor : trailingItemColor))
+                                                   tokenSet[.disclosureIconForegroundColor].dynamicColor : trailingItemColor))
                             .frame(width: isDisclosure ? disclosureSize : trailingItemSize,
                                    height: isDisclosure ? disclosureSize : trailingItemSize)
-                            .padding(.leading, isDisclosure ? tokens.disclosureInterspace : tokens.iconInterspace)
+                            .padding(.leading, isDisclosure ? tokenSet[.disclosureInterspace].float : tokenSet[.iconInterspace].float)
                     }
                 }
             }
@@ -413,7 +422,8 @@ struct MSFListCellView: View, ConfigurableTokenizedControl {
             }, label: {
                 cellLabel
             })
-            .buttonStyle(ListCellButtonStyle(tokens: tokens, state: state))
+            .buttonStyle(ListCellButtonStyle(state: state,
+                                             tokenSet: tokenSet))
 
             if state.hasDivider {
                 let padding = horizontalCellPadding +
@@ -434,39 +444,29 @@ struct MSFListCellView: View, ConfigurableTokenizedControl {
         return cellContent
     }
 
-    func overrideTokens(_ tokens: CellBaseTokens?) -> MSFListCellView {
-        state.overrideTokens = tokens
-        return self
-    }
-
-    let defaultTokens: CellBaseTokens = .init()
-    var tokens: CellBaseTokens {
-        let tokens = resolvedTokens
-        tokens.cellLeadingViewSize = state.leadingViewSize
-        return tokens
-    }
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @ObservedObject var state: MSFListCellStateImpl
 }
 
 struct ListCellButtonStyle: ButtonStyle {
-    let tokens: CellBaseTokens
+    @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @ObservedObject var state: MSFListCellStateImpl
+    @ObservedObject var tokenSet: ListCellTokenSet
 
     func makeBody(configuration: Self.Configuration) -> some View {
         let height: CGFloat
-        let horizontalCellPadding: CGFloat = tokens.horizontalCellPadding
-        let verticalCellPadding: CGFloat = tokens.verticalCellPadding
+        let horizontalCellPadding: CGFloat = tokenSet[.horizontalCellPadding].float
+        let verticalCellPadding: CGFloat = tokenSet[.verticalCellPadding].float
         switch state.layoutType {
         case .automatic:
-            height = !state.footnote.isEmpty ? tokens.cellHeightThreeLines :
-                    (!state.subtitle.isEmpty ? tokens.cellHeightTwoLines : tokens.cellHeightOneLine)
+            height = !state.footnote.isEmpty ? tokenSet[.cellHeightThreeLines].float :
+                    (!state.subtitle.isEmpty ? tokenSet[.cellHeightTwoLines].float : tokenSet[.cellHeightOneLine].float)
         case .oneLine:
-            height = tokens.cellHeightOneLine
+            height = tokenSet[.cellHeightOneLine].float
         case .twoLines:
-            height = tokens.cellHeightTwoLines
+            height = tokenSet[.cellHeightTwoLines].float
         case .threeLines:
-            height = tokens.cellHeightThreeLines
+            height = tokenSet[.cellHeightThreeLines].float
         }
         return configuration.label
             .contentShape(Rectangle())
@@ -481,14 +481,14 @@ struct ListCellButtonStyle: ButtonStyle {
     private func backgroundColor(_ isPressed: Bool = false) -> Color {
         let highlightedBackgroundColor: Color = {
             guard let stateHighlightedBackgroundColor = state.highlightedBackgroundColor else {
-                return Color(dynamicColor: tokens.highlightedBackgroundColor)
+                return Color(dynamicColor: tokenSet[.highlightedBackgroundColor].dynamicColor)
             }
             return Color(stateHighlightedBackgroundColor)
         }()
 
         let backgroundColor: Color = {
             guard let stateBackgroundColor = state.backgroundColor else {
-                return Color(dynamicColor: tokens.backgroundColor)
+                return Color(dynamicColor: tokenSet[.backgroundColor].dynamicColor)
             }
             return Color(stateBackgroundColor)
         }()
