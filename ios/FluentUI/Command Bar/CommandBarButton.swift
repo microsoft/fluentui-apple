@@ -50,7 +50,7 @@ class CommandBarButton: UIButton {
         let accessibilityDescription = item.accessibilityLabel
         accessibilityLabel = (accessibilityDescription != nil) ? accessibilityDescription : item.title
         accessibilityHint = item.accessibilityHint
-        contentEdgeInsets = CommandBarButton.contentEdgeInsets
+        contentEdgeInsets = LayoutConstants.contentEdgeInsets
 
         menu = item.menu
         showsMenuAsPrimaryAction = item.showsMenuAsPrimaryAction
@@ -106,7 +106,9 @@ class CommandBarButton: UIButton {
         }
     }
 
-    private static let contentEdgeInsets = UIEdgeInsets(top: 8.0, left: 10.0, bottom: 8.0, right: 10.0)
+    private struct LayoutConstants {
+        static let contentEdgeInsets = UIEdgeInsets(top: 8.0, left: 10.0, bottom: 8.0, right: 10.0)
+    }
 }
 
 // MARK: CommandBarButton UIPointerInteractionDelegate

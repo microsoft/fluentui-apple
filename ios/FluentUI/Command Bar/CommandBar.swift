@@ -30,37 +30,43 @@ public class CommandBar: UIView, TokenizedControlInternal {
     // MARK: - Public methods
 
     @available(*, renamed: "init(itemGroups:leadingItemGroups:trailingItemGroups:)")
-    @objc public convenience init(itemGroups: [CommandBarItemGroup], leadingItem: CommandBarItem? = nil, trailingItem: CommandBarItem? = nil) {
-        var leadingItems: [CommandBarItemGroup]?
-        var trailingItems: [CommandBarItemGroup]?
+    @objc public convenience init(itemGroups: [CommandBarItemGroup],
+                                  leadingItem: CommandBarItem? = nil,
+                                  trailingItem: CommandBarItem? = nil) {
+        let leadingItems: [CommandBarItemGroup]? = {
+            guard let leadingItem = leadingItem else {
+                return nil
+            }
 
-        if let leadingItem = leadingItem {
-            leadingItems = [[leadingItem]]
-        }
+            return [[leadingItem]]
+        }()
 
-        if let trailingItem = trailingItem {
-            trailingItems = [[trailingItem]]
-        }
+        let trailingItems: [CommandBarItemGroup]? = {
+            guard let trailingItem = trailingItem else {
+                return nil
+            }
 
-        self.init(itemGroups: itemGroups, leadingItemGroups: leadingItems, trailingItemGroups: trailingItems)
+            return [[trailingItem]]
+        }()
+
+        self.init(itemGroups: itemGroups,
+                  leadingItemGroups: leadingItems,
+                  trailingItemGroups: trailingItems)
     }
 
-    @objc public init(itemGroups: [CommandBarItemGroup], leadingItemGroups: [CommandBarItemGroup]? = nil, trailingItemGroups: [CommandBarItemGroup]? = nil) {
-        self.itemGroups = itemGroups
-        self.leadingItemGroups = leadingItemGroups
-        self.trailingItemGroups = trailingItemGroups
-
-        leadingCommandGroupsView = CommandBarCommandGroupsView(itemGroups: self.leadingItemGroups,
+    @objc public init(itemGroups: [CommandBarItemGroup],
+                      leadingItemGroups: [CommandBarItemGroup]? = nil,
+                      trailingItemGroups: [CommandBarItemGroup]? = nil) {
+        leadingCommandGroupsView = CommandBarCommandGroupsView(itemGroups: leadingItemGroups,
                                                                buttonsPersistSelection: false,
                                                                tokens: tokens)
         leadingCommandGroupsView.translatesAutoresizingMaskIntoConstraints = false
-        mainCommandGroupsView = CommandBarCommandGroupsView(itemGroups: self.itemGroups,
+        mainCommandGroupsView = CommandBarCommandGroupsView(itemGroups: itemGroups,
                                                             tokens: tokens)
         mainCommandGroupsView.translatesAutoresizingMaskIntoConstraints = false
-        trailingCommandGroupsView = CommandBarCommandGroupsView(itemGroups: self.trailingItemGroups,
+        trailingCommandGroupsView = CommandBarCommandGroupsView(itemGroups: trailingItemGroups,
                                                                 buttonsPersistSelection: false,
                                                                 tokens: tokens)
-
         trailingCommandGroupsView.translatesAutoresizingMaskIntoConstraints = false
 
         commandBarContainerStackView = UIStackView()
@@ -73,7 +79,6 @@ public class CommandBar: UIView, TokenizedControlInternal {
                                                selector: #selector(themeDidChange),
                                                name: .didChangeTheme,
                                                object: nil)
-
         configureHierarchy()
     }
 
@@ -136,34 +141,31 @@ public class CommandBar: UIView, TokenizedControlInternal {
 
     /// Scrollable items shown in the center of the CommandBar
     public var itemGroups: [CommandBarItemGroup] {
-        didSet {
-            mainCommandGroupsView.itemGroups = itemGroups
+        get {
+            mainCommandGroupsView.itemGroups
+        }
+        set {
+            mainCommandGroupsView.itemGroups = newValue
         }
     }
 
     /// Items pinned to the leading end of the CommandBar
     public var leadingItemGroups: [CommandBarItemGroup]? {
-        didSet {
-            guard let leadingItemGroups = leadingItemGroups else {
-                return
-            }
-
-            leadingCommandGroupsView.itemGroups = leadingItemGroups
-            leadingCommandGroupsView.isHidden = leadingItemGroups.isEmpty
-            scrollView.contentInset = scrollViewContentInset()
+        get {
+            leadingCommandGroupsView.itemGroups
+        }
+        set {
+            setupGroupsView(leadingCommandGroupsView, with: newValue)
         }
     }
 
     /// Items pinned to the trailing end of the CommandBar
     public var trailingItemGroups: [CommandBarItemGroup]? {
-        didSet {
-            guard let trailingItemGroups = trailingItemGroups else {
-                return
-            }
-
-            trailingCommandGroupsView.itemGroups = trailingItemGroups
-            trailingCommandGroupsView.isHidden = trailingItemGroups.isEmpty
-            scrollView.contentInset = scrollViewContentInset()
+        get {
+            trailingCommandGroupsView.itemGroups
+        }
+        set {
+            setupGroupsView(trailingCommandGroupsView, with: newValue)
         }
     }
 
@@ -266,9 +268,9 @@ public class CommandBar: UIView, TokenizedControlInternal {
     private func scrollViewContentInset() -> UIEdgeInsets {
         let fixedButtonSpacing = tokens.itemInterspace
         return UIEdgeInsets(top: 0,
-                            left: leadingCommandGroupsView.isHidden ? CommandBar.insets.left : fixedButtonSpacing,
+                            left: leadingCommandGroupsView.isHidden ? LayoutConstants.insets.left : fixedButtonSpacing,
                             bottom: 0,
-                            right: trailingCommandGroupsView.isHidden ? CommandBar.insets.right : fixedButtonSpacing
+                            right: trailingCommandGroupsView.isHidden ? LayoutConstants.insets.right : fixedButtonSpacing
         )
     }
 
@@ -278,13 +280,13 @@ public class CommandBar: UIView, TokenizedControlInternal {
         if !leadingCommandGroupsView.isHidden {
             let leadingOffset = max(0, scrollView.contentOffset.x)
             let percentage = min(1, leadingOffset / scrollView.contentInset.left)
-            locations[1] = CommandBar.fadeViewWidth / containerView.frame.width * percentage
+            locations[1] = LayoutConstants.fadeViewWidth / containerView.frame.width * percentage
         }
 
         if !trailingCommandGroupsView.isHidden {
             let trailingOffset = max(0, mainCommandGroupsView.frame.width - scrollView.frame.width - scrollView.contentOffset.x)
             let percentage = min(1, trailingOffset / scrollView.contentInset.right)
-            locations[2] = 1 - CommandBar.fadeViewWidth / containerView.frame.width * percentage
+            locations[2] = 1 - LayoutConstants.fadeViewWidth / containerView.frame.width * percentage
         }
 
         containerMaskLayer.locations = locations.map { NSNumber(value: Float($0)) }
@@ -304,9 +306,23 @@ public class CommandBar: UIView, TokenizedControlInternal {
 
     private var themeObserver: NSObjectProtocol?
 
-    private static let fadeViewWidth: CGFloat = 16.0
+    /// Updates the provided `CommandBarCommandGroupsView` with the `items` array and marks the view as needing a layout
+    private func setupGroupsView(_ commandGroupsView: CommandBarCommandGroupsView, with items: [CommandBarItemGroup]?) {
+        commandGroupsView.itemGroups = items ?? []
 
-    private static let insets = UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)
+        commandGroupsView.isHidden = commandGroupsView.itemGroups.isEmpty
+        scrollView.contentInset = scrollViewContentInset()
+        setNeedsLayout()
+    }
+
+    private struct LayoutConstants {
+        static let fadeViewWidth: CGFloat = 16.0
+        static let fixedButtonSpacing: CGFloat = 2.0
+        static let insets = UIEdgeInsets(top: 8.0,
+                                         left: 8.0,
+                                         bottom: 8.0,
+                                         right: 8.0)
+    }
 }
 
 // MARK: - Scroll view delegate

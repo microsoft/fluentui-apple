@@ -161,6 +161,7 @@ class CommandBarDemoController: DemoController {
         container.addArrangedSubview(createLabelWithText("Default"))
 
         let commandBar = CommandBar(itemGroups: createItemGroups(), leadingItemGroups: [[newItem(for: .keyboard)]])
+        commandBar.translatesAutoresizingMaskIntoConstraints = false
         commandBar.backgroundColor = Colors.navigationBarBackground
         container.addArrangedSubview(commandBar)
         defaultCommandBar = commandBar
@@ -240,6 +241,7 @@ class CommandBarDemoController: DemoController {
         container.addArrangedSubview(createLabelWithText("With Fixed Button"))
 
         let fixedButtonCommandBar = CommandBar(itemGroups: createItemGroups(), leadingItemGroups: [[newItem(for: .copy)]], trailingItemGroups: [[newItem(for: .keyboard)]])
+        fixedButtonCommandBar.translatesAutoresizingMaskIntoConstraints = false
         fixedButtonCommandBar.backgroundColor = Colors.navigationBarBackground
         container.addArrangedSubview(fixedButtonCommandBar)
 
@@ -258,6 +260,7 @@ class CommandBarDemoController: DemoController {
         container.addArrangedSubview(textFieldContainer)
 
         let accessoryCommandBar = CommandBar(itemGroups: createItemGroups(), trailingItemGroups: [[newItem(for: .keyboard)]])
+        accessoryCommandBar.translatesAutoresizingMaskIntoConstraints = false
         textField.inputAccessoryView = accessoryCommandBar
     }
 

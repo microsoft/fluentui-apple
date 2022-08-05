@@ -80,7 +80,7 @@ class NotificationViewDemoController: DemoController {
                     return
                 }
 
-                strongSelf.createNotificationView(forVariant: variant).showNotification(in: strongSelf.view) {
+                strongSelf.createNotificationView(forVariant: variant).show(in: strongSelf.view) {
                     $0.hide(after: 3.0)
                 }
             })
