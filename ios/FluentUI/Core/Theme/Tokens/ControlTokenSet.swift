@@ -81,7 +81,8 @@ public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
 
     @Published var fluentTheme: FluentTheme = FluentTheme.shared
 
-    @Published private var valueOverrides: [T: ControlTokenValue]?
+    /// Access to raw overrides for the `ControlTokenSet`.
+    @Published var valueOverrides: [T: ControlTokenValue]?
 }
 
 /// Union-type enumeration of all possible token values to be stored by a `ControlTokenSet`.

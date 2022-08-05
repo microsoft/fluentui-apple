@@ -123,20 +123,13 @@ extension SegmentedControlDemoController: DemoAppearanceDelegate {
             return
         }
 
-        var tokensClosure: (() -> SegmentedControlTokens)?
-        if isOverrideEnabled {
-            tokensClosure = {
-                return ThemeWideOverrideSegmentedControlTokens()
-            }
-        }
-
-        fluentTheme.register(controlType: SegmentedControl.self, tokens: tokensClosure)
+        fluentTheme.register(tokenSetType: SegmentedControlTokenSet.self,
+                             tokenSet: isOverrideEnabled ? themeWideOverrideSegmentedControlTokens : nil)
     }
 
     func perControlOverrideDidChange(isOverrideEnabled: Bool) {
         self.segmentedControls.forEach({ segmentedControl in
-            let tokens = isOverrideEnabled ? PerControlOverrideSegmentedControlTokens() : nil
-            _ = segmentedControl.overrideTokens(tokens)
+            segmentedControl.tokenSet.replaceAllOverrides(with: isOverrideEnabled ? perControlOverrideSegmentedControlTokens : nil)
         })
     }
 
@@ -146,15 +139,19 @@ extension SegmentedControlDemoController: DemoAppearanceDelegate {
 
     // MARK: - Custom tokens
 
-    private class ThemeWideOverrideSegmentedControlTokens: SegmentedControlTokens {
-        override var font: FontInfo {
-            return FontInfo(name: "Times", size: 20.0, weight: .regular)
-        }
+    private var themeWideOverrideSegmentedControlTokens: [SegmentedControlTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .font: .fontInfo {
+                return FontInfo(name: "Times", size: 20.0, weight: .regular)
+            }
+        ]
     }
 
-    private class PerControlOverrideSegmentedControlTokens: SegmentedControlTokens {
-        override var font: FontInfo {
-            return FontInfo(name: "Papyrus", size: 10.0, weight: .regular)
-        }
+    private var perControlOverrideSegmentedControlTokens: [SegmentedControlTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .font: .fontInfo {
+                return FontInfo(name: "Papyrus", size: 10.0, weight: .regular)
+            }
+        ]
     }
 }
