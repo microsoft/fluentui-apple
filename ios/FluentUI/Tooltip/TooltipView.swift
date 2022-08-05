@@ -11,10 +11,6 @@ class TooltipView: UIView {
     private struct Constants {
         static let messageLabelTextStyle: TextStyle = .subhead
 
-        static let shadowRadius: CGFloat = 4
-        static let shadowOffset: CGFloat = 2
-        static let shadowOpacity: Float = 0.24
-
         static let maximumWidth: CGFloat = 500
 
         static let paddingHorizontal: CGFloat = 13
@@ -98,10 +94,7 @@ class TooltipView: UIView {
         messageLabel.isAccessibilityElement = false
         addSubview(messageLabel)
 
-        // Shadow
-        layer.shadowOpacity = Constants.shadowOpacity
-        layer.shadowRadius = Constants.shadowRadius
-        layer.shadowOffset = CGSize(width: 0.0, height: Constants.shadowOffset)
+        updateShadow()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -139,6 +132,7 @@ class TooltipView: UIView {
 
     @objc private func themeDidChange(_ notification: Notification) {
         updateColors()
+        updateShadow()
     }
 
     private func transformForArrowImageView() -> CGAffineTransform {
@@ -152,6 +146,16 @@ class TooltipView: UIView {
         case .right:
             return CGAffineTransform(rotationAngle: .pi * 0.5)
         }
+    }
+
+    private func updateShadow() {
+        let shadow = fluentTheme.aliasTokens.shadow[.shadow16]
+        let color = UIColor(dynamicColor: shadow.colorOne).cgColor
+
+        layer.shadowColor = color
+        layer.shadowOpacity = Float(color.alpha)
+        layer.shadowRadius = shadow.blurOne
+        layer.shadowOffset = CGSize(width: shadow.xOne, height: shadow.yOne)
     }
 
     private func updateColors() {
