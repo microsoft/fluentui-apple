@@ -4,6 +4,7 @@
 //
 
 import UIKit
+import Combine
 
 /// View that converts the subviews of a container view into a loading state with the "shimmering" effect
 @objc(MSFShimmerView)
@@ -45,10 +46,6 @@ open class ShimmerView: UIView, TokenizedControlInternal {
                       usesTextHeightForLabels: Bool = false) {
         self.style = shimmerStyle
 
-        let tokens = ShimmerTokens()
-        tokens.style = style
-        self.tokens = tokens
-
         self.containerView = containerView
         self.excludedViews = excludedViews
         self.animationSynchronizer = animationSynchronizer
@@ -60,6 +57,11 @@ open class ShimmerView: UIView, TokenizedControlInternal {
                                                selector: #selector(syncAnimation),
                                                name: UIAccessibility.reduceMotionStatusDidChangeNotification,
                                                object: nil)
+
+        // Update appearance whenever `tokenSet` changes.
+        tokenSetSink = tokenSet.sinkChanges { [weak self] in
+            self?.updateShimmeringAnimation()
+        }
     }
 
     required public init?(coder: NSCoder) {
@@ -71,21 +73,14 @@ open class ShimmerView: UIView, TokenizedControlInternal {
         updateShimmeringAnimation()
     }
 
-    public var tokens: ShimmerTokens = .init()
-
     // MARK: - TokenizedControl
-    public typealias TokenType = ShimmerTokens
-    public func overrideTokens(_ tokens: ShimmerTokens?) -> Self {
-        overrideTokens = tokens
-        return self
-    }
+    public typealias TokenSetKeyType = ShimmerTokenSet.Tokens
+    public lazy var tokenSet: ShimmerTokenSet = .init(style: { self.style })
+
+    var tokenSetSink: AnyCancellable?
 
     /// Style to draw the control.
-    public var style: MSFShimmerStyle {
-        didSet {
-            tokens.style = style
-        }
-    }
+    public let style: MSFShimmerStyle
 
     /// Update the frame of each layer covering views in the containerView
     func updateViewCoverLayers() {
@@ -106,9 +101,9 @@ open class ShimmerView: UIView, TokenizedControlInternal {
         viewCoverLayers = subviews.filter({ !$0.isHidden && !($0 is ShimmerView) }).map { subview in
             let coverLayer = CALayer()
 
-            let shouldApplyLabelCornerRadius = subview is UILabel && tokens.labelCornerRadius >= 0
-            coverLayer.cornerRadius = shouldApplyLabelCornerRadius ? tokens.labelCornerRadius : tokens.cornerRadius
-            coverLayer.backgroundColor = UIColor(dynamicColor: tokens.tintColor).cgColor
+            let shouldApplyLabelCornerRadius = subview is UILabel && tokenSet[.labelCornerRadius].float >= 0
+            coverLayer.cornerRadius = shouldApplyLabelCornerRadius ? tokenSet[.labelCornerRadius].float : tokenSet[.cornerRadius].float
+            coverLayer.backgroundColor = UIColor(dynamicColor: tokenSet[.tintColor].dynamicColor).cgColor
 
             var coverFrame = viewToCover.convert(subview.bounds, from: subview)
             if let label = subview as? UILabel {
@@ -116,7 +111,7 @@ open class ShimmerView: UIView, TokenizedControlInternal {
                     if usesTextHeightForLabels {
                         return label.font.deviceLineHeight
                     } else {
-                        return tokens.labelHeight
+                        return tokenSet[.labelHeight].float
                     }
                 }()
 
@@ -136,13 +131,13 @@ open class ShimmerView: UIView, TokenizedControlInternal {
 
     /// Update the gradient layer that animates to provide the shimmer effect (also updates the animation)
     func updateShimmeringLayer() {
-        let light = UIColor.white.withAlphaComponent(tokens.shimmerAlpha).cgColor
-        let dark = UIColor(colorValue: tokens.darkGradient).cgColor
+        let light = UIColor.white.withAlphaComponent(tokenSet[.shimmerAlpha].float).cgColor
+        let dark = UIColor(dynamicColor: tokenSet[.darkGradient].dynamicColor).cgColor
         shimmeringLayer.colors = self.style == .concealing ? [light, dark, light] : [dark, light, dark]
 
         let isRTL = effectiveUserInterfaceLayoutDirection == .rightToLeft
         let startPoint = CGPoint(x: 0.0, y: 0.5)
-        let endPoint = CGPoint(x: 1.0, y: 0.5 - tan(tokens.shimmerAngle * (isRTL ? -1 : 1)))
+        let endPoint = CGPoint(x: 1.0, y: 0.5 - tan(tokenSet[.shimmerAngle].float * (isRTL ? -1 : 1)))
         if isRTL {
             shimmeringLayer.startPoint = endPoint
             shimmeringLayer.endPoint = startPoint
@@ -151,7 +146,7 @@ open class ShimmerView: UIView, TokenizedControlInternal {
             shimmeringLayer.endPoint = endPoint
         }
 
-        let widthPercentage = Float(tokens.shimmerWidth / shimmeringLayer.frame.width)
+        let widthPercentage = Float(tokenSet[.shimmerWidth].float / shimmeringLayer.frame.width)
         let locationStart = NSNumber(value: 0.5 - widthPercentage / 2)
         let locationMiddle = NSNumber(value: 0.5)
         let locationEnd = NSNumber(value: 0.5 + widthPercentage / 2)
@@ -180,7 +175,7 @@ open class ShimmerView: UIView, TokenizedControlInternal {
 
         let animation = CABasicAnimation(keyPath: "locations")
 
-        let widthPercentage = Float(tokens.shimmerWidth / shimmeringLayer.frame.width)
+        let widthPercentage = Float(tokenSet[.shimmerWidth].float / shimmeringLayer.frame.width)
 
         let fromLocationStart = NSNumber(value: 0.0)
         let fromLocationMiddle = NSNumber(value: widthPercentage / 2.0)
@@ -194,25 +189,17 @@ open class ShimmerView: UIView, TokenizedControlInternal {
         animation.fromValue = [fromLocationStart, fromLocationMiddle, fromLocationEnd]
         animation.toValue = [toLocationStart, toLocationMiddle, toLocationEnd]
 
-        let distance = (frame.width + tokens.shimmerWidth) / cos(tokens.shimmerAngle)
-        animation.duration = CFTimeInterval(distance / tokens.shimmerSpeed)
+        let distance = (frame.width + tokenSet[.shimmerWidth].float) / cos(tokenSet[.shimmerAngle].float)
+        animation.duration = CFTimeInterval(distance / tokenSet[.shimmerSpeed].float)
         animation.fillMode = .forwards
 
         // Add animation (use a group to add a delay between animations)
         let animationGroup = CAAnimationGroup()
         animationGroup.animations = [animation]
-        animationGroup.duration = animation.duration + tokens.shimmerDelay
+        animationGroup.duration = animation.duration + tokenSet[.shimmerDelay].float
         animationGroup.repeatCount = .infinity
         animationGroup.timeOffset = animationSynchronizer?.timeOffset(for: shimmeringLayer) ?? 0
         shimmeringLayer.add(animationGroup, forKey: "shimmering")
-    }
-
-    var defaultTokens: ShimmerTokens = .init()
-    /// Design token set for this control, to use in place of the control's default Fluent tokens.
-    var overrideTokens: ShimmerTokens? {
-        didSet {
-            tokens = resolvedTokens
-        }
     }
 
     /// Layers covering the subviews of the container
