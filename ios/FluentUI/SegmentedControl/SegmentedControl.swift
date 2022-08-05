@@ -389,7 +389,7 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
     private func updateButtons() {
         let contentColor = isEnabled ? UIColor(dynamicColor: tokenSet[.restLabelColor].dynamicColor) : UIColor(dynamicColor: tokenSet[.disabledLabelColor].dynamicColor)
         for (index, button) in buttons.enumerated() {
-            button.tokenSet = tokenSet
+            button.updateTokenizedValues()
             button.setTitleColor(contentColor, for: .normal)
             button.tintColor = contentColor
             pillMaskedLabels[index]?.font = button.titleLabel?.font

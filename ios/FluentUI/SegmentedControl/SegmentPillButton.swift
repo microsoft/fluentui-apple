@@ -26,7 +26,7 @@ class SegmentPillButton: UIButton {
         }
     }
 
-    var tokenSet: SegmentedControlTokenSet
+    let tokenSet: SegmentedControlTokenSet
 
     func updateTokenizedValues() {
         titleLabel?.font = UIFont.fluent(tokenSet[.font].fontInfo, shouldScale: false)
