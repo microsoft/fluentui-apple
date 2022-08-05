@@ -104,8 +104,6 @@ class DateTimePickerController: UIViewController, GenericDateTimePicker {
 
         dateTimePickerView.addTarget(self, action: #selector(handleDidSelectDate(_:)), for: .valueChanged)
 
-        updateNavigationBar()
-
         if self.mode != .single {
             initSegmentedControl(includesTime: mode.includesTime)
         }
@@ -125,7 +123,10 @@ class DateTimePickerController: UIViewController, GenericDateTimePicker {
             view.backgroundColor = Colors.Toolbar.background
         }
         view.addSubview(dateTimePickerView)
+        dateTimePickerView.setupComponents(for: self)
         initNavigationBar()
+
+        updateNavigationBar()
     }
 
     override func viewWillLayoutSubviews() {

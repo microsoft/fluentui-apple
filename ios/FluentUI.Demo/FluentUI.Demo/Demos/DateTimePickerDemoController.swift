@@ -234,6 +234,100 @@ class DateTimePickerDemoController: DemoController {
             rightBarButtonItem: rightBarButtonItem)
     }
 
+    @objc func presentDatePicker() {
+        dateTimePicker.present(
+            from: self,
+            with: .date,
+            startDate: startDate ?? Date(),
+            calendarConfiguration: calendarConfiguration,
+            datePickerType: datePickerType)
+    }
+
+    @objc func presentDateTimePicker() {
+        dateTimePicker.present(
+            from: self,
+            with: .dateTime,
+            startDate: startDate ?? Date(),
+            calendarConfiguration: calendarConfiguration,
+            datePickerType: datePickerType)
+    }
+
+    @objc func presentDateRangePicker() {
+        let (startDate, endDate, _) = calcDatePickerParams()
+        dateTimePicker.present(
+            from: self,
+            with: .dateRange,
+            startDate: startDate,
+            endDate: endDate,
+            calendarConfiguration: calendarConfiguration,
+            datePickerType: datePickerType)
+    }
+
+    @objc func presentTabbedDateRangePicker() {
+        let (startDate, endDate, _) = calcDatePickerParams()
+        dateTimePicker.present(
+            from: self,
+            with: .dateRange,
+            startDate: startDate,
+            endDate: endDate,
+            calendarConfiguration: calendarConfiguration,
+            datePickerType: datePickerType,
+            dateRangePresentation: .tabbed)
+    }
+
+    @objc func presentDateTimeRangePicker() {
+        let (startDate, endDate, _) = calcDatePickerParams()
+        dateTimePicker.present(
+            from: self,
+            with: .dateTimeRange,
+            startDate: startDate,
+            endDate: endDate,
+            calendarConfiguration: calendarConfiguration,
+            datePickerType: datePickerType)
+    }
+
+    @objc func presentCustomSubtitlePicker() {
+        let (startDate, endDate, titles) = calcDatePickerParams()
+        dateTimePicker.present(
+            from: self,
+            with: .dateRange,
+            startDate: startDate,
+            endDate: endDate,
+            calendarConfiguration: calendarConfiguration,
+            datePickerType: datePickerType,
+            titles: titles)
+    }
+
+    @objc func presentLeftBarButtonPicker() {
+        let (startDate, endDate, titles) = calcDatePickerParams()
+        let leftBarButtonItem = cancelButton(target: self, action: #selector(handleDidTapCancel))
+        dateTimePicker.present(
+            from: self,
+            with: .dateRange,
+            startDate: startDate,
+            endDate: endDate,
+            calendarConfiguration: calendarConfiguration,
+            datePickerType: datePickerType,
+            titles: titles,
+            leftBarButtonItem: leftBarButtonItem)
+    }
+
+    @objc func presentRightBarButtonPicker() {
+        let (startDate, endDate, titles) = calcDatePickerParams()
+        let leftBarButtonItem = confirmButton(target: self, action: #selector(handleDidTapDone))
+        let rightBarButtonItem = cancelButton(target: self, action: #selector(handleDidTapCancel)) // or simply assign UIBarButtonItem() to hide the default confirm button
+        dateTimePicker.present(
+            from: self,
+            with: .dateRange,
+            startDate: startDate,
+            endDate: endDate,
+            calendarConfiguration: calendarConfiguration,
+            datePickerType: datePickerType,
+            titles: titles,
+            leftBarButtonItem: leftBarButtonItem,
+            rightBarButtonItem: rightBarButtonItem)
+    }
+
     func createDatePickerTypeUI() -> UIStackView {
         let container = UIStackView()
         container.axis = .horizontal
