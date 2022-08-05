@@ -18,7 +18,7 @@ class ActivityIndicatorDemoControllerSwiftUI: UIHostingController<ActivityIndica
 
     init() {
         super.init(rootView: ActivityIndicatorDemoView())
-        self.title = "ActivityIndicator Vnext (SwiftUI)"
+        self.title = "ActivityIndicator Fluent 2 (SwiftUI)"
     }
 }
 

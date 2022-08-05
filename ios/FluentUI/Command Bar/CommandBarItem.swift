@@ -34,7 +34,6 @@ open class CommandBarItem: NSObject {
         self.accessibilityHint = accessibilityHint
     }
 
-    @available(iOS 14.0, *)
     @objc public init(
         iconImage: UIImage?,
         title: String? = nil,
@@ -101,10 +100,8 @@ open class CommandBarItem: NSObject {
     /// Set `isSelected` to desired value in this handler. Default implementation is toggling `isSelected` property.
     @objc public var itemTappedHandler: ItemTappedHandler
 
-    @available(iOS 14.0, *)
     @objc public lazy var menu: UIMenu? = nil // Only lazy property can be used with @available
 
-    @available(iOS 14.0, *)
     @objc public lazy var showsMenuAsPrimaryAction: Bool = false
 
     public static let defaultItemTappedHandler: ItemTappedHandler = { _, item in

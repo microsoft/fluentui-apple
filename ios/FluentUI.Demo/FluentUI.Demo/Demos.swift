@@ -18,7 +18,7 @@ struct DemoDescriptor: Identifiable {
 }
 
 struct Demos {
-    static let vNext: [DemoDescriptor] = [
+    static let fluent2: [DemoDescriptor] = [
         DemoDescriptor("ActivityIndicator", ActivityIndicatorDemoController.self),
         DemoDescriptor("Avatar", AvatarDemoController.self),
         DemoDescriptor("AvatarGroup", AvatarGroupDemoController.self),

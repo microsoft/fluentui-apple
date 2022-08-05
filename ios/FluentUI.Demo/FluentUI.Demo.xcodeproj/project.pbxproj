@@ -313,6 +313,7 @@
 		A5CEC23220E452B80016922A /* Demos */ = {
 			isa = PBXGroup;
 			children = (
+				43488C49270FB7E800124C71 /* NotificationViewDemoController_SwiftUI.swift */,
 				532FE3D926EA6D8D007539C0 /* ActivityIndicatorDemoController.swift */,
 				532FE3DA26EA6D8D007539C0 /* ActivityIndicatorDemoController_SwiftUI.swift */,
 				53097D3127028A7B00A6E4DC /* ButtonDemoController_SwiftUI.swift */,
@@ -525,6 +526,7 @@
 				5306075926A1E73F002D49CF /* AvatarGroupDemoController.swift in Sources */,
 				5336B17D27F7817300B01E0D /* HUDDemoController_SwiftUI.swift in Sources */,
 				92561E732718AD090072ED00 /* DemoTableViewController.swift in Sources */,
+				43488C4A270FB7E800124C71 /* NotificationViewDemoController_SwiftUI.swift in Sources */,
 				497DC2DE24185896008D86F8 /* PillButtonBarDemoController.swift in Sources */,
 				B4EF53C5215C45C400573E8F /* PersonaListViewDemoController.swift in Sources */,
 				A5DCA75E211E3A92005F4CB7 /* DrawerDemoController.swift in Sources */,
