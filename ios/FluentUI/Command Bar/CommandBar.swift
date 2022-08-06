@@ -276,7 +276,7 @@ extension CommandBar: UIScrollViewDelegate {
     }
 }
 
-/// A UIView subclass that udpates its mask frame during layoutSubviews. By default, the layer mask
+/// A UIView subclass that updates its mask frame during layoutSubviews. By default, the layer mask
 /// is not hooked into auto-layout and will not update its frame if its parent frame changes size. This implementation
 /// fixes that.
 private class MaskedView: UIView {

@@ -198,16 +198,21 @@ class CommandBarDemoController: DemoController {
         refreshLeadingItemButton.addTarget(self, action: #selector(refreshDefaultLeadingBarItems), for: .touchUpInside)
         itemCustomizationContainer.addArrangedSubview(refreshLeadingItemButton)
 
-        let customizationStackView = UIStackView()
-        customizationStackView.axis = .horizontal
-        customizationStackView.alignment = .fill
-        customizationStackView.distribution = .fillProportionally
-        customizationStackView.addArrangedSubview(createLabelWithText("'+' Item Enabled"))
+        let itemEnabledStackView = createHorizontalStackView()
+        itemEnabledStackView.addArrangedSubview(createLabelWithText("'+' Item Enabled"))
         let itemEnabledSwitch: UISwitch = UISwitch()
         itemEnabledSwitch.isOn = true
         itemEnabledSwitch.addTarget(self, action: #selector(itemEnabledValueChanged), for: .valueChanged)
-        customizationStackView.addArrangedSubview(itemEnabledSwitch)
-        itemCustomizationContainer.addArrangedSubview(customizationStackView)
+        itemEnabledStackView.addArrangedSubview(itemEnabledSwitch)
+        itemCustomizationContainer.addArrangedSubview(itemEnabledStackView)
+
+        let itemHiddenStackView = createHorizontalStackView()
+        itemHiddenStackView.addArrangedSubview(createLabelWithText("'+' Item Hidden"))
+        let itemHiddenSwitch: UISwitch = UISwitch()
+        itemHiddenSwitch.isOn = false
+        itemHiddenSwitch.addTarget(self, action: #selector(itemHiddenValueChanged), for: .valueChanged)
+        itemHiddenStackView.addArrangedSubview(itemHiddenSwitch)
+        itemCustomizationContainer.addArrangedSubview(itemHiddenStackView)
 
         itemCustomizationContainer.addArrangedSubview(UIView()) //Spacer
 
@@ -334,12 +339,28 @@ class CommandBarDemoController: DemoController {
         }
     }
 
+    func createHorizontalStackView() -> UIStackView {
+        let switchView = UIStackView()
+        switchView.axis = .horizontal
+        switchView.alignment = .fill
+        switchView.distribution = .fillProportionally
+        return switchView
+    }
+
     @objc func itemEnabledValueChanged(sender: UISwitch!) {
         guard let item: CommandBarItem = defaultCommandBar?.itemGroups[0][0] else {
             return
         }
 
         item.isEnabled = sender.isOn
+    }
+
+    @objc func itemHiddenValueChanged(sender: UISwitch!) {
+        guard let item: CommandBarItem = defaultCommandBar?.itemGroups[0][0] else {
+            return
+        }
+
+        item.isHidden = sender.isOn
     }
 
     @objc func refreshDefaultBarItems(sender: UIButton!) {
