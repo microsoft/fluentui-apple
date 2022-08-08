@@ -1349,7 +1349,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Ensure the target include path exists\nmkdir -p $FLUENT_HSP_OUTPUT\n\n# Copy any file that looks like a Swift generated header to the include path\ncp $FLUENT_HSP_INPUT/FluentUI-Swift.h $FLUENT_HSP_OUTPUT\n";
+			shellScript = "echo \"Copying FluentUI-Swift.h from $FLUENT_HSP_INPUT to $FLUENT_HSP_OUTPUT\"\n\n# Ensure the target include path exists\nmkdir -p $FLUENT_HSP_OUTPUT\n\n# Copy any file that looks like a Swift generated header to the include path\ncp $FLUENT_HSP_INPUT/FluentUI-Swift.h $FLUENT_HSP_OUTPUT\n";
 		};
 		FD256C59218392B800EC9588 /* Run swiftlint */ = {
 			isa = PBXShellScriptBuildPhase;
