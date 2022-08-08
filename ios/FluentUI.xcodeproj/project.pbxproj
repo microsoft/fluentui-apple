@@ -1345,7 +1345,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"${target_dir}/FluentUI-Swift.h",
+				"${BUILT_PRODUCTS_DIR}/include/${PRODUCT_MODULE_NAME}/FluentUI-Swift.h",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
