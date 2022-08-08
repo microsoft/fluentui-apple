@@ -423,9 +423,6 @@ public final class AliasTokens {
         case brandStroke1
         case brandStroke1Pressed
         case brandStroke1Selected
-        // Shared colors
-        case redForeground1
-        case yellowForeground1
     }
     public lazy var colors: TokenSet<ColorsTokens, DynamicColor> = .init { [weak self] token in
         guard let strongSelf = self else { preconditionFailure() }
@@ -623,12 +620,6 @@ public final class AliasTokens {
         case .brandStroke1Selected:
             return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm60].light,
                                 dark: strongSelf.globalTokens.brandColors[.comm120].light)
-        case .redForeground1:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.red][.shade20],
-                                dark: strongSelf.globalTokens.sharedColors[.red][.tint30])
-        case .yellowForeground1:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.yellow][.shade40],
-                                dark: strongSelf.globalTokens.sharedColors[.yellow][.tint30])
         }
     }
 
