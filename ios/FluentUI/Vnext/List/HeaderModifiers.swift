@@ -7,9 +7,4 @@ import SwiftUI
 import UIKit
 
 extension Header {
-    /// Provides a custom design token set to be used when drawing this control.
-    func overrideTokens(_ tokens: HeaderTokens?) -> Header {
-        state.overrideTokens = tokens
-        return self
-    }
 }

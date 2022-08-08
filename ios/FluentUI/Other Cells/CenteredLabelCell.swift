@@ -20,10 +20,11 @@ open class CenteredLabelCell: UITableViewCell, TokenizedControlInternal {
         guard let window = window, window.isEqual(notification.object) else {
             return
         }
-        updateTokens()
+        tokenSet.update(window.fluentTheme)
+        updateAppearance()
     }
 
-    private func updateTokens() {
+    private func updateAppearance() {
         backgroundConfiguration?.backgroundColor = UIColor(dynamicColor: tokenSet[.cellBackgroundColor].dynamicColor)
         label.font = UIFont.fluent(tokenSet[.titleFont].fontInfo)
         label.textColor = UIColor(dynamicColor: tokenSet[.mainBrandColor].dynamicColor)
@@ -51,7 +52,7 @@ open class CenteredLabelCell: UITableViewCell, TokenizedControlInternal {
 
         // Update appearance whenever `tokenSet` changes.
         tokenSetSink = tokenSet.sinkChanges { [weak self] in
-            self?.updateTokens()
+            self?.updateAppearance()
         }
     }
 
@@ -91,7 +92,9 @@ open class CenteredLabelCell: UITableViewCell, TokenizedControlInternal {
 
     open override func didMoveToWindow() {
         super.didMoveToWindow()
-        updateTokens()
+
+        tokenSet.update(fluentTheme)
+        updateAppearance()
     }
 
     open override func setHighlighted(_ highlighted: Bool, animated: Bool) { }

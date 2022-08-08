@@ -230,7 +230,7 @@ extension PillButtonBarDemoController: DemoAppearanceDelegate {
     }
 
     func isThemeWideOverrideApplied() -> Bool {
-        return self.view.window?.fluentTheme.tokenOverride(for: PillButton.self) != nil
+        return self.view.window?.fluentTheme.tokens(for: PillButtonTokenSet.self) != nil
     }
 
     // MARK: - Custom tokens

@@ -132,7 +132,7 @@ public class CommandBar: UIView, TokenizedControlInternal {
     @objc private func themeDidChange(_ notification: Notification) {
         if let window = self.window,
            window.isEqual(notification.object) {
-            tokenSet.update(fluentTheme)
+            tokenSet.update(window.fluentTheme)
         }
     }
 

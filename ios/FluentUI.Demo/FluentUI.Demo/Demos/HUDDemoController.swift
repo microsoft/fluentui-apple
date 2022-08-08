@@ -280,7 +280,7 @@ extension HUDDemoController: DemoAppearanceDelegate {
     }
 
     func isThemeWideOverrideApplied() -> Bool {
-        return view.window?.fluentTheme.tokenOverride(for: HeadsUpDisplay.self) != nil
+        return view.window?.fluentTheme.tokens(for: HeadsUpDisplayTokenSet.self) != nil
     }
 
     // MARK: - Custom tokens

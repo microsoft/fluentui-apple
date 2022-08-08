@@ -48,7 +48,6 @@ extension View {
     ///
     /// - Parameter tokenSet: The control's `ControlTokenSet` that should be updated.
     /// - Parameter fluentTheme: The current `FluentTheme` for the given rendering context.
-    /// - Parameter configuration: An optional callback to perform additional configuration, such as setting `style` or `size`.
     ///
     /// - Returns: The rendered view after applying updates.
     func fluentTokens<TokenSetType: Hashable>(_ tokenSet: ControlTokenSet<TokenSetType>,

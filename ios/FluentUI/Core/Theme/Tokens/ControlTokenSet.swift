@@ -20,18 +20,14 @@ public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
     /// ```
     public subscript(token: T) -> ControlTokenValue {
         get {
-            if let value = valueOverrides?[token] {
+            if let value = overrideValue(forToken: token) {
                 return value
-            } else if let value = fluentTheme.tokens(for: type(of: self))?[token] {
-                return value
+            } else {
+                return defaultValue(token)
             }
-            return defaultValue(token)
         }
         set(value) {
-            if valueOverrides == nil {
-                valueOverrides = [:]
-            }
-            valueOverrides?[token] = value
+            setOverrideValue(value, forToken: token)
         }
     }
 
@@ -42,8 +38,21 @@ public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
         valueOverrides?[token] = nil
     }
 
-    public var globalTokens: GlobalTokens { fluentTheme.globalTokens }
-    public var aliasTokens: AliasTokens { fluentTheme.aliasTokens }
+    /// Convenience method to replace all overrides with a new set of values.
+    ///
+    /// Any value present in `overrideTokens` will be set onto this control. All other values will be
+    /// removed from this control. If overrideTokens is `nil`, then all current overrides will be removed.
+    ///
+    /// - Parameter overrideTokens: The set of tokens to set as custom, or `nil` to remove all overrides.
+    public func replaceAllOverrides(with overrideTokens: [T: ControlTokenValue]?) {
+        T.allCases.forEach { token in
+            if let value = overrideTokens?[token] {
+                self[token] = value
+            } else {
+                self.removeOverride(token)
+            }
+        }
+    }
 
     /// Returns the default values for a given `ControlTokenSet`.
     ///
@@ -79,10 +88,31 @@ public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
         }
     }
 
+    // Internal accessor and setter functions for the override dictionary
+
+    func overrideValue(forToken token: T) -> ControlTokenValue? {
+        if let value = valueOverrides?[token] {
+            return value
+        } else if let value = fluentTheme.tokens(for: type(of: self))?[token] {
+            return value
+        }
+        return nil
+    }
+
+    func setOverrideValue(_ value: ControlTokenValue?, forToken token: T) {
+        if valueOverrides == nil {
+            valueOverrides = [:]
+        }
+        valueOverrides?[token] = value
+    }
+
+    var globalTokens: GlobalTokens { fluentTheme.globalTokens }
+    var aliasTokens: AliasTokens { fluentTheme.aliasTokens }
+
     @Published var fluentTheme: FluentTheme = FluentTheme.shared
 
     /// Access to raw overrides for the `ControlTokenSet`.
-    @Published var valueOverrides: [T: ControlTokenValue]?
+    @Published private var valueOverrides: [T: ControlTokenValue]?
 }
 
 /// Union-type enumeration of all possible token values to be stored by a `ControlTokenSet`.
@@ -169,7 +199,7 @@ public enum ControlTokenValue {
         // Use our global "Hot Pink" in debug builds, to help identify unintentional conversions.
         return DynamicColor(light: ColorValue(0xE3008C))
 #else
-        return DynamicColor(light: 0x000000)
+        return DynamicColor(light: ColorValue(0xE3008C))
 #endif
     }
 }

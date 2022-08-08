@@ -200,18 +200,12 @@ extension DividerDemoController: DemoAppearanceDelegate {
 
     func perControlOverrideDidChange(isOverrideEnabled: Bool) {
         dividers.forEach { divider in
-            perControlOverrideDividerTokens.forEach { (key: DividerTokenSet.Tokens, value: ControlTokenValue) in
-                if isOverrideEnabled {
-                    divider.tokenSet[key] = value
-                } else {
-                    divider.tokenSet.removeOverride(key)
-                }
-            }
+            divider.tokenSet.replaceAllOverrides(with: isOverrideEnabled ? perControlOverrideDividerTokens : nil)
         }
     }
 
     func isThemeWideOverrideApplied() -> Bool {
-        return self.view.window?.fluentTheme.tokenOverride(for: FluentDivider.self) != nil
+        return self.view.window?.fluentTheme.tokens(for: DividerTokenSet.self) != nil
     }
 
     // MARK: - Custom tokens

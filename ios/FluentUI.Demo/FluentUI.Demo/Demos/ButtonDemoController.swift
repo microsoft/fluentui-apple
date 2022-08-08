@@ -316,13 +316,7 @@ extension ButtonDemoController: DemoAppearanceDelegate {
 
     func perControlOverrideDidChange(isOverrideEnabled: Bool) {
         self.buttons.forEach({ (_: String, button: MSFButton) in
-            perControlOverrideButtonTokens.forEach { (key: ButtonTokenSet.Tokens, value: ControlTokenValue) in
-                if isOverrideEnabled {
-                    button.tokenSet[key] = value
-                } else {
-                    button.tokenSet.removeOverride(key)
-                }
-            }
+            button.tokenSet.replaceAllOverrides(with: isOverrideEnabled ? perControlOverrideButtonTokens : nil)
         })
     }
 

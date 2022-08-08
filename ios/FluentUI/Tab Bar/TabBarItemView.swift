@@ -13,11 +13,18 @@ class TabBarItemView: UIControl, TokenizedControlInternal {
     var tokenSet: TabBarItemTokenSet = .init()
     var tokenSetSink: AnyCancellable?
 
+    func updateAppearance() {
+        updateColors()
+        updateBadgeView()
+        updateLayout()
+    }
+
     @objc private func themeDidChange(_ notification: Notification) {
         guard let window = window, window.isEqual(notification.object) else {
             return
         }
-        updateColors()
+        tokenSet.update(window.fluentTheme)
+        updateAppearance()
     }
 
     override var isEnabled: Bool {
@@ -32,7 +39,7 @@ class TabBarItemView: UIControl, TokenizedControlInternal {
         didSet {
             titleLabel.isHighlighted = isSelected
             imageView.isHighlighted = isSelected
-            updateColors()
+            updateAppearance()
             if isSelected {
                 accessibilityTraits.insert(.selected)
             } else {
@@ -122,11 +129,14 @@ class TabBarItemView: UIControl, TokenizedControlInternal {
         badgeValue = item.badgeValue
         updateLayout()
 
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+
         // Update appearance whenever `tokenSet` changes.
         tokenSetSink = tokenSet.sinkChanges { [weak self] in
-            self?.updateColors()
-            self?.updateBadgeView()
-            self?.updateLayout()
+            self?.updateAppearance()
         }
     }
 
@@ -160,9 +170,9 @@ class TabBarItemView: UIControl, TokenizedControlInternal {
 
     override func didMoveToWindow() {
         super.didMoveToWindow()
-        updateColors()
-        updateBadgeView()
-        updateLayout()
+
+        tokenSet.update(fluentTheme)
+        updateAppearance()
     }
 
     private var badgeValue: String? {

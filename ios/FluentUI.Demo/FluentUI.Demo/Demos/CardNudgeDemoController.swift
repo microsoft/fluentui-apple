@@ -241,13 +241,7 @@ extension CardNudgeDemoController: DemoAppearanceDelegate {
 
     func perControlOverrideDidChange(isOverrideEnabled: Bool) {
         self.cardNudges.forEach { cardNudge in
-            perControlOverrideCardNudgeTokens.forEach { (key: CardNudgeTokenSet.Tokens, value: ControlTokenValue) in
-                if isOverrideEnabled {
-                    cardNudge.tokenSet[key] = value
-                } else {
-                    cardNudge.tokenSet.removeOverride(key)
-                }
-            }
+            cardNudge.tokenSet.replaceAllOverrides(with: isOverrideEnabled ? perControlOverrideCardNudgeTokens : nil)
         }
     }
 

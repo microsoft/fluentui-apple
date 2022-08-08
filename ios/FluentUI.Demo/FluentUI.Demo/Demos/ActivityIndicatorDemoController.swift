@@ -242,13 +242,7 @@ extension ActivityIndicatorDemoController: DemoAppearanceDelegate {
 
     func perControlOverrideDidChange(isOverrideEnabled: Bool) {
         defaultColorIndicators.values.forEach { activityIndicator in
-            perControlOverrideActivityIndicatorTokens.forEach { (key, value) in
-                if isOverrideEnabled {
-                    activityIndicator.tokenSet[key] = value
-                } else {
-                    activityIndicator.tokenSet.removeOverride(key)
-                }
-            }
+            activityIndicator.tokenSet.replaceAllOverrides(with: isOverrideEnabled ? perControlOverrideActivityIndicatorTokens : nil)
         }
     }
 

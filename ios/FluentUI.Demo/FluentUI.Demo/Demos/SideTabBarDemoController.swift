@@ -341,7 +341,7 @@ extension SideTabBarDemoController: DemoAppearanceDelegate {
     }
 
     func isThemeWideOverrideApplied() -> Bool {
-        return contentViewController?.view.window?.fluentTheme.tokenOverride(for: SideTabBar.self) != nil
+        return contentViewController?.view.window?.fluentTheme.tokens(for: SideTabBarTokenSet.self) != nil
     }
 
     // MARK: - Custom tokens

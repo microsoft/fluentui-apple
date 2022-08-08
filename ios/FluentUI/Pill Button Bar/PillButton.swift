@@ -125,7 +125,7 @@ open class PillButton: UIButton, TokenizedControlInternal {
         guard let window = window, window.isEqual(notification.object) else {
             return
         }
-        tokenSet.update(fluentTheme)
+        tokenSet.update(window.fluentTheme)
     }
 
     private func initUnreadDotLayer() -> CALayer {

@@ -56,10 +56,11 @@ open class ActionsCell: UITableViewCell, TokenizedControlInternal {
         guard let window = window, window.isEqual(notification.object) else {
             return
         }
-        updateTokens()
+        tokenSet.update(window.fluentTheme)
+        updateAppearance()
     }
 
-    private func updateTokens() {
+    private func updateAppearance() {
         updateActionTitleColors()
         backgroundConfiguration?.backgroundColor = UIColor(dynamicColor: tokenSet[.cellBackgroundColor].dynamicColor)
     }
@@ -141,7 +142,7 @@ open class ActionsCell: UITableViewCell, TokenizedControlInternal {
 
         // Update appearance whenever `tokenSet` changes.
         tokenSetSink = tokenSet.sinkChanges { [weak self] in
-            self?.updateTokens()
+            self?.updateAppearance()
         }
     }
 
@@ -217,12 +218,14 @@ open class ActionsCell: UITableViewCell, TokenizedControlInternal {
 
     open override func didMoveToWindow() {
         super.didMoveToWindow()
-        updateTokens()
+
+        tokenSet.update(fluentTheme)
+        updateAppearance()
     }
 
     open override func prepareForReuse() {
         super.prepareForReuse()
-        updateTokens()
+        updateAppearance()
         action1Button.removeTarget(nil, action: nil, for: .allEvents)
         action2Button.removeTarget(nil, action: nil, for: .allEvents)
     }
