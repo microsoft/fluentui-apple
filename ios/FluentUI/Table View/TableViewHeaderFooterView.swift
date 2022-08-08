@@ -551,7 +551,7 @@ private class TableViewHeaderFooterTitleView: UITextView {
         self.textContainer.lineFragmentPadding = 0
         textContainerInset = .zero
         layoutManager.usesFontLeading = false
-        linkTextAttributes = [.foregroundColor: Colors.Table.HeaderFooter.textLink]
+        linkTextAttributes = [.foregroundColor: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1])]
     }
 
     required init?(coder: NSCoder) {

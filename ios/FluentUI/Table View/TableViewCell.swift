@@ -87,26 +87,6 @@ public enum TableViewCellBackgroundStyleType: Int {
 // MARK: - Table Colors
 
 public extension Colors {
-    internal struct Table {
-        struct Cell {
-            static var image: UIColor = iconSecondary
-            static var title: UIColor = textPrimary
-            static var subtitle: UIColor = textSecondary
-        }
-
-        struct HeaderFooter {
-            static var accessoryButtonText: UIColor = textSecondary
-            static var background: UIColor = .clear
-            static var backgroundDivider: UIColor = surfaceSecondary
-            static var text: UIColor = textSecondary
-            static var textDivider: UIColor = textSecondary
-            static var textLink = UIColor(light: Palette.communicationBlueShade10.color, dark: communicationBlue)
-        }
-
-        static var background: UIColor = surfacePrimary
-        static var backgroundGrouped = UIColor(light: surfaceSecondary, dark: surfacePrimary)
-    }
-
     // Objective-C support
     @objc static var tableBackground: UIColor { return surfacePrimary }
     @objc static var tableBackgroundGrouped: UIColor { return UIColor(light: surfaceSecondary, dark: surfacePrimary) }

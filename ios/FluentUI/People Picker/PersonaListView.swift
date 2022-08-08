@@ -78,7 +78,7 @@ open class PersonaListView: UITableView {
     @objc override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)
 
-        backgroundColor = Colors.Table.background
+        backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background1])
         separatorStyle = .none
         tableFooterView = UIView(frame: .zero)
 
