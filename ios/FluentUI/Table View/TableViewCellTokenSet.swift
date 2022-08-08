@@ -10,13 +10,13 @@ public class TableViewCellTokenSet: ControlTokenSet<TableViewCellTokenSet.Tokens
         case backgroundColor
 
         /// The grouped background color of the TableView.
-        case backgroundGrouped
+        case backgroundGroupedColor
 
         /// The background color of the TableViewCell.
         case cellBackgroundColor
 
         /// The grouped background color of the TableViewCell.
-        case cellBackgroundGrouped
+        case cellBackgroundGroupedColor
 
         /// The selected background color of the TableViewCell.
         case cellBackgroundSelectedColor
@@ -160,7 +160,7 @@ public class TableViewCellTokenSet: ControlTokenSet<TableViewCellTokenSet.Tokens
                       dark: self.globalTokens.neutralColors[.black])
             }
 
-        case .backgroundGrouped:
+        case .backgroundGroupedColor:
             return .dynamicColor {
                 .init(light: self.aliasTokens.backgroundColors[.neutral2].light,
                       dark: self.aliasTokens.backgroundColors[.neutral1].dark)
@@ -173,7 +173,7 @@ public class TableViewCellTokenSet: ControlTokenSet<TableViewCellTokenSet.Tokens
                       darkElevated: self.aliasTokens.backgroundColors[.neutral2].darkElevated)
             }
 
-        case .cellBackgroundGrouped:
+        case .cellBackgroundGroupedColor:
             return .dynamicColor {
                 .init(light: self.aliasTokens.backgroundColors[.neutral1].light,
                       dark: self.aliasTokens.backgroundColors[.neutral3].dark,

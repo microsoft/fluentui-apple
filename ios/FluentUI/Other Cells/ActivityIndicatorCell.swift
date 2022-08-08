@@ -12,6 +12,15 @@ import Combine
 open class ActivityIndicatorCell: UITableViewCell, TokenizedControlInternal {
     public static let identifier: String = "ActivityIndicatorCell"
 
+    @objc public var backgroundStyleType: TableViewCellBackgroundStyleType = .plain {
+        didSet {
+            if backgroundStyleType != oldValue {
+                setupBackgroundColors()
+                setNeedsUpdateConfiguration()
+            }
+        }
+    }
+
     public typealias TokenSetKeyType = TableViewCellTokenSet.Tokens
     public var tokenSet: TableViewCellTokenSet
     var tokenSetSink: AnyCancellable?
@@ -25,7 +34,7 @@ open class ActivityIndicatorCell: UITableViewCell, TokenizedControlInternal {
     }
 
     private func updateAppearance() {
-        backgroundConfiguration?.backgroundColor = UIColor(dynamicColor: tokenSet[.cellBackgroundColor].dynamicColor)
+        setupBackgroundColors()
     }
 
     private let activityIndicator: MSFActivityIndicator = {
@@ -44,7 +53,7 @@ open class ActivityIndicatorCell: UITableViewCell, TokenizedControlInternal {
                                                name: .didChangeTheme,
                                                object: nil)
 
-        backgroundConfiguration?.backgroundColor = UIColor(dynamicColor: tokenSet[.cellBackgroundColor].dynamicColor)
+        setupBackgroundColors()
 
         // Update appearance whenever `tokenSet` changes.
         tokenSetSink = tokenSet.sinkChanges { [weak self] in
@@ -87,4 +96,12 @@ open class ActivityIndicatorCell: UITableViewCell, TokenizedControlInternal {
     open override func setHighlighted(_ highlighted: Bool, animated: Bool) { }
 
     open override func setSelected(_ selected: Bool, animated: Bool) { }
+
+    private func setupBackgroundColors() {
+        if backgroundStyleType != .custom {
+            var customBackgroundConfig = UIBackgroundConfiguration.clear()
+            customBackgroundConfig.backgroundColor = backgroundStyleType.defaultColor(tokenSet: tokenSet)
+            backgroundConfiguration = customBackgroundConfig
+        }
+    }
 }

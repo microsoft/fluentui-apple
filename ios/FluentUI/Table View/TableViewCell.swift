@@ -59,21 +59,28 @@ public enum TableViewCellAccessoryType: Int {
     }
 }
 
-// Different background color is shown based on if `TableViewCell` is shown in `TableView` as grouped or plain style
+// Different background color is used for `TableViewCell` by getting the appropriate tokens and integrate with the cell's `UIBackgroundConfiguration`
 @objc(MSFTableViewCellBackgroundStyleType)
 public enum TableViewCellBackgroundStyleType: Int {
+    // use for flat list of cells
     case plain
+    // use for grouped list of cells
     case grouped
+    // clear background so that TableView's background can be shown
     case clear
+    // in case clients want to override the background on their own without using token system
+    case custom
 
     func defaultColor(tokenSet: TableViewCellTokenSet) -> UIColor? {
         switch self {
         case .plain:
             return UIColor(dynamicColor: tokenSet[.cellBackgroundColor].dynamicColor)
         case .grouped:
-            return UIColor(dynamicColor: tokenSet[.cellBackgroundGrouped].dynamicColor)
+            return UIColor(dynamicColor: tokenSet[.cellBackgroundGroupedColor].dynamicColor)
         case .clear:
             return .clear
+        case .custom:
+            return nil
         }
     }
 }
@@ -169,6 +176,18 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     /// A constant representing the number of lines for a label in which no change will be made when the `preferredContentSizeCategory` returns a size greater than `.large`.
     @objc public static let defaultNumberOfLinesForLargerDynamicType: Int = -1
 
+    /// The default leading padding in the cell.
+    @objc public static let defaultPaddingLeading: CGFloat = {
+        let tokenSet = TableViewCellTokenSet(customViewSize: { .default })
+        return tokenSet[.paddingLeading].float
+    }()
+
+    /// The default trailing padding in the cell.
+    @objc public static let defaultPaddingTrailing: CGFloat = {
+        let tokenSet = TableViewCellTokenSet(customViewSize: { .default })
+        return tokenSet[.paddingTrailing].float
+    }()
+
     /// The vertical margins for cells with one or three lines of text
     class var labelVerticalMarginForOneAndThreeLines: CGFloat { return Constants.labelVerticalMarginForOneAndThreeLines }
 
@@ -177,7 +196,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
 
     var tokenSetSink: AnyCancellable?
 
-    @objc private func themeDidChange(_ notification: Notification) {
+    @objc func themeDidChange(_ notification: Notification) {
         guard let window = window, window.isEqual(notification.object) else {
             return
         }
@@ -188,7 +207,71 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     /// The height of the cell based on the height of its content.
     ///
     /// - Parameters:
-    ///   - tokenSet: The TableViewCell token set
+    ///   - title: The title string
+    ///   - subtitle: The subtitle string
+    ///   - footer: The footer string
+    ///   - titleLeadingAccessoryView: The accessory view on the leading edge of the title
+    ///   - titleTrailingAccessoryView: The accessory view on the trailing edge of the title
+    ///   - subtitleLeadingAccessoryView: The accessory view on the leading edge of the subtitle
+    ///   - subtitleTrailingAccessoryView: The accessory view on the trailing edge of the subtitle
+    ///   - footerLeadingAccessoryView: The accessory view on the leading edge of the footer
+    ///   - footerTrailingAccessoryView: The accessory view on the trailing edge of the footer
+    ///   - customViewSize: The custom view size for the cell based on `TableViewCell.CustomViewSize`
+    ///   - customAccessoryView: The custom accessory view that appears near the trailing edge of the cell
+    ///   - accessoryType: The `TableViewCellAccessoryType` that the cell should display
+    ///   - titleNumberOfLines: The number of lines that the title should display
+    ///   - subtitleNumberOfLines: The number of lines that the subtitle should display
+    ///   - footerNumberOfLines: The number of lines that the footer should display
+    ///   - customAccessoryViewExtendsToEdge: Boolean defining whether custom accessory view is extended to the trailing edge of the cell or not (ignored when accessory type is not `.none`)
+    ///   - containerWidth: The width of the cell's super view (e.g. the table view's width)
+    ///   - isInSelectionMode: Boolean describing if the cell is in multi-selection mode which shows/hides a checkmark image on the leading edge
+    /// - Returns: a value representing the calculated height of the cell
+    @objc public class func height(title: String,
+                                   subtitle: String = "",
+                                   footer: String = "",
+                                   titleLeadingAccessoryView: UIView? = nil,
+                                   titleTrailingAccessoryView: UIView? = nil,
+                                   subtitleLeadingAccessoryView: UIView? = nil,
+                                   subtitleTrailingAccessoryView: UIView? = nil,
+                                   footerLeadingAccessoryView: UIView? = nil,
+                                   footerTrailingAccessoryView: UIView? = nil,
+                                   customViewSize: MSFTableViewCellCustomViewSize = .default,
+                                   customAccessoryView: UIView? = nil,
+                                   accessoryType: TableViewCellAccessoryType = .none,
+                                   titleNumberOfLines: Int = 1,
+                                   subtitleNumberOfLines: Int = 1,
+                                   footerNumberOfLines: Int = 1,
+                                   customAccessoryViewExtendsToEdge: Bool = false,
+                                   containerWidth: CGFloat = .greatestFiniteMagnitude,
+                                   isInSelectionMode: Bool = false) -> CGFloat {
+        return self.height(tokenSet: .init(customViewSize: { customViewSize }),
+                           title: title,
+                           subtitle: subtitle,
+                           footer: footer,
+                           titleFont: nil,
+                           subtitleFont: nil,
+                           footerFont: nil,
+                           titleLeadingAccessoryView: titleLeadingAccessoryView,
+                           titleTrailingAccessoryView: titleTrailingAccessoryView,
+                           subtitleLeadingAccessoryView: subtitleLeadingAccessoryView,
+                           subtitleTrailingAccessoryView: subtitleTrailingAccessoryView,
+                           footerLeadingAccessoryView: footerLeadingAccessoryView,
+                           footerTrailingAccessoryView: footerTrailingAccessoryView,
+                           customViewSize: customViewSize,
+                           customAccessoryView: customAccessoryView,
+                           accessoryType: accessoryType,
+                           titleNumberOfLines: titleNumberOfLines,
+                           subtitleNumberOfLines: subtitleNumberOfLines,
+                           footerNumberOfLines: footerNumberOfLines,
+                           customAccessoryViewExtendsToEdge: customAccessoryViewExtendsToEdge,
+                           containerWidth: containerWidth,
+                           isInSelectionMode: isInSelectionMode)
+    }
+
+    /// The height of the cell based on the height of its content.
+    ///
+    /// - Parameters:
+    ///   - tokenSet: The TableViewCell tokens
     ///   - title: The title string
     ///   - subtitle: The subtitle string
     ///   - footer: The footer string
@@ -217,7 +300,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     ///   - containerWidth: The width of the cell's super view (e.g. the table view's width)
     ///   - isInSelectionMode: Boolean describing if the cell is in multi-selection mode which shows/hides a checkmark image on the leading edge
     /// - Returns: a value representing the calculated height of the cell
-    public class func height(tokenSet: TableViewCellTokenSet? = nil,
+    public class func height(tokenSet: TableViewCellTokenSet,
                              title: String,
                              subtitle: String = "",
                              footer: String = "",
@@ -245,7 +328,6 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                              customAccessoryViewExtendsToEdge: Bool = false,
                              containerWidth: CGFloat = .greatestFiniteMagnitude,
                              isInSelectionMode: Bool = false) -> CGFloat {
-        let tokenSet = tokenSet ?? TableViewCellTokenSet(customViewSize: { customViewSize })
         var layoutType = Self.layoutType(subtitle: subtitle,
                                          footer: footer,
                                          subtitleLeadingAccessoryView: subtitleLeadingAccessoryView,
@@ -332,7 +414,6 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     /// The preferred width of the cell based on the width of its content.
     ///
     /// - Parameters:
-    ///   - tokenSet: The TableViewCell token set
     ///   - title: The title string
     ///   - subtitle: The subtitle string
     ///   - footer: The footer string
@@ -357,7 +438,78 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     ///   - customAccessoryViewExtendsToEdge: Boolean defining whether custom accessory view is extended to the trailing edge of the cell or not (ignored when accessory type is not `.none`)
     ///   - isInSelectionMode: Boolean describing if the cell is in multi-selection mode which shows/hides a checkmark image on the leading edge
     /// - Returns: a value representing the preferred width of the cell
-    public class func preferredWidth(tokenSet: TableViewCellTokenSet? = nil,
+    @objc public class func preferredWidth(title: String,
+                                           subtitle: String = "",
+                                           footer: String = "",
+                                           attributedTitle: NSAttributedString? = nil,
+                                           attributedSubtitle: NSAttributedString? = nil,
+                                           attributedFooter: NSAttributedString? = nil,
+                                           isAttributedTitleSet: Bool = false,
+                                           isAttributedSubtitleSet: Bool = false,
+                                           isAttributedFooterSet: Bool = false,
+                                           titleFont: UIFont? = nil,
+                                           subtitleFont: UIFont? = nil,
+                                           footerFont: UIFont? = nil,
+                                           titleLeadingAccessoryView: UIView? = nil,
+                                           titleTrailingAccessoryView: UIView? = nil,
+                                           subtitleLeadingAccessoryView: UIView? = nil,
+                                           subtitleTrailingAccessoryView: UIView? = nil,
+                                           footerLeadingAccessoryView: UIView? = nil,
+                                           footerTrailingAccessoryView: UIView? = nil,
+                                           customViewSize: MSFTableViewCellCustomViewSize = .default,
+                                           customAccessoryView: UIView? = nil,
+                                           accessoryType: TableViewCellAccessoryType = .none,
+                                           customAccessoryViewExtendsToEdge: Bool = false,
+                                           isInSelectionMode: Bool = false) -> CGFloat {
+        return self.preferredWidth(tokenSet: .init(customViewSize: { customViewSize }),
+                                   title: title,
+                                   subtitle: subtitle,
+                                   footer: footer,
+                                   titleFont: nil,
+                                   subtitleFont: nil,
+                                   footerFont: nil,
+                                   titleLeadingAccessoryView: titleLeadingAccessoryView,
+                                   titleTrailingAccessoryView: titleTrailingAccessoryView,
+                                   subtitleLeadingAccessoryView: subtitleLeadingAccessoryView,
+                                   subtitleTrailingAccessoryView: subtitleTrailingAccessoryView,
+                                   footerLeadingAccessoryView: footerLeadingAccessoryView,
+                                   footerTrailingAccessoryView: footerTrailingAccessoryView,
+                                   customViewSize: customViewSize,
+                                   customAccessoryView: customAccessoryView,
+                                   accessoryType: accessoryType,
+                                   customAccessoryViewExtendsToEdge: customAccessoryViewExtendsToEdge,
+                                   isInSelectionMode: isInSelectionMode)
+    }
+
+    /// The preferred width of the cell based on the width of its content.
+    ///
+    /// - Parameters:
+    ///   - tokenSet: The TableViewCell tokens
+    ///   - title: The title string
+    ///   - subtitle: The subtitle string
+    ///   - footer: The footer string
+    ///   - attributedTitle: The attributed title
+    ///   - attributedSubtitle: The attributed subtitle
+    ///   - attributedFooter: The attributed footer
+    ///   - isAttributedTitleSet: Boolean defining whether or not the `attributedTitle` has been set
+    ///   - isAttributedSubtitleSet: Boolean defining whether or not the `attributedSubtitle` has been set
+    ///   - isAttributedFooterSet: Boolean defining whether or not the `attributedFooter` has been set
+    ///   - titleFont: The title font; If not set, it will default to the font definition in tokens
+    ///   - subtitleFont: The subtitle font; If not set, it will default to the font definition in tokens
+    ///   - footerFont: The footer font; If not set, it will default to the font definition in tokens
+    ///   - titleLeadingAccessoryView: The accessory view on the leading edge of the title
+    ///   - titleTrailingAccessoryView: The accessory view on the trailing edge of the title
+    ///   - subtitleLeadingAccessoryView: The accessory view on the leading edge of the subtitle
+    ///   - subtitleTrailingAccessoryView: The accessory view on the trailing edge of the subtitle
+    ///   - footerLeadingAccessoryView: The accessory view on the leading edge of the footer
+    ///   - footerTrailingAccessoryView: The accessory view on the trailing edge of the footer
+    ///   - customViewSize: The custom view size for the cell based on `TableViewCell.CustomViewSize`
+    ///   - customAccessoryView: The custom accessory view that appears near the trailing edge of the cell
+    ///   - accessoryType: The `TableViewCellAccessoryType` that the cell should display
+    ///   - customAccessoryViewExtendsToEdge: Boolean defining whether custom accessory view is extended to the trailing edge of the cell or not (ignored when accessory type is not `.none`)
+    ///   - isInSelectionMode: Boolean describing if the cell is in multi-selection mode which shows/hides a checkmark image on the leading edge
+    /// - Returns: a value representing the preferred width of the cell
+    public class func preferredWidth(tokenSet: TableViewCellTokenSet,
                                      title: String,
                                      subtitle: String = "",
                                      footer: String = "",
@@ -381,7 +533,6 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                                      accessoryType: TableViewCellAccessoryType = .none,
                                      customAccessoryViewExtendsToEdge: Bool = false,
                                      isInSelectionMode: Bool = false) -> CGFloat {
-        let tokenSet = tokenSet ?? TableViewCellTokenSet(customViewSize: { customViewSize })
         let layoutType = Self.layoutType(subtitle: subtitle,
                                          footer: footer,
                                          subtitleLeadingAccessoryView: subtitleLeadingAccessoryView,
@@ -1157,7 +1308,12 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     ///   - customView: The custom view that appears near the leading edge next to the text
     ///   - customAccessoryView: The view acting as an accessory view that appears on the trailing edge, next to the accessory type if provided
     ///   - accessoryType: The type of accessory that appears on the trailing edge: a disclosure indicator or a details button with an ellipsis icon
-    @objc open func setup(title: String, subtitle: String = "", footer: String = "", customView: UIView? = nil, customAccessoryView: UIView? = nil, accessoryType: TableViewCellAccessoryType = .none) {
+    @objc open func setup(title: String,
+                          subtitle: String = "",
+                          footer: String = "",
+                          customView: UIView? = nil,
+                          customAccessoryView: UIView? = nil,
+                          accessoryType: TableViewCellAccessoryType = .none) {
         setup(title: title,
               attributedTitle: nil,
               subtitle: subtitle,
@@ -1328,6 +1484,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     /// Any color or stylistic changes on TableViewCell labels should be done through attributedTitle
     /// To set color for title label
     /// - Parameter color: UIColor to set
+    @available(*, deprecated, message: "Any color or stylistic changes on TableViewCell labels should be done through NSAttributedString (attributedTitle parameter of the setup method).")
     @objc public func setTitleLabelTextColor(color: UIColor) {
         titleLabel.textColor = color
         isUsingCustomTextColors = true
@@ -1336,6 +1493,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     /// Any color or stylistic changes on TableViewCell labels should be done through attributedSubtitle
     /// To set color for subTitle label
     /// - Parameter color: UIColor to set
+    @available(*, deprecated, message: "Any color or stylistic changes on TableViewCell labels should be done through NSAttributedString (attributedSubtitle parameter of the setup method).")
     @objc public func setSubTitleLabelTextColor(color: UIColor) {
         subtitleLabel.textColor = color
         isUsingCustomTextColors = true
@@ -1344,6 +1502,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     /// Any color or stylistic changes on TableViewCell labels should be done through attributedFooter
     /// To set color for footer label
     /// - Parameter color: UIColor to set
+    @available(*, deprecated, message: "Any color or stylistic changes on TableViewCell labels should be done through NSAttributedString (attributedFooter parameter of the setup method).")
     public func setFooterLabelTextColor(color: UIColor) {
         footerLabel.textColor = color
         isUsingCustomTextColors = true
@@ -1709,11 +1868,13 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     }
 
     open override func updateConfiguration(using state: UICellConfigurationState) {
-        // Customize the background color to use the tint color when the cell is highlighted or selected.
-        if state.isHighlighted || state.isSelected || state.isFocused {
-            backgroundConfiguration?.backgroundColor = UIColor(dynamicColor: tokenSet[.cellBackgroundSelectedColor].dynamicColor)
-        } else {
-            backgroundConfiguration?.backgroundColor = backgroundStyleType.defaultColor(tokenSet: tokenSet)
+        if backgroundStyleType != .custom {
+            // Customize the background color to use the tint color when the cell is highlighted or selected.
+            if state.isHighlighted || state.isSelected || state.isFocused {
+                backgroundConfiguration?.backgroundColor = UIColor(dynamicColor: tokenSet[.cellBackgroundSelectedColor].dynamicColor)
+            } else {
+                backgroundConfiguration?.backgroundColor = backgroundStyleType.defaultColor(tokenSet: tokenSet)
+            }
         }
     }
 
@@ -1765,10 +1926,12 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     }
 
     private func setupBackgroundColors() {
-        automaticallyUpdatesBackgroundConfiguration = false
-        var customBackgroundConfig = UIBackgroundConfiguration.clear()
-        customBackgroundConfig.backgroundColor = backgroundStyleType.defaultColor(tokenSet: tokenSet)
-        backgroundConfiguration = customBackgroundConfig
+        if backgroundStyleType != .custom {
+            automaticallyUpdatesBackgroundConfiguration = false
+            var backgroundConfiguration = UIBackgroundConfiguration.clear()
+            backgroundConfiguration.backgroundColor = backgroundStyleType.defaultColor(tokenSet: tokenSet)
+            self.backgroundConfiguration = backgroundConfiguration
+        }
     }
 
     private func initAccessibilityForAccessoryType() {

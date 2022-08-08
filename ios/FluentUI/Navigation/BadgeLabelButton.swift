@@ -65,7 +65,7 @@ class BadgeLabelButton: UIButton {
 
     private var badgeFrameOriginX: CGFloat {
         let xOrigin: CGFloat = isLeftToRightUserInterfaceLayoutDirection ?
-            frame.size.width - contentEdgeInsets.left  :
+            frame.size.width - contentEdgeInsets.left :
             contentEdgeInsets.left
 
         return (xOrigin - badgeWidth / 2)

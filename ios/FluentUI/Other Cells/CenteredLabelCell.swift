@@ -25,7 +25,7 @@ open class CenteredLabelCell: UITableViewCell, TokenizedControlInternal {
     }
 
     private func updateAppearance() {
-        backgroundConfiguration?.backgroundColor = UIColor(dynamicColor: tokenSet[.cellBackgroundColor].dynamicColor)
+        setupBackgroundColors()
         label.font = UIFont.fluent(tokenSet[.titleFont].fontInfo)
         label.textColor = UIColor(dynamicColor: tokenSet[.mainBrandColor].dynamicColor)
     }
@@ -39,6 +39,14 @@ open class CenteredLabelCell: UITableViewCell, TokenizedControlInternal {
         return label
     }()
 
+    @objc public var backgroundStyleType: TableViewCellBackgroundStyleType = .plain {
+        didSet {
+            if backgroundStyleType != oldValue {
+                setupBackgroundColors()
+            }
+        }
+    }
+
     public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         tokenSet = TableViewCellTokenSet(customViewSize: { .default })
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -49,6 +57,7 @@ open class CenteredLabelCell: UITableViewCell, TokenizedControlInternal {
                                                object: nil)
 
         contentView.addSubview(label)
+        setupBackgroundColors()
 
         // Update appearance whenever `tokenSet` changes.
         tokenSetSink = tokenSet.sinkChanges { [weak self] in
@@ -100,4 +109,12 @@ open class CenteredLabelCell: UITableViewCell, TokenizedControlInternal {
     open override func setHighlighted(_ highlighted: Bool, animated: Bool) { }
 
     open override func setSelected(_ selected: Bool, animated: Bool) { }
+
+    private func setupBackgroundColors() {
+        if backgroundStyleType != .custom {
+            var customBackgroundConfig = UIBackgroundConfiguration.clear()
+            customBackgroundConfig.backgroundColor = backgroundStyleType.defaultColor(tokenSet: tokenSet)
+            backgroundConfiguration = customBackgroundConfig
+        }
+    }
 }

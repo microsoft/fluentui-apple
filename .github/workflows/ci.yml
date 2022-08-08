@@ -4,19 +4,13 @@ on:
   push:
     branches:
       - main
-      - main_0.1
-      - main_0.2
-      - main_0.3
-      - main_0.4
+      - main_*
       - fluent2-tokens
       - fluent2-colors
   pull_request:
     branches:
       - main
-      - main_0.1
-      - main_0.2
-      - main_0.3
-      - main_0.4
+      - main_*
       - fluent2-tokens
       - fluent2-colors
 

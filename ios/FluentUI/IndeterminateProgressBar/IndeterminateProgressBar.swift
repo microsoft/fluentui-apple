@@ -35,6 +35,16 @@ public struct IndeterminateProgressBar: View, TokenizedControlView {
         let height = tokenSet[.height].float
         let gradientColor = Color(dynamicColor: tokenSet[.gradientColor].dynamicColor)
         let backgroundColor = Color(dynamicColor: tokenSet[.backgroundColor].dynamicColor)
+        let accessibilityLabel: String = {
+            if let overriddenAccessibilityLabel = state.accessibilityLabel {
+                return overriddenAccessibilityLabel
+            }
+
+            return state.isAnimating ?
+                "Accessibility.ActivityIndicator.Animating.label".localized
+                :
+                "Accessibility.ActivityIndicator.Stopped.label".localized
+        }()
 
         Rectangle()
             .fill(LinearGradient(gradient: Gradient(colors: [backgroundColor, gradientColor, backgroundColor]),
@@ -46,6 +56,8 @@ public struct IndeterminateProgressBar: View, TokenizedControlView {
                    maxHeight: height,
                    alignment: .center)
             .background(backgroundColor)
+            .accessibilityLabel(Text(accessibilityLabel))
+            .accessibilityAddTraits(.updatesFrequently)
             .modifyIf(state.isAnimating, { view in
                 view
                     .onAppear {

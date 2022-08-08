@@ -66,11 +66,6 @@ class DateTimePickerView: UIControl {
 
         super.init(frame: .zero)
 
-        for component in componentsByType.values {
-            component.delegate = self
-            addSubview(component.view)
-        }
-
         layer.addSublayer(gradientLayer)
         addSubview(selectionTopDivider)
         addSubview(selectionBottomDivider)
@@ -84,6 +79,15 @@ class DateTimePickerView: UIControl {
 
     public required init?(coder aDecoder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
+    }
+
+    func setupComponents(for viewController: UIViewController) {
+        for component in componentsByType.values {
+            component.delegate = self
+            viewController.addChild(component)
+            addSubview(component.view)
+            component.didMove(toParent: viewController)
+        }
     }
 
     /// Set the date displayed on the picker. This does not trigger UIControlEventValueChanged

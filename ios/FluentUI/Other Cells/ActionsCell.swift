@@ -61,8 +61,8 @@ open class ActionsCell: UITableViewCell, TokenizedControlInternal {
     }
 
     private func updateAppearance() {
+        setupBackgroundColors()
         updateActionTitleColors()
-        backgroundConfiguration?.backgroundColor = UIColor(dynamicColor: tokenSet[.cellBackgroundColor].dynamicColor)
     }
 
     public class func height(action1Title: String, action2Title: String = "", containerWidth: CGFloat, tokenSet: TableViewCellTokenSet) -> CGFloat {
@@ -106,6 +106,14 @@ open class ActionsCell: UITableViewCell, TokenizedControlInternal {
         return sizeThatFits(CGSize(width: CGFloat.infinity, height: .infinity))
     }
 
+    @objc public var backgroundStyleType: TableViewCellBackgroundStyleType = .plain {
+        didSet {
+            if backgroundStyleType != oldValue {
+                setupBackgroundColors()
+            }
+        }
+    }
+
     // By design, an actions cell has 2 actions at most
     @objc public let action1Button = UIButton()
     @objc public let action2Button = UIButton()
@@ -130,7 +138,7 @@ open class ActionsCell: UITableViewCell, TokenizedControlInternal {
         hideSystemSeparator()
         updateHorizontalSeparator(topSeparator, with: topSeparatorType)
         updateHorizontalSeparator(bottomSeparator, with: bottomSeparatorType)
-        backgroundConfiguration?.backgroundColor = UIColor(dynamicColor: tokenSet[.cellBackgroundColor].dynamicColor)
+        setupBackgroundColors()
 
         setupAction(action1Button)
         setupAction(action2Button)
@@ -265,5 +273,13 @@ open class ActionsCell: UITableViewCell, TokenizedControlInternal {
             action2Button.setTitleColor(action2Type.highlightedTextColor(tokenSet: tokenSet), for: .highlighted)
         }
 
+    }
+
+    private func setupBackgroundColors() {
+        if backgroundStyleType != .custom {
+            var customBackgroundConfig = UIBackgroundConfiguration.clear()
+            customBackgroundConfig.backgroundColor = backgroundStyleType.defaultColor(tokenSet: tokenSet)
+            backgroundConfiguration = customBackgroundConfig
+        }
     }
 }
