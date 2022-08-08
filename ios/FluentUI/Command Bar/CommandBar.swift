@@ -280,15 +280,6 @@ extension CommandBar: UIScrollViewDelegate {
 /// is not hooked into auto-layout and will not update its frame if its parent frame changes size. This implementation
 /// fixes that.
 private class MaskedView: UIView {
-    init() {
-        super.init(frame: .zero)
-    }
-
-    @available(*, unavailable)
-    required init(coder: NSCoder) {
-        preconditionFailure("init(coder:) has not been implemented")
-    }
-
     override func layoutSubviews() {
         super.layoutSubviews()
         layer.mask?.frame = bounds
