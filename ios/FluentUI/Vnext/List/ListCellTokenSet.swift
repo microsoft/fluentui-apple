@@ -130,106 +130,99 @@ public class ListCellTokenSet: ControlTokenSet<ListCellTokenSet.Tokens> {
 
     init(cellLeadingViewSize: @escaping () -> MSFListCellLeadingViewSize) {
         self.cellLeadingViewSize = cellLeadingViewSize
-        super.init()
-    }
+        super.init { [cellLeadingViewSize] token, theme in
+            switch token {
 
-    @available(*, unavailable)
-    required init() {
-        preconditionFailure("init() has not been implemented")
-    }
+            case .disclosureIconForegroundColor:
+                return .dynamicColor { theme.aliasTokens.foregroundColors[.neutral4] }
 
-    override func defaultValue(_ token: Tokens) -> ControlTokenValue {
-        switch token {
+            case .labelColor:
+                return .dynamicColor { theme.aliasTokens.foregroundColors[.neutral1] }
 
-        case .disclosureIconForegroundColor:
-            return .dynamicColor { self.aliasTokens.foregroundColors[.neutral4] }
+            case .labelSelectedColor:
+                return .dynamicColor { theme.aliasTokens.foregroundColors[.brandRest] }
 
-        case .labelColor:
-            return .dynamicColor { self.aliasTokens.foregroundColors[.neutral1] }
+            case .leadingViewColor:
+                return .dynamicColor { theme.aliasTokens.foregroundColors[.neutral1] }
 
-        case .labelSelectedColor:
-            return .dynamicColor { self.aliasTokens.foregroundColors[.brandRest] }
+            case .sublabelColor:
+                return .dynamicColor { theme.aliasTokens.foregroundColors[.neutral3] }
 
-        case .leadingViewColor:
-            return .dynamicColor { self.aliasTokens.foregroundColors[.neutral1] }
+            case .sublabelSelectedColor:
+                return .dynamicColor { theme.aliasTokens.foregroundColors[.brandRest] }
 
-        case .sublabelColor:
-            return .dynamicColor { self.aliasTokens.foregroundColors[.neutral3] }
+            case .trailingItemForegroundColor:
+                return .dynamicColor { theme.aliasTokens.foregroundColors[.neutral3] }
 
-        case .sublabelSelectedColor:
-            return .dynamicColor { self.aliasTokens.foregroundColors[.brandRest] }
+            case .trailingItemSelectedForegroundColor:
+                return .dynamicColor { theme.aliasTokens.foregroundColors[.brandRest] }
 
-        case .trailingItemForegroundColor:
-            return .dynamicColor { self.aliasTokens.foregroundColors[.neutral3] }
+            case .backgroundColor:
+                return .dynamicColor { theme.aliasTokens.backgroundColors[.neutral1] }
 
-        case .trailingItemSelectedForegroundColor:
-            return .dynamicColor { self.aliasTokens.foregroundColors[.brandRest] }
+            case .highlightedBackgroundColor:
+                return .dynamicColor { theme.aliasTokens.backgroundColors[.neutral5] }
 
-        case .backgroundColor:
-            return .dynamicColor { self.aliasTokens.backgroundColors[.neutral1] }
+            case .cellHeightOneLine:
+                return .float { theme.globalTokens.spacing[.xxxLarge] }
 
-        case .highlightedBackgroundColor:
-            return .dynamicColor { self.aliasTokens.backgroundColors[.neutral5] }
+            case .cellHeightTwoLines:
+                return .float { 64 }
 
-        case .cellHeightOneLine:
-            return .float { self.globalTokens.spacing[.xxxLarge] }
+            case .cellHeightThreeLines:
+                return .float { theme.globalTokens.spacing[.xxxxLarge] }
 
-        case .cellHeightTwoLines:
-            return .float { 64 }
+            case .disclosureInterspace:
+                return .float { theme.globalTokens.spacing[.xxSmall] }
 
-        case .cellHeightThreeLines:
-            return .float { self.globalTokens.spacing[.xxxxLarge] }
+            case .disclosureSize:
+                return .float { theme.globalTokens.iconSize[.small] }
 
-        case .disclosureInterspace:
-            return .float { self.globalTokens.spacing[.xxSmall] }
+            case .horizontalCellPadding:
+                return .float { theme.globalTokens.spacing[.small] }
 
-        case .disclosureSize:
-            return .float { self.globalTokens.iconSize[.small] }
+            case .iconInterspace:
+                return .float { theme.globalTokens.spacing[.medium] }
 
-        case .horizontalCellPadding:
-            return .float { self.globalTokens.spacing[.small] }
+            case .labelAccessoryInterspace:
+                return .float { theme.globalTokens.spacing[.xSmall] }
 
-        case .iconInterspace:
-            return .float { self.globalTokens.spacing[.medium] }
+            case .labelAccessorySize:
+                return .float { theme.globalTokens.iconSize[.xxSmall] }
 
-        case .labelAccessoryInterspace:
-            return .float { self.globalTokens.spacing[.xSmall] }
-
-        case .labelAccessorySize:
-            return .float { self.globalTokens.iconSize[.xxSmall] }
-
-        case .leadingViewSize:
-            return .float {
-                switch self.cellLeadingViewSize() {
-                case .small:
-                    return self.globalTokens.iconSize[.xSmall]
-                case .medium:
-                    return self.globalTokens.iconSize[.medium]
-                case .large:
-                    return self.globalTokens.iconSize[.xxLarge]
+            case .leadingViewSize:
+                return .float {
+                    switch cellLeadingViewSize() {
+                    case .small:
+                        return theme.globalTokens.iconSize[.xSmall]
+                    case .medium:
+                        return theme.globalTokens.iconSize[.medium]
+                    case .large:
+                        return theme.globalTokens.iconSize[.xxLarge]
+                    }
                 }
+
+            case .leadingViewAreaSize:
+                return .float { theme.globalTokens.spacing[.xxxLarge] }
+
+            case .sublabelAccessorySize:
+                return .float { theme.globalTokens.iconSize[.xxSmall] }
+
+            case .trailingItemSize:
+                return .float { theme.globalTokens.iconSize[.medium] }
+
+            case .verticalCellPadding:
+                return .float { theme.globalTokens.spacing[.xSmall] }
+
+            case .footnoteFont:
+                return .fontInfo { theme.aliasTokens.typography[.caption1] }
+
+            case .sublabelFont:
+                return .fontInfo { theme.aliasTokens.typography[.body2] }
+
+            case .labelFont:
+                return .fontInfo { theme.aliasTokens.typography[.body1] }
             }
-
-        case .leadingViewAreaSize:
-            return .float { self.globalTokens.spacing[.xxxLarge] }
-
-        case .sublabelAccessorySize:
-            return .float { self.globalTokens.iconSize[.xxSmall] }
-
-        case .trailingItemSize:
-            return .float { self.globalTokens.iconSize[.medium] }
-
-        case .verticalCellPadding:
-            return .float { self.globalTokens.spacing[.xSmall] }
-
-        case .footnoteFont:
-            return .fontInfo { self.aliasTokens.typography[.caption1] }
-
-        case .sublabelFont:
-            return .fontInfo { self.aliasTokens.typography[.body2] }
-
-        case .labelFont:
-            return .fontInfo { self.aliasTokens.typography[.body1] }
         }
     }
 

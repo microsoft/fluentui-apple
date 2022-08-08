@@ -144,187 +144,180 @@ public class TableViewCellTokenSet: ControlTokenSet<TableViewCellTokenSet.Tokens
 
     init(customViewSize: @escaping () -> MSFTableViewCellCustomViewSize) {
         self.customViewSize = customViewSize
-        super.init()
-    }
-
-    @available(*, unavailable)
-    required init() {
-        preconditionFailure("init() has not been implemented")
-    }
-
-    override func defaultValue(_ token: Tokens) -> ControlTokenValue {
-        switch token {
-        case .backgroundColor:
-            return .dynamicColor {
-                .init(light: self.globalTokens.neutralColors[.white],
-                      dark: self.globalTokens.neutralColors[.black])
-            }
-
-        case .backgroundGroupedColor:
-            return .dynamicColor {
-                .init(light: self.aliasTokens.backgroundColors[.neutral2].light,
-                      dark: self.aliasTokens.backgroundColors[.neutral1].dark)
-            }
-
-        case .cellBackgroundColor:
-            return .dynamicColor {
-                .init(light: self.aliasTokens.backgroundColors[.neutral1].light,
-                      dark: self.aliasTokens.backgroundColors[.neutral1].dark,
-                      darkElevated: self.aliasTokens.backgroundColors[.neutral2].darkElevated)
-            }
-
-        case .cellBackgroundGroupedColor:
-            return .dynamicColor {
-                .init(light: self.aliasTokens.backgroundColors[.neutral1].light,
-                      dark: self.aliasTokens.backgroundColors[.neutral3].dark,
-                      darkElevated: ColorValue(0x212121))
-            }
-
-        case .cellBackgroundSelectedColor:
-            return .dynamicColor { self.aliasTokens.backgroundColors[.neutral5] }
-
-        case .imageColor:
-            return .dynamicColor { self.aliasTokens.foregroundColors[.neutral1] }
-
-        case .customViewDimensions:
-            return .float {
-                switch self.customViewSize() {
-                case .zero:
-                    return 0.0
-                case .small:
-                    return self.globalTokens.iconSize[.medium]
-                case .medium, .default:
-                    return self.globalTokens.iconSize[.xxLarge]
+        super.init { token, theme in
+            switch token {
+            case .backgroundColor:
+                return .dynamicColor {
+                    .init(light: theme.globalTokens.neutralColors[.white],
+                          dark: theme.globalTokens.neutralColors[.black])
                 }
-            }
 
-        case .customViewTrailingMargin:
-            return .float {
-                switch self.customViewSize() {
-                case .zero:
-                    return self.globalTokens.spacing[.none]
-                case .small:
-                    return self.globalTokens.spacing[.medium]
-                case .medium, .default:
-                    return self.globalTokens.spacing[.small]
+            case .backgroundGroupedColor:
+                return .dynamicColor {
+                    .init(light: theme.aliasTokens.backgroundColors[.neutral2].light,
+                          dark: theme.aliasTokens.backgroundColors[.neutral1].dark)
                 }
-            }
 
-        case .titleColor:
-            return .dynamicColor { self.aliasTokens.foregroundColors[.neutral1] }
+            case .cellBackgroundColor:
+                return .dynamicColor {
+                    .init(light: theme.aliasTokens.backgroundColors[.neutral1].light,
+                          dark: theme.aliasTokens.backgroundColors[.neutral1].dark,
+                          darkElevated: theme.aliasTokens.backgroundColors[.neutral2].darkElevated)
+                }
 
-        case .subtitleColor:
-            return .dynamicColor { self.aliasTokens.foregroundColors[.neutral3] }
+            case .cellBackgroundGroupedColor:
+                return .dynamicColor {
+                    .init(light: theme.aliasTokens.backgroundColors[.neutral1].light,
+                          dark: theme.aliasTokens.backgroundColors[.neutral3].dark,
+                          darkElevated: ColorValue(0x212121))
+                }
 
-        case .footerColor:
-            return .dynamicColor { self.aliasTokens.foregroundColors[.neutral3] }
+            case .cellBackgroundSelectedColor:
+                return .dynamicColor { theme.aliasTokens.backgroundColors[.neutral5] }
 
-        case .selectionIndicatorOffColor:
-            return .dynamicColor { self.aliasTokens.foregroundColors[.neutral3] }
+            case .imageColor:
+                return .dynamicColor { theme.aliasTokens.foregroundColors[.neutral1] }
 
-        case .titleFont:
-            return .fontInfo { self.aliasTokens.typography[.body1] }
+            case .customViewDimensions:
+                return .float {
+                    switch customViewSize() {
+                    case .zero:
+                        return 0.0
+                    case .small:
+                        return theme.globalTokens.iconSize[.medium]
+                    case .medium, .default:
+                        return theme.globalTokens.iconSize[.xxLarge]
+                    }
+                }
 
-        case .subtitleTwoLinesFont:
-            return .fontInfo { self.aliasTokens.typography[.caption1] }
+            case .customViewTrailingMargin:
+                return .float {
+                    switch customViewSize() {
+                    case .zero:
+                        return theme.globalTokens.spacing[.none]
+                    case .small:
+                        return theme.globalTokens.spacing[.medium]
+                    case .medium, .default:
+                        return theme.globalTokens.spacing[.small]
+                    }
+                }
 
-        case .subtitleThreeLinesFont:
-            return .fontInfo { self.aliasTokens.typography[.body2] }
+            case .titleColor:
+                return .dynamicColor { theme.aliasTokens.foregroundColors[.neutral1] }
 
-        case .footerFont:
-            return .fontInfo { self.aliasTokens.typography[.caption1] }
+            case .subtitleColor:
+                return .dynamicColor { theme.aliasTokens.foregroundColors[.neutral3] }
 
-        case .titleHeight:
-            return .float { 22 }
+            case .footerColor:
+                return .dynamicColor { theme.aliasTokens.foregroundColors[.neutral3] }
 
-        case .subtitleTwoLineHeight:
-            return .float { 18 }
+            case .selectionIndicatorOffColor:
+                return .dynamicColor { theme.aliasTokens.foregroundColors[.neutral3] }
 
-        case .subtitleThreeLineHeight:
-            return .float { 20 }
+            case .titleFont:
+                return .fontInfo { theme.aliasTokens.typography[.body1] }
 
-        case .footerHeight:
-            return .float { 18 }
+            case .subtitleTwoLinesFont:
+                return .fontInfo { theme.aliasTokens.typography[.caption1] }
 
-        case .labelAccessoryViewMarginLeading:
-            return .float { self.globalTokens.spacing[.xSmall] }
+            case .subtitleThreeLinesFont:
+                return .fontInfo { theme.aliasTokens.typography[.body2] }
 
-        case .labelAccessoryViewMarginTrailing:
-            return .float { self.globalTokens.spacing[.xSmall] }
+            case .footerFont:
+                return .fontInfo { theme.aliasTokens.typography[.caption1] }
 
-        case .customAccessoryViewMarginLeading:
-            return .float { self.globalTokens.spacing[.xSmall] }
+            case .titleHeight:
+                return .float { 22 }
 
-        case .customAccessoryViewMinVerticalMargin:
-            return .float { 6 }
+            case .subtitleTwoLineHeight:
+                return .float { 18 }
 
-        case .labelVerticalMarginForOneAndThreeLines:
-            return .float { 11 }
+            case .subtitleThreeLineHeight:
+                return .float { 20 }
 
-        case .labelVerticalMarginForTwoLines:
-            return .float { self.globalTokens.spacing[.small] }
+            case .footerHeight:
+                return .float { 18 }
 
-        case .labelVerticalSpacing:
-            return .float { self.globalTokens.spacing[.none] }
+            case .labelAccessoryViewMarginLeading:
+                return .float { theme.globalTokens.spacing[.xSmall] }
 
-        case .minHeight:
-            return .float { self.globalTokens.spacing[.xxxLarge] }
+            case .labelAccessoryViewMarginTrailing:
+                return .float { theme.globalTokens.spacing[.xSmall] }
 
-        case .mediumHeight:
-            return .float { 64 }
+            case .customAccessoryViewMarginLeading:
+                return .float { theme.globalTokens.spacing[.xSmall] }
 
-        case .largeHeight:
-            return .float { 84 }
+            case .customAccessoryViewMinVerticalMargin:
+                return .float { 6 }
 
-        case .selectionImageMarginTrailing:
-            return .float { self.globalTokens.spacing[.medium] }
+            case .labelVerticalMarginForOneAndThreeLines:
+                return .float { 11 }
 
-        case .selectionImageSize:
-            return .float { self.globalTokens.iconSize[.medium] }
+            case .labelVerticalMarginForTwoLines:
+                return .float { theme.globalTokens.spacing[.small] }
 
-        case .selectionModeAnimationDuration:
-            return .float { 0.2 }
+            case .labelVerticalSpacing:
+                return .float { theme.globalTokens.spacing[.none] }
 
-        case .textAreaMinWidth:
-            return .float { 100 }
+            case .minHeight:
+                return .float { theme.globalTokens.spacing[.xxxLarge] }
 
-        case .enabledAlpha:
-            return .float { 1 }
+            case .mediumHeight:
+                return .float { 64 }
 
-        case .disabledAlpha:
-            return .float { 0.35 }
+            case .largeHeight:
+                return .float { 84 }
 
-        case .horizontalSpacing:
-            return .float { self.globalTokens.spacing[.medium] }
+            case .selectionImageMarginTrailing:
+                return .float { theme.globalTokens.spacing[.medium] }
 
-        case .paddingLeading:
-            return .float { self.globalTokens.spacing[.medium] }
+            case .selectionImageSize:
+                return .float { theme.globalTokens.iconSize[.medium] }
 
-        case .paddingVertical:
-            return .float { 11 }
+            case .selectionModeAnimationDuration:
+                return .float { 0.2 }
 
-        case .paddingTrailing:
-            return .float { self.globalTokens.spacing[.medium] }
+            case .textAreaMinWidth:
+                return .float { 100 }
 
-        case .accessoryDisclosureIndicatorColor:
-            return .dynamicColor { self.aliasTokens.foregroundColors[.neutral4] }
+            case .enabledAlpha:
+                return .float { 1 }
 
-        case .accessoryDetailButtonColor:
-            return .dynamicColor { self.aliasTokens.foregroundColors[.neutral3] }
+            case .disabledAlpha:
+                return .float { 0.35 }
 
-        case .mainBrandColor:
-            return .dynamicColor { self.globalTokens.brandColors[.primary] }
+            case .horizontalSpacing:
+                return .float { theme.globalTokens.spacing[.medium] }
 
-        case .destructiveTextColor:
-            return .dynamicColor {
-                DynamicColor(light: ColorValue(0xD92C2C),
-                             dark: ColorValue(0xE83A3A))
-            }
+            case .paddingLeading:
+                return .float { theme.globalTokens.spacing[.medium] }
 
-        case .communicationTextColor:
-            return .dynamicColor {
-                DynamicColor(light: ColorValue(0x0078D4),
-                             dark: ColorValue(0x0086F0))
+            case .paddingVertical:
+                return .float { 11 }
+
+            case .paddingTrailing:
+                return .float { theme.globalTokens.spacing[.medium] }
+
+            case .accessoryDisclosureIndicatorColor:
+                return .dynamicColor { theme.aliasTokens.foregroundColors[.neutral4] }
+
+            case .accessoryDetailButtonColor:
+                return .dynamicColor { theme.aliasTokens.foregroundColors[.neutral3] }
+
+            case .mainBrandColor:
+                return .dynamicColor { theme.globalTokens.brandColors[.primary] }
+
+            case .destructiveTextColor:
+                return .dynamicColor {
+                    DynamicColor(light: ColorValue(0xD92C2C),
+                                 dark: ColorValue(0xE83A3A))
+                }
+
+            case .communicationTextColor:
+                return .dynamicColor {
+                    DynamicColor(light: ColorValue(0x0078D4),
+                                 dark: ColorValue(0x0086F0))
+                }
             }
         }
     }

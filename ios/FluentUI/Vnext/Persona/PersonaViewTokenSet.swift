@@ -7,28 +7,28 @@ import UIKit
 import SwiftUI
 
 public class PersonaViewTokenSet: ListCellTokenSet {
-    override func defaultValue(_ token: ListCellTokenSet.Tokens) -> ControlTokenValue {
-        switch token {
-        case .sublabelColor:
-            return .dynamicColor { self.aliasTokens.foregroundColors[.neutral1] }
-
-        case .iconInterspace:
-            return .float { self.globalTokens.spacing[.small] }
-
-        case .labelAccessoryInterspace:
-            return .float { self.globalTokens.spacing[.xxxSmall] }
-
-        case .labelAccessorySize:
-            return .float { self.globalTokens.iconSize[.xSmall] }
-
-        case .labelFont:
-            return .fontInfo { self.aliasTokens.typography[.body1Strong] }
-
-        case .footnoteFont:
-            return .fontInfo { self.aliasTokens.typography[.caption1] }
-
-        default:
-            return super.defaultValue(token)
-        }
-    }
+//    override lazy var defaultValue: (Tokens, FluentTheme) -> ControlTokenValue = { token, theme in
+//        switch token {
+//        case .sublabelColor:
+//            return .dynamicColor { theme.aliasTokens.foregroundColors[.neutral1] }
+//
+//        case .iconInterspace:
+//            return .float { theme.globalTokens.spacing[.small] }
+//
+//        case .labelAccessoryInterspace:
+//            return .float { theme.globalTokens.spacing[.xxxSmall] }
+//
+//        case .labelAccessorySize:
+//            return .float { theme.globalTokens.iconSize[.xSmall] }
+//
+//        case .labelFont:
+//            return .fontInfo { theme.aliasTokens.typography[.body1Strong] }
+//
+//        case .footnoteFont:
+//            return .fontInfo { theme.aliasTokens.typography[.caption1] }
+//
+//        default:
+//            return super.defaultValue(token)
+//        }
+//    }
 }

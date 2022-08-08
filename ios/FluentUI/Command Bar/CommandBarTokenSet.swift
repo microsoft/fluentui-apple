@@ -17,45 +17,47 @@ public class CommandBarTokenSet: ControlTokenSet<CommandBarTokenSet.Tokens> {
         case itemInterspace
     }
 
-    override func defaultValue(_ token: Tokens) -> ControlTokenValue {
-        switch token {
-        case .backgroundColor:
-            return .dynamicColor { self.aliasTokens.backgroundColors[.neutral1] }
+    init() {
+        super.init { token, theme in
+            switch token {
+            case .backgroundColor:
+                return .dynamicColor { theme.aliasTokens.backgroundColors[.neutral1] }
 
-        case .groupBorderRadius:
-            return .float { self.globalTokens.borderRadius[.xLarge] }
+            case .groupBorderRadius:
+                return .float { theme.globalTokens.borderRadius[.xLarge] }
 
-        case .groupInterspace:
-            return .float { self.globalTokens.spacing[.medium] }
+            case .groupInterspace:
+                return .float { theme.globalTokens.spacing[.medium] }
 
-        case .itemBackgroundColor:
-            return .buttonDynamicColors {
-                ButtonDynamicColors(rest: self.aliasTokens.backgroundColors[.neutral4],
-                                    hover: DynamicColor(light: self.aliasTokens.backgroundColors[.neutral5].light,
-                                                        dark: self.aliasTokens.strokeColors[.neutral2].dark),
-                                    pressed: DynamicColor(light: self.aliasTokens.backgroundColors[.neutralDisabled].light,
-                                                          dark: self.aliasTokens.backgroundColors[.neutral5].dark),
-                                    selected: self.aliasTokens.backgroundColors[.brandRest],
-                                    disabled: self.aliasTokens.strokeColors[.neutral1])
+            case .itemBackgroundColor:
+                return .buttonDynamicColors {
+                    ButtonDynamicColors(rest: theme.aliasTokens.backgroundColors[.neutral4],
+                                        hover: DynamicColor(light: theme.aliasTokens.backgroundColors[.neutral5].light,
+                                                            dark: theme.aliasTokens.strokeColors[.neutral2].dark),
+                                        pressed: DynamicColor(light: theme.aliasTokens.backgroundColors[.neutralDisabled].light,
+                                                              dark: theme.aliasTokens.backgroundColors[.neutral5].dark),
+                                        selected: theme.aliasTokens.backgroundColors[.brandRest],
+                                        disabled: theme.aliasTokens.strokeColors[.neutral1])
+                }
+
+            case .itemFixedIconColor:
+                return .dynamicColor {
+                    DynamicColor(light: theme.aliasTokens.foregroundColors[.neutral1].light,
+                                 dark: theme.aliasTokens.foregroundColors[.neutral3].dark)
+                }
+
+            case .itemIconColor:
+                return .buttonDynamicColors {
+                    ButtonDynamicColors(rest: theme.aliasTokens.foregroundColors[.neutral1],
+                                        hover: theme.aliasTokens.foregroundColors[.neutral1],
+                                        pressed: theme.aliasTokens.foregroundColors[.neutral1],
+                                        selected: theme.aliasTokens.foregroundColors[.neutralInverted],
+                                        disabled: theme.aliasTokens.foregroundColors[.neutralDisabled])
+                }
+
+            case .itemInterspace:
+                return .float { theme.globalTokens.spacing[.xxxSmall] }
             }
-
-        case .itemFixedIconColor:
-            return .dynamicColor {
-                DynamicColor(light: self.aliasTokens.foregroundColors[.neutral1].light,
-                             dark: self.aliasTokens.foregroundColors[.neutral3].dark)
-            }
-
-        case .itemIconColor:
-            return .buttonDynamicColors {
-                ButtonDynamicColors(rest: self.aliasTokens.foregroundColors[.neutral1],
-                                    hover: self.aliasTokens.foregroundColors[.neutral1],
-                                    pressed: self.aliasTokens.foregroundColors[.neutral1],
-                                    selected: self.aliasTokens.foregroundColors[.neutralInverted],
-                                    disabled: self.aliasTokens.foregroundColors[.neutralDisabled])
-            }
-
-        case .itemInterspace:
-            return .float { self.globalTokens.spacing[.xxxSmall] }
         }
     }
 }

@@ -62,63 +62,56 @@ public class PersonaButtonTokenSet: ControlTokenSet<PersonaButtonTokenSet.Tokens
 
     init(size: @escaping () -> MSFPersonaButtonSize) {
         self.size = size
-        super.init()
-    }
-
-    @available(*, unavailable)
-    required init() {
-        preconditionFailure("init() has not been implemented")
-    }
-
-    override func defaultValue(_ token: Tokens) -> ControlTokenValue {
-        switch token {
-        case .avatarInterspace:
-            return .float {
-                switch self.size() {
-                case .small:
-                    return self.globalTokens.spacing[.xSmall]
-                case .large:
-                    return self.globalTokens.spacing[.small]
+        super.init { [size] token, theme in
+            switch token {
+            case .avatarInterspace:
+                return .float {
+                    switch size() {
+                    case .small:
+                        return theme.globalTokens.spacing[.xSmall]
+                    case .large:
+                        return theme.globalTokens.spacing[.small]
+                    }
                 }
-            }
 
-        case .backgroundColor:
-            return .dynamicColor { self.aliasTokens.backgroundColors[.neutral1] }
+            case .backgroundColor:
+                return .dynamicColor { theme.aliasTokens.backgroundColors[.neutral1] }
 
-        case .horizontalAvatarPadding:
-            return .float {
-                switch self.size() {
-                case .small:
-                    return self.globalTokens.spacing[.medium]
-                case .large:
-                    return self.globalTokens.spacing[.xSmall]
+            case .horizontalAvatarPadding:
+                return .float {
+                    switch size() {
+                    case .small:
+                        return theme.globalTokens.spacing[.medium]
+                    case .large:
+                        return theme.globalTokens.spacing[.xSmall]
+                    }
                 }
-            }
 
-        case .horizontalTextPadding:
-            return .float { self.globalTokens.spacing[.xxxSmall] }
+            case .horizontalTextPadding:
+                return .float { theme.globalTokens.spacing[.xxxSmall] }
 
-        case .labelColor:
-            return .dynamicColor { self.aliasTokens.foregroundColors[.neutral1] }
+            case .labelColor:
+                return .dynamicColor { theme.aliasTokens.foregroundColors[.neutral1] }
 
-        case .labelFont:
-            return .fontInfo {
-                switch self.size() {
-                case .small:
-                    return self.aliasTokens.typography[.caption1]
-                case .large:
-                    return self.aliasTokens.typography[.body2]
+            case .labelFont:
+                return .fontInfo {
+                    switch size() {
+                    case .small:
+                        return theme.aliasTokens.typography[.caption1]
+                    case .large:
+                        return theme.aliasTokens.typography[.body2]
+                    }
                 }
+
+            case .sublabelColor:
+                return .dynamicColor { theme.aliasTokens.foregroundColors[.neutral3] }
+
+            case .sublabelFont:
+                return .fontInfo { theme.aliasTokens.typography[.caption1] }
+
+            case .verticalPadding:
+                return .float { theme.globalTokens.spacing[.xSmall] }
             }
-
-        case .sublabelColor:
-            return .dynamicColor { self.aliasTokens.foregroundColors[.neutral3] }
-
-        case .sublabelFont:
-            return .fontInfo { self.aliasTokens.typography[.caption1] }
-
-        case .verticalPadding:
-            return .float { self.globalTokens.spacing[.xSmall] }
         }
     }
 

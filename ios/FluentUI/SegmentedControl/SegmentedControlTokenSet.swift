@@ -59,139 +59,132 @@ public class SegmentedControlTokenSet: ControlTokenSet<SegmentedControlTokenSet.
 
     init(style: @escaping () -> SegmentedControlStyle) {
         self.style = style
-        super.init()
-    }
-
-    @available(*, unavailable)
-    required init() {
-        preconditionFailure("init() has not been implemented")
-    }
-
-    override func defaultValue(_ token: Tokens) -> ControlTokenValue {
-        switch token {
-        case .restTabColor:
-            return .dynamicColor {
-                switch self.style() {
-                case .primaryPill:
-                    return DynamicColor(light: self.aliasTokens.backgroundColors[.neutral4].light,
-                                        dark: self.aliasTokens.backgroundColors[.neutral3].dark)
-                case .onBrandPill:
-                    return DynamicColor(light: self.aliasTokens.backgroundColors[.brandHover].light,
-                                        dark: self.aliasTokens.backgroundColors[.neutral3].dark)
+        super.init { [style] token, theme in
+            switch token {
+            case .restTabColor:
+                return .dynamicColor {
+                    switch style() {
+                    case .primaryPill:
+                        return DynamicColor(light: theme.aliasTokens.backgroundColors[.neutral4].light,
+                                            dark: theme.aliasTokens.backgroundColors[.neutral3].dark)
+                    case .onBrandPill:
+                        return DynamicColor(light: theme.aliasTokens.backgroundColors[.brandHover].light,
+                                            dark: theme.aliasTokens.backgroundColors[.neutral3].dark)
+                    }
                 }
-            }
 
-        case .selectedTabColor:
-            return .dynamicColor {
-                switch self.style() {
-                case .primaryPill:
-                    return self.aliasTokens.foregroundColors[.brandRest]
-                case .onBrandPill:
-                    return DynamicColor(light: self.aliasTokens.backgroundColors[.neutral1].light,
-                                        dark: self.globalTokens.neutralColors[.grey32])
+            case .selectedTabColor:
+                return .dynamicColor {
+                    switch style() {
+                    case .primaryPill:
+                        return theme.aliasTokens.foregroundColors[.brandRest]
+                    case .onBrandPill:
+                        return DynamicColor(light: theme.aliasTokens.backgroundColors[.neutral1].light,
+                                            dark: theme.globalTokens.neutralColors[.grey32])
+                    }
                 }
-            }
 
-        case .disabledTabColor:
-            return .dynamicColor {
-                switch self.style() {
-                case .primaryPill:
-                    return DynamicColor(light: self.globalTokens.neutralColors[.grey94],
-                                        dark: self.globalTokens.neutralColors[.grey8])
-                case .onBrandPill:
-                    return DynamicColor(light: self.globalTokens.brandColors[.shade20].light,
-                                        dark: self.globalTokens.neutralColors[.grey8])
+            case .disabledTabColor:
+                return .dynamicColor {
+                    switch style() {
+                    case .primaryPill:
+                        return DynamicColor(light: theme.globalTokens.neutralColors[.grey94],
+                                            dark: theme.globalTokens.neutralColors[.grey8])
+                    case .onBrandPill:
+                        return DynamicColor(light: theme.globalTokens.brandColors[.shade20].light,
+                                            dark: theme.globalTokens.neutralColors[.grey8])
+                    }
                 }
-            }
 
-        case .disabledSelectedTabColor:
-            return .dynamicColor {
-                switch self.style() {
-                case .primaryPill:
-                    return DynamicColor(light: self.globalTokens.neutralColors[.grey80],
-                                        dark: self.globalTokens.neutralColors[.grey30])
-                case .onBrandPill:
-                    return DynamicColor(light: self.globalTokens.neutralColors[.white],
-                                        dark: self.globalTokens.neutralColors[.grey30])
+            case .disabledSelectedTabColor:
+                return .dynamicColor {
+                    switch style() {
+                    case .primaryPill:
+                        return DynamicColor(light: theme.globalTokens.neutralColors[.grey80],
+                                            dark: theme.globalTokens.neutralColors[.grey30])
+                    case .onBrandPill:
+                        return DynamicColor(light: theme.globalTokens.neutralColors[.white],
+                                            dark: theme.globalTokens.neutralColors[.grey30])
+                    }
                 }
-            }
 
-        case .restLabelColor:
-            return .dynamicColor {
-                switch self.style() {
-                case .primaryPill:
-                    return DynamicColor(light: self.aliasTokens.foregroundColors[.neutral3].light,
-                                        dark: self.aliasTokens.foregroundColors[.neutral2].dark)
-                case .onBrandPill:
-                    return DynamicColor(light: self.aliasTokens.foregroundColors[.neutralInverted].light,
-                                        dark: self.aliasTokens.foregroundColors[.neutral2].dark)
+            case .restLabelColor:
+                return .dynamicColor {
+                    switch style() {
+                    case .primaryPill:
+                        return DynamicColor(light: theme.aliasTokens.foregroundColors[.neutral3].light,
+                                            dark: theme.aliasTokens.foregroundColors[.neutral2].dark)
+                    case .onBrandPill:
+                        return DynamicColor(light: theme.aliasTokens.foregroundColors[.neutralInverted].light,
+                                            dark: theme.aliasTokens.foregroundColors[.neutral2].dark)
+                    }
                 }
-            }
 
-        case .selectedLabelColor:
-            return .dynamicColor {
-                switch self.style() {
-                case .primaryPill:
-                    return DynamicColor(light: self.aliasTokens.backgroundColors[.neutral1].light,
-                                        dark: self.aliasTokens.foregroundColors[.neutralInverted].dark)
-                case .onBrandPill:
-                    return DynamicColor(light: self.aliasTokens.foregroundColors[.brandRest].light,
-                                        dark: self.aliasTokens.foregroundColors[.neutral1].dark)
+            case .selectedLabelColor:
+                return .dynamicColor {
+                    switch style() {
+                    case .primaryPill:
+                        return DynamicColor(light: theme.aliasTokens.backgroundColors[.neutral1].light,
+                                            dark: theme.aliasTokens.foregroundColors[.neutralInverted].dark)
+                    case .onBrandPill:
+                        return DynamicColor(light: theme.aliasTokens.foregroundColors[.brandRest].light,
+                                            dark: theme.aliasTokens.foregroundColors[.neutral1].dark)
+                    }
                 }
-            }
 
-        case .disabledLabelColor, .disabledUnreadDotColor:
-            return .dynamicColor {
-                switch self.style() {
-                case .primaryPill:
-                    return DynamicColor(light: self.globalTokens.neutralColors[.grey70],
-                                        dark: self.globalTokens.neutralColors[.grey26])
-                case .onBrandPill:
-                    return DynamicColor(light: self.globalTokens.brandColors[.shade10].light,
-                                        dark: self.globalTokens.neutralColors[.grey26])
+            case .disabledLabelColor, .disabledUnreadDotColor:
+                return .dynamicColor {
+                    switch style() {
+                    case .primaryPill:
+                        return DynamicColor(light: theme.globalTokens.neutralColors[.grey70],
+                                            dark: theme.globalTokens.neutralColors[.grey26])
+                    case .onBrandPill:
+                        return DynamicColor(light: theme.globalTokens.brandColors[.shade10].light,
+                                            dark: theme.globalTokens.neutralColors[.grey26])
+                    }
                 }
-            }
 
-        case .disabledSelectedLabelColor:
-            return .dynamicColor {
-                switch self.style() {
-                case .primaryPill:
-                    return DynamicColor(light: self.globalTokens.neutralColors[.grey94],
-                                        dark: self.globalTokens.neutralColors[.grey44])
-                case .onBrandPill:
-                    return DynamicColor(light: self.globalTokens.neutralColors[.grey74],
-                                        dark: self.globalTokens.neutralColors[.grey44])
+            case .disabledSelectedLabelColor:
+                return .dynamicColor {
+                    switch style() {
+                    case .primaryPill:
+                        return DynamicColor(light: theme.globalTokens.neutralColors[.grey94],
+                                            dark: theme.globalTokens.neutralColors[.grey44])
+                    case .onBrandPill:
+                        return DynamicColor(light: theme.globalTokens.neutralColors[.grey74],
+                                            dark: theme.globalTokens.neutralColors[.grey44])
+                    }
                 }
-            }
 
-        case .enabledUnreadDotColor:
-            return .dynamicColor {
-                switch self.style() {
-                case .primaryPill:
-                    return self.aliasTokens.foregroundColors[.brandRest]
-                case .onBrandPill:
-                    return DynamicColor(light: self.aliasTokens.foregroundColors[.neutralInverted].light,
-                                        dark: self.aliasTokens.foregroundColors[.neutral2].dark)
+            case .enabledUnreadDotColor:
+                return .dynamicColor {
+                    switch style() {
+                    case .primaryPill:
+                        return theme.aliasTokens.foregroundColors[.brandRest]
+                    case .onBrandPill:
+                        return DynamicColor(light: theme.aliasTokens.foregroundColors[.neutralInverted].light,
+                                            dark: theme.aliasTokens.foregroundColors[.neutral2].dark)
+                    }
                 }
+
+            case .verticalInset:
+                return .float { 6.0 }
+
+            case .horizontalInset:
+                return .float { theme.globalTokens.spacing[.medium] }
+
+            case .unreadDotOffsetX:
+                return .float { 6.0 }
+
+            case .unreadDotOffsetY:
+                return .float { 3.0 }
+
+            case .unreadDotSize:
+                return .float { 6.0 }
+
+            case .font:
+                return .fontInfo { theme.aliasTokens.typography[.body2] }
             }
-
-        case .verticalInset:
-            return .float { 6.0 }
-
-        case .horizontalInset:
-            return .float { self.globalTokens.spacing[.medium] }
-
-        case .unreadDotOffsetX:
-            return .float { 6.0 }
-
-        case .unreadDotOffsetY:
-            return .float { 3.0 }
-
-        case .unreadDotSize:
-            return .float { 6.0 }
-
-        case .font:
-            return .fontInfo { self.aliasTokens.typography[.body2] }
         }
     }
 

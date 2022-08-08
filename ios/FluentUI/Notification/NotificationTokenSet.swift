@@ -141,196 +141,189 @@ public class NotificationTokenSet: ControlTokenSet<NotificationTokenSet.Tokens> 
 
     init(style: @escaping () -> MSFNotificationStyle) {
         self.style = style
-        super.init()
-    }
-
-    @available(*, unavailable)
-    required init() {
-        preconditionFailure("init() has not been implemented")
-    }
-
-    override func defaultValue(_ token: Tokens) -> ControlTokenValue {
-        switch token {
-        case .backgroundColor:
-            return .dynamicColor {
-                switch self.style() {
-                case .primaryToast:
-                    return self.globalTokens.brandColors[.tint40]
-                case .neutralToast:
-                    return DynamicColor(light: ColorValue(0xF7F7F7),
-                                        dark: ColorValue(0x393939))
-                case .primaryBar:
-                    return DynamicColor(light: self.globalTokens.brandColors[.tint40].light,
-                                        dark: self.globalTokens.brandColors[.tint10].dark)
-                case .primaryOutlineBar:
-                    return DynamicColor(light: ColorValue(0xFFFFFF),
-                                        dark: ColorValue(0x393939))
-                case .neutralBar:
-                    return DynamicColor(light: ColorValue(0xDFDFDF),
-                                        dark: ColorValue(0x393939))
-                case .dangerToast:
-                    return DynamicColor(light: ColorValue(0xFDF6F6),
-                                        dark: ColorValue(0x3F1011))
-                case .warningToast:
-                    return DynamicColor(light: ColorValue(0xFFFBD6),
-                                        dark: ColorValue(0x4C4400))
+        super.init { [style] token, theme in
+            switch token {
+            case .backgroundColor:
+                return .dynamicColor {
+                    switch style() {
+                    case .primaryToast:
+                        return theme.globalTokens.brandColors[.tint40]
+                    case .neutralToast:
+                        return DynamicColor(light: ColorValue(0xF7F7F7),
+                                            dark: ColorValue(0x393939))
+                    case .primaryBar:
+                        return DynamicColor(light: theme.globalTokens.brandColors[.tint40].light,
+                                            dark: theme.globalTokens.brandColors[.tint10].dark)
+                    case .primaryOutlineBar:
+                        return DynamicColor(light: ColorValue(0xFFFFFF),
+                                            dark: ColorValue(0x393939))
+                    case .neutralBar:
+                        return DynamicColor(light: ColorValue(0xDFDFDF),
+                                            dark: ColorValue(0x393939))
+                    case .dangerToast:
+                        return DynamicColor(light: ColorValue(0xFDF6F6),
+                                            dark: ColorValue(0x3F1011))
+                    case .warningToast:
+                        return DynamicColor(light: ColorValue(0xFFFBD6),
+                                            dark: ColorValue(0x4C4400))
+                    }
                 }
-            }
 
-        case .foregroundColor:
-            return .dynamicColor {
-                switch self.style() {
-                case .primaryToast:
-                    return DynamicColor(light: self.globalTokens.brandColors[.shade10].light,
-                                        dark: self.globalTokens.brandColors[.shade30].dark)
-                case .neutralToast:
-                    return DynamicColor(light: ColorValue(0x393939),
-                                        dark: ColorValue(0xF7F7F7))
-                case .primaryBar:
-                    return DynamicColor(light: self.globalTokens.brandColors[.shade20].light,
-                                        dark: ColorValue(0x000000))
-                case .primaryOutlineBar:
-                    return DynamicColor(light: self.globalTokens.brandColors[.primary].light,
-                                        dark: ColorValue(0xF7F7F7))
-                case .neutralBar:
-                    return DynamicColor(light: ColorValue(0x090909),
-                                        dark: ColorValue(0xF7F7F7))
-                case .dangerToast:
-                    return DynamicColor(light: ColorValue(0xBC2F34),
-                                        dark: ColorValue(0xDC5F63))
-                case .warningToast:
-                    return DynamicColor(light: ColorValue(0x4C4400),
-                                        dark: ColorValue(0xFDEA3D))
+            case .foregroundColor:
+                return .dynamicColor {
+                    switch style() {
+                    case .primaryToast:
+                        return DynamicColor(light: theme.globalTokens.brandColors[.shade10].light,
+                                            dark: theme.globalTokens.brandColors[.shade30].dark)
+                    case .neutralToast:
+                        return DynamicColor(light: ColorValue(0x393939),
+                                            dark: ColorValue(0xF7F7F7))
+                    case .primaryBar:
+                        return DynamicColor(light: theme.globalTokens.brandColors[.shade20].light,
+                                            dark: ColorValue(0x000000))
+                    case .primaryOutlineBar:
+                        return DynamicColor(light: theme.globalTokens.brandColors[.primary].light,
+                                            dark: ColorValue(0xF7F7F7))
+                    case .neutralBar:
+                        return DynamicColor(light: ColorValue(0x090909),
+                                            dark: ColorValue(0xF7F7F7))
+                    case .dangerToast:
+                        return DynamicColor(light: ColorValue(0xBC2F34),
+                                            dark: ColorValue(0xDC5F63))
+                    case .warningToast:
+                        return DynamicColor(light: ColorValue(0x4C4400),
+                                            dark: ColorValue(0xFDEA3D))
+                    }
                 }
-            }
 
-        case .imageColor:
-            return .dynamicColor {
-                switch self.style() {
-                case .primaryToast:
-                    return DynamicColor(light: self.globalTokens.brandColors[.shade10].light,
-                                        dark: self.globalTokens.brandColors[.shade30].dark)
-                case .neutralToast:
-                    return DynamicColor(light: ColorValue(0x393939),
-                                        dark: ColorValue(0xF7F7F7))
-                case .primaryBar:
-                    return DynamicColor(light: self.globalTokens.brandColors[.shade20].light,
-                                        dark: ColorValue(0x000000))
-                case .primaryOutlineBar:
-                    return DynamicColor(light: self.globalTokens.brandColors[.primary].light,
-                                        dark: ColorValue(0xF7F7F7))
-                case .neutralBar:
-                    return DynamicColor(light: ColorValue(0x090909),
-                                        dark: ColorValue(0xF7F7F7))
-                case .dangerToast:
-                    return DynamicColor(light: ColorValue(0xBC2F34),
-                                        dark: ColorValue(0xDC5F63))
-                case .warningToast:
-                    return DynamicColor(light: ColorValue(0x4C4400),
-                                        dark: ColorValue(0xFDEA3D))
+            case .imageColor:
+                return .dynamicColor {
+                    switch style() {
+                    case .primaryToast:
+                        return DynamicColor(light: theme.globalTokens.brandColors[.shade10].light,
+                                            dark: theme.globalTokens.brandColors[.shade30].dark)
+                    case .neutralToast:
+                        return DynamicColor(light: ColorValue(0x393939),
+                                            dark: ColorValue(0xF7F7F7))
+                    case .primaryBar:
+                        return DynamicColor(light: theme.globalTokens.brandColors[.shade20].light,
+                                            dark: ColorValue(0x000000))
+                    case .primaryOutlineBar:
+                        return DynamicColor(light: theme.globalTokens.brandColors[.primary].light,
+                                            dark: ColorValue(0xF7F7F7))
+                    case .neutralBar:
+                        return DynamicColor(light: ColorValue(0x090909),
+                                            dark: ColorValue(0xF7F7F7))
+                    case .dangerToast:
+                        return DynamicColor(light: ColorValue(0xBC2F34),
+                                            dark: ColorValue(0xDC5F63))
+                    case .warningToast:
+                        return DynamicColor(light: ColorValue(0x4C4400),
+                                            dark: ColorValue(0xFDEA3D))
+                    }
                 }
-            }
 
-        case .cornerRadius:
-            return .float {
-                switch self.style().isToast {
-                case true:
-                    return self.globalTokens.borderRadius[.xLarge]
-                case false:
-                    return self.globalTokens.borderSize[.none]
+            case .cornerRadius:
+                return .float {
+                    switch style().isToast {
+                    case true:
+                        return theme.globalTokens.borderRadius[.xLarge]
+                    case false:
+                        return theme.globalTokens.borderSize[.none]
+                    }
                 }
-            }
 
-        case .presentationOffset:
-            return .float {
-                switch self.style().isToast {
-                case true:
-                    return self.globalTokens.spacing[.medium]
-                case false:
-                    return self.globalTokens.spacing[.none]
+            case .presentationOffset:
+                return .float {
+                    switch style().isToast {
+                    case true:
+                        return theme.globalTokens.spacing[.medium]
+                    case false:
+                        return theme.globalTokens.spacing[.none]
+                    }
                 }
-            }
 
-        case .bottomPresentationPadding:
-            return .float { 20.0 }
+            case .bottomPresentationPadding:
+                return .float { 20.0 }
 
-        case .horizontalPadding:
-            return .float { 19.0 }
+            case .horizontalPadding:
+                return .float { 19.0 }
 
-        case .verticalPadding:
-            return .float { 14.0 }
+            case .verticalPadding:
+                return .float { 14.0 }
 
-        case .verticalPaddingForOneLine:
-            return .float { 18.0 }
+            case .verticalPaddingForOneLine:
+                return .float { 18.0 }
 
-        case .horizontalSpacing:
-            return .float { 19.0 }
+            case .horizontalSpacing:
+                return .float { 19.0 }
 
-        case .minimumHeight:
-            return .float { 64.0 }
+            case .minimumHeight:
+                return .float { 64.0 }
 
-        case .minimumHeightForOneLine:
-            return .float { 56.0 }
+            case .minimumHeightForOneLine:
+                return .float { 56.0 }
 
-        case .outlineColor:
-            return .dynamicColor {
-                switch self.style() {
-                case .primaryToast, .neutralToast, .primaryBar, .neutralBar, .dangerToast, .warningToast:
-                    return DynamicColor(light: ColorValue.clear)
-                case .primaryOutlineBar:
-                    return self.aliasTokens.strokeColors[.neutral1]
+            case .outlineColor:
+                return .dynamicColor {
+                    switch style() {
+                    case .primaryToast, .neutralToast, .primaryBar, .neutralBar, .dangerToast, .warningToast:
+                        return DynamicColor(light: ColorValue.clear)
+                    case .primaryOutlineBar:
+                        return theme.aliasTokens.strokeColors[.neutral1]
+                    }
                 }
-            }
 
-        case .outlineWidth:
-            return .float { self.globalTokens.borderSize[.thin] }
+            case .outlineWidth:
+                return .float { theme.globalTokens.borderSize[.thin] }
 
-        case .ambientShadowColor:
-            return .dynamicColor {
-                switch self.style().isToast {
-                case true:
-                    return self.aliasTokens.shadow[.shadow16].colorOne
-                case false:
-                    return DynamicColor(light: ColorValue.clear)
+            case .ambientShadowColor:
+                return .dynamicColor {
+                    switch style().isToast {
+                    case true:
+                        return theme.aliasTokens.shadow[.shadow16].colorOne
+                    case false:
+                        return DynamicColor(light: ColorValue.clear)
+                    }
                 }
-            }
 
-        case .ambientShadowBlur:
-            return .float { self.aliasTokens.shadow[.shadow16].blurOne }
+            case .ambientShadowBlur:
+                return .float { theme.aliasTokens.shadow[.shadow16].blurOne }
 
-        case .ambientShadowOffsetX:
-            return .float { self.aliasTokens.shadow[.shadow16].xOne }
+            case .ambientShadowOffsetX:
+                return .float { theme.aliasTokens.shadow[.shadow16].xOne }
 
-        case .ambientShadowOffsetY:
-            return .float { self.aliasTokens.shadow[.shadow16].yOne }
+            case .ambientShadowOffsetY:
+                return .float { theme.aliasTokens.shadow[.shadow16].yOne }
 
-        case .perimeterShadowColor:
-            return .dynamicColor {
-                switch self.style().isToast {
-                case true:
-                    return self.aliasTokens.shadow[.shadow16].colorTwo
-                case false:
-                    return DynamicColor(light: ColorValue.clear)
+            case .perimeterShadowColor:
+                return .dynamicColor {
+                    switch style().isToast {
+                    case true:
+                        return theme.aliasTokens.shadow[.shadow16].colorTwo
+                    case false:
+                        return DynamicColor(light: ColorValue.clear)
+                    }
                 }
+
+            case .perimeterShadowBlur:
+                return .float { theme.aliasTokens.shadow[.shadow16].blurTwo }
+
+            case .perimeterShadowOffsetX:
+                return .float { theme.aliasTokens.shadow[.shadow16].xTwo }
+
+            case .perimeterShadowOffsetY:
+                return .float { theme.aliasTokens.shadow[.shadow16].yTwo }
+
+            case .boldTextFont:
+                return .fontInfo { theme.aliasTokens.typography[.body2Strong] }
+
+            case .regularTextFont:
+                return .fontInfo { theme.aliasTokens.typography[.body2] }
+
+            case .footnoteTextFont:
+                return .fontInfo { theme.aliasTokens.typography[.caption1] }
             }
-
-        case .perimeterShadowBlur:
-            return .float { self.aliasTokens.shadow[.shadow16].blurTwo }
-
-        case .perimeterShadowOffsetX:
-            return .float { self.aliasTokens.shadow[.shadow16].xTwo }
-
-        case .perimeterShadowOffsetY:
-            return .float { self.aliasTokens.shadow[.shadow16].yTwo }
-
-        case .boldTextFont:
-            return .fontInfo { self.aliasTokens.typography[.body2Strong] }
-
-        case .regularTextFont:
-            return .fontInfo { self.aliasTokens.typography[.body2] }
-
-        case .footnoteTextFont:
-            return .fontInfo { self.aliasTokens.typography[.caption1] }
         }
     }
 

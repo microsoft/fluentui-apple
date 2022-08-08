@@ -15,7 +15,7 @@ import SwiftUI
 }
 
 /// Design token set for the `CardNudge` control.
-public final class CardNudgeTokenSet: ControlTokenSet<CardNudgeTokenSet.Tokens> {
+public class CardNudgeTokenSet: ControlTokenSet<CardNudgeTokenSet.Tokens> {
     public enum Tokens: TokenSetKey {
         case accentColor
         case backgroundColor
@@ -40,130 +40,123 @@ public final class CardNudgeTokenSet: ControlTokenSet<CardNudgeTokenSet.Tokens> 
 
     init(style: @escaping () -> MSFCardNudgeStyle) {
         self.style = style
-        super.init()
-    }
-
-    @available(*, unavailable)
-    required init() {
-        preconditionFailure("init() has not been implemented")
-    }
-
-    override func defaultValue(_ token: Tokens) -> ControlTokenValue {
-        switch token {
-        case .accentColor:
-            return .dynamicColor {
-                self.globalTokens.brandColors[.shade20]
-            }
-
-        case .accentIconSize:
-            return .float {
-                self.globalTokens.iconSize[.xxSmall]
-            }
-
-        case .accentPadding:
-            return .float {
-                self.globalTokens.spacing[.xxSmall]
-            }
-
-        case .backgroundColor:
-            switch style() {
-            case .standard:
+        super.init { [style] token, theme in
+            switch token {
+            case .accentColor:
                 return .dynamicColor {
-                    self.aliasTokens.backgroundColors[.neutral2]
-                }
-            case .outline:
-                return .dynamicColor {
-                    self.aliasTokens.backgroundColors[.neutral1]
+                    theme.globalTokens.brandColors[.shade20]
                 }
 
-            }
-        case .buttonBackgroundColor:
-            return .dynamicColor {
-                self.globalTokens.brandColors[.tint30]
-            }
-
-        case .buttonInnerPaddingHorizontal:
-            return .float {
-                self.globalTokens.spacing[.small]
-            }
-
-        case .circleRadius:
-            return .float {
-                self.globalTokens.borderRadius[.circle]
-            }
-
-        case .circleSize:
-            return .float {
-                self.globalTokens.iconSize[.xxLarge]
-            }
-
-        case .cornerRadius:
-            return .float {
-                self.globalTokens.borderRadius[.xLarge]
-            }
-
-        case .horizontalPadding:
-            return .float {
-                self.globalTokens.spacing[.medium]
-            }
-
-        case .iconSize:
-            return .float {
-                self.globalTokens.iconSize[.xSmall]
-            }
-
-        case .interTextVerticalPadding:
-            return .float {
-                self.globalTokens.spacing[.xxxSmall]
-            }
-
-        case .mainContentVerticalPadding:
-            return .float {
-                self.globalTokens.spacing[.small]
-            }
-
-        case .minimumHeight:
-            return .float {
-                56
-            }
-
-        case .outlineColor:
-            switch style() {
-            case .standard:
-                return .dynamicColor {
-                    self.aliasTokens.backgroundColors[.neutral2]
+            case .accentIconSize:
+                return .float {
+                    theme.globalTokens.iconSize[.xxSmall]
                 }
-            case .outline:
-                return .dynamicColor {
-                    self.aliasTokens.strokeColors[.neutral1]
+
+            case .accentPadding:
+                return .float {
+                    theme.globalTokens.spacing[.xxSmall]
                 }
-            }
 
-        case .outlineWidth:
-            return .float {
-                self.globalTokens.borderSize[.thin]
-            }
+            case .backgroundColor:
+                switch style() {
+                case .standard:
+                    return .dynamicColor {
+                        theme.aliasTokens.backgroundColors[.neutral2]
+                    }
+                case .outline:
+                    return .dynamicColor {
+                        theme.aliasTokens.backgroundColors[.neutral1]
+                    }
 
-        case .subtitleTextColor:
-            return .dynamicColor {
-                self.aliasTokens.foregroundColors[.neutral3]
-            }
-
-        case .textColor:
-            switch style() {
-            case .standard:
-                return .dynamicColor {
-                    self.aliasTokens.foregroundColors[.neutral1]
                 }
-            case .outline:
+            case .buttonBackgroundColor:
                 return .dynamicColor {
-                    self.globalTokens.brandColors[.shade20]
+                    theme.globalTokens.brandColors[.tint30]
                 }
-            }
 
-        case .verticalPadding:
-            return .float {
-                self.globalTokens.spacing[.xSmall]
+            case .buttonInnerPaddingHorizontal:
+                return .float {
+                    theme.globalTokens.spacing[.small]
+                }
+
+            case .circleRadius:
+                return .float {
+                    theme.globalTokens.borderRadius[.circle]
+                }
+
+            case .circleSize:
+                return .float {
+                    theme.globalTokens.iconSize[.xxLarge]
+                }
+
+            case .cornerRadius:
+                return .float {
+                    theme.globalTokens.borderRadius[.xLarge]
+                }
+
+            case .horizontalPadding:
+                return .float {
+                    theme.globalTokens.spacing[.medium]
+                }
+
+            case .iconSize:
+                return .float {
+                    theme.globalTokens.iconSize[.xSmall]
+                }
+
+            case .interTextVerticalPadding:
+                return .float {
+                    theme.globalTokens.spacing[.xxxSmall]
+                }
+
+            case .mainContentVerticalPadding:
+                return .float {
+                    theme.globalTokens.spacing[.small]
+                }
+
+            case .minimumHeight:
+                return .float {
+                    56
+                }
+
+            case .outlineColor:
+                switch style() {
+                case .standard:
+                    return .dynamicColor {
+                        theme.aliasTokens.backgroundColors[.neutral2]
+                    }
+                case .outline:
+                    return .dynamicColor {
+                        theme.aliasTokens.strokeColors[.neutral1]
+                    }
+                }
+
+            case .outlineWidth:
+                return .float {
+                    theme.globalTokens.borderSize[.thin]
+                }
+
+            case .subtitleTextColor:
+                return .dynamicColor {
+                    theme.aliasTokens.foregroundColors[.neutral3]
+                }
+
+            case .textColor:
+                switch style() {
+                case .standard:
+                    return .dynamicColor {
+                        theme.aliasTokens.foregroundColors[.neutral1]
+                    }
+                case .outline:
+                    return .dynamicColor {
+                        theme.globalTokens.brandColors[.shade20]
+                    }
+                }
+
+            case .verticalPadding:
+                return .float {
+                    theme.globalTokens.spacing[.xSmall]
+                }
             }
         }
     }

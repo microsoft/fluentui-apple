@@ -27,36 +27,38 @@ public class PillButtonBarTokenSet: ControlTokenSet<PillButtonBarTokenSet.Tokens
         case sideInset
     }
 
-    override func defaultValue(_ token: Tokens) -> ControlTokenValue {
-        switch token {
-        case .maxButtonsSpacing:
-            return .float {
-                10
-            }
+    init() {
+        super.init { token, theme in
+            switch token {
+            case .maxButtonsSpacing:
+                return .float {
+                    10
+                }
 
-        case .minButtonsSpacing:
-            return .float {
-                self.globalTokens.spacing[.xSmall]
-            }
+            case .minButtonsSpacing:
+                return .float {
+                    theme.globalTokens.spacing[.xSmall]
+                }
 
-        case .minButtonVisibleWidth:
-            return .float {
-                self.globalTokens.spacing[.large]
-            }
+            case .minButtonVisibleWidth:
+                return .float {
+                    theme.globalTokens.spacing[.large]
+                }
 
-        case .minButtonWidth:
-            return .float {
-                56
-            }
+            case .minButtonWidth:
+                return .float {
+                    56
+                }
 
-        case .minHeight:
-            return .float {
-                28
-            }
+            case .minHeight:
+                return .float {
+                    28
+                }
 
-        case .sideInset:
-            return .float {
-                self.globalTokens.spacing[.medium]
+            case .sideInset:
+                return .float {
+                    theme.globalTokens.spacing[.medium]
+                }
             }
         }
     }

@@ -85,297 +85,290 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
          size: @escaping () -> MSFButtonSize) {
         self.style = style
         self.size = size
-        super.init()
-    }
-
-    @available(*, unavailable)
-    required init() {
-        preconditionFailure("init() has not been implemented")
-    }
-
-    override func defaultValue(_ token: Tokens) -> ControlTokenValue {
-        switch token {
-        case .borderRadius:
-            return .float {
-                switch self.size() {
-                case .small, .medium:
-                    return self.globalTokens.borderRadius[.large]
-                case .large:
-                    return self.globalTokens.borderRadius[.xLarge]
-                }
-            }
-
-        case .borderSize:
-            return .float {
-                switch self.style() {
-                case .primary, .ghost, .accentFloating, .subtleFloating:
-                    return self.globalTokens.borderSize[.none]
-                case .secondary:
-                    return self.globalTokens.borderSize[.thin]
-                }
-            }
-
-        case .iconSize:
-            return .float {
-                switch self.style() {
-                case .primary, .secondary, .ghost:
-                    switch self.size() {
-                    case .small:
-                        return self.globalTokens.iconSize[.xSmall]
-                    case .medium,
-                            .large:
-                        return self.globalTokens.iconSize[.small]
+        super.init { [style, size] token, theme in
+            switch token {
+            case .borderRadius:
+                return .float {
+                    switch size() {
+                    case .small, .medium:
+                        return theme.globalTokens.borderRadius[.large]
+                    case .large:
+                        return theme.globalTokens.borderRadius[.xLarge]
                     }
-                case .accentFloating, .subtleFloating:
-                    return self.globalTokens.iconSize[.medium]
                 }
-            }
 
-        case .interspace:
-            return .float {
-                switch self.style() {
-                case .primary, .secondary, .ghost:
-                    switch self.size() {
-                    case .small:
-                        return self.globalTokens.spacing[.xxSmall]
-                    case .medium, .large:
-                        return self.globalTokens.spacing[.xSmall]
+            case .borderSize:
+                return .float {
+                    switch style() {
+                    case .primary, .ghost, .accentFloating, .subtleFloating:
+                        return theme.globalTokens.borderSize[.none]
+                    case .secondary:
+                        return theme.globalTokens.borderSize[.thin]
                     }
-                case .accentFloating, .subtleFloating:
-                    return self.globalTokens.spacing[.xSmall]
                 }
-            }
 
-        case .horizontalPadding:
-            return .float {
-                switch self.style() {
-                case .primary, .secondary, .ghost:
-                    switch self.size() {
+            case .iconSize:
+                return .float {
+                    switch style() {
+                    case .primary, .secondary, .ghost:
+                        switch size() {
+                        case .small:
+                            return theme.globalTokens.iconSize[.xSmall]
+                        case .medium,
+                                .large:
+                            return theme.globalTokens.iconSize[.small]
+                        }
+                    case .accentFloating, .subtleFloating:
+                        return theme.globalTokens.iconSize[.medium]
+                    }
+                }
+
+            case .interspace:
+                return .float {
+                    switch style() {
+                    case .primary, .secondary, .ghost:
+                        switch size() {
+                        case .small:
+                            return theme.globalTokens.spacing[.xxSmall]
+                        case .medium, .large:
+                            return theme.globalTokens.spacing[.xSmall]
+                        }
+                    case .accentFloating, .subtleFloating:
+                        return theme.globalTokens.spacing[.xSmall]
+                    }
+                }
+
+            case .horizontalPadding:
+                return .float {
+                    switch style() {
+                    case .primary, .secondary, .ghost:
+                        switch size() {
+                        case .small:
+                            return theme.globalTokens.spacing[.xSmall]
+                        case .medium:
+                            return theme.globalTokens.spacing[.small]
+                        case .large:
+                            return theme.globalTokens.spacing[.large]
+                        }
+                    case .accentFloating:
+                        switch size() {
+                        case .small, .medium:
+                            return theme.globalTokens.spacing[.small]
+                        case .large:
+                            return theme.globalTokens.spacing[.medium]
+                        }
+                    case .subtleFloating:
+                        switch size() {
+                        case .small, .medium:
+                            return theme.globalTokens.spacing[.small]
+                        case .large:
+                            return theme.globalTokens.spacing[.medium]
+                        }
+                    }
+                }
+
+            case .textFont:
+                return .fontInfo {
+                    switch style() {
+                    case .primary, .secondary, .ghost:
+                        switch size() {
+                        case .small, .medium:
+                            return theme.aliasTokens.typography[.caption1Strong]
+                        case .large:
+                            return theme.aliasTokens.typography[.body1Strong]
+                        }
+                    case .accentFloating:
+                        switch size() {
+                        case .small, .medium:
+                            return theme.aliasTokens.typography[.body2Strong]
+                        case .large:
+                            return theme.aliasTokens.typography[.body1Strong]
+                        }
+                    case .subtleFloating:
+                        switch size() {
+                        case .small, .medium:
+                            return theme.aliasTokens.typography[.body2Strong]
+                        case .large:
+                            return theme.aliasTokens.typography[.body1Strong]
+                        }
+                    }
+                }
+
+            case .textMinimumHeight:
+                return .float { theme.globalTokens.iconSize[.medium] }
+
+            case .textAdditionalHorizontalPadding:
+                return .float {
+                    switch size() {
+                    case .small, .medium:
+                        return theme.globalTokens.spacing[.xSmall]
+                    case .large:
+                        return theme.globalTokens.spacing[.xxSmall]
+                    }
+                }
+
+            case .textColor:
+                return .buttonDynamicColors {
+                    switch style() {
+                    case .primary, .accentFloating:
+                        return .init(
+                            rest: theme.aliasTokens.foregroundColors[.neutralInverted],
+                            hover: theme.aliasTokens.foregroundColors[.neutralInverted],
+                            pressed: theme.aliasTokens.foregroundColors[.neutralInverted],
+                            selected: theme.aliasTokens.foregroundColors[.neutralInverted],
+                            disabled: theme.aliasTokens.foregroundColors[.neutralInverted]
+                        )
+                    case .subtleFloating:
+                        return .init(
+                            rest: theme.aliasTokens.foregroundColors[.neutral3],
+                            hover: theme.aliasTokens.foregroundColors[.neutral3],
+                            pressed: theme.aliasTokens.foregroundColors[.neutral3],
+                            selected: theme.aliasTokens.foregroundColors[.brandRest],
+                            disabled: theme.aliasTokens.foregroundColors[.neutralDisabled]
+                        )
+                    case .secondary, .ghost:
+                        return .init(
+                            rest: theme.aliasTokens.foregroundColors[.brandRest],
+                            hover: theme.aliasTokens.foregroundColors[.brandHover],
+                            pressed: theme.aliasTokens.foregroundColors[.brandPressed],
+                            selected: theme.aliasTokens.foregroundColors[.brandSelected],
+                            disabled: theme.aliasTokens.foregroundColors[.brandDisabled]
+                        )
+                    }
+                }
+
+            case .borderColor:
+                return .buttonDynamicColors {
+                    switch style() {
+                    case .primary:
+                        return .init(
+                            rest: theme.aliasTokens.backgroundColors[.brandRest],
+                            hover: theme.aliasTokens.backgroundColors[.brandHover],
+                            pressed: theme.aliasTokens.backgroundColors[.brandPressed],
+                            selected: theme.aliasTokens.backgroundColors[.brandSelected],
+                            disabled: theme.aliasTokens.backgroundColors[.brandDisabled]
+                        )
+                    case .secondary, .accentFloating, .subtleFloating:
+                        return .init(
+                            rest: theme.aliasTokens.backgroundColors[.brandRest],
+                            hover: theme.aliasTokens.backgroundColors[.brandHover],
+                            pressed: theme.aliasTokens.backgroundColors[.brandPressed],
+                            selected: theme.aliasTokens.backgroundColors[.brandSelected],
+                            disabled: theme.aliasTokens.backgroundColors[.brandDisabled]
+                        )
+                    case .ghost:
+                        return .init(
+                            rest: DynamicColor(light: ColorValue.clear),
+                            hover: DynamicColor(light: ColorValue.clear),
+                            pressed: DynamicColor(light: ColorValue.clear),
+                            selected: DynamicColor(light: ColorValue.clear),
+                            disabled: DynamicColor(light: ColorValue.clear)
+                        )
+                    }
+                }
+
+            case .backgroundColor:
+                return .buttonDynamicColors {
+                    switch style() {
+                    case .primary, .accentFloating:
+                        return .init(
+                            rest: theme.aliasTokens.backgroundColors[.brandRest],
+                            hover: theme.aliasTokens.backgroundColors[.brandHover],
+                            pressed: theme.aliasTokens.backgroundColors[.brandPressed],
+                            selected: theme.aliasTokens.backgroundColors[.brandSelected],
+                            disabled: theme.aliasTokens.backgroundColors[.brandDisabled]
+                        )
+                    case .secondary, .ghost:
+                        return .init(
+                            rest: DynamicColor(light: ColorValue.clear),
+                            hover: DynamicColor(light: ColorValue.clear),
+                            pressed: DynamicColor(light: ColorValue.clear),
+                            selected: DynamicColor(light: ColorValue.clear),
+                            disabled: DynamicColor(light: ColorValue.clear)
+                        )
+                    case .subtleFloating:
+                        return .init(
+                            rest: theme.aliasTokens.backgroundColors[.neutral1],
+                            hover: theme.aliasTokens.backgroundColors[.neutral1],
+                            pressed: theme.aliasTokens.backgroundColors[.neutral5],
+                            selected: theme.aliasTokens.backgroundColors[.neutral1],
+                            disabled: theme.aliasTokens.backgroundColors[.neutral1]
+                        )
+                    }
+                }
+
+            case .iconColor:
+                return .buttonDynamicColors {
+                    switch style() {
+                    case .primary, .accentFloating:
+                        return .init(
+                            rest: theme.aliasTokens.foregroundColors[.neutralInverted],
+                            hover: theme.aliasTokens.foregroundColors[.neutralInverted],
+                            pressed: theme.aliasTokens.foregroundColors[.neutralInverted],
+                            selected: theme.aliasTokens.foregroundColors[.neutralInverted],
+                            disabled: theme.aliasTokens.foregroundColors[.neutralInverted]
+                        )
+                    case .secondary, .ghost:
+                        return .init(
+                            rest: theme.aliasTokens.foregroundColors[.brandRest],
+                            hover: theme.aliasTokens.foregroundColors[.brandHover],
+                            pressed: theme.aliasTokens.foregroundColors[.brandPressed],
+                            selected: theme.aliasTokens.foregroundColors[.brandSelected],
+                            disabled: theme.aliasTokens.foregroundColors[.brandDisabled]
+                        )
+                    case .subtleFloating:
+                        return .init(
+                            rest: theme.aliasTokens.foregroundColors[.neutral3],
+                            hover: theme.aliasTokens.foregroundColors[.neutral3],
+                            pressed: theme.aliasTokens.foregroundColors[.neutral3],
+                            selected: theme.aliasTokens.foregroundColors[.brandRest],
+                            disabled: theme.aliasTokens.foregroundColors[.neutralDisabled]
+                        )
+                    }
+                }
+
+            case .restShadow:
+                return .shadowInfo { theme.aliasTokens.elevation[.interactiveElevation1Rest] }
+
+            case .pressedShadow:
+                return .shadowInfo { theme.aliasTokens.elevation[.interactiveElevation1Pressed] }
+
+            case .minHeight:
+                return .float {
+                    switch style() {
+                    case .primary, .secondary, .ghost:
+                        switch size() {
+                        case .small:
+                            return 28
+                        case .medium:
+                            return 40
+                        case .large:
+                            return 52
+                        }
+                    case .accentFloating, .subtleFloating:
+                        switch size() {
+                        case .small, .medium:
+                            return 48
+                        case .large:
+                            return 56
+                        }
+                    }
+                }
+
+            case .minVerticalPadding:
+                return .float {
+                    switch size() {
                     case .small:
-                        return self.globalTokens.spacing[.xSmall]
+                        return 5
                     case .medium:
-                        return self.globalTokens.spacing[.small]
+                        return 10
                     case .large:
-                        return self.globalTokens.spacing[.large]
+                        return 15
                     }
-                case .accentFloating:
-                    switch self.size() {
-                    case .small, .medium:
-                        return self.globalTokens.spacing[.small]
-                    case .large:
-                        return self.globalTokens.spacing[.medium]
-                    }
-                case .subtleFloating:
-                    switch self.size() {
-                    case .small, .medium:
-                        return self.globalTokens.spacing[.small]
-                    case .large:
-                        return self.globalTokens.spacing[.medium]
-                    }
-                }
-            }
-
-        case .textFont:
-            return .fontInfo {
-                switch self.style() {
-                case .primary, .secondary, .ghost:
-                    switch self.size() {
-                    case .small, .medium:
-                        return self.aliasTokens.typography[.caption1Strong]
-                    case .large:
-                        return self.aliasTokens.typography[.body1Strong]
-                    }
-                case .accentFloating:
-                    switch self.size() {
-                    case .small, .medium:
-                        return self.aliasTokens.typography[.body2Strong]
-                    case .large:
-                        return self.aliasTokens.typography[.body1Strong]
-                    }
-                case .subtleFloating:
-                    switch self.size() {
-                    case .small, .medium:
-                        return self.aliasTokens.typography[.body2Strong]
-                    case .large:
-                        return self.aliasTokens.typography[.body1Strong]
-                    }
-                }
-            }
-
-        case .textMinimumHeight:
-            return .float { self.globalTokens.iconSize[.medium] }
-
-        case .textAdditionalHorizontalPadding:
-            return .float {
-                switch self.size() {
-                case .small, .medium:
-                    return self.globalTokens.spacing[.xSmall]
-                case .large:
-                    return self.globalTokens.spacing[.xxSmall]
-                }
-            }
-
-        case .textColor:
-            return .buttonDynamicColors {
-                switch self.style() {
-                case .primary, .accentFloating:
-                    return .init(
-                        rest: self.aliasTokens.foregroundColors[.neutralInverted],
-                        hover: self.aliasTokens.foregroundColors[.neutralInverted],
-                        pressed: self.aliasTokens.foregroundColors[.neutralInverted],
-                        selected: self.aliasTokens.foregroundColors[.neutralInverted],
-                        disabled: self.aliasTokens.foregroundColors[.neutralInverted]
-                    )
-                case .subtleFloating:
-                    return .init(
-                        rest: self.aliasTokens.foregroundColors[.neutral3],
-                        hover: self.aliasTokens.foregroundColors[.neutral3],
-                        pressed: self.aliasTokens.foregroundColors[.neutral3],
-                        selected: self.aliasTokens.foregroundColors[.brandRest],
-                        disabled: self.aliasTokens.foregroundColors[.neutralDisabled]
-                    )
-                case .secondary, .ghost:
-                    return .init(
-                        rest: self.aliasTokens.foregroundColors[.brandRest],
-                        hover: self.aliasTokens.foregroundColors[.brandHover],
-                        pressed: self.aliasTokens.foregroundColors[.brandPressed],
-                        selected: self.aliasTokens.foregroundColors[.brandSelected],
-                        disabled: self.aliasTokens.foregroundColors[.brandDisabled]
-                    )
-                }
-            }
-
-        case .borderColor:
-            return .buttonDynamicColors {
-                switch self.style() {
-                case .primary:
-                    return .init(
-                        rest: self.aliasTokens.backgroundColors[.brandRest],
-                        hover: self.aliasTokens.backgroundColors[.brandHover],
-                        pressed: self.aliasTokens.backgroundColors[.brandPressed],
-                        selected: self.aliasTokens.backgroundColors[.brandSelected],
-                        disabled: self.aliasTokens.backgroundColors[.brandDisabled]
-                    )
-                case .secondary, .accentFloating, .subtleFloating:
-                    return .init(
-                        rest: self.aliasTokens.backgroundColors[.brandRest],
-                        hover: self.aliasTokens.backgroundColors[.brandHover],
-                        pressed: self.aliasTokens.backgroundColors[.brandPressed],
-                        selected: self.aliasTokens.backgroundColors[.brandSelected],
-                        disabled: self.aliasTokens.backgroundColors[.brandDisabled]
-                    )
-                case .ghost:
-                    return .init(
-                        rest: DynamicColor(light: ColorValue.clear),
-                        hover: DynamicColor(light: ColorValue.clear),
-                        pressed: DynamicColor(light: ColorValue.clear),
-                        selected: DynamicColor(light: ColorValue.clear),
-                        disabled: DynamicColor(light: ColorValue.clear)
-                    )
-                }
-            }
-
-        case .backgroundColor:
-            return .buttonDynamicColors {
-                switch self.style() {
-                case .primary, .accentFloating:
-                    return .init(
-                        rest: self.aliasTokens.backgroundColors[.brandRest],
-                        hover: self.aliasTokens.backgroundColors[.brandHover],
-                        pressed: self.aliasTokens.backgroundColors[.brandPressed],
-                        selected: self.aliasTokens.backgroundColors[.brandSelected],
-                        disabled: self.aliasTokens.backgroundColors[.brandDisabled]
-                    )
-                case .secondary, .ghost:
-                    return .init(
-                        rest: DynamicColor(light: ColorValue.clear),
-                        hover: DynamicColor(light: ColorValue.clear),
-                        pressed: DynamicColor(light: ColorValue.clear),
-                        selected: DynamicColor(light: ColorValue.clear),
-                        disabled: DynamicColor(light: ColorValue.clear)
-                    )
-                case .subtleFloating:
-                    return .init(
-                        rest: self.aliasTokens.backgroundColors[.neutral1],
-                        hover: self.aliasTokens.backgroundColors[.neutral1],
-                        pressed: self.aliasTokens.backgroundColors[.neutral5],
-                        selected: self.aliasTokens.backgroundColors[.neutral1],
-                        disabled: self.aliasTokens.backgroundColors[.neutral1]
-                    )
-                }
-            }
-
-        case .iconColor:
-            return .buttonDynamicColors {
-                switch self.style() {
-                case .primary, .accentFloating:
-                    return .init(
-                        rest: self.aliasTokens.foregroundColors[.neutralInverted],
-                        hover: self.aliasTokens.foregroundColors[.neutralInverted],
-                        pressed: self.aliasTokens.foregroundColors[.neutralInverted],
-                        selected: self.aliasTokens.foregroundColors[.neutralInverted],
-                        disabled: self.aliasTokens.foregroundColors[.neutralInverted]
-                    )
-                case .secondary, .ghost:
-                    return .init(
-                        rest: self.aliasTokens.foregroundColors[.brandRest],
-                        hover: self.aliasTokens.foregroundColors[.brandHover],
-                        pressed: self.aliasTokens.foregroundColors[.brandPressed],
-                        selected: self.aliasTokens.foregroundColors[.brandSelected],
-                        disabled: self.aliasTokens.foregroundColors[.brandDisabled]
-                    )
-                case .subtleFloating:
-                    return .init(
-                        rest: self.aliasTokens.foregroundColors[.neutral3],
-                        hover: self.aliasTokens.foregroundColors[.neutral3],
-                        pressed: self.aliasTokens.foregroundColors[.neutral3],
-                        selected: self.aliasTokens.foregroundColors[.brandRest],
-                        disabled: self.aliasTokens.foregroundColors[.neutralDisabled]
-                    )
-                }
-            }
-
-        case .restShadow:
-            return .shadowInfo { self.aliasTokens.elevation[.interactiveElevation1Rest] }
-
-        case .pressedShadow:
-            return .shadowInfo { self.aliasTokens.elevation[.interactiveElevation1Pressed] }
-
-        case .minHeight:
-            return .float {
-                switch self.style() {
-                case .primary, .secondary, .ghost:
-                    switch self.size() {
-                    case .small:
-                        return 28
-                    case .medium:
-                        return 40
-                    case .large:
-                        return 52
-                    }
-                case .accentFloating, .subtleFloating:
-                    switch self.size() {
-                    case .small, .medium:
-                        return 48
-                    case .large:
-                        return 56
-                    }
-                }
-            }
-
-        case .minVerticalPadding:
-            return .float {
-                switch self.size() {
-                case .small:
-                    return 5
-                case .medium:
-                    return 10
-                case .large:
-                    return 15
                 }
             }
         }
-        }
+    }
 
     /// Defines the style of the button.
     var style: () -> MSFButtonStyle

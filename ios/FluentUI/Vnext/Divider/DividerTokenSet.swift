@@ -24,28 +24,21 @@ public class DividerTokenSet: ControlTokenSet<DividerTokenSet.Tokens> {
 
     init(spacing: @escaping () -> MSFDividerSpacing) {
         self.spacing = spacing
-        super.init()
-    }
-
-    @available(*, unavailable)
-    required init() {
-        preconditionFailure("init() has not been implemented")
-    }
-
-    override func defaultValue(_ token: Tokens) -> ControlTokenValue {
-        switch token {
-        case .padding:
-            return .float {
-                switch self.spacing() {
-                case .none:
-                    return self.globalTokens.spacing[.none]
-                case .medium:
-                    return self.globalTokens.spacing[.medium]
+        super.init { [spacing] token, theme in
+            switch token {
+            case .padding:
+                return .float {
+                    switch spacing() {
+                    case .none:
+                        return theme.globalTokens.spacing[.none]
+                    case .medium:
+                        return theme.globalTokens.spacing[.medium]
+                    }
                 }
-            }
 
-        case .color:
-            return .dynamicColor { self.aliasTokens.strokeColors[.neutral2] }
+            case .color:
+                return .dynamicColor { theme.aliasTokens.strokeColors[.neutral2] }
+            }
         }
     }
 

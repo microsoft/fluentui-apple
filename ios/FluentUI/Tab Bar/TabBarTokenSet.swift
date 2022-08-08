@@ -31,39 +31,41 @@ public class TabBarTokenSet: ControlTokenSet<TabBarTokenSet.Tokens> {
 
     }
 
-    override func defaultValue(_ token: Tokens) -> ControlTokenValue {
-        switch token {
-        case .phonePortraitHeight:
-            return .float { 48.0 }
+    init() {
+        super.init { token, theme in
+            switch token {
+            case .phonePortraitHeight:
+                return .float { 48.0 }
 
-        case .phoneLandscapeHeight:
-            return .float { 40.0 }
+            case .phoneLandscapeHeight:
+                return .float { 40.0 }
 
-        case .padHeight:
-            return .float { 48.0 }
+            case .padHeight:
+                return .float { 48.0 }
 
-        case .tabBarItemSelectedColor:
-            return .dynamicColor {
-                assertionFailure("TabBarItem tokens are placeholders and should not be read.")
-                return self.aliasTokens.foregroundColors[.neutral1]
-            }
+            case .tabBarItemSelectedColor:
+                return .dynamicColor {
+                    assertionFailure("TabBarItem tokens are placeholders and should not be read.")
+                    return theme.aliasTokens.foregroundColors[.neutral1]
+                }
 
-        case .tabBarItemUnselectedColor:
-            return .dynamicColor {
-                assertionFailure("TabBarItem tokens are placeholders and should not be read.")
-                return self.aliasTokens.foregroundColors[.neutral1]
-            }
+            case .tabBarItemUnselectedColor:
+                return .dynamicColor {
+                    assertionFailure("TabBarItem tokens are placeholders and should not be read.")
+                    return theme.aliasTokens.foregroundColors[.neutral1]
+                }
 
-        case .tabBarItemTitleLabelFontPortrait:
-            return .fontInfo {
-                assertionFailure("TabBarItem tokens are placeholders and should not be read.")
-                return self.aliasTokens.typography[.body1]
-            }
+            case .tabBarItemTitleLabelFontPortrait:
+                return .fontInfo {
+                    assertionFailure("TabBarItem tokens are placeholders and should not be read.")
+                    return theme.aliasTokens.typography[.body1]
+                }
 
-        case .tabBarItemTitleLabelFontLandscape:
-            return .fontInfo {
-                assertionFailure("TabBarItem tokens are placeholders and should not be read.")
-                return self.aliasTokens.typography[.body1]
+            case .tabBarItemTitleLabelFontLandscape:
+                return .fontInfo {
+                    assertionFailure("TabBarItem tokens are placeholders and should not be read.")
+                    return theme.aliasTokens.typography[.body1]
+                }
             }
         }
     }

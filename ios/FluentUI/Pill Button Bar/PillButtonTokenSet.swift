@@ -62,103 +62,96 @@ public class PillButtonTokenSet: ControlTokenSet<PillButtonTokenSet.Tokens> {
 
     init(style: @escaping () -> PillButtonStyle) {
         self.style = style
-        super.init()
-    }
-
-    @available(*, unavailable)
-    required init() {
-        preconditionFailure("init() has not been implemented")
-    }
-
-    override func defaultValue(_ token: Tokens) -> ControlTokenValue {
-        switch token {
-        case .backgroundColor:
-            return .pillButtonDynamicColors {
-                switch self.style() {
-                case .primary:
-                    return .init(rest: DynamicColor(light: self.aliasTokens.backgroundColors[.neutral4].light,
-                                                    dark: self.aliasTokens.backgroundColors[.neutral3].dark),
-                                 selected: self.aliasTokens.foregroundColors[.brandRest],
-                                 disabled: DynamicColor(light: self.globalTokens.neutralColors[.grey94],
-                                                        dark: self.globalTokens.neutralColors[.grey8]),
-                                 selectedDisabled: DynamicColor(light: self.globalTokens.neutralColors[.grey80],
-                                                                dark: self.globalTokens.neutralColors[.grey30]))
-                case .onBrand:
-                    return .init(rest: DynamicColor(light: self.aliasTokens.backgroundColors[.brandHover].light,
-                                                    dark: self.aliasTokens.backgroundColors[.neutral3].dark),
-                                 selected: DynamicColor(light: self.aliasTokens.backgroundColors[.neutral1].light,
-                                                        dark: self.globalTokens.neutralColors[.grey32]),
-                                 disabled: DynamicColor(light: self.globalTokens.brandColors[.shade20].light,
-                                                        dark: self.globalTokens.neutralColors[.grey8]),
-                                 selectedDisabled: DynamicColor(light: self.globalTokens.neutralColors[.white],
-                                                                dark: self.globalTokens.neutralColors[.grey30]))
+        super.init { [style] token, theme in
+            switch token {
+            case .backgroundColor:
+                return .pillButtonDynamicColors {
+                    switch style() {
+                    case .primary:
+                        return .init(rest: DynamicColor(light: theme.aliasTokens.backgroundColors[.neutral4].light,
+                                                        dark: theme.aliasTokens.backgroundColors[.neutral3].dark),
+                                     selected: theme.aliasTokens.foregroundColors[.brandRest],
+                                     disabled: DynamicColor(light: theme.globalTokens.neutralColors[.grey94],
+                                                            dark: theme.globalTokens.neutralColors[.grey8]),
+                                     selectedDisabled: DynamicColor(light: theme.globalTokens.neutralColors[.grey80],
+                                                                    dark: theme.globalTokens.neutralColors[.grey30]))
+                    case .onBrand:
+                        return .init(rest: DynamicColor(light: theme.aliasTokens.backgroundColors[.brandHover].light,
+                                                        dark: theme.aliasTokens.backgroundColors[.neutral3].dark),
+                                     selected: DynamicColor(light: theme.aliasTokens.backgroundColors[.neutral1].light,
+                                                            dark: theme.globalTokens.neutralColors[.grey32]),
+                                     disabled: DynamicColor(light: theme.globalTokens.brandColors[.shade20].light,
+                                                            dark: theme.globalTokens.neutralColors[.grey8]),
+                                     selectedDisabled: DynamicColor(light: theme.globalTokens.neutralColors[.white],
+                                                                    dark: theme.globalTokens.neutralColors[.grey30]))
+                    }
                 }
-            }
 
-        case .titleColor:
-            return .pillButtonDynamicColors {
-                switch self.style() {
-                case .primary:
-                    return .init(rest: DynamicColor(light: self.aliasTokens.foregroundColors[.neutral3].light,
-                                                    dark: self.aliasTokens.foregroundColors[.neutral2].dark),
-                                 selected: DynamicColor(light: self.aliasTokens.backgroundColors[.neutral1].light,
-                                                        dark: self.aliasTokens.foregroundColors[.neutralInverted].dark),
-                                 disabled: DynamicColor(light: self.globalTokens.neutralColors[.grey70],
-                                                        dark: self.globalTokens.neutralColors[.grey26]),
-                                 selectedDisabled: DynamicColor(light: self.globalTokens.neutralColors[.grey94],
-                                                                dark: self.globalTokens.neutralColors[.grey44]))
-                case .onBrand:
-                    return .init(rest: DynamicColor(light: self.aliasTokens.foregroundColors[.neutralInverted].light,
-                                                    dark: self.aliasTokens.foregroundColors[.neutral2].dark),
-                                 selected: DynamicColor(light: self.aliasTokens.foregroundColors[.brandRest].light,
-                                                        dark: self.aliasTokens.foregroundColors[.neutral1].dark),
-                                 disabled: DynamicColor(light: self.globalTokens.brandColors[.shade10].light,
-                                                        dark: self.globalTokens.neutralColors[.grey26]),
-                                 selectedDisabled: DynamicColor(light: self.globalTokens.neutralColors[.grey74],
-                                                                dark: self.globalTokens.neutralColors[.grey44]))
+            case .titleColor:
+                return .pillButtonDynamicColors {
+                    switch style() {
+                    case .primary:
+                        return .init(rest: DynamicColor(light: theme.aliasTokens.foregroundColors[.neutral3].light,
+                                                        dark: theme.aliasTokens.foregroundColors[.neutral2].dark),
+                                     selected: DynamicColor(light: theme.aliasTokens.backgroundColors[.neutral1].light,
+                                                            dark: theme.aliasTokens.foregroundColors[.neutralInverted].dark),
+                                     disabled: DynamicColor(light: theme.globalTokens.neutralColors[.grey70],
+                                                            dark: theme.globalTokens.neutralColors[.grey26]),
+                                     selectedDisabled: DynamicColor(light: theme.globalTokens.neutralColors[.grey94],
+                                                                    dark: theme.globalTokens.neutralColors[.grey44]))
+                    case .onBrand:
+                        return .init(rest: DynamicColor(light: theme.aliasTokens.foregroundColors[.neutralInverted].light,
+                                                        dark: theme.aliasTokens.foregroundColors[.neutral2].dark),
+                                     selected: DynamicColor(light: theme.aliasTokens.foregroundColors[.brandRest].light,
+                                                            dark: theme.aliasTokens.foregroundColors[.neutral1].dark),
+                                     disabled: DynamicColor(light: theme.globalTokens.brandColors[.shade10].light,
+                                                            dark: theme.globalTokens.neutralColors[.grey26]),
+                                     selectedDisabled: DynamicColor(light: theme.globalTokens.neutralColors[.grey74],
+                                                                    dark: theme.globalTokens.neutralColors[.grey44]))
+                    }
                 }
-            }
 
-        case .enabledUnreadDotColor:
-            return .dynamicColor {
-                switch self.style() {
-                case .primary:
-                    return self.aliasTokens.foregroundColors[.brandRest]
-                case .onBrand:
-                    return DynamicColor(light: self.aliasTokens.foregroundColors[.neutralInverted].light, dark: self.aliasTokens.foregroundColors[.neutral2].dark)
+            case .enabledUnreadDotColor:
+                return .dynamicColor {
+                    switch style() {
+                    case .primary:
+                        return theme.aliasTokens.foregroundColors[.brandRest]
+                    case .onBrand:
+                        return DynamicColor(light: theme.aliasTokens.foregroundColors[.neutralInverted].light, dark: theme.aliasTokens.foregroundColors[.neutral2].dark)
+                    }
                 }
-            }
 
-        case .disabledUnreadDotColor:
-            return .dynamicColor {
-                switch self.style() {
-                case .primary:
-                    return DynamicColor(light: self.globalTokens.neutralColors[.grey70], dark: self.globalTokens.neutralColors[.grey26])
-                case .onBrand:
-                    return DynamicColor(light: self.globalTokens.brandColors[.shade10].light, dark: self.globalTokens.neutralColors[.grey26])
+            case .disabledUnreadDotColor:
+                return .dynamicColor {
+                    switch style() {
+                    case .primary:
+                        return DynamicColor(light: theme.globalTokens.neutralColors[.grey70], dark: theme.globalTokens.neutralColors[.grey26])
+                    case .onBrand:
+                        return DynamicColor(light: theme.globalTokens.brandColors[.shade10].light, dark: theme.globalTokens.neutralColors[.grey26])
+                    }
                 }
+
+            case .topInset:
+                return .float { 6.0 }
+
+            case .bottomInset:
+                return .float { 6.0 }
+
+            case .horizontalInset:
+                return .float { theme.globalTokens.spacing[.medium] }
+
+            case .unreadDotOffsetX:
+                return .float { 6.0 }
+
+            case .unreadDotOffsetY:
+                return .float { 3.0 }
+
+            case .unreadDotSize:
+                return .float { 6.0 }
+
+            case .font:
+                return .fontInfo { theme.aliasTokens.typography[.body2] }
             }
-
-        case .topInset:
-            return .float { 6.0 }
-
-        case .bottomInset:
-            return .float { 6.0 }
-
-        case .horizontalInset:
-            return .float { self.globalTokens.spacing[.medium] }
-
-        case .unreadDotOffsetX:
-            return .float { 6.0 }
-
-        case .unreadDotOffsetY:
-            return .float { 3.0 }
-
-        case .unreadDotSize:
-            return .float { 6.0 }
-
-        case .font:
-            return .fontInfo { self.aliasTokens.typography[.body2] }
         }
     }
 
