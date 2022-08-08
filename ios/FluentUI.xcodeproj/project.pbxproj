@@ -1723,7 +1723,6 @@
 				53097D1D2702890900A6E4DC /* ListCellTokenSet.swift in Sources */,
 				D6A0124A2810764B00C90535 /* TabBarTokenSet.swift in Sources */,
 				5314E05A25F00EF50099271A /* CalendarViewLayout.swift in Sources */,
-				ECD7EE882863CD470022E737 /* NotificationTokens.swift in Sources */,
 				5314E1B025F01A980099271A /* Tooltip.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
