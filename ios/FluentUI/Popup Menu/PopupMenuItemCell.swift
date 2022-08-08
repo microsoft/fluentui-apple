@@ -89,6 +89,24 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
         contentView.addSubview(accessoryImageView)
 
         isAccessibilityElement = true
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+    }
+
+    override func didMoveToWindow() {
+        super.didMoveToWindow()
+        updateColors()
+    }
+
+    @objc override func themeDidChange(_ notification: Notification) {
+        super.themeDidChange(notification)
+        guard let window = window, window.isEqual(notification.object) else {
+            return
+        }
+        updateColors()
     }
 
     func setup(item: PopupMenuTemplateItem) {
@@ -163,11 +181,6 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
         }
     }
 
-    override func didMoveToWindow() {
-        super.didMoveToWindow()
-        updateSelectionColors()
-    }
-
     private func updateAccessibilityTraits() {
         if isHeader {
             accessibilityTraits.remove(.button)
@@ -187,32 +200,30 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
         subtitleLabel.alpha = alpha
         customAccessoryView?.alpha = alpha
 
-        updateSelectionColors()
+        updateColors()
 
         _imageView.isHighlighted = isSelected
     }
 
-    private func updateSelectionColors() {
-        if let window = window {
-            if let item = item {
-                _imageView.tintColor = isSelected
-                    ? item.imageSelectedColor ?? Colors.primary(for: window)
-                    : item.imageColor
-                titleLabel.textColor = isSelected
-                    ? item.titleSelectedColor ?? Colors.primary(for: window)
-                    : item.titleColor
-                subtitleLabel.textColor = isSelected
-                    ? item.subtitleSelectedColor ?? Colors.primary(for: window)
-                    : item.subtitleColor
-                backgroundColor = item.backgroundColor
-            }
+    private func updateColors() {
+        if let item = item {
+            _imageView.tintColor = isSelected
+                ? item.imageSelectedColor ?? UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1])
+            : item.imageColor
+            titleLabel.textColor = isSelected
+            ? item.titleSelectedColor ?? UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1])
+                : item.titleColor
+            subtitleLabel.textColor = isSelected
+                ? item.subtitleSelectedColor ?? UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1])
+                : item.subtitleColor
+            backgroundColor = item.backgroundColor
+        }
 
-            if isSelected && item?.isAccessoryCheckmarkVisible == true {
-                _accessoryType = .checkmark
-                accessoryTypeView?.customTintColor = item?.accessoryCheckmarkColor ?? Colors.primary(for: window)
-            } else {
-                _accessoryType = .none
-            }
+        if isSelected && item?.isAccessoryCheckmarkVisible == true {
+            _accessoryType = .checkmark
+            accessoryTypeView?.customTintColor = item?.accessoryCheckmarkColor ?? UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1])
+        } else {
+            _accessoryType = .none
         }
     }
 }

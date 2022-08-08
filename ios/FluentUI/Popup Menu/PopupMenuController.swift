@@ -5,14 +5,6 @@
 
 import UIKit
 
-// MARK: PopupMenu Colors
-
-public extension Colors {
-    struct PopupMenu {
-        public static var description: UIColor = textSecondary
-    }
-}
-
 // MARK: - PopupMenuController Colors
 
 /**
@@ -26,7 +18,6 @@ public extension Colors {
 open class PopupMenuController: DrawerController {
     private struct Constants {
         static let minimumContentWidth: CGFloat = 250
-
         static let descriptionHorizontalMargin: CGFloat = 16
         static let descriptionVerticalMargin: CGFloat = 12
     }
@@ -184,7 +175,6 @@ open class PopupMenuController: DrawerController {
     }()
     private let descriptionLabel: Label = {
         let label = Label(style: .footnote)
-        label.textColor = Colors.PopupMenu.description
         label.textAlignment = .center
         label.numberOfLines = 0
         return label
@@ -221,6 +211,19 @@ open class PopupMenuController: DrawerController {
     open override func initialize() {
         super.initialize()
         initTableView()
+        updateDescriptionLabelColor()
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+    }
+
+    private func updateDescriptionLabelColor() {
+        descriptionLabel.textColor = UIColor(dynamicColor: tableView.fluentTheme.aliasTokens.colors[.foreground2])
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        updateDescriptionLabelColor()
     }
 
     open override func didDismiss() {
