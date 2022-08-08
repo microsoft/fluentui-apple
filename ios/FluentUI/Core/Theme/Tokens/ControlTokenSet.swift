@@ -9,10 +9,6 @@ import Combine
 
 /// Base class for all Fluent control tokenization.
 public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
-    init(_ defaults: @escaping (_ token: T, _ theme: FluentTheme) -> ControlTokenValue) {
-        self.defaults = defaults
-    }
-
     /// Allows us to index into this token set using square brackets.
     ///
     /// We can use square brackets to both read and write into this `TokenSet`. For example:
@@ -56,6 +52,11 @@ public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
                 self.removeOverride(token)
             }
         }
+    }
+
+    /// Initialize the `ControlTokenSet` with an escaping callback for fetching default values.
+    init(_ defaults: @escaping (_ token: T, _ theme: FluentTheme) -> ControlTokenValue) {
+        self.defaults = defaults
     }
 
     /// Prepares this token set by installing the current `FluentTheme` if it has changed.
