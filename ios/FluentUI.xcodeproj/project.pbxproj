@@ -1339,17 +1339,17 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"$(HSP_INPUT)/FluentUI-Swift.h",
+				"$(FLUENT_HSP_INPUT)/FluentUI-Swift.h",
 			);
 			name = "Copy FluentUI-Swift.h";
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(HSP_OUTPUT)/FluentUI-Swift.h",
+				"$(FLUENT_HSP_OUTPUT)/FluentUI-Swift.h",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "target_dir=${BUILT_PRODUCTS_DIR}/include/${PRODUCT_MODULE_NAME}/\n\n# Ensure the target include path exists\nmkdir -p ${target_dir}\n\n# Copy any file that looks like a Swift generated header to the include path\ncp ${DERIVED_SOURCES_DIR}/FluentUI-Swift.h ${target_dir}\n";
+			shellScript = "# Ensure the target include path exists\nmkdir -p $FLUENT_HSP_OUTPUT\n\n# Copy any file that looks like a Swift generated header to the include path\ncp $FLUENT_HSP_INPUT/FluentUI-Swift.h $FLUENT_HSP_OUTPUT\n";
 		};
 		FD256C59218392B800EC9588 /* Run swiftlint */ = {
 			isa = PBXShellScriptBuildPhase;
