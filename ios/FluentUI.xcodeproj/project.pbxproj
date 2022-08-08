@@ -1339,13 +1339,13 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"${DERIVED_SOURCES_DIR}/FluentUI-Swift.h",
+				"$(HSP_INPUT)/FluentUI-Swift.h",
 			);
 			name = "Copy FluentUI-Swift.h";
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"${BUILT_PRODUCTS_DIR}/include/${PRODUCT_MODULE_NAME}/FluentUI-Swift.h",
+				"$(HSP_OUTPUT)/FluentUI-Swift.h",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
