@@ -551,6 +551,22 @@ private class TableViewHeaderFooterTitleView: UITextView {
         self.textContainer.lineFragmentPadding = 0
         textContainerInset = .zero
         layoutManager.usesFontLeading = false
+        updateLinkTextColor()
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        guard let window = window, window.isEqual(notification.object) else {
+            return
+        }
+        updateLinkTextColor()
+    }
+
+    private func updateLinkTextColor() {
         linkTextAttributes = [.foregroundColor: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1])]
     }
 
