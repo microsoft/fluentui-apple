@@ -9,8 +9,6 @@ import Combine
 
 /// Base class for all Fluent control tokenization.
 public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
-    required public init() {}
-
     /// Allows us to index into this token set using square brackets.
     ///
     /// We can use square brackets to both read and write into this `TokenSet`. For example:
@@ -22,8 +20,10 @@ public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
         get {
             if let value = overrideValue(forToken: token) {
                 return value
+            } else if let value = defaults?(token, self.fluentTheme) {
+                return value
             } else {
-                return defaultValue(token)
+                preconditionFailure()
             }
         }
         set(value) {
@@ -54,15 +54,9 @@ public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
         }
     }
 
-    /// Returns the default values for a given `ControlTokenSet`.
-    ///
-    /// This method should be overridden by specific subclasses to return the appropriate default values for this control.
-    ///
-    /// - Parameter token: The token for which to return a default value.
-    ///
-    /// - Returns: The default value for a given token value.
-    func defaultValue(_ token: T) -> ControlTokenValue {
-        preconditionFailure("Override defaultValue in your ControlTokenSet")
+    /// Initialize the `ControlTokenSet` with an escaping callback for fetching default values.
+    init(_ defaults: @escaping (_ token: T, _ theme: FluentTheme) -> ControlTokenValue) {
+        self.defaults = defaults
     }
 
     /// Prepares this token set by installing the current `FluentTheme` if it has changed.
@@ -106,13 +100,14 @@ public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
         valueOverrides?[token] = value
     }
 
-    var globalTokens: GlobalTokens { fluentTheme.globalTokens }
-    var aliasTokens: AliasTokens { fluentTheme.aliasTokens }
-
+    /// The current `FluentTheme` associated with this `ControlTokenSet`.
     @Published var fluentTheme: FluentTheme = FluentTheme.shared
 
     /// Access to raw overrides for the `ControlTokenSet`.
     @Published private var valueOverrides: [T: ControlTokenValue]?
+
+    /// Reference to the default value lookup function for this control.
+    private var defaults: ((_ token: T, _ theme: FluentTheme) -> ControlTokenValue)?
 }
 
 /// Union-type enumeration of all possible token values to be stored by a `ControlTokenSet`.

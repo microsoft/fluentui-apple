@@ -51,60 +51,62 @@ public class SideTabBarTokenSet: ControlTokenSet<SideTabBarTokenSet.Tokens> {
         case tabBarItemTitleLabelFontLandscape
     }
 
-    override func defaultValue(_ token: Tokens) -> ControlTokenValue {
-        switch token {
-        case .sideTabBarWidth:
-            return .float { 62.0 }
+    init() {
+        super.init { token, theme in
+            switch token {
+            case .sideTabBarWidth:
+                return .float { 62.0 }
 
-        case .avatarViewSafeTopSpacing:
-            return .float { 18.0 }
+            case .avatarViewSafeTopSpacing:
+                return .float { 18.0 }
 
-        case .avatarViewMinTopSpacing:
-            return .float { self.globalTokens.spacing[.xxLarge] }
+            case .avatarViewMinTopSpacing:
+                return .float { theme.globalTokens.spacing[.xxLarge] }
 
-        case .avatarViewTopStackViewSpacing:
-            return .float { 34.0 }
+            case .avatarViewTopStackViewSpacing:
+                return .float { 34.0 }
 
-        case .bottomStackViewSafeSpacing:
-            return .float { 14.0 }
+            case .bottomStackViewSafeSpacing:
+                return .float { 14.0 }
 
-        case .bottomStackViewMinSpacing:
-            return .float { self.globalTokens.spacing[.xLarge] }
+            case .bottomStackViewMinSpacing:
+                return .float { theme.globalTokens.spacing[.xLarge] }
 
-        case .topTabBarItemSpacing:
-            return .float { 32.0 }
+            case .topTabBarItemSpacing:
+                return .float { 32.0 }
 
-        case .bottomTabBarItemSpacing:
-            return .float { self.globalTokens.spacing[.xLarge] }
+            case .bottomTabBarItemSpacing:
+                return .float { theme.globalTokens.spacing[.xLarge] }
 
-        case .badgeTopSectionPadding:
-            return .float { 2.0 }
+            case .badgeTopSectionPadding:
+                return .float { 2.0 }
 
-        case .badgeBottomSectionPadding:
-            return .float { 4.0 }
+            case .badgeBottomSectionPadding:
+                return .float { 4.0 }
 
-        case .tabBarItemSelectedColor:
-            return .dynamicColor {
-                assertionFailure("TabBarItem tokens are placeholders and should not be read.")
-                return self.aliasTokens.foregroundColors[.neutral1]
-            }
+            case .tabBarItemSelectedColor:
+                return .dynamicColor {
+                    assertionFailure("TabBarItem tokens are placeholders and should not be read.")
+                    return theme.aliasTokens.foregroundColors[.neutral1]
+                }
 
-        case .tabBarItemUnselectedColor:
-            return .dynamicColor {
-                assertionFailure("TabBarItem tokens are placeholders and should not be read.")
-                return self.aliasTokens.foregroundColors[.neutral1]
-            }
+            case .tabBarItemUnselectedColor:
+                return .dynamicColor {
+                    assertionFailure("TabBarItem tokens are placeholders and should not be read.")
+                    return theme.aliasTokens.foregroundColors[.neutral1]
+                }
 
-        case .tabBarItemTitleLabelFontPortrait:
-            return .fontInfo {
-                assertionFailure("TabBarItem tokens are placeholders and should not be read.")
-                return self.aliasTokens.typography[.body1]
-            }
+            case .tabBarItemTitleLabelFontPortrait:
+                return .fontInfo {
+                    assertionFailure("TabBarItem tokens are placeholders and should not be read.")
+                    return theme.aliasTokens.typography[.body1]
+                }
 
-        case .tabBarItemTitleLabelFontLandscape:
-            return .fontInfo {
-                assertionFailure("TabBarItem tokens are placeholders and should not be read.")
-                return self.aliasTokens.typography[.body1]
+            case .tabBarItemTitleLabelFontLandscape:
+                return .fontInfo {
+                    assertionFailure("TabBarItem tokens are placeholders and should not be read.")
+                    return theme.aliasTokens.typography[.body1]
+                }
             }
         }
     }

@@ -56,68 +56,61 @@ public class ShimmerTokenSet: ControlTokenSet<ShimmerTokenSet.Tokens> {
 
     init(style: @escaping () -> MSFShimmerStyle) {
         self.style = style
-        super.init()
-    }
-
-    @available(*, unavailable)
-    required init() {
-        preconditionFailure("init() has not been implemented")
-    }
-
-    override func defaultValue(_ token: Tokens) -> ControlTokenValue {
-        switch token {
-        case .shimmerAlpha:
-            return .float {
-                switch self.style() {
-                case .concealing:
-                    return 0
-                case .revealing:
-                    return 0.4
+        super.init { [style] token, theme in
+            switch token {
+            case .shimmerAlpha:
+                return .float {
+                    switch style() {
+                    case .concealing:
+                        return 0
+                    case .revealing:
+                        return 0.4
+                    }
                 }
-            }
 
-        case .tintColor:
-            return .dynamicColor {
-                switch self.style() {
-                case .concealing:
-                    return DynamicColor(light: self.globalTokens.neutralColors[.white],
-                                        dark: self.globalTokens.neutralColors[.grey8])
-                case .revealing:
-                    return DynamicColor(light: ColorValue(0xF1F1F1) /* gray50 */,
-                                        lightHighContrast: ColorValue(0x919191) /* gray400 */,
-                                        dark: self.aliasTokens.backgroundColors[.surfaceQuaternary].dark,
-                                        darkHighContrast: ColorValue(0x919191) /* gray400 */)
+            case .tintColor:
+                return .dynamicColor {
+                    switch style() {
+                    case .concealing:
+                        return DynamicColor(light: theme.globalTokens.neutralColors[.white],
+                                            dark: theme.globalTokens.neutralColors[.grey8])
+                    case .revealing:
+                        return DynamicColor(light: ColorValue(0xF1F1F1) /* gray50 */,
+                                            lightHighContrast: ColorValue(0x919191) /* gray400 */,
+                                            dark: theme.aliasTokens.backgroundColors[.surfaceQuaternary].dark,
+                                            darkHighContrast: ColorValue(0x919191) /* gray400 */)
+                    }
                 }
+
+            case .darkGradient:
+                return .dynamicColor {
+                    return DynamicColor(light: theme.globalTokens.neutralColors[.black])
+                }
+
+            case .shimmerWidth:
+                return .float { 180.0 }
+
+            case .shimmerAngle:
+                return .float { -(CGFloat.pi / 45.0) }
+
+            case .shimmerSpeed:
+                return .float { 350.0 }
+
+            case .shimmerDelay:
+                return .float { 0.4 }
+
+            case .cornerRadius:
+                return .float { theme.globalTokens.borderRadius[.medium] }
+
+            case .labelCornerRadius:
+                return .float { theme.globalTokens.borderRadius[.small] }
+
+            case .labelHeight:
+                return .float { 11.0 }
+
+            case .labelSpacing:
+                return .float { theme.aliasTokens.globalTokens.spacing[.small] }
             }
-
-        case .darkGradient:
-            return .dynamicColor {
-                return DynamicColor(light: self.globalTokens.neutralColors[.black])
-            }
-
-        case .shimmerWidth:
-            return .float { 180.0 }
-
-        case .shimmerAngle:
-            return .float { -(CGFloat.pi / 45.0) }
-
-        case .shimmerSpeed:
-            return .float { 350.0 }
-
-        case .shimmerDelay:
-            return .float { 0.4 }
-
-        case .cornerRadius:
-            return .float { self.globalTokens.borderRadius[.medium] }
-
-        case .labelCornerRadius:
-            return .float { self.globalTokens.borderRadius[.small] }
-
-        case .labelHeight:
-            return .float { 11.0 }
-
-        case .labelSpacing:
-            return .float { self.aliasTokens.globalTokens.spacing[.small] }
         }
     }
 

@@ -53,182 +53,175 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
          size: @escaping () -> MSFAvatarSize) {
         self.style = style
         self.size = size
-        super.init()
-    }
-
-    @available(*, unavailable)
-    required init() {
-        preconditionFailure("init() has not been implemented")
-    }
-
-    override func defaultValue(_ token: Tokens) -> ControlTokenValue {
-        switch token {
-        case .avatarSize:
-            return .float({
-                switch self.size() {
-                case .xsmall:
-                    return 16
-                case .small:
-                    return 24
-                case .medium:
-                    return 32
-                case .large:
-                    return 40
-                case .xlarge:
-                    return 52
-                case .xxlarge:
-                    return 72
-                }
-            })
-
-        case .borderRadius:
-            return .float({
-                switch self.style() {
-                case .default, .accent, .outlined, .outlinedPrimary, .overflow:
-                    return self.globalTokens.borderRadius[.none]
-                case .group:
-                    switch self.size() {
+        super.init { [style, size] token, theme in
+            switch token {
+            case .avatarSize:
+                return .float({
+                    switch size() {
                     case .xsmall:
-                        return self.globalTokens.borderRadius[.small]
-                    case .small, .medium:
-                        return self.globalTokens.borderRadius[.medium]
-                    case .large, .xlarge:
-                        return self.globalTokens.borderRadius[.large]
+                        return 16
+                    case .small:
+                        return 24
+                    case .medium:
+                        return 32
+                    case .large:
+                        return 40
+                    case .xlarge:
+                        return 52
                     case .xxlarge:
-                        return self.globalTokens.borderRadius[.xLarge]
+                        return 72
                     }
-                }
-            })
+                })
 
-        case .textFont:
-            return .fontInfo({
-                switch self.size() {
-                case .xsmall:
-                    return .init(size: 9, weight: self.globalTokens.fontWeight[.regular])
-                case .small:
-                    return self.aliasTokens.typography[.caption2]
-                case .medium:
-                    return self.aliasTokens.typography[.caption1]
-                case .large:
-                    return self.aliasTokens.typography[.body2]
-                case .xlarge:
-                    return .init(size: self.globalTokens.fontSize[.size500], weight: self.globalTokens.fontWeight[.regular])
-                case .xxlarge:
-                    return .init(size: self.globalTokens.fontSize[.size700], weight: self.globalTokens.fontWeight[.semibold])
-                }
-            })
+            case .borderRadius:
+                return .float({
+                    switch style() {
+                    case .default, .accent, .outlined, .outlinedPrimary, .overflow:
+                        return theme.globalTokens.borderRadius[.none]
+                    case .group:
+                        switch size() {
+                        case .xsmall:
+                            return theme.globalTokens.borderRadius[.small]
+                        case .small, .medium:
+                            return theme.globalTokens.borderRadius[.medium]
+                        case .large, .xlarge:
+                            return theme.globalTokens.borderRadius[.large]
+                        case .xxlarge:
+                            return theme.globalTokens.borderRadius[.xLarge]
+                        }
+                    }
+                })
 
-        case .ringDefaultColor:
-            return .dynamicColor({
-                switch self.style() {
-                case .default, .group:
-                    return self.globalTokens.brandColors[.tint10]
-                case .accent:
-                    return self.globalTokens.brandColors[.shade10]
-                case .outlined, .overflow:
-                    return self.aliasTokens.backgroundColors[.neutralDisabled]
-                case .outlinedPrimary:
-                    return .init(light: self.globalTokens.brandColors[.tint10].light, dark: self.globalTokens.neutralColors[.grey78])
-                }
-            })
+            case .textFont:
+                return .fontInfo({
+                    switch size() {
+                    case .xsmall:
+                        return .init(size: 9, weight: theme.globalTokens.fontWeight[.regular])
+                    case .small:
+                        return theme.aliasTokens.typography[.caption2]
+                    case .medium:
+                        return theme.aliasTokens.typography[.caption1]
+                    case .large:
+                        return theme.aliasTokens.typography[.body2]
+                    case .xlarge:
+                        return .init(size: theme.globalTokens.fontSize[.size500], weight: theme.globalTokens.fontWeight[.regular])
+                    case .xxlarge:
+                        return .init(size: theme.globalTokens.fontSize[.size700], weight: theme.globalTokens.fontWeight[.semibold])
+                    }
+                })
 
-        case .ringGapColor:
-            return .dynamicColor({
-                self.aliasTokens.backgroundColors[.neutral1]
-            })
+            case .ringDefaultColor:
+                return .dynamicColor({
+                    switch style() {
+                    case .default, .group:
+                        return theme.globalTokens.brandColors[.tint10]
+                    case .accent:
+                        return theme.globalTokens.brandColors[.shade10]
+                    case .outlined, .overflow:
+                        return theme.aliasTokens.backgroundColors[.neutralDisabled]
+                    case .outlinedPrimary:
+                        return .init(light: theme.globalTokens.brandColors[.tint10].light, dark: theme.globalTokens.neutralColors[.grey78])
+                    }
+                })
 
-        case .ringThickness:
-            return .float({
-                switch self.size() {
-                case .xsmall, .small:
-                    return self.globalTokens.borderSize[.thin]
-                case .medium, .large, .xlarge:
-                    return self.globalTokens.borderSize[.thick]
-                case .xxlarge:
-                    return self.globalTokens.borderSize[.thicker]
-                }
-            })
+            case .ringGapColor:
+                return .dynamicColor({
+                    theme.aliasTokens.backgroundColors[.neutral1]
+                })
 
-        case .ringInnerGap:
-            return .float({
-                switch self.size() {
-                case .xsmall, .small, .medium, .large, .xlarge:
-                    return self.globalTokens.borderSize[.thick]
-                case .xxlarge:
-                    return self.globalTokens.borderSize[.thicker]
-                }
-            })
+            case .ringThickness:
+                return .float({
+                    switch size() {
+                    case .xsmall, .small:
+                        return theme.globalTokens.borderSize[.thin]
+                    case .medium, .large, .xlarge:
+                        return theme.globalTokens.borderSize[.thick]
+                    case .xxlarge:
+                        return theme.globalTokens.borderSize[.thicker]
+                    }
+                })
 
-        case .ringOuterGap:
-            return .float({
-                switch self.size() {
-                case .xsmall, .small, .medium, .large, .xlarge:
-                    return self.globalTokens.borderSize[.thick]
-                case .xxlarge:
-                    return self.globalTokens.borderSize[.thicker]
-                }
-            })
+            case .ringInnerGap:
+                return .float({
+                    switch size() {
+                    case .xsmall, .small, .medium, .large, .xlarge:
+                        return theme.globalTokens.borderSize[.thick]
+                    case .xxlarge:
+                        return theme.globalTokens.borderSize[.thicker]
+                    }
+                })
 
-        case .presenceIconSize:
-            return .float({
-                switch self.size() {
-                case .xsmall:
-                    return 0
-                case .small, .medium:
-                    return self.globalTokens.iconSize[.xxxSmall]
-                case .large, .xlarge:
-                    return self.globalTokens.iconSize[.xxSmall]
-                case .xxlarge:
-                    return self.globalTokens.iconSize[.small]
-                }
-            })
+            case .ringOuterGap:
+                return .float({
+                    switch size() {
+                    case .xsmall, .small, .medium, .large, .xlarge:
+                        return theme.globalTokens.borderSize[.thick]
+                    case .xxlarge:
+                        return theme.globalTokens.borderSize[.thicker]
+                    }
+                })
 
-        case .presenceIconOutlineThickness:
-            return .float({
-                switch self.size() {
-                case .xsmall:
-                    return self.globalTokens.borderSize[.none]
-                case .small, .medium, .large, .xlarge, .xxlarge:
-                    return self.globalTokens.borderSize[.thick]
-                }
-            })
+            case .presenceIconSize:
+                return .float({
+                    switch size() {
+                    case .xsmall:
+                        return 0
+                    case .small, .medium:
+                        return theme.globalTokens.iconSize[.xxxSmall]
+                    case .large, .xlarge:
+                        return theme.globalTokens.iconSize[.xxSmall]
+                    case .xxlarge:
+                        return theme.globalTokens.iconSize[.small]
+                    }
+                })
 
-        case .presenceOutlineColor:
-            return .dynamicColor({
-                self.aliasTokens.backgroundColors[.neutral1]
-            })
+            case .presenceIconOutlineThickness:
+                return .float({
+                    switch size() {
+                    case .xsmall:
+                        return theme.globalTokens.borderSize[.none]
+                    case .small, .medium, .large, .xlarge, .xxlarge:
+                        return theme.globalTokens.borderSize[.thick]
+                    }
+                })
 
-        case .backgroundDefaultColor:
-            return .dynamicColor({
-                switch self.style() {
-                case .default, .group:
-                    return .init(light: self.globalTokens.neutralColors[.white], dark: self.globalTokens.brandColors[.primary].dark)
-                case .accent:
-                    return self.globalTokens.brandColors[.primary]
-                case .outlined:
-                    return .init(light: self.globalTokens.neutralColors[.grey94], dark: self.globalTokens.neutralColors[.grey26])
-                case .outlinedPrimary:
-                    return .init(light: self.globalTokens.brandColors[.tint40].light, dark: self.globalTokens.neutralColors[.grey26])
-                case .overflow:
-                    return self.aliasTokens.backgroundColors[.neutral4]
-                }
-            })
+            case .presenceOutlineColor:
+                return .dynamicColor({
+                    theme.aliasTokens.backgroundColors[.neutral1]
+                })
 
-        case .foregroundDefaultColor:
-            return .dynamicColor({
-                switch self.style() {
-                case .default, .group:
-                    return .init(light: self.globalTokens.brandColors[.primary].light, dark: self.globalTokens.neutralColors[.black])
-                case .accent:
-                    return self.aliasTokens.foregroundColors[.neutralInverted]
-                case .outlined:
-                    return .init(light: self.globalTokens.neutralColors[.grey42], dark: self.globalTokens.neutralColors[.grey78])
-                case .outlinedPrimary:
-                    return .init(light: self.globalTokens.brandColors[.primary].light, dark: self.globalTokens.neutralColors[.grey78])
-                case .overflow:
-                    return self.aliasTokens.foregroundColors[.neutral3]
-                }
-            })
+            case .backgroundDefaultColor:
+                return .dynamicColor({
+                    switch style() {
+                    case .default, .group:
+                        return .init(light: theme.globalTokens.neutralColors[.white], dark: theme.globalTokens.brandColors[.primary].dark)
+                    case .accent:
+                        return theme.globalTokens.brandColors[.primary]
+                    case .outlined:
+                        return .init(light: theme.globalTokens.neutralColors[.grey94], dark: theme.globalTokens.neutralColors[.grey26])
+                    case .outlinedPrimary:
+                        return .init(light: theme.globalTokens.brandColors[.tint40].light, dark: theme.globalTokens.neutralColors[.grey26])
+                    case .overflow:
+                        return theme.aliasTokens.backgroundColors[.neutral4]
+                    }
+                })
+
+            case .foregroundDefaultColor:
+                return .dynamicColor({
+                    switch style() {
+                    case .default, .group:
+                        return .init(light: theme.globalTokens.brandColors[.primary].light, dark: theme.globalTokens.neutralColors[.black])
+                    case .accent:
+                        return theme.aliasTokens.foregroundColors[.neutralInverted]
+                    case .outlined:
+                        return .init(light: theme.globalTokens.neutralColors[.grey42], dark: theme.globalTokens.neutralColors[.grey78])
+                    case .outlinedPrimary:
+                        return .init(light: theme.globalTokens.brandColors[.primary].light, dark: theme.globalTokens.neutralColors[.grey78])
+                    case .overflow:
+                        return theme.aliasTokens.foregroundColors[.neutral3]
+                    }
+                })
+            }
         }
     }
 

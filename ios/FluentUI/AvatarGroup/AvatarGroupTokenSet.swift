@@ -17,41 +17,34 @@ public class AvatarGroupTokenSet: ControlTokenSet<AvatarGroupTokenSet.Tokens> {
          size: @escaping () -> MSFAvatarSize) {
         self.style = style
         self.size = size
-        super.init()
-    }
+        super.init { [style, size] token, theme in
+            return .float {
+                switch token {
+                case .interspace:
+                    switch style() {
+                    case .stack:
+                        switch size() {
+                        case .xsmall, .small:
+                            return -theme.globalTokens.spacing[.xxxSmall]
+                        case .medium:
+                            return -theme.globalTokens.spacing[.xxSmall]
+                        case .large:
+                            return -theme.globalTokens.spacing[.xSmall]
+                        case .xlarge, .xxlarge:
+                            return -theme.globalTokens.spacing[.small]
+                        }
 
-    @available(*, unavailable)
-    required init() {
-        preconditionFailure("init() has not been implemented")
-    }
-
-    override func defaultValue(_ token: Tokens) -> ControlTokenValue {
-        return .float({
-            switch token {
-            case .interspace:
-                switch self.style() {
-                case .stack:
-                    switch self.size() {
-                    case .xsmall, .small:
-                        return -self.globalTokens.spacing[.xxxSmall]
-                    case .medium:
-                        return -self.globalTokens.spacing[.xxSmall]
-                    case .large:
-                        return -self.globalTokens.spacing[.xSmall]
-                    case .xlarge, .xxlarge:
-                        return -self.globalTokens.spacing[.small]
-                    }
-
-                case .pile:
-                    switch self.size() {
-                    case .xsmall, .small:
-                        return self.globalTokens.spacing[.xxSmall]
-                    case .medium, .large, .xlarge, .xxlarge:
-                        return self.globalTokens.spacing[.xSmall]
+                    case .pile:
+                        switch size() {
+                        case .xsmall, .small:
+                            return theme.globalTokens.spacing[.xxSmall]
+                        case .medium, .large, .xlarge, .xxlarge:
+                            return theme.globalTokens.spacing[.xSmall]
+                        }
                     }
                 }
             }
-        })
+        }
     }
 
     /// Defines the style of the `Avatar` controls in the `AvatarGroup`.

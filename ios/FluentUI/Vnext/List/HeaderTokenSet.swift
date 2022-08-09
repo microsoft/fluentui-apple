@@ -41,58 +41,51 @@ public class HeaderTokenSet: ControlTokenSet<HeaderTokenSet.Tokens> {
 
     init(style: @escaping () -> MSFHeaderStyle) {
         self.style = style
-        super.init()
-    }
+        super.init { [style] token, theme in
+            switch token {
+            case .backgroundColor:
+                return .dynamicColor { theme.aliasTokens.backgroundColors[.neutral1] }
 
-    @available(*, unavailable)
-    required init() {
-        preconditionFailure("init() has not been implemented")
-    }
-
-    override func defaultValue(_ token: Tokens) -> ControlTokenValue {
-        switch token {
-        case .backgroundColor:
-            return .dynamicColor { self.aliasTokens.backgroundColors[.neutral1] }
-
-        case .textColor:
-            return .dynamicColor {
-                switch self.style() {
-                case .standard:
-                    return self.aliasTokens.foregroundColors[.neutral1]
-                case .subtle:
-                    return self.aliasTokens.foregroundColors[.neutral3]
+            case .textColor:
+                return .dynamicColor {
+                    switch style() {
+                    case .standard:
+                        return theme.aliasTokens.foregroundColors[.neutral1]
+                    case .subtle:
+                        return theme.aliasTokens.foregroundColors[.neutral3]
+                    }
                 }
-            }
 
-        case .headerHeight:
-            return .float { self.globalTokens.spacing[.xxxLarge] }
+            case .headerHeight:
+                return .float { theme.globalTokens.spacing[.xxxLarge] }
 
-        case .topPadding:
-            return .float {
-                switch self.style() {
-                case .standard:
-                    return self.globalTokens.spacing[.medium]
-                case .subtle:
-                    return self.globalTokens.spacing[.xLarge]
+            case .topPadding:
+                return .float {
+                    switch style() {
+                    case .standard:
+                        return theme.globalTokens.spacing[.medium]
+                    case .subtle:
+                        return theme.globalTokens.spacing[.xLarge]
+                    }
                 }
-            }
 
-        case .leadingPadding:
-            return .float { self.globalTokens.spacing[.medium] }
+            case .leadingPadding:
+                return .float { theme.globalTokens.spacing[.medium] }
 
-        case .bottomPadding:
-            return .float { self.globalTokens.spacing[.xSmall] }
+            case .bottomPadding:
+                return .float { theme.globalTokens.spacing[.xSmall] }
 
-        case .trailingPadding:
-            return .float { self.globalTokens.spacing[.medium] }
+            case .trailingPadding:
+                return .float { theme.globalTokens.spacing[.medium] }
 
-        case .textFont:
-            return .fontInfo {
-                switch self.style() {
-                case .standard:
-                    return self.aliasTokens.typography[.body1Strong]
-                case .subtle:
-                    return self.aliasTokens.typography[.caption1]
+            case .textFont:
+                return .fontInfo {
+                    switch style() {
+                    case .standard:
+                        return theme.aliasTokens.typography[.body1Strong]
+                    case .subtle:
+                        return theme.aliasTokens.typography[.caption1]
+                    }
                 }
             }
         }

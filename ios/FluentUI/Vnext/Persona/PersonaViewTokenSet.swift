@@ -7,28 +7,15 @@ import UIKit
 import SwiftUI
 
 public class PersonaViewTokenSet: ListCellTokenSet {
-    override func defaultValue(_ token: ListCellTokenSet.Tokens) -> ControlTokenValue {
-        switch token {
-        case .sublabelColor:
-            return .dynamicColor { self.aliasTokens.foregroundColors[.neutral1] }
+    override init(cellLeadingViewSize: @escaping () -> MSFListCellLeadingViewSize) {
+        super.init(cellLeadingViewSize: cellLeadingViewSize)
 
-        case .iconInterspace:
-            return .float { self.globalTokens.spacing[.small] }
-
-        case .labelAccessoryInterspace:
-            return .float { self.globalTokens.spacing[.xxxSmall] }
-
-        case .labelAccessorySize:
-            return .float { self.globalTokens.iconSize[.xSmall] }
-
-        case .labelFont:
-            return .fontInfo { self.aliasTokens.typography[.body1Strong] }
-
-        case .footnoteFont:
-            return .fontInfo { self.aliasTokens.typography[.caption1] }
-
-        default:
-            return super.defaultValue(token)
-        }
+        self.replaceAllOverrides(with: [
+            .sublabelColor: .dynamicColor { self.fluentTheme.aliasTokens.foregroundColors[.neutral1] },
+            .iconInterspace: .float { self.fluentTheme.globalTokens.spacing[.small] },
+            .labelAccessoryInterspace: .float { self.fluentTheme.globalTokens.spacing[.xxxSmall] },
+            .labelAccessorySize: .float { self.fluentTheme.globalTokens.iconSize[.xSmall] },
+            .labelFont: .fontInfo { self.fluentTheme.aliasTokens.typography[.body1Strong] }
+        ])
     }
 }

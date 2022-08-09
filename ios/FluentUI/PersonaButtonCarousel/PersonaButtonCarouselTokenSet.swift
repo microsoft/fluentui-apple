@@ -13,10 +13,12 @@ public class PersonaButtonCarouselTokenSet: ControlTokenSet<PersonaButtonCarouse
         case backgroundColor
     }
 
-    override func defaultValue(_ token: Tokens) -> ControlTokenValue {
-        switch token {
-        case .backgroundColor:
-            return .dynamicColor { self.aliasTokens.backgroundColors[.neutral1] }
+    init() {
+        super.init { token, theme in
+            switch token {
+            case .backgroundColor:
+                return .dynamicColor { theme.aliasTokens.backgroundColors[.neutral1] }
+            }
         }
     }
 }

@@ -30,46 +30,39 @@ public class ActivityIndicatorTokenSet: ControlTokenSet<ActivityIndicatorTokenSe
 
     init(size: @escaping () -> MSFActivityIndicatorSize) {
         self.size = size
-        super.init()
-    }
+        super.init { [size] token, theme in
+            switch token {
+            case .defaultColor:
+                return .dynamicColor { theme.aliasTokens.foregroundColors[.neutral4] }
 
-    @available(*, unavailable)
-    required init() {
-        preconditionFailure("init() has not been implemented")
-    }
-
-    override func defaultValue(_ token: Tokens) -> ControlTokenValue {
-        switch token {
-        case .defaultColor:
-            return .dynamicColor { self.aliasTokens.foregroundColors[.neutral4] }
-
-        case .side:
-            return .float {
-                switch self.size() {
-                case .xSmall:
-                    return 12
-                case .small:
-                    return 16
-                case .medium:
-                    return 24
-                case .large:
-                    return 32
-                case .xLarge:
-                    return 36
+            case .side:
+                return .float {
+                    switch size() {
+                    case .xSmall:
+                        return 12
+                    case .small:
+                        return 16
+                    case .medium:
+                        return 24
+                    case .large:
+                        return 32
+                    case .xLarge:
+                        return 36
+                    }
                 }
-            }
 
-        case .thickness:
-            return .float {
-                switch self.size() {
-                case .xSmall, .small:
-                    return 1
-                case .medium:
-                    return 2
-                case .large:
-                    return 3
-                case .xLarge:
-                    return 4
+            case .thickness:
+                return .float {
+                    switch size() {
+                    case .xSmall, .small:
+                        return 1
+                    case .medium:
+                        return 2
+                    case .large:
+                        return 3
+                    case .xLarge:
+                        return 4
+                    }
                 }
             }
         }

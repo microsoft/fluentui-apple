@@ -19,20 +19,22 @@ public class IndeterminateProgressBarTokenSet: ControlTokenSet<IndeterminateProg
         case height
     }
 
-    override func defaultValue(_ token: Tokens) -> ControlTokenValue {
-        switch token {
-        case .backgroundColor:
-            return .dynamicColor {
-                self.aliasTokens.backgroundColors[.surfaceQuaternary]
-            }
+    init() {
+        super.init { token, theme in
+            switch token {
+            case .backgroundColor:
+                return .dynamicColor {
+                    theme.aliasTokens.backgroundColors[.surfaceQuaternary]
+                }
 
-        case .gradientColor:
-            return .dynamicColor {
-                self.globalTokens.brandColors[.primary]
-            }
+            case .gradientColor:
+                return .dynamicColor {
+                    theme.globalTokens.brandColors[.primary]
+                }
 
-        case .height:
-            return .float { 2 }
+            case .height:
+                return .float { 2 }
+            }
         }
     }
 }

@@ -66,71 +66,73 @@ class TabBarItemTokenSet: ControlTokenSet<TabBarItemTokenSet.Tokens> {
         case titleLabelFontLandscape
     }
 
-    override func defaultValue(_ token: Tokens) -> ControlTokenValue {
-        switch token {
-        case .selectedColor:
-            return .dynamicColor {
-                return self.aliasTokens.foregroundColors[.brandRest]
+    init() {
+        super.init { token, theme in
+            switch token {
+            case .selectedColor:
+                return .dynamicColor {
+                    return theme.aliasTokens.foregroundColors[.brandRest]
+                }
+
+            case .unselectedColor:
+                return .dynamicColor {
+                    DynamicColor(light: ColorValue(0x6E6E6E) /* gray500 */,
+                                 lightHighContrast: ColorValue(0x303030) /* gray700 */,
+                                 dark: ColorValue(0x919191) /* gray400 */,
+                                 darkHighContrast: ColorValue(0xC8C8C8) /* gray200 */)
+                }
+
+            case .spacingVertical:
+                return .float { 3.0 }
+
+            case .spacingHorizontal:
+                return .float { theme.globalTokens.spacing[.xSmall] }
+
+            case .portraitImageSize:
+                return .float { theme.globalTokens.iconSize[.large] }
+
+            case .portraitImageWithLabelSize:
+                return .float { theme.globalTokens.iconSize[.medium] }
+
+            case .landscapeImageSize:
+                return .float { theme.globalTokens.iconSize[.medium] }
+
+            case .badgeVerticalOffset:
+                return .float { -theme.globalTokens.spacing[.xxSmall] }
+
+            case .badgePortraitTitleVerticalOffset:
+                return .float { -theme.globalTokens.spacing[.xxxSmall] }
+
+            case .singleDigitBadgeHorizontalOffset:
+                return .float { 14.0 }
+
+            case .multiDigitBadgeHorizontalOffset:
+                return .float { theme.globalTokens.spacing[.small] }
+
+            case .badgeHeight:
+                return .float { 16.0 }
+
+            case .badgeMinWidth:
+                return .float { 16.0 }
+
+            case .defaultBadgeMaxWidth:
+                return .float { 42.0 }
+
+            case .badgeBorderWidth:
+                return .float { theme.globalTokens.borderSize[.thick] }
+
+            case .badgeHorizontalPadding:
+                return .float { 10.0 }
+
+            case .badgeCornerRadii:
+                return .float { 10.0 }
+
+            case .titleLabelFontPortrait:
+                return .fontInfo { return .init(size: 10, weight: .medium) }
+
+            case .titleLabelFontLandscape:
+                return .fontInfo { return .init(size: 13, weight: .medium) }
             }
-
-        case .unselectedColor:
-            return .dynamicColor {
-                DynamicColor(light: ColorValue(0x6E6E6E) /* gray500 */,
-                             lightHighContrast: ColorValue(0x303030) /* gray700 */,
-                             dark: ColorValue(0x919191) /* gray400 */,
-                             darkHighContrast: ColorValue(0xC8C8C8) /* gray200 */)
-            }
-
-        case .spacingVertical:
-            return .float { 3.0 }
-
-        case .spacingHorizontal:
-            return .float { self.globalTokens.spacing[.xSmall] }
-
-        case .portraitImageSize:
-            return .float { self.globalTokens.iconSize[.large] }
-
-        case .portraitImageWithLabelSize:
-            return .float { self.globalTokens.iconSize[.medium] }
-
-        case .landscapeImageSize:
-            return .float { self.globalTokens.iconSize[.medium] }
-
-        case .badgeVerticalOffset:
-            return .float { -self.globalTokens.spacing[.xxSmall] }
-
-        case .badgePortraitTitleVerticalOffset:
-            return .float { -self.globalTokens.spacing[.xxxSmall] }
-
-        case .singleDigitBadgeHorizontalOffset:
-            return .float { 14.0 }
-
-        case .multiDigitBadgeHorizontalOffset:
-            return .float { self.globalTokens.spacing[.small] }
-
-        case .badgeHeight:
-            return .float { 16.0 }
-
-        case .badgeMinWidth:
-            return .float { 16.0 }
-
-        case .defaultBadgeMaxWidth:
-            return .float { 42.0 }
-
-        case .badgeBorderWidth:
-            return .float { self.globalTokens.borderSize[.thick] }
-
-        case .badgeHorizontalPadding:
-            return .float { 10.0 }
-
-        case .badgeCornerRadii:
-            return .float { 10.0 }
-
-        case .titleLabelFontPortrait:
-            return .fontInfo { return .init(size: 10, weight: .medium) }
-
-        case .titleLabelFontLandscape:
-            return .fontInfo { return .init(size: 13, weight: .medium) }
         }
     }
 }
