@@ -199,7 +199,7 @@ class CommandBarDemoController: DemoController {
         itemCustomizationContainer.addArrangedSubview(refreshLeadingItemButton)
 
         let itemEnabledStackView = createHorizontalStackView()
-        itemEnabledStackView.addArrangedSubview(createLabelWithText("'+' Item Enabled"))
+        itemEnabledStackView.addArrangedSubview(createLabelWithText("'+' Enabled"))
         let itemEnabledSwitch: UISwitch = UISwitch()
         itemEnabledSwitch.isOn = true
         itemEnabledSwitch.addTarget(self, action: #selector(itemEnabledValueChanged), for: .valueChanged)
@@ -207,7 +207,7 @@ class CommandBarDemoController: DemoController {
         itemCustomizationContainer.addArrangedSubview(itemEnabledStackView)
 
         let itemHiddenStackView = createHorizontalStackView()
-        itemHiddenStackView.addArrangedSubview(createLabelWithText("'+' Item Hidden"))
+        itemHiddenStackView.addArrangedSubview(createLabelWithText("'+' Hidden"))
         let itemHiddenSwitch: UISwitch = UISwitch()
         itemHiddenSwitch.isOn = false
         itemHiddenSwitch.addTarget(self, action: #selector(itemHiddenValueChanged), for: .valueChanged)
@@ -340,11 +340,12 @@ class CommandBarDemoController: DemoController {
     }
 
     func createHorizontalStackView() -> UIStackView {
-        let switchView = UIStackView()
-        switchView.axis = .horizontal
-        switchView.alignment = .fill
-        switchView.distribution = .fillProportionally
-        return switchView
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.alignment = .center
+        stackView.distribution = .fillProportionally
+        stackView.spacing = CommandBarDemoController.horizontalStackViewSpacing
+        return stackView
     }
 
     @objc func itemEnabledValueChanged(sender: UISwitch!) {
@@ -383,5 +384,6 @@ class CommandBarDemoController: DemoController {
         defaultCommandBar?.leadingItemGroups = [[newItem(for: .keyboard)]]
     }
 
+    private static let horizontalStackViewSpacing: CGFloat = 16.0
     private static let verticalStackViewSpacing: CGFloat = 8.0
 }

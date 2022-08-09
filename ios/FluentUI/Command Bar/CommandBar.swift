@@ -146,8 +146,8 @@ open class CommandBar: UIView {
 
     // MARK: Views and Layers
 
-    private lazy var containerView: MaskedView = {
-        let containerView = MaskedView()
+    private lazy var containerView: CommandBarContainerView = {
+        let containerView = CommandBarContainerView()
         containerView.translatesAutoresizingMaskIntoConstraints = false
         containerView.layer.mask = containerMaskLayer
 
@@ -279,7 +279,7 @@ extension CommandBar: UIScrollViewDelegate {
 /// A UIView subclass that updates its mask frame during layoutSubviews. By default, the layer mask
 /// is not hooked into auto-layout and will not update its frame if its parent frame changes size. This implementation
 /// fixes that.
-private class MaskedView: UIView {
+private class CommandBarContainerView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         layer.mask?.frame = bounds
