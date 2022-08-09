@@ -13,26 +13,17 @@ public enum TextColorStyle: Int, CaseIterable {
     case secondary
     case white
     case primary
-    case error
-    case warning
-    case disabled
 
-    func color(for window: UIWindow) -> UIColor {
+    func color(fluentTheme: FluentTheme) -> UIColor {
         switch self {
         case .regular:
-            return Colors.textPrimary
+            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
         case .secondary:
-            return Colors.textSecondary
+            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground3])
         case .white:
             return .white
         case .primary:
-            return Colors.primary(for: window)
-        case .error:
-            return Colors.error
-        case .warning:
-            return UIColor(light: Colors.Palette.warningShade30.color, dark: Colors.warning)
-        case .disabled:
-            return Colors.textDisabled
+            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1])
         }
     }
 }
@@ -84,11 +75,6 @@ open class Label: UILabel {
         initialize()
     }
 
-    open override func didMoveToWindow() {
-        super.didMoveToWindow()
-        updateTextColor()
-    }
-
     private func initialize() {
         // textColor is assigned in super.init to a default value and so we need to reset our cache afterwards
         _textColor = nil
@@ -97,7 +83,18 @@ open class Label: UILabel {
         updateTextColor()
         adjustsFontForContentSizeCategory = true
 
-        NotificationCenter.default.addObserver(self, selector: #selector(handleContentSizeCategoryDidChange), name: UIContentSizeCategory.didChangeNotification, object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(handleContentSizeCategoryDidChange),
+                                               name: UIContentSizeCategory.didChangeNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        updateTextColor()
     }
 
     private func updateFont() {
@@ -118,9 +115,7 @@ open class Label: UILabel {
         guard self.attributedText == nil else {
             return
         }
-        if let window = window {
-            super.textColor = _textColor ?? colorStyle.color(for: window)
-        }
+        super.textColor = _textColor ?? colorStyle.color(fluentTheme: fluentTheme)
     }
 
     @objc private func handleContentSizeCategoryDidChange() {
