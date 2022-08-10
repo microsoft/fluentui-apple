@@ -5,24 +5,6 @@
 
 import UIKit
 
-/// Represents the set of `DynamicColor` values for the various states of a `PillButton`
-public struct PillButtonDynamicColors: Equatable {
-    public init(rest: DynamicColor,
-                selected: DynamicColor,
-                disabled: DynamicColor,
-                selectedDisabled: DynamicColor) {
-        self.rest = rest
-        self.selected = selected
-        self.disabled = disabled
-        self.selectedDisabled = selectedDisabled
-    }
-
-    public let rest: DynamicColor
-    public let selected: DynamicColor
-    public let disabled: DynamicColor
-    public let selectedDisabled: DynamicColor
-}
-
 /// Design token set for the `PillButton` control.
 public class PillButtonTokenSet: ControlTokenSet<PillButtonTokenSet.Tokens> {
     public enum Tokens: TokenSetKey {
