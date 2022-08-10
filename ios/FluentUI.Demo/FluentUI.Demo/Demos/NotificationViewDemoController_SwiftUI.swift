@@ -63,7 +63,7 @@ struct NotificationDemoView: View {
                                               actionButtonTitle: actionButtonTitle,
                                               actionButtonAction: actionButtonAction,
                                               messageButtonAction: messageButtonAction)
-                            .overrideTokens(overrideTokens ? NotificationOverrideTokens() : nil)
+                            .overrideTokens(overrideTokens ? notificationOverrideTokens : nil)
 
         VStack {
             notification
@@ -166,16 +166,17 @@ struct NotificationDemoView: View {
                              actionButtonTitle: actionButtonTitle,
                              actionButtonAction: actionButtonAction,
                              messageButtonAction: messageButtonAction,
-                             overrideTokens: $overrideTokens.wrappedValue ? NotificationOverrideTokens() : nil)
+                             overrideTokens: $overrideTokens.wrappedValue ? notificationOverrideTokens : nil)
     }
 
-    private class NotificationOverrideTokens: NotificationTokens {
-        override var imageColor: DynamicColor {
-            return DynamicColor(light: globalTokens.sharedColors[.orange][.primary])
-        }
-
-        override var horizontalSpacing: CGFloat {
-            return 5.0
-        }
+    private var notificationOverrideTokens: [NotificationTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .imageColor: .dynamicColor {
+                return DynamicColor(light: GlobalTokens().sharedColors[.orange][.primary])
+            },
+            .horizontalSpacing: .float {
+                return 5.0
+            }
+        ]
     }
 }

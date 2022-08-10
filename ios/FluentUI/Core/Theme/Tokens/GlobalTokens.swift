@@ -10,7 +10,7 @@ public final class GlobalTokens {
 
     // MARK: - BrandColors
 
-    public enum BrandColorsTokens: CaseIterable {
+    public enum BrandColorsTokens: TokenSetKey {
         case primary
         case shade10
         case shade20
@@ -43,7 +43,7 @@ public final class GlobalTokens {
 
     // MARK: - NeutralColors
 
-    public enum NeutralColorsToken: CaseIterable {
+    public enum NeutralColorsToken: TokenSetKey {
         case black
         case grey2
         case grey4
@@ -205,7 +205,7 @@ public final class GlobalTokens {
 
     // MARK: - SharedColors
 
-    public enum SharedColorSets: CaseIterable {
+    public enum SharedColorSets: TokenSetKey {
         case darkRed
         case burgundy
         case cranberry
@@ -257,7 +257,7 @@ public final class GlobalTokens {
         case charcoal
     }
 
-    public enum SharedColorsTokens: CaseIterable {
+    public enum SharedColorsTokens: TokenSetKey {
         case shade50
         case shade40
         case shade30
@@ -1700,7 +1700,7 @@ public final class GlobalTokens {
 
     // MARK: - FontSize
 
-    public enum FontSizeToken: CaseIterable {
+    public enum FontSizeToken: TokenSetKey {
         case size100
         case size200
         case size300
@@ -1736,7 +1736,7 @@ public final class GlobalTokens {
 
     // MARK: - FontWeight
 
-    public enum FontWeightToken: CaseIterable {
+    public enum FontWeightToken: TokenSetKey {
         case regular
         case medium
         case semibold
@@ -1757,7 +1757,7 @@ public final class GlobalTokens {
 
     // MARK: - IconSize
 
-    public enum IconSizeToken: CaseIterable {
+    public enum IconSizeToken: TokenSetKey {
         case xxxSmall
         case xxSmall
         case xSmall
@@ -1793,7 +1793,7 @@ public final class GlobalTokens {
 
     // MARK: - Spacing
 
-    public enum SpacingToken: CaseIterable {
+    public enum SpacingToken: TokenSetKey {
         case none
         case xxxSmall
         case xxSmall
@@ -1835,7 +1835,7 @@ public final class GlobalTokens {
 
     // MARK: - BorderRadius
 
-    public enum BorderRadiusToken: CaseIterable {
+    public enum BorderRadiusToken: TokenSetKey {
         case none
         case small
         case medium
@@ -1862,7 +1862,7 @@ public final class GlobalTokens {
 
     // MARK: - BorderSize
 
-    public enum BorderSizeToken: CaseIterable {
+    public enum BorderSizeToken: TokenSetKey {
         case none
         case thin
         case thick

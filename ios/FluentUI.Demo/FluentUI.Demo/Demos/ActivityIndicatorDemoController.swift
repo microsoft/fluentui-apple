@@ -236,45 +236,33 @@ extension ActivityIndicatorDemoController: DemoAppearanceDelegate {
         guard let fluentTheme = self.view.window?.fluentTheme else {
             return
         }
-        if isOverrideEnabled {
-            fluentTheme.register(controlType: ActivityIndicator.self, tokens: {
-                ThemeWideOverrideActivityIndicatorTokens()
-            })
-        } else {
-            fluentTheme.register(controlType: ActivityIndicator.self, tokens: nil)
-        }
-
+        fluentTheme.register(tokenSetType: ActivityIndicatorTokenSet.self,
+                             tokenSet: isOverrideEnabled ? themeWideOverrideActivityIndicatorTokens : nil)
     }
 
     func perControlOverrideDidChange(isOverrideEnabled: Bool) {
         defaultColorIndicators.values.forEach { activityIndicator in
-            activityIndicator.state.overrideTokens = (isOverrideEnabled ? PerControlOverrideActivityIndicatorTokens() : nil)
+            activityIndicator.tokenSet.replaceAllOverrides(with: isOverrideEnabled ? perControlOverrideActivityIndicatorTokens : nil)
         }
     }
 
     func isThemeWideOverrideApplied() -> Bool {
-        return self.view.window?.fluentTheme.tokenOverride(for: ActivityIndicator.self) != nil
+        return self.view.window?.fluentTheme.tokens(for: ActivityIndicatorTokenSet.self)?.isEmpty == false
     }
 
     // MARK: - Custom tokens
 
-    private class ThemeWideOverrideActivityIndicatorTokens: ActivityIndicatorTokens {
-        override var defaultColor: DynamicColor {
-            return DynamicColor(light: GlobalTokens().sharedColors[.red][.primary])
-        }
-
-        override var side: CGFloat {
-            return 20.0
-        }
+    private var themeWideOverrideActivityIndicatorTokens: [ActivityIndicatorTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .defaultColor: .dynamicColor { DynamicColor(light: GlobalTokens().sharedColors[.red][.primary]) },
+            .thickness: .float { 20.0 }
+        ]
     }
 
-    private class PerControlOverrideActivityIndicatorTokens: ActivityIndicatorTokens {
-        override var defaultColor: DynamicColor {
-            return DynamicColor(light: GlobalTokens().sharedColors[.green][.primary])
-        }
-
-        override var thickness: CGFloat {
-            return 10.0
-        }
+    private var perControlOverrideActivityIndicatorTokens: [ActivityIndicatorTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .defaultColor: .dynamicColor { DynamicColor(light: GlobalTokens().sharedColors[.green][.primary]) },
+            .thickness: .float { 10.0 }
+        ]
     }
 }

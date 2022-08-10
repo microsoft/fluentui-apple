@@ -214,48 +214,46 @@ extension TabBarViewDemoController: DemoAppearanceDelegate {
             return
         }
 
-        var tokensClosure: (() -> TabBarTokens)?
-        if isOverrideEnabled {
-            tokensClosure = {
-                return ThemeWideOverrideTabBarTokens()
-            }
-        }
-
-        fluentTheme.register(controlType: TabBarView.self, tokens: tokensClosure)
+        fluentTheme.register(tokenSetType: TabBarTokenSet.self,
+                             tokenSet: isOverrideEnabled ? perControlOverrideTabBarItemTokens : nil)
     }
 
     func perControlOverrideDidChange(isOverrideEnabled: Bool) {
-        let tokens = (isOverrideEnabled ? PerControlOverrideTabBarItemTokens() : nil)
-        _ = tabBarView?.overrideTokens(tokens)
+        let tokens = (isOverrideEnabled ? perControlOverrideTabBarItemTokens : nil)
+        tabBarView?.tokenSet.replaceAllOverrides(with: tokens)
     }
 
     func isThemeWideOverrideApplied() -> Bool {
-        return self.view.window?.fluentTheme.tokenOverride(for: TabBarView.self) != nil
+        return self.view.window?.fluentTheme.tokens(for: TabBarTokenSet.self) != nil
     }
 
     // MARK: - Custom tokens
-    private class ThemeWideOverrideTabBarTokens: TabBarTokens {
-        override var tabBarItemSelectedColor: DynamicColor {
-            return .init(light: globalTokens.sharedColors[.burgundy][.tint10],
-                         lightHighContrast: globalTokens.sharedColors[.pumpkin][.tint10],
-                         dark: globalTokens.sharedColors[.darkTeal][.tint40],
-                         darkHighContrast: globalTokens.sharedColors[.teal][.tint40])
-        }
-        override var tabBarItemUnselectedColor: DynamicColor {
-            return .init(light: globalTokens.sharedColors[.darkTeal][.tint20],
-                         lightHighContrast: globalTokens.sharedColors[.teal][.tint40],
-                         dark: globalTokens.sharedColors[.pumpkin][.tint40],
-                         darkHighContrast: globalTokens.sharedColors[.burgundy][.tint40])
-        }
+    private var themeWideOverrideTabBarTokens: [TabBarTokenSet.Tokens: ControlTokenValue] {
+        let globalTokens = GlobalTokens()
+        return [
+            .tabBarItemSelectedColor: .dynamicColor {
+                return .init(light: globalTokens.sharedColors[.burgundy][.tint10],
+                             lightHighContrast: globalTokens.sharedColors[.pumpkin][.tint10],
+                             dark: globalTokens.sharedColors[.darkTeal][.tint40],
+                             darkHighContrast: globalTokens.sharedColors[.teal][.tint40])
+            },
+            .tabBarItemUnselectedColor: .dynamicColor {
+                return .init(light: globalTokens.sharedColors[.darkTeal][.tint20],
+                             lightHighContrast: globalTokens.sharedColors[.teal][.tint40],
+                             dark: globalTokens.sharedColors[.pumpkin][.tint40],
+                             darkHighContrast: globalTokens.sharedColors[.burgundy][.tint40])
+            }
+        ]
     }
 
-    private class PerControlOverrideTabBarItemTokens: TabBarTokens {
-        override var tabBarItemTitleLabelFontPortrait: FontInfo? {
-            return .init(size: 15, weight: .bold)
-        }
-
-        override var tabBarItemTitleLabelFontLandscape: FontInfo? {
-            return .init(size: 15, weight: .bold)
-        }
+    private var perControlOverrideTabBarItemTokens: [TabBarTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .tabBarItemTitleLabelFontPortrait: .fontInfo {
+                return .init(size: 15, weight: .bold)
+            },
+            .tabBarItemTitleLabelFontLandscape: .fontInfo {
+                return .init(size: 15, weight: .bold)
+            }
+        ]
     }
 }

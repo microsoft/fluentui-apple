@@ -6,7 +6,7 @@
 import CoreGraphics
 
 /// Represents a two-part shadow as used by FluentUI.
-public struct ShadowInfo {
+public struct ShadowInfo: Equatable {
     let colorOne: DynamicColor
     let blurOne: CGFloat
     let xOne: CGFloat

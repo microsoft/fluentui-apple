@@ -54,7 +54,7 @@ class TableViewCellDemoController: DemoTableViewController {
 
     private var editButton: UIBarButtonItem?
 
-    private var overrideTokens: TableViewCellTokens?
+    private var overrideTokens: [TableViewCellTokenSet.Tokens: ControlTokenValue]?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -116,50 +116,46 @@ extension TableViewCellDemoController: DemoAppearanceDelegate {
             return
         }
 
-        var tokensClosure: (() -> TableViewCellTokens)?
-        if isOverrideEnabled {
-            tokensClosure = {
-                return ThemeWideOverrideTableViewCellTokens()
-            }
-        }
-
-        fluentTheme.register(controlType: TableViewCell.self, tokens: tokensClosure)
+        fluentTheme.register(tokenSetType: TableViewCellTokenSet.self,
+                             tokenSet: isOverrideEnabled ? themeWideOverrideTableViewCellTokens : nil)
     }
 
     func perControlOverrideDidChange(isOverrideEnabled: Bool) {
-        overrideTokens = isOverrideEnabled ? PerControlOverrideTableViewCellTokens() : nil
+        overrideTokens = isOverrideEnabled ? perControlOverrideTableViewCellTokens : nil
         self.tableView.reloadData()
     }
 
     func isThemeWideOverrideApplied() -> Bool {
-        return self.view.window?.fluentTheme.tokenOverride(for: TableViewCell.self) != nil
+        return self.view.window?.fluentTheme.tokens(for: TableViewCellTokenSet.self) != nil
     }
 
     // MARK: - Custom tokens
-    private class ThemeWideOverrideTableViewCellTokens: TableViewCellTokens {
-        override var cellBackgroundColor: DynamicColor {
-            // "Berry"
-            return DynamicColor(light: GlobalTokens().sharedColors[.berry][.tint50],
-                                dark: GlobalTokens().sharedColors[.berry][.shade40])
-        }
+    private var themeWideOverrideTableViewCellTokens: [TableViewCellTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .cellBackgroundColor: .dynamicColor {
+                // "Berry"
+                return DynamicColor(light: GlobalTokens().sharedColors[.berry][.tint50],
+                                    dark: GlobalTokens().sharedColors[.berry][.shade40])
+            }
+        ]
     }
 
-    private class PerControlOverrideTableViewCellTokens: TableViewCellTokens {
-        override var cellBackgroundColor: DynamicColor {
-            // "Brass"
-            return DynamicColor(light: GlobalTokens().sharedColors[.brass][.tint50],
-                                dark: GlobalTokens().sharedColors[.brass][.shade40])
-        }
-
-        override var accessoryDisclosureIndicatorColor: DynamicColor {
-            // "Forest"
-            return DynamicColor(light: GlobalTokens().sharedColors[.forest][.tint10],
-                                dark: GlobalTokens().sharedColors[.forest][.shade40])
-        }
-
-        override var customViewTrailingMargin: CGFloat {
-            return 0
-        }
+    private var perControlOverrideTableViewCellTokens: [TableViewCellTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .cellBackgroundColor: .dynamicColor {
+                // "Brass"
+                return DynamicColor(light: GlobalTokens().sharedColors[.brass][.tint50],
+                                    dark: GlobalTokens().sharedColors[.brass][.shade40])
+            },
+            .accessoryDisclosureIndicatorColor: .dynamicColor {
+                // "Forest"
+                return DynamicColor(light: GlobalTokens().sharedColors[.forest][.tint10],
+                                    dark: GlobalTokens().sharedColors[.forest][.shade40])
+            },
+            .customViewTrailingMargin: .float {
+                return 0
+            }
+        ]
     }
 }
 
@@ -229,7 +225,7 @@ extension TableViewCellDemoController {
 
         cell.isInSelectionMode = section.allowsMultipleSelection ? isInSelectionMode : false
 
-        cell.tableViewCellOverrideTokens = overrideTokens
+        cell.tokenSet.replaceAllOverrides(with: overrideTokens)
 
         return cell
     }

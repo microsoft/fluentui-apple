@@ -271,39 +271,32 @@ extension HUDDemoController: DemoAppearanceDelegate {
         guard let fluentTheme = self.view.window?.fluentTheme else {
             return
         }
-        if isOverrideEnabled {
-            fluentTheme.register(controlType: HeadsUpDisplay.self, tokens: {
-                ThemeWideOverrideActivityHeadsUpDisplayTokens()
-            })
-        } else {
-            fluentTheme.register(controlType: HeadsUpDisplay.self, tokens: nil)
-        }
-
+        fluentTheme.register(tokenSetType: HeadsUpDisplayTokenSet.self,
+                             tokenSet: isOverrideEnabled ? themeWideOverrideActivityHeadsUpDisplayTokens : nil)
     }
 
     func perControlOverrideDidChange(isOverrideEnabled: Bool) {
-        HUD.shared.overrideTokens = isOverrideEnabled ? PerControlOverrideHeadsUpDisplayTokens() : nil
+        HUD.shared.overrideTokens = isOverrideEnabled ? perControlOverrideHeadsUpDisplayTokens : nil
     }
 
     func isThemeWideOverrideApplied() -> Bool {
-        return view.window?.fluentTheme.tokenOverride(for: HeadsUpDisplay.self) != nil
+        return view.window?.fluentTheme.tokens(for: HeadsUpDisplayTokenSet.self) != nil
     }
 
     // MARK: - Custom tokens
 
-    private class ThemeWideOverrideActivityHeadsUpDisplayTokens: HeadsUpDisplayTokens {
-        override var backgroundColor: DynamicColor {
-            return aliasTokens.backgroundColors[.brandHover]
-        }
+    private var themeWideOverrideActivityHeadsUpDisplayTokens: [HeadsUpDisplayTokenSet.Tokens: ControlTokenValue] {
+        let aliasTokens = AliasTokens()
+        return [
+            .backgroundColor: .dynamicColor { aliasTokens.backgroundColors[.brandHover] }
+        ]
     }
 
-    private class PerControlOverrideHeadsUpDisplayTokens: HeadsUpDisplayTokens {
-        override var cornerRadius: CGFloat {
-            return globalTokens.borderRadius[.xLarge]
-        }
-
-        override var foregroundColor: DynamicColor {
-            return globalTokens.brandColors[.primary]
-        }
+    private var perControlOverrideHeadsUpDisplayTokens: [HeadsUpDisplayTokenSet.Tokens: ControlTokenValue] {
+        let globalTokens = GlobalTokens()
+        return [
+            .cornerRadius: .float { globalTokens.borderRadius[.xLarge] },
+            .foregroundColor: .dynamicColor { globalTokens.brandColors[.primary] }
+        ]
     }
 }

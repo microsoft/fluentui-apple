@@ -34,7 +34,7 @@ public extension View {
                              actionButtonTitle: String? = nil,
                              actionButtonAction: (() -> Void)? = nil,
                              messageButtonAction: (() -> Void)? = nil,
-                             overrideTokens: NotificationTokens? = nil) -> some View {
+                             overrideTokens: [NotificationTokenSet.Tokens: ControlTokenValue]? = nil) -> some View {
         self.presentingView(isPresented: isPresented,
                             isBlocking: isBlocking) {
             FluentNotification(style: style,
@@ -54,9 +54,4 @@ public extension View {
 }
 
 public extension FluentNotification {
-    /// Provides a custom design token set to be used when drawing this control.
-    func overrideTokens(_ tokens: NotificationTokens?) -> FluentNotification {
-        state.overrideTokens = tokens
-        return self
-    }
 }

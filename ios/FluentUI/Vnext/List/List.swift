@@ -126,13 +126,12 @@ public struct FluentList: View {
 }
 
 /// Properties that make up section content
-class MSFListSectionStateImpl: NSObject, ObservableObject, Identifiable, ControlConfiguration, MSFListSectionState {
+class MSFListSectionStateImpl: ControlState, MSFListSectionState {
     init(style: MSFHeaderStyle = .standard) {
         self.style = style
         super.init()
     }
 
-    @Published var overrideTokens: HeaderTokens?
     @Published private(set) var cells: [MSFListCellStateImpl] = []
     @Published var title: String?
     @Published var backgroundColor: UIColor?

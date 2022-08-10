@@ -34,13 +34,13 @@ open class ShimmerLinesView: ShimmerView {
                 }
             }()
 
-            let labelHeight = tokens.labelHeight
+            let labelHeight = tokenSet[.labelHeight].float
             linelayer.frame = CGRect(x: 0, y: currentTop, width: fillPercent * frame.width, height: labelHeight)
 
-            currentTop += labelHeight + tokens.labelSpacing
+            currentTop += labelHeight + tokenSet[.labelSpacing].float
         }
 
-        shimmeringLayer.frame = CGRect(x: -tokens.shimmerWidth, y: 0.0, width: frame.width + 2 * tokens.shimmerWidth, height: frame.height)
+        shimmeringLayer.frame = CGRect(x: -tokenSet[.shimmerWidth].float, y: 0.0, width: frame.width + 2 * tokenSet[.shimmerWidth].float, height: frame.height)
         viewCoverLayers.forEach { $0.frame = flipRectForRTL($0.frame) }
 
         updateShimmeringLayer()
@@ -49,7 +49,7 @@ open class ShimmerLinesView: ShimmerView {
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
         let desiredLineCount = CGFloat(lineCount(for: size.height))
-        let height = desiredLineCount * tokens.labelHeight + (desiredLineCount - 1) * tokens.labelSpacing
+        let height = desiredLineCount * tokenSet[.labelHeight].float + (desiredLineCount - 1) * tokenSet[.labelSpacing].float
         return CGSize(width: size.width, height: height)
     }
 
@@ -91,8 +91,8 @@ open class ShimmerLinesView: ShimmerView {
 
         for i in 0..<desiredLineCount {
             let lineLayer = i < viewCoverLayers.count ? viewCoverLayers[i] : CALayer()
-            lineLayer.cornerRadius = tokens.labelCornerRadius >= 0 ? tokens.labelCornerRadius : tokens.cornerRadius
-            lineLayer.backgroundColor = UIColor(dynamicColor: tokens.tintColor).cgColor
+            lineLayer.cornerRadius = tokenSet[.labelCornerRadius].float >= 0 ? tokenSet[.labelCornerRadius].float : tokenSet[.cornerRadius].float
+            lineLayer.backgroundColor = UIColor(dynamicColor: tokenSet[.tintColor].dynamicColor).cgColor
 
             // Add layer
             newLineLayers.append(lineLayer)
@@ -106,9 +106,9 @@ open class ShimmerLinesView: ShimmerView {
 
     @objc private func lineCount(for availableHeight: CGFloat) -> Int {
         if lineCount == 0 {
-            let lineSpacing = tokens.labelSpacing
+            let lineSpacing = tokenSet[.labelSpacing].float
             // Deduce lines count based on available height
-            return Int(floor((availableHeight + lineSpacing) / (tokens.labelHeight + lineSpacing)))
+            return Int(floor((availableHeight + lineSpacing) / (tokenSet[.labelHeight].float + lineSpacing)))
         } else {
             // Hardcoded lines count
             return lineCount

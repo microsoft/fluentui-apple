@@ -4,6 +4,7 @@
 //
 
 import UIKit
+import Combine
 
 /**
  `CommandBar` is a horizontal scrollable list of icon buttons divided by groups.
@@ -57,16 +58,18 @@ public class CommandBar: UIView, TokenizedControlInternal {
     @objc public init(itemGroups: [CommandBarItemGroup],
                       leadingItemGroups: [CommandBarItemGroup]? = nil,
                       trailingItemGroups: [CommandBarItemGroup]? = nil) {
+        self.tokenSet = CommandBarTokenSet()
+
         leadingCommandGroupsView = CommandBarCommandGroupsView(itemGroups: leadingItemGroups,
                                                                buttonsPersistSelection: false,
-                                                               tokens: tokens)
+                                                               tokenSet: tokenSet)
         leadingCommandGroupsView.translatesAutoresizingMaskIntoConstraints = false
         mainCommandGroupsView = CommandBarCommandGroupsView(itemGroups: itemGroups,
-                                                            tokens: tokens)
+                                                            tokenSet: tokenSet)
         mainCommandGroupsView.translatesAutoresizingMaskIntoConstraints = false
         trailingCommandGroupsView = CommandBarCommandGroupsView(itemGroups: trailingItemGroups,
                                                                 buttonsPersistSelection: false,
-                                                                tokens: tokens)
+                                                                tokenSet: tokenSet)
         trailingCommandGroupsView.translatesAutoresizingMaskIntoConstraints = false
 
         commandBarContainerStackView = UIStackView()
@@ -80,10 +83,20 @@ public class CommandBar: UIView, TokenizedControlInternal {
                                                name: .didChangeTheme,
                                                object: nil)
         configureHierarchy()
+
+        // Update appearance whenever `tokenSet` changes.
+        tokenSetSink = tokenSet.objectWillChange.sink { [weak self] _ in
+            // Values will be updated on the next run loop iteration.
+            DispatchQueue.main.async {
+                self?.updateButtonTokens()
+            }
+        }
     }
 
     public override func didMoveToWindow() {
         super.didMoveToWindow()
+
+        tokenSet.update(fluentTheme)
         updateButtonTokens()
     }
 
@@ -98,11 +111,6 @@ public class CommandBar: UIView, TokenizedControlInternal {
         leadingCommandGroupsView.updateButtonsState()
         mainCommandGroupsView.updateButtonsState()
         trailingCommandGroupsView.updateButtonsState()
-    }
-
-    public func overrideTokens(_ tokens: CommandBarTokens?) -> Self {
-        overrideTokens = tokens
-        return self
     }
 
     // MARK: Overrides
@@ -122,20 +130,15 @@ public class CommandBar: UIView, TokenizedControlInternal {
 
     // MARK: - TokenizedControl
 
-    public typealias TokenType = CommandBarTokens
+    public typealias TokenSetKeyType = CommandBarTokenSet.Tokens
+    public var tokenSet: CommandBarTokenSet
 
-    let defaultTokens: CommandBarTokens = .init()
-    var tokens: CommandBarTokens = .init()
-    var overrideTokens: CommandBarTokens? {
-        didSet {
-            updateButtonTokens()
-        }
-    }
+    var tokenSetSink: AnyCancellable?
 
     @objc private func themeDidChange(_ notification: Notification) {
         if let window = self.window,
            window.isEqual(notification.object) {
-            updateButtonTokens()
+            tokenSet.update(window.fluentTheme)
         }
     }
 
@@ -203,7 +206,7 @@ public class CommandBar: UIView, TokenizedControlInternal {
 
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
-        let itemInterspace: CGFloat = tokens.itemInterspace
+        let itemInterspace: CGFloat = tokenSet[.itemInterspace].float
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.contentInset = scrollViewContentInset()
         scrollView.showsVerticalScrollIndicator = false
@@ -266,7 +269,7 @@ public class CommandBar: UIView, TokenizedControlInternal {
     }
 
     private func scrollViewContentInset() -> UIEdgeInsets {
-        let fixedButtonSpacing = tokens.itemInterspace
+        let fixedButtonSpacing = tokenSet[.itemInterspace].float
         return UIEdgeInsets(top: 0,
                             left: leadingCommandGroupsView.isHidden ? LayoutConstants.insets.left : fixedButtonSpacing,
                             bottom: 0,
@@ -293,10 +296,9 @@ public class CommandBar: UIView, TokenizedControlInternal {
     }
 
     private func updateButtonTokens() {
-        self.tokens = resolvedTokens
-        leadingCommandGroupsView.tokens = tokens
-        mainCommandGroupsView.tokens = tokens
-        trailingCommandGroupsView.tokens = tokens
+        leadingCommandGroupsView.updateButtonGroupViews()
+        mainCommandGroupsView.updateButtonGroupViews()
+        trailingCommandGroupsView.updateButtonGroupViews()
     }
 
     @objc private func handleCommandButtonTapped(_ sender: CommandBarButton) {

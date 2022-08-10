@@ -6,10 +6,10 @@
 import UIKit
 
 class CommandBarCommandGroupsView: UIView {
-    init(itemGroups: [CommandBarItemGroup]? = nil, buttonsPersistSelection: Bool = true, tokens: CommandBarTokens) {
+    init(itemGroups: [CommandBarItemGroup]? = nil, buttonsPersistSelection: Bool = true, tokenSet: CommandBarTokenSet) {
         self.itemGroups = itemGroups ?? []
         self.buttonsPersistSelection = buttonsPersistSelection
-        self.tokens = tokens
+        self.tokenSet = tokenSet
 
         buttonGroupsStackView = UIStackView()
 
@@ -53,11 +53,7 @@ class CommandBarCommandGroupsView: UIView {
         }
     }
 
-    var tokens: CommandBarTokens {
-        didSet {
-            updateButtonGroupViews()
-        }
-    }
+    let tokenSet: CommandBarTokenSet
 
     // MARK: - Private properties
 
@@ -79,7 +75,7 @@ class CommandBarCommandGroupsView: UIView {
     }
 
     /// Refreshes the `buttonGroupViews` array of `CommandBarButtonGroupView`s that are displayed in the view
-    private func updateButtonGroupViews() {
+    func updateButtonGroupViews() {
         updateItemsToButtonsMap()
         buttonGroupViews = itemGroups.map { items in
                 CommandBarButtonGroupView(buttons: items.compactMap { item in
@@ -90,7 +86,7 @@ class CommandBarCommandGroupsView: UIView {
                         button.updateState()
                     }
                     return button
-                }, commandBarTokens: tokens)
+                }, tokenSet: tokenSet)
         }
     }
 
@@ -101,7 +97,7 @@ class CommandBarCommandGroupsView: UIView {
     }
 
     private func createButton(forItem item: CommandBarItem, isPersistSelection: Bool = true) -> CommandBarButton {
-        let button = CommandBarButton(item: item, isPersistSelection: isPersistSelection, commandBarTokens: tokens)
+        let button = CommandBarButton(item: item, isPersistSelection: isPersistSelection, tokenSet: tokenSet)
         button.addTarget(self, action: #selector(handleCommandButtonTapped(_:)), for: .touchUpInside)
 
         return button

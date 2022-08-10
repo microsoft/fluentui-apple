@@ -331,49 +331,47 @@ extension SideTabBarDemoController: DemoAppearanceDelegate {
             return
         }
 
-        var tokensClosure: (() -> SideTabBarTokens)?
-        if isOverrideEnabled {
-            tokensClosure = {
-                return ThemeWideOverrideSideTabBarTokens()
-            }
-        }
-
-        fluentTheme.register(controlType: SideTabBar.self, tokens: tokensClosure)
+        fluentTheme.register(tokenSetType: SideTabBarTokenSet.self,
+                             tokenSet: isOverrideEnabled ? themeWideOverrideSideTabBarTokens : nil)
     }
 
     func perControlOverrideDidChange(isOverrideEnabled: Bool) {
-        let tokens = (isOverrideEnabled ? PerControlOverrideSideTabBarItemTokens() : nil)
-        _ = sideTabBar.overrideTokens(tokens)
+        let tokens = (isOverrideEnabled ? perControlOverrideSideTabBarItemTokens : nil)
+        sideTabBar.tokenSet.replaceAllOverrides(with: tokens)
     }
 
     func isThemeWideOverrideApplied() -> Bool {
-        return contentViewController?.view.window?.fluentTheme.tokenOverride(for: SideTabBar.self) != nil
+        return contentViewController?.view.window?.fluentTheme.tokens(for: SideTabBarTokenSet.self) != nil
     }
 
     // MARK: - Custom tokens
-    private class ThemeWideOverrideSideTabBarTokens: SideTabBarTokens {
-        override var tabBarItemSelectedColor: DynamicColor {
-            return .init(light: globalTokens.sharedColors[.burgundy][.tint10],
-                         lightHighContrast: globalTokens.sharedColors[.pumpkin][.tint10],
-                         dark: globalTokens.sharedColors[.darkTeal][.tint40],
-                         darkHighContrast: globalTokens.sharedColors[.teal][.tint40])
-        }
-        override var tabBarItemUnselectedColor: DynamicColor {
-            return .init(light: globalTokens.sharedColors[.darkTeal][.tint20],
-                         lightHighContrast: globalTokens.sharedColors[.teal][.tint40],
-                         dark: globalTokens.sharedColors[.pumpkin][.tint40],
-                         darkHighContrast: globalTokens.sharedColors[.burgundy][.tint40])
-        }
+    private var themeWideOverrideSideTabBarTokens: [SideTabBarTokenSet.Tokens: ControlTokenValue] {
+        let globalTokens = GlobalTokens()
+        return [
+            .tabBarItemSelectedColor: .dynamicColor {
+                return .init(light: globalTokens.sharedColors[.burgundy][.tint10],
+                             lightHighContrast: globalTokens.sharedColors[.pumpkin][.tint10],
+                             dark: globalTokens.sharedColors[.darkTeal][.tint40],
+                             darkHighContrast: globalTokens.sharedColors[.teal][.tint40])
+            },
+            .tabBarItemUnselectedColor: .dynamicColor {
+                return .init(light: globalTokens.sharedColors[.darkTeal][.tint20],
+                             lightHighContrast: globalTokens.sharedColors[.teal][.tint40],
+                             dark: globalTokens.sharedColors[.pumpkin][.tint40],
+                             darkHighContrast: globalTokens.sharedColors[.burgundy][.tint40])
+            }
+        ]
     }
 
-    private class PerControlOverrideSideTabBarItemTokens: SideTabBarTokens {
-        override var tabBarItemTitleLabelFontPortrait: FontInfo? {
-            return .init(size: 15, weight: .bold)
-        }
-
-        override var tabBarItemTitleLabelFontLandscape: FontInfo? {
-            return .init(size: 15, weight: .bold)
-        }
+    private var perControlOverrideSideTabBarItemTokens: [SideTabBarTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .tabBarItemTitleLabelFontPortrait: .fontInfo {
+                return .init(size: 15, weight: .bold)
+            },
+            .tabBarItemTitleLabelFontLandscape: .fontInfo {
+                return .init(size: 15, weight: .bold)
+            }
+        ]
     }
 }
 

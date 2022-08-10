@@ -4,6 +4,7 @@
 //
 
 import UIKit
+import Combine
 
 // MARK: DrawerResizingBehavior
 
@@ -99,11 +100,6 @@ public protocol DrawerControllerDelegate: AnyObject {
 @objc(MSFDrawerController)
 open class DrawerController: UIViewController, TokenizedControlInternal {
 
-    public func overrideTokens(_ tokens: DrawerTokens?) -> Self {
-        overrideTokens = tokens
-        return self
-    }
-
     private struct Constants {
         static let resistanceCoefficient: CGFloat = 0.1
         static let resizingThreshold: CGFloat = 30
@@ -115,7 +111,7 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
     }
 
     /// Set `backgroundColor` to customize background color of the drawer
-    @objc open var backgroundColor: UIColor {
+    @objc open lazy var backgroundColor: UIColor = .init(dynamicColor: tokenSet[.drawerContentBackground].dynamicColor) {
         didSet {
             useCustomBackgroundColor = true
             view.backgroundColor = backgroundColor
@@ -380,7 +376,7 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
 
     /// Shadow is required if background is transparent
     var shadowOffset: CGFloat {
-        return presentationBackground == .none ? tokens.shadowOffset : 0
+        return presentationBackground == .none ? tokenSet[.shadowOffset].float : 0
     }
 
     private let sourceView: UIView?
@@ -425,7 +421,6 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
         self.presentationOrigin = presentationOrigin == -1 ? nil : presentationOrigin
         self.presentationDirection = presentationDirection
         self.preferredMaximumExpansionHeight = preferredMaximumHeight
-        self.backgroundColor = UIColor(dynamicColor: tokens.drawerContentBackground)
 
         super.init(nibName: nil, bundle: nil)
 
@@ -446,7 +441,6 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
         self.presentationOrigin = presentationOrigin == -1 ? nil : presentationOrigin
         self.presentationDirection = presentationDirection
         self.preferredMaximumExpansionHeight = preferredMaximumHeight
-        self.backgroundColor = UIColor(dynamicColor: tokens.drawerContentBackground)
 
         super.init(nibName: nil, bundle: nil)
 
@@ -460,6 +454,14 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
     open func initialize() {
         modalPresentationStyle = .custom
         transitioningDelegate = self
+
+        // Update appearance whenever `tokenSet` changes.
+        tokenSetSink = tokenSet.objectWillChange.sink { [weak self] _ in
+            // Values will be updated on the next run loop iteration.
+            DispatchQueue.main.async {
+                self?.updateAppearance()
+            }
+        }
     }
 
     open func willDismiss() {
@@ -503,7 +505,6 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
         updateResizingHandleView()
         resizingGestureRecognizer?.isEnabled = false
 
-        updateDrawerTokens()
         updateAppearance()
     }
 
@@ -561,23 +562,11 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
         return dismissPresentingViewController(animated: true)
     }
 
-    func updateCurrentTokens(_ tokens: DrawerTokens) {
-        self.tokens = tokens
-    }
+    public typealias TokenSetKeyType = DrawerTokenSet.Tokens
+    public var tokenSet: DrawerTokenSet = .init()
 
-    var defaultTokens: DrawerTokens = .init()
-    var tokens: DrawerTokens = .init()
-    var overrideTokens: DrawerTokens? {
-        didSet {
-            updateDrawerTokens()
-        }
-    }
+    var tokenSetSink: AnyCancellable?
     var fluentTheme: FluentTheme { return view.fluentTheme }
-
-    private func updateDrawerTokens() {
-        let tokens = resolvedTokens
-        self.tokens = tokens
-    }
 
     // Change of presentation direction's orientation is not supported
     private func presentationDirection(for view: UIView) -> DrawerPresentationDirection {
@@ -769,11 +758,11 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
         // if DrawerController is shown in UIPopoverPresentationController then we want to show different darkElevated color
         if !useCustomBackgroundColor {
             if presentationController is UIPopoverPresentationController {
-                backgroundColor = UIColor(dynamicColor: tokens.popoverContentBackground)
+                backgroundColor = UIColor(dynamicColor: tokenSet[.popoverContentBackground].dynamicColor)
             } else if useNavigationBarBackgroundColor {
-                backgroundColor = UIColor(dynamicColor: tokens.navigationBarBackground)
+                backgroundColor = UIColor(dynamicColor: tokenSet[.navigationBarBackground].dynamicColor)
             } else {
-                backgroundColor = UIColor(dynamicColor: tokens.drawerContentBackground)
+                backgroundColor = UIColor(dynamicColor: tokenSet[.drawerContentBackground].dynamicColor)
             }
         }
 
@@ -994,11 +983,11 @@ extension DrawerController: UIViewControllerTransitioningDelegate {
             useNavigationBarBackgroundColor = (direction.isVertical && source.traitCollection.userInterfaceLevel == .elevated)
 
             let drawerPresentationController = DrawerPresentationController(presentedViewController: presented,
-                                                presentingViewController: presenting,
-                                                source: source,
-                                                presentationDirection: direction,
-                                                adjustHeightForKeyboard: adjustsHeightForKeyboard,
-                                                drawerTokens: tokens)
+                                                                            presentingViewController: presenting,
+                                                                            source: source,
+                                                                            presentationDirection: direction,
+                                                                            adjustHeightForKeyboard: adjustsHeightForKeyboard,
+                                                                            drawerTokenSet: tokenSet)
             drawerPresentationController.drawerPresentationControllerDelegate = self
             return drawerPresentationController
         case .popover:

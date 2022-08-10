@@ -4,6 +4,7 @@
 //
 
 import UIKit
+import Combine
 
 // MARK: ActivityIndicatorCell
 
@@ -20,36 +21,19 @@ open class ActivityIndicatorCell: UITableViewCell, TokenizedControlInternal {
         }
     }
 
-    // MARK: - ActivityIndicatorCell TokenizedControl
-    @objc public var activityIndicatorCellOverrideTokens: TableViewCellTokens? {
-        didSet {
-            self.overrideTokens = activityIndicatorCellOverrideTokens
-        }
-    }
-
-    let defaultTokens: TableViewCellTokens = .init()
-    var tokens: TableViewCellTokens = .init()
-    /// Design token set for this control, to use in place of the control's default Fluent tokens.
-    var overrideTokens: TableViewCellTokens? {
-        didSet {
-            updateTokens()
-        }
-    }
-
-    public func overrideTokens(_ tokens: TableViewCellTokens?) -> Self {
-        overrideTokens = tokens
-        return self
-    }
+    public typealias TokenSetKeyType = TableViewCellTokenSet.Tokens
+    public var tokenSet: TableViewCellTokenSet
+    var tokenSetSink: AnyCancellable?
 
     @objc private func themeDidChange(_ notification: Notification) {
         guard let window = window, window.isEqual(notification.object) else {
             return
         }
-        updateTokens()
+        tokenSet.update(window.fluentTheme)
+        updateAppearance()
     }
 
-    private func updateTokens() {
-        tokens = resolvedTokens
+    private func updateAppearance() {
         setupBackgroundColors()
     }
 
@@ -60,6 +44,7 @@ open class ActivityIndicatorCell: UITableViewCell, TokenizedControlInternal {
     }()
 
     public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        self.tokenSet = TableViewCellTokenSet(customViewSize: { .default })
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.addSubview(activityIndicator)
 
@@ -69,6 +54,11 @@ open class ActivityIndicatorCell: UITableViewCell, TokenizedControlInternal {
                                                object: nil)
 
         setupBackgroundColors()
+
+        // Update appearance whenever `tokenSet` changes.
+        tokenSetSink = tokenSet.sinkChanges { [weak self] in
+            self?.updateAppearance()
+        }
     }
 
     @objc public required init(coder aDecoder: NSCoder) {
@@ -84,12 +74,13 @@ open class ActivityIndicatorCell: UITableViewCell, TokenizedControlInternal {
 
     open override func didMoveToWindow() {
         super.didMoveToWindow()
-        updateTokens()
+        tokenSet.update(fluentTheme)
+        updateAppearance()
     }
 
     open override func prepareForReuse() {
         super.prepareForReuse()
-        updateTokens()
+        updateAppearance()
         activityIndicator.state.isAnimating = true
     }
 
@@ -99,7 +90,7 @@ open class ActivityIndicatorCell: UITableViewCell, TokenizedControlInternal {
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
         let maxWidth = size.width != 0 ? size.width : .infinity
-        return CGSize(width: maxWidth, height: tokens.minHeight)
+        return CGSize(width: maxWidth, height: tokenSet[.minHeight].float)
     }
 
     open override func setHighlighted(_ highlighted: Bool, animated: Bool) { }
@@ -109,7 +100,7 @@ open class ActivityIndicatorCell: UITableViewCell, TokenizedControlInternal {
     private func setupBackgroundColors() {
         if backgroundStyleType != .custom {
             var customBackgroundConfig = UIBackgroundConfiguration.clear()
-            customBackgroundConfig.backgroundColor = backgroundStyleType.defaultColor(tokens: tokens)
+            customBackgroundConfig.backgroundColor = backgroundStyleType.defaultColor(tokenSet: tokenSet)
             backgroundConfiguration = customBackgroundConfig
         }
     }
