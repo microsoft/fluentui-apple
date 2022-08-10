@@ -648,14 +648,6 @@ public final class AliasTokens {
     // MARK: Shared Colors
 
     public enum SharedColorsTokens: CaseIterable {
-        // Dark red
-        case darkRedBackground2
-        case darkRedForeground2
-        case darkRedBorderActive
-        // Cranberry
-        case cranberryBackground2
-        case cranberryForeground2
-        case cranberryBorderActive
         // Red
         case redBackground1
         case redBackground2
@@ -676,18 +668,6 @@ public final class AliasTokens {
         case darkOrangeBorderActive
         case darkOrangeBorder1
         case darkOrangeBorder2
-        // Pumpkin
-        case pumpkinBackground2
-        case pumpkinForeground2
-        case pumpkinBorderActive
-        // Peach
-        case peachBackground2
-        case peachForeground2
-        case peachBorderActive
-        // Marigold
-        case marigoldBackground2
-        case marigoldForeground2
-        case marigoldBorderActive
         // Yellow
         case yellowBackground1
         case yellowBackground2
@@ -698,26 +678,6 @@ public final class AliasTokens {
         case yellowBorderActive
         case yellowBorder1
         case yellowBorder2
-        // Gold
-        case goldBackground2
-        case goldForeground2
-        case goldBorderActive
-        // Brass
-        case brassBackground2
-        case brassForeground2
-        case brassBorderActive
-        // Brown
-        case brownBackground2
-        case brownForeground2
-        case brownBorderActive
-        // Forest
-        case forestBackground2
-        case forestForeground2
-        case forestBorderActive
-        // Seafoam
-        case seafoamBackground2
-        case seafoamForeground2
-        case seafoamBorderActive
         // Green
         case greenBackground1
         case greenBackground2
@@ -728,50 +688,6 @@ public final class AliasTokens {
         case greenBorderActive
         case greenBorder1
         case greenBorder2
-        // Dark green
-        case darkGreenBackground2
-        case darkGreenForeground2
-        case darkGreenBorderActive
-        // Light teal
-        case lightTealBackground2
-        case lightTealForeground2
-        case lightTealBorderActive
-        // Teal
-        case tealBackground2
-        case tealForeground2
-        case tealBorderActive
-        // Steel
-        case steelBackground2
-        case steelForeground2
-        case steelBorderActive
-        // Blue
-        case blueBackground2
-        case blueForeground2
-        case blueBorderActive
-        // Royal blue
-        case royalBlueBackground2
-        case royalBlueForeground2
-        case royalBlueBorderActive
-        // Cornflower
-        case cornflowerBackground2
-        case cornflowerForeground2
-        case cornflowerBorderActive
-        // Navy
-        case navyBackground2
-        case navyForeground2
-        case navyBorderActive
-        // Lavender
-        case lavenderBackground2
-        case lavenderForeground2
-        case lavenderBorderActive
-        // Purple
-        case purpleBackground2
-        case purpleForeground2
-        case purpleBorderActive
-        // Grape
-        case grapeBackground2
-        case grapeForeground2
-        case grapeBorderActive
         // Berry
         case berryBackground1
         case berryBackground2
@@ -782,62 +698,10 @@ public final class AliasTokens {
         case berryBorderActive
         case berryBorder1
         case berryBorder2
-        // Lilac
-        case lilacBackground2
-        case lilacForeground2
-        case lilacBorderActive
-        // Pink
-        case pinkBackground2
-        case pinkForeground2
-        case pinkBorderActive
-        // Magenta
-        case magentaBackground2
-        case magentaForeground2
-        case magentaBorderActive
-        // Plum
-        case plumBackground2
-        case plumForeground2
-        case plumBorderActive
-        // Beige
-        case beigeBackground2
-        case beigeForeground2
-        case beigeBorderActive
-        // Mink
-        case minkBackground2
-        case minkForeground2
-        case minkBorderActive
-        // Platinum
-        case platinumBackground2
-        case platinumForeground2
-        case platinumBorderActive
-        // Anchor
-        case anchorBackground2
-        case anchorForeground2
-        case anchorBorderActive
     }
     public lazy var sharedColors: TokenSet<SharedColorsTokens, DynamicColor> = .init { [weak self] token in
         guard let strongSelf = self else { preconditionFailure() }
         switch token {
-        //Dark red
-        case .darkRedBackground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.darkRed][.tint40],
-                                dark: strongSelf.globalTokens.sharedColors[.darkRed][.shade30])
-        case .darkRedForeground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.darkRed][.shade30],
-                                dark: strongSelf.globalTokens.sharedColors[.darkRed][.tint40])
-        case .darkRedBorderActive:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.darkRed][.primary],
-                                dark: strongSelf.globalTokens.sharedColors[.darkRed][.tint30])
-        // Cranberry
-        case .cranberryBackground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.cranberry][.tint40],
-                                dark: strongSelf.globalTokens.sharedColors[.cranberry][.shade30])
-        case .cranberryForeground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.cranberry][.shade30],
-                                dark: strongSelf.globalTokens.sharedColors[.cranberry][.tint40])
-        case .cranberryBorderActive:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.cranberry][.primary],
-                                dark: strongSelf.globalTokens.sharedColors[.cranberry][.tint30])
         // Red
         case .redBackground1:
             return DynamicColor(light: strongSelf.globalTokens.sharedColors[.red][.tint60],
@@ -978,276 +842,6 @@ public final class AliasTokens {
         case .berryBorder2:
             return DynamicColor(light: strongSelf.globalTokens.sharedColors[.berry][.primary],
                                 dark: strongSelf.globalTokens.sharedColors[.berry][.tint20])
-        // Pumpkin
-        case .pumpkinBackground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.pumpkin][.tint40],
-                                dark: strongSelf.globalTokens.sharedColors[.pumpkin][.shade30])
-        case .pumpkinForeground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.pumpkin][.shade30],
-                                dark: strongSelf.globalTokens.sharedColors[.pumpkin][.tint40])
-        case .pumpkinBorderActive:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.pumpkin][.primary],
-                                dark: strongSelf.globalTokens.sharedColors[.pumpkin][.tint30])
-        // Peach
-        case .peachBackground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.peach][.tint40],
-                                dark: strongSelf.globalTokens.sharedColors[.peach][.shade30])
-        case .peachForeground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.peach][.shade30],
-                                dark: strongSelf.globalTokens.sharedColors[.peach][.tint40])
-        case .peachBorderActive:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.peach][.primary],
-                                dark: strongSelf.globalTokens.sharedColors[.peach][.tint30])
-        // Marigold
-        case .marigoldBackground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.marigold][.tint40],
-                                dark: strongSelf.globalTokens.sharedColors[.marigold][.shade30])
-        case .marigoldForeground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.marigold][.shade30],
-                                dark: strongSelf.globalTokens.sharedColors[.marigold][.tint40])
-        case .marigoldBorderActive:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.marigold][.primary],
-                                dark: strongSelf.globalTokens.sharedColors[.marigold][.tint30])
-        // Gold
-        case .goldBackground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.gold][.tint40],
-                                dark: strongSelf.globalTokens.sharedColors[.gold][.shade30])
-        case .goldForeground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.gold][.shade30],
-                                dark: strongSelf.globalTokens.sharedColors[.gold][.tint40])
-        case .goldBorderActive:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.gold][.primary],
-                                dark: strongSelf.globalTokens.sharedColors[.gold][.tint30])
-        // Brass
-        case .brassBackground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.brass][.tint40],
-                                dark: strongSelf.globalTokens.sharedColors[.brass][.shade30])
-        case .brassForeground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.brass][.shade30],
-                                dark: strongSelf.globalTokens.sharedColors[.brass][.tint40])
-        case .brassBorderActive:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.brass][.primary],
-                                dark: strongSelf.globalTokens.sharedColors[.brass][.tint30])
-        // Brown
-        case .brownBackground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.brown][.tint40],
-                                dark: strongSelf.globalTokens.sharedColors[.brown][.shade30])
-        case .brownForeground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.brown][.shade30],
-                                dark: strongSelf.globalTokens.sharedColors[.brown][.tint40])
-        case .brownBorderActive:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.brown][.primary],
-                                dark: strongSelf.globalTokens.sharedColors[.brown][.tint30])
-        // Forest
-        case .forestBackground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.forest][.tint40],
-                                dark: strongSelf.globalTokens.sharedColors[.forest][.shade30])
-        case .forestForeground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.forest][.shade30],
-                                dark: strongSelf.globalTokens.sharedColors[.forest][.tint40])
-        case .forestBorderActive:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.forest][.primary],
-                                dark: strongSelf.globalTokens.sharedColors[.forest][.tint30])
-        // Seafoam
-        case .seafoamBackground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.seafoam][.tint40],
-                                dark: strongSelf.globalTokens.sharedColors[.seafoam][.shade30])
-        case .seafoamForeground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.seafoam][.shade30],
-                                dark: strongSelf.globalTokens.sharedColors[.seafoam][.tint40])
-        case .seafoamBorderActive:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.seafoam][.primary],
-                                dark: strongSelf.globalTokens.sharedColors[.seafoam][.tint30])
-        // Dark green
-        case .darkGreenBackground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.darkGreen][.tint40],
-                                dark: strongSelf.globalTokens.sharedColors[.darkGreen][.shade30])
-        case .darkGreenForeground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.darkGreen][.shade30],
-                                dark: strongSelf.globalTokens.sharedColors[.darkGreen][.tint40])
-        case .darkGreenBorderActive:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.darkGreen][.primary],
-                                dark: strongSelf.globalTokens.sharedColors[.darkGreen][.tint30])
-        // Light teal
-        case .lightTealBackground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.lightTeal][.tint40],
-                                dark: strongSelf.globalTokens.sharedColors[.lightTeal][.shade30])
-        case .lightTealForeground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.lightTeal][.shade30],
-                                dark: strongSelf.globalTokens.sharedColors[.lightTeal][.tint40])
-        case .lightTealBorderActive:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.lightTeal][.primary],
-                                dark: strongSelf.globalTokens.sharedColors[.lightTeal][.tint30])
-        // Teal
-        case .tealBackground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.teal][.tint40],
-                                dark: strongSelf.globalTokens.sharedColors[.teal][.shade30])
-        case .tealForeground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.teal][.shade30],
-                                dark: strongSelf.globalTokens.sharedColors[.teal][.tint40])
-        case .tealBorderActive:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.teal][.primary],
-                                dark: strongSelf.globalTokens.sharedColors[.teal][.tint30])
-        // Steel
-        case .steelBackground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.steel][.tint40],
-                                dark: strongSelf.globalTokens.sharedColors[.steel][.shade30])
-        case .steelForeground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.steel][.shade30],
-                                dark: strongSelf.globalTokens.sharedColors[.steel][.tint40])
-        case .steelBorderActive:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.steel][.primary],
-                                dark: strongSelf.globalTokens.sharedColors[.steel][.tint30])
-        // Blue
-        case .blueBackground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.blue][.tint40],
-                                dark: strongSelf.globalTokens.sharedColors[.blue][.shade30])
-        case .blueForeground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.blue][.shade30],
-                                dark: strongSelf.globalTokens.sharedColors[.blue][.tint40])
-        case .blueBorderActive:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.blue][.primary],
-                                dark: strongSelf.globalTokens.sharedColors[.blue][.tint30])
-        // Royal blue
-        case .royalBlueBackground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.royalBlue][.tint40],
-                                dark: strongSelf.globalTokens.sharedColors[.royalBlue][.shade30])
-        case .royalBlueForeground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.royalBlue][.shade30],
-                                dark: strongSelf.globalTokens.sharedColors[.royalBlue][.tint40])
-        case .royalBlueBorderActive:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.royalBlue][.primary],
-                                dark: strongSelf.globalTokens.sharedColors[.royalBlue][.tint30])
-        // Cornflower
-        case .cornflowerBackground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.cornflower][.tint40],
-                                dark: strongSelf.globalTokens.sharedColors[.cornflower][.shade30])
-        case .cornflowerForeground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.cornflower][.shade30],
-                                dark: strongSelf.globalTokens.sharedColors[.cornflower][.tint40])
-        case .cornflowerBorderActive:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.cornflower][.primary],
-                                dark: strongSelf.globalTokens.sharedColors[.cornflower][.tint30])
-        // Navy
-        case .navyBackground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.navy][.tint40],
-                                dark: strongSelf.globalTokens.sharedColors[.navy][.shade30])
-        case .navyForeground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.navy][.shade30],
-                                dark: strongSelf.globalTokens.sharedColors[.navy][.tint40])
-        case .navyBorderActive:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.navy][.primary],
-                                dark: strongSelf.globalTokens.sharedColors[.navy][.tint30])
-        // Lavender
-        case .lavenderBackground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.lavender][.tint40],
-                                dark: strongSelf.globalTokens.sharedColors[.lavender][.shade30])
-        case .lavenderForeground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.lavender][.shade30],
-                                dark: strongSelf.globalTokens.sharedColors[.lavender][.tint40])
-        case .lavenderBorderActive:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.lavender][.primary],
-                                dark: strongSelf.globalTokens.sharedColors[.lavender][.tint30])
-        // Purple
-        case .purpleBackground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.purple][.tint40],
-                                dark: strongSelf.globalTokens.sharedColors[.purple][.shade30])
-        case .purpleForeground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.purple][.shade30],
-                                dark: strongSelf.globalTokens.sharedColors[.purple][.tint40])
-        case .purpleBorderActive:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.purple][.primary],
-                                dark: strongSelf.globalTokens.sharedColors[.purple][.tint30])
-        // Grape
-        case .grapeBackground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.grape][.tint40],
-                                dark: strongSelf.globalTokens.sharedColors[.grape][.shade30])
-        case .grapeForeground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.grape][.shade30],
-                                dark: strongSelf.globalTokens.sharedColors[.grape][.tint40])
-        case .grapeBorderActive:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.grape][.primary],
-                                dark: strongSelf.globalTokens.sharedColors[.grape][.tint30])
-        // Lilac
-        case .lilacBackground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.lilac][.tint40],
-                                dark: strongSelf.globalTokens.sharedColors[.lilac][.shade30])
-        case .lilacForeground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.lilac][.shade30],
-                                dark: strongSelf.globalTokens.sharedColors[.lilac][.tint40])
-        case .lilacBorderActive:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.lilac][.primary],
-                                dark: strongSelf.globalTokens.sharedColors[.lilac][.tint30])
-        // Pink
-        case .pinkBackground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.pink][.tint40],
-                                dark: strongSelf.globalTokens.sharedColors[.pink][.shade30])
-        case .pinkForeground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.pink][.shade30],
-                                dark: strongSelf.globalTokens.sharedColors[.pink][.tint40])
-        case .pinkBorderActive:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.pink][.primary],
-                                dark: strongSelf.globalTokens.sharedColors[.pink][.tint30])
-        // Magenta
-        case .magentaBackground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.magenta][.tint40],
-                                dark: strongSelf.globalTokens.sharedColors[.magenta][.shade30])
-        case .magentaForeground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.magenta][.shade30],
-                                dark: strongSelf.globalTokens.sharedColors[.magenta][.tint40])
-        case .magentaBorderActive:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.magenta][.primary],
-                                dark: strongSelf.globalTokens.sharedColors[.magenta][.tint30])
-        // Plum
-        case .plumBackground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.plum][.tint40],
-                                dark: strongSelf.globalTokens.sharedColors[.plum][.shade30])
-        case .plumForeground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.plum][.shade30],
-                                dark: strongSelf.globalTokens.sharedColors[.plum][.tint40])
-        case .plumBorderActive:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.plum][.primary],
-                                dark: strongSelf.globalTokens.sharedColors[.plum][.tint30])
-        // Beige
-        case .beigeBackground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.beige][.tint40],
-                                dark: strongSelf.globalTokens.sharedColors[.beige][.shade30])
-        case .beigeForeground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.beige][.shade30],
-                                dark: strongSelf.globalTokens.sharedColors[.beige][.tint40])
-        case .beigeBorderActive:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.beige][.primary],
-                                dark: strongSelf.globalTokens.sharedColors[.beige][.tint30])
-        // Mink
-        case .minkBackground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.mink][.tint40],
-                                dark: strongSelf.globalTokens.sharedColors[.mink][.shade30])
-        case .minkForeground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.mink][.shade30],
-                                dark: strongSelf.globalTokens.sharedColors[.mink][.tint40])
-        case .minkBorderActive:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.mink][.primary],
-                                dark: strongSelf.globalTokens.sharedColors[.mink][.tint30])
-        // Platinum
-        case .platinumBackground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.platinum][.tint40],
-                                dark: strongSelf.globalTokens.sharedColors[.platinum][.shade30])
-        case .platinumForeground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.platinum][.shade30],
-                                dark: strongSelf.globalTokens.sharedColors[.platinum][.tint40])
-        case .platinumBorderActive:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.platinum][.primary],
-                                dark: strongSelf.globalTokens.sharedColors[.platinum][.tint30])
-        // Anchor
-        case .anchorBackground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.anchor][.tint40],
-                                dark: strongSelf.globalTokens.sharedColors[.anchor][.shade30])
-        case .anchorForeground2:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.anchor][.shade30],
-                                dark: strongSelf.globalTokens.sharedColors[.anchor][.tint40])
-        case .anchorBorderActive:
-            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.anchor][.primary],
-                                dark: strongSelf.globalTokens.sharedColors[.anchor][.tint30])
         }
     }
 
