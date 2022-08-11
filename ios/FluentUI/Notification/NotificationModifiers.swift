@@ -34,6 +34,7 @@ public extension View {
                              actionButtonTitle: String? = nil,
                              actionButtonAction: (() -> Void)? = nil,
                              messageButtonAction: (() -> Void)? = nil,
+                             showFromBottom: Bool = true,
                              overrideTokens: NotificationTokens? = nil) -> some View {
         self.presentingView(isPresented: isPresented,
                             isBlocking: isBlocking) {
@@ -47,7 +48,8 @@ public extension View {
                                image: image,
                                actionButtonTitle: actionButtonTitle,
                                actionButtonAction: actionButtonAction,
-                               messageButtonAction: messageButtonAction)
+                               messageButtonAction: messageButtonAction,
+                               showFromBottom: showFromBottom)
             .overrideTokens(overrideTokens)
         }
     }

@@ -69,6 +69,7 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
     ///   - actionButtonTitle:Title to display in the action button on the trailing edge of the control.
     ///   - actionButtonAction: Action to be dispatched by the action button on the trailing edge of the control.
     ///   - messageButtonAction: Action to be dispatched by tapping on the toast/bar notification.
+    ///   - showFromBottom: Defines whether the notification shows from the bottom of the presenting view or the top.
     public init(style: MSFNotificationStyle,
                 shouldSelfPresent: Bool = true,
                 isFlexibleWidthToast: Bool = false,
@@ -82,7 +83,8 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
                 trailingImageAccessibilityLabel: String? = nil,
                 actionButtonTitle: String? = nil,
                 actionButtonAction: (() -> Void)? = nil,
-                messageButtonAction: (() -> Void)? = nil) {
+                messageButtonAction: (() -> Void)? = nil,
+                showFromBottom: Bool = true) {
         let state = MSFNotificationStateImpl(style: style)
         state.message = message
         state.attributedMessage = attributedMessage
@@ -94,6 +96,7 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
         state.actionButtonTitle = actionButtonTitle
         state.actionButtonAction = actionButtonAction
         state.messageButtonAction = messageButtonAction
+        state.showFromBottom = showFromBottom
         self.state = state
         self.shouldSelfPresent = shouldSelfPresent
         self.isFlexibleWidthToast = isFlexibleWidthToast && style.isToast
