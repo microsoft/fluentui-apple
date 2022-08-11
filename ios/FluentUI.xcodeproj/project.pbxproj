@@ -7,11 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2A9745DE281733D700E1A1FD /* TableViewTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9745DD281733D700E1A1FD /* TableViewTokens.swift */; };
 		43488C46270FAD1300124C71 /* FluentNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43488C44270FAD0200124C71 /* FluentNotification.swift */; };
 		4B53505F27F63E3F0033B47F /* NotificationModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B53505E27F63E3F0033B47F /* NotificationModifiers.swift */; };
-		4BBD651F2755FD9500A8B09E /* MSFNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBD651E2755FD9500A8B09E /* MSFNotificationView.swift */; };
+		4BBD651F2755FD9500A8B09E /* MSFNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBD651E2755FD9500A8B09E /* MSFNotification.swift */; };
 		4BF01DA027B3A862005B32F2 /* UIApplication+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BF01D9F27B3A861005B32F2 /* UIApplication+Extensions.swift */; };
-		2A9745DE281733D700E1A1FD /* TableViewTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9745DD281733D700E1A1FD /* TableViewTokens.swift */; };
 		5303259B26B31B6B00611D05 /* AvatarModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5303259926B31B6B00611D05 /* AvatarModifiers.swift */; };
 		5306075326A1E6A4002D49CF /* AvatarGroupTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5306074F26A1E6A4002D49CF /* AvatarGroupTokens.swift */; };
 		5306075726A1E6A4002D49CF /* AvatarGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5306075126A1E6A4002D49CF /* AvatarGroup.swift */; };
@@ -193,7 +193,6 @@
 		ECA9218A27A33A2D00B66117 /* AvatarGroupModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA9218927A33A2D00B66117 /* AvatarGroupModifiers.swift */; };
 		ECA921C627B5D10B00B66117 /* ButtonDynamicColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA921C527B5D10A00B66117 /* ButtonDynamicColors.swift */; };
 		ECD7EE882863CD470022E737 /* NotificationTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BF01D9927B37CF8005B32F2 /* NotificationTokens.swift */; };
-		F5784DBA285D031800DBEAD6 /* docs in Resources */ = {isa = PBXBuildFile; fileRef = F5784DB9285D031800DBEAD6 /* docs */; };
 		FD053A352224CA33009B6378 /* DatePickerControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD053A342224CA33009B6378 /* DatePickerControllerTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -213,12 +212,12 @@
 		1168630222E131CF0088B302 /* TabBarItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarItemView.swift; sourceTree = "<group>"; };
 		1168630322E131CF0088B302 /* TabBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
 		118D9847230BBA2300BC0B72 /* TabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItem.swift; sourceTree = "<group>"; };
-		43488C44270FAD0200124C71 /* FluentNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluentNotification.swift; sourceTree = "<group>"; };
 		2A9745DD281733D700E1A1FD /* TableViewTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewTokens.swift; sourceTree = "<group>"; };
+		43488C44270FAD0200124C71 /* FluentNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluentNotification.swift; sourceTree = "<group>"; };
 		497DC2D724185885008D86F8 /* PillButtonBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButtonBar.swift; sourceTree = "<group>"; };
 		497DC2D824185885008D86F8 /* PillButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButton.swift; sourceTree = "<group>"; };
 		4B53505E27F63E3F0033B47F /* NotificationModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationModifiers.swift; sourceTree = "<group>"; };
-		4BBD651E2755FD9500A8B09E /* MSFNotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFNotificationView.swift; sourceTree = "<group>"; };
+		4BBD651E2755FD9500A8B09E /* MSFNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFNotification.swift; sourceTree = "<group>"; };
 		4BF01D9927B37CF8005B32F2 /* NotificationTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationTokens.swift; sourceTree = "<group>"; };
 		4BF01D9F27B3A861005B32F2 /* UIApplication+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extensions.swift"; sourceTree = "<group>"; };
 		5303259926B31B6B00611D05 /* AvatarModifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarModifiers.swift; sourceTree = "<group>"; };
@@ -517,7 +516,7 @@
 			isa = PBXGroup;
 			children = (
 				43488C44270FAD0200124C71 /* FluentNotification.swift */,
-				4BBD651E2755FD9500A8B09E /* MSFNotificationView.swift */,
+				4BBD651E2755FD9500A8B09E /* MSFNotification.swift */,
 				4B53505E27F63E3F0033B47F /* NotificationModifiers.swift */,
 				4BF01D9927B37CF8005B32F2 /* NotificationTokens.swift */,
 			);
@@ -1340,17 +1339,17 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"${DERIVED_SOURCES_DIR}/*-Swift.h",
+				"$(FLUENT_HSP_INPUT)/FluentUI-Swift.h",
 			);
 			name = "Copy FluentUI-Swift.h";
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"${target_dir}/*-Swift.h",
+				"$(FLUENT_HSP_OUTPUT)/FluentUI-Swift.h",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "target_dir=${BUILT_PRODUCTS_DIR}/include/${PRODUCT_MODULE_NAME}/\n\n# Ensure the target include path exists\nmkdir -p ${target_dir}\n\n# Copy any file that looks like a Swift generated header to the include path\ncp ${DERIVED_SOURCES_DIR}/*-Swift.h ${target_dir}\n";
+			shellScript = "echo \"Copying FluentUI-Swift.h from $FLUENT_HSP_INPUT to $FLUENT_HSP_OUTPUT\"\n\n# Ensure the target include path exists\nmkdir -p $FLUENT_HSP_OUTPUT\n\n# Copy any file that looks like a Swift generated header to the include path\ncp $FLUENT_HSP_INPUT/FluentUI-Swift.h $FLUENT_HSP_OUTPUT\n";
 		};
 		FD256C59218392B800EC9588 /* Run swiftlint */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1509,7 +1508,7 @@
 				5373D5732694D66F0032A3B4 /* UIKit+SwiftUI_interoperability.swift in Sources */,
 				5314E09E25F00FE20099271A /* DotView.swift in Sources */,
 				5314E1A525F01A7C0099271A /* TableViewCell.swift in Sources */,
-				4BBD651F2755FD9500A8B09E /* MSFNotificationView.swift in Sources */,
+				4BBD651F2755FD9500A8B09E /* MSFNotification.swift in Sources */,
 				5314E09525F00FA30099271A /* DimmingView.swift in Sources */,
 				5306075326A1E6A4002D49CF /* AvatarGroupTokens.swift in Sources */,
 				5314E11825F015EA0099271A /* PeoplePicker.swift in Sources */,

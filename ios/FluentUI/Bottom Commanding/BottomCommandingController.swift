@@ -653,6 +653,7 @@ open class BottomCommandingController: UIViewController {
             .prefix(expandedListSections.count - 1)
             .contains(where: { $0.items.last == item })
         cell.bottomSeparatorType = shouldShowSeparator ? .full : .none
+        cell.titleNumberOfLines = 0
     }
 
     // Reloads view in place from the given item object

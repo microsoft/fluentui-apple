@@ -106,7 +106,8 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
         guard let window = window, window.isEqual(notification.object) else {
             return
         }
-        updateColors()
+        updateColors()        // until popupmenuitemcell actually supports token system, clients will override colors via cell's backgroundColor property
+        backgroundStyleType = .custom
     }
 
     func setup(item: PopupMenuTemplateItem) {

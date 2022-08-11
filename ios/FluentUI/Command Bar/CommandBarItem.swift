@@ -88,6 +88,14 @@ open class CommandBarItem: NSObject {
         }
     }
 
+    @objc public var isHidden: Bool = false {
+        didSet {
+            if isHidden != oldValue {
+                propertyChangedUpdateBlock?(self)
+            }
+        }
+    }
+
     /// If `isPersistSelection` is `true`, this value would be changed to reflect the selection state of the button. Setting this value before providing to `CommandBar` would set the initial selection state.
     @objc public var isSelected: Bool {
         didSet {

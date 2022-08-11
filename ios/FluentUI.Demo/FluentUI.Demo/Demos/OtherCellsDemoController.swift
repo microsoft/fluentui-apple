@@ -85,7 +85,7 @@ extension OtherCellsDemoController: DemoAppearanceDelegate {
     }
 
     private class ThemeWideOverrideOtherCellTokens: TableViewCellTokens {
-        override var cellBackgroundColor: DynamicColor {
+        override var cellBackgroundGroupedColor: DynamicColor {
             // "Charcoal"
             return DynamicColor(light: GlobalTokens().sharedColors[.charcoal][.tint50],
                                 dark: GlobalTokens().sharedColors[.charcoal][.shade40])
@@ -93,7 +93,7 @@ extension OtherCellsDemoController: DemoAppearanceDelegate {
     }
 
     private class PerControlOverrideTableViewCellTokens: ActionsCellTokens {
-        override var cellBackgroundColor: DynamicColor {
+        override var cellBackgroundGroupedColor: DynamicColor {
             // "Burgundy"
             return DynamicColor(light: GlobalTokens().sharedColors[.burgundy][.tint50],
                                 dark: GlobalTokens().sharedColors[.burgundy][.shade40])
@@ -124,12 +124,14 @@ extension OtherCellsDemoController: UITableViewDataSource {
             let isLastInSection = indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1
             cell.bottomSeparatorType = isLastInSection ? .full : .inset
             cell.actionsCellOverrideTokens = overrideTokens
+            cell.backgroundStyleType = .grouped
             return cell
         }
 
         if let cell = tableView.dequeueReusableCell(withIdentifier: ActivityIndicatorCell.identifier) as? ActivityIndicatorCell,
            section.title == "ActivityIndicatorCell" {
             cell.activityIndicatorCellOverrideTokens = overrideTokens
+            cell.backgroundStyleType = .grouped
             return cell
         }
 
@@ -142,6 +144,7 @@ extension OtherCellsDemoController: UITableViewDataSource {
                 self.showAlertForSwitchTapped(isOn: cell.isOn)
             }
             cell.tableViewCellOverrideTokens = overrideTokens
+            cell.backgroundStyleType = .grouped
             return cell
         }
 
@@ -151,6 +154,7 @@ extension OtherCellsDemoController: UITableViewDataSource {
             }
             cell.setup(text: item.text1)
             cell.centeredLabelCellOverrideTokens = overrideTokens
+            cell.backgroundStyleType = .grouped
             return cell
         }
 

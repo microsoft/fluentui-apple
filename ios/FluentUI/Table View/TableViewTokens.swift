@@ -12,7 +12,7 @@ open class TableViewCellTokens: ControlTokens {
     }
 
     /// The grouped background color of the TableView.
-    open var backgroundGrouped: DynamicColor {
+    open var backgroundGroupedColor: DynamicColor {
         .init(light: aliasTokens.backgroundColors[.neutral2].light,
               dark: aliasTokens.backgroundColors[.neutral1].dark)
     }
@@ -25,7 +25,7 @@ open class TableViewCellTokens: ControlTokens {
     }
 
     /// The grouped background color of the TableViewCell.
-    open var cellBackgroundGrouped: DynamicColor {
+    open var cellBackgroundGroupedColor: DynamicColor {
         .init(light: aliasTokens.backgroundColors[.neutral1].light,
               dark: aliasTokens.backgroundColors[.neutral3].dark,
               darkElevated: ColorValue(0x212121))
