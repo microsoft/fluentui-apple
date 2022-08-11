@@ -21,11 +21,11 @@ open class CardNudgeTokens: ControlTokens {
 
     // MARK: - Design Tokens
 
-    open var accentColor: DynamicColor { globalTokens.brandColors[.shade20] }
+    open var accentColor: DynamicColor { aliasTokens.brandColors[.shade20] }
 
-    open var accentIconSize: CGFloat { globalTokens.iconSize[.xxSmall] }
+    open var accentIconSize: CGFloat { GlobalTokens.iconSize(.xxSmall) }
 
-    open var accentPadding: CGFloat { globalTokens.spacing[.xxSmall] }
+    open var accentPadding: CGFloat { GlobalTokens.spacing(.xxSmall) }
 
     open var backgroundColor: DynamicColor {
         switch style {
@@ -36,23 +36,23 @@ open class CardNudgeTokens: ControlTokens {
         }
     }
 
-    open var buttonBackgroundColor: DynamicColor { globalTokens.brandColors[.tint30] }
+    open var buttonBackgroundColor: DynamicColor { aliasTokens.brandColors[.tint30] }
 
-    open var buttonInnerPaddingHorizontal: CGFloat { globalTokens.spacing[.small] }
+    open var buttonInnerPaddingHorizontal: CGFloat { GlobalTokens.spacing(.small) }
 
-    open var circleRadius: CGFloat { globalTokens.borderRadius[.circle] }
+    open var circleRadius: CGFloat { GlobalTokens.borderRadius(.circle) }
 
-    open var circleSize: CGFloat { globalTokens.iconSize[.xxLarge] }
+    open var circleSize: CGFloat { GlobalTokens.iconSize(.xxLarge) }
 
-    open var cornerRadius: CGFloat { globalTokens.borderRadius[.xLarge] }
+    open var cornerRadius: CGFloat { GlobalTokens.borderRadius(.xLarge) }
 
-    open var horizontalPadding: CGFloat { globalTokens.spacing[.medium] }
+    open var horizontalPadding: CGFloat { GlobalTokens.spacing(.medium) }
 
-    open var iconSize: CGFloat { globalTokens.iconSize[.xSmall] }
+    open var iconSize: CGFloat { GlobalTokens.iconSize(.xSmall) }
 
-    open var interTextVerticalPadding: CGFloat { globalTokens.spacing[.xxxSmall] }
+    open var interTextVerticalPadding: CGFloat { GlobalTokens.spacing(.xxxSmall) }
 
-    open var mainContentVerticalPadding: CGFloat { globalTokens.spacing[.small] }
+    open var mainContentVerticalPadding: CGFloat { GlobalTokens.spacing(.small) }
 
     open var minimumHeight: CGFloat { 56.0 }
 
@@ -65,7 +65,7 @@ open class CardNudgeTokens: ControlTokens {
         }
     }
 
-    open var outlineWidth: CGFloat { globalTokens.borderSize[.thin] }
+    open var outlineWidth: CGFloat { GlobalTokens.borderSize(.thin) }
 
     open var subtitleTextColor: DynamicColor { aliasTokens.foregroundColors[.neutral3] }
 
@@ -74,9 +74,9 @@ open class CardNudgeTokens: ControlTokens {
         case .standard:
             return aliasTokens.foregroundColors[.neutral1]
         case .outline:
-            return globalTokens.brandColors[.shade20]
+            return aliasTokens.brandColors[.shade20]
         }
     }
 
-    open var verticalPadding: CGFloat { globalTokens.spacing[.xSmall] }
+    open var verticalPadding: CGFloat { GlobalTokens.spacing(.xSmall) }
 }

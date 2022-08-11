@@ -329,7 +329,7 @@ public struct Avatar: View, ConfigurableTokenizedControl {
 
     private func initialsCalculatedColor(fromPrimaryText primaryText: String?, secondaryText: String?, colorOptions: [DynamicColor]? = nil) -> DynamicColor {
         guard let colors = colorOptions else {
-            return .init(light: fluentTheme.globalTokens.neutralColors[.black])
+            return .init(light: GlobalTokens.neutralColors(.black))
         }
 
         // Set the color based on the primary text and secondary text

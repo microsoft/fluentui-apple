@@ -169,7 +169,7 @@ struct NotificationDemoView: View {
 
     private class NotificationOverrideTokens: NotificationTokens {
         override var imageColor: DynamicColor {
-            return DynamicColor(light: globalTokens.sharedColors[.orange][.primary])
+            return DynamicColor(light: GlobalTokens.sharedColors(.orange, .primary))
         }
 
         override var horizontalSpacing: CGFloat {
