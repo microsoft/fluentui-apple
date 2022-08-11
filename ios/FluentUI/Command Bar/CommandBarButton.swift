@@ -59,6 +59,7 @@ class CommandBarButton: UIButton {
     func updateState() {
         isEnabled = item.isEnabled
         isSelected = isPersistSelection && item.isSelected
+        isHidden = item.isHidden
 
         // always update icon and title as we only display one; we may alterenate between them, and the icon may also change
         let iconImage = item.iconImage
