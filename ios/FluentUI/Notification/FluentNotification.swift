@@ -106,6 +106,10 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
         } else {
             _isPresented = .constant(true)
         }
+
+        if _isPresented.wrappedValue == true {
+            _opacity = .init(initialValue: 1)
+        }
     }
 
     public var body: some View {
@@ -300,6 +304,7 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
                         }
                         .offset(y: showFromBottom ? bottomOffset : -bottomOffset)
                         .frame(width: proposedWidth, height: proposedSize.height, alignment: showFromBottom ? .bottom : .top)
+                        .opacity(opacity)
                 }
             }
         }
@@ -337,12 +342,14 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
                               dampingFraction: tokens.style.animationDampingRatio,
                               blendDuration: 0)) {
             bottomOffset = 0
+            opacity = 1
         }
     }
 
     private func dismissAnimated() {
         withAnimation(.linear(duration: tokens.style.animationDurationForHide)) {
             bottomOffset = bottomOffsetForDismissedState
+            opacity = 0
         }
     }
 
@@ -353,6 +360,7 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
     @State private var innerContentsSize: CGSize = CGSize()
     @State private var attributedMessageSize: CGSize = CGSize()
     @State private var attributedTitleSize: CGSize = CGSize()
+    @State private var opacity: CGFloat = 0
 
     // When true, the notification view will take up all proposed space
     // and automatically position itself within it.
