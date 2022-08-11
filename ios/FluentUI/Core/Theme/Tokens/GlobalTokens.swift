@@ -1755,6 +1755,7 @@ public struct GlobalTokens {
 
     // MARK: Initialization
 
+    @available(*, unavailable)
     private init() {
         preconditionFailure("GlobalTokens should never be initialized!")
     }
