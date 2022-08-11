@@ -36,6 +36,7 @@ struct NotificationDemoView: View {
     @State var isPresented: Bool = false
     @State var overrideTokens: Bool = false
     @State var isFlexibleWidthToast: Bool = false
+    @State var showFromBottom: Bool = true
 
     public var body: some View {
         let hasAttribute = hasBlueStrikethroughAttribute || hasLargeRedPapyrusFontAttribute
@@ -51,22 +52,23 @@ struct NotificationDemoView: View {
         let messageButtonAction = hasMessageAction ? { showAlert = true } : nil
         let hasMessage = !message.isEmpty
         let hasTitle = !title.isEmpty
-        let notification = FluentNotification(style: style,
-                                              isFlexibleWidthToast: isFlexibleWidthToast,
-                                              message: hasMessage ? message : nil,
-                                              attributedMessage: hasAttribute && hasMessage ? attributedMessage : nil,
-                                              title: hasTitle ? title : nil,
-                                              attributedTitle: hasAttribute && hasTitle ? attributedTitle : nil,
-                                              image: image,
-                                              trailingImage: trailingImage,
-                                              trailingImageAccessibilityLabel: showTrailingImage ? "Circle" : nil,
-                                              actionButtonTitle: actionButtonTitle,
-                                              actionButtonAction: actionButtonAction,
-                                              messageButtonAction: messageButtonAction)
-                            .overrideTokens(overrideTokens ? NotificationOverrideTokens() : nil)
 
         VStack {
-            notification
+            Rectangle()
+                .foregroundColor(.clear)
+                .presentNotification(style: style,
+                                     isFlexibleWidthToast: $isFlexibleWidthToast.wrappedValue,
+                                     message: hasMessage ? message : nil,
+                                     attributedMessage: hasAttribute && hasMessage ? attributedMessage : nil,
+                                     isBlocking: false,
+                                     isPresented: .constant(true),
+                                     title: hasTitle ? title : nil,
+                                     attributedTitle: hasAttribute && hasTitle ? attributedTitle : nil,
+                                     image: image,
+                                     actionButtonTitle: actionButtonTitle,
+                                     actionButtonAction: actionButtonAction,
+                                     messageButtonAction: messageButtonAction,
+                                     overrideTokens: $overrideTokens.wrappedValue ? NotificationOverrideTokens() : nil)
                 .frame(maxWidth: .infinity, maxHeight: 150, alignment: .center)
                 .alert(isPresented: $showAlert, content: {
                     Alert(title: Text("Button tapped"))
@@ -147,6 +149,7 @@ struct NotificationDemoView: View {
 
                         FluentUIDemoToggle(titleKey: "Override Tokens (Image Color and Horizontal Spacing)", isOn: $overrideTokens)
                         FluentUIDemoToggle(titleKey: "Flexible Width Toast", isOn: $isFlexibleWidthToast)
+                        FluentUIDemoToggle(titleKey: "Present From Bottom", isOn: $showFromBottom)
                     }
                 }
                 .padding()
@@ -164,6 +167,7 @@ struct NotificationDemoView: View {
                              actionButtonTitle: actionButtonTitle,
                              actionButtonAction: actionButtonAction,
                              messageButtonAction: messageButtonAction,
+                             showFromBottom: showFromBottom,
                              overrideTokens: $overrideTokens.wrappedValue ? NotificationOverrideTokens() : nil)
     }
 
