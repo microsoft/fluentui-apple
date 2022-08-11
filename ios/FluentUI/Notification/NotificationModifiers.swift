@@ -21,7 +21,7 @@ public extension View {
     ///   - trailingImageAccessibilityLabel: Optional localized accessibility label for the trailing image.
     ///   - actionButtonTitle:Title to display in the action button on the trailing edge of the control.
     ///   - actionButtonAction: Action to be dispatched by the action button on the trailing edge of the control.
-    ///   - hasDefaultDismissButton: Bool to control if the Notification has a dismiss action by default.
+    ///   - showDefaultDismissActionButton: Bool to control if the Notification has a dismiss action by default.
     ///   - messageButtonAction: Action to be dispatched by tapping on the toast/bar notification.
     ///   - overrideTokens: Custom NotificationTokens class that will override the default tokens.
     /// - Returns: The modified view with the capability of presenting a Notification.
@@ -38,7 +38,7 @@ public extension View {
                              trailingImageAccessibilityLabel: String? = nil,
                              actionButtonTitle: String? = nil,
                              actionButtonAction: (() -> Void)? = nil,
-                             hasDefaultDismissButton: Bool? = nil,
+                             showDefaultDismissActionButton: Bool? = nil,
                              messageButtonAction: (() -> Void)? = nil,
                              overrideTokens: NotificationTokens? = nil) -> some View {
         self.presentingView(isPresented: isPresented,
@@ -53,7 +53,7 @@ public extension View {
                                image: image,
                                actionButtonTitle: actionButtonTitle,
                                actionButtonAction: actionButtonAction,
-                               hasDefaultDismissButton: hasDefaultDismissButton,
+                               showDefaultDismissActionButton: showDefaultDismissActionButton,
                                messageButtonAction: messageButtonAction)
             .overrideTokens(overrideTokens)
         }

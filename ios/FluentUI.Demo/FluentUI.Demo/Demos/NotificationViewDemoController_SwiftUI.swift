@@ -36,7 +36,7 @@ struct NotificationDemoView: View {
     @State var isPresented: Bool = false
     @State var overrideTokens: Bool = false
     @State var isFlexibleWidthToast: Bool = false
-    @State var hasDefaultDismissButton: Bool = true
+    @State var showDefaultDismissActionButton: Bool = true
 
     public var body: some View {
         let hasAttribute = hasBlueStrikethroughAttribute || hasLargeRedPapyrusFontAttribute
@@ -64,7 +64,7 @@ struct NotificationDemoView: View {
                                               trailingImageAccessibilityLabel: trailingImageLabel,
                                               actionButtonTitle: actionButtonTitle,
                                               actionButtonAction: actionButtonAction,
-                                              hasDefaultDismissButton: hasDefaultDismissButton,
+                                              showDefaultDismissActionButton: showDefaultDismissActionButton,
                                               messageButtonAction: messageButtonAction)
                             .overrideTokens(overrideTokens ? NotificationOverrideTokens() : nil)
 
@@ -125,7 +125,7 @@ struct NotificationDemoView: View {
                             Divider()
                         }
                         FluentUIDemoToggle(titleKey: "Has Action Button Action", isOn: $hasActionButtonAction)
-                        FluentUIDemoToggle(titleKey: "Has Default Dismiss Button", isOn: $hasDefaultDismissButton)
+                        FluentUIDemoToggle(titleKey: "Show Default Dismiss Button", isOn: $showDefaultDismissActionButton)
                         FluentUIDemoToggle(titleKey: "Has Message Action", isOn: $hasMessageAction)
                     }
 
@@ -169,7 +169,7 @@ struct NotificationDemoView: View {
                              trailingImageAccessibilityLabel: trailingImageLabel,
                              actionButtonTitle: actionButtonTitle,
                              actionButtonAction: actionButtonAction,
-                             hasDefaultDismissButton: hasDefaultDismissButton,
+                             showDefaultDismissActionButton: showDefaultDismissActionButton,
                              messageButtonAction: messageButtonAction,
                              overrideTokens: $overrideTokens.wrappedValue ? NotificationOverrideTokens() : nil)
     }

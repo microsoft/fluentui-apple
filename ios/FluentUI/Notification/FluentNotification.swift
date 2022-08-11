@@ -43,7 +43,7 @@ import SwiftUI
     var actionButtonAction: (() -> Void)? { get set }
 
     /// Bool to control if the Notification has a dismiss action by default.
-    var hasDefaultDismissActionButton: Bool { get set }
+    var showDefaultDismissActionButton: Bool { get set }
 
     /// Action to be dispatched by tapping on the toast/bar notification.
     var messageButtonAction: (() -> Void)? { get set }
@@ -69,7 +69,7 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
     ///   - trailingImageAccessibilityLabel: Optional localized accessibility label for the trailing image.
     ///   - actionButtonTitle:Title to display in the action button on the trailing edge of the control.
     ///   - actionButtonAction: Action to be dispatched by the action button on the trailing edge of the control.
-    ///   - hasDefaultDismissButton: Bool to control if the Notification has a dismiss action by default.
+    ///   - showDefaultDismissActionButton: Bool to control if the Notification has a dismiss action by default.
     ///   - messageButtonAction: Action to be dispatched by tapping on the toast/bar notification.   
     public init(style: MSFNotificationStyle,
                 shouldSelfPresent: Bool = true,
@@ -84,7 +84,7 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
                 trailingImageAccessibilityLabel: String? = nil,
                 actionButtonTitle: String? = nil,
                 actionButtonAction: (() -> Void)? = nil,
-                hasDefaultDismissButton: Bool? = nil,
+                showDefaultDismissActionButton: Bool? = nil,
                 messageButtonAction: (() -> Void)? = nil) {
         let state = MSFNotificationStateImpl(style: style,
                                              message: message,
@@ -96,7 +96,7 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
                                              trailingImageAccessibilityLabel: trailingImageAccessibilityLabel,
                                              actionButtonTitle: actionButtonTitle,
                                              actionButtonAction: actionButtonAction,
-                                             hasDefaultDismissActionButton: hasDefaultDismissButton,
+                                             showDefaultDismissActionButton: showDefaultDismissActionButton,
                                              messageButtonAction: messageButtonAction)
         self.state = state
         self.shouldSelfPresent = shouldSelfPresent
@@ -171,7 +171,7 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
 
         @ViewBuilder
         var button: some View {
-            let shouldHaveDefaultAction = state.hasDefaultDismissActionButton && shouldSelfPresent
+            let shouldHaveDefaultAction = state.showDefaultDismissActionButton && shouldSelfPresent
             if let buttonAction = state.actionButtonAction ?? (shouldHaveDefaultAction ? dismissAnimated : nil) {
                 let foregroundColor = tokens.foregroundColor
                 if let actionTitle = state.actionButtonTitle, !actionTitle.isEmpty {
@@ -375,7 +375,7 @@ class MSFNotificationStateImpl: NSObject, ControlConfiguration, MSFNotificationS
     @Published public var image: UIImage?
     @Published public var trailingImage: UIImage?
     @Published public var trailingImageAccessibilityLabel: String?
-    @Published public var hasDefaultDismissActionButton: Bool
+    @Published public var showDefaultDismissActionButton: Bool
 
     /// Title to display in the action button on the trailing edge of the control.
     ///
@@ -398,7 +398,7 @@ class MSFNotificationStateImpl: NSObject, ControlConfiguration, MSFNotificationS
 
     @objc init(style: MSFNotificationStyle) {
         self.style = style
-        self.hasDefaultDismissActionButton = style.isToast
+        self.showDefaultDismissActionButton = style.isToast
 
         super.init()
     }
@@ -413,7 +413,7 @@ class MSFNotificationStateImpl: NSObject, ControlConfiguration, MSFNotificationS
                      trailingImageAccessibilityLabel: String? = nil,
                      actionButtonTitle: String? = nil,
                      actionButtonAction: (() -> Void)? = nil,
-                     hasDefaultDismissActionButton: Bool? = nil,
+                     showDefaultDismissActionButton: Bool? = nil,
                      messageButtonAction: (() -> Void)? = nil) {
         self.init(style: style)
 
@@ -427,10 +427,10 @@ class MSFNotificationStateImpl: NSObject, ControlConfiguration, MSFNotificationS
         self.actionButtonTitle = actionButtonTitle
         self.actionButtonAction = actionButtonAction
         self.messageButtonAction = messageButtonAction
-        if let hasDefaultDismissActionButton = hasDefaultDismissActionButton {
-            self.hasDefaultDismissActionButton = hasDefaultDismissActionButton
+        if let showDefaultDismissActionButton = showDefaultDismissActionButton {
+            self.showDefaultDismissActionButton = showDefaultDismissActionButton
         } else {
-            self.hasDefaultDismissActionButton = style.isToast
+            self.showDefaultDismissActionButton = style.isToast
         }
     }
 }
