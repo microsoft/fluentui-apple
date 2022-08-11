@@ -81,9 +81,16 @@ import UIKit
             view.addSubview(self)
         }
 
-        let anchor = anchorView?.topAnchor ?? view.safeAreaLayoutGuide.bottomAnchor
-        constraintWhenHidden = self.topAnchor.constraint(equalTo: anchor)
-        constraintWhenShown = self.bottomAnchor.constraint(equalTo: anchor, constant: -presentationOffset)
+        let anchor: NSLayoutYAxisAnchor
+        if state.showFromBottom {
+            anchor = anchorView?.topAnchor ?? view.safeAreaLayoutGuide.bottomAnchor
+            constraintWhenHidden = self.topAnchor.constraint(equalTo: anchor)
+            constraintWhenShown = self.bottomAnchor.constraint(equalTo: anchor, constant: -presentationOffset)
+        } else {
+            anchor = anchorView?.bottomAnchor ?? view.safeAreaLayoutGuide.topAnchor
+            constraintWhenHidden = self.bottomAnchor.constraint(equalTo: anchor)
+            constraintWhenShown = self.topAnchor.constraint(equalTo: anchor, constant: presentationOffset)
+        }
 
         var constraints = [NSLayoutConstraint]()
         constraints.append(animated ? constraintWhenHidden : constraintWhenShown)
