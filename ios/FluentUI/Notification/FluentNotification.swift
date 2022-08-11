@@ -277,6 +277,7 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
                 GeometryReader { proxy in
                     let proposedSize = proxy.size
                     let proposedWidth = proposedSize.width
+                    // Get total horizontal padding by doubling the offset
                     let horizontalPadding = 2 * tokens.presentationOffset
                     let calculatedNotificationWidth: CGFloat = {
                         let isHalfLength = state.style.isToast && horizontalSizeClass == .regular
@@ -296,8 +297,11 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
                         })
                         .padding(showFromBottom ? .bottom : .top, tokens.bottomPresentationPadding)
                         .onSizeChange { newSize in
-                            // Bottom offset is only updated when the notification isn't presented to account for the new notification height (if presented, offset doesn't need to be updated since it grows upward vertically)
                             bottomOffsetForDismissedState = newSize.height
+                            // Bottom offset is only updated when the notification
+                            // isn't presented to account for the new notification
+                            // height (if presented, offset doesn't need to be
+                            // updated since it grows upward vertically)
                             if !isPresented {
                                 bottomOffset = bottomOffsetForDismissedState
                             }
