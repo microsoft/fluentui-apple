@@ -278,6 +278,7 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
                         let isHalfLength = state.style.isToast && horizontalSizeClass == .regular
                         return isHalfLength ? proposedWidth / 2 : proposedWidth - horizontalPadding
                     }()
+                    let showFromBottom = state.showFromBottom
 
                     notification
                         .frame(idealWidth: isFlexibleWidthToast ? innerContentsSize.width - horizontalPadding : calculatedNotificationWidth,
@@ -289,7 +290,7 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
                                 dismissAnimated()
                             }
                         })
-                        .padding(.bottom, tokens.bottomPresentationPadding)
+                        .padding(showFromBottom ? .bottom : .top, tokens.bottomPresentationPadding)
                         .onSizeChange { newSize in
                             bottomOffsetForDismissedState = newSize.height + (tokens.ambientShadowOffsetY / 2)
                             // Bottom offset is only updated when the notification isn't presented to account for the new notification height (if presented, offset doesn't need to be updated since it grows upward vertically)
@@ -297,8 +298,8 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
                                 bottomOffset = bottomOffsetForDismissedState
                             }
                         }
-                        .offset(y: bottomOffset)
-                        .frame(width: proposedWidth, height: proposedSize.height, alignment: .bottom)
+                        .offset(y: showFromBottom ? bottomOffset : -bottomOffset)
+                        .frame(width: proposedWidth, height: proposedSize.height, alignment: showFromBottom ? .bottom : .top)
                 }
             }
         }
