@@ -129,14 +129,7 @@ open class Label: UILabel {
         guard !isUsingCustomAttributedText else {
             return
         }
-<<<<<<< HEAD
         super.textColor = _textColor ?? colorStyle.color(fluentTheme: fluentTheme)
-=======
-
-        if let window = window {
-            super.textColor = _textColor ?? colorStyle.color(for: window)
-        }
->>>>>>> upstream/main
     }
 
     @objc private func handleContentSizeCategoryDidChange() {
