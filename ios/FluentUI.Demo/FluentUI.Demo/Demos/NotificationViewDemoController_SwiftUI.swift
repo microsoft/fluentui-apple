@@ -36,6 +36,7 @@ struct NotificationDemoView: View {
     @State var isPresented: Bool = false
     @State var overrideTokens: Bool = false
     @State var isFlexibleWidthToast: Bool = false
+    @State var hasDefaultDismissButton: Bool = true
 
     public var body: some View {
         let hasAttribute = hasBlueStrikethroughAttribute || hasLargeRedPapyrusFontAttribute
@@ -51,6 +52,7 @@ struct NotificationDemoView: View {
         let messageButtonAction = hasMessageAction ? { showAlert = true } : nil
         let hasMessage = !message.isEmpty
         let hasTitle = !title.isEmpty
+        let trailingImageLabel = showTrailingImage ? "Circle" : nil
         let notification = FluentNotification(style: style,
                                               isFlexibleWidthToast: isFlexibleWidthToast,
                                               message: hasMessage ? message : nil,
@@ -59,9 +61,10 @@ struct NotificationDemoView: View {
                                               attributedTitle: hasAttribute && hasTitle ? attributedTitle : nil,
                                               image: image,
                                               trailingImage: trailingImage,
-                                              trailingImageAccessibilityLabel: showTrailingImage ? "Circle" : nil,
+                                              trailingImageAccessibilityLabel: trailingImageLabel,
                                               actionButtonTitle: actionButtonTitle,
                                               actionButtonAction: actionButtonAction,
+                                              hasDefaultDismissButton: hasDefaultDismissButton,
                                               messageButtonAction: messageButtonAction)
                             .overrideTokens(overrideTokens ? NotificationOverrideTokens() : nil)
 
@@ -122,6 +125,7 @@ struct NotificationDemoView: View {
                             Divider()
                         }
                         FluentUIDemoToggle(titleKey: "Has Action Button Action", isOn: $hasActionButtonAction)
+                        FluentUIDemoToggle(titleKey: "Has Default Dismiss Button", isOn: $hasDefaultDismissButton)
                         FluentUIDemoToggle(titleKey: "Has Message Action", isOn: $hasMessageAction)
                     }
 
@@ -161,8 +165,11 @@ struct NotificationDemoView: View {
                              title: hasTitle ? title : nil,
                              attributedTitle: hasAttribute && hasTitle ? attributedTitle : nil,
                              image: image,
+                             trailingImage: trailingImage,
+                             trailingImageAccessibilityLabel: trailingImageLabel,
                              actionButtonTitle: actionButtonTitle,
                              actionButtonAction: actionButtonAction,
+                             hasDefaultDismissButton: hasDefaultDismissButton,
                              messageButtonAction: messageButtonAction,
                              overrideTokens: $overrideTokens.wrappedValue ? NotificationOverrideTokens() : nil)
     }

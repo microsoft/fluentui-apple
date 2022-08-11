@@ -46,12 +46,6 @@ import UIKit
     var animationDurationForHide: TimeInterval { return Constants.animationDurationForHide }
     var animationDampingRatio: CGFloat { return isToast ? Constants.animationDampingRatioForToast : 1 }
 
-    var needsFullWidth: Bool { return !isToast }
-    var needsSeparator: Bool { return  self == .primaryOutlineBar }
-    var supportsTitle: Bool { return isToast }
-    var supportsImage: Bool { return isToast }
-    var shouldAlwaysShowActionButton: Bool { return isToast }
-
     private struct Constants {
         static let animationDurationForShowToast: TimeInterval = 0.6
         static let animationDurationForShowBar: TimeInterval = 0.3
