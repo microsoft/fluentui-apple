@@ -120,6 +120,7 @@ import UIKit
             completion?(self)
         }
 
+        self.alpha = 0
         if animated {
             view.layoutIfNeeded()
             UIView.animate(withDuration: style.animationDurationForShow,
@@ -129,10 +130,12 @@ import UIKit
                            animations: {
                 self.constraintWhenHidden.isActive = false
                 self.constraintWhenShown.isActive = true
+                self.alpha = 1
                 view.layoutIfNeeded()
             }, completion: completionForShow)
         } else {
             completionForShow(true)
+            self.alpha = 1
         }
     }
 
@@ -175,6 +178,7 @@ import UIKit
                 UIView.animate(withDuration: notification.tokens.style.animationDurationForHide, animations: {
                     self.constraintWhenShown.isActive = false
                     self.constraintWhenHidden.isActive = true
+                    self.alpha = 0
                     self.superview?.layoutIfNeeded()
                 }, completion: { _ in
                     self.isHiding = false
@@ -182,6 +186,7 @@ import UIKit
                 })
             }
         } else {
+            self.alpha = 0
             completionForHide()
         }
     }
