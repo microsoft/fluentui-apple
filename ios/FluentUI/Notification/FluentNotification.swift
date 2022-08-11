@@ -47,6 +47,9 @@ import SwiftUI
 
     /// Design token set for this control, to use in place of the control's default Fluent tokens.
     var overrideTokens: NotificationTokens? { get set }
+
+    /// Defines whether the notification shows from the bottom of the presenting view or the top.
+    var showFromBottom: Bool { get set }
 }
 
 /// View that represents the Notification.
@@ -368,6 +371,7 @@ class MSFNotificationStateImpl: NSObject, ControlConfiguration, MSFNotificationS
     @Published public var image: UIImage?
     @Published public var trailingImage: UIImage?
     @Published public var trailingImageAccessibilityLabel: String?
+    @Published public var showFromBottom: Bool = true
 
     /// Title to display in the action button on the trailing edge of the control.
     ///
