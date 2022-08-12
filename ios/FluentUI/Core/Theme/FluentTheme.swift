@@ -9,6 +9,10 @@ import SwiftUI
 @objc public class FluentTheme: NSObject, ObservableObject {
     /// Initializes and returns a new `FluentTheme`.
     ///
+    /// Once created, a `FluentTheme` can have its `AliasTokens` customized by setting custom values on the
+    ///  `aliasTokens` property. Control tokens can be customized via `register(controlType:tokens:) `.
+    ///  See the descriptions of those two for additional information.
+    ///
     /// - Returns: An initialized `FluentTheme` instance.
     public override init() { }
 
@@ -43,7 +47,7 @@ import SwiftUI
         }
     }
 
-    /// The aassociated `AliasTokens` for this theme.
+    /// The associated `AliasTokens` for this theme.
     public let aliasTokens: AliasTokens = .init()
 
     static var shared: FluentTheme = .init()
