@@ -11,6 +11,7 @@
 		2F0A96FC25CA047100EF9736 /* SearchBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0A96FB25CA047100EF9736 /* SearchBarDemoController.swift */; };
 		43488C4A270FB7E800124C71 /* NotificationViewDemoController_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43488C49270FB7E800124C71 /* NotificationViewDemoController_SwiftUI.swift */; };
 		497DC2DE24185896008D86F8 /* PillButtonBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2DD24185896008D86F8 /* PillButtonBarDemoController.swift */; };
+		4B8A76702862DBF100F90F3A /* ShimmerLinesViewDemoController_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B8A766F2862DBF100F90F3A /* ShimmerLinesViewDemoController_SwiftUI.swift */; };
 		5303259326B3198A00611D05 /* AvatarDemoController_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5303259226B3198A00611D05 /* AvatarDemoController_SwiftUI.swift */; };
 		5303259826B31A6300611D05 /* FluentUIDemoToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5303259726B31A6300611D05 /* FluentUIDemoToggle.swift */; };
 		5306075926A1E73F002D49CF /* AvatarGroupDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5306075826A1E73F002D49CF /* AvatarGroupDemoController.swift */; };
@@ -87,6 +88,7 @@
 		2F0A96FB25CA047100EF9736 /* SearchBarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchBarDemoController.swift; sourceTree = "<group>"; };
 		43488C49270FB7E800124C71 /* NotificationViewDemoController_SwiftUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationViewDemoController_SwiftUI.swift; sourceTree = "<group>"; };
 		497DC2DD24185896008D86F8 /* PillButtonBarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButtonBarDemoController.swift; sourceTree = "<group>"; };
+		4B8A766F2862DBF100F90F3A /* ShimmerLinesViewDemoController_SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerLinesViewDemoController_SwiftUI.swift; sourceTree = "<group>"; };
 		5303259226B3198A00611D05 /* AvatarDemoController_SwiftUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarDemoController_SwiftUI.swift; sourceTree = "<group>"; };
 		5303259726B31A6300611D05 /* FluentUIDemoToggle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FluentUIDemoToggle.swift; sourceTree = "<group>"; };
 		5306075826A1E73F002D49CF /* AvatarGroupDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarGroupDemoController.swift; sourceTree = "<group>"; };
@@ -355,6 +357,7 @@
 				2F0A96FB25CA047100EF9736 /* SearchBarDemoController.swift */,
 				FDCF7C8221BF35680058E9E6 /* SegmentedControlDemoController.swift */,
 				C0938E49235F733100256251 /* ShimmerLinesViewDemoController.swift */,
+				4B8A766F2862DBF100F90F3A /* ShimmerLinesViewDemoController_SwiftUI.swift */,
 				7D0931C024AAA3D30072458A /* SideTabBarDemoController.swift */,
 				11047D2522932DB1001F0F59 /* TabBarViewDemoController.swift */,
 				B498141521E42C140077B48D /* TableViewCellDemoController.swift */,
@@ -538,6 +541,7 @@
 				92E977B726C7144F008E10A8 /* UIResponder+Extensions.swift in Sources */,
 				B4EF66542295F1A8007FEAB0 /* TableViewHeaderFooterViewDemoController.swift in Sources */,
 				2F0A96FC25CA047100EF9736 /* SearchBarDemoController.swift in Sources */,
+				4B8A76702862DBF100F90F3A /* ShimmerLinesViewDemoController_SwiftUI.swift in Sources */,
 				CCC18C2F2501C75F00BE830E /* CardViewDemoController.swift in Sources */,
 				B4575C5122FB8B6900EBD0EB /* PeoplePickerDemoController.swift in Sources */,
 				A5CEC21220E436F10016922A /* DemoListViewController.swift in Sources */,

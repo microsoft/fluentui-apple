@@ -38,11 +38,15 @@ open class ShimmerTokens: ControlTokens {
             return DynamicColor(light: globalTokens.neutralColors[.white],
                                 dark: globalTokens.neutralColors[.grey8])
         case .revealing:
-            return DynamicColor(light: ColorValue(0xF1F1F1) /* gray50 */,
-                                lightHighContrast: ColorValue(0x919191) /* gray400 */,
-                                dark: aliasTokens.backgroundColors[.surfaceQuaternary].dark,
-                                darkHighContrast: ColorValue(0x919191) /* gray400 */)
+            return viewTint
         }
+    }
+
+    open var viewTint: DynamicColor {
+        return DynamicColor(light: ColorValue(0xF1F1F1) /* gray50 */,
+                            lightHighContrast: ColorValue(0x919191) /* gray400 */,
+                            dark: aliasTokens.backgroundColors[.surfaceQuaternary].dark,
+                            darkHighContrast: ColorValue(0x919191) /* gray400 */)
     }
 
     ///  Color of the darkest part of the shimmer's gradient.

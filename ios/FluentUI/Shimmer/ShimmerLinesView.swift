@@ -57,17 +57,17 @@ open class ShimmerLinesView: ShimmerView {
         return CGSize(width: UIView.noIntrinsicMetric, height: sizeThatFits(CGSize(width: frame.width, height: .infinity)).height)
     }
 
-    /// Creates the ShimmerLinesView
-    /// - Parameters:
-    ///   - lineCount: Number of lines that will shimmer in this view. Use 0 if the number of lines should fill the available space.
-    ///   - firstLineFillPercent: The percent the first line (if 2+ lines) should fill the available horizontal space
-    ///   - lastLineFillPercent: The percent the last line should fill the available horizontal space.
     @objc public init(lineCount: Int) {
         self.lineCount = lineCount
 
         super.init()
     }
 
+    /// Creates the ShimmerLinesView
+    /// - Parameters:
+    ///   - lineCount: Number of lines that will shimmer in this view. Use 0 if the number of lines should fill the available space.
+    ///   - firstLineFillPercent: The percent the first line (if 2+ lines) should fill the available horizontal space.
+    ///   - lastLineFillPercent: The percent the last line should fill the available horizontal space.
     @objc public convenience init(lineCount: Int = 3,
                                   firstLineFillPercent: CGFloat = 0.94,
                                   lastLineFillPercent: CGFloat = 0.6) {
