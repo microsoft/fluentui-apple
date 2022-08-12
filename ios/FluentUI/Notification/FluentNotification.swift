@@ -114,6 +114,7 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
                                height: imageSize.height,
                                alignment: .center)
                         .foregroundColor(Color(dynamicColor: tokens.imageColor))
+                        .padding(.vertical, tokens.verticalPadding)
                 }
             }
         }
@@ -159,7 +160,7 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
                 }
                 messageLabel
             }
-            .padding(.vertical, hasSecondTextRow ? tokens.verticalPadding : tokens.verticalPaddingForOneLine)
+            .padding(.vertical, tokens.verticalPadding)
         }
 
         @ViewBuilder
@@ -204,7 +205,7 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
                     textContainer
                     Spacer()
                 }
-                .frame(minHeight: hasSecondTextRow ? tokens.minimumHeight : tokens.minimumHeightForOneLine)
+                .frame(minHeight: tokens.minimumHeight)
             } else {
                 let horizontalSpacing = tokens.horizontalSpacing
                 HStack(spacing: isFlexibleWidthToast ? horizontalSpacing : 0) {
@@ -226,7 +227,7 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
                 .onSizeChange { newSize in
                     innerContentsSize = newSize
                 }
-                .frame(minHeight: hasSecondTextRow ? tokens.minimumHeight : tokens.minimumHeightForOneLine)
+                .frame(minHeight: tokens.minimumHeight)
                 .padding(.horizontal, tokens.horizontalPadding)
                 .clipped()
             }
