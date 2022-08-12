@@ -719,7 +719,7 @@ class ModalViewController: UITableViewController {
     }
 
     private func updateTableView() {
-        tableView.backgroundColor = isGrouped ? Colors.tableBackgroundGrouped : Colors.tableBackground
+        tableView.backgroundColor = isGrouped ? TableViewCell.tableBackgroundGrouped(fluentTheme: tableView.fluentTheme) : TableViewCell.tableBackground(fluentTheme: tableView.fluentTheme)
         tableView.reloadData()
     }
 
