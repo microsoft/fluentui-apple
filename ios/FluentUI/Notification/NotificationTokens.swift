@@ -168,7 +168,7 @@ open class NotificationTokens: ControlTokens {
     }
 
     /// The value for the bottom padding between the notification and its anchor view
-    open var bottomPresentationPadding: CGFloat { 20.0 }
+    open var bottomPresentationPadding: CGFloat { globalTokens.spacing[.medium] }
     /// The value for the horizontal padding between the elements within a notification and its frame
     open var horizontalPadding: CGFloat { globalTokens.spacing[.medium] }
     /// The value for the vertical padding between the elements within a multi-line notification and its frame
