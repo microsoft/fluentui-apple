@@ -9,13 +9,13 @@ open class TableViewCellTokens: ControlTokens {
     open var backgroundColor: DynamicColor { aliasTokens.colors[.background1] }
 
     /// The grouped background color of the TableView.
-    open var backgroundGrouped: DynamicColor {  aliasTokens.colors[.background5]}
+    open var backgroundGroupedColor: DynamicColor {  aliasTokens.colors[.canvasBackground]}
 
     /// The background color of the TableViewCell.
     open var cellBackgroundColor: DynamicColor { aliasTokens.colors[.background1] }
 
     /// The grouped background color of the TableViewCell.
-    open var cellBackgroundGrouped: DynamicColor { aliasTokens.colors[.background3] }
+    open var cellBackgroundGroupedColor: DynamicColor { aliasTokens.colors[.background3] }
 
     /// The selected background color of the TableViewCell.
     open var cellBackgroundSelectedColor: DynamicColor { aliasTokens.colors[.background1Pressed] }
