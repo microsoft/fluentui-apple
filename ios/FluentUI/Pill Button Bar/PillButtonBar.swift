@@ -603,7 +603,7 @@ extension PillButtonBar: UIPointerInteractionDelegate {
         if let window = window, customPillButtonBackgroundColor == nil, index < buttons.count {
             let pillButton = buttons[index]
             if !pillButton.isSelected {
-                pillButton.customBackgroundColor = PillButton.hoverBackgroundColor(for: window, for: pillButton.style)
+                pillButton.customBackgroundColor = PillButton.hoverBackgroundColor(for: fluentTheme, for: pillButton.style)
             }
         }
     }

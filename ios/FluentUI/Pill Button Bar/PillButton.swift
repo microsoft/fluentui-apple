@@ -61,6 +61,17 @@ open class PillButton: UIButton {
                                                selector: #selector(isUnreadValueDidChange),
                                                name: PillButtonBarItem.isUnreadValueDidChangeNotification,
                                                object: pillBarItem)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+    }
+
+    @objc func themeDidChange(_ notification: Notification) {
+        guard let window = window, window.isEqual(notification.object) else {
+            return
+        }
+        // updateColors()
     }
 
     var unreadDotColor: UIColor = Colors.gray100
@@ -175,46 +186,44 @@ open class PillButton: UIButton {
     }
 
     private func updateAppearance() {
-        if let window = window {
-            if isSelected {
-                if isEnabled {
-                    if let customSelectedBackgroundColor = customSelectedBackgroundColor {
-                        backgroundColor = customSelectedBackgroundColor
-                    } else {
-                        backgroundColor = isHighlighted
-                            ? PillButton.selectedHighlightedBackgroundColor(for: window, for: style)
-                            : PillButton.selectedBackgroundColor(for: window, for: style)
-                    }
-
-                    setTitleColor(customSelectedTextColor ?? PillButton.selectedTitleColor(for: window, for: style), for: .normal)
-                    setTitleColor(customSelectedTextColor ?? PillButton.selectedHighlightedTitleColor(for: window, for: style), for: .highlighted)
+        if isSelected {
+            if isEnabled {
+                if let customSelectedBackgroundColor = customSelectedBackgroundColor {
+                    backgroundColor = customSelectedBackgroundColor
                 } else {
-                    backgroundColor = PillButton.selectedDisabledBackgroundColor(for: window, for: style)
-                    setTitleColor(PillButton.selectedDisabledTitleColor(for: window, for: style), for: .normal)
+                    backgroundColor = isHighlighted
+                        ? PillButton.selectedHighlightedBackgroundColor(for: fluentTheme, for: style)
+                        : PillButton.selectedBackgroundColor(for: fluentTheme, for: style)
                 }
+
+                setTitleColor(customSelectedTextColor ?? PillButton.selectedTitleColor(for: fluentTheme, for: style), for: .normal)
+                setTitleColor(customSelectedTextColor ?? PillButton.selectedHighlightedTitleColor(for: fluentTheme, for: style), for: .highlighted)
             } else {
-                if let customBackgroundColor = customBackgroundColor {
-                    backgroundColor = customBackgroundColor
-                } else {
-                    backgroundColor = isEnabled
-                        ? (isHighlighted
-                            ? PillButton.highlightedBackgroundColor(for: window, for: style)
-                            : PillButton.normalBackgroundColor(for: window, for: style))
-                        : PillButton.disabledBackgroundColor(for: window, for: style)
-                }
+                backgroundColor = PillButton.selectedDisabledBackgroundColor(for: fluentTheme, for: style)
+                setTitleColor(PillButton.selectedDisabledTitleColor(for: fluentTheme, for: style), for: .normal)
+            }
+        } else {
+            if let customBackgroundColor = customBackgroundColor {
+                backgroundColor = customBackgroundColor
+            } else {
+                backgroundColor = isEnabled
+                    ? (isHighlighted
+                        ? PillButton.highlightedBackgroundColor(for: fluentTheme, for: style)
+                       : PillButton.normalBackgroundColor(for: fluentTheme, for: style))
+                    : PillButton.disabledBackgroundColor(for: fluentTheme, for: style)
+            }
 
-                if isEnabled {
-                    setTitleColor(customTextColor ?? PillButton.titleColor(for: style), for: .normal)
-                    setTitleColor(customTextColor ?? PillButton.highlightedTitleColor(for: window, for: style), for: .highlighted)
-                } else {
-                    setTitleColor(PillButton.disabledTitleColor(for: window, for: style), for: .disabled)
-                }
+            if isEnabled {
+                setTitleColor(customTextColor ?? PillButton.titleColor(for: fluentTheme, for: style), for: .normal)
+                setTitleColor(customTextColor ?? PillButton.highlightedTitleColor(for: fluentTheme, for: style), for: .highlighted)
+            } else {
+                setTitleColor(PillButton.disabledTitleColor(for: fluentTheme, for: style), for: .disabled)
+            }
 
-                if isEnabled {
-                    unreadDotColor = customUnreadDotColor ?? PillButton.enabledUnreadDotColor(for: window, for: style)
-                } else {
-                    unreadDotColor = customUnreadDotColor ?? PillButton.disabledUnreadDotColor(for: window, for: style)
-                }
+            if isEnabled {
+                unreadDotColor = customUnreadDotColor ?? PillButton.enabledUnreadDotColor(for: fluentTheme, for: style)
+            } else {
+                unreadDotColor = customUnreadDotColor ?? PillButton.disabledUnreadDotColor(for: fluentTheme, for: style)
             }
         }
     }
