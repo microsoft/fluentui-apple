@@ -136,7 +136,6 @@ class BadgeLabelButton: UIButton {
             setTitle(item.title, for: .normal)
         }
 
-
         if let action = item.action {
             addTarget(item.target, action: action, for: .touchUpInside)
         }
