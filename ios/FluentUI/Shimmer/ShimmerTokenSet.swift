@@ -26,6 +26,9 @@ public class ShimmerTokenSet: ControlTokenSet<ShimmerTokenSet.Tokens> {
         /// Tint color of the middle of the gradient if shimmer is concealing shimmer
         case tintColor
 
+        /// Tint color of the view if shimmering without a cover
+        case viewTint
+
         ///  Color of the darkest part of the shimmer's gradient.
         case darkGradient
 
@@ -80,6 +83,14 @@ public class ShimmerTokenSet: ControlTokenSet<ShimmerTokenSet.Tokens> {
                                             dark: theme.aliasTokens.backgroundColors[.surfaceQuaternary].dark,
                                             darkHighContrast: ColorValue(0x919191) /* gray400 */)
                     }
+                }
+
+            case .viewTint:
+                return .dynamicColor {
+                    return DynamicColor(light: ColorValue(0xF1F1F1) /* gray50 */,
+                                            lightHighContrast: ColorValue(0x919191) /* gray400 */,
+                                        dark: theme.aliasTokens.backgroundColors[.surfaceQuaternary].dark,
+                                            darkHighContrast: ColorValue(0x919191) /* gray400 */)
                 }
 
             case .darkGradient:

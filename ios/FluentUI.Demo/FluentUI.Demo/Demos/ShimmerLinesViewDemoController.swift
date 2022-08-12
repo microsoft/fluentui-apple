@@ -10,6 +10,11 @@ class ShimmerViewDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        container.addArrangedSubview(createButton(title: "Show SwiftUI Demo", action: { [weak self] _ in
+            self?.navigationController?.pushViewController(ShimmerLinesViewDemoControllerSwiftUI(),
+                                                           animated: true)
+        }))
+
         let contentView = { () -> UIStackView in
             let label1 = UILabel()
             label1.text = "Label 1"
