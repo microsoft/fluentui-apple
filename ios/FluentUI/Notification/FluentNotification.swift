@@ -204,7 +204,7 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
                     textContainer
                     Spacer()
                 }
-                .frame(minHeight: tokens.minimumHeight)
+                .frame(minHeight: hasSecondTextRow ? tokens.minimumHeight : tokens.minimumHeightForOneLine)
             } else {
                 let horizontalSpacing = tokens.horizontalSpacing
                 HStack(spacing: isFlexibleWidthToast ? horizontalSpacing : 0) {
@@ -226,7 +226,7 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
                 .onSizeChange { newSize in
                     innerContentsSize = newSize
                 }
-                .frame(minHeight: tokens.minimumHeight)
+                .frame(minHeight: hasSecondTextRow ? tokens.minimumHeight : tokens.minimumHeightForOneLine)
                 .padding(.horizontal, tokens.horizontalPadding)
                 .clipped()
             }
