@@ -48,6 +48,7 @@ struct NotificationDemoView: View {
 
         let image = showImage ? UIImage(named: "play-in-circle-24x24") : nil
         let trailingImage = showTrailingImage ? UIImage(named: "Placeholder_24") : nil
+        let trailingImageLabel = showTrailingImage ? "Circle" : nil
         let actionButtonAction = hasActionButtonAction ? { showAlert = true } : nil
         let messageButtonAction = hasMessageAction ? { showAlert = true } : nil
         let hasMessage = !message.isEmpty
@@ -65,6 +66,8 @@ struct NotificationDemoView: View {
                                      title: hasTitle ? title : nil,
                                      attributedTitle: hasAttribute && hasTitle ? attributedTitle : nil,
                                      image: image,
+                                     trailingImage: trailingImage,
+                                     trailingImageAccessibilityLabel: trailingImageLabel,
                                      actionButtonTitle: actionButtonTitle,
                                      actionButtonAction: actionButtonAction,
                                      messageButtonAction: messageButtonAction,
@@ -164,6 +167,8 @@ struct NotificationDemoView: View {
                              title: hasTitle ? title : nil,
                              attributedTitle: hasAttribute && hasTitle ? attributedTitle : nil,
                              image: image,
+                             trailingImage: trailingImage,
+                             trailingImageAccessibilityLabel: trailingImageLabel,
                              actionButtonTitle: actionButtonTitle,
                              actionButtonAction: actionButtonAction,
                              messageButtonAction: messageButtonAction,
