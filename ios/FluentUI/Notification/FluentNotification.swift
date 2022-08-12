@@ -73,7 +73,8 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
     ///   - actionButtonTitle:Title to display in the action button on the trailing edge of the control.
     ///   - actionButtonAction: Action to be dispatched by the action button on the trailing edge of the control.
     ///   - showDefaultDismissActionButton: Bool to control if the Notification has a dismiss action by default.
-    ///   - messageButtonAction: Action to be dispatched by tapping on the toast/bar notification.   
+    ///   - messageButtonAction: Action to be dispatched by tapping on the toast/bar notification.
+    ///   - showFromBottom: Defines whether the notification shows from the bottom of the presenting view or the top.
     public init(style: MSFNotificationStyle,
                 shouldSelfPresent: Bool = true,
                 isFlexibleWidthToast: Bool = false,
@@ -88,7 +89,8 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
                 actionButtonTitle: String? = nil,
                 actionButtonAction: (() -> Void)? = nil,
                 showDefaultDismissActionButton: Bool? = nil,
-                messageButtonAction: (() -> Void)? = nil) {
+                messageButtonAction: (() -> Void)? = nil,
+                showFromBottom: Bool = true) {
         let state = MSFNotificationStateImpl(style: style,
                                              message: message,
                                              attributedMessage: attributedMessage,
@@ -100,7 +102,8 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
                                              actionButtonTitle: actionButtonTitle,
                                              actionButtonAction: actionButtonAction,
                                              showDefaultDismissActionButton: showDefaultDismissActionButton,
-                                             messageButtonAction: messageButtonAction)
+                                             messageButtonAction: messageButtonAction,
+                                             showFromBottom: true)
         self.state = state
         self.shouldSelfPresent = shouldSelfPresent
         self.isFlexibleWidthToast = isFlexibleWidthToast && style.isToast
@@ -392,6 +395,7 @@ class MSFNotificationStateImpl: NSObject, ControlConfiguration, MSFNotificationS
     @Published public var trailingImage: UIImage?
     @Published public var trailingImageAccessibilityLabel: String?
     @Published public var showDefaultDismissActionButton: Bool
+    @Published public var showFromBottom: Bool = true
 
     /// Title to display in the action button on the trailing edge of the control.
     ///
@@ -430,7 +434,8 @@ class MSFNotificationStateImpl: NSObject, ControlConfiguration, MSFNotificationS
                      actionButtonTitle: String? = nil,
                      actionButtonAction: (() -> Void)? = nil,
                      showDefaultDismissActionButton: Bool? = nil,
-                     messageButtonAction: (() -> Void)? = nil) {
+                     messageButtonAction: (() -> Void)? = nil,
+                     showFromBottom: Bool = true) {
         self.init(style: style)
 
         self.message = message
@@ -443,6 +448,7 @@ class MSFNotificationStateImpl: NSObject, ControlConfiguration, MSFNotificationS
         self.actionButtonTitle = actionButtonTitle
         self.actionButtonAction = actionButtonAction
         self.messageButtonAction = messageButtonAction
+        self.showFromBottom = showFromBottom
         if let showDefaultDismissActionButton = showDefaultDismissActionButton {
             self.showDefaultDismissActionButton = showDefaultDismissActionButton
         } else {

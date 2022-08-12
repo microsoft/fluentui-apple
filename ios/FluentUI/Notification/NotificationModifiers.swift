@@ -58,7 +58,8 @@ public extension View {
                                actionButtonTitle: actionButtonTitle,
                                actionButtonAction: actionButtonAction,
                                showDefaultDismissActionButton: showDefaultDismissActionButton,
-                               messageButtonAction: messageButtonAction)
+                               messageButtonAction: messageButtonAction,
+                               showFromBottom: showFromBottom)
             .overrideTokens(overrideTokens)
         }
     }
