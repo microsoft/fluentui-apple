@@ -52,7 +52,6 @@ struct NotificationDemoView: View {
         let messageButtonAction = hasMessageAction ? { showAlert = true } : nil
         let hasMessage = !message.isEmpty
         let hasTitle = !title.isEmpty
-        let trailingImageLabel = showTrailingImage ? "Circle" : nil
         let notification = FluentNotification(style: style,
                                               isFlexibleWidthToast: isFlexibleWidthToast,
                                               message: hasMessage ? message : nil,
@@ -61,7 +60,7 @@ struct NotificationDemoView: View {
                                               attributedTitle: hasAttribute && hasTitle ? attributedTitle : nil,
                                               image: image,
                                               trailingImage: trailingImage,
-                                              trailingImageAccessibilityLabel: trailingImageLabel,
+                                              trailingImageAccessibilityLabel: showTrailingImage ? "Circle" : nil,
                                               actionButtonTitle: actionButtonTitle,
                                               actionButtonAction: actionButtonAction,
                                               showDefaultDismissActionButton: showDefaultDismissActionButton,
@@ -165,8 +164,6 @@ struct NotificationDemoView: View {
                              title: hasTitle ? title : nil,
                              attributedTitle: hasAttribute && hasTitle ? attributedTitle : nil,
                              image: image,
-                             trailingImage: trailingImage,
-                             trailingImageAccessibilityLabel: trailingImageLabel,
                              actionButtonTitle: actionButtonTitle,
                              actionButtonAction: actionButtonAction,
                              showDefaultDismissActionButton: showDefaultDismissActionButton,
