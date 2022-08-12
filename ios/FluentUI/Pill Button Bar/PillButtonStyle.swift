@@ -45,16 +45,6 @@ public extension PillButton {
         }
     }
 
-    // TODO: remove hover state? Crazy colors for now so I can test it
-    static func hoverBackgroundColor(for fluentTheme: FluentTheme, for style: PillButtonStyle) -> UIColor {
-        switch style {
-        case .primary:
-            return UIColor(colorValue: fluentTheme.globalTokens.sharedColors[.red][.primary])
-        case .onBrand:
-            return UIColor(colorValue: fluentTheme.globalTokens.sharedColors[.darkGreen][.primary])
-        }
-    }
-
     // MARK: selected state
 
     static func selectedBackgroundColor(for fluentTheme: FluentTheme, for style: PillButtonStyle) -> UIColor {
@@ -91,7 +81,7 @@ public extension PillButton {
     }
 
     // MARK: selected disabled state
-    // TODO: what even is this state? Should I color these weirdly too?
+    // TODO: confirm with design what colors they want for this state
     static func selectedDisabledBackgroundColor(for fluentTheme: FluentTheme, for style: PillButtonStyle) -> UIColor {
         switch style {
         case .primary:
