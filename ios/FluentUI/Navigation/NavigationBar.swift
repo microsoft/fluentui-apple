@@ -585,12 +585,37 @@ open class NavigationBar: UINavigationBar {
         let button = BadgeLabelButton(type: .system)
         button.item = item
         button.shouldUseWindowColorInBadge = style != .system
-        if isLeftItem {
-            let isRTL = effectiveUserInterfaceLayoutDirection == .rightToLeft
-            button.contentEdgeInsets = UIEdgeInsets(top: 0, left: isRTL ? 0 : Constants.leftBarButtonItemLeadingMargin, bottom: 0, right: isRTL ? Constants.leftBarButtonItemLeadingMargin : 0)
+
+        if #available(iOS 15.0, *) {
+            let insets: NSDirectionalEdgeInsets
+            if isLeftItem {
+                insets = NSDirectionalEdgeInsets(top: 0,
+                                                 leading: Constants.leftBarButtonItemLeadingMargin,
+                                                 bottom: 0,
+                                                 trailing: 0)
+            } else {
+                insets = NSDirectionalEdgeInsets(top: 0,
+                                                 leading: Constants.rightBarButtonItemHorizontalPadding,
+                                                 bottom: 0,
+                                                 trailing: Constants.rightBarButtonItemHorizontalPadding)
+            }
+
+            button.configuration?.contentInsets = insets
         } else {
-            button.contentEdgeInsets = UIEdgeInsets(top: 0, left: Constants.rightBarButtonItemHorizontalPadding, bottom: 0, right: Constants.rightBarButtonItemHorizontalPadding)
+            if isLeftItem {
+                let isRTL = effectiveUserInterfaceLayoutDirection == .rightToLeft
+                button.contentEdgeInsets = UIEdgeInsets(top: 0,
+                                                        left: isRTL ? 0 : Constants.leftBarButtonItemLeadingMargin,
+                                                        bottom: 0,
+                                                        right: isRTL ? Constants.leftBarButtonItemLeadingMargin : 0)
+            } else {
+                button.contentEdgeInsets = UIEdgeInsets(top: 0,
+                                                        left: Constants.rightBarButtonItemHorizontalPadding,
+                                                        bottom: 0,
+                                                        right: Constants.rightBarButtonItemHorizontalPadding)
+            }
         }
+
         return button
     }
 
