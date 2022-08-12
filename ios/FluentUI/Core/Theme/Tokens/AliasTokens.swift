@@ -413,6 +413,7 @@ public final class AliasTokens {
         case brandBackgroundInvertedDisabled
         case stencil1
         case stencil2
+        case canvasBackground
         // Stroke colors
         case stroke1
         case stroke2
@@ -642,6 +643,10 @@ public final class AliasTokens {
         case .brandStroke1Selected:
             return DynamicColor(light: strongSelf.globalTokens.brandColors[.comm60].light,
                                 dark: strongSelf.globalTokens.brandColors[.comm120].light)
+        case .canvasBackground:
+            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey96],
+                                dark: strongSelf.globalTokens.neutralColors[.grey12],
+                                darkElevated: strongSelf.globalTokens.neutralColors[.grey16])
         }
     }
 
