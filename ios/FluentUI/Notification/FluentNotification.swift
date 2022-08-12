@@ -50,6 +50,9 @@ import SwiftUI
 
     /// Design token set for this control, to use in place of the control's default Fluent tokens.
     var overrideTokens: NotificationTokens? { get set }
+
+    /// Defines whether the notification shows from the bottom of the presenting view or the top.
+    var showFromBottom: Bool { get set }
 }
 
 /// View that represents the Notification.
@@ -106,6 +109,10 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
             _isPresented = isPresented
         } else {
             _isPresented = .constant(true)
+        }
+
+        if _isPresented.wrappedValue == true {
+            _opacity = .init(initialValue: 1)
         }
     }
 
@@ -274,11 +281,13 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
                 GeometryReader { proxy in
                     let proposedSize = proxy.size
                     let proposedWidth = proposedSize.width
+                    // Get total horizontal padding by doubling the offset
                     let horizontalPadding = 2 * tokens.presentationOffset
                     let calculatedNotificationWidth: CGFloat = {
                         let isHalfLength = state.style.isToast && horizontalSizeClass == .regular
                         return isHalfLength ? proposedWidth / 2 : proposedWidth - horizontalPadding
                     }()
+                    let showFromBottom = state.showFromBottom
 
                     notification
                         .frame(idealWidth: isFlexibleWidthToast ? innerContentsSize.width - horizontalPadding : calculatedNotificationWidth,
@@ -290,16 +299,20 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
                                 dismissAnimated()
                             }
                         })
-                        .padding(.bottom, tokens.bottomPresentationPadding)
+                        .padding(showFromBottom ? .bottom : .top, tokens.bottomPresentationPadding)
                         .onSizeChange { newSize in
-                            bottomOffsetForDismissedState = newSize.height + (tokens.ambientShadowOffsetY / 2)
-                            // Bottom offset is only updated when the notification isn't presented to account for the new notification height (if presented, offset doesn't need to be updated since it grows upward vertically)
+                            bottomOffsetForDismissedState = newSize.height
+                            // Bottom offset is only updated when the notification
+                            // isn't presented to account for the new notification
+                            // height (if presented, offset doesn't need to be
+                            // updated since it grows upward vertically)
                             if !isPresented {
                                 bottomOffset = bottomOffsetForDismissedState
                             }
                         }
-                        .offset(y: bottomOffset)
-                        .frame(width: proposedWidth, height: proposedSize.height, alignment: .bottom)
+                        .offset(y: showFromBottom ? bottomOffset : -bottomOffset)
+                        .frame(width: proposedWidth, height: proposedSize.height, alignment: showFromBottom ? .bottom : .top)
+                        .opacity(opacity)
                 }
             }
         }
@@ -337,12 +350,14 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
                               dampingFraction: tokens.style.animationDampingRatio,
                               blendDuration: 0)) {
             bottomOffset = 0
+            opacity = 1
         }
     }
 
     private func dismissAnimated() {
         withAnimation(.linear(duration: tokens.style.animationDurationForHide)) {
             bottomOffset = bottomOffsetForDismissedState
+            opacity = 0
         }
     }
 
@@ -353,6 +368,7 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
     @State private var innerContentsSize: CGSize = CGSize()
     @State private var attributedMessageSize: CGSize = CGSize()
     @State private var attributedTitleSize: CGSize = CGSize()
+    @State private var opacity: CGFloat = 0
 
     // When true, the notification view will take up all proposed space
     // and automatically position itself within it.

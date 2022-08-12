@@ -48,6 +48,7 @@ struct NotificationDemoView: View {
 
         let image = showImage ? UIImage(named: "play-in-circle-24x24") : nil
         let trailingImage = showTrailingImage ? UIImage(named: "Placeholder_24") : nil
+        let trailingImageLabel = showTrailingImage ? "Circle" : nil
         let actionButtonAction = hasActionButtonAction ? { showAlert = true } : nil
         let messageButtonAction = hasMessageAction ? { showAlert = true } : nil
         let hasMessage = !message.isEmpty
@@ -150,6 +151,7 @@ struct NotificationDemoView: View {
 
                         FluentUIDemoToggle(titleKey: "Override Tokens (Image Color and Horizontal Spacing)", isOn: $overrideTokens)
                         FluentUIDemoToggle(titleKey: "Flexible Width Toast", isOn: $isFlexibleWidthToast)
+                        FluentUIDemoToggle(titleKey: "Present From Bottom", isOn: $showFromBottom)
                     }
                 }
                 .padding()
@@ -164,10 +166,13 @@ struct NotificationDemoView: View {
                              title: hasTitle ? title : nil,
                              attributedTitle: hasAttribute && hasTitle ? attributedTitle : nil,
                              image: image,
+                             trailingImage: trailingImage,
+                             trailingImageAccessibilityLabel: trailingImageLabel,
                              actionButtonTitle: actionButtonTitle,
                              actionButtonAction: actionButtonAction,
                              showDefaultDismissActionButton: showDefaultDismissActionButton,
                              messageButtonAction: messageButtonAction,
+                             showFromBottom: showFromBottom,
                              overrideTokens: $overrideTokens.wrappedValue ? NotificationOverrideTokens() : nil)
     }
 
