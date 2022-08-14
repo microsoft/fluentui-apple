@@ -28,7 +28,8 @@ struct Demos {
         DemoDescriptor("NotificationView", NotificationViewDemoController.self),
         DemoDescriptor("Other cells", OtherCellsDemoController.self),
         DemoDescriptor("PersonaButtonCarousel", PersonaButtonCarouselDemoController.self),
-        DemoDescriptor("TableViewCell", TableViewCellDemoController.self)
+        DemoDescriptor("TableViewCell", TableViewCellDemoController.self),
+        DemoDescriptor("Color Alias Tokens", ColorAliasTokensDemoController.self)
     ]
 
     static let controls: [DemoDescriptor] = [
