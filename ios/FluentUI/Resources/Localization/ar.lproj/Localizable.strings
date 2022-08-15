@@ -12,9 +12,6 @@
 "Accessibility.Dismiss.Hint" = "اضغط ضغطاً مزدوجاً للتجاهل";
 "Accessibility.Done.Label" = "تم";
 "Accessibility.MultiSelect.Hint" = "اضغط ضغطاً مزدوجاً برفق لتبديل التحديد";
-"Accessibility.Select.Hint" = "اضغط ضغطاً مزدوجاً للتحديد";
-"Accessibility.Selected.Hint" = "اضغط ضغطاً مزدوجاً لمشاهدة التفاصيل.";
-"Accessibility.Selected.Value" = "محددة";
 
 /* Accessibility label for the upper calendar date picker view. */
 "Accessibility.Calendar.Label" = "التقويم";

@@ -6,60 +6,6 @@
 import UIKit
 import SwiftUI
 
-/// UIKit wrapper that exposes the SwiftUI AvatarGroup implementation.
-@objc open class MSFAvatarGroup: NSObject, FluentUIWindowProvider {
-
-    /// The UIView representing the AvatarGroup.
-    @objc open var view: UIView {
-        return hostingController.view
-    }
-
-    /// The object that groups properties that allow control over the AvatarGroup appearance.
-    @objc open var state: MSFAvatarGroupState {
-        return avatarGroup.state
-    }
-
-    /// Creates a new MSFAvatarGroup instance.
-    /// - Parameters:
-    ///   - style: The MSFAvatarGroupStyle value used by the AvatarGroup.
-    ///   - size: The MSFAvatarSize value used by the Avatars that will compose the AvatarGroup.
-    @objc public convenience init(style: MSFAvatarGroupStyle = .stack,
-                                  size: MSFAvatarSize = .large) {
-        self.init(style: style,
-                  size: size,
-                  theme: nil)
-    }
-
-    /// Creates a new MSFAvatarGroup instance.
-    /// - Parameters:
-    ///   - style: The MSFAvatarGroupStyle value used by the AvatarGroup.
-    ///   - size: The MSFAvatarSize value used by the Avatars that will compose the AvatarGroup.
-    ///   - theme: The FluentUIStyle instance representing the theme to be overriden for this AvatarGroup.
-    @objc public init(style: MSFAvatarGroupStyle,
-                      size: MSFAvatarSize,
-                      theme: FluentUIStyle?) {
-        super.init()
-
-        avatarGroup = AvatarGroup(style: style,
-                                  size: size)
-        hostingController = FluentUIHostingController(rootView: AnyView(avatarGroup
-                                                                            .windowProvider(self)
-                                                                            .modifyIf(theme != nil, { avatarGroupView in
-                                                                                avatarGroupView.customTheme(theme!)
-                                                                            })))
-        hostingController.disableSafeAreaInsets()
-        view.backgroundColor = UIColor.clear
-    }
-
-    var window: UIWindow? {
-        return self.view.window
-    }
-
-    private var hostingController: FluentUIHostingController!
-
-    private var avatarGroup: AvatarGroup!
-}
-
 /// Properties that can be used to customize the appearance of the AvatarGroup.
 @objc public protocol MSFAvatarGroupState {
 
@@ -72,6 +18,9 @@ import SwiftUI
 
     ///  Style of the AvatarGroup.
     var style: MSFAvatarGroupStyle { get set }
+
+    ///  Size of the AvatarGroup.
+    var size: MSFAvatarSize { get set }
 
     /// Creates a new Avatar within the AvatarGroup.
     func createAvatar() -> MSFAvatarGroupAvatarState
@@ -86,6 +35,9 @@ import SwiftUI
     /// Remove an Avatar from the AvatarGroup.
     /// - Parameter index: The zero-based index of the Avatar that will be removed from the AvatarGroup.
     func removeAvatar(at index: Int)
+
+    /// Custom design token set for this control
+    var overrideTokens: AvatarGroupTokens? { get set }
 }
 
 /// Enumeration of the styles used by the AvatarGroup.
@@ -139,13 +91,7 @@ import SwiftUI
 }
 
 /// View that represents the AvatarGroup.
-public struct AvatarGroup: View {
-    @Environment(\.theme) var theme: FluentUIStyle
-    @Environment(\.windowProvider) var windowProvider: FluentUIWindowProvider?
-    @Environment(\.layoutDirection) var layoutDirection: LayoutDirection
-    @ObservedObject var state: MSFAvatarGroupStateImpl
-    @ObservedObject var tokens: MSFAvatarGroupTokens
-
+public struct AvatarGroup: View, ConfigurableTokenizedControl {
     /// Creates and initializes a SwiftUI AvatarGroup.
     /// - Parameters:
     ///   - style: The style of the avatar group.
@@ -155,7 +101,6 @@ public struct AvatarGroup: View {
         let state = MSFAvatarGroupStateImpl(style: style,
                                             size: size)
         self.state = state
-        self.tokens = state.tokens
     }
 
     public var body: some View {
@@ -169,13 +114,25 @@ public struct AvatarGroup: View {
         let hasOverflow: Bool = overflowCount > 0
         let isStackStyle = tokens.style == .stack
 
-        let interspace: CGFloat = tokens.interspace
-        let imageSize: CGFloat = tokens.size.size
-        let ringOuterGap: CGFloat = tokens.ringOuterGap
-        let ringGapOffset: CGFloat = ringOuterGap * 2
-        let ringOffset: CGFloat = tokens.ringThickness + tokens.ringInnerGap + tokens.ringOuterGap
+        let overflowAvatar = createOverflow(count: overflowCount)
 
-        let groupHeight: CGFloat = imageSize + (ringOffset * 2)
+        let interspace: CGFloat = tokens.interspace
+
+        let groupHeight: CGFloat = {
+            let avatarMaxHeight: CGFloat
+            if let avatar = avatarViews.first {
+                let avatarTokens = avatar.tokens
+                avatarMaxHeight = avatarTokens.avatarSize + 2 * (avatarTokens.ringThickness + avatarTokens.ringInnerGap + avatarTokens.ringOuterGap)
+            } else {
+                avatarMaxHeight = 0
+            }
+
+            // Use the overflow tokens as a default in case we have no Avatars to show
+            let overflowTokens = overflowAvatar.tokens
+            let overflowMaxHeight = overflowTokens.avatarSize + 2 * (overflowTokens.ringThickness + overflowTokens.ringInnerGap + overflowTokens.ringOuterGap)
+
+            return max(avatarMaxHeight, overflowMaxHeight)
+        }()
 
         @ViewBuilder
         var avatarGroupContent: some View {
@@ -186,8 +143,8 @@ public struct AvatarGroup: View {
                     // If the avatar is part of Stack style and is not the last avatar in the sequence, create a cutout.
                     let avatarView = avatarViews[index]
                     let needsCutout = isStackStyle && (hasOverflow || !isLastDisplayed)
-                    let avatarSize: CGFloat = avatarView.state.totalSize()
-                    let nextAvatarSize: CGFloat = needsCutout ? avatarViews[nextIndex].state.totalSize() : 0
+                    let avatarSize: CGFloat = avatarView.totalSize
+                    let nextAvatarSize: CGFloat = isLastDisplayed ? overflowAvatar.totalSize : avatarViews[nextIndex].totalSize
 
                     // Calculating the size delta of the current and next avatar based off of ring visibility, which helps determine
                     // starting coordinates for the cutout.
@@ -195,18 +152,21 @@ public struct AvatarGroup: View {
                     let nextAvatarHasRing = !isLastDisplayed ? avatars[nextIndex].isRingVisible : false
 
                     // Calculating the different interspace scenarios considering rings.
+                    let currentTokens = avatarView.tokens
+                    let ringOuterGap = currentTokens.ringOuterGap
+                    let ringOffset = currentTokens.ringInnerGap + currentTokens.ringThickness + ringOuterGap
                     let stackPadding = interspace - (currentAvatarHasRing ? ringOffset : 0) - (nextAvatarHasRing ? ringOuterGap : 0)
 
                     // Finalized calculations for x and y coordinates of the Avatar if it needs a cutout, including RTL.
-                    let cutoutSize = isLastDisplayed ? ringGapOffset + imageSize : nextAvatarSize
+                    let ringGapOffset = 2 * ringOuterGap
                     let xOrigin: CGFloat = {
                         if layoutDirection == .rightToLeft {
-                            return -cutoutSize - interspace + ringOuterGap + (currentAvatarHasRing ? ringOffset : 0)
+                            return -nextAvatarSize - interspace + ringOuterGap + (currentAvatarHasRing ? ringOffset : 0)
                         }
                         return avatarSize + interspace - ringGapOffset - ringOuterGap - (currentAvatarHasRing ? ringOuterGap : 0)
                     }()
 
-                    let sizeDiff = avatarSize - cutoutSize - (currentAvatarHasRing ? 0 : ringGapOffset)
+                    let sizeDiff = avatarSize - nextAvatarSize - (currentAvatarHasRing ? 0 : ringGapOffset)
                     let yOrigin = sizeDiff / 2
 
                     // Hand the rendering of the avatar to a helper function to appease Swift's
@@ -217,7 +177,7 @@ public struct AvatarGroup: View {
                             .modifyIf(needsCutout, { view in
                                 view.clipShape(CircleCutout(xOrigin: xOrigin,
                                                             yOrigin: yOrigin,
-                                                            cutoutSize: cutoutSize),
+                                                            cutoutSize: nextAvatarSize),
                                                style: FillStyle(eoFill: true))
                             })
                     }
@@ -228,7 +188,7 @@ public struct AvatarGroup: View {
 
                 if hasOverflow {
                     VStack {
-                        createOverflow(count: overflowCount)
+                        overflowAvatar
                     }
                     .animation(Animation.linear(duration: animationDuration))
                     .transition(AnyTransition.move(edge: .leading))
@@ -243,11 +203,22 @@ public struct AvatarGroup: View {
         return avatarGroupContent
     }
 
+    let defaultTokens: AvatarGroupTokens = .init()
+    var tokens: AvatarGroupTokens {
+        let tokens = resolvedTokens
+        tokens.size = state.size
+        tokens.style = state.style
+        return tokens
+    }
+    @Environment(\.fluentTheme) var fluentTheme: FluentTheme
+    @Environment(\.layoutDirection) var layoutDirection: LayoutDirection
+    @ObservedObject var state: MSFAvatarGroupStateImpl
+
     private let animationDuration: CGFloat = 0.1
 
     private func createOverflow(count: Int) -> Avatar {
-        var avatar = Avatar(style: .overflow, size: tokens.size)
-        let data = MSFAvatarStateImpl(style: .overflow, size: tokens.size)
+        var avatar = Avatar(style: .overflow, size: state.size)
+        let data = MSFAvatarStateImpl(style: .overflow, size: state.size)
         data.primaryText = "\(count)"
         data.image = nil
         avatar.state = data
@@ -255,7 +226,7 @@ public struct AvatarGroup: View {
     }
 }
 
-class MSFAvatarGroupStateImpl: NSObject, ObservableObject, MSFAvatarGroupState {
+class MSFAvatarGroupStateImpl: NSObject, ObservableObject, ControlConfiguration, MSFAvatarGroupState {
     func createAvatar() -> MSFAvatarGroupAvatarState {
         return createAvatar(at: avatars.endIndex)
     }
@@ -264,7 +235,7 @@ class MSFAvatarGroupStateImpl: NSObject, ObservableObject, MSFAvatarGroupState {
         guard index <= avatars.count && index >= 0 else {
             preconditionFailure("Index is out of bounds")
         }
-        let avatar = MSFAvatarGroupAvatarStateImpl(size: tokens.size)
+        let avatar = MSFAvatarGroupAvatarStateImpl(size: size)
         avatars.insert(avatar, at: index)
         return avatar
     }
@@ -287,21 +258,16 @@ class MSFAvatarGroupStateImpl: NSObject, ObservableObject, MSFAvatarGroupState {
     @Published var maxDisplayedAvatars: Int = Int.max
     @Published var overflowCount: Int = 0
 
-    var style: MSFAvatarGroupStyle {
-        get {
-            return tokens.style
-        }
-        set {
-            tokens.style = newValue
-        }
-    }
+    @Published var style: MSFAvatarGroupStyle
+    @Published var size: MSFAvatarSize
 
-    var tokens: MSFAvatarGroupTokens
+    @Published var overrideTokens: AvatarGroupTokens?
 
     init(style: MSFAvatarGroupStyle,
          size: MSFAvatarSize) {
-        self.tokens = MSFAvatarGroupTokens(style: style,
-                                           size: size)
+        self.style = style
+        self.size = size
+
         super.init()
     }
 }

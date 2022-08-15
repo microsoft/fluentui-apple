@@ -18,13 +18,17 @@ struct DemoDescriptor: Identifiable {
 }
 
 struct Demos {
-    static let vNext: [DemoDescriptor] = [
+    static let fluent2: [DemoDescriptor] = [
         DemoDescriptor("ActivityIndicator", ActivityIndicatorDemoController.self),
         DemoDescriptor("Avatar", AvatarDemoController.self),
         DemoDescriptor("AvatarGroup", AvatarGroupDemoController.self),
         DemoDescriptor("CardNudge", CardNudgeDemoController.self),
+        DemoDescriptor("ColorTokens", ColorTokensDemoController.self),
         DemoDescriptor("IndeterminateProgressBar", IndeterminateProgressBarDemoController.self),
-        DemoDescriptor("PersonaButtonCarousel", PersonaButtonCarouselDemoController.self)
+        DemoDescriptor("NotificationView", NotificationViewDemoController.self),
+        DemoDescriptor("Other cells", OtherCellsDemoController.self),
+        DemoDescriptor("PersonaButtonCarousel", PersonaButtonCarouselDemoController.self),
+        DemoDescriptor("TableViewCell", TableViewCellDemoController.self)
     ]
 
     static let controls: [DemoDescriptor] = [
@@ -41,7 +45,6 @@ struct Demos {
         DemoDescriptor("HUD", HUDDemoController.self),
         DemoDescriptor("Label", LabelDemoController.self),
         DemoDescriptor("NavigationController", NavigationControllerDemoController.self),
-        DemoDescriptor("NotificationView", NotificationViewDemoController.self),
         DemoDescriptor("PeoplePicker", PeoplePickerDemoController.self),
         DemoDescriptor("PersonaListView", PersonaListViewDemoController.self),
         DemoDescriptor("PillButtonBar", PillButtonBarDemoController.self),
@@ -51,12 +54,10 @@ struct Demos {
         DemoDescriptor("ShimmerView", ShimmerViewDemoController.self),
         DemoDescriptor("SideTabBar", SideTabBarDemoController.self),
         DemoDescriptor("TabBarView", TabBarViewDemoController.self),
-        DemoDescriptor("TableViewCell", TableViewCellDemoController.self),
         DemoDescriptor("TableViewCellFileAccessoryView", TableViewCellFileAccessoryViewDemoController.self),
         DemoDescriptor("TableViewCellShimmer", TableViewCellShimmerDemoController.self),
         DemoDescriptor("TableViewHeaderFooterView", TableViewHeaderFooterViewDemoController.self),
-        DemoDescriptor("Tooltip", TooltipDemoController.self),
-        DemoDescriptor("Other cells", OtherCellsDemoController.self)
+        DemoDescriptor("Tooltip", TooltipDemoController.self)
     ]
 
     static let debug: [DemoDescriptor] = [

@@ -8,7 +8,7 @@ import UIKit
 
 // MARK: TableViewCellDemoController
 
-class TableViewCellDemoController: UITableViewController {
+class TableViewCellDemoController: DemoTableViewController {
     let sections: [TableViewSampleData.Section] = TableViewCellSampleData.sections
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -44,13 +44,17 @@ class TableViewCellDemoController: UITableViewController {
             }
 
             updateNavigationTitle()
-            navigationItem.rightBarButtonItem?.title = isInSelectionMode ? "Done" : "Select"
+            editButton?.title = isInSelectionMode ? "Done" : "Select"
         }
     }
 
     private var styleButtonTitle: String {
         return isGrouped ? "Switch to Plain style" : "Switch to Grouped style"
     }
+
+    private var editButton: UIBarButtonItem?
+
+    private var overrideTokens: TableViewCellTokens?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,7 +65,9 @@ class TableViewCellDemoController: UITableViewController {
         tableView.sectionFooterHeight = 0
         updateTableView()
 
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Select", style: .plain, target: self, action: #selector(selectionBarButtonTapped))
+        let editButton = UIBarButtonItem(title: "Select", style: .plain, target: self, action: #selector(selectionBarButtonTapped))
+        navigationItem.rightBarButtonItems?.append(editButton)
+        self.editButton = editButton
 
         toolbarItems = [
             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
@@ -99,8 +105,61 @@ class TableViewCellDemoController: UITableViewController {
     }
 
     private func updateTableView() {
-        tableView.backgroundColor = isGrouped ? Colors.Table.backgroundGrouped : Colors.Table.background
+        tableView.backgroundColor = isGrouped ? Colors.tableBackgroundGrouped : Colors.tableBackground
         tableView.reloadData()
+    }
+}
+
+extension TableViewCellDemoController: DemoAppearanceDelegate {
+    func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
+        guard let fluentTheme = self.view.window?.fluentTheme else {
+            return
+        }
+
+        var tokensClosure: (() -> TableViewCellTokens)?
+        if isOverrideEnabled {
+            tokensClosure = {
+                return ThemeWideOverrideTableViewCellTokens()
+            }
+        }
+
+        fluentTheme.register(controlType: TableViewCell.self, tokens: tokensClosure)
+    }
+
+    func perControlOverrideDidChange(isOverrideEnabled: Bool) {
+        overrideTokens = isOverrideEnabled ? PerControlOverrideTableViewCellTokens() : nil
+        self.tableView.reloadData()
+    }
+
+    func isThemeWideOverrideApplied() -> Bool {
+        return self.view.window?.fluentTheme.tokenOverride(for: TableViewCell.self) != nil
+    }
+
+    // MARK: - Custom tokens
+    private class ThemeWideOverrideTableViewCellTokens: TableViewCellTokens {
+        override var cellBackgroundColor: DynamicColor {
+            // "Berry"
+            return DynamicColor(light: GlobalTokens().sharedColors[.berry][.tint50],
+                                dark: GlobalTokens().sharedColors[.berry][.shade40])
+        }
+    }
+
+    private class PerControlOverrideTableViewCellTokens: TableViewCellTokens {
+        override var cellBackgroundColor: DynamicColor {
+            // "Brass"
+            return DynamicColor(light: GlobalTokens().sharedColors[.brass][.tint50],
+                                dark: GlobalTokens().sharedColors[.brass][.shade40])
+        }
+
+        override var accessoryDisclosureIndicatorColor: DynamicColor {
+            // "Forest"
+            return DynamicColor(light: GlobalTokens().sharedColors[.forest][.tint10],
+                                dark: GlobalTokens().sharedColors[.forest][.shade40])
+        }
+
+        override var customViewTrailingMargin: CGFloat {
+            return 0
+        }
     }
 }
 
@@ -121,14 +180,29 @@ extension TableViewCellDemoController {
         }
         let section = sections[indexPath.section]
         let item = section.item
-        cell.setup(
-            title: item.text1,
-            subtitle: item.text2,
-            footer: TableViewCellSampleData.hasFullLengthLabelAccessoryView(at: indexPath) ? "" : item.text3,
-            customView: TableViewSampleData.createCustomView(imageName: item.image),
-            customAccessoryView: section.hasAccessory ? TableViewCellSampleData.customAccessoryView : nil,
-            accessoryType: TableViewCellSampleData.accessoryType(for: indexPath)
-        )
+        if section.title == "Inverted double line cell" {
+            cell.setup(
+                attributedTitle: NSAttributedString(string: item.text1,
+                                                    attributes: [.font: TextStyle.footnote.font,
+                                                                 .foregroundColor: UIColor.purple]),
+                attributedSubtitle: NSAttributedString(string: item.text2,
+                                                       attributes: [.font: TextStyle.body.font,
+                                                                    .foregroundColor: UIColor.red]),
+                footer: TableViewCellSampleData.hasFullLengthLabelAccessoryView(at: indexPath) ? "" : item.text3,
+                customView: TableViewSampleData.createCustomView(imageName: item.image),
+                customAccessoryView: section.hasAccessory ? TableViewCellSampleData.customAccessoryView : nil,
+                accessoryType: TableViewCellSampleData.accessoryType(for: indexPath)
+            )
+        } else {
+            cell.setup(
+                title: item.text1,
+                subtitle: item.text2,
+                footer: TableViewCellSampleData.hasFullLengthLabelAccessoryView(at: indexPath) ? "" : item.text3,
+                customView: TableViewSampleData.createCustomView(imageName: item.image),
+                customAccessoryView: section.hasAccessory ? TableViewCellSampleData.customAccessoryView : nil,
+                accessoryType: TableViewCellSampleData.accessoryType(for: indexPath)
+            )
+        }
 
         let showsLabelAccessoryView = TableViewCellSampleData.hasLabelAccessoryViews(at: indexPath)
         cell.titleLeadingAccessoryView = showsLabelAccessoryView ? item.text1LeadingAccessoryView() : nil
@@ -148,12 +222,14 @@ extension TableViewCellDemoController {
         cell.subtitleNumberOfLinesForLargerDynamicType = section.numberOfLines == 1 ? 2 : TableViewCell.defaultNumberOfLinesForLargerDynamicType
         cell.footerNumberOfLinesForLargerDynamicType = section.numberOfLines == 1 ? 2 : TableViewCell.defaultNumberOfLinesForLargerDynamicType
 
-        cell.backgroundColor = isGrouped ? Colors.Table.Cell.backgroundGrouped : Colors.Table.Cell.background
+        cell.backgroundStyleType = isGrouped ? .grouped : .plain
         cell.topSeparatorType = isGrouped && indexPath.row == 0 ? .full : .none
         let isLastInSection = indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1
         cell.bottomSeparatorType = isLastInSection ? .full : .inset
 
         cell.isInSelectionMode = section.allowsMultipleSelection ? isInSelectionMode : false
+
+        cell.tableViewCellOverrideTokens = overrideTokens
 
         return cell
     }
@@ -193,5 +269,9 @@ extension TableViewCellDemoController {
         let action = UIAlertAction(title: "OK", style: .default)
         alert.addAction(action)
         present(alert, animated: true)
+    }
+
+    override func tableView(_ tableView: UITableView, canFocusRowAt indexPath: IndexPath) -> Bool {
+        return true
     }
 }

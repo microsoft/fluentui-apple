@@ -9,7 +9,7 @@ import UIKit
 class SegmentedControlDemoController: DemoController {
     let segmentItems: [SegmentItem] = [
         SegmentItem(title: "First"),
-        SegmentItem(title: "Second"),
+        SegmentItem(title: "Second", image: UIImage(named: "Placeholder_20")),
         SegmentItem(title: "Third", isUnread: true),
         SegmentItem(title: "Fourth")
     ]
@@ -69,9 +69,9 @@ class SegmentedControlDemoController: DemoController {
 
         let backgroundView = UIView()
         if style == .primaryPill {
-            backgroundView.backgroundColor = Colors.Navigation.System.background
+            backgroundView.backgroundColor = Colors.navigationBarBackground
         } else {
-            backgroundView.backgroundColor = UIColor(light: Colors.communicationBlue, dark: Colors.Navigation.System.background)
+            backgroundView.backgroundColor = UIColor(light: Colors.communicationBlue, dark: Colors.navigationBarBackground)
         }
 
         backgroundView.translatesAutoresizingMaskIntoConstraints = false

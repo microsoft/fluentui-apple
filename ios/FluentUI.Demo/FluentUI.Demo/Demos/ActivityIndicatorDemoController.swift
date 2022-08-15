@@ -12,7 +12,7 @@ class ActivityIndicatorDemoController: DemoTableViewController {
     }
 
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        preconditionFailure("init(coder:) has not been implemented")
     }
 
     override func viewDidLoad() {
@@ -73,7 +73,7 @@ class ActivityIndicatorDemoController: DemoTableViewController {
             let activityIndicator = activityIndicatorDictionaries[activityIndicatorPath][activityIndicatorSize]
 
             cell.setup(title: activityIndicatorSize.description,
-                       customView: activityIndicator?.view)
+                       customView: activityIndicator)
             cell.titleNumberOfLines = 0
             return cell
         }
@@ -227,6 +227,54 @@ extension MSFActivityIndicatorSize {
             return "large"
         case .xLarge:
             return "xLarge"
+        }
+    }
+}
+
+extension ActivityIndicatorDemoController: DemoAppearanceDelegate {
+    func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
+        guard let fluentTheme = self.view.window?.fluentTheme else {
+            return
+        }
+        if isOverrideEnabled {
+            fluentTheme.register(controlType: ActivityIndicator.self, tokens: {
+                ThemeWideOverrideActivityIndicatorTokens()
+            })
+        } else {
+            fluentTheme.register(controlType: ActivityIndicator.self, tokens: nil)
+        }
+
+    }
+
+    func perControlOverrideDidChange(isOverrideEnabled: Bool) {
+        defaultColorIndicators.values.forEach { activityIndicator in
+            activityIndicator.state.overrideTokens = (isOverrideEnabled ? PerControlOverrideActivityIndicatorTokens() : nil)
+        }
+    }
+
+    func isThemeWideOverrideApplied() -> Bool {
+        return self.view.window?.fluentTheme.tokenOverride(for: ActivityIndicator.self) != nil
+    }
+
+    // MARK: - Custom tokens
+
+    private class ThemeWideOverrideActivityIndicatorTokens: ActivityIndicatorTokens {
+        override var defaultColor: DynamicColor {
+            return DynamicColor(light: GlobalTokens().sharedColors[.red][.primary])
+        }
+
+        override var side: CGFloat {
+            return 20.0
+        }
+    }
+
+    private class PerControlOverrideActivityIndicatorTokens: ActivityIndicatorTokens {
+        override var defaultColor: DynamicColor {
+            return DynamicColor(light: GlobalTokens().sharedColors[.green][.primary])
+        }
+
+        override var thickness: CGFloat {
+            return 10.0
         }
     }
 }

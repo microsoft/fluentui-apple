@@ -16,11 +16,11 @@ enum HUDType: Equatable {
 
 // MARK: - HUD Colors
 
-public extension Colors {
+private extension Colors {
     struct HUD {
-        public static var activityIndicator: UIColor = .white
-        public static var background = UIColor(light: gray900.withAlphaComponent(0.9), dark: gray700)
-        public static var text = UIColor(light: textOnAccent, dark: textPrimary)
+        static var activityIndicator: UIColor = .white
+        static var background = UIColor(light: gray900.withAlphaComponent(0.9), dark: gray700)
+        static var text = UIColor(light: textOnAccent, dark: textPrimary)
     }
 }
 
@@ -190,7 +190,7 @@ class HUDView: UIView {
             let activityIndicator = MSFActivityIndicator(size: .xLarge)
             activityIndicator.state.color = Colors.HUD.activityIndicator
             activityIndicator.state.isAnimating = true
-            return activityIndicator.view
+            return activityIndicator
         case .success:
             let imageView = UIImageView(image: .staticImageNamed("checkmark-36x36"))
             imageView.tintColor = Colors.HUD.activityIndicator

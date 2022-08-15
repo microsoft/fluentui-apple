@@ -17,7 +17,7 @@ public enum TextColorStyle: Int, CaseIterable {
     case warning
     case disabled
 
-    public func color(for window: UIWindow) -> UIColor {
+    func color(for window: UIWindow) -> UIColor {
         switch self {
         case .regular:
             return Colors.textPrimary
@@ -101,6 +101,10 @@ open class Label: UILabel {
     }
 
     private func updateFont() {
+        // If attributedText is set, it will be prioritized over any other label property changes
+        guard self.attributedText == nil else {
+            return
+        }
         let defaultFont = style.font
         if maxFontSize > 0 && defaultFont.pointSize > maxFontSize {
             font = defaultFont.withSize(maxFontSize)
@@ -110,6 +114,10 @@ open class Label: UILabel {
     }
 
     private func updateTextColor() {
+        // If attributedText is set, it will be prioritized over any other label property changes
+        guard self.attributedText == nil else {
+            return
+        }
         if let window = window {
             super.textColor = _textColor ?? colorStyle.color(for: window)
         }

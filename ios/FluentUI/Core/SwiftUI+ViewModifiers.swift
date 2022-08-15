@@ -5,27 +5,6 @@
 
 import SwiftUI
 
-struct ScalableFont: ViewModifier {
-    let font: UIFont
-    let shouldScale: Bool
-
-    func body(content: Content) -> some View {
-        let familyName = font.familyName
-        let size = font.fixedFont.pointSize
-        let scalableFont: Font
-
-        if shouldScale {
-            scalableFont = .custom(familyName,
-                                   size: size)
-        } else {
-            scalableFont = .custom(familyName,
-                                   fixedSize: size)
-        }
-
-        return content.font(scalableFont)
-    }
-}
-
 extension View {
     /// Applies modifiers defined in a closure if a condition is met.
     /// - Parameters:
@@ -53,13 +32,69 @@ extension View {
         return AnyView(self)
     }
 
-    /// Applies a scalable SwiftUI Font type in a scalable way.
-    /// - Parameters:
-    ///   - font: UIFont instance of that needs to be converted into a scalable SwiftUI Font struct.
-    ///   - shouldScale: Whether the SwiftUI Font returned should be scaled or not.
-    /// - Returns: The resulting scaled Font.
-    func scalableFont(font: UIFont, shouldScale: Bool = true) -> some View {
-        modifier(ScalableFont(font: font,
-                              shouldScale: shouldScale))
+    /// Measures the size of a view, monitors when its size is updated, and takes a closure to be called when it does
+    /// - Parameter action: Block to be performed on size change
+    /// - Returns The modified view.
+    func onSizeChange(perform action: @escaping (CGSize) -> Void) -> some View {
+        self.modifier(OnSizeChangeViewModifier())
+            .onPreferenceChange(SizePreferenceKey.self,
+                                perform: action)
     }
+
+    /// Adds a large content viewer for the view. If the text and image are both nil,
+    /// the default large content viewer will be used.
+    /// - Parameters
+    ///  - text: Optional String to display in the large content viewer.
+    ///  - image: Optional UIImage to display in the large content viewer.
+    /// - Returns: The modified view.
+    func showsLargeContentViewer(text: String? = nil, image: UIImage? = nil) -> some View {
+        modifier(LargeContentViewerModifier(text: text, image: image))
+    }
+}
+
+/// PreferenceKey that will store the measured size of the view
+struct SizePreferenceKey: PreferenceKey {
+    static var defaultValue: CGSize = .zero
+    static func reduce(value: inout CGSize, nextValue: () -> CGSize) {}
+}
+
+/// ViewModifier that uses GeometryReader to get the size of the content view and sets it in the SizePreferenceKey
+struct OnSizeChangeViewModifier: ViewModifier {
+    func body(content: Content) -> some View {
+        content.background(GeometryReader { geometryReader in
+            Color.clear.preference(key: SizePreferenceKey.self,
+                                   value: geometryReader.size)
+        })
+    }
+}
+
+/// ViewModifier for showing the large content viewer with optional text and optional image.
+/// If both the text and image are nil, the default large content viewer will be used.
+struct LargeContentViewerModifier: ViewModifier {
+    init(text: String?, image: UIImage?) {
+        self.text = text
+        self.image = image
+    }
+
+    func body(content: Content) -> some View {
+        if #available(iOS 15.0, *) {
+            if text != nil || image != nil {
+                content.accessibilityShowsLargeContentViewer({
+                    if let image = image {
+                        Image(uiImage: image)
+                    }
+                    if let text = text {
+                        Text(text)
+                    }
+                })
+            } else {
+                content.accessibilityShowsLargeContentViewer()
+            }
+        } else {
+            content
+        }
+    }
+
+    private var text: String?
+    private var image: UIImage?
 }

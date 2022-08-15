@@ -12,9 +12,6 @@
 "Accessibility.Dismiss.Hint" = "Zrušíte dvojitým ťuknutím";
 "Accessibility.Done.Label" = "Hotovo";
 "Accessibility.MultiSelect.Hint" = "Výber prepnite dvojitým ťuknutím";
-"Accessibility.Select.Hint" = "Vyberte dvojitým ťuknutím";
-"Accessibility.Selected.Hint" = "Dvojitým ťuknutím zobrazíte podrobnosti.";
-"Accessibility.Selected.Value" = "Vybraté";
 
 /* Accessibility label for the upper calendar date picker view. */
 "Accessibility.Calendar.Label" = "Kalendár";

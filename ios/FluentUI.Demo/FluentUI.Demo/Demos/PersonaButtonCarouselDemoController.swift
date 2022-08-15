@@ -12,7 +12,7 @@ class PersonaButtonCarouselDemoController: DemoTableViewController {
     }
 
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        preconditionFailure("init(coder:) has not been implemented")
     }
 
     override func viewDidLoad() {
@@ -166,7 +166,7 @@ class PersonaButtonCarouselDemoController: DemoTableViewController {
             cell = tableView.dequeueReusableCell(withIdentifier: PersonaButtonCarouselDemoController.smallCarouselReuseIdentifier, for: indexPath)
         }
 
-        let carousel = MSFPersonaButtonCarousel(size: size, theme: nil)
+        let carousel = MSFPersonaButtonCarousel(size: size)
         personas.forEach { persona in
             add(persona, to: carousel)
         }
@@ -175,17 +175,17 @@ class PersonaButtonCarouselDemoController: DemoTableViewController {
             self?.didTap(on: personaButtonState, at: index)
         }
 
-        cell.contentView.addSubview(carousel.view)
+        cell.contentView.addSubview(carousel)
         cell.selectionStyle = .none
-        cell.backgroundColor = .tertiarySystemFill
+        cell.backgroundConfiguration?.backgroundColor = .tertiarySystemFill
         var constraints: [NSLayoutConstraint] = []
-        carousel.view.translatesAutoresizingMaskIntoConstraints = false
+        carousel.translatesAutoresizingMaskIntoConstraints = false
 
         constraints.append(contentsOf: [
-            carousel.view.topAnchor.constraint(equalTo: cell.contentView.topAnchor),
-            carousel.view.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor),
-            carousel.view.leftAnchor.constraint(equalTo: cell.contentView.leftAnchor),
-            carousel.view.rightAnchor.constraint(equalTo: cell.contentView.rightAnchor)
+            carousel.topAnchor.constraint(equalTo: cell.contentView.topAnchor),
+            carousel.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor),
+            carousel.leftAnchor.constraint(equalTo: cell.contentView.leftAnchor),
+            carousel.rightAnchor.constraint(equalTo: cell.contentView.rightAnchor)
         ])
 
         cell.contentView.addConstraints(constraints)
@@ -216,16 +216,16 @@ class PersonaButtonCarouselDemoController: DemoTableViewController {
             self?.present(alert, animated: true)
         }
 
-        cell.contentView.addSubview(personaButton.view)
+        cell.contentView.addSubview(personaButton)
         cell.selectionStyle = .none
-        cell.backgroundColor = .tertiarySystemFill
+        cell.backgroundConfiguration?.backgroundColor = .tertiarySystemFill
         var constraints: [NSLayoutConstraint] = []
-        personaButton.view.translatesAutoresizingMaskIntoConstraints = false
+        personaButton.translatesAutoresizingMaskIntoConstraints = false
 
         constraints.append(contentsOf: [
-            personaButton.view.topAnchor.constraint(equalTo: cell.contentView.topAnchor),
-            personaButton.view.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor),
-            personaButton.view.centerXAnchor.constraint(equalTo: cell.contentView.centerXAnchor)
+            personaButton.topAnchor.constraint(equalTo: cell.contentView.topAnchor),
+            personaButton.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor),
+            personaButton.centerXAnchor.constraint(equalTo: cell.contentView.centerXAnchor)
         ])
 
         cell.contentView.addConstraints(constraints)

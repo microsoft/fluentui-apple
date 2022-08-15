@@ -7,18 +7,19 @@ import UIKit
 
 // MARK: Search Colors
 
-public extension Colors {
+private extension Colors {
     struct SearchBar {
-        public struct DarkContent {
-            public static var background = UIColor(light: surfaceTertiary, dark: LightContent.background)
-            public static var cancelButton = UIColor(light: textSecondary, dark: LightContent.cancelButton)
-            public static var clearIcon = UIColor(light: iconPrimary, dark: LightContent.clearIcon)
-            public static var placeholderText = UIColor(light: textSecondary, dark: LightContent.placeholderText)
-            public static var progressSpinner = UIColor(light: iconDisabled, dark: textPrimary)
-            public static var searchIcon = UIColor(light: iconPrimary, dark: LightContent.searchIcon)
-            public static var text = UIColor(light: textDominant, dark: LightContent.text)
-            public static var tint = UIColor(light: iconSecondary, dark: LightContent.tint)
+        struct DarkContent {
+            static var background = UIColor(light: surfaceTertiary, dark: LightContent.background)
+            static var cancelButton = UIColor(light: textSecondary, dark: LightContent.cancelButton)
+            static var clearIcon = UIColor(light: iconPrimary, dark: LightContent.clearIcon)
+            static var placeholderText = UIColor(light: textSecondary, dark: LightContent.placeholderText)
+            static var progressSpinner = UIColor(light: iconDisabled, dark: textPrimary)
+            static var searchIcon = UIColor(light: iconPrimary, dark: LightContent.searchIcon)
+            static var text = UIColor(light: textDominant, dark: LightContent.text)
+            static var tint = UIColor(light: iconSecondary, dark: LightContent.tint)
         }
+
         public struct LightContent {
             public static var background = UIColor(light: UIColor.black.withAlphaComponent(0.2), dark: gray700, darkElevated: gray600)
             public static var cancelButton: UIColor = LightContent.text
@@ -413,7 +414,7 @@ open class SearchBar: UIView {
         textFieldLeadingConstraint = constraints.last
 
         // progressSpinner
-        let progressSpinnerView = progressSpinner.view
+        let progressSpinnerView = progressSpinner
         searchTextFieldBackgroundView.addSubview(progressSpinnerView)
         progressSpinnerView.translatesAutoresizingMaskIntoConstraints = false
 
@@ -572,6 +573,57 @@ open class SearchBar: UIView {
 
     private func dismissKeyboard() {
         searchTextField.resignFirstResponder()
+    }
+
+    // MARK: - Cancel Button Accessibility Properties
+
+    public var cancelButtonAccessibilityHint: String? {
+        get { return cancelButton.accessibilityHint }
+        set { cancelButton.accessibilityHint = newValue }
+    }
+
+    public var cancelButtonAccessibilityLabel: String? {
+        get { return cancelButton.accessibilityLabel }
+        set { cancelButton.accessibilityLabel = newValue }
+    }
+
+    public var cancelButtonAccessibilityIdentifier: String? {
+        get { return cancelButton.accessibilityIdentifier }
+        set { cancelButton.accessibilityIdentifier = newValue }
+    }
+
+    // MARK: - Clear Button Accessibility Properties
+
+    public var clearButtonAccessibilityHint: String? {
+        get { return clearButton.accessibilityHint }
+        set { clearButton.accessibilityHint = newValue }
+    }
+
+    public var clearButtonAccessibilityLabel: String? {
+        get { return clearButton.accessibilityLabel }
+        set { clearButton.accessibilityLabel = newValue }
+    }
+
+    public var clearButtonAccessibilityIdentifier: String? {
+        get { return clearButton.accessibilityIdentifier }
+        set { clearButton.accessibilityIdentifier = newValue }
+    }
+
+    // MARK: - Search Text Field Accessibility Properties
+
+    public var searchTextFieldAccessibilityHint: String? {
+        get { return searchTextField.accessibilityHint }
+        set { searchTextField.accessibilityHint = newValue }
+    }
+
+    public var searchTextFieldAccessibilityLabel: String? {
+        get { return searchTextField.accessibilityLabel }
+        set { searchTextField.accessibilityLabel = newValue }
+    }
+
+    public var searchTextFieldAccessibilityIdentifier: String? {
+        get { return searchTextField.accessibilityIdentifier }
+        set { searchTextField.accessibilityIdentifier = newValue }
     }
 }
 

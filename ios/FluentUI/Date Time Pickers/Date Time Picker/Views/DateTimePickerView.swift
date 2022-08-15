@@ -8,12 +8,9 @@ import UIKit
 // MARK: DateTimePickerViewMode
 
 enum DateTimePickerViewMode {
-    case date(startYear: Int, endYear: Int)
+    case date
     case dateTime   /// Date hour/minute am/pm
     case dayOfMonth /// Week of month / Day of week
-
-    static let defaultStartYear: Int = CalendarConfiguration.default.referenceStartDate.year
-    static let defaultEndYear: Int = CalendarConfiguration.default.referenceEndDate.year
 }
 
 // MARK: - DateTimePickerViewDelegate
@@ -61,18 +58,13 @@ class DateTimePickerView: UIControl {
         return gradientLayer
     }()
 
-    init(mode: DateTimePickerViewMode) {
+    init(mode: DateTimePickerViewMode, calendarConfiguration: CalendarConfiguration) {
         self.mode = mode
 
         componentTypes = DateTimePickerViewLayout.componentTypes(fromDatePickerMode: mode)
-        componentsByType = DateTimePickerViewLayout.componentsByType(fromTypes: componentTypes, mode: mode)
+        componentsByType = DateTimePickerViewLayout.componentsByType(fromTypes: componentTypes, mode: mode, calendarConfiguration: calendarConfiguration)
 
         super.init(frame: .zero)
-
-        for component in componentsByType.values {
-            component.delegate = self
-            addSubview(component.view)
-        }
 
         layer.addSublayer(gradientLayer)
         addSubview(selectionTopSeparator)
@@ -87,6 +79,15 @@ class DateTimePickerView: UIControl {
 
     public required init?(coder aDecoder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
+    }
+
+    func setupComponents(for viewController: UIViewController) {
+        for component in componentsByType.values {
+            component.delegate = self
+            viewController.addChild(component)
+            addSubview(component.view)
+            component.didMove(toParent: viewController)
+        }
     }
 
     /// Set the date displayed on the picker. This does not trigger UIControlEventValueChanged

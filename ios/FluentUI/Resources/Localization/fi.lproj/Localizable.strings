@@ -12,9 +12,6 @@
 "Accessibility.Dismiss.Hint" = "Hylkää kaksoisnapauttamalla";
 "Accessibility.Done.Label" = "Valmis";
 "Accessibility.MultiSelect.Hint" = "Vaihda valintaa kaksoisnapauttamalla ";
-"Accessibility.Select.Hint" = "Valitse kaksoisnapauttamalla";
-"Accessibility.Selected.Hint" = "Näytä tiedot kaksoisnapauttamalla";
-"Accessibility.Selected.Value" = "Valittu";
 
 /* Accessibility label for the upper calendar date picker view. */
 "Accessibility.Calendar.Label" = "Kalenteri";

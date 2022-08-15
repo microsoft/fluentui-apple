@@ -48,12 +48,10 @@ class AvatarDemoController: DemoTableViewController {
 
         case .alternateBackground,
              .animating,
-             .imageBasedRingColor,
              .outOfOffice,
              .pointerInteraction,
              .presence,
              .ringInnerGap,
-             .ring,
              .transparency:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: BooleanCell.identifier) as? BooleanCell else {
                 return UITableViewCell()
@@ -63,6 +61,26 @@ class AvatarDemoController: DemoTableViewController {
             cell.titleNumberOfLines = 0
             cell.onValueChanged = { [weak self, weak cell] in
                 self?.updateSetting(for: row, isOn: cell?.isOn ?? true)
+            }
+
+            return cell
+
+        case .imageBasedRingColor,
+             .ring:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: BooleanCell.identifier) as? BooleanCell else {
+                return UITableViewCell()
+            }
+
+            cell.setup(title: row.title, isOn: self.isSettingOn(row: row))
+            cell.titleNumberOfLines = 0
+            cell.onValueChanged = { [weak self, weak cell] in
+                self?.updateSetting(for: row, isOn: cell?.isOn ?? true)
+            }
+
+            if row == .imageBasedRingColor {
+                customRingIndexPath = indexPath
+            } else {
+                ringIndexPath = indexPath
             }
 
             return cell
@@ -82,7 +100,7 @@ class AvatarDemoController: DemoTableViewController {
                 return cell
             }
 
-            let avatarView = avatar.view
+            let avatarView = avatar
 
             let titleLabel = Label(style: .body, colorStyle: .regular)
             titleLabel.text = row.title
@@ -108,7 +126,7 @@ class AvatarDemoController: DemoTableViewController {
                 cell.contentView.bottomAnchor.constraint(equalTo: avatarContentView.bottomAnchor)
             ])
 
-            cell.backgroundColor = self.isUsingAlternateBackgroundColor ? Colors.tableCellBackgroundSelected : Colors.tableCellBackground
+            cell.backgroundConfiguration?.backgroundColor = self.isUsingAlternateBackgroundColor ? Colors.tableCellBackgroundSelected : Colors.tableCellBackground
 
             return cell
         }
@@ -137,6 +155,9 @@ class AvatarDemoController: DemoTableViewController {
             break
         }
     }
+
+    private var ringIndexPath: IndexPath?
+    private var customRingIndexPath: IndexPath?
 
     private var isAnimated: Bool = true {
         didSet {
@@ -187,6 +208,7 @@ class AvatarDemoController: DemoTableViewController {
     private var isShowingRings: Bool = false {
         didSet {
             if oldValue != isShowingRings {
+                switchOffCustomRingCell()
                 allDemoAvatarsCombined.forEach { avatar in
                     avatar.state.isRingVisible = isShowingRings
                 }
@@ -194,9 +216,30 @@ class AvatarDemoController: DemoTableViewController {
         }
     }
 
+    private func switchOffCustomRingCell() {
+        guard let customRingIndexPath = customRingIndexPath, !isShowingRings else {
+            return
+        }
+
+        let cell = tableView.cellForRow(at: customRingIndexPath) as! BooleanCell
+        cell.isOn = false
+        updateSetting(for: .imageBasedRingColor, isOn: false)
+    }
+
+    private func switchOnRingCell() {
+        guard let ringIndexPath = ringIndexPath, isUsingImageBasedCustomColor else {
+            return
+        }
+
+        let cell = tableView.cellForRow(at: ringIndexPath) as! BooleanCell
+        cell.isOn = true
+        updateSetting(for: .ring, isOn: true)
+    }
+
     private var isUsingImageBasedCustomColor: Bool = false {
         didSet {
             if oldValue != isUsingImageBasedCustomColor {
+                switchOnRingCell()
                 allDemoAvatarsCombined.forEach { avatar in
                     avatar.state.imageBasedRingColor = isUsingImageBasedCustomColor ? AvatarDemoController.colorfulCustomImage : nil
                 }
@@ -291,7 +334,7 @@ class AvatarDemoController: DemoTableViewController {
             presence = presenceIterator.next()
         }
 
-        if presence! ==  .none {
+        if presence! == .none {
             presence = presenceIterator.next()
         }
 

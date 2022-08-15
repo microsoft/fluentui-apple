@@ -12,9 +12,6 @@
 "Accessibility.Dismiss.Hint" = "Дважды коснитесь, чтобы закрыть";
 "Accessibility.Done.Label" = "Готово";
 "Accessibility.MultiSelect.Hint" = "Дважды коснитесь, чтобы переключить выделение ";
-"Accessibility.Select.Hint" = "Дважды коснитесь, чтобы выбрать";
-"Accessibility.Selected.Hint" = "Дважды коснитесь, чтобы просмотреть сведения";
-"Accessibility.Selected.Value" = "Выбрано";
 
 /* Accessibility label for the upper calendar date picker view. */
 "Accessibility.Calendar.Label" = "Календарь";

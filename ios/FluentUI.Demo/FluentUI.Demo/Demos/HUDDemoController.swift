@@ -20,7 +20,7 @@ class HUDDemoController: DemoController {
         container.addArrangedSubview(createButton(title: "Show HUD with updating caption", action: #selector(showUpdateHUD)))
     }
 
-    @objc private func showActivityHUD(sender: UIButton) {
+    @objc private func showActivityHUD() {
         HUD.shared.show(in: view, with: HUDParams(caption: "Loading for 3 seconds"))
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             HUD.shared.hide()
@@ -36,11 +36,11 @@ class HUDDemoController: DemoController {
     }
 
     @objc private func showCustomHUD(sender: UIButton) {
-        HUD.shared.show(in: self.view, with: HUDParams(caption: "Custom", image: UIImage(named: "flag-40x40"), isPersistent: false))
+        HUD.shared.show(in: self.view, with: HUDParams(caption: "Custom", image: UIImage(named: "flag-48x48"), isPersistent: false))
     }
 
     @objc private func showCustomNonBlockingHUD(sender: UIButton) {
-        HUD.shared.show(in: view, with: HUDParams(caption: "Custom image non-blocking", image: UIImage(named: "flag-40x40"), isBlocking: false))
+        HUD.shared.show(in: view, with: HUDParams(caption: "Custom image non-blocking", image: UIImage(named: "flag-48x48"), isBlocking: false))
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             HUD.shared.hide()
         }

@@ -12,7 +12,7 @@ class IndeterminateProgressBarDemoController: DemoTableViewController {
     }
 
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        preconditionFailure("init(coder:) has not been implemented")
     }
 
     override func viewDidLoad() {
@@ -67,7 +67,7 @@ class IndeterminateProgressBarDemoController: DemoTableViewController {
         case.demoProgressBar:
             let cell = TableViewCell()
 
-            let rowContentView = UIStackView(arrangedSubviews: [indeterminateProgressBar.view])
+            let rowContentView = UIStackView(arrangedSubviews: [indeterminateProgressBar])
             rowContentView.isLayoutMarginsRelativeArrangement = true
             rowContentView.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 15, leading: 0, bottom: 15, trailing: 0)
             rowContentView.translatesAutoresizingMaskIntoConstraints = false

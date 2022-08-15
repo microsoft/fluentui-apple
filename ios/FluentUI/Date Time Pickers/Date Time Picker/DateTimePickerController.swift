@@ -84,13 +84,13 @@ class DateTimePickerController: UIViewController, GenericDateTimePicker {
     private var segmentedControl: SegmentedControl?
 
     // TODO: Add availability back in? - contactAvailabilitySummaryDataSource: ContactAvailabilitySummaryDataSource?,
-    init(startDate: Date, endDate: Date, mode: DateTimePickerMode, titles: DateTimePicker.Titles?, leftBarButtonItem: UIBarButtonItem?, rightBarButtonItem: UIBarButtonItem?) {
+    init(startDate: Date, endDate: Date, calendarConfiguration: CalendarConfiguration, mode: DateTimePickerMode, titles: DateTimePicker.Titles?, leftBarButtonItem: UIBarButtonItem?, rightBarButtonItem: UIBarButtonItem?) {
         self.mode = mode.singleSelection ? .single : .start
         self.startDate = startDate.rounded(toNearestMinutes: DateTimePickerViewDataSourceConstants.minuteInterval) ?? startDate
         self.endDate = self.mode == .single ? self.startDate : (endDate.rounded(toNearestMinutes: DateTimePickerViewDataSourceConstants.minuteInterval) ?? endDate)
 
-        let datePickerMode: DateTimePickerViewMode = mode.includesTime ? .dateTime : .date(startYear: DateTimePickerViewMode.defaultStartYear, endYear: DateTimePickerViewMode.defaultEndYear)
-        dateTimePickerView = DateTimePickerView(mode: datePickerMode)
+        let datePickerMode: DateTimePickerViewMode = mode.includesTime ? .dateTime : .date
+        dateTimePickerView = DateTimePickerView(mode: datePickerMode, calendarConfiguration: calendarConfiguration)
         dateTimePickerView.setDate(self.startDate, animated: false)
 
         customTitle = titles?.dateTimeTitle
@@ -103,8 +103,6 @@ class DateTimePickerController: UIViewController, GenericDateTimePicker {
         super.init(nibName: nil, bundle: nil)
 
         dateTimePickerView.addTarget(self, action: #selector(handleDidSelectDate(_:)), for: .valueChanged)
-
-        updateNavigationBar()
 
         if self.mode != .single {
             initSegmentedControl(includesTime: mode.includesTime)
@@ -125,7 +123,10 @@ class DateTimePickerController: UIViewController, GenericDateTimePicker {
             view.backgroundColor = Colors.Toolbar.background
         }
         view.addSubview(dateTimePickerView)
+        dateTimePickerView.setupComponents(for: self)
         initNavigationBar()
+
+        updateNavigationBar()
     }
 
     override func viewWillLayoutSubviews() {

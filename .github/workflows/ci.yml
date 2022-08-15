@@ -4,17 +4,19 @@ on:
   push:
     branches:
       - main
-      - main_0.1
-      - vnext-prototype
+      - main_*
+      - fluent2-tokens
+      - fluent2-colors
   pull_request:
     branches:
       - main
-      - main_0.1
-      - vnext-prototype
+      - main_*
+      - fluent2-tokens
+      - fluent2-colors
 
 jobs:
   validation:
-    runs-on: macos-11
+    runs-on: macos-12
     strategy:
       fail-fast: true
     steps:
@@ -26,7 +28,7 @@ jobs:
     - name: validation
       run: scripts/validation.sh
   xcodebuild:
-    runs-on: macos-11
+    runs-on: macos-12
     strategy:
       fail-fast: false
       matrix:

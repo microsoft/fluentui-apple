@@ -12,9 +12,13 @@ class TableViewHeaderFooterViewDemoController: DemoController {
     private let groupedSections: [TableViewHeaderFooterSampleData.Section] = TableViewHeaderFooterSampleData.groupedSections
     private let plainSections: [TableViewHeaderFooterSampleData.Section] = TableViewHeaderFooterSampleData.plainSections
 
-    private let segmentedControl: SegmentedControl = {
-        let segmentedControl = SegmentedControl(items: TableViewHeaderFooterSampleData.tabTitles.map({return SegmentItem(title: $0)}), style: .primaryPill)
-        segmentedControl.addTarget(self, action: #selector(updateActiveTabContent), for: .valueChanged)
+    private lazy var segmentedControl: SegmentedControl = {
+        let tabTitles = TableViewHeaderFooterSampleData.tabTitles
+        let segmentedControl = SegmentedControl(items: tabTitles.map({ return SegmentItem(title: $0) }),
+                                                style: .primaryPill)
+        segmentedControl.addTarget(self,
+                                   action: #selector(updateActiveTabContent),
+                                   for: .valueChanged)
         return segmentedControl
     }()
     private lazy var groupedTableView: UITableView = createTableView(style: .grouped)
@@ -31,7 +35,7 @@ class TableViewHeaderFooterViewDemoController: DemoController {
         navigationController?.navigationBar.shadowImage = UIImage()
         container.addArrangedSubview(segmentedControl)
         container.setCustomSpacing(8, after: segmentedControl)
-        container.backgroundColor = Colors.NavigationBar.background
+        container.backgroundColor = Colors.navigationBarBackground
 
         let separator = Separator(style: .shadow, orientation: .horizontal)
         container.addArrangedSubview(separator)
@@ -53,7 +57,7 @@ class TableViewHeaderFooterViewDemoController: DemoController {
         tableView.register(TableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: TableViewHeaderFooterView.identifier)
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.backgroundColor = Colors.Table.background
+        tableView.backgroundColor = Colors.tableBackground
         tableView.separatorStyle = .none
         return tableView
     }
