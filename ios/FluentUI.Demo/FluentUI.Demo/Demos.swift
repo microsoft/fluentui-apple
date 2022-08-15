@@ -27,7 +27,10 @@ struct Demos {
         DemoDescriptor("NotificationView", NotificationViewDemoController.self),
         DemoDescriptor("Other cells", OtherCellsDemoController.self),
         DemoDescriptor("PersonaButtonCarousel", PersonaButtonCarouselDemoController.self),
-        DemoDescriptor("TableViewCell", TableViewCellDemoController.self),
+        DemoDescriptor("TableViewCell", TableViewCellDemoController.self)
+    ]
+
+    static let fluent2DesignTokens: [DemoDescriptor] = [
         DemoDescriptor("Color Global Tokens", ColorGlobalTokensDemoController.self),
         DemoDescriptor("Color Alias Tokens", ColorAliasTokensDemoController.self)
     ]
