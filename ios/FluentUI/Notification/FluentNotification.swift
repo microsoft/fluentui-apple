@@ -251,8 +251,8 @@ public struct FluentNotification: View, TokenizedControlView {
                                 y: shadowInfo.yOne)
                         .shadow(color: Color(dynamicColor: shadowInfo.colorTwo),
                                 radius: shadowInfo.blurTwo,
-                                x: shadowInfo.xOne,
-                                y: shadowInfo.xTwo)
+                                x: shadowInfo.xTwo,
+                                y: shadowInfo.yTwo)
                 )
                 .onTapGesture {
                     if let messageAction = messageButtonAction {

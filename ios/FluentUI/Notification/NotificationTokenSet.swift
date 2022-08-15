@@ -261,14 +261,7 @@ public class NotificationTokenSet: ControlTokenSet<NotificationTokenSet.Tokens> 
                     if style().isToast {
                         return theme.aliasTokens.shadow[.shadow16]
                     } else {
-                        return ShadowInfo(colorOne: DynamicColor(light: ColorValue.clear),
-                                          blurOne: 0.0,
-                                          xOne: 0.0,
-                                          yOne: 0.0,
-                                          colorTwo: DynamicColor(light: ColorValue.clear),
-                                          blurTwo: 0.0,
-                                          xTwo: 0.0,
-                                          yTwo: 0.0)
+                        return theme.aliasTokens.shadow[.clear]
                     }
                 }
 
