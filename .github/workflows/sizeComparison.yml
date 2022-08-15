@@ -3,16 +3,16 @@ name: sizeComparison
 on:
   push:
     branches:
-      - main
-      - vnext-tokens
+      - main*
+      - fluent2*
   pull_request:
     branches:
-      - main
-      - vnext-tokens
+      - main*
+      - fluent2*
 
 jobs:
   archiveHeadBuild:
-    runs-on: macos-11
+    runs-on: macos-12
     strategy:
       fail-fast: false
     steps: 
@@ -31,7 +31,7 @@ jobs:
         name: headSize
         path: headSize
   archiveBaseBuild:
-    runs-on: macos-11
+    runs-on: macos-12
     strategy:
       fail-fast: false
     steps: 
@@ -48,7 +48,7 @@ jobs:
         name: baseSize
         path: baseSize
   printSizes:
-    runs-on: macos-11
+    runs-on: macos-12
     strategy:
       fail-fast: true
     needs: [archiveHeadBuild, archiveBaseBuild]
