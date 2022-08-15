@@ -10,6 +10,10 @@ on:
       - main*
       - fluent2*
 
+env:
+  BASE_SHA: ${{ github.event.pull_request.base.sha }}
+  HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+
 jobs:
   archiveHeadBuild:
     runs-on: macos-12
@@ -18,18 +22,18 @@ jobs:
     steps: 
     - uses: actions/checkout@v3
       with:
-        ref: ${{ github.event.pull_request.head.sha }}
+        ref: $HEAD_SHA
     - name: Switch to current version of Xcode
       run: scripts/xcode_select_current_version.sh
     - name: scripts/xcodebuild_wrapper.sh 'ios_device_build Demo.Development Release build -archivePath $GITHUB_WORKSPACE/headBuild archive'
-      run: scripts/xcodebuild_wrapper.sh ios_device_build Demo.Development Release build -archivePath $GITHUB_WORKSPACE/headBuild archive
+      run: scripts/xcodebuild_wrapper.sh ios_device_build Demo.Development Release build -archivePath $GITHUB_WORKSPACE/$HEAD_SHA archive
     - name: Create size file
-      run: du -sk $GITHUB_WORKSPACE/headBuild.xcarchive/Products/Applications/FluentUI.Demo.app | cut -f1 >> $GITHUB_WORKSPACE/headSize
+      run: du -sk $GITHUB_WORKSPACE/$HEAD_SHA.xcarchive/Products/Applications/FluentUI.Demo.app | cut -f1 >> $GITHUB_WORKSPACE/$HEAD_SHA
     - name: Upload head size artifact
       uses: actions/upload-artifact@v3
       with:
-        name: headSize
-        path: headSize
+        name: $HEAD_SHA
+        path: $HEAD_SHA
   archiveBaseBuild:
     runs-on: macos-12
     strategy:
@@ -38,15 +42,15 @@ jobs:
     - uses: actions/checkout@v3
     - name: Switch to current version of Xcode
       run: scripts/xcode_select_current_version.sh
-    - name: scripts/xcodebuild_wrapper.sh 'ios_device_build Demo.Development Release build -archivePath $GITHUB_WORKSPACE/baseBuild archive'
-      run: scripts/xcodebuild_wrapper.sh ios_device_build Demo.Development Release build -archivePath $GITHUB_WORKSPACE/baseBuild archive
+    - name: scripts/xcodebuild_wrapper.sh 'ios_device_build Demo.Development Release build -archivePath $GITHUB_WORKSPACE/$BASE_SHA archive'
+      run: scripts/xcodebuild_wrapper.sh ios_device_build Demo.Development Release build -archivePath $GITHUB_WORKSPACE/$BASE_SHA archive
     - name: Create size file
-      run: du -sk $GITHUB_WORKSPACE/baseBuild.xcarchive/Products/Applications/FluentUI.Demo.app | cut -f1 >> $GITHUB_WORKSPACE/baseSize
+      run: du -sk $GITHUB_WORKSPACE/$BASE_SHA.xcarchive/Products/Applications/FluentUI.Demo.app | cut -f1 >> $GITHUB_WORKSPACE/baseSize
     - name: Upload base size artifact
       uses: actions/upload-artifact@v3
       with:
-        name: baseSize
-        path: baseSize
+        name: $BASE_SHA
+        path: $BASE_SHA
   printSizes:
     runs-on: macos-12
     strategy:
@@ -57,16 +61,16 @@ jobs:
     - name: Download head artifact
       uses: actions/download-artifact@v3
       with:
-        name: headSize
+        name: $HEAD_SHA
     - name: Download base artifact
       uses: actions/download-artifact@v3
       with:
-        name: baseSize
+        name: $BASE_SHA
     - name: Print out directoy
       run: ls -la
     - name: ls head
-      run: ls -la headSize
+      run: ls -la $HEAD_SHA
     - name: ls base
-      run: ls -la baseSize
+      run: ls -la $BASE_SHA
     - name: Compare sizes
-      run: scripts/compare_demo_sizes.sh
+      run: scripts/compare_demo_sizes.sh $BASE_SHA $HEAD_SHA
