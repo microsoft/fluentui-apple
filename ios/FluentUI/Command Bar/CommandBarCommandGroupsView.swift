@@ -6,7 +6,8 @@
 import UIKit
 
 class CommandBarCommandGroupsView: UIView {
-    init(itemGroups: [CommandBarItemGroup]? = nil, buttonsPersistSelection: Bool = true) {
+    init(itemGroups: [CommandBarItemGroup]? = nil,
+         buttonsPersistSelection: Bool = true) {
         self.itemGroups = itemGroups ?? []
 
         self.buttonsPersistSelection = buttonsPersistSelection
@@ -17,12 +18,23 @@ class CommandBarCommandGroupsView: UIView {
 
         buttonGroupsStackView.translatesAutoresizingMaskIntoConstraints = false
         buttonGroupsStackView.axis = .horizontal
-        buttonGroupsStackView.spacing = CommandBarCommandGroupsView.buttonGroupSpacing
+        buttonGroupsStackView.spacing = LayoutConstants.buttonGroupSpacing
 
-        configureHierarchy()
+        addSubview(buttonGroupsStackView)
+
+        NSLayoutConstraint.activate([
+            buttonGroupsStackView.topAnchor.constraint(equalTo: topAnchor,
+                                                       constant: LayoutConstants.insets.top),
+            bottomAnchor.constraint(equalTo: buttonGroupsStackView.bottomAnchor,
+                                    constant: LayoutConstants.insets.top),
+            buttonGroupsStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            buttonGroupsStackView.trailingAnchor.constraint(equalTo: trailingAnchor)
+        ])
+
         updateButtonsShown()
     }
 
+    @available(*, unavailable)
     required init(coder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
     }
@@ -48,19 +60,6 @@ class CommandBarCommandGroupsView: UIView {
     private var buttonGroupViews: [CommandBarButtonGroupView] = []
     private var itemsToButtonsMap: [CommandBarItem: CommandBarButton] = [:]
     private var buttonsPersistSelection: Bool
-
-    // MARK: View Updates
-
-    private func configureHierarchy() {
-        addSubview(buttonGroupsStackView)
-
-        NSLayoutConstraint.activate([
-            buttonGroupsStackView.topAnchor.constraint(equalTo: topAnchor, constant: CommandBarCommandGroupsView.insets.top),
-            bottomAnchor.constraint(equalTo: buttonGroupsStackView.bottomAnchor, constant: CommandBarCommandGroupsView.insets.top),
-            buttonGroupsStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            buttonGroupsStackView.trailingAnchor.constraint(equalTo: trailingAnchor)
-        ])
-    }
 
     /// Refreshes the buttons shown in the `arrangedSubviews`
     private func updateButtonsShown() {
@@ -108,6 +107,11 @@ class CommandBarCommandGroupsView: UIView {
         sender.updateState()
     }
 
-    private static let buttonGroupSpacing: CGFloat = 16
-    private static let insets = UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)
+    private struct LayoutConstants {
+        static let buttonGroupSpacing: CGFloat = 16
+        static let insets = UIEdgeInsets(top: 8.0,
+                                         left: 8.0,
+                                         bottom: 8.0,
+                                         right: 8.0)
+    }
 }

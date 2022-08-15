@@ -110,12 +110,16 @@ class DemoListViewController: DemoTableViewController {
         UserDefaults.standard.set(demo.title, forKey: DemoListViewController.lastDemoControllerKey)
     }
 
+    override func tableView(_ tableView: UITableView, canFocusRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+
     let cellReuseIdentifier: String = "TableViewCell"
     private static var isFirstLaunch: Bool = true
     private static let lastDemoControllerKey: String = "LastDemoController"
 
     private enum DemoControllerSection: CaseIterable {
-        case vNextControls
+        case fluent2Controls
         case controls
 #if DEBUG
         case debug
@@ -123,8 +127,8 @@ class DemoListViewController: DemoTableViewController {
 
         var title: String {
             switch self {
-            case .vNextControls:
-                return "vNext Controls"
+            case .fluent2Controls:
+                return "Fluent 2 Controls"
             case .controls:
                 return "Controls"
 #if DEBUG
@@ -136,8 +140,8 @@ class DemoListViewController: DemoTableViewController {
 
         var rows: [DemoDescriptor] {
             switch self {
-            case .vNextControls:
-                return Demos.vNext
+            case .fluent2Controls:
+                return Demos.fluent2
             case .controls:
                 return Demos.controls
 #if DEBUG

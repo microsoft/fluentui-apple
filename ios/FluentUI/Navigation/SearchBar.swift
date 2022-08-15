@@ -135,6 +135,7 @@ open class SearchBar: UIView {
         static let searchIconInset: CGFloat = 10.0
         static let searchTextFieldLeadingInset: CGFloat = 10.0
         static let searchTextFieldVerticalInset: CGFloat = 2
+        static let searchTextFieldInteractionMinWidth: CGFloat = 50
         static let clearButtonLeadingInset: CGFloat = 10
         static let clearButtonWidth: CGFloat = 8 + 16 + 8   // padding + image + padding
         static let clearButtonTrailingInset: CGFloat = 10
@@ -144,6 +145,13 @@ open class SearchBar: UIView {
         static let navigationBarTransitionHidingDelay: TimeInterval = 0.5
 
         static let defaultStyle: Style = .lightContent
+
+        static var searchIconInsettedWidth: CGFloat {
+            searchIconImageViewDimension + searchIconInset
+        }
+        static var clearButtonInsettedWidth: CGFloat {
+            clearButtonLeadingInset + clearButtonWidth + clearButtonTrailingInset
+        }
     }
 
     @objc open var hidesNavigationBarDuringSearch: Bool = true {
@@ -454,7 +462,10 @@ open class SearchBar: UIView {
         }
 
         searchTextFieldBackgroundView.addSubview(leadingView)
-        let leadingViewSize = leadingView.sizeThatFits(searchTextFieldBackgroundView.frame.size)
+
+        let leadingViewRenderWidth = searchTextFieldBackgroundView.frame.size.width - Constants.searchIconInsettedWidth - Constants.searchTextFieldLeadingInset - Constants.searchTextFieldInteractionMinWidth - Constants.clearButtonInsettedWidth
+        let leadingViewRenderSize = CGSize(width: leadingViewRenderWidth, height: searchTextFieldBackgroundView.frame.size.height)
+        let leadingViewSize = leadingView.sizeThatFits(leadingViewRenderSize)
         leadingView.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([

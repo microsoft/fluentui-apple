@@ -161,6 +161,7 @@ class CommandBarDemoController: DemoController {
         container.addArrangedSubview(createLabelWithText("Default"))
 
         let commandBar = CommandBar(itemGroups: createItemGroups(), leadingItemGroups: [[newItem(for: .keyboard)]])
+        commandBar.translatesAutoresizingMaskIntoConstraints = false
         commandBar.backgroundColor = Colors.navigationBarBackground
         container.addArrangedSubview(commandBar)
         defaultCommandBar = commandBar
@@ -197,16 +198,21 @@ class CommandBarDemoController: DemoController {
         refreshLeadingItemButton.addTarget(self, action: #selector(refreshDefaultLeadingBarItems), for: .touchUpInside)
         itemCustomizationContainer.addArrangedSubview(refreshLeadingItemButton)
 
-        let customizationStackView = UIStackView()
-        customizationStackView.axis = .horizontal
-        customizationStackView.alignment = .fill
-        customizationStackView.distribution = .fillProportionally
-        customizationStackView.addArrangedSubview(createLabelWithText("'+' Item Enabled"))
+        let itemEnabledStackView = createHorizontalStackView()
+        itemEnabledStackView.addArrangedSubview(createLabelWithText("'+' Enabled"))
         let itemEnabledSwitch: UISwitch = UISwitch()
         itemEnabledSwitch.isOn = true
         itemEnabledSwitch.addTarget(self, action: #selector(itemEnabledValueChanged), for: .valueChanged)
-        customizationStackView.addArrangedSubview(itemEnabledSwitch)
-        itemCustomizationContainer.addArrangedSubview(customizationStackView)
+        itemEnabledStackView.addArrangedSubview(itemEnabledSwitch)
+        itemCustomizationContainer.addArrangedSubview(itemEnabledStackView)
+
+        let itemHiddenStackView = createHorizontalStackView()
+        itemHiddenStackView.addArrangedSubview(createLabelWithText("'+' Hidden"))
+        let itemHiddenSwitch: UISwitch = UISwitch()
+        itemHiddenSwitch.isOn = false
+        itemHiddenSwitch.addTarget(self, action: #selector(itemHiddenValueChanged), for: .valueChanged)
+        itemHiddenStackView.addArrangedSubview(itemHiddenSwitch)
+        itemCustomizationContainer.addArrangedSubview(itemHiddenStackView)
 
         itemCustomizationContainer.addArrangedSubview(UIView()) //Spacer
 
@@ -215,6 +221,7 @@ class CommandBarDemoController: DemoController {
         container.addArrangedSubview(createLabelWithText("With Fixed Button"))
 
         let fixedButtonCommandBar = CommandBar(itemGroups: createItemGroups(), leadingItemGroups: [[newItem(for: .copy)]], trailingItemGroups: [[newItem(for: .keyboard)]])
+        fixedButtonCommandBar.translatesAutoresizingMaskIntoConstraints = false
         fixedButtonCommandBar.backgroundColor = Colors.navigationBarBackground
         container.addArrangedSubview(fixedButtonCommandBar)
 
@@ -233,6 +240,7 @@ class CommandBarDemoController: DemoController {
         container.addArrangedSubview(textFieldContainer)
 
         let accessoryCommandBar = CommandBar(itemGroups: createItemGroups(), trailingItemGroups: [[newItem(for: .keyboard)]])
+        accessoryCommandBar.translatesAutoresizingMaskIntoConstraints = false
         textField.inputAccessoryView = accessoryCommandBar
     }
 
@@ -331,12 +339,29 @@ class CommandBarDemoController: DemoController {
         }
     }
 
+    func createHorizontalStackView() -> UIStackView {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.alignment = .center
+        stackView.distribution = .fillProportionally
+        stackView.spacing = CommandBarDemoController.horizontalStackViewSpacing
+        return stackView
+    }
+
     @objc func itemEnabledValueChanged(sender: UISwitch!) {
         guard let item: CommandBarItem = defaultCommandBar?.itemGroups[0][0] else {
             return
         }
 
         item.isEnabled = sender.isOn
+    }
+
+    @objc func itemHiddenValueChanged(sender: UISwitch!) {
+        guard let item: CommandBarItem = defaultCommandBar?.itemGroups[0][0] else {
+            return
+        }
+
+        item.isHidden = sender.isOn
     }
 
     @objc func refreshDefaultBarItems(sender: UIButton!) {
@@ -359,5 +384,6 @@ class CommandBarDemoController: DemoController {
         defaultCommandBar?.leadingItemGroups = [[newItem(for: .keyboard)]]
     }
 
+    private static let horizontalStackViewSpacing: CGFloat = 16.0
     private static let verticalStackViewSpacing: CGFloat = 8.0
 }

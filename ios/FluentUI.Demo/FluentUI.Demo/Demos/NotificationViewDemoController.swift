@@ -18,6 +18,10 @@ class NotificationViewDemoController: DemoController {
         case neutralBar
         case persistentBarWithAction
         case persistentBarWithCancel
+        case primaryToastWithStrikethroughAttribute
+        case neutralBarWithFontAttribute
+        case neutralToastWithOverriddenTokens
+        case warningToastWithFlexibleWidth
 
         var displayText: String {
             switch self {
@@ -41,16 +45,14 @@ class NotificationViewDemoController: DemoController {
                 return "Persistent Bar with Action"
             case .persistentBarWithCancel:
                 return "Persistent Bar with Cancel"
-
-            }
-        }
-
-        var delayForHiding: TimeInterval {
-            switch self {
-            case .primaryToast, .primaryBar, .primaryOutlineBar, .neutralBar:
-                return 2
-            default:
-                return .infinity
+            case .primaryToastWithStrikethroughAttribute:
+                return "Primary Toast with Strikethrough Attribute"
+            case .neutralBarWithFontAttribute:
+                return "Neutral Bar with Font Attribute"
+            case .neutralToastWithOverriddenTokens:
+                return "Neutral Toast With Overridden Tokens"
+            case .warningToastWithFlexibleWidth:
+                return "Warning Toast With Flexible Width"
             }
         }
     }
@@ -59,6 +61,9 @@ class NotificationViewDemoController: DemoController {
         super.viewDidLoad()
         view.backgroundColor = Colors.surfaceSecondary
 
+        addTitle(text: "SwiftUI Demo")
+        container.addArrangedSubview(createButton(title: "Show", action: #selector(showSwiftUIDemo)))
+
         for (index, variant) in Variant.allCases.enumerated() {
             if index > 0 {
                 // spacers
@@ -66,44 +71,160 @@ class NotificationViewDemoController: DemoController {
                 container.addArrangedSubview(UIView())
             }
             addTitle(text: variant.displayText)
-            container.addArrangedSubview(createNotificationView(forVariant: variant))
             container.addArrangedSubview(createButton(title: "Show", action: #selector(showNotificationView)))
-            container.alignment = .leading
+        }
+        container.alignment = .leading
+    }
+
+    private func createNotificationView(forVariant variant: Variant) -> MSFNotification {
+        switch variant {
+        case .primaryToast:
+            let notification = MSFNotification(style: .primaryToast)
+            notification.state.message = "Mail Archived"
+            notification.state.actionButtonTitle = "Undo"
+            notification.state.actionButtonAction = { [weak self] in
+                self?.showMessage("`Undo` tapped")
+                notification.hide()
+            }
+            return notification
+        case .primaryToastWithImageAndTitle:
+            let notification = MSFNotification(style: .primaryToast)
+            notification.state.message = "Listen to Emails • 7 mins"
+            notification.state.title = "Kat's iPhoneX"
+            notification.state.image = UIImage(named: "play-in-circle-24x24")
+            notification.state.actionButtonAction = { [weak self] in
+                self?.showMessage("`Dismiss` tapped")
+                notification.hide()
+            }
+            notification.state.messageButtonAction = { [weak self] in
+                self?.showMessage("`Listen to emails` tapped")
+                notification.hide()
+            }
+            return notification
+        case .neutralToast:
+            let notification = MSFNotification(style: .neutralToast)
+            notification.state.message = "Some items require you to sign in to view them"
+            notification.state.actionButtonTitle = "Sign in"
+            notification.state.actionButtonAction = { [weak self] in
+                self?.showMessage("`Sign in` tapped")
+                notification.hide()
+            }
+            return notification
+        case .dangerToast:
+            let notification = MSFNotification(style: .dangerToast)
+            notification.state.message = "There was a problem, and your recent changes may not have saved"
+            notification.state.actionButtonTitle = "Retry"
+            notification.state.actionButtonAction = { [weak self] in
+                self?.showMessage("`Retry` tapped")
+                notification.hide()
+            }
+            return notification
+        case .warningToast:
+            let notification = MSFNotification(style: .warningToast)
+            notification.state.message = "Read Only"
+            notification.state.actionButtonAction = { [weak self] in
+                self?.showMessage("`Dismiss` tapped")
+                notification.hide()
+            }
+            return notification
+        case .primaryBar:
+            let notification = MSFNotification(style: .primaryBar)
+            notification.state.message = "Updating..."
+            return notification
+        case .primaryOutlineBar:
+            let notification = MSFNotification(style: .primaryOutlineBar)
+            notification.state.message = "Mail Sent"
+            return notification
+        case .neutralBar:
+            let notification = MSFNotification(style: .neutralBar)
+            notification.state.message = "No internet connection"
+            return notification
+        case .persistentBarWithAction:
+            let notification = MSFNotification(style: .neutralBar)
+            notification.state.message = "This error can be taken action on with the action on the right."
+            notification.state.actionButtonTitle = "Action"
+            notification.state.actionButtonAction = { [weak self] in
+                self?.showMessage("`Action` tapped")
+                notification.hide()
+            }
+            return notification
+        case .persistentBarWithCancel:
+            let notification = MSFNotification(style: .neutralBar)
+            notification.state.message = "This error can be tapped or dismissed with the icon to the right."
+            notification.state.actionButtonAction = { [weak self] in
+                self?.showMessage("`Dismiss` tapped")
+                notification.hide()
+            }
+            notification.state.messageButtonAction = { [weak self] in
+                self?.showMessage("`Dismiss` tapped")
+                notification.hide()
+            }
+            return notification
+        case .primaryToastWithStrikethroughAttribute:
+            let notification = MSFNotification(style: .primaryToast)
+            notification.state.attributedMessage = NSAttributedString(string: "This is a toast with a blue strikethrough attribute.",
+                                                                      attributes: [.font: UIFont.preferredFont(forTextStyle: .body),
+                                                                                   .strikethroughStyle: 1,
+                                                                                   .strikethroughColor: UIColor.blue])
+            notification.state.actionButtonAction = { [weak self] in
+                self?.showMessage("`Dismiss` tapped")
+                notification.hide()
+            }
+            return notification
+        case .neutralBarWithFontAttribute:
+            let notification = MSFNotification(style: .neutralBar)
+            notification.state.attributedMessage = NSAttributedString(string: "This is a bar with red Papyrus font attribute.",
+                                                                      attributes: [.font: UIFont.init(name: "Papyrus",
+                                                                                                      size: 30.0)!,
+                                                                                   .foregroundColor: UIColor.red])
+            notification.state.actionButtonAction = { [weak self] in
+                self?.showMessage("`Dismiss` tapped")
+                notification.hide()
+            }
+            return notification
+        case .neutralToastWithOverriddenTokens:
+            let notification = MSFNotification(style: .neutralToast)
+            notification.state.message = "The image color and spacing between the elements of this notification have been customized with override tokens."
+            notification.state.image = UIImage(named: "play-in-circle-24x24")
+            notification.state.overrideTokens = NotificationOverrideTokens()
+            notification.state.actionButtonAction = { [weak self] in
+                self?.showMessage("`Dismiss` tapped")
+                notification.hide()
+            }
+            return notification
+        case .warningToastWithFlexibleWidth:
+            let notification = MSFNotification(style: .warningToast,
+                                               isFlexibleWidthToast: true)
+            notification.state.message = "This toast has a flexible width which means the width is based on the content rather than the screen size."
+            notification.state.overrideTokens = NotificationOverrideTokens()
+            notification.state.actionButtonAction = { [weak self] in
+                self?.showMessage("`Dismiss` tapped")
+                notification.hide()
+            }
+            return notification
         }
     }
 
-    private func createNotificationView(forVariant variant: Variant) -> NotificationView {
-        let view = NotificationView()
-        switch variant {
-        case .primaryToast:
-            view.setup(style: .primaryToast, message: "Mail Archived", actionTitle: "Undo", action: { [unowned self] in self.showMessage("`Undo` tapped") })
-        case .primaryToastWithImageAndTitle:
-            view.setup(style: .primaryToast, title: "Kat's iPhoneX", message: "Listen to Emails • 7 mins", image: UIImage(named: "play-in-circle-24x24"), action: { [unowned self] in self.showMessage("`Dismiss` tapped") }, messageAction: { [unowned self] in self.showMessage("`Listen to emails` tapped") })
-        case .neutralToast:
-            view.setup(style: .neutralToast, message: "Some items require you to sign in to view them", actionTitle: "Sign in", action: { [unowned self] in self.showMessage("`Sign in` tapped") })
-        case .dangerToast:
-            view.setup(style: .dangerToast, message: "There was a problem, and your recent changes may not have saved", actionTitle: "Retry", action: { [unowned self] in self.showMessage("`Retry` tapped") })
-        case .warningToast:
-            view.setup(style: .warningToast, message: "Read Only")
-        case .primaryBar:
-            view.setup(style: .primaryBar, message: "Updating...")
-        case .primaryOutlineBar:
-            view.setup(style: .primaryOutlineBar, message: "Mail Sent")
-        case .neutralBar:
-            view.setup(style: .neutralBar, message: "No internet connection")
-        case .persistentBarWithAction:
-            view.setup(style: .neutralBar, message: "This error can be taken action on with the action on the right.", actionTitle: "Action", action: { [unowned self] in self.showMessage("`Action` tapped") })
-        case .persistentBarWithCancel:
-            view.setup(style: .neutralBar, message: "This error can be tapped or dismissed with the icon to the right.", action: { [unowned self] in self.showMessage("`Dismiss` tapped") })
+    private class NotificationOverrideTokens: NotificationTokens {
+        override var imageColor: DynamicColor {
+            return DynamicColor(light: GlobalTokens().sharedColors[.orange][.primary])
         }
-        return view
+
+        override var horizontalSpacing: CGFloat {
+            return 5.0
+        }
     }
 
     @objc private func showNotificationView(sender: UIButton) {
-        guard let index = container.arrangedSubviews.filter({ $0 is UIButton }).firstIndex(of: sender), let variant = Variant(rawValue: index) else {
+        guard let index = container.arrangedSubviews.filter({ $0 is UIButton }).firstIndex(of: sender), let variant = Variant(rawValue: index - 1) else {
             preconditionFailure("showNotificationView is used for a button in the wrong container")
         }
 
-        createNotificationView(forVariant: variant).show(in: view) { $0.hide(after: variant.delayForHiding) }
+        createNotificationView(forVariant: variant).show(in: view) { $0.hide(after: 3.0) }
+    }
+
+    @objc private func showSwiftUIDemo() {
+        navigationController?.pushViewController(NotificationViewDemoControllerSwiftUI(),
+                                                 animated: true)
     }
 }

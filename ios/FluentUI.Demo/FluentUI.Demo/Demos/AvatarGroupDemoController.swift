@@ -75,6 +75,19 @@ class AvatarGroupDemoController: DemoTableViewController {
 
             return cell
 
+        case .customRingColor:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: BooleanCell.identifier) as? BooleanCell else {
+                return UITableViewCell()
+            }
+
+            cell.setup(title: row.title, isOn: self.isUsingImageBasedCustomColor)
+            cell.titleNumberOfLines = 0
+            cell.onValueChanged = { [weak self, weak cell] in
+                self?.isUsingImageBasedCustomColor = cell?.isOn ?? true
+            }
+
+            return cell
+
         case .maxDisplayedAvatars,
              .overflow:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier) as? TableViewCell else {
@@ -93,6 +106,8 @@ class AvatarGroupDemoController: DemoTableViewController {
             }()
 
             let stackView = UIStackView(arrangedSubviews: buttonView)
+            stackView.shouldGroupAccessibilityChildren = true
+            stackView.accessibilityElements = buttonView
             stackView.frame = CGRect(x: 0,
                                      y: 0,
                                      width: 120,
@@ -114,7 +129,7 @@ class AvatarGroupDemoController: DemoTableViewController {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier) as? TableViewCell else {
                 return UITableViewCell()
             }
-
+            cell.accessibilityTraits = .header
             cell.setup(title: row.title)
             cell.titleNumberOfLines = 0
             return cell
@@ -142,7 +157,7 @@ class AvatarGroupDemoController: DemoTableViewController {
                 cell.contentView.trailingAnchor.constraint(equalTo: avatarGroupView.trailingAnchor, constant: 20)
             ])
 
-            cell.backgroundColor = self.isUsingAlternateBackgroundColor ? Colors.tableCellBackgroundSelected : Colors.tableCellBackground
+            cell.backgroundConfiguration?.backgroundColor = self.isUsingAlternateBackgroundColor ? Colors.tableCellBackgroundSelected : Colors.tableCellBackground
 
             return cell
         }
@@ -234,6 +249,7 @@ class AvatarGroupDemoController: DemoTableViewController {
             case .settings:
                 return [.avatarCount,
                         .alternateBackground,
+                        .customRingColor,
                         .maxDisplayedAvatars,
                         .overflow]
             case .avatarStackNoBorder,
@@ -261,6 +277,7 @@ class AvatarGroupDemoController: DemoTableViewController {
     private enum AvatarGroupDemoRow: CaseIterable {
         case avatarCount
         case alternateBackground
+        case customRingColor
         case maxDisplayedAvatars
         case overflow
         case xxlargeTitle
@@ -293,6 +310,7 @@ class AvatarGroupDemoController: DemoTableViewController {
                  .xsmallTitle,
                  .avatarCount,
                  .alternateBackground,
+                 .customRingColor,
                  .maxDisplayedAvatars,
                  .overflow:
                 return false
@@ -321,6 +339,7 @@ class AvatarGroupDemoController: DemoTableViewController {
                  .xsmallTitle,
                  .avatarCount,
                  .alternateBackground,
+                 .customRingColor,
                  .maxDisplayedAvatars,
                  .overflow:
                 preconditionFailure("Row should not display an Avatar Group")
@@ -333,6 +352,8 @@ class AvatarGroupDemoController: DemoTableViewController {
                 return "Avatar count"
             case .alternateBackground:
                 return "Use alternate background color"
+            case .customRingColor:
+                return "Use image based custom ring color"
             case.maxDisplayedAvatars:
                 return "Max displayed avatars"
             case .overflow:
@@ -383,8 +404,17 @@ class AvatarGroupDemoController: DemoTableViewController {
     }()
 
     @objc private func setMaxAvatarCount() {
-        if let text = maxAvatarsTextField.text, let count = Int(text) {
-            maxDisplayedAvatars = count
+        let oldMax = maxDisplayedAvatars
+
+        if let text = maxAvatarsTextField.text, let newMax = Int(text) {
+            if newMax <= avatarCount {
+                maxDisplayedAvatars = newMax
+                if oldMax < newMax {
+                    updateAvatarsCustomRingColor(for: oldMax..<newMax)
+                }
+            } else {
+                maxAvatarsTextField.text = "\(oldMax)"
+            }
             maxAvatarButton.isEnabled = false
         }
 
@@ -445,6 +475,7 @@ class AvatarGroupDemoController: DemoTableViewController {
             guard oldValue != avatarCount && avatarCount >= 0 else {
                 return
             }
+            adjustMaxDisplayedAvatars()
             AvatarGroupDemoSection.allCases.filter({ section in
                 return section.isDemoSection
             }).forEach { section in
@@ -474,6 +505,10 @@ class AvatarGroupDemoController: DemoTableViewController {
         }
     }
 
+    private func adjustMaxDisplayedAvatars() {
+        maxDisplayedAvatars = min(avatarCount, maxDisplayedAvatars)
+    }
+
     @objc private func addAvatarCount(_ cell: ActionsCell) {
         avatarCount += 1
     }
@@ -493,6 +528,21 @@ class AvatarGroupDemoController: DemoTableViewController {
     private var isUsingAlternateBackgroundColor: Bool = false {
         didSet {
             updateBackgroundColor()
+        }
+    }
+
+    private var isUsingImageBasedCustomColor: Bool = false {
+        didSet {
+            updateAvatarsCustomRingColor(for: 0..<avatarCount)
+        }
+    }
+
+    private func updateAvatarsCustomRingColor(for range: Range<Int>) {
+        for group in allDemoAvatarGroupsCombined {
+            for index in range {
+                let avatar = group.state.getAvatarState(at: index)
+                avatar.imageBasedRingColor = isUsingImageBasedCustomColor ? AvatarDemoController.colorfulCustomImage : nil
+            }
         }
     }
 

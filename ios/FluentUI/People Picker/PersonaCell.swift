@@ -13,7 +13,7 @@ open class PersonaCell: TableViewCell {
         static let avatarSize: MSFAvatarSize = .large
     }
 
-    open override var customViewSize: TableViewCell.CustomViewSize { get { return .medium } set { } }
+    open override var customViewSize: MSFTableViewCellCustomViewSize { get { return .medium } set { } }
 
     /// Sets up the cell with an Persona and an accessory
     ///

@@ -271,7 +271,7 @@ extension HUDDemoController: DemoAppearanceDelegate {
             return
         }
         if isOverrideEnabled {
-            fluentTheme.register(controlType: HeadsUpDisplay.self, tokens: { _ in
+            fluentTheme.register(controlType: HeadsUpDisplay.self, tokens: {
                 ThemeWideOverrideActivityHeadsUpDisplayTokens()
             })
         } else {

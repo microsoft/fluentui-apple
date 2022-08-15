@@ -58,7 +58,7 @@ class CardNudgeDemoController: DemoTableViewController {
             let contentView = cell.contentView
             contentView.addSubview(view)
             cell.selectionStyle = .none
-            cell.backgroundColor = .systemBackground
+            cell.backgroundConfiguration?.backgroundColor = .systemBackground
             view.translatesAutoresizingMaskIntoConstraints = false
 
             let constraints = [
@@ -236,9 +236,9 @@ extension CardNudgeDemoController: DemoAppearanceDelegate {
             return
         }
 
-        var tokensClosure: ((CardNudge) -> CardNudgeTokens)?
+        var tokensClosure: (() -> CardNudgeTokens)?
         if isOverrideEnabled {
-            tokensClosure = { _ in
+            tokensClosure = {
                 return ThemeWideOverrideCardNudgeTokens()
             }
         }

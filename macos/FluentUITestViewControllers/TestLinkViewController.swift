@@ -16,7 +16,7 @@ class TestLinkViewController: NSViewController {
 	}()
 
 	override func loadView() {
-		let url = NSURL(string: "https://github.com/microsoft/fluentui-apple")
+		let url = URL(string: "https://github.com/microsoft/fluentui-apple")
 
 		let linkWithNoUnderlineTitle = "FluentUI on GitHub"
 		let linkWithNoUnderline = Link(title: linkWithNoUnderlineTitle, url: url)

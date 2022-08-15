@@ -8,23 +8,71 @@ import UIKit
 // MARK: CenteredLabelCell
 
 @objc(MSFCenteredLabelCell)
-open class CenteredLabelCell: UITableViewCell {
+open class CenteredLabelCell: UITableViewCell, TokenizedControlInternal {
     public static let identifier: String = "CenteredLabelCell"
+
+    // MARK: - CenteredLabelCell TokenizedControl
+    @objc public var centeredLabelCellOverrideTokens: TableViewCellTokens? {
+        didSet {
+            self.overrideTokens = centeredLabelCellOverrideTokens
+        }
+    }
+
+    let defaultTokens: TableViewCellTokens = .init()
+    var tokens: TableViewCellTokens = .init()
+    /// Design token set for this control, to use in place of the control's default Fluent tokens.
+    var overrideTokens: TableViewCellTokens? {
+        didSet {
+            updateTokens()
+        }
+    }
+
+    public func overrideTokens(_ tokens: TableViewCellTokens?) -> Self {
+        overrideTokens = tokens
+        return self
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        guard let window = window, window.isEqual(notification.object) else {
+            return
+        }
+        updateTokens()
+    }
+
+    private func updateTokens() {
+        tokens = resolvedTokens
+        setupBackgroundColors()
+        label.font = UIFont.fluent(tokens.titleFont)
+        label.textColor = UIColor(dynamicColor: tokens.mainBrandColor)
+    }
 
     // Public to be able to change style without wrapping every property
     public let label: UILabel = {
         let label = UILabel()
         label.backgroundColor = .clear
-        label.font = Constants.labelFont
         label.adjustsFontForContentSizeCategory = true
         label.numberOfLines = 0
         return label
     }()
 
+    @objc public var backgroundStyleType: TableViewCellBackgroundStyleType = .plain {
+        didSet {
+            if backgroundStyleType != oldValue {
+                setupBackgroundColors()
+            }
+        }
+    }
+
     public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+
         contentView.addSubview(label)
-        backgroundColor = Colors.Table.Cell.background
+        setupBackgroundColors()
     }
 
     @objc public required init(coder aDecoder: NSCoder) {
@@ -36,6 +84,8 @@ open class CenteredLabelCell: UITableViewCell {
     /// - Parameter text: The text to be displayed
     @objc open func setup(text: String) {
         label.text = text
+        label.font = UIFont.fluent(tokens.titleFont)
+        label.textColor = UIColor(dynamicColor: tokens.mainBrandColor)
         setNeedsLayout()
     }
 
@@ -48,7 +98,7 @@ open class CenteredLabelCell: UITableViewCell {
 
         let labelWidthArea = maxWidth - layoutMargins.left - layoutMargins.right
         let labelFittingSize = label.sizeThatFits(CGSize(width: labelWidthArea, height: CGFloat.greatestFiniteMagnitude))
-        let height = max(Constants.paddingVertical * 2 + ceil(labelFittingSize.height), Constants.defaultHeight)
+        let height = max(tokens.paddingVertical * 2 + ceil(labelFittingSize.height), tokens.minHeight)
         return CGSize(width: maxWidth, height: height)
     }
 
@@ -61,18 +111,18 @@ open class CenteredLabelCell: UITableViewCell {
 
     open override func didMoveToWindow() {
         super.didMoveToWindow()
-        if let window = window {
-            label.textColor = Colors.primary(for: window)
-        }
+        updateTokens()
     }
 
     open override func setHighlighted(_ highlighted: Bool, animated: Bool) { }
 
     open override func setSelected(_ selected: Bool, animated: Bool) { }
 
-    private struct Constants {
-        static let labelFont: UIFont = Fonts.body
-        static let paddingVertical: CGFloat = 11
-        static let defaultHeight: CGFloat = 48
+    private func setupBackgroundColors() {
+        if backgroundStyleType != .custom {
+            var customBackgroundConfig = UIBackgroundConfiguration.clear()
+            customBackgroundConfig.backgroundColor = backgroundStyleType.defaultColor(tokens: tokens)
+            backgroundConfiguration = customBackgroundConfig
+        }
     }
 }

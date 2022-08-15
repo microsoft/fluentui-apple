@@ -34,7 +34,7 @@ protocol TokenizedControlInternal: TokenizedControl {
 extension TokenizedControlInternal {
     /// Returns the correct token set for a given tokenizable control.
     var resolvedTokens: TokenType {
-        let tokens = overrideTokens ?? fluentTheme.tokens(for: self) ?? defaultTokens
+        let tokens = overrideTokens ?? fluentTheme.tokens(for: type(of: self)) ?? defaultTokens
         tokens.fluentTheme = fluentTheme
         return tokens
     }

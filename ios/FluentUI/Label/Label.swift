@@ -72,6 +72,8 @@ open class Label: UILabel {
     }
     private var _textColor: UIColor?
 
+    private var isUsingCustomAttributedText: Bool = false
+
     @objc public init(style: TextStyle = .body, colorStyle: TextColorStyle = .regular) {
         self.style = style
         self.colorStyle = colorStyle
@@ -89,6 +91,12 @@ open class Label: UILabel {
         updateTextColor()
     }
 
+    open override var attributedText: NSAttributedString? {
+      didSet {
+          isUsingCustomAttributedText = attributedText != nil
+        }
+    }
+
     private func initialize() {
         // textColor is assigned in super.init to a default value and so we need to reset our cache afterwards
         _textColor = nil
@@ -101,6 +109,11 @@ open class Label: UILabel {
     }
 
     private func updateFont() {
+        // If attributedText is set, it will be prioritized over any other label property changes
+        guard !isUsingCustomAttributedText else {
+            return
+        }
+
         let defaultFont = style.font
         if maxFontSize > 0 && defaultFont.pointSize > maxFontSize {
             font = defaultFont.withSize(maxFontSize)
@@ -110,6 +123,11 @@ open class Label: UILabel {
     }
 
     private func updateTextColor() {
+        // If attributedText is set, it will be prioritized over any other label property changes
+        guard !isUsingCustomAttributedText else {
+            return
+        }
+
         if let window = window {
             super.textColor = _textColor ?? colorStyle.color(for: window)
         }

@@ -18,7 +18,7 @@ class AvatarDemoControllerSwiftUI: UIHostingController<AvatarDemoView> {
 
     init() {
         super.init(rootView: AvatarDemoView())
-        self.title = "Avatar Vnext (SwiftUI)"
+        self.title = "Avatar Fluent 2 (SwiftUI)"
     }
 }
 
@@ -45,7 +45,7 @@ struct AvatarDemoView: View {
                    image: showImage ? UIImage(named: "avatar_kat_larsson") : nil,
                    primaryText: primaryText,
                    secondaryText: secondaryText)
-                .isRingVisible(isRingVisible)
+                .isRingVisible(showImageBasedRingColor || isRingVisible)
                 .hasRingInnerGap(hasRingInnerGap)
                 .imageBasedRingColor(showImageBasedRingColor ? AvatarDemoController.colorfulCustomImage : nil)
                 .isTransparent(isTransparent)
