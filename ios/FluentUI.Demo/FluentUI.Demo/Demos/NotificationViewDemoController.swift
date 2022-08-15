@@ -227,6 +227,16 @@ class NotificationViewDemoController: DemoController {
             },
             .horizontalSpacing: .float {
                 return 5.0
+            },
+            .shadow: .shadowInfo {
+                return ShadowInfo(colorOne: DynamicColor(light: GlobalTokens().sharedColors[.hotPink][.primary]),
+                                  blurOne: 10.0,
+                                  xOne: 10.0,
+                                  yOne: 10.0,
+                                  colorTwo: DynamicColor(light: GlobalTokens().sharedColors[.teal][.primary]),
+                                  blurTwo: 100.0,
+                                  xTwo: -10.0,
+                                  yTwo: -10.0)
             }
         ]
     }

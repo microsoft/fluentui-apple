@@ -259,6 +259,7 @@ public final class AliasTokens {
     // MARK: - Shadow
 
     public enum ShadowTokens: TokenSetKey {
+        case clear
         case shadow02
         case shadow04
         case shadow08
@@ -269,6 +270,15 @@ public final class AliasTokens {
     lazy public var shadow: TokenSet<ShadowTokens, ShadowInfo> = .init { [weak self] token in
         guard let strongSelf = self else { preconditionFailure() }
         switch token {
+        case .clear:
+            return ShadowInfo(colorOne: DynamicColor(light: ColorValue.clear),
+                              blurOne: 0.0,
+                              xOne: 0.0,
+                              yOne: 0.0,
+                              colorTwo: DynamicColor(light: ColorValue.clear),
+                              blurTwo: 0.0,
+                              xTwo: 0.0,
+                              yTwo: 0.0)
         case .shadow02:
             return ShadowInfo(colorOne: strongSelf.shadowColors[.neutralKey],
                               blurOne: 1,

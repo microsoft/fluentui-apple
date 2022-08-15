@@ -236,6 +236,7 @@ public struct FluentNotification: View, TokenizedControlView {
 
         @ViewBuilder
         var notification: some View {
+            let shadowInfo = tokenSet[.shadow].shadowInfo
             innerContents
                 .background(
                     RoundedRectangle(cornerRadius: tokenSet[.cornerRadius].float)
@@ -244,14 +245,14 @@ public struct FluentNotification: View, TokenizedControlView {
                             RoundedRectangle(cornerRadius: tokenSet[.cornerRadius].float)
                                 .fill(Color(dynamicColor: tokenSet[.backgroundColor].dynamicColor))
                         )
-                        .shadow(color: Color(dynamicColor: tokenSet[.ambientShadowColor].dynamicColor),
-                                radius: tokenSet[.ambientShadowBlur].float,
-                                x: tokenSet[.ambientShadowOffsetX].float,
-                                y: tokenSet[.ambientShadowOffsetY].float)
-                        .shadow(color: Color(dynamicColor: tokenSet[.perimeterShadowColor].dynamicColor),
-                                radius: tokenSet[.perimeterShadowBlur].float,
-                                x: tokenSet[.perimeterShadowOffsetX].float,
-                                y: tokenSet[.perimeterShadowOffsetY].float)
+                        .shadow(color: Color(dynamicColor: shadowInfo.colorOne),
+                                radius: shadowInfo.blurOne,
+                                x: shadowInfo.xOne,
+                                y: shadowInfo.yOne)
+                        .shadow(color: Color(dynamicColor: shadowInfo.colorTwo),
+                                radius: shadowInfo.blurTwo,
+                                x: shadowInfo.xTwo,
+                                y: shadowInfo.yTwo)
                 )
                 .onTapGesture {
                     if let messageAction = messageButtonAction {
@@ -287,7 +288,7 @@ public struct FluentNotification: View, TokenizedControlView {
                         })
                         .padding(.bottom, tokenSet[.bottomPresentationPadding].float)
                         .onSizeChange { newSize in
-                            bottomOffsetForDismissedState = newSize.height + (tokenSet[.ambientShadowOffsetY].float / 2)
+                            bottomOffsetForDismissedState = newSize.height + (tokenSet[.shadow].shadowInfo.yOne / 2)
                             // Bottom offset is only updated when the notification isn't presented to account for the new notification height (if presented, offset doesn't need to be updated since it grows upward vertically)
                             if !isPresented {
                                 bottomOffset = bottomOffsetForDismissedState
