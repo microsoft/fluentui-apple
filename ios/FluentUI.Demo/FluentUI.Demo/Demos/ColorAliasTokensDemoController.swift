@@ -57,13 +57,13 @@ class ColorAliasTokensDemoController: DemoTableViewController {
         let white = ColorValue(0xFFFFFF)
 
         switch token {
-        case .background1, .background1Pressed, .background1Selected, .background2, .background2Pressed, .background2Selected, .background3, .background3Pressed, .background3Selected, .background4, .background4Pressed, .background4Selected, .background5, .background5Pressed, .background5Selected, .background5BrandTint, .background6, .background6Pressed, .background6Selected, .backgroundDisabled, .brandBackground4, .background5BrandTintSelected, .background5BrandFilledSelected, .brandBackgroundDisabled, .canvasBackground, .stencil1, .stencil2, .foregroundDisabled2, .foregroundOnColor, .brandForeground2, .stroke1, .stroke2, .strokeDisabled, .strokeFocus1:
+        case .background1, .background1Pressed, .background1Selected, .background2, .background2Pressed, .background2Selected, .background3, .background3Pressed, .background3Selected, .background4, .background4Pressed, .background4Selected, .background5, .background5Pressed, .background5Selected, .background5BrandTint, .background6, .background6Pressed, .background6Selected, .backgroundDisabled, .brandBackground4, .background5BrandTintSelected, .brandBackgroundDisabled, .canvasBackground, .stencil1, .stencil2, .foregroundDisabled2, .foregroundOnColor, .brandForeground2, .stroke1, .stroke2, .strokeDisabled, .strokeFocus1, .foregroundDisabled1:
             return UIColor(dynamicColor: DynamicColor(light: black, dark: white))
         case .brandBackground3Pressed, .foreground1, .foreground2, .foreground3, .foregroundInverted2, .brandForegroundInverted, .strokeFocus2, .brandBackground1Pressed, .brandForeground1Pressed, .brandStroke1Pressed, .brandStroke1, .brandStroke1Selected:
             return UIColor(dynamicColor: DynamicColor(light: white, dark: black))
         case .brandBackground3Selected, .brandBackgroundInverted, .brandBackgroundInvertedDisabled, .foregroundInverted1, .brandForeground3:
             return .black
-        case .foregroundDisabled1, .foregroundContrast, .brandForeground1, .brandForeground1Selected, .brandForeground4, .brandForeground5, .brandForegroundDisabled, .background5SelectedBrandFilled, .backgroundInverted, .brandBackground1, .brandBackground1Selected, .brandBackground2, .brandBackground2Pressed, .brandBackground2Selected, .brandBackground3, .strokeAccessible:
+        case .foregroundContrast, .brandForeground1, .brandForeground1Selected, .brandForeground4, .brandForeground5, .brandForegroundDisabled, .background5SelectedBrandFilled, .backgroundInverted, .brandBackground1, .brandBackground1Selected, .brandBackground2, .brandBackground2Pressed, .brandBackground2Selected, .brandBackground3, .strokeAccessible, .background5BrandFilledSelected:
             return .white
         }
     }
