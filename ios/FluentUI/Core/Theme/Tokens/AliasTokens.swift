@@ -650,6 +650,76 @@ public final class AliasTokens {
         }
     }
 
+    // MARK: Shared Colors
+
+    public enum SharedColorsTokens: CaseIterable {
+        // Red (Danger)
+        case redBackground1
+        case redBackground3
+        case redForeground1
+        case redForeground3
+        // Dark orange (Severe)
+        case darkOrangeBackground1
+        case darkOrangeBackground3
+        case darkOrangeForeground1
+        // Yellow (Warning)
+        case yellowBackground1
+        case yellowBackground3
+        case yellowForeground1
+        // Green (Success)
+        case greenBackground1
+        case greenBackground2
+        case greenForeground1
+    }
+    public lazy var sharedColors: TokenSet<SharedColorsTokens, DynamicColor> = .init { [weak self] token in
+        guard let strongSelf = self else { preconditionFailure() }
+        switch token {
+        // Red
+        case .redBackground1:
+            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.red][.tint60],
+                                dark: strongSelf.globalTokens.sharedColors[.red][.shade40])
+        case .redBackground3:
+            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.red][.primary],
+                                dark: strongSelf.globalTokens.sharedColors[.red][.shade10])
+        case .redForeground1:
+            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.red][.shade20],
+                                dark: strongSelf.globalTokens.sharedColors[.red][.tint30])
+        case .redForeground3:
+            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.red][.primary],
+                                dark: strongSelf.globalTokens.sharedColors[.red][.tint20])
+        // Green
+        case .greenBackground1:
+            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.green][.tint60],
+                                dark: strongSelf.globalTokens.sharedColors[.green][.shade40])
+        case .greenBackground2:
+            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.green][.tint40],
+                                dark: strongSelf.globalTokens.sharedColors[.green][.shade30])
+        case .greenForeground1:
+            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.green][.shade20],
+                                dark: strongSelf.globalTokens.sharedColors[.green][.tint30])
+        // Dark orange
+        case .darkOrangeBackground1:
+            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.darkOrange][.tint60],
+                                dark: strongSelf.globalTokens.sharedColors[.darkOrange][.shade40])
+        case .darkOrangeBackground3:
+            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.darkOrange][.primary],
+                                dark: strongSelf.globalTokens.sharedColors[.darkOrange][.shade10])
+        case .darkOrangeForeground1:
+            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.darkOrange][.shade20],
+                                dark: strongSelf.globalTokens.sharedColors[.darkOrange][.tint30])
+        // Yellow
+        case .yellowBackground1:
+            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.yellow][.tint50],
+                                dark: strongSelf.globalTokens.sharedColors[.yellow][.shade40])
+        case .yellowBackground3:
+            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.yellow][.primary],
+                                dark: strongSelf.globalTokens.sharedColors[.yellow][.shade10])
+        case .yellowForeground1:
+            return DynamicColor(light: strongSelf.globalTokens.sharedColors[.yellow][.shade40],
+                                dark: strongSelf.globalTokens.sharedColors[.yellow][.tint30])
+        }
+    }
+
     // MARK: Initialization
 
     public init() {}
