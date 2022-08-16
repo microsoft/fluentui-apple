@@ -416,28 +416,36 @@ class MSFNotificationStateImpl: NSObject, ControlConfiguration, MSFNotificationS
     /// Style to draw the control.
     @Published public var style: MSFNotificationStyle
 
-    @objc init(style: MSFNotificationStyle) {
-        self.style = style
-        self.showDefaultDismissActionButton = style.isToast
-
-        super.init()
+    @objc convenience init(style: MSFNotificationStyle) {
+        self.init(style: style,
+                  message: nil,
+                  attributedMessage: nil,
+                  title: nil,
+                  attributedTitle: nil,
+                  image: nil,
+                  trailingImage: nil,
+                  trailingImageAccessibilityLabel: nil,
+                  actionButtonTitle: nil,
+                  actionButtonAction: nil,
+                  showDefaultDismissActionButton: nil,
+                  messageButtonAction: nil,
+                  showFromBottom: true)
     }
 
-    convenience init(style: MSFNotificationStyle,
-                     message: String? = nil,
-                     attributedMessage: NSAttributedString? = nil,
-                     title: String? = nil,
-                     attributedTitle: NSAttributedString? = nil,
-                     image: UIImage? = nil,
-                     trailingImage: UIImage? = nil,
-                     trailingImageAccessibilityLabel: String? = nil,
-                     actionButtonTitle: String? = nil,
-                     actionButtonAction: (() -> Void)? = nil,
-                     showDefaultDismissActionButton: Bool? = nil,
-                     messageButtonAction: (() -> Void)? = nil,
-                     showFromBottom: Bool = true) {
-        self.init(style: style)
-
+    init(style: MSFNotificationStyle,
+         message: String? = nil,
+         attributedMessage: NSAttributedString? = nil,
+         title: String? = nil,
+         attributedTitle: NSAttributedString? = nil,
+         image: UIImage? = nil,
+         trailingImage: UIImage? = nil,
+         trailingImageAccessibilityLabel: String? = nil,
+         actionButtonTitle: String? = nil,
+         actionButtonAction: (() -> Void)? = nil,
+         showDefaultDismissActionButton: Bool? = nil,
+         messageButtonAction: (() -> Void)? = nil,
+         showFromBottom: Bool = true) {
+        self.style = style
         self.message = message
         self.attributedMessage = attributedMessage
         self.title = title
@@ -450,5 +458,7 @@ class MSFNotificationStateImpl: NSObject, ControlConfiguration, MSFNotificationS
         self.messageButtonAction = messageButtonAction
         self.showFromBottom = showFromBottom
         self.showDefaultDismissActionButton = showDefaultDismissActionButton ?? style.isToast
+
+        super.init()
     }
 }
