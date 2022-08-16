@@ -62,11 +62,5 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: ${{ github.event.pull_request.base.sha }}
-    - name: Print out directoy
-      run: ls -la
-    - name: ls head
-      run: ls -la ${{ github.event.pull_request.head.sha }}
-    - name: ls base
-      run: ls -la ${{ github.event.pull_request.base.sha }}
     - name: Compare sizes
       run: scripts/compare_demo_sizes.sh ${{ github.event.pull_request.head.sha }} ${{ github.event.pull_request.base.sha }}
