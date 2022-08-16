@@ -13,7 +13,8 @@ jobs:
       fail-fast: false
     steps: 
     - uses: actions/checkout@v3
-    - uses: ./.github/workflows/uploadSizeArtifact
+    - name: Upload Size Artifact 
+      uses: ./.github/workflows/uploadSizeArtifact.yml
       with:
         sha: ${{ github.event.pull_request.head.sha }}
   archiveBaseBuild:
@@ -22,7 +23,8 @@ jobs:
       fail-fast: false
     steps: 
     - uses: actions/checkout@v3
-    - uses: ./.github/workflows/uploadSizeArtifact
+    - name: Upload Size Artifact 
+      uses: ./.github/workflows/uploadSizeArtifact.yml
       with:
         sha: ${{ github.event.pull_request.base.sha }}
   printSizes:
