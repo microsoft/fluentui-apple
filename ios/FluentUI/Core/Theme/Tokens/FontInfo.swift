@@ -17,10 +17,39 @@ public struct FontInfo {
     /// - Parameter weight: The weight to use for the font. Defaults to `.regular`.
     ///
     /// - Returns: A struct containing the information needed to create a font object.
-    public init(name: String? = nil, size: CGFloat, weight: Font.Weight = .regular) {
+    public init(name: String? = nil,
+                size: CGFloat,
+                weight: Font.Weight = .regular) {
         self.name = name
         self.size = size
         self.weight = weight
+    }
+
+    static var sizeTuples: [(size: CGFloat, textStyle: Font.TextStyle)] = [
+        (34.0, .largeTitle),
+        (28.0, .title),
+        (22.0, .title2),
+        (20.0, .title3),
+        // Note: `17.0: .headline` is removed to avoid needing duplicate size key values.
+        // But it's okay because Apple's scaling curve is identical between it and `.body`.
+        (17.0, .body),
+        (16.0, .callout),
+        (15.0, .subheadline),
+        (13.0, .footnote),
+        (12.0, .caption),
+        (11.0, .caption2)
+    ]
+
+    public var textStyle: Font.TextStyle {
+        // Defaults to smallest supported text style for mapping, before checking if we're bigger.
+        var textStyle = Font.TextStyle.caption2
+        for tuple in Self.sizeTuples {
+            if self.size >= tuple.size {
+                textStyle = tuple.textStyle
+                break
+            }
+        }
+        return textStyle
     }
 
     let name: String?
@@ -30,34 +59,33 @@ public struct FontInfo {
 
 // MARK: - ViewModifier
 
-extension Font {
+public extension Font {
     static func fluent(_ fontInfo: FontInfo, shouldScale: Bool = true) -> Font {
-        let size = shouldScale ?
-            UIFontMetrics.default.scaledValue(for: fontInfo.size) :
-            fontInfo.size
-
-        let font: Font
-        if let name = fontInfo.name {
-            // We use fixedSize because scaling is already managed above.
-            font = .custom(name, fixedSize: size)
-        } else {
-            font = .system(size: size)
-        }
-        return font.weight(fontInfo.weight)
+        // SwiftUI Font is missing some of the ease of construction available in UIFont.
+        // So just leverage the logic there to create the equivalent SwiftUI font.
+        let uiFont = UIFont.fluent(fontInfo, shouldScale: shouldScale)
+        return Font(uiFont)
     }
 }
 
 extension UIFont {
-    static func fluent(_ fontInfo: FontInfo, shouldScale: Bool = true) -> UIFont {
-        let size = shouldScale ?
-            UIFontMetrics.default.scaledValue(for: fontInfo.size) :
-            fontInfo.size
+    public static func fluent(_ fontInfo: FontInfo, shouldScale: Bool = true) -> UIFont {
+        let unscaledFont: UIFont
 
         if let name = fontInfo.name,
-           let font = UIFont(name: name, size: size) {
-            return font.withWeight(uiWeight(fontInfo.weight))
+           let font = UIFont(name: name, size: fontInfo.size) {
+            // Named font
+            unscaledFont = font.withWeight(uiWeight(fontInfo.weight))
         } else {
-            return .systemFont(ofSize: size, weight: uiWeight(fontInfo.weight))
+            // System font
+            unscaledFont = .systemFont(ofSize: fontInfo.size, weight: uiWeight(fontInfo.weight))
+        }
+
+        if shouldScale {
+            let fontMetrics = UIFontMetrics(forTextStyle: uiTextStyle(fontInfo.textStyle))
+            return fontMetrics.scaledFont(for: unscaledFont)
+        } else {
+            return unscaledFont
         }
     }
 
@@ -76,6 +104,37 @@ extension UIFont {
         let descriptor = UIFontDescriptor(fontAttributes: attributes)
 
         return UIFont(descriptor: descriptor, size: pointSize)
+    }
+
+    public static func uiTextStyle(_ textStyle: Font.TextStyle) -> UIFont.TextStyle {
+        switch textStyle {
+        case .largeTitle:
+            return .largeTitle
+        case .title:
+            return .title1
+        case .title2:
+            return .title2
+        case .title3:
+            return .title3
+        case .headline:
+            return .headline
+        case .body:
+            return .body
+        case .callout:
+            return .callout
+        case .subheadline:
+            return .subheadline
+        case .footnote:
+            return .footnote
+        case .caption:
+            return .caption1
+        case .caption2:
+            return .caption2
+        default:
+            // Font.TextStyle has `@unknown default` attribute, so we need a default.
+            assertionFailure("Unknown Font.TextStyle found! Reverting to .body style.")
+            return .body
+        }
     }
 
     private static func uiWeight(_ weight: Font.Weight) -> UIFont.Weight {
@@ -99,6 +158,8 @@ extension UIFont {
         case .black:
             return .black
         default:
+            // Font.Weight has `@unknown default` attribute, so we need a default.
+            assertionFailure("Unknown Font.Weight found! Reverting to .regular weight.")
             return .regular
         }
     }
