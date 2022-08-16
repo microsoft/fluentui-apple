@@ -12,37 +12,17 @@ jobs:
     strategy:
       fail-fast: false
     steps: 
-    - uses: actions/checkout@v3 # Checkout repo at head sha
+    - uses: ./.github/actions/uploadSizeArtifact
       with:
-        ref: ${{ github.event.pull_request.head.sha }}
-    - name: Switch to current version of Xcode
-      run: scripts/xcode_select_current_version.sh
-    - name: scripts/xcodebuild_wrapper.sh 'ios_device_build Demo.Development Release build -archivePath $GITHUB_WORKSPACE/headBuild archive' # Build and archive release device build
-      run: scripts/xcodebuild_wrapper.sh ios_device_build Demo.Development Release build -archivePath $GITHUB_WORKSPACE/${{ github.event.pull_request.head.sha }} archive
-    - name: Create size file # Get size of demo app in "kilobytes" (2*512B blocks) and store in a file with the hash as the name
-      run: du -sk $GITHUB_WORKSPACE/${{ github.event.pull_request.head.sha }}.xcarchive/Products/Applications/FluentUI.Demo.app | cut -f1 >> $GITHUB_WORKSPACE/${{ github.event.pull_request.head.sha }}
-    - name: Upload head size artifact # Upload the file with just the size, ie, 36692
-      uses: actions/upload-artifact@v3
-      with:
-        name: ${{ github.event.pull_request.head.sha }}
-        path: ${{ github.event.pull_request.head.sha }}
+        sha: ${{ github.event.pull_request.head.sha }}
   archiveBaseBuild:
     runs-on: macos-12
     strategy:
       fail-fast: false
     steps: 
-    - uses: actions/checkout@v3
-    - name: Switch to current version of Xcode
-      run: scripts/xcode_select_current_version.sh
-    - name: scripts/xcodebuild_wrapper.sh 'ios_device_build Demo.Development Release build -archivePath $GITHUB_WORKSPACE/baseBuild archive' # Build and archive release device build
-      run: scripts/xcodebuild_wrapper.sh ios_device_build Demo.Development Release build -archivePath $GITHUB_WORKSPACE/${{ github.event.pull_request.base.sha }} archive
-    - name: Create size file # Get size of demo app in "kilobytes" (2*512B blocks) and store in a file with the hash as the name
-      run: du -sk $GITHUB_WORKSPACE/${{ github.event.pull_request.base.sha }}.xcarchive/Products/Applications/FluentUI.Demo.app | cut -f1 >> $GITHUB_WORKSPACE/${{ github.event.pull_request.base.sha }}
-    - name: Upload base size artifact # Upload the file with just the size, ie, 36692
-      uses: actions/upload-artifact@v3
+    - uses: ./.github/actions/uploadSizeArtifact
       with:
-        name: ${{ github.event.pull_request.base.sha }}
-        path: ${{ github.event.pull_request.base.sha }}
+        sha: ${{ github.event.pull_request.base.sha }}
   printSizes:
     runs-on: macos-12
     strategy:
