@@ -126,7 +126,6 @@ open class PillButton: UIButton {
                                              left: Constants.horizontalInset,
                                              bottom: Constants.bottomInset,
                                              right: Constants.horizontalInset)
-
         }
 
         layer.cornerRadius = PillButton.cornerRadius
@@ -204,7 +203,6 @@ open class PillButton: UIButton {
                 resolvedBackgroundColor = customSelectedBackgroundColor ?? (isHighlighted
                                                                             ? PillButton.selectedHighlightedBackgroundColor(for: window, for: style)
                                                                             : PillButton.selectedBackgroundColor(for: window, for: style))
-
                 if #available(iOS 15.0, *) {
                     resolvedTitleColor = customSelectedTextColor ?? (isHighlighted ? PillButton.selectedHighlightedTitleColor(for: window,
                                                                                                                               for: style)
@@ -221,7 +219,6 @@ open class PillButton: UIButton {
             } else {
                 resolvedBackgroundColor = PillButton.selectedDisabledBackgroundColor(for: window,
                                                                                      for: style)
-
                 if #available(iOS 15.0, *) {
                     resolvedTitleColor = PillButton.selectedDisabledTitleColor(for: window,
                                                                        for: style)
@@ -240,7 +237,6 @@ open class PillButton: UIButton {
                                                                                                             for: style)
                                                                     : PillButton.normalBackgroundColor(for: window,
                                                                                                        for: style))
-
                 if #available(iOS 15.0, *) {
                     resolvedTitleColor = {
                         guard let customTextColor = customTextColor else {
@@ -266,7 +262,6 @@ open class PillButton: UIButton {
                                                                                            for: style)
                 resolvedBackgroundColor = customBackgroundColor ?? PillButton.disabledBackgroundColor(for: window,
                                                                                                       for: style)
-
                 if #available(iOS 15.0, *) {
                     resolvedTitleColor = PillButton.disabledTitleColor(for: window,
                                                                for: style)
