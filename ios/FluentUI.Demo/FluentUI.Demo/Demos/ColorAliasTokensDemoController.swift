@@ -46,9 +46,6 @@ class ColorAliasTokensDemoController: DemoTableViewController {
     }
 
     private func textColor(for token: AliasTokens.ColorsTokens) -> UIColor {
-        let black = ColorValue(0x000000)
-        let white = ColorValue(0xFFFFFF)
-
         switch token {
         case .background1,
              .background1Pressed,
@@ -84,7 +81,7 @@ class ColorAliasTokensDemoController: DemoTableViewController {
              .strokeDisabled,
              .strokeFocus1,
              .foregroundDisabled1:
-            return UIColor(dynamicColor: DynamicColor(light: black, dark: white))
+            return UIColor(dynamicColor: aliasTokens.colors[.foreground1])
         case .brandBackground3Pressed,
              .foreground1,
              .foreground2,
@@ -97,13 +94,13 @@ class ColorAliasTokensDemoController: DemoTableViewController {
              .brandStroke1Pressed,
              .brandStroke1,
              .brandStroke1Selected:
-            return UIColor(dynamicColor: DynamicColor(light: white, dark: black))
+            return UIColor(dynamicColor: aliasTokens.colors[.foregroundOnColor])
         case .brandBackground3Selected,
              .brandBackgroundInverted,
              .brandBackgroundInvertedDisabled,
              .foregroundInverted1,
              .brandForeground3:
-            return .black
+            return UIColor(dynamicColor: aliasTokens.colors[.foregroundContrast])
         case .foregroundContrast,
              .brandForeground1,
              .brandForeground1Selected,
@@ -120,7 +117,7 @@ class ColorAliasTokensDemoController: DemoTableViewController {
              .brandBackground3,
              .strokeAccessible,
              .background5BrandFilledSelected:
-            return .white
+            return UIColor(dynamicColor: aliasTokens.colors[.foregroundInverted1])
         }
     }
 
