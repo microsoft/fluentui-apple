@@ -86,10 +86,10 @@ open class PeoplePicker: BadgeField {
      */
     @objc open var allowsPickedPersonasToAppearAsSuggested: Bool = true
 
-	/**
-	 Set `hidePersonaListViewWhenNoSuggestedPersonas` to true to hide the personaListView when no suggested personas are available, i.e. personaListView is empty.
-	 */
-	@objc open var hidePersonaListViewWhenNoSuggestedPersonas: Bool = false
+    /**
+     Set `hidePersonaListViewWhenNoSuggestedPersonas` to true to hide the personaListView when no suggested personas are available, i.e. personaListView is empty.
+     */
+    @objc open var hidePersonaListViewWhenNoSuggestedPersonas: Bool = false
 
     @objc open weak var delegate: PeoplePickerDelegate? {
         didSet {
@@ -128,7 +128,7 @@ open class PeoplePicker: BadgeField {
 
     private var containingViewBoundsObservation: NSKeyValueObservation?
 
-    private let separator = Separator()
+    private let divider = MSFDivider()
 
     @objc public override init() {
         super.init()
@@ -142,7 +142,7 @@ open class PeoplePicker: BadgeField {
 
     func initialize() {
         personaSuggestionsView.addSubview(personaListView)
-        personaSuggestionsView.addSubview(separator)
+        personaSuggestionsView.addSubview(divider)
 
         personaListView.onPersonaSelected = { [unowned self] persona in
             self.pickPersona(persona: persona)
@@ -241,7 +241,7 @@ open class PeoplePicker: BadgeField {
 
         personaListView.frame = personaSuggestionsView.bounds
 
-        separator.frame = CGRect(x: 0, y: separatorY, width: personaSuggestionsView.frame.width, height: separator.frame.height)
+        divider.frame = CGRect(x: 0, y: separatorY, width: personaSuggestionsView.frame.width, height: divider.frame.height)
     }
 
     // MARK: Personas
