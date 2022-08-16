@@ -38,12 +38,21 @@ class CommandBarButton: UIButton {
         super.init(frame: .zero)
 
         translatesAutoresizingMaskIntoConstraints = false
-        setImage(item.iconImage, for: .normal)
+
+        if #available(iOS 15.0, *) {
+            var buttonConfiguration = UIButton.Configuration.plain()
+            buttonConfiguration.image = item.iconImage
+            buttonConfiguration.contentInsets = LayoutConstants.contentInsets
+
+            self.configuration = buttonConfiguration
+        } else {
+            setImage(item.iconImage, for: .normal)
+            contentEdgeInsets = LayoutConstants.contentEdgeInsets
+        }
 
         let accessibilityDescription = item.accessibilityLabel
         accessibilityLabel = (accessibilityDescription != nil) ? accessibilityDescription : item.title
         accessibilityHint = item.accessibilityHint
-        contentEdgeInsets = LayoutConstants.contentEdgeInsets
 
         menu = item.menu
         showsMenuAsPrimaryAction = item.showsMenuAsPrimaryAction
@@ -113,7 +122,14 @@ class CommandBarButton: UIButton {
     }
 
     private struct LayoutConstants {
-        static let contentEdgeInsets = UIEdgeInsets(top: 8.0, left: 10.0, bottom: 8.0, right: 10.0)
+        static let contentInsets = NSDirectionalEdgeInsets(top: 8.0,
+                                                           leading: 10.0,
+                                                           bottom: 8.0,
+                                                           trailing: 10.0)
+        static let contentEdgeInsets = UIEdgeInsets(top: 8.0,
+                                                    left: 10.0,
+                                                    bottom: 8.0,
+                                                    right: 10.0)
     }
 
     private struct ColorConstants {
