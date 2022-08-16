@@ -449,10 +449,6 @@ class MSFNotificationStateImpl: NSObject, ControlConfiguration, MSFNotificationS
         self.actionButtonAction = actionButtonAction
         self.messageButtonAction = messageButtonAction
         self.showFromBottom = showFromBottom
-        if let showDefaultDismissActionButton = showDefaultDismissActionButton {
-            self.showDefaultDismissActionButton = showDefaultDismissActionButton
-        } else {
-            self.showDefaultDismissActionButton = style.isToast
-        }
+        self.showDefaultDismissActionButton = showDefaultDismissActionButton ?? style.isToast
     }
 }
