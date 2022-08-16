@@ -32,7 +32,8 @@ struct Demos {
 
     static let fluent2DesignTokens: [DemoDescriptor] = [
         DemoDescriptor("Color Global Tokens", ColorGlobalTokensDemoController.self),
-        DemoDescriptor("Color Alias Tokens", ColorAliasTokensDemoController.self)
+        DemoDescriptor("Color Alias Tokens", ColorAliasTokensDemoController.self),
+        DemoDescriptor("Shadow Tokens", ShadowTokensDemoController.self)
     ]
 
     static let controls: [DemoDescriptor] = [
