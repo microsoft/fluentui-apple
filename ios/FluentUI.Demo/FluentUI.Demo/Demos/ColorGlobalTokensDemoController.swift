@@ -6,7 +6,7 @@
 import FluentUI
 import UIKit
 
-class ColorTokensDemoController: DemoTableViewController {
+class ColorGlobalTokensDemoController: DemoTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: Constants.cellID)
