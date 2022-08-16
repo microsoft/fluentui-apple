@@ -1,0 +1,66 @@
+name: sizeComparison
+
+on:
+  push:
+    branches:
+      - main*
+      - fluent2*
+  pull_request:
+    branches:
+      - main*
+      - fluent2*
+
+jobs:
+  archiveHeadBuild:
+    runs-on: macos-12
+    strategy:
+      fail-fast: false
+    steps: 
+    - uses: actions/checkout@v3
+      with:
+        ref: ${{ github.event.pull_request.head.sha }}
+    - name: Switch to current version of Xcode
+      run: scripts/xcode_select_current_version.sh
+    - name: scripts/xcodebuild_wrapper.sh 'ios_device_build Demo.Development Release build -archivePath $GITHUB_WORKSPACE/headBuild archive'
+      run: scripts/xcodebuild_wrapper.sh ios_device_build Demo.Development Release build -archivePath $GITHUB_WORKSPACE/${{ github.event.pull_request.head.sha }} archive
+    - name: Create size file
+      run: du -sk $GITHUB_WORKSPACE/${{ github.event.pull_request.head.sha }}.xcarchive/Products/Applications/FluentUI.Demo.app | cut -f1 >> $GITHUB_WORKSPACE/${{ github.event.pull_request.head.sha }}
+    - name: Upload head size artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ github.event.pull_request.head.sha }}
+        path: ${{ github.event.pull_request.head.sha }}
+  archiveBaseBuild:
+    runs-on: macos-12
+    strategy:
+      fail-fast: false
+    steps: 
+    - uses: actions/checkout@v3
+    - name: Switch to current version of Xcode
+      run: scripts/xcode_select_current_version.sh
+    - name: scripts/xcodebuild_wrapper.sh 'ios_device_build Demo.Development Release build -archivePath $GITHUB_WORKSPACE/baseBuild archive'
+      run: scripts/xcodebuild_wrapper.sh ios_device_build Demo.Development Release build -archivePath $GITHUB_WORKSPACE/${{ github.event.pull_request.base.sha }} archive
+    - name: Create size file
+      run: du -sk $GITHUB_WORKSPACE/${{ github.event.pull_request.base.sha }}.xcarchive/Products/Applications/FluentUI.Demo.app | cut -f1 >> $GITHUB_WORKSPACE/${{ github.event.pull_request.base.sha }}
+    - name: Upload base size artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ github.event.pull_request.base.sha }}
+        path: ${{ github.event.pull_request.base.sha }}
+  printSizes:
+    runs-on: macos-12
+    strategy:
+      fail-fast: true
+    needs: [archiveHeadBuild, archiveBaseBuild]
+    steps:
+    - uses: actions/checkout@v3
+    - name: Download head artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: ${{ github.event.pull_request.head.sha }}
+    - name: Download base artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: ${{ github.event.pull_request.base.sha }}
+    - name: Compare sizes
+      run: scripts/compare_demo_sizes.sh ${{ github.event.pull_request.head.sha }} ${{ github.event.pull_request.base.sha }}
