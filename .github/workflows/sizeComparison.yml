@@ -15,7 +15,7 @@ jobs:
     - uses: actions/checkout@v3
       with:
         ref: ${{ github.event.pull_request.head.sha }}
-    - uses: ./.github/actions/uploadSizeArtifact
+    - uses: ./.github/workflows/uploadSizeArtifact
       with:
         sha: ${{ github.event.pull_request.head.sha }}
   archiveBaseBuild:
@@ -26,7 +26,7 @@ jobs:
     - uses: actions/checkout@v3
       with:
         ref: ${{ github.event.pull_request.base.sha }}
-    - uses: ./.github/actions/uploadSizeArtifact
+    - uses: ./.github/workflows/uploadSizeArtifact
       with:
         sha: ${{ github.event.pull_request.base.sha }}
   printSizes:
