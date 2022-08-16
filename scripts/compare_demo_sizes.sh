@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#simple scripts used to compare sizes of the iOS device release demo app
+#simple script used to compare sizes of the iOS device release demo app
 
 headSize=$(<$1)
 baseSize=$(<$2)
