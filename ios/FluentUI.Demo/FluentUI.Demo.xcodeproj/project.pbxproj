@@ -42,6 +42,7 @@
 		92561E732718AD090072ED00 /* DemoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92561E722718AD090072ED00 /* DemoTableViewController.swift */; };
 		92B45E4E279A1A0B00E72517 /* DemoAppearanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92B45E4D279A1A0B00E72517 /* DemoAppearanceController.swift */; };
 		92D5598426A1523400328FD3 /* CardNudgeDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D5598326A1523400328FD3 /* CardNudgeDemoController.swift */; };
+		92D5FDFD28AC57650087894B /* TypographyTokensDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D5FDFC28AC57650087894B /* TypographyTokensDemoController.swift */; };
 		92DD1E8D279F496300FDEE0F /* DemoAppearanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92DD1E8C279F496300FDEE0F /* DemoAppearanceView.swift */; };
 		92E977B726C7144F008E10A8 /* UIResponder+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E977B526C713F3008E10A8 /* UIResponder+Extensions.swift */; };
 		92E977B826C7144F008E10A8 /* DemoControllerScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E977B426C713F3008E10A8 /* DemoControllerScrollView.swift */; };
@@ -101,6 +102,7 @@
 		92561E722718AD090072ED00 /* DemoTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoTableViewController.swift; sourceTree = "<group>"; };
 		92B45E4D279A1A0B00E72517 /* DemoAppearanceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoAppearanceController.swift; sourceTree = "<group>"; };
 		92D5598326A1523400328FD3 /* CardNudgeDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardNudgeDemoController.swift; sourceTree = "<group>"; };
+		92D5FDFC28AC57650087894B /* TypographyTokensDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypographyTokensDemoController.swift; sourceTree = "<group>"; };
 		92DD1E8C279F496300FDEE0F /* DemoAppearanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoAppearanceView.swift; sourceTree = "<group>"; };
 		92E4784B2661AED800BAA058 /* PersonaButtonCarouselDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaButtonCarouselDemoController.swift; sourceTree = "<group>"; };
 		92E977B426C713F3008E10A8 /* DemoControllerScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoControllerScrollView.swift; sourceTree = "<group>"; };
@@ -342,6 +344,7 @@
 				C038992D2359307D00265026 /* TableViewCellShimmerDemoController.swift */,
 				B4EF66532295F1A8007FEAB0 /* TableViewHeaderFooterViewDemoController.swift */,
 				FD7DF06121FB941400857267 /* TooltipDemoController.swift */,
+				92D5FDFC28AC57650087894B /* TypographyTokensDemoController.swift */,
 			);
 			path = Demos;
 			sourceTree = "<group>";
@@ -513,6 +516,7 @@
 				2F0A96FC25CA047100EF9736 /* SearchBarDemoController.swift in Sources */,
 				CCC18C2F2501C75F00BE830E /* CardViewDemoController.swift in Sources */,
 				B4575C5122FB8B6900EBD0EB /* PeoplePickerDemoController.swift in Sources */,
+				92D5FDFD28AC57650087894B /* TypographyTokensDemoController.swift in Sources */,
 				A5CEC21220E436F10016922A /* DemoListViewController.swift in Sources */,
 				53097D3E27028ADC00A6E4DC /* NotificationViewDemoController.swift in Sources */,
 				5328D97A26FBA3EA00F3723B /* IndeterminateProgressBarDemoController_SwiftUI.swift in Sources */,
