@@ -145,6 +145,7 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
                         .onSizeChange { newSize in
                             attributedTitleSize = newSize
                         }
+                        .accessibilityLabel(attributedTitle.string)
                 } else if let title = state.title {
                     Text(title)
                         .font(.fluent(tokens.boldTextFont))
@@ -161,6 +162,7 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
                     .onSizeChange { newSize in
                         attributedMessageSize = newSize
                     }
+                    .accessibilityLabel(attributedMessage.string)
             } else if let message = state.message {
                 let messageFont = hasSecondTextRow ? tokens.footnoteTextFont : (state.style.isToast ? tokens.boldTextFont : tokens.regularTextFont)
                 Text(message)
