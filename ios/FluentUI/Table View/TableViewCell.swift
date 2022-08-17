@@ -1689,7 +1689,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
             return baseOffset + paddingLeading + tokens.customViewDimensions.width + tokens.customViewTrailingMargin
         case .full:
             return effectiveUserInterfaceLayoutDirection == .rightToLeft ? -safeAreaInsets.right : -safeAreaInsets.left
-        }paddingLeading + tokens.customViewDimensions.width + tokens.customViewTrailingMargin
+        }
     }
 
     open override func prepareForReuse() {
