@@ -32,7 +32,7 @@ import UIKit
             }
             strongSelf.hide()
         }
-        notification.state.actionButtonAction = style.shouldAlwaysShowActionButton ? defaultDismissAction : nil
+        notification.state.actionButtonAction = notification.state.showDefaultDismissActionButton ? defaultDismissAction : nil
     }
 
     required public init?(coder: NSCoder) {

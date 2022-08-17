@@ -36,6 +36,7 @@ struct NotificationDemoView: View {
     @State var isPresented: Bool = false
     @State var overrideTokens: Bool = false
     @State var isFlexibleWidthToast: Bool = false
+    @State var showDefaultDismissActionButton: Bool = true
     @State var showFromBottom: Bool = true
 
     public var body: some View {
@@ -127,6 +128,7 @@ struct NotificationDemoView: View {
                             Divider()
                         }
                         FluentUIDemoToggle(titleKey: "Has Action Button Action", isOn: $hasActionButtonAction)
+                        FluentUIDemoToggle(titleKey: "Show Default Dismiss Button", isOn: $showDefaultDismissActionButton)
                         FluentUIDemoToggle(titleKey: "Has Message Action", isOn: $hasMessageAction)
                     }
 
@@ -171,6 +173,7 @@ struct NotificationDemoView: View {
                              trailingImageAccessibilityLabel: trailingImageLabel,
                              actionButtonTitle: actionButtonTitle,
                              actionButtonAction: actionButtonAction,
+                             showDefaultDismissActionButton: showDefaultDismissActionButton,
                              messageButtonAction: messageButtonAction,
                              showFromBottom: showFromBottom,
                              overrideTokens: $overrideTokens.wrappedValue ? NotificationOverrideTokens() : nil)
