@@ -3,119 +3,97 @@
 //  Licensed under the MIT License.
 //
 
-import UIKit
+import SwiftUI
 
-/**
- Specialized ShimmerView that shows 1 or more shimmering lines.
- */
-@objc(MSFShimmerLinesView)
-open class ShimmerLinesView: ShimmerView {
+/// Properties that can be used to customize the appearance of the `ShimmerLines`.
+public protocol MSFShimmerLinesState {
 
-    open override func layoutSubviews() {
-        super.layoutSubviews()
+    /// Determines whether the shimmer lines have a revealing shimmer or a concealing shimmer.
+    var style: MSFShimmerStyle { get set }
 
-        var currentTop: CGFloat = 0
-        for (index, linelayer) in viewCoverLayers.enumerated() {
-            let fillPercent: CGFloat = {
-                if index == 0 && viewCoverLayers.count > 2 {
-                    guard let firstLineFillPercent = firstLineFillPercent else {
-                        return 1
-                    }
+    /// Number of lines that will shimmer in this view. Use 0 if the number of lines should fill the available space.
+    var lineCount: Int { get set }
 
-                    return firstLineFillPercent
-                } else if index == viewCoverLayers.count - 1 {
-                    guard let lastLineFillPercent = lastLineFillPercent else {
-                        return 1
-                    }
+    /// The percent the first line (if 2+ lines) should fill the available horizontal space.
+    var firstLineFillPercent: CGFloat? { get set }
 
-                    return lastLineFillPercent
-                } else {
-                    return 1
-                }
-            }()
+    /// The percent the last line should fill the available horizontal space.
+    var lastLineFillPercent: CGFloat? { get set }
+}
 
-            let labelHeight = tokenSet[.labelHeight].float
-            linelayer.frame = CGRect(x: 0, y: currentTop, width: fillPercent * frame.width, height: labelHeight)
+/// View that represents the ShimmerLines view.
+public struct ShimmerLinesView: View, TokenizedControlView {
+    public typealias TokenSetKeyType = ShimmerTokenSet.Tokens
+    @ObservedObject public var tokenSet: ShimmerTokenSet
 
-            currentTop += labelHeight + tokenSet[.labelSpacing].float
-        }
-
-        shimmeringLayer.frame = CGRect(x: -tokenSet[.shimmerWidth].float, y: 0.0, width: frame.width + 2 * tokenSet[.shimmerWidth].float, height: frame.height)
-        viewCoverLayers.forEach { $0.frame = flipRectForRTL($0.frame) }
-
-        updateShimmeringLayer()
-        updateShimmeringAnimation()
-    }
-
-    open override func sizeThatFits(_ size: CGSize) -> CGSize {
-        let desiredLineCount = CGFloat(lineCount(for: size.height))
-        let height = desiredLineCount * tokenSet[.labelHeight].float + (desiredLineCount - 1) * tokenSet[.labelSpacing].float
-        return CGSize(width: size.width, height: height)
-    }
-
-    open override var intrinsicContentSize: CGSize {
-        return CGSize(width: UIView.noIntrinsicMetric, height: sizeThatFits(CGSize(width: frame.width, height: .infinity)).height)
-    }
-
-    /// Creates the ShimmerLinesView
+    /// Initializes the SwiftUI View for Shimmer Lines.
     /// - Parameters:
+    ///   - style: Determines whether the shimmer is a revealing shimmer or a concealing shimmer.
     ///   - lineCount: Number of lines that will shimmer in this view. Use 0 if the number of lines should fill the available space.
-    @objc public init(lineCount: Int) {
+    ///   - firstLineFillPercent: The percent the first line (if 2+ lines) should fill the available horizontal space.
+    ///   - lastLineFillPercent: The percent the last line should fill the available horizontal space.
+    public init(style: MSFShimmerStyle,
+                lineCount: Int,
+                firstLineFillPercent: CGFloat,
+                lastLineFillPercent: CGFloat) {
+        let state = MSFShimmerLinesStateImpl(style: style,
+                                             lineCount: lineCount)
+        state.firstLineFillPercent = firstLineFillPercent
+        state.lastLineFillPercent = lastLineFillPercent
+
+        self.state = state
+        self.tokenSet = ShimmerTokenSet(style: { state.style })
+    }
+
+    public var body: some View {
+        ShimmerLinesShape(lineCount: state.lineCount,
+                          firstLineFillPercent: state.firstLineFillPercent,
+                          lastLineFillPercent: state.lastLineFillPercent,
+                          lineHeight: tokenSet[.labelHeight].float,
+                          lineSpacing: tokenSet[.labelSpacing].float,
+                          frame: containerSize)
+        .foregroundColor(Color.init(dynamicColor: tokenSet[.viewTint].dynamicColor))
+        .shimmering(style: state.style,
+                    shouldAddShimmeringCover: false,
+                    usesTextHeightForLabels: false,
+                    animationId: namespace,
+                    isLabel: false)
+        .frame(maxWidth: .infinity, maxHeight: state.lineCount == 0 ? .infinity : (CGFloat(state.lineCount - 1) * tokenSet[.labelSpacing].float) + (CGFloat(state.lineCount) * tokenSet[.labelHeight].float))
+        .onSizeChange { newSize in
+            containerSize = newSize
+        }
+    }
+
+    @Environment(\.fluentTheme) var fluentTheme: FluentTheme
+    @ObservedObject var state: MSFShimmerLinesStateImpl
+    @Namespace private var namespace: Namespace.ID
+    @State private var phase: CGFloat = 0
+    @State private var containerSize: CGSize = CGSize()
+}
+
+/// Properties that can be used to customize the appearance of the `ShimmerLines`.
+class MSFShimmerLinesStateImpl: ControlState, MSFShimmerLinesState {
+    @Published var style: MSFShimmerStyle
+    @Published var lineCount: Int
+    @Published var firstLineFillPercent: CGFloat?
+    @Published var lastLineFillPercent: CGFloat?
+
+    @objc init(style: MSFShimmerStyle,
+               lineCount: Int) {
+        self.style = style
         self.lineCount = lineCount
 
         super.init()
     }
 
-    /// Creates the ShimmerLinesView
-    /// - Parameters:
-    ///   - lineCount: Number of lines that will shimmer in this view. Use 0 if the number of lines should fill the available space.
-    ///   - firstLineFillPercent: The percent the first line (if 2+ lines) should fill the available horizontal space.
-    ///   - lastLineFillPercent: The percent the last line should fill the available horizontal space.
-    @objc public convenience init(lineCount: Int = 3,
-                                  firstLineFillPercent: CGFloat = 0.94,
-                                  lastLineFillPercent: CGFloat = 0.6) {
-        self.init(lineCount: lineCount)
+    convenience init(style: MSFShimmerStyle,
+                     lineCount: Int = 3,
+                     firstLineFillPercent: CGFloat? = 0.94,
+                     lastLineFillPercent: CGFloat? = 0.6) {
+        self.init(style: style,
+                  lineCount: lineCount)
 
         self.firstLineFillPercent = firstLineFillPercent
         self.lastLineFillPercent = lastLineFillPercent
     }
-
-    @available(*, unavailable)
-    required public init?(coder: NSCoder) {
-        preconditionFailure("init(coder:) has not been implemented")
-    }
-
-    override func updateViewCoverLayers() {
-        var newLineLayers = [CALayer]()
-        let desiredLineCount = lineCount(for: frame.height)
-
-        for i in 0..<desiredLineCount {
-            let lineLayer = i < viewCoverLayers.count ? viewCoverLayers[i] : CALayer()
-            lineLayer.cornerRadius = tokenSet[.labelCornerRadius].float >= 0 ? tokenSet[.labelCornerRadius].float : tokenSet[.cornerRadius].float
-            lineLayer.backgroundColor = UIColor(dynamicColor: tokenSet[.tintColor].dynamicColor).cgColor
-
-            // Add layer
-            newLineLayers.append(lineLayer)
-            layer.addSublayer(lineLayer)
-        }
-
-        Set(viewCoverLayers).subtracting(Set(newLineLayers)).forEach { $0.removeFromSuperlayer() }
-
-        viewCoverLayers = newLineLayers
-    }
-
-    @objc private func lineCount(for availableHeight: CGFloat) -> Int {
-        if lineCount == 0 {
-            let lineSpacing = tokenSet[.labelSpacing].float
-            // Deduce lines count based on available height
-            return Int(floor((availableHeight + lineSpacing) / (tokenSet[.labelHeight].float + lineSpacing)))
-        } else {
-            // Hardcoded lines count
-            return lineCount
-        }
-    }
-
-    private var lineCount: Int
-    private var firstLineFillPercent: CGFloat?
-    private var lastLineFillPercent: CGFloat?
 }

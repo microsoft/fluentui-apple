@@ -5,13 +5,13 @@
 
 import SwiftUI
 
-/// Custom shape to represent shimmer lines as a single view
+/// Custom shape to represent shimmer lines as a single view.
 /// `lineCount`: Number of lines that will shimmer in this view. Use 0 if the number of lines should fill the available space.
 /// `firstLineFillPercent`: The percent the first line (if 2+ lines) should fill the available horizontal space.
 /// `lastLineFillPercent`: The percent the last line should fill the available horizontal space.
-/// `lineHeight`: Height of each line
-/// `lineSpacing`: Spacing between each line
-/// `frame`: Frame of container lines are being presented in
+/// `lineHeight`: Height of each line.
+/// `lineSpacing`: Spacing between each line.
+/// `frame`: Frame of container lines are being presented in.
 
 struct ShimmerLinesShape: Shape {
     func path(in rect: CGRect) -> Path {

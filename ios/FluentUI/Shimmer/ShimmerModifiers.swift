@@ -6,10 +6,10 @@
 import SwiftUI
 
 public extension View {
-    /// Adds an animated shimmering effect to any view
+    /// Adds an animated shimmering effect to any view.
     /// - Parameters:
     ///   - style: `MSFShimmerStyle` enum value that defines the style of the Shimmer being presented.
-    ///   - shouldAddShimmeringCover: Determines whether the view itself is shimmered or an added cover on top is shimmered
+    ///   - shouldAddShimmeringCover: Determines whether the view itself is shimmered or an added cover on top is shimmered.
     ///   - usesTextHeightForLabels: Whether to use the height of the view (if the view is a label), else default to token value.
     ///   - animationId: When displaying one or more shimmers, this ID will synchronize the animations.
     ///   - isLabel: Whether the view is a label or not.
@@ -21,12 +21,12 @@ public extension View {
                                  isLabel: Bool = false,
                                  isShimmering: Bool = true) -> some View {
         if isShimmering {
-            modifier(ShimmerViewSwiftUI(tokenSet: ShimmerTokenSet(style: { style }),
-                                        state: MSFShimmerStateImpl(style: style,
-                                                                   shouldAddShimmeringCover: shouldAddShimmeringCover,
-                                                                   usesTextHeightForLabels: usesTextHeightForLabels),
-                                        animationId: animationId,
-                                        isLabel: isLabel))
+            modifier(ShimmerView(tokenSet: ShimmerTokenSet(style: { style }),
+                                 state: MSFShimmerStateImpl(style: style,
+                                                            shouldAddShimmeringCover: shouldAddShimmeringCover,
+                                                            usesTextHeightForLabels: usesTextHeightForLabels),
+                                 animationId: animationId,
+                                 isLabel: isLabel))
         } else {
             self
         }

@@ -37,10 +37,10 @@ struct ShimmerLinesDemoView: View {
                             isLabel: true)
                 .padding()
             } else if shimmerDemoContent == .shimmerMultipleLines {
-                ShimmerLinesViewSwiftUI(style: style,
-                                        lineCount: numberOfLines,
-                                        firstLineFillPercent: firstLineFillPercent,
-                                        lastLineFillPercent: lastLineFillPercent)
+                ShimmerLinesView(style: style,
+                                 lineCount: numberOfLines,
+                                 firstLineFillPercent: firstLineFillPercent,
+                                 lastLineFillPercent: lastLineFillPercent)
                 .padding()
             } else if shimmerDemoContent == .shimmerImage {
                 Image("PlaceholderImage")
