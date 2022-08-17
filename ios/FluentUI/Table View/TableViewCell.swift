@@ -1703,7 +1703,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                                                               selectionImageSize: tokenSet[.selectionImageSize].float)
             return baseOffset + paddingLeading + tokenSet[.customViewDimensions].float + tokenSet[.customViewTrailingMargin].float
         case .full:
-            return -safeAreaInsets.left
+            return effectiveUserInterfaceLayoutDirection == .rightToLeft ? -safeAreaInsets.right : -safeAreaInsets.left
         }
     }
 
