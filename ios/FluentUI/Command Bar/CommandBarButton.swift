@@ -43,8 +43,8 @@ class CommandBarButton: UIButton {
             var buttonConfiguration = UIButton.Configuration.plain()
             buttonConfiguration.image = item.iconImage
             buttonConfiguration.contentInsets = LayoutConstants.contentInsets
-
-            self.configuration = buttonConfiguration
+            buttonConfiguration.background.cornerRadius = 0
+            configuration = buttonConfiguration
         } else {
             setImage(item.iconImage, for: .normal)
             contentEdgeInsets = LayoutConstants.contentEdgeInsets
@@ -74,10 +74,22 @@ class CommandBarButton: UIButton {
         let iconImage = item.iconImage
         let title = item.title
         let accessibilityDescription = item.accessibilityLabel
-        setImage(iconImage, for: .normal)
-        setTitle(iconImage != nil ? nil : title, for: .normal)
+
+        if #available(iOS 15.0, *) {
+            configuration?.image = iconImage
+            configuration?.title = title
+
+            if let font = item.titleFont {
+                let attributeContainer = AttributeContainer([NSAttributedString.Key.font: font])
+                configuration?.attributedTitle?.setAttributes(attributeContainer)
+            }
+        } else {
+            setImage(iconImage, for: .normal)
+            setTitle(iconImage != nil ? nil : title, for: .normal)
+            titleLabel?.font = item.titleFont
+        }
+
         titleLabel?.isEnabled = isEnabled
-        titleLabel?.font = item.titleFont
         accessibilityLabel = (accessibilityDescription != nil) ? accessibilityDescription : title
         accessibilityHint = item.accessibilityHint
     }
@@ -105,19 +117,27 @@ class CommandBarButton: UIButton {
     }
 
     private func updateStyle() {
-        tintColor = isSelected ? selectedTintColor : ColorConstants.normalTintColor
-        setTitleColor(tintColor, for: .normal)
+        // TODO: Once iOS 14 support is dropped, this should be converted to a constant (let) that will be initialized by the logic below.
+        var resolvedBackgroundColor: UIColor = .clear
+        let resolvedTintColor: UIColor = isSelected ? selectedTintColor : ColorConstants.normalTintColor
 
-        if !isPersistSelection {
-            backgroundColor = .clear
-        } else {
+        if isPersistSelection {
             if isSelected {
-                backgroundColor = selectedBackgroundColor
+                resolvedBackgroundColor = selectedBackgroundColor
             } else if isHighlighted {
-                backgroundColor = ColorConstants.highlightedBackgroundColor
+                resolvedBackgroundColor = ColorConstants.highlightedBackgroundColor
             } else {
-                backgroundColor = ColorConstants.normalBackgroundColor
+                resolvedBackgroundColor = ColorConstants.normalBackgroundColor
             }
+        }
+
+        tintColor = resolvedTintColor
+        if #available(iOS 15.0, *) {
+            configuration?.baseForegroundColor = resolvedTintColor
+            configuration?.background.backgroundColor = resolvedBackgroundColor
+        } else {
+            backgroundColor = resolvedBackgroundColor
+            setTitleColor(tintColor, for: .normal)
         }
     }
 
