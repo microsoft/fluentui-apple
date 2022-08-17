@@ -1679,13 +1679,17 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     }
 
     func separatorLeadingInset(for type: SeparatorType) -> CGFloat {
-        guard type == .inset else {
+        switch type {
+        case .none:
             return 0
-        }
-        let baseOffset = safeAreaInsets.left + TableViewCell.selectionModeAreaWidth(isInSelectionMode: isInSelectionMode,
-                                                                                    selectionImageMarginTrailing: tokens.selectionImageMarginTrailing,
-                                                                                    selectionImageSize: tokens.selectionImageSize.width)
-        return baseOffset + paddingLeading + tokens.customViewDimensions.width + tokens.customViewTrailingMargin
+        case .inset:
+            let baseOffset = TableViewCell.selectionModeAreaWidth(isInSelectionMode: isInSelectionMode,
+                                                                  selectionImageMarginTrailing: tokens.selectionImageMarginTrailing,
+                                                                  selectionImageSize: tokens.selectionImageSize.width)
+            return baseOffset + paddingLeading + tokens.customViewDimensions.width + tokens.customViewTrailingMargin
+        case .full:
+            return effectiveUserInterfaceLayoutDirection == .rightToLeft ? -safeAreaInsets.right : -safeAreaInsets.left
+        }paddingLeading + tokens.customViewDimensions.width + tokens.customViewTrailingMargin
     }
 
     open override func prepareForReuse() {
