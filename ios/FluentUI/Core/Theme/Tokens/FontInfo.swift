@@ -40,7 +40,7 @@ public struct FontInfo {
         (11.0, .caption2)
     ]
 
-    public var textStyle: Font.TextStyle {
+    var textStyle: Font.TextStyle {
         // Defaults to smallest supported text style for mapping, before checking if we're bigger.
         var textStyle = Font.TextStyle.caption2
         for tuple in Self.sizeTuples {
@@ -106,7 +106,7 @@ extension UIFont {
         return UIFont(descriptor: descriptor, size: pointSize)
     }
 
-    public static func uiTextStyle(_ textStyle: Font.TextStyle) -> UIFont.TextStyle {
+    private static func uiTextStyle(_ textStyle: Font.TextStyle) -> UIFont.TextStyle {
         switch textStyle {
         case .largeTitle:
             return .largeTitle
