@@ -22,6 +22,8 @@ class ShadowTokensDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        container.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.stencil2])
+
         navigationItem.titleView = segmentedControl
         container.alignment = .center
         container.spacing = Constants.spacing
