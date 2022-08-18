@@ -31,7 +31,7 @@
 		5336B17D27F7817300B01E0D /* HUDDemoController_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5336B17B27F7817300B01E0D /* HUDDemoController_SwiftUI.swift */; };
 		5373D55F2694C3070032A3B4 /* AvatarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5373D55E2694C3070032A3B4 /* AvatarDemoController.swift */; };
 		6F453CA528AC536300ED91A4 /* ShadowTokensDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F453CA428AC536300ED91A4 /* ShadowTokensDemoController.swift */; };
-		6FEED93B28A6E5520099D178 /* ColorAliasTokensDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FEED93A28A6E5520099D178 /* ColorAliasTokensDemoController.swift */; };
+		6FEED93B28A6E5520099D178 /* AliasColorTokensDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FEED93A28A6E5520099D178 /* AliasColorTokensDemoController.swift */; };
 		7D0931C124AAA3D30072458A /* SideTabBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D0931C024AAA3D30072458A /* SideTabBarDemoController.swift */; };
 		80AECC0C2630F1BB005AF2F3 /* BottomCommandingDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AECC0B2630F1BB005AF2F3 /* BottomCommandingDemoController.swift */; };
 		80B1F7012628D8BB004DFEE5 /* BottomSheetDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B1F7002628D8BB004DFEE5 /* BottomSheetDemoController.swift */; };
@@ -40,7 +40,7 @@
 		8F0B8116267021A700463726 /* AppCenterCrashes in Frameworks */ = {isa = PBXBuildFile; productRef = 8F0B8115267021A700463726 /* AppCenterCrashes */; };
 		923DF2DB271158C900637646 /* libFluentUI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 923DF2DA271158C900637646 /* libFluentUI.a */; };
 		923DF2DF27115B4700637646 /* FluentUIResources-ios.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 923DF2DC271158CD00637646 /* FluentUIResources-ios.bundle */; };
-		9245E1F927BECDBB007616F3 /* ColorGlobalTokensDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9245E1F827BECDBB007616F3 /* ColorGlobalTokensDemoController.swift */; };
+		9245E1F927BECDBB007616F3 /* GlobalColorTokensDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9245E1F827BECDBB007616F3 /* GlobalColorTokensDemoController.swift */; };
 		92561E732718AD090072ED00 /* DemoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92561E722718AD090072ED00 /* DemoTableViewController.swift */; };
 		92B45E4E279A1A0B00E72517 /* DemoAppearanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92B45E4D279A1A0B00E72517 /* DemoAppearanceController.swift */; };
 		92D5598426A1523400328FD3 /* CardNudgeDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D5598326A1523400328FD3 /* CardNudgeDemoController.swift */; };
@@ -94,14 +94,14 @@
 		5373F95426F28D3A007F1410 /* IndeterminateProgressBarDemoController_SwiftUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBarDemoController_SwiftUI.swift; sourceTree = "<group>"; };
 		5373F95626F28D9B007F1410 /* IndeterminateProgressBarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBarDemoController.swift; sourceTree = "<group>"; };
 		6F453CA428AC536300ED91A4 /* ShadowTokensDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowTokensDemoController.swift; sourceTree = "<group>"; };
-		6FEED93A28A6E5520099D178 /* ColorAliasTokensDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorAliasTokensDemoController.swift; sourceTree = "<group>"; };
+		6FEED93A28A6E5520099D178 /* AliasColorTokensDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AliasColorTokensDemoController.swift; sourceTree = "<group>"; };
 		7D0931C024AAA3D30072458A /* SideTabBarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SideTabBarDemoController.swift; sourceTree = "<group>"; };
 		7DC2FB2A24C0F4FD00367A55 /* TableViewCellFileAccessoryViewDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCellFileAccessoryViewDemoController.swift; sourceTree = "<group>"; };
 		80AECC0B2630F1BB005AF2F3 /* BottomCommandingDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomCommandingDemoController.swift; sourceTree = "<group>"; };
 		80B1F7002628D8BB004DFEE5 /* BottomSheetDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetDemoController.swift; sourceTree = "<group>"; };
 		923DF2DA271158C900637646 /* libFluentUI.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libFluentUI.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		923DF2DC271158CD00637646 /* FluentUIResources-ios.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = "FluentUIResources-ios.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
-		9245E1F827BECDBB007616F3 /* ColorGlobalTokensDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorGlobalTokensDemoController.swift; sourceTree = "<group>"; };
+		9245E1F827BECDBB007616F3 /* GlobalColorTokensDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalColorTokensDemoController.swift; sourceTree = "<group>"; };
 		92561E722718AD090072ED00 /* DemoTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoTableViewController.swift; sourceTree = "<group>"; };
 		92B45E4D279A1A0B00E72517 /* DemoAppearanceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoAppearanceController.swift; sourceTree = "<group>"; };
 		92D5598326A1523400328FD3 /* CardNudgeDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardNudgeDemoController.swift; sourceTree = "<group>"; };
@@ -317,7 +317,7 @@
 				92D5598326A1523400328FD3 /* CardNudgeDemoController.swift */,
 				CCC18C2E2501C75F00BE830E /* CardViewDemoController.swift */,
 				114CF8B72423E10900D064AA /* ColorDemoController.swift */,
-				9245E1F827BECDBB007616F3 /* ColorGlobalTokensDemoController.swift */,
+				9245E1F827BECDBB007616F3 /* GlobalColorTokensDemoController.swift */,
 				FC414E3625888BC300069E73 /* CommandBarDemoController.swift */,
 				FD7254EC21471A3F002F4069 /* DateTimePickerDemoController.swift */,
 				A5DCA75D211E3A92005F4CB7 /* DrawerDemoController.swift */,
@@ -346,7 +346,7 @@
 				C038992D2359307D00265026 /* TableViewCellShimmerDemoController.swift */,
 				B4EF66532295F1A8007FEAB0 /* TableViewHeaderFooterViewDemoController.swift */,
 				FD7DF06121FB941400857267 /* TooltipDemoController.swift */,
-				6FEED93A28A6E5520099D178 /* ColorAliasTokensDemoController.swift */,
+				6FEED93A28A6E5520099D178 /* AliasColorTokensDemoController.swift */,
 				6F453CA428AC536300ED91A4 /* ShadowTokensDemoController.swift */,
 			);
 			path = Demos;
@@ -490,9 +490,9 @@
 				5303259326B3198A00611D05 /* AvatarDemoController_SwiftUI.swift in Sources */,
 				92D5598426A1523400328FD3 /* CardNudgeDemoController.swift in Sources */,
 				5303259826B31A6300611D05 /* FluentUIDemoToggle.swift in Sources */,
-				9245E1F927BECDBB007616F3 /* ColorGlobalTokensDemoController.swift in Sources */,
+				9245E1F927BECDBB007616F3 /* GlobalColorTokensDemoController.swift in Sources */,
 				6F453CA528AC536300ED91A4 /* ShadowTokensDemoController.swift in Sources */,
-				6FEED93B28A6E5520099D178 /* ColorAliasTokensDemoController.swift in Sources */,
+				6FEED93B28A6E5520099D178 /* AliasColorTokensDemoController.swift in Sources */,
 				A5DCA760211E3B4C005F4CB7 /* DemoController.swift in Sources */,
 				5328D97B26FBA3EA00F3723B /* IndeterminateProgressBarDemoController.swift in Sources */,
 				5373D55F2694C3070032A3B4 /* AvatarDemoController.swift in Sources */,
