@@ -130,6 +130,9 @@ open class CommandBar: UIView {
         }
     }
 
+    /// Delegate object that notifies consumers of events occuring inside the `CommandBar`
+    public weak var delegate: CommandBarDelegate?
+
     // MARK: - Private properties
 
     /// Container UIStackView that holds the leading, main and trailing views
@@ -273,6 +276,8 @@ open class CommandBar: UIView {
 extension CommandBar: UIScrollViewDelegate {
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         updateShadow()
+
+        delegate?.commandBarDidScroll(self)
     }
 }
 
