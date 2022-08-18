@@ -86,7 +86,7 @@ class SideTabBarDemoController: DemoController {
         sideTabBar.bottomItems = [
             TabBarItem(title: "Go Premium", image: premiumImage),
             TabBarItem(title: "Help", image: UIImage(named: "Help_24")!),
-            TabBarItem(title: "Settings", image: UIImage(named: "Settings_24")!)
+            TabBarItem(title: "Settings", image: UIImage(named: "ic_fluent_settings_24_regular")!)
         ]
 
         let contentView = UIView(frame: .zero)

@@ -137,18 +137,14 @@ open class Link: NSButton {
 	private let cornerRadius: CGFloat = 2
 
 	private func updateTitle() {
-		let titleAttributes = (isEnabled && showsUnderlineWhileMouseInside && mouseInside) ? underlinedLinkAttributes: linkAttributes
+		let titleAttributes = (isEnabled && showsUnderlineWhileMouseInside && mouseInside) ? underlinedLinkAttributes : linkAttributes
 		attributedTitle = NSAttributedString(string: title, attributes: titleAttributes)
 		setAccessibilityTitle(title)
 	}
 
 	@objc private func linkClicked() {
 		if let url = url {
-			if #available(macOS 10.15, *) {
-				NSWorkspace.shared.open(url, configuration: NSWorkspace.OpenConfiguration(), completionHandler: nil)
-			} else {
-				NSWorkspace.shared.open(url)
-			}
+			NSWorkspace.shared.open(url, configuration: NSWorkspace.OpenConfiguration(), completionHandler: nil)
 		}
 	}
 }
