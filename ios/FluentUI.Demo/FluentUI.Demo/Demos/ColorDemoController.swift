@@ -107,7 +107,8 @@ class ColorDemoController: UIViewController {
         tableView.allowsSelection = false
         tableView.backgroundColor = Colors.tableBackground
 
-        let stackView = UIStackView(arrangedSubviews: [segmentedControl, MSFDivider(), tableView])
+        let separator = Separator(style: .shadow, orientation: .horizontal)
+        let stackView = UIStackView(arrangedSubviews: [segmentedControl, separator, tableView])
         stackView.setCustomSpacing(8, after: segmentedControl)
         stackView.axis = .vertical
         stackView.translatesAutoresizingMaskIntoConstraints = false

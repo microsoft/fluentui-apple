@@ -37,7 +37,8 @@ class TableViewHeaderFooterViewDemoController: DemoController {
         container.setCustomSpacing(8, after: segmentedControl)
         container.backgroundColor = Colors.navigationBarBackground
 
-        container.addArrangedSubview(MSFDivider())
+        let separator = Separator(style: .shadow, orientation: .horizontal)
+        container.addArrangedSubview(separator)
 
         container.addArrangedSubview(groupedTableView)
         container.addArrangedSubview(plainTableView)
