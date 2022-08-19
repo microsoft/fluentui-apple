@@ -84,6 +84,7 @@ public struct CardNudge: View, ConfigurableTokenizedControl {
                 .fontWeight(.medium)
                 .lineLimit(1)
                 .foregroundColor(Color(dynamicColor: tokens.textColor))
+                .showsLargeContentViewer(text: state.title)
 
             if hasSecondTextRow {
                 HStack(spacing: tokens.accentPadding) {
@@ -99,12 +100,14 @@ public struct CardNudge: View, ConfigurableTokenizedControl {
                             .layoutPriority(1)
                             .lineLimit(1)
                             .foregroundColor(Color(dynamicColor: tokens.accentColor))
+                            .showsLargeContentViewer(text: accent, image: state.accentIcon)
                     }
                     if let subtitle = state.subtitle {
                         Text(subtitle)
                             .font(.subheadline)
                             .lineLimit(1)
                             .foregroundColor(Color(dynamicColor: tokens.subtitleTextColor))
+                            .showsLargeContentViewer(text: subtitle)
                     }
                 }
             }
@@ -127,17 +130,23 @@ public struct CardNudge: View, ConfigurableTokenizedControl {
                     RoundedRectangle(cornerRadius: tokens.circleRadius)
                         .foregroundColor(Color(dynamicColor: tokens.buttonBackgroundColor))
                 )
+                .showsLargeContentViewer(text: actionTitle)
             }
             if let dismissAction = state.dismissButtonAction {
+                let dismissImage = UIImage.staticImageNamed("dismiss-20x20")
+                let dismissLabel = "Accessibility.Dismiss.Label".localized
                 SwiftUI.Button(action: {
                     dismissAction(state)
                 }, label: {
-                    Image("dismiss-20x20", bundle: FluentUIFramework.resourceBundle)
+                    if let image = dismissImage {
+                        Image(uiImage: image)
+                    }
                 })
                 .padding(.horizontal, tokens.buttonInnerPaddingHorizontal)
                 .padding(.vertical, tokens.verticalPadding)
-                .accessibility(identifier: "Accessibility.Dismiss.Label")
+                .accessibilityLabel(dismissLabel)
                 .foregroundColor(Color(dynamicColor: tokens.textColor))
+                .showsLargeContentViewer(text: dismissLabel, image: dismissImage)
             }
         }
     }
