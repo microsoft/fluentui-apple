@@ -46,12 +46,6 @@ import UIKit
     var animationDurationForHide: TimeInterval { return Constants.animationDurationForHide }
     var animationDampingRatio: CGFloat { return isToast ? Constants.animationDampingRatioForToast : 1 }
 
-    var needsFullWidth: Bool { return !isToast }
-    var needsSeparator: Bool { return  self == .primaryOutlineBar }
-    var supportsTitle: Bool { return isToast }
-    var supportsImage: Bool { return isToast }
-    var shouldAlwaysShowActionButton: Bool { return isToast }
-
     private struct Constants {
         static let animationDurationForShowToast: TimeInterval = 0.6
         static let animationDurationForShowBar: TimeInterval = 0.3
@@ -168,19 +162,15 @@ open class NotificationTokens: ControlTokens {
     }
 
     /// The value for the bottom padding between the notification and its anchor view
-    open var bottomPresentationPadding: CGFloat { 20.0 }
+    open var bottomPresentationPadding: CGFloat { globalTokens.spacing[.medium] }
     /// The value for the horizontal padding between the elements within a notification and its frame
-    open var horizontalPadding: CGFloat { 19.0 }
-    /// The value for the vertical padding between the elements within a multi-line notification and its frame
-    open var verticalPadding: CGFloat { 14.0 }
-    /// The value for the horizontal padding between the elements within a single-line notification and its frame
-    open var verticalPaddingForOneLine: CGFloat { 18.0 }
+    open var horizontalPadding: CGFloat { globalTokens.spacing[.medium] }
+    /// The value for the vertical padding between the elements within a notification and its frame
+    open var verticalPadding: CGFloat { globalTokens.spacing[.small] }
     /// The value for the horizontal spacing between the elements within a notification
-    open var horizontalSpacing: CGFloat { 19.0 }
-    /// The value for the minimum height of a multi-line notification
-    open var minimumHeight: CGFloat { 64.0 }
-    /// The value for the minimum height of a single-line notification
-    open var minimumHeightForOneLine: CGFloat { 56.0 }
+    open var horizontalSpacing: CGFloat { globalTokens.spacing[.medium] }
+    /// The value for the minimum height of a notification
+    open var minimumHeight: CGFloat { 52.0 }
 
     /// The color of the outline around the frame of a notification
     open var outlineColor: DynamicColor {
