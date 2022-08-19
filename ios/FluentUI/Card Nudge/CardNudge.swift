@@ -69,6 +69,7 @@ public struct CardNudge: View, ConfigurableTokenizedControl {
                     .foregroundColor(Color(dynamicColor: tokens.accentColor))
             }
             .padding(.trailing, tokens.horizontalPadding)
+            .showsLargeContentViewer(text: state.title, image: state.mainIcon)
         }
     }
 
@@ -80,11 +81,10 @@ public struct CardNudge: View, ConfigurableTokenizedControl {
     var textContainer: some View {
         VStack(alignment: .leading, spacing: tokens.interTextVerticalPadding) {
             Text(state.title)
-                .font(.subheadline)
-                .fontWeight(.medium)
+                .font(.fluent(tokens.aliasTokens.typography[.body2Strong], shouldScale: false))
                 .lineLimit(1)
                 .foregroundColor(Color(dynamicColor: tokens.textColor))
-                .showsLargeContentViewer(text: state.title)
+                .showsLargeContentViewer(text: state.title, image: state.mainIcon)
 
             if hasSecondTextRow {
                 HStack(spacing: tokens.accentPadding) {
@@ -96,7 +96,7 @@ public struct CardNudge: View, ConfigurableTokenizedControl {
                     }
                     if let accent = state.accentText {
                         Text(accent)
-                            .font(.subheadline)
+                            .font(.fluent(tokens.aliasTokens.typography[.caption1], shouldScale: false))
                             .layoutPriority(1)
                             .lineLimit(1)
                             .foregroundColor(Color(dynamicColor: tokens.accentColor))
@@ -104,7 +104,7 @@ public struct CardNudge: View, ConfigurableTokenizedControl {
                     }
                     if let subtitle = state.subtitle {
                         Text(subtitle)
-                            .font(.subheadline)
+                            .font(.fluent(tokens.aliasTokens.typography[.caption1], shouldScale: false))
                             .lineLimit(1)
                             .foregroundColor(Color(dynamicColor: tokens.subtitleTextColor))
                             .showsLargeContentViewer(text: subtitle)
@@ -122,6 +122,7 @@ public struct CardNudge: View, ConfigurableTokenizedControl {
                 SwiftUI.Button(actionTitle) {
                     action(state)
                 }
+                .font(.fluent(tokens.aliasTokens.typography[.body2Strong], shouldScale: false))
                 .lineLimit(1)
                 .padding(.horizontal, tokens.buttonInnerPaddingHorizontal)
                 .padding(.vertical, tokens.verticalPadding)
