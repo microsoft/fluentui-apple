@@ -298,11 +298,11 @@ extension HUDDemoController: DemoAppearanceDelegate {
 
     private class PerControlOverrideHeadsUpDisplayTokens: HeadsUpDisplayTokens {
         override var cornerRadius: CGFloat {
-            return globalTokens.borderRadius[.xLarge]
+            return GlobalTokens.borderRadius(.xLarge)
         }
 
         override var foregroundColor: DynamicColor {
-            return globalTokens.brandColors[.primary]
+            return aliasTokens.brandColors[.primary]
         }
     }
 }

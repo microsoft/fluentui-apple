@@ -162,13 +162,13 @@ open class NotificationTokens: ControlTokens {
     }
 
     /// The value for the bottom padding between the notification and its anchor view
-    open var bottomPresentationPadding: CGFloat { globalTokens.spacing[.medium] }
+    open var bottomPresentationPadding: CGFloat { GlobalTokens.spacing(.medium) }
     /// The value for the horizontal padding between the elements within a notification and its frame
-    open var horizontalPadding: CGFloat { globalTokens.spacing[.medium] }
+    open var horizontalPadding: CGFloat { GlobalTokens.spacing(.medium) }
     /// The value for the vertical padding between the elements within a notification and its frame
-    open var verticalPadding: CGFloat { globalTokens.spacing[.small] }
+    open var verticalPadding: CGFloat { GlobalTokens.spacing(.small) }
     /// The value for the horizontal spacing between the elements within a notification
-    open var horizontalSpacing: CGFloat { globalTokens.spacing[.medium] }
+    open var horizontalSpacing: CGFloat { GlobalTokens.spacing(.medium) }
     /// The value for the minimum height of a notification
     open var minimumHeight: CGFloat { 52.0 }
 
