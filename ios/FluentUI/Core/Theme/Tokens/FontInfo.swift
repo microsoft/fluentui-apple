@@ -25,20 +25,14 @@ public struct FontInfo {
         self.weight = weight
     }
 
-    static var sizeTuples: [(size: CGFloat, textStyle: Font.TextStyle)] = [
-        (34.0, .largeTitle),
-        (28.0, .title),
-        (22.0, .title2),
-        (20.0, .title3),
-        // Note: `17.0: .headline` is removed to avoid needing duplicate size key values.
-        // But it's okay because Apple's scaling curve is identical between it and `.body`.
-        (17.0, .body),
-        (16.0, .callout),
-        (15.0, .subheadline),
-        (13.0, .footnote),
-        (12.0, .caption),
-        (11.0, .caption2)
-    ]
+    /// An optional name for the font. If none is provided, defaults to the standard system font.
+    public let name: String?
+
+    /// The point size to use for the font.
+    public let size: CGFloat
+
+    /// The weight to use for the font.
+    public let weight: Font.Weight
 
     var textStyle: Font.TextStyle {
         // Defaults to smallest supported text style for mapping, before checking if we're bigger.
@@ -52,9 +46,20 @@ public struct FontInfo {
         return textStyle
     }
 
-    let name: String?
-    let size: CGFloat
-    let weight: Font.Weight
+    private static var sizeTuples: [(size: CGFloat, textStyle: Font.TextStyle)] = [
+        (34.0, .largeTitle),
+        (28.0, .title),
+        (22.0, .title2),
+        (20.0, .title3),
+        // Note: `17.0: .headline` is removed to avoid needing duplicate size key values.
+        // But it's okay because Apple's scaling curve is identical between it and `.body`.
+        (17.0, .body),
+        (16.0, .callout),
+        (15.0, .subheadline),
+        (13.0, .footnote),
+        (12.0, .caption),
+        (11.0, .caption2)
+    ]
 }
 
 // MARK: - ViewModifier
