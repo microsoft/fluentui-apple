@@ -316,6 +316,7 @@
 				B4D852DA225C010A004B1B29 /* ButtonDemoController.swift */,
 				92D5598326A1523400328FD3 /* CardNudgeDemoController.swift */,
 				CCC18C2E2501C75F00BE830E /* CardViewDemoController.swift */,
+				6FEED93A28A6E5520099D178 /* ColorAliasTokensDemoController.swift */,
 				114CF8B72423E10900D064AA /* ColorDemoController.swift */,
 				9245E1F827BECDBB007616F3 /* ColorGlobalTokensDemoController.swift */,
 				FC414E3625888BC300069E73 /* CommandBarDemoController.swift */,
@@ -346,11 +347,7 @@
 				C038992D2359307D00265026 /* TableViewCellShimmerDemoController.swift */,
 				B4EF66532295F1A8007FEAB0 /* TableViewHeaderFooterViewDemoController.swift */,
 				FD7DF06121FB941400857267 /* TooltipDemoController.swift */,
-<<<<<<< HEAD
-				6FEED93A28A6E5520099D178 /* ColorAliasTokensDemoController.swift */,
-=======
-				92D5FDFC28AC57650087894B /* TypographyTokensDemoController.swift */,
->>>>>>> main
+				92D5FDFC28AC57650087894B /* TypographyTokensDemoController.swift */
 			);
 			path = Demos;
 			sourceTree = "<group>";
