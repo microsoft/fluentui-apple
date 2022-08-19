@@ -222,6 +222,4 @@ open class NotificationTokens: ControlTokens {
     open var boldTextFont: FontInfo { aliasTokens.typography[.body2Strong] }
     /// The font for regular text within a notification
     open var regularTextFont: FontInfo { aliasTokens.typography[.body2] }
-    /// The font for footnote text within a notification
-    open var footnoteTextFont: FontInfo { aliasTokens.typography[.caption1] }
 }

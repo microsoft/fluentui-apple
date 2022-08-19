@@ -164,7 +164,7 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
                     }
                     .accessibilityLabel(attributedMessage.string)
             } else if let message = state.message {
-                let messageFont = hasSecondTextRow ? tokens.footnoteTextFont : (state.style.isToast ? tokens.boldTextFont : tokens.regularTextFont)
+                let messageFont = tokens.regularTextFont
                 Text(message)
                     .font(.fluent(messageFont))
                     .foregroundColor(Color(dynamicColor: tokens.foregroundColor))
