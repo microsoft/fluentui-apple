@@ -15,8 +15,6 @@ public enum PillButtonStyle: Int {
     /// onBrand: use this style in conjunction with branded background where the background features
     /// a prominent brand color in light mode and a muted gray in dark mode.
     case onBrand
-
-    // TODO: is there a dark on brand? Should it just be hard coded in dark mode to match light mode? Do light and dark match correctly?
 }
 
 // MARK: PillButton colors
@@ -81,11 +79,6 @@ public extension PillButton {
     }
 
     // MARK: selected disabled state
-    // TODO: confirm with design what colors they want for this state
-    // primary light: Light/Background/BG Disabled
-    // primary dark: Dark/Background/BG Disabled SAME
-    // brand light: Light/Background/BG 1
-    // brand dark: Dark/Background/BG Disabled DIFFERENT
     static func selectedDisabledBackgroundColor(for fluentTheme: FluentTheme, for style: PillButtonStyle) -> UIColor {
         switch style {
         case .primary:
@@ -95,10 +88,6 @@ public extension PillButton {
         }
     }
 
-    // primary light: Light/Foreground/FG Disabled 2
-    // primary dark: Dark/Foreground/FG Disabled 2 SAME
-    // brand light: Light/Foreground/Brand FG Disabled 2
-    // brand dark: Dark/Foreground/FG Disabled 2 DIFFERENT
     static func selectedDisabledTitleColor(for fluentTheme: FluentTheme, for style: PillButtonStyle) -> UIColor {
         switch style {
         case .primary:
@@ -155,7 +144,7 @@ public extension PillButton {
         case .primary:
             return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundDisabled1])
         case .onBrand:
-            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForegroundDisabled])
+            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForegroundDisabled1])
         }
     }
 }

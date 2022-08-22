@@ -72,7 +72,7 @@ open class PillButton: UIButton {
         guard let window = window, window.isEqual(notification.object) else {
             return
         }
-        // updateColors()
+        updateAppearance()
     }
 
     var unreadDotColor: UIColor = Colors.gray100
