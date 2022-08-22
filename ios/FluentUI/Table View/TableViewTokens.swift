@@ -6,36 +6,22 @@ import UIKit
 
 open class TableViewCellTokens: ControlTokens {
     /// The background color of the TableView.
-    open var backgroundColor: DynamicColor {
-        .init(light: globalTokens.neutralColors[.white],
-              dark: globalTokens.neutralColors[.black])
-    }
+    open var backgroundColor: DynamicColor { aliasTokens.colors[.background1] }
 
     /// The grouped background color of the TableView.
-    open var backgroundGrouped: DynamicColor {
-        .init(light: aliasTokens.backgroundColors[.neutral2].light,
-              dark: aliasTokens.backgroundColors[.neutral1].dark)
-    }
+    open var backgroundGroupedColor: DynamicColor {  aliasTokens.colors[.canvasBackground]}
 
     /// The background color of the TableViewCell.
-    open var cellBackgroundColor: DynamicColor {
-        .init(light: aliasTokens.backgroundColors[.neutral1].light,
-              dark: aliasTokens.backgroundColors[.neutral1].dark,
-              darkElevated: aliasTokens.backgroundColors[.neutral2].darkElevated)
-    }
+    open var cellBackgroundColor: DynamicColor { aliasTokens.colors[.background1] }
 
     /// The grouped background color of the TableViewCell.
-    open var cellBackgroundGrouped: DynamicColor {
-        .init(light: aliasTokens.backgroundColors[.neutral1].light,
-              dark: aliasTokens.backgroundColors[.neutral3].dark,
-              darkElevated: ColorValue(0x212121))
-    }
+    open var cellBackgroundGroupedColor: DynamicColor { aliasTokens.colors[.background3] }
 
     /// The selected background color of the TableViewCell.
-    open var cellBackgroundSelectedColor: DynamicColor { aliasTokens.backgroundColors[.neutral5] }
+    open var cellBackgroundSelectedColor: DynamicColor { aliasTokens.colors[.background1Pressed] }
 
     /// The leading image color.
-    open var imageColor: DynamicColor { aliasTokens.foregroundColors[.neutral1] }
+    open var imageColor: DynamicColor { aliasTokens.colors[.foreground3] }
 
     /// The size dimensions of the customView.
     open var customViewDimensions: CGSize {
@@ -64,16 +50,16 @@ open class TableViewCellTokens: ControlTokens {
     }
 
     /// The title label color.
-    open var titleColor: DynamicColor { aliasTokens.foregroundColors[.neutral1] }
+    open var titleColor: DynamicColor { aliasTokens.colors[.foreground1] }
 
     /// The subtitle label color.
-    open var subtitleColor: DynamicColor { aliasTokens.foregroundColors[.neutral3] }
+    open var subtitleColor: DynamicColor { aliasTokens.colors[.foreground2] }
 
     /// The footer label color.
-    open var footerColor: DynamicColor { aliasTokens.foregroundColors[.neutral3] }
+    open var footerColor: DynamicColor { aliasTokens.colors[.foreground2] }
 
     /// The color of the selectionImageView when it is not selected.
-    open var selectionIndicatorOffColor: DynamicColor { aliasTokens.foregroundColors[.neutral3] }
+    open var selectionIndicatorOffColor: DynamicColor { aliasTokens.colors[.foreground3] }
 
     /// The font for the title.
     open var titleFont: FontInfo { aliasTokens.typography[.body1] }
@@ -160,13 +146,13 @@ open class TableViewCellTokens: ControlTokens {
     open var paddingTrailing: CGFloat { globalTokens.spacing[.medium] }
 
     /// The color for the accessoryDisclosureIndicator.
-    open var accessoryDisclosureIndicatorColor: DynamicColor { aliasTokens.foregroundColors[.neutral4] }
+    open var accessoryDisclosureIndicatorColor: DynamicColor { aliasTokens.colors[.foreground3] }
 
     /// The color for the accessoryDetailButtonColor.
-    open var accessoryDetailButtonColor: DynamicColor { aliasTokens.foregroundColors[.neutral3] }
+    open var accessoryDetailButtonColor: DynamicColor { aliasTokens.colors[.foreground3] }
 
     /// The main primary brand color of the theme.
-    open var mainBrandColor: DynamicColor { globalTokens.brandColors[.primary] }
+    open var mainBrandColor: DynamicColor { aliasTokens.colors[.brandForeground1] }
 
     /// Defines the size of the customView size.
     public internal(set) var customViewSize: MSFTableViewCellCustomViewSize = .default

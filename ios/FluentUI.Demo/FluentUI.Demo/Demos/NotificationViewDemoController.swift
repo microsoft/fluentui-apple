@@ -220,7 +220,7 @@ class NotificationViewDemoController: DemoController {
             preconditionFailure("showNotificationView is used for a button in the wrong container")
         }
 
-        createNotificationView(forVariant: variant).showNotification(in: view) { $0.hide(after: 3.0) }
+        createNotificationView(forVariant: variant).show(in: view) { $0.hide(after: 3.0) }
     }
 
     @objc private func showSwiftUIDemo() {
