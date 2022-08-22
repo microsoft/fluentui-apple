@@ -142,6 +142,7 @@ class CommandBarDemoController: DemoController {
     }
 
     var defaultCommandBar: CommandBar?
+    var animateCommandBarDelegateEvents: Bool = false
 
     let textField: UITextField = {
         let textField = UITextField()
@@ -161,6 +162,7 @@ class CommandBarDemoController: DemoController {
         container.addArrangedSubview(createLabelWithText("Default"))
 
         let commandBar = CommandBar(itemGroups: createItemGroups(), leadingItemGroups: [[newItem(for: .keyboard)]])
+        commandBar.delegate = self
         commandBar.translatesAutoresizingMaskIntoConstraints = false
         commandBar.backgroundColor = Colors.navigationBarBackground
         container.addArrangedSubview(commandBar)
@@ -213,6 +215,14 @@ class CommandBarDemoController: DemoController {
         itemHiddenSwitch.addTarget(self, action: #selector(itemHiddenValueChanged), for: .valueChanged)
         itemHiddenStackView.addArrangedSubview(itemHiddenSwitch)
         itemCustomizationContainer.addArrangedSubview(itemHiddenStackView)
+
+        let commandBarDelegateEventAnimationView = createHorizontalStackView()
+        commandBarDelegateEventAnimationView.addArrangedSubview(createLabelWithText("Animate CommandBarDelegate Events"))
+        let commandBarDelegateEventAnimationSwitch: UISwitch = UISwitch()
+        commandBarDelegateEventAnimationSwitch.isOn = animateCommandBarDelegateEvents
+        commandBarDelegateEventAnimationSwitch.addTarget(self, action: #selector(animateCommandBarDelegateEventsValueChanged), for: .valueChanged)
+        commandBarDelegateEventAnimationView.addArrangedSubview(commandBarDelegateEventAnimationSwitch)
+        itemCustomizationContainer.addArrangedSubview(commandBarDelegateEventAnimationView)
 
         itemCustomizationContainer.addArrangedSubview(UIView()) //Spacer
 
@@ -364,6 +374,10 @@ class CommandBarDemoController: DemoController {
         item.isHidden = sender.isOn
     }
 
+    @objc func animateCommandBarDelegateEventsValueChanged(sender: UISwitch!) {
+        animateCommandBarDelegateEvents = sender.isOn
+    }
+
     @objc func refreshDefaultBarItems(sender: UIButton!) {
         defaultCommandBar?.itemGroups = createItemGroups()
     }
@@ -386,4 +400,18 @@ class CommandBarDemoController: DemoController {
 
     private static let horizontalStackViewSpacing: CGFloat = 16.0
     private static let verticalStackViewSpacing: CGFloat = 8.0
+}
+
+extension CommandBarDemoController: CommandBarDelegate {
+    func commandBarDidScroll(_ commandBar: CommandBar) {
+        if animateCommandBarDelegateEvents {
+            let originalBackgroundColor = commandBar.backgroundColor
+
+            UIView.animate(withDuration: 1.0, delay: 0.0, options: [.allowUserInteraction]) {
+                commandBar.backgroundColor = Colors.communicationBlue
+            } completion: { _ in
+                commandBar.backgroundColor = originalBackgroundColor
+            }
+        }
+    }
 }
