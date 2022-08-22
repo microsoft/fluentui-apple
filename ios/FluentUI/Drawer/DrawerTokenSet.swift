@@ -6,7 +6,7 @@
 import UIKit
 
 /// Design token set for the `Drawer` control
-public final class DrawerTokenSet: ControlTokenSet<DrawerTokenSet.Tokens> {
+public /*final*/ class DrawerTokenSet: ControlTokenSet<DrawerTokenSet.Tokens> {
     public enum Tokens: TokenSetKey {
         /// `ShadowInfo` for the shadow used in the `Drawer` control.
         case shadow
@@ -90,5 +90,11 @@ public final class DrawerTokenSet: ControlTokenSet<DrawerTokenSet.Tokens> {
                 return .float({ theme.globalTokens.spacing[.xSmall] })
             }
         }
+    }
+}
+
+public class PopupMenuTokenSet: DrawerTokenSet {
+    public override init() {
+        super.init()
     }
 }

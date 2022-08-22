@@ -31,6 +31,18 @@ open class PopupMenuController: DrawerController {
         static let descriptionVerticalMargin: CGFloat = 12
     }
 
+    public typealias TokenSetKeyType = PopupMenuTokenSet.Tokens
+    public typealias TokenSetType = PopupMenuTokenSet
+    public override var tokenSet: DrawerTokenSet {
+        get {
+            return popupTokenSet
+        }
+        set {
+            preconditionFailure("PopupMenuController tokens must be set through popupTokenSet")
+        }
+    }
+    public var popupTokenSet: PopupMenuTokenSet = .init()
+
     open override var contentView: UIView? { get { return super.contentView } set { } }
 
     open override var presentationStyle: DrawerPresentationStyle { get { return .automatic } set { } }
@@ -75,11 +87,11 @@ open class PopupMenuController: DrawerController {
     }
 
     /// Set `backgroundColor` to customize background color of controller' view and its tableView
-    open override var backgroundColor: UIColor {
-        didSet {
-            tableView.backgroundColor = backgroundColor
-        }
-    }
+//    open override var backgroundColor: UIColor {
+//        didSet {
+//            tableView.backgroundColor = backgroundColor
+//        }
+//    }
 
     override var tracksContentHeight: Bool { return false }
 

@@ -73,6 +73,7 @@ class PopupMenuDemoController: DemoController {
 
             let items = samplePersonas.map { PopupMenuItem(title: !$0.name.isEmpty ? $0.name : $0.email) }
             controller.addItems(items)
+            controller.popupTokenSet.replaceAllOverrides(with: [.drawerContentBackground: .dynamicColor { DynamicColor(light: GlobalTokens.init().sharedColors[.red][.primary]) }])
 
             strongSelf.present(controller, animated: true)
         }))
@@ -84,6 +85,7 @@ class PopupMenuDemoController: DemoController {
 
             let buttonView = sender
             let controller = PopupMenuController(sourceView: buttonView, sourceRect: buttonView.bounds, presentationDirection: .down)
+            controller.popupTokenSet.replaceAllOverrides(with: [.drawerContentBackground: .dynamicColor { DynamicColor(light: GlobalTokens.init().sharedColors[.red][.primary]) }])
 
             let items = [
                 PopupMenuItem(image: UIImage(named: "agenda-24x24"), title: "Agenda", isSelected: strongSelf.calendarLayout == .agenda, onSelected: { strongSelf.calendarLayout = .agenda }),
@@ -117,6 +119,7 @@ class PopupMenuDemoController: DemoController {
 
             let buttonView = sender
             let controller = PopupMenuController(sourceView: buttonView, sourceRect: buttonView.bounds, presentationDirection: .down)
+            controller.popupTokenSet.replaceAllOverrides(with: [.drawerContentBackground: .dynamicColor { DynamicColor(light: GlobalTokens.init().sharedColors[.red][.primary]) }])
 
             let items = [
                 PopupMenuItem(image: UIImage(named: "agenda-24x24"), title: "Agenda", isSelected: strongSelf.calendarLayout == .agenda, executes: .onSelectionWithoutDismissal, onSelected: { strongSelf.calendarLayout = .agenda }),
@@ -139,6 +142,7 @@ class PopupMenuDemoController: DemoController {
             controller.backgroundColor = menuBackgroundColor
             controller.resizingHandleViewBackgroundColor = menuBackgroundColor
             controller.separatorColor = .lightGray
+            controller.popupTokenSet.replaceAllOverrides(with: [.drawerContentBackground: .dynamicColor { DynamicColor(light: GlobalTokens.init().sharedColors[.red][.primary]) }])
 
             strongSelf.present(controller, animated: true)
         }))
