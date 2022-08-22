@@ -76,27 +76,35 @@ public extension PillButton {
         case .primary:
             return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundDisabled1])
         case .onBrand:
-            return UIColor(light: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForegroundDisabled]), dark: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundDisabled1]))
+            return UIColor(light: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForegroundDisabled1]), dark: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundDisabled1]))
         }
     }
 
     // MARK: selected disabled state
     // TODO: confirm with design what colors they want for this state
+    // primary light: Light/Background/BG Disabled
+    // primary dark: Dark/Background/BG Disabled SAME
+    // brand light: Light/Background/BG 1
+    // brand dark: Dark/Background/BG Disabled DIFFERENT
     static func selectedDisabledBackgroundColor(for fluentTheme: FluentTheme, for style: PillButtonStyle) -> UIColor {
         switch style {
         case .primary:
-            return UIColor(colorValue: fluentTheme.globalTokens.sharedColors[.cyan][.primary])
+            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.backgroundDisabled])
         case .onBrand:
-            return UIColor(colorValue: fluentTheme.globalTokens.sharedColors[.burgundy][.primary])
+            return UIColor(light: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandBackground1]), dark: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.backgroundDisabled]))
         }
     }
 
+    // primary light: Light/Foreground/FG Disabled 2
+    // primary dark: Dark/Foreground/FG Disabled 2 SAME
+    // brand light: Light/Foreground/Brand FG Disabled 2
+    // brand dark: Dark/Foreground/FG Disabled 2 DIFFERENT
     static func selectedDisabledTitleColor(for fluentTheme: FluentTheme, for style: PillButtonStyle) -> UIColor {
         switch style {
         case .primary:
-            return UIColor(colorValue: fluentTheme.globalTokens.sharedColors[.cyan][.shade10])
+            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundDisabled2])
         case .onBrand:
-            return UIColor(colorValue: fluentTheme.globalTokens.sharedColors[.burgundy][.tint40])
+            return UIColor(light: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForegroundDisabled2]), dark: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundDisabled2]))
         }
     }
 
