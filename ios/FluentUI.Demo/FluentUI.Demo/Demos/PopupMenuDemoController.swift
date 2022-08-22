@@ -59,6 +59,7 @@ class PopupMenuDemoController: DemoController {
             controller.onDismiss = { [unowned controller] in
                 strongSelf.cityIndexPath = controller.selectedItemIndexPath
             }
+//            controller.popupTokenSet.replaceAllOverrides(with: [.drawerContentBackground: .dynamicColor { DynamicColor(light: GlobalTokens.init().sharedColors[.red][.primary]) }])
 
             strongSelf.present(controller, animated: true)
         }))
@@ -209,5 +210,29 @@ class PopupMenuDemoController: DemoController {
         ])
 
         present(controller, animated: true)
+    }
+}
+
+extension PopupMenuDemoController: DemoAppearanceDelegate {
+    func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
+        guard let fluentTheme = self.view.window?.fluentTheme else {
+            return
+        }
+
+        fluentTheme.register(tokenSetType: PopupMenuTokenSet.self, tokenSet: themeWideOverridePopupMenuTokens)
+    }
+
+    func perControlOverrideDidChange(isOverrideEnabled: Bool) {
+        return
+    }
+
+    func isThemeWideOverrideApplied() -> Bool {
+        return true
+    }
+
+    private var themeWideOverridePopupMenuTokens: [PopupMenuTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .drawerContentBackground: .dynamicColor { DynamicColor(light: GlobalTokens.init().sharedColors[.plum][.primary]) }
+        ]
     }
 }
