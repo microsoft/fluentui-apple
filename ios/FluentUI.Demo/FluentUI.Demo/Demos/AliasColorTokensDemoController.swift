@@ -76,6 +76,7 @@ class AliasColorTokensDemoController: DemoTableViewController {
              .foregroundDisabled2,
              .foregroundOnColor,
              .brandForeground2,
+             .brandForegroundDisabled2,
              .stroke1,
              .stroke2,
              .strokeDisabled,
@@ -106,7 +107,7 @@ class AliasColorTokensDemoController: DemoTableViewController {
              .brandForeground1Selected,
              .brandForeground4,
              .brandForeground5,
-             .brandForegroundDisabled,
+             .brandForegroundDisabled1,
              .background5SelectedBrandFilled,
              .backgroundInverted,
              .brandBackground1,
@@ -218,7 +219,8 @@ private enum AliasColorTokensDemoSection: CaseIterable {
                     .brandForeground4,
                     .brandForeground5,
                     .brandForegroundInverted,
-                    .brandForegroundDisabled]
+                    .brandForegroundDisabled1,
+                    .brandForegroundDisabled2]
         case .neutralStrokes:
             return [.stroke1,
                     .stroke2,
@@ -271,8 +273,10 @@ private extension AliasTokens.ColorsTokens {
             return "Brand Foreground 5"
         case .brandForegroundInverted:
             return "Brand Foreground Inverted"
-        case .brandForegroundDisabled:
-            return "Brand Foreground Disabled"
+        case .brandForegroundDisabled1:
+            return "Brand Foreground Disabled 1"
+        case .brandForegroundDisabled2:
+            return "Brand Foreground Disabled 2"
         case .background1:
             return "Background 1"
         case .background1Pressed:
