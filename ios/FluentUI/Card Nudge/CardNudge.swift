@@ -81,7 +81,7 @@ public struct CardNudge: View, ConfigurableTokenizedControl {
     var textContainer: some View {
         VStack(alignment: .leading, spacing: tokens.interTextVerticalPadding) {
             Text(state.title)
-                .font(.fluent(tokens.aliasTokens.typography[.body2Strong], shouldScale: false))
+                .font(.fluent(tokens.titleFont, shouldScale: false))
                 .lineLimit(1)
                 .foregroundColor(Color(dynamicColor: tokens.textColor))
                 .showsLargeContentViewer(text: state.title, image: state.mainIcon)
@@ -96,7 +96,7 @@ public struct CardNudge: View, ConfigurableTokenizedControl {
                     }
                     if let accent = state.accentText {
                         Text(accent)
-                            .font(.fluent(tokens.aliasTokens.typography[.caption1], shouldScale: false))
+                            .font(.fluent(tokens.accentFont, shouldScale: false))
                             .layoutPriority(1)
                             .lineLimit(1)
                             .foregroundColor(Color(dynamicColor: tokens.accentColor))
@@ -104,7 +104,7 @@ public struct CardNudge: View, ConfigurableTokenizedControl {
                     }
                     if let subtitle = state.subtitle {
                         Text(subtitle)
-                            .font(.fluent(tokens.aliasTokens.typography[.caption1], shouldScale: false))
+                            .font(.fluent(tokens.subtitleFont, shouldScale: false))
                             .lineLimit(1)
                             .foregroundColor(Color(dynamicColor: tokens.subtitleTextColor))
                             .showsLargeContentViewer(text: subtitle)
@@ -122,7 +122,7 @@ public struct CardNudge: View, ConfigurableTokenizedControl {
                 SwiftUI.Button(actionTitle) {
                     action(state)
                 }
-                .font(.fluent(tokens.aliasTokens.typography[.body2Strong], shouldScale: false))
+                .font(.fluent(tokens.actionTitleFont, shouldScale: false))
                 .lineLimit(1)
                 .padding(.horizontal, tokens.buttonInnerPaddingHorizontal)
                 .padding(.vertical, tokens.verticalPadding)
