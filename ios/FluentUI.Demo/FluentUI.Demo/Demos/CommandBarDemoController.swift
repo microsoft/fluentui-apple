@@ -202,6 +202,11 @@ class CommandBarDemoController: DemoController {
         refreshLeadingItemButton.addTarget(self, action: #selector(refreshDefaultLeadingBarItems), for: .touchUpInside)
         itemCustomizationContainer.addArrangedSubview(refreshLeadingItemButton)
 
+        let resetScrollPositionButton = Button(style: .tertiaryOutline)
+        resetScrollPositionButton.setTitle("Reset Scroll Position", for: .normal)
+        resetScrollPositionButton.addTarget(self, action: #selector(resetScrollPosition), for: .touchUpInside)
+        itemCustomizationContainer.addArrangedSubview(resetScrollPositionButton)
+
         let itemEnabledStackView = createHorizontalStackView()
         itemEnabledStackView.addArrangedSubview(createLabelWithText("'+' Enabled"))
         let itemEnabledSwitch: UISwitch = UISwitch()
@@ -398,6 +403,10 @@ class CommandBarDemoController: DemoController {
 
     @objc func refreshDefaultLeadingBarItems(sender: UIButton!) {
         defaultCommandBar?.leadingItemGroups = [[newItem(for: .keyboard)]]
+    }
+
+    @objc func resetScrollPosition(sender: UIButton!) {
+        defaultCommandBar?.resetScrollPosition(true)
     }
 
     private static let horizontalStackViewSpacing: CGFloat = 16.0
