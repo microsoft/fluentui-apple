@@ -404,7 +404,7 @@ class CommandBarDemoController: DemoController {
     }
 
     @objc func resetScrollPosition(sender: UIButton!) {
-        defaultCommandBar?.resetScrollPosition()
+        defaultCommandBar?.resetScrollPosition(true)
     }
 
     private static let horizontalStackViewSpacing: CGFloat = 16.0

@@ -96,8 +96,9 @@ open class CommandBar: UIView {
     }
 
     /// Sets the scoll position  to the start of the scroll view
-    @objc public func resetScrollPosition() {
-        scrollView.scrollRectToVisible(CGRect(x: 0, y: 0, width: 1, height: 1), animated: false)
+    @objc public func resetScrollPosition(_ animated: Bool = false) {
+        /// A `CGRect` with a `width` and `height` both greater than `0` is required for the scrolling to occur
+        scrollView.scrollRectToVisible(CGRect(x: 0, y: 0, width: 1, height: 1), animated: animated)
     }
 
     // MARK: Overrides
