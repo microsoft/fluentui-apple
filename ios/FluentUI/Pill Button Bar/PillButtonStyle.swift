@@ -43,6 +43,10 @@ public extension PillButton {
         }
     }
 
+    static func titleFont(for fluentTheme: FluentTheme) -> FontInfo {
+        return fluentTheme.aliasTokens.typography[.body2]
+    }
+
     // MARK: selected state
 
     static func selectedBackgroundColor(for fluentTheme: FluentTheme, for style: PillButtonStyle) -> UIColor {

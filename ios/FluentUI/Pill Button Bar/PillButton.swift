@@ -75,7 +75,9 @@ open class PillButton: UIButton {
         updateAppearance()
     }
 
-    var unreadDotColor: UIColor = Colors.gray100
+    lazy var unreadDotColor: UIColor = customUnreadDotColor ?? PillButton.enabledUnreadDotColor(for: fluentTheme, for: style)
+
+    lazy var titleFont: FontInfo = PillButton.titleFont(for: fluentTheme)
 
     @objc public static let cornerRadius: CGFloat = 16.0
 
@@ -120,6 +122,7 @@ open class PillButton: UIButton {
         if #available(iOS 15.0, *) {
             var configuration = UIButton.Configuration.plain()
             configuration.attributedTitle = AttributedString(pillBarItem.title)
+            configuration.attributedTitle?.font = .fluent(titleFont)
             configuration.contentInsets = NSDirectionalEdgeInsets(top: Constants.topInset,
                                                                   leading: Constants.horizontalInset,
                                                                   bottom: Constants.bottomInset,
@@ -131,7 +134,7 @@ open class PillButton: UIButton {
             }
         } else {
             setTitle(pillBarItem.title, for: .normal)
-            titleLabel?.font = Constants.font
+            titleLabel?.font = .fluent(titleFont)
 
             contentEdgeInsets = UIEdgeInsets(top: Constants.topInset,
                                              left: Constants.horizontalInset,
@@ -267,7 +270,7 @@ open class PillButton: UIButton {
         if #available(iOS 15.0, *) {
             configuration?.background.backgroundColor = resolvedBackgroundColor
             configuration?.attributedTitle?.setAttributes(AttributeContainer([NSAttributedString.Key.foregroundColor: resolvedTitleColor,
-                                                                              NSAttributedString.Key.font: Constants.font]))
+                                                                              NSAttributedString.Key.font: titleFont]))
         } else {
             backgroundColor = resolvedBackgroundColor
         }
@@ -275,7 +278,6 @@ open class PillButton: UIButton {
 
     private struct Constants {
         static let bottomInset: CGFloat = 6.0
-        static let font = UIFont.systemFont(ofSize: 16, weight: .regular)
         static let horizontalInset: CGFloat = 16.0
         static let topInset: CGFloat = 6.0
         static let unreadDotOffset = CGPoint(x: 6.0, y: 3.0)
