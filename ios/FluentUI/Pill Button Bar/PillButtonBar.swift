@@ -611,18 +611,6 @@ extension PillButtonBar: UIPointerInteractionDelegate {
         return UIPointerStyle(effect: pointerEffect, shape: nil)
     }
 
-    public func pointerInteraction(_ interaction: UIPointerInteraction, willEnter region: UIPointerRegion, animator: UIPointerInteractionAnimating) {
-        guard let index = region.identifier as? Int else {
-            return
-        }
-        if let window = window, customPillButtonBackgroundColor == nil, index < buttons.count {
-            let pillButton = buttons[index]
-            if !pillButton.isSelected {
-                pillButton.customBackgroundColor = PillButton.hoverBackgroundColor(for: window, for: pillButton.style)
-            }
-        }
-    }
-
     public func pointerInteraction(_ interaction: UIPointerInteraction, willExit region: UIPointerRegion, animator: UIPointerInteractionAnimating) {
         guard let index = region.identifier as? Int else {
             return
