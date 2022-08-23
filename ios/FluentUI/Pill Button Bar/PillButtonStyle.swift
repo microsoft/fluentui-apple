@@ -103,7 +103,6 @@ public extension PillButton {
         return disabledBackgroundColor(for: fluentTheme, for: style)
     }
 
-    // TODO: what is highlighted?
     static func highlightedTitleColor(for fluentTheme: FluentTheme, for style: PillButtonStyle) -> UIColor {
         return UIColor(light: disabledTitleColor(for: fluentTheme, for: style), dark: UIColor(colorValue: fluentTheme.globalTokens.sharedColors[.lime][.primary]))
     }
