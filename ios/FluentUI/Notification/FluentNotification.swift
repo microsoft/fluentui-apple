@@ -166,9 +166,8 @@ public struct FluentNotification: View, TokenizedControlView {
                     }
                     .accessibilityLabel(attributedMessage.string)
             } else if let message = state.message {
-                let messageFont = hasSecondTextRow ? tokenSet[.footnoteTextFont].fontInfo : (state.style.isToast ? tokenSet[.boldTextFont].fontInfo : tokenSet[.regularTextFont].fontInfo)
                 Text(message)
-                    .font(.fluent(messageFont))
+                    .font(.fluent(tokenSet[.regularTextFont].fontInfo))
                     .foregroundColor(Color(dynamicColor: tokenSet[.foregroundColor].dynamicColor))
             }
         }
