@@ -197,7 +197,7 @@ class NotificationViewDemoController: DemoController {
             return notification
         case .neutralToastWithGradientBackground:
             let notification = MSFNotification(style: .neutralToast)
-            notification.state.message = "The image color and spacing between the elements of this notification have been customized with override tokens."
+            notification.state.message = "The background of this notification has been customized with a gradient."
             notification.state.image = UIImage(named: "play-in-circle-24x24")
             // It's a lovely blue-to-pink gradient
             let colors: [DynamicColor] = [DynamicColor(light: ColorValue(0xFFF1FA), dark: ColorValue(0x601044)),
