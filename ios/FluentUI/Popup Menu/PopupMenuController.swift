@@ -86,13 +86,6 @@ open class PopupMenuController: DrawerController {
         return height
     }
 
-    /// Set `backgroundColor` to customize background color of controller' view and its tableView
-//    open override var backgroundColor: UIColor {
-//        didSet {
-//            tableView.backgroundColor = backgroundColor
-//        }
-//    }
-
     override var tracksContentHeight: Bool { return false }
 
     /**
