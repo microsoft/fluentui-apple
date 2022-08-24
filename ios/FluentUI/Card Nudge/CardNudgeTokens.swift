@@ -23,9 +23,13 @@ open class CardNudgeTokens: ControlTokens {
 
     open var accentColor: DynamicColor { aliasTokens.brandColors[.shade20] }
 
+    open var accentFont: FontInfo { aliasTokens.typography[.caption1] }
+
     open var accentIconSize: CGFloat { GlobalTokens.iconSize(.xxSmall) }
 
     open var accentPadding: CGFloat { GlobalTokens.spacing(.xxSmall) }
+
+    open var actionTitleFont: FontInfo { aliasTokens.typography[.body2Strong] }
 
     open var backgroundColor: DynamicColor {
         switch style {
@@ -67,6 +71,8 @@ open class CardNudgeTokens: ControlTokens {
 
     open var outlineWidth: CGFloat { GlobalTokens.borderSize(.thin) }
 
+    open var subtitleFont: FontInfo { aliasTokens.typography[.caption1] }
+
     open var subtitleTextColor: DynamicColor { aliasTokens.foregroundColors[.neutral3] }
 
     open var textColor: DynamicColor {
@@ -77,6 +83,8 @@ open class CardNudgeTokens: ControlTokens {
             return aliasTokens.brandColors[.shade20]
         }
     }
+
+    open var titleFont: FontInfo { aliasTokens.typography[.body2Strong] }
 
     open var verticalPadding: CGFloat { GlobalTokens.spacing(.xSmall) }
 }
