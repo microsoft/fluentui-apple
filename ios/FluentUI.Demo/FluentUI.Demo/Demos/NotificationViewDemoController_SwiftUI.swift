@@ -54,19 +54,6 @@ struct NotificationDemoView: View {
         let messageButtonAction = hasMessageAction ? { showAlert = true } : nil
         let hasMessage = !message.isEmpty
         let hasTitle = !title.isEmpty
-        let notification = FluentNotification(style: style,
-                                              isFlexibleWidthToast: isFlexibleWidthToast,
-                                              message: hasMessage ? message : nil,
-                                              attributedMessage: hasAttribute && hasMessage ? attributedMessage : nil,
-                                              title: hasTitle ? title : nil,
-                                              attributedTitle: hasAttribute && hasTitle ? attributedTitle : nil,
-                                              image: image,
-                                              trailingImage: trailingImage,
-                                              trailingImageAccessibilityLabel: showTrailingImage ? "Circle" : nil,
-                                              actionButtonTitle: actionButtonTitle,
-                                              actionButtonAction: actionButtonAction,
-                                              messageButtonAction: messageButtonAction)
-                            .overrideTokens(overrideTokens ? notificationOverrideTokens : nil)
 
         VStack {
             Rectangle()
@@ -85,7 +72,7 @@ struct NotificationDemoView: View {
                                      actionButtonTitle: actionButtonTitle,
                                      actionButtonAction: actionButtonAction,
                                      messageButtonAction: messageButtonAction,
-                                     overrideTokens: $overrideTokens.wrappedValue ? NotificationOverrideTokens() : nil)
+                                     overrideTokens: $overrideTokens.wrappedValue ? notificationOverrideTokens : nil)
                 .frame(maxWidth: .infinity, maxHeight: 150, alignment: .center)
                 .alert(isPresented: $showAlert, content: {
                     Alert(title: Text("Button tapped"))
@@ -190,6 +177,7 @@ struct NotificationDemoView: View {
                              actionButtonAction: actionButtonAction,
                              showDefaultDismissActionButton: showDefaultDismissActionButton,
                              messageButtonAction: messageButtonAction,
+                             showFromBottom: showFromBottom,
                              overrideTokens: $overrideTokens.wrappedValue ? notificationOverrideTokens : nil)
     }
 

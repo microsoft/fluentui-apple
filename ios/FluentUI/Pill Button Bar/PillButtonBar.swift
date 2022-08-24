@@ -385,8 +385,15 @@ open class PillButtonBar: UIScrollView, TokenizedControlInternal {
             let buttonWidth = button.frame.width
             if buttonWidth > 0, buttonWidth < tokenSet[.minButtonWidth].float {
                 let extraInset = floor((tokenSet[.minButtonWidth].float - button.frame.width) / 2)
-                button.contentEdgeInsets.left += extraInset
-                button.contentEdgeInsets.right = button.contentEdgeInsets.left
+
+                if #available(iOS 15.0, *) {
+                    button.configuration?.contentInsets.leading += extraInset
+                    button.configuration?.contentInsets.trailing = button.configuration?.contentInsets.leading ?? extraInset
+                } else {
+                    button.contentEdgeInsets.left += extraInset
+                    button.contentEdgeInsets.right = button.contentEdgeInsets.left
+                }
+
                 button.layoutIfNeeded()
             }
         }

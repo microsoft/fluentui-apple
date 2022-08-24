@@ -104,14 +104,14 @@ class HUDDemoController: DemoTableViewController {
 
     @objc private func showCustomHUD(sender: UIButton) {
         HUD.shared.show(from: self, with: HUDParams(caption: "Custom",
-                                                    image: UIImage(named: "flag-48x48"),
+                                                    image: UIImage(named: "flag-40x40"),
                                                     isPersistent: false))
     }
 
     @objc private func showCustomNonBlockingHUD(sender: UIButton) {
         HUD.shared.show(from: self,
                         with: HUDParams(caption: "Custom image non-blocking",
-                                        image: UIImage(named: "flag-48x48"),
+                                        image: UIImage(named: "flag-40x40"),
                                         isBlocking: false))
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             HUD.shared.hide()

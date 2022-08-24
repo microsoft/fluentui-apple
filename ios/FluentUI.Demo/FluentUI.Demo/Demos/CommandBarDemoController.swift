@@ -381,6 +381,14 @@ class CommandBarDemoController: DemoController {
         item.isEnabled = sender.isOn
     }
 
+    @objc func itemHiddenValueChanged(sender: UISwitch!) {
+        guard let item: CommandBarItem = defaultCommandBar?.itemGroups[0][0] else {
+            return
+        }
+
+        item.isHidden = sender.isOn
+    }
+
     @objc func refreshDefaultBarItems() {
         defaultCommandBar?.itemGroups = createItemGroups()
     }

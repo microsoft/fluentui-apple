@@ -41,6 +41,7 @@ public extension View {
                              actionButtonAction: (() -> Void)? = nil,
                              showDefaultDismissActionButton: Bool? = nil,
                              messageButtonAction: (() -> Void)? = nil,
+                             showFromBottom: Bool = true,
                              overrideTokens: [NotificationTokenSet.Tokens: ControlTokenValue]? = nil) -> some View {
         self.presentingView(isPresented: isPresented,
                             isBlocking: isBlocking) {

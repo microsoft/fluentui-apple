@@ -291,8 +291,6 @@ public struct Avatar: View, TokenizedControlView {
                                value: [state.primaryText, state.secondaryText])
                     .animation(standardAnimation,
                                value: [state.image, state.imageBasedRingColor])
-                    .animation(standardAnimation,
-                               value: state.overrideTokens)
             })
             .showsLargeContentViewer(text: accessibilityLabel, image: shouldUseDefaultImage ? avatarImageInfo.image : nil)
             .accessibilityElement(children: .ignore)

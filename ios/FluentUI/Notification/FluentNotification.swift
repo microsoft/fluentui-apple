@@ -47,6 +47,9 @@ import SwiftUI
 
     /// Action to be dispatched by tapping on the toast/bar notification.
     var messageButtonAction: (() -> Void)? { get set }
+
+    /// Defines whether the notification shows from the bottom of the presenting view or the top.
+    var showFromBottom: Bool { get set }
 }
 
 /// View that represents the Notification.
@@ -130,6 +133,7 @@ public struct FluentNotification: View, TokenizedControlView {
                                height: imageSize.height,
                                alignment: .center)
                         .foregroundColor(Color(dynamicColor: tokenSet[.imageColor].dynamicColor))
+                        .padding(.vertical, tokenSet[.verticalPadding].float)
                 }
             }
         }

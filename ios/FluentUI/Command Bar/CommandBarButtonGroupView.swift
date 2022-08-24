@@ -48,8 +48,13 @@ class CommandBarButtonGroupView: UIView {
     }
 
     private func applyInsets() {
-        buttons.first?.contentEdgeInsets.left += CommandBarButtonGroupView.leftRightBuffer
-        buttons.last?.contentEdgeInsets.right += CommandBarButtonGroupView.leftRightBuffer
+        if #available(iOS 15.0, *) {
+            buttons.first?.configuration?.contentInsets.leading += CommandBarButtonGroupView.leftRightBuffer
+            buttons.last?.configuration?.contentInsets.trailing += CommandBarButtonGroupView.leftRightBuffer
+        } else {
+            buttons.first?.contentEdgeInsets.left += CommandBarButtonGroupView.leftRightBuffer
+            buttons.last?.contentEdgeInsets.right += CommandBarButtonGroupView.leftRightBuffer
+        }
     }
 
     private var tokenSet: CommandBarTokenSet

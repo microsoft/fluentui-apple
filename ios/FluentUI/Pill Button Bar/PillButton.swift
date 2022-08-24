@@ -93,19 +93,35 @@ open class PillButton: UIButton, TokenizedControlInternal {
     var unreadDotColor: UIColor = Colors.gray100
 
     private func setupView() {
-        setTitle(pillBarItem.title, for: .normal)
-        titleLabel?.font = UIFont.fluent(tokenSet[.font].fontInfo, shouldScale: false)
+
+        if #available(iOS 15.0, *) {
+            var configuration = UIButton.Configuration.plain()
+            configuration.attributedTitle = AttributedString(pillBarItem.title)
+            configuration.contentInsets = NSDirectionalEdgeInsets(top: tokenSet[.topInset].float,
+                                                                  leading: tokenSet[.horizontalInset].float,
+                                                                  bottom: tokenSet[.bottomInset].float,
+                                                                  trailing: tokenSet[.horizontalInset].float)
+            self.configuration = configuration
+
+            configurationUpdateHandler = { [weak self] _ in
+                self?.updateAppearance()
+            }
+        } else {
+            setTitle(pillBarItem.title, for: .normal)
+            titleLabel?.font = UIFont.fluent(tokenSet[.font].fontInfo, shouldScale: false)
+
+            contentEdgeInsets = UIEdgeInsets(top: tokenSet[.topInset].float,
+                                             left: tokenSet[.horizontalInset].float,
+                                             bottom: tokenSet[.bottomInset].float,
+                                             right: tokenSet[.horizontalInset].float)
+        }
+
         layer.cornerRadius = PillButton.cornerRadius
         clipsToBounds = true
 
         layer.cornerCurve = .continuous
         largeContentTitle = titleLabel?.text
         showsLargeContentViewer = true
-
-        contentEdgeInsets = UIEdgeInsets(top: tokenSet[.topInset].float,
-                                         left: tokenSet[.horizontalInset].float,
-                                         bottom: tokenSet[.bottomInset].float,
-                                         right: tokenSet[.horizontalInset].float)
     }
 
     private func updateAccessibilityTraits() {
@@ -143,6 +159,14 @@ open class PillButton: UIButton, TokenizedControlInternal {
         setNeedsLayout()
     }
 
+    private lazy var unreadDotLayer: CALayer = {
+        let unreadDotLayer = CALayer()
+        let unreadDotSize = tokenSet[.unreadDotSize].float
+        unreadDotLayer.bounds.size = CGSize(width: unreadDotSize, height: unreadDotSize)
+        unreadDotLayer.cornerRadius = unreadDotSize / 2
+        return unreadDotLayer
+    }()
+
     private func updateUnreadDot() {
         isUnreadDotVisible = pillBarItem.isUnread
         if isUnreadDotVisible {
@@ -159,34 +183,61 @@ open class PillButton: UIButton, TokenizedControlInternal {
     }
 
     private func updateAppearance() {
+
+        titleLabel?.font = UIFont.fluent(tokenSet[.font].fontInfo, shouldScale: false)
+
+        // TODO: Once iOS 14 support is dropped, these should be converted to constants (let) that will be initialized by the logic below.
+        var resolvedBackgroundColor: UIColor = .clear
+        var resolvedTitleColor: UIColor = .clear
+
         if isSelected {
             if isEnabled {
-                backgroundColor = UIColor(dynamicColor: tokenSet[.backgroundColor].pillButtonDynamicColors.selected)
-                setTitleColor(UIColor(dynamicColor: tokenSet[.titleColor].pillButtonDynamicColors.selected), for: .normal)
+                resolvedBackgroundColor = UIColor(dynamicColor: tokenSet[.backgroundColor].pillButtonDynamicColors.selected)
+                if #available(iOS 15.0, *) {
+                    resolvedTitleColor = UIColor(dynamicColor: tokenSet[.titleColor].pillButtonDynamicColors.selected)
+                } else {
+                    setTitleColor(UIColor(dynamicColor: tokenSet[.titleColor].pillButtonDynamicColors.selected), for: .normal)
+                }
             } else {
-                backgroundColor = UIColor(dynamicColor: tokenSet[.backgroundColor].pillButtonDynamicColors.selectedDisabled)
-                setTitleColor(UIColor(dynamicColor: tokenSet[.titleColor].pillButtonDynamicColors.selectedDisabled), for: .normal)
+                resolvedBackgroundColor = UIColor(dynamicColor: tokenSet[.backgroundColor].pillButtonDynamicColors.selectedDisabled)
+                if #available(iOS 15.0, *) {
+                    resolvedTitleColor = UIColor(dynamicColor: tokenSet[.titleColor].pillButtonDynamicColors.selectedDisabled)
+                } else {
+                    setTitleColor(UIColor(dynamicColor: tokenSet[.titleColor].pillButtonDynamicColors.selectedDisabled), for: .normal)
+
+                }
             }
         } else {
-            backgroundColor = isEnabled
-            ? UIColor(dynamicColor: tokenSet[.backgroundColor].pillButtonDynamicColors.rest)
-            : UIColor(dynamicColor: tokenSet[.backgroundColor].pillButtonDynamicColors.disabled)
-
-            if isEnabled {
-                setTitleColor(UIColor(dynamicColor: tokenSet[.titleColor].pillButtonDynamicColors.rest), for: .normal)
-            } else {
-                setTitleColor(UIColor(dynamicColor: tokenSet[.titleColor].pillButtonDynamicColors.disabled), for: .disabled)
-            }
-
             unreadDotColor = isEnabled
             ? UIColor(dynamicColor: tokenSet[.enabledUnreadDotColor].dynamicColor)
             : UIColor(dynamicColor: tokenSet[.disabledUnreadDotColor].dynamicColor)
+
+            if isEnabled {
+
+                resolvedBackgroundColor = UIColor(dynamicColor: tokenSet[.backgroundColor].pillButtonDynamicColors.rest)
+                if #available(iOS 15.0, *) {
+                    resolvedTitleColor = UIColor(dynamicColor: tokenSet[.titleColor].pillButtonDynamicColors.rest)
+                } else {
+                    setTitleColor(UIColor(dynamicColor: tokenSet[.titleColor].pillButtonDynamicColors.rest), for: .normal)
+                }
+            } else {
+                resolvedBackgroundColor = UIColor(dynamicColor: tokenSet[.backgroundColor].pillButtonDynamicColors.disabled)
+                if #available(iOS 15.0, *) {
+                    resolvedTitleColor = UIColor(dynamicColor: tokenSet[.titleColor].pillButtonDynamicColors.disabled)
+                } else {
+                    setTitleColor(UIColor(dynamicColor: tokenSet[.titleColor].pillButtonDynamicColors.disabled), for: .disabled)
+                }
+            }
         }
 
-        titleLabel?.font = UIFont.fluent(tokenSet[.font].fontInfo, shouldScale: false)
+        if #available(iOS 15.0, *) {
+            configuration?.background.backgroundColor = resolvedBackgroundColor
+            configuration?.attributedTitle?.setAttributes(AttributeContainer([NSAttributedString.Key.foregroundColor: resolvedTitleColor,
+                                                                              NSAttributedString.Key.font: UIFont.fluent(tokenSet[.font].fontInfo, shouldScale: false)]))
+        } else {
+            backgroundColor = resolvedBackgroundColor
+        }
     }
-
-    private lazy var unreadDotLayer: CALayer = initUnreadDotLayer()
 
     private var isUnreadDotVisible: Bool = false {
         didSet {
@@ -197,16 +248,6 @@ open class PillButton: UIButton, TokenizedControlInternal {
                     unreadDotLayer.removeFromSuperlayer()
                 }
             }
-                }
-            }
-        }
-
-        if #available(iOS 15.0, *) {
-            configuration?.background.backgroundColor = resolvedBackgroundColor
-            configuration?.attributedTitle?.setAttributes(AttributeContainer([NSAttributedString.Key.foregroundColor: resolvedTitleColor,
-                                                                              NSAttributedString.Key.font: Constants.font]))
-        } else {
-            backgroundColor = resolvedBackgroundColor
         }
     }
 }

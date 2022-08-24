@@ -221,6 +221,8 @@ public struct AvatarGroup: View, TokenizedControlView {
     @Environment(\.layoutDirection) var layoutDirection: LayoutDirection
     @ObservedObject var state: MSFAvatarGroupStateImpl
 
+    private let animationDuration: CGFloat = 0.1
+
     private func createOverflow(count: Int) -> Avatar {
         let state = MSFAvatarStateImpl(style: .overflow, size: state.size)
         state.primaryText = "\(count)"

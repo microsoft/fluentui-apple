@@ -42,15 +42,16 @@ struct HUDDemoView: View {
                         FluentUIDemoToggle(titleKey: "Blocks interaction",
                                            isOn: $isBlocking)
 
-                        FluentButton(style: .primary,
-                                     size: .large,
-                                     text: "Present HUD for 3 seconds") {
+                        Button(action: {
                             isPresented = true
 
                             DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                                 isPresented = false
                             }
-                        }
+                        },
+                               label: {
+                            Text("Present HUD for 3 seconds")
+                        })
                     }
 
                     Group {
