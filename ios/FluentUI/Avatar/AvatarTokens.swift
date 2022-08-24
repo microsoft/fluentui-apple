@@ -32,17 +32,17 @@ open class AvatarTokens: ControlTokens {
     open var borderRadius: CGFloat {
         switch style {
         case .default, .accent, .outlined, .outlinedPrimary, .overflow:
-            return globalTokens.spacing[.none]
+            return GlobalTokens.spacing(.none)
         case .group:
             switch size {
             case .xsmall:
-                return globalTokens.borderRadius[.small]
+                return GlobalTokens.borderRadius(.small)
             case .small, .medium:
-                return globalTokens.borderRadius[.medium]
+                return GlobalTokens.borderRadius(.medium)
             case .large, .xlarge:
-                return globalTokens.borderRadius[.large]
+                return GlobalTokens.borderRadius(.large)
             case .xxlarge:
-                return globalTokens.borderRadius[.xLarge]
+                return GlobalTokens.borderRadius(.xLarge)
             }
         }
     }
@@ -51,7 +51,7 @@ open class AvatarTokens: ControlTokens {
     open var textFont: FontInfo {
         switch size {
         case .xsmall:
-            return .init(size: 9, weight: globalTokens.fontWeight[.regular])
+            return .init(size: 9, weight: GlobalTokens.fontWeight(.regular))
         case .small:
             return aliasTokens.typography[.caption2]
         case .medium:
@@ -59,9 +59,9 @@ open class AvatarTokens: ControlTokens {
         case .large:
             return aliasTokens.typography[.body2]
         case .xlarge:
-            return .init(size: globalTokens.fontSize[.size500], weight: globalTokens.fontWeight[.regular])
+            return .init(size: GlobalTokens.fontSize(.size500), weight: GlobalTokens.fontWeight(.regular))
         case .xxlarge:
-            return .init(size: globalTokens.fontSize[.size700], weight: globalTokens.fontWeight[.semibold])
+            return .init(size: GlobalTokens.fontSize(.size700), weight: GlobalTokens.fontWeight(.semibold))
         }
     }
 
@@ -69,13 +69,13 @@ open class AvatarTokens: ControlTokens {
     open var ringDefaultColor: DynamicColor {
         switch style {
         case .default, .group:
-            return globalTokens.brandColors[.tint10]
+            return aliasTokens.brandColors[.tint10]
         case .accent:
-            return globalTokens.brandColors[.shade10]
+            return aliasTokens.brandColors[.shade10]
         case .outlined, .overflow:
             return aliasTokens.backgroundColors[.neutralDisabled]
         case .outlinedPrimary:
-            return .init(light: globalTokens.brandColors[.tint10].light, dark: globalTokens.neutralColors[.grey78])
+            return .init(light: aliasTokens.brandColors[.tint10].light, dark: GlobalTokens.neutralColors(.grey78))
         }
     }
 
@@ -86,11 +86,11 @@ open class AvatarTokens: ControlTokens {
     open var ringThickness: CGFloat {
         switch size {
         case .xsmall, .small:
-            return globalTokens.borderSize[.thin]
+            return GlobalTokens.borderSize(.thin)
         case .medium, .large, .xlarge:
-            return globalTokens.borderSize[.thick]
+            return GlobalTokens.borderSize(.thick)
         case .xxlarge:
-            return globalTokens.borderSize[.thicker]
+            return GlobalTokens.borderSize(.thicker)
         }
     }
 
@@ -98,9 +98,9 @@ open class AvatarTokens: ControlTokens {
     open var ringInnerGap: CGFloat {
         switch size {
         case .xsmall, .small, .medium, .large, .xlarge:
-            return globalTokens.borderSize[.thick]
+            return GlobalTokens.borderSize(.thick)
         case .xxlarge:
-            return globalTokens.borderSize[.thicker]
+            return GlobalTokens.borderSize(.thicker)
         }
     }
 
@@ -108,9 +108,9 @@ open class AvatarTokens: ControlTokens {
     open var ringOuterGap: CGFloat {
         switch size {
         case .xsmall, .small, .medium, .large, .xlarge:
-            return globalTokens.borderSize[.thick]
+            return GlobalTokens.borderSize(.thick)
         case .xxlarge:
-            return globalTokens.borderSize[.thicker]
+            return GlobalTokens.borderSize(.thicker)
         }
     }
 
@@ -120,11 +120,11 @@ open class AvatarTokens: ControlTokens {
         case .xsmall:
             return 0
         case .small, .medium:
-            return globalTokens.iconSize[.xxxSmall]
+            return GlobalTokens.iconSize(.xxxSmall)
         case .large, .xlarge:
-            return globalTokens.iconSize[.xxSmall]
+            return GlobalTokens.iconSize(.xxSmall)
         case .xxlarge:
-            return globalTokens.iconSize[.small]
+            return GlobalTokens.iconSize(.small)
         }
     }
 
@@ -132,9 +132,9 @@ open class AvatarTokens: ControlTokens {
     open var presenceIconOutlineThickness: CGFloat {
         switch size {
         case .xsmall:
-            return globalTokens.borderSize[.none]
+            return GlobalTokens.borderSize(.none)
         case .small, .medium, .large, .xlarge, .xxlarge:
-            return globalTokens.borderSize[.thick]
+            return GlobalTokens.borderSize(.thick)
         }
     }
 
@@ -143,49 +143,49 @@ open class AvatarTokens: ControlTokens {
 
     /// The color for the background calculated using a hash of the strings.
     open var backgroundCalculatedColorOptions: [DynamicColor] {
-        return [.init(light: globalTokens.sharedColors[.darkRed][.tint40], dark: globalTokens.sharedColors[.darkRed][.shade30]),
-                .init(light: globalTokens.sharedColors[.cranberry][.tint40], dark: globalTokens.sharedColors[.cranberry][.shade30]),
-                .init(light: globalTokens.sharedColors[.red][.tint40], dark: globalTokens.sharedColors[.red][.shade30]),
-                .init(light: globalTokens.sharedColors[.pumpkin][.tint40], dark: globalTokens.sharedColors[.pumpkin][.shade30]),
-                .init(light: globalTokens.sharedColors[.peach][.tint40], dark: globalTokens.sharedColors[.peach][.shade30]),
-                .init(light: globalTokens.sharedColors[.marigold][.tint40], dark: globalTokens.sharedColors[.marigold][.shade30]),
-                .init(light: globalTokens.sharedColors[.gold][.tint40], dark: globalTokens.sharedColors[.gold][.shade30]),
-                .init(light: globalTokens.sharedColors[.brass][.tint40], dark: globalTokens.sharedColors[.brass][.shade30]),
-                .init(light: globalTokens.sharedColors[.brown][.tint40], dark: globalTokens.sharedColors[.brown][.shade30]),
-                .init(light: globalTokens.sharedColors[.forest][.tint40], dark: globalTokens.sharedColors[.forest][.shade30]),
-                .init(light: globalTokens.sharedColors[.seafoam][.tint40], dark: globalTokens.sharedColors[.seafoam][.shade30]),
-                .init(light: globalTokens.sharedColors[.darkGreen][.tint40], dark: globalTokens.sharedColors[.darkGreen][.shade30]),
-                .init(light: globalTokens.sharedColors[.lightTeal][.tint40], dark: globalTokens.sharedColors[.lightTeal][.shade30]),
-                .init(light: globalTokens.sharedColors[.teal][.tint40], dark: globalTokens.sharedColors[.teal][.shade30]),
-                .init(light: globalTokens.sharedColors[.steel][.tint40], dark: globalTokens.sharedColors[.steel][.shade30]),
-                .init(light: globalTokens.sharedColors[.blue][.tint40], dark: globalTokens.sharedColors[.blue][.shade30]),
-                .init(light: globalTokens.sharedColors[.royalBlue][.tint40], dark: globalTokens.sharedColors[.royalBlue][.shade30]),
-                .init(light: globalTokens.sharedColors[.cornflower][.tint40], dark: globalTokens.sharedColors[.cornflower][.shade30]),
-                .init(light: globalTokens.sharedColors[.navy][.tint40], dark: globalTokens.sharedColors[.navy][.shade30]),
-                .init(light: globalTokens.sharedColors[.lavender][.tint40], dark: globalTokens.sharedColors[.lavender][.shade30]),
-                .init(light: globalTokens.sharedColors[.purple][.tint40], dark: globalTokens.sharedColors[.purple][.shade30]),
-                .init(light: globalTokens.sharedColors[.grape][.tint40], dark: globalTokens.sharedColors[.grape][.shade30]),
-                .init(light: globalTokens.sharedColors[.lilac][.tint40], dark: globalTokens.sharedColors[.lilac][.shade30]),
-                .init(light: globalTokens.sharedColors[.pink][.tint40], dark: globalTokens.sharedColors[.pink][.shade30]),
-                .init(light: globalTokens.sharedColors[.magenta][.tint40], dark: globalTokens.sharedColors[.magenta][.shade30]),
-                .init(light: globalTokens.sharedColors[.plum][.tint40], dark: globalTokens.sharedColors[.plum][.shade30]),
-                .init(light: globalTokens.sharedColors[.beige][.tint40], dark: globalTokens.sharedColors[.beige][.shade30]),
-                .init(light: globalTokens.sharedColors[.mink][.tint40], dark: globalTokens.sharedColors[.mink][.shade30]),
-                .init(light: globalTokens.sharedColors[.platinum][.tint40], dark: globalTokens.sharedColors[.platinum][.shade30]),
-                .init(light: globalTokens.sharedColors[.anchor][.tint40], dark: globalTokens.sharedColors[.anchor][.shade30])]
+        return [.init(light: GlobalTokens.sharedColors(.darkRed, .tint40), dark: GlobalTokens.sharedColors(.darkRed, .shade30)),
+                .init(light: GlobalTokens.sharedColors(.cranberry, .tint40), dark: GlobalTokens.sharedColors(.cranberry, .shade30)),
+                .init(light: GlobalTokens.sharedColors(.red, .tint40), dark: GlobalTokens.sharedColors(.red, .shade30)),
+                .init(light: GlobalTokens.sharedColors(.pumpkin, .tint40), dark: GlobalTokens.sharedColors(.pumpkin, .shade30)),
+                .init(light: GlobalTokens.sharedColors(.peach, .tint40), dark: GlobalTokens.sharedColors(.peach, .shade30)),
+                .init(light: GlobalTokens.sharedColors(.marigold, .tint40), dark: GlobalTokens.sharedColors(.marigold, .shade30)),
+                .init(light: GlobalTokens.sharedColors(.gold, .tint40), dark: GlobalTokens.sharedColors(.gold, .shade30)),
+                .init(light: GlobalTokens.sharedColors(.brass, .tint40), dark: GlobalTokens.sharedColors(.brass, .shade30)),
+                .init(light: GlobalTokens.sharedColors(.brown, .tint40), dark: GlobalTokens.sharedColors(.brown, .shade30)),
+                .init(light: GlobalTokens.sharedColors(.forest, .tint40), dark: GlobalTokens.sharedColors(.forest, .shade30)),
+                .init(light: GlobalTokens.sharedColors(.seafoam, .tint40), dark: GlobalTokens.sharedColors(.seafoam, .shade30)),
+                .init(light: GlobalTokens.sharedColors(.darkGreen, .tint40), dark: GlobalTokens.sharedColors(.darkGreen, .shade30)),
+                .init(light: GlobalTokens.sharedColors(.lightTeal, .tint40), dark: GlobalTokens.sharedColors(.lightTeal, .shade30)),
+                .init(light: GlobalTokens.sharedColors(.teal, .tint40), dark: GlobalTokens.sharedColors(.teal, .shade30)),
+                .init(light: GlobalTokens.sharedColors(.steel, .tint40), dark: GlobalTokens.sharedColors(.steel, .shade30)),
+                .init(light: GlobalTokens.sharedColors(.blue, .tint40), dark: GlobalTokens.sharedColors(.blue, .shade30)),
+                .init(light: GlobalTokens.sharedColors(.royalBlue, .tint40), dark: GlobalTokens.sharedColors(.royalBlue, .shade30)),
+                .init(light: GlobalTokens.sharedColors(.cornflower, .tint40), dark: GlobalTokens.sharedColors(.cornflower, .shade30)),
+                .init(light: GlobalTokens.sharedColors(.navy, .tint40), dark: GlobalTokens.sharedColors(.navy, .shade30)),
+                .init(light: GlobalTokens.sharedColors(.lavender, .tint40), dark: GlobalTokens.sharedColors(.lavender, .shade30)),
+                .init(light: GlobalTokens.sharedColors(.purple, .tint40), dark: GlobalTokens.sharedColors(.purple, .shade30)),
+                .init(light: GlobalTokens.sharedColors(.grape, .tint40), dark: GlobalTokens.sharedColors(.grape, .shade30)),
+                .init(light: GlobalTokens.sharedColors(.lilac, .tint40), dark: GlobalTokens.sharedColors(.lilac, .shade30)),
+                .init(light: GlobalTokens.sharedColors(.pink, .tint40), dark: GlobalTokens.sharedColors(.pink, .shade30)),
+                .init(light: GlobalTokens.sharedColors(.magenta, .tint40), dark: GlobalTokens.sharedColors(.magenta, .shade30)),
+                .init(light: GlobalTokens.sharedColors(.plum, .tint40), dark: GlobalTokens.sharedColors(.plum, .shade30)),
+                .init(light: GlobalTokens.sharedColors(.beige, .tint40), dark: GlobalTokens.sharedColors(.beige, .shade30)),
+                .init(light: GlobalTokens.sharedColors(.mink, .tint40), dark: GlobalTokens.sharedColors(.mink, .shade30)),
+                .init(light: GlobalTokens.sharedColors(.platinum, .tint40), dark: GlobalTokens.sharedColors(.platinum, .shade30)),
+                .init(light: GlobalTokens.sharedColors(.anchor, .tint40), dark: GlobalTokens.sharedColors(.anchor, .shade30))]
     }
 
     /// The default color of the background of the `Avatar`.
     open var backgroundDefaultColor: DynamicColor {
         switch style {
         case .default, .group:
-            return .init(light: globalTokens.neutralColors[.white], dark: globalTokens.brandColors[.primary].dark)
+            return .init(light: GlobalTokens.neutralColors(.white), dark: aliasTokens.brandColors[.primary].dark)
         case .accent:
-            return globalTokens.brandColors[.primary]
+            return aliasTokens.brandColors[.primary]
         case .outlined:
-            return .init(light: globalTokens.neutralColors[.grey94], dark: globalTokens.neutralColors[.grey26])
+            return .init(light: GlobalTokens.neutralColors(.grey94), dark: GlobalTokens.neutralColors(.grey26))
         case .outlinedPrimary:
-            return .init(light: globalTokens.brandColors[.tint40].light, dark: globalTokens.neutralColors[.grey26])
+            return .init(light: aliasTokens.brandColors[.tint40].light, dark: GlobalTokens.neutralColors(.grey26))
         case .overflow:
             return aliasTokens.backgroundColors[.neutral4]
         }
@@ -193,49 +193,49 @@ open class AvatarTokens: ControlTokens {
 
     /// The color of the foreground calculated using a hash of the strings.
     open var foregroundCalculatedColorOptions: [DynamicColor] {
-        return [.init(light: globalTokens.sharedColors[.darkRed][.shade30], dark: globalTokens.sharedColors[.darkRed][.tint40]),
-                .init(light: globalTokens.sharedColors[.cranberry][.shade30], dark: globalTokens.sharedColors[.cranberry][.tint40]),
-                .init(light: globalTokens.sharedColors[.red][.shade30], dark: globalTokens.sharedColors[.red][.tint40]),
-                .init(light: globalTokens.sharedColors[.pumpkin][.shade30], dark: globalTokens.sharedColors[.pumpkin][.tint40]),
-                .init(light: globalTokens.sharedColors[.peach][.shade30], dark: globalTokens.sharedColors[.peach][.tint40]),
-                .init(light: globalTokens.sharedColors[.marigold][.shade30], dark: globalTokens.sharedColors[.marigold][.tint40]),
-                .init(light: globalTokens.sharedColors[.gold][.shade30], dark: globalTokens.sharedColors[.gold][.tint40]),
-                .init(light: globalTokens.sharedColors[.brass][.shade30], dark: globalTokens.sharedColors[.brass][.tint40]),
-                .init(light: globalTokens.sharedColors[.brown][.shade30], dark: globalTokens.sharedColors[.brown][.tint40]),
-                .init(light: globalTokens.sharedColors[.forest][.shade30], dark: globalTokens.sharedColors[.forest][.tint40]),
-                .init(light: globalTokens.sharedColors[.seafoam][.shade30], dark: globalTokens.sharedColors[.seafoam][.tint40]),
-                .init(light: globalTokens.sharedColors[.darkGreen][.shade30], dark: globalTokens.sharedColors[.darkGreen][.tint40]),
-                .init(light: globalTokens.sharedColors[.lightTeal][.shade30], dark: globalTokens.sharedColors[.lightTeal][.tint40]),
-                .init(light: globalTokens.sharedColors[.teal][.shade30], dark: globalTokens.sharedColors[.teal][.tint40]),
-                .init(light: globalTokens.sharedColors[.steel][.shade30], dark: globalTokens.sharedColors[.steel][.tint40]),
-                .init(light: globalTokens.sharedColors[.blue][.shade30], dark: globalTokens.sharedColors[.blue][.tint40]),
-                .init(light: globalTokens.sharedColors[.royalBlue][.shade30], dark: globalTokens.sharedColors[.royalBlue][.tint40]),
-                .init(light: globalTokens.sharedColors[.cornflower][.shade30], dark: globalTokens.sharedColors[.cornflower][.tint40]),
-                .init(light: globalTokens.sharedColors[.navy][.shade30], dark: globalTokens.sharedColors[.navy][.tint40]),
-                .init(light: globalTokens.sharedColors[.lavender][.shade30], dark: globalTokens.sharedColors[.lavender][.tint40]),
-                .init(light: globalTokens.sharedColors[.purple][.shade30], dark: globalTokens.sharedColors[.purple][.tint40]),
-                .init(light: globalTokens.sharedColors[.grape][.shade30], dark: globalTokens.sharedColors[.grape][.tint40]),
-                .init(light: globalTokens.sharedColors[.lilac][.shade30], dark: globalTokens.sharedColors[.lilac][.tint40]),
-                .init(light: globalTokens.sharedColors[.pink][.shade30], dark: globalTokens.sharedColors[.pink][.tint40]),
-                .init(light: globalTokens.sharedColors[.magenta][.shade30], dark: globalTokens.sharedColors[.magenta][.tint40]),
-                .init(light: globalTokens.sharedColors[.plum][.shade30], dark: globalTokens.sharedColors[.plum][.tint40]),
-                .init(light: globalTokens.sharedColors[.beige][.shade30], dark: globalTokens.sharedColors[.beige][.tint40]),
-                .init(light: globalTokens.sharedColors[.mink][.shade30], dark: globalTokens.sharedColors[.mink][.tint40]),
-                .init(light: globalTokens.sharedColors[.platinum][.shade30], dark: globalTokens.sharedColors[.platinum][.tint40]),
-                .init(light: globalTokens.sharedColors[.anchor][.shade30], dark: globalTokens.sharedColors[.anchor][.tint40])]
+        return [.init(light: GlobalTokens.sharedColors(.darkRed, .shade30), dark: GlobalTokens.sharedColors(.darkRed, .tint40)),
+                .init(light: GlobalTokens.sharedColors(.cranberry, .shade30), dark: GlobalTokens.sharedColors(.cranberry, .tint40)),
+                .init(light: GlobalTokens.sharedColors(.red, .shade30), dark: GlobalTokens.sharedColors(.red, .tint40)),
+                .init(light: GlobalTokens.sharedColors(.pumpkin, .shade30), dark: GlobalTokens.sharedColors(.pumpkin, .tint40)),
+                .init(light: GlobalTokens.sharedColors(.peach, .shade30), dark: GlobalTokens.sharedColors(.peach, .tint40)),
+                .init(light: GlobalTokens.sharedColors(.marigold, .shade30), dark: GlobalTokens.sharedColors(.marigold, .tint40)),
+                .init(light: GlobalTokens.sharedColors(.gold, .shade30), dark: GlobalTokens.sharedColors(.gold, .tint40)),
+                .init(light: GlobalTokens.sharedColors(.brass, .shade30), dark: GlobalTokens.sharedColors(.brass, .tint40)),
+                .init(light: GlobalTokens.sharedColors(.brown, .shade30), dark: GlobalTokens.sharedColors(.brown, .tint40)),
+                .init(light: GlobalTokens.sharedColors(.forest, .shade30), dark: GlobalTokens.sharedColors(.forest, .tint40)),
+                .init(light: GlobalTokens.sharedColors(.seafoam, .shade30), dark: GlobalTokens.sharedColors(.seafoam, .tint40)),
+                .init(light: GlobalTokens.sharedColors(.darkGreen, .shade30), dark: GlobalTokens.sharedColors(.darkGreen, .tint40)),
+                .init(light: GlobalTokens.sharedColors(.lightTeal, .shade30), dark: GlobalTokens.sharedColors(.lightTeal, .tint40)),
+                .init(light: GlobalTokens.sharedColors(.teal, .shade30), dark: GlobalTokens.sharedColors(.teal, .tint40)),
+                .init(light: GlobalTokens.sharedColors(.steel, .shade30), dark: GlobalTokens.sharedColors(.steel, .tint40)),
+                .init(light: GlobalTokens.sharedColors(.blue, .shade30), dark: GlobalTokens.sharedColors(.blue, .tint40)),
+                .init(light: GlobalTokens.sharedColors(.royalBlue, .shade30), dark: GlobalTokens.sharedColors(.royalBlue, .tint40)),
+                .init(light: GlobalTokens.sharedColors(.cornflower, .shade30), dark: GlobalTokens.sharedColors(.cornflower, .tint40)),
+                .init(light: GlobalTokens.sharedColors(.navy, .shade30), dark: GlobalTokens.sharedColors(.navy, .tint40)),
+                .init(light: GlobalTokens.sharedColors(.lavender, .shade30), dark: GlobalTokens.sharedColors(.lavender, .tint40)),
+                .init(light: GlobalTokens.sharedColors(.purple, .shade30), dark: GlobalTokens.sharedColors(.purple, .tint40)),
+                .init(light: GlobalTokens.sharedColors(.grape, .shade30), dark: GlobalTokens.sharedColors(.grape, .tint40)),
+                .init(light: GlobalTokens.sharedColors(.lilac, .shade30), dark: GlobalTokens.sharedColors(.lilac, .tint40)),
+                .init(light: GlobalTokens.sharedColors(.pink, .shade30), dark: GlobalTokens.sharedColors(.pink, .tint40)),
+                .init(light: GlobalTokens.sharedColors(.magenta, .shade30), dark: GlobalTokens.sharedColors(.magenta, .tint40)),
+                .init(light: GlobalTokens.sharedColors(.plum, .shade30), dark: GlobalTokens.sharedColors(.plum, .tint40)),
+                .init(light: GlobalTokens.sharedColors(.beige, .shade30), dark: GlobalTokens.sharedColors(.beige, .tint40)),
+                .init(light: GlobalTokens.sharedColors(.mink, .shade30), dark: GlobalTokens.sharedColors(.mink, .tint40)),
+                .init(light: GlobalTokens.sharedColors(.platinum, .shade30), dark: GlobalTokens.sharedColors(.platinum, .tint40)),
+                .init(light: GlobalTokens.sharedColors(.anchor, .shade30), dark: GlobalTokens.sharedColors(.anchor, .tint40))]
     }
 
     /// The default color of the foreground of the `Avatar`
     open var foregroundDefaultColor: DynamicColor {
         switch style {
         case .default, .group:
-            return .init(light: globalTokens.brandColors[.primary].light, dark: globalTokens.neutralColors[.black])
+            return .init(light: aliasTokens.brandColors[.primary].light, dark: GlobalTokens.neutralColors(.black))
         case .accent:
             return aliasTokens.foregroundColors[.neutralInverted]
         case .outlined:
-            return .init(light: globalTokens.neutralColors[.grey42], dark: globalTokens.neutralColors[.grey78])
+            return .init(light: GlobalTokens.neutralColors(.grey42), dark: GlobalTokens.neutralColors(.grey78))
         case .outlinedPrimary:
-            return .init(light: globalTokens.brandColors[.primary].light, dark: globalTokens.neutralColors[.grey78])
+            return .init(light: aliasTokens.brandColors[.primary].light, dark: GlobalTokens.neutralColors(.grey78))
         case .overflow:
             return aliasTokens.foregroundColors[.neutral3]
         }

@@ -13,7 +13,7 @@ public class IndeterminateProgressBarTokens: ControlTokens {
     open var backgroundColor: DynamicColor { aliasTokens.backgroundColors[.surfaceQuaternary] }
 
     /// Progress bar's gradient color.
-    open var gradientColor: DynamicColor { globalTokens.brandColors[.primary] }
+    open var gradientColor: DynamicColor { aliasTokens.brandColors[.primary] }
 
     /// Progress bar's height.
     open var height: CGFloat { 2 }
