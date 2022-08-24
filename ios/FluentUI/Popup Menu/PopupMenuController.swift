@@ -26,9 +26,6 @@ private extension Colors {
 open class PopupMenuController: DrawerController {
     private struct Constants {
         static let minimumContentWidth: CGFloat = 250
-
-        static let descriptionHorizontalMargin: CGFloat = 16
-        static let descriptionVerticalMargin: CGFloat = 12
     }
 
     public typealias TokenSetKeyType = PopupMenuTokenSet.Tokens
@@ -168,13 +165,15 @@ open class PopupMenuController: DrawerController {
         view.isHidden = true
 
         view.addSubview(descriptionLabel)
+        let verticalMargin = tokenSet.fluentTheme.globalTokens.spacing[.small]
+        let horizontalMargin = tokenSet.fluentTheme.globalTokens.spacing[.medium]
         descriptionLabel.fitIntoSuperview(
             usingConstraints: true,
             margins: UIEdgeInsets(
-                top: Constants.descriptionVerticalMargin,
-                left: Constants.descriptionHorizontalMargin,
-                bottom: Constants.descriptionVerticalMargin,
-                right: Constants.descriptionHorizontalMargin
+                top: verticalMargin,
+                left: horizontalMargin,
+                bottom: verticalMargin,
+                right: horizontalMargin
             )
         )
 
