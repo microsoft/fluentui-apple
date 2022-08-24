@@ -33,9 +33,10 @@ class TableViewHeaderFooterViewDemoController: DemoController {
         container.spacing = 0
 
         navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.backgroundColor = Colors.navigationBarBackground
         container.addArrangedSubview(segmentedControl)
         container.setCustomSpacing(8, after: segmentedControl)
-        container.backgroundColor = Colors.tableBackground
+        container.backgroundColor = Colors.navigationBarBackground
 
         let separator = Separator(style: .shadow, orientation: .horizontal)
         container.addArrangedSubview(separator)
