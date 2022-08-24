@@ -21,6 +21,7 @@ class NotificationViewDemoController: DemoController {
         case primaryToastWithStrikethroughAttribute
         case neutralBarWithFontAttribute
         case neutralToastWithOverriddenTokens
+        case neutralToastWithGradientBackground
         case warningToastWithFlexibleWidth
 
         var displayText: String {
@@ -51,6 +52,8 @@ class NotificationViewDemoController: DemoController {
                 return "Neutral Bar with Font Attribute"
             case .neutralToastWithOverriddenTokens:
                 return "Neutral Toast With Overridden Tokens"
+            case .neutralToastWithGradientBackground:
+                return "Neutral Toast With Gradient Background"
             case .warningToastWithFlexibleWidth:
                 return "Warning Toast With Flexible Width"
             }
@@ -187,6 +190,21 @@ class NotificationViewDemoController: DemoController {
             notification.state.message = "The image color and spacing between the elements of this notification have been customized with override tokens."
             notification.state.image = UIImage(named: "play-in-circle-24x24")
             notification.state.overrideTokens = NotificationOverrideTokens()
+            notification.state.actionButtonAction = { [weak self] in
+                self?.showMessage("`Dismiss` tapped")
+                notification.hide()
+            }
+            return notification
+        case .neutralToastWithGradientBackground:
+            let notification = MSFNotification(style: .neutralToast)
+            notification.state.message = "The image color and spacing between the elements of this notification have been customized with override tokens."
+            notification.state.image = UIImage(named: "play-in-circle-24x24")
+            // It's a lovely blue-to-pink gradient
+            let colors: [DynamicColor] = [DynamicColor(light: ColorValue(0xFFF1FA), dark: ColorValue(0x601044)),
+                                          DynamicColor(light: ColorValue(0xE0F6FF), dark: ColorValue(0x005A7F))]
+            notification.state.backgroundGradient = GradientInfo(colors: colors,
+                                                                 startPoint: .init(x: 0.0, y: 1.0),
+                                                                 endPoint: .init(x: 1.0, y: 0.0))
             notification.state.actionButtonAction = { [weak self] in
                 self?.showMessage("`Dismiss` tapped")
                 notification.hide()

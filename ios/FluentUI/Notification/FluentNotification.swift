@@ -56,7 +56,7 @@ import SwiftUI
 
     /// An optional gradient to use as the background of the notification.
     ///
-    /// If this property is nil, then we will use the background color defined by our design tokens.
+    /// If this property is nil, then this notification will use the background color defined by its design tokens.
     var backgroundGradient: GradientInfo? { get set }
 }
 
