@@ -12,7 +12,7 @@ class DrawerDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Show", style: .plain, target: self, action: #selector(barButtonTapped))
+        navigationItem.rightBarButtonItems?.append(UIBarButtonItem(title: "Show", style: .plain, target: self, action: #selector(barButtonTapped)))
 
         addTitle(text: "Top Drawer")
 
@@ -332,6 +332,9 @@ class DrawerDemoController: DemoController {
         controller.resizingBehavior = resizingBehavior
         controller.adjustsHeightForKeyboard = adjustHeightForKeyboard
         controller.shouldRespectSafeAreaForWindowFullWidth = respectSafeAreaWidth
+        if perControlOverrideEnabled {
+            controller.tokenSet.replaceAllOverrides(with: perControlOverrideDrawerTokens)
+        }
 
         if let contentView = contentView {
             // `preferredContentSize` can be used to specify the preferred size of a drawer,
@@ -499,6 +502,8 @@ class DrawerDemoController: DemoController {
     private var shouldConfirmDrawerDismissal: Bool = false
     private var expandButton: MSFButton?
 
+    var perControlOverrideEnabled: Bool = false
+
     private let hideKeyboardButton: MSFButton = {
         let button = MSFButton(style: .primary, size: .large) { sender in
             if let stackView = sender.superview as? UIStackView {
@@ -550,5 +555,37 @@ extension DrawerDemoController: DrawerControllerDelegate {
 
     func drawerControllerDidChangeExpandedState(_ controller: DrawerController) {
         expandButton?.state.text = controller.isExpanded ? "Return to normal" : "Expand"
+    }
+}
+
+extension DrawerDemoController: DemoAppearanceDelegate {
+    func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
+        guard let fluentTheme = self.view.window?.fluentTheme else {
+            return
+        }
+
+        fluentTheme.register(tokenSetType: DrawerTokenSet.self, tokenSet: isOverrideEnabled ? themeWideOverrideDrawerTokens : nil)
+    }
+
+    func perControlOverrideDidChange(isOverrideEnabled: Bool) {
+        perControlOverrideEnabled = isOverrideEnabled
+    }
+
+    func isThemeWideOverrideApplied() -> Bool {
+        return self.view.window?.fluentTheme.tokens(for: DrawerTokenSet.self)?.isEmpty == false
+    }
+
+    // MARK: - Custom tokens
+
+    private var themeWideOverrideDrawerTokens: [DrawerTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .drawerContentBackground: .dynamicColor { DynamicColor(light: GlobalTokens.init().sharedColors[.plum][.primary]) }
+        ]
+    }
+
+    private var perControlOverrideDrawerTokens: [DrawerTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .drawerContentBackground: .dynamicColor { DynamicColor(light: GlobalTokens.init().sharedColors[.red][.primary]) }
+        ]
     }
 }
