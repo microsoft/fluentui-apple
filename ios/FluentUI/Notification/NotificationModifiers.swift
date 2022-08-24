@@ -66,6 +66,12 @@ public extension View {
 }
 
 public extension FluentNotification {
+    ///
+    func backgroundGradient(_ gradientInfo: GradientInfo?) -> FluentNotification {
+        state.backgroundGradient = gradientInfo
+        return self
+    }
+
     /// Provides a custom design token set to be used when drawing this control.
     func overrideTokens(_ tokens: NotificationTokens?) -> FluentNotification {
         state.overrideTokens = tokens
