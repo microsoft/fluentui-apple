@@ -93,8 +93,4 @@ public /*final*/ class DrawerTokenSet: ControlTokenSet<DrawerTokenSet.Tokens> {
     }
 }
 
-public class PopupMenuTokenSet: DrawerTokenSet {
-    public override init() {
-        super.init()
-    }
-}
+public class PopupMenuTokenSet: DrawerTokenSet {}
