@@ -223,16 +223,21 @@ class CommandBarDemoController: DemoController {
         refreshLeadingItemButton.state.text = "Refresh Leading Button"
         itemCustomizationContainer.addArrangedSubview(refreshLeadingItemButton)
 
-        let customizationStackView = UIStackView()
-        customizationStackView.axis = .horizontal
-        customizationStackView.alignment = .fill
-        customizationStackView.distribution = .fillProportionally
-        customizationStackView.addArrangedSubview(createLabelWithText("'+' Item Enabled"))
+        let itemEnabledStackView = createHorizontalStackView()
+        itemEnabledStackView.addArrangedSubview(createLabelWithText("'+' Enabled"))
         let itemEnabledSwitch: UISwitch = UISwitch()
         itemEnabledSwitch.isOn = true
         itemEnabledSwitch.addTarget(self, action: #selector(itemEnabledValueChanged), for: .valueChanged)
-        customizationStackView.addArrangedSubview(itemEnabledSwitch)
-        itemCustomizationContainer.addArrangedSubview(customizationStackView)
+        itemEnabledStackView.addArrangedSubview(itemEnabledSwitch)
+        itemCustomizationContainer.addArrangedSubview(itemEnabledStackView)
+
+        let itemHiddenStackView = createHorizontalStackView()
+        itemHiddenStackView.addArrangedSubview(createLabelWithText("'+' Hidden"))
+        let itemHiddenSwitch: UISwitch = UISwitch()
+        itemHiddenSwitch.isOn = false
+        itemHiddenSwitch.addTarget(self, action: #selector(itemHiddenValueChanged), for: .valueChanged)
+        itemHiddenStackView.addArrangedSubview(itemHiddenSwitch)
+        itemCustomizationContainer.addArrangedSubview(itemHiddenStackView)
 
         itemCustomizationContainer.addArrangedSubview(UIView()) //Spacer
 
@@ -359,6 +364,15 @@ class CommandBarDemoController: DemoController {
         }
     }
 
+    func createHorizontalStackView() -> UIStackView {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.alignment = .center
+        stackView.distribution = .fillProportionally
+        stackView.spacing = CommandBarDemoController.horizontalStackViewSpacing
+        return stackView
+    }
+
     @objc func itemEnabledValueChanged(sender: UISwitch!) {
         guard let item: CommandBarItem = defaultCommandBar?.itemGroups[0][0] else {
             return
@@ -387,5 +401,6 @@ class CommandBarDemoController: DemoController {
         defaultCommandBar?.leadingItemGroups = [[newItem(for: .keyboard)]]
     }
 
+    private static let horizontalStackViewSpacing: CGFloat = 16.0
     private static let verticalStackViewSpacing: CGFloat = 8.0
 }

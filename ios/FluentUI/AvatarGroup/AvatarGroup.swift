@@ -204,7 +204,6 @@ public struct AvatarGroup: View, TokenizedControlView {
                     VStack {
                         overflowAvatar
                     }
-                    .animation(Animation.linear(duration: animationDuration))
                     .transition(AnyTransition.move(edge: .leading))
                 }
             }
@@ -221,8 +220,6 @@ public struct AvatarGroup: View, TokenizedControlView {
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @Environment(\.layoutDirection) var layoutDirection: LayoutDirection
     @ObservedObject var state: MSFAvatarGroupStateImpl
-
-    private let animationDuration: CGFloat = 0.1
 
     private func createOverflow(count: Int) -> Avatar {
         let state = MSFAvatarStateImpl(style: .overflow, size: state.size)

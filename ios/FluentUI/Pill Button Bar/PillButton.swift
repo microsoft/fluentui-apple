@@ -19,7 +19,8 @@ open class PillButton: UIButton, TokenizedControlInternal {
         updateAppearance()
     }
 
-    @objc public init(pillBarItem: PillButtonBarItem, style: PillButtonStyle = .primary) {
+    @objc public init(pillBarItem: PillButtonBarItem,
+                      style: PillButtonStyle = .primary) {
         self.pillBarItem = pillBarItem
         self.style = style
         self.tokenSet = PillButtonTokenSet(style: { style })
@@ -196,6 +197,16 @@ open class PillButton: UIButton, TokenizedControlInternal {
                     unreadDotLayer.removeFromSuperlayer()
                 }
             }
+                }
+            }
+        }
+
+        if #available(iOS 15.0, *) {
+            configuration?.background.backgroundColor = resolvedBackgroundColor
+            configuration?.attributedTitle?.setAttributes(AttributeContainer([NSAttributedString.Key.foregroundColor: resolvedTitleColor,
+                                                                              NSAttributedString.Key.font: Constants.font]))
+        } else {
+            backgroundColor = resolvedBackgroundColor
         }
     }
 }

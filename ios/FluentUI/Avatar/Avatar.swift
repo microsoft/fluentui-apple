@@ -270,10 +270,29 @@ public struct Avatar: View, TokenizedControlView {
             }
         }
 
+        let standardAnimation = Animation.linear(duration: animationDuration)
+
         return avatarBody
             .pointerInteraction(state.hasPointerInteraction)
             .modifyIf(state.isAnimated, { thisView in
-                thisView.animation(.linear(duration: animationDuration))
+                thisView
+                    .animation(standardAnimation,
+                               value: [state.hasRingInnerGap,
+                                       state.isRingVisible,
+                                       state.isTransparent,
+                                       state.isOutOfOffice])
+                    .animation(standardAnimation,
+                               value: [state.backgroundColor,
+                                       state.foregroundColor,
+                                       state.ringColor])
+                    .animation(standardAnimation,
+                               value: state.size)
+                    .animation(standardAnimation,
+                               value: [state.primaryText, state.secondaryText])
+                    .animation(standardAnimation,
+                               value: [state.image, state.imageBasedRingColor])
+                    .animation(standardAnimation,
+                               value: state.overrideTokens)
             })
             .showsLargeContentViewer(text: accessibilityLabel, image: shouldUseDefaultImage ? avatarImageInfo.image : nil)
             .accessibilityElement(children: .ignore)

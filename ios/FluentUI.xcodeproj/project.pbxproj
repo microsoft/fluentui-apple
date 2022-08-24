@@ -292,7 +292,14 @@
 		5373D5612694D65C0032A3B4 /* Avatar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Avatar.swift; sourceTree = "<group>"; };
 		5373D5632694D65C0032A3B4 /* MSFAvatarPresence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFAvatarPresence.swift; sourceTree = "<group>"; };
 		5373D56D2694D66F0032A3B4 /* UIKit+SwiftUI_interoperability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIKit+SwiftUI_interoperability.swift"; sourceTree = "<group>"; };
-		5373D56F2694D66F0032A3B4 /* SwiftUI+ViewModifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SwiftUI+ViewModifiers.swift"; sourceTree = "<group>"; };
+		53A70ED32866122600759DC0 /* HUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUD.swift; sourceTree = "<group>"; };
+		53A70ED42866122600759DC0 /* HUDModifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUDModifiers.swift; sourceTree = "<group>"; };
+		53A70ED52866122600759DC0 /* HUDTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUDTokens.swift; sourceTree = "<group>"; };
+		53A70ED62866122600759DC0 /* HeadsUpDisplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeadsUpDisplay.swift; sourceTree = "<group>"; };
+		53A70ED72866122600759DC0 /* MSFHeadsUpDisplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFHeadsUpDisplay.swift; sourceTree = "<group>"; };
+		53A8790B28AAA6A90018A28C /* SwiftUI+ViewModifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SwiftUI+ViewModifiers.swift"; sourceTree = "<group>"; };
+		53A8790C28AAA6AA0018A28C /* SwiftUI+ViewAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SwiftUI+ViewAnimation.swift"; sourceTree = "<group>"; };
+		53A8790F28AAA9110018A28C /* SwiftUI+ViewPresentation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SwiftUI+ViewPresentation.swift"; sourceTree = "<group>"; };
 		53BCB0CD253A4E8C00620960 /* Obscurable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Obscurable.swift; sourceTree = "<group>"; };
 		53E2EE0427860D010086D30D /* MSFActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFActivityIndicator.swift; sourceTree = "<group>"; };
 		53E2EE06278799B30086D30D /* MSFIndeterminateProgressBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFIndeterminateProgressBar.swift; sourceTree = "<group>"; };
@@ -1532,6 +1539,7 @@
 				532FE3D626EA6D74007539C0 /* ActivityIndicatorModifiers.swift in Sources */,
 				5314E2F525F025C60099271A /* CalendarConfiguration.swift in Sources */,
 				923DB9D4274CB65700D8E58A /* TokenizedControl.swift in Sources */,
+				53A8790E28AAA6AA0018A28C /* SwiftUI+ViewAnimation.swift in Sources */,
 				5314E06B25F00F100099271A /* DateTimePicker.swift in Sources */,
 				539D280B2822E90F00640018 /* DividerModifiers.swift in Sources */,
 				5314E2BB25F024C60099271A /* CALayer+Extensions.swift in Sources */,
@@ -1575,7 +1583,6 @@
 				5314E19625F019650099271A /* TabBarView.swift in Sources */,
 				C708B05F260A8778007190FA /* SegmentPillButton.swift in Sources */,
 				5314E13525F016370099271A /* PopupMenuItemCell.swift in Sources */,
-				530D9C5127EE388200BDCBBF /* SwiftUI+ViewPresentation.swift in Sources */,
 				5314E2A025F024860099271A /* NSLayoutConstraint+Extensions.swift in Sources */,
 				5336B17827F77EB800B01E0D /* HUD.swift in Sources */,
 				923DB9D5274CB65700D8E58A /* FluentTheme.swift in Sources */,
@@ -1594,6 +1601,7 @@
 				5314E1B125F01A980099271A /* TooltipView.swift in Sources */,
 				5314E19525F019650099271A /* TabBarItemView.swift in Sources */,
 				5314E03C25F00E3D0099271A /* BadgeField.swift in Sources */,
+				53A8790D28AAA6AA0018A28C /* SwiftUI+ViewModifiers.swift in Sources */,
 				5314E05B25F00EF50099271A /* CalendarView.swift in Sources */,
 				92EE82AE27025A94009D52B5 /* TokenSet.swift in Sources */,
 				53097D0B270288FB00A6E4DC /* ButtonModifiers.swift in Sources */,
@@ -1650,6 +1658,7 @@
 				5314E1A425F01A7C0099271A /* CenteredLabelCell.swift in Sources */,
 				5314E1A125F01A7C0099271A /* TableViewCellFileAccessoryView.swift in Sources */,
 				5314E1D625F01E4A0099271A /* SearchBar.swift in Sources */,
+				53A70EDB2866122600759DC0 /* HeadsUpDisplay.swift in Sources */,
 				5314E0A825F010070099271A /* DrawerPresentationController.swift in Sources */,
 				43488C46270FAD1300124C71 /* FluentNotification.swift in Sources */,
 				5314E06425F00EFD0099271A /* CalendarViewMonthBannerView.swift in Sources */,
@@ -1668,6 +1677,7 @@
 				53097D192702890900A6E4DC /* List.swift in Sources */,
 				5314E23025F022C80099271A /* UIScrollView+Extensions.swift in Sources */,
 				5314E16925F017940099271A /* SegmentedControl.swift in Sources */,
+				53A70ED92866122600759DC0 /* HUDModifiers.swift in Sources */,
 				C77A04EE25F046EB001B3EB6 /* Date+CellFileAccessoryView.swift in Sources */,
 				4BF01DA027B3A862005B32F2 /* UIApplication+Extensions.swift in Sources */,
 				5373D5732694D66F0032A3B4 /* UIKit+SwiftUI_interoperability.swift in Sources */,
@@ -1715,6 +1725,8 @@
 				5314E03125F00DDD0099271A /* CardView.swift in Sources */,
 				5314E08925F00F2D0099271A /* CommandBarButtonGroupView.swift in Sources */,
 				5314E08C25F00F2D0099271A /* CommandBarButton.swift in Sources */,
+				53A70EDC2866122600759DC0 /* MSFHeadsUpDisplay.swift in Sources */,
+				53A70ED82866122600759DC0 /* HUD.swift in Sources */,
 				94A7EC1A2836DCB200BFFBAE /* CommandBarCommandGroupsView.swift in Sources */,
 				EC6A71EA273DBA520076A586 /* Divider.swift in Sources */,
 				5314E21E25F022120099271A /* UIView+Extensions.swift in Sources */,
