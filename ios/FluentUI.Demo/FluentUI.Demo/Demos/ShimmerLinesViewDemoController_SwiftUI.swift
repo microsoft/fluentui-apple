@@ -52,6 +52,8 @@ struct ShimmerLinesDemoView: View {
             } else if shimmerDemoContent == .shimmerIndividual {
                 HStack {
                     Image("PlaceholderImage")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
                         .foregroundColor(Color.gray)
                         .shimmering(style: style,
                                     usesTextHeightForLabels: usesTextHeightForLabels,
@@ -73,8 +75,10 @@ struct ShimmerLinesDemoView: View {
             } else {
                 HStack {
                     Image("PlaceholderImage")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
                         .foregroundColor(Color.gray)
-                    VStack (spacing: 10) {
+                    VStack(spacing: 10) {
                         Text("This is the upper label being shimmered.")
                         Text("This is the lower label being shimmered.")
                     }

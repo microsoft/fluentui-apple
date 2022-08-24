@@ -20,15 +20,12 @@ public extension View {
                                  animationId: Namespace.ID,
                                  isLabel: Bool = false,
                                  isShimmering: Bool = true) -> some View {
-        if isShimmering {
-            modifier(ShimmerView(tokenSet: ShimmerTokenSet(style: { style }),
-                                 state: MSFShimmerStateImpl(style: style,
-                                                            shouldAddShimmeringCover: shouldAddShimmeringCover,
-                                                            usesTextHeightForLabels: usesTextHeightForLabels),
-                                 animationId: animationId,
-                                 isLabel: isLabel))
-        } else {
-            self
-        }
+        modifier(ShimmerView(tokenSet: ShimmerTokenSet(style: { style }),
+                             state: MSFShimmerStateImpl(style: style,
+                                                        shouldAddShimmeringCover: shouldAddShimmeringCover,
+                                                        usesTextHeightForLabels: usesTextHeightForLabels),
+                             animationId: animationId,
+                             isLabel: isLabel,
+                             isShimmering: isShimmering))
     }
 }

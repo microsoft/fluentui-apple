@@ -44,6 +44,9 @@ public class ShimmerTokenSet: ControlTokenSet<ShimmerTokenSet.Tokens> {
         /// Delay between the end of a shimmering animation and the beginning of the next one.
         case shimmerDelay
 
+        /// Duration of a single shimmer animation
+        case shimmerDuration
+
         /// Corner radius on each view.
         case cornerRadius
 
@@ -109,6 +112,9 @@ public class ShimmerTokenSet: ControlTokenSet<ShimmerTokenSet.Tokens> {
 
             case .shimmerDelay:
                 return .float { 0.4 }
+
+            case .shimmerDuration:
+                return .float { 3.0 }
 
             case .cornerRadius:
                 return .float { theme.globalTokens.borderRadius[.medium] }

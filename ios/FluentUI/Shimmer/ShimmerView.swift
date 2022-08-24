@@ -24,29 +24,30 @@ public struct ShimmerView: ViewModifier, TokenizedControlView {
     @ObservedObject public var tokenSet: ShimmerTokenSet
 
     public func body(content: Content) -> some View {
-        let distance = (contentSize.width + tokenSet[.shimmerWidth].float) / cos(tokenSet[.shimmerAngle].float)
-        let duration = CFTimeInterval(distance / tokenSet[.shimmerSpeed].float) + tokenSet[.shimmerDelay].float
         content
             .onSizeChange { newSize in
                 contentSize = newSize
             }
-            .modifier(AnimatedMask(tokenSet: tokenSet,
-                                   state: state,
-                                   isLabel: isLabel,
-                                   phase: phase,
-                                  contentSize: contentSize)
-                .animation(Animation.linear(duration: duration)
-                    .delay(tokenSet[.shimmerDelay].float)
-                    .repeatForever(autoreverses: false)
-            ))
-            .onAppear {
-                if !UIAccessibility.isReduceMotionEnabled {
-                    phase = .init(1.0 + (tokenSet[.shimmerWidth].float / contentSize.width))
-                }
-            }
-            /// RTL languages require shimmer in the respective direction.
-            .flipsForRightToLeftLayoutDirection(true)
-            .matchedGeometryEffect(id: UUID(), in: self.animationId)
+            .modifyIf(isShimmering, { view in
+                view
+                    .modifier(AnimatedMask(tokenSet: tokenSet,
+                                           state: state,
+                                           isLabel: isLabel,
+                                           phase: phase,
+                                          contentSize: contentSize)
+                        .animation(Animation.linear(duration: tokenSet[.shimmerDuration].float)
+                            .delay(tokenSet[.shimmerDelay].float)
+                            .repeatForever(autoreverses: false)
+                        ))
+                    .onAppear {
+                        if !UIAccessibility.isReduceMotionEnabled {
+                            phase = .init(1.0 + (tokenSet[.shimmerWidth].float / contentSize.width))
+                        }
+                    }
+                    /// RTL languages require shimmer in the respective direction.
+                    .flipsForRightToLeftLayoutDirection(true)
+                    .matchedGeometryEffect(id: UUID(), in: self.animationId)
+            })
     }
 
     /// An animatable modifier to interpolate between `phase` values.
@@ -115,6 +116,8 @@ public struct ShimmerView: ViewModifier, TokenizedControlView {
     let animationId: Namespace.ID
     /// Determines whether content to shimmer is a label.
     let isLabel: Bool
+    /// Whether the shimmering effect is active.
+    let isShimmering: Bool
 
     @State private var phase: CGFloat = 0
     @State private var contentSize: CGSize = CGSize()
