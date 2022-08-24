@@ -7,8 +7,7 @@ import UIKit
 import Combine
 
 /// View that converts the subviews of a container view into a loading state with the "shimmering" effect.
-@objc(MSFShimmerView)
-open class MSFShimmerView: UIView, TokenizedControlInternal {
+@objc open class MSFShimmerView: UIView, TokenizedControlInternal {
 
     /// Optional synchronizer to sync multiple shimmer views.
     @objc open weak var animationSynchronizer: AnimationSynchronizerProtocol?
