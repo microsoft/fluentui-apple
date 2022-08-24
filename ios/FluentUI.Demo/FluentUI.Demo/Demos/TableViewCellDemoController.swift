@@ -105,7 +105,7 @@ class TableViewCellDemoController: DemoTableViewController {
     }
 
     private func updateTableView() {
-        tableView.backgroundColor = isGrouped ? TableViewCell.tableBackgroundGroupedColor(fluentTheme: tableView.fluentTheme) : TableViewCell.tableBackgroundColor(fluentTheme: tableView.fluentTheme)
+        tableView.backgroundColor = isGrouped ? TableViewCell.tableBackgroundGroupedColor : TableViewCell.tableBackgroundColor
         tableView.reloadData()
     }
 }

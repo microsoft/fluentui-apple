@@ -138,23 +138,23 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     @objc public static var largeHeight: CGFloat { return height(title: "", subtitle: " ", footer: " ") }
 
     /// TableViewCell colors with obj-c support
-    @objc public static func tableBackgroundColor(fluentTheme: FluentTheme) -> UIColor {
-        UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background1])
+    @objc public static var tableBackgroundColor: UIColor {
+        UIColor(dynamicColor: TableViewCellTokens().backgroundColor)
     }
-    @objc public static func tableBackgroundGroupedColor(fluentTheme: FluentTheme) -> UIColor {
-        UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.canvasBackground])
+    @objc public static var tableBackgroundGroupedColor: UIColor {
+        UIColor(dynamicColor: TableViewCellTokens().backgroundGroupedColor)
     }
-    @objc public static func tableCellBackgroundColor(fluentTheme: FluentTheme) -> UIColor {
-        UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background1])
+    @objc public static var tableCellBackgroundColor: UIColor {
+        UIColor(dynamicColor: TableViewCellTokens().cellBackgroundColor)
     }
-    @objc public static func tableCellBackgroundGroupedColor(fluentTheme: FluentTheme) -> UIColor {
-        UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background3])
+    @objc public static var tableCellBackgroundGroupedColor: UIColor {
+        UIColor(dynamicColor: TableViewCellTokens().cellBackgroundGroupedColor)
     }
-    @objc public static func tableCellBackgroundSelectedColor(fluentTheme: FluentTheme) -> UIColor {
-        UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background1Pressed])
+    @objc public static var tableCellBackgroundSelectedColor: UIColor {
+        UIColor(dynamicColor: TableViewCellTokens().cellBackgroundSelectedColor)
     }
-    @objc public static func tableCellImageColor(fluentTheme: FluentTheme) -> UIColor {
-        UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground3])
+    @objc public static var tableCellImageColor: UIColor {
+        UIColor(dynamicColor: TableViewCellTokens().imageColor)
     }
 
     /// Identifier string for TableViewCell
