@@ -855,9 +855,11 @@ open class BottomCommandingController: UIViewController {
         }
     }
 
-    private lazy var tableViewIconTintColor: UIColor = Colors.textSecondary
-    private lazy var tableViewBackgroundColor: UIColor = Colors.NavigationBar.background
-    private lazy var bottomBarBackgroundColor: UIColor = Colors.NavigationBar.background
+    private lazy var tableViewIconTintColor: UIColor = UIColor(colorValue: view.fluentTheme.globalTokens.neutralColors[.grey50])
+    private lazy var tableViewBackgroundColor: UIColor = UIColor(light: UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background1]),
+                                                                 dark: UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background4]))
+    private lazy var bottomBarBackgroundColor: UIColor = UIColor(light: UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background1]),
+                                                                 dark: UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background4]))
 
     private struct Constants {
         static let defaultHeroButtonHeight: CGFloat = 40
@@ -866,10 +868,10 @@ open class BottomCommandingController: UIViewController {
         static let heroButtonMaxTitleLines: Int = 2
 
         struct BottomBar {
-            static let height: CGFloat = 80
+            static let height: CGFloat = 74
             static let cornerRadius: CGFloat = 14
 
-            static let bottomOffset: CGFloat = 10
+            static let bottomOffset: CGFloat = 8
             static let hiddenBottomOffset: CGFloat = -110
             static let heroStackLeadingTrailingMargin: CGFloat = 8
             static let heroStackTopMargin: CGFloat = 20
@@ -882,8 +884,8 @@ open class BottomCommandingController: UIViewController {
         }
 
         struct BottomSheet {
-            static let headerHeight: CGFloat = 64
-            static let headerTopMargin: CGFloat = 4
+            static let headerHeight: CGFloat = 66
+            static let headerTopMargin: CGFloat = 8
             static let headerLeadingTrailingMargin: CGFloat = 8
         }
     }
