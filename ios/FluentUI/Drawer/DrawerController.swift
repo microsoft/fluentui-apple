@@ -500,6 +500,7 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
 
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        tokenSet.update(fluentTheme)
 
         // Configure the resizing handle view according to resizing behaviour and disable the gesture recogniser(if any) till view actually appears
         updateResizingHandleView()
