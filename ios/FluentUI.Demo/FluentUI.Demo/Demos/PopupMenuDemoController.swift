@@ -21,7 +21,7 @@ class PopupMenuDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Show", style: .plain, target: self, action: #selector(topBarButtonTapped))
+        navigationItem.rightBarButtonItems?.append(UIBarButtonItem(title: "Show", style: .plain, target: self, action: #selector(topBarButtonTapped)))
 
         toolbarItems = [
             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
@@ -59,7 +59,6 @@ class PopupMenuDemoController: DemoController {
             controller.onDismiss = { [unowned controller] in
                 strongSelf.cityIndexPath = controller.selectedItemIndexPath
             }
-//            controller.popupTokenSet.replaceAllOverrides(with: [.drawerContentBackground: .dynamicColor { DynamicColor(light: GlobalTokens.init().sharedColors[.red][.primary]) }])
 
             strongSelf.present(controller, animated: true)
         }))
@@ -74,7 +73,7 @@ class PopupMenuDemoController: DemoController {
 
             let items = samplePersonas.map { PopupMenuItem(title: !$0.name.isEmpty ? $0.name : $0.email) }
             controller.addItems(items)
-            controller.popupTokenSet.replaceAllOverrides(with: [.drawerContentBackground: .dynamicColor { DynamicColor(light: GlobalTokens.init().sharedColors[.red][.primary]) }])
+            controller.popupTokenSet.replaceAllOverrides(with: strongSelf.perControlOverrideEnabled ? strongSelf.perControlOverridePopupMenuTokens : nil)
 
             strongSelf.present(controller, animated: true)
         }))
@@ -86,7 +85,7 @@ class PopupMenuDemoController: DemoController {
 
             let buttonView = sender
             let controller = PopupMenuController(sourceView: buttonView, sourceRect: buttonView.bounds, presentationDirection: .down)
-            controller.popupTokenSet.replaceAllOverrides(with: [.drawerContentBackground: .dynamicColor { DynamicColor(light: GlobalTokens.init().sharedColors[.red][.primary]) }])
+            controller.popupTokenSet.replaceAllOverrides(with: strongSelf.perControlOverrideEnabled ? strongSelf.perControlOverridePopupMenuTokens : nil)
 
             let items = [
                 PopupMenuItem(image: UIImage(named: "agenda-24x24"), title: "Agenda", isSelected: strongSelf.calendarLayout == .agenda, onSelected: { strongSelf.calendarLayout = .agenda }),
@@ -143,7 +142,7 @@ class PopupMenuDemoController: DemoController {
             controller.backgroundColor = menuBackgroundColor
             controller.resizingHandleViewBackgroundColor = menuBackgroundColor
             controller.separatorColor = .lightGray
-            controller.popupTokenSet.replaceAllOverrides(with: [.drawerContentBackground: .dynamicColor { DynamicColor(light: GlobalTokens.init().sharedColors[.red][.primary]) }])
+            controller.popupTokenSet.replaceAllOverrides(with: strongSelf.perControlOverrideEnabled ? strongSelf.perControlOverridePopupMenuTokens : nil)
 
             strongSelf.present(controller, animated: true)
         }))
@@ -211,6 +210,8 @@ class PopupMenuDemoController: DemoController {
 
         present(controller, animated: true)
     }
+
+    private var perControlOverrideEnabled: Bool = false
 }
 
 extension PopupMenuDemoController: DemoAppearanceDelegate {
@@ -219,20 +220,28 @@ extension PopupMenuDemoController: DemoAppearanceDelegate {
             return
         }
 
-        fluentTheme.register(tokenSetType: PopupMenuTokenSet.self, tokenSet: themeWideOverridePopupMenuTokens)
+        fluentTheme.register(tokenSetType: PopupMenuTokenSet.self, tokenSet: isOverrideEnabled ? themeWideOverridePopupMenuTokens : nil)
     }
 
     func perControlOverrideDidChange(isOverrideEnabled: Bool) {
-        return
+        perControlOverrideEnabled = isOverrideEnabled
     }
 
     func isThemeWideOverrideApplied() -> Bool {
-        return true
+        return self.view.window?.fluentTheme.tokens(for: PopupMenuTokenSet.self)?.isEmpty == false
     }
+
+    // MARK: - Custom tokens
 
     private var themeWideOverridePopupMenuTokens: [PopupMenuTokenSet.Tokens: ControlTokenValue] {
         return [
             .drawerContentBackground: .dynamicColor { DynamicColor(light: GlobalTokens.init().sharedColors[.plum][.primary]) }
+        ]
+    }
+
+    private var perControlOverridePopupMenuTokens: [PopupMenuTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .drawerContentBackground: .dynamicColor { DynamicColor(light: GlobalTokens.init().sharedColors[.red][.primary]) }
         ]
     }
 }
