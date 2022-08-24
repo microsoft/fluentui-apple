@@ -415,12 +415,13 @@ open class BottomCommandingController: UIViewController {
     private func makeBottomBarByEmbedding(contentView: UIView) -> UIView {
         let bottomBarView = UIView()
         let bottomBarLayer = bottomBarView.layer
-        bottomBarLayer.shadowColor = Constants.BottomBar.Shadow.color
-        bottomBarLayer.shadowOpacity = Constants.BottomBar.Shadow.opacity
-        bottomBarLayer.shadowRadius = Constants.BottomBar.Shadow.radius
+
+        let shadow28 = view.fluentTheme.aliasTokens.shadow[.shadow28]
+        bottomBarLayer.shadowColor = UIColor(dynamicColor: shadow28.colorTwo).cgColor
+        bottomBarLayer.shadowRadius = shadow28.blurTwo
 
         let roundedCornerView = UIView()
-        roundedCornerView.backgroundColor = Constants.BottomBar.backgroundColor
+        roundedCornerView.backgroundColor = bottomBarBackgroundColor
         roundedCornerView.translatesAutoresizingMaskIntoConstraints = false
         roundedCornerView.layer.cornerRadius = Constants.BottomBar.cornerRadius
         roundedCornerView.layer.cornerCurve = .continuous
@@ -505,7 +506,7 @@ open class BottomCommandingController: UIViewController {
         tableView.separatorStyle = .none
         tableView.alwaysBounceVertical = false
         tableView.sectionFooterHeight = 0
-        tableView.backgroundColor = Constants.tableViewBackgroundColor
+        tableView.backgroundColor = tableViewBackgroundColor
         tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
         tableView.register(BooleanCell.self, forCellReuseIdentifier: BooleanCell.identifier)
         tableView.register(TableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: TableViewHeaderFooterView.identifier)
@@ -635,7 +636,7 @@ open class BottomCommandingController: UIViewController {
 
     private func setupTableViewCell(_ cell: TableViewCell, with item: CommandingItem) {
         let iconView = UIImageView(image: item.image)
-        iconView.tintColor = Constants.tableViewIconTintColor
+        iconView.tintColor = tableViewIconTintColor
 
         if item.isToggleable, let booleanCell = cell as? BooleanCell {
             booleanCell.setup(title: item.title ?? "", customView: iconView, isOn: item.isOn)
@@ -854,19 +855,19 @@ open class BottomCommandingController: UIViewController {
         }
     }
 
+    private lazy var tableViewIconTintColor: UIColor = Colors.textSecondary
+    private lazy var tableViewBackgroundColor: UIColor = Colors.NavigationBar.background
+    private lazy var bottomBarBackgroundColor: UIColor = Colors.NavigationBar.background
+
     private struct Constants {
         static let defaultHeroButtonHeight: CGFloat = 40
         static let heroButtonWidth: CGFloat = 96
         static let heroButtonLabelMaxWidth: CGFloat = 72
         static let heroButtonMaxTitleLines: Int = 2
 
-        static let tableViewIconTintColor: UIColor = Colors.textSecondary
-        static let tableViewBackgroundColor: UIColor = Colors.NavigationBar.background
-
         struct BottomBar {
             static let height: CGFloat = 80
             static let cornerRadius: CGFloat = 14
-            static let backgroundColor: UIColor = Colors.NavigationBar.background
 
             static let bottomOffset: CGFloat = 10
             static let hiddenBottomOffset: CGFloat = -110
@@ -878,12 +879,6 @@ open class BottomCommandingController: UIViewController {
 
             static let moreButtonIcon: UIImage? = UIImage.staticImageNamed("more-24x24")
             static let moreButtonTitle: String = "CommandingBottomBar.More".localized
-
-            struct Shadow {
-                static let color: CGColor = UIColor.black.cgColor
-                static let opacity: Float = 0.14
-                static let radius: CGFloat = 8
-            }
         }
 
         struct BottomSheet {
