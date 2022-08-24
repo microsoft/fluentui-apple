@@ -138,22 +138,22 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     @objc public static var largeHeight: CGFloat { return height(title: "", subtitle: " ", footer: " ") }
 
     /// TableViewCell colors with obj-c support
-    @objc public static func tableBackground(fluentTheme: FluentTheme) -> UIColor {
+    @objc public static func tableBackgroundColor(fluentTheme: FluentTheme) -> UIColor {
         UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background1])
     }
-    @objc public static func tableBackgroundGrouped(fluentTheme: FluentTheme) -> UIColor {
+    @objc public static func tableBackgroundGroupedColor(fluentTheme: FluentTheme) -> UIColor {
         UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.canvasBackground])
     }
-    @objc public static func tableCellBackground(fluentTheme: FluentTheme) -> UIColor {
+    @objc public static func tableCellBackgroundColor(fluentTheme: FluentTheme) -> UIColor {
         UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background1])
     }
-    @objc public static func tableCellBackgroundGrouped(fluentTheme: FluentTheme) -> UIColor {
+    @objc public static func tableCellBackgroundGroupedColor(fluentTheme: FluentTheme) -> UIColor {
         UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background3])
     }
-    @objc public static func tableCellBackgroundSelected(fluentTheme: FluentTheme) -> UIColor {
+    @objc public static func tableCellBackgroundSelectedColor(fluentTheme: FluentTheme) -> UIColor {
         UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background1Pressed])
     }
-    @objc public static func tableCellImage(fluentTheme: FluentTheme) -> UIColor {
+    @objc public static func tableCellImageColor(fluentTheme: FluentTheme) -> UIColor {
         UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground3])
     }
 

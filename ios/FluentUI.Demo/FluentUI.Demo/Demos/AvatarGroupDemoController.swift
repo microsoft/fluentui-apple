@@ -157,7 +157,7 @@ class AvatarGroupDemoController: DemoTableViewController {
                 cell.contentView.trailingAnchor.constraint(equalTo: avatarGroupView.trailingAnchor, constant: 20)
             ])
 
-            cell.backgroundConfiguration?.backgroundColor = self.isUsingAlternateBackgroundColor ? TableViewCell.tableCellBackgroundSelected(fluentTheme: cell.fluentTheme) : TableViewCell.tableCellBackground(fluentTheme: cell.fluentTheme)
+            cell.backgroundConfiguration?.backgroundColor = self.isUsingAlternateBackgroundColor ? TableViewCell.tableCellBackgroundSelectedColor(fluentTheme: cell.fluentTheme) : TableViewCell.tableCellBackgroundColor(fluentTheme: cell.fluentTheme)
 
             return cell
         }
