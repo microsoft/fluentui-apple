@@ -64,6 +64,7 @@ public struct CardNudge: View, TokenizedControlView {
                     .foregroundColor(Color(dynamicColor: tokenSet[.accentColor].dynamicColor))
             }
             .padding(.trailing, tokenSet[.horizontalPadding].float)
+            .showsLargeContentViewer(text: state.title, image: state.mainIcon)
         }
     }
 
@@ -75,10 +76,9 @@ public struct CardNudge: View, TokenizedControlView {
     var textContainer: some View {
         VStack(alignment: .leading, spacing: tokenSet[.interTextVerticalPadding].float) {
             Text(state.title)
-                .font(.subheadline)
-                .fontWeight(.medium)
                 .lineLimit(1)
                 .foregroundColor(Color(dynamicColor: tokenSet[.textColor].dynamicColor))
+                .showsLargeContentViewer(text: state.title, image: state.mainIcon)
 
             if hasSecondTextRow {
                 HStack(spacing: tokenSet[.accentPadding].float) {
@@ -90,16 +90,16 @@ public struct CardNudge: View, TokenizedControlView {
                     }
                     if let accent = state.accentText {
                         Text(accent)
-                            .font(.subheadline)
                             .layoutPriority(1)
                             .lineLimit(1)
                             .foregroundColor(Color(dynamicColor: tokenSet[.accentColor].dynamicColor))
+                            .showsLargeContentViewer(text: accent, image: state.accentIcon)
                     }
                     if let subtitle = state.subtitle {
                         Text(subtitle)
-                            .font(.subheadline)
                             .lineLimit(1)
                             .foregroundColor(Color(dynamicColor: tokenSet[.subtitleTextColor].dynamicColor))
+                            .showsLargeContentViewer(text: subtitle)
                     }
                 }
             }
@@ -122,17 +122,23 @@ public struct CardNudge: View, TokenizedControlView {
                     RoundedRectangle(cornerRadius: tokenSet[.circleRadius].float)
                         .foregroundColor(Color(dynamicColor: tokenSet[.buttonBackgroundColor].dynamicColor))
                 )
+                .showsLargeContentViewer(text: actionTitle)
             }
             if let dismissAction = state.dismissButtonAction {
+                let dismissImage = UIImage.staticImageNamed("dismiss-20x20")
+                let dismissLabel = "Accessibility.Dismiss.Label".localized
                 SwiftUI.Button(action: {
                     dismissAction(state)
                 }, label: {
-                    Image("dismiss-20x20", bundle: FluentUIFramework.resourceBundle)
+                    if let image = dismissImage {
+                        Image(uiImage: image)
+                    }
                 })
                 .padding(.horizontal, tokenSet[.buttonInnerPaddingHorizontal].float)
                 .padding(.vertical, tokenSet[.verticalPadding].float)
-                .accessibility(identifier: "Accessibility.Dismiss.Label")
+                .accessibility(identifier: dismissLabel)
                 .foregroundColor(Color(dynamicColor: tokenSet[.textColor].dynamicColor))
+                .showsLargeContentViewer(text: dismissLabel, image: dismissImage)
             }
         }
     }

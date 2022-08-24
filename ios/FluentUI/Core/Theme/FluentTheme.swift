@@ -77,7 +77,7 @@ extension UIWindow: FluentThemeable {
     }
 }
 
-@objc extension UIView {
+@objc public extension UIView {
     /// Returns the current view's window's `FluentTheme`, or the default `FluentTheme` if no window yet exists.
     var fluentTheme: FluentTheme {
         return self.window?.fluentTheme ?? FluentThemeKey.defaultValue

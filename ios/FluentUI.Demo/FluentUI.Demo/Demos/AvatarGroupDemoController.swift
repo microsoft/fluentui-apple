@@ -129,7 +129,7 @@ class AvatarGroupDemoController: DemoTableViewController {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier) as? TableViewCell else {
                 return UITableViewCell()
             }
-
+            cell.accessibilityTraits = .header
             cell.setup(title: row.title)
             cell.titleNumberOfLines = 0
             return cell

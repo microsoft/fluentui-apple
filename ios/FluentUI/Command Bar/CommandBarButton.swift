@@ -41,12 +41,21 @@ class CommandBarButton: UIButton {
         super.init(frame: .zero)
 
         translatesAutoresizingMaskIntoConstraints = false
-        setImage(item.iconImage, for: .normal)
+
+        if #available(iOS 15.0, *) {
+            var buttonConfiguration = UIButton.Configuration.plain()
+            buttonConfiguration.image = item.iconImage
+            buttonConfiguration.contentInsets = LayoutConstants.contentInsets
+            buttonConfiguration.background.cornerRadius = 0
+            configuration = buttonConfiguration
+        } else {
+            setImage(item.iconImage, for: .normal)
+            contentEdgeInsets = LayoutConstants.contentEdgeInsets
+        }
 
         let accessibilityDescription = item.accessibilityLabel
         accessibilityLabel = (accessibilityDescription != nil) ? accessibilityDescription : item.title
         accessibilityHint = item.accessibilityHint
-        contentEdgeInsets = LayoutConstants.contentEdgeInsets
 
         menu = item.menu
         showsMenuAsPrimaryAction = item.showsMenuAsPrimaryAction
@@ -64,45 +73,67 @@ class CommandBarButton: UIButton {
     func updateState() {
         isEnabled = item.isEnabled
         isSelected = isPersistSelection && item.isSelected
+        isHidden = item.isHidden
 
         // always update icon and title as we only display one; we may alterenate between them, and the icon may also change
         let iconImage = item.iconImage
         let title = item.title
         let accessibilityDescription = item.accessibilityLabel
-        setImage(iconImage, for: .normal)
-        setTitle(iconImage != nil ? nil : title, for: .normal)
+
+        if #available(iOS 15.0, *) {
+            configuration?.image = iconImage
+            configuration?.title = title
+
+            if let font = item.titleFont {
+                let attributeContainer = AttributeContainer([NSAttributedString.Key.font: font])
+                configuration?.attributedTitle?.setAttributes(attributeContainer)
+            }
+        } else {
+            setImage(iconImage, for: .normal)
+            setTitle(iconImage != nil ? nil : title, for: .normal)
+            titleLabel?.font = item.titleFont
+        }
+
         titleLabel?.isEnabled = isEnabled
-        titleLabel?.font = item.titleFont
         accessibilityLabel = (accessibilityDescription != nil) ? accessibilityDescription : title
         accessibilityHint = item.accessibilityHint
     }
 
     private let isPersistSelection: Bool
 
-    func updateStyle() {
+    private func updateStyle() {
+        // TODO: Once iOS 14 support is dropped, this should be converted to a constant (let) that will be initialized by the logic below.
+        var resolvedBackgroundColor: UIColor = .clear
         tintColor = UIColor(dynamicColor: isSelected ? tokenSet[.itemIconColor].buttonDynamicColors.selected : tokenSet[.itemIconColor].buttonDynamicColors.rest)
-        setTitleColor(tintColor, for: .normal)
 
-        if !isPersistSelection {
-            backgroundColor = .clear
-            tintColor = UIColor(dynamicColor: tokenSet[.itemFixedIconColor].dynamicColor)
-        } else {
-            if !isEnabled {
-                backgroundColor = UIColor(dynamicColor: tokenSet[.itemBackgroundColor].buttonDynamicColors.disabled)
-                tintColor = UIColor(dynamicColor: tokenSet[.itemIconColor].buttonDynamicColors.disabled)
-            } else if isSelected {
-                backgroundColor = UIColor(dynamicColor: tokenSet[.itemBackgroundColor].buttonDynamicColors.selected)
+        if isPersistSelection {
+            if isSelected {
+                resolvedBackgroundColor = UIColor(dynamicColor: tokenSet[.itemBackgroundColor].buttonDynamicColors.selected)
             } else if isHighlighted {
-                backgroundColor = UIColor(dynamicColor: tokenSet[.itemBackgroundColor].buttonDynamicColors.pressed)
-                tintColor = UIColor(dynamicColor: tokenSet[.itemIconColor].buttonDynamicColors.pressed)
+                resolvedBackgroundColor = UIColor(dynamicColor: tokenSet[.itemBackgroundColor].buttonDynamicColors.pressed)
             } else {
-                backgroundColor = UIColor(dynamicColor: tokenSet[.itemBackgroundColor].buttonDynamicColors.rest)
+                resolvedBackgroundColor = UIColor(dynamicColor: tokenSet[.itemBackgroundColor].buttonDynamicColors.rest)
             }
+        }
+
+        if #available(iOS 15.0, *) {
+            configuration?.baseForegroundColor = tintColor
+            configuration?.background.backgroundColor = resolvedBackgroundColor
+        } else {
+            backgroundColor = resolvedBackgroundColor
+            setTitleColor(tintColor, for: .normal)
         }
     }
 
     private struct LayoutConstants {
-        static let contentEdgeInsets = UIEdgeInsets(top: 8.0, left: 10.0, bottom: 8.0, right: 10.0)
+        static let contentInsets = NSDirectionalEdgeInsets(top: 8.0,
+                                                           leading: 10.0,
+                                                           bottom: 8.0,
+                                                           trailing: 10.0)
+        static let contentEdgeInsets = UIEdgeInsets(top: 8.0,
+                                                    left: 10.0,
+                                                    bottom: 8.0,
+                                                    right: 10.0)
     }
 }
 

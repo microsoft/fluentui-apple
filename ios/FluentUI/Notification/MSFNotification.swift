@@ -32,7 +32,7 @@ import UIKit
             }
             strongSelf.hide()
         }
-        notification.state.actionButtonAction = style.shouldAlwaysShowActionButton ? defaultDismissAction : nil
+        notification.state.actionButtonAction = notification.state.showDefaultDismissActionButton ? defaultDismissAction : nil
     }
 
     required public init?(coder: NSCoder) {
@@ -85,9 +85,16 @@ import UIKit
             view.addSubview(self)
         }
 
-        let anchor = anchorView?.topAnchor ?? view.safeAreaLayoutGuide.bottomAnchor
-        constraintWhenHidden = self.topAnchor.constraint(equalTo: anchor)
-        constraintWhenShown = self.bottomAnchor.constraint(equalTo: anchor, constant: -presentationOffset)
+        let anchor: NSLayoutYAxisAnchor
+        if state.showFromBottom {
+            anchor = anchorView?.topAnchor ?? view.safeAreaLayoutGuide.bottomAnchor
+            constraintWhenHidden = self.topAnchor.constraint(equalTo: anchor)
+            constraintWhenShown = self.bottomAnchor.constraint(equalTo: anchor, constant: -presentationOffset)
+        } else {
+            anchor = anchorView?.bottomAnchor ?? view.safeAreaLayoutGuide.topAnchor
+            constraintWhenHidden = self.bottomAnchor.constraint(equalTo: anchor)
+            constraintWhenShown = self.topAnchor.constraint(equalTo: anchor, constant: presentationOffset)
+        }
 
         var constraints = [NSLayoutConstraint]()
         constraints.append(animated ? constraintWhenHidden : constraintWhenShown)
@@ -117,6 +124,7 @@ import UIKit
             completion?(self)
         }
 
+        self.alpha = 0
         if animated {
             view.layoutIfNeeded()
             UIView.animate(withDuration: style.animationDurationForShow,
@@ -126,10 +134,12 @@ import UIKit
                            animations: {
                 self.constraintWhenHidden.isActive = false
                 self.constraintWhenShown.isActive = true
+                self.alpha = 1
                 view.layoutIfNeeded()
             }, completion: completionForShow)
         } else {
             completionForShow(true)
+            self.alpha = 1
         }
     }
 
@@ -172,6 +182,7 @@ import UIKit
                 UIView.animate(withDuration: notification.state.style.animationDurationForHide, animations: {
                     self.constraintWhenShown.isActive = false
                     self.constraintWhenHidden.isActive = true
+                    self.alpha = 0
                     self.superview?.layoutIfNeeded()
                 }, completion: { _ in
                     self.isHiding = false
@@ -179,6 +190,7 @@ import UIKit
                 })
             }
         } else {
+            self.alpha = 0
             completionForHide()
         }
     }

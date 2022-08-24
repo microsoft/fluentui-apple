@@ -6,9 +6,16 @@
 import UIKit
 import Combine
 
+/// `CommandBarDelegate` is used to notify consumers of the `CommandBar` of certain events occurring within the `CommandBar`
+public protocol CommandBarDelegate: AnyObject {
+    /// Called when a scroll occurs in the `CommandBar`
+    /// - Parameter commandBar: the instance of `CommandBar` that received the scroll
+    func commandBarDidScroll(_ commandBar: CommandBar)
+}
+
 /**
  `CommandBar` is a horizontal scrollable list of icon buttons divided by groups.
- Set the `delegate` property to determine whether a button can be selected and deselected, and listen to selection changes.
+ Set the `delegate` property to receive callbacks when scroll events occur.
  Provide `itemGroups` in `init` to set the buttons in the scrollable area. Optional `leadingItemGroups` and `trailingItemGroups` add buttons in leading and trailing positions. Each `CommandBarItem` will be represented as a button.
  */
 @objc(MSFCommandBar)
@@ -113,6 +120,12 @@ public class CommandBar: UIView, TokenizedControlInternal {
         trailingCommandGroupsView.updateButtonsState()
     }
 
+    /// Sets the scoll position  to the start of the scroll view
+    @objc public func resetScrollPosition(_ animated: Bool = false) {
+        /// A `CGRect` with a `width` and `height` both greater than `0` is required for the scrolling to occur
+        scrollView.scrollRectToVisible(CGRect(x: 0, y: 0, width: 1, height: 1), animated: animated)
+    }
+
     // MARK: Overrides
 
     public override var intrinsicContentSize: CGSize {
@@ -122,9 +135,6 @@ public class CommandBar: UIView, TokenizedControlInternal {
     public override func layoutSubviews() {
         super.layoutSubviews()
 
-        commandBarContainerStackView.layoutIfNeeded()
-
-        containerMaskLayer.frame = containerView.bounds
         updateShadow()
     }
 
@@ -172,6 +182,9 @@ public class CommandBar: UIView, TokenizedControlInternal {
         }
     }
 
+    /// Delegate object that notifies consumers of events occuring inside the `CommandBar`
+    public weak var delegate: CommandBarDelegate?
+
     // MARK: - Private properties
 
     /// Container UIStackView that holds the leading, main and trailing views
@@ -188,8 +201,8 @@ public class CommandBar: UIView, TokenizedControlInternal {
 
     // MARK: Views and Layers
 
-    private lazy var containerView: UIView = {
-        let containerView = UIView()
+    private lazy var containerView: CommandBarContainerView = {
+        let containerView = CommandBarContainerView()
         containerView.translatesAutoresizingMaskIntoConstraints = false
         containerView.layer.mask = containerMaskLayer
 
@@ -314,7 +327,6 @@ public class CommandBar: UIView, TokenizedControlInternal {
 
         commandGroupsView.isHidden = commandGroupsView.itemGroups.isEmpty
         scrollView.contentInset = scrollViewContentInset()
-        setNeedsLayout()
     }
 
     private struct LayoutConstants {
@@ -332,5 +344,17 @@ public class CommandBar: UIView, TokenizedControlInternal {
 extension CommandBar: UIScrollViewDelegate {
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         updateShadow()
+
+        delegate?.commandBarDidScroll(self)
+    }
+}
+
+/// A UIView subclass that updates its mask frame during layoutSubviews. By default, the layer mask
+/// is not hooked into auto-layout and will not update its frame if its parent frame changes size. This implementation
+/// fixes that.
+private class CommandBarContainerView: UIView {
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        layer.mask?.frame = bounds
     }
 }

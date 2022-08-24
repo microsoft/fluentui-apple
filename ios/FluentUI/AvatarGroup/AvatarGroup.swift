@@ -204,7 +204,6 @@ public struct AvatarGroup: View, TokenizedControlView {
                     VStack {
                         overflowAvatar
                     }
-                    .animation(Animation.linear(duration: animationDuration))
                     .transition(AnyTransition.move(edge: .leading))
                 }
             }
