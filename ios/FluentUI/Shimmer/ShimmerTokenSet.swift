@@ -5,8 +5,8 @@
 
 import UIKit
 
-/// Shimmer style can be either concealing or revealing
-/// The style affects the default shimmer alpha value and the default shimmer tint color
+/// Shimmer style can be either concealing or revealing.
+/// The style affects the default shimmer alpha value and the default shimmer tint color.
 @objc public enum MSFShimmerStyle: Int, CaseIterable {
     /// Concealing shimmer: the gradient conceals parts of the subviews as it moves leaving most parts of the subviews unblocked.
     case concealing
@@ -18,13 +18,16 @@ import UIKit
 /// Design token set for the `Shimmer` control.
 public class ShimmerTokenSet: ControlTokenSet<ShimmerTokenSet.Tokens> {
     public enum Tokens: TokenSetKey {
-        /// The alpha value of the center of the gradient in the animation if shimmer is revealing shimmer
-        /// The alpha value of the view other than the gradient if shimmer is concealing shimmer
+        /// The alpha value of the center of the gradient in the animation if shimmer is revealing shimmer.
+        /// The alpha value of the view other than the gradient if shimmer is concealing shimmer.
         case shimmerAlpha
 
-        /// Tint color of the view if shimmer is revealing shimmer
-        /// Tint color of the middle of the gradient if shimmer is concealing shimmer
+        /// Tint color of the view if shimmer is revealing shimmer.
+        /// Tint color of the middle of the gradient if shimmer is concealing shimmer.
         case tintColor
+
+        /// Tint color of the view if shimmering without a cover.
+        case viewTint
 
         ///  Color of the darkest part of the shimmer's gradient.
         case darkGradient
@@ -40,6 +43,9 @@ public class ShimmerTokenSet: ControlTokenSet<ShimmerTokenSet.Tokens> {
 
         /// Delay between the end of a shimmering animation and the beginning of the next one.
         case shimmerDelay
+
+        /// Duration of a single shimmer animation
+        case shimmerDuration
 
         /// Corner radius on each view.
         case cornerRadius
@@ -82,6 +88,14 @@ public class ShimmerTokenSet: ControlTokenSet<ShimmerTokenSet.Tokens> {
                     }
                 }
 
+            case .viewTint:
+                return .dynamicColor {
+                    return DynamicColor(light: ColorValue(0xF1F1F1) /* gray50 */,
+                                            lightHighContrast: ColorValue(0x919191) /* gray400 */,
+                                        dark: theme.aliasTokens.backgroundColors[.surfaceQuaternary].dark,
+                                            darkHighContrast: ColorValue(0x919191) /* gray400 */)
+                }
+
             case .darkGradient:
                 return .dynamicColor {
                     return DynamicColor(light: theme.globalTokens.neutralColors[.black])
@@ -99,6 +113,9 @@ public class ShimmerTokenSet: ControlTokenSet<ShimmerTokenSet.Tokens> {
             case .shimmerDelay:
                 return .float { 0.4 }
 
+            case .shimmerDuration:
+                return .float { 3.0 }
+
             case .cornerRadius:
                 return .float { theme.globalTokens.borderRadius[.medium] }
 
@@ -114,6 +131,6 @@ public class ShimmerTokenSet: ControlTokenSet<ShimmerTokenSet.Tokens> {
         }
     }
 
-    /// Determines whether the shimmer is a revealing shimmer or a concealing shimmer
+    /// Determines whether the shimmer is a revealing shimmer or a concealing shimmer.
     var style: () -> MSFShimmerStyle
 }

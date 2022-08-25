@@ -10,6 +10,11 @@ class ShimmerViewDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        container.addArrangedSubview(createButton(title: "Show SwiftUI Demo", action: { [weak self] _ in
+            self?.navigationController?.pushViewController(ShimmerLinesViewDemoControllerSwiftUI(),
+                                                           animated: true)
+        }))
+
         let contentView = { () -> UIStackView in
             let label1 = UILabel()
             label1.text = "Label 1"
@@ -33,11 +38,11 @@ class ShimmerViewDemoController: DemoController {
 
         let shimmeringContentView = { (shimmersLeafViews: Bool) -> UIStackView in
             let containerView = contentView()
-            let shimmerView = ShimmerView(containerView: containerView,
-                                          excludedViews: [],
-                                          animationSynchronizer: nil,
-                                          shimmersLeafViews: shimmersLeafViews,
-                                          usesTextHeightForLabels: true)
+            let shimmerView = MSFShimmerView(containerView: containerView,
+                                             excludedViews: [],
+                                             animationSynchronizer: nil,
+                                             shimmersLeafViews: shimmersLeafViews,
+                                             usesTextHeightForLabels: true)
             shimmerView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
             containerView.addSubview(shimmerView)
             return containerView
@@ -46,7 +51,7 @@ class ShimmerViewDemoController: DemoController {
         let shimmeringImageView = { (shimmerStyle: MSFShimmerStyle) -> UIView in
             let imageView = UIImageView()
             let containerView = UIStackView(arrangedSubviews: [imageView])
-            let shimmerView = ShimmerView(containerView: containerView, excludedViews: [], animationSynchronizer: nil, shimmerStyle: shimmerStyle)
+            let shimmerView = MSFShimmerView(containerView: containerView, excludedViews: [], animationSynchronizer: nil, shimmerStyle: shimmerStyle)
             shimmerView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
             // Uses a nice gray color that happens to match the gray of the shimmer control. Any color can be used here though.
             let tintColor = UIColor(colorValue: ColorValue(0xF1F1F1))
@@ -64,9 +69,9 @@ class ShimmerViewDemoController: DemoController {
 
         container.addArrangedSubview(shimmerViewLabel("A ShimmerLinesView needs no containerview or subviews"))
         container.addArrangedSubview(dividers[0])
-        container.addArrangedSubview(ShimmerLinesView(lineCount: 3,
-                                                      firstLineFillPercent: 0.94,
-                                                      lastLineFillPercent: 0.6))
+        container.addArrangedSubview(MSFShimmerLinesView(lineCount: 3,
+                                                         firstLineFillPercent: 0.94,
+                                                         lastLineFillPercent: 0.6))
         container.addArrangedSubview(dividers[1])
 
         container.addArrangedSubview(shimmerViewLabel("ShimmerView shimmers all the top level subviews of its container view"))
