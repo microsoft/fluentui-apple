@@ -320,17 +320,17 @@ class AvatarGroupDemoController: DemoTableViewController {
         var avatarSize: MSFAvatarSize {
             switch self {
             case .xxlargeGroupView:
-                return .xxlarge
+                return .size72
             case .xlargeGroupView:
-                return .xlarge
+                return .size56
             case .largeGroupView:
-                return .large
+                return .size40
             case .mediumGroupView:
-                return .medium
+                return .size32
             case .smallGroupView:
-                return .small
+                return .size24
             case .xsmallGroupView:
-                return .xsmall
+                return .size16
             case .xxlargeTitle,
                  .xlargeTitle,
                  .largeTitle,

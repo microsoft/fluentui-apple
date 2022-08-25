@@ -35,7 +35,7 @@ struct AvatarDemoView: View {
     @State var presence: MSFAvatarPresence = .none
     @State var showImage: Bool = false
     @State var showImageBasedRingColor: Bool = false
-    @State var size: MSFAvatarSize = .xxlarge
+    @State var size: MSFAvatarSize = .size72
     @State var style: MSFAvatarStyle = .default
 
     public var body: some View {
@@ -148,12 +148,12 @@ struct AvatarDemoView: View {
                         }
 
                         Picker(selection: $size, label: EmptyView()) {
-                            Text(".xxlarge").tag(MSFAvatarSize.xxlarge)
-                            Text(".xlarge").tag(MSFAvatarSize.xlarge)
-                            Text(".large").tag(MSFAvatarSize.large)
-                            Text(".medium").tag(MSFAvatarSize.medium)
-                            Text(".small").tag(MSFAvatarSize.small)
-                            Text(".xsmall").tag(MSFAvatarSize.xsmall)
+                            Text(".xxlarge").tag(MSFAvatarSize.size72)
+                            Text(".xlarge").tag(MSFAvatarSize.size56)
+                            Text(".large").tag(MSFAvatarSize.size40)
+                            Text(".medium").tag(MSFAvatarSize.size32)
+                            Text(".small").tag(MSFAvatarSize.size24)
+                            Text(".xsmall").tag(MSFAvatarSize.size16)
                         }
                         .labelsHidden()
                         .frame(maxWidth: .infinity, alignment: .leading)

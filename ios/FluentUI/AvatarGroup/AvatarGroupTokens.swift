@@ -13,7 +13,7 @@ open class AvatarGroupTokens: ControlTokens {
     public internal(set) var style: MSFAvatarGroupStyle = .stack
 
     /// Defines the size of the `Avatar` controls in the `AvatarGroup`.
-    public internal(set) var size: MSFAvatarSize = .large
+    public internal(set) var size: MSFAvatarSize = .size40
 
     // MARK: - Design Tokens
 
@@ -22,20 +22,20 @@ open class AvatarGroupTokens: ControlTokens {
         switch style {
         case .stack:
             switch size {
-            case .xsmall, .small:
+            case .size16, .size24:
                 return -GlobalTokens.spacing(.xxxSmall)
-            case .medium:
+            case .size32:
                 return -GlobalTokens.spacing(.xxSmall)
-            case .large:
+            case .size40:
                 return -GlobalTokens.spacing(.xSmall)
-            case .xlarge, .xxlarge:
+            case .size56, .size72:
                 return -GlobalTokens.spacing(.small)
             }
         case .pile:
             switch size {
-            case .xsmall, .small:
+            case .size16, .size24:
                 return GlobalTokens.spacing(.xxSmall)
-            case .medium, .large, .xlarge, .xxlarge:
+            case .size32, .size40, .size56, .size72:
                 return GlobalTokens.spacing(.xSmall)
             }
         }

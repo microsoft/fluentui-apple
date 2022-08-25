@@ -13,17 +13,17 @@ open class AvatarTokens: ControlTokens {
     /// The size of the content of the `Avatar`.
     open var avatarSize: CGFloat {
         switch size {
-        case .xsmall:
+        case .size16:
             return 16
-        case .small:
+        case .size24:
             return 24
-        case .medium:
+        case .size32:
             return 32
-        case .large:
+        case .size40:
             return 40
-        case .xlarge:
+        case .size56:
             return 52
-        case .xxlarge:
+        case .size72:
             return 72
         }
     }
@@ -35,13 +35,13 @@ open class AvatarTokens: ControlTokens {
             return GlobalTokens.spacing(.none)
         case .group:
             switch size {
-            case .xsmall:
+            case .size16:
                 return GlobalTokens.borderRadius(.small)
-            case .small, .medium:
+            case .size24, .size32:
                 return GlobalTokens.borderRadius(.medium)
-            case .large, .xlarge:
+            case .size40, .size56:
                 return GlobalTokens.borderRadius(.large)
-            case .xxlarge:
+            case .size72:
                 return GlobalTokens.borderRadius(.xLarge)
             }
         }
@@ -50,17 +50,17 @@ open class AvatarTokens: ControlTokens {
     /// The font used for text in the `Avatar`
     open var textFont: FontInfo {
         switch size {
-        case .xsmall:
+        case .size16:
             return .init(size: 9, weight: GlobalTokens.fontWeight(.regular))
-        case .small:
+        case .size24:
             return aliasTokens.typography[.caption2]
-        case .medium:
+        case .size32:
             return aliasTokens.typography[.caption1]
-        case .large:
+        case .size40:
             return aliasTokens.typography[.body2]
-        case .xlarge:
+        case .size56:
             return .init(size: GlobalTokens.fontSize(.size500), weight: GlobalTokens.fontWeight(.regular))
-        case .xxlarge:
+        case .size72:
             return .init(size: GlobalTokens.fontSize(.size700), weight: GlobalTokens.fontWeight(.semibold))
         }
     }
@@ -85,11 +85,11 @@ open class AvatarTokens: ControlTokens {
     /// The thickness of the ring around the `Avatar`.
     open var ringThickness: CGFloat {
         switch size {
-        case .xsmall, .small:
+        case .size16, .size24:
             return GlobalTokens.borderSize(.thin)
-        case .medium, .large, .xlarge:
+        case .size32, .size40, .size56:
             return GlobalTokens.borderSize(.thick)
-        case .xxlarge:
+        case .size72:
             return GlobalTokens.borderSize(.thicker)
         }
     }
@@ -97,9 +97,9 @@ open class AvatarTokens: ControlTokens {
     /// The gap between the `Avatar` and its ring.
     open var ringInnerGap: CGFloat {
         switch size {
-        case .xsmall, .small, .medium, .large, .xlarge:
+        case .size16, .size24, .size32, .size40, .size56:
             return GlobalTokens.borderSize(.thick)
-        case .xxlarge:
+        case .size72:
             return GlobalTokens.borderSize(.thicker)
         }
     }
@@ -107,9 +107,9 @@ open class AvatarTokens: ControlTokens {
     /// The gap around the ring around the `Avatar`.
     open var ringOuterGap: CGFloat {
         switch size {
-        case .xsmall, .small, .medium, .large, .xlarge:
+        case .size16, .size24, .size32, .size40, .size56:
             return GlobalTokens.borderSize(.thick)
-        case .xxlarge:
+        case .size72:
             return GlobalTokens.borderSize(.thicker)
         }
     }
@@ -117,13 +117,13 @@ open class AvatarTokens: ControlTokens {
     /// The size of the presence icon.
     open var presenceIconSize: CGFloat {
         switch size {
-        case .xsmall:
+        case .size16:
             return 0
-        case .small, .medium:
+        case .size24, .size32:
             return GlobalTokens.iconSize(.xxxSmall)
-        case .large, .xlarge:
+        case .size40, .size56:
             return GlobalTokens.iconSize(.xxSmall)
-        case .xxlarge:
+        case .size72:
             return GlobalTokens.iconSize(.small)
         }
     }
@@ -131,9 +131,9 @@ open class AvatarTokens: ControlTokens {
     /// The thickness of the outline around the presence icon.
     open var presenceIconOutlineThickness: CGFloat {
         switch size {
-        case .xsmall:
+        case .size16:
             return GlobalTokens.borderSize(.none)
-        case .small, .medium, .large, .xlarge, .xxlarge:
+        case .size24, .size32, .size40, .size56, .size72:
             return GlobalTokens.borderSize(.thick)
         }
     }
@@ -245,7 +245,7 @@ open class AvatarTokens: ControlTokens {
     public internal(set) var style: MSFAvatarStyle = .default
 
     /// Defines the size of the `Avatar`.
-    public internal(set) var size: MSFAvatarSize = .large
+    public internal(set) var size: MSFAvatarSize = .size40
 }
 
 /// Pre-defined styles of the avatar
@@ -260,10 +260,10 @@ open class AvatarTokens: ControlTokens {
 
 /// Pre-defined sizes of the avatar
 @objc public enum MSFAvatarSize: Int, CaseIterable {
-    case xsmall
-    case small
-    case medium
-    case large
-    case xlarge
-    case xxlarge
+    case size16
+    case size24
+    case size32
+    case size40
+    case size56
+    case size72
 }

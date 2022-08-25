@@ -14,7 +14,7 @@ import SwiftUI
     ///   - style: The MSFAvatarStyle value used by the Avatar.
     ///   - size: The MSFAvatarSize value used by the Avatar.
     @objc public init(style: MSFAvatarStyle = .default,
-                      size: MSFAvatarSize = .large) {
+                      size: MSFAvatarSize = .size40) {
         let avatar = Avatar(style: style,
                             size: size)
         state = avatar.state

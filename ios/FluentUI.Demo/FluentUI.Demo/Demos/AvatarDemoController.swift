@@ -426,17 +426,17 @@ class AvatarDemoController: DemoTableViewController {
         var avatarSize: MSFAvatarSize {
             switch self {
             case .xxlarge:
-                return .xxlarge
+                return .size72
             case .xlarge:
-                return .xlarge
+                return .size56
             case .large:
-                return .large
+                return .size40
             case .medium:
-                return .medium
+                return .size32
             case .small:
-                return .small
+                return .size24
             case .xsmall:
-                return .xsmall
+                return .size16
             case .swiftUI, .settings:
                 preconditionFailure("Settings rows should not display an Avatar")
             }
