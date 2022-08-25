@@ -46,7 +46,6 @@ public struct HeadsUpDisplay: View, ConfigurableTokenizedControl {
     public var body: some View {
         let label = state.label ?? ""
         let type = state.type
-        let foregroundColor = Color(dynamicColor: tokens.foregroundColor)
         let verticalPadding = tokens.verticalPadding
         let horizontalPadding = tokens.horizontalPadding
 
@@ -56,7 +55,7 @@ public struct HeadsUpDisplay: View, ConfigurableTokenizedControl {
                 case .activity:
                     ActivityIndicator(size: .xLarge)
                         .isAnimating(true)
-                        .color(UIColor(dynamicColor: tokens.foregroundColor))
+                        .color(UIColor(dynamicColor: tokens.activityIndicatorColor))
                 case .custom, .failure, .success:
                     let image: UIImage = {
                         switch type {
@@ -72,23 +71,23 @@ public struct HeadsUpDisplay: View, ConfigurableTokenizedControl {
                     }()
 
                     Image(uiImage: image)
-                        .foregroundColor(foregroundColor)
+                        .foregroundColor(Color(dynamicColor: tokens.activityIndicatorColor))
                 }
 
                 if !label.isEmpty {
                     Spacer()
                         .frame(height: verticalPadding)
                     Text(label)
-                        .foregroundColor(foregroundColor)
+                        .foregroundColor(Color(dynamicColor: tokens.labelColor))
                         .lineLimit(2)
                         .multilineTextAlignment(.center)
                         .fixedSize(horizontal: false, vertical: true)
                 }
             }
         }
-        .padding(EdgeInsets(top: verticalPadding,
+        .padding(EdgeInsets(top: label.isEmpty ? tokens.verticalPadding : tokens.topPadding,
                             leading: horizontalPadding,
-                            bottom: verticalPadding,
+                            bottom: label.isEmpty ? tokens.verticalPadding : tokens.bottomPadding,
                             trailing: horizontalPadding))
         .squareShaped(minSize: tokens.minSize,
                       maxSize: tokens.maxSize)
