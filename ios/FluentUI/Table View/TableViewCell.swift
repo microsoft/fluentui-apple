@@ -84,38 +84,6 @@ public enum TableViewCellBackgroundStyleType: Int {
     }
 }
 
-// MARK: - Table Colors
-
-public extension Colors {
-    internal struct Table {
-        struct Cell {
-            static var image: UIColor = iconSecondary
-            static var title: UIColor = textPrimary
-            static var subtitle: UIColor = textSecondary
-        }
-
-        struct HeaderFooter {
-            static var accessoryButtonText: UIColor = textSecondary
-            static var background: UIColor = .clear
-            static var backgroundDivider: UIColor = surfaceSecondary
-            static var text: UIColor = textSecondary
-            static var textDivider: UIColor = textSecondary
-            static var textLink = UIColor(light: Palette.communicationBlueShade10.color, dark: communicationBlue)
-        }
-
-        static var background: UIColor = surfacePrimary
-        static var backgroundGrouped = UIColor(light: surfaceSecondary, dark: surfacePrimary)
-    }
-
-    // Objective-C support
-    @objc static var tableBackground: UIColor { return surfacePrimary }
-    @objc static var tableBackgroundGrouped: UIColor { return UIColor(light: surfaceSecondary, dark: surfacePrimary) }
-    @objc static var tableCellBackground: UIColor { return surfacePrimary }
-    @objc static var tableCellBackgroundGrouped: UIColor { return UIColor(light: surfacePrimary, dark: surfaceSecondary) }
-    @objc static var tableCellBackgroundSelected: UIColor { return surfaceTertiary }
-    @objc static var tableCellImage: UIColor { return iconSecondary }
-}
-
 // MARK: - TableViewCell
 
 /**
@@ -168,6 +136,26 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     @objc public static var smallHeight: CGFloat { return height(title: "", customViewSize: .small) }
     @objc public static var mediumHeight: CGFloat { return height(title: "", subtitle: " ") }
     @objc public static var largeHeight: CGFloat { return height(title: "", subtitle: " ", footer: " ") }
+
+    /// TableViewCell colors with obj-c support
+    @objc public static var tableBackgroundColor: UIColor {
+        UIColor(dynamicColor: TableViewCellTokens().backgroundColor)
+    }
+    @objc public static var tableBackgroundGroupedColor: UIColor {
+        UIColor(dynamicColor: TableViewCellTokens().backgroundGroupedColor)
+    }
+    @objc public static var tableCellBackgroundColor: UIColor {
+        UIColor(dynamicColor: TableViewCellTokens().cellBackgroundColor)
+    }
+    @objc public static var tableCellBackgroundGroupedColor: UIColor {
+        UIColor(dynamicColor: TableViewCellTokens().cellBackgroundGroupedColor)
+    }
+    @objc public static var tableCellBackgroundSelectedColor: UIColor {
+        UIColor(dynamicColor: TableViewCellTokens().cellBackgroundSelectedColor)
+    }
+    @objc public static var tableCellImageColor: UIColor {
+        UIColor(dynamicColor: TableViewCellTokens().imageColor)
+    }
 
     /// Identifier string for TableViewCell
     @objc public static var identifier: String { return String(describing: self) }
