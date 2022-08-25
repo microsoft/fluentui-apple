@@ -35,7 +35,7 @@ class TableViewHeaderFooterViewDemoController: DemoController {
         navigationController?.navigationBar.shadowImage = UIImage()
         container.addArrangedSubview(segmentedControl)
         container.setCustomSpacing(8, after: segmentedControl)
-        container.backgroundColor = UIColor(colorValue: view.fluentTheme.globalTokens.sharedColors[.pumpkin][.primary]) // Colors.navigationBarBackground
+        container.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background1])
 
         let separator = Separator(style: .shadow, orientation: .horizontal)
         container.addArrangedSubview(separator)
@@ -57,7 +57,7 @@ class TableViewHeaderFooterViewDemoController: DemoController {
         tableView.register(TableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: TableViewHeaderFooterView.identifier)
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background2]) // UIColor(colorValue: view.fluentTheme.globalTokens.sharedColors[.lime][.primary]) // Colors.tableBackground
+        tableView.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background2])
         tableView.separatorStyle = .none
         return tableView
     }
@@ -131,7 +131,7 @@ extension TableViewHeaderFooterViewDemoController: UITableViewDelegate {
     private func createCustomAccessoryView() -> UIView {
         let button = UIButton(type: .system)
         button.setTitle("Custom Accessory", for: .normal)
-        button.setTitleColor(Colors.error, for: .normal)
+        button.setTitleColor(UIColor(colorValue: view.fluentTheme.globalTokens.sharedColors[.red][.primary]), for: .normal)
         return button
     }
 
