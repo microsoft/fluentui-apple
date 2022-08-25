@@ -608,7 +608,6 @@
 				4B0E060A28A248F40045E9BB /* ShimmerLinesShape.swift */,
 				4B8A7675286ADCD300F90F3A /* ShimmerLinesView.swift */,
 				4B8A76732862F49E00F90F3A /* ShimmerModifiers.swift */,
-				4B1596D2284ACB5F00C3D725 /* ShimmerTokenSet.swift */,
 				C0EAAEAC2347E1DF00C7244E /* ShimmerView.swift */,
 			);
 			path = Shimmer;
@@ -1126,6 +1125,7 @@
 			children = (
 				C0A0D76B233AEF6C00F432FD /* MSFShimmerLinesView.swift */,
 				4B8A76712862E5FA00F90F3A /* MSFShimmerView.swift */,
+				4B1596D2284ACB5F00C3D725 /* ShimmerTokenSet.swift */,
 			);
 			path = Shimmer;
 			sourceTree = "<group>";
