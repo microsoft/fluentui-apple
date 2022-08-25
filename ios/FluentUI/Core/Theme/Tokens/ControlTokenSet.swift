@@ -194,7 +194,7 @@ public enum ControlTokenValue {
         // Use our global "Hot Pink" in debug builds, to help identify unintentional conversions.
         return DynamicColor(light: ColorValue(0xE3008C))
 #else
-        return DynamicColor(light: ColorValue(0xE3008C))
+        return DynamicColor(light: ColorValue(0x000000))
 #endif
     }
 }

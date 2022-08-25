@@ -105,29 +105,8 @@ public class NotificationTokenSet: ControlTokenSet<NotificationTokenSet.Tokens> 
         /// The width of the outline around the frame of a notification
         case outlineWidth
 
-        /// The color of the ambient shadow around a notification
-        case ambientShadowColor
-
-        /// The blur amount for the ambient shadow around a notification
-        case ambientShadowBlur
-
-        /// The X offset for the ambient shadow around a notification
-        case ambientShadowOffsetX
-
-        /// The Y offset for the ambient shadow around a notification
-        case ambientShadowOffsetY
-
-        /// The color of the perimeter shadow around a notification
-        case perimeterShadowColor
-
-        /// The blur amount for the perimeter shadow around a notification
-        case perimeterShadowBlur
-
-        /// The X offset for the perimeter shadow around a notification
-        case perimeterShadowOffsetX
-
-        /// The Y offset for the perimeter shadow around a notification
-        case perimeterShadowOffsetY
+        /// The `ShadowInfo` for this notification
+        case shadow
 
         /// The font for bold text within a notification
         case boldTextFont
@@ -277,43 +256,14 @@ public class NotificationTokenSet: ControlTokenSet<NotificationTokenSet.Tokens> 
             case .outlineWidth:
                 return .float { theme.globalTokens.borderSize[.thin] }
 
-            case .ambientShadowColor:
-                return .dynamicColor {
-                    switch style().isToast {
-                    case true:
-                        return theme.aliasTokens.shadow[.shadow16].colorOne
-                    case false:
-                        return DynamicColor(light: ColorValue.clear)
+            case .shadow:
+                return .shadowInfo {
+                    if style().isToast {
+                        return theme.aliasTokens.shadow[.shadow16]
+                    } else {
+                        return theme.aliasTokens.shadow[.clear]
                     }
                 }
-
-            case .ambientShadowBlur:
-                return .float { theme.aliasTokens.shadow[.shadow16].blurOne }
-
-            case .ambientShadowOffsetX:
-                return .float { theme.aliasTokens.shadow[.shadow16].xOne }
-
-            case .ambientShadowOffsetY:
-                return .float { theme.aliasTokens.shadow[.shadow16].yOne }
-
-            case .perimeterShadowColor:
-                return .dynamicColor {
-                    switch style().isToast {
-                    case true:
-                        return theme.aliasTokens.shadow[.shadow16].colorTwo
-                    case false:
-                        return DynamicColor(light: ColorValue.clear)
-                    }
-                }
-
-            case .perimeterShadowBlur:
-                return .float { theme.aliasTokens.shadow[.shadow16].blurTwo }
-
-            case .perimeterShadowOffsetX:
-                return .float { theme.aliasTokens.shadow[.shadow16].xTwo }
-
-            case .perimeterShadowOffsetY:
-                return .float { theme.aliasTokens.shadow[.shadow16].yTwo }
 
             case .boldTextFont:
                 return .fontInfo { theme.aliasTokens.typography[.body2Strong] }

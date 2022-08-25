@@ -1,10 +1,10 @@
 // !$*UTF8*$!
 {
-	archiveVersion = 1;
-	classes = {
-	};
-	objectVersion = 54;
-	objects = {
+    archiveVersion = 1;
+    classes = {
+    };
+    objectVersion = 54;
+    objects = {
 
 /* Begin PBXBuildFile section */
 		0A3CD0B127BCA36000DBE728 /* HeaderModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3CD0B027BCA36000DBE728 /* HeaderModifiers.swift */; };
@@ -234,13 +234,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		8FD011C7228A831700D25925 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A5CEC14820D980B20016922A /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = A5DA88FB226FAA01000A8EA8;
-			remoteInfo = OfficeUIFabricResources;
-		};
+        8FD011C7228A831700D25925 /* PBXContainerItemProxy */ = {
+            isa = PBXContainerItemProxy;
+            containerPortal = A5CEC14820D980B20016922A /* Project object */;
+            proxyType = 1;
+            remoteGlobalIDString = A5DA88FB226FAA01000A8EA8;
+            remoteInfo = OfficeUIFabricResources;
+        };
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -281,8 +281,6 @@
 		53097D132702890800A6E4DC /* ListHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListHeader.swift; sourceTree = "<group>"; };
 		53097D152702890900A6E4DC /* ListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
 		53097D4527028B1100A6E4DC /* ButtonLegacy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonLegacy.swift; sourceTree = "<group>"; };
-		530D9C5027EE388200BDCBBF /* SwiftUI+ViewPresentation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SwiftUI+ViewPresentation.swift"; sourceTree = "<group>"; };
-		530D9C5227EE7B2C00BDCBBF /* SwiftUI+ViewAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SwiftUI+ViewAnimation.swift"; sourceTree = "<group>"; };
 		532299FF27FE108400C016A2 /* MSFHeadsUpDisplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFHeadsUpDisplay.swift; sourceTree = "<group>"; };
 		5328D96C26FBA3D600F3723B /* IndeterminateProgressBarTokenSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBarTokenSet.swift; sourceTree = "<group>"; };
 		5328D96D26FBA3D600F3723B /* IndeterminateProgressBarModifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBarModifiers.swift; sourceTree = "<group>"; };
@@ -300,8 +298,15 @@
 		5373D5612694D65C0032A3B4 /* Avatar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Avatar.swift; sourceTree = "<group>"; };
 		5373D5632694D65C0032A3B4 /* MSFAvatarPresence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFAvatarPresence.swift; sourceTree = "<group>"; };
 		5373D56D2694D66F0032A3B4 /* UIKit+SwiftUI_interoperability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIKit+SwiftUI_interoperability.swift"; sourceTree = "<group>"; };
-		5373D56F2694D66F0032A3B4 /* SwiftUI+ViewModifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SwiftUI+ViewModifiers.swift"; sourceTree = "<group>"; };
-		53BCB0CD253A4E8C00620960 /* Obscurable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Obscurable.swift; sourceTree = "<group>"; };
+  	53A70ED32866122600759DC0 /* HUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUD.swift; sourceTree = "<group>"; };	
+    53A70ED42866122600759DC0 /* HUDModifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUDModifiers.swift; sourceTree = "<group>"; };	
+    53A70ED52866122600759DC0 /* HUDTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUDTokens.swift; sourceTree = "<group>"; };	
+    53A70ED62866122600759DC0 /* HeadsUpDisplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeadsUpDisplay.swift; sourceTree = "<group>"; };	
+    53A70ED72866122600759DC0 /* MSFHeadsUpDisplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFHeadsUpDisplay.swift; sourceTree = "<group>"; };
+    5373D56F2694D66F0032A3B4 /* SwiftUI+ViewModifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SwiftUI+ViewModifiers.swift"; sourceTree = "<group>"; };
+    530D9C5227EE7B2C00BDCBBF /* SwiftUI+ViewAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SwiftUI+ViewAnimation.swift"; sourceTree = "<group>"; };	
+    530D9C5027EE388200BDCBBF /* SwiftUI+ViewPresentation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SwiftUI+ViewPresentation.swift"; sourceTree = "<group>"; };
+    53BCB0CD253A4E8C00620960 /* Obscurable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Obscurable.swift; sourceTree = "<group>"; };
 		53E2EE0427860D010086D30D /* MSFActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFActivityIndicator.swift; sourceTree = "<group>"; };
 		53E2EE06278799B30086D30D /* MSFIndeterminateProgressBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFIndeterminateProgressBar.swift; sourceTree = "<group>"; };
 		53FC90C02567300A008A06FD /* FluentUI_common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUI_common.xcconfig; sourceTree = "<group>"; };
@@ -555,14 +560,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		A5CEC15720D980B30016922A /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				923DF2E72712B6AB00637646 /* libFluentUI.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
+        A5CEC15720D980B30016922A /* Frameworks */ = {
+            isa = PBXFrameworksBuildPhase;
+            buildActionMask = 2147483647;
+            files = (
+                923DF2E72712B6AB00637646 /* libFluentUI.a in Frameworks */,
+            );
+            runOnlyForDeploymentPostprocessing = 0;
+        };
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -1090,6 +1095,18 @@
 			path = "Table View";
 			sourceTree = "<group>";
 		};
+    B483323121CC71700022B4CC /* HUD */ = {	
+      isa = PBXGroup;	
+      children = (	
+        53A70ED62866122600759DC0 /* HeadsUpDisplay.swift */,	
+        53A70ED32866122600759DC0 /* HUD.swift */,	
+        53A70ED42866122600759DC0 /* HUDModifiers.swift */,	
+        53A70ED52866122600759DC0 /* HUDTokens.swift */,	
+        53A70ED72866122600759DC0 /* MSFHeadsUpDisplay.swift */,	
+      );	
+      path = HUD;	
+      sourceTree = "<group>";	
+    };
 		B4F118EA21C8270F00855942 /* Badge Field */ = {
 			isa = PBXGroup;
 			children = (
@@ -1333,193 +1350,193 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		8FD01165228A820600D25925 /* FluentUILib */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 8FD0116A228A820600D25925 /* Build configuration list for PBXNativeTarget "FluentUILib" */;
-			buildPhases = (
-				8FD01162228A820600D25925 /* Sources */,
-				FD256C59218392B800EC9588 /* Run swiftlint */,
-				923DF2E4271166DB00637646 /* Copy FluentUI-Swift.h */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				8FD011C8228A831700D25925 /* PBXTargetDependency */,
-			);
-			name = FluentUILib;
-			productName = OfficeUIFabricStaticLib;
-			productReference = 8FD01166228A820600D25925 /* libFluentUI.a */;
-			productType = "com.apple.product-type.library.static";
-		};
-		A5CEC15920D980B30016922A /* FluentUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = A5CEC16820D980B30016922A /* Build configuration list for PBXNativeTarget "FluentUITests" */;
-			buildPhases = (
-				A5CEC15620D980B30016922A /* Sources */,
-				A5CEC15720D980B30016922A /* Frameworks */,
-				A5CEC15820D980B30016922A /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = FluentUITests;
-			productName = OfficeUIFabricTests;
-			productReference = A5CEC15A20D980B30016922A /* FluentUITests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		A5DA88FB226FAA01000A8EA8 /* FluentUIResources */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = A5DA88FF226FAA01000A8EA8 /* Build configuration list for PBXNativeTarget "FluentUIResources" */;
-			buildPhases = (
-				A5DA88FA226FAA01000A8EA8 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = FluentUIResources;
-			productName = OfficeUIFabricResources;
-			productReference = A5DA88FC226FAA01000A8EA8 /* FluentUIResources-ios.bundle */;
-			productType = "com.apple.product-type.bundle";
-		};
+        8FD01165228A820600D25925 /* FluentUILib */ = {
+            isa = PBXNativeTarget;
+            buildConfigurationList = 8FD0116A228A820600D25925 /* Build configuration list for PBXNativeTarget "FluentUILib" */;
+            buildPhases = (
+                8FD01162228A820600D25925 /* Sources */,
+                FD256C59218392B800EC9588 /* Run swiftlint */,
+                923DF2E4271166DB00637646 /* Copy FluentUI-Swift.h */,
+            );
+            buildRules = (
+            );
+            dependencies = (
+                8FD011C8228A831700D25925 /* PBXTargetDependency */,
+            );
+            name = FluentUILib;
+            productName = OfficeUIFabricStaticLib;
+            productReference = 8FD01166228A820600D25925 /* libFluentUI.a */;
+            productType = "com.apple.product-type.library.static";
+        };
+        A5CEC15920D980B30016922A /* FluentUITests */ = {
+            isa = PBXNativeTarget;
+            buildConfigurationList = A5CEC16820D980B30016922A /* Build configuration list for PBXNativeTarget "FluentUITests" */;
+            buildPhases = (
+                A5CEC15620D980B30016922A /* Sources */,
+                A5CEC15720D980B30016922A /* Frameworks */,
+                A5CEC15820D980B30016922A /* Resources */,
+            );
+            buildRules = (
+            );
+            dependencies = (
+            );
+            name = FluentUITests;
+            productName = OfficeUIFabricTests;
+            productReference = A5CEC15A20D980B30016922A /* FluentUITests.xctest */;
+            productType = "com.apple.product-type.bundle.unit-test";
+        };
+        A5DA88FB226FAA01000A8EA8 /* FluentUIResources */ = {
+            isa = PBXNativeTarget;
+            buildConfigurationList = A5DA88FF226FAA01000A8EA8 /* Build configuration list for PBXNativeTarget "FluentUIResources" */;
+            buildPhases = (
+                A5DA88FA226FAA01000A8EA8 /* Resources */,
+            );
+            buildRules = (
+            );
+            dependencies = (
+            );
+            name = FluentUIResources;
+            productName = OfficeUIFabricResources;
+            productReference = A5DA88FC226FAA01000A8EA8 /* FluentUIResources-ios.bundle */;
+            productType = "com.apple.product-type.bundle";
+        };
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		A5CEC14820D980B20016922A /* Project object */ = {
-			isa = PBXProject;
-			attributes = {
-				LastSwiftUpdateCheck = 1020;
-				LastUpgradeCheck = 1240;
-				ORGANIZATIONNAME = "Microsoft Corporation";
-				TargetAttributes = {
-					8FD01165228A820600D25925 = {
-						CreatedOnToolsVersion = 10.2.1;
-						LastSwiftMigration = 1020;
-					};
-					A5CEC15920D980B30016922A = {
-						CreatedOnToolsVersion = 9.4.1;
-						LastSwiftMigration = 1020;
-					};
-					A5DA88FB226FAA01000A8EA8 = {
-						CreatedOnToolsVersion = 10.2.1;
-					};
-				};
-			};
-			buildConfigurationList = A5CEC14B20D980B20016922A /* Build configuration list for PBXProject "FluentUI" */;
-			compatibilityVersion = "Xcode 9.3";
-			developmentRegion = en;
-			hasScannedForEncodings = 0;
-			knownRegions = (
-				en,
-				Base,
-				ar,
-				ca,
-				cs,
-				da,
-				de,
-				el,
-				"en-GB",
-				"es-MX",
-				es,
-				fi,
-				fr,
-				he,
-				hi,
-				hr,
-				hu,
-				id,
-				it,
-				ja,
-				ko,
-				ms,
-				"nb-NO",
-				nl,
-				pl,
-				"pt-BR",
-				"pt-PT",
-				ro,
-				ru,
-				sk,
-				sv,
-				th,
-				tr,
-				uk,
-				vi,
-				"zh-Hans",
-				"zh-Hant",
-			);
-			mainGroup = A5CEC14720D980B20016922A;
-			productRefGroup = A5CEC15220D980B20016922A /* Products */;
-			projectDirPath = "";
-			projectRoot = "";
-			targets = (
-				A5DA88FB226FAA01000A8EA8 /* FluentUIResources */,
-				8FD01165228A820600D25925 /* FluentUILib */,
-				A5CEC15920D980B30016922A /* FluentUITests */,
-			);
-		};
+        A5CEC14820D980B20016922A /* Project object */ = {
+            isa = PBXProject;
+            attributes = {
+                LastSwiftUpdateCheck = 1020;
+                LastUpgradeCheck = 1240;
+                ORGANIZATIONNAME = "Microsoft Corporation";
+                TargetAttributes = {
+                    8FD01165228A820600D25925 = {
+                        CreatedOnToolsVersion = 10.2.1;
+                        LastSwiftMigration = 1020;
+                    };
+                    A5CEC15920D980B30016922A = {
+                        CreatedOnToolsVersion = 9.4.1;
+                        LastSwiftMigration = 1020;
+                    };
+                    A5DA88FB226FAA01000A8EA8 = {
+                        CreatedOnToolsVersion = 10.2.1;
+                    };
+                };
+            };
+            buildConfigurationList = A5CEC14B20D980B20016922A /* Build configuration list for PBXProject "FluentUI" */;
+            compatibilityVersion = "Xcode 9.3";
+            developmentRegion = en;
+            hasScannedForEncodings = 0;
+            knownRegions = (
+                en,
+                Base,
+                ar,
+                ca,
+                cs,
+                da,
+                de,
+                el,
+                "en-GB",
+                "es-MX",
+                es,
+                fi,
+                fr,
+                he,
+                hi,
+                hr,
+                hu,
+                id,
+                it,
+                ja,
+                ko,
+                ms,
+                "nb-NO",
+                nl,
+                pl,
+                "pt-BR",
+                "pt-PT",
+                ro,
+                ru,
+                sk,
+                sv,
+                th,
+                tr,
+                uk,
+                vi,
+                "zh-Hans",
+                "zh-Hant",
+            );
+            mainGroup = A5CEC14720D980B20016922A;
+            productRefGroup = A5CEC15220D980B20016922A /* Products */;
+            projectDirPath = "";
+            projectRoot = "";
+            targets = (
+                A5DA88FB226FAA01000A8EA8 /* FluentUIResources */,
+                8FD01165228A820600D25925 /* FluentUILib */,
+                A5CEC15920D980B30016922A /* FluentUITests */,
+            );
+        };
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		A5CEC15820D980B30016922A /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				923DF2E82712B6C400637646 /* FluentUIResources-ios.bundle in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		A5DA88FA226FAA01000A8EA8 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				A542A9D7226FC01100204A52 /* Localizable.strings in Resources */,
-				A542A9D8226FC01700204A52 /* Localizable.stringsdict in Resources */,
-				A257F82A251D98DD002CAA6E /* FluentUI-apple.xcassets in Resources */,
-				A257F82C251D98F3002CAA6E /* FluentUI-ios.xcassets in Resources */,
-				F5784DBA285D031800DBEAD6 /* docs in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
+        A5CEC15820D980B30016922A /* Resources */ = {
+            isa = PBXResourcesBuildPhase;
+            buildActionMask = 2147483647;
+            files = (
+                923DF2E82712B6C400637646 /* FluentUIResources-ios.bundle in Resources */,
+            );
+            runOnlyForDeploymentPostprocessing = 0;
+        };
+        A5DA88FA226FAA01000A8EA8 /* Resources */ = {
+            isa = PBXResourcesBuildPhase;
+            buildActionMask = 2147483647;
+            files = (
+                A542A9D7226FC01100204A52 /* Localizable.strings in Resources */,
+                A542A9D8226FC01700204A52 /* Localizable.stringsdict in Resources */,
+                A257F82A251D98DD002CAA6E /* FluentUI-apple.xcassets in Resources */,
+                A257F82C251D98F3002CAA6E /* FluentUI-ios.xcassets in Resources */,
+                F5784DBA285D031800DBEAD6 /* docs in Resources */,
+            );
+            runOnlyForDeploymentPostprocessing = 0;
+        };
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		923DF2E4271166DB00637646 /* Copy FluentUI-Swift.h */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"$(FLUENT_HSP_INPUT)/FluentUI-Swift.h",
-			);
-			name = "Copy FluentUI-Swift.h";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(FLUENT_HSP_OUTPUT)/FluentUI-Swift.h",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "echo \"Copying FluentUI-Swift.h from $FLUENT_HSP_INPUT to $FLUENT_HSP_OUTPUT\"\n\n# Ensure the target include path exists\nmkdir -p $FLUENT_HSP_OUTPUT\n\n# Copy any file that looks like a Swift generated header to the include path\ncp $FLUENT_HSP_INPUT/FluentUI-Swift.h $FLUENT_HSP_OUTPUT\n";
-		};
-		FD256C59218392B800EC9588 /* Run swiftlint */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Run swiftlint";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Adds support for Apple Silicon brew directory\nexport PATH=\"$PATH:/opt/homebrew/bin\"\n\nif which swiftlint >/dev/null; then\n    export LINTPATH=\"${LOCROOT}/./\"\n    swiftlint --config ../.swiftlint.yml\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
-		};
+        923DF2E4271166DB00637646 /* Copy FluentUI-Swift.h */ = {
+            isa = PBXShellScriptBuildPhase;
+            buildActionMask = 2147483647;
+            files = (
+            );
+            inputFileListPaths = (
+            );
+            inputPaths = (
+                "$(FLUENT_HSP_INPUT)/FluentUI-Swift.h",
+            );
+            name = "Copy FluentUI-Swift.h";
+            outputFileListPaths = (
+            );
+            outputPaths = (
+                "$(FLUENT_HSP_OUTPUT)/FluentUI-Swift.h",
+            );
+            runOnlyForDeploymentPostprocessing = 0;
+            shellPath = /bin/sh;
+            shellScript = "echo \"Copying FluentUI-Swift.h from $FLUENT_HSP_INPUT to $FLUENT_HSP_OUTPUT\"\n\n# Ensure the target include path exists\nmkdir -p $FLUENT_HSP_OUTPUT\n\n# Copy any file that looks like a Swift generated header to the include path\ncp $FLUENT_HSP_INPUT/FluentUI-Swift.h $FLUENT_HSP_OUTPUT\n";
+        };
+        FD256C59218392B800EC9588 /* Run swiftlint */ = {
+            isa = PBXShellScriptBuildPhase;
+            alwaysOutOfDate = 1;
+            buildActionMask = 2147483647;
+            files = (
+            );
+            inputPaths = (
+            );
+            name = "Run swiftlint";
+            outputPaths = (
+            );
+            runOnlyForDeploymentPostprocessing = 0;
+            shellPath = /bin/sh;
+            shellScript = "# Adds support for Apple Silicon brew directory\nexport PATH=\"$PATH:/opt/homebrew/bin\"\n\nif which swiftlint >/dev/null; then\n    export LINTPATH=\"${LOCROOT}/./\"\n    swiftlint --config ../.swiftlint.yml\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+        };
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -1587,7 +1604,6 @@
 				5314E19625F019650099271A /* TabBarView.swift in Sources */,
 				C708B05F260A8778007190FA /* SegmentPillButton.swift in Sources */,
 				5314E13525F016370099271A /* PopupMenuItemCell.swift in Sources */,
-				530D9C5127EE388200BDCBBF /* SwiftUI+ViewPresentation.swift in Sources */,
 				5314E2A025F024860099271A /* NSLayoutConstraint+Extensions.swift in Sources */,
 				5336B17827F77EB800B01E0D /* HUD.swift in Sources */,
 				923DB9D5274CB65700D8E58A /* FluentTheme.swift in Sources */,
@@ -1616,6 +1632,7 @@
 				EC5982D827BF348700FD048D /* MSFAvatar.swift in Sources */,
 				5314E0AA25F010070099271A /* DrawerShadowView.swift in Sources */,
 				2A9745DE281733D700E1A1FD /* TableViewCellTokenSet.swift in Sources */,
+        530D9C5127EE388200BDCBBF /* SwiftUI+ViewPresentation.swift in Sources */,
 				5314E0E725F012C00099271A /* UINavigationItem+Navigation.swift in Sources */,
 				920945492703DDA000B38E1A /* CardNudgeTokenSet.swift in Sources */,
 				92D49054278FF4E50085C018 /* PersonaButtonCarouselModifiers.swift in Sources */,
@@ -1665,6 +1682,7 @@
 				5314E1A425F01A7C0099271A /* CenteredLabelCell.swift in Sources */,
 				5314E1A125F01A7C0099271A /* TableViewCellFileAccessoryView.swift in Sources */,
 				5314E1D625F01E4A0099271A /* SearchBar.swift in Sources */,
+        53A70EDB2866122600759DC0 /* HeadsUpDisplay.swift in Sources */,
 				5314E0A825F010070099271A /* DrawerPresentationController.swift in Sources */,
 				43488C46270FAD1300124C71 /* FluentNotification.swift in Sources */,
 				5314E06425F00EFD0099271A /* CalendarViewMonthBannerView.swift in Sources */,
@@ -1683,6 +1701,7 @@
 				53097D192702890900A6E4DC /* List.swift in Sources */,
 				5314E23025F022C80099271A /* UIScrollView+Extensions.swift in Sources */,
 				5314E16925F017940099271A /* SegmentedControl.swift in Sources */,
+        53A70ED92866122600759DC0 /* HUDModifiers.swift in Sources */,
 				C77A04EE25F046EB001B3EB6 /* Date+CellFileAccessoryView.swift in Sources */,
 				4BF01DA027B3A862005B32F2 /* UIApplication+Extensions.swift in Sources */,
 				5373D5732694D66F0032A3B4 /* UIKit+SwiftUI_interoperability.swift in Sources */,
@@ -1730,6 +1749,8 @@
 				5314E03125F00DDD0099271A /* CardView.swift in Sources */,
 				5314E08925F00F2D0099271A /* CommandBarButtonGroupView.swift in Sources */,
 				5314E08C25F00F2D0099271A /* CommandBarButton.swift in Sources */,
+        53A70EDC2866122600759DC0 /* MSFHeadsUpDisplay.swift in Sources */,	
+        53A70ED82866122600759DC0 /* HUD.swift in Sources */,
 				4B8A7676286ADCD500F90F3A /* ShimmerLinesView.swift in Sources */,
 				94A7EC1A2836DCB200BFFBAE /* CommandBarCommandGroupsView.swift in Sources */,
 				EC6A71EA273DBA520076A586 /* Divider.swift in Sources */,
@@ -1757,234 +1778,235 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		8FD011C8228A831700D25925 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = A5DA88FB226FAA01000A8EA8 /* FluentUIResources */;
-			targetProxy = 8FD011C7228A831700D25925 /* PBXContainerItemProxy */;
-		};
+        8FD011C8228A831700D25925 /* PBXTargetDependency */ = {
+            isa = PBXTargetDependency;
+            target = A5DA88FB226FAA01000A8EA8 /* FluentUIResources */;
+            targetProxy = 8FD011C7228A831700D25925 /* PBXContainerItemProxy */;
+        };
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		A559BB81212B6FA40055E107 /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				A559BB80212B6FA40055E107 /* en */,
-				FD8D26422253FF330078E1D3 /* ar */,
-				FD8D26442253FF3E0078E1D3 /* ca */,
-				FD8D26462253FF470078E1D3 /* cs */,
-				FD8D26482253FF4F0078E1D3 /* da */,
-				FD8D264A2254013E0078E1D3 /* de */,
-				FD8D264C225401660078E1D3 /* el */,
-				FD8D264E225401880078E1D3 /* en-GB */,
-				FD8D2650225401A10078E1D3 /* es-MX */,
-				FD8D2652225401AA0078E1D3 /* es */,
-				FD8D2654225401B90078E1D3 /* fi */,
-				FD8D2656225401C10078E1D3 /* fr */,
-				FD8D2658225401CD0078E1D3 /* he */,
-				FD8D265A225401D90078E1D3 /* hi */,
-				FD8D265C225401E50078E1D3 /* hr */,
-				FD8D265E225401F20078E1D3 /* hu */,
-				FD8D2660225401FA0078E1D3 /* id */,
-				FD8D2662225402020078E1D3 /* it */,
-				FD8D26642254020E0078E1D3 /* ja */,
-				FD8D2666225402160078E1D3 /* ko */,
-				FD8D26682254021D0078E1D3 /* ms */,
-				FD8D266A2254022E0078E1D3 /* nb-NO */,
-				FD8D266C225402DC0078E1D3 /* nl */,
-				FD8D266E225402E60078E1D3 /* pl */,
-				FD8D2670225402F00078E1D3 /* pt-BR */,
-				FD8D2672225402F60078E1D3 /* pt-PT */,
-				FD8D2674225403000078E1D3 /* ro */,
-				FD8D2676225403070078E1D3 /* ru */,
-				FD8D26782254030E0078E1D3 /* sk */,
-				FD8D267A225403160078E1D3 /* sv */,
-				FD8D267C2254031B0078E1D3 /* th */,
-				FD8D267E225403210078E1D3 /* tr */,
-				FD8D2680225403290078E1D3 /* uk */,
-				FD8D2682225403300078E1D3 /* vi */,
-				FD8D2684225403360078E1D3 /* zh-Hans */,
-				FD8D26862254033B0078E1D3 /* zh-Hant */,
-			);
-			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
-		A5DF1EAD2213B26900CC741A /* Localizable.stringsdict */ = {
-			isa = PBXVariantGroup;
-			children = (
-				A5DF1EAC2213B26900CC741A /* en */,
-				FD8D26432253FF330078E1D3 /* ar */,
-				FD8D26452253FF3F0078E1D3 /* ca */,
-				FD8D26472253FF470078E1D3 /* cs */,
-				FD8D26492253FF500078E1D3 /* da */,
-				FD8D264B2254013E0078E1D3 /* de */,
-				FD8D264D225401660078E1D3 /* el */,
-				FD8D264F225401880078E1D3 /* en-GB */,
-				FD8D2651225401A10078E1D3 /* es-MX */,
-				FD8D2653225401AA0078E1D3 /* es */,
-				FD8D2655225401B90078E1D3 /* fi */,
-				FD8D2657225401C20078E1D3 /* fr */,
-				FD8D2659225401CD0078E1D3 /* he */,
-				FD8D265B225401D90078E1D3 /* hi */,
-				FD8D265D225401E50078E1D3 /* hr */,
-				FD8D265F225401F30078E1D3 /* hu */,
-				FD8D2661225401FB0078E1D3 /* id */,
-				FD8D2663225402030078E1D3 /* it */,
-				FD8D26652254020E0078E1D3 /* ja */,
-				FD8D2667225402160078E1D3 /* ko */,
-				FD8D26692254021E0078E1D3 /* ms */,
-				FD8D266B2254022E0078E1D3 /* nb-NO */,
-				FD8D266D225402DC0078E1D3 /* nl */,
-				FD8D266F225402E60078E1D3 /* pl */,
-				FD8D2671225402F10078E1D3 /* pt-BR */,
-				FD8D2673225402F60078E1D3 /* pt-PT */,
-				FD8D2675225403000078E1D3 /* ro */,
-				FD8D2677225403070078E1D3 /* ru */,
-				FD8D26792254030E0078E1D3 /* sk */,
-				FD8D267B225403160078E1D3 /* sv */,
-				FD8D267D2254031B0078E1D3 /* th */,
-				FD8D267F225403220078E1D3 /* tr */,
-				FD8D26812254032A0078E1D3 /* uk */,
-				FD8D2683225403300078E1D3 /* vi */,
-				FD8D2685225403360078E1D3 /* zh-Hans */,
-				FD8D26872254033B0078E1D3 /* zh-Hant */,
-			);
-			name = Localizable.stringsdict;
-			sourceTree = "<group>";
-		};
+        A559BB81212B6FA40055E107 /* Localizable.strings */ = {
+            isa = PBXVariantGroup;
+            children = (
+                A559BB80212B6FA40055E107 /* en */,
+                FD8D26422253FF330078E1D3 /* ar */,
+                FD8D26442253FF3E0078E1D3 /* ca */,
+                FD8D26462253FF470078E1D3 /* cs */,
+                FD8D26482253FF4F0078E1D3 /* da */,
+                FD8D264A2254013E0078E1D3 /* de */,
+                FD8D264C225401660078E1D3 /* el */,
+                FD8D264E225401880078E1D3 /* en-GB */,
+                FD8D2650225401A10078E1D3 /* es-MX */,
+                FD8D2652225401AA0078E1D3 /* es */,
+                FD8D2654225401B90078E1D3 /* fi */,
+                FD8D2656225401C10078E1D3 /* fr */,
+                FD8D2658225401CD0078E1D3 /* he */,
+                FD8D265A225401D90078E1D3 /* hi */,
+                FD8D265C225401E50078E1D3 /* hr */,
+                FD8D265E225401F20078E1D3 /* hu */,
+                FD8D2660225401FA0078E1D3 /* id */,
+                FD8D2662225402020078E1D3 /* it */,
+                FD8D26642254020E0078E1D3 /* ja */,
+                FD8D2666225402160078E1D3 /* ko */,
+                FD8D26682254021D0078E1D3 /* ms */,
+                FD8D266A2254022E0078E1D3 /* nb-NO */,
+                FD8D266C225402DC0078E1D3 /* nl */,
+                FD8D266E225402E60078E1D3 /* pl */,
+                FD8D2670225402F00078E1D3 /* pt-BR */,
+                FD8D2672225402F60078E1D3 /* pt-PT */,
+                FD8D2674225403000078E1D3 /* ro */,
+                FD8D2676225403070078E1D3 /* ru */,
+                FD8D26782254030E0078E1D3 /* sk */,
+                FD8D267A225403160078E1D3 /* sv */,
+                FD8D267C2254031B0078E1D3 /* th */,
+                FD8D267E225403210078E1D3 /* tr */,
+                FD8D2680225403290078E1D3 /* uk */,
+                FD8D2682225403300078E1D3 /* vi */,
+                FD8D2684225403360078E1D3 /* zh-Hans */,
+                FD8D26862254033B0078E1D3 /* zh-Hant */,
+            );
+            name = Localizable.strings;
+            sourceTree = "<group>";
+        };
+        A5DF1EAD2213B26900CC741A /* Localizable.stringsdict */ = {
+            isa = PBXVariantGroup;
+            children = (
+                A5DF1EAC2213B26900CC741A /* en */,
+                FD8D26432253FF330078E1D3 /* ar */,
+                FD8D26452253FF3F0078E1D3 /* ca */,
+                FD8D26472253FF470078E1D3 /* cs */,
+                FD8D26492253FF500078E1D3 /* da */,
+                FD8D264B2254013E0078E1D3 /* de */,
+                FD8D264D225401660078E1D3 /* el */,
+                FD8D264F225401880078E1D3 /* en-GB */,
+                FD8D2651225401A10078E1D3 /* es-MX */,
+                FD8D2653225401AA0078E1D3 /* es */,
+                FD8D2655225401B90078E1D3 /* fi */,
+                FD8D2657225401C20078E1D3 /* fr */,
+                FD8D2659225401CD0078E1D3 /* he */,
+                FD8D265B225401D90078E1D3 /* hi */,
+                FD8D265D225401E50078E1D3 /* hr */,
+                FD8D265F225401F30078E1D3 /* hu */,
+                FD8D2661225401FB0078E1D3 /* id */,
+                FD8D2663225402030078E1D3 /* it */,
+                FD8D26652254020E0078E1D3 /* ja */,
+                FD8D2667225402160078E1D3 /* ko */,
+                FD8D26692254021E0078E1D3 /* ms */,
+                FD8D266B2254022E0078E1D3 /* nb-NO */,
+                FD8D266D225402DC0078E1D3 /* nl */,
+                FD8D266F225402E60078E1D3 /* pl */,
+                FD8D2671225402F10078E1D3 /* pt-BR */,
+                FD8D2673225402F60078E1D3 /* pt-PT */,
+                FD8D2675225403000078E1D3 /* ro */,
+                FD8D2677225403070078E1D3 /* ru */,
+                FD8D26792254030E0078E1D3 /* sk */,
+                FD8D267B225403160078E1D3 /* sv */,
+                FD8D267D2254031B0078E1D3 /* th */,
+                FD8D267F225403220078E1D3 /* tr */,
+                FD8D26812254032A0078E1D3 /* uk */,
+                FD8D2683225403300078E1D3 /* vi */,
+                FD8D2685225403360078E1D3 /* zh-Hans */,
+                FD8D26872254033B0078E1D3 /* zh-Hant */,
+            );
+            name = Localizable.stringsdict;
+            sourceTree = "<group>";
+        };
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		8FD0116B228A820600D25925 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = C7752C7C2790C1F40012F860 /* FluentUILib_debug.xcconfig */;
-			buildSettings = {
-			};
-			name = Debug;
-		};
-		8FD0116C228A820600D25925 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = C7752C7B2790C1F40012F860 /* FluentUILib_release.xcconfig */;
-			buildSettings = {
-			};
-			name = Release;
-		};
-		8FD0116D228A820600D25925 /* Dogfood */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = C7752C7B2790C1F40012F860 /* FluentUILib_release.xcconfig */;
-			buildSettings = {
-			};
-			name = Dogfood;
-		};
-		A52B637B2138745C009F7ADF /* Dogfood */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 53FC90F525673626008A06FD /* FluentUI_release.xcconfig */;
-			buildSettings = {
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-			};
-			name = Dogfood;
-		};
-		A52B637D2138745C009F7ADF /* Dogfood */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 53FC90F725673626008A06FD /* FluentUITests.xcconfig */;
-			buildSettings = {
-			};
-			name = Dogfood;
-		};
-		A5CEC16320D980B30016922A /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 53FC90F625673626008A06FD /* FluentUI_debug.xcconfig */;
-			buildSettings = {
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-			};
-			name = Debug;
-		};
-		A5CEC16420D980B30016922A /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 53FC90F525673626008A06FD /* FluentUI_release.xcconfig */;
-			buildSettings = {
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-			};
-			name = Release;
-		};
-		A5CEC16920D980B30016922A /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 53FC90F725673626008A06FD /* FluentUITests.xcconfig */;
-			buildSettings = {
-			};
-			name = Debug;
-		};
-		A5CEC16A20D980B30016922A /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 53FC90F725673626008A06FD /* FluentUITests.xcconfig */;
-			buildSettings = {
-			};
-			name = Release;
-		};
-		A5DA8900226FAA01000A8EA8 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 53FC90FA25673627008A06FD /* FluentUIResources.xcconfig */;
-			buildSettings = {
-			};
-			name = Debug;
-		};
-		A5DA8901226FAA01000A8EA8 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 53FC90FA25673627008A06FD /* FluentUIResources.xcconfig */;
-			buildSettings = {
-			};
-			name = Release;
-		};
-		A5DA8902226FAA01000A8EA8 /* Dogfood */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 53FC90FA25673627008A06FD /* FluentUIResources.xcconfig */;
-			buildSettings = {
-			};
-			name = Dogfood;
-		};
+        8FD0116B228A820600D25925 /* Debug */ = {
+            isa = XCBuildConfiguration;
+            baseConfigurationReference = C7752C7C2790C1F40012F860 /* FluentUILib_debug.xcconfig */;
+            buildSettings = {
+            };
+            name = Debug;
+        };
+        8FD0116C228A820600D25925 /* Release */ = {
+            isa = XCBuildConfiguration;
+            baseConfigurationReference = C7752C7B2790C1F40012F860 /* FluentUILib_release.xcconfig */;
+            buildSettings = {
+            };
+            name = Release;
+        };
+        8FD0116D228A820600D25925 /* Dogfood */ = {
+            isa = XCBuildConfiguration;
+            baseConfigurationReference = C7752C7B2790C1F40012F860 /* FluentUILib_release.xcconfig */;
+            buildSettings = {
+            };
+            name = Dogfood;
+        };
+        A52B637B2138745C009F7ADF /* Dogfood */ = {
+            isa = XCBuildConfiguration;
+            baseConfigurationReference = 53FC90F525673626008A06FD /* FluentUI_release.xcconfig */;
+            buildSettings = {
+                CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+            };
+            name = Dogfood;
+        };
+        A52B637D2138745C009F7ADF /* Dogfood */ = {
+            isa = XCBuildConfiguration;
+            baseConfigurationReference = 53FC90F725673626008A06FD /* FluentUITests.xcconfig */;
+            buildSettings = {
+            };
+            name = Dogfood;
+        };
+        A5CEC16320D980B30016922A /* Debug */ = {
+            isa = XCBuildConfiguration;
+            baseConfigurationReference = 53FC90F625673626008A06FD /* FluentUI_debug.xcconfig */;
+            buildSettings = {
+                CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+            };
+            name = Debug;
+        };
+        A5CEC16420D980B30016922A /* Release */ = {
+            isa = XCBuildConfiguration;
+            baseConfigurationReference = 53FC90F525673626008A06FD /* FluentUI_release.xcconfig */;
+            buildSettings = {
+                CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+            };
+            name = Release;
+        };
+        A5CEC16920D980B30016922A /* Debug */ = {
+            isa = XCBuildConfiguration;
+            baseConfigurationReference = 53FC90F725673626008A06FD /* FluentUITests.xcconfig */;
+            buildSettings = {
+            };
+            name = Debug;
+        };
+        A5CEC16A20D980B30016922A /* Release */ = {
+            isa = XCBuildConfiguration;
+            baseConfigurationReference = 53FC90F725673626008A06FD /* FluentUITests.xcconfig */;
+            buildSettings = {
+            };
+            name = Release;
+        };
+        A5DA8900226FAA01000A8EA8 /* Debug */ = {
+            isa = XCBuildConfiguration;
+            baseConfigurationReference = 53FC90FA25673627008A06FD /* FluentUIResources.xcconfig */;
+            buildSettings = {
+            };
+            name = Debug;
+        };
+        A5DA8901226FAA01000A8EA8 /* Release */ = {
+            isa = XCBuildConfiguration;
+            baseConfigurationReference = 53FC90FA25673627008A06FD /* FluentUIResources.xcconfig */;
+            buildSettings = {
+            };
+            name = Release;
+        };
+        A5DA8902226FAA01000A8EA8 /* Dogfood */ = {
+            isa = XCBuildConfiguration;
+            baseConfigurationReference = 53FC90FA25673627008A06FD /* FluentUIResources.xcconfig */;
+            buildSettings = {
+            };
+            name = Dogfood;
+        };
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		8FD0116A228A820600D25925 /* Build configuration list for PBXNativeTarget "FluentUILib" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				8FD0116B228A820600D25925 /* Debug */,
-				8FD0116C228A820600D25925 /* Release */,
-				8FD0116D228A820600D25925 /* Dogfood */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		A5CEC14B20D980B20016922A /* Build configuration list for PBXProject "FluentUI" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				A5CEC16320D980B30016922A /* Debug */,
-				A5CEC16420D980B30016922A /* Release */,
-				A52B637B2138745C009F7ADF /* Dogfood */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		A5CEC16820D980B30016922A /* Build configuration list for PBXNativeTarget "FluentUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				A5CEC16920D980B30016922A /* Debug */,
-				A5CEC16A20D980B30016922A /* Release */,
-				A52B637D2138745C009F7ADF /* Dogfood */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		A5DA88FF226FAA01000A8EA8 /* Build configuration list for PBXNativeTarget "FluentUIResources" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				A5DA8900226FAA01000A8EA8 /* Debug */,
-				A5DA8901226FAA01000A8EA8 /* Release */,
-				A5DA8902226FAA01000A8EA8 /* Dogfood */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
+        8FD0116A228A820600D25925 /* Build configuration list for PBXNativeTarget "FluentUILib" */ = {
+            isa = XCConfigurationList;
+            buildConfigurations = (
+                8FD0116B228A820600D25925 /* Debug */,
+                8FD0116C228A820600D25925 /* Release */,
+                8FD0116D228A820600D25925 /* Dogfood */,
+            );
+            defaultConfigurationIsVisible = 0;
+            defaultConfigurationName = Release;
+        };
+        A5CEC14B20D980B20016922A /* Build configuration list for PBXProject "FluentUI" */ = {
+            isa = XCConfigurationList;
+            buildConfigurations = (
+                A5CEC16320D980B30016922A /* Debug */,
+                A5CEC16420D980B30016922A /* Release */,
+                A52B637B2138745C009F7ADF /* Dogfood */,
+            );
+            defaultConfigurationIsVisible = 0;
+            defaultConfigurationName = Release;
+        };
+        A5CEC16820D980B30016922A /* Build configuration list for PBXNativeTarget "FluentUITests" */ = {
+            isa = XCConfigurationList;
+            buildConfigurations = (
+                A5CEC16920D980B30016922A /* Debug */,
+                A5CEC16A20D980B30016922A /* Release */,
+                A52B637D2138745C009F7ADF /* Dogfood */,
+            );
+            defaultConfigurationIsVisible = 0;
+            defaultConfigurationName = Release;
+        };
+        A5DA88FF226FAA01000A8EA8 /* Build configuration list for PBXNativeTarget "FluentUIResources" */ = {
+            isa = XCConfigurationList;
+            buildConfigurations = (
+                A5DA8900226FAA01000A8EA8 /* Debug */,
+                A5DA8901226FAA01000A8EA8 /* Release */,
+                A5DA8902226FAA01000A8EA8 /* Dogfood */,
+            );
+            defaultConfigurationIsVisible = 0;
+            defaultConfigurationName = Release;
+        };
 /* End XCConfigurationList section */
-	};
-	rootObject = A5CEC14820D980B20016922A /* Project object */;
+    };
+    rootObject = A5CEC14820D980B20016922A /* Project object */;
 }
+

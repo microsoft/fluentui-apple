@@ -40,7 +40,8 @@ struct Demos {
         DemoDescriptor("ShimmerView", ShimmerViewDemoController.self),
         DemoDescriptor("SideTabBar", SideTabBarDemoController.self),
         DemoDescriptor("TabBarView", TabBarViewDemoController.self),
-        DemoDescriptor("TableViewCell", TableViewCellDemoController.self)
+        DemoDescriptor("TableViewCell", TableViewCellDemoController.self),
+        DemoDescriptor("TypographyTokens", TypographyTokensDemoController.self)
     ]
 
     static let controls: [DemoDescriptor] = [

@@ -42,8 +42,14 @@ import SwiftUI
     /// To show an action button, provide values for both `actionButtonTitle` and  `actionButtonAction`.
     var actionButtonAction: (() -> Void)? { get set }
 
+    /// Bool to control if the Notification has a dismiss action by default.
+    var showDefaultDismissActionButton: Bool { get set }
+
     /// Action to be dispatched by tapping on the toast/bar notification.
     var messageButtonAction: (() -> Void)? { get set }
+
+    /// Defines whether the notification shows from the bottom of the presenting view or the top.
+    var showFromBottom: Bool { get set }
 }
 
 /// View that represents the Notification.
@@ -63,9 +69,12 @@ public struct FluentNotification: View, TokenizedControlView {
     ///   - attributedTitle: Optional attributed text to draw above the message area. If set, it will override the title parameter.
     ///   - image: Optional icon to draw at the leading edge of the control.
     ///   - trailingImage: Optional icon to show in the action button if no button title is provided.
+    ///   - trailingImageAccessibilityLabel: Optional localized accessibility label for the trailing image.
     ///   - actionButtonTitle:Title to display in the action button on the trailing edge of the control.
     ///   - actionButtonAction: Action to be dispatched by the action button on the trailing edge of the control.
+    ///   - showDefaultDismissActionButton: Bool to control if the Notification has a dismiss action by default.
     ///   - messageButtonAction: Action to be dispatched by tapping on the toast/bar notification.
+    ///   - showFromBottom: Defines whether the notification shows from the bottom of the presenting view or the top.
     public init(style: MSFNotificationStyle,
                 shouldSelfPresent: Bool = true,
                 isFlexibleWidthToast: Bool = false,
@@ -79,18 +88,22 @@ public struct FluentNotification: View, TokenizedControlView {
                 trailingImageAccessibilityLabel: String? = nil,
                 actionButtonTitle: String? = nil,
                 actionButtonAction: (() -> Void)? = nil,
-                messageButtonAction: (() -> Void)? = nil) {
-        let state = MSFNotificationStateImpl(style: style)
-        state.message = message
-        state.attributedMessage = attributedMessage
-        state.title = title
-        state.attributedTitle = attributedTitle
-        state.image = image
-        state.trailingImage = trailingImage
-        state.trailingImageAccessibilityLabel = trailingImageAccessibilityLabel
-        state.actionButtonTitle = actionButtonTitle
-        state.actionButtonAction = actionButtonAction
-        state.messageButtonAction = messageButtonAction
+                showDefaultDismissActionButton: Bool? = nil,
+                messageButtonAction: (() -> Void)? = nil,
+                showFromBottom: Bool = true) {
+        let state = MSFNotificationStateImpl(style: style,
+                                             message: message,
+                                             attributedMessage: attributedMessage,
+                                             title: title,
+                                             attributedTitle: attributedTitle,
+                                             image: image,
+                                             trailingImage: trailingImage,
+                                             trailingImageAccessibilityLabel: trailingImageAccessibilityLabel,
+                                             actionButtonTitle: actionButtonTitle,
+                                             actionButtonAction: actionButtonAction,
+                                             showDefaultDismissActionButton: showDefaultDismissActionButton,
+                                             messageButtonAction: messageButtonAction,
+                                             showFromBottom: true)
         self.state = state
         self.shouldSelfPresent = shouldSelfPresent
         self.isFlexibleWidthToast = isFlexibleWidthToast && style.isToast
@@ -101,6 +114,10 @@ public struct FluentNotification: View, TokenizedControlView {
             _isPresented = isPresented
         } else {
             _isPresented = .constant(true)
+        }
+
+        if _isPresented.wrappedValue == true {
+            _opacity = .init(initialValue: 1)
         }
     }
 
@@ -116,6 +133,7 @@ public struct FluentNotification: View, TokenizedControlView {
                                height: imageSize.height,
                                alignment: .center)
                         .foregroundColor(Color(dynamicColor: tokenSet[.imageColor].dynamicColor))
+                        .padding(.vertical, tokenSet[.verticalPadding].float)
                 }
             }
         }
@@ -129,6 +147,7 @@ public struct FluentNotification: View, TokenizedControlView {
                         .onSizeChange { newSize in
                             attributedTitleSize = newSize
                         }
+                        .accessibilityLabel(attributedTitle.string)
                 } else if let title = state.title {
                     Text(title)
                         .font(.fluent(tokenSet[.boldTextFont].fontInfo))
@@ -145,10 +164,10 @@ public struct FluentNotification: View, TokenizedControlView {
                     .onSizeChange { newSize in
                         attributedMessageSize = newSize
                     }
+                    .accessibilityLabel(attributedMessage.string)
             } else if let message = state.message {
-                let messageFont = hasSecondTextRow ? tokenSet[.footnoteTextFont].fontInfo : (state.style.isToast ? tokenSet[.boldTextFont].fontInfo : tokenSet[.regularTextFont].fontInfo)
                 Text(message)
-                    .font(.fluent(messageFont))
+                    .font(.fluent(tokenSet[.regularTextFont].fontInfo))
                     .foregroundColor(Color(dynamicColor: tokenSet[.foregroundColor].dynamicColor))
             }
         }
@@ -166,7 +185,7 @@ public struct FluentNotification: View, TokenizedControlView {
 
         @ViewBuilder
         var button: some View {
-            let shouldHaveDefaultAction = state.style.shouldAlwaysShowActionButton && shouldSelfPresent
+            let shouldHaveDefaultAction = state.showDefaultDismissActionButton && shouldSelfPresent
             if let buttonAction = state.actionButtonAction ?? (shouldHaveDefaultAction ? dismissAnimated : nil) {
                 let foregroundColor = tokenSet[.foregroundColor].dynamicColor
                 if let actionTitle = state.actionButtonTitle, !actionTitle.isEmpty {
@@ -236,6 +255,7 @@ public struct FluentNotification: View, TokenizedControlView {
 
         @ViewBuilder
         var notification: some View {
+            let shadowInfo = tokenSet[.shadow].shadowInfo
             innerContents
                 .background(
                     RoundedRectangle(cornerRadius: tokenSet[.cornerRadius].float)
@@ -244,14 +264,14 @@ public struct FluentNotification: View, TokenizedControlView {
                             RoundedRectangle(cornerRadius: tokenSet[.cornerRadius].float)
                                 .fill(Color(dynamicColor: tokenSet[.backgroundColor].dynamicColor))
                         )
-                        .shadow(color: Color(dynamicColor: tokenSet[.ambientShadowColor].dynamicColor),
-                                radius: tokenSet[.ambientShadowBlur].float,
-                                x: tokenSet[.ambientShadowOffsetX].float,
-                                y: tokenSet[.ambientShadowOffsetY].float)
-                        .shadow(color: Color(dynamicColor: tokenSet[.perimeterShadowColor].dynamicColor),
-                                radius: tokenSet[.perimeterShadowBlur].float,
-                                x: tokenSet[.perimeterShadowOffsetX].float,
-                                y: tokenSet[.perimeterShadowOffsetY].float)
+                        .shadow(color: Color(dynamicColor: shadowInfo.colorOne),
+                                radius: shadowInfo.blurOne,
+                                x: shadowInfo.xOne,
+                                y: shadowInfo.yOne)
+                        .shadow(color: Color(dynamicColor: shadowInfo.colorTwo),
+                                radius: shadowInfo.blurTwo,
+                                x: shadowInfo.xTwo,
+                                y: shadowInfo.yTwo)
                 )
                 .onTapGesture {
                     if let messageAction = messageButtonAction {
@@ -274,6 +294,7 @@ public struct FluentNotification: View, TokenizedControlView {
                         let isHalfLength = state.style.isToast && horizontalSizeClass == .regular
                         return isHalfLength ? proposedWidth / 2 : proposedWidth - horizontalPadding
                     }()
+                    let showFromBottom = state.showFromBottom
 
                     notification
                         .frame(idealWidth: isFlexibleWidthToast ? innerContentsSize.width - horizontalPadding : calculatedNotificationWidth,
@@ -287,14 +308,15 @@ public struct FluentNotification: View, TokenizedControlView {
                         })
                         .padding(.bottom, tokenSet[.bottomPresentationPadding].float)
                         .onSizeChange { newSize in
-                            bottomOffsetForDismissedState = newSize.height + (tokenSet[.ambientShadowOffsetY].float / 2)
+                            bottomOffsetForDismissedState = newSize.height + (tokenSet[.shadow].shadowInfo.yOne / 2)
                             // Bottom offset is only updated when the notification isn't presented to account for the new notification height (if presented, offset doesn't need to be updated since it grows upward vertically)
                             if !isPresented {
                                 bottomOffset = bottomOffsetForDismissedState
                             }
                         }
-                        .offset(y: bottomOffset)
-                        .frame(width: proposedWidth, height: proposedSize.height, alignment: .bottom)
+                        .offset(y: showFromBottom ? bottomOffset : -bottomOffset)
+                        .frame(width: proposedWidth, height: proposedSize.height, alignment: showFromBottom ? .bottom : .top)
+                        .opacity(opacity)
                 }
             }
         }
@@ -327,12 +349,14 @@ public struct FluentNotification: View, TokenizedControlView {
                               dampingFraction: state.style.animationDampingRatio,
                               blendDuration: 0)) {
             bottomOffset = 0
+            opacity = 1
         }
     }
 
     private func dismissAnimated() {
         withAnimation(.linear(duration: state.style.animationDurationForHide)) {
             bottomOffset = bottomOffsetForDismissedState
+            opacity = 0
         }
     }
 
@@ -343,6 +367,7 @@ public struct FluentNotification: View, TokenizedControlView {
     @State private var innerContentsSize: CGSize = CGSize()
     @State private var attributedMessageSize: CGSize = CGSize()
     @State private var attributedTitleSize: CGSize = CGSize()
+    @State private var opacity: CGFloat = 0
 
     // When true, the notification view will take up all proposed space
     // and automatically position itself within it.
@@ -365,6 +390,8 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
     @Published public var image: UIImage?
     @Published public var trailingImage: UIImage?
     @Published public var trailingImageAccessibilityLabel: String?
+    @Published public var showDefaultDismissActionButton: Bool
+    @Published public var showFromBottom: Bool = true
 
     /// Title to display in the action button on the trailing edge of the control.
     ///
@@ -382,25 +409,36 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
     /// Style to draw the control.
     @Published public var style: MSFNotificationStyle
 
-    @objc init(style: MSFNotificationStyle) {
-        self.style = style
-
-        super.init()
+    @objc convenience init(style: MSFNotificationStyle) {
+        self.init(style: style,
+                  message: nil,
+                  attributedMessage: nil,
+                  title: nil,
+                  attributedTitle: nil,
+                  image: nil,
+                  trailingImage: nil,
+                  trailingImageAccessibilityLabel: nil,
+                  actionButtonTitle: nil,
+                  actionButtonAction: nil,
+                  showDefaultDismissActionButton: nil,
+                  messageButtonAction: nil,
+                  showFromBottom: true)
     }
 
-    convenience init(style: MSFNotificationStyle,
-                     message: String? = nil,
-                     attributedMessage: NSAttributedString? = nil,
-                     title: String? = nil,
-                     attributedTitle: NSAttributedString? = nil,
-                     image: UIImage? = nil,
-                     trailingImage: UIImage? = nil,
-                     trailingImageAccessibilityLabel: String? = nil,
-                     actionButtonTitle: String? = nil,
-                     actionButtonAction: (() -> Void)? = nil,
-                     messageButtonAction: (() -> Void)? = nil) {
-        self.init(style: style)
-
+    init(style: MSFNotificationStyle,
+         message: String? = nil,
+         attributedMessage: NSAttributedString? = nil,
+         title: String? = nil,
+         attributedTitle: NSAttributedString? = nil,
+         image: UIImage? = nil,
+         trailingImage: UIImage? = nil,
+         trailingImageAccessibilityLabel: String? = nil,
+         actionButtonTitle: String? = nil,
+         actionButtonAction: (() -> Void)? = nil,
+         showDefaultDismissActionButton: Bool? = nil,
+         messageButtonAction: (() -> Void)? = nil,
+         showFromBottom: Bool = true) {
+        self.style = style
         self.message = message
         self.attributedMessage = attributedMessage
         self.title = title
@@ -411,5 +449,9 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
         self.actionButtonTitle = actionButtonTitle
         self.actionButtonAction = actionButtonAction
         self.messageButtonAction = messageButtonAction
+        self.showFromBottom = showFromBottom
+        self.showDefaultDismissActionButton = showDefaultDismissActionButton ?? style.isToast
+
+        super.init()
     }
 }
