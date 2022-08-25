@@ -35,7 +35,7 @@ class TableViewHeaderFooterViewDemoController: DemoController {
         navigationController?.navigationBar.shadowImage = UIImage()
         container.addArrangedSubview(segmentedControl)
         container.setCustomSpacing(8, after: segmentedControl)
-        container.backgroundColor = Colors.navigationBarBackground
+        container.backgroundColor = UIColor(colorValue: view.fluentTheme.globalTokens.sharedColors[.pumpkin][.primary]) // Colors.navigationBarBackground
 
         let separator = Separator(style: .shadow, orientation: .horizontal)
         container.addArrangedSubview(separator)
@@ -57,7 +57,7 @@ class TableViewHeaderFooterViewDemoController: DemoController {
         tableView.register(TableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: TableViewHeaderFooterView.identifier)
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.backgroundColor = Colors.tableBackground
+        tableView.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background2]) // UIColor(colorValue: view.fluentTheme.globalTokens.sharedColors[.lime][.primary]) // Colors.tableBackground
         tableView.separatorStyle = .none
         return tableView
     }
@@ -81,8 +81,10 @@ extension TableViewHeaderFooterViewDemoController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier) as? TableViewCell else {
-            return UITableViewCell()
+            return TableViewCell()
         }
+        cell.backgroundStyleType = TableViewCellBackgroundStyleType.custom
+        cell.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background2])
         cell.setup(title: TableViewHeaderFooterSampleData.itemTitle)
         var isLastInSection = indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1
         if tableView.style == .grouped {
