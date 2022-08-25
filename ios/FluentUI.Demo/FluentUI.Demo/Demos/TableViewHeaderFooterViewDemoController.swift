@@ -57,7 +57,7 @@ class TableViewHeaderFooterViewDemoController: DemoController {
         tableView.register(TableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: TableViewHeaderFooterView.identifier)
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.backgroundColor = Colors.tableBackground
+        tableView.backgroundColor = TableViewCell.tableBackgroundColor
         tableView.separatorStyle = .none
         return tableView
     }
