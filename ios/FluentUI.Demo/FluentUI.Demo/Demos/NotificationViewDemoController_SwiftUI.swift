@@ -187,10 +187,10 @@ struct NotificationDemoView: View {
 
     private var backgroundGradient: GradientInfo {
         // It's a lovely blue-to-pink gradient
-        let colors: [DynamicColor] = [DynamicColor(light: GlobalTokens().sharedColors[.pink][.tint50],
-                                                   dark: GlobalTokens().sharedColors[.pink][.shade40]),
-                                      DynamicColor(light: GlobalTokens().sharedColors[.cyan][.tint50],
-                                                   dark: GlobalTokens().sharedColors[.cyan][.shade40])]
+        let colors: [DynamicColor] = [DynamicColor(light: GlobalTokens.sharedColors(.pink, .tint50),
+                                                   dark: GlobalTokens.sharedColors(.pink, .shade40)),
+                                      DynamicColor(light: GlobalTokens.sharedColors(.cyan, .tint50),
+                                                   dark: GlobalTokens.sharedColors(.cyan, .shade40))]
         return GradientInfo(colors: colors,
                             startPoint: .init(x: 0.0, y: 1.0),
                             endPoint: .init(x: 1.0, y: 0.0))

@@ -200,10 +200,10 @@ class NotificationViewDemoController: DemoController {
             notification.state.message = "The background of this notification has been customized with a gradient."
             notification.state.image = UIImage(named: "play-in-circle-24x24")
             // It's a lovely blue-to-pink gradient
-            let colors: [DynamicColor] = [DynamicColor(light: GlobalTokens().sharedColors[.pink][.tint50],
-                                                       dark: GlobalTokens().sharedColors[.pink][.shade40]),
-                                          DynamicColor(light: GlobalTokens().sharedColors[.cyan][.tint50],
-                                                       dark: GlobalTokens().sharedColors[.cyan][.shade40])]
+            let colors: [DynamicColor] = [DynamicColor(light: GlobalTokens.sharedColors(.pink, .tint50),
+                                                       dark: GlobalTokens.sharedColors(.pink, .shade40)),
+                                          DynamicColor(light: GlobalTokens.sharedColors(.cyan, .tint50),
+                                                       dark: GlobalTokens.sharedColors(.cyan, .shade40))]
             notification.state.backgroundGradient = GradientInfo(colors: colors,
                                                                  startPoint: .init(x: 0.0, y: 1.0),
                                                                  endPoint: .init(x: 1.0, y: 0.0))
