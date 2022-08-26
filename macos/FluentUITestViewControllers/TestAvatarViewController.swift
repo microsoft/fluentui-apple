@@ -165,7 +165,7 @@ class CustomAvatarViewController: NSViewController {
 		let avatarView = AvatarView(avatarSize: 25,
 									contactName: "Ted Randall",
 									contactEmail: "ted.randall@example.com")
-		avatarView.avatarBackgroundColor = .red
+		avatarView.avatarBackgroundColor = .systemRed
 
 		containerView.addView(avatarView, in: .center)
 		containerView.addView(NSView(), in: .center)
