@@ -4,6 +4,7 @@
 //
 
 import CoreGraphics
+import UIKit
 
 /// Represents a two-part shadow as used by FluentUI.
 public struct ShadowInfo {
@@ -59,4 +60,13 @@ public struct ShadowInfo {
 
     /// The vertical offset of the shadow for shadow 2.
     public let yTwo: CGFloat
+
+    /// Applies the chosen shadow to a specified view
+    public func applyShadow(for view: UIView, isShadowOne: Bool) {
+        view.layer.shadowColor = isShadowOne ? UIColor(dynamicColor: colorOne).cgColor : UIColor(dynamicColor: colorTwo).cgColor
+        view.layer.shadowRadius = isShadowOne ? (blurOne / 2) : (blurTwo / 2)
+        view.layer.shadowOpacity = 1
+        view.layer.shadowOffset = CGSize(width: isShadowOne ? xOne : xTwo,
+                                         height: isShadowOne ? yOne : yTwo)
+    }
 }
