@@ -5,16 +5,9 @@
 
 import UIKit
 
-/// `CommandBarDelegate` is used to notify consumers of the `CommandBar` of certain events occurring within the `CommandBar`
-public protocol CommandBarDelegate: AnyObject {
-    /// Called when a scroll occurs in the `CommandBar`
-    /// - Parameter commandBar: the instance of `CommandBar` that received the scroll
-    func commandBarDidScroll(_ commandBar: CommandBar)
-}
-
 /**
  `CommandBar` is a horizontal scrollable list of icon buttons divided by groups.
- Set the `delegate` property to receive callbacks when scroll events occur.
+ Set the `delegate` property to determine whether a button can be selected and deselected, and listen to selection changes.
  Provide `itemGroups` in `init` to set the buttons in the scrollable area. Optional `leadingItemGroups` and `trailingItemGroups` add buttons in leading and trailing positions. Each `CommandBarItem` will be represented as a button.
  */
 @objc(MSFCommandBar)
@@ -136,9 +129,6 @@ open class CommandBar: UIView {
             setupGroupsView(trailingCommandGroupsView, with: newValue)
         }
     }
-
-    /// Delegate object that notifies consumers of events occuring inside the `CommandBar`
-    public weak var delegate: CommandBarDelegate?
 
     // MARK: - Private properties
 
@@ -283,8 +273,6 @@ open class CommandBar: UIView {
 extension CommandBar: UIScrollViewDelegate {
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         updateShadow()
-
-        delegate?.commandBarDidScroll(self)
     }
 }
 
