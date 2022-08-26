@@ -167,8 +167,6 @@ class AvatarGroupDemoController: DemoTableViewController {
 
     // MARK: - Helpers
 
-    private let avatarSizes: [MSFAvatarSize] = MSFAvatarSize.allCases.reversed()
-
     private enum AvatarGroupDemoSection: CaseIterable {
         case settings
         case avatarStackNoBorder
