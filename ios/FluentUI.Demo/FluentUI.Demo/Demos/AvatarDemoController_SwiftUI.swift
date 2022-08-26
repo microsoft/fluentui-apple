@@ -148,12 +148,13 @@ struct AvatarDemoView: View {
                         }
 
                         Picker(selection: $size, label: EmptyView()) {
-                            Text(".xxlarge").tag(MSFAvatarSize.size72)
-                            Text(".xlarge").tag(MSFAvatarSize.size56)
-                            Text(".large").tag(MSFAvatarSize.size40)
-                            Text(".medium").tag(MSFAvatarSize.size32)
-                            Text(".small").tag(MSFAvatarSize.size24)
-                            Text(".xsmall").tag(MSFAvatarSize.size16)
+                            Text(".size72").tag(MSFAvatarSize.size72)
+                            Text(".size56").tag(MSFAvatarSize.size56)
+                            Text(".size40").tag(MSFAvatarSize.size40)
+                            Text(".size32").tag(MSFAvatarSize.size32)
+                            Text(".size24").tag(MSFAvatarSize.size24)
+                            Text(".size20").tag(MSFAvatarSize.size20)
+                            Text(".size16").tag(MSFAvatarSize.size16)
                         }
                         .labelsHidden()
                         .frame(maxWidth: .infinity, alignment: .leading)
