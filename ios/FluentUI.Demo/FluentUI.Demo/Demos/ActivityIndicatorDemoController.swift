@@ -282,7 +282,7 @@ extension ActivityIndicatorDemoController: DemoAppearanceDelegate {
 
     private class ThemeWideOverrideActivityIndicatorTokens: ActivityIndicatorTokens {
         override var defaultColor: DynamicColor {
-            return DynamicColor(light: GlobalTokens().sharedColors[.red][.primary])
+            return DynamicColor(light: GlobalTokens.sharedColors(.red, .primary))
         }
 
         override var side: CGFloat {
@@ -292,7 +292,7 @@ extension ActivityIndicatorDemoController: DemoAppearanceDelegate {
 
     private class PerControlOverrideActivityIndicatorTokens: ActivityIndicatorTokens {
         override var defaultColor: DynamicColor {
-            return DynamicColor(light: GlobalTokens().sharedColors[.green][.primary])
+            return DynamicColor(light: GlobalTokens.sharedColors(.green, .primary))
         }
 
         override var thickness: CGFloat {

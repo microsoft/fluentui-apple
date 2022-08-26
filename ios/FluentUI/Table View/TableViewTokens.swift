@@ -7,8 +7,8 @@ import UIKit
 open class TableViewCellTokens: ControlTokens {
     /// The background color of the TableView.
     open var backgroundColor: DynamicColor {
-        .init(light: globalTokens.neutralColors[.white],
-              dark: globalTokens.neutralColors[.black])
+        .init(light: GlobalTokens.neutralColors(.white),
+              dark: GlobalTokens.neutralColors(.black))
     }
 
     /// The grouped background color of the TableView.
@@ -43,11 +43,11 @@ open class TableViewCellTokens: ControlTokens {
         case .zero:
             return .zero
         case .small:
-            return CGSize(width: globalTokens.iconSize[.medium],
-                          height: globalTokens.iconSize[.medium])
+            return CGSize(width: GlobalTokens.iconSize(.medium),
+                          height: GlobalTokens.iconSize(.medium))
         case .medium, .default:
-            return CGSize(width: globalTokens.iconSize[.xxLarge],
-                          height: globalTokens.iconSize[.xxLarge])
+            return CGSize(width: GlobalTokens.iconSize(.xxLarge),
+                          height: GlobalTokens.iconSize(.xxLarge))
         }
     }
 
@@ -55,11 +55,11 @@ open class TableViewCellTokens: ControlTokens {
     open var customViewTrailingMargin: CGFloat {
         switch customViewSize {
         case .zero:
-            return globalTokens.spacing[.none]
+            return GlobalTokens.spacing(.none)
         case .small:
-            return globalTokens.spacing[.medium]
+            return GlobalTokens.spacing(.medium)
         case .medium, .default:
-            return globalTokens.spacing[.small]
+            return GlobalTokens.spacing(.small)
         }
     }
 
@@ -100,13 +100,13 @@ open class TableViewCellTokens: ControlTokens {
     open var footerHeight: CGFloat { 18 }
 
     /// The leading margin for the labelAccessoryView.
-    open var labelAccessoryViewMarginLeading: CGFloat { globalTokens.spacing[.xSmall] }
+    open var labelAccessoryViewMarginLeading: CGFloat { GlobalTokens.spacing(.xSmall) }
 
     /// The trailing margin for the labelAccessoryView.
-    open var labelAccessoryViewMarginTrailing: CGFloat { globalTokens.spacing[.xSmall] }
+    open var labelAccessoryViewMarginTrailing: CGFloat { GlobalTokens.spacing(.xSmall) }
 
     /// The leading margin for the customAccessoryView.
-    open var customAccessoryViewMarginLeading: CGFloat { globalTokens.spacing[.xSmall] }
+    open var customAccessoryViewMarginLeading: CGFloat { GlobalTokens.spacing(.xSmall) }
 
     /// The minimum vertical margin for the customAccessoryView.
     open var customAccessoryViewMinVerticalMargin: CGFloat { 6 }
@@ -115,13 +115,13 @@ open class TableViewCellTokens: ControlTokens {
     open var labelVerticalMarginForOneAndThreeLines: CGFloat { 11 }
 
     /// The vertical margin for the label when it has two lines.
-    open var labelVerticalMarginForTwoLines: CGFloat { globalTokens.spacing[.small] }
+    open var labelVerticalMarginForTwoLines: CGFloat { GlobalTokens.spacing(.small) }
 
     /// The vertical spacing for the label.
-    open var labelVerticalSpacing: CGFloat { globalTokens.spacing[.none] }
+    open var labelVerticalSpacing: CGFloat { GlobalTokens.spacing(.none) }
 
     /// The minimum TableViewCell height; the height of a TableViewCell with one line of text.
-    open var minHeight: CGFloat { globalTokens.spacing[.xxxLarge] }
+    open var minHeight: CGFloat { GlobalTokens.spacing(.xxxLarge) }
 
     /// The height of a TableViewCell with two lines of text.
     open var mediumHeight: CGFloat { 64 }
@@ -130,10 +130,10 @@ open class TableViewCellTokens: ControlTokens {
     open var largeHeight: CGFloat { 84 }
 
     /// The trailing margin for the selectionImage.
-    open var selectionImageMarginTrailing: CGFloat { globalTokens.spacing[.medium] }
+    open var selectionImageMarginTrailing: CGFloat { GlobalTokens.spacing(.medium) }
 
     /// The size for the selectionImage.
-    open var selectionImageSize: CGSize { CGSize(width: globalTokens.iconSize[.medium], height: globalTokens.iconSize[.medium]) }
+    open var selectionImageSize: CGSize { CGSize(width: GlobalTokens.iconSize(.medium), height: GlobalTokens.iconSize(.medium)) }
 
     /// The duration for the selectionModeAnimation.
     open var selectionModeAnimationDuration: TimeInterval { 0.2 }
@@ -148,16 +148,16 @@ open class TableViewCellTokens: ControlTokens {
     open var disabledAlpha: CGFloat { 0.35 }
 
     /// The default horizontal spacing in the cell.
-    open var horizontalSpacing: CGFloat { globalTokens.spacing[.medium] }
+    open var horizontalSpacing: CGFloat { GlobalTokens.spacing(.medium) }
 
     /// The leading padding in the cell.
-    open var paddingLeading: CGFloat { globalTokens.spacing[.medium] }
+    open var paddingLeading: CGFloat { GlobalTokens.spacing(.medium) }
 
     /// The vertical padding in the cell.
     open var paddingVertical: CGFloat { 11 }
 
     /// The trailing padding in the cell.
-    open var paddingTrailing: CGFloat { globalTokens.spacing[.medium] }
+    open var paddingTrailing: CGFloat { GlobalTokens.spacing(.medium) }
 
     /// The color for the accessoryDisclosureIndicator.
     open var accessoryDisclosureIndicatorColor: DynamicColor { aliasTokens.foregroundColors[.neutral4] }
@@ -166,7 +166,7 @@ open class TableViewCellTokens: ControlTokens {
     open var accessoryDetailButtonColor: DynamicColor { aliasTokens.foregroundColors[.neutral3] }
 
     /// The main primary brand color of the theme.
-    open var mainBrandColor: DynamicColor { globalTokens.brandColors[.primary] }
+    open var mainBrandColor: DynamicColor { aliasTokens.brandColors[.primary] }
 
     /// Defines the size of the customView size.
     public internal(set) var customViewSize: MSFTableViewCellCustomViewSize = .default

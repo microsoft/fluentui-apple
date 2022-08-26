@@ -14,23 +14,23 @@ open class HeadsUpDisplayTokens: ControlTokens {
                                                           dark: ColorValue(r: 0.188, g: 0.188, b: 0.188, a: 1)) }
 
     /// The color of the contents presented by the Heads-up display.
-    open var foregroundColor: DynamicColor { DynamicColor(light: globalTokens.neutralColors[.white],
+    open var foregroundColor: DynamicColor { DynamicColor(light: GlobalTokens.neutralColors(.white),
                                                           dark: ColorValue(r: 0.882, g: 0.882, b: 0.882, a: 1),
-                                                          darkHighContrast: globalTokens.neutralColors[.white]) }
+                                                          darkHighContrast: GlobalTokens.neutralColors(.white)) }
 
     /// The corner radius of the squared background of the Heads-up display.
     open var cornerRadius: CGFloat {
-        return globalTokens.borderRadius[.medium]
+        return GlobalTokens.borderRadius(.medium)
     }
 
     /// The distance between the label and image contents from the left and right edges of the squared background of the Heads-up display.
     open var horizontalPadding: CGFloat {
-        return globalTokens.spacing[.small]
+        return GlobalTokens.spacing(.small)
     }
 
     /// The distance between the label and image contents from the top and bottom edges of the squared background of the Heads-up display.
     open var verticalPadding: CGFloat {
-        return globalTokens.spacing[.large]
+        return GlobalTokens.spacing(.large)
     }
 
     /// The minimum value for the side of the squared background of the Heads-up display.
