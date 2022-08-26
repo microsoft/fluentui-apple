@@ -21,15 +21,15 @@ public extension View {
 }
 
 public extension FluentNotification {
-    /// Specifies a custom background 
+    /// An optional gradient to use as the background of the notification.
+    ///
+    /// If this property is nil, then this notification will use the background color defined by its design tokens.
     func backgroundGradient(_ gradientInfo: GradientInfo?) -> FluentNotification {
         state.backgroundGradient = gradientInfo
         return self
     }
 
-    /// An optional gradient to use as the background of the notification.
-    ///
-    /// If this property is nil, then this notification will use the background color defined by its design tokens.
+    /// Provides a custom design token set to be used when drawing this control.
     func overrideTokens(_ tokens: NotificationTokens?) -> FluentNotification {
         state.overrideTokens = tokens
         return self
