@@ -80,6 +80,7 @@ open class AvatarView: NSView {
 			guard oldValue != avatarBackgroundColor else {
 				return
 			}
+			isCustomAvatarBackgroundColorConfigured = true
 			needsDisplay = true
 			initialsTextField.backgroundColor = avatarBackgroundColor
 		}
@@ -92,6 +93,7 @@ open class AvatarView: NSView {
 			guard oldValue != initialsFontColor else {
 				return
 			}
+			isCustomAvatarInitialColorConfigured = true
 			needsDisplay = true
 			initialsTextField.textColor = initialsFontColor
 		}
@@ -209,6 +211,9 @@ open class AvatarView: NSView {
 			updateViewStyle()
 		}
 	}
+
+	private var isCustomAvatarBackgroundColorConfigured: Bool = false
+	private var isCustomAvatarInitialColorConfigured: Bool = false
 
 	private lazy var contentView: NSView = {
 		let contentView = NSView()
@@ -355,9 +360,20 @@ open class AvatarView: NSView {
 	}
 
 	private func updateAppearance(_ appearance: NSAppearance? = nil) {
+		if isCustomAvatarBackgroundColorConfigured && isCustomAvatarInitialColorConfigured {
+			return
+		}
+
 		let color = AvatarView.getInitialsColorSet(fromPrimaryText: contactEmail, secondaryText: contactName)
-		avatarBackgroundColor = color.background.resolvedColor(appearance)
-		initialsFontColor = color.foreground.resolvedColor(appearance)
+		if !isCustomAvatarBackgroundColorConfigured {
+			initialsTextField.backgroundColor = color.background.resolvedColor(appearance)
+		}
+
+		if !isCustomAvatarInitialColorConfigured {
+			initialsTextField.textColor = color.foreground.resolvedColor(appearance)
+		}
+
+		needsDisplay = true
 	}
 
 	private func updateHeight() {
