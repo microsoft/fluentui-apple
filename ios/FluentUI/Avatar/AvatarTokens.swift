@@ -15,6 +15,8 @@ open class AvatarTokens: ControlTokens {
         switch size {
         case .size16:
             return 16
+        case .size20:
+            return 20
         case .size24:
             return 24
         case .size32:
@@ -22,7 +24,7 @@ open class AvatarTokens: ControlTokens {
         case .size40:
             return 40
         case .size56:
-            return 52
+            return 56
         case .size72:
             return 72
         }
@@ -35,7 +37,7 @@ open class AvatarTokens: ControlTokens {
             return GlobalTokens.spacing(.none)
         case .group:
             switch size {
-            case .size16:
+            case .size16, .size20:
                 return GlobalTokens.borderRadius(.small)
             case .size24, .size32:
                 return GlobalTokens.borderRadius(.medium)
@@ -50,7 +52,7 @@ open class AvatarTokens: ControlTokens {
     /// The font used for text in the `Avatar`
     open var textFont: FontInfo {
         switch size {
-        case .size16:
+        case .size16, .size20:
             return .init(size: 9, weight: GlobalTokens.fontWeight(.regular))
         case .size24:
             return aliasTokens.typography[.caption2]
@@ -85,7 +87,7 @@ open class AvatarTokens: ControlTokens {
     /// The thickness of the ring around the `Avatar`.
     open var ringThickness: CGFloat {
         switch size {
-        case .size16, .size24:
+        case .size16, .size20, .size24:
             return GlobalTokens.borderSize(.thin)
         case .size32, .size40, .size56:
             return GlobalTokens.borderSize(.thick)
@@ -97,7 +99,7 @@ open class AvatarTokens: ControlTokens {
     /// The gap between the `Avatar` and its ring.
     open var ringInnerGap: CGFloat {
         switch size {
-        case .size16, .size24, .size32, .size40, .size56:
+        case .size16, .size20, .size24, .size32, .size40, .size56:
             return GlobalTokens.borderSize(.thick)
         case .size72:
             return GlobalTokens.borderSize(.thicker)
@@ -107,7 +109,7 @@ open class AvatarTokens: ControlTokens {
     /// The gap around the ring around the `Avatar`.
     open var ringOuterGap: CGFloat {
         switch size {
-        case .size16, .size24, .size32, .size40, .size56:
+        case .size16, .size20, .size24, .size32, .size40, .size56:
             return GlobalTokens.borderSize(.thick)
         case .size72:
             return GlobalTokens.borderSize(.thicker)
@@ -119,7 +121,7 @@ open class AvatarTokens: ControlTokens {
         switch size {
         case .size16:
             return 0
-        case .size24, .size32:
+        case .size20, .size24, .size32:
             return GlobalTokens.iconSize(.xxxSmall)
         case .size40, .size56:
             return GlobalTokens.iconSize(.xxSmall)
@@ -133,7 +135,7 @@ open class AvatarTokens: ControlTokens {
         switch size {
         case .size16:
             return GlobalTokens.borderSize(.none)
-        case .size24, .size32, .size40, .size56, .size72:
+        case .size20, .size24, .size32, .size40, .size56, .size72:
             return GlobalTokens.borderSize(.thick)
         }
     }
@@ -261,6 +263,7 @@ open class AvatarTokens: ControlTokens {
 /// Pre-defined sizes of the avatar
 @objc public enum MSFAvatarSize: Int, CaseIterable {
     case size16
+    case size20
     case size24
     case size32
     case size40
