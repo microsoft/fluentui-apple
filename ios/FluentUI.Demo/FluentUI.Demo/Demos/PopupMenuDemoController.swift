@@ -38,6 +38,7 @@ class PopupMenuDemoController: DemoController {
         container.addArrangedSubview(createButton(title: "Show items with custom colors", action: #selector(showCustomColorsButtonTapped)))
         container.addArrangedSubview(createButton(title: "Show items without dismissal after being tapped", action: #selector(showNoDismissalItemsButtonTapped)))
         container.addArrangedSubview(UIView())
+        container.addArrangedSubview(createButton(title: "Objective-C Demo", action: #selector(showObjCDemo)))
         addTitle(text: "Show with...")
     }
 
@@ -189,5 +190,10 @@ class PopupMenuDemoController: DemoController {
         controller.separatorColor = .lightGray
 
         present(controller, animated: true)
+    }
+
+    @objc private func showObjCDemo(sender: UIButton) {
+//        present(PopupMenuDemoController_ObjC(), animated: true)
+        navigationController?.pushViewController(PopupMenuDemoController_ObjC(), animated: true)
     }
 }
