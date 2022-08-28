@@ -38,6 +38,7 @@ struct NotificationDemoView: View {
     @State var isFlexibleWidthToast: Bool = false
     @State var showDefaultDismissActionButton: Bool = true
     @State var showFromBottom: Bool = true
+    @State var showBackgroundGradient: Bool = false
 
     public var body: some View {
         let hasAttribute = hasBlueStrikethroughAttribute || hasLargeRedPapyrusFontAttribute
@@ -58,21 +59,22 @@ struct NotificationDemoView: View {
         VStack {
             Rectangle()
                 .foregroundColor(.clear)
-                .presentNotification(style: style,
-                                     isFlexibleWidthToast: $isFlexibleWidthToast.wrappedValue,
-                                     message: hasMessage ? message : nil,
-                                     attributedMessage: hasAttribute && hasMessage ? attributedMessage : nil,
-                                     isBlocking: false,
-                                     isPresented: .constant(true),
-                                     title: hasTitle ? title : nil,
-                                     attributedTitle: hasAttribute && hasTitle ? attributedTitle : nil,
-                                     image: image,
-                                     trailingImage: trailingImage,
-                                     trailingImageAccessibilityLabel: trailingImageLabel,
-                                     actionButtonTitle: actionButtonTitle,
-                                     actionButtonAction: actionButtonAction,
-                                     messageButtonAction: messageButtonAction,
-                                     overrideTokens: $overrideTokens.wrappedValue ? NotificationOverrideTokens() : nil)
+                .presentNotification(isPresented: .constant(true), isBlocking: false) {
+                    FluentNotification(style: style,
+                                       isFlexibleWidthToast: $isFlexibleWidthToast.wrappedValue,
+                                       message: hasMessage ? message : nil,
+                                       attributedMessage: hasAttribute && hasMessage ? attributedMessage : nil,
+                                       title: hasTitle ? title : nil,
+                                       attributedTitle: hasAttribute && hasTitle ? attributedTitle : nil,
+                                       image: image,
+                                       trailingImage: trailingImage,
+                                       trailingImageAccessibilityLabel: trailingImageLabel,
+                                       actionButtonTitle: actionButtonTitle,
+                                       actionButtonAction: actionButtonAction,
+                                       messageButtonAction: messageButtonAction)
+                    .backgroundGradient(showBackgroundGradient ? backgroundGradient : nil)
+                    .overrideTokens($overrideTokens.wrappedValue ? NotificationOverrideTokens() : nil)
+                }
                 .frame(maxWidth: .infinity, maxHeight: 150, alignment: .center)
                 .alert(isPresented: $showAlert, content: {
                     Alert(title: Text("Button tapped"))
@@ -155,16 +157,18 @@ struct NotificationDemoView: View {
                         FluentUIDemoToggle(titleKey: "Override Tokens (Image Color and Horizontal Spacing)", isOn: $overrideTokens)
                         FluentUIDemoToggle(titleKey: "Flexible Width Toast", isOn: $isFlexibleWidthToast)
                         FluentUIDemoToggle(titleKey: "Present From Bottom", isOn: $showFromBottom)
+                        FluentUIDemoToggle(titleKey: "Background Gradient", isOn: $showBackgroundGradient)
                     }
                 }
                 .padding()
             }
         }
-        .presentNotification(style: style,
+        .presentNotification(isPresented: $isPresented,
+                             isBlocking: false) {
+            FluentNotification(style: style,
                              isFlexibleWidthToast: $isFlexibleWidthToast.wrappedValue,
                              message: hasMessage ? message : nil,
                              attributedMessage: hasAttribute && hasMessage ? attributedMessage : nil,
-                             isBlocking: false,
                              isPresented: $isPresented,
                              title: hasTitle ? title : nil,
                              attributedTitle: hasAttribute && hasTitle ? attributedTitle : nil,
@@ -175,13 +179,26 @@ struct NotificationDemoView: View {
                              actionButtonAction: actionButtonAction,
                              showDefaultDismissActionButton: showDefaultDismissActionButton,
                              messageButtonAction: messageButtonAction,
-                             showFromBottom: showFromBottom,
-                             overrideTokens: $overrideTokens.wrappedValue ? NotificationOverrideTokens() : nil)
+                             showFromBottom: showFromBottom)
+            .backgroundGradient(showBackgroundGradient ? backgroundGradient : nil)
+            .overrideTokens($overrideTokens.wrappedValue ? NotificationOverrideTokens() : nil)
+        }
+    }
+
+    private var backgroundGradient: GradientInfo {
+        // It's a lovely blue-to-pink gradient
+        let colors: [DynamicColor] = [DynamicColor(light: GlobalTokens.sharedColors(.pink, .tint50),
+                                                   dark: GlobalTokens.sharedColors(.pink, .shade40)),
+                                      DynamicColor(light: GlobalTokens.sharedColors(.cyan, .tint50),
+                                                   dark: GlobalTokens.sharedColors(.cyan, .shade40))]
+        return GradientInfo(colors: colors,
+                            startPoint: .init(x: 0.0, y: 1.0),
+                            endPoint: .init(x: 1.0, y: 0.0))
     }
 
     private class NotificationOverrideTokens: NotificationTokens {
         override var imageColor: DynamicColor {
-            return DynamicColor(light: globalTokens.sharedColors[.orange][.primary])
+            return DynamicColor(light: GlobalTokens.sharedColors(.orange, .primary))
         }
 
         override var horizontalSpacing: CGFloat {

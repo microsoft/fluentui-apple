@@ -42,9 +42,9 @@ public class PersonaButtonTokens: ControlTokens {
     open var avatarInterspace: CGFloat {
         switch size {
         case .small:
-            return globalTokens.spacing[.xSmall]
+            return GlobalTokens.spacing(.xSmall)
         case .large:
-            return globalTokens.spacing[.small]
+            return GlobalTokens.spacing(.small)
         }
     }
 
@@ -55,14 +55,14 @@ public class PersonaButtonTokens: ControlTokens {
     open var horizontalAvatarPadding: CGFloat {
         switch size {
         case .small:
-            return globalTokens.spacing[.medium]
+            return GlobalTokens.spacing(.medium)
         case .large:
-            return globalTokens.spacing[.xSmall]
+            return GlobalTokens.spacing(.xSmall)
         }
     }
 
     /// How much space should be reserved to the left and right of the control's labels.
-    open var horizontalTextPadding: CGFloat { globalTokens.spacing[.xxxSmall] }
+    open var horizontalTextPadding: CGFloat { GlobalTokens.spacing(.xxxSmall) }
 
     /// The `DynamicColor` to use for the control's primary label.
     open var labelColor: DynamicColor { aliasTokens.colors[.foreground1] }
@@ -84,5 +84,5 @@ public class PersonaButtonTokens: ControlTokens {
     open var sublabelFont: FontInfo { aliasTokens.typography[.caption1] }
 
     /// How much padding to add above the `Avatar` and below the lowest text label.
-    open var verticalPadding: CGFloat { globalTokens.spacing[.xSmall] }
+    open var verticalPadding: CGFloat { GlobalTokens.spacing(.xSmall) }
 }

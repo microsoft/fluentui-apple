@@ -33,6 +33,7 @@ class TableViewHeaderFooterViewDemoController: DemoController {
         container.spacing = 0
 
         navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.backgroundColor = Colors.navigationBarBackground
         container.addArrangedSubview(segmentedControl)
         container.setCustomSpacing(8, after: segmentedControl)
         container.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background1])

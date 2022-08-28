@@ -78,7 +78,7 @@ struct HUDDemoView: View {
                             Text(".activity").tag(HUDType.activity)
                             Text(".success").tag(HUDType.success)
                             Text(".failure").tag(HUDType.failure)
-                            Text(".custom").tag(HUDType.custom(image: UIImage(named: "flag-40x40")!))
+                            Text(".custom").tag(HUDType.custom(image: UIImage(named: "flag-48x48")!))
                         }
                         .labelsHidden()
                         .frame(maxWidth: .infinity, alignment: .leading)

@@ -29,7 +29,7 @@ class GlobalColorTokensDemoController: DemoTableViewController {
         let colorSet = GlobalTokens.SharedColorSets.allCases[indexPath.section]
         let colorToken = GlobalTokens.SharedColorsTokens.allCases[indexPath.row]
 
-        cell.backgroundConfiguration?.backgroundColor = UIColor(colorValue: globalTokens.sharedColors[colorSet][colorToken])
+        cell.backgroundConfiguration?.backgroundColor = UIColor(colorValue: GlobalTokens.sharedColors(colorSet, colorToken))
         cell.selectionStyle = .none
 
         var contentConfiguration = cell.defaultContentConfiguration()
@@ -61,13 +61,6 @@ class GlobalColorTokensDemoController: DemoTableViewController {
                 return .black
             }
         }
-    }
-
-    private var globalTokens: GlobalTokens {
-        guard let fluentTheme = self.view.window?.fluentTheme else {
-            return GlobalTokens()
-        }
-        return fluentTheme.globalTokens
     }
 
     private struct Constants {
