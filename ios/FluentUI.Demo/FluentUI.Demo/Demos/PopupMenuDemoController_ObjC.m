@@ -61,23 +61,23 @@
                                                              onSelected:nil
                                             isAccessoryCheckmarkVisible:YES];
     MSFPopupMenuItem *vancouver = [[MSFPopupMenuItem alloc] initWithImageName:@"Vancouver"
-                                                           generateSelectedImage:NO
-                                                                           title:@"Vancouver"
-                                                                        subtitle:@"British Columbia"
-                                                                       isEnabled:YES
-                                                                      isSelected:NO
-                                                                        executes:MSFPopupMenuItemExecutionModeOnSelection
-                                                                      onSelected:nil
-                                                     isAccessoryCheckmarkVisible:YES];
+                                                        generateSelectedImage:NO
+                                                                        title:@"Vancouver"
+                                                                     subtitle:@"British Columbia"
+                                                                    isEnabled:YES
+                                                                   isSelected:NO
+                                                                     executes:MSFPopupMenuItemExecutionModeOnSelection
+                                                                   onSelected:nil
+                                                  isAccessoryCheckmarkVisible:YES];
     MSFPopupMenuItem *lasVegas = [[MSFPopupMenuItem alloc] initWithImageName:@"Las Vegas"
-                                                          generateSelectedImage:NO
-                                                                          title:@"Las Vegas"
-                                                                       subtitle:@"Nevada"
-                                                                      isEnabled:YES
-                                                                     isSelected:NO
-                                                                       executes:MSFPopupMenuItemExecutionModeOnSelection
-                                                                     onSelected:nil
-                                                    isAccessoryCheckmarkVisible:YES];
+                                                       generateSelectedImage:NO
+                                                                       title:@"Las Vegas"
+                                                                    subtitle:@"Nevada"
+                                                                   isEnabled:YES
+                                                                  isSelected:NO
+                                                                    executes:MSFPopupMenuItemExecutionModeOnSelection
+                                                                  onSelected:nil
+                                                 isAccessoryCheckmarkVisible:YES];
     MSFPopupMenuItem *phoenix  = [[MSFPopupMenuItem alloc] initWithImageName:@"Phoenix"
                                                        generateSelectedImage:NO
                                                                        title:@"Phoenix"
@@ -88,14 +88,14 @@
                                                                   onSelected:nil
                                                  isAccessoryCheckmarkVisible:YES];
     MSFPopupMenuItem *sanFrancisco  = [[MSFPopupMenuItem alloc] initWithImageName:@"San Francisco"
-                                                       generateSelectedImage:NO
-                                                                       title:@"San Francisco"
-                                                                    subtitle:@"California"
-                                                                   isEnabled:YES
-                                                                  isSelected:NO
-                                                                    executes:MSFPopupMenuItemExecutionModeOnSelection
-                                                                  onSelected:nil
-                                                 isAccessoryCheckmarkVisible:YES];
+                                                            generateSelectedImage:NO
+                                                                            title:@"San Francisco"
+                                                                         subtitle:@"California"
+                                                                        isEnabled:YES
+                                                                       isSelected:NO
+                                                                         executes:MSFPopupMenuItemExecutionModeOnSelection
+                                                                       onSelected:nil
+                                                      isAccessoryCheckmarkVisible:YES];
     MSFPopupMenuItem *seattle  = [[MSFPopupMenuItem alloc] initWithImageName:@"Seattle"
                                                        generateSelectedImage:NO
                                                                        title:@"Seattle"
