@@ -48,8 +48,9 @@
                                                                     executes:MSFPopupMenuItemExecutionModeOnSelection
                                                                   onSelected:nil
                                                  isAccessoryCheckmarkVisible:YES];
-    MSFPopupMenuItem *toronto = [[MSFPopupMenuItem alloc] initWithImage:[UIImage imageNamed:@"Toronto"]
-                                                          selectedImage:nil
+    UIImage *torontoImage = [UIImage imageNamed:@"Toronto"];
+    MSFPopupMenuItem *toronto = [[MSFPopupMenuItem alloc] initWithImage:torontoImage
+                                                          selectedImage:torontoImage
                                                          accessoryImage:nil
                                                                   title:@"Toronto"
                                                                subtitle:@"Ontario"
