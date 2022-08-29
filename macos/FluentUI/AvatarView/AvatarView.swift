@@ -68,9 +68,6 @@ open class AvatarView: NSView {
 		}
 		// Disable animations for this change
 		CATransaction.setDisableActions(true)
-		if displayStyle == .initials {
-			initialsView.layer?.backgroundColor = avatarBackgroundColor.cgColor
-		}
 	}
 
 	/// The background color of the avatar view when no image is provided.
@@ -80,8 +77,9 @@ open class AvatarView: NSView {
 			guard oldValue != avatarBackgroundColor else {
 				return
 			}
+			isCustomAvatarBackgroundColorConfigured = true
 			needsDisplay = true
-			initialsTextField.backgroundColor = avatarBackgroundColor
+			initialsView.layer?.backgroundColor = avatarBackgroundColor.cgColor
 		}
 	}
 
@@ -92,6 +90,7 @@ open class AvatarView: NSView {
 			guard oldValue != initialsFontColor else {
 				return
 			}
+			isCustomAvatarInitialColorConfigured = true
 			needsDisplay = true
 			initialsTextField.textColor = initialsFontColor
 		}
@@ -210,6 +209,9 @@ open class AvatarView: NSView {
 		}
 	}
 
+	private var isCustomAvatarBackgroundColorConfigured: Bool = false
+	private var isCustomAvatarInitialColorConfigured: Bool = false
+
 	private lazy var contentView: NSView = {
 		let contentView = NSView()
 		contentView.wantsLayer = true
@@ -231,7 +233,6 @@ open class AvatarView: NSView {
 		let initialsView = NSView()
 		initialsView.wantsLayer = true
 		initialsView.translatesAutoresizingMaskIntoConstraints = false
-		initialsView.layer?.backgroundColor = avatarBackgroundColor.cgColor
 
 		let textView = initialsTextField
 		initialsView.addSubview(textView)
@@ -271,8 +272,6 @@ open class AvatarView: NSView {
 		textView.translatesAutoresizingMaskIntoConstraints = false
 		textView.font = font(forCircleDiameter: diameterForContentCircle())
 		textView.textColor = initialsFontColor
-		textView.drawsBackground = true
-		textView.backgroundColor = avatarBackgroundColor
 		return textView
 	}()
 
@@ -350,14 +349,32 @@ open class AvatarView: NSView {
 		}
 
 		initialsTextField.stringValue = AvatarView.initialsWithFallback(name: contactName, email: contactEmail)
-		updateAppearance(window?.effectiveAppearance)
 		displayStyle = hasImage ? .image : .initials
+		updateAppearance(window?.effectiveAppearance)
 	}
 
 	private func updateAppearance(_ appearance: NSAppearance? = nil) {
-		let color = AvatarView.getInitialsColorSet(fromPrimaryText: contactEmail, secondaryText: contactName)
-		avatarBackgroundColor = color.background.resolvedColor(appearance)
-		initialsFontColor = color.foreground.resolvedColor(appearance)
+		if displayStyle != .initials {
+			return
+		}
+
+		var updatedBackgroundColor = avatarBackgroundColor
+		var updatedInitialsColor = initialsFontColor
+		if !isCustomAvatarBackgroundColorConfigured || !isCustomAvatarInitialColorConfigured {
+			let defaultColorSet = AvatarView.getInitialsColorSet(fromPrimaryText: contactEmail, secondaryText: contactName)
+
+			if !isCustomAvatarBackgroundColorConfigured {
+				updatedBackgroundColor = defaultColorSet.background.resolvedColor(appearance)
+			}
+
+			if !isCustomAvatarInitialColorConfigured {
+				updatedInitialsColor = defaultColorSet.foreground.resolvedColor(appearance)
+			}
+		}
+
+		initialsView.layer?.backgroundColor = updatedBackgroundColor.cgColor
+		initialsTextField.textColor = updatedInitialsColor
+		needsDisplay = true
 	}
 
 	private func updateHeight() {
