@@ -22,7 +22,7 @@
     MSFButton *demoButton = [[MSFButton alloc] initWithStyle:MSFButtonStylePrimaryOutline];
     [demoButton setTitle:@"Show PopupMenu" forState:UIControlStateNormal];
     [demoButton addTarget:self action:@selector(showPopupMenu) forControlEvents:UIControlEventTouchUpInside];
-    
+
     UIStackView *stack = [[UIStackView alloc] initWithArrangedSubviews:@[demoButton]];
     [stack setAlignment:UIStackViewAlignmentTop];
     [stack setTranslatesAutoresizingMaskIntoConstraints:NO];
@@ -121,7 +121,7 @@
     [popupMenu setOnDismiss:^{
         [self setSelectedCityIndex:[weakMenu selectedItemIndexPath]];
     }];
-    
+
     [[self navigationController] presentViewController:popupMenu animated:YES completion:nil];
 }
 
