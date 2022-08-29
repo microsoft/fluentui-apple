@@ -64,12 +64,10 @@ open class NotificationTokens: ControlTokens {
     /// The background color of the notification
     open var backgroundColor: DynamicColor {
         switch style {
-        case .primaryToast:
+        case .primaryToast, .primaryBar:
             return aliasTokens.colors[.brandBackground4]
         case .neutralToast:
             return aliasTokens.colors[.background4]
-        case .primaryBar:
-            return aliasTokens.colors[.brandBackground4]
         case .primaryOutlineBar:
             return aliasTokens.colors[.background1]
         case .neutralBar:
@@ -84,54 +82,32 @@ open class NotificationTokens: ControlTokens {
     /// The color of the notification's foreground elements like text and icons
     open var foregroundColor: DynamicColor {
         switch style {
-        case .primaryToast:
-            return DynamicColor(light: globalTokens.brandColors[.shade10].light,
-                                dark: globalTokens.brandColors[.shade30].dark)
-        case .neutralToast:
-            return DynamicColor(light: ColorValue(0x393939),
-                                dark: ColorValue(0xF7F7F7))
-        case .primaryBar:
-            return DynamicColor(light: globalTokens.brandColors[.shade20].light,
-                                dark: ColorValue(0x000000))
+        case .primaryToast, .primaryBar:
+            return aliasTokens.colors[.brandForeground4]
+        case .neutralToast, .neutralBar:
+            return aliasTokens.colors[.foreground2]
         case .primaryOutlineBar:
-            return DynamicColor(light: globalTokens.brandColors[.primary].light,
-                                dark: ColorValue(0xF7F7F7))
-        case .neutralBar:
-            return DynamicColor(light: ColorValue(0x090909),
-                                dark: ColorValue(0xF7F7F7))
+            return aliasTokens.colors[.brandForeground1]
         case .dangerToast:
-            return DynamicColor(light: ColorValue(0xBC2F34),
-                                dark: ColorValue(0xDC5F63))
+            return aliasTokens.sharedColors[.dangerForeground1]
         case .warningToast:
-            return DynamicColor(light: ColorValue(0x4C4400),
-                                dark: ColorValue(0xFDEA3D))
+            return aliasTokens.sharedColors[.warningForeground1]
         }
     }
 
     /// The color of the notification's icon image
     open var imageColor: DynamicColor {
         switch style {
-        case .primaryToast:
-            return DynamicColor(light: globalTokens.brandColors[.shade10].light,
-                                dark: globalTokens.brandColors[.shade30].dark)
-        case .neutralToast:
-            return DynamicColor(light: ColorValue(0x393939),
-                                dark: ColorValue(0xF7F7F7))
-        case .primaryBar:
-            return DynamicColor(light: globalTokens.brandColors[.shade20].light,
-                                dark: ColorValue(0x000000))
+        case .primaryToast, .primaryBar:
+            return aliasTokens.colors[.brandForeground4]
+        case .neutralToast, .neutralBar:
+            return aliasTokens.colors[.foreground2]
         case .primaryOutlineBar:
-            return DynamicColor(light: globalTokens.brandColors[.primary].light,
-                                dark: ColorValue(0xF7F7F7))
-        case .neutralBar:
-            return DynamicColor(light: ColorValue(0x090909),
-                                dark: ColorValue(0xF7F7F7))
+            return aliasTokens.colors[.brandForeground1]
         case .dangerToast:
-            return DynamicColor(light: ColorValue(0xBC2F34),
-                                dark: ColorValue(0xDC5F63))
+            return aliasTokens.sharedColors[.dangerForeground1]
         case .warningToast:
-            return DynamicColor(light: ColorValue(0x4C4400),
-                                dark: ColorValue(0xFDEA3D))
+            return aliasTokens.sharedColors[.warningForeground1]
         }
     }
 
@@ -172,7 +148,7 @@ open class NotificationTokens: ControlTokens {
         case .primaryToast, .neutralToast, .primaryBar, .neutralBar, .dangerToast, .warningToast:
             return DynamicColor(light: ColorValue.clear)
         case .primaryOutlineBar:
-            return aliasTokens.strokeColors[.neutral1]
+            return aliasTokens.colors[.stroke2]
         }
     }
 
