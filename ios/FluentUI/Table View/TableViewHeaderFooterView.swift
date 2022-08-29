@@ -366,6 +366,16 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
     private func setup(style: Style, accessoryButtonTitle: String, leadingView: UIView? = nil) {
         updateTitleViewFont()
 
+        switch style {
+        case .header, .divider, .dividerHighlighted, .headerPrimary:
+            titleView.accessibilityTraits.insert(.header)
+        case .footer:
+            titleView.accessibilityTraits.remove(.header)
+            // Bug in iOS - need to manually refresh VoiceOver text for accessibilityTraits
+            titleView.isAccessibilityElement = false
+            titleView.isAccessibilityElement = true
+        }
+
         accessoryButton = !accessoryButtonTitle.isEmpty ? createAccessoryButton(withTitle: accessoryButtonTitle) : nil
         self.leadingView = leadingView
 
