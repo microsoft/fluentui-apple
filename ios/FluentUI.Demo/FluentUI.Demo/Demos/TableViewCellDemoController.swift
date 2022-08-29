@@ -134,8 +134,8 @@ extension TableViewCellDemoController: DemoAppearanceDelegate {
         return [
             .cellBackgroundColor: .dynamicColor {
                 // "Berry"
-                return DynamicColor(light: GlobalTokens().sharedColors[.berry][.tint50],
-                                    dark: GlobalTokens().sharedColors[.berry][.shade40])
+                return DynamicColor(light: GlobalTokens.sharedColors(.berry, .tint50),
+                                    dark: GlobalTokens.sharedColors(.berry, .shade40))
             }
         ]
     }
@@ -144,13 +144,13 @@ extension TableViewCellDemoController: DemoAppearanceDelegate {
         return [
             .cellBackgroundColor: .dynamicColor {
                 // "Brass"
-                return DynamicColor(light: GlobalTokens().sharedColors[.brass][.tint50],
-                                    dark: GlobalTokens().sharedColors[.brass][.shade40])
+                return DynamicColor(light: GlobalTokens.sharedColors(.brass, .tint50),
+                                    dark: GlobalTokens.sharedColors(.brass, .shade40))
             },
             .accessoryDisclosureIndicatorColor: .dynamicColor {
                 // "Forest"
-                return DynamicColor(light: GlobalTokens().sharedColors[.forest][.tint10],
-                                    dark: GlobalTokens().sharedColors[.forest][.shade40])
+                return DynamicColor(light: GlobalTokens.sharedColors(.forest, .tint10),
+                                    dark: GlobalTokens.sharedColors(.forest, .shade40))
             },
             .customViewTrailingMargin: .float {
                 return 0

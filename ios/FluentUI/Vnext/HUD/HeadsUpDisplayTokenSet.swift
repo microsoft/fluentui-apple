@@ -32,7 +32,7 @@ public class HeadsUpDisplayTokenSet: ControlTokenSet<HeadsUpDisplayTokenSet.Toke
     }
 
     init() {
-        super.init { token, theme in
+        super.init { token, _ in
             switch token {
             case .backgroundColor:
                 return .dynamicColor {
@@ -42,24 +42,24 @@ public class HeadsUpDisplayTokenSet: ControlTokenSet<HeadsUpDisplayTokenSet.Toke
 
             case .foregroundColor:
                 return .dynamicColor {
-                    DynamicColor(light: theme.globalTokens.neutralColors[.white],
+                    DynamicColor(light: GlobalTokens.neutralColors(.white),
                                  dark: ColorValue(r: 0.882, g: 0.882, b: 0.882, a: 1),
-                                 darkHighContrast: theme.globalTokens.neutralColors[.white])
+                                 darkHighContrast: GlobalTokens.neutralColors(.white))
                 }
 
             case .cornerRadius:
                 return .float {
-                    return theme.globalTokens.borderRadius[.medium]
+                    return GlobalTokens.borderRadius(.medium)
                 }
 
             case .horizontalPadding:
                 return .float {
-                    return theme.globalTokens.spacing[.small]
+                    return GlobalTokens.spacing(.small)
                 }
 
             case .verticalPadding:
                 return .float {
-                    return theme.globalTokens.spacing[.large]
+                    return GlobalTokens.spacing(.large)
                 }
 
             case .minSize:

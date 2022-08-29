@@ -401,8 +401,8 @@ public struct Avatar: View, TokenizedControlView {
             // Set the color based on the primary text and secondary text
             let hashCode = initialsHashCode(fromPrimaryText: primaryText, secondaryText: secondaryText)
             let colorSet = colors[hashCode % colors.count]
-            return DynamicColor(light: fluentTheme.globalTokens.sharedColors[colorSet][.tint40],
-                                dark: fluentTheme.globalTokens.sharedColors[colorSet][.shade30])
+            return DynamicColor(light: GlobalTokens.sharedColors(colorSet, .tint40),
+                                dark: GlobalTokens.sharedColors(colorSet, .shade30))
         }
 
         static func foregroundColor(fromPrimaryText primaryText: String?,
@@ -411,8 +411,8 @@ public struct Avatar: View, TokenizedControlView {
             // Set the color based on the primary text and secondary text
             let hashCode = initialsHashCode(fromPrimaryText: primaryText, secondaryText: secondaryText)
             let colorSet = colors[hashCode % colors.count]
-            return DynamicColor(light: fluentTheme.globalTokens.sharedColors[colorSet][.shade30],
-                                dark: fluentTheme.globalTokens.sharedColors[colorSet][.tint40])
+            return DynamicColor(light: GlobalTokens.sharedColors(colorSet, .shade30),
+                                dark: GlobalTokens.sharedColors(colorSet, .tint40))
         }
 
         private static func initialsHashCode(fromPrimaryText primaryText: String?, secondaryText: String?) -> Int {

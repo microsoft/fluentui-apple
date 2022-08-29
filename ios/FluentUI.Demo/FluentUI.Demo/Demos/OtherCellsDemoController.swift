@@ -58,8 +58,8 @@ extension OtherCellsDemoController: DemoAppearanceDelegate {
         return [
             .mainBrandColor: .dynamicColor {
                 // "Charcoal"
-                return DynamicColor(light: GlobalTokens().sharedColors[.charcoal][.tint50],
-                                    dark: GlobalTokens().sharedColors[.charcoal][.shade40])
+                return DynamicColor(light: GlobalTokens.sharedColors(.charcoal, .tint50),
+                                    dark: GlobalTokens.sharedColors(.charcoal, .shade40))
             }
         ]
     }
@@ -68,8 +68,8 @@ extension OtherCellsDemoController: DemoAppearanceDelegate {
         return [
             .cellBackgroundGroupedColor: .dynamicColor {
                 // "Charcoal"
-                return DynamicColor(light: GlobalTokens().sharedColors[.charcoal][.tint50],
-                                    dark: GlobalTokens().sharedColors[.charcoal][.shade40])
+                return DynamicColor(light: GlobalTokens.sharedColors(.charcoal, .tint50),
+                                    dark: GlobalTokens.sharedColors(.charcoal, .shade40))
             }
         ]
     }
@@ -78,8 +78,8 @@ extension OtherCellsDemoController: DemoAppearanceDelegate {
         return [
             .cellBackgroundGroupedColor: .dynamicColor {
                 // "Burgundy"
-                return DynamicColor(light: GlobalTokens().sharedColors[.burgundy][.tint50],
-                                    dark: GlobalTokens().sharedColors[.burgundy][.shade40])
+                return DynamicColor(light: GlobalTokens.sharedColors(.burgundy, .tint50),
+                                    dark: GlobalTokens.sharedColors(.burgundy, .shade40))
             }
         ]
     }

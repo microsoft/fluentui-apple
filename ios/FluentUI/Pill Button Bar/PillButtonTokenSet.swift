@@ -53,19 +53,19 @@ public class PillButtonTokenSet: ControlTokenSet<PillButtonTokenSet.Tokens> {
                         return .init(rest: DynamicColor(light: theme.aliasTokens.backgroundColors[.neutral4].light,
                                                         dark: theme.aliasTokens.backgroundColors[.neutral3].dark),
                                      selected: theme.aliasTokens.foregroundColors[.brandRest],
-                                     disabled: DynamicColor(light: theme.globalTokens.neutralColors[.grey94],
-                                                            dark: theme.globalTokens.neutralColors[.grey8]),
-                                     selectedDisabled: DynamicColor(light: theme.globalTokens.neutralColors[.grey80],
-                                                                    dark: theme.globalTokens.neutralColors[.grey30]))
+                                     disabled: DynamicColor(light: GlobalTokens.neutralColors(.grey94),
+                                                            dark: GlobalTokens.neutralColors(.grey8)),
+                                     selectedDisabled: DynamicColor(light: GlobalTokens.neutralColors(.grey80),
+                                                                    dark: GlobalTokens.neutralColors(.grey30)))
                     case .onBrand:
                         return .init(rest: DynamicColor(light: theme.aliasTokens.backgroundColors[.brandHover].light,
                                                         dark: theme.aliasTokens.backgroundColors[.neutral3].dark),
                                      selected: DynamicColor(light: theme.aliasTokens.backgroundColors[.neutral1].light,
-                                                            dark: theme.globalTokens.neutralColors[.grey32]),
-                                     disabled: DynamicColor(light: theme.globalTokens.brandColors[.shade20].light,
-                                                            dark: theme.globalTokens.neutralColors[.grey8]),
-                                     selectedDisabled: DynamicColor(light: theme.globalTokens.neutralColors[.white],
-                                                                    dark: theme.globalTokens.neutralColors[.grey30]))
+                                                            dark: GlobalTokens.neutralColors(.grey32)),
+                                     disabled: DynamicColor(light: theme.aliasTokens.brandColors[.shade20].light,
+                                                            dark: GlobalTokens.neutralColors(.grey8)),
+                                     selectedDisabled: DynamicColor(light: GlobalTokens.neutralColors(.white),
+                                                                    dark: GlobalTokens.neutralColors(.grey30)))
                     }
                 }
 
@@ -77,19 +77,19 @@ public class PillButtonTokenSet: ControlTokenSet<PillButtonTokenSet.Tokens> {
                                                         dark: theme.aliasTokens.foregroundColors[.neutral2].dark),
                                      selected: DynamicColor(light: theme.aliasTokens.backgroundColors[.neutral1].light,
                                                             dark: theme.aliasTokens.foregroundColors[.neutralInverted].dark),
-                                     disabled: DynamicColor(light: theme.globalTokens.neutralColors[.grey70],
-                                                            dark: theme.globalTokens.neutralColors[.grey26]),
-                                     selectedDisabled: DynamicColor(light: theme.globalTokens.neutralColors[.grey94],
-                                                                    dark: theme.globalTokens.neutralColors[.grey44]))
+                                     disabled: DynamicColor(light: GlobalTokens.neutralColors(.grey70),
+                                                            dark: GlobalTokens.neutralColors(.grey26)),
+                                     selectedDisabled: DynamicColor(light: GlobalTokens.neutralColors(.grey94),
+                                                                    dark: GlobalTokens.neutralColors(.grey44)))
                     case .onBrand:
                         return .init(rest: DynamicColor(light: theme.aliasTokens.foregroundColors[.neutralInverted].light,
                                                         dark: theme.aliasTokens.foregroundColors[.neutral2].dark),
                                      selected: DynamicColor(light: theme.aliasTokens.foregroundColors[.brandRest].light,
                                                             dark: theme.aliasTokens.foregroundColors[.neutral1].dark),
-                                     disabled: DynamicColor(light: theme.globalTokens.brandColors[.shade10].light,
-                                                            dark: theme.globalTokens.neutralColors[.grey26]),
-                                     selectedDisabled: DynamicColor(light: theme.globalTokens.neutralColors[.grey74],
-                                                                    dark: theme.globalTokens.neutralColors[.grey44]))
+                                     disabled: DynamicColor(light: theme.aliasTokens.brandColors[.shade10].light,
+                                                            dark: GlobalTokens.neutralColors(.grey26)),
+                                     selectedDisabled: DynamicColor(light: GlobalTokens.neutralColors(.grey74),
+                                                                    dark: GlobalTokens.neutralColors(.grey44)))
                     }
                 }
 
@@ -107,9 +107,9 @@ public class PillButtonTokenSet: ControlTokenSet<PillButtonTokenSet.Tokens> {
                 return .dynamicColor {
                     switch style() {
                     case .primary:
-                        return DynamicColor(light: theme.globalTokens.neutralColors[.grey70], dark: theme.globalTokens.neutralColors[.grey26])
+                        return DynamicColor(light: GlobalTokens.neutralColors(.grey70), dark: GlobalTokens.neutralColors(.grey26))
                     case .onBrand:
-                        return DynamicColor(light: theme.globalTokens.brandColors[.shade10].light, dark: theme.globalTokens.neutralColors[.grey26])
+                        return DynamicColor(light: theme.aliasTokens.brandColors[.shade10].light, dark: GlobalTokens.neutralColors(.grey26))
                     }
                 }
 
@@ -120,7 +120,7 @@ public class PillButtonTokenSet: ControlTokenSet<PillButtonTokenSet.Tokens> {
                 return .float { 6.0 }
 
             case .horizontalInset:
-                return .float { theme.globalTokens.spacing[.medium] }
+                return .float { GlobalTokens.spacing(.medium) }
 
             case .unreadDotOffsetX:
                 return .float { 6.0 }

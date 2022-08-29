@@ -286,17 +286,17 @@ extension HUDDemoController: DemoAppearanceDelegate {
     // MARK: - Custom tokens
 
     private var themeWideOverrideActivityHeadsUpDisplayTokens: [HeadsUpDisplayTokenSet.Tokens: ControlTokenValue] {
-        let aliasTokens = AliasTokens()
+        let aliasTokens = self.view.fluentTheme.aliasTokens
         return [
             .backgroundColor: .dynamicColor { aliasTokens.backgroundColors[.brandHover] }
         ]
     }
 
     private var perControlOverrideHeadsUpDisplayTokens: [HeadsUpDisplayTokenSet.Tokens: ControlTokenValue] {
-        let globalTokens = GlobalTokens()
+        let aliasTokens = self.view.fluentTheme.aliasTokens
         return [
-            .cornerRadius: .float { globalTokens.borderRadius[.xLarge] },
-            .foregroundColor: .dynamicColor { globalTokens.brandColors[.primary] }
+            .cornerRadius: .float { GlobalTokens.borderRadius(.xLarge) },
+            .foregroundColor: .dynamicColor { aliasTokens.brandColors[.primary] }
         ]
     }
 }

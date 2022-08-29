@@ -269,7 +269,7 @@ public struct FluentNotification: View, TokenizedControlView {
                         .scaleEffect(x: 1.0, y: g.size.height / g.size.width, anchor: .top)
                 }
             } else {
-                Color(dynamicColor: tokens.backgroundColor)
+                Color(dynamicColor: tokenSet[.backgroundColor].dynamicColor)
             }
         }
 
@@ -282,7 +282,7 @@ public struct FluentNotification: View, TokenizedControlView {
                         .strokeBorder(Color(dynamicColor: tokenSet[.outlineColor].dynamicColor), lineWidth: tokenSet[.outlineWidth].float)
                         .background(
                             backgroundFill
-                                .clipShape(RoundedRectangle(cornerRadius: tokens.cornerRadius))
+                                .clipShape(RoundedRectangle(cornerRadius: tokenSet[.cornerRadius].float))
                         )
                         .shadow(color: Color(dynamicColor: shadowInfo.colorOne),
                                 radius: shadowInfo.blurOne,

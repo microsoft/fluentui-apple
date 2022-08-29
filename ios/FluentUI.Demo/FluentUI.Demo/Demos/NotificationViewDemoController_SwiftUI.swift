@@ -59,21 +59,22 @@ struct NotificationDemoView: View {
         VStack {
             Rectangle()
                 .foregroundColor(.clear)
-                .presentNotification(style: style,
-                                     isFlexibleWidthToast: $isFlexibleWidthToast.wrappedValue,
-                                     message: hasMessage ? message : nil,
-                                     attributedMessage: hasAttribute && hasMessage ? attributedMessage : nil,
-                                     isBlocking: false,
-                                     isPresented: .constant(true),
-                                     title: hasTitle ? title : nil,
-                                     attributedTitle: hasAttribute && hasTitle ? attributedTitle : nil,
-                                     image: image,
-                                     trailingImage: trailingImage,
-                                     trailingImageAccessibilityLabel: trailingImageLabel,
-                                     actionButtonTitle: actionButtonTitle,
-                                     actionButtonAction: actionButtonAction,
-                                     messageButtonAction: messageButtonAction,
-                                     overrideTokens: $overrideTokens.wrappedValue ? notificationOverrideTokens : nil)
+                .presentNotification(isPresented: .constant(true), isBlocking: false) {
+                    FluentNotification(style: style,
+                                       isFlexibleWidthToast: $isFlexibleWidthToast.wrappedValue,
+                                       message: hasMessage ? message : nil,
+                                       attributedMessage: hasAttribute && hasMessage ? attributedMessage : nil,
+                                       title: hasTitle ? title : nil,
+                                       attributedTitle: hasAttribute && hasTitle ? attributedTitle : nil,
+                                       image: image,
+                                       trailingImage: trailingImage,
+                                       trailingImageAccessibilityLabel: trailingImageLabel,
+                                       actionButtonTitle: actionButtonTitle,
+                                       actionButtonAction: actionButtonAction,
+                                       messageButtonAction: messageButtonAction)
+                    .backgroundGradient(showBackgroundGradient ? backgroundGradient : nil)
+                    .overrideTokens($overrideTokens.wrappedValue ? notificationOverrideTokens : nil)
+                }
                 .frame(maxWidth: .infinity, maxHeight: 150, alignment: .center)
                 .alert(isPresented: $showAlert, content: {
                     Alert(title: Text("Button tapped"))
@@ -182,7 +183,7 @@ struct NotificationDemoView: View {
                              messageButtonAction: messageButtonAction,
                              showFromBottom: showFromBottom)
             .backgroundGradient(showBackgroundGradient ? backgroundGradient : nil)
-            .overrideTokens($overrideTokens.wrappedValue ? NotificationOverrideTokens() : nil)
+            .overrideTokens($overrideTokens.wrappedValue ? notificationOverrideTokens : nil)
         }
     }
 
@@ -197,13 +198,24 @@ struct NotificationDemoView: View {
                             endPoint: .init(x: 1.0, y: 0.0))
     }
 
-    private class NotificationOverrideTokens: NotificationTokens {
-        override var imageColor: DynamicColor {
-            return DynamicColor(light: GlobalTokens.sharedColors(.orange, .primary))
-        }
-
-        override var horizontalSpacing: CGFloat {
-            return 5.0
-        }
+    private var notificationOverrideTokens: [NotificationTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .imageColor: .dynamicColor {
+                return DynamicColor(light: GlobalTokens.sharedColors(.orange, .primary))
+            },
+            .horizontalSpacing: .float {
+                return 5.0
+            },
+            .shadow: .shadowInfo {
+                return ShadowInfo(colorOne: DynamicColor(light: GlobalTokens.sharedColors(.hotPink, .primary)),
+                                  blurOne: 10.0,
+                                  xOne: 10.0,
+                                  yOne: 10.0,
+                                  colorTwo: DynamicColor(light: GlobalTokens.sharedColors(.teal, .primary)),
+                                  blurTwo: 100.0,
+                                  xTwo: -10.0,
+                                  yTwo: -10.0)
+            }
+        ]
     }
 }

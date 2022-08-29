@@ -57,26 +57,26 @@ public class HeaderTokenSet: ControlTokenSet<HeaderTokenSet.Tokens> {
                 }
 
             case .headerHeight:
-                return .float { theme.globalTokens.spacing[.xxxLarge] }
+                return .float { GlobalTokens.spacing(.xxxLarge) }
 
             case .topPadding:
                 return .float {
                     switch style() {
                     case .standard:
-                        return theme.globalTokens.spacing[.medium]
+                        return GlobalTokens.spacing(.medium)
                     case .subtle:
-                        return theme.globalTokens.spacing[.xLarge]
+                        return GlobalTokens.spacing(.xLarge)
                     }
                 }
 
             case .leadingPadding:
-                return .float { theme.globalTokens.spacing[.medium] }
+                return .float { GlobalTokens.spacing(.medium) }
 
             case .bottomPadding:
-                return .float { theme.globalTokens.spacing[.xSmall] }
+                return .float { GlobalTokens.spacing(.xSmall) }
 
             case .trailingPadding:
-                return .float { theme.globalTokens.spacing[.medium] }
+                return .float { GlobalTokens.spacing(.medium) }
 
             case .textFont:
                 return .fontInfo {

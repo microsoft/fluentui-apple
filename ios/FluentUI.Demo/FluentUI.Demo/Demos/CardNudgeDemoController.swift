@@ -252,30 +252,27 @@ extension CardNudgeDemoController: DemoAppearanceDelegate {
     // MARK: - Custom tokens
 
     private var themeWideOverrideCardNudgeTokens: [CardNudgeTokenSet.Tokens: ControlTokenValue] {
-        let globalTokens = GlobalTokens()
         return [
             .backgroundColor: .dynamicColor {
-                DynamicColor(light: globalTokens.sharedColors[.hotPink][.tint50],
-                             dark: globalTokens.sharedColors[.hotPink][.shade40])
+                DynamicColor(light: GlobalTokens.sharedColors(.hotPink, .tint50),
+                             dark: GlobalTokens.sharedColors(.hotPink, .shade40))
             },
             .outlineWidth: .float {
                 10.0
             },
             .outlineColor: .dynamicColor {
-                DynamicColor(light: globalTokens.sharedColors[.darkRed][.tint50],
-                             dark: globalTokens.sharedColors[.darkRed][.shade40])
+                DynamicColor(light: GlobalTokens.sharedColors(.darkRed, .tint50),
+                             dark: GlobalTokens.sharedColors(.darkRed, .shade40))
             }
         ]
     }
 
     private var perControlOverrideCardNudgeTokens: [CardNudgeTokenSet.Tokens: ControlTokenValue] {
-        let globalTokens = GlobalTokens()
         return [
             .backgroundColor: .dynamicColor {
-                DynamicColor(light: globalTokens.sharedColors[.seafoam][.tint50],
-                             dark: globalTokens.sharedColors[.seafoam][.shade40])
+                DynamicColor(light: GlobalTokens.sharedColors(.seafoam, .tint50),
+                             dark: GlobalTokens.sharedColors(.seafoam, .shade40))
             }
         ]
     }
-
 }

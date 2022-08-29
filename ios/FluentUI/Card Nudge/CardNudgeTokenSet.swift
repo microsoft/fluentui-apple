@@ -44,17 +44,17 @@ public class CardNudgeTokenSet: ControlTokenSet<CardNudgeTokenSet.Tokens> {
             switch token {
             case .accentColor:
                 return .dynamicColor {
-                    theme.globalTokens.brandColors[.shade20]
+                    theme.aliasTokens.brandColors[.shade20]
                 }
 
             case .accentIconSize:
                 return .float {
-                    theme.globalTokens.iconSize[.xxSmall]
+                    GlobalTokens.iconSize(.xxSmall)
                 }
 
             case .accentPadding:
                 return .float {
-                    theme.globalTokens.spacing[.xxSmall]
+                    GlobalTokens.spacing(.xxSmall)
                 }
 
             case .backgroundColor:
@@ -71,47 +71,47 @@ public class CardNudgeTokenSet: ControlTokenSet<CardNudgeTokenSet.Tokens> {
                 }
             case .buttonBackgroundColor:
                 return .dynamicColor {
-                    theme.globalTokens.brandColors[.tint30]
+                    theme.aliasTokens.brandColors[.tint30]
                 }
 
             case .buttonInnerPaddingHorizontal:
                 return .float {
-                    theme.globalTokens.spacing[.small]
+                    GlobalTokens.spacing(.small)
                 }
 
             case .circleRadius:
                 return .float {
-                    theme.globalTokens.borderRadius[.circle]
+                    GlobalTokens.borderRadius(.circle)
                 }
 
             case .circleSize:
                 return .float {
-                    theme.globalTokens.iconSize[.xxLarge]
+                    GlobalTokens.iconSize(.xxLarge)
                 }
 
             case .cornerRadius:
                 return .float {
-                    theme.globalTokens.borderRadius[.xLarge]
+                    GlobalTokens.borderRadius(.xLarge)
                 }
 
             case .horizontalPadding:
                 return .float {
-                    theme.globalTokens.spacing[.medium]
+                    GlobalTokens.spacing(.medium)
                 }
 
             case .iconSize:
                 return .float {
-                    theme.globalTokens.iconSize[.xSmall]
+                    GlobalTokens.iconSize(.xSmall)
                 }
 
             case .interTextVerticalPadding:
                 return .float {
-                    theme.globalTokens.spacing[.xxxSmall]
+                    GlobalTokens.spacing(.xxxSmall)
                 }
 
             case .mainContentVerticalPadding:
                 return .float {
-                    theme.globalTokens.spacing[.small]
+                    GlobalTokens.spacing(.small)
                 }
 
             case .minimumHeight:
@@ -133,7 +133,7 @@ public class CardNudgeTokenSet: ControlTokenSet<CardNudgeTokenSet.Tokens> {
 
             case .outlineWidth:
                 return .float {
-                    theme.globalTokens.borderSize[.thin]
+                    GlobalTokens.borderSize(.thin)
                 }
 
             case .subtitleTextColor:
@@ -149,13 +149,13 @@ public class CardNudgeTokenSet: ControlTokenSet<CardNudgeTokenSet.Tokens> {
                     }
                 case .outline:
                     return .dynamicColor {
-                        theme.globalTokens.brandColors[.shade20]
+                        theme.aliasTokens.brandColors[.shade20]
                     }
                 }
 
             case .verticalPadding:
                 return .float {
-                    theme.globalTokens.spacing[.xSmall]
+                    GlobalTokens.spacing(.xSmall)
                 }
             }
         }

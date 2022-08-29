@@ -78,8 +78,8 @@ public class ShimmerTokenSet: ControlTokenSet<ShimmerTokenSet.Tokens> {
                 return .dynamicColor {
                     switch style() {
                     case .concealing:
-                        return DynamicColor(light: theme.globalTokens.neutralColors[.white],
-                                            dark: theme.globalTokens.neutralColors[.grey8])
+                        return DynamicColor(light: GlobalTokens.neutralColors(.white),
+                                            dark: GlobalTokens.neutralColors(.grey8))
                     case .revealing:
                         return DynamicColor(light: ColorValue(0xF1F1F1) /* gray50 */,
                                             lightHighContrast: ColorValue(0x919191) /* gray400 */,
@@ -98,7 +98,7 @@ public class ShimmerTokenSet: ControlTokenSet<ShimmerTokenSet.Tokens> {
 
             case .darkGradient:
                 return .dynamicColor {
-                    return DynamicColor(light: theme.globalTokens.neutralColors[.black])
+                    return DynamicColor(light: GlobalTokens.neutralColors(.black))
                 }
 
             case .shimmerWidth:
@@ -117,16 +117,16 @@ public class ShimmerTokenSet: ControlTokenSet<ShimmerTokenSet.Tokens> {
                 return .float { 3.0 }
 
             case .cornerRadius:
-                return .float { theme.globalTokens.borderRadius[.medium] }
+                return .float { GlobalTokens.borderRadius(.medium) }
 
             case .labelCornerRadius:
-                return .float { theme.globalTokens.borderRadius[.small] }
+                return .float { GlobalTokens.borderRadius(.small) }
 
             case .labelHeight:
                 return .float { 11.0 }
 
             case .labelSpacing:
-                return .float { theme.aliasTokens.globalTokens.spacing[.small] }
+                return .float { GlobalTokens.spacing(.small) }
             }
         }
     }

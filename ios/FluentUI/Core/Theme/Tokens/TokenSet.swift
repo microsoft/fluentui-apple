@@ -3,6 +3,8 @@
 //  Licensed under the MIT License.
 //
 
+import Combine
+
 /// Defines the key used for token value indexing.
 public typealias TokenSetKey = Hashable & CaseIterable
 
