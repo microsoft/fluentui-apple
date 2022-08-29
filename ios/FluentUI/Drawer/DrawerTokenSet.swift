@@ -74,20 +74,20 @@ public class DrawerTokenSet: ControlTokenSet<DrawerTokenSet.Tokens> {
             case .navigationBarBackground:
                 return .dynamicColor({
                     DynamicColor(light: theme.aliasTokens.backgroundColors[.neutral1].light,
-                                 dark: theme.globalTokens.neutralColors[.grey14])
+                                 dark: GlobalTokens.neutralColors(.grey14))
                 })
 
             case .cornerRadius:
                 return .float({ 14 })
 
             case .minHorizontalMargin:
-                return .float({ theme.globalTokens.spacing[.xxxLarge] })
+                return .float({ GlobalTokens.spacing(.xxxLarge) })
 
             case .minVerticalMargin:
-                return .float({ theme.globalTokens.spacing[.large] })
+                return .float({ GlobalTokens.spacing(.large) })
 
             case .shadowOffset:
-                return .float({ theme.globalTokens.spacing[.xSmall] })
+                return .float({ GlobalTokens.spacing(.xSmall) })
             }
         }
     }

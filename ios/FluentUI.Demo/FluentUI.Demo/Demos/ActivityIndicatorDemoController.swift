@@ -276,14 +276,14 @@ extension ActivityIndicatorDemoController: DemoAppearanceDelegate {
 
     private var themeWideOverrideActivityIndicatorTokens: [ActivityIndicatorTokenSet.Tokens: ControlTokenValue] {
         return [
-            .defaultColor: .dynamicColor { DynamicColor(light: GlobalTokens().sharedColors[.red][.primary]) },
+            .defaultColor: .dynamicColor { DynamicColor(light: GlobalTokens.sharedColors(.red, .primary)) },
             .thickness: .float { 20.0 }
         ]
     }
 
     private var perControlOverrideActivityIndicatorTokens: [ActivityIndicatorTokenSet.Tokens: ControlTokenValue] {
         return [
-            .defaultColor: .dynamicColor { DynamicColor(light: GlobalTokens().sharedColors[.green][.primary]) },
+            .defaultColor: .dynamicColor { DynamicColor(light: GlobalTokens.sharedColors(.green, .primary)) },
             .thickness: .float { 10.0 }
         ]
     }

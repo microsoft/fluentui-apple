@@ -17,7 +17,7 @@ public class AvatarGroupTokenSet: ControlTokenSet<AvatarGroupTokenSet.Tokens> {
          size: @escaping () -> MSFAvatarSize) {
         self.style = style
         self.size = size
-        super.init { [style, size] token, theme in
+        super.init { [style, size] token, _ in
             return .float {
                 switch token {
                 case .interspace:
@@ -25,21 +25,21 @@ public class AvatarGroupTokenSet: ControlTokenSet<AvatarGroupTokenSet.Tokens> {
                     case .stack:
                         switch size() {
                         case .xsmall, .small:
-                            return -theme.globalTokens.spacing[.xxxSmall]
+                            return -GlobalTokens.spacing(.xxxSmall)
                         case .medium:
-                            return -theme.globalTokens.spacing[.xxSmall]
+                            return -GlobalTokens.spacing(.xxSmall)
                         case .large:
-                            return -theme.globalTokens.spacing[.xSmall]
+                            return -GlobalTokens.spacing(.xSmall)
                         case .xlarge, .xxlarge:
-                            return -theme.globalTokens.spacing[.small]
+                            return -GlobalTokens.spacing(.small)
                         }
 
                     case .pile:
                         switch size() {
                         case .xsmall, .small:
-                            return theme.globalTokens.spacing[.xxSmall]
+                            return GlobalTokens.spacing(.xxSmall)
                         case .medium, .large, .xlarge, .xxlarge:
-                            return theme.globalTokens.spacing[.xSmall]
+                            return GlobalTokens.spacing(.xSmall)
                         }
                     }
                 }

@@ -12,9 +12,9 @@ public class PersonaViewTokenSet: ListCellTokenSet {
 
         self.replaceAllOverrides(with: [
             .sublabelColor: .dynamicColor { self.fluentTheme.aliasTokens.foregroundColors[.neutral1] },
-            .iconInterspace: .float { self.fluentTheme.globalTokens.spacing[.small] },
-            .labelAccessoryInterspace: .float { self.fluentTheme.globalTokens.spacing[.xxxSmall] },
-            .labelAccessorySize: .float { self.fluentTheme.globalTokens.iconSize[.xSmall] },
+            .iconInterspace: .float { GlobalTokens.spacing(.small) },
+            .labelAccessoryInterspace: .float { GlobalTokens.spacing(.xxxSmall) },
+            .labelAccessorySize: .float { GlobalTokens.iconSize(.xSmall) },
             .labelFont: .fontInfo { self.fluentTheme.aliasTokens.typography[.body1Strong] }
         ])
     }

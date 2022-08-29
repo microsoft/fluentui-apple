@@ -28,7 +28,7 @@ public class PillButtonBarTokenSet: ControlTokenSet<PillButtonBarTokenSet.Tokens
     }
 
     init() {
-        super.init { token, theme in
+        super.init { token, _ in
             switch token {
             case .maxButtonsSpacing:
                 return .float {
@@ -37,12 +37,12 @@ public class PillButtonBarTokenSet: ControlTokenSet<PillButtonBarTokenSet.Tokens
 
             case .minButtonsSpacing:
                 return .float {
-                    theme.globalTokens.spacing[.xSmall]
+                    GlobalTokens.spacing(.xSmall)
                 }
 
             case .minButtonVisibleWidth:
                 return .float {
-                    theme.globalTokens.spacing[.large]
+                    GlobalTokens.spacing(.large)
                 }
 
             case .minButtonWidth:
@@ -57,7 +57,7 @@ public class PillButtonBarTokenSet: ControlTokenSet<PillButtonBarTokenSet.Tokens
 
             case .sideInset:
                 return .float {
-                    theme.globalTokens.spacing[.medium]
+                    GlobalTokens.spacing(.medium)
                 }
             }
         }
