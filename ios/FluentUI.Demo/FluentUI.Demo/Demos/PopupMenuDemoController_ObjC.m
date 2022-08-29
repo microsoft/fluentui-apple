@@ -24,6 +24,7 @@
     [demoButton addTarget:self action:@selector(showPopupMenu) forControlEvents:UIControlEventTouchUpInside];
     
     UIStackView *stack = [[UIStackView alloc] initWithArrangedSubviews:@[demoButton]];
+    [stack setAlignment:UIStackViewAlignmentTop];
     [stack setTranslatesAutoresizingMaskIntoConstraints:NO];
     UIView *view = [self view];
     [view addSubview:stack];
