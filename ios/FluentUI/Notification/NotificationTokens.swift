@@ -97,18 +97,7 @@ open class NotificationTokens: ControlTokens {
 
     /// The color of the notification's icon image
     open var imageColor: DynamicColor {
-        switch style {
-        case .primaryToast, .primaryBar:
-            return aliasTokens.colors[.brandForeground4]
-        case .neutralToast, .neutralBar:
-            return aliasTokens.colors[.foreground2]
-        case .primaryOutlineBar:
-            return aliasTokens.colors[.brandForeground1]
-        case .dangerToast:
-            return aliasTokens.sharedColors[.dangerForeground1]
-        case .warningToast:
-            return aliasTokens.sharedColors[.warningForeground1]
-        }
+        return foregroundColor
     }
 
     /// The value for the corner radius of the frame of the notification

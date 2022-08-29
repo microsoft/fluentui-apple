@@ -1725,7 +1725,7 @@ public final class GlobalTokens {
                 case .shade20:
                     return ColorValue(0xC0AD00)
                 case .shade30:
-                    return ColorValue(0x8E7F00)
+                    return ColorValue(0x817400)
                 case .shade40:
                     return ColorValue(0x4C4400)
                 case .shade50:
