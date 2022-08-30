@@ -67,4 +67,8 @@ open class PopupMenuItem: NSObject, PopupMenuTemplateItem {
         let selectedImage = generateSelectedImage ? nil : image
         self.init(image: image, selectedImage: selectedImage, title: title, subtitle: subtitle, isEnabled: isEnabled, isSelected: isSelected, executes: executionMode, onSelected: onSelected, isAccessoryCheckmarkVisible: isAccessoryCheckmarkVisible)
     }
+
+    lazy var tokenSet: PopupMenuItemTokenSet = {
+        PopupMenuItemTokenSet(customViewSize: { self.image != nil ? .small : .zero })
+    }()
 }
