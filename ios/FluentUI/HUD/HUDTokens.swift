@@ -13,7 +13,7 @@ open class HeadsUpDisplayTokens: ControlTokens {
     open var backgroundColor: DynamicColor { aliasTokens.colors[.backgroundInverted] }
 
     /// The color of the activity indicator presented by the Heads-up display.
-    open var activityIndicatorColor: DynamicColor { aliasTokens.colors[.strokeAccessible] }
+    open var activityIndicatorColor: DynamicColor { aliasTokens.colors[.foreground2] }
 
     /// The color of the label presented by the Heads-up display.
     open var labelColor: DynamicColor { aliasTokens.colors[.foregroundInverted1] }
