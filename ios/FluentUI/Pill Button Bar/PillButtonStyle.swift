@@ -108,7 +108,8 @@ public extension PillButton {
     }
 
     static func highlightedTitleColor(for fluentTheme: FluentTheme, for style: PillButtonStyle) -> UIColor {
-        return UIColor(light: disabledTitleColor(for: fluentTheme, for: style), dark: UIColor(colorValue: fluentTheme.globalTokens.sharedColors[.lime][.primary]))
+        return UIColor(light: disabledTitleColor(for: fluentTheme, for: style),
+                       dark: UIColor(colorValue: GlobalTokens.sharedColors(.lime, .primary)))
     }
 
     // MARK: selected highlighted state
@@ -118,7 +119,8 @@ public extension PillButton {
         case .primary:
             return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background5])
         case .onBrand:
-            return UIColor(light: UIColor(colorValue: fluentTheme.globalTokens.neutralColors[.white]), dark: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1]))
+            return UIColor(light: UIColor(colorValue: GlobalTokens.neutralColors(.white)),
+                           dark: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1]))
         }
     }
 
