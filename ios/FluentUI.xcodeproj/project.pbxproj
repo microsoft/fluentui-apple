@@ -911,13 +911,13 @@
 			isa = PBXGroup;
 			children = (
 				A5961F9C218A254D00E2A506 /* PopupMenuController.swift */,
-				EC24DBC728BD95980026EF92 /* PopupMenuTokenSet.swift */,
 				A5961F9E218A256B00E2A506 /* PopupMenuItem.swift */,
-				EC24DBC928BD99860026EF92 /* PopupMenuItemTokenSet.swift */,
-				A5961FA0218A25C400E2A506 /* PopupMenuSection.swift */,
 				A5961FA2218A25D100E2A506 /* PopupMenuItemCell.swift */,
-				A5961FA4218A260500E2A506 /* PopupMenuSectionHeaderView.swift */,
+				EC24DBC928BD99860026EF92 /* PopupMenuItemTokenSet.swift */,
 				0BCEFADD2485FEC00088CEE5 /* PopupMenuProtocols.swift */,
+				A5961FA0218A25C400E2A506 /* PopupMenuSection.swift */,
+				A5961FA4218A260500E2A506 /* PopupMenuSectionHeaderView.swift */,
+				EC24DBC728BD95980026EF92 /* PopupMenuTokenSet.swift */,
 			);
 			path = "Popup Menu";
 			sourceTree = "<group>";
