@@ -22,7 +22,7 @@ class NotificationViewDemoControllerSwiftUI: UIHostingController<NotificationDem
 }
 
 struct NotificationDemoView: View {
-    @State var style: MSFNotificationStyle = .primaryToast
+    @State var style: MSFNotificationStyle = .accentToast
     @State var title: String = ""
     @State var message: String = "Mail Archived"
     @State var actionButtonTitle: String = "Undo"
@@ -71,7 +71,8 @@ struct NotificationDemoView: View {
                                        trailingImageAccessibilityLabel: trailingImageLabel,
                                        actionButtonTitle: actionButtonTitle,
                                        actionButtonAction: actionButtonAction,
-                                       messageButtonAction: messageButtonAction)
+                                       messageButtonAction: messageButtonAction,
+                                       showFromBottom: showFromBottom)
                     .backgroundGradient(showBackgroundGradient ? backgroundGradient : nil)
                     .overrideTokens($overrideTokens.wrappedValue ? NotificationOverrideTokens() : nil)
                 }
@@ -143,10 +144,10 @@ struct NotificationDemoView: View {
                         }
 
                         Picker(selection: $style, label: EmptyView()) {
-                            Text(".primaryToast").tag(MSFNotificationStyle.primaryToast)
+                            Text(".accentToast").tag(MSFNotificationStyle.accentToast)
                             Text(".neutralToast").tag(MSFNotificationStyle.neutralToast)
-                            Text(".primaryBar").tag(MSFNotificationStyle.primaryBar)
-                            Text(".primaryOutlineBar").tag(MSFNotificationStyle.primaryOutlineBar)
+                            Text(".accentBar").tag(MSFNotificationStyle.accentBar)
+                            Text(".subtleBar").tag(MSFNotificationStyle.subtleBar)
                             Text(".neutralBar").tag(MSFNotificationStyle.neutralBar)
                             Text(".dangerToast").tag(MSFNotificationStyle.dangerToast)
                             Text(".warningToast").tag(MSFNotificationStyle.warningToast)
