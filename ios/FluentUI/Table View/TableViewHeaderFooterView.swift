@@ -365,15 +365,11 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
     ///   - leadingView: An optional custom view that appears near the leading edge of the view.
     private func setup(style: Style, accessoryButtonTitle: String, leadingView: UIView? = nil) {
         updateTitleViewFont()
-
         switch style {
         case .header, .divider, .dividerHighlighted, .headerPrimary:
             titleView.accessibilityTraits.insert(.header)
         case .footer:
             titleView.accessibilityTraits.remove(.header)
-            // Bug in iOS - need to manually refresh VoiceOver text for accessibilityTraits
-            titleView.isAccessibilityElement = false
-            titleView.isAccessibilityElement = true
         }
 
         accessoryButton = !accessoryButtonTitle.isEmpty ? createAccessoryButton(withTitle: accessoryButtonTitle) : nil
