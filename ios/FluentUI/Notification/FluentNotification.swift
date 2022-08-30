@@ -108,7 +108,7 @@ public struct FluentNotification: View, TokenizedControlView {
                                              actionButtonAction: actionButtonAction,
                                              showDefaultDismissActionButton: showDefaultDismissActionButton,
                                              messageButtonAction: messageButtonAction,
-                                             showFromBottom: true)
+                                             showFromBottom: showFromBottom)
         self.state = state
         self.shouldSelfPresent = shouldSelfPresent
         self.isFlexibleWidthToast = isFlexibleWidthToast && style.isToast
@@ -279,7 +279,9 @@ public struct FluentNotification: View, TokenizedControlView {
             innerContents
                 .background(
                     RoundedRectangle(cornerRadius: tokenSet[.cornerRadius].float)
-                        .strokeBorder(Color(dynamicColor: tokenSet[.outlineColor].dynamicColor), lineWidth: tokenSet[.outlineWidth].float)
+                        .border(width: tokenSet[.outlineWidth].float,
+                                edges: state.showFromBottom ? [.top] : [.bottom],
+                                color: Color(dynamicColor: tokenSet[.outlineColor].dynamicColor).foregroundColor(.clear)
                         .background(
                             backgroundFill
                                 .clipShape(RoundedRectangle(cornerRadius: tokenSet[.cornerRadius].float))
@@ -411,7 +413,7 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
     @Published var trailingImage: UIImage?
     @Published var trailingImageAccessibilityLabel: String?
     @Published var showDefaultDismissActionButton: Bool
-    @Published var showFromBottom: Bool = true
+    @Published var showFromBottom: Bool
     @Published var backgroundGradient: GradientInfo?
 
     /// Title to display in the action button on the trailing edge of the control.
@@ -443,7 +445,7 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
                   actionButtonAction: nil,
                   showDefaultDismissActionButton: nil,
                   messageButtonAction: nil,
-                  showFromBottom: true)
+                  showFromBottom: nil)
     }
 
     init(style: MSFNotificationStyle,
@@ -458,7 +460,7 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
          actionButtonAction: (() -> Void)? = nil,
          showDefaultDismissActionButton: Bool? = nil,
          messageButtonAction: (() -> Void)? = nil,
-         showFromBottom: Bool = true) {
+         showFromBottom: Bool? = nil) {
         self.style = style
         self.message = message
         self.attributedMessage = attributedMessage
@@ -470,7 +472,7 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
         self.actionButtonTitle = actionButtonTitle
         self.actionButtonAction = actionButtonAction
         self.messageButtonAction = messageButtonAction
-        self.showFromBottom = showFromBottom
+        self.showFromBottom = showFromBottom ?? true
         self.showDefaultDismissActionButton = showDefaultDismissActionButton ?? style.isToast
 
         super.init()
