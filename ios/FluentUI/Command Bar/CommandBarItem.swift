@@ -108,6 +108,12 @@ open class CommandBarItem: NSObject {
     /// Set `isSelected` to desired value in this handler. Default implementation is toggling `isSelected` property.
     @objc public var itemTappedHandler: ItemTappedHandler
 
+    /// If set, the `UIView` returned from the closure will be shown inside `CommandBarButton` instead of the `title` and `image`
+    @objc public var customControlView: (() -> UIView)?
+
+    /// If set to `true` and `customControlerView` is non-nil, the `CommandBarButton` will not call the provided `itemTappedHandler`
+    @objc public var ignoresItemTappedHandler: Bool = false
+
     @objc public lazy var menu: UIMenu? = nil // Only lazy property can be used with @available
 
     @objc public lazy var showsMenuAsPrimaryAction: Bool = false

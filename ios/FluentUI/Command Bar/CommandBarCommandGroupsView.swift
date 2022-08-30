@@ -103,8 +103,10 @@ class CommandBarCommandGroupsView: UIView {
     }
 
     @objc private func handleCommandButtonTapped(_ sender: CommandBarButton) {
-        sender.item.handleTapped(sender)
-        sender.updateState()
+        if !sender.item.ignoresItemTappedHandler {
+            sender.item.handleTapped(sender)
+            sender.updateState()
+        }
     }
 
     private struct LayoutConstants {
