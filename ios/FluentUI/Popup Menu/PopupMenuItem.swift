@@ -26,11 +26,41 @@ open class PopupMenuItem: NSObject, PopupMenuTemplateItem {
     @objc public var isSelected: Bool = false
 
     /// `title` color
-    @objc public lazy var titleColor: UIColor = UIColor(dynamicColor: tokenSet[.titleColor].dynamicColor)
+    @objc public var titleColor: UIColor {
+        get {
+            return UIColor(dynamicColor: tokenSet[.titleColor].dynamicColor)
+        }
+        set {
+            guard let newColor = newValue.dynamicColor else {
+                return
+            }
+            tokenSet[.titleColor] = .dynamicColor { newColor }
+        }
+    }
     /// `subtitle` color
-    @objc public lazy var subtitleColor: UIColor = UIColor(dynamicColor: tokenSet[.subtitleColor].dynamicColor)
+    @objc public var subtitleColor: UIColor {
+        get {
+            return UIColor(dynamicColor: tokenSet[.subtitleColor].dynamicColor)
+        }
+        set {
+            guard let newColor = newValue.dynamicColor else {
+                return
+            }
+            tokenSet[.subtitleColor] = .dynamicColor { newColor }
+        }
+    }
     /// `image` tint color if it is rendered as template
-    @objc public lazy var imageColor: UIColor = UIColor(dynamicColor: tokenSet[.imageColor].dynamicColor)
+    @objc public var imageColor: UIColor {
+        get {
+            return UIColor(dynamicColor: tokenSet[.imageColor].dynamicColor)
+        }
+        set {
+            guard let newColor = newValue.dynamicColor else {
+                return
+            }
+            tokenSet[.imageColor] = .dynamicColor { newColor }
+        }
+    }
     /// `title` color when`isSelected` is true. If unset, PopupMenuItemTokenSet.mainBrandColor will be used
     @objc public var titleSelectedColor: UIColor?
     /// `subtitle` color when`isSelected` is true.  If unset,PopupMenuItemTokenSet.mainBrandColor will be used
@@ -38,7 +68,17 @@ open class PopupMenuItem: NSObject, PopupMenuTemplateItem {
     /// tint color if `selectedImage` is rendered as template and `isSelected` is true.  Is unset, PopupMenuItemTokenSet.mainBrandColor will be used
     @objc public var imageSelectedColor: UIColor?
     /// background color of PopupMenuItem corresponding cell
-    @objc public lazy var backgroundColor: UIColor = UIColor(dynamicColor: tokenSet[.cellBackgroundColor].dynamicColor)
+    @objc public var backgroundColor: UIColor {
+        get {
+            return UIColor(dynamicColor: tokenSet[.cellBackgroundColor].dynamicColor)
+        }
+        set {
+            guard let newColor = newValue.dynamicColor else {
+                return
+            }
+            tokenSet[.cellBackgroundColor] = .dynamicColor { newColor }
+        }
+    }
     /// checkmark color `isAccessoryCheckmarkVisible` and `isSelected` is true. If unset, PopupMenuItemTokenSet.mainBrandColor will be used
     @objc public var accessoryCheckmarkColor: UIColor?
 
