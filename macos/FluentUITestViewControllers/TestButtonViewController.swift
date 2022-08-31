@@ -171,6 +171,10 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 		let largeSecondary = ButtonFormat(size: .large, style: .secondary, accentColor: communicationBlue)
 		let largeAcrylic = ButtonFormat(size: .large, style: .acrylic, accentColor: communicationBlue)
 		let largeBorderless = ButtonFormat(size: .large, style: .borderless, accentColor: communicationBlue)
+		let mediumPrimary = ButtonFormat(size: .medium, style: .primary, accentColor: communicationBlue)
+		let mediumSecondary = ButtonFormat(size: .medium, style: .secondary, accentColor: communicationBlue)
+		let mediumAcrylic = ButtonFormat(size: .medium, style: .acrylic, accentColor: communicationBlue)
+		let mediumBorderless = ButtonFormat(size: .medium, style: .borderless, accentColor: communicationBlue)
 		let smallPrimary = ButtonFormat(size: .small, style: .primary, accentColor: Colors.primary)
 		let smallSecondary = ButtonFormat(size: .small, style: .secondary, accentColor: Colors.primary)
 		let smallAcrylic = ButtonFormat(size: .small, style: .acrylic, accentColor: Colors.primary)
@@ -183,6 +187,10 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 			largeSecondary,
 			largeAcrylic,
 			largeBorderless,
+			mediumPrimary,
+			mediumSecondary,
+			mediumAcrylic,
+			mediumBorderless,
 			smallPrimary,
 			smallSecondary,
 			smallAcrylic,
@@ -195,6 +203,10 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 			NSTextField(labelWithString: "Large Secondary"),
 			NSTextField(labelWithString: "Large Acrylic"),
 			NSTextField(labelWithString: "Large Borderless"),
+			NSTextField(labelWithString: "Medium (tighter-spacing) Primary"),
+			NSTextField(labelWithString: "Medium (tighter-spacing) Secondary"),
+			NSTextField(labelWithString: "Medium (tighter-spacing) Acrylic"),
+			NSTextField(labelWithString: "Medium (tighter-spacing) Borderless"),
 			NSTextField(labelWithString: "Small Primary"),
 			NSTextField(labelWithString: "Small Secondary"),
 			NSTextField(labelWithString: "Small Acrylic"),

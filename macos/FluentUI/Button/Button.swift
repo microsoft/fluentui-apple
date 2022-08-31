@@ -524,6 +524,7 @@ class ButtonCell: NSButtonCell {
 @objc(MSFButtonSize)
 public enum ButtonSize: Int, CaseIterable {
 	case large
+	case medium
 	case small
 }
 
@@ -597,6 +598,16 @@ private struct ButtonSizeParameters {
 		titleToImageSpacing: 10,
 		titleToImageVerticalSpacingAdjustment: 7
 	)
+	
+	static let medium = ButtonSizeParameters(
+		fontSize: 13,  // line height: 17
+		cornerRadius: 6,
+		verticalPadding: 2.0,  // overall height: 24
+		horizontalPadding: 5,
+		titleVerticalPositionAdjustment: 0,
+		titleToImageSpacing: 3,
+		titleToImageVerticalSpacingAdjustment: 7
+	)
 
 	static let small = ButtonSizeParameters(
 		fontSize: 13,  // line height: 17
@@ -612,6 +623,8 @@ private struct ButtonSizeParameters {
 		switch forSize {
 		case .large:
 			return .large
+		case .medium:
+			return .medium
 		case .small:
 			return .small
 		}
