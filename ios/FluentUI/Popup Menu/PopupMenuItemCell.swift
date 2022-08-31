@@ -242,5 +242,6 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
         titleLabel.textColor = titleColor
         subtitleLabel.textColor = subtitleColor
         _accessoryType = accessoryType
+        backgroundColor = item.backgroundColor
     }
 }
