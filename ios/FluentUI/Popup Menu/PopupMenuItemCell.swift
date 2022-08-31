@@ -227,10 +227,8 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
             imageColor = item.imageSelectedColor ?? brandColor
             titleColor = item.titleSelectedColor ?? brandColor
             subtitleColor = item.subtitleSelectedColor ?? brandColor
-            if item.isAccessoryCheckmarkVisible,
-               let accessoryTypeView = accessoryTypeView {
+            if item.isAccessoryCheckmarkVisible {
                 accessoryType = .checkmark
-                accessoryTypeView.customTintColor = item.accessoryCheckmarkColor ?? brandColor
             }
         } else {
             imageColor = item.imageColor
@@ -241,7 +239,10 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
         _imageView.tintColor = imageColor
         titleLabel.textColor = titleColor
         subtitleLabel.textColor = subtitleColor
-        _accessoryType = accessoryType
         backgroundColor = item.backgroundColor
+        _accessoryType = accessoryType
+        if let accessoryTypeView = accessoryTypeView {
+            accessoryTypeView.customTintColor = item.accessoryCheckmarkColor ?? brandColor
+        }
     }
 }
