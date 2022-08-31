@@ -765,6 +765,7 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
             } else {
                 backgroundColor = UIColor(dynamicColor: tokenSet[.drawerContentBackground].dynamicColor)
             }
+            useCustomBackgroundColor = false
         }
 
         guard let presentationController = (presentationController as? DrawerPresentationController) else {

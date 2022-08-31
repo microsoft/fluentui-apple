@@ -332,9 +332,7 @@ class DrawerDemoController: DemoController {
         controller.resizingBehavior = resizingBehavior
         controller.adjustsHeightForKeyboard = adjustHeightForKeyboard
         controller.shouldRespectSafeAreaForWindowFullWidth = respectSafeAreaWidth
-        if perControlOverrideEnabled {
-            controller.tokenSet.replaceAllOverrides(with: perControlOverrideDrawerTokens)
-        }
+        controller.tokenSet.replaceAllOverrides(with: perControlOverrideEnabled ? perControlOverrideDrawerTokens : nil)
 
         if let contentView = contentView {
             // `preferredContentSize` can be used to specify the preferred size of a drawer,
