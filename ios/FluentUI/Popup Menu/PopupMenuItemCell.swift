@@ -69,6 +69,18 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
         set { super.isUserInteractionEnabled = newValue }
     }
 
+    override var tokenSet: TableViewCellTokenSet {
+        get {
+            guard let item = item else {
+                return super.tokenSet
+            }
+            return item.tokenSet
+        }
+        set {
+            assertionFailure("PopupMenuItemCell tokens must be set through PopupMenuItem.tokenSet")
+        }
+    }
+
     private var item: PopupMenuItem?
 
     // Cannot use imageView since it exists in superclass
@@ -87,6 +99,7 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
 
     override func initialize() {
         super.initialize()
+        tokenSet.customViewSize = { self.customViewSize }
 
         selectionStyle = .none
 
@@ -104,6 +117,7 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
             return
         }
 
+        item.tokenSet.customViewSize = { self.customViewSize }
         self.item = item
 
         _imageView.image = item.image
