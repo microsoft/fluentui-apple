@@ -35,9 +35,7 @@ open class PopupMenuController: DrawerController {
             return popupTokenSet
         }
         set {
-#if DEBUG
-            preconditionFailure("PopupMenuController tokens must be set through popupTokenSet")
-#endif
+            assertionFailure("PopupMenuController tokens must be set through popupTokenSet")
         }
     }
     public var popupTokenSet: PopupMenuTokenSet = .init()

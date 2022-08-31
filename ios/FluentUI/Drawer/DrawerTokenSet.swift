@@ -92,5 +92,3 @@ public class DrawerTokenSet: ControlTokenSet<DrawerTokenSet.Tokens> {
         }
     }
 }
-
-public class PopupMenuTokenSet: DrawerTokenSet {}
