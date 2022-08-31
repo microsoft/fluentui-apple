@@ -200,26 +200,33 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
     }
 
     private func updateSelectionColors() {
-        if let window = window {
-            if let item = item {
-                _imageView.tintColor = isSelected
-                    ? item.imageSelectedColor ?? Colors.primary(for: window)
-                    : item.imageColor
-                titleLabel.textColor = isSelected
-                    ? item.titleSelectedColor ?? Colors.primary(for: window)
-                    : item.titleColor
-                subtitleLabel.textColor = isSelected
-                    ? item.subtitleSelectedColor ?? Colors.primary(for: window)
-                    : item.subtitleColor
-                backgroundColor = item.backgroundColor
-            }
-
-            if isSelected && item?.isAccessoryCheckmarkVisible == true {
-                _accessoryType = .checkmark
-                accessoryTypeView?.customTintColor = item?.accessoryCheckmarkColor ?? Colors.primary(for: window)
-            } else {
-                _accessoryType = .none
-            }
+        guard let item = item else {
+            _accessoryType = .none
+            return
         }
+        let brandColor = UIColor(dynamicColor: item.tokenSet[.mainBrandColor].dynamicColor)
+        let imageColor: UIColor
+        let titleColor: UIColor
+        let subtitleColor: UIColor
+        var accessoryType: TableViewCellAccessoryType = .none
+        if isSelected {
+            imageColor = item.imageSelectedColor ?? brandColor
+            titleColor = item.titleSelectedColor ?? brandColor
+            subtitleColor = item.subtitleSelectedColor ?? brandColor
+            if item.isAccessoryCheckmarkVisible,
+               let accessoryTypeView = accessoryTypeView {
+                accessoryType = .checkmark
+                accessoryTypeView.customTintColor = item.accessoryCheckmarkColor ?? brandColor
+            }
+        } else {
+            imageColor = item.imageColor
+            titleColor = item.titleColor
+            subtitleColor = item.subtitleColor
+        }
+
+        _imageView.tintColor = imageColor
+        titleLabel.textColor = titleColor
+        subtitleLabel.textColor = subtitleColor
+        _accessoryType = accessoryType
     }
 }
