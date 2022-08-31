@@ -48,9 +48,6 @@ import SwiftUI
     /// Action to be dispatched by tapping on the toast/bar notification.
     var messageButtonAction: (() -> Void)? { get set }
 
-    /// Design token set for this control, to use in place of the control's default Fluent tokens.
-    var overrideTokens: NotificationTokens? { get set }
-
     /// Defines whether the notification shows from the bottom of the presenting view or the top.
     var showFromBottom: Bool { get set }
 
@@ -61,7 +58,10 @@ import SwiftUI
 }
 
 /// View that represents the Notification.
-public struct FluentNotification: View, ConfigurableTokenizedControl {
+public struct FluentNotification: View, TokenizedControlView {
+    public typealias TokenSetKeyType = NotificationTokenSet.Tokens
+    @ObservedObject public var tokenSet: NotificationTokenSet
+
     /// Creates the FluentNotification
     /// - Parameters:
     ///   - style: `MSFNotificationStyle` enum value that defines the style of the Notification being presented.
@@ -113,6 +113,8 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
         self.shouldSelfPresent = shouldSelfPresent
         self.isFlexibleWidthToast = isFlexibleWidthToast && style.isToast
 
+        self.tokenSet = NotificationTokenSet(style: { state.style })
+
         if let isPresented = isPresented {
             _isPresented = isPresented
         } else {
@@ -135,8 +137,8 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
                         .frame(width: imageSize.width,
                                height: imageSize.height,
                                alignment: .center)
-                        .foregroundColor(Color(dynamicColor: tokens.imageColor))
-                        .padding(.vertical, tokens.verticalPadding)
+                        .foregroundColor(Color(dynamicColor: tokenSet[.imageColor].dynamicColor))
+                        .padding(.vertical, tokenSet[.verticalPadding].float)
                 }
             }
         }
@@ -153,8 +155,8 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
                         .accessibilityLabel(attributedTitle.string)
                 } else if let title = state.title {
                     Text(title)
-                        .font(.fluent(tokens.boldTextFont))
-                        .foregroundColor(Color(dynamicColor: tokens.foregroundColor))
+                        .font(.fluent(tokenSet[.boldTextFont].fontInfo))
+                        .foregroundColor(Color(dynamicColor: tokenSet[.foregroundColor].dynamicColor))
                 }
             }
         }
@@ -170,8 +172,8 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
                     .accessibilityLabel(attributedMessage.string)
             } else if let message = state.message {
                 Text(message)
-                    .font(.fluent(tokens.regularTextFont))
-                    .foregroundColor(Color(dynamicColor: tokens.foregroundColor))
+                    .font(.fluent(tokenSet[.regularTextFont].fontInfo))
+                    .foregroundColor(Color(dynamicColor: tokenSet[.foregroundColor].dynamicColor))
             }
         }
 
@@ -183,14 +185,14 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
                 }
                 messageLabel
             }
-            .padding(.vertical, tokens.verticalPadding)
+            .padding(.vertical, hasSecondTextRow ? tokenSet[.verticalPadding].float : tokenSet[.verticalPaddingForOneLine].float)
         }
 
         @ViewBuilder
         var button: some View {
             let shouldHaveDefaultAction = state.showDefaultDismissActionButton && shouldSelfPresent
             if let buttonAction = state.actionButtonAction ?? (shouldHaveDefaultAction ? dismissAnimated : nil) {
-                let foregroundColor = tokens.foregroundColor
+                let foregroundColor = tokenSet[.foregroundColor].dynamicColor
                 if let actionTitle = state.actionButtonTitle, !actionTitle.isEmpty {
                     SwiftUI.Button(actionTitle) {
                         isPresented = false
@@ -198,7 +200,7 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
                     }
                     .lineLimit(1)
                     .foregroundColor(Color(dynamicColor: foregroundColor))
-                    .font(.fluent(tokens.boldTextFont))
+                    .font(.fluent(tokenSet[.boldTextFont].fontInfo))
                     .hoverEffect()
                 } else {
                     SwiftUI.Button(action: {
@@ -228,9 +230,9 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
                     textContainer
                     Spacer()
                 }
-                .frame(minHeight: tokens.minimumHeight)
+                .frame(minHeight: tokenSet[.minimumHeight].float)
             } else {
-                let horizontalSpacing = tokens.horizontalSpacing
+                let horizontalSpacing = tokenSet[.horizontalSpacing].float
                 HStack(spacing: isFlexibleWidthToast ? horizontalSpacing : 0) {
                     HStack(spacing: horizontalSpacing) {
                         image
@@ -250,8 +252,8 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
                 .onSizeChange { newSize in
                     innerContentsSize = newSize
                 }
-                .frame(minHeight: tokens.minimumHeight)
-                .padding(.horizontal, tokens.horizontalPadding)
+                .frame(minHeight: tokenSet[.minimumHeight].float)
+                .padding(.horizontal, tokenSet[.horizontalPadding].float)
                 .clipped()
             }
         }
@@ -267,28 +269,29 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
                         .scaleEffect(x: 1.0, y: g.size.height / g.size.width, anchor: .top)
                 }
             } else {
-                Color(dynamicColor: tokens.backgroundColor)
+                Color(dynamicColor: tokenSet[.backgroundColor].dynamicColor)
             }
         }
 
         @ViewBuilder
         var notification: some View {
+            let shadowInfo = tokenSet[.shadow].shadowInfo
             innerContents
                 .background(
-                    RoundedRectangle(cornerRadius: tokens.cornerRadius)
-                        .strokeBorder(Color(dynamicColor: tokens.outlineColor), lineWidth: tokens.outlineWidth)
+                    RoundedRectangle(cornerRadius: tokenSet[.cornerRadius].float)
+                        .strokeBorder(Color(dynamicColor: tokenSet[.outlineColor].dynamicColor), lineWidth: tokenSet[.outlineWidth].float)
                         .background(
                             backgroundFill
-                                .clipShape(RoundedRectangle(cornerRadius: tokens.cornerRadius))
+                                .clipShape(RoundedRectangle(cornerRadius: tokenSet[.cornerRadius].float))
                         )
-                        .shadow(color: Color(dynamicColor: tokens.ambientShadowColor),
-                                radius: tokens.ambientShadowBlur,
-                                x: tokens.ambientShadowOffsetX,
-                                y: tokens.ambientShadowOffsetY)
-                        .shadow(color: Color(dynamicColor: tokens.perimeterShadowColor),
-                                radius: tokens.perimeterShadowBlur,
-                                x: tokens.perimeterShadowOffsetX,
-                                y: tokens.perimeterShadowOffsetY)
+                        .shadow(color: Color(dynamicColor: shadowInfo.colorOne),
+                                radius: shadowInfo.blurOne,
+                                x: shadowInfo.xOne,
+                                y: shadowInfo.yOne)
+                        .shadow(color: Color(dynamicColor: shadowInfo.colorTwo),
+                                radius: shadowInfo.blurTwo,
+                                x: shadowInfo.xTwo,
+                                y: shadowInfo.yTwo)
                 )
                 .onTapGesture {
                     if let messageAction = messageButtonAction {
@@ -306,8 +309,7 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
                 GeometryReader { proxy in
                     let proposedSize = proxy.size
                     let proposedWidth = proposedSize.width
-                    // Get total horizontal padding by doubling the offset
-                    let horizontalPadding = 2 * tokens.presentationOffset
+                    let horizontalPadding = 2 * tokenSet[.presentationOffset].float
                     let calculatedNotificationWidth: CGFloat = {
                         let isHalfLength = state.style.isToast && horizontalSizeClass == .regular
                         return isHalfLength ? proposedWidth / 2 : proposedWidth - horizontalPadding
@@ -324,13 +326,10 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
                                 dismissAnimated()
                             }
                         })
-                        .padding(showFromBottom ? .bottom : .top, tokens.bottomPresentationPadding)
+                        .padding(.bottom, tokenSet[.bottomPresentationPadding].float)
                         .onSizeChange { newSize in
-                            bottomOffsetForDismissedState = newSize.height
-                            // Bottom offset is only updated when the notification
-                            // isn't presented to account for the new notification
-                            // height (if presented, offset doesn't need to be
-                            // updated since it grows upward vertically)
+                            bottomOffsetForDismissedState = newSize.height + (tokenSet[.shadow].shadowInfo.yOne / 2)
+                            // Bottom offset is only updated when the notification isn't presented to account for the new notification height (if presented, offset doesn't need to be updated since it grows upward vertically)
                             if !isPresented {
                                 bottomOffset = bottomOffsetForDismissedState
                             }
@@ -343,16 +342,11 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
         }
 
         return presentableNotification
+            .fluentTokens(tokenSet, fluentTheme)
     }
 
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @ObservedObject var state: MSFNotificationStateImpl
-    let defaultTokens: NotificationTokens = .init()
-    var tokens: NotificationTokens {
-        let tokens = resolvedTokens
-        tokens.style = state.style
-        return tokens
-    }
 
     private var hasImage: Bool {
         state.style.isToast && state.image != nil
@@ -371,8 +365,8 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
     }
 
     private func presentAnimated() {
-        withAnimation(.spring(response: tokens.style.animationDurationForShow,
-                              dampingFraction: tokens.style.animationDampingRatio,
+        withAnimation(.spring(response: state.style.animationDurationForShow,
+                              dampingFraction: state.style.animationDampingRatio,
                               blendDuration: 0)) {
             bottomOffset = 0
             opacity = 1
@@ -380,7 +374,7 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
     }
 
     private func dismissAnimated() {
-        withAnimation(.linear(duration: tokens.style.animationDurationForHide)) {
+        withAnimation(.linear(duration: state.style.animationDurationForHide)) {
             bottomOffset = bottomOffsetForDismissedState
             opacity = 0
         }
@@ -408,7 +402,7 @@ public struct FluentNotification: View, ConfigurableTokenizedControl {
     private let isFlexibleWidthToast: Bool
 }
 
-class MSFNotificationStateImpl: NSObject, ControlConfiguration, MSFNotificationState {
+class MSFNotificationStateImpl: ControlState, MSFNotificationState {
     @Published var message: String?
     @Published var attributedMessage: NSAttributedString?
     @Published var title: String?
@@ -432,9 +426,6 @@ class MSFNotificationStateImpl: NSObject, ControlConfiguration, MSFNotificationS
 
     /// Action to be dispatched by tapping on the toast/bar notification.
     @Published var messageButtonAction: (() -> Void)?
-
-    /// Design token set for this control, to use in place of the control's default Fluent tokens.
-    @Published var overrideTokens: NotificationTokens?
 
     /// Style to draw the control.
     @Published var style: MSFNotificationStyle
