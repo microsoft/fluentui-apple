@@ -878,7 +878,7 @@ public class BottomSheetController: UIViewController {
     // Output of `collapsedHeightResolver` wrapped in a cache.
     private var resolvedCollapsedSheetHeight: CGFloat {
         let oldContext = lastCollapsedSheetHeightResolutionContext
-        let newContext = ContentHeightResolutionContext(maximumHeight: maxSheetHeight - view.safeAreaInsets.bottom , containerTraitCollection: view.traitCollection)
+        let newContext = ContentHeightResolutionContext(maximumHeight: maxSheetHeight - view.safeAreaInsets.bottom, containerTraitCollection: view.traitCollection)
 
         if oldContext?.maximumHeight != newContext.maximumHeight || !(oldContext?.containerTraitCollection.containsTraits(in: newContext.containerTraitCollection) ?? false) {
             lastResolvedCollapsedSheetHeight = collapsedHeightResolver?(newContext) ?? 0
@@ -891,7 +891,7 @@ public class BottomSheetController: UIViewController {
     private var lastResolvedCollapsedSheetHeight: CGFloat = 0
 
     // Context we last used for height resolving.
-    private var lastCollapsedSheetHeightResolutionContext: ContentHeightResolutionContext? = nil
+    private var lastCollapsedSheetHeightResolutionContext: ContentHeightResolutionContext?
 
     private var currentResizingHandleHeight: CGFloat {
         (isExpandable ? ResizingHandleView.height : 0.0)
