@@ -6,11 +6,10 @@
 import UIKit
 import Combine
 
-/// View that converts the subviews of a container view into a loading state with the "shimmering" effect
-@objc(MSFShimmerView)
-open class ShimmerView: UIView, TokenizedControlInternal {
+/// View that converts the subviews of a container view into a loading state with the "shimmering" effect.
+@objc open class MSFShimmerView: UIView, TokenizedControlInternal {
 
-    /// Optional synchronizer to sync multiple shimmer views
+    /// Optional synchronizer to sync multiple shimmer views.
     @objc open weak var animationSynchronizer: AnimationSynchronizerProtocol?
 
     open override var intrinsicContentSize: CGSize { return bounds.size }
@@ -32,12 +31,12 @@ open class ShimmerView: UIView, TokenizedControlInternal {
     }
 
     /// Create a shimmer view
-    /// - Parameter containerView: view to convert layout into a shimmer -- each of containerView's first-level subviews will be mirrored
-    /// - Parameter excludedViews: subviews of `containerView` to exclude from shimmer
-    /// - Parameter animationSynchronizer: optional synchronizer to sync multiple shimmer views
-    /// - Parameter shimmerStyle: determines whether the shimmer is a revealing shimmer or a concealing shimmer
+    /// - Parameter containerView: view to convert layout into a shimmer -- each of containerView's first-level subviews will be mirrored.
+    /// - Parameter excludedViews: subviews of `containerView` to exclude from shimmer.
+    /// - Parameter animationSynchronizer: optional synchronizer to sync multiple shimmer views.
+    /// - Parameter shimmerStyle: determines whether the shimmer is a revealing shimmer or a concealing shimmer.
     /// - Parameter shimmersLeafViews: True to enable shimmers to auto-adjust to font height for a UILabel -- this will more accurately reflect the text in the label rect rather than using the bounding box.
-    /// - Parameter usesTextHeightForLabels: Determines whether we shimmer the top level subviews, or the leaf nodes of the view hierarchy. If false, we use default height of 11.0
+    /// - Parameter usesTextHeightForLabels: Determines whether we shimmer the top level subviews, or the leaf nodes of the view hierarchy. If false, we use default height of 11.0.
     @objc public init(containerView: UIView? = nil,
                       excludedViews: [UIView] = [],
                       animationSynchronizer: AnimationSynchronizerProtocol? = nil,
@@ -68,7 +67,7 @@ open class ShimmerView: UIView, TokenizedControlInternal {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
-    /// Manaully sync with the synchronizer
+    /// Manaully sync with the synchronizer.
     @objc public func syncAnimation() {
         updateShimmeringAnimation()
     }
@@ -82,7 +81,7 @@ open class ShimmerView: UIView, TokenizedControlInternal {
     /// Style to draw the control.
     public let style: MSFShimmerStyle
 
-    /// Update the frame of each layer covering views in the containerView
+    /// Update the frame of each layer covering views in the containerView.
     func updateViewCoverLayers() {
         let viewToCover = containerView ?? self
 
@@ -98,7 +97,7 @@ open class ShimmerView: UIView, TokenizedControlInternal {
             }
         }()
 
-        viewCoverLayers = subviews.filter({ !$0.isHidden && !($0 is ShimmerView) }).map { subview in
+        viewCoverLayers = subviews.filter({ !$0.isHidden && !($0 is MSFShimmerView) }).map { subview in
             let coverLayer = CALayer()
 
             let shouldApplyLabelCornerRadius = subview is UILabel && tokenSet[.labelCornerRadius].float >= 0
@@ -129,7 +128,7 @@ open class ShimmerView: UIView, TokenizedControlInternal {
         viewCoverLayers.forEach { layer.addSublayer($0) }
     }
 
-    /// Update the gradient layer that animates to provide the shimmer effect (also updates the animation)
+    /// Update the gradient layer that animates to provide the shimmer effect (also updates the animation).
     func updateShimmeringLayer() {
         let light = UIColor.white.withAlphaComponent(tokenSet[.shimmerAlpha].float).cgColor
         let dark = UIColor(dynamicColor: tokenSet[.darkGradient].dynamicColor).cgColor
@@ -159,11 +158,11 @@ open class ShimmerView: UIView, TokenizedControlInternal {
         updateShimmeringAnimation()
     }
 
-    /// Update the shimmer animation
+    /// Update the shimmer animation.
     func updateShimmeringAnimation() {
         shimmeringLayer.removeAnimation(forKey: "shimmering")
 
-        // For usability/accessibility reasons, the animation is not added if the user
+        // For usability/accessibility reasons, the animation is not added if the user.
         // has the "reduce motion" enabled on the device.
         guard !UIAccessibility.isReduceMotionEnabled else {
             return
@@ -193,7 +192,7 @@ open class ShimmerView: UIView, TokenizedControlInternal {
         animation.duration = CFTimeInterval(distance / tokenSet[.shimmerSpeed].float)
         animation.fillMode = .forwards
 
-        // Add animation (use a group to add a delay between animations)
+        // Add animation (use a group to add a delay between animations).
         let animationGroup = CAAnimationGroup()
         animationGroup.animations = [animation]
         animationGroup.duration = animation.duration + tokenSet[.shimmerDelay].float
@@ -202,10 +201,10 @@ open class ShimmerView: UIView, TokenizedControlInternal {
         shimmeringLayer.add(animationGroup, forKey: "shimmering")
     }
 
-    /// Layers covering the subviews of the container
+    /// Layers covering the subviews of the container.
     var viewCoverLayers = [CALayer]()
 
-    /// Layer that slides to provide the "shimmer" effect
+    /// Layer that slides to provide the "shimmer" effect.
     var shimmeringLayer = CAGradientLayer()
 
     private func searchLeaves(in view: UIView, output: inout [UIView]) {

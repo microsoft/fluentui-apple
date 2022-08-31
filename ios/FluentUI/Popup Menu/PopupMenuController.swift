@@ -26,10 +26,19 @@ private extension Colors {
 open class PopupMenuController: DrawerController {
     private struct Constants {
         static let minimumContentWidth: CGFloat = 250
-
-        static let descriptionHorizontalMargin: CGFloat = 16
-        static let descriptionVerticalMargin: CGFloat = 12
     }
+
+    public typealias TokenSetKeyType = PopupMenuTokenSet.Tokens
+    public typealias TokenSetType = PopupMenuTokenSet
+    public override var tokenSet: DrawerTokenSet {
+        get {
+            return popupTokenSet
+        }
+        set {
+            assertionFailure("PopupMenuController tokens must be set through popupTokenSet")
+        }
+    }
+    public var popupTokenSet: PopupMenuTokenSet = .init()
 
     open override var contentView: UIView? { get { return super.contentView } set { } }
 
@@ -72,13 +81,6 @@ open class PopupMenuController: DrawerController {
             }
         }
         return height
-    }
-
-    /// Set `backgroundColor` to customize background color of controller' view and its tableView
-    open override var backgroundColor: UIColor {
-        didSet {
-            tableView.backgroundColor = backgroundColor
-        }
     }
 
     override var tracksContentHeight: Bool { return false }
@@ -163,13 +165,15 @@ open class PopupMenuController: DrawerController {
         view.isHidden = true
 
         view.addSubview(descriptionLabel)
+        let verticalMargin = GlobalTokens.spacing(.small)
+        let horizontalMargin = GlobalTokens.spacing(.medium)
         descriptionLabel.fitIntoSuperview(
             usingConstraints: true,
             margins: UIEdgeInsets(
-                top: Constants.descriptionVerticalMargin,
-                left: Constants.descriptionHorizontalMargin,
-                bottom: Constants.descriptionVerticalMargin,
-                right: Constants.descriptionHorizontalMargin
+                top: verticalMargin,
+                left: horizontalMargin,
+                bottom: verticalMargin,
+                right: horizontalMargin
             )
         )
 

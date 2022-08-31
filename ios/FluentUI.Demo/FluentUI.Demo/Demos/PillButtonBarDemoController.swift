@@ -244,28 +244,27 @@ extension PillButtonBarDemoController: DemoAppearanceDelegate {
     }
 
     private var perControlOverridePillButtonTokens: [PillButtonTokenSet.Tokens: ControlTokenValue] {
-        let globalTokens = GlobalTokens()
         return [
             .backgroundColor: .pillButtonDynamicColors {
-                return .init(rest: DynamicColor(light: globalTokens.sharedColors[.steel][.tint40],
-                                                dark: globalTokens.sharedColors[.steel][.shade30]),
-                             selected: DynamicColor(light: globalTokens.sharedColors[.pumpkin][.tint40],
-                                                    dark: globalTokens.sharedColors[.pumpkin][.shade30]),
-                             disabled: DynamicColor(light: globalTokens.sharedColors[.darkTeal][.tint40],
-                                                    dark: globalTokens.sharedColors[.darkTeal][.shade30]),
-                             selectedDisabled: DynamicColor(light: globalTokens.sharedColors[.orchid][.tint40],
-                                                            dark: globalTokens.sharedColors[.orchid][.shade30]))
+                return .init(rest: DynamicColor(light: GlobalTokens.sharedColors(.steel, .tint40),
+                                                dark: GlobalTokens.sharedColors(.steel, .shade30)),
+                             selected: DynamicColor(light: GlobalTokens.sharedColors(.pumpkin, .tint40),
+                                                    dark: GlobalTokens.sharedColors(.pumpkin, .shade30)),
+                             disabled: DynamicColor(light: GlobalTokens.sharedColors(.darkTeal, .tint40),
+                                                    dark: GlobalTokens.sharedColors(.darkTeal, .shade30)),
+                             selectedDisabled: DynamicColor(light: GlobalTokens.sharedColors(.orchid, .tint40),
+                                                            dark: GlobalTokens.sharedColors(.orchid, .shade30)))
             },
 
             .titleColor: .pillButtonDynamicColors {
-                return .init(rest: DynamicColor(light: globalTokens.sharedColors[.steel][.shade30],
-                                                dark: globalTokens.sharedColors[.steel][.tint40]),
-                             selected: DynamicColor(light: globalTokens.sharedColors[.pumpkin][.shade30],
-                                                    dark: globalTokens.sharedColors[.pumpkin][.tint40]),
-                             disabled: DynamicColor(light: globalTokens.sharedColors[.darkTeal][.shade30],
-                                                    dark: globalTokens.sharedColors[.darkTeal][.tint40]),
-                             selectedDisabled: DynamicColor(light: globalTokens.sharedColors[.orchid][.shade30],
-                                                            dark: globalTokens.sharedColors[.orchid][.tint40]))
+                return .init(rest: DynamicColor(light: GlobalTokens.sharedColors(.steel, .shade30),
+                                                dark: GlobalTokens.sharedColors(.steel, .tint40)),
+                             selected: DynamicColor(light: GlobalTokens.sharedColors(.pumpkin, .shade30),
+                                                    dark: GlobalTokens.sharedColors(.pumpkin, .tint40)),
+                             disabled: DynamicColor(light: GlobalTokens.sharedColors(.darkTeal, .shade30),
+                                                    dark: GlobalTokens.sharedColors(.darkTeal, .tint40)),
+                             selectedDisabled: DynamicColor(light: GlobalTokens.sharedColors(.orchid, .shade30),
+                                                            dark: GlobalTokens.sharedColors(.orchid, .tint40)))
             },
 
             .font: .fontInfo {

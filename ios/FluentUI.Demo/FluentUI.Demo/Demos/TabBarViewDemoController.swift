@@ -229,19 +229,18 @@ extension TabBarViewDemoController: DemoAppearanceDelegate {
 
     // MARK: - Custom tokens
     private var themeWideOverrideTabBarTokens: [TabBarTokenSet.Tokens: ControlTokenValue] {
-        let globalTokens = GlobalTokens()
         return [
             .tabBarItemSelectedColor: .dynamicColor {
-                return .init(light: globalTokens.sharedColors[.burgundy][.tint10],
-                             lightHighContrast: globalTokens.sharedColors[.pumpkin][.tint10],
-                             dark: globalTokens.sharedColors[.darkTeal][.tint40],
-                             darkHighContrast: globalTokens.sharedColors[.teal][.tint40])
+                return .init(light: GlobalTokens.sharedColors(.burgundy, .tint10),
+                             lightHighContrast: GlobalTokens.sharedColors(.pumpkin, .tint10),
+                             dark: GlobalTokens.sharedColors(.darkTeal, .tint40),
+                             darkHighContrast: GlobalTokens.sharedColors(.teal, .tint40))
             },
             .tabBarItemUnselectedColor: .dynamicColor {
-                return .init(light: globalTokens.sharedColors[.darkTeal][.tint20],
-                             lightHighContrast: globalTokens.sharedColors[.teal][.tint40],
-                             dark: globalTokens.sharedColors[.pumpkin][.tint40],
-                             darkHighContrast: globalTokens.sharedColors[.burgundy][.tint40])
+                return .init(light: GlobalTokens.sharedColors(.darkTeal, .tint20),
+                             lightHighContrast: GlobalTokens.sharedColors(.teal, .tint40),
+                             dark: GlobalTokens.sharedColors(.pumpkin, .tint40),
+                             darkHighContrast: GlobalTokens.sharedColors(.burgundy, .tint40))
             }
         ]
     }

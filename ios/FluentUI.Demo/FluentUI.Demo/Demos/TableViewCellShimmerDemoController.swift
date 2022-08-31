@@ -50,9 +50,9 @@ extension TableViewCell {
     /// associated object key for shimmer view
     private static var shimmerViewKey: UInt8 = 0
 
-    var shimmerView: ShimmerView? {
+    var shimmerView: MSFShimmerView? {
         get {
-            return objc_getAssociatedObject(self, &TableViewCell.shimmerViewKey) as? ShimmerView
+            return objc_getAssociatedObject(self, &TableViewCell.shimmerViewKey) as? MSFShimmerView
         }
         set {
             objc_setAssociatedObject(self, &TableViewCell.shimmerViewKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_ASSIGN)
@@ -64,7 +64,7 @@ extension TableViewCell {
         // because the cells have different layouts in this example, remove and re-add the shimmers
         shimmerView?.removeFromSuperview()
 
-        let shimmerView = ShimmerView(containerView: contentView, animationSynchronizer: synchronizer)
+        let shimmerView = MSFShimmerView(containerView: contentView, animationSynchronizer: synchronizer)
         contentView.addSubview(shimmerView)
         shimmerView.frame = contentView.bounds
         shimmerView.autoresizingMask = [.flexibleWidth, .flexibleHeight]

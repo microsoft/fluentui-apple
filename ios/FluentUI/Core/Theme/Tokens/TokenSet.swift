@@ -9,7 +9,7 @@ import Combine
 public typealias TokenSetKey = Hashable & CaseIterable
 
 /// Template for all token sets, both global and alias. This ensures a unified return type for any given token set.
-public class TokenSet<T: TokenSetKey, V>: ObservableObject {
+public final class TokenSet<T: TokenSetKey, V> {
 
     /// Allows us to index into this token set using square brackets.
     ///
