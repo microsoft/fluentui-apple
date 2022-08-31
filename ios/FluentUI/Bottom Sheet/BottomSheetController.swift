@@ -308,6 +308,10 @@ public class BottomSheetController: UIViewController {
 
     /// Forces a call to `collapsedHeightResolver` to fetch the latest desired sheet height.
     @objc public func invalidateSheetSize() {
+        guard isViewLoaded else {
+            return
+        }
+
         lastCollapsedSheetHeightResolutionContext = nil
 
         // If we are animating to .collapsed or already collapsed, we need to move to refresh the animation target.
