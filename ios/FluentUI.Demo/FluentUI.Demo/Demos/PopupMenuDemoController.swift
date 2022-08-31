@@ -193,6 +193,6 @@ class PopupMenuDemoController: DemoController {
     }
 
     @objc private func showObjCDemo(sender: UIButton) {
-        navigationController?.pushViewController(PopupMenuDemoController_ObjC(), animated: true)
+        navigationController?.pushViewController(PopupMenuObjCDemoController(), animated: true)
     }
 }

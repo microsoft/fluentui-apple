@@ -3,10 +3,10 @@
 //  Licensed under the MIT License.
 //
 
-#import "PopupMenuDemoController_ObjC.h"
+#import "PopupMenuObjCDemoController.h"
 #import <FluentUI/FluentUI-Swift.h>
 
-@implementation PopupMenuDemoController_ObjC
+@implementation PopupMenuObjCDemoController
 
 - (instancetype)init {
     self = [super init];

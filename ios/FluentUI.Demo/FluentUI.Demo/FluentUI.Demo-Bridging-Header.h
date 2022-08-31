@@ -3,4 +3,4 @@
 //
 
 #import "ObjectiveCDemoController.h"
-#import "PopupMenuDemoController_ObjC.h"
+#import "PopupMenuObjCDemoController.h"

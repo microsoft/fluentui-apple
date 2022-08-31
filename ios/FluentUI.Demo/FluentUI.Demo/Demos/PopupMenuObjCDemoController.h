@@ -7,7 +7,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface PopupMenuDemoController_ObjC : UIViewController
+@interface PopupMenuObjCDemoController : UIViewController
 @property NSIndexPath *selectedCityIndex;
 
 @end
