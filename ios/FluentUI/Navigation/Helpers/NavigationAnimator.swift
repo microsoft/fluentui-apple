@@ -50,7 +50,7 @@ class NavigationAnimator: UIPercentDrivenInteractiveTransition, UIViewController
         let isTemporary: Bool
 
         /// A custom animation block executed during the animation
-        var customAnimation : (() -> Void)?
+        var customAnimation: (() -> Void)?
     }
 
     private typealias ViewFrameTransitionGroups = (group1: [ViewFrameTransition], group2: [ViewFrameTransition])
@@ -138,7 +138,7 @@ class NavigationAnimator: UIPercentDrivenInteractiveTransition, UIViewController
 
     /// Creates a transition for two background views that are placed under the "to" and "from" view controllers, and the navigation controller's subviews.
     /// The background that appears on top has a shadow that fades out during the transition.
-    private func createBackgroundTransitions(_ transitionContext: UIViewControllerContextTransitioning, frameTransitions : inout ViewFrameTransitionGroups) {
+    private func createBackgroundTransitions(_ transitionContext: UIViewControllerContextTransitioning, frameTransitions: inout ViewFrameTransitionGroups) {
         let frame = transitionContext.containerView.bounds
 
         let fromBgView = UIView(frame: CGRect(origin: .zero, size: CGSize(width: 1.0, height: 1.0)))
@@ -174,7 +174,7 @@ class NavigationAnimator: UIPercentDrivenInteractiveTransition, UIViewController
     }
 
     /// Creates the transitions for the "to" and "from" view controllers.
-    private func createViewControllerTransitions(_ transitionContext: UIViewControllerContextTransitioning, frameTransitions : inout ViewFrameTransitionGroups) {
+    private func createViewControllerTransitions(_ transitionContext: UIViewControllerContextTransitioning, frameTransitions: inout ViewFrameTransitionGroups) {
         guard let fromVC = transitionContext.viewController(forKey: .from), let toVC = transitionContext.viewController(forKey: .to) else {
             return
         }
@@ -188,7 +188,7 @@ class NavigationAnimator: UIPercentDrivenInteractiveTransition, UIViewController
 
     /// Creates the transitions for the Navigation Controller which must be an instance of `NavigationController`.
     /// All subviews including Navigation Bar and Toolbar are animated.
-    private func createNavigationControllerTransitions(_ transitionContext: UIViewControllerContextTransitioning, frameTransitions : inout ViewFrameTransitionGroups) {
+    private func createNavigationControllerTransitions(_ transitionContext: UIViewControllerContextTransitioning, frameTransitions: inout ViewFrameTransitionGroups) {
         guard let navigationController = navigationController as? NavigationController else {
             return
         }
