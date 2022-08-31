@@ -14,39 +14,6 @@ class ColorTests: XCTestCase {
         }
     }
 
-    /// Validates that the background and foreground colors for a given index of the Colors.avatarColors property match comparing:
-    ///  1. A color light mode background color with its counterpart dark mode foreground color. The color should be the same (tint40)
-    ///  2. A color light mode foreground color with its counterpart dark mode background color. The color should be the same (shade30)
-    ///
-    /// Text calculated colors are defined as the following for a given color:
-    ///  - Light mode:
-    ///    - Background: tint40
-    ///    - Foreground: shade30
-    ///  - Dark mode:
-    ///    - Background: shade30
-    ///    - Foreground: tint40
-    func testAvatarColorsMatch() {
-        let avatarTokens = AvatarTokens()
-        let backgroundColors = avatarTokens.backgroundCalculatedColorOptions
-        let foregroundColors = avatarTokens.foregroundCalculatedColorOptions
-
-        for (index, bgColor) in backgroundColors.enumerated() {
-            let fgColor = foregroundColors[index]
-            let bgLightColor = UIColor(colorValue: bgColor.light)
-            let bgDarkColor = UIColor(colorValue: bgColor.dark!)
-            let fgLightColor = UIColor(colorValue: fgColor.light)
-            let fgDarkColor = UIColor(colorValue: fgColor.dark!)
-
-            XCTAssertEqual(bgLightColor,
-                           fgDarkColor,
-                           "Index \(index): Background color in light mode does not match Foreground color in dark mode.")
-
-            XCTAssertEqual(bgDarkColor,
-                           fgLightColor,
-                           "Index \(index): Background color in dark mode does not match Foreground color in light mode.")
-        }
-    }
-
     func testColorValue() {
         let hexColorValue = ColorValue(0xC7E0F4)
         XCTAssertEqual(hexColorValue.a, 1.0)

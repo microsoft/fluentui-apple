@@ -514,9 +514,8 @@ class TableViewCellFileAccessoryViewDemoController: DemoTableViewController {
 
         for accessoryView in topAccessoryViews + bottomAccessoryViews {
             if let cell = accessoryView.tableViewCell {
-                let tokens = TableViewCellTokens()
-                cell.paddingLeading = tokens.paddingLeading + extraPadding
-                cell.paddingTrailing = tokens.paddingTrailing + extraPadding
+                cell.paddingLeading = cell.tokenSet[.paddingLeading].float + extraPadding
+                cell.paddingTrailing = cell.tokenSet[.paddingTrailing].float + extraPadding
             }
         }
     }

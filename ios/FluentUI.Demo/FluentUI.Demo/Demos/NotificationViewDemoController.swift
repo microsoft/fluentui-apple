@@ -189,7 +189,7 @@ class NotificationViewDemoController: DemoController {
             let notification = MSFNotification(style: .neutralToast)
             notification.state.message = "The image color and spacing between the elements of this notification have been customized with override tokens."
             notification.state.image = UIImage(named: "play-in-circle-24x24")
-            notification.state.overrideTokens = NotificationOverrideTokens()
+            notification.tokenSet.replaceAllOverrides(with: notificationOverrideTokens)
             notification.state.actionButtonAction = { [weak self] in
                 self?.showMessage("`Dismiss` tapped")
                 notification.hide()
@@ -216,7 +216,7 @@ class NotificationViewDemoController: DemoController {
             let notification = MSFNotification(style: .warningToast,
                                                isFlexibleWidthToast: true)
             notification.state.message = "This toast has a flexible width which means the width is based on the content rather than the screen size."
-            notification.state.overrideTokens = NotificationOverrideTokens()
+            notification.tokenSet.replaceAllOverrides(with: notificationOverrideTokens)
             notification.state.actionButtonAction = { [weak self] in
                 self?.showMessage("`Dismiss` tapped")
                 notification.hide()
@@ -225,14 +225,25 @@ class NotificationViewDemoController: DemoController {
         }
     }
 
-    private class NotificationOverrideTokens: NotificationTokens {
-        override var imageColor: DynamicColor {
-            return DynamicColor(light: GlobalTokens.sharedColors(.orange, .primary))
-        }
-
-        override var horizontalSpacing: CGFloat {
-            return 5.0
-        }
+    private var notificationOverrideTokens: [NotificationTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .imageColor: .dynamicColor {
+                return DynamicColor(light: GlobalTokens.sharedColors(.orange, .primary))
+            },
+            .horizontalSpacing: .float {
+                return 5.0
+            },
+            .shadow: .shadowInfo {
+                return ShadowInfo(colorOne: DynamicColor(light: GlobalTokens.sharedColors(.hotPink, .primary)),
+                                  blurOne: 10.0,
+                                  xOne: 10.0,
+                                  yOne: 10.0,
+                                  colorTwo: DynamicColor(light: GlobalTokens.sharedColors(.teal, .primary)),
+                                  blurTwo: 100.0,
+                                  xTwo: -10.0,
+                                  yTwo: -10.0)
+            }
+        ]
     }
 
     @objc private func showNotificationView(sender: UIButton) {

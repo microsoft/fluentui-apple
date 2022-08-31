@@ -7,9 +7,4 @@ import UIKit
 import SwiftUI
 
 public extension AvatarGroup {
-    /// Provides a custom design token set to be used when drawing this control
-    func overrideTokens(_ tokens: AvatarGroupTokens?) -> AvatarGroup {
-        state.overrideTokens = tokens
-        return self
-    }
 }

@@ -41,12 +41,6 @@ public extension HeadsUpDisplay {
         state.label = label
         return self
     }
-
-    /// Provides a custom design token set to be used when drawing this control.
-    func overrideTokens(_ tokens: HeadsUpDisplayTokens?) -> HeadsUpDisplay {
-        state.overrideTokens = tokens
-        return self
-    }
 }
 
 struct SquareShapedViewModifier: ViewModifier {
