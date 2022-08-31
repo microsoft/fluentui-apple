@@ -24,8 +24,7 @@ class PopupMenuItemTokenSet: TableViewCellTokenSet {
                              dark: ColorValue(0x6E6E6E /* gray500 */),
                              darkHighContrast: ColorValue(0xACACAC /* gray300 */),
                              darkElevated: ColorValue(0x919191 /* gray400 */)) },
-            .cellBackgroundColor: .dynamicColor { DynamicColor(light: .clear) },
-            .labelVerticalMarginForOneAndThreeLines: .float { 15.0 },
+            .cellBackgroundColor: .dynamicColor { DynamicColor(light: .clear) }
         ])
     }
 }
