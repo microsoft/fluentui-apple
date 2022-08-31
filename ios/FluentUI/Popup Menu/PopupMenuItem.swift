@@ -63,9 +63,9 @@ open class PopupMenuItem: NSObject, PopupMenuTemplateItem {
     }
     /// `title` color when`isSelected` is true. If unset, PopupMenuItemTokenSet.mainBrandColor will be used
     @objc public var titleSelectedColor: UIColor?
-    /// `subtitle` color when`isSelected` is true.  If unset,PopupMenuItemTokenSet.mainBrandColor will be used
+    /// `subtitle` color when`isSelected` is true.  If unset, PopupMenuItemTokenSet.mainBrandColor will be used
     @objc public var subtitleSelectedColor: UIColor?
-    /// tint color if `selectedImage` is rendered as template and `isSelected` is true.  Is unset, PopupMenuItemTokenSet.mainBrandColor will be used
+    /// tint color if `selectedImage` is rendered as template and `isSelected` is true.  If unset, PopupMenuItemTokenSet.mainBrandColor will be used
     @objc public var imageSelectedColor: UIColor?
     /// background color of PopupMenuItem corresponding cell
     @objc public var backgroundColor: UIColor {
