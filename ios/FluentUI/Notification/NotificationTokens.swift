@@ -104,9 +104,9 @@ open class NotificationTokens: ControlTokens {
     open var cornerRadius: CGFloat {
         switch style.isToast {
         case true:
-            return globalTokens.borderRadius[.xLarge]
+            return GlobalTokens.borderRadius(.xLarge)
         case false:
-            return globalTokens.borderSize[.none]
+            return GlobalTokens.borderSize(.none)
         }
     }
 
@@ -114,20 +114,20 @@ open class NotificationTokens: ControlTokens {
     open var presentationOffset: CGFloat {
         switch style.isToast {
         case true:
-            return globalTokens.spacing[.medium]
+            return GlobalTokens.spacing(.medium)
         case false:
-            return globalTokens.spacing[.none]
+            return GlobalTokens.spacing(.none)
         }
     }
 
     /// The value for the bottom padding between the notification and its anchor view
-    open var bottomPresentationPadding: CGFloat { globalTokens.spacing[.medium] }
+    open var bottomPresentationPadding: CGFloat { GlobalTokens.spacing(.medium) }
     /// The value for the horizontal padding between the elements within a notification and its frame
-    open var horizontalPadding: CGFloat { globalTokens.spacing[.medium] }
+    open var horizontalPadding: CGFloat { GlobalTokens.spacing(.medium) }
     /// The value for the vertical padding between the elements within a notification and its frame
-    open var verticalPadding: CGFloat { globalTokens.spacing[.small] }
+    open var verticalPadding: CGFloat { GlobalTokens.spacing(.small) }
     /// The value for the horizontal spacing between the elements within a notification
-    open var horizontalSpacing: CGFloat { globalTokens.spacing[.medium] }
+    open var horizontalSpacing: CGFloat { GlobalTokens.spacing(.medium) }
     /// The value for the minimum height of a notification
     open var minimumHeight: CGFloat { 52.0 }
 
@@ -142,7 +142,7 @@ open class NotificationTokens: ControlTokens {
     }
 
     /// The width of the outline around the frame of a notification
-    open var outlineWidth: CGFloat { globalTokens.borderSize[.thin] }
+    open var outlineWidth: CGFloat { GlobalTokens.borderSize(.thin) }
 
     /// The color of the ambient shadow around a notification
     open var ambientShadowColor: DynamicColor {
