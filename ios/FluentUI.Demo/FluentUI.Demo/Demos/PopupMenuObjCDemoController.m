@@ -19,9 +19,13 @@
 
 - (void)loadView {
     [super loadView];
-    MSFButton *demoButton = [[MSFButton alloc] initWithStyle:MSFButtonStylePrimaryOutline];
-    [demoButton setTitle:@"Show PopupMenu" forState:UIControlStateNormal];
-    [demoButton addTarget:self action:@selector(showPopupMenu) forControlEvents:UIControlEventTouchUpInside];
+    __weak PopupMenuObjCDemoController *weakSelf = self;
+    MSFButton *demoButton = [[MSFButton alloc] initWithStyle:MSFButtonStyleSecondary
+                                                        size:MSFButtonSizeMedium
+                                                      action:^(MSFButton * _Nonnull sender) {
+        [weakSelf showPopupMenu];
+    }];
+    [[demoButton state] setText:@"Show PopupMenu"];
 
     UIStackView *stack = [[UIStackView alloc] initWithArrangedSubviews:@[demoButton]];
     [stack setAlignment:UIStackViewAlignmentTop];

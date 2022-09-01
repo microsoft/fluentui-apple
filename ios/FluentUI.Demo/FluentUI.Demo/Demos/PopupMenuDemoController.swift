@@ -159,7 +159,9 @@ class PopupMenuDemoController: DemoController {
         }))
 
         container.addArrangedSubview(UIView())
-        container.addArrangedSubview(createButton(title: "Objective-C Demo", action: #selector(showObjCDemo)))
+        container.addArrangedSubview(createButton(title: "Objective-C Demo", action: { [weak self] _ in
+            self?.navigationController?.pushViewController(PopupMenuObjCDemoController(), animated: true)
+        }))
         addTitle(text: "Show with...")
     }
 
@@ -259,9 +261,5 @@ extension PopupMenuDemoController: DemoAppearanceDelegate {
                                                                    dark: GlobalTokens.sharedColors(.forest, .tint60))
             }
         ]
-    }
-
-    @objc private func showObjCDemo(sender: UIButton) {
-        navigationController?.pushViewController(PopupMenuObjCDemoController(), animated: true)
     }
 }
