@@ -107,12 +107,17 @@ class MSFButtonStateImpl: ControlState, MSFButtonState {
     }
 }
 
-/// Body of the button adjusted for pressed or rest state
-struct FluentButtonBody: View {
+/// ButtonStyle which configures the Button View according to its state and design tokens.
+struct FluentButtonStyle: ButtonStyle {
     @Environment(\.isEnabled) var isEnabled: Bool
     @ObservedObject var state: MSFButtonStateImpl
     @ObservedObject var tokenSet: ButtonTokenSet
-    let isPressed: Bool
+    @State var isPressed: Bool = false
+
+    func makeBody(configuration: Self.Configuration) -> some View {
+        isPressed = configuration.isPressed
+        return body
+    }
 
     var body: some View {
         let isDisabled = !isEnabled
@@ -211,16 +216,5 @@ struct FluentButtonBody: View {
         return button
             .pointerInteraction(isEnabled)
     }
-}
 
-/// ButtonStyle which configures the Button View according to its state and design tokens.
-struct FluentButtonStyle: ButtonStyle {
-    @ObservedObject var state: MSFButtonStateImpl
-    @ObservedObject var tokenSet: ButtonTokenSet
-
-    func makeBody(configuration: Self.Configuration) -> some View {
-        FluentButtonBody(state: state,
-                         tokenSet: tokenSet,
-                         isPressed: configuration.isPressed)
-    }
 }
