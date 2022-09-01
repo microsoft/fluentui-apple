@@ -85,17 +85,9 @@ open class ControlHostingView: UIView {
         self.hostingController.rootView = tokenizedView
     }
 
-    private var currentFluentTheme: FluentTheme {
-        if let windowFluentTheme = self.window?.fluentTheme {
-            return windowFluentTheme
-        } else {
-            return FluentThemeKey.defaultValue
-        }
-    }
-
     private var tokenizedView: AnyView {
         return AnyView(controlView
-                        .fluentTheme(currentFluentTheme)
+                        .fluentTheme(fluentTheme)
                         .onAppear { [weak self] in
                             // We don't usually have a window at construction time, so fetch our
                             // custom theme during `onAppear`
