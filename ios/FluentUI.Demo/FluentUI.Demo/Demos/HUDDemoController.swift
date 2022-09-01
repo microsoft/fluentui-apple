@@ -302,7 +302,7 @@ extension HUDDemoController: DemoAppearanceDelegate {
         }
 
         override var labelColor: DynamicColor {
-            return globalTokens.brandColors[.primary]
+            return aliasTokens.brandColors[.primary]
         }
     }
 }
