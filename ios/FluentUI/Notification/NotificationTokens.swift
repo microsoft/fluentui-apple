@@ -8,16 +8,16 @@ import UIKit
 /// Pre-defined styles of the notification
 @objc public enum MSFNotificationStyle: Int, CaseIterable {
     /// Floating notification with brand colored text and background.
-    case accentToast
+    case primaryToast
 
     /// Floating notification with neutral colored text and background.
     case neutralToast
 
     /// Bar notification with brand colored text and background.
-    case accentBar
+    case primaryBar
 
     /// Bar notification with brand colored text and neutral colored background.
-    case subtleBar
+    case primaryOutlineBar
 
     /// Bar notification with neutral colored text and brackground.
     case neutralBar
@@ -30,13 +30,13 @@ import UIKit
 
     var isToast: Bool {
         switch self {
-        case .accentToast,
+        case .primaryToast,
              .neutralToast,
              .dangerToast,
              .warningToast:
             return true
-        case .accentBar,
-             .subtleBar,
+        case .primaryBar,
+             .primaryOutlineBar,
              .neutralBar:
             return false
         }
@@ -57,22 +57,22 @@ import UIKit
 /// Design token set for the `Notification` control.
 open class NotificationTokens: ControlTokens {
     /// Defines the style of the notification.
-    public internal(set) var style: MSFNotificationStyle = .accentToast
+    public internal(set) var style: MSFNotificationStyle = .primaryToast
 
     // MARK: - Design Tokens
 
     /// The background color of the notification
     open var backgroundColor: DynamicColor {
         switch style {
-        case .accentToast:
+        case .primaryToast:
             return aliasTokens.brandColors[.tint40]
         case .neutralToast:
             return DynamicColor(light: ColorValue(0xF7F7F7),
                                 dark: ColorValue(0x393939))
-        case .accentBar:
+        case .primaryBar:
             return DynamicColor(light: aliasTokens.brandColors[.tint40].light,
                                 dark: aliasTokens.brandColors[.tint10].dark)
-        case .subtleBar:
+        case .primaryOutlineBar:
             return DynamicColor(light: ColorValue(0xFFFFFF),
                                 dark: ColorValue(0x393939))
         case .neutralBar:
@@ -90,16 +90,16 @@ open class NotificationTokens: ControlTokens {
     /// The color of the notification's foreground elements like text and icons
     open var foregroundColor: DynamicColor {
         switch style {
-        case .accentToast:
+        case .primaryToast:
             return DynamicColor(light: aliasTokens.brandColors[.shade10].light,
                                 dark: aliasTokens.brandColors[.shade30].dark)
         case .neutralToast:
             return DynamicColor(light: ColorValue(0x393939),
                                 dark: ColorValue(0xF7F7F7))
-        case .accentBar:
+        case .primaryBar:
             return DynamicColor(light: aliasTokens.brandColors[.shade20].light,
                                 dark: ColorValue(0x000000))
-        case .subtleBar:
+        case .primaryOutlineBar:
             return DynamicColor(light: aliasTokens.brandColors[.primary].light,
                                 dark: ColorValue(0xF7F7F7))
         case .neutralBar:
@@ -117,16 +117,16 @@ open class NotificationTokens: ControlTokens {
     /// The color of the notification's icon image
     open var imageColor: DynamicColor {
         switch style {
-        case .accentToast:
+        case .primaryToast:
             return DynamicColor(light: aliasTokens.brandColors[.shade10].light,
                                 dark: aliasTokens.brandColors[.shade30].dark)
         case .neutralToast:
             return DynamicColor(light: ColorValue(0x393939),
                                 dark: ColorValue(0xF7F7F7))
-        case .accentBar:
+        case .primaryBar:
             return DynamicColor(light: aliasTokens.brandColors[.shade20].light,
                                 dark: ColorValue(0x000000))
-        case .subtleBar:
+        case .primaryOutlineBar:
             return DynamicColor(light: aliasTokens.brandColors[.primary].light,
                                 dark: ColorValue(0xF7F7F7))
         case .neutralBar:
@@ -175,15 +175,15 @@ open class NotificationTokens: ControlTokens {
     /// The color of the outline around the frame of a notification
     open var outlineColor: DynamicColor {
         switch style {
-        case .accentToast, .neutralToast, .accentBar, .neutralBar, .dangerToast, .warningToast:
+        case .primaryToast, .neutralToast, .primaryBar, .neutralBar, .dangerToast, .warningToast:
             return DynamicColor(light: ColorValue.clear)
-        case .subtleBar:
+        case .primaryOutlineBar:
             return aliasTokens.strokeColors[.neutral2]
         }
     }
 
     /// The width of the outline around the frame of a notification
-    open var outlineWidth: CGFloat { 0.5 }
+    open var outlineWidth: CGFloat { GlobalTokens.borderSize(.thin) }
 
     /// The color of the ambient shadow around a notification
     open var ambientShadowColor: DynamicColor {

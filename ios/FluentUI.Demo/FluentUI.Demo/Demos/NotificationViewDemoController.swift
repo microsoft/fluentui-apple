@@ -8,17 +8,17 @@ import UIKit
 
 class NotificationViewDemoController: DemoController {
     enum Variant: Int, CaseIterable {
-        case accentToast
-        case accentToastWithImageAndTitle
+        case primaryToast
+        case primaryToastWithImageAndTitle
         case neutralToast
         case dangerToast
         case warningToast
-        case accentBar
-        case subtleBar
+        case primaryBar
+        case primaryOutlineBar
         case neutralBar
         case persistentBarWithAction
         case persistentBarWithCancel
-        case accentToastWithStrikethroughAttribute
+        case primaryToastWithStrikethroughAttribute
         case neutralBarWithFontAttribute
         case neutralToastWithOverriddenTokens
         case neutralToastWithGradientBackground
@@ -26,28 +26,28 @@ class NotificationViewDemoController: DemoController {
 
         var displayText: String {
             switch self {
-            case .accentToast:
-                return "Accent Toast with auto-hide"
-            case .accentToastWithImageAndTitle:
-                return "Accent Toast with image and title"
+            case .primaryToast:
+                return "Primary Toast with auto-hide"
+            case .primaryToastWithImageAndTitle:
+                return "Primary Toast with image and title"
             case .neutralToast:
                 return "Neutral Toast"
             case .dangerToast:
                 return "Danger Toast"
             case .warningToast:
                 return "Warning Toast"
-            case .accentBar:
-                return "Accent Bar"
-            case .subtleBar:
-                return "Subtle Bar"
+            case .primaryBar:
+                return "Primary Bar"
+            case .primaryOutlineBar:
+                return "Primary Outline Bar"
             case .neutralBar:
                 return "Neutral Bar"
             case .persistentBarWithAction:
                 return "Persistent Bar with Action"
             case .persistentBarWithCancel:
                 return "Persistent Bar with Cancel"
-            case .accentToastWithStrikethroughAttribute:
-                return "Accent Toast with Strikethrough Attribute"
+            case .primaryToastWithStrikethroughAttribute:
+                return "Primary Toast with Strikethrough Attribute"
             case .neutralBarWithFontAttribute:
                 return "Neutral Bar with Font Attribute"
             case .neutralToastWithOverriddenTokens:
@@ -81,8 +81,8 @@ class NotificationViewDemoController: DemoController {
 
     private func createNotificationView(forVariant variant: Variant) -> MSFNotification {
         switch variant {
-        case .accentToast:
-            let notification = MSFNotification(style: .accentToast)
+        case .primaryToast:
+            let notification = MSFNotification(style: .primaryToast)
             notification.state.message = "Mail Archived"
             notification.state.actionButtonTitle = "Undo"
             notification.state.actionButtonAction = { [weak self] in
@@ -90,8 +90,8 @@ class NotificationViewDemoController: DemoController {
                 notification.hide()
             }
             return notification
-        case .accentToastWithImageAndTitle:
-            let notification = MSFNotification(style: .accentToast)
+        case .primaryToastWithImageAndTitle:
+            let notification = MSFNotification(style: .primaryToast)
             notification.state.message = "Listen to Emails • 7 mins"
             notification.state.title = "Kat's iPhoneX"
             notification.state.image = UIImage(named: "play-in-circle-24x24")
@@ -130,12 +130,12 @@ class NotificationViewDemoController: DemoController {
                 notification.hide()
             }
             return notification
-        case .accentBar:
-            let notification = MSFNotification(style: .accentBar)
+        case .primaryBar:
+            let notification = MSFNotification(style: .primaryBar)
             notification.state.message = "Updating..."
             return notification
-        case .subtleBar:
-            let notification = MSFNotification(style: .subtleBar)
+        case .primaryOutlineBar:
+            let notification = MSFNotification(style: .primaryOutlineBar)
             notification.state.message = "Mail Sent"
             return notification
         case .neutralBar:
@@ -163,8 +163,8 @@ class NotificationViewDemoController: DemoController {
                 notification.hide()
             }
             return notification
-        case .accentToastWithStrikethroughAttribute:
-            let notification = MSFNotification(style: .accentToast)
+        case .primaryToastWithStrikethroughAttribute:
+            let notification = MSFNotification(style: .primaryToast)
             notification.state.attributedMessage = NSAttributedString(string: "This is a toast with a blue strikethrough attribute.",
                                                                       attributes: [.font: UIFont.preferredFont(forTextStyle: .body),
                                                                                    .strikethroughStyle: 1,

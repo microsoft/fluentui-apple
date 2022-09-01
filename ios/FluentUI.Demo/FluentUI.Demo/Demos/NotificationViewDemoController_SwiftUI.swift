@@ -22,7 +22,7 @@ class NotificationViewDemoControllerSwiftUI: UIHostingController<NotificationDem
 }
 
 struct NotificationDemoView: View {
-    @State var style: MSFNotificationStyle = .accentToast
+    @State var style: MSFNotificationStyle = .primaryToast
     @State var title: String = ""
     @State var message: String = "Mail Archived"
     @State var actionButtonTitle: String = "Undo"
@@ -144,10 +144,10 @@ struct NotificationDemoView: View {
                         }
 
                         Picker(selection: $style, label: EmptyView()) {
-                            Text(".accentToast").tag(MSFNotificationStyle.accentToast)
+                            Text(".primaryToast").tag(MSFNotificationStyle.primaryToast)
                             Text(".neutralToast").tag(MSFNotificationStyle.neutralToast)
-                            Text(".accentBar").tag(MSFNotificationStyle.accentBar)
-                            Text(".subtleBar").tag(MSFNotificationStyle.subtleBar)
+                            Text(".primaryBar").tag(MSFNotificationStyle.primaryBar)
+                            Text(".primaryOutlineBar").tag(MSFNotificationStyle.primaryOutlineBar)
                             Text(".neutralBar").tag(MSFNotificationStyle.neutralBar)
                             Text(".dangerToast").tag(MSFNotificationStyle.dangerToast)
                             Text(".warningToast").tag(MSFNotificationStyle.warningToast)
