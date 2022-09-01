@@ -35,12 +35,12 @@ open class HeadsUpDisplayTokens: ControlTokens {
 
     /// The distance between the top of the hud panel and the activity indicator
     open var topPadding: CGFloat {
-        return globalTokens.spacing[.large]
+        return GlobalTokens.spacing(.large)
     }
 
     /// The distance between the bottom of the hud panel and the label
     open var bottomPadding: CGFloat {
-        return globalTokens.spacing[.medium]
+        return GlobalTokens.spacing(.medium)
     }
 
     /// The minimum value for the side of the squared background of the Heads-up display.
