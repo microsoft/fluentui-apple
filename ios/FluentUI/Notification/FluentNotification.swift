@@ -281,7 +281,7 @@ public struct FluentNotification: View, TokenizedControlView {
                     RoundedRectangle(cornerRadius: tokenSet[.cornerRadius].float)
                         .border(width: tokenSet[.outlineWidth].float,
                                 edges: state.showFromBottom ? [.top] : [.bottom],
-                                color: Color(dynamicColor: tokenSet[.outlineColor].dynamicColor).foregroundColor(.clear)
+                                color: Color(dynamicColor: tokenSet[.outlineColor].dynamicColor)).foregroundColor(.clear)
                         .background(
                             backgroundFill
                                 .clipShape(RoundedRectangle(cornerRadius: tokenSet[.cornerRadius].float))
