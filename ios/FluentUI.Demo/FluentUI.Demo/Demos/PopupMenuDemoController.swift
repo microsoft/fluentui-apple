@@ -159,6 +159,9 @@ class PopupMenuDemoController: DemoController {
         }))
 
         container.addArrangedSubview(UIView())
+        container.addArrangedSubview(createButton(title: "Objective-C Demo", action: { [weak self] _ in
+            self?.navigationController?.pushViewController(PopupMenuObjCDemoController(), animated: true)
+        }))
         addTitle(text: "Show with...")
     }
 
