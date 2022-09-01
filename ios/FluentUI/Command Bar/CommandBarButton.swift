@@ -96,48 +96,49 @@ class CommandBarButton: UIButton {
 
     private let isPersistSelection: Bool
 
-    private var selectedTintColor: UIColor {
-        guard let window = window else {
-            return UIColor(light: Colors.communicationBlue,
-                           dark: .black)
-        }
+    private var normalTintColor: UIColor {
+        return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
+    }
 
-        return UIColor(light: Colors.primary(for: window),
-                       dark: .black)
+    private var selectedTintColor: UIColor {
+        return UIColor(light: UIColor(colorValue: fluentTheme.aliasTokens.colors[.brandForeground4].light),
+                       dark: UIColor(colorValue: fluentTheme.aliasTokens.colors[.foreground1].dark!))
     }
 
     private var selectedBackgroundColor: UIColor {
-        guard let window = window else {
-            return UIColor(light: Colors.Palette.communicationBlueTint30.color,
-                           dark: Colors.Palette.communicationBlue.color)
-        }
+        return UIColor(light: UIColor(colorValue: fluentTheme.aliasTokens.colors[.brandBackground4].light),
+                       dark: UIColor(colorValue: fluentTheme.aliasTokens.colors[.background5Selected].dark!))
+    }
 
-        return  UIColor(light: Colors.primaryTint30(for: window),
-                        dark: Colors.primary(for: window))
+    private var normalBackgroundColor: UIColor {
+        return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background5])
+    }
+
+    private var highlightedBackgroundColor: UIColor {
+        return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background5Pressed])
     }
 
     private func updateStyle() {
         // TODO: Once iOS 14 support is dropped, this should be converted to a constant (let) that will be initialized by the logic below.
         var resolvedBackgroundColor: UIColor = .clear
-        let resolvedTintColor: UIColor = isSelected ? selectedTintColor : ColorConstants.normalTintColor
+        let resolvedTintColor: UIColor = isSelected ? selectedTintColor : normalTintColor
 
         if isPersistSelection {
             if isSelected {
                 resolvedBackgroundColor = selectedBackgroundColor
             } else if isHighlighted {
-                resolvedBackgroundColor = ColorConstants.highlightedBackgroundColor
+                resolvedBackgroundColor = highlightedBackgroundColor
             } else {
-                resolvedBackgroundColor = ColorConstants.normalBackgroundColor
+                resolvedBackgroundColor = normalBackgroundColor
             }
         }
 
-        tintColor = resolvedTintColor
         if #available(iOS 15.0, *) {
             configuration?.baseForegroundColor = resolvedTintColor
             configuration?.background.backgroundColor = resolvedBackgroundColor
         } else {
             backgroundColor = resolvedBackgroundColor
-            setTitleColor(tintColor, for: .normal)
+            setTitleColor(resolvedTintColor, for: .normal)
         }
     }
 
