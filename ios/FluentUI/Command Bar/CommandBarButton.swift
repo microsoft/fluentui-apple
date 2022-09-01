@@ -152,12 +152,4 @@ class CommandBarButton: UIButton {
                                                     bottom: 8.0,
                                                     right: 10.0)
     }
-
-    private struct ColorConstants {
-        static let normalTintColor: UIColor = Colors.textPrimary
-        static let normalBackgroundColor = UIColor(light: Colors.gray50,
-                                                   dark: Colors.gray600)
-        static let highlightedBackgroundColor = UIColor(light: Colors.gray100,
-                                                        dark: Colors.gray900)
-    }
 }
