@@ -18,6 +18,7 @@ import SwiftUI
         let avatar = Avatar(style: style,
                             size: size)
         state = avatar.state
+        tokenSet = avatar.tokenSet
         super.init(AnyView(avatar))
     }
 
@@ -27,4 +28,7 @@ import SwiftUI
 
     /// The object that groups properties that allow control over the Avatar appearance.
     @objc public let state: MSFAvatarState
+
+    /// Access to the control's `ControlTokenSet` for reading default values and providing overrides.
+    public let tokenSet: AvatarTokenSet
 }

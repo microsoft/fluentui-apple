@@ -43,6 +43,10 @@ import UIKit
         return notification.state
     }
 
+    public var tokenSet: NotificationTokenSet {
+        return notification.tokenSet
+    }
+
     // MARK: - Show/Hide Methods
     /// `show` is used to present the view inside a container view:
     /// insert into layout and show with optional animation. Constraints are used for the view positioning.
@@ -62,8 +66,8 @@ import UIKit
             return
         }
 
-        let style = notification.tokens.style
-        let presentationOffset: CGFloat! = notification.tokens.presentationOffset
+        let style = notification.state.style
+        let presentationOffset = notification.tokenSet[.presentationOffset].float
         if style.isToast, let currentToast = MSFNotification.currentToast, currentToast.window != nil {
             currentToast.hide {
                 self.show(in: view,
@@ -96,7 +100,7 @@ import UIKit
         constraints.append(animated ? constraintWhenHidden : constraintWhenShown)
         constraints.append(self.centerXAnchor.constraint(equalTo: view.centerXAnchor))
 
-        let horizontalPadding = -2 * notification.tokens.presentationOffset
+        let horizontalPadding = -2 * notification.tokenSet[.presentationOffset].float
         let widthAnchor = self.widthAnchor
         let viewWidthAnchor = view.widthAnchor
         if isFlexibleWidthToast {
@@ -175,7 +179,7 @@ import UIKit
         if animated {
             if !isHiding {
                 isHiding = true
-                UIView.animate(withDuration: notification.tokens.style.animationDurationForHide, animations: {
+                UIView.animate(withDuration: notification.state.style.animationDurationForHide, animations: {
                     self.constraintWhenShown.isActive = false
                     self.constraintWhenHidden.isActive = true
                     self.alpha = 0

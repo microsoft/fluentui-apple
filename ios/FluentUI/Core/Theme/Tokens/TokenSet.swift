@@ -3,6 +3,8 @@
 //  Licensed under the MIT License.
 //
 
+import Combine
+
 /// Defines the key used for token value indexing.
 public typealias TokenSetKey = Hashable & CaseIterable
 
@@ -52,5 +54,5 @@ public final class TokenSet<T: TokenSetKey, V> {
     }
 
     private var defaultValues: ((_ token: T) -> V)
-    private var valueOverrides: [T: V]?
+    @Published private var valueOverrides: [T: V]?
 }

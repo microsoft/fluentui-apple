@@ -235,43 +235,44 @@ extension CardNudgeDemoController: DemoAppearanceDelegate {
         guard let fluentTheme = self.view.window?.fluentTheme else {
             return
         }
-
-        var tokensClosure: (() -> CardNudgeTokens)?
-        if isOverrideEnabled {
-            tokensClosure = {
-                return ThemeWideOverrideCardNudgeTokens()
-            }
-        }
-
-        fluentTheme.register(controlType: CardNudge.self, tokens: tokensClosure)
+        fluentTheme.register(tokenSetType: CardNudgeTokenSet.self,
+                             tokenSet: isOverrideEnabled ? themeWideOverrideCardNudgeTokens : nil)
     }
 
     func perControlOverrideDidChange(isOverrideEnabled: Bool) {
-        self.cardNudges.forEach({ cardNudge in
-            let tokens = isOverrideEnabled ? PerControlOverrideCardNudgeTokens() : nil
-            cardNudge.state.overrideTokens = tokens
-        })
+        self.cardNudges.forEach { cardNudge in
+            cardNudge.tokenSet.replaceAllOverrides(with: isOverrideEnabled ? perControlOverrideCardNudgeTokens : nil)
+        }
     }
 
     func isThemeWideOverrideApplied() -> Bool {
-        return self.view.window?.fluentTheme.tokenOverride(for: CardNudge.self) != nil
+        return self.view.window?.fluentTheme.tokens(for: CardNudgeTokenSet.self)?.isEmpty == false
     }
 
     // MARK: - Custom tokens
 
-    private class ThemeWideOverrideCardNudgeTokens: CardNudgeTokens {
-        override var backgroundColor: DynamicColor {
-            // "Hot Pink"
-            return DynamicColor(light: GlobalTokens.sharedColors(.hotPink, .tint50),
-                                dark: GlobalTokens.sharedColors(.hotPink, .shade40))
-        }
+    private var themeWideOverrideCardNudgeTokens: [CardNudgeTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .backgroundColor: .dynamicColor {
+                DynamicColor(light: GlobalTokens.sharedColors(.hotPink, .tint50),
+                             dark: GlobalTokens.sharedColors(.hotPink, .shade40))
+            },
+            .outlineWidth: .float {
+                10.0
+            },
+            .outlineColor: .dynamicColor {
+                DynamicColor(light: GlobalTokens.sharedColors(.darkRed, .tint50),
+                             dark: GlobalTokens.sharedColors(.darkRed, .shade40))
+            }
+        ]
     }
 
-    private class PerControlOverrideCardNudgeTokens: CardNudgeTokens {
-        override var backgroundColor: DynamicColor {
-            // "Seafoam"
-            return DynamicColor(light: GlobalTokens.sharedColors(.seafoam, .tint50),
-                                dark: GlobalTokens.sharedColors(.seafoam, .shade40))
-        }
+    private var perControlOverrideCardNudgeTokens: [CardNudgeTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .backgroundColor: .dynamicColor {
+                DynamicColor(light: GlobalTokens.sharedColors(.seafoam, .tint50),
+                             dark: GlobalTokens.sharedColors(.seafoam, .shade40))
+            }
+        ]
     }
 }

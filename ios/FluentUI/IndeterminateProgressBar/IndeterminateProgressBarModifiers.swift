@@ -23,10 +23,4 @@ public extension IndeterminateProgressBar {
         state.hidesWhenStopped = hidesWhenStopped
         return self
     }
-
-    /// Provides a custom design token set to be used when drawing this control.
-    func overrideTokens(_ tokens: IndeterminateProgressBarTokens?) -> IndeterminateProgressBar {
-        state.overrideTokens = tokens
-        return self
-    }
 }
