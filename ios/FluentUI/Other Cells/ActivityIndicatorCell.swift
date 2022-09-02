@@ -90,7 +90,7 @@ open class ActivityIndicatorCell: UITableViewCell, TokenizedControlInternal {
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
         let maxWidth = size.width != 0 ? size.width : .infinity
-        return CGSize(width: maxWidth, height: tokenSet[.minHeight].float)
+        return CGSize(width: maxWidth, height: TableViewCell.oneLineMinHeight)
     }
 
     open override func setHighlighted(_ highlighted: Bool, animated: Bool) { }

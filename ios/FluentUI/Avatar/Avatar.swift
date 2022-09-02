@@ -117,11 +117,11 @@ public struct Avatar: View, TokenizedControlView {
         let ringInnerGap: CGFloat = isRingVisible ? (hasRingInnerGap ? tokenSet[.ringInnerGap].float : -ringInnerGapOffset) : 0
         let ringThickness: CGFloat = isRingVisible ? (hasRingInnerGap ? ringThicknessToken : ringThicknessToken + ringInnerGapOffset) : 0
         let ringOuterGap: CGFloat = isRingVisible ? tokenSet[.ringOuterGap].float : 0
-        let avatarImageSize: CGFloat = tokenSet[.avatarSize].float
+        let avatarImageSize: CGFloat = contentSize
         let ringInnerGapSize: CGFloat = avatarImageSize + (ringInnerGap * 2)
         let ringSize: CGFloat = ringInnerGapSize + (ringThickness * 2)
         let ringOuterGapSize: CGFloat = ringSize + (ringOuterGap * 2)
-        let presenceIconSize: CGFloat = tokenSet[.presenceIconSize].float
+        let presenceIconSize: CGFloat = Self.presenceIconSize(state.size)
         let presenceIconOutlineSize: CGFloat = presenceIconSize + (tokenSet[.presenceIconOutlineThickness].float * 2)
 
         // Calculates the positioning of the presence icon ensuring its center is always on top of the avatar circle's edge
@@ -220,11 +220,12 @@ public struct Avatar: View, TokenizedControlView {
         @ViewBuilder
         var avatarBody: some View {
             if style == .group {
+                let avatarSize = contentSize
                 avatarContent
                     .background(Rectangle()
-                                    .frame(width: tokenSet[.avatarSize].float, height: tokenSet[.avatarSize].float, alignment: .center)
-                                    .foregroundColor(Color(dynamicColor: backgroundColor)))
-                    .frame(width: tokenSet[.avatarSize].float, height: tokenSet[.avatarSize].float, alignment: .center)
+                        .frame(width: avatarSize, height: avatarSize, alignment: .center)
+                        .foregroundColor(Color(dynamicColor: backgroundColor)))
+                    .frame(width: avatarSize, height: avatarSize, alignment: .center)
                     .contentShape(RoundedRectangle(cornerRadius: tokenSet[.borderRadius].float))
                     .clipShape(RoundedRectangle(cornerRadius: tokenSet[.borderRadius].float))
             } else {
@@ -270,7 +271,7 @@ public struct Avatar: View, TokenizedControlView {
             }
         }
 
-        let standardAnimation = Animation.linear(duration: animationDuration)
+        let standardAnimation = Animation.linear(duration: Self.animationDuration)
 
         return avatarBody
             .pointerInteraction(state.hasPointerInteraction)
@@ -310,7 +311,7 @@ public struct Avatar: View, TokenizedControlView {
 
     /// Calculates the size of the avatar, including ring spacing
     var totalSize: CGFloat {
-        let avatarImageSize: CGFloat = tokenSet[.avatarSize].float
+        let avatarImageSize: CGFloat = contentSize
         let ringOuterGap: CGFloat = tokenSet[.ringOuterGap].float
         if !state.isRingVisible {
             return avatarImageSize + (ringOuterGap * 2)
@@ -322,7 +323,7 @@ public struct Avatar: View, TokenizedControlView {
     }
 
     var contentSize: CGFloat {
-        return tokenSet[.avatarSize].float
+        return Self.avatarSize(state.size)
     }
 
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
@@ -475,7 +476,42 @@ public struct Avatar: View, TokenizedControlView {
         ]
     }
 
-    private let animationDuration: Double = 0.1
+    // MARK: Constants
+
+    /// The size of the content of the `Avatar`.
+    private static func avatarSize(_ size: MSFAvatarSize) -> CGFloat {
+        switch size {
+        case .xsmall:
+            return 16
+        case .small:
+            return 24
+        case .medium:
+            return 32
+        case .large:
+            return 40
+        case .xlarge:
+            return 52
+        case .xxlarge:
+            return 72
+        }
+    }
+
+    /// The size of the presence icon.
+    private static func presenceIconSize(_ size: MSFAvatarSize) -> CGFloat {
+        switch size {
+        case .xsmall:
+            return 0
+        case .small, .medium:
+            return GlobalTokens.iconSize(.xxxSmall)
+        case .large, .xlarge:
+            return GlobalTokens.iconSize(.xxSmall)
+        case .xxlarge:
+            return GlobalTokens.iconSize(.small)
+        }
+
+    }
+
+    private static let animationDuration: Double = 0.1
 }
 
 /// Properties available to customize the state of the avatar

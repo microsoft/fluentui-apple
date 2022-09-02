@@ -88,7 +88,7 @@ open class CenteredLabelCell: UITableViewCell, TokenizedControlInternal {
 
         let labelWidthArea = maxWidth - layoutMargins.left - layoutMargins.right
         let labelFittingSize = label.sizeThatFits(CGSize(width: labelWidthArea, height: CGFloat.greatestFiniteMagnitude))
-        let height = max(tokenSet[.paddingVertical].float * 2 + ceil(labelFittingSize.height), tokenSet[.minHeight].float)
+        let height = max(TableViewCell.paddingVertical * 2 + ceil(labelFittingSize.height), TableViewCell.oneLineMinHeight)
         return CGSize(width: maxWidth, height: height)
     }
 

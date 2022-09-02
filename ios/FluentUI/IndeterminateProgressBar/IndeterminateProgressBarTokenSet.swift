@@ -14,9 +14,6 @@ public class IndeterminateProgressBarTokenSet: ControlTokenSet<IndeterminateProg
 
         /// Progress bar's gradient color.
         case gradientColor
-
-        /// Progress bar's height.
-        case height
     }
 
     init() {
@@ -31,9 +28,6 @@ public class IndeterminateProgressBarTokenSet: ControlTokenSet<IndeterminateProg
                 return .dynamicColor {
                     theme.aliasTokens.brandColors[.primary]
                 }
-
-            case .height:
-                return .float { 2 }
             }
         }
     }

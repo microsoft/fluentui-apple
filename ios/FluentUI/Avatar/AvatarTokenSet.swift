@@ -9,9 +9,6 @@ import SwiftUI
 /// Design token set for the `Avatar` control.
 public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
     public enum Tokens: TokenSetKey {
-        /// The size of the content of the `Avatar`.
-        case avatarSize
-
         /// The radius of the corners of the `Avatar`.
         case borderRadius
 
@@ -33,9 +30,6 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
         /// The gap around the ring around the `Avatar`.
         case ringOuterGap
 
-        /// The size of the presence icon.
-        case presenceIconSize
-
         /// The thickness of the outline around the presence icon.
         case presenceIconOutlineThickness
 
@@ -55,24 +49,6 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
         self.size = size
         super.init { [style, size] token, theme in
             switch token {
-            case .avatarSize:
-                return .float({
-                    switch size() {
-                    case .xsmall:
-                        return 16
-                    case .small:
-                        return 24
-                    case .medium:
-                        return 32
-                    case .large:
-                        return 40
-                    case .xlarge:
-                        return 52
-                    case .xxlarge:
-                        return 72
-                    }
-                })
-
             case .borderRadius:
                 return .float({
                     switch style() {
@@ -158,20 +134,6 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
                         return GlobalTokens.borderSize(.thick)
                     case .xxlarge:
                         return GlobalTokens.borderSize(.thicker)
-                    }
-                })
-
-            case .presenceIconSize:
-                return .float({
-                    switch size() {
-                    case .xsmall:
-                        return 0
-                    case .small, .medium:
-                        return GlobalTokens.iconSize(.xxxSmall)
-                    case .large, .xlarge:
-                        return GlobalTokens.iconSize(.xxSmall)
-                    case .xxlarge:
-                        return GlobalTokens.iconSize(.small)
                     }
                 })
 
