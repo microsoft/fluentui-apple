@@ -51,8 +51,7 @@ open class PillButton: UIButton {
         updateAppearance()
     }
 
-    @objc public init(pillBarItem: PillButtonBarItem,
-                      style: PillButtonStyle = .primary) {
+    @objc public init(pillBarItem: PillButtonBarItem, style: PillButtonStyle = .primary) {
         self.pillBarItem = pillBarItem
         self.style = style
         super.init(frame: .zero)
@@ -106,34 +105,20 @@ open class PillButton: UIButton {
     }
 
     private func setupView() {
-        if #available(iOS 15.0, *) {
-            var configuration = UIButton.Configuration.plain()
-            configuration.attributedTitle = AttributedString(pillBarItem.title)
-            configuration.contentInsets = NSDirectionalEdgeInsets(top: Constants.topInset,
-                                                                  leading: Constants.horizontalInset,
-                                                                  bottom: Constants.bottomInset,
-                                                                  trailing: Constants.horizontalInset)
-            self.configuration = configuration
-
-            configurationUpdateHandler = { [weak self] _ in
-                self?.updateAppearance()
-            }
-        } else {
-            setTitle(pillBarItem.title, for: .normal)
-            titleLabel?.font = Constants.font
-
-            contentEdgeInsets = UIEdgeInsets(top: Constants.topInset,
-                                             left: Constants.horizontalInset,
-                                             bottom: Constants.bottomInset,
-                                             right: Constants.horizontalInset)
-        }
-
+        setTitle(pillBarItem.title, for: .normal)
+        titleLabel?.font = Constants.font
         layer.cornerRadius = PillButton.cornerRadius
         clipsToBounds = true
 
         layer.cornerCurve = .continuous
         largeContentTitle = titleLabel?.text
         showsLargeContentViewer = true
+
+        contentEdgeInsets = UIEdgeInsets(top: Constants.topInset,
+                                         left: Constants.horizontalInset,
+                                         bottom: Constants.bottomInset,
+                                         right: Constants.horizontalInset)
+
     }
 
     private func updateAccessibilityTraits() {
@@ -190,93 +175,47 @@ open class PillButton: UIButton {
     }
 
     private func updateAppearance() {
-        guard let window = window else {
-            return
-        }
+        if let window = window {
+            if isSelected {
+                if isEnabled {
+                    if let customSelectedBackgroundColor = customSelectedBackgroundColor {
+                        backgroundColor = customSelectedBackgroundColor
+                    } else {
+                        backgroundColor = isHighlighted
+                            ? PillButton.selectedHighlightedBackgroundColor(for: window, for: style)
+                            : PillButton.selectedBackgroundColor(for: window, for: style)
+                    }
 
-        // TODO: Once iOS 14 support is dropped, these should be converted to constants (let) that will be initialized by the logic below.
-        var resolvedBackgroundColor: UIColor = .clear
-        var resolvedTitleColor: UIColor = .clear
-
-        if isSelected {
-            if isEnabled {
-                resolvedBackgroundColor = customSelectedBackgroundColor ?? (isHighlighted
-                                                                            ? PillButton.selectedHighlightedBackgroundColor(for: window, for: style)
-                                                                            : PillButton.selectedBackgroundColor(for: window, for: style))
-                if #available(iOS 15.0, *) {
-                    resolvedTitleColor = customSelectedTextColor ?? (isHighlighted ? PillButton.selectedHighlightedTitleColor(for: window,
-                                                                                                                              for: style)
-                                                                     : PillButton.selectedTitleColor(for: window,
-                                                                                                     for: style))
+                    setTitleColor(customSelectedTextColor ?? PillButton.selectedTitleColor(for: window, for: style), for: .normal)
+                    setTitleColor(customSelectedTextColor ?? PillButton.selectedHighlightedTitleColor(for: window, for: style), for: .highlighted)
                 } else {
-                    setTitleColor(customSelectedTextColor ?? PillButton.selectedTitleColor(for: window,
-                                                                                           for: style),
-                                  for: .normal)
-                    setTitleColor(customSelectedTextColor ?? PillButton.selectedHighlightedTitleColor(for: window,
-                                                                                                      for: style),
-                                  for: .highlighted)
+                    backgroundColor = PillButton.selectedDisabledBackgroundColor(for: window, for: style)
+                    setTitleColor(PillButton.selectedDisabledTitleColor(for: window, for: style), for: .normal)
                 }
             } else {
-                resolvedBackgroundColor = PillButton.selectedDisabledBackgroundColor(for: window,
-                                                                                     for: style)
-                if #available(iOS 15.0, *) {
-                    resolvedTitleColor = PillButton.selectedDisabledTitleColor(for: window,
-                                                                       for: style)
+                if let customBackgroundColor = customBackgroundColor {
+                    backgroundColor = customBackgroundColor
                 } else {
-                    setTitleColor(PillButton.selectedDisabledTitleColor(for: window,
-                                                                        for: style),
-                                  for: .normal)
+                    backgroundColor = isEnabled
+                        ? (isHighlighted
+                            ? PillButton.highlightedBackgroundColor(for: window, for: style)
+                            : PillButton.normalBackgroundColor(for: window, for: style))
+                        : PillButton.disabledBackgroundColor(for: window, for: style)
                 }
-            }
-        } else {
-            if isEnabled {
-                unreadDotColor = customUnreadDotColor ?? PillButton.enabledUnreadDotColor(for: window,
-                                                                                          for: style)
-                resolvedBackgroundColor = customBackgroundColor ?? (isHighlighted
-                                                                    ? PillButton.highlightedBackgroundColor(for: window,
-                                                                                                            for: style)
-                                                                    : PillButton.normalBackgroundColor(for: window,
-                                                                                                       for: style))
-                if #available(iOS 15.0, *) {
-                    resolvedTitleColor = {
-                        guard let customTextColor = customTextColor else {
-                            if isHighlighted {
-                                return PillButton.highlightedTitleColor(for: window,
-                                                                        for: style)
-                            }
 
-                            return PillButton.titleColor(for: style)
-                        }
-
-                        return customTextColor
-                    }()
-                } else {
-                    setTitleColor(customTextColor ?? PillButton.titleColor(for: style),
-                                  for: .normal)
-                    setTitleColor(customTextColor ?? PillButton.highlightedTitleColor(for: window,
-                                                                                      for: style),
-                                  for: .highlighted)
-                }
-            } else {
-                unreadDotColor = customUnreadDotColor ?? PillButton.disabledUnreadDotColor(for: window,
-                                                                                           for: style)
-                resolvedBackgroundColor = customBackgroundColor ?? PillButton.disabledBackgroundColor(for: window,
-                                                                                                      for: style)
-                if #available(iOS 15.0, *) {
-                    resolvedTitleColor = PillButton.disabledTitleColor(for: window,
-                                                               for: style)
+                if isEnabled {
+                    setTitleColor(customTextColor ?? PillButton.titleColor(for: style), for: .normal)
+                    setTitleColor(customTextColor ?? PillButton.highlightedTitleColor(for: window, for: style), for: .highlighted)
                 } else {
                     setTitleColor(PillButton.disabledTitleColor(for: window, for: style), for: .disabled)
                 }
-            }
-        }
 
-        if #available(iOS 15.0, *) {
-            configuration?.background.backgroundColor = resolvedBackgroundColor
-            configuration?.attributedTitle?.setAttributes(AttributeContainer([NSAttributedString.Key.foregroundColor: resolvedTitleColor,
-                                                                              NSAttributedString.Key.font: Constants.font]))
-        } else {
-            backgroundColor = resolvedBackgroundColor
+                if isEnabled {
+                    unreadDotColor = customUnreadDotColor ?? PillButton.enabledUnreadDotColor(for: window, for: style)
+                } else {
+                    unreadDotColor = customUnreadDotColor ?? PillButton.disabledUnreadDotColor(for: window, for: style)
+                }
+            }
         }
     }
 
