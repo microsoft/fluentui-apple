@@ -125,7 +125,6 @@ open class PillButtonBar: UIScrollView {
 
     private var stackView: UIStackView = {
         let view = UIStackView()
-        view.distribution = .fillProportionally
         view.alignment = .center
         view.spacing = Constants.minButtonsSpacing
         return view
@@ -412,15 +411,8 @@ open class PillButtonBar: UIScrollView {
         buttonExtraSidePadding = ceil(totalPadding / CGFloat(buttonEdges))
         for button in buttons {
             button.layoutIfNeeded()
-
-            if #available(iOS 15.0, *) {
-                button.configuration?.contentInsets.leading += buttonExtraSidePadding
-                button.configuration?.contentInsets.trailing += buttonExtraSidePadding
-            } else {
-                button.contentEdgeInsets.right += buttonExtraSidePadding
-                button.contentEdgeInsets.left += buttonExtraSidePadding
-            }
-
+            button.contentEdgeInsets.right += buttonExtraSidePadding
+            button.contentEdgeInsets.left += buttonExtraSidePadding
             button.layoutIfNeeded()
         }
     }
@@ -461,15 +453,8 @@ open class PillButtonBar: UIScrollView {
             let buttonWidth = button.frame.width
             if buttonWidth > 0, buttonWidth < Constants.minButtonWidth {
                 let extraInset = floor((Constants.minButtonWidth - button.frame.width) / 2)
-
-                if #available(iOS 15.0, *) {
-                    button.configuration?.contentInsets.leading += extraInset
-                    button.configuration?.contentInsets.trailing = button.configuration?.contentInsets.leading ?? extraInset
-                } else {
-                    button.contentEdgeInsets.left += extraInset
-                    button.contentEdgeInsets.right = button.contentEdgeInsets.left
-                }
-
+                button.contentEdgeInsets.left += extraInset
+                button.contentEdgeInsets.right = button.contentEdgeInsets.left
                 button.layoutIfNeeded()
             }
         }
