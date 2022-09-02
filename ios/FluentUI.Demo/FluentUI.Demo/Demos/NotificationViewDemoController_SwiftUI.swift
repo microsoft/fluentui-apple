@@ -71,7 +71,8 @@ struct NotificationDemoView: View {
                                        trailingImageAccessibilityLabel: trailingImageLabel,
                                        actionButtonTitle: actionButtonTitle,
                                        actionButtonAction: actionButtonAction,
-                                       messageButtonAction: messageButtonAction)
+                                       messageButtonAction: messageButtonAction,
+                                       showFromBottom: showFromBottom)
                     .backgroundGradient(showBackgroundGradient ? backgroundGradient : nil)
                     .overrideTokens($overrideTokens.wrappedValue ? notificationOverrideTokens : nil)
                 }

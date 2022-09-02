@@ -108,7 +108,7 @@ public struct FluentNotification: View, TokenizedControlView {
                                              actionButtonAction: actionButtonAction,
                                              showDefaultDismissActionButton: showDefaultDismissActionButton,
                                              messageButtonAction: messageButtonAction,
-                                             showFromBottom: true)
+                                             showFromBottom: showFromBottom)
         self.state = state
         self.shouldSelfPresent = shouldSelfPresent
         self.isFlexibleWidthToast = isFlexibleWidthToast && style.isToast
@@ -279,7 +279,9 @@ public struct FluentNotification: View, TokenizedControlView {
             innerContents
                 .background(
                     RoundedRectangle(cornerRadius: tokenSet[.cornerRadius].float)
-                        .strokeBorder(Color(dynamicColor: tokenSet[.outlineColor].dynamicColor), lineWidth: tokenSet[.outlineWidth].float)
+                        .border(width: tokenSet[.outlineWidth].float,
+                                edges: state.showFromBottom ? [.top] : [.bottom],
+                                color: Color(dynamicColor: tokenSet[.outlineColor].dynamicColor)).foregroundColor(.clear)
                         .background(
                             backgroundFill
                                 .clipShape(RoundedRectangle(cornerRadius: tokenSet[.cornerRadius].float))
@@ -411,7 +413,7 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
     @Published var trailingImage: UIImage?
     @Published var trailingImageAccessibilityLabel: String?
     @Published var showDefaultDismissActionButton: Bool
-    @Published var showFromBottom: Bool = true
+    @Published var showFromBottom: Bool
     @Published var backgroundGradient: GradientInfo?
 
     /// Title to display in the action button on the trailing edge of the control.

@@ -249,7 +249,7 @@ public class NotificationTokenSet: ControlTokenSet<NotificationTokenSet.Tokens> 
                     case .primaryToast, .neutralToast, .primaryBar, .neutralBar, .dangerToast, .warningToast:
                         return DynamicColor(light: ColorValue.clear)
                     case .primaryOutlineBar:
-                        return theme.aliasTokens.strokeColors[.neutral1]
+                        return theme.aliasTokens.strokeColors[.neutral2]
                     }
                 }
 
