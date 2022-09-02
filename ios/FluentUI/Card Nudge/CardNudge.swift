@@ -69,6 +69,7 @@ public struct CardNudge: View, ConfigurableTokenizedControl {
                     .foregroundColor(Color(dynamicColor: tokens.accentColor))
             }
             .padding(.trailing, tokens.horizontalPadding)
+            .showsLargeContentViewer(text: state.title, image: state.mainIcon)
         }
     }
 
@@ -80,10 +81,10 @@ public struct CardNudge: View, ConfigurableTokenizedControl {
     var textContainer: some View {
         VStack(alignment: .leading, spacing: tokens.interTextVerticalPadding) {
             Text(state.title)
-                .font(.subheadline)
-                .fontWeight(.medium)
+                .font(.fluent(tokens.titleFont, shouldScale: false))
                 .lineLimit(1)
                 .foregroundColor(Color(dynamicColor: tokens.textColor))
+                .showsLargeContentViewer(text: state.title, image: state.mainIcon)
 
             if hasSecondTextRow {
                 HStack(spacing: tokens.accentPadding) {
@@ -95,16 +96,18 @@ public struct CardNudge: View, ConfigurableTokenizedControl {
                     }
                     if let accent = state.accentText {
                         Text(accent)
-                            .font(.subheadline)
+                            .font(.fluent(tokens.accentFont, shouldScale: false))
                             .layoutPriority(1)
                             .lineLimit(1)
                             .foregroundColor(Color(dynamicColor: tokens.accentColor))
+                            .showsLargeContentViewer(text: accent, image: state.accentIcon)
                     }
                     if let subtitle = state.subtitle {
                         Text(subtitle)
-                            .font(.subheadline)
+                            .font(.fluent(tokens.subtitleFont, shouldScale: false))
                             .lineLimit(1)
                             .foregroundColor(Color(dynamicColor: tokens.subtitleTextColor))
+                            .showsLargeContentViewer(text: subtitle)
                     }
                 }
             }
@@ -119,6 +122,7 @@ public struct CardNudge: View, ConfigurableTokenizedControl {
                 SwiftUI.Button(actionTitle) {
                     action(state)
                 }
+                .font(.fluent(tokens.actionTitleFont, shouldScale: false))
                 .lineLimit(1)
                 .padding(.horizontal, tokens.buttonInnerPaddingHorizontal)
                 .padding(.vertical, tokens.verticalPadding)
@@ -127,17 +131,23 @@ public struct CardNudge: View, ConfigurableTokenizedControl {
                     RoundedRectangle(cornerRadius: tokens.circleRadius)
                         .foregroundColor(Color(dynamicColor: tokens.buttonBackgroundColor))
                 )
+                .showsLargeContentViewer(text: actionTitle)
             }
             if let dismissAction = state.dismissButtonAction {
+                let dismissImage = UIImage.staticImageNamed("dismiss-20x20")
+                let dismissLabel = "Accessibility.Dismiss.Label".localized
                 SwiftUI.Button(action: {
                     dismissAction(state)
                 }, label: {
-                    Image("dismiss-20x20", bundle: FluentUIFramework.resourceBundle)
+                    if let image = dismissImage {
+                        Image(uiImage: image)
+                    }
                 })
                 .padding(.horizontal, tokens.buttonInnerPaddingHorizontal)
                 .padding(.vertical, tokens.verticalPadding)
-                .accessibility(identifier: "Accessibility.Dismiss.Label")
+                .accessibilityLabel(dismissLabel)
                 .foregroundColor(Color(dynamicColor: tokens.textColor))
+                .showsLargeContentViewer(text: dismissLabel, image: dismissImage)
             }
         }
     }

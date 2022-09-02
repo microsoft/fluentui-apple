@@ -78,7 +78,7 @@ open class PersonaListView: UITableView {
     @objc override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)
 
-        backgroundColor = Colors.Table.background
+        updateBackgroundColor()
         separatorStyle = .none
         tableFooterView = UIView(frame: .zero)
 
@@ -92,6 +92,22 @@ open class PersonaListView: UITableView {
 
         dataSource = self
         delegate = self
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        guard let window = window, window.isEqual(notification.object) else {
+            return
+        }
+        updateBackgroundColor()
+    }
+
+    private func updateBackgroundColor() {
+        backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background1])
     }
 
     @objc public required init(coder aDecoder: NSCoder) {

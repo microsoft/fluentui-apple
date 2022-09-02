@@ -27,7 +27,7 @@ class OtherCellsDemoController: DemoController {
         tableView.register(TableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: TableViewHeaderFooterView.identifier)
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.backgroundColor = Colors.tableBackgroundGrouped
+        tableView.backgroundColor = TableViewCell.tableBackgroundGroupedColor
         tableView.separatorColor = Colors.Separator.default
         tableView.tableFooterView = UIView(frame: .zero)
         view.addSubview(tableView)
@@ -79,24 +79,24 @@ extension OtherCellsDemoController: DemoAppearanceDelegate {
     private class ThemeWideOverrideActionsCellTokens: ActionsCellTokens {
         override var mainBrandColor: DynamicColor {
             // "Charcoal"
-            return DynamicColor(light: GlobalTokens().sharedColors[.charcoal][.tint50],
-                                dark: GlobalTokens().sharedColors[.charcoal][.shade40])
+            return DynamicColor(light: GlobalTokens.sharedColors(.charcoal, .tint50),
+                                dark: GlobalTokens.sharedColors(.charcoal, .shade40))
         }
     }
 
     private class ThemeWideOverrideOtherCellTokens: TableViewCellTokens {
         override var cellBackgroundGroupedColor: DynamicColor {
             // "Charcoal"
-            return DynamicColor(light: GlobalTokens().sharedColors[.charcoal][.tint50],
-                                dark: GlobalTokens().sharedColors[.charcoal][.shade40])
+            return DynamicColor(light: GlobalTokens.sharedColors(.charcoal, .tint50),
+                                dark: GlobalTokens.sharedColors(.charcoal, .shade40))
         }
     }
 
     private class PerControlOverrideTableViewCellTokens: ActionsCellTokens {
         override var cellBackgroundGroupedColor: DynamicColor {
             // "Burgundy"
-            return DynamicColor(light: GlobalTokens().sharedColors[.burgundy][.tint50],
-                                dark: GlobalTokens().sharedColors[.burgundy][.shade40])
+            return DynamicColor(light: GlobalTokens.sharedColors(.burgundy, .tint50),
+                                dark: GlobalTokens.sharedColors(.burgundy, .shade40))
         }
     }
 }

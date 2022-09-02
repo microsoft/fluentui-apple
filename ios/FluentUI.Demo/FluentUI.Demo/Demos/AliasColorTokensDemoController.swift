@@ -123,10 +123,7 @@ class AliasColorTokensDemoController: DemoTableViewController {
     }
 
     private var aliasTokens: AliasTokens {
-        guard let fluentTheme = self.view.window?.fluentTheme else {
-            return AliasTokens()
-        }
-        return fluentTheme.aliasTokens
+        return self.view.fluentTheme.aliasTokens
     }
 
 }

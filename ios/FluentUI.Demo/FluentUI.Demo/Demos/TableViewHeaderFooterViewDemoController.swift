@@ -33,9 +33,10 @@ class TableViewHeaderFooterViewDemoController: DemoController {
         container.spacing = 0
 
         navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.backgroundColor = Colors.navigationBarBackground
         container.addArrangedSubview(segmentedControl)
         container.setCustomSpacing(8, after: segmentedControl)
-        container.backgroundColor = Colors.navigationBarBackground
+        container.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background1])
 
         let separator = Separator(style: .shadow, orientation: .horizontal)
         container.addArrangedSubview(separator)
@@ -57,7 +58,7 @@ class TableViewHeaderFooterViewDemoController: DemoController {
         tableView.register(TableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: TableViewHeaderFooterView.identifier)
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.backgroundColor = Colors.tableBackground
+        tableView.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background2])
         tableView.separatorStyle = .none
         return tableView
     }
@@ -81,8 +82,10 @@ extension TableViewHeaderFooterViewDemoController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier) as? TableViewCell else {
-            return UITableViewCell()
+            return TableViewCell()
         }
+        cell.backgroundStyleType = TableViewCellBackgroundStyleType.custom
+        cell.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background2])
         cell.setup(title: TableViewHeaderFooterSampleData.itemTitle)
         var isLastInSection = indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1
         if tableView.style == .grouped {
@@ -129,7 +132,7 @@ extension TableViewHeaderFooterViewDemoController: UITableViewDelegate {
     private func createCustomAccessoryView() -> UIView {
         let button = UIButton(type: .system)
         button.setTitle("Custom Accessory", for: .normal)
-        button.setTitleColor(Colors.error, for: .normal)
+        button.setTitleColor(UIColor(colorValue: GlobalTokens.sharedColors(.red, .primary)), for: .normal)
         return button
     }
 

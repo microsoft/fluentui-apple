@@ -105,7 +105,7 @@ class TableViewCellDemoController: DemoTableViewController {
     }
 
     private func updateTableView() {
-        tableView.backgroundColor = isGrouped ? Colors.tableBackgroundGrouped : Colors.tableBackground
+        tableView.backgroundColor = isGrouped ? TableViewCell.tableBackgroundGroupedColor : TableViewCell.tableBackgroundColor
         tableView.reloadData()
     }
 }
@@ -139,22 +139,22 @@ extension TableViewCellDemoController: DemoAppearanceDelegate {
     private class ThemeWideOverrideTableViewCellTokens: TableViewCellTokens {
         override var cellBackgroundColor: DynamicColor {
             // "Berry"
-            return DynamicColor(light: GlobalTokens().sharedColors[.berry][.tint50],
-                                dark: GlobalTokens().sharedColors[.berry][.shade40])
+            return DynamicColor(light: GlobalTokens.sharedColors(.berry, .tint50),
+                                dark: GlobalTokens.sharedColors(.berry, .shade40))
         }
     }
 
     private class PerControlOverrideTableViewCellTokens: TableViewCellTokens {
         override var cellBackgroundColor: DynamicColor {
             // "Brass"
-            return DynamicColor(light: GlobalTokens().sharedColors[.brass][.tint50],
-                                dark: GlobalTokens().sharedColors[.brass][.shade40])
+            return DynamicColor(light: GlobalTokens.sharedColors(.brass, .tint50),
+                                dark: GlobalTokens.sharedColors(.brass, .shade40))
         }
 
         override var accessoryDisclosureIndicatorColor: DynamicColor {
             // "Forest"
-            return DynamicColor(light: GlobalTokens().sharedColors[.forest][.tint10],
-                                dark: GlobalTokens().sharedColors[.forest][.shade40])
+            return DynamicColor(light: GlobalTokens.sharedColors(.forest, .tint10),
+                                dark: GlobalTokens.sharedColors(.forest, .shade40))
         }
 
         override var customViewTrailingMargin: CGFloat {

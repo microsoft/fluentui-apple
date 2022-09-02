@@ -23,20 +23,20 @@ open class AvatarGroupTokens: ControlTokens {
         case .stack:
             switch size {
             case .xsmall, .small:
-                return -globalTokens.spacing[.xxxSmall]
+                return -GlobalTokens.spacing(.xxxSmall)
             case .medium:
-                return -globalTokens.spacing[.xxSmall]
+                return -GlobalTokens.spacing(.xxSmall)
             case .large:
-                return -globalTokens.spacing[.xSmall]
+                return -GlobalTokens.spacing(.xSmall)
             case .xlarge, .xxlarge:
-                return -globalTokens.spacing[.small]
+                return -GlobalTokens.spacing(.small)
             }
         case .pile:
             switch size {
             case .xsmall, .small:
-                return globalTokens.spacing[.xxSmall]
+                return GlobalTokens.spacing(.xxSmall)
             case .medium, .large, .xlarge, .xxlarge:
-                return globalTokens.spacing[.xSmall]
+                return GlobalTokens.spacing(.xSmall)
             }
         }
     }
