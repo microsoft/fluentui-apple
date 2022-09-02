@@ -869,7 +869,7 @@ open class BottomCommandingController: UIViewController {
         static let heroButtonMaxTitleLines: Int = 2
 
         struct BottomBar {
-            static let height: CGFloat = 74
+            static let height: CGFloat = 80
             static let cornerRadius: CGFloat = 14
 
             static let bottomOffset: CGFloat = 8
