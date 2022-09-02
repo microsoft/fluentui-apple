@@ -111,10 +111,25 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
     }
 
     /// Set `backgroundColor` to customize background color of the drawer
-    @objc open lazy var backgroundColor: UIColor = .init(dynamicColor: tokenSet[.drawerContentBackground].dynamicColor) {
-        didSet {
-            useCustomBackgroundColor = true
-            view.backgroundColor = backgroundColor
+    @objc open var backgroundColor: UIColor {
+        get {
+            let color: DynamicColor
+            if presentationController is UIPopoverPresentationController {
+                color = tokenSet[.popoverContentBackground].dynamicColor
+            } else if useNavigationBarBackgroundColor {
+                color = tokenSet[.navigationBarBackground].dynamicColor
+            } else {
+                color = tokenSet[.drawerContentBackground].dynamicColor
+            }
+            return UIColor(dynamicColor: color)
+        }
+        set {
+            guard let newColor = newValue.dynamicColor else {
+                return
+            }
+            tokenSet[.popoverContentBackground] = .dynamicColor { newColor }
+            tokenSet[.navigationBarBackground] = .dynamicColor { newColor }
+            tokenSet[.drawerContentBackground] = .dynamicColor { newColor }
         }
     }
 
@@ -401,7 +416,6 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
 
     private var containerViewCenterObservation: NSKeyValueObservation?
 
-    private var useCustomBackgroundColor: Bool = false
     /// for iPad split mode, navigation bar has a different dark elevated color, and if it is a `.down` presentation style, match `Colors.NavigationBar.background` elevated color
     private var useNavigationBarBackgroundColor: Bool = false
 
@@ -756,16 +770,6 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
 
     private func updateAppearance() {
         view.backgroundColor = backgroundColor
-        // if DrawerController is shown in UIPopoverPresentationController then we want to show different darkElevated color
-        if !useCustomBackgroundColor {
-            if presentationController is UIPopoverPresentationController {
-                backgroundColor = UIColor(dynamicColor: tokenSet[.popoverContentBackground].dynamicColor)
-            } else if useNavigationBarBackgroundColor {
-                backgroundColor = UIColor(dynamicColor: tokenSet[.navigationBarBackground].dynamicColor)
-            } else {
-                backgroundColor = UIColor(dynamicColor: tokenSet[.drawerContentBackground].dynamicColor)
-            }
-        }
 
         guard let presentationController = (presentationController as? DrawerPresentationController) else {
             return
