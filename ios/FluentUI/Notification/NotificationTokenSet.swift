@@ -87,17 +87,11 @@ public class NotificationTokenSet: ControlTokenSet<NotificationTokenSet.Tokens> 
         /// The value for the vertical padding between the elements within a multi-line notification and its frame
         case verticalPadding
 
-        /// The value for the horizontal padding between the elements within a single-line notification and its frame
-        case verticalPaddingForOneLine
-
         /// The value for the horizontal spacing between the elements within a notification
         case horizontalSpacing
 
         /// The value for the minimum height of a multi-line notification
         case minimumHeight
-
-        /// The value for the minimum height of a single-line notification
-        case minimumHeightForOneLine
 
         /// The color of the outline around the frame of a notification
         case outlineColor
@@ -113,9 +107,6 @@ public class NotificationTokenSet: ControlTokenSet<NotificationTokenSet.Tokens> 
 
         /// The font for regular text within a notification
         case regularTextFont
-
-        /// The font for footnote text within a notification
-        case footnoteTextFont
     }
 
     init(style: @escaping () -> MSFNotificationStyle) {
@@ -223,25 +214,19 @@ public class NotificationTokenSet: ControlTokenSet<NotificationTokenSet.Tokens> 
                 }
 
             case .bottomPresentationPadding:
-                return .float { 20.0 }
+                return .float { GlobalTokens.spacing(.medium) }
 
             case .horizontalPadding:
-                return .float { 19.0 }
+                return .float { GlobalTokens.spacing(.medium) }
 
             case .verticalPadding:
-                return .float { 14.0 }
-
-            case .verticalPaddingForOneLine:
-                return .float { 18.0 }
+                return .float { GlobalTokens.spacing(.small) }
 
             case .horizontalSpacing:
-                return .float { 19.0 }
+                return .float { GlobalTokens.spacing(.medium) }
 
             case .minimumHeight:
-                return .float { 64.0 }
-
-            case .minimumHeightForOneLine:
-                return .float { 56.0 }
+                return .float { 52.0 }
 
             case .outlineColor:
                 return .dynamicColor {
@@ -270,9 +255,6 @@ public class NotificationTokenSet: ControlTokenSet<NotificationTokenSet.Tokens> 
 
             case .regularTextFont:
                 return .fontInfo { theme.aliasTokens.typography[.body2] }
-
-            case .footnoteTextFont:
-                return .fontInfo { theme.aliasTokens.typography[.caption1] }
             }
         }
     }
