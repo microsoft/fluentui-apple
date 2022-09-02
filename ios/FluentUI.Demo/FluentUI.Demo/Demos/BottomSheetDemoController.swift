@@ -350,7 +350,7 @@ extension BottomSheetDemoController: UIScrollViewDelegate {
 }
 
 extension BottomSheetDemoController: BottomSheetControllerDelegate {
-    func bottomSheetControllerCollapsedSheetHeightDidChange(_ bottomSheetController: BottomSheetController) {
+    func bottomSheetControllerCollapsedHeightInSafeAreaDidChange(_ bottomSheetController: BottomSheetController) {
         if let tableView = mainTableView {
             tableView.contentInset.bottom = bottomSheetController.collapsedHeightInSafeArea
         }
