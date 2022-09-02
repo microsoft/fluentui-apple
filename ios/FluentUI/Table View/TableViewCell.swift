@@ -1513,6 +1513,9 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
 
         layoutContentSubviews()
         contentView.flipSubviewsForRTL()
+
+        layoutSeparator(topSeparator, with: topSeparatorType, at: 0)
+        layoutSeparator(bottomSeparator, with: bottomSeparatorType, at: frame.height - bottomSeparator.frame.height)
     }
 
     open func layoutContentSubviews() {
@@ -1688,20 +1691,17 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
             width: frame.width - separatorLeadingInset(for: type),
             height: separator.frame.height
         )
+        separator.flipForRTL()
     }
 
     func separatorLeadingInset(for type: SeparatorType) -> CGFloat {
-        switch type {
-        case .none:
+        guard type == .inset else {
             return 0
-        case .inset:
-            let baseOffset = TableViewCell.selectionModeAreaWidth(isInSelectionMode: isInSelectionMode,
-                                                              selectionImageMarginTrailing: tokenSet[.selectionImageMarginTrailing].float,
-                                                              selectionImageSize: tokenSet[.selectionImageSize].float)
-            return baseOffset + paddingLeading + tokenSet[.customViewDimensions].float + tokenSet[.customViewTrailingMargin].float
-        case .full:
-            return effectiveUserInterfaceLayoutDirection == .rightToLeft ? -safeAreaInsets.right : -safeAreaInsets.left
         }
+        let baseOffset = safeAreaInsets.left + TableViewCell.selectionModeAreaWidth(isInSelectionMode: isInSelectionMode,
+                                                                                    selectionImageMarginTrailing: tokenSet[.selectionImageMarginTrailing].float,
+                                                                                    selectionImageSize: tokenSet[.selectionImageSize].float)
+        return baseOffset + paddingLeading + tokenSet[.customViewDimensions].float + tokenSet[.customViewTrailingMargin].float
     }
 
     open override func prepareForReuse() {
