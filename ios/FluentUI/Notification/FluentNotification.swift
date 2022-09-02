@@ -445,7 +445,7 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
                   actionButtonAction: nil,
                   showDefaultDismissActionButton: nil,
                   messageButtonAction: nil,
-                  showFromBottom: nil)
+                  showFromBottom: true)
     }
 
     init(style: MSFNotificationStyle,
@@ -460,7 +460,7 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
          actionButtonAction: (() -> Void)? = nil,
          showDefaultDismissActionButton: Bool? = nil,
          messageButtonAction: (() -> Void)? = nil,
-         showFromBottom: Bool? = nil) {
+         showFromBottom: Bool = true) {
         self.style = style
         self.message = message
         self.attributedMessage = attributedMessage
@@ -472,7 +472,7 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
         self.actionButtonTitle = actionButtonTitle
         self.actionButtonAction = actionButtonAction
         self.messageButtonAction = messageButtonAction
-        self.showFromBottom = showFromBottom ?? true
+        self.showFromBottom = showFromBottom
         self.showDefaultDismissActionButton = showDefaultDismissActionButton ?? style.isToast
 
         super.init()
