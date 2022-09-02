@@ -344,7 +344,6 @@ class CommandBarDemoController: DemoController {
                 label.translatesAutoresizingMaskIntoConstraints = false
                 return label
             }
-            commandBarItem.ignoresItemTappedHandler = true
         }
 
         return commandBarItem

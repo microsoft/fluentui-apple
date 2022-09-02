@@ -76,31 +76,34 @@ class CommandBarButton: UIButton {
         isSelected = isPersistSelection && item.isSelected
         isHidden = item.isHidden
 
-        if item.customControlView == nil {
-            // always update icon and title as we only display one; we may alterenate between them, and the icon may also change
-            let iconImage = item.iconImage
-            let title = item.title
-            let accessibilityDescription = item.accessibilityLabel
-
-            if #available(iOS 15.0, *) {
-                configuration?.image = iconImage
-                configuration?.title = iconImage != nil ? nil : title
-
-                if let font = item.titleFont {
-                    let attributeContainer = AttributeContainer([NSAttributedString.Key.font: font])
-                    configuration?.attributedTitle?.setAttributes(attributeContainer)
-                }
-            } else {
-                setImage(iconImage, for: .normal)
-                setTitle(iconImage != nil ? nil : title, for: .normal)
-                titleLabel?.font = item.titleFont
-            }
-
-            titleLabel?.isEnabled = isEnabled
-
-            accessibilityLabel = (accessibilityDescription != nil) ? accessibilityDescription : title
-            accessibilityHint = item.accessibilityHint
+        /// Additional state update is not needed if the `customControlView` is being shown
+        guard item.customControlView == nil else {
+            return
         }
+
+        // always update icon and title as we only display one; we may alterenate between them, and the icon may also change
+        let iconImage = item.iconImage
+        let title = item.title
+        let accessibilityDescription = item.accessibilityLabel
+
+        if #available(iOS 15.0, *) {
+            configuration?.image = iconImage
+            configuration?.title = iconImage != nil ? nil : title
+
+            if let font = item.titleFont {
+                let attributeContainer = AttributeContainer([NSAttributedString.Key.font: font])
+                configuration?.attributedTitle?.setAttributes(attributeContainer)
+            }
+        } else {
+            setImage(iconImage, for: .normal)
+            setTitle(iconImage != nil ? nil : title, for: .normal)
+            titleLabel?.font = item.titleFont
+        }
+
+        titleLabel?.isEnabled = isEnabled
+
+        accessibilityLabel = (accessibilityDescription != nil) ? accessibilityDescription : title
+        accessibilityHint = item.accessibilityHint
     }
 
     private let isPersistSelection: Bool
