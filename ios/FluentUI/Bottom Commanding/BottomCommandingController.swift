@@ -855,7 +855,7 @@ open class BottomCommandingController: UIViewController {
         }
     }
 
-    private lazy var tableViewIconTintColor: UIColor = UIColor(colorValue: view.fluentTheme.globalTokens.neutralColors[.grey50])
+    private lazy var tableViewIconTintColor: UIColor = UIColor(colorValue: GlobalTokens.neutralColors(.grey50))
     private lazy var tableViewBackgroundColor: UIColor = UIColor(light: UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background1]),
                                                                  dark: UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background4]))
     private lazy var bottomBarBackgroundColor: UIColor = UIColor(light: UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background1]),
