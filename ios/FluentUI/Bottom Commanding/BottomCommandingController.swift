@@ -650,6 +650,7 @@ open class BottomCommandingController: UIViewController {
         }
         cell.isEnabled = item.isEnabled
         cell.backgroundStyleType = .clear
+        cell.backgroundColor = tableViewBackgroundColor
 
         let shouldShowSeparator = expandedListSections
             .prefix(expandedListSections.count - 1)
@@ -857,10 +858,8 @@ open class BottomCommandingController: UIViewController {
     }
 
     private lazy var tableViewIconTintColor: UIColor = UIColor(colorValue: GlobalTokens.neutralColors(.grey50))
-    private lazy var tableViewBackgroundColor: UIColor = UIColor(light: UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background1]),
-                                                                 dark: UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background4]))
-    private lazy var bottomBarBackgroundColor: UIColor = UIColor(light: UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background1]),
-                                                                 dark: UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background4]))
+    private lazy var tableViewBackgroundColor: UIColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background2])
+    private lazy var bottomBarBackgroundColor: UIColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background2])
 
     private struct Constants {
         static let defaultHeroButtonHeight: CGFloat = 40
