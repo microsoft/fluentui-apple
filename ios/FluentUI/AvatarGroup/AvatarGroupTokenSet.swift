@@ -24,21 +24,21 @@ public class AvatarGroupTokenSet: ControlTokenSet<AvatarGroupTokenSet.Tokens> {
                     switch style() {
                     case .stack:
                         switch size() {
-                        case .xsmall, .small:
+                        case .size16, .size20, .size24:
                             return -GlobalTokens.spacing(.xxxSmall)
-                        case .medium:
+                        case .size32:
                             return -GlobalTokens.spacing(.xxSmall)
-                        case .large:
+                        case .size40:
                             return -GlobalTokens.spacing(.xSmall)
-                        case .xlarge, .xxlarge:
+                        case .size56, .size72:
                             return -GlobalTokens.spacing(.small)
                         }
 
                     case .pile:
                         switch size() {
-                        case .xsmall, .small:
+                        case .size16, .size20, .size24:
                             return GlobalTokens.spacing(.xxSmall)
-                        case .medium, .large, .xlarge, .xxlarge:
+                        case .size32, .size40, .size56, .size72:
                             return GlobalTokens.spacing(.xSmall)
                         }
                     }
