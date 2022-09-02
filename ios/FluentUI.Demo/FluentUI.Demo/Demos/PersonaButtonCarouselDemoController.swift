@@ -116,7 +116,7 @@ class PersonaButtonCarouselDemoController: DemoTableViewController {
     }
 
     @objc private func handleAppendPersona() {
-        carousels.forEach { (_ : MSFPersonaButtonSize, carousel: MSFPersonaButtonCarousel) in
+        carousels.forEach { (_: MSFPersonaButtonSize, carousel: MSFPersonaButtonCarousel) in
             let random = Int.random(in: 0...personas.count - 1)
             let persona = personas[random]
             add(persona, to: carousel)
@@ -124,7 +124,7 @@ class PersonaButtonCarouselDemoController: DemoTableViewController {
     }
 
     @objc private func handleRemovePersona() {
-        carousels.forEach { (_ : MSFPersonaButtonSize, carousel: MSFPersonaButtonCarousel) in
+        carousels.forEach { (_: MSFPersonaButtonSize, carousel: MSFPersonaButtonCarousel) in
             let state = carousel.state
             let count = state.count
             if count > 0 {
