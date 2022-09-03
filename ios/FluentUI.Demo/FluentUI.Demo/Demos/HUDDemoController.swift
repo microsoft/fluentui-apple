@@ -301,7 +301,7 @@ extension HUDDemoController: DemoAppearanceDelegate {
             return GlobalTokens.borderRadius(.xLarge)
         }
 
-        override var foregroundColor: DynamicColor {
+        override var labelColor: DynamicColor {
             return aliasTokens.brandColors[.primary]
         }
     }

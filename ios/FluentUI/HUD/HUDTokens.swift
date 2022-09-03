@@ -10,13 +10,13 @@ import UIKit
 open class HeadsUpDisplayTokens: ControlTokens {
 
     /// The color of the squared background of the Heads-up display.
-    open var backgroundColor: DynamicColor { DynamicColor(light: ColorValue(r: 0.129, g: 0.129, b: 0.129, a: 0.9),
-                                                          dark: ColorValue(r: 0.188, g: 0.188, b: 0.188, a: 1)) }
+    open var backgroundColor: DynamicColor { aliasTokens.colors[.backgroundInverted] }
 
-    /// The color of the contents presented by the Heads-up display.
-    open var foregroundColor: DynamicColor { DynamicColor(light: GlobalTokens.neutralColors(.white),
-                                                          dark: ColorValue(r: 0.882, g: 0.882, b: 0.882, a: 1),
-                                                          darkHighContrast: GlobalTokens.neutralColors(.white)) }
+    /// The color of the activity indicator presented by the Heads-up display.
+    open var activityIndicatorColor: DynamicColor { aliasTokens.colors[.foreground2] }
+
+    /// The color of the label presented by the Heads-up display.
+    open var labelColor: DynamicColor { aliasTokens.colors[.foregroundInverted1] }
 
     /// The corner radius of the squared background of the Heads-up display.
     open var cornerRadius: CGFloat {
@@ -31,6 +31,16 @@ open class HeadsUpDisplayTokens: ControlTokens {
     /// The distance between the label and image contents from the top and bottom edges of the squared background of the Heads-up display.
     open var verticalPadding: CGFloat {
         return GlobalTokens.spacing(.large)
+    }
+
+    /// The distance between the top of the hud panel and the activity indicator
+    open var topPadding: CGFloat {
+        return GlobalTokens.spacing(.large)
+    }
+
+    /// The distance between the bottom of the hud panel and the label
+    open var bottomPadding: CGFloat {
+        return GlobalTokens.spacing(.medium)
     }
 
     /// The minimum value for the side of the squared background of the Heads-up display.
