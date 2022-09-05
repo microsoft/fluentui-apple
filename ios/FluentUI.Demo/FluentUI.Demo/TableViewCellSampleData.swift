@@ -187,9 +187,9 @@ class TableViewCellSampleData: TableViewSampleData {
                                      stackView.widthAnchor.constraint(equalTo: container.widthAnchor)])
 
         if withBorder {
-            container.layer.borderWidth = 1 / UIScreen.main.scale // calculated device pixel
+            container.layer.borderWidth = 1
             container.layer.borderColor = Colors.textSecondary.cgColor
-            container.layer.cornerRadius = 3
+            container.layer.cornerRadius = 2
         }
 
         return labelAccessoryView(accessories: [container], spacing: 0, alignment: .trailing)
