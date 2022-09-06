@@ -184,7 +184,7 @@ public struct FluentNotification: View, TokenizedControlView {
                 }
                 messageLabel
             }
-            .padding(.vertical, tokenSet[.verticalPadding].float)
+            .padding(.vertical, Self.verticalPadding)
         }
 
         @ViewBuilder
@@ -229,9 +229,9 @@ public struct FluentNotification: View, TokenizedControlView {
                     textContainer
                     Spacer()
                 }
-                .frame(minHeight: tokenSet[.minimumHeight].float)
+                .frame(minHeight: Self.minimumHeight)
             } else {
-                let horizontalSpacing = tokenSet[.horizontalSpacing].float
+                let horizontalSpacing = Self.horizontalSpacing
                 HStack(spacing: isFlexibleWidthToast ? horizontalSpacing : 0) {
                     HStack(spacing: horizontalSpacing) {
                         image
@@ -251,8 +251,8 @@ public struct FluentNotification: View, TokenizedControlView {
                 .onSizeChange { newSize in
                     innerContentsSize = newSize
                 }
-                .frame(minHeight: tokenSet[.minimumHeight].float)
-                .padding(.horizontal, tokenSet[.horizontalPadding].float)
+                .frame(minHeight: Self.minimumHeight)
+                .padding(.horizontal, Self.horizontalPadding)
                 .clipped()
             }
         }
@@ -401,6 +401,21 @@ public struct FluentNotification: View, TokenizedControlView {
     // When true, the notification will fit the size of its contents.
     // When false, the notification will be fixed based on the size of the screen.
     private let isFlexibleWidthToast: Bool
+
+    // MARK: Constants
+
+    /// The value for the horizontal padding between the elements within a notification and its frame
+    private static let horizontalPadding: CGFloat = GlobalTokens.spacing(.medium)
+
+    /// The value for the vertical padding between the elements within a multi-line notification and its frame
+    private static let verticalPadding: CGFloat = GlobalTokens.spacing(.small)
+
+    /// The value for the horizontal spacing between the elements within a notification
+    private static let horizontalSpacing: CGFloat = GlobalTokens.spacing(.medium)
+
+    /// The value for the minimum height of a multi-line notification
+    private static let minimumHeight: CGFloat = 52.0
+
 }
 
 class MSFNotificationStateImpl: ControlState, MSFNotificationState {

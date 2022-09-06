@@ -81,18 +81,6 @@ public class NotificationTokenSet: ControlTokenSet<NotificationTokenSet.Tokens> 
         /// The value for the bottom padding between the notification and its anchor view
         case bottomPresentationPadding
 
-        /// The value for the horizontal padding between the elements within a notification and its frame
-        case horizontalPadding
-
-        /// The value for the vertical padding between the elements within a multi-line notification and its frame
-        case verticalPadding
-
-        /// The value for the horizontal spacing between the elements within a notification
-        case horizontalSpacing
-
-        /// The value for the minimum height of a multi-line notification
-        case minimumHeight
-
         /// The color of the outline around the frame of a notification
         case outlineColor
 
@@ -215,18 +203,6 @@ public class NotificationTokenSet: ControlTokenSet<NotificationTokenSet.Tokens> 
 
             case .bottomPresentationPadding:
                 return .float { GlobalTokens.spacing(.medium) }
-
-            case .horizontalPadding:
-                return .float { GlobalTokens.spacing(.medium) }
-
-            case .verticalPadding:
-                return .float { GlobalTokens.spacing(.small) }
-
-            case .horizontalSpacing:
-                return .float { GlobalTokens.spacing(.medium) }
-
-            case .minimumHeight:
-                return .float { 52.0 }
 
             case .outlineColor:
                 return .dynamicColor {

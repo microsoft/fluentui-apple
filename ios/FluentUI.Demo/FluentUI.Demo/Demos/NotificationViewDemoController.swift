@@ -230,9 +230,6 @@ class NotificationViewDemoController: DemoController {
             .imageColor: .dynamicColor {
                 return DynamicColor(light: GlobalTokens.sharedColors(.orange, .primary))
             },
-            .horizontalSpacing: .float {
-                return 5.0
-            },
             .shadow: .shadowInfo {
                 return ShadowInfo(colorOne: DynamicColor(light: GlobalTokens.sharedColors(.hotPink, .primary)),
                                   blurOne: 10.0,
