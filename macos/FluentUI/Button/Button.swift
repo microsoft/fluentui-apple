@@ -598,7 +598,7 @@ private struct ButtonSizeParameters {
 		titleToImageSpacing: 10,
 		titleToImageVerticalSpacingAdjustment: 7
 	)
-	
+
 	static let medium = ButtonSizeParameters(
 		fontSize: 13,  // line height: 17
 		cornerRadius: 6,
