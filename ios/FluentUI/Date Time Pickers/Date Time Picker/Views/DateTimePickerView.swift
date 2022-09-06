@@ -48,7 +48,9 @@ class DateTimePickerView: UIControl {
     private let selectionTopSeparator = Separator()
     private let selectionBottomSeparator = Separator()
 
-    private func gradientLayer() -> CAGradientLayer {
+    private var gradientLayer = CAGradientLayer()
+
+    private func initGradientLayer() -> CAGradientLayer {
         let gradientLayer = CAGradientLayer()
         let backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background2])
         let transparentColor = backgroundColor.withAlphaComponent(0)
@@ -66,7 +68,8 @@ class DateTimePickerView: UIControl {
 
         super.init(frame: .zero)
 
-        layer.addSublayer(gradientLayer())
+        gradientLayer = initGradientLayer()
+        layer.addSublayer(gradientLayer)
         addSubview(selectionTopSeparator)
         addSubview(selectionBottomSeparator)
         addInteraction(UILargeContentViewerInteraction())
@@ -166,8 +169,8 @@ class DateTimePickerView: UIControl {
         )
 
         let gradientOffset = lineOffset - DateTimePickerViewComponentCell.idealHeight
-        gradientLayer().locations = [0, NSNumber(value: Float(gradientOffset / frame.height)), NSNumber(value: Float((frame.height - gradientOffset) / frame.height)), 1]
-        gradientLayer().frame = bounds
+        gradientLayer.locations = [0, NSNumber(value: Float(gradientOffset / frame.height)), NSNumber(value: Float((frame.height - gradientOffset) / frame.height)), 1]
+        gradientLayer.frame = bounds
 
         setDate(date, animated: false)
         setDayOfMonth(dayOfMonth, animated: false)

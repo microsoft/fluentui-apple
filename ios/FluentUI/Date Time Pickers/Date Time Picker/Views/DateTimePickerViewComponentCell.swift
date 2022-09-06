@@ -30,7 +30,7 @@ class DateTimePickerViewComponentCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
 
-        backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background2])
+        backgroundColor = .clear
 
         updateTextLabelColor()
 
