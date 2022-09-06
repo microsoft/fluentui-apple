@@ -26,12 +26,12 @@ class CalendarViewDayMonthYearCell: CalendarViewDayMonthCell {
 
     override init(frame: CGRect) {
         yearLabel = UILabel(frame: .zero)
-        yearLabel.font = Fonts.caption1
         yearLabel.textAlignment = .center
-        yearLabel.textColor = Colors.Calendar.Day.textPrimary
 
         super.init(frame: frame)
 
+        yearLabel.font = UIFont.fluent(fluentTheme.aliasTokens.typography[.caption2])
+        yearLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground3])
         contentView.addSubview(yearLabel)
     }
 
@@ -53,9 +53,9 @@ class CalendarViewDayMonthYearCell: CalendarViewDayMonthCell {
 
         switch textStyle {
         case .primary:
-            yearLabel.textColor = Colors.Calendar.Day.textPrimary
+            yearLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground3])
         case .secondary:
-            yearLabel.textColor = Colors.Calendar.Day.textSecondary
+            yearLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
         }
 
         yearLabel.text = yearLabelText
