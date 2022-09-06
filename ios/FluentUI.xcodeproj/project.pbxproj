@@ -110,7 +110,6 @@
 		5314E21E25F022120099271A /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87B05211E23650038C37C /* UIView+Extensions.swift */; };
 		5314E22725F022310099271A /* UITableViewCell+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B444D6B02181403C0002B4D4 /* UITableViewCell+Extension.swift */; };
 		5314E23025F022C80099271A /* UIScrollView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD41C8B122DD3BB70086F899 /* UIScrollView+Extensions.swift */; };
-		5314E24B25F0232F0099271A /* UIScreen+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B87B01211E20B50038C37C /* UIScreen+Extension.swift */; };
 		5314E25425F023650099271A /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5961FA6218A2E4500E2A506 /* UIImage+Extensions.swift */; };
 		5314E26625F023B20099271A /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A56CE7B522E68A7800AA77EE /* UIColor+Extensions.swift */; };
 		5314E28125F0240D0099271A /* DateComponents+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9A5C862179464F00D224D9 /* DateComponents+Extensions.swift */; };
@@ -316,7 +315,6 @@
 		A5B87AF3211E16360038C37C /* DrawerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawerController.swift; sourceTree = "<group>"; };
 		A5B87AF4211E16360038C37C /* DrawerTransitionAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawerTransitionAnimator.swift; sourceTree = "<group>"; };
 		A5B87AF5211E16360038C37C /* DrawerPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawerPresentationController.swift; sourceTree = "<group>"; };
-		A5B87B01211E20B50038C37C /* UIScreen+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+Extension.swift"; sourceTree = "<group>"; };
 		A5B87B03211E22B70038C37C /* DimmingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DimmingView.swift; sourceTree = "<group>"; };
 		A5B87B05211E23650038C37C /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
 		A5CEC15420D980B20016922A /* FluentUI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FluentUI.h; sourceTree = "<group>"; };
@@ -779,7 +777,6 @@
 				A559BB7D212B6D100055E107 /* String+Extension.swift */,
 				A56CE7B522E68A7800AA77EE /* UIColor+Extensions.swift */,
 				A5961FA6218A2E4500E2A506 /* UIImage+Extensions.swift */,
-				A5B87B01211E20B50038C37C /* UIScreen+Extension.swift */,
 				FD41C8B122DD3BB70086F899 /* UIScrollView+Extensions.swift */,
 				A5B87B05211E23650038C37C /* UIView+Extensions.swift */,
 				4BF01D9F27B3A861005B32F2 /* UIApplication+Extensions.swift */,
@@ -1516,7 +1513,6 @@
 				5314E06425F00EFD0099271A /* CalendarViewMonthBannerView.swift in Sources */,
 				5314E18E25F0195C0099271A /* ShimmerLinesView.swift in Sources */,
 				80AECC21263339E3005AF2F3 /* BottomSheetController.swift in Sources */,
-				5314E24B25F0232F0099271A /* UIScreen+Extension.swift in Sources */,
 				5314E2E325F025500099271A /* FluentUIFramework.swift in Sources */,
 				ECA9218627A3301C00B66117 /* MSFAvatarGroup.swift in Sources */,
 				5314E0EC25F012C40099271A /* NavigationAnimator.swift in Sources */,
