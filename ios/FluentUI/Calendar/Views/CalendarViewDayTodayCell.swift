@@ -33,32 +33,21 @@ class CalendarViewDayTodayCell: CalendarViewDayCell {
     }
 
     private func configureBackgroundColor() {
-        if isHighlighted || isSelected {
-            switch backgroundStyle {
-            case .primary:
-                contentView.backgroundColor = Colors.Calendar.Day.backgroundPrimary
-            case .secondary:
-                contentView.backgroundColor = Colors.Calendar.Day.backgroundSecondary
-            }
-        } else {
-            contentView.backgroundColor = Colors.Calendar.Today.background
-        }
+        contentView.backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background2])
     }
 
     private func configureFontColor() {
+        dateLabel.font = UIFont.fluent(fluentTheme.aliasTokens.typography[.body1])
+
         if isHighlighted || isSelected {
-            dateLabel.font = UIFontMetrics.default.scaledFont(for: Fonts.body, maximumPointSize: Constants.maximumFontSize)
-            dateLabel.textColor = Colors.Calendar.Day.textSelected
+            dateLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundOnColor])
             dateLabel.showsLargeContentViewer = true
         } else {
-            dateLabel.font = UIFontMetrics(forTextStyle: .headline).scaledFont(for: Fonts.headline, maximumPointSize: Constants.maximumFontSize)
             switch textStyle {
             case .primary:
-                dateLabel.textColor = Colors.Calendar.Day.textPrimary
-                dotView.color = Colors.Calendar.Day.textPrimary
+                dateLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
             case .secondary:
-                dateLabel.textColor = Colors.Calendar.Day.textSecondary
-                dotView.color = Colors.Calendar.Day.textSecondary
+                dateLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground3])
             }
         }
     }
