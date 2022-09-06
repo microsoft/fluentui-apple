@@ -53,6 +53,9 @@ open class ActionsCell: UITableViewCell, TokenizedControlInternal {
     var tokenSetSink: AnyCancellable?
 
     @objc private func themeDidChange(_ notification: Notification) {
+        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
+            return
+        }
         tokenSet.update(fluentTheme)
         updateAppearance()
     }
