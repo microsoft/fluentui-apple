@@ -299,11 +299,11 @@ class DrawerPresentationController: UIPresentationController {
             if #available(iOS 15.0, *) {} else {
                 let isVerticallyPresentedViewPartiallyOffScreen: Bool = {
                     // Calculates the origin of the presentedView frame in relation to the device screen.
-                    guard let origin = presentedView.superview?.convert(presentedViewFrame.origin, to: nil) else {
+                    guard let origin = presentedView.superview?.convert(presentedViewFrame.origin, to: nil), let window = sourceViewController.view.window else {
                         return false
                     }
 
-                    let screenHeight = sourceViewController.view.window?.screen.bounds.height ?? 0
+                    let screenHeight = window.screen.bounds.height
                     return (presentationDirection == .down && origin.y < 0) ||
                            (presentationDirection == .up && (origin.y + presentedViewFrame.height - screenHeight) > 0)
                 }()
