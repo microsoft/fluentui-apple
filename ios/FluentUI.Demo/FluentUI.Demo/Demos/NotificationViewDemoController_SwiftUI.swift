@@ -71,6 +71,7 @@ struct NotificationDemoView: View {
                                        trailingImageAccessibilityLabel: trailingImageLabel,
                                        actionButtonTitle: actionButtonTitle,
                                        actionButtonAction: actionButtonAction,
+                                       showDefaultDismissActionButton: showDefaultDismissActionButton,
                                        messageButtonAction: messageButtonAction,
                                        showFromBottom: showFromBottom)
                     .backgroundGradient(showBackgroundGradient ? backgroundGradient : nil)
