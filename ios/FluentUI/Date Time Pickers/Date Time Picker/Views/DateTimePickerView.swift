@@ -48,15 +48,15 @@ class DateTimePickerView: UIControl {
     private let selectionTopSeparator = Separator()
     private let selectionBottomSeparator = Separator()
 
-    private let gradientLayer: CAGradientLayer = {
+    private func gradientLayer() -> CAGradientLayer {
         let gradientLayer = CAGradientLayer()
-        let backgroundColor = Colors.DateTimePicker.background
+        let backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background2])
         let transparentColor = backgroundColor.withAlphaComponent(0)
         gradientLayer.colors = [backgroundColor.cgColor, transparentColor.cgColor, transparentColor.cgColor, backgroundColor.cgColor]
         gradientLayer.startPoint = CGPoint(x: 0, y: 0)
         gradientLayer.endPoint = CGPoint(x: 0, y: 1)
         return gradientLayer
-    }()
+    }
 
     init(mode: DateTimePickerViewMode, calendarConfiguration: CalendarConfiguration) {
         self.mode = mode
@@ -66,12 +66,12 @@ class DateTimePickerView: UIControl {
 
         super.init(frame: .zero)
 
-        layer.addSublayer(gradientLayer)
+        layer.addSublayer(gradientLayer())
         addSubview(selectionTopSeparator)
         addSubview(selectionBottomSeparator)
         addInteraction(UILargeContentViewerInteraction())
 
-        backgroundColor = Colors.DateTimePicker.background
+        backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background2])
 
         setDate(date, animated: false)
         setDayOfMonth(dayOfMonth, animated: false)
@@ -166,8 +166,8 @@ class DateTimePickerView: UIControl {
         )
 
         let gradientOffset = lineOffset - DateTimePickerViewComponentCell.idealHeight
-        gradientLayer.locations = [0, NSNumber(value: Float(gradientOffset / frame.height)), NSNumber(value: Float((frame.height - gradientOffset) / frame.height)), 1]
-        gradientLayer.frame = bounds
+        gradientLayer().locations = [0, NSNumber(value: Float(gradientOffset / frame.height)), NSNumber(value: Float((frame.height - gradientOffset) / frame.height)), 1]
+        gradientLayer().frame = bounds
 
         setDate(date, animated: false)
         setDayOfMonth(dayOfMonth, animated: false)
