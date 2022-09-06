@@ -320,7 +320,7 @@ open class DrawerController: UIViewController {
                 contentSize = CGRect(origin: .zero, size: contentSize).inset(by: contentView.safeAreaInsets).size
                 updatePreferredContentSize(contentSize.width, contentSize.height)
             }
-            return CGSize(width: UIScreen.main.roundToDevicePixels(preferredContentSize.width), height: UIScreen.main.roundToDevicePixels(preferredContentSize.height))
+            return CGSize(width: ceil(preferredContentSize.width), height: ceil(preferredContentSize.height))
         }
         set {
             var newValue = newValue
@@ -798,7 +798,7 @@ open class DrawerController: UIViewController {
         }
 
         // Rounding to precision used for layout
-        return UIScreen.main.roundToDevicePixels(offset)
+        return ceil(offset)
     }
 
     private func offsetWithResistance(for offset: CGFloat) -> CGFloat {

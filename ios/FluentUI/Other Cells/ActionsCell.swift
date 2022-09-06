@@ -67,7 +67,7 @@ open class ActionsCell: UITableViewCell, TokenizedControlInternal {
 
     public class func height(action1Title: String, action2Title: String = "", containerWidth: CGFloat, tokenSet: TableViewCellTokenSet) -> CGFloat {
         let actionCount: CGFloat = action2Title == "" ? 1 : 2
-        let width = UIScreen.main.roundToDevicePixels(containerWidth / actionCount)
+        let width = ceil(containerWidth / actionCount)
 
         let actionTitleFont = UIFont.fluent(tokenSet[.titleFont].fontInfo)
         let action1TitleHeight = action1Title.preferredSize(for: actionTitleFont, width: width).height
@@ -189,7 +189,7 @@ open class ActionsCell: UITableViewCell, TokenizedControlInternal {
         super.layoutSubviews()
 
         let actionCount: CGFloat = action2Button.isHidden ? 1 : 2
-        let singleActionWidth = UIScreen.main.roundToDevicePixels(contentView.frame.width / actionCount)
+        let singleActionWidth = ceil(contentView.frame.width / actionCount)
         var left: CGFloat = 0
 
         action1Button.frame = CGRect(x: left, y: 0, width: singleActionWidth, height: frame.height)
