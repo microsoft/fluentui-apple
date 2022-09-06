@@ -97,7 +97,10 @@ class CommandBarCommandGroupsView: UIView {
 
     private func createButton(forItem item: CommandBarItem, isPersistSelection: Bool = true) -> CommandBarButton {
         let button = CommandBarButton(item: item, isPersistSelection: isPersistSelection)
-        button.addTarget(self, action: #selector(handleCommandButtonTapped(_:)), for: .touchUpInside)
+
+        if item.shouldUseItemTappedHandler {
+            button.addTarget(self, action: #selector(handleCommandButtonTapped(_:)), for: .touchUpInside)
+        }
 
         return button
     }

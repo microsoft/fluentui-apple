@@ -39,23 +39,29 @@ class CommandBarButton: UIButton {
 
         translatesAutoresizingMaskIntoConstraints = false
 
-        if #available(iOS 15.0, *) {
-            var buttonConfiguration = UIButton.Configuration.plain()
-            buttonConfiguration.image = item.iconImage
-            buttonConfiguration.contentInsets = LayoutConstants.contentInsets
-            buttonConfiguration.background.cornerRadius = 0
-            configuration = buttonConfiguration
+        if let makeCustomButtonView = item.customControlView {
+            addCustomView(makeCustomButtonView())
+            /// Disable accessiblity for the button so that the custom view can provide itself or its subviews as the accessilbity element(s)
+            isAccessibilityElement = false
         } else {
-            setImage(item.iconImage, for: .normal)
-            contentEdgeInsets = LayoutConstants.contentEdgeInsets
+            if #available(iOS 15.0, *) {
+                var buttonConfiguration = UIButton.Configuration.plain()
+                buttonConfiguration.image = item.iconImage
+                buttonConfiguration.contentInsets = LayoutConstants.contentInsets
+                buttonConfiguration.background.cornerRadius = 0
+                configuration = buttonConfiguration
+            } else {
+                setImage(item.iconImage, for: .normal)
+                contentEdgeInsets = LayoutConstants.contentEdgeInsets
+            }
+
+            let accessibilityDescription = item.accessibilityLabel
+            accessibilityLabel = (accessibilityDescription != nil) ? accessibilityDescription : item.title
+            accessibilityHint = item.accessibilityHint
+
+            menu = item.menu
+            showsMenuAsPrimaryAction = item.showsMenuAsPrimaryAction
         }
-
-        let accessibilityDescription = item.accessibilityLabel
-        accessibilityLabel = (accessibilityDescription != nil) ? accessibilityDescription : item.title
-        accessibilityHint = item.accessibilityHint
-
-        menu = item.menu
-        showsMenuAsPrimaryAction = item.showsMenuAsPrimaryAction
 
         updateState()
     }
@@ -69,6 +75,11 @@ class CommandBarButton: UIButton {
         isEnabled = item.isEnabled
         isSelected = isPersistSelection && item.isSelected
         isHidden = item.isHidden
+
+        /// Additional state update is not needed if the `customControlView` is being shown
+        guard item.customControlView == nil else {
+            return
+        }
 
         // always update icon and title as we only display one; we may alterenate between them, and the icon may also change
         let iconImage = item.iconImage
@@ -90,6 +101,7 @@ class CommandBarButton: UIButton {
         }
 
         titleLabel?.isEnabled = isEnabled
+
         accessibilityLabel = (accessibilityDescription != nil) ? accessibilityDescription : title
         accessibilityHint = item.accessibilityHint
     }
@@ -139,6 +151,17 @@ class CommandBarButton: UIButton {
             backgroundColor = resolvedBackgroundColor
             setTitleColor(tintColor, for: .normal)
         }
+    }
+
+    private func addCustomView(_ view: UIView) {
+        view.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(view)
+
+        /// Constrain view to edges of the button
+        view.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
+        view.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+        view.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        view.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
     }
 
     private struct LayoutConstants {
