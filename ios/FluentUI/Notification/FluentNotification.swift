@@ -138,7 +138,6 @@ public struct FluentNotification: View, TokenizedControlView {
                                height: imageSize.height,
                                alignment: .center)
                         .foregroundColor(Color(dynamicColor: tokenSet[.imageColor].dynamicColor))
-                        .padding(.vertical, tokenSet[.verticalPadding].float)
                 }
             }
         }
@@ -185,7 +184,7 @@ public struct FluentNotification: View, TokenizedControlView {
                 }
                 messageLabel
             }
-            .padding(.vertical, hasSecondTextRow ? tokenSet[.verticalPadding].float : tokenSet[.verticalPaddingForOneLine].float)
+            .padding(.vertical, tokenSet[.verticalPadding].float)
         }
 
         @ViewBuilder
@@ -238,7 +237,7 @@ public struct FluentNotification: View, TokenizedControlView {
                         image
                         textContainer
                         if !isFlexibleWidthToast {
-                            Spacer(minLength: horizontalSpacing)
+                            Spacer(minLength: 0)
                         }
                     }
                     .accessibilityElement(children: .combine)
