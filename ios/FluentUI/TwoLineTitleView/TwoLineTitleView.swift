@@ -290,9 +290,9 @@ open class TwoLineTitleView: UIView {
 
         let isCompact = traitCollection.verticalSizeClass == .compact
 
-        let titleButtonHeight = titleButtonLabel.font.deviceLineHeight
+        let titleButtonHeight = titleButtonLabel.font.lineHeight
         let titleBottomMargin = isCompact ? Constants.titleButtonLabelMarginBottomCompact : Constants.titleButtonLabelMarginBottomRegular
-        let subtitleButtonHeight = subtitleButtonLabel.font.deviceLineHeight
+        let subtitleButtonHeight = subtitleButtonLabel.font.lineHeight
         let totalContentHeight = titleButtonHeight + titleBottomMargin + subtitleButtonHeight
         var top = ceil((bounds.height - totalContentHeight) / 2.0)
 
