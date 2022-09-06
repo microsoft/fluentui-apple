@@ -215,7 +215,7 @@ open class ShimmerView: UIView {
                     if labelHeight >= 0 {
                         return labelHeight
                     } else if usesTextHeightForLabels {
-                        return label.font.deviceLineHeight
+                        return ceil(label.font.lineHeight)
                     }
                     return nil
                 }()

@@ -290,11 +290,11 @@ open class TwoLineTitleView: UIView {
 
         let isCompact = traitCollection.verticalSizeClass == .compact
 
-        let titleButtonHeight = titleButtonLabel.font.deviceLineHeight
+        let titleButtonHeight = titleButtonLabel.font.lineHeight
         let titleBottomMargin = isCompact ? Constants.titleButtonLabelMarginBottomCompact : Constants.titleButtonLabelMarginBottomRegular
-        let subtitleButtonHeight = subtitleButtonLabel.font.deviceLineHeight
+        let subtitleButtonHeight = subtitleButtonLabel.font.lineHeight
         let totalContentHeight = titleButtonHeight + titleBottomMargin + subtitleButtonHeight
-        var top = UIScreen.main.middleOrigin(bounds.height, containedSizeValue: totalContentHeight)
+        var top = ceil((bounds.height - totalContentHeight) / 2.0)
 
         titleButton.frame = CGRect(x: 0, y: top, width: bounds.width, height: titleButtonHeight).integral
         top += titleButtonHeight + titleBottomMargin
@@ -303,7 +303,7 @@ open class TwoLineTitleView: UIView {
         titleButtonLabel.sizeToFit()
         let titleButtonLabelWidth = min(titleButtonLabelMaxWidth, titleButtonLabel.frame.width)
         titleButtonLabel.frame = CGRect(
-            x: UIScreen.main.middleOrigin(titleButton.frame.width, containedSizeValue: titleButtonLabelWidth),
+            x: ceil((titleButton.frame.width - titleButtonLabelWidth) / 2.0),
             y: 0,
             width: titleButtonLabelWidth,
             height: titleButton.frame.height
@@ -323,14 +323,14 @@ open class TwoLineTitleView: UIView {
             subtitleButtonLabel.sizeToFit()
             let subtitleButtonLabelWidth = min(subtitleButtonLabelMaxWidth, subtitleButtonLabel.frame.width)
             subtitleButtonLabel.frame = CGRect(
-                x: UIScreen.main.middleOrigin(subtitleButton.frame.width, containedSizeValue: subtitleButtonLabelWidth),
+                x: ceil((subtitleButton.frame.width - subtitleButtonLabelWidth) / 2.0),
                 y: 0,
                 width: subtitleButtonLabelWidth,
                 height: subtitleButton.frame.height
             )
             subtitleButtonImageView.frame = CGRect(
                 x: subtitleButtonLabel.frame.maxX + subtitleAccessoryType.horizontalPadding,
-                y: UIScreen.main.middleOrigin(subtitleButton.frame.height, containedSizeValue: subtitleAccessoryType.size.height),
+                y: ceil((subtitleButton.frame.height - subtitleAccessoryType.size.height) / 2.0),
                 width: subtitleAccessoryType.size.width,
                 height: subtitleAccessoryType.size.height
             )

@@ -333,7 +333,7 @@ open class CardView: UIView {
         translatesAutoresizingMaskIntoConstraints = false
 
         // View border and background
-        layer.borderWidth = UIScreen.main.devicePixel
+        layer.borderWidth = 0.5
         layer.cornerRadius = Constants.borderRadius
 
         // Title
