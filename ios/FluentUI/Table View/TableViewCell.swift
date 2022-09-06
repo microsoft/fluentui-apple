@@ -1277,7 +1277,8 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
 
         setupBackgroundColors()
 
-        hideSystemSeparator()
+        // hide system separator so we can draw our own. We prefer the container UITableView to set separatorStyle = .none
+        separatorInset = UIEdgeInsets(top: 0, left: CGFloat.greatestFiniteMagnitude, bottom: 0, right: 0)
         updateSeparator(topSeparator, with: topSeparatorType)
         updateSeparator(bottomSeparator, with: bottomSeparatorType)
 
@@ -1521,7 +1522,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     open func layoutContentSubviews() {
         if isInSelectionMode {
             let selectionImageSize = tokenSet[.selectionImageSize].float
-            let selectionImageViewYOffset = UIScreen.main.roundToDevicePixels((contentView.frame.height - selectionImageSize) / 2)
+            let selectionImageViewYOffset = ceil((contentView.frame.height - selectionImageSize) / 2)
             selectionImageView.frame = CGRect(
                 origin: CGPoint(x: paddingLeading, y: selectionImageViewYOffset),
                 size: CGSize(width: selectionImageSize, height: selectionImageSize)
@@ -1530,7 +1531,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
 
         if let customView = customView {
             let customViewDimensions = tokenSet[.customViewDimensions].float
-            let customViewYOffset = UIScreen.main.roundToDevicePixels((contentView.frame.height - customViewDimensions) / 2)
+            let customViewYOffset = ceil((contentView.frame.height - customViewDimensions) / 2)
             let customViewXOffset = TableViewCell.customViewLeadingOffset(isInSelectionMode: isInSelectionMode, tokenSet: tokenSet)
             customView.frame = CGRect(
                 origin: CGPoint(x: customViewXOffset, y: customViewYOffset),
@@ -1577,7 +1578,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                                                           subtitleHeight: subtitleLabel.frame.height,
                                                           footerHeight: footerLabel.frame.height,
                                                           labelVerticalSpacing: tokenSet[.labelVerticalSpacing].float)
-        let textAreaTopOffset = UIScreen.main.roundToDevicePixels((contentView.frame.height - textAreaHeight) / 2)
+        let textAreaTopOffset = ceil((contentView.frame.height - textAreaHeight) / 2)
         adjustLabelViewsTop(by: textAreaTopOffset,
                             label: titleLabel,
                             leadingAccessoryView: titleLeadingAccessoryView,
@@ -1597,7 +1598,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                                                                                  accessoryType: _accessoryType,
                                                                                  paddingTrailing: paddingTrailing)
             let xOffset = contentView.frame.width - customAccessoryView.frame.width - trailingOffset
-            let yOffset = UIScreen.main.roundToDevicePixels((contentView.frame.height - customAccessoryView.frame.height) / 2)
+            let yOffset = ceil((contentView.frame.height - customAccessoryView.frame.height) / 2)
             customAccessoryView.frame = CGRect(origin: CGPoint(x: xOffset, y: yOffset), size: customAccessoryView.frame.size)
         }
 
@@ -1606,7 +1607,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                                                                                                     customAccessoryViewExtendsToEdge: customAccessoryViewExtendsToEdge,
                                                                                                     accessoryType: _accessoryType,
                                                                                                     paddingTrailing: paddingTrailing)
-            let yOffset = UIScreen.main.roundToDevicePixels((contentView.frame.height - _accessoryType.size.height) / 2)
+            let yOffset = ceil((contentView.frame.height - _accessoryType.size.height) / 2)
             accessoryTypeView.frame = CGRect(origin: CGPoint(x: xOffset, y: yOffset), size: _accessoryType.size)
         }
     }
@@ -1636,7 +1637,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         }
 
         if let leadingAccessoryView = leadingAccessoryView {
-            let yOffset = UIScreen.main.roundToDevicePixels(topOffset + (size.height - leadingAccessoryViewSize.height) / 2)
+            let yOffset = ceil(topOffset + (size.height - leadingAccessoryViewSize.height) / 2)
             leadingAccessoryView.frame = CGRect(
                 x: textAreaLeadingOffset,
                 y: yOffset,
@@ -1665,7 +1666,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         )
 
         if let trailingAccessoryView = trailingAccessoryView {
-            let yOffset = UIScreen.main.roundToDevicePixels(topOffset + (labelSize.height - trailingAccessoryViewSize.height) / 2)
+            let yOffset = ceil(topOffset + (labelSize.height - trailingAccessoryViewSize.height) / 2)
             let availableWidth = textAreaWidth - labelSize.width - leadingAccessoryAreaWidth
             let leadingMargin = TableViewCell.labelTrailingAccessoryMarginLeading(text: visibleText,
                                                                                   labelAccessoryViewMarginLeading: tokenSet[.labelAccessoryViewMarginLeading].float)
