@@ -1277,7 +1277,8 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
 
         setupBackgroundColors()
 
-        hideSystemSeparator()
+        // hide system separator so we can draw our own. We prefer the container UITableView to set separatorStyle = .none
+        separatorInset = UIEdgeInsets(top: 0, left: CGFloat.greatestFiniteMagnitude, bottom: 0, right: 0)
         updateSeparator(topSeparator, with: topSeparatorType)
         updateSeparator(bottomSeparator, with: bottomSeparatorType)
 
