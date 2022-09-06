@@ -603,7 +603,7 @@ open class DrawerController: UIViewController {
     private func updatePreferredContentSize(isExpanded: Bool) {
         isPreferredContentSizeBeingChangedInternally = true
         if isExpanded {
-            let screenHeight: CGFloat = UIScreen.main.bounds.height
+            let screenHeight: CGFloat = view.window?.screen.bounds.height ?? 0
             if preferredMaximumExpansionHeight != -1 &&
                 preferredMaximumExpansionHeight < screenHeight &&
                 preferredMaximumExpansionHeight >= originalDrawerHeight {

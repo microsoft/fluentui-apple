@@ -194,7 +194,7 @@ class DrawerPresentationController: UIPresentationController {
             return presentationOrigin
         }
 
-        let containerBounds = containerView?.bounds ?? UIScreen.main.bounds
+        let containerBounds = containerView?.bounds ?? (sourceViewController.view.window?.screen.bounds ?? .zero)
         switch presentationDirection {
         case .down:
             var controller = sourceViewController
@@ -303,8 +303,9 @@ class DrawerPresentationController: UIPresentationController {
                         return false
                     }
 
+                    let screenHeight = sourceViewController.view.window?.screen.bounds.height ?? 0
                     return (presentationDirection == .down && origin.y < 0) ||
-                           (presentationDirection == .up && (origin.y + presentedViewFrame.height - UIScreen.main.bounds.height) > 0)
+                           (presentationDirection == .up && (origin.y + presentedViewFrame.height - screenHeight) > 0)
                 }()
 
                 presentedViewController.additionalSafeAreaInsets = isVerticallyPresentedViewPartiallyOffScreen ? contentView.safeAreaInsets : .zero
