@@ -35,10 +35,10 @@ public extension View {
 }
 
 public extension FluentNotification {
-    /// An optional gradient to use as the background of the notification.
+    /// An optional linear gradient to use as the background of the notification.
     ///
     /// If this property is nil, then this notification will use the background color defined by its design tokens.
-    func backgroundGradient(_ gradientInfo: GradientInfo?) -> FluentNotification {
+    func backgroundGradient(_ gradientInfo: LinearGradientInfo?) -> FluentNotification {
         state.backgroundGradient = gradientInfo
         return self
     }
