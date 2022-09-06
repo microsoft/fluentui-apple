@@ -34,7 +34,6 @@ class CalendarView: UIView {
         collectionViewLayout = CalendarViewLayout()
 
         collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: collectionViewLayout)
-        collectionView.backgroundColor = Colors.Calendar.background
         collectionView.showsVerticalScrollIndicator = false
         collectionView.scrollsToTop = false
         // Enable multiple selection to allow for one cell to be selected and another cell to be highlighted simultaneously
@@ -43,6 +42,8 @@ class CalendarView: UIView {
         collectionViewSeparator = Separator(style: .default)
 
         super.init(frame: .zero)
+
+        collectionView.backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background2])
 
         addSubview(weekdayHeadingView)
         addSubview(collectionView)
