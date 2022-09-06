@@ -267,7 +267,7 @@ open class BadgeField: UIView {
         let contentHeight = self.contentHeight(forBoundingWidth: bounds.width)
         // Give the view controller a chance to relayout itself if necessary
         cachedContentHeight = contentHeight
-        let topMargin = UIScreen.main.middleOrigin(frame.height, containedSizeValue: contentHeight)
+        let topMargin = ceil((frame.height - contentHeight) / 2.0)
 
         var left = labelViewRightOffset
         var lineIndex = 0
@@ -286,7 +286,7 @@ open class BadgeField: UIView {
 
         let textFieldSize = textField.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
         let textFieldHeight = UIScreen.main.roundToDevicePixels(textFieldSize.height)
-        let textFieldVerticalOffset = UIScreen.main.middleOrigin(badgeHeight, containedSizeValue: textFieldHeight)
+        let textFieldVerticalOffset = ceil((badgeHeight - textFieldHeight) / 2.0)
         let shouldAppendToCurrentLine = left + Constants.textFieldMinWidth <= frame.width
         if !shouldAppendToCurrentLine {
             lineIndex += 1
@@ -390,7 +390,7 @@ open class BadgeField: UIView {
     private func frameForBadge(_ badgeToInsert: BadgeView, boundingWidth: CGFloat) -> CGRect {
         let badges = currentBadges
         let contentHeight = self.contentHeight(forBoundingWidth: bounds.width)
-        let topMargin = UIScreen.main.middleOrigin(frame.height, containedSizeValue: contentHeight)
+        let topMargin = ceil((frame.height - contentHeight) / 2.0)
         var left = labelViewRightOffset
         var lineIndex = 0
 
