@@ -60,13 +60,13 @@ class CalendarViewDayMonthCell: CalendarViewDayCell {
 
     override init(frame: CGRect) {
         monthLabel = UILabel(frame: CGRect.zero)
-        monthLabel.font = Fonts.caption1.withSize(12)
         monthLabel.textAlignment = .center
-        monthLabel.textColor = Colors.Calendar.Day.textPrimary
         monthLabel.showsLargeContentViewer = true
 
         super.init(frame: frame)
 
+        monthLabel.font = UIFont.fluent(fluentTheme.aliasTokens.typography[.caption2])
+        monthLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground3])
         contentView.addSubview(monthLabel)
     }
 
@@ -84,9 +84,9 @@ class CalendarViewDayMonthCell: CalendarViewDayCell {
 
         switch textStyle {
         case .primary:
-            monthLabel.textColor = Colors.Calendar.Day.textPrimary
+            monthLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground3])
         case .secondary:
-            monthLabel.textColor = Colors.Calendar.Day.textSecondary
+            monthLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
         }
 
         monthLabel.text = monthLabelText
