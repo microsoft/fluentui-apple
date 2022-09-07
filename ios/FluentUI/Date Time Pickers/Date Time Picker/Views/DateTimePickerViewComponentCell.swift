@@ -12,7 +12,6 @@ class DateTimePickerViewComponentCell: UITableViewCell {
     private struct Constants {
         static let baseHeight: CGFloat = 45
         static let verticalPadding: CGFloat = 12
-        static let maximumFontSize: CGFloat = 33.0
     }
 
     static let identifier: String = "DateTimePickerViewComponentCell"
@@ -36,7 +35,7 @@ class DateTimePickerViewComponentCell: UITableViewCell {
 
         textLabel?.textAlignment = .center
         textLabel?.showsLargeContentViewer = true
-        textLabel?.font = UIFontMetrics.default.scaledFont(for: UIFont.fluent(fluentTheme.aliasTokens.typography[.body1], shouldScale: false), maximumPointSize: Constants.maximumFontSize)
+        textLabel?.font = UIFont.fluent(fluentTheme.aliasTokens.typography[.body1])
     }
 
     required init?(coder aDecoder: NSCoder) {
