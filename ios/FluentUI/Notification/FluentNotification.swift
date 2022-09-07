@@ -229,9 +229,9 @@ public struct FluentNotification: View, TokenizedControlView {
                     textContainer
                     Spacer()
                 }
-                .frame(minHeight: Self.minimumHeight)
+                .frame(minHeight: tokenSet[.minimumHeight].float)
             } else {
-                let horizontalSpacing = Self.horizontalSpacing
+                let horizontalSpacing = tokenSet[.horizontalSpacing].float
                 HStack(spacing: isFlexibleWidthToast ? horizontalSpacing : 0) {
                     HStack(spacing: horizontalSpacing) {
                         image
@@ -251,7 +251,7 @@ public struct FluentNotification: View, TokenizedControlView {
                 .onSizeChange { newSize in
                     innerContentsSize = newSize
                 }
-                .frame(minHeight: Self.minimumHeight)
+                .frame(minHeight: tokenSet[.minimumHeight].float)
                 .padding(.horizontal, Self.horizontalPadding)
                 .clipped()
             }
@@ -409,13 +409,6 @@ public struct FluentNotification: View, TokenizedControlView {
 
     /// The value for the vertical padding between the elements within a multi-line notification and its frame
     private static let verticalPadding: CGFloat = GlobalTokens.spacing(.small)
-
-    /// The value for the horizontal spacing between the elements within a notification
-    private static let horizontalSpacing: CGFloat = GlobalTokens.spacing(.medium)
-
-    /// The value for the minimum height of a multi-line notification
-    private static let minimumHeight: CGFloat = 52.0
-
 }
 
 class MSFNotificationStateImpl: ControlState, MSFNotificationState {
