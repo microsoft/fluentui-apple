@@ -62,6 +62,7 @@ public struct ShimmerLinesView: View, TokenizedControlView {
         .onSizeChange { newSize in
             containerSize = newSize
         }
+        .accessibilityLabel("Accessibility.Shimmer.Loading".localized)
     }
 
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
