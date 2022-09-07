@@ -184,10 +184,10 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     var tokenSetSink: AnyCancellable?
 
     @objc func themeDidChange(_ notification: Notification) {
-        guard let window = window, window.isEqual(notification.object) else {
+        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
             return
         }
-        tokenSet.update(window.fluentTheme)
+        tokenSet.update(fluentTheme)
         updateAppearance()
     }
 
