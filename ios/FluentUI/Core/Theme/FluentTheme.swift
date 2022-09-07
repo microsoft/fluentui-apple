@@ -57,27 +57,32 @@ public extension Notification.Name {
     static let didChangeTheme = Notification.Name("FluentUI.stylesheet.theme")
 }
 
-extension UIWindow: FluentThemeable {
+@objc extension UIView: FluentThemeable {
     private struct Keys {
         static var fluentTheme: String = "fluentTheme_key"
+        static var cachedFluentTheme: String = "cachedFluentTheme_key"
     }
 
-    /// The custom `FluentTheme` to apply to this window.
-    public override var fluentTheme: FluentTheme {
+    /// The custom `FluentTheme` to apply to this view.
+    public var fluentTheme: FluentTheme {
         get {
-            return objc_getAssociatedObject(self, &Keys.fluentTheme) as? FluentTheme ?? FluentThemeKey.defaultValue
+            var optionalView: UIView? = self
+            while let view = optionalView {
+                // If we successfully find a theme, return it.
+                if let theme = objc_getAssociatedObject(view, &Keys.fluentTheme) as? FluentTheme {
+                    return theme
+                } else {
+                    optionalView = view.superview
+                }
+            }
+
+            // No custom themes anywhere, so return the default theme
+            return FluentTheme.shared
         }
         set {
             objc_setAssociatedObject(self, &Keys.fluentTheme, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             NotificationCenter.default.post(name: .didChangeTheme, object: self)
         }
-    }
-}
-
-@objc public extension UIView {
-    /// Returns the current view's window's `FluentTheme`, or the default `FluentTheme` if no window yet exists.
-    var fluentTheme: FluentTheme {
-        return self.window?.fluentTheme ?? FluentThemeKey.defaultValue
     }
 }
 
