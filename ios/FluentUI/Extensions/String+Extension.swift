@@ -17,13 +17,14 @@ extension String {
     }
 
     func preferredSize(for font: UIFont, width: CGFloat = .greatestFiniteMagnitude, numberOfLines: Int = 0) -> CGSize {
+        let lineHeightWithLeading = ceil(font.lineHeight + max(0, font.leading))
         if numberOfLines == 1 {
             return CGSize(
-                width: UIScreen.main.roundToDevicePixels(min(self.size(withAttributes: [.font: font]).width, width)),
-                height: font.deviceLineHeightWithLeading
+                width: ceil(min(self.size(withAttributes: [.font: font]).width, width)),
+                height: lineHeightWithLeading
             )
         }
-        let maxHeight = numberOfLines > 1 ? font.deviceLineHeightWithLeading * CGFloat(numberOfLines) : .greatestFiniteMagnitude
+        let maxHeight = numberOfLines > 1 ? lineHeightWithLeading * CGFloat(numberOfLines) : .greatestFiniteMagnitude
         let rect = self.boundingRect(
             with: CGSize(width: width, height: maxHeight),
             options: [.usesLineFragmentOrigin, .usesFontLeading],
@@ -31,8 +32,8 @@ extension String {
             context: nil
         )
         return CGSize(
-            width: UIScreen.main.roundToDevicePixels(rect.width),
-            height: UIScreen.main.roundToDevicePixels(rect.height)
+            width: ceil(rect.width),
+            height: ceil(rect.height)
         )
     }
 }
