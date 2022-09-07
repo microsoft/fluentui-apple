@@ -175,7 +175,7 @@
 		92B7E6A326864AE900EFC15E /* MSFPersonaButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92B7E6A12684262900EFC15E /* MSFPersonaButton.swift */; };
 		92D49054278FF4E50085C018 /* PersonaButtonCarouselModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D49053278FF4E50085C018 /* PersonaButtonCarouselModifiers.swift */; };
 		92D5598226A0FD2800328FD3 /* CardNudge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D5598026A0FD2800328FD3 /* CardNudge.swift */; };
-		92D5FDFB28A713990087894B /* GradientInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D5FDFA28A713990087894B /* GradientInfo.swift */; };
+		92D5FDFB28A713990087894B /* LinearGradientInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D5FDFA28A713990087894B /* LinearGradientInfo.swift */; };
 		92DEE2252723D34400E31ED0 /* ControlTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92DEE2232723D34400E31ED0 /* ControlTokenSet.swift */; };
 		92E7AD5026FE51FF00AE7FF8 /* DynamicColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E7AD4E26FE51FF00AE7FF8 /* DynamicColor.swift */; };
 		92EE82AE27025A94009D52B5 /* TokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92EE82AC27025A94009D52B5 /* TokenSet.swift */; };
@@ -288,7 +288,7 @@
 		92B7E6A12684262900EFC15E /* MSFPersonaButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFPersonaButton.swift; sourceTree = "<group>"; };
 		92D49053278FF4E50085C018 /* PersonaButtonCarouselModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaButtonCarouselModifiers.swift; sourceTree = "<group>"; };
 		92D5598026A0FD2800328FD3 /* CardNudge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardNudge.swift; sourceTree = "<group>"; };
-		92D5FDFA28A713990087894B /* GradientInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientInfo.swift; sourceTree = "<group>"; };
+		92D5FDFA28A713990087894B /* LinearGradientInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinearGradientInfo.swift; sourceTree = "<group>"; };
 		92DEE2232723D34400E31ED0 /* ControlTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlTokenSet.swift; sourceTree = "<group>"; };
 		92E7AD4E26FE51FF00AE7FF8 /* DynamicColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicColor.swift; sourceTree = "<group>"; };
 		92EE82AC27025A94009D52B5 /* TokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenSet.swift; sourceTree = "<group>"; };
@@ -722,7 +722,7 @@
 				92E7AD4E26FE51FF00AE7FF8 /* DynamicColor.swift */,
 				925728F8276D6B5800EE1019 /* FontInfo.swift */,
 				925D461B26FD133600179583 /* GlobalTokens.swift */,
-				92D5FDFA28A713990087894B /* GradientInfo.swift */,
+				92D5FDFA28A713990087894B /* LinearGradientInfo.swift */,
 				925728F6276D6AF800EE1019 /* ShadowInfo.swift */,
 				923DB9D2274CB65700D8E58A /* TokenizedControl.swift */,
 				922A34DE27BB87990062721F /* TokenizedControlView.swift */,
@@ -1395,7 +1395,7 @@
 				5314E1A725F01A7C0099271A /* ActionsCell.swift in Sources */,
 				5314E07B25F00F1A0099271A /* DateTimePickerViewDataSource.swift in Sources */,
 				532FE3D426EA6D74007539C0 /* ActivityIndicatorTokenSet.swift in Sources */,
-				92D5FDFB28A713990087894B /* GradientInfo.swift in Sources */,
+				92D5FDFB28A713990087894B /* LinearGradientInfo.swift in Sources */,
 				53E2EE07278799B30086D30D /* MSFIndeterminateProgressBar.swift in Sources */,
 				532FE3D626EA6D74007539C0 /* ActivityIndicatorModifiers.swift in Sources */,
 				5314E2F525F025C60099271A /* CalendarConfiguration.swift in Sources */,
