@@ -44,6 +44,7 @@ class SegmentPillButton: UIButton {
                                                   right: Constants.insets.trailing)
         }
 
+        // TODO: Once iOS 14 support is dropped, set title, etc., in configuration
         let title = item.title
         if let image = item.image {
             self.setImage(image, for: .normal)
