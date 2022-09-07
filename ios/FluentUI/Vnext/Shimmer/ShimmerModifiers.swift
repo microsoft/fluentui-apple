@@ -5,6 +5,26 @@
 
 import SwiftUI
 
+public extension ShimmerView {
+    /// Sets the accessibility label for the Shimmer.
+    /// - Parameter accessibilityLabel: Accessibility label string.
+    /// - Returns: The modified Shimmer with the property set.
+    func accessibilityLabel(_ accessibilityLabel: String?) -> ShimmerView {
+        state.accessibilityLabel = accessibilityLabel
+        return self
+    }
+}
+
+public extension ShimmerLinesView {
+    /// Sets the accessibility label for the ShimmerLines.
+    /// - Parameter accessibilityLabel: Accessibility label string.
+    /// - Returns: The modified ShimmerLines with the property set.
+    func accessibilityLabel(_ accessibilityLabel: String?) -> ShimmerLinesView {
+        state.accessibilityLabel = accessibilityLabel
+        return self
+    }
+}
+
 public extension View {
     /// Adds an animated shimmering effect to any view.
     /// - Parameters:
@@ -19,13 +39,15 @@ public extension View {
                                  usesTextHeightForLabels: Bool = false,
                                  animationId: Namespace.ID,
                                  isLabel: Bool = false,
-                                 isShimmering: Bool = true) -> some View {
+                                 isShimmering: Bool = true,
+                                 accessibilityLabel: String? = nil) -> some View {
         modifier(ShimmerView(tokenSet: ShimmerTokenSet(style: { style }),
                              state: MSFShimmerStateImpl(style: style,
                                                         shouldAddShimmeringCover: shouldAddShimmeringCover,
                                                         usesTextHeightForLabels: usesTextHeightForLabels),
                              animationId: animationId,
                              isLabel: isLabel,
-                             isShimmering: isShimmering))
+                             isShimmering: isShimmering)
+            .accessibilityLabel(accessibilityLabel))
     }
 }

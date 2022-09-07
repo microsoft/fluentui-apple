@@ -19,6 +19,9 @@ public protocol MSFShimmerLinesState {
 
     /// The percent the last line should fill the available horizontal space.
     var lastLineFillPercent: CGFloat? { get set }
+
+    /// Sets the accessibility label for the Shimmer.
+    var accessibilityLabel: String? { get set }
 }
 
 /// View that represents the ShimmerLines view.
@@ -46,6 +49,14 @@ public struct ShimmerLinesView: View, TokenizedControlView {
     }
 
     public var body: some View {
+        let accessibilityLabel: String = {
+            guard let overriddenAccessibilityLabel = state.accessibilityLabel else {
+                return "Accessibility.Shimmer.Loading".localized
+            }
+
+            return overriddenAccessibilityLabel
+        }()
+
         ShimmerLinesShape(lineCount: state.lineCount,
                           firstLineFillPercent: state.firstLineFillPercent,
                           lastLineFillPercent: state.lastLineFillPercent,
@@ -57,12 +68,12 @@ public struct ShimmerLinesView: View, TokenizedControlView {
                     shouldAddShimmeringCover: false,
                     usesTextHeightForLabels: false,
                     animationId: namespace,
-                    isLabel: false)
+                    isLabel: false,
+                    accessibilityLabel: accessibilityLabel)
         .frame(maxWidth: .infinity, maxHeight: state.lineCount == 0 ? .infinity : (CGFloat(state.lineCount - 1) * tokenSet[.labelSpacing].float) + (CGFloat(state.lineCount) * tokenSet[.labelHeight].float))
         .onSizeChange { newSize in
             containerSize = newSize
         }
-        .accessibilityLabel("Accessibility.Shimmer.Loading".localized)
     }
 
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme

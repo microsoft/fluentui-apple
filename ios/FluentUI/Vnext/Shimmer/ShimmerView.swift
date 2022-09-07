@@ -16,6 +16,9 @@ import SwiftUI
 
     /// Whether to use the height of the view (if the view is a label), else default to token value.
     var usesTextHeightForLabels: Bool { get set }
+
+    /// Sets the accessibility label for the Shimmer.
+    var accessibilityLabel: String? { get set }
 }
 
 /// View Modifier that adds a "shimmering" effect to any view.
@@ -24,6 +27,14 @@ public struct ShimmerView: ViewModifier, TokenizedControlView {
     @ObservedObject public var tokenSet: ShimmerTokenSet
 
     public func body(content: Content) -> some View {
+        let accessibilityLabel: String = {
+            guard let overriddenAccessibilityLabel = state.accessibilityLabel else {
+                return "Accessibility.Shimmer.Loading".localized
+            }
+
+            return overriddenAccessibilityLabel
+        }()
+
         content
             .modifyIf(isShimmering, { view in
                 view
@@ -48,7 +59,7 @@ public struct ShimmerView: ViewModifier, TokenizedControlView {
                     .flipsForRightToLeftLayoutDirection(true)
                     .matchedGeometryEffect(id: UUID(), in: self.animationId)
                     .accessibilityElement()
-                    .accessibilityLabel("Accessibility.Shimmer.Loading".localized)
+                    .accessibilityLabel(accessibilityLabel)
             })
     }
 
