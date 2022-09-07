@@ -51,10 +51,10 @@ import SwiftUI
     /// Defines whether the notification shows from the bottom of the presenting view or the top.
     var showFromBottom: Bool { get set }
 
-    /// An optional gradient to use as the background of the notification.
+    /// An optional linear gradient to use as the background of the notification.
     ///
     /// If this property is nil, then this notification will use the background color defined by its design tokens.
-    var backgroundGradient: GradientInfo? { get set }
+    var backgroundGradient: LinearGradientInfo? { get set }
 }
 
 /// View that represents the Notification.
@@ -428,7 +428,7 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
     @Published var trailingImageAccessibilityLabel: String?
     @Published var showDefaultDismissActionButton: Bool
     @Published var showFromBottom: Bool
-    @Published var backgroundGradient: GradientInfo?
+    @Published var backgroundGradient: LinearGradientInfo?
 
     /// Title to display in the action button on the trailing edge of the control.
     ///

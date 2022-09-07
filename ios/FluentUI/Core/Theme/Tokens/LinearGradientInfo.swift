@@ -7,9 +7,9 @@ import CoreGraphics
 import Foundation
 import SwiftUI
 
-/// Represents a gradient as used by FluentUI.
-@objc public class GradientInfo: NSObject {
-    /// Initializes a gradient to be used in Fluent.
+/// Represents a linear gradient as used by FluentUI.
+@objc public class LinearGradientInfo: NSObject {
+    /// Initializes a linear gradient to be used in Fluent.
     ///
     /// - Parameters:
     ///   - colors: The array of colors to apply to this linear gradient.
@@ -45,7 +45,7 @@ import SwiftUI
 
 extension LinearGradient {
     /// Internal property to generate a SwiftUI `LinearGradient` from a gradient info.
-    init(gradientInfo: GradientInfo) {
+    init(gradientInfo: LinearGradientInfo) {
         if let locations = gradientInfo.locations {
             // Map the colors and locations together.
             let stops: [Gradient.Stop] = zip(gradientInfo.colors, locations).map({ (color, location) in
