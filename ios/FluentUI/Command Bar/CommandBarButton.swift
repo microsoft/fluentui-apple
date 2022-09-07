@@ -58,6 +58,18 @@ class CommandBarButton: UIButton {
         showsMenuAsPrimaryAction = item.showsMenuAsPrimaryAction
 
         updateState()
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        guard let window = window, window.isEqual(notification.object) else {
+            return
+        }
+        updateStyle()
     }
 
     @available(*, unavailable)
