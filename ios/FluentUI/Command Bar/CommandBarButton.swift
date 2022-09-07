@@ -113,13 +113,23 @@ class CommandBarButton: UIButton {
     }
 
     private var selectedTintColor: UIColor {
+        guard let darkColorValue = fluentTheme.aliasTokens.colors[.foreground1].dark else {
+            return UIColor(light: UIColor(colorValue: fluentTheme.aliasTokens.colors[.brandForeground4].light),
+                           dark: UIColor(colorValue: GlobalTokens.neutralColors(.white)))
+        }
+
         return UIColor(light: UIColor(colorValue: fluentTheme.aliasTokens.colors[.brandForeground4].light),
-                       dark: UIColor(colorValue: fluentTheme.aliasTokens.colors[.foreground1].dark!))
+                       dark: UIColor(colorValue: darkColorValue))
     }
 
     private var selectedBackgroundColor: UIColor {
+        guard let darkColorValue = fluentTheme.aliasTokens.colors[.background5Selected].dark else {
+            return UIColor(light: UIColor(colorValue: fluentTheme.aliasTokens.colors[.brandBackground4].light),
+                           dark: UIColor(colorValue: GlobalTokens.neutralColors(.grey38)))
+        }
+
         return UIColor(light: UIColor(colorValue: fluentTheme.aliasTokens.colors[.brandBackground4].light),
-                       dark: UIColor(colorValue: fluentTheme.aliasTokens.colors[.background5Selected].dark!))
+                       dark: UIColor(colorValue: darkColorValue))
     }
 
     private var normalBackgroundColor: UIColor {
