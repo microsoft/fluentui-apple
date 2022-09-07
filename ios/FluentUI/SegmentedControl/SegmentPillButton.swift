@@ -32,7 +32,17 @@ class SegmentPillButton: UIButton {
         self.item = item
         super.init(frame: .zero)
 
-        self.contentEdgeInsets = Constants.insets
+        if #available(iOS 15.0, *) {
+            var configuration = UIButton.Configuration.plain()
+            configuration.contentInsets = Constants.insets
+            configuration.background.backgroundColor = .clear
+            self.configuration = configuration
+        } else {
+            self.contentEdgeInsets = UIEdgeInsets(top: Constants.insets.top,
+                                                  left: Constants.insets.leading,
+                                                  bottom: Constants.insets.bottom,
+                                                  right: Constants.insets.trailing)
+        }
 
         let title = item.title
         if let image = item.image {
@@ -93,6 +103,6 @@ class SegmentPillButton: UIButton {
         static let fontSize: CGFloat = 16
         static let unreadDotOffset = CGPoint(x: 6, y: 3)
         static let unreadDotSize: CGFloat = 6
-        static let insets = UIEdgeInsets(top: 6, left: 16, bottom: 6, right: 16)
+        static let insets = NSDirectionalEdgeInsets(top: 6, leading: 16, bottom: 6, trailing: 16)
     }
 }
