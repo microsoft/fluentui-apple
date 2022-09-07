@@ -33,7 +33,19 @@ open class ResizingHandleView: UIView {
         isUserInteractionEnabled = false
         updateMarkLayerBackgroundColor()
         layer.addSublayer(markLayer)
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
     }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+       guard let window = window, window.isEqual(notification.object) else {
+           return
+       }
+        updateMarkLayerBackgroundColor()
+   }
 
     private func updateMarkLayerBackgroundColor() {
         markLayer.backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.stroke1]).cgColor
