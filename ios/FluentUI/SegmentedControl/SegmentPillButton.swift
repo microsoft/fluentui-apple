@@ -32,10 +32,21 @@ class SegmentPillButton: UIButton {
         titleLabel?.font = UIFont.fluent(tokenSet[.font].fontInfo, shouldScale: false)
         let verticalInset = tokenSet[.verticalInset].float
         let horizontalInset = tokenSet[.horizontalInset].float
-        contentEdgeInsets = UIEdgeInsets(top: verticalInset,
-                                         left: horizontalInset,
-                                         bottom: verticalInset,
-                                         right: horizontalInset)
+        // TODO: Fix unaligned masked content
+        if #available(iOS 15.0, *) {
+            var configuration = UIButton.Configuration.plain()
+            configuration.contentInsets = NSDirectionalEdgeInsets(top: verticalInset,
+                                                                  leading: horizontalInset,
+                                                                  bottom: verticalInset,
+                                                                  trailing: horizontalInset)
+            configuration.background.backgroundColor = .clear
+            self.configuration = configuration
+        } else {
+            self.contentEdgeInsets = UIEdgeInsets(top: verticalInset,
+                                                  left: horizontalInset,
+                                                  bottom: verticalInset,
+                                                  right: horizontalInset)
+        }
     }
 
     init(withItem item: SegmentItem, tokenSet: SegmentedControlTokenSet) {
@@ -43,6 +54,7 @@ class SegmentPillButton: UIButton {
         self.tokenSet = tokenSet
         super.init(frame: .zero)
 
+        // TODO: Once iOS 14 support is dropped, set title, etc., in configuration
         let title = item.title
         if let image = item.image {
             self.setImage(image, for: .normal)

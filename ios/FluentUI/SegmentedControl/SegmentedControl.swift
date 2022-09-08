@@ -290,7 +290,7 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
             } else {
                 let maxSize = CGSize(width: CGFloat.greatestFiniteMagnitude,
                                      height: CGFloat.greatestFiniteMagnitude)
-                rightOffset = leftOffset + screen.roundToDevicePixels(button.sizeThatFits(maxSize).width)
+                rightOffset = leftOffset + ceil(button.sizeThatFits(maxSize).width)
             }
             button.frame = CGRect(x: leftOffset,
                                   y: 0,

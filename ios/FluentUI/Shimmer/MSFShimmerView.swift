@@ -108,7 +108,7 @@ import Combine
             if let label = subview as? UILabel {
                 let viewLabelHeight: CGFloat? = {
                     if usesTextHeightForLabels {
-                        return label.font.deviceLineHeight
+                        return ceil(label.font.lineHeight)
                     } else {
                         return tokenSet[.labelHeight].float
                     }
