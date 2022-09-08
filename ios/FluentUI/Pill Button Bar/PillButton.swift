@@ -19,8 +19,7 @@ open class PillButton: UIButton, TokenizedControlInternal {
         updateAppearance()
     }
 
-    @objc public init(pillBarItem: PillButtonBarItem,
-                      style: PillButtonStyle = .primary) {
+    @objc public init(pillBarItem: PillButtonBarItem, style: PillButtonStyle = .primary) {
         self.pillBarItem = pillBarItem
         self.style = style
         self.tokenSet = PillButtonTokenSet(style: { style })
@@ -122,6 +121,12 @@ open class PillButton: UIButton, TokenizedControlInternal {
         layer.cornerCurve = .continuous
         largeContentTitle = titleLabel?.text
         showsLargeContentViewer = true
+
+        contentEdgeInsets = UIEdgeInsets(top: Constants.topInset,
+                                         left: Constants.horizontalInset,
+                                         bottom: Constants.bottomInset,
+                                         right: Constants.horizontalInset)
+
     }
 
     private func updateAccessibilityTraits() {

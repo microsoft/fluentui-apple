@@ -336,15 +336,8 @@ open class PillButtonBar: UIScrollView, TokenizedControlInternal {
         buttonExtraSidePadding = ceil(totalPadding / CGFloat(buttonEdges))
         for button in buttons {
             button.layoutIfNeeded()
-
-            if #available(iOS 15.0, *) {
-                button.configuration?.contentInsets.leading += buttonExtraSidePadding
-                button.configuration?.contentInsets.trailing += buttonExtraSidePadding
-            } else {
-                button.contentEdgeInsets.right += buttonExtraSidePadding
-                button.contentEdgeInsets.left += buttonExtraSidePadding
-            }
-
+            button.contentEdgeInsets.right += buttonExtraSidePadding
+            button.contentEdgeInsets.left += buttonExtraSidePadding
             button.layoutIfNeeded()
         }
     }

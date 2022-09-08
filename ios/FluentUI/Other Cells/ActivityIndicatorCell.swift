@@ -69,7 +69,7 @@ open class ActivityIndicatorCell: UITableViewCell, TokenizedControlInternal {
         super.layoutSubviews()
         let activityIndicatorView = activityIndicator
         activityIndicatorView.sizeToFit()
-        activityIndicatorView.center = CGPoint(x: UIScreen.main.roundToDevicePixels(contentView.frame.width / 2), y: UIScreen.main.roundToDevicePixels(contentView.frame.height / 2))
+        activityIndicatorView.center = CGPoint(x: ceil(contentView.frame.width / 2), y: ceil(contentView.frame.height / 2))
     }
 
     open override func didMoveToWindow() {
