@@ -132,8 +132,7 @@ public struct FluentNotification: View, TokenizedControlView {
             if state.style.isToast {
                 if let image = state.image {
                     let imageSize = image.size
-                    Image(uiImage: image)
-                        .renderingMode(.template)
+                    Image(uiImage: image.renderingMode == .automatic ? image.withRenderingMode(.alwaysTemplate) : image)
                         .frame(width: imageSize.width,
                                height: imageSize.height,
                                alignment: .center)
