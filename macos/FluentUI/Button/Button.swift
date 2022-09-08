@@ -342,10 +342,13 @@ open class Button: NSButton {
 
 	private static let borderWidth: CGFloat = 1
 
+	private var minButtonHeight: CGFloat?
+
 	private func setSizeParameters(forSize: ButtonSize) {
 		let parameters = ButtonSizeParameters.parameters(forSize: size)
 		font = NSFont.systemFont(ofSize: parameters.fontSize)
 		cornerRadius = parameters.cornerRadius
+		minButtonHeight = parameters.minButtonHeight
 		guard let cell = cell as? ButtonCell else {
 			return
 		}
@@ -367,6 +370,17 @@ open class Button: NSButton {
 			invalidateIntrinsicContentSize()
 			needsDisplay = true
 		}
+	}
+
+	open override var intrinsicContentSize: CGSize {
+		let superSize = super.intrinsicContentSize
+		let height = { () -> CGFloat in
+			if let minButtonHeight = self.minButtonHeight {
+				return superSize.height <= minButtonHeight ? minButtonHeight : superSize.height
+			}
+			return superSize.height
+		}
+		return CGSize(width: superSize.width, height: height())
 	}
 }
 
@@ -588,6 +602,7 @@ private struct ButtonSizeParameters {
 	fileprivate let titleVerticalPositionAdjustment: CGFloat
 	fileprivate let titleToImageSpacing: CGFloat
 	fileprivate let titleToImageVerticalSpacingAdjustment: CGFloat
+	fileprivate var minButtonHeight: CGFloat?
 
 	static let large = ButtonSizeParameters(
 		fontSize: 15,  // line height: 19
@@ -602,11 +617,12 @@ private struct ButtonSizeParameters {
 	static let medium = ButtonSizeParameters(
 		fontSize: 13,  // line height: 17
 		cornerRadius: 6,
-		verticalPadding: 2.0,  // overall height: 24
+		verticalPadding: 2.0, // overall height: 24
 		horizontalPadding: 5,
 		titleVerticalPositionAdjustment: 0,
 		titleToImageSpacing: 3,
-		titleToImageVerticalSpacingAdjustment: 7
+		titleToImageVerticalSpacingAdjustment: 7,
+		minButtonHeight: 24
 	)
 
 	static let small = ButtonSizeParameters(
