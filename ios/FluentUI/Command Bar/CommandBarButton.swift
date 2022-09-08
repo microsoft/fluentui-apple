@@ -59,6 +59,13 @@ class CommandBarButton: UIButton {
             accessibilityLabel = (accessibilityDescription != nil) ? accessibilityDescription : item.title
             accessibilityHint = item.accessibilityHint
 
+            /// Large content viewer
+            addInteraction(UILargeContentViewerInteraction())
+            showsLargeContentViewer = true
+            scalesLargeContentImage = true
+            largeContentImage = item.iconImage
+            largeContentTitle = item.title
+
             menu = item.menu
             showsMenuAsPrimaryAction = item.showsMenuAsPrimaryAction
         }
