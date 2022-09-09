@@ -332,8 +332,8 @@ open class BadgeView: UIView {
 
     private var labelSize: CGSize {
         let size = label.sizeThatFits(CGSize(width: CGFloat.infinity, height: CGFloat.infinity))
-        let width = UIScreen.main.roundToDevicePixels(size.width)
-        let height = UIScreen.main.roundToDevicePixels(size.height)
+        let width = ceil(size.width)
+        let height = ceil(size.height)
         return CGSize(width: width, height: height)
     }
 

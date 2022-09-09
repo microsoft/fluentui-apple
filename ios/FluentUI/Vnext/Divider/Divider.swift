@@ -71,7 +71,7 @@ class MSFDividerStateImpl: ControlState, MSFDividerState {
 
     @Published var spacing: MSFDividerSpacing
 
-    let thickness: CGFloat = UIScreen.main.devicePixel
+    let thickness: CGFloat = DividerTokenSet.thickness
 
     init(orientation: MSFDividerOrientation,
          spacing: MSFDividerSpacing) {
