@@ -1612,7 +1612,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         }
 
         layoutSeparator(topSeparator, with: topSeparatorType, at: 0)
-        layoutSeparator(bottomSeparator, with: bottomSeparatorType, at: frame.height - bottomSeparator.state.thickness)
+        layoutSeparator(bottomSeparator, with: bottomSeparatorType, at: frame.height - MSFDivider.thickness)
     }
 
     private func layoutLabelViews(label: UILabel,
@@ -1693,7 +1693,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
             x: separatorLeadingInset(for: type),
             y: verticalOffset,
             width: frame.width - separatorLeadingInset(for: type),
-            height: separator.state.thickness
+            height: MSFDivider.thickness
         )
         separator.flipForRTL()
     }
