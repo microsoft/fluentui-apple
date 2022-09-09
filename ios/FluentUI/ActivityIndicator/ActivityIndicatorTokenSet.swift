@@ -21,9 +21,6 @@ public class ActivityIndicatorTokenSet: ControlTokenSet<ActivityIndicatorTokenSe
         /// The default color of the Activity Indicator.
         case defaultColor
 
-        /// The value for the side of the square frame of an Activity Indicator.
-        case side
-
         /// The value for the thickness of the ActivityIndicator ring.
         case thickness
     }
@@ -34,22 +31,6 @@ public class ActivityIndicatorTokenSet: ControlTokenSet<ActivityIndicatorTokenSe
             switch token {
             case .defaultColor:
                 return .dynamicColor { theme.aliasTokens.foregroundColors[.neutral4] }
-
-            case .side:
-                return .float {
-                    switch size() {
-                    case .xSmall:
-                        return 12
-                    case .small:
-                        return 16
-                    case .medium:
-                        return 24
-                    case .large:
-                        return 32
-                    case .xLarge:
-                        return 36
-                    }
-                }
 
             case .thickness:
                 return .float {
@@ -70,4 +51,24 @@ public class ActivityIndicatorTokenSet: ControlTokenSet<ActivityIndicatorTokenSe
 
     /// MSFActivityIndicatorSize enumeration value that will define pre-defined values for side and thickness.
     var size: () -> MSFActivityIndicatorSize
+
+}
+
+// MARK: - Constants
+
+extension ActivityIndicatorTokenSet {
+    static func sideLength(size: MSFActivityIndicatorSize) -> CGFloat {
+        switch size {
+        case .xSmall:
+            return 12
+        case .small:
+            return 16
+        case .medium:
+            return 24
+        case .large:
+            return 32
+        case .xLarge:
+            return 36
+        }
+    }
 }

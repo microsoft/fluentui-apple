@@ -81,12 +81,6 @@ public class NotificationTokenSet: ControlTokenSet<NotificationTokenSet.Tokens> 
         /// The value for the bottom padding between the notification and its anchor view
         case bottomPresentationPadding
 
-        /// The value for the horizontal padding between the elements within a notification and its frame
-        case horizontalPadding
-
-        /// The value for the vertical padding between the elements within a multi-line notification and its frame
-        case verticalPadding
-
         /// The value for the horizontal spacing between the elements within a notification
         case horizontalSpacing
 
@@ -116,80 +110,69 @@ public class NotificationTokenSet: ControlTokenSet<NotificationTokenSet.Tokens> 
             case .backgroundColor:
                 return .dynamicColor {
                     switch style() {
-                    case .primaryToast:
-                        return theme.aliasTokens.brandColors[.tint40]
-                    case .neutralToast:
-                        return DynamicColor(light: ColorValue(0xF7F7F7),
-                                            dark: ColorValue(0x393939))
-                    case .primaryBar:
-                        return DynamicColor(light: theme.aliasTokens.brandColors[.tint40].light,
-                                            dark: theme.aliasTokens.brandColors[.tint10].dark)
+                    case .primaryToast,
+                            .primaryBar:
+                        return DynamicColor(light: theme.aliasTokens.brandColors[.tint30].light,
+                                            dark: theme.aliasTokens.brandColors[.primary].dark)
+                    case .neutralToast,
+                            .neutralBar:
+                        return DynamicColor(light: ColorValue(0xE1E1E1),
+                                            dark: ColorValue(0x404040))
                     case .primaryOutlineBar:
-                        return DynamicColor(light: ColorValue(0xFFFFFF),
-                                            dark: ColorValue(0x393939))
-                    case .neutralBar:
-                        return DynamicColor(light: ColorValue(0xDFDFDF),
-                                            dark: ColorValue(0x393939))
+                        return DynamicColor(light: GlobalTokens.neutralColors(.white),
+                                            dark: ColorValue(0x404040))
                     case .dangerToast:
-                        return DynamicColor(light: ColorValue(0xFDF6F6),
-                                            dark: ColorValue(0x3F1011))
+                        return DynamicColor(light: ColorValue(0xF9D9D9),
+                                            dark: ColorValue(0xE83A3A))
                     case .warningToast:
-                        return DynamicColor(light: ColorValue(0xFFFBD6),
-                                            dark: ColorValue(0x4C4400))
+                        return DynamicColor(light: ColorValue(0xFFF8DF),
+                                            dark: ColorValue(0xFFC328))
                     }
                 }
 
             case .foregroundColor:
                 return .dynamicColor {
                     switch style() {
-                    case .primaryToast:
-                        return DynamicColor(light: theme.aliasTokens.brandColors[.shade10].light,
-                                            dark: theme.aliasTokens.brandColors[.shade30].dark)
-                    case .neutralToast:
-                        return DynamicColor(light: ColorValue(0x393939),
-                                            dark: ColorValue(0xF7F7F7))
-                    case .primaryBar:
+                    case .primaryToast,
+                            .primaryBar:
                         return DynamicColor(light: theme.aliasTokens.brandColors[.shade20].light,
-                                            dark: ColorValue(0x000000))
+                                            dark: GlobalTokens.neutralColors(.black))
+                    case .neutralToast,
+                            .neutralBar:
+                        return DynamicColor(light: ColorValue(0x212121),
+                                            dark: GlobalTokens.neutralColors(.white))
                     case .primaryOutlineBar:
                         return DynamicColor(light: theme.aliasTokens.brandColors[.primary].light,
-                                            dark: ColorValue(0xF7F7F7))
-                    case .neutralBar:
-                        return DynamicColor(light: ColorValue(0x090909),
-                                            dark: ColorValue(0xF7F7F7))
+                                            dark: GlobalTokens.neutralColors(.white))
                     case .dangerToast:
-                        return DynamicColor(light: ColorValue(0xBC2F34),
-                                            dark: ColorValue(0xDC5F63))
+                        return DynamicColor(light: ColorValue(0xA52121),
+                                            dark: GlobalTokens.neutralColors(.black))
                     case .warningToast:
-                        return DynamicColor(light: ColorValue(0x4C4400),
-                                            dark: ColorValue(0xFDEA3D))
+                        return DynamicColor(light: ColorValue(0x8F761E),
+                                            dark: GlobalTokens.neutralColors(.black))
                     }
                 }
 
             case .imageColor:
                 return .dynamicColor {
                     switch style() {
-                    case .primaryToast:
-                        return DynamicColor(light: theme.aliasTokens.brandColors[.shade10].light,
-                                            dark: theme.aliasTokens.brandColors[.shade30].dark)
-                    case .neutralToast:
-                        return DynamicColor(light: ColorValue(0x393939),
-                                            dark: ColorValue(0xF7F7F7))
-                    case .primaryBar:
+                    case .primaryToast,
+                            .primaryBar:
                         return DynamicColor(light: theme.aliasTokens.brandColors[.shade20].light,
-                                            dark: ColorValue(0x000000))
+                                            dark: GlobalTokens.neutralColors(.black))
+                    case .neutralToast,
+                            .neutralBar:
+                        return DynamicColor(light: ColorValue(0x212121),
+                                            dark: GlobalTokens.neutralColors(.white))
                     case .primaryOutlineBar:
                         return DynamicColor(light: theme.aliasTokens.brandColors[.primary].light,
-                                            dark: ColorValue(0xF7F7F7))
-                    case .neutralBar:
-                        return DynamicColor(light: ColorValue(0x090909),
-                                            dark: ColorValue(0xF7F7F7))
+                                            dark: GlobalTokens.neutralColors(.white))
                     case .dangerToast:
-                        return DynamicColor(light: ColorValue(0xBC2F34),
-                                            dark: ColorValue(0xDC5F63))
+                        return DynamicColor(light: ColorValue(0xA52121),
+                                            dark: GlobalTokens.neutralColors(.black))
                     case .warningToast:
-                        return DynamicColor(light: ColorValue(0x4C4400),
-                                            dark: ColorValue(0xFDEA3D))
+                        return DynamicColor(light: ColorValue(0x8F761E),
+                                            dark: GlobalTokens.neutralColors(.black))
                     }
                 }
 
@@ -216,12 +199,6 @@ public class NotificationTokenSet: ControlTokenSet<NotificationTokenSet.Tokens> 
             case .bottomPresentationPadding:
                 return .float { GlobalTokens.spacing(.medium) }
 
-            case .horizontalPadding:
-                return .float { GlobalTokens.spacing(.medium) }
-
-            case .verticalPadding:
-                return .float { GlobalTokens.spacing(.small) }
-
             case .horizontalSpacing:
                 return .float { GlobalTokens.spacing(.medium) }
 
@@ -234,7 +211,8 @@ public class NotificationTokenSet: ControlTokenSet<NotificationTokenSet.Tokens> 
                     case .primaryToast, .neutralToast, .primaryBar, .neutralBar, .dangerToast, .warningToast:
                         return DynamicColor(light: ColorValue.clear)
                     case .primaryOutlineBar:
-                        return theme.aliasTokens.strokeColors[.neutral2]
+                        return DynamicColor(light: ColorValue(0xE1E1E1),
+                                            dark: ColorValue(0x303030))
                     }
                 }
 
@@ -261,4 +239,13 @@ public class NotificationTokenSet: ControlTokenSet<NotificationTokenSet.Tokens> 
 
     /// Defines the style of the notification.
     var style: () -> MSFNotificationStyle
+}
+
+// MARK: Constants
+extension NotificationTokenSet {
+    /// The value for the horizontal padding between the elements within a notification and its frame
+    static let horizontalPadding: CGFloat = GlobalTokens.spacing(.medium)
+
+    /// The value for the vertical padding between the elements within a multi-line notification and its frame
+    static let verticalPadding: CGFloat = GlobalTokens.spacing(.small)
 }

@@ -14,9 +14,6 @@ public class IndeterminateProgressBarTokenSet: ControlTokenSet<IndeterminateProg
 
         /// Progress bar's gradient color.
         case gradientColor
-
-        /// Progress bar's height.
-        case height
     }
 
     init() {
@@ -31,10 +28,30 @@ public class IndeterminateProgressBarTokenSet: ControlTokenSet<IndeterminateProg
                 return .dynamicColor {
                     theme.aliasTokens.brandColors[.primary]
                 }
-
-            case .height:
-                return .float { 2 }
             }
         }
+    }
+}
+
+// MARK: - Constants
+
+extension IndeterminateProgressBarTokenSet {
+    static let animationDuration: Double = 1.75
+    static let height: Double = 2.0
+
+    static func initialStartPoint(_ isRTLLanguage: Bool) -> UnitPoint {
+        return isRTLLanguage ? UnitPoint(x: 1, y: 0.5) : UnitPoint(x: -1, y: 0.5)
+    }
+
+    static func initialEndPoint(_ isRTLLanguage: Bool) -> UnitPoint {
+        return isRTLLanguage ? UnitPoint(x: 2, y: 0.5) : UnitPoint(x: 0, y: 0.5)
+    }
+
+    static func finalStartPoint(_ isRTLLanguage: Bool) -> UnitPoint {
+        return isRTLLanguage ? UnitPoint(x: -1, y: 0.5) : UnitPoint(x: 1, y: 0.5)
+    }
+
+    static func finalEndPoint(_ isRTLLanguage: Bool) -> UnitPoint {
+        return isRTLLanguage ? UnitPoint(x: 0, y: 0.5) : UnitPoint(x: 2, y: 0.5)
     }
 }
