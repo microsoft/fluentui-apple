@@ -50,7 +50,7 @@ class DateTimePickerView: UIControl {
 
     private var gradientLayer = CAGradientLayer()
 
-    private func initGradientLayer() -> CAGradientLayer {
+    private func createGradientLayer() -> CAGradientLayer {
         let gradientLayer = CAGradientLayer()
         let backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background2])
         let transparentColor = backgroundColor.withAlphaComponent(0)
@@ -68,8 +68,7 @@ class DateTimePickerView: UIControl {
 
         super.init(frame: .zero)
 
-        gradientLayer = initGradientLayer()
-        layer.addSublayer(gradientLayer)
+        gradientLayer = createGradientLayer()
         addSubview(selectionTopSeparator)
         addSubview(selectionBottomSeparator)
         addInteraction(UILargeContentViewerInteraction())
@@ -91,6 +90,9 @@ class DateTimePickerView: UIControl {
             addSubview(component.view)
             component.didMove(toParent: viewController)
         }
+
+        // Display the gradient layer above the components
+        layer.addSublayer(gradientLayer)
     }
 
     /// Set the date displayed on the picker. This does not trigger UIControlEventValueChanged
