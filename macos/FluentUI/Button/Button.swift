@@ -537,8 +537,14 @@ class ButtonCell: NSButtonCell {
 /// Indicates the size of the button
 @objc(MSFButtonSize)
 public enum ButtonSize: Int, CaseIterable {
+	
+	/// Button Height - 28 pts
 	case large
+	
+	/// Button Height - 24 pts
 	case medium
+	
+	/// Button Height - 20 pts
 	case small
 }
 
@@ -602,7 +608,7 @@ private struct ButtonSizeParameters {
 	fileprivate let titleVerticalPositionAdjustment: CGFloat
 	fileprivate let titleToImageSpacing: CGFloat
 	fileprivate let titleToImageVerticalSpacingAdjustment: CGFloat
-	fileprivate var minButtonHeight: CGFloat?
+	fileprivate var minButtonHeight: CGFloat
 
 	static let large = ButtonSizeParameters(
 		fontSize: 15,  // line height: 19
@@ -611,7 +617,8 @@ private struct ButtonSizeParameters {
 		horizontalPadding: 36,
 		titleVerticalPositionAdjustment: -0.25,
 		titleToImageSpacing: 10,
-		titleToImageVerticalSpacingAdjustment: 7
+		titleToImageVerticalSpacingAdjustment: 7,
+		minButtonHeight: 28
 	)
 
 	static let medium = ButtonSizeParameters(
@@ -632,7 +639,8 @@ private struct ButtonSizeParameters {
 		horizontalPadding: 14,
 		titleVerticalPositionAdjustment: 0,
 		titleToImageSpacing: 6,
-		titleToImageVerticalSpacingAdjustment: 7
+		titleToImageVerticalSpacingAdjustment: 7,
+		minButtonHeight: 20
 	)
 
 	static func parameters(forSize: ButtonSize) -> ButtonSizeParameters {
