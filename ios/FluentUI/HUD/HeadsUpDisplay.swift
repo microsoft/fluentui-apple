@@ -171,8 +171,8 @@ public struct HeadsUpDisplay: View, TokenizedControlView {
         }
     }
 
-    @State private var opacity: Double
-    @State private var presentationScaleFactor: CGFloat
+    @State private var opacity: Double = HeadsUpDisplayTokenSet.opacityPresented
+    @State private var presentationScaleFactor: CGFloat = HeadsUpDisplayTokenSet.presentationScaleFactorDefault
 }
 
 /// Properties available to customize the state of the HUD
