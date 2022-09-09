@@ -73,7 +73,7 @@ public struct PersonaButton: View, TokenizedControlView {
             VStack(spacing: 0) {
                 avatarView
                 personaText
-                Spacer(minLength: tokenSet[.verticalPadding].float)
+                Spacer(minLength: PersonaButtonTokenSet.verticalPadding)
             }
         }
         .frame(minWidth: adjustedWidth, maxWidth: adjustedWidth, minHeight: 0, maxHeight: .infinity)
@@ -107,7 +107,7 @@ public struct PersonaButton: View, TokenizedControlView {
                     .foregroundColor(Color(dynamicColor: tokenSet[.sublabelColor].dynamicColor))
             }
         }
-        .padding(.horizontal, tokenSet[.horizontalTextPadding].float)
+        .padding(.horizontal, PersonaButtonTokenSet.horizontalTextPadding)
     }
 
     private var avatar: Avatar {
@@ -117,8 +117,8 @@ public struct PersonaButton: View, TokenizedControlView {
     @ViewBuilder
     private var avatarView: some View {
         avatar
-            .padding(.top, tokenSet[.verticalPadding].float)
-            .padding(.bottom, tokenSet[.avatarInterspace].float)
+            .padding(.top, PersonaButtonTokenSet.verticalPadding)
+            .padding(.bottom, PersonaButtonTokenSet.avatarInterspace(state.buttonSize))
     }
 
     /// Width of the button is conditional on the current size category
@@ -131,7 +131,7 @@ public struct PersonaButton: View, TokenizedControlView {
             .accessibilityExtraExtraExtraLarge: [ .large: 80, .small: 68 ]
         ]
 
-        return avatar.contentSize + (2 * tokenSet[.horizontalAvatarPadding].float) + (accessibilityAdjustments[sizeCategory]?[state.buttonSize] ?? 0)
+        return avatar.contentSize + (2 * PersonaButtonTokenSet.horizontalAvatarPadding(state.buttonSize)) + (accessibilityAdjustments[sizeCategory]?[state.buttonSize] ?? 0)
     }
 }
 

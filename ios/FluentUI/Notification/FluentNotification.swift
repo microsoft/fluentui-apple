@@ -183,7 +183,7 @@ public struct FluentNotification: View, TokenizedControlView {
                 }
                 messageLabel
             }
-            .padding(.vertical, tokenSet[.verticalPadding].float)
+            .padding(.vertical, NotificationTokenSet.verticalPadding)
         }
 
         @ViewBuilder
@@ -251,7 +251,7 @@ public struct FluentNotification: View, TokenizedControlView {
                     innerContentsSize = newSize
                 }
                 .frame(minHeight: tokenSet[.minimumHeight].float)
-                .padding(.horizontal, tokenSet[.horizontalPadding].float)
+                .padding(.horizontal, NotificationTokenSet.horizontalPadding)
                 .clipped()
             }
         }

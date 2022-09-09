@@ -47,8 +47,8 @@ public struct HeadsUpDisplay: View, TokenizedControlView {
         let label = state.label ?? ""
         let type = state.type
         let foregroundColor = Color(dynamicColor: tokenSet[.foregroundColor].dynamicColor)
-        let verticalPadding = tokenSet[.verticalPadding].float
-        let horizontalPadding = tokenSet[.horizontalPadding].float
+        let verticalPadding = HeadsUpDisplayTokenSet.verticalPadding
+        let horizontalPadding = HeadsUpDisplayTokenSet.horizontalPadding
 
         HStack(alignment: .center) {
             VStack {
@@ -90,8 +90,8 @@ public struct HeadsUpDisplay: View, TokenizedControlView {
                             leading: horizontalPadding,
                             bottom: verticalPadding,
                             trailing: horizontalPadding))
-        .squareShaped(minSize: tokenSet[.minSize].float,
-                      maxSize: tokenSet[.maxSize].float)
+        .squareShaped(minSize: HeadsUpDisplayTokenSet.minSize,
+                      maxSize: HeadsUpDisplayTokenSet.maxSize)
         .background(Rectangle()
                         .fill(Color(dynamicColor: tokenSet[.backgroundColor].dynamicColor))
                         .frame(maxWidth: .infinity,
@@ -136,12 +136,12 @@ public struct HeadsUpDisplay: View, TokenizedControlView {
 
         if let isPresented = isPresented {
             _isPresented = isPresented
-            opacity = Constants.opacityDismissed
+            opacity = HeadsUpDisplayTokenSet.opacityDismissed
             presentationScaleFactor = HUD.Constants.showAnimationScale
         } else {
             _isPresented = .constant(true)
-            opacity = Constants.opacityPresented
-            presentationScaleFactor = Constants.presentationScaleFactorDefault
+            opacity = HeadsUpDisplayTokenSet.opacityPresented
+            presentationScaleFactor = HeadsUpDisplayTokenSet.presentationScaleFactorDefault
         }
     }
 
@@ -150,7 +150,7 @@ public struct HeadsUpDisplay: View, TokenizedControlView {
     @ObservedObject var state: MSFHUDStateImpl
 
     private func resetScaleFactor() {
-        guard presentationScaleFactor != Constants.presentationScaleFactorDefault else {
+        guard presentationScaleFactor != HeadsUpDisplayTokenSet.presentationScaleFactorDefault else {
             return
         }
 
@@ -159,26 +159,20 @@ public struct HeadsUpDisplay: View, TokenizedControlView {
 
     private func presentAnimated() {
         withAnimation(.linear(duration: HUD.Constants.showAnimationDuration)) {
-            opacity = Constants.opacityPresented
-            presentationScaleFactor = Constants.presentationScaleFactorDefault
+            opacity = HeadsUpDisplayTokenSet.opacityPresented
+            presentationScaleFactor = HeadsUpDisplayTokenSet.presentationScaleFactorDefault
         }
     }
 
     private func dismissAnimated() {
         withAnimation(.linear(duration: HUD.Constants.hideAnimationDuration)) {
-            opacity = Constants.opacityDismissed
+            opacity = HeadsUpDisplayTokenSet.opacityDismissed
             presentationScaleFactor = HUD.Constants.hideAnimationScale
         }
     }
 
     @State private var opacity: Double
     @State private var presentationScaleFactor: CGFloat
-
-    private struct Constants {
-        static let presentationScaleFactorDefault: CGFloat = 1
-        static let opacityPresented: Double = 1.0
-        static let opacityDismissed: Double = 0.0
-    }
 }
 
 /// Properties available to customize the state of the HUD
