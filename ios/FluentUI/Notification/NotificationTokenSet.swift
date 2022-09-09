@@ -250,3 +250,12 @@ public class NotificationTokenSet: ControlTokenSet<NotificationTokenSet.Tokens> 
     /// Defines the style of the notification.
     var style: () -> MSFNotificationStyle
 }
+
+// MARK: Constants
+extension NotificationTokenSet {
+    /// The value for the horizontal padding between the elements within a notification and its frame
+    static let horizontalPadding: CGFloat = GlobalTokens.spacing(.medium)
+
+    /// The value for the vertical padding between the elements within a multi-line notification and its frame
+    static let verticalPadding: CGFloat = GlobalTokens.spacing(.small)
+}

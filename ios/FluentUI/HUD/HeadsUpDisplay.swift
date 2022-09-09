@@ -47,8 +47,8 @@ public struct HeadsUpDisplay: View, TokenizedControlView {
         let label = state.label ?? ""
         let type = state.type
         let foregroundColor = Color(dynamicColor: tokenSet[.foregroundColor].dynamicColor)
-        let verticalPadding = Self.verticalPadding
-        let horizontalPadding = Self.horizontalPadding
+        let verticalPadding = HeadsUpDisplayTokenSet.verticalPadding
+        let horizontalPadding = HeadsUpDisplayTokenSet.horizontalPadding
 
         HStack(alignment: .center) {
             VStack {
@@ -90,8 +90,8 @@ public struct HeadsUpDisplay: View, TokenizedControlView {
                             leading: horizontalPadding,
                             bottom: verticalPadding,
                             trailing: horizontalPadding))
-        .squareShaped(minSize: Self.minSize,
-                      maxSize: Self.maxSize)
+        .squareShaped(minSize: HeadsUpDisplayTokenSet.minSize,
+                      maxSize: HeadsUpDisplayTokenSet.maxSize)
         .background(Rectangle()
                         .fill(Color(dynamicColor: tokenSet[.backgroundColor].dynamicColor))
                         .frame(maxWidth: .infinity,
@@ -136,12 +136,12 @@ public struct HeadsUpDisplay: View, TokenizedControlView {
 
         if let isPresented = isPresented {
             _isPresented = isPresented
-            opacity = Self.opacityDismissed
+            opacity = HeadsUpDisplayTokenSet.opacityDismissed
             presentationScaleFactor = HUD.Constants.showAnimationScale
         } else {
             _isPresented = .constant(true)
-            opacity = Self.opacityPresented
-            presentationScaleFactor = Self.presentationScaleFactorDefault
+            opacity = HeadsUpDisplayTokenSet.opacityPresented
+            presentationScaleFactor = HeadsUpDisplayTokenSet.presentationScaleFactorDefault
         }
     }
 
@@ -150,7 +150,7 @@ public struct HeadsUpDisplay: View, TokenizedControlView {
     @ObservedObject var state: MSFHUDStateImpl
 
     private func resetScaleFactor() {
-        guard presentationScaleFactor != Self.presentationScaleFactorDefault else {
+        guard presentationScaleFactor != HeadsUpDisplayTokenSet.presentationScaleFactorDefault else {
             return
         }
 
@@ -159,37 +159,20 @@ public struct HeadsUpDisplay: View, TokenizedControlView {
 
     private func presentAnimated() {
         withAnimation(.linear(duration: HUD.Constants.showAnimationDuration)) {
-            opacity = Self.opacityPresented
-            presentationScaleFactor = Self.presentationScaleFactorDefault
+            opacity = HeadsUpDisplayTokenSet.opacityPresented
+            presentationScaleFactor = HeadsUpDisplayTokenSet.presentationScaleFactorDefault
         }
     }
 
     private func dismissAnimated() {
         withAnimation(.linear(duration: HUD.Constants.hideAnimationDuration)) {
-            opacity = Self.opacityDismissed
+            opacity = HeadsUpDisplayTokenSet.opacityDismissed
             presentationScaleFactor = HUD.Constants.hideAnimationScale
         }
     }
 
     @State private var opacity: Double
     @State private var presentationScaleFactor: CGFloat
-
-    // MARK: Constants
-    private static let presentationScaleFactorDefault: CGFloat = 1
-    private static let opacityPresented: Double = 1.0
-    private static let opacityDismissed: Double = 0.0
-
-    /// The distance between the label and image contents from the left and right edges of the squared background of the Heads-up display.
-    private static let horizontalPadding: CGFloat = GlobalTokens.spacing(.small)
-
-    /// The distance between the label and image contents from the top and bottom edges of the squared background of the Heads-up display.
-    private static let verticalPadding: CGFloat = GlobalTokens.spacing(.large)
-
-    /// The minimum value for the side of the squared background of the Heads-up display.
-    private static let minSize: CGFloat = 100
-
-    /// The maximum value for the side of the squared background of the Heads-up display.
-    private static let maxSize: CGFloat = 192
 }
 
 /// Properties available to customize the state of the HUD

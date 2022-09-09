@@ -40,7 +40,7 @@ public struct ActivityIndicator: View, TokenizedControlView {
     }
 
     public var body: some View {
-        let side = Self.sideLength(size: state.size)
+        let side = ActivityIndicatorTokenSet.sideLength(size: state.size)
         let color: Color = {
             guard let stateUIColor = state.color else {
                 return Color(dynamicColor: tokenSet[.defaultColor].dynamicColor)
@@ -127,22 +127,6 @@ public struct ActivityIndicator: View, TokenizedControlView {
         }
     }
 
-    // MARK: Constants
-
-    private static func sideLength(size: MSFActivityIndicatorSize) -> CGFloat {
-        switch size {
-        case .xSmall:
-            return 12
-        case .small:
-            return 16
-        case .medium:
-            return 24
-        case .large:
-            return 32
-        case .xLarge:
-            return 36
-        }
-    }
     private static let animationDuration: Double = 0.75
     private static let initialAnimationRotationAngle: Double = 0.0
     private static let finalAnimationRotationAngle: Double = 360.0

@@ -27,12 +27,12 @@ public struct IndeterminateProgressBar: View, TokenizedControlView {
         let state = MSFIndeterminateProgressBarStateImpl()
         self.state = state
         self.tokenSet = IndeterminateProgressBarTokenSet()
-        startPoint = Self.initialStartPoint(isRTLLanguage)
-        endPoint = Self.initialEndPoint(isRTLLanguage)
+        startPoint = IndeterminateProgressBarTokenSet.initialStartPoint(isRTLLanguage)
+        endPoint = IndeterminateProgressBarTokenSet.initialEndPoint(isRTLLanguage)
     }
 
     public var body: some View {
-        let height = Self.height
+        let height = IndeterminateProgressBarTokenSet.height
         let gradientColor = Color(dynamicColor: tokenSet[.gradientColor].dynamicColor)
         let backgroundColor = Color(dynamicColor: tokenSet[.backgroundColor].dynamicColor)
         let accessibilityLabel: String = {
@@ -88,39 +88,18 @@ public struct IndeterminateProgressBar: View, TokenizedControlView {
     private func startAnimation() {
         stopAnimation()
 
-        withAnimation(Animation.linear(duration: Self.animationDuration)
+        withAnimation(Animation.linear(duration: IndeterminateProgressBarTokenSet.animationDuration)
                                 .repeatForever(autoreverses: false)) {
-            startPoint = Self.finalStartPoint(isRTLLanguage)
-            endPoint = Self.finalEndPoint(isRTLLanguage)
+            startPoint = IndeterminateProgressBarTokenSet.finalStartPoint(isRTLLanguage)
+            endPoint = IndeterminateProgressBarTokenSet.finalEndPoint(isRTLLanguage)
         }
     }
 
     private func stopAnimation() {
         withAnimation(Animation.linear(duration: 0)) {
-            startPoint = Self.initialStartPoint(isRTLLanguage)
-            endPoint = Self.initialEndPoint(isRTLLanguage)
+            startPoint = IndeterminateProgressBarTokenSet.initialStartPoint(isRTLLanguage)
+            endPoint = IndeterminateProgressBarTokenSet.initialEndPoint(isRTLLanguage)
         }
-    }
-
-    // MARK: Constants
-
-    private static let animationDuration: Double = 1.75
-    private static let height: Double = 2.0
-
-    private static func initialStartPoint(_ isRTLLanguage: Bool) -> UnitPoint {
-        return isRTLLanguage ? UnitPoint(x: 1, y: 0.5) : UnitPoint(x: -1, y: 0.5)
-    }
-
-    private static func initialEndPoint(_ isRTLLanguage: Bool) -> UnitPoint {
-        return isRTLLanguage ? UnitPoint(x: 2, y: 0.5) : UnitPoint(x: 0, y: 0.5)
-    }
-
-    private static func finalStartPoint(_ isRTLLanguage: Bool) -> UnitPoint {
-        return isRTLLanguage ? UnitPoint(x: -1, y: 0.5) : UnitPoint(x: 1, y: 0.5)
-    }
-
-    private static func finalEndPoint(_ isRTLLanguage: Bool) -> UnitPoint {
-        return isRTLLanguage ? UnitPoint(x: 0, y: 0.5) : UnitPoint(x: 2, y: 0.5)
     }
 }
 

@@ -73,7 +73,7 @@ public struct PersonaButton: View, TokenizedControlView {
             VStack(spacing: 0) {
                 avatarView
                 personaText
-                Spacer(minLength: Self.verticalPadding)
+                Spacer(minLength: PersonaButtonTokenSet.verticalPadding)
             }
         }
         .frame(minWidth: adjustedWidth, maxWidth: adjustedWidth, minHeight: 0, maxHeight: .infinity)
@@ -107,7 +107,7 @@ public struct PersonaButton: View, TokenizedControlView {
                     .foregroundColor(Color(dynamicColor: tokenSet[.sublabelColor].dynamicColor))
             }
         }
-        .padding(.horizontal, Self.horizontalTextPadding)
+        .padding(.horizontal, PersonaButtonTokenSet.horizontalTextPadding)
     }
 
     private var avatar: Avatar {
@@ -117,8 +117,8 @@ public struct PersonaButton: View, TokenizedControlView {
     @ViewBuilder
     private var avatarView: some View {
         avatar
-            .padding(.top, Self.verticalPadding)
-            .padding(.bottom, Self.avatarInterspace(state.buttonSize))
+            .padding(.top, PersonaButtonTokenSet.verticalPadding)
+            .padding(.bottom, PersonaButtonTokenSet.avatarInterspace(state.buttonSize))
     }
 
     /// Width of the button is conditional on the current size category
@@ -131,36 +131,8 @@ public struct PersonaButton: View, TokenizedControlView {
             .accessibilityExtraExtraExtraLarge: [ .large: 80, .small: 68 ]
         ]
 
-        return avatar.contentSize + (2 * Self.horizontalAvatarPadding(state.buttonSize)) + (accessibilityAdjustments[sizeCategory]?[state.buttonSize] ?? 0)
+        return avatar.contentSize + (2 * PersonaButtonTokenSet.horizontalAvatarPadding(state.buttonSize)) + (accessibilityAdjustments[sizeCategory]?[state.buttonSize] ?? 0)
     }
-
-    // MARK: Constants
-
-    /// How much space should be reserved to the left and right of the control's `Avatar`.
-    private static func horizontalAvatarPadding(_ size: MSFPersonaButtonSize) -> CGFloat {
-        switch size {
-        case .small:
-            return GlobalTokens.spacing(.medium)
-        case .large:
-            return GlobalTokens.spacing(.xSmall)
-        }
-    }
-
-    /// The amount of space between the control's `Avatar` and text labels.
-    private static func avatarInterspace(_ size: MSFPersonaButtonSize) -> CGFloat {
-        switch size {
-        case .small:
-            return GlobalTokens.spacing(.xSmall)
-        case .large:
-            return GlobalTokens.spacing(.small)
-        }
-    }
-
-    /// How much space should be reserved to the left and right of the control's labels.
-    private static let horizontalTextPadding: CGFloat = GlobalTokens.spacing(.xxxSmall)
-
-    /// How much padding to add above the `Avatar` and below the lowest text label.
-    private static let verticalPadding: CGFloat = GlobalTokens.spacing(.xSmall)
 }
 
 /// Properties that make up PersonaButton content

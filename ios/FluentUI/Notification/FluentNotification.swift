@@ -183,7 +183,7 @@ public struct FluentNotification: View, TokenizedControlView {
                 }
                 messageLabel
             }
-            .padding(.vertical, Self.verticalPadding)
+            .padding(.vertical, NotificationTokenSet.verticalPadding)
         }
 
         @ViewBuilder
@@ -251,7 +251,7 @@ public struct FluentNotification: View, TokenizedControlView {
                     innerContentsSize = newSize
                 }
                 .frame(minHeight: tokenSet[.minimumHeight].float)
-                .padding(.horizontal, Self.horizontalPadding)
+                .padding(.horizontal, NotificationTokenSet.horizontalPadding)
                 .clipped()
             }
         }
@@ -400,14 +400,6 @@ public struct FluentNotification: View, TokenizedControlView {
     // When true, the notification will fit the size of its contents.
     // When false, the notification will be fixed based on the size of the screen.
     private let isFlexibleWidthToast: Bool
-
-    // MARK: Constants
-
-    /// The value for the horizontal padding between the elements within a notification and its frame
-    private static let horizontalPadding: CGFloat = GlobalTokens.spacing(.medium)
-
-    /// The value for the vertical padding between the elements within a multi-line notification and its frame
-    private static let verticalPadding: CGFloat = GlobalTokens.spacing(.small)
 }
 
 class MSFNotificationStateImpl: ControlState, MSFNotificationState {

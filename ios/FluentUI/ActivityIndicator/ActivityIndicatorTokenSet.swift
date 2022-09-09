@@ -51,4 +51,24 @@ public class ActivityIndicatorTokenSet: ControlTokenSet<ActivityIndicatorTokenSe
 
     /// MSFActivityIndicatorSize enumeration value that will define pre-defined values for side and thickness.
     var size: () -> MSFActivityIndicatorSize
+
+}
+
+// MARK: - Constants
+
+extension ActivityIndicatorTokenSet {
+    static func sideLength(size: MSFActivityIndicatorSize) -> CGFloat {
+        switch size {
+        case .xSmall:
+            return 12
+        case .small:
+            return 16
+        case .medium:
+            return 24
+        case .large:
+            return 32
+        case .xLarge:
+            return 36
+        }
+    }
 }

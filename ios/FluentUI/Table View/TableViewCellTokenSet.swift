@@ -182,6 +182,85 @@ public class TableViewCellTokenSet: ControlTokenSet<TableViewCellTokenSet.Tokens
     var customViewSize: () -> MSFTableViewCellCustomViewSize
 }
 
+// MARK: Constants
+
+extension TableViewCellTokenSet {
+    /// The minimum TableViewCell height; the height of a TableViewCell with one line of text.
+    static let oneLineMinHeight: CGFloat = GlobalTokens.spacing(.xxxLarge)
+
+    /// The height of a TableViewCell with two lines of text.
+    static let twoLineMinHeight: CGFloat = 64.0
+
+    /// The height of a TableViewCell with three lines of text.
+    static let threeLineMinHeight: CGFloat = 84.0
+
+    /// The default horizontal spacing in the cell.
+    static let horizontalSpacing: CGFloat = GlobalTokens.spacing(.medium)
+
+    /// The leading padding in the cell.
+    static let paddingLeading: CGFloat = GlobalTokens.spacing(.medium)
+
+    /// The vertical padding in the cell.
+    static let paddingVertical: CGFloat = 11.0
+
+    /// The trailing padding in the cell.
+    static let paddingTrailing: CGFloat = GlobalTokens.spacing(.medium)
+
+    static let selectionImageOff = UIImage.staticImageNamed("selection-off")
+    static let selectionImageOn = UIImage.staticImageNamed("selection-on")
+
+    /// The minimum height for the title label.
+    static let titleHeight: CGFloat = 22.0
+
+    /// The minimum height for the subtitle label when the TableViewCell has two lines.
+    static let subtitleTwoLineHeight: CGFloat = 18.0
+
+    /// The minimum height for the subtitle label when the TableViewCell has three lines.
+    static let subtitleThreeLineHeight: CGFloat = 20.0
+
+    /// The minimum height for the footer label.
+    static let footerHeight: CGFloat = 18.0
+
+    /// The leading margin for the labelAccessoryView.
+    static let labelAccessoryViewMarginLeading: CGFloat = GlobalTokens.spacing(.xSmall)
+
+    /// The trailing margin for the labelAccessoryView.
+    static let labelAccessoryViewMarginTrailing: CGFloat = GlobalTokens.spacing(.xSmall)
+
+    /// The leading margin for the customAccessoryView.
+    static let customAccessoryViewMarginLeading: CGFloat = GlobalTokens.spacing(.xSmall)
+
+    /// The minimum vertical margin for the customAccessoryView.
+    static let customAccessoryViewMinVerticalMargin: CGFloat = 6.0
+
+    /// The vertical margin for the label when it has one or three lines.
+    static let defaultLabelVerticalMarginForOneAndThreeLines: CGFloat = 11.0
+
+    /// The vertical margin for the label when it has two lines.
+    static let labelVerticalMarginForTwoLines: CGFloat = GlobalTokens.spacing(.small)
+
+    /// The vertical spacing for the label.
+    static let labelVerticalSpacing: CGFloat = GlobalTokens.spacing(.none)
+
+    /// The trailing margin for the selectionImage.
+    static let selectionImageMarginTrailing: CGFloat = GlobalTokens.spacing(.medium)
+
+    /// The size for the selectionImage.
+    static let selectionImageSize: CGFloat = GlobalTokens.iconSize(.medium)
+
+    /// The duration for the selectionModeAnimation.
+    static let selectionModeAnimationDuration: CGFloat = 0.2
+
+    /// The minimum width for any text area.
+    static let textAreaMinWidth: CGFloat = 100.0
+
+    /// The alpha value that enables the user's ability to interact with a cell.
+    static let enabledAlpha: CGFloat = 1.0
+
+    /// The alpha value that disables the user's ability to interact with a cell; dims cell's contents.
+    static let disabledAlpha: CGFloat = 0.35
+}
+
 /// Pre-defined sizes of the customView size.
 @objc public enum MSFTableViewCellCustomViewSize: Int, CaseIterable {
     case `default`

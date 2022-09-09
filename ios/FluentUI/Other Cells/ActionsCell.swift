@@ -73,7 +73,8 @@ open class ActionsCell: UITableViewCell, TokenizedControlInternal {
         let action1TitleHeight = action1Title.preferredSize(for: actionTitleFont, width: width).height
         let action2TitleHeight = action2Title.preferredSize(for: actionTitleFont, width: width).height
 
-        return max(TableViewCell.paddingVertical * 2 + max(action1TitleHeight, action2TitleHeight), TableViewCell.oneLineMinHeight)
+        return max(TableViewCellTokenSet.paddingVertical * 2 + max(action1TitleHeight, action2TitleHeight),
+                   TableViewCellTokenSet.oneLineMinHeight)
     }
 
     public class func preferredWidth(action1Title: String, action2Title: String = "", tokenSet: TableViewCellTokenSet) -> CGFloat {
@@ -250,7 +251,7 @@ open class ActionsCell: UITableViewCell, TokenizedControlInternal {
     }
 
     private func layoutHorizontalSeparator(_ separator: Separator, with type: TableViewCell.SeparatorType, at verticalOffset: CGFloat) {
-        let horizontalOffset = type == .inset ? safeAreaInsets.left + TableViewCell.horizontalSpacing : 0
+        let horizontalOffset = type == .inset ? safeAreaInsets.left + TableViewCellTokenSet.horizontalSpacing : 0
 
         separator.frame = CGRect(
             x: horizontalOffset,

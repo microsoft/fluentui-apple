@@ -80,3 +80,33 @@ public class PersonaButtonTokenSet: ControlTokenSet<PersonaButtonTokenSet.Tokens
     /// `MSFPersonaButtonSize` enumeration value that will define pre-defined values for fonts and spacing.
     var size: () -> MSFPersonaButtonSize
 }
+
+// MARK: Constants
+
+extension PersonaButtonTokenSet {
+    /// How much space should be reserved to the left and right of the control's `Avatar`.
+    static func horizontalAvatarPadding(_ size: MSFPersonaButtonSize) -> CGFloat {
+        switch size {
+        case .small:
+            return GlobalTokens.spacing(.medium)
+        case .large:
+            return GlobalTokens.spacing(.xSmall)
+        }
+    }
+
+    /// The amount of space between the control's `Avatar` and text labels.
+    static func avatarInterspace(_ size: MSFPersonaButtonSize) -> CGFloat {
+        switch size {
+        case .small:
+            return GlobalTokens.spacing(.xSmall)
+        case .large:
+            return GlobalTokens.spacing(.small)
+        }
+    }
+
+    /// How much space should be reserved to the left and right of the control's labels.
+    static let horizontalTextPadding: CGFloat = GlobalTokens.spacing(.xxxSmall)
+
+    /// How much padding to add above the `Avatar` and below the lowest text label.
+    static let verticalPadding: CGFloat = GlobalTokens.spacing(.xSmall)
+}
