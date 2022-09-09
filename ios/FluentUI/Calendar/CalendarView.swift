@@ -46,11 +46,11 @@ class CalendarView: UIView {
 
         addSubview(weekdayHeadingView)
         addSubview(collectionView)
-        addSubview(collectionViewDivider.view)
+        addSubview(collectionViewDivider)
         addInteraction(UILargeContentViewerInteraction())
 
         if headerStyle == .light {
-            addSubview(headingViewDivider.view)
+            addSubview(headingViewDivider)
         }
     }
 
@@ -91,11 +91,11 @@ class CalendarView: UIView {
         )
         collectionView.contentOffset = originalContentOffset
 
-        collectionViewDivider.view.frame = CGRect(
+        collectionViewDivider.frame = CGRect(
             x: 0.0,
-            y: collectionView.frame.maxY - collectionViewDivider.view.frame.height,
+            y: collectionView.frame.maxY - collectionViewDivider.frame.height,
             width: bounds.size.width,
-            height: collectionViewDivider.view.frame.height
+            height: collectionViewDivider.frame.height
         )
     }
 
@@ -108,8 +108,8 @@ class CalendarView: UIView {
         // Day cells
         height += CalendarViewLayout.preferredItemHeight * rows(for: style)
 
-        // Do not include last separator
-        height -= collectionViewDivider.view.frame.width
+        // Do not include last divider
+        height -= MSFDivider.thickness
 
         return height
     }

@@ -28,6 +28,9 @@ import SwiftUI
     /// The object that groups properties that allow control over the Divider appearance.
     @objc public let state: MSFDividerState
 
+    /// The default thickness for the divider: half pt.
+    @objc public static var thickness: CGFloat { return DividerTokenSet.thickness }
+
     /// Access to the control's `ControlTokenSet` for reading default values and providing overrides.
     public let tokenSet: DividerTokenSet
 }
