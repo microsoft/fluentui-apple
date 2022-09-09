@@ -53,10 +53,10 @@ open class ActionsCell: UITableViewCell, TokenizedControlInternal {
     var tokenSetSink: AnyCancellable?
 
     @objc private func themeDidChange(_ notification: Notification) {
-        guard let window = window, window.isEqual(notification.object) else {
+        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
             return
         }
-        tokenSet.update(window.fluentTheme)
+        tokenSet.update(fluentTheme)
         updateAppearance()
     }
 
@@ -73,7 +73,8 @@ open class ActionsCell: UITableViewCell, TokenizedControlInternal {
         let action1TitleHeight = action1Title.preferredSize(for: actionTitleFont, width: width).height
         let action2TitleHeight = action2Title.preferredSize(for: actionTitleFont, width: width).height
 
-        return max(tokenSet[.paddingVertical].float * 2 + max(action1TitleHeight, action2TitleHeight), tokenSet[.minHeight].float)
+        return max(TableViewCellTokenSet.paddingVertical * 2 + max(action1TitleHeight, action2TitleHeight),
+                   TableViewCellTokenSet.oneLineMinHeight)
     }
 
     public class func preferredWidth(action1Title: String, action2Title: String = "", tokenSet: TableViewCellTokenSet) -> CGFloat {
@@ -250,7 +251,7 @@ open class ActionsCell: UITableViewCell, TokenizedControlInternal {
     }
 
     private func layoutHorizontalSeparator(_ separator: MSFDivider, with type: TableViewCell.SeparatorType, at verticalOffset: CGFloat) {
-        let horizontalOffset = type == .inset ? safeAreaInsets.left + tokenSet[.horizontalSpacing].float : 0
+        let horizontalOffset = type == .inset ? safeAreaInsets.left + TableViewCellTokenSet.horizontalSpacing : 0
 
         separator.frame = CGRect(
             x: horizontalOffset,

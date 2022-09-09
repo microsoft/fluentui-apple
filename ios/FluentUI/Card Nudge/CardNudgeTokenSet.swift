@@ -23,19 +23,9 @@ public class CardNudgeTokenSet: ControlTokenSet<CardNudgeTokenSet.Tokens> {
         case outlineColor
         case subtitleTextColor
         case textColor
-        case accentIconSize
-        case accentPadding
-        case buttonInnerPaddingHorizontal
         case circleRadius
-        case circleSize
         case cornerRadius
-        case horizontalPadding
-        case iconSize
-        case interTextVerticalPadding
-        case mainContentVerticalPadding
-        case minimumHeight
         case outlineWidth
-        case verticalPadding
     }
 
     init(style: @escaping () -> MSFCardNudgeStyle) {
@@ -45,16 +35,6 @@ public class CardNudgeTokenSet: ControlTokenSet<CardNudgeTokenSet.Tokens> {
             case .accentColor:
                 return .dynamicColor {
                     theme.aliasTokens.brandColors[.shade20]
-                }
-
-            case .accentIconSize:
-                return .float {
-                    GlobalTokens.iconSize(.xxSmall)
-                }
-
-            case .accentPadding:
-                return .float {
-                    GlobalTokens.spacing(.xxSmall)
                 }
 
             case .backgroundColor:
@@ -74,49 +54,14 @@ public class CardNudgeTokenSet: ControlTokenSet<CardNudgeTokenSet.Tokens> {
                     theme.aliasTokens.brandColors[.tint30]
                 }
 
-            case .buttonInnerPaddingHorizontal:
-                return .float {
-                    GlobalTokens.spacing(.small)
-                }
-
             case .circleRadius:
                 return .float {
                     GlobalTokens.borderRadius(.circle)
                 }
 
-            case .circleSize:
-                return .float {
-                    GlobalTokens.iconSize(.xxLarge)
-                }
-
             case .cornerRadius:
                 return .float {
                     GlobalTokens.borderRadius(.xLarge)
-                }
-
-            case .horizontalPadding:
-                return .float {
-                    GlobalTokens.spacing(.medium)
-                }
-
-            case .iconSize:
-                return .float {
-                    GlobalTokens.iconSize(.xSmall)
-                }
-
-            case .interTextVerticalPadding:
-                return .float {
-                    GlobalTokens.spacing(.xxxSmall)
-                }
-
-            case .mainContentVerticalPadding:
-                return .float {
-                    GlobalTokens.spacing(.small)
-                }
-
-            case .minimumHeight:
-                return .float {
-                    56
                 }
 
             case .outlineColor:
@@ -152,15 +97,27 @@ public class CardNudgeTokenSet: ControlTokenSet<CardNudgeTokenSet.Tokens> {
                         theme.aliasTokens.brandColors[.shade20]
                     }
                 }
-
-            case .verticalPadding:
-                return .float {
-                    GlobalTokens.spacing(.xSmall)
-                }
             }
         }
     }
 
     // Required state value
     var style: () -> MSFCardNudgeStyle
+}
+
+// MARK: - Constants
+
+extension CardNudgeTokenSet {
+    static let iconSize: CGFloat = GlobalTokens.iconSize(.xSmall)
+    static let circleSize: CGFloat = GlobalTokens.iconSize(.xxLarge)
+    static let accentIconSize: CGFloat = GlobalTokens.iconSize(.xxSmall)
+    static let accentPadding: CGFloat = GlobalTokens.spacing(.xxSmall)
+
+    static let horizontalPadding: CGFloat = GlobalTokens.spacing(.medium)
+    static let verticalPadding: CGFloat = GlobalTokens.spacing(.xSmall)
+    static let buttonInnerPaddingHorizontal: CGFloat = GlobalTokens.spacing(.small)
+    static let interTextVerticalPadding: CGFloat = GlobalTokens.spacing(.xxxSmall)
+    static let mainContentVerticalPadding: CGFloat = GlobalTokens.spacing(.small)
+
+    static let minimumHeight: CGFloat = 56.0
 }
