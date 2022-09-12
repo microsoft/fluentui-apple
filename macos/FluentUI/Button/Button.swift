@@ -342,7 +342,7 @@ open class Button: NSButton {
 
 	private static let borderWidth: CGFloat = 1
 
-	private var minButtonHeight: CGFloat?
+	private var minButtonHeight: CGFloat = ButtonSizeParameters.large.minButtonHeight
 
 	private func setSizeParameters(forSize: ButtonSize) {
 		let parameters = ButtonSizeParameters.parameters(forSize: size)
@@ -374,13 +374,8 @@ open class Button: NSButton {
 
 	open override var intrinsicContentSize: CGSize {
 		let superSize = super.intrinsicContentSize
-		let height = { () -> CGFloat in
-			if let minButtonHeight = self.minButtonHeight {
-				return superSize.height <= minButtonHeight ? minButtonHeight : superSize.height
-			}
-			return superSize.height
-		}
-		return CGSize(width: superSize.width, height: height())
+		return CGSize(width: superSize.width,
+					  height: superSize.height < minButtonHeight ? minButtonHeight : superSize.height)
 	}
 }
 
@@ -537,14 +532,14 @@ class ButtonCell: NSButtonCell {
 /// Indicates the size of the button
 @objc(MSFButtonSize)
 public enum ButtonSize: Int, CaseIterable {
-	
-	/// Button Height - 28 pts
+
+	/// Minimum Button Height - 28 pts
 	case large
-	
-	/// Button Height - 24 pts
+
+	/// Minimum Button Height - 24 pts
 	case medium
-	
-	/// Button Height - 20 pts
+
+	/// Minimum Button Height - 20 pts
 	case small
 }
 
