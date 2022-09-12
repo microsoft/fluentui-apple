@@ -5,26 +5,6 @@
 
 import SwiftUI
 
-public extension ShimmerView {
-    /// Sets the accessibility label for the Shimmer.
-    /// - Parameter accessibilityLabel: Accessibility label string.
-    /// - Returns: The modified Shimmer with the property set.
-    func accessibilityLabel(_ accessibilityLabel: String?) -> ShimmerView {
-        state.accessibilityLabel = accessibilityLabel
-        return self
-    }
-}
-
-public extension ShimmerLinesView {
-    /// Sets the accessibility label for the ShimmerLines.
-    /// - Parameter accessibilityLabel: Accessibility label string.
-    /// - Returns: The modified ShimmerLines with the property set.
-    func accessibilityLabel(_ accessibilityLabel: String?) -> ShimmerLinesView {
-        state.accessibilityLabel = accessibilityLabel
-        return self
-    }
-}
-
 public extension View {
     /// Adds an animated shimmering effect to any view.
     /// - Parameters:
@@ -41,6 +21,14 @@ public extension View {
                                  isLabel: Bool = false,
                                  isShimmering: Bool = true,
                                  accessibilityLabel: String? = nil) -> some View {
+        let accessibilityLabel: String = {
+            guard let overriddenAccessibilityLabel = accessibilityLabel else {
+                return "Accessibility.Shimmer.Loading".localized
+            }
+
+            return overriddenAccessibilityLabel
+        }()
+
         modifier(ShimmerView(tokenSet: ShimmerTokenSet(style: { style }),
                              state: MSFShimmerStateImpl(style: style,
                                                         shouldAddShimmeringCover: shouldAddShimmeringCover,
@@ -48,6 +36,8 @@ public extension View {
                              animationId: animationId,
                              isLabel: isLabel,
                              isShimmering: isShimmering)
-            .accessibilityLabel(accessibilityLabel))
+        )
+        .accessibilityElement()
+        .accessibilityLabel(accessibilityLabel)
     }
 }

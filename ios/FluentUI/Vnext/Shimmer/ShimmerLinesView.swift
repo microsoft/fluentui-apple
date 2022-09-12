@@ -38,25 +38,19 @@ public struct ShimmerLinesView: View, TokenizedControlView {
     public init(style: MSFShimmerStyle,
                 lineCount: Int,
                 firstLineFillPercent: CGFloat,
-                lastLineFillPercent: CGFloat) {
+                lastLineFillPercent: CGFloat,
+                accessibilityLabel: String? = nil) {
         let state = MSFShimmerLinesStateImpl(style: style,
                                              lineCount: lineCount)
         state.firstLineFillPercent = firstLineFillPercent
         state.lastLineFillPercent = lastLineFillPercent
+        state.accessibilityLabel = accessibilityLabel
 
         self.state = state
         self.tokenSet = ShimmerTokenSet(style: { state.style })
     }
 
     public var body: some View {
-        let accessibilityLabel: String = {
-            guard let overriddenAccessibilityLabel = state.accessibilityLabel else {
-                return "Accessibility.Shimmer.Loading".localized
-            }
-
-            return overriddenAccessibilityLabel
-        }()
-
         ShimmerLinesShape(lineCount: state.lineCount,
                           firstLineFillPercent: state.firstLineFillPercent,
                           lastLineFillPercent: state.lastLineFillPercent,
@@ -69,7 +63,7 @@ public struct ShimmerLinesView: View, TokenizedControlView {
                     usesTextHeightForLabels: false,
                     animationId: namespace,
                     isLabel: false,
-                    accessibilityLabel: accessibilityLabel)
+                    accessibilityLabel: state.accessibilityLabel)
         .frame(maxWidth: .infinity, maxHeight: state.lineCount == 0 ? .infinity : (CGFloat(state.lineCount - 1) * tokenSet[.labelSpacing].float) + (CGFloat(state.lineCount) * tokenSet[.labelHeight].float))
         .onSizeChange { newSize in
             containerSize = newSize
@@ -101,11 +95,13 @@ class MSFShimmerLinesStateImpl: ControlState, MSFShimmerLinesState {
     convenience init(style: MSFShimmerStyle,
                      lineCount: Int = 3,
                      firstLineFillPercent: CGFloat? = 0.94,
-                     lastLineFillPercent: CGFloat? = 0.6) {
+                     lastLineFillPercent: CGFloat? = 0.6,
+                     accessibilityLabel: String? = nil) {
         self.init(style: style,
                   lineCount: lineCount)
 
         self.firstLineFillPercent = firstLineFillPercent
         self.lastLineFillPercent = lastLineFillPercent
+        self.accessibilityLabel = accessibilityLabel
     }
 }
