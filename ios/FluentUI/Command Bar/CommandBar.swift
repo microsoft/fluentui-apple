@@ -232,9 +232,7 @@ open class CommandBar: UIView {
             // Flip the scroll view to invert scrolling direction. Flip its content back because it's already in RTL.
             let flipTransform = CGAffineTransform(scaleX: -1, y: 1)
             scrollView.transform = flipTransform
-            leadingCommandGroupsView.transform = flipTransform
             mainCommandGroupsView.transform = flipTransform
-            trailingCommandGroupsView.transform = flipTransform
             containerMaskLayer.setAffineTransform(flipTransform)
         }
 
