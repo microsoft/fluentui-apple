@@ -52,7 +52,7 @@ class DateTimePickerView: UIControl {
 
     private func createGradientLayer() -> CAGradientLayer {
         let gradientLayer = CAGradientLayer()
-        let backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background2])
+        let backgroundColor = UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.background2].light, dark: fluentTheme.aliasTokens.colors[.background2].darkElevated))
         let transparentColor = backgroundColor.withAlphaComponent(0)
         gradientLayer.colors = [backgroundColor.cgColor, transparentColor.cgColor, transparentColor.cgColor, backgroundColor.cgColor]
         gradientLayer.startPoint = CGPoint(x: 0, y: 0)
