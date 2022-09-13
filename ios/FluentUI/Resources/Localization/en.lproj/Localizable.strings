@@ -84,6 +84,9 @@
 /* Accessibility label for when a task under progress has failed */
 "Accessibility.HUD.Failed" = "Failed";
 
+/* Accessibility label for when a task is in progress */
+"Accessibility.HUD.Loading" = "Loading";
+
 /* Accessibility hint for MSPillButtons in an MSPillButtonBar. %1$d is placeholder for index and %2$d is a placeholder for total number of items */
 "Accessibility.MSPillButtonBar.Hint" = "%1$d of %2$d";
 
@@ -92,9 +95,6 @@
 
 /* Accessibility label format string for avatar view. Format: "<Name>, <Presence>". Example: "Kat, Available" */
 "Accessibility.AvatarView.LabelFormat" = "%@, %@";
-
-/* Accessibility label for when content is loading */
-"Accessibility.Shimmer.Loading" = "Loading";
 
 /* Accessibility hint for TabBarItemView in TabBarView. %1$d is placeholder for index and %2$d is a placeholder for total number of tab items  */
 "Accessibility.TabBarItemView.Hint" = "%1d of %2d";

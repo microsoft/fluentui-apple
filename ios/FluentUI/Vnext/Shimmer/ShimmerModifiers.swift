@@ -23,7 +23,7 @@ public extension View {
                                  accessibilityLabel: String? = nil) -> some View {
         let accessibilityLabel: String = {
             guard let overriddenAccessibilityLabel = accessibilityLabel else {
-                return "Accessibility.Shimmer.Loading".localized
+                return "Accessibility.HUD.Loading".localized
             }
 
             return overriddenAccessibilityLabel
