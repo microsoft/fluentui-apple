@@ -217,6 +217,8 @@ class NotificationViewDemoController: DemoController {
                                                isFlexibleWidthToast: true)
             notification.state.message = "This toast has a flexible width which means the width is based on the content rather than the screen size."
             notification.tokenSet.replaceAllOverrides(with: notificationOverrideTokens)
+            let widthConstraint = notification.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -2 * notification.tokenSet[.presentationOffset].float)
+            notification.flexibleWidthConstraints = [widthConstraint]
             notification.state.actionButtonAction = { [weak self] in
                 self?.showMessage("`Dismiss` tapped")
                 notification.hide()

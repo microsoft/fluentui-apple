@@ -100,12 +100,12 @@ import UIKit
         constraints.append(animated ? constraintWhenHidden : constraintWhenShown)
         constraints.append(self.centerXAnchor.constraint(equalTo: view.centerXAnchor))
 
-        let horizontalPadding = -2 * notification.tokenSet[.presentationOffset].float
-        let widthAnchor = self.widthAnchor
-        let viewWidthAnchor = view.widthAnchor
-        if isFlexibleWidthToast {
-            constraints.append(widthAnchor.constraint(lessThanOrEqualTo: viewWidthAnchor, constant: horizontalPadding))
+        if isFlexibleWidthToast, let widthConstraints = flexibleWidthConstraints {
+            constraints.append(contentsOf: widthConstraints)
         } else {
+            let horizontalPadding = -2 * notification.tokenSet[.presentationOffset].float
+            let widthAnchor = self.widthAnchor
+            let viewWidthAnchor = view.widthAnchor
             let isHalfLength = state.style.isToast && traitCollection.horizontalSizeClass == .regular
             if isHalfLength {
                 constraints.append(widthAnchor.constraint(equalTo: viewWidthAnchor, multiplier: 0.5))
@@ -196,6 +196,12 @@ import UIKit
     }
 
     @objc public static var allowsMultipleToasts: Bool = false
+
+    /// Only to be used when `isFlexibleWidthToast` is `true`
+    /// A set of constraints to be applied to the `MSFNotification`
+    /// in `show` after it has been added to the view hierarchy.
+    @objc public var flexibleWidthConstraints: [NSLayoutConstraint]?
+
     var isFlexibleWidthToast: Bool
 
     // MARK: - Private variables
