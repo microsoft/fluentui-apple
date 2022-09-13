@@ -109,6 +109,17 @@ class CalendarViewDayCell: UICollectionViewCell {
         contentView.addSubview(selectionOverlayView)
         contentView.addSubview(dateLabel)
         contentView.addSubview(dotView)
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        updateViews()
+        dotView.color = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground3])
+        dateLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground3])
     }
 
     required init?(coder aDecoder: NSCoder) {
