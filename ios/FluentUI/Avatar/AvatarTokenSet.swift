@@ -9,9 +9,6 @@ import SwiftUI
 /// Design token set for the `Avatar` control.
 public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
     public enum Tokens: TokenSetKey {
-        /// The size of the content of the `Avatar`.
-        case avatarSize
-
         /// The radius of the corners of the `Avatar`.
         case borderRadius
 
@@ -32,9 +29,6 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
 
         /// The gap around the ring around the `Avatar`.
         case ringOuterGap
-
-        /// The size of the presence icon.
-        case presenceIconSize
 
         /// The thickness of the outline around the presence icon.
         case presenceIconOutlineThickness
@@ -232,6 +226,43 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
 
     /// Defines the size of the `Avatar`.
     var size: () -> MSFAvatarSize
+
+}
+
+// MARK: - Constants
+
+extension AvatarTokenSet {
+    /// The size of the content of the `Avatar`.
+    static func avatarSize(_ size: MSFAvatarSize) -> CGFloat {
+        switch size {
+        case .xsmall:
+            return 16
+        case .small:
+            return 24
+        case .medium:
+            return 32
+        case .large:
+            return 40
+        case .xlarge:
+            return 52
+        case .xxlarge:
+            return 72
+        }
+    }
+
+    /// The size of the presence icon.
+    static func presenceIconSize(_ size: MSFAvatarSize) -> CGFloat {
+        switch size {
+        case .xsmall:
+            return 0
+        case .small, .medium:
+            return GlobalTokens.iconSize(.xxxSmall)
+        case .large, .xlarge:
+            return GlobalTokens.iconSize(.xxSmall)
+        case .xxlarge:
+            return GlobalTokens.iconSize(.small)
+        }
+    }
 }
 
 /// Pre-defined styles of the avatar

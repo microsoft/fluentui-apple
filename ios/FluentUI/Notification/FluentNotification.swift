@@ -51,10 +51,10 @@ import SwiftUI
     /// Defines whether the notification shows from the bottom of the presenting view or the top.
     var showFromBottom: Bool { get set }
 
-    /// An optional gradient to use as the background of the notification.
+    /// An optional linear gradient to use as the background of the notification.
     ///
     /// If this property is nil, then this notification will use the background color defined by its design tokens.
-    var backgroundGradient: GradientInfo? { get set }
+    var backgroundGradient: LinearGradientInfo? { get set }
 }
 
 /// View that represents the Notification.
@@ -132,13 +132,11 @@ public struct FluentNotification: View, TokenizedControlView {
             if state.style.isToast {
                 if let image = state.image {
                     let imageSize = image.size
-                    Image(uiImage: image)
-                        .renderingMode(.template)
+                    Image(uiImage: image.renderingMode == .automatic ? image.withRenderingMode(.alwaysTemplate) : image)
                         .frame(width: imageSize.width,
                                height: imageSize.height,
                                alignment: .center)
                         .foregroundColor(Color(dynamicColor: tokenSet[.imageColor].dynamicColor))
-                        .padding(.vertical, tokenSet[.verticalPadding].float)
                 }
             }
         }
@@ -185,7 +183,7 @@ public struct FluentNotification: View, TokenizedControlView {
                 }
                 messageLabel
             }
-            .padding(.vertical, hasSecondTextRow ? tokenSet[.verticalPadding].float : tokenSet[.verticalPaddingForOneLine].float)
+            .padding(.vertical, NotificationTokenSet.verticalPadding)
         }
 
         @ViewBuilder
@@ -238,7 +236,7 @@ public struct FluentNotification: View, TokenizedControlView {
                         image
                         textContainer
                         if !isFlexibleWidthToast {
-                            Spacer(minLength: horizontalSpacing)
+                            Spacer(minLength: 0)
                         }
                     }
                     .accessibilityElement(children: .combine)
@@ -253,7 +251,7 @@ public struct FluentNotification: View, TokenizedControlView {
                     innerContentsSize = newSize
                 }
                 .frame(minHeight: tokenSet[.minimumHeight].float)
-                .padding(.horizontal, tokenSet[.horizontalPadding].float)
+                .padding(.horizontal, NotificationTokenSet.horizontalPadding)
                 .clipped()
             }
         }
@@ -414,7 +412,7 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
     @Published var trailingImageAccessibilityLabel: String?
     @Published var showDefaultDismissActionButton: Bool
     @Published var showFromBottom: Bool
-    @Published var backgroundGradient: GradientInfo?
+    @Published var backgroundGradient: LinearGradientInfo?
 
     /// Title to display in the action button on the trailing edge of the control.
     ///

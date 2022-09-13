@@ -108,6 +108,10 @@ open class CommandBarItem: NSObject {
     /// Set `isSelected` to desired value in this handler. Default implementation is toggling `isSelected` property.
     @objc public var itemTappedHandler: ItemTappedHandler
 
+    /// If set, the `UIView` returned from the closure will be shown inside `CommandBarButton` instead of the `title` and `image`. Setting this
+	/// property will disable the `itemTappedHandler`. The customControlView must manually handle gesutres.
+    @objc public var customControlView: (() -> UIView)?
+
     @objc public lazy var menu: UIMenu? = nil // Only lazy property can be used with @available
 
     @objc public lazy var showsMenuAsPrimaryAction: Bool = false
@@ -122,4 +126,9 @@ open class CommandBarItem: NSObject {
 
     /// Called after a property is changed to trigger the update of a corresponding button
     var propertyChangedUpdateBlock: ((CommandBarItem) -> Void)?
+
+    /// Indicates whether the `itemTappedHandler` should be called as the item's tap handler
+    var shouldUseItemTappedHandler: Bool {
+        return customControlView == nil
+    }
 }

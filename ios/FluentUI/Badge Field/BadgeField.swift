@@ -267,7 +267,7 @@ open class BadgeField: UIView {
         let contentHeight = self.contentHeight(forBoundingWidth: bounds.width)
         // Give the view controller a chance to relayout itself if necessary
         cachedContentHeight = contentHeight
-        let topMargin = UIScreen.main.middleOrigin(frame.height, containedSizeValue: contentHeight)
+        let topMargin = ceil((frame.height - contentHeight) / 2.0)
 
         var left = labelViewRightOffset
         var lineIndex = 0
@@ -285,8 +285,8 @@ open class BadgeField: UIView {
         labelView.frame = CGRect(x: 0, y: topMargin, width: labelViewWidth, height: badgeHeight)
 
         let textFieldSize = textField.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
-        let textFieldHeight = UIScreen.main.roundToDevicePixels(textFieldSize.height)
-        let textFieldVerticalOffset = UIScreen.main.middleOrigin(badgeHeight, containedSizeValue: textFieldHeight)
+        let textFieldHeight = ceil(textFieldSize.height)
+        let textFieldVerticalOffset = ceil((badgeHeight - textFieldHeight) / 2.0)
         let shouldAppendToCurrentLine = left + Constants.textFieldMinWidth <= frame.width
         if !shouldAppendToCurrentLine {
             lineIndex += 1
@@ -390,7 +390,7 @@ open class BadgeField: UIView {
     private func frameForBadge(_ badgeToInsert: BadgeView, boundingWidth: CGFloat) -> CGRect {
         let badges = currentBadges
         let contentHeight = self.contentHeight(forBoundingWidth: bounds.width)
-        let topMargin = UIScreen.main.middleOrigin(frame.height, containedSizeValue: contentHeight)
+        let topMargin = ceil((frame.height - contentHeight) / 2.0)
         var left = labelViewRightOffset
         var lineIndex = 0
 
@@ -409,7 +409,7 @@ open class BadgeField: UIView {
      */
     private func width(forBadge badge: BadgeView, isFirstBadge: Bool, isFirstBadgeOfLastDisplayedLine: Bool, moreBadgeOffset: CGFloat = -1, boundingWidth: CGFloat) -> CGFloat {
         let badgeFittingSize = badge.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
-        let badgeFittingWidth = UIScreen.main.roundToDevicePixels(badgeFittingSize.width)
+        let badgeFittingWidth = ceil(badgeFittingSize.width)
         var badgeMaxWidth = boundingWidth
         // First badge: remove the size taken by the introduction label
         if isFirstBadge {
@@ -425,7 +425,7 @@ open class BadgeField: UIView {
     private func calculateMoreBadgeOffset() -> CGFloat {
         if shouldUseConstrainedBadges, let moreBadge = moreBadge {
             let moreBadgeSize = moreBadge.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
-            let moreBadgeWidth = UIScreen.main.roundToDevicePixels(moreBadgeSize.width)
+            let moreBadgeWidth = ceil(moreBadgeSize.width)
             return moreBadgeWidth + Constants.badgeMarginHorizontal
         } else {
             return 0
@@ -454,7 +454,7 @@ open class BadgeField: UIView {
             lineIndex += 1
         }
         let textFieldSize = textField.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
-        let textFieldHeight = UIScreen.main.roundToDevicePixels(textFieldSize.height)
+        let textFieldHeight = ceil(textFieldSize.height)
         let contentHeight = heightThatFits(badgeHeight: badgeHeight, numberOfLines: lineIndex + 1)
         return max(textFieldHeight, contentHeight)
     }
@@ -738,7 +738,7 @@ open class BadgeField: UIView {
             return 0
         }
         let labelSize = labelView.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
-        return UIScreen.main.roundToDevicePixels(labelSize.width)
+        return ceil(labelSize.width)
     }
 
     private func updateLabelsVisibility(textFieldContent: String? = nil) {

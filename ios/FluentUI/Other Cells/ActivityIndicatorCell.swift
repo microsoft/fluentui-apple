@@ -26,10 +26,10 @@ open class ActivityIndicatorCell: UITableViewCell, TokenizedControlInternal {
     var tokenSetSink: AnyCancellable?
 
     @objc private func themeDidChange(_ notification: Notification) {
-        guard let window = window, window.isEqual(notification.object) else {
+        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
             return
         }
-        tokenSet.update(window.fluentTheme)
+        tokenSet.update(fluentTheme)
         updateAppearance()
     }
 
@@ -69,7 +69,7 @@ open class ActivityIndicatorCell: UITableViewCell, TokenizedControlInternal {
         super.layoutSubviews()
         let activityIndicatorView = activityIndicator
         activityIndicatorView.sizeToFit()
-        activityIndicatorView.center = CGPoint(x: UIScreen.main.roundToDevicePixels(contentView.frame.width / 2), y: UIScreen.main.roundToDevicePixels(contentView.frame.height / 2))
+        activityIndicatorView.center = CGPoint(x: ceil(contentView.frame.width / 2), y: ceil(contentView.frame.height / 2))
     }
 
     open override func didMoveToWindow() {
@@ -90,7 +90,7 @@ open class ActivityIndicatorCell: UITableViewCell, TokenizedControlInternal {
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
         let maxWidth = size.width != 0 ? size.width : .infinity
-        return CGSize(width: maxWidth, height: tokenSet[.minHeight].float)
+        return CGSize(width: maxWidth, height: TableViewCellTokenSet.oneLineMinHeight)
     }
 
     open override func setHighlighted(_ highlighted: Bool, animated: Bool) { }
