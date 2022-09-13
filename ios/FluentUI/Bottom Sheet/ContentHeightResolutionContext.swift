@@ -5,8 +5,14 @@
 
 import UIKit
 
+/// Contains all information necessary to determine desired height of content inside of a container.
 @objc(MSFContentHeightResolutionContext)
 public class ContentHeightResolutionContext: NSObject {
+
+    /// Init the resolution context.
+    /// - Parameters:
+    ///   - maximumHeight: Maximum height of the content.
+    ///   - containerTraitCollection: Trait collection of the content container.
     init(maximumHeight: CGFloat, containerTraitCollection: UITraitCollection) {
         self.maximumHeight = maximumHeight
         self.containerTraitCollection = containerTraitCollection
