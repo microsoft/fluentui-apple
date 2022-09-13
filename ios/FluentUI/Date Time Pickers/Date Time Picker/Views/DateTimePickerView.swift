@@ -52,12 +52,16 @@ class DateTimePickerView: UIControl {
 
     private func createGradientLayer() -> CAGradientLayer {
         let gradientLayer = CAGradientLayer()
-        let backgroundColor = UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.background2].light, dark: fluentTheme.aliasTokens.colors[.background2].darkElevated))
-        let transparentColor = backgroundColor.withAlphaComponent(0)
-        gradientLayer.colors = [backgroundColor.cgColor, transparentColor.cgColor, transparentColor.cgColor, backgroundColor.cgColor]
+        updateGradientLayerColors(gradientLayer: gradientLayer)
         gradientLayer.startPoint = CGPoint(x: 0, y: 0)
         gradientLayer.endPoint = CGPoint(x: 0, y: 1)
         return gradientLayer
+    }
+
+    private func updateGradientLayerColors(gradientLayer: CAGradientLayer) {
+        let backgroundColor = UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.background2].light, dark: fluentTheme.aliasTokens.colors[.background2].darkElevated))
+        let transparentColor = backgroundColor.withAlphaComponent(0)
+        gradientLayer.colors = [backgroundColor.cgColor, transparentColor.cgColor, transparentColor.cgColor, backgroundColor.cgColor]
     }
 
     init(mode: DateTimePickerViewMode, calendarConfiguration: CalendarConfiguration) {
@@ -73,10 +77,24 @@ class DateTimePickerView: UIControl {
         addSubview(selectionBottomSeparator)
         addInteraction(UILargeContentViewerInteraction())
 
-        backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background2])
+        updateBackgroundColor()
 
         setDate(date, animated: false)
         setDayOfMonth(dayOfMonth, animated: false)
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        updateBackgroundColor()
+        updateGradientLayerColors(gradientLayer: gradientLayer)
+    }
+
+    private func updateBackgroundColor() {
+        backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background2])
     }
 
     public required init?(coder aDecoder: NSCoder) {
