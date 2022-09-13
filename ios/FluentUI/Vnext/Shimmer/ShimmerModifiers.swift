@@ -19,13 +19,25 @@ public extension View {
                                  usesTextHeightForLabels: Bool = false,
                                  animationId: Namespace.ID,
                                  isLabel: Bool = false,
-                                 isShimmering: Bool = true) -> some View {
+                                 isShimmering: Bool = true,
+                                 accessibilityLabel: String? = nil) -> some View {
+        let accessibilityLabel: String = {
+            guard let overriddenAccessibilityLabel = accessibilityLabel else {
+                return "Accessibility.HUD.Loading".localized
+            }
+
+            return overriddenAccessibilityLabel
+        }()
+
         modifier(ShimmerView(tokenSet: ShimmerTokenSet(style: { style }),
                              state: MSFShimmerStateImpl(style: style,
                                                         shouldAddShimmeringCover: shouldAddShimmeringCover,
                                                         usesTextHeightForLabels: usesTextHeightForLabels),
                              animationId: animationId,
                              isLabel: isLabel,
-                             isShimmering: isShimmering))
+                             isShimmering: isShimmering)
+        )
+        .accessibilityElement()
+        .accessibilityLabel(accessibilityLabel)
     }
 }

@@ -25,20 +25,20 @@ public struct ShimmerView: ViewModifier, TokenizedControlView {
 
     public func body(content: Content) -> some View {
         content
-            .onSizeChange { newSize in
-                contentSize = newSize
-            }
             .modifyIf(isShimmering, { view in
                 view
                     .modifier(AnimatedMask(tokenSet: tokenSet,
                                            state: state,
                                            isLabel: isLabel,
                                            phase: phase,
-                                          contentSize: contentSize)
+                                           contentSize: contentSize)
                         .animation(Animation.linear(duration: tokenSet[.shimmerDuration].float)
                             .delay(tokenSet[.shimmerDelay].float)
                             .repeatForever(autoreverses: false)
                         ))
+                    .onSizeChange { newSize in
+                        contentSize = newSize
+                    }
                     .onAppear {
                         if !UIAccessibility.isReduceMotionEnabled {
                             phase = .init(1.0 + (tokenSet[.shimmerWidth].float / contentSize.width))
