@@ -36,6 +36,15 @@ class DateTimePickerViewComponentCell: UITableViewCell {
         textLabel?.textAlignment = .center
         textLabel?.showsLargeContentViewer = true
         textLabel?.font = UIFont.fluent(fluentTheme.aliasTokens.typography[.body1])
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        updateTextLabelColor()
     }
 
     required init?(coder aDecoder: NSCoder) {

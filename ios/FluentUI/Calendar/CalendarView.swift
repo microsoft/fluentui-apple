@@ -43,7 +43,7 @@ class CalendarView: UIView {
 
         super.init(frame: .zero)
 
-        collectionView.backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background2])
+        updateCollectionViewBackgroundColor()
 
         addSubview(weekdayHeadingView)
         addSubview(collectionView)
@@ -53,6 +53,19 @@ class CalendarView: UIView {
         if headerStyle == .light {
             addSubview(headingViewSeparator)
         }
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        updateCollectionViewBackgroundColor()
+    }
+
+    private func updateCollectionViewBackgroundColor() {
+        collectionView.backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background2])
     }
 
     required init?(coder aDecoder: NSCoder) {
