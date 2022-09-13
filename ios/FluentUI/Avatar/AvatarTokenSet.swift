@@ -49,26 +49,6 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
         self.size = size
         super.init { [style, size] token, theme in
             switch token {
-            case .avatarSize:
-                return .float({
-                    switch size() {
-                    case .size16:
-                        return 16
-                    case .size20:
-                        return 20
-                    case .size24:
-                        return 24
-                    case .size32:
-                        return 32
-                    case .size40:
-                        return 40
-                    case .size56:
-                        return 56
-                    case .size72:
-                        return 72
-                    }
-                })
-
             case .borderRadius:
                 return .float({
                     switch style() {
@@ -157,20 +137,6 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
                     }
                 })
 
-            case .presenceIconSize:
-                return .float({
-                    switch size() {
-                    case .size16:
-                        return 0
-                    case .size20, .size24, .size32:
-                        return GlobalTokens.iconSize(.xxxSmall)
-                    case .size40, .size56:
-                        return GlobalTokens.iconSize(.xxSmall)
-                    case .size72:
-                        return GlobalTokens.iconSize(.small)
-                    }
-                })
-
             case .presenceIconOutlineThickness:
                 return .float({
                     switch size() {
@@ -235,17 +201,19 @@ extension AvatarTokenSet {
     /// The size of the content of the `Avatar`.
     static func avatarSize(_ size: MSFAvatarSize) -> CGFloat {
         switch size {
-        case .xsmall:
+        case .size16:
             return 16
-        case .small:
+        case .size20:
+            return 20
+        case .size24:
             return 24
-        case .medium:
+        case .size32:
             return 32
-        case .large:
+        case .size40:
             return 40
-        case .xlarge:
-            return 52
-        case .xxlarge:
+        case .size56:
+            return 56
+        case .size72:
             return 72
         }
     }
@@ -253,13 +221,13 @@ extension AvatarTokenSet {
     /// The size of the presence icon.
     static func presenceIconSize(_ size: MSFAvatarSize) -> CGFloat {
         switch size {
-        case .xsmall:
+        case .size16:
             return 0
-        case .small, .medium:
+        case .size20, .size24, .size32:
             return GlobalTokens.iconSize(.xxxSmall)
-        case .large, .xlarge:
+        case .size40, .size56:
             return GlobalTokens.iconSize(.xxSmall)
-        case .xxlarge:
+        case .size72:
             return GlobalTokens.iconSize(.small)
         }
     }
