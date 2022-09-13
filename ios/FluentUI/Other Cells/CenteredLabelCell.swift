@@ -17,10 +17,10 @@ open class CenteredLabelCell: UITableViewCell, TokenizedControlInternal {
     var tokenSetSink: AnyCancellable?
 
     @objc private func themeDidChange(_ notification: Notification) {
-        guard let window = window, window.isEqual(notification.object) else {
+        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
             return
         }
-        tokenSet.update(window.fluentTheme)
+        tokenSet.update(fluentTheme)
         updateAppearance()
     }
 
@@ -88,7 +88,8 @@ open class CenteredLabelCell: UITableViewCell, TokenizedControlInternal {
 
         let labelWidthArea = maxWidth - layoutMargins.left - layoutMargins.right
         let labelFittingSize = label.sizeThatFits(CGSize(width: labelWidthArea, height: CGFloat.greatestFiniteMagnitude))
-        let height = max(tokenSet[.paddingVertical].float * 2 + ceil(labelFittingSize.height), tokenSet[.minHeight].float)
+        let height = max(TableViewCellTokenSet.paddingVertical * 2 + ceil(labelFittingSize.height),
+                         TableViewCellTokenSet.oneLineMinHeight)
         return CGSize(width: maxWidth, height: height)
     }
 

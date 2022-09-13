@@ -44,4 +44,7 @@ public class DividerTokenSet: ControlTokenSet<DividerTokenSet.Tokens> {
 
     /// MSFDividerSpacing enumeration value that will define pre-defined value for the padding.
     let spacing: () -> MSFDividerSpacing
+
+    /// The default thickness for the divider: half pt.
+    static var thickness: CGFloat { return 0.5 }
 }

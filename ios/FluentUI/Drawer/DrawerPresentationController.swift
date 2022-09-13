@@ -194,7 +194,7 @@ class DrawerPresentationController: UIPresentationController {
             return presentationOrigin
         }
 
-        let containerBounds = containerView?.bounds ?? UIScreen.main.bounds
+        let containerBounds = containerView?.bounds ?? (sourceViewController.view.window?.screen.bounds ?? .zero)
         switch presentationDirection {
         case .down:
             var controller = sourceViewController
@@ -305,12 +305,13 @@ class DrawerPresentationController: UIPresentationController {
             if #available(iOS 15.0, *) {} else {
                 let isVerticallyPresentedViewPartiallyOffScreen: Bool = {
                     // Calculates the origin of the presentedView frame in relation to the device screen.
-                    guard let origin = presentedView.superview?.convert(presentedViewFrame.origin, to: nil) else {
+                    guard let origin = presentedView.superview?.convert(presentedViewFrame.origin, to: nil), let window = sourceViewController.view.window else {
                         return false
                     }
 
+                    let screenHeight = window.screen.bounds.height
                     return (presentationDirection == .down && origin.y < 0) ||
-                           (presentationDirection == .up && (origin.y + presentedViewFrame.height - UIScreen.main.bounds.height) > 0)
+                           (presentationDirection == .up && (origin.y + presentedViewFrame.height - screenHeight) > 0)
                 }()
 
                 presentedViewController.additionalSafeAreaInsets = isVerticallyPresentedViewPartiallyOffScreen ? contentView.safeAreaInsets : .zero

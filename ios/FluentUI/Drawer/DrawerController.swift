@@ -327,7 +327,7 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
                 contentSize = CGRect(origin: .zero, size: contentSize).inset(by: contentView.safeAreaInsets).size
                 updatePreferredContentSize(contentSize.width, contentSize.height)
             }
-            return CGSize(width: UIScreen.main.roundToDevicePixels(preferredContentSize.width), height: UIScreen.main.roundToDevicePixels(preferredContentSize.height))
+            return CGSize(width: ceil(preferredContentSize.width), height: ceil(preferredContentSize.height))
         }
         set {
             var newValue = newValue
@@ -615,7 +615,11 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
     private func updatePreferredContentSize(isExpanded: Bool) {
         isPreferredContentSizeBeingChangedInternally = true
         if isExpanded {
-            let screenHeight: CGFloat = UIScreen.main.bounds.height
+            guard let window = view.window else {
+                return
+            }
+
+            let screenHeight: CGFloat = window.screen.bounds.height
             if preferredMaximumExpansionHeight != -1 &&
                 preferredMaximumExpansionHeight < screenHeight &&
                 preferredMaximumExpansionHeight >= originalDrawerHeight {
@@ -819,7 +823,7 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
         }
 
         // Rounding to precision used for layout
-        return UIScreen.main.roundToDevicePixels(offset)
+        return ceil(offset)
     }
 
     private func offsetWithResistance(for offset: CGFloat) -> CGFloat {

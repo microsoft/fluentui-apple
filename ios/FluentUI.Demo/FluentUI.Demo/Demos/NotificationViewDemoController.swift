@@ -219,9 +219,9 @@ class NotificationViewDemoController: DemoController {
                                                        dark: GlobalTokens.sharedColors(.pink, .shade40)),
                                           DynamicColor(light: GlobalTokens.sharedColors(.cyan, .tint50),
                                                        dark: GlobalTokens.sharedColors(.cyan, .shade40))]
-            notification.state.backgroundGradient = GradientInfo(colors: colors,
-                                                                 startPoint: .init(x: 0.0, y: 1.0),
-                                                                 endPoint: .init(x: 1.0, y: 0.0))
+            notification.state.backgroundGradient = LinearGradientInfo(colors: colors,
+                                                                       startPoint: .init(x: 0.0, y: 1.0),
+                                                                       endPoint: .init(x: 1.0, y: 0.0))
             notification.state.actionButtonAction = { [weak self] in
                 self?.showMessage("`Dismiss` tapped")
                 notification.hide()
@@ -244,9 +244,6 @@ class NotificationViewDemoController: DemoController {
         return [
             .imageColor: .dynamicColor {
                 return DynamicColor(light: GlobalTokens.sharedColors(.orange, .primary))
-            },
-            .horizontalSpacing: .float {
-                return 5.0
             },
             .shadow: .shadowInfo {
                 return ShadowInfo(colorOne: DynamicColor(light: GlobalTokens.sharedColors(.hotPink, .primary)),

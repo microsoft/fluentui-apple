@@ -27,12 +27,12 @@ public struct IndeterminateProgressBar: View, TokenizedControlView {
         let state = MSFIndeterminateProgressBarStateImpl()
         self.state = state
         self.tokenSet = IndeterminateProgressBarTokenSet()
-        startPoint = Constants.Coordinates(isRTLLanguage).initialStartPoint
-        endPoint = Constants.Coordinates(isRTLLanguage).initialEndPoint
+        startPoint = IndeterminateProgressBarTokenSet.initialStartPoint(isRTLLanguage)
+        endPoint = IndeterminateProgressBarTokenSet.initialEndPoint(isRTLLanguage)
     }
 
     public var body: some View {
-        let height = tokenSet[.height].float
+        let height = IndeterminateProgressBarTokenSet.height
         let gradientColor = Color(dynamicColor: tokenSet[.gradientColor].dynamicColor)
         let backgroundColor = Color(dynamicColor: tokenSet[.backgroundColor].dynamicColor)
         let accessibilityLabel: String = {
@@ -88,33 +88,17 @@ public struct IndeterminateProgressBar: View, TokenizedControlView {
     private func startAnimation() {
         stopAnimation()
 
-        withAnimation(Animation.linear(duration: Constants.animationDuration)
+        withAnimation(Animation.linear(duration: IndeterminateProgressBarTokenSet.animationDuration)
                                 .repeatForever(autoreverses: false)) {
-            startPoint = Constants.Coordinates(isRTLLanguage).finalStartPoint
-            endPoint = Constants.Coordinates(isRTLLanguage).finalEndPoint
+            startPoint = IndeterminateProgressBarTokenSet.finalStartPoint(isRTLLanguage)
+            endPoint = IndeterminateProgressBarTokenSet.finalEndPoint(isRTLLanguage)
         }
     }
 
     private func stopAnimation() {
         withAnimation(Animation.linear(duration: 0)) {
-            startPoint = Constants.Coordinates(isRTLLanguage).initialStartPoint
-            endPoint = Constants.Coordinates(isRTLLanguage).initialEndPoint
-        }
-    }
-
-    private struct Constants {
-        static let animationDuration: Double = 1.75
-
-        struct Coordinates {
-            var isRTLLanguage: Bool
-            var initialStartPoint: UnitPoint { isRTLLanguage ? UnitPoint(x: 1, y: 0.5) : UnitPoint(x: -1, y: 0.5) }
-            var initialEndPoint: UnitPoint { isRTLLanguage ? UnitPoint(x: 2, y: 0.5) : UnitPoint(x: 0, y: 0.5) }
-            var finalStartPoint: UnitPoint { isRTLLanguage ? UnitPoint(x: -1, y: 0.5) : UnitPoint(x: 1, y: 0.5) }
-            var finalEndPoint: UnitPoint { isRTLLanguage ? UnitPoint(x: 0, y: 0.5) : UnitPoint(x: 2, y: 0.5) }
-
-            init(_ isRTLLanguage: Bool = false) {
-                self.isRTLLanguage = isRTLLanguage
-            }
+            startPoint = IndeterminateProgressBarTokenSet.initialStartPoint(isRTLLanguage)
+            endPoint = IndeterminateProgressBarTokenSet.initialEndPoint(isRTLLanguage)
         }
     }
 }

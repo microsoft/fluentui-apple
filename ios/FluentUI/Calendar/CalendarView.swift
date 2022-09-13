@@ -109,7 +109,7 @@ class CalendarView: UIView {
         height += CalendarViewLayout.preferredItemHeight * rows(for: style)
 
         // Do not include last divider
-        height -= UIScreen.main.devicePixel
+        height -= MSFDivider.thickness
 
         return height
     }

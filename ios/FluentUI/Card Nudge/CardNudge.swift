@@ -56,14 +56,14 @@ public struct CardNudge: View, TokenizedControlView {
         if let icon = state.mainIcon {
             ZStack {
                 RoundedRectangle(cornerRadius: tokenSet[.circleRadius].float)
-                    .frame(width: tokenSet[.circleSize].float, height: tokenSet[.circleSize].float)
+                    .frame(width: CardNudgeTokenSet.circleSize, height: CardNudgeTokenSet.circleSize)
                     .foregroundColor(Color(dynamicColor: tokenSet[.buttonBackgroundColor].dynamicColor))
                 Image(uiImage: icon)
                     .renderingMode(.template)
-                    .frame(width: tokenSet[.iconSize].float, height: tokenSet[.iconSize].float, alignment: .center)
+                    .frame(width: CardNudgeTokenSet.iconSize, height: CardNudgeTokenSet.iconSize, alignment: .center)
                     .foregroundColor(Color(dynamicColor: tokenSet[.accentColor].dynamicColor))
             }
-            .padding(.trailing, tokenSet[.horizontalPadding].float)
+            .padding(.trailing, CardNudgeTokenSet.horizontalPadding)
             .showsLargeContentViewer(text: state.title, image: state.mainIcon)
         }
     }
@@ -74,18 +74,18 @@ public struct CardNudge: View, TokenizedControlView {
 
     @ViewBuilder
     var textContainer: some View {
-        VStack(alignment: .leading, spacing: tokenSet[.interTextVerticalPadding].float) {
+        VStack(alignment: .leading, spacing: CardNudgeTokenSet.interTextVerticalPadding) {
             Text(state.title)
                 .lineLimit(1)
                 .foregroundColor(Color(dynamicColor: tokenSet[.textColor].dynamicColor))
                 .showsLargeContentViewer(text: state.title, image: state.mainIcon)
 
             if hasSecondTextRow {
-                HStack(spacing: tokenSet[.accentPadding].float) {
+                HStack(spacing: CardNudgeTokenSet.accentPadding) {
                     if let accentIcon = state.accentIcon {
                         Image(uiImage: accentIcon)
                             .renderingMode(.template)
-                            .frame(width: tokenSet[.accentIconSize].float, height: tokenSet[.accentIconSize].float)
+                            .frame(width: CardNudgeTokenSet.accentIconSize, height: CardNudgeTokenSet.accentIconSize)
                             .foregroundColor(Color(dynamicColor: tokenSet[.accentColor].dynamicColor))
                     }
                     if let accent = state.accentText {
@@ -115,8 +115,8 @@ public struct CardNudge: View, TokenizedControlView {
                     action(state)
                 }
                 .lineLimit(1)
-                .padding(.horizontal, tokenSet[.buttonInnerPaddingHorizontal].float)
-                .padding(.vertical, tokenSet[.verticalPadding].float)
+                .padding(.horizontal, CardNudgeTokenSet.buttonInnerPaddingHorizontal)
+                .padding(.vertical, CardNudgeTokenSet.verticalPadding)
                 .foregroundColor(Color(dynamicColor: tokenSet[.accentColor].dynamicColor))
                 .background(
                     RoundedRectangle(cornerRadius: tokenSet[.circleRadius].float)
@@ -134,8 +134,8 @@ public struct CardNudge: View, TokenizedControlView {
                         Image(uiImage: image)
                     }
                 })
-                .padding(.horizontal, tokenSet[.buttonInnerPaddingHorizontal].float)
-                .padding(.vertical, tokenSet[.verticalPadding].float)
+                .padding(.horizontal, CardNudgeTokenSet.buttonInnerPaddingHorizontal)
+                .padding(.vertical, CardNudgeTokenSet.verticalPadding)
                 .accessibility(identifier: dismissLabel)
                 .foregroundColor(Color(dynamicColor: tokenSet[.textColor].dynamicColor))
                 .showsLargeContentViewer(text: dismissLabel, image: dismissImage)
@@ -148,13 +148,13 @@ public struct CardNudge: View, TokenizedControlView {
         HStack(spacing: 0) {
             icon
             textContainer
-            Spacer(minLength: tokenSet[.accentPadding].float)
+            Spacer(minLength: CardNudgeTokenSet.accentPadding)
             buttons
                 .layoutPriority(1)
         }
-        .padding(.vertical, tokenSet[.mainContentVerticalPadding].float)
-        .padding(.horizontal, tokenSet[.horizontalPadding].float)
-        .frame(minHeight: tokenSet[.minimumHeight].float)
+        .padding(.vertical, CardNudgeTokenSet.mainContentVerticalPadding)
+        .padding(.horizontal, CardNudgeTokenSet.horizontalPadding)
+        .frame(minHeight: CardNudgeTokenSet.minimumHeight)
     }
 
     public var body: some View {
@@ -168,8 +168,8 @@ public struct CardNudge: View, TokenizedControlView {
                             .cornerRadius(tokenSet[.cornerRadius].float)
                     )
             )
-            .padding(.vertical, tokenSet[.verticalPadding].float)
-            .padding(.horizontal, tokenSet[.horizontalPadding].float)
+            .padding(.vertical, CardNudgeTokenSet.verticalPadding)
+            .padding(.horizontal, CardNudgeTokenSet.horizontalPadding)
             .fluentTokens(tokenSet, fluentTheme)
     }
 

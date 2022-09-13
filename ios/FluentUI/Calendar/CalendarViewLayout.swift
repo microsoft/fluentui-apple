@@ -40,7 +40,7 @@ class CalendarViewLayout: UICollectionViewLayout {
 
         numberOfSections = collectionView.dataSource?.numberOfSections?(in: collectionView) ?? 0
 
-        let itemWidth = UIScreen.main.roundToDevicePixels(collectionView.bounds.size.width / 7.0)
+        let itemWidth = ceil(collectionView.bounds.size.width / 7.0)
         let itemHeight = Constants.itemHeight
         itemSize = CGSize(width: itemWidth, height: itemHeight)
     }
