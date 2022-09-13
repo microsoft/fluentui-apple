@@ -85,11 +85,13 @@ class BottomSheetDemoController: UIViewController {
         let sheetContentView = UIView()
 
         let secondarySheetController = BottomSheetController(expandedContentView: sheetContentView)
+        secondarySheetController.delegate = self
         secondarySheetController.collapsedContentHeight = 250
         secondarySheetController.isHidden = true
         secondarySheetController.shouldAlwaysFillWidth = false
         secondarySheetController.shouldHideCollapsedContent = false
         secondarySheetController.isFlexibleHeight = true
+        secondarySheetController.allowsSwipeToHide = true
 
         let dismissButton = Button(primaryAction: UIAction(title: "Dismiss", handler: { _ in
             secondarySheetController.setIsHidden(true, animated: true) { _ in
@@ -130,6 +132,7 @@ class BottomSheetDemoController: UIViewController {
         // has a meaningful initial frame to use for the animation.
         view.layoutIfNeeded()
         secondarySheetController.isHidden = false
+        presentedTransientSheets.append(secondarySheetController)
     }
 
     private lazy var personaListView: UIScrollView = {
@@ -219,6 +222,8 @@ class BottomSheetDemoController: UIViewController {
             ]
         ]
     }
+
+    private var presentedTransientSheets = [BottomSheetController]()
 
     private static let headerHeight: CGFloat = 30
 
@@ -352,5 +357,16 @@ extension BottomSheetDemoController: BottomSheetControllerDelegate {
         if let tableView = mainTableView {
             tableView.contentInset.bottom = bottomSheetController.collapsedHeightInSafeArea
         }
+    }
+
+    func bottomSheetController(_ bottomSheetController: BottomSheetController, didMoveTo expansionState: BottomSheetExpansionState, interaction: BottomSheetInteraction) {
+        guard expansionState == .hidden, let index = presentedTransientSheets.firstIndex(of: bottomSheetController) else {
+            return
+        }
+
+        presentedTransientSheets.remove(at: index)
+        bottomSheetController.willMove(toParent: nil)
+        bottomSheetController.removeFromParent()
+        bottomSheetController.view.removeFromSuperview()
     }
 }
