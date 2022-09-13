@@ -107,6 +107,16 @@ class DateTimePickerController: UIViewController, GenericDateTimePicker {
         if self.mode != .single {
             initSegmentedControl(includesTime: mode.includesTime)
         }
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        updateBackgroundColor()
+        updateBarButtonColors()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -120,13 +130,17 @@ class DateTimePickerController: UIViewController, GenericDateTimePicker {
             view.addSubview(segmentedControl)
             // Hide default bottom border of navigation bar
             navigationController?.navigationBar.shadowImage = UIImage()
-            view.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background2])
+            updateBackgroundColor()
         }
         view.addSubview(dateTimePickerView)
         dateTimePickerView.setupComponents(for: self)
         initNavigationBar()
 
         updateNavigationBar()
+    }
+
+    private func updateBackgroundColor() {
+        view.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background2])
     }
 
     override func viewWillLayoutSubviews() {
@@ -142,7 +156,12 @@ class DateTimePickerController: UIViewController, GenericDateTimePicker {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        navigationItem.rightBarButtonItem?.tintColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.brandBackground2])
+        updateBarButtonColors()
+    }
+
+    private func updateBarButtonColors() {
+        navigationItem.rightBarButtonItem?.tintColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.brandForeground1])
+        navigationItem.leftBarButtonItem?.tintColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foreground2])
     }
 
     override func accessibilityPerformEscape() -> Bool {
