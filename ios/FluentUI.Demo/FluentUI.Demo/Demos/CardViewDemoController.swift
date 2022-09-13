@@ -75,6 +75,11 @@ class CardViewDemoController: DemoController {
                         colorStyle: .custom)
                     cardWithLongTitle.twoLineTitle = true
                     cardWithLongTitle.delegate = self
+
+                    let shadowLayers = ShadowUtil.getShadowLayers(shadowInfo: cardWithLongTitle.fluentTheme.aliasTokens.shadow[.shadow28])
+                    cardWithLongTitle.layer.insertSublayer(shadowLayers[1], at: 0)
+                    cardWithLongTitle.layer.insertSublayer(shadowLayers[0], below: shadowLayers[1])
+
                     let cardWithLongTitleAndSubtitle = CardView(
                         size: size,
                         title: "Title that is very very very very long",
