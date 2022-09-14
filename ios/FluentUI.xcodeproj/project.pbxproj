@@ -215,8 +215,8 @@
 		566C664928CB994F0032314C /* Copy module.modulemap */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = "$(FLUENT_HSP_OUTPUT)";
-			dstSubfolderSpec = 0;
+			dstPath = include/FluentUI;
+			dstSubfolderSpec = 16;
 			files = (
 				566C664A28CB99830032314C /* module.modulemap in Copy module.modulemap */,
 			);
