@@ -162,7 +162,11 @@ open class Button: UIButton {
                 adjustCustomContentEdgeInsetsForImage()
             }
 
-            if #unavailable(iOS 15.0) {
+            if #available(iOS 15.0, *) {
+                var configuration = self.configuration ?? UIButton.Configuration.plain()
+                configuration.contentInsets = edgeInsets
+                self.configuration = configuration
+            } else {
                 let left: CGFloat
                 let right: CGFloat
                 if effectiveUserInterfaceLayoutDirection == .leftToRight {
@@ -389,7 +393,7 @@ open class Button: UIButton {
         }
 
         if #available(iOS 15.0, *) {
-            var configuration = UIButton.Configuration.plain()
+            var configuration = self.configuration ?? UIButton.Configuration.plain()
             configuration.contentInsets = edgeInsets
             configuration.imagePadding = spacing
             self.configuration = configuration
