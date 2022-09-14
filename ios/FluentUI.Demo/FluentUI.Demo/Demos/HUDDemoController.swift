@@ -292,22 +292,11 @@ extension HUDDemoController: DemoAppearanceDelegate {
         ]
     }
 
-<<<<<<< HEAD
-    private class PerControlOverrideHeadsUpDisplayTokens: HeadsUpDisplayTokens {
-        override var cornerRadius: CGFloat {
-            return GlobalTokens.borderRadius(.xLarge)
-        }
-
-        override var labelColor: DynamicColor {
-            return aliasTokens.brandColors[.primary]
-        }
-=======
     private var perControlOverrideHeadsUpDisplayTokens: [HeadsUpDisplayTokenSet.Tokens: ControlTokenValue] {
         let aliasTokens = self.view.fluentTheme.aliasTokens
         return [
             .cornerRadius: .float { GlobalTokens.borderRadius(.xLarge) },
-            .foregroundColor: .dynamicColor { aliasTokens.brandColors[.primary] }
+            .labelColor: .dynamicColor { aliasTokens.brandColors[.primary] }
         ]
->>>>>>> main
     }
 }

@@ -75,36 +75,22 @@ public class TableViewCellTokenSet: ControlTokenSet<TableViewCellTokenSet.Tokens
         super.init { token, theme in
             switch token {
             case .backgroundColor:
-                return .dynamicColor {
-                    .init(light: GlobalTokens.neutralColors(.white),
-                          dark: GlobalTokens.neutralColors(.black))
-                }
+                return .dynamicColor { theme.aliasTokens.colors[.background1] }
 
             case .backgroundGroupedColor:
-                return .dynamicColor {
-                    .init(light: theme.aliasTokens.backgroundColors[.neutral2].light,
-                          dark: theme.aliasTokens.backgroundColors[.neutral1].dark)
-                }
+                return .dynamicColor { theme.aliasTokens.colors[.canvasBackground] }
 
             case .cellBackgroundColor:
-                return .dynamicColor {
-                    .init(light: theme.aliasTokens.backgroundColors[.neutral1].light,
-                          dark: theme.aliasTokens.backgroundColors[.neutral1].dark,
-                          darkElevated: theme.aliasTokens.backgroundColors[.neutral2].darkElevated)
-                }
+                return .dynamicColor { theme.aliasTokens.colors[.background1] }
 
             case .cellBackgroundGroupedColor:
-                return .dynamicColor {
-                    .init(light: theme.aliasTokens.backgroundColors[.neutral1].light,
-                          dark: theme.aliasTokens.backgroundColors[.neutral3].dark,
-                          darkElevated: ColorValue(0x212121))
-                }
+                return .dynamicColor { theme.aliasTokens.colors[.background3] }
 
             case .cellBackgroundSelectedColor:
-                return .dynamicColor { theme.aliasTokens.backgroundColors[.neutral5] }
+                return .dynamicColor { theme.aliasTokens.colors[.background1Pressed] }
 
             case .imageColor:
-                return .dynamicColor { theme.aliasTokens.foregroundColors[.neutral1] }
+                return .dynamicColor { theme.aliasTokens.colors[.foreground3] }
 
             case .customViewDimensions:
                 return .float {
@@ -131,16 +117,16 @@ public class TableViewCellTokenSet: ControlTokenSet<TableViewCellTokenSet.Tokens
                 }
 
             case .titleColor:
-                return .dynamicColor { theme.aliasTokens.foregroundColors[.neutral1] }
+                return .dynamicColor { theme.aliasTokens.colors[.foreground1] }
 
             case .subtitleColor:
-                return .dynamicColor { theme.aliasTokens.foregroundColors[.neutral3] }
+                return .dynamicColor { theme.aliasTokens.colors[.foreground2] }
 
             case .footerColor:
-                return .dynamicColor { theme.aliasTokens.foregroundColors[.neutral3] }
+                return .dynamicColor { theme.aliasTokens.colors[.foreground2] }
 
             case .selectionIndicatorOffColor:
-                return .dynamicColor { theme.aliasTokens.foregroundColors[.neutral3] }
+                return .dynamicColor { theme.aliasTokens.colors[.foreground3] }
 
             case .titleFont:
                 return .fontInfo { theme.aliasTokens.typography[.body1] }
@@ -155,13 +141,13 @@ public class TableViewCellTokenSet: ControlTokenSet<TableViewCellTokenSet.Tokens
                 return .fontInfo { theme.aliasTokens.typography[.caption1] }
 
             case .accessoryDisclosureIndicatorColor:
-                return .dynamicColor { theme.aliasTokens.foregroundColors[.neutral4] }
+                return .dynamicColor { theme.aliasTokens.colors[.foreground3] }
 
             case .accessoryDetailButtonColor:
-                return .dynamicColor { theme.aliasTokens.foregroundColors[.neutral3] }
+                return .dynamicColor { theme.aliasTokens.colors[.foreground3] }
 
             case .mainBrandColor:
-                return .dynamicColor { theme.aliasTokens.brandColors[.primary] }
+                return .dynamicColor { theme.aliasTokens.colors[.brandForeground1] }
 
             case .destructiveTextColor:
                 return .dynamicColor {

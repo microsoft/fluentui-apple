@@ -133,22 +133,22 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
 
     /// TableViewCell colors with obj-c support
     @objc public static var tableBackgroundColor: UIColor {
-        UIColor(dynamicColor: TableViewCellTokens().backgroundColor)
+        UIColor(dynamicColor: TableViewCellTokenSet(customViewSize: { MSFTableViewCellCustomViewSize.zero })[.backgroundColor].dynamicColor)
     }
     @objc public static var tableBackgroundGroupedColor: UIColor {
-        UIColor(dynamicColor: TableViewCellTokens().backgroundGroupedColor)
+        UIColor(dynamicColor: TableViewCellTokenSet(customViewSize: { MSFTableViewCellCustomViewSize.zero })[.backgroundGroupedColor].dynamicColor)
     }
     @objc public static var tableCellBackgroundColor: UIColor {
-        UIColor(dynamicColor: TableViewCellTokens().cellBackgroundColor)
+        UIColor(dynamicColor: TableViewCellTokenSet(customViewSize: { MSFTableViewCellCustomViewSize.zero })[.cellBackgroundColor].dynamicColor)
     }
     @objc public static var tableCellBackgroundGroupedColor: UIColor {
-        UIColor(dynamicColor: TableViewCellTokens().cellBackgroundGroupedColor)
+        UIColor(dynamicColor: TableViewCellTokenSet(customViewSize: { MSFTableViewCellCustomViewSize.zero })[.cellBackgroundGroupedColor].dynamicColor)
     }
     @objc public static var tableCellBackgroundSelectedColor: UIColor {
-        UIColor(dynamicColor: TableViewCellTokens().cellBackgroundSelectedColor)
+        UIColor(dynamicColor: TableViewCellTokenSet(customViewSize: { MSFTableViewCellCustomViewSize.zero })[.cellBackgroundSelectedColor].dynamicColor)
     }
     @objc public static var tableCellImageColor: UIColor {
-        UIColor(dynamicColor: TableViewCellTokens().imageColor)
+        UIColor(dynamicColor: TableViewCellTokenSet(customViewSize: { MSFTableViewCellCustomViewSize.zero })[.imageColor].dynamicColor)
     }
 
     /// Identifier string for TableViewCell

@@ -46,14 +46,8 @@ public struct HeadsUpDisplay: View, TokenizedControlView {
     public var body: some View {
         let label = state.label ?? ""
         let type = state.type
-<<<<<<< HEAD
-        let verticalPadding = tokens.verticalPadding
-        let horizontalPadding = tokens.horizontalPadding
-=======
-        let foregroundColor = Color(dynamicColor: tokenSet[.foregroundColor].dynamicColor)
         let verticalPadding = HeadsUpDisplayTokenSet.verticalPadding
         let horizontalPadding = HeadsUpDisplayTokenSet.horizontalPadding
->>>>>>> main
 
         HStack(alignment: .center) {
             VStack {
@@ -61,11 +55,7 @@ public struct HeadsUpDisplay: View, TokenizedControlView {
                 case .activity:
                     ActivityIndicator(size: .xLarge)
                         .isAnimating(true)
-<<<<<<< HEAD
-                        .color(UIColor(dynamicColor: tokens.activityIndicatorColor))
-=======
-                        .color(UIColor(dynamicColor: tokenSet[.foregroundColor].dynamicColor))
->>>>>>> main
+                        .color(UIColor(dynamicColor: tokenSet[.activityIndicatorColor].dynamicColor))
                 case .custom, .failure, .success:
                     let image: UIImage = {
                         switch type {
@@ -81,23 +71,23 @@ public struct HeadsUpDisplay: View, TokenizedControlView {
                     }()
 
                     Image(uiImage: image)
-                        .foregroundColor(Color(dynamicColor: tokens.activityIndicatorColor))
+                        .foregroundColor(Color(dynamicColor: tokenSet[.activityIndicatorColor].dynamicColor))
                 }
 
                 if !label.isEmpty {
                     Spacer()
                         .frame(height: verticalPadding)
                     Text(label)
-                        .foregroundColor(Color(dynamicColor: tokens.labelColor))
+                        .foregroundColor(Color(dynamicColor: tokenSet[.labelColor].dynamicColor))
                         .lineLimit(2)
                         .multilineTextAlignment(.center)
                         .fixedSize(horizontal: false, vertical: true)
                 }
             }
         }
-        .padding(EdgeInsets(top: label.isEmpty ? tokens.verticalPadding : tokens.topPadding,
+        .padding(EdgeInsets(top: label.isEmpty ? HeadsUpDisplayTokenSet.verticalPadding : HeadsUpDisplayTokenSet.topPadding,
                             leading: horizontalPadding,
-                            bottom: label.isEmpty ? tokens.verticalPadding : tokens.bottomPadding,
+                            bottom: label.isEmpty ? HeadsUpDisplayTokenSet.verticalPadding : HeadsUpDisplayTokenSet.bottomPadding,
                             trailing: horizontalPadding))
         .squareShaped(minSize: HeadsUpDisplayTokenSet.minSize,
                       maxSize: HeadsUpDisplayTokenSet.maxSize)

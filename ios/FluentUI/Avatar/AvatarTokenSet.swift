@@ -172,15 +172,13 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
                 return .dynamicColor({
                     switch style() {
                     case .default, .group:
-                        return .init(light: theme.aliasTokens.brandColors[.primary].light, dark: GlobalTokens.neutralColors(.black))
+                        return theme.aliasTokens.colors[.brandForeground1]
                     case .accent:
-                        return theme.aliasTokens.foregroundColors[.neutralInverted]
-                    case .outlined:
-                        return .init(light: GlobalTokens.neutralColors(.grey42), dark: GlobalTokens.neutralColors(.grey78))
+                        return theme.aliasTokens.colors[.foregroundOnColor]
+                    case .outlined, .overflow:
+                        return theme.aliasTokens.colors[.foreground2]
                     case .outlinedPrimary:
-                        return .init(light: theme.aliasTokens.brandColors[.primary].light, dark: GlobalTokens.neutralColors(.grey78))
-                    case .overflow:
-                        return theme.aliasTokens.foregroundColors[.neutral3]
+                        return theme.aliasTokens.colors[.brandForeground4]
                     }
                 })
             }

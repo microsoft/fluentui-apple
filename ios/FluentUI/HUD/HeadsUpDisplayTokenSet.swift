@@ -17,10 +17,16 @@ public class HeadsUpDisplayTokenSet: ControlTokenSet<HeadsUpDisplayTokenSet.Toke
 
         /// The corner radius of the squared background of the Heads-up display.
         case cornerRadius
+
+        /// The color of the activity indicator presented by the Heads-up display.
+        case activityIndicatorColor
+
+        /// The color of the label presented by the Heads-up display.
+        case labelColor
     }
 
     init() {
-        super.init { token, _ in
+        super.init { token, theme in
             switch token {
             case .backgroundColor:
                 return .dynamicColor {
@@ -38,6 +44,16 @@ public class HeadsUpDisplayTokenSet: ControlTokenSet<HeadsUpDisplayTokenSet.Toke
             case .cornerRadius:
                 return .float {
                     return GlobalTokens.borderRadius(.medium)
+                }
+
+            case .activityIndicatorColor:
+                return .dynamicColor {
+                    return theme.aliasTokens.colors[.foreground2]
+                }
+
+            case .labelColor:
+                return .dynamicColor {
+                    return theme.aliasTokens.colors[.foregroundInverted1]
                 }
             }
         }
@@ -57,6 +73,12 @@ extension HeadsUpDisplayTokenSet {
 
     /// The distance between the label and image contents from the top and bottom edges of the squared background of the Heads-up display.
     static let verticalPadding: CGFloat = GlobalTokens.spacing(.large)
+
+    /// The distance between the top of the hud panel and the activity indicator
+    static let topPadding: CGFloat = GlobalTokens.spacing(.large)
+
+    /// The distance between the bottom of the hud panel and the label
+    static let bottomPadding: CGFloat = GlobalTokens.spacing(.medium)
 
     /// The minimum value for the side of the squared background of the Heads-up display.
     static let minSize: CGFloat = 100
