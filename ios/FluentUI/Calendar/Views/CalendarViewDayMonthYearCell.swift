@@ -62,7 +62,13 @@ class CalendarViewDayMonthYearCell: CalendarViewDayMonthCell {
     }
 
     // Only supports indicator levels from 0...4
-    func setup(textStyle: CalendarViewDayCellTextStyle, backgroundStyle: CalendarViewDayCellBackgroundStyle, selectionStyle: CalendarViewDayCellSelectionStyle, monthLabelText: String, dateLabelText: String, yearLabelText: String, indicatorLevel: Int) {
+    func setup(textStyle: CalendarViewDayCellTextStyle,
+               backgroundStyle: CalendarViewDayCellBackgroundStyle,
+               selectionStyle: CalendarViewDayCellSelectionStyle,
+               monthLabelText: String,
+               dateLabelText: String,
+               yearLabelText: String,
+               indicatorLevel: Int) {
         super.setup(textStyle: textStyle, backgroundStyle: backgroundStyle, selectionStyle: selectionStyle, monthLabelText: monthLabelText, dateLabelText: dateLabelText, indicatorLevel: indicatorLevel)
 
         updateYearLabelColor(textStyle: textStyle)

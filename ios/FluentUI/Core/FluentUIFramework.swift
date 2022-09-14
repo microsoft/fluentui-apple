@@ -69,7 +69,7 @@ public class FluentUIFramework: NSObject {
             switch self {
             case .normal:
                 return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background3])
-            case.dateTimePicker:
+            case .dateTimePicker:
                 return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background2])
             }
         }
