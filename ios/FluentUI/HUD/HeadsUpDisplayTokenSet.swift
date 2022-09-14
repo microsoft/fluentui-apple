@@ -17,18 +17,6 @@ public class HeadsUpDisplayTokenSet: ControlTokenSet<HeadsUpDisplayTokenSet.Toke
 
         /// The corner radius of the squared background of the Heads-up display.
         case cornerRadius
-
-        /// The distance between the label and image contents from the left and right edges of the squared background of the Heads-up display.
-        case horizontalPadding
-
-        /// The distance between the label and image contents from the top and bottom edges of the squared background of the Heads-up display.
-        case verticalPadding
-
-        /// The minimum value for the side of the squared background of the Heads-up display.
-        case minSize
-
-        /// The maximum value for the side of the squared background of the Heads-up display.
-        case maxSize
     }
 
     init() {
@@ -51,27 +39,29 @@ public class HeadsUpDisplayTokenSet: ControlTokenSet<HeadsUpDisplayTokenSet.Toke
                 return .float {
                     return GlobalTokens.borderRadius(.medium)
                 }
-
-            case .horizontalPadding:
-                return .float {
-                    return GlobalTokens.spacing(.small)
-                }
-
-            case .verticalPadding:
-                return .float {
-                    return GlobalTokens.spacing(.large)
-                }
-
-            case .minSize:
-                return .float {
-                    return 100
-                }
-
-            case .maxSize:
-                return .float {
-                    return 192
-                }
             }
         }
     }
+
+}
+
+// MARK: - Constants
+
+extension HeadsUpDisplayTokenSet {
+    static let presentationScaleFactorDefault: CGFloat = 1
+    static let opacityPresented: Double = 1.0
+    static let opacityDismissed: Double = 0.0
+
+    /// The distance between the label and image contents from the left and right edges of the squared background of the Heads-up display.
+    static let horizontalPadding: CGFloat = GlobalTokens.spacing(.small)
+
+    /// The distance between the label and image contents from the top and bottom edges of the squared background of the Heads-up display.
+    static let verticalPadding: CGFloat = GlobalTokens.spacing(.large)
+
+    /// The minimum value for the side of the squared background of the Heads-up display.
+    static let minSize: CGFloat = 100
+
+    /// The maximum value for the side of the squared background of the Heads-up display.
+    static let maxSize: CGFloat = 192
+
 }

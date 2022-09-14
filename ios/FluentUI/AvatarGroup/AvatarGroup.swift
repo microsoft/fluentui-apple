@@ -123,7 +123,7 @@ public struct AvatarGroup: View, TokenizedControlView {
         let groupHeight: CGFloat = {
             let avatarMaxHeight: CGFloat
             if let avatar = avatarViews.first {
-                let avatarSize = avatar.tokenSet[.avatarSize].float
+                let avatarSize = avatar.contentSize
                 let ringThickness = avatar.tokenSet[.ringThickness].float
                 let ringInnerGap = avatar.tokenSet[.ringInnerGap].float
                 let ringOuterGap = avatar.tokenSet[.ringOuterGap].float
@@ -134,7 +134,7 @@ public struct AvatarGroup: View, TokenizedControlView {
             }
 
             // Use the overflow tokens as a default in case we have no Avatars to show
-            let avatarSize = overflowAvatar.tokenSet[.avatarSize].float
+            let avatarSize = overflowAvatar.contentSize
             let ringThickness = overflowAvatar.tokenSet[.ringThickness].float
             let ringInnerGap = overflowAvatar.tokenSet[.ringInnerGap].float
             let ringOuterGap = overflowAvatar.tokenSet[.ringOuterGap].float

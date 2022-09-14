@@ -342,10 +342,13 @@ open class Button: NSButton {
 
 	private static let borderWidth: CGFloat = 1
 
+	private var minButtonHeight: CGFloat = ButtonSizeParameters.large.minButtonHeight
+
 	private func setSizeParameters(forSize: ButtonSize) {
 		let parameters = ButtonSizeParameters.parameters(forSize: size)
 		font = NSFont.systemFont(ofSize: parameters.fontSize)
 		cornerRadius = parameters.cornerRadius
+		minButtonHeight = parameters.minButtonHeight
 		guard let cell = cell as? ButtonCell else {
 			return
 		}
@@ -367,6 +370,12 @@ open class Button: NSButton {
 			invalidateIntrinsicContentSize()
 			needsDisplay = true
 		}
+	}
+
+	open override var intrinsicContentSize: CGSize {
+		let superSize = super.intrinsicContentSize
+		return CGSize(width: superSize.width,
+					  height: superSize.height < minButtonHeight ? minButtonHeight : superSize.height)
 	}
 }
 
@@ -523,7 +532,14 @@ class ButtonCell: NSButtonCell {
 /// Indicates the size of the button
 @objc(MSFButtonSize)
 public enum ButtonSize: Int, CaseIterable {
+
+	/// Minimum Button Height - 28 pts
 	case large
+
+	/// Minimum Button Height - 24 pts
+	case medium
+
+	/// Minimum Button Height - 20 pts
 	case small
 }
 
@@ -587,6 +603,7 @@ private struct ButtonSizeParameters {
 	fileprivate let titleVerticalPositionAdjustment: CGFloat
 	fileprivate let titleToImageSpacing: CGFloat
 	fileprivate let titleToImageVerticalSpacingAdjustment: CGFloat
+	fileprivate var minButtonHeight: CGFloat
 
 	static let large = ButtonSizeParameters(
 		fontSize: 15,  // line height: 19
@@ -595,7 +612,19 @@ private struct ButtonSizeParameters {
 		horizontalPadding: 36,
 		titleVerticalPositionAdjustment: -0.25,
 		titleToImageSpacing: 10,
-		titleToImageVerticalSpacingAdjustment: 7
+		titleToImageVerticalSpacingAdjustment: 7,
+		minButtonHeight: 28
+	)
+
+	static let medium = ButtonSizeParameters(
+		fontSize: 13,  // line height: 17
+		cornerRadius: 6,
+		verticalPadding: 2.0, // overall height: 24
+		horizontalPadding: 5,
+		titleVerticalPositionAdjustment: 0,
+		titleToImageSpacing: 3,
+		titleToImageVerticalSpacingAdjustment: 7,
+		minButtonHeight: 24
 	)
 
 	static let small = ButtonSizeParameters(
@@ -605,13 +634,16 @@ private struct ButtonSizeParameters {
 		horizontalPadding: 14,
 		titleVerticalPositionAdjustment: 0,
 		titleToImageSpacing: 6,
-		titleToImageVerticalSpacingAdjustment: 7
+		titleToImageVerticalSpacingAdjustment: 7,
+		minButtonHeight: 20
 	)
 
 	static func parameters(forSize: ButtonSize) -> ButtonSizeParameters {
 		switch forSize {
 		case .large:
 			return .large
+		case .medium:
+			return .medium
 		case .small:
 			return .small
 		}
