@@ -39,12 +39,13 @@ open class SegmentedControl: UIControl {
 
         var backgroundHasRoundedCorners: Bool { return self == .primaryPill || self == .onBrandPill }
 
-        func backgroundColor(for window: UIWindow) -> UIColor {
+        func backgroundColor(fluentTheme: FluentTheme) -> UIColor {
             switch self {
             case .primaryPill:
-                return Colors.SegmentedControl.PrimaryPill.background
+                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background5])
             case .onBrandPill:
-                return UIColor(light: Colors.primaryShade10(for: window), dark: Colors.SegmentedControl.OnBrandPill.background)
+                return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.brandBackground2].light,
+                                                          dark: fluentTheme.aliasTokens.colors[.background5].dark))
             }
         }
         func backgroundColorDisabled(for window: UIWindow) -> UIColor {
@@ -284,7 +285,7 @@ open class SegmentedControl: UIControl {
         }
 
         pillMaskedContentContainerView.backgroundColor = customSegmentedControlSelectedButtonBackgroundColor ?? (isEnabled ? style.selectionColor(for: window) : style.selectionColorDisabled)
-        backgroundView.backgroundColor = customSegmentedControlBackgroundColor ?? (isEnabled ? style.backgroundColor(for: window) : style.backgroundColorDisabled(for: window))
+        backgroundView.backgroundColor = customSegmentedControlBackgroundColor ?? (isEnabled ? style.backgroundColor(fluentTheme: fluentTheme) : style.backgroundColorDisabled(for: window))
         let maskedContentColor = isEnabled ? (customSelectedSegmentedControlButtonTextColor ?? style.segmentTextColorSelected(for: window)) : style.segmentTextColorSelectedAndDisabled(for: window)
         for maskedLabel in pillMaskedLabels {
             guard let maskedLabel = maskedLabel else {
