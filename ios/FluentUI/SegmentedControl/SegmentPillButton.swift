@@ -32,6 +32,17 @@ class SegmentPillButton: UIButton {
         self.item = item
         super.init(frame: .zero)
 
+        // TODO: Once iOS 14 support is dropped, set title, etc., in configuration
+        let title = item.title
+        if let image = item.image {
+            self.setImage(image, for: .normal)
+            self.accessibilityLabel = title
+            self.largeContentTitle = title
+        } else {
+            self.setTitle(title, for: .normal)
+        }
+        self.showsLargeContentViewer = true
+
         if #available(iOS 15.0, *) {
             var configuration = UIButton.Configuration.plain()
             configuration.contentInsets = Constants.insets
@@ -44,23 +55,12 @@ class SegmentPillButton: UIButton {
             configuration.titleTextAttributesTransformer = titleTransformer
             self.configuration = configuration
         } else {
+            self.titleLabel?.font = UIFont.systemFont(ofSize: Constants.fontSize)
             self.contentEdgeInsets = UIEdgeInsets(top: Constants.insets.top,
                                                   left: Constants.insets.leading,
                                                   bottom: Constants.insets.bottom,
                                                   right: Constants.insets.trailing)
         }
-
-        // TODO: Once iOS 14 support is dropped, set title, etc., in configuration
-        let title = item.title
-        if let image = item.image {
-            self.setImage(image, for: .normal)
-            self.accessibilityLabel = title
-            self.largeContentTitle = title
-        } else {
-            self.setTitle(title, for: .normal)
-        }
-        self.showsLargeContentViewer = true
-        self.titleLabel?.font = UIFont.systemFont(ofSize: Constants.fontSize)
 
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(isUnreadValueDidChange),
