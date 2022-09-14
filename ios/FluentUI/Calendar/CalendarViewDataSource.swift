@@ -10,9 +10,6 @@ import UIKit
 protocol CalendarViewStyleDataSource: AnyObject {
     func calendarViewDataSource(_ dataSource: CalendarViewDataSource, textStyleForDayWithStart dayStartDate: Date, end: Date, dayStartComponents: DateComponents, todayComponents: DateComponents) -> CalendarViewDayCellTextStyle
 
-    // Suggestion: Use provided components for performance improvements. Check where it's called to see what's available
-    func calendarViewDataSource(_ dataSource: CalendarViewDataSource, backgroundStyleForDayWithStart dayStartDate: Date, end: Date, dayStartComponents: DateComponents, todayComponents: DateComponents) -> CalendarViewDayCellBackgroundStyle
-
     func calendarViewDataSource(_ dataSource: CalendarViewDataSource, selectionStyleForDayWithStart dayStartDate: Date, end: Date) -> CalendarViewDayCellSelectionStyle
 }
 
@@ -158,8 +155,6 @@ extension CalendarViewDataSource: UICollectionViewDataSource {
         // Calculate style parameters
         let textStyle = styleDataSource.calendarViewDataSource(self, textStyleForDayWithStart: dayStartDate, end: dayEndDate, dayStartComponents: dayStartDateComponents, todayComponents: todayDateComponents)
 
-        let backgroundStyle = styleDataSource.calendarViewDataSource(self, backgroundStyleForDayWithStart: dayStartDate, end: dayEndDate, dayStartComponents: dayStartDateComponents, todayComponents: todayDateComponents)
-
         let selectionStyle = styleDataSource.calendarViewDataSource(self, selectionStyleForDayWithStart: dayStartDate, end: dayEndDate)
 
         let monthLabelIndex = dayStartDateComponents.month! - 1
@@ -177,7 +172,7 @@ extension CalendarViewDataSource: UICollectionViewDataSource {
             guard let dayCell = collectionView.dequeueReusableCell(withReuseIdentifier: CalendarViewDayCell.identifier, for: indexPath) as? CalendarViewDayCell else {
                 return UICollectionViewCell()
             }
-            dayCell.setup(textStyle: textStyle, backgroundStyle: backgroundStyle, selectionStyle: selectionStyle, dateLabelText: "", indicatorLevel: 0)
+            dayCell.setup(textStyle: textStyle, selectionStyle: selectionStyle, dateLabelText: "", indicatorLevel: 0)
             return dayCell
         }
 
@@ -185,7 +180,7 @@ extension CalendarViewDataSource: UICollectionViewDataSource {
             guard let dayTodayCell = collectionView.dequeueReusableCell(withReuseIdentifier: CalendarViewDayTodayCell.identifier, for: indexPath) as? CalendarViewDayTodayCell else {
                 return UICollectionViewCell()
             }
-            dayTodayCell.setup(textStyle: textStyle, backgroundStyle: backgroundStyle, selectionStyle: selectionStyle, dateLabelText: dateLabelText, indicatorLevel: indicatorLevel)
+            dayTodayCell.setup(textStyle: textStyle, selectionStyle: selectionStyle, dateLabelText: dateLabelText, indicatorLevel: indicatorLevel)
             return dayTodayCell
         }
 
@@ -194,13 +189,13 @@ extension CalendarViewDataSource: UICollectionViewDataSource {
                 guard let dayMonthYearCell = collectionView.dequeueReusableCell(withReuseIdentifier: CalendarViewDayMonthYearCell.identifier, for: indexPath) as? CalendarViewDayMonthYearCell else {
                     return UICollectionViewCell()
                 }
-                dayMonthYearCell.setup(textStyle: textStyle, backgroundStyle: backgroundStyle, selectionStyle: selectionStyle, monthLabelText: monthLabelText, dateLabelText: dateLabelText, yearLabelText: yearLabelText, indicatorLevel: indicatorLevel)
+                dayMonthYearCell.setup(textStyle: textStyle, selectionStyle: selectionStyle, monthLabelText: monthLabelText, dateLabelText: dateLabelText, yearLabelText: yearLabelText, indicatorLevel: indicatorLevel)
                 return dayMonthYearCell
             } else {
                 guard let dayMonthCell = collectionView.dequeueReusableCell(withReuseIdentifier: CalendarViewDayMonthCell.identifier, for: indexPath) as? CalendarViewDayMonthCell else {
                     return UICollectionViewCell()
                 }
-                dayMonthCell.setup(textStyle: textStyle, backgroundStyle: backgroundStyle, selectionStyle: selectionStyle, monthLabelText: monthLabelText, dateLabelText: dateLabelText, indicatorLevel: indicatorLevel)
+                dayMonthCell.setup(textStyle: textStyle, selectionStyle: selectionStyle, monthLabelText: monthLabelText, dateLabelText: dateLabelText, indicatorLevel: indicatorLevel)
                 return dayMonthCell
             }
         }
@@ -208,7 +203,7 @@ extension CalendarViewDataSource: UICollectionViewDataSource {
         guard let dayCell = collectionView.dequeueReusableCell(withReuseIdentifier: CalendarViewDayCell.identifier, for: indexPath) as? CalendarViewDayCell else {
             return UICollectionViewCell()
         }
-        dayCell.setup(textStyle: textStyle, backgroundStyle: backgroundStyle, selectionStyle: selectionStyle, dateLabelText: dateLabelText, indicatorLevel: indicatorLevel)
+        dayCell.setup(textStyle: textStyle, selectionStyle: selectionStyle, dateLabelText: dateLabelText, indicatorLevel: indicatorLevel)
         return dayCell
     }
 

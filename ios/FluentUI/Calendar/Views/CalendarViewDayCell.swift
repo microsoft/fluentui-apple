@@ -12,13 +12,6 @@ enum CalendarViewDayCellTextStyle {
     case secondary
 }
 
-// MARK: - CalendarViewDayCellBackgroundStyle
-
-enum CalendarViewDayCellBackgroundStyle {
-    case primary
-    case secondary
-}
-
 // MARK: - CalendarViewDayCellVisualState
 
 enum CalendarViewDayCellVisualState {
@@ -74,7 +67,6 @@ class CalendarViewDayCell: UICollectionViewCell {
     }
 
     private(set) var textStyle: CalendarViewDayCellTextStyle = .primary
-    private(set) var backgroundStyle: CalendarViewDayCellBackgroundStyle = .primary
 
     private var visibleDotViewAlpha: CGFloat = 1.0
 
@@ -127,9 +119,8 @@ class CalendarViewDayCell: UICollectionViewCell {
     }
 
     // Only supports indicator levels from 0...4
-    func setup(textStyle: CalendarViewDayCellTextStyle, backgroundStyle: CalendarViewDayCellBackgroundStyle, selectionStyle: CalendarViewDayCellSelectionStyle, dateLabelText: String, indicatorLevel: Int) {
+    func setup(textStyle: CalendarViewDayCellTextStyle, selectionStyle: CalendarViewDayCellSelectionStyle, dateLabelText: String, indicatorLevel: Int) {
         self.textStyle = textStyle
-        self.backgroundStyle = backgroundStyle
         selectionOverlayView.selectionStyle = selectionStyle
 
         // Assign text content
