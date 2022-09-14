@@ -196,25 +196,6 @@ open class Button: UIButton {
         return size
     }
 
-    open override func imageRect(forContentRect contentRect: CGRect) -> CGRect {
-        var rect = super.imageRect(forContentRect: contentRect)
-
-        if let image = image {
-            let imageHeight = image.size.height
-
-            // If the entire image doesn't fit in the default rect, increase the rect's height
-            // to fit the entire image and reposition the origin to keep the image centered.
-            if imageHeight > rect.size.height {
-                rect.origin.y -= round((imageHeight - rect.size.height) / 2.0)
-                rect.size.height = imageHeight
-            }
-
-            rect.size.width = image.size.width
-        }
-
-        return rect
-    }
-
     @objc public init(style: ButtonStyle = .secondaryOutline) {
         self.style = style
         super.init(frame: .zero)
