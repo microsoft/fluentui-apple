@@ -84,6 +84,9 @@ class BottomSheetDemoController: UIViewController {
     @objc private func showTransientSheet() {
         let sheetContentView = UIView()
 
+        // This is the bottom sheet that will temporarily be displayed after tapping the "Show transient sheet" button.
+        // There can be multiple of these on screen at the same time. All the currently presented transient sheets
+        // are tracked in presentedTransientSheets.
         let secondarySheetController = BottomSheetController(expandedContentView: sheetContentView)
         secondarySheetController.delegate = self
         secondarySheetController.collapsedContentHeight = 250
@@ -94,11 +97,7 @@ class BottomSheetDemoController: UIViewController {
         secondarySheetController.allowsSwipeToHide = true
 
         let dismissButton = Button(primaryAction: UIAction(title: "Dismiss", handler: { _ in
-            secondarySheetController.setIsHidden(true, animated: true) { _ in
-                secondarySheetController.willMove(toParent: nil)
-                secondarySheetController.removeFromParent()
-                secondarySheetController.view.removeFromSuperview()
-            }
+            secondarySheetController.setIsHidden(true, animated: true)
         }))
 
         dismissButton.style = .primaryFilled
