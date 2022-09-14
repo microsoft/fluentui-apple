@@ -116,7 +116,7 @@ class CalendarViewDayCell: UICollectionViewCell {
                                                object: nil)
     }
 
-    @objc private func themeDidChange(_ notification: Notification) {
+    @objc func themeDidChange(_ notification: Notification) {
         updateViews()
         dotView.color = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground3])
         dateLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground3])

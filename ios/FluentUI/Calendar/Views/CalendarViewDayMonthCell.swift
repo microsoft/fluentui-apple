@@ -38,6 +38,24 @@ class CalendarViewDayMonthCell: CalendarViewDayCell {
         monthLabel.font = UIFont.fluent(fluentTheme.aliasTokens.typography[.caption2])
         monthLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground3])
         contentView.addSubview(monthLabel)
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+    }
+
+    @objc override func themeDidChange(_ notification: Notification) {
+        updateMonthLabelColor(textStyle: textStyle)
+    }
+
+    private func updateMonthLabelColor(textStyle: CalendarViewDayCellTextStyle) {
+        switch textStyle {
+        case .primary:
+            monthLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground3])
+        case .secondary:
+            monthLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
+        }
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -52,12 +70,7 @@ class CalendarViewDayMonthCell: CalendarViewDayCell {
     func setup(textStyle: CalendarViewDayCellTextStyle, backgroundStyle: CalendarViewDayCellBackgroundStyle, selectionStyle: CalendarViewDayCellSelectionStyle, monthLabelText: String, dateLabelText: String, indicatorLevel: Int) {
         super.setup(textStyle: textStyle, backgroundStyle: backgroundStyle, selectionStyle: selectionStyle, dateLabelText: dateLabelText, indicatorLevel: indicatorLevel)
 
-        switch textStyle {
-        case .primary:
-            monthLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground3])
-        case .secondary:
-            monthLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
-        }
+        updateMonthLabelColor(textStyle: textStyle)
 
         monthLabel.text = monthLabelText
     }
