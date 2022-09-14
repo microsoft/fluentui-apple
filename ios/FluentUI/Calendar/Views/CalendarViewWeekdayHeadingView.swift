@@ -29,6 +29,19 @@ class CalendarViewWeekdayHeadingView: UIView {
         self.headerStyle = headerStyle
 
         super.init(frame: .zero)
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        updateBackgroundColor()
+    }
+
+    private func updateBackgroundColor() {
+        backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background2])
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -70,7 +83,7 @@ class CalendarViewWeekdayHeadingView: UIView {
 
     override func didMoveToWindow() {
         super.didMoveToWindow()
-        backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background2])
+        updateBackgroundColor()
     }
 
     func setup(horizontalSizeClass: UIUserInterfaceSizeClass, firstWeekday: Int) {
