@@ -636,7 +636,7 @@ public class BottomSheetController: UIViewController {
             // Velocity too low, snap to the closest expansion state
             var distances: [BottomSheetExpansionState: CGFloat] = [
                 .expanded: abs(offset(for: .expanded) - currentSheetVerticalOffset),
-                .collapsed: abs(offset(for: .collapsed) - currentSheetVerticalOffset),
+                .collapsed: abs(offset(for: .collapsed) - currentSheetVerticalOffset)
             ]
 
             if allowsSwipeToHide {
