@@ -58,6 +58,18 @@ class CommandBarButton: UIButton {
         showsMenuAsPrimaryAction = item.showsMenuAsPrimaryAction
 
         updateState()
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        guard let window = window, window.isEqual(notification.object) else {
+            return
+        }
+        updateStyle()
     }
 
     @available(*, unavailable)
@@ -96,48 +108,49 @@ class CommandBarButton: UIButton {
 
     private let isPersistSelection: Bool
 
-    private var selectedTintColor: UIColor {
-        guard let window = window else {
-            return UIColor(light: Colors.communicationBlue,
-                           dark: .black)
-        }
+    private var normalTintColor: UIColor {
+        return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
+    }
 
-        return UIColor(light: Colors.primary(for: window),
-                       dark: .black)
+    private var selectedTintColor: UIColor {
+        return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.brandForeground4].light,
+                                                  dark: fluentTheme.aliasTokens.colors[.foreground1].dark))
     }
 
     private var selectedBackgroundColor: UIColor {
-        guard let window = window else {
-            return UIColor(light: Colors.Palette.communicationBlueTint30.color,
-                           dark: Colors.Palette.communicationBlue.color)
-        }
+        return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.brandBackground4].light,
+                                                 dark: fluentTheme.aliasTokens.colors[.background5Selected].dark))
+    }
 
-        return  UIColor(light: Colors.primaryTint30(for: window),
-                        dark: Colors.primary(for: window))
+    private var normalBackgroundColor: UIColor {
+        return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background5])
+    }
+
+    private var highlightedBackgroundColor: UIColor {
+        return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background5Pressed])
     }
 
     private func updateStyle() {
         // TODO: Once iOS 14 support is dropped, this should be converted to a constant (let) that will be initialized by the logic below.
         var resolvedBackgroundColor: UIColor = .clear
-        let resolvedTintColor: UIColor = isSelected ? selectedTintColor : ColorConstants.normalTintColor
+        let resolvedTintColor: UIColor = isSelected ? selectedTintColor : normalTintColor
 
         if isPersistSelection {
             if isSelected {
                 resolvedBackgroundColor = selectedBackgroundColor
             } else if isHighlighted {
-                resolvedBackgroundColor = ColorConstants.highlightedBackgroundColor
+                resolvedBackgroundColor = highlightedBackgroundColor
             } else {
-                resolvedBackgroundColor = ColorConstants.normalBackgroundColor
+                resolvedBackgroundColor = normalBackgroundColor
             }
         }
 
-        tintColor = resolvedTintColor
         if #available(iOS 15.0, *) {
             configuration?.baseForegroundColor = resolvedTintColor
             configuration?.background.backgroundColor = resolvedBackgroundColor
         } else {
             backgroundColor = resolvedBackgroundColor
-            setTitleColor(tintColor, for: .normal)
+            setTitleColor(resolvedTintColor, for: .normal)
         }
     }
 
@@ -150,13 +163,5 @@ class CommandBarButton: UIButton {
                                                     left: 10.0,
                                                     bottom: 8.0,
                                                     right: 10.0)
-    }
-
-    private struct ColorConstants {
-        static let normalTintColor: UIColor = Colors.textPrimary
-        static let normalBackgroundColor = UIColor(light: Colors.gray50,
-                                                   dark: Colors.gray600)
-        static let highlightedBackgroundColor = UIColor(light: Colors.gray100,
-                                                        dark: Colors.gray900)
     }
 }
