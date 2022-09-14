@@ -165,6 +165,15 @@ public class BottomSheetController: UIViewController {
         }
     }
 
+    /// A closure for resolving the desired collapsed sheet height given a resolution context.
+    @objc open var collapsedHeightResolver: ((ContentHeightResolutionContext) -> CGFloat)? {
+        didSet {
+            if isViewLoaded {
+                invalidateSheetSize()
+            }
+        }
+    }
+
     /// Height of the top portion of the content view that should be visible when the bottom sheet is collapsed.
     ///
     /// When set to 0, `headerContentHeight` will be used.
@@ -295,6 +304,20 @@ public class BottomSheetController: UIViewController {
         }
 
         return animator
+    }
+
+    /// Forces a call to `collapsedHeightResolver` to fetch the latest desired sheet height.
+    @objc public func invalidateSheetSize() {
+        guard isViewLoaded else {
+            return
+        }
+
+        lastCollapsedSheetHeightResolutionContext = nil
+
+        // If we are animating to .collapsed or already collapsed, we need to move to refresh the animation target.
+        if targetExpansionState == .collapsed || (currentExpansionState == .collapsed && targetExpansionState == nil) {
+            move(to: .collapsed)
+        }
     }
 
     // MARK: - View loading
@@ -826,11 +849,20 @@ public class BottomSheetController: UIViewController {
 
     // Height of the sheet in collapsed state
     private var collapsedSheetHeight: CGFloat {
-        let visibleContentHeight = (collapsedContentHeight > 0) ? collapsedContentHeight : headerContentHeight
-        let idealHeight = currentResizingHandleHeight + visibleContentHeight + view.safeAreaInsets.bottom
+        let safeAreaSheetHeight: CGFloat
+        if resolvedCollapsedSheetHeight > 0 {
+            safeAreaSheetHeight = resolvedCollapsedSheetHeight
+        } else if collapsedContentHeight > 0 {
+            safeAreaSheetHeight = collapsedContentHeight + currentResizingHandleHeight
+        } else {
+            safeAreaSheetHeight = headerContentHeight + currentResizingHandleHeight
+        }
+
+        let idealHeight = safeAreaSheetHeight + view.safeAreaInsets.bottom
         return min(idealHeight, maxSheetHeight)
     }
 
+    // Maximum total sheet height including parts outside of the safe area.
     private var maxSheetHeight: CGFloat {
         let maxHeight: CGFloat
 
@@ -842,6 +874,24 @@ public class BottomSheetController: UIViewController {
 
         return maxHeight
     }
+
+    // Output of `collapsedHeightResolver` wrapped in a cache.
+    private var resolvedCollapsedSheetHeight: CGFloat {
+        let oldContext = lastCollapsedSheetHeightResolutionContext
+        let newContext = ContentHeightResolutionContext(maximumHeight: maxSheetHeight - view.safeAreaInsets.bottom, containerTraitCollection: view.traitCollection)
+
+        if oldContext?.maximumHeight != newContext.maximumHeight || !(oldContext?.containerTraitCollection.containsTraits(in: newContext.containerTraitCollection) ?? false) {
+            lastResolvedCollapsedSheetHeight = collapsedHeightResolver?(newContext) ?? 0
+            lastCollapsedSheetHeightResolutionContext = newContext
+        }
+        return lastResolvedCollapsedSheetHeight
+    }
+
+    // Last output of `collapsedHeightResolver`.
+    private var lastResolvedCollapsedSheetHeight: CGFloat = 0
+
+    // Context we last used for height resolving.
+    private var lastCollapsedSheetHeightResolutionContext: ContentHeightResolutionContext?
 
     private var currentResizingHandleHeight: CGFloat {
         (isExpandable ? ResizingHandleView.height : 0.0)

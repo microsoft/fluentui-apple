@@ -24,8 +24,10 @@ class BottomSheetDemoController: UIViewController {
         let bottomSheetViewController = BottomSheetController(headerContentView: headerView, expandedContentView: expandedContentView)
         bottomSheetViewController.hostedScrollView = personaListView
         bottomSheetViewController.headerContentHeight = BottomSheetDemoController.headerHeight
-        bottomSheetViewController.collapsedContentHeight = 70
         bottomSheetViewController.delegate = self
+        bottomSheetViewController.collapsedHeightResolver = { context in
+            return context.containerTraitCollection.verticalSizeClass == .regular ? 100 : 70
+        }
 
         self.bottomSheetViewController = bottomSheetViewController
 
@@ -348,7 +350,7 @@ extension BottomSheetDemoController: UIScrollViewDelegate {
 }
 
 extension BottomSheetDemoController: BottomSheetControllerDelegate {
-    func bottomSheetControllerCollapsedSheetHeightDidChange(_ bottomSheetController: BottomSheetController) {
+    func bottomSheetControllerCollapsedHeightInSafeAreaDidChange(_ bottomSheetController: BottomSheetController) {
         if let tableView = mainTableView {
             tableView.contentInset.bottom = bottomSheetController.collapsedHeightInSafeArea
         }
