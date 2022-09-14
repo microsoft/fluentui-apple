@@ -56,12 +56,13 @@ open class SegmentedControl: UIControl {
                 return UIColor(light: Colors.primaryShade10(for: window), dark: Colors.SegmentedControl.OnBrandPill.backgroundDisabled)
             }
         }
-        func selectionColor(for window: UIWindow) -> UIColor {
+        func selectionColor(fluentTheme: FluentTheme) -> UIColor {
             switch self {
             case .primaryPill:
-                return Colors.primary(for: window)
+                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandBackground1])
             case .onBrandPill:
-                return Colors.SegmentedControl.OnBrandPill.selection
+                return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.background1].light,
+                                                          dark: fluentTheme.aliasTokens.colors[.background5Selected].dark))
             }
         }
         var selectionColorDisabled: UIColor {
@@ -72,12 +73,13 @@ open class SegmentedControl: UIControl {
                 return Colors.SegmentedControl.OnBrandPill.selectionDisabled
             }
         }
-        var segmentTextColor: UIColor {
+        func segmentTextColor(fluentTheme: FluentTheme) -> UIColor {
             switch self {
             case .primaryPill:
-                return Colors.SegmentedControl.PrimaryPill.segmentText
+                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
             case .onBrandPill:
-                return Colors.SegmentedControl.OnBrandPill.segmentText
+                return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.foregroundOnColor].light,
+                                                          dark: fluentTheme.aliasTokens.colors[.foreground2].dark))
             }
         }
         func segmentTextColorSelected(for window: UIWindow) -> UIColor {
@@ -284,7 +286,7 @@ open class SegmentedControl: UIControl {
             return
         }
 
-        pillMaskedContentContainerView.backgroundColor = customSegmentedControlSelectedButtonBackgroundColor ?? (isEnabled ? style.selectionColor(for: window) : style.selectionColorDisabled)
+        pillMaskedContentContainerView.backgroundColor = customSegmentedControlSelectedButtonBackgroundColor ?? (isEnabled ? style.selectionColor(fluentTheme: fluentTheme) : style.selectionColorDisabled)
         backgroundView.backgroundColor = customSegmentedControlBackgroundColor ?? (isEnabled ? style.backgroundColor(fluentTheme: fluentTheme) : style.backgroundColorDisabled(for: window))
         let maskedContentColor = isEnabled ? (customSelectedSegmentedControlButtonTextColor ?? style.segmentTextColorSelected(for: window)) : style.segmentTextColorSelectedAndDisabled(for: window)
         for maskedLabel in pillMaskedLabels {
@@ -299,7 +301,7 @@ open class SegmentedControl: UIControl {
             }
             maskedImage.tintColor = maskedContentColor
         }
-        let contentColor = isEnabled ? (customSegmentedControlButtonTextColor ?? style.segmentTextColor) : style.segmentTextColorDisabled(for: window)
+        let contentColor = isEnabled ? (customSegmentedControlButtonTextColor ?? style.segmentTextColor(fluentTheme: fluentTheme)) : style.segmentTextColorDisabled(for: window)
         for button in buttons {
             button.setTitleColor(contentColor, for: .normal)
             button.tintColor = contentColor
