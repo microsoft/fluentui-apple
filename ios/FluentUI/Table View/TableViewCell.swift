@@ -404,15 +404,6 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     ///   - title: The title string
     ///   - subtitle: The subtitle string
     ///   - footer: The footer string
-    ///   - attributedTitle: The attributed title
-    ///   - attributedSubtitle: The attributed subtitle
-    ///   - attributedFooter: The attributed footer
-    ///   - isAttributedTitleSet: Boolean defining whether or not the `attributedTitle` has been set
-    ///   - isAttributedSubtitleSet: Boolean defining whether or not the `attributedSubtitle` has been set
-    ///   - isAttributedFooterSet: Boolean defining whether or not the `attributedFooter` has been set
-    ///   - titleFont: The title font; If not set, it will default to the font definition in tokens
-    ///   - subtitleFont: The subtitle font; If not set, it will default to the font definition in tokens
-    ///   - footerFont: The footer font; If not set, it will default to the font definition in tokens
     ///   - titleLeadingAccessoryView: The accessory view on the leading edge of the title
     ///   - titleTrailingAccessoryView: The accessory view on the trailing edge of the title
     ///   - subtitleLeadingAccessoryView: The accessory view on the leading edge of the subtitle
@@ -428,15 +419,6 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     @objc public class func preferredWidth(title: String,
                                            subtitle: String = "",
                                            footer: String = "",
-                                           attributedTitle: NSAttributedString? = nil,
-                                           attributedSubtitle: NSAttributedString? = nil,
-                                           attributedFooter: NSAttributedString? = nil,
-                                           isAttributedTitleSet: Bool = false,
-                                           isAttributedSubtitleSet: Bool = false,
-                                           isAttributedFooterSet: Bool = false,
-                                           titleFont: UIFont? = nil,
-                                           subtitleFont: UIFont? = nil,
-                                           footerFont: UIFont? = nil,
                                            titleLeadingAccessoryView: UIView? = nil,
                                            titleTrailingAccessoryView: UIView? = nil,
                                            subtitleLeadingAccessoryView: UIView? = nil,
