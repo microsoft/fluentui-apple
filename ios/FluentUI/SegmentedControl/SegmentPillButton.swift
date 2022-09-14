@@ -36,6 +36,12 @@ class SegmentPillButton: UIButton {
             var configuration = UIButton.Configuration.plain()
             configuration.contentInsets = Constants.insets
             configuration.background.backgroundColor = .clear
+            let titleTransformer = UIConfigurationTextAttributesTransformer { incoming in
+                var outgoing = incoming
+                outgoing.font = UIFont.systemFont(ofSize: Constants.fontSize)
+                return outgoing
+            }
+            configuration.titleTextAttributesTransformer = titleTransformer
             self.configuration = configuration
         } else {
             self.contentEdgeInsets = UIEdgeInsets(top: Constants.insets.top,
