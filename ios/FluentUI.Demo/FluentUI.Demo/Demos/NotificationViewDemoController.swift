@@ -217,11 +217,8 @@ class NotificationViewDemoController: DemoController {
                                                isFlexibleWidthToast: true)
             notification.state.message = "This toast has a flexible width which means the width is based on the content rather than the screen size."
             notification.tokenSet.replaceAllOverrides(with: notificationOverrideTokens)
-            let widthConstraint = notification.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -2 * notification.tokenSet[.presentationOffset].float)
-            notification.flexibleWidthConstraints = [widthConstraint]
             notification.state.actionButtonAction = { [weak self] in
-                self?.showMessage("`Dismiss` tapped")
-                notification.hide()
+                self?.dismissNotification(notification: notification)
             }
             return notification
         }
@@ -250,11 +247,66 @@ class NotificationViewDemoController: DemoController {
             preconditionFailure("showNotificationView is used for a button in the wrong container")
         }
 
-        createNotificationView(forVariant: variant).show(in: view) { $0.hide(after: 3.0) }
+        let notification = createNotificationView(forVariant: variant)
+        if variant == .warningToastWithFlexibleWidth {
+            showNotification(notification: notification)
+        } else {
+            notification.show(in: view) { $0.hide(after: 3.0) }
+        }
     }
 
     @objc private func showSwiftUIDemo() {
         navigationController?.pushViewController(NotificationViewDemoControllerSwiftUI(),
                                                  animated: true)
     }
+
+    private func showNotification(notification: MSFNotification) {
+        view.addSubview(notification)
+
+        notification.translatesAutoresizingMaskIntoConstraints = false
+        let presentationOffset = notification.tokenSet[.presentationOffset].float
+        let safeAreaBottom = view.safeAreaLayoutGuide.bottomAnchor
+        let constraintWhenHidden = notification.topAnchor.constraint(equalTo: safeAreaBottom)
+        let constraintWhenShown = notification.bottomAnchor.constraint(equalTo: safeAreaBottom, constant: -presentationOffset)
+
+        NSLayoutConstraint.activate([
+            constraintWhenHidden,
+            notification.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            notification.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -2 * presentationOffset )
+        ])
+        notification.alpha = 0
+        view.layoutIfNeeded()
+        flexibleWidthNotificationHidden = constraintWhenHidden
+        flexibleWidthNotificationShown = constraintWhenShown
+        UIView.animate(withDuration: 0.6,
+                       delay: 0,
+                       usingSpringWithDamping: 0.5,
+                       initialSpringVelocity: 0,
+                       animations: {
+            self.flexibleWidthNotificationShown?.isActive = true
+            self.flexibleWidthNotificationHidden?.isActive = false
+            notification.alpha = 1
+            self.view.layoutIfNeeded()
+        }, completion: { (_: Bool) in
+            UIAccessibility.post(notification: .layoutChanged, argument: nil)
+        })
+    }
+
+    private func dismissNotification(notification: MSFNotification) {
+        UIAccessibility.post(notification: .layoutChanged, argument: nil)
+        UIView.animate(withDuration: 0.25,
+                       animations: {
+            self.flexibleWidthNotificationShown?.isActive = false
+            self.flexibleWidthNotificationHidden?.isActive = true
+            notification.alpha = 0
+            self.view.layoutIfNeeded()
+        }, completion: { (_: Bool) in
+            notification.removeFromSuperview()
+            self.flexibleWidthNotificationHidden = nil
+            self.flexibleWidthNotificationShown = nil
+        })
+    }
+
+    private var flexibleWidthNotificationHidden: NSLayoutConstraint?
+    private var flexibleWidthNotificationShown: NSLayoutConstraint?
 }
