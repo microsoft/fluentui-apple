@@ -15,6 +15,7 @@ import UIKit
     @objc public init(size: MSFActivityIndicatorSize = .medium) {
         let activityIndicator = ActivityIndicator(size: size)
         state = activityIndicator.state
+        tokenSet = activityIndicator.tokenSet
         super.init(AnyView(activityIndicator))
     }
 
@@ -24,4 +25,7 @@ import UIKit
 
     /// The object that groups properties that allow control over the Activity Indicator appearance.
     @objc public let state: MSFActivityIndicatorState
+
+    /// Access to the control's `ControlTokenSet` for reading default values and providing overrides.
+    public let tokenSet: ActivityIndicatorTokenSet
 }
