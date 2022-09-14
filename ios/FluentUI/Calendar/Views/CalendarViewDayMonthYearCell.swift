@@ -41,6 +41,7 @@ class CalendarViewDayMonthYearCell: CalendarViewDayMonthCell {
     }
 
     @objc override func themeDidChange(_ notification: Notification) {
+        super.themeDidChange(notification)
         updateYearLabelColor(textStyle: textStyle)
     }
 

@@ -32,6 +32,12 @@ class CalendarViewDayTodayCell: CalendarViewDayCell {
         configureFontColor()
     }
 
+    @objc override func themeDidChange(_ notification: Notification) {
+        super.themeDidChange(notification)
+        configureBackgroundColor()
+        configureFontColor()
+    }
+
     private func configureBackgroundColor() {
         contentView.backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background2])
     }
