@@ -66,8 +66,7 @@ class CommandBarButtonGroupView: UIView {
         }
     }
 
-    /// If all views inside the `stackView` are hidden, the group itself should also be hidden. Otherwise the system spacers
-    /// will remain unhidden and cause additional visible space in the layout.
+    /// If all views inside the `stackView` are hidden, the group itself should also be hidden.
     private func hideGroupIfNeeded() {
         var allViewsHidden = true
         for view in stackView.arrangedSubviews {

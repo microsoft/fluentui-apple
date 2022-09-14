@@ -124,8 +124,8 @@ open class CommandBarItem: NSObject {
         itemTappedHandler(sender, self)
     }
 
-	/// Called after a property is changed to trigger the update of a corresponding button
-	var propertyChangedUpdateBlock: ((_: CommandBarItem, _: Bool) -> Void)?
+    /// Called after a property is changed to trigger the update of a corresponding button
+    var propertyChangedUpdateBlock: ((_: CommandBarItem, _: Bool) -> Void)?
 
     /// Indicates whether the `itemTappedHandler` should be called as the item's tap handler
     var shouldUseItemTappedHandler: Bool {
