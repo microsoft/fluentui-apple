@@ -77,15 +77,24 @@ class CommandBarCommandGroupsView: UIView {
     private func updateButtonGroupViews() {
         updateItemsToButtonsMap()
         buttonGroupViews = itemGroups.map { items in
-                CommandBarButtonGroupView(buttons: items.compactMap { item in
-                    guard let button = itemsToButtonsMap[item] else {
-                        preconditionFailure("Button is not initialized in map")
+            let buttons: [CommandBarButton] = items.compactMap { item in
+                guard let button = itemsToButtonsMap[item] else {
+                    preconditionFailure("Button is not initialized in map")
+                }
+                return button
+            }
+
+            let group = CommandBarButtonGroupView(buttons: buttons)
+
+            for item in items {
+                if let button = itemsToButtonsMap[item] {
+                    item.propertyChangedUpdateBlock = { _, updateGroupView in
+                        group.update(button, updateGroupView: updateGroupView)
                     }
-                    item.propertyChangedUpdateBlock = { _ in
-                        button.updateState()
-                    }
-                    return button
-                })
+                }
+            }
+
+            return group
         }
     }
 

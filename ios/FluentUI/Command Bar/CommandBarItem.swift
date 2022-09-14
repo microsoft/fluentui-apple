@@ -64,7 +64,7 @@ open class CommandBarItem: NSObject {
     @objc public var iconImage: UIImage? {
         didSet {
             if iconImage != oldValue {
-                propertyChangedUpdateBlock?(self)
+                propertyChangedUpdateBlock?(self, false)
             }
         }
     }
@@ -73,7 +73,7 @@ open class CommandBarItem: NSObject {
     @objc public var title: String? {
         didSet {
             if title != oldValue {
-                propertyChangedUpdateBlock?(self)
+                propertyChangedUpdateBlock?(self, false)
             }
         }
     }
@@ -83,7 +83,7 @@ open class CommandBarItem: NSObject {
     @objc public var isEnabled: Bool {
         didSet {
             if isEnabled != oldValue {
-                propertyChangedUpdateBlock?(self)
+                propertyChangedUpdateBlock?(self, false)
             }
         }
     }
@@ -91,7 +91,7 @@ open class CommandBarItem: NSObject {
     @objc public var isHidden: Bool = false {
         didSet {
             if isHidden != oldValue {
-                propertyChangedUpdateBlock?(self)
+                propertyChangedUpdateBlock?(self, true)
             }
         }
     }
@@ -100,7 +100,7 @@ open class CommandBarItem: NSObject {
     @objc public var isSelected: Bool {
         didSet {
             if isSelected != oldValue {
-                propertyChangedUpdateBlock?(self)
+                propertyChangedUpdateBlock?(self, false)
             }
         }
     }
@@ -124,8 +124,8 @@ open class CommandBarItem: NSObject {
         itemTappedHandler(sender, self)
     }
 
-    /// Called after a property is changed to trigger the update of a corresponding button
-    var propertyChangedUpdateBlock: ((CommandBarItem) -> Void)?
+	/// Called after a property is changed to trigger the update of a corresponding button
+	var propertyChangedUpdateBlock: ((_: CommandBarItem, _: Bool) -> Void)?
 
     /// Indicates whether the `itemTappedHandler` should be called as the item's tap handler
     var shouldUseItemTappedHandler: Bool {
