@@ -130,8 +130,8 @@ class DateTimePickerController: UIViewController, GenericDateTimePicker {
             view.addSubview(segmentedControl)
             // Hide default bottom border of navigation bar
             navigationController?.navigationBar.shadowImage = UIImage()
-            updateBackgroundColor()
         }
+        updateBackgroundColor()
         view.addSubview(dateTimePickerView)
         dateTimePickerView.setupComponents(for: self)
         initNavigationBar()

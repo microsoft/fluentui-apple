@@ -178,8 +178,8 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
 
         if let segmentedControl = segmentedControl {
             view.addSubview(segmentedControl)
-            updateBackgroundColor()
         }
+        updateBackgroundColor()
         view.addSubview(calendarView)
 
         initNavigationBar()

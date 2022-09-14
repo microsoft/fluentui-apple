@@ -33,11 +33,6 @@ class CalendarViewDayMonthYearCell: CalendarViewDayMonthCell {
         yearLabel.font = UIFont.fluent(fluentTheme.aliasTokens.typography[.caption2])
         yearLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground3])
         contentView.addSubview(yearLabel)
-
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
     }
 
     @objc override func themeDidChange(_ notification: Notification) {
