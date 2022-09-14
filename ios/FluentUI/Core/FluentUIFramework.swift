@@ -126,6 +126,10 @@ public class FluentUIFramework: NSObject {
         titleAttributes[.foregroundColor] = Colors.NavigationBar.title
         standardAppearance.titleTextAttributes = titleAttributes
 
+        if navigationBarStyle == .dateTimePicker {
+            standardAppearance.shadowColor = .clear
+        }
+
         navigationBar.backIndicatorImage = UIImage.staticImageNamed("back-24x24")
         navigationBar.backIndicatorTransitionMaskImage = navigationBar.backIndicatorImage
 

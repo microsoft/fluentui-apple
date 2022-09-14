@@ -186,7 +186,7 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
     }
 
     private func updateBackgroundColor() {
-        view.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background3])
+        view.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background2])
     }
 
     override func viewWillAppear(_ animated: Bool) {
