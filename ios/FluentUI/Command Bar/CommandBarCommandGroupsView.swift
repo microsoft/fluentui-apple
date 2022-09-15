@@ -88,10 +88,10 @@ class CommandBarCommandGroupsView: UIView {
 
             for item in items {
                 if let button = itemsToButtonsMap[item] {
-                    item.propertyChangedUpdateBlock = { _, updateGroupViewState in
+                    item.propertyChangedUpdateBlock = { _, shouldUpdateGroupState in
                         button.updateState()
 
-                        if updateGroupViewState {
+                        if shouldUpdateGroupState {
                             group.hideGroupIfNeeded()
                         }
                     }
