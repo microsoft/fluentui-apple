@@ -181,7 +181,7 @@ class SideTabBarDemoController: DemoController {
         var avatar: MSFAvatar?
         if let image = UIImage(named: "avatar_kat_larsson"), show {
             avatar = MSFAvatar(style: .accent,
-                               size: .medium)
+                               size: .size32)
             if let avatarState = avatar?.state {
                 avatarState.primaryText = "Kat Larson"
                 avatarState.image = image

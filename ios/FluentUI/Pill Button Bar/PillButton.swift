@@ -19,7 +19,8 @@ open class PillButton: UIButton, TokenizedControlInternal {
         updateAppearance()
     }
 
-    @objc public init(pillBarItem: PillButtonBarItem, style: PillButtonStyle = .primary) {
+    @objc public init(pillBarItem: PillButtonBarItem,
+                      style: PillButtonStyle = .primary) {
         self.pillBarItem = pillBarItem
         self.style = style
         self.tokenSet = PillButtonTokenSet(style: { style })
