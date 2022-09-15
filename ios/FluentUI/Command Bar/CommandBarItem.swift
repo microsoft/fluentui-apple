@@ -125,6 +125,8 @@ open class CommandBarItem: NSObject {
     }
 
     /// Called after a property is changed to trigger the update of a corresponding button
+    /// - Parameter CommandBarItem: Instance of `CommandBarItem` the closure is being invoked from
+    /// - Parameter Bool: Indicates if the item's group state should also be updated
     var propertyChangedUpdateBlock: ((_: CommandBarItem, _: Bool) -> Void)?
 
     /// Indicates whether the `itemTappedHandler` should be called as the item's tap handler

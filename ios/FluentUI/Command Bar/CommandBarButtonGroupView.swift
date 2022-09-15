@@ -37,6 +37,19 @@ class CommandBarButtonGroupView: UIView {
         }
     }
 
+    /// Hides the group view if all the views inside the `stackView` are hidden
+     func hideGroupIfNeeded() {
+        var allViewsHidden = true
+        for view in stackView.arrangedSubviews {
+            if !view.isHidden {
+                allViewsHidden = false
+                break
+            }
+        }
+
+        isHidden = allViewsHidden
+    }
+
     private lazy var stackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: buttons)
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -64,19 +77,6 @@ class CommandBarButtonGroupView: UIView {
             buttons.first?.contentEdgeInsets.left += LayoutConstants.leftRightBuffer
             buttons.last?.contentEdgeInsets.right += LayoutConstants.leftRightBuffer
         }
-    }
-
-    /// If all views inside the `stackView` are hidden, the group itself should also be hidden.
-    private func hideGroupIfNeeded() {
-        var allViewsHidden = true
-        for view in stackView.arrangedSubviews {
-            if !view.isHidden {
-                allViewsHidden = false
-                break
-            }
-        }
-
-        isHidden = allViewsHidden
     }
 
     private struct LayoutConstants {
