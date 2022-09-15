@@ -200,6 +200,7 @@ open class Button: UIButton {
         return size
     }
 
+    @available(*, deprecated, message: "Override layoutSubviews, call super, and position views as you desire.")
     open override func imageRect(forContentRect contentRect: CGRect) -> CGRect {
         var rect = CGRect.zero
         if #unavailable(iOS 15) {
