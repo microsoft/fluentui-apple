@@ -200,10 +200,11 @@ open class Button: UIButton {
         return size
     }
 
-    @available(*, deprecated, message: "Override layoutSubviews, call super, and position views as you desire.")
     open override func imageRect(forContentRect contentRect: CGRect) -> CGRect {
         var rect = CGRect.zero
-        if #unavailable(iOS 15) {
+        if #available(iOS 15, *) {
+            assertionFailure("imageRect(forContentRect: ) has been deprecated in iOS 15.0")
+        } else {
             rect = super.imageRect(forContentRect: contentRect)
 
             if let image = image {
