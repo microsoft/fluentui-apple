@@ -17,7 +17,7 @@ public enum MSFButtonLegacyStyle: Int, CaseIterable {
     case tertiaryOutline
     case borderless
 
-    var contentEdgeInsets: UIEdgeInsets {
+    public var contentEdgeInsets: NSDirectionalEdgeInsets {
         switch self {
         case .dangerFilled, .dangerOutline, .primaryFilled, .primaryOutline:
             return NSDirectionalEdgeInsets(top: 16, leading: 20, bottom: 16, trailing: 20)

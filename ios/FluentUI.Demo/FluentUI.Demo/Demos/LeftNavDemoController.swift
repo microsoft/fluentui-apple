@@ -124,7 +124,7 @@ class LeftNavMenuViewController: UIViewController {
         statusCell.leadingUIView = presence.imageView
     }
 
-    private var leftNavAvatar = MSFAvatar(style: .default, size: .xlarge)
+    private var leftNavAvatar = MSFAvatar(style: .default, size: .size56)
 
     private var persona = MSFPersonaView()
 
@@ -259,7 +259,7 @@ class LeftNavMenuViewController: UIViewController {
         microsoftAccountCell.title = "Contoso"
         microsoftAccountCell.subtitle = "kat.larrson@contoso.com"
         microsoftAccountCell.accessoryType = .checkmark
-        let orgAvatar = MSFAvatar(style: .group, size: .large)
+        let orgAvatar = MSFAvatar(style: .group, size: .size40)
         orgAvatar.state.primaryText = "Kat Larrson"
         microsoftAccountCell.leadingUIView = orgAvatar
         microsoftAccountCell.leadingViewSize = .large
@@ -269,7 +269,7 @@ class LeftNavMenuViewController: UIViewController {
         msaAccountCell.layoutType = .twoLines
         msaAccountCell.title = "Personal"
         msaAccountCell.subtitle = "kat.larrson@live.com"
-        let msaAvatar = MSFAvatar(style: .group, size: .large)
+        let msaAvatar = MSFAvatar(style: .group, size: .size40)
         msaAvatar.state.primaryText = "kat.larrson@live.com"
         msaAccountCell.leadingUIView = msaAvatar
         msaAccountCell.leadingViewSize = .large
