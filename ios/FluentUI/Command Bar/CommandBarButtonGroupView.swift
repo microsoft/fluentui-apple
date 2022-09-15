@@ -29,7 +29,7 @@ class CommandBarButtonGroupView: UIView {
     }
 
     /// Hides the group view if all the views inside the `stackView` are hidden
-     func hideGroupIfNeeded() {
+    func hideGroupIfNeeded() {
         var allViewsHidden = true
         for view in stackView.arrangedSubviews {
             if !view.isHidden {
