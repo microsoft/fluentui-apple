@@ -218,7 +218,7 @@ class CommandBarDemoController: DemoController {
         itemCustomizationContainer.addArrangedSubview(itemEnabledStackView)
 
         let itemHiddenStackView = createHorizontalStackView()
-        itemHiddenStackView.addArrangedSubview(createLabelWithText("'+' Hidden"))
+        itemHiddenStackView.addArrangedSubview(createLabelWithText("'Delete' Hidden"))
         let itemHiddenSwitch: UISwitch = UISwitch()
         itemHiddenSwitch.isOn = false
         itemHiddenSwitch.addTarget(self, action: #selector(itemHiddenValueChanged), for: .valueChanged)
@@ -389,7 +389,7 @@ class CommandBarDemoController: DemoController {
     }
 
     @objc func itemHiddenValueChanged(sender: UISwitch!) {
-        guard let item: CommandBarItem = defaultCommandBar?.itemGroups[0][0] else {
+        guard let item: CommandBarItem = defaultCommandBar?.itemGroups[5][0] else {
             return
         }
 
