@@ -4,27 +4,6 @@
 //
 import UIKit
 
-// MARK: SegmentedControl Colors
-
-private extension Colors {
-    struct SegmentedControl {
-        struct PrimaryPill {
-            static let background = UIColor(light: surfaceTertiary, dark: gray950)
-            static let backgroundDisabled: UIColor = background
-            static let segmentText = UIColor(light: textSecondary, dark: textPrimary)
-            static let selectionDisabled: UIColor = surfaceQuaternary
-        }
-
-        struct OnBrandPill {
-            static let background: UIColor = PrimaryPill.background
-            static let backgroundDisabled: UIColor = PrimaryPill.backgroundDisabled
-            static let segmentText = UIColor(light: textOnAccent, dark: textPrimary)
-            static let selection = UIColor(light: surfacePrimary, dark: surfaceQuaternary)
-            static let selectionDisabled = UIColor(light: Colors.surfacePrimary, dark: Colors.surfaceQuaternary)
-        }
-    }
-}
-
 // MARK: SegmentedControl
 /// A styled segmented control that should be used instead of UISegmentedControl. It is designed to flex the button width proportionally to the control's width.
 @objc(MSFSegmentedControl)
