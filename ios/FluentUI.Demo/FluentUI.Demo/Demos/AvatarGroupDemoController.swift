@@ -487,7 +487,6 @@ class AvatarGroupDemoController: DemoTableViewController {
             guard oldValue != avatarCount && avatarCount >= 0 else {
                 return
             }
-            adjustMaxDisplayedAvatars()
             AvatarGroupDemoSection.allCases.filter({ section in
                 return section.isDemoSection
             }).forEach { section in
@@ -515,10 +514,6 @@ class AvatarGroupDemoController: DemoTableViewController {
                 demoAvatarGroupsBySection.updateValue(avatarGroupsForCurrentSection, forKey: section)
             }
         }
-    }
-
-    private func adjustMaxDisplayedAvatars() {
-        maxDisplayedAvatars = min(avatarCount, maxDisplayedAvatars)
     }
 
     @objc private func addAvatarCount(_ cell: ActionsCell) {
