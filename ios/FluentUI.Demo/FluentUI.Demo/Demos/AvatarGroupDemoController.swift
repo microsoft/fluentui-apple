@@ -517,6 +517,10 @@ class AvatarGroupDemoController: DemoTableViewController {
     }
 
     @objc private func addAvatarCount(_ cell: ActionsCell) {
+        guard avatarCount < samplePersonas.count else {
+            return
+        }
+
         avatarCount += 1
     }
 
