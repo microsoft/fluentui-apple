@@ -28,15 +28,6 @@ class CommandBarButtonGroupView: UIView {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
-    /// Update the passed button and hide the group view if requested
-    func update(_ button: CommandBarButton, updateGroupView: Bool) {
-        button.updateState()
-
-        if updateGroupView {
-            hideGroupIfNeeded()
-        }
-    }
-
     /// Hides the group view if all the views inside the `stackView` are hidden
      func hideGroupIfNeeded() {
         var allViewsHidden = true
