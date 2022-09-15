@@ -245,6 +245,15 @@ open class SegmentedControl: UIControl {
         addSubview(pillContainerView)
 
         setupLayoutConstraints()
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        updateWindowSpecificColors()
     }
 
     public required init?(coder aDecoder: NSCoder) {
