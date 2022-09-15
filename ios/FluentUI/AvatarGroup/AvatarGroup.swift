@@ -189,15 +189,16 @@ public struct AvatarGroup: View, TokenizedControlView {
                     })
             }
             .padding(.trailing, isStackStyle ? stackPadding : interspace)
-            .animation(Animation.linear(duration: animationDuration))
-            .transition(AnyTransition.move(edge: .leading))
         }
 
         @ViewBuilder
         var avatarGroupContent: some View {
+            let animation = Animation.linear(duration: animationDuration)
+
             HStack(spacing: 0) {
                 ForEach(enumeratedAvatars.prefix(avatarsToDisplay), id: \.1) { index, avatar in
                     avatarView(at: index, for: avatar)
+                        .transition(AnyTransition.move(edge: .leading))
                 }
 
                 if hasOverflow {
@@ -207,6 +208,10 @@ public struct AvatarGroup: View, TokenizedControlView {
                     .transition(AnyTransition.move(edge: .leading))
                 }
             }
+            .animation(animation, value: state.avatars)
+            .animation(animation, value: [state.maxDisplayedAvatars, state.overflowCount])
+            .animation(animation, value: state.style)
+            .animation(animation, value: state.size)
             .frame(maxWidth: .infinity,
                    minHeight: groupHeight,
                    maxHeight: .infinity,
