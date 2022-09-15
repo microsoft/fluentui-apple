@@ -106,7 +106,7 @@ open class SegmentedControl: UIControl {
             for button in buttons {
                 button.isEnabled = isEnabled
             }
-            updateWindowSpecificColors()
+            updateColors()
         }
     }
 
@@ -142,7 +142,7 @@ open class SegmentedControl: UIControl {
     private var items = [SegmentItem]()
     internal var style: Style {
         didSet {
-            updateWindowSpecificColors()
+            updateColors()
         }
     }
 
@@ -245,6 +245,7 @@ open class SegmentedControl: UIControl {
         addSubview(pillContainerView)
 
         setupLayoutConstraints()
+        updateColors()
 
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(themeDidChange),
@@ -253,14 +254,14 @@ open class SegmentedControl: UIControl {
     }
 
     @objc private func themeDidChange(_ notification: Notification) {
-        updateWindowSpecificColors()
+        updateColors()
     }
 
     public required init?(coder aDecoder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
-    public func updateWindowSpecificColors() {
+    public func updateColors() {
 
         pillMaskedContentContainerView.backgroundColor = customSegmentedControlSelectedButtonBackgroundColor ?? style.selectionColor(fluentTheme: fluentTheme)
         backgroundView.backgroundColor = customSegmentedControlBackgroundColor ?? style.backgroundColor(fluentTheme: fluentTheme)
@@ -458,11 +459,6 @@ open class SegmentedControl: UIControl {
         maxButtonHeight += (contentInset.top + contentInset.bottom)
 
         return CGSize(width: min(maxButtonWidth, size.width), height: min(maxButtonHeight, size.height))
-    }
-
-    open override func didMoveToWindow() {
-        super.didMoveToWindow()
-        updateWindowSpecificColors()
     }
 
     func intrinsicContentSizeInvalidatedForChildView() {
