@@ -394,7 +394,7 @@ open class Button: UIButton {
 
     private func updateProposedTitleLabelWidth() {
         if bounds.width > 0.0 {
-            var labelWidth = bounds.width - (contentEdgeInsets.left + contentEdgeInsets.right)
+            var labelWidth = bounds.width - (edgeInsets.leading + edgeInsets.trailing)
             if let image = image(for: .normal) {
                 labelWidth -= image.size.width
             }
