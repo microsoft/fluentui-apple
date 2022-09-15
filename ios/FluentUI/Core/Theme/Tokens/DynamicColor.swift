@@ -82,7 +82,7 @@ public struct DynamicColor {
     }
 
     /// The default color for a light context. Required.
-    public var light: ColorValue
+    var light: ColorValue
 
     /// The override color for a light, high contrast context. Optional.
     var lightHighContrast: ColorValue?
@@ -94,7 +94,7 @@ public struct DynamicColor {
     var lightElevatedHighContrast: ColorValue?
 
     /// The override color for a dark context. Optional.
-    public var dark: ColorValue?
+    var dark: ColorValue?
 
     /// The override color for a dark, high contrast context. Optional.
     var darkHighContrast: ColorValue?
