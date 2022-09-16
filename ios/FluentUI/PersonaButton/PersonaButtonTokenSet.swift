@@ -13,9 +13,9 @@ import UIKit
     var avatarSize: MSFAvatarSize {
         switch self {
         case .large:
-            return .xxlarge
+            return .size72
         case .small:
-            return .xlarge
+            return .size56
         }
     }
 

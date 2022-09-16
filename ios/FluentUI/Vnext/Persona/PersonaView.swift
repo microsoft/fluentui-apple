@@ -210,7 +210,7 @@ class MSFPersonaViewStateImpl: MSFListCellStateImpl, PersonaViewState {
 /// View for PersonaView
 public struct PersonaView: View {
     public init() {
-        let avatar = Avatar(style: .default, size: .large)
+        let avatar = Avatar(style: .default, size: .size40)
         let state = MSFPersonaViewStateImpl(avatarState: avatar.state)
         let tokenSet = PersonaViewTokenSet(cellLeadingViewSize: { state.leadingViewSize })
         listCellView = MSFListCellView(state: state, tokenSet: tokenSet)
