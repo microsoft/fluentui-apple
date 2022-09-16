@@ -26,37 +26,51 @@ class CalendarViewDayMonthYearCell: CalendarViewDayMonthCell {
 
     override init(frame: CGRect) {
         yearLabel = UILabel(frame: .zero)
-        yearLabel.font = Fonts.caption1
         yearLabel.textAlignment = .center
-        yearLabel.textColor = Colors.Calendar.Day.textPrimary
 
         super.init(frame: frame)
 
+        yearLabel.font = UIFont.fluent(fluentTheme.aliasTokens.typography[.caption2])
+        yearLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground3])
         contentView.addSubview(yearLabel)
+    }
+
+    @objc override func themeDidChange(_ notification: Notification) {
+        super.themeDidChange(notification)
+        updateYearLabelColor(textStyle: textStyle)
     }
 
     required init?(coder aDecoder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
-    override func setup(textStyle: CalendarViewDayCellTextStyle, backgroundStyle: CalendarViewDayCellBackgroundStyle, selectionStyle: CalendarViewDayCellSelectionStyle, dateLabelText: String, indicatorLevel: Int) {
+    override func setup(textStyle: CalendarViewDayCellTextStyle, selectionStyle: CalendarViewDayCellSelectionStyle, dateLabelText: String, indicatorLevel: Int) {
         preconditionFailure("Use setup(textStyle, backgroundStyle, selectionStyle, monthLabelText, dateLabelText, yearLabelText, indicatorLevel) instead")
     }
 
-    override func setup(textStyle: CalendarViewDayCellTextStyle, backgroundStyle: CalendarViewDayCellBackgroundStyle, selectionStyle: CalendarViewDayCellSelectionStyle, monthLabelText: String, dateLabelText: String, indicatorLevel: Int) {
+    override func setup(textStyle: CalendarViewDayCellTextStyle, selectionStyle: CalendarViewDayCellSelectionStyle, monthLabelText: String, dateLabelText: String, indicatorLevel: Int) {
         preconditionFailure("Use setup(textStyle, backgroundStyle, selectionStyle, monthLabelText, dateLabelText, yearLabelText, indicatorLevel) instead")
+    }
+
+    private func updateYearLabelColor(textStyle: CalendarViewDayCellTextStyle) {
+        switch textStyle {
+        case .primary:
+            yearLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground3])
+        case .secondary:
+            yearLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
+        }
     }
 
     // Only supports indicator levels from 0...4
-    func setup(textStyle: CalendarViewDayCellTextStyle, backgroundStyle: CalendarViewDayCellBackgroundStyle, selectionStyle: CalendarViewDayCellSelectionStyle, monthLabelText: String, dateLabelText: String, yearLabelText: String, indicatorLevel: Int) {
-        super.setup(textStyle: textStyle, backgroundStyle: backgroundStyle, selectionStyle: selectionStyle, monthLabelText: monthLabelText, dateLabelText: dateLabelText, indicatorLevel: indicatorLevel)
+    func setup(textStyle: CalendarViewDayCellTextStyle,
+               selectionStyle: CalendarViewDayCellSelectionStyle,
+               monthLabelText: String,
+               dateLabelText: String,
+               yearLabelText: String,
+               indicatorLevel: Int) {
+        super.setup(textStyle: textStyle, selectionStyle: selectionStyle, monthLabelText: monthLabelText, dateLabelText: dateLabelText, indicatorLevel: indicatorLevel)
 
-        switch textStyle {
-        case .primary:
-            yearLabel.textColor = Colors.Calendar.Day.textPrimary
-        case .secondary:
-            yearLabel.textColor = Colors.Calendar.Day.textSecondary
-        }
+        updateYearLabelColor(textStyle: textStyle)
 
         yearLabel.text = yearLabelText
     }

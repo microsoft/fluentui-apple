@@ -34,7 +34,6 @@ class CalendarView: UIView {
         collectionViewLayout = CalendarViewLayout()
 
         collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: collectionViewLayout)
-        collectionView.backgroundColor = Colors.Calendar.background
         collectionView.showsVerticalScrollIndicator = false
         collectionView.scrollsToTop = false
         // Enable multiple selection to allow for one cell to be selected and another cell to be highlighted simultaneously
@@ -44,6 +43,8 @@ class CalendarView: UIView {
 
         super.init(frame: .zero)
 
+        updateCollectionViewBackgroundColor()
+
         addSubview(weekdayHeadingView)
         addSubview(collectionView)
         addSubview(collectionViewSeparator)
@@ -52,6 +53,19 @@ class CalendarView: UIView {
         if headerStyle == .light {
             addSubview(headingViewSeparator)
         }
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        updateCollectionViewBackgroundColor()
+    }
+
+    private func updateCollectionViewBackgroundColor() {
+        collectionView.backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background2])
     }
 
     required init?(coder aDecoder: NSCoder) {
