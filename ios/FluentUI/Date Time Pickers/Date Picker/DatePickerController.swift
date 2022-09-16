@@ -505,6 +505,16 @@ extension DatePickerController: CalendarViewStyleDataSource {
         }
     }
 
+    func calendarViewDataSource(_ dataSource: CalendarViewDataSource, backgroundStyleForDayWithStart dayStartDate: Date, end: Date, dayStartComponents: DateComponents, todayComponents: DateComponents
+    ) -> CalendarViewDayCellBackgroundStyle {
+
+        if dayStartComponents.dateIsTodayOrLater(todayDateComponents: todayComponents) {
+            return .primary
+        } else {
+            return .secondary
+        }
+    }
+
     func calendarViewDataSource(_ dataSource: CalendarViewDataSource, selectionStyleForDayWithStart dayStartDate: Date, end: Date) -> CalendarViewDayCellSelectionStyle {
         return .normal
     }

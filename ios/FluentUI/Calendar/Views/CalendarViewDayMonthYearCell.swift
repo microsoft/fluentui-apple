@@ -44,11 +44,11 @@ class CalendarViewDayMonthYearCell: CalendarViewDayMonthCell {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
-    override func setup(textStyle: CalendarViewDayCellTextStyle, selectionStyle: CalendarViewDayCellSelectionStyle, dateLabelText: String, indicatorLevel: Int) {
+    override func setup(textStyle: CalendarViewDayCellTextStyle, backgroundStyle: CalendarViewDayCellBackgroundStyle, selectionStyle: CalendarViewDayCellSelectionStyle, dateLabelText: String, indicatorLevel: Int) {
         preconditionFailure("Use setup(textStyle, backgroundStyle, selectionStyle, monthLabelText, dateLabelText, yearLabelText, indicatorLevel) instead")
     }
 
-    override func setup(textStyle: CalendarViewDayCellTextStyle, selectionStyle: CalendarViewDayCellSelectionStyle, monthLabelText: String, dateLabelText: String, indicatorLevel: Int) {
+    override func setup(textStyle: CalendarViewDayCellTextStyle, backgroundStyle: CalendarViewDayCellBackgroundStyle, selectionStyle: CalendarViewDayCellSelectionStyle, monthLabelText: String, dateLabelText: String, indicatorLevel: Int) {
         preconditionFailure("Use setup(textStyle, backgroundStyle, selectionStyle, monthLabelText, dateLabelText, yearLabelText, indicatorLevel) instead")
     }
 
@@ -63,12 +63,13 @@ class CalendarViewDayMonthYearCell: CalendarViewDayMonthCell {
 
     // Only supports indicator levels from 0...4
     func setup(textStyle: CalendarViewDayCellTextStyle,
+               backgroundStyle: CalendarViewDayCellBackgroundStyle,
                selectionStyle: CalendarViewDayCellSelectionStyle,
                monthLabelText: String,
                dateLabelText: String,
                yearLabelText: String,
                indicatorLevel: Int) {
-        super.setup(textStyle: textStyle, selectionStyle: selectionStyle, monthLabelText: monthLabelText, dateLabelText: dateLabelText, indicatorLevel: indicatorLevel)
+        super.setup(textStyle: textStyle, backgroundStyle: backgroundStyle, selectionStyle: selectionStyle, monthLabelText: monthLabelText, dateLabelText: dateLabelText, indicatorLevel: indicatorLevel)
 
         updateYearLabelColor(textStyle: textStyle)
 
