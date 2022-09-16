@@ -189,9 +189,9 @@ class CalendarViewDayCell: UICollectionViewCell {
     private func updateViews() {
         switch textStyle {
         case .primary:
-            dateLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground3])
-        case .secondary:
             dateLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
+        case .secondary:
+            dateLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground3])
         }
 
         contentView.backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background2])
