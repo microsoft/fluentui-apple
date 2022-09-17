@@ -73,7 +73,7 @@ class BadgeViewDemoController: DemoController {
         imageView.tintColor = .white
         imageView.frame.size = CGSize(width: 20, height: 20)
 
-        let avatar = MSFAvatar(style: .default, size: .xsmall)
+        let avatar = MSFAvatar(style: .default, size: .size16)
         avatar.state.image = UIImage(named: "avatar_kat_larsson")
 
         let dataSource: [(BadgeView.Size, UIView)] = [

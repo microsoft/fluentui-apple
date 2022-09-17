@@ -45,7 +45,7 @@ open class SideTabBar: UIView, TokenizedControlInternal {
         didSet {
             if let avatar = avatar {
                 let avatarState = avatar.state
-                avatarState.size = .medium
+                avatarState.size = .size32
                 avatarState.accessibilityLabel = "Accessibility.LargeTitle.ProfileView".localized
                 avatarState.hasButtonAccessibilityTrait = delegate != nil
 

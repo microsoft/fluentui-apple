@@ -56,13 +56,13 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
                         return GlobalTokens.borderRadius(.none)
                     case .group:
                         switch size() {
-                        case .xsmall:
+                        case .size16, .size20:
                             return GlobalTokens.borderRadius(.small)
-                        case .small, .medium:
+                        case .size24, .size32:
                             return GlobalTokens.borderRadius(.medium)
-                        case .large, .xlarge:
+                        case .size40, .size56:
                             return GlobalTokens.borderRadius(.large)
-                        case .xxlarge:
+                        case .size72:
                             return GlobalTokens.borderRadius(.xLarge)
                         }
                     }
@@ -71,17 +71,17 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
             case .textFont:
                 return .fontInfo({
                     switch size() {
-                    case .xsmall:
+                    case .size16, .size20:
                         return .init(size: 9, weight: GlobalTokens.fontWeight(.regular))
-                    case .small:
+                    case .size24:
                         return theme.aliasTokens.typography[.caption2]
-                    case .medium:
+                    case .size32:
                         return theme.aliasTokens.typography[.caption1]
-                    case .large:
+                    case .size40:
                         return theme.aliasTokens.typography[.body2]
-                    case .xlarge:
+                    case .size56:
                         return .init(size: GlobalTokens.fontSize(.size500), weight: GlobalTokens.fontWeight(.regular))
-                    case .xxlarge:
+                    case .size72:
                         return .init(size: GlobalTokens.fontSize(.size700), weight: GlobalTokens.fontWeight(.semibold))
                     }
                 })
@@ -108,11 +108,11 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
             case .ringThickness:
                 return .float({
                     switch size() {
-                    case .xsmall, .small:
+                    case .size16, .size20, .size24:
                         return GlobalTokens.borderSize(.thin)
-                    case .medium, .large, .xlarge:
+                    case .size32, .size40, .size56:
                         return GlobalTokens.borderSize(.thick)
-                    case .xxlarge:
+                    case .size72:
                         return GlobalTokens.borderSize(.thicker)
                     }
                 })
@@ -120,9 +120,9 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
             case .ringInnerGap:
                 return .float({
                     switch size() {
-                    case .xsmall, .small, .medium, .large, .xlarge:
+                    case .size16, .size20, .size24, .size32, .size40, .size56:
                         return GlobalTokens.borderSize(.thick)
-                    case .xxlarge:
+                    case .size72:
                         return GlobalTokens.borderSize(.thicker)
                     }
                 })
@@ -130,9 +130,9 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
             case .ringOuterGap:
                 return .float({
                     switch size() {
-                    case .xsmall, .small, .medium, .large, .xlarge:
+                    case .size16, .size20, .size24, .size32, .size40, .size56:
                         return GlobalTokens.borderSize(.thick)
-                    case .xxlarge:
+                    case .size72:
                         return GlobalTokens.borderSize(.thicker)
                     }
                 })
@@ -140,9 +140,9 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
             case .presenceIconOutlineThickness:
                 return .float({
                     switch size() {
-                    case .xsmall:
+                    case .size16:
                         return GlobalTokens.borderSize(.none)
-                    case .small, .medium, .large, .xlarge, .xxlarge:
+                    case .size20, .size24, .size32, .size40, .size56, .size72:
                         return GlobalTokens.borderSize(.thick)
                     }
                 })
@@ -201,17 +201,19 @@ extension AvatarTokenSet {
     /// The size of the content of the `Avatar`.
     static func avatarSize(_ size: MSFAvatarSize) -> CGFloat {
         switch size {
-        case .xsmall:
+        case .size16:
             return 16
-        case .small:
+        case .size20:
+            return 20
+        case .size24:
             return 24
-        case .medium:
+        case .size32:
             return 32
-        case .large:
+        case .size40:
             return 40
-        case .xlarge:
-            return 52
-        case .xxlarge:
+        case .size56:
+            return 56
+        case .size72:
             return 72
         }
     }
@@ -219,13 +221,13 @@ extension AvatarTokenSet {
     /// The size of the presence icon.
     static func presenceIconSize(_ size: MSFAvatarSize) -> CGFloat {
         switch size {
-        case .xsmall:
+        case .size16:
             return 0
-        case .small, .medium:
+        case .size20, .size24, .size32:
             return GlobalTokens.iconSize(.xxxSmall)
-        case .large, .xlarge:
+        case .size40, .size56:
             return GlobalTokens.iconSize(.xxSmall)
-        case .xxlarge:
+        case .size72:
             return GlobalTokens.iconSize(.small)
         }
     }
@@ -243,10 +245,11 @@ extension AvatarTokenSet {
 
 /// Pre-defined sizes of the avatar
 @objc public enum MSFAvatarSize: Int, CaseIterable {
-    case xsmall
-    case small
-    case medium
-    case large
-    case xlarge
-    case xxlarge
+    case size16
+    case size20
+    case size24
+    case size32
+    case size40
+    case size56
+    case size72
 }
