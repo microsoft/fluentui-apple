@@ -14,6 +14,7 @@ jobs:
     steps: 
     - uses: actions/checkout@v3
     - name: Upload Size Artifact 
+      shell: bash
       uses: ./.github/actions/uploadSizeArtifact
       with:
         sha: ${{ github.event.pull_request.head.sha }}
@@ -24,6 +25,7 @@ jobs:
     steps: 
     - uses: actions/checkout@v3
     - name: Upload Size Artifact 
+      shell: bash
       uses: ./.github/actions/uploadSizeArtifact
       with:
         sha: ${{ github.event.pull_request.base.sha }}
