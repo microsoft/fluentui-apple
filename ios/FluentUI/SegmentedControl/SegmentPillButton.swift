@@ -32,8 +32,7 @@ class SegmentPillButton: UIButton {
         self.item = item
         super.init(frame: .zero)
 
-        self.contentEdgeInsets = Constants.insets
-
+        // TODO: Once iOS 14 support is dropped, set title, etc., in configuration
         let title = item.title
         if let image = item.image {
             self.setImage(image, for: .normal)
@@ -43,7 +42,25 @@ class SegmentPillButton: UIButton {
             self.setTitle(title, for: .normal)
         }
         self.showsLargeContentViewer = true
-        self.titleLabel?.font = UIFont.systemFont(ofSize: Constants.fontSize)
+
+        if #available(iOS 15.0, *) {
+            var configuration = UIButton.Configuration.plain()
+            configuration.contentInsets = Constants.insets
+            configuration.background.backgroundColor = .clear
+            let titleTransformer = UIConfigurationTextAttributesTransformer { incoming in
+                var outgoing = incoming
+                outgoing.font = UIFont.systemFont(ofSize: Constants.fontSize)
+                return outgoing
+            }
+            configuration.titleTextAttributesTransformer = titleTransformer
+            self.configuration = configuration
+        } else {
+            self.titleLabel?.font = UIFont.systemFont(ofSize: Constants.fontSize)
+            self.contentEdgeInsets = UIEdgeInsets(top: Constants.insets.top,
+                                                  left: Constants.insets.leading,
+                                                  bottom: Constants.insets.bottom,
+                                                  right: Constants.insets.trailing)
+        }
 
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(isUnreadValueDidChange),
@@ -93,6 +110,6 @@ class SegmentPillButton: UIButton {
         static let fontSize: CGFloat = 16
         static let unreadDotOffset = CGPoint(x: 6, y: 3)
         static let unreadDotSize: CGFloat = 6
-        static let insets = UIEdgeInsets(top: 6, left: 16, bottom: 6, right: 16)
+        static let insets = NSDirectionalEdgeInsets(top: 6, leading: 16, bottom: 6, trailing: 16)
     }
 }

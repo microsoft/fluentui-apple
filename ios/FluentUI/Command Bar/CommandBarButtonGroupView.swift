@@ -20,11 +20,25 @@ class CommandBarButtonGroupView: UIView {
 
         configureHierarchy()
         applyInsets()
+        hideGroupIfNeeded()
     }
 
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
+    }
+
+    /// Hides the group view if all the views inside the `stackView` are hidden
+    func hideGroupIfNeeded() {
+        var allViewsHidden = true
+        for view in stackView.arrangedSubviews {
+            if !view.isHidden {
+                allViewsHidden = false
+                break
+            }
+        }
+
+        isHidden = allViewsHidden
     }
 
     private lazy var stackView: UIStackView = {
@@ -47,8 +61,13 @@ class CommandBarButtonGroupView: UIView {
     }
 
     private func applyInsets() {
-        buttons.first?.contentEdgeInsets.left += LayoutConstants.leftRightBuffer
-        buttons.last?.contentEdgeInsets.right += LayoutConstants.leftRightBuffer
+        if #available(iOS 15.0, *) {
+            buttons.first?.configuration?.contentInsets.leading += LayoutConstants.leftRightBuffer
+            buttons.last?.configuration?.contentInsets.trailing += LayoutConstants.leftRightBuffer
+        } else {
+            buttons.first?.contentEdgeInsets.left += LayoutConstants.leftRightBuffer
+            buttons.last?.contentEdgeInsets.right += LayoutConstants.leftRightBuffer
+        }
     }
 
     private struct LayoutConstants {

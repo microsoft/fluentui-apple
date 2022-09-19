@@ -65,16 +65,36 @@ class ActivityIndicatorDemoController: DemoTableViewController {
 
             return cell
         case.demoOfSize:
-            let cell = TableViewCell()
+            let cell = UITableViewCell()
 
             let activityIndicatorSize = MSFActivityIndicatorSize.allCases.reversed()[indexPath.row]
             let activityIndicatorDictionaries = [defaultColorIndicators, customColorIndicators]
             let activityIndicatorPath = indexPath.section - 2
-            let activityIndicator = activityIndicatorDictionaries[activityIndicatorPath][activityIndicatorSize]
+            guard let activityIndicator = activityIndicatorDictionaries[activityIndicatorPath][activityIndicatorSize] else {
+                return cell
+            }
 
-            cell.setup(title: activityIndicatorSize.description,
-                       customView: activityIndicator)
-            cell.titleNumberOfLines = 0
+            let titleLabel = Label(style: .body, colorStyle: .regular)
+            titleLabel.text = activityIndicatorSize.description
+            titleLabel.numberOfLines = 0
+
+            let contentStack = UIStackView(arrangedSubviews: [activityIndicator, titleLabel])
+            contentStack.isLayoutMarginsRelativeArrangement = true
+            contentStack.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 15, leading: 20, bottom: 15, trailing: 20)
+            contentStack.translatesAutoresizingMaskIntoConstraints = false
+            contentStack.alignment = .center
+            contentStack.distribution = .fill
+            contentStack.spacing = 10
+
+            cell.contentView.addSubview(contentStack)
+            NSLayoutConstraint.activate([
+                activityIndicator.widthAnchor.constraint(equalToConstant: xLargeSize),
+                cell.contentView.leadingAnchor.constraint(equalTo: contentStack.leadingAnchor),
+                cell.contentView.trailingAnchor.constraint(equalTo: contentStack.trailingAnchor),
+                cell.contentView.topAnchor.constraint(equalTo: contentStack.topAnchor),
+                cell.contentView.bottomAnchor.constraint(equalTo: contentStack.bottomAnchor)
+            ])
+
             return cell
         }
     }
@@ -209,6 +229,8 @@ class ActivityIndicatorDemoController: DemoTableViewController {
 
     }
 
+    private let xLargeSize: CGFloat = 36
+
     @objc private func startStopActivity() {
         isAnimating.toggle()
     }
@@ -236,45 +258,33 @@ extension ActivityIndicatorDemoController: DemoAppearanceDelegate {
         guard let fluentTheme = self.view.window?.fluentTheme else {
             return
         }
-        if isOverrideEnabled {
-            fluentTheme.register(controlType: ActivityIndicator.self, tokens: {
-                ThemeWideOverrideActivityIndicatorTokens()
-            })
-        } else {
-            fluentTheme.register(controlType: ActivityIndicator.self, tokens: nil)
-        }
-
+        fluentTheme.register(tokenSetType: ActivityIndicatorTokenSet.self,
+                             tokenSet: isOverrideEnabled ? themeWideOverrideActivityIndicatorTokens : nil)
     }
 
     func perControlOverrideDidChange(isOverrideEnabled: Bool) {
         defaultColorIndicators.values.forEach { activityIndicator in
-            activityIndicator.state.overrideTokens = (isOverrideEnabled ? PerControlOverrideActivityIndicatorTokens() : nil)
+            activityIndicator.tokenSet.replaceAllOverrides(with: isOverrideEnabled ? perControlOverrideActivityIndicatorTokens : nil)
         }
     }
 
     func isThemeWideOverrideApplied() -> Bool {
-        return self.view.window?.fluentTheme.tokenOverride(for: ActivityIndicator.self) != nil
+        return self.view.window?.fluentTheme.tokens(for: ActivityIndicatorTokenSet.self)?.isEmpty == false
     }
 
     // MARK: - Custom tokens
 
-    private class ThemeWideOverrideActivityIndicatorTokens: ActivityIndicatorTokens {
-        override var defaultColor: DynamicColor {
-            return DynamicColor(light: GlobalTokens().sharedColors[.red][.primary])
-        }
-
-        override var side: CGFloat {
-            return 20.0
-        }
+    private var themeWideOverrideActivityIndicatorTokens: [ActivityIndicatorTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .defaultColor: .dynamicColor { DynamicColor(light: GlobalTokens.sharedColors(.red, .primary)) },
+            .thickness: .float { 20.0 }
+        ]
     }
 
-    private class PerControlOverrideActivityIndicatorTokens: ActivityIndicatorTokens {
-        override var defaultColor: DynamicColor {
-            return DynamicColor(light: GlobalTokens().sharedColors[.green][.primary])
-        }
-
-        override var thickness: CGFloat {
-            return 10.0
-        }
+    private var perControlOverrideActivityIndicatorTokens: [ActivityIndicatorTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .defaultColor: .dynamicColor { DynamicColor(light: GlobalTokens.sharedColors(.green, .primary)) },
+            .thickness: .float { 10.0 }
+        ]
     }
 }

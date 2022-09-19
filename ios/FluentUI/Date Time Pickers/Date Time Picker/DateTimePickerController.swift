@@ -212,8 +212,8 @@ class DateTimePickerController: UIViewController, GenericDateTimePicker {
         delegate?.dateTimePicker(self, didSelectStartDate: startDate, endDate: endDate)
     }
 
-    @objc private func handleDidSelectStartEnd(_ segmentedControl: SegmentedControl) {
-        mode = segmentedControl.selectedSegmentIndex == 0 ? .start : .end
+    @objc private func handleDidSelectStartEnd(_ selectedIndex: Int) {
+        mode = selectedIndex == 0 ? .start : .end
     }
 
     @objc private func handleDidTapDone(_ item: UIBarButtonItem) {

@@ -64,7 +64,7 @@ open class CommandBarItem: NSObject {
     @objc public var iconImage: UIImage? {
         didSet {
             if iconImage != oldValue {
-                propertyChangedUpdateBlock?(self)
+                propertyChangedUpdateBlock?(self, /* shouldUpdateGroupState */ false)
             }
         }
     }
@@ -73,7 +73,7 @@ open class CommandBarItem: NSObject {
     @objc public var title: String? {
         didSet {
             if title != oldValue {
-                propertyChangedUpdateBlock?(self)
+                propertyChangedUpdateBlock?(self, /* shouldUpdateGroupState */ false)
             }
         }
     }
@@ -83,7 +83,7 @@ open class CommandBarItem: NSObject {
     @objc public var isEnabled: Bool {
         didSet {
             if isEnabled != oldValue {
-                propertyChangedUpdateBlock?(self)
+                propertyChangedUpdateBlock?(self, /* shouldUpdateGroupState */ false)
             }
         }
     }
@@ -91,7 +91,7 @@ open class CommandBarItem: NSObject {
     @objc public var isHidden: Bool = false {
         didSet {
             if isHidden != oldValue {
-                propertyChangedUpdateBlock?(self)
+                propertyChangedUpdateBlock?(self, /* shouldUpdateGroupState */ true)
             }
         }
     }
@@ -100,13 +100,17 @@ open class CommandBarItem: NSObject {
     @objc public var isSelected: Bool {
         didSet {
             if isSelected != oldValue {
-                propertyChangedUpdateBlock?(self)
+                propertyChangedUpdateBlock?(self, /* shouldUpdateGroupState */ false)
             }
         }
     }
 
     /// Set `isSelected` to desired value in this handler. Default implementation is toggling `isSelected` property.
     @objc public var itemTappedHandler: ItemTappedHandler
+
+    /// If set, the `UIView` returned from the closure will be shown inside `CommandBarButton` instead of the `title` and `image`. Setting this
+	/// property will disable the `itemTappedHandler`. The customControlView must manually handle gesutres.
+    @objc public var customControlView: (() -> UIView)?
 
     @objc public lazy var menu: UIMenu? = nil // Only lazy property can be used with @available
 
@@ -121,5 +125,12 @@ open class CommandBarItem: NSObject {
     }
 
     /// Called after a property is changed to trigger the update of a corresponding button
-    var propertyChangedUpdateBlock: ((CommandBarItem) -> Void)?
+    /// - Parameter item: Instance of `CommandBarItem` the closure is being invoked from
+    /// - Parameter shouldUpdateGroupState: Indicates if the item's group state should be updated
+    var propertyChangedUpdateBlock: ((_ item: CommandBarItem, _ shouldUpdateGroupState: Bool) -> Void)?
+
+    /// Indicates whether the `itemTappedHandler` should be called as the item's tap handler
+    var shouldUseItemTappedHandler: Bool {
+        return customControlView == nil
+    }
 }

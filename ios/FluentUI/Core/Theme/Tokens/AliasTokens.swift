@@ -7,9 +7,42 @@ import SwiftUI
 
 public final class AliasTokens {
 
+    // MARK: - BrandColors
+
+    public enum BrandColorsTokens: TokenSetKey {
+        case primary
+        case shade10
+        case shade20
+        case shade30
+        case tint10
+        case tint20
+        case tint30
+        case tint40
+    }
+    public var brandColors: TokenSet<BrandColorsTokens, DynamicColor> = .init { token in
+        switch token {
+        case .primary:
+            return DynamicColor(light: ColorValue(0x0078D4), dark: ColorValue(0x0086F0))
+        case .shade10:
+            return DynamicColor(light: ColorValue(0x106EBE), dark: ColorValue(0x1890F1))
+        case .shade20:
+            return DynamicColor(light: ColorValue(0x005A9E), dark: ColorValue(0x3AA0F3))
+        case .shade30:
+            return DynamicColor(light: ColorValue(0x004578), dark: ColorValue(0x6CB8F6))
+        case .tint10:
+            return DynamicColor(light: ColorValue(0x2B88D8), dark: ColorValue(0x0074D3))
+        case .tint20:
+            return DynamicColor(light: ColorValue(0xC7E0F4), dark: ColorValue(0x004F90))
+        case .tint30:
+            return DynamicColor(light: ColorValue(0xDEECF9), dark: ColorValue(0x002848))
+        case .tint40:
+            return DynamicColor(light: ColorValue(0xEFF6FC), dark: ColorValue(0x001526))
+        }
+    }
+
     // MARK: ForegroundColors
 
-    public enum ForegroundColorsTokens: CaseIterable {
+    public enum ForegroundColorsTokens: TokenSetKey {
         case neutral1
         case neutral2
         case neutral3
@@ -26,55 +59,55 @@ public final class AliasTokens {
         guard let strongSelf = self else { preconditionFailure() }
         switch token {
         case .neutral1:
-            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey14],
-                                lightHighContrast: strongSelf.globalTokens.neutralColors[.black],
-                                dark: strongSelf.globalTokens.neutralColors[.white],
-                                darkHighContrast: strongSelf.globalTokens.neutralColors[.white])
+            return DynamicColor(light: GlobalTokens.neutralColors(.grey14),
+                                lightHighContrast: GlobalTokens.neutralColors(.black),
+                                dark: GlobalTokens.neutralColors(.white),
+                                darkHighContrast: GlobalTokens.neutralColors(.white))
         case .neutral2:
-            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey26],
-                                lightHighContrast: strongSelf.globalTokens.neutralColors[.black],
-                                dark: strongSelf.globalTokens.neutralColors[.grey84],
-                                darkHighContrast: strongSelf.globalTokens.neutralColors[.white])
+            return DynamicColor(light: GlobalTokens.neutralColors(.grey26),
+                                lightHighContrast: GlobalTokens.neutralColors(.black),
+                                dark: GlobalTokens.neutralColors(.grey84),
+                                darkHighContrast: GlobalTokens.neutralColors(.white))
         case .neutral3:
-            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey38],
-                                lightHighContrast: strongSelf.globalTokens.neutralColors[.grey14],
-                                dark: strongSelf.globalTokens.neutralColors[.grey68],
-                                darkHighContrast: strongSelf.globalTokens.neutralColors[.grey84])
+            return DynamicColor(light: GlobalTokens.neutralColors(.grey38),
+                                lightHighContrast: GlobalTokens.neutralColors(.grey14),
+                                dark: GlobalTokens.neutralColors(.grey68),
+                                darkHighContrast: GlobalTokens.neutralColors(.grey84))
         case .neutral4:
-            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey50],
-                                lightHighContrast: strongSelf.globalTokens.neutralColors[.grey26],
-                                dark: strongSelf.globalTokens.neutralColors[.grey52],
-                                darkHighContrast: strongSelf.globalTokens.neutralColors[.grey84])
+            return DynamicColor(light: GlobalTokens.neutralColors(.grey50),
+                                lightHighContrast: GlobalTokens.neutralColors(.grey26),
+                                dark: GlobalTokens.neutralColors(.grey52),
+                                darkHighContrast: GlobalTokens.neutralColors(.grey84))
         case .neutralDisabled:
-            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey74],
-                                lightHighContrast: strongSelf.globalTokens.neutralColors[.grey38],
-                                dark: strongSelf.globalTokens.neutralColors[.grey36],
-                                darkHighContrast: strongSelf.globalTokens.neutralColors[.grey62])
+            return DynamicColor(light: GlobalTokens.neutralColors(.grey74),
+                                lightHighContrast: GlobalTokens.neutralColors(.grey38),
+                                dark: GlobalTokens.neutralColors(.grey36),
+                                darkHighContrast: GlobalTokens.neutralColors(.grey62))
         case .neutralInverted:
-            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.white],
-                                lightHighContrast: strongSelf.globalTokens.neutralColors[.white],
-                                dark: strongSelf.globalTokens.neutralColors[.black],
-                                darkHighContrast: strongSelf.globalTokens.neutralColors[.black])
+            return DynamicColor(light: GlobalTokens.neutralColors(.white),
+                                lightHighContrast: GlobalTokens.neutralColors(.white),
+                                dark: GlobalTokens.neutralColors(.black),
+                                darkHighContrast: GlobalTokens.neutralColors(.black))
         case .brandRest:
-            return DynamicColor(light: strongSelf.globalTokens.brandColors[.primary].light,
-                                lightHighContrast: strongSelf.globalTokens.brandColors[.shade20].light,
-                                dark: strongSelf.globalTokens.brandColors[.primary].dark,
-                                darkHighContrast: strongSelf.globalTokens.brandColors[.tint20].dark)
+            return DynamicColor(light: strongSelf.brandColors[.primary].light,
+                                lightHighContrast: strongSelf.brandColors[.shade20].light,
+                                dark: strongSelf.brandColors[.primary].dark,
+                                darkHighContrast: strongSelf.brandColors[.tint20].dark)
         case .brandHover:
-            return strongSelf.globalTokens.brandColors[.shade10]
+            return strongSelf.brandColors[.shade10]
         case .brandPressed:
-            return strongSelf.globalTokens.brandColors[.shade30]
+            return strongSelf.brandColors[.shade30]
         case .brandSelected:
-            return strongSelf.globalTokens.brandColors[.shade20]
+            return strongSelf.brandColors[.shade20]
         case .brandDisabled:
-            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey74],
-                                dark: strongSelf.globalTokens.neutralColors[.grey36])
+            return DynamicColor(light: GlobalTokens.neutralColors(.grey74),
+                                dark: GlobalTokens.neutralColors(.grey36))
         }
     }
 
     // MARK: BackgroundColors
 
-    public enum BackgroundColorsTokens: CaseIterable {
+    public enum BackgroundColorsTokens: TokenSetKey {
         case neutral1
         case neutral2
         case neutral3
@@ -92,49 +125,49 @@ public final class AliasTokens {
         guard let strongSelf = self else { preconditionFailure() }
         switch token {
         case .neutral1:
-            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.white],
-                                dark: strongSelf.globalTokens.neutralColors[.black],
-                                darkElevated: strongSelf.globalTokens.neutralColors[.grey4])
+            return DynamicColor(light: GlobalTokens.neutralColors(.white),
+                                dark: GlobalTokens.neutralColors(.black),
+                                darkElevated: GlobalTokens.neutralColors(.grey4))
         case .neutral2:
-            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey98],
-                                dark: strongSelf.globalTokens.neutralColors[.grey4],
-                                darkElevated: strongSelf.globalTokens.neutralColors[.grey8])
+            return DynamicColor(light: GlobalTokens.neutralColors(.grey98),
+                                dark: GlobalTokens.neutralColors(.grey4),
+                                darkElevated: GlobalTokens.neutralColors(.grey8))
         case .neutral3:
-            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey96],
-                                dark: strongSelf.globalTokens.neutralColors[.grey8],
-                                darkElevated: strongSelf.globalTokens.neutralColors[.grey12])
+            return DynamicColor(light: GlobalTokens.neutralColors(.grey96),
+                                dark: GlobalTokens.neutralColors(.grey8),
+                                darkElevated: GlobalTokens.neutralColors(.grey12))
         case .neutral4:
-            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey94],
-                                dark: strongSelf.globalTokens.neutralColors[.grey12],
-                                darkElevated: strongSelf.globalTokens.neutralColors[.grey16])
+            return DynamicColor(light: GlobalTokens.neutralColors(.grey94),
+                                dark: GlobalTokens.neutralColors(.grey12),
+                                darkElevated: GlobalTokens.neutralColors(.grey16))
         case .neutral5:
-            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey92],
-                                dark: strongSelf.globalTokens.neutralColors[.grey36],
-                                darkElevated: strongSelf.globalTokens.neutralColors[.grey36])
+            return DynamicColor(light: GlobalTokens.neutralColors(.grey92),
+                                dark: GlobalTokens.neutralColors(.grey36),
+                                darkElevated: GlobalTokens.neutralColors(.grey36))
         case .neutralDisabled:
-            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey88],
-                                dark: strongSelf.globalTokens.neutralColors[.grey84],
-                                darkElevated: strongSelf.globalTokens.neutralColors[.grey84])
+            return DynamicColor(light: GlobalTokens.neutralColors(.grey88),
+                                dark: GlobalTokens.neutralColors(.grey84),
+                                darkElevated: GlobalTokens.neutralColors(.grey84))
         case .brandRest:
-            return strongSelf.globalTokens.brandColors[.primary]
+            return strongSelf.brandColors[.primary]
         case .brandHover:
-            return strongSelf.globalTokens.brandColors[.shade10]
+            return strongSelf.brandColors[.shade10]
         case .brandPressed:
-            return strongSelf.globalTokens.brandColors[.shade30]
+            return strongSelf.brandColors[.shade30]
         case .brandSelected:
-            return strongSelf.globalTokens.brandColors[.shade20]
+            return strongSelf.brandColors[.shade20]
         case .brandDisabled:
-            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey88],
-                                dark: strongSelf.globalTokens.neutralColors[.grey84])
+            return DynamicColor(light: GlobalTokens.neutralColors(.grey88),
+                                dark: GlobalTokens.neutralColors(.grey84))
         case .surfaceQuaternary:
-            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey88],
-                                dark: strongSelf.globalTokens.neutralColors[.grey26])
+            return DynamicColor(light: GlobalTokens.neutralColors(.grey88),
+                                dark: GlobalTokens.neutralColors(.grey26))
         }
     }
 
     // MARK: StrokeColors
 
-    public enum StrokeColorsTokens: CaseIterable {
+    public enum StrokeColorsTokens: TokenSetKey {
         case neutral1
         case neutral2
     }
@@ -142,23 +175,23 @@ public final class AliasTokens {
         guard let strongSelf = self else { preconditionFailure() }
         switch token {
         case .neutral1:
-            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey94],
-                                lightHighContrast: strongSelf.globalTokens.neutralColors[.grey38],
-                                dark: strongSelf.globalTokens.neutralColors[.grey24],
-                                darkHighContrast: strongSelf.globalTokens.neutralColors[.grey68],
-                                darkElevated: strongSelf.globalTokens.neutralColors[.grey32])
+            return DynamicColor(light: GlobalTokens.neutralColors(.grey94),
+                                lightHighContrast: GlobalTokens.neutralColors(.grey38),
+                                dark: GlobalTokens.neutralColors(.grey24),
+                                darkHighContrast: GlobalTokens.neutralColors(.grey68),
+                                darkElevated: GlobalTokens.neutralColors(.grey32))
         case .neutral2:
-            return DynamicColor(light: strongSelf.globalTokens.neutralColors[.grey88],
-                                lightHighContrast: strongSelf.globalTokens.neutralColors[.grey38],
-                                dark: strongSelf.globalTokens.neutralColors[.grey32],
-                                darkHighContrast: strongSelf.globalTokens.neutralColors[.grey68],
-                                darkElevated: strongSelf.globalTokens.neutralColors[.grey36])
+            return DynamicColor(light: GlobalTokens.neutralColors(.grey88),
+                                lightHighContrast: GlobalTokens.neutralColors(.grey38),
+                                dark: GlobalTokens.neutralColors(.grey32),
+                                darkHighContrast: GlobalTokens.neutralColors(.grey68),
+                                darkElevated: GlobalTokens.neutralColors(.grey36))
         }
     }
 
     // MARK: - ShadowColors
 
-    public enum ShadowColorsTokens: CaseIterable {
+    public enum ShadowColorsTokens: TokenSetKey {
         case neutralAmbient
         case neutralKey
         case neutralAmbientLighter
@@ -200,7 +233,7 @@ public final class AliasTokens {
 
     // MARK: - Typography
 
-    public enum TypographyTokens: CaseIterable {
+    public enum TypographyTokens: TokenSetKey {
         case display
         case largeTitle
         case title1
@@ -218,47 +251,48 @@ public final class AliasTokens {
         guard let strongSelf = self else { preconditionFailure() }
         switch token {
         case .display:
-            return .init(size: strongSelf.globalTokens.fontSize[.size900],
-                         weight: strongSelf.globalTokens.fontWeight[.bold])
+            return .init(size: GlobalTokens.fontSize(.size900),
+                         weight: GlobalTokens.fontWeight(.bold))
         case .largeTitle:
-            return .init(size: strongSelf.globalTokens.fontSize[.size800],
-                         weight: strongSelf.globalTokens.fontWeight[.bold])
+            return .init(size: GlobalTokens.fontSize(.size800),
+                         weight: GlobalTokens.fontWeight(.bold))
         case .title1:
-            return .init(size: strongSelf.globalTokens.fontSize[.size700],
-                         weight: strongSelf.globalTokens.fontWeight[.bold])
+            return .init(size: GlobalTokens.fontSize(.size700),
+                         weight: GlobalTokens.fontWeight(.bold))
         case .title2:
-            return .init(size: strongSelf.globalTokens.fontSize[.size600],
-                         weight: strongSelf.globalTokens.fontWeight[.semibold])
+            return .init(size: GlobalTokens.fontSize(.size600),
+                         weight: GlobalTokens.fontWeight(.semibold))
         case .title3:
-            return .init(size: strongSelf.globalTokens.fontSize[.size500],
-                         weight: strongSelf.globalTokens.fontWeight[.semibold])
+            return .init(size: GlobalTokens.fontSize(.size500),
+                         weight: GlobalTokens.fontWeight(.semibold))
         case .body1Strong:
-            return .init(size: strongSelf.globalTokens.fontSize[.size400],
-                         weight: strongSelf.globalTokens.fontWeight[.semibold])
+            return .init(size: GlobalTokens.fontSize(.size400),
+                         weight: GlobalTokens.fontWeight(.semibold))
         case .body1:
-            return .init(size: strongSelf.globalTokens.fontSize[.size400],
-                         weight: strongSelf.globalTokens.fontWeight[.regular])
+            return .init(size: GlobalTokens.fontSize(.size400),
+                         weight: GlobalTokens.fontWeight(.regular))
         case .body2Strong:
-            return .init(size: strongSelf.globalTokens.fontSize[.size300],
-                         weight: strongSelf.globalTokens.fontWeight[.semibold])
+            return .init(size: GlobalTokens.fontSize(.size300),
+                         weight: GlobalTokens.fontWeight(.semibold))
         case .body2:
-            return .init(size: strongSelf.globalTokens.fontSize[.size300],
-                         weight: strongSelf.globalTokens.fontWeight[.regular])
+            return .init(size: GlobalTokens.fontSize(.size300),
+                         weight: GlobalTokens.fontWeight(.regular))
         case .caption1Strong:
-            return .init(size: strongSelf.globalTokens.fontSize[.size200],
-                         weight: strongSelf.globalTokens.fontWeight[.semibold])
+            return .init(size: GlobalTokens.fontSize(.size200),
+                         weight: GlobalTokens.fontWeight(.semibold))
         case .caption1:
-            return .init(size: strongSelf.globalTokens.fontSize[.size200],
-                         weight: strongSelf.globalTokens.fontWeight[.regular])
+            return .init(size: GlobalTokens.fontSize(.size200),
+                         weight: GlobalTokens.fontWeight(.regular))
         case .caption2:
-            return .init(size: strongSelf.globalTokens.fontSize[.size100],
-                         weight: strongSelf.globalTokens.fontWeight[.regular])
+            return .init(size: GlobalTokens.fontSize(.size100),
+                         weight: GlobalTokens.fontWeight(.regular))
         }
     }
 
     // MARK: - Shadow
 
-    public enum ShadowTokens: CaseIterable {
+    public enum ShadowTokens: TokenSetKey {
+        case clear
         case shadow02
         case shadow04
         case shadow08
@@ -269,6 +303,15 @@ public final class AliasTokens {
     lazy public var shadow: TokenSet<ShadowTokens, ShadowInfo> = .init { [weak self] token in
         guard let strongSelf = self else { preconditionFailure() }
         switch token {
+        case .clear:
+            return ShadowInfo(colorOne: DynamicColor(light: ColorValue.clear),
+                              blurOne: 0.0,
+                              xOne: 0.0,
+                              yOne: 0.0,
+                              colorTwo: DynamicColor(light: ColorValue.clear),
+                              blurTwo: 0.0,
+                              xTwo: 0.0,
+                              yTwo: 0.0)
         case .shadow02:
             return ShadowInfo(colorOne: strongSelf.shadowColors[.neutralKey],
                               blurOne: 1,
@@ -328,7 +371,7 @@ public final class AliasTokens {
 
     // MARK: Elevation
 
-    public enum ElevationTokens: CaseIterable {
+    public enum ElevationTokens: TokenSetKey {
         case interactiveElevation1Rest
         case interactiveElevation1Hover
         case interactiveElevation1Pressed
@@ -353,7 +396,5 @@ public final class AliasTokens {
 
     // MARK: Initialization
 
-    public init() {}
-
-    lazy var globalTokens: GlobalTokens = FluentTheme.shared.globalTokens
+    init() {}
 }

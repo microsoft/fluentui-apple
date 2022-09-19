@@ -77,15 +77,28 @@ class CommandBarCommandGroupsView: UIView {
     private func updateButtonGroupViews() {
         updateItemsToButtonsMap()
         buttonGroupViews = itemGroups.map { items in
-                CommandBarButtonGroupView(buttons: items.compactMap { item in
-                    guard let button = itemsToButtonsMap[item] else {
-                        preconditionFailure("Button is not initialized in map")
-                    }
-                    item.propertyChangedUpdateBlock = { _ in
+            let buttons: [CommandBarButton] = items.compactMap { item in
+                guard let button = itemsToButtonsMap[item] else {
+                    preconditionFailure("Button is not initialized in map")
+                }
+                return button
+            }
+
+            let group = CommandBarButtonGroupView(buttons: buttons)
+
+            for item in items {
+                if let button = itemsToButtonsMap[item] {
+                    item.propertyChangedUpdateBlock = { _, shouldUpdateGroupState in
                         button.updateState()
+
+                        if shouldUpdateGroupState {
+                            group.hideGroupIfNeeded()
+                        }
                     }
-                    return button
-                })
+                }
+            }
+
+            return group
         }
     }
 
@@ -97,7 +110,10 @@ class CommandBarCommandGroupsView: UIView {
 
     private func createButton(forItem item: CommandBarItem, isPersistSelection: Bool = true) -> CommandBarButton {
         let button = CommandBarButton(item: item, isPersistSelection: isPersistSelection)
-        button.addTarget(self, action: #selector(handleCommandButtonTapped(_:)), for: .touchUpInside)
+
+        if item.shouldUseItemTappedHandler {
+            button.addTarget(self, action: #selector(handleCommandButtonTapped(_:)), for: .touchUpInside)
+        }
 
         return button
     }
@@ -108,7 +124,7 @@ class CommandBarCommandGroupsView: UIView {
     }
 
     private struct LayoutConstants {
-        static let buttonGroupSpacing: CGFloat = 16
+        static let buttonGroupSpacing: CGFloat = 8.0
         static let insets = UIEdgeInsets(top: 8.0,
                                          left: 8.0,
                                          bottom: 8.0,

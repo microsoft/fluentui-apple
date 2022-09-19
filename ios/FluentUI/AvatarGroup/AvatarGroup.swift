@@ -35,9 +35,6 @@ import SwiftUI
     /// Remove an Avatar from the AvatarGroup.
     /// - Parameter index: The zero-based index of the Avatar that will be removed from the AvatarGroup.
     func removeAvatar(at index: Int)
-
-    /// Custom design token set for this control
-    var overrideTokens: AvatarGroupTokens? { get set }
 }
 
 /// Enumeration of the styles used by the AvatarGroup.
@@ -91,7 +88,10 @@ import SwiftUI
 }
 
 /// View that represents the AvatarGroup.
-public struct AvatarGroup: View, ConfigurableTokenizedControl {
+public struct AvatarGroup: View, TokenizedControlView {
+    public typealias TokenSetKeyType = AvatarGroupTokenSet.Tokens
+    @ObservedObject public var tokenSet: AvatarGroupTokenSet
+
     /// Creates and initializes a SwiftUI AvatarGroup.
     /// - Parameters:
     ///   - style: The style of the avatar group.
@@ -101,6 +101,8 @@ public struct AvatarGroup: View, ConfigurableTokenizedControl {
         let state = MSFAvatarGroupStateImpl(style: style,
                                             size: size)
         self.state = state
+        self.tokenSet = AvatarGroupTokenSet(style: { state.style },
+                                            size: { state.size })
     }
 
     public var body: some View {
@@ -112,77 +114,91 @@ public struct AvatarGroup: View, ConfigurableTokenizedControl {
         let avatarsToDisplay: Int = min(maxDisplayedAvatars, avatarCount)
         let overflowCount: Int = (avatarCount > maxDisplayedAvatars ? avatarCount - maxDisplayedAvatars : 0) + state.overflowCount
         let hasOverflow: Bool = overflowCount > 0
-        let isStackStyle = tokens.style == .stack
+        let isStackStyle = state.style == .stack
 
         let overflowAvatar = createOverflow(count: overflowCount)
 
-        let interspace: CGFloat = tokens.interspace
+        let interspace: CGFloat = tokenSet[.interspace].float
 
         let groupHeight: CGFloat = {
             let avatarMaxHeight: CGFloat
             if let avatar = avatarViews.first {
-                let avatarTokens = avatar.tokens
-                avatarMaxHeight = avatarTokens.avatarSize + 2 * (avatarTokens.ringThickness + avatarTokens.ringInnerGap + avatarTokens.ringOuterGap)
+                let avatarSize = avatar.contentSize
+                let ringThickness = avatar.tokenSet[.ringThickness].float
+                let ringInnerGap = avatar.tokenSet[.ringInnerGap].float
+                let ringOuterGap = avatar.tokenSet[.ringOuterGap].float
+
+                avatarMaxHeight = avatarSize + (2 * ringThickness) + ringInnerGap + ringOuterGap
             } else {
                 avatarMaxHeight = 0
             }
 
             // Use the overflow tokens as a default in case we have no Avatars to show
-            let overflowTokens = overflowAvatar.tokens
-            let overflowMaxHeight = overflowTokens.avatarSize + 2 * (overflowTokens.ringThickness + overflowTokens.ringInnerGap + overflowTokens.ringOuterGap)
+            let avatarSize = overflowAvatar.contentSize
+            let ringThickness = overflowAvatar.tokenSet[.ringThickness].float
+            let ringInnerGap = overflowAvatar.tokenSet[.ringInnerGap].float
+            let ringOuterGap = overflowAvatar.tokenSet[.ringOuterGap].float
+
+            let overflowMaxHeight = avatarSize + (2 * ringThickness) + ringInnerGap + ringOuterGap
 
             return max(avatarMaxHeight, overflowMaxHeight)
         }()
 
         @ViewBuilder
+        func avatarView(at index: Int, for avatar: MSFAvatarStateImpl) -> some View {
+            let nextIndex = index + 1
+            let isLastDisplayed = nextIndex == avatarsToDisplay
+            // If the avatar is part of Stack style and is not the last avatar in the sequence, create a cutout.
+            let avatarView = avatarViews[index]
+            let needsCutout = isStackStyle && (hasOverflow || !isLastDisplayed)
+            let avatarSize: CGFloat = avatarView.totalSize
+            let nextAvatarSize: CGFloat = isLastDisplayed ? overflowAvatar.totalSize : avatarViews[nextIndex].totalSize
+
+            // Calculating the size delta of the current and next avatar based off of ring visibility, which helps determine
+            // starting coordinates for the cutout.
+            let currentAvatarHasRing = avatar.isRingVisible
+            let nextAvatarHasRing = !isLastDisplayed ? avatars[nextIndex].isRingVisible : false
+
+            // Calculating the different interspace scenarios considering rings.
+            let ringOuterGap = avatarView.tokenSet[.ringOuterGap].float
+            let ringOffset = avatarView.tokenSet[.ringInnerGap].float + avatarView.tokenSet[.ringThickness].float + ringOuterGap
+            let stackPadding = interspace - (currentAvatarHasRing ? ringOffset : 0) - (nextAvatarHasRing ? ringOuterGap : 0)
+
+            // Finalized calculations for x and y coordinates of the Avatar if it needs a cutout, including RTL.
+            let ringGapOffset = 2 * ringOuterGap
+            let xOrigin: CGFloat = {
+                if layoutDirection == .rightToLeft {
+                    return -nextAvatarSize - interspace + ringOuterGap + (currentAvatarHasRing ? ringOffset : 0)
+                }
+                return avatarSize + interspace - ringGapOffset - ringOuterGap - (currentAvatarHasRing ? ringOuterGap : 0)
+            }()
+
+            let sizeDiff = avatarSize - nextAvatarSize - (currentAvatarHasRing ? 0 : ringGapOffset)
+            let yOrigin = sizeDiff / 2
+
+            // Hand the rendering of the avatar to a helper function to appease Swift's
+            // strict type-checking timeout.
+            VStack {
+                avatarView
+                    .transition(.identity)
+                    .modifyIf(needsCutout, { view in
+                        view.clipShape(CircleCutout(xOrigin: xOrigin,
+                                                    yOrigin: yOrigin,
+                                                    cutoutSize: nextAvatarSize),
+                                       style: FillStyle(eoFill: true))
+                    })
+            }
+            .padding(.trailing, isStackStyle ? stackPadding : interspace)
+        }
+
+        @ViewBuilder
         var avatarGroupContent: some View {
+            let animation = Animation.linear(duration: animationDuration)
+
             HStack(spacing: 0) {
                 ForEach(enumeratedAvatars.prefix(avatarsToDisplay), id: \.1) { index, avatar in
-                    let nextIndex = index + 1
-                    let isLastDisplayed = nextIndex == avatarsToDisplay
-                    // If the avatar is part of Stack style and is not the last avatar in the sequence, create a cutout.
-                    let avatarView = avatarViews[index]
-                    let needsCutout = isStackStyle && (hasOverflow || !isLastDisplayed)
-                    let avatarSize: CGFloat = avatarView.totalSize
-                    let nextAvatarSize: CGFloat = isLastDisplayed ? overflowAvatar.totalSize : avatarViews[nextIndex].totalSize
-
-                    // Calculating the size delta of the current and next avatar based off of ring visibility, which helps determine
-                    // starting coordinates for the cutout.
-                    let currentAvatarHasRing = avatar.isRingVisible
-                    let nextAvatarHasRing = !isLastDisplayed ? avatars[nextIndex].isRingVisible : false
-
-                    // Calculating the different interspace scenarios considering rings.
-                    let currentTokens = avatarView.tokens
-                    let ringOuterGap = currentTokens.ringOuterGap
-                    let ringOffset = currentTokens.ringInnerGap + currentTokens.ringThickness + ringOuterGap
-                    let stackPadding = interspace - (currentAvatarHasRing ? ringOffset : 0) - (nextAvatarHasRing ? ringOuterGap : 0)
-
-                    // Finalized calculations for x and y coordinates of the Avatar if it needs a cutout, including RTL.
-                    let ringGapOffset = 2 * ringOuterGap
-                    let xOrigin: CGFloat = {
-                        if layoutDirection == .rightToLeft {
-                            return -nextAvatarSize - interspace + ringOuterGap + (currentAvatarHasRing ? ringOffset : 0)
-                        }
-                        return avatarSize + interspace - ringGapOffset - ringOuterGap - (currentAvatarHasRing ? ringOuterGap : 0)
-                    }()
-
-                    let sizeDiff = avatarSize - nextAvatarSize - (currentAvatarHasRing ? 0 : ringGapOffset)
-                    let yOrigin = sizeDiff / 2
-
-                    // Hand the rendering of the avatar to a helper function to appease Swift's
-                    // strict type-checking timeout.
-                    VStack {
-                        avatarView
-                            .transition(.identity)
-                            .modifyIf(needsCutout, { view in
-                                view.clipShape(CircleCutout(xOrigin: xOrigin,
-                                                            yOrigin: yOrigin,
-                                                            cutoutSize: nextAvatarSize),
-                                               style: FillStyle(eoFill: true))
-                            })
-                    }
-                    .padding(.trailing, isStackStyle ? stackPadding : interspace)
-                    .transition(AnyTransition.move(edge: .leading))
+                    avatarView(at: index, for: avatar)
+                        .transition(AnyTransition.move(edge: .leading))
                 }
 
                 if hasOverflow {
@@ -192,6 +208,10 @@ public struct AvatarGroup: View, ConfigurableTokenizedControl {
                     .transition(AnyTransition.move(edge: .leading))
                 }
             }
+            .animation(animation, value: state.avatars)
+            .animation(animation, value: [state.maxDisplayedAvatars, state.overflowCount])
+            .animation(animation, value: state.style)
+            .animation(animation, value: state.size)
             .frame(maxWidth: .infinity,
                    minHeight: groupHeight,
                    maxHeight: .infinity,
@@ -199,30 +219,24 @@ public struct AvatarGroup: View, ConfigurableTokenizedControl {
         }
 
         return avatarGroupContent
+            .fluentTokens(tokenSet, fluentTheme)
     }
 
-    let defaultTokens: AvatarGroupTokens = .init()
-    var tokens: AvatarGroupTokens {
-        let tokens = resolvedTokens
-        tokens.size = state.size
-        tokens.style = state.style
-        return tokens
-    }
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @Environment(\.layoutDirection) var layoutDirection: LayoutDirection
     @ObservedObject var state: MSFAvatarGroupStateImpl
 
+    private let animationDuration: CGFloat = 0.1
+
     private func createOverflow(count: Int) -> Avatar {
-        var avatar = Avatar(style: .overflow, size: state.size)
-        let data = MSFAvatarStateImpl(style: .overflow, size: state.size)
-        data.primaryText = "\(count)"
-        data.image = nil
-        avatar.state = data
-        return avatar
+        let state = MSFAvatarStateImpl(style: .overflow, size: state.size)
+        state.primaryText = "\(count)"
+        state.image = nil
+        return Avatar(state)
     }
 }
 
-class MSFAvatarGroupStateImpl: NSObject, ObservableObject, ControlConfiguration, MSFAvatarGroupState {
+class MSFAvatarGroupStateImpl: ControlState, MSFAvatarGroupState {
     func createAvatar() -> MSFAvatarGroupAvatarState {
         return createAvatar(at: avatars.endIndex)
     }
@@ -256,8 +270,6 @@ class MSFAvatarGroupStateImpl: NSObject, ObservableObject, ControlConfiguration,
 
     @Published var style: MSFAvatarGroupStyle
     @Published var size: MSFAvatarSize
-
-    @Published var overrideTokens: AvatarGroupTokens?
 
     init(style: MSFAvatarGroupStyle,
          size: MSFAvatarSize) {

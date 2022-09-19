@@ -8,64 +8,89 @@ import SwiftUI
 public extension View {
     /// Presents a Notification on top of the modified View.
     /// - Parameters:
-    ///   - style: `MSFNotificationStyle` enum value that defines the style of the Notification being presented.
-    ///   - isFlexibleWidthToast: Whether the width of the toast is set based on the width of the screen or on its contents/
-    ///   - message: Optional text for the main title area of the control. If there is a title, the message becomes subtext.
-    ///   - attributedMessage: Optional attributed text for the main title area of the control. If there is a title, the message becomes subtext.
-    ///   - isBlocking: Whether the interaction with the view will be blocked while the Notification is being presented.
-    ///   - isPresented: Controls whether the Notification is being presented.
-    ///   - title: Optional text to draw above the message area.
-    ///   - attributedTitle: Optional attributed text to draw above the message area.
-    ///   - image: Optional icon to draw at the leading edge of the control.
-    ///   - trailingImage: Optional icon to show in the action button if no button title is provided.
-    ///   - trailingImageAccessibilityLabel: Optional localized accessibility label for the trailing image.
-    ///   - actionButtonTitle:Title to display in the action button on the trailing edge of the control.
-    ///   - actionButtonAction: Action to be dispatched by the action button on the trailing edge of the control.
-    ///   - messageButtonAction: Action to be dispatched by tapping on the toast/bar notification.
-    ///   - showFromBottom: Defines whether the notification shows from the bottom of the presenting view or the top.
-    ///   - overrideTokens: Custom NotificationTokens class that will override the default tokens.
+    ///   - notification: The `FluentNotification` instance to present.
     /// - Returns: The modified view with the capability of presenting a Notification.
-    func presentNotification(style: MSFNotificationStyle,
-                             isFlexibleWidthToast: Bool,
-                             message: String? = nil,
-                             attributedMessage: NSAttributedString? = nil,
+    func presentNotification(isPresented: Binding<Bool>,
                              isBlocking: Bool = true,
-                             isPresented: Binding<Bool>,
-                             title: String? = nil,
-                             attributedTitle: NSAttributedString? = nil,
-                             image: UIImage? = nil,
-                             trailingImage: UIImage? = nil,
-                             trailingImageAccessibilityLabel: String? = nil,
-                             actionButtonTitle: String? = nil,
-                             actionButtonAction: (() -> Void)? = nil,
-                             messageButtonAction: (() -> Void)? = nil,
-                             showFromBottom: Bool = true,
-                             overrideTokens: NotificationTokens? = nil) -> some View {
+                             @ViewBuilder notification: @escaping () -> FluentNotification) -> some View {
         self.presentingView(isPresented: isPresented,
                             isBlocking: isBlocking) {
-            FluentNotification(style: style,
-                               isFlexibleWidthToast: isFlexibleWidthToast,
-                               message: message,
-                               attributedMessage: attributedMessage,
-                               isPresented: isPresented,
-                               title: title,
-                               attributedTitle: attributedTitle,
-                               image: image,
-                               trailingImage: trailingImage,
-                               trailingImageAccessibilityLabel: trailingImageAccessibilityLabel,
-                               actionButtonTitle: actionButtonTitle,
-                               actionButtonAction: actionButtonAction,
-                               messageButtonAction: messageButtonAction,
-                               showFromBottom: showFromBottom)
-            .overrideTokens(overrideTokens)
+            notification()
         }
+    }
+
+    /// Adds a border to the given edges of the modified View.
+    /// - Parameters:
+    ///   - width: The width of the border.
+    ///   - edges: The edges to add a border to.
+    ///   - color: The color of the border.
+    /// - Returns: The modified view with a border outline.
+    func border(width: CGFloat,
+                edges: [Edge],
+                color: Color) -> some View {
+        overlay(EdgeBorder(width: width,
+                           edges: edges)
+            .foregroundColor(color))
     }
 }
 
 public extension FluentNotification {
-    /// Provides a custom design token set to be used when drawing this control.
-    func overrideTokens(_ tokens: NotificationTokens?) -> FluentNotification {
-        state.overrideTokens = tokens
+    /// An optional linear gradient to use as the background of the notification.
+    ///
+    /// If this property is nil, then this notification will use the background color defined by its design tokens.
+    func backgroundGradient(_ gradientInfo: LinearGradientInfo?) -> FluentNotification {
+        state.backgroundGradient = gradientInfo
         return self
+    }
+}
+
+/// Custom shape that is the edge(s) of a view
+private struct EdgeBorder: Shape {
+    var width: CGFloat
+    var edges: [Edge]
+
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        for edge in edges {
+            var x: CGFloat {
+                switch edge {
+                case .top, .bottom, .leading:
+                    return rect.minX
+                case .trailing:
+                    return rect.maxX - width
+                }
+            }
+
+            var y: CGFloat {
+                switch edge {
+                case .top, .leading, .trailing:
+                    return rect.minY
+                case .bottom:
+                    return rect.maxY - width
+                }
+            }
+
+            var w: CGFloat {
+                switch edge {
+                case .top, .bottom:
+                    return rect.width
+                case .leading, .trailing:
+                    return self.width
+                }
+            }
+
+            var h: CGFloat {
+                switch edge {
+                case .top, .bottom:
+                    return self.width
+                case .leading, .trailing:
+                    return rect.height
+                }
+            }
+
+            path.addPath(Path(CGRect(x: x, y: y, width: w, height: h)))
+        }
+
+        return path
     }
 }

@@ -6,10 +6,10 @@
 import UIKit
 
 // MARK: DateTimePicker Colors
-public extension Colors {
+extension Colors {
   struct DateTimePicker {
-    public static var background = UIColor(light: surfacePrimary, dark: gray900)
-      public static var text: UIColor = textSecondary
+    static var background = UIColor(light: surfacePrimary, dark: gray900)
+    static var text: UIColor = textSecondary
   }
 }
 
@@ -27,7 +27,7 @@ class DateTimePickerViewComponentCell: UITableViewCell {
     static let identifier: String = "DateTimePickerViewComponentCell"
 
     class var idealHeight: CGFloat {
-        return max(Constants.verticalPadding * 2 + Fonts.body.deviceLineHeight, Constants.baseHeight)
+        return max(Constants.verticalPadding * 2 + Fonts.body.lineHeight, Constants.baseHeight)
     }
 
     var emphasized: Bool = false {
