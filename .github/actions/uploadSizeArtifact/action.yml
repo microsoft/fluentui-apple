@@ -15,8 +15,10 @@ runs:
       shell: bash
       run: scripts/xcode_select_current_version.sh
     - name: scripts/xcodebuild_wrapper.sh 'ios_device_build Demo.Development Release build -archivePath $GITHUB_WORKSPACE/sha archive' # Build and archive release device build
+      shell: bash
       run: scripts/xcodebuild_wrapper.sh ios_device_build Demo.Development Release build -archivePath $GITHUB_WORKSPACE/${{ inputs.sha  }} archive
     - name: Create size file # Get size of demo app in "kilobytes" (2*512B blocks) and store in a file with the hash as the name
+      shell: bash
       run: du -sk $GITHUB_WORKSPACE/${{ inputs.sha }}.xcarchive/Products/Applications/FluentUI.Demo.app | cut -f1 >> $GITHUB_WORKSPACE/${{ inputs.sha }}
     - name: Upload head size artifact # Upload the file with just the size, ie, 36692
       uses: actions/upload-artifact@v3
