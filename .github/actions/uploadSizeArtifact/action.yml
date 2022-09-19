@@ -12,6 +12,7 @@ runs:
       with:
         ref: ${{ inputs.sha }}
     - name: Switch to current version of Xcode
+      shell: bash
       run: scripts/xcode_select_current_version.sh
     - name: scripts/xcodebuild_wrapper.sh 'ios_device_build Demo.Development Release build -archivePath $GITHUB_WORKSPACE/sha archive' # Build and archive release device build
       run: scripts/xcodebuild_wrapper.sh ios_device_build Demo.Development Release build -archivePath $GITHUB_WORKSPACE/${{ inputs.sha  }} archive
