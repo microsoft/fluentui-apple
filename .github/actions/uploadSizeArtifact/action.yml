@@ -11,6 +11,13 @@ runs:
     - uses: actions/checkout@v3 # Checkout repo at sha
       with:
         ref: ${{ inputs.sha }}
+        path: build
+    - name: logging .
+      shell: bash
+      run: ls -la
+    - name: logging ..
+      shell: bash
+      run: ls -la ..
     - name: Switch to current version of Xcode
       shell: bash
       run: scripts/xcode_select_current_version.sh
