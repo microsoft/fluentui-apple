@@ -13,6 +13,8 @@ jobs:
       fail-fast: false
     steps: 
     - uses: actions/checkout@v3
+      with:
+        ref: ${{ github.event.pull_request.head.sha }}
     - name: Upload Size Artifact 
       uses: ./.github/actions/uploadSizeArtifact
       with:
@@ -23,6 +25,8 @@ jobs:
       fail-fast: false
     steps: 
     - uses: actions/checkout@v3
+      with:
+        ref: ${{ github.event.pull_request.base.sha }}
     - name: Upload Size Artifact 
       uses: ./.github/actions/uploadSizeArtifact
       with:
