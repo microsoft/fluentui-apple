@@ -165,6 +165,15 @@ public class BottomSheetController: UIViewController {
         }
     }
 
+    /// A closure for resolving the desired collapsed sheet height given a resolution context.
+    @objc open var collapsedHeightResolver: ((ContentHeightResolutionContext) -> CGFloat)? {
+        didSet {
+            if isViewLoaded {
+                invalidateSheetSize()
+            }
+        }
+    }
+
     /// Height of the top portion of the content view that should be visible when the bottom sheet is collapsed.
     ///
     /// When set to 0, `headerContentHeight` will be used.
@@ -197,6 +206,9 @@ public class BottomSheetController: UIViewController {
             view.setNeedsLayout()
         }
     }
+
+    /// When enabled, users will be able to move the sheet to the hidden state by swiping down.
+    @objc open var allowsSwipeToHide: Bool = false
 
     /// Current height of the portion of a collapsed sheet that's in the safe area.
     @objc public private(set) var collapsedHeightInSafeArea: CGFloat = 0 {
@@ -295,6 +307,20 @@ public class BottomSheetController: UIViewController {
         }
 
         return animator
+    }
+
+    /// Forces a call to `collapsedHeightResolver` to fetch the latest desired sheet height.
+    @objc public func invalidateSheetSize() {
+        guard isViewLoaded else {
+            return
+        }
+
+        lastCollapsedSheetHeightResolutionContext = nil
+
+        // If we are animating to .collapsed or already collapsed, we need to move to refresh the animation target.
+        if targetExpansionState == .collapsed || (currentExpansionState == .collapsed && targetExpansionState == nil) {
+            move(to: .collapsed)
+        }
     }
 
     // MARK: - View loading
@@ -572,11 +598,13 @@ public class BottomSheetController: UIViewController {
     private func translateSheet(by translationDelta: CGPoint) {
         let expandedOffset = offset(for: .expanded)
         let collapsedOffset = offset(for: .collapsed)
+        let hiddenOffset = offset(for: .hidden)
+
         let minOffset = expandedOffset - Constants.maxRubberBandOffset
-        let maxOffset = collapsedOffset + Constants.maxRubberBandOffset
+        let maxOffset = allowsSwipeToHide ? hiddenOffset : (collapsedOffset + Constants.maxRubberBandOffset)
 
         var offsetDelta = translationDelta.y
-        if currentSheetVerticalOffset >= collapsedOffset || currentSheetVerticalOffset <= expandedOffset {
+        if (currentSheetVerticalOffset >= collapsedOffset && !allowsSwipeToHide) || currentSheetVerticalOffset <= expandedOffset {
             offsetDelta *= translationRubberBandFactor(for: currentSheetVerticalOffset)
         }
 
@@ -626,15 +654,26 @@ public class BottomSheetController: UIViewController {
 
     private func completePan(with velocity: CGFloat) {
         var targetState: BottomSheetExpansionState
+
         if abs(velocity) < Constants.directionOverrideVelocityThreshold {
-            // Velocity too low, snap to the closest offset
-            targetState =
-                abs(offset(for: .collapsed) - currentSheetVerticalOffset) < abs(offset(for: .expanded) - currentSheetVerticalOffset)
-                ? .collapsed
-                : .expanded
+            // Velocity too low, snap to the closest expansion state
+            var distances: [BottomSheetExpansionState: CGFloat] = [
+                .expanded: abs(offset(for: .expanded) - currentSheetVerticalOffset),
+                .collapsed: abs(offset(for: .collapsed) - currentSheetVerticalOffset)
+            ]
+
+            if allowsSwipeToHide {
+                distances[.hidden] = abs(offset(for: .hidden) - currentSheetVerticalOffset)
+            }
+
+            targetState = distances.min(by: { $0.value < $1.value })?.key ?? .collapsed
         } else {
-            // Velocity high enough, animate to the offset we're swiping towards
-            targetState = velocity > 0 ? .collapsed : .expanded
+            // Velocity high enough, animate to the state we're swiping towards
+            if currentSheetVerticalOffset > offset(for: .collapsed) && allowsSwipeToHide {
+                targetState = velocity > 0 ? .hidden : .collapsed
+            } else {
+                targetState = velocity > 0 ? .collapsed : .expanded
+            }
         }
         move(to: targetState, velocity: velocity, interaction: .swipe)
     }
@@ -826,11 +865,20 @@ public class BottomSheetController: UIViewController {
 
     // Height of the sheet in collapsed state
     private var collapsedSheetHeight: CGFloat {
-        let visibleContentHeight = (collapsedContentHeight > 0) ? collapsedContentHeight : headerContentHeight
-        let idealHeight = currentResizingHandleHeight + visibleContentHeight + view.safeAreaInsets.bottom
+        let safeAreaSheetHeight: CGFloat
+        if resolvedCollapsedSheetHeight > 0 {
+            safeAreaSheetHeight = resolvedCollapsedSheetHeight
+        } else if collapsedContentHeight > 0 {
+            safeAreaSheetHeight = collapsedContentHeight + currentResizingHandleHeight
+        } else {
+            safeAreaSheetHeight = headerContentHeight + currentResizingHandleHeight
+        }
+
+        let idealHeight = safeAreaSheetHeight + view.safeAreaInsets.bottom
         return min(idealHeight, maxSheetHeight)
     }
 
+    // Maximum total sheet height including parts outside of the safe area.
     private var maxSheetHeight: CGFloat {
         let maxHeight: CGFloat
 
@@ -842,6 +890,24 @@ public class BottomSheetController: UIViewController {
 
         return maxHeight
     }
+
+    // Output of `collapsedHeightResolver` wrapped in a cache.
+    private var resolvedCollapsedSheetHeight: CGFloat {
+        let oldContext = lastCollapsedSheetHeightResolutionContext
+        let newContext = ContentHeightResolutionContext(maximumHeight: maxSheetHeight - view.safeAreaInsets.bottom, containerTraitCollection: view.traitCollection)
+
+        if oldContext?.maximumHeight != newContext.maximumHeight || !(oldContext?.containerTraitCollection.containsTraits(in: newContext.containerTraitCollection) ?? false) {
+            lastResolvedCollapsedSheetHeight = collapsedHeightResolver?(newContext) ?? 0
+            lastCollapsedSheetHeightResolutionContext = newContext
+        }
+        return lastResolvedCollapsedSheetHeight
+    }
+
+    // Last output of `collapsedHeightResolver`.
+    private var lastResolvedCollapsedSheetHeight: CGFloat = 0
+
+    // Context we last used for height resolving.
+    private var lastCollapsedSheetHeightResolutionContext: ContentHeightResolutionContext?
 
     private var currentResizingHandleHeight: CGFloat {
         (isExpandable ? ResizingHandleView.height : 0.0)
