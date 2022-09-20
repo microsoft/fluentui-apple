@@ -8,9 +8,6 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: echo ${{ inputs.sha }}
-      shell: bash
-      run: echo ${{ inputs.sha }}
     - name: Switch to current version of Xcode
       shell: bash
       run: scripts/xcode_select_current_version.sh
