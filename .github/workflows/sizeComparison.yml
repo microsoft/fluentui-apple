@@ -30,7 +30,7 @@ jobs:
   printSizes:
     runs-on: macos-12
     strategy:
-      fail-fast: false
+      fail-fast: true
     needs: [archiveHeadBuild, archiveBaseBuild]
     steps:
     - uses: actions/checkout@v3
