@@ -2,12 +2,15 @@ name: uploadSizeArtifact
 description: 'Uploads a file using the commit hash as the name, and containing only the size of the Demo app in kB'
 inputs:
   sha:
-    description: 'sha of the commit to build and upload an artifact for the size of'
+    description: 'sha of the commit to sync, build, and upload an artifact for the size of'
     required: true
     type: string
 runs:
   using: "composite"
   steps:
+    - uses: actions/checkout@v3 # Checkout repo at sha
+      with:
+        ref: ${{ inputs.sha }}
     - name: Switch to current version of Xcode
       shell: bash
       run: scripts/xcode_select_current_version.sh
