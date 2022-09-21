@@ -167,11 +167,22 @@ class DemoController: UIViewController {
     // MARK: - Demo Appearance Popover
 
     func configureAppearancePopover() {
+        let settingsButton = UIBarButtonItem(image: UIImage(named: "ic_fluent_settings_24_regular"),
+                                                     style: .plain,
+                                                     target: self,
+                                                     action: #selector(showAppearancePopover))
+        let readmeButton = UIBarButtonItem(image: UIImage(named: "agenda-24x24"),
+                                                   style: .plain,
+                                                   target: self,
+                                                   action: #selector(showReadmePopover))
         // Display the DemoAppearancePopover button
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "ic_fluent_settings_24_regular"),
-                                                            style: .plain,
-                                                            target: self,
-                                                            action: #selector(showAppearancePopover))
+        navigationItem.rightBarButtonItems = [readmeButton, settingsButton]
+    }
+
+    @objc func showReadmePopover(_ sender: UIBarButtonItem) {
+        readmeViewController.popoverPresentationController?.barButtonItem = sender
+        readmeViewController.popoverPresentationController?.delegate = self
+        self.present(readmeViewController, animated: true, completion: nil)
     }
 
     @objc func showAppearancePopover(_ sender: UIBarButtonItem) {
@@ -181,6 +192,7 @@ class DemoController: UIViewController {
     }
 
     private lazy var appearanceController: DemoAppearanceController = .init(delegate: self as? DemoAppearanceDelegate)
+    private lazy var readmeViewController: ReadmeViewController = ReadmeViewController()
 }
 
 extension DemoController: UIPopoverPresentationControllerDelegate {
