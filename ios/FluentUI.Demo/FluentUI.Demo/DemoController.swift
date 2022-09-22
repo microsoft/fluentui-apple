@@ -191,8 +191,16 @@ class DemoController: UIViewController {
         self.present(appearanceController, animated: true, completion: nil)
     }
 
+    var readmeTitleString: String?
+    var readmeSubtitleString: String?
+
     private lazy var appearanceController: DemoAppearanceController = .init(delegate: self as? DemoAppearanceDelegate)
-    private lazy var readmeViewController: ReadmeViewController = ReadmeViewController()
+    private lazy var readmeViewController: ReadmeViewController = .init(titleString: readmeTitleString, subtitleString: readmeSubtitleString)
+
+    func setupReadmeTexts(titleString: String?, subtitleString: String?) {
+        readmeTitleString = titleString
+        readmeSubtitleString = subtitleString
+    }
 }
 
 extension DemoController: UIPopoverPresentationControllerDelegate {

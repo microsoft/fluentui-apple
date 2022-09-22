@@ -55,6 +55,8 @@ class SegmentedControlDemoController: DemoController {
         addTitle(text: "Disabled On Brand Pill")
 
         addPillControl(items: Array(segmentItems.prefix(2)), style: .onBrandPill, enabled: false)
+
+        setupReadmeTexts(titleString: ReadmeStrings.SegmentedControl.title, subtitleString: ReadmeStrings.SegmentedControl.subtitle)
     }
 
     @objc func updateLabel(forControl control: SegmentedControl) {

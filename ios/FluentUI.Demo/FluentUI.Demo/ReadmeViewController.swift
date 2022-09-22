@@ -10,10 +10,11 @@ class ReadmeViewController: UIViewController {
 
     let scrollView = UIScrollView()
     let contentView = UIView()
+    let titleString: String?
+    let subtitleString: String?
 
     let titleLabel: Label = {
         let label = Label()
-        label.text = "Readme"
         label.style = .headline
         label.numberOfLines = 0
         label.sizeToFit()
@@ -24,7 +25,6 @@ class ReadmeViewController: UIViewController {
 
     let subtitleLabel: Label = {
         let label = Label()
-        label.text = "Body"
         label.numberOfLines = 0
         label.sizeToFit()
         label.textColor = .black
@@ -37,6 +37,7 @@ class ReadmeViewController: UIViewController {
 
         setupScrollViewConstraints()
         setupViews()
+        setLabelTexts()
     }
 
     private func setupViews() {
@@ -70,16 +71,28 @@ class ReadmeViewController: UIViewController {
         contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
     }
 
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    init(titleString: String?, subtitleString: String?) {
+        self.titleString = titleString
+        self.subtitleString = subtitleString
+
+        super.init(nibName: nil, bundle: nil)
 
         modalPresentationStyle = .popover
         preferredContentSize = CGSize(width: 300, height: 400)
         popoverPresentationController?.permittedArrowDirections = .up
     }
 
+    private func setLabelTexts() {
+        if let titleString = titleString {
+            titleLabel.text = titleString
+        }
+
+        if let subtitleString = subtitleString {
+            subtitleLabel.text = subtitleString
+        }
+    }
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
 }
