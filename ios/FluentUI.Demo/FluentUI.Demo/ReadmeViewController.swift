@@ -10,24 +10,15 @@ class ReadmeViewController: UIViewController {
 
     let scrollView = UIScrollView()
     let contentView = UIView()
-    let titleString: String?
-    let subtitleString: String?
 
-    let titleLabel: Label = {
-        let label = Label()
-        label.style = .headline
-        label.numberOfLines = 0
-        label.sizeToFit()
-        label.textColor = .blue
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    let readme: String?
 
-    let subtitleLabel: Label = {
+    let readmeLabel: Label = {
         let label = Label()
         label.numberOfLines = 0
         label.sizeToFit()
-        label.textColor = .black
+        label.textColor = UIColor(dynamicColor: DynamicColor(light: ColorValue(0x000000),
+                                                             dark: ColorValue(0xFFFFFF)))
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -36,21 +27,16 @@ class ReadmeViewController: UIViewController {
         super.viewDidLoad()
 
         setupScrollViewConstraints()
-        setupViews()
-        setLabelTexts()
+        setupReadmeLabelConstraints()
+        setReadmeLabelText()
     }
 
-    private func setupViews() {
-        contentView.addSubview(titleLabel)
-        titleLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-        titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 35).isActive = true
-        titleLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 3 / 4).isActive = true
-
-        contentView.addSubview(subtitleLabel)
-        subtitleLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-        subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 25).isActive = true
-        subtitleLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 3 / 4).isActive = true
-        subtitleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+    private func setupReadmeLabelConstraints() {
+        contentView.addSubview(readmeLabel)
+        readmeLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+        readmeLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 35).isActive = true
+        readmeLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 3 / 4).isActive = true
+        readmeLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
     }
 
     private func setupScrollViewConstraints() {
@@ -71,24 +57,19 @@ class ReadmeViewController: UIViewController {
         contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
     }
 
-    init(titleString: String?, subtitleString: String?) {
-        self.titleString = titleString
-        self.subtitleString = subtitleString
+    init(readmeString: String?) {
+        self.readme = readmeString
 
         super.init(nibName: nil, bundle: nil)
 
         modalPresentationStyle = .popover
-        preferredContentSize = CGSize(width: 300, height: 400)
+        preferredContentSize = CGSize(width: 400, height: 400)
         popoverPresentationController?.permittedArrowDirections = .up
     }
 
-    private func setLabelTexts() {
-        if let titleString = titleString {
-            titleLabel.text = titleString
-        }
-
-        if let subtitleString = subtitleString {
-            subtitleLabel.text = subtitleString
+    private func setReadmeLabelText() {
+        if let readmeString = readme {
+            readmeLabel.text = readmeString
         }
     }
 

@@ -56,7 +56,7 @@ class SegmentedControlDemoController: DemoController {
 
         addPillControl(items: Array(segmentItems.prefix(2)), style: .onBrandPill, enabled: false)
 
-        setupReadmeTexts(titleString: ReadmeStrings.SegmentedControl.title, subtitleString: ReadmeStrings.SegmentedControl.subtitle)
+        setupReadmeText(readmeString: ReadmeStrings.segmentedControlString)
     }
 
     @objc func updateLabel(forControl control: SegmentedControl) {

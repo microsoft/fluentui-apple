@@ -161,21 +161,20 @@ class DemoController: UIViewController {
         // disable it for all DemoController subclasses.
         self.navigationItem.largeTitleDisplayMode = .never
 
-        configureAppearancePopover()
+        configureAppearanceAndReadmePopovers()
     }
 
     // MARK: - Demo Appearance Popover
 
-    func configureAppearancePopover() {
+    func configureAppearanceAndReadmePopovers() {
         let settingsButton = UIBarButtonItem(image: UIImage(named: "ic_fluent_settings_24_regular"),
-                                                     style: .plain,
-                                                     target: self,
-                                                     action: #selector(showAppearancePopover))
-        let readmeButton = UIBarButtonItem(image: UIImage(named: "agenda-24x24"),
-                                                   style: .plain,
-                                                   target: self,
-                                                   action: #selector(showReadmePopover))
-        // Display the DemoAppearancePopover button
+                                             style: .plain,
+                                             target: self,
+                                             action: #selector(showAppearancePopover))
+        let readmeButton = UIBarButtonItem(title: "Readme",
+                                           style: .plain,
+                                           target: self,
+                                           action: #selector(showReadmePopover))
         navigationItem.rightBarButtonItems = [readmeButton, settingsButton]
     }
 
@@ -191,15 +190,13 @@ class DemoController: UIViewController {
         self.present(appearanceController, animated: true, completion: nil)
     }
 
-    var readmeTitleString: String?
-    var readmeSubtitleString: String?
+    var readmeString: String?
 
     private lazy var appearanceController: DemoAppearanceController = .init(delegate: self as? DemoAppearanceDelegate)
-    private lazy var readmeViewController: ReadmeViewController = .init(titleString: readmeTitleString, subtitleString: readmeSubtitleString)
+    private lazy var readmeViewController: ReadmeViewController = .init(readmeString: readmeString)
 
-    func setupReadmeTexts(titleString: String?, subtitleString: String?) {
-        readmeTitleString = titleString
-        readmeSubtitleString = subtitleString
+    func setupReadmeText(readmeString: String?) {
+        self.readmeString = readmeString
     }
 }
 
