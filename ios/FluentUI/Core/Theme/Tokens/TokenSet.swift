@@ -3,8 +3,13 @@
 //  Licensed under the MIT License.
 //
 
+import Combine
+
+/// Defines the key used for token value indexing.
+public typealias TokenSetKey = Hashable & CaseIterable
+
 /// Template for all token sets, both global and alias. This ensures a unified return type for any given token set.
-public final class TokenSet<T: Hashable & CaseIterable, V> {
+public final class TokenSet<T: TokenSetKey, V> {
 
     /// Allows us to index into this token set using square brackets.
     ///
@@ -49,5 +54,5 @@ public final class TokenSet<T: Hashable & CaseIterable, V> {
     }
 
     private var defaultValues: ((_ token: T) -> V)
-    private var valueOverrides: [T: V]?
+    @Published private var valueOverrides: [T: V]?
 }

@@ -18,7 +18,7 @@ class IndeterminateProgressBarDemoControllerSwiftUI: UIHostingController<Indeter
 
     init() {
         super.init(rootView: IndeterminateProgressBarDemoView())
-        self.title = "IndeterminateProgressBar Vnext (SwiftUI)"
+        self.title = "IndeterminateProgressBar Fluent 2 (SwiftUI)"
     }
 }
 

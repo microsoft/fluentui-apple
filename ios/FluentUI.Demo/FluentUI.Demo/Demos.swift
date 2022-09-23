@@ -18,7 +18,7 @@ struct DemoDescriptor: Identifiable {
 }
 
 struct Demos {
-    static let vNext: [DemoDescriptor] = [
+    static let fluent2: [DemoDescriptor] = [
         DemoDescriptor("ActivityIndicator", ActivityIndicatorDemoController.self),
         DemoDescriptor("Avatar", AvatarDemoController.self),
         DemoDescriptor("AvatarGroup", AvatarGroupDemoController.self),
@@ -36,10 +36,13 @@ struct Demos {
         DemoDescriptor("Other cells", OtherCellsDemoController.self),
         DemoDescriptor("PersonaButtonCarousel", PersonaButtonCarouselDemoController.self),
         DemoDescriptor("PillButtonBar", PillButtonBarDemoController.self),
+        DemoDescriptor("PopupMenuController", PopupMenuDemoController.self),
         DemoDescriptor("SegmentedControl", SegmentedControlDemoController.self),
+        DemoDescriptor("ShimmerView", ShimmerViewDemoController.self),
         DemoDescriptor("SideTabBar", SideTabBarDemoController.self),
         DemoDescriptor("TabBarView", TabBarViewDemoController.self),
-        DemoDescriptor("TableViewCell", TableViewCellDemoController.self)
+        DemoDescriptor("TableViewCell", TableViewCellDemoController.self),
+        DemoDescriptor("TypographyTokens", TypographyTokensDemoController.self)
     ]
 
     static let controls: [DemoDescriptor] = [
@@ -50,15 +53,12 @@ struct Demos {
         DemoDescriptor("Button", ButtonLegacyDemoController.self),
         DemoDescriptor("Card", CardViewDemoController.self),
         DemoDescriptor("Color", ColorDemoController.self),
-        DemoDescriptor("CommandBar", CommandBarDemoController.self),
         DemoDescriptor("DateTimePicker", DateTimePickerDemoController.self),
         DemoDescriptor("Label", LabelDemoController.self),
         DemoDescriptor("NavigationController", NavigationControllerDemoController.self),
         DemoDescriptor("PeoplePicker", PeoplePickerDemoController.self),
         DemoDescriptor("PersonaListView", PersonaListViewDemoController.self),
-        DemoDescriptor("PopupMenuController", PopupMenuDemoController.self),
         DemoDescriptor("SearchBar", SearchBarDemoController.self),
-        DemoDescriptor("ShimmerView", ShimmerViewDemoController.self),
         DemoDescriptor("TableViewCellFileAccessoryView", TableViewCellFileAccessoryViewDemoController.self),
         DemoDescriptor("TableViewCellShimmer", TableViewCellShimmerDemoController.self),
         DemoDescriptor("TableViewHeaderFooterView", TableViewHeaderFooterViewDemoController.self),

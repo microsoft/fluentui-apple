@@ -18,7 +18,7 @@ class AvatarDemoControllerSwiftUI: UIHostingController<AvatarDemoView> {
 
     init() {
         super.init(rootView: AvatarDemoView())
-        self.title = "Avatar Vnext (SwiftUI)"
+        self.title = "Avatar Fluent 2 (SwiftUI)"
     }
 }
 
@@ -35,7 +35,7 @@ struct AvatarDemoView: View {
     @State var presence: MSFAvatarPresence = .none
     @State var showImage: Bool = false
     @State var showImageBasedRingColor: Bool = false
-    @State var size: MSFAvatarSize = .xxlarge
+    @State var size: MSFAvatarSize = .size72
     @State var style: MSFAvatarStyle = .default
 
     public var body: some View {
@@ -45,7 +45,7 @@ struct AvatarDemoView: View {
                    image: showImage ? UIImage(named: "avatar_kat_larsson") : nil,
                    primaryText: primaryText,
                    secondaryText: secondaryText)
-                .isRingVisible(isRingVisible)
+                .isRingVisible(showImageBasedRingColor || isRingVisible)
                 .hasRingInnerGap(hasRingInnerGap)
                 .imageBasedRingColor(showImageBasedRingColor ? AvatarDemoController.colorfulCustomImage : nil)
                 .isTransparent(isTransparent)
@@ -148,12 +148,13 @@ struct AvatarDemoView: View {
                         }
 
                         Picker(selection: $size, label: EmptyView()) {
-                            Text(".xxlarge").tag(MSFAvatarSize.xxlarge)
-                            Text(".xlarge").tag(MSFAvatarSize.xlarge)
-                            Text(".large").tag(MSFAvatarSize.large)
-                            Text(".medium").tag(MSFAvatarSize.medium)
-                            Text(".small").tag(MSFAvatarSize.small)
-                            Text(".xsmall").tag(MSFAvatarSize.xsmall)
+                            Text(".size72").tag(MSFAvatarSize.size72)
+                            Text(".size56").tag(MSFAvatarSize.size56)
+                            Text(".size40").tag(MSFAvatarSize.size40)
+                            Text(".size32").tag(MSFAvatarSize.size32)
+                            Text(".size24").tag(MSFAvatarSize.size24)
+                            Text(".size20").tag(MSFAvatarSize.size20)
+                            Text(".size16").tag(MSFAvatarSize.size16)
                         }
                         .labelsHidden()
                         .frame(maxWidth: .infinity, alignment: .leading)

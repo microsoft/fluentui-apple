@@ -6,10 +6,10 @@
 import UIKit
 
 class CommandBarCommandGroupsView: UIView {
-    init(itemGroups: [CommandBarItemGroup]? = nil, buttonsPersistSelection: Bool = true, tokens: CommandBarTokens) {
+    init(itemGroups: [CommandBarItemGroup]? = nil, buttonsPersistSelection: Bool = true, tokenSet: CommandBarTokenSet) {
         self.itemGroups = itemGroups ?? []
         self.buttonsPersistSelection = buttonsPersistSelection
-        self.tokens = tokens
+        self.tokenSet = tokenSet
 
         buttonGroupsStackView = UIStackView()
 
@@ -17,12 +17,23 @@ class CommandBarCommandGroupsView: UIView {
 
         buttonGroupsStackView.translatesAutoresizingMaskIntoConstraints = false
         buttonGroupsStackView.axis = .horizontal
-        buttonGroupsStackView.spacing = CommandBarCommandGroupsView.buttonGroupSpacing
+        buttonGroupsStackView.spacing = LayoutConstants.buttonGroupSpacing
 
-        configureHierarchy()
+        addSubview(buttonGroupsStackView)
+
+        NSLayoutConstraint.activate([
+            buttonGroupsStackView.topAnchor.constraint(equalTo: topAnchor,
+                                                       constant: LayoutConstants.insets.top),
+            bottomAnchor.constraint(equalTo: buttonGroupsStackView.bottomAnchor,
+                                    constant: LayoutConstants.insets.top),
+            buttonGroupsStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            buttonGroupsStackView.trailingAnchor.constraint(equalTo: trailingAnchor)
+        ])
+
         updateButtonsShown()
     }
 
+    @available(*, unavailable)
     required init(coder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
     }
@@ -42,11 +53,7 @@ class CommandBarCommandGroupsView: UIView {
         }
     }
 
-    var tokens: CommandBarTokens {
-        didSet {
-            updateButtonGroupViews()
-        }
-    }
+    let tokenSet: CommandBarTokenSet
 
     // MARK: - Private properties
 
@@ -54,19 +61,6 @@ class CommandBarCommandGroupsView: UIView {
     private var buttonGroupViews: [CommandBarButtonGroupView] = []
     private var itemsToButtonsMap: [CommandBarItem: CommandBarButton] = [:]
     private var buttonsPersistSelection: Bool
-
-    // MARK: View Updates
-
-    private func configureHierarchy() {
-        addSubview(buttonGroupsStackView)
-
-        NSLayoutConstraint.activate([
-            buttonGroupsStackView.topAnchor.constraint(equalTo: topAnchor, constant: CommandBarCommandGroupsView.insets.top),
-            bottomAnchor.constraint(equalTo: buttonGroupsStackView.bottomAnchor, constant: CommandBarCommandGroupsView.insets.top),
-            buttonGroupsStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            buttonGroupsStackView.trailingAnchor.constraint(equalTo: trailingAnchor)
-        ])
-    }
 
     /// Refreshes the buttons shown in the `arrangedSubviews`
     private func updateButtonsShown() {
@@ -81,7 +75,7 @@ class CommandBarCommandGroupsView: UIView {
     }
 
     /// Refreshes the `buttonGroupViews` array of `CommandBarButtonGroupView`s that are displayed in the view
-    private func updateButtonGroupViews() {
+    func updateButtonGroupViews() {
         updateItemsToButtonsMap()
         buttonGroupViews = itemGroups.map { items in
                 CommandBarButtonGroupView(buttons: items.compactMap { item in
@@ -92,7 +86,7 @@ class CommandBarCommandGroupsView: UIView {
                         button.updateState()
                     }
                     return button
-                }, commandBarTokens: tokens)
+                }, tokenSet: tokenSet)
         }
     }
 
@@ -103,8 +97,11 @@ class CommandBarCommandGroupsView: UIView {
     }
 
     private func createButton(forItem item: CommandBarItem, isPersistSelection: Bool = true) -> CommandBarButton {
-        let button = CommandBarButton(item: item, isPersistSelection: isPersistSelection, commandBarTokens: tokens)
-        button.addTarget(self, action: #selector(handleCommandButtonTapped(_:)), for: .touchUpInside)
+        let button = CommandBarButton(item: item, isPersistSelection: isPersistSelection, tokenSet: tokenSet)
+
+        if item.shouldUseItemTappedHandler {
+            button.addTarget(self, action: #selector(handleCommandButtonTapped(_:)), for: .touchUpInside)
+        }
 
         return button
     }
@@ -114,6 +111,11 @@ class CommandBarCommandGroupsView: UIView {
         sender.updateState()
     }
 
-    private static let buttonGroupSpacing: CGFloat = 16
-    private static let insets = UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)
+    private struct LayoutConstants {
+        static let buttonGroupSpacing: CGFloat = 8.0
+        static let insets = UIEdgeInsets(top: 8.0,
+                                         left: 8.0,
+                                         bottom: 8.0,
+                                         right: 8.0)
+    }
 }

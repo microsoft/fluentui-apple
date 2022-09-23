@@ -649,12 +649,13 @@ open class BottomCommandingController: UIViewController {
             cell.setup(title: item.title ?? "", customView: iconView)
         }
         cell.isEnabled = item.isEnabled
-        cell.backgroundColor = Constants.tableViewBackgroundColor
+        cell.backgroundStyleType = .clear
 
         let shouldShowSeparator = expandedListSections
             .prefix(expandedListSections.count - 1)
             .contains(where: { $0.items.last == item })
         cell.bottomSeparatorType = shouldShowSeparator ? .full : .none
+        cell.titleNumberOfLines = 0
     }
 
     // Reloads view in place from the given item object

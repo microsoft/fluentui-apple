@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'MicrosoftFluentUI'
-  s.version          = '0.5.0'
+  s.version          = '0.8.0'
   s.summary          = 'Fluent UI is a set of reusable UI controls and tools'
   s.homepage         = "https://www.microsoft.com/design/fluent/#/"
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
@@ -199,8 +199,8 @@ fi', :execution_position => :before_compile }
     notification_ios.dependency 'MicrosoftFluentUI/Divider_ios'
     notification_ios.dependency 'MicrosoftFluentUI/Obscurable_ios'
     notification_ios.dependency 'MicrosoftFluentUI/Label_ios'
-    notification_ios.preserve_paths = ["ios/FluentUI/Vnext/Notification/Notification.resources.xcfilelist"]
-    notification_ios.source_files = ["ios/FluentUI/Vnext/Notification/**/*.{swift,h}"]
+    notification_ios.preserve_paths = ["ios/FluentUI/Notification/Notification.resources.xcfilelist"]
+    notification_ios.source_files = ["ios/FluentUI/Notification/**/*.{swift,h}"]
   end
 
   s.subspec 'Obscurable_ios' do |obscurable_ios|
@@ -330,7 +330,7 @@ fi', :execution_position => :before_compile }
 
 # Mac
 
-  s.osx.deployment_target = "10.14"
+  s.osx.deployment_target = "10.15"
 
   s.subspec 'Appearance_mac' do |appearance_mac|
     appearance_mac.platform = :osx

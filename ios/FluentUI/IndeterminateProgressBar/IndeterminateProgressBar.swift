@@ -18,19 +18,33 @@ import UIKit
 /// View that represents the Indeterminate Progress Bar control.
 /// Use the ProgressView SwiftUI View (https://developer.apple.com/documentation/swiftui/progressview)
 /// provided in the SwiftUI framework to render the default OS indeterminate spinner or a progress bar with a specific progress value.
-public struct IndeterminateProgressBar: View, ConfigurableTokenizedControl {
+public struct IndeterminateProgressBar: View, TokenizedControlView {
+    public typealias TokenSetKeyType = IndeterminateProgressBarTokenSet.Tokens
+    @ObservedObject public var tokenSet: IndeterminateProgressBarTokenSet
+
     /// Creates the Indeterminate Progress Bar.
     public init() {
         let state = MSFIndeterminateProgressBarStateImpl()
         self.state = state
-        startPoint = Constants.Coordinates(isRTLLanguage).initialStartPoint
-        endPoint = Constants.Coordinates(isRTLLanguage).initialEndPoint
+        self.tokenSet = IndeterminateProgressBarTokenSet()
+        startPoint = IndeterminateProgressBarTokenSet.initialStartPoint(isRTLLanguage)
+        endPoint = IndeterminateProgressBarTokenSet.initialEndPoint(isRTLLanguage)
     }
 
     public var body: some View {
-        let height = tokens.height
-        let gradientColor = Color(dynamicColor: tokens.gradientColor)
-        let backgroundColor = Color(dynamicColor: tokens.backgroundColor)
+        let height = IndeterminateProgressBarTokenSet.height
+        let gradientColor = Color(dynamicColor: tokenSet[.gradientColor].dynamicColor)
+        let backgroundColor = Color(dynamicColor: tokenSet[.backgroundColor].dynamicColor)
+        let accessibilityLabel: String = {
+            if let overriddenAccessibilityLabel = state.accessibilityLabel {
+                return overriddenAccessibilityLabel
+            }
+
+            return state.isAnimating ?
+                "Accessibility.ActivityIndicator.Animating.label".localized
+                :
+                "Accessibility.ActivityIndicator.Stopped.label".localized
+        }()
 
         Rectangle()
             .fill(LinearGradient(gradient: Gradient(colors: [backgroundColor, gradientColor, backgroundColor]),
@@ -42,6 +56,8 @@ public struct IndeterminateProgressBar: View, ConfigurableTokenizedControl {
                    maxHeight: height,
                    alignment: .center)
             .background(backgroundColor)
+            .accessibilityLabel(Text(accessibilityLabel))
+            .accessibilityAddTraits(.updatesFrequently)
             .modifyIf(state.isAnimating, { view in
                 view
                     .onAppear {
@@ -57,12 +73,9 @@ public struct IndeterminateProgressBar: View, ConfigurableTokenizedControl {
             .modifyIf(!state.isAnimating && state.hidesWhenStopped, { view in
                 view.hidden()
             })
+            .fluentTokens(tokenSet, fluentTheme)
     }
 
-    let defaultTokens: IndeterminateProgressBarTokens = .init()
-    var tokens: IndeterminateProgressBarTokens {
-        return resolvedTokens
-    }
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @Environment(\.layoutDirection) var layoutDirection: LayoutDirection
     @ObservedObject var state: MSFIndeterminateProgressBarStateImpl
@@ -75,45 +88,24 @@ public struct IndeterminateProgressBar: View, ConfigurableTokenizedControl {
     private func startAnimation() {
         stopAnimation()
 
-        withAnimation(Animation.linear(duration: Constants.animationDuration)
+        withAnimation(Animation.linear(duration: IndeterminateProgressBarTokenSet.animationDuration)
                                 .repeatForever(autoreverses: false)) {
-            startPoint = Constants.Coordinates(isRTLLanguage).finalStartPoint
-            endPoint = Constants.Coordinates(isRTLLanguage).finalEndPoint
+            startPoint = IndeterminateProgressBarTokenSet.finalStartPoint(isRTLLanguage)
+            endPoint = IndeterminateProgressBarTokenSet.finalEndPoint(isRTLLanguage)
         }
     }
 
     private func stopAnimation() {
         withAnimation(Animation.linear(duration: 0)) {
-            startPoint = Constants.Coordinates(isRTLLanguage).initialStartPoint
-            endPoint = Constants.Coordinates(isRTLLanguage).initialEndPoint
-        }
-    }
-
-    private struct Constants {
-        static let animationDuration: Double = 1.75
-
-        struct Coordinates {
-            var isRTLLanguage: Bool
-            var initialStartPoint: UnitPoint { isRTLLanguage ? UnitPoint(x: 1, y: 0.5) : UnitPoint(x: -1, y: 0.5) }
-            var initialEndPoint: UnitPoint { isRTLLanguage ? UnitPoint(x: 2, y: 0.5) : UnitPoint(x: 0, y: 0.5) }
-            var finalStartPoint: UnitPoint { isRTLLanguage ? UnitPoint(x: -1, y: 0.5) : UnitPoint(x: 1, y: 0.5) }
-            var finalEndPoint: UnitPoint { isRTLLanguage ? UnitPoint(x: 0, y: 0.5) : UnitPoint(x: 2, y: 0.5) }
-
-            init(_ isRTLLanguage: Bool = false) {
-                self.isRTLLanguage = isRTLLanguage
-            }
+            startPoint = IndeterminateProgressBarTokenSet.initialStartPoint(isRTLLanguage)
+            endPoint = IndeterminateProgressBarTokenSet.initialEndPoint(isRTLLanguage)
         }
     }
 }
 
 /// Properties available to customize the state of the Indeterminate Progress Bar
-class MSFIndeterminateProgressBarStateImpl: NSObject,
-                                            ObservableObject,
-                                            ControlConfiguration,
+class MSFIndeterminateProgressBarStateImpl: ControlState,
                                             MSFIndeterminateProgressBarState {
     @Published var isAnimating: Bool = false
     @Published var hidesWhenStopped: Bool = true
-
-    /// Design token set for this control, to use in place of the control's default Fluent tokens.
-    @Published @objc public var overrideTokens: IndeterminateProgressBarTokens?
 }

@@ -4,7 +4,7 @@
 //
 
 /// Represents the set of `DynamicColor` values for the various states of a button.
-public struct ButtonDynamicColors {
+public struct ButtonDynamicColors: Equatable {
     public init(rest: DynamicColor,
                 hover: DynamicColor,
                 pressed: DynamicColor,
@@ -22,4 +22,22 @@ public struct ButtonDynamicColors {
     public let pressed: DynamicColor
     public let selected: DynamicColor
     public let disabled: DynamicColor
+}
+
+/// Represents the set of `DynamicColor` values for the various states of a `PillButton`
+public struct PillButtonDynamicColors: Equatable {
+    public init(rest: DynamicColor,
+                selected: DynamicColor,
+                disabled: DynamicColor,
+                selectedDisabled: DynamicColor) {
+        self.rest = rest
+        self.selected = selected
+        self.disabled = disabled
+        self.selectedDisabled = selectedDisabled
+    }
+
+    public let rest: DynamicColor
+    public let selected: DynamicColor
+    public let disabled: DynamicColor
+    public let selectedDisabled: DynamicColor
 }

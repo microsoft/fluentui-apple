@@ -88,7 +88,7 @@ class ListDemoController: DemoController {
     private func createSamplePersonaCell(cellState: MSFListCellState, personaDataNode: PersonaDataNode) {
         let personaData = personaDataNode.personaData
         let personaChildren = personaDataNode.children
-        let avatar = createAvatarView(size: .medium,
+        let avatar = createAvatarView(size: .size32,
                                       name: personaData.name,
                                       image: personaData.image,
                                       style: .default)

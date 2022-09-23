@@ -24,8 +24,10 @@ class BottomSheetDemoController: UIViewController {
         let bottomSheetViewController = BottomSheetController(headerContentView: headerView, expandedContentView: expandedContentView)
         bottomSheetViewController.hostedScrollView = personaListView
         bottomSheetViewController.headerContentHeight = BottomSheetDemoController.headerHeight
-        bottomSheetViewController.collapsedContentHeight = 70
         bottomSheetViewController.delegate = self
+        bottomSheetViewController.collapsedHeightResolver = { context in
+            return context.containerTraitCollection.verticalSizeClass == .regular ? 100 : 70
+        }
 
         self.bottomSheetViewController = bottomSheetViewController
 
@@ -84,12 +86,17 @@ class BottomSheetDemoController: UIViewController {
     @objc private func showTransientSheet() {
         let sheetContentView = UIView()
 
+        // This is the bottom sheet that will temporarily be displayed after tapping the "Show transient sheet" button.
+        // There can be multiple of these on screen at the same time. All the currently presented transient sheets
+        // are tracked in presentedTransientSheets.
         let secondarySheetController = BottomSheetController(expandedContentView: sheetContentView)
+        secondarySheetController.delegate = self
         secondarySheetController.collapsedContentHeight = 250
         secondarySheetController.isHidden = true
         secondarySheetController.shouldAlwaysFillWidth = false
         secondarySheetController.shouldHideCollapsedContent = false
         secondarySheetController.isFlexibleHeight = true
+        secondarySheetController.allowsSwipeToHide = true
 
         let dismissButton = MSFButton(style: .primary, size: .large) { _ in
             secondarySheetController.setIsHidden(true, animated: true) { _ in
@@ -138,6 +145,7 @@ class BottomSheetDemoController: UIViewController {
         // has a meaningful initial frame to use for the animation.
         view.layoutIfNeeded()
         secondarySheetController.isHidden = false
+        presentedTransientSheets.append(secondarySheetController)
     }
 
     private lazy var personaListView: UIScrollView = {
@@ -227,6 +235,8 @@ class BottomSheetDemoController: UIViewController {
             ]
         ]
     }
+
+    private var presentedTransientSheets = [BottomSheetController]()
 
     private static let headerHeight: CGFloat = 30
 
@@ -356,9 +366,20 @@ extension BottomSheetDemoController: UIScrollViewDelegate {
 }
 
 extension BottomSheetDemoController: BottomSheetControllerDelegate {
-    func bottomSheetControllerCollapsedSheetHeightDidChange(_ bottomSheetController: BottomSheetController) {
+    func bottomSheetControllerCollapsedHeightInSafeAreaDidChange(_ bottomSheetController: BottomSheetController) {
         if let tableView = mainTableView {
             tableView.contentInset.bottom = bottomSheetController.collapsedHeightInSafeArea
         }
+    }
+
+    func bottomSheetController(_ bottomSheetController: BottomSheetController, didMoveTo expansionState: BottomSheetExpansionState, interaction: BottomSheetInteraction) {
+        guard expansionState == .hidden, let index = presentedTransientSheets.firstIndex(of: bottomSheetController) else {
+            return
+        }
+
+        presentedTransientSheets.remove(at: index)
+        bottomSheetController.willMove(toParent: nil)
+        bottomSheetController.removeFromParent()
+        bottomSheetController.view.removeFromSuperview()
     }
 }

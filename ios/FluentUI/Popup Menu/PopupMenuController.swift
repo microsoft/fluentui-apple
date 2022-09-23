@@ -26,10 +26,19 @@ private extension Colors {
 open class PopupMenuController: DrawerController {
     private struct Constants {
         static let minimumContentWidth: CGFloat = 250
-
-        static let descriptionHorizontalMargin: CGFloat = 16
-        static let descriptionVerticalMargin: CGFloat = 12
     }
+
+    public typealias TokenSetKeyType = PopupMenuTokenSet.Tokens
+    public typealias TokenSetType = PopupMenuTokenSet
+    public override var tokenSet: DrawerTokenSet {
+        get {
+            return popupTokenSet
+        }
+        set {
+            assertionFailure("PopupMenuController tokens must be set through popupTokenSet")
+        }
+    }
+    public var popupTokenSet: PopupMenuTokenSet = .init()
 
     open override var contentView: UIView? { get { return super.contentView } set { } }
 
@@ -72,13 +81,6 @@ open class PopupMenuController: DrawerController {
             }
         }
         return height
-    }
-
-    /// Set `backgroundColor` to customize background color of controller' view and its tableView
-    open override var backgroundColor: UIColor {
-        didSet {
-            tableView.backgroundColor = backgroundColor
-        }
     }
 
     override var tracksContentHeight: Bool { return false }
@@ -128,8 +130,11 @@ open class PopupMenuController: DrawerController {
     /// set `separatorColor` to customize separator colors of  PopupMenuItem cells and the drawer
     @objc open var separatorColor: UIColor = Colors.Separator.default {
         didSet {
-            let customTokens = PopupMenuItemCell.CustomDividerTokens(separatorColor)
-            divider.state.overrideTokens = customTokens
+            guard let dynamicColor = separatorColor.dynamicColor else {
+                assertionFailure("Unable to create dynamic color from separator color: \(separatorColor)")
+                return
+            }
+            divider.tokenSet[.color] = .dynamicColor({ dynamicColor })
         }
     }
 
@@ -160,18 +165,21 @@ open class PopupMenuController: DrawerController {
         view.isHidden = true
 
         view.addSubview(descriptionLabel)
+        let verticalMargin = GlobalTokens.spacing(.small)
+        let horizontalMargin = GlobalTokens.spacing(.medium)
         descriptionLabel.fitIntoSuperview(
             usingConstraints: true,
             margins: UIEdgeInsets(
-                top: Constants.descriptionVerticalMargin,
-                left: Constants.descriptionHorizontalMargin,
-                bottom: Constants.descriptionVerticalMargin,
-                right: Constants.descriptionHorizontalMargin
+                top: verticalMargin,
+                left: horizontalMargin,
+                bottom: verticalMargin,
+                right: horizontalMargin
             )
         )
 
-        let customTokens = PopupMenuItemCell.CustomDividerTokens(separatorColor)
-        divider.state.overrideTokens = customTokens
+        if let dynamicColor = separatorColor.dynamicColor {
+            divider.tokenSet[.color] = .dynamicColor({ dynamicColor })
+        }
         view.addSubview(divider)
         divider.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([

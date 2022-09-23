@@ -42,15 +42,16 @@ struct HUDDemoView: View {
                         FluentUIDemoToggle(titleKey: "Blocks interaction",
                                            isOn: $isBlocking)
 
-                        FluentButton(style: .primary,
-                                     size: .large,
-                                     text: "Present HUD for 3 seconds") {
+                        Button(action: {
                             isPresented = true
 
                             DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                                 isPresented = false
                             }
-                        }
+                        },
+                               label: {
+                            Text("Present HUD for 3 seconds")
+                        })
                     }
 
                     Group {
@@ -77,7 +78,7 @@ struct HUDDemoView: View {
                             Text(".activity").tag(HUDType.activity)
                             Text(".success").tag(HUDType.success)
                             Text(".failure").tag(HUDType.failure)
-                            Text(".custom").tag(HUDType.custom(image: UIImage(named: "flag-40x40")!))
+                            Text(".custom").tag(HUDType.custom(image: UIImage(named: "flag-48x48")!))
                         }
                         .labelsHidden()
                         .frame(maxWidth: .infinity, alignment: .leading)

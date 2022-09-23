@@ -22,6 +22,7 @@ class TableViewHeaderFooterViewDemoController: DemoController {
 
             strongSelf.updateActiveTabContent()
         }
+
         return segmentedControl
     }()
     private lazy var groupedTableView: UITableView = createTableView(style: .grouped)
@@ -36,6 +37,7 @@ class TableViewHeaderFooterViewDemoController: DemoController {
         container.spacing = 0
 
         navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.backgroundColor = Colors.navigationBarBackground
         container.addArrangedSubview(segmentedControl)
         container.setCustomSpacing(8, after: segmentedControl)
         container.backgroundColor = Colors.navigationBarBackground

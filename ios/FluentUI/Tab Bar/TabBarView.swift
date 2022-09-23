@@ -4,6 +4,7 @@
 //
 
 import UIKit
+import Combine
 
 // MARK: TabBarViewDelegate
 
@@ -67,7 +68,9 @@ open class TabBarView: UIView, TokenizedControlInternal {
 
     open override func didMoveToWindow() {
         super.didMoveToWindow()
-        updateTabBarTokens()
+
+        tokenSet.update(fluentTheme)
+        updateAppearance()
     }
 
     /// Set the custom spacing after the specified item.
@@ -111,6 +114,12 @@ open class TabBarView: UIView, TokenizedControlInternal {
                                                selector: #selector(themeDidChange),
                                                name: .didChangeTheme,
                                                object: nil)
+
+        // Update appearance whenever `tokenSet` changes.
+        tokenSetSink = tokenSet.sinkChanges { [weak self] in
+            self?.updateAppearance()
+            self?.updateHeight()
+        }
     }
 
     required public init?(coder aDecoder: NSCoder) {
@@ -149,7 +158,7 @@ open class TabBarView: UIView, TokenizedControlInternal {
         return UIVisualEffectView(effect: UIBlurEffect(style: style))
     }()
 
-    private lazy var heightConstraint: NSLayoutConstraint = stackView.heightAnchor.constraint(equalToConstant: traitCollection.userInterfaceIdiom == .phone ? tokens.phonePortraitHeight : tokens.padHeight)
+    private lazy var heightConstraint: NSLayoutConstraint = stackView.heightAnchor.constraint(equalToConstant: traitCollection.userInterfaceIdiom == .phone ? tokenSet[.phonePortraitHeight].float : tokenSet[.padHeight].float)
 
     private let showsItemTitles: Bool
 
@@ -166,7 +175,7 @@ open class TabBarView: UIView, TokenizedControlInternal {
     private func updateHeight() {
         if traitCollection.userInterfaceIdiom == .phone {
             let isPortrait = traitCollection.horizontalSizeClass == .compact && traitCollection.verticalSizeClass == .regular
-            heightConstraint.constant = isPortrait ? tokens.phonePortraitHeight : tokens.phoneLandscapeHeight
+            heightConstraint.constant = isPortrait ? tokenSet[.phonePortraitHeight].float : tokenSet[.phoneLandscapeHeight].float
         }
     }
 
@@ -177,58 +186,25 @@ open class TabBarView: UIView, TokenizedControlInternal {
         }
     }
 
-    public func overrideTokens(_ tokens: TabBarTokens?) -> Self {
-        overrideTokens = tokens
-        return self
-    }
+    public typealias TokenSetKeyType = TabBarTokenSet.Tokens
+    public var tokenSet: TabBarTokenSet = .init()
+    private var tokenSetSink: AnyCancellable?
 
-    var defaultTokens: TabBarTokens = .init()
-    var tokens: TabBarTokens = .init()
-    var overrideTokens: TabBarTokens? {
-        didSet {
-            updateTabBarTokens()
-            updateHeight()
-        }
-    }
-
-    private class CustomTabBarItemTokens: TabBarItemTokens {
-        var tabBarTokens: TabBarTokens
-
-        @available(*, unavailable)
-        required init() {
-            preconditionFailure("init() has not been implemented")
-        }
-
-        init (tabBarTokens: TabBarTokens) {
-            self.tabBarTokens = tabBarTokens
-            super.init()
-        }
-
-        override var selectedColor: DynamicColor {
-            tabBarTokens.tabBarItemSelectedColor ?? super.selectedColor
-        }
-
-        override var unselectedColor: DynamicColor {
-            tabBarTokens.tabBarItemUnselectedColor ?? super.unselectedColor
-        }
-
-        override var titleLabelFontPortrait: FontInfo {
-            tabBarTokens.tabBarItemTitleLabelFontPortrait ?? super.titleLabelFontPortrait
-        }
-
-        override var titleLabelFontLandscape: FontInfo {
-            tabBarTokens.tabBarItemTitleLabelFontLandscape ?? super.titleLabelFontLandscape
-        }
-
-    }
-
-    private func updateTabBarTokens() {
-        tokens = resolvedTokens
-
+    private func updateAppearance() {
         let arrangedSubviews = stackView.arrangedSubviews
         for subview in arrangedSubviews {
             if let tabBarItemView = subview as? TabBarItemView {
-                tabBarItemView.overrideTokens = CustomTabBarItemTokens.init(tabBarTokens: tokens)
+                let tabBarItemTokenSet = tabBarItemView.tokenSet
+
+                /// Directly map our custom values to theirs.
+                tabBarItemTokenSet.setOverrideValue(tokenSet.overrideValue(forToken: .tabBarItemSelectedColor),
+                                                    forToken: .selectedColor)
+                tabBarItemTokenSet.setOverrideValue(tokenSet.overrideValue(forToken: .tabBarItemUnselectedColor),
+                                                    forToken: .unselectedColor)
+                tabBarItemTokenSet.setOverrideValue(tokenSet.overrideValue(forToken: .tabBarItemTitleLabelFontPortrait),
+                                                    forToken: .titleLabelFontPortrait)
+                tabBarItemTokenSet.setOverrideValue(tokenSet.overrideValue(forToken: .tabBarItemTitleLabelFontLandscape),
+                                                    forToken: .titleLabelFontLandscape)
             }
         }
     }
@@ -237,6 +213,7 @@ open class TabBarView: UIView, TokenizedControlInternal {
         guard let window = window, window.isEqual(notification.object) else {
             return
         }
-        updateTabBarTokens()
+        tokenSet.update(window.fluentTheme)
+        updateAppearance()
     }
 }

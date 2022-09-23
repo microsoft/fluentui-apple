@@ -50,9 +50,7 @@ class TabBarViewDemoController: DemoController {
         return button
     }()
 
-    private lazy var homeItem: TabBarItem = {
-        return TabBarItem(title: "Home", image: UIImage(named: "Home_28")!, selectedImage: UIImage(named: "Home_Selected_28")!, landscapeImage: UIImage(named: "Home_24")!, landscapeSelectedImage: UIImage(named: "Home_Selected_24")!)
-    }()
+    private lazy var homeItem: TabBarItem = homeItem(shouldShowTitle: false)
 
     private var badgeNumbers: [UInt] = Constants.initialBadgeNumbers
     private var higherBadgeNumbers: [UInt] = Constants.initialHigherBadgeNumbers
@@ -106,12 +104,14 @@ class TabBarViewDemoController: DemoController {
         updatedTabBarView.delegate = self
 
         if showsItemTitles {
+            homeItem = homeItem(shouldShowTitle: true)
             updatedTabBarView.items = [
                 homeItem,
                 TabBarItem(title: "New", image: UIImage(named: "New_24")!, selectedImage: UIImage(named: "New_Selected_24")!),
                 TabBarItem(title: "Open", image: UIImage(named: "Open_24")!, selectedImage: UIImage(named: "Open_Selected_24")!)
             ]
         } else {
+            homeItem = homeItem(shouldShowTitle: false)
             updatedTabBarView.items = [
                 homeItem,
                 TabBarItem(title: "New", image: UIImage(named: "New_28")!, selectedImage: UIImage(named: "New_Selected_28")!, landscapeImage: UIImage(named: "New_24")!, landscapeSelectedImage: UIImage(named: "New_Selected_24")!),
@@ -133,6 +133,19 @@ class TabBarViewDemoController: DemoController {
 
         updateBadgeButtons()
         updateBadgeNumbers()
+    }
+
+    private func homeItem(shouldShowTitle: Bool) -> TabBarItem {
+        if shouldShowTitle {
+            return TabBarItem(title: "Home",
+                              image: UIImage(named: "Home_24")!,
+                              selectedImage: UIImage(named: "Home_Selected_24")!)
+        }
+        return TabBarItem(title: "Home",
+                          image: UIImage(named: "Home_28")!,
+                          selectedImage: UIImage(named: "Home_Selected_28")!,
+                          landscapeImage: UIImage(named: "Home_24")!,
+                          landscapeSelectedImage: UIImage(named: "Home_Selected_24")!)
     }
 
     private func updateBadgeNumbers() {
@@ -201,48 +214,45 @@ extension TabBarViewDemoController: DemoAppearanceDelegate {
             return
         }
 
-        var tokensClosure: (() -> TabBarTokens)?
-        if isOverrideEnabled {
-            tokensClosure = {
-                return ThemeWideOverrideTabBarTokens()
-            }
-        }
-
-        fluentTheme.register(controlType: TabBarView.self, tokens: tokensClosure)
+        fluentTheme.register(tokenSetType: TabBarTokenSet.self,
+                             tokenSet: isOverrideEnabled ? perControlOverrideTabBarItemTokens : nil)
     }
 
     func perControlOverrideDidChange(isOverrideEnabled: Bool) {
-        let tokens = (isOverrideEnabled ? PerControlOverrideTabBarItemTokens() : nil)
-        _ = tabBarView?.overrideTokens(tokens)
+        let tokens = (isOverrideEnabled ? perControlOverrideTabBarItemTokens : nil)
+        tabBarView?.tokenSet.replaceAllOverrides(with: tokens)
     }
 
     func isThemeWideOverrideApplied() -> Bool {
-        return self.view.window?.fluentTheme.tokenOverride(for: TabBarView.self) != nil
+        return self.view.window?.fluentTheme.tokens(for: TabBarTokenSet.self) != nil
     }
 
     // MARK: - Custom tokens
-    private class ThemeWideOverrideTabBarTokens: TabBarTokens {
-        override var tabBarItemSelectedColor: DynamicColor {
-            return .init(light: globalTokens.sharedColors[.burgundy][.tint10],
-                         lightHighContrast: globalTokens.sharedColors[.pumpkin][.tint10],
-                         dark: globalTokens.sharedColors[.darkTeal][.tint40],
-                         darkHighContrast: globalTokens.sharedColors[.teal][.tint40])
-        }
-        override var tabBarItemUnselectedColor: DynamicColor {
-            return .init(light: globalTokens.sharedColors[.darkTeal][.tint20],
-                         lightHighContrast: globalTokens.sharedColors[.teal][.tint40],
-                         dark: globalTokens.sharedColors[.pumpkin][.tint40],
-                         darkHighContrast: globalTokens.sharedColors[.burgundy][.tint40])
-        }
+    private var themeWideOverrideTabBarTokens: [TabBarTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .tabBarItemSelectedColor: .dynamicColor {
+                return .init(light: GlobalTokens.sharedColors(.burgundy, .tint10),
+                             lightHighContrast: GlobalTokens.sharedColors(.pumpkin, .tint10),
+                             dark: GlobalTokens.sharedColors(.darkTeal, .tint40),
+                             darkHighContrast: GlobalTokens.sharedColors(.teal, .tint40))
+            },
+            .tabBarItemUnselectedColor: .dynamicColor {
+                return .init(light: GlobalTokens.sharedColors(.darkTeal, .tint20),
+                             lightHighContrast: GlobalTokens.sharedColors(.teal, .tint40),
+                             dark: GlobalTokens.sharedColors(.pumpkin, .tint40),
+                             darkHighContrast: GlobalTokens.sharedColors(.burgundy, .tint40))
+            }
+        ]
     }
 
-    private class PerControlOverrideTabBarItemTokens: TabBarTokens {
-        override var tabBarItemTitleLabelFontPortrait: FontInfo? {
-            return .init(size: 15, weight: .bold)
-        }
-
-        override var tabBarItemTitleLabelFontLandscape: FontInfo? {
-            return .init(size: 15, weight: .bold)
-        }
+    private var perControlOverrideTabBarItemTokens: [TabBarTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .tabBarItemTitleLabelFontPortrait: .fontInfo {
+                return .init(size: 15, weight: .bold)
+            },
+            .tabBarItemTitleLabelFontLandscape: .fontInfo {
+                return .init(size: 15, weight: .bold)
+            }
+        ]
     }
 }

@@ -520,6 +520,10 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
     }
 
+    func tableView(_ tableView: UITableView, canFocusRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+
     private func updateNavigationTitle() {
         if isInSelectionMode {
             let selectedCount = tableView.indexPathsForSelectedRows?.count ?? 0
@@ -709,6 +713,10 @@ class ChildViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
+
+    override func tableView(_ tableView: UITableView, canFocusRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
 }
 
 // MARK: - ModalViewController
@@ -761,7 +769,7 @@ class ModalViewController: UITableViewController {
             return UITableViewCell()
         }
         cell.setup(title: "Child Cell #\(1 + indexPath.row)")
-        cell.backgroundColor = isGrouped ? Colors.tableCellBackgroundGrouped : Colors.tableCellBackground
+        cell.backgroundStyleType = isGrouped ? .grouped : .plain
         cell.topSeparatorType = isGrouped && indexPath.row == 0 ? .full : .none
         return cell
     }
@@ -784,6 +792,10 @@ class ModalViewController: UITableViewController {
     private func updateTableView() {
         tableView.backgroundColor = isGrouped ? Colors.tableBackgroundGrouped : Colors.tableBackground
         tableView.reloadData()
+    }
+
+    override func tableView(_ tableView: UITableView, canFocusRowAt indexPath: IndexPath) -> Bool {
+        return true
     }
 }
 

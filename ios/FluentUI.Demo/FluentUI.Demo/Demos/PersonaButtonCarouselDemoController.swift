@@ -12,7 +12,7 @@ class PersonaButtonCarouselDemoController: DemoTableViewController {
     }
 
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        preconditionFailure("init(coder:) has not been implemented")
     }
 
     override func viewDidLoad() {
@@ -116,7 +116,7 @@ class PersonaButtonCarouselDemoController: DemoTableViewController {
     }
 
     @objc private func handleAppendPersona() {
-        carousels.forEach { (_ : MSFPersonaButtonSize, carousel: MSFPersonaButtonCarousel) in
+        carousels.forEach { (_: MSFPersonaButtonSize, carousel: MSFPersonaButtonCarousel) in
             let random = Int.random(in: 0...personas.count - 1)
             let persona = personas[random]
             add(persona, to: carousel)
@@ -124,7 +124,7 @@ class PersonaButtonCarouselDemoController: DemoTableViewController {
     }
 
     @objc private func handleRemovePersona() {
-        carousels.forEach { (_ : MSFPersonaButtonSize, carousel: MSFPersonaButtonCarousel) in
+        carousels.forEach { (_: MSFPersonaButtonSize, carousel: MSFPersonaButtonCarousel) in
             let state = carousel.state
             let count = state.count
             if count > 0 {
@@ -177,7 +177,7 @@ class PersonaButtonCarouselDemoController: DemoTableViewController {
 
         cell.contentView.addSubview(carousel)
         cell.selectionStyle = .none
-        cell.backgroundColor = .tertiarySystemFill
+        cell.backgroundConfiguration?.backgroundColor = .tertiarySystemFill
         var constraints: [NSLayoutConstraint] = []
         carousel.translatesAutoresizingMaskIntoConstraints = false
 
@@ -218,7 +218,7 @@ class PersonaButtonCarouselDemoController: DemoTableViewController {
 
         cell.contentView.addSubview(personaButton)
         cell.selectionStyle = .none
-        cell.backgroundColor = .tertiarySystemFill
+        cell.backgroundConfiguration?.backgroundColor = .tertiarySystemFill
         var constraints: [NSLayoutConstraint] = []
         personaButton.translatesAutoresizingMaskIntoConstraints = false
 

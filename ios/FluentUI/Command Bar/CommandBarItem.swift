@@ -34,7 +34,6 @@ open class CommandBarItem: NSObject {
         self.accessibilityHint = accessibilityHint
     }
 
-    @available(iOS 14.0, *)
     @objc public init(
         iconImage: UIImage?,
         title: String? = nil,
@@ -89,6 +88,14 @@ open class CommandBarItem: NSObject {
         }
     }
 
+    @objc public var isHidden: Bool = false {
+        didSet {
+            if isHidden != oldValue {
+                propertyChangedUpdateBlock?(self)
+            }
+        }
+    }
+
     /// If `isPersistSelection` is `true`, this value would be changed to reflect the selection state of the button. Setting this value before providing to `CommandBar` would set the initial selection state.
     @objc public var isSelected: Bool {
         didSet {
@@ -101,10 +108,12 @@ open class CommandBarItem: NSObject {
     /// Set `isSelected` to desired value in this handler. Default implementation is toggling `isSelected` property.
     @objc public var itemTappedHandler: ItemTappedHandler
 
-    @available(iOS 14.0, *)
+    /// If set, the `UIView` returned from the closure will be shown inside `CommandBarButton` instead of the `title` and `image`. Setting this
+	/// property will disable the `itemTappedHandler`. The customControlView must manually handle gesutres.
+    @objc public var customControlView: (() -> UIView)?
+
     @objc public lazy var menu: UIMenu? = nil // Only lazy property can be used with @available
 
-    @available(iOS 14.0, *)
     @objc public lazy var showsMenuAsPrimaryAction: Bool = false
 
     public static let defaultItemTappedHandler: ItemTappedHandler = { _, item in
@@ -117,4 +126,9 @@ open class CommandBarItem: NSObject {
 
     /// Called after a property is changed to trigger the update of a corresponding button
     var propertyChangedUpdateBlock: ((CommandBarItem) -> Void)?
+
+    /// Indicates whether the `itemTappedHandler` should be called as the item's tap handler
+    var shouldUseItemTappedHandler: Bool {
+        return customControlView == nil
+    }
 }

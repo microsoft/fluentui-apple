@@ -184,8 +184,8 @@ open class PageCardPresenterController: UIViewController {
     private func frameForCard(_ card: CardPresentable) -> CGRect {
         let size = sizeForCard(card)
         return CGRect(
-            x: UIScreen.main.roundToDevicePixels((view.frame.width - size.width) / 2),
-            y: UIScreen.main.roundToDevicePixels((view.frame.height - size.height) / 2),
+            x: ceil((view.frame.width - size.width) / 2),
+            y: ceil((view.frame.height - size.height) / 2),
             width: size.width,
             height: size.height
         )

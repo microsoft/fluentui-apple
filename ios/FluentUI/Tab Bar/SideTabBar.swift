@@ -4,6 +4,7 @@
 //
 
 import UIKit
+import Combine
 
 /// Delegate protocol to handle user events inside the side tab bar.
 @objc(MSFSideTabBarDelegate)
@@ -44,7 +45,7 @@ open class SideTabBar: UIView, TokenizedControlInternal {
         didSet {
             if let avatar = avatar {
                 let avatarState = avatar.state
-                avatarState.size = .medium
+                avatarState.size = .size32
                 avatarState.accessibilityLabel = "Accessibility.LargeTitle.ProfileView".localized
                 avatarState.hasButtonAccessibilityTrait = delegate != nil
 
@@ -128,7 +129,7 @@ open class SideTabBar: UIView, TokenizedControlInternal {
         accessibilityTraits = .tabBar
         shouldGroupAccessibilityChildren = true
 
-        NSLayoutConstraint.activate([widthAnchor.constraint(equalToConstant: tokens.sideTabBarWidth),
+        NSLayoutConstraint.activate([widthAnchor.constraint(equalToConstant: tokenSet[.sideTabBarWidth].float),
                                      borderLine.leadingAnchor.constraint(equalTo: trailingAnchor),
                                      borderLine.bottomAnchor.constraint(equalTo: bottomAnchor),
                                      borderLine.topAnchor.constraint(equalTo: topAnchor)])
@@ -137,6 +138,11 @@ open class SideTabBar: UIView, TokenizedControlInternal {
                                                selector: #selector(themeDidChange),
                                                name: .didChangeTheme,
                                                object: nil)
+
+        // Update appearance whenever overrideTokens changes.
+        tokenSetSink = tokenSet.sinkChanges { [weak self] in
+            self?.updateAppearance()
+        }
     }
 
     @available(*, unavailable)
@@ -165,11 +171,11 @@ open class SideTabBar: UIView, TokenizedControlInternal {
     }()
 
     private lazy var topStackView: UIStackView = {
-        return SideTabBar.createStackView(spacing: tokens.topTabBarItemSpacing)
+        return SideTabBar.createStackView(spacing: tokenSet[.topTabBarItemSpacing].float)
     }()
 
     private lazy var bottomStackView: UIStackView = {
-        return SideTabBar.createStackView(spacing: tokens.bottomTabBarItemSpacing)
+        return SideTabBar.createStackView(spacing: tokenSet[.bottomTabBarItemSpacing].float)
     }()
 
     private lazy var avatarViewGestureRecognizer: UITapGestureRecognizer = {
@@ -187,20 +193,20 @@ open class SideTabBar: UIView, TokenizedControlInternal {
             // There is a minimum spacing. If the layout guide spacing is larger than the minimum spacing,
             // then the spacing will be layoutGuideSpacing + safeTopSpacing.
             let avatarView = avatar
-            let topSafeConstraint = avatarView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: tokens.avatarViewSafeTopSpacing)
+            let topSafeConstraint = avatarView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: tokenSet[.avatarViewSafeTopSpacing].float)
             topSafeConstraint.priority = .defaultHigh
 
             layoutConstraints.append(contentsOf: [
                 topSafeConstraint,
-                avatarView.topAnchor.constraint(greaterThanOrEqualTo: topAnchor, constant: tokens.avatarViewMinTopSpacing),
+                avatarView.topAnchor.constraint(greaterThanOrEqualTo: topAnchor, constant: tokenSet[.avatarViewMinTopSpacing].float),
                 avatarView.centerXAnchor.constraint(equalTo: centerXAnchor),
-                topStackView.topAnchor.constraint(equalTo: avatarView.bottomAnchor, constant: tokens.avatarViewTopStackViewSpacing)
+                topStackView.topAnchor.constraint(equalTo: avatarView.bottomAnchor, constant: tokenSet[.avatarViewTopStackViewSpacing].float)
             ])
         } else {
-            layoutConstraints.append(topStackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: tokens.topTabBarItemSpacing))
+            layoutConstraints.append(topStackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: tokenSet[.topTabBarItemSpacing].float))
         }
 
-        let bottomSafeConstraint = bottomStackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -tokens.bottomStackViewSafeSpacing)
+        let bottomSafeConstraint = bottomStackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -tokenSet[.bottomStackViewSafeSpacing].float)
         bottomSafeConstraint.priority = .defaultHigh
 
         layoutConstraints.append(contentsOf: [
@@ -209,10 +215,18 @@ open class SideTabBar: UIView, TokenizedControlInternal {
             bottomStackView.centerXAnchor.constraint(equalTo: centerXAnchor),
             bottomStackView.widthAnchor.constraint(lessThanOrEqualTo: widthAnchor),
             bottomSafeConstraint,
-            bottomStackView.bottomAnchor.constraint(lessThanOrEqualTo: bottomAnchor, constant: -tokens.bottomStackViewMinSpacing)
+            bottomStackView.bottomAnchor.constraint(lessThanOrEqualTo: bottomAnchor,
+                                                    constant: -tokenSet[.bottomStackViewMinSpacing].float)
         ])
 
         NSLayoutConstraint.activate(layoutConstraints)
+    }
+
+    open override func didMoveToWindow() {
+        super.didMoveToWindow()
+
+        tokenSet.update(fluentTheme)
+        updateAppearance()
     }
 
     private func didUpdateItems(in section: Section) {
@@ -227,7 +241,7 @@ open class SideTabBar: UIView, TokenizedControlInternal {
         }
 
         let stackView = self.stackView(in: section)
-        let badgePadding = section == .top ? tokens.badgeTopSectionPadding : tokens.badgeBottomSectionPadding
+        let badgePadding = section == .top ? tokenSet[.badgeTopSectionPadding].float : tokenSet[.badgeBottomSectionPadding].float
         let showItemTitles = section == .top ? showTopItemTitles : showBottomItemTitles
         var didRestoreSelection = false
 
@@ -235,7 +249,7 @@ open class SideTabBar: UIView, TokenizedControlInternal {
             let tabBarItemView = TabBarItemView(item: item, showsTitle: showItemTitles, canResizeImage: false)
             tabBarItemView.translatesAutoresizingMaskIntoConstraints = false
             tabBarItemView.alwaysShowTitleBelowImage = true
-            tabBarItemView.maxBadgeWidth = tokens.sideTabBarWidth / 2 - badgePadding
+            tabBarItemView.maxBadgeWidth = tokenSet[.sideTabBarWidth].float / 2 - badgePadding
             tabBarItemView.numberOfTitleLines = Constants.numberOfTitleLines
 
             if itemView(with: item, in: section) != nil && section == .top && item == selectedTopItem {
@@ -359,62 +373,29 @@ open class SideTabBar: UIView, TokenizedControlInternal {
         }
     }
 
-    public func overrideTokens(_ tokens: SideTabBarTokens?) -> Self {
-        overrideTokens = tokens
-        return self
-    }
+    public typealias TokenSetKeyType = SideTabBarTokenSet.Tokens
+    public var tokenSet: SideTabBarTokenSet = .init()
+    var tokenSetSink: AnyCancellable?
 
-    var defaultTokens: SideTabBarTokens = .init()
-    var tokens: SideTabBarTokens = .init()
-    var overrideTokens: SideTabBarTokens? {
-        didSet {
-            updateSideTabBarTokens()
-        }
-    }
-
-    // This custom tokens class is used to override only the four TabBarItemToken values
-    // that we want to expose publicly to consumers of the SideTabBar.
-    private class CustomSideTabBarItemTokens: TabBarItemTokens {
-        @available(*, unavailable)
-        required init() {
-            preconditionFailure("init() has not been implemented")
-        }
-
-        init (sideTabBarTokens: SideTabBarTokens) {
-            self.sideTabBarTokens = sideTabBarTokens
-            super.init()
-        }
-
-        override var selectedColor: DynamicColor {
-            sideTabBarTokens.tabBarItemSelectedColor ?? super.selectedColor
-        }
-
-        override var unselectedColor: DynamicColor {
-            sideTabBarTokens.tabBarItemUnselectedColor ?? super.unselectedColor
-        }
-
-        override var titleLabelFontPortrait: FontInfo {
-            sideTabBarTokens.tabBarItemTitleLabelFontPortrait ?? super.titleLabelFontPortrait
-        }
-
-        override var titleLabelFontLandscape: FontInfo {
-            sideTabBarTokens.tabBarItemTitleLabelFontLandscape ?? super.titleLabelFontLandscape
-        }
-
-        var sideTabBarTokens: SideTabBarTokens
-    }
-
-    private func updateSideTabBarTokens() {
-        tokens = resolvedTokens
+    private func updateAppearance() {
         updateSideTabBarTokensForSection(in: .top)
         updateSideTabBarTokensForSection(in: .bottom)
     }
 
     private func updateSideTabBarTokensForSection(in section: Section) {
-        let customSideTabBarItemTokens = CustomSideTabBarItemTokens.init(sideTabBarTokens: tokens)
         for subview in stackView(in: section).arrangedSubviews {
             if let tabBarItemView = subview as? TabBarItemView {
-                tabBarItemView.overrideTokens = customSideTabBarItemTokens
+                let tabBarItemTokenSet = tabBarItemView.tokenSet
+
+                /// Directly map our custom values to theirs.
+                tabBarItemTokenSet.setOverrideValue(tokenSet.overrideValue(forToken: .tabBarItemSelectedColor),
+                                                    forToken: .selectedColor)
+                tabBarItemTokenSet.setOverrideValue(tokenSet.overrideValue(forToken: .tabBarItemUnselectedColor),
+                                                    forToken: .unselectedColor)
+                tabBarItemTokenSet.setOverrideValue(tokenSet.overrideValue(forToken: .tabBarItemTitleLabelFontPortrait),
+                                                    forToken: .titleLabelFontPortrait)
+                tabBarItemTokenSet.setOverrideValue(tokenSet.overrideValue(forToken: .tabBarItemTitleLabelFontLandscape),
+                                                    forToken: .titleLabelFontLandscape)
             }
         }
     }
@@ -423,6 +404,7 @@ open class SideTabBar: UIView, TokenizedControlInternal {
         guard let window = window, window.isEqual(notification.object) else {
             return
         }
-        updateSideTabBarTokens()
+        tokenSet.update(window.fluentTheme)
+        updateAppearance()
     }
 }

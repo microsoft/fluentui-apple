@@ -48,12 +48,10 @@ class AvatarDemoController: DemoTableViewController {
 
         case .alternateBackground,
              .animating,
-             .imageBasedRingColor,
              .outOfOffice,
              .pointerInteraction,
              .presence,
              .ringInnerGap,
-             .ring,
              .transparency:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: BooleanCell.identifier) as? BooleanCell else {
                 return UITableViewCell()
@@ -63,6 +61,26 @@ class AvatarDemoController: DemoTableViewController {
             cell.titleNumberOfLines = 0
             cell.onValueChanged = { [weak self, weak cell] in
                 self?.updateSetting(for: row, isOn: cell?.isOn ?? true)
+            }
+
+            return cell
+
+        case .imageBasedRingColor,
+             .ring:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: BooleanCell.identifier) as? BooleanCell else {
+                return UITableViewCell()
+            }
+
+            cell.setup(title: row.title, isOn: self.isSettingOn(row: row))
+            cell.titleNumberOfLines = 0
+            cell.onValueChanged = { [weak self, weak cell] in
+                self?.updateSetting(for: row, isOn: cell?.isOn ?? true)
+            }
+
+            if row == .imageBasedRingColor {
+                customRingIndexPath = indexPath
+            } else {
+                ringIndexPath = indexPath
             }
 
             return cell
@@ -108,7 +126,7 @@ class AvatarDemoController: DemoTableViewController {
                 cell.contentView.bottomAnchor.constraint(equalTo: avatarContentView.bottomAnchor)
             ])
 
-            cell.backgroundColor = self.isUsingAlternateBackgroundColor ? Colors.tableCellBackgroundSelected : Colors.tableCellBackground
+            cell.backgroundConfiguration?.backgroundColor = self.isUsingAlternateBackgroundColor ? Colors.tableCellBackgroundSelected : Colors.tableCellBackground
 
             return cell
         }
@@ -137,6 +155,9 @@ class AvatarDemoController: DemoTableViewController {
             break
         }
     }
+
+    private var ringIndexPath: IndexPath?
+    private var customRingIndexPath: IndexPath?
 
     private var isAnimated: Bool = true {
         didSet {
@@ -187,6 +208,7 @@ class AvatarDemoController: DemoTableViewController {
     private var isShowingRings: Bool = false {
         didSet {
             if oldValue != isShowingRings {
+                switchOffCustomRingCell()
                 allDemoAvatarsCombined.forEach { avatar in
                     avatar.state.isRingVisible = isShowingRings
                 }
@@ -194,9 +216,30 @@ class AvatarDemoController: DemoTableViewController {
         }
     }
 
+    private func switchOffCustomRingCell() {
+        guard let customRingIndexPath = customRingIndexPath, !isShowingRings else {
+            return
+        }
+
+        let cell = tableView.cellForRow(at: customRingIndexPath) as! BooleanCell
+        cell.isOn = false
+        updateSetting(for: .imageBasedRingColor, isOn: false)
+    }
+
+    private func switchOnRingCell() {
+        guard let ringIndexPath = ringIndexPath, isUsingImageBasedCustomColor else {
+            return
+        }
+
+        let cell = tableView.cellForRow(at: ringIndexPath) as! BooleanCell
+        cell.isOn = true
+        updateSetting(for: .ring, isOn: true)
+    }
+
     private var isUsingImageBasedCustomColor: Bool = false {
         didSet {
             if oldValue != isUsingImageBasedCustomColor {
+                switchOnRingCell()
                 allDemoAvatarsCombined.forEach { avatar in
                     avatar.state.imageBasedRingColor = isUsingImageBasedCustomColor ? AvatarDemoController.colorfulCustomImage : nil
                 }
@@ -291,7 +334,7 @@ class AvatarDemoController: DemoTableViewController {
             presence = presenceIterator.next()
         }
 
-        if presence! ==  .none {
+        if presence! == .none {
             presence = presenceIterator.next()
         }
 
@@ -373,27 +416,30 @@ class AvatarDemoController: DemoTableViewController {
     private enum AvatarDemoSection: CaseIterable {
         case swiftUI
         case settings
-        case xxlarge
-        case xlarge
-        case large
-        case medium
-        case small
-        case xsmall
+        case size72
+        case size56
+        case size40
+        case size32
+        case size24
+        case size20
+        case size16
 
         var avatarSize: MSFAvatarSize {
             switch self {
-            case .xxlarge:
-                return .xxlarge
-            case .xlarge:
-                return .xlarge
-            case .large:
-                return .large
-            case .medium:
-                return .medium
-            case .small:
-                return .small
-            case .xsmall:
-                return .xsmall
+            case .size72:
+                return .size72
+            case .size56:
+                return .size56
+            case .size40:
+                return .size40
+            case .size32:
+                return .size32
+            case .size24:
+                return .size24
+            case .size20:
+                return .size20
+            case .size16:
+                return .size16
             case .swiftUI, .settings:
                 preconditionFailure("Settings rows should not display an Avatar")
             }
@@ -409,18 +455,20 @@ class AvatarDemoController: DemoTableViewController {
                 return "SwiftUI"
             case .settings:
                 return "Settings"
-            case .xxlarge:
-                return "ExtraExtraLarge"
-            case .xlarge:
-                return "ExtraLarge"
-            case .large:
-                return "Large"
-            case .medium:
-                return "Medium"
-            case .small:
-                return "Small"
-            case .xsmall:
-                return "ExtraSmall"
+            case .size72:
+                return "Size 72"
+            case .size56:
+                return "Size 56"
+            case .size40:
+                return "Size 40"
+            case .size32:
+                return "Size 32"
+            case .size24:
+                return "Size 24"
+            case .size20:
+                return "Size 20"
+            case .size16:
+                return "Size 16"
             }
         }
 
@@ -438,12 +486,13 @@ class AvatarDemoController: DemoTableViewController {
                         .ring,
                         .ringInnerGap,
                         .imageBasedRingColor]
-            case .xxlarge,
-                 .xlarge,
-                 .large,
-                 .medium,
-                 .small,
-                 .xsmall:
+            case .size72,
+                 .size56,
+                 .size40,
+                 .size32,
+                 .size24,
+                 .size20,
+                 .size16:
                 return [.defaultWithImage,
                         .defaultWithInitials,
                         .defaultWithFallback,

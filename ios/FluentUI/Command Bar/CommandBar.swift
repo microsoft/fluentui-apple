@@ -4,9 +4,18 @@
 //
 
 import UIKit
+import Combine
+
+/// `CommandBarDelegate` is used to notify consumers of the `CommandBar` of certain events occurring within the `CommandBar`
+public protocol CommandBarDelegate: AnyObject {
+    /// Called when a scroll occurs in the `CommandBar`
+    /// - Parameter commandBar: the instance of `CommandBar` that received the scroll
+    func commandBarDidScroll(_ commandBar: CommandBar)
+}
 
 /**
  `CommandBar` is a horizontal scrollable list of icon buttons divided by groups.
+ Set the `delegate` property to receive callbacks when scroll events occur.
  Provide `itemGroups` in `init` to set the buttons in the scrollable area. Optional `leadingItemGroups` and `trailingItemGroups` add buttons in leading and trailing positions. Each `CommandBarItem` will be represented as a button.
  */
 @objc(MSFCommandBar)
@@ -29,36 +38,45 @@ public class CommandBar: UIView, TokenizedControlInternal {
     // MARK: - Public methods
 
     @available(*, renamed: "init(itemGroups:leadingItemGroups:trailingItemGroups:)")
-    @objc public convenience init(itemGroups: [CommandBarItemGroup], leadingItem: CommandBarItem? = nil, trailingItem: CommandBarItem? = nil) {
-        var leadingItems: [CommandBarItemGroup]?
-        var trailingItems: [CommandBarItemGroup]?
+    @objc public convenience init(itemGroups: [CommandBarItemGroup],
+                                  leadingItem: CommandBarItem? = nil,
+                                  trailingItem: CommandBarItem? = nil) {
+        let leadingItems: [CommandBarItemGroup]? = {
+            guard let leadingItem = leadingItem else {
+                return nil
+            }
 
-        if let leadingItem = leadingItem {
-            leadingItems = [[leadingItem]]
-        }
+            return [[leadingItem]]
+        }()
 
-        if let trailingItem = trailingItem {
-            trailingItems = [[trailingItem]]
-        }
+        let trailingItems: [CommandBarItemGroup]? = {
+            guard let trailingItem = trailingItem else {
+                return nil
+            }
 
-        self.init(itemGroups: itemGroups, leadingItemGroups: leadingItems, trailingItemGroups: trailingItems)
+            return [[trailingItem]]
+        }()
+
+        self.init(itemGroups: itemGroups,
+                  leadingItemGroups: leadingItems,
+                  trailingItemGroups: trailingItems)
     }
 
-    @objc public init(itemGroups: [CommandBarItemGroup], leadingItemGroups: [CommandBarItemGroup]? = nil, trailingItemGroups: [CommandBarItemGroup]? = nil) {
-        self.itemGroups = itemGroups
-        self.leadingItemGroups = leadingItemGroups
-        self.trailingItemGroups = trailingItemGroups
+    @objc public init(itemGroups: [CommandBarItemGroup],
+                      leadingItemGroups: [CommandBarItemGroup]? = nil,
+                      trailingItemGroups: [CommandBarItemGroup]? = nil) {
+        self.tokenSet = CommandBarTokenSet()
 
-        leadingCommandGroupsView = CommandBarCommandGroupsView(itemGroups: self.leadingItemGroups,
+        leadingCommandGroupsView = CommandBarCommandGroupsView(itemGroups: leadingItemGroups,
                                                                buttonsPersistSelection: false,
-                                                               tokens: tokens)
+                                                               tokenSet: tokenSet)
         leadingCommandGroupsView.translatesAutoresizingMaskIntoConstraints = false
-        mainCommandGroupsView = CommandBarCommandGroupsView(itemGroups: self.itemGroups,
-                                                            tokens: tokens)
+        mainCommandGroupsView = CommandBarCommandGroupsView(itemGroups: itemGroups,
+                                                            tokenSet: tokenSet)
         mainCommandGroupsView.translatesAutoresizingMaskIntoConstraints = false
-        trailingCommandGroupsView = CommandBarCommandGroupsView(itemGroups: self.trailingItemGroups,
+        trailingCommandGroupsView = CommandBarCommandGroupsView(itemGroups: trailingItemGroups,
                                                                 buttonsPersistSelection: false,
-                                                                tokens: tokens)
+                                                                tokenSet: tokenSet)
         trailingCommandGroupsView.translatesAutoresizingMaskIntoConstraints = false
 
         commandBarContainerStackView = UIStackView()
@@ -71,12 +89,21 @@ public class CommandBar: UIView, TokenizedControlInternal {
                                                selector: #selector(themeDidChange),
                                                name: .didChangeTheme,
                                                object: nil)
-
         configureHierarchy()
+
+        // Update appearance whenever `tokenSet` changes.
+        tokenSetSink = tokenSet.objectWillChange.sink { [weak self] _ in
+            // Values will be updated on the next run loop iteration.
+            DispatchQueue.main.async {
+                self?.updateButtonTokens()
+            }
+        }
     }
 
     public override func didMoveToWindow() {
         super.didMoveToWindow()
+
+        tokenSet.update(fluentTheme)
         updateButtonTokens()
     }
 
@@ -93,9 +120,10 @@ public class CommandBar: UIView, TokenizedControlInternal {
         trailingCommandGroupsView.updateButtonsState()
     }
 
-    public func overrideTokens(_ tokens: CommandBarTokens?) -> Self {
-        overrideTokens = tokens
-        return self
+    /// Sets the scoll position  to the start of the scroll view
+    @objc public func resetScrollPosition(_ animated: Bool = false) {
+        /// A `CGRect` with a `width` and `height` both greater than `0` is required for the scrolling to occur
+        scrollView.scrollRectToVisible(CGRect(x: 0, y: 0, width: 1, height: 1), animated: animated)
     }
 
     // MARK: Overrides
@@ -107,63 +135,55 @@ public class CommandBar: UIView, TokenizedControlInternal {
     public override func layoutSubviews() {
         super.layoutSubviews()
 
-        commandBarContainerStackView.layoutIfNeeded()
-
-        containerMaskLayer.frame = containerView.bounds
         updateShadow()
     }
 
     // MARK: - TokenizedControl
 
-    public typealias TokenType = CommandBarTokens
+    public typealias TokenSetKeyType = CommandBarTokenSet.Tokens
+    public var tokenSet: CommandBarTokenSet
 
-    let defaultTokens: CommandBarTokens = .init()
-    var tokens: CommandBarTokens = .init()
-    var overrideTokens: CommandBarTokens? {
-        didSet {
-            updateButtonTokens()
-        }
-    }
+    var tokenSetSink: AnyCancellable?
 
     @objc private func themeDidChange(_ notification: Notification) {
         if let window = self.window,
            window.isEqual(notification.object) {
-            updateButtonTokens()
+            tokenSet.update(window.fluentTheme)
         }
     }
 
     /// Scrollable items shown in the center of the CommandBar
     public var itemGroups: [CommandBarItemGroup] {
-        didSet {
-            mainCommandGroupsView.itemGroups = itemGroups
+        get {
+            mainCommandGroupsView.itemGroups
+        }
+        set {
+            mainCommandGroupsView.itemGroups = newValue
         }
     }
 
     /// Items pinned to the leading end of the CommandBar
     public var leadingItemGroups: [CommandBarItemGroup]? {
-        didSet {
-            guard let leadingItemGroups = leadingItemGroups else {
-                return
-            }
-
-            leadingCommandGroupsView.itemGroups = leadingItemGroups
-            leadingCommandGroupsView.isHidden = leadingItemGroups.isEmpty
-            scrollView.contentInset = scrollViewContentInset()
+        get {
+            leadingCommandGroupsView.itemGroups
+        }
+        set {
+            setupGroupsView(leadingCommandGroupsView, with: newValue)
         }
     }
 
     /// Items pinned to the trailing end of the CommandBar
     public var trailingItemGroups: [CommandBarItemGroup]? {
-        didSet {
-            guard let trailingItemGroups = trailingItemGroups else {
-                return
-            }
-
-            trailingCommandGroupsView.itemGroups = trailingItemGroups
-            trailingCommandGroupsView.isHidden = trailingItemGroups.isEmpty
-            scrollView.contentInset = scrollViewContentInset()
+        get {
+            trailingCommandGroupsView.itemGroups
+        }
+        set {
+            setupGroupsView(trailingCommandGroupsView, with: newValue)
         }
     }
+
+    /// Delegate object that notifies consumers of events occuring inside the `CommandBar`
+    public weak var delegate: CommandBarDelegate?
 
     // MARK: - Private properties
 
@@ -181,8 +201,8 @@ public class CommandBar: UIView, TokenizedControlInternal {
 
     // MARK: Views and Layers
 
-    private lazy var containerView: UIView = {
-        let containerView = UIView()
+    private lazy var containerView: CommandBarContainerView = {
+        let containerView = CommandBarContainerView()
         containerView.translatesAutoresizingMaskIntoConstraints = false
         containerView.layer.mask = containerMaskLayer
 
@@ -199,7 +219,7 @@ public class CommandBar: UIView, TokenizedControlInternal {
 
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
-        let itemInterspace: CGFloat = tokens.itemInterspace
+        let itemInterspace: CGFloat = tokenSet[.itemInterspace].float
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.contentInset = scrollViewContentInset()
         scrollView.showsVerticalScrollIndicator = false
@@ -252,9 +272,7 @@ public class CommandBar: UIView, TokenizedControlInternal {
             // Flip the scroll view to invert scrolling direction. Flip its content back because it's already in RTL.
             let flipTransform = CGAffineTransform(scaleX: -1, y: 1)
             scrollView.transform = flipTransform
-            leadingCommandGroupsView.transform = flipTransform
             mainCommandGroupsView.transform = flipTransform
-            trailingCommandGroupsView.transform = flipTransform
             containerMaskLayer.setAffineTransform(flipTransform)
         }
 
@@ -262,11 +280,11 @@ public class CommandBar: UIView, TokenizedControlInternal {
     }
 
     private func scrollViewContentInset() -> UIEdgeInsets {
-        let fixedButtonSpacing = tokens.itemInterspace
+        let fixedButtonSpacing = tokenSet[.itemInterspace].float
         return UIEdgeInsets(top: 0,
-                            left: leadingCommandGroupsView.isHidden ? CommandBar.insets.left : fixedButtonSpacing,
+                            left: leadingCommandGroupsView.isHidden ? LayoutConstants.insets.left : fixedButtonSpacing,
                             bottom: 0,
-                            right: trailingCommandGroupsView.isHidden ? CommandBar.insets.right : fixedButtonSpacing
+                            right: trailingCommandGroupsView.isHidden ? LayoutConstants.insets.right : fixedButtonSpacing
         )
     }
 
@@ -276,23 +294,22 @@ public class CommandBar: UIView, TokenizedControlInternal {
         if !leadingCommandGroupsView.isHidden {
             let leadingOffset = max(0, scrollView.contentOffset.x)
             let percentage = min(1, leadingOffset / scrollView.contentInset.left)
-            locations[1] = CommandBar.fadeViewWidth / containerView.frame.width * percentage
+            locations[1] = LayoutConstants.fadeViewWidth / containerView.frame.width * percentage
         }
 
         if !trailingCommandGroupsView.isHidden {
             let trailingOffset = max(0, mainCommandGroupsView.frame.width - scrollView.frame.width - scrollView.contentOffset.x)
             let percentage = min(1, trailingOffset / scrollView.contentInset.right)
-            locations[2] = 1 - CommandBar.fadeViewWidth / containerView.frame.width * percentage
+            locations[2] = 1 - LayoutConstants.fadeViewWidth / containerView.frame.width * percentage
         }
 
         containerMaskLayer.locations = locations.map { NSNumber(value: Float($0)) }
     }
 
     private func updateButtonTokens() {
-        self.tokens = resolvedTokens
-        leadingCommandGroupsView.tokens = tokens
-        mainCommandGroupsView.tokens = tokens
-        trailingCommandGroupsView.tokens = tokens
+        leadingCommandGroupsView.updateButtonGroupViews()
+        mainCommandGroupsView.updateButtonGroupViews()
+        trailingCommandGroupsView.updateButtonGroupViews()
     }
 
     @objc private func handleCommandButtonTapped(_ sender: CommandBarButton) {
@@ -302,8 +319,22 @@ public class CommandBar: UIView, TokenizedControlInternal {
 
     private var themeObserver: NSObjectProtocol?
 
-    private static let fadeViewWidth: CGFloat = 16.0
-    private static let insets = UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)
+    /// Updates the provided `CommandBarCommandGroupsView` with the `items` array and marks the view as needing a layout
+    private func setupGroupsView(_ commandGroupsView: CommandBarCommandGroupsView, with items: [CommandBarItemGroup]?) {
+        commandGroupsView.itemGroups = items ?? []
+
+        commandGroupsView.isHidden = commandGroupsView.itemGroups.isEmpty
+        scrollView.contentInset = scrollViewContentInset()
+    }
+
+    private struct LayoutConstants {
+        static let fadeViewWidth: CGFloat = 16.0
+        static let fixedButtonSpacing: CGFloat = 2.0
+        static let insets = UIEdgeInsets(top: 8.0,
+                                         left: 8.0,
+                                         bottom: 8.0,
+                                         right: 8.0)
+    }
 }
 
 // MARK: - Scroll view delegate
@@ -311,5 +342,17 @@ public class CommandBar: UIView, TokenizedControlInternal {
 extension CommandBar: UIScrollViewDelegate {
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         updateShadow()
+
+        delegate?.commandBarDidScroll(self)
+    }
+}
+
+/// A UIView subclass that updates its mask frame during layoutSubviews. By default, the layer mask
+/// is not hooked into auto-layout and will not update its frame if its parent frame changes size. This implementation
+/// fixes that.
+private class CommandBarContainerView: UIView {
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        layer.mask?.frame = bounds
     }
 }

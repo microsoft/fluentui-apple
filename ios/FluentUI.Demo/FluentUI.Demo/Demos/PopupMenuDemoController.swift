@@ -21,7 +21,7 @@ class PopupMenuDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Show", style: .plain, target: self, action: #selector(topBarButtonTapped))
+        navigationItem.rightBarButtonItems?.append(UIBarButtonItem(title: "Show", style: .plain, target: self, action: #selector(topBarButtonTapped)))
 
         toolbarItems = [
             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
@@ -40,6 +40,8 @@ class PopupMenuDemoController: DemoController {
 
             let buttonView = sender
             let controller = PopupMenuController(sourceView: buttonView, sourceRect: buttonView.bounds, presentationDirection: .down)
+            let overrideTokens = strongSelf.perControlOverrideEnabled ? strongSelf.perControlOverridePopupMenuTokens : nil
+            controller.popupTokenSet.replaceAllOverrides(with: overrideTokens)
 
             controller.addSections([
                 PopupMenuSection(title: "Canada", items: [
@@ -73,6 +75,8 @@ class PopupMenuDemoController: DemoController {
 
             let items = samplePersonas.map { PopupMenuItem(title: !$0.name.isEmpty ? $0.name : $0.email) }
             controller.addItems(items)
+            let overrideTokens = strongSelf.perControlOverrideEnabled ? strongSelf.perControlOverridePopupMenuTokens : nil
+            controller.popupTokenSet.replaceAllOverrides(with: overrideTokens)
 
             strongSelf.present(controller, animated: true)
         }))
@@ -84,6 +88,8 @@ class PopupMenuDemoController: DemoController {
 
             let buttonView = sender
             let controller = PopupMenuController(sourceView: buttonView, sourceRect: buttonView.bounds, presentationDirection: .down)
+            let overrideTokens = strongSelf.perControlOverrideEnabled ? strongSelf.perControlOverridePopupMenuTokens : nil
+            controller.popupTokenSet.replaceAllOverrides(with: overrideTokens)
 
             let items = [
                 PopupMenuItem(image: UIImage(named: "agenda-24x24"), title: "Agenda", isSelected: strongSelf.calendarLayout == .agenda, onSelected: { strongSelf.calendarLayout = .agenda }),
@@ -117,6 +123,8 @@ class PopupMenuDemoController: DemoController {
 
             let buttonView = sender
             let controller = PopupMenuController(sourceView: buttonView, sourceRect: buttonView.bounds, presentationDirection: .down)
+            let overrideTokens = strongSelf.perControlOverrideEnabled ? strongSelf.perControlOverridePopupMenuTokens : nil
+            controller.popupTokenSet.replaceAllOverrides(with: overrideTokens)
 
             let items = [
                 PopupMenuItem(image: UIImage(named: "agenda-24x24"), title: "Agenda", isSelected: strongSelf.calendarLayout == .agenda, executes: .onSelectionWithoutDismissal, onSelected: { strongSelf.calendarLayout = .agenda }),
@@ -144,6 +152,9 @@ class PopupMenuDemoController: DemoController {
         }))
 
         container.addArrangedSubview(UIView())
+        container.addArrangedSubview(createButton(title: "Objective-C Demo", action: { [weak self] _ in
+            self?.navigationController?.pushViewController(PopupMenuObjCDemoController(), animated: true)
+        }))
         addTitle(text: "Show with...")
     }
 
@@ -166,6 +177,8 @@ class PopupMenuDemoController: DemoController {
 
     @objc private func topBarButtonTapped(sender: UIBarButtonItem) {
         let controller = PopupMenuController(barButtonItem: sender, presentationDirection: .down)
+        let overrideTokens = perControlOverrideEnabled ? perControlOverridePopupMenuTokens : nil
+        controller.popupTokenSet.replaceAllOverrides(with: overrideTokens)
 
         controller.addItems([
             PopupMenuItem(image: UIImage(named: "mail-unread-24x24"), title: "Unread"),
@@ -189,6 +202,8 @@ class PopupMenuDemoController: DemoController {
         }
 
         let controller = PopupMenuController(barButtonItem: sender, presentationOrigin: origin, presentationDirection: .up)
+        let overrideTokens = perControlOverrideEnabled ? perControlOverridePopupMenuTokens : nil
+        controller.popupTokenSet.replaceAllOverrides(with: overrideTokens)
 
         if sender.title == "1-line description" {
             controller.headerItem = PopupMenuItem(title: "Pick a calendar layout")
@@ -205,5 +220,43 @@ class PopupMenuDemoController: DemoController {
         ])
 
         present(controller, animated: true)
+    }
+
+    private var perControlOverrideEnabled: Bool = false
+}
+
+extension PopupMenuDemoController: DemoAppearanceDelegate {
+    func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
+        guard let fluentTheme = self.view.window?.fluentTheme else {
+            return
+        }
+
+        fluentTheme.register(tokenSetType: PopupMenuTokenSet.self, tokenSet: isOverrideEnabled ? themeWideOverridePopupMenuTokens : nil)
+    }
+
+    func perControlOverrideDidChange(isOverrideEnabled: Bool) {
+        perControlOverrideEnabled = isOverrideEnabled
+    }
+
+    func isThemeWideOverrideApplied() -> Bool {
+        return self.view.window?.fluentTheme.tokens(for: PopupMenuTokenSet.self)?.isEmpty == false
+    }
+
+    // MARK: - Custom tokens
+
+    private var themeWideOverridePopupMenuTokens: [PopupMenuTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .drawerContentBackground: .dynamicColor { DynamicColor(light: GlobalTokens.sharedColors(.plum, .shade30),
+                                                                   dark: GlobalTokens.sharedColors(.plum, .tint60))
+            }
+        ]
+    }
+
+    private var perControlOverridePopupMenuTokens: [PopupMenuTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .drawerContentBackground: .dynamicColor { DynamicColor(light: GlobalTokens.sharedColors(.forest, .shade40),
+                                                                   dark: GlobalTokens.sharedColors(.forest, .tint60))
+            }
+        ]
     }
 }

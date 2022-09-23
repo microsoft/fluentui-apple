@@ -40,35 +40,31 @@ public typealias CardNudgeButtonAction = ((_ state: MSFCardNudgeState) -> Void)
 
     /// Action to be dispatched by the dismiss ("close") button on the trailing edge of the control.
     @objc var dismissButtonAction: CardNudgeButtonAction? { get set }
-
-    /// Custom design token set for this control, to use in place of the control's default Fluent tokens.
-    @objc var overrideTokens: CardNudgeTokens? { get set }
 }
 
 /// View that represents the CardNudge.
-public struct CardNudge: View, ConfigurableTokenizedControl {
+public struct CardNudge: View, TokenizedControlView {
+
+    public typealias TokenSetKeyType = CardNudgeTokenSet.Tokens
+    @ObservedObject public var tokenSet: CardNudgeTokenSet
+
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @ObservedObject var state: MSFCardNudgeStateImpl
-    let defaultTokens: CardNudgeTokens = .init()
-    var tokens: CardNudgeTokens {
-        let tokens = resolvedTokens
-        tokens.style = state.style
-        return tokens
-    }
 
     @ViewBuilder
     var icon: some View {
         if let icon = state.mainIcon {
             ZStack {
-                RoundedRectangle(cornerRadius: tokens.circleRadius)
-                    .frame(width: tokens.circleSize, height: tokens.circleSize)
-                    .foregroundColor(Color(dynamicColor: tokens.buttonBackgroundColor))
+                RoundedRectangle(cornerRadius: tokenSet[.circleRadius].float)
+                    .frame(width: CardNudgeTokenSet.circleSize, height: CardNudgeTokenSet.circleSize)
+                    .foregroundColor(Color(dynamicColor: tokenSet[.buttonBackgroundColor].dynamicColor))
                 Image(uiImage: icon)
                     .renderingMode(.template)
-                    .frame(width: tokens.iconSize, height: tokens.iconSize, alignment: .center)
-                    .foregroundColor(Color(dynamicColor: tokens.accentColor))
+                    .frame(width: CardNudgeTokenSet.iconSize, height: CardNudgeTokenSet.iconSize, alignment: .center)
+                    .foregroundColor(Color(dynamicColor: tokenSet[.accentColor].dynamicColor))
             }
-            .padding(.trailing, tokens.horizontalPadding)
+            .padding(.trailing, CardNudgeTokenSet.horizontalPadding)
+            .showsLargeContentViewer(text: state.title, image: state.mainIcon)
         }
     }
 
@@ -78,33 +74,32 @@ public struct CardNudge: View, ConfigurableTokenizedControl {
 
     @ViewBuilder
     var textContainer: some View {
-        VStack(alignment: .leading, spacing: tokens.interTextVerticalPadding) {
+        VStack(alignment: .leading, spacing: CardNudgeTokenSet.interTextVerticalPadding) {
             Text(state.title)
-                .font(.subheadline)
-                .fontWeight(.medium)
                 .lineLimit(1)
-                .foregroundColor(Color(dynamicColor: tokens.textColor))
+                .foregroundColor(Color(dynamicColor: tokenSet[.textColor].dynamicColor))
+                .showsLargeContentViewer(text: state.title, image: state.mainIcon)
 
             if hasSecondTextRow {
-                HStack(spacing: tokens.accentPadding) {
+                HStack(spacing: CardNudgeTokenSet.accentPadding) {
                     if let accentIcon = state.accentIcon {
                         Image(uiImage: accentIcon)
                             .renderingMode(.template)
-                            .frame(width: tokens.accentIconSize, height: tokens.accentIconSize)
-                            .foregroundColor(Color(dynamicColor: tokens.accentColor))
+                            .frame(width: CardNudgeTokenSet.accentIconSize, height: CardNudgeTokenSet.accentIconSize)
+                            .foregroundColor(Color(dynamicColor: tokenSet[.accentColor].dynamicColor))
                     }
                     if let accent = state.accentText {
                         Text(accent)
-                            .font(.subheadline)
                             .layoutPriority(1)
                             .lineLimit(1)
-                            .foregroundColor(Color(dynamicColor: tokens.accentColor))
+                            .foregroundColor(Color(dynamicColor: tokenSet[.accentColor].dynamicColor))
+                            .showsLargeContentViewer(text: accent, image: state.accentIcon)
                     }
                     if let subtitle = state.subtitle {
                         Text(subtitle)
-                            .font(.subheadline)
                             .lineLimit(1)
-                            .foregroundColor(Color(dynamicColor: tokens.subtitleTextColor))
+                            .foregroundColor(Color(dynamicColor: tokenSet[.subtitleTextColor].dynamicColor))
+                            .showsLargeContentViewer(text: subtitle)
                     }
                 }
             }
@@ -120,24 +115,30 @@ public struct CardNudge: View, ConfigurableTokenizedControl {
                     action(state)
                 }
                 .lineLimit(1)
-                .padding(.horizontal, tokens.buttonInnerPaddingHorizontal)
-                .padding(.vertical, tokens.verticalPadding)
-                .foregroundColor(Color(dynamicColor: tokens.accentColor))
+                .padding(.horizontal, CardNudgeTokenSet.buttonInnerPaddingHorizontal)
+                .padding(.vertical, CardNudgeTokenSet.verticalPadding)
+                .foregroundColor(Color(dynamicColor: tokenSet[.accentColor].dynamicColor))
                 .background(
-                    RoundedRectangle(cornerRadius: tokens.circleRadius)
-                        .foregroundColor(Color(dynamicColor: tokens.buttonBackgroundColor))
+                    RoundedRectangle(cornerRadius: tokenSet[.circleRadius].float)
+                        .foregroundColor(Color(dynamicColor: tokenSet[.buttonBackgroundColor].dynamicColor))
                 )
+                .showsLargeContentViewer(text: actionTitle)
             }
             if let dismissAction = state.dismissButtonAction {
+                let dismissImage = UIImage.staticImageNamed("dismiss-20x20")
+                let dismissLabel = "Accessibility.Dismiss.Label".localized
                 SwiftUI.Button(action: {
                     dismissAction(state)
                 }, label: {
-                    Image("dismiss-20x20", bundle: FluentUIFramework.resourceBundle)
+                    if let image = dismissImage {
+                        Image(uiImage: image)
+                    }
                 })
-                .padding(.horizontal, tokens.buttonInnerPaddingHorizontal)
-                .padding(.vertical, tokens.verticalPadding)
-                .accessibility(identifier: "Accessibility.Dismiss.Label")
-                .foregroundColor(Color(dynamicColor: tokens.textColor))
+                .padding(.horizontal, CardNudgeTokenSet.buttonInnerPaddingHorizontal)
+                .padding(.vertical, CardNudgeTokenSet.verticalPadding)
+                .accessibility(identifier: dismissLabel)
+                .foregroundColor(Color(dynamicColor: tokenSet[.textColor].dynamicColor))
+                .showsLargeContentViewer(text: dismissLabel, image: dismissImage)
             }
         }
     }
@@ -147,37 +148,39 @@ public struct CardNudge: View, ConfigurableTokenizedControl {
         HStack(spacing: 0) {
             icon
             textContainer
-            Spacer(minLength: tokens.accentPadding)
+            Spacer(minLength: CardNudgeTokenSet.accentPadding)
             buttons
                 .layoutPriority(1)
         }
-        .padding(.vertical, tokens.mainContentVerticalPadding)
-        .padding(.horizontal, tokens.horizontalPadding)
-        .frame(minHeight: tokens.minimumHeight)
+        .padding(.vertical, CardNudgeTokenSet.mainContentVerticalPadding)
+        .padding(.horizontal, CardNudgeTokenSet.horizontalPadding)
+        .frame(minHeight: CardNudgeTokenSet.minimumHeight)
     }
 
     public var body: some View {
         innerContents
             .background(
-                RoundedRectangle(cornerRadius: tokens.cornerRadius)
-                    .strokeBorder(lineWidth: tokens.outlineWidth)
-                    .foregroundColor(Color(dynamicColor: tokens.outlineColor))
+                RoundedRectangle(cornerRadius: tokenSet[.cornerRadius].float)
+                    .strokeBorder(lineWidth: tokenSet[.outlineWidth].float)
+                    .foregroundColor(Color(dynamicColor: tokenSet[.outlineColor].dynamicColor))
                     .background(
-                        Color(dynamicColor: tokens.backgroundColor)
-                            .cornerRadius(tokens.cornerRadius)
+                        Color(dynamicColor: tokenSet[.backgroundColor].dynamicColor)
+                            .cornerRadius(tokenSet[.cornerRadius].float)
                     )
             )
-            .padding(.vertical, tokens.verticalPadding)
-            .padding(.horizontal, tokens.horizontalPadding)
+            .padding(.vertical, CardNudgeTokenSet.verticalPadding)
+            .padding(.horizontal, CardNudgeTokenSet.horizontalPadding)
+            .fluentTokens(tokenSet, fluentTheme)
     }
 
     public init(style: MSFCardNudgeStyle, title: String) {
         let state = MSFCardNudgeStateImpl(style: style, title: title)
         self.state = state
+        self.tokenSet = CardNudgeTokenSet(style: { state.style })
     }
 }
 
-class MSFCardNudgeStateImpl: NSObject, ControlConfiguration, MSFCardNudgeState {
+class MSFCardNudgeStateImpl: ControlState, MSFCardNudgeState {
     @Published var title: String
     @Published var subtitle: String?
     @Published var mainIcon: UIImage?
@@ -196,9 +199,6 @@ class MSFCardNudgeStateImpl: NSObject, ControlConfiguration, MSFCardNudgeState {
 
     /// Action to be dispatched by the dismiss ("close") button on the trailing edge of the control.
     @Published var dismissButtonAction: CardNudgeButtonAction?
-
-    /// Design token set for this control, to use in place of the control's default Fluent tokens.
-    @Published var overrideTokens: CardNudgeTokens?
 
     /// Style to draw the control.
     @Published var style: MSFCardNudgeStyle

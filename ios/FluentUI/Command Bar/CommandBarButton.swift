@@ -8,11 +8,7 @@ import UIKit
 class CommandBarButton: UIButton {
     let item: CommandBarItem
 
-    var commandBarTokens: CommandBarTokens {
-        didSet {
-            updateStyle()
-        }
-    }
+    unowned let tokenSet: CommandBarTokenSet
 
     override var isHighlighted: Bool {
         didSet {
@@ -37,23 +33,45 @@ class CommandBarButton: UIButton {
         updateStyle()
     }
 
-    init(item: CommandBarItem, isPersistSelection: Bool = true, commandBarTokens: CommandBarTokens) {
+    init(item: CommandBarItem, isPersistSelection: Bool = true, tokenSet: CommandBarTokenSet) {
         self.item = item
         self.isPersistSelection = isPersistSelection
-        self.commandBarTokens = commandBarTokens
+        self.tokenSet = tokenSet
 
         super.init(frame: .zero)
 
         translatesAutoresizingMaskIntoConstraints = false
-        setImage(item.iconImage, for: .normal)
 
-        let accessibilityDescription = item.accessibilityLabel
-        accessibilityLabel = (accessibilityDescription != nil) ? accessibilityDescription : item.title
-        accessibilityHint = item.accessibilityHint
-        contentEdgeInsets = CommandBarButton.contentEdgeInsets
+        if let makeCustomButtonView = item.customControlView {
+            addCustomView(makeCustomButtonView())
+            /// Disable accessiblity for the button so that the custom view can provide itself or its subviews as the accessilbity element(s)
+            isAccessibilityElement = false
+        } else {
+            if #available(iOS 15.0, *) {
+                var buttonConfiguration = UIButton.Configuration.plain()
+                buttonConfiguration.image = item.iconImage
+                buttonConfiguration.contentInsets = LayoutConstants.contentInsets
+                buttonConfiguration.background.cornerRadius = 0
+                configuration = buttonConfiguration
+            } else {
+                setImage(item.iconImage, for: .normal)
+                contentEdgeInsets = LayoutConstants.contentEdgeInsets
+            }
 
-        menu = item.menu
-        showsMenuAsPrimaryAction = item.showsMenuAsPrimaryAction
+            let accessibilityDescription = item.accessibilityLabel
+            accessibilityLabel = (accessibilityDescription != nil) ? accessibilityDescription : item.title
+            accessibilityHint = item.accessibilityHint
+
+            /// Large content viewer
+            addInteraction(UILargeContentViewerInteraction())
+            showsLargeContentViewer = true
+            scalesLargeContentImage = true
+            largeContentImage = item.iconImage
+            largeContentTitle = item.title
+
+            menu = item.menu
+            showsMenuAsPrimaryAction = item.showsMenuAsPrimaryAction
+        }
 
         updateState()
 
@@ -68,15 +86,34 @@ class CommandBarButton: UIButton {
     func updateState() {
         isEnabled = item.isEnabled
         isSelected = isPersistSelection && item.isSelected
+        isHidden = item.isHidden
+
+        /// Additional state update is not needed if the `customControlView` is being shown
+        guard item.customControlView == nil else {
+            return
+        }
 
         // always update icon and title as we only display one; we may alterenate between them, and the icon may also change
         let iconImage = item.iconImage
         let title = item.title
         let accessibilityDescription = item.accessibilityLabel
-        setImage(iconImage, for: .normal)
-        setTitle(iconImage != nil ? nil : title, for: .normal)
+
+        if #available(iOS 15.0, *) {
+            configuration?.image = iconImage
+            configuration?.title = iconImage != nil ? nil : title
+
+            if let font = item.titleFont {
+                let attributeContainer = AttributeContainer([NSAttributedString.Key.font: font])
+                configuration?.attributedTitle?.setAttributes(attributeContainer)
+            }
+        } else {
+            setImage(iconImage, for: .normal)
+            setTitle(iconImage != nil ? nil : title, for: .normal)
+            titleLabel?.font = item.titleFont
+        }
+
         titleLabel?.isEnabled = isEnabled
-        titleLabel?.font = item.titleFont
+
         accessibilityLabel = (accessibilityDescription != nil) ? accessibilityDescription : title
         accessibilityHint = item.accessibilityHint
     }
@@ -84,29 +121,50 @@ class CommandBarButton: UIButton {
     private let isPersistSelection: Bool
 
     private func updateStyle() {
-        let commandBarTokens = self.commandBarTokens
-        tintColor = UIColor(dynamicColor: isSelected ? commandBarTokens.itemIconColor.selected : commandBarTokens.itemIconColor.rest)
-        setTitleColor(tintColor, for: .normal)
+        // TODO: Once iOS 14 support is dropped, this should be converted to a constant (let) that will be initialized by the logic below.
+        var resolvedBackgroundColor: UIColor = .clear
+        tintColor = UIColor(dynamicColor: isSelected ? tokenSet[.itemIconColor].buttonDynamicColors.selected : tokenSet[.itemIconColor].buttonDynamicColors.rest)
 
-        if !isPersistSelection {
-            backgroundColor = .clear
-            tintColor = UIColor(dynamicColor: commandBarTokens.itemFixedIconColor)
-        } else {
-            if !isEnabled {
-                backgroundColor = UIColor(dynamicColor: commandBarTokens.itemBackgroundColor.disabled)
-                tintColor = UIColor(dynamicColor: commandBarTokens.itemIconColor.disabled)
-            } else if isSelected {
-                backgroundColor = UIColor(dynamicColor: commandBarTokens.itemBackgroundColor.selected)
+        if isPersistSelection {
+            if isSelected {
+                resolvedBackgroundColor = UIColor(dynamicColor: tokenSet[.itemBackgroundColor].buttonDynamicColors.selected)
             } else if isHighlighted {
-                backgroundColor = UIColor(dynamicColor: commandBarTokens.itemBackgroundColor.pressed)
-                tintColor = UIColor(dynamicColor: commandBarTokens.itemIconColor.pressed)
+                resolvedBackgroundColor = UIColor(dynamicColor: tokenSet[.itemBackgroundColor].buttonDynamicColors.pressed)
             } else {
-                backgroundColor = UIColor(dynamicColor: commandBarTokens.itemBackgroundColor.rest)
+                resolvedBackgroundColor = UIColor(dynamicColor: tokenSet[.itemBackgroundColor].buttonDynamicColors.rest)
             }
+        }
+
+        if #available(iOS 15.0, *) {
+            configuration?.baseForegroundColor = tintColor
+            configuration?.background.backgroundColor = resolvedBackgroundColor
+        } else {
+            backgroundColor = resolvedBackgroundColor
+            setTitleColor(tintColor, for: .normal)
         }
     }
 
-    private static let contentEdgeInsets = UIEdgeInsets(top: 8.0, left: 10.0, bottom: 8.0, right: 10.0)
+    private func addCustomView(_ view: UIView) {
+        view.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(view)
+
+        /// Constrain view to edges of the button
+        view.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
+        view.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+        view.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        view.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+    }
+
+    private struct LayoutConstants {
+        static let contentInsets = NSDirectionalEdgeInsets(top: 8.0,
+                                                           leading: 10.0,
+                                                           bottom: 8.0,
+                                                           trailing: 10.0)
+        static let contentEdgeInsets = UIEdgeInsets(top: 8.0,
+                                                    left: 10.0,
+                                                    bottom: 8.0,
+                                                    right: 10.0)
+    }
 }
 
 // MARK: CommandBarButton UIPointerInteractionDelegate
@@ -114,8 +172,8 @@ class CommandBarButton: UIButton {
 extension CommandBarButton: UIPointerInteractionDelegate {
     @available(iOS 13.4, *)
     public func pointerInteraction(_ interaction: UIPointerInteraction, willEnter region: UIPointerRegion, animator: UIPointerInteractionAnimating) {
-        backgroundColor = UIColor(dynamicColor: isSelected ? commandBarTokens.itemBackgroundColor.selected : commandBarTokens.itemBackgroundColor.hover)
-        tintColor = UIColor(dynamicColor: isSelected ? commandBarTokens.itemIconColor.selected : commandBarTokens.itemIconColor.hover)
+        backgroundColor = UIColor(dynamicColor: isSelected ? tokenSet[.itemBackgroundColor].buttonDynamicColors.selected : tokenSet[.itemBackgroundColor].buttonDynamicColors.hover)
+        tintColor = UIColor(dynamicColor: isSelected ? tokenSet[.itemIconColor].buttonDynamicColors.selected : tokenSet[.itemIconColor].buttonDynamicColors.hover)
     }
 
     @available(iOS 13.4, *)

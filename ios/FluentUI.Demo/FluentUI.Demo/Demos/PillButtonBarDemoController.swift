@@ -84,7 +84,7 @@ class PillButtonBarDemoController: DemoController {
 
     func createBar(items: [PillButtonBarItem], style: PillButtonStyle = .primary, centerAligned: Bool = false, disabledItems: Bool = false, useCustomPillsColors: Bool = false) -> UIView {
         let bar = PillButtonBar(pillButtonStyle: style)
-        bar.pillButtonOverrideTokens = useCustomPillsColors ? CustomPillButtonTokens() : nil
+        bar.pillButtonOverrideTokens = useCustomPillsColors ? customPillButtonTokens : nil
         bar.items = items
         _ = bar.selectItem(atIndex: 0)
         bar.barDelegate = self
@@ -178,24 +178,26 @@ class PillButtonBarDemoController: DemoController {
 
     private var bars: [PillButtonBar] = []
 
-    private class CustomPillButtonTokens: PillButtonTokens {
-        override var backgroundColor: PillButtonDynamicColors {
-            return .init(rest: Colors.textOnAccent.dynamicColor ?? super.backgroundColor.rest,
-                         selected: Colors.textPrimary.dynamicColor ?? super.backgroundColor.selected,
-                         disabled: Colors.surfaceQuaternary.dynamicColor ?? super.backgroundColor.disabled,
-                         selectedDisabled: Colors.surfaceSecondary.dynamicColor ?? super.backgroundColor.selectedDisabled)
-        }
+    private var customPillButtonTokens: [PillButtonTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .backgroundColor: .pillButtonDynamicColors {
+                .init(rest: Colors.textOnAccent.dynamicColor!,
+                      selected: Colors.textPrimary.dynamicColor!,
+                      disabled: Colors.surfaceQuaternary.dynamicColor!,
+                      selectedDisabled: Colors.surfaceSecondary.dynamicColor!)
+            },
 
-        override var titleColor: PillButtonDynamicColors {
-            return .init(rest: Colors.textPrimary.dynamicColor ?? super.titleColor.rest,
-                         selected: Colors.textOnAccent.dynamicColor ?? super.titleColor.selected,
-                         disabled: Colors.textDisabled.dynamicColor ?? super.titleColor.disabled,
-                         selectedDisabled: Colors.textDisabled.dynamicColor ?? super.titleColor.disabled)
-        }
+            .titleColor: .pillButtonDynamicColors {
+                .init(rest: Colors.textPrimary.dynamicColor!,
+                      selected: Colors.textOnAccent.dynamicColor!,
+                      disabled: Colors.textDisabled.dynamicColor!,
+                      selectedDisabled: Colors.textDisabled.dynamicColor!)
+            },
 
-        override var enabledUnreadDotColor: DynamicColor {
-            return Colors.textPrimary.dynamicColor ?? super.enabledUnreadDotColor
-        }
+            .enabledUnreadDotColor: .dynamicColor {
+                Colors.textPrimary.dynamicColor!
+            }
+        ]
     }
 }
 
@@ -216,52 +218,58 @@ extension PillButtonBarDemoController: DemoAppearanceDelegate {
             return
         }
 
-        var tokensClosure: (() -> PillButtonTokens)?
-        if isOverrideEnabled {
-            tokensClosure = {
-                return ThemeWideOverridePillButtonTokens()
-            }
-        }
-
-        fluentTheme.register(controlType: PillButton.self, tokens: tokensClosure)
+        fluentTheme.register(tokenSetType: PillButtonTokenSet.self,
+                             tokenSet: isOverrideEnabled ? themeWideOverridePillButtonTokens : nil)
     }
 
     func perControlOverrideDidChange(isOverrideEnabled: Bool) {
         self.bars.forEach({ bar in
-            let tokens = isOverrideEnabled ? PerControlOverridePillButtonTokens() : nil
+            let tokens = isOverrideEnabled ? perControlOverridePillButtonTokens : nil
             bar.pillButtonOverrideTokens = tokens
         })
     }
 
     func isThemeWideOverrideApplied() -> Bool {
-        return self.view.window?.fluentTheme.tokenOverride(for: PillButton.self) != nil
+        return self.view.window?.fluentTheme.tokens(for: PillButtonTokenSet.self) != nil
     }
 
     // MARK: - Custom tokens
 
-    private class ThemeWideOverridePillButtonTokens: PillButtonTokens {
-        override var font: FontInfo {
-            return FontInfo(name: "Times", size: 15.0, weight: .regular)
-        }
+    private var themeWideOverridePillButtonTokens: [PillButtonTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .font: .fontInfo {
+                return FontInfo(name: "Times", size: 15.0, weight: .regular)
+            }
+        ]
     }
 
-    private class PerControlOverridePillButtonTokens: PillButtonTokens {
-        override var backgroundColor: PillButtonDynamicColors {
-            return .init(rest: DynamicColor(light: globalTokens.sharedColors[.steel][.tint40], dark: globalTokens.sharedColors[.steel][.shade30]),
-                         selected: DynamicColor(light: globalTokens.sharedColors[.pumpkin][.tint40], dark: globalTokens.sharedColors[.pumpkin][.shade30]),
-                         disabled: super.backgroundColor.disabled,
-                         selectedDisabled: super.backgroundColor.selectedDisabled)
-        }
+    private var perControlOverridePillButtonTokens: [PillButtonTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .backgroundColor: .pillButtonDynamicColors {
+                return .init(rest: DynamicColor(light: GlobalTokens.sharedColors(.steel, .tint40),
+                                                dark: GlobalTokens.sharedColors(.steel, .shade30)),
+                             selected: DynamicColor(light: GlobalTokens.sharedColors(.pumpkin, .tint40),
+                                                    dark: GlobalTokens.sharedColors(.pumpkin, .shade30)),
+                             disabled: DynamicColor(light: GlobalTokens.sharedColors(.darkTeal, .tint40),
+                                                    dark: GlobalTokens.sharedColors(.darkTeal, .shade30)),
+                             selectedDisabled: DynamicColor(light: GlobalTokens.sharedColors(.orchid, .tint40),
+                                                            dark: GlobalTokens.sharedColors(.orchid, .shade30)))
+            },
 
-        override var titleColor: PillButtonDynamicColors {
-            return .init(rest: DynamicColor(light: globalTokens.sharedColors[.steel][.shade30], dark: globalTokens.sharedColors[.steel][.tint40]),
-                         selected: DynamicColor(light: globalTokens.sharedColors[.pumpkin][.shade30], dark: globalTokens.sharedColors[.pumpkin][.tint40]),
-                         disabled: super.titleColor.disabled,
-                         selectedDisabled: super.titleColor.selectedDisabled)
-        }
+            .titleColor: .pillButtonDynamicColors {
+                return .init(rest: DynamicColor(light: GlobalTokens.sharedColors(.steel, .shade30),
+                                                dark: GlobalTokens.sharedColors(.steel, .tint40)),
+                             selected: DynamicColor(light: GlobalTokens.sharedColors(.pumpkin, .shade30),
+                                                    dark: GlobalTokens.sharedColors(.pumpkin, .tint40)),
+                             disabled: DynamicColor(light: GlobalTokens.sharedColors(.darkTeal, .shade30),
+                                                    dark: GlobalTokens.sharedColors(.darkTeal, .tint40)),
+                             selectedDisabled: DynamicColor(light: GlobalTokens.sharedColors(.orchid, .shade30),
+                                                            dark: GlobalTokens.sharedColors(.orchid, .tint40)))
+            },
 
-        override var font: FontInfo {
-            return FontInfo(name: "Papyrus", size: 10.0, weight: .regular)
-        }
+            .font: .fontInfo {
+                return FontInfo(name: "Papyrus", size: 10.0, weight: .regular)
+            }
+        ]
     }
 }

@@ -50,33 +50,29 @@ class TestColorViewController: NSViewController {
 			primaryColorsStackView.trailingAnchor.constraint(equalTo: documentView.trailingAnchor)
 		]
 
-		if #available(OSX 10.15, *) {
-			let switchButton = NSSwitch(frame: CGRect(x: 1, y: 1, width: 100, height: 50))
-			switchButton.target = self
-			switchButton.action = #selector(toggleClicked)
-			toggleTextView.string = "Default"
-			toggleTextView.font = .systemFont(ofSize: 20)
-			toggleTextView.isEditable = false
-			toggleTextView.isSelectable = false
-			toggleTextView.backgroundColor = .clear
+		let switchButton = NSSwitch(frame: CGRect(x: 1, y: 1, width: 100, height: 50))
+		switchButton.target = self
+		switchButton.action = #selector(toggleClicked)
+		toggleTextView.string = "Default"
+		toggleTextView.font = .systemFont(ofSize: 20)
+		toggleTextView.isEditable = false
+		toggleTextView.isSelectable = false
+		toggleTextView.backgroundColor = .clear
 
-			let toggleStackView = NSStackView()
-			toggleStackView.translatesAutoresizingMaskIntoConstraints = false
-			toggleStackView.orientation = .horizontal
-			toggleStackView.spacing = 20.0
-			toggleStackView.addArrangedSubview(switchButton)
-			toggleStackView.addArrangedSubview(toggleTextView)
-			documentView.addSubview(toggleStackView)
+		let toggleStackView = NSStackView()
+		toggleStackView.translatesAutoresizingMaskIntoConstraints = false
+		toggleStackView.orientation = .horizontal
+		toggleStackView.spacing = 20.0
+		toggleStackView.addArrangedSubview(switchButton)
+		toggleStackView.addArrangedSubview(toggleTextView)
+		documentView.addSubview(toggleStackView)
 
-			subviewConstraints.append(contentsOf: [
-				toggleStackView.topAnchor.constraint(equalTo: primaryColorsStackView.bottomAnchor, constant: colorRowSpacing),
-				toggleStackView.leadingAnchor.constraint(equalTo: documentView.leadingAnchor, constant: colorRowSpacing),
-				toggleStackView.trailingAnchor.constraint(equalTo: documentView.trailingAnchor, constant: colorRowSpacing),
-				toggleStackView.bottomAnchor.constraint(equalTo: documentView.bottomAnchor, constant: -colorRowSpacing)
-			])
-		} else {
-			subviewConstraints.append(primaryColorsStackView.bottomAnchor.constraint(equalTo: documentView.bottomAnchor, constant: -colorRowSpacing))
-		}
+		subviewConstraints.append(contentsOf: [
+			toggleStackView.topAnchor.constraint(equalTo: primaryColorsStackView.bottomAnchor, constant: colorRowSpacing),
+			toggleStackView.leadingAnchor.constraint(equalTo: documentView.leadingAnchor, constant: colorRowSpacing),
+			toggleStackView.trailingAnchor.constraint(equalTo: documentView.trailingAnchor, constant: colorRowSpacing),
+			toggleStackView.bottomAnchor.constraint(equalTo: documentView.bottomAnchor, constant: -colorRowSpacing)
+		])
 
 		NSLayoutConstraint.activate(subviewConstraints)
 		view = containerView
@@ -94,7 +90,6 @@ class TestColorViewController: NSViewController {
 		return rowStackView
 	}
 
-	@available(OSX 10.15, *)
 	@objc private func toggleClicked(button: NSSwitch?) {
 		primaryColorsStackView.subviews.removeAll()
 		loadPrimaryColors(state: button?.state ?? NSControl.StateValue.off)

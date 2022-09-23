@@ -31,6 +31,14 @@ class TableViewCellSampleData: TableViewSampleData {
             ]
         ),
         Section(
+            title: "Inverted double line cell",
+            items: [
+                Item(text1: "Contoso Survey",
+                     text2: "Research Notes",
+                     text2LeadingAccessoryView: { createIconsAccessoryView(images: ["shared-12x12", "success-12x12"]) })
+            ]
+        ),
+        Section(
             title: "Triple line cell",
             items: [
                 Item(text1: "Contoso Survey",
@@ -179,7 +187,7 @@ class TableViewCellSampleData: TableViewSampleData {
                                      stackView.widthAnchor.constraint(equalTo: container.widthAnchor)])
 
         if withBorder {
-            container.layer.borderWidth = 1 / UIScreen.main.scale // calculated device pixel
+            container.layer.borderWidth = 0.5
             container.layer.borderColor = Colors.textSecondary.cgColor
             container.layer.cornerRadius = 3
         }

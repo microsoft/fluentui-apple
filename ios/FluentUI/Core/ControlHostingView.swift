@@ -55,7 +55,7 @@ open class ControlHostingView: UIView {
     }
 
     required public init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+		preconditionFailure("init(coder:) has not been implemented")
     }
 
     /// Adds `hostingController.view` to ourselves as a subview, and enables necessary constraints.
@@ -78,6 +78,9 @@ open class ControlHostingView: UIView {
     }
 
     @objc private func themeDidChange(_ notification: Notification) {
+        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
+            return
+        }
         updateRootView()
     }
 
@@ -85,17 +88,9 @@ open class ControlHostingView: UIView {
         self.hostingController.rootView = tokenizedView
     }
 
-    private var currentFluentTheme: FluentTheme {
-        if let windowFluentTheme = self.window?.fluentTheme {
-            return windowFluentTheme
-        } else {
-            return FluentThemeKey.defaultValue
-        }
-    }
-
     private var tokenizedView: AnyView {
         return AnyView(controlView
-                        .fluentTheme(currentFluentTheme)
+                        .fluentTheme(fluentTheme)
                         .onAppear { [weak self] in
                             // We don't usually have a window at construction time, so fetch our
                             // custom theme during `onAppear`

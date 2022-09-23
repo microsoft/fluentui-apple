@@ -75,6 +75,19 @@ class AvatarGroupDemoController: DemoTableViewController {
 
             return cell
 
+        case .customRingColor:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: BooleanCell.identifier) as? BooleanCell else {
+                return UITableViewCell()
+            }
+
+            cell.setup(title: row.title, isOn: self.isUsingImageBasedCustomColor)
+            cell.titleNumberOfLines = 0
+            cell.onValueChanged = { [weak self, weak cell] in
+                self?.isUsingImageBasedCustomColor = cell?.isOn ?? true
+            }
+
+            return cell
+
         case .maxDisplayedAvatars,
              .overflow:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier) as? TableViewCell else {
@@ -93,6 +106,8 @@ class AvatarGroupDemoController: DemoTableViewController {
             }()
 
             let stackView = UIStackView(arrangedSubviews: buttonView)
+            stackView.shouldGroupAccessibilityChildren = true
+            stackView.accessibilityElements = buttonView
             stackView.frame = CGRect(x: 0,
                                      y: 0,
                                      width: 120,
@@ -105,26 +120,28 @@ class AvatarGroupDemoController: DemoTableViewController {
             cell.titleNumberOfLines = 0
             return cell
 
-        case .xxlargeTitle,
-             .xlargeTitle,
-             .largeTitle,
-             .mediumTitle,
-             .smallTitle,
-             .xsmallTitle:
+        case .titleSize72,
+             .titleSize56,
+             .titleSize40,
+             .titleSize32,
+             .titleSize24,
+             .titleSize20,
+             .titleSize16:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier) as? TableViewCell else {
                 return UITableViewCell()
             }
-
+            cell.accessibilityTraits = .header
             cell.setup(title: row.title)
             cell.titleNumberOfLines = 0
             return cell
 
-        case .xxlargeGroupView,
-             .xlargeGroupView,
-             .largeGroupView,
-             .mediumGroupView,
-             .smallGroupView,
-             .xsmallGroupView:
+        case .groupViewSize72,
+             .groupViewSize56,
+             .groupViewSize40,
+             .groupViewSize32,
+             .groupViewSize24,
+             .groupViewSize20,
+             .groupViewSize16:
             let cell = UITableViewCell()
 
             guard let avatarGroup = demoAvatarGroupsBySection[section]?[row] else {
@@ -142,15 +159,13 @@ class AvatarGroupDemoController: DemoTableViewController {
                 cell.contentView.trailingAnchor.constraint(equalTo: avatarGroupView.trailingAnchor, constant: 20)
             ])
 
-            cell.backgroundColor = self.isUsingAlternateBackgroundColor ? Colors.tableCellBackgroundSelected : Colors.tableCellBackground
+            cell.backgroundConfiguration?.backgroundColor = self.isUsingAlternateBackgroundColor ? Colors.tableCellBackgroundSelected : Colors.tableCellBackground
 
             return cell
         }
     }
 
     // MARK: - Helpers
-
-    private let avatarSizes: [MSFAvatarSize] = MSFAvatarSize.allCases.reversed()
 
     private enum AvatarGroupDemoSection: CaseIterable {
         case settings
@@ -234,6 +249,7 @@ class AvatarGroupDemoController: DemoTableViewController {
             case .settings:
                 return [.avatarCount,
                         .alternateBackground,
+                        .customRingColor,
                         .maxDisplayedAvatars,
                         .overflow]
             case .avatarStackNoBorder,
@@ -242,18 +258,20 @@ class AvatarGroupDemoController: DemoTableViewController {
                  .avatarPileNoBorder,
                  .avatarPileWithBorder,
                  .avatarPileWithMixedBorder:
-                return [.xxlargeTitle,
-                        .xxlargeGroupView,
-                        .xlargeTitle,
-                        .xlargeGroupView,
-                        .largeTitle,
-                        .largeGroupView,
-                        .mediumTitle,
-                        .mediumGroupView,
-                        .smallTitle,
-                        .smallGroupView,
-                        .xsmallTitle,
-                        .xsmallGroupView]
+                return [.titleSize72,
+                        .groupViewSize72,
+                        .titleSize56,
+                        .groupViewSize56,
+                        .titleSize40,
+                        .groupViewSize40,
+                        .titleSize32,
+                        .groupViewSize32,
+                        .titleSize24,
+                        .groupViewSize24,
+                        .titleSize20,
+                        .groupViewSize20,
+                        .titleSize16,
+                        .groupViewSize16]
             }
         }
     }
@@ -261,38 +279,44 @@ class AvatarGroupDemoController: DemoTableViewController {
     private enum AvatarGroupDemoRow: CaseIterable {
         case avatarCount
         case alternateBackground
+        case customRingColor
         case maxDisplayedAvatars
         case overflow
-        case xxlargeTitle
-        case xxlargeGroupView
-        case xlargeTitle
-        case xlargeGroupView
-        case largeTitle
-        case largeGroupView
-        case mediumTitle
-        case mediumGroupView
-        case smallTitle
-        case smallGroupView
-        case xsmallTitle
-        case xsmallGroupView
+        case titleSize72
+        case groupViewSize72
+        case titleSize56
+        case groupViewSize56
+        case titleSize40
+        case groupViewSize40
+        case titleSize32
+        case groupViewSize32
+        case titleSize24
+        case groupViewSize24
+        case titleSize20
+        case groupViewSize20
+        case titleSize16
+        case groupViewSize16
 
         var isDemoRow: Bool {
             switch self {
-            case .xxlargeGroupView,
-                 .xlargeGroupView,
-                 .largeGroupView,
-                 .mediumGroupView,
-                 .smallGroupView,
-                 .xsmallGroupView:
+            case .groupViewSize72,
+                 .groupViewSize56,
+                 .groupViewSize40,
+                 .groupViewSize32,
+                 .groupViewSize24,
+                 .groupViewSize20,
+                 .groupViewSize16:
                 return true
-            case .xxlargeTitle,
-                 .xlargeTitle,
-                 .largeTitle,
-                 .mediumTitle,
-                 .smallTitle,
-                 .xsmallTitle,
+            case .titleSize72,
+                 .titleSize56,
+                 .titleSize40,
+                 .titleSize32,
+                 .titleSize24,
+                 .titleSize20,
+                 .titleSize16,
                  .avatarCount,
                  .alternateBackground,
+                 .customRingColor,
                  .maxDisplayedAvatars,
                  .overflow:
                 return false
@@ -301,26 +325,30 @@ class AvatarGroupDemoController: DemoTableViewController {
 
         var avatarSize: MSFAvatarSize {
             switch self {
-            case .xxlargeGroupView:
-                return .xxlarge
-            case .xlargeGroupView:
-                return .xlarge
-            case .largeGroupView:
-                return .large
-            case .mediumGroupView:
-                return .medium
-            case .smallGroupView:
-                return .small
-            case .xsmallGroupView:
-                return .xsmall
-            case .xxlargeTitle,
-                 .xlargeTitle,
-                 .largeTitle,
-                 .mediumTitle,
-                 .smallTitle,
-                 .xsmallTitle,
+            case .groupViewSize72:
+                return .size72
+            case .groupViewSize56:
+                return .size56
+            case .groupViewSize40:
+                return .size40
+            case .groupViewSize32:
+                return .size32
+            case .groupViewSize24:
+                return .size24
+            case .groupViewSize20:
+                return .size20
+            case .groupViewSize16:
+                return .size16
+            case .titleSize72,
+                 .titleSize56,
+                 .titleSize40,
+                 .titleSize32,
+                 .titleSize24,
+                 .titleSize20,
+                 .titleSize16,
                  .avatarCount,
                  .alternateBackground,
+                 .customRingColor,
                  .maxDisplayedAvatars,
                  .overflow:
                 preconditionFailure("Row should not display an Avatar Group")
@@ -333,28 +361,33 @@ class AvatarGroupDemoController: DemoTableViewController {
                 return "Avatar count"
             case .alternateBackground:
                 return "Use alternate background color"
+            case .customRingColor:
+                return "Use image based custom ring color"
             case.maxDisplayedAvatars:
                 return "Max displayed avatars"
             case .overflow:
                 return "Overflow count"
-            case .xxlargeTitle:
-                return "ExtraExtraLarge"
-            case .xlargeTitle:
-                return "ExtraLarge"
-            case .largeTitle:
-                return "Large"
-            case .mediumTitle:
-                return "Medium"
-            case .smallTitle:
-                return "Small"
-            case .xsmallTitle:
-                return "ExtraSmall"
-            case .xxlargeGroupView,
-                 .xlargeGroupView,
-                 .largeGroupView,
-                 .mediumGroupView,
-                 .smallGroupView,
-                 .xsmallGroupView:
+            case .titleSize72:
+                return "Size 72"
+            case .titleSize56:
+                return "Size 56"
+            case .titleSize40:
+                return "Size 40"
+            case .titleSize32:
+                return "Size 32"
+            case .titleSize24:
+                return "Size 24"
+            case .titleSize20:
+                return "Size 20"
+            case .titleSize16:
+                return "Size 16"
+            case .groupViewSize72,
+                 .groupViewSize56,
+                 .groupViewSize40,
+                 .groupViewSize32,
+                 .groupViewSize24,
+                 .groupViewSize20,
+                 .groupViewSize16:
                 preconditionFailure("Row should not have title")
             }
         }
@@ -384,16 +417,30 @@ class AvatarGroupDemoController: DemoTableViewController {
                 strongSelf.maxDisplayedAvatars = count
                 button.state.isDisabled = true
             }
-
-            strongSelf.maxAvatarsTextField.resignFirstResponder()
+            strongSelf.setMaxAvatarCount()
         }
-
-        let maxAvatarButtonState = maxAvatarButton.state
-        maxAvatarButtonState.text = "Set"
-        maxAvatarButtonState.isDisabled = true
-
         return maxAvatarButton
     }()
+
+    @objc private func setMaxAvatarCount() {
+        let oldMax = maxDisplayedAvatars
+
+        if let text = maxAvatarsTextField.text, let newMax = Int(text) {
+            if newMax <= avatarCount {
+                maxDisplayedAvatars = newMax
+                if oldMax < newMax {
+                    updateAvatarsCustomRingColor(for: oldMax..<newMax)
+                }
+            } else {
+                maxAvatarsTextField.text = "\(oldMax)"
+            }
+            let maxAvatarButtonState = maxAvatarButton.state
+            maxAvatarButtonState.text = "Set"
+            maxAvatarButtonState.isDisabled = true
+        }
+
+        maxAvatarsTextField.resignFirstResponder()
+    }
 
     private lazy var maxAvatarsTextField: UITextField = {
         let textField = UITextField(frame: .zero)
@@ -452,6 +499,7 @@ class AvatarGroupDemoController: DemoTableViewController {
             guard oldValue != avatarCount && avatarCount >= 0 else {
                 return
             }
+            adjustMaxDisplayedAvatars()
             AvatarGroupDemoSection.allCases.filter({ section in
                 return section.isDemoSection
             }).forEach { section in
@@ -481,6 +529,10 @@ class AvatarGroupDemoController: DemoTableViewController {
         }
     }
 
+    private func adjustMaxDisplayedAvatars() {
+        maxDisplayedAvatars = min(avatarCount, maxDisplayedAvatars)
+    }
+
     @objc private func addAvatarCount(_ cell: ActionsCell) {
         avatarCount += 1
     }
@@ -500,6 +552,21 @@ class AvatarGroupDemoController: DemoTableViewController {
     private var isUsingAlternateBackgroundColor: Bool = false {
         didSet {
             updateBackgroundColor()
+        }
+    }
+
+    private var isUsingImageBasedCustomColor: Bool = false {
+        didSet {
+            updateAvatarsCustomRingColor(for: 0..<avatarCount)
+        }
+    }
+
+    private func updateAvatarsCustomRingColor(for range: Range<Int>) {
+        for group in allDemoAvatarGroupsCombined {
+            for index in range {
+                let avatar = group.state.getAvatarState(at: index)
+                avatar.imageBasedRingColor = isUsingImageBasedCustomColor ? AvatarDemoController.colorfulCustomImage : nil
+            }
         }
     }
 
