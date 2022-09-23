@@ -48,6 +48,7 @@ class DateTimePickerDemoController: DemoController {
         dateTimePicker.delegate = self
         dateLabel.text = "No date selected"
         dateLabel.adjustsFontSizeToFitWidth = true
+        setupReadmeText(readmeString: ReadmeStrings.dateTimePickerString)
 
         container.addArrangedSubview(dateLabel)
         container.addArrangedSubview(createButton(title: "Show date picker", action: #selector(presentDatePicker)))

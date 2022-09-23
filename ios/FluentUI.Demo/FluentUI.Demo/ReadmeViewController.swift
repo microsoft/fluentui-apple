@@ -49,7 +49,7 @@ class ReadmeViewController: UIViewController {
         scrollView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         scrollView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         scrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -25).isActive = true
 
         contentView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
@@ -63,7 +63,7 @@ class ReadmeViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
 
         modalPresentationStyle = .popover
-        preferredContentSize = CGSize(width: 400, height: 400)
+        preferredContentSize = CGSize(width: 400, height: 250)
         popoverPresentationController?.permittedArrowDirections = .up
     }
 

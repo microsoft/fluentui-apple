@@ -10,6 +10,7 @@ class BadgeViewDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        setupReadmeText(readmeString: ReadmeStrings.badgeString)
         addBadgeSection(title: "Default badge", style: .default)
         addBadgeSection(title: "Error badge", style: .error)
         addBadgeSection(title: "Warning badge", style: .warning)

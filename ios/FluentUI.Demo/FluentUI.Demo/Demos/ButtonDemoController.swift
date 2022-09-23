@@ -11,6 +11,7 @@ class ButtonDemoController: DemoController {
         super.viewDidLoad()
 
         container.alignment = .leading
+        setupReadmeText(readmeString: ReadmeStrings.buttonString)
 
         for style in ButtonStyle.allCases {
             addTitle(text: style.description)
