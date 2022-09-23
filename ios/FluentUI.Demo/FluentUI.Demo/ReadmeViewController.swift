@@ -34,8 +34,8 @@ class ReadmeViewController: UIViewController {
     private func setupReadmeLabelConstraints() {
         contentView.addSubview(readmeLabel)
         readmeLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-        readmeLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 35).isActive = true
-        readmeLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 3 / 4).isActive = true
+        readmeLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Constants.topPadding).isActive = true
+        readmeLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: Constants.widthMultiplier).isActive = true
         readmeLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
     }
 
@@ -49,12 +49,20 @@ class ReadmeViewController: UIViewController {
         scrollView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         scrollView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         scrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -25).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: Constants.bottomPadding).isActive = true
 
         contentView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
         contentView.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
         contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
+    }
+
+    struct Constants {
+        static let topPadding: CGFloat = 35
+        static let bottomPadding: CGFloat = -25
+        static let widthMultiplier: CGFloat = 0.9
+        static let popoverWidth: CGFloat = 400
+        static let popoverHeight: CGFloat = 250
     }
 
     init(readmeString: String?) {
@@ -63,7 +71,7 @@ class ReadmeViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
 
         modalPresentationStyle = .popover
-        preferredContentSize = CGSize(width: 400, height: 250)
+        preferredContentSize = CGSize(width: Constants.popoverWidth, height: Constants.popoverHeight)
         popoverPresentationController?.permittedArrowDirections = .up
     }
 
