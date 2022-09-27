@@ -106,6 +106,8 @@ class AvatarGroupDemoController: DemoTableViewController {
             }()
 
             let stackView = UIStackView(arrangedSubviews: buttonView)
+            stackView.shouldGroupAccessibilityChildren = true
+            stackView.accessibilityElements = buttonView
             stackView.frame = CGRect(x: 0,
                                      y: 0,
                                      width: 120,
@@ -127,7 +129,7 @@ class AvatarGroupDemoController: DemoTableViewController {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier) as? TableViewCell else {
                 return UITableViewCell()
             }
-
+            cell.accessibilityTraits = .header
             cell.setup(title: row.title)
             cell.titleNumberOfLines = 0
             return cell
@@ -155,7 +157,7 @@ class AvatarGroupDemoController: DemoTableViewController {
                 cell.contentView.trailingAnchor.constraint(equalTo: avatarGroupView.trailingAnchor, constant: 20)
             ])
 
-            cell.backgroundConfiguration?.backgroundColor = self.isUsingAlternateBackgroundColor ? Colors.tableCellBackgroundSelected : Colors.tableCellBackground
+            cell.backgroundConfiguration?.backgroundColor = self.isUsingAlternateBackgroundColor ? TableViewCell.tableCellBackgroundSelectedColor : TableViewCell.tableCellBackgroundColor
 
             return cell
         }

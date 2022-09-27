@@ -77,7 +77,6 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
     private let accessoryImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = Colors.Table.Cell.image
         return imageView
     }()
 
@@ -106,7 +105,8 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
         guard let window = window, window.isEqual(notification.object) else {
             return
         }
-        updateColors()
+        updateColors()        // until popupmenuitemcell actually supports token system, clients will override colors via cell's backgroundColor property
+        backgroundStyleType = .custom
     }
 
     func setup(item: PopupMenuTemplateItem) {
@@ -206,6 +206,8 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
     }
 
     private func updateColors() {
+        accessoryImageView.tintColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground3])
+
         if let item = item {
             _imageView.tintColor = isSelected
                 ? item.imageSelectedColor ?? UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1])

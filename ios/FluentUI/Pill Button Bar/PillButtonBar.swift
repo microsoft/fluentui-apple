@@ -125,6 +125,7 @@ open class PillButtonBar: UIScrollView {
 
     private var stackView: UIStackView = {
         let view = UIStackView()
+        view.distribution = .fillProportionally
         view.alignment = .center
         view.spacing = Constants.minButtonsSpacing
         return view
@@ -411,8 +412,15 @@ open class PillButtonBar: UIScrollView {
         buttonExtraSidePadding = ceil(totalPadding / CGFloat(buttonEdges))
         for button in buttons {
             button.layoutIfNeeded()
-            button.contentEdgeInsets.right += buttonExtraSidePadding
-            button.contentEdgeInsets.left += buttonExtraSidePadding
+
+            if #available(iOS 15.0, *) {
+                button.configuration?.contentInsets.leading += buttonExtraSidePadding
+                button.configuration?.contentInsets.trailing += buttonExtraSidePadding
+            } else {
+                button.contentEdgeInsets.right += buttonExtraSidePadding
+                button.contentEdgeInsets.left += buttonExtraSidePadding
+            }
+
             button.layoutIfNeeded()
         }
     }
@@ -453,8 +461,15 @@ open class PillButtonBar: UIScrollView {
             let buttonWidth = button.frame.width
             if buttonWidth > 0, buttonWidth < Constants.minButtonWidth {
                 let extraInset = floor((Constants.minButtonWidth - button.frame.width) / 2)
-                button.contentEdgeInsets.left += extraInset
-                button.contentEdgeInsets.right = button.contentEdgeInsets.left
+
+                if #available(iOS 15.0, *) {
+                    button.configuration?.contentInsets.leading += extraInset
+                    button.configuration?.contentInsets.trailing = button.configuration?.contentInsets.leading ?? extraInset
+                } else {
+                    button.contentEdgeInsets.left += extraInset
+                    button.contentEdgeInsets.right = button.contentEdgeInsets.left
+                }
+
                 button.layoutIfNeeded()
             }
         }
@@ -594,18 +609,6 @@ extension PillButtonBar: UIPointerInteractionDelegate {
         let pointerEffect = UIPointerEffect.lift(preview)
 
         return UIPointerStyle(effect: pointerEffect, shape: nil)
-    }
-
-    public func pointerInteraction(_ interaction: UIPointerInteraction, willEnter region: UIPointerRegion, animator: UIPointerInteractionAnimating) {
-        guard let index = region.identifier as? Int else {
-            return
-        }
-        if let window = window, customPillButtonBackgroundColor == nil, index < buttons.count {
-            let pillButton = buttons[index]
-            if !pillButton.isSelected {
-                pillButton.customBackgroundColor = PillButton.hoverBackgroundColor(for: window, for: pillButton.style)
-            }
-        }
     }
 
     public func pointerInteraction(_ interaction: UIPointerInteraction, willExit region: UIPointerRegion, animator: UIPointerInteractionAnimating) {

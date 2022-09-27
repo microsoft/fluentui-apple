@@ -105,7 +105,7 @@ class ColorDemoController: UIViewController {
         tableView.delegate = self
         tableView.separatorStyle = .none
         tableView.allowsSelection = false
-        tableView.backgroundColor = Colors.tableBackground
+        tableView.backgroundColor = TableViewCell.tableBackgroundColor
 
         let separator = Separator(style: .shadow, orientation: .horizontal)
         let stackView = UIStackView(arrangedSubviews: [segmentedControl, separator, tableView])
@@ -168,7 +168,7 @@ class ColorDemoController: UIViewController {
                 colorView.updateBackgroundColor()
             }
         }
-        segmentedControl.updateWindowSpecificColors()
+        segmentedControl.updateColors()
     }
 
     private let tableView = UITableView(frame: .zero, style: .grouped)

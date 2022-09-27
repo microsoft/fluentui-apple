@@ -23,12 +23,18 @@ struct Demos {
         DemoDescriptor("Avatar", AvatarDemoController.self),
         DemoDescriptor("AvatarGroup", AvatarGroupDemoController.self),
         DemoDescriptor("CardNudge", CardNudgeDemoController.self),
-        DemoDescriptor("ColorTokens", ColorTokensDemoController.self),
         DemoDescriptor("IndeterminateProgressBar", IndeterminateProgressBarDemoController.self),
         DemoDescriptor("NotificationView", NotificationViewDemoController.self),
         DemoDescriptor("Other cells", OtherCellsDemoController.self),
         DemoDescriptor("PersonaButtonCarousel", PersonaButtonCarouselDemoController.self),
         DemoDescriptor("TableViewCell", TableViewCellDemoController.self)
+    ]
+
+    static let fluent2DesignTokens: [DemoDescriptor] = [
+        DemoDescriptor("Global Color Tokens", GlobalColorTokensDemoController.self),
+        DemoDescriptor("Alias Color Tokens", AliasColorTokensDemoController.self),
+        DemoDescriptor("Shadow Tokens", ShadowTokensDemoController.self),
+        DemoDescriptor("Typography Tokens", TypographyTokensDemoController.self)
     ]
 
     static let controls: [DemoDescriptor] = [

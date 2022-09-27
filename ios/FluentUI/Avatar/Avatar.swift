@@ -267,10 +267,29 @@ public struct Avatar: View, ConfigurableTokenizedControl {
             }
         }
 
+        let standardAnimation = Animation.linear(duration: animationDuration)
+
         return avatarBody
             .pointerInteraction(state.hasPointerInteraction)
             .modifyIf(state.isAnimated, { thisView in
-                thisView.animation(.linear(duration: animationDuration))
+                thisView
+                    .animation(standardAnimation,
+                               value: [state.hasRingInnerGap,
+                                       state.isRingVisible,
+                                       state.isTransparent,
+                                       state.isOutOfOffice])
+                    .animation(standardAnimation,
+                               value: [state.backgroundColor,
+                                       state.foregroundColor,
+                                       state.ringColor])
+                    .animation(standardAnimation,
+                               value: state.size)
+                    .animation(standardAnimation,
+                               value: [state.primaryText, state.secondaryText])
+                    .animation(standardAnimation,
+                               value: [state.image, state.imageBasedRingColor])
+                    .animation(standardAnimation,
+                               value: state.overrideTokens)
             })
             .showsLargeContentViewer(text: accessibilityLabel, image: shouldUseDefaultImage ? avatarImageInfo.image : nil)
             .accessibilityElement(children: .ignore)
@@ -329,7 +348,7 @@ public struct Avatar: View, ConfigurableTokenizedControl {
 
     private func initialsCalculatedColor(fromPrimaryText primaryText: String?, secondaryText: String?, colorOptions: [DynamicColor]? = nil) -> DynamicColor {
         guard let colors = colorOptions else {
-            return .init(light: fluentTheme.globalTokens.neutralColors[.black])
+            return .init(light: GlobalTokens.neutralColors(.black))
         }
 
         // Set the color based on the primary text and secondary text

@@ -79,6 +79,8 @@ class CommandBarDemoController: DemoController {
                 return TextStyle.body.textRepresentation
             case .disabledText:
                 return "Search"
+            case .add:
+                return "Add"
             default:
                 return nil
             }
@@ -142,6 +144,7 @@ class CommandBarDemoController: DemoController {
     }
 
     var defaultCommandBar: CommandBar?
+    var animateCommandBarDelegateEvents: Bool = false
 
     let textField: UITextField = {
         let textField = UITextField()
@@ -161,6 +164,7 @@ class CommandBarDemoController: DemoController {
         container.addArrangedSubview(createLabelWithText("Default"))
 
         let commandBar = CommandBar(itemGroups: createItemGroups(), leadingItemGroups: [[newItem(for: .keyboard)]])
+        commandBar.delegate = self
         commandBar.translatesAutoresizingMaskIntoConstraints = false
         commandBar.backgroundColor = Colors.navigationBarBackground
         container.addArrangedSubview(commandBar)
@@ -198,16 +202,34 @@ class CommandBarDemoController: DemoController {
         refreshLeadingItemButton.addTarget(self, action: #selector(refreshDefaultLeadingBarItems), for: .touchUpInside)
         itemCustomizationContainer.addArrangedSubview(refreshLeadingItemButton)
 
-        let customizationStackView = UIStackView()
-        customizationStackView.axis = .horizontal
-        customizationStackView.alignment = .fill
-        customizationStackView.distribution = .fillProportionally
-        customizationStackView.addArrangedSubview(createLabelWithText("'+' Item Enabled"))
+        let resetScrollPositionButton = Button(style: .tertiaryOutline)
+        resetScrollPositionButton.setTitle("Reset Scroll Position", for: .normal)
+        resetScrollPositionButton.addTarget(self, action: #selector(resetScrollPosition), for: .touchUpInside)
+        itemCustomizationContainer.addArrangedSubview(resetScrollPositionButton)
+
+        let itemEnabledStackView = createHorizontalStackView()
+        itemEnabledStackView.addArrangedSubview(createLabelWithText("'+' Enabled"))
         let itemEnabledSwitch: UISwitch = UISwitch()
         itemEnabledSwitch.isOn = true
         itemEnabledSwitch.addTarget(self, action: #selector(itemEnabledValueChanged), for: .valueChanged)
-        customizationStackView.addArrangedSubview(itemEnabledSwitch)
-        itemCustomizationContainer.addArrangedSubview(customizationStackView)
+        itemEnabledStackView.addArrangedSubview(itemEnabledSwitch)
+        itemCustomizationContainer.addArrangedSubview(itemEnabledStackView)
+
+        let itemHiddenStackView = createHorizontalStackView()
+        itemHiddenStackView.addArrangedSubview(createLabelWithText("'+' Hidden"))
+        let itemHiddenSwitch: UISwitch = UISwitch()
+        itemHiddenSwitch.isOn = false
+        itemHiddenSwitch.addTarget(self, action: #selector(itemHiddenValueChanged), for: .valueChanged)
+        itemHiddenStackView.addArrangedSubview(itemHiddenSwitch)
+        itemCustomizationContainer.addArrangedSubview(itemHiddenStackView)
+
+        let commandBarDelegateEventAnimationView = createHorizontalStackView()
+        commandBarDelegateEventAnimationView.addArrangedSubview(createLabelWithText("Animate CommandBarDelegate Events"))
+        let commandBarDelegateEventAnimationSwitch: UISwitch = UISwitch()
+        commandBarDelegateEventAnimationSwitch.isOn = animateCommandBarDelegateEvents
+        commandBarDelegateEventAnimationSwitch.addTarget(self, action: #selector(animateCommandBarDelegateEventsValueChanged), for: .valueChanged)
+        commandBarDelegateEventAnimationView.addArrangedSubview(commandBarDelegateEventAnimationSwitch)
+        itemCustomizationContainer.addArrangedSubview(commandBarDelegateEventAnimationView)
 
         itemCustomizationContainer.addArrangedSubview(UIView()) //Spacer
 
@@ -334,12 +356,33 @@ class CommandBarDemoController: DemoController {
         }
     }
 
+    func createHorizontalStackView() -> UIStackView {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.alignment = .center
+        stackView.distribution = .fillProportionally
+        stackView.spacing = CommandBarDemoController.horizontalStackViewSpacing
+        return stackView
+    }
+
     @objc func itemEnabledValueChanged(sender: UISwitch!) {
         guard let item: CommandBarItem = defaultCommandBar?.itemGroups[0][0] else {
             return
         }
 
         item.isEnabled = sender.isOn
+    }
+
+    @objc func itemHiddenValueChanged(sender: UISwitch!) {
+        guard let item: CommandBarItem = defaultCommandBar?.itemGroups[0][0] else {
+            return
+        }
+
+        item.isHidden = sender.isOn
+    }
+
+    @objc func animateCommandBarDelegateEventsValueChanged(sender: UISwitch!) {
+        animateCommandBarDelegateEvents = sender.isOn
     }
 
     @objc func refreshDefaultBarItems(sender: UIButton!) {
@@ -362,5 +405,24 @@ class CommandBarDemoController: DemoController {
         defaultCommandBar?.leadingItemGroups = [[newItem(for: .keyboard)]]
     }
 
+    @objc func resetScrollPosition(sender: UIButton!) {
+        defaultCommandBar?.resetScrollPosition(true)
+    }
+
+    private static let horizontalStackViewSpacing: CGFloat = 16.0
     private static let verticalStackViewSpacing: CGFloat = 8.0
+}
+
+extension CommandBarDemoController: CommandBarDelegate {
+    func commandBarDidScroll(_ commandBar: CommandBar) {
+        if animateCommandBarDelegateEvents {
+            let originalBackgroundColor = commandBar.backgroundColor
+
+            UIView.animate(withDuration: 1.0, delay: 0.0, options: [.allowUserInteraction]) {
+                commandBar.backgroundColor = Colors.communicationBlue
+            } completion: { _ in
+                commandBar.backgroundColor = originalBackgroundColor
+            }
+        }
+    }
 }

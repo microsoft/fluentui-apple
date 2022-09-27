@@ -46,12 +46,6 @@ import UIKit
     var animationDurationForHide: TimeInterval { return Constants.animationDurationForHide }
     var animationDampingRatio: CGFloat { return isToast ? Constants.animationDampingRatioForToast : 1 }
 
-    var needsFullWidth: Bool { return !isToast }
-    var needsSeparator: Bool { return  self == .primaryOutlineBar }
-    var supportsTitle: Bool { return isToast }
-    var supportsImage: Bool { return isToast }
-    var shouldAlwaysShowActionButton: Bool { return isToast }
-
     private struct Constants {
         static let animationDurationForShowToast: TimeInterval = 0.6
         static let animationDurationForShowBar: TimeInterval = 0.3
@@ -70,90 +64,49 @@ open class NotificationTokens: ControlTokens {
     /// The background color of the notification
     open var backgroundColor: DynamicColor {
         switch style {
-        case .primaryToast:
-            return globalTokens.brandColors[.tint40]
+        case .primaryToast, .primaryBar:
+            return aliasTokens.colors[.brandBackground4]
         case .neutralToast:
-            return DynamicColor(light: ColorValue(0xF7F7F7),
-                                dark: ColorValue(0x393939))
-        case .primaryBar:
-            return DynamicColor(light: globalTokens.brandColors[.tint40].light,
-                                dark: globalTokens.brandColors[.tint10].dark)
+            return aliasTokens.colors[.background4]
         case .primaryOutlineBar:
-            return DynamicColor(light: ColorValue(0xFFFFFF),
-                                dark: ColorValue(0x393939))
+            return aliasTokens.colors[.background1]
         case .neutralBar:
-            return DynamicColor(light: ColorValue(0xDFDFDF),
-                                dark: ColorValue(0x393939))
+            return aliasTokens.colors[.background5]
         case .dangerToast:
-            return DynamicColor(light: ColorValue(0xFDF6F6),
-                                dark: ColorValue(0x3F1011))
+            return aliasTokens.sharedColors[.dangerBackground1]
         case .warningToast:
-            return DynamicColor(light: ColorValue(0xFFFBD6),
-                                dark: ColorValue(0x4C4400))
+            return aliasTokens.sharedColors[.warningBackground1]
         }
     }
 
     /// The color of the notification's foreground elements like text and icons
     open var foregroundColor: DynamicColor {
         switch style {
-        case .primaryToast:
-            return DynamicColor(light: globalTokens.brandColors[.shade10].light,
-                                dark: globalTokens.brandColors[.shade30].dark)
-        case .neutralToast:
-            return DynamicColor(light: ColorValue(0x393939),
-                                dark: ColorValue(0xF7F7F7))
-        case .primaryBar:
-            return DynamicColor(light: globalTokens.brandColors[.shade20].light,
-                                dark: ColorValue(0x000000))
+        case .primaryToast, .primaryBar:
+            return aliasTokens.colors[.brandForeground4]
+        case .neutralToast, .neutralBar:
+            return aliasTokens.colors[.foreground2]
         case .primaryOutlineBar:
-            return DynamicColor(light: globalTokens.brandColors[.primary].light,
-                                dark: ColorValue(0xF7F7F7))
-        case .neutralBar:
-            return DynamicColor(light: ColorValue(0x090909),
-                                dark: ColorValue(0xF7F7F7))
+            return aliasTokens.colors[.brandForeground1]
         case .dangerToast:
-            return DynamicColor(light: ColorValue(0xBC2F34),
-                                dark: ColorValue(0xDC5F63))
+            return aliasTokens.sharedColors[.dangerForeground1]
         case .warningToast:
-            return DynamicColor(light: ColorValue(0x4C4400),
-                                dark: ColorValue(0xFDEA3D))
+            return aliasTokens.sharedColors[.warningForeground1]
         }
     }
 
     /// The color of the notification's icon image
     open var imageColor: DynamicColor {
-        switch style {
-        case .primaryToast:
-            return DynamicColor(light: globalTokens.brandColors[.shade10].light,
-                                dark: globalTokens.brandColors[.shade30].dark)
-        case .neutralToast:
-            return DynamicColor(light: ColorValue(0x393939),
-                                dark: ColorValue(0xF7F7F7))
-        case .primaryBar:
-            return DynamicColor(light: globalTokens.brandColors[.shade20].light,
-                                dark: ColorValue(0x000000))
-        case .primaryOutlineBar:
-            return DynamicColor(light: globalTokens.brandColors[.primary].light,
-                                dark: ColorValue(0xF7F7F7))
-        case .neutralBar:
-            return DynamicColor(light: ColorValue(0x090909),
-                                dark: ColorValue(0xF7F7F7))
-        case .dangerToast:
-            return DynamicColor(light: ColorValue(0xBC2F34),
-                                dark: ColorValue(0xDC5F63))
-        case .warningToast:
-            return DynamicColor(light: ColorValue(0x4C4400),
-                                dark: ColorValue(0xFDEA3D))
-        }
+        return foregroundColor
     }
 
     /// The value for the corner radius of the frame of the notification
     open var cornerRadius: CGFloat {
         switch style.isToast {
         case true:
-            return globalTokens.borderRadius[.xLarge]
+            return GlobalTokens.borderRadius(.xLarge)
         case false:
-            return globalTokens.borderSize[.none]
+            return GlobalTokens.borderSize(.none)
         }
     }
 
@@ -161,26 +114,22 @@ open class NotificationTokens: ControlTokens {
     open var presentationOffset: CGFloat {
         switch style.isToast {
         case true:
-            return globalTokens.spacing[.medium]
+            return GlobalTokens.spacing(.medium)
         case false:
-            return globalTokens.spacing[.none]
+            return GlobalTokens.spacing(.none)
         }
     }
 
     /// The value for the bottom padding between the notification and its anchor view
-    open var bottomPresentationPadding: CGFloat { 20.0 }
+    open var bottomPresentationPadding: CGFloat { GlobalTokens.spacing(.medium) }
     /// The value for the horizontal padding between the elements within a notification and its frame
-    open var horizontalPadding: CGFloat { 19.0 }
-    /// The value for the vertical padding between the elements within a multi-line notification and its frame
-    open var verticalPadding: CGFloat { 14.0 }
-    /// The value for the horizontal padding between the elements within a single-line notification and its frame
-    open var verticalPaddingForOneLine: CGFloat { 18.0 }
+    open var horizontalPadding: CGFloat { GlobalTokens.spacing(.medium) }
+    /// The value for the vertical padding between the elements within a notification and its frame
+    open var verticalPadding: CGFloat { GlobalTokens.spacing(.small) }
     /// The value for the horizontal spacing between the elements within a notification
-    open var horizontalSpacing: CGFloat { 19.0 }
-    /// The value for the minimum height of a multi-line notification
-    open var minimumHeight: CGFloat { 64.0 }
-    /// The value for the minimum height of a single-line notification
-    open var minimumHeightForOneLine: CGFloat { 56.0 }
+    open var horizontalSpacing: CGFloat { GlobalTokens.spacing(.medium) }
+    /// The value for the minimum height of a notification
+    open var minimumHeight: CGFloat { 52.0 }
 
     /// The color of the outline around the frame of a notification
     open var outlineColor: DynamicColor {
@@ -188,12 +137,12 @@ open class NotificationTokens: ControlTokens {
         case .primaryToast, .neutralToast, .primaryBar, .neutralBar, .dangerToast, .warningToast:
             return DynamicColor(light: ColorValue.clear)
         case .primaryOutlineBar:
-            return aliasTokens.strokeColors[.neutral1]
+            return aliasTokens.colors[.stroke2]
         }
     }
 
     /// The width of the outline around the frame of a notification
-    open var outlineWidth: CGFloat { globalTokens.borderSize[.thin] }
+    open var outlineWidth: CGFloat { GlobalTokens.borderSize(.thin) }
 
     /// The color of the ambient shadow around a notification
     open var ambientShadowColor: DynamicColor {

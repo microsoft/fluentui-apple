@@ -21,6 +21,7 @@ class NotificationViewDemoController: DemoController {
         case primaryToastWithStrikethroughAttribute
         case neutralBarWithFontAttribute
         case neutralToastWithOverriddenTokens
+        case neutralToastWithGradientBackground
         case warningToastWithFlexibleWidth
 
         var displayText: String {
@@ -51,6 +52,8 @@ class NotificationViewDemoController: DemoController {
                 return "Neutral Bar with Font Attribute"
             case .neutralToastWithOverriddenTokens:
                 return "Neutral Toast With Overridden Tokens"
+            case .neutralToastWithGradientBackground:
+                return "Neutral Toast With Gradient Background"
             case .warningToastWithFlexibleWidth:
                 return "Warning Toast With Flexible Width"
             }
@@ -192,6 +195,23 @@ class NotificationViewDemoController: DemoController {
                 notification.hide()
             }
             return notification
+        case .neutralToastWithGradientBackground:
+            let notification = MSFNotification(style: .neutralToast)
+            notification.state.message = "The background of this notification has been customized with a gradient."
+            notification.state.image = UIImage(named: "play-in-circle-24x24")
+            // It's a lovely blue-to-pink gradient
+            let colors: [DynamicColor] = [DynamicColor(light: GlobalTokens.sharedColors(.pink, .tint50),
+                                                       dark: GlobalTokens.sharedColors(.pink, .shade40)),
+                                          DynamicColor(light: GlobalTokens.sharedColors(.cyan, .tint50),
+                                                       dark: GlobalTokens.sharedColors(.cyan, .shade40))]
+            notification.state.backgroundGradient = GradientInfo(colors: colors,
+                                                                 startPoint: .init(x: 0.0, y: 1.0),
+                                                                 endPoint: .init(x: 1.0, y: 0.0))
+            notification.state.actionButtonAction = { [weak self] in
+                self?.showMessage("`Dismiss` tapped")
+                notification.hide()
+            }
+            return notification
         case .warningToastWithFlexibleWidth:
             let notification = MSFNotification(style: .warningToast,
                                                isFlexibleWidthToast: true)
@@ -207,7 +227,7 @@ class NotificationViewDemoController: DemoController {
 
     private class NotificationOverrideTokens: NotificationTokens {
         override var imageColor: DynamicColor {
-            return DynamicColor(light: GlobalTokens().sharedColors[.orange][.primary])
+            return DynamicColor(light: GlobalTokens.sharedColors(.orange, .primary))
         }
 
         override var horizontalSpacing: CGFloat {
@@ -220,7 +240,7 @@ class NotificationViewDemoController: DemoController {
             preconditionFailure("showNotificationView is used for a button in the wrong container")
         }
 
-        createNotificationView(forVariant: variant).showNotification(in: view) { $0.hide(after: 3.0) }
+        createNotificationView(forVariant: variant).show(in: view) { $0.hide(after: 3.0) }
     }
 
     @objc private func showSwiftUIDemo() {

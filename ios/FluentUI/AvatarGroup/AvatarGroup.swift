@@ -182,7 +182,6 @@ public struct AvatarGroup: View, ConfigurableTokenizedControl {
                             })
                     }
                     .padding(.trailing, isStackStyle ? stackPadding : interspace)
-                    .animation(Animation.linear(duration: animationDuration))
                     .transition(AnyTransition.move(edge: .leading))
                 }
 
@@ -190,7 +189,6 @@ public struct AvatarGroup: View, ConfigurableTokenizedControl {
                     VStack {
                         overflowAvatar
                     }
-                    .animation(Animation.linear(duration: animationDuration))
                     .transition(AnyTransition.move(edge: .leading))
                 }
             }
@@ -213,8 +211,6 @@ public struct AvatarGroup: View, ConfigurableTokenizedControl {
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @Environment(\.layoutDirection) var layoutDirection: LayoutDirection
     @ObservedObject var state: MSFAvatarGroupStateImpl
-
-    private let animationDuration: CGFloat = 0.1
 
     private func createOverflow(count: Int) -> Avatar {
         var avatar = Avatar(style: .overflow, size: state.size)

@@ -7,17 +7,14 @@ import SwiftUI
 
 /// Base class that allows for customization of global, alias, and control tokens.
 @objc public class FluentTheme: NSObject, ObservableObject {
-    /// Initializes and returns a new `FluentTheme`, with optional custom global and alias tokens.
+    /// Initializes and returns a new `FluentTheme`.
     ///
-    /// - Parameters globalTokens: An optional customized instance of `GlobalTokens`.
-    /// - Parameters aliasTokens: An optional customized instance of `AliasTokens`.
+    /// Once created, a `FluentTheme` can have its `AliasTokens` customized by setting custom values on the
+    ///  `aliasTokens` property. Control tokens can be customized via `register(controlType:tokens:) `.
+    ///  See the descriptions of those two for additional information.
     ///
-    /// - Returns: An initialized `FluentTheme` instance that leverages the aforementioned global and alias token overrides.
-    public init(globalTokens: GlobalTokens? = nil, aliasTokens: AliasTokens? = nil) {
-        self.globalTokens = globalTokens ?? .init()
-        self.aliasTokens = aliasTokens ?? .init()
-        self.aliasTokens.globalTokens = self.globalTokens
-    }
+    /// - Returns: An initialized `FluentTheme` instance.
+    public override init() { }
 
     /// Registers a custom set of `ControlTokens` for a given `TokenizedControl`.
     ///
@@ -50,10 +47,10 @@ import SwiftUI
         }
     }
 
-    static var shared: FluentTheme = .init()
+    /// The associated `AliasTokens` for this theme.
+    public let aliasTokens: AliasTokens = .init()
 
-    public private(set) var globalTokens: GlobalTokens
-    public private(set) var aliasTokens: AliasTokens
+    static var shared: FluentTheme = .init()
 
     private func tokenKey<T: TokenizedControl>(_ controlType: T.Type) -> String {
         return "\(controlType)"
@@ -90,7 +87,7 @@ extension UIWindow: FluentThemeable {
     }
 }
 
-@objc extension UIView {
+@objc public extension UIView {
     /// Returns the current view's window's `FluentTheme`, or the default `FluentTheme` if no window yet exists.
     var fluentTheme: FluentTheme {
         return self.window?.fluentTheme ?? FluentThemeKey.defaultValue

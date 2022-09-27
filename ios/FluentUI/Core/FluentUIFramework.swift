@@ -61,6 +61,20 @@ public class FluentUIFramework: NSObject {
         initializeAppearance(with: Colors.primary)
     }
 
+    enum NavigationBarStyle {
+        case normal
+        case dateTimePicker
+
+        func backgroundColor(fluentTheme: FluentTheme) -> UIColor {
+            switch self {
+            case .normal:
+                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background3])
+            case .dateTimePicker:
+                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background2])
+            }
+        }
+    }
+
     @objc public static func initializeAppearance(with primaryColor: UIColor, whenContainedInInstancesOf containerTypes: [UIAppearanceContainer.Type]? = nil) {
         let navigationBarAppearance = containerTypes != nil ? UINavigationBar.appearance(whenContainedInInstancesOf: containerTypes!) : UINavigationBar.appearance()
         initializeUINavigationBarAppearance(navigationBarAppearance)
@@ -91,13 +105,17 @@ public class FluentUIFramework: NSObject {
         progressViewAppearance.trackTintColor = Colors.Progress.trackTint
     }
 
-    static func initializeUINavigationBarAppearance(_ navigationBar: UINavigationBar, traits: UITraitCollection? = nil) {
+    static func initializeUINavigationBarAppearance(_ navigationBar: UINavigationBar, traits: UITraitCollection? = nil, navigationBarStyle: NavigationBarStyle = .normal, fluentTheme: FluentTheme? = nil) {
         navigationBar.isTranslucent = false
 
         let standardAppearance = navigationBar.standardAppearance
         navigationBar.tintColor = Colors.NavigationBar.tint
 
-        navigationBar.standardAppearance.backgroundColor = Colors.NavigationBar.background
+        if let fluentTheme = fluentTheme {
+            navigationBar.standardAppearance.backgroundColor = navigationBarStyle.backgroundColor(fluentTheme: fluentTheme)
+        } else {
+            navigationBar.standardAppearance.backgroundColor = Colors.NavigationBar.background
+        }
 
         let traits = traits ?? navigationBar.traitCollection
         // Removing built-in shadow for Dark Mode
@@ -107,6 +125,10 @@ public class FluentUIFramework: NSObject {
         titleAttributes[.font] = Fonts.headline
         titleAttributes[.foregroundColor] = Colors.NavigationBar.title
         standardAppearance.titleTextAttributes = titleAttributes
+
+        if navigationBarStyle == .dateTimePicker {
+            standardAppearance.shadowColor = .clear
+        }
 
         navigationBar.backIndicatorImage = UIImage.staticImageNamed("back-24x24")
         navigationBar.backIndicatorTransitionMaskImage = navigationBar.backIndicatorImage
