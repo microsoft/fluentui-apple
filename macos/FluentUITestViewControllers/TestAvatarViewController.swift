@@ -59,7 +59,8 @@ class TestAvatarViewController: NSViewController {
 			NSButton(title: "Update Avatar Images", target: self, action: #selector(updateAvatarImages)),
 			NSButton(title: "Update Avatar Background Colors", target: self, action: #selector(updateAvatarBackgroundColors)),
 			NSButton(title: "Repurpose Avatar View", target: self, action: #selector(reuseAvatarView)),
-			NSButton(title: "Show custom border", target: self, action: #selector(showCustomBorder))
+			NSButton(title: "Show custom border", target: self, action: #selector(showCustomBorder)),
+			NSButton(title: "Show Avatar in popover", target: self, action: #selector(showPopover))
 			])
 
 		containerView.orientation = .vertical
@@ -141,10 +142,35 @@ class TestAvatarViewController: NSViewController {
 		}
 	}
 
+	@objc private func showPopover(_ sender: NSButton) {
+		let popover = NSPopover()
+		popover.behavior = .transient
+		popover.contentViewController = CustomAvatarViewController()
+		popover.show(relativeTo: sender.bounds, of: sender, preferredEdge: .maxY)
+	}
+
 	static let testDataIndexForImages: Int = 1
 	static let testDataIndexForBackroundColor: Int = 2
 	static let testDataIndexForReuse: Int = 3
 	static let testDataIndexForBorderColor: Int = 4
 	static let personaMale: String = "persona-male"
 	static let personaFemale: String = "persona-female"
+}
+
+class CustomAvatarViewController: NSViewController {
+	override func loadView() {
+		let containerView = NSStackView(frame: .zero)
+		containerView.addView(NSView(), in: .center)
+		containerView.addView(NSTextField(labelWithString: "Avatar with custom background color"), in: .center)
+		let avatarView = AvatarView(avatarSize: 25,
+									contactName: "Ted Randall",
+									contactEmail: "ted.randall@example.com")
+		avatarView.avatarBackgroundColor = .systemRed
+
+		containerView.addView(avatarView, in: .center)
+		containerView.addView(NSView(), in: .center)
+		containerView.orientation = .vertical
+		containerView.distribution = .gravityAreas
+		view = containerView
+	}
 }

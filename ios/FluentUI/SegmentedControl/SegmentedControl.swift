@@ -384,7 +384,7 @@ open class SegmentedControl: UIControl {
     open override func layoutSubviews() {
         super.layoutSubviews()
 
-        guard let screen = window?.windowScene?.screen, !isAnimating else {
+        guard !isAnimating else {
             return
         }
 
@@ -392,10 +392,10 @@ open class SegmentedControl: UIControl {
         var leftOffset: CGFloat = 0
         for (index, button) in buttons.enumerated() {
             if shouldSetEqualWidthForSegments {
-                rightOffset = screen.roundToDevicePixels(CGFloat(index + 1) / CGFloat(buttons.count) * pillContainerView.frame.width)
+                rightOffset = ceil(CGFloat(index + 1) / CGFloat(buttons.count) * pillContainerView.frame.width)
             } else {
                 let maxSize = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
-                rightOffset = leftOffset + screen.roundToDevicePixels(button.sizeThatFits(maxSize).width)
+                rightOffset = leftOffset + ceil(button.sizeThatFits(maxSize).width)
             }
             button.frame = CGRect(x: leftOffset, y: 0, width: rightOffset - leftOffset, height: pillContainerView.frame.height)
             leftOffset = rightOffset
@@ -421,8 +421,7 @@ open class SegmentedControl: UIControl {
     }
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
-        guard let window = window,
-              let screen = window.windowScene?.screen else {
+        guard let window = window else {
             return CGSize.zero
         }
         var maxButtonHeight: CGFloat = 0.0
@@ -431,11 +430,11 @@ open class SegmentedControl: UIControl {
 
         for button in buttons {
             let size = button.sizeThatFits(size)
-            maxButtonHeight = max(maxButtonHeight, screen.roundToDevicePixels(size.height))
+            maxButtonHeight = max(maxButtonHeight, ceil(size.height))
             if shouldSetEqualWidthForSegments {
-                maxButtonWidth = max(maxButtonWidth, screen.roundToDevicePixels(size.width))
+                maxButtonWidth = max(maxButtonWidth, ceil(size.width))
             } else {
-                buttonsWidth += screen.roundToDevicePixels(size.width)
+                buttonsWidth += ceil(size.width)
             }
         }
 

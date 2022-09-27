@@ -285,9 +285,9 @@ public class HUD: NSObject {
     @objc public weak var delegate: HUDDelegate?
 
     /// Optional instance of custom `HeadsUpDisplayTokens` to overrided the design tokens.
-    public var overrideTokens: HeadsUpDisplayTokens? {
+    public var overrideTokens: [HeadsUpDisplayTokenSet.Tokens: ControlTokenValue]? {
         didSet {
-            presentedHUDView?.state.overrideTokens = overrideTokens
+            presentedHUDView?.tokenSet.replaceAllOverrides(with: overrideTokens)
         }
     }
 
@@ -367,7 +367,7 @@ public class HUD: NSObject {
             oldValue?.removeFromSuperview()
             if let presentedHUDView = presentedHUDView {
                 presentedHUDView.translatesAutoresizingMaskIntoConstraints = false
-                presentedHUDView.state.overrideTokens = overrideTokens
+                presentedHUDView.tokenSet.replaceAllOverrides(with: overrideTokens)
                 containerView.addSubview(presentedHUDView)
             }
         }

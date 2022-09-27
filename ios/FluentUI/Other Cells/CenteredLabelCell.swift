@@ -4,6 +4,7 @@
 //
 
 import UIKit
+import Combine
 
 // MARK: CenteredLabelCell
 
@@ -11,39 +12,22 @@ import UIKit
 open class CenteredLabelCell: UITableViewCell, TokenizedControlInternal {
     public static let identifier: String = "CenteredLabelCell"
 
-    // MARK: - CenteredLabelCell TokenizedControl
-    @objc public var centeredLabelCellOverrideTokens: TableViewCellTokens? {
-        didSet {
-            self.overrideTokens = centeredLabelCellOverrideTokens
-        }
-    }
-
-    let defaultTokens: TableViewCellTokens = .init()
-    var tokens: TableViewCellTokens = .init()
-    /// Design token set for this control, to use in place of the control's default Fluent tokens.
-    var overrideTokens: TableViewCellTokens? {
-        didSet {
-            updateTokens()
-        }
-    }
-
-    public func overrideTokens(_ tokens: TableViewCellTokens?) -> Self {
-        overrideTokens = tokens
-        return self
-    }
+    public typealias TokenSetKeyType = TableViewCellTokenSet.Tokens
+    public var tokenSet: TableViewCellTokenSet
+    var tokenSetSink: AnyCancellable?
 
     @objc private func themeDidChange(_ notification: Notification) {
-        guard let window = window, window.isEqual(notification.object) else {
+        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
             return
         }
-        updateTokens()
+        tokenSet.update(fluentTheme)
+        updateAppearance()
     }
 
-    private func updateTokens() {
-        tokens = resolvedTokens
+    private func updateAppearance() {
         setupBackgroundColors()
-        label.font = UIFont.fluent(tokens.titleFont)
-        label.textColor = UIColor(dynamicColor: tokens.mainBrandColor)
+        label.font = UIFont.fluent(tokenSet[.titleFont].fontInfo)
+        label.textColor = UIColor(dynamicColor: tokenSet[.mainBrandColor].dynamicColor)
     }
 
     // Public to be able to change style without wrapping every property
@@ -64,6 +48,7 @@ open class CenteredLabelCell: UITableViewCell, TokenizedControlInternal {
     }
 
     public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        tokenSet = TableViewCellTokenSet(customViewSize: { .default })
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         NotificationCenter.default.addObserver(self,
@@ -73,6 +58,11 @@ open class CenteredLabelCell: UITableViewCell, TokenizedControlInternal {
 
         contentView.addSubview(label)
         setupBackgroundColors()
+
+        // Update appearance whenever `tokenSet` changes.
+        tokenSetSink = tokenSet.sinkChanges { [weak self] in
+            self?.updateAppearance()
+        }
     }
 
     @objc public required init(coder aDecoder: NSCoder) {
@@ -84,8 +74,8 @@ open class CenteredLabelCell: UITableViewCell, TokenizedControlInternal {
     /// - Parameter text: The text to be displayed
     @objc open func setup(text: String) {
         label.text = text
-        label.font = UIFont.fluent(tokens.titleFont)
-        label.textColor = UIColor(dynamicColor: tokens.mainBrandColor)
+        label.font = UIFont.fluent(tokenSet[.titleFont].fontInfo)
+        label.textColor = UIColor(dynamicColor: tokenSet[.mainBrandColor].dynamicColor)
         setNeedsLayout()
     }
 
@@ -98,7 +88,8 @@ open class CenteredLabelCell: UITableViewCell, TokenizedControlInternal {
 
         let labelWidthArea = maxWidth - layoutMargins.left - layoutMargins.right
         let labelFittingSize = label.sizeThatFits(CGSize(width: labelWidthArea, height: CGFloat.greatestFiniteMagnitude))
-        let height = max(tokens.paddingVertical * 2 + ceil(labelFittingSize.height), tokens.minHeight)
+        let height = max(TableViewCellTokenSet.paddingVertical * 2 + ceil(labelFittingSize.height),
+                         TableViewCellTokenSet.oneLineMinHeight)
         return CGSize(width: maxWidth, height: height)
     }
 
@@ -111,7 +102,9 @@ open class CenteredLabelCell: UITableViewCell, TokenizedControlInternal {
 
     open override func didMoveToWindow() {
         super.didMoveToWindow()
-        updateTokens()
+
+        tokenSet.update(fluentTheme)
+        updateAppearance()
     }
 
     open override func setHighlighted(_ highlighted: Bool, animated: Bool) { }
@@ -121,7 +114,7 @@ open class CenteredLabelCell: UITableViewCell, TokenizedControlInternal {
     private func setupBackgroundColors() {
         if backgroundStyleType != .custom {
             var customBackgroundConfig = UIBackgroundConfiguration.clear()
-            customBackgroundConfig.backgroundColor = backgroundStyleType.defaultColor(tokens: tokens)
+            customBackgroundConfig.backgroundColor = backgroundStyleType.defaultColor(tokenSet: tokenSet)
             backgroundConfiguration = customBackgroundConfig
         }
     }

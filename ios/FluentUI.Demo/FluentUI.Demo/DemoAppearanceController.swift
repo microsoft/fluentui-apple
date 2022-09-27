@@ -29,7 +29,7 @@ protocol DemoAppearanceDelegate: NSObjectProtocol {
     /// Returns whether "theme-wide override" tokens are currently registered for the given control.
     ///
     /// This method, when implemented, should query the current `FluentTheme` using its
-    /// `tokenOverride(for:)` API, and return whether a token creation function is returned.
+    /// `tokens(for:)` API, and return whether a token creation function is returned.
     func isThemeWideOverrideApplied() -> Bool
 }
 

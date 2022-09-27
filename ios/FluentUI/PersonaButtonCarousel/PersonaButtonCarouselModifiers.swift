@@ -6,9 +6,4 @@
 import SwiftUI
 
 public extension PersonaButtonCarousel {
-    /// Provides a custom design token set to be used when drawing this control.
-    func overrideTokens(_ tokens: PersonaButtonCarouselTokens?) -> PersonaButtonCarousel {
-        state.overrideTokens = tokens
-        return self
-    }
 }

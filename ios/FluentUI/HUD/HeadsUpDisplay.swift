@@ -36,18 +36,18 @@ public protocol MSFHUDState {
 
     /// The `HUDType` enum value of the Heads-up display.
     var type: HUDType { get set }
-
-    /// Design token set for this control, to use in place of the control's default Fluent tokens.
-    var overrideTokens: HeadsUpDisplayTokens? { get set }
 }
 
 /// View that represents the Heads-up display.
-public struct HeadsUpDisplay: View, ConfigurableTokenizedControl {
+public struct HeadsUpDisplay: View, TokenizedControlView {
+    public typealias TokenSetKeyType = HeadsUpDisplayTokenSet.Tokens
+    @ObservedObject public var tokenSet: HeadsUpDisplayTokenSet
+
     public var body: some View {
         let label = state.label ?? ""
         let type = state.type
-        let verticalPadding = tokens.verticalPadding
-        let horizontalPadding = tokens.horizontalPadding
+        let verticalPadding = HeadsUpDisplayTokenSet.verticalPadding
+        let horizontalPadding = HeadsUpDisplayTokenSet.horizontalPadding
 
         HStack(alignment: .center) {
             VStack {
@@ -55,7 +55,7 @@ public struct HeadsUpDisplay: View, ConfigurableTokenizedControl {
                 case .activity:
                     ActivityIndicator(size: .xLarge)
                         .isAnimating(true)
-                        .color(UIColor(dynamicColor: tokens.activityIndicatorColor))
+                        .color(UIColor(dynamicColor: tokenSet[.activityIndicatorColor].dynamicColor))
                 case .custom, .failure, .success:
                     let image: UIImage = {
                         switch type {
@@ -71,32 +71,32 @@ public struct HeadsUpDisplay: View, ConfigurableTokenizedControl {
                     }()
 
                     Image(uiImage: image)
-                        .foregroundColor(Color(dynamicColor: tokens.activityIndicatorColor))
+                        .foregroundColor(Color(dynamicColor: tokenSet[.activityIndicatorColor].dynamicColor))
                 }
 
                 if !label.isEmpty {
                     Spacer()
                         .frame(height: verticalPadding)
                     Text(label)
-                        .foregroundColor(Color(dynamicColor: tokens.labelColor))
+                        .foregroundColor(Color(dynamicColor: tokenSet[.labelColor].dynamicColor))
                         .lineLimit(2)
                         .multilineTextAlignment(.center)
                         .fixedSize(horizontal: false, vertical: true)
                 }
             }
         }
-        .padding(EdgeInsets(top: label.isEmpty ? tokens.verticalPadding : tokens.topPadding,
+        .padding(EdgeInsets(top: label.isEmpty ? HeadsUpDisplayTokenSet.verticalPadding : HeadsUpDisplayTokenSet.topPadding,
                             leading: horizontalPadding,
-                            bottom: label.isEmpty ? tokens.verticalPadding : tokens.bottomPadding,
+                            bottom: label.isEmpty ? HeadsUpDisplayTokenSet.verticalPadding : HeadsUpDisplayTokenSet.bottomPadding,
                             trailing: horizontalPadding))
-        .squareShaped(minSize: tokens.minSize,
-                      maxSize: tokens.maxSize)
+        .squareShaped(minSize: HeadsUpDisplayTokenSet.minSize,
+                      maxSize: HeadsUpDisplayTokenSet.maxSize)
         .background(Rectangle()
-                        .fill(Color(dynamicColor: tokens.backgroundColor))
+                        .fill(Color(dynamicColor: tokenSet[.backgroundColor].dynamicColor))
                         .frame(maxWidth: .infinity,
                                maxHeight: .infinity,
                                alignment: .center)
-                        .cornerRadius(tokens.cornerRadius)
+                        .cornerRadius(tokenSet[.cornerRadius].float)
         )
         .contentShape(Rectangle())
         .onChange(of: isPresented, perform: { present in
@@ -114,6 +114,7 @@ public struct HeadsUpDisplay: View, ConfigurableTokenizedControl {
         .onTapGesture {
             state.tapAction?()
         }
+        .fluentTokens(tokenSet, fluentTheme)
     }
 
     /// Initializes the SwiftUI View for the Heads-up display.
@@ -130,28 +131,25 @@ public struct HeadsUpDisplay: View, ConfigurableTokenizedControl {
         stateImpl.label = label
         stateImpl.tapAction = tapAction
         state = stateImpl
+        tokenSet = HeadsUpDisplayTokenSet()
 
         if let isPresented = isPresented {
             _isPresented = isPresented
-            opacity = Constants.opacityDismissed
+            opacity = HeadsUpDisplayTokenSet.opacityDismissed
             presentationScaleFactor = HUD.Constants.showAnimationScale
         } else {
             _isPresented = .constant(true)
-            opacity = Constants.opacityPresented
-            presentationScaleFactor = Constants.presentationScaleFactorDefault
+            opacity = HeadsUpDisplayTokenSet.opacityPresented
+            presentationScaleFactor = HeadsUpDisplayTokenSet.presentationScaleFactorDefault
         }
     }
 
-    let defaultTokens: HeadsUpDisplayTokens = .init()
-    var tokens: HeadsUpDisplayTokens {
-        return resolvedTokens
-    }
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @Binding var isPresented: Bool
     @ObservedObject var state: MSFHUDStateImpl
 
     private func resetScaleFactor() {
-        guard presentationScaleFactor != Constants.presentationScaleFactorDefault else {
+        guard presentationScaleFactor != HeadsUpDisplayTokenSet.presentationScaleFactorDefault else {
             return
         }
 
@@ -160,36 +158,26 @@ public struct HeadsUpDisplay: View, ConfigurableTokenizedControl {
 
     private func presentAnimated() {
         withAnimation(.linear(duration: HUD.Constants.showAnimationDuration)) {
-            opacity = Constants.opacityPresented
-            presentationScaleFactor = Constants.presentationScaleFactorDefault
+            opacity = HeadsUpDisplayTokenSet.opacityPresented
+            presentationScaleFactor = HeadsUpDisplayTokenSet.presentationScaleFactorDefault
         }
     }
 
     private func dismissAnimated() {
         withAnimation(.linear(duration: HUD.Constants.hideAnimationDuration)) {
-            opacity = Constants.opacityDismissed
+            opacity = HeadsUpDisplayTokenSet.opacityDismissed
             presentationScaleFactor = HUD.Constants.hideAnimationScale
         }
     }
 
-    @State private var opacity: Double = Constants.opacityPresented
-    @State private var presentationScaleFactor: CGFloat = Constants.presentationScaleFactorDefault
-
-    private struct Constants {
-        static let presentationScaleFactorDefault: CGFloat = 1
-        static let opacityPresented: Double = 1.0
-        static let opacityDismissed: Double = 0.0
-    }
+    @State private var opacity: Double = HeadsUpDisplayTokenSet.opacityPresented
+    @State private var presentationScaleFactor: CGFloat = HeadsUpDisplayTokenSet.presentationScaleFactorDefault
 }
 
 /// Properties available to customize the state of the HUD
-class MSFHUDStateImpl: NSObject,
-                       ObservableObject,
-                       Identifiable,
-                       ControlConfiguration,
+class MSFHUDStateImpl: ControlState,
                        MSFHUDState {
     @Published var label: String?
-    @Published var overrideTokens: HeadsUpDisplayTokens?
     var tapAction: (() -> Void)?
     @Published var type: HUDType
 

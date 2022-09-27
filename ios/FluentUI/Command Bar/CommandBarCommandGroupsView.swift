@@ -97,7 +97,10 @@ class CommandBarCommandGroupsView: UIView {
 
     private func createButton(forItem item: CommandBarItem, isPersistSelection: Bool = true) -> CommandBarButton {
         let button = CommandBarButton(item: item, isPersistSelection: isPersistSelection)
-        button.addTarget(self, action: #selector(handleCommandButtonTapped(_:)), for: .touchUpInside)
+
+        if item.shouldUseItemTappedHandler {
+            button.addTarget(self, action: #selector(handleCommandButtonTapped(_:)), for: .touchUpInside)
+        }
 
         return button
     }
@@ -108,7 +111,7 @@ class CommandBarCommandGroupsView: UIView {
     }
 
     private struct LayoutConstants {
-        static let buttonGroupSpacing: CGFloat = 16
+        static let buttonGroupSpacing: CGFloat = 8.0
         static let insets = UIEdgeInsets(top: 8.0,
                                          left: 8.0,
                                          bottom: 8.0,
