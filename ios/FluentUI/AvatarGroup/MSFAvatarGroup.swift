@@ -18,6 +18,7 @@ import SwiftUI
         let avatarGroup = AvatarGroup(style: style,
                                      size: size)
         state = avatarGroup.state
+        tokenSet = avatarGroup.tokenSet
         super.init(AnyView(avatarGroup))
     }
 
@@ -27,4 +28,7 @@ import SwiftUI
 
     /// The object that groups properties that allow control over the AvatarGroup appearance.
     @objc public let state: MSFAvatarGroupState
+
+    /// Access to the control's `ControlTokenSet` for reading default values and providing overrides.
+    public let tokenSet: AvatarGroupTokenSet
 }

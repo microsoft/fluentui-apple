@@ -68,7 +68,7 @@ class CalendarViewWeekdayHeadingView: UIView {
 
         let paddingTop = (traitCollection.verticalSizeClass == .regular && headerStyle == .dark) ? Constants.Dark.paddingTop : 0.0
 
-        let labelWidth = UIScreen.main.roundToDevicePixels(bounds.size.width / 7.0)
+        let labelWidth = ceil(bounds.size.width / 7.0)
         let labelHeight = bounds.size.height - paddingTop
 
         var left: CGFloat = 0.0

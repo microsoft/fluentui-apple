@@ -50,6 +50,7 @@ struct AttributedText: UIViewRepresentable {
         label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
+        label.adjustsFontForContentSizeCategory = true
         return label
     }
 

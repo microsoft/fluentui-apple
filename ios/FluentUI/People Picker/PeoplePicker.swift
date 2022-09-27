@@ -210,12 +210,12 @@ open class PeoplePicker: BadgeField {
     }
 
     private func layoutPersonaSuggestions() {
-        if !isShowingPersonaSuggestions {
+        guard let currentWindow = window, isShowingPersonaSuggestions else {
             return
         }
 
         let position = superview?.convert(frame.origin, to: nil) ?? .zero
-        let windowSize = window?.bounds.size ?? UIScreen.main.bounds.size
+        let windowSize = currentWindow.bounds.size
 
         let containingViewController = findContainingViewController()
         let containingViewFrame = containingViewController?.view.frame ?? CGRect(origin: .zero, size: windowSize)
@@ -224,7 +224,7 @@ open class PeoplePicker: BadgeField {
         let personaSuggestionsY: CGFloat
         let personaSuggestionsHeight: CGFloat
         let separatorY: CGFloat
-        let statusBarHeight = window?.safeAreaInsets.top ?? 0
+        let statusBarHeight = currentWindow.safeAreaInsets.top
         // If the space below people picker to the keyboard is larger than the space above minus the status bar
         // then position the suggestions list below the people picker, otherwise position above
         if windowSize.height - (position.y + frame.height) - keyboardHeight > position.y - statusBarHeight {

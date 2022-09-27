@@ -16,8 +16,8 @@ class LargeTitleView: UIView {
     private struct Constants {
         static let horizontalSpacing: CGFloat = 10
 
-        static let compactAvatarSize: MSFAvatarSize = .small
-        static let avatarSize: MSFAvatarSize = .medium
+        static let compactAvatarSize: MSFAvatarSize = .size24
+        static let avatarSize: MSFAvatarSize = .size32
 
         // Once we are iOS 14 minimum, we can use Fonts.largeTitle.withSize() function instead
         static let compactTitleFont = UIFont.systemFont(ofSize: 26, weight: .bold)

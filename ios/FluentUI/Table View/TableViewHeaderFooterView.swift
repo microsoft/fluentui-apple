@@ -383,9 +383,6 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
             titleView.accessibilityTraits.insert(.header)
         case .footer:
             titleView.accessibilityTraits.remove(.header)
-            // Bug in iOS - need to manually refresh VoiceOver text for accessibilityTraits
-            titleView.isAccessibilityElement = false
-            titleView.isAccessibilityElement = true
         }
 
         accessoryButton = !accessoryButtonTitle.isEmpty ? createAccessoryButton(withTitle: accessoryButtonTitle) : nil
@@ -546,7 +543,6 @@ private class TableViewHeaderFooterTitleView: UITextView {
         isEditable = false
         isScrollEnabled = false
         clipsToBounds = false    // to avoid clipping of "deep-touch" UI for links
-        isAccessibilityElement = true
         self.textContainer.lineBreakMode = .byTruncatingTail
         self.textContainer.lineFragmentPadding = 0
         textContainerInset = .zero

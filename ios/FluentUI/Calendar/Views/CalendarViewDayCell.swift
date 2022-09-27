@@ -45,7 +45,7 @@ let calendarViewDayCellVisualStateTransitionDuration: TimeInterval = 0.3
 
 class CalendarViewDayCell: UICollectionViewCell {
     struct Constants {
-        static let borderWidth: CGFloat = UIScreen.main.devicePixel
+        static let borderWidth: CGFloat = 0.5
         static let dotDiameter: CGFloat = 4.0
         static let fadedVisualStateAlphaMultiplier: CGFloat = 0.2
     }

@@ -16,35 +16,22 @@ import SwiftUI
     /// - Returns: An initialized `FluentTheme` instance.
     public override init() { }
 
-    /// Registers a custom set of `ControlTokens` for a given `TokenizedControl`.
+    /// Registers a custom set of `ControlTokenValue` instances for a given `ControlTokenSet`.
     ///
     /// - Parameters:
-    ///   - controlType: The control type to use custom tokens on.
-    ///   - tokens: A closure that returns a custom set of tokens.
-    public func register<T: TokenizedControl>(controlType: T.Type, tokens: (() -> T.TokenType)?) {
-        controlTokens[tokenKey(controlType)] = tokens
+    ///   - tokenSetType: The token set type to register custom tokens for.
+    ///   - tokens: A custom set of tokens to register.
+    public func register<T: TokenSetKey>(tokenSetType: ControlTokenSet<T>.Type, tokenSet: [T: ControlTokenValue]?) {
+        controlTokenSets[tokenKey(tokenSetType)] = tokenSet
     }
 
-    /// Returns the specified `ControlTokens` generator for a given `TokenizedControl`, if a lookup function has been registered.
+    /// Returns the `ControlTokenValue` array for a given `TokenizedControl`, if any overrides have been registered.
     ///
-    /// - Parameter controlType: The control type to fetch the token generator for.
+    /// - Parameter tokenSetType: The token set type to fetch the token overrides for.
     ///
-    /// - Returns: A `ControlTokens` generator for the given control, or `nil` if no lookup function has been registered.
-    public func tokenOverride<T: TokenizedControl>(for controlType: T.Type) -> (() -> T.TokenType)? {
-        return controlTokens[tokenKey(controlType)] as? (() -> T.TokenType)
-    }
-
-    /// Returns a custom `ControlTokens` instance for a given `TokenizedControl`, if a lookup function has been registered.
-    ///
-    /// - Parameter controlType: The control type to fetch tokens for.
-    ///
-    /// - Returns: A `ControlTokens` instance for the given control, or `nil` if no lookup function has been registered.
-    func tokens<T: TokenizedControl>(for controlType: T.Type) -> T.TokenType? {
-        if let lookup = controlTokens[tokenKey(controlType)] as? (() -> T.TokenType) {
-            return lookup()
-        } else {
-            return nil
-        }
+    /// - Returns: An array of `ControlTokenValue` instances for the given control, or `nil` if no custom tokens have been registered.
+    public func tokens<T: TokenSetKey>(for tokenSetType: ControlTokenSet<T>.Type) -> [T: ControlTokenValue]? {
+        return controlTokenSets[tokenKey(tokenSetType)] as? [T: ControlTokenValue]
     }
 
     /// The associated `AliasTokens` for this theme.
@@ -52,11 +39,11 @@ import SwiftUI
 
     static var shared: FluentTheme = .init()
 
-    private func tokenKey<T: TokenizedControl>(_ controlType: T.Type) -> String {
-        return "\(controlType)"
+    private func tokenKey<T: TokenSetKey>(_ tokenSetType: ControlTokenSet<T>.Type) -> String {
+        return "\(tokenSetType)"
     }
 
-    private var controlTokens: [String: Any] = [:]
+    private var controlTokenSets: [String: Any] = [:]
 }
 
 // MARK: - FluentThemeable
@@ -70,27 +57,32 @@ public extension Notification.Name {
     static let didChangeTheme = Notification.Name("FluentUI.stylesheet.theme")
 }
 
-extension UIWindow: FluentThemeable {
+@objc extension UIView: FluentThemeable {
     private struct Keys {
         static var fluentTheme: String = "fluentTheme_key"
+        static var cachedFluentTheme: String = "cachedFluentTheme_key"
     }
 
-    /// The custom `FluentTheme` to apply to this window.
-    public override var fluentTheme: FluentTheme {
+    /// The custom `FluentTheme` to apply to this view.
+    public var fluentTheme: FluentTheme {
         get {
-            return objc_getAssociatedObject(self, &Keys.fluentTheme) as? FluentTheme ?? FluentThemeKey.defaultValue
+            var optionalView: UIView? = self
+            while let view = optionalView {
+                // If we successfully find a theme, return it.
+                if let theme = objc_getAssociatedObject(view, &Keys.fluentTheme) as? FluentTheme {
+                    return theme
+                } else {
+                    optionalView = view.superview
+                }
+            }
+
+            // No custom themes anywhere, so return the default theme
+            return FluentTheme.shared
         }
         set {
             objc_setAssociatedObject(self, &Keys.fluentTheme, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             NotificationCenter.default.post(name: .didChangeTheme, object: self)
         }
-    }
-}
-
-@objc public extension UIView {
-    /// Returns the current view's window's `FluentTheme`, or the default `FluentTheme` if no window yet exists.
-    var fluentTheme: FluentTheme {
-        return self.window?.fluentTheme ?? FluentThemeKey.defaultValue
     }
 }
 

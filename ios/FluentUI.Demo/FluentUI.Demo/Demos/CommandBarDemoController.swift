@@ -32,6 +32,8 @@ class CommandBarDemoController: DemoController {
 
         case textStyle
 
+        case customView
+
         case disabledText
 
         var iconImage: UIImage? {
@@ -68,7 +70,7 @@ class CommandBarDemoController: DemoController {
                 return UIImage(named: "link24Regular")
             case .keyboard:
                 return UIImage(named: "keyboardDock24Regular")
-            case .textStyle, .disabledText:
+            case .textStyle, .disabledText, .customView:
                 return nil
             }
         }
@@ -99,7 +101,7 @@ class CommandBarDemoController: DemoController {
 
         var isPersistSelection: Bool {
             switch self {
-            case .add, .mention, .calendar, .arrowUndo, .arrowRedo, .copy, .delete, .link, .keyboard, .textStyle, .disabledText:
+            case .add, .mention, .calendar, .arrowUndo, .arrowRedo, .copy, .delete, .link, .keyboard, .textStyle, .disabledText, .customView:
                 return false
             case .textBold, .textItalic, .textUnderline, .textStrikethrough, .checklist, .bulletList, .numberList:
                 return true
@@ -292,6 +294,9 @@ class CommandBarDemoController: DemoController {
                 .bulletList,
                 .numberList,
                 .link
+            ],
+            [
+                .customView
             ]
         ]
 
@@ -321,7 +326,7 @@ class CommandBarDemoController: DemoController {
     }
 
     func newItem(for command: Command, isEnabled: Bool = true, isSelected: Bool = false) -> CommandBarItem {
-        CommandBarItem(
+        let commandBarItem = CommandBarItem(
             iconImage: command.iconImage,
             title: command.title,
             titleFont: command.titleFont,
@@ -332,6 +337,16 @@ class CommandBarDemoController: DemoController {
             },
             accessibilityHint: "sample accessibility hint"
         )
+
+        if command == .customView {
+            commandBarItem.customControlView = { () -> UIView in
+                let label = self.createLabelWithText("Custom View")
+                label.translatesAutoresizingMaskIntoConstraints = false
+                return label
+            }
+        }
+
+        return commandBarItem
     }
 
     func handleCommandItemTapped(command: Command, item: CommandBarItem) {

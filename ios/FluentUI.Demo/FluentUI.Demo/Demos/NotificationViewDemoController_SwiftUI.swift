@@ -71,9 +71,11 @@ struct NotificationDemoView: View {
                                        trailingImageAccessibilityLabel: trailingImageLabel,
                                        actionButtonTitle: actionButtonTitle,
                                        actionButtonAction: actionButtonAction,
-                                       messageButtonAction: messageButtonAction)
+                                       showDefaultDismissActionButton: showDefaultDismissActionButton,
+                                       messageButtonAction: messageButtonAction,
+                                       showFromBottom: showFromBottom)
                     .backgroundGradient(showBackgroundGradient ? backgroundGradient : nil)
-                    .overrideTokens($overrideTokens.wrappedValue ? NotificationOverrideTokens() : nil)
+                    .overrideTokens($overrideTokens.wrappedValue ? notificationOverrideTokens : nil)
                 }
                 .frame(maxWidth: .infinity, maxHeight: 150, alignment: .center)
                 .alert(isPresented: $showAlert, content: {
@@ -181,28 +183,36 @@ struct NotificationDemoView: View {
                              messageButtonAction: messageButtonAction,
                              showFromBottom: showFromBottom)
             .backgroundGradient(showBackgroundGradient ? backgroundGradient : nil)
-            .overrideTokens($overrideTokens.wrappedValue ? NotificationOverrideTokens() : nil)
+            .overrideTokens($overrideTokens.wrappedValue ? notificationOverrideTokens : nil)
         }
     }
 
-    private var backgroundGradient: GradientInfo {
+    private var backgroundGradient: LinearGradientInfo {
         // It's a lovely blue-to-pink gradient
         let colors: [DynamicColor] = [DynamicColor(light: GlobalTokens.sharedColors(.pink, .tint50),
                                                    dark: GlobalTokens.sharedColors(.pink, .shade40)),
                                       DynamicColor(light: GlobalTokens.sharedColors(.cyan, .tint50),
                                                    dark: GlobalTokens.sharedColors(.cyan, .shade40))]
-        return GradientInfo(colors: colors,
-                            startPoint: .init(x: 0.0, y: 1.0),
-                            endPoint: .init(x: 1.0, y: 0.0))
+        return LinearGradientInfo(colors: colors,
+                                  startPoint: .init(x: 0.0, y: 1.0),
+                                  endPoint: .init(x: 1.0, y: 0.0))
     }
 
-    private class NotificationOverrideTokens: NotificationTokens {
-        override var imageColor: DynamicColor {
-            return DynamicColor(light: GlobalTokens.sharedColors(.orange, .primary))
-        }
-
-        override var horizontalSpacing: CGFloat {
-            return 5.0
-        }
+    private var notificationOverrideTokens: [NotificationTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .imageColor: .dynamicColor {
+                return DynamicColor(light: GlobalTokens.sharedColors(.orange, .primary))
+            },
+            .shadow: .shadowInfo {
+                return ShadowInfo(colorOne: DynamicColor(light: GlobalTokens.sharedColors(.hotPink, .primary)),
+                                  blurOne: 10.0,
+                                  xOne: 10.0,
+                                  yOne: 10.0,
+                                  colorTwo: DynamicColor(light: GlobalTokens.sharedColors(.teal, .primary)),
+                                  blurTwo: 100.0,
+                                  xTwo: -10.0,
+                                  yTwo: -10.0)
+            }
+        ]
     }
 }
