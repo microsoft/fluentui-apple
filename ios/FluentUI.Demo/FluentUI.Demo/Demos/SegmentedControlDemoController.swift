@@ -69,9 +69,9 @@ class SegmentedControlDemoController: DemoController {
 
         let backgroundView = UIView()
         if style == .primaryPill {
-            backgroundView.backgroundColor = Colors.navigationBarBackground
+            backgroundView.backgroundColor = NavigationBar.Style.system.backgroundColor(fluentTheme: view.fluentTheme)
         } else {
-            backgroundView.backgroundColor = UIColor(light: Colors.communicationBlue, dark: Colors.navigationBarBackground)
+            backgroundView.backgroundColor = NavigationBar.Style.primary.backgroundColor(fluentTheme: view.fluentTheme)
         }
 
         backgroundView.translatesAutoresizingMaskIntoConstraints = false

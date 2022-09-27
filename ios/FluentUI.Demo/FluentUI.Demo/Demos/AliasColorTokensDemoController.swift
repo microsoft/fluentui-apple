@@ -100,6 +100,7 @@ class AliasColorTokensDemoController: DemoTableViewController {
              .brandBackgroundInverted,
              .brandBackgroundInvertedDisabled,
              .foregroundInverted1,
+             .foregroundLightStatic,
              .brandForeground3:
             return UIColor(dynamicColor: aliasTokens.colors[.foregroundContrast])
         case .foregroundContrast,
@@ -117,6 +118,8 @@ class AliasColorTokensDemoController: DemoTableViewController {
              .brandBackground2Selected,
              .brandBackground3,
              .strokeAccessible,
+             .backgroundDarkStatic,
+             .foregroundDarkStatic,
              .background5BrandFilledSelected:
             return UIColor(dynamicColor: aliasTokens.colors[.foregroundInverted1])
         }
@@ -178,7 +181,8 @@ private enum AliasColorTokensDemoSection: CaseIterable {
                     .backgroundDisabled,
                     .canvasBackground,
                     .stencil1,
-                    .stencil2]
+                    .stencil2,
+                    .backgroundDarkStatic]
         case .brandBackgrounds:
             return [.brandBackground1,
                     .brandBackground1Pressed,
@@ -206,7 +210,9 @@ private enum AliasColorTokensDemoSection: CaseIterable {
                     .foregroundContrast,
                     .foregroundOnColor,
                     .foregroundInverted1,
-                    .foregroundInverted2]
+                    .foregroundInverted2,
+                    .foregroundLightStatic,
+                    .foregroundDarkStatic]
         case .brandForegrounds:
             return [.brandForeground1,
                     .brandForeground1Pressed,
@@ -372,6 +378,12 @@ private extension AliasTokens.ColorsTokens {
             return "Brand Stroke 1 Pressed"
         case .brandStroke1Selected:
             return "Brand Stroke 1 Selected"
+        case .foregroundDarkStatic:
+            return "Foreground Dark Static"
+        case .foregroundLightStatic:
+            return "Foreground Light Static"
+        case .backgroundDarkStatic:
+            return "Background Dark Static"
         }
     }
 }

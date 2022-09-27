@@ -80,7 +80,7 @@ open class NavigationBar: UINavigationBar {
             }
         }
 
-        func backgroundColor(fluentTheme: FluentTheme, customColor: UIColor?) -> UIColor {
+        public func backgroundColor(fluentTheme: FluentTheme, customColor: UIColor? = nil) -> UIColor {
             let defaultColor = UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.brandBackground1].light, dark: fluentTheme.aliasTokens.colors[.background3].dark))
             switch self {
             case .primary, .default:

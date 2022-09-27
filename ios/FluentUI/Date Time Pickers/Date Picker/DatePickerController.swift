@@ -141,6 +141,16 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
         if !mode.singleSelection && rangePresentation == .tabbed {
             initSegmentedControl()
         }
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        updateBackgroundColor()
+        updateBarButtonColors()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -168,11 +178,15 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
 
         if let segmentedControl = segmentedControl {
             view.addSubview(segmentedControl)
-            view.backgroundColor = Colors.Toolbar.background
         }
+        updateBackgroundColor()
         view.addSubview(calendarView)
 
         initNavigationBar()
+    }
+
+    private func updateBackgroundColor() {
+        view.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background2])
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -198,9 +212,12 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if let window = view.window {
-            navigationItem.rightBarButtonItem?.tintColor = UIColor(light: Colors.primary(for: window), dark: Colors.textDominant)
-        }
+        updateBarButtonColors()
+    }
+
+    private func updateBarButtonColors() {
+        navigationItem.rightBarButtonItem?.tintColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.brandForeground1])
+        navigationItem.leftBarButtonItem?.tintColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foreground2])
     }
 
     public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -480,16 +497,6 @@ extension DatePickerController: CalendarViewLayoutDelegate {
 
 extension DatePickerController: CalendarViewStyleDataSource {
     func calendarViewDataSource(_ dataSource: CalendarViewDataSource, textStyleForDayWithStart dayStartDate: Date, end: Date, dayStartComponents: DateComponents, todayComponents: DateComponents) -> CalendarViewDayCellTextStyle {
-
-        if dayStartComponents.dateIsTodayOrLater(todayDateComponents: todayComponents) {
-            return .primary
-        } else {
-            return .secondary
-        }
-    }
-
-    func calendarViewDataSource(_ dataSource: CalendarViewDataSource, backgroundStyleForDayWithStart dayStartDate: Date, end: Date, dayStartComponents: DateComponents, todayComponents: DateComponents
-    ) -> CalendarViewDayCellBackgroundStyle {
 
         if dayStartComponents.dateIsTodayOrLater(todayDateComponents: todayComponents) {
             return .primary
