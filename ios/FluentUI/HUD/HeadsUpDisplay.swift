@@ -55,7 +55,7 @@ public struct HeadsUpDisplay: View, ConfigurableTokenizedControl {
                 case .activity:
                     ActivityIndicator(size: .xLarge)
                         .isAnimating(true)
-                        .color(UIColor(dynamicColor: tokens.activityIndicatorColor))
+                        .color(tokens.activityIndicatorColor)
                 case .custom, .failure, .success:
                     let image: UIImage = {
                         switch type {
@@ -71,7 +71,7 @@ public struct HeadsUpDisplay: View, ConfigurableTokenizedControl {
                     }()
 
                     Image(uiImage: image)
-                        .foregroundColor(Color(dynamicColor: tokens.activityIndicatorColor))
+                        .foregroundColor(Color(tokens.activityIndicatorColor))
                 }
 
                 if !label.isEmpty {

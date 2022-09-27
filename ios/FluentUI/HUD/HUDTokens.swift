@@ -10,13 +10,13 @@ import UIKit
 open class HeadsUpDisplayTokens: ControlTokens {
 
     /// The color of the squared background of the Heads-up display.
-    open var backgroundColor: DynamicColor { aliasTokens.colors[.backgroundInverted] }
+    open var backgroundColor: DynamicColor { aliasTokens.colors[.backgroundDarkStatic] }
 
     /// The color of the activity indicator presented by the Heads-up display.
-    open var activityIndicatorColor: DynamicColor { aliasTokens.colors[.foreground2] }
+    open var activityIndicatorColor: UIColor { .init(light: UIColor(dynamicColor: aliasTokens.colors[.foregroundLightStatic]).withAlphaComponent(0.4), dark: UIColor(dynamicColor: aliasTokens.colors[.foregroundLightStatic]).withAlphaComponent(0.6)) }
 
     /// The color of the label presented by the Heads-up display.
-    open var labelColor: DynamicColor { aliasTokens.colors[.foregroundInverted1] }
+    open var labelColor: DynamicColor { aliasTokens.colors[.foregroundLightStatic] }
 
     /// The corner radius of the squared background of the Heads-up display.
     open var cornerRadius: CGFloat {
