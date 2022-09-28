@@ -351,7 +351,6 @@ open class Button: UIButton {
         return style.isFilledStyle ? titleWithFilledBackground : titleDisabled
     }
 
-    // private lazy var background: UIColor = .clear
     private lazy var backgroundFilledDisabled: UIColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background5]) // surfaceQuaternary
     private lazy var borderDisabled: UIColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.strokeFocus1]) // surfaceQuaternary
     private lazy var titleDisabled: UIColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundDisabled1]) // textDisabled
