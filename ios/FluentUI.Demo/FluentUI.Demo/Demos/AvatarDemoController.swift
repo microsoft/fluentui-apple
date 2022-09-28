@@ -416,27 +416,30 @@ class AvatarDemoController: DemoTableViewController {
     private enum AvatarDemoSection: CaseIterable {
         case swiftUI
         case settings
-        case xxlarge
-        case xlarge
-        case large
-        case medium
-        case small
-        case xsmall
+        case size72
+        case size56
+        case size40
+        case size32
+        case size24
+        case size20
+        case size16
 
         var avatarSize: MSFAvatarSize {
             switch self {
-            case .xxlarge:
-                return .xxlarge
-            case .xlarge:
-                return .xlarge
-            case .large:
-                return .large
-            case .medium:
-                return .medium
-            case .small:
-                return .small
-            case .xsmall:
-                return .xsmall
+            case .size72:
+                return .size72
+            case .size56:
+                return .size56
+            case .size40:
+                return .size40
+            case .size32:
+                return .size32
+            case .size24:
+                return .size24
+            case .size20:
+                return .size20
+            case .size16:
+                return .size16
             case .swiftUI, .settings:
                 preconditionFailure("Settings rows should not display an Avatar")
             }
@@ -452,18 +455,20 @@ class AvatarDemoController: DemoTableViewController {
                 return "SwiftUI"
             case .settings:
                 return "Settings"
-            case .xxlarge:
-                return "ExtraExtraLarge"
-            case .xlarge:
-                return "ExtraLarge"
-            case .large:
-                return "Large"
-            case .medium:
-                return "Medium"
-            case .small:
-                return "Small"
-            case .xsmall:
-                return "ExtraSmall"
+            case .size72:
+                return "Size 72"
+            case .size56:
+                return "Size 56"
+            case .size40:
+                return "Size 40"
+            case .size32:
+                return "Size 32"
+            case .size24:
+                return "Size 24"
+            case .size20:
+                return "Size 20"
+            case .size16:
+                return "Size 16"
             }
         }
 
@@ -481,12 +486,13 @@ class AvatarDemoController: DemoTableViewController {
                         .ring,
                         .ringInnerGap,
                         .imageBasedRingColor]
-            case .xxlarge,
-                 .xlarge,
-                 .large,
-                 .medium,
-                 .small,
-                 .xsmall:
+            case .size72,
+                 .size56,
+                 .size40,
+                 .size32,
+                 .size24,
+                 .size20,
+                 .size16:
                 return [.defaultWithImage,
                         .defaultWithInitials,
                         .defaultWithFallback,

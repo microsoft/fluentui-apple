@@ -10,7 +10,7 @@ import UIKit
 @objc(MSFPersonaCell)
 open class PersonaCell: TableViewCell {
     private struct Constants {
-        static let avatarSize: MSFAvatarSize = .large
+        static let avatarSize: MSFAvatarSize = .size40
     }
 
     open override var customViewSize: MSFTableViewCellCustomViewSize { get { return .medium } set { } }

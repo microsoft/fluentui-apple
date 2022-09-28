@@ -6,9 +6,15 @@
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-    let window = UIWindow.init(frame: UIScreen.main.bounds)
+    var window: UIWindow?
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        DemoListViewController.init(nibName: nil, bundle: nil).addDemoListTo(window: self.window)
-        self.window.windowScene = scene as? UIWindowScene
+        guard let windowScene = (scene as? UIWindowScene) else {
+            return
+        }
+
+        window = UIWindow(windowScene: windowScene)
+        if let window = window {
+            DemoListViewController.init(nibName: nil, bundle: nil).addDemoListTo(window: window)
+        }
     }
 }

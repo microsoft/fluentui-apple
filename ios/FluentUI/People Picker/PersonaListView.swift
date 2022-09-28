@@ -210,14 +210,12 @@ extension PersonaListView: UITableViewDataSource {
                 guard let cell = dequeueReusableCell(withIdentifier: ActivityIndicatorCell.identifier, for: indexPath) as? ActivityIndicatorCell else {
                     return UITableViewCell()
                 }
-                cell.hideSystemSeparator()
                 return cell
             case .displayingSearchResults:
                 guard let cell = dequeueReusableCell(withIdentifier: CenteredLabelCell.identifier, for: indexPath) as? CenteredLabelCell else {
                     return UITableViewCell()
                 }
                 cell.setup(text: searchResultText)
-                cell.hideSystemSeparator()
                 return cell
             case .idle:
                 guard let cell = dequeueReusableCell(withIdentifier: ActionsCell.identifier, for: indexPath) as? ActionsCell else {
@@ -226,7 +224,6 @@ extension PersonaListView: UITableViewDataSource {
                 cell.setup(action1Title: "MSPersonaListView.SearchDirectory".localized)
                 cell.action1Button.addTarget(self, action: #selector(searchDirectoryButtonTapped), for: .touchUpInside)
                 cell.accessibilityTraits = .button
-                cell.hideSystemSeparator()
                 return cell
             }
         }

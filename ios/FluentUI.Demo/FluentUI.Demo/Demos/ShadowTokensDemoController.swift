@@ -68,6 +68,8 @@ class ShadowTokensDemoController: DemoController {
 private extension AliasTokens.ShadowTokens {
     var title: String {
         switch self {
+        case .clear:
+            return "Clear"
         case .shadow02:
             return "Shadow02"
         case .shadow04:
