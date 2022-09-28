@@ -104,11 +104,11 @@ public enum ButtonStyle: Int, CaseIterable {
 
 public extension Colors {
     struct Button {
-        public static var background: UIColor = .clear
-        public static var backgroundFilledDisabled: UIColor = surfaceQuaternary
-        public static var borderDisabled: UIColor = surfaceQuaternary
-        public static var titleDisabled: UIColor = textDisabled
-        public static var titleWithFilledBackground: UIColor = textOnAccent
+        // public static var background: UIColor = .clear
+        // public static var backgroundFilledDisabled: UIColor = surfaceQuaternary
+        // public static var borderDisabled: UIColor = surfaceQuaternary
+        // public static var titleDisabled: UIColor = textDisabled
+        // public static var titleWithFilledBackground: UIColor = textOnAccent
     }
 }
 
@@ -119,7 +119,7 @@ public extension Colors {
 @objc(MSFButton)
 open class Button: UIButton {
     private struct Constants {
-        static let borderWidth: CGFloat = 1
+        static let borderWidth: CGFloat = 3
     }
 
     @objc open var style: ButtonStyle = .secondaryOutline {
@@ -333,7 +333,7 @@ open class Button: UIButton {
 
     private func normalTitleAndImageColor(for window: UIWindow) -> UIColor {
         if style.isFilledStyle {
-            return Colors.Button.titleWithFilledBackground
+            return titleWithFilledBackground
         }
 
         return style.isDangerStyle ? Colors.Palette.dangerPrimary.color : Colors.primary(for: window)
@@ -341,15 +341,22 @@ open class Button: UIButton {
 
     private func highlightedTitleAndImageColor(for window: UIWindow) -> UIColor {
         if style.isFilledStyle {
-            return Colors.Button.titleWithFilledBackground
+            return titleWithFilledBackground
         }
 
         return style.isDangerStyle ? Colors.Palette.dangerTint20.color : Colors.primaryTint20(for: window)
     }
 
     private func disabledTitleAndImageColor(for window: UIWindow) -> UIColor {
-        return style.isFilledStyle ? Colors.Button.titleWithFilledBackground : Colors.Button.titleDisabled
+        return style.isFilledStyle ? titleWithFilledBackground : titleDisabled
     }
+
+    // private lazy var background: UIColor = .clear
+    private lazy var backgroundFilledDisabled: UIColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background5]) // surfaceQuaternary
+    private lazy var borderDisabled: UIColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.strokeFocus1]) // surfaceQuaternary
+    private lazy var titleDisabled: UIColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundDisabled1]) // textDisabled
+
+    private lazy var titleWithFilledBackground: UIColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundOnColor])
 
     private var normalImageTintColor: UIColor?
     private var highlightedImageTintColor: UIColor?
@@ -410,7 +417,7 @@ open class Button: UIButton {
         let backgroundColor: UIColor
 
         if !isEnabled {
-            backgroundColor = style.isFilledStyle ? Colors.Button.backgroundFilledDisabled : Colors.Button.background
+            backgroundColor = style.isFilledStyle ? backgroundFilledDisabled : .clear
         } else {
             switch style {
             case .primaryFilled:
@@ -428,7 +435,7 @@ open class Button: UIButton {
                     .secondaryOutline,
                     .tertiaryOutline,
                     .borderless:
-                backgroundColor = Colors.Button.background
+                backgroundColor = .clear
             }
         }
 
@@ -444,7 +451,7 @@ open class Button: UIButton {
             let borderColor: UIColor
 
             if !isEnabled {
-                borderColor = Colors.Button.borderDisabled
+                borderColor = borderDisabled
             } else if isHighlighted {
                 borderColor = style.isDangerStyle ? Colors.Palette.dangerTint30.color : Colors.primaryTint30(for: window)
             } else {
