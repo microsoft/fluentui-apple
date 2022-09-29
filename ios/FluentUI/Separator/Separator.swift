@@ -55,6 +55,15 @@ open class Separator: UIView {
         }
         isAccessibilityElement = false
         isUserInteractionEnabled = false
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        super.backgroundColor = Separator.separatorDefaultColor(fluentTheme: fluentTheme)
     }
 
     open override var intrinsicContentSize: CGSize {
