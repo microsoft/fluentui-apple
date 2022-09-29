@@ -41,7 +41,7 @@ class CalendarViewWeekdayHeadingView: UIView {
     }
 
     private func updateBackgroundColor() {
-        backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background2])
+        backgroundColor = UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.background2].light, dark: fluentTheme.aliasTokens.colors[.background2].dark))
     }
 
     required init?(coder aDecoder: NSCoder) {
