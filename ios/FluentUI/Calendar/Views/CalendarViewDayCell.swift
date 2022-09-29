@@ -200,7 +200,7 @@ class CalendarViewDayCell: UICollectionViewCell {
         case .primary:
             dateLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
         case .secondary:
-            dateLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground3])
+            dateLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
         }
 
         switch backgroundStyle {
