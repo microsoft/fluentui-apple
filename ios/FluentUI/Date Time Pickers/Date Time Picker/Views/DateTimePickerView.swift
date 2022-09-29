@@ -89,6 +89,9 @@ class DateTimePickerView: UIControl {
     }
 
     @objc private func themeDidChange(_ notification: Notification) {
+        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
+            return
+        }
         updateBackgroundColor()
         updateGradientLayerColors(gradientLayer: gradientLayer)
     }
