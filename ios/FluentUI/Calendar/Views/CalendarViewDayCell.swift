@@ -203,7 +203,12 @@ class CalendarViewDayCell: UICollectionViewCell {
             dateLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground3])
         }
 
-        contentView.backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background2])
+        switch backgroundStyle {
+        case .primary:
+            contentView.backgroundColor = UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.background2].light, dark: fluentTheme.aliasTokens.colors[.background2].dark))
+        case .secondary:
+            contentView.backgroundColor = UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.canvasBackground].light, dark: fluentTheme.aliasTokens.colors[.canvasBackground].dark))
+        }
 
         if isHighlighted || isSelected {
             dotView.isHidden = true
