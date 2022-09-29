@@ -75,6 +75,6 @@ class DateTimePickerViewComponentCell: UITableViewCell {
     }
 
     private func updateTextLabelColor() {
-        textLabel?.textColor = emphasized ? UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1]) : UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground3])
+        textLabel?.textColor = emphasized ? UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1]) : UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
     }
 }
