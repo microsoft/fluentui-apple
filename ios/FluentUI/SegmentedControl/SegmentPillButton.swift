@@ -80,7 +80,13 @@ class SegmentPillButton: UIButton {
     override func layoutSubviews() {
         super.layoutSubviews()
         updateUnreadDot()
+        guard let updateMaskedContentConstraints = updateMaskedContentConstraints else {
+            return
+        }
+        updateMaskedContentConstraints()
     }
+
+    var updateMaskedContentConstraints: (() -> Void)?
 
     private let item: SegmentItem
 
