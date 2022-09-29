@@ -5,17 +5,6 @@
 
 import UIKit
 
-// MARK: Separator Colors
-
-public extension Colors {
-    struct Separator {
-        public static var `default`: UIColor = dividerOnPrimary
-        public static var shadow: UIColor = dividerOnSecondary
-    }
-    // Objective-C support
-    @objc static var separatorDefault: UIColor { return Separator.default }
-}
-
 // MARK: - SeparatorOrientation
 
 @objc(MSFSeparatorOrientation)
@@ -49,8 +38,12 @@ open class Separator: UIView {
     */
     @objc public static var thickness: CGFloat { return 0.5 }
 
+    @objc public static func separatorDefaultColor(fluentTheme: FluentTheme) -> UIColor {
+        return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.stroke2])
+    }
+
     private func initialize(orientation: SeparatorOrientation) {
-        super.backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.stroke2])
+        super.backgroundColor = Separator.separatorDefaultColor(fluentTheme: fluentTheme)
         self.orientation = orientation
         switch orientation {
         case .horizontal:

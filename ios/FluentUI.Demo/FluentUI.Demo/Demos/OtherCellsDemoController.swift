@@ -28,7 +28,7 @@ class OtherCellsDemoController: DemoController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.backgroundColor = TableViewCell.tableBackgroundGroupedColor
-        tableView.separatorColor = Colors.Separator.default
+        tableView.separatorColor = Separator.separatorDefaultColor(fluentTheme: view.fluentTheme)
         tableView.tableFooterView = UIView(frame: .zero)
         view.addSubview(tableView)
     }
