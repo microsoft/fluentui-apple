@@ -39,7 +39,7 @@ class CalendarViewDayTodayCell: CalendarViewDayCell {
     }
 
     private func configureBackgroundColor() {
-        contentView.backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background2])
+        contentView.backgroundColor = UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.background2].light, dark: fluentTheme.aliasTokens.colors[.background2].dark))
     }
 
     private func configureFontColor() {
