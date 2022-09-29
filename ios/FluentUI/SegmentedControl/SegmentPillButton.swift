@@ -86,6 +86,9 @@ class SegmentPillButton: UIButton {
         updateMaskedContentConstraints()
     }
 
+    /// UIButton.Configuration is doing something causing the layout of the label/icon
+    /// and masked content to render incorrectly, so we need to update the constraints
+    /// on the masked content when we layoutSubviews
     var updateMaskedContentConstraints: (() -> Void)?
 
     private let item: SegmentItem
