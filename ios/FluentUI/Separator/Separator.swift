@@ -16,23 +16,6 @@ public extension Colors {
     @objc static var separatorDefault: UIColor { return Separator.default }
 }
 
-// MARK: - SeparatorStyle
-
-@objc(MSFSeparatorStyle)
-public enum SeparatorStyle: Int {
-    case `default`
-    case shadow
-
-    fileprivate var color: UIColor {
-        switch self {
-        case .default:
-            return Colors.Separator.default
-        case .shadow:
-            return Colors.Separator.shadow
-        }
-    }
-}
-
 // MARK: - SeparatorOrientation
 
 @objc(MSFSeparatorOrientation)
@@ -49,12 +32,12 @@ open class Separator: UIView {
 
     @objc public override init(frame: CGRect) {
         super.init(frame: frame)
-        initialize(style: .default, orientation: .horizontal)
+        initialize(orientation: .horizontal)
     }
 
-    @objc public init(style: SeparatorStyle = .default, orientation: SeparatorOrientation = .horizontal) {
+    @objc public init(orientation: SeparatorOrientation = .horizontal) {
         super.init(frame: .zero)
-        initialize(style: style, orientation: orientation)
+        initialize(orientation: orientation)
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -66,8 +49,8 @@ open class Separator: UIView {
     */
     @objc public static var thickness: CGFloat { return 0.5 }
 
-    private func initialize(style: SeparatorStyle, orientation: SeparatorOrientation) {
-        super.backgroundColor = style.color
+    private func initialize(orientation: SeparatorOrientation) {
+        super.backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.stroke2])
         self.orientation = orientation
         switch orientation {
         case .horizontal:
