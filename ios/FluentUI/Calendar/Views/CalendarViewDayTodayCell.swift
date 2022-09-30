@@ -25,8 +25,16 @@ class CalendarViewDayTodayCell: CalendarViewDayCell {
     }
 
     // Only supports indicator levels from 0...4
-    override func setup(textStyle: CalendarViewDayCellTextStyle, backgroundStyle: CalendarViewDayCellBackgroundStyle, selectionStyle: CalendarViewDayCellSelectionStyle, dateLabelText: String, indicatorLevel: Int) {
-        super.setup(textStyle: textStyle, backgroundStyle: backgroundStyle, selectionStyle: selectionStyle, dateLabelText: dateLabelText, indicatorLevel: indicatorLevel)
+    override func setup(textStyle: CalendarViewDayCellTextStyle,
+                        backgroundStyle: CalendarViewDayCellBackgroundStyle,
+                        selectionStyle: CalendarViewDayCellSelectionStyle,
+                        dateLabelText: String,
+                        indicatorLevel: Int) {
+        super.setup(textStyle: textStyle,
+                    backgroundStyle: backgroundStyle,
+                    selectionStyle: selectionStyle,
+                    dateLabelText: dateLabelText,
+                    indicatorLevel: indicatorLevel)
 
         configureBackgroundColor()
         configureFontColor()

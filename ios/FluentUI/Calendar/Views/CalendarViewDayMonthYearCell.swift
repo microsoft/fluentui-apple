@@ -44,11 +44,20 @@ class CalendarViewDayMonthYearCell: CalendarViewDayMonthCell {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
-    override func setup(textStyle: CalendarViewDayCellTextStyle, backgroundStyle: CalendarViewDayCellBackgroundStyle, selectionStyle: CalendarViewDayCellSelectionStyle, dateLabelText: String, indicatorLevel: Int) {
+    override func setup(textStyle: CalendarViewDayCellTextStyle,
+                        backgroundStyle: CalendarViewDayCellBackgroundStyle,
+                        selectionStyle: CalendarViewDayCellSelectionStyle,
+                        dateLabelText: String,
+                        indicatorLevel: Int) {
         preconditionFailure("Use setup(textStyle, backgroundStyle, selectionStyle, monthLabelText, dateLabelText, yearLabelText, indicatorLevel) instead")
     }
 
-    override func setup(textStyle: CalendarViewDayCellTextStyle, backgroundStyle: CalendarViewDayCellBackgroundStyle, selectionStyle: CalendarViewDayCellSelectionStyle, monthLabelText: String, dateLabelText: String, indicatorLevel: Int) {
+    override func setup(textStyle: CalendarViewDayCellTextStyle,
+                        backgroundStyle: CalendarViewDayCellBackgroundStyle,
+                        selectionStyle: CalendarViewDayCellSelectionStyle,
+                        monthLabelText: String,
+                        dateLabelText: String,
+                        indicatorLevel: Int) {
         preconditionFailure("Use setup(textStyle, backgroundStyle, selectionStyle, monthLabelText, dateLabelText, yearLabelText, indicatorLevel) instead")
     }
 

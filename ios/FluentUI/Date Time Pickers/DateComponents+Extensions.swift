@@ -8,7 +8,7 @@ import Foundation
 extension DateComponents {
     /// Determines if a set of date components including month, and year is equal to the current month or not.
     ///
-    /// - Parameter todayDateComponents: A set of date components including day, month, and year
+    /// - Parameter todayDateComponents: A set of date components including day, month, and year.
     /// - Returns: A bool describing if self is equal to the current month or not.
     func dateIsInCurrentMonth(todayDateComponents: DateComponents) -> Bool {
         guard let year = self.year,
@@ -19,11 +19,7 @@ extension DateComponents {
                 return false
         }
 
-        if year == todayYear, month == todayMonth {
-            // Current month
-            return true
-        }
-        // Past or future months
-        return false
+        // True for current month, False for past and future months.
+        return year == todayYear && month == todayMonth
     }
 }
