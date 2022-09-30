@@ -60,6 +60,11 @@ extension OtherCellsDemoController: DemoAppearanceDelegate {
                 // "Charcoal"
                 return DynamicColor(light: GlobalTokens.sharedColors(.charcoal, .tint50),
                                     dark: GlobalTokens.sharedColors(.charcoal, .shade40))
+            },
+            .booleanCellBrandColor: .dynamicColor {
+                // "Charcoal"
+                return DynamicColor(light: GlobalTokens.sharedColors(.charcoal, .tint50),
+                                    dark: GlobalTokens.sharedColors(.charcoal, .shade40))
             }
         ]
     }
