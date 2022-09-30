@@ -523,6 +523,6 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
     }
 
     private func updateStackDistribution() {
-        stackView.distribution = shouldSetEqualWidthForSegments ? .fillEqually : .fill
+        stackView.distribution = shouldSetEqualWidthForSegments ? .fillEqually : .fillProportionally
     }
 }
