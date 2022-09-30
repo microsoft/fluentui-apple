@@ -26,9 +26,9 @@ open class ActionsCell: UITableViewCell, TokenizedControlInternal {
         func highlightedTextColor(tokenSet: TableViewCellTokenSet) -> UIColor {
             switch self {
             case .regular:
-                return UIColor(dynamicColor: tokenSet[.mainBrandColor].dynamicColor).withAlphaComponent(0.4)
+                return UIColor(dynamicColor: tokenSet[.brandTextColor].dynamicColor).withAlphaComponent(0.4)
             case .destructive:
-                return UIColor(dynamicColor: tokenSet[.destructiveTextColor].dynamicColor).withAlphaComponent(0.4)
+                return UIColor(dynamicColor: tokenSet[.dangerTextColor].dynamicColor).withAlphaComponent(0.4)
             case .communication:
                 return UIColor(dynamicColor: tokenSet[.communicationTextColor].dynamicColor).withAlphaComponent(0.4)
             }
@@ -37,9 +37,9 @@ open class ActionsCell: UITableViewCell, TokenizedControlInternal {
         func textColor(tokenSet: TableViewCellTokenSet) -> UIColor {
             switch self {
             case .regular:
-                return UIColor(dynamicColor: tokenSet[.mainBrandColor].dynamicColor)
+                return UIColor(dynamicColor: tokenSet[.brandTextColor].dynamicColor)
             case .destructive:
-                return UIColor(dynamicColor: tokenSet[.destructiveTextColor].dynamicColor)
+                return UIColor(dynamicColor: tokenSet[.dangerTextColor].dynamicColor)
             case .communication:
                 return UIColor(dynamicColor: tokenSet[.communicationTextColor].dynamicColor)
             }

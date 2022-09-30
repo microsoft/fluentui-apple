@@ -56,7 +56,7 @@ extension OtherCellsDemoController: DemoAppearanceDelegate {
     // MARK: - Custom tokens
     private var themeWideOverrideTableViewCellTokenSet: [TableViewCellTokenSet.Tokens: ControlTokenValue] {
         return [
-            .mainBrandColor: .dynamicColor {
+            .brandTextColor: .dynamicColor {
                 // "Charcoal"
                 return DynamicColor(light: GlobalTokens.sharedColors(.charcoal, .tint50),
                                     dark: GlobalTokens.sharedColors(.charcoal, .shade40))
