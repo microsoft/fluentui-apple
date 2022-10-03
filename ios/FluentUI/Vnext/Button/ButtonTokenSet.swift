@@ -103,7 +103,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                     case .primary, .ghost, .accentFloating, .subtleFloating:
                         return GlobalTokens.borderSize(.none)
                     case .secondary:
-                        return GlobalTokens.borderSize(.thin)
+                        return GlobalTokens.borderSize(.thinner)
                     }
                 }
 
