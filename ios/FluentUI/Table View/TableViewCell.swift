@@ -170,7 +170,10 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     @objc public static let defaultNumberOfLinesForLargerDynamicType: Int = -1
 
     /// The default leading padding in the cell.
-    @objc public static var defaultPaddingLeading: CGFloat { TableViewCellTokenSet.paddingLeading }
+    @objc public static let defaultPaddingLeading: CGFloat = {
+        let tokenSet = TableViewCellTokenSet(customViewSize: { .default })
+        return tokenSet[.paddingLeading].float
+    }()
 
     /// The default trailing padding in the cell.
     @objc public static var defaultPaddingTrailing: CGFloat { TableViewCellTokenSet.paddingTrailing }
@@ -641,9 +644,9 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
 
     private static func customViewLeadingOffset(isInSelectionMode: Bool,
                                                 tokenSet: TableViewCellTokenSet) -> CGFloat {
-        return TableViewCellTokenSet.paddingLeading + selectionModeAreaWidth(isInSelectionMode: isInSelectionMode,
-                                                            selectionImageMarginTrailing: TableViewCellTokenSet.selectionImageMarginTrailing,
-                                                            selectionImageSize: TableViewCellTokenSet.selectionImageSize)
+        return tokenSet[.paddingLeading].float + selectionModeAreaWidth(isInSelectionMode: isInSelectionMode,
+                                                                        selectionImageMarginTrailing: TableViewCellTokenSet.selectionImageMarginTrailing,
+                                                                        selectionImageSize: TableViewCellTokenSet.selectionImageSize)
     }
 
     private static func textAreaLeadingOffset(customViewSize: MSFTableViewCellCustomViewSize,
@@ -734,7 +737,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     /// The leading padding.
     @objc public var paddingLeading: CGFloat {
         get {
-            return _paddingLeading ?? TableViewCellTokenSet.paddingLeading
+            return _paddingLeading ?? tokenSet[.paddingLeading].float
         }
         set {
             if newValue != _paddingLeading {
