@@ -415,7 +415,7 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
         return button
     }
 
-    private func addMaskedContent(over button: UIButton, at index: Int, hasImage: Bool) {
+    private func addMaskedContent(over button: SegmentPillButton, at index: Int, hasImage: Bool) {
         let unmaskedContent: UIView
         let maskedContent: UIView
         let maskedImageView: UIImageView?
@@ -446,13 +446,21 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
         pillMaskedContentContainerView.addSubview(maskedContent)
         pillMaskedLabels.insert(maskedLabel, at: index)
         pillMaskedImages.insert(maskedImageView, at: index)
-
-        NSLayoutConstraint.activate([
+        let constraints = [
             unmaskedContent.leadingAnchor.constraint(equalTo: maskedContent.leadingAnchor),
             unmaskedContent.trailingAnchor.constraint(equalTo: maskedContent.trailingAnchor),
             unmaskedContent.topAnchor.constraint(equalTo: maskedContent.topAnchor),
             unmaskedContent.bottomAnchor.constraint(equalTo: maskedContent.bottomAnchor)
-        ])
+        ]
+
+        if #available(iOS 15.0, *) {
+            button.updateMaskedContentConstraints = {
+                unmaskedContent.removeConstraints(constraints)
+                NSLayoutConstraint.activate(constraints)
+            }
+        } else {
+            NSLayoutConstraint.activate(constraints)
+        }
     }
 
     @objc private func handleButtonTap(_ sender: SegmentPillButton) {
