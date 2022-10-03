@@ -1733,8 +1733,6 @@ public struct GlobalTokens {
 
     public enum BorderSizeToken: TokenSetKey {
         case none
-        case thinnest
-        case thinner
         case thin
         case thick
         case thicker
@@ -1744,12 +1742,8 @@ public struct GlobalTokens {
         switch token {
         case .none:
             return 0
-        case .thinnest:
-            return 0.5
-        case .thinner:
-            return 1
         case .thin:
-            return 1.5
+            return 1
         case .thick:
             return 2
         case .thicker:
