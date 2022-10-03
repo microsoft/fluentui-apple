@@ -12,6 +12,13 @@ enum CalendarViewDayCellTextStyle {
     case secondary
 }
 
+// MARK: - CalendarViewDayCellBackgroundStyle
+
+enum CalendarViewDayCellBackgroundStyle {
+    case primary
+    case secondary
+}
+
 // MARK: - CalendarViewDayCellVisualState
 
 enum CalendarViewDayCellVisualState {
@@ -46,7 +53,7 @@ let calendarViewDayCellVisualStateTransitionDuration: TimeInterval = 0.3
 class CalendarViewDayCell: UICollectionViewCell {
     struct Constants {
         static let borderWidth: CGFloat = 0.5
-        static let dotDiameter: CGFloat = 4.0
+        static let dotDiameter: CGFloat = 6.0
         static let fadedVisualStateAlphaMultiplier: CGFloat = 0.2
     }
 
@@ -67,6 +74,7 @@ class CalendarViewDayCell: UICollectionViewCell {
     }
 
     private(set) var textStyle: CalendarViewDayCellTextStyle = .primary
+    private(set) var backgroundStyle: CalendarViewDayCellBackgroundStyle = .primary
 
     private var visibleDotViewAlpha: CGFloat = 1.0
 
@@ -109,6 +117,9 @@ class CalendarViewDayCell: UICollectionViewCell {
     }
 
     @objc func themeDidChange(_ notification: Notification) {
+        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
+            return
+        }
         updateViews()
         dotView.color = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground3])
         dateLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground3])
@@ -119,8 +130,9 @@ class CalendarViewDayCell: UICollectionViewCell {
     }
 
     // Only supports indicator levels from 0...4
-    func setup(textStyle: CalendarViewDayCellTextStyle, selectionStyle: CalendarViewDayCellSelectionStyle, dateLabelText: String, indicatorLevel: Int) {
+    func setup(textStyle: CalendarViewDayCellTextStyle, backgroundStyle: CalendarViewDayCellBackgroundStyle, selectionStyle: CalendarViewDayCellSelectionStyle, dateLabelText: String, indicatorLevel: Int) {
         self.textStyle = textStyle
+        self.backgroundStyle = backgroundStyle
         selectionOverlayView.selectionStyle = selectionStyle
 
         // Assign text content
@@ -191,10 +203,15 @@ class CalendarViewDayCell: UICollectionViewCell {
         case .primary:
             dateLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
         case .secondary:
-            dateLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground3])
+            dateLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
         }
 
-        contentView.backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background2])
+        switch backgroundStyle {
+        case .primary:
+            contentView.backgroundColor = UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.background2].light, dark: fluentTheme.aliasTokens.colors[.background2].dark))
+        case .secondary:
+            contentView.backgroundColor = UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.canvasBackground].light, dark: fluentTheme.aliasTokens.colors[.canvasBackground].dark))
+        }
 
         if isHighlighted || isSelected {
             dotView.isHidden = true

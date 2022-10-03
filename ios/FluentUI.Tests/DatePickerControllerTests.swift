@@ -92,7 +92,16 @@ class DatePickerControllerTests: XCTestCase {
 
 class MockCalendarViewStyleDataSource: CalendarViewStyleDataSource {
     func calendarViewDataSource(_ dataSource: CalendarViewDataSource, textStyleForDayWithStart dayStartDate: Date, end: Date, dayStartComponents: DateComponents, todayComponents: DateComponents) -> CalendarViewDayCellTextStyle {
-        if dayStartComponents.dateIsTodayOrLater(todayDateComponents: todayComponents) {
+        if dayStartComponents.dateIsInCurrentMonth(todayDateComponents: todayComponents) {
+            return .primary
+        } else {
+            return .secondary
+        }
+    }
+
+    func calendarViewDataSource(_ dataSource: CalendarViewDataSource, backgroundStyleForDayWithStart dayStartDate: Date, end: Date, dayStartComponents: DateComponents, todayComponents: DateComponents
+    ) -> CalendarViewDayCellBackgroundStyle {
+        if dayStartComponents.dateIsInCurrentMonth(todayDateComponents: todayComponents) {
             return .primary
         } else {
             return .secondary

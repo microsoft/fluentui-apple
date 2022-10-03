@@ -36,39 +36,47 @@ class CalendarViewDayMonthCell: CalendarViewDayCell {
         super.init(frame: frame)
 
         monthLabel.font = UIFont.fluent(fluentTheme.aliasTokens.typography[.caption2])
-        monthLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground3])
+        updateMonthLabelColor()
         contentView.addSubview(monthLabel)
     }
 
     @objc override func themeDidChange(_ notification: Notification) {
         super.themeDidChange(notification)
-        updateMonthLabelColor(textStyle: textStyle)
+        updateMonthLabelColor()
     }
 
-    private func updateMonthLabelColor(textStyle: CalendarViewDayCellTextStyle) {
-        switch textStyle {
-        case .primary:
-            monthLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground3])
-        case .secondary:
-            monthLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
-        }
+    private func updateMonthLabelColor() {
+        monthLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
     }
 
     required init?(coder aDecoder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
-    override func setup(textStyle: CalendarViewDayCellTextStyle, selectionStyle: CalendarViewDayCellSelectionStyle, dateLabelText: String, indicatorLevel: Int) {
+    override func setup(textStyle: CalendarViewDayCellTextStyle,
+                        backgroundStyle: CalendarViewDayCellBackgroundStyle,
+                        selectionStyle: CalendarViewDayCellSelectionStyle,
+                        dateLabelText: String,
+                        indicatorLevel: Int) {
         preconditionFailure("Use setup(textStyle, backgroundStyle, selectionStyle, monthLabelText, dateLabelText, indicatorLevel) instead")
     }
 
     // Only supports indicator levels from 0...4
-    func setup(textStyle: CalendarViewDayCellTextStyle, selectionStyle: CalendarViewDayCellSelectionStyle, monthLabelText: String, dateLabelText: String, indicatorLevel: Int) {
-        super.setup(textStyle: textStyle, selectionStyle: selectionStyle, dateLabelText: dateLabelText, indicatorLevel: indicatorLevel)
+    func setup(textStyle: CalendarViewDayCellTextStyle,
+               backgroundStyle: CalendarViewDayCellBackgroundStyle,
+               selectionStyle: CalendarViewDayCellSelectionStyle,
+               monthLabelText: String,
+               dateLabelText: String,
+               indicatorLevel: Int) {
+        super.setup(textStyle: textStyle,
+                    backgroundStyle: backgroundStyle,
+                    selectionStyle: selectionStyle,
+                    dateLabelText: dateLabelText,
+                    indicatorLevel: indicatorLevel)
 
-        updateMonthLabelColor(textStyle: textStyle)
+        updateMonthLabelColor()
 
-        monthLabel.text = monthLabelText
+        monthLabel.text = monthLabelText.uppercased()
     }
 
     override func layoutSubviews() {
