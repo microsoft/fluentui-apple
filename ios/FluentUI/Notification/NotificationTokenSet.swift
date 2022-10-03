@@ -202,7 +202,7 @@ public class NotificationTokenSet: ControlTokenSet<NotificationTokenSet.Tokens> 
                 }
 
             case .outlineWidth:
-                return .float { GlobalTokens.borderSize(.thin) }
+                return .float { GlobalTokens.borderSize(.thinner) }
 
             case .shadow:
                 return .shadowInfo {
