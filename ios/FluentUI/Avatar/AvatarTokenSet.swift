@@ -109,7 +109,7 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
                 return .float({
                     switch size() {
                     case .size16, .size20, .size24:
-                        return GlobalTokens.borderSize(.thinner)
+                        return GlobalTokens.borderSize(.thin)
                     case .size32, .size40, .size56:
                         return GlobalTokens.borderSize(.thick)
                     case .size72:
