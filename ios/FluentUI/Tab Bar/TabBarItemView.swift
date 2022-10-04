@@ -170,11 +170,11 @@ class TabBarItemView: UIControl {
         static let badgeHeight: CGFloat = 16
         static let badgeMinWidth: CGFloat = 16
         static let defaultBadgeMaxWidth: CGFloat = 42
+        static let badgeBorderWidth: CGFloat = 2
         static let badgeHorizontalPadding: CGFloat = 10
         static let badgeCorderRadii: CGFloat = 10
     }
 
-    private lazy var badgeBorderWidth = GlobalTokens.borderSize(.thinnest)
     private lazy var unselectedColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground3])
 
     private var badgeValue: String? {
@@ -344,10 +344,10 @@ class TabBarItemView: UIControl {
     }
 
     private func badgeBorderRect(badgeViewFrame: CGRect) -> CGRect {
-        return CGRect(x: badgeViewFrame.origin.x - badgeBorderWidth - imageView.frame.origin.x,
-                      y: badgeViewFrame.origin.y - badgeBorderWidth - imageView.frame.origin.y,
-                      width: badgeViewFrame.size.width + 2 * badgeBorderWidth,
-                      height: badgeViewFrame.size.height + 2 * badgeBorderWidth)
+        return CGRect(x: badgeViewFrame.origin.x - Constants.badgeBorderWidth - imageView.frame.origin.x,
+                      y: badgeViewFrame.origin.y - Constants.badgeBorderWidth - imageView.frame.origin.y,
+                      width: badgeViewFrame.size.width + 2 * Constants.badgeBorderWidth,
+                      height: badgeViewFrame.size.height + 2 * Constants.badgeBorderWidth)
     }
 
     @objc private func badgeValueDidChange() {
