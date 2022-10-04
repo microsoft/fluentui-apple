@@ -64,7 +64,7 @@ open class Separator: UIView {
     /**
      The default thickness for the separator: half pt.
     */
-    @objc public static var thickness: CGFloat { return 0.5 }
+    @objc public static var thickness: CGFloat { return GlobalTokens.borderSize(.thinnest) }
 
     private func initialize(style: SeparatorStyle, orientation: SeparatorOrientation) {
         super.backgroundColor = style.color
