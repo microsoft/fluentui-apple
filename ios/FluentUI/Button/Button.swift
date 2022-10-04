@@ -314,7 +314,7 @@ open class Button: UIButton {
         updateBackgroundColor()
         updateBorderColor()
 
-        layer.borderWidth = style.hasBorders ? Constants.borderWidth : 0
+        layer.borderWidth = style.hasBorders ? borderWidth : 0
 
         if !isUsingCustomContentEdgeInsets {
             contentEdgeInsets = style.contentEdgeInsets
