@@ -1213,10 +1213,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8FD0116A228A820600D25925 /* Build configuration list for PBXNativeTarget "FluentUILib" */;
 			buildPhases = (
+				566C664928CB994F0032314C /* Copy module.modulemap */,
 				8FD01162228A820600D25925 /* Sources */,
 				FD256C59218392B800EC9588 /* Run swiftlint */,
 				923DF2E4271166DB00637646 /* Copy FluentUI-Swift.h */,
-				566C664928CB994F0032314C /* Copy module.modulemap */,
 			);
 			buildRules = (
 			);
