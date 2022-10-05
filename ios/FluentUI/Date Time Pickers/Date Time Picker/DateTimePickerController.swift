@@ -115,6 +115,9 @@ class DateTimePickerController: UIViewController, GenericDateTimePicker {
     }
 
     @objc private func themeDidChange(_ notification: Notification) {
+        guard let themeView = notification.object as? UIView, view.isDescendant(of: themeView) else {
+            return
+        }
         updateBackgroundColor()
         updateBarButtonColors()
     }
@@ -140,7 +143,7 @@ class DateTimePickerController: UIViewController, GenericDateTimePicker {
     }
 
     private func updateBackgroundColor() {
-        view.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background2])
+        view.backgroundColor = UIColor(dynamicColor: DynamicColor(light: view.fluentTheme.aliasTokens.colors[.background2].light, dark: view.fluentTheme.aliasTokens.colors[.background2].dark))
     }
 
     override func viewWillLayoutSubviews() {

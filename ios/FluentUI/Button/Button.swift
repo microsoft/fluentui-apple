@@ -118,10 +118,6 @@ public extension Colors {
 @IBDesignable
 @objc(MSFButton)
 open class Button: UIButton {
-    private struct Constants {
-        static let borderWidth: CGFloat = 3
-    }
-
     @objc open var style: ButtonStyle = .secondaryOutline {
         didSet {
             if style != oldValue {
@@ -322,7 +318,7 @@ open class Button: UIButton {
         updateBackgroundColor()
         updateBorderColor()
 
-        layer.borderWidth = style.hasBorders ? Constants.borderWidth : 0
+        layer.borderWidth = style.hasBorders ? borderWidth : 0
 
         if !isUsingCustomContentEdgeInsets {
             contentEdgeInsets = style.contentEdgeInsets
@@ -354,8 +350,9 @@ open class Button: UIButton {
     private lazy var backgroundFilledDisabled: UIColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background5]) // surfaceQuaternary
     private lazy var borderDisabled: UIColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.strokeFocus1]) // surfaceQuaternary
     private lazy var titleDisabled: UIColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundDisabled1]) // textDisabled
-
     private lazy var titleWithFilledBackground: UIColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundOnColor])
+
+    private lazy var borderWidth = GlobalTokens.borderSize(.thinner)
 
     private var normalImageTintColor: UIColor?
     private var highlightedImageTintColor: UIColor?

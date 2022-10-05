@@ -149,6 +149,9 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
     }
 
     @objc private func themeDidChange(_ notification: Notification) {
+        guard let themeView = notification.object as? UIView, view.isDescendant(of: themeView) else {
+            return
+        }
         updateBackgroundColor()
         updateBarButtonColors()
     }
@@ -186,7 +189,7 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
     }
 
     private func updateBackgroundColor() {
-        view.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background2])
+        view.backgroundColor = UIColor(dynamicColor: DynamicColor(light: view.fluentTheme.aliasTokens.colors[.background2].light, dark: view.fluentTheme.aliasTokens.colors[.background2].dark))
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -498,7 +501,17 @@ extension DatePickerController: CalendarViewLayoutDelegate {
 extension DatePickerController: CalendarViewStyleDataSource {
     func calendarViewDataSource(_ dataSource: CalendarViewDataSource, textStyleForDayWithStart dayStartDate: Date, end: Date, dayStartComponents: DateComponents, todayComponents: DateComponents) -> CalendarViewDayCellTextStyle {
 
-        if dayStartComponents.dateIsTodayOrLater(todayDateComponents: todayComponents) {
+        if dayStartComponents.dateIsInCurrentMonth(todayDateComponents: todayComponents) {
+            return .primary
+        } else {
+            return .secondary
+        }
+    }
+
+    func calendarViewDataSource(_ dataSource: CalendarViewDataSource, backgroundStyleForDayWithStart dayStartDate: Date, end: Date, dayStartComponents: DateComponents, todayComponents: DateComponents
+    ) -> CalendarViewDayCellBackgroundStyle {
+
+        if dayStartComponents.dateIsInCurrentMonth(todayDateComponents: todayComponents) {
             return .primary
         } else {
             return .secondary
