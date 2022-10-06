@@ -100,18 +100,6 @@ public enum ButtonStyle: Int, CaseIterable {
     }
 }
 
-// MARK: - Button Colors
-
-public extension Colors {
-    struct Button {
-        // public static var background: UIColor = .clear
-        // public static var backgroundFilledDisabled: UIColor = surfaceQuaternary
-        // public static var borderDisabled: UIColor = surfaceQuaternary
-        // public static var titleDisabled: UIColor = textDisabled
-        // public static var titleWithFilledBackground: UIColor = textOnAccent
-    }
-}
-
 // MARK: - Button
 
 /// By default, `titleLabel`'s `adjustsFontForContentSizeCategory` is set to true to automatically update its font when device's content size category changes
@@ -329,28 +317,30 @@ open class Button: UIButton {
 
     private func normalTitleAndImageColor(for window: UIWindow) -> UIColor {
         if style.isFilledStyle {
-            return titleWithFilledBackground
+            return style.isDangerStyle ? dangerFilledTitleAndImageColor : titleWithFilledBackground
         }
 
-        return style.isDangerStyle ? Colors.Palette.dangerPrimary.color : Colors.primary(for: window)
+        return style.isDangerStyle ? dangerTitleAndImageColor : UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1])
     }
 
     private func highlightedTitleAndImageColor(for window: UIWindow) -> UIColor {
         if style.isFilledStyle {
-            return titleWithFilledBackground
+            return style.isDangerStyle ? dangerFilledTitleAndImageColor : titleWithFilledBackground
         }
 
-        return style.isDangerStyle ? Colors.Palette.dangerTint20.color : Colors.primaryTint20(for: window)
+        return style.isDangerStyle ? dangerTitleAndImageColor : UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1])
     }
 
     private func disabledTitleAndImageColor(for window: UIWindow) -> UIColor {
         return style.isFilledStyle ? titleWithFilledBackground : titleDisabled
     }
 
-    private lazy var backgroundFilledDisabled: UIColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background5]) // surfaceQuaternary
-    private lazy var borderDisabled: UIColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.strokeFocus1]) // surfaceQuaternary
-    private lazy var titleDisabled: UIColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundDisabled1]) // textDisabled
+    private lazy var backgroundFilledDisabled: UIColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background5])
+    private lazy var borderDisabled: UIColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.strokeFocus1])
+    private lazy var titleDisabled: UIColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundDisabled1])
     private lazy var titleWithFilledBackground: UIColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundOnColor])
+    private lazy var dangerTitleAndImageColor: UIColor = UIColor(dynamicColor: fluentTheme.aliasTokens.sharedColors[.dangerForeground2])
+    private lazy var dangerFilledTitleAndImageColor: UIColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundLightStatic])
 
     private lazy var borderWidth = GlobalTokens.borderSize(.thinner)
 
@@ -405,11 +395,25 @@ open class Button: UIButton {
         isAdjustingCustomContentEdgeInsetsForImage = false
     }
 
-    private func updateBackgroundColor() {
-        guard let window = window else {
-            return
+    private func primaryFilledBackgroundColor() -> UIColor {
+        if isHighlighted {
+            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandBackground1Pressed])
         }
 
+        if isFocused {
+            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandBackground1Selected])
+        }
+
+        return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandBackground1])
+    }
+
+    private func primaryDangerFilledBackgroundColor() -> UIColor {
+        // TODO: in the future, we want to have highlighted state defined for danger buttons.
+        // For now, highlighted/isPressed are not differentiated for danger buttons.
+        return UIColor(dynamicColor: fluentTheme.aliasTokens.sharedColors[.dangerBackground2])
+    }
+
+    private func updateBackgroundColor() {
         let backgroundColor: UIColor
 
         if !isEnabled {
@@ -417,15 +421,9 @@ open class Button: UIButton {
         } else {
             switch style {
             case .primaryFilled:
-                backgroundColor = isHighlighted || isFocused
-                ? UIColor(light: Colors.primaryTint10(for: window),
-                          dark: Colors.primaryTint20(for: window))
-                : Colors.primary(for: window)
+                backgroundColor = primaryFilledBackgroundColor()
             case .dangerFilled:
-                backgroundColor = isHighlighted || isFocused
-                ? UIColor(light: Colors.Palette.dangerTint10.color,
-                          dark: Colors.Palette.dangerTint20.color)
-                : Colors.Palette.dangerPrimary.color
+                backgroundColor = primaryDangerFilledBackgroundColor()
             case .primaryOutline,
                     .dangerOutline,
                     .secondaryOutline,
@@ -443,18 +441,18 @@ open class Button: UIButton {
             return
         }
 
-        if let window = window {
-            let borderColor: UIColor
+        let borderColor: UIColor
 
-            if !isEnabled {
-                borderColor = borderDisabled
-            } else if isHighlighted {
-                borderColor = style.isDangerStyle ? Colors.Palette.dangerTint30.color : Colors.primaryTint30(for: window)
-            } else {
-                borderColor = style.isDangerStyle ? Colors.Palette.dangerTint10.color : Colors.primaryTint10(for: window)
-            }
-
-            layer.borderColor = borderColor.cgColor
+        if !isEnabled {
+            borderColor = borderDisabled
+        } else if style.isDangerStyle {
+            borderColor = UIColor(dynamicColor: fluentTheme.aliasTokens.sharedColors[.dangerForeground2])
+        } else if isHighlighted {
+            borderColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandStroke1Pressed])
+        } else {
+            borderColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1])
         }
+
+        layer.borderColor = borderColor.cgColor
     }
 }
