@@ -38,7 +38,7 @@ class TableViewHeaderFooterViewDemoController: DemoController {
         container.setCustomSpacing(8, after: segmentedControl)
         container.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background1])
 
-        let separator = Separator(style: .shadow, orientation: .horizontal)
+        let separator = Separator(orientation: .horizontal)
         container.addArrangedSubview(separator)
 
         container.addArrangedSubview(groupedTableView)
