@@ -17,10 +17,6 @@ public enum ButtonStyle: Int, CaseIterable {
     case tertiaryOutline
     case borderless
 
-    // TODO totally different styles
-    // Check out update background color
-    // TODO: need danger colors from designers, or merge button from tokens branch? Gonna be a gross merge though
-
     public var contentEdgeInsets: UIEdgeInsets {
         switch self {
         case .dangerFilled, .dangerOutline, .primaryFilled, .primaryOutline:
@@ -328,7 +324,7 @@ open class Button: UIButton {
             return style.isDangerStyle ? dangerFilledTitleAndImageColor : titleWithFilledBackground
         }
 
-        return style.isDangerStyle ? dangerTitleAndImageColor : UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1])
+        return style.isDangerStyle ? dangerTitleAndImageColor : UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandStroke1Pressed])
     }
 
     private func disabledTitleAndImageColor(for window: UIWindow) -> UIColor {
