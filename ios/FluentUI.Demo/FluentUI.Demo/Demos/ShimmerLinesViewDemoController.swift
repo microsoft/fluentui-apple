@@ -33,21 +33,26 @@ class ShimmerViewDemoController: DemoController {
 
         let shimmeringContentView = { (shimmersLeafViews: Bool) -> UIStackView in
             let containerView = contentView()
-            let shimmerView = ShimmerView(containerView: containerView, excludedViews: [], animationSynchronizer: nil)
+            let shimmerView = ShimmerView(containerView: containerView,
+                                          excludedViews: [],
+                                          animationSynchronizer: nil,
+                                          shimmersLeafViews: shimmersLeafViews,
+                                          usesTextHeightForLabels: true)
             shimmerView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-            shimmerView.shimmersLeafViews = shimmersLeafViews
-            shimmerView.usesTextHeightForLabels = true
-            shimmerView.labelHeight = -1 // Must be < 0 so we actually use the bool usesTextHeightForLabels
             containerView.addSubview(shimmerView)
             return containerView
         }
 
-        let shimmeringImageView = { (shimmerStyle: ShimmerStyle) -> UIView in
-            let imageView = UIImageView(image: UIImage(named: "PlaceholderImage")?.withTintColor(Colors.Shimmer.tint, renderingMode: .alwaysOriginal))
+        let shimmeringImageView = { (shimmerStyle: MSFShimmerStyle) -> UIView in
+            // Uses a nice gray color that happens to match the gray of the shimmer control. Any color can be used here though.
+            let tintColor = UIColor(colorValue: ColorValue(0xF1F1F1))
+            let imageView = UIImageView(image: UIImage(named: "PlaceholderImage")?.withTintColor(tintColor, renderingMode: .alwaysOriginal))
             let containerView = UIStackView(arrangedSubviews: [imageView])
-            let shimmerView = ShimmerView(containerView: containerView, excludedViews: [], animationSynchronizer: nil, shimmerStyle: shimmerStyle)
+            let shimmerView = ShimmerView(containerView: containerView,
+                                          excludedViews: [],
+                                          animationSynchronizer: nil,
+                                          shimmerStyle: shimmerStyle)
             shimmerView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-            shimmerView.shimmerStyle = shimmerStyle
             containerView.addSubview(shimmerView)
             return containerView
         }

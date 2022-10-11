@@ -64,7 +64,7 @@ open class CommandBarItem: NSObject {
     @objc public var iconImage: UIImage? {
         didSet {
             if iconImage != oldValue {
-                propertyChangedUpdateBlock?(self)
+                propertyChangedUpdateBlock?(self, /* shouldUpdateGroupState */ false)
             }
         }
     }
@@ -73,7 +73,7 @@ open class CommandBarItem: NSObject {
     @objc public var title: String? {
         didSet {
             if title != oldValue {
-                propertyChangedUpdateBlock?(self)
+                propertyChangedUpdateBlock?(self, /* shouldUpdateGroupState */ false)
             }
         }
     }
@@ -83,7 +83,7 @@ open class CommandBarItem: NSObject {
     @objc public var isEnabled: Bool {
         didSet {
             if isEnabled != oldValue {
-                propertyChangedUpdateBlock?(self)
+                propertyChangedUpdateBlock?(self, /* shouldUpdateGroupState */ false)
             }
         }
     }
@@ -91,7 +91,7 @@ open class CommandBarItem: NSObject {
     @objc public var isHidden: Bool = false {
         didSet {
             if isHidden != oldValue {
-                propertyChangedUpdateBlock?(self)
+                propertyChangedUpdateBlock?(self, /* shouldUpdateGroupState */ true)
             }
         }
     }
@@ -100,7 +100,7 @@ open class CommandBarItem: NSObject {
     @objc public var isSelected: Bool {
         didSet {
             if isSelected != oldValue {
-                propertyChangedUpdateBlock?(self)
+                propertyChangedUpdateBlock?(self, /* shouldUpdateGroupState */ false)
             }
         }
     }
