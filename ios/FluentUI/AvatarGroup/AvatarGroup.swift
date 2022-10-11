@@ -189,8 +189,6 @@ public struct AvatarGroup: View, TokenizedControlView {
                     })
             }
             .padding(.trailing, isStackStyle ? stackPadding : interspace)
-            .animation(Animation.linear(duration: animationDuration))
-            .transition(AnyTransition.move(edge: .leading))
         }
 
         @ViewBuilder
@@ -200,6 +198,7 @@ public struct AvatarGroup: View, TokenizedControlView {
             HStack(spacing: 0) {
                 ForEach(enumeratedAvatars.prefix(avatarsToDisplay), id: \.1) { index, avatar in
                     avatarView(at: index, for: avatar)
+                        .transition(AnyTransition.move(edge: .leading))
                 }
 
                 if hasOverflow {

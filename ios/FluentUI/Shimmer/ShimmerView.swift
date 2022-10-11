@@ -6,36 +6,7 @@
 import UIKit
 import Combine
 
-/// Shimmer style can be either concealing or revealing
-/// The style affects the default shimmer alpha value and the default shimmer tint color
-@objc(MSFShimmerViewStyle)
-public enum ShimmerStyle: Int, CaseIterable {
-    /// Concealing shimmer: the gradient conceals parts of the subviews as it moves leaving most parts of the subviews unblocked.
-    case concealing
-
-    /// Revealing shimmer: the gradient reveals parts of the subviews as it moves leaving most parts of the subview blocked.
-    case revealing
-
-    var defaultAlphaValue: CGFloat {
-        switch self {
-        case .concealing:
-            return 0
-        case .revealing:
-            return 0.4
-        }
-    }
-
-    func defaultTintColor(fluentTheme: FluentTheme) -> UIColor {
-        switch self {
-        case .concealing:
-            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.stencil2])
-        case .revealing:
-            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.stencil1])
-        }
-    }
-}
-
-/// View that converts the subviews of a container view into a loading state with the "shimmering" effect
+/// View that converts the subviews of a container view into a loading state with the "shimmering" effect.
 @objc(MSFShimmerView)
 open class ShimmerView: UIView, TokenizedControlInternal {
 
@@ -43,46 +14,6 @@ open class ShimmerView: UIView, TokenizedControlInternal {
     @objc open weak var animationSynchronizer: AnimationSynchronizerProtocol?
 
     open override var intrinsicContentSize: CGSize { return bounds.size }
-
-    /// Layers covering the subviews of the container
-    var viewCoverLayers = [CALayer]()
-
-    /// Layer that slides to provide the "shimmer" effect
-    var shimmeringLayer = CAGradientLayer()
-
-    private weak var containerView: UIView?
-    private var excludedViews: [UIView]
-
-    /// Create a shimmer view
-    /// - Parameter containerView: view to convert layout into a shimmer -- each of containerView's first-level subviews will be mirrored
-    /// - Parameter excludedViews: subviews of `containerView` to exclude from shimmer
-    /// - Parameter animationSynchronizer: optional synchronizer to sync multiple shimmer views
-    @objc public init(containerView: UIView? = nil,
-                      excludedViews: [UIView] = [],
-                      animationSynchronizer: AnimationSynchronizerProtocol? = nil,
-                      shimmerStyle: ShimmerStyle = .revealing) {
-        self.containerView = containerView
-        self.excludedViews = excludedViews
-        self.animationSynchronizer = animationSynchronizer
-        self.shimmerStyle = shimmerStyle
-        self.shimmerAlpha = shimmerStyle.defaultAlphaValue
-        super.init(frame: CGRect(origin: .zero, size: containerView?.bounds.size ?? .zero))
-
-        updateViewTintColor()
-
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(syncAnimation),
-                                               name: UIAccessibility.reduceMotionStatusDidChangeNotification,
-                                               object: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
-    }
-
-    required public init?(coder: NSCoder) {
-        preconditionFailure("init(coder:) has not been implemented")
-    }
 
     open override func layoutSubviews() {
         super.layoutSubviews()
@@ -142,15 +73,16 @@ open class ShimmerView: UIView, TokenizedControlInternal {
         updateShimmeringAnimation()
     }
 
-    @objc private func themeDidChange(_ notification: Notification) {
-        updateViewTintColor()
-    }
+    // MARK: - TokenizedControl
+    public typealias TokenSetKeyType = ShimmerTokenSet.Tokens
+    public lazy var tokenSet: ShimmerTokenSet = .init(style: { self.style })
 
-    private func updateViewTintColor() {
-        self.viewTintColor = shimmerStyle.defaultTintColor(fluentTheme: fluentTheme)
-    }
+    var tokenSetSink: AnyCancellable?
 
-    /// Update the frame of each layer covering views in the containerView
+    /// Style to draw the control.
+    public let style: MSFShimmerStyle
+
+    /// Update the frame of each layer covering views in the containerView.
     func updateViewCoverLayers() {
         let viewToCover = containerView ?? self
 
@@ -176,10 +108,10 @@ open class ShimmerView: UIView, TokenizedControlInternal {
             var coverFrame = viewToCover.convert(subview.bounds, from: subview)
             if let label = subview as? UILabel {
                 let viewLabelHeight: CGFloat? = {
-                    if labelHeight >= 0 {
-                        return labelHeight
-                    } else if usesTextHeightForLabels {
+                    if usesTextHeightForLabels {
                         return ceil(label.font.lineHeight)
+                    } else {
+                        return tokenSet[.labelHeight].float
                     }
                 }()
 
