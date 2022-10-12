@@ -75,6 +75,15 @@ class CommandBarDemoController: DemoController {
             }
         }
 
+        var accentImage: UIImage? {
+            switch self {
+            case .delete:
+                return UIImage(named: "delete24Filled")
+            default:
+                return nil
+            }
+        }
+
         var title: String? {
             switch self {
             case .textStyle:
@@ -337,6 +346,8 @@ class CommandBarDemoController: DemoController {
             },
             accessibilityHint: "sample accessibility hint"
         )
+
+        commandBarItem.accentImage = command.accentImage?.withTintColor(Colors.communicationBlue, renderingMode: .alwaysOriginal)
 
         if command == .customView {
             commandBarItem.customControlView = { () -> UIView in

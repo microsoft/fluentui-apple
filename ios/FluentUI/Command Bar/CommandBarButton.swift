@@ -74,6 +74,22 @@ class CommandBarButton: UIButton {
         updateState()
     }
 
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        guard let accentImage = item.accentImage, let imageView = imageView else {
+            return
+        }
+        
+        let iconImageFrame = imageView.frame
+
+        accentImageView = UIImageView(image: accentImage)
+        if let accentImageView = accentImageView {
+            insertSubview(accentImageView, belowSubview: imageView)
+            accentImageView.frame = iconImageFrame
+        }
+    }
+
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
@@ -136,6 +152,8 @@ class CommandBarButton: UIButton {
         return  UIColor(light: Colors.primaryTint30(for: window),
                         dark: Colors.primary(for: window))
     }
+
+    private var accentImageView: UIImageView?
 
     private func updateStyle() {
         // TODO: Once iOS 14 support is dropped, this should be converted to a constant (let) that will be initialized by the logic below.

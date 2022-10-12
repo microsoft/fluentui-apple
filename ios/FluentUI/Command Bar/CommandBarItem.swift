@@ -69,6 +69,15 @@ open class CommandBarItem: NSObject {
         }
     }
 
+    /// Image displayed behind the `iconImage` to provide fill or accent if desired
+    @objc public var accentImage: UIImage? {
+        didSet {
+            if accentImage != oldValue {
+                propertyChangedUpdateBlock?(self, /* shouldUpdateGroupState */ false)
+            }
+        }
+    }
+
     /// Title for the item. Only valid when `iconImage` is `nil`.
     @objc public var title: String? {
         didSet {
