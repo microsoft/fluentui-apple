@@ -3,8 +3,7 @@
 //  Licensed under the MIT License.
 //
 
-CODE_SIGN_IDENTITY = ""
-DEVELOPMENT_TEAM = ""
+CODE_SIGNING_ALLOWED = NO
 INFOPLIST_FILE = FluentUI.Resources/Info.plist
 INSTALL_PATH = $(LOCAL_LIBRARY_DIR)/Bundles
 PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.FluentUIResources-ios
