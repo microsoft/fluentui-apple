@@ -105,6 +105,14 @@ open class CommandBarItem: NSObject {
         }
     }
 
+    open override var accessibilityValue: String? {
+        didSet {
+            if accessibilityValue != oldValue {
+                propertyChangedUpdateBlock?(self, /* shouldUpdateGroupState */ false)
+            }
+        }
+    }
+
     /// Set `isSelected` to desired value in this handler. Default implementation is toggling `isSelected` property.
     @objc public var itemTappedHandler: ItemTappedHandler
 

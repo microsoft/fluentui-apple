@@ -58,6 +58,7 @@ class CommandBarButton: UIButton {
             let accessibilityDescription = item.accessibilityLabel
             accessibilityLabel = (accessibilityDescription != nil) ? accessibilityDescription : item.title
             accessibilityHint = item.accessibilityHint
+            accessibilityValue = item.accessibilityValue
 
             /// Large content viewer
             addInteraction(UILargeContentViewerInteraction())
@@ -111,6 +112,7 @@ class CommandBarButton: UIButton {
 
         accessibilityLabel = (accessibilityDescription != nil) ? accessibilityDescription : title
         accessibilityHint = item.accessibilityHint
+        accessibilityValue = item.accessibilityValue
     }
 
     private let isPersistSelection: Bool
