@@ -154,6 +154,47 @@ open class Button: NSButton {
 		}
 	}
 
+	/// When set to a non `nil` value ,the Secondary Image will always be placed on the trailing edge of the button in both LTR and
+	/// RTL language settings. It is designed to remain independent of  the `imagePosition` value of the NSButton which deals
+	/// with the main Button `image`.
+	public var secondaryImage: NSImage? {
+			didSet {
+				guard oldValue != secondaryImage else {
+					return
+				}
+
+				guard let cell = cell as? ButtonCell else {
+					return
+				}
+
+				if let secondaryImage = secondaryImage {
+					let newSecondaryImageView = NSImageView(image:secondaryImage)
+					newSecondaryImageView.translatesAutoresizingMaskIntoConstraints = false
+
+					// Handle replacement of a previously set image
+					if secondaryImageView.isDescendant(of: self) {
+						secondaryImageView.removeFromSuperview()
+					}
+
+					secondaryImageView = newSecondaryImageView
+					addSubview(secondaryImageView)
+					NSLayoutConstraint.activate([
+						secondaryImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -cell.horizontalPadding),
+						secondaryImageView.centerYAnchor.constraint(equalTo: centerYAnchor)
+					])
+
+					secondaryImageView.contentTintColor = contentTintColorRest
+				} else {
+					// Handle removing a previously set image
+					if secondaryImageView.isDescendant(of: self) {
+						secondaryImageView.removeFromSuperview()
+					}
+				}
+			}
+		}
+
+	private var secondaryImageView: NSImageView = NSImageView()
+
 	private var linkedPrimaryOriginalStyle: ButtonStyle?
 
 	public var isPressed: Bool = false {
@@ -259,10 +300,13 @@ open class Button: NSButton {
 	private func updateContentTintColor() {
 		if !isEnabled {
 			contentTintColor = contentTintColorDisabled
+			secondaryImageView.contentTintColor = contentTintColorDisabled
 		} else if isPressed {
 			contentTintColor = contentTintColorPressed
+			secondaryImageView.contentTintColor = contentTintColorPressed
 		} else {
 			contentTintColor = contentTintColorRest
+			secondaryImageView.contentTintColor = contentTintColorRest
 		}
 	}
 
@@ -374,7 +418,13 @@ open class Button: NSButton {
 
 	open override var intrinsicContentSize: CGSize {
 		let superSize = super.intrinsicContentSize
-		return CGSize(width: superSize.width,
+		var trailingImageAdjustment: CGFloat = 0
+
+		// Account for extra space needed by `secondaryImage`
+		if secondaryImage != nil, let cell = cell as? ButtonCell {
+			trailingImageAdjustment = secondaryImageView.frame.width + cell.titleToImageSpacing
+		}
+		return CGSize(width: superSize.width + trailingImageAdjustment,
 					  height: superSize.height < minButtonHeight ? minButtonHeight : superSize.height)
 	}
 }
@@ -431,11 +481,19 @@ class ButtonCell: NSButtonCell {
 			break
 		}
 
+		// First, center the Primary Image
 		var x = (rect.width - imageSize.width) / 2
 		var y = (rect.height - imageSize.height) / 2
 
 		if xOffsetSign != 0 {
+			// Second, offset the Primary Image from the Title
 			x += CGFloat(xOffsetSign) * (titleSize.width + titleToImageSpacing) / 2
+
+			// Third, offset the Title from the Secondary Image
+			if let controlView = self.controlView as? Button,
+			   let secondaryImage = controlView.secondaryImage {
+				x += CGFloat(-1 * layoutDirectionSign) * (secondaryImage.size.width + titleToImageSpacing)/2
+			}
 		} else if yOffsetSign != 0 {
 			y += CGFloat(yOffsetSign) * (titleSize.height + titleToImageSpacing - titleToImageVerticalSpacingAdjustment) / 2
 		}
@@ -491,11 +549,19 @@ class ButtonCell: NSButtonCell {
 			break
 		}
 
+		// First, center the Title
 		var x = (rect.width - titleSize.width) / 2
 		var y = (rect.height - titleSize.height) / 2 + titleVerticalPositionAdjustment
 
 		if xOffsetSign != 0 {
+			// Second, offset the Title from the Primary Image
 			x += CGFloat(xOffsetSign) * (imageSize.width + titleToImageSpacing) / 2
+
+			// Third, offset the Title from the Secondary Image
+			if let controlView = self.controlView as? Button,
+			   let secondaryImage = controlView.secondaryImage {
+				x += CGFloat(-1 * layoutDirectionSign) * (secondaryImage.size.width + titleToImageSpacing)/2
+			}
 		} else if yOffsetSign != 0 {
 			y += CGFloat(yOffsetSign) * (imageSize.height + titleToImageSpacing) / 2
 		}
