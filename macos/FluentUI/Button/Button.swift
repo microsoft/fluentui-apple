@@ -166,29 +166,21 @@ open class Button: NSButton {
 				guard let cell = cell as? ButtonCell else {
 					return
 				}
+				
+				// Handle replacement/removal of a previously set image
+				if secondaryImageView.isDescendant(of: self) {
+					secondaryImageView.removeFromSuperview()
+				}
 
 				if let secondaryImage = secondaryImage {
-					let newSecondaryImageView = NSImageView(image:secondaryImage)
-					newSecondaryImageView.translatesAutoresizingMaskIntoConstraints = false
-
-					// Handle replacement of a previously set image
-					if secondaryImageView.isDescendant(of: self) {
-						secondaryImageView.removeFromSuperview()
-					}
-
-					secondaryImageView = newSecondaryImageView
+					secondaryImageView = NSImageView(image: secondaryImage)
+					secondaryImageView.translatesAutoresizingMaskIntoConstraints = false
 					addSubview(secondaryImageView)
 					NSLayoutConstraint.activate([
 						secondaryImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -cell.horizontalPadding),
 						secondaryImageView.centerYAnchor.constraint(equalTo: centerYAnchor)
 					])
-
-					secondaryImageView.contentTintColor = contentTintColorRest
-				} else {
-					// Handle removing a previously set image
-					if secondaryImageView.isDescendant(of: self) {
-						secondaryImageView.removeFromSuperview()
-					}
+					updateContentTintColor()
 				}
 			}
 		}
@@ -492,7 +484,7 @@ class ButtonCell: NSButtonCell {
 			// Third, offset the Title from the Secondary Image
 			if let controlView = self.controlView as? Button,
 			   let secondaryImage = controlView.secondaryImage {
-				x += CGFloat(-1 * layoutDirectionSign) * (secondaryImage.size.width + titleToImageSpacing)/2
+				x += CGFloat(-1 * layoutDirectionSign) * (secondaryImage.size.width + titleToImageSpacing) / 2
 			}
 		} else if yOffsetSign != 0 {
 			y += CGFloat(yOffsetSign) * (titleSize.height + titleToImageSpacing - titleToImageVerticalSpacingAdjustment) / 2
@@ -560,7 +552,7 @@ class ButtonCell: NSButtonCell {
 			// Third, offset the Title from the Secondary Image
 			if let controlView = self.controlView as? Button,
 			   let secondaryImage = controlView.secondaryImage {
-				x += CGFloat(-1 * layoutDirectionSign) * (secondaryImage.size.width + titleToImageSpacing)/2
+				x += CGFloat(-1 * layoutDirectionSign) * (secondaryImage.size.width + titleToImageSpacing) / 2
 			}
 		} else if yOffsetSign != 0 {
 			y += CGFloat(yOffsetSign) * (imageSize.height + titleToImageSpacing) / 2
