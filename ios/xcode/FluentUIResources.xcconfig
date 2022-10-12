@@ -3,7 +3,8 @@
 //  Licensed under the MIT License.
 //
 
-DEVELOPMENT_TEAM = UBF8T346G9
+CODE_SIGN_IDENTITY = ""
+DEVELOPMENT_TEAM = ""
 INFOPLIST_FILE = FluentUI.Resources/Info.plist
 INSTALL_PATH = $(LOCAL_LIBRARY_DIR)/Bundles
 PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.FluentUIResources-ios
