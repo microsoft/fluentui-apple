@@ -131,6 +131,42 @@ open class Button: NSButton {
 		}
 	}
 
+	/// When set to a non `nil` value ,this image will always be placed on the trailing edge of the button.
+	/// It is designed to remain independent of  the `imagePosition` value of the NSButton which applies to the built-in `image` property.
+	@objc public var trailingImage: NSImage? {
+		didSet {
+			guard oldValue != trailingImage else {
+				return
+			}
+
+			guard let cell = cell as? ButtonCell else {
+				preconditionFailure("The FluentUI `Button` should only be used with the `ButtonCell` cell class.")
+			}
+
+			// Handle replacement/removal of a previously set image
+			trailingImageView?.image = nil
+
+			if let trailingImage = trailingImage {
+				if let trailingImageView = trailingImageView {
+					trailingImageView.image = trailingImage
+				} else {
+					let imageView = NSImageView(image: trailingImage)
+					imageView.translatesAutoresizingMaskIntoConstraints = false
+					addSubview(imageView)
+					NSLayoutConstraint.activate([
+						imageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -cell.horizontalPadding),
+						imageView.centerYAnchor.constraint(equalTo: centerYAnchor)
+					])
+					trailingImageView = imageView
+				}
+
+				updateTrailingImageContentTintColor()
+			}
+		}
+	}
+
+	private var trailingImageView: NSImageView?
+
 	/// Title string to display in the button.
 	public override var title: String {
 		willSet {
@@ -153,39 +189,6 @@ open class Button: NSButton {
 			linkedPrimaryOriginalStyle = linkedPrimary?.style
 		}
 	}
-
-	/// When set to a non `nil` value ,the Secondary Image will always be placed on the trailing edge of the button in both LTR and
-	/// RTL language settings. It is designed to remain independent of  the `imagePosition` value of the NSButton which deals
-	/// with the main Button `image`.
-	public var secondaryImage: NSImage? {
-			didSet {
-				guard oldValue != secondaryImage else {
-					return
-				}
-
-				guard let cell = cell as? ButtonCell else {
-					return
-				}
-				
-				// Handle replacement/removal of a previously set image
-				if secondaryImageView.isDescendant(of: self) {
-					secondaryImageView.removeFromSuperview()
-				}
-
-				if let secondaryImage = secondaryImage {
-					secondaryImageView = NSImageView(image: secondaryImage)
-					secondaryImageView.translatesAutoresizingMaskIntoConstraints = false
-					addSubview(secondaryImageView)
-					NSLayoutConstraint.activate([
-						secondaryImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -cell.horizontalPadding),
-						secondaryImageView.centerYAnchor.constraint(equalTo: centerYAnchor)
-					])
-					updateContentTintColor()
-				}
-			}
-		}
-
-	private var secondaryImageView: NSImageView = NSImageView()
 
 	private var linkedPrimaryOriginalStyle: ButtonStyle?
 
@@ -292,13 +295,21 @@ open class Button: NSButton {
 	private func updateContentTintColor() {
 		if !isEnabled {
 			contentTintColor = contentTintColorDisabled
-			secondaryImageView.contentTintColor = contentTintColorDisabled
 		} else if isPressed {
 			contentTintColor = contentTintColorPressed
-			secondaryImageView.contentTintColor = contentTintColorPressed
 		} else {
 			contentTintColor = contentTintColorRest
-			secondaryImageView.contentTintColor = contentTintColorRest
+		}
+		updateTrailingImageContentTintColor()
+	}
+
+	private func updateTrailingImageContentTintColor() {
+		if !isEnabled {
+			trailingImageView?.contentTintColor = contentTintColorDisabled
+		} else if isPressed {
+			trailingImageView?.contentTintColor = contentTintColorPressed
+		} else {
+			trailingImageView?.contentTintColor = contentTintColorRest
 		}
 	}
 
@@ -410,11 +421,14 @@ open class Button: NSButton {
 
 	open override var intrinsicContentSize: CGSize {
 		let superSize = super.intrinsicContentSize
-		var trailingImageAdjustment: CGFloat = 0
+		let trailingImageAdjustment: CGFloat
 
-		// Account for extra space needed by `secondaryImage`
-		if secondaryImage != nil, let cell = cell as? ButtonCell {
-			trailingImageAdjustment = secondaryImageView.frame.width + cell.titleToImageSpacing
+		// Account for extra space needed by `trailingImage`
+		if let trailingImage = trailingImage,
+		   let cell = cell as? ButtonCell {
+			trailingImageAdjustment = trailingImage.size.width + cell.titleToImageSpacing
+		} else {
+			trailingImageAdjustment = 0
 		}
 		return CGSize(width: superSize.width + trailingImageAdjustment,
 					  height: superSize.height < minButtonHeight ? minButtonHeight : superSize.height)
@@ -473,18 +487,18 @@ class ButtonCell: NSButtonCell {
 			break
 		}
 
-		// First, center the Primary Image
+		// Center the Primary Image
 		var x = (rect.width - imageSize.width) / 2
 		var y = (rect.height - imageSize.height) / 2
 
 		if xOffsetSign != 0 {
-			// Second, offset the Primary Image from the Title
+			// Offset the Primary Image from the Title
 			x += CGFloat(xOffsetSign) * (titleSize.width + titleToImageSpacing) / 2
 
-			// Third, offset the Title from the Secondary Image
-			if let controlView = self.controlView as? Button,
-			   let secondaryImage = controlView.secondaryImage {
-				x += CGFloat(-1 * layoutDirectionSign) * (secondaryImage.size.width + titleToImageSpacing) / 2
+			// Offset the Title from the Trailing Image
+			if let controlView = controlView as? Button,
+			   let trailingImage = controlView.trailingImage {
+				x += CGFloat(-1 * layoutDirectionSign) * (trailingImage.size.width + titleToImageSpacing) / 2
 			}
 		} else if yOffsetSign != 0 {
 			y += CGFloat(yOffsetSign) * (titleSize.height + titleToImageSpacing - titleToImageVerticalSpacingAdjustment) / 2
@@ -541,18 +555,18 @@ class ButtonCell: NSButtonCell {
 			break
 		}
 
-		// First, center the Title
+		// Center the Title
 		var x = (rect.width - titleSize.width) / 2
 		var y = (rect.height - titleSize.height) / 2 + titleVerticalPositionAdjustment
 
 		if xOffsetSign != 0 {
-			// Second, offset the Title from the Primary Image
+			// Offset the Title from the Primary Image
 			x += CGFloat(xOffsetSign) * (imageSize.width + titleToImageSpacing) / 2
 
-			// Third, offset the Title from the Secondary Image
-			if let controlView = self.controlView as? Button,
-			   let secondaryImage = controlView.secondaryImage {
-				x += CGFloat(-1 * layoutDirectionSign) * (secondaryImage.size.width + titleToImageSpacing) / 2
+			// Offset the Title from the Trailing Image
+			if let controlView = controlView as? Button,
+			   let trailingImage = controlView.trailingImage {
+				x += CGFloat(-1 * layoutDirectionSign) * (trailingImage.size.width + titleToImageSpacing) / 2
 			}
 		} else if yOffsetSign != 0 {
 			y += CGFloat(yOffsetSign) * (imageSize.height + titleToImageSpacing) / 2

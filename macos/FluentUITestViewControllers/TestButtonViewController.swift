@@ -235,16 +235,16 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 			return [customButton] + formats.map({ Button(title: title, image: image, format: $0) })
 		}
 
-		let secondaryImage = NSImage(named: "ic_fluent_chevron_down_12_regular")
+		let trailingImage = NSImage(named: "ic_fluent_chevron_down_12_regular")
 		let buttonsWithTitleAndTwoImages: () -> [Button] = {
 			let customButton = Button()
 			customButton.title = customTitle
 			customButton.image = customImage
-			customButton.secondaryImage = secondaryImage
+			customButton.trailingImage = trailingImage
 			customButton.format = customFormat
 			return [customButton] + formats.map({
 				let button = Button(title: title, image: image, format: $0)
-				button.secondaryImage = secondaryImage
+				button.trailingImage = trailingImage
 				return button
 			})
 		}
