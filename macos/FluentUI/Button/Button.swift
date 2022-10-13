@@ -143,9 +143,6 @@ open class Button: NSButton {
 				preconditionFailure("The FluentUI `Button` should only be used with the `ButtonCell` cell class.")
 			}
 
-			// Handle replacement/removal of a previously set image
-			trailingImageView?.image = nil
-
 			if let trailingImage = trailingImage {
 				if let trailingImageView = trailingImageView {
 					trailingImageView.image = trailingImage
@@ -159,8 +156,11 @@ open class Button: NSButton {
 					])
 					trailingImageView = imageView
 				}
-
 				updateTrailingImageContentTintColor()
+			} else {
+				// Handle replacement/removal of a previously set image
+				trailingImageView?.removeFromSuperview()
+				trailingImageView = nil
 			}
 		}
 	}
@@ -304,12 +304,14 @@ open class Button: NSButton {
 	}
 
 	private func updateTrailingImageContentTintColor() {
-		if !isEnabled {
-			trailingImageView?.contentTintColor = contentTintColorDisabled
-		} else if isPressed {
-			trailingImageView?.contentTintColor = contentTintColorPressed
-		} else {
-			trailingImageView?.contentTintColor = contentTintColorRest
+		if let trailingImageView = trailingImageView {
+			if !isEnabled {
+				trailingImageView.contentTintColor = contentTintColorDisabled
+			} else if isPressed {
+				trailingImageView.contentTintColor = contentTintColorPressed
+			} else {
+				trailingImageView.contentTintColor = contentTintColorRest
+			}
 		}
 	}
 
