@@ -71,6 +71,9 @@ public class TableViewCellTokenSet: ControlTokenSet<TableViewCellTokenSet.Tokens
 
         /// The communication text color in an ActionsCell.
         case communicationTextColor
+
+        /// The leading padding in the cell.
+        case paddingLeading
     }
 
     init(customViewSize: @escaping () -> MSFTableViewCellCustomViewSize) {
@@ -163,6 +166,9 @@ public class TableViewCellTokenSet: ControlTokenSet<TableViewCellTokenSet.Tokens
                     DynamicColor(light: theme.aliasTokens.brandColors[.comm80].light,
                                  dark: theme.aliasTokens.brandColors[.comm100].light)
                 }
+
+            case .paddingLeading:
+                return .float { GlobalTokens.spacing(.medium) }
             }
         }
     }
@@ -185,9 +191,6 @@ extension TableViewCellTokenSet {
 
     /// The default horizontal spacing in the cell.
     static let horizontalSpacing: CGFloat = GlobalTokens.spacing(.medium)
-
-    /// The leading padding in the cell.
-    static let paddingLeading: CGFloat = GlobalTokens.spacing(.medium)
 
     /// The vertical padding in the cell.
     static let paddingVertical: CGFloat = 11.0
