@@ -15,6 +15,8 @@ class PillButtonDemoController: DemoController {
 
             let pill1 = PillButton(pillBarItem: buttonItems[0], style: style.1)
             let pill2 = PillButton(pillBarItem: buttonItems[1], style: style.1)
+            pill1.addTarget(self, action: #selector(handleTap), for: .touchUpInside)
+            pill2.addTarget(self, action: #selector(handleTap), for: .touchUpInside)
 
             addRow(items: [pill1])
             addRow(items: [pill2])
@@ -39,6 +41,13 @@ class PillButtonDemoController: DemoController {
         }
     }
 
+    @objc private func handleTap() {
+        let alert = UIAlertController(title: "Pill button was tapped", message: nil, preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default)
+        alert.addAction(action)
+        present(alert, animated: true)
+    }
+
     private lazy var buttonItems: [PillButtonBarItem] = {
         return [
             PillButtonBarItem(title: tabItemTitles[0]),
@@ -46,9 +55,9 @@ class PillButtonDemoController: DemoController {
         ]
     }()
 
-    private var itemTitlesChanged: Bool = false
+    private var itemTitlesChanged = false
 
-    private var unreadDotsChanged: Bool = false
+    private var unreadDotsChanged = false
 
     private let tabItemTitles = [
         "All",
