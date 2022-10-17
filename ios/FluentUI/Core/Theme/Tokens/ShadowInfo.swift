@@ -4,6 +4,7 @@
 //
 
 import CoreGraphics
+import UIKit
 
 /// Represents a two-part shadow as used by FluentUI.
 public struct ShadowInfo: Equatable {
@@ -27,11 +28,11 @@ public struct ShadowInfo: Equatable {
                 xTwo: CGFloat,
                 yTwo: CGFloat) {
         self.colorOne = colorOne
-        self.blurOne = blurOne
+        self.blurOne = blurOne / blurDivisor
         self.xOne = xOne
         self.yOne = yOne
         self.colorTwo = colorTwo
-        self.blurTwo = blurTwo
+        self.blurTwo = blurTwo / blurDivisor
         self.xTwo = xTwo
         self.yTwo = yTwo
     }
@@ -59,4 +60,47 @@ public struct ShadowInfo: Equatable {
 
     /// The vertical offset of the shadow for shadow 2.
     public let yTwo: CGFloat
+
+    /// The number that the figma blur needs to be divided by to properly display shadows
+    private let blurDivisor: CGFloat = 2.0
+}
+
+public class ShadowUtil {
+
+    public static func applyShadow(_ shadowInfo: ShadowInfo, for view: UIView) {
+        guard let superview = view.superview else {
+            return
+        }
+
+        let shadowView = UIView()
+
+        shadowView.frame = view.frame
+        shadowView.layer.cornerRadius = view.layer.cornerRadius
+
+        superview.insertSubview(shadowView, belowSubview: view)
+
+        let shadow1 = CALayer()
+        let shadow2 = CALayer()
+
+        initializeShadowLayer(layer: shadow1, shadow: shadowInfo, view: view, isShadowOne: true)
+        initializeShadowLayer(layer: shadow2, shadow: shadowInfo, view: view)
+
+        shadowView.layer.insertSublayer(shadow1, at: 0)
+        shadowView.layer.insertSublayer(shadow2, below: shadow1)
+    }
+
+    private static func initializeShadowLayer(layer: CALayer,
+                                              shadow: ShadowInfo,
+                                              view: UIView,
+                                              isShadowOne: Bool = false) {
+        layer.frame = view.bounds
+        layer.shadowColor = UIColor(dynamicColor: isShadowOne ? shadow.colorOne : shadow.colorTwo).cgColor
+        layer.shadowRadius = isShadowOne ? shadow.blurOne : shadow.blurTwo
+        layer.shadowOpacity = 1
+        layer.shadowOffset = CGSize(width: isShadowOne ? shadow.xOne : shadow.xTwo,
+                                    height: isShadowOne ? shadow.yOne : shadow.yTwo)
+        layer.needsDisplayOnBoundsChange = true
+        layer.cornerRadius = view.layer.cornerRadius
+        layer.backgroundColor = view.backgroundColor?.cgColor
+    }
 }
