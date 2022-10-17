@@ -74,6 +74,11 @@ class CommandBarButton: UIButton {
         updateState()
     }
 
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        preconditionFailure("init(coder:) has not been implemented")
+    }
+
     override func layoutSubviews() {
         super.layoutSubviews()
 
@@ -82,11 +87,6 @@ class CommandBarButton: UIButton {
         }
 
         accentImageView.frame = imageView.frame
-    }
-
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        preconditionFailure("init(coder:) has not been implemented")
     }
 
     func updateState() {
