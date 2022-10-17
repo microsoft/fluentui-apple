@@ -77,17 +77,11 @@ class CommandBarButton: UIButton {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        guard let accentImage = item.accentImage, let imageView = imageView else {
+        guard let accentImageView = accentImageView, let imageView = imageView else {
             return
         }
-        
-        let iconImageFrame = imageView.frame
 
-        accentImageView = UIImageView(image: accentImage)
-        if let accentImageView = accentImageView {
-            insertSubview(accentImageView, belowSubview: imageView)
-            accentImageView.frame = iconImageFrame
-        }
+        accentImageView.frame = imageView.frame
     }
 
     @available(*, unavailable)
@@ -124,6 +118,8 @@ class CommandBarButton: UIButton {
             titleLabel?.font = item.titleFont
         }
 
+        updateAccentImage(accentImage: item.accentImage)
+
         titleLabel?.isEnabled = isEnabled
 
         accessibilityLabel = (accessibilityDescription != nil) ? accessibilityDescription : title
@@ -154,6 +150,20 @@ class CommandBarButton: UIButton {
     }
 
     private var accentImageView: UIImageView?
+
+    private func updateAccentImage(accentImage: UIImage?) {
+        if accentImage != accentImageView?.image {
+            if let accentImage = accentImage {
+                accentImageView = UIImageView(image: accentImage)
+                if let accentImageView = accentImageView, let imageView = imageView {
+                    insertSubview(accentImageView, belowSubview: imageView)
+                }
+            } else {
+                accentImageView?.removeFromSuperview()
+                accentImageView = nil
+            }
+        }
+    }
 
     private func updateStyle() {
         // TODO: Once iOS 14 support is dropped, this should be converted to a constant (let) that will be initialized by the logic below.
