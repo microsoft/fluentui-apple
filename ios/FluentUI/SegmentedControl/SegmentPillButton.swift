@@ -32,18 +32,6 @@ class SegmentPillButton: UIButton {
         self.item = item
         super.init(frame: .zero)
 
-        if #available(iOS 15.0, *) {
-            var configuration = UIButton.Configuration.plain()
-            configuration.contentInsets = Constants.insets
-            configuration.background.backgroundColor = .clear
-            self.configuration = configuration
-        } else {
-            self.contentEdgeInsets = UIEdgeInsets(top: Constants.insets.top,
-                                                  left: Constants.insets.leading,
-                                                  bottom: Constants.insets.bottom,
-                                                  right: Constants.insets.trailing)
-        }
-
         // TODO: Once iOS 14 support is dropped, set title, etc., in configuration
         let title = item.title
         if let image = item.image {
@@ -54,7 +42,25 @@ class SegmentPillButton: UIButton {
             self.setTitle(title, for: .normal)
         }
         self.showsLargeContentViewer = true
-        self.titleLabel?.font = UIFont.systemFont(ofSize: Constants.fontSize)
+
+        if #available(iOS 15.0, *) {
+            var configuration = UIButton.Configuration.plain()
+            configuration.contentInsets = Constants.insets
+            configuration.background.backgroundColor = .clear
+            let titleTransformer = UIConfigurationTextAttributesTransformer { incoming in
+                var outgoing = incoming
+                outgoing.font = UIFont.systemFont(ofSize: Constants.fontSize)
+                return outgoing
+            }
+            configuration.titleTextAttributesTransformer = titleTransformer
+            self.configuration = configuration
+        } else {
+            self.titleLabel?.font = UIFont.systemFont(ofSize: Constants.fontSize)
+            self.contentEdgeInsets = UIEdgeInsets(top: Constants.insets.top,
+                                                  left: Constants.insets.leading,
+                                                  bottom: Constants.insets.bottom,
+                                                  right: Constants.insets.trailing)
+        }
 
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(isUnreadValueDidChange),

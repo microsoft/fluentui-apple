@@ -37,11 +37,14 @@ class CalendarViewWeekdayHeadingView: UIView {
     }
 
     @objc private func themeDidChange(_ notification: Notification) {
+        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
+            return
+        }
         updateBackgroundColor()
     }
 
     private func updateBackgroundColor() {
-        backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background2])
+        backgroundColor = UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.background2].light, dark: fluentTheme.aliasTokens.colors[.background2].dark))
     }
 
     required init?(coder aDecoder: NSCoder) {

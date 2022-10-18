@@ -44,6 +44,9 @@ class DateTimePickerViewComponentCell: UITableViewCell {
     }
 
     @objc private func themeDidChange(_ notification: Notification) {
+        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
+            return
+        }
         updateTextLabelColor()
     }
 
@@ -75,6 +78,6 @@ class DateTimePickerViewComponentCell: UITableViewCell {
     }
 
     private func updateTextLabelColor() {
-        textLabel?.textColor = emphasized ? UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1]) : UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground3])
+        textLabel?.textColor = emphasized ? UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1]) : UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
     }
 }

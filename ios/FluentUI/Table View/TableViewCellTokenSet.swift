@@ -60,14 +60,20 @@ public class TableViewCellTokenSet: ControlTokenSet<TableViewCellTokenSet.Tokens
         /// The color for the accessoryDetailButtonColor.
         case accessoryDetailButtonColor
 
-        /// The main primary brand color of the theme.
-        case mainBrandColor
+        /// The main brand text color..
+        case brandTextColor
 
-        /// The destructive text color in an ActionsCell.
-        case destructiveTextColor
+        /// The brand background color for the boolean cell.
+        case booleanCellBrandColor
+
+        /// The danger text color in an ActionsCell.
+        case dangerTextColor
 
         /// The communication text color in an ActionsCell.
         case communicationTextColor
+
+        /// The leading padding in the cell.
+        case paddingLeading
     }
 
     init(customViewSize: @escaping () -> MSFTableViewCellCustomViewSize) {
@@ -146,20 +152,23 @@ public class TableViewCellTokenSet: ControlTokenSet<TableViewCellTokenSet.Tokens
             case .accessoryDetailButtonColor:
                 return .dynamicColor { theme.aliasTokens.colors[.foreground3] }
 
-            case .mainBrandColor:
+            case .dangerTextColor:
+                return .dynamicColor { theme.aliasTokens.sharedColors[.dangerForeground2] }
+
+            case .brandTextColor:
                 return .dynamicColor { theme.aliasTokens.colors[.brandForeground1] }
 
-            case .destructiveTextColor:
-                return .dynamicColor {
-                    DynamicColor(light: ColorValue(0xD92C2C),
-                                 dark: ColorValue(0xE83A3A))
-                }
+            case .booleanCellBrandColor:
+                return .dynamicColor { theme.aliasTokens.colors[.brandBackground1] }
 
             case .communicationTextColor:
                 return .dynamicColor {
-                    DynamicColor(light: ColorValue(0x0078D4),
-                                 dark: ColorValue(0x0086F0))
+                    DynamicColor(light: theme.aliasTokens.brandColors[.comm80].light,
+                                 dark: theme.aliasTokens.brandColors[.comm100].light)
                 }
+
+            case .paddingLeading:
+                return .float { GlobalTokens.spacing(.medium) }
             }
         }
     }
@@ -182,9 +191,6 @@ extension TableViewCellTokenSet {
 
     /// The default horizontal spacing in the cell.
     static let horizontalSpacing: CGFloat = GlobalTokens.spacing(.medium)
-
-    /// The leading padding in the cell.
-    static let paddingLeading: CGFloat = GlobalTokens.spacing(.medium)
 
     /// The vertical padding in the cell.
     static let paddingVertical: CGFloat = 11.0

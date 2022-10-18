@@ -11,6 +11,7 @@
 		43488C46270FAD1300124C71 /* FluentNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43488C44270FAD0200124C71 /* FluentNotification.swift */; };
 		4B53505F27F63E3F0033B47F /* NotificationModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B53505E27F63E3F0033B47F /* NotificationModifiers.swift */; };
 		4BBD651F2755FD9500A8B09E /* MSFNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBD651E2755FD9500A8B09E /* MSFNotification.swift */; };
+		4BDBE18928EC9E6F00314696 /* ShimmerTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDBE18828EC9E6F00314696 /* ShimmerTokenSet.swift */; };
 		4BF01D9A27B37CF8005B32F2 /* NotificationTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BF01D9927B37CF8005B32F2 /* NotificationTokenSet.swift */; };
 		4BF01DA027B3A862005B32F2 /* UIApplication+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BF01D9F27B3A861005B32F2 /* UIApplication+Extensions.swift */; };
 		5303259B26B31B6B00611D05 /* AvatarModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5303259926B31B6B00611D05 /* AvatarModifiers.swift */; };
@@ -137,7 +138,6 @@
 		5373D5772694D66F0032A3B4 /* SwiftUI+ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5373D56F2694D66F0032A3B4 /* SwiftUI+ViewModifiers.swift */; };
 		53E2EE0527860D010086D30D /* MSFActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E2EE0427860D010086D30D /* MSFActivityIndicator.swift */; };
 		53E2EE07278799B30086D30D /* MSFIndeterminateProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E2EE06278799B30086D30D /* MSFIndeterminateProgressBar.swift */; };
-		566C664A28CB99830032314C /* module.modulemap in Copy module.modulemap */ = {isa = PBXBuildFile; fileRef = 566C664828CB97210032314C /* module.modulemap */; };
 		6EB4B25F270ED6B30005B808 /* BadgeLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB4B25D270ED6450005B808 /* BadgeLabel.swift */; };
 		6ED5E55126D3D39400D8BE81 /* BadgeLabelButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED4C11C2696AE4000C30BD6 /* BadgeLabelButton.swift */; };
 		6ED5E55226D3D39400D8BE81 /* UIBarButtonItem+BadgeValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED4C11A2695A6E800C30BD6 /* UIBarButtonItem+BadgeValue.swift */; };
@@ -218,7 +218,6 @@
 			dstPath = "$(FLUENT_HSP_OUTPUT)";
 			dstSubfolderSpec = 0;
 			files = (
-				566C664A28CB99830032314C /* module.modulemap in Copy module.modulemap */,
 			);
 			name = "Copy module.modulemap";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -236,6 +235,7 @@
 		497DC2D824185885008D86F8 /* PillButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButton.swift; sourceTree = "<group>"; };
 		4B53505E27F63E3F0033B47F /* NotificationModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationModifiers.swift; sourceTree = "<group>"; };
 		4BBD651E2755FD9500A8B09E /* MSFNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFNotification.swift; sourceTree = "<group>"; };
+		4BDBE18828EC9E6F00314696 /* ShimmerTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerTokenSet.swift; sourceTree = "<group>"; };
 		4BF01D9927B37CF8005B32F2 /* NotificationTokenSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationTokenSet.swift; sourceTree = "<group>"; };
 		4BF01D9F27B3A861005B32F2 /* UIApplication+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extensions.swift"; sourceTree = "<group>"; };
 		5303259926B31B6B00611D05 /* AvatarModifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarModifiers.swift; sourceTree = "<group>"; };
@@ -1007,6 +1007,7 @@
 			children = (
 				C0EAAEAC2347E1DF00C7244E /* ShimmerView.swift */,
 				C0A0D76B233AEF6C00F432FD /* ShimmerLinesView.swift */,
+				4BDBE18828EC9E6F00314696 /* ShimmerTokenSet.swift */,
 			);
 			path = Shimmer;
 			sourceTree = "<group>";
@@ -1213,6 +1214,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8FD0116A228A820600D25925 /* Build configuration list for PBXNativeTarget "FluentUILib" */;
 			buildPhases = (
+				566C664928CB994F0032314C /* Copy module.modulemap */,
 				8FD01162228A820600D25925 /* Sources */,
 				FD256C59218392B800EC9588 /* Run swiftlint */,
 				923DF2E4271166DB00637646 /* Copy FluentUI-Swift.h */,
@@ -1478,6 +1480,7 @@
 				5373D56B2694D65C0032A3B4 /* MSFAvatarPresence.swift in Sources */,
 				EC5982D827BF348700FD048D /* MSFAvatar.swift in Sources */,
 				5314E0AA25F010070099271A /* DrawerShadowView.swift in Sources */,
+				4BDBE18928EC9E6F00314696 /* ShimmerTokenSet.swift in Sources */,
 				2A9745DE281733D700E1A1FD /* TableViewCellTokenSet.swift in Sources */,
 				530D9C5127EE388200BDCBBF /* SwiftUI+ViewPresentation.swift in Sources */,
 				5314E0E725F012C00099271A /* UINavigationItem+Navigation.swift in Sources */,

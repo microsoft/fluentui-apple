@@ -47,11 +47,11 @@ open class NavigationController: UINavigationController {
     private var navigationBarWasHiddenBySearchBar: Bool = false
 
     @objc public convenience init() {
-        self.init(navigationBarClass: nil, toolbarClass: nil)
+        self.init(navigationBarClass: NavigationBar.self, toolbarClass: nil)
     }
 
     @objc public override init(navigationBarClass: AnyClass?, toolbarClass: AnyClass?) {
-        super.init(navigationBarClass: NavigationBar.self, toolbarClass: toolbarClass)
+        super.init(navigationBarClass: navigationBarClass, toolbarClass: toolbarClass)
     }
 
     @objc public convenience override init(rootViewController: UIViewController) {

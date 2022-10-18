@@ -28,7 +28,7 @@ class OtherCellsDemoController: DemoController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.backgroundColor = TableViewCell.tableBackgroundGroupedColor
-        tableView.separatorColor = Colors.Separator.default
+        tableView.separatorColor = Separator.separatorDefaultColor(fluentTheme: view.fluentTheme)
         tableView.tableFooterView = UIView(frame: .zero)
         view.addSubview(tableView)
     }
@@ -56,7 +56,12 @@ extension OtherCellsDemoController: DemoAppearanceDelegate {
     // MARK: - Custom tokens
     private var themeWideOverrideTableViewCellTokenSet: [TableViewCellTokenSet.Tokens: ControlTokenValue] {
         return [
-            .mainBrandColor: .dynamicColor {
+            .brandTextColor: .dynamicColor {
+                // "Charcoal"
+                return DynamicColor(light: GlobalTokens.sharedColors(.charcoal, .tint50),
+                                    dark: GlobalTokens.sharedColors(.charcoal, .shade40))
+            },
+            .booleanCellBrandColor: .dynamicColor {
                 // "Charcoal"
                 return DynamicColor(light: GlobalTokens.sharedColors(.charcoal, .tint50),
                                     dark: GlobalTokens.sharedColors(.charcoal, .shade40))
