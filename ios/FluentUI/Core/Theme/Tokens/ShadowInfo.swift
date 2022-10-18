@@ -71,8 +71,20 @@ public class ShadowUtil {
         guard let superview = view.superview else {
             return
         }
+        var shadowable: Shadowable
+
+        if view as? Shadowable != nil {
+            shadowable = view as! Shadowable
+        } else if view.superview as? Shadowable != nil {
+            shadowable = view.superview as! Shadowable
+        } else {
+            return
+        }
 
         let shadowView = UIView()
+
+        shadowable.shadowView?.removeFromSuperview()
+        shadowable.shadowView = shadowView
 
         shadowView.frame = view.frame
         shadowView.layer.cornerRadius = view.layer.cornerRadius
@@ -103,4 +115,8 @@ public class ShadowUtil {
         layer.cornerRadius = view.layer.cornerRadius
         layer.backgroundColor = view.backgroundColor?.cgColor
     }
+}
+
+public protocol Shadowable {
+    var shadowView: UIView? { get set }
 }
