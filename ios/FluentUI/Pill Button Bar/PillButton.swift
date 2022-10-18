@@ -118,6 +118,9 @@ open class PillButton: UIButton {
                                                                   bottom: Constants.bottomInset,
                                                                   trailing: Constants.horizontalInset)
             self.configuration = configuration
+
+            // This updates the attributed title stored in self.configuration,
+            // so it needs to be called after we set it.
             updateAttributedTitle()
 
             configurationUpdateHandler = { [weak self] _ in
@@ -185,7 +188,6 @@ open class PillButton: UIButton {
         } else {
             setTitle(pillBarItem.title, for: .normal)
         }
-
     }
 
     @available(iOS 15, *)
