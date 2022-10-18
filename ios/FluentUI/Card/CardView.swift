@@ -169,7 +169,9 @@ public enum CardSize: Int, CaseIterable {
  Conform to the `CardDelegate` in order to provide a handler for the card tap event
  */
 @objc(MSFCardView)
-open class CardView: UIView {
+open class CardView: UIView, Shadowable {
+    public var shadowView: UIView?
+    
     /// Delegate to handle user interaction with the CardView
     @objc public weak var delegate: CardDelegate?
 
@@ -373,6 +375,16 @@ open class CardView: UIView {
         updateLargeContentImage()
 
         setupLayoutConstraints()
+    }
+
+    open override func layoutSubviews() {
+        super.layoutSubviews()
+        updateShadow()
+    }
+
+    private func updateShadow() {
+        let shadowInfo = fluentTheme.aliasTokens.shadow[.shadow16]
+        ShadowUtil.applyShadow(shadowInfo, for: self)
     }
 
     @available(*, unavailable)
