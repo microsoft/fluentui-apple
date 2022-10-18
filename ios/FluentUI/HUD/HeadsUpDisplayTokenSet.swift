@@ -36,17 +36,9 @@ public class HeadsUpDisplayTokenSet: ControlTokenSet<HeadsUpDisplayTokenSet.Toke
                 }
 
             case .activityIndicatorColor:
-                let colorToken = theme.aliasTokens.colors[.foregroundLightStatic]
-                let lightColorValue = ColorValue(r: colorToken.light.r,
-                                                 g: colorToken.light.g,
-                                                 b: colorToken.light.b,
-                                                 a: 0.4)
-                let darkColorValue = ColorValue(r: colorToken.dark?.r ?? colorToken.light.r,
-                                                g: colorToken.dark?.g ?? colorToken.light.g,
-                                                b: colorToken.dark?.b ?? colorToken.light.b,
-                                                a: 0.6)
                 return .dynamicColor {
-                    return DynamicColor(light: lightColorValue, dark: darkColorValue)
+                    return DynamicColor(light: GlobalTokens.neutralColors(.grey56),
+                                        dark: GlobalTokens.neutralColors(.grey72))
                 }
 
             case .labelColor:
