@@ -171,7 +171,6 @@ public enum CardSize: Int, CaseIterable {
 @objc(MSFCardView)
 open class CardView: UIView, Shadowable {
     public var shadowView: UIView?
-    
     /// Delegate to handle user interaction with the CardView
     @objc public weak var delegate: CardDelegate?
 
@@ -387,6 +386,15 @@ open class CardView: UIView, Shadowable {
         ShadowUtil.applyShadow(shadowInfo, for: self)
     }
 
+    public func animate(withDuration duration: TimeInterval,
+                        frame: CGRect,
+                        animations: (UIView, CGRect, TimeInterval) -> Void) {
+        animations(self, frame, duration)
+        if let shadowView = shadowView {
+            animations(shadowView, frame, duration)
+        }
+    }
+
     @available(*, unavailable)
     @objc public required init?(coder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
@@ -472,7 +480,7 @@ open class CardView: UIView, Shadowable {
         layoutConstraints.append(contentsOf: [
             iconView.centerYAnchor.constraint(equalTo: centerYAnchor),
             primaryLabel.leadingAnchor.constraint(equalTo: iconView.trailingAnchor, constant: Constants.horizontalContentSpacing),
-            widthAnchor.constraint(equalToConstant: size.width),
+            widthAnchor.constraint(equalToConstant: customWidth),
             heightConstraint,
             iconView.widthAnchor.constraint(equalToConstant: Constants.iconWidth),
             iconView.heightAnchor.constraint(equalToConstant: Constants.iconHeight),
