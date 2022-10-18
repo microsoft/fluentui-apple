@@ -79,16 +79,6 @@ class CommandBarButton: UIButton {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
-    override func layoutSubviews() {
-        super.layoutSubviews()
-
-        guard let accentImageView = accentImageView, let imageView = imageView else {
-            return
-        }
-
-        accentImageView.frame = imageView.frame
-    }
-
     func updateState() {
         isEnabled = item.isEnabled
         isSelected = isPersistSelection && item.isSelected
@@ -155,8 +145,13 @@ class CommandBarButton: UIButton {
         if accentImage != accentImageView?.image {
             if let accentImage = accentImage {
                 accentImageView = UIImageView(image: accentImage)
+                accentImageView?.translatesAutoresizingMaskIntoConstraints = false
                 if let accentImageView = accentImageView, let imageView = imageView {
                     insertSubview(accentImageView, belowSubview: imageView)
+                    NSLayoutConstraint.activate([
+                        accentImageView.centerXAnchor.constraint(equalTo: imageView.centerXAnchor),
+                        accentImageView.centerYAnchor.constraint(equalTo: imageView.centerYAnchor)
+                    ])
                 }
             } else {
                 accentImageView?.removeFromSuperview()
