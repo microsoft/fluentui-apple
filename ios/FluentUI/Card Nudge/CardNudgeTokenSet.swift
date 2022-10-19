@@ -74,11 +74,11 @@ public class CardNudgeTokenSet: ControlTokenSet<CardNudgeTokenSet.Tokens> {
                 switch style() {
                 case .standard:
                     return .dynamicColor {
-                        theme.aliasTokens.backgroundColors[.neutral2]
+                        theme.aliasTokens.colors[.canvasBackground]
                     }
                 case .outline:
                     return .dynamicColor {
-                        theme.aliasTokens.strokeColors[.neutral1]
+                        theme.aliasTokens.colors[.stroke2]
                     }
                 }
 
@@ -107,7 +107,7 @@ public class CardNudgeTokenSet: ControlTokenSet<CardNudgeTokenSet.Tokens> {
 // MARK: - Constants
 
 extension CardNudgeTokenSet {
-    static let iconSize: CGFloat = GlobalTokens.iconSize(.xSmall)
+    static let iconSize: CGFloat = GlobalTokens.iconSize(.medium)
     static let circleSize: CGFloat = GlobalTokens.iconSize(.xxLarge)
     static let accentIconSize: CGFloat = GlobalTokens.iconSize(.xxSmall)
     static let accentPadding: CGFloat = GlobalTokens.spacing(.xxSmall)
