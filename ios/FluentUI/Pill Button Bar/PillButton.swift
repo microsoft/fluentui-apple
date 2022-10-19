@@ -120,7 +120,7 @@ open class PillButton: UIButton {
             self.configuration = configuration
 
             // This updates the attributed title stored in self.configuration,
-            // so it needs to be called after we set it.
+            // so it needs to be called after we set the configuration.
             updateAttributedTitle()
 
             configurationUpdateHandler = { [weak self] _ in
