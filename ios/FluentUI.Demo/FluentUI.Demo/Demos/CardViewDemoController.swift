@@ -100,7 +100,7 @@ class CardViewDemoController: DemoController {
         container.addArrangedSubview(UIView())
     }
 
-    let animation = {(view: UIView, frame: CGRect, duration: TimeInterval) -> Void in
+    let animation: (UIView, CGRect, TimeInterval) -> Void = {(view: UIView, frame: CGRect, duration: TimeInterval) -> Void in
         UIView.animate(withDuration: duration) {
            view.frame = frame
         }

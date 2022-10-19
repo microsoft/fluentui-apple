@@ -28,11 +28,11 @@ public struct ShadowInfo: Equatable {
                 xTwo: CGFloat,
                 yTwo: CGFloat) {
         self.colorOne = colorOne
-        self.blurOne = blurOne / blurDivisor
+        self.blurOne = blurOne * shadowBlurAdjustment
         self.xOne = xOne
         self.yOne = yOne
         self.colorTwo = colorTwo
-        self.blurTwo = blurTwo / blurDivisor
+        self.blurTwo = blurTwo * shadowBlurAdjustment
         self.xTwo = xTwo
         self.yTwo = yTwo
     }
@@ -62,22 +62,13 @@ public struct ShadowInfo: Equatable {
     public let yTwo: CGFloat
 
     /// The number that the figma blur needs to be divided by to properly display shadows
-    private let blurDivisor: CGFloat = 2.0
+    private let shadowBlurAdjustment: CGFloat = 0.5
 }
 
 public class ShadowUtil {
 
     public static func applyShadow(_ shadowInfo: ShadowInfo, for view: UIView) {
-        guard let superview = view.superview else {
-            return
-        }
-        var shadowable: Shadowable
-
-        if view as? Shadowable != nil {
-            shadowable = view as! Shadowable
-        } else if view.superview as? Shadowable != nil {
-            shadowable = view.superview as! Shadowable
-        } else {
+        guard let superview = view.superview, var shadowable = (view as? Shadowable) ?? (view.superview as? Shadowable)  else {
             return
         }
 
