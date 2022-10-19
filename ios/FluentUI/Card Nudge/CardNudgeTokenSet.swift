@@ -17,17 +17,40 @@ import SwiftUI
 /// Design token set for the `CardNudge` control.
 public class CardNudgeTokenSet: ControlTokenSet<CardNudgeTokenSet.Tokens> {
     public enum Tokens: TokenSetKey {
+        /// The  color applied to the accent text and icon
         case accentColor
+
+        /// The background color of the`CardNudge` control
         case backgroundColor
+
+        /// The background color of the action button and main icon
         case buttonBackgroundColor
+
+        /// The foreground color of the action button and main icon
         case buttonForegroundColor
+
+        /// The color of the outline of the`CardNudge` control
         case outlineColor
+
+        /// The color of the subtitle text and dismiss icon
         case subtitleTextColor
+
+        /// The color of the title text
         case textColor
+
+        /// The circle radius of the main icon
         case circleRadius
+
+        /// The corner radius of the action button and the`CardNudge` control
         case cornerRadius
+
+        /// The width of the`CardNudge` control outline
         case outlineWidth
+
+        /// The font applied to the title text and action button text
         case titleFont
+
+        /// The font applied to the subtitle text and the accent text
         case subtitleFont
     }
 
