@@ -196,7 +196,7 @@ open class PillButton: UIButton {
         var attributedTitle = AttributedString(itemTitle)
         attributedTitle.font = Constants.font
         configuration?.attributedTitle = attributedTitle
-        
+
         // Workaround for Apple bug: when UIButton.Configuration is used with UIControl's isSelected = true, accessibilityLabel doesn't get set automatically
         accessibilityLabel = itemTitle
 
