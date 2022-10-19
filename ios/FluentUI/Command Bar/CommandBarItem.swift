@@ -69,10 +69,20 @@ open class CommandBarItem: NSObject {
         }
     }
 
-    /// Image displayed behind the `iconImage` to provide fill or accent if desired
+    /// Image displayed behind the `iconImage` to provide fill or accent if desired. Image is always displayed with `UIImage.RenderingMode.alwaysTemplate`.
+    /// Set `accentImageTintColor` to apply desired tint color to image.
     @objc public var accentImage: UIImage? {
         didSet {
             if accentImage != oldValue {
+                propertyChangedUpdateBlock?(self, /* shouldUpdateGroupState */ false)
+            }
+        }
+    }
+
+    /// Tint color applied to `accentImage`.
+    @objc public var accentImageTintColor: UIColor? {
+        didSet {
+            if accentImageTintColor != oldValue {
                 propertyChangedUpdateBlock?(self, /* shouldUpdateGroupState */ false)
             }
         }

@@ -84,6 +84,15 @@ class CommandBarDemoController: DemoController {
             }
         }
 
+        var accentImageTintColor: UIColor? {
+            switch self {
+            case .delete:
+                return Colors.communicationBlue
+            default:
+                return nil
+            }
+        }
+
         var title: String? {
             switch self {
             case .textStyle:
@@ -355,7 +364,8 @@ class CommandBarDemoController: DemoController {
             accessibilityHint: "sample accessibility hint"
         )
 
-        commandBarItem.accentImage = command.accentImage?.withTintColor(Colors.communicationBlue, renderingMode: .alwaysOriginal)
+        commandBarItem.accentImage = command.accentImage
+        commandBarItem.accentImageTintColor = command.accentImageTintColor
 
         if command == .customView {
             commandBarItem.customControlView = { () -> UIView in
@@ -421,7 +431,7 @@ class CommandBarDemoController: DemoController {
         }
 
         if sender.isOn {
-            item.accentImage = Command.delete.accentImage?.withTintColor(Colors.communicationBlue, renderingMode: .alwaysOriginal)
+            item.accentImage = Command.delete.accentImage
         } else {
             item.accentImage = nil
         }

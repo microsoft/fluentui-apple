@@ -109,6 +109,7 @@ class CommandBarButton: UIButton {
         }
 
         updateAccentImage(item.accentImage)
+        updateAccentImageTint(item.accentImageTintColor)
 
         titleLabel?.isEnabled = isEnabled
 
@@ -142,23 +143,30 @@ class CommandBarButton: UIButton {
     private var accentImageView: UIImageView?
 
     private func updateAccentImage(_ accentImage: UIImage?) {
-        if accentImage != accentImageView?.image {
-            if let accentImage = accentImage {
-                accentImageView = UIImageView(image: accentImage)
-                accentImageView?.translatesAutoresizingMaskIntoConstraints = false
-                if let accentImageView = accentImageView,
-                    let imageView = imageView {
-                    insertSubview(accentImageView, belowSubview: imageView)
-                    NSLayoutConstraint.activate([
-                        accentImageView.centerXAnchor.constraint(equalTo: imageView.centerXAnchor),
-                        accentImageView.centerYAnchor.constraint(equalTo: imageView.centerYAnchor)
-                    ])
-                }
-            } else {
-                accentImageView?.removeFromSuperview()
-                accentImageView = nil
-            }
+        if accentImage == accentImageView?.image {
+            return
         }
+
+        if let accentImage = accentImage?.withRenderingMode(.alwaysTemplate), let imageView = imageView {
+            let accentImageView = UIImageView(image: accentImage)
+            accentImageView.translatesAutoresizingMaskIntoConstraints = false
+            insertSubview(accentImageView, belowSubview: imageView)
+            NSLayoutConstraint.activate([
+                accentImageView.centerXAnchor.constraint(equalTo: imageView.centerXAnchor),
+                accentImageView.centerYAnchor.constraint(equalTo: imageView.centerYAnchor)
+            ])
+            self.accentImageView = accentImageView
+        } else {
+            accentImageView?.removeFromSuperview()
+            accentImageView = nil
+        }
+    }
+
+    private func updateAccentImageTint(_ tintColor: UIColor?) {
+        guard let tintColor = tintColor else {
+            return
+        }
+        accentImageView?.tintColor = tintColor
     }
 
     private func updateStyle() {
