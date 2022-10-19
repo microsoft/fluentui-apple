@@ -61,7 +61,7 @@ public struct CardNudge: View, TokenizedControlView {
                 Image(uiImage: icon)
                     .renderingMode(.template)
                     .frame(width: CardNudgeTokenSet.iconSize, height: CardNudgeTokenSet.iconSize, alignment: .center)
-                    .foregroundColor(Color(dynamicColor: tokenSet[.accentColor].dynamicColor))
+                    .foregroundColor(Color(dynamicColor: tokenSet[.buttonForegroundColor].dynamicColor))
             }
             .padding(.trailing, CardNudgeTokenSet.horizontalPadding)
             .showsLargeContentViewer(text: state.title, image: state.mainIcon)
@@ -117,7 +117,7 @@ public struct CardNudge: View, TokenizedControlView {
                 .lineLimit(1)
                 .padding(.horizontal, CardNudgeTokenSet.buttonInnerPaddingHorizontal)
                 .padding(.vertical, CardNudgeTokenSet.verticalPadding)
-                .foregroundColor(Color(dynamicColor: tokenSet[.accentColor].dynamicColor))
+                .foregroundColor(Color(dynamicColor: tokenSet[.buttonForegroundColor].dynamicColor))
                 .background(
                     RoundedRectangle(cornerRadius: tokenSet[.circleRadius].float)
                         .foregroundColor(Color(dynamicColor: tokenSet[.buttonBackgroundColor].dynamicColor))
@@ -137,7 +137,7 @@ public struct CardNudge: View, TokenizedControlView {
                 .padding(.horizontal, CardNudgeTokenSet.buttonInnerPaddingHorizontal)
                 .padding(.vertical, CardNudgeTokenSet.verticalPadding)
                 .accessibility(identifier: dismissLabel)
-                .foregroundColor(Color(dynamicColor: tokenSet[.textColor].dynamicColor))
+                .foregroundColor(Color(dynamicColor: tokenSet[.subtitleTextColor].dynamicColor))
                 .showsLargeContentViewer(text: dismissLabel, image: dismissImage)
             }
         }

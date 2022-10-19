@@ -20,6 +20,7 @@ public class CardNudgeTokenSet: ControlTokenSet<CardNudgeTokenSet.Tokens> {
         case accentColor
         case backgroundColor
         case buttonBackgroundColor
+        case buttonForegroundColor
         case outlineColor
         case subtitleTextColor
         case textColor
@@ -34,24 +35,29 @@ public class CardNudgeTokenSet: ControlTokenSet<CardNudgeTokenSet.Tokens> {
             switch token {
             case .accentColor:
                 return .dynamicColor {
-                    theme.aliasTokens.brandColors[.shade20]
+                    theme.aliasTokens.colors[.brandForeground1]
                 }
 
             case .backgroundColor:
                 switch style() {
                 case .standard:
                     return .dynamicColor {
-                        theme.aliasTokens.backgroundColors[.neutral2]
+                        theme.aliasTokens.colors[.canvasBackground]
                     }
                 case .outline:
                     return .dynamicColor {
-                        theme.aliasTokens.backgroundColors[.neutral1]
+                        theme.aliasTokens.colors[.background1]
                     }
+            }
 
-                }
             case .buttonBackgroundColor:
                 return .dynamicColor {
-                    theme.aliasTokens.brandColors[.tint30]
+                    theme.aliasTokens.colors[.brandBackgroundTint]
+                }
+
+            case .buttonForegroundColor:
+                return .dynamicColor {
+                    theme.aliasTokens.colors[.brandForegroundTint]
                 }
 
             case .circleRadius:
@@ -83,19 +89,12 @@ public class CardNudgeTokenSet: ControlTokenSet<CardNudgeTokenSet.Tokens> {
 
             case .subtitleTextColor:
                 return .dynamicColor {
-                    theme.aliasTokens.foregroundColors[.neutral3]
+                    theme.aliasTokens.colors[.foreground2]
                 }
 
             case .textColor:
-                switch style() {
-                case .standard:
-                    return .dynamicColor {
-                        theme.aliasTokens.foregroundColors[.neutral1]
-                    }
-                case .outline:
-                    return .dynamicColor {
-                        theme.aliasTokens.brandColors[.shade20]
-                    }
+                return .dynamicColor {
+                    theme.aliasTokens.colors[.foreground1]
                 }
             }
         }
