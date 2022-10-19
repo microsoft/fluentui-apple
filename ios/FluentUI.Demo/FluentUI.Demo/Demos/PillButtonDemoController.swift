@@ -55,11 +55,11 @@ class PillButtonDemoController: DemoController {
         ]
     }()
 
-    private var itemTitlesChanged = false
+    private var itemTitlesChanged: Bool = false
 
-    private var unreadDotsChanged = false
+    private var unreadDotsChanged: Bool = false
 
-    private let tabItemTitles = [
+    private let tabItemTitles: [String] = [
         "All",
         "Documents",
         "Home",
