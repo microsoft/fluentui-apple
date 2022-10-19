@@ -109,6 +109,10 @@ open class PillButton: UIButton {
         if #available(iOS 15.0, *) {
             var configuration = UIButton.Configuration.plain()
             configuration.attributedTitle = AttributedString(pillBarItem.title)
+
+            // Workaround for Apple bug: when UIButton.Configuration is used with UIControl's isSelected = true, accessibilityLabel doesn't get set automatically
+            accessibilityLabel = pillBarItem.title
+
             configuration.contentInsets = NSDirectionalEdgeInsets(top: Constants.topInset,
                                                                   leading: Constants.horizontalInset,
                                                                   bottom: Constants.bottomInset,
