@@ -27,6 +27,8 @@ public class CardNudgeTokenSet: ControlTokenSet<CardNudgeTokenSet.Tokens> {
         case circleRadius
         case cornerRadius
         case outlineWidth
+        case titleFont
+        case subtitleFont
     }
 
     init(style: @escaping () -> MSFCardNudgeStyle) {
@@ -95,6 +97,16 @@ public class CardNudgeTokenSet: ControlTokenSet<CardNudgeTokenSet.Tokens> {
             case .textColor:
                 return .dynamicColor {
                     theme.aliasTokens.colors[.foreground1]
+                }
+
+            case .titleFont:
+                return .fontInfo {
+                    theme.aliasTokens.typography[.body2Strong]
+                }
+
+            case .subtitleFont:
+                return .fontInfo {
+                    theme.aliasTokens.typography[.caption1]
                 }
             }
         }

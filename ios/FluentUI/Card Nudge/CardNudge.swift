@@ -79,6 +79,7 @@ public struct CardNudge: View, TokenizedControlView {
                 .lineLimit(1)
                 .foregroundColor(Color(dynamicColor: tokenSet[.textColor].dynamicColor))
                 .showsLargeContentViewer(text: state.title, image: state.mainIcon)
+                .font(.fluent(tokenSet[.titleFont].fontInfo))
 
             if hasSecondTextRow {
                 HStack(spacing: CardNudgeTokenSet.accentPadding) {
@@ -94,12 +95,14 @@ public struct CardNudge: View, TokenizedControlView {
                             .lineLimit(1)
                             .foregroundColor(Color(dynamicColor: tokenSet[.accentColor].dynamicColor))
                             .showsLargeContentViewer(text: accent, image: state.accentIcon)
+                            .font(.fluent(tokenSet[.subtitleFont].fontInfo))
                     }
                     if let subtitle = state.subtitle {
                         Text(subtitle)
                             .lineLimit(1)
                             .foregroundColor(Color(dynamicColor: tokenSet[.subtitleTextColor].dynamicColor))
                             .showsLargeContentViewer(text: subtitle)
+                            .font(.fluent(tokenSet[.subtitleFont].fontInfo))
                     }
                 }
             }
@@ -118,6 +121,7 @@ public struct CardNudge: View, TokenizedControlView {
                 .padding(.horizontal, CardNudgeTokenSet.buttonInnerPaddingHorizontal)
                 .padding(.vertical, CardNudgeTokenSet.verticalPadding)
                 .foregroundColor(Color(dynamicColor: tokenSet[.buttonForegroundColor].dynamicColor))
+                .font(.fluent(tokenSet[.titleFont].fontInfo))
                 .background(
                     RoundedRectangle(cornerRadius: tokenSet[.circleRadius].float)
                         .foregroundColor(Color(dynamicColor: tokenSet[.buttonBackgroundColor].dynamicColor))
