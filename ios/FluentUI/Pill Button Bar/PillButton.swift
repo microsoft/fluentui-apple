@@ -129,6 +129,10 @@ open class PillButton: UIButton {
                                                                   trailing: Constants.horizontalInset)
             self.configuration = configuration
 
+            // This updates the attributed title stored in self.configuration,
+            // so it needs to be called after we set the configuration.
+            updateAttributedTitle()
+
             configurationUpdateHandler = { [weak self] _ in
                 self?.updateAppearance()
             }
@@ -186,6 +190,28 @@ open class PillButton: UIButton {
     @objc private func isUnreadValueDidChange() {
         isUnreadDotVisible = pillBarItem.isUnread
         setNeedsLayout()
+    }
+
+    @objc private func titleValueDidChange() {
+        if #available(iOS 15.0, *) {
+            updateAttributedTitle()
+        } else {
+            setTitle(pillBarItem.title, for: .normal)
+        }
+    }
+
+    @available(iOS 15, *)
+    private func updateAttributedTitle() {
+        let itemTitle = pillBarItem.title
+        var attributedTitle = AttributedString(itemTitle)
+        attributedTitle.font = Constants.font
+        configuration?.attributedTitle = attributedTitle
+
+        // Workaround for Apple bug: when UIButton.Configuration is used with UIControl's isSelected = true, accessibilityLabel doesn't get set automatically
+        accessibilityLabel = itemTitle
+
+        // This sets colors on the attributed string, so it must run whenever we recreate it.
+        updateAppearance()
     }
 
     private func updateUnreadDot() {
