@@ -61,14 +61,15 @@ public struct ShadowInfo: Equatable {
     /// The vertical offset of the shadow for shadow 2.
     public let yTwo: CGFloat
 
-    /// The number that the figma blur needs to be divided by to properly display shadows
+    /// The number that the figma blur needs to be adjusted by to properly display shadows. See https://github.com/microsoft/apple-ux-guide/blob/gh-pages/Shadows.md
     private let shadowBlurAdjustment: CGFloat = 0.5
 }
 
-public class ShadowUtil {
+public extension ShadowInfo {
 
-    public static func applyShadow(_ shadowInfo: ShadowInfo, for view: UIView) {
+    func applyShadow(to view: UIView) {
         guard let superview = view.superview, var shadowable = (view as? Shadowable) ?? (view.superview as? Shadowable)  else {
+            assertionFailure("Cannot apply Fluent shadows to a non-Shadowable view")
             return
         }
 
@@ -85,20 +86,22 @@ public class ShadowUtil {
         let shadow1 = CALayer()
         let shadow2 = CALayer()
 
-        initializeShadowLayer(layer: shadow1, shadow: shadowInfo, view: view, isShadowOne: true)
-        initializeShadowLayer(layer: shadow2, shadow: shadowInfo, view: view)
+        initializeShadowLayer(layer: shadow1, shadow: self, view: view, isShadowOne: true)
+        initializeShadowLayer(layer: shadow2, shadow: self, view: view)
 
         shadowView.layer.insertSublayer(shadow1, at: 0)
         shadowView.layer.insertSublayer(shadow2, below: shadow1)
     }
 
-    private static func initializeShadowLayer(layer: CALayer,
-                                              shadow: ShadowInfo,
-                                              view: UIView,
-                                              isShadowOne: Bool = false) {
+    private func initializeShadowLayer(layer: CALayer,
+                                       shadow: ShadowInfo,
+                                       view: UIView,
+                                       isShadowOne: Bool = false) {
         layer.frame = view.bounds
         layer.shadowColor = UIColor(dynamicColor: isShadowOne ? shadow.colorOne : shadow.colorTwo).cgColor
         layer.shadowRadius = isShadowOne ? shadow.blurOne : shadow.blurTwo
+
+        // The shadowOpacity needs to be set to 1 since the alpha is already set through shadowColor
         layer.shadowOpacity = 1
         layer.shadowOffset = CGSize(width: isShadowOne ? shadow.xOne : shadow.xTwo,
                                     height: isShadowOne ? shadow.yOne : shadow.yTwo)

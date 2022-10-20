@@ -40,7 +40,7 @@ class ShadowTokensDemoController: DemoController {
     private func updateShadows() {
         for index in 0..<AliasTokens.ShadowTokens.allCases.count {
             let shadowInfo = view.fluentTheme.aliasTokens.shadow[AliasTokens.ShadowTokens.allCases[index]]
-            ShadowUtil.applyShadow(shadowInfo, for: cards[index])
+            shadowInfo.applyShadow(to: cards[index])
         }
     }
 

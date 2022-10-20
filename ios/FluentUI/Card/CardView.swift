@@ -383,7 +383,7 @@ open class CardView: UIView, Shadowable {
 
     private func updateShadow() {
         let shadowInfo = fluentTheme.aliasTokens.shadow[.shadow16]
-        ShadowUtil.applyShadow(shadowInfo, for: self)
+        shadowInfo.applyShadow(to: self)
     }
 
     public func animate(withDuration duration: TimeInterval,

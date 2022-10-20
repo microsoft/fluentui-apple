@@ -56,7 +56,7 @@ extension View {
     ///  - shadowInfo: The values of the two shadows to be applied
     /// - Returns: The modified view.
     func applyShadow(shadowInfo: ShadowInfo) -> some View {
-            modifier(ShadowModifier(shadowInfo: shadowInfo))
+        modifier(ShadowModifier(shadowInfo: shadowInfo))
     }
 }
 
