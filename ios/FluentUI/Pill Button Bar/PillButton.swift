@@ -62,10 +62,16 @@ open class PillButton: UIButton {
                                                selector: #selector(isUnreadValueDidChange),
                                                name: PillButtonBarItem.isUnreadValueDidChangeNotification,
                                                object: pillBarItem)
+
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(themeDidChange),
                                                name: .didChangeTheme,
                                                object: nil)
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(titleValueDidChange),
+                                               name: PillButtonBarItem.titleValueDidChangeNotification,
+                                               object: pillBarItem)
     }
 
     @objc func themeDidChange(_ notification: Notification) {
@@ -121,8 +127,7 @@ open class PillButton: UIButton {
     private func setupView() {
         if #available(iOS 15.0, *) {
             var configuration = UIButton.Configuration.plain()
-            configuration.attributedTitle = AttributedString(pillBarItem.title)
-            configuration.attributedTitle?.font = .fluent(titleFont)
+
             configuration.contentInsets = NSDirectionalEdgeInsets(top: Constants.topInset,
                                                                   leading: Constants.horizontalInset,
                                                                   bottom: Constants.bottomInset,
@@ -204,7 +209,7 @@ open class PillButton: UIButton {
     private func updateAttributedTitle() {
         let itemTitle = pillBarItem.title
         var attributedTitle = AttributedString(itemTitle)
-        attributedTitle.font = Constants.font
+        attributedTitle.font = .fluent(titleFont)
         configuration?.attributedTitle = attributedTitle
 
         // Workaround for Apple bug: when UIButton.Configuration is used with UIControl's isSelected = true, accessibilityLabel doesn't get set automatically
@@ -295,8 +300,7 @@ open class PillButton: UIButton {
 
         if #available(iOS 15.0, *) {
             configuration?.background.backgroundColor = resolvedBackgroundColor
-            configuration?.attributedTitle?.setAttributes(AttributeContainer([NSAttributedString.Key.foregroundColor: resolvedTitleColor,
-                                                                              NSAttributedString.Key.font: titleFont]))
+            configuration?.attributedTitle?.foregroundColor = resolvedTitleColor
         } else {
             backgroundColor = resolvedBackgroundColor
         }
