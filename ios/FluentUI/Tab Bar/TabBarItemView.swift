@@ -20,6 +20,7 @@ class TabBarItemView: UIControl {
         didSet {
             titleLabel.isHighlighted = isSelected
             imageView.isHighlighted = isSelected
+            updateImage()
             updateColors()
             if isSelected {
                 accessibilityTraits.insert(.selected)
@@ -242,10 +243,13 @@ class TabBarItemView: UIControl {
         }
     }
 
-    private func updateLayout() {
-        imageView.image = item.unselectedImage(isInPortraitMode: isInPortraitMode, labelIsHidden: titleLabel.isHidden)
-        imageView.highlightedImage = item.selectedImage(isInPortraitMode: isInPortraitMode, labelIsHidden: titleLabel.isHidden)
+    private func updateImage() {
+        imageView.image = imageView.isHighlighted ?
+                            item.selectedImage(isInPortraitMode: isInPortraitMode, labelIsHidden: titleLabel.isHidden) :
+                            item.unselectedImage(isInPortraitMode: isInPortraitMode, labelIsHidden: titleLabel.isHidden)
+    }
 
+    private func updateLayout() {
         if isInPortraitMode {
             container.axis = .vertical
             container.spacing = Constants.spacingVertical
@@ -266,6 +270,7 @@ class TabBarItemView: UIControl {
             }
         }
 
+        updateImage()
         updateBadgeView()
         invalidateIntrinsicContentSize()
     }
