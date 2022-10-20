@@ -25,6 +25,9 @@ class TooltipDemoController: DemoController {
         container.addArrangedSubview(createButton(title: "Show double-line tooltip above", action: { sender in
             Tooltip.shared.show(with: "This is a very long message, and this is also pointing down.", for: sender)
         }))
+        container.addArrangedSubview(createButton(title: "Show tooltip with title above", action: { sender in
+            Tooltip.shared.show(with: "This is the message of the tooltip.", title: "This is a tooltip title", for: sender)
+        }))
         container.addArrangedSubview(createButton(title: "Show with tap on tooltip dismissal", action: { sender in
             Tooltip.shared.show(with: "Tap on this tooltip to dismiss.", for: sender, preferredArrowDirection: .up, dismissOn: .tapOnTooltip)
         }))

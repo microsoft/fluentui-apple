@@ -76,12 +76,30 @@ class TooltipPositionController {
 
     private let arrowMargin: CGFloat
     private let arrowWidth: CGFloat
+    private let arrowHeight: CGFloat
+    private let totalPaddingVertical: CGFloat
+    private let paddingHorizontal: CGFloat
+    private let maximumWidth: CGFloat
+    private let messageLabelFont: UIFont
+    private let titleLabelFont: UIFont
     private let boundingRect: CGRect
     private let offset: CGPoint
 
     private var tooltipSize: CGSize = .zero
-
-    init(anchorView: UIView, message: String, boundingRect: CGRect, preferredArrowDirection: Tooltip.ArrowDirection, offset: CGPoint, arrowMargin: CGFloat, arrowWidth: CGFloat) {
+    init(anchorView: UIView,
+         message: String,
+         title: String? = nil,
+         boundingRect: CGRect,
+         preferredArrowDirection: Tooltip.ArrowDirection,
+         offset: CGPoint,
+         arrowMargin: CGFloat,
+         arrowWidth: CGFloat,
+         arrowHeight: CGFloat,
+         totalPaddingVertical: CGFloat,
+         paddingHorizontal: CGFloat,
+         maximumWidth: CGFloat,
+         messageLabelFont: UIFont,
+         titleLabelFont: UIFont) {
         guard let window = anchorView.window else {
             preconditionFailure("Can't find anchorView's window")
         }
@@ -91,15 +109,39 @@ class TooltipPositionController {
         self.offset = offset
         self.arrowMargin = arrowMargin
         self.arrowWidth = arrowWidth
+        self.arrowHeight = arrowHeight
+        self.totalPaddingVertical = totalPaddingVertical
+        self.paddingHorizontal = paddingHorizontal
+        self.maximumWidth = maximumWidth
+        self.messageLabelFont = messageLabelFont
+        self.titleLabelFont = titleLabelFont
         self.boundingRect = boundingRect
-        setupArrowDirectionAndTooltipSize(for: message)
+        setupArrowDirectionAndTooltipSize(for: message, title: title)
     }
 
-    private func setupArrowDirectionAndTooltipSize(for message: String) {
+    private func setupArrowDirectionAndTooltipSize(for message: String, title: String? = nil) {
         let preferredBoundingRect = boundingRect.inset(by: anchorViewInset(for: preferredArrowDirection))
         let backupBoundingRect = boundingRect.inset(by: anchorViewInset(for: preferredArrowDirection.opposite))
-        let preferredSize = TooltipView.sizeThatFits(preferredBoundingRect.size, message: message, arrowDirection: preferredArrowDirection)
-        let backupSize = TooltipView.sizeThatFits(backupBoundingRect.size, message: message, arrowDirection: preferredArrowDirection.opposite)
+        let preferredSize = TooltipView.sizeThatFits(preferredBoundingRect.size,
+                                                     message: message,
+                                                     title: title,
+                                                     arrowDirection: preferredArrowDirection,
+                                                     arrowHeight: arrowHeight,
+                                                     totalPaddingVertical: totalPaddingVertical,
+                                                     paddingHorizontal: paddingHorizontal,
+                                                     maximumWidth: maximumWidth,
+                                                     messageLabelFont: messageLabelFont,
+                                                     titleLabelFont: titleLabelFont)
+        let backupSize = TooltipView.sizeThatFits(backupBoundingRect.size,
+                                                  message: message,
+                                                  title: title,
+                                                  arrowDirection: preferredArrowDirection.opposite,
+                                                  arrowHeight: arrowHeight,
+                                                  totalPaddingVertical: totalPaddingVertical,
+                                                  paddingHorizontal: paddingHorizontal,
+                                                  maximumWidth: maximumWidth,
+                                                  messageLabelFont: messageLabelFont,
+                                                  titleLabelFont: titleLabelFont)
 
         var usePreferred = true
         if preferredArrowDirection.isVertical {
