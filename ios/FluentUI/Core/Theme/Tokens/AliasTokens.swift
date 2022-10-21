@@ -455,6 +455,7 @@ public final class AliasTokens {
         case foregroundOnColor
         case foregroundInverted1
         case foregroundInverted2
+        case brandForegroundTint
         case brandForeground1
         case brandForeground1Pressed
         case brandForeground1Selected
@@ -490,6 +491,7 @@ public final class AliasTokens {
         case background6Selected
         case backgroundInverted
         case backgroundDisabled
+        case brandBackgroundTint
         case brandBackground1
         case brandBackground1Pressed
         case brandBackground1Selected
@@ -550,6 +552,9 @@ public final class AliasTokens {
         case .foregroundInverted2:
             return DynamicColor(light: strongSelf.brandColors[.comm80].light,
                                 dark: GlobalTokens.neutralColors(.white))
+        case .brandForegroundTint:
+            return DynamicColor(light: strongSelf.brandColors[.comm60].light,
+                                dark: strongSelf.brandColors[.comm130].light)
         case .brandForeground1:
             return DynamicColor(light: strongSelf.brandColors[.comm80].light,
                                 dark: strongSelf.brandColors[.comm100].light)
@@ -672,6 +677,9 @@ public final class AliasTokens {
          return DynamicColor(light: GlobalTokens.neutralColors(.grey88),
                              dark: GlobalTokens.neutralColors(.grey32),
                              darkElevated: GlobalTokens.neutralColors(.grey32))
+        case .brandBackgroundTint:
+            return DynamicColor(light: strongSelf.brandColors[.comm150].light,
+                                dark: strongSelf.brandColors[.comm40].light)
         case .brandBackground1:
             return DynamicColor(light: strongSelf.brandColors[.comm80].light,
                                 dark: strongSelf.brandColors[.comm100].light)
