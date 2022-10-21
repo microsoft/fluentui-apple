@@ -579,7 +579,7 @@ public class BottomSheetController: UIViewController {
     }
 
     // When the bottomsheet is expanded and dimmingView is shown, we should make dimmingView accessibility
-    // DimmingView is technially full screen. However, for accessibility users, we should update the dimmingView's accessibilityFrame to be only the offset from bottomsheet's frame.
+    // DimmingView is technically full screen. However, for accessibility users, we should update the dimmingView's accessibilityFrame to be only the offset from bottomsheet's frame.
     private func updateDimmingViewAccessibility() {
         guard shouldShowDimmingView else {
             return
