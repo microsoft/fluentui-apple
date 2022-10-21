@@ -377,7 +377,15 @@ open class BadgeView: UIView {
         isAccessibilityElement = true
         accessibilityTraits = .button
 
-        NotificationCenter.default.addObserver(self, selector: #selector(invalidateIntrinsicContentSize), name: UIContentSizeCategory.didChangeNotification, object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(invalidateIntrinsicContentSize),
+                                               name: UIContentSizeCategory.didChangeNotification,
+                                               object: nil)
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
 
         defer {
             self.dataSource = dataSource
@@ -386,6 +394,13 @@ open class BadgeView: UIView {
 
     public required init?(coder aDecoder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
+            return
+        }
+        updateColors()
     }
 
     open override func layoutSubviews() {
