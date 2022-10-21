@@ -79,16 +79,8 @@ class CommandBarDemoController: DemoController {
             switch self {
             case .delete:
                 return UIImage(named: "delete24Filled")
-            default:
-                return nil
-            }
-        }
-
-        var accentImageTintColor: UIColor? {
-            switch self {
-            case .delete:
-                return Colors.communicationBlue
-            default:
+            case .add, .mention, .calendar, .textBold, .textItalic, .textUnderline, .textStrikethrough, .arrowUndo,
+                    .arrowRedo, .copy, .checklist, .bulletList, .numberList, .link, .keyboard, .textStyle, .customView, .disabledText:
                 return nil
             }
         }
@@ -101,7 +93,8 @@ class CommandBarDemoController: DemoController {
                 return "Search"
             case .add:
                 return "Add"
-            default:
+            case .delete, .mention, .calendar, .textBold, .textItalic, .textUnderline, .textStrikethrough, .arrowUndo,
+                    .arrowRedo, .copy, .checklist, .bulletList, .numberList, .link, .keyboard, .customView:
                 return nil
             }
         }
@@ -112,7 +105,8 @@ class CommandBarDemoController: DemoController {
                 return TextStyle.body.font
             case .disabledText:
                 return .systemFont(ofSize: 15, weight: .regular)
-            default:
+            case .add, .mention, .calendar, .textBold, .textItalic, .textUnderline, .textStrikethrough, .arrowUndo,
+                    .arrowRedo, .copy, .checklist, .bulletList, .numberList, .link, .keyboard, .delete, .customView:
                 return nil
             }
         }
@@ -365,7 +359,9 @@ class CommandBarDemoController: DemoController {
         )
 
         commandBarItem.accentImage = command.accentImage
-        commandBarItem.accentImageTintColor = command.accentImageTintColor
+        if let window = view.window {
+            commandBarItem.accentImageTintColor = Colors.primary(for: window)
+        }
 
         if command == .customView {
             commandBarItem.customControlView = { () -> UIView in
