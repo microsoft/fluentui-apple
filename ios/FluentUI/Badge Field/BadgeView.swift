@@ -48,25 +48,6 @@ public protocol BadgeViewDelegate {
     func didTapSelectedBadge(_ badge: BadgeView)
 }
 
-// MARK: - Badge Colors
-
-private extension Colors {
-    struct Badge {
-        static var background: UIColor = .clear
-        static var backgroundDisabled = UIColor(light: surfaceSecondary, dark: gray700)
-        static var backgroundError = UIColor(light: Palette.dangerTint40.color, dark: Palette.dangerTint30.color)
-        static var backgroundErrorSelected: UIColor = error
-        static var backgroundWarning = UIColor(light: Palette.warningTint40.color, dark: Palette.warningTint30.color)
-        static var backgroundWarningSelected: UIColor = warning
-        static var textSelected: UIColor = textOnAccent
-        static var textDisabled: UIColor = textSecondary
-        static var textError: UIColor = Palette.dangerShade20.color
-        static var textErrorSelected: UIColor = textOnAccent
-        static var textWarning = UIColor(light: Palette.warningShade30.color, dark: Palette.warningPrimary.color)
-        static var textWarningSelected: UIColor = .black
-    }
-}
-
 // MARK: - BadgeView
 
 /**
@@ -81,6 +62,9 @@ open class BadgeView: UIView {
         case `default`
         case warning
         case error
+        case neutral
+        case severeWarning
+        case success
     }
 
     @objc(MSFBadgeViewSize)
@@ -160,15 +144,18 @@ open class BadgeView: UIView {
             }
             switch style {
             case .default:
-                if let window = window {
-                    return Colors.primary(for: window)
-                }
+                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForegroundTint])
             case .warning:
-                return Colors.Badge.textWarning
+                return UIColor(dynamicColor: fluentTheme.aliasTokens.sharedColors[.warningForeground1])
             case .error:
-                return Colors.Badge.textError
+                return UIColor(dynamicColor: fluentTheme.aliasTokens.sharedColors[.dangerForeground1])
+            case .neutral:
+                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
+            case .severeWarning:
+                return UIColor(dynamicColor: fluentTheme.aliasTokens.sharedColors[.severeForeground1])
+            case .success:
+                return UIColor(dynamicColor: fluentTheme.aliasTokens.sharedColors[.successForeground1])
             }
-            return nil
         }
         set {
             if labelTextColor != newValue {
@@ -187,11 +174,15 @@ open class BadgeView: UIView {
 
             switch style {
             case .default:
-                return Colors.Badge.textSelected
+                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundOnColor])
             case .warning:
-                return Colors.Badge.textWarningSelected
-            case .error:
-                return Colors.Badge.textErrorSelected
+                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundDarkStatic])
+            case .error,
+                 .severeWarning,
+                 .success:
+                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundLightStatic])
+            case .neutral:
+                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
             }
         }
         set {
@@ -208,7 +199,8 @@ open class BadgeView: UIView {
             if let customDisabledLabelTextColor = _disabledLabelTextColor {
                 return customDisabledLabelTextColor
             }
-            return style == .default ? Colors.Badge.textDisabled : (isSelected ? self.selectedLabelTextColor : self.labelTextColor)
+            let textDisabledColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundDisabled1])
+            return style == .default ? textDisabledColor : (isSelected ? self.selectedLabelTextColor : self.labelTextColor)
         }
         set {
             if disabledBackgroundColor != newValue {
@@ -226,15 +218,18 @@ open class BadgeView: UIView {
             }
             switch style {
             case .default:
-                if let window = window {
-                    return Colors.primaryTint40(for: window)
-                }
+                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandBackgroundTint])
             case .warning:
-                return Colors.Badge.backgroundWarning
+                return UIColor(dynamicColor: fluentTheme.aliasTokens.sharedColors[.warningBackground1])
             case .error:
-                return Colors.Badge.backgroundError
+                return UIColor(dynamicColor: fluentTheme.aliasTokens.sharedColors[.dangerBackground1])
+            case .neutral:
+                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background5])
+            case .severeWarning:
+                return UIColor(dynamicColor: fluentTheme.aliasTokens.sharedColors[.severeBackground1])
+            case .success:
+                return UIColor(dynamicColor: fluentTheme.aliasTokens.sharedColors[.successBackground1])
             }
-            return nil
         }
         set {
             if backgroundColor != newValue {
@@ -252,15 +247,18 @@ open class BadgeView: UIView {
             }
             switch style {
             case .default:
-                if let window = window {
-                    return Colors.primary(for: window)
-                }
+                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandBackground1])
             case .warning:
-                return Colors.Badge.backgroundWarningSelected
+                return UIColor(dynamicColor: fluentTheme.aliasTokens.sharedColors[.warningBackground2])
             case .error:
-                return Colors.Badge.backgroundErrorSelected
+                return UIColor(dynamicColor: fluentTheme.aliasTokens.sharedColors[.dangerBackground2])
+            case .neutral:
+                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background5Selected])
+            case .severeWarning:
+                return UIColor(dynamicColor: fluentTheme.aliasTokens.sharedColors[.severeBackground2])
+            case .success:
+                return UIColor(dynamicColor: fluentTheme.aliasTokens.sharedColors[.successBackground2])
             }
-            return nil
         }
         set {
             if selectedBackgroundColor != newValue {
@@ -285,7 +283,8 @@ open class BadgeView: UIView {
             if let customDisabledBackgroundColor = _disabledBackgroundColor {
                 return customDisabledBackgroundColor
             }
-            return style == .default ? Colors.Badge.backgroundDisabled : (isSelected ? self.selectedBackgroundColor : self.backgroundColor)
+            let backgroundDisabledColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background5])
+            return style == .default ? backgroundDisabledColor : (isSelected ? self.selectedBackgroundColor : self.backgroundColor)
         }
         set {
             if disabledBackgroundColor != newValue {
@@ -458,7 +457,7 @@ open class BadgeView: UIView {
 
     private func updateBackgroundColor() {
         backgroundView.backgroundColor = isActive ? (isSelected ? selectedBackgroundColor : backgroundColor) : disabledBackgroundColor
-        super.backgroundColor = Colors.Badge.background
+        super.backgroundColor = .clear
     }
 
     private func updateLabelTextColor() {
