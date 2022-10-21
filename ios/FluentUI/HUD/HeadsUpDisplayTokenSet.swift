@@ -12,9 +12,6 @@ public class HeadsUpDisplayTokenSet: ControlTokenSet<HeadsUpDisplayTokenSet.Toke
         /// The color of the squared background of the Heads-up display.
         case backgroundColor
 
-        /// The color of the contents presented by the Heads-up display.
-        case foregroundColor
-
         /// The corner radius of the squared background of the Heads-up display.
         case cornerRadius
 
@@ -30,15 +27,7 @@ public class HeadsUpDisplayTokenSet: ControlTokenSet<HeadsUpDisplayTokenSet.Toke
             switch token {
             case .backgroundColor:
                 return .dynamicColor {
-                    DynamicColor(light: ColorValue(r: 0.129, g: 0.129, b: 0.129, a: 0.9),
-                                 dark: ColorValue(r: 0.188, g: 0.188, b: 0.188, a: 1))
-                }
-
-            case .foregroundColor:
-                return .dynamicColor {
-                    DynamicColor(light: GlobalTokens.neutralColors(.white),
-                                 dark: ColorValue(r: 0.882, g: 0.882, b: 0.882, a: 1),
-                                 darkHighContrast: GlobalTokens.neutralColors(.white))
+                    return theme.aliasTokens.colors[.backgroundDarkStatic]
                 }
 
             case .cornerRadius:
@@ -48,12 +37,13 @@ public class HeadsUpDisplayTokenSet: ControlTokenSet<HeadsUpDisplayTokenSet.Toke
 
             case .activityIndicatorColor:
                 return .dynamicColor {
-                    return theme.aliasTokens.colors[.foreground2]
+                    return DynamicColor(light: GlobalTokens.neutralColors(.grey56),
+                                        dark: GlobalTokens.neutralColors(.grey72))
                 }
 
             case .labelColor:
                 return .dynamicColor {
-                    return theme.aliasTokens.colors[.foregroundInverted1]
+                    return theme.aliasTokens.colors[.foregroundLightStatic]
                 }
             }
         }
