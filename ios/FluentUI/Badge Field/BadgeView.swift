@@ -390,6 +390,8 @@ open class BadgeView: UIView {
         defer {
             self.dataSource = dataSource
         }
+
+        updateFonts()
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -401,6 +403,15 @@ open class BadgeView: UIView {
             return
         }
         updateColors()
+    }
+
+    private func updateFonts() {
+        switch size {
+        case .small:
+            label.font = UIFont.fluent(fluentTheme.aliasTokens.typography[.caption1])
+        case .medium:
+            label.font = UIFont.fluent(fluentTheme.aliasTokens.typography[.body2])
+        }
     }
 
     open override func layoutSubviews() {
