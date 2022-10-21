@@ -387,6 +387,10 @@ public class BottomSheetController: UIViewController {
         dimmingView.translatesAutoresizingMaskIntoConstraints = false
         dimmingView.alpha = 0.0
 
+        dimmingView.accessibilityLabel = "Accessibility.Dismiss.Label".localized
+        dimmingView.accessibilityHint = "Accessibility.Dismiss.Hint".localized
+        dimmingView.accessibilityTraits = .button
+
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleDimmingViewTap))
         dimmingView.addGestureRecognizer(tapGesture)
         return dimmingView
@@ -467,6 +471,7 @@ public class BottomSheetController: UIViewController {
             updateSheetLayoutGuideTopConstraint()
             updateExpandedContentAlpha()
             updateDimmingViewAlpha()
+            updateDimmingViewAccessibility()
         }
         collapsedHeightInSafeArea = view.safeAreaLayoutGuide.layoutFrame.maxY - offset(for: .collapsed)
     }
@@ -573,6 +578,25 @@ public class BottomSheetController: UIViewController {
         dimmingView.alpha = targetAlpha
     }
 
+    // When the bottomsheet is expanded and dimmingView is shown, we should make dimmingView accessibility
+    // DimmingView is technically full screen. However, for accessibility users, we should update the dimmingView's accessibilityFrame to be only the offset from bottomsheet's frame.
+    private func updateDimmingViewAccessibility() {
+        guard shouldShowDimmingView else {
+            return
+        }
+
+        if dimmingView.alpha == 0 {
+            dimmingView.isAccessibilityElement = false
+            view.accessibilityViewIsModal = false
+        } else {
+            dimmingView.isAccessibilityElement = true
+            var margins: UIEdgeInsets = .zero
+            margins.bottom = bottomSheetView.frame.height
+            dimmingView.accessibilityFrame = view.frame.inset(by: margins)
+            view.accessibilityViewIsModal = true
+        }
+    }
+
     private func updateSheetLayoutGuideTopConstraint() {
         if sheetLayoutGuideTopConstraint.constant != currentSheetVerticalOffset {
             sheetLayoutGuideTopConstraint.constant = currentSheetVerticalOffset
@@ -614,6 +638,7 @@ public class BottomSheetController: UIViewController {
         updateSheetLayoutGuideTopConstraint()
         updateExpandedContentAlpha()
         updateDimmingViewAlpha()
+        updateDimmingViewAccessibility()
     }
 
     // Source of truth for the sheet frame at a given offset from the top of the root view bounds.
@@ -752,6 +777,7 @@ public class BottomSheetController: UIViewController {
             strongSelf.updateDimmingViewAlpha()
             strongSelf.updateExpandedContentAlpha()
             strongSelf.view.layoutIfNeeded()
+            strongSelf.updateDimmingViewAccessibility()
         }
 
         translationAnimator.addCompletion({ [weak self] finalPosition in
