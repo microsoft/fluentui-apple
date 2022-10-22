@@ -322,6 +322,22 @@ open class BottomCommandingController: UIViewController {
         updateSheetHeaderSizingParameters()
     }
 
+    /// A string to optionally customize the accessibility label of the bottom sheet handle.
+    /// The message should convey the "Expand" action and will be used when the bottom sheet is collapsed.
+    @objc public var handleExpandCustomAccessibilityLabel: String? {
+        didSet {
+            bottomSheetController?.handleExpandCustomAccessibilityLabel = handleExpandCustomAccessibilityLabel
+        }
+    }
+
+    /// A string to optionally customize the accessibility label of the bottom sheet handle.
+    /// The message should convey the "Collapse" action and will be used when the bottom sheet is expanded.
+    @objc public var handleCollapseCustomAccessibilityLabel: String? {
+        didSet {
+            bottomSheetController?.handleCollapseCustomAccessibilityLabel = handleCollapseCustomAccessibilityLabel
+        }
+    }
+
     private func setupCommandingLayout(traitCollection: UITraitCollection, forceLayoutPass: Bool = false) {
         if traitCollection.horizontalSizeClass == .regular && traitCollection.userInterfaceIdiom == .pad {
             setupBottomBarLayout(forceLayoutPass: forceLayoutPass)
