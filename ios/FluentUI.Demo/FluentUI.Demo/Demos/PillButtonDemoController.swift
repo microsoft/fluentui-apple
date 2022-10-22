@@ -23,9 +23,29 @@ class PillButtonDemoController: DemoController {
         }
 
         addTitle(text: "Mutability")
-        addRow(items: [createButton(title: "Change titles", action: #selector(changeItemTitles))], stretchItems: true)
-        addRow(items: [createButton(title: "Change unread dots", action: #selector(changeUnreadDots))], stretchItems: true)
+        addRow(
+            items: [
+                createButton(title: "Change titles", action: { [weak self] _ in
+                    guard let strongSelf = self else {
+                        return
+                    }
+                    strongSelf.changeItemTitles()
+                })
+            ],
+            stretchItems: true
+        )
 
+        addRow(
+            items: [
+                createButton(title: "Change unread dots", action: { [weak self] _ in
+                    guard let strongSelf = self else {
+                        return
+                    }
+                    strongSelf.changeUnreadDots()
+                })
+            ],
+            stretchItems: true
+        )
     }
 
     @objc private func changeItemTitles() {
