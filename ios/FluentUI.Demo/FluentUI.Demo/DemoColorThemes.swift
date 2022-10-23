@@ -35,6 +35,10 @@ enum DemoColorTheme: CaseIterable {
 }
 
 class DemoColorDefaultTheme: NSObject, ColorProviding {
+    func brandBackground1(for window: UIWindow) -> UIColor? {
+        return Colors.communicationBlue
+    }
+
     func primaryColor(for window: UIWindow) -> UIColor? {
         return Colors.communicationBlue
     }
@@ -69,6 +73,10 @@ class DemoColorDefaultTheme: NSObject, ColorProviding {
 }
 
 class DemoColorGreenTheme: NSObject, ColorProviding {
+    func brandBackground1(for window: UIWindow) -> UIColor? {
+        return UIColor(named: "Colors/DemoPrimaryColor")
+    }
+
     func primaryColor(for window: UIWindow) -> UIColor? {
         return UIColor(named: "Colors/DemoPrimaryColor")
     }
