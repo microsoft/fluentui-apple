@@ -25,9 +25,6 @@ public protocol ColorProviding {
     @objc func primaryShade10Color(for window: UIWindow) -> UIColor?
     @objc func primaryShade20Color(for window: UIWindow) -> UIColor?
     @objc func primaryShade30Color(for window: UIWindow) -> UIColor?
-
-    /// new colors
-    @objc func brandBackground1(for window: UIWindow) -> UIColor?
 }
 
 private func brandColorOverrides(provider: ColorProviding, for window: UIWindow) -> [AliasTokens.BrandColorsTokens: DynamicColor] {
@@ -496,9 +493,6 @@ public final class Colors: NSObject {
         brandColors.forEach { token, value in
             fluentTheme.aliasTokens.brandColors[token] = value
         }
-        if let brandBackground1 = provider.brandBackground1(for: window)?.dynamicColor {
-            fluentTheme.aliasTokens.colors[.brandBackground1] = brandBackground1
-        }
         window.fluentTheme = fluentTheme
     }
 
@@ -512,11 +506,6 @@ public final class Colors: NSObject {
     }
 
     // MARK: Primary
-
-    /// Temporary override for testing
-    @objc public static func brandBackground1(for window: UIWindow) -> UIColor {
-        return colorProvidersMap.object(forKey: window)?.primaryColor(for: window) ?? FallbackThemeColor.primary
-    }
 
     /// Use these funcs to grab a color customized by a ColorProviding object for a specific window.. If no colorProvider exists for the window, falls back to deprecated singleton theme color
     @objc public static func primary(for window: UIWindow) -> UIColor {
