@@ -206,6 +206,11 @@ open class Button: UIButton {
         titleLabel?.font = style.titleFont
         titleLabel?.adjustsFontForContentSizeCategory = true
         update()
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
     }
 
     open override func didUpdateFocus(in context: UIFocusUpdateContext, with coordinator: UIFocusAnimationCoordinator) {
@@ -236,6 +241,13 @@ open class Button: UIButton {
         super.layoutSubviews()
 
         updateProposedTitleLabelWidth()
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        updateBackgroundColor()
+        updateTitleColors()
+        updateImage()
+        updateBorderColor()
     }
 
     private func updateTitleColors() {
