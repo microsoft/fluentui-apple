@@ -17,16 +17,16 @@ public enum ButtonStyle: Int, CaseIterable {
     case tertiaryOutline
     case borderless
 
-    public var contentEdgeInsets: UIEdgeInsets {
+    public var contentEdgeInsets: NSDirectionalEdgeInsets {
         switch self {
         case .dangerFilled, .dangerOutline, .primaryFilled, .primaryOutline:
-            return UIEdgeInsets(top: 16, left: 20, bottom: 16, right: 20)
+            return NSDirectionalEdgeInsets(top: 16, leading: 20, bottom: 16, trailing: 20)
         case .secondaryOutline:
-            return UIEdgeInsets(top: 10, left: 14, bottom: 10, right: 14)
+            return NSDirectionalEdgeInsets(top: 10, leading: 14, bottom: 10, trailing: 14)
         case .borderless:
-            return UIEdgeInsets(top: 7, left: 12, bottom: 7, right: 12)
+            return NSDirectionalEdgeInsets(top: 7, leading: 12, bottom: 7, trailing: 12)
         case .tertiaryOutline:
-            return UIEdgeInsets(top: 5, left: 8, bottom: 5, right: 8)
+            return NSDirectionalEdgeInsets(top: 5, leading: 8, bottom: 5, trailing: 8)
         }
     }
 
@@ -136,7 +136,7 @@ open class Button: UIButton {
         }
     }
 
-    open override var contentEdgeInsets: UIEdgeInsets {
+    open lazy var edgeInsets: NSDirectionalEdgeInsets = style.contentEdgeInsets {
         didSet {
             isUsingCustomContentEdgeInsets = true
 
@@ -145,16 +145,36 @@ open class Button: UIButton {
             if !isAdjustingCustomContentEdgeInsetsForImage && image(for: .normal) != nil {
                 adjustCustomContentEdgeInsetsForImage()
             }
+
+            if #available(iOS 15.0, *) {
+                var configuration = self.configuration ?? UIButton.Configuration.plain()
+                configuration.contentInsets = edgeInsets
+                self.configuration = configuration
+            } else {
+                let left: CGFloat
+                let right: CGFloat
+                if effectiveUserInterfaceLayoutDirection == .leftToRight {
+                    left = edgeInsets.leading
+                    right = edgeInsets.trailing
+                } else {
+                    left = edgeInsets.trailing
+                    right = edgeInsets.leading
+                }
+                contentEdgeInsets = UIEdgeInsets(top: edgeInsets.top, left: left, bottom: edgeInsets.bottom, right: right)
+            }
         }
     }
 
     open override var intrinsicContentSize: CGSize {
         var size = titleLabel?.systemLayoutSizeFitting(CGSize(width: proposedTitleLabelWidth == 0 ? .greatestFiniteMagnitude : proposedTitleLabelWidth, height: .greatestFiniteMagnitude)) ?? .zero
-        size.width = ceil(size.width + contentEdgeInsets.left + contentEdgeInsets.right)
-        size.height = ceil(max(size.height, style.minTitleLabelHeight) + contentEdgeInsets.top + contentEdgeInsets.bottom)
+        size.width = ceil(size.width + edgeInsets.leading + edgeInsets.trailing)
+        size.height = ceil(max(size.height, style.minTitleLabelHeight) + edgeInsets.top + edgeInsets.bottom)
 
         if let image = image(for: .normal) {
             size.width += image.size.width
+            if #available(iOS 15.0, *) {
+                size.width += style.titleImagePadding
+            }
 
             if titleLabel?.text?.count ?? 0 == 0 {
                 size.width -= style.titleImagePadding
@@ -165,21 +185,25 @@ open class Button: UIButton {
     }
 
     open override func imageRect(forContentRect contentRect: CGRect) -> CGRect {
-        var rect = super.imageRect(forContentRect: contentRect)
+        var rect = CGRect.zero
+        if #available(iOS 15, *) {
+            assertionFailure("imageRect(forContentRect: ) has been deprecated in iOS 15.0")
+        } else {
+            rect = super.imageRect(forContentRect: contentRect)
 
-        if let image = image {
-            let imageHeight = image.size.height
+            if let image = image {
+                let imageHeight = image.size.height
 
-            // If the entire image doesn't fit in the default rect, increase the rect's height
-            // to fit the entire image and reposition the origin to keep the image centered.
-            if imageHeight > rect.size.height {
-                rect.origin.y -= round((imageHeight - rect.size.height) / 2.0)
-                rect.size.height = imageHeight
+                // If the entire image doesn't fit in the default rect, increase the rect's height
+                // to fit the entire image and reposition the origin to keep the image centered.
+                if imageHeight > rect.size.height {
+                    rect.origin.y -= round((imageHeight - rect.size.height) / 2.0)
+                    rect.size.height = imageHeight
+                }
+
+                rect.size.width = image.size.width
             }
-
-            rect.size.width = image.size.width
         }
-
         return rect
     }
 
@@ -205,6 +229,12 @@ open class Button: UIButton {
 
         titleLabel?.font = style.titleFont
         titleLabel?.adjustsFontForContentSizeCategory = true
+
+        if #available(iOS 15, *) {
+            var configuration = UIButton.Configuration.plain()
+            configuration.contentInsets = edgeInsets
+            self.configuration = configuration
+        }
         update()
 
         NotificationCenter.default.addObserver(self,
@@ -317,7 +347,7 @@ open class Button: UIButton {
         layer.borderWidth = style.hasBorders ? borderWidth : 0
 
         if !isUsingCustomContentEdgeInsets {
-            contentEdgeInsets = style.contentEdgeInsets
+            edgeInsets = style.contentEdgeInsets
         }
 
         updateProposedTitleLabelWidth()
@@ -370,7 +400,7 @@ open class Button: UIButton {
 
     private func updateProposedTitleLabelWidth() {
         if bounds.width > 0.0 {
-            var labelWidth = bounds.width - (contentEdgeInsets.left + contentEdgeInsets.right)
+            var labelWidth = bounds.width - (edgeInsets.leading + edgeInsets.trailing)
             if let image = image(for: .normal) {
                 labelWidth -= image.size.width
             }
@@ -390,14 +420,20 @@ open class Button: UIButton {
             spacing = -spacing
         }
 
-        if effectiveUserInterfaceLayoutDirection == .leftToRight {
-            contentEdgeInsets.right += spacing
-            titleEdgeInsets.left += spacing
-            titleEdgeInsets.right -= spacing
+        if #available(iOS 15.0, *) {
+            var configuration = self.configuration ?? UIButton.Configuration.plain()
+            configuration.contentInsets = edgeInsets
+            configuration.imagePadding = spacing
+            self.configuration = configuration
         } else {
-            contentEdgeInsets.left += spacing
-            titleEdgeInsets.right += spacing
-            titleEdgeInsets.left -= spacing
+            edgeInsets.trailing += spacing
+            if effectiveUserInterfaceLayoutDirection == .leftToRight {
+                titleEdgeInsets.left += spacing
+                titleEdgeInsets.right -= spacing
+            } else {
+                titleEdgeInsets.right += spacing
+                titleEdgeInsets.left -= spacing
+            }
         }
 
         isAdjustingCustomContentEdgeInsetsForImage = false

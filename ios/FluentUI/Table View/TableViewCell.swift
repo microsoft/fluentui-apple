@@ -158,7 +158,10 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     @objc public static let defaultNumberOfLinesForLargerDynamicType: Int = -1
 
     /// The default leading padding in the cell.
-    @objc public static var defaultPaddingLeading: CGFloat { TableViewCellTokenSet.paddingLeading }
+    @objc public static let defaultPaddingLeading: CGFloat = {
+        let tokenSet = TableViewCellTokenSet(customViewSize: { .default })
+        return tokenSet[.paddingLeading].float
+    }()
 
     /// The default trailing padding in the cell.
     @objc public static var defaultPaddingTrailing: CGFloat { TableViewCellTokenSet.paddingTrailing }
@@ -392,15 +395,6 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     ///   - title: The title string
     ///   - subtitle: The subtitle string
     ///   - footer: The footer string
-    ///   - attributedTitle: The attributed title
-    ///   - attributedSubtitle: The attributed subtitle
-    ///   - attributedFooter: The attributed footer
-    ///   - isAttributedTitleSet: Boolean defining whether or not the `attributedTitle` has been set
-    ///   - isAttributedSubtitleSet: Boolean defining whether or not the `attributedSubtitle` has been set
-    ///   - isAttributedFooterSet: Boolean defining whether or not the `attributedFooter` has been set
-    ///   - titleFont: The title font; If not set, it will default to the font definition in tokens
-    ///   - subtitleFont: The subtitle font; If not set, it will default to the font definition in tokens
-    ///   - footerFont: The footer font; If not set, it will default to the font definition in tokens
     ///   - titleLeadingAccessoryView: The accessory view on the leading edge of the title
     ///   - titleTrailingAccessoryView: The accessory view on the trailing edge of the title
     ///   - subtitleLeadingAccessoryView: The accessory view on the leading edge of the subtitle
@@ -416,15 +410,6 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     @objc public class func preferredWidth(title: String,
                                            subtitle: String = "",
                                            footer: String = "",
-                                           attributedTitle: NSAttributedString? = nil,
-                                           attributedSubtitle: NSAttributedString? = nil,
-                                           attributedFooter: NSAttributedString? = nil,
-                                           isAttributedTitleSet: Bool = false,
-                                           isAttributedSubtitleSet: Bool = false,
-                                           isAttributedFooterSet: Bool = false,
-                                           titleFont: UIFont? = nil,
-                                           subtitleFont: UIFont? = nil,
-                                           footerFont: UIFont? = nil,
                                            titleLeadingAccessoryView: UIView? = nil,
                                            titleTrailingAccessoryView: UIView? = nil,
                                            subtitleLeadingAccessoryView: UIView? = nil,
@@ -647,9 +632,9 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
 
     private static func customViewLeadingOffset(isInSelectionMode: Bool,
                                                 tokenSet: TableViewCellTokenSet) -> CGFloat {
-        return TableViewCellTokenSet.paddingLeading + selectionModeAreaWidth(isInSelectionMode: isInSelectionMode,
-                                                            selectionImageMarginTrailing: TableViewCellTokenSet.selectionImageMarginTrailing,
-                                                            selectionImageSize: TableViewCellTokenSet.selectionImageSize)
+        return tokenSet[.paddingLeading].float + selectionModeAreaWidth(isInSelectionMode: isInSelectionMode,
+                                                                        selectionImageMarginTrailing: TableViewCellTokenSet.selectionImageMarginTrailing,
+                                                                        selectionImageSize: TableViewCellTokenSet.selectionImageSize)
     }
 
     private static func textAreaLeadingOffset(customViewSize: MSFTableViewCellCustomViewSize,
@@ -740,7 +725,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     /// The leading padding.
     @objc public var paddingLeading: CGFloat {
         get {
-            return _paddingLeading ?? TableViewCellTokenSet.paddingLeading
+            return _paddingLeading ?? tokenSet[.paddingLeading].float
         }
         set {
             if newValue != _paddingLeading {
@@ -1219,8 +1204,8 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         return imageView
     }()
 
-    internal let topSeparator = Separator(style: .default, orientation: .horizontal)
-    internal let bottomSeparator = Separator(style: .default, orientation: .horizontal)
+    internal let topSeparator = Separator(orientation: .horizontal)
+    internal let bottomSeparator = Separator(orientation: .horizontal)
 
     private var superTableView: UITableView? {
         return findSuperview(of: UITableView.self) as? UITableView
