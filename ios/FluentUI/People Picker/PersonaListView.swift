@@ -183,10 +183,12 @@ extension PersonaListView: UITableViewDataSource {
             guard let cell = dequeueReusableCell(withIdentifier: PersonaCell.identifier, for: indexPath) as? PersonaCell else {
                 return UITableViewCell()
             }
-            let persona = personaList[indexPath.row]
+            let index = indexPath.row
+            let persona = personaList[index]
             cell.setup(persona: persona, accessoryType: accessoryType)
             cell.backgroundStyleType = .clear
             cell.accessibilityTraits = .button
+            cell.accessibilityHint = String.localizedStringWithFormat( "Accessibility.TabBarItemView.Hint".localized, index + 1, personaList.count)
             return cell
         case .searchDirectory:
             switch searchDirectoryState {
