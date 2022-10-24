@@ -415,7 +415,7 @@ open class Button: UIButton {
         return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandBackground1])
     }
 
-    private func primaryDangerFilledBackgroundColor() -> UIColor {
+    private var primaryDangerFilledBackgroundColor: UIColor {
         // TODO: in the future, we want to have highlighted state defined for danger buttons.
         // For now, highlighted/isPressed are not differentiated for danger buttons.
         return UIColor(dynamicColor: fluentTheme.aliasTokens.sharedColors[.dangerBackground2])
@@ -431,7 +431,7 @@ open class Button: UIButton {
             case .primaryFilled:
                 backgroundColor = primaryFilledBackgroundColor()
             case .dangerFilled:
-                backgroundColor = primaryDangerFilledBackgroundColor()
+                backgroundColor = primaryDangerFilledBackgroundColor
             case .primaryOutline,
                     .dangerOutline,
                     .secondaryOutline,
