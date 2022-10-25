@@ -25,7 +25,7 @@ public protocol PersonaListViewSearchDirectoryDelegate {
 @objc(MSFPersonaListView)
 open class PersonaListView: UITableView {
     /// SearchDirectory button state enum
-    enum SearchDirectoryState {
+    public enum SearchDirectoryState {
         case idle
         case searching
         case displayingSearchResults
@@ -44,7 +44,7 @@ open class PersonaListView: UITableView {
     }
 
     /// searchDIrectoryState variable (persona list to reload rows on state change)
-    var searchDirectoryState: SearchDirectoryState = .idle {
+    public var searchDirectoryState: SearchDirectoryState = .idle {
         didSet {
             if searchDirectoryState != oldValue {
                 UIView.performWithoutAnimation {
