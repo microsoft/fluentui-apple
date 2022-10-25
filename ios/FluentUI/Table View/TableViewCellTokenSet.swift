@@ -81,10 +81,16 @@ public class TableViewCellTokenSet: ControlTokenSet<TableViewCellTokenSet.Tokens
         super.init { token, theme in
             switch token {
             case .backgroundColor:
-                return .dynamicColor { theme.aliasTokens.colors[.background1] }
+                return .dynamicColor {
+                    DynamicColor(light: theme.aliasTokens.colors[.background1].light,
+                                 dark: theme.aliasTokens.colors[.background1].dark)
+                }
 
             case .backgroundGroupedColor:
-                return .dynamicColor { theme.aliasTokens.colors[.canvasBackground] }
+                return .dynamicColor {
+                    DynamicColor(light: theme.aliasTokens.colors[.canvasBackground].light,
+                                 dark: theme.aliasTokens.colors[.canvasBackground].dark)
+                }
 
             case .cellBackgroundColor:
                 return .dynamicColor { theme.aliasTokens.colors[.background1] }
