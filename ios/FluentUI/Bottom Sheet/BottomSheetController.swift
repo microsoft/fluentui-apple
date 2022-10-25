@@ -417,11 +417,15 @@ public class BottomSheetController: UIViewController {
         stackView.axis = .vertical
         stackView.translatesAutoresizingMaskIntoConstraints = false
 
+        bottomSheetContentView.accessibilityElements = [resizingHandleView]
+
         if let headerView = headerContentView {
             stackView.addArrangedSubview(headerView)
+            bottomSheetContentView.accessibilityElements?.append(headerView)
         }
 
         stackView.addArrangedSubview(expandedContentView)
+        bottomSheetContentView.accessibilityElements?.append(expandedContentView)
         bottomSheetContentView.addSubview(stackView)
 
         NSLayoutConstraint.activate([
