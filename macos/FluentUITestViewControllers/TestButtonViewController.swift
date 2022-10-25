@@ -235,6 +235,20 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 			return [customButton] + formats.map({ Button(title: title, image: image, format: $0) })
 		}
 
+		let trailingImage = NSImage(named: "ic_fluent_chevron_down_12_regular")
+		let buttonsWithTitleAndTwoImages: () -> [Button] = {
+			let customButton = Button()
+			customButton.title = customTitle
+			customButton.image = customImage
+			customButton.trailingImage = trailingImage
+			customButton.format = customFormat
+			return [customButton] + formats.map({
+				let button = Button(title: title, image: image, format: $0)
+				button.trailingImage = trailingImage
+				return button
+			})
+		}
+
 		let buttonsWithImage: () -> [Button] = {
 			let customButton = Button()
 			customButton.image = customImage
@@ -251,6 +265,7 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 		let buttonColumns = [
 			buttonsWithTitle(),
 			buttonsWithTitleAndImage(),
+			buttonsWithTitleAndTwoImages(),
 			buttonsWithImage()
 		]
 		for newColumn in buttonColumns {
@@ -277,6 +292,7 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 			NSGridCell.emptyContentView,
 			NSTextField(labelWithString: "Title"),
 			NSTextField(labelWithString: "Title & Image"),
+			NSTextField(labelWithString: "Title & Two Images"),
 			NSTextField(labelWithString: "Image")
 		]
 		fluentButtonsGrid.insertRow(at: 0, with: columnLabels)

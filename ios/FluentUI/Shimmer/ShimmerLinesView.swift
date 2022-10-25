@@ -8,7 +8,8 @@ import UIKit
 /**
  Specialized ShimmerView that shows 1 or more shimmering lines.
  */
-@objc open class MSFShimmerLinesView: MSFShimmerView {
+@objc(MSFShimmerLinesView)
+open class ShimmerLinesView: ShimmerView {
 
     open override func layoutSubviews() {
         super.layoutSubviews()
