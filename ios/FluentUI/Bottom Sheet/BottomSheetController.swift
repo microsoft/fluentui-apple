@@ -417,11 +417,17 @@ public class BottomSheetController: UIViewController {
         stackView.axis = .vertical
         stackView.translatesAutoresizingMaskIntoConstraints = false
 
+        // Some types of content (like navigation controllers) can mess up the VO order.
+        // Explicitly specifying a11y elements helps prevents this.
+        bottomSheetContentView.accessibilityElements = [resizingHandleView]
+
         if let headerView = headerContentView {
             stackView.addArrangedSubview(headerView)
+            bottomSheetContentView.accessibilityElements?.append(headerView)
         }
 
         stackView.addArrangedSubview(expandedContentView)
+        bottomSheetContentView.accessibilityElements?.append(expandedContentView)
         bottomSheetContentView.addSubview(stackView)
 
         NSLayoutConstraint.activate([

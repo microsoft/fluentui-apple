@@ -21,7 +21,7 @@ class BottomSheetDemoController: UIViewController {
         view.addSubview(optionTableView)
         mainTableView = optionTableView
 
-        let bottomSheetViewController = BottomSheetController(headerContentView: headerView, expandedContentView: expandedContentView)
+        let bottomSheetViewController = BottomSheetController(headerContentView: headerView, expandedContentView: contentNavigationController.view)
         bottomSheetViewController.hostedScrollView = personaListView
         bottomSheetViewController.headerContentHeight = BottomSheetDemoController.headerHeight
         bottomSheetViewController.delegate = self
@@ -185,6 +185,27 @@ class BottomSheetDemoController: UIViewController {
             label.centerYAnchor.constraint(equalTo: bottomView.centerYAnchor)
         ])
         return view
+    }()
+
+    private lazy var contentNavigationController: UIViewController = {
+        let contentVC = UIViewController()
+        let contentVCView: UIView = contentVC.view
+        let barButtonItem = UIBarButtonItem(title: "Sample", style: .done, target: nil, action: nil)
+
+        contentVC.navigationItem.title = "Nav title"
+        contentVC.navigationItem.rightBarButtonItem = barButtonItem
+        contentVCView.addSubview(expandedContentView)
+
+        expandedContentView.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            expandedContentView.leadingAnchor.constraint(equalTo: contentVCView.leadingAnchor),
+            expandedContentView.trailingAnchor.constraint(equalTo: contentVCView.trailingAnchor),
+            expandedContentView.topAnchor.constraint(equalTo: contentVCView.topAnchor),
+            expandedContentView.bottomAnchor.constraint(equalTo: contentVCView.bottomAnchor)
+        ])
+
+        return UINavigationController(rootViewController: contentVC)
     }()
 
     private let headerView: UIView = {
