@@ -124,7 +124,7 @@ open class CommandBarItem: NSObject {
         }
     }
 
-    /// A string that uniquely identiifes the element, typically for automation purposes
+    /// A string that uniquely identifies the element, typically for automation purposes
     @objc public var accessibilityIdentifier: String? {
         didSet {
             if accessibilityIdentifier != oldValue {
