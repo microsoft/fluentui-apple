@@ -116,6 +116,7 @@ class CommandBarButton: UIButton {
         accessibilityLabel = (accessibilityDescription != nil) ? accessibilityDescription : title
         accessibilityHint = item.accessibilityHint
         accessibilityValue = item.accessibilityValue
+        accessibilityIdentifier = item.accessibilityIdentifier
     }
 
     private let isPersistSelection: Bool
