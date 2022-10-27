@@ -135,6 +135,19 @@ open class TableViewCellFileAccessoryView: UIView {
                                                selector: #selector(updateLayout),
                                                name: UIContentSizeCategory.didChangeNotification,
                                                object: nil)
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
+              return
+        }
+
+        updateSharedStatus()
     }
 
     @available(*, unavailable)
@@ -477,8 +490,11 @@ open class TableViewCellFileAccessoryView: UIView {
 
 private class FileAccessoryViewActionView: UIButton {
     fileprivate static let size = CGSize(width: 24, height: 60)
+    private let action: FileAccessoryViewAction
 
     fileprivate init(action: FileAccessoryViewAction, window: UIWindow) {
+        self.action = action
+
         super.init(frame: .zero)
 
         accessibilityLabel = action.title
@@ -490,6 +506,33 @@ private class FileAccessoryViewActionView: UIButton {
         isEnabled = action.isEnabled
         setImage(action.image, for: .normal)
 
+        updateActionColor()
+
+        NSLayoutConstraint.activate([
+            widthAnchor.constraint(equalToConstant: FileAccessoryViewActionView.size.width),
+            heightAnchor.constraint(greaterThanOrEqualToConstant: FileAccessoryViewActionView.size.height)
+        ])
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+
+        showsLargeContentViewer = true
+        scalesLargeContentImage = true
+        largeContentTitle = action.title
+        isPointerInteractionEnabled = true
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
+              return
+        }
+
+        updateActionColor()
+    }
+
+    private func updateActionColor() {
         if action.useAppPrimaryColor {
             tintColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1])
         } else if action.isEnabled {
@@ -497,16 +540,6 @@ private class FileAccessoryViewActionView: UIButton {
         } else {
             tintColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundDisabled1])
         }
-
-        NSLayoutConstraint.activate([
-            widthAnchor.constraint(equalToConstant: FileAccessoryViewActionView.size.width),
-            heightAnchor.constraint(greaterThanOrEqualToConstant: FileAccessoryViewActionView.size.height)
-        ])
-
-        showsLargeContentViewer = true
-        scalesLargeContentImage = true
-        largeContentTitle = action.title
-        isPointerInteractionEnabled = true
     }
 
     @available(*, unavailable)
