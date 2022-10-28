@@ -43,25 +43,9 @@ class TooltipView: UIView {
         addSubview(textContainer)
 
         // Shadow
-        let backgroundCornerRadius = tokenSet[.backgroundCornerRadius].float
-        let shadowInfo = tokenSet[.shadowInfo].shadowInfo
-        let ambientShadow = CALayer()
-        ambientShadow.frame = bounds
-        ambientShadow.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: backgroundCornerRadius).cgPath
-        ambientShadow.shadowColor = UIColor(dynamicColor: shadowInfo.colorOne).cgColor
-        ambientShadow.shadowOpacity = 1
-        ambientShadow.shadowOffset = CGSize(width: shadowInfo.xOne, height: shadowInfo.yOne)
-        ambientShadow.shadowRadius = shadowInfo.blurOne
-        layer.insertSublayer(ambientShadow, at: 0)
-
-        let perimeterShadow = CALayer()
-        perimeterShadow.frame = bounds
-        perimeterShadow.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: backgroundCornerRadius).cgPath
-        perimeterShadow.shadowColor = UIColor(dynamicColor: shadowInfo.colorTwo).cgColor
-        perimeterShadow.shadowOpacity = 1
-        perimeterShadow.shadowOffset = CGSize(width: shadowInfo.xTwo, height: shadowInfo.yTwo)
-        perimeterShadow.shadowRadius = shadowInfo.blurTwo
-        layer.insertSublayer(perimeterShadow, at: 0)
+        layer.insertSublayer(CALayer(), at: 0)
+        layer.insertSublayer(CALayer(), at: 0)
+        updateShadows(tokenSet: tokenSet)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -206,21 +190,23 @@ class TooltipView: UIView {
     private func updateShadows(tokenSet: TooltipTokenSet) {
         let backgroundCornerRadius = tokenSet[.backgroundCornerRadius].float
         let shadowInfo = tokenSet[.shadowInfo].shadowInfo
-        let ambientShadow: CALayer = (layer.sublayers?[1])!
-        ambientShadow.frame = bounds
-        ambientShadow.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: backgroundCornerRadius).cgPath
-        ambientShadow.shadowColor = UIColor(dynamicColor: shadowInfo.colorOne).cgColor
-        ambientShadow.shadowOpacity = 1
-        ambientShadow.shadowOffset = CGSize(width: shadowInfo.xOne, height: shadowInfo.yOne)
-        ambientShadow.shadowRadius = shadowInfo.blurOne
+        if let ambientShadow = layer.sublayers?[1] {
+            ambientShadow.frame = bounds
+            ambientShadow.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: backgroundCornerRadius).cgPath
+            ambientShadow.shadowColor = UIColor(dynamicColor: shadowInfo.colorOne).cgColor
+            ambientShadow.shadowOpacity = 1
+            ambientShadow.shadowOffset = CGSize(width: shadowInfo.xOne, height: shadowInfo.yOne)
+            ambientShadow.shadowRadius = shadowInfo.blurOne
+        }
 
-        let perimeterShadow: CALayer = (layer.sublayers?[0])!
-        perimeterShadow.frame = bounds
-        perimeterShadow.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: backgroundCornerRadius).cgPath
-        perimeterShadow.shadowColor = UIColor(dynamicColor: shadowInfo.colorTwo).cgColor
-        perimeterShadow.shadowOpacity = 1
-        perimeterShadow.shadowOffset = CGSize(width: shadowInfo.xTwo, height: shadowInfo.yTwo)
-        perimeterShadow.shadowRadius = shadowInfo.blurTwo
+        if let perimeterShadow = layer.sublayers?[0] {
+            perimeterShadow.frame = bounds
+            perimeterShadow.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: backgroundCornerRadius).cgPath
+            perimeterShadow.shadowColor = UIColor(dynamicColor: shadowInfo.colorTwo).cgColor
+            perimeterShadow.shadowOpacity = 1
+            perimeterShadow.shadowOffset = CGSize(width: shadowInfo.xTwo, height: shadowInfo.yTwo)
+            perimeterShadow.shadowRadius = shadowInfo.blurTwo
+        }
     }
 
     private static func labelSizeThatFits(_ size: CGSize,
