@@ -429,6 +429,19 @@ open class DrawerController: UIViewController {
         super.init(nibName: nil, bundle: nil)
 
         initialize()
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+    }
+
+    @objc func themeDidChange(_ notification: Notification) {
+        guard let themeView = notification.object as? UIView, view.isDescendant(of: themeView) else {
+              return
+        }
+
+        updateBackgroundColor()
     }
 
     /**
@@ -501,6 +514,10 @@ open class DrawerController: UIViewController {
         updateResizingHandleView()
         resizingGestureRecognizer?.isEnabled = false
 
+        updateBackgroundColor()
+    }
+
+    private func updateBackgroundColor() {
         // if DrawerController is shown in UIPopoverPresentationController then we want to show different darkElevated color
         if !useCustomBackgroundColor {
             if presentationController is UIPopoverPresentationController {
