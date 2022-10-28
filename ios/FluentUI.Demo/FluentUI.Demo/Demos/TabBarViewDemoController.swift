@@ -66,7 +66,6 @@ class TabBarViewDemoController: DemoController {
             }
 
             Tooltip.shared.show(with: "Tap anywhere to dismiss this tooltip",
-                                title: nil,
                                 for: view,
                                 preferredArrowDirection: .down,
                                 offset: .init(x: 0, y: 6),
