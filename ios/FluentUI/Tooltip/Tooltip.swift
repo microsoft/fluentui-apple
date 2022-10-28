@@ -11,96 +11,6 @@ import Combine
 /// A styled tooltip that is presented anchored to a view.
 @objc(MSFTooltip)
 open class Tooltip: NSObject, TokenizedControlInternal {
-    var fluentTheme: FluentTheme {
-        guard let tooltipView = tooltipView else {
-            return FluentTheme.shared
-        }
-        return tooltipView.fluentTheme
-    }
-
-    // MARK: - TokenizedControl
-    public typealias TokenSetKeyType = TooltipTokenSet.Tokens
-    public var tokenSet: TooltipTokenSet = .init()
-    var tokenSetSink: AnyCancellable?
-
-    @objc private func themeDidChange(_ notification: Notification) {
-        guard let themeView = notification.object as? UIView, let tooltipView = tooltipView, tooltipView.isDescendant(of: themeView) else {
-            return
-        }
-        tokenSet.update(fluentTheme)
-        updateAppearance()
-    }
-
-    @objc(MSFTooltipArrowDirection)
-    public enum ArrowDirection: Int {
-        case up, down, left, right
-
-        var isVertical: Bool {
-            switch self {
-            case .up, .down:
-                return true
-            case .left, .right:
-                return false
-            }
-        }
-
-        var opposite: ArrowDirection {
-            switch self {
-            case .up:
-                return .down
-            case .down:
-                return .up
-            case .left:
-                return .right
-            case .right:
-                return .left
-            }
-        }
-    }
-
-    @objc(MSFTooltipDismissMode)
-    public enum DismissMode: Int {
-        case tapAnywhere
-        case tapOnTooltip
-        case tapOnTooltipOrAnchor
-    }
-
-    private struct Constants {
-        static let animationDuration: TimeInterval = 0.1
-        static let defaultMargin: CGFloat = 16.0
-    }
-
-    @objc public static let defaultScreenMargins = UIEdgeInsets(top: Constants.defaultMargin, left: Constants.defaultMargin, bottom: Constants.defaultMargin, right: Constants.defaultMargin)
-
-    @objc public static let shared = Tooltip()
-
-    /// The alignment of the text in the tooltip. Defaults to natural alignment (left for LTR languages, right for RTL languages).
-    @objc public var textAlignment: NSTextAlignment = .natural
-    /// Whether a tooltip is currently showing.
-    @objc public private(set) var isShowing: Bool = false
-
-    private var tooltipView: TooltipView?
-    private var onTap: (() -> Void)?
-    private var gestureView: UIView?
-    private var dismissMode: DismissMode = .tapAnywhere
-
-    private override init() {
-        super.init()
-
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
-
-        // Update appearance whenever `tokenSet` changes.
-        tokenSetSink = tokenSet.sinkChanges { [weak self] in
-            self?.updateAppearance()
-        }
-    }
-
-    required public init?(coder aDecoder: NSCoder) {
-        preconditionFailure("init(coder:) has not been implemented")
-    }
 
     /// Displays a tooltip based on the current settings, pointing to the supplied anchorView.
     /// If another tooltip view is already showing, it will be dismissed and the new tooltip will be shown.
@@ -243,6 +153,86 @@ open class Tooltip: NSObject, TokenizedControlInternal {
         UIDevice.current.endGeneratingDeviceOrientationNotifications()
     }
 
+    required public init?(coder aDecoder: NSCoder) {
+        preconditionFailure("init(coder:) has not been implemented")
+    }
+
+    @objc(MSFTooltipArrowDirection)
+    public enum ArrowDirection: Int {
+        case up, down, left, right
+
+        var isVertical: Bool {
+            switch self {
+            case .up, .down:
+                return true
+            case .left, .right:
+                return false
+            }
+        }
+
+        var opposite: ArrowDirection {
+            switch self {
+            case .up:
+                return .down
+            case .down:
+                return .up
+            case .left:
+                return .right
+            case .right:
+                return .left
+            }
+        }
+    }
+
+    @objc(MSFTooltipDismissMode)
+    public enum DismissMode: Int {
+        case tapAnywhere
+        case tapOnTooltip
+        case tapOnTooltipOrAnchor
+    }
+
+    @objc public static let defaultScreenMargins = UIEdgeInsets(top: Constants.defaultMargin, left: Constants.defaultMargin, bottom: Constants.defaultMargin, right: Constants.defaultMargin)
+
+    @objc public static let shared = Tooltip()
+
+    /// The alignment of the text in the tooltip. Defaults to natural alignment (left for LTR languages, right for RTL languages).
+    @objc public var textAlignment: NSTextAlignment = .natural
+    /// Whether a tooltip is currently showing.
+    @objc public private(set) var isShowing: Bool = false
+
+    // MARK: - TokenizedControl
+    public typealias TokenSetKeyType = TooltipTokenSet.Tokens
+    public var tokenSet: TooltipTokenSet = .init()
+    var tokenSetSink: AnyCancellable?
+    var fluentTheme: FluentTheme {
+        guard let tooltipView = tooltipView else {
+            return FluentTheme.shared
+        }
+        return tooltipView.fluentTheme
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        guard let themeView = notification.object as? UIView, let tooltipView = tooltipView, tooltipView.isDescendant(of: themeView) else {
+            return
+        }
+        tokenSet.update(fluentTheme)
+        updateAppearance()
+    }
+
+    private override init() {
+        super.init()
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+
+        // Update appearance whenever `tokenSet` changes.
+        tokenSetSink = tokenSet.sinkChanges { [weak self] in
+            self?.updateAppearance()
+        }
+    }
+
     @objc private func handleTapGesture() {
         onTap?()
         hide()
@@ -253,6 +243,17 @@ open class Tooltip: NSObject, TokenizedControlInternal {
     }
 
     private func updateAppearance() {
-        tooltipView?.updateAppearance(tokenSet: tokenSet)
+        tooltipView?.tokenSet = tokenSet
+        tooltipView?.layoutSubviews()
     }
+
+    private struct Constants {
+        static let animationDuration: TimeInterval = 0.1
+        static let defaultMargin: CGFloat = 16.0
+    }
+
+    private var tooltipView: TooltipView?
+    private var onTap: (() -> Void)?
+    private var gestureView: UIView?
+    private var dismissMode: DismissMode = .tapAnywhere
 }

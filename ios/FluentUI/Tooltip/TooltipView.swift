@@ -9,57 +9,6 @@ import UIKit
 
 class TooltipView: UIView {
 
-    let positionController: TooltipPositionController
-
-    private let message: String
-    private let title: String?
-    private var tokenSet: TooltipTokenSet
-
-    private lazy var backgroundView: UIView = {
-        let view = UIView()
-        view.layer.cornerRadius = tokenSet[.backgroundCornerRadius].float
-        view.layer.cornerCurve = .continuous
-        view.backgroundColor = UIColor(dynamicColor: tokenSet[.tooltipColor].dynamicColor)
-
-        return view
-    }()
-
-    private let arrowImageViewBaseImage: UIImage?
-    private let arrowImageView: UIImageView
-
-    private lazy var textContainer: UIView = {
-        let view = UIView()
-        view.addSubview(messageLabel)
-
-        if let titleLabel = titleLabel {
-            view.addSubview(titleLabel)
-        }
-
-        return view
-    }()
-
-    private lazy var messageLabel: UILabel = {
-        let label = Label()
-        label.font = UIFont.fluent(tokenSet[.messageLabelTextStyle].fontInfo)
-        label.textColor = UIColor(dynamicColor: tokenSet[.textColor].dynamicColor)
-        label.numberOfLines = 0
-        label.lineBreakStrategy = []
-        return label
-    }()
-
-    private lazy var titleLabel: UILabel? = {
-        if let title = title {
-            let label = Label()
-            label.font = UIFont.fluent(tokenSet[.titleLabelTextStyle].fontInfo)
-            label.textColor = UIColor(dynamicColor: tokenSet[.textColor].dynamicColor)
-            label.numberOfLines = 0
-            label.lineBreakStrategy = []
-            return label
-        }
-
-        return nil
-    }()
-
     init(message: String,
          title: String? = nil,
          textAlignment: NSTextAlignment,
@@ -85,12 +34,10 @@ class TooltipView: UIView {
 
         messageLabel.text = message
         messageLabel.textAlignment = textAlignment
-        messageLabel.isAccessibilityElement = false
 
         if let titleLabel = titleLabel, let title = title {
             titleLabel.text = title
             titleLabel.textAlignment = textAlignment
-            titleLabel.isAccessibilityElement = false
         }
 
         addSubview(textContainer)
@@ -150,62 +97,6 @@ class TooltipView: UIView {
         updateAppearance(tokenSet: tokenSet)
     }
 
-    func updateAppearance(tokenSet: TooltipTokenSet) {
-        // Update colors
-        let textColor = UIColor(dynamicColor: tokenSet[.textColor].dynamicColor)
-        backgroundView.backgroundColor = UIColor(dynamicColor: tokenSet[.tooltipColor].dynamicColor)
-        messageLabel.textColor = textColor
-        titleLabel?.textColor = textColor
-
-        // Update fonts
-        messageLabel.font = UIFont.fluent(tokenSet[.messageLabelTextStyle].fontInfo)
-        if let titleLabel = titleLabel {
-            titleLabel.font = UIFont.fluent(tokenSet[.titleLabelTextStyle].fontInfo)
-        }
-
-        // Update text container size
-        let backgroundCornerRadius = tokenSet[.backgroundCornerRadius].float
-        backgroundView.layer.cornerRadius = backgroundCornerRadius
-        textContainer.frame = backgroundView.frame.insetBy(dx: tokenSet[.paddingHorizontal].float, dy: tokenSet[(title != nil) ? .paddingVerticalWithTitle : .paddingVerticalWithoutTitle].float)
-        let preferredMessageSize = TooltipView.labelSizeThatFits(textContainer.frame.size,
-                                                                 text: message,
-                                                                 tokenSet: tokenSet,
-                                                                 isMessage: true)
-        messageLabel.frame.size = preferredMessageSize
-        if let titleLabel = titleLabel, let title = title {
-            let preferredTitleSize = TooltipView.labelSizeThatFits(textContainer.frame.size,
-                                                                   text: title,
-                                                                   tokenSet: tokenSet,
-                                                                   isMessage: false)
-            titleLabel.frame.size = preferredTitleSize
-            messageLabel.frame.origin = CGPoint(x: 0, y: titleLabel.frame.height + tokenSet[.spacingVertical].float)
-        }
-
-        // Update tooltip size
-        positionController.updateArrowDirectionAndTooltipSize(for: message,
-                                                              title: title,
-                                                              tokenSet: tokenSet)
-        self.frame = positionController.tooltipRect
-
-        // Update shadows
-        let shadowInfo = tokenSet[.shadowInfo].shadowInfo
-        let ambientShadow: CALayer = (layer.sublayers?[1])!
-        ambientShadow.frame = bounds
-        ambientShadow.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: backgroundCornerRadius).cgPath
-        ambientShadow.shadowColor = UIColor(dynamicColor: shadowInfo.colorOne).cgColor
-        ambientShadow.shadowOpacity = 1
-        ambientShadow.shadowOffset = CGSize(width: shadowInfo.xOne, height: shadowInfo.yOne)
-        ambientShadow.shadowRadius = shadowInfo.blurOne
-
-        let perimeterShadow: CALayer = (layer.sublayers?[0])!
-        perimeterShadow.frame = bounds
-        perimeterShadow.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: backgroundCornerRadius).cgPath
-        perimeterShadow.shadowColor = UIColor(dynamicColor: shadowInfo.colorTwo).cgColor
-        perimeterShadow.shadowOpacity = 1
-        perimeterShadow.shadowOffset = CGSize(width: shadowInfo.xTwo, height: shadowInfo.yTwo)
-        perimeterShadow.shadowRadius = shadowInfo.blurTwo
-    }
-
     /// Returns the tooltip size
     static func sizeThatFits(_ size: CGSize,
                              message: String,
@@ -250,6 +141,88 @@ class TooltipView: UIView {
         return CGSize(width: width, height: height)
     }
 
+    let positionController: TooltipPositionController
+    var tokenSet: TooltipTokenSet
+
+    // MARK: - Accessibility
+
+    override var accessibilityLabel: String? {
+        get {
+            guard let title = title
+            else {
+                return message
+            }
+
+            return title + message
+        }
+        set { }
+    }
+
+    override var accessibilityHint: String? {
+        get { return "Accessibility.Dismiss.Hint".localized }
+        set { }
+    }
+
+    private func updateAppearance(tokenSet: TooltipTokenSet) {
+        // Update colors
+        let textColor = UIColor(dynamicColor: tokenSet[.textColor].dynamicColor)
+        backgroundView.backgroundColor = UIColor(dynamicColor: tokenSet[.tooltipColor].dynamicColor)
+        messageLabel.textColor = textColor
+        titleLabel?.textColor = textColor
+
+        // Update fonts
+        messageLabel.font = UIFont.fluent(tokenSet[.messageLabelTextStyle].fontInfo)
+        if let titleLabel = titleLabel {
+            titleLabel.font = UIFont.fluent(tokenSet[.titleLabelTextStyle].fontInfo)
+        }
+
+        // Update text container size
+        backgroundView.layer.cornerRadius = tokenSet[.backgroundCornerRadius].float
+        textContainer.frame = backgroundView.frame.insetBy(dx: tokenSet[.paddingHorizontal].float, dy: tokenSet[(title != nil) ? .paddingVerticalWithTitle : .paddingVerticalWithoutTitle].float)
+        let preferredMessageSize = TooltipView.labelSizeThatFits(textContainer.frame.size,
+                                                                 text: message,
+                                                                 tokenSet: tokenSet,
+                                                                 isMessage: true)
+        messageLabel.frame.size = preferredMessageSize
+        if let titleLabel = titleLabel, let title = title {
+            let preferredTitleSize = TooltipView.labelSizeThatFits(textContainer.frame.size,
+                                                                   text: title,
+                                                                   tokenSet: tokenSet,
+                                                                   isMessage: false)
+            titleLabel.frame.size = preferredTitleSize
+            messageLabel.frame.origin = CGPoint(x: 0, y: titleLabel.frame.height + tokenSet[.spacingVertical].float)
+        }
+
+        // Update tooltip size
+        positionController.updateArrowDirectionAndTooltipSize(for: message,
+                                                              title: title,
+                                                              tokenSet: tokenSet)
+        self.frame = positionController.tooltipRect
+
+        // Update shadows
+        updateShadows(tokenSet: tokenSet)
+    }
+
+    private func updateShadows(tokenSet: TooltipTokenSet) {
+        let backgroundCornerRadius = tokenSet[.backgroundCornerRadius].float
+        let shadowInfo = tokenSet[.shadowInfo].shadowInfo
+        let ambientShadow: CALayer = (layer.sublayers?[1])!
+        ambientShadow.frame = bounds
+        ambientShadow.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: backgroundCornerRadius).cgPath
+        ambientShadow.shadowColor = UIColor(dynamicColor: shadowInfo.colorOne).cgColor
+        ambientShadow.shadowOpacity = 1
+        ambientShadow.shadowOffset = CGSize(width: shadowInfo.xOne, height: shadowInfo.yOne)
+        ambientShadow.shadowRadius = shadowInfo.blurOne
+
+        let perimeterShadow: CALayer = (layer.sublayers?[0])!
+        perimeterShadow.frame = bounds
+        perimeterShadow.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: backgroundCornerRadius).cgPath
+        perimeterShadow.shadowColor = UIColor(dynamicColor: shadowInfo.colorTwo).cgColor
+        perimeterShadow.shadowOpacity = 1
+        perimeterShadow.shadowOffset = CGSize(width: shadowInfo.xTwo, height: shadowInfo.yTwo)
+        perimeterShadow.shadowRadius = shadowInfo.blurTwo
+    }
+
     private static func labelSizeThatFits(_ size: CGSize,
                                           text: String,
                                           tokenSet: TooltipTokenSet,
@@ -271,22 +244,53 @@ class TooltipView: UIView {
         }
     }
 
-    // MARK: - Accessibility
+    private let message: String
+    private let title: String?
 
-    override var accessibilityLabel: String? {
-        get {
-            guard let title = title
-            else {
-                return message
-            }
+    private lazy var backgroundView: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = tokenSet[.backgroundCornerRadius].float
+        view.layer.cornerCurve = .continuous
+        view.backgroundColor = UIColor(dynamicColor: tokenSet[.tooltipColor].dynamicColor)
 
-            return title + message
+        return view
+    }()
+
+    private let arrowImageViewBaseImage: UIImage?
+    private let arrowImageView: UIImageView
+
+    private lazy var textContainer: UIView = {
+        let view = UIView()
+        view.addSubview(messageLabel)
+
+        if let titleLabel = titleLabel {
+            view.addSubview(titleLabel)
         }
-        set { }
-    }
 
-    override var accessibilityHint: String? {
-        get { return "Accessibility.Dismiss.Hint".localized }
-        set { }
-    }
+        return view
+    }()
+
+    private lazy var messageLabel: UILabel = {
+        let label = Label()
+        label.font = UIFont.fluent(tokenSet[.messageLabelTextStyle].fontInfo)
+        label.textColor = UIColor(dynamicColor: tokenSet[.textColor].dynamicColor)
+        label.numberOfLines = 0
+        label.lineBreakStrategy = []
+        label.isAccessibilityElement = false
+        return label
+    }()
+
+    private lazy var titleLabel: UILabel? = {
+        if let title = title {
+            let label = Label()
+            label.font = UIFont.fluent(tokenSet[.titleLabelTextStyle].fontInfo)
+            label.textColor = UIColor(dynamicColor: tokenSet[.textColor].dynamicColor)
+            label.numberOfLines = 0
+            label.lineBreakStrategy = []
+            label.isAccessibilityElement = false
+            return label
+        }
+
+        return nil
+    }()
 }
