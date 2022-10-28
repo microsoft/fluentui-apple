@@ -145,6 +145,7 @@ class SideTabBarDemoController: DemoController {
         }
 
         Tooltip.shared.show(with: "Tap anywhere to dismiss this tooltip",
+                            title: nil,
                             for: view,
                             preferredArrowDirection: .left,
                             offset: .init(x: 9, y: 0),

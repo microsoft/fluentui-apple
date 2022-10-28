@@ -21,7 +21,6 @@ open class Tooltip: NSObject, TokenizedControlInternal {
     ///   - anchorView: The view to point to with the new tooltip's arrow.
     ///   - preferredArrowDirection: The preferrred direction for the tooltip's arrow. Only the arrow's axis is guaranteed; the direction may be changed based on available space between the anchorView and the screen's margins. Defaults to down.
     ///   - offset: An offset from the tooltip's default position.
-    ///   - screenMargins: The margins from the window's safe area insets used for laying out the tooltip. Defaults to 16.0 pts on all sides.
     ///   - dismissMode: The mode of tooltip dismissal. Defaults to tapping anywhere.
     ///   - onTap: An optional closure used to do work after the user taps
     @objc public func show(with message: String,
@@ -29,7 +28,6 @@ open class Tooltip: NSObject, TokenizedControlInternal {
                            for anchorView: UIView,
                            preferredArrowDirection: ArrowDirection = .down,
                            offset: CGPoint = CGPoint(x: 0, y: 0),
-                           screenMargins: UIEdgeInsets = defaultScreenMargins,
                            dismissOn dismissMode: DismissMode = .tapAnywhere,
                            onTap: (() -> Void)? = nil) {
         hide()
@@ -38,7 +36,11 @@ open class Tooltip: NSObject, TokenizedControlInternal {
             preconditionFailure("Can't find anchorView's window")
         }
 
-        let boundingRect = window.bounds.inset(by: window.safeAreaInsets).inset(by: screenMargins)
+        let screenMargin = TooltipTokenSet.screenMargin
+        let boundingRect = window.bounds.inset(by: window.safeAreaInsets).inset(by: UIEdgeInsets(top: screenMargin,
+                                                                                                 left: screenMargin,
+                                                                                                 bottom: screenMargin,
+                                                                                                 right: screenMargin))
         let positionController = TooltipPositionController(anchorView: anchorView,
                                                            message: message,
                                                            title: title,
@@ -110,6 +112,7 @@ open class Tooltip: NSObject, TokenizedControlInternal {
     ///   - screenMargins: The margins from the window's safe area insets used for laying out the tooltip. Defaults to 16.0 pts on all sides.
     ///   - dismissMode: The mode of tooltip dismissal. Defaults to tapping anywhere.
     ///   - onTap: An optional closure used to do work after the user taps
+    @available(*, deprecated, renamed: "show(with:title:for:preferredArrowDirection:offset:dismissOn:onTap:)")
     @objc public func show(with message: String,
                            for anchorView: UIView,
                            preferredArrowDirection: ArrowDirection = .down,
@@ -122,7 +125,6 @@ open class Tooltip: NSObject, TokenizedControlInternal {
                   for: anchorView,
                   preferredArrowDirection: preferredArrowDirection,
                   offset: offset,
-                  screenMargins: screenMargins,
                   dismissOn: dismissMode,
                   onTap: onTap)
     }
@@ -191,6 +193,7 @@ open class Tooltip: NSObject, TokenizedControlInternal {
         case tapOnTooltipOrAnchor
     }
 
+    @available(*, deprecated, message: "Screen margins value has been tokenized. Setting this var no longer has any effect and it will be removed in a future update.")
     @objc public static let defaultScreenMargins = UIEdgeInsets(top: Constants.defaultMargin, left: Constants.defaultMargin, bottom: Constants.defaultMargin, right: Constants.defaultMargin)
 
     @objc public static let shared = Tooltip()

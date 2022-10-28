@@ -14,7 +14,7 @@ public class TooltipTokenSet: ControlTokenSet<TooltipTokenSet.Tokens> {
         /// The color of the text within the tooltip.
         case textColor
 
-        /// The margins from the window's safe area insets used for laying out the tooltip.
+        /// The  information for the tooltip's shadow.
         case shadowInfo
 
         /// The radius for the corners of the tooltip.
@@ -25,18 +25,6 @@ public class TooltipTokenSet: ControlTokenSet<TooltipTokenSet.Tokens> {
 
         /// The TextStyle of the title label.
         case titleLabelTextStyle
-
-        /// The horizontal padding between the text and edges of the tooltip.
-        case paddingHorizontal
-
-        /// The vertical padding between the text and edges of the tooltip with both a title and message.
-        case paddingVerticalWithTitle
-
-        /// The vertical padding between the text and edges of the tooltip with just a message.
-        case paddingVerticalWithoutTitle
-
-        /// The vertical spacing between the title and message.
-        case spacingVertical
 
         /// The maximum width of the tooltip.
         case maximumWidth
@@ -52,12 +40,17 @@ public class TooltipTokenSet: ControlTokenSet<TooltipTokenSet.Tokens> {
         super.init { token, theme in
             switch token {
             case .tooltipColor:
-                return .dynamicColor { DynamicColor(light: GlobalTokens.neutralColors(.grey14),
-                                                    dark: GlobalTokens.neutralColors(.grey24))
+                return .dynamicColor { DynamicColor(light: ColorValue(r: 33.0 / 255.0,
+                                                                      g: 33.0 / 255.0,
+                                                                      b: 33.0 / 255.0,
+                                                                      a: 0.95),
+                                                    dark: theme.aliasTokens.brandColors[.primary].dark)
                 }
 
             case .textColor:
-                return .dynamicColor { DynamicColor(light: GlobalTokens.neutralColors(.white)) }
+                return .dynamicColor { DynamicColor(light: GlobalTokens.neutralColors(.white),
+                                                    dark: GlobalTokens.neutralColors(.black))
+                }
 
             case .shadowInfo:
                 return .shadowInfo { theme.aliasTokens.shadow[.shadow16] }
@@ -71,14 +64,6 @@ public class TooltipTokenSet: ControlTokenSet<TooltipTokenSet.Tokens> {
             case .titleLabelTextStyle:
                 return .fontInfo { theme.aliasTokens.typography[.body1Strong] }
 
-            case .paddingHorizontal,
-                    .paddingVerticalWithTitle:
-                return .float { GlobalTokens.spacing(.small) }
-
-            case .paddingVerticalWithoutTitle,
-                    .spacingVertical:
-                return .float { GlobalTokens.spacing(.xSmall) }
-
             case .maximumWidth:
                 return .float { 250.0 }
 
@@ -90,4 +75,24 @@ public class TooltipTokenSet: ControlTokenSet<TooltipTokenSet.Tokens> {
             }
         }
     }
+}
+
+// MARK: Constants
+extension TooltipTokenSet {
+
+    /// The horizontal padding between the text and edges of the tooltip.
+    static let paddingHorizontal: CGFloat = GlobalTokens.spacing(.small)
+
+    /// The vertical padding between the text and edges of the tooltip with both a title and message.
+    static let paddingVerticalWithTitle: CGFloat = GlobalTokens.spacing(.small)
+
+    /// The vertical padding between the text and edges of the tooltip with just a message.
+    static let paddingVerticalWithoutTitle: CGFloat = GlobalTokens.spacing(.xSmall)
+
+    /// The vertical spacing between the title and message.
+    static let spacingVertical: CGFloat = GlobalTokens.spacing(.xSmall)
+
+    /// The margins from the window's safe area insets used for laying out the tooltip.
+    static let screenMargin: CGFloat = GlobalTokens.spacing(.medium)
+
 }

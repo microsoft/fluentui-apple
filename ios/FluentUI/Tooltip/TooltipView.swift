@@ -103,8 +103,8 @@ class TooltipView: UIView {
                              title: String? = nil,
                              arrowDirection: Tooltip.ArrowDirection,
                              tokenSet: TooltipTokenSet) -> CGSize {
-        let paddingVertical = tokenSet[(title != nil) ? .paddingVerticalWithTitle : .paddingVerticalWithoutTitle].float
-        let totalPaddingHorizontal = 2 * tokenSet[.paddingHorizontal].float
+        let paddingVertical = (title != nil) ? TooltipTokenSet.paddingVerticalWithTitle : TooltipTokenSet.paddingVerticalWithoutTitle
+        let totalPaddingHorizontal = 2 * TooltipTokenSet.paddingHorizontal
         let arrowHeight = tokenSet[.arrowHeight].float
         var textBoundingSize = size
 
@@ -135,7 +135,7 @@ class TooltipView: UIView {
             width += arrowHeight
         }
 
-        height += (title != nil) ? (2 * paddingVertical) + tokenSet[.spacingVertical].float : 2 * paddingVertical
+        height += (title != nil) ? (2 * paddingVertical) + TooltipTokenSet.spacingVertical : 2 * paddingVertical
         width += totalPaddingHorizontal
 
         return CGSize(width: width, height: height)
@@ -178,7 +178,7 @@ class TooltipView: UIView {
 
         // Update text container size
         backgroundView.layer.cornerRadius = tokenSet[.backgroundCornerRadius].float
-        textContainer.frame = backgroundView.frame.insetBy(dx: tokenSet[.paddingHorizontal].float, dy: tokenSet[(title != nil) ? .paddingVerticalWithTitle : .paddingVerticalWithoutTitle].float)
+        textContainer.frame = backgroundView.frame.insetBy(dx: TooltipTokenSet.paddingHorizontal, dy: (title != nil) ? TooltipTokenSet.paddingVerticalWithTitle : TooltipTokenSet.paddingVerticalWithoutTitle)
         let preferredMessageSize = TooltipView.labelSizeThatFits(textContainer.frame.size,
                                                                  text: message,
                                                                  tokenSet: tokenSet,
@@ -190,7 +190,7 @@ class TooltipView: UIView {
                                                                    tokenSet: tokenSet,
                                                                    isMessage: false)
             titleLabel.frame.size = preferredTitleSize
-            messageLabel.frame.origin = CGPoint(x: 0, y: titleLabel.frame.height + tokenSet[.spacingVertical].float)
+            messageLabel.frame.origin = CGPoint(x: 0, y: titleLabel.frame.height + TooltipTokenSet.spacingVertical)
         }
 
         // Update tooltip size
@@ -227,7 +227,7 @@ class TooltipView: UIView {
                                           text: String,
                                           tokenSet: TooltipTokenSet,
                                           isMessage: Bool) -> CGSize {
-        let boundingWidth = min(tokenSet[.maximumWidth].float - (2 * tokenSet[.paddingHorizontal].float), size.width)
+        let boundingWidth = min(tokenSet[.maximumWidth].float - (2 * TooltipTokenSet.paddingHorizontal), size.width)
         return text.preferredSize(for: UIFont.fluent(tokenSet[isMessage ? .messageLabelTextStyle : .titleLabelTextStyle].fontInfo), width: boundingWidth)
     }
 

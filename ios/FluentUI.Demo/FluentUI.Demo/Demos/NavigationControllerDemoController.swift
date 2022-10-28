@@ -605,6 +605,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
             return
         }
         Tooltip.shared.show(with: "Tap anywhere for this tooltip to dismiss.",
+                            title: nil,
                             for: view,
                             preferredArrowDirection: .up,
                             dismissOn: .tapAnywhere)
