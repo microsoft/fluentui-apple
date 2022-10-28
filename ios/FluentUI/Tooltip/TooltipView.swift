@@ -13,23 +13,13 @@ class TooltipView: UIView {
 
     private let message: String
     private let title: String?
-    private let tooltipColor: UIColor
-    private let textColor: UIColor
-    private let backgroundCornerRadius: CGFloat
-    private let messageLabelFont: UIFont
-    private let titleLabelFont: UIFont
-    private let paddingHorizontal: CGFloat
-    private let paddingVertical: CGFloat
-    private let spacingVertical: CGFloat
-    private let maximumWidth: CGFloat
-
-    private let shadowInfo: ShadowInfo
+    private var tokenSet: TooltipTokenSet
 
     private lazy var backgroundView: UIView = {
         let view = UIView()
-        view.layer.cornerRadius = backgroundCornerRadius
+        view.layer.cornerRadius = tokenSet[.backgroundCornerRadius].float
         view.layer.cornerCurve = .continuous
-        view.backgroundColor = tooltipColor
+        view.backgroundColor = UIColor(dynamicColor: tokenSet[.tooltipColor].dynamicColor)
 
         return view
     }()
@@ -50,18 +40,20 @@ class TooltipView: UIView {
 
     private lazy var messageLabel: UILabel = {
         let label = Label()
-        label.font = messageLabelFont
-        label.textColor = textColor
+        label.font = UIFont.fluent(tokenSet[.messageLabelTextStyle].fontInfo)
+        label.textColor = UIColor(dynamicColor: tokenSet[.textColor].dynamicColor)
         label.numberOfLines = 0
+        label.lineBreakStrategy = []
         return label
     }()
 
     private lazy var titleLabel: UILabel? = {
         if let title = title {
             let label = Label()
-            label.font = titleLabelFont
-            label.textColor = textColor
+            label.font = UIFont.fluent(tokenSet[.titleLabelTextStyle].fontInfo)
+            label.textColor = UIColor(dynamicColor: tokenSet[.textColor].dynamicColor)
             label.numberOfLines = 0
+            label.lineBreakStrategy = []
             return label
         }
 
@@ -70,36 +62,17 @@ class TooltipView: UIView {
 
     init(message: String,
          title: String? = nil,
-         tooltipColor: UIColor,
-         textColor: UIColor,
          textAlignment: NSTextAlignment,
          positionController: TooltipPositionController,
-         shadowInfo: ShadowInfo,
-         backgroundCornerRadius: CGFloat,
-         messageLabelFont: UIFont,
-         titleLabelFont: UIFont,
-         paddingHorizontal: CGFloat,
-         paddingVertical: CGFloat,
-         spacingVertical: CGFloat,
-         maximumWidth: CGFloat) {
+         tokenSet: TooltipTokenSet) {
         self.message = message
         self.title = title
-        self.tooltipColor = tooltipColor
-        self.textColor = textColor
         self.positionController = positionController
-        self.backgroundCornerRadius = backgroundCornerRadius
-        self.messageLabelFont = messageLabelFont
-        self.titleLabelFont = titleLabelFont
-        self.paddingHorizontal = paddingHorizontal
-        self.paddingVertical = paddingVertical
-        self.spacingVertical = spacingVertical
-        self.maximumWidth = maximumWidth
-
-        self.shadowInfo = shadowInfo
+        self.tokenSet = tokenSet
 
         arrowImageViewBaseImage = UIImage.staticImageNamed("tooltip-arrow")
         arrowImageView = UIImageView(image: arrowImageViewBaseImage)
-        arrowImageView.image = arrowImageViewBaseImage?.withTintColor(tooltipColor, renderingMode: .alwaysOriginal)
+        arrowImageView.image = arrowImageViewBaseImage?.withTintColor(UIColor(dynamicColor: tokenSet[.tooltipColor].dynamicColor), renderingMode: .alwaysOriginal)
 
         super.init(frame: .zero)
 
@@ -121,6 +94,27 @@ class TooltipView: UIView {
         }
 
         addSubview(textContainer)
+
+        // Shadow
+        let backgroundCornerRadius = tokenSet[.backgroundCornerRadius].float
+        let shadowInfo = tokenSet[.shadowInfo].shadowInfo
+        let ambientShadow = CALayer()
+        ambientShadow.frame = bounds
+        ambientShadow.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: backgroundCornerRadius).cgPath
+        ambientShadow.shadowColor = UIColor(dynamicColor: shadowInfo.colorOne).cgColor
+        ambientShadow.shadowOpacity = 1
+        ambientShadow.shadowOffset = CGSize(width: shadowInfo.xOne, height: shadowInfo.yOne)
+        ambientShadow.shadowRadius = shadowInfo.blurOne
+        layer.insertSublayer(ambientShadow, at: 0)
+
+        let perimeterShadow = CALayer()
+        perimeterShadow.frame = bounds
+        perimeterShadow.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: backgroundCornerRadius).cgPath
+        perimeterShadow.shadowColor = UIColor(dynamicColor: shadowInfo.colorTwo).cgColor
+        perimeterShadow.shadowOpacity = 1
+        perimeterShadow.shadowOffset = CGSize(width: shadowInfo.xTwo, height: shadowInfo.yTwo)
+        perimeterShadow.shadowRadius = shadowInfo.blurTwo
+        layer.insertSublayer(perimeterShadow, at: 0)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -153,74 +147,63 @@ class TooltipView: UIView {
             arrowImageView.frame.origin.x = bounds.width - arrowImageView.frame.width
         }
 
-        textContainer.frame = backgroundView.frame.insetBy(dx: paddingHorizontal, dy: paddingVertical)
+        updateAppearance(tokenSet: tokenSet)
+    }
+
+    func updateAppearance(tokenSet: TooltipTokenSet) {
+        // Update colors
+        let textColor = UIColor(dynamicColor: tokenSet[.textColor].dynamicColor)
+        backgroundView.backgroundColor = UIColor(dynamicColor: tokenSet[.tooltipColor].dynamicColor)
+        messageLabel.textColor = textColor
+        titleLabel?.textColor = textColor
+
+        // Update fonts
+        messageLabel.font = UIFont.fluent(tokenSet[.messageLabelTextStyle].fontInfo)
+        if let titleLabel = titleLabel {
+            titleLabel.font = UIFont.fluent(tokenSet[.titleLabelTextStyle].fontInfo)
+        }
+
+        // Update text container size
+        let backgroundCornerRadius = tokenSet[.backgroundCornerRadius].float
+        backgroundView.layer.cornerRadius = backgroundCornerRadius
+        textContainer.frame = backgroundView.frame.insetBy(dx: tokenSet[.paddingHorizontal].float, dy: tokenSet[(title != nil) ? .paddingVerticalWithTitle : .paddingVerticalWithoutTitle].float)
         let preferredMessageSize = TooltipView.labelSizeThatFits(textContainer.frame.size,
                                                                  text: message,
-                                                                 maximumWidth: maximumWidth,
-                                                                 paddingHorizontal: 0,
-                                                                 labelFont: messageLabelFont)
+                                                                 tokenSet: tokenSet,
+                                                                 isMessage: true)
         messageLabel.frame.size = preferredMessageSize
         if let titleLabel = titleLabel, let title = title {
             let preferredTitleSize = TooltipView.labelSizeThatFits(textContainer.frame.size,
                                                                    text: title,
-                                                                   maximumWidth: maximumWidth,
-                                                                   paddingHorizontal: 0,
-                                                                   labelFont: titleLabelFont)
+                                                                   tokenSet: tokenSet,
+                                                                   isMessage: false)
             titleLabel.frame.size = preferredTitleSize
-            messageLabel.frame.origin = CGPoint(x: 0, y: titleLabel.frame.height + spacingVertical)
+            messageLabel.frame.origin = CGPoint(x: 0, y: titleLabel.frame.height + tokenSet[.spacingVertical].float)
         }
 
-        // Shadow
-        let ambientShadow = CALayer()
-        ambientShadow.frame = bounds
-        ambientShadow.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: backgroundCornerRadius).cgPath
-        ambientShadow.shadowColor = UIColor(dynamicColor: shadowInfo.colorOne).cgColor
-        ambientShadow.shadowOpacity = 1
-        ambientShadow.shadowOffset = CGSize(width: shadowInfo.xOne, height: shadowInfo.yOne)
-        ambientShadow.shadowRadius = shadowInfo.blurOne
-        layer.insertSublayer(ambientShadow, at: 0)
-
-        let perimeterShadow = CALayer()
-        perimeterShadow.frame = bounds
-        perimeterShadow.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: backgroundCornerRadius).cgPath
-        perimeterShadow.shadowColor = UIColor(dynamicColor: shadowInfo.colorTwo).cgColor
-        perimeterShadow.shadowOpacity = 1
-        perimeterShadow.shadowOffset = CGSize(width: shadowInfo.xTwo, height: shadowInfo.yTwo)
-        perimeterShadow.shadowRadius = shadowInfo.blurTwo
-        layer.insertSublayer(perimeterShadow, at: 0)
-    }
-
-    func updateAppearance(tooltipColor: UIColor,
-                          textColor: UIColor,
-                          shadowInfo: ShadowInfo,
-                          backgroundCornerRadius: CGFloat) {
-        // Update colors
-        backgroundView.backgroundColor = tooltipColor
-        messageLabel.textColor = textColor
-        titleLabel?.textColor = textColor
+        // Update tooltip size
+        positionController.updateArrowDirectionAndTooltipSize(for: message,
+                                                              title: title,
+                                                              tokenSet: tokenSet)
+        self.frame = positionController.tooltipRect
 
         // Update shadows
-        layer.sublayers?.removeAll()
-        let ambientShadow = CALayer()
+        let shadowInfo = tokenSet[.shadowInfo].shadowInfo
+        let ambientShadow: CALayer = (layer.sublayers?[1])!
         ambientShadow.frame = bounds
         ambientShadow.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: backgroundCornerRadius).cgPath
         ambientShadow.shadowColor = UIColor(dynamicColor: shadowInfo.colorOne).cgColor
         ambientShadow.shadowOpacity = 1
         ambientShadow.shadowOffset = CGSize(width: shadowInfo.xOne, height: shadowInfo.yOne)
         ambientShadow.shadowRadius = shadowInfo.blurOne
-        layer.insertSublayer(ambientShadow, at: 0)
 
-        let perimeterShadow = CALayer()
+        let perimeterShadow: CALayer = (layer.sublayers?[0])!
         perimeterShadow.frame = bounds
         perimeterShadow.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: backgroundCornerRadius).cgPath
         perimeterShadow.shadowColor = UIColor(dynamicColor: shadowInfo.colorTwo).cgColor
         perimeterShadow.shadowOpacity = 1
         perimeterShadow.shadowOffset = CGSize(width: shadowInfo.xTwo, height: shadowInfo.yTwo)
         perimeterShadow.shadowRadius = shadowInfo.blurTwo
-        layer.insertSublayer(perimeterShadow, at: 0)
-
-        // Update size
-        backgroundView.layer.cornerRadius = backgroundCornerRadius
     }
 
     /// Returns the tooltip size
@@ -228,33 +211,29 @@ class TooltipView: UIView {
                              message: String,
                              title: String? = nil,
                              arrowDirection: Tooltip.ArrowDirection,
-                             arrowHeight: CGFloat,
-                             totalPaddingVertical: CGFloat,
-                             paddingHorizontal: CGFloat,
-                             maximumWidth: CGFloat,
-                             messageLabelFont: UIFont,
-                             titleLabelFont: UIFont) -> CGSize {
+                             tokenSet: TooltipTokenSet) -> CGSize {
+        let paddingVertical = tokenSet[(title != nil) ? .paddingVerticalWithTitle : .paddingVerticalWithoutTitle].float
+        let totalPaddingHorizontal = 2 * tokenSet[.paddingHorizontal].float
+        let arrowHeight = tokenSet[.arrowHeight].float
         var textBoundingSize = size
-        if arrowDirection.isVertical {
-            textBoundingSize.height -= arrowHeight
-        } else {
+
+        textBoundingSize.width -= totalPaddingHorizontal
+        if !arrowDirection.isVertical {
             textBoundingSize.width -= arrowHeight
         }
-        textBoundingSize.height -= totalPaddingVertical
+
         let messageLabelFittingSize = labelSizeThatFits(textBoundingSize,
                                                         text: message,
-                                                        maximumWidth: maximumWidth,
-                                                        paddingHorizontal: paddingHorizontal,
-                                                        labelFont: messageLabelFont)
-        var width = messageLabelFittingSize.width + 2 * paddingHorizontal
-        var height = messageLabelFittingSize.height + totalPaddingVertical
+                                                        tokenSet: tokenSet,
+                                                        isMessage: true)
+        var width = messageLabelFittingSize.width
+        var height = messageLabelFittingSize.height
 
         if let title = title {
             let titleLabelFittingSize = labelSizeThatFits(textBoundingSize,
                                                           text: title,
-                                                          maximumWidth: maximumWidth,
-                                                          paddingHorizontal: paddingHorizontal,
-                                                          labelFont: titleLabelFont)
+                                                          tokenSet: tokenSet,
+                                                          isMessage: false)
             width = max(width, titleLabelFittingSize.width)
             height += titleLabelFittingSize.height
         }
@@ -264,16 +243,19 @@ class TooltipView: UIView {
         } else {
             width += arrowHeight
         }
+
+        height += (title != nil) ? (2 * paddingVertical) + tokenSet[.spacingVertical].float : 2 * paddingVertical
+        width += totalPaddingHorizontal
+
         return CGSize(width: width, height: height)
     }
 
     private static func labelSizeThatFits(_ size: CGSize,
                                           text: String,
-                                          maximumWidth: CGFloat,
-                                          paddingHorizontal: CGFloat,
-                                          labelFont: UIFont) -> CGSize {
-        let boundingWidth = min(maximumWidth, size.width) - 2 * paddingHorizontal
-        return text.preferredSize(for: labelFont, width: boundingWidth)
+                                          tokenSet: TooltipTokenSet,
+                                          isMessage: Bool) -> CGSize {
+        let boundingWidth = min(tokenSet[.maximumWidth].float - (2 * tokenSet[.paddingHorizontal].float), size.width)
+        return text.preferredSize(for: UIFont.fluent(tokenSet[isMessage ? .messageLabelTextStyle : .titleLabelTextStyle].fontInfo), width: boundingWidth)
     }
 
     private func transformForArrowImageView() -> CGAffineTransform {
@@ -292,7 +274,14 @@ class TooltipView: UIView {
     // MARK: - Accessibility
 
     override var accessibilityLabel: String? {
-        get { return messageLabel.text }
+        get {
+            guard let title = title
+            else {
+                return message
+            }
+
+            return title + message
+        }
         set { }
     }
 

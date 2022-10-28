@@ -10,18 +10,25 @@ import Combine
 
 /// A styled tooltip that is presented anchored to a view.
 @objc(MSFTooltip)
-open class Tooltip: UIView, TokenizedControlInternal {
+open class Tooltip: NSObject, TokenizedControlInternal {
+    var fluentTheme: FluentTheme {
+        guard let tooltipView = tooltipView else {
+            return FluentTheme.shared
+        }
+        return tooltipView.fluentTheme
+    }
+
     // MARK: - TokenizedControl
     public typealias TokenSetKeyType = TooltipTokenSet.Tokens
     public var tokenSet: TooltipTokenSet = .init()
     var tokenSetSink: AnyCancellable?
 
     @objc private func themeDidChange(_ notification: Notification) {
-        if let window = self.window,
-           window.isEqual(notification.object) {
-            tokenSet.update(window.fluentTheme)
-            updateAppearance()
+        guard let themeView = notification.object as? UIView, let tooltipView = tooltipView, tooltipView.isDescendant(of: themeView) else {
+            return
         }
+        tokenSet.update(fluentTheme)
+        updateAppearance()
     }
 
     @objc(MSFTooltipArrowDirection)
@@ -77,8 +84,13 @@ open class Tooltip: UIView, TokenizedControlInternal {
     private var gestureView: UIView?
     private var dismissMode: DismissMode = .tapAnywhere
 
-    @objc public init() {
-        super.init(frame: .zero)
+    private override init() {
+        super.init()
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
 
         // Update appearance whenever `tokenSet` changes.
         tokenSetSink = tokenSet.sinkChanges { [weak self] in
@@ -103,7 +115,7 @@ open class Tooltip: UIView, TokenizedControlInternal {
     ///   - dismissMode: The mode of tooltip dismissal. Defaults to tapping anywhere.
     ///   - onTap: An optional closure used to do work after the user taps
     @objc public func show(with message: String,
-                           title: String? = nil,
+                           title: String?,
                            for anchorView: UIView,
                            preferredArrowDirection: ArrowDirection = .down,
                            offset: CGPoint = CGPoint(x: 0, y: 0),
@@ -117,8 +129,6 @@ open class Tooltip: UIView, TokenizedControlInternal {
         }
 
         let boundingRect = window.bounds.inset(by: window.safeAreaInsets).inset(by: screenMargins)
-        let paddingVertical = (title != nil) ? tokenSet[.paddingVerticalWithTitle].float : tokenSet[.paddingVerticalWithoutTitle].float
-        let totalPaddingVertical = (title != nil) ? (2 * paddingVertical) + tokenSet[.spacingVertical].float : 2 * paddingVertical
         let positionController = TooltipPositionController(anchorView: anchorView,
                                                            message: message,
                                                            title: title,
@@ -126,29 +136,13 @@ open class Tooltip: UIView, TokenizedControlInternal {
                                                            preferredArrowDirection: preferredArrowDirection,
                                                            offset: offset,
                                                            arrowMargin: tokenSet[.backgroundCornerRadius].float,
-                                                           arrowWidth: tokenSet[.arrowWidth].float,
-                                                           arrowHeight: tokenSet[.arrowHeight].float,
-                                                           totalPaddingVertical: totalPaddingVertical,
-                                                           paddingHorizontal: tokenSet[.paddingHorizontal].float,
-                                                           maximumWidth: tokenSet[.maximumWidth].float,
-                                                           messageLabelFont: UIFont.fluent(tokenSet[.messageLabelTextStyle].fontInfo),
-                                                           titleLabelFont: UIFont.fluent(tokenSet[.titleLabelTextStyle].fontInfo)
+                                                           tokenSet: tokenSet
         )
         let tooltipView = TooltipView(message: message,
                                       title: title,
-                                      tooltipColor: UIColor(dynamicColor: tokenSet[.tooltipColor].dynamicColor),
-                                      textColor: UIColor(dynamicColor: tokenSet[.textColor].dynamicColor),
                                       textAlignment: textAlignment,
                                       positionController: positionController,
-                                      shadowInfo: tokenSet[.shadowInfo].shadowInfo,
-                                      backgroundCornerRadius: tokenSet[.backgroundCornerRadius].float,
-                                      messageLabelFont: UIFont.fluent(tokenSet[.messageLabelTextStyle].fontInfo),
-                                      titleLabelFont: UIFont.fluent(tokenSet[.titleLabelTextStyle].fontInfo),
-                                      paddingHorizontal: tokenSet[.paddingHorizontal].float,
-                                      paddingVertical: paddingVertical,
-                                      spacingVertical: tokenSet[.spacingVertical].float,
-                                      maximumWidth: tokenSet[.maximumWidth].float)
-
+                                      tokenSet: tokenSet)
         self.tooltipView = tooltipView
         tooltipView.accessibilityViewIsModal = true
 
@@ -195,6 +189,34 @@ open class Tooltip: UIView, TokenizedControlInternal {
         NotificationCenter.default.addObserver(self, selector: #selector(orientationChanged), name: UIDevice.orientationDidChangeNotification, object: nil)
     }
 
+    /// Displays a tooltip based on the current settings, pointing to the supplied anchorView.
+    /// If another tooltip view is already showing, it will be dismissed and the new tooltip will be shown.
+    ///
+    /// - Parameters:
+    ///   - message: The text to be displayed on the new tooltip view.
+    ///   - anchorView: The view to point to with the new tooltip's arrow.
+    ///   - preferredArrowDirection: The preferrred direction for the tooltip's arrow. Only the arrow's axis is guaranteed; the direction may be changed based on available space between the anchorView and the screen's margins. Defaults to down.
+    ///   - offset: An offset from the tooltip's default position.
+    ///   - screenMargins: The margins from the window's safe area insets used for laying out the tooltip. Defaults to 16.0 pts on all sides.
+    ///   - dismissMode: The mode of tooltip dismissal. Defaults to tapping anywhere.
+    ///   - onTap: An optional closure used to do work after the user taps
+    @objc public func show(with message: String,
+                           for anchorView: UIView,
+                           preferredArrowDirection: ArrowDirection = .down,
+                           offset: CGPoint = CGPoint(x: 0, y: 0),
+                           screenMargins: UIEdgeInsets = defaultScreenMargins,
+                           dismissOn dismissMode: DismissMode = .tapAnywhere,
+                           onTap: (() -> Void)? = nil) {
+        self.show(with: message,
+                  title: nil,
+                  for: anchorView,
+                  preferredArrowDirection: preferredArrowDirection,
+                  offset: offset,
+                  screenMargins: screenMargins,
+                  dismissOn: dismissMode,
+                  onTap: onTap)
+    }
+
     /// Hides the currently shown tooltip.
     @objc public func hide() {
         gestureView?.removeFromSuperview()
@@ -231,9 +253,6 @@ open class Tooltip: UIView, TokenizedControlInternal {
     }
 
     private func updateAppearance() {
-        tooltipView?.updateAppearance(tooltipColor: UIColor(dynamicColor: tokenSet[.tooltipColor].dynamicColor),
-                                      textColor: UIColor(dynamicColor: tokenSet[.textColor].dynamicColor),
-                                      shadowInfo: tokenSet[.shadowInfo].shadowInfo,
-                                      backgroundCornerRadius: tokenSet[.backgroundCornerRadius].float)
+        tooltipView?.updateAppearance(tokenSet: tokenSet)
     }
 }
