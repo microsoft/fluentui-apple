@@ -118,7 +118,8 @@ open class DrawerController: UIViewController {
     }
 
     @objc static func drawerBackgroundColor(fluentTheme: FluentTheme) -> UIColor {
-        return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background2])
+        return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.background2].light,
+                                                  dark: fluentTheme.aliasTokens.colors[.background2].dark))
     }
 
     @objc static func popoverBackgroundColor(fluentTheme: FluentTheme) -> UIColor {
