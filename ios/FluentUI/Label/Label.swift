@@ -19,7 +19,7 @@ public enum TextColorStyle: Int, CaseIterable {
         case .regular:
             return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
         case .secondary:
-            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground3])
+            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
         case .white:
             return .white
         case .primary:
