@@ -39,7 +39,8 @@ class TabBarItemView: UIControl, TokenizedControlInternal {
         didSet {
             titleLabel.isHighlighted = isSelected
             imageView.isHighlighted = isSelected
-            updateAppearance()
+            updateImage()
+            updateColors()
             if isSelected {
                 accessibilityTraits.insert(.selected)
             } else {
@@ -251,10 +252,16 @@ class TabBarItemView: UIControl, TokenizedControlInternal {
         imageView.tintColor = isSelected ? UIColor(dynamicColor: tokenSet[.selectedColor].dynamicColor) : UIColor(dynamicColor: tokenSet[.unselectedColor].dynamicColor)
     }
 
-    private func updateLayout() {
-        imageView.image = item.unselectedImage(isInPortraitMode: isInPortraitMode, labelIsHidden: titleLabel.isHidden)
-        imageView.highlightedImage = item.selectedImage(isInPortraitMode: isInPortraitMode, labelIsHidden: titleLabel.isHidden)
+    private func updateImage() {
+        // Normally we'd set imageView.image and imageView.highlightedImage separately. However, there's a known issue with
+        // UIImageView in iOS 16 where highlighted images lose their tint color in certain scenarios. While we wait for a fix,
+        // this is a straightforward workaround that gets us the same effect without triggering the bug.
+        imageView.image = imageView.isHighlighted ?
+                            item.selectedImage(isInPortraitMode: isInPortraitMode, labelIsHidden: titleLabel.isHidden) :
+                            item.unselectedImage(isInPortraitMode: isInPortraitMode, labelIsHidden: titleLabel.isHidden)
+    }
 
+    private func updateLayout() {
         if isInPortraitMode {
             container.axis = .vertical
             container.spacing = tokenSet[.spacingVertical].float
@@ -272,6 +279,7 @@ class TabBarItemView: UIControl, TokenizedControlInternal {
             }
         }
 
+        updateImage()
         updateBadgeView()
         invalidateIntrinsicContentSize()
     }

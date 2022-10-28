@@ -11,7 +11,6 @@ import Combine
 /// `PillButtonBarItem` is an item that can be presented as a pill shaped text button.
 @objc(MSFPillButtonBarItem)
 open class PillButtonBarItem: NSObject {
-    @objc public let title: String
 
     /// Creates a new instance of the PillButtonBarItem that holds data used to create a pill button in a PillButtonBar.
     /// - Parameter title: Title that will be displayed by a pill button in the PillButtonBar.
@@ -29,6 +28,15 @@ open class PillButtonBarItem: NSObject {
         self.isUnread = isUnread
     }
 
+    /// Title that will be displayed in the button.
+    @objc public var title: String {
+        didSet {
+            if oldValue != title {
+                NotificationCenter.default.post(name: PillButtonBarItem.titleValueDidChangeNotification, object: self)
+            }
+        }
+    }
+
     /// This value will determine whether or not to show the mark that represents the "unread" state (dot next to the pill button label).
     /// The default value of this property is false.
     public var isUnread: Bool = false {
@@ -41,6 +49,9 @@ open class PillButtonBarItem: NSObject {
 
     /// Notification sent when item's `isUnread` value changes.
     static let isUnreadValueDidChangeNotification = NSNotification.Name(rawValue: "PillButtonBarItemisUnreadValueDidChangeNotification")
+
+    /// Notification sent when item's `title` value changes.
+    static let titleValueDidChangeNotification = NSNotification.Name(rawValue: "PillButtonBarItemTitleValueDidChangeNotification")
 }
 
 // MARK: PillButtonBar
