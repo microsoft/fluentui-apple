@@ -33,14 +33,17 @@ class TooltipPositionController {
     func updateArrowDirectionAndTooltipSize(for message: String, title: String? = nil, tokenSet: TooltipTokenSet) {
         let preferredBoundingRect = boundingRect.inset(by: anchorViewInset(for: preferredArrowDirection))
         let backupBoundingRect = boundingRect.inset(by: anchorViewInset(for: preferredArrowDirection.opposite))
+        let isAccessibilityContentSize = window.traitCollection.preferredContentSizeCategory.isAccessibilityCategory
         let preferredSize = TooltipView.sizeThatFits(preferredBoundingRect.size,
                                                      message: message,
                                                      title: title,
+                                                     isAccessibilityContentSize: isAccessibilityContentSize,
                                                      arrowDirection: preferredArrowDirection,
                                                      tokenSet: tokenSet)
         let backupSize = TooltipView.sizeThatFits(backupBoundingRect.size,
                                                   message: message,
                                                   title: title,
+                                                  isAccessibilityContentSize: isAccessibilityContentSize,
                                                   arrowDirection: preferredArrowDirection.opposite,
                                                   tokenSet: tokenSet)
 

@@ -85,6 +85,7 @@ class TooltipView: UIView {
     static func sizeThatFits(_ size: CGSize,
                              message: String,
                              title: String? = nil,
+                             isAccessibilityContentSize: Bool,
                              arrowDirection: Tooltip.ArrowDirection,
                              tokenSet: TooltipTokenSet) -> CGSize {
         let paddingVertical = (title != nil) ? TooltipTokenSet.paddingVerticalWithTitle : TooltipTokenSet.paddingVerticalWithoutTitle
@@ -99,6 +100,7 @@ class TooltipView: UIView {
 
         let messageLabelFittingSize = labelSizeThatFits(textBoundingSize,
                                                         text: message,
+                                                        isAccessibilityContentSize: isAccessibilityContentSize,
                                                         tokenSet: tokenSet,
                                                         isMessage: true)
         var width = messageLabelFittingSize.width
@@ -107,6 +109,7 @@ class TooltipView: UIView {
         if let title = title {
             let titleLabelFittingSize = labelSizeThatFits(textBoundingSize,
                                                           text: title,
+                                                          isAccessibilityContentSize: isAccessibilityContentSize,
                                                           tokenSet: tokenSet,
                                                           isMessage: false)
             width = max(width, titleLabelFittingSize.width)
@@ -163,14 +166,17 @@ class TooltipView: UIView {
         // Update text container size
         backgroundView.layer.cornerRadius = tokenSet[.backgroundCornerRadius].float
         textContainer.frame = backgroundView.frame.insetBy(dx: TooltipTokenSet.paddingHorizontal, dy: (title != nil) ? TooltipTokenSet.paddingVerticalWithTitle : TooltipTokenSet.paddingVerticalWithoutTitle)
+        let isAccessibilityContentSize = self.traitCollection.preferredContentSizeCategory.isAccessibilityCategory
         let preferredMessageSize = TooltipView.labelSizeThatFits(textContainer.frame.size,
                                                                  text: message,
+                                                                 isAccessibilityContentSize: isAccessibilityContentSize,
                                                                  tokenSet: tokenSet,
                                                                  isMessage: true)
         messageLabel.frame.size = preferredMessageSize
         if let titleLabel = titleLabel, let title = title {
             let preferredTitleSize = TooltipView.labelSizeThatFits(textContainer.frame.size,
                                                                    text: title,
+                                                                   isAccessibilityContentSize: isAccessibilityContentSize,
                                                                    tokenSet: tokenSet,
                                                                    isMessage: false)
             titleLabel.frame.size = preferredTitleSize
@@ -211,9 +217,10 @@ class TooltipView: UIView {
 
     private static func labelSizeThatFits(_ size: CGSize,
                                           text: String,
+                                          isAccessibilityContentSize: Bool,
                                           tokenSet: TooltipTokenSet,
                                           isMessage: Bool) -> CGSize {
-        let boundingWidth = UIApplication.shared.preferredContentSizeCategory.isAccessibilityCategory ? size.width : tokenSet[.maximumWidth].float - (2 * TooltipTokenSet.paddingHorizontal)
+        let boundingWidth = isAccessibilityContentSize ? size.width : tokenSet[.maximumWidth].float - (2 * TooltipTokenSet.paddingHorizontal)
         return text.preferredSize(for: UIFont.fluent(tokenSet[isMessage ? .messageLabelTextStyle : .titleLabelTextStyle].fontInfo), width: boundingWidth)
     }
 
