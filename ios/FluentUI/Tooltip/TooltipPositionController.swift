@@ -87,7 +87,7 @@ class TooltipPositionController {
         return CGRect(origin: tooltipOrigin, size: tooltipSize)
     }
 
-    private lazy var tooltipOrigin: CGPoint = {
+    private var tooltipOrigin: CGPoint {
         var tooltipOrigin = idealTooltipOrigin
         if arrowDirection.isVertical {
             tooltipOrigin.x = max(boundingRect.minX, min(tooltipOrigin.x, boundingRect.maxX - tooltipSize.width))
@@ -97,7 +97,7 @@ class TooltipPositionController {
         tooltipOrigin.x += offset.x
         tooltipOrigin.y += offset.y
         return tooltipOrigin
-    }()
+    }
 
     private var idealTooltipOrigin: CGPoint {
         switch arrowDirection {

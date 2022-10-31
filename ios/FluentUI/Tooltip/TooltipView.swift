@@ -81,6 +81,10 @@ class TooltipView: UIView {
         updateAppearance(tokenSet: tokenSet)
     }
 
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        layoutSubviews()
+    }
+
     /// Returns the tooltip size
     static func sizeThatFits(_ size: CGSize,
                              message: String,
@@ -188,6 +192,7 @@ class TooltipView: UIView {
                                                               title: title,
                                                               tokenSet: tokenSet)
         self.frame = positionController.tooltipRect
+        arrowImageView.transform = transformForArrowImageView()
 
         // Update shadows
         updateShadows(tokenSet: tokenSet)
