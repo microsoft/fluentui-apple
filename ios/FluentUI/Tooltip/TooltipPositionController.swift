@@ -8,11 +8,66 @@ import UIKit
 // MARK: TooltipPositionController
 
 class TooltipPositionController {
+
+    init(anchorView: UIView,
+         message: String,
+         title: String? = nil,
+         boundingRect: CGRect,
+         preferredArrowDirection: Tooltip.ArrowDirection,
+         offset: CGPoint,
+         arrowMargin: CGFloat,
+         tokenSet: TooltipTokenSet) {
+        guard let window = anchorView.window else {
+            preconditionFailure("Can't find anchorView's window")
+        }
+        self.window = window
+        self.anchorView = anchorView
+        self.preferredArrowDirection = preferredArrowDirection
+        self.offset = offset
+        self.arrowMargin = arrowMargin
+        self.tokenSet = tokenSet
+        self.boundingRect = boundingRect
+        updateArrowDirectionAndTooltipSize(for: message, title: title, tokenSet: tokenSet)
+    }
+
+    func updateArrowDirectionAndTooltipSize(for message: String, title: String? = nil, tokenSet: TooltipTokenSet) {
+        let preferredBoundingRect = boundingRect.inset(by: anchorViewInset(for: preferredArrowDirection))
+        let backupBoundingRect = boundingRect.inset(by: anchorViewInset(for: preferredArrowDirection.opposite))
+        let preferredSize = TooltipView.sizeThatFits(preferredBoundingRect.size,
+                                                     message: message,
+                                                     title: title,
+                                                     arrowDirection: preferredArrowDirection,
+                                                     tokenSet: tokenSet)
+        let backupSize = TooltipView.sizeThatFits(backupBoundingRect.size,
+                                                  message: message,
+                                                  title: title,
+                                                  arrowDirection: preferredArrowDirection.opposite,
+                                                  tokenSet: tokenSet)
+
+        var usePreferred = true
+        if (preferredArrowDirection.isVertical &&
+            preferredBoundingRect.height < preferredSize.height &&
+            backupBoundingRect.height >= backupSize.height) ||
+            (!preferredArrowDirection.isVertical &&
+             preferredBoundingRect.width < preferredSize.width &&
+             backupBoundingRect.width >= backupSize.width) {
+            usePreferred = false
+        }
+
+        if usePreferred {
+            arrowDirection = preferredArrowDirection
+            tooltipSize = preferredSize
+        } else {
+            arrowDirection = preferredArrowDirection.opposite
+            tooltipSize = backupSize
+        }
+    }
+
     let anchorView: UIView
-    private(set) var arrowDirection: Tooltip.ArrowDirection = .down
 
     var arrowPosition: CGFloat {
         let minPosition = arrowMargin
+        let arrowWidth = tokenSet[.arrowWidth].float
         var idealPosition: CGFloat
         var maxPosition: CGFloat
         if arrowDirection.isVertical {
@@ -71,54 +126,17 @@ class TooltipPositionController {
         return anchorView.convert(sourcePointInAnchorView, to: window)
     }
 
+    private(set) var arrowDirection: Tooltip.ArrowDirection = .down
+
     private let preferredArrowDirection: Tooltip.ArrowDirection
     private let window: UIView
 
     private let arrowMargin: CGFloat
-    private let arrowWidth: CGFloat
     private let boundingRect: CGRect
     private let offset: CGPoint
+    private let tokenSet: TooltipTokenSet
 
     private var tooltipSize: CGSize = .zero
-
-    init(anchorView: UIView, message: String, boundingRect: CGRect, preferredArrowDirection: Tooltip.ArrowDirection, offset: CGPoint, arrowMargin: CGFloat, arrowWidth: CGFloat) {
-        guard let window = anchorView.window else {
-            preconditionFailure("Can't find anchorView's window")
-        }
-        self.window = window
-        self.anchorView = anchorView
-        self.preferredArrowDirection = preferredArrowDirection
-        self.offset = offset
-        self.arrowMargin = arrowMargin
-        self.arrowWidth = arrowWidth
-        self.boundingRect = boundingRect
-        setupArrowDirectionAndTooltipSize(for: message)
-    }
-
-    private func setupArrowDirectionAndTooltipSize(for message: String) {
-        let preferredBoundingRect = boundingRect.inset(by: anchorViewInset(for: preferredArrowDirection))
-        let backupBoundingRect = boundingRect.inset(by: anchorViewInset(for: preferredArrowDirection.opposite))
-        let preferredSize = TooltipView.sizeThatFits(preferredBoundingRect.size, message: message, arrowDirection: preferredArrowDirection)
-        let backupSize = TooltipView.sizeThatFits(backupBoundingRect.size, message: message, arrowDirection: preferredArrowDirection.opposite)
-
-        var usePreferred = true
-        if preferredArrowDirection.isVertical {
-            if preferredBoundingRect.height < preferredSize.height && backupBoundingRect.height >= backupSize.height {
-                usePreferred = false
-            }
-        } else {
-            if preferredBoundingRect.width < preferredSize.width && backupBoundingRect.width >= backupSize.width {
-                usePreferred = false
-            }
-        }
-        if usePreferred {
-            arrowDirection = preferredArrowDirection
-            tooltipSize = preferredSize
-        } else {
-            arrowDirection = preferredArrowDirection.opposite
-            tooltipSize = backupSize
-        }
-    }
 
     private func anchorViewInset(for arrowDirection: Tooltip.ArrowDirection) -> UIEdgeInsets {
         guard let window = anchorView.window else {
