@@ -527,14 +527,17 @@ open class AvatarView: NSView {
 		return colors[hashCode % colors.count]
 	}
 
-	/// To ensure iOS/MacOS and Android achieve the same result when generating string hash codes (e.g. to determine avatar colors) we've copied Java's String implementation of `hashCode`.
+	/// Hash algorithm to determine Avatar color.
 	/// Must use Int32 as JVM specification is 32-bits for ints
 	/// - Returns: hash code of string
 	private static func javaHashCode(_ text: NSString) -> Int32 {
 		var hash: Int32 = 0
-		for i in 0..<text.length {
-			// Allow overflows, mimicking Java behavior
-			hash = 31 &* hash &+ Int32(text.character(at: i))
+		var len = text.length - 1
+		while len >= 0 {
+			let ch = text.character(at: len)
+			let shift = len % 8
+			hash ^= Int32((ch << shift) + (ch >> (8 - shift)))
+			len -= 1
 		}
 		return hash
 	}

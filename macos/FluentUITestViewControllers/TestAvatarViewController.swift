@@ -15,8 +15,8 @@ private struct TestIdentity {
 
 /// Some sample identities
 private struct TestData {
-	static let annie = TestIdentity(name: "Annie Lindqvist", email: "Annie.Lindqvist@example.com", image: NSImage(named: TestAvatarViewController.personaFemale))
-	static let maor = TestIdentity(name: "Maor Sharett", email: "Maor.Sharett@example.com", image: nil)
+	static let annie = TestIdentity(name: "Bill Gates", email: "Annie.Lindqvist@example.com", image: nil)
+	static let maor = TestIdentity(name: "Satya Nadella", email: "Maor.Sharett@example.com", image: nil)
 	static let annieBoyl = TestIdentity(name: "Annie Boyl Lind", email: "annie.boyl@example.com", image: nil)
 	static let kat = TestIdentity(name: nil, email: "Kat.Larrson@example.com", image: nil)
 	static let anonymous = TestIdentity(name: nil, email: nil, image: nil)
