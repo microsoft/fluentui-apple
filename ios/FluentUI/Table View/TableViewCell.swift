@@ -734,6 +734,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     /// Text that appears as the third line of text
     @objc public var footer: String { return footerLabel.text ?? "" }
 
+    /// The attributedText for the title.
     @objc public var attributedTitle: NSAttributedString? {
         get {
             return titleLabel.attributedText
@@ -744,6 +745,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         }
     }
 
+    /// The attributedText for the subtitle.
     @objc public var attributedSubtitle: NSAttributedString? {
         get {
             return subtitleLabel.attributedText
@@ -754,6 +756,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         }
     }
 
+    /// The attributedText for the footer.
     @objc public var attributedFooter: NSAttributedString? {
         get {
             return footerLabel.attributedText
