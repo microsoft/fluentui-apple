@@ -26,7 +26,7 @@ public class TooltipTokenSet: ControlTokenSet<TooltipTokenSet.Tokens> {
         /// The TextStyle of the title label.
         case titleLabelTextStyle
 
-        /// The maximum width of the tooltip.
+        /// The maximum width of the tooltip if the device's text size is not an accessibility size (in which case there is no maximum width).
         case maximumWidth
 
         /// The height of the arrow of the tooltip.

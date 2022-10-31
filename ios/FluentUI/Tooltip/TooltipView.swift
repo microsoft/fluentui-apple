@@ -213,7 +213,7 @@ class TooltipView: UIView {
                                           text: String,
                                           tokenSet: TooltipTokenSet,
                                           isMessage: Bool) -> CGSize {
-        let boundingWidth = min(tokenSet[.maximumWidth].float - (2 * TooltipTokenSet.paddingHorizontal), size.width)
+        let boundingWidth = UIApplication.shared.preferredContentSizeCategory.isAccessibilityCategory ? size.width : tokenSet[.maximumWidth].float - (2 * TooltipTokenSet.paddingHorizontal)
         return text.preferredSize(for: UIFont.fluent(tokenSet[isMessage ? .messageLabelTextStyle : .titleLabelTextStyle].fontInfo), width: boundingWidth)
     }
 
