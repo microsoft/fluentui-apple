@@ -96,8 +96,8 @@ public struct AvatarGroup: View, TokenizedControlView {
     /// - Parameters:
     ///   - style: The style of the avatar group.
     ///   - size: The size of the avatars displayed in the avatar group.
-    init(style: MSFAvatarGroupStyle,
-         size: MSFAvatarSize) {
+    public init(style: MSFAvatarGroupStyle,
+                size: MSFAvatarSize) {
         let state = MSFAvatarGroupStateImpl(style: style,
                                             size: size)
         self.state = state
