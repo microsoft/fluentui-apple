@@ -431,16 +431,15 @@ public struct Avatar: View, TokenizedControlView {
         }
 
         /// Hash algorithm to determine Avatar color.
+        /// Referenced from: https://github.com/microsoft/fluentui/blob/9a6f5b7a938f95518b20624f37031112ea267914/packages/react-components/react-avatar/src/components/Avatar/useAvatar.tsx#L200
         /// Must use Int32 as JVM specification is 32-bits for ints
         /// - Returns: hash code of string
         private static func javaHashCode(_ text: NSString) -> Int32 {
             var hash: Int32 = 0
-            var len = text.length - 1
-            while len >= 0 {
+            for len in (0..<text.length).reversed() {
                 let ch = text.character(at: len)
                 let shift = len % 8
                 hash ^= Int32((ch << shift) + (ch >> (8 - shift)))
-                len -= 1
               }
 
             return hash
