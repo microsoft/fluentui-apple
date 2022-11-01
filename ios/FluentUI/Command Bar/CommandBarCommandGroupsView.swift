@@ -18,7 +18,8 @@ class CommandBarCommandGroupsView: UIView {
 
         buttonGroupsStackView.translatesAutoresizingMaskIntoConstraints = false
         buttonGroupsStackView.axis = .horizontal
-        buttonGroupsStackView.spacing = LayoutConstants.buttonGroupSpacing
+        let shouldUseRegularSpacing = (traitCollection.horizontalSizeClass == .regular) && (traitCollection.verticalSizeClass == .regular)
+        buttonGroupsStackView.spacing = shouldUseRegularSpacing ? LayoutConstants.buttonGroupSpacingRegular : LayoutConstants.buttonGroupSpacingCompact
 
         addSubview(buttonGroupsStackView)
 
@@ -124,7 +125,8 @@ class CommandBarCommandGroupsView: UIView {
     }
 
     private struct LayoutConstants {
-        static let buttonGroupSpacing: CGFloat = 8.0
+        static let buttonGroupSpacingCompact: CGFloat = 8.0
+        static let buttonGroupSpacingRegular: CGFloat = 16.0
         static let insets = UIEdgeInsets(top: 8.0,
                                          left: 8.0,
                                          bottom: 8.0,
