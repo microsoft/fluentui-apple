@@ -29,7 +29,7 @@ open class AvatarView: NSView {
                       contactImage: NSImage? = nil) {
 
 		// Prefer contactEmail to contactName for uniqueness
-		let color = AvatarView.getInitialsColorSet(fromPrimaryText: contactEmail, secondaryText: contactName)
+		let color = AvatarView.getInitialsColorSet(fromPrimaryText: contactName, secondaryText: contactEmail)
 		avatarBackgroundColor = color.background.resolvedColor()
 		initialsFontColor = color.foreground.resolvedColor()
 		self.contactName = contactName
@@ -538,6 +538,7 @@ open class AvatarView: NSView {
 			let shift = len % 8
 			hash ^= Int32((ch << shift) + (ch >> (8 - shift)))
 		}
+
 		return hash
 	}
 
