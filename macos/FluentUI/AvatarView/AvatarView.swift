@@ -28,7 +28,6 @@ open class AvatarView: NSView {
                       contactEmail: String? = nil,
                       contactImage: NSImage? = nil) {
 
-		// Prefer contactEmail to contactName for uniqueness
 		let color = AvatarView.getInitialsColorSet(fromPrimaryText: contactName, secondaryText: contactEmail)
 		avatarBackgroundColor = color.background.resolvedColor()
 		initialsFontColor = color.foreground.resolvedColor()
