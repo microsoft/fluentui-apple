@@ -112,9 +112,9 @@ class CardViewDemoController: DemoController {
                                y: card.frame.minY + 20,
                                width: card.frame.width,
                                height: card.frame.height)
-            card.animate(withDuration: 2.0,
-                         frame: frame,
-                         animations: animation)
+            UIView.animate(withDuration: 2) {
+                card.frame = frame
+            }
         }
     }
 

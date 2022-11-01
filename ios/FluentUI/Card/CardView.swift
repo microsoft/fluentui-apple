@@ -170,7 +170,9 @@ public enum CardSize: Int, CaseIterable {
  */
 @objc(MSFCardView)
 open class CardView: UIView, Shadowable {
-    public var shadowView: UIView?
+    public var shadow1: CALayer?
+    public var shadow2: CALayer?
+
     /// Delegate to handle user interaction with the CardView
     @objc public weak var delegate: CardDelegate?
 
@@ -384,15 +386,6 @@ open class CardView: UIView, Shadowable {
     private func updateShadow() {
         let shadowInfo = fluentTheme.aliasTokens.shadow[.shadow16]
         shadowInfo.applyShadow(to: self)
-    }
-
-    public func animate(withDuration duration: TimeInterval,
-                        frame: CGRect,
-                        animations: (UIView, CGRect, TimeInterval) -> Void) {
-        animations(self, frame, duration)
-        if let shadowView = shadowView {
-            animations(shadowView, frame, duration)
-        }
     }
 
     @available(*, unavailable)

@@ -68,20 +68,13 @@ public struct ShadowInfo: Equatable {
 public extension ShadowInfo {
 
     func applyShadow(to view: UIView) {
-        guard let superview = view.superview, var shadowable = (view as? Shadowable) ?? (view.superview as? Shadowable)  else {
+        guard var shadowable = view as? Shadowable else {
             assertionFailure("Cannot apply Fluent shadows to a non-Shadowable view")
             return
         }
 
-        let shadowView = UIView()
-
-        shadowable.shadowView?.removeFromSuperview()
-        shadowable.shadowView = shadowView
-
-        shadowView.frame = view.frame
-        shadowView.layer.cornerRadius = view.layer.cornerRadius
-
-        superview.insertSubview(shadowView, belowSubview: view)
+        shadowable.shadow1?.removeFromSuperlayer()
+        shadowable.shadow2?.removeFromSuperlayer()
 
         let shadow1 = CALayer()
         let shadow2 = CALayer()
@@ -89,8 +82,11 @@ public extension ShadowInfo {
         initializeShadowLayer(layer: shadow1, shadow: self, view: view, isShadowOne: true)
         initializeShadowLayer(layer: shadow2, shadow: self, view: view)
 
-        shadowView.layer.insertSublayer(shadow1, at: 0)
-        shadowView.layer.insertSublayer(shadow2, below: shadow1)
+        shadowable.shadow1 = shadow1
+        shadowable.shadow2 = shadow2
+
+        view.layer.insertSublayer(shadow1, at: 0)
+        view.layer.insertSublayer(shadow2, below: shadow1)
     }
 
     private func initializeShadowLayer(layer: CALayer,
@@ -112,5 +108,6 @@ public extension ShadowInfo {
 }
 
 public protocol Shadowable {
-    var shadowView: UIView? { get set }
+    var shadow1: CALayer? { get set }
+    var shadow2: CALayer? { get set }
 }
