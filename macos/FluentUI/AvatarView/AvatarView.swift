@@ -523,7 +523,7 @@ open class AvatarView: NSView {
 
 		let colors = AvatarView.avatarColors
 		let combinedHashable = combined as NSString
-		let hashCode = Int(abs(javaHashCode(combinedHashable)))
+		let hashCode = Int(abs(hashCode(combinedHashable)))
 		return colors[hashCode % colors.count]
 	}
 
@@ -531,7 +531,7 @@ open class AvatarView: NSView {
 	/// Referenced from: https://github.com/microsoft/fluentui/blob/master/packages/react-components/react-avatar/src/components/Avatar/useAvatar.tsx#L200
 	/// Must use Int32 as JVM specification is 32-bits for ints
 	/// - Returns: hash code of string
-	private static func javaHashCode(_ text: NSString) -> Int32 {
+	private static func hashCode(_ text: NSString) -> Int32 {
 		var hash: Int32 = 0
 		for len in (0..<text.length).reversed() {
 			let ch = text.character(at: len)
