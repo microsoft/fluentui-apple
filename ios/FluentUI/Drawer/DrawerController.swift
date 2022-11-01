@@ -110,19 +110,19 @@ open class DrawerController: UIViewController {
     }
 
     /// Set `backgroundColor` to customize background color of the drawer
-    @objc open lazy var backgroundColor: UIColor = DrawerController.drawerBackgroundColor(fluentTheme: view.fluentTheme) {
+    @objc open lazy var backgroundColor: UIColor = drawerBackgroundColor(fluentTheme: view.fluentTheme) {
         didSet {
             useCustomBackgroundColor = true
             view.backgroundColor = backgroundColor
         }
     }
 
-    @objc static func drawerBackgroundColor(fluentTheme: FluentTheme) -> UIColor {
+    private func drawerBackgroundColor(fluentTheme: FluentTheme) -> UIColor {
         return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.background2].light,
                                                   dark: fluentTheme.aliasTokens.colors[.background2].dark))
     }
 
-    @objc static func popoverBackgroundColor(fluentTheme: FluentTheme) -> UIColor {
+    private func popoverBackgroundColor(fluentTheme: FluentTheme) -> UIColor {
         return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.background2].light,
                                                   dark: fluentTheme.aliasTokens.colors[.background2].darkElevated))
     }
@@ -522,11 +522,11 @@ open class DrawerController: UIViewController {
         // if DrawerController is shown in UIPopoverPresentationController then we want to show different darkElevated color
         if !useCustomBackgroundColor {
             if presentationController is UIPopoverPresentationController {
-                backgroundColor = DrawerController.popoverBackgroundColor(fluentTheme: view.fluentTheme)
+                backgroundColor = popoverBackgroundColor(fluentTheme: view.fluentTheme)
             } else if useNavigationBarBackgroundColor {
                 backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background3])
             } else {
-                backgroundColor = DrawerController.drawerBackgroundColor(fluentTheme: view.fluentTheme)
+                backgroundColor = drawerBackgroundColor(fluentTheme: view.fluentTheme)
             }
         }
     }
