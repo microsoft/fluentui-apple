@@ -68,7 +68,7 @@ public struct ShadowInfo: Equatable {
 public extension ShadowInfo {
 
     func applyShadow(to view: UIView) {
-        guard var shadowable = view as? Shadowable else {
+        guard var shadowable = (view as? Shadowable) ?? (view.superview as? Shadowable) else {
             assertionFailure("Cannot apply Fluent shadows to a non-Shadowable view")
             return
         }
