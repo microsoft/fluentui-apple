@@ -274,6 +274,9 @@ open class Button: UIButton {
     }
 
     @objc private func themeDidChange(_ notification: Notification) {
+        guard window?.isEqual(notification.object) == true else {
+            return
+        }
         updateBackgroundColor()
         updateTitleColors()
         updateImage()
