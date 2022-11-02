@@ -7,16 +7,10 @@ import FluentUI
 import UIKit
 
 class CardViewDemoController: DemoController {
-    var cards: [CardView] = []
     override func viewDidLoad() {
         super.viewDidLoad()
 
         container.alignment = .leading
-        let changePositionButton = UIBarButtonItem(title: "Position", style: .plain, target: self, action: #selector(changeCardsPosition))
-        navigationItem.rightBarButtonItems?.append(changePositionButton)
-
-        let changeSizeButton = UIBarButtonItem(title: "Size", style: .plain, target: self, action: #selector(changeCardsWidth))
-        navigationItem.rightBarButtonItems?.append(changeSizeButton)
 
         let demoIcon = UIImage(named: "flag-24x24")
 
@@ -88,7 +82,7 @@ class CardViewDemoController: DemoController {
                         icon: demoIcon,
                         colorStyle: .appColor)
                     cardWithLongTitleAndSubtitle.delegate = self
-                    cards.append(contentsOf: [card, cardWithSubtitle, cardWithLongTitle, cardWithLongTitleAndSubtitle])
+
                     addRow(items: [card])
                     addRow(items: [cardWithSubtitle])
                     addRow(items: [cardWithLongTitle])
@@ -98,30 +92,6 @@ class CardViewDemoController: DemoController {
         }
 
         container.addArrangedSubview(UIView())
-    }
-
-    let animation: (UIView, CGRect, TimeInterval) -> Void = {(view: UIView, frame: CGRect, duration: TimeInterval) -> Void in
-        UIView.animate(withDuration: duration) {
-           view.frame = frame
-        }
-    }
-
-    @objc private func changeCardsPosition() {
-        for card in cards {
-            let frame = CGRect(x: card.frame.minX + 20,
-                               y: card.frame.minY + 20,
-                               width: card.frame.width,
-                               height: card.frame.height)
-            UIView.animate(withDuration: 2) {
-                card.frame = frame
-            }
-        }
-    }
-
-    @objc private func changeCardsWidth() {
-        for card in cards {
-            card.customWidth = 200
-        }
     }
 
     private struct Constants {
