@@ -60,6 +60,9 @@
 
 - (MSFButton *)createButtonWithTitle:(NSString *)title action:(SEL)action {
     MSFButton* button = [[MSFButton alloc] init];
+    MSFColorValue *colorValue = [MSFGlobalTokens colorForSharedColorSet:MSFSharedColorSetsPink
+                                                                  token:MSFSharedColorsTokensPrimary];
+    button.titleLabel.textColor = [[UIColor alloc] initWithColorValue:colorValue];
     button.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     [button setTitle:title forState:UIControlStateNormal];
     [button addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
