@@ -384,7 +384,7 @@ open class CardView: UIView, Shadowable {
     }
 
     private func updateShadow() {
-        let shadowInfo = fluentTheme.aliasTokens.shadow[.shadow16]
+        let shadowInfo = fluentTheme.aliasTokens.shadow[.shadow02]
         shadowInfo.applyShadow(to: self)
     }
 
