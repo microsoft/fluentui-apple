@@ -81,6 +81,7 @@ class AliasColorTokensDemoController: DemoTableViewController {
              .stroke2,
              .strokeDisabled,
              .strokeFocus1,
+             .brandBackgroundTint,
              .foregroundDisabled1:
             return UIColor(dynamicColor: aliasTokens.colors[.foreground1])
         case .brandBackground3Pressed,
@@ -94,6 +95,7 @@ class AliasColorTokensDemoController: DemoTableViewController {
              .brandForeground1Pressed,
              .brandStroke1Pressed,
              .brandStroke1,
+             .brandForegroundTint,
              .brandStroke1Selected:
             return UIColor(dynamicColor: aliasTokens.colors[.foregroundOnColor])
         case .brandBackground3Selected,
@@ -184,7 +186,8 @@ private enum AliasColorTokensDemoSection: CaseIterable {
                     .stencil2,
                     .backgroundDarkStatic]
         case .brandBackgrounds:
-            return [.brandBackground1,
+            return [.brandBackgroundTint,
+                    .brandBackground1,
                     .brandBackground1Pressed,
                     .brandBackground1Selected,
                     .brandBackground2,
@@ -214,7 +217,8 @@ private enum AliasColorTokensDemoSection: CaseIterable {
                     .foregroundLightStatic,
                     .foregroundDarkStatic]
         case .brandForegrounds:
-            return [.brandForeground1,
+            return [.brandForegroundTint,
+                    .brandForeground1,
                     .brandForeground1Pressed,
                     .brandForeground1Selected,
                     .brandForeground2,
@@ -354,6 +358,10 @@ private extension AliasTokens.ColorsTokens {
             return "Brand Background Disabled"
         case .brandBackgroundInvertedDisabled:
             return "Brand Background Inverted Disabled"
+        case .brandBackgroundTint:
+            return "Brand Background Tint"
+        case .brandForegroundTint:
+            return "Brand Foreground Tint"
         case .stencil1:
             return "Stencil 1"
         case .stencil2:

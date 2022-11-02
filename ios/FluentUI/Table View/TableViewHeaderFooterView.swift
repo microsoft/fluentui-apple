@@ -49,7 +49,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         func backgroundColor(fluentTheme: FluentTheme) -> UIColor {
             switch self {
             case .header, .footer, .headerPrimary:
-                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background2])
+                return .clear
             case .divider:
                 return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.stroke2])
             case .dividerHighlighted:

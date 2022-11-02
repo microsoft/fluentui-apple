@@ -159,10 +159,10 @@ class TooltipView: UIView {
     }
 
     private func updateColors() {
-        let backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.backgroundInverted])
+        let backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.backgroundDarkStatic])
         backgroundView.backgroundColor = backgroundColor
         arrowImageView.image = arrowImageViewBaseImage?.withTintColor(backgroundColor, renderingMode: .alwaysOriginal)
-        messageLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundInverted1])
+        messageLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundLightStatic])
     }
 
     // MARK: - Accessibility

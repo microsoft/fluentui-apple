@@ -322,6 +322,22 @@ open class BottomCommandingController: UIViewController {
         updateSheetHeaderSizingParameters()
     }
 
+    /// A string to optionally customize the accessibility label of the bottom sheet handle.
+    /// The message should convey the "Expand" action and will be used when the bottom sheet is collapsed.
+    @objc public var handleExpandCustomAccessibilityLabel: String? {
+        didSet {
+            bottomSheetController?.handleExpandCustomAccessibilityLabel = handleExpandCustomAccessibilityLabel
+        }
+    }
+
+    /// A string to optionally customize the accessibility label of the bottom sheet handle.
+    /// The message should convey the "Collapse" action and will be used when the bottom sheet is expanded.
+    @objc public var handleCollapseCustomAccessibilityLabel: String? {
+        didSet {
+            bottomSheetController?.handleCollapseCustomAccessibilityLabel = handleCollapseCustomAccessibilityLabel
+        }
+    }
+
     private func setupCommandingLayout(traitCollection: UITraitCollection, forceLayoutPass: Bool = false) {
         if traitCollection.horizontalSizeClass == .regular && traitCollection.userInterfaceIdiom == .pad {
             setupBottomBarLayout(forceLayoutPass: forceLayoutPass)
@@ -1033,6 +1049,19 @@ extension BottomCommandingController: BottomSheetControllerDelegate {
     }
 
     public func bottomSheetController(_ bottomSheetController: BottomSheetController, didMoveTo expansionState: BottomSheetExpansionState, interaction: BottomSheetInteraction) {
+
+        // bottomSheetView is purposefully the sibling of contentViewController's view so that users can interact with UIControls behind the sheet.
+        // However, when bottomSheet is expanded and VoiceOver is on, users can still interact with the elements behind the sheet which is confusing
+        // because visual users DimmingView blocks the interaction. The work around is to temporarily hide other accessibilityElements outside of bottomSheetController's view.
+        if expansionState == .expanded {
+            contentViewController?.view.accessibilityElementsHidden = true
+            navigationController?.navigationBar.accessibilityElementsHidden = true
+        } else {
+            contentViewController?.view.accessibilityElementsHidden = false
+            navigationController?.navigationBar.accessibilityElementsHidden = false
+        }
+        UIAccessibility.post(notification: .layoutChanged, argument: nil)
+
         let commandingInteraction: BottomCommandingInteraction = interaction == .noUserAction ? .noUserAction : .sheetInteraction
         delegate?.bottomCommandingController?(self, sheetDidMoveTo: expansionState, commandingInteraction: commandingInteraction, sheetInteraction: interaction)
     }
