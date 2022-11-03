@@ -64,7 +64,7 @@
     [button setTitle:title forState:UIControlStateNormal];
     [button addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
 
-    MSFColorValue *colorValue = [MSFGlobalTokens colorForSharedColorSet:MSFSharedColorSetsPink
+    MSFColorValue *colorValue = [MSFGlobalTokens sharedColorForColorSet:MSFSharedColorSetsPink
                                                                   token:MSFSharedColorsTokensPrimary];
     [self.view setBackgroundColor:[[UIColor alloc] initWithColorValue:colorValue]];
 

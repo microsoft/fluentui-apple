@@ -65,7 +65,7 @@ public class GlobalTokens: NSObject {
         case grey98
         case white
     }
-    @objc(colorForNeutralColorsToken:)
+    @objc(neutralColorForToken:)
     public static func neutralColors(_ token: NeutralColorsToken) -> ColorValue {
         switch token {
         case .black:
@@ -244,7 +244,7 @@ public class GlobalTokens: NSObject {
         case tint60
     }
 
-    @objc(colorForSharedColorSet:token:)
+    @objc(sharedColorForColorSet:token:)
     public static func sharedColors(_ sharedColor: SharedColorSets, _ token: SharedColorsTokens) -> ColorValue {
         switch sharedColor {
         case .anchor:
