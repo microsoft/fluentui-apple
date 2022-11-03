@@ -61,6 +61,7 @@ class CommandBarButton: UIButton {
             let accessibilityDescription = item.accessibilityLabel
             accessibilityLabel = (accessibilityDescription != nil) ? accessibilityDescription : item.title
             accessibilityHint = item.accessibilityHint
+            accessibilityValue = item.accessibilityValue
 
             /// Large content viewer
             addInteraction(UILargeContentViewerInteraction())
@@ -112,13 +113,46 @@ class CommandBarButton: UIButton {
             titleLabel?.font = item.titleFont
         }
 
+        updateAccentImage(item.accentImage)
+        updateAccentImageTint(item.accentImageTintColor)
+
         titleLabel?.isEnabled = isEnabled
 
         accessibilityLabel = (accessibilityDescription != nil) ? accessibilityDescription : title
         accessibilityHint = item.accessibilityHint
+        accessibilityValue = item.accessibilityValue
     }
 
     private let isPersistSelection: Bool
+
+    private var accentImageView: UIImageView?
+
+    private func updateAccentImage(_ accentImage: UIImage?) {
+        if accentImage == accentImageView?.image {
+            return
+        }
+
+        if let accentImage = accentImage?.withRenderingMode(.alwaysTemplate), let imageView = imageView {
+            let accentImageView = UIImageView(image: accentImage)
+            accentImageView.translatesAutoresizingMaskIntoConstraints = false
+            insertSubview(accentImageView, belowSubview: imageView)
+            NSLayoutConstraint.activate([
+                accentImageView.centerXAnchor.constraint(equalTo: imageView.centerXAnchor),
+                accentImageView.centerYAnchor.constraint(equalTo: imageView.centerYAnchor)
+            ])
+            self.accentImageView = accentImageView
+        } else {
+            accentImageView?.removeFromSuperview()
+            accentImageView = nil
+        }
+    }
+
+    private func updateAccentImageTint(_ tintColor: UIColor?) {
+        guard let tintColor = tintColor else {
+            return
+        }
+        accentImageView?.tintColor = tintColor
+    }
 
     private func updateStyle() {
         // TODO: Once iOS 14 support is dropped, this should be converted to a constant (let) that will be initialized by the logic below.
@@ -149,10 +183,12 @@ class CommandBarButton: UIButton {
         addSubview(view)
 
         /// Constrain view to edges of the button
-        view.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-        view.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-        view.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        view.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        NSLayoutConstraint.activate([
+            view.leadingAnchor.constraint(equalTo: leadingAnchor),
+            view.trailingAnchor.constraint(equalTo: trailingAnchor),
+            view.topAnchor.constraint(equalTo: topAnchor),
+            view.bottomAnchor.constraint(equalTo: bottomAnchor)
+        ])
     }
 
     private struct LayoutConstants {

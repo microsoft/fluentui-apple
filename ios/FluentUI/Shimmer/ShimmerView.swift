@@ -7,7 +7,8 @@ import UIKit
 import Combine
 
 /// View that converts the subviews of a container view into a loading state with the "shimmering" effect.
-@objc open class MSFShimmerView: UIView, TokenizedControlInternal {
+@objc(MSFShimmerView)
+open class ShimmerView: UIView, TokenizedControlInternal {
 
     /// Optional synchronizer to sync multiple shimmer views.
     @objc open weak var animationSynchronizer: AnimationSynchronizerProtocol?
@@ -97,7 +98,7 @@ import Combine
             }
         }()
 
-        viewCoverLayers = subviews.filter({ !$0.isHidden && !($0 is MSFShimmerView) }).map { subview in
+        viewCoverLayers = subviews.filter({ !$0.isHidden && !($0 is ShimmerView) }).map { subview in
             let coverLayer = CALayer()
 
             let shouldApplyLabelCornerRadius = subview is UILabel && tokenSet[.labelCornerRadius].float >= 0

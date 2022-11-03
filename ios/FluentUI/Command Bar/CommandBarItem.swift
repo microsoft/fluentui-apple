@@ -64,7 +64,26 @@ open class CommandBarItem: NSObject {
     @objc public var iconImage: UIImage? {
         didSet {
             if iconImage != oldValue {
-                propertyChangedUpdateBlock?(self)
+                propertyChangedUpdateBlock?(self, /* shouldUpdateGroupState */ false)
+            }
+        }
+    }
+
+    /// Image displayed behind the `iconImage` to provide fill or accent if desired. Image is always displayed with `UIImage.RenderingMode.alwaysTemplate`.
+    /// Set `accentImageTintColor` to apply desired tint color to image.
+    @objc public var accentImage: UIImage? {
+        didSet {
+            if accentImage != oldValue {
+                propertyChangedUpdateBlock?(self, /* shouldUpdateGroupState */ false)
+            }
+        }
+    }
+
+    /// Tint color applied to `accentImage`.
+    @objc public var accentImageTintColor: UIColor? {
+        didSet {
+            if accentImageTintColor != oldValue {
+                propertyChangedUpdateBlock?(self, /* shouldUpdateGroupState */ false)
             }
         }
     }
@@ -73,7 +92,7 @@ open class CommandBarItem: NSObject {
     @objc public var title: String? {
         didSet {
             if title != oldValue {
-                propertyChangedUpdateBlock?(self)
+                propertyChangedUpdateBlock?(self, /* shouldUpdateGroupState */ false)
             }
         }
     }
@@ -83,7 +102,7 @@ open class CommandBarItem: NSObject {
     @objc public var isEnabled: Bool {
         didSet {
             if isEnabled != oldValue {
-                propertyChangedUpdateBlock?(self)
+                propertyChangedUpdateBlock?(self, /* shouldUpdateGroupState */ false)
             }
         }
     }
@@ -91,7 +110,7 @@ open class CommandBarItem: NSObject {
     @objc public var isHidden: Bool = false {
         didSet {
             if isHidden != oldValue {
-                propertyChangedUpdateBlock?(self)
+                propertyChangedUpdateBlock?(self, /* shouldUpdateGroupState */ true)
             }
         }
     }
@@ -100,7 +119,15 @@ open class CommandBarItem: NSObject {
     @objc public var isSelected: Bool {
         didSet {
             if isSelected != oldValue {
-                propertyChangedUpdateBlock?(self)
+                propertyChangedUpdateBlock?(self, /* shouldUpdateGroupState */ false)
+            }
+        }
+    }
+
+    open override var accessibilityValue: String? {
+        didSet {
+            if accessibilityValue != oldValue {
+                propertyChangedUpdateBlock?(self, /* shouldUpdateGroupState */ false)
             }
         }
     }
@@ -125,7 +152,9 @@ open class CommandBarItem: NSObject {
     }
 
     /// Called after a property is changed to trigger the update of a corresponding button
-    var propertyChangedUpdateBlock: ((CommandBarItem) -> Void)?
+    /// - Parameter item: Instance of `CommandBarItem` the closure is being invoked from
+    /// - Parameter shouldUpdateGroupState: Indicates if the item's group state should be updated
+    var propertyChangedUpdateBlock: ((_ item: CommandBarItem, _ shouldUpdateGroupState: Bool) -> Void)?
 
     /// Indicates whether the `itemTappedHandler` should be called as the item's tap handler
     var shouldUseItemTappedHandler: Bool {

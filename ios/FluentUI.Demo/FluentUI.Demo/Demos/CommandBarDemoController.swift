@@ -75,6 +75,16 @@ class CommandBarDemoController: DemoController {
             }
         }
 
+        var accentImage: UIImage? {
+            switch self {
+            case .delete:
+                return UIImage(named: "delete24Filled")
+            case .add, .mention, .calendar, .textBold, .textItalic, .textUnderline, .textStrikethrough, .arrowUndo,
+                    .arrowRedo, .copy, .checklist, .bulletList, .numberList, .link, .keyboard, .textStyle, .customView, .disabledText:
+                return nil
+            }
+        }
+
         var title: String? {
             switch self {
             case .textStyle:
@@ -83,7 +93,8 @@ class CommandBarDemoController: DemoController {
                 return "Search"
             case .add:
                 return "Add"
-            default:
+            case .delete, .mention, .calendar, .textBold, .textItalic, .textUnderline, .textStrikethrough, .arrowUndo,
+                    .arrowRedo, .copy, .checklist, .bulletList, .numberList, .link, .keyboard, .customView:
                 return nil
             }
         }
@@ -94,7 +105,8 @@ class CommandBarDemoController: DemoController {
                 return TextStyle.body.font
             case .disabledText:
                 return .systemFont(ofSize: 15, weight: .regular)
-            default:
+            case .add, .mention, .calendar, .textBold, .textItalic, .textUnderline, .textStrikethrough, .arrowUndo,
+                    .arrowRedo, .copy, .checklist, .bulletList, .numberList, .link, .keyboard, .delete, .customView:
                 return nil
             }
         }
@@ -234,6 +246,14 @@ class CommandBarDemoController: DemoController {
         resetScrollPositionButton.addTarget(self, action: #selector(resetScrollPosition), for: .touchUpInside)
         itemCustomizationContainer.addArrangedSubview(resetScrollPositionButton)
 
+        let deleteAccentImageStackView = createHorizontalStackView()
+        deleteAccentImageStackView.addArrangedSubview(createLabelWithText("\"Delete\" Accent Image"))
+        let deleteAccentImageSwitch: UISwitch = UISwitch()
+        deleteAccentImageSwitch.isOn = true
+        deleteAccentImageSwitch.addTarget(self, action: #selector(deleteAccentImageValueChange), for: .valueChanged)
+        deleteAccentImageStackView.addArrangedSubview(deleteAccentImageSwitch)
+        itemCustomizationContainer.addArrangedSubview(deleteAccentImageStackView)
+
         let itemEnabledStackView = createHorizontalStackView()
         itemEnabledStackView.addArrangedSubview(createLabelWithText("'+' Enabled"))
         let itemEnabledSwitch: UISwitch = UISwitch()
@@ -243,7 +263,7 @@ class CommandBarDemoController: DemoController {
         itemCustomizationContainer.addArrangedSubview(itemEnabledStackView)
 
         let itemHiddenStackView = createHorizontalStackView()
-        itemHiddenStackView.addArrangedSubview(createLabelWithText("'+' Hidden"))
+        itemHiddenStackView.addArrangedSubview(createLabelWithText("'Delete' Hidden"))
         let itemHiddenSwitch: UISwitch = UISwitch()
         itemHiddenSwitch.isOn = false
         itemHiddenSwitch.addTarget(self, action: #selector(itemHiddenValueChanged), for: .valueChanged)
@@ -363,6 +383,11 @@ class CommandBarDemoController: DemoController {
             accessibilityHint: "sample accessibility hint"
         )
 
+        commandBarItem.accentImage = command.accentImage
+        if let window = view.window {
+            commandBarItem.accentImageTintColor = Colors.primary(for: window)
+        }
+
         if command == .customView {
             commandBarItem.customControlView = { () -> UIView in
                 let label = self.createLabelWithText("Custom View")
@@ -414,11 +439,23 @@ class CommandBarDemoController: DemoController {
     }
 
     @objc func itemHiddenValueChanged(sender: UISwitch!) {
-        guard let item: CommandBarItem = defaultCommandBar?.itemGroups[0][0] else {
+        guard let item: CommandBarItem = defaultCommandBar?.itemGroups[5][0] else {
             return
         }
 
         item.isHidden = sender.isOn
+    }
+
+    @objc func deleteAccentImageValueChange(sender: UISwitch!) {
+        guard let item: CommandBarItem = defaultCommandBar?.itemGroups[5][0] else {
+            return
+        }
+
+        if sender.isOn {
+            item.accentImage = Command.delete.accentImage
+        } else {
+            item.accentImage = nil
+        }
     }
 
     @objc func animateCommandBarDelegateEventsValueChanged(sender: UISwitch!) {
