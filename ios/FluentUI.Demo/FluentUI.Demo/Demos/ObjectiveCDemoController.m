@@ -38,8 +38,20 @@
         [[self.container widthAnchor] constraintEqualToAnchor:[self.scrollingContainer widthAnchor]],
     ]];
 
-    MSFButton *testButton = [self createButtonWithTitle:@"Test" action:nil];
+    MSFButton *testButton = [self createButtonWithTitle:@"Test" action:@selector(buttonPressed:)];
     [self.container addArrangedSubview:testButton];
+}
+
+- (void)buttonPressed:(id)sender {
+    MSFLabel *label = [[MSFLabel alloc] initWithStyle:MSFTextStyleHeadline colorStyle:MSFTextColorStyleRegular];
+    [label setTextAlignment:NSTextAlignmentCenter];
+    [label setText:@"Test label with color"];
+
+    MSFColorValue *colorValue = [MSFGlobalTokens sharedColorForColorSet:MSFSharedColorSetsPink
+                                                                  token:MSFSharedColorsTokensPrimary];
+    [label setTextColor:[[UIColor alloc] initWithColorValue:colorValue]];
+
+    [[self container] addArrangedSubview:label];
 }
 
 - (UIStackView *)createVerticalContainer {
@@ -63,11 +75,6 @@
     button.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     [button setTitle:title forState:UIControlStateNormal];
     [button addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
-
-    MSFColorValue *colorValue = [MSFGlobalTokens sharedColorForColorSet:MSFSharedColorSetsPink
-                                                                  token:MSFSharedColorsTokensPrimary];
-    [self.view setBackgroundColor:[[UIColor alloc] initWithColorValue:colorValue]];
-
     return button;
 }
 
