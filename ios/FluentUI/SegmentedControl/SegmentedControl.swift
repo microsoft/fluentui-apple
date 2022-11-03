@@ -461,7 +461,7 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
     }
 
     private func updatePillContainerConstraints() {
-        pillContainerView.removeConstraints(pillContainerViewConstraints)
+        NSLayoutConstraint.deactivate(pillContainerViewConstraints)
         let leadingAnchor: NSLayoutXAxisAnchor
         let trailingAnchor: NSLayoutXAxisAnchor
         if shouldSetEqualWidthForSegments {
