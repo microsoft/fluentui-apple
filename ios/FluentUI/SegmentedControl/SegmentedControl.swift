@@ -473,15 +473,11 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
             leadingAnchor = scrollView.leadingAnchor
             trailingAnchor = scrollView.trailingAnchor
         }
-        let leadingConstraint = pillContainerView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: contentInset.leading)
-        leadingConstraint.priority = .defaultLow
-        let trailingConstraint = pillContainerView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -contentInset.trailing)
-        trailingConstraint.priority = .defaultLow
         pillContainerViewConstraints = [
             pillContainerView.topAnchor.constraint(equalTo: scrollView.topAnchor,
                                                    constant: contentInset.top),
-            leadingConstraint,
-            trailingConstraint,
+            pillContainerView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: contentInset.leading),
+            pillContainerView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -contentInset.trailing),
             pillContainerView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor,
                                                    constant: -contentInset.bottom)
         ]
