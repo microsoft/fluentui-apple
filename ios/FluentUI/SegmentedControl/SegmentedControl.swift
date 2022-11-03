@@ -313,9 +313,7 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
 
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        if shouldSetEqualWidthForSegments {
-            invalidateIntrinsicContentSize()
-        }
+        invalidateIntrinsicContentSize()
         layoutSubviews()
     }
 
