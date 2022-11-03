@@ -12,7 +12,7 @@ public class GlobalTokens: NSObject {
     // MARK: - NeutralColors
 
     @objc(MSFNeutralColorsToken)
-    public enum NeutralColorsToken: Int {
+    public enum NeutralColorsToken: Int, TokenSetKey {
         case black
         case grey2
         case grey4
@@ -176,7 +176,7 @@ public class GlobalTokens: NSObject {
     // MARK: - SharedColors
 
     @objc(MSFSharedColorSets)
-    public enum SharedColorSets: Int {
+    public enum SharedColorSets: Int, TokenSetKey {
         case darkRed
         case burgundy
         case cranberry
@@ -229,7 +229,7 @@ public class GlobalTokens: NSObject {
     }
 
     @objc(MSFSharedColorsTokens)
-    public enum SharedColorsTokens: Int {
+    public enum SharedColorsTokens: Int, TokenSetKey {
         case shade50
         case shade40
         case shade30

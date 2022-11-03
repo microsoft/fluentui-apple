@@ -13,33 +13,33 @@ class ColorTokensDemoController: DemoTableViewController {
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 5 //GlobalTokens.SharedColorSets.allCases.count
+        return GlobalTokens.SharedColorSets.allCases.count
     }
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "WIP" //GlobalTokens.SharedColorSets.allCases[section].text
+        return GlobalTokens.SharedColorSets.allCases[section].text
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5 //GlobalTokens.SharedColorsTokens.allCases.count
+        return GlobalTokens.SharedColorsTokens.allCases.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellID, for: indexPath)
-//        let colorSet = GlobalTokens.SharedColorSets.allCases[indexPath.section]
-//        let colorToken = GlobalTokens.SharedColorsTokens.allCases[indexPath.row]
-//
-//        cell.backgroundConfiguration?.backgroundColor = UIColor(colorValue: GlobalTokens.sharedColors(colorSet, colorToken))
-//        cell.selectionStyle = .none
-//
-//        var contentConfiguration = cell.defaultContentConfiguration()
-//        let text = "\(colorSet.text) \(colorToken.text)"
-//        contentConfiguration.attributedText = NSAttributedString(string: text,
-//                                                                 attributes: [
-//                                                                    .foregroundColor: textColor(for: colorToken, in: colorSet)
-//                                                                 ])
-//        contentConfiguration.textProperties.alignment = .center
-//        cell.contentConfiguration = contentConfiguration
+        let colorSet = GlobalTokens.SharedColorSets.allCases[indexPath.section]
+        let colorToken = GlobalTokens.SharedColorsTokens.allCases[indexPath.row]
+
+        cell.backgroundConfiguration?.backgroundColor = UIColor(colorValue: GlobalTokens.sharedColors(colorSet, colorToken))
+        cell.selectionStyle = .none
+
+        var contentConfiguration = cell.defaultContentConfiguration()
+        let text = "\(colorSet.text) \(colorToken.text)"
+        contentConfiguration.attributedText = NSAttributedString(string: text,
+                                                                 attributes: [
+                                                                    .foregroundColor: textColor(for: colorToken, in: colorSet)
+                                                                 ])
+        contentConfiguration.textProperties.alignment = .center
+        cell.contentConfiguration = contentConfiguration
 
         return cell
     }
