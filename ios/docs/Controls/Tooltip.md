@@ -29,7 +29,7 @@ Tooltip.shared.show(with: "This is the message of the tooltip.",
 - message: The text to be displayed on the new tooltip view.
 - title: The optional bolded text to be displayed above the message on the new tooltip view.
 - anchorView: The view to point to with the new tooltip’s arrow.
-- preferredArrowDirection: The preferrred direction for the tooltip’s arrow. Only the arrow’s axis is guaranteed; the direction may be changed based on available space between the anchorView and the screen’s margins. Defaults to down.
+- preferredArrowDirection: The preferred direction for the tooltip’s arrow. Only the arrow’s axis is guaranteed; the direction may be changed based on available space between the anchorView and the screen’s margins. Defaults to down.
 - offset: An offset from the tooltip’s default position.
 - dismissMode: The mode of tooltip dismissal. Defaults to tapping anywhere.
 - onTap: An optional closure used to do work after the user taps.
