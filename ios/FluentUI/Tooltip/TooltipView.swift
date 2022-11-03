@@ -82,7 +82,11 @@ class TooltipView: UIView {
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        layoutSubviews()
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
+            layoutSubviews()
+        }
     }
 
     /// Returns the tooltip size
