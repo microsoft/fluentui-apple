@@ -155,7 +155,9 @@ public struct Avatar: View, TokenizedControlView {
         let ringColor = !isRingVisible ? Color.clear :
         Color(dynamicColor: state.ringColor?.dynamicColor ?? ( !shouldUseCalculatedColors ?
                                                                tokenSet[.ringDefaultColor].dynamicColor :
-                                                                backgroundColor))
+                                                                CalculatedColors.ringColor(fromPrimaryText: state.primaryText,
+                                                                                           secondaryText: state.secondaryText,
+                                                                                           fluentTheme: fluentTheme)))
 
         let shouldUseDefaultImage = (state.image == nil && initialsString.isEmpty && style != .overflow)
         let avatarImageInfo: (image: UIImage?, renderingMode: Image.TemplateRenderingMode) = {
@@ -414,6 +416,16 @@ public struct Avatar: View, TokenizedControlView {
             let colorSet = colors[hashCode % colors.count]
             return DynamicColor(light: GlobalTokens.sharedColors(colorSet, .shade30),
                                 dark: GlobalTokens.sharedColors(colorSet, .tint40))
+        }
+
+        static func ringColor(fromPrimaryText primaryText: String?,
+                              secondaryText: String?,
+                              fluentTheme: FluentTheme) -> DynamicColor {
+            // Set the color based on the primary text and secondary text
+            let hashCode = initialsHashCode(fromPrimaryText: primaryText, secondaryText: secondaryText)
+            let colorSet = colors[hashCode % colors.count]
+            return DynamicColor(light: GlobalTokens.sharedColors(colorSet, .primary),
+                                dark: GlobalTokens.sharedColors(colorSet, .tint30))
         }
 
         private static func initialsHashCode(fromPrimaryText primaryText: String?, secondaryText: String?) -> Int {
