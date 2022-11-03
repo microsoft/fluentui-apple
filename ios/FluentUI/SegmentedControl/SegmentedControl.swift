@@ -111,6 +111,8 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.showsHorizontalScrollIndicator = false
 
         return scrollView
     }()
