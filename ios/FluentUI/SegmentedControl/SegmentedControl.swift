@@ -110,6 +110,12 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
 
         return stackView
     }()
+    private let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+
+        return scrollView
+    }()
     private var pillMaskedLabels = [UILabel?]()
     private var pillMaskedImages = [UIImageView?]()
     private var pillContainerViewTopConstraint: NSLayoutConstraint?
@@ -141,7 +147,8 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
         pillContainerView.addSubview(pillMaskedContentContainerView)
         addButtons(items: items)
         pillContainerView.addInteraction(UILargeContentViewerInteraction())
-        addSubview(pillContainerView)
+        scrollView.addSubview(pillContainerView)
+        addSubview(scrollView)
 
         updateStackDistribution()
         setupLayoutConstraints()
@@ -327,9 +334,9 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
             }
         }
 
+        let windowSafeAreaInsets = window.safeAreaInsets
+        let windowWidth = window.bounds.width - windowSafeAreaInsets.left - windowSafeAreaInsets.right
         if shouldSetEqualWidthForSegments {
-            let windowSafeAreaInsets = window.safeAreaInsets
-            let windowWidth = window.bounds.width - windowSafeAreaInsets.left - windowSafeAreaInsets.right
             if traitCollection.userInterfaceIdiom == .pad {
                 width = max(windowWidth / 2, Constants.iPadMinimumWidth)
             } else {
@@ -340,8 +347,10 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
         }
         height += (contentInset.top + contentInset.bottom)
 
-        return CGSize(width: min(width, size.width),
-                      height: min(height, size.height))
+        let finalWidth = min(min(width, windowWidth), size.width)
+        let finalHeight = min(height, size.height)
+        return CGSize(width: finalWidth,
+                      height: finalHeight)
     }
 
     open override func didMoveToWindow() {
@@ -459,24 +468,29 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
     }
 
     private func setupLayoutConstraints () {
-        let pillContainerViewTopConstraint = pillContainerView.topAnchor.constraint(equalTo: topAnchor,
+        let pillContainerViewTopConstraint = pillContainerView.topAnchor.constraint(equalTo: scrollView.topAnchor,
                                                                                     constant: contentInset.top)
-        let pillContainerViewBottomConstraint = pillContainerView.bottomAnchor.constraint(equalTo: bottomAnchor,
+        let pillContainerViewBottomConstraint = pillContainerView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor,
                                                                                           constant: -contentInset.bottom)
-        let pillContainerViewLeadingConstraint = pillContainerView.leadingAnchor.constraint(equalTo: leadingAnchor,
+        let pillContainerViewLeadingConstraint = pillContainerView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor,
                                                                                             constant: contentInset.leading)
-        let pillContainerViewTrailingConstraint = pillContainerView.trailingAnchor.constraint(equalTo: trailingAnchor,
+        let pillContainerViewTrailingConstraint = pillContainerView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor,
                                                                                               constant: -contentInset.trailing)
         self.pillContainerViewTopConstraint = pillContainerViewTopConstraint
         self.pillContainerViewBottomConstraint = pillContainerViewBottomConstraint
         self.pillContainerViewLeadingConstraint = pillContainerViewLeadingConstraint
         self.pillContainerViewTrailingConstraint = pillContainerViewTrailingConstraint
+        let safeArea = self.safeAreaLayoutGuide
 
         NSLayoutConstraint.activate([
             pillContainerViewTopConstraint,
             pillContainerViewBottomConstraint,
             pillContainerViewLeadingConstraint,
             pillContainerViewTrailingConstraint,
+            scrollView.topAnchor.constraint(equalTo: safeArea.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
 
             backgroundView.leadingAnchor.constraint(equalTo: pillContainerView.leadingAnchor),
             backgroundView.trailingAnchor.constraint(equalTo: pillContainerView.trailingAnchor),
