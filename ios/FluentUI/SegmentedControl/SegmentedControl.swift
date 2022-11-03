@@ -30,6 +30,7 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
     @objc public var shouldSetEqualWidthForSegments: Bool = true {
         didSet {
             updateStackDistribution()
+            updatePillContainerConstraints()
         }
     }
 
@@ -39,10 +40,7 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
             guard oldValue != contentInset else {
                 return
             }
-            pillContainerViewTopConstraint?.constant = contentInset.top
-            pillContainerViewBottomConstraint?.constant = contentInset.bottom
-            pillContainerViewLeadingConstraint?.constant = contentInset.leading
-            pillContainerViewTrailingConstraint?.constant = contentInset.trailing
+            updatePillContainerConstraints()
 
             invalidateIntrinsicContentSize()
         }
@@ -118,10 +116,7 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
     }()
     private var pillMaskedLabels = [UILabel?]()
     private var pillMaskedImages = [UIImageView?]()
-    private var pillContainerViewTopConstraint: NSLayoutConstraint?
-    private var pillContainerViewBottomConstraint: NSLayoutConstraint?
-    private var pillContainerViewLeadingConstraint: NSLayoutConstraint?
-    private var pillContainerViewTrailingConstraint: NSLayoutConstraint?
+    private var pillContainerViewConstraints: [NSLayoutConstraint] = []
 
     private var isAnimating: Bool = false
 
@@ -465,26 +460,37 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
         }
     }
 
+    private func updatePillContainerConstraints() {
+        pillContainerView.removeConstraints(pillContainerViewConstraints)
+        let leadingAnchor: NSLayoutXAxisAnchor
+        let trailingAnchor: NSLayoutXAxisAnchor
+        if shouldSetEqualWidthForSegments {
+            leadingAnchor = self.safeAreaLayoutGuide.leadingAnchor
+            trailingAnchor = self.safeAreaLayoutGuide.trailingAnchor
+        } else {
+            leadingAnchor = scrollView.leadingAnchor
+            trailingAnchor = scrollView.trailingAnchor
+        }
+        let leadingConstraint = pillContainerView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: contentInset.leading)
+        leadingConstraint.priority = .defaultLow
+        let trailingConstraint = pillContainerView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -contentInset.trailing)
+        trailingConstraint.priority = .defaultLow
+        pillContainerViewConstraints = [
+            pillContainerView.topAnchor.constraint(equalTo: scrollView.topAnchor,
+                                                   constant: contentInset.top),
+            leadingConstraint,
+            trailingConstraint,
+            pillContainerView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor,
+                                                   constant: -contentInset.bottom)
+        ]
+        NSLayoutConstraint.activate(pillContainerViewConstraints)
+    }
+
     private func setupLayoutConstraints () {
-        let pillContainerViewTopConstraint = pillContainerView.topAnchor.constraint(equalTo: scrollView.topAnchor,
-                                                                                    constant: contentInset.top)
-        let pillContainerViewBottomConstraint = pillContainerView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor,
-                                                                                          constant: -contentInset.bottom)
-        let pillContainerViewLeadingConstraint = pillContainerView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor,
-                                                                                            constant: contentInset.leading)
-        let pillContainerViewTrailingConstraint = pillContainerView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor,
-                                                                                              constant: -contentInset.trailing)
-        self.pillContainerViewTopConstraint = pillContainerViewTopConstraint
-        self.pillContainerViewBottomConstraint = pillContainerViewBottomConstraint
-        self.pillContainerViewLeadingConstraint = pillContainerViewLeadingConstraint
-        self.pillContainerViewTrailingConstraint = pillContainerViewTrailingConstraint
+        updatePillContainerConstraints()
         let safeArea = self.safeAreaLayoutGuide
 
         NSLayoutConstraint.activate([
-            pillContainerViewTopConstraint,
-            pillContainerViewBottomConstraint,
-            pillContainerViewLeadingConstraint,
-            pillContainerViewTrailingConstraint,
             scrollView.topAnchor.constraint(equalTo: safeArea.topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
