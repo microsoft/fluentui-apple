@@ -789,6 +789,11 @@ public final class AliasTokens {
         case successBackground2
         case successForeground1
         case successForeground2
+        // Presence
+        case presenceAway
+        case presenceDnd
+        case presenceAvailable
+        case presenceOof
     }
     public lazy var sharedColors: TokenSet<SharedColorsTokens, DynamicColor> = .init { [weak self] token in
         guard let strongSelf = self else { preconditionFailure() }
@@ -845,6 +850,18 @@ public final class AliasTokens {
         case .warningForeground2:
             return DynamicColor(light: GlobalTokens.sharedColors(.yellow, .shade30),
                                 dark: GlobalTokens.sharedColors(.yellow, .tint30))
+        // Presence
+        case .presenceAway:
+            return DynamicColor(light: GlobalTokens.sharedColors(.marigold, .primary))
+        case .presenceDnd:
+            return DynamicColor(light: GlobalTokens.sharedColors(.red, .primary),
+                                dark: GlobalTokens.sharedColors(.red, .tint10))
+        case .presenceAvailable:
+            return DynamicColor(light: GlobalTokens.sharedColors(.lightGreen, .primary),
+                                dark: GlobalTokens.sharedColors(.lightGreen, .tint20))
+        case .presenceOof:
+            return DynamicColor(light: GlobalTokens.sharedColors(.berry, .primary),
+                                dark: GlobalTokens.sharedColors(.berry, .tint20))
         }
     }
 

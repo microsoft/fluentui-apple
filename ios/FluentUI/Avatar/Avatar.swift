@@ -263,7 +263,7 @@ public struct Avatar: View, TokenizedControlView {
                                                     .interpolation(.high)
                                                     .resizable()
                                                     .frame(width: presenceIconSize, height: presenceIconSize, alignment: .center)
-                                                    .foregroundColor(presence.color(isOutOfOffice: isOutOfOffice)))
+                                                    .foregroundColor(presence.color(isOutOfOffice: isOutOfOffice, fluentTheme: fluentTheme)))
                                         .contentShape(Circle())
                                         .frame(width: presenceIconFrameSideRelativeToOuterRing, height: presenceIconFrameSideRelativeToOuterRing,
                                                alignment: .bottomTrailing),

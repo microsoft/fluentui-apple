@@ -274,6 +274,9 @@ open class Button: UIButton {
     }
 
     @objc private func themeDidChange(_ notification: Notification) {
+        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
+            return
+        }
         updateBackgroundColor()
         updateTitleColors()
         updateImage()
