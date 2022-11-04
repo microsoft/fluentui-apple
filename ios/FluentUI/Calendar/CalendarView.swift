@@ -70,11 +70,11 @@ class CalendarView: UIView {
             height: weekdayHeadingViewSize.height
         )
 
-        headingViewDivider.view.frame = CGRect(
+        headingViewDivider.frame = CGRect(
             x: 0.0,
             y: weekdayHeadingView.frame.height,
             width: bounds.size.width,
-            height: headingViewDivider.view.frame.height
+            height: headingViewDivider.frame.height
         )
 
         // Collection view

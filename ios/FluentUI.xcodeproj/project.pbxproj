@@ -9,7 +9,8 @@
 /* Begin PBXBuildFile section */
 		0A8216D9291451C30051CBFE /* MSFDivider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8216D5291451C30051CBFE /* MSFDivider.swift */; };
 		0A8216DA291451C30051CBFE /* Divider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8216D6291451C30051CBFE /* Divider.swift */; };
-		0A8216DB291451C30051CBFE /* DividerTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8216D7291451C30051CBFE /* DividerTokens.swift */; };
+		0A8216DE291463DC0051CBFE /* DividerTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8216DC291463DC0051CBFE /* DividerTokenSet.swift */; };
+		0A8216DF291463DC0051CBFE /* DividerModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8216DD291463DC0051CBFE /* DividerModifiers.swift */; };
 		2A9745DE281733D700E1A1FD /* TableViewCellTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9745DD281733D700E1A1FD /* TableViewCellTokenSet.swift */; };
 		43488C46270FAD1300124C71 /* FluentNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43488C44270FAD0200124C71 /* FluentNotification.swift */; };
 		4B53505F27F63E3F0033B47F /* NotificationModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B53505E27F63E3F0033B47F /* NotificationModifiers.swift */; };
@@ -201,11 +202,11 @@
 		EC5982D827BF348700FD048D /* MSFAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5982D727BF348700FD048D /* MSFAvatar.swift */; };
 		EC5982DA27C703EE00FD048D /* CircleCutout.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5982D927C703ED00FD048D /* CircleCutout.swift */; };
 		EC6A71EA273DBA520076A586 /* Divider.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6A71E9273DBA520076A586 /* Divider.swift */; };
+		ECA92184279A177D00B66117 /* DividerModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA92183279A177D00B66117 /* DividerModifiers.swift */; };
 		ECA9218627A3301C00B66117 /* MSFAvatarGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA9218527A3301C00B66117 /* MSFAvatarGroup.swift */; };
 		ECA9218A27A33A2D00B66117 /* AvatarGroupModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA9218927A33A2D00B66117 /* AvatarGroupModifiers.swift */; };
 		ECA921C627B5D10B00B66117 /* ButtonDynamicColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA921C527B5D10A00B66117 /* ButtonDynamicColors.swift */; };
 		F5784DBA285D031800DBEAD6 /* docs in Resources */ = {isa = PBXBuildFile; fileRef = F5784DB9285D031800DBEAD6 /* docs */; };
-		ECA92184279A177D00B66117 /* DividerModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA92183279A177D00B66117 /* DividerModifiers.swift */; };
 		FD053A352224CA33009B6378 /* DatePickerControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD053A342224CA33009B6378 /* DatePickerControllerTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -236,7 +237,8 @@
 /* Begin PBXFileReference section */
 		0A8216D5291451C30051CBFE /* MSFDivider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFDivider.swift; sourceTree = "<group>"; };
 		0A8216D6291451C30051CBFE /* Divider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Divider.swift; sourceTree = "<group>"; };
-		0A8216D7291451C30051CBFE /* DividerTokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DividerTokens.swift; sourceTree = "<group>"; };
+		0A8216DC291463DC0051CBFE /* DividerTokenSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DividerTokenSet.swift; sourceTree = "<group>"; };
+		0A8216DD291463DC0051CBFE /* DividerModifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DividerModifiers.swift; sourceTree = "<group>"; };
 		0BCEFADD2485FEC00088CEE5 /* PopupMenuProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMenuProtocols.swift; sourceTree = "<group>"; };
 		1168630222E131CF0088B302 /* TabBarItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarItemView.swift; sourceTree = "<group>"; };
 		1168630322E131CF0088B302 /* TabBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
@@ -386,10 +388,10 @@
 		EC5982D727BF348700FD048D /* MSFAvatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFAvatar.swift; sourceTree = "<group>"; };
 		EC5982D927C703ED00FD048D /* CircleCutout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleCutout.swift; sourceTree = "<group>"; };
 		EC6A71E9273DBA520076A586 /* Divider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Divider.swift; sourceTree = "<group>"; };
+		ECA92183279A177D00B66117 /* DividerModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DividerModifiers.swift; sourceTree = "<group>"; };
 		ECA9218527A3301C00B66117 /* MSFAvatarGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFAvatarGroup.swift; sourceTree = "<group>"; };
 		ECA9218927A33A2D00B66117 /* AvatarGroupModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarGroupModifiers.swift; sourceTree = "<group>"; };
 		ECA921C527B5D10A00B66117 /* ButtonDynamicColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonDynamicColors.swift; sourceTree = "<group>"; };
-		ECA92183279A177D00B66117 /* DividerModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DividerModifiers.swift; sourceTree = "<group>"; };
 		ECEBA8FB25EDF3380048EE24 /* SegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentedControl.swift; sourceTree = "<group>"; };
 		F5784DB9285D031800DBEAD6 /* docs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = docs; sourceTree = "<group>"; };
 		FC414E1E258876FB00069E73 /* CommandBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBar.swift; sourceTree = "<group>"; };
@@ -534,9 +536,10 @@
 		0A8216D3291451C30051CBFE /* Divider */ = {
 			isa = PBXGroup;
 			children = (
-				0A8216D5291451C30051CBFE /* MSFDivider.swift */,
 				0A8216D6291451C30051CBFE /* Divider.swift */,
-				0A8216D7291451C30051CBFE /* DividerTokens.swift */,
+				0A8216DD291463DC0051CBFE /* DividerModifiers.swift */,
+				0A8216DC291463DC0051CBFE /* DividerTokenSet.swift */,
+				0A8216D5291451C30051CBFE /* MSFDivider.swift */,
 			);
 			path = Divider;
 			sourceTree = "<group>";
@@ -692,9 +695,10 @@
 		5340828B26CFF298007716E1 /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
-				EC02A5F227472EF400E81B3E /* DividerTokens.swift */,
+				EC02A5F227472EF400E81B3E /* DividerTokenSet.swift */,
 				EC02A5F4274DD19500E81B3E /* MSFDivider.swift */,
 				EC6A71E9273DBA520076A586 /* Divider.swift */,
+				ECA92183279A177D00B66117 /* DividerModifiers.swift */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -1077,17 +1081,6 @@
 			path = Card;
 			sourceTree = "<group>";
 		};
-		EC6A71E8273DB98F0076A586 /* Divider */ = {
-			isa = PBXGroup;
-			children = (
-				EC6A71E9273DBA520076A586 /* Divider.swift */,
-				ECA92183279A177D00B66117 /* DividerModifiers.swift */,
-				EC02A5F227472EF400E81B3E /* DividerTokenSet.swift */,
-				EC02A5F4274DD19500E81B3E /* MSFDivider.swift */,
-			);
-			path = Divider;
-			sourceTree = "<group>";
-		};
 		ECEBA8F625EDEFF70048EE24 /* SegmentedControl */ = {
 			isa = PBXGroup;
 			children = (
@@ -1466,6 +1459,7 @@
 				5314E06B25F00F100099271A /* DateTimePicker.swift in Sources */,
 				5314E2BB25F024C60099271A /* CALayer+Extensions.swift in Sources */,
 				5314E12B25F016230099271A /* PillButtonBar.swift in Sources */,
+				0A8216DE291463DC0051CBFE /* DividerTokenSet.swift in Sources */,
 				5314E07E25F00F1A0099271A /* DateTimePickerView.swift in Sources */,
 				5328D97726FBA3D700F3723B /* IndeterminateProgressBar.swift in Sources */,
 				5314E07625F00F160099271A /* DateTimePickerController.swift in Sources */,
@@ -1476,7 +1470,6 @@
 				5314E08B25F00F2D0099271A /* CommandBarItem.swift in Sources */,
 				5314E06225F00EFD0099271A /* CalendarViewDayTodayCell.swift in Sources */,
 				5314E08025F00F1A0099271A /* DateTimePickerViewComponent.swift in Sources */,
-				0A8216DB291451C30051CBFE /* DividerTokens.swift in Sources */,
 				5314E06325F00EFD0099271A /* CalendarViewDayMonthYearCell.swift in Sources */,
 				5314E1A225F01A7C0099271A /* ActivityIndicatorCell.swift in Sources */,
 				5373D5652694D65C0032A3B4 /* AvatarTokenSet.swift in Sources */,
@@ -1596,6 +1589,7 @@
 				5306075326A1E6A4002D49CF /* AvatarGroupTokenSet.swift in Sources */,
 				5314E11825F015EA0099271A /* PeoplePicker.swift in Sources */,
 				5303259B26B31B6B00611D05 /* AvatarModifiers.swift in Sources */,
+				0A8216DF291463DC0051CBFE /* DividerModifiers.swift in Sources */,
 				5314E2B225F024B60099271A /* Calendar+Extensions.swift in Sources */,
 				5314E1B225F01A980099271A /* TooltipPositionController.swift in Sources */,
 				5314E08A25F00F2D0099271A /* CommandBar.swift in Sources */,
