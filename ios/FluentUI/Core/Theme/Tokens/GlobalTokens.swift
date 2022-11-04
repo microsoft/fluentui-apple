@@ -6,11 +6,13 @@
 import SwiftUI
 
 /// Global Tokens represent a unified set of constants to be used by Fluent UI.
-public struct GlobalTokens {
+@objc(MSFGlobalTokens)
+public class GlobalTokens: NSObject {
 
     // MARK: - NeutralColors
 
-    public enum NeutralColorsToken: TokenSetKey {
+    @objc(MSFNeutralColorsToken)
+    public enum NeutralColorsToken: Int, TokenSetKey {
         case black
         case grey2
         case grey4
@@ -63,6 +65,7 @@ public struct GlobalTokens {
         case grey98
         case white
     }
+    @objc(neutralColorForToken:)
     public static func neutralColors(_ token: NeutralColorsToken) -> ColorValue {
         switch token {
         case .black:
@@ -172,7 +175,8 @@ public struct GlobalTokens {
 
     // MARK: - SharedColors
 
-    public enum SharedColorSets: TokenSetKey {
+    @objc(MSFSharedColorSets)
+    public enum SharedColorSets: Int, TokenSetKey {
         case darkRed
         case burgundy
         case cranberry
@@ -224,7 +228,8 @@ public struct GlobalTokens {
         case charcoal
     }
 
-    public enum SharedColorsTokens: TokenSetKey {
+    @objc(MSFSharedColorsTokens)
+    public enum SharedColorsTokens: Int, TokenSetKey {
         case shade50
         case shade40
         case shade30
@@ -239,6 +244,7 @@ public struct GlobalTokens {
         case tint60
     }
 
+    @objc(sharedColorForColorSet:token:)
     public static func sharedColors(_ sharedColor: SharedColorSets, _ token: SharedColorsTokens) -> ColorValue {
         switch sharedColor {
         case .anchor:
@@ -1756,7 +1762,7 @@ public struct GlobalTokens {
     // MARK: Initialization
 
     @available(*, unavailable)
-    private init() {
+    private override init() {
         preconditionFailure("GlobalTokens should never be initialized!")
     }
 }

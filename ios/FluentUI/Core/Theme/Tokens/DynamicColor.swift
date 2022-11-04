@@ -6,7 +6,8 @@
 import SwiftUI
 
 /// A platform-agnostic representation of a 32-bit RGBA color value.
-public struct ColorValue: Equatable {
+@objc(MSFColorValue)
+public class ColorValue: NSObject {
 
     public static let clear: ColorValue = .init(r: 0.0, g: 0.0, b: 0.0, a: 0.0)
 
@@ -18,7 +19,7 @@ public struct ColorValue: Equatable {
     /// - Parameter hexValue: The color value to store, in 24-bit (three-channel, 8-bit) RGB.
     ///
     /// - Returns: A color object that stores the provided color information.
-    public init(_ hexValue: UInt32) {
+    @objc public init(_ hexValue: UInt32) {
         self.hexValue = hexValue << 8 | 0xFF
     }
 
@@ -33,10 +34,10 @@ public struct ColorValue: Equatable {
     /// - Parameter a: The alpha channel.
     ///
     /// - Returns: A color object that stores the provided color information.
-    public init(r: CGFloat,
-                g: CGFloat,
-                b: CGFloat,
-                a: CGFloat) {
+    @objc public init(r: CGFloat,
+                      g: CGFloat,
+                      b: CGFloat,
+                      a: CGFloat) {
         hexValue = (min(UInt32(r * 255.0), 0xFF) << 24) |
                    (min(UInt32(g * 255.0), 0xFF) << 16) |
                    (min(UInt32(b * 255.0), 0xFF) << 8) |
