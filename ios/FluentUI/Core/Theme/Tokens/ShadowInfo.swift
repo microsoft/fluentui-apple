@@ -76,11 +76,8 @@ public extension ShadowInfo {
         shadowable.shadow1?.removeFromSuperlayer()
         shadowable.shadow2?.removeFromSuperlayer()
 
-        let shadow1 = CALayer()
-        let shadow2 = CALayer()
-
-        initializeShadowLayer(layer: shadow1, shadow: self, view: view, isShadowOne: true)
-        initializeShadowLayer(layer: shadow2, shadow: self, view: view)
+        let shadow1 = initializeShadowLayer(view: view, isShadowOne: true)
+        let shadow2 = initializeShadowLayer(view: view)
 
         shadowable.shadow1 = shadow1
         shadowable.shadow2 = shadow2
@@ -89,21 +86,23 @@ public extension ShadowInfo {
         view.layer.insertSublayer(shadow2, below: shadow1)
     }
 
-    private func initializeShadowLayer(layer: CALayer,
-                                       shadow: ShadowInfo,
-                                       view: UIView,
-                                       isShadowOne: Bool = false) {
+    private func initializeShadowLayer(view: UIView,
+                                       isShadowOne: Bool = false) -> CALayer {
+        let layer = CALayer()
+
         layer.frame = view.bounds
-        layer.shadowColor = UIColor(dynamicColor: isShadowOne ? shadow.colorOne : shadow.colorTwo).cgColor
-        layer.shadowRadius = isShadowOne ? shadow.blurOne : shadow.blurTwo
+        layer.shadowColor = UIColor(dynamicColor: isShadowOne ? colorOne : colorTwo).cgColor
+        layer.shadowRadius = isShadowOne ? blurOne : blurTwo
 
         // The shadowOpacity needs to be set to 1 since the alpha is already set through shadowColor
         layer.shadowOpacity = 1
-        layer.shadowOffset = CGSize(width: isShadowOne ? shadow.xOne : shadow.xTwo,
-                                    height: isShadowOne ? shadow.yOne : shadow.yTwo)
+        layer.shadowOffset = CGSize(width: isShadowOne ? xOne : xTwo,
+                                    height: isShadowOne ? yOne : yTwo)
         layer.needsDisplayOnBoundsChange = true
         layer.cornerRadius = view.layer.cornerRadius
         layer.backgroundColor = view.backgroundColor?.cgColor
+
+        return layer
     }
 }
 
