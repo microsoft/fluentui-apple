@@ -8,7 +8,7 @@ import Combine
 // MARK: SegmentedControl
 /// A styled segmented control that should be used instead of UISegmentedControl. It is designed to flex the button width proportionally to the control's width.
 @objc(MSFSegmentedControl)
-open class SegmentedControl: UIView, TokenizedControlInternal {
+open class SegmentedControl: UIView, TokenizedControlInternal, UIScrollViewDelegate {
     private struct Constants {
         static let selectionBarHeight: CGFloat = 1.5
         static let pillContainerHorizontalInset: CGFloat = 16
@@ -108,11 +108,12 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
 
         return stackView
     }()
-    private let scrollView: UIScrollView = {
+    private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
+        scrollView.delegate = self
 
         return scrollView
     }()
@@ -317,6 +318,8 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
 
         flipSubviewsForRTL()
         layoutSelectionView()
+
+        updateFadeLayersVisibility()
 
         layer.addSublayer(leftFadeLayer)
         var leftLayerFrame = layer.bounds
@@ -583,5 +586,23 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
 
     private func updateStackDistribution() {
         stackView.distribution = shouldSetEqualWidthForSegments ? .fillEqually : .fillProportionally
+    }
+
+    private func updateFadeLayersVisibility() {
+        let contentOffsetX = scrollView.contentOffset.x
+        let isLeftFadeLayerHidden = contentOffsetX <= 0
+        leftFadeLayer.isHidden = isLeftFadeLayerHidden
+
+        let isRightFadeLayerHidden = contentOffsetX >= maximumContentOffset
+        rightFadeLayer.isHidden = isRightFadeLayerHidden
+    }
+
+    private var maximumContentOffset: CGFloat {
+        return pillContainerView.frame.size.width - scrollView.frame.size.width
+    }
+
+    // MARK: UIScrollViewDelegate
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        updateFadeLayersVisibility()
     }
 }
