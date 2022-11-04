@@ -7,7 +7,7 @@ import FluentUI
 import UIKit
 import SwiftUI
 
-class DividerDemoController: UITableViewController {
+class DividerDemoController: DemoTableViewController {
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(style: .grouped)
     }
@@ -45,7 +45,6 @@ class DividerDemoController: UITableViewController {
             return cell
         case .dividerDemo:
             let cell = TableViewCell()
-            cell.backgroundColor = Colors.surfacePrimary
             let contentView = cell.contentView
 
             let spacing: MSFDividerSpacing = section == .defaultMedium ? .medium : .none
@@ -56,23 +55,23 @@ class DividerDemoController: UITableViewController {
             verticalStack.axis = .vertical
             verticalStack.isLayoutMarginsRelativeArrangement = true
             verticalStack.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0)
-            verticalStack.addArrangedSubview(makeDivider(spacing: spacing, customColor: useCustomColor).view)
+            verticalStack.addArrangedSubview(makeDivider(spacing: spacing, customColor: useCustomColor))
             verticalStack.distribution = .equalCentering
 
             let horizontalStack = UIStackView()
             horizontalStack.distribution = .equalCentering
-            horizontalStack.addArrangedSubview(makeDivider(orientation: .vertical, spacing: spacing, customColor: useCustomColor).view)
+            horizontalStack.addArrangedSubview(makeDivider(orientation: .vertical, spacing: spacing, customColor: useCustomColor))
             let text1 = Label(style: .subhead, colorStyle: .regular)
             text1.text = "Text 1"
             horizontalStack.addArrangedSubview(text1)
-            horizontalStack.addArrangedSubview(makeDivider(orientation: .vertical, spacing: spacing, customColor: useCustomColor).view)
+            horizontalStack.addArrangedSubview(makeDivider(orientation: .vertical, spacing: spacing, customColor: useCustomColor))
             let text2 = Label(style: .subhead, colorStyle: .regular)
             text2.text = "Text 2"
             horizontalStack.addArrangedSubview(text2)
-            horizontalStack.addArrangedSubview(makeDivider(orientation: .vertical, spacing: spacing, customColor: useCustomColor).view)
+            horizontalStack.addArrangedSubview(makeDivider(orientation: .vertical, spacing: spacing, customColor: useCustomColor))
             verticalStack.addArrangedSubview(horizontalStack)
 
-            verticalStack.addArrangedSubview(makeDivider(spacing: spacing, customColor: useCustomColor).view)
+            verticalStack.addArrangedSubview(makeDivider(spacing: spacing, customColor: useCustomColor))
 
             contentView.addSubview(verticalStack)
             NSLayoutConstraint.activate([
@@ -188,8 +187,6 @@ class DividerDemoController: UITableViewController {
         }
     }
 }
-<<<<<<< HEAD
-=======
 
 extension DividerDemoController: DemoAppearanceDelegate {
     func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
@@ -225,4 +222,3 @@ extension DividerDemoController: DemoAppearanceDelegate {
         ]
     }
 }
->>>>>>> c68014f6 ([Fluent2 TokenSet] Divider, HUD, PersonaButton, ResizingHandle (#1118))

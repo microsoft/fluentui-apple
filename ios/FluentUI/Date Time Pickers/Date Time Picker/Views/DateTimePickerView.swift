@@ -67,8 +67,8 @@ class DateTimePickerView: UIControl {
         super.init(frame: .zero)
 
         layer.addSublayer(gradientLayer)
-        addSubview(selectionTopDivider.view)
-        addSubview(selectionBottomDivider.view)
+        addSubview(selectionTopDivider)
+        addSubview(selectionBottomDivider)
         addInteraction(UILargeContentViewerInteraction())
 
         backgroundColor = Colors.DateTimePicker.background
@@ -154,9 +154,9 @@ class DateTimePickerView: UIControl {
             x += viewWidth
         }
 
-        let selectionTopDividerView = selectionTopDivider.view
+        let selectionTopDividerView = selectionTopDivider
         let selectionTopDividerHeight = selectionTopDividerView.frame.height
-        let selectionBottomDividerView = selectionBottomDivider.view
+        let selectionBottomDividerView = selectionBottomDivider
         let selectionBottomDividerHeight = selectionTopDividerView.frame.height
         let frameWidth = frame.width
         let frameHeight = frame.height

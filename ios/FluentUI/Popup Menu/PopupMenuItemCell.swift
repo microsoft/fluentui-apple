@@ -9,8 +9,11 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
 
     var customSeparatorColor: UIColor? {
         didSet {
-            let customTokens = DividerTokens(spacing: .none, color: customSeparatorColor?.dynamicColor)
-            bottomSeparator.state.overrideTokens = customTokens
+            if let color = customSeparatorColor?.dynamicColor {
+                bottomSeparator.tokenSet[.color] = .dynamicColor({ color })
+            } else {
+                bottomSeparator.tokenSet.removeOverride(.color)
+            }
         }
     }
 

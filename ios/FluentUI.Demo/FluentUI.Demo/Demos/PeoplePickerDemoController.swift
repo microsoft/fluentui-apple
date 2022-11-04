@@ -77,7 +77,7 @@ class PeoplePickerDemoController: DemoController {
             if index != PeoplePickerSampleData.variants.count - 1 {
                 let divider = MSFDivider()
                 dividers.append(divider)
-                container.addArrangedSubview(divider.view)
+                container.addArrangedSubview(divider)
             }
         }
     }

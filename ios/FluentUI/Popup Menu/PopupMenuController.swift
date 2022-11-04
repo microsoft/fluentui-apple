@@ -125,13 +125,16 @@ open class PopupMenuController: DrawerController {
         }
     }
 
-    /// set `separatorColor` to customize separator colors of  PopupMenuItem cells and the drawer
+    /// set `separatorColor` to customize separator colors of PopupMenuItem cells and the drawer
     @objc open var separatorColor: UIColor = Colors.Separator.default {
-        didSet {
-            let customTokens = DividerTokens(spacing: .none, color: separatorColor.dynamicColor)
-            divider.state.overrideTokens = customTokens
+            didSet {
+                guard let dynamicColor = separatorColor.dynamicColor else {
+                    assertionFailure("Unable to create dynamic color from separator color: \(separatorColor)")
+                    return
+                }
+                divider.tokenSet[.color] = .dynamicColor({ dynamicColor })
+            }
         }
-    }
 
     private var sections: [PopupMenuSection] = []
     private var itemForExecutionAfterPopupMenuDismissal: PopupMenuTemplateItem?
@@ -160,24 +163,27 @@ open class PopupMenuController: DrawerController {
         view.isHidden = true
 
         view.addSubview(descriptionLabel)
+        let verticalMargin = GlobalTokens.spacing(.small)
+        let horizontalMargin = GlobalTokens.spacing(.medium)
         descriptionLabel.fitIntoSuperview(
             usingConstraints: true,
             margins: UIEdgeInsets(
-                top: Constants.descriptionVerticalMargin,
-                left: Constants.descriptionHorizontalMargin,
-                bottom: Constants.descriptionVerticalMargin,
-                right: Constants.descriptionHorizontalMargin
+                top: verticalMargin,
+                left: horizontalMargin,
+                bottom: verticalMargin,
+                right: horizontalMargin
             )
         )
 
-        let customTokens = DividerTokens(spacing: .none, color: separatorColor.dynamicColor)
-        divider.state.overrideTokens = customTokens
-        view.addSubview(divider.view)
-        divider.view.translatesAutoresizingMaskIntoConstraints = false
+        if let dynamicColor = separatorColor.dynamicColor {
+            divider.tokenSet[.color] = .dynamicColor({ dynamicColor })
+        }
+        view.addSubview(divider)
+        divider.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            divider.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            divider.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            divider.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            divider.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            divider.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            divider.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
 
         return view

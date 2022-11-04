@@ -117,8 +117,8 @@ open class SideTabBar: UIView {
         backgroundView.translatesAutoresizingMaskIntoConstraints = false
         contain(view: backgroundView)
 
-        borderLine.view.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(borderLine.view)
+        borderLine.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(borderLine)
 
         addSubview(topStackView)
         addSubview(bottomStackView)
@@ -129,9 +129,9 @@ open class SideTabBar: UIView {
         shouldGroupAccessibilityChildren = true
 
         NSLayoutConstraint.activate([widthAnchor.constraint(equalToConstant: Constants.viewWidth),
-                                     borderLine.view.leadingAnchor.constraint(equalTo: trailingAnchor),
-                                     borderLine.view.bottomAnchor.constraint(equalTo: bottomAnchor),
-                                     borderLine.view.topAnchor.constraint(equalTo: topAnchor)])
+                                     borderLine.leadingAnchor.constraint(equalTo: trailingAnchor),
+                                     borderLine.bottomAnchor.constraint(equalTo: bottomAnchor),
+                                     borderLine.topAnchor.constraint(equalTo: topAnchor)])
     }
 
     @available(*, unavailable)
