@@ -107,7 +107,12 @@ public extension ShadowInfo {
     }
 }
 
+/// Public protocol that, when implemented, allows any UIView or one of its subviews to implement fluent shadows
 public protocol Shadowable {
+
+    /// The layer on which the perimeter shadow is implemented
     var shadow1: CALayer? { get set }
+
+    /// The layer on which the ambient shadow is implemented
     var shadow2: CALayer? { get set }
 }
