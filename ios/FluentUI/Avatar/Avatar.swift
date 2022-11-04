@@ -153,7 +153,7 @@ public struct Avatar: View, TokenizedControlView {
         let ringColor = !isRingVisible ? Color.clear :
         Color(dynamicColor: state.ringColor?.dynamicColor ?? ( !shouldUseCalculatedColors ?
                                                                tokenSet[.ringDefaultColor].dynamicColor :
-                                                                CalculatedColors.ringColor(hashCode: colorHashCode)))
+                                                               CalculatedColors.ringColor(hashCode: colorHashCode)))
 
         let shouldUseDefaultImage = (state.image == nil && initialsString.isEmpty && style != .overflow)
         let avatarImageInfo: (image: UIImage?, renderingMode: Image.TemplateRenderingMode) = {
