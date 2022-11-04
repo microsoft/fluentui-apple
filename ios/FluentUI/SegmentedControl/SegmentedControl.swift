@@ -119,6 +119,22 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
     private var pillMaskedLabels = [UILabel?]()
     private var pillMaskedImages = [UIImageView?]()
     private var pillContainerViewConstraints: [NSLayoutConstraint] = []
+    private lazy var leftFadeLayer: CAGradientLayer = {
+        let leftFadeLayer = CAGradientLayer(layer: layer)
+        leftFadeLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
+        leftFadeLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
+        let baseColor = UIColor.white
+        leftFadeLayer.colors = [baseColor.cgColor, baseColor.withAlphaComponent(0).cgColor]
+        return leftFadeLayer
+    }()
+    private lazy var rightFadeLayer: CAGradientLayer = {
+        let rightFadeLayer = CAGradientLayer(layer: layer)
+        rightFadeLayer.startPoint = CGPoint(x: 1.0, y: 0.5)
+        rightFadeLayer.endPoint = CGPoint(x: 0.0, y: 0.5)
+        let baseColor = UIColor.white
+        rightFadeLayer.colors = [baseColor.cgColor, baseColor.withAlphaComponent(0).cgColor]
+        return rightFadeLayer
+    }()
 
     private var isAnimating: Bool = false
 
@@ -301,6 +317,25 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
 
         flipSubviewsForRTL()
         layoutSelectionView()
+
+        layer.addSublayer(leftFadeLayer)
+        var leftLayerFrame = layer.bounds
+        leftLayerFrame.size.width = 50
+        leftLayerFrame.size.height = intrinsicContentSize.height
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
+        leftFadeLayer.frame = leftLayerFrame
+        CATransaction.commit()
+
+        layer.addSublayer(rightFadeLayer)
+        var rightLayerFrame = layer.bounds
+        rightLayerFrame.origin.x = rightLayerFrame.size.width - 50
+        rightLayerFrame.size.width = 50
+        rightLayerFrame.size.height = intrinsicContentSize.height
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
+        rightFadeLayer.frame = rightLayerFrame
+        CATransaction.commit()
     }
 
     open override var intrinsicContentSize: CGSize {
