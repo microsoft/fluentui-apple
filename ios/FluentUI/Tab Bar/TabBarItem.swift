@@ -68,6 +68,30 @@ open class TabBarItem: NSObject {
     /// - Parameter selectedImage: Used for imageView when tabbar item view is selected.  If it is nil, it will use `image`.
     /// - Parameter landscapeImage: Used for imageView when tabbar item view in landscape. If it is nil, it will use `image`. The image will be used in portrait mode if the tab bar item shows a label.
     /// - Parameter landscapeSelectedImage: Used for imageView when tabbar item view is selected in landscape. If it is nil, it will use `selectedImage`. The image will be used in portrait mode if the tab bar item shows a label.
+    /// - Parameter isUnread: Used for when the tabbar item view has not yet been selected. If never selected, an unread dot will be displayed whent the control is initialized. Default value is false.
+    @objc public convenience init(title: String,
+                                  image: UIImage,
+                                  selectedImage: UIImage? = nil,
+                                  landscapeImage: UIImage? = nil,
+                                  landscapeSelectedImage: UIImage? = nil,
+                                  isUnread: Bool = false) {
+        self.init(title: title,
+                  image: image,
+                  selectedImage: selectedImage,
+                  landscapeImage: landscapeImage,
+                  landscapeSelectedImage: landscapeSelectedImage,
+                  largeContentImage: nil,
+                  accessibilityLabelBadgeFormatString: nil)
+
+        self.isUnread = isUnread
+    }
+
+    /// Initializes `TabBarItem`
+    /// - Parameter title: Used for tabbar item view's label and for its accessibilityLabel.
+    /// - Parameter image: Used for tabbar item view's imageView and for its accessibility largeContentImage unless `largeContentImage` is specified.
+    /// - Parameter selectedImage: Used for imageView when tabbar item view is selected.  If it is nil, it will use `image`.
+    /// - Parameter landscapeImage: Used for imageView when tabbar item view in landscape. If it is nil, it will use `image`. The image will be used in portrait mode if the tab bar item shows a label.
+    /// - Parameter landscapeSelectedImage: Used for imageView when tabbar item view is selected in landscape. If it is nil, it will use `selectedImage`. The image will be used in portrait mode if the tab bar item shows a label.
     /// - Parameter largeContentImage: Used for tabbar item view's accessibility largeContentImage.
     /// - Parameter accessibilityLabelBadgeFormatString: Format string to use for the tabbar item's accessibility label when the badge number is greater than zero. When the badge number is zero, the accessibility label is set to the item's title. By default, when the badge number is greater than zero, the following format is used to builds the accessibility label: "%@, %ld items" where the item's title and the badge number are used to populate the format specifiers. If a format string is provided through this parameter, it must contain "%@" and "%ld" in the same order and will be populated with the title and badge number.
     @objc public init(title: String,
@@ -89,6 +113,19 @@ open class TabBarItem: NSObject {
 
     /// Notification sent when the tab bar item's badge value changes.
     static let badgeValueDidChangeNotification = NSNotification.Name(rawValue: "TabBarItemBadgeValueDidChangeNotification")
+
+    /// Notification sent when item's `isUnread` value changes.
+    static let isUnreadValueDidChangeNotification = NSNotification.Name(rawValue: "TabBarBarItemisUnreadValueDidChangeNotification")
+
+    /// This value will determine whether or not to show the mark that represents the "unread" state.
+    /// The default value of this property is false.
+    @objc public var isUnread: Bool = false {
+       didSet {
+           if oldValue != isUnread {
+               NotificationCenter.default.post(name: TabBarItem.isUnreadValueDidChangeNotification, object: self)
+           }
+       }
+   }
 
     let image: UIImage
     let selectedImage: UIImage?

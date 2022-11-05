@@ -22,6 +22,10 @@ class TabBarItemView: UIControl {
             imageView.isHighlighted = isSelected
             updateColors()
             if isSelected {
+                if item.isUnread {
+                    item.isUnread = false
+                    updateUnreadDot()
+                }
                 accessibilityTraits.insert(.selected)
             } else {
                 accessibilityTraits.remove(.selected)
@@ -108,6 +112,11 @@ class TabBarItemView: UIControl {
                                                name: TabBarItem.badgeValueDidChangeNotification,
                                                object: item)
 
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(isUnreadValueDidChange),
+                                               name: TabBarItem.isUnreadValueDidChangeNotification,
+                                               object: item)
+
         badgeValue = item.badgeValue
         updateLayout()
     }
@@ -122,6 +131,8 @@ class TabBarItemView: UIControl {
         // Need to layout container subviews now, otherwise imageView's frame will get updated later
         container.layoutSubviews()
         imageViewFrame = imageView.frame
+
+        updateUnreadDot()
     }
 
     open override var intrinsicContentSize: CGSize {
@@ -162,6 +173,8 @@ class TabBarItemView: UIControl {
         static let badgeBorderWidth: CGFloat = 2
         static let badgeHorizontalPadding: CGFloat = 10
         static let badgeCorderRadii: CGFloat = 10
+        static let unreadDotOffset = CGPoint(x: 22.0, y: 3.0)
+        static let unreadDotSize: CGFloat = 8.0
     }
 
     private var badgeValue: String? {
@@ -172,6 +185,33 @@ class TabBarItemView: UIControl {
             }
         }
     }
+
+    @objc private func isUnreadValueDidChange() {
+        isUnreadDotVisible = item.isUnread
+        updateUnreadDot()
+        setNeedsLayout()
+    }
+
+    private var isUnreadDotVisible: Bool = false {
+        didSet {
+            if oldValue != isUnreadDotVisible {
+                if isUnreadDotVisible {
+                    imageView.layer.addSublayer(unreadDotLayer)
+                } else {
+                    unreadDotLayer.removeFromSuperlayer()
+                }
+            }
+        }
+    }
+
+    private let unreadDotLayer: CALayer = {
+        let unreadDotLayer = CALayer()
+        unreadDotLayer.bounds.size = CGSize(width: Constants.unreadDotSize, height: Constants.unreadDotSize)
+        unreadDotLayer.cornerRadius = Constants.unreadDotSize / 2
+        return unreadDotLayer
+    }()
+
+    private lazy var unreadDotColor: UIColor = UIColor(colorValue: GlobalTokens.sharedColors(.red, .primary))
 
     private let container: UIStackView = {
         let container = UIStackView(frame: .zero)
@@ -268,6 +308,20 @@ class TabBarItemView: UIControl {
 
         updateBadgeView()
         invalidateIntrinsicContentSize()
+    }
+
+    private func updateUnreadDot() {
+        isUnreadDotVisible = item.isUnread && badgeView.isHidden
+        if isUnreadDotVisible {
+            let xPos: CGFloat
+            if effectiveUserInterfaceLayoutDirection == .leftToRight {
+                xPos = round(imageView.frame.origin.x + Constants.unreadDotOffset.x)
+            } else {
+                xPos = round(imageView.frame.origin.x + imageView.frame.size.width - Constants.unreadDotOffset.x - Constants.unreadDotSize)
+            }
+            unreadDotLayer.frame.origin = CGPoint(x: xPos, y: imageView.frame.origin.y + Constants.unreadDotOffset.y)
+            unreadDotLayer.backgroundColor = unreadDotColor.cgColor
+        }
     }
 
     private func updateBadgeView() {
