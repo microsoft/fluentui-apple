@@ -7,11 +7,13 @@ import FluentUI
 import UIKit
 
 class ButtonDemoController: DemoController {
+    let buttonString: String = "A button triggers a single action or event.\n\nUse buttons for important actions like submitting a response, committing a change, or moving to the next step. If you need to navigate to another place, try a link instead."
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         container.alignment = .leading
-        setupReadmeText(readmeString: ReadmeStrings.buttonString)
+        readmeString = buttonString
 
         for style in ButtonStyle.allCases {
             addTitle(text: style.description)

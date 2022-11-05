@@ -194,10 +194,6 @@ class DemoController: UIViewController {
 
     private lazy var appearanceController: DemoAppearanceController = .init(delegate: self as? DemoAppearanceDelegate)
     private lazy var readmeViewController: ReadmeViewController = .init(readmeString: readmeString)
-
-    func setupReadmeText(readmeString: String?) {
-        self.readmeString = readmeString
-    }
 }
 
 extension DemoController: UIPopoverPresentationControllerDelegate {

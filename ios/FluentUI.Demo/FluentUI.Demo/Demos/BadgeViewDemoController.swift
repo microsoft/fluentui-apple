@@ -7,10 +7,13 @@ import FluentUI
 import UIKit
 
 class BadgeViewDemoController: DemoController {
+
+    let badgeString: String = "A badge is a compact, interactive, textual representation of a person. It is generally a representation of user-input text that maps to an entry in a database."
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setupReadmeText(readmeString: ReadmeStrings.badgeString)
+        readmeString = badgeString
         addBadgeSection(title: "Default badge", style: .default)
         addBadgeSection(title: "Error badge", style: .error)
         addBadgeSection(title: "Warning badge", style: .warning)
