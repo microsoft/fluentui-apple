@@ -37,7 +37,10 @@ class ReadmeViewController: UIViewController {
 
         setupScrollViewConstraints()
         setupReadmeLabelConstraints()
-        setReadmeLabelText()
+
+        if let readmeString = readme {
+            readmeLabel.text = readmeString
+        }
     }
 
     private func setupReadmeLabelConstraints() {
@@ -79,12 +82,6 @@ class ReadmeViewController: UIViewController {
         modalPresentationStyle = .popover
         preferredContentSize = CGSize(width: Constants.popoverWidth, height: Constants.popoverHeight)
         popoverPresentationController?.permittedArrowDirections = .up
-    }
-
-    private func setReadmeLabelText() {
-        if let readmeString = readme {
-            readmeLabel.text = readmeString
-        }
     }
 
     required init?(coder: NSCoder) {
