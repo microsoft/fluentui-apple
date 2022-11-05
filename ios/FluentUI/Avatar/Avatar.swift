@@ -141,21 +141,19 @@ public struct Avatar: View, TokenizedControlView {
         let presenceIconFrameSideRelativeToOuterRing: CGFloat = presenceIconFrameSideRelativeToInnerRing + outerGapAndRingThicknesCombined
         let overallFrameSide = max(ringOuterGapSize, presenceIconFrameSideRelativeToOuterRing)
 
+        let colorHashCode = CalculatedColors.initialsHashCode(fromPrimaryText: state.primaryText, secondaryText: state.secondaryText)
+
         let foregroundColor = state.foregroundColor?.dynamicColor ?? (
             !shouldUseCalculatedColors ? tokenSet[.foregroundDefaultColor].dynamicColor :
-                CalculatedColors.foregroundColor(fromPrimaryText: state.primaryText,
-                                                 secondaryText: state.secondaryText,
-                                                 fluentTheme: fluentTheme))
+                CalculatedColors.foregroundColor(hashCode: colorHashCode))
         let backgroundColor = state.backgroundColor?.dynamicColor ?? (
             !shouldUseCalculatedColors ? tokenSet[.backgroundDefaultColor].dynamicColor :
-                CalculatedColors.backgroundColor(fromPrimaryText: state.primaryText,
-                                                 secondaryText: state.secondaryText,
-                                                 fluentTheme: fluentTheme))
+                CalculatedColors.backgroundColor(hashCode: colorHashCode))
         let ringGapColor = Color(dynamicColor: tokenSet[.ringGapColor].dynamicColor).opacity(isTransparent ? 0 : 1)
         let ringColor = !isRingVisible ? Color.clear :
         Color(dynamicColor: state.ringColor?.dynamicColor ?? ( !shouldUseCalculatedColors ?
                                                                tokenSet[.ringDefaultColor].dynamicColor :
-                                                                backgroundColor))
+                                                               CalculatedColors.ringColor(hashCode: colorHashCode)))
 
         let shouldUseDefaultImage = (state.image == nil && initialsString.isEmpty && style != .overflow)
         let avatarImageInfo: (image: UIImage?, renderingMode: Image.TemplateRenderingMode) = {
@@ -396,27 +394,25 @@ public struct Avatar: View, TokenizedControlView {
 
     /// Handles calculating colors for Avatar foreground and background.
     private struct CalculatedColors {
-        static func backgroundColor(fromPrimaryText primaryText: String?,
-                                    secondaryText: String?,
-                                    fluentTheme: FluentTheme) -> DynamicColor {
-            // Set the color based on the primary text and secondary text
-            let hashCode = initialsHashCode(fromPrimaryText: primaryText, secondaryText: secondaryText)
+        static func backgroundColor(hashCode: Int) -> DynamicColor {
             let colorSet = colors[hashCode % colors.count]
             return DynamicColor(light: GlobalTokens.sharedColors(colorSet, .tint40),
                                 dark: GlobalTokens.sharedColors(colorSet, .shade30))
         }
 
-        static func foregroundColor(fromPrimaryText primaryText: String?,
-                                    secondaryText: String?,
-                                    fluentTheme: FluentTheme) -> DynamicColor {
-            // Set the color based on the primary text and secondary text
-            let hashCode = initialsHashCode(fromPrimaryText: primaryText, secondaryText: secondaryText)
+        static func foregroundColor(hashCode: Int) -> DynamicColor {
             let colorSet = colors[hashCode % colors.count]
             return DynamicColor(light: GlobalTokens.sharedColors(colorSet, .shade30),
                                 dark: GlobalTokens.sharedColors(colorSet, .tint40))
         }
 
-        private static func initialsHashCode(fromPrimaryText primaryText: String?, secondaryText: String?) -> Int {
+        static func ringColor(hashCode: Int) -> DynamicColor {
+            let colorSet = colors[hashCode % colors.count]
+            return DynamicColor(light: GlobalTokens.sharedColors(colorSet, .primary),
+                                dark: GlobalTokens.sharedColors(colorSet, .tint30))
+        }
+
+        static func initialsHashCode(fromPrimaryText primaryText: String?, secondaryText: String?) -> Int {
             var combined: String
             if let secondaryText = secondaryText, let primaryText = primaryText, secondaryText.count > 0 {
                 combined = primaryText + secondaryText
@@ -427,18 +423,20 @@ public struct Avatar: View, TokenizedControlView {
             }
 
             let combinedHashable = combined as NSString
-            return Int(abs(javaHashCode(combinedHashable)))
+            return Int(abs(hashCode(combinedHashable)))
         }
 
-        /// To ensure iOS and Android achieve the same result when generating string hash codes (e.g. to determine avatar colors) we've copied Java's String implementation of `hashCode`.
-        /// Must use Int32 as JVM specification is 32-bits for ints
-        /// - Returns: hash code of string
-        private static func javaHashCode(_ text: NSString) -> Int32 {
+        /// Hash algorithm to determine Avatar color.
+        /// Referenced from: https://github.com/microsoft/fluentui/blob/master/packages/react-components/react-avatar/src/components/Avatar/useAvatar.tsx#L200
+        /// - Returns: Hash code
+        private static func hashCode(_ text: NSString) -> Int32 {
             var hash: Int32 = 0
-            for i in 0..<text.length {
-                // Allow overflows, mimicking Java behavior
-                hash = 31 &* hash &+ Int32(text.character(at: i))
-            }
+            for len in (0..<text.length).reversed() {
+                let ch = text.character(at: len)
+                let shift = len % 8
+                hash ^= Int32((ch << shift) + (ch >> (8 - shift)))
+              }
+
             return hash
         }
 
