@@ -1,49 +1,49 @@
 {
   "images" : [
     {
-      "filename" : " 20@2x-1.png",
+      "filename" : " 20_2x-1.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "20x20"
     },
     {
-      "filename" : " 20@3x.png",
+      "filename" : " 20_3x.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "20x20"
     },
     {
-      "filename" : " 29@2x-1.png",
+      "filename" : " 29_2x-1.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "29x29"
     },
     {
-      "filename" : " 29@3x.png",
+      "filename" : " 29_3x.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "29x29"
     },
     {
-      "filename" : " 40@2x-1.png",
+      "filename" : " 40_2x-1.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "40x40"
     },
     {
-      "filename" : " 40@3x.png",
+      "filename" : " 40_3x.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "40x40"
     },
     {
-      "filename" : " 60@2x.png",
+      "filename" : " 60_2x.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "60x60"
     },
     {
-      "filename" : " 60@3x.png",
+      "filename" : " 60_3x.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "60x60"
@@ -67,19 +67,19 @@
       "size" : "29x29"
     },
     {
-      "filename" : " 29@2x.png",
+      "filename" : " 29_2x.png",
       "idiom" : "ipad",
       "scale" : "2x",
       "size" : "29x29"
     },
     {
-      "filename" : " 20@2x.png",
+      "filename" : " 20_2x.png",
       "idiom" : "ipad",
       "scale" : "1x",
       "size" : "40x40"
     },
     {
-      "filename" : " 40@2x.png",
+      "filename" : " 40_2x.png",
       "idiom" : "ipad",
       "scale" : "2x",
       "size" : "40x40"
@@ -91,13 +91,13 @@
       "size" : "76x76"
     },
     {
-      "filename" : " 76@2x.png",
+      "filename" : " 76_2x.png",
       "idiom" : "ipad",
       "scale" : "2x",
       "size" : "76x76"
     },
     {
-      "filename" : " 83.5@2x.png",
+      "filename" : " 83.5_2x.png",
       "idiom" : "ipad",
       "scale" : "2x",
       "size" : "83.5x83.5"
