@@ -24,7 +24,6 @@ class ReadmeViewController: UIViewController {
     let readmeLabel: Label = {
         let label = Label()
         label.numberOfLines = 0
-        label.sizeToFit()
 
         // TODO: Change color to fluent 2 tokens
         label.textColor = UIColor(dynamicColor: DynamicColor(light: ColorValue(0x000000),
@@ -43,10 +42,13 @@ class ReadmeViewController: UIViewController {
 
     private func setupReadmeLabelConstraints() {
         contentView.addSubview(readmeLabel)
-        readmeLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-        readmeLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Constants.topPadding).isActive = true
-        readmeLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: Constants.widthMultiplier).isActive = true
-        readmeLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+
+        NSLayoutConstraint.activate([
+            readmeLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            readmeLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Constants.topPadding),
+            readmeLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: Constants.widthMultiplier),
+            readmeLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+        ])
     }
 
     private func setupScrollViewConstraints() {
@@ -56,15 +58,17 @@ class ReadmeViewController: UIViewController {
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
 
-        scrollView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        scrollView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-        scrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: Constants.bottomPadding).isActive = true
+        NSLayoutConstraint.activate([
+            scrollView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            scrollView.widthAnchor.constraint(equalTo: view.widthAnchor),
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: Constants.bottomPadding),
 
-        contentView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
-        contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
-        contentView.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
-        contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
+            contentView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
+            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor)
+        ])
     }
 
     init(readmeString: String?) {
