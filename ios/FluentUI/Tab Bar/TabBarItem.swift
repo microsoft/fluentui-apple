@@ -115,7 +115,7 @@ open class TabBarItem: NSObject {
     static let badgeValueDidChangeNotification = NSNotification.Name(rawValue: "TabBarItemBadgeValueDidChangeNotification")
 
     /// Notification sent when item's `isUnread` value changes.
-    static let isUnreadValueDidChangeNotification = NSNotification.Name(rawValue: "TabBarBarItemisUnreadValueDidChangeNotification")
+    static let isUnreadValueDidChangeNotification = NSNotification.Name(rawValue: "TabBarItemisUnreadValueDidChangeNotification")
 
     /// This value will determine whether or not to show the mark that represents the "unread" state.
     /// The default value of this property is false.

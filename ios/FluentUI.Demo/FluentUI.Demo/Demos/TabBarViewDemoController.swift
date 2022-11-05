@@ -61,9 +61,9 @@ class TabBarViewDemoController: DemoController {
 
     private func setupTabBarView() {
         // remove the old tab bar View
-        var isUnread = true
+        var openIsUnread = true
         if let oldTabBarView = tabBarView {
-            isUnread = oldTabBarView.items[2].isUnread
+            openIsUnread = oldTabBarView.items[2].isUnread
             if let constraints = tabBarViewConstraints {
                 NSLayoutConstraint.deactivate(constraints)
             }
@@ -90,7 +90,7 @@ class TabBarViewDemoController: DemoController {
         }
 
         // If the open file item has been clicked, maintain that state through to the new item
-        updatedTabBarView.items[2].isUnread = isUnread
+        updatedTabBarView.items[2].isUnread = openIsUnread
 
         updatedTabBarView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(updatedTabBarView)
