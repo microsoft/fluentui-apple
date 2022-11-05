@@ -171,7 +171,7 @@ class DemoController: UIViewController {
                                              style: .plain,
                                              target: self,
                                              action: #selector(showAppearancePopover))
-        let readmeButton = UIBarButtonItem(title: "Readme",
+        let readmeButton = UIBarButtonItem(image: UIImage(systemName: "i.circle.fill"),
                                            style: .plain,
                                            target: self,
                                            action: #selector(showReadmePopover))
