@@ -8,6 +8,14 @@ import FluentUI
 
 class ReadmeViewController: UIViewController {
 
+    private struct Constants {
+        static let topPadding: CGFloat = 35
+        static let bottomPadding: CGFloat = -25
+        static let widthMultiplier: CGFloat = 0.9
+        static let popoverWidth: CGFloat = 400
+        static let popoverHeight: CGFloat = 250
+    }
+
     let scrollView = UIScrollView()
     let contentView = UIView()
 
@@ -57,14 +65,6 @@ class ReadmeViewController: UIViewController {
         contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
         contentView.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
         contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
-    }
-
-    struct Constants {
-        static let topPadding: CGFloat = 35
-        static let bottomPadding: CGFloat = -25
-        static let widthMultiplier: CGFloat = 0.9
-        static let popoverWidth: CGFloat = 400
-        static let popoverHeight: CGFloat = 250
     }
 
     init(readmeString: String?) {
