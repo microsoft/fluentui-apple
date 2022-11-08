@@ -16,26 +16,22 @@ import SwiftUI
     case offline
     case unknown
 
-    func color(isOutOfOffice: Bool) -> Color {
+    func color(isOutOfOffice: Bool, fluentTheme: FluentTheme) -> Color {
         var color = UIColor.clear
 
         switch self {
         case .none:
             break
         case .available:
-            color = Colors.Palette.presenceAvailable.color
+            color = UIColor(dynamicColor: fluentTheme.aliasTokens.sharedColors[.presenceAvailable])
         case .away:
-            color = isOutOfOffice ? Colors.Palette.presenceOof.color : Colors.Palette.presenceAway.color
-        case .busy:
-            color = Colors.Palette.presenceBusy.color
-        case .blocked:
-            color = Colors.Palette.presenceBlocked.color
-        case .doNotDisturb:
-            color = Colors.Palette.presenceDnd.color
+            color = isOutOfOffice ? UIColor(dynamicColor: fluentTheme.aliasTokens.sharedColors[.presenceOof]) : UIColor(dynamicColor: fluentTheme.aliasTokens.sharedColors[.presenceAway])
+        case .busy, .blocked, .doNotDisturb:
+            color = UIColor(dynamicColor: fluentTheme.aliasTokens.sharedColors[.presenceDnd])
         case .offline:
-            color = isOutOfOffice ? Colors.Palette.presenceOof.color : Colors.Palette.presenceOffline.color
+            color = isOutOfOffice ? UIColor(dynamicColor: fluentTheme.aliasTokens.sharedColors[.presenceOof]) : UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground3])
         case .unknown:
-            color = Colors.Palette.presenceUnknown.color
+            color = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground3])
         }
 
         return Color(color)
