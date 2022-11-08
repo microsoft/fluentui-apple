@@ -198,7 +198,6 @@
 		ECA9218627A3301C00B66117 /* MSFAvatarGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA9218527A3301C00B66117 /* MSFAvatarGroup.swift */; };
 		ECA9218A27A33A2D00B66117 /* AvatarGroupModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA9218927A33A2D00B66117 /* AvatarGroupModifiers.swift */; };
 		ECA921C627B5D10B00B66117 /* ButtonDynamicColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA921C527B5D10A00B66117 /* ButtonDynamicColors.swift */; };
-		F5784DBA285D031800DBEAD6 /* docs in Resources */ = {isa = PBXBuildFile; fileRef = F5784DB9285D031800DBEAD6 /* docs */; };
 		FD053A352224CA33009B6378 /* DatePickerControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD053A342224CA33009B6378 /* DatePickerControllerTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -1358,7 +1357,6 @@
 				A542A9D8226FC01700204A52 /* Localizable.stringsdict in Resources */,
 				A257F82A251D98DD002CAA6E /* FluentUI-apple.xcassets in Resources */,
 				A257F82C251D98F3002CAA6E /* FluentUI-ios.xcassets in Resources */,
-				F5784DBA285D031800DBEAD6 /* docs in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
