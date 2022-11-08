@@ -89,20 +89,16 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
             case .ringDefaultColor:
                 return .dynamicColor({
                     switch style() {
-                    case .default, .group:
-                        return theme.aliasTokens.brandColors[.tint10]
-                    case .accent:
-                        return theme.aliasTokens.brandColors[.shade10]
+                    case .default, .group, .accent, .outlinedPrimary:
+                        return theme.aliasTokens.colors[.brandStroke1]
                     case .outlined, .overflow:
-                        return theme.aliasTokens.backgroundColors[.neutralDisabled]
-                    case .outlinedPrimary:
-                        return .init(light: theme.aliasTokens.brandColors[.tint10].light, dark: GlobalTokens.neutralColors(.grey78))
+                        return theme.aliasTokens.colors[.stroke1]
                     }
                 })
 
             case .ringGapColor:
                 return .dynamicColor({
-                    theme.aliasTokens.backgroundColors[.neutral1]
+                    theme.aliasTokens.colors[.background1]
                 })
 
             case .ringThickness:
@@ -149,22 +145,20 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
 
             case .presenceOutlineColor:
                 return .dynamicColor({
-                    theme.aliasTokens.backgroundColors[.neutral1]
+                    theme.aliasTokens.colors[.background1]
                 })
 
             case .backgroundDefaultColor:
                 return .dynamicColor({
                     switch style() {
                     case .default, .group:
-                        return .init(light: GlobalTokens.neutralColors(.white), dark: theme.aliasTokens.brandColors[.primary].dark)
+                        return theme.aliasTokens.colors[.background1]
                     case .accent:
-                        return theme.aliasTokens.brandColors[.primary]
-                    case .outlined:
-                        return .init(light: GlobalTokens.neutralColors(.grey94), dark: GlobalTokens.neutralColors(.grey26))
+                        return theme.aliasTokens.colors[.brandBackground1]
+                    case .outlined, .overflow:
+                        return theme.aliasTokens.colors[.background5]
                     case .outlinedPrimary:
-                        return .init(light: theme.aliasTokens.brandColors[.tint40].light, dark: GlobalTokens.neutralColors(.grey26))
-                    case .overflow:
-                        return theme.aliasTokens.backgroundColors[.neutral4]
+                        return theme.aliasTokens.colors[.brandBackgroundTint]
                     }
                 })
 
@@ -178,7 +172,7 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
                     case .outlined, .overflow:
                         return theme.aliasTokens.colors[.foreground2]
                     case .outlinedPrimary:
-                        return theme.aliasTokens.colors[.brandForeground4]
+                        return theme.aliasTokens.colors[.brandForegroundTint]
                     }
                 })
             }
