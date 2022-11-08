@@ -121,7 +121,7 @@ class TooltipViewController: UIViewController {
         return CGSize(width: width, height: height)
     }
 
-    var positionController: TooltipPositionController
+    let positionController: TooltipPositionController
     var tokenSet: TooltipTokenSet
 
     // MARK: - Accessibility
