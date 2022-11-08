@@ -9,29 +9,22 @@ import UIKit
 class ShadowTokensDemoController: DemoController {
     var cards: [CardView] = []
 
-    private lazy var segmentedControl: SegmentedControl = {
-        let tabTitles = Constants.titles
-        let segmentedControl = SegmentedControl(items: tabTitles.map({ return SegmentItem(title: $0) }),
-                                                style: .primaryPill)
-        segmentedControl.addTarget(self,
-                                   action: #selector(updateShadows),
-                                   for: .valueChanged)
-        return segmentedControl
-    }()
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
         container.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.stencil2])
 
-        navigationItem.titleView = segmentedControl
         container.alignment = .center
         container.spacing = Constants.spacing
 
         initCards()
-        updateShadows()
 
         container.addArrangedSubview(UIView())
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        updateShadows()
     }
 
     private func initCards() {
@@ -44,23 +37,14 @@ class ShadowTokensDemoController: DemoController {
         }
     }
 
-    @objc private func updateShadows() {
+    private func updateShadows() {
         for index in 0..<AliasTokens.ShadowTokens.allCases.count {
             let shadowInfo = view.fluentTheme.aliasTokens.shadow[AliasTokens.ShadowTokens.allCases[index]]
-            applyShadow(shadowInfo, for: cards[index], isShadowOne: segmentedControl.selectedSegmentIndex == 0)
+            shadowInfo.applyShadow(to: cards[index])
         }
     }
 
-    private func applyShadow(_ shadow: ShadowInfo, for view: UIView, isShadowOne: Bool = false) {
-        view.layer.shadowColor = UIColor(dynamicColor: isShadowOne ? shadow.colorOne : shadow.colorTwo).cgColor
-        view.layer.shadowOpacity = 1
-        view.layer.shadowRadius = isShadowOne ? shadow.blurOne : shadow.blurTwo
-        view.layer.shadowOffset = CGSize(width: isShadowOne ? shadow.xOne : shadow.xTwo,
-                                         height: isShadowOne ? shadow.yOne : shadow.yTwo)
-    }
-
     private struct Constants {
-        static let titles: [String] = ["Shadow 1", "Shadow 2"]
         static let spacing: CGFloat = 120
     }
 }

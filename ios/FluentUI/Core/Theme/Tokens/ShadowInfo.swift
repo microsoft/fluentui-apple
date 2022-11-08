@@ -4,6 +4,7 @@
 //
 
 import CoreGraphics
+import UIKit
 
 /// Represents a two-part shadow as used by FluentUI.
 public struct ShadowInfo: Equatable {
@@ -27,11 +28,11 @@ public struct ShadowInfo: Equatable {
                 xTwo: CGFloat,
                 yTwo: CGFloat) {
         self.colorOne = colorOne
-        self.blurOne = blurOne
+        self.blurOne = blurOne * shadowBlurAdjustment
         self.xOne = xOne
         self.yOne = yOne
         self.colorTwo = colorTwo
-        self.blurTwo = blurTwo
+        self.blurTwo = blurTwo * shadowBlurAdjustment
         self.xTwo = xTwo
         self.yTwo = yTwo
     }
@@ -59,4 +60,58 @@ public struct ShadowInfo: Equatable {
 
     /// The vertical offset of the shadow for shadow 2.
     public let yTwo: CGFloat
+
+    /// The number that the figma blur needs to be adjusted by to properly display shadows. See https://github.com/microsoft/apple-ux-guide/blob/gh-pages/Shadows.md
+    private let shadowBlurAdjustment: CGFloat = 0.5
+}
+
+public extension ShadowInfo {
+
+    func applyShadow(to view: UIView) {
+        guard var shadowable = (view as? Shadowable) ?? (view.superview as? Shadowable) else {
+            assertionFailure("Cannot apply Fluent shadows to a non-Shadowable view")
+            return
+        }
+
+        shadowable.shadow1?.removeFromSuperlayer()
+        shadowable.shadow2?.removeFromSuperlayer()
+
+        let shadow1 = initializeShadowLayer(view: view, isShadowOne: true)
+        let shadow2 = initializeShadowLayer(view: view)
+
+        shadowable.shadow1 = shadow1
+        shadowable.shadow2 = shadow2
+
+        view.layer.insertSublayer(shadow1, at: 0)
+        view.layer.insertSublayer(shadow2, below: shadow1)
+    }
+
+    private func initializeShadowLayer(view: UIView,
+                                       isShadowOne: Bool = false) -> CALayer {
+        let layer = CALayer()
+
+        layer.frame = view.bounds
+        layer.shadowColor = UIColor(dynamicColor: isShadowOne ? colorOne : colorTwo).cgColor
+        layer.shadowRadius = isShadowOne ? blurOne : blurTwo
+
+        // The shadowOpacity needs to be set to 1 since the alpha is already set through shadowColor
+        layer.shadowOpacity = 1
+        layer.shadowOffset = CGSize(width: isShadowOne ? xOne : xTwo,
+                                    height: isShadowOne ? yOne : yTwo)
+        layer.needsDisplayOnBoundsChange = true
+        layer.cornerRadius = view.layer.cornerRadius
+        layer.backgroundColor = view.backgroundColor?.cgColor
+
+        return layer
+    }
+}
+
+/// Public protocol that, when implemented, allows any UIView or one of its subviews to implement fluent shadows
+public protocol Shadowable {
+
+    /// The layer on which the perimeter shadow is implemented
+    var shadow1: CALayer? { get set }
+
+    /// The layer on which the ambient shadow is implemented
+    var shadow2: CALayer? { get set }
 }

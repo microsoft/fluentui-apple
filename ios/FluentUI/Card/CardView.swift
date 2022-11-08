@@ -169,7 +169,10 @@ public enum CardSize: Int, CaseIterable {
  Conform to the `CardDelegate` in order to provide a handler for the card tap event
  */
 @objc(MSFCardView)
-open class CardView: UIView {
+open class CardView: UIView, Shadowable {
+    public var shadow1: CALayer?
+    public var shadow2: CALayer?
+
     /// Delegate to handle user interaction with the CardView
     @objc public weak var delegate: CardDelegate?
 
@@ -375,6 +378,16 @@ open class CardView: UIView {
         setupLayoutConstraints()
     }
 
+    open override func layoutSubviews() {
+        super.layoutSubviews()
+        updateShadow()
+    }
+
+    private func updateShadow() {
+        let shadowInfo = fluentTheme.aliasTokens.shadow[.shadow02]
+        shadowInfo.applyShadow(to: self)
+    }
+
     @available(*, unavailable)
     @objc public required init?(coder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
@@ -460,7 +473,7 @@ open class CardView: UIView {
         layoutConstraints.append(contentsOf: [
             iconView.centerYAnchor.constraint(equalTo: centerYAnchor),
             primaryLabel.leadingAnchor.constraint(equalTo: iconView.trailingAnchor, constant: Constants.horizontalContentSpacing),
-            widthAnchor.constraint(equalToConstant: size.width),
+            widthAnchor.constraint(equalToConstant: customWidth),
             heightConstraint,
             iconView.widthAnchor.constraint(equalToConstant: Constants.iconWidth),
             iconView.heightAnchor.constraint(equalToConstant: Constants.iconHeight),
