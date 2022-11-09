@@ -440,12 +440,8 @@ public class BottomSheetController: UIViewController, Shadowable {
             stackView.bottomAnchor.constraint(equalTo: bottomSheetContentView.bottomAnchor)
         ])
 
-        shadowView = bottomSheetContentView
-
         return makeBottomSheetByEmbedding(contentView: bottomSheetContentView)
     }()
-
-    var shadowView: UIView?
 
     private func makeBottomSheetByEmbedding(contentView: UIView) -> UIView {
         let bottomSheetView = UIView()
@@ -455,7 +451,11 @@ public class BottomSheetController: UIViewController, Shadowable {
         contentView.layer.cornerRadius = Constants.cornerRadius
         contentView.layer.cornerCurve = .continuous
         contentView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+        contentView.clipsToBounds = true
 
+        // We need to set the background color of the embedding view otherwise the shadows will not display
+        bottomSheetView.backgroundColor = backgroundColor
+        bottomSheetView.layer.cornerRadius = Constants.cornerRadius
         bottomSheetView.addSubview(contentView)
 
         NSLayoutConstraint.activate([
@@ -483,11 +483,11 @@ public class BottomSheetController: UIViewController, Shadowable {
     }
 
     private func updateShadow() {
-        guard let shadowView = shadowView else {
-            return
-        }
         let shadowInfo = view.fluentTheme.aliasTokens.shadow[.shadow28]
-        shadowInfo.applyShadow(to: shadowView, parentController: self)
+
+        // We need to have the shadow on a parent of the view that does the corner masking.
+        // Otherwise the view will mask its own shadow.
+        shadowInfo.applyShadow(to: bottomSheetView, parentController: self)
     }
 
     public override func viewSafeAreaInsetsDidChange() {
