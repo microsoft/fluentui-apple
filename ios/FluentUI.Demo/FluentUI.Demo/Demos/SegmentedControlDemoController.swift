@@ -117,6 +117,17 @@ class SegmentedControlDemoController: DemoController {
         if equalSegments {
             constraints.append(pillControl.centerXAnchor.constraint(equalTo: backgroundView.centerXAnchor))
         }
+        if isFixedWidth {
+            constraints.append(contentsOf: [
+                backgroundView.leadingAnchor.constraint(lessThanOrEqualTo: pillControl.leadingAnchor),
+                backgroundView.trailingAnchor.constraint(greaterThanOrEqualTo: pillControl.trailingAnchor)
+            ])
+        } else {
+            constraints.append(contentsOf: [
+                backgroundView.leadingAnchor.constraint(equalTo: pillControl.leadingAnchor),
+                backgroundView.trailingAnchor.constraint(equalTo: pillControl.trailingAnchor)
+            ])
+        }
 
         NSLayoutConstraint.activate(constraints)
 
