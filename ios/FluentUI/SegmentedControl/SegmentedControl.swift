@@ -27,9 +27,17 @@ open class SegmentedControl: UIView, TokenizedControlInternal, UIScrollViewDeleg
 
     @objc public var isAnimated: Bool = true
     @objc public var numberOfSegments: Int { return items.count }
+    /// Defines if the segments of the `SegmentedControl` are equal in width.
     @objc public var shouldSetEqualWidthForSegments: Bool = true {
         didSet {
             updateStackDistribution()
+        }
+    }
+
+    /// Defines if the `SegmentedControl` will take up the full width of the screen on iPhone, or half on iPad.
+    /// Scrolling will only work if this is false.
+    @objc public var isFixedWidth: Bool = true {
+        didSet {
             updatePillContainerConstraints()
         }
     }
@@ -374,14 +382,14 @@ open class SegmentedControl: UIView, TokenizedControlInternal, UIScrollViewDeleg
         for button in buttons {
             let size = button.sizeThatFits(size)
             height = max(height, ceil(size.height))
-            if !shouldSetEqualWidthForSegments {
+            if !isFixedWidth {
                 width += ceil(size.width)
             }
         }
 
         let windowSafeAreaInsets = window.safeAreaInsets
         let windowWidth = window.bounds.width - windowSafeAreaInsets.left - windowSafeAreaInsets.right
-        if shouldSetEqualWidthForSegments {
+        if isFixedWidth {
             if traitCollection.userInterfaceIdiom == .pad {
                 width = max(windowWidth / 2, Constants.iPadMinimumWidth)
             } else {
@@ -517,7 +525,7 @@ open class SegmentedControl: UIView, TokenizedControlInternal, UIScrollViewDeleg
         NSLayoutConstraint.deactivate(pillContainerViewConstraints)
         let leadingAnchor: NSLayoutXAxisAnchor
         let trailingAnchor: NSLayoutXAxisAnchor
-        if shouldSetEqualWidthForSegments {
+        if isFixedWidth {
             leadingAnchor = self.safeAreaLayoutGuide.leadingAnchor
             trailingAnchor = self.safeAreaLayoutGuide.trailingAnchor
         } else {

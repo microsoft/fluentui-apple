@@ -43,7 +43,8 @@ class SegmentedControlDemoController: DemoController {
 
         addPillControl(items: Array(segmentItems.prefix(10)),
                        style: .primaryPill,
-                       equalSegments: false)
+                       equalSegments: false,
+                       isFixedWidth: false)
         container.addArrangedSubview(UIView())
 
         addTitle(text: "Disabled Primary Pill")
@@ -55,15 +56,18 @@ class SegmentedControlDemoController: DemoController {
 
         addTitle(text: "On Brand Pill")
 
-        addPillControl(items: Array(segmentItems.prefix(4)),
-                       style: .onBrandPill)
+        addPillControl(items: Array(segmentItems.prefix(10)),
+                       style: .onBrandPill,
+                       equalSegments: true,
+                       isFixedWidth: false)
         container.addArrangedSubview(UIView())
 
         addTitle(text: "On Brand Pill with unequal buttons")
 
         addPillControl(items: Array(segmentItems.prefix(2)),
                        style: .onBrandPill,
-                       equalSegments: false)
+                       equalSegments: false,
+                       isFixedWidth: false)
         container.addArrangedSubview(UIView())
 
         addTitle(text: "Disabled On Brand Pill")
@@ -77,9 +81,10 @@ class SegmentedControlDemoController: DemoController {
         controlLabels[control]?.text = "\"\(segmentItems[control.selectedSegmentIndex].title)\" segment is selected"
     }
 
-    func addPillControl(items: [SegmentItem], style: SegmentedControlStyle, equalSegments: Bool = true, enabled: Bool = true) {
+    func addPillControl(items: [SegmentItem], style: SegmentedControlStyle, equalSegments: Bool = true, enabled: Bool = true, isFixedWidth: Bool = true) {
         let pillControl = SegmentedControl(items: items, style: style)
         pillControl.shouldSetEqualWidthForSegments = equalSegments
+        pillControl.isFixedWidth = isFixedWidth
         pillControl.isEnabled = enabled
         pillControl.onSelectAction = { [weak self] (_, _) in
             guard let strongSelf = self else {
