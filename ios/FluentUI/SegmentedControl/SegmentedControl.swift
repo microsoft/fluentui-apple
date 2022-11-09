@@ -70,15 +70,18 @@ open class SegmentedControl: UIView, TokenizedControlInternal, UIScrollViewDeleg
         }
     }
 
-    // Hierarchy for pill styles:
+    // Hierarchy:
     //
-    // pillContainerView (used to create 16pt inset on either side)
-    // |--backgroundView (fill container view, uses restTabColor)
-    // |--buttons (uses restLabelColor)
-    // |--pillMaskedLabelsContainerView (fill container view, uses selectedTabColor)
-    // |  |.mask -> selectionView
-    // |  |--pillMaskedLabels (uses selectedLabelColor)
-    // |  |--pillMaskedImages (uses selectedLabelColor)
+    // .mask -> gradientMask
+    // scrollView
+    // |--pillContainerView (used to create 16pt inset on either side)
+    // |  |--backgroundView (fill container view, uses restTabColor)
+    // |  |--stackView
+    // |  |  |--buttons (uses restLabelColor)
+    // |  |--pillMaskedLabelsContainerView (fill container view, uses selectedTabColor)
+    // |  |  |.mask -> selectionView
+    // |  |  |--pillMaskedLabels (uses selectedLabelColor)
+    // |  |  |--pillMaskedImages (uses selectedLabelColor)
 
     private let backgroundView: UIView = {
         let view = UIView()
