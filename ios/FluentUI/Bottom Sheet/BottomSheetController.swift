@@ -40,7 +40,10 @@ public protocol BottomSheetControllerDelegate: AnyObject {
 }
 
 @objc(MSFBottomSheetController)
-public class BottomSheetController: UIViewController {
+public class BottomSheetController: UIViewController, Shadowable {
+
+    public var shadow1: CALayer?
+    public var shadow2: CALayer?
 
     /// Initializes the bottom sheet controller
     /// - Parameters:
@@ -437,25 +440,21 @@ public class BottomSheetController: UIViewController {
             stackView.bottomAnchor.constraint(equalTo: bottomSheetContentView.bottomAnchor)
         ])
 
+        shadowView = bottomSheetContentView
+
         return makeBottomSheetByEmbedding(contentView: bottomSheetContentView)
     }()
 
+    var shadowView: UIView?
+
     private func makeBottomSheetByEmbedding(contentView: UIView) -> UIView {
         let bottomSheetView = UIView()
-
-        // We need to have the shadow on a parent of the view that does the corner masking.
-        // Otherwise the view will mask its own shadow.
-        let shadow28 = view.fluentTheme.aliasTokens.shadow[.shadow28]
-        bottomSheetView.layer.shadowColor = UIColor(dynamicColor: shadow28.colorTwo).cgColor
-        bottomSheetView.layer.shadowOffset = CGSize(width: shadow28.xTwo, height: shadow28.yTwo)
-        bottomSheetView.layer.shadowRadius = shadow28.blurTwo
 
         contentView.translatesAutoresizingMaskIntoConstraints = false
         contentView.backgroundColor = backgroundColor
         contentView.layer.cornerRadius = Constants.cornerRadius
         contentView.layer.cornerCurve = .continuous
         contentView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
-        contentView.clipsToBounds = true
 
         bottomSheetView.addSubview(contentView)
 
@@ -480,6 +479,15 @@ public class BottomSheetController: UIViewController {
             updateDimmingViewAccessibility()
         }
         collapsedHeightInSafeArea = view.safeAreaLayoutGuide.layoutFrame.maxY - offset(for: .collapsed)
+        updateShadow()
+    }
+
+    private func updateShadow() {
+        guard let shadowView = shadowView else {
+            return
+        }
+        let shadowInfo = view.fluentTheme.aliasTokens.shadow[.shadow28]
+        shadowInfo.applyShadow(to: shadowView, parentController: self)
     }
 
     public override func viewSafeAreaInsetsDidChange() {

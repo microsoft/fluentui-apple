@@ -67,8 +67,8 @@ public struct ShadowInfo: Equatable {
 
 public extension ShadowInfo {
 
-    func applyShadow(to view: UIView) {
-        guard var shadowable = (view as? Shadowable) ?? (view.superview as? Shadowable) else {
+    func applyShadow(to view: UIView, parentController: UIViewController? = nil) {
+        guard var shadowable = (view as? Shadowable) ?? (view.superview as? Shadowable) ?? (parentController as? Shadowable) else {
             assertionFailure("Cannot apply Fluent shadows to a non-Shadowable view")
             return
         }
@@ -112,6 +112,6 @@ public protocol Shadowable {
     /// The layer on which the perimeter shadow is implemented
     var shadow1: CALayer? { get set }
 
-    /// The layer on which the ambient shadow is implemented
+    /// The layer on which the key shadow is implemented
     var shadow2: CALayer? { get set }
 }
