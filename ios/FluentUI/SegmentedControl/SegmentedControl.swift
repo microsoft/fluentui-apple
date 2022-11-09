@@ -128,22 +128,6 @@ open class SegmentedControl: UIView, TokenizedControlInternal, UIScrollViewDeleg
     private var pillMaskedLabels = [UILabel?]()
     private var pillMaskedImages = [UIImageView?]()
     private var pillContainerViewConstraints: [NSLayoutConstraint] = []
-    private lazy var leftFadeLayer: CAGradientLayer = {
-        let leftFadeLayer = CAGradientLayer(layer: layer)
-        leftFadeLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
-        leftFadeLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
-        let baseColor = UIColor.white
-        leftFadeLayer.colors = [baseColor.cgColor, baseColor.withAlphaComponent(0).cgColor]
-        return leftFadeLayer
-    }()
-    private lazy var rightFadeLayer: CAGradientLayer = {
-        let rightFadeLayer = CAGradientLayer(layer: layer)
-        rightFadeLayer.startPoint = CGPoint(x: 1.0, y: 0.5)
-        rightFadeLayer.endPoint = CGPoint(x: 0.0, y: 0.5)
-        let baseColor = UIColor.white
-        rightFadeLayer.colors = [baseColor.cgColor, baseColor.withAlphaComponent(0).cgColor]
-        return rightFadeLayer
-    }()
 
     private var isAnimating: Bool = false
 
