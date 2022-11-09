@@ -430,12 +430,6 @@ open class BottomCommandingController: UIViewController {
 
     private func makeBottomBarByEmbedding(contentView: UIView) -> UIView {
         let bottomBarView = UIView()
-        let bottomBarLayer = bottomBarView.layer
-
-        let shadow28 = view.fluentTheme.aliasTokens.shadow[.shadow28]
-        bottomBarLayer.shadowColor = UIColor(dynamicColor: shadow28.colorTwo).cgColor
-        bottomBarLayer.shadowRadius = shadow28.blurTwo
-        bottomBarLayer.shadowOpacity = 1
 
         let roundedCornerView = UIView()
         roundedCornerView.backgroundColor = bottomBarBackgroundColor
