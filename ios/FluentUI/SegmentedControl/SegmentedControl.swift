@@ -139,6 +139,31 @@ open class SegmentedControl: UIView, TokenizedControlInternal, UIScrollViewDeleg
 
     private var isAnimating: Bool = false
 
+    private lazy var gradientMask: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.addSublayer(gradientMaskLayer)
+
+        return view
+    }()
+
+    private lazy var gradientMaskLayer: CAGradientLayer = {
+        let gradient = CAGradientLayer(layer: layer)
+        gradient.startPoint = CGPoint(x: 0.0, y: 0.5)
+        gradient.endPoint = CGPoint(x: 1.0, y: 0.5)
+        gradient.colors = gradientMaskColors
+        return gradient
+    }()
+
+    private var gradientMaskColors: [CGColor] {
+        let contentOffsetX = scrollView.contentOffset.x
+        let leftColor = contentOffsetX <= 0 ? UIColor.black : UIColor.clear
+        let rightColor = contentOffsetX >= maximumContentOffset ? UIColor.black : UIColor.clear
+        // Divide the Segmented Control into 5 sections to control the length
+        // of the gradient
+        return [leftColor, UIColor.black, UIColor.black, UIColor.black, rightColor].map { $0.cgColor }
+    }
+
     public convenience init() {
         self.init(items: [])
     }
@@ -162,7 +187,9 @@ open class SegmentedControl: UIView, TokenizedControlInternal, UIScrollViewDeleg
         addButtons(items: items)
         pillContainerView.addInteraction(UILargeContentViewerInteraction())
         scrollView.addSubview(pillContainerView)
+        addSubview(gradientMask)
         addSubview(scrollView)
+        mask = gradientMask
 
         updateStackDistribution()
         setupLayoutConstraints()
@@ -319,25 +346,10 @@ open class SegmentedControl: UIView, TokenizedControlInternal, UIScrollViewDeleg
         flipSubviewsForRTL()
         layoutSelectionView()
 
-        updateFadeLayersVisibility()
-
-        layer.addSublayer(leftFadeLayer)
-        var leftLayerFrame = layer.bounds
-        leftLayerFrame.size.width = 50
-        leftLayerFrame.size.height = intrinsicContentSize.height
+        updateGradientMaskColors()
         CATransaction.begin()
         CATransaction.setDisableActions(true)
-        leftFadeLayer.frame = leftLayerFrame
-        CATransaction.commit()
-
-        layer.addSublayer(rightFadeLayer)
-        var rightLayerFrame = layer.bounds
-        rightLayerFrame.origin.x = rightLayerFrame.size.width - 50
-        rightLayerFrame.size.width = 50
-        rightLayerFrame.size.height = intrinsicContentSize.height
-        CATransaction.begin()
-        CATransaction.setDisableActions(true)
-        rightFadeLayer.frame = rightLayerFrame
+        gradientMaskLayer.frame = layer.bounds
         CATransaction.commit()
     }
 
@@ -392,6 +404,7 @@ open class SegmentedControl: UIView, TokenizedControlInternal, UIScrollViewDeleg
         tokenSet.update(fluentTheme)
         updateColors()
         updateButtons()
+        updateGradientMaskColors()
     }
 
     func intrinsicContentSizeInvalidatedForChildView() {
@@ -588,21 +601,16 @@ open class SegmentedControl: UIView, TokenizedControlInternal, UIScrollViewDeleg
         stackView.distribution = shouldSetEqualWidthForSegments ? .fillEqually : .fillProportionally
     }
 
-    private func updateFadeLayersVisibility() {
-        let contentOffsetX = scrollView.contentOffset.x
-        let isLeftFadeLayerHidden = contentOffsetX <= 0
-        leftFadeLayer.isHidden = isLeftFadeLayerHidden
-
-        let isRightFadeLayerHidden = contentOffsetX >= maximumContentOffset
-        rightFadeLayer.isHidden = isRightFadeLayerHidden
+    private func updateGradientMaskColors() {
+        gradientMaskLayer.colors = gradientMaskColors
     }
 
     private var maximumContentOffset: CGFloat {
-        return pillContainerView.frame.size.width - scrollView.frame.size.width
+        return stackView.frame.size.width - scrollView.frame.size.width
     }
 
     // MARK: UIScrollViewDelegate
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        updateFadeLayersVisibility()
+        updateGradientMaskColors()
     }
 }
