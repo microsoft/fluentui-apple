@@ -75,21 +75,13 @@ open class SegmentedControl: UIView, TokenizedControlInternal, UIScrollViewDeleg
     // .mask -> gradientMask
     // scrollView
     // |--pillContainerView (used to create 16pt inset on either side)
-    // |  |--backgroundView (fill container view, uses restTabColor)
-    // |  |--stackView
+    // |  |--stackView (fill container view, uses restTabColor)
     // |  |  |--buttons (uses restLabelColor)
     // |  |--pillMaskedLabelsContainerView (fill container view, uses selectedTabColor)
     // |  |  |.mask -> selectionView
     // |  |  |--pillMaskedLabels (uses selectedLabelColor)
     // |  |  |--pillMaskedImages (uses selectedLabelColor)
 
-    private let backgroundView: UIView = {
-        let view = UIView()
-        view.layer.cornerCurve = .continuous
-        view.translatesAutoresizingMaskIntoConstraints = false
-
-        return view
-    }()
     private var buttons = [SegmentPillButton]()
     private let selectionView: UIView = {
         let view = UIView()
@@ -116,6 +108,7 @@ open class SegmentedControl: UIView, TokenizedControlInternal, UIScrollViewDeleg
        let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.layer.cornerCurve = .continuous
 
         return stackView
     }()
@@ -172,8 +165,7 @@ open class SegmentedControl: UIView, TokenizedControlInternal, UIScrollViewDeleg
 
         super.init(frame: .zero)
 
-        backgroundView.layer.cornerRadius = Constants.pillButtonCornerRadius
-        pillContainerView.addSubview(backgroundView)
+        stackView.layer.cornerRadius = Constants.pillButtonCornerRadius
         pillContainerView.addSubview(stackView)
         selectionView.backgroundColor = .black
         pillContainerView.addSubview(selectionView)
@@ -218,7 +210,7 @@ open class SegmentedControl: UIView, TokenizedControlInternal, UIScrollViewDeleg
             selectedTabColor = tokenSet[.disabledSelectedTabColor].dynamicColor
             selectedContentColor = UIColor(dynamicColor: tokenSet[.disabledSelectedLabelColor].dynamicColor)
         }
-        backgroundView.backgroundColor = UIColor(dynamicColor: tabColor)
+        stackView.backgroundColor = UIColor(dynamicColor: tabColor)
         pillMaskedContentContainerView.backgroundColor = UIColor(dynamicColor: selectedTabColor)
         for maskedLabel in pillMaskedLabels {
             guard let maskedLabel = maskedLabel else {
@@ -540,20 +532,15 @@ open class SegmentedControl: UIView, TokenizedControlInternal, UIScrollViewDeleg
             scrollView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
 
-            backgroundView.leadingAnchor.constraint(equalTo: pillContainerView.leadingAnchor),
-            backgroundView.trailingAnchor.constraint(equalTo: pillContainerView.trailingAnchor),
-            backgroundView.topAnchor.constraint(equalTo: pillContainerView.topAnchor),
-            backgroundView.bottomAnchor.constraint(equalTo: pillContainerView.bottomAnchor),
-
             stackView.leadingAnchor.constraint(equalTo: pillContainerView.leadingAnchor),
             stackView.trailingAnchor.constraint(equalTo: pillContainerView.trailingAnchor),
             stackView.topAnchor.constraint(equalTo: pillContainerView.topAnchor),
             stackView.bottomAnchor.constraint(equalTo: pillContainerView.bottomAnchor),
 
-            pillMaskedContentContainerView.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor),
-            pillMaskedContentContainerView.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor),
-            pillMaskedContentContainerView.topAnchor.constraint(equalTo: backgroundView.topAnchor),
-            pillMaskedContentContainerView.bottomAnchor.constraint(equalTo: backgroundView.bottomAnchor)
+            pillMaskedContentContainerView.leadingAnchor.constraint(equalTo: stackView.leadingAnchor),
+            pillMaskedContentContainerView.trailingAnchor.constraint(equalTo: stackView.trailingAnchor),
+            pillMaskedContentContainerView.topAnchor.constraint(equalTo: stackView.topAnchor),
+            pillMaskedContentContainerView.bottomAnchor.constraint(equalTo: stackView.bottomAnchor)
         ])
     }
 
