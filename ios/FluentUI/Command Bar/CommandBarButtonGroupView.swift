@@ -8,14 +8,15 @@ import UIKit
 class CommandBarButtonGroupView: UIView {
     let buttons: [CommandBarButton]
 
-    init(buttons: [CommandBarButton]) {
+    init(buttons: [CommandBarButton], tokenSet: CommandBarTokenSet) {
         self.buttons = buttons
+        self.tokenSet = tokenSet
 
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
 
         clipsToBounds = true
-        layer.cornerRadius = LayoutConstants.cornerRadius
+        layer.cornerRadius = tokenSet[.groupBorderRadius].float
         layer.cornerCurve = .continuous
 
         configureHierarchy()
@@ -45,7 +46,7 @@ class CommandBarButtonGroupView: UIView {
         let stackView = UIStackView(arrangedSubviews: buttons)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
-        stackView.spacing = LayoutConstants.buttonPadding
+        stackView.spacing = tokenSet[.itemInterspace].float
 
         return stackView
     }()
@@ -70,9 +71,6 @@ class CommandBarButtonGroupView: UIView {
         }
     }
 
-    private struct LayoutConstants {
-        static let cornerRadius: CGFloat = 8.0
-        static let buttonPadding: CGFloat = 2.0
-        static let leftRightBuffer: CGFloat = 2.0
-    }
+    private var tokenSet: CommandBarTokenSet
+    private static let leftRightBuffer: CGFloat = 2.0
 }

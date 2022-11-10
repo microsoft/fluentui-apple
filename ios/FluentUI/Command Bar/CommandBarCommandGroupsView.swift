@@ -6,11 +6,10 @@
 import UIKit
 
 class CommandBarCommandGroupsView: UIView {
-    init(itemGroups: [CommandBarItemGroup]? = nil,
-         buttonsPersistSelection: Bool = true) {
+    init(itemGroups: [CommandBarItemGroup]? = nil, buttonsPersistSelection: Bool = true, tokenSet: CommandBarTokenSet) {
         self.itemGroups = itemGroups ?? []
-
         self.buttonsPersistSelection = buttonsPersistSelection
+        self.tokenSet = tokenSet
 
         buttonGroupsStackView = UIStackView()
 
@@ -55,6 +54,8 @@ class CommandBarCommandGroupsView: UIView {
         }
     }
 
+    let tokenSet: CommandBarTokenSet
+
     // MARK: - Private properties
 
     private var buttonGroupsStackView: UIStackView
@@ -75,7 +76,7 @@ class CommandBarCommandGroupsView: UIView {
     }
 
     /// Refreshes the `buttonGroupViews` array of `CommandBarButtonGroupView`s that are displayed in the view
-    private func updateButtonGroupViews() {
+    func updateButtonGroupViews() {
         updateItemsToButtonsMap()
         buttonGroupViews = itemGroups.map { items in
             let buttons: [CommandBarButton] = items.compactMap { item in
@@ -85,7 +86,7 @@ class CommandBarCommandGroupsView: UIView {
                 return button
             }
 
-            let group = CommandBarButtonGroupView(buttons: buttons)
+            let group = CommandBarButtonGroupView(buttons: buttons, tokenSet: tokenSet)
 
             for item in items {
                 if let button = itemsToButtonsMap[item] {
@@ -110,7 +111,7 @@ class CommandBarCommandGroupsView: UIView {
     }
 
     private func createButton(forItem item: CommandBarItem, isPersistSelection: Bool = true) -> CommandBarButton {
-        let button = CommandBarButton(item: item, isPersistSelection: isPersistSelection)
+        let button = CommandBarButton(item: item, isPersistSelection: isPersistSelection, tokenSet: tokenSet)
 
         if item.shouldUseItemTappedHandler {
             button.addTarget(self, action: #selector(handleCommandButtonTapped(_:)), for: .touchUpInside)

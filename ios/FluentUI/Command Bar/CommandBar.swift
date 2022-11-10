@@ -4,6 +4,7 @@
 //
 
 import UIKit
+import Combine
 
 /// `CommandBarDelegate` is used to notify consumers of the `CommandBar` of certain events occurring within the `CommandBar`
 public protocol CommandBarDelegate: AnyObject {
@@ -18,7 +19,7 @@ public protocol CommandBarDelegate: AnyObject {
  Provide `itemGroups` in `init` to set the buttons in the scrollable area. Optional `leadingItemGroups` and `trailingItemGroups` add buttons in leading and trailing positions. Each `CommandBarItem` will be represented as a button.
  */
 @objc(MSFCommandBar)
-open class CommandBar: UIView {
+public class CommandBar: UIView, TokenizedControlInternal {
     // Hierarchy:
     //
     // commandBarContainerStackView
@@ -64,13 +65,18 @@ open class CommandBar: UIView {
     @objc public init(itemGroups: [CommandBarItemGroup],
                       leadingItemGroups: [CommandBarItemGroup]? = nil,
                       trailingItemGroups: [CommandBarItemGroup]? = nil) {
+        self.tokenSet = CommandBarTokenSet()
+
         leadingCommandGroupsView = CommandBarCommandGroupsView(itemGroups: leadingItemGroups,
-                                                               buttonsPersistSelection: false)
+                                                               buttonsPersistSelection: false,
+                                                               tokenSet: tokenSet)
         leadingCommandGroupsView.translatesAutoresizingMaskIntoConstraints = false
-        mainCommandGroupsView = CommandBarCommandGroupsView(itemGroups: itemGroups)
+        mainCommandGroupsView = CommandBarCommandGroupsView(itemGroups: itemGroups,
+                                                            tokenSet: tokenSet)
         mainCommandGroupsView.translatesAutoresizingMaskIntoConstraints = false
         trailingCommandGroupsView = CommandBarCommandGroupsView(itemGroups: trailingItemGroups,
-                                                                buttonsPersistSelection: false)
+                                                                buttonsPersistSelection: false,
+                                                                tokenSet: tokenSet)
         trailingCommandGroupsView.translatesAutoresizingMaskIntoConstraints = false
 
         commandBarContainerStackView = UIStackView()
@@ -79,7 +85,26 @@ open class CommandBar: UIView {
 
         super.init(frame: .zero)
 
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
         configureHierarchy()
+
+        // Update appearance whenever `tokenSet` changes.
+        tokenSetSink = tokenSet.objectWillChange.sink { [weak self] _ in
+            // Values will be updated on the next run loop iteration.
+            DispatchQueue.main.async {
+                self?.updateButtonTokens()
+            }
+        }
+    }
+
+    public override func didMoveToWindow() {
+        super.didMoveToWindow()
+
+        tokenSet.update(fluentTheme)
+        updateButtonTokens()
     }
 
     @available(*, unavailable)
@@ -111,6 +136,20 @@ open class CommandBar: UIView {
         super.layoutSubviews()
 
         updateShadow()
+    }
+
+    // MARK: - TokenizedControl
+
+    public typealias TokenSetKeyType = CommandBarTokenSet.Tokens
+    public var tokenSet: CommandBarTokenSet
+
+    var tokenSetSink: AnyCancellable?
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        if let window = self.window,
+           window.isEqual(notification.object) {
+            tokenSet.update(window.fluentTheme)
+        }
     }
 
     /// Scrollable items shown in the center of the CommandBar
@@ -180,6 +219,7 @@ open class CommandBar: UIView {
 
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
+        let itemInterspace: CGFloat = tokenSet[.itemInterspace].float
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.contentInset = scrollViewContentInset()
         scrollView.showsVerticalScrollIndicator = false
@@ -240,10 +280,12 @@ open class CommandBar: UIView {
     }
 
     private func scrollViewContentInset() -> UIEdgeInsets {
-        UIEdgeInsets( top: 0,
-                      left: leadingCommandGroupsView.isHidden ? LayoutConstants.insets.left : LayoutConstants.fixedButtonSpacing,
-                      bottom: 0,
-                      right: trailingCommandGroupsView.isHidden ? LayoutConstants.insets.right : LayoutConstants.fixedButtonSpacing )
+        let fixedButtonSpacing = tokenSet[.itemInterspace].float
+        return UIEdgeInsets(top: 0,
+                            left: leadingCommandGroupsView.isHidden ? LayoutConstants.insets.left : fixedButtonSpacing,
+                            bottom: 0,
+                            right: trailingCommandGroupsView.isHidden ? LayoutConstants.insets.right : fixedButtonSpacing
+        )
     }
 
     private func updateShadow() {
@@ -263,6 +305,19 @@ open class CommandBar: UIView {
 
         containerMaskLayer.locations = locations.map { NSNumber(value: Float($0)) }
     }
+
+    private func updateButtonTokens() {
+        leadingCommandGroupsView.updateButtonGroupViews()
+        mainCommandGroupsView.updateButtonGroupViews()
+        trailingCommandGroupsView.updateButtonGroupViews()
+    }
+
+    @objc private func handleCommandButtonTapped(_ sender: CommandBarButton) {
+        sender.item.handleTapped(sender)
+        sender.updateState()
+    }
+
+    private var themeObserver: NSObjectProtocol?
 
     /// Updates the provided `CommandBarCommandGroupsView` with the `items` array and marks the view as needing a layout
     private func setupGroupsView(_ commandGroupsView: CommandBarCommandGroupsView, with items: [CommandBarItemGroup]?) {

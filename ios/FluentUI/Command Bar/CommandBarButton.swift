@@ -8,6 +8,8 @@ import UIKit
 class CommandBarButton: UIButton {
     let item: CommandBarItem
 
+    unowned let tokenSet: CommandBarTokenSet
+
     override var isHighlighted: Bool {
         didSet {
             updateStyle()
@@ -31,9 +33,10 @@ class CommandBarButton: UIButton {
         updateStyle()
     }
 
-    init(item: CommandBarItem, isPersistSelection: Bool = true) {
+    init(item: CommandBarItem, isPersistSelection: Bool = true, tokenSet: CommandBarTokenSet) {
         self.item = item
         self.isPersistSelection = isPersistSelection
+        self.tokenSet = tokenSet
 
         super.init(frame: .zero)
 
@@ -72,6 +75,8 @@ class CommandBarButton: UIButton {
         }
 
         updateState()
+
+        isPointerInteractionEnabled = true
     }
 
     @available(*, unavailable)
@@ -116,30 +121,9 @@ class CommandBarButton: UIButton {
         accessibilityLabel = (accessibilityDescription != nil) ? accessibilityDescription : title
         accessibilityHint = item.accessibilityHint
         accessibilityValue = item.accessibilityValue
-        accessibilityIdentifier = item.accessibilityIdentifier
     }
 
     private let isPersistSelection: Bool
-
-    private var selectedTintColor: UIColor {
-        guard let window = window else {
-            return UIColor(light: Colors.communicationBlue,
-                           dark: .black)
-        }
-
-        return UIColor(light: Colors.primary(for: window),
-                       dark: .black)
-    }
-
-    private var selectedBackgroundColor: UIColor {
-        guard let window = window else {
-            return UIColor(light: Colors.Palette.communicationBlueTint30.color,
-                           dark: Colors.Palette.communicationBlue.color)
-        }
-
-        return  UIColor(light: Colors.primaryTint30(for: window),
-                        dark: Colors.primary(for: window))
-    }
 
     private var accentImageView: UIImageView?
 
@@ -177,11 +161,11 @@ class CommandBarButton: UIButton {
 
         if isPersistSelection {
             if isSelected {
-                resolvedBackgroundColor = selectedBackgroundColor
+                resolvedBackgroundColor = UIColor(dynamicColor: tokenSet[.itemBackgroundColor].buttonDynamicColors.selected)
             } else if isHighlighted {
-                resolvedBackgroundColor = ColorConstants.highlightedBackgroundColor
+                resolvedBackgroundColor = UIColor(dynamicColor: tokenSet[.itemBackgroundColor].buttonDynamicColors.pressed)
             } else {
-                resolvedBackgroundColor = ColorConstants.normalBackgroundColor
+                resolvedBackgroundColor = UIColor(dynamicColor: tokenSet[.itemBackgroundColor].buttonDynamicColors.rest)
             }
         }
 
@@ -218,12 +202,19 @@ class CommandBarButton: UIButton {
                                                     bottom: 8.0,
                                                     right: 10.0)
     }
+}
 
-    private struct ColorConstants {
-        static let normalTintColor: UIColor = Colors.textPrimary
-        static let normalBackgroundColor = UIColor(light: Colors.gray50,
-                                                   dark: Colors.gray600)
-        static let highlightedBackgroundColor = UIColor(light: Colors.gray100,
-                                                        dark: Colors.gray900)
+// MARK: CommandBarButton UIPointerInteractionDelegate
+
+extension CommandBarButton: UIPointerInteractionDelegate {
+    @available(iOS 13.4, *)
+    public func pointerInteraction(_ interaction: UIPointerInteraction, willEnter region: UIPointerRegion, animator: UIPointerInteractionAnimating) {
+        backgroundColor = UIColor(dynamicColor: isSelected ? tokenSet[.itemBackgroundColor].buttonDynamicColors.selected : tokenSet[.itemBackgroundColor].buttonDynamicColors.hover)
+        tintColor = UIColor(dynamicColor: isSelected ? tokenSet[.itemIconColor].buttonDynamicColors.selected : tokenSet[.itemIconColor].buttonDynamicColors.hover)
+    }
+
+    @available(iOS 13.4, *)
+    public func pointerInteraction(_ interaction: UIPointerInteraction, willExit region: UIPointerRegion, animator: UIPointerInteractionAnimating) {
+        updateStyle()
     }
 }
