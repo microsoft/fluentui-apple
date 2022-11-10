@@ -334,10 +334,7 @@ open class SegmentedControl: UIView, TokenizedControlInternal, UIScrollViewDeleg
         layoutSelectionView()
 
         updateGradientMaskColors()
-        CATransaction.begin()
-        CATransaction.setDisableActions(true)
         gradientMaskLayer.frame = layer.bounds
-        CATransaction.commit()
     }
 
     open override var intrinsicContentSize: CGSize {
