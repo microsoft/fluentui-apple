@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		0ADBD5872915B9C100C8BC06 /* DividerTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADBD5832915B9C100C8BC06 /* DividerTokenSet.swift */; };
 		0ADBD5882915B9C100C8BC06 /* MSFDivider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADBD5842915B9C100C8BC06 /* MSFDivider.swift */; };
-		0ADBD5892915B9C100C8BC06 /* DividerModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADBD5852915B9C100C8BC06 /* DividerModifiers.swift */; };
 		0ADBD58A2915B9C100C8BC06 /* Divider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADBD5862915B9C100C8BC06 /* Divider.swift */; };
 		2A9745DE281733D700E1A1FD /* TableViewCellTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9745DD281733D700E1A1FD /* TableViewCellTokenSet.swift */; };
 		43488C46270FAD1300124C71 /* FluentNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43488C44270FAD0200124C71 /* FluentNotification.swift */; };
@@ -233,7 +232,6 @@
 /* Begin PBXFileReference section */
 		0ADBD5832915B9C100C8BC06 /* DividerTokenSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DividerTokenSet.swift; sourceTree = "<group>"; };
 		0ADBD5842915B9C100C8BC06 /* MSFDivider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFDivider.swift; sourceTree = "<group>"; };
-		0ADBD5852915B9C100C8BC06 /* DividerModifiers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DividerModifiers.swift; sourceTree = "<group>"; };
 		0ADBD5862915B9C100C8BC06 /* Divider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Divider.swift; sourceTree = "<group>"; };
 		0BCEFADD2485FEC00088CEE5 /* PopupMenuProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMenuProtocols.swift; sourceTree = "<group>"; };
 		1168630222E131CF0088B302 /* TabBarItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarItemView.swift; sourceTree = "<group>"; };
@@ -529,13 +527,11 @@
 			isa = PBXGroup;
 			children = (
 				0ADBD5862915B9C100C8BC06 /* Divider.swift */,
-				0ADBD5852915B9C100C8BC06 /* DividerModifiers.swift */,
 				0ADBD5832915B9C100C8BC06 /* DividerTokenSet.swift */,
 				0ADBD5842915B9C100C8BC06 /* MSFDivider.swift */,
 			);
-			name = Divider;
-			path = FluentUI/Divider;
-			sourceTree = SOURCE_ROOT;
+			path = "Divider";
+			sourceTree = "<group>";
 		};
 		1168630122E131A20088B302 /* Tab Bar */ = {
 			isa = PBXGroup;
@@ -1518,7 +1514,6 @@
 				927EB2BD278627440069753D /* PersonaButtonModifiers.swift in Sources */,
 				5314E0F225F012C80099271A /* ShyHeaderView.swift in Sources */,
 				5314E02825F00DA80099271A /* BlurringView.swift in Sources */,
-				0ADBD5892915B9C100C8BC06 /* DividerModifiers.swift in Sources */,
 				5314E13625F016370099271A /* PopupMenuSectionHeaderView.swift in Sources */,
 				0ADBD5882915B9C100C8BC06 /* MSFDivider.swift in Sources */,
 				5314E05925F00EF50099271A /* CalendarViewDataSource.swift in Sources */,
