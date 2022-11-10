@@ -46,6 +46,8 @@ class TooltipViewController: UIViewController {
         view.layer.insertSublayer(CALayer(), at: 0)
         view.layer.insertSublayer(CALayer(), at: 0)
         updateShadows(tokenSet: tokenSet)
+
+        updateAppearance(tokenSet: tokenSet)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -57,20 +59,6 @@ class TooltipViewController: UIViewController {
 
         coordinator.animate(alongsideTransition: nil) { _ in
             self.updateAppearance(tokenSet: self.tokenSet)
-        }
-    }
-
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-
-        updateAppearance(tokenSet: tokenSet)
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
-            viewWillLayoutSubviews()
         }
     }
 
@@ -122,7 +110,6 @@ class TooltipViewController: UIViewController {
     }
 
     let positionController: TooltipPositionController
-    var tokenSet: TooltipTokenSet
 
     // MARK: - Accessibility
 
@@ -143,7 +130,10 @@ class TooltipViewController: UIViewController {
         set { }
     }
 
-    private func updateAppearance(tokenSet: TooltipTokenSet) {
+    func updateAppearance(tokenSet: TooltipTokenSet) {
+        // Update tokenSet
+        self.tokenSet = tokenSet
+
         // Update tooltip size
         positionController.updateArrowDirectionAndTooltipSize(for: message, title: titleMessage, tokenSet: tokenSet)
         view.frame = positionController.tooltipRect
@@ -250,6 +240,7 @@ class TooltipViewController: UIViewController {
         }
     }
 
+    private var tokenSet: TooltipTokenSet
     private let message: String
     private let titleMessage: String?
 
