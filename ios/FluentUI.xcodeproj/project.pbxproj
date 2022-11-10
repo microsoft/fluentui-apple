@@ -90,7 +90,6 @@
 		5314E14525F016860099271A /* CardPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA1AF9221487225001AE720 /* CardPresentationController.swift */; };
 		5314E14E25F016CD0099271A /* ResizingHandleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5237ACA21DED7030040BF27 /* ResizingHandleView.swift */; };
 		5314E16925F017940099271A /* SegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEBA8FB25EDF3380048EE24 /* SegmentedControl.swift */; };
-		5314E17225F0191C0099271A /* Separator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DCA76321224026005F4CB7 /* Separator.swift */; };
 		5314E18D25F0195C0099271A /* ShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0EAAEAC2347E1DF00C7244E /* ShimmerView.swift */; };
 		5314E18E25F0195C0099271A /* ShimmerLinesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A0D76B233AEF6C00F432FD /* ShimmerLinesView.swift */; };
 		5314E19525F019650099271A /* TabBarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1168630222E131CF0088B302 /* TabBarItemView.swift */; };
@@ -349,7 +348,6 @@
 		A5CEC23020E451D00016922A /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		A5DA88FC226FAA01000A8EA8 /* FluentUIResources-ios.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "FluentUIResources-ios.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5DA88FE226FAA01000A8EA8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A5DCA76321224026005F4CB7 /* Separator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Separator.swift; sourceTree = "<group>"; };
 		A5DF1EAC2213B26900CC741A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		B441478C228CDA130040E88E /* BooleanCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooleanCell.swift; sourceTree = "<group>"; };
 		B444D6B52183A9740002B4D4 /* BadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeView.swift; sourceTree = "<group>"; };
@@ -529,7 +527,7 @@
 				0ADBD5832915B9C100C8BC06 /* DividerTokenSet.swift */,
 				0ADBD5842915B9C100C8BC06 /* MSFDivider.swift */,
 			);
-			path = "Divider";
+			path = Divider;
 			sourceTree = "<group>";
 		};
 		1168630122E131A20088B302 /* Tab Bar */ = {
@@ -573,14 +571,6 @@
 				5306074F26A1E6A4002D49CF /* AvatarGroupTokenSet.swift */,
 			);
 			path = AvatarGroup;
-			sourceTree = "<group>";
-		};
-		5314DFE625F000740099271A /* Separator */ = {
-			isa = PBXGroup;
-			children = (
-				A5DCA76321224026005F4CB7 /* Separator.swift */,
-			);
-			path = Separator;
 			sourceTree = "<group>";
 		};
 		5314DFEB25F002240099271A /* ActivityIndicator */ = {
@@ -883,7 +873,6 @@
 				FD7254EE2147382D002F4069 /* Presenters */,
 				5314DFF725F007FF0099271A /* ResizingHandleView */,
 				ECEBA8F625EDEFF70048EE24 /* SegmentedControl */,
-				5314DFE625F000740099271A /* Separator */,
 				C0A0D75D233AEA9900F432FD /* Shimmer */,
 				1168630122E131A20088B302 /* Tab Bar */,
 				B444D6B421825B510002B4D4 /* Table View */,
@@ -1546,7 +1535,6 @@
 				5314E2E325F025500099271A /* FluentUIFramework.swift in Sources */,
 				ECA9218627A3301C00B66117 /* MSFAvatarGroup.swift in Sources */,
 				5314E0EC25F012C40099271A /* NavigationAnimator.swift in Sources */,
-				5314E17225F0191C0099271A /* Separator.swift in Sources */,
 				5314E14225F016860099271A /* CardPresenterNavigationController.swift in Sources */,
 				5314E11725F015EA0099271A /* PersonaCell.swift in Sources */,
 				5314E23025F022C80099271A /* UIScrollView+Extensions.swift in Sources */,
