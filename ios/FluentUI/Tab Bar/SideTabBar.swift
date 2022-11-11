@@ -162,7 +162,7 @@ open class SideTabBar: UIView {
     }
 
     private var layoutConstraints: [NSLayoutConstraint] = []
-    private let borderLine = Separator(style: .shadow, orientation: .vertical)
+    private let borderLine = MSFDivider(orientation: .vertical)
 
     private let backgroundView: UIVisualEffectView = {
         var style = UIBlurEffect.Style.regular
