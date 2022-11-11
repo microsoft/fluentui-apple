@@ -1237,8 +1237,8 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         return imageView
     }()
 
-    internal let topSeparator = Separator(orientation: .horizontal)
-    internal let bottomSeparator = Separator(orientation: .horizontal)
+    internal let topSeparator = MSFDivider()
+    internal let bottomSeparator = MSFDivider()
 
     private var superTableView: UITableView? {
         return findSuperview(of: UITableView.self) as? UITableView

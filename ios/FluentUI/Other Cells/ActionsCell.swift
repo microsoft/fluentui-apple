@@ -122,9 +122,9 @@ open class ActionsCell: UITableViewCell, TokenizedControlInternal {
     private var action1Type: ActionType = .regular
     private var action2Type: ActionType = .regular
 
-    private let topSeparator = Separator(orientation: .horizontal)
-    private let bottomSeparator = Separator(orientation: .horizontal)
-    private let verticalSeparator = Separator(orientation: .vertical)
+    private let topSeparator = MSFDivider()
+    private let bottomSeparator = MSFDivider()
+    private let verticalSeparator = MSFDivider(orientation: .vertical)
 
     public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         self.tokenSet = TableViewCellTokenSet(customViewSize: { .default })
