@@ -209,10 +209,8 @@ open class PillButton: UIButton {
             return
         }
 
-        // TODO: Once iOS 14 support is dropped, these should be converted to constants (let) that will be initialized by the logic below.
         let resolvedBackgroundColor: UIColor
         let resolvedTitleColor: UIColor
-
         if isSelected {
             if isEnabled {
                 resolvedBackgroundColor = customSelectedBackgroundColor ?? (isHighlighted
