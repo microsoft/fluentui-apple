@@ -7,7 +7,11 @@ import UIKit
 
 // MARK: TooltipView
 
-class TooltipView: UIView {
+class TooltipView: UIView, Shadowable {
+
+    var shadow1: CALayer?
+    var shadow2: CALayer?
+
     private struct Constants {
         static let messageLabelTextStyle: TextStyle = .subhead
 
@@ -93,8 +97,6 @@ class TooltipView: UIView {
         messageLabel.textAlignment = textAlignment
         messageLabel.isAccessibilityElement = false
         addSubview(messageLabel)
-
-        updateShadow()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -128,9 +130,13 @@ class TooltipView: UIView {
         }
 
         messageLabel.frame = backgroundView.frame.insetBy(dx: Constants.paddingHorizontal, dy: 0)
+        updateShadow()
     }
 
     @objc private func themeDidChange(_ notification: Notification) {
+        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
+            return
+        }
         updateColors()
         updateShadow()
     }
@@ -149,13 +155,8 @@ class TooltipView: UIView {
     }
 
     private func updateShadow() {
-        let shadow = fluentTheme.aliasTokens.shadow[.shadow16]
-        let color = UIColor(dynamicColor: shadow.colorOne).cgColor
-
-        layer.shadowColor = color
-        layer.shadowOpacity = Float(color.alpha)
-        layer.shadowRadius = shadow.blurOne
-        layer.shadowOffset = CGSize(width: shadow.xOne, height: shadow.yOne)
+        let shadowInfo = fluentTheme.aliasTokens.shadow[.shadow16]
+        shadowInfo.applyShadow(to: backgroundView)
     }
 
     private func updateColors() {
