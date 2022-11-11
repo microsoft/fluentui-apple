@@ -97,9 +97,6 @@ open class Tooltip: NSObject, TokenizedControlInternal {
         })
 
         isShowing = true
-
-        UIDevice.current.beginGeneratingDeviceOrientationNotifications()
-        NotificationCenter.default.addObserver(self, selector: #selector(orientationChanged), name: UIDevice.orientationDidChangeNotification, object: nil)
     }
 
     /// Displays a tooltip based on the current settings, pointing to the supplied anchorView.
@@ -180,8 +177,6 @@ open class Tooltip: NSObject, TokenizedControlInternal {
         onTap = nil
 
         isShowing = false
-
-        UIDevice.current.endGeneratingDeviceOrientationNotifications()
     }
 
     required public init?(coder aDecoder: NSCoder) {
@@ -267,10 +262,6 @@ open class Tooltip: NSObject, TokenizedControlInternal {
 
     @objc private func handleTapGesture() {
         onTap?()
-        hide()
-    }
-
-    @objc private func orientationChanged(_ notification: Notification) {
         hide()
     }
 
