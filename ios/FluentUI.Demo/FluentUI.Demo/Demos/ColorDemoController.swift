@@ -172,6 +172,7 @@ class ColorDemoController: UIViewController {
     }
 
     private let tableView = UITableView(frame: .zero, style: .grouped)
+    private let divider = MSFDivider()
 }
 
 // MARK: - ColorDemoController: UITableViewDelegate

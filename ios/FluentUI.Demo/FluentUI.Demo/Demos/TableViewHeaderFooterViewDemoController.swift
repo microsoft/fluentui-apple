@@ -11,6 +11,7 @@ import UIKit
 class TableViewHeaderFooterViewDemoController: DemoController {
     private let groupedSections: [TableViewHeaderFooterSampleData.Section] = TableViewHeaderFooterSampleData.groupedSections
     private let plainSections: [TableViewHeaderFooterSampleData.Section] = TableViewHeaderFooterSampleData.plainSections
+    private let divider = MSFDivider()
 
     private lazy var segmentedControl: SegmentedControl = {
         let tabTitles = TableViewHeaderFooterSampleData.tabTitles
