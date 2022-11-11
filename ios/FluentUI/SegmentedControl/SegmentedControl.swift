@@ -126,14 +126,6 @@ open class SegmentedControl: UIView, TokenizedControlInternal, UIScrollViewDeleg
 
     private var isAnimating: Bool = false
 
-    private lazy var gradientMask: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.layer.addSublayer(gradientMaskLayer)
-
-        return view
-    }()
-
     private let gradientMaskLayer: CAGradientLayer = {
         let gradient = CAGradientLayer()
         gradient.startPoint = CGPoint(x: 0.0, y: 0.5)
@@ -173,9 +165,8 @@ open class SegmentedControl: UIView, TokenizedControlInternal, UIScrollViewDeleg
         addButtons(items: items)
         pillContainerView.addInteraction(UILargeContentViewerInteraction())
         scrollView.addSubview(pillContainerView)
-        addSubview(gradientMask)
         addSubview(scrollView)
-        mask = gradientMask
+        layer.mask = gradientMaskLayer
 
         updateStackDistribution()
         setupLayoutConstraints()
