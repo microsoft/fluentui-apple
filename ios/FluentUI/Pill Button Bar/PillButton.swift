@@ -173,11 +173,7 @@ open class PillButton: UIButton {
     }
 
     @objc private func titleValueDidChange() {
-        if #available(iOS 15.0, *) {
-            updateAttributedTitle()
-        } else {
-            setTitle(pillBarItem.title, for: .normal)
-        }
+        updateAttributedTitle()
     }
 
     private func updateAttributedTitle() {
