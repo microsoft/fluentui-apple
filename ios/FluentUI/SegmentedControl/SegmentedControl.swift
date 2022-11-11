@@ -327,6 +327,9 @@ open class SegmentedControl: UIView, TokenizedControlInternal, UIScrollViewDeleg
         } else {
             setNeedsLayout()
         }
+        if !isFixedWidth {
+            scrollView.scrollRectToVisible(buttons[_selectedSegmentIndex].frame, animated: animated)
+        }
     }
 
     open override func layoutSubviews() {
