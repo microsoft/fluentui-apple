@@ -47,6 +47,7 @@ class ShyHeaderController: UIViewController {
     private var accessoryViewObservation: NSKeyValueObservation?
 
     private var navigationBarCenterObservation: NSKeyValueObservation?
+    private var navigationBarStyleObservation: NSKeyValueObservation?
     private var navigationBarHeightObservation: NSKeyValueObservation?
     private var navigationBarColorObservation: NSKeyValueObservation?
 
@@ -77,7 +78,9 @@ class ShyHeaderController: UIViewController {
         }
 
         loadViewIfNeeded()
-        addChildController(contentViewController, containingViewIn: contentContainerView)
+        addChild(contentViewController)
+        contentContainerView.addSubview(contentViewController.view)
+        contentViewController.didMove(toParent: self)
         contentViewController.view.fitIntoSuperview(usingConstraints: true)
 
         contentScrollViewObservation = contentViewController.navigationItem.observe(\.contentScrollView, options: [.new]) { [weak self] (_, change) in
@@ -122,11 +125,7 @@ class ShyHeaderController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if let window = view.window,
-            let (actualStyle, actualItem) = msfNavigationController?.msfNavigationBar.actualStyleAndItem(for: navigationItem) {
-            shyHeaderView.navigationBarStyle = actualStyle
-            updateBackgroundColor(with: actualItem, window: window)
-        }
+        updateNavigationBarStyle()
     }
 
     // MARK: - Base Construction
@@ -215,6 +214,9 @@ class ShyHeaderController: UIViewController {
         navigationBarCenterObservation = navigationController?.navigationBar.observe(\.center) { [weak self] navigationBar, _ in
             self?.shyHeaderView.navigationBarIsHidden = navigationBar.frame.maxY == 0
         }
+        navigationBarStyleObservation = msfNavigationController?.msfNavigationBar.observe(\.style) { [weak self] _, _ in
+            self?.updateNavigationBarStyle()
+        }
         navigationBarHeightObservation = msfNavigationController?.msfNavigationBar.observe(\.barHeight) { [weak self] _, _ in
             self?.updatePadding()
         }
@@ -241,7 +243,7 @@ class ShyHeaderController: UIViewController {
 
         // if the originator is a VC, make sure it belongs to this heirarchy
         if let originatorVC = expansionRequestOriginator as? UIViewController {
-            guard originatorVC == contentViewController || contentViewController.isAncestor(ofViewController: originatorVC) else {
+            guard originatorVC == contentViewController || isViewControllerAncestor(contentViewController, ofViewController: originatorVC) else {
                 return false
             }
         }
@@ -485,6 +487,18 @@ class ShyHeaderController: UIViewController {
         }, completion: nil)
     }
 
+    private func isViewControllerAncestor(_ ancestorViewController: UIViewController, ofViewController descendantViewController: UIViewController) -> Bool {
+        for child in ancestorViewController.children {
+            if child == descendantViewController {
+                return true
+            }
+            if isViewControllerAncestor(child, ofViewController: descendantViewController) {
+                return true
+            }
+        }
+        return false
+    }
+
     /// Sets the animation progress, using progress as a fraction not a percent
     /// 0.0 == concealed, 1.0 == exposed
     ///
@@ -505,6 +519,15 @@ class ShyHeaderController: UIViewController {
         }
 
         shyHeaderView.exposure = ShyHeaderView.Exposure(withProgress: progress)
+    }
+
+    /// Updates based on the current navigation bar style.
+    private func updateNavigationBarStyle() {
+        if let window = view.window,
+            let (actualStyle, actualItem) = msfNavigationController?.msfNavigationBar.actualStyleAndItem(for: navigationItem) {
+            shyHeaderView.navigationBarStyle = actualStyle
+            updateBackgroundColor(with: actualItem, window: window)
+        }
     }
 
     /// Calculates and sets the shy container's top constraint's constant value, moving the header

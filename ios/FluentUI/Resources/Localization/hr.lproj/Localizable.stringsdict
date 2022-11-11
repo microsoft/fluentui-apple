@@ -6,7 +6,7 @@
     <dict>
       <key>NSStringLocalizedFormatKey</key>
       <string>%#@hours@</string>
-      <key>Variable</key>
+      <key>hours</key>
       <dict>
         <key>NSStringFormatSpecTypeKey</key>
         <string>NSStringPluralRuleType</string>
@@ -23,7 +23,7 @@
         <key>many</key>
         <string>%d h</string>
         <key>other</key>
-        <string>%d sati</string>
+        <string>%d h</string>
       </dict>
     </dict>
     <key>Accessibility.DateTime.Minute.Value</key>

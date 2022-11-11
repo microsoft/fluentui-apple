@@ -7,9 +7,6 @@ import UIKit
 
 // MARK: NavigationController
 
-@available(*, deprecated, renamed: "NavigationController")
-public typealias MSNavigationController = NavigationController
-
 /// `UINavigationController` subclass that supports Large Title presentation and accessory view by wrapping each view controller that needs this functionality into a controller that provides the required behavior. The original view controller can be accessed by using `topContentViewController` or `contentViewController(for:)`.
 @objc(MSFNavigationController)
 open class NavigationController: UINavigationController {
@@ -50,11 +47,11 @@ open class NavigationController: UINavigationController {
     private var navigationBarWasHiddenBySearchBar: Bool = false
 
     @objc public convenience init() {
-        self.init(navigationBarClass: nil, toolbarClass: nil)
+        self.init(navigationBarClass: NavigationBar.self, toolbarClass: nil)
     }
 
     @objc public override init(navigationBarClass: AnyClass?, toolbarClass: AnyClass?) {
-        super.init(navigationBarClass: NavigationBar.self, toolbarClass: toolbarClass)
+        super.init(navigationBarClass: navigationBarClass, toolbarClass: toolbarClass)
     }
 
     @objc public convenience override init(rootViewController: UIViewController) {

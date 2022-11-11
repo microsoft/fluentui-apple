@@ -5,15 +5,28 @@
 
 import UIKit
 
-class TabBarItemView: UIView {
+class TabBarItemView: UIControl {
     let item: TabBarItem
 
-    var isSelected: Bool = false {
+    override var isEnabled: Bool {
+        didSet {
+            titleLabel.isEnabled = isEnabled
+            imageView.tintAdjustmentMode = isEnabled ? .automatic : .dimmed
+            isUserInteractionEnabled = isEnabled
+        }
+    }
+
+    override var isSelected: Bool {
         didSet {
             titleLabel.isHighlighted = isSelected
             imageView.isHighlighted = isSelected
+            updateImage()
             updateColors()
-            accessibilityTraits = isSelected ? .selected : .none
+            if isSelected {
+                accessibilityTraits.insert(.selected)
+            } else {
+                accessibilityTraits.remove(.selected)
+            }
         }
     }
 
@@ -45,6 +58,16 @@ class TabBarItemView: UIView {
         }
     }
 
+    /// The `preferredMaxLayoutWidth` of the underlying title label.
+    var preferredLabelMaxLayoutWidth: CGFloat {
+        get {
+            titleLabel.preferredMaxLayoutWidth
+        }
+        set {
+            titleLabel.preferredMaxLayoutWidth = newValue
+        }
+    }
+
     init(item: TabBarItem, showsTitle: Bool, canResizeImage: Bool = true) {
         self.canResizeImage = canResizeImage
         self.item = item
@@ -64,13 +87,8 @@ class TabBarItemView: UIView {
 
         container.addSubview(badgeView)
 
-        if #available(iOS 13.4, *) {
-            // Workaround check for beta iOS versions missing the Pointer Interactions API
-            if arePointerInteractionAPIsAvailable() {
-                let pointerInteraction = UIPointerInteraction(delegate: self)
-                addInteraction(pointerInteraction)
-            }
-        }
+        let pointerInteraction = UIPointerInteraction(delegate: self)
+        addInteraction(pointerInteraction)
 
         isAccessibilityElement = true
         updateAccessibilityLabel()
@@ -112,9 +130,6 @@ class TabBarItemView: UIView {
     }
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
-        if canResizeImage {
-            imageView.frame = CGRect(x: 0, y: 0, width: suggestImageSize, height: suggestImageSize)
-        }
         let size = container.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
         return size
     }
@@ -146,7 +161,6 @@ class TabBarItemView: UIView {
         static let badgeMinWidth: CGFloat = 16
         static let defaultBadgeMaxWidth: CGFloat = 42
         static let badgeBorderWidth: CGFloat = 2
-        static let badgeFontSize: CGFloat = 11
         static let badgeHorizontalPadding: CGFloat = 10
         static let badgeCorderRadii: CGFloat = 10
     }
@@ -168,13 +182,24 @@ class TabBarItemView: UIView {
         return container
     }()
 
-    private let imageView: UIImageView = {
+    private lazy var imageView: UIImageView = {
         let imageView = UIImageView(frame: .zero)
         imageView.contentMode = .scaleAspectFit
         imageView.tintColor = Constants.unselectedColor
 
+        if canResizeImage {
+            let sizeConstraints = (
+                width: imageView.widthAnchor.constraint(equalToConstant: suggestImageSize),
+                height: imageView.heightAnchor.constraint(equalToConstant: suggestImageSize)
+            )
+            sizeConstraints.width.isActive = true
+            sizeConstraints.height.isActive = true
+            imageViewSizeConstraints = sizeConstraints
+        }
         return imageView
     }()
+
+    private var imageViewSizeConstraints: (width: NSLayoutConstraint, height: NSLayoutConstraint)?
 
     private let titleLabel: Label = {
         let titleLabel = Label()
@@ -185,19 +210,17 @@ class TabBarItemView: UIView {
         return titleLabel
     }()
 
-    private let badgeView: UILabel = {
-        let badgeView = UILabel(frame: .zero)
-        badgeView.layer.masksToBounds = true
-        badgeView.backgroundColor = Colors.Palette.dangerPrimary.color
-        badgeView.textColor = .white
-        badgeView.textAlignment = .center
-        badgeView.font = UIFont.systemFont(ofSize: Constants.badgeFontSize, weight: .regular)
-        badgeView.isHidden = true
+    let badgeView: UILabel = BadgeLabel(frame: .zero)
 
-        return badgeView
-    }()
-
-    private var suggestImageSize: CGFloat
+    private var suggestImageSize: CGFloat {
+        didSet {
+            if canResizeImage,
+               let sizeConstraints = imageViewSizeConstraints {
+                sizeConstraints.width.constant = suggestImageSize
+                sizeConstraints.height.constant = suggestImageSize
+            }
+        }
+    }
     private let canResizeImage: Bool
 
     private var imageViewFrame: CGRect = .zero {
@@ -220,14 +243,21 @@ class TabBarItemView: UIView {
         }
     }
 
-    private func updateLayout() {
-        imageView.image = item.unselectedImage(isInPortraitMode: isInPortraitMode, labelIsHidden: titleLabel.isHidden)
-        imageView.highlightedImage = item.selectedImage(isInPortraitMode: isInPortraitMode, labelIsHidden: titleLabel.isHidden)
+    private func updateImage() {
+        // Normally we'd set imageView.image and imageView.highlightedImage separately. However, there's a known issue with
+        // UIImageView in iOS 16 where highlighted images lose their tint color in certain scenarios. While we wait for a fix,
+        // this is a straightforward workaround that gets us the same effect without triggering the bug.
+        imageView.image = imageView.isHighlighted ?
+                            item.selectedImage(isInPortraitMode: isInPortraitMode, labelIsHidden: titleLabel.isHidden) :
+                            item.unselectedImage(isInPortraitMode: isInPortraitMode, labelIsHidden: titleLabel.isHidden)
+    }
 
+    private func updateLayout() {
         if isInPortraitMode {
             container.axis = .vertical
             container.spacing = Constants.spacingVertical
-            titleLabel.style = .button3
+            titleLabel.style = .button2
+            titleLabel.maxFontSize = 10
 
             if canResizeImage {
                 suggestImageSize = titleLabel.isHidden ? Constants.portraitImageSize : Constants.portraitImageWithLabelSize
@@ -235,13 +265,15 @@ class TabBarItemView: UIView {
         } else {
             container.axis = .horizontal
             container.spacing = Constants.spacingHorizontal
-            titleLabel.style = .footnoteUnscaled
+            titleLabel.style = .footnote
+            titleLabel.maxFontSize = 13
 
             if canResizeImage {
                  suggestImageSize = Constants.landscapeImageSize
             }
         }
 
+        updateImage()
         updateBadgeView()
         invalidateIntrinsicContentSize()
     }
@@ -335,7 +367,6 @@ class TabBarItemView: UIView {
 // MARK: - TabBarItemView UIPointerInteractionDelegate
 
 extension TabBarItemView: UIPointerInteractionDelegate {
-    @available(iOS 13.4, *)
     func pointerInteraction(_ interaction: UIPointerInteraction, styleFor region: UIPointerRegion) -> UIPointerStyle? {
         let pointerEffect = UIPointerEffect.highlight(.init(view: self))
 

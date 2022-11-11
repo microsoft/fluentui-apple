@@ -3,18 +3,23 @@
 //  Licensed under the MIT License.
 //
 
-import Foundation
 import FluentUI
+import UIKit
 
 // MARK: TableViewHeaderFooterViewDemoController
 
 class TableViewHeaderFooterViewDemoController: DemoController {
     private let groupedSections: [TableViewHeaderFooterSampleData.Section] = TableViewHeaderFooterSampleData.groupedSections
     private let plainSections: [TableViewHeaderFooterSampleData.Section] = TableViewHeaderFooterSampleData.plainSections
+    private let divider = MSFDivider()
 
-    private let segmentedControl: SegmentedControl = {
-        let segmentedControl = SegmentedControl(items: TableViewHeaderFooterSampleData.tabTitles)
-        segmentedControl.addTarget(self, action: #selector(updateActiveTabContent), for: .valueChanged)
+    private lazy var segmentedControl: SegmentedControl = {
+        let tabTitles = TableViewHeaderFooterSampleData.tabTitles
+        let segmentedControl = SegmentedControl(items: tabTitles.map({ return SegmentItem(title: $0) }),
+                                                style: .primaryPill)
+        segmentedControl.addTarget(self,
+                                   action: #selector(updateActiveTabContent),
+                                   for: .valueChanged)
         return segmentedControl
     }()
     private lazy var groupedTableView: UITableView = createTableView(style: .grouped)
@@ -28,11 +33,23 @@ class TableViewHeaderFooterViewDemoController: DemoController {
         container.layoutMargins = .zero
         container.spacing = 0
 
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.backgroundColor = Colors.navigationBarBackground
         container.addArrangedSubview(segmentedControl)
+        container.setCustomSpacing(8, after: segmentedControl)
+        container.backgroundColor = Colors.navigationBarBackground
+
+        container.addArrangedSubview(divider)
+
         container.addArrangedSubview(groupedTableView)
         container.addArrangedSubview(plainTableView)
 
         updateActiveTabContent()
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        navigationController?.navigationBar.shadowImage = nil
     }
 
     func createTableView(style: UITableView.Style) -> UITableView {
@@ -41,7 +58,7 @@ class TableViewHeaderFooterViewDemoController: DemoController {
         tableView.register(TableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: TableViewHeaderFooterView.identifier)
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.backgroundColor = Colors.Table.background
+        tableView.backgroundColor = Colors.tableBackground
         tableView.separatorStyle = .none
         return tableView
     }

@@ -15,23 +15,37 @@ class CommandBarButtonGroupView: UIView {
         translatesAutoresizingMaskIntoConstraints = false
 
         clipsToBounds = true
-        layer.cornerRadius = CommandBarButtonGroupView.cornerRadius
+        layer.cornerRadius = LayoutConstants.cornerRadius
         layer.cornerCurve = .continuous
 
         configureHierarchy()
         applyInsets()
+        hideGroupIfNeeded()
     }
 
     @available(*, unavailable)
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        preconditionFailure("init(coder:) has not been implemented")
+    }
+
+    /// Hides the group view if all the views inside the `stackView` are hidden
+    func hideGroupIfNeeded() {
+        var allViewsHidden = true
+        for view in stackView.arrangedSubviews {
+            if !view.isHidden {
+                allViewsHidden = false
+                break
+            }
+        }
+
+        isHidden = allViewsHidden
     }
 
     private lazy var stackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: buttons)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
-        stackView.spacing = CommandBarButtonGroupView.buttonPadding
+        stackView.spacing = LayoutConstants.buttonPadding
 
         return stackView
     }()
@@ -47,11 +61,18 @@ class CommandBarButtonGroupView: UIView {
     }
 
     private func applyInsets() {
-        buttons.first?.contentEdgeInsets.left += CommandBarButtonGroupView.leftRightBuffer
-        buttons.last?.contentEdgeInsets.right += CommandBarButtonGroupView.leftRightBuffer
+        if #available(iOS 15.0, *) {
+            buttons.first?.configuration?.contentInsets.leading += LayoutConstants.leftRightBuffer
+            buttons.last?.configuration?.contentInsets.trailing += LayoutConstants.leftRightBuffer
+        } else {
+            buttons.first?.contentEdgeInsets.left += LayoutConstants.leftRightBuffer
+            buttons.last?.contentEdgeInsets.right += LayoutConstants.leftRightBuffer
+        }
     }
 
-    private static let cornerRadius: CGFloat = 8.0
-    private static let buttonPadding: CGFloat = 2.0
-    private static let leftRightBuffer: CGFloat = 2.0
+    private struct LayoutConstants {
+        static let cornerRadius: CGFloat = 8.0
+        static let buttonPadding: CGFloat = 2.0
+        static let leftRightBuffer: CGFloat = 2.0
+    }
 }

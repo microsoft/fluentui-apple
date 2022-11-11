@@ -3,6 +3,7 @@
 //  Licensed under the MIT License.
 //
 
+import FluentUI
 import UIKit
 
 class ShimmerViewDemoController: DemoController {
@@ -32,21 +33,26 @@ class ShimmerViewDemoController: DemoController {
 
         let shimmeringContentView = { (shimmersLeafViews: Bool) -> UIStackView in
             let containerView = contentView()
-            let shimmerView = ShimmerView(containerView: containerView, excludedViews: [], animationSynchronizer: nil)
+            let shimmerView = ShimmerView(containerView: containerView,
+                                          excludedViews: [],
+                                          animationSynchronizer: nil,
+                                          shimmersLeafViews: shimmersLeafViews,
+                                          usesTextHeightForLabels: true)
             shimmerView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-            shimmerView.shimmersLeafViews = shimmersLeafViews
-            shimmerView.usesTextHeightForLabels = true
-            shimmerView.labelHeight = -1 // Must be < 0 so we actually use the bool usesTextHeightForLabels
             containerView.addSubview(shimmerView)
             return containerView
         }
 
-        let shimmeringImageView = { (shimmerStyle: ShimmerStyle) -> UIView in
-            let imageView = UIImageView(image: UIImage(named: "PlaceholderImage")?.image(withPrimaryColor: Colors.Shimmer.tint))
+        let shimmeringImageView = { (shimmerStyle: MSFShimmerStyle) -> UIView in
+            // Uses a nice gray color that happens to match the gray of the shimmer control. Any color can be used here though.
+            let tintColor = UIColor(colorValue: ColorValue(0xF1F1F1))
+            let imageView = UIImageView(image: UIImage(named: "PlaceholderImage")?.withTintColor(tintColor, renderingMode: .alwaysOriginal))
             let containerView = UIStackView(arrangedSubviews: [imageView])
-            let shimmerView = ShimmerView(containerView: containerView, excludedViews: [], animationSynchronizer: nil, shimmerStyle: shimmerStyle)
+            let shimmerView = ShimmerView(containerView: containerView,
+                                          excludedViews: [],
+                                          animationSynchronizer: nil,
+                                          shimmerStyle: shimmerStyle)
             shimmerView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-            shimmerView.shimmerStyle = shimmerStyle
             containerView.addSubview(shimmerView)
             return containerView
         }
@@ -59,27 +65,29 @@ class ShimmerViewDemoController: DemoController {
         }
 
         container.addArrangedSubview(shimmerViewLabel("A ShimmerLinesView needs no containerview or subviews"))
-        container.addArrangedSubview(Separator())
+        container.addArrangedSubview(dividers[0])
         container.addArrangedSubview(ShimmerLinesView())
-        container.addArrangedSubview(Separator())
+        container.addArrangedSubview(dividers[1])
 
         container.addArrangedSubview(shimmerViewLabel("ShimmerView shimmers all the top level subviews of its container view"))
-        container.addArrangedSubview(Separator())
+        container.addArrangedSubview(dividers[2])
         container.addArrangedSubview(shimmeringContentView(false))
-        container.addArrangedSubview(Separator())
+        container.addArrangedSubview(dividers[3])
 
         container.addArrangedSubview(shimmerViewLabel("With shimmersLeafViews set, the ShimmerView will shimmer the labels inside the stackview"))
-        container.addArrangedSubview(Separator())
+        container.addArrangedSubview(dividers[4])
         container.addArrangedSubview(shimmeringContentView(true))
-        container.addArrangedSubview(Separator())
+        container.addArrangedSubview(dividers[5])
 
         container.addArrangedSubview(shimmerViewLabel("Revealing style shimmer on an image: the gradient reveals its container view as it moves"))
-        container.addArrangedSubview(Separator())
+        container.addArrangedSubview(dividers[6])
         container.addArrangedSubview(shimmeringImageView(.revealing))
 
-        container.addArrangedSubview(Separator())
+        container.addArrangedSubview(dividers[7])
         container.addArrangedSubview(shimmerViewLabel("Concealing style shimmer on an image: the gradient conceals its container view as it moves"))
-        container.addArrangedSubview(Separator())
+        container.addArrangedSubview(dividers[8])
         container.addArrangedSubview(shimmeringImageView(.concealing))
     }
+
+    private let dividers: [MSFDivider] = (0..<9).map { _ in MSFDivider() }
 }

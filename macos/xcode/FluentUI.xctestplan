@@ -11,21 +11,22 @@
       "id" : "F70F5964-BC0A-4622-A65E-32ED5030D9B8",
       "name" : "Address Sanitizer",
       "options" : {
-        "addressSanitizer" : {
-          "detectStackUseAfterReturn" : true,
-          "enabled" : true
-        }
+
       }
     },
     {
       "id" : "F6EB6408-BEA9-407B-A4BB-C2EEFABBBE46",
       "name" : "Thread Sanitizer",
       "options" : {
-        "threadSanitizerEnabled" : true
+
       }
     }
   ],
   "defaultOptions" : {
+    "addressSanitizer" : {
+      "detectStackUseAfterReturn" : true,
+      "enabled" : true
+    },
     "codeCoverage" : {
       "targets" : [
         {

@@ -27,10 +27,36 @@ public protocol ColorProviding {
     @objc func primaryShade30Color(for window: UIWindow) -> UIColor?
 }
 
-// MARK: Colors
+private func brandColorOverrides(provider: ColorProviding, for window: UIWindow) -> [AliasTokens.BrandColorsTokens: DynamicColor] {
+    var brandColors: [AliasTokens.BrandColorsTokens: DynamicColor] = [:]
+    if let primary = provider.primaryColor(for: window)?.dynamicColor {
+        brandColors[.primary] = primary
+    }
+    if let tint10 = provider.primaryTint10Color(for: window)?.dynamicColor {
+        brandColors[.tint10] = tint10
+    }
+    if let tint20 = provider.primaryTint20Color(for: window)?.dynamicColor {
+        brandColors[.tint20] = tint20
+    }
+    if let tint30 = provider.primaryTint30Color(for: window)?.dynamicColor {
+        brandColors[.tint30] = tint30
+    }
+    if let tint40 = provider.primaryTint40Color(for: window)?.dynamicColor {
+        brandColors[.tint40] = tint40
+    }
+    if let shade10 = provider.primaryShade10Color(for: window)?.dynamicColor {
+        brandColors[.shade10] = shade10
+    }
+    if let shade20 = provider.primaryShade20Color(for: window)?.dynamicColor {
+        brandColors[.shade20] = shade20
+    }
+    if let shade30 = provider.primaryShade30Color(for: window)?.dynamicColor {
+        brandColors[.shade30] = shade30
+    }
+    return brandColors
+}
 
-@available(*, deprecated, renamed: "Colors")
-public typealias MSColors = Colors
+// MARK: Colors
 
 @objc(MSFColors)
 public final class Colors: NSObject {
@@ -174,7 +200,7 @@ public final class Colors: NSObject {
         case presenceUnknown
 
         public var color: UIColor {
-            if let fluentColor = UIColor(named: "FluentColors/" + self.name, in: FluentUIFramework.resourceBundle, compatibleWith: nil) {
+            if let fluentColor = UIColor(named: "FluentColors/" + self.name, in: FluentUIFramework.colorsBundle, compatibleWith: nil) {
                 return fluentColor
             } else {
                 preconditionFailure("invalid fluent color")
@@ -453,8 +479,30 @@ public final class Colors: NSObject {
         }
     }
 
+    /// Associates a `ColorProvider` with a given `UIWindow` instance.
+    ///
+    /// - Parameters:
+    ///   - provider: The `ColorProvider` whose colors should be used for controls in this window.
+    ///   - window: The window where these colors should be applied.
     @objc public static func setProvider(provider: ColorProviding, for window: UIWindow) {
         colorProvidersMap.setObject(provider, forKey: window)
+
+        // Create an updated fluent theme as well
+        let brandColors = brandColorOverrides(provider: provider, for: window)
+        let fluentTheme = FluentTheme()
+        brandColors.forEach { token, value in
+            fluentTheme.aliasTokens.brandColors[token] = value
+        }
+        window.fluentTheme = fluentTheme
+    }
+
+    /// Removes any associated `ColorProvider` from the given `UIWindow` instance.
+    ///
+    /// - Parameters:
+    ///   - window: The window that should have its `ColorProvider` removed.
+    @objc public static func removeProvider(for window: UIWindow) {
+        colorProvidersMap.removeObject(forKey: window)
+        window.fluentTheme = FluentThemeKey.defaultValue
     }
 
     // MARK: Primary
@@ -618,69 +666,6 @@ public final class Colors: NSObject {
     @objc public static let error: UIColor = Palette.dangerPrimary.color
     @objc public static let warning: UIColor = Palette.warningPrimary.color
 
-    @objc public static var avatarColors: [ColorSet] = [
-        ColorSet(background: UIColor(light: Palette.darkRedTint40.color, dark: Palette.darkRedShade30.color),
-                 foreground: UIColor(light: Palette.darkRedShade30.color, dark: Palette.darkRedTint40.color)),
-        ColorSet(background: UIColor(light: Palette.cranberryTint40.color, dark: Palette.cranberryShade30.color),
-                 foreground: UIColor(light: Palette.cranberryShade30.color, dark: Palette.cranberryTint40.color)),
-        ColorSet(background: UIColor(light: Palette.redTint40.color, dark: Palette.redShade30.color),
-                 foreground: UIColor(light: Palette.redShade30.color, dark: Palette.redTint40.color)),
-        ColorSet(background: UIColor(light: Palette.pumpkinTint40.color, dark: Palette.pumpkinShade30.color),
-                 foreground: UIColor(light: Palette.pumpkinShade30.color, dark: Palette.pumpkinTint40.color)),
-        ColorSet(background: UIColor(light: Palette.peachTint40.color, dark: Palette.peachShade30.color),
-                 foreground: UIColor(light: Palette.peachShade30.color, dark: Palette.peachTint40.color)),
-        ColorSet(background: UIColor(light: Palette.marigoldTint40.color, dark: Palette.marigoldShade30.color),
-                 foreground: UIColor(light: Palette.marigoldShade30.color, dark: Palette.marigoldTint40.color)),
-        ColorSet(background: UIColor(light: Palette.goldTint40.color, dark: Palette.goldShade30.color),
-                 foreground: UIColor(light: Palette.goldShade30.color, dark: Palette.goldTint40.color)),
-        ColorSet(background: UIColor(light: Palette.brassTint40.color, dark: Palette.brassShade30.color),
-                 foreground: UIColor(light: Palette.brassShade30.color, dark: Palette.brassTint40.color)),
-        ColorSet(background: UIColor(light: Palette.brownTint40.color, dark: Palette.brownShade30.color),
-                 foreground: UIColor(light: Palette.brownShade30.color, dark: Palette.brownTint40.color)),
-        ColorSet(background: UIColor(light: Palette.forestTint40.color, dark: Palette.forestShade30.color),
-                 foreground: UIColor(light: Palette.forestShade30.color, dark: Palette.forestTint40.color)),
-        ColorSet(background: UIColor(light: Palette.seafoamTint40.color, dark: Palette.seafoamShade30.color),
-                 foreground: UIColor(light: Palette.seafoamShade30.color, dark: Palette.seafoamTint40.color)),
-        ColorSet(background: UIColor(light: Palette.darkGreenTint40.color, dark: Palette.darkGreenShade30.color),
-                 foreground: UIColor(light: Palette.darkGreenShade30.color, dark: Palette.darkGreenTint40.color)),
-        ColorSet(background: UIColor(light: Palette.lightTealTint40.color, dark: Palette.lightTealShade30.color),
-                 foreground: UIColor(light: Palette.lightTealShade30.color, dark: Palette.lightTealTint40.color)),
-        ColorSet(background: UIColor(light: Palette.tealTint40.color, dark: Palette.tealShade30.color),
-                 foreground: UIColor(light: Palette.tealShade30.color, dark: Palette.tealTint40.color)),
-        ColorSet(background: UIColor(light: Palette.steelTint40.color, dark: Palette.steelShade30.color),
-                 foreground: UIColor(light: Palette.steelShade30.color, dark: Palette.steelTint40.color)),
-        ColorSet(background: UIColor(light: Palette.blueTint40.color, dark: Palette.blueShade30.color),
-                 foreground: UIColor(light: Palette.blueShade30.color, dark: Palette.blueTint40.color)),
-        ColorSet(background: UIColor(light: Palette.royalBlueTint40.color, dark: Palette.royalBlueShade30.color),
-                 foreground: UIColor(light: Palette.royalBlueShade30.color, dark: Palette.royalBlueTint40.color)),
-        ColorSet(background: UIColor(light: Palette.cornFlowerTint40.color, dark: Palette.cornFlowerShade30.color),
-                 foreground: UIColor(light: Palette.cornFlowerShade30.color, dark: Palette.cornFlowerTint40.color)),
-        ColorSet(background: UIColor(light: Palette.navyTint40.color, dark: Palette.navyShade30.color),
-                 foreground: UIColor(light: Palette.navyShade30.color, dark: Palette.navyTint40.color)),
-        ColorSet(background: UIColor(light: Palette.lavenderTint40.color, dark: Palette.lavenderShade30.color),
-                 foreground: UIColor(light: Palette.lavenderShade30.color, dark: Palette.lavenderTint40.color)),
-        ColorSet(background: UIColor(light: Palette.purpleTint40.color, dark: Palette.purpleShade30.color),
-                 foreground: UIColor(light: Palette.purpleShade30.color, dark: Palette.purpleTint40.color)),
-        ColorSet(background: UIColor(light: Palette.grapeTint40.color, dark: Palette.grapeShade30.color),
-                 foreground: UIColor(light: Palette.grapeShade30.color, dark: Palette.grapeTint40.color)),
-        ColorSet(background: UIColor(light: Palette.lilacTint40.color, dark: Palette.lilacShade30.color),
-                 foreground: UIColor(light: Palette.lilacShade30.color, dark: Palette.lilacTint40.color)),
-        ColorSet(background: UIColor(light: Palette.pinkTint40.color, dark: Palette.pinkShade30.color),
-                 foreground: UIColor(light: Palette.pinkShade30.color, dark: Palette.pinkTint40.color)),
-        ColorSet(background: UIColor(light: Palette.magentaTint40.color, dark: Palette.magentaShade30.color),
-                 foreground: UIColor(light: Palette.magentaShade30.color, dark: Palette.magentaTint40.color)),
-        ColorSet(background: UIColor(light: Palette.plumTint40.color, dark: Palette.plumShade30.color),
-                 foreground: UIColor(light: Palette.plumShade30.color, dark: Palette.plumTint40.color)),
-        ColorSet(background: UIColor(light: Palette.beigeTint40.color, dark: Palette.beigeShade30.color),
-                 foreground: UIColor(light: Palette.beigeShade30.color, dark: Palette.beigeTint40.color)),
-        ColorSet(background: UIColor(light: Palette.minkTint40.color, dark: Palette.minkShade30.color),
-                 foreground: UIColor(light: Palette.minkShade30.color, dark: Palette.minkTint40.color)),
-        ColorSet(background: UIColor(light: Palette.platinumTint40.color, dark: Palette.platinumShade30.color),
-                 foreground: UIColor(light: Palette.platinumShade30.color, dark: Palette.platinumTint40.color)),
-        ColorSet(background: UIColor(light: Palette.anchorTint40.color, dark: Palette.anchorShade30.color),
-                 foreground: UIColor(light: Palette.anchorShade30.color, dark: Palette.anchorTint40.color))
-    ]
-
     /// Used for hyperlinks
     @objc public static let communicationBlue: UIColor = Palette.communicationBlue.color
 
@@ -733,17 +718,6 @@ public final class Colors: NSObject {
     @available(*, unavailable)
     override init() {
         super.init()
-    }
-}
-
-@objc(MSFColorSet)
-open class ColorSet: NSObject {
-    public let background: UIColor
-    public let foreground: UIColor
-
-    public init(background: UIColor, foreground: UIColor) {
-        self.background = background
-        self.foreground = foreground
     }
 }
 

@@ -12,9 +12,6 @@
 "Accessibility.Dismiss.Hint" = "ダブルタップして閉じます";
 "Accessibility.Done.Label" = "完了";
 "Accessibility.MultiSelect.Hint" = "ダブルタップして、選択を切り替えます ";
-"Accessibility.Select.Hint" = "ダブルタップして選択します";
-"Accessibility.Selected.Hint" = "ダブルタップして詳細情報を表示します";
-"Accessibility.Selected.Value" = "選択済み";
 
 /* Accessibility label for the upper calendar date picker view. */
 "Accessibility.Calendar.Label" = "予定表";
@@ -99,6 +96,9 @@
 /* Accessibility label format string for avatar view. Format: "<Name>, <Presence>". Example: "Kat, Available" */
 "Accessibility.AvatarView.LabelFormat" = "%@、 %@";
 
+/* Accessibility hint for TabBarItemView in TabBarView. %1$d is placeholder for index and %2$d is a placeholder for total number of tab items  */
+"Accessibility.TabBarItemView.Hint" = "全 %2d ページ中 %1d ページ目";
+
 /* Accessibility hint for more actions button */
 "Accessibility.TableViewCell.MoreActions.Hint" = "ダブルタップしてその他のアクションを表示します";
 
@@ -116,6 +116,12 @@
 
 /* Format string for tab bar item accessbility labels. Format: "<Title>, <BadgeValue> items". Example: "Home, 5 items" */
 "Accessibility.TabBarItemView.LabelFormat" = "%@、%@ 個の項目";
+
+/* Format string for badge label button accessibility label. Format: "<Item Accessibility>, <Badge Label Accessibility>". Example: "Notifications, 5 new notifications" */
+"Accessibility.BadgeLabelButton.LabelFormat" = "%@, %@";
+
+/* Commanding Bottom Bar - More button */
+"CommandingBottomBar.More" = "その他";
 
 /* Generic label for cancel action */
 "Common.Cancel" = "キャンセル";

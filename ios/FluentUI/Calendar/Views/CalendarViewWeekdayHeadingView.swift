@@ -18,6 +18,8 @@ class CalendarViewWeekdayHeadingView: UIView {
             static let compactHeight: CGFloat = 26.0
             static let regularHeight: CGFloat = 48.0
         }
+
+        static let maximumFontSize: CGFloat = 26.0
     }
 
     private var firstWeekday: Int?
@@ -55,7 +57,7 @@ class CalendarViewWeekdayHeadingView: UIView {
 
         let paddingTop = (traitCollection.verticalSizeClass == .regular && headerStyle == .dark) ? Constants.Dark.paddingTop : 0.0
 
-        let labelWidth = UIScreen.main.roundToDevicePixels(bounds.size.width / 7.0)
+        let labelWidth = ceil(bounds.size.width / 7.0)
         let labelHeight = bounds.size.height - paddingTop
 
         var left: CGFloat = 0.0
@@ -94,7 +96,8 @@ class CalendarViewWeekdayHeadingView: UIView {
             let label = UILabel()
             label.textAlignment = .center
             label.text = weekdaySymbol
-            label.font = Fonts.caption1
+            label.font = UIFontMetrics(forTextStyle: .caption1).scaledFont(for: Fonts.caption1, maximumPointSize: Constants.maximumFontSize)
+            label.showsLargeContentViewer = true
 
             switch headerStyle {
             case .light:

@@ -3,13 +3,21 @@
 //  Licensed under the MIT License.
 //
 
-import Foundation
 import FluentUI
+import UIKit
 
 // MARK: TableViewCellDemoController
 
-class TableViewCellDemoController: DemoController {
+class TableViewCellDemoController: DemoTableViewController {
     let sections: [TableViewSampleData.Section] = TableViewCellSampleData.sections
+
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(style: .grouped)
+    }
+
+    required init?(coder: NSCoder) {
+        preconditionFailure("init(coder:) has not been implemented")
+    }
 
     private var isGrouped: Bool = false {
         didSet {
@@ -36,31 +44,30 @@ class TableViewCellDemoController: DemoController {
             }
 
             updateNavigationTitle()
-            navigationItem.rightBarButtonItem?.title = isInSelectionMode ? "Done" : "Select"
+            editButton?.title = isInSelectionMode ? "Done" : "Select"
         }
     }
-
-    private var tableView: UITableView!
 
     private var styleButtonTitle: String {
         return isGrouped ? "Switch to Plain style" : "Switch to Grouped style"
     }
 
+    private var editButton: UIBarButtonItem?
+
+    private var overrideTokens: [TableViewCellTokenSet.Tokens: ControlTokenValue]?
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        tableView = UITableView(frame: view.bounds, style: .grouped)
-        tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
         tableView.register(TableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: TableViewHeaderFooterView.identifier)
-        tableView.dataSource = self
-        tableView.delegate = self
         tableView.separatorStyle = .none
         tableView.sectionFooterHeight = 0
         updateTableView()
-        view.addSubview(tableView)
 
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Select", style: .plain, target: self, action: #selector(selectionBarButtonTapped))
+        let editButton = UIBarButtonItem(title: "Select", style: .plain, target: self, action: #selector(selectionBarButtonTapped))
+        navigationItem.rightBarButtonItems?.append(editButton)
+        self.editButton = editButton
 
         toolbarItems = [
             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
@@ -98,36 +105,100 @@ class TableViewCellDemoController: DemoController {
     }
 
     private func updateTableView() {
-        tableView.backgroundColor = isGrouped ? Colors.Table.backgroundGrouped : Colors.Table.background
+        tableView.backgroundColor = isGrouped ? Colors.tableBackgroundGrouped : Colors.tableBackground
         tableView.reloadData()
+    }
+}
+
+extension TableViewCellDemoController: DemoAppearanceDelegate {
+    func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
+        guard let fluentTheme = self.view.window?.fluentTheme else {
+            return
+        }
+
+        fluentTheme.register(tokenSetType: TableViewCellTokenSet.self,
+                             tokenSet: isOverrideEnabled ? themeWideOverrideTableViewCellTokens : nil)
+    }
+
+    func perControlOverrideDidChange(isOverrideEnabled: Bool) {
+        overrideTokens = isOverrideEnabled ? perControlOverrideTableViewCellTokens : nil
+        self.tableView.reloadData()
+    }
+
+    func isThemeWideOverrideApplied() -> Bool {
+        return self.view.window?.fluentTheme.tokens(for: TableViewCellTokenSet.self) != nil
+    }
+
+    // MARK: - Custom tokens
+    private var themeWideOverrideTableViewCellTokens: [TableViewCellTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .cellBackgroundColor: .dynamicColor {
+                // "Berry"
+                return DynamicColor(light: GlobalTokens.sharedColors(.berry, .tint50),
+                                    dark: GlobalTokens.sharedColors(.berry, .shade40))
+            }
+        ]
+    }
+
+    private var perControlOverrideTableViewCellTokens: [TableViewCellTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .cellBackgroundColor: .dynamicColor {
+                // "Brass"
+                return DynamicColor(light: GlobalTokens.sharedColors(.brass, .tint50),
+                                    dark: GlobalTokens.sharedColors(.brass, .shade40))
+            },
+            .accessoryDisclosureIndicatorColor: .dynamicColor {
+                // "Forest"
+                return DynamicColor(light: GlobalTokens.sharedColors(.forest, .tint10),
+                                    dark: GlobalTokens.sharedColors(.forest, .shade40))
+            },
+            .customViewTrailingMargin: .float {
+                return 0
+            }
+        ]
     }
 }
 
 // MARK: - TableViewCellDemoController: UITableViewDataSource
 
-extension TableViewCellDemoController: UITableViewDataSource {
-    func numberOfSections(in tableView: UITableView) -> Int {
+extension TableViewCellDemoController {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count
     }
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return TableViewCellSampleData.numberOfItemsInSection
     }
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier) as? TableViewCell else {
             return UITableViewCell()
         }
         let section = sections[indexPath.section]
         let item = section.item
-        cell.setup(
-            title: item.text1,
-            subtitle: item.text2,
-            footer: TableViewCellSampleData.hasFullLengthLabelAccessoryView(at: indexPath) ? "" : item.text3,
-            customView: TableViewSampleData.createCustomView(imageName: item.image),
-            customAccessoryView: section.hasAccessory ? TableViewCellSampleData.customAccessoryView : nil,
-            accessoryType: TableViewCellSampleData.accessoryType(for: indexPath)
-        )
+        if section.title == "Inverted double line cell" {
+            cell.setup(
+                attributedTitle: NSAttributedString(string: item.text1,
+                                                    attributes: [.font: TextStyle.footnote.font,
+                                                                 .foregroundColor: UIColor.purple]),
+                attributedSubtitle: NSAttributedString(string: item.text2,
+                                                       attributes: [.font: TextStyle.body.font,
+                                                                    .foregroundColor: UIColor.red]),
+                footer: TableViewCellSampleData.hasFullLengthLabelAccessoryView(at: indexPath) ? "" : item.text3,
+                customView: TableViewSampleData.createCustomView(imageName: item.image),
+                customAccessoryView: section.hasAccessory ? TableViewCellSampleData.customAccessoryView : nil,
+                accessoryType: TableViewCellSampleData.accessoryType(for: indexPath)
+            )
+        } else {
+            cell.setup(
+                title: item.text1,
+                subtitle: item.text2,
+                footer: TableViewCellSampleData.hasFullLengthLabelAccessoryView(at: indexPath) ? "" : item.text3,
+                customView: TableViewSampleData.createCustomView(imageName: item.image),
+                customAccessoryView: section.hasAccessory ? TableViewCellSampleData.customAccessoryView : nil,
+                accessoryType: TableViewCellSampleData.accessoryType(for: indexPath)
+            )
+        }
 
         let showsLabelAccessoryView = TableViewCellSampleData.hasLabelAccessoryViews(at: indexPath)
         cell.titleLeadingAccessoryView = showsLabelAccessoryView ? item.text1LeadingAccessoryView() : nil
@@ -147,12 +218,14 @@ extension TableViewCellDemoController: UITableViewDataSource {
         cell.subtitleNumberOfLinesForLargerDynamicType = section.numberOfLines == 1 ? 2 : TableViewCell.defaultNumberOfLinesForLargerDynamicType
         cell.footerNumberOfLinesForLargerDynamicType = section.numberOfLines == 1 ? 2 : TableViewCell.defaultNumberOfLinesForLargerDynamicType
 
-        cell.backgroundColor = isGrouped ? Colors.Table.Cell.backgroundGrouped : Colors.Table.Cell.background
+        cell.backgroundStyleType = isGrouped ? .grouped : .plain
         cell.topSeparatorType = isGrouped && indexPath.row == 0 ? .full : .none
         let isLastInSection = indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1
         cell.bottomSeparatorType = isLastInSection ? .full : .inset
 
         cell.isInSelectionMode = section.allowsMultipleSelection ? isInSelectionMode : false
+
+        cell.tokenSet.replaceAllOverrides(with: overrideTokens)
 
         return cell
     }
@@ -160,20 +233,20 @@ extension TableViewCellDemoController: UITableViewDataSource {
 
 // MARK: - TableViewCellDemoController: UITableViewDelegate
 
-extension TableViewCellDemoController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+extension TableViewCellDemoController {
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: TableViewHeaderFooterView.identifier) as? TableViewHeaderFooterView
         let section = sections[section]
         header?.setup(style: section.headerStyle, title: section.title)
         return header
     }
 
-    func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
         let title = sections[indexPath.section].item.text1
         showAlertForDetailButtonTapped(title: title)
     }
 
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if isInSelectionMode {
             updateNavigationTitle()
         } else {
@@ -181,7 +254,7 @@ extension TableViewCellDemoController: UITableViewDelegate {
         }
     }
 
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         if isInSelectionMode {
             updateNavigationTitle()
         }
@@ -192,5 +265,9 @@ extension TableViewCellDemoController: UITableViewDelegate {
         let action = UIAlertAction(title: "OK", style: .default)
         alert.addAction(action)
         present(alert, animated: true)
+    }
+
+    override func tableView(_ tableView: UITableView, canFocusRowAt indexPath: IndexPath) -> Bool {
+        return true
     }
 }

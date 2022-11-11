@@ -5,18 +5,16 @@
 
 import UIKit
 
-class SceneDelegate: UIResponder, UIWindowSceneDelegate, ColorThemeHosting {
+class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
-    weak var windowScene: UIWindowScene?
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        windowScene = scene as? UIWindowScene
-        updateToWindowWith(type: DemoColorThemeDefaultWindow.self, pushing: nil)
-    }
+        guard let windowScene = (scene as? UIWindowScene) else {
+            return
+        }
 
-    func updateToWindowWith(type: UIWindow.Type, pushing viewController: UIViewController?) {
-        let newWindow = type.init(windowScene: windowScene!)
-        DemoListViewController.addDemoListTo(window: newWindow, pushing: viewController)
-        window = newWindow
-
+        window = UIWindow(windowScene: windowScene)
+        if let window = window {
+            DemoListViewController.init(nibName: nil, bundle: nil).addDemoListTo(window: window)
+        }
     }
 }

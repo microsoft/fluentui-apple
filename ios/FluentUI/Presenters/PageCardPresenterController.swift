@@ -7,11 +7,11 @@ import UIKit
 
 // MARK: PageCardPresenter Colors
 
-public extension Colors {
+private extension Colors {
     struct PageCardPresenter {
         // Should use physical color because page indicators are shown on physical blurred dark background
-        public static var currentPageIndicator: UIColor = .white
-        public static var pageIndicator = UIColor.white.withAlphaComponent(0.5)
+        static var currentPageIndicator: UIColor = .white
+        static var pageIndicator = UIColor.white.withAlphaComponent(0.5)
     }
 }
 
@@ -22,9 +22,6 @@ protocol CardPresentable: AnyObject {
 }
 
 // MARK: - PageCardPresenterController
-
-@available(*, deprecated, renamed: "PageCardPresenterController")
-public typealias MSPageCardPresenterController = PageCardPresenterController
 
 /**
  Presents viewController views as "cards" in a paged scrollView
@@ -187,8 +184,8 @@ open class PageCardPresenterController: UIViewController {
     private func frameForCard(_ card: CardPresentable) -> CGRect {
         let size = sizeForCard(card)
         return CGRect(
-            x: UIScreen.main.roundToDevicePixels((view.frame.width - size.width) / 2),
-            y: UIScreen.main.roundToDevicePixels((view.frame.height - size.height) / 2),
+            x: ceil((view.frame.width - size.width) / 2),
+            y: ceil((view.frame.height - size.height) / 2),
             width: size.width,
             height: size.height
         )

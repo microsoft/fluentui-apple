@@ -27,10 +27,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
         #if DOGFOOD
-        MSAppCenter.start(appCenterSecret, withServices: [
-            MSAnalytics.self,
-            MSCrashes.self,
-            MSDistribute.self
+        AppCenter.start(withAppSecret: appCenterSecret, services: [
+            Analytics.self,
+            Crashes.self,
+            Distribute.self
         ])
         #endif
 

@@ -23,6 +23,20 @@ class DateTimePickerDemoController: DemoController {
         }
     }
 
+    private let customCalendarConfigurationSwitch = UISwitch()
+    private var calendarConfiguration: CalendarConfiguration? {
+        guard customCalendarConfigurationSwitch.isOn else {
+            return nil
+        }
+
+        let customCalendarConfiguration = CalendarConfiguration()
+        customCalendarConfiguration.referenceStartDate = Date()
+        customCalendarConfiguration.referenceEndDate = Calendar.current.date(byAdding: .month, value: 1, to: Date())!
+        customCalendarConfiguration.firstWeekday = 2
+
+        return customCalendarConfiguration
+    }
+
     private let validationSwitch = UISwitch()
     private var isValidating: Bool { return validationSwitch.isOn }
 
@@ -42,10 +56,107 @@ class DateTimePickerDemoController: DemoController {
         container.addArrangedSubview(createButton(title: "Show date range picker (tabbed)", action: #selector(presentTabbedDateRangePicker)))
         container.addArrangedSubview(createButton(title: "Show date time range picker", action: #selector(presentDateTimeRangePicker)))
         container.addArrangedSubview(createButton(title: "Show picker with custom subtitles or tabs", action: #selector(presentCustomSubtitlePicker)))
+        container.addArrangedSubview(createButton(title: "Show picker with left bar-button", action: #selector(presentLeftBarButtonPicker)))
+        container.addArrangedSubview(createButton(title: "Show picker with left and right bar-buttons", action: #selector(presentRightBarButtonPicker)))
         container.addArrangedSubview(UIView())
         container.addArrangedSubview(createDatePickerTypeUI())
+        container.addArrangedSubview(createCustomCalendarConfigurationUI())
         container.addArrangedSubview(createValidationUI())
         container.addArrangedSubview(createButton(title: "Reset selected dates", action: #selector(resetDates)))
+    }
+
+    @objc func presentDatePicker() {
+        dateTimePicker.present(
+            from: self,
+            with: .date,
+            startDate: startDate ?? Date(),
+            calendarConfiguration: calendarConfiguration,
+            datePickerType: datePickerType)
+    }
+
+    @objc func presentDateTimePicker() {
+        dateTimePicker.present(
+            from: self,
+            with: .dateTime,
+            startDate: startDate ?? Date(),
+            calendarConfiguration: calendarConfiguration,
+            datePickerType: datePickerType)
+    }
+
+    @objc func presentDateRangePicker() {
+        let (startDate, endDate, _) = calcDatePickerParams()
+        dateTimePicker.present(
+            from: self,
+            with: .dateRange,
+            startDate: startDate,
+            endDate: endDate,
+            calendarConfiguration: calendarConfiguration,
+            datePickerType: datePickerType)
+    }
+
+    @objc func presentTabbedDateRangePicker() {
+        let (startDate, endDate, _) = calcDatePickerParams()
+        dateTimePicker.present(
+            from: self,
+            with: .dateRange,
+            startDate: startDate,
+            endDate: endDate,
+            calendarConfiguration: calendarConfiguration,
+            datePickerType: datePickerType,
+            dateRangePresentation: .tabbed)
+    }
+
+    @objc func presentDateTimeRangePicker() {
+        let (startDate, endDate, _) = calcDatePickerParams()
+        dateTimePicker.present(
+            from: self,
+            with: .dateTimeRange,
+            startDate: startDate,
+            endDate: endDate,
+            calendarConfiguration: calendarConfiguration,
+            datePickerType: datePickerType)
+    }
+
+    @objc func presentCustomSubtitlePicker() {
+        let (startDate, endDate, titles) = calcDatePickerParams()
+        dateTimePicker.present(
+            from: self,
+            with: .dateRange,
+            startDate: startDate,
+            endDate: endDate,
+            calendarConfiguration: calendarConfiguration,
+            datePickerType: datePickerType,
+            titles: titles)
+    }
+
+    @objc func presentLeftBarButtonPicker() {
+        let (startDate, endDate, titles) = calcDatePickerParams()
+        let leftBarButtonItem = cancelButton(target: self, action: #selector(handleDidTapCancel))
+        dateTimePicker.present(
+            from: self,
+            with: .dateRange,
+            startDate: startDate,
+            endDate: endDate,
+            calendarConfiguration: calendarConfiguration,
+            datePickerType: datePickerType,
+            titles: titles,
+            leftBarButtonItem: leftBarButtonItem)
+    }
+
+    @objc func presentRightBarButtonPicker() {
+        let (startDate, endDate, titles) = calcDatePickerParams()
+        let leftBarButtonItem = confirmButton(target: self, action: #selector(handleDidTapDone))
+        let rightBarButtonItem = cancelButton(target: self, action: #selector(handleDidTapCancel)) // or simply assign UIBarButtonItem() to hide the default confirm button
+        dateTimePicker.present(
+            from: self,
+            with: .dateRange,
+            startDate: startDate,
+            endDate: endDate,
+            calendarConfiguration: calendarConfiguration,
+            datePickerType: datePickerType,
+            titles: titles,
+            leftBarButtonItem: leftBarButtonItem,
+            rightBarButtonItem: rightBarButtonItem)
     }
 
     func createDatePickerTypeUI() -> UIStackView {
@@ -65,6 +176,29 @@ class DateTimePickerDemoController: DemoController {
         return container
     }
 
+    func createCustomCalendarConfigurationUI() -> UIStackView {
+        let customCalendarConfigurationTitleLabel = Label(style: .subhead, colorStyle: .regular)
+        customCalendarConfigurationTitleLabel.text = "Custom calendar configuration"
+
+        let customCalendarConfigurationBodyLabel = Label(style: .footnote, colorStyle: .regular)
+        customCalendarConfigurationBodyLabel.text = "First weekday: Monday\nReference start date: Today\nReference end date: One month from today"
+        customCalendarConfigurationBodyLabel.numberOfLines = 0
+
+        let switchContainer = UIStackView()
+        switchContainer.axis = .horizontal
+        switchContainer.alignment = .center
+        switchContainer.distribution = .equalSpacing
+        switchContainer.addArrangedSubview(customCalendarConfigurationTitleLabel)
+        switchContainer.addArrangedSubview(customCalendarConfigurationSwitch)
+
+        let container = UIStackView()
+        container.axis = .vertical
+        container.addArrangedSubview(switchContainer)
+        container.addArrangedSubview(customCalendarConfigurationBodyLabel)
+
+        return container
+    }
+
     func createValidationUI() -> UIStackView {
         let validationRow = UIStackView()
         validationRow.axis = .horizontal
@@ -79,42 +213,48 @@ class DateTimePickerDemoController: DemoController {
         return validationRow
     }
 
-    @objc func presentDatePicker() {
-        dateTimePicker.present(from: self, with: .date, startDate: startDate ?? Date(), datePickerType: datePickerType)
-    }
-
-    @objc func presentDateTimePicker() {
-        dateTimePicker.present(from: self, with: .dateTime, startDate: startDate ?? Date(), datePickerType: datePickerType)
-    }
-
-    @objc func presentDateRangePicker() {
-        let startDate = self.startDate ?? Date()
-        let endDate = self.endDate ?? Calendar.current.date(byAdding: .day, value: 1, to: startDate) ?? startDate
-        dateTimePicker.present(from: self, with: .dateRange, startDate: startDate, endDate: endDate, datePickerType: datePickerType)
-    }
-
-    @objc func presentTabbedDateRangePicker() {
-        let startDate = self.startDate ?? Date()
-        let endDate = self.endDate ?? Calendar.current.date(byAdding: .day, value: 1, to: startDate) ?? startDate
-        dateTimePicker.present(from: self, with: .dateRange, startDate: startDate, endDate: endDate, datePickerType: datePickerType, dateRangePresentation: .tabbed)
-    }
-
-    @objc func presentDateTimeRangePicker() {
-        let startDate = self.startDate ?? Date()
-        let endDate = self.endDate ?? Calendar.current.date(byAdding: .hour, value: 1, to: startDate) ?? startDate
-        dateTimePicker.present(from: self, with: .dateTimeRange, startDate: startDate, endDate: endDate, datePickerType: datePickerType)
-    }
-
-    @objc func presentCustomSubtitlePicker() {
-        let startDate = self.startDate ?? Date()
-        let endDate = self.endDate ?? Calendar.current.date(byAdding: .day, value: 1, to: startDate) ?? startDate
+    func calcDatePickerParams() -> (startDate: Date, endDate: Date, titles: DateTimePicker.Titles) {
+        let calculatedStartDate = startDate ?? Date()
+        let calculatedEndDate = endDate ?? Calendar.current.date(byAdding: .day, value: 1, to: calculatedStartDate) ?? calculatedStartDate
         let titles: DateTimePicker.Titles
         if datePickerType == .calendar && !UIAccessibility.isVoiceOverRunning {
             titles = .with(startSubtitle: "Assignment Date", endSubtitle: "Due Date")
         } else {
             titles = .with(startTab: "Assignment Date", endTab: "Due Date")
         }
-        dateTimePicker.present(from: self, with: .dateRange, startDate: startDate, endDate: endDate, datePickerType: datePickerType, titles: titles)
+        return (calculatedStartDate, calculatedEndDate, titles)
+    }
+
+    func confirmButton(target: Any?, action: Selector?) -> UIBarButtonItem {
+        let image = UIImage(named: "checkmark-24x24", in: FluentUIFramework.resourceBundle, compatibleWith: nil)
+        let landscapeImage = UIImage(named: "checkmark-thin-20x20", in: FluentUIFramework.resourceBundle, compatibleWith: nil)
+
+        let button = UIBarButtonItem(image: image, landscapeImagePhone: landscapeImage, style: .plain, target: target, action: action)
+        button.accessibilityLabel = NSLocalizedString("Accessibility.Done.Label", bundle: FluentUIFramework.resourceBundle, comment: "")
+        return button
+    }
+
+    func cancelButton(target: Any?, action: Selector?) -> UIBarButtonItem {
+        let image = UIImage(named: "dismiss-20x20", in: FluentUIFramework.resourceBundle, compatibleWith: nil)
+        let landscapeImage = UIImage(named: "dismiss-36x36", in: FluentUIFramework.resourceBundle, compatibleWith: nil)
+
+        let button = UIBarButtonItem(image: image, landscapeImagePhone: landscapeImage, style: .plain, target: target, action: action)
+        button.accessibilityLabel = NSLocalizedString("Accessibility.Dismiss.Label", bundle: FluentUIFramework.resourceBundle, comment: "")
+        return button
+    }
+
+    @objc private func handleDidTapCancel() {
+        dateTimePicker.dismiss()
+        let alert = UIAlertController(title: "Callback from picker", message: "User has pressed Cancel bar-button", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        present(alert, animated: true)
+    }
+
+    @objc private func handleDidTapDone() {
+        dateTimePicker.dismiss()
+        let alert = UIAlertController(title: "Callback from picker", message: "User has pressed Confirm bar-button", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        present(alert, animated: true)
     }
 
     @objc func resetDates() {

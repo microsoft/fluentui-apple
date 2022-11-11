@@ -7,9 +7,6 @@ import UIKit
 
 // MARK: TableViewHeaderFooterViewDelegate
 
-@available(*, deprecated, renamed: "TableViewHeaderFooterViewDelegate")
-public typealias MSTableViewHeaderFooterViewDelegate = TableViewHeaderFooterViewDelegate
-
 @objc(MSFTableViewHeaderFooterViewDelegate)
 public protocol TableViewHeaderFooterViewDelegate: AnyObject {
     /// Returns: true if the interaction with the header view should be allowed; false if the interaction should not be allowed.
@@ -17,9 +14,6 @@ public protocol TableViewHeaderFooterViewDelegate: AnyObject {
 }
 
 // MARK: - TableViewHeaderFooterView
-
-@available(*, deprecated, renamed: "TableViewHeaderFooterView")
-public typealias MSTableViewHeaderFooterView = TableViewHeaderFooterView
 
 /// `TableViewHeaderFooterView` is used to present a section header or footer with a `title` and an optional accessory button.
 /// Set the `TableViewHeaderFooterView.Style` of the view to specify its visual style. The `default` and `headerPrimary` style may be used for headers.
@@ -109,8 +103,9 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
     ///   - title: The title string.
     ///   - titleNumberOfLines: The number of lines that the title should display.
     ///   - containerWidth: The width of the view's super view (e.g. the table view's width).
+    ///   - accessoryView: An optional accessory view that appears near the trailing edge of the view.
     /// - Returns: a value representing the calculated height of the view.
-    @objc public class func height(style: Style, title: String, titleNumberOfLines: Int = 1, containerWidth: CGFloat = .greatestFiniteMagnitude) -> CGFloat {
+    @objc public class func height(style: Style, title: String, titleNumberOfLines: Int = 1, containerWidth: CGFloat = .greatestFiniteMagnitude, accessoryView: UIView? = nil) -> CGFloat {
         let verticalMargin: CGFloat
         let font = style.textFont()
         switch style {
@@ -122,7 +117,11 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
             verticalMargin = Constants.titleDividerVerticalMargin * 2
         }
 
-        let titleWidth = containerWidth - (Constants.horizontalMargin + TableViewHeaderFooterView.titleTrailingOffset() + TableViewHeaderFooterView.titleLeadingOffset())
+        if let accessoryView = accessoryView {
+            accessoryView.frame.size = accessoryView.systemLayoutSizeFitting(CGSize(width: containerWidth, height: .infinity))
+        }
+
+        let titleWidth = containerWidth - (Constants.horizontalMargin + TableViewHeaderFooterView.titleTrailingOffset(accessoryView: accessoryView) + TableViewHeaderFooterView.titleLeadingOffset())
         let titleHeight = title.preferredSize(for: font, width: titleWidth, numberOfLines: titleNumberOfLines).height
 
         return verticalMargin + titleHeight
@@ -232,7 +231,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
 
     private let titleView = TableViewHeaderFooterTitleView()
 
-    private var accessoryView: UIView? = nil {
+    private var accessoryView: UIView? {
         didSet {
             oldValue?.removeFromSuperview()
             if let accessoryView = accessoryView {
@@ -241,7 +240,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         }
     }
 
-    private var accessoryButton: UIButton? = nil {
+    private var accessoryButton: UIButton? {
         didSet {
             accessoryView = accessoryButton
             if accessoryButton != nil {
@@ -250,7 +249,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         }
     }
 
-    private var leadingView: UIView? = nil {
+    private var leadingView: UIView? {
         didSet {
             oldValue?.removeFromSuperview()
             if let leadingView = leadingView {
@@ -371,9 +370,6 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
             titleView.accessibilityTraits.insert(.header)
         case .footer:
             titleView.accessibilityTraits.remove(.header)
-            // Bug in iOS - need to manually refresh VoiceOver text for accessibilityTraits
-            titleView.isAccessibilityElement = false
-            titleView.isAccessibilityElement = true
         }
 
         accessoryButton = !accessoryButtonTitle.isEmpty ? createAccessoryButton(withTitle: accessoryButtonTitle) : nil
@@ -397,7 +393,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         switch style {
         case .header, .footer, .headerPrimary:
             titleYOffset = style == .footer ? Constants.titleDefaultBottomMargin : Constants.titleDefaultTopMargin
-            titleHeight = contentView.frame.height - Constants.titleDefaultTopMargin - Constants.titleDefaultBottomMargin
+            titleHeight = contentView.frame.height - titleYOffset - Constants.titleDefaultBottomMargin
         case .divider, .dividerHighlighted:
             titleYOffset = Constants.titleDividerVerticalMargin
             titleHeight = contentView.frame.height - (Constants.titleDividerVerticalMargin * 2)
@@ -405,7 +401,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
 
         if let leadingView = leadingView {
             let xOffset = Constants.accessoryViewMarginLeft
-            let yOffset = contentView.frame.height - leadingView.frame.height - Constants.titleDefaultBottomMargin
+            let yOffset = floor(titleYOffset + (titleHeight - leadingView.frame.height) / 2)
             leadingView.frame = CGRect(
                 origin: CGPoint(x: xOffset, y: yOffset),
                 size: leadingView.frame.size
@@ -427,6 +423,13 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
                 origin: CGPoint(x: xOffset, y: yOffset),
                 size: accessoryView.frame.size
             )
+
+            // seems like an iOS issue that any subviews of the headerView automatically gets the header trait which isn't the behavior we want other than the titleView.
+            accessoryView.accessibilityTraits.remove(.header)
+            if let accessoryButton = accessoryView as? UIButton {
+                // unclear why just removing the .header traits remove the existing .button trait of the accessoryView but adding it back if needed
+                accessoryButton.accessibilityTraits.insert(.button)
+            }
         }
         contentView.flipSubviewsForRTL()
     }
@@ -455,7 +458,8 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
                 style: style,
                 title: titleView.text ?? "",
                 titleNumberOfLines: titleNumberOfLines,
-                containerWidth: size.width
+                containerWidth: size.width,
+                accessoryView: accessoryView
             )
         )
     }
@@ -536,7 +540,6 @@ private class TableViewHeaderFooterTitleView: UITextView {
         isEditable = false
         isScrollEnabled = false
         clipsToBounds = false    // to avoid clipping of "deep-touch" UI for links
-        isAccessibilityElement = true
         self.textContainer.lineBreakMode = .byTruncatingTail
         self.textContainer.lineFragmentPadding = 0
         textContainerInset = .zero

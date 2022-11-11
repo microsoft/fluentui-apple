@@ -5,9 +5,6 @@
 
 import UIKit
 
-@available(*, deprecated, renamed: "PopupMenuItem")
-public typealias MSPopupMenuItem = PopupMenuItem
-
 /**
  `PopupMenuItem` represents a menu item inside `PopupMenuController`.
  */

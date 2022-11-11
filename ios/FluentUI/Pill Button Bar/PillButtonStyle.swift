@@ -7,9 +7,6 @@ import UIKit
 
 // MARK: - PillButtonStyle
 
-@available(*, deprecated, renamed: "PillButtonStyle")
-public typealias MSPillButtonStyle = PillButtonStyle
-
 @objc(MSFPillButtonStyle)
 public enum PillButtonStyle: Int {
     /// primary: the default style of PillButton; use this style in conjunction with a neutral or white background.
@@ -142,6 +139,26 @@ public extension PillButton {
             return selectedTitleColor(for: window, for: style)
         case .onBrand:
             return UIColor(light: Colors.primaryTint10(for: window), dark: Colors.textDominant)
+        }
+    }
+
+    // MARK: unread dot state
+
+    static func enabledUnreadDotColor(for window: UIWindow, for style: PillButtonStyle) -> UIColor {
+        switch style {
+        case .primary:
+            return UIColor(light: Colors.primary(for: window), dark: Colors.primary(for: window))
+        case .onBrand:
+            return UIColor(light: .white, dark: Colors.gray100)
+        }
+    }
+
+    static func disabledUnreadDotColor(for window: UIWindow, for style: PillButtonStyle) -> UIColor {
+        switch style {
+        case .primary:
+            return UIColor(light: Colors.gray300, dark: Colors.gray600)
+        case .onBrand:
+            return UIColor(light: Colors.primaryTint10(for: window), dark: Colors.gray600)
         }
     }
 }

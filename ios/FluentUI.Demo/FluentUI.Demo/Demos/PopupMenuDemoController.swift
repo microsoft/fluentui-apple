@@ -15,8 +15,6 @@ class PopupMenuDemoController: DemoController {
         case month
     }
 
-    override var allowsContentToScroll: Bool { return false }
-
     private var calendarLayout: CalendarLayout = .agenda
     private var cityIndexPath: IndexPath? = IndexPath(item: 2, section: 1)
 
@@ -40,12 +38,18 @@ class PopupMenuDemoController: DemoController {
         container.addArrangedSubview(createButton(title: "Show items with custom colors", action: #selector(showCustomColorsButtonTapped)))
         container.addArrangedSubview(createButton(title: "Show items without dismissal after being tapped", action: #selector(showNoDismissalItemsButtonTapped)))
         container.addArrangedSubview(UIView())
+        container.addArrangedSubview(createButton(title: "Objective-C Demo", action: #selector(showObjCDemo)))
         addTitle(text: "Show with...")
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         navigationController?.isToolbarHidden = false
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.isToolbarHidden = true
     }
 
     private func createAccessoryView(text: String) -> UIView {
@@ -186,5 +190,9 @@ class PopupMenuDemoController: DemoController {
         controller.separatorColor = .lightGray
 
         present(controller, animated: true)
+    }
+
+    @objc private func showObjCDemo(sender: UIButton) {
+        navigationController?.pushViewController(PopupMenuObjCDemoController(), animated: true)
     }
 }

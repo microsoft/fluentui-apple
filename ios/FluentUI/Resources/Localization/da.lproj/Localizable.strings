@@ -12,9 +12,6 @@
 "Accessibility.Dismiss.Hint" = "Dobbelttryk for at afvise";
 "Accessibility.Done.Label" = "Udført";
 "Accessibility.MultiSelect.Hint" = "Dobbelttryk for at skifte valg ";
-"Accessibility.Select.Hint" = "Dobbelttryk for at vælge";
-"Accessibility.Selected.Hint" = "Dobbelttryk for at se detaljerne";
-"Accessibility.Selected.Value" = "Markeret";
 
 /* Accessibility label for the upper calendar date picker view. */
 "Accessibility.Calendar.Label" = "Kalender";
@@ -99,6 +96,9 @@
 /* Accessibility label format string for avatar view. Format: "<Name>, <Presence>". Example: "Kat, Available" */
 "Accessibility.AvatarView.LabelFormat" = "%@, %@";
 
+/* Accessibility hint for TabBarItemView in TabBarView. %1$d is placeholder for index and %2$d is a placeholder for total number of tab items  */
+"Accessibility.TabBarItemView.Hint" = "%1d af %2d";
+
 /* Accessibility hint for more actions button */
 "Accessibility.TableViewCell.MoreActions.Hint" = "Dobbelttryk for at se flere handlinger";
 
@@ -116,6 +116,12 @@
 
 /* Format string for tab bar item accessbility labels. Format: "<Title>, <BadgeValue> items". Example: "Home, 5 items" */
 "Accessibility.TabBarItemView.LabelFormat" = "%@, %@ elementer";
+
+/* Format string for badge label button accessibility label. Format: "<Item Accessibility>, <Badge Label Accessibility>". Example: "Notifications, 5 new notifications" */
+"Accessibility.BadgeLabelButton.LabelFormat" = "%@, %@";
+
+/* Commanding Bottom Bar - More button */
+"CommandingBottomBar.More" = "Mere";
 
 /* Generic label for cancel action */
 "Common.Cancel" = "Annuller";

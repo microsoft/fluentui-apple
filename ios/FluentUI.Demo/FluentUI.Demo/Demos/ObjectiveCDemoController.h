@@ -4,7 +4,6 @@
 //
 
 #import <UIKit/UIKit.h>
-@import FluentUI;
 
 NS_ASSUME_NONNULL_BEGIN
 

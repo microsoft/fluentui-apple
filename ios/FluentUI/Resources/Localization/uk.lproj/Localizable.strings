@@ -12,9 +12,6 @@
 "Accessibility.Dismiss.Hint" = "Торкніться двічі, щоб закрити";
 "Accessibility.Done.Label" = "Готово";
 "Accessibility.MultiSelect.Hint" = "Торкніться двічі, щоб перемкнути виділення ";
-"Accessibility.Select.Hint" = "Торкніться двічі, щоб вибрати";
-"Accessibility.Selected.Hint" = "Торкніться двічі, щоб переглянути відомості";
-"Accessibility.Selected.Value" = "Вибрано";
 
 /* Accessibility label for the upper calendar date picker view. */
 "Accessibility.Calendar.Label" = "Календар";
@@ -99,6 +96,9 @@
 /* Accessibility label format string for avatar view. Format: "<Name>, <Presence>". Example: "Kat, Available" */
 "Accessibility.AvatarView.LabelFormat" = "%@, %@";
 
+/* Accessibility hint for TabBarItemView in TabBarView. %1$d is placeholder for index and %2$d is a placeholder for total number of tab items  */
+"Accessibility.TabBarItemView.Hint" = "%1d із %2d";
+
 /* Accessibility hint for more actions button */
 "Accessibility.TableViewCell.MoreActions.Hint" = "Торкніться двічі, щоб переглянути більше дій";
 
@@ -116,6 +116,12 @@
 
 /* Format string for tab bar item accessbility labels. Format: "<Title>, <BadgeValue> items". Example: "Home, 5 items" */
 "Accessibility.TabBarItemView.LabelFormat" = "%@, елементів: %@";
+
+/* Format string for badge label button accessibility label. Format: "<Item Accessibility>, <Badge Label Accessibility>". Example: "Notifications, 5 new notifications" */
+"Accessibility.BadgeLabelButton.LabelFormat" = "%@, %@";
+
+/* Commanding Bottom Bar - More button */
+"CommandingBottomBar.More" = "Додатково";
 
 /* Generic label for cancel action */
 "Common.Cancel" = "Скасувати";

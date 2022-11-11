@@ -26,6 +26,11 @@ class CommandBarButton: UIButton {
         }
     }
 
+    open override func didMoveToWindow() {
+        super.didMoveToWindow()
+        updateStyle()
+    }
+
     init(item: CommandBarItem, isPersistSelection: Bool = true) {
         self.item = item
         self.isPersistSelection = isPersistSelection
@@ -33,12 +38,35 @@ class CommandBarButton: UIButton {
         super.init(frame: .zero)
 
         translatesAutoresizingMaskIntoConstraints = false
-        setImage(item.iconImage, for: .normal)
 
-        accessibilityLabel = item.accessibilityLabel
-        contentEdgeInsets = CommandBarButton.contentEdgeInsets
+        if let makeCustomButtonView = item.customControlView {
+            addCustomView(makeCustomButtonView())
+            /// Disable accessiblity for the button so that the custom view can provide itself or its subviews as the accessilbity element(s)
+            isAccessibilityElement = false
+        } else {
+            if #available(iOS 15.0, *) {
+                var buttonConfiguration = UIButton.Configuration.plain()
+                buttonConfiguration.image = item.iconImage
+                buttonConfiguration.contentInsets = LayoutConstants.contentInsets
+                buttonConfiguration.background.cornerRadius = 0
+                configuration = buttonConfiguration
+            } else {
+                setImage(item.iconImage, for: .normal)
+                contentEdgeInsets = LayoutConstants.contentEdgeInsets
+            }
 
-        if #available(iOS 14.0, *) {
+            let accessibilityDescription = item.accessibilityLabel
+            accessibilityLabel = (accessibilityDescription != nil) ? accessibilityDescription : item.title
+            accessibilityHint = item.accessibilityHint
+            accessibilityValue = item.accessibilityValue
+
+            /// Large content viewer
+            addInteraction(UILargeContentViewerInteraction())
+            showsLargeContentViewer = true
+            scalesLargeContentImage = true
+            largeContentImage = item.iconImage
+            largeContentTitle = item.title
+
             menu = item.menu
             showsMenuAsPrimaryAction = item.showsMenuAsPrimaryAction
         }
@@ -48,58 +76,154 @@ class CommandBarButton: UIButton {
 
     @available(*, unavailable)
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        preconditionFailure("init(coder:) has not been implemented")
     }
 
     func updateState() {
         isEnabled = item.isEnabled
         isSelected = isPersistSelection && item.isSelected
+        isHidden = item.isHidden
 
-        if item.iconImage == nil {
-            setTitle(item.title, for: .normal)
-            if let font = item.titleFont {
-                titleLabel?.font = font
-            }
+        /// Additional state update is not needed if the `customControlView` is being shown
+        guard item.customControlView == nil else {
+            return
         }
+
+        // always update icon and title as we only display one; we may alterenate between them, and the icon may also change
+        let iconImage = item.iconImage
+        let title = item.title
+        let accessibilityDescription = item.accessibilityLabel
+
+        if #available(iOS 15.0, *) {
+            configuration?.image = iconImage
+            configuration?.title = iconImage != nil ? nil : title
+
+            if let font = item.titleFont {
+                let attributeContainer = AttributeContainer([NSAttributedString.Key.font: font])
+                configuration?.attributedTitle?.setAttributes(attributeContainer)
+            }
+        } else {
+            setImage(iconImage, for: .normal)
+            setTitle(iconImage != nil ? nil : title, for: .normal)
+            titleLabel?.font = item.titleFont
+        }
+
+        updateAccentImage(item.accentImage)
+        updateAccentImageTint(item.accentImageTintColor)
+
+        titleLabel?.isEnabled = isEnabled
+
+        accessibilityLabel = (accessibilityDescription != nil) ? accessibilityDescription : title
+        accessibilityHint = item.accessibilityHint
+        accessibilityValue = item.accessibilityValue
+        accessibilityIdentifier = item.accessibilityIdentifier
     }
 
     private let isPersistSelection: Bool
 
     private var selectedTintColor: UIColor {
         guard let window = window else {
-            return Colors.communicationBlue
+            return UIColor(light: Colors.communicationBlue,
+                           dark: .black)
         }
 
-        return Colors.primary(for: window)
+        return UIColor(light: Colors.primary(for: window),
+                       dark: .black)
     }
 
     private var selectedBackgroundColor: UIColor {
         guard let window = window else {
-            return Colors.Palette.communicationBlueTint30.color
+            return UIColor(light: Colors.Palette.communicationBlueTint30.color,
+                           dark: Colors.Palette.communicationBlue.color)
         }
 
-        return Colors.primaryTint30(for: window)
+        return  UIColor(light: Colors.primaryTint30(for: window),
+                        dark: Colors.primary(for: window))
+    }
+
+    private var accentImageView: UIImageView?
+
+    private func updateAccentImage(_ accentImage: UIImage?) {
+        if accentImage == accentImageView?.image {
+            return
+        }
+
+        if let accentImage = accentImage?.withRenderingMode(.alwaysTemplate), let imageView = imageView {
+            let accentImageView = UIImageView(image: accentImage)
+            accentImageView.translatesAutoresizingMaskIntoConstraints = false
+            insertSubview(accentImageView, belowSubview: imageView)
+            NSLayoutConstraint.activate([
+                accentImageView.centerXAnchor.constraint(equalTo: imageView.centerXAnchor),
+                accentImageView.centerYAnchor.constraint(equalTo: imageView.centerYAnchor)
+            ])
+            self.accentImageView = accentImageView
+        } else {
+            accentImageView?.removeFromSuperview()
+            accentImageView = nil
+        }
+    }
+
+    private func updateAccentImageTint(_ tintColor: UIColor?) {
+        guard let tintColor = tintColor else {
+            return
+        }
+        accentImageView?.tintColor = tintColor
     }
 
     private func updateStyle() {
-        tintColor = isSelected ? selectedTintColor : CommandBarButton.normalTintColor
-        setTitleColor(tintColor, for: .normal)
+        // TODO: Once iOS 14 support is dropped, this should be converted to a constant (let) that will be initialized by the logic below.
+        var resolvedBackgroundColor: UIColor = .clear
+        let resolvedTintColor: UIColor = isSelected ? selectedTintColor : ColorConstants.normalTintColor
 
-        if !isPersistSelection {
-            backgroundColor = .clear
-        } else {
+        if isPersistSelection {
             if isSelected {
-                backgroundColor = selectedBackgroundColor
+                resolvedBackgroundColor = selectedBackgroundColor
             } else if isHighlighted {
-                backgroundColor = CommandBarButton.highlightedBackgroundColor
+                resolvedBackgroundColor = ColorConstants.highlightedBackgroundColor
             } else {
-                backgroundColor = CommandBarButton.normalBackgroundColor
+                resolvedBackgroundColor = ColorConstants.normalBackgroundColor
             }
+        }
+
+        tintColor = resolvedTintColor
+        if #available(iOS 15.0, *) {
+            configuration?.baseForegroundColor = resolvedTintColor
+            configuration?.background.backgroundColor = resolvedBackgroundColor
+        } else {
+            backgroundColor = resolvedBackgroundColor
+            setTitleColor(tintColor, for: .normal)
         }
     }
 
-    private static let contentEdgeInsets = UIEdgeInsets(top: 8.0, left: 10.0, bottom: 8.0, right: 10.0)
-    private static let normalTintColor: UIColor = Colors.textPrimary
-    private static let normalBackgroundColor = UIColor(light: Colors.gray50, dark: Colors.gray600)
-    private static let highlightedBackgroundColor = UIColor(light: Colors.gray100, dark: Colors.gray900)
+    private func addCustomView(_ view: UIView) {
+        view.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(view)
+
+        /// Constrain view to edges of the button
+        NSLayoutConstraint.activate([
+            view.leadingAnchor.constraint(equalTo: leadingAnchor),
+            view.trailingAnchor.constraint(equalTo: trailingAnchor),
+            view.topAnchor.constraint(equalTo: topAnchor),
+            view.bottomAnchor.constraint(equalTo: bottomAnchor)
+        ])
+    }
+
+    private struct LayoutConstants {
+        static let contentInsets = NSDirectionalEdgeInsets(top: 8.0,
+                                                           leading: 10.0,
+                                                           bottom: 8.0,
+                                                           trailing: 10.0)
+        static let contentEdgeInsets = UIEdgeInsets(top: 8.0,
+                                                    left: 10.0,
+                                                    bottom: 8.0,
+                                                    right: 10.0)
+    }
+
+    private struct ColorConstants {
+        static let normalTintColor: UIColor = Colors.textPrimary
+        static let normalBackgroundColor = UIColor(light: Colors.gray50,
+                                                   dark: Colors.gray600)
+        static let highlightedBackgroundColor = UIColor(light: Colors.gray100,
+                                                        dark: Colors.gray900)
+    }
 }

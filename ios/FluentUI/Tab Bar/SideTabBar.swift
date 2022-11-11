@@ -17,7 +17,7 @@ public protocol SideTabBarDelegate {
     /// Called after the avatar view is tapped in the side tab bar.
     /// - Parameter sideTabBar: The side tab bar.
     /// - Parameter avatarView: The avatar view.
-    @objc optional func sideTabBar(_ sideTabBar: SideTabBar, didActivate avatarView: AvatarView)
+    @objc optional func sideTabBar(_ sideTabBar: SideTabBar, didActivate avatarView: MSFAvatar)
 }
 
 /// View for a vertical side tab bar that can be used for app navigation.
@@ -27,8 +27,8 @@ open class SideTabBar: UIView {
     /// Delegate to handle user interactions in the side tab bar.
     @objc public weak var delegate: SideTabBarDelegate? {
         didSet {
-            if let avatarView = avatarView {
-                avatarView.accessibilityTraits = delegate != nil ? .button : .image
+            if let avatar = avatar {
+                avatar.state.hasButtonAccessibilityTrait = delegate != nil
             }
         }
     }
@@ -36,25 +36,28 @@ open class SideTabBar: UIView {
     /// The avatar view that displays above the top tab bar items.
     /// The avatar view's size class should be AvatarSize.medium.
     /// Remember to enable pointer interactions on the avatar view if it handles pointer interactions.
-    @objc open var avatarView: AvatarView? {
+    @objc open var avatar: MSFAvatar? {
         willSet {
-            avatarView?.removeGestureRecognizer(avatarViewGestureRecognizer)
-            avatarView?.removeFromSuperview()
+            avatar?.removeGestureRecognizer(avatarViewGestureRecognizer)
+            avatar?.removeFromSuperview()
         }
         didSet {
-            if let avatarView = avatarView {
-                avatarView.avatarSize = .medium
-                avatarView.translatesAutoresizingMaskIntoConstraints = false
-                avatarView.overrideAccessibilityLabel = "Accessibility.LargeTitle.ProfileView".localized
-                addSubview(avatarView)
+            if let avatar = avatar {
+                let avatarState = avatar.state
+                avatarState.size = .size32
+                avatarState.accessibilityLabel = "Accessibility.LargeTitle.ProfileView".localized
+                avatarState.hasButtonAccessibilityTrait = delegate != nil
 
-                if delegate != nil {
-                    avatarView.accessibilityTraits = .button
-                }
+                let avatarView = avatar
+                avatarView.translatesAutoresizingMaskIntoConstraints = false
+                avatarView.showsLargeContentViewer = true
+                avatarView.largeContentTitle = avatarState.accessibilityLabel
+                addSubview(avatarView)
 
                 avatarView.addGestureRecognizer(avatarViewGestureRecognizer)
             }
 
+            updateAccessibilityIndex()
             setupLayoutConstraints()
         }
     }
@@ -123,6 +126,7 @@ open class SideTabBar: UIView {
         addInteraction(UILargeContentViewerInteraction())
 
         accessibilityTraits = .tabBar
+        shouldGroupAccessibilityChildren = true
 
         NSLayoutConstraint.activate([widthAnchor.constraint(equalToConstant: Constants.viewWidth),
                                      borderLine.leadingAnchor.constraint(equalTo: trailingAnchor),
@@ -135,7 +139,7 @@ open class SideTabBar: UIView {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
-    private enum Section: Int {
+    private enum Section: Int, CaseIterable {
         case top
         case bottom
     }
@@ -158,7 +162,7 @@ open class SideTabBar: UIView {
     }
 
     private var layoutConstraints: [NSLayoutConstraint] = []
-    private let borderLine = Separator(style: .shadow, orientation: .vertical)
+    private let borderLine = MSFDivider(orientation: .vertical)
 
     private let backgroundView: UIVisualEffectView = {
         var style = UIBlurEffect.Style.regular
@@ -185,10 +189,11 @@ open class SideTabBar: UIView {
             layoutConstraints.removeAll()
         }
 
-        if let avatarView = avatarView {
+        if let avatar = avatar {
             // The avatar view's distance from the top of the side tab bar depends on safe layout guides.
             // There is a minimum spacing. If the layout guide spacing is large than the minimum spacing,
             // then the spacing will be layoutGuideSpacing + safeTopSpacing.
+            let avatarView = avatar
             let topSafeConstraint = avatarView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: Constants.avatarViewSafeTopSpacing)
             topSafeConstraint.priority = .defaultHigh
 
@@ -254,7 +259,35 @@ open class SideTabBar: UIView {
             selectedTopItem = allItems.first
         }
 
+        updateAccessibilityIndex()
         setupLayoutConstraints()
+    }
+
+    private func updateAccessibilityIndex() {
+        // iOS 14.0 - 14.5 `.tabBar` accessibilityTrait does not read out the index automatically
+        if #available(iOS 14.6, *) {} else {
+            var totalCount: Int = 0
+            for section in Section.allCases {
+                let currentStackView = stackView(in: section)
+                totalCount += currentStackView.arrangedSubviews.count
+            }
+
+            var previousSectionCount: Int = 0
+            if let avatar = avatar, !avatar.isHidden {
+                totalCount += 1
+                previousSectionCount += 1
+            }
+
+            for section in Section.allCases {
+                let currentStackView = stackView(in: section)
+
+                for (index, itemView) in currentStackView.arrangedSubviews.enumerated() {
+                    let accessibilityIndex = index + 1 + previousSectionCount
+                    itemView.accessibilityHint = String.localizedStringWithFormat( "Accessibility.TabBarItemView.Hint".localized, accessibilityIndex, totalCount)
+                }
+                previousSectionCount += currentStackView.arrangedSubviews.count
+            }
+        }
     }
 
     private func items(in section: Section) -> [TabBarItem] {
@@ -290,6 +323,16 @@ open class SideTabBar: UIView {
         return nil
     }
 
+    /// Returns the first match of an optional view for a given tab bar item.
+    /// Searches for the view in the top and bottom sections in that order of priority. Returns nil if the view is not found in either section.
+    @objc public func itemView(with item: TabBarItem) -> UIView? {
+        if let view = itemView(with: item, in: .top) {
+            return view
+        }
+
+        return itemView(with: item, in: .bottom)
+    }
+
     private class func createStackView(spacing: CGFloat) -> UIStackView {
         let stackView = UIStackView(frame: .zero)
         stackView.axis = .vertical
@@ -302,7 +345,11 @@ open class SideTabBar: UIView {
     }
 
     @objc private func handleAvatarViewTapped(_ recognizer: UITapGestureRecognizer) {
-        delegate?.sideTabBar?(self, didActivate: avatarView!)
+        guard let avatar = avatar else {
+            return
+        }
+
+        delegate?.sideTabBar?(self, didActivate: avatar)
     }
 
     @objc private func handleTopItemTapped(_ recognizer: UITapGestureRecognizer) {

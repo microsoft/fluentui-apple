@@ -131,6 +131,42 @@ open class Button: NSButton {
 		}
 	}
 
+	/// When set to a non `nil` value ,this image will always be placed on the trailing edge of the button.
+	/// It is designed to remain independent of  the `imagePosition` value of the NSButton which applies to the built-in `image` property.
+	@objc public var trailingImage: NSImage? {
+		didSet {
+			guard oldValue != trailingImage else {
+				return
+			}
+
+			guard let cell = cell as? ButtonCell else {
+				preconditionFailure("The FluentUI `Button` should only be used with the `ButtonCell` cell class.")
+			}
+
+			if let trailingImage = trailingImage {
+				if let trailingImageView = trailingImageView {
+					trailingImageView.image = trailingImage
+				} else {
+					let imageView = NSImageView(image: trailingImage)
+					imageView.translatesAutoresizingMaskIntoConstraints = false
+					addSubview(imageView)
+					NSLayoutConstraint.activate([
+						imageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -cell.horizontalPadding),
+						imageView.centerYAnchor.constraint(equalTo: centerYAnchor)
+					])
+					trailingImageView = imageView
+				}
+				updateTrailingImageContentTintColor()
+			} else {
+				// Handle replacement/removal of a previously set image
+				trailingImageView?.removeFromSuperview()
+				trailingImageView = nil
+			}
+		}
+	}
+
+	private var trailingImageView: NSImageView?
+
 	/// Title string to display in the button.
 	public override var title: String {
 		willSet {
@@ -264,6 +300,19 @@ open class Button: NSButton {
 		} else {
 			contentTintColor = contentTintColorRest
 		}
+		updateTrailingImageContentTintColor()
+	}
+
+	private func updateTrailingImageContentTintColor() {
+		if let trailingImageView = trailingImageView {
+			if !isEnabled {
+				trailingImageView.contentTintColor = contentTintColorDisabled
+			} else if isPressed {
+				trailingImageView.contentTintColor = contentTintColorPressed
+			} else {
+				trailingImageView.contentTintColor = contentTintColorRest
+			}
+		}
 	}
 
 	private func setColorValues(forStyle: ButtonStyle, accentColor: NSColor) {
@@ -342,10 +391,13 @@ open class Button: NSButton {
 
 	private static let borderWidth: CGFloat = 1
 
+	private var minButtonHeight: CGFloat = ButtonSizeParameters.large.minButtonHeight
+
 	private func setSizeParameters(forSize: ButtonSize) {
 		let parameters = ButtonSizeParameters.parameters(forSize: size)
 		font = NSFont.systemFont(ofSize: parameters.fontSize)
 		cornerRadius = parameters.cornerRadius
+		minButtonHeight = parameters.minButtonHeight
 		guard let cell = cell as? ButtonCell else {
 			return
 		}
@@ -367,6 +419,21 @@ open class Button: NSButton {
 			invalidateIntrinsicContentSize()
 			needsDisplay = true
 		}
+	}
+
+	open override var intrinsicContentSize: CGSize {
+		let superSize = super.intrinsicContentSize
+		let trailingImageAdjustment: CGFloat
+
+		// Account for extra space needed by `trailingImage`
+		if let trailingImage = trailingImage,
+		   let cell = cell as? ButtonCell {
+			trailingImageAdjustment = trailingImage.size.width + cell.titleToImageSpacing
+		} else {
+			trailingImageAdjustment = 0
+		}
+		return CGSize(width: superSize.width + trailingImageAdjustment,
+					  height: superSize.height < minButtonHeight ? minButtonHeight : superSize.height)
 	}
 }
 
@@ -422,11 +489,19 @@ class ButtonCell: NSButtonCell {
 			break
 		}
 
+		// Center the Primary Image
 		var x = (rect.width - imageSize.width) / 2
 		var y = (rect.height - imageSize.height) / 2
 
 		if xOffsetSign != 0 {
+			// Offset the Primary Image from the Title
 			x += CGFloat(xOffsetSign) * (titleSize.width + titleToImageSpacing) / 2
+
+			// Offset the Title from the Trailing Image
+			if let controlView = controlView as? Button,
+			   let trailingImage = controlView.trailingImage {
+				x += CGFloat(-1 * layoutDirectionSign) * (trailingImage.size.width + titleToImageSpacing) / 2
+			}
 		} else if yOffsetSign != 0 {
 			y += CGFloat(yOffsetSign) * (titleSize.height + titleToImageSpacing - titleToImageVerticalSpacingAdjustment) / 2
 		}
@@ -482,11 +557,19 @@ class ButtonCell: NSButtonCell {
 			break
 		}
 
+		// Center the Title
 		var x = (rect.width - titleSize.width) / 2
 		var y = (rect.height - titleSize.height) / 2 + titleVerticalPositionAdjustment
 
 		if xOffsetSign != 0 {
+			// Offset the Title from the Primary Image
 			x += CGFloat(xOffsetSign) * (imageSize.width + titleToImageSpacing) / 2
+
+			// Offset the Title from the Trailing Image
+			if let controlView = controlView as? Button,
+			   let trailingImage = controlView.trailingImage {
+				x += CGFloat(-1 * layoutDirectionSign) * (trailingImage.size.width + titleToImageSpacing) / 2
+			}
 		} else if yOffsetSign != 0 {
 			y += CGFloat(yOffsetSign) * (imageSize.height + titleToImageSpacing) / 2
 		}
@@ -523,7 +606,14 @@ class ButtonCell: NSButtonCell {
 /// Indicates the size of the button
 @objc(MSFButtonSize)
 public enum ButtonSize: Int, CaseIterable {
+
+	/// Minimum Button Height - 28 pts
 	case large
+
+	/// Minimum Button Height - 24 pts
+	case medium
+
+	/// Minimum Button Height - 20 pts
 	case small
 }
 
@@ -587,6 +677,7 @@ private struct ButtonSizeParameters {
 	fileprivate let titleVerticalPositionAdjustment: CGFloat
 	fileprivate let titleToImageSpacing: CGFloat
 	fileprivate let titleToImageVerticalSpacingAdjustment: CGFloat
+	fileprivate var minButtonHeight: CGFloat
 
 	static let large = ButtonSizeParameters(
 		fontSize: 15,  // line height: 19
@@ -595,7 +686,19 @@ private struct ButtonSizeParameters {
 		horizontalPadding: 36,
 		titleVerticalPositionAdjustment: -0.25,
 		titleToImageSpacing: 10,
-		titleToImageVerticalSpacingAdjustment: 7
+		titleToImageVerticalSpacingAdjustment: 7,
+		minButtonHeight: 28
+	)
+
+	static let medium = ButtonSizeParameters(
+		fontSize: 13,  // line height: 17
+		cornerRadius: 6,
+		verticalPadding: 2.0, // overall height: 24
+		horizontalPadding: 5,
+		titleVerticalPositionAdjustment: 0,
+		titleToImageSpacing: 3,
+		titleToImageVerticalSpacingAdjustment: 7,
+		minButtonHeight: 24
 	)
 
 	static let small = ButtonSizeParameters(
@@ -605,13 +708,16 @@ private struct ButtonSizeParameters {
 		horizontalPadding: 14,
 		titleVerticalPositionAdjustment: 0,
 		titleToImageSpacing: 6,
-		titleToImageVerticalSpacingAdjustment: 7
+		titleToImageVerticalSpacingAdjustment: 7,
+		minButtonHeight: 20
 	)
 
 	static func parameters(forSize: ButtonSize) -> ButtonSizeParameters {
 		switch forSize {
 		case .large:
 			return .large
+		case .medium:
+			return .medium
 		case .small:
 			return .small
 		}

@@ -101,44 +101,56 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 	var fluentButtons: [Button] = []
 
 	override func loadView() {
+		let materialPopupLabel = "Pane Material"
 		materialsPopup.addItems(withTitles: effectViewMaterials.keys.sorted())
 		materialsPopup.menu?.delegate = self
 		materialsPopup.target = self
 		materialsPopup.action = #selector(TestButtonViewController.materialChanged)
+		materialsPopup.setAccessibilityLabel(materialPopupLabel)
 
+		let backgroundColorsPopupLabel = "Pane Color"
 		backgroundColorsPopup.addItems(withTitles: backgroundColors.keys.sorted())
 		backgroundColorsPopup.menu?.delegate = self
 		backgroundColorsPopup.target = self
 		backgroundColorsPopup.action = #selector(TestButtonViewController.backgroundColorChanged)
+		backgroundColorsPopup.setAccessibilityLabel(backgroundColorsPopupLabel)
 
+		let imagePositionsPopupLabel = "Image Position"
 		imagePositionsPopup.addItems(withTitles: imagePositions.keys.sorted())
 		imagePositionsPopup.selectItem(withTitle: defaultImagePosition)
 		imagePositionsPopup.menu?.delegate = self
 		imagePositionsPopup.target = self
 		imagePositionsPopup.action = #selector(TestButtonViewController.imagePositionChanged)
+		imagePositionsPopup.setAccessibilityLabel(imagePositionsPopupLabel)
 
+		let buttonStatesPopupLabel = "Button State"
 		buttonStatesPopup.addItems(withTitles: buttonStates)
 		buttonStatesPopup.menu?.delegate = self
 		buttonStatesPopup.target = self
 		buttonStatesPopup.action = #selector(TestButtonViewController.stateChanged)
+		buttonStatesPopup.setAccessibilityLabel(buttonStatesPopupLabel)
 
+		let widthPopupLabel = "Button Width"
 		widthPopup.addItems(withTitles: widths.keys.sorted())
 		widthPopup.menu?.delegate = self
 		widthPopup.target = self
 		widthPopup.action = #selector(TestButtonViewController.widthConstraintsChanged)
+		widthPopup.setAccessibilityLabel(widthPopupLabel)
 
+		let heightPopupLabel = "Button Height"
 		heightPopup.addItems(withTitles: heights.keys.sorted())
 		heightPopup.menu?.delegate = self
 		heightPopup.target = self
 		heightPopup.action = #selector(TestButtonViewController.heightConstraintsChanged)
+		heightPopup.setAccessibilityLabel(heightPopupLabel)
 
 		let tools = [
-			[NSTextField(labelWithString: "Pane Material:"), materialsPopup],
-			[NSTextField(labelWithString: "Pane Color:"), backgroundColorsPopup],
-			[NSTextField(labelWithString: "Image Position:"), imagePositionsPopup],
-			[NSTextField(labelWithString: "Button State:"), buttonStatesPopup],
-			[NSTextField(labelWithString: "Button Width:"), widthPopup],
-			[NSTextField(labelWithString: "Button Height:"), heightPopup]
+			[NSTextField(labelWithString: "\(materialPopupLabel):"), materialsPopup],
+			[NSTextField(labelWithString: "\(backgroundColorsPopupLabel):"), backgroundColorsPopup],
+			[NSTextField(labelWithString: "\(imagePositionsPopupLabel):"), imagePositionsPopup],
+			[NSTextField(labelWithString: "\(buttonStatesPopupLabel):"), buttonStatesPopup],
+			[NSTextField(labelWithString: "\(widthPopupLabel):"), widthPopup],
+			[NSTextField(labelWithString: "\(heightPopupLabel):"), heightPopup]
 		]
 
 		let toolsGrid = NSGridView(views: tools)
@@ -159,6 +171,10 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 		let largeSecondary = ButtonFormat(size: .large, style: .secondary, accentColor: communicationBlue)
 		let largeAcrylic = ButtonFormat(size: .large, style: .acrylic, accentColor: communicationBlue)
 		let largeBorderless = ButtonFormat(size: .large, style: .borderless, accentColor: communicationBlue)
+		let mediumPrimary = ButtonFormat(size: .medium, style: .primary, accentColor: communicationBlue)
+		let mediumSecondary = ButtonFormat(size: .medium, style: .secondary, accentColor: communicationBlue)
+		let mediumAcrylic = ButtonFormat(size: .medium, style: .acrylic, accentColor: communicationBlue)
+		let mediumBorderless = ButtonFormat(size: .medium, style: .borderless, accentColor: communicationBlue)
 		let smallPrimary = ButtonFormat(size: .small, style: .primary, accentColor: Colors.primary)
 		let smallSecondary = ButtonFormat(size: .small, style: .secondary, accentColor: Colors.primary)
 		let smallAcrylic = ButtonFormat(size: .small, style: .acrylic, accentColor: Colors.primary)
@@ -171,6 +187,10 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 			largeSecondary,
 			largeAcrylic,
 			largeBorderless,
+			mediumPrimary,
+			mediumSecondary,
+			mediumAcrylic,
+			mediumBorderless,
 			smallPrimary,
 			smallSecondary,
 			smallAcrylic,
@@ -183,6 +203,10 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 			NSTextField(labelWithString: "Large Secondary"),
 			NSTextField(labelWithString: "Large Acrylic"),
 			NSTextField(labelWithString: "Large Borderless"),
+			NSTextField(labelWithString: "Medium Primary"),
+			NSTextField(labelWithString: "Medium Secondary"),
+			NSTextField(labelWithString: "Medium Acrylic"),
+			NSTextField(labelWithString: "Medium Borderless"),
 			NSTextField(labelWithString: "Small Primary"),
 			NSTextField(labelWithString: "Small Secondary"),
 			NSTextField(labelWithString: "Small Acrylic"),
@@ -192,6 +216,7 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 		// Parameters for buttons in "Custom" row
 		let customTitle = "Atom"
 		let customImage = NSImage(named: TestButtonViewController.nonTemplateImage)!
+		customImage.accessibilityDescription = customTitle
 		customImage.isTemplate = true
 		let customFormat = ButtonFormat(size: .large, style: .primary, accentColor: Colors.Palette.blueMagenta30.color)
 
@@ -210,6 +235,20 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 			return [customButton] + formats.map({ Button(title: title, image: image, format: $0) })
 		}
 
+		let trailingImage = NSImage(named: "ic_fluent_chevron_down_12_regular")
+		let buttonsWithTitleAndTwoImages: () -> [Button] = {
+			let customButton = Button()
+			customButton.title = customTitle
+			customButton.image = customImage
+			customButton.trailingImage = trailingImage
+			customButton.format = customFormat
+			return [customButton] + formats.map({
+				let button = Button(title: title, image: image, format: $0)
+				button.trailingImage = trailingImage
+				return button
+			})
+		}
+
 		let buttonsWithImage: () -> [Button] = {
 			let customButton = Button()
 			customButton.image = customImage
@@ -226,6 +265,7 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 		let buttonColumns = [
 			buttonsWithTitle(),
 			buttonsWithTitleAndImage(),
+			buttonsWithTitleAndTwoImages(),
 			buttonsWithImage()
 		]
 		for newColumn in buttonColumns {
@@ -252,6 +292,7 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 			NSGridCell.emptyContentView,
 			NSTextField(labelWithString: "Title"),
 			NSTextField(labelWithString: "Title & Image"),
+			NSTextField(labelWithString: "Title & Two Images"),
 			NSTextField(labelWithString: "Image")
 		]
 		fluentButtonsGrid.insertRow(at: 0, with: columnLabels)

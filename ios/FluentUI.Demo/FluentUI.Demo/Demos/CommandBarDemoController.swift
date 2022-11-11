@@ -32,6 +32,10 @@ class CommandBarDemoController: DemoController {
 
         case textStyle
 
+        case customView
+
+        case disabledText
+
         var iconImage: UIImage? {
             switch self {
             case .add:
@@ -66,7 +70,17 @@ class CommandBarDemoController: DemoController {
                 return UIImage(named: "link24Regular")
             case .keyboard:
                 return UIImage(named: "keyboardDock24Regular")
-            case .textStyle:
+            case .textStyle, .disabledText, .customView:
+                return nil
+            }
+        }
+
+        var accentImage: UIImage? {
+            switch self {
+            case .delete:
+                return UIImage(named: "delete24Filled")
+            case .add, .mention, .calendar, .textBold, .textItalic, .textUnderline, .textStrikethrough, .arrowUndo,
+                    .arrowRedo, .copy, .checklist, .bulletList, .numberList, .link, .keyboard, .textStyle, .customView, .disabledText:
                 return nil
             }
         }
@@ -75,7 +89,12 @@ class CommandBarDemoController: DemoController {
             switch self {
             case .textStyle:
                 return TextStyle.body.textRepresentation
-            default:
+            case .disabledText:
+                return "Search"
+            case .add:
+                return "Add"
+            case .delete, .mention, .calendar, .textBold, .textItalic, .textUnderline, .textStrikethrough, .arrowUndo,
+                    .arrowRedo, .copy, .checklist, .bulletList, .numberList, .link, .keyboard, .customView:
                 return nil
             }
         }
@@ -84,14 +103,17 @@ class CommandBarDemoController: DemoController {
             switch self {
             case .textStyle:
                 return TextStyle.body.font
-            default:
+            case .disabledText:
+                return .systemFont(ofSize: 15, weight: .regular)
+            case .add, .mention, .calendar, .textBold, .textItalic, .textUnderline, .textStrikethrough, .arrowUndo,
+                    .arrowRedo, .copy, .checklist, .bulletList, .numberList, .link, .keyboard, .delete, .customView:
                 return nil
             }
         }
 
         var isPersistSelection: Bool {
             switch self {
-            case .add, .mention, .calendar, .arrowUndo, .arrowRedo, .copy, .delete, .link, .keyboard, .textStyle:
+            case .add, .mention, .calendar, .arrowUndo, .arrowRedo, .copy, .delete, .link, .keyboard, .textStyle, .disabledText, .customView:
                 return false
             case .textBold, .textItalic, .textUnderline, .textStrikethrough, .checklist, .bulletList, .numberList:
                 return true
@@ -135,10 +157,13 @@ class CommandBarDemoController: DemoController {
         }
     }
 
+    var defaultCommandBar: CommandBar?
+    var animateCommandBarDelegateEvents: Bool = false
+
     let textField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.backgroundColor = Colors.Navigation.System.background
+        textField.backgroundColor = Colors.navigationBarBackground
         textField.placeholder = "Text Field"
 
         return textField
@@ -150,6 +175,115 @@ class CommandBarDemoController: DemoController {
         container.layoutMargins.left = 0
         view.backgroundColor = Colors.surfaceSecondary
 
+        container.addArrangedSubview(createLabelWithText("Default"))
+
+        let commandBar = CommandBar(itemGroups: createItemGroups(), leadingItemGroups: [[newItem(for: .keyboard)]])
+        commandBar.delegate = self
+        commandBar.translatesAutoresizingMaskIntoConstraints = false
+        commandBar.backgroundColor = Colors.navigationBarBackground
+        container.addArrangedSubview(commandBar)
+        defaultCommandBar = commandBar
+
+        let itemCustomizationContainer = UIStackView()
+        itemCustomizationContainer.spacing = CommandBarDemoController.verticalStackViewSpacing
+        itemCustomizationContainer.axis = .vertical
+        itemCustomizationContainer.backgroundColor = Colors.navigationBarBackground
+
+        itemCustomizationContainer.addArrangedSubview(UIView()) //Spacer
+
+        let refreshButton = Button(style: .tertiaryOutline)
+        refreshButton.setTitle("Refresh 'Default' Bar", for: .normal)
+        refreshButton.addTarget(self, action: #selector(refreshDefaultBarItems), for: .touchUpInside)
+        itemCustomizationContainer.addArrangedSubview(refreshButton)
+
+        let removeTrailingItemButton = Button(style: .tertiaryOutline)
+        removeTrailingItemButton.setTitle("Remove Trailing Button", for: .normal)
+        removeTrailingItemButton.addTarget(self, action: #selector(removeDefaultTrailingBarItems), for: .touchUpInside)
+        itemCustomizationContainer.addArrangedSubview(removeTrailingItemButton)
+
+        let refreshTrailingItemButton = Button(style: .tertiaryOutline)
+        refreshTrailingItemButton.setTitle("Refresh Trailing Button", for: .normal)
+        refreshTrailingItemButton.addTarget(self, action: #selector(refreshDefaultTrailingBarItems), for: .touchUpInside)
+        itemCustomizationContainer.addArrangedSubview(refreshTrailingItemButton)
+
+        let removeLeadingItemButton = Button(style: .tertiaryOutline)
+        removeLeadingItemButton.setTitle("Remove Leading Button", for: .normal)
+        removeLeadingItemButton.addTarget(self, action: #selector(removeDefaultLeadingBarItems), for: .touchUpInside)
+        itemCustomizationContainer.addArrangedSubview(removeLeadingItemButton)
+
+        let refreshLeadingItemButton = Button(style: .tertiaryOutline)
+        refreshLeadingItemButton.setTitle("Refresh Leading Button", for: .normal)
+        refreshLeadingItemButton.addTarget(self, action: #selector(refreshDefaultLeadingBarItems), for: .touchUpInside)
+        itemCustomizationContainer.addArrangedSubview(refreshLeadingItemButton)
+
+        let resetScrollPositionButton = Button(style: .tertiaryOutline)
+        resetScrollPositionButton.setTitle("Reset Scroll Position", for: .normal)
+        resetScrollPositionButton.addTarget(self, action: #selector(resetScrollPosition), for: .touchUpInside)
+        itemCustomizationContainer.addArrangedSubview(resetScrollPositionButton)
+
+        let deleteAccentImageStackView = createHorizontalStackView()
+        deleteAccentImageStackView.addArrangedSubview(createLabelWithText("\"Delete\" Accent Image"))
+        let deleteAccentImageSwitch: UISwitch = UISwitch()
+        deleteAccentImageSwitch.isOn = true
+        deleteAccentImageSwitch.addTarget(self, action: #selector(deleteAccentImageValueChange), for: .valueChanged)
+        deleteAccentImageStackView.addArrangedSubview(deleteAccentImageSwitch)
+        itemCustomizationContainer.addArrangedSubview(deleteAccentImageStackView)
+
+        let itemEnabledStackView = createHorizontalStackView()
+        itemEnabledStackView.addArrangedSubview(createLabelWithText("'+' Enabled"))
+        let itemEnabledSwitch: UISwitch = UISwitch()
+        itemEnabledSwitch.isOn = true
+        itemEnabledSwitch.addTarget(self, action: #selector(itemEnabledValueChanged), for: .valueChanged)
+        itemEnabledStackView.addArrangedSubview(itemEnabledSwitch)
+        itemCustomizationContainer.addArrangedSubview(itemEnabledStackView)
+
+        let itemHiddenStackView = createHorizontalStackView()
+        itemHiddenStackView.addArrangedSubview(createLabelWithText("'Delete' Hidden"))
+        let itemHiddenSwitch: UISwitch = UISwitch()
+        itemHiddenSwitch.isOn = false
+        itemHiddenSwitch.addTarget(self, action: #selector(itemHiddenValueChanged), for: .valueChanged)
+        itemHiddenStackView.addArrangedSubview(itemHiddenSwitch)
+        itemCustomizationContainer.addArrangedSubview(itemHiddenStackView)
+
+        let commandBarDelegateEventAnimationView = createHorizontalStackView()
+        commandBarDelegateEventAnimationView.addArrangedSubview(createLabelWithText("Animate CommandBarDelegate Events"))
+        let commandBarDelegateEventAnimationSwitch: UISwitch = UISwitch()
+        commandBarDelegateEventAnimationSwitch.isOn = animateCommandBarDelegateEvents
+        commandBarDelegateEventAnimationSwitch.addTarget(self, action: #selector(animateCommandBarDelegateEventsValueChanged), for: .valueChanged)
+        commandBarDelegateEventAnimationView.addArrangedSubview(commandBarDelegateEventAnimationSwitch)
+        itemCustomizationContainer.addArrangedSubview(commandBarDelegateEventAnimationView)
+
+        itemCustomizationContainer.addArrangedSubview(UIView()) //Spacer
+
+        container.addArrangedSubview(itemCustomizationContainer)
+
+        container.addArrangedSubview(createLabelWithText("With Fixed Button"))
+
+        let fixedButtonCommandBar = CommandBar(itemGroups: createItemGroups(), leadingItemGroups: [[newItem(for: .copy)]], trailingItemGroups: [[newItem(for: .keyboard)]])
+        fixedButtonCommandBar.translatesAutoresizingMaskIntoConstraints = false
+        fixedButtonCommandBar.backgroundColor = Colors.navigationBarBackground
+        container.addArrangedSubview(fixedButtonCommandBar)
+
+        container.addArrangedSubview(createLabelWithText("In Input Accessory View"))
+
+        let textFieldContainer = UIView()
+        textFieldContainer.backgroundColor = Colors.navigationBarBackground
+        textFieldContainer.addSubview(textField)
+        NSLayoutConstraint.activate([
+            textField.topAnchor.constraint(equalTo: textFieldContainer.topAnchor, constant: 16.0),
+            textField.leadingAnchor.constraint(equalTo: textFieldContainer.leadingAnchor, constant: 16.0),
+            textFieldContainer.bottomAnchor.constraint(equalTo: textField.bottomAnchor, constant: 16.0),
+            textFieldContainer.trailingAnchor.constraint(equalTo: textField.trailingAnchor, constant: 16.0)
+        ])
+
+        container.addArrangedSubview(textFieldContainer)
+
+        let accessoryCommandBar = CommandBar(itemGroups: createItemGroups(), trailingItemGroups: [[newItem(for: .keyboard)]])
+        accessoryCommandBar.translatesAutoresizingMaskIntoConstraints = false
+        textField.inputAccessoryView = accessoryCommandBar
+    }
+
+    func createItemGroups() -> [CommandBarItemGroup] {
         let commandGroups: [[Command]] = [
             [
                 .add,
@@ -158,6 +292,9 @@ class CommandBarDemoController: DemoController {
             ],
             [
                 .textStyle
+            ],
+            [
+                .disabledText
             ],
             [
                 .textBold,
@@ -177,6 +314,9 @@ class CommandBarDemoController: DemoController {
                 .bulletList,
                 .numberList,
                 .link
+            ],
+            [
+                .customView
             ]
         ]
 
@@ -187,43 +327,15 @@ class CommandBarDemoController: DemoController {
         }
 
         itemGroups[0][1].isEnabled = false
+        itemGroups[2][0].isEnabled = false
 
-        if #available(iOS 14.0, *) {
-            // Copy item
-            let copyItem = itemGroups[3][0]
-            copyItem.menu = UIMenu(children: [UIAction(title: "Copy Image", image: UIImage(named: "copy24Regular"), handler: { _ in }),
-                                              UIAction(title: "Copy Text", image: UIImage(named: "text24Regular"), handler: { _ in })])
-            copyItem.showsMenuAsPrimaryAction = true
-        }
+        // Copy item
+        let copyItem = itemGroups[4][0]
+        copyItem.menu = UIMenu(children: [UIAction(title: "Copy Image", image: UIImage(named: "copy24Regular"), handler: { _ in }),
+                                          UIAction(title: "Copy Text", image: UIImage(named: "text24Regular"), handler: { _ in })])
+        copyItem.showsMenuAsPrimaryAction = true
 
-        container.addArrangedSubview(createLabelWithText("Default"))
-
-        let defaultCommandBar = CommandBar(itemGroups: itemGroups)
-        defaultCommandBar.backgroundColor = Colors.Navigation.System.background
-        container.addArrangedSubview(defaultCommandBar)
-
-        container.addArrangedSubview(createLabelWithText("With Fixed Button"))
-
-        let fixedButtonCommandBar = CommandBar(itemGroups: itemGroups, leadingItem: newItem(for: .copy), trailingItem: newItem(for: .keyboard))
-        fixedButtonCommandBar.backgroundColor = Colors.Navigation.System.background
-        container.addArrangedSubview(fixedButtonCommandBar)
-
-        container.addArrangedSubview(createLabelWithText("In Input Accessory View"))
-
-        let textFieldContainer = UIView()
-        textFieldContainer.backgroundColor = Colors.Navigation.System.background
-        textFieldContainer.addSubview(textField)
-        NSLayoutConstraint.activate([
-            textField.topAnchor.constraint(equalTo: textFieldContainer.topAnchor, constant: 16.0),
-            textField.leadingAnchor.constraint(equalTo: textFieldContainer.leadingAnchor, constant: 16.0),
-            textFieldContainer.bottomAnchor.constraint(equalTo: textField.bottomAnchor, constant: 16.0),
-            textFieldContainer.trailingAnchor.constraint(equalTo: textField.trailingAnchor, constant: 16.0)
-        ])
-
-        container.addArrangedSubview(textFieldContainer)
-
-        let accessoryCommandBar = CommandBar(itemGroups: itemGroups, trailingItem: newItem(for: .keyboard))
-        textField.inputAccessoryView = accessoryCommandBar
+        return itemGroups
     }
 
     func createLabelWithText(_ text: String = "") -> Label {
@@ -234,16 +346,32 @@ class CommandBarDemoController: DemoController {
     }
 
     func newItem(for command: Command, isEnabled: Bool = true, isSelected: Bool = false) -> CommandBarItem {
-        CommandBarItem(
+        let commandBarItem = CommandBarItem(
             iconImage: command.iconImage,
             title: command.title,
             titleFont: command.titleFont,
             isEnabled: isEnabled,
             isSelected: isSelected,
-            itemTappedHandler: { [weak self] (item) in
+            itemTappedHandler: { [weak self] (_, item) in
                 self?.handleCommandItemTapped(command: command, item: item)
-            }
+            },
+            accessibilityHint: "sample accessibility hint"
         )
+
+        commandBarItem.accentImage = command.accentImage
+        if let window = view.window {
+            commandBarItem.accentImageTintColor = Colors.primary(for: window)
+        }
+
+        if command == .customView {
+            commandBarItem.customControlView = { () -> UIView in
+                let label = self.createLabelWithText("Custom View")
+                label.translatesAutoresizingMaskIntoConstraints = false
+                return label
+            }
+        }
+
+        return commandBarItem
     }
 
     func handleCommandItemTapped(command: Command, item: CommandBarItem) {
@@ -265,6 +393,88 @@ class CommandBarDemoController: DemoController {
             let action = UIAlertAction(title: "OK", style: .default)
             alert.addAction(action)
             present(alert, animated: true)
+        }
+    }
+
+    func createHorizontalStackView() -> UIStackView {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.alignment = .center
+        stackView.distribution = .fillProportionally
+        stackView.spacing = CommandBarDemoController.horizontalStackViewSpacing
+        return stackView
+    }
+
+    @objc func itemEnabledValueChanged(sender: UISwitch!) {
+        guard let item: CommandBarItem = defaultCommandBar?.itemGroups[0][0] else {
+            return
+        }
+
+        item.isEnabled = sender.isOn
+    }
+
+    @objc func itemHiddenValueChanged(sender: UISwitch!) {
+        guard let item: CommandBarItem = defaultCommandBar?.itemGroups[5][0] else {
+            return
+        }
+
+        item.isHidden = sender.isOn
+    }
+
+    @objc func deleteAccentImageValueChange(sender: UISwitch!) {
+        guard let item: CommandBarItem = defaultCommandBar?.itemGroups[5][0] else {
+            return
+        }
+
+        if sender.isOn {
+            item.accentImage = Command.delete.accentImage
+        } else {
+            item.accentImage = nil
+        }
+    }
+
+    @objc func animateCommandBarDelegateEventsValueChanged(sender: UISwitch!) {
+        animateCommandBarDelegateEvents = sender.isOn
+    }
+
+    @objc func refreshDefaultBarItems(sender: UIButton!) {
+        defaultCommandBar?.itemGroups = createItemGroups()
+    }
+
+    @objc func removeDefaultTrailingBarItems(sender: UIButton!) {
+        defaultCommandBar?.trailingItemGroups = []
+    }
+
+    @objc func refreshDefaultTrailingBarItems(sender: UIButton!) {
+        defaultCommandBar?.trailingItemGroups = [[newItem(for: .keyboard)]]
+    }
+
+    @objc func removeDefaultLeadingBarItems(sender: UIButton!) {
+        defaultCommandBar?.leadingItemGroups = []
+    }
+
+    @objc func refreshDefaultLeadingBarItems(sender: UIButton!) {
+        defaultCommandBar?.leadingItemGroups = [[newItem(for: .keyboard)]]
+    }
+
+    @objc func resetScrollPosition(sender: UIButton!) {
+        defaultCommandBar?.resetScrollPosition(true)
+    }
+
+    private static let horizontalStackViewSpacing: CGFloat = 16.0
+    private static let verticalStackViewSpacing: CGFloat = 8.0
+}
+
+extension CommandBarDemoController: CommandBarDelegate {
+    func commandBarDidScroll(_ commandBar: CommandBar) {
+        if animateCommandBarDelegateEvents {
+            let originalBackgroundColor = commandBar.backgroundColor
+
+            UIView.animate(withDuration: 1.0, delay: 0.0, options: [.allowUserInteraction]) {
+                commandBar.backgroundColor = Colors.communicationBlue
+            } completion: { _ in
+                commandBar.backgroundColor = originalBackgroundColor
+            }
         }
     }
 }

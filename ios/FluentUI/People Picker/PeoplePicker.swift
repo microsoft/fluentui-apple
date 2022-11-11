@@ -7,9 +7,6 @@ import UIKit
 
 // MARK: PeoplePickerDelegate
 
-@available(*, deprecated, renamed: "PeoplePickerDelegate")
-public typealias MSPeoplePickerDelegate = PeoplePickerDelegate
-
 @objc(MSFPeoplePickerDelegate)
 public protocol PeoplePickerDelegate: BadgeFieldDelegate {
     // Suggested personas
@@ -48,9 +45,6 @@ public protocol PeoplePickerDelegate: BadgeFieldDelegate {
 }
 
 // MARK: - PeoplePicker
-
-@available(*, deprecated, renamed: "PeoplePicker")
-public typealias MSPeoplePicker = PeoplePicker
 
 /**
  `PeoplePicker` is used to select one or more personas from a list which is populated according to the text entered into its text field. Selected personas are added to a list of `pickedPersonas` and represented visually as "badges" which can be interacted with and removed.
@@ -92,6 +86,11 @@ open class PeoplePicker: BadgeField {
      */
     @objc open var allowsPickedPersonasToAppearAsSuggested: Bool = true
 
+	/**
+	 Set `hidePersonaListViewWhenNoSuggestedPersonas` to true to hide the personaListView when no suggested personas are available, i.e. personaListView is empty.
+	 */
+	@objc open var hidePersonaListViewWhenNoSuggestedPersonas: Bool = false
+
     @objc open weak var delegate: PeoplePickerDelegate? {
         didSet {
             badgeFieldDelegate = delegate
@@ -129,7 +128,7 @@ open class PeoplePicker: BadgeField {
 
     private var containingViewBoundsObservation: NSKeyValueObservation?
 
-    private let separator = Separator()
+    private let divider = MSFDivider()
 
     @objc public override init() {
         super.init()
@@ -143,7 +142,7 @@ open class PeoplePicker: BadgeField {
 
     func initialize() {
         personaSuggestionsView.addSubview(personaListView)
-        personaSuggestionsView.addSubview(separator)
+        personaSuggestionsView.addSubview(divider)
 
         personaListView.onPersonaSelected = { [unowned self] persona in
             self.pickPersona(persona: persona)
@@ -211,12 +210,12 @@ open class PeoplePicker: BadgeField {
     }
 
     private func layoutPersonaSuggestions() {
-        if !isShowingPersonaSuggestions {
+        guard let currentWindow = window, isShowingPersonaSuggestions else {
             return
         }
 
         let position = superview?.convert(frame.origin, to: nil) ?? .zero
-        let windowSize = window?.bounds.size ?? UIScreen.main.bounds.size
+        let windowSize = currentWindow.bounds.size
 
         let containingViewController = findContainingViewController()
         let containingViewFrame = containingViewController?.view.frame ?? CGRect(origin: .zero, size: windowSize)
@@ -225,7 +224,7 @@ open class PeoplePicker: BadgeField {
         let personaSuggestionsY: CGFloat
         let personaSuggestionsHeight: CGFloat
         let separatorY: CGFloat
-        let statusBarHeight = window?.safeAreaInsets.top ?? 0
+        let statusBarHeight = currentWindow.safeAreaInsets.top
         // If the space below people picker to the keyboard is larger than the space above minus the status bar
         // then position the suggestions list below the people picker, otherwise position above
         if windowSize.height - (position.y + frame.height) - keyboardHeight > position.y - statusBarHeight {
@@ -242,7 +241,7 @@ open class PeoplePicker: BadgeField {
 
         personaListView.frame = personaSuggestionsView.bounds
 
-        separator.frame = CGRect(x: 0, y: separatorY, width: personaSuggestionsView.frame.width, height: separator.frame.height)
+        divider.frame = CGRect(x: 0, y: separatorY, width: personaSuggestionsView.frame.width, height: divider.frame.height)
     }
 
     // MARK: Personas
@@ -359,10 +358,11 @@ open class PeoplePicker: BadgeField {
     override func textFieldTextChanged() {
         super.textFieldTextChanged()
         let textFieldHasContent = !textFieldContent.isEmpty
-        isShowingPersonaSuggestions = textFieldHasContent
         if textFieldHasContent {
             getSuggestedPersonas()
         }
+        let hideEmptyPersonaListView = hidePersonaListViewWhenNoSuggestedPersonas && suggestedPersonas.isEmpty
+        isShowingPersonaSuggestions = textFieldHasContent && !hideEmptyPersonaListView
     }
 
     open override func resetTextFieldContent() {

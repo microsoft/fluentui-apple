@@ -15,22 +15,41 @@ class PeoplePickerSampleData {
         let pickedPersonas: [Persona]
         let allowsPickedPersonasToAppearAsSuggested: Bool
         let showsSearchDirectoryButton: Bool
+        let hidePersonaListViewWhenNoSuggestedPersonas: Bool
 
-        init(description: String, numberOfLines: Int = 0, pickedPersonas: [Persona] = [], allowsPickedPersonasToAppearAsSuggested: Bool = true, showsSearchDirectoryButton: Bool = true) {
+        init(description: String, numberOfLines: Int = 0, pickedPersonas: [Persona] = [], allowsPickedPersonasToAppearAsSuggested: Bool = true, showsSearchDirectoryButton: Bool = true, hidePersonaListViewWhenNoSuggestedPersonas: Bool = false) {
             self.description = description
             self.numberOfLines = numberOfLines
             self.pickedPersonas = pickedPersonas
             self.allowsPickedPersonasToAppearAsSuggested = allowsPickedPersonasToAppearAsSuggested
             self.showsSearchDirectoryButton = showsSearchDirectoryButton
+            self.hidePersonaListViewWhenNoSuggestedPersonas = hidePersonaListViewWhenNoSuggestedPersonas
         }
     }
 
     static let variants: [Variant] = [
         Variant(description: "Standard implementation with one line of picked personas", numberOfLines: 1, pickedPersonas: [samplePersonas[0], samplePersonas[4], samplePersonas[11], samplePersonas[14]]),
-        Variant(description: "Doesn't allow picked personas to appear as suggested", pickedPersonas: [samplePersonas[0], samplePersonas[9]], allowsPickedPersonasToAppearAsSuggested: false),
-        Variant(description: "Hides search directory button", pickedPersonas: [samplePersonas[13]], showsSearchDirectoryButton: false),
+        Variant(description: "Doesn't allow picked personas to appear as suggested", pickedPersonas: [samplePersonas[0], samplePersonas[8]], allowsPickedPersonasToAppearAsSuggested: false),
+        Variant(description: "Hides search directory button", pickedPersonas: [samplePersonas[13]], showsSearchDirectoryButton: false, hidePersonaListViewWhenNoSuggestedPersonas: true),
         Variant(description: "Includes callback when picking a suggested persona")
     ]
+}
+
+final class AsyncImageDemoPersona: PersonaData {
+    static let samples: [AsyncImageDemoPersona] = samplePersonas.map { persona in
+        AsyncImageDemoPersona(name: persona.name,
+                              email: persona.email,
+                              subtitle: persona.subtitle)
+    }
+
+    public func fetchImage(completion: @escaping (UIImage?) -> Void) {
+        // for demo purposes, the "fetched" image is not being cached. The image will be "re-fetched" every time the cell appears on the screen.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            let avatarImageName = "avatar_\(self.name.lowercased().replacingOccurrences(of: " ", with: "_"))"
+            let image = UIImage(named: avatarImageName)
+            completion(image)
+        }
+    }
 }
 
 // MARK: - PeoplePickerDemoController
@@ -38,19 +57,30 @@ class PeoplePickerSampleData {
 class PeoplePickerDemoController: DemoController {
     var peoplePickers: [PeoplePicker] = []
 
+    private let asyncImageSwitch = UISwitch()
+
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        asyncImageSwitch.addTarget(self, action: #selector(onAsyncImageSwitchValueChanged), for: .valueChanged)
+        setupView()
+    }
+
+    private func setupView() {
+        container.addArrangedSubview(createAsyncImageToggle())
+        container.addArrangedSubview(MSFDivider())
 
         for (index, variant) in PeoplePickerSampleData.variants.enumerated() {
             addDescription(text: variant.description)
             addPeoplePicker(for: variant)
             if index != PeoplePickerSampleData.variants.count - 1 {
-                container.addArrangedSubview(Separator())
+                let divider = MSFDivider()
+                container.addArrangedSubview(divider)
             }
         }
     }
 
-    func addPeoplePicker(for variant: PeoplePickerSampleData.Variant) {
+    private func addPeoplePicker(for variant: PeoplePickerSampleData.Variant) {
         let peoplePicker = PeoplePicker()
         peoplePicker.label = "Send to:"
         peoplePicker.availablePersonas = samplePersonas
@@ -59,9 +89,30 @@ class PeoplePickerDemoController: DemoController {
         peoplePicker.numberOfLines = variant.numberOfLines
         peoplePicker.allowsPickedPersonasToAppearAsSuggested = variant.allowsPickedPersonasToAppearAsSuggested
         peoplePicker.showsSearchDirectoryButton = variant.showsSearchDirectoryButton
+        peoplePicker.hidePersonaListViewWhenNoSuggestedPersonas = variant.hidePersonaListViewWhenNoSuggestedPersonas
         peoplePicker.delegate = self
         peoplePickers.append(peoplePicker)
         container.addArrangedSubview(peoplePicker)
+    }
+
+    private func createAsyncImageToggle() -> UIStackView {
+        let asyncImageRow = UIStackView()
+        asyncImageRow.axis = .horizontal
+        asyncImageRow.alignment = .center
+        asyncImageRow.distribution = .equalSpacing
+
+        let asyncImageLabel = Label(style: .subhead, colorStyle: .regular)
+        asyncImageLabel.text = "Load persona images asynchronously"
+
+        asyncImageRow.addArrangedSubview(asyncImageLabel)
+        asyncImageRow.addArrangedSubview(asyncImageSwitch)
+        return asyncImageRow
+    }
+
+    @objc private func onAsyncImageSwitchValueChanged() {
+        for peoplePicker in peoplePickers {
+            peoplePicker.availablePersonas = asyncImageSwitch.isOn ? AsyncImageDemoPersona.samples : samplePersonas
+        }
     }
 }
 

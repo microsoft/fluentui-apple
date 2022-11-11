@@ -12,9 +12,6 @@
 "Accessibility.Dismiss.Hint" = "แตะสองครั้งเพื่อยกเลิก";
 "Accessibility.Done.Label" = "เสร็จสิ้น";
 "Accessibility.MultiSelect.Hint" = "แตะสองครั้งเพื่อสลับการเลือก ";
-"Accessibility.Select.Hint" = "แตะสองครั้งเพื่อเลือก";
-"Accessibility.Selected.Hint" = "แตะสองครั้งเพื่อดูรายละเอียด";
-"Accessibility.Selected.Value" = "เลือกแล้ว";
 
 /* Accessibility label for the upper calendar date picker view. */
 "Accessibility.Calendar.Label" = "ปฏิทิน";
@@ -99,6 +96,9 @@
 /* Accessibility label format string for avatar view. Format: "<Name>, <Presence>". Example: "Kat, Available" */
 "Accessibility.AvatarView.LabelFormat" = "%@, %@";
 
+/* Accessibility hint for TabBarItemView in TabBarView. %1$d is placeholder for index and %2$d is a placeholder for total number of tab items  */
+"Accessibility.TabBarItemView.Hint" = "%1d จาก %2d";
+
 /* Accessibility hint for more actions button */
 "Accessibility.TableViewCell.MoreActions.Hint" = "แตะสองครั้งเพื่อดูการดำเนินการเพิ่มเติม";
 
@@ -116,6 +116,12 @@
 
 /* Format string for tab bar item accessbility labels. Format: "<Title>, <BadgeValue> items". Example: "Home, 5 items" */
 "Accessibility.TabBarItemView.LabelFormat" = "%@, %@ รายการ";
+
+/* Format string for badge label button accessibility label. Format: "<Item Accessibility>, <Badge Label Accessibility>". Example: "Notifications, 5 new notifications" */
+"Accessibility.BadgeLabelButton.LabelFormat" = "%@, %@";
+
+/* Commanding Bottom Bar - More button */
+"CommandingBottomBar.More" = "เพิ่มเติม";
 
 /* Generic label for cancel action */
 "Common.Cancel" = "ยกเลิก";

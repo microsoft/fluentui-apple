@@ -28,8 +28,9 @@ open class AvatarView: NSView {
                       contactEmail: String? = nil,
                       contactImage: NSImage? = nil) {
 
-		// Prefer contactEmail to contactName for uniqueness
-		avatarBackgroundColor = AvatarView.backgroundColor(for: AvatarView.colorIndex(for: contactEmail ?? contactName ?? ""))
+		let color = AvatarView.getInitialsColorSet(fromPrimaryText: contactName, secondaryText: contactEmail)
+		avatarBackgroundColor = color.background.resolvedColor()
+		initialsFontColor = color.foreground.resolvedColor()
 		self.contactName = contactName
 		self.contactEmail = contactEmail
 		self.contactImage = contactImage
@@ -39,14 +40,9 @@ open class AvatarView: NSView {
 
 		super.init(frame: .zero)
 
-		wantsLayer = true
-		let circularPath = CGPath.circularPath(withCircleDiameter: avatarSize)
+		let circularPath = CGPath.circularPath(withCircleDiameter: diameterForContentCircle())
 		circleMask.path = circularPath
-		outlineLayer.path = circularPath
-		outlineLayer.lineWidth = 1.0
-		outlineLayer.strokeColor = AvatarView.outlineColor.cgColor
-		outlineLayer.fillColor = nil
-		layer?.mask = circleMask
+		contentView.layer?.mask = circleMask
 
 		let widthConstraint = widthAnchor.constraint(equalToConstant: avatarSize)
 		let heightConstraint = heightAnchor.constraint(equalToConstant: avatarSize)
@@ -71,10 +67,6 @@ open class AvatarView: NSView {
 		}
 		// Disable animations for this change
 		CATransaction.setDisableActions(true)
-		outlineLayer.strokeColor = AvatarView.outlineColor.cgColor
-		if displayStyle == .initials {
-			initialsView.layer?.backgroundColor = avatarBackgroundColor.cgColor
-		}
 	}
 
 	/// The background color of the avatar view when no image is provided.
@@ -84,8 +76,22 @@ open class AvatarView: NSView {
 			guard oldValue != avatarBackgroundColor else {
 				return
 			}
+			isCustomAvatarBackgroundColorConfigured = true
 			needsDisplay = true
-			initialsTextField.backgroundColor = avatarBackgroundColor
+			initialsView.layer?.backgroundColor = avatarBackgroundColor.cgColor
+		}
+	}
+
+	/// The initials font color of the avatar view when no image is provided.
+	/// Setting this property will override the default provided color.
+	@objc open var initialsFontColor: NSColor {
+		didSet {
+			guard oldValue != initialsFontColor else {
+				return
+			}
+			isCustomAvatarInitialColorConfigured = true
+			needsDisplay = true
+			initialsTextField.textColor = initialsFontColor
 		}
 	}
 
@@ -99,8 +105,8 @@ open class AvatarView: NSView {
 
 			contactImageView.image = contactImage
 
-			// Update our display style
-			displayStyle = contactImage == nil ? .initials : .image
+			// Update our display style and content
+			updateAvatarViewContents()
 		}
 	}
 
@@ -134,15 +140,40 @@ open class AvatarView: NSView {
 				assertionFailure()
 			}
 
-			let path = CGPath.circularPath(withCircleDiameter: avatarSize)
-			circleMask.path = path
-			outlineLayer.path = path
+			updateHeight()
+		}
+	}
 
-			let textFieldFont = font(forCircleDiameter: avatarSize)
-			initialsTextField.font = textFieldFont
+	@objc open var borderColor: NSColor = AvatarView.defaultBorderColor {
+		didSet {
+			guard oldValue != borderColor, hasBorder else {
+				return
+			}
 
-			// This constraint will only exist if we're using the sizing view approach to center our initials
-			initialsSizingViewHeightConstraint?.constant = ceil(textFieldFont.capHeight)
+			borderView.strokeColor = borderColor
+			borderView.needsDisplay = true
+		}
+	}
+
+	@objc open var hasBorder: Bool = false {
+		didSet {
+			guard oldValue != hasBorder else {
+				return
+			}
+
+			borderView.isHidden = !hasBorder
+			updateHeight()
+		}
+	}
+
+	/// Set to true to not have inside gap between content of the avatarView to its border
+	@objc public var hideInsideGapForBorder: Bool = false {
+		didSet {
+			guard oldValue != hideInsideGapForBorder else {
+				return
+			}
+
+			updateHeight()
 		}
 	}
 
@@ -155,11 +186,17 @@ open class AvatarView: NSView {
 	/// The height constraint for the initials sizing view which should update on font size changes
 	private var initialsSizingViewHeightConstraint: NSLayoutConstraint?
 
-	/// The layer used to draw the colorful circle underneath the initials in the initials view
-	private let outlineLayer = CAShapeLayer()
+	/// The width constraint of contentView
+	private var  contentViewWidthConstraint: NSLayoutConstraint?
+
+	/// The height constraint of contentView
+	private var  contentViewHeightConstraint: NSLayoutConstraint?
 
 	/// The layer used to mask the overall AvatarView to a circle
 	private let circleMask = CAShapeLayer()
+
+	/// The apperance observer to update colors when theme is changed
+	private var appearanceObserver: NSKeyValueObservation?
 
 	/// A property for the display style based on whether an image exists or not.
 	private var displayStyle: DisplayStyle {
@@ -170,6 +207,16 @@ open class AvatarView: NSView {
 			updateViewStyle()
 		}
 	}
+
+	private var isCustomAvatarBackgroundColorConfigured: Bool = false
+	private var isCustomAvatarInitialColorConfigured: Bool = false
+
+	private lazy var contentView: NSView = {
+		let contentView = NSView()
+		contentView.wantsLayer = true
+		contentView.translatesAutoresizingMaskIntoConstraints = false
+		return contentView
+	}()
 
 	/// When an image is provided, this view is added to the view hierarchy
 	private lazy var contactImageView: NSImageView = {
@@ -185,7 +232,6 @@ open class AvatarView: NSView {
 		let initialsView = NSView()
 		initialsView.wantsLayer = true
 		initialsView.translatesAutoresizingMaskIntoConstraints = false
-		initialsView.layer?.backgroundColor = avatarBackgroundColor.cgColor
 
 		let textView = initialsTextField
 		initialsView.addSubview(textView)
@@ -197,7 +243,7 @@ open class AvatarView: NSView {
 
 		// If we have a font, use that to accurately center the initials, not letting diacritics and descenders/ascenders
 		// impact the centering
-		let capHeight = font(forCircleDiameter: avatarSize).capHeight
+		let capHeight = font(forCircleDiameter: diameterForContentCircle()).capHeight
 		// Create an empty view that gives reasonable sizing information on the actual text of our text view
 		let initialsTextSizingView = NSView(frame: .zero)
 		initialsView.addSubview(initialsTextSizingView)
@@ -223,61 +269,69 @@ open class AvatarView: NSView {
 		let textView = NSTextField(labelWithString: AvatarView.initialsWithFallback(name: contactName, email: contactEmail))
 		textView.alignment = .center
 		textView.translatesAutoresizingMaskIntoConstraints = false
-		textView.font = font(forCircleDiameter: avatarSize)
-		textView.textColor = .initialsViewTextColor
-		textView.drawsBackground = true
-		textView.backgroundColor = avatarBackgroundColor
+		textView.font = font(forCircleDiameter: diameterForContentCircle())
+		textView.textColor = initialsFontColor
 		return textView
 	}()
 
-	/// The view that draws the outline stroke around the edge of the AvatarView
-	private lazy var outlineView: NSView = {
-		let outlineView = NSView()
-		outlineView.translatesAutoresizingMaskIntoConstraints = false
-		outlineView.wantsLayer = true
-		outlineView.layer?.addSublayer(outlineLayer)
-		return outlineView
+	/// The view that draws the border stroke around the edge of the AvatarView
+	private lazy var borderView: BorderView = {
+		let rect = CGRect(x: 0, y: 0, width: avatarSize, height: avatarSize)
+		let borderView = BorderView(frame: rect, strokeColor: borderColor, strokeWidth: AvatarView.borderWidth)
+		borderView.translatesAutoresizingMaskIntoConstraints = false
+		borderView.isHidden = !hasBorder
+		return borderView
 	}()
 
 	/// Update this view to use the proper style when switching from Image to Initials or vice-versa
 	private func updateViewStyle() {
-		let currentView = self.currentView()
-		let accessibilityRingView = self.outlineView
+		let currentView: NSView
+		switch displayStyle {
+		case .initials:
+			initialsView.isHidden = false
+			contactImageView.isHidden = true
+			currentView = initialsView
+		case .image:
+			contactImageView.isHidden = false
+			initialsView.isHidden = true
+			currentView = contactImageView
+		}
+		contentView.addSubview(currentView)
 
 		// Replace all existing subviews with the proper ones, ensuring the correct z-ordering
 		subviews = [
-			currentView,
-			accessibilityRingView
+			contentView,
+			borderView
 		]
 
+		let diameter = diameterForContentCircle()
+		let contentViewWidthConstraint = contentView.widthAnchor.constraint(equalToConstant: diameter)
+		let contentViewHeightConstraint = contentView.heightAnchor.constraint(equalToConstant: diameter)
+		self.contentViewWidthConstraint = contentViewWidthConstraint
+		self.contentViewHeightConstraint = contentViewHeightConstraint
+
 		let constraints = [
-			currentView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-			currentView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-			currentView.topAnchor.constraint(equalTo: self.topAnchor),
-			currentView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-			accessibilityRingView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-			accessibilityRingView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-			accessibilityRingView.topAnchor.constraint(equalTo: self.topAnchor),
-			accessibilityRingView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+			contentViewWidthConstraint,
+			contentViewHeightConstraint,
+			contentView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+			contentView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+			currentView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+			currentView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+			currentView.topAnchor.constraint(equalTo: contentView.topAnchor),
+			currentView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+			borderView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+			borderView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+			borderView.topAnchor.constraint(equalTo: self.topAnchor),
+			borderView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
 		]
 
 		NSLayoutConstraint.activate(constraints)
 	}
 
-	/// Get the internal view we should be using to represent this avatar
-	///
-	/// @return `initialsView` if `displayStyle` is `.initials`, `contactImageView` if it is `.image`
-	private func currentView() -> NSView {
-		switch displayStyle {
-		case .initials:
-			return initialsView
-		case .image:
-			return contactImageView
-		}
-	}
-
 	/// Update avatar view contents based on the latest values in properties
 	private func updateAvatarViewContents() {
+		let hasImage: Bool = contactImage != nil
+
 		// Set up accessibility values if we have any information to return
 		if let bestDescription = contactName ?? contactEmail {
 			toolTip = bestDescription
@@ -286,24 +340,101 @@ open class AvatarView: NSView {
 			setAccessibilityRole(.image)
 		} else {
 			toolTip = nil
-			setAccessibilityElement(false)
 			setAccessibilityLabel(nil)
-			setAccessibilityRole(.unknown)
+			if !hasImage {
+				setAccessibilityElement(false)
+				setAccessibilityRole(.unknown)
+			}
 		}
 
 		initialsTextField.stringValue = AvatarView.initialsWithFallback(name: contactName, email: contactEmail)
-		avatarBackgroundColor = AvatarView.backgroundColor(for: AvatarView.colorIndex(for: contactEmail ?? contactName ?? ""))
+		displayStyle = hasImage ? .image : .initials
+		updateAppearance(window?.effectiveAppearance)
 	}
 
-	/// Get the color associated with a given index
+	private func updateAppearance(_ appearance: NSAppearance? = nil) {
+		if displayStyle != .initials {
+			return
+		}
+
+		var updatedBackgroundColor = avatarBackgroundColor
+		var updatedInitialsColor = initialsFontColor
+		if !isCustomAvatarBackgroundColorConfigured || !isCustomAvatarInitialColorConfigured {
+			let defaultColorSet = AvatarView.getInitialsColorSet(fromPrimaryText: contactEmail, secondaryText: contactName)
+
+			if !isCustomAvatarBackgroundColorConfigured {
+				updatedBackgroundColor = defaultColorSet.background.resolvedColor(appearance)
+			}
+
+			if !isCustomAvatarInitialColorConfigured {
+				updatedInitialsColor = defaultColorSet.foreground.resolvedColor(appearance)
+			}
+		}
+
+		initialsView.layer?.backgroundColor = updatedBackgroundColor.cgColor
+		initialsTextField.textColor = updatedInitialsColor
+		needsDisplay = true
+	}
+
+	private func updateHeight() {
+		let diameter = diameterForContentCircle()
+		let circularPath = CGPath.circularPath(withCircleDiameter: diameter)
+		circleMask.path = circularPath
+
+		let textFieldFont = font(forCircleDiameter: diameter)
+		initialsTextField.font = textFieldFont
+
+		// This constraint will only exist if we're using the sizing view approach to center our initials
+		initialsSizingViewHeightConstraint?.constant = ceil(textFieldFont.capHeight)
+		contentViewHeightConstraint?.constant = diameter
+		contentViewWidthConstraint?.constant = diameter
+	}
+
+	private func diameterForContentCircle() -> CGFloat {
+		// When showing the border but there isn't inside gap between contentView and the borderView,
+		// making the content circle exactly the size of avatarSize - (AvatarView.borderWidth * 2) may cause pixel gaps in the cicle edges
+		return hasBorder && !hideInsideGapForBorder ? avatarSize - (AvatarView.borderWidth * 2) - (AvatarView.contentInset * 2) : avatarSize
+	}
+
+	/// Get the ColorSet associated with a given index
 	/// - parameter index: the index into the color table
 	///
 	/// - returns: the color table entry for the given index
-	///
-	/// - note: Internal visibility exists only for unit testing
-	@objc public static func backgroundColor(for index: Int) -> NSColor {
-		let avatarBackgroundColors = NSColor.avatarBackgroundColors
+	@objc(getColorForIndex:)
+	@available(*, deprecated, message: "Use getInitialsColorSetFromPrimaryText:secondaryText: instead")
+	public static func getColor(for index: Int) -> ColorSet {
+		let avatarBackgroundColors = AvatarView.avatarColors
 		return avatarBackgroundColors[index % avatarBackgroundColors.count]
+	}
+
+	/// Returns a hash value for `identifyingString` that can be mapped to a legacy color asset catalog
+	/// - parameter identifyingString:the  identifying string for the user
+	///
+	/// - Returns: a hashed valued that needs to be mapped using `getLegacyBackgroundColorForHash` to retrieve a color for avatar view rendering
+	///
+	/// - note: API method avaiable for legacy support only, This will be removed in future release
+	@objc(colorHashForIdentifyingString:)
+	@available(*, deprecated, message: "Use getInitialsColorSetFromPrimaryText:secondaryText: instead")
+	public static func colorHash(for identifyingString: String) -> Int {
+		return identifyingString.utf16.enumerated().reversed().reduce(0) { (hashCode, enumeratedCodePoints) -> Int in
+			// upcast our UInt16s to standard Ints as that's how the hashing algorithm works in other codebases
+			let integerCodePoint = Int(enumeratedCodePoints.element)
+			let shift = enumeratedCodePoints.offset % 8
+			return hashCode ^ Int((integerCodePoint << shift) + (integerCodePoint >> (8 - shift)))
+		}
+	}
+
+	/// Get the legacy color associated with a given hash value using `colorHashForIdentifyingString`
+	/// - parameter hashValue: the hash value represting user identfying string.
+	///
+	/// - returns: the color table entry for the given hashed value
+	///
+	/// - note: API method avaiable for legacy support only, This will be removed in future release
+	@objc(getLegacyBackgroundColorForHash:)
+	@available(*, deprecated, message: "Use getInitialsColorSetFromPrimaryText:secondaryText: instead")
+	public static func getLegacyColor(for hashValue: Int) -> NSColor {
+		let legacyAvatarBackgroundColors = AvatarView.legacyAvatarViewBackgroundColor
+		return legacyAvatarBackgroundColors[hashValue % legacyAvatarBackgroundColors.count]
 	}
 
 	/// the font size in the initials view will be scaled to this fraction of the avatarSize passed in
@@ -315,8 +446,13 @@ open class AvatarView: NSView {
 	/// the maximum number of initials to be displayed when we don't have an image
 	static let maximumNumberOfInitials: Int = 2
 
-	/// the color used for the outline view
-	static let outlineColor = NSColor(named: "AvatarView/outlineColor", bundle: FluentUIResources.resourceBundle)!
+	/// the color used for the border
+	static let defaultBorderColor = NSColor(named: "AvatarView/borderColor", bundle: FluentUIResources.resourceBundle)!
+
+	static let borderWidth: CGFloat = 2.0
+
+	/// inset of the contentView from the borderView
+	static let contentInset: CGFloat = 2.0
 
 	/// Extract the initials to display from a name and email combo, providing a fallback otherwise
 	///
@@ -372,24 +508,53 @@ open class AvatarView: NSView {
 		return initials?.localizedUppercase
 	}
 
-	/// Returns a color table index for a given display name
-	/// - parameter identifyingString: the unique identifying string for the user
-	///
-	/// - Returns: a unique index generated by walking backwards through the letters in the \p identifyingString
-	/// creating a cumulative hash
-	///
-	/// - note: the returned index is not limited to any size and should not be considered safe for indexing into an array without
-	/// first checking the size of the array in question
-	@objc(colorIndexForIdentifyingString:)
-	public static func colorIndex(for identifyingString: String) -> Int {
-		return identifyingString.utf16.enumerated().reversed().reduce(0) { (hashCode, enumeratedCodePoints) -> Int in
-			// upcast our UInt16s to standard Ints as that's how the hashing algorithm works in other codebases
-			let integerCodePoint = Int(enumeratedCodePoints.element)
-			let shift = enumeratedCodePoints.offset % 8
-			return hashCode ^ Int((integerCodePoint << shift) + (integerCodePoint >> (8 - shift)))
+	@objc(getInitialsColorSetFromPrimaryText:secondaryText:)
+	public static func getInitialsColorSet(fromPrimaryText primaryText: String?, secondaryText: String?) -> ColorSet {
+		// Set the color based on the primary text and secondary text
+		let combined: String
+		if let secondaryText = secondaryText, let primaryText = primaryText, secondaryText.count > 0 {
+			combined = primaryText + secondaryText
+		} else if let primaryText = primaryText {
+			combined = primaryText
+		} else {
+			combined = ""
 		}
+
+		let colors = AvatarView.avatarColors
+		let combinedHashable = combined as NSString
+		let hashCode = Int(abs(hashCode(combinedHashable)))
+		return colors[hashCode % colors.count]
 	}
 
+	/// Hash algorithm to determine Avatar color.
+	/// Referenced from: https://github.com/microsoft/fluentui/blob/master/packages/react-components/react-avatar/src/components/Avatar/useAvatar.tsx#L200
+	/// - Returns: Hash code
+	private static func hashCode(_ text: NSString) -> Int32 {
+		var hash: Int32 = 0
+		for len in (0..<text.length).reversed() {
+			let ch = text.character(at: len)
+			let shift = len % 8
+			hash ^= Int32((ch << shift) + (ch >> (8 - shift)))
+		}
+
+		return hash
+	}
+
+	open override func viewWillMove(toWindow newWindow: NSWindow?) {
+		super.viewWillMove(toWindow: newWindow)
+		updateAppearance(newWindow?.effectiveAppearance)
+
+		guard let window = newWindow else {
+			appearanceObserver = nil
+			return
+		}
+		appearanceObserver = window.observe(\.effectiveAppearance) { [weak self] (window, _) in
+			guard let strongSelf = self else {
+				return
+			}
+			strongSelf.updateAppearance(window.effectiveAppearance)
+		}
+	}
 }
 
 /// The various display styles of the Avatar View
@@ -434,15 +599,9 @@ fileprivate extension Unicode.Scalar {
 	static let zeroWidthSpace = Unicode.Scalar(0x200B)!
 }
 
-fileprivate extension NSColor {
-	/// the text color of the text in the initials view
-	///
-	/// - note: this value doesn't change for dark mode by design as our default background color table
-	/// only provides colors designed to be used with white text, even on dark mode
-    static let initialsViewTextColor: NSColor = .white
+extension AvatarView {
 
-	/// the table of background colors for the initials views
-	static let avatarBackgroundColors: [NSColor] = [
+	static let legacyAvatarViewBackgroundColor: [NSColor] = [
 		Colors.Palette.cyanBlue10.color,
 		Colors.Palette.red10.color,
 		Colors.Palette.magenta20.color,
@@ -465,6 +624,70 @@ fileprivate extension NSColor {
 		Colors.Palette.cyan30.color,
 		Colors.Palette.orange30.color
 	]
+
+	/// Table of background and text colors for the AvatarView
+	static let avatarColors: [ColorSet] = [
+		ColorSet(background: DynamicColor(light: Colors.Palette.darkRedTint40.color, dark: Colors.Palette.darkRedShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.darkRedShade30.color, dark: Colors.Palette.darkRedTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.cranberryTint40.color, dark: Colors.Palette.cranberryShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.cranberryShade30.color, dark: Colors.Palette.cranberryTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.redTint40.color, dark: Colors.Palette.redShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.redShade30.color, dark: Colors.Palette.redTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.pumpkinTint40.color, dark: Colors.Palette.pumpkinShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.pumpkinShade30.color, dark: Colors.Palette.pumpkinTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.peachTint40.color, dark: Colors.Palette.peachShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.peachShade30.color, dark: Colors.Palette.peachTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.marigoldTint40.color, dark: Colors.Palette.marigoldShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.marigoldShade30.color, dark: Colors.Palette.marigoldTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.goldTint40.color, dark: Colors.Palette.goldShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.goldShade30.color, dark: Colors.Palette.goldTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.brassTint40.color, dark: Colors.Palette.brassShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.brassShade30.color, dark: Colors.Palette.brassTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.brownTint40.color, dark: Colors.Palette.brownShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.brownShade30.color, dark: Colors.Palette.brownTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.forestTint40.color, dark: Colors.Palette.forestShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.forestShade30.color, dark: Colors.Palette.forestTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.seafoamTint40.color, dark: Colors.Palette.seafoamShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.seafoamShade30.color, dark: Colors.Palette.seafoamTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.darkGreenTint40.color, dark: Colors.Palette.darkGreenShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.darkGreenShade30.color, dark: Colors.Palette.darkGreenTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.lightTealTint40.color, dark: Colors.Palette.lightTealShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.lightTealShade30.color, dark: Colors.Palette.lightTealTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.tealTint40.color, dark: Colors.Palette.tealShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.tealShade30.color, dark: Colors.Palette.tealTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.steelTint40.color, dark: Colors.Palette.steelShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.steelShade30.color, dark: Colors.Palette.steelTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.blueTint40.color, dark: Colors.Palette.blueShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.blueShade30.color, dark: Colors.Palette.blueTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.royalBlueTint40.color, dark: Colors.Palette.royalBlueShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.royalBlueShade30.color, dark: Colors.Palette.royalBlueTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.cornFlowerTint40.color, dark: Colors.Palette.cornFlowerShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.cornFlowerShade30.color, dark: Colors.Palette.cornFlowerTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.navyTint40.color, dark: Colors.Palette.navyShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.navyShade30.color, dark: Colors.Palette.navyTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.lavenderTint40.color, dark: Colors.Palette.lavenderShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.lavenderShade30.color, dark: Colors.Palette.lavenderTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.purpleTint40.color, dark: Colors.Palette.purpleShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.purpleShade30.color, dark: Colors.Palette.purpleTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.grapeTint40.color, dark: Colors.Palette.grapeShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.grapeShade30.color, dark: Colors.Palette.grapeTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.lilacTint40.color, dark: Colors.Palette.lilacShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.lilacShade30.color, dark: Colors.Palette.lilacTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.pinkTint40.color, dark: Colors.Palette.pinkShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.pinkShade30.color, dark: Colors.Palette.pinkTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.magentaTint40.color, dark: Colors.Palette.magentaShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.magentaShade30.color, dark: Colors.Palette.magentaTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.plumTint40.color, dark: Colors.Palette.plumShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.plumShade30.color, dark: Colors.Palette.plumTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.beigeTint40.color, dark: Colors.Palette.beigeShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.beigeShade30.color, dark: Colors.Palette.beigeTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.minkTint40.color, dark: Colors.Palette.minkShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.minkShade30.color, dark: Colors.Palette.minkTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.platinumTint40.color, dark: Colors.Palette.platinumShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.platinumShade30.color, dark: Colors.Palette.platinumTint40.color)),
+		ColorSet(background: DynamicColor(light: Colors.Palette.anchorTint40.color, dark: Colors.Palette.anchorShade30.color),
+				 foreground: DynamicColor(light: Colors.Palette.anchorShade30.color, dark: Colors.Palette.anchorTint40.color))
+	]
 }
 
 fileprivate extension CGPath {
@@ -479,4 +702,29 @@ fileprivate extension CGPath {
 	static func circularPath(withCircleDiameter diameter: CGFloat) -> CGPath {
 		return CGPath(ellipseIn: NSRect(x: 0, y: 0, width: diameter, height: diameter), transform: nil)
 	}
+}
+
+class BorderView: NSView {
+	var strokeColor: NSColor
+	var strokeWidth: CGFloat
+	private var path: NSBezierPath?
+
+	init(frame: CGRect, strokeColor: NSColor, strokeWidth: CGFloat) {
+		self.strokeColor = strokeColor
+		self.strokeWidth = strokeWidth
+		super.init(frame: frame)
+	}
+
+	required init?(coder: NSCoder) {
+		preconditionFailure("init(coder:) has not been implemented")
+	}
+
+	override func draw(_ dirtyRect: NSRect) {
+		let pathFrame = dirtyRect.insetBy(dx: strokeWidth / 2, dy: strokeWidth / 2)
+		path = NSBezierPath(ovalIn: pathFrame)
+		path?.lineWidth = strokeWidth
+		strokeColor.set()
+		path?.stroke()
+	}
+
 }

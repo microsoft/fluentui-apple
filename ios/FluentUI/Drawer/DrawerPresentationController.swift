@@ -90,7 +90,7 @@ class DrawerPresentationController: UIPresentationController {
         return DrawerShadowView(shadowDirection: actualPresentationOffset == 0 ? presentationDirection : nil)
     }()
     // Imitates the bottom shadow of navigation bar or top shadow of toolbar because original ones are hidden by presented view
-    private lazy var separator = Separator(style: .shadow)
+    private lazy var separator = MSFDivider()
 
     // MARK: Presentation
 
@@ -194,7 +194,7 @@ class DrawerPresentationController: UIPresentationController {
             return presentationOrigin
         }
 
-        let containerBounds = containerView?.bounds ?? UIScreen.main.bounds
+        let containerBounds = containerView?.bounds ?? (sourceViewController.view.window?.screen.bounds ?? .zero)
         switch presentationDirection {
         case .down:
             var controller = sourceViewController
@@ -292,7 +292,26 @@ class DrawerPresentationController: UIPresentationController {
         contentView.frame = frame
 
         if let presentedView = presentedView {
-            presentedView.frame = frameForPresentedViewController(in: presentedView.superview == containerView ? contentView.frame : contentView.bounds)
+            let presentedViewFrame = frameForPresentedViewController(in: presentedView.superview == containerView ? contentView.frame : contentView.bounds)
+
+            // On iOS 13 and iOS 14 the safeAreaInsets are not applied when the presentedView is not entirely within the screen bounds.
+            // As a workaround, additional safe area insets need to be set to compensate.
+            if #available(iOS 15.0, *) {} else {
+                let isVerticallyPresentedViewPartiallyOffScreen: Bool = {
+                    // Calculates the origin of the presentedView frame in relation to the device screen.
+                    guard let origin = presentedView.superview?.convert(presentedViewFrame.origin, to: nil), let window = sourceViewController.view.window else {
+                        return false
+                    }
+
+                    let screenHeight = window.screen.bounds.height
+                    return (presentationDirection == .down && origin.y < 0) ||
+                           (presentationDirection == .up && (origin.y + presentedViewFrame.height - screenHeight) > 0)
+                }()
+
+                presentedViewController.additionalSafeAreaInsets = isVerticallyPresentedViewPartiallyOffScreen ? contentView.safeAreaInsets : .zero
+            }
+
+            presentedView.frame = presentedViewFrame
         }
 
         if separator.superview != nil {

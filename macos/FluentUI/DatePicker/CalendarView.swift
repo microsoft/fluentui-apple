@@ -173,6 +173,12 @@ struct CalendarDay {
 	/// String used for accessibility scenarios, like VoiceOver
 	let accessibilityLabel: String
 
-	/// Secondary String representation of the day
+	/// String with extra descriptors for accessibility scenarios.  VoiceOver
+	/// reads this string after a short delay if focus stays on an element.
+	let accessibilityHelp: String?
+
+	/// String representation of the day on the `secondaryCalendar`, if enabled.
+	/// For example: a Chinese lunar calendar superimposed on a Gregorian
+	/// calendar allowing cross-referencing of dates between the two.
 	let secondaryLabel: String?
 }

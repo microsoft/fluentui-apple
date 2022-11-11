@@ -12,9 +12,6 @@
 "Accessibility.Dismiss.Hint" = "Nhấn đúp để bỏ";
 "Accessibility.Done.Label" = "Đã xong";
 "Accessibility.MultiSelect.Hint" = "Nhấn đúp để chuyển đổi lựa chọn";
-"Accessibility.Select.Hint" = "Nhấn đúp để chọn";
-"Accessibility.Selected.Hint" = "Nhấn đúp để xem chi tiết";
-"Accessibility.Selected.Value" = "Đã chọn";
 
 /* Accessibility label for the upper calendar date picker view. */
 "Accessibility.Calendar.Label" = "Lịch";
@@ -99,6 +96,9 @@
 /* Accessibility label format string for avatar view. Format: "<Name>, <Presence>". Example: "Kat, Available" */
 "Accessibility.AvatarView.LabelFormat" = "%@, %@";
 
+/* Accessibility hint for TabBarItemView in TabBarView. %1$d is placeholder for index and %2$d is a placeholder for total number of tab items  */
+"Accessibility.TabBarItemView.Hint" = "%1d trên %2d";
+
 /* Accessibility hint for more actions button */
 "Accessibility.TableViewCell.MoreActions.Hint" = "Nhấn đúp để xem thêm hành động";
 
@@ -116,6 +116,12 @@
 
 /* Format string for tab bar item accessbility labels. Format: "<Title>, <BadgeValue> items". Example: "Home, 5 items" */
 "Accessibility.TabBarItemView.LabelFormat" = "%@, %@ mục";
+
+/* Format string for badge label button accessibility label. Format: "<Item Accessibility>, <Badge Label Accessibility>". Example: "Notifications, 5 new notifications" */
+"Accessibility.BadgeLabelButton.LabelFormat" = "%@, %@";
+
+/* Commanding Bottom Bar - More button */
+"CommandingBottomBar.More" = "Xem thêm";
 
 /* Generic label for cancel action */
 "Common.Cancel" = "Hủy bỏ";

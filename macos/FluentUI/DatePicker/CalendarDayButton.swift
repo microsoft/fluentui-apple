@@ -20,7 +20,7 @@ class CalendarDayButton: NSButton {
 	///   - day: Day that should be displayed
 	init(size: CGFloat, day: CalendarDay?) {
 		self.size = size
-		self.day = day ?? CalendarDay(date: Date(), primaryLabel: "", accessibilityLabel: "", secondaryLabel: nil)
+		self.day = day ?? CalendarDay(date: Date(), primaryLabel: "", accessibilityLabel: "", accessibilityHelp: nil, secondaryLabel: nil)
 		dualMode = self.day.secondaryLabel != nil
 		upperLabel = NSTextField(labelWithString: self.day.primaryLabel)
 
@@ -65,6 +65,7 @@ class CalendarDayButton: NSButton {
 		])
 
 		setAccessibilityLabel(day?.accessibilityLabel)
+		setAccessibilityHelp(day?.accessibilityHelp)
 
 		updateViewStyle()
 	}
@@ -128,6 +129,10 @@ class CalendarDayButton: NSButton {
 		return true
 	}
 
+	override var allowsVibrancy: Bool {
+		return true
+	}
+
 	/// The day that is being displayed
 	var day: CalendarDay {
 		didSet {
@@ -140,6 +145,7 @@ class CalendarDayButton: NSButton {
 			}
 
 			setAccessibilityLabel(day.accessibilityLabel)
+			setAccessibilityHelp(day.accessibilityHelp)
 			needsDisplay = true
 		}
 	}
@@ -279,11 +285,7 @@ class CalendarDayButton: NSButton {
 						   constant: CalendarDayButton.dualModeMargin)
 
 	private var isDarkMode: Bool {
-		var isInDarkAppearance = false
-		if effectiveAppearance.bestMatch(from: [.darkAqua]) == .darkAqua {
-			isInDarkAppearance = true
-		}
-		return isInDarkAppearance
+		return NSApplication.shared.effectiveAppearance.isDarkMode
 	}
 
 	/// Layer used to draw the selected day highlight

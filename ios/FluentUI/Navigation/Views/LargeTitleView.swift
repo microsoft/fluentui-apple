@@ -16,17 +16,32 @@ class LargeTitleView: UIView {
     private struct Constants {
         static let horizontalSpacing: CGFloat = 10
 
-        static let compactAvatarSize: AvatarSize = .small
-        static let avatarSize: AvatarSize = .medium
+        static let compactAvatarSize: MSFAvatarSize = .size24
+        static let avatarSize: MSFAvatarSize = .size32
 
-        static let compactTitleFont: UIFont = Fonts.title1
-        static let titleFont: UIFont = Fonts.largeTitle
+        // Once we are iOS 14 minimum, we can use Fonts.largeTitle.withSize() function instead
+        static let compactTitleFont = UIFont.systemFont(ofSize: 26, weight: .bold)
+        static let titleFont = UIFont.systemFont(ofSize: 30, weight: .bold)
     }
 
-    var avatar: Avatar? {
+    var personaData: Persona? {
         didSet {
             updateProfileButtonVisibility()
-            [avatarView, smallMorphingAvatarView].forEach { $0?.setup(avatar: avatar) }
+
+            if let avatarState = avatar?.state {
+                avatarState.primaryText = personaData?.name
+                avatarState.secondaryText = personaData?.email
+                avatarState.image = personaData?.image
+                avatarState.imageBasedRingColor = personaData?.imageBasedRingColor
+                avatarState.hasRingInnerGap = personaData?.hasRingInnerGap ?? true
+                avatarState.isRingVisible = personaData?.isRingVisible ?? false
+                avatarState.presence = personaData?.presence ?? .none
+                avatarState.isOutOfOffice = personaData?.isOutOfOffice ?? false
+
+                let color = personaData?.color
+                avatarState.backgroundColor = color
+                avatarState.ringColor = color
+            }
         }
     }
 
@@ -36,24 +51,28 @@ class LargeTitleView: UIView {
             case .automatic:
                 return
             case .contracted:
-                avatarView?.avatarSize = Constants.compactAvatarSize
+                avatar?.state.size = Constants.compactAvatarSize
             case .expanded:
-                avatarView?.avatarSize = Constants.avatarSize
+                avatar?.state.size = Constants.avatarSize
             }
         }
     }
 
+    var avatarAccessibilityLabel: String? {
+        return avatarCustomAccessibilityLabel ?? "Accessibility.LargeTitle.ProfileView".localized
+    }
+
     var avatarCustomAccessibilityLabel: String? {
         didSet {
-            [avatarView, smallMorphingAvatarView].forEach { $0?.customAccessibilityLabel = avatarCustomAccessibilityLabel }
+            updateAvatarAccessibility()
         }
     }
 
-    var avatarOverrideFallbackImageStyle: AvatarFallbackImageStyle? {
+    var avatarOverrideStyle: MSFAvatarStyle? {
         didSet {
-            if let fallbackStyle = avatarOverrideFallbackImageStyle {
+            if let style = avatarOverrideStyle {
                 updateProfileButtonVisibility()
-                [avatarView, smallMorphingAvatarView].forEach { $0?.setup(fallbackStyle: fallbackStyle) }
+                avatar?.state.style = style
             }
         }
     }
@@ -61,7 +80,7 @@ class LargeTitleView: UIView {
     var style: Style = .light {
         didSet {
             titleButton.setTitleColor(colorForStyle, for: .normal)
-            [avatarView, smallMorphingAvatarView].forEach { $0?.preferredFallbackImageStyle = style == .light ? .primaryFilled : .onAccentFilled }
+            avatar?.state.style = style == .light ? .default : .accent
         }
     }
 
@@ -78,9 +97,10 @@ class LargeTitleView: UIView {
         }
     }
 
-    var onAvatarTapped: (() -> Void)? { // called in response to a tap on the MSAvatarView
+    var onAvatarTapped: (() -> Void)? { // called in response to a tap on the MSFAvatar's view
         didSet {
             updateAvatarViewPointerInteraction()
+            updateAvatarAccessibility()
         }
     }
 
@@ -89,11 +109,7 @@ class LargeTitleView: UIView {
             return nil
         }
 
-        if smallMorphingAvatarView?.alpha != 0 {
-            return smallMorphingAvatarView
-        }
-
-        return avatarView
+        return avatar
     }
 
     private var colorForStyle: UIColor {
@@ -105,14 +121,7 @@ class LargeTitleView: UIView {
         }
     }
 
-    private var avatarView: ProfileView? // circular view displaying the profile information
-    // an AvatarView instance that is permanently constrained to the smaller size
-    // this view will have its transform property animated to match the normal avatar view
-    // this is done to allow for simulate animation of the non-animatable UILabel within MSAvatarView
-    // see documentation at MSLargeTitleView.morphSmallAvatarView(expanding:) for more information
-    private var smallMorphingAvatarView: ProfileView?
-    private var smallMorphingAvatarViewAnimator: UIViewPropertyAnimator? // responsible for animating the transform of smallMorphingAvatarView
-    private var smallAnimatorRunningObserver: NSKeyValueObservation? // observes the running property, done to accomplish a "completion" for a pausesOnCompletion = YES animator
+    private var avatar: MSFAvatar? // circular view displaying the profile information
 
     private let titleButton = UIButton() // button used to display the title of the current navigation item
 
@@ -122,8 +131,8 @@ class LargeTitleView: UIView {
 
     private var showsProfileButton: Bool = true { // whether to display the customizable profile button
         didSet {
-            avatarView?.isHidden = !showsProfileButton
-            smallMorphingAvatarView?.isHidden = !showsProfileButton
+            avatar?.isHidden = !showsProfileButton
+            setupAccessibility()
         }
     }
 
@@ -148,7 +157,6 @@ class LargeTitleView: UIView {
     /// Base function for initialization
     private func initBase() {
         setupLayout()
-        setupAnimations()
         setupAccessibility()
     }
 
@@ -161,29 +169,32 @@ class LargeTitleView: UIView {
         // contentStackView layout
         contentStackView.spacing = Constants.horizontalSpacing
         contentStackView.alignment = .center
-        contain(view: contentStackView, withInsets: UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8))
+        contain(view: contentStackView, withInsets: UIEdgeInsets(top: 0,
+                                                                 left: 8,
+                                                                 bottom: 0,
+                                                                 right: 8))
+        // Avatar setup
+        let preferredFallbackImageStyle: MSFAvatarStyle = style == .light ? .default : .accent
+        let avatar = MSFAvatar(style: preferredFallbackImageStyle,
+                               size: Constants.avatarSize)
+        let avatarState = avatar.state
+        avatarState.primaryText = personaData?.name
+        avatarState.secondaryText = personaData?.email
+        avatarState.image = personaData?.image
 
-        // default avatar view setup
-        let preferredFallbackImageStyle: AvatarFallbackImageStyle = style == .light ? .primaryFilled : .onAccentFilled
-        let avatarView = ProfileView(avatarSize: Constants.avatarSize, preferredFallbackImageStyle: preferredFallbackImageStyle)
-        avatarView.setup(avatar: avatar)
+        if let color = personaData?.color {
+            avatarState.backgroundColor = color
+            avatarState.ringColor = color
+        }
+
+        self.avatar = avatar
+        let avatarView = avatar
+
+        avatarView.translatesAutoresizingMaskIntoConstraints = false
         avatarView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleAvatarViewTapped)))
-        self.avatarView = avatarView
         contentStackView.addArrangedSubview(avatarView)
 
-        // small avatar view setup
-        let smallAvatarView = ProfileView(avatarSize: Constants.compactAvatarSize, preferredFallbackImageStyle: preferredFallbackImageStyle)
-        smallAvatarView.setup(avatar: avatar)
-        self.smallMorphingAvatarView = smallAvatarView
-        smallAvatarView.translatesAutoresizingMaskIntoConstraints = false
-        contentStackView.addSubview(smallAvatarView)
-
-        smallAvatarView.centerXAnchor.constraint(equalTo: avatarView.centerXAnchor).isActive = true
-        smallAvatarView.centerYAnchor.constraint(equalTo: avatarView.centerYAnchor).isActive = true
-
-        let scale = Constants.avatarSize.size.width / Constants.compactAvatarSize.size.width
-        let transform = CGAffineTransform(scaleX: scale, y: scale)
-        smallAvatarView.transform = transform
+        avatarView.centerYAnchor.constraint(equalTo: contentStackView.centerYAnchor).isActive = true
 
         // title button setup
         contentStackView.addArrangedSubview(titleButton)
@@ -194,7 +205,8 @@ class LargeTitleView: UIView {
         titleButton.contentHorizontalAlignment = .left
         titleButton.titleLabel?.adjustsFontSizeToFitWidth = true
         titleButton.addTarget(self, action: #selector(LargeTitleView.titleButtonTapped(sender:)), for: .touchUpInside)
-        titleButton.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        titleButton.setContentCompressionResistancePriority(.required,
+                                                            for: .horizontal)
 
         // tap gesture for entire titleView
         tapGesture.addTarget(self, action: #selector(LargeTitleView.handleTitleViewTapped(sender:)))
@@ -205,36 +217,14 @@ class LargeTitleView: UIView {
         updateAvatarViewPointerInteraction()
     }
 
-    // Declares animation closures used for title expansion/contraction
-    private func setupAnimations() {
-        /// construct an animator for the avatarView's transform property
-        let smallMorphingAvatarViewAnimator = UIViewPropertyAnimator(duration: NavigationBar.expansionContractionAnimationDuration, curve: .linear) {
-            self.smallMorphingAvatarView?.transform = CGAffineTransform.identity
-        }
-        smallMorphingAvatarViewAnimator.scrubsLinearly = false
-        smallMorphingAvatarViewAnimator.pausesOnCompletion = true /// keeps the animator active so as to be reversable
-        self.smallMorphingAvatarViewAnimator = smallMorphingAvatarViewAnimator
-
-        /// KVO for the isRunning property to enable a "completion handler" for a pausesOnCompletion animation
-        /// .initial option calls the changeHandler once upon instantiation to get us to the proper layout
-        self.smallAnimatorRunningObserver = smallMorphingAvatarViewAnimator.observe(\.isRunning, options: .initial, changeHandler: { (animator, _) in
-            if !animator.isRunning {
-                self.smallMorphingAvatarView?.alpha = 0.0 /// hide the extra avatarView on completion of the animation
-            }
-        })
-    }
-
     private func expansionAnimation() {
         if titleSize == .automatic {
             titleButton.titleLabel?.font = Constants.titleFont
         }
 
         if avatarSize == .automatic {
-            avatarView?.avatarSize = Constants.avatarSize
+            avatar?.state.size = Constants.avatarSize
         }
-
-        contentStackView.spacing = Constants.horizontalSpacing - 1 //!!! need this otherwise animation gets broken
-        contentStackView.spacing = Constants.horizontalSpacing
 
         layoutIfNeeded()
     }
@@ -245,17 +235,27 @@ class LargeTitleView: UIView {
         }
 
         if avatarSize == .automatic {
-            avatarView?.avatarSize = Constants.compactAvatarSize
+            avatar?.state.size = Constants.compactAvatarSize
         }
-
-        contentStackView.spacing = Constants.horizontalSpacing - 1 //!!! need this otherwise animation gets broken
-        contentStackView.spacing = Constants.horizontalSpacing
 
         layoutIfNeeded()
     }
 
     private func updateAvatarViewPointerInteraction() {
-        avatarView?.hasPointerInteraction = onAvatarTapped != nil
+        avatar?.state.hasPointerInteraction = onAvatarTapped != nil
+    }
+
+    private func updateAvatarAccessibility() {
+        if let avatar = avatar {
+            let accessibilityLabel = avatarAccessibilityLabel
+            let avatarState = avatar.state
+            avatarState.accessibilityLabel = accessibilityLabel
+            avatarState.hasButtonAccessibilityTrait = onAvatarTapped != nil
+
+            let avatarView = avatar
+            avatarView.showsLargeContentViewer = true
+            avatarView.largeContentTitle = accessibilityLabel
+        }
     }
 
     // MARK: - UIActions
@@ -295,7 +295,7 @@ class LargeTitleView: UIView {
     // MARK: - Content Update Methods
 
     private func updateProfileButtonVisibility() {
-        showsProfileButton = !hasLeftBarButtonItems && (avatar != nil || avatarOverrideFallbackImageStyle != nil)
+        showsProfileButton = !hasLeftBarButtonItems && (personaData != nil || avatarOverrideStyle != nil)
     }
 
     /// Sets the interface with the provided item's details
@@ -316,9 +316,10 @@ class LargeTitleView: UIView {
         guard titleSize == .automatic || avatarSize == .automatic else {
             return
         }
+
         if animated {
-            UIView.animate(withDuration: NavigationBar.expansionContractionAnimationDuration, animations: expansionAnimation)
-            morphSmallAvatarView(expanding: true)
+            UIView.animate(withDuration: NavigationBar.expansionContractionAnimationDuration,
+                           animations: expansionAnimation)
         } else {
             expansionAnimation()
         }
@@ -333,36 +334,11 @@ class LargeTitleView: UIView {
             return
         }
         if animated {
-            UIView.animate(withDuration: NavigationBar.expansionContractionAnimationDuration, animations: contractionAnimation)
-            morphSmallAvatarView(expanding: false)
+            UIView.animate(withDuration: NavigationBar.expansionContractionAnimationDuration,
+                           animations: contractionAnimation)
         } else {
             contractionAnimation()
         }
-    }
-
-    /// Triggers the UIViewPropertyAnimator for the SmallMorphingAvatarView
-    /// Used to smoothly animate between two layouts of the internal UILabel of AvatarView
-    /// Since UILabel is non-animatable, without a "view morph" the animation occurs out-of-step
-    ///
-    /// the smallMorphingAvatarView's transform property is manipulated via a CGAffineTransform whose scale is determined via the delta between the expanded and contracted sizes of the AvatarView
-    /// the default transform expands the smallMorphingAvatarView to match the size of the default AvatarView
-    /// since UIView.transform is an animatable property, this animation allows us to simulate the animation of a UILabel
-    /// within the animator, the transform is set to the CGAffineTransform.identity, to return it to the smaller size
-    ///
-    /// Here, we expose the morphing avatar view via the alpha property, and run the animator
-    /// the animator is reversed if we are expanding, as the animator's default direction is (expanded -> contracted)
-    /// The animator's isRunning property is KVObserved, so as to hide the morphing view via the alpha property upon "completion" of the animation
-    /// This KVO is necessary, as an animator with pausesOnCompletion == true will not call its completion block(s)
-    ///
-    /// - Parameter expanding: used to decide reversal of the animator
-    private func morphSmallAvatarView(expanding: Bool) {
-        guard avatarSize == .automatic else {
-            return
-        }
-
-        smallMorphingAvatarView?.alpha = 1.0
-        smallMorphingAvatarViewAnimator?.isReversed = expanding
-        smallMorphingAvatarViewAnimator?.startAnimation()
     }
 
     // MARK: - Accessibility
@@ -370,6 +346,13 @@ class LargeTitleView: UIView {
     /// Updates various properties of the TitleView to properly conform to accessibility requirements
     private func setupAccessibility() {
         titleButton.accessibilityTraits = .header
+
+        updateAvatarAccessibility()
+
+        // Sets the accessibility elements in the same order as they are laid out in the content view.
+        accessibilityElements = contentStackView.arrangedSubviews.filter({ arrangedSubview in
+            return !arrangedSubview.isHidden
+        })
     }
 }
 
@@ -377,17 +360,4 @@ class LargeTitleView: UIView {
 
 extension NSNotification.Name {
     static let accessoryExpansionRequested = Notification.Name("microsoft.fluentui.accessoryExpansionRequested")
-}
-
-// MARK: - ProfileView
-
-private class ProfileView: AvatarView {
-    var customAccessibilityLabel: String?
-    override var accessibilityLabel: String? {
-        get {
-            return customAccessibilityLabel ?? "Accessibility.LargeTitle.ProfileView".localized
-        }
-        set { }
-    }
-    override var accessibilityTraits: UIAccessibilityTraits { get { return .button } set { } }
 }

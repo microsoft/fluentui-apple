@@ -80,24 +80,16 @@ extension TextStyle {
             return "Title 2"
         case .headline:
             return "Headline"
-        case .headlineUnscaled:
-            return "Headline Unscaled"
         case .body:
             return "Body"
-        case .bodyUnscaled:
-            return "Body Unscaled"
         case .subhead:
             return "Subhead"
         case .footnote:
             return "Footnote"
-        case .footnoteUnscaled:
-            return "Footnote Unscaled"
         case .button1:
             return "Button 1"
         case .button2:
             return "Button 2"
-        case .button3:
-            return "Button 3"
         case .caption1:
             return "Caption 1"
         case .caption2:

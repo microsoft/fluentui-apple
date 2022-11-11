@@ -3,8 +3,8 @@
 //  Licensed under the MIT License.
 //
 
-import Foundation
 import FluentUI
+import UIKit
 
 class TableViewSampleData {
     struct Section {
@@ -93,7 +93,7 @@ class TableViewSampleData {
         }
         let customView = UIImageView(image: image)
         customView.contentMode = .scaleAspectFit
-        customView.tintColor = Colors.Table.Cell.image
+        customView.tintColor = Colors.tableCellImage
         return customView
     }
 }

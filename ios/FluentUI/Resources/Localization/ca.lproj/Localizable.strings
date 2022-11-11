@@ -12,9 +12,6 @@
 "Accessibility.Dismiss.Hint" = "Toqueu dues vegades per descartar-ho.";
 "Accessibility.Done.Label" = "Fet";
 "Accessibility.MultiSelect.Hint" = "Toca dues vegades per commutar la selecció";
-"Accessibility.Select.Hint" = "Toqueu dues vegades per seleccionar-ho.";
-"Accessibility.Selected.Hint" = "Toqueu dues vegades per veure'n els detalls.";
-"Accessibility.Selected.Value" = "Seleccionat";
 
 /* Accessibility label for the upper calendar date picker view. */
 "Accessibility.Calendar.Label" = "Calendari";
@@ -99,6 +96,9 @@
 /* Accessibility label format string for avatar view. Format: "<Name>, <Presence>". Example: "Kat, Available" */
 "Accessibility.AvatarView.LabelFormat" = "%@, %@";
 
+/* Accessibility hint for TabBarItemView in TabBarView. %1$d is placeholder for index and %2$d is a placeholder for total number of tab items  */
+"Accessibility.TabBarItemView.Hint" = "%1d de %2d";
+
 /* Accessibility hint for more actions button */
 "Accessibility.TableViewCell.MoreActions.Hint" = "Toqueu dues vegades per veure més accions.";
 
@@ -116,6 +116,12 @@
 
 /* Format string for tab bar item accessbility labels. Format: "<Title>, <BadgeValue> items". Example: "Home, 5 items" */
 "Accessibility.TabBarItemView.LabelFormat" = "%@, %@ elements";
+
+/* Format string for badge label button accessibility label. Format: "<Item Accessibility>, <Badge Label Accessibility>". Example: "Notifications, 5 new notifications" */
+"Accessibility.BadgeLabelButton.LabelFormat" = "%@, %@";
+
+/* Commanding Bottom Bar - More button */
+"CommandingBottomBar.More" = "Més";
 
 /* Generic label for cancel action */
 "Common.Cancel" = "Cancel·la";

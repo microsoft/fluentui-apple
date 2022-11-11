@@ -11,7 +11,7 @@ class BadgeFieldDemoController: DemoController {
         super.viewDidLoad()
 
         let badgeDataSources1 = [
-            BadgeViewDataSource(text: "Kat Larrson", style: .default),
+            BadgeViewDataSource(text: "Kat Larsson", style: .default),
             BadgeViewDataSource(text: "Allan Munger", style: .default),
             BadgeViewDataSource(text: "Mona Kane", style: .default),
             BadgeViewDataSource(text: "Mauricio August", style: .default),
@@ -33,9 +33,11 @@ class BadgeFieldDemoController: DemoController {
 
         addDescription(text: "Badge field with limited number of lines")
         container.addArrangedSubview(badgeField1)
+        container.addArrangedSubview(MSFDivider())
         container.addArrangedSubview(UIView())
         addDescription(text: "Badge field with unlimited number of lines")
         container.addArrangedSubview(badgeField2)
+        container.addArrangedSubview(MSFDivider())
     }
 
     private func setupBadgeField(label: String, dataSources: [BadgeViewDataSource]) -> BadgeField {
@@ -47,6 +49,7 @@ class BadgeFieldDemoController: DemoController {
         badgeField.addBadges(withDataSources: dataSources)
         return badgeField
     }
+
 }
 
 extension BadgeFieldDemoController: BadgeFieldDelegate {

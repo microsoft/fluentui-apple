@@ -5,21 +5,6 @@
 
 import UIKit
 
-// MARK: Navigation Colors
-public extension Colors {
-    struct Navigation {
-        public struct System {
-            public static var background: UIColor = NavigationBar.background
-            public static var tint: UIColor = NavigationBar.tint
-            public static var title: UIColor = NavigationBar.title
-        }
-        public struct Primary {
-            public static var tint = UIColor(light: textOnAccent, dark: System.tint)
-            public static var title = UIColor(light: textOnAccent, dark: System.title)
-        }
-    }
-}
-
 // MARK: - NavigationBarTopAccessoryViewAttributes
 
 /// Layout attributes for a navigation bar's top accessory view.
@@ -63,9 +48,6 @@ open class NavigationBarTopSearchBarAttributes: NavigationBarTopAccessoryViewAtt
 }
 
 // MARK: - NavigationBar
-
-@available(*, deprecated, renamed: "NavigationBar")
-public typealias MSNavigationBar = NavigationBar
 
 /// UINavigationBar subclass, with a content view that contains various custom UIElements
 /// Contains the MSNavigationTitleView class and handles passing animatable progress through
@@ -142,10 +124,10 @@ open class NavigationBar: UINavigationBar {
         static let revealingAnimationDuration: TimeInterval = 0.25
     }
 
-    /// An object that conforms to the `MSAvatar` protocol and provides text and an optional image for display as an `MSAvatarView` next to the large title. Only displayed if `showsLargeTitle` is true on the current navigation item. If avatar is nil, it won't show the avatar view.
-    @objc open var avatar: Avatar? {
+    /// An object that conforms to the `MSFPersona` protocol and provides text and an optional image for display as an `MSAvatar` next to the large title. Only displayed if `showsLargeTitle` is true on the current navigation item. If avatar is nil, it won't show the avatar view.
+    @objc open var personaData: Persona? {
         didSet {
-            titleView.avatar = avatar
+            titleView.personaData = personaData
         }
     }
 
@@ -168,6 +150,26 @@ open class NavigationBar: UINavigationBar {
             return titleView.visibleAvatarView()
         }
 
+        return nil
+    }
+
+    /// Returns the first match of an optional view for a bar button item with the given tag.
+    @objc public func barButtonItemView(with tag: Int) -> UIView? {
+        if showsLargeTitle {
+            let totalBarButtonItemViews = leftBarButtonItemsStackView.arrangedSubviews + rightBarButtonItemsStackView.arrangedSubviews
+            for view in totalBarButtonItemViews {
+                if view.tag == tag {
+                    return view
+                }
+            }
+        } else {
+            let totalBarButtonItems = (topItem?.leftBarButtonItems ?? []) + (topItem?.rightBarButtonItems ?? [])
+            for item in totalBarButtonItems {
+                if item.tag == tag {
+                    return item.value(forKey: "view") as? UIView
+                }
+            }
+        }
         return nil
     }
 
@@ -226,10 +228,10 @@ open class NavigationBar: UINavigationBar {
         }
     }
 
-    /// The navigation bar's leading content margin.
+    /// The navigation bar's trailing content margin.
     @objc open var contentTrailingMargin: CGFloat = defaultContentTrailingMargin {
         didSet {
-            if oldValue != contentLeadingMargin {
+            if oldValue != contentTrailingMargin {
                 updateContentStackViewMargins(forExpandedContent: contentIsExpanded)
             }
         }
@@ -256,7 +258,8 @@ open class NavigationBar: UINavigationBar {
         }
     }
 
-    private(set) var style: Style = defaultStyle
+    // @objc dynamic - so we can do KVO on this
+    @objc dynamic private(set) var style: Style = defaultStyle
 
     let backgroundView = UIView() //used for coloration
     //used to cover the navigationbar during animated transitions between VCs
@@ -338,11 +341,13 @@ open class NavigationBar: UINavigationBar {
         rightBarButtonItemsStackView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         rightBarButtonItemsStackView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
 
-        updateViewsForLargeTitlePresentation(for: topItem)
-        updateColors(for: topItem)
-
         isTranslucent = false
 
+        // Cache the system shadow color
+        systemShadowColor = standardAppearance.shadowColor
+
+        updateColors(for: topItem)
+        updateViewsForLargeTitlePresentation(for: topItem)
         updateAccessibilityElements()
     }
 
@@ -451,10 +456,10 @@ open class NavigationBar: UINavigationBar {
         }
     }
 
-    /// Override the avatarView with fallbackImageStyle rather than using avatar data
-    /// - Parameter fallbackImageStyle: image style used in  avatarView
-    @objc open func overrideAvatar(with fallbackImageStyle: AvatarFallbackImageStyle) {
-        titleView.avatarOverrideFallbackImageStyle = fallbackImageStyle
+    /// Override the avatar with given style rather than using avatar data
+    /// - Parameter style: style used in  the avatar
+    @objc open func overrideAvatar(with style: MSFAvatarStyle) {
+        titleView.avatarOverrideStyle = style
     }
 
     // MARK: Element size handling
@@ -504,15 +509,14 @@ open class NavigationBar: UINavigationBar {
                 titleView.style = .dark
             }
 
-            barTintColor = color
+            standardAppearance.backgroundColor = color
             backgroundView.backgroundColor = color
             tintColor = style.tintColor
-            if var titleTextAttributes = titleTextAttributes {
-                titleTextAttributes[NSAttributedString.Key.foregroundColor] = style.titleColor
-                self.titleTextAttributes = titleTextAttributes
-            } else {
-                titleTextAttributes = [NSAttributedString.Key.foregroundColor: style.titleColor]
-            }
+            standardAppearance.titleTextAttributes[NSAttributedString.Key.foregroundColor] = style.titleColor
+            standardAppearance.largeTitleTextAttributes[NSAttributedString.Key.foregroundColor] = style.titleColor
+
+            // Update the scroll edge appearance to match the new standard appearance
+            scrollEdgeAppearance = standardAppearance
 
             navigationBarColorObserver = navigationItem?.observe(\.customNavigationBarColor) { [unowned self] navigationItem, _ in
                 // Unlike title or barButtonItems that depends on the topItem, navigation bar color can be set from the parentViewController's navigationItem
@@ -578,52 +582,37 @@ open class NavigationBar: UINavigationBar {
     }
 
     private func createBarButtonItemButton(with item: UIBarButtonItem, isLeftItem: Bool) -> UIButton {
-        let button = UIButton(type: .system)
-        button.isEnabled = item.isEnabled
-        if isLeftItem {
-            let isRTL = effectiveUserInterfaceLayoutDirection == .rightToLeft
-            button.contentEdgeInsets = UIEdgeInsets(top: 0, left: isRTL ? 0 : Constants.leftBarButtonItemLeadingMargin, bottom: 0, right: isRTL ? Constants.leftBarButtonItemLeadingMargin : 0)
+        let button = BadgeLabelButton(type: .system)
+        button.item = item
+        button.shouldUseWindowColorInBadge = style != .system
+
+        if #available(iOS 15.0, *) {
+            let insets: NSDirectionalEdgeInsets
+            if isLeftItem {
+                insets = NSDirectionalEdgeInsets(top: 0,
+                                                 leading: Constants.leftBarButtonItemLeadingMargin,
+                                                 bottom: 0,
+                                                 trailing: 0)
+            } else {
+                insets = NSDirectionalEdgeInsets(top: 0,
+                                                 leading: Constants.rightBarButtonItemHorizontalPadding,
+                                                 bottom: 0,
+                                                 trailing: Constants.rightBarButtonItemHorizontalPadding)
+            }
+
+            button.configuration?.contentInsets = insets
         } else {
-            button.contentEdgeInsets = UIEdgeInsets(top: 0, left: Constants.rightBarButtonItemHorizontalPadding, bottom: 0, right: Constants.rightBarButtonItemHorizontalPadding)
-        }
-
-        button.tag = item.tag
-        button.tintColor = item.tintColor
-        button.titleLabel?.font = item.titleTextAttributes(for: .normal)?[.font] as? UIFont
-
-        var portraitImage = item.image
-        if portraitImage?.renderingMode == .automatic {
-            portraitImage = portraitImage?.withRenderingMode(.alwaysTemplate)
-        }
-        var landscapeImage = item.landscapeImagePhone ?? portraitImage
-        if landscapeImage?.renderingMode == .automatic {
-            landscapeImage = landscapeImage?.withRenderingMode(.alwaysTemplate)
-        }
-
-        button.setImage(traitCollection.verticalSizeClass == .regular ? portraitImage : landscapeImage, for: .normal)
-        button.setTitle(item.title, for: .normal)
-
-        if let action = item.action {
-            button.addTarget(item.target, action: action, for: .touchUpInside)
-        }
-
-        button.accessibilityIdentifier = item.accessibilityIdentifier
-        button.accessibilityLabel = item.accessibilityLabel
-        button.accessibilityHint = item.accessibilityHint
-        button.showsLargeContentViewer = true
-
-        if let customLargeContentSizeImage = item.largeContentSizeImage {
-            button.largeContentImage = customLargeContentSizeImage
-        }
-
-        if item.title == nil {
-            button.largeContentTitle = item.accessibilityLabel
-        }
-
-        if #available(iOS 13.4, *) {
-            // Workaround check for beta iOS versions missing the Pointer Interactions API
-            if arePointerInteractionAPIsAvailable() {
-                button.isPointerInteractionEnabled = true
+            if isLeftItem {
+                let isRTL = effectiveUserInterfaceLayoutDirection == .rightToLeft
+                button.contentEdgeInsets = UIEdgeInsets(top: 0,
+                                                        left: isRTL ? 0 : Constants.leftBarButtonItemLeadingMargin,
+                                                        bottom: 0,
+                                                        right: isRTL ? Constants.leftBarButtonItemLeadingMargin : 0)
+            } else {
+                button.contentEdgeInsets = UIEdgeInsets(top: 0,
+                                                        left: Constants.rightBarButtonItemHorizontalPadding,
+                                                        bottom: 0,
+                                                        right: Constants.rightBarButtonItemHorizontalPadding)
             }
         }
 
@@ -682,26 +671,43 @@ open class NavigationBar: UINavigationBar {
 
     // MARK: Large/Normal Title handling
 
+    /// Cache for the system shadow color, since the default value is private.
+    private var systemShadowColor: UIColor?
+
     private func updateViewsForLargeTitlePresentation(for navigationItem: UINavigationItem?) {
+        // UIView.isHidden has a bug where a series of repeated calls with the same parameter can "glitch" the view into a permanent shown/hidden state
+        // i.e. repeatedly trying to hide a UIView that is already in the hidden state
+        // by adding a check to the isHidden property prior to setting, we avoid such problematic scenarios
         if showsLargeTitle {
-            backgroundView.safelyShow()
-            contentStackView.safelyShow()
+            if backgroundView.isHidden {
+                backgroundView.isHidden = false
+            }
+
+            if contentStackView.isHidden {
+                contentStackView.isHidden = false
+            }
+
         } else {
-            backgroundView.safelyHide()
-            contentStackView.safelyHide()
+            if !backgroundView.isHidden {
+                backgroundView.isHidden = true
+            }
+
+            if !contentStackView.isHidden {
+                contentStackView.isHidden = true
+            }
         }
         updateShadow(for: navigationItem)
     }
 
     private func updateShadow(for navigationItem: UINavigationItem?) {
         if needsShadow(for: navigationItem) {
-            shadowImage = nil
-            // Forcing layout to update size of shadow image view otherwise it stays with 0 height
-            setNeedsLayout()
-            subviews.forEach { $0.setNeedsLayout() }
+            standardAppearance.shadowColor = systemShadowColor
         } else {
-            shadowImage = UIImage()
+            standardAppearance.shadowColor = nil
         }
+
+        // Update the scroll edge shadow to match standard
+        scrollEdgeAppearance = standardAppearance
     }
 
     private func needsShadow(for navigationItem: UINavigationItem?) -> Bool {

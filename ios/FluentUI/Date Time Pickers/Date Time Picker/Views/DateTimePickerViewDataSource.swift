@@ -69,20 +69,20 @@ protocol DateTimePickerViewDataSourceWithDate: DateTimePickerViewDataSource {
 // MARK: - DateTimePickerViewDataSourceFactory
 
 class DateTimePickerViewDataSourceFactory {
-    static func dataSource(withType type: DateTimePickerViewComponentType, mode: DateTimePickerViewMode) -> DateTimePickerViewDataSource {
+    static func dataSource(withType type: DateTimePickerViewComponentType, mode: DateTimePickerViewMode, calendarConfiguration: CalendarConfiguration) -> DateTimePickerViewDataSource {
         switch type {
         case .date:
-            return DateTimePickerViewDateDataSource()
+            return DateTimePickerViewDateDataSource(calendarConfiguration: calendarConfiguration)
         case .month:
             return DateTimePickerViewMonthDataSource()
         case .day:
             return DateTimePickerViewDayDataSource()
         case .year:
             switch mode {
-            case .date(let startYear, let endYear):
-                return DateTimePickerViewYearDataSource(startYear: startYear, endYear: endYear)
+            case .date:
+                return DateTimePickerViewYearDataSource(startYear: calendarConfiguration.referenceStartDate.year, endYear: calendarConfiguration.referenceEndDate.year)
             case .dateTime, .dayOfMonth:
-                return DateTimePickerViewYearDataSource(startYear: DateTimePickerViewMode.defaultStartYear, endYear: DateTimePickerViewMode.defaultEndYear)
+                return DateTimePickerViewYearDataSource(startYear: calendarConfiguration.referenceStartDate.year, endYear: calendarConfiguration.referenceEndDate.year)
             }
         case .timeHour:
             return DateTimePickerViewHourDataSource()
@@ -283,12 +283,15 @@ private class DateTimePickerViewYearDataSource: DateTimePickerViewDataSource {
 private class DateTimePickerViewDateDataSource: DateTimePickerViewDataSource {
     private var numberOfDates: Int
     private let today = Calendar.sharedCalendarWithTimeZone(nil).startOfDay(for: Date())
-    private let referenceStartDate = Calendar.sharedCalendarWithTimeZone(nil).startOfDay(for: CalendarConfiguration.default.referenceStartDate)
+    private let referenceStartDate: Date
     private var dateComponents = DateComponents()
     private let calendar = Calendar.sharedCalendarWithTimeZone(nil)
 
-    init() {
-        let end = calendar.startOfDay(for: CalendarConfiguration.default.referenceEndDate)
+    init(calendarConfiguration: CalendarConfiguration? = nil) {
+        referenceStartDate = Calendar.sharedCalendarWithTimeZone(nil).startOfDay(for: calendarConfiguration?.referenceStartDate ?? CalendarConfiguration.default.referenceStartDate)
+
+        let end = calendar.startOfDay(for: calendarConfiguration?.referenceEndDate ?? CalendarConfiguration.default.referenceEndDate)
+
         numberOfDates = referenceStartDate.days(until: end)
     }
 
@@ -381,7 +384,7 @@ private class DateTimePickerViewHourDataSource: DateTimePickerViewDataSource {
     }
 
     func accessibilityValue(forRowAtIndex index: Int) -> String? {
-        guard let item = itemStringRepresentation(forRowAtIndex: index) else {
+        guard let item = item(forRowAtIndex: index) as? Int else {
             assertionFailure("accessibilityValue > item not found")
             return nil
         }
@@ -445,7 +448,7 @@ private class DateTimePickerViewMinuteDataSource: DateTimePickerViewDataSource {
         }
 
         let translation = "Accessibility.DateTime.Minute.Value".localized
-        return String(format: translation, arguments: ["\(item)"])
+        return String(format: translation, arguments: [item])
     }
 
     func accessibilityLabel() -> String? {

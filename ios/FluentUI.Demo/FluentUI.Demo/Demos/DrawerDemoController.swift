@@ -45,7 +45,6 @@ class DrawerDemoController: DemoController {
         addTitle(text: "Bottom Drawer")
         container.addArrangedSubview(createButton(title: "Show resizable", action: #selector(showBottomDrawerButtonTapped)))
         container.addArrangedSubview(createButton(title: "Show resizable with max content height", action: #selector(showBottomDrawerWithMaxContentHeightTapped)))
-        container.addArrangedSubview(createButton(title: "Show with underlying interactable content view", action: #selector(showBottomDrawerWithUnderlyingInteractableViewButtonTapped)))
         container.addArrangedSubview(createButton(title: "Show changing resizing behaviour", action: #selector(showBottomDrawerChangingResizingBehaviour)))
         container.addArrangedSubview(createButton(title: "Show with no animation", action: #selector(showBottomDrawerNotAnimatedButtonTapped)))
         container.addArrangedSubview(createButton(title: "Show from custom base", action: #selector(showBottomDrawerCustomOffsetButtonTapped)))
@@ -138,11 +137,11 @@ class DrawerDemoController: DemoController {
         controller.view.addSubview(content)
         content.frame = controller.view.bounds
         content.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        content.backgroundColor = Colors.NavigationBar.background
+        content.backgroundColor = Colors.navigationBarBackground
 
         let contentController = UINavigationController(rootViewController: controller)
-        contentController.navigationBar.barTintColor = Colors.NavigationBar.background
-        contentController.toolbar.barTintColor = Colors.Toolbar.background
+        contentController.navigationBar.barTintColor = Colors.navigationBarBackground
+        contentController.toolbar.barTintColor = Colors.navigationBarBackground
         contentController.isToolbarHidden = false
         contentController.preferredContentSize = CGSize(width: 400, height: 400)
         contentControllerOriginalPreferredContentHeight = contentController.preferredContentSize.height
@@ -243,10 +242,6 @@ class DrawerDemoController: DemoController {
         presentDrawer(sourceView: sender, presentationDirection: .up, contentView: containerForActionViews(drawerHasFlexibleHeight: true, drawerHasToggleResizingBehaviorButton: true), resizingBehavior: .expand)
     }
 
-    @objc private func showBottomDrawerWithUnderlyingInteractableViewButtonTapped(sender: UIButton) {
-        navigationController?.pushViewController(PassThroughDrawerDemoController(), animated: true)
-    }
-
     @objc private func showBottomDrawerNotAnimatedButtonTapped(sender: UIButton) {
         presentDrawer(sourceView: sender, presentationDirection: .up, contentView: containerForActionViews(), animated: false)
     }
@@ -288,7 +283,7 @@ class DrawerDemoController: DemoController {
                                    contentController: contentController,
                                    resizingBehavior: .dismissOrExpand)
 
-        drawer.resizingHandleViewBackgroundColor = Colors.NavigationBar.background
+        drawer.resizingHandleViewBackgroundColor = Colors.navigationBarBackground
         drawer.contentScrollView = personaListView
     }
 

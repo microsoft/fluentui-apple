@@ -7,9 +7,9 @@ import UIKit
 
 // MARK: Tooltip Colors
 
-public extension Colors {
+private extension Colors {
     struct Tooltip {
-        public static var text: UIColor = textOnAccent
+        static var text: UIColor = textOnAccent
     }
 }
 
@@ -27,8 +27,6 @@ class TooltipView: UIView {
 
         static let paddingHorizontal: CGFloat = 13
         static let totalPaddingVertical: CGFloat = 12
-
-        static let maxLines: Int = 3
     }
 
     static let backgroundCornerRadius: CGFloat = 8
@@ -56,7 +54,7 @@ class TooltipView: UIView {
 
     private static func messageLabelSizeThatFits(_ size: CGSize, message: String) -> CGSize {
         let boundingWidth = min(Constants.maximumWidth, size.width) - 2 * Constants.paddingHorizontal
-        return message.preferredSize(for: Constants.messageLabelTextStyle.font, width: boundingWidth, numberOfLines: Constants.maxLines)
+        return message.preferredSize(for: Constants.messageLabelTextStyle.font, width: boundingWidth)
     }
 
     let positionController: TooltipPositionController
@@ -77,7 +75,7 @@ class TooltipView: UIView {
     private let messageLabel: UILabel = {
         let label = Label(style: Constants.messageLabelTextStyle)
         label.textColor = Colors.Tooltip.text
-        label.numberOfLines = Constants.maxLines
+        label.numberOfLines = 0
         return label
     }()
 
@@ -163,7 +161,7 @@ class TooltipView: UIView {
         if let window = window {
             let backgroundColor = UIColor(light: Colors.gray900.withAlphaComponent(0.95), dark: Colors.primary(for: window))
             backgroundView.backgroundColor = backgroundColor
-            arrowImageView.image = arrowImageViewBaseImage?.image(withPrimaryColor: backgroundColor)
+            arrowImageView.image = arrowImageViewBaseImage?.withTintColor(backgroundColor, renderingMode: .alwaysOriginal)
         }
     }
 

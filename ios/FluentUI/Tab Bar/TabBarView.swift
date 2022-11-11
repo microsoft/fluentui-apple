@@ -7,9 +7,6 @@ import UIKit
 
 // MARK: TabBarViewDelegate
 
-@available(*, deprecated, renamed: "TabBarViewDelegate")
-public typealias MSTabBarViewDelegate = TabBarViewDelegate
-
 @objc(MSFTabBarViewDelegate)
 public protocol TabBarViewDelegate {
     /// Called after the view representing `TabBarItem` is selected.
@@ -17,9 +14,6 @@ public protocol TabBarViewDelegate {
 }
 
 // MARK: - TabBarView
-
-@available(*, deprecated, renamed: "TabBarView")
-public typealias MSTabBarView = TabBarView
 
 /// `TabBarView` supports maximum 5 tab bar items
 /// Set up `delegate` property to listen to selection changes.
@@ -40,10 +34,15 @@ open class TabBarView: UIView {
                 preconditionFailure("tab bar items can't be more than \(Constants.maxTabCount)")
             }
 
-            for item in items {
+            for (index, item) in items.enumerated() {
                 let tabBarItemView = TabBarItemView(item: item, showsTitle: showsItemTitles)
                 let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTabBarItemTapped(_:)))
                 tabBarItemView.addGestureRecognizer(tapGesture)
+
+                // iOS 14.0 - 14.5 `.tabBar` accessibilityTrait does not read out the index automatically
+                if #available(iOS 14.6, *) { } else {
+                    tabBarItemView.accessibilityHint = String.localizedStringWithFormat( "Accessibility.TabBarItemView.Hint".localized, index + 1, numberOfItems)
+                }
                 stackView.addArrangedSubview(tabBarItemView)
             }
 
@@ -100,6 +99,8 @@ open class TabBarView: UIView {
         addInteraction(UILargeContentViewerInteraction())
 
         accessibilityTraits = .tabBar
+        // add container trait to mimic default OS UITabbar experience
+        accessibilityTraits.insert(UIAccessibilityTraits(rawValue: 0x200000000000))
         updateHeight()
     }
 
@@ -154,7 +155,7 @@ open class TabBarView: UIView {
         return stackView
     }()
 
-    private let topBorderLine = Separator(style: .shadow, orientation: .horizontal)
+    private let topBorderLine = MSFDivider()
 
     private func updateHeight() {
         if traitCollection.userInterfaceIdiom == .phone {

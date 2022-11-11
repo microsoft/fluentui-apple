@@ -7,28 +7,45 @@ import AppKit
 import FluentUI
 
 class TestLinkViewController: NSViewController {
-	let disabledLink = Link(title: "Disabled link with hover effects")
+	let disabledLink: Link = {
+		let disabledLinkTitle = "Disabled link with hover effects"
+		let disabledLink = Link(title: disabledLinkTitle)
+		disabledLink.toolTip = disabledLinkTitle
+
+		return disabledLink
+	}()
 
 	override func loadView() {
-		let url = NSURL(string: "https://github.com/microsoft/fluentui-apple")
+		let url = URL(string: "https://github.com/microsoft/fluentui-apple")
 
-		let linkWithNoUnderline = Link(title: "Link", url: url)
+		let linkWithNoUnderlineTitle = "FluentUI on GitHub"
+		let linkWithNoUnderline = Link(title: linkWithNoUnderlineTitle, url: url)
+		linkWithNoUnderline.toolTip = linkWithNoUnderlineTitle
 
-		let linkWithHover = Link(title: "Link with hover effects", url: url)
+		let linkWithHoverTitle = "FluentUI on GitHub (link with hover effects)"
+		let linkWithHover = Link(title: linkWithHoverTitle, url: url)
+		linkWithHover.toolTip = linkWithHoverTitle
 		linkWithHover.showsUnderlineWhileMouseInside = true
 
-		let linkWithHoverAndNoURL = Link(title: "Link with hover effects and no URL")
+		let linkWithHoverAndNoURLTitle = "Link with hover effects and no URL"
+		let linkWithHoverAndNoURL = Link(title: linkWithHoverAndNoURLTitle)
+		linkWithHoverAndNoURL.toolTip = linkWithHoverAndNoURLTitle
 		linkWithHoverAndNoURL.showsUnderlineWhileMouseInside = true
 
-		let linkWithOverridenTargetAction = Link(title: "Link with overridden Target/Action")
+		let linkWithOverridenTargetActionTitle = "Link with overridden Target/Action"
+		let linkWithOverridenTargetAction = Link(title: linkWithOverridenTargetActionTitle)
+		linkWithOverridenTargetAction.toolTip = linkWithOverridenTargetActionTitle
 		linkWithOverridenTargetAction.showsUnderlineWhileMouseInside = true
 		linkWithOverridenTargetAction.target = self
 		linkWithOverridenTargetAction.action = #selector(displayAlert)
 
-		let customLink = Link(title: "Link with custom font, color and image", url: url)
+		let customLinkTitle = "FluentUI on GitHub (Link with custom font, color and image)"
+		let customLink = Link(title: customLinkTitle, url: url)
+		customLink.toolTip = customLinkTitle
 		customLink.font = NSFont.systemFont(ofSize: 12.0, weight: NSFont.Weight.semibold)
 		customLink.contentTintColor = .textColor
 		customLink.image = NSImage(named: NSImage.goRightTemplateName)!
+		customLink.image?.accessibilityDescription = customLinkTitle
 		customLink.imagePosition = .imageTrailing
 
 		disabledLink.showsUnderlineWhileMouseInside = true
@@ -36,7 +53,9 @@ class TestLinkViewController: NSViewController {
 		disabledLink.target = self
 		disabledLink.action = #selector(toggleLink)
 
-		let toggleDisabledLink = Link(title: "Toggle disabled link")
+		let toggleDisabledLinkTitle = "Toggle disabled link"
+		let toggleDisabledLink = Link(title: toggleDisabledLinkTitle)
+		toggleDisabledLink.toolTip = toggleDisabledLinkTitle
 		toggleDisabledLink.showsUnderlineWhileMouseInside = true
 		toggleDisabledLink.target = self
 		toggleDisabledLink.action = #selector(toggleLink)
