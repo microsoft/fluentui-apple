@@ -5,9 +5,9 @@
 
 import UIKit
 
-// MARK: TooltipView
+// MARK: TooltipViewController
 
-class TooltipView: UIView {
+class TooltipViewController: UIViewController {
 
     init(message: String,
          title: String? = nil,
@@ -15,7 +15,7 @@ class TooltipView: UIView {
          positionController: TooltipPositionController,
          tokenSet: TooltipTokenSet) {
         self.message = message
-        self.title = title
+        self.titleMessage = title
         self.positionController = positionController
         self.tokenSet = tokenSet
 
@@ -23,14 +23,14 @@ class TooltipView: UIView {
         arrowImageView = UIImageView(image: arrowImageViewBaseImage)
         arrowImageView.image = arrowImageViewBaseImage?.withTintColor(UIColor(dynamicColor: tokenSet[.tooltipColor].dynamicColor), renderingMode: .alwaysOriginal)
 
-        super.init(frame: .zero)
+        super.init(nibName: nil, bundle: nil)
 
         isAccessibilityElement = true
 
-        addSubview(backgroundView)
+        view.addSubview(backgroundView)
 
         arrowImageView.transform = transformForArrowImageView()
-        addSubview(arrowImageView)
+        view.addSubview(arrowImageView)
 
         messageLabel.text = message
         messageLabel.textAlignment = textAlignment
@@ -40,51 +40,33 @@ class TooltipView: UIView {
             titleLabel.textAlignment = textAlignment
         }
 
-        addSubview(textContainer)
+        view.addSubview(textContainer)
 
         // Shadow
-        layer.insertSublayer(CALayer(), at: 0)
-        layer.insertSublayer(CALayer(), at: 0)
+        view.layer.insertSublayer(CALayer(), at: 0)
+        view.layer.insertSublayer(CALayer(), at: 0)
         updateShadows(tokenSet: tokenSet)
+
+        updateAppearance(tokenSet: tokenSet)
     }
 
     required init?(coder aDecoder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
-    override func layoutSubviews() {
-        super.layoutSubviews()
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
 
-        backgroundView.frame = bounds
-
-        if positionController.arrowDirection.isVertical {
-            arrowImageView.frame.origin.x = positionController.arrowPosition
-            backgroundView.frame.size.height -= arrowImageView.frame.height
-        } else {
-            arrowImageView.frame.origin.y = positionController.arrowPosition
-            backgroundView.frame.size.width -= arrowImageView.frame.width
+        coordinator.animate(alongsideTransition: nil) { _ in
+            self.updateAppearance(tokenSet: self.tokenSet)
         }
-
-        switch positionController.arrowDirection {
-        case .up:
-            arrowImageView.frame.origin.y = 0.0
-            backgroundView.frame.origin.y = arrowImageView.frame.maxY
-        case .down:
-            arrowImageView.frame.origin.y = bounds.height - arrowImageView.frame.height
-        case .left:
-            arrowImageView.frame.origin.x = 0.0
-            backgroundView.frame.origin.x = arrowImageView.frame.maxX
-        case .right:
-            arrowImageView.frame.origin.x = bounds.width - arrowImageView.frame.width
-        }
-
-        updateAppearance(tokenSet: tokenSet)
     }
 
     /// Returns the tooltip size
     static func sizeThatFits(_ size: CGSize,
                              message: String,
                              title: String? = nil,
+                             isAccessibilityContentSize: Bool,
                              arrowDirection: Tooltip.ArrowDirection,
                              tokenSet: TooltipTokenSet) -> CGSize {
         let paddingVertical = (title != nil) ? TooltipTokenSet.paddingVerticalWithTitle : TooltipTokenSet.paddingVerticalWithoutTitle
@@ -99,6 +81,7 @@ class TooltipView: UIView {
 
         let messageLabelFittingSize = labelSizeThatFits(textBoundingSize,
                                                         text: message,
+                                                        isAccessibilityContentSize: isAccessibilityContentSize,
                                                         tokenSet: tokenSet,
                                                         isMessage: true)
         var width = messageLabelFittingSize.width
@@ -107,6 +90,7 @@ class TooltipView: UIView {
         if let title = title {
             let titleLabelFittingSize = labelSizeThatFits(textBoundingSize,
                                                           text: title,
+                                                          isAccessibilityContentSize: isAccessibilityContentSize,
                                                           tokenSet: tokenSet,
                                                           isMessage: false)
             width = max(width, titleLabelFittingSize.width)
@@ -126,13 +110,12 @@ class TooltipView: UIView {
     }
 
     let positionController: TooltipPositionController
-    var tokenSet: TooltipTokenSet
 
     // MARK: - Accessibility
 
     override var accessibilityLabel: String? {
         get {
-            guard let title = title
+            guard let title = titleMessage
             else {
                 return message
             }
@@ -147,7 +130,36 @@ class TooltipView: UIView {
         set { }
     }
 
-    private func updateAppearance(tokenSet: TooltipTokenSet) {
+    func updateAppearance(tokenSet: TooltipTokenSet) {
+        // Update tokenSet
+        self.tokenSet = tokenSet
+
+        // Update tooltip origin and size
+        positionController.updateArrowDirectionAndTooltipRect(for: message, title: titleMessage, tokenSet: tokenSet)
+        view.frame = positionController.tooltipRect
+        backgroundView.frame = view.bounds
+        arrowImageView.transform = transformForArrowImageView()
+        if positionController.arrowDirection.isVertical {
+            arrowImageView.frame.origin.x = positionController.arrowPosition
+            backgroundView.frame.size.height -= arrowImageView.frame.height
+        } else {
+            arrowImageView.frame.origin.y = positionController.arrowPosition
+            backgroundView.frame.size.width -= arrowImageView.frame.width
+        }
+
+        switch positionController.arrowDirection {
+        case .up:
+            arrowImageView.frame.origin.y = 0.0
+            backgroundView.frame.origin.y = arrowImageView.frame.maxY
+        case .down:
+            arrowImageView.frame.origin.y = view.bounds.height - arrowImageView.frame.height
+        case .left:
+            arrowImageView.frame.origin.x = 0.0
+            backgroundView.frame.origin.x = arrowImageView.frame.maxX
+        case .right:
+            arrowImageView.frame.origin.x = view.bounds.width - arrowImageView.frame.width
+        }
+
         // Update colors
         let textColor = UIColor(dynamicColor: tokenSet[.textColor].dynamicColor)
         backgroundView.backgroundColor = UIColor(dynamicColor: tokenSet[.tooltipColor].dynamicColor)
@@ -162,26 +174,23 @@ class TooltipView: UIView {
 
         // Update text container size
         backgroundView.layer.cornerRadius = tokenSet[.backgroundCornerRadius].float
-        textContainer.frame = backgroundView.frame.insetBy(dx: TooltipTokenSet.paddingHorizontal, dy: (title != nil) ? TooltipTokenSet.paddingVerticalWithTitle : TooltipTokenSet.paddingVerticalWithoutTitle)
-        let preferredMessageSize = TooltipView.labelSizeThatFits(textContainer.frame.size,
+        textContainer.frame = backgroundView.frame.insetBy(dx: TooltipTokenSet.paddingHorizontal, dy: (titleMessage != nil) ? TooltipTokenSet.paddingVerticalWithTitle : TooltipTokenSet.paddingVerticalWithoutTitle)
+        let isAccessibilityContentSize = self.traitCollection.preferredContentSizeCategory.isAccessibilityCategory
+        let preferredMessageSize = TooltipViewController.labelSizeThatFits(textContainer.frame.size,
                                                                  text: message,
+                                                                 isAccessibilityContentSize: isAccessibilityContentSize,
                                                                  tokenSet: tokenSet,
                                                                  isMessage: true)
         messageLabel.frame.size = preferredMessageSize
-        if let titleLabel = titleLabel, let title = title {
-            let preferredTitleSize = TooltipView.labelSizeThatFits(textContainer.frame.size,
+        if let titleLabel = titleLabel, let title = titleMessage {
+            let preferredTitleSize = TooltipViewController.labelSizeThatFits(textContainer.frame.size,
                                                                    text: title,
+                                                                   isAccessibilityContentSize: isAccessibilityContentSize,
                                                                    tokenSet: tokenSet,
                                                                    isMessage: false)
             titleLabel.frame.size = preferredTitleSize
             messageLabel.frame.origin = CGPoint(x: 0, y: titleLabel.frame.height + TooltipTokenSet.spacingVertical)
         }
-
-        // Update tooltip size
-        positionController.updateArrowDirectionAndTooltipSize(for: message,
-                                                              title: title,
-                                                              tokenSet: tokenSet)
-        self.frame = positionController.tooltipRect
 
         // Update shadows
         updateShadows(tokenSet: tokenSet)
@@ -190,18 +199,18 @@ class TooltipView: UIView {
     private func updateShadows(tokenSet: TooltipTokenSet) {
         let backgroundCornerRadius = tokenSet[.backgroundCornerRadius].float
         let shadowInfo = tokenSet[.shadowInfo].shadowInfo
-        if let ambientShadow = layer.sublayers?[1] {
-            ambientShadow.frame = bounds
-            ambientShadow.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: backgroundCornerRadius).cgPath
+        if let ambientShadow = view.layer.sublayers?[1] {
+            ambientShadow.frame = view.bounds
+            ambientShadow.shadowPath = UIBezierPath(roundedRect: view.bounds, cornerRadius: backgroundCornerRadius).cgPath
             ambientShadow.shadowColor = UIColor(dynamicColor: shadowInfo.colorOne).cgColor
             ambientShadow.shadowOpacity = 1
             ambientShadow.shadowOffset = CGSize(width: shadowInfo.xOne, height: shadowInfo.yOne)
             ambientShadow.shadowRadius = shadowInfo.blurOne
         }
 
-        if let perimeterShadow = layer.sublayers?[0] {
-            perimeterShadow.frame = bounds
-            perimeterShadow.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: backgroundCornerRadius).cgPath
+        if let perimeterShadow = view.layer.sublayers?[0] {
+            perimeterShadow.frame = view.bounds
+            perimeterShadow.shadowPath = UIBezierPath(roundedRect: view.bounds, cornerRadius: backgroundCornerRadius).cgPath
             perimeterShadow.shadowColor = UIColor(dynamicColor: shadowInfo.colorTwo).cgColor
             perimeterShadow.shadowOpacity = 1
             perimeterShadow.shadowOffset = CGSize(width: shadowInfo.xTwo, height: shadowInfo.yTwo)
@@ -211,9 +220,10 @@ class TooltipView: UIView {
 
     private static func labelSizeThatFits(_ size: CGSize,
                                           text: String,
+                                          isAccessibilityContentSize: Bool,
                                           tokenSet: TooltipTokenSet,
                                           isMessage: Bool) -> CGSize {
-        let boundingWidth = UIApplication.shared.preferredContentSizeCategory.isAccessibilityCategory ? size.width : tokenSet[.maximumWidth].float - (2 * TooltipTokenSet.paddingHorizontal)
+        let boundingWidth = isAccessibilityContentSize ? size.width : min(tokenSet[.maximumWidth].float - (2 * TooltipTokenSet.paddingHorizontal), size.width)
         return text.preferredSize(for: UIFont.fluent(tokenSet[isMessage ? .messageLabelTextStyle : .titleLabelTextStyle].fontInfo), width: boundingWidth)
     }
 
@@ -230,8 +240,9 @@ class TooltipView: UIView {
         }
     }
 
+    private var tokenSet: TooltipTokenSet
     private let message: String
-    private let title: String?
+    private let titleMessage: String?
 
     private lazy var backgroundView: UIView = {
         let view = UIView()
@@ -267,7 +278,7 @@ class TooltipView: UIView {
     }()
 
     private lazy var titleLabel: UILabel? = {
-        if let title = title {
+        if let title = titleMessage {
             let label = Label()
             label.font = UIFont.fluent(tokenSet[.titleLabelTextStyle].fontInfo)
             label.textColor = UIColor(dynamicColor: tokenSet[.textColor].dynamicColor)
