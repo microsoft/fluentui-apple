@@ -5,7 +5,7 @@
 
 import UIKit
 
-// MARK: TooltipView
+// MARK: TooltipViewController
 
 class TooltipViewController: UIViewController {
 
@@ -134,8 +134,8 @@ class TooltipViewController: UIViewController {
         // Update tokenSet
         self.tokenSet = tokenSet
 
-        // Update tooltip size
-        positionController.updateArrowDirectionAndTooltipSize(for: message, title: titleMessage, tokenSet: tokenSet)
+        // Update tooltip origin and size
+        positionController.updateArrowDirectionAndTooltipRect(for: message, title: titleMessage, tokenSet: tokenSet)
         view.frame = positionController.tooltipRect
         backgroundView.frame = view.bounds
         arrowImageView.transform = transformForArrowImageView()
