@@ -143,6 +143,18 @@
     [self presentViewController:alert animated:true completion:nil];
 }
 
+- (void)buttonPressed:(id)sender {
+    MSFLabel *label = [[MSFLabel alloc] initWithStyle:MSFTextStyleHeadline colorStyle:MSFTextColorStyleRegular];
+    [label setTextAlignment:NSTextAlignmentCenter];
+    [label setText:@"Test label with color"];
+
+    MSFColorValue *colorValue = [MSFGlobalTokens sharedColorForColorSet:MSFSharedColorSetsPink
+                                                                  token:MSFSharedColorsTokensPrimary];
+    [label setTextColor:[[UIColor alloc] initWithColorValue:colorValue]];
+
+    [[self container] addArrangedSubview:label];
+}
+
 - (UIStackView *)createVerticalContainer {
     UIStackView* container = [[UIStackView alloc] initWithFrame:CGRectZero];
     container.axis = UILayoutConstraintAxisVertical;

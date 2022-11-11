@@ -734,6 +734,39 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     /// Text that appears as the third line of text
     @objc public var footer: String { return footerLabel.text ?? "" }
 
+    /// The attributedText for the title.
+    @objc public var attributedTitle: NSAttributedString? {
+        get {
+            return titleLabel.attributedText
+        }
+        set {
+            titleLabel.attributedText = newValue
+            isAttributedTitleSet = newValue == nil ? false : true
+        }
+    }
+
+    /// The attributedText for the subtitle.
+    @objc public var attributedSubtitle: NSAttributedString? {
+        get {
+            return subtitleLabel.attributedText
+        }
+        set {
+            subtitleLabel.attributedText = newValue
+            isAttributedSubtitleSet = newValue == nil ? false : true
+        }
+    }
+
+    /// The attributedText for the footer.
+    @objc public var attributedFooter: NSAttributedString? {
+        get {
+            return footerLabel.attributedText
+        }
+        set {
+            footerLabel.attributedText = newValue
+            isAttributedFooterSet = newValue == nil ? false : true
+        }
+    }
+
     /// The leading padding.
     @objc public var paddingLeading: CGFloat {
         get {
@@ -1403,39 +1436,9 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
 
     private var isUsingCustomTextColors: Bool = false
 
-    private var attributedTitle: NSAttributedString? {
-        get {
-            return titleLabel.attributedText
-        }
-        set {
-            titleLabel.attributedText = newValue
-            isAttributedTitleSet = newValue == nil ? false : true
-        }
-    }
-
     private var isAttributedTitleSet: Bool = false
 
-    private var attributedSubtitle: NSAttributedString? {
-        get {
-            return subtitleLabel.attributedText
-        }
-        set {
-            subtitleLabel.attributedText = newValue
-            isAttributedSubtitleSet = newValue == nil ? false : true
-        }
-    }
-
     private var isAttributedSubtitleSet: Bool = false
-
-    private var attributedFooter: NSAttributedString? {
-        get {
-            return footerLabel.attributedText
-        }
-        set {
-            footerLabel.attributedText = newValue
-            isAttributedFooterSet = newValue == nil ? false : true
-        }
-    }
 
     private var isAttributedFooterSet: Bool = false
 
@@ -1486,9 +1489,6 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
 
         layoutContentSubviews()
         contentView.flipSubviewsForRTL()
-
-        layoutSeparator(topSeparator, with: topSeparatorType, at: 0)
-        layoutSeparator(bottomSeparator, with: bottomSeparatorType, at: frame.height - bottomSeparator.frame.height)
     }
 
     open func layoutContentSubviews() {
@@ -1667,7 +1667,6 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
             width: frame.width - separatorLeadingInset(for: type),
             height: MSFDivider.thickness
         )
-        separator.flipForRTL()
     }
 
     func separatorLeadingInset(for type: SeparatorType) -> CGFloat {

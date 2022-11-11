@@ -136,7 +136,6 @@ open class PopupMenuController: DrawerController {
             }
             divider.tokenSet[.color] = .dynamicColor({ dynamicColor })
         }
-    }
 
     private var sections: [PopupMenuSection] = []
     private var itemForExecutionAfterPopupMenuDismissal: PopupMenuTemplateItem?

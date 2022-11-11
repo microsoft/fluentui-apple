@@ -69,7 +69,7 @@ class PeoplePickerDemoController: DemoController {
 
     private func setupView() {
         container.addArrangedSubview(createAsyncImageToggle())
-        container.addArrangedSubview(Separator())
+        container.addArrangedSubview(MSFDivider())
 
         for (index, variant) in PeoplePickerSampleData.variants.enumerated() {
             addDescription(text: variant.description)

@@ -143,6 +143,12 @@ fi', :execution_position => :before_compile }
     divider_ios.source_files = ["ios/FluentUI/Vnext/Divider/**/*.{swift,h}"]
   end
 
+  s.subspec 'Divider_ios' do |divider_ios|
+    divider_ios.platform = :ios
+    divider_ios.dependency 'MicrosoftFluentUI/Core_ios'
+    divider_ios.source_files = ["ios/FluentUI/Divider/**/*.{swift,h}"]
+  end
+
   s.subspec 'DotView_ios' do |dotview_ios|
     dotview_ios.platform = :ios
     dotview_ios.dependency 'MicrosoftFluentUI/Core_ios'
@@ -246,9 +252,9 @@ fi', :execution_position => :before_compile }
 
   s.subspec 'PopupMenu_ios' do |popupmenu_ios|
     popupmenu_ios.platform = :ios
+    popupmenu_ios.dependency 'MicrosoftFluentUI/Divider_ios'
     popupmenu_ios.dependency 'MicrosoftFluentUI/Drawer_ios'
     popupmenu_ios.dependency 'MicrosoftFluentUI/Label_ios'
-    popupmenu_ios.dependency 'MicrosoftFluentUI/Separator_ios'
     popupmenu_ios.dependency 'MicrosoftFluentUI/TableView_ios'
     popupmenu_ios.source_files = ["ios/FluentUI/Popup Menu/**/*.{swift,h}"]
   end
@@ -269,12 +275,6 @@ fi', :execution_position => :before_compile }
     segmentedcontrol_ios.platform = :ios
     segmentedcontrol_ios.dependency 'MicrosoftFluentUI/Divider_ios'
     segmentedcontrol_ios.source_files = ["ios/FluentUI/SegmentedControl/**/*.{swift,h}"]
-  end
-
-  s.subspec 'Separator_ios' do |separator_ios|
-    separator_ios.platform = :ios
-    separator_ios.dependency 'MicrosoftFluentUI/Core_ios'
-    separator_ios.source_files = ["ios/FluentUI/Separator/**/*.{swift,h}"]
   end
 
   s.subspec 'Shimmer_ios' do |shimmer_ios|
