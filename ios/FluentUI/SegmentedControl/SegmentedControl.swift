@@ -134,11 +134,10 @@ open class SegmentedControl: UIView, TokenizedControlInternal, UIScrollViewDeleg
         return view
     }()
 
-    private lazy var gradientMaskLayer: CAGradientLayer = {
-        let gradient = CAGradientLayer(layer: layer)
+    private let gradientMaskLayer: CAGradientLayer = {
+        let gradient = CAGradientLayer()
         gradient.startPoint = CGPoint(x: 0.0, y: 0.5)
         gradient.endPoint = CGPoint(x: 1.0, y: 0.5)
-        gradient.colors = gradientMaskColors
         return gradient
     }()
 
