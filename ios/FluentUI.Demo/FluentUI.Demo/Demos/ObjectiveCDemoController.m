@@ -43,7 +43,7 @@
     [buttonLabel setText:@"Button"];
     [self.container addArrangedSubview:buttonLabel];
 
-    MSFButtonLegacy *testButton = [self createButtonWithTitle:@"Test" action:nil];
+    MSFButton *testButton = [self createButtonWithTitle:@"Test" action:@selector(buttonPressed:)];
     [self.container addArrangedSubview:testButton];
 
     UILabel *buttonVnextLabel = [[UILabel alloc] init];

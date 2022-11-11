@@ -66,9 +66,7 @@ class ShimmerViewDemoController: DemoController {
 
         container.addArrangedSubview(shimmerViewLabel("A ShimmerLinesView needs no containerview or subviews"))
         container.addArrangedSubview(dividers[0])
-        container.addArrangedSubview(ShimmerLinesView(lineCount: 3,
-                                                         firstLineFillPercent: 0.94,
-                                                         lastLineFillPercent: 0.6))
+        container.addArrangedSubview(ShimmerLinesView())
         container.addArrangedSubview(dividers[1])
 
         container.addArrangedSubview(shimmerViewLabel("ShimmerView shimmers all the top level subviews of its container view"))
