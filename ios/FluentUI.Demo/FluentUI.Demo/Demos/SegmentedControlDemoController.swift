@@ -34,44 +34,51 @@ class SegmentedControlDemoController: DemoController {
         container.layoutMargins.right = 0
 
         addTitle(text: "Primary Pill")
-
+        addDescription(text: "fixed width, equal buttons", textAlignment: .center)
         addPillControl(items: Array(segmentItems.prefix(3)),
                        style: .primaryPill)
         container.addArrangedSubview(UIView())
 
-        addTitle(text: "Primary Pill with unequal buttons")
-
+        addTitle(text: "Primary Pill")
+        addDescription(text: "not fixed width, unequal buttons", textAlignment: .center)
         addPillControl(items: Array(segmentItems.prefix(10)),
+                       style: .primaryPill,
+                       equalSegments: false,
+                       isFixedWidth: false)
+        container.addArrangedSubview(UIView())
+
+        addTitle(text: "Primary Pill")
+        addDescription(text: "not fixed width, unequal buttons", textAlignment: .center)
+        addPillControl(items: Array(segmentItems.prefix(2)),
                        style: .primaryPill,
                        equalSegments: false,
                        isFixedWidth: false)
         container.addArrangedSubview(UIView())
 
         addTitle(text: "Disabled Primary Pill")
-
+        addDescription(text: "fixed width, equal buttons", textAlignment: .center)
         addPillControl(items: Array(segmentItems.prefix(2)),
                        style: .primaryPill,
                        enabled: false)
         container.addArrangedSubview(UIView())
 
         addTitle(text: "On Brand Pill")
-
+        addDescription(text: "not fixed width, equal buttons", textAlignment: .center)
         addPillControl(items: Array(segmentItems.prefix(10)),
                        style: .onBrandPill,
                        equalSegments: true,
                        isFixedWidth: false)
         container.addArrangedSubview(UIView())
 
-        addTitle(text: "On Brand Pill with unequal buttons")
-
+        addTitle(text: "On Brand Pill")
+        addDescription(text: "not fixed width, equal buttons", textAlignment: .center)
         addPillControl(items: Array(segmentItems.prefix(2)),
                        style: .onBrandPill,
-                       equalSegments: false,
                        isFixedWidth: false)
         container.addArrangedSubview(UIView())
 
         addTitle(text: "Disabled On Brand Pill")
-
+        addDescription(text: "fixed width, equal buttons", textAlignment: .center)
         addPillControl(items: Array(segmentItems.prefix(2)),
                        style: .onBrandPill,
                        enabled: false)
