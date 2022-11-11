@@ -112,12 +112,11 @@ open class SegmentedControl: UIView, TokenizedControlInternal, UIScrollViewDeleg
 
         return stackView
     }()
-    private lazy var scrollView: UIScrollView = {
+    private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
-        scrollView.delegate = self
 
         return scrollView
     }()
@@ -164,6 +163,7 @@ open class SegmentedControl: UIView, TokenizedControlInternal, UIScrollViewDeleg
         self.style = style
 
         super.init(frame: .zero)
+        scrollView.delegate = self
 
         stackView.layer.cornerRadius = Constants.pillButtonCornerRadius
         pillContainerView.addSubview(stackView)
