@@ -38,6 +38,7 @@ open class SegmentedControl: UIView, TokenizedControlInternal, UIScrollViewDeleg
     /// Scrolling will only work if this is false.
     @objc public var isFixedWidth: Bool = true {
         didSet {
+            updateViewHierarchyForScrolling()
             updatePillContainerConstraints()
         }
     }
@@ -72,7 +73,8 @@ open class SegmentedControl: UIView, TokenizedControlInternal, UIScrollViewDeleg
 
     // Hierarchy:
     //
-    // .mask -> gradientMask
+    // isFixedWidth = false (adds mask and scrollView):
+    // layer.mask -> gradientMaskLayer
     // scrollView
     // |--pillContainerView (used to create 16pt inset on either side)
     // |  |--stackView (fill container view, uses restTabColor)
@@ -81,6 +83,15 @@ open class SegmentedControl: UIView, TokenizedControlInternal, UIScrollViewDeleg
     // |  |  |.mask -> selectionView
     // |  |  |--pillMaskedLabels (uses selectedLabelColor)
     // |  |  |--pillMaskedImages (uses selectedLabelColor)
+    //
+    // isFixedWidth = true:
+    // pillContainerView (used to create 16pt inset on either side)
+    // |--stackView (fill container view, uses restTabColor)
+    // |  |--buttons (uses restLabelColor)
+    // |--pillMaskedLabelsContainerView (fill container view, uses selectedTabColor)
+    // |  |.mask -> selectionView
+    // |  |--pillMaskedLabels (uses selectedLabelColor)
+    // |  |--pillMaskedImages (uses selectedLabelColor)
 
     private var buttons = [SegmentPillButton]()
     private let selectionView: UIView = {
@@ -124,6 +135,14 @@ open class SegmentedControl: UIView, TokenizedControlInternal, UIScrollViewDeleg
     private var pillMaskedImages = [UIImageView?]()
     private var pillContainerViewConstraints: [NSLayoutConstraint] = []
 
+    private lazy var scrollViewConstraints: [NSLayoutConstraint] = {
+        let safeArea = safeAreaLayoutGuide
+        return [scrollView.topAnchor.constraint(equalTo: safeArea.topAnchor),
+                scrollView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+                scrollView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+                scrollView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)]
+    }()
+
     private var isAnimating: Bool = false
 
     private let gradientMaskLayer: CAGradientLayer = {
@@ -164,9 +183,7 @@ open class SegmentedControl: UIView, TokenizedControlInternal, UIScrollViewDeleg
         pillContainerView.addSubview(pillMaskedContentContainerView)
         addButtons(items: items)
         pillContainerView.addInteraction(UILargeContentViewerInteraction())
-        scrollView.addSubview(pillContainerView)
-        addSubview(scrollView)
-        layer.mask = gradientMaskLayer
+        addSubview(pillContainerView)
 
         updateStackDistribution()
         setupLayoutConstraints()
@@ -489,21 +506,27 @@ open class SegmentedControl: UIView, TokenizedControlInternal, UIScrollViewDeleg
 
     private func updatePillContainerConstraints() {
         NSLayoutConstraint.deactivate(pillContainerViewConstraints)
+        let topAnchor: NSLayoutYAxisAnchor
         let leadingAnchor: NSLayoutXAxisAnchor
         let trailingAnchor: NSLayoutXAxisAnchor
+        let bottomAnchor: NSLayoutYAxisAnchor
         if isFixedWidth {
+            topAnchor = self.safeAreaLayoutGuide.topAnchor
             leadingAnchor = self.safeAreaLayoutGuide.leadingAnchor
             trailingAnchor = self.safeAreaLayoutGuide.trailingAnchor
+            bottomAnchor = self.safeAreaLayoutGuide.bottomAnchor
         } else {
+            topAnchor = scrollView.topAnchor
             leadingAnchor = scrollView.leadingAnchor
             trailingAnchor = scrollView.trailingAnchor
+            bottomAnchor = scrollView.bottomAnchor
         }
         pillContainerViewConstraints = [
-            pillContainerView.topAnchor.constraint(equalTo: scrollView.topAnchor,
+            pillContainerView.topAnchor.constraint(equalTo: topAnchor,
                                                    constant: contentInset.top),
             pillContainerView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: contentInset.leading),
             pillContainerView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -contentInset.trailing),
-            pillContainerView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor,
+            pillContainerView.bottomAnchor.constraint(equalTo: bottomAnchor,
                                                    constant: -contentInset.bottom)
         ]
         NSLayoutConstraint.activate(pillContainerViewConstraints)
@@ -511,14 +534,8 @@ open class SegmentedControl: UIView, TokenizedControlInternal, UIScrollViewDeleg
 
     private func setupLayoutConstraints () {
         updatePillContainerConstraints()
-        let safeArea = self.safeAreaLayoutGuide
 
         NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: safeArea.topAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
-
             stackView.leadingAnchor.constraint(equalTo: pillContainerView.leadingAnchor),
             stackView.trailingAnchor.constraint(equalTo: pillContainerView.trailingAnchor),
             stackView.topAnchor.constraint(equalTo: pillContainerView.topAnchor),
@@ -572,6 +589,24 @@ open class SegmentedControl: UIView, TokenizedControlInternal, UIScrollViewDeleg
 
     private func updateGradientMaskColors() {
         gradientMaskLayer.colors = gradientMaskColors
+    }
+
+    private func updateViewHierarchyForScrolling() {
+        if isFixedWidth {
+            scrollView.removeFromSuperview()
+            pillContainerView.removeFromSuperview()
+            addSubview(pillContainerView)
+            layer.mask = nil
+
+            NSLayoutConstraint.deactivate(scrollViewConstraints)
+        } else {
+            pillContainerView.removeFromSuperview()
+            scrollView.addSubview(pillContainerView)
+            addSubview(scrollView)
+            layer.mask = gradientMaskLayer
+
+            NSLayoutConstraint.activate(scrollViewConstraints)
+        }
     }
 
     private var maximumContentOffset: CGFloat {
