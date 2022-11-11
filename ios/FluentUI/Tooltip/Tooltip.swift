@@ -36,44 +36,43 @@ open class Tooltip: NSObject, TokenizedControlInternal {
             preconditionFailure("Can't find anchorView's window")
         }
 
-        let screenMargin = TooltipTokenSet.screenMargin
-        let boundingRect = window.bounds.inset(by: window.safeAreaInsets).inset(by: UIEdgeInsets(top: screenMargin,
-                                                                                                 left: screenMargin,
-                                                                                                 bottom: screenMargin,
-                                                                                                 right: screenMargin))
         let positionController = TooltipPositionController(anchorView: anchorView,
                                                            message: message,
                                                            title: title,
-                                                           boundingRect: boundingRect,
                                                            preferredArrowDirection: preferredArrowDirection,
                                                            offset: offset,
                                                            arrowMargin: tokenSet[.backgroundCornerRadius].float,
                                                            tokenSet: tokenSet
         )
-        let tooltipView = TooltipView(message: message,
-                                      title: title,
-                                      textAlignment: textAlignment,
-                                      positionController: positionController,
-                                      tokenSet: tokenSet)
-        self.tooltipView = tooltipView
+        self.tooltipViewController = TooltipViewController(message: message,
+                                                           title: title,
+                                                           textAlignment: textAlignment,
+                                                           positionController: positionController,
+                                                           tokenSet: tokenSet)
+
+        guard let tooltipViewController = tooltipViewController,
+              let tooltipView = tooltipViewController.view else {
+            return
+        }
+
+        let rootViewController = window.rootViewController
+        let rootView = rootViewController?.view
+        rootViewController?.addChild(tooltipViewController)
         tooltipView.accessibilityViewIsModal = true
-
         self.onTap = onTap
-
         self.dismissMode = UIAccessibility.isVoiceOverRunning ? .tapOnTooltip : dismissMode
-
         let gestureView = TouchForwardingView(frame: window.bounds)
         self.gestureView = gestureView
         switch self.dismissMode {
         case .tapAnywhere:
-            window.addSubview(tooltipView)
-            window.addSubview(gestureView)
+            rootView?.addSubview(tooltipView)
+            rootView?.addSubview(gestureView)
             gestureView.onTouches = { _ in
                 self.handleTapGesture()
             }
         case .tapOnTooltip, .tapOnTooltipOrAnchor:
-            window.addSubview(gestureView)
-            window.addSubview(tooltipView)
+            rootView?.addSubview(gestureView)
+            rootView?.addSubview(tooltipView)
             gestureView.forwardsTouches = false
             tooltipView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapGesture)))
             if self.dismissMode == .tapOnTooltipOrAnchor {
@@ -83,6 +82,8 @@ open class Tooltip: NSObject, TokenizedControlInternal {
                 }
             }
         }
+
+        tooltipViewController.didMove(toParent: rootViewController)
 
         // Layout tooltip
         tooltipView.frame = positionController.tooltipRect
@@ -96,9 +97,6 @@ open class Tooltip: NSObject, TokenizedControlInternal {
         })
 
         isShowing = true
-
-        UIDevice.current.beginGeneratingDeviceOrientationNotifications()
-        NotificationCenter.default.addObserver(self, selector: #selector(orientationChanged), name: UIDevice.orientationDidChangeNotification, object: nil)
     }
 
     /// Displays a tooltip based on the current settings, pointing to the supplied anchorView.
@@ -159,25 +157,26 @@ open class Tooltip: NSObject, TokenizedControlInternal {
         gestureView?.removeFromSuperview()
         gestureView = nil
 
-        guard let tooltipView = tooltipView else {
+        guard let tooltipView = tooltipViewController?.view else {
             return
         }
+
+        self.tooltipViewController?.willMove(toParent: nil)
 
         // Animate tooltip
         UIView.animate(withDuration: Constants.animationDuration, delay: 0.0, options: [.beginFromCurrentState, .curveEaseOut], animations: {
             tooltipView.alpha = 0.0
         }, completion: { _ in
             tooltipView.removeFromSuperview()
-            UIAccessibility.post(notification: .screenChanged, argument: tooltipView.positionController.anchorView)
+            UIAccessibility.post(notification: .screenChanged, argument: self.tooltipViewController?.positionController.anchorView)
         })
 
-        self.tooltipView = nil
+        self.tooltipViewController?.removeFromParent()
+        self.tooltipViewController = nil
 
         onTap = nil
 
         isShowing = false
-
-        UIDevice.current.endGeneratingDeviceOrientationNotifications()
     }
 
     required public init?(coder aDecoder: NSCoder) {
@@ -233,14 +232,14 @@ open class Tooltip: NSObject, TokenizedControlInternal {
     public var tokenSet: TooltipTokenSet = .init()
     var tokenSetSink: AnyCancellable?
     var fluentTheme: FluentTheme {
-        guard let tooltipView = tooltipView else {
+        guard let tooltipView = tooltipViewController?.view else {
             return FluentTheme.shared
         }
         return tooltipView.fluentTheme
     }
 
     @objc private func themeDidChange(_ notification: Notification) {
-        guard let themeView = notification.object as? UIView, let tooltipView = tooltipView, tooltipView.isDescendant(of: themeView) else {
+        guard let themeView = notification.object as? UIView, let tooltipView = tooltipViewController?.view, tooltipView.isDescendant(of: themeView) else {
             return
         }
         tokenSet.update(fluentTheme)
@@ -266,13 +265,8 @@ open class Tooltip: NSObject, TokenizedControlInternal {
         hide()
     }
 
-    @objc private func orientationChanged(_ notification: Notification) {
-        hide()
-    }
-
     private func updateAppearance() {
-        tooltipView?.tokenSet = tokenSet
-        tooltipView?.layoutSubviews()
+        tooltipViewController?.updateAppearance(tokenSet: tokenSet)
     }
 
     private struct Constants {
@@ -280,7 +274,8 @@ open class Tooltip: NSObject, TokenizedControlInternal {
         static let defaultMargin: CGFloat = 16.0
     }
 
-    private var tooltipView: TooltipView?
+    private var hostViewController: UIViewController?
+    private var tooltipViewController: TooltipViewController?
     private var onTap: (() -> Void)?
     private var gestureView: UIView?
     private var dismissMode: DismissMode = .tapAnywhere
