@@ -325,14 +325,7 @@ open class PillButtonBar: UIScrollView {
             buttons.append(button)
             stackView.addArrangedSubview(button)
 
-            var shouldAddAccessibilityHint: Bool = true
-            if #available(iOS 14.6, *) {
-                // in case pillbuttonbar is used as .tabbar, adding our own index would be repetitive
-                // However, iOS 14.0 - 14.5 `.tabBar` accessibilityTrait does not read out the index automatically
-                shouldAddAccessibilityHint = !self.accessibilityTraits.contains(.tabBar)
-            }
-
-            if shouldAddAccessibilityHint {
+            if !self.accessibilityTraits.contains(.tabBar) {
                 button.accessibilityHint = String.localizedStringWithFormat("Accessibility.MSPillButtonBar.Hint".localized, index + 1, items.count)
             }
 
@@ -424,13 +417,8 @@ open class PillButtonBar: UIScrollView {
         for button in buttons {
             button.layoutIfNeeded()
 
-            if #available(iOS 15.0, *) {
-                button.configuration?.contentInsets.leading += buttonExtraSidePadding
-                button.configuration?.contentInsets.trailing += buttonExtraSidePadding
-            } else {
-                button.contentEdgeInsets.right += buttonExtraSidePadding
-                button.contentEdgeInsets.left += buttonExtraSidePadding
-            }
+            button.configuration?.contentInsets.leading += buttonExtraSidePadding
+            button.configuration?.contentInsets.trailing += buttonExtraSidePadding
 
             button.layoutIfNeeded()
         }
@@ -473,13 +461,8 @@ open class PillButtonBar: UIScrollView {
             if buttonWidth > 0, buttonWidth < Constants.minButtonWidth {
                 let extraInset = floor((Constants.minButtonWidth - button.frame.width) / 2)
 
-                if #available(iOS 15.0, *) {
-                    button.configuration?.contentInsets.leading += extraInset
-                    button.configuration?.contentInsets.trailing = button.configuration?.contentInsets.leading ?? extraInset
-                } else {
-                    button.contentEdgeInsets.left += extraInset
-                    button.contentEdgeInsets.right = button.contentEdgeInsets.left
-                }
+                button.configuration?.contentInsets.leading += extraInset
+                button.configuration?.contentInsets.trailing = button.configuration?.contentInsets.leading ?? extraInset
 
                 button.layoutIfNeeded()
             }
