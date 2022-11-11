@@ -207,13 +207,11 @@ class CommandBarButton: UIButton {
 // MARK: CommandBarButton UIPointerInteractionDelegate
 
 extension CommandBarButton: UIPointerInteractionDelegate {
-    @available(iOS 13.4, *)
     public func pointerInteraction(_ interaction: UIPointerInteraction, willEnter region: UIPointerRegion, animator: UIPointerInteractionAnimating) {
         backgroundColor = UIColor(dynamicColor: isSelected ? tokenSet[.itemBackgroundColor].buttonDynamicColors.selected : tokenSet[.itemBackgroundColor].buttonDynamicColors.hover)
         tintColor = UIColor(dynamicColor: isSelected ? tokenSet[.itemIconColor].buttonDynamicColors.selected : tokenSet[.itemIconColor].buttonDynamicColors.hover)
     }
 
-    @available(iOS 13.4, *)
     public func pointerInteraction(_ interaction: UIPointerInteraction, willExit region: UIPointerRegion, animator: UIPointerInteractionAnimating) {
         updateStyle()
     }
