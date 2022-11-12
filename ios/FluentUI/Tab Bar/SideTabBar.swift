@@ -57,7 +57,6 @@ open class SideTabBar: UIView {
                 avatarView.addGestureRecognizer(avatarViewGestureRecognizer)
             }
 
-            updateAccessibilityIndex()
             setupLayoutConstraints()
         }
     }
@@ -259,35 +258,7 @@ open class SideTabBar: UIView {
             selectedTopItem = allItems.first
         }
 
-        updateAccessibilityIndex()
         setupLayoutConstraints()
-    }
-
-    private func updateAccessibilityIndex() {
-        // iOS 14.0 - 14.5 `.tabBar` accessibilityTrait does not read out the index automatically
-        if #available(iOS 14.6, *) {} else {
-            var totalCount: Int = 0
-            for section in Section.allCases {
-                let currentStackView = stackView(in: section)
-                totalCount += currentStackView.arrangedSubviews.count
-            }
-
-            var previousSectionCount: Int = 0
-            if let avatar = avatar, !avatar.isHidden {
-                totalCount += 1
-                previousSectionCount += 1
-            }
-
-            for section in Section.allCases {
-                let currentStackView = stackView(in: section)
-
-                for (index, itemView) in currentStackView.arrangedSubviews.enumerated() {
-                    let accessibilityIndex = index + 1 + previousSectionCount
-                    itemView.accessibilityHint = String.localizedStringWithFormat( "Accessibility.TabBarItemView.Hint".localized, accessibilityIndex, totalCount)
-                }
-                previousSectionCount += currentStackView.arrangedSubviews.count
-            }
-        }
     }
 
     private func items(in section: Section) -> [TabBarItem] {

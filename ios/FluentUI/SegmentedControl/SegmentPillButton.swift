@@ -43,24 +43,16 @@ class SegmentPillButton: UIButton {
         }
         self.showsLargeContentViewer = true
 
-        if #available(iOS 15.0, *) {
-            var configuration = UIButton.Configuration.plain()
-            configuration.contentInsets = Constants.insets
-            configuration.background.backgroundColor = .clear
-            let titleTransformer = UIConfigurationTextAttributesTransformer { incoming in
-                var outgoing = incoming
-                outgoing.font = UIFont.systemFont(ofSize: Constants.fontSize)
-                return outgoing
-            }
-            configuration.titleTextAttributesTransformer = titleTransformer
-            self.configuration = configuration
-        } else {
-            self.titleLabel?.font = UIFont.systemFont(ofSize: Constants.fontSize)
-            self.contentEdgeInsets = UIEdgeInsets(top: Constants.insets.top,
-                                                  left: Constants.insets.leading,
-                                                  bottom: Constants.insets.bottom,
-                                                  right: Constants.insets.trailing)
+        var configuration = UIButton.Configuration.plain()
+        configuration.contentInsets = Constants.insets
+        configuration.background.backgroundColor = .clear
+        let titleTransformer = UIConfigurationTextAttributesTransformer { incoming in
+            var outgoing = incoming
+            outgoing.font = UIFont.systemFont(ofSize: Constants.fontSize)
+            return outgoing
         }
+        configuration.titleTextAttributesTransformer = titleTransformer
+        self.configuration = configuration
 
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(isUnreadValueDidChange),

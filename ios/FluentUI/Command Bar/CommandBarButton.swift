@@ -44,16 +44,11 @@ class CommandBarButton: UIButton {
             /// Disable accessiblity for the button so that the custom view can provide itself or its subviews as the accessilbity element(s)
             isAccessibilityElement = false
         } else {
-            if #available(iOS 15.0, *) {
-                var buttonConfiguration = UIButton.Configuration.plain()
-                buttonConfiguration.image = item.iconImage
-                buttonConfiguration.contentInsets = LayoutConstants.contentInsets
-                buttonConfiguration.background.cornerRadius = 0
-                configuration = buttonConfiguration
-            } else {
-                setImage(item.iconImage, for: .normal)
-                contentEdgeInsets = LayoutConstants.contentEdgeInsets
-            }
+            var buttonConfiguration = UIButton.Configuration.plain()
+            buttonConfiguration.image = item.iconImage
+            buttonConfiguration.contentInsets = LayoutConstants.contentInsets
+            buttonConfiguration.background.cornerRadius = 0
+            configuration = buttonConfiguration
 
             let accessibilityDescription = item.accessibilityLabel
             accessibilityLabel = (accessibilityDescription != nil) ? accessibilityDescription : item.title
@@ -94,18 +89,12 @@ class CommandBarButton: UIButton {
         let title = item.title
         let accessibilityDescription = item.accessibilityLabel
 
-        if #available(iOS 15.0, *) {
-            configuration?.image = iconImage
-            configuration?.title = iconImage != nil ? nil : title
+        configuration?.image = iconImage
+        configuration?.title = iconImage != nil ? nil : title
 
-            if let font = item.titleFont {
-                let attributeContainer = AttributeContainer([NSAttributedString.Key.font: font])
-                configuration?.attributedTitle?.setAttributes(attributeContainer)
-            }
-        } else {
-            setImage(iconImage, for: .normal)
-            setTitle(iconImage != nil ? nil : title, for: .normal)
-            titleLabel?.font = item.titleFont
+        if let font = item.titleFont {
+            let attributeContainer = AttributeContainer([NSAttributedString.Key.font: font])
+            configuration?.attributedTitle?.setAttributes(attributeContainer)
         }
 
         updateAccentImage(item.accentImage)
@@ -171,10 +160,9 @@ class CommandBarButton: UIButton {
     }
 
     private func updateStyle() {
-        // TODO: Once iOS 14 support is dropped, this should be converted to a constant (let) that will be initialized by the logic below.
-        var resolvedBackgroundColor: UIColor = .clear
         let resolvedTintColor: UIColor = isSelected ? selectedTintColor : ColorConstants.normalTintColor
 
+        let resolvedBackgroundColor: UIColor
         if isPersistSelection {
             if isSelected {
                 resolvedBackgroundColor = selectedBackgroundColor
@@ -183,16 +171,12 @@ class CommandBarButton: UIButton {
             } else {
                 resolvedBackgroundColor = ColorConstants.normalBackgroundColor
             }
+        } else {
+            resolvedBackgroundColor = .clear
         }
 
-        tintColor = resolvedTintColor
-        if #available(iOS 15.0, *) {
-            configuration?.baseForegroundColor = resolvedTintColor
-            configuration?.background.backgroundColor = resolvedBackgroundColor
-        } else {
-            backgroundColor = resolvedBackgroundColor
-            setTitleColor(tintColor, for: .normal)
-        }
+        configuration?.baseForegroundColor = resolvedTintColor
+        configuration?.background.backgroundColor = resolvedBackgroundColor
     }
 
     private func addCustomView(_ view: UIView) {
