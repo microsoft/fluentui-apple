@@ -127,16 +127,16 @@ open class PopupMenuController: DrawerController {
         }
     }
 
-    /// set `separatorColor` to customize separator colors of  PopupMenuItem cells and the drawer
-    @objc open var separatorColor: UIColor = Colors.Separator.default {
-        didSet {
-            guard let dynamicColor = separatorColor.dynamicColor else {
-                assertionFailure("Unable to create dynamic color from separator color: \(separatorColor)")
-                return
+    /// set `separatorColor` to customize separator colors of PopupMenuItem cells and the drawer
+    @objc open var separatorColor: UIColor = Colors.dividerOnPrimary {
+            didSet {
+                guard let dynamicColor = separatorColor.dynamicColor else {
+                    assertionFailure("Unable to create dynamic color from separator color: \(separatorColor)")
+                    return
+                }
+                divider.tokenSet[.color] = .dynamicColor({ dynamicColor })
             }
-            divider.tokenSet[.color] = .dynamicColor({ dynamicColor })
         }
-    }
 
     private var sections: [PopupMenuSection] = []
     private var itemForExecutionAfterPopupMenuDismissal: PopupMenuTemplateItem?

@@ -124,6 +124,15 @@ open class CommandBarItem: NSObject {
         }
     }
 
+    /// A string that uniquely identifies the element, typically for automation purposes
+    @objc public var accessibilityIdentifier: String? {
+        didSet {
+            if accessibilityIdentifier != oldValue {
+                propertyChangedUpdateBlock?(self, /* shouldUpdateGroupState */ false)
+            }
+        }
+    }
+
     open override var accessibilityValue: String? {
         didSet {
             if accessibilityValue != oldValue {
