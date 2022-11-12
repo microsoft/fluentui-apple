@@ -37,7 +37,7 @@ public class DividerTokenSet: ControlTokenSet<DividerTokenSet.Tokens> {
                 }
 
             case .color:
-                return .dynamicColor { theme.aliasTokens.strokeColors[.neutral2] }
+                return .dynamicColor { theme.aliasTokens.colors[.stroke2] }
             }
         }
     }
@@ -46,5 +46,5 @@ public class DividerTokenSet: ControlTokenSet<DividerTokenSet.Tokens> {
     let spacing: () -> MSFDividerSpacing
 
     /// The default thickness for the divider: half pt.
-    static var thickness: CGFloat { return 0.5 }
+    static var thickness: CGFloat { return GlobalTokens.borderSize(.thinnest) }
 }
