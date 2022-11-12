@@ -175,10 +175,9 @@ open class Button: UIButton {
 
         if let image = image(for: .normal) {
             size.width += image.size.width
-            size.width += style.titleImagePadding
 
-            if titleLabel?.text?.count ?? 0 == 0 {
-                size.width -= style.titleImagePadding
+            if titleLabel?.text?.count ?? 0 > 0 {
+                size.width += style.titleImagePadding
             }
         }
 
