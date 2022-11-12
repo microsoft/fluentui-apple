@@ -32,6 +32,7 @@ Some of the controls available include:
 - CardNudge
 - Color
 - DateTimePicker
+- Divider
 - DrawerController
 - HUD
 - IndeterminateProgressBar
@@ -45,7 +46,6 @@ Some of the controls available include:
 - PopupMenuController
 - SearchBar
 - SegmentedControl
-- Separator
 - ShimmerView
 - SideTabBar
 - TabBarView
