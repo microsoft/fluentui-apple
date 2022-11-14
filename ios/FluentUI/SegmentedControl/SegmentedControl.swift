@@ -8,7 +8,7 @@ import Combine
 // MARK: SegmentedControl
 /// A styled segmented control that should be used instead of UISegmentedControl. It is designed to flex the button width proportionally to the control's width.
 @objc(MSFSegmentedControl)
-open class SegmentedControl: UIView, TokenizedControlInternal, UIScrollViewDelegate {
+open class SegmentedControl: UIView, TokenizedControlInternal {
     private struct Constants {
         static let selectionBarHeight: CGFloat = 1.5
         static let pillContainerHorizontalInset: CGFloat = 16
@@ -615,8 +615,10 @@ open class SegmentedControl: UIView, TokenizedControlInternal, UIScrollViewDeleg
     private var maximumContentOffset: CGFloat {
         return stackView.frame.size.width - scrollView.frame.size.width
     }
+}
 
-    // MARK: UIScrollViewDelegate
+// MARK: UIScrollViewDelegate
+extension SegmentedControl: UIScrollViewDelegate {
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         updateGradientMaskColors()
     }
