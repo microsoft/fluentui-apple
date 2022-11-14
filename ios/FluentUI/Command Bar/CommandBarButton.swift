@@ -80,7 +80,7 @@ class CommandBarButton: UIButton {
     }
 
     @objc private func themeDidChange(_ notification: Notification) {
-        guard let window = window, window.isEqual(notification.object) else {
+        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
             return
         }
         updateStyle()
