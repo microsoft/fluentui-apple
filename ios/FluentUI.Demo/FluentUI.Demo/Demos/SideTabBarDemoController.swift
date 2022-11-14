@@ -78,7 +78,7 @@ class SideTabBarDemoController: DemoController {
         ]
 
         // Set the Open item to be unread
-        sideTabBar.topItems[2].isUnread = true
+        sideTabBar.topItems[2].isUnreadDotVisible = true
 
         var premiumImage = UIImage(named: "ic_fluent_premium_24_regular")!
         if let window = view.window {

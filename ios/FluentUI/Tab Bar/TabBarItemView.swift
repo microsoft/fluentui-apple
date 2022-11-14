@@ -22,8 +22,8 @@ class TabBarItemView: UIControl {
             imageView.isHighlighted = isSelected
             updateColors()
             if isSelected {
-                if item.isUnread {
-                    item.isUnread = false
+                if item.isUnreadDotVisible {
+                    item.isUnreadDotVisible = false
                     updateUnreadDot()
                 }
                 accessibilityTraits.insert(.selected)
@@ -187,7 +187,7 @@ class TabBarItemView: UIControl {
     }
 
     @objc private func isUnreadValueDidChange() {
-        isUnreadDotVisible = item.isUnread
+        isUnreadDotVisible = item.isUnreadDotVisible
         updateUnreadDot()
         setNeedsLayout()
     }
@@ -311,7 +311,7 @@ class TabBarItemView: UIControl {
     }
 
     private func updateUnreadDot() {
-        isUnreadDotVisible = item.isUnread && badgeView.isHidden
+        isUnreadDotVisible = item.isUnreadDotVisible && badgeView.isHidden
         if isUnreadDotVisible {
             let xPos: CGFloat
             if effectiveUserInterfaceLayoutDirection == .leftToRight {
