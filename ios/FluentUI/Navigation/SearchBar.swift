@@ -276,6 +276,9 @@ open class SearchBar: UIView {
     }
 
     @objc private func themeDidChange(_ notification: Notification) {
+        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
+            return
+        }
         updateColorsForStyle()
     }
 

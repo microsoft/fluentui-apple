@@ -8,13 +8,6 @@ import UIKit
 class TabBarItemView: UIControl {
     let item: TabBarItem
 
-    @objc private func themeDidChange(_ notification: Notification) {
-        guard let window = window, window.isEqual(notification.object) else {
-            return
-        }
-        updateColors()
-    }
-
     override var isEnabled: Bool {
         didSet {
             titleLabel.isEnabled = isEnabled
@@ -123,6 +116,13 @@ class TabBarItemView: UIControl {
 
         badgeValue = item.badgeValue
         updateLayout()
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
+            return
+        }
+        updateColors()
     }
 
     required init?(coder aDecoder: NSCoder) {
