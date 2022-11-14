@@ -175,6 +175,7 @@ class TabBarItemView: UIControl {
         static let badgeCorderRadii: CGFloat = 10
         static let unreadDotOffset = CGPoint(x: 22.0, y: 3.0)
         static let unreadDotSize: CGFloat = 8.0
+        static let unreadDotColor: UIColor = UIColor(colorValue: GlobalTokens.sharedColors(.red, .primary))
     }
 
     private var badgeValue: String? {
@@ -210,8 +211,6 @@ class TabBarItemView: UIControl {
         unreadDotLayer.cornerRadius = Constants.unreadDotSize / 2
         return unreadDotLayer
     }()
-
-    private lazy var unreadDotColor: UIColor = UIColor(colorValue: GlobalTokens.sharedColors(.red, .primary))
 
     private let container: UIStackView = {
         let container = UIStackView(frame: .zero)
@@ -320,7 +319,7 @@ class TabBarItemView: UIControl {
                 xPos = round(imageView.frame.origin.x + imageView.frame.size.width - Constants.unreadDotOffset.x - Constants.unreadDotSize)
             }
             unreadDotLayer.frame.origin = CGPoint(x: xPos, y: imageView.frame.origin.y + Constants.unreadDotOffset.y)
-            unreadDotLayer.backgroundColor = unreadDotColor.cgColor
+            unreadDotLayer.backgroundColor = Constants.unreadDotColor.cgColor
         }
     }
 
