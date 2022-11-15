@@ -102,10 +102,10 @@ class TabBarItemView: UIControl {
         scalesLargeContentImage = true
 
         NSLayoutConstraint.activate([
-			container.centerXAnchor.constraint(equalTo: centerXAnchor),
-			container.centerYAnchor.constraint(equalTo: centerYAnchor),
-			container.widthAnchor.constraint(lessThanOrEqualTo: widthAnchor)
-		])
+            container.centerXAnchor.constraint(equalTo: centerXAnchor),
+            container.centerYAnchor.constraint(equalTo: centerYAnchor),
+            container.widthAnchor.constraint(lessThanOrEqualTo: widthAnchor)
+    ])
 
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(badgeValueDidChange),
@@ -190,6 +190,7 @@ class TabBarItemView: UIControl {
     @objc private func isUnreadValueDidChange() {
         isUnreadDotVisible = item.isUnreadDotVisible
         updateUnreadDot()
+        updateAccessibilityLabel()
         setNeedsLayout()
     }
 
@@ -396,6 +397,12 @@ class TabBarItemView: UIControl {
         badgeValue = item.badgeValue
     }
 
+    // The priority logic for accessibility label is:
+    //      If the badge is visibile:
+    //          1. Use the badge format string supplied by the caller if available
+    //          2. If not, use the default localized badge label format
+    //      If the unread dot is visible, use the localized "unread" label
+    //      If neither, then use the item's title, as supplied by the caller
     private func updateAccessibilityLabel() {
         if let badgeValue = badgeValue {
             if let accessibilityLabelBadgeFormatString = item.accessibilityLabelBadgeFormatString {
@@ -404,7 +411,11 @@ class TabBarItemView: UIControl {
                 accessibilityLabel = String(format: "Accessibility.TabBarItemView.LabelFormat".localized, item.title, badgeValue)
             }
         } else {
-            accessibilityLabel = item.title
+            if isUnreadDotVisible {
+                accessibilityLabel = String(format: "Accessibility.TabBarItemView.UnreadFormat".localized, item.title)
+            } else {
+                accessibilityLabel = item.title
+            }
         }
     }
 }
