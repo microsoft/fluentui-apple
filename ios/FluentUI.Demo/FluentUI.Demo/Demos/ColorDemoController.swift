@@ -158,7 +158,7 @@ class ColorDemoController: UIViewController {
         }
         return segmentedControl
     }()
-    
+
     @objc private func didChangeTheme() {
         // The controls in this controller are not fully theme-aware yet, so
         // we need to manually poke them and have them refresh their colors.
