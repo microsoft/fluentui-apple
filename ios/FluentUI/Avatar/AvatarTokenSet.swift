@@ -92,7 +92,7 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
                     case .default, .group, .accent, .outlinedPrimary:
                         return theme.aliasTokens.colors[.brandStroke1]
                     case .outlined, .overflow:
-                        return theme.aliasTokens.colors[.stroke1]
+                        return theme.aliasTokens.colors[.strokeAccessible]
                     }
                 })
 
