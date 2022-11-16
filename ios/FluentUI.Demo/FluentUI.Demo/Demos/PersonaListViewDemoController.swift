@@ -57,6 +57,7 @@ class PersonaListViewDemoController: DemoController {
             alert.addAction(action)
             self.present(alert, animated: true)
         }
+        scrollingContainer.removeFromSuperview()
         view.addSubview(personaListView)
         personaListView.frame = view.bounds
         personaListView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
