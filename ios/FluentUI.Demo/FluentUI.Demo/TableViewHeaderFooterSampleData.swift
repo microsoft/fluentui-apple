@@ -22,7 +22,6 @@ class TableViewHeaderFooterSampleData: TableViewSampleData {
     ]
 
     static let plainSections: [Section] = [
-        Section(title: "Divider Highlighted • Label", headerStyle: .dividerHighlighted),
         Section(title: "Divider • Label", headerStyle: .divider),
         Section(title: "Divider • Label", headerStyle: .divider),
         Section(title: "Divider • Label", headerStyle: .divider)
