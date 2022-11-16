@@ -30,6 +30,7 @@ struct Demos {
         DemoDescriptor("NotificationView", NotificationViewDemoController.self),
         DemoDescriptor("Other cells", OtherCellsDemoController.self),
         DemoDescriptor("PersonaButtonCarousel", PersonaButtonCarouselDemoController.self),
+        DemoDescriptor("ShimmerView", ShimmerViewDemoController.self),
         DemoDescriptor("TableViewCell", TableViewCellDemoController.self),
         DemoDescriptor("TypographyTokens", TypographyTokensDemoController.self)
     ]
@@ -54,7 +55,6 @@ struct Demos {
         DemoDescriptor("PopupMenuController", PopupMenuDemoController.self),
         DemoDescriptor("SearchBar", SearchBarDemoController.self),
         DemoDescriptor("SegmentedControl", SegmentedControlDemoController.self),
-        DemoDescriptor("ShimmerView", ShimmerViewDemoController.self),
         DemoDescriptor("SideTabBar", SideTabBarDemoController.self),
         DemoDescriptor("TabBarView", TabBarViewDemoController.self),
         DemoDescriptor("TableViewCellFileAccessoryView", TableViewCellFileAccessoryViewDemoController.self),
