@@ -200,11 +200,7 @@ class TabBarItemView: UIControl {
         didSet {
             if oldValue != isUnreadDotVisible {
                 if isUnreadDotVisible {
-                    // imageView.layer.addSublayer(unreadDotLayer)
                     updateUnreadDot()
-                } else {
-                    unreadDotLayer.removeFromSuperlayer()
-                    // ??? TODO
                 }
             }
         }
