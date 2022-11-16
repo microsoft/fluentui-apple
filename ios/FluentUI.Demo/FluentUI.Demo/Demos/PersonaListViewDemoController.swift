@@ -41,7 +41,7 @@ let searchDirectoryPersonas: [PersonaData] = [
     PersonaData(name: "Miguel Garcia", email: "miguel.garcia@contoso.com", subtitle: "Software Engineer", image: UIImage(named: "avatar_miguel_garcia"))
 ]
 
-class PersonaListViewDemoController: UIViewController {
+class PersonaListViewDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
