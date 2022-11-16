@@ -24,7 +24,8 @@ class TabBarItemView: UIControl {
             if isSelected {
                 if item.isUnreadDotVisible {
                     item.isUnreadDotVisible = false
-                    updateUnreadDot()
+                    // updateUnreadDot()
+                    updateBadgeView()
                 }
                 accessibilityTraits.insert(.selected)
             } else {
@@ -89,8 +90,6 @@ class TabBarItemView: UIControl {
         addSubview(container)
 
         container.addSubview(badgeView)
-        container.addSubview(unreadDotView)
-        unreadDotView.text = ""
 
         let pointerInteraction = UIPointerInteraction(delegate: self)
         addInteraction(pointerInteraction)
@@ -191,7 +190,7 @@ class TabBarItemView: UIControl {
 
     @objc private func isUnreadValueDidChange() {
         isUnreadDotVisible = item.isUnreadDotVisible
-        updateUnreadDot()
+        updateBadgeView()
         updateAccessibilityLabel()
         setNeedsLayout()
     }
@@ -200,18 +199,11 @@ class TabBarItemView: UIControl {
         didSet {
             if oldValue != isUnreadDotVisible {
                 if isUnreadDotVisible {
-                    updateUnreadDot()
+                    updateBadgeView()
                 }
             }
         }
     }
-
-    private let unreadDotLayer: CALayer = {
-        let unreadDotLayer = CALayer()
-        unreadDotLayer.bounds.size = CGSize(width: Constants.unreadDotSize, height: Constants.unreadDotSize)
-        unreadDotLayer.cornerRadius = Constants.unreadDotSize / 2
-        return unreadDotLayer
-    }()
 
     private let container: UIStackView = {
         let container = UIStackView(frame: .zero)
@@ -250,8 +242,6 @@ class TabBarItemView: UIControl {
     }()
 
     let badgeView: UILabel = BadgeLabel(frame: .zero)
-
-    let unreadDotView: UILabel = BadgeLabel(frame: .zero)
 
     private var suggestImageSize: CGFloat {
         didSet {
@@ -312,45 +302,36 @@ class TabBarItemView: UIControl {
         invalidateIntrinsicContentSize()
     }
 
-    private func updateUnreadDot() {
-        isUnreadDotVisible = item.isUnreadDotVisible && badgeView.isHidden
+    private func updateBadgeView() {
+        isUnreadDotVisible = item.isUnreadDotVisible && badgeValue == nil
+
+        // If nothing to display, remove mask and return
+        if badgeValue == nil && !isUnreadDotVisible {
+            badgeView.isHidden = true
+            imageView.layer.mask = nil
+            return
+        }
+
+        // Otherwise, show either the badgeValue or an unreadDot
+        badgeView.isHidden = false
+        let maskLayer = CAShapeLayer()
+        maskLayer.fillRule = .evenOdd
+
+        let path = UIBezierPath(rect: CGRect(x: 0, y: 0, width: imageView.frame.size.width, height: imageView.frame.size.height))
+
         if isUnreadDotVisible {
-            unreadDotView.isHidden = false
+            // Badge with empty string and round corners is a dot
+            badgeView.text = ""
+            let badgeVerticalOffset = !titleLabel.isHidden && isInPortraitMode ? Constants.unreadDotPortraitOffsetX : Constants.unreadDotOffsetX
 
-            let maskLayer = CAShapeLayer()
-            maskLayer.fillRule = .evenOdd
-
-            let path = UIBezierPath(rect: CGRect(x: 0, y: 0, width: imageView.frame.size.width, height: imageView.frame.size.height))
-            let verticalOffset = !titleLabel.isHidden && isInPortraitMode ? Constants.unreadDotPortraitOffsetX : Constants.unreadDotOffsetX
-
-            createCircularBadgeFrame(labelView: unreadDotView,
+            createCircularBadgeFrame(labelView: badgeView,
                                      path: path,
                                      horizontalOffset: Constants.unreadDotOffsetY,
-                                     verticalOffset: verticalOffset,
+                                     verticalOffset: badgeVerticalOffset,
                                      frameWidth: Constants.unreadDotSize,
                                      frameHeight: Constants.unreadDotSize)
-
-            maskLayer.path = path.cgPath
-            imageView.layer.mask = maskLayer
         } else {
-            unreadDotView.isHidden = true
-
-            // If both unreadDot and badgeView are hidden, it's safe to remove the mask entirely
-            if badgeView.isHidden {
-                imageView.layer.mask = nil
-            }
-        }
-    }
-
-    private func updateBadgeView() {
-        badgeView.text = badgeValue
-        badgeView.isHidden = badgeValue == nil
-
-        if badgeValue != nil {
-            let maskLayer = CAShapeLayer()
-            maskLayer.fillRule = .evenOdd
-
-            let path = UIBezierPath(rect: CGRect(x: 0, y: 0, width: imageView.frame.size.width, height: imageView.frame.size.height))
+            badgeView.text = badgeValue
             let badgeVerticalOffset = !titleLabel.isHidden && isInPortraitMode ? Constants.badgePortraitTitleVerticalOffset : Constants.badgeVerticalOffset
 
             if badgeView.text?.count ?? 1 > 1 {
@@ -363,15 +344,10 @@ class TabBarItemView: UIControl {
                                          frameWidth: Constants.badgeMinWidth,
                                          frameHeight: Constants.badgeHeight)
             }
-
-            maskLayer.path = path.cgPath
-            imageView.layer.mask = maskLayer
-        } else {
-            imageView.layer.mask = nil
         }
 
-        // Make sure the unread dot is removed or added, based on the current state of the badge
-        updateUnreadDot()
+        maskLayer.path = path.cgPath
+        imageView.layer.mask = maskLayer
     }
 
     private func createRoundedRectBadgeFrame(labelView: UILabel, path: UIBezierPath, verticalOffset: CGFloat) {
