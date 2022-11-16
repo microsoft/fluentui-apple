@@ -155,7 +155,7 @@ open class TabBarView: UIView {
         return stackView
     }()
 
-    private let topBorderLine = MSFDivider()
+    private let topBorderLine = Separator(style: .shadow, orientation: .horizontal)
 
     private func updateHeight() {
         if traitCollection.userInterfaceIdiom == .phone {
