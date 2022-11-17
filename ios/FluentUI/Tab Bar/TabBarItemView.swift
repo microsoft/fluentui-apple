@@ -24,7 +24,6 @@ class TabBarItemView: UIControl {
             if isSelected {
                 if item.isUnreadDotVisible {
                     item.isUnreadDotVisible = false
-                    // updateUnreadDot()
                     updateBadgeView()
                 }
                 accessibilityTraits.insert(.selected)
@@ -176,7 +175,6 @@ class TabBarItemView: UIControl {
         static let unreadDotOffsetX: CGFloat = 4.0
         static let unreadDotOffsetY: CGFloat = 20.0
         static let unreadDotSize: CGFloat = 8.0
-        static let unreadDotColor: UIColor = UIColor(colorValue: GlobalTokens.sharedColors(.red, .primary))
     }
 
     private var badgeValue: String? {
@@ -195,15 +193,7 @@ class TabBarItemView: UIControl {
         setNeedsLayout()
     }
 
-    private var isUnreadDotVisible: Bool = false {
-        didSet {
-            if oldValue != isUnreadDotVisible {
-                if isUnreadDotVisible {
-                    updateBadgeView()
-                }
-            }
-        }
-    }
+    private var isUnreadDotVisible: Bool = false
 
     private let container: UIStackView = {
         let container = UIStackView(frame: .zero)
