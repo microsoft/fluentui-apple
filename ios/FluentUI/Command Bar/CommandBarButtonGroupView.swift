@@ -63,14 +63,13 @@ class CommandBarButtonGroupView: UIView {
 
     private func applyInsets() {
         if #available(iOS 15.0, *) {
-            buttons.first?.configuration?.contentInsets.leading += LayoutConstants.leftRightBuffer
-            buttons.last?.configuration?.contentInsets.trailing += LayoutConstants.leftRightBuffer
+            buttons.first?.configuration?.contentInsets.leading += tokenSet[.leftRightBuffer].float
+            buttons.last?.configuration?.contentInsets.trailing += tokenSet[.leftRightBuffer].float
         } else {
-            buttons.first?.contentEdgeInsets.left += LayoutConstants.leftRightBuffer
-            buttons.last?.contentEdgeInsets.right += LayoutConstants.leftRightBuffer
+            buttons.first?.contentEdgeInsets.left += tokenSet[.leftRightBuffer].float
+            buttons.last?.contentEdgeInsets.right += tokenSet[.leftRightBuffer].float
         }
     }
 
     private var tokenSet: CommandBarTokenSet
-    private static let leftRightBuffer: CGFloat = 2.0
 }

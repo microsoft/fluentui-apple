@@ -15,6 +15,7 @@ public class CommandBarTokenSet: ControlTokenSet<CommandBarTokenSet.Tokens> {
         case itemFixedIconColor
         case itemIconColor
         case itemInterspace
+        case leftRightBuffer
     }
 
     init() {
@@ -56,6 +57,9 @@ public class CommandBarTokenSet: ControlTokenSet<CommandBarTokenSet.Tokens> {
                 }
 
             case .itemInterspace:
+                return .float { GlobalTokens.spacing(.xxxSmall) }
+
+            case .leftRightBuffer:
                 return .float { GlobalTokens.spacing(.xxxSmall) }
             }
         }
