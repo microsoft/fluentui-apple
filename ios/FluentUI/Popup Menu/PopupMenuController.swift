@@ -125,12 +125,16 @@ open class PopupMenuController: DrawerController {
         }
     }
 
-    /// set `separatorColor` to customize separator colors of  PopupMenuItem cells and the drawer
-    @objc open var separatorColor: UIColor = Colors.Separator.default {
-        didSet {
-            separator?.backgroundColor = separatorColor
+    /// set `separatorColor` to customize separator colors of PopupMenuItem cells and the drawer
+    @objc open var separatorColor: UIColor = Colors.dividerOnPrimary {
+            didSet {
+                guard let dynamicColor = separatorColor.dynamicColor else {
+                    assertionFailure("Unable to create dynamic color from separator color: \(separatorColor)")
+                    return
+                }
+                divider.tokenSet[.color] = .dynamicColor({ dynamicColor })
+            }
         }
-    }
 
     private var sections: [PopupMenuSection] = []
     private var itemForExecutionAfterPopupMenuDismissal: PopupMenuTemplateItem?
@@ -151,7 +155,7 @@ open class PopupMenuController: DrawerController {
         return view
     }()
 
-    private var separator: Separator?
+    private lazy var divider: MSFDivider = .init()
     private lazy var descriptionView: UIView = {
         let view = UIView()
         view.isAccessibilityElement = true
@@ -159,27 +163,29 @@ open class PopupMenuController: DrawerController {
         view.isHidden = true
 
         view.addSubview(descriptionLabel)
+        let verticalMargin = GlobalTokens.spacing(.small)
+        let horizontalMargin = GlobalTokens.spacing(.medium)
         descriptionLabel.fitIntoSuperview(
             usingConstraints: true,
             margins: UIEdgeInsets(
-                top: Constants.descriptionVerticalMargin,
-                left: Constants.descriptionHorizontalMargin,
-                bottom: Constants.descriptionVerticalMargin,
-                right: Constants.descriptionHorizontalMargin
+                top: verticalMargin,
+                left: horizontalMargin,
+                bottom: verticalMargin,
+                right: horizontalMargin
             )
         )
 
-        separator = Separator()
-        if let separator = separator {
-            separator.backgroundColor = separatorColor
-            view.addSubview(separator)
-            separator.translatesAutoresizingMaskIntoConstraints = false
-            NSLayoutConstraint.activate([
-                separator.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                separator.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                separator.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-            ])
+        if let dynamicColor = separatorColor.dynamicColor {
+            divider.tokenSet[.color] = .dynamicColor({ dynamicColor })
         }
+        view.addSubview(divider)
+        divider.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            divider.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            divider.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            divider.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+
         return view
     }()
     private let descriptionLabel: Label = {

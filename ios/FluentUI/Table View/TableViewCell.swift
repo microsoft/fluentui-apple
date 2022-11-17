@@ -734,6 +734,39 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     /// Text that appears as the third line of text
     @objc public var footer: String { return footerLabel.text ?? "" }
 
+    /// The attributedText for the title.
+    @objc public var attributedTitle: NSAttributedString? {
+        get {
+            return titleLabel.attributedText
+        }
+        set {
+            titleLabel.attributedText = newValue
+            isAttributedTitleSet = newValue == nil ? false : true
+        }
+    }
+
+    /// The attributedText for the subtitle.
+    @objc public var attributedSubtitle: NSAttributedString? {
+        get {
+            return subtitleLabel.attributedText
+        }
+        set {
+            subtitleLabel.attributedText = newValue
+            isAttributedSubtitleSet = newValue == nil ? false : true
+        }
+    }
+
+    /// The attributedText for the footer.
+    @objc public var attributedFooter: NSAttributedString? {
+        get {
+            return footerLabel.attributedText
+        }
+        set {
+            footerLabel.attributedText = newValue
+            isAttributedFooterSet = newValue == nil ? false : true
+        }
+    }
+
     /// The leading padding.
     @objc public var paddingLeading: CGFloat {
         get {
@@ -1216,8 +1249,8 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         return imageView
     }()
 
-    internal let topSeparator = Separator(style: .default, orientation: .horizontal)
-    internal let bottomSeparator = Separator(style: .default, orientation: .horizontal)
+    internal let topSeparator = MSFDivider()
+    internal let bottomSeparator = MSFDivider()
 
     private var superTableView: UITableView? {
         return findSuperview(of: UITableView.self) as? UITableView
@@ -1403,39 +1436,9 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
 
     private var isUsingCustomTextColors: Bool = false
 
-    private var attributedTitle: NSAttributedString? {
-        get {
-            return titleLabel.attributedText
-        }
-        set {
-            titleLabel.attributedText = newValue
-            isAttributedTitleSet = newValue == nil ? false : true
-        }
-    }
-
     private var isAttributedTitleSet: Bool = false
 
-    private var attributedSubtitle: NSAttributedString? {
-        get {
-            return subtitleLabel.attributedText
-        }
-        set {
-            subtitleLabel.attributedText = newValue
-            isAttributedSubtitleSet = newValue == nil ? false : true
-        }
-    }
-
     private var isAttributedSubtitleSet: Bool = false
-
-    private var attributedFooter: NSAttributedString? {
-        get {
-            return footerLabel.attributedText
-        }
-        set {
-            footerLabel.attributedText = newValue
-            isAttributedFooterSet = newValue == nil ? false : true
-        }
-    }
 
     private var isAttributedFooterSet: Bool = false
 
@@ -1486,9 +1489,6 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
 
         layoutContentSubviews()
         contentView.flipSubviewsForRTL()
-
-        layoutSeparator(topSeparator, with: topSeparatorType, at: 0)
-        layoutSeparator(bottomSeparator, with: bottomSeparatorType, at: frame.height - bottomSeparator.frame.height)
     }
 
     open func layoutContentSubviews() {
@@ -1582,6 +1582,9 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
             let yOffset = ceil((contentView.frame.height - _accessoryType.size.height) / 2)
             accessoryTypeView.frame = CGRect(origin: CGPoint(x: xOffset, y: yOffset), size: _accessoryType.size)
         }
+
+        layoutSeparator(topSeparator, with: topSeparatorType, at: 0)
+        layoutSeparator(bottomSeparator, with: bottomSeparatorType, at: frame.height - MSFDivider.thickness)
     }
 
     private func layoutLabelViews(label: UILabel,
@@ -1657,14 +1660,13 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         trailingAccessoryView?.frame.origin.y += offset
     }
 
-    private func layoutSeparator(_ separator: Separator, with type: SeparatorType, at verticalOffset: CGFloat) {
+    private func layoutSeparator(_ separator: MSFDivider, with type: SeparatorType, at verticalOffset: CGFloat) {
         separator.frame = CGRect(
             x: separatorLeadingInset(for: type),
             y: verticalOffset,
             width: frame.width - separatorLeadingInset(for: type),
-            height: separator.frame.height
+            height: MSFDivider.thickness
         )
-        separator.flipForRTL()
     }
 
     func separatorLeadingInset(for type: SeparatorType) -> CGFloat {
@@ -1939,7 +1941,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         selectionImageView.tintColor = UIColor(dynamicColor: isSelected ? tokenSet[.mainBrandColor].dynamicColor : tokenSet[.selectionIndicatorOffColor].dynamicColor)
     }
 
-    private func updateSeparator(_ separator: Separator, with type: SeparatorType) {
+    private func updateSeparator(_ separator: MSFDivider, with type: SeparatorType) {
         separator.isHidden = type == .none
         setNeedsLayout()
     }

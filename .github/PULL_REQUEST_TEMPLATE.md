@@ -4,6 +4,17 @@
 
 ### Description of changes
 
+Binary change:
+<!---
+Please fill in the below table using the size of the Demo app, as found in Finder, from 
+the latest state of the branch you are merging in to and the latest state of your changes.
+In order to get an accurate measurement for iOS, please build the Demo app using the
+Demo.Release scheme for "Any iOS Device (arm64)"
+--->
+| Before | After |
+|--------|-------|
+|        |       |
+
 (a summary of the changes made, often organized by file)
 
 ### Verification

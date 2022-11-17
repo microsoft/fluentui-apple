@@ -107,8 +107,7 @@ class ColorDemoController: UIViewController {
         tableView.allowsSelection = false
         tableView.backgroundColor = Colors.tableBackground
 
-        let separator = Separator(style: .shadow, orientation: .horizontal)
-        let stackView = UIStackView(arrangedSubviews: [segmentedControl, separator, tableView])
+        let stackView = UIStackView(arrangedSubviews: [segmentedControl, divider, tableView])
         stackView.setCustomSpacing(8, after: segmentedControl)
         stackView.axis = .vertical
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -148,17 +147,17 @@ class ColorDemoController: UIViewController {
 
     private lazy var segmentedControl: SegmentedControl = {
         let segmentedControl = SegmentedControl(items: DemoColorTheme.allCases.map({ return SegmentItem(title: $0.name) }), style: .primaryPill)
-        segmentedControl.addTarget(self, action: #selector(segmentedControlValueChanged(sender:)), for: .valueChanged)
+        segmentedControl.onSelectAction = { [weak self] (_, index) in
+            guard let strongSelf = self,
+                  let window = strongSelf.view.window,
+                  let currentDemoListViewController = strongSelf.currentDemoListViewController else {
+                return
+            }
+
+            currentDemoListViewController.updateColorProviderFor(window: window, theme: DemoColorTheme.allCases[index])
+        }
         return segmentedControl
     }()
-
-    @objc private func segmentedControlValueChanged(sender: Any) {
-        if let segmentedControl = sender as? SegmentedControl, let window = self.view.window {
-            if let currentDemoListViewController = currentDemoListViewController {
-                currentDemoListViewController.updateColorProviderFor(window: window, theme: DemoColorTheme.allCases[segmentedControl.selectedSegmentIndex])
-            }
-        }
-    }
 
     @objc private func didChangeTheme() {
         // The controls in this controller are not fully theme-aware yet, so
@@ -168,10 +167,11 @@ class ColorDemoController: UIViewController {
                 colorView.updateBackgroundColor()
             }
         }
-        segmentedControl.updateWindowSpecificColors()
+        segmentedControl.updateColors()
     }
 
     private let tableView = UITableView(frame: .zero, style: .grouped)
+    private let divider = MSFDivider()
 }
 
 // MARK: - ColorDemoController: UITableViewDelegate

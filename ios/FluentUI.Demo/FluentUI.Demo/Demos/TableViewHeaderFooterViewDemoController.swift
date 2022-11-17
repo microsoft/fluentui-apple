@@ -11,14 +11,18 @@ import UIKit
 class TableViewHeaderFooterViewDemoController: DemoController {
     private let groupedSections: [TableViewHeaderFooterSampleData.Section] = TableViewHeaderFooterSampleData.groupedSections
     private let plainSections: [TableViewHeaderFooterSampleData.Section] = TableViewHeaderFooterSampleData.plainSections
+    private let divider = MSFDivider()
 
     private lazy var segmentedControl: SegmentedControl = {
-        let tabTitles = TableViewHeaderFooterSampleData.tabTitles
-        let segmentedControl = SegmentedControl(items: tabTitles.map({ return SegmentItem(title: $0) }),
-                                                style: .primaryPill)
-        segmentedControl.addTarget(self,
-                                   action: #selector(updateActiveTabContent),
-                                   for: .valueChanged)
+        let segmentedControl = SegmentedControl(items: TableViewHeaderFooterSampleData.tabTitles.map({return SegmentItem(title: $0)}), style: .primaryPill)
+        segmentedControl.onSelectAction = { [weak self] (_, _) in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.updateActiveTabContent()
+        }
+
         return segmentedControl
     }()
     private lazy var groupedTableView: UITableView = createTableView(style: .grouped)
@@ -38,8 +42,7 @@ class TableViewHeaderFooterViewDemoController: DemoController {
         container.setCustomSpacing(8, after: segmentedControl)
         container.backgroundColor = Colors.navigationBarBackground
 
-        let separator = Separator(style: .shadow, orientation: .horizontal)
-        container.addArrangedSubview(separator)
+        container.addArrangedSubview(divider)
 
         container.addArrangedSubview(groupedTableView)
         container.addArrangedSubview(plainTableView)
