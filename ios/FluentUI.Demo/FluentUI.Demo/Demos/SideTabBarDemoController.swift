@@ -77,6 +77,9 @@ class SideTabBarDemoController: DemoController {
             TabBarItem(title: "Open", image: UIImage(named: "Open_28")!, selectedImage: UIImage(named: "Open_Selected_28")!)
         ]
 
+        // Set the Open item to be unread
+        sideTabBar.topItems[2].isUnreadDotVisible = true
+
         var premiumImage = UIImage(named: "ic_fluent_premium_24_regular")!
         if let window = view.window {
             let primaryColor = Colors.primary(for: window)
