@@ -157,7 +157,7 @@ class CommandBarButton: UIButton {
     private func updateStyle() {
         // TODO: Once iOS 14 support is dropped, this should be converted to a constant (let) that will be initialized by the logic below.
         var resolvedBackgroundColor: UIColor = .clear
-        let resolvedTintColor: UIColor = isSelected ? selectedTintColor : ColorConstants.normalTintColor
+        let resolvedTintColor = UIColor(dynamicColor: isSelected ? tokenSet[.itemIconColor].buttonDynamicColors.selected : tokenSet[.itemIconColor].buttonDynamicColors.rest)
 
         if isPersistSelection {
             if isSelected {

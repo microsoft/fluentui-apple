@@ -306,9 +306,9 @@ public class CommandBar: UIView, TokenizedControlInternal {
     }
 
     private func updateButtonTokens() {
-        leadingCommandGroupsView.updateButtonGroupViews()
-        mainCommandGroupsView.updateButtonGroupViews()
-        trailingCommandGroupsView.updateButtonGroupViews()
+        leadingCommandGroupsView.updateButtonsShown()
+        mainCommandGroupsView.updateButtonsShown()
+        trailingCommandGroupsView.updateButtonsShown()
     }
 
     private var themeObserver: NSObjectProtocol?
