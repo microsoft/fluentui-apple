@@ -162,9 +162,22 @@ open class Button: UIButton {
                 adjustCustomContentEdgeInsetsForImage()
             }
 
-            var configuration = self.configuration ?? UIButton.Configuration.plain()
-            configuration.contentInsets = edgeInsets
-            self.configuration = configuration
+            if #available(iOS 15.0, *) {
+                var configuration = self.configuration ?? UIButton.Configuration.plain()
+                configuration.contentInsets = edgeInsets
+                self.configuration = configuration
+            } else {
+                let left: CGFloat
+                let right: CGFloat
+                if effectiveUserInterfaceLayoutDirection == .leftToRight {
+                    left = edgeInsets.leading
+                    right = edgeInsets.trailing
+                } else {
+                    left = edgeInsets.trailing
+                    right = edgeInsets.leading
+                }
+                contentEdgeInsets = UIEdgeInsets(top: edgeInsets.top, left: left, bottom: edgeInsets.bottom, right: right)
+            }
         }
     }
 
@@ -175,13 +188,39 @@ open class Button: UIButton {
 
         if let image = image(for: .normal) {
             size.width += image.size.width
-
-            if titleLabel?.text?.count ?? 0 > 0 {
+            if #available(iOS 15.0, *) {
                 size.width += style.titleImagePadding
+            }
+
+            if titleLabel?.text?.count ?? 0 == 0 {
+                size.width -= style.titleImagePadding
             }
         }
 
         return size
+    }
+
+    open override func imageRect(forContentRect contentRect: CGRect) -> CGRect {
+        var rect = CGRect.zero
+        if #available(iOS 15, *) {
+            assertionFailure("imageRect(forContentRect: ) has been deprecated in iOS 15.0")
+        } else {
+            rect = super.imageRect(forContentRect: contentRect)
+
+            if let image = image {
+                let imageHeight = image.size.height
+
+                // If the entire image doesn't fit in the default rect, increase the rect's height
+                // to fit the entire image and reposition the origin to keep the image centered.
+                if imageHeight > rect.size.height {
+                    rect.origin.y -= round((imageHeight - rect.size.height) / 2.0)
+                    rect.size.height = imageHeight
+                }
+
+                rect.size.width = image.size.width
+            }
+        }
+        return rect
     }
 
     @objc public init(style: ButtonStyle = .secondaryOutline) {
@@ -207,10 +246,11 @@ open class Button: UIButton {
         titleLabel?.font = style.titleFont
         titleLabel?.adjustsFontForContentSizeCategory = true
 
-        var configuration = UIButton.Configuration.plain()
-        configuration.contentInsets = edgeInsets
-        self.configuration = configuration
-
+        if #available(iOS 15, *) {
+            var configuration = UIButton.Configuration.plain()
+            configuration.contentInsets = edgeInsets
+            self.configuration = configuration
+        }
         update()
     }
 
@@ -375,10 +415,21 @@ open class Button: UIButton {
             spacing = -spacing
         }
 
-        var configuration = self.configuration ?? UIButton.Configuration.plain()
-        configuration.contentInsets = edgeInsets
-        configuration.imagePadding = spacing
-        self.configuration = configuration
+        if #available(iOS 15.0, *) {
+            var configuration = self.configuration ?? UIButton.Configuration.plain()
+            configuration.contentInsets = edgeInsets
+            configuration.imagePadding = spacing
+            self.configuration = configuration
+        } else {
+            edgeInsets.trailing += spacing
+            if effectiveUserInterfaceLayoutDirection == .leftToRight {
+                titleEdgeInsets.left += spacing
+                titleEdgeInsets.right -= spacing
+            } else {
+                titleEdgeInsets.right += spacing
+                titleEdgeInsets.left -= spacing
+            }
+        }
 
         isAdjustingCustomContentEdgeInsetsForImage = false
     }

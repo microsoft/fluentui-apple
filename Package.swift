@@ -6,7 +6,7 @@ let package = Package(
     name: "FluentUI",
     defaultLocalization: "en",
     platforms: [
-        .iOS(.v15),
+        .iOS(.v14),
         .macOS(.v10_15),
     ],
     products: [
