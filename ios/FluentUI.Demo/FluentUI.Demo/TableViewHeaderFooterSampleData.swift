@@ -20,13 +20,4 @@ class TableViewHeaderFooterSampleData: TableViewSampleData {
         Section(title: "Default with multi-line truncated text - A description that starts at the bottom and provides three to two lines of info. Also maybe used for providing detailed documentation for a specific feature.", numberOfLines: 3, hasFooter: true, footerText: "Footer - A description that starts at the top and provides three to two lines of info. Custom Learn More", footerLinkText: "Custom Learn More", hasCustomLinkHandler: true),
         Section(title: "Default with custom accessory view", numberOfLines: 0, hasCustomAccessoryView: true)
     ]
-
-    static let plainSections: [Section] = [
-        Section(title: "Divider Highlighted • Label", headerStyle: .dividerHighlighted),
-        Section(title: "Divider • Label", headerStyle: .divider),
-        Section(title: "Divider • Label", headerStyle: .divider),
-        Section(title: "Divider • Label", headerStyle: .divider)
-    ]
-
-    static let tabTitles: [String] = ["Default styles", "Divider styles"]
 }

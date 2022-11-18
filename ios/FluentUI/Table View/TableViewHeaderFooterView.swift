@@ -17,7 +17,7 @@ public protocol TableViewHeaderFooterViewDelegate: AnyObject {
 
 /// `TableViewHeaderFooterView` is used to present a section header or footer with a `title` and an optional accessory button.
 /// Set the `TableViewHeaderFooterView.Style` of the view to specify its visual style. The `default` and `headerPrimary` style may be used for headers.
-/// The `footer` style, which lays out the `title` near the top of the view, may be used for footers in grouped lists. Use `divider` and `dividerHighlighted` as headers for plain lists.
+/// The `footer` style, which lays out the `title` near the top of the view, may be used for footers in grouped lists.
 /// The optional accessory button should only be used with `default` style headers with the `title` as a single line of text.
 /// Use `titleNumberOfLines` to configure the number of lines for the `title`. Headers generally use the default number of lines of 1 while footers may use a multiple number of lines.
 @objc(MSFTableViewHeaderFooterView)
@@ -41,8 +41,6 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
     @objc(MSFTableViewHeaderFooterViewStyle)
     public enum Style: Int {
         case header
-        case divider
-        case dividerHighlighted
         case footer
         case headerPrimary
 
@@ -50,10 +48,6 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
             switch self {
             case .header, .footer, .headerPrimary:
                 return .clear
-            case .divider:
-                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.stroke2])
-            case .dividerHighlighted:
-                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandBackground4])
             }
         }
 
@@ -61,10 +55,6 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
             switch self {
             case .header, .footer:
                 return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
-            case .divider:
-                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
-            case .dividerHighlighted:
-                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground4])
             case .headerPrimary:
                 return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
             }
@@ -74,7 +64,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
             switch self {
             case .headerPrimary:
                 return Constants.primaryTitleTextStyle.font
-            case .header, .footer, .divider, .dividerHighlighted:
+            case .header, .footer:
                 return Constants.titleTextStyle.font
             }
         }
@@ -113,8 +103,6 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
             verticalMargin = Constants.titleDefaultTopMargin + Constants.titleDefaultBottomMargin
         case .headerPrimary:
             verticalMargin = Constants.titleDefaultTopMargin + Constants.titleDefaultBottomMargin
-        case .divider, .dividerHighlighted:
-            verticalMargin = Constants.titleDividerVerticalMargin * 2
         }
 
         if let accessoryView = accessoryView {
@@ -379,7 +367,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
     private func setup(style: Style, accessoryButtonTitle: String, leadingView: UIView? = nil) {
         updateTitleViewFont()
         switch style {
-        case .header, .divider, .dividerHighlighted, .headerPrimary:
+        case .header, .headerPrimary:
             titleView.accessibilityTraits.insert(.header)
         case .footer:
             titleView.accessibilityTraits.remove(.header)
@@ -407,9 +395,6 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         case .header, .footer, .headerPrimary:
             titleYOffset = style == .footer ? Constants.titleDefaultBottomMargin : Constants.titleDefaultTopMargin
             titleHeight = contentView.frame.height - titleYOffset - Constants.titleDefaultBottomMargin
-        case .divider, .dividerHighlighted:
-            titleYOffset = Constants.titleDividerVerticalMargin
-            titleHeight = contentView.frame.height - (Constants.titleDividerVerticalMargin * 2)
         }
 
         if let leadingView = leadingView {
