@@ -77,7 +77,11 @@
 		E6842974247B672000A29C40 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6842973247B672000A29C40 /* SceneDelegate.swift */; };
 		E6842996247C350700A29C40 /* DemoColorThemes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6842995247C350700A29C40 /* DemoColorThemes.swift */; };
 		EC02A5F9274EED9200E81B3E /* DividerDemoController_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC02A5F8274EED9200E81B3E /* DividerDemoController_SwiftUI.swift */; };
+<<<<<<< HEAD
 		EC24DBC628B97EB70026EF92 /* PopupMenuObjCDemoController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC24DBC528B97EB70026EF92 /* PopupMenuObjCDemoController.m */; };
+=======
+		EC1C31752923032000CF052C /* ColoredPillBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1C31742923032000CF052C /* ColoredPillBackgroundView.swift */; };
+>>>>>>> main
 		EC6A71EC273DE6DF0076A586 /* DividerDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6A71EB273DE6DF0076A586 /* DividerDemoController.swift */; };
 		ECCABFB227DFFA070037C70C /* ColoredPillBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECCABFB127DFFA070037C70C /* ColoredPillBackgroundView.swift */; };
 		FC414E3725888BC300069E73 /* CommandBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC414E3625888BC300069E73 /* CommandBarDemoController.swift */; };
@@ -151,7 +155,11 @@
 		CCC18C2E2501C75F00BE830E /* CardViewDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewDemoController.swift; sourceTree = "<group>"; };
 		E6842973247B672000A29C40 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		E6842995247C350700A29C40 /* DemoColorThemes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoColorThemes.swift; sourceTree = "<group>"; };
+<<<<<<< HEAD
 		EC02A5F8274EED9200E81B3E /* DividerDemoController_SwiftUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DividerDemoController_SwiftUI.swift; sourceTree = "<group>"; };
+=======
+		EC1C31742923032000CF052C /* ColoredPillBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColoredPillBackgroundView.swift; sourceTree = "<group>"; };
+>>>>>>> main
 		EC24DBC428B97E950026EF92 /* PopupMenuObjCDemoController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PopupMenuObjCDemoController.h; sourceTree = "<group>"; };
 		EC24DBC528B97EB70026EF92 /* PopupMenuObjCDemoController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PopupMenuObjCDemoController.m; sourceTree = "<group>"; };
 		EC6A71EB273DE6DF0076A586 /* DividerDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DividerDemoController.swift; sourceTree = "<group>"; };
@@ -388,6 +396,7 @@
 				B4414793228F6FDF0040E88E /* OtherCellsSampleData.swift */,
 				B4EF66552295F729007FEAB0 /* TableViewHeaderFooterSampleData.swift */,
 				B4C39551227A4AC800539EC2 /* TableViewSampleData.swift */,
+				EC1C31742923032000CF052C /* ColoredPillBackgroundView.swift */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -563,6 +572,7 @@
 				92DD1E8D279F496300FDEE0F /* DemoAppearanceView.swift in Sources */,
 				53097D4027028AE500A6E4DC /* PersonaButtonCarouselDemoController.swift in Sources */,
 				C0938E4A235F733100256251 /* ShimmerLinesViewDemoController.swift in Sources */,
+				EC1C31752923032000CF052C /* ColoredPillBackgroundView.swift in Sources */,
 				80AECC0C2630F1BB005AF2F3 /* BottomCommandingDemoController.swift in Sources */,
 				C038992E2359307D00265026 /* TableViewCellShimmerDemoController.swift in Sources */,
 				53097D3D27028AD800A6E4DC /* NavigationControllerDemoController.swift in Sources */,

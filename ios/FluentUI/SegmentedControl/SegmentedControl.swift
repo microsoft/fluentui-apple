@@ -415,7 +415,13 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
     }
 
     public typealias TokenSetKeyType = SegmentedControlTokenSet.Tokens
+<<<<<<< HEAD
     lazy public var tokenSet: SegmentedControlTokenSet = .init(style: { self.style })
+=======
+    lazy public var tokenSet: SegmentedControlTokenSet = .init(style: { [weak self] in
+        return self?.style ?? .primaryPill
+    })
+>>>>>>> main
     var tokenSetSink: AnyCancellable?
 
     var selectionChangeAnimationDuration: TimeInterval { return 0.2 }

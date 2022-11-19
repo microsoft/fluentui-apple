@@ -32,7 +32,10 @@ class SegmentPillButton: UIButton {
         titleLabel?.font = UIFont.fluent(tokenSet[.font].fontInfo, shouldScale: false)
         let verticalInset = tokenSet[.verticalInset].float
         let horizontalInset = tokenSet[.horizontalInset].float
+<<<<<<< HEAD
         // TODO: Fix unaligned masked content
+=======
+>>>>>>> main
         if #available(iOS 15.0, *) {
             var configuration = UIButton.Configuration.plain()
             configuration.contentInsets = NSDirectionalEdgeInsets(top: verticalInset,

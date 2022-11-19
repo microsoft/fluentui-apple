@@ -19,6 +19,17 @@ open class TabBarItem: NSObject {
         }
     }
 
+    /// This value will determine whether or not to show the mark that represents the "unread" state.
+    /// If the badgeValue is set, the unreadDot will not be visible.
+    /// The default value of this property is false.
+    @objc public var isUnreadDotVisible: Bool = false {
+       didSet {
+           if oldValue != isUnreadDotVisible {
+               NotificationCenter.default.post(name: TabBarItem.isUnreadValueDidChangeNotification, object: self)
+           }
+       }
+   }
+
     /// Convenience method to set the badge value to a number.
     /// If the number is zero, the badge value will be hidden.
     @objc public func setBadgeNumber(_ number: UInt) {
@@ -89,6 +100,9 @@ open class TabBarItem: NSObject {
 
     /// Notification sent when the tab bar item's badge value changes.
     static let badgeValueDidChangeNotification = NSNotification.Name(rawValue: "TabBarItemBadgeValueDidChangeNotification")
+
+    /// Notification sent when item's `isUnread` value changes.
+    static let isUnreadValueDidChangeNotification = NSNotification.Name(rawValue: "TabBarItemisUnreadValueDidChangeNotification")
 
     let image: UIImage
     let selectedImage: UIImage?
