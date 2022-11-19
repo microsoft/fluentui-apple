@@ -8,7 +8,7 @@ import UIKit
 
 class BadgeViewDemoController: DemoController {
 
-    let badgeString: String = "A badge is a compact, interactive, textual representation of a person. It is generally a representation of user-input text that maps to an entry in a database."
+    private let badgeString: String = "A badge is a compact, interactive, textual representation of a person. It is generally a representation of user-input text that maps to an entry in a database."
 
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -10,7 +10,7 @@ import UIKit
 
 class TableViewCellDemoController: DemoTableViewController {
     let sections: [TableViewSampleData.Section] = TableViewCellSampleData.sections
-    let tvcString: String = "This is a table view cell"
+    private let tvcString: String = "This is a table view cell"
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(style: .grouped)

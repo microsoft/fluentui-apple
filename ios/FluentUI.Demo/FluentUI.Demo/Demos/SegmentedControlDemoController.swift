@@ -20,7 +20,7 @@ class SegmentedControlDemoController: DemoController {
         }
     }
 
-    let segmentedControlString: String = "A segmented control lets someone select one option from a set of two or more segments in a single, horizontal container.\n\nSegmented controls work well for changing states of elements or views within a single context, like filtering search results. It’s best not to use them to initiate actions or navigate to a new page. To let people navigate between the main sections of an app, use the tab bar."
+    private let segmentedControlString: String = "A segmented control lets someone select one option from a set of two or more segments in a single, horizontal container.\n\nSegmented controls work well for changing states of elements or views within a single context, like filtering search results. It’s best not to use them to initiate actions or navigate to a new page. To let people navigate between the main sections of an app, use the tab bar."
 
     override func viewDidLoad() {
         super.viewDidLoad()

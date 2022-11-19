@@ -16,12 +16,12 @@ class ReadmeViewController: UIViewController {
         static let popoverHeight: CGFloat = 250
     }
 
-    let scrollView = UIScrollView()
-    let contentView = UIView()
+    private let scrollView = UIScrollView()
+    private let contentView = UIView()
 
-    let readme: String?
+    private let readme: String?
 
-    let readmeLabel: Label = {
+    private let readmeLabel: Label = {
         let label = Label()
         label.numberOfLines = 0
 
