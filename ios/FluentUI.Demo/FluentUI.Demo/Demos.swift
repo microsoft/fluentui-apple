@@ -35,7 +35,6 @@ struct Demos {
         DemoDescriptor("NotificationView", NotificationViewDemoController.self),
         DemoDescriptor("Other cells", OtherCellsDemoController.self),
         DemoDescriptor("PersonaButtonCarousel", PersonaButtonCarouselDemoController.self),
-<<<<<<< HEAD
         DemoDescriptor("PillButton", PillButtonDemoController.self),
         DemoDescriptor("PillButtonBar", PillButtonBarDemoController.self),
         DemoDescriptor("PopupMenuController", PopupMenuDemoController.self),
@@ -43,10 +42,6 @@ struct Demos {
         DemoDescriptor("ShimmerView", ShimmerViewDemoController.self),
         DemoDescriptor("SideTabBar", SideTabBarDemoController.self),
         DemoDescriptor("TabBarView", TabBarViewDemoController.self),
-=======
-        DemoDescriptor("SegmentedControl", SegmentedControlDemoController.self),
-        DemoDescriptor("ShimmerView", ShimmerViewDemoController.self),
->>>>>>> main
         DemoDescriptor("TableViewCell", TableViewCellDemoController.self),
         DemoDescriptor("Tooltip", TooltipDemoController.self),
         DemoDescriptor("TypographyTokens", TypographyTokensDemoController.self)
@@ -66,11 +61,6 @@ struct Demos {
         DemoDescriptor("PeoplePicker", PeoplePickerDemoController.self),
         DemoDescriptor("PersonaListView", PersonaListViewDemoController.self),
         DemoDescriptor("SearchBar", SearchBarDemoController.self),
-<<<<<<< HEAD
-=======
-        DemoDescriptor("SideTabBar", SideTabBarDemoController.self),
-        DemoDescriptor("TabBarView", TabBarViewDemoController.self),
->>>>>>> main
         DemoDescriptor("TableViewCellFileAccessoryView", TableViewCellFileAccessoryViewDemoController.self),
         DemoDescriptor("TableViewCellShimmer", TableViewCellShimmerDemoController.self),
         DemoDescriptor("TableViewHeaderFooterView", TableViewHeaderFooterViewDemoController.self)

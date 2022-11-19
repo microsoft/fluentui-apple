@@ -210,7 +210,6 @@
 		C708B064260A87F7007190FA /* SegmentItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C708B04B260A8696007190FA /* SegmentItem.swift */; };
 		C77A04B825F03DD1001B3EB6 /* String+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77A04B625F03DD1001B3EB6 /* String+Date.swift */; };
 		C77A04EE25F046EB001B3EB6 /* Date+CellFileAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77A04EC25F046EB001B3EB6 /* Date+CellFileAccessoryView.swift */; };
-<<<<<<< HEAD
 		D64D8E10283BFAEC00D8D7D1 /* TabBarItemTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64D8E0F283BFAEC00D8D7D1 /* TabBarItemTokenSet.swift */; };
 		D64D8E12283D798D00D8D7D1 /* SideTabBarTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64D8E11283D798D00D8D7D1 /* SideTabBarTokenSet.swift */; };
 		D6A0124A2810764B00C90535 /* TabBarTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6A012492810764B00C90535 /* TabBarTokenSet.swift */; };
@@ -221,9 +220,7 @@
 		EC24DBC828BD95980026EF92 /* PopupMenuTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC24DBC728BD95980026EF92 /* PopupMenuTokenSet.swift */; };
 		EC24DBCA28BD99860026EF92 /* PopupMenuItemTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC24DBC928BD99860026EF92 /* PopupMenuItemTokenSet.swift */; };
 		EC27B8662807A63C00A40B9A /* ResizingHandleTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC27B8652807A63C00A40B9A /* ResizingHandleTokenSet.swift */; };
-=======
 		EC1C31732923022E00CF052C /* SegmentedControlTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1C31722923022E00CF052C /* SegmentedControlTokenSet.swift */; };
->>>>>>> main
 		EC5982D827BF348700FD048D /* MSFAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5982D727BF348700FD048D /* MSFAvatar.swift */; };
 		EC5982DA27C703EE00FD048D /* CircleCutout.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5982D927C703ED00FD048D /* CircleCutout.swift */; };
 		EC5982DC27CEC02100FD048D /* DrawerTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5982DB27CEC02100FD048D /* DrawerTokenSet.swift */; };
@@ -424,7 +421,6 @@
 		C77A04B625F03DD1001B3EB6 /* String+Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Date.swift"; sourceTree = "<group>"; };
 		C77A04EC25F046EB001B3EB6 /* Date+CellFileAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+CellFileAccessoryView.swift"; sourceTree = "<group>"; };
 		CCC18C2B2501B22F00BE830E /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
-<<<<<<< HEAD
 		D64D8E0F283BFAEC00D8D7D1 /* TabBarItemTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItemTokenSet.swift; sourceTree = "<group>"; };
 		D64D8E11283D798D00D8D7D1 /* SideTabBarTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideTabBarTokenSet.swift; sourceTree = "<group>"; };
 		D6A012492810764B00C90535 /* TabBarTokenSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarTokenSet.swift; sourceTree = "<group>"; };
@@ -435,9 +431,7 @@
 		EC24DBC728BD95980026EF92 /* PopupMenuTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMenuTokenSet.swift; sourceTree = "<group>"; };
 		EC24DBC928BD99860026EF92 /* PopupMenuItemTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMenuItemTokenSet.swift; sourceTree = "<group>"; };
 		EC27B8652807A63C00A40B9A /* ResizingHandleTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResizingHandleTokenSet.swift; sourceTree = "<group>"; };
-=======
 		EC1C31722923022E00CF052C /* SegmentedControlTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControlTokenSet.swift; sourceTree = "<group>"; };
->>>>>>> main
 		EC5982D727BF348700FD048D /* MSFAvatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFAvatar.swift; sourceTree = "<group>"; };
 		EC5982D927C703ED00FD048D /* CircleCutout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleCutout.swift; sourceTree = "<group>"; };
 		EC5982DB27CEC02100FD048D /* DrawerTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerTokenSet.swift; sourceTree = "<group>"; };

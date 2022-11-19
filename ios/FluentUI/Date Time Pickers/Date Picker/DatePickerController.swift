@@ -232,7 +232,6 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
     }
 
     private func initSegmentedControl() {
-<<<<<<< HEAD
         let items = [SegmentItem(title: customStartTabTitle ?? "MSDateTimePicker.StartDate".localized),
                      SegmentItem(title: customEndTabTitle ?? "MSDateTimePicker.EndDate".localized)]
         let segmentedControl = SegmentedControl(items: items,
@@ -246,21 +245,6 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
         }
         self.segmentedControl = segmentedControl
     }
-=======
-            let items = [SegmentItem(title: customStartTabTitle ?? "MSDateTimePicker.StartDate".localized),
-                         SegmentItem(title: customEndTabTitle ?? "MSDateTimePicker.EndDate".localized)]
-            let segmentedControl = SegmentedControl(items: items,
-                                                style: traitCollection.userInterfaceStyle == .dark ? .onBrandPill : .primaryPill)
-            segmentedControl.onSelectAction = { [weak self] (_, index) in
-                guard let strongSelf = self else {
-                    return
-                }
-
-                strongSelf.handleDidSelectStartEnd(index)
-            }
-            self.segmentedControl = segmentedControl
-        }
->>>>>>> main
 
     private func updateNavigationBar() {
         let title = customTitle ?? String.dateString(from: focusDate, compactness: .shortDaynameShortMonthnameDay)

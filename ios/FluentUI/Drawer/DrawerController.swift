@@ -111,7 +111,6 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
     }
 
     /// Set `backgroundColor` to customize background color of the drawer
-<<<<<<< HEAD
     @objc open var backgroundColor: UIColor {
         get {
             let color: DynamicColor
@@ -131,14 +130,6 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
             tokenSet[.popoverContentBackground] = .dynamicColor { newColor }
             tokenSet[.navigationBarBackground] = .dynamicColor { newColor }
             tokenSet[.drawerContentBackground] = .dynamicColor { newColor }
-=======
-    @objc open var backgroundColor: UIColor = Colors.Drawer.background {
-        didSet {
-            useCustomBackgroundColor = true
-            if isViewLoaded {
-                view.backgroundColor = backgroundColor
-            }
->>>>>>> main
         }
     }
 

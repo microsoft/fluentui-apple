@@ -181,32 +181,8 @@ class TabBarItemView: UIControl, TokenizedControlInternal {
     override func didMoveToWindow() {
         super.didMoveToWindow()
 
-<<<<<<< HEAD
         tokenSet.update(fluentTheme)
         updateAppearance()
-=======
-    private struct Constants {
-        static let unselectedColor: UIColor = Colors.textSecondary
-        static let spacingVertical: CGFloat = 3
-        static let spacingHorizontal: CGFloat = 8
-        static let portraitImageSize: CGFloat = 28
-        static let portraitImageWithLabelSize: CGFloat = 24
-        static let landscapeImageSize: CGFloat = 24
-        static let badgeVerticalOffset: CGFloat = -4
-        static let badgePortraitTitleVerticalOffset: CGFloat = -2
-        static let singleDigitBadgeHorizontalOffset: CGFloat = 14
-        static let multiDigitBadgeHorizontalOffset: CGFloat = 12
-        static let badgeHeight: CGFloat = 16
-        static let badgeMinWidth: CGFloat = 16
-        static let defaultBadgeMaxWidth: CGFloat = 42
-        static let badgeBorderWidth: CGFloat = 2
-        static let badgeHorizontalPadding: CGFloat = 10
-        static let badgeCorderRadii: CGFloat = 10
-        static let unreadDotPortraitOffsetX: CGFloat = 6.0
-        static let unreadDotOffsetX: CGFloat = 4.0
-        static let unreadDotOffsetY: CGFloat = 20.0
-        static let unreadDotSize: CGFloat = 8.0
->>>>>>> main
     }
 
     private var badgeValue: String? {
@@ -341,63 +317,32 @@ class TabBarItemView: UIControl, TokenizedControlInternal {
         let maskLayer = CAShapeLayer()
         maskLayer.fillRule = .evenOdd
 
-<<<<<<< HEAD
-            let path = UIBezierPath(rect: CGRect(x: 0, y: 0, width: imageView.frame.size.width, height: imageView.frame.size.height))
-            let badgeVerticalOffset = !titleLabel.isHidden && isInPortraitMode ? tokenSet[.badgePortraitTitleVerticalOffset].float : tokenSet[.badgeVerticalOffset].float
-
-            if badgeView.text?.count ?? 1 > 1 {
-                let badgeWidth = min(max(badgeView.intrinsicContentSize.width + tokenSet[.badgeHorizontalPadding].float, tokenSet[.badgeMinWidth].float), maxBadgeWidth)
-
-                badgeView.frame = CGRect(x: badgeFrameOriginX(offset: tokenSet[.multiDigitBadgeHorizontalOffset].float, frameWidth: badgeWidth),
-                                         y: imageView.frame.origin.y + badgeVerticalOffset,
-                                         width: badgeWidth,
-                                         height: tokenSet[.badgeHeight].float)
-
-                let layer = CAShapeLayer()
-                layer.path = UIBezierPath(roundedRect: badgeView.bounds,
-                                          byRoundingCorners: .allCorners,
-                                          cornerRadii: CGSize(width: tokenSet[.badgeCornerRadii].float, height: tokenSet[.badgeCornerRadii].float)).cgPath
-
-                path.append(UIBezierPath(roundedRect: badgeBorderRect(badgeViewFrame: badgeView.frame),
-                                         byRoundingCorners: .allCorners,
-                                         cornerRadii: CGSize(width: tokenSet[.badgeCornerRadii].float, height: tokenSet[.badgeCornerRadii].float)))
-
-                badgeView.layer.mask = layer
-                badgeView.layer.cornerRadius = 0
-            } else {
-                let badgeWidth = max(badgeView.intrinsicContentSize.width, tokenSet[.badgeMinWidth].float)
-
-                badgeView.frame = CGRect(x: badgeFrameOriginX(offset: tokenSet[.singleDigitBadgeHorizontalOffset].float, frameWidth: badgeWidth),
-                                         y: imageView.frame.origin.y + badgeVerticalOffset,
-                                         width: badgeWidth,
-                                         height: tokenSet[.badgeHeight].float)
-=======
         let path = UIBezierPath(rect: CGRect(x: 0, y: 0, width: imageView.frame.size.width, height: imageView.frame.size.height))
 
         if isUnreadDotVisible {
             // Badge with empty string and round corners is a dot
             badgeView.text = ""
-            let badgeVerticalOffset = !titleLabel.isHidden && isInPortraitMode ? Constants.unreadDotPortraitOffsetX : Constants.unreadDotOffsetX
+            let badgeVerticalOffset = !titleLabel.isHidden && isInPortraitMode ? tokenSet[.unreadDotPortraitOffsetX].float : tokenSet[.unreadDotOffsetX].float
 
             createCircularBadgeFrame(labelView: badgeView,
                                      path: path,
-                                     horizontalOffset: Constants.unreadDotOffsetY,
+                                     horizontalOffset: tokenSet[.unreadDotOffsetY].float,
                                      verticalOffset: badgeVerticalOffset,
-                                     frameWidth: Constants.unreadDotSize,
-                                     frameHeight: Constants.unreadDotSize)
+                                     frameWidth: tokenSet[.unreadDotSize].float,
+                                     frameHeight: tokenSet[.unreadDotSize].float)
         } else {
             badgeView.text = badgeValue
-            let badgeVerticalOffset = !titleLabel.isHidden && isInPortraitMode ? Constants.badgePortraitTitleVerticalOffset : Constants.badgeVerticalOffset
+            let badgeVerticalOffset = !titleLabel.isHidden && isInPortraitMode ? tokenSet[.badgePortraitTitleVerticalOffset].float : tokenSet[.badgeVerticalOffset].float
 
             if badgeView.text?.count ?? 1 > 1 {
                 createRoundedRectBadgeFrame(labelView: badgeView, path: path, verticalOffset: badgeVerticalOffset)
             } else {
                 createCircularBadgeFrame(labelView: badgeView,
                                          path: path,
-                                         horizontalOffset: Constants.singleDigitBadgeHorizontalOffset,
+                                         horizontalOffset: tokenSet[.singleDigitBadgeHorizontalOffset].float,
                                          verticalOffset: badgeVerticalOffset,
-                                         frameWidth: Constants.badgeMinWidth,
-                                         frameHeight: Constants.badgeHeight)
+                                         frameWidth: tokenSet[.badgeMinWidth].float,
+                                         frameHeight: tokenSet[.badgeHeight].float)
             }
         }
 
@@ -406,22 +351,21 @@ class TabBarItemView: UIControl, TokenizedControlInternal {
     }
 
     private func createRoundedRectBadgeFrame(labelView: UILabel, path: UIBezierPath, verticalOffset: CGFloat) {
-        let width = min(max(labelView.intrinsicContentSize.width + Constants.badgeHorizontalPadding, Constants.badgeMinWidth), maxBadgeWidth)
+        let width = min(max(labelView.intrinsicContentSize.width + tokenSet[.badgeHorizontalPadding].float, tokenSet[.badgeMinWidth].float), maxBadgeWidth)
 
-        labelView.frame = CGRect(x: frameOriginX(offset: Constants.multiDigitBadgeHorizontalOffset, frameWidth: width),
+        labelView.frame = CGRect(x: frameOriginX(offset: tokenSet[.multiDigitBadgeHorizontalOffset].float, frameWidth: width),
                                  y: imageView.frame.origin.y + verticalOffset,
                                  width: width,
-                                 height: Constants.badgeHeight)
+                                 height: tokenSet[.badgeHeight].float)
 
         let layer = CAShapeLayer()
         layer.path = UIBezierPath(roundedRect: labelView.bounds,
                                   byRoundingCorners: .allCorners,
-                                  cornerRadii: CGSize(width: Constants.badgeCorderRadii, height: Constants.badgeCorderRadii)).cgPath
+                                  cornerRadii: CGSize(width: tokenSet[.badgeCornerRadii].float, height: tokenSet[.badgeCornerRadii].float)).cgPath
 
         path.append(UIBezierPath(roundedRect: badgeBorderRect(badgeViewFrame: labelView.frame),
                                  byRoundingCorners: .allCorners,
-                                 cornerRadii: CGSize(width: Constants.badgeCorderRadii, height: Constants.badgeCorderRadii)))
->>>>>>> main
+                                 cornerRadii: CGSize(width: tokenSet[.badgeCornerRadii].float, height: tokenSet[.badgeCornerRadii].float)))
 
         labelView.layer.mask = layer
         labelView.layer.cornerRadius = 0
