@@ -300,8 +300,7 @@ public class BottomSheetController: UIViewController {
             animator = stateChangeAnimator(to: targetState)
 
             currentStateChangeAnimator = animator
-            animator?.addCompletion { [weak self] finalPosition in
-                self?.currentStateChangeAnimator = nil
+            animator?.addCompletion { finalPosition in
                 completion?(finalPosition)
             }
         }
@@ -733,9 +732,6 @@ public class BottomSheetController: UIViewController {
 
             if animated {
                 currentStateChangeAnimator = animator
-                animator.addCompletion { [weak self] _ in
-                    self?.currentStateChangeAnimator = nil
-                }
                 animator.startAnimation()
             } else {
                 animator.startAnimation() // moves the animator into active state so it can be stopped
@@ -790,6 +786,13 @@ public class BottomSheetController: UIViewController {
             guard let strongSelf = self else {
                 return
             }
+
+            // It's important we drop the reference to the animator as early as possible.
+            // Otherwise we could accidentally try modifying the animator while it's calling out to its completion handler, which can lead to a crash.
+            if let animator = strongSelf.currentStateChangeAnimator,animator == translationAnimator {
+                strongSelf.currentStateChangeAnimator = nil
+            }
+
             strongSelf.targetExpansionState = nil
             strongSelf.panGestureRecognizer.isEnabled = strongSelf.isExpandable
             strongSelf.handleCompletedStateChange(to: finalPosition == .start ? originalExpansionState : targetExpansionState,
@@ -849,7 +852,7 @@ public class BottomSheetController: UIViewController {
     }
 
     private func completeAnimationsIfNeeded(skipToEnd: Bool = false) {
-        if let currentAnimator = currentStateChangeAnimator, currentAnimator.isRunning {
+        if let currentAnimator = currentStateChangeAnimator, currentAnimator.isRunning, currentAnimator.state == .active {
             let endPosition: UIViewAnimatingPosition = currentAnimator.isReversed ? .start : .end
             currentAnimator.stopAnimation(false)
             currentAnimator.finishAnimation(at: skipToEnd ? endPosition : .current)
