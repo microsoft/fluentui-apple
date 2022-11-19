@@ -789,7 +789,7 @@ public class BottomSheetController: UIViewController {
 
             // It's important we drop the reference to the animator as early as possible.
             // Otherwise we could accidentally try modifying the animator while it's calling out to its completion handler, which can lead to a crash.
-            if let animator = strongSelf.currentStateChangeAnimator,animator == translationAnimator {
+            if let animator = strongSelf.currentStateChangeAnimator, animator == translationAnimator {
                 strongSelf.currentStateChangeAnimator = nil
             }
 
