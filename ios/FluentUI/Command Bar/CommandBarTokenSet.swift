@@ -8,14 +8,20 @@ import UIKit
 /// Design token set for the `CommandBar` control.
 public class CommandBarTokenSet: ControlTokenSet<CommandBarTokenSet.Tokens> {
     public enum Tokens: TokenSetKey {
+        /// The background color of the Command Bar.
         case backgroundColor
+
+        /// The border radius for each group of item(s) inside the Command Bar.
         case groupBorderRadius
-        case groupInterspace
+
+        /// The background color of a single Command Bar Item.
         case itemBackgroundColor
+
+        /// The background color of a fixed Command Bar Item.
         case itemFixedIconColor
+
+        /// The icon color of a Command Bar Item.
         case itemIconColor
-        case itemInterspace
-        case leftRightBuffer
     }
 
     init() {
@@ -26,9 +32,6 @@ public class CommandBarTokenSet: ControlTokenSet<CommandBarTokenSet.Tokens> {
 
             case .groupBorderRadius:
                 return .float { GlobalTokens.borderRadius(.xLarge) }
-
-            case .groupInterspace:
-                return .float { GlobalTokens.spacing(.medium) }
 
             case .itemBackgroundColor:
                 return .buttonDynamicColors {
@@ -55,13 +58,20 @@ public class CommandBarTokenSet: ControlTokenSet<CommandBarTokenSet.Tokens> {
                                         selected: theme.aliasTokens.foregroundColors[.neutralInverted],
                                         disabled: theme.aliasTokens.foregroundColors[.neutralDisabled])
                 }
-
-            case .itemInterspace:
-                return .float { GlobalTokens.spacing(.xxxSmall) }
-
-            case .leftRightBuffer:
-                return .float { GlobalTokens.spacing(.xxxSmall) }
             }
         }
     }
+}
+
+// MARK: - Constants
+
+extension CommandBarTokenSet {
+    /// The spacing between each Command Bar Group.
+    static let groupInterspace: CGFloat = GlobalTokens.spacing(.medium)
+
+    /// The spacing between each Command Bar Item.
+    static let itemInterspace: CGFloat = GlobalTokens.spacing(.xxxSmall)
+
+    /// The buffer spacing left/right of each Command Bar Group.
+    static let leftRightBuffer: CGFloat = GlobalTokens.spacing(.xxxSmall)
 }

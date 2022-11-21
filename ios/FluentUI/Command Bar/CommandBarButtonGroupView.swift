@@ -46,7 +46,7 @@ class CommandBarButtonGroupView: UIView {
         let stackView = UIStackView(arrangedSubviews: buttons)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
-        stackView.spacing = tokenSet[.itemInterspace].float
+        stackView.spacing = CommandBarTokenSet.itemInterspace
 
         return stackView
     }()
@@ -63,11 +63,11 @@ class CommandBarButtonGroupView: UIView {
 
     private func applyInsets() {
         if #available(iOS 15.0, *) {
-            buttons.first?.configuration?.contentInsets.leading += tokenSet[.leftRightBuffer].float
-            buttons.last?.configuration?.contentInsets.trailing += tokenSet[.leftRightBuffer].float
+            buttons.first?.configuration?.contentInsets.leading += CommandBarTokenSet.leftRightBuffer
+            buttons.last?.configuration?.contentInsets.trailing += CommandBarTokenSet.leftRightBuffer
         } else {
-            buttons.first?.contentEdgeInsets.left += tokenSet[.leftRightBuffer].float
-            buttons.last?.contentEdgeInsets.right += tokenSet[.leftRightBuffer].float
+            buttons.first?.contentEdgeInsets.left += CommandBarTokenSet.leftRightBuffer
+            buttons.last?.contentEdgeInsets.right += CommandBarTokenSet.leftRightBuffer
         }
     }
 

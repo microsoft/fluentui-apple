@@ -279,7 +279,7 @@ public class CommandBar: UIView, TokenizedControlInternal {
     }
 
     private func scrollViewContentInset() -> UIEdgeInsets {
-        let fixedButtonSpacing = tokenSet[.itemInterspace].float
+        let fixedButtonSpacing = CommandBarTokenSet.itemInterspace
         return UIEdgeInsets(top: 0,
                             left: leadingCommandGroupsView.isHidden ? LayoutConstants.insets.left : fixedButtonSpacing,
                             bottom: 0,
