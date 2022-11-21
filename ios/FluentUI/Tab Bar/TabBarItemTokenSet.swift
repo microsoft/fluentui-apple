@@ -59,6 +59,18 @@ class TabBarItemTokenSet: ControlTokenSet<TabBarItemTokenSet.Tokens> {
         /// The radii of the four corners of the `BadgeLabel`
         case badgeCornerRadii
 
+        /// The X offset of the unread dot in portrait mode
+        case unreadDotPortraitOffsetX
+
+        /// The X offset of the unread dot
+        case unreadDotOffsetX
+
+        /// The Y offset of the unread dot
+        case unreadDotOffsetY
+
+        /// The size of the unread dot
+        case unreadDotSize
+
         /// Font info for the title label when in portrait view
         case titleLabelFontPortrait
 
@@ -126,6 +138,18 @@ class TabBarItemTokenSet: ControlTokenSet<TabBarItemTokenSet.Tokens> {
 
             case .badgeCornerRadii:
                 return .float { 10.0 }
+
+            case .unreadDotPortraitOffsetX:
+                return .float { 6.0 }
+
+            case .unreadDotOffsetX:
+                return .float { 4.0 }
+
+            case .unreadDotOffsetY:
+                return .float { 20.0 }
+
+            case .unreadDotSize:
+                return .float { 8.0 }
 
             case .titleLabelFontPortrait:
                 return .fontInfo { return .init(size: 10, weight: .medium) }

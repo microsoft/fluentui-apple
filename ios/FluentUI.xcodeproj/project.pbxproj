@@ -220,6 +220,7 @@
 		EC24DBC828BD95980026EF92 /* PopupMenuTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC24DBC728BD95980026EF92 /* PopupMenuTokenSet.swift */; };
 		EC24DBCA28BD99860026EF92 /* PopupMenuItemTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC24DBC928BD99860026EF92 /* PopupMenuItemTokenSet.swift */; };
 		EC27B8662807A63C00A40B9A /* ResizingHandleTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC27B8652807A63C00A40B9A /* ResizingHandleTokenSet.swift */; };
+		EC1C31732923022E00CF052C /* SegmentedControlTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1C31722923022E00CF052C /* SegmentedControlTokenSet.swift */; };
 		EC5982D827BF348700FD048D /* MSFAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5982D727BF348700FD048D /* MSFAvatar.swift */; };
 		EC5982DA27C703EE00FD048D /* CircleCutout.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5982D927C703ED00FD048D /* CircleCutout.swift */; };
 		EC5982DC27CEC02100FD048D /* DrawerTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5982DB27CEC02100FD048D /* DrawerTokenSet.swift */; };
@@ -430,6 +431,7 @@
 		EC24DBC728BD95980026EF92 /* PopupMenuTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMenuTokenSet.swift; sourceTree = "<group>"; };
 		EC24DBC928BD99860026EF92 /* PopupMenuItemTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMenuItemTokenSet.swift; sourceTree = "<group>"; };
 		EC27B8652807A63C00A40B9A /* ResizingHandleTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResizingHandleTokenSet.swift; sourceTree = "<group>"; };
+		EC1C31722923022E00CF052C /* SegmentedControlTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControlTokenSet.swift; sourceTree = "<group>"; };
 		EC5982D727BF348700FD048D /* MSFAvatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFAvatar.swift; sourceTree = "<group>"; };
 		EC5982D927C703ED00FD048D /* CircleCutout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleCutout.swift; sourceTree = "<group>"; };
 		EC5982DB27CEC02100FD048D /* DrawerTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerTokenSet.swift; sourceTree = "<group>"; };
@@ -1189,6 +1191,7 @@
 				EC5982DD27D2EA6100FD048D /* SegmentedControlTokenSet.swift */,
 				C708B04B260A8696007190FA /* SegmentItem.swift */,
 				C708B055260A86FA007190FA /* SegmentPillButton.swift */,
+				EC1C31722923022E00CF052C /* SegmentedControlTokenSet.swift */,
 			);
 			path = SegmentedControl;
 			sourceTree = "<group>";
@@ -1735,6 +1738,7 @@
 				5328D97326FBA3D700F3723B /* IndeterminateProgressBarModifiers.swift in Sources */,
 				923DB9D7274CB66D00D8E58A /* ControlHostingView.swift in Sources */,
 				5314E03B25F00E3D0099271A /* BadgeStringExtractor.swift in Sources */,
+				EC1C31732923022E00CF052C /* SegmentedControlTokenSet.swift in Sources */,
 				5314E19825F019650099271A /* SideTabBar.swift in Sources */,
 				5314E10A25F014600099271A /* Obscurable.swift in Sources */,
 				4B14B18F28F8DBE40099D52A /* TooltipTokenSet.swift in Sources */,

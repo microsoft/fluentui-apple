@@ -75,7 +75,9 @@ open class ShimmerView: UIView, TokenizedControlInternal {
 
     // MARK: - TokenizedControl
     public typealias TokenSetKeyType = ShimmerTokenSet.Tokens
-    public lazy var tokenSet: ShimmerTokenSet = .init(style: { self.style })
+    public lazy var tokenSet: ShimmerTokenSet = .init(style: { [weak self] in
+        return self?.style ?? .concealing
+    })
 
     var tokenSetSink: AnyCancellable?
 
