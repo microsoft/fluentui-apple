@@ -16,6 +16,7 @@
 		2A9745DE281733D700E1A1FD /* TableViewCellTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9745DD281733D700E1A1FD /* TableViewCellTokenSet.swift */; };
 		43488C46270FAD1300124C71 /* FluentNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43488C44270FAD0200124C71 /* FluentNotification.swift */; };
 		4B14B18F28F8DBE40099D52A /* TooltipTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B14B18E28F8DBE40099D52A /* TooltipTokenSet.swift */; };
+		4B4A271A292CD47100FA1D6D /* TooltipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B4A2719292CD47100FA1D6D /* TooltipView.swift */; };
 		4B53505F27F63E3F0033B47F /* NotificationModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B53505E27F63E3F0033B47F /* NotificationModifiers.swift */; };
 		4BBD651F2755FD9500A8B09E /* MSFNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBD651E2755FD9500A8B09E /* MSFNotification.swift */; };
 		4BF01D9A27B37CF8005B32F2 /* NotificationTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BF01D9927B37CF8005B32F2 /* NotificationTokenSet.swift */; };
@@ -103,7 +104,6 @@
 		5314E14525F016860099271A /* CardPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA1AF9221487225001AE720 /* CardPresentationController.swift */; };
 		5314E14E25F016CD0099271A /* ResizingHandleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5237ACA21DED7030040BF27 /* ResizingHandleView.swift */; };
 		5314E16925F017940099271A /* SegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECEBA8FB25EDF3380048EE24 /* SegmentedControl.swift */; };
-		5314E17225F0191C0099271A /* Separator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DCA76321224026005F4CB7 /* Separator.swift */; };
 		5314E19525F019650099271A /* TabBarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1168630222E131CF0088B302 /* TabBarItemView.swift */; };
 		5314E19625F019650099271A /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1168630322E131CF0088B302 /* TabBarView.swift */; };
 		5314E19725F019650099271A /* TabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118D9847230BBA2300BC0B72 /* TabBarItem.swift */; };
@@ -117,7 +117,7 @@
 		5314E1A725F01A7C0099271A /* ActionsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E782C02176AD5E00A7DFCE /* ActionsCell.swift */; };
 		5314E1B025F01A980099271A /* Tooltip.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7DF05B21FA7F5000857267 /* Tooltip.swift */; };
 		5314E1B125F01A980099271A /* TooltipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7DF05D21FA7FC100857267 /* TooltipViewController.swift */; };
-		5314E1B225F01A980099271A /* TooltipPositionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7DF05F21FA83C900857267 /* TooltipPositionController.swift */; };
+		5314E1B225F01A980099271A /* TooltipPositioner.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7DF05F21FA83C900857267 /* TooltipPositioner.swift */; };
 		5314E1BB25F01B070099271A /* TouchForwardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B483323621DEB5A00022B4CC /* TouchForwardingView.swift */; };
 		5314E1C425F01B4E0099271A /* TwoLineTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD5BBE40214C6AF3008964B4 /* TwoLineTitleView.swift */; };
 		5314E1CD25F01B730099271A /* AnimationSynchronizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0938E43235E8ED500256251 /* AnimationSynchronizer.swift */; };
@@ -217,10 +217,10 @@
 		D6F4098F274F1A1C001B80D4 /* PillButtonBarTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F4098E274F1A1C001B80D4 /* PillButtonBarTokenSet.swift */; };
 		EC02A5F327472EF400E81B3E /* DividerTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC02A5F227472EF400E81B3E /* DividerTokenSet.swift */; };
 		EC02A5F5274DD19600E81B3E /* MSFDivider.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC02A5F4274DD19500E81B3E /* MSFDivider.swift */; };
+		EC1C31732923022E00CF052C /* SegmentedControlTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1C31722923022E00CF052C /* SegmentedControlTokenSet.swift */; };
 		EC24DBC828BD95980026EF92 /* PopupMenuTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC24DBC728BD95980026EF92 /* PopupMenuTokenSet.swift */; };
 		EC24DBCA28BD99860026EF92 /* PopupMenuItemTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC24DBC928BD99860026EF92 /* PopupMenuItemTokenSet.swift */; };
 		EC27B8662807A63C00A40B9A /* ResizingHandleTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC27B8652807A63C00A40B9A /* ResizingHandleTokenSet.swift */; };
-		EC1C31732923022E00CF052C /* SegmentedControlTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1C31722923022E00CF052C /* SegmentedControlTokenSet.swift */; };
 		EC5982D827BF348700FD048D /* MSFAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5982D727BF348700FD048D /* MSFAvatar.swift */; };
 		EC5982DA27C703EE00FD048D /* CircleCutout.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5982D927C703ED00FD048D /* CircleCutout.swift */; };
 		EC5982DC27CEC02100FD048D /* DrawerTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5982DB27CEC02100FD048D /* DrawerTokenSet.swift */; };
@@ -273,7 +273,7 @@
 		497DC2D824185885008D86F8 /* PillButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButton.swift; sourceTree = "<group>"; };
 		4B0E060A28A248F40045E9BB /* ShimmerLinesShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerLinesShape.swift; sourceTree = "<group>"; };
 		4B14B18E28F8DBE40099D52A /* TooltipTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TooltipTokenSet.swift; sourceTree = "<group>"; };
-		4B1596D2284ACB5F00C3D725 /* ShimmerTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerTokenSet.swift; sourceTree = "<group>"; };
+		4B4A2719292CD47100FA1D6D /* TooltipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TooltipView.swift; sourceTree = "<group>"; };
 		4B53505E27F63E3F0033B47F /* NotificationModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationModifiers.swift; sourceTree = "<group>"; };
 		4B8A76732862F49E00F90F3A /* ShimmerModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerModifiers.swift; sourceTree = "<group>"; };
 		4B8A7675286ADCD300F90F3A /* ShimmerLinesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerLinesView.swift; sourceTree = "<group>"; };
@@ -428,10 +428,10 @@
 		D6F4098E274F1A1C001B80D4 /* PillButtonBarTokenSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButtonBarTokenSet.swift; sourceTree = "<group>"; };
 		EC02A5F227472EF400E81B3E /* DividerTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DividerTokenSet.swift; sourceTree = "<group>"; };
 		EC02A5F4274DD19500E81B3E /* MSFDivider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFDivider.swift; sourceTree = "<group>"; };
+		EC1C31722923022E00CF052C /* SegmentedControlTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControlTokenSet.swift; sourceTree = "<group>"; };
 		EC24DBC728BD95980026EF92 /* PopupMenuTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMenuTokenSet.swift; sourceTree = "<group>"; };
 		EC24DBC928BD99860026EF92 /* PopupMenuItemTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMenuItemTokenSet.swift; sourceTree = "<group>"; };
 		EC27B8652807A63C00A40B9A /* ResizingHandleTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResizingHandleTokenSet.swift; sourceTree = "<group>"; };
-		EC1C31722923022E00CF052C /* SegmentedControlTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControlTokenSet.swift; sourceTree = "<group>"; };
 		EC5982D727BF348700FD048D /* MSFAvatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFAvatar.swift; sourceTree = "<group>"; };
 		EC5982D927C703ED00FD048D /* CircleCutout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleCutout.swift; sourceTree = "<group>"; };
 		EC5982DB27CEC02100FD048D /* DrawerTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerTokenSet.swift; sourceTree = "<group>"; };
@@ -480,7 +480,7 @@
 		FD77752F21A490BA00033D58 /* DateTimePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTimePicker.swift; sourceTree = "<group>"; };
 		FD7DF05B21FA7F5000857267 /* Tooltip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tooltip.swift; sourceTree = "<group>"; };
 		FD7DF05D21FA7FC100857267 /* TooltipViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TooltipViewController.swift; sourceTree = "<group>"; };
-		FD7DF05F21FA83C900857267 /* TooltipPositionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TooltipPositionController.swift; sourceTree = "<group>"; };
+		FD7DF05F21FA83C900857267 /* TooltipPositioner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TooltipPositioner.swift; sourceTree = "<group>"; };
 		FD8D26422253FF330078E1D3 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Localizable.strings; sourceTree = "<group>"; };
 		FD8D26432253FF330078E1D3 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = ar; path = ar.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		FD8D26442253FF3E0078E1D3 /* ca */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -629,6 +629,14 @@
 			path = Shimmer;
 			sourceTree = "<group>";
 		};
+		4B4A2718292CD3FD00FA1D6D /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				FD7DF05F21FA83C900857267 /* TooltipPositioner.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		4BA9B8B5279F2940007536F5 /* Notification */ = {
 			isa = PBXGroup;
 			children = (
@@ -760,14 +768,6 @@
 				5336B17427F77EB700B01E0D /* HUD.resources.xcfilelist */,
 			);
 			path = HUD;
-			sourceTree = "<group>";
-		};
-		5340828B26CFF298007716E1 /* Recovered References */ = {
-			isa = PBXGroup;
-			children = (
-				4B1596D2284ACB5F00C3D725 /* ShimmerTokenSet.swift */,
-			);
-			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 		536AEF2125F1EC0300A36206 /* Vnext */ = {
@@ -1313,9 +1313,10 @@
 			isa = PBXGroup;
 			children = (
 				FD7DF05B21FA7F5000857267 /* Tooltip.swift */,
-				FD7DF05F21FA83C900857267 /* TooltipPositionController.swift */,
 				4B14B18E28F8DBE40099D52A /* TooltipTokenSet.swift */,
+				4B4A2719292CD47100FA1D6D /* TooltipView.swift */,
 				FD7DF05D21FA7FC100857267 /* TooltipViewController.swift */,
+				4B4A2718292CD3FD00FA1D6D /* Helpers */,
 			);
 			path = Tooltip;
 			sourceTree = "<group>";
@@ -1703,6 +1704,7 @@
 				4BF01DA027B3A862005B32F2 /* UIApplication+Extensions.swift in Sources */,
 				5373D5732694D66F0032A3B4 /* UIKit+SwiftUI_interoperability.swift in Sources */,
 				5314E09E25F00FE20099271A /* DotView.swift in Sources */,
+				4B4A271A292CD47100FA1D6D /* TooltipView.swift in Sources */,
 				5314E1A525F01A7C0099271A /* TableViewCell.swift in Sources */,
 				4BBD651F2755FD9500A8B09E /* MSFNotification.swift in Sources */,
 				53097D0D270288FB00A6E4DC /* ButtonTokenSet.swift in Sources */,
@@ -1712,7 +1714,7 @@
 				5314E11825F015EA0099271A /* PeoplePicker.swift in Sources */,
 				5303259B26B31B6B00611D05 /* AvatarModifiers.swift in Sources */,
 				5314E2B225F024B60099271A /* Calendar+Extensions.swift in Sources */,
-				5314E1B225F01A980099271A /* TooltipPositionController.swift in Sources */,
+				5314E1B225F01A980099271A /* TooltipPositioner.swift in Sources */,
 				5314E08A25F00F2D0099271A /* CommandBar.swift in Sources */,
 				80AECC22263339E5005AF2F3 /* BottomSheetPassthroughView.swift in Sources */,
 				925728F9276D6B5800EE1019 /* FontInfo.swift in Sources */,

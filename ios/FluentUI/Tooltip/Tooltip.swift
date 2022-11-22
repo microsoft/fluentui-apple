@@ -36,20 +36,20 @@ open class Tooltip: NSObject, TokenizedControlInternal {
             preconditionFailure("Can't find anchorView's window")
         }
 
-        let positionController = TooltipPositionController(anchorView: anchorView,
-                                                           message: message,
-                                                           title: title,
-                                                           preferredArrowDirection: preferredArrowDirection,
-                                                           offset: offset,
-                                                           arrowMargin: tokenSet[.backgroundCornerRadius].float,
-                                                           tokenSet: tokenSet
+        let positioner = TooltipPositioner(anchorView: anchorView,
+                                           message: message,
+                                           title: title,
+                                           preferredArrowDirection: preferredArrowDirection,
+                                           offset: offset,
+                                           arrowMargin: tokenSet[.backgroundCornerRadius].float,
+                                           tokenSet: tokenSet
         )
         self.tooltipViewController = TooltipViewController(message: message,
                                                            title: title,
                                                            textAlignment: textAlignment,
-                                                           positionController: positionController,
+                                                           positioner: positioner,
                                                            tokenSet: tokenSet)
-
+        self.anchorView = anchorView
         guard let tooltipViewController = tooltipViewController,
               let tooltipView = tooltipViewController.view else {
             return
@@ -58,7 +58,6 @@ open class Tooltip: NSObject, TokenizedControlInternal {
         let rootViewController = window.rootViewController
         let rootView = rootViewController?.view
         rootViewController?.addChild(tooltipViewController)
-        tooltipView.accessibilityViewIsModal = true
         self.onTap = onTap
         self.dismissMode = UIAccessibility.isVoiceOverRunning ? .tapOnTooltip : dismissMode
         let gestureView = TouchForwardingView(frame: window.bounds)
@@ -84,9 +83,6 @@ open class Tooltip: NSObject, TokenizedControlInternal {
         }
 
         tooltipViewController.didMove(toParent: rootViewController)
-
-        // Layout tooltip
-        tooltipView.frame = positionController.tooltipRect
 
         // Animate tooltip
         tooltipView.alpha = 0.0
@@ -168,7 +164,7 @@ open class Tooltip: NSObject, TokenizedControlInternal {
             tooltipView.alpha = 0.0
         }, completion: { _ in
             tooltipView.removeFromSuperview()
-            UIAccessibility.post(notification: .screenChanged, argument: self.tooltipViewController?.positionController.anchorView)
+            UIAccessibility.post(notification: .screenChanged, argument: self.anchorView)
         })
 
         self.tooltipViewController?.removeFromParent()
@@ -266,7 +262,7 @@ open class Tooltip: NSObject, TokenizedControlInternal {
     }
 
     private func updateAppearance() {
-        tooltipViewController?.updateAppearance(tokenSet: tokenSet)
+        tooltipViewController?.tooltipView.updateAppearance(tokenSet: tokenSet)
     }
 
     private struct Constants {
@@ -274,8 +270,8 @@ open class Tooltip: NSObject, TokenizedControlInternal {
         static let defaultMargin: CGFloat = 16.0
     }
 
-    private var hostViewController: UIViewController?
     private var tooltipViewController: TooltipViewController?
+    private var anchorView: UIView?
     private var onTap: (() -> Void)?
     private var gestureView: UIView?
     private var dismissMode: DismissMode = .tapAnywhere

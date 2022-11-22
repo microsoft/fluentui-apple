@@ -5,9 +5,9 @@
 
 import UIKit
 
-// MARK: TooltipPositionController
+// MARK: TooltipPositioner
 
-class TooltipPositionController {
+class TooltipPositioner {
 
     init(anchorView: UIView,
          message: String,
@@ -32,13 +32,13 @@ class TooltipPositionController {
         let preferredBoundingRect = boundingRect.inset(by: anchorViewInset(for: preferredArrowDirection))
         let backupBoundingRect = boundingRect.inset(by: anchorViewInset(for: preferredArrowDirection.opposite))
         let isAccessibilityContentSize = window.traitCollection.preferredContentSizeCategory.isAccessibilityCategory
-        let preferredSize = TooltipViewController.sizeThatFits(preferredBoundingRect.size,
+        let preferredSize = TooltipView.sizeThatFits(preferredBoundingRect.size,
                                                      message: message,
                                                      title: title,
                                                      isAccessibilityContentSize: isAccessibilityContentSize,
                                                      arrowDirection: preferredArrowDirection,
                                                      tokenSet: tokenSet)
-        let backupSize = TooltipViewController.sizeThatFits(backupBoundingRect.size,
+        let backupSize = TooltipView.sizeThatFits(backupBoundingRect.size,
                                                   message: message,
                                                   title: title,
                                                   isAccessibilityContentSize: isAccessibilityContentSize,
