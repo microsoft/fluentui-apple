@@ -11,6 +11,26 @@ import UIKit
 @objc(MSFShimmerLinesView)
 open class ShimmerLinesView: ShimmerView {
 
+    /// Number of lines that will shimmer in this view. Use 0 if the number of lines should fill the available space.
+    @objc open var lineCount: Int = 3 {
+        didSet {
+            setNeedsLayout()
+        }
+    }
+    /// The percent the first line (if 2+ lines) should fill the available horizontal space
+    @objc open var firstLineFillPercent: CGFloat = 0.94 {
+        didSet {
+            setNeedsLayout()
+        }
+    }
+
+    /// The percent the last line should fill the available horizontal space.
+    @objc open var lastLineFillPercent: CGFloat = 0.6 {
+        didSet {
+            setNeedsLayout()
+        }
+    }
+
     open override func layoutSubviews() {
         super.layoutSubviews()
 
@@ -18,16 +38,8 @@ open class ShimmerLinesView: ShimmerView {
         for (index, linelayer) in viewCoverLayers.enumerated() {
             let fillPercent: CGFloat = {
                 if index == 0 && viewCoverLayers.count > 2 {
-                    guard let firstLineFillPercent = firstLineFillPercent else {
-                        return 1
-                    }
-
                     return firstLineFillPercent
                 } else if index == viewCoverLayers.count - 1 {
-                    guard let lastLineFillPercent = lastLineFillPercent else {
-                        return 1
-                    }
-
                     return lastLineFillPercent
                 } else {
                     return 1
@@ -55,34 +67,6 @@ open class ShimmerLinesView: ShimmerView {
 
     open override var intrinsicContentSize: CGSize {
         return CGSize(width: UIView.noIntrinsicMetric, height: sizeThatFits(CGSize(width: frame.width, height: .infinity)).height)
-    }
-
-    /// Creates the ShimmerLinesView.
-    /// - Parameters:
-    ///   - lineCount: Number of lines that will shimmer in this view. Use 0 if the number of lines should fill the available space.
-    @objc public init(lineCount: Int) {
-        self.lineCount = lineCount
-
-        super.init()
-    }
-
-    /// Creates the ShimmerLinesView.
-    /// - Parameters:
-    ///   - lineCount: Number of lines that will shimmer in this view. Use 0 if the number of lines should fill the available space.
-    ///   - firstLineFillPercent: The percent the first line (if 2+ lines) should fill the available horizontal space.
-    ///   - lastLineFillPercent: The percent the last line should fill the available horizontal space.
-    @objc public convenience init(lineCount: Int = 3,
-                                  firstLineFillPercent: CGFloat = 0.94,
-                                  lastLineFillPercent: CGFloat = 0.6) {
-        self.init(lineCount: lineCount)
-
-        self.firstLineFillPercent = firstLineFillPercent
-        self.lastLineFillPercent = lastLineFillPercent
-    }
-
-    @available(*, unavailable)
-    required public init?(coder: NSCoder) {
-        preconditionFailure("init(coder:) has not been implemented")
     }
 
     override func updateViewCoverLayers() {
@@ -114,8 +98,4 @@ open class ShimmerLinesView: ShimmerView {
             return lineCount
         }
     }
-
-    private var lineCount: Int
-    private var firstLineFillPercent: CGFloat?
-    private var lastLineFillPercent: CGFloat?
 }

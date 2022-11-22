@@ -23,6 +23,10 @@ class TabBarItemView: UIControl {
             updateImage()
             updateColors()
             if isSelected {
+                if item.isUnreadDotVisible {
+                    item.isUnreadDotVisible = false
+                    updateBadgeView()
+                }
                 accessibilityTraits.insert(.selected)
             } else {
                 accessibilityTraits.remove(.selected)
@@ -102,7 +106,11 @@ class TabBarItemView: UIControl {
             container.centerXAnchor.constraint(equalTo: centerXAnchor),
             container.centerYAnchor.constraint(equalTo: centerYAnchor),
             container.widthAnchor.constraint(lessThanOrEqualTo: widthAnchor)
+<<<<<<< HEAD
         ])
+=======
+    ])
+>>>>>>> main
 
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(badgeValueDidChange),
@@ -110,9 +118,15 @@ class TabBarItemView: UIControl {
                                                object: item)
 
         NotificationCenter.default.addObserver(self,
+<<<<<<< HEAD
                                                selector: #selector(themeDidChange),
                                                name: .didChangeTheme,
                                                object: nil)
+=======
+                                               selector: #selector(isUnreadValueDidChange),
+                                               name: TabBarItem.isUnreadValueDidChangeNotification,
+                                               object: item)
+>>>>>>> main
 
         badgeValue = item.badgeValue
         updateLayout()
@@ -174,6 +188,10 @@ class TabBarItemView: UIControl {
         static let badgeBorderWidth: CGFloat = 2
         static let badgeHorizontalPadding: CGFloat = 10
         static let badgeCorderRadii: CGFloat = 10
+        static let unreadDotPortraitOffsetX: CGFloat = 6.0
+        static let unreadDotOffsetX: CGFloat = 4.0
+        static let unreadDotOffsetY: CGFloat = 20.0
+        static let unreadDotSize: CGFloat = 8.0
     }
 
     private lazy var unselectedColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground3])
@@ -186,6 +204,15 @@ class TabBarItemView: UIControl {
             }
         }
     }
+
+    @objc private func isUnreadValueDidChange() {
+        isUnreadDotVisible = item.isUnreadDotVisible
+        updateBadgeView()
+        updateAccessibilityLabel()
+        setNeedsLayout()
+    }
+
+    private var isUnreadDotVisible: Bool = false
 
     private let container: UIStackView = {
         let container = UIStackView(frame: .zero)
@@ -290,57 +317,89 @@ class TabBarItemView: UIControl {
     }
 
     private func updateBadgeView() {
-        badgeView.text = badgeValue
-        badgeView.isHidden = badgeValue == nil
+        isUnreadDotVisible = item.isUnreadDotVisible && badgeValue == nil
 
-        if badgeValue != nil {
-            let maskLayer = CAShapeLayer()
-            maskLayer.fillRule = .evenOdd
+        // If nothing to display, remove mask and return
+        if badgeValue == nil && !isUnreadDotVisible {
+            badgeView.isHidden = true
+            imageView.layer.mask = nil
+            return
+        }
 
-            let path = UIBezierPath(rect: CGRect(x: 0, y: 0, width: imageView.frame.size.width, height: imageView.frame.size.height))
+        // Otherwise, show either the badgeValue or an unreadDot
+        badgeView.isHidden = false
+        let maskLayer = CAShapeLayer()
+        maskLayer.fillRule = .evenOdd
+
+        let path = UIBezierPath(rect: CGRect(x: 0, y: 0, width: imageView.frame.size.width, height: imageView.frame.size.height))
+
+        if isUnreadDotVisible {
+            // Badge with empty string and round corners is a dot
+            badgeView.text = ""
+            let badgeVerticalOffset = !titleLabel.isHidden && isInPortraitMode ? Constants.unreadDotPortraitOffsetX : Constants.unreadDotOffsetX
+
+            createCircularBadgeFrame(labelView: badgeView,
+                                     path: path,
+                                     horizontalOffset: Constants.unreadDotOffsetY,
+                                     verticalOffset: badgeVerticalOffset,
+                                     frameWidth: Constants.unreadDotSize,
+                                     frameHeight: Constants.unreadDotSize)
+        } else {
+            badgeView.text = badgeValue
             let badgeVerticalOffset = !titleLabel.isHidden && isInPortraitMode ? Constants.badgePortraitTitleVerticalOffset : Constants.badgeVerticalOffset
 
             if badgeView.text?.count ?? 1 > 1 {
-                let badgeWidth = min(max(badgeView.intrinsicContentSize.width + Constants.badgeHorizontalPadding, Constants.badgeMinWidth), maxBadgeWidth)
-
-                badgeView.frame = CGRect(x: badgeFrameOriginX(offset: Constants.multiDigitBadgeHorizontalOffset, frameWidth: badgeWidth),
-                                         y: imageView.frame.origin.y + badgeVerticalOffset,
-                                         width: badgeWidth,
-                                         height: Constants.badgeHeight)
-
-                let layer = CAShapeLayer()
-                layer.path = UIBezierPath(roundedRect: badgeView.bounds,
-                                          byRoundingCorners: .allCorners,
-                                          cornerRadii: CGSize(width: Constants.badgeCorderRadii, height: Constants.badgeCorderRadii)).cgPath
-
-                path.append(UIBezierPath(roundedRect: badgeBorderRect(badgeViewFrame: badgeView.frame),
-                                         byRoundingCorners: .allCorners,
-                                         cornerRadii: CGSize(width: Constants.badgeCorderRadii, height: Constants.badgeCorderRadii)))
-
-                badgeView.layer.mask = layer
-                badgeView.layer.cornerRadius = 0
+                createRoundedRectBadgeFrame(labelView: badgeView, path: path, verticalOffset: badgeVerticalOffset)
             } else {
-                let badgeWidth = max(badgeView.intrinsicContentSize.width, Constants.badgeMinWidth)
-
-                badgeView.frame = CGRect(x: badgeFrameOriginX(offset: Constants.singleDigitBadgeHorizontalOffset, frameWidth: badgeWidth),
-                                         y: imageView.frame.origin.y + badgeVerticalOffset,
-                                         width: badgeWidth,
-                                         height: Constants.badgeHeight)
-
-                path.append(UIBezierPath(ovalIn: badgeBorderRect(badgeViewFrame: badgeView.frame)))
-
-                badgeView.layer.mask = nil
-                badgeView.layer.cornerRadius = badgeWidth / 2
+                createCircularBadgeFrame(labelView: badgeView,
+                                         path: path,
+                                         horizontalOffset: Constants.singleDigitBadgeHorizontalOffset,
+                                         verticalOffset: badgeVerticalOffset,
+                                         frameWidth: Constants.badgeMinWidth,
+                                         frameHeight: Constants.badgeHeight)
             }
-
-            maskLayer.path = path.cgPath
-            imageView.layer.mask = maskLayer
-        } else {
-            imageView.layer.mask = nil
         }
+
+        maskLayer.path = path.cgPath
+        imageView.layer.mask = maskLayer
     }
 
-    private func badgeFrameOriginX(offset: CGFloat, frameWidth: CGFloat) -> CGFloat {
+    private func createRoundedRectBadgeFrame(labelView: UILabel, path: UIBezierPath, verticalOffset: CGFloat) {
+        let width = min(max(labelView.intrinsicContentSize.width + Constants.badgeHorizontalPadding, Constants.badgeMinWidth), maxBadgeWidth)
+
+        labelView.frame = CGRect(x: frameOriginX(offset: Constants.multiDigitBadgeHorizontalOffset, frameWidth: width),
+                                 y: imageView.frame.origin.y + verticalOffset,
+                                 width: width,
+                                 height: Constants.badgeHeight)
+
+        let layer = CAShapeLayer()
+        layer.path = UIBezierPath(roundedRect: labelView.bounds,
+                                  byRoundingCorners: .allCorners,
+                                  cornerRadii: CGSize(width: Constants.badgeCorderRadii, height: Constants.badgeCorderRadii)).cgPath
+
+        path.append(UIBezierPath(roundedRect: badgeBorderRect(badgeViewFrame: labelView.frame),
+                                 byRoundingCorners: .allCorners,
+                                 cornerRadii: CGSize(width: Constants.badgeCorderRadii, height: Constants.badgeCorderRadii)))
+
+        labelView.layer.mask = layer
+        labelView.layer.cornerRadius = 0
+    }
+
+    private func createCircularBadgeFrame(labelView: UILabel, path: UIBezierPath, horizontalOffset: CGFloat, verticalOffset: CGFloat, frameWidth: CGFloat, frameHeight: CGFloat) {
+        let width = max(labelView.intrinsicContentSize.width, frameWidth)
+
+        labelView.frame = CGRect(x: frameOriginX(offset: horizontalOffset, frameWidth: width),
+                                 y: imageView.frame.origin.y + verticalOffset,
+                                 width: width,
+                                 height: frameHeight)
+
+        path.append(UIBezierPath(ovalIn: badgeBorderRect(badgeViewFrame: labelView.frame)))
+
+        labelView.layer.mask = nil
+        labelView.layer.cornerRadius = width / 2
+    }
+
+    private func frameOriginX(offset: CGFloat, frameWidth: CGFloat) -> CGFloat {
         var xOrigin: CGFloat = 0
         if effectiveUserInterfaceLayoutDirection == .leftToRight {
             xOrigin = imageView.frame.origin.x + offset
@@ -362,6 +421,12 @@ class TabBarItemView: UIControl {
         badgeValue = item.badgeValue
     }
 
+    // The priority logic for accessibility label is:
+    //      If the badge is visible:
+    //          1. Use the badge format string supplied by the caller if available
+    //          2. If not, use the default localized badge label format
+    //      If the unread dot is visible, use the localized "unread" label
+    //      If neither, then use the item's title, as supplied by the caller
     private func updateAccessibilityLabel() {
         if let badgeValue = badgeValue {
             if let accessibilityLabelBadgeFormatString = item.accessibilityLabelBadgeFormatString {
@@ -370,7 +435,11 @@ class TabBarItemView: UIControl {
                 accessibilityLabel = String(format: "Accessibility.TabBarItemView.LabelFormat".localized, item.title, badgeValue)
             }
         } else {
-            accessibilityLabel = item.title
+            if isUnreadDotVisible {
+                accessibilityLabel = String(format: "Accessibility.TabBarItemView.UnreadFormat".localized, item.title)
+            } else {
+                accessibilityLabel = item.title
+            }
         }
     }
 }
