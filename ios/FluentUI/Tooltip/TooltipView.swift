@@ -42,7 +42,7 @@ class TooltipView: UIView {
         // Shadow
         self.layer.insertSublayer(CALayer(), at: 0)
         self.layer.insertSublayer(CALayer(), at: 0)
-        updateShadows(tokenSet: tokenSet)
+        updateShadows()
 
         self.isAccessibilityElement = true
     }
@@ -102,7 +102,31 @@ class TooltipView: UIView {
         // Update tokenSet
         self.tokenSet = tokenSet
 
-        // Update tooltip origin and size
+        updateFonts()
+        updateTooltipSizeAndOrigin()
+        updateColors()
+    }
+
+    // MARK: - Accessibility
+
+    override var accessibilityLabel: String? {
+        get {
+            guard let title = titleMessage
+            else {
+                return message
+            }
+
+            return title + message
+        }
+        set { }
+    }
+
+    override var accessibilityHint: String? {
+        get { return "Accessibility.Dismiss.Hint".localized }
+        set { }
+    }
+
+    func updateTooltipSizeAndOrigin() {
         TooltipViewController.updateArrowDirectionAndTooltipRect(for: message, title: titleMessage, tokenSet: tokenSet)
         self.frame.size = TooltipViewController.tooltipRect.size
         backgroundView.frame = self.bounds
@@ -128,19 +152,18 @@ class TooltipView: UIView {
             arrowImageView.frame.origin.x = self.bounds.width - arrowImageView.frame.width
         }
 
-        // Update colors
-        let textColor = UIColor(dynamicColor: tokenSet[.textColor].dynamicColor)
-        backgroundView.backgroundColor = UIColor(dynamicColor: tokenSet[.tooltipColor].dynamicColor)
-        messageLabel.textColor = textColor
-        titleLabel?.textColor = textColor
+        updateTextContainerSize()
+        updateShadows()
+    }
 
-        // Update fonts
+    func updateFonts() {
         messageLabel.font = UIFont.fluent(tokenSet[.messageLabelTextStyle].fontInfo)
         if let titleLabel = titleLabel {
             titleLabel.font = UIFont.fluent(tokenSet[.titleLabelTextStyle].fontInfo)
         }
+    }
 
-        // Update text container size
+    private func updateTextContainerSize() {
         backgroundView.layer.cornerRadius = tokenSet[.backgroundCornerRadius].float
         textContainer.frame = backgroundView.frame.insetBy(dx: TooltipTokenSet.paddingHorizontal, dy: (titleMessage != nil) ? TooltipTokenSet.paddingVerticalWithTitle : TooltipTokenSet.paddingVerticalWithoutTitle)
         let isAccessibilityContentSize = self.traitCollection.preferredContentSizeCategory.isAccessibilityCategory
@@ -159,31 +182,16 @@ class TooltipView: UIView {
             titleLabel.frame.size = preferredTitleSize
             messageLabel.frame.origin = CGPoint(x: 0, y: titleLabel.frame.height + TooltipTokenSet.spacingVertical)
         }
-
-        // Update shadows
-        updateShadows(tokenSet: tokenSet)
     }
 
-    // MARK: - Accessibility
-
-    override var accessibilityLabel: String? {
-        get {
-            guard let title = titleMessage
-            else {
-                return message
-            }
-
-            return title + message
-        }
-        set { }
+    private func updateColors() {
+        let textColor = UIColor(dynamicColor: tokenSet[.textColor].dynamicColor)
+        backgroundView.backgroundColor = UIColor(dynamicColor: tokenSet[.tooltipColor].dynamicColor)
+        messageLabel.textColor = textColor
+        titleLabel?.textColor = textColor
     }
 
-    override var accessibilityHint: String? {
-        get { return "Accessibility.Dismiss.Hint".localized }
-        set { }
-    }
-
-    private func updateShadows(tokenSet: TooltipTokenSet) {
+    private func updateShadows() {
         let backgroundCornerRadius = tokenSet[.backgroundCornerRadius].float
         let shadowInfo = tokenSet[.shadowInfo].shadowInfo
         if let ambientShadow = self.layer.sublayers?[1] {

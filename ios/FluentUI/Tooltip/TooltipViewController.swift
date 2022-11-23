@@ -90,7 +90,7 @@ class TooltipViewController: UIViewController {
         super.viewWillTransition(to: size, with: coordinator)
 
         coordinator.animate(alongsideTransition: nil) { _ in
-            self.updateAppearance(tokenSet: TooltipViewController.tokenSet)
+            self.updateTooltipSizeAndOrigin()
         }
     }
 
@@ -98,12 +98,18 @@ class TooltipViewController: UIViewController {
         super.traitCollectionDidChange(previousTraitCollection)
 
         if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
-            updateAppearance(tokenSet: TooltipViewController.tokenSet)
+            tooltipView.updateFonts()
+            updateTooltipSizeAndOrigin()
         }
     }
 
     func updateAppearance(tokenSet: TooltipTokenSet) {
         self.tooltipView.updateAppearance(tokenSet: tokenSet)
+        self.view.frame = TooltipViewController.tooltipRect
+    }
+
+    func updateTooltipSizeAndOrigin() {
+        self.tooltipView.updateTooltipSizeAndOrigin()
         self.view.frame = TooltipViewController.tooltipRect
     }
 
