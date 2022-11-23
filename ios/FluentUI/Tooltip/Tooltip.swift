@@ -262,7 +262,7 @@ open class Tooltip: NSObject, TokenizedControlInternal {
     }
 
     private func updateAppearance() {
-        tooltipViewController?.tooltipView.updateAppearance(tokenSet: tokenSet)
+        tooltipViewController?.updateAppearance(tokenSet: tokenSet)
     }
 
     private struct Constants {

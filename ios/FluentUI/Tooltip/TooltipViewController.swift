@@ -25,7 +25,7 @@ class TooltipViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
 
         self.view.addSubview(tooltipView)
-        updateTooltipSize()
+        updateAppearance(tokenSet: self.tokenSet)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -36,7 +36,7 @@ class TooltipViewController: UIViewController {
         super.viewWillTransition(to: size, with: coordinator)
 
         coordinator.animate(alongsideTransition: nil) { _ in
-            self.updateTooltipSize()
+            self.updateAppearance(tokenSet: self.tokenSet)
         }
     }
 
@@ -44,16 +44,15 @@ class TooltipViewController: UIViewController {
         super.traitCollectionDidChange(previousTraitCollection)
 
         if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
-            updateTooltipSize()
+            updateAppearance(tokenSet: self.tokenSet)
         }
     }
 
-    let tooltipView: TooltipView
-
-    private func updateTooltipSize() {
-        self.tooltipView.updateAppearance(tokenSet: self.tokenSet)
+    func updateAppearance(tokenSet: TooltipTokenSet) {
+        self.tooltipView.updateAppearance(tokenSet: tokenSet)
         self.view.frame = self.tooltipView.positioner.tooltipRect
     }
 
+    let tooltipView: TooltipView
     private let tokenSet: TooltipTokenSet
 }
