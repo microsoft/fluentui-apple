@@ -491,6 +491,8 @@ public class BottomSheetController: UIViewController {
             updateDimmingViewAccessibility()
         }
         collapsedHeightInSafeArea = view.safeAreaLayoutGuide.layoutFrame.maxY - offset(for: .collapsed)
+
+        super.viewDidLayoutSubviews()
     }
 
     public override func viewSafeAreaInsetsDidChange() {
