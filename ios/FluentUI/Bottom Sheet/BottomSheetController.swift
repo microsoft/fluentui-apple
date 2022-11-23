@@ -469,6 +469,18 @@ public class BottomSheetController: UIViewController {
     }
 
     public override func viewDidLayoutSubviews() {
+        let newHeight = view.bounds.height
+        if currentRootViewHeight != newHeight && currentExpansionState == .transitioning {
+            // The view height has changed and we can't guarantee the animation target frame is valid anymore.
+            // Let's complete animations and cancel ongoing gestures to guarantee we end up in a good state.
+            completeAnimationsIfNeeded(skipToEnd: true)
+
+            if panGestureRecognizer.state != .possible {
+                panGestureRecognizer.state = .cancelled
+            }
+        }
+        currentRootViewHeight = newHeight
+
         // In the transitioning state a pan gesture or an animator temporarily owns the sheet frame updates,
         // so to avoid interfering we won't update the frame here.
         if currentExpansionState != .transitioning {
@@ -479,25 +491,13 @@ public class BottomSheetController: UIViewController {
             updateDimmingViewAccessibility()
         }
         collapsedHeightInSafeArea = view.safeAreaLayoutGuide.layoutFrame.maxY - offset(for: .collapsed)
+
+        super.viewDidLayoutSubviews()
     }
 
     public override func viewSafeAreaInsetsDidChange() {
         super.viewSafeAreaInsetsDidChange()
         completeAnimationsIfNeeded(skipToEnd: true)
-    }
-
-    public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
-
-        if size.height != view.frame.height && currentExpansionState == .transitioning {
-            // The view is resizing and we can't guarantee the animation target frame is valid anymore.
-            // Completing the animation ensures the sheet will be correctly positioned on the next layout pass
-            completeAnimationsIfNeeded(skipToEnd: true)
-
-            if panGestureRecognizer.state != .possible {
-                panGestureRecognizer.state = .cancelled
-            }
-        }
     }
 
     public override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -971,6 +971,10 @@ public class BottomSheetController: UIViewController {
     private var currentSheetVerticalOffset: CGFloat {
         bottomSheetView.frame.minY
     }
+
+    // Only used for height change detection.
+    // For all other cases you should probably directly use self.view.bounds.height.
+    private var currentRootViewHeight: CGFloat = 0
 
     private let shouldShowDimmingView: Bool
 
