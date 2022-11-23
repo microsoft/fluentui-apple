@@ -44,7 +44,6 @@ public enum TextColorStyle: Int, CaseIterable {
 open class Label: UILabel {
     @objc open var colorStyle: TextColorStyle = .regular {
         didSet {
-            _textColor = nil
             updateTextColor()
         }
     }
@@ -98,9 +97,6 @@ open class Label: UILabel {
     }
 
     private func initialize() {
-        // textColor is assigned in super.init to a default value and so we need to reset our cache afterwards
-        _textColor = nil
-
         updateFont()
         updateTextColor()
         adjustsFontForContentSizeCategory = true
