@@ -123,7 +123,7 @@
 "Accessibility.TabBarItemView.LabelFormat" = "%@, %@ éléments";
 
 /* Accessibility hint for TabBarItem in TabBarItemView. Indicates whether the item is unread or not. Format: "<Title>, unread". Example: "Files, unread" */
-"Accessibility.TabBarItemView.UnreadFormat" = "%@, unread";
+"Accessibility.TabBarItemView.UnreadFormat" = "%@, non lu(s)";
 
 /* Format string for badge label button accessibility label. Format: "<Item Accessibility>, <Badge Label Accessibility>". Example: "Notifications, 5 new notifications" */
 "Accessibility.BadgeLabelButton.LabelFormat" = "%@, %@";
