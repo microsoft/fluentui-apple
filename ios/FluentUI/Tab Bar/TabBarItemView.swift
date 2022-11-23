@@ -106,11 +106,7 @@ class TabBarItemView: UIControl {
             container.centerXAnchor.constraint(equalTo: centerXAnchor),
             container.centerYAnchor.constraint(equalTo: centerYAnchor),
             container.widthAnchor.constraint(lessThanOrEqualTo: widthAnchor)
-<<<<<<< HEAD
         ])
-=======
-    ])
->>>>>>> main
 
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(badgeValueDidChange),
@@ -118,15 +114,14 @@ class TabBarItemView: UIControl {
                                                object: item)
 
         NotificationCenter.default.addObserver(self,
-<<<<<<< HEAD
                                                selector: #selector(themeDidChange),
                                                name: .didChangeTheme,
                                                object: nil)
-=======
+
+        NotificationCenter.default.addObserver(self,
                                                selector: #selector(isUnreadValueDidChange),
                                                name: TabBarItem.isUnreadValueDidChangeNotification,
                                                object: item)
->>>>>>> main
 
         badgeValue = item.badgeValue
         updateLayout()

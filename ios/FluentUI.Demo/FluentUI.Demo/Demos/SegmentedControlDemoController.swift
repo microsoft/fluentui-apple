@@ -98,15 +98,7 @@ class SegmentedControlDemoController: DemoController {
                 return
             }
 
-<<<<<<< HEAD
-        let backgroundView = UIView()
-        if style == .primaryPill {
-            backgroundView.backgroundColor = NavigationBar.Style.system.backgroundColor(fluentTheme: view.fluentTheme)
-        } else {
-            backgroundView.backgroundColor = NavigationBar.Style.primary.backgroundColor(fluentTheme: view.fluentTheme)
-=======
             strongSelf.updateLabel(forControl: pillControl)
->>>>>>> main
         }
 
         let backgroundStyle: ColoredPillBackgroundStyle = {

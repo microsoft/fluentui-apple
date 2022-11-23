@@ -3,105 +3,12 @@
 //  Licensed under the MIT License.
 //
 import UIKit
-<<<<<<< HEAD
-=======
 import Combine
->>>>>>> main
 
 // MARK: SegmentedControl
 /// A styled segmented control that should be used instead of UISegmentedControl. It is designed to flex the button width proportionally to the control's width.
 @objc(MSFSegmentedControl)
-<<<<<<< HEAD
-open class SegmentedControl: UIControl {
-    @objc(MSFSegmentedControlStyle)
-    public enum Style: Int {
-        /// Segments are shows as labels inside a pill for use with a neutral or white background. Selection is indicated by a thumb under the selected label.
-        case primaryPill
-        /// Segments are shows as labels inside a pill for use on a branded background that features a prominent brand color in light mode and a muted grey in dark mode.
-        /// Selection is indicated by a thumb under the selected label.
-        case onBrandPill
-
-        var backgroundHasRoundedCorners: Bool { return self == .primaryPill || self == .onBrandPill }
-
-        func backgroundColor(fluentTheme: FluentTheme) -> UIColor {
-            switch self {
-            case .primaryPill:
-                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background5])
-            case .onBrandPill:
-                return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.brandBackground2].light,
-                                                          dark: fluentTheme.aliasTokens.colors[.background5].dark))
-            }
-        }
-
-        func selectionColor(fluentTheme: FluentTheme) -> UIColor {
-            switch self {
-            case .primaryPill:
-                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandBackground1])
-            case .onBrandPill:
-                return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.background1].light,
-                                                          dark: fluentTheme.aliasTokens.colors[.background5Selected].dark))
-            }
-        }
-
-        func segmentTextColor(fluentTheme: FluentTheme) -> UIColor {
-            switch self {
-            case .primaryPill:
-                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
-            case .onBrandPill:
-                return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.foregroundOnColor].light,
-                                                          dark: fluentTheme.aliasTokens.colors[.foreground2].dark))
-            }
-        }
-        func segmentTextColorSelected(fluentTheme: FluentTheme) -> UIColor {
-            switch self {
-            case .primaryPill:
-                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundOnColor])
-            case .onBrandPill:
-                return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.brandForeground1].light,
-                                                          dark: fluentTheme.aliasTokens.colors[.foreground1].dark))
-            }
-        }
-        func segmentTextColorDisabled(fluentTheme: FluentTheme) -> UIColor {
-            switch self {
-            case .primaryPill:
-                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundDisabled1])
-            case .onBrandPill:
-                return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.brandForegroundDisabled1].light,
-                                                          dark: fluentTheme.aliasTokens.colors[.foregroundDisabled1].dark))
-            }
-        }
-
-        func segmentTextColorSelectedAndDisabled(fluentTheme: FluentTheme) -> UIColor {
-            switch self {
-            case .primaryPill:
-                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForegroundDisabled1])
-            case .onBrandPill:
-                return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.brandForegroundDisabled2].light,
-                                                          dark: fluentTheme.aliasTokens.colors[.foregroundDisabled2].dark))
-            }
-        }
-
-        func segmentUnreadDotColor(fluentTheme: FluentTheme) -> UIColor {
-            switch self {
-            case .primaryPill:
-                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForegroundInverted])
-            case .onBrandPill:
-                return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.foregroundOnColor].light,
-                                                          dark: fluentTheme.aliasTokens.colors[.brandForegroundInverted].dark))
-            }
-        }
-
-        var selectionChangeAnimationDuration: TimeInterval {
-            switch self {
-            case .primaryPill, .onBrandPill:
-                return 0.2
-            }
-        }
-    }
-
-=======
 open class SegmentedControl: UIView, TokenizedControlInternal {
->>>>>>> main
     private struct Constants {
         static let selectionBarHeight: CGFloat = 1.5
         static let pillContainerHorizontalInset: CGFloat = 16
@@ -280,31 +187,17 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
 
         updateStackDistribution()
         setupLayoutConstraints()
-<<<<<<< HEAD
-        updateColors()
-=======
->>>>>>> main
 
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(themeDidChange),
                                                name: .didChangeTheme,
                                                object: nil)
-<<<<<<< HEAD
-    }
-
-    @objc private func themeDidChange(_ notification: Notification) {
-        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
-            return
-        }
-        updateColors()
-=======
 
         // Update appearance whenever overrideTokens changes.
         tokenSetSink = tokenSet.sinkChanges { [weak self] in
             self?.updateColors()
             self?.updateButtons()
         }
->>>>>>> main
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -312,12 +205,6 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
     }
 
     public func updateColors() {
-<<<<<<< HEAD
-
-        pillMaskedContentContainerView.backgroundColor = customSegmentedControlSelectedButtonBackgroundColor ?? style.selectionColor(fluentTheme: fluentTheme)
-        backgroundView.backgroundColor = customSegmentedControlBackgroundColor ?? style.backgroundColor(fluentTheme: fluentTheme)
-        let maskedContentColor = isEnabled ? (customSelectedSegmentedControlButtonTextColor ?? style.segmentTextColorSelected(fluentTheme: fluentTheme)) : style.segmentTextColorSelectedAndDisabled(fluentTheme: fluentTheme)
-=======
         let tabColor: DynamicColor
         let selectedTabColor: DynamicColor
         let selectedContentColor: UIColor
@@ -332,7 +219,6 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
         }
         stackView.backgroundColor = UIColor(dynamicColor: tabColor)
         pillMaskedContentContainerView.backgroundColor = UIColor(dynamicColor: selectedTabColor)
->>>>>>> main
         for maskedLabel in pillMaskedLabels {
             guard let maskedLabel = maskedLabel else {
                 continue
@@ -343,20 +229,7 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
             guard let maskedImage = maskedImage else {
                 continue
             }
-<<<<<<< HEAD
-            maskedImage.tintColor = maskedContentColor
-        }
-        let contentColor = isEnabled ? (customSegmentedControlButtonTextColor ?? style.segmentTextColor(fluentTheme: fluentTheme)) : style.segmentTextColorDisabled(fluentTheme: fluentTheme)
-        for button in buttons {
-            button.setTitleColor(contentColor, for: .normal)
-            button.tintColor = contentColor
-
-            if let switchButton = button as? SegmentPillButton {
-                switchButton.unreadDotColor = isEnabled ? style.segmentUnreadDotColor(fluentTheme: fluentTheme) : style.segmentTextColorDisabled(fluentTheme: fluentTheme)
-            }
-=======
             maskedImage.tintColor = selectedContentColor
->>>>>>> main
         }
     }
 
@@ -519,8 +392,6 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
                       height: finalHeight)
     }
 
-<<<<<<< HEAD
-=======
     open override func didMoveToWindow() {
         super.didMoveToWindow()
 
@@ -530,7 +401,6 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
         updateGradientMaskColors()
     }
 
->>>>>>> main
     func intrinsicContentSizeInvalidatedForChildView() {
         invalidateIntrinsicContentSize()
     }

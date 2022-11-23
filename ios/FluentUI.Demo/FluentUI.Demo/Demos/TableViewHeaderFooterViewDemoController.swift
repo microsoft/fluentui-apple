@@ -10,27 +10,9 @@ import UIKit
 
 class TableViewHeaderFooterViewDemoController: DemoController {
     private let groupedSections: [TableViewHeaderFooterSampleData.Section] = TableViewHeaderFooterSampleData.groupedSections
-<<<<<<< HEAD
-
-=======
-    private let plainSections: [TableViewHeaderFooterSampleData.Section] = TableViewHeaderFooterSampleData.plainSections
-    private let divider = MSFDivider()
-
-    private lazy var segmentedControl: SegmentedControl = {
-        let segmentedControl = SegmentedControl(items: TableViewHeaderFooterSampleData.tabTitles.map({return SegmentItem(title: $0)}), style: .primaryPill)
-        segmentedControl.onSelectAction = { [weak self] (_, _) in
-            guard let strongSelf = self else {
-                return
-            }
-
-            strongSelf.updateActiveTabContent()
-        }
-
-        return segmentedControl
-    }()
->>>>>>> main
     private lazy var groupedTableView: UITableView = createTableView(style: .grouped)
     private var collapsedSections: [Bool] = [Bool](repeating: false, count: TableViewHeaderFooterSampleData.groupedSections.count)
+    private let divider = MSFDivider()
 
     override func viewDidLoad() {
         super.viewDidLoad()
