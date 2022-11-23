@@ -36,18 +36,13 @@ open class Tooltip: NSObject, TokenizedControlInternal {
             preconditionFailure("Can't find anchorView's window")
         }
 
-        let positioner = TooltipPositioner(anchorView: anchorView,
-                                           message: message,
-                                           title: title,
-                                           preferredArrowDirection: preferredArrowDirection,
-                                           offset: offset,
-                                           arrowMargin: tokenSet[.backgroundCornerRadius].float,
-                                           tokenSet: tokenSet
-        )
-        self.tooltipViewController = TooltipViewController(message: message,
+        self.tooltipViewController = TooltipViewController(anchorView: anchorView,
+                                                           message: message,
                                                            title: title,
                                                            textAlignment: textAlignment,
-                                                           positioner: positioner,
+                                                           preferredArrowDirection: preferredArrowDirection,
+                                                           offset: offset,
+                                                           arrowMargin: tokenSet[.backgroundCornerRadius].float,
                                                            tokenSet: tokenSet)
         self.anchorView = anchorView
         guard let tooltipViewController = tooltipViewController,

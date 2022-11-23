@@ -12,11 +12,9 @@ class TooltipView: UIView {
     init(message: String,
          title: String? = nil,
          textAlignment: NSTextAlignment,
-         positioner: TooltipPositioner,
          tokenSet: TooltipTokenSet) {
         self.message = message
         self.titleMessage = title
-        self.positioner = positioner
         self.tokenSet = tokenSet
 
         arrowImageViewBaseImage = UIImage.staticImageNamed("tooltip-arrow")
@@ -105,19 +103,19 @@ class TooltipView: UIView {
         self.tokenSet = tokenSet
 
         // Update tooltip origin and size
-        positioner.updateArrowDirectionAndTooltipRect(for: message, title: titleMessage, tokenSet: tokenSet)
-        self.frame.size = positioner.tooltipRect.size
+        TooltipViewController.updateArrowDirectionAndTooltipRect(for: message, title: titleMessage, tokenSet: tokenSet)
+        self.frame.size = TooltipViewController.tooltipRect.size
         backgroundView.frame = self.bounds
         arrowImageView.transform = transformForArrowImageView()
-        if positioner.arrowDirection.isVertical {
-            arrowImageView.frame.origin.x = positioner.arrowPosition
+        if TooltipViewController.arrowDirection.isVertical {
+            arrowImageView.frame.origin.x = TooltipViewController.arrowPosition
             backgroundView.frame.size.height -= arrowImageView.frame.height
         } else {
-            arrowImageView.frame.origin.y = positioner.arrowPosition
+            arrowImageView.frame.origin.y = TooltipViewController.arrowPosition
             backgroundView.frame.size.width -= arrowImageView.frame.width
         }
 
-        switch positioner.arrowDirection {
+        switch TooltipViewController.arrowDirection {
         case .up:
             arrowImageView.frame.origin.y = 0.0
             backgroundView.frame.origin.y = arrowImageView.frame.maxY
@@ -165,8 +163,6 @@ class TooltipView: UIView {
         // Update shadows
         updateShadows(tokenSet: tokenSet)
     }
-
-    let positioner: TooltipPositioner
 
     // MARK: - Accessibility
 
@@ -219,7 +215,7 @@ class TooltipView: UIView {
     }
 
     private func transformForArrowImageView() -> CGAffineTransform {
-        switch positioner.arrowDirection {
+        switch TooltipViewController.arrowDirection {
         case .up:
             return CGAffineTransform.identity
         case .down:
