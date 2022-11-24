@@ -170,7 +170,9 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     class var labelVerticalMarginForOneAndThreeLines: CGFloat { return TableViewCellTokenSet.defaultLabelVerticalMarginForOneAndThreeLines }
 
     public typealias TokenSetKeyType = TableViewCellTokenSet.Tokens
-    public lazy var tokenSet: TableViewCellTokenSet = .init(customViewSize: { self.customViewSize })
+    public lazy var tokenSet: TableViewCellTokenSet = .init(customViewSize: { [weak self] in
+        return self?.customViewSize ?? .default
+    })
 
     var tokenSetSink: AnyCancellable?
 

@@ -113,7 +113,9 @@ open class DrawerController: UIViewController {
     @objc open lazy var backgroundColor: UIColor = drawerBackgroundColor(fluentTheme: view.fluentTheme) {
         didSet {
             useCustomBackgroundColor = true
-            view.backgroundColor = backgroundColor
+            if isViewLoaded {
+                view.backgroundColor = backgroundColor
+            }
         }
     }
 

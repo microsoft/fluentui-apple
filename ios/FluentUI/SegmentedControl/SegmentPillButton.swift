@@ -17,8 +17,6 @@ class SegmentPillButton: UIButton {
         }
     }
 
-    var unreadDotColor: UIColor = Colors.gray100
-
     override var isSelected: Bool {
         didSet {
             if oldValue != isSelected && isSelected == true {
@@ -28,8 +26,37 @@ class SegmentPillButton: UIButton {
         }
     }
 
-    init(withItem item: SegmentItem) {
+    let tokenSet: SegmentedControlTokenSet
+
+    func updateTokenizedValues() {
+        titleLabel?.font = UIFont.fluent(tokenSet[.font].fontInfo, shouldScale: false)
+        let verticalInset = tokenSet[.verticalInset].float
+        let horizontalInset = tokenSet[.horizontalInset].float
+        if #available(iOS 15.0, *) {
+            var configuration = UIButton.Configuration.plain()
+            configuration.contentInsets = NSDirectionalEdgeInsets(top: verticalInset,
+                                                                  leading: horizontalInset,
+                                                                  bottom: verticalInset,
+                                                                  trailing: horizontalInset)
+            configuration.background.backgroundColor = .clear
+            let titleTransformer = UIConfigurationTextAttributesTransformer { incoming in
+                var outgoing = incoming
+                outgoing.font = UIFont.fluent(self.tokenSet[.font].fontInfo, shouldScale: false)
+                return outgoing
+            }
+            configuration.titleTextAttributesTransformer = titleTransformer
+            self.configuration = configuration
+        } else {
+            self.contentEdgeInsets = UIEdgeInsets(top: verticalInset,
+                                                  left: horizontalInset,
+                                                  bottom: verticalInset,
+                                                  right: horizontalInset)
+        }
+    }
+
+    init(withItem item: SegmentItem, tokenSet: SegmentedControlTokenSet) {
         self.item = item
+        self.tokenSet = tokenSet
         super.init(frame: .zero)
 
         // TODO: Once iOS 14 support is dropped, set title, etc., in configuration
@@ -43,29 +70,12 @@ class SegmentPillButton: UIButton {
         }
         self.showsLargeContentViewer = true
 
-        if #available(iOS 15.0, *) {
-            var configuration = UIButton.Configuration.plain()
-            configuration.contentInsets = Constants.insets
-            configuration.background.backgroundColor = .clear
-            let titleTransformer = UIConfigurationTextAttributesTransformer { incoming in
-                var outgoing = incoming
-                outgoing.font = UIFont.systemFont(ofSize: Constants.fontSize)
-                return outgoing
-            }
-            configuration.titleTextAttributesTransformer = titleTransformer
-            self.configuration = configuration
-        } else {
-            self.titleLabel?.font = UIFont.systemFont(ofSize: Constants.fontSize)
-            self.contentEdgeInsets = UIEdgeInsets(top: Constants.insets.top,
-                                                  left: Constants.insets.leading,
-                                                  bottom: Constants.insets.bottom,
-                                                  right: Constants.insets.trailing)
-        }
-
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(isUnreadValueDidChange),
                                                name: SegmentItem.isUnreadValueDidChangeNotification,
                                                object: item)
+
+        updateTokenizedValues()
     }
 
     required init?(coder: NSCoder) {
@@ -75,14 +85,24 @@ class SegmentPillButton: UIButton {
     override func layoutSubviews() {
         super.layoutSubviews()
         updateUnreadDot()
+        guard let updateMaskedContentConstraints = updateMaskedContentConstraints else {
+            return
+        }
+        updateMaskedContentConstraints()
     }
+
+    /// UIButton.Configuration is doing something causing the layout of the label/icon
+    /// and masked content to render incorrectly, so we need to update the constraints
+    /// on the masked content when we layoutSubviews
+    var updateMaskedContentConstraints: (() -> Void)?
 
     private let item: SegmentItem
 
-    private let unreadDotLayer: CALayer = {
+    private lazy var unreadDotLayer: CALayer = {
         let unreadDotLayer = CALayer()
-        unreadDotLayer.bounds.size = CGSize(width: Constants.unreadDotSize, height: Constants.unreadDotSize)
-        unreadDotLayer.cornerRadius = Constants.unreadDotSize / 2
+        let unreadDotSize = tokenSet[.unreadDotSize].float
+        unreadDotLayer.bounds.size = CGSize(width: unreadDotSize, height: unreadDotSize)
+        unreadDotLayer.cornerRadius = unreadDotSize / 2
         return unreadDotLayer
     }()
 
@@ -97,19 +117,13 @@ class SegmentPillButton: UIButton {
             let anchor = self.titleLabel?.frame ?? .zero
             let xPos: CGFloat
             if effectiveUserInterfaceLayoutDirection == .leftToRight {
-                xPos = anchor.maxX + Constants.unreadDotOffset.x
+                xPos = anchor.maxX + tokenSet[.unreadDotOffsetX].float
             } else {
-                xPos = anchor.minX - Constants.unreadDotOffset.x - Constants.unreadDotSize
+                xPos = anchor.minX - tokenSet[.unreadDotOffsetX].float - tokenSet[.unreadDotSize].float
             }
-            unreadDotLayer.frame.origin = CGPoint(x: xPos, y: anchor.minY + Constants.unreadDotOffset.y)
-            unreadDotLayer.backgroundColor = unreadDotColor.cgColor
+            unreadDotLayer.frame.origin = CGPoint(x: xPos, y: anchor.minY + tokenSet[.unreadDotOffsetY].float)
+            let unreadDotColor = isEnabled ? tokenSet[.enabledUnreadDotColor].dynamicColor : tokenSet[.disabledUnreadDotColor].dynamicColor
+            unreadDotLayer.backgroundColor = UIColor(dynamicColor: unreadDotColor).cgColor
         }
-    }
-
-    private struct Constants {
-        static let fontSize: CGFloat = 16
-        static let unreadDotOffset = CGPoint(x: 6, y: 3)
-        static let unreadDotSize: CGFloat = 6
-        static let insets = NSDirectionalEdgeInsets(top: 6, leading: 16, bottom: 6, trailing: 16)
     }
 }

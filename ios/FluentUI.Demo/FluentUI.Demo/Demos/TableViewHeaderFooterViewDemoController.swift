@@ -10,9 +10,9 @@ import UIKit
 
 class TableViewHeaderFooterViewDemoController: DemoController {
     private let groupedSections: [TableViewHeaderFooterSampleData.Section] = TableViewHeaderFooterSampleData.groupedSections
-
     private lazy var groupedTableView: UITableView = createTableView(style: .grouped)
     private var collapsedSections: [Bool] = [Bool](repeating: false, count: TableViewHeaderFooterSampleData.groupedSections.count)
+    private let divider = MSFDivider()
 
     override func viewDidLoad() {
         super.viewDidLoad()
