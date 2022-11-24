@@ -39,7 +39,7 @@ Tooltip.shared.show(with: "This is the message of the tooltip.",
 `Tooltip` in Swift, `MSFTooltip` in Objective-C/UIKit
 ### Source Code
 [Tooltip.swift](https://github.com/microsoft/fluentui-apple/blob/fluent2-tokens/ios/FluentUI/Tooltip/Tooltip.swift)  
-[TooltipPositioner.swift](https://github.com/microsoft/fluentui-apple/blob/fluent2-tokens/ios/FluentUI/Tooltip/TooltipPositioner.swift)  
+[TooltipViewController.swift](https://github.com/microsoft/fluentui-apple/blob/fluent2-tokens/ios/FluentUI/Tooltip/TooltipViewController.swift)
 [TooltipView.swift](https://github.com/microsoft/fluentui-apple/blob/fluent2-tokens/ios/FluentUI/Tooltip/TooltipView.swift)
 ### Sample Code
 [TooltipDemoController.swift](https://github.com/microsoft/fluentui-apple/blob/fluent2-tokens/ios/FluentUI.Demo/FluentUI.Demo/Demos/TooltipDemoController.swift)
