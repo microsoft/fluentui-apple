@@ -4,13 +4,14 @@
 //
 
 import UIKit
+import Combine
 
 // MARK: - Button
 
 /// By default, `titleLabel`'s `adjustsFontForContentSizeCategory` is set to true to automatically update its font when device's content size category changes
 @IBDesignable
 @objc(MSFButton)
-open class Button: UIButton {
+open class Button: UIButton, TokenizedControlInternal {
     private struct Constants {
         static let borderWidth: CGFloat = 1
     }
@@ -114,6 +115,11 @@ open class Button: UIButton {
                                                selector: #selector(themeDidChange),
                                                name: .didChangeTheme,
                                                object: nil)
+
+        // Update appearance whenever overrideTokens changes.
+        tokenSetSink = tokenSet.sinkChanges { [weak self] in
+            self?.update()
+        }
     }
 
     open override func didUpdateFocus(in context: UIFocusUpdateContext, with coordinator: UIFocusAnimationCoordinator) {
@@ -155,6 +161,12 @@ open class Button: UIButton {
         updateImage()
         updateBorderColor()
     }
+
+    public typealias TokenSetKeyType = ButtonTokenSet.Tokens
+    lazy public var tokenSet: ButtonTokenSet = .init(style: { [weak self] in
+        return self?.style ?? .primaryFilled
+    })
+    var tokenSetSink: AnyCancellable?
 
     private func updateTitleColors() {
         if let window = window {
