@@ -46,12 +46,6 @@ open class Button: UIButton, TokenizedControlInternal {
         }
     }
 
-    private func defaultEdgeInsets() -> NSDirectionalEdgeInsets {
-        let horizontalPadding = ButtonTokenSet.horizontalPadding(style)
-        let verticalPadding = ButtonTokenSet.verticalPadding(style)
-        return NSDirectionalEdgeInsets(top: verticalPadding, leading: horizontalPadding, bottom: verticalPadding, trailing: horizontalPadding)
-    }
-    
     open lazy var edgeInsets: NSDirectionalEdgeInsets = defaultEdgeInsets() {
         didSet {
             isUsingCustomContentEdgeInsets = true
@@ -82,22 +76,6 @@ open class Button: UIButton, TokenizedControlInternal {
         }
 
         return size
-    }
-
-    @objc public init(style: ButtonStyle = .secondaryOutline) {
-        self.style = style
-        super.init(frame: .zero)
-        initialize()
-    }
-
-    public override init(frame: CGRect) {
-        super.init(frame: frame)
-        initialize()
-    }
-
-    public required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        initialize()
     }
 
     open func initialize() {
@@ -132,14 +110,6 @@ open class Button: UIButton, TokenizedControlInternal {
         updateBackgroundColor()
     }
 
-    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        if previousTraitCollection?.userInterfaceStyle != traitCollection.userInterfaceStyle {
-            updateBorderColor()
-        }
-    }
-
     open override func didMoveToWindow() {
         super.didMoveToWindow()
         updateBackgroundColor()
@@ -154,6 +124,30 @@ open class Button: UIButton, TokenizedControlInternal {
         updateProposedTitleLabelWidth()
     }
 
+    @objc public init(style: ButtonStyle = .secondaryOutline) {
+        self.style = style
+        super.init(frame: .zero)
+        initialize()
+    }
+
+    public override init(frame: CGRect) {
+        super.init(frame: frame)
+        initialize()
+    }
+
+    public required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        initialize()
+    }
+
+    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        if previousTraitCollection?.userInterfaceStyle != traitCollection.userInterfaceStyle {
+            updateBorderColor()
+        }
+    }
+
     @objc private func themeDidChange(_ notification: Notification) {
         guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
             return
@@ -166,9 +160,11 @@ open class Button: UIButton, TokenizedControlInternal {
     }
 
     public typealias TokenSetKeyType = ButtonTokenSet.Tokens
+
     lazy public var tokenSet: ButtonTokenSet = .init(style: { [weak self] in
         return self?.style ?? .primaryFilled
     })
+
     var tokenSetSink: AnyCancellable?
 
     private func updateTitleColors() {
@@ -242,22 +238,6 @@ open class Button: UIButton, TokenizedControlInternal {
         updateProposedTitleLabelWidth()
     }
 
-    private var normalImageTintColor: UIColor?
-    private var highlightedImageTintColor: UIColor?
-    private var disabledImageTintColor: UIColor?
-
-    private var isUsingCustomContentEdgeInsets: Bool = false
-    private var isAdjustingCustomContentEdgeInsetsForImage: Bool = false
-
-    /// if value is 0.0, CGFloat.greatestFiniteMagnitude is used to calculate the width of the `titleLabel` in `intrinsicContentSize`
-    private var proposedTitleLabelWidth: CGFloat = 0.0 {
-        didSet {
-            if proposedTitleLabelWidth != oldValue {
-                invalidateIntrinsicContentSize()
-            }
-        }
-    }
-
     private func updateProposedTitleLabelWidth() {
         if bounds.width > 0.0 {
             var labelWidth = bounds.width - (edgeInsets.leading + edgeInsets.trailing)
@@ -318,5 +298,27 @@ open class Button: UIButton, TokenizedControlInternal {
         }
 
         layer.borderColor = UIColor(dynamicColor: borderColor).cgColor
+    }
+
+    private func defaultEdgeInsets() -> NSDirectionalEdgeInsets {
+        let horizontalPadding = ButtonTokenSet.horizontalPadding(style)
+        let verticalPadding = ButtonTokenSet.verticalPadding(style)
+        return NSDirectionalEdgeInsets(top: verticalPadding, leading: horizontalPadding, bottom: verticalPadding, trailing: horizontalPadding)
+    }
+
+    private var normalImageTintColor: UIColor?
+    private var highlightedImageTintColor: UIColor?
+    private var disabledImageTintColor: UIColor?
+
+    private var isUsingCustomContentEdgeInsets: Bool = false
+    private var isAdjustingCustomContentEdgeInsetsForImage: Bool = false
+
+    /// if value is 0.0, CGFloat.greatestFiniteMagnitude is used to calculate the width of the `titleLabel` in `intrinsicContentSize`
+    private var proposedTitleLabelWidth: CGFloat = 0.0 {
+        didSet {
+            if proposedTitleLabelWidth != oldValue {
+                invalidateIntrinsicContentSize()
+            }
+        }
     }
 }
