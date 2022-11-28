@@ -216,11 +216,11 @@ extension AvatarTokenSet {
         case .size16:
             return 0
         case .size20, .size24, .size32:
-            return GlobalTokens.iconSize(.xxxSmall)
+            return GlobalTokens.iconSize(.size100)
         case .size40, .size56:
-            return GlobalTokens.iconSize(.xxSmall)
+            return GlobalTokens.iconSize(.size120)
         case .size72:
-            return GlobalTokens.iconSize(.small)
+            return GlobalTokens.iconSize(.size200)
         }
     }
 }

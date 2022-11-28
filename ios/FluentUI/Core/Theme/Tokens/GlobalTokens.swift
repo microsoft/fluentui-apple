@@ -1633,36 +1633,60 @@ public class GlobalTokens: NSObject {
     // MARK: - IconSize
 
     public enum IconSizeToken: TokenSetKey {
-        case xxxSmall
-        case xxSmall
-        case xSmall
-        case small
-        case medium
-        case large
-        case xLarge
-        case xxLarge
-        case xxxLarge
+        case sizeNone
+        case size20
+        case size40
+        case size60
+        case size80
+        case size100
+        case size120
+        case size160
+        case size200
+        case size240
+        case size280
+        case size320
+        case size360
+        case size400
+        case size480
+        case size520
+        case size560
     }
     public static func iconSize(_ token: IconSizeToken) -> CGFloat {
         switch token {
-        case .xxxSmall:
+        case .sizeNone:
+            return 0
+        case .size20:
+            return 2
+        case .size40:
+            return 4
+        case .size60:
+            return 6
+        case .size80:
+            return 8
+        case .size100:
             return 10
-        case .xxSmall:
+        case .size120:
             return 12
-        case .xSmall:
+        case .size160:
             return 16
-        case .small:
+        case .size200:
             return 20
-        case .medium:
+        case .size240:
             return 24
-        case .large:
+        case .size280:
             return 28
-        case .xLarge:
+        case .size320:
+            return 32
+        case .size360:
             return 36
-        case .xxLarge:
+        case .size400:
             return 40
-        case .xxxLarge:
+        case .size480:
             return 48
+        case .size520:
+            return 52
+        case .size560:
+            return 56
         }
     }
 

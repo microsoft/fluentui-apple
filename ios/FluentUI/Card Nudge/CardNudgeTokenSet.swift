@@ -142,9 +142,9 @@ public class CardNudgeTokenSet: ControlTokenSet<CardNudgeTokenSet.Tokens> {
 // MARK: - Constants
 
 extension CardNudgeTokenSet {
-    static let iconSize: CGFloat = GlobalTokens.iconSize(.medium)
-    static let circleSize: CGFloat = GlobalTokens.iconSize(.xxLarge)
-    static let accentIconSize: CGFloat = GlobalTokens.iconSize(.xxSmall)
+    static let iconSize: CGFloat = GlobalTokens.iconSize(.size240)
+    static let circleSize: CGFloat = GlobalTokens.iconSize(.size400)
+    static let accentIconSize: CGFloat = GlobalTokens.iconSize(.size120)
     static let accentPadding: CGFloat = GlobalTokens.spacing(.xxSmall)
 
     static let horizontalPadding: CGFloat = GlobalTokens.spacing(.medium)
