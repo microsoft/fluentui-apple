@@ -459,11 +459,7 @@ public final class AliasTokens {
         case brandForeground1
         case brandForeground1Pressed
         case brandForeground1Selected
-        case brandForeground2
-        case brandForeground3
         case brandForeground4
-        case brandForeground5
-        case brandForegroundInverted
         case brandForegroundDisabled1
         case brandForegroundDisabled2
         case foregroundDarkStatic
@@ -500,7 +496,6 @@ public final class AliasTokens {
         case brandBackground2Selected
         case brandBackground3
         case brandBackground3Pressed
-        case brandBackground3Selected
         case brandBackground4
         case background5BrandFilledSelected
         case background5BrandTintSelected
@@ -564,19 +559,9 @@ public final class AliasTokens {
         case .brandForeground1Selected:
             return DynamicColor(light: strongSelf.brandColors[.comm60].light,
                                 dark: strongSelf.brandColors[.comm120].light)
-        case .brandForeground2:
-            return DynamicColor(light: strongSelf.brandColors[.comm160].light,
-                                dark: strongSelf.brandColors[.comm20].light)
-        case .brandForeground3:
-            return DynamicColor(light: strongSelf.brandColors[.comm150].light)
         case .brandForeground4:
             return DynamicColor(light: strongSelf.brandColors[.comm80].light,
                                 dark: strongSelf.brandColors[.comm120].light)
-        case .brandForeground5:
-            return DynamicColor(light: strongSelf.brandColors[.comm70].light)
-        case .brandForegroundInverted:
-            return DynamicColor(light: strongSelf.brandColors[.comm80].light,
-                                dark: GlobalTokens.neutralColors(.white))
         case .brandForegroundDisabled1:
             return DynamicColor(light: strongSelf.brandColors[.comm90].light)
         case .brandForegroundDisabled2:
@@ -701,8 +686,6 @@ public final class AliasTokens {
         case .brandBackground3Pressed:
             return DynamicColor(light: strongSelf.brandColors[.comm30].light,
                                 dark: strongSelf.brandColors[.comm160].light)
-        case .brandBackground3Selected:
-            return DynamicColor(light: strongSelf.brandColors[.comm150].light)
         case .brandBackground4:
             return DynamicColor(light: strongSelf.brandColors[.comm160].light,
                                 dark: strongSelf.brandColors[.comm20].light)
