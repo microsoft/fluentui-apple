@@ -12,10 +12,6 @@ import Combine
 @IBDesignable
 @objc(MSFButton)
 open class Button: UIButton, TokenizedControlInternal {
-    private struct Constants {
-        static let borderWidth: CGFloat = 1
-    }
-
     @objc open var style: ButtonStyle = .secondaryOutline {
         didSet {
             if style != oldValue {
@@ -50,7 +46,13 @@ open class Button: UIButton, TokenizedControlInternal {
         }
     }
 
-    open lazy var edgeInsets: NSDirectionalEdgeInsets = style.contentEdgeInsets {
+    private func defaultEdgeInsets() -> NSDirectionalEdgeInsets {
+        let horizontalPadding = ButtonTokenSet.horizontalPadding(style)
+        let verticalPadding = ButtonTokenSet.verticalPadding(style)
+        return NSDirectionalEdgeInsets(top: verticalPadding, leading: horizontalPadding, bottom: verticalPadding, trailing: horizontalPadding)
+    }
+    
+    open lazy var edgeInsets: NSDirectionalEdgeInsets = defaultEdgeInsets() {
         didSet {
             isUsingCustomContentEdgeInsets = true
 
@@ -69,13 +71,13 @@ open class Button: UIButton, TokenizedControlInternal {
     open override var intrinsicContentSize: CGSize {
         var size = titleLabel?.systemLayoutSizeFitting(CGSize(width: proposedTitleLabelWidth == 0 ? .greatestFiniteMagnitude : proposedTitleLabelWidth, height: .greatestFiniteMagnitude)) ?? .zero
         size.width = ceil(size.width + edgeInsets.leading + edgeInsets.trailing)
-        size.height = ceil(max(size.height, style.minTitleLabelHeight) + edgeInsets.top + edgeInsets.bottom)
+        size.height = ceil(max(size.height, ButtonTokenSet.minContainerHeight(style)) + edgeInsets.top + edgeInsets.bottom)
 
         if let image = image(for: .normal) {
             size.width += image.size.width
 
             if titleLabel?.text?.count ?? 0 > 0 {
-                size.width += style.titleImagePadding
+                size.width += ButtonTokenSet.titleImageSpacing(style)
             }
         }
 
@@ -99,10 +101,10 @@ open class Button: UIButton, TokenizedControlInternal {
     }
 
     open func initialize() {
-        layer.cornerRadius = style.cornerRadius
+        layer.cornerRadius = tokenSet[.cornerRadius].float
         layer.cornerCurve = .continuous
 
-        titleLabel?.font = style.titleFont
+        titleLabel?.font = UIFont.fluent(tokenSet[.titleFont].fontInfo)
         titleLabel?.adjustsFontForContentSizeCategory = true
 
         var configuration = UIButton.Configuration.plain()
@@ -232,10 +234,10 @@ open class Button: UIButton, TokenizedControlInternal {
         updateBackgroundColor()
         updateBorderColor()
 
-        layer.borderWidth = style.hasBorders ? Constants.borderWidth : 0
+        layer.borderWidth = style.hasBorders ? tokenSet[.borderSize].float : 0
 
         if !isUsingCustomContentEdgeInsets {
-            edgeInsets = style.contentEdgeInsets
+            edgeInsets = defaultEdgeInsets()
         }
 
         updateProposedTitleLabelWidth()
@@ -301,7 +303,7 @@ open class Button: UIButton, TokenizedControlInternal {
     private func adjustCustomContentEdgeInsetsForImage() {
         isAdjustingCustomContentEdgeInsetsForImage = true
 
-        var spacing = style.titleImagePadding
+        var spacing = ButtonTokenSet.titleImageSpacing(style)
 
         if image(for: .normal) == nil {
             spacing = -spacing
