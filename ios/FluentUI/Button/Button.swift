@@ -246,7 +246,7 @@ open class Button: UIButton, TokenizedControlInternal {
             return style.isDangerStyle ? dangerFilledTitleAndImageColor : titleWithFilledBackground
         }
 
-        return style.isDangerStyle ? dangerTitleAndImageColor : UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1])
+        return style.isDangerStyle ? dangerTitleAndImageColor : UIColor(dynamicColor: tokenSet[.foregroundColor].buttonDynamicColors.rest)
     }
 
     private func highlightedTitleAndImageColor(for window: UIWindow) -> UIColor {
@@ -254,21 +254,21 @@ open class Button: UIButton, TokenizedControlInternal {
             return style.isDangerStyle ? dangerFilledTitleAndImageColor : titleWithFilledBackground
         }
 
-        return style.isDangerStyle ? dangerTitleAndImageColor : UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandStroke1Pressed])
+        return style.isDangerStyle ? dangerTitleAndImageColor : UIColor(dynamicColor: tokenSet[.foregroundColor].buttonDynamicColors.hover)
     }
 
     private func disabledTitleAndImageColor(for window: UIWindow) -> UIColor {
         return style.isFilledStyle ? titleWithFilledBackground : titleDisabled
     }
 
-    private lazy var backgroundFilledDisabled: UIColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background5])
-    private lazy var borderDisabled: UIColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.strokeFocus1])
-    private lazy var titleDisabled: UIColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundDisabled1])
-    private lazy var titleWithFilledBackground: UIColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundOnColor])
-    private lazy var dangerTitleAndImageColor: UIColor = UIColor(dynamicColor: fluentTheme.aliasTokens.sharedColors[.dangerForeground2])
-    private lazy var dangerFilledTitleAndImageColor: UIColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundLightStatic])
+    private lazy var backgroundFilledDisabled: UIColor = UIColor(dynamicColor: tokenSet[.backgroundColor].buttonDynamicColors.disabled)
+    private lazy var borderDisabled: UIColor = UIColor(dynamicColor: tokenSet[.borderColor].buttonDynamicColors.disabled)
+    private lazy var titleDisabled: UIColor = UIColor(dynamicColor: tokenSet[.foregroundColor].buttonDynamicColors.disabled)
+    private lazy var titleWithFilledBackground: UIColor = UIColor(dynamicColor: tokenSet[.foregroundColor].buttonDynamicColors.rest)
+    private lazy var dangerTitleAndImageColor: UIColor = UIColor(dynamicColor: tokenSet[.foregroundColor].buttonDynamicColors.rest)
+    private lazy var dangerFilledTitleAndImageColor: UIColor = UIColor(dynamicColor: tokenSet[.foregroundColor].buttonDynamicColors.rest)
 
-    private lazy var borderWidth = GlobalTokens.borderSize(.thinner)
+    private lazy var borderWidth = tokenSet[.borderSize].float
     private var normalImageTintColor: UIColor?
     private var highlightedImageTintColor: UIColor?
     private var disabledImageTintColor: UIColor?
@@ -317,20 +317,20 @@ open class Button: UIButton, TokenizedControlInternal {
 
     private func primaryFilledBackgroundColor() -> UIColor {
         if isHighlighted {
-            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandBackground1Pressed])
+            return UIColor(dynamicColor: tokenSet[.backgroundColor].buttonDynamicColors.pressed)
         }
 
         if isFocused {
-            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandBackground1Selected])
+            return UIColor(dynamicColor: tokenSet[.backgroundColor].buttonDynamicColors.hover)
         }
 
-        return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandBackground1])
+        return UIColor(dynamicColor: tokenSet[.backgroundColor].buttonDynamicColors.rest)
     }
 
     private var primaryDangerFilledBackgroundColor: UIColor {
         // TODO: in the future, we want to have highlighted state defined for danger buttons.
         // For now, highlighted/isPressed are not differentiated for danger buttons.
-        return UIColor(dynamicColor: fluentTheme.aliasTokens.sharedColors[.dangerBackground2])
+        return UIColor(dynamicColor: tokenSet[.backgroundColor].buttonDynamicColors.rest)
     }
 
     private func updateBackgroundColor() {
@@ -366,11 +366,11 @@ open class Button: UIButton, TokenizedControlInternal {
         if !isEnabled {
             borderColor = borderDisabled
         } else if style.isDangerStyle {
-            borderColor = UIColor(dynamicColor: fluentTheme.aliasTokens.sharedColors[.dangerForeground2])
+            borderColor = UIColor(dynamicColor: tokenSet[.borderColor].buttonDynamicColors.rest)
         } else if isHighlighted {
-            borderColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandStroke1Pressed])
+            borderColor = UIColor(dynamicColor: tokenSet[.borderColor].buttonDynamicColors.pressed)
         } else {
-            borderColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1])
+            borderColor = UIColor(dynamicColor: tokenSet[.borderColor].buttonDynamicColors.rest)
         }
 
         layer.borderColor = borderColor.cgColor
