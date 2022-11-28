@@ -50,7 +50,7 @@ open class SearchBar: UIView {
             case .lightContent, .darkContent:
                 return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
             case .brandContent:
-                return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.brandForeground2].light, dark: fluentTheme.aliasTokens.colors[.foreground2].dark))
+                return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.foregroundOnColor].light, dark: fluentTheme.aliasTokens.colors[.foreground2].dark))
             }
         }
 
@@ -59,13 +59,13 @@ open class SearchBar: UIView {
             case .lightContent, .darkContent:
                 return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
             case .brandContent:
-                return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.brandForeground3].light, dark: fluentTheme.aliasTokens.colors[.foreground3].dark))
+                return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.foregroundOnColor].light, dark: fluentTheme.aliasTokens.colors[.foreground3].dark))
             }
         }
 
         func searchIconColor(fluentTheme: FluentTheme, isSearching: Bool = false) -> UIColor {
             let searchBrandColor = UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.foregroundOnColor].light, dark: fluentTheme.aliasTokens.colors[.foreground1].dark))
-            let idleBrandColor = UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.brandForeground3].light, dark: fluentTheme.aliasTokens.colors[.foreground3].dark))
+            let idleBrandColor = UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.foregroundOnColor].light, dark: fluentTheme.aliasTokens.colors[.foreground3].dark))
 
             switch self {
             case .lightContent, .darkContent:
@@ -89,7 +89,7 @@ open class SearchBar: UIView {
             case .lightContent, .darkContent:
                 return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground3])
             case .brandContent:
-                return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.brandForeground2].light, dark: fluentTheme.aliasTokens.colors[.foreground3].dark))
+                return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.foregroundOnColor].light, dark: fluentTheme.aliasTokens.colors[.foreground3].dark))
             }
         }
 
@@ -98,7 +98,7 @@ open class SearchBar: UIView {
             case .lightContent, .darkContent:
                 return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground3])
             case .brandContent:
-                return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.brandForeground3].light, dark: fluentTheme.aliasTokens.colors[.foreground3].dark))
+                return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.foregroundOnColor].light, dark: fluentTheme.aliasTokens.colors[.foreground3].dark))
             }
         }
     }

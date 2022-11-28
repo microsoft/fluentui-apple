@@ -65,7 +65,7 @@ open class NavigationBar: UINavigationBar {
         func tintColor(fluentTheme: FluentTheme) -> UIColor {
             switch self {
             case .primary, .default, .custom:
-                return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.brandForeground2].light, dark: fluentTheme.aliasTokens.colors[.foreground2].dark))
+                return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.foregroundOnColor].light, dark: fluentTheme.aliasTokens.colors[.foreground2].dark))
             case .system:
                 return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
             }
