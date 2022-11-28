@@ -87,12 +87,12 @@ public class CardNudgeTokenSet: ControlTokenSet<CardNudgeTokenSet.Tokens> {
 
             case .circleRadius:
                 return .float {
-                    GlobalTokens.borderRadius(.circle)
+                    GlobalTokens.borderRadius(.cornerRadiusCircular)
                 }
 
             case .cornerRadius:
                 return .float {
-                    GlobalTokens.borderRadius(.xLarge)
+                    GlobalTokens.borderRadius(.cornerRadius120)
                 }
 
             case .outlineColor:

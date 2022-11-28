@@ -53,17 +53,17 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
                 return .float({
                     switch style() {
                     case .default, .accent, .outlined, .outlinedPrimary, .overflow:
-                        return GlobalTokens.borderRadius(.none)
+                        return GlobalTokens.borderRadius(.cornerRadiusNone)
                     case .group:
                         switch size() {
                         case .size16, .size20:
-                            return GlobalTokens.borderRadius(.small)
+                            return GlobalTokens.borderRadius(.cornerRadius20)
                         case .size24, .size32:
-                            return GlobalTokens.borderRadius(.medium)
+                            return GlobalTokens.borderRadius(.cornerRadius40)
                         case .size40, .size56:
-                            return GlobalTokens.borderRadius(.large)
+                            return GlobalTokens.borderRadius(.cornerRadius80)
                         case .size72:
-                            return GlobalTokens.borderRadius(.xLarge)
+                            return GlobalTokens.borderRadius(.cornerRadius120)
                         }
                     }
                 })

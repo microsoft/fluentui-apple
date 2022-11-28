@@ -1735,26 +1735,29 @@ public class GlobalTokens: NSObject {
     // MARK: - BorderRadius
 
     public enum BorderRadiusToken: TokenSetKey {
-        case none
-        case small
-        case medium
-        case large
-        case xLarge
-        case circle
+        case cornerRadiusNone
+        case cornerRadius20
+        case cornerRadius40
+        case cornerRadius60
+        case cornerRadius80
+        case cornerRadius120
+        case cornerRadiusCircular
     }
     public static func borderRadius(_ token: BorderRadiusToken) -> CGFloat {
         switch token {
-        case .none:
+        case .cornerRadiusNone:
             return 0
-        case .small:
+        case .cornerRadius20:
             return 2
-        case .medium:
+        case .cornerRadius40:
             return 4
-        case .large:
+        case .cornerRadius60:
+            return 6
+        case .cornerRadius80:
             return 8
-        case .xLarge:
+        case .cornerRadius120:
             return 12
-        case .circle:
+        case .cornerRadiusCircular:
             return 9999
         }
     }

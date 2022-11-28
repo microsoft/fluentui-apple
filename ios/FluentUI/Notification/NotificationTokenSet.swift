@@ -166,7 +166,7 @@ public class NotificationTokenSet: ControlTokenSet<NotificationTokenSet.Tokens> 
                 return .float {
                     switch style().isToast {
                     case true:
-                        return GlobalTokens.borderRadius(.xLarge)
+                        return GlobalTokens.borderRadius(.cornerRadius120)
                     case false:
                         return GlobalTokens.borderSize(.strokeWidthNone)
                     }
