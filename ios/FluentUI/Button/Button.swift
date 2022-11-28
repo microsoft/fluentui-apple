@@ -158,6 +158,7 @@ open class Button: UIButton, TokenizedControlInternal {
         guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
             return
         }
+        tokenSet.update(themeView.fluentTheme)
         updateBackgroundColor()
         updateTitleColors()
         updateImage()
