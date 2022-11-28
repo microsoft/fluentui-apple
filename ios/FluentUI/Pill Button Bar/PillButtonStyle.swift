@@ -54,7 +54,7 @@ public extension PillButton {
         case .primary:
             return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandBackground1])
         case .onBrand:
-            return UIColor(light: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandBackgroundInverted]), dark: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandBackground1]))
+            return UIColor(light: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background1]), dark: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandBackground1]))
         }
     }
 
@@ -140,7 +140,7 @@ public extension PillButton {
         case .primary:
             return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1])
         case .onBrand:
-            return UIColor(light: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1]),
+            return UIColor(light: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundOnColor]),
                            dark: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1]))
         }
     }

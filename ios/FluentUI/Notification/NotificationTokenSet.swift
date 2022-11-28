@@ -112,7 +112,7 @@ public class NotificationTokenSet: ControlTokenSet<NotificationTokenSet.Tokens> 
                     switch style() {
                     case .primaryToast,
                             .primaryBar:
-                        return theme.aliasTokens.colors[.brandBackground4]
+                        return theme.aliasTokens.colors[.brandBackgroundTint]
                     case .neutralToast:
                         return theme.aliasTokens.colors[.background4]
                     case .primaryOutlineBar:
@@ -131,7 +131,7 @@ public class NotificationTokenSet: ControlTokenSet<NotificationTokenSet.Tokens> 
                     switch style() {
                     case .primaryToast,
                             .primaryBar:
-                        return theme.aliasTokens.colors[.brandForeground4]
+                        return theme.aliasTokens.colors[.brandForegroundTint]
                     case .neutralToast,
                             .neutralBar:
                         return theme.aliasTokens.colors[.foreground2]
@@ -149,7 +149,7 @@ public class NotificationTokenSet: ControlTokenSet<NotificationTokenSet.Tokens> 
                     switch style() {
                     case .primaryToast,
                             .primaryBar:
-                        return theme.aliasTokens.colors[.brandForeground4]
+                        return theme.aliasTokens.colors[.brandForegroundTint]
                     case .neutralToast,
                             .neutralBar:
                         return theme.aliasTokens.colors[.foreground2]

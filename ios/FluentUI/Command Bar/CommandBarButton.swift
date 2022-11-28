@@ -138,12 +138,12 @@ class CommandBarButton: UIButton {
     }
 
     private var selectedTintColor: UIColor {
-        return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.brandForeground4].light,
+        return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.brandForegroundTint].light,
                                                   dark: fluentTheme.aliasTokens.colors[.foreground1].dark))
     }
 
     private var selectedBackgroundColor: UIColor {
-        return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.brandBackground4].light,
+        return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.brandForegroundTint].light,
                                                  dark: fluentTheme.aliasTokens.colors[.background5Selected].dark))
     }
 
