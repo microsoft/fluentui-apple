@@ -105,11 +105,11 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
                 return .float({
                     switch size() {
                     case .size16, .size20, .size24:
-                        return GlobalTokens.borderSize(.thinner)
+                        return GlobalTokens.borderSize(.strokeWidth10)
                     case .size32, .size40, .size56:
-                        return GlobalTokens.borderSize(.thick)
+                        return GlobalTokens.borderSize(.strokeWidth20)
                     case .size72:
-                        return GlobalTokens.borderSize(.thicker)
+                        return GlobalTokens.borderSize(.strokeWidth40)
                     }
                 })
 
@@ -117,9 +117,9 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
                 return .float({
                     switch size() {
                     case .size16, .size20, .size24, .size32, .size40, .size56:
-                        return GlobalTokens.borderSize(.thick)
+                        return GlobalTokens.borderSize(.strokeWidth20)
                     case .size72:
-                        return GlobalTokens.borderSize(.thicker)
+                        return GlobalTokens.borderSize(.strokeWidth40)
                     }
                 })
 
@@ -127,9 +127,9 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
                 return .float({
                     switch size() {
                     case .size16, .size20, .size24, .size32, .size40, .size56:
-                        return GlobalTokens.borderSize(.thick)
+                        return GlobalTokens.borderSize(.strokeWidth20)
                     case .size72:
-                        return GlobalTokens.borderSize(.thicker)
+                        return GlobalTokens.borderSize(.strokeWidth40)
                     }
                 })
 
@@ -137,9 +137,9 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
                 return .float({
                     switch size() {
                     case .size16:
-                        return GlobalTokens.borderSize(.none)
+                        return GlobalTokens.borderSize(.strokeWidthNone)
                     case .size20, .size24, .size32, .size40, .size56, .size72:
-                        return GlobalTokens.borderSize(.thick)
+                        return GlobalTokens.borderSize(.strokeWidth20)
                     }
                 })
 

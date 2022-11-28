@@ -1762,29 +1762,32 @@ public class GlobalTokens: NSObject {
     // MARK: - BorderSize
 
     public enum BorderSizeToken: TokenSetKey {
-        case none
-        case thinnest
-        case thinner
-        case thin
-        case thick
-        case thicker
-        case thickest
+        case strokeWidthNone
+        case strokeWidth05
+        case strokeWidth10
+        case strokeWidth15
+        case strokeWidth20
+        case strokeWidth30
+        case strokeWidth40
+        case strokeWidth60
     }
     public static func borderSize(_ token: BorderSizeToken) -> CGFloat {
         switch token {
-        case .none:
+        case .strokeWidthNone:
             return 0
-        case .thinnest:
+        case .strokeWidth05:
             return 0.5
-        case .thinner:
+        case .strokeWidth10:
             return 1
-        case .thin:
+        case .strokeWidth15:
             return 1.5
-        case .thick:
+        case .strokeWidth20:
             return 2
-        case .thicker:
+        case .strokeWidth30:
+            return 3
+        case .strokeWidth40:
             return 4
-        case .thickest:
+        case .strokeWidth60:
             return 6
         }
     }

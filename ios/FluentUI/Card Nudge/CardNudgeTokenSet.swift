@@ -109,7 +109,7 @@ public class CardNudgeTokenSet: ControlTokenSet<CardNudgeTokenSet.Tokens> {
 
             case .outlineWidth:
                 return .float {
-                    GlobalTokens.borderSize(.thinner)
+                    GlobalTokens.borderSize(.strokeWidth10)
                 }
 
             case .subtitleTextColor:

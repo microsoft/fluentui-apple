@@ -168,7 +168,7 @@ public class NotificationTokenSet: ControlTokenSet<NotificationTokenSet.Tokens> 
                     case true:
                         return GlobalTokens.borderRadius(.xLarge)
                     case false:
-                        return GlobalTokens.borderSize(.none)
+                        return GlobalTokens.borderSize(.strokeWidthNone)
                     }
                 }
 
@@ -202,7 +202,7 @@ public class NotificationTokenSet: ControlTokenSet<NotificationTokenSet.Tokens> 
                 }
 
             case .outlineWidth:
-                return .float { GlobalTokens.borderSize(.thinnest) }
+                return .float { GlobalTokens.borderSize(.strokeWidth05) }
 
             case .shadow:
                 return .shadowInfo {
