@@ -7,10 +7,15 @@
 "Accessibility.ActivityIndicator.Animating.label" = "قيد التقدم";
 "Accessibility.ActivityIndicator.Stopped.label" = "تم إيقاف التقدم";
 
+/* Accessibility alert for common use */
 "Accessibility.Alert" = "تنبيه";
+/* Accessibility dismiss label for common use */
 "Accessibility.Dismiss.Label" = "تجاهل";
+/* Accessibility dismiss hint for common use */
 "Accessibility.Dismiss.Hint" = "اضغط ضغطاً مزدوجاً للتجاهل";
+/* Accessibility done label for common use */
 "Accessibility.Done.Label" = "تم";
+/* Accessibility multi select hint for common use */
 "Accessibility.MultiSelect.Hint" = "اضغط ضغطاً مزدوجاً برفق لتبديل التحديد";
 
 /* Accessibility label for the upper calendar date picker view. */
@@ -117,6 +122,9 @@
 /* Format string for tab bar item accessbility labels. Format: "<Title>, <BadgeValue> items". Example: "Home, 5 items" */
 "Accessibility.TabBarItemView.LabelFormat" = "%@، %@ من العناصر";
 
+/* Accessibility hint for TabBarItem in TabBarItemView. Indicates whether the item is unread or not. Format: "<Title>, unread". Example: "Files, unread" */
+"Accessibility.TabBarItemView.UnreadFormat" = "%@, غير مقروء";
+
 /* Format string for badge label button accessibility label. Format: "<Item Accessibility>, <Badge Label Accessibility>". Example: "Notifications, 5 new notifications" */
 "Accessibility.BadgeLabelButton.LabelFormat" = "%@, %@";
 
@@ -150,7 +158,7 @@
 /* Day and time format string. Example: "Fri at 11:00 AM" */
 "Date.FormatDayTime" = "%@ الساعة %@";
 
-// MSPersonaListView
+/* MSPersonaListView cell title: search(action) the directory */
 "MSPersonaListView.SearchDirectory" = "البحث في الدليل";
 
 /* MSDateTimePicker label for the start time of a date range */
