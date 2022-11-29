@@ -451,7 +451,6 @@ public final class AliasTokens {
         case foreground3
         case foregroundDisabled1
         case foregroundDisabled2
-        case foregroundContrast
         case foregroundOnColor
         case foregroundInverted1
         case foregroundInverted2
@@ -459,11 +458,6 @@ public final class AliasTokens {
         case brandForeground1
         case brandForeground1Pressed
         case brandForeground1Selected
-        case brandForeground2
-        case brandForeground3
-        case brandForeground4
-        case brandForeground5
-        case brandForegroundInverted
         case brandForegroundDisabled1
         case brandForegroundDisabled2
         case foregroundDarkStatic
@@ -489,7 +483,6 @@ public final class AliasTokens {
         case background6
         case background6Pressed
         case background6Selected
-        case backgroundInverted
         case backgroundDisabled
         case brandBackgroundTint
         case brandBackground1
@@ -500,17 +493,16 @@ public final class AliasTokens {
         case brandBackground2Selected
         case brandBackground3
         case brandBackground3Pressed
-        case brandBackground3Selected
-        case brandBackground4
         case background5BrandFilledSelected
         case background5BrandTintSelected
-        case brandBackgroundInverted
         case brandBackgroundDisabled
-        case brandBackgroundInvertedDisabled
         case stencil1
         case stencil2
         case canvasBackground
         case backgroundDarkStatic
+        case backgroundInverted
+        case backgroundLightStatic
+        case backgroundLightStaticDisabled
         // Stroke colors
         case stroke1
         case stroke2
@@ -541,9 +533,6 @@ public final class AliasTokens {
         case .foregroundDisabled2:
             return DynamicColor(light: GlobalTokens.neutralColors(.white),
                                 dark: GlobalTokens.neutralColors(.grey18))
-        case .foregroundContrast:
-            return DynamicColor(light: GlobalTokens.neutralColors(.black),
-                                dark: GlobalTokens.neutralColors(.black))
         case .foregroundOnColor:
             return DynamicColor(light: GlobalTokens.neutralColors(.white),
                                 dark: GlobalTokens.neutralColors(.black))
@@ -564,19 +553,6 @@ public final class AliasTokens {
         case .brandForeground1Selected:
             return DynamicColor(light: strongSelf.brandColors[.comm60].light,
                                 dark: strongSelf.brandColors[.comm120].light)
-        case .brandForeground2:
-            return DynamicColor(light: strongSelf.brandColors[.comm160].light,
-                                dark: strongSelf.brandColors[.comm20].light)
-        case .brandForeground3:
-            return DynamicColor(light: strongSelf.brandColors[.comm150].light)
-        case .brandForeground4:
-            return DynamicColor(light: strongSelf.brandColors[.comm80].light,
-                                dark: strongSelf.brandColors[.comm120].light)
-        case .brandForeground5:
-            return DynamicColor(light: strongSelf.brandColors[.comm70].light)
-        case .brandForegroundInverted:
-            return DynamicColor(light: strongSelf.brandColors[.comm80].light,
-                                dark: GlobalTokens.neutralColors(.white))
         case .brandForegroundDisabled1:
             return DynamicColor(light: strongSelf.brandColors[.comm90].light)
         case .brandForegroundDisabled2:
@@ -669,10 +645,6 @@ public final class AliasTokens {
          return DynamicColor(light: GlobalTokens.neutralColors(.grey74),
                              dark: GlobalTokens.neutralColors(.grey50),
                              darkElevated: GlobalTokens.neutralColors(.grey50))
-        case .backgroundInverted:
-         return DynamicColor(light: GlobalTokens.neutralColors(.grey46),
-                             dark: GlobalTokens.neutralColors(.grey72),
-                             darkElevated: GlobalTokens.neutralColors(.grey78))
         case .backgroundDisabled:
          return DynamicColor(light: GlobalTokens.neutralColors(.grey88),
                              dark: GlobalTokens.neutralColors(.grey32),
@@ -701,26 +673,15 @@ public final class AliasTokens {
         case .brandBackground3Pressed:
             return DynamicColor(light: strongSelf.brandColors[.comm30].light,
                                 dark: strongSelf.brandColors[.comm160].light)
-        case .brandBackground3Selected:
-            return DynamicColor(light: strongSelf.brandColors[.comm150].light)
-        case .brandBackground4:
-            return DynamicColor(light: strongSelf.brandColors[.comm160].light,
-                                dark: strongSelf.brandColors[.comm20].light)
         case .background5BrandFilledSelected:
             return DynamicColor(light: strongSelf.brandColors[.comm80].light,
                                 dark: GlobalTokens.neutralColors(.grey38))
         case .background5BrandTintSelected:
             return DynamicColor(light: strongSelf.brandColors[.comm160].light,
                                 dark: GlobalTokens.neutralColors(.grey38))
-        case .brandBackgroundInverted:
-            return DynamicColor(light: GlobalTokens.neutralColors(.white),
-                                dark: GlobalTokens.neutralColors(.white))
         case .brandBackgroundDisabled:
             return DynamicColor(light: strongSelf.brandColors[.comm140].light,
                                 dark: strongSelf.brandColors[.comm40].light)
-        case .brandBackgroundInvertedDisabled:
-            return DynamicColor(light: GlobalTokens.neutralColors(.white),
-                                dark: GlobalTokens.neutralColors(.grey86))
         case .stencil1:
          return DynamicColor(light: GlobalTokens.neutralColors(.grey90),
                              dark: GlobalTokens.neutralColors(.grey34))
@@ -735,10 +696,23 @@ public final class AliasTokens {
             return DynamicColor(light: GlobalTokens.neutralColors(.grey14),
                                 dark: GlobalTokens.neutralColors(.grey24),
                                 darkElevated: GlobalTokens.neutralColors(.grey30))
+        case .backgroundInverted:
+            return DynamicColor(light: GlobalTokens.neutralColors(.grey46),
+                                dark: GlobalTokens.neutralColors(.grey72),
+                                darkElevated: GlobalTokens.neutralColors(.grey78))
+        case .backgroundLightStatic:
+            return DynamicColor(light: GlobalTokens.neutralColors(.white),
+                                dark: GlobalTokens.neutralColors(.white),
+                                darkElevated: GlobalTokens.neutralColors(.white))
+        case .backgroundLightStaticDisabled:
+            return DynamicColor(light: GlobalTokens.neutralColors(.white),
+                                dark: GlobalTokens.neutralColors(.grey68),
+                                darkElevated: GlobalTokens.neutralColors(.grey42))
         // Stroke colors
         case .stroke1:
             return DynamicColor(light: GlobalTokens.neutralColors(.grey82),
-                                dark: GlobalTokens.neutralColors(.grey32))
+                                dark: GlobalTokens.neutralColors(.grey30),
+                                darkElevated: GlobalTokens.neutralColors(.grey36))
         case .stroke2:
             return DynamicColor(light: GlobalTokens.neutralColors(.grey88),
                                 dark: GlobalTokens.neutralColors(.grey24))

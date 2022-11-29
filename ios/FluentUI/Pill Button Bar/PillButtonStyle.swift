@@ -54,7 +54,7 @@ public extension PillButton {
         case .primary:
             return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandBackground1])
         case .onBrand:
-            return UIColor(light: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandBackgroundInverted]), dark: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandBackground1]))
+            return UIColor(light: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background1]), dark: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandBackground1]))
         }
     }
 
@@ -138,9 +138,11 @@ public extension PillButton {
     static func enabledUnreadDotColor(for fluentTheme: FluentTheme, for style: PillButtonStyle) -> UIColor {
         switch style {
         case .primary:
-            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForegroundInverted])
+            return UIColor(light: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1]),
+                           dark: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2]))
         case .onBrand:
-            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundOnColor])
+            return UIColor(light: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundOnColor]),
+                           dark: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1]))
         }
     }
 
@@ -149,7 +151,8 @@ public extension PillButton {
         case .primary:
             return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundDisabled1])
         case .onBrand:
-            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForegroundDisabled1])
+            return UIColor(light: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForegroundDisabled1]),
+                           dark: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundDisabled1]))
         }
     }
 }

@@ -67,7 +67,6 @@ class AliasColorTokensDemoController: DemoTableViewController {
              .background6Pressed,
              .background6Selected,
              .backgroundDisabled,
-             .brandBackground4,
              .background5BrandTintSelected,
              .brandBackgroundDisabled,
              .canvasBackground,
@@ -75,7 +74,6 @@ class AliasColorTokensDemoController: DemoTableViewController {
              .stencil2,
              .foregroundDisabled2,
              .foregroundOnColor,
-             .brandForeground2,
              .brandForegroundDisabled2,
              .stroke1,
              .stroke2,
@@ -89,7 +87,6 @@ class AliasColorTokensDemoController: DemoTableViewController {
              .foreground2,
              .foreground3,
              .foregroundInverted2,
-             .brandForegroundInverted,
              .strokeFocus2,
              .brandBackground1Pressed,
              .brandForeground1Pressed,
@@ -98,18 +95,13 @@ class AliasColorTokensDemoController: DemoTableViewController {
              .brandForegroundTint,
              .brandStroke1Selected:
             return UIColor(dynamicColor: aliasTokens.colors[.foregroundOnColor])
-        case .brandBackground3Selected,
-             .brandBackgroundInverted,
-             .brandBackgroundInvertedDisabled,
-             .foregroundInverted1,
+        case .foregroundInverted1,
              .foregroundLightStatic,
-             .brandForeground3:
-            return UIColor(dynamicColor: aliasTokens.colors[.foregroundContrast])
-        case .foregroundContrast,
-             .brandForeground1,
+             .backgroundLightStatic,
+             .backgroundLightStaticDisabled:
+            return UIColor(dynamicColor: aliasTokens.colors[.foregroundDarkStatic])
+        case .brandForeground1,
              .brandForeground1Selected,
-             .brandForeground4,
-             .brandForeground5,
              .brandForegroundDisabled1,
              .background5SelectedBrandFilled,
              .backgroundInverted,
@@ -184,7 +176,9 @@ private enum AliasColorTokensDemoSection: CaseIterable {
                     .canvasBackground,
                     .stencil1,
                     .stencil2,
-                    .backgroundDarkStatic]
+                    .backgroundDarkStatic,
+                    .backgroundLightStatic,
+                    .backgroundLightStaticDisabled]
         case .brandBackgrounds:
             return [.brandBackgroundTint,
                     .brandBackground1,
@@ -195,22 +189,17 @@ private enum AliasColorTokensDemoSection: CaseIterable {
                     .brandBackground2Selected,
                     .brandBackground3,
                     .brandBackground3Pressed,
-                    .brandBackground3Selected,
-                    .brandBackground4,
                     .background5BrandTint,
                     .background5SelectedBrandFilled,
                     .background5BrandFilledSelected,
                     .background5BrandTintSelected,
-                    .brandBackgroundInverted,
-                    .brandBackgroundDisabled,
-                    .brandBackgroundInvertedDisabled]
+                    .brandBackgroundDisabled]
         case .neutralForegrounds:
             return [.foreground1,
                     .foreground2,
                     .foreground3,
                     .foregroundDisabled1,
                     .foregroundDisabled2,
-                    .foregroundContrast,
                     .foregroundOnColor,
                     .foregroundInverted1,
                     .foregroundInverted2,
@@ -221,11 +210,6 @@ private enum AliasColorTokensDemoSection: CaseIterable {
                     .brandForeground1,
                     .brandForeground1Pressed,
                     .brandForeground1Selected,
-                    .brandForeground2,
-                    .brandForeground3,
-                    .brandForeground4,
-                    .brandForeground5,
-                    .brandForegroundInverted,
                     .brandForegroundDisabled1,
                     .brandForegroundDisabled2]
         case .neutralStrokes:
@@ -256,8 +240,6 @@ private extension AliasTokens.ColorsTokens {
             return "Foreground Disabled 1"
         case .foregroundDisabled2:
             return "Foreground Disabled 2"
-        case .foregroundContrast:
-            return "Foreground Contrast"
         case .foregroundOnColor:
             return "Foreground On Color"
         case .foregroundInverted1:
@@ -270,16 +252,6 @@ private extension AliasTokens.ColorsTokens {
             return "Brand Foreground 1 Pressed"
         case .brandForeground1Selected:
             return "Brand Foreground 1 Selected"
-        case .brandForeground2:
-            return "Brand Foreground 2"
-        case .brandForeground3:
-            return "Brand Foreground 3"
-        case .brandForeground4:
-            return "Brand Foreground 4"
-        case .brandForeground5:
-            return "Brand Foreground 5"
-        case .brandForegroundInverted:
-            return "Brand Foreground Inverted"
         case .brandForegroundDisabled1:
             return "Brand Foreground Disabled 1"
         case .brandForegroundDisabled2:
@@ -344,20 +316,12 @@ private extension AliasTokens.ColorsTokens {
             return "Brand Background 3"
         case .brandBackground3Pressed:
             return "Brand Background 3 Pressed"
-        case .brandBackground3Selected:
-            return "Brand Background 3 Selected"
-        case .brandBackground4:
-            return "Brand Background 4"
         case .background5BrandFilledSelected:
             return "Background 5 Brand Filled Selected"
         case .background5BrandTintSelected:
             return "Background 5 Brand Tint Selected"
-        case .brandBackgroundInverted:
-            return "Brand Background Inverted"
         case .brandBackgroundDisabled:
             return "Brand Background Disabled"
-        case .brandBackgroundInvertedDisabled:
-            return "Brand Background Inverted Disabled"
         case .brandBackgroundTint:
             return "Brand Background Tint"
         case .brandForegroundTint:
@@ -392,6 +356,10 @@ private extension AliasTokens.ColorsTokens {
             return "Foreground Light Static"
         case .backgroundDarkStatic:
             return "Background Dark Static"
+        case .backgroundLightStatic:
+            return "BackgroundLightStatic"
+        case .backgroundLightStaticDisabled:
+            return "BackgroundLightStaticDisabled"
         }
     }
 }
