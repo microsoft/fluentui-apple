@@ -41,9 +41,6 @@ public class SegmentedControlTokenSet: ControlTokenSet<SegmentedControlTokenSet.
         /// The color of the unread dot when the `SegmentedControl` is enabled.
         case enabledUnreadDotColor
 
-        /// The color of the unread dot when the `SegmentedControl` is enabled and active.
-        case enabledActiveUnreadDotColor
-
         /// The color of the unread dot when the `SegmentedControl` is disabled.
         case disabledUnreadDotColor
 
@@ -197,17 +194,6 @@ public class SegmentedControlTokenSet: ControlTokenSet<SegmentedControlTokenSet.
                 }
 
             case .enabledUnreadDotColor:
-                return .dynamicColor {
-                    switch style() {
-                    case .primaryPill:
-                        return theme.aliasTokens.foregroundColors[.brandRest]
-                    case .onBrandPill:
-                        return DynamicColor(light: theme.aliasTokens.foregroundColors[.neutralInverted].light,
-                                            dark: theme.aliasTokens.foregroundColors[.neutral2].dark)
-                    }
-                }
-
-            case .enabledActiveUnreadDotColor:
                 return .dynamicColor {
                     switch style() {
                     case .primaryPill:
