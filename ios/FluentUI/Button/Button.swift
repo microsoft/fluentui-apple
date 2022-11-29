@@ -104,6 +104,12 @@ open class Button: UIButton, TokenizedControlInternal {
         if #available(iOS 15, *) {
             var configuration = UIButton.Configuration.plain()
             configuration.contentInsets = edgeInsets
+            let titleTransformer = UIConfigurationTextAttributesTransformer { incoming in
+                var outgoing = incoming
+                outgoing.font = UIFont.fluent(self.tokenSet[.titleFont].fontInfo)
+                return outgoing
+            }
+            configuration.titleTextAttributesTransformer = titleTransformer
             self.configuration = configuration
         }
 
