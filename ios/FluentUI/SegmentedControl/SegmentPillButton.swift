@@ -114,7 +114,13 @@ class SegmentPillButton: UIButton {
     private func updateUnreadDot() {
         isUnreadDotVisible = item.isUnread
         if isUnreadDotVisible {
-            let anchor = self.titleLabel?.frame ?? .zero
+            let anchorView: UIView?
+            if item.image != nil {
+                anchorView = self.imageView
+            } else {
+                anchorView = self.titleLabel
+            }
+            let anchor = anchorView?.frame ?? .zero
             let xPos: CGFloat
             if effectiveUserInterfaceLayoutDirection == .leftToRight {
                 xPos = anchor.maxX + tokenSet[.unreadDotOffsetX].float
