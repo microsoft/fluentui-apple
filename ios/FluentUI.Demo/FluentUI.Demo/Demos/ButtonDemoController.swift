@@ -20,7 +20,10 @@ class ButtonDemoController: DemoController {
             let disabledButton = makeButton(style: style,
                                             title: "Button",
                                             isEnabled: false)
-            addRow(items: [button, disabledButton], itemSpacing: 20)
+            let titleButtonStack = UIStackView(arrangedSubviews: [button, disabledButton])
+            titleButtonStack.spacing = 20
+            titleButtonStack.distribution = .fillProportionally
+            container.addArrangedSubview(titleButtonStack)
 
             if let image = style.image {
                 let iconButton = makeButton(style: style,
@@ -30,14 +33,20 @@ class ButtonDemoController: DemoController {
                                                     title: "Button",
                                                     image: image,
                                                     isEnabled: false)
-                addRow(items: [iconButton, disabledIconButton], itemSpacing: 20)
+                let titleImageButtonStack = UIStackView(arrangedSubviews: [iconButton, disabledIconButton])
+                titleImageButtonStack.spacing = 20
+                titleImageButtonStack.distribution = .fillProportionally
+                container.addArrangedSubview(titleImageButtonStack)
 
                 let iconOnlyButton = makeButton(style: style,
                                                 image: image)
                 let disabledIconOnlyButton = makeButton(style: style,
                                                         image: image,
                                                         isEnabled: false)
-                addRow(items: [iconOnlyButton, disabledIconOnlyButton], itemSpacing: 20)
+                let imageButtonStack = UIStackView(arrangedSubviews: [iconOnlyButton, disabledIconOnlyButton])
+                imageButtonStack.spacing = 20
+                imageButtonStack.distribution = .fillProportionally
+                container.addArrangedSubview(imageButtonStack)
             }
         }
 
