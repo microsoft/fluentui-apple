@@ -23,9 +23,6 @@ public class SegmentedControlTokenSet: ControlTokenSet<SegmentedControlTokenSet.
         /// Defines the label color of the unselected segments of the `SegmentedControl`.
         case restLabelColor
 
-        /// Defines the label color of the pressed segments of the `SegmentedControl`.
-        case pressedLabelColor
-
         /// Defines the label color of the selected segments of the `SegmentedControl`.
         case selectedLabelColor
 
@@ -125,18 +122,6 @@ public class SegmentedControlTokenSet: ControlTokenSet<SegmentedControlTokenSet.
                         return DynamicColor(light: theme.aliasTokens.colors[.foregroundOnColor].light,
                                             dark: theme.aliasTokens.colors[.foreground2].dark,
                                             darkElevated: theme.aliasTokens.colors[.foreground2].dark)
-                    }
-                }
-
-            case .pressedLabelColor:
-                return .dynamicColor {
-                    switch style() {
-                    case .primaryPill:
-                        return theme.aliasTokens.colors[.foreground1]
-                    case .onBrandPill:
-                        return DynamicColor(light: theme.aliasTokens.colors[.foregroundOnColor].light,
-                                            dark: theme.aliasTokens.colors[.foreground1].dark,
-                                            darkElevated: theme.aliasTokens.colors[.foreground1].dark)
                     }
                 }
 
