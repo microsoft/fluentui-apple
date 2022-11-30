@@ -355,7 +355,7 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         invalidateIntrinsicContentSize()
-        layoutSubviews()
+        setNeedsLayout()
     }
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
@@ -397,10 +397,6 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
         if isFixedWidth {
             invalidateIntrinsicContentSize()
         }
-    }
-
-    func intrinsicContentSizeInvalidatedForChildView() {
-        invalidateIntrinsicContentSize()
     }
 
     /// Used to retrieve the view from the segment at the specified index
