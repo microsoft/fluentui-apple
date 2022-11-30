@@ -15,60 +15,64 @@ class ButtonDemoController: DemoController {
         for style in ButtonStyle.allCases {
             addTitle(text: style.description)
 
-            let button = Button(style: style)
-            button.setTitle("Button", for: .normal)
-            buttons.append(button)
-
-            let disabledButton = Button(style: style)
-            disabledButton.isEnabled = false
-            disabledButton.setTitle("Button", for: .normal)
-            buttons.append(disabledButton)
-
+            let button = makeButton(style: style,
+                                    title: "Button")
+            let disabledButton = makeButton(style: style,
+                                            title: "Button",
+                                            isEnabled: false)
             addRow(items: [button, disabledButton], itemSpacing: 20)
 
             if let image = style.image {
-                let iconButton = Button(style: style)
-                iconButton.setTitle("Button", for: .normal)
-                iconButton.image = image
-                buttons.append(iconButton)
-
-                let disabledIconButton = Button(style: style)
-                disabledIconButton.isEnabled = false
-                disabledIconButton.setTitle("Button", for: .normal)
-                disabledIconButton.image = image
-                buttons.append(disabledIconButton)
-
+                let iconButton = makeButton(style: style,
+                                            title: "Button",
+                                            image: image)
+                let disabledIconButton = makeButton(style: style,
+                                                    title: "Button",
+                                                    image: image,
+                                                    isEnabled: false)
                 addRow(items: [iconButton, disabledIconButton], itemSpacing: 20)
 
-                let iconOnlyButton = Button(style: style)
-                iconOnlyButton.image = image
-                buttons.append(iconOnlyButton)
-
-                let disabledIconOnlyButton = Button(style: style)
-                disabledIconOnlyButton.isEnabled = false
-                disabledIconOnlyButton.image = image
-                buttons.append(disabledIconOnlyButton)
-
+                let iconOnlyButton = makeButton(style: style,
+                                                image: image)
+                let disabledIconOnlyButton = makeButton(style: style,
+                                                        image: image,
+                                                        isEnabled: false)
                 addRow(items: [iconOnlyButton, disabledIconOnlyButton], itemSpacing: 20)
             }
         }
 
         addTitle(text: "With multi-line title")
-        let button = Button(style: .primaryFilled)
-        button.setTitle("Longer Text Button", for: .normal)
-        button.titleLabel?.numberOfLines = 0
-        buttons.append(button)
-
-        let iconButton = Button(style: .primaryFilled)
-        iconButton.setTitle("Longer Text Button", for: .normal)
-        iconButton.titleLabel?.numberOfLines = 0
-        iconButton.image = ButtonStyle.primaryFilled.image
-        buttons.append(iconButton)
-
+        let button = makeButton(style: .primaryFilled,
+                                title: "Longer Text Button")
+        let iconButton = makeButton(style: .primaryFilled,
+                                    title: "Longer Text Button",
+                                    image: ButtonStyle.primaryFilled.image)
         addRow(items: [button])
         addRow(items: [iconButton])
 
         container.addArrangedSubview(UIView())
+    }
+
+    private func makeButton(style: ButtonStyle, title: String? = nil, image: UIImage? = nil, isEnabled: Bool = true) -> Button {
+        let button = Button(style: style)
+        if let title = title {
+            button.setTitle(title, for: .normal)
+            button.titleLabel?.numberOfLines = 0
+        }
+        if let image = image {
+            button.image = image
+        }
+        button.isEnabled = isEnabled
+        button.addTarget(self, action: #selector(handleTap), for: .touchUpInside)
+        buttons.append(button)
+        return button
+    }
+
+    @objc private func handleTap() {
+        let alert = UIAlertController(title: "Button was tapped", message: nil, preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default)
+        alert.addAction(action)
+        present(alert, animated: true)
     }
 
     private var buttons: [Button] = []
