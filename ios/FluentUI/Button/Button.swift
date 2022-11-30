@@ -353,7 +353,7 @@ open class Button: UIButton, TokenizedControlInternal {
             borderColor = borderColors.rest
         }
 
-        layer.borderColor = UIColor(dynamicColor: borderColor).cgColor
+        layer.borderColor = UIColor(dynamicColor: borderColor).resolvedColor(with: traitCollection).cgColor
     }
 
     private func defaultEdgeInsets() -> NSDirectionalEdgeInsets {
