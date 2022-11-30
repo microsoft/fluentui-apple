@@ -197,10 +197,13 @@ public class SegmentedControlTokenSet: ControlTokenSet<SegmentedControlTokenSet.
                 return .dynamicColor {
                     switch style() {
                     case .primaryPill:
-                        return theme.aliasTokens.foregroundColors[.brandRest]
+                        return DynamicColor(light: theme.aliasTokens.colors[.brandForeground1].light,
+                                            dark: theme.aliasTokens.colors[.foreground1].dark,
+                                            darkElevated: theme.aliasTokens.colors[.foreground1].dark)
                     case .onBrandPill:
-                        return DynamicColor(light: theme.aliasTokens.foregroundColors[.neutralInverted].light,
-                                            dark: theme.aliasTokens.foregroundColors[.neutral2].dark)
+                        return DynamicColor(light: theme.aliasTokens.colors[.foregroundOnColor].light,
+                                            dark: theme.aliasTokens.colors[.foreground1].dark,
+                                            darkElevated: theme.aliasTokens.colors[.foreground1].dark)
                     }
                 }
 
