@@ -198,10 +198,6 @@ open class Button: UIButton, TokenizedControlInternal {
             return
         }
         tokenSet.update(themeView.fluentTheme)
-        updateBackgroundColor()
-        updateTitleColors()
-        updateImage()
-        updateBorderColor()
     }
 
     public typealias TokenSetKeyType = ButtonTokenSet.Tokens
