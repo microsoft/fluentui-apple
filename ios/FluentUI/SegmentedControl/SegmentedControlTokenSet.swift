@@ -11,9 +11,6 @@ public class SegmentedControlTokenSet: ControlTokenSet<SegmentedControlTokenSet.
         /// Defines the background color of the unselected segments of the `SegmentedControl`.
         case restTabColor
 
-        /// Defines the background color of the pressed segments of the `SegmentedControl`.
-        case pressedTabColor
-
         /// Defines the background color of the selected segments of the `SegmentedControl`.
         case selectedTabColor
 
@@ -78,20 +75,6 @@ public class SegmentedControlTokenSet: ControlTokenSet<SegmentedControlTokenSet.
                         return DynamicColor(light: theme.aliasTokens.colors[.brandBackground2].light,
                                             dark: theme.aliasTokens.colors[.background3].dark,
                                             darkElevated: theme.aliasTokens.colors[.background5].dark)
-                    }
-                }
-
-            case .pressedTabColor:
-                return .dynamicColor {
-                    switch style() {
-                    case .primaryPill:
-                        return DynamicColor(light: theme.aliasTokens.colors[.background5Pressed].light,
-                                            dark: theme.aliasTokens.colors[.background3Pressed].dark,
-                                            darkElevated: theme.aliasTokens.colors[.background5Pressed].dark)
-                    case .onBrandPill:
-                        return DynamicColor(light: theme.aliasTokens.colors[.brandBackground2Pressed].light,
-                                            dark: theme.aliasTokens.colors[.background3Pressed].dark,
-                                            darkElevated: theme.aliasTokens.colors[.background5Pressed].dark)
                     }
                 }
 
