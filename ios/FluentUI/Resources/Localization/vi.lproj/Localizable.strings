@@ -7,10 +7,15 @@
 "Accessibility.ActivityIndicator.Animating.label" = "Đang tiến hành";
 "Accessibility.ActivityIndicator.Stopped.label" = "Tiến độ tạm dừng";
 
+/* Accessibility alert for common use */
 "Accessibility.Alert" = "Cảnh báo";
+/* Accessibility dismiss label for common use */
 "Accessibility.Dismiss.Label" = "Bỏ";
+/* Accessibility dismiss hint for common use */
 "Accessibility.Dismiss.Hint" = "Nhấn đúp để bỏ";
+/* Accessibility done label for common use */
 "Accessibility.Done.Label" = "Đã xong";
+/* Accessibility multi select hint for common use */
 "Accessibility.MultiSelect.Hint" = "Nhấn đúp để chuyển đổi lựa chọn";
 
 /* Accessibility label for the upper calendar date picker view. */
@@ -117,6 +122,9 @@
 /* Format string for tab bar item accessbility labels. Format: "<Title>, <BadgeValue> items". Example: "Home, 5 items" */
 "Accessibility.TabBarItemView.LabelFormat" = "%@, %@ mục";
 
+/* Accessibility hint for TabBarItem in TabBarItemView. Indicates whether the item is unread or not. Format: "<Title>, unread". Example: "Files, unread" */
+"Accessibility.TabBarItemView.UnreadFormat" = "%@, chưa đọc";
+
 /* Format string for badge label button accessibility label. Format: "<Item Accessibility>, <Badge Label Accessibility>". Example: "Notifications, 5 new notifications" */
 "Accessibility.BadgeLabelButton.LabelFormat" = "%@, %@";
 
@@ -150,7 +158,7 @@
 /* Day and time format string. Example: "Fri at 11:00 AM" */
 "Date.FormatDayTime" = "%@ lúc %@";
 
-// MSPersonaListView
+/* MSPersonaListView cell title: search(action) the directory */
 "MSPersonaListView.SearchDirectory" = "Tìm kiếm trong thư mục";
 
 /* MSDateTimePicker label for the start time of a date range */
