@@ -127,7 +127,8 @@ open class Button: UIButton, TokenizedControlInternal {
     }
 
     open override func didUpdateFocus(in context: UIFocusUpdateContext, with coordinator: UIFocusAnimationCoordinator) {
-        guard style.isFilledStyle, (self == context.nextFocusedView || self == context.previouslyFocusedView) else {
+        guard style == .primaryFilled || style == .dangerFilled,
+              (self == context.nextFocusedView || self == context.previouslyFocusedView) else {
             return
         }
 

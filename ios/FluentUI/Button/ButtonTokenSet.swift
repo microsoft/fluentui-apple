@@ -16,33 +16,6 @@ public enum ButtonStyle: Int, CaseIterable {
     case secondaryOutline
     case tertiaryOutline
     case borderless
-
-    var hasBorders: Bool {
-        switch self {
-        case .dangerOutline, .primaryOutline, .secondaryOutline, .tertiaryOutline:
-            return true
-        case .borderless, .dangerFilled, .primaryFilled:
-            return false
-        }
-    }
-
-    var isDangerStyle: Bool {
-        switch self {
-        case .dangerFilled, .dangerOutline:
-            return true
-        case .borderless, .primaryFilled, .primaryOutline, .secondaryOutline, .tertiaryOutline:
-            return false
-        }
-    }
-
-    var isFilledStyle: Bool {
-        switch self {
-        case .dangerFilled, .primaryFilled:
-            return true
-        case .borderless, .dangerOutline, .primaryOutline, .secondaryOutline, .tertiaryOutline:
-            return false
-        }
-    }
 }
 
 /// Design token set for the `Button` control.
@@ -75,7 +48,9 @@ public class ButtonTokenSet :ControlTokenSet<ButtonTokenSet.Tokens> {
                             hover: theme.aliasTokens.backgroundColors[.brandHover],
                             pressed: theme.aliasTokens.backgroundColors[.brandPressed],
                             selected: theme.aliasTokens.backgroundColors[.brandSelected],
-                            disabled: theme.aliasTokens.backgroundColors[.brandDisabled]
+                            // surfaceQuaternary
+                            disabled: DynamicColor(light: ColorValue(0xE1E1E1) /* gray100*/,
+                                                   dark: ColorValue(0x404040) /* gray600 */)
                         )
                     case .primaryOutline, .dangerOutline, .secondaryOutline, .tertiaryOutline, .borderless:
                         return .init(
