@@ -45,9 +45,12 @@ public class ButtonTokenSet :ControlTokenSet<ButtonTokenSet.Tokens> {
                     case .primaryFilled:
                         return .init(
                             rest: theme.aliasTokens.backgroundColors[.brandRest],
-                            hover: theme.aliasTokens.backgroundColors[.brandHover],
-                            pressed: theme.aliasTokens.backgroundColors[.brandPressed],
-                            selected: theme.aliasTokens.backgroundColors[.brandSelected],
+                            hover: DynamicColor(light: theme.aliasTokens.brandColors[.tint10].light,
+                                                dark: theme.aliasTokens.brandColors[.tint20].dark),
+                            pressed: DynamicColor(light: theme.aliasTokens.brandColors[.tint10].light,
+                                                  dark: theme.aliasTokens.brandColors[.tint20].dark),
+                            selected: DynamicColor(light: theme.aliasTokens.brandColors[.tint10].light,
+                                                   dark: theme.aliasTokens.brandColors[.tint20].dark),
                             // surfaceQuaternary
                             disabled: DynamicColor(light: ColorValue(0xE1E1E1) /* gray100*/,
                                                    dark: ColorValue(0x404040) /* gray600 */)
@@ -90,11 +93,13 @@ public class ButtonTokenSet :ControlTokenSet<ButtonTokenSet.Tokens> {
                         )
                     case .primaryOutline, .secondaryOutline, .tertiaryOutline:
                         return .init(
-                            rest: theme.aliasTokens.backgroundColors[.brandRest],
-                            hover: theme.aliasTokens.backgroundColors[.brandHover],
-                            pressed: theme.aliasTokens.backgroundColors[.brandPressed],
-                            selected: theme.aliasTokens.backgroundColors[.brandSelected],
-                            disabled: theme.aliasTokens.backgroundColors[.brandDisabled]
+                            rest: theme.aliasTokens.brandColors[.tint10],
+                            hover: theme.aliasTokens.brandColors[.tint30],
+                            pressed: theme.aliasTokens.brandColors[.tint30],
+                            selected: theme.aliasTokens.brandColors[.tint30],
+                            // surfaceQuaternary
+                            disabled: DynamicColor(light: ColorValue(0xE1E1E1) /* gray100*/,
+                                                   dark: ColorValue(0x404040) /* gray600 */)
                         )
                     case .dangerOutline:
                         return .init(
@@ -148,10 +153,14 @@ public class ButtonTokenSet :ControlTokenSet<ButtonTokenSet.Tokens> {
                     case .primaryOutline, .secondaryOutline, .tertiaryOutline, .borderless:
                         return .init(
                             rest: theme.aliasTokens.foregroundColors[.brandRest],
-                            hover: theme.aliasTokens.foregroundColors[.brandHover],
-                            pressed: theme.aliasTokens.foregroundColors[.brandPressed],
-                            selected: theme.aliasTokens.foregroundColors[.brandSelected],
-                            disabled: theme.aliasTokens.foregroundColors[.brandDisabled]
+                            hover: theme.aliasTokens.brandColors[.tint20],
+                            pressed: theme.aliasTokens.brandColors[.tint20],
+                            selected: theme.aliasTokens.brandColors[.tint20],
+                            // textDisabled
+                            disabled: DynamicColor(light: ColorValue(0xACACAC) /* gray300 */,
+                                                   lightHighContrast: ColorValue(0x6E6E6E) /* gray500 */,
+                                                   dark: ColorValue(0x404040) /* gray600 */,
+                                                   darkHighContrast: ColorValue(0x919191) /* gray400 */)
                         )
                     case .dangerOutline:
                         return .init(
