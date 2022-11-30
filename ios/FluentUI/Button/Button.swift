@@ -135,11 +135,8 @@ open class Button: UIButton, TokenizedControlInternal {
     }
 
     open override func didMoveToWindow() {
-        super.didMoveToWindow()
-        updateBackgroundColor()
-        updateTitleColors()
-        updateImage()
-        updateBorderColor()
+        tokenSet.update(fluentTheme)
+        update()
     }
 
     open override func layoutSubviews() {

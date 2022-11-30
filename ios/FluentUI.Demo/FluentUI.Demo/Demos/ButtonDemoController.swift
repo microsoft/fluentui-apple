@@ -112,7 +112,8 @@ extension ButtonDemoController: DemoAppearanceDelegate {
             return
         }
 
-        fluentTheme.register(tokenSetType: ButtonTokenSet.self, tokenSet: isOverrideEnabled ? themeWideOverrideButtonTokens : nil)
+        fluentTheme.register(tokenSetType: ButtonTokenSet.self,
+                             tokenSet: isOverrideEnabled ? themeWideOverrideButtonTokens : nil)
     }
 
     func perControlOverrideDidChange(isOverrideEnabled: Bool) {
@@ -122,20 +123,48 @@ extension ButtonDemoController: DemoAppearanceDelegate {
     }
 
     func isThemeWideOverrideApplied() -> Bool {
-        return self.view.window?.fluentTheme.tokens(for: ButtonTokenSet.self)?.isEmpty == false
+        return self.view.window?.fluentTheme.tokens(for: ButtonTokenSet.self) != nil
     }
 
     // MARK: - Custom tokens
 
     private var themeWideOverrideButtonTokens: [ButtonTokenSet.Tokens: ControlTokenValue] {
+        let foreground = DynamicColor(light: GlobalTokens.sharedColors(.marigold, .tint40),
+                                      dark: GlobalTokens.sharedColors(.marigold, .shade30))
+        let background = DynamicColor(light: GlobalTokens.sharedColors(.marigold, .shade30),
+                                      dark: GlobalTokens.sharedColors(.marigold, .tint40))
+        let clear = DynamicColor(light: .clear)
         return [
             .titleFont: .fontInfo { FontInfo(name: "Times", size: 20.0, weight: .regular) },
+            .foregroundColor: .buttonDynamicColors {
+                ButtonDynamicColors(rest: foreground, hover: foreground, pressed: foreground, selected: foreground, disabled: foreground)
+            },
+            .backgroundColor: .buttonDynamicColors {
+                ButtonDynamicColors(rest: background, hover: background, pressed: background, selected: background, disabled: background)
+            },
+            .borderColor: .buttonDynamicColors {
+                ButtonDynamicColors(rest: clear, hover: clear, pressed: clear, selected: clear, disabled: clear)
+            }
         ]
     }
 
     private var perControlOverrideButtonTokens: [ButtonTokenSet.Tokens: ControlTokenValue] {
+        let foreground = DynamicColor(light: GlobalTokens.sharedColors(.orchid, .tint40),
+                                      dark: GlobalTokens.sharedColors(.orchid, .shade30))
+        let background = DynamicColor(light: GlobalTokens.sharedColors(.orchid, .shade30),
+                                      dark: GlobalTokens.sharedColors(.orchid, .tint40))
+        let clear = DynamicColor(light: .clear)
         return [
-            .titleFont: .fontInfo { FontInfo(name: "Papyrus", size: 20.0, weight: .regular) }
+            .titleFont: .fontInfo { FontInfo(name: "Papyrus", size: 20.0, weight: .regular) },
+            .foregroundColor: .buttonDynamicColors {
+                ButtonDynamicColors(rest: foreground, hover: foreground, pressed: foreground, selected: foreground, disabled: foreground)
+            },
+            .backgroundColor: .buttonDynamicColors {
+                ButtonDynamicColors(rest: background, hover: background, pressed: background, selected: background, disabled: background)
+            },
+            .borderColor: .buttonDynamicColors {
+                ButtonDynamicColors(rest: clear, hover: clear, pressed: clear, selected: clear, disabled: clear)
+            }
         ]
     }
 }
