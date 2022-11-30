@@ -168,7 +168,7 @@ public class NotificationTokenSet: ControlTokenSet<NotificationTokenSet.Tokens> 
                     case true:
                         return GlobalTokens.borderRadius(.cornerRadius120)
                     case false:
-                        return GlobalTokens.borderSize(.strokeWidthNone)
+                        return GlobalTokens.borderRadius(.cornerRadiusNone)
                     }
                 }
 
