@@ -32,7 +32,7 @@ public class HeadsUpDisplayTokenSet: ControlTokenSet<HeadsUpDisplayTokenSet.Toke
 
             case .cornerRadius:
                 return .float {
-                    return GlobalTokens.borderRadius(.cornerRadius40)
+                    return GlobalTokens.cornerRadius(.cornerRadius40)
                 }
 
             case .activityIndicatorColor:

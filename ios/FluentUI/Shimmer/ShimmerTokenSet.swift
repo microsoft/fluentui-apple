@@ -96,10 +96,10 @@ public class ShimmerTokenSet: ControlTokenSet<ShimmerTokenSet.Tokens> {
                 return .float { 0.4 }
 
             case .cornerRadius:
-                return .float { GlobalTokens.borderRadius(.cornerRadius40) }
+                return .float { GlobalTokens.cornerRadius(.cornerRadius40) }
 
             case .labelCornerRadius:
-                return .float { GlobalTokens.borderRadius(.cornerRadius20) }
+                return .float { GlobalTokens.cornerRadius(.cornerRadius20) }
 
             case .labelHeight:
                 return .float { 11.0 }

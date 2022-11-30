@@ -1734,7 +1734,7 @@ public class GlobalTokens: NSObject {
 
     // MARK: - BorderRadius
 
-    public enum BorderRadiusToken: TokenSetKey {
+    public enum CornerRadiusToken: TokenSetKey {
         case cornerRadiusNone
         case cornerRadius20
         case cornerRadius40
@@ -1743,7 +1743,7 @@ public class GlobalTokens: NSObject {
         case cornerRadius120
         case cornerRadiusCircular
     }
-    public static func borderRadius(_ token: BorderRadiusToken) -> CGFloat {
+    public static func cornerRadius(_ token: CornerRadiusToken) -> CGFloat {
         switch token {
         case .cornerRadiusNone:
             return 0
@@ -1764,7 +1764,7 @@ public class GlobalTokens: NSObject {
 
     // MARK: - BorderSize
 
-    public enum BorderSizeToken: TokenSetKey {
+    public enum StrokeWidthToken: TokenSetKey {
         case strokeWidthNone
         case strokeWidth05
         case strokeWidth10
@@ -1774,7 +1774,7 @@ public class GlobalTokens: NSObject {
         case strokeWidth40
         case strokeWidth60
     }
-    public static func borderSize(_ token: BorderSizeToken) -> CGFloat {
+    public static func strokeWidth(_ token: StrokeWidthToken) -> CGFloat {
         switch token {
         case .strokeWidthNone:
             return 0
