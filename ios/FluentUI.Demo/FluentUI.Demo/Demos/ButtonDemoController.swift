@@ -142,41 +142,31 @@ extension ButtonDemoController: DemoAppearanceDelegate {
     // MARK: - Custom tokens
 
     private var themeWideOverrideButtonTokens: [ButtonTokenSet.Tokens: ControlTokenValue] {
-        let foreground = DynamicColor(light: GlobalTokens.sharedColors(.marigold, .tint40),
-                                      dark: GlobalTokens.sharedColors(.marigold, .shade30))
-        let background = DynamicColor(light: GlobalTokens.sharedColors(.marigold, .shade30),
-                                      dark: GlobalTokens.sharedColors(.marigold, .tint40))
-        let clear = DynamicColor(light: .clear)
         return [
             .titleFont: .fontInfo { FontInfo(name: "Times", size: 20.0, weight: .regular) },
-            .foregroundColor: .buttonDynamicColors {
-                ButtonDynamicColors(rest: foreground, hover: foreground, pressed: foreground, selected: foreground, disabled: foreground)
+            .backgroundColor: .dynamicColor {
+                return DynamicColor(light: GlobalTokens.sharedColors(.marigold, .shade30),
+                                    dark: GlobalTokens.sharedColors(.marigold, .tint40))
             },
-            .backgroundColor: .buttonDynamicColors {
-                ButtonDynamicColors(rest: background, hover: background, pressed: background, selected: background, disabled: background)
-            },
-            .borderColor: .buttonDynamicColors {
-                ButtonDynamicColors(rest: clear, hover: clear, pressed: clear, selected: clear, disabled: clear)
+            .borderColor: .dynamicColor { DynamicColor(light: .clear) },
+            .foregroundColor: .dynamicColor {
+                return DynamicColor(light: GlobalTokens.sharedColors(.marigold, .tint40),
+                                    dark: GlobalTokens.sharedColors(.marigold, .shade30))
             }
         ]
     }
 
     private var perControlOverrideButtonTokens: [ButtonTokenSet.Tokens: ControlTokenValue] {
-        let foreground = DynamicColor(light: GlobalTokens.sharedColors(.orchid, .tint40),
-                                      dark: GlobalTokens.sharedColors(.orchid, .shade30))
-        let background = DynamicColor(light: GlobalTokens.sharedColors(.orchid, .shade30),
-                                      dark: GlobalTokens.sharedColors(.orchid, .tint40))
-        let clear = DynamicColor(light: .clear)
         return [
             .titleFont: .fontInfo { FontInfo(name: "Papyrus", size: 20.0, weight: .regular) },
-            .foregroundColor: .buttonDynamicColors {
-                ButtonDynamicColors(rest: foreground, hover: foreground, pressed: foreground, selected: foreground, disabled: foreground)
+            .backgroundColor: .dynamicColor {
+                return DynamicColor(light: GlobalTokens.sharedColors(.orchid, .shade30),
+                                    dark: GlobalTokens.sharedColors(.orchid, .tint40))
             },
-            .backgroundColor: .buttonDynamicColors {
-                ButtonDynamicColors(rest: background, hover: background, pressed: background, selected: background, disabled: background)
-            },
-            .borderColor: .buttonDynamicColors {
-                ButtonDynamicColors(rest: clear, hover: clear, pressed: clear, selected: clear, disabled: clear)
+            .borderColor: .dynamicColor { DynamicColor(light: .clear) },
+            .foregroundColor: .dynamicColor {
+                return DynamicColor(light: GlobalTokens.sharedColors(.orchid, .tint40),
+                                    dark: GlobalTokens.sharedColors(.orchid, .shade30))
             }
         ]
     }

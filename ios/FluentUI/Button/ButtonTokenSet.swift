@@ -24,8 +24,20 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
         /// Defines the background color of the button
         case backgroundColor
 
+        /// Defines the background color of the button when disabled
+        case backgroundDisabledColor
+
+        /// Defines the background color of the button when pressed
+        case backgroundPressedColor
+
         /// Defines the border color of the button
         case borderColor
+
+        /// Defines the border color of the button when disabled
+        case borderDisabledColor
+
+        /// Defines the border color of the button when pressed
+        case borderPressedColor
 
         /// Defines the width of the border around the button
         case borderWidth
@@ -36,6 +48,12 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
         /// Defines the colors of the text and icon of the button
         case foregroundColor
 
+        /// Defines the colors of the text and icon of the button when disabled
+        case foregroundDisabledColor
+
+        /// Defines the colors of the text and icon of the button when pressed
+        case foregroundPressedColor
+
         /// Defines the font of the title of the button
         case titleFont
     }
@@ -45,85 +63,77 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
         super.init { [style] token, theme in
             switch token {
             case .backgroundColor:
-                return .buttonDynamicColors {
+                return .dynamicColor {
                     switch style() {
                     case .primaryFilled:
-                        return .init(
-                            rest: theme.aliasTokens.backgroundColors[.brandRest],
-                            hover: DynamicColor(light: theme.aliasTokens.brandColors[.tint10].light,
-                                                dark: theme.aliasTokens.brandColors[.tint20].dark),
-                            pressed: DynamicColor(light: theme.aliasTokens.brandColors[.tint10].light,
-                                                  dark: theme.aliasTokens.brandColors[.tint20].dark),
-                            selected: DynamicColor(light: theme.aliasTokens.brandColors[.tint10].light,
-                                                   dark: theme.aliasTokens.brandColors[.tint20].dark),
-                            // surfaceQuaternary
-                            disabled: DynamicColor(light: ColorValue(0xE1E1E1) /* gray100*/,
-                                                   dark: ColorValue(0x404040) /* gray600 */)
-                        )
+                        return theme.aliasTokens.backgroundColors[.brandRest]
                     case .primaryOutline, .dangerOutline, .secondaryOutline, .tertiaryOutline, .borderless:
-                        return .init(
-                            rest: DynamicColor(light: ColorValue.clear),
-                            hover: DynamicColor(light: ColorValue.clear),
-                            pressed: DynamicColor(light: ColorValue.clear),
-                            selected: DynamicColor(light: ColorValue.clear),
-                            disabled: DynamicColor(light: ColorValue.clear)
-                        )
+                        return DynamicColor(light: ColorValue.clear)
                     case .dangerFilled:
-                        return .init(
-                            // dangerPrimary
-                            rest: DynamicColor(light: ColorValue(0xD92C2C),
-                                               dark: ColorValue(0xE83A3A)),
-                            hover: DynamicColor(light: ColorValue(0xDD4242) /* dangerTint10.any */,
-                                                dark: ColorValue(0x8B2323) /* dangerTint20.dark */),
-                            pressed: DynamicColor(light: ColorValue(0xDD4242) /* dangerTint10.any */,
-                                                  dark: ColorValue(0x8B2323) /* dangerTint20.dark */),
-                            selected: DynamicColor(light: ColorValue(0xDD4242) /* dangerTint10.any */,
-                                                   dark: ColorValue(0x8B2323) /* dangerTint20 */),
-                            // surfaceQuaternary
-                            disabled: DynamicColor(light: ColorValue(0xE1E1E1) /* gray100*/,
-                                                   dark: ColorValue(0x404040) /* gray600 */)
-                        )
+                        // dangerPrimary
+                        return DynamicColor(light: ColorValue(0xD92C2C),
+                                            dark: ColorValue(0xE83A3A))
+                    }
+                }
+            case .backgroundDisabledColor:
+                return .dynamicColor {
+                    switch style() {
+                    case .primaryFilled, .dangerFilled:
+                        // surfaceQuaternary
+                        return DynamicColor(light: ColorValue(0xE1E1E1) /* gray100*/,
+                                            dark: ColorValue(0x404040) /* gray600 */)
+                    case .primaryOutline, .dangerOutline, .secondaryOutline, .tertiaryOutline, .borderless:
+                        return DynamicColor(light: ColorValue.clear)
+                    }
+                }
+            case .backgroundPressedColor:
+                return .dynamicColor {
+                    switch style() {
+                    case .primaryFilled:
+                        return DynamicColor(light: theme.aliasTokens.brandColors[.tint10].light,
+                                            dark: theme.aliasTokens.brandColors[.tint20].dark)
+                    case .primaryOutline, .dangerOutline, .secondaryOutline, .tertiaryOutline, .borderless:
+                        return DynamicColor(light: ColorValue.clear)
+                    case .dangerFilled:
+                        return DynamicColor(light: ColorValue(0xDD4242) /* dangerTint10.any */,
+                                            dark: ColorValue(0x8B2323) /* dangerTint20.dark */)
                     }
                 }
             case .borderColor:
-                return .buttonDynamicColors {
+                return .dynamicColor {
                     switch style() {
                     case .primaryFilled, .dangerFilled, .borderless:
-                        return .init(
-                            rest: DynamicColor(light: ColorValue.clear),
-                            hover: DynamicColor(light: ColorValue.clear),
-                            pressed: DynamicColor(light: ColorValue.clear),
-                            selected: DynamicColor(light: ColorValue.clear),
-                            disabled: DynamicColor(light: ColorValue.clear)
-                        )
+                        return DynamicColor(light: ColorValue.clear)
                     case .primaryOutline, .secondaryOutline, .tertiaryOutline:
-                        return .init(
-                            rest: theme.aliasTokens.brandColors[.tint10],
-                            hover: theme.aliasTokens.brandColors[.tint30],
-                            pressed: theme.aliasTokens.brandColors[.tint30],
-                            selected: theme.aliasTokens.brandColors[.tint30],
-                            // surfaceQuaternary
-                            disabled: DynamicColor(light: ColorValue(0xE1E1E1) /* gray100*/,
-                                                   dark: ColorValue(0x404040) /* gray600 */)
-                        )
+                        return theme.aliasTokens.brandColors[.tint10]
                     case .dangerOutline:
-                        return .init(
-                            // dangerTint10
-                            rest: DynamicColor(light: ColorValue(0xDD4242),
-                                               dark: ColorValue(0xCC3333)),
-                            // dangerTint30
-                            hover: DynamicColor(light: ColorValue(0xF4B9B9),
-                                                dark: ColorValue(0x461111)),
-                            // dangerTint30
-                            pressed: DynamicColor(light: ColorValue(0xF4B9B9),
-                                                  dark: ColorValue(0x461111)),
-                            // dangerTint30
-                            selected: DynamicColor(light: ColorValue(0xF4B9B9),
-                                                   dark: ColorValue(0x461111)),
-                            // surfaceQuaternary
-                            disabled: DynamicColor(light: ColorValue(0xE1E1E1) /* gray100*/,
-                                                   dark: ColorValue(0x404040) /* gray600 */)
-                        )
+                        // dangerTint10
+                        return DynamicColor(light: ColorValue(0xDD4242),
+                                            dark: ColorValue(0xCC3333))
+                    }
+                }
+            case .borderDisabledColor:
+                return .dynamicColor {
+                    switch style() {
+                    case .primaryFilled, .dangerFilled, .borderless:
+                        return DynamicColor(light: ColorValue.clear)
+                    case .primaryOutline, .secondaryOutline, .tertiaryOutline, .dangerOutline:
+                        // surfaceQuaternary
+                        return DynamicColor(light: ColorValue(0xE1E1E1) /* gray100*/,
+                                            dark: ColorValue(0x404040) /* gray600 */)
+                    }
+                }
+            case .borderPressedColor:
+                return .dynamicColor {
+                    switch style() {
+                    case .primaryFilled, .dangerFilled, .borderless:
+                        return DynamicColor(light: ColorValue.clear)
+                    case .primaryOutline, .secondaryOutline, .tertiaryOutline:
+                        return theme.aliasTokens.brandColors[.tint30]
+                    case .dangerOutline:
+                        // dangerTint30
+                        return DynamicColor(light: ColorValue(0xF4B9B9),
+                                            dark: ColorValue(0x461111))
                     }
                 }
             case .borderWidth:
@@ -145,48 +155,42 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                     }
                 }
             case .foregroundColor:
-                return .buttonDynamicColors {
+                return .dynamicColor {
                     switch style() {
                     case .primaryFilled, .dangerFilled:
-                        return .init(
-                            rest: theme.aliasTokens.foregroundColors[.neutralInverted],
-                            hover: theme.aliasTokens.foregroundColors[.neutralInverted],
-                            pressed: theme.aliasTokens.foregroundColors[.neutralInverted],
-                            selected: theme.aliasTokens.foregroundColors[.neutralInverted],
-                            disabled: theme.aliasTokens.foregroundColors[.neutralInverted]
-                        )
+                        return theme.aliasTokens.foregroundColors[.neutralInverted]
                     case .primaryOutline, .secondaryOutline, .tertiaryOutline, .borderless:
-                        return .init(
-                            rest: theme.aliasTokens.foregroundColors[.brandRest],
-                            hover: theme.aliasTokens.brandColors[.tint20],
-                            pressed: theme.aliasTokens.brandColors[.tint20],
-                            selected: theme.aliasTokens.brandColors[.tint20],
-                            // textDisabled
-                            disabled: DynamicColor(light: ColorValue(0xACACAC) /* gray300 */,
-                                                   lightHighContrast: ColorValue(0x6E6E6E) /* gray500 */,
-                                                   dark: ColorValue(0x404040) /* gray600 */,
-                                                   darkHighContrast: ColorValue(0x919191) /* gray400 */)
-                        )
+                        return theme.aliasTokens.foregroundColors[.brandRest]
                     case .dangerOutline:
-                        return .init(
-                            // dangerPrimary
-                            rest: DynamicColor(light: ColorValue(0xD92C2C),
-                                               dark: ColorValue(0xE83A3A)),
-                            // dangerTint20
-                            hover: DynamicColor(light: ColorValue(0xE87979),
-                                                dark: ColorValue(0x8B2323)),
-                            // dangerTint20
-                            pressed: DynamicColor(light: ColorValue(0xE87979),
-                                                  dark: ColorValue(0x8B2323)),
-                            // dangerTint20
-                            selected: DynamicColor(light: ColorValue(0xE87979),
-                                                   dark: ColorValue(0x8B2323)),
-                            // textDisabled
-                            disabled: DynamicColor(light: ColorValue(0xACACAC) /* gray300 */,
-                                                   lightHighContrast: ColorValue(0x6E6E6E) /* gray500 */,
-                                                   dark: ColorValue(0x404040) /* gray600 */,
-                                                   darkHighContrast: ColorValue(0x919191) /* gray400 */)
-                        )
+                        // dangerPrimary
+                        return DynamicColor(light: ColorValue(0xD92C2C),
+                                            dark: ColorValue(0xE83A3A))
+                    }
+                }
+            case .foregroundDisabledColor:
+                return .dynamicColor {
+                    switch style() {
+                    case .primaryFilled, .dangerFilled:
+                        return theme.aliasTokens.foregroundColors[.neutralInverted]
+                    case .primaryOutline, .secondaryOutline, .tertiaryOutline, .borderless, .dangerOutline:
+                        // textDisabled
+                        return DynamicColor(light: ColorValue(0xACACAC) /* gray300 */,
+                                            lightHighContrast: ColorValue(0x6E6E6E) /* gray500 */,
+                                            dark: ColorValue(0x404040) /* gray600 */,
+                                            darkHighContrast: ColorValue(0x919191) /* gray400 */)
+                    }
+                }
+            case .foregroundPressedColor:
+                return .dynamicColor {
+                    switch style() {
+                    case .primaryFilled, .dangerFilled:
+                        return theme.aliasTokens.foregroundColors[.neutralInverted]
+                    case .primaryOutline, .secondaryOutline, .tertiaryOutline, .borderless:
+                        return theme.aliasTokens.brandColors[.tint20]
+                    case .dangerOutline:
+                        // dangerTint20
+                        return DynamicColor(light: ColorValue(0xE87979),
+                                            dark: ColorValue(0x8B2323))
                     }
                 }
             case .titleFont:

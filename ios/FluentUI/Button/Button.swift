@@ -207,19 +207,17 @@ open class Button: UIButton, TokenizedControlInternal {
     })
 
     private func updateTitleColors() {
-        let foregroundColors = tokenSet[.foregroundColor].buttonDynamicColors
-        setTitleColor(UIColor(dynamicColor: foregroundColors.rest), for: .normal)
-        setTitleColor(UIColor(dynamicColor: foregroundColors.pressed), for: .highlighted)
-        setTitleColor(UIColor(dynamicColor: foregroundColors.disabled), for: .disabled)
+        setTitleColor(UIColor(dynamicColor: tokenSet[.foregroundColor].dynamicColor), for: .normal)
+        setTitleColor(UIColor(dynamicColor: tokenSet[.foregroundPressedColor].dynamicColor), for: .highlighted)
+        setTitleColor(UIColor(dynamicColor: tokenSet[.foregroundDisabledColor].dynamicColor), for: .disabled)
     }
 
     private func updateImage() {
         let isDisplayingImage = style != .tertiaryOutline && image != nil
 
-        let foregroundColors = tokenSet[.foregroundColor].buttonDynamicColors
-        let normalColor = UIColor(dynamicColor: foregroundColors.rest)
-        let highlightedColor = UIColor(dynamicColor: foregroundColors.hover)
-        let disabledColor = UIColor(dynamicColor: foregroundColors.disabled)
+        let normalColor = UIColor(dynamicColor: tokenSet[.foregroundColor].dynamicColor)
+        let highlightedColor = UIColor(dynamicColor: tokenSet[.foregroundPressedColor].dynamicColor)
+        let disabledColor = UIColor(dynamicColor: tokenSet[.foregroundDisabledColor].dynamicColor)
         let needsSetImage = isDisplayingImage && image(for: .normal) == nil
 
         if needsSetImage || !normalColor.isEqual(normalImageTintColor) {
@@ -319,32 +317,30 @@ open class Button: UIButton, TokenizedControlInternal {
     }
 
     private func updateBackgroundColor() {
-        let backgroundColors = tokenSet[.backgroundColor].buttonDynamicColors
         let backgroundColor: DynamicColor
 
         if !isEnabled {
-            backgroundColor = backgroundColors.disabled
+            backgroundColor = tokenSet[.backgroundDisabledColor].dynamicColor
         } else if isHighlighted {
-            backgroundColor = backgroundColors.pressed
+            backgroundColor = tokenSet[.backgroundPressedColor].dynamicColor
         } else if isFocused {
-            backgroundColor = backgroundColors.hover
+            backgroundColor = tokenSet[.backgroundPressedColor].dynamicColor
         } else {
-            backgroundColor = backgroundColors.rest
+            backgroundColor = tokenSet[.backgroundColor].dynamicColor
         }
 
         self.backgroundColor = UIColor(dynamicColor: backgroundColor)
     }
 
     private func updateBorderColor() {
-        let borderColors = tokenSet[.borderColor].buttonDynamicColors
         let borderColor: DynamicColor
 
         if !isEnabled {
-            borderColor = borderColors.disabled
+            borderColor = tokenSet[.borderDisabledColor].dynamicColor
         } else if isHighlighted {
-            borderColor = borderColors.pressed
+            borderColor = tokenSet[.borderPressedColor].dynamicColor
         } else {
-            borderColor = borderColors.rest
+            borderColor = tokenSet[.borderColor].dynamicColor
         }
 
         layer.borderColor = UIColor(dynamicColor: borderColor).resolvedColor(with: traitCollection).cgColor
