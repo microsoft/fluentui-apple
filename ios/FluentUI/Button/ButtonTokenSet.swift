@@ -27,8 +27,8 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
         /// Defines the border color of the button
         case borderColor
 
-        /// Defines the size of the border around the button
-        case borderSize
+        /// Defines the width of the border around the button
+        case borderWidth
 
         /// Defines the radius of the corners of the button
         case cornerRadius
