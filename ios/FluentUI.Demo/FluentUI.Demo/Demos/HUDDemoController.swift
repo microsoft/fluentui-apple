@@ -295,7 +295,7 @@ extension HUDDemoController: DemoAppearanceDelegate {
     private var perControlOverrideHeadsUpDisplayTokens: [HeadsUpDisplayTokenSet.Tokens: ControlTokenValue] {
         let aliasTokens = self.view.fluentTheme.aliasTokens
         return [
-            .cornerRadius: .float { GlobalTokens.cornerRadius(.cornerRadius120) },
+            .cornerRadius: .float { GlobalTokens.corner(.cornerRadius120) },
             .labelColor: .dynamicColor { aliasTokens.brandColors[.primary] }
         ]
     }

@@ -46,5 +46,5 @@ public class DividerTokenSet: ControlTokenSet<DividerTokenSet.Tokens> {
     let spacing: () -> MSFDividerSpacing
 
     /// The default thickness for the divider: half pt.
-    static var thickness: CGFloat { return GlobalTokens.strokeWidth(.strokeWidth05) }
+    static var thickness: CGFloat { return GlobalTokens.stroke(.strokeWidth05) }
 }

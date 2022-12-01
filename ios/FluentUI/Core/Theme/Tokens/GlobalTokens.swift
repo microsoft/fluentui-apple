@@ -1743,7 +1743,7 @@ public class GlobalTokens: NSObject {
         case cornerRadius120
         case cornerRadiusCircular
     }
-    public static func cornerRadius(_ token: CornerRadiusToken) -> CGFloat {
+    public static func corner(_ token: CornerRadiusToken) -> CGFloat {
         switch token {
         case .cornerRadiusNone:
             return 0
@@ -1774,7 +1774,7 @@ public class GlobalTokens: NSObject {
         case strokeWidth40
         case strokeWidth60
     }
-    public static func strokeWidth(_ token: StrokeWidthToken) -> CGFloat {
+    public static func stroke(_ token: StrokeWidthToken) -> CGFloat {
         switch token {
         case .strokeWidthNone:
             return 0
