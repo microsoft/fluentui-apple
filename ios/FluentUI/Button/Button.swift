@@ -223,25 +223,25 @@ open class Button: UIButton, TokenizedControlInternal {
         let highlightedColor = UIColor(dynamicColor: foregroundColors.hover)
         let disabledColor = UIColor(dynamicColor: foregroundColors.disabled)
         let needsSetImage = isDisplayingImage && image(for: .normal) == nil
-        
+
         if needsSetImage || !normalColor.isEqual(normalImageTintColor) {
             normalImageTintColor = normalColor
             setImage(image?.withTintColor(normalColor, renderingMode: .alwaysOriginal), for: .normal)
         }
-        
+
         if needsSetImage || !highlightedColor.isEqual(highlightedImageTintColor) {
             highlightedImageTintColor = highlightedColor
             setImage(image?.withTintColor(highlightedColor, renderingMode: .alwaysOriginal), for: .highlighted)
         }
-        
+
         if needsSetImage || !disabledColor.isEqual(disabledImageTintColor) {
             disabledImageTintColor = disabledColor
             setImage(image?.withTintColor(disabledColor, renderingMode: .alwaysOriginal), for: .disabled)
         }
-        
+
         if needsSetImage {
             updateProposedTitleLabelWidth()
-            
+
             if isUsingCustomContentEdgeInsets {
                 adjustCustomContentEdgeInsetsForImage()
             }

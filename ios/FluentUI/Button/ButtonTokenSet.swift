@@ -19,18 +19,23 @@ public enum ButtonStyle: Int, CaseIterable {
 }
 
 /// Design token set for the `Button` control.
-public class ButtonTokenSet :ControlTokenSet<ButtonTokenSet.Tokens> {
+public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
     public enum Tokens: TokenSetKey {
         /// Defines the background color of the button
         case backgroundColor
+
         /// Defines the border color of the button
         case borderColor
+
         /// Defines the size of the border around the button
         case borderSize
+
         /// Defines the radius of the corners of the button
         case cornerRadius
+
         /// Defines the colors of the text and icon of the button
         case foregroundColor
+
         /// Defines the font of the title of the button
         case titleFont
     }
