@@ -419,6 +419,7 @@ open class SegmentedControl: UIControl {
             }
             button.frame = CGRect(x: leftOffset, y: 0, width: rightOffset - leftOffset, height: pillContainerView.frame.height)
             leftOffset = rightOffset
+            button.setNeedsLayout()
         }
 
             // flipSubviewsForRTL only works on direct children subviews
@@ -437,7 +438,7 @@ open class SegmentedControl: UIControl {
         if shouldSetEqualWidthForSegments {
             invalidateIntrinsicContentSize()
         }
-        layoutSubviews()
+        setNeedsLayout()
     }
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
@@ -483,10 +484,6 @@ open class SegmentedControl: UIControl {
     open override func didMoveToWindow() {
         super.didMoveToWindow()
         updateWindowSpecificColors()
-    }
-
-    func intrinsicContentSizeInvalidatedForChildView() {
-        invalidateIntrinsicContentSize()
     }
 
     /// Used to retrieve the view from the segment at the specified index
