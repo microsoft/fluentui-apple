@@ -87,12 +87,12 @@ public class CardNudgeTokenSet: ControlTokenSet<CardNudgeTokenSet.Tokens> {
 
             case .circleRadius:
                 return .float {
-                    GlobalTokens.corner(.cornerRadiusCircular)
+                    GlobalTokens.corner(.radiusCircular)
                 }
 
             case .cornerRadius:
                 return .float {
-                    GlobalTokens.corner(.cornerRadius120)
+                    GlobalTokens.corner(.radius120)
                 }
 
             case .outlineColor:
@@ -109,7 +109,7 @@ public class CardNudgeTokenSet: ControlTokenSet<CardNudgeTokenSet.Tokens> {
 
             case .outlineWidth:
                 return .float {
-                    GlobalTokens.stroke(.strokeWidth10)
+                    GlobalTokens.stroke(.width10)
                 }
 
             case .subtitleTextColor:

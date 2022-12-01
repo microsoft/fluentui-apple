@@ -53,17 +53,17 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
                 return .float({
                     switch style() {
                     case .default, .accent, .outlined, .outlinedPrimary, .overflow:
-                        return GlobalTokens.corner(.cornerRadiusNone)
+                        return GlobalTokens.corner(.radiusNone)
                     case .group:
                         switch size() {
                         case .size16, .size20:
-                            return GlobalTokens.corner(.cornerRadius20)
+                            return GlobalTokens.corner(.radius20)
                         case .size24, .size32:
-                            return GlobalTokens.corner(.cornerRadius40)
+                            return GlobalTokens.corner(.radius40)
                         case .size40, .size56:
-                            return GlobalTokens.corner(.cornerRadius80)
+                            return GlobalTokens.corner(.radius80)
                         case .size72:
-                            return GlobalTokens.corner(.cornerRadius120)
+                            return GlobalTokens.corner(.radius120)
                         }
                     }
                 })
@@ -105,11 +105,11 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
                 return .float({
                     switch size() {
                     case .size16, .size20, .size24:
-                        return GlobalTokens.stroke(.strokeWidth10)
+                        return GlobalTokens.stroke(.width10)
                     case .size32, .size40, .size56:
-                        return GlobalTokens.stroke(.strokeWidth20)
+                        return GlobalTokens.stroke(.width20)
                     case .size72:
-                        return GlobalTokens.stroke(.strokeWidth40)
+                        return GlobalTokens.stroke(.width40)
                     }
                 })
 
@@ -117,9 +117,9 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
                 return .float({
                     switch size() {
                     case .size16, .size20, .size24, .size32, .size40, .size56:
-                        return GlobalTokens.stroke(.strokeWidth20)
+                        return GlobalTokens.stroke(.width20)
                     case .size72:
-                        return GlobalTokens.stroke(.strokeWidth40)
+                        return GlobalTokens.stroke(.width40)
                     }
                 })
 
@@ -127,9 +127,9 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
                 return .float({
                     switch size() {
                     case .size16, .size20, .size24, .size32, .size40, .size56:
-                        return GlobalTokens.stroke(.strokeWidth20)
+                        return GlobalTokens.stroke(.width20)
                     case .size72:
-                        return GlobalTokens.stroke(.strokeWidth40)
+                        return GlobalTokens.stroke(.width40)
                     }
                 })
 
@@ -137,9 +137,9 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
                 return .float({
                     switch size() {
                     case .size16:
-                        return GlobalTokens.stroke(.strokeWidthNone)
+                        return GlobalTokens.stroke(.widthNone)
                     case .size20, .size24, .size32, .size40, .size56, .size72:
-                        return GlobalTokens.stroke(.strokeWidth20)
+                        return GlobalTokens.stroke(.width20)
                     }
                 })
 

@@ -383,7 +383,7 @@ open class Button: UIButton {
     private lazy var dangerTitleAndImageColor: UIColor = UIColor(dynamicColor: fluentTheme.aliasTokens.sharedColors[.dangerForeground2])
     private lazy var dangerFilledTitleAndImageColor: UIColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundLightStatic])
 
-    private lazy var borderWidth = GlobalTokens.stroke(.strokeWidth10)
+    private lazy var borderWidth = GlobalTokens.stroke(.width10)
 
     private var normalImageTintColor: UIColor?
     private var highlightedImageTintColor: UIColor?

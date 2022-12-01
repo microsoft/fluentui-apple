@@ -1735,29 +1735,29 @@ public class GlobalTokens: NSObject {
     // MARK: - BorderRadius
 
     public enum CornerRadiusToken: TokenSetKey {
-        case cornerRadiusNone
-        case cornerRadius20
-        case cornerRadius40
-        case cornerRadius60
-        case cornerRadius80
-        case cornerRadius120
-        case cornerRadiusCircular
+        case radiusNone
+        case radius20
+        case radius40
+        case radius60
+        case radius80
+        case radius120
+        case radiusCircular
     }
     public static func corner(_ token: CornerRadiusToken) -> CGFloat {
         switch token {
-        case .cornerRadiusNone:
+        case .radiusNone:
             return 0
-        case .cornerRadius20:
+        case .radius20:
             return 2
-        case .cornerRadius40:
+        case .radius40:
             return 4
-        case .cornerRadius60:
+        case .radius60:
             return 6
-        case .cornerRadius80:
+        case .radius80:
             return 8
-        case .cornerRadius120:
+        case .radius120:
             return 12
-        case .cornerRadiusCircular:
+        case .radiusCircular:
             return 9999
         }
     }
@@ -1765,32 +1765,32 @@ public class GlobalTokens: NSObject {
     // MARK: - BorderSize
 
     public enum StrokeWidthToken: TokenSetKey {
-        case strokeWidthNone
-        case strokeWidth05
-        case strokeWidth10
-        case strokeWidth15
-        case strokeWidth20
-        case strokeWidth30
-        case strokeWidth40
-        case strokeWidth60
+        case widthNone
+        case width05
+        case width10
+        case width15
+        case width20
+        case width30
+        case width40
+        case width60
     }
     public static func stroke(_ token: StrokeWidthToken) -> CGFloat {
         switch token {
-        case .strokeWidthNone:
+        case .widthNone:
             return 0
-        case .strokeWidth05:
+        case .width05:
             return 0.5
-        case .strokeWidth10:
+        case .width10:
             return 1
-        case .strokeWidth15:
+        case .width15:
             return 1.5
-        case .strokeWidth20:
+        case .width20:
             return 2
-        case .strokeWidth30:
+        case .width30:
             return 3
-        case .strokeWidth40:
+        case .width40:
             return 4
-        case .strokeWidth60:
+        case .width60:
             return 6
         }
     }
