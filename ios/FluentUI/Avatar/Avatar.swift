@@ -423,20 +423,18 @@ public struct Avatar: View, TokenizedControlView {
             }
 
             let combinedHashable = combined as NSString
-            return Int(abs(hashCode(combinedHashable)))
+            return Int(abs(javaHashCode(combinedHashable)))
         }
 
-        /// Hash algorithm to determine Avatar color.
-        /// Referenced from: https://github.com/microsoft/fluentui/blob/master/packages/react-components/react-avatar/src/components/Avatar/useAvatar.tsx#L200
-        /// - Returns: Hash code
-        private static func hashCode(_ text: NSString) -> Int32 {
+        /// To ensure iOS and Android achieve the same result when generating string hash codes (e.g. to determine avatar colors) we've copied Java's String implementation of `hashCode`.
+        /// Must use Int32 as JVM specification is 32-bits for ints
+        /// - Returns: hash code of string
+        private static func javaHashCode(_ text: NSString) -> Int32 {
             var hash: Int32 = 0
-            for len in (0..<text.length).reversed() {
-                let ch = text.character(at: len)
-                let shift = len % 8
-                hash ^= Int32((ch << shift) + (ch >> (8 - shift)))
-              }
-
+            for i in 0..<text.length {
+                // Allow overflows, mimicking Java behavior
+                hash = 31 &* hash &+ Int32(text.character(at: i))
+            }
             return hash
         }
 
