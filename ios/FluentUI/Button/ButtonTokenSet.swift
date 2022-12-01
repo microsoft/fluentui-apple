@@ -126,7 +126,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                         )
                     }
                 }
-            case .borderSize:
+            case .borderWidth:
                 return .float {
                     switch style() {
                     case .primaryFilled, .dangerFilled, .borderless:
