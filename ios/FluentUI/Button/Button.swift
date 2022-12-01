@@ -274,6 +274,10 @@ open class Button: UIButton, TokenizedControlInternal {
             edgeInsets = defaultEdgeInsets()
         }
 
+        if #unavailable(iOS 15.0) {
+            titleLabel?.font = UIFont.fluent(tokenSet[.titleFont].fontInfo)
+        }
+
         updateProposedTitleLabelWidth()
     }
 
