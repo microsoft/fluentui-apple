@@ -207,7 +207,9 @@ open class Button: UIButton, TokenizedControlInternal {
     })
 
     private func updateTitleColors() {
-        setTitleColor(UIColor(dynamicColor: tokenSet[.foregroundColor].dynamicColor), for: .normal)
+        let foregroundColor = UIColor(dynamicColor: tokenSet[.foregroundColor].dynamicColor)
+        setTitleColor(foregroundColor, for: .normal)
+        setTitleColor(foregroundColor, for: .focused)
         setTitleColor(UIColor(dynamicColor: tokenSet[.foregroundPressedColor].dynamicColor), for: .highlighted)
         setTitleColor(UIColor(dynamicColor: tokenSet[.foregroundDisabledColor].dynamicColor), for: .disabled)
     }
