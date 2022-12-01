@@ -270,7 +270,7 @@ open class Button: UIButton, TokenizedControlInternal {
         updateBackgroundColor()
         updateBorderColor()
 
-        layer.borderWidth = tokenSet[.borderSize].float
+        layer.borderWidth = tokenSet[.borderWidth].float
 
         if !isUsingCustomContentEdgeInsets {
             edgeInsets = defaultEdgeInsets()
