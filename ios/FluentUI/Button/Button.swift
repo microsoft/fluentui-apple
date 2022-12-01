@@ -206,8 +206,6 @@ open class Button: UIButton, TokenizedControlInternal {
         return self?.style ?? .primaryFilled
     })
 
-    var tokenSetSink: AnyCancellable?
-
     private func updateTitleColors() {
         let foregroundColors = tokenSet[.foregroundColor].buttonDynamicColors
         setTitleColor(UIColor(dynamicColor: foregroundColors.rest), for: .normal)
@@ -361,6 +359,7 @@ open class Button: UIButton, TokenizedControlInternal {
     private var normalImageTintColor: UIColor?
     private var highlightedImageTintColor: UIColor?
     private var disabledImageTintColor: UIColor?
+    private var tokenSetSink: AnyCancellable?
 
     private var isUsingCustomContentEdgeInsets: Bool = false
     private var isAdjustingCustomContentEdgeInsetsForImage: Bool = false
