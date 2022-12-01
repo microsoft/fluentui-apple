@@ -124,6 +124,10 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
             return UIColor(dynamicColor: color)
         }
         set {
+            if isViewLoaded {
+                view.backgroundColor = backgroundColor
+            }
+
             guard let newColor = newValue.dynamicColor else {
                 return
             }

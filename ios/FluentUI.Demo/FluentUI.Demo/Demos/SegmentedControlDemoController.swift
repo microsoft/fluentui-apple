@@ -9,7 +9,7 @@ import UIKit
 class SegmentedControlDemoController: DemoController {
     let segmentItems: [SegmentItem] = [
         SegmentItem(title: "First"),
-        SegmentItem(title: "Second", image: UIImage(named: "Placeholder_20")),
+        SegmentItem(title: "Second", image: UIImage(named: "Placeholder_20"), isUnread: true),
         SegmentItem(title: "Third", isUnread: true),
         SegmentItem(title: "Fourth"),
         SegmentItem(title: "Fifth"),
