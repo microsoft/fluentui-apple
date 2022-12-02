@@ -360,7 +360,7 @@ open class AvatarView: NSView {
 		var updatedBackgroundColor = avatarBackgroundColor
 		var updatedInitialsColor = initialsFontColor
 		if !isCustomAvatarBackgroundColorConfigured || !isCustomAvatarInitialColorConfigured {
-			let defaultColorSet = AvatarView.getInitialsColorSet(fromPrimaryText: contactEmail, secondaryText: contactName)
+			let defaultColorSet = AvatarView.getInitialsColorSet(fromPrimaryText: contactName, secondaryText: contactEmail)
 
 			if !isCustomAvatarBackgroundColorConfigured {
 				updatedBackgroundColor = defaultColorSet.background.resolvedColor(appearance)
@@ -499,9 +499,13 @@ open class AvatarView: NSView {
 		if initials == nil,
 			let email = email?.trimmingCharacters(in: whitespaceNewlineAndZeroWidthSpace),
 			!email.isEmpty {
-			let initialCharacter = email[email.startIndex]
-			if initialCharacter.isValidInitialsCharacter {
-				initials = String(initialCharacter)
+			let emailComponentsWithUnicodeLetterFirstCharacters = email.filter {
+				$0.isValidInitialsCharacter
+			}
+
+			// Find the first valid unicode character in the email address and use that
+			if let initial = emailComponentsWithUnicodeLetterFirstCharacters.first {
+				initials = String(initial)
 			}
 		}
 
@@ -516,6 +520,8 @@ open class AvatarView: NSView {
 			combined = primaryText + secondaryText
 		} else if let primaryText = primaryText {
 			combined = primaryText
+		} else if let secondaryText = secondaryText {
+			combined = secondaryText
 		} else {
 			combined = ""
 		}
@@ -532,7 +538,7 @@ open class AvatarView: NSView {
 	private static func hashCode(_ text: NSString) -> Int32 {
 		var hash: Int32 = 0
 		for len in (0..<text.length).reversed() {
-			let ch = text.character(at: len)
+			let ch = Int32(text.character(at: len))
 			let shift = len % 8
 			hash ^= Int32((ch << shift) + (ch >> (8 - shift)))
 		}
