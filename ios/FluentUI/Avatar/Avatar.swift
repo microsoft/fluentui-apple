@@ -418,6 +418,8 @@ public struct Avatar: View, TokenizedControlView {
                 combined = primaryText + secondaryText
             } else if let primaryText = primaryText {
                 combined = primaryText
+            } else if let secondaryText = secondaryText {
+                combined = secondaryText
             } else {
                 combined = ""
             }
@@ -432,8 +434,8 @@ public struct Avatar: View, TokenizedControlView {
         private static func hashCode(_ text: NSString) -> Int32 {
             var hash: Int32 = 0
             for len in (0..<text.length).reversed() {
-                let ch = text.character(at: len)
-                let shift = Int32(len % 8)
+                let ch = Int32(text.character(at: len))
+                let shift = len % 8
                 hash ^= Int32((ch << shift) + (ch >> (8 - shift)))
               }
 
