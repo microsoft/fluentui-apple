@@ -394,6 +394,9 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
 
         tokenSet.update(fluentTheme)
         updateGradientMaskColors()
+        if isFixedWidth {
+            invalidateIntrinsicContentSize()
+        }
     }
 
     func intrinsicContentSizeInvalidatedForChildView() {
