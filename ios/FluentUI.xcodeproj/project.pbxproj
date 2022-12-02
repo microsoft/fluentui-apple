@@ -198,6 +198,7 @@
 		EC1C31732923022E00CF052C /* SegmentedControlTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1C31722923022E00CF052C /* SegmentedControlTokenSet.swift */; };
 		EC5982D827BF348700FD048D /* MSFAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5982D727BF348700FD048D /* MSFAvatar.swift */; };
 		EC5982DA27C703EE00FD048D /* CircleCutout.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5982D927C703ED00FD048D /* CircleCutout.swift */; };
+		EC65F790292EDCEF002A1A23 /* ButtonTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC65F78F292EDCEF002A1A23 /* ButtonTokenSet.swift */; };
 		ECA9218627A3301C00B66117 /* MSFAvatarGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA9218527A3301C00B66117 /* MSFAvatarGroup.swift */; };
 		ECA9218A27A33A2D00B66117 /* AvatarGroupModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA9218927A33A2D00B66117 /* AvatarGroupModifiers.swift */; };
 		ECA921C627B5D10B00B66117 /* ButtonDynamicColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA921C527B5D10A00B66117 /* ButtonDynamicColors.swift */; };
@@ -378,6 +379,7 @@
 		EC1C31722923022E00CF052C /* SegmentedControlTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControlTokenSet.swift; sourceTree = "<group>"; };
 		EC5982D727BF348700FD048D /* MSFAvatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFAvatar.swift; sourceTree = "<group>"; };
 		EC5982D927C703ED00FD048D /* CircleCutout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleCutout.swift; sourceTree = "<group>"; };
+		EC65F78F292EDCEF002A1A23 /* ButtonTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonTokenSet.swift; sourceTree = "<group>"; };
 		ECA9218527A3301C00B66117 /* MSFAvatarGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFAvatarGroup.swift; sourceTree = "<group>"; };
 		ECA9218927A33A2D00B66117 /* AvatarGroupModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarGroupModifiers.swift; sourceTree = "<group>"; };
 		ECA921C527B5D10A00B66117 /* ButtonDynamicColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonDynamicColors.swift; sourceTree = "<group>"; };
@@ -590,6 +592,7 @@
 			isa = PBXGroup;
 			children = (
 				A5CEC23020E451D00016922A /* Button.swift */,
+				EC65F78F292EDCEF002A1A23 /* ButtonTokenSet.swift */,
 			);
 			path = Button;
 			sourceTree = "<group>";
@@ -1464,6 +1467,7 @@
 				5314E2A025F024860099271A /* NSLayoutConstraint+Extensions.swift in Sources */,
 				923DB9D5274CB65700D8E58A /* FluentTheme.swift in Sources */,
 				929DD257266ED3AC00E8175E /* PersonaButtonCarouselTokenSet.swift in Sources */,
+				EC65F790292EDCEF002A1A23 /* ButtonTokenSet.swift in Sources */,
 				5314E26625F023B20099271A /* UIColor+Extensions.swift in Sources */,
 				5314E30225F0260E0099271A /* AccessibilityContainerView.swift in Sources */,
 				8035CAD026377C17007B3FD1 /* CommandingItem.swift in Sources */,
