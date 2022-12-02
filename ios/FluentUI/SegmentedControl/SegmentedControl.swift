@@ -359,9 +359,6 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
     }
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
-        guard let window = window else {
-            return CGSize.zero
-        }
         var height: CGFloat = 0.0
         var width: CGFloat = 0.0
 
@@ -373,23 +370,23 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
             }
         }
 
-        let windowSafeAreaInsets = window.safeAreaInsets
-        let windowWidth = window.bounds.width - windowSafeAreaInsets.left - windowSafeAreaInsets.right
         if isFixedWidth {
-            if traitCollection.userInterfaceIdiom == .pad {
-                width = max(windowWidth / 2, Constants.iPadMinimumWidth)
-            } else {
-                width = windowWidth
+            if let window = window {
+                let windowSafeAreaInsets = window.safeAreaInsets
+                let windowWidth = window.bounds.width - windowSafeAreaInsets.left - windowSafeAreaInsets.right
+                if traitCollection.userInterfaceIdiom == .pad {
+                    width = max(windowWidth / 2, Constants.iPadMinimumWidth)
+                } else {
+                    width = windowWidth
+                }
             }
         } else {
             width += (contentInset.leading + contentInset.trailing)
         }
         height += (contentInset.top + contentInset.bottom)
 
-        let finalWidth = min(min(width, windowWidth), size.width)
-        let finalHeight = min(height, size.height)
-        return CGSize(width: finalWidth,
-                      height: finalHeight)
+        return CGSize(width: min(width, size.width),
+                      height: min(height, size.height))
     }
 
     open override func didMoveToWindow() {
