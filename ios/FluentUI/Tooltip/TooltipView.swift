@@ -31,11 +31,11 @@ class TooltipView: UIView {
 
         super.init(frame: .zero)
 
-        self.addSubview(backgroundView)
-        self.accessibilityViewIsModal = true
+        addSubview(backgroundView)
+        accessibilityViewIsModal = true
 
         arrowImageView.transform = transformForArrowImageView()
-        self.addSubview(arrowImageView)
+        addSubview(arrowImageView)
 
         messageLabel.text = message
         messageLabel.textAlignment = textAlignment
@@ -45,14 +45,15 @@ class TooltipView: UIView {
             titleLabel.textAlignment = textAlignment
         }
 
-        self.addSubview(textContainer)
+        addSubview(textContainer)
 
+        // TODO: Integrate with new applyShadow functionality
         // Shadow
-        self.layer.insertSublayer(CALayer(), at: 0)
-        self.layer.insertSublayer(CALayer(), at: 0)
+        layer.insertSublayer(CALayer(), at: 0)
+        layer.insertSublayer(CALayer(), at: 0)
         updateShadows()
 
-        self.isAccessibilityElement = true
+        isAccessibilityElement = true
     }
 
     required init?(coder: NSCoder) {
@@ -61,8 +62,8 @@ class TooltipView: UIView {
 
     func updateTooltipSizeAndOrigin() {
         updateArrowDirectionAndTooltipRect(for: message, title: titleMessage, tokenSet: tokenSet)
-        self.frame.size = tooltipRect.size
-        backgroundView.frame = self.bounds
+        frame.size = tooltipRect.size
+        backgroundView.frame = bounds
         arrowImageView.transform = transformForArrowImageView()
         if arrowDirection.isVertical {
             arrowImageView.frame.origin.x = arrowPosition
@@ -77,12 +78,12 @@ class TooltipView: UIView {
             arrowImageView.frame.origin.y = 0.0
             backgroundView.frame.origin.y = arrowImageView.frame.maxY
         case .down:
-            arrowImageView.frame.origin.y = self.bounds.height - arrowImageView.frame.height
+            arrowImageView.frame.origin.y = bounds.height - arrowImageView.frame.height
         case .left:
             arrowImageView.frame.origin.x = 0.0
             backgroundView.frame.origin.x = arrowImageView.frame.maxX
         case .right:
-            arrowImageView.frame.origin.x = self.bounds.width - arrowImageView.frame.width
+            arrowImageView.frame.origin.x = bounds.width - arrowImageView.frame.width
         }
 
         updateTextContainerSize()
@@ -178,7 +179,7 @@ class TooltipView: UIView {
     private func updateTextContainerSize() {
         backgroundView.layer.cornerRadius = tokenSet[.backgroundCornerRadius].float
         textContainer.frame = backgroundView.frame.insetBy(dx: TooltipTokenSet.paddingHorizontal, dy: (titleMessage != nil) ? TooltipTokenSet.paddingVerticalWithTitle : TooltipTokenSet.paddingVerticalWithoutTitle)
-        let isAccessibilityContentSize = self.traitCollection.preferredContentSizeCategory.isAccessibilityCategory
+        let isAccessibilityContentSize = traitCollection.preferredContentSizeCategory.isAccessibilityCategory
         let preferredMessageSize = TooltipView.labelSizeThatFits(textContainer.frame.size,
                                                                  text: message,
                                                                  isAccessibilityContentSize: isAccessibilityContentSize,
@@ -206,18 +207,18 @@ class TooltipView: UIView {
     private func updateShadows() {
         let backgroundCornerRadius = tokenSet[.backgroundCornerRadius].float
         let shadowInfo = tokenSet[.shadowInfo].shadowInfo
-        if let ambientShadow = self.layer.sublayers?[1] {
-            ambientShadow.frame = self.bounds
-            ambientShadow.shadowPath = UIBezierPath(roundedRect: self.bounds, cornerRadius: backgroundCornerRadius).cgPath
+        if let ambientShadow = layer.sublayers?[1] {
+            ambientShadow.frame = bounds
+            ambientShadow.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: backgroundCornerRadius).cgPath
             ambientShadow.shadowColor = UIColor(dynamicColor: shadowInfo.colorOne).cgColor
             ambientShadow.shadowOpacity = 1
             ambientShadow.shadowOffset = CGSize(width: shadowInfo.xOne, height: shadowInfo.yOne)
             ambientShadow.shadowRadius = shadowInfo.blurOne
         }
 
-        if let perimeterShadow = self.layer.sublayers?[0] {
-            perimeterShadow.frame = self.bounds
-            perimeterShadow.shadowPath = UIBezierPath(roundedRect: self.bounds, cornerRadius: backgroundCornerRadius).cgPath
+        if let perimeterShadow = layer.sublayers?[0] {
+            perimeterShadow.frame = bounds
+            perimeterShadow.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: backgroundCornerRadius).cgPath
             perimeterShadow.shadowColor = UIColor(dynamicColor: shadowInfo.colorTwo).cgColor
             perimeterShadow.shadowOpacity = 1
             perimeterShadow.shadowOffset = CGSize(width: shadowInfo.xTwo, height: shadowInfo.yTwo)

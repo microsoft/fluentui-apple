@@ -17,18 +17,18 @@ class TooltipViewController: UIViewController {
          offset: CGPoint,
          arrowMargin: CGFloat,
          tokenSet: TooltipTokenSet) {
-        self.tooltipView = TooltipView(anchorView: anchorView,
-                                       message: message,
-                                       title: title,
-                                       textAlignment: textAlignment,
-                                       preferredArrowDirection: preferredArrowDirection,
-                                       offset: offset,
-                                       arrowMargin: arrowMargin,
-                                       tokenSet: tokenSet)
+        tooltipView = TooltipView(anchorView: anchorView,
+                                  message: message,
+                                  title: title,
+                                  textAlignment: textAlignment,
+                                  preferredArrowDirection: preferredArrowDirection,
+                                  offset: offset,
+                                  arrowMargin: arrowMargin,
+                                  tokenSet: tokenSet)
 
         super.init(nibName: nil, bundle: nil)
 
-        self.view.addSubview(tooltipView)
+        view.addSubview(tooltipView)
         updateAppearance(tokenSet: tokenSet)
     }
 
@@ -39,8 +39,11 @@ class TooltipViewController: UIViewController {
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
 
-        coordinator.animate(alongsideTransition: nil) { _ in
-            self.updateTooltipSizeAndOrigin()
+        coordinator.animate(alongsideTransition: nil) { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+            strongSelf.updateTooltipSizeAndOrigin()
         }
     }
 
@@ -54,13 +57,13 @@ class TooltipViewController: UIViewController {
     }
 
     func updateAppearance(tokenSet: TooltipTokenSet) {
-        self.tooltipView.updateAppearance(tokenSet: tokenSet)
-        self.view.frame = tooltipView.tooltipRect
+        tooltipView.updateAppearance(tokenSet: tokenSet)
+        view.frame = tooltipView.tooltipRect
     }
 
     private func updateTooltipSizeAndOrigin() {
-        self.tooltipView.updateTooltipSizeAndOrigin()
-        self.view.frame = tooltipView.tooltipRect
+        tooltipView.updateTooltipSizeAndOrigin()
+        view.frame = tooltipView.tooltipRect
     }
 
     private let tooltipView: TooltipView
