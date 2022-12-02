@@ -189,7 +189,7 @@ open class Button: UIButton, TokenizedControlInternal {
         super.traitCollectionDidChange(previousTraitCollection)
 
         if previousTraitCollection?.userInterfaceStyle != traitCollection.userInterfaceStyle {
-            updateBorderColor()
+            updateBorder()
         }
     }
 
@@ -206,12 +206,18 @@ open class Button: UIButton, TokenizedControlInternal {
         return self?.style ?? .primaryFilled
     })
 
-    private func updateTitleColors() {
+    private func updateTitle() {
         let foregroundColor = UIColor(dynamicColor: tokenSet[.foregroundColor].dynamicColor)
         setTitleColor(foregroundColor, for: .normal)
         setTitleColor(foregroundColor, for: .focused)
         setTitleColor(UIColor(dynamicColor: tokenSet[.foregroundPressedColor].dynamicColor), for: .highlighted)
         setTitleColor(UIColor(dynamicColor: tokenSet[.foregroundDisabledColor].dynamicColor), for: .disabled)
+
+        if #unavailable(iOS 15.0) {
+            titleLabel?.font = UIFont.fluent(tokenSet[.titleFont].fontInfo)
+        }
+
+        updateProposedTitleLabelWidth()
     }
 
     private func updateImage() {
@@ -263,22 +269,14 @@ open class Button: UIButton, TokenizedControlInternal {
     }
 
     private func update() {
-        updateTitleColors()
+        updateTitle()
         updateImage()
         updateBackgroundColor()
-        updateBorderColor()
-
-        layer.borderWidth = tokenSet[.borderWidth].float
+        updateBorder()
 
         if !isUsingCustomContentEdgeInsets {
             edgeInsets = defaultEdgeInsets()
         }
-
-        if #unavailable(iOS 15.0) {
-            titleLabel?.font = UIFont.fluent(tokenSet[.titleFont].fontInfo)
-        }
-
-        updateProposedTitleLabelWidth()
     }
 
     private func updateProposedTitleLabelWidth() {
@@ -338,7 +336,7 @@ open class Button: UIButton, TokenizedControlInternal {
         self.backgroundColor = UIColor(dynamicColor: backgroundColor)
     }
 
-    private func updateBorderColor() {
+    private func updateBorder() {
         let borderColor: DynamicColor
 
         if !isEnabled {
@@ -350,6 +348,7 @@ open class Button: UIButton, TokenizedControlInternal {
         }
 
         layer.borderColor = UIColor(dynamicColor: borderColor).resolvedColor(with: traitCollection).cgColor
+        layer.borderWidth = tokenSet[.borderWidth].float
     }
 
     private func defaultEdgeInsets() -> NSDirectionalEdgeInsets {
