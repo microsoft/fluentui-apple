@@ -413,17 +413,7 @@ public struct Avatar: View, TokenizedControlView {
         }
 
         static func initialsHashCode(fromPrimaryText primaryText: String?, secondaryText: String?) -> Int {
-            var combined: String
-            if let secondaryText = secondaryText, let primaryText = primaryText, secondaryText.count > 0 {
-                combined = primaryText + secondaryText
-            } else if let primaryText = primaryText {
-                combined = primaryText
-            } else if let secondaryText = secondaryText {
-                combined = secondaryText
-            } else {
-                combined = ""
-            }
-
+            let combined = (primaryText ?? "") + (secondaryText ?? "")
             let combinedHashable = combined as NSString
             return Int(abs(hashCode(combinedHashable)))
         }

@@ -515,20 +515,11 @@ open class AvatarView: NSView {
 	@objc(getInitialsColorSetFromPrimaryText:secondaryText:)
 	public static func getInitialsColorSet(fromPrimaryText primaryText: String?, secondaryText: String?) -> ColorSet {
 		// Set the color based on the primary text and secondary text
-		let combined: String
-		if let secondaryText = secondaryText, let primaryText = primaryText, secondaryText.count > 0 {
-			combined = primaryText + secondaryText
-		} else if let primaryText = primaryText {
-			combined = primaryText
-		} else if let secondaryText = secondaryText {
-			combined = secondaryText
-		} else {
-			combined = ""
-		}
-
-		let colors = AvatarView.avatarColors
+		let combined = (primaryText ?? "") + (secondaryText ?? "")
 		let combinedHashable = combined as NSString
 		let hashCode = Int(abs(hashCode(combinedHashable)))
+
+		let colors = AvatarView.avatarColors
 		return colors[hashCode % colors.count]
 	}
 
