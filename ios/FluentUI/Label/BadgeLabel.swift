@@ -23,21 +23,26 @@ class BadgeLabel: UILabel {
     /// Base function for initialization
     private func initBase() {
         layer.masksToBounds = true
-        backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.sharedColors[.dangerBackground1])
-        textColor = .white
         textAlignment = .center
         font = UIFont.systemFont(ofSize: Constants.badgeFontSize, weight: .regular)
         isHidden = true
+
+        updateColors()
     }
 
     override func didMoveToWindow() {
         super.didMoveToWindow()
+        updateColors()
+    }
 
-        guard shouldUseWindowColor else {
-            return
+    private func updateColors() {
+        if shouldUseWindowColor {
+            textColor = UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.brandForeground1].light, dark: GlobalTokens.neutralColors(.white)))
+            backgroundColor = UIColor(dynamicColor: DynamicColor(light: GlobalTokens.neutralColors(.white), dark: fluentTheme.aliasTokens.colors[.brandBackground1].dark))
+        } else {
+            textColor = UIColor(colorValue: GlobalTokens.neutralColors(.white))
+            backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.sharedColors[.dangerBackground2])
         }
-        textColor = UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.brandForeground1].light, dark: GlobalTokens.neutralColors(.white)))
-        backgroundColor = UIColor(dynamicColor: DynamicColor(light: GlobalTokens.neutralColors(.white), dark: fluentTheme.aliasTokens.colors[.brandBackground1].dark))
     }
 
     private struct Constants {
