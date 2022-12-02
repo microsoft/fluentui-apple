@@ -1669,98 +1669,122 @@ public class GlobalTokens: NSObject {
     // MARK: - Spacing
 
     public enum SpacingToken: TokenSetKey {
-        case none
-        case xxxSmall
-        case xxSmall
-        case xSmall
-        case small
-        case medium
-        case large
-        case xLarge
-        case xxLarge
-        case xxxLarge
-        case xxxxLarge
+        case sizeNone
+        case size20
+        case size40
+        case size60
+        case size80
+        case size100
+        case size120
+        case size160
+        case size200
+        case size240
+        case size280
+        case size320
+        case size360
+        case size400
+        case size480
+        case size520
+        case size560
     }
     public static func spacing(_ token: SpacingToken) -> CGFloat {
         switch token {
-        case .none:
+        case .sizeNone:
             return 0
-        case .xxxSmall:
+        case .size20:
             return 2
-        case .xxSmall:
+        case .size40:
             return 4
-        case .xSmall:
+        case .size60:
+            return 6
+        case .size80:
             return 8
-        case .small:
+        case .size100:
+            return 10
+        case .size120:
             return 12
-        case .medium:
+        case .size160:
             return 16
-        case .large:
+        case .size200:
             return 20
-        case .xLarge:
+        case .size240:
             return 24
-        case .xxLarge:
+        case .size280:
+            return 28
+        case .size320:
+            return 32
+        case .size360:
             return 36
-        case .xxxLarge:
+        case .size400:
+            return 40
+        case .size480:
             return 48
-        case .xxxxLarge:
-            return 72
+        case .size520:
+            return 52
+        case .size560:
+            return 56
         }
     }
 
     // MARK: - BorderRadius
 
-    public enum BorderRadiusToken: TokenSetKey {
-        case none
-        case small
-        case medium
-        case large
-        case xLarge
-        case circle
+    public enum CornerRadiusToken: TokenSetKey {
+        case radiusNone
+        case radius20
+        case radius40
+        case radius60
+        case radius80
+        case radius120
+        case radiusCircular
     }
-    public static func borderRadius(_ token: BorderRadiusToken) -> CGFloat {
+    public static func corner(_ token: CornerRadiusToken) -> CGFloat {
         switch token {
-        case .none:
+        case .radiusNone:
             return 0
-        case .small:
+        case .radius20:
             return 2
-        case .medium:
+        case .radius40:
             return 4
-        case .large:
+        case .radius60:
+            return 6
+        case .radius80:
             return 8
-        case .xLarge:
+        case .radius120:
             return 12
-        case .circle:
+        case .radiusCircular:
             return 9999
         }
     }
 
     // MARK: - BorderSize
 
-    public enum BorderSizeToken: TokenSetKey {
-        case none
-        case thinnest
-        case thinner
-        case thin
-        case thick
-        case thicker
-        case thickest
+    public enum StrokeWidthToken: TokenSetKey {
+        case widthNone
+        case width05
+        case width10
+        case width15
+        case width20
+        case width30
+        case width40
+        case width60
     }
-    public static func borderSize(_ token: BorderSizeToken) -> CGFloat {
+    public static func stroke(_ token: StrokeWidthToken) -> CGFloat {
         switch token {
-        case .none:
+        case .widthNone:
             return 0
-        case .thinnest:
+        case .width05:
             return 0.5
-        case .thinner:
+        case .width10:
             return 1
-        case .thin:
+        case .width15:
             return 1.5
-        case .thick:
+        case .width20:
             return 2
-        case .thicker:
+        case .width30:
+            return 3
+        case .width40:
             return 4
-        case .thickest:
+        case .width60:
             return 6
         }
     }

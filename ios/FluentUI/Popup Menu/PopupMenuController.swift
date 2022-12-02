@@ -154,8 +154,8 @@ open class PopupMenuController: DrawerController {
         view.isHidden = true
 
         view.addSubview(descriptionLabel)
-        let verticalMargin = GlobalTokens.spacing(.small)
-        let horizontalMargin = GlobalTokens.spacing(.medium)
+        let verticalMargin = GlobalTokens.spacing(.size120)
+        let horizontalMargin = GlobalTokens.spacing(.size160)
         descriptionLabel.fitIntoSuperview(
             usingConstraints: true,
             margins: UIEdgeInsets(
