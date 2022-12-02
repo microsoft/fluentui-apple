@@ -483,6 +483,9 @@ open class SegmentedControl: UIControl {
     open override func didMoveToWindow() {
         super.didMoveToWindow()
         updateWindowSpecificColors()
+        if shouldSetEqualWidthForSegments {
+            invalidateIntrinsicContentSize()
+        }
     }
 
     /// Used to retrieve the view from the segment at the specified index
