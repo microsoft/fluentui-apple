@@ -23,7 +23,7 @@ class BadgeLabel: UILabel {
     /// Base function for initialization
     private func initBase() {
         layer.masksToBounds = true
-        backgroundColor = Colors.Palette.dangerPrimary.color
+        backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.sharedColors[.dangerBackground1])
         textColor = .white
         textAlignment = .center
         font = UIFont.systemFont(ofSize: Constants.badgeFontSize, weight: .regular)
@@ -33,11 +33,11 @@ class BadgeLabel: UILabel {
     override func didMoveToWindow() {
         super.didMoveToWindow()
 
-        guard shouldUseWindowColor, let window = window else {
+        guard shouldUseWindowColor else {
             return
         }
-        textColor = UIColor(light: Colors.primary(for: window), dark: .white)
-        backgroundColor = UIColor(light: .white, dark: Colors.primary(for: window))
+        textColor = UIColor(light: UIColor(colorValue: fluentTheme.aliasTokens.colors[.brandForeground1].light), dark: .white)
+        backgroundColor = UIColor(dynamicColor: DynamicColor(light: GlobalTokens.neutralColors(.white), dark: fluentTheme.aliasTokens.colors[.brandBackground1].dark))
     }
 
     private struct Constants {
