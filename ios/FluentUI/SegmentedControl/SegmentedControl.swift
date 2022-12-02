@@ -393,8 +393,6 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
         super.didMoveToWindow()
 
         tokenSet.update(fluentTheme)
-        updateColors()
-        updateButtons()
         updateGradientMaskColors()
     }
 
