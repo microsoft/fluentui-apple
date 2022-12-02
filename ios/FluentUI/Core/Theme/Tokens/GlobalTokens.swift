@@ -1669,42 +1669,60 @@ public class GlobalTokens: NSObject {
     // MARK: - Spacing
 
     public enum SpacingToken: TokenSetKey {
-        case none
-        case xxxSmall
-        case xxSmall
-        case xSmall
-        case small
-        case medium
-        case large
-        case xLarge
-        case xxLarge
-        case xxxLarge
-        case xxxxLarge
+        case sizeNone
+        case size20
+        case size40
+        case size60
+        case size80
+        case size100
+        case size120
+        case size160
+        case size200
+        case size240
+        case size280
+        case size320
+        case size360
+        case size400
+        case size480
+        case size520
+        case size560
     }
     public static func spacing(_ token: SpacingToken) -> CGFloat {
         switch token {
-        case .none:
+        case .sizeNone:
             return 0
-        case .xxxSmall:
+        case .size20:
             return 2
-        case .xxSmall:
+        case .size40:
             return 4
-        case .xSmall:
+        case .size60:
+            return 6
+        case .size80:
             return 8
-        case .small:
+        case .size100:
+            return 10
+        case .size120:
             return 12
-        case .medium:
+        case .size160:
             return 16
-        case .large:
+        case .size200:
             return 20
-        case .xLarge:
+        case .size240:
             return 24
-        case .xxLarge:
+        case .size280:
+            return 28
+        case .size320:
+            return 32
+        case .size360:
             return 36
-        case .xxxLarge:
+        case .size400:
+            return 40
+        case .size480:
             return 48
-        case .xxxxLarge:
-            return 72
+        case .size520:
+            return 52
+        case .size560:
+            return 56
         }
     }
 

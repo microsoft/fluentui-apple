@@ -176,17 +176,17 @@ public class NotificationTokenSet: ControlTokenSet<NotificationTokenSet.Tokens> 
                 return .float {
                     switch style().isToast {
                     case true:
-                        return GlobalTokens.spacing(.medium)
+                        return GlobalTokens.spacing(.size160)
                     case false:
-                        return GlobalTokens.spacing(.none)
+                        return GlobalTokens.spacing(.sizeNone)
                     }
                 }
 
             case .bottomPresentationPadding:
-                return .float { GlobalTokens.spacing(.medium) }
+                return .float { GlobalTokens.spacing(.size160) }
 
             case .horizontalSpacing:
-                return .float { GlobalTokens.spacing(.medium) }
+                return .float { GlobalTokens.spacing(.size160) }
 
             case .minimumHeight:
                 return .float { 52.0 }
@@ -229,8 +229,8 @@ public class NotificationTokenSet: ControlTokenSet<NotificationTokenSet.Tokens> 
 // MARK: Constants
 extension NotificationTokenSet {
     /// The value for the horizontal padding between the elements within a notification and its frame
-    static let horizontalPadding: CGFloat = GlobalTokens.spacing(.medium)
+    static let horizontalPadding: CGFloat = GlobalTokens.spacing(.size160)
 
     /// The value for the vertical padding between the elements within a multi-line notification and its frame
-    static let verticalPadding: CGFloat = GlobalTokens.spacing(.small)
+    static let verticalPadding: CGFloat = GlobalTokens.spacing(.size120)
 }

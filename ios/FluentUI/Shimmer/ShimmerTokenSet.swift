@@ -105,7 +105,7 @@ public class ShimmerTokenSet: ControlTokenSet<ShimmerTokenSet.Tokens> {
                 return .float { 11.0 }
 
             case .labelSpacing:
-                return .float { GlobalTokens.spacing(.small) }
+                return .float { GlobalTokens.spacing(.size120) }
             }
         }
     }

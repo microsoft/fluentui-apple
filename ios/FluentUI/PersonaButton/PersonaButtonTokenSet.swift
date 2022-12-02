@@ -88,9 +88,9 @@ extension PersonaButtonTokenSet {
     static func horizontalAvatarPadding(_ size: MSFPersonaButtonSize) -> CGFloat {
         switch size {
         case .small:
-            return GlobalTokens.spacing(.medium)
+            return GlobalTokens.spacing(.size160)
         case .large:
-            return GlobalTokens.spacing(.xSmall)
+            return GlobalTokens.spacing(.size80)
         }
     }
 
@@ -98,15 +98,15 @@ extension PersonaButtonTokenSet {
     static func avatarInterspace(_ size: MSFPersonaButtonSize) -> CGFloat {
         switch size {
         case .small:
-            return GlobalTokens.spacing(.xSmall)
+            return GlobalTokens.spacing(.size80)
         case .large:
-            return GlobalTokens.spacing(.small)
+            return GlobalTokens.spacing(.size120)
         }
     }
 
     /// How much space should be reserved to the left and right of the control's labels.
-    static let horizontalTextPadding: CGFloat = GlobalTokens.spacing(.xxxSmall)
+    static let horizontalTextPadding: CGFloat = GlobalTokens.spacing(.size20)
 
     /// How much padding to add above the `Avatar` and below the lowest text label.
-    static let verticalPadding: CGFloat = GlobalTokens.spacing(.xSmall)
+    static let verticalPadding: CGFloat = GlobalTokens.spacing(.size80)
 }
