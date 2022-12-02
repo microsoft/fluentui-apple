@@ -36,7 +36,7 @@ class BadgeLabel: UILabel {
         guard shouldUseWindowColor else {
             return
         }
-        textColor = UIColor(light: UIColor(colorValue: fluentTheme.aliasTokens.colors[.brandForeground1].light), dark: .white)
+        textColor = UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.brandForeground1].light, dark: GlobalTokens.neutralColors(.white)))
         backgroundColor = UIColor(dynamicColor: DynamicColor(light: GlobalTokens.neutralColors(.white), dark: fluentTheme.aliasTokens.colors[.brandBackground1].dark))
     }
 
