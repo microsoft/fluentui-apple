@@ -512,6 +512,17 @@ open class AvatarView: NSView {
 		return initials?.localizedUppercase
 	}
 
+	/// Function to return a color set for display in an `AvatarView` instance based on the Avatar's display text.
+	///
+	/// The values of the two optional text parameters are combined together and fed through a hash algorithm to
+	/// generate an index into our shared color table. Thus, any given pairing of primary and secondary text (usually
+	/// expected to be a name and an email address, respectively) will always produce the same color.
+	///
+	/// - Parameters:
+	///     - primaryText: Primary text to use to calculate color. Usually a name. Optional.
+	///     - secondaryText: Secondary text to use to calculate color. Usually an email address. Optional.
+	///
+	/// - Returns: The calculated `ColorSet` for the provided text values.
 	@objc(getInitialsColorSetFromPrimaryText:secondaryText:)
 	public static func getInitialsColorSet(fromPrimaryText primaryText: String?, secondaryText: String?) -> ColorSet {
 		// Set the color based on the primary text and secondary text
