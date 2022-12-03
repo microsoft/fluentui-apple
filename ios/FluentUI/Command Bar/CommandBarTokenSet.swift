@@ -17,9 +17,6 @@ public class CommandBarTokenSet: ControlTokenSet<CommandBarTokenSet.Tokens> {
         /// The background color of a single Command Bar Item.
         case itemBackgroundColor
 
-        /// The background color of a fixed Command Bar Item.
-        case itemFixedIconColor
-
         /// The icon color of a Command Bar Item.
         case itemIconColor
     }
@@ -44,12 +41,6 @@ public class CommandBarTokenSet: ControlTokenSet<CommandBarTokenSet.Tokens> {
                                         disabled: theme.aliasTokens.strokeColors[.neutral1])
                 }
 
-            case .itemFixedIconColor:
-                return .dynamicColor {
-                    DynamicColor(light: theme.aliasTokens.foregroundColors[.neutral1].light,
-                                 dark: theme.aliasTokens.foregroundColors[.neutral3].dark)
-                }
-
             case .itemIconColor:
                 return .buttonDynamicColors {
                     ButtonDynamicColors(rest: theme.aliasTokens.foregroundColors[.neutral1],
@@ -67,11 +58,26 @@ public class CommandBarTokenSet: ControlTokenSet<CommandBarTokenSet.Tokens> {
 
 extension CommandBarTokenSet {
     /// The spacing between each Command Bar Group.
-    static let groupInterspace: CGFloat = GlobalTokens.spacing(.medium)
+    static let groupInterspace: CGFloat = GlobalTokens.spacing(.xSmall)
+
+    /// The spacing between each Command Bar Group for iPad.
+    static let groupInterspaceWide: CGFloat = GlobalTokens.spacing(.medium)
 
     /// The spacing between each Command Bar Item.
     static let itemInterspace: CGFloat = GlobalTokens.spacing(.xxxSmall)
 
     /// The buffer spacing left/right of each Command Bar Group.
     static let leftRightBuffer: CGFloat = GlobalTokens.spacing(.xxxSmall)
+
+    /// The gradient width of the keyboard dismiss.
+    static let dismissGradientWidth: CGFloat = GlobalTokens.spacing(.medium)
+
+    /// The edge inset values for the Command Bar.
+    static let barInsets: CGFloat = GlobalTokens.spacing(.xSmall)
+
+    /// The edge inset values for the Command Bar Button.
+    static let buttonContentInsets = NSDirectionalEdgeInsets(top: 8.0,
+                                                       leading: 10.0,
+                                                       bottom: 8.0,
+                                                       trailing: 10.0)
 }

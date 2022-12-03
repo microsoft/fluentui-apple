@@ -281,9 +281,9 @@ public class CommandBar: UIView, TokenizedControlInternal {
     private func scrollViewContentInset() -> UIEdgeInsets {
         let fixedButtonSpacing = CommandBarTokenSet.itemInterspace
         return UIEdgeInsets(top: 0,
-                            left: leadingCommandGroupsView.isHidden ? LayoutConstants.insets.left : fixedButtonSpacing,
+                            left: leadingCommandGroupsView.isHidden ? CommandBarTokenSet.barInsets : fixedButtonSpacing,
                             bottom: 0,
-                            right: trailingCommandGroupsView.isHidden ? LayoutConstants.insets.right : fixedButtonSpacing
+                            right: trailingCommandGroupsView.isHidden ? CommandBarTokenSet.barInsets : fixedButtonSpacing
         )
     }
 
@@ -293,13 +293,13 @@ public class CommandBar: UIView, TokenizedControlInternal {
         if !leadingCommandGroupsView.isHidden {
             let leadingOffset = max(0, scrollView.contentOffset.x)
             let percentage = min(1, leadingOffset / scrollView.contentInset.left)
-            locations[1] = LayoutConstants.fadeViewWidth / containerView.frame.width * percentage
+            locations[1] = CommandBarTokenSet.dismissGradientWidth / containerView.frame.width * percentage
         }
 
         if !trailingCommandGroupsView.isHidden {
             let trailingOffset = max(0, mainCommandGroupsView.frame.width - scrollView.frame.width - scrollView.contentOffset.x)
             let percentage = min(1, trailingOffset / scrollView.contentInset.right)
-            locations[2] = 1 - LayoutConstants.fadeViewWidth / containerView.frame.width * percentage
+            locations[2] = 1 - CommandBarTokenSet.dismissGradientWidth / containerView.frame.width * percentage
         }
 
         containerMaskLayer.locations = locations.map { NSNumber(value: Float($0)) }
@@ -319,15 +319,6 @@ public class CommandBar: UIView, TokenizedControlInternal {
 
         commandGroupsView.isHidden = commandGroupsView.itemGroups.isEmpty
         scrollView.contentInset = scrollViewContentInset()
-    }
-
-    private struct LayoutConstants {
-        static let fadeViewWidth: CGFloat = 16.0
-        static let fixedButtonSpacing: CGFloat = 2.0
-        static let insets = UIEdgeInsets(top: 8.0,
-                                         left: 8.0,
-                                         bottom: 8.0,
-                                         right: 8.0)
     }
 }
 
