@@ -360,7 +360,7 @@ open class AvatarView: NSView {
 		var updatedBackgroundColor = avatarBackgroundColor
 		var updatedInitialsColor = initialsFontColor
 		if !isCustomAvatarBackgroundColorConfigured || !isCustomAvatarInitialColorConfigured {
-			let defaultColorSet = AvatarView.getInitialsColorSet(fromPrimaryText: contactEmail, secondaryText: contactName)
+			let defaultColorSet = AvatarView.getInitialsColorSet(fromPrimaryText: contactName, secondaryText: contactEmail)
 
 			if !isCustomAvatarBackgroundColorConfigured {
 				updatedBackgroundColor = defaultColorSet.background.resolvedColor(appearance)
@@ -499,30 +499,38 @@ open class AvatarView: NSView {
 		if initials == nil,
 			let email = email?.trimmingCharacters(in: whitespaceNewlineAndZeroWidthSpace),
 			!email.isEmpty {
-			let initialCharacter = email[email.startIndex]
-			if initialCharacter.isValidInitialsCharacter {
-				initials = String(initialCharacter)
+			let emailComponentsWithUnicodeLetterFirstCharacters = email.filter {
+				$0.isValidInitialsCharacter
+			}
+
+			// Find the first valid unicode character in the email address and use that
+			if let initial = emailComponentsWithUnicodeLetterFirstCharacters.first {
+				initials = String(initial)
 			}
 		}
 
 		return initials?.localizedUppercase
 	}
 
+	/// Function to return a color set for display in an `AvatarView` instance based on the Avatar's display text.
+	///
+	/// The values of the two optional text parameters are combined together and fed through a hash algorithm to
+	/// generate an index into our shared color table. Thus, any given pairing of primary and secondary text (usually
+	/// expected to be a name and an email address, respectively) will always produce the same color.
+	///
+	/// - Parameters:
+	///     - primaryText: Primary text to use to calculate color. Usually a name. Optional.
+	///     - secondaryText: Secondary text to use to calculate color. Usually an email address. Optional.
+	///
+	/// - Returns: The calculated `ColorSet` for the provided text values.
 	@objc(getInitialsColorSetFromPrimaryText:secondaryText:)
 	public static func getInitialsColorSet(fromPrimaryText primaryText: String?, secondaryText: String?) -> ColorSet {
 		// Set the color based on the primary text and secondary text
-		let combined: String
-		if let secondaryText = secondaryText, let primaryText = primaryText, secondaryText.count > 0 {
-			combined = primaryText + secondaryText
-		} else if let primaryText = primaryText {
-			combined = primaryText
-		} else {
-			combined = ""
-		}
-
-		let colors = AvatarView.avatarColors
+		let combined = (primaryText ?? "") + (secondaryText ?? "")
 		let combinedHashable = combined as NSString
 		let hashCode = Int(abs(hashCode(combinedHashable)))
+
+		let colors = AvatarView.avatarColors
 		return colors[hashCode % colors.count]
 	}
 
@@ -532,7 +540,9 @@ open class AvatarView: NSView {
 	private static func hashCode(_ text: NSString) -> Int32 {
 		var hash: Int32 = 0
 		for len in (0..<text.length).reversed() {
-			let ch = text.character(at: len)
+			// Convert from `unichar` to `Int32` to avoid potential arithmetic overflow in the next few lines.
+			// Note that JavaScript does the upconversion automatically, but we need to be explicit in Swift.
+			let ch = Int32(text.character(at: len))
 			let shift = len % 8
 			hash ^= Int32((ch << shift) + (ch >> (8 - shift)))
 		}
