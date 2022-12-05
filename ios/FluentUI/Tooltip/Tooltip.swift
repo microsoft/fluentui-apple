@@ -8,6 +8,16 @@ import Combine
 
 // MARK: Tooltip
 
+// Tooltip Hierarchy:
+//
+// TooltipViewController (handles view-changing events like device rotation, multi-windows, content size changes, etc.)
+// |--TooltipView (placed based on anchor view location and passed in origin offset, sized based on contents)
+// |  |--backgroundView (rectangular view that holds tooltip contents)
+// |    |--title
+// |    |--message
+// |  |--arrowImageView (tip of tooltip view)
+// |--|--layer (ambient and perimeter shadows added as sublayers)
+
 /// A styled tooltip that is presented anchored to a view.
 @objc(MSFTooltip)
 open class Tooltip: NSObject, TokenizedControlInternal {
@@ -36,20 +46,15 @@ open class Tooltip: NSObject, TokenizedControlInternal {
             preconditionFailure("Can't find anchorView's window")
         }
 
-        let positionController = TooltipPositionController(anchorView: anchorView,
+        tooltipViewController = TooltipViewController(anchorView: anchorView,
                                                            message: message,
                                                            title: title,
+                                                           textAlignment: textAlignment,
                                                            preferredArrowDirection: preferredArrowDirection,
                                                            offset: offset,
                                                            arrowMargin: tokenSet[.backgroundCornerRadius].float,
-                                                           tokenSet: tokenSet
-        )
-        self.tooltipViewController = TooltipViewController(message: message,
-                                                           title: title,
-                                                           textAlignment: textAlignment,
-                                                           positionController: positionController,
                                                            tokenSet: tokenSet)
-
+        self.anchorView = anchorView
         guard let tooltipViewController = tooltipViewController,
               let tooltipView = tooltipViewController.view else {
             return
@@ -58,7 +63,6 @@ open class Tooltip: NSObject, TokenizedControlInternal {
         let rootViewController = window.rootViewController
         let rootView = rootViewController?.view
         rootViewController?.addChild(tooltipViewController)
-        tooltipView.accessibilityViewIsModal = true
         self.onTap = onTap
         self.dismissMode = UIAccessibility.isVoiceOverRunning ? .tapOnTooltip : dismissMode
         let gestureView = TouchForwardingView(frame: window.bounds)
@@ -67,8 +71,11 @@ open class Tooltip: NSObject, TokenizedControlInternal {
         case .tapAnywhere:
             rootView?.addSubview(tooltipView)
             rootView?.addSubview(gestureView)
-            gestureView.onTouches = { _ in
-                self.handleTapGesture()
+            gestureView.onTouches = { [weak self] _ in
+                guard let strongSelf = self else {
+                    return
+                }
+                strongSelf.handleTapGesture()
             }
         case .tapOnTooltip, .tapOnTooltipOrAnchor:
             rootView?.addSubview(gestureView)
@@ -77,16 +84,16 @@ open class Tooltip: NSObject, TokenizedControlInternal {
             tooltipView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapGesture)))
             if self.dismissMode == .tapOnTooltipOrAnchor {
                 gestureView.passthroughView = anchorView
-                gestureView.onPassthroughViewTouches = { _ in
-                    self.handleTapGesture()
+                gestureView.onPassthroughViewTouches = { [weak self] _ in
+                    guard let strongSelf = self else {
+                        return
+                    }
+                    strongSelf.handleTapGesture()
                 }
             }
         }
 
         tooltipViewController.didMove(toParent: rootViewController)
-
-        // Layout tooltip
-        tooltipView.frame = positionController.tooltipRect
 
         // Animate tooltip
         tooltipView.alpha = 0.0
@@ -115,13 +122,13 @@ open class Tooltip: NSObject, TokenizedControlInternal {
                            offset: CGPoint = CGPoint(x: 0, y: 0),
                            dismissOn dismissMode: DismissMode = .tapAnywhere,
                            onTap: (() -> Void)? = nil) {
-        self.show(with: message,
-                  title: nil,
-                  for: anchorView,
-                  preferredArrowDirection: preferredArrowDirection,
-                  offset: offset,
-                  dismissOn: dismissMode,
-                  onTap: onTap)
+        show(with: message,
+             title: nil,
+             for: anchorView,
+             preferredArrowDirection: preferredArrowDirection,
+             offset: offset,
+             dismissOn: dismissMode,
+             onTap: onTap)
     }
 
     /// Displays a tooltip based on the current settings, pointing to the supplied anchorView.
@@ -143,13 +150,13 @@ open class Tooltip: NSObject, TokenizedControlInternal {
                            screenMargins: UIEdgeInsets = defaultScreenMargins,
                            dismissOn dismissMode: DismissMode = .tapAnywhere,
                            onTap: (() -> Void)? = nil) {
-        self.show(with: message,
-                  title: nil,
-                  for: anchorView,
-                  preferredArrowDirection: preferredArrowDirection,
-                  offset: offset,
-                  dismissOn: dismissMode,
-                  onTap: onTap)
+        show(with: message,
+             title: nil,
+             for: anchorView,
+             preferredArrowDirection: preferredArrowDirection,
+             offset: offset,
+             dismissOn: dismissMode,
+             onTap: onTap)
     }
 
     /// Hides the currently shown tooltip.
@@ -161,18 +168,21 @@ open class Tooltip: NSObject, TokenizedControlInternal {
             return
         }
 
-        self.tooltipViewController?.willMove(toParent: nil)
+        tooltipViewController?.willMove(toParent: nil)
 
         // Animate tooltip
         UIView.animate(withDuration: Constants.animationDuration, delay: 0.0, options: [.beginFromCurrentState, .curveEaseOut], animations: {
             tooltipView.alpha = 0.0
-        }, completion: { _ in
+        }, completion: { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
             tooltipView.removeFromSuperview()
-            UIAccessibility.post(notification: .screenChanged, argument: self.tooltipViewController?.positionController.anchorView)
+            UIAccessibility.post(notification: .screenChanged, argument: strongSelf.anchorView)
         })
 
-        self.tooltipViewController?.removeFromParent()
-        self.tooltipViewController = nil
+        tooltipViewController?.removeFromParent()
+        tooltipViewController = nil
 
         onTap = nil
 
@@ -274,8 +284,8 @@ open class Tooltip: NSObject, TokenizedControlInternal {
         static let defaultMargin: CGFloat = 16.0
     }
 
-    private var hostViewController: UIViewController?
     private var tooltipViewController: TooltipViewController?
+    private var anchorView: UIView?
     private var onTap: (() -> Void)?
     private var gestureView: UIView?
     private var dismissMode: DismissMode = .tapAnywhere

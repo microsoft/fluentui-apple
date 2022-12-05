@@ -16,6 +16,7 @@
 		2A9745DE281733D700E1A1FD /* TableViewCellTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9745DD281733D700E1A1FD /* TableViewCellTokenSet.swift */; };
 		43488C46270FAD1300124C71 /* FluentNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43488C44270FAD0200124C71 /* FluentNotification.swift */; };
 		4B14B18F28F8DBE40099D52A /* TooltipTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B14B18E28F8DBE40099D52A /* TooltipTokenSet.swift */; };
+		4B4A271A292CD47100FA1D6D /* TooltipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B4A2719292CD47100FA1D6D /* TooltipView.swift */; };
 		4B53505F27F63E3F0033B47F /* NotificationModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B53505E27F63E3F0033B47F /* NotificationModifiers.swift */; };
 		4BBD651F2755FD9500A8B09E /* MSFNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBD651E2755FD9500A8B09E /* MSFNotification.swift */; };
 		4BF01D9A27B37CF8005B32F2 /* NotificationTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BF01D9927B37CF8005B32F2 /* NotificationTokenSet.swift */; };
@@ -117,7 +118,6 @@
 		5314E1A725F01A7C0099271A /* ActionsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E782C02176AD5E00A7DFCE /* ActionsCell.swift */; };
 		5314E1B025F01A980099271A /* Tooltip.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7DF05B21FA7F5000857267 /* Tooltip.swift */; };
 		5314E1B125F01A980099271A /* TooltipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7DF05D21FA7FC100857267 /* TooltipViewController.swift */; };
-		5314E1B225F01A980099271A /* TooltipPositionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7DF05F21FA83C900857267 /* TooltipPositionController.swift */; };
 		5314E1BB25F01B070099271A /* TouchForwardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B483323621DEB5A00022B4CC /* TouchForwardingView.swift */; };
 		5314E1C425F01B4E0099271A /* TwoLineTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD5BBE40214C6AF3008964B4 /* TwoLineTitleView.swift */; };
 		5314E1CD25F01B730099271A /* AnimationSynchronizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0938E43235E8ED500256251 /* AnimationSynchronizer.swift */; };
@@ -274,6 +274,7 @@
 		4B0E060A28A248F40045E9BB /* ShimmerLinesShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerLinesShape.swift; sourceTree = "<group>"; };
 		4B14B18E28F8DBE40099D52A /* TooltipTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TooltipTokenSet.swift; sourceTree = "<group>"; };
 		4B1596D2284ACB5F00C3D725 /* ShimmerTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerTokenSet.swift; sourceTree = "<group>"; };
+		4B4A2719292CD47100FA1D6D /* TooltipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TooltipView.swift; sourceTree = "<group>"; };
 		4B53505E27F63E3F0033B47F /* NotificationModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationModifiers.swift; sourceTree = "<group>"; };
 		4B8A76732862F49E00F90F3A /* ShimmerModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerModifiers.swift; sourceTree = "<group>"; };
 		4B8A7675286ADCD300F90F3A /* ShimmerLinesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerLinesView.swift; sourceTree = "<group>"; };
@@ -480,7 +481,6 @@
 		FD77752F21A490BA00033D58 /* DateTimePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTimePicker.swift; sourceTree = "<group>"; };
 		FD7DF05B21FA7F5000857267 /* Tooltip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tooltip.swift; sourceTree = "<group>"; };
 		FD7DF05D21FA7FC100857267 /* TooltipViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TooltipViewController.swift; sourceTree = "<group>"; };
-		FD7DF05F21FA83C900857267 /* TooltipPositionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TooltipPositionController.swift; sourceTree = "<group>"; };
 		FD8D26422253FF330078E1D3 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Localizable.strings; sourceTree = "<group>"; };
 		FD8D26432253FF330078E1D3 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = ar; path = ar.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		FD8D26442253FF3E0078E1D3 /* ca */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -1313,8 +1313,8 @@
 			isa = PBXGroup;
 			children = (
 				FD7DF05B21FA7F5000857267 /* Tooltip.swift */,
-				FD7DF05F21FA83C900857267 /* TooltipPositionController.swift */,
 				4B14B18E28F8DBE40099D52A /* TooltipTokenSet.swift */,
+				4B4A2719292CD47100FA1D6D /* TooltipView.swift */,
 				FD7DF05D21FA7FC100857267 /* TooltipViewController.swift */,
 			);
 			path = Tooltip;
@@ -1703,6 +1703,7 @@
 				4BF01DA027B3A862005B32F2 /* UIApplication+Extensions.swift in Sources */,
 				5373D5732694D66F0032A3B4 /* UIKit+SwiftUI_interoperability.swift in Sources */,
 				5314E09E25F00FE20099271A /* DotView.swift in Sources */,
+				4B4A271A292CD47100FA1D6D /* TooltipView.swift in Sources */,
 				5314E1A525F01A7C0099271A /* TableViewCell.swift in Sources */,
 				4BBD651F2755FD9500A8B09E /* MSFNotification.swift in Sources */,
 				53097D0D270288FB00A6E4DC /* ButtonTokenSet.swift in Sources */,
@@ -1712,7 +1713,6 @@
 				5314E11825F015EA0099271A /* PeoplePicker.swift in Sources */,
 				5303259B26B31B6B00611D05 /* AvatarModifiers.swift in Sources */,
 				5314E2B225F024B60099271A /* Calendar+Extensions.swift in Sources */,
-				5314E1B225F01A980099271A /* TooltipPositionController.swift in Sources */,
 				5314E08A25F00F2D0099271A /* CommandBar.swift in Sources */,
 				80AECC22263339E5005AF2F3 /* BottomSheetPassthroughView.swift in Sources */,
 				925728F9276D6B5800EE1019 /* FontInfo.swift in Sources */,
