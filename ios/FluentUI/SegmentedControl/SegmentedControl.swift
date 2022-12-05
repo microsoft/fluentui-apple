@@ -442,9 +442,6 @@ open class SegmentedControl: UIControl {
     }
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
-        guard let window = window else {
-            return CGSize.zero
-        }
         var maxButtonHeight: CGFloat = 0.0
         var maxButtonWidth: CGFloat = 0.0
         var buttonsWidth: CGFloat = 0.0
@@ -466,12 +463,14 @@ open class SegmentedControl: UIControl {
         }
 
         if shouldSetEqualWidthForSegments {
-            let windowSafeAreaInsets = window.safeAreaInsets
-            let windowWidth = window.bounds.width - windowSafeAreaInsets.left - windowSafeAreaInsets.right
-            if traitCollection.userInterfaceIdiom == .pad {
-                maxButtonWidth = max(windowWidth / 2, Constants.iPadMinimumWidth)
-            } else {
-                maxButtonWidth = windowWidth
+            if let window = window {
+                let windowSafeAreaInsets = window.safeAreaInsets
+                let windowWidth = window.bounds.width - windowSafeAreaInsets.left - windowSafeAreaInsets.right
+                if traitCollection.userInterfaceIdiom == .pad {
+                    maxButtonWidth = max(windowWidth / 2, Constants.iPadMinimumWidth)
+                } else {
+                    maxButtonWidth = windowWidth
+                }
             }
         } else {
             maxButtonWidth += (contentInset.leading + contentInset.trailing)
@@ -484,6 +483,9 @@ open class SegmentedControl: UIControl {
     open override func didMoveToWindow() {
         super.didMoveToWindow()
         updateWindowSpecificColors()
+        if shouldSetEqualWidthForSegments {
+            invalidateIntrinsicContentSize()
+        }
     }
 
     /// Used to retrieve the view from the segment at the specified index
