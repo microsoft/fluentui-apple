@@ -176,16 +176,16 @@ public class CommandBar: UIView, TokenizedControlInternal {
     /// Delegate object that notifies consumers of events occuring inside the `CommandBar`
     public weak var delegate: CommandBarDelegate?
 
-    var tokenSetSink: AnyCancellable?
-
     // MARK: - Private properties
 
     @objc private func themeDidChange(_ notification: Notification) {
-        if let window = self.window,
-           window.isEqual(notification.object) {
-            tokenSet.update(window.fluentTheme)
+        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
+            return
         }
+        tokenSet.update(fluentTheme)
     }
+
+    private var tokenSetSink: AnyCancellable?
 
     /// Container UIStackView that holds the leading, main and trailing views
     private var commandBarContainerStackView: UIStackView
@@ -310,8 +310,6 @@ public class CommandBar: UIView, TokenizedControlInternal {
         mainCommandGroupsView.updateButtonsShown()
         trailingCommandGroupsView.updateButtonsShown()
     }
-
-    private var themeObserver: NSObjectProtocol?
 
     /// Updates the provided `CommandBarCommandGroupsView` with the `items` array and marks the view as needing a layout
     private func setupGroupsView(_ commandGroupsView: CommandBarCommandGroupsView, with items: [CommandBarItemGroup]?) {

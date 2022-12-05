@@ -157,15 +157,15 @@ class CommandBarButton: UIButton {
     private func updateStyle() {
         // TODO: Once iOS 14 support is dropped, this should be converted to a constant (let) that will be initialized by the logic below.
         var resolvedBackgroundColor: UIColor = .clear
-        let resolvedTintColor = UIColor(dynamicColor: isSelected ? tokenSet[.itemIconColor].buttonDynamicColors.selected : tokenSet[.itemIconColor].buttonDynamicColors.rest)
+        let resolvedTintColor = UIColor(dynamicColor: isSelected ? tokenSet[.itemIconColorSelected].dynamicColor : tokenSet[.itemIconColorRest].dynamicColor)
 
         if isPersistSelection {
             if isSelected {
-                resolvedBackgroundColor = UIColor(dynamicColor: tokenSet[.itemBackgroundColor].buttonDynamicColors.selected)
+                resolvedBackgroundColor = UIColor(dynamicColor: tokenSet[.itemBackgroundColorSelected].dynamicColor)
             } else if isHighlighted {
-                resolvedBackgroundColor = UIColor(dynamicColor: tokenSet[.itemBackgroundColor].buttonDynamicColors.pressed)
+                resolvedBackgroundColor = UIColor(dynamicColor: tokenSet[.itemBackgroundColorPressed].dynamicColor)
             } else {
-                resolvedBackgroundColor = UIColor(dynamicColor: tokenSet[.itemBackgroundColor].buttonDynamicColors.rest)
+                resolvedBackgroundColor = UIColor(dynamicColor: tokenSet[.itemBackgroundColorRest].dynamicColor)
             }
         }
 
@@ -204,8 +204,8 @@ class CommandBarButton: UIButton {
 
 extension CommandBarButton: UIPointerInteractionDelegate {
     public func pointerInteraction(_ interaction: UIPointerInteraction, willEnter region: UIPointerRegion, animator: UIPointerInteractionAnimating) {
-        backgroundColor = UIColor(dynamicColor: isSelected ? tokenSet[.itemBackgroundColor].buttonDynamicColors.selected : tokenSet[.itemBackgroundColor].buttonDynamicColors.hover)
-        tintColor = UIColor(dynamicColor: isSelected ? tokenSet[.itemIconColor].buttonDynamicColors.selected : tokenSet[.itemIconColor].buttonDynamicColors.hover)
+        backgroundColor = UIColor(dynamicColor: isSelected ? tokenSet[.itemBackgroundColorSelected].dynamicColor : tokenSet[.itemBackgroundColorHover].dynamicColor)
+        tintColor = UIColor(dynamicColor: isSelected ? tokenSet[.itemIconColorSelected].dynamicColor : tokenSet[.itemIconColorHover].dynamicColor)
     }
 
     public func pointerInteraction(_ interaction: UIPointerInteraction, willExit region: UIPointerRegion, animator: UIPointerInteractionAnimating) {

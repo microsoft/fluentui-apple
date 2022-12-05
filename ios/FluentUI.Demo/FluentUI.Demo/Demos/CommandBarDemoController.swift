@@ -465,6 +465,38 @@ class CommandBarDemoController: DemoController {
     private static let verticalStackViewSpacing: CGFloat = 8.0
 }
 
+extension CommandBarDemoController: DemoAppearanceDelegate {
+    func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
+        guard let fluentTheme = self.view.window?.fluentTheme else {
+            return
+        }
+        fluentTheme.register(tokenSetType: CommandBarTokenSet.self,
+                             tokenSet: isOverrideEnabled ? themeWideOverrideCommandBarTokens : nil)
+    }
+
+    func perControlOverrideDidChange(isOverrideEnabled: Bool) {
+        defaultCommandBar?.tokenSet.replaceAllOverrides(with: isOverrideEnabled ? perControlOverrideCommandBarTokens : nil)
+    }
+
+    func isThemeWideOverrideApplied() -> Bool {
+        return self.view.window?.fluentTheme.tokens(for: CommandBarTokenSet.self)?.isEmpty == false
+    }
+
+    // MARK: - Custom tokens
+
+    private var themeWideOverrideCommandBarTokens: [CommandBarTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .itemBackgroundColorRest: .dynamicColor { DynamicColor(light: GlobalTokens.sharedColors(.red, .primary)) }
+        ]
+    }
+
+    private var perControlOverrideCommandBarTokens: [CommandBarTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .itemBackgroundColorRest: .dynamicColor { DynamicColor(light: GlobalTokens.sharedColors(.grape, .primary)) }
+        ]
+    }
+}
+
 extension CommandBarDemoController: CommandBarDelegate {
     func commandBarDidScroll(_ commandBar: CommandBar) {
         if animateCommandBarDelegateEvents {
