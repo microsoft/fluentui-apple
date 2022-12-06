@@ -26,7 +26,7 @@ open class TwoLineTitleView: UIView {
 
     @objc(MSFTwoLineTitleViewStyle)
     public enum Style: Int {
-        case brand
+        case primary
         case system
     }
 
@@ -130,7 +130,7 @@ open class TwoLineTitleView: UIView {
 
     private var subtitleButtonImageView = UIImageView()
 
-    @objc public convenience init(style: Style = .brand) {
+    @objc public convenience init(style: Style = .primary) {
         self.init(frame: .zero)
         self.currentStyle = style
 
@@ -219,11 +219,13 @@ open class TwoLineTitleView: UIView {
             titleButtonLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
             subtitleButtonLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
             titleButtonImageView.tintColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
-        case .brand:
-            let color = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundOnColor])
-            titleButtonLabel.textColor = color
-            subtitleButtonLabel.textColor = color
-            titleButtonImageView.tintColor = color
+        case .primary:
+            titleButtonLabel.textColor = UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.foregroundOnColor].light,
+                                                                            dark: fluentTheme.aliasTokens.colors[.foreground1].dark))
+            subtitleButtonLabel.textColor = UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.foregroundOnColor].light,
+                                                                               dark: fluentTheme.aliasTokens.colors[.foreground2].dark))
+            titleButtonImageView.tintColor = UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.foregroundOnColor].light,
+                                                                                dark: fluentTheme.aliasTokens.colors[.foreground2].dark))
         }
 
         // unlike title accessory image view, subtitle accessory image view should be the same color as subtitle label
