@@ -490,7 +490,6 @@ public class BottomSheetController: UIViewController, Shadowable {
             updateDimmingViewAccessibility()
         }
         collapsedHeightInSafeArea = view.safeAreaLayoutGuide.layoutFrame.maxY - offset(for: .collapsed)
-<<<<<<< HEAD
         updateShadow()
     }
 
@@ -500,10 +499,8 @@ public class BottomSheetController: UIViewController, Shadowable {
         // We need to have the shadow on a parent of the view that does the corner masking.
         // Otherwise the view will mask its own shadow.
         shadowInfo.applyShadow(to: bottomSheetView, parentController: self)
-=======
 
         super.viewDidLayoutSubviews()
->>>>>>> main
     }
 
     public override func viewSafeAreaInsetsDidChange() {
