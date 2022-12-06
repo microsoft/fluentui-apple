@@ -193,6 +193,8 @@ open class TwoLineTitleView: UIView {
         addInteraction(UILargeContentViewerInteraction())
         titleButtonLabel.showsLargeContentViewer = true
         subtitleButtonLabel.showsLargeContentViewer = true
+
+        updateFonts()
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -284,6 +286,11 @@ open class TwoLineTitleView: UIView {
         subtitleSize.width += subtitleAccessoryType.areaWidth
 
         return CGSize(width: max(titleSize.width, subtitleSize.width), height: titleSize.height + subtitleSize.height)
+    }
+
+    private func updateFonts() {
+        titleButtonLabel.font = UIFont.fluent(fluentTheme.aliasTokens.typography[.body1Strong])
+        subtitleButtonLabel.font = UIFont.fluent(fluentTheme.aliasTokens.typography[.caption1])
     }
 
     open override func layoutSubviews() {
