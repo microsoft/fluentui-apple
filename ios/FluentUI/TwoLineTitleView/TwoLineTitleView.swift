@@ -223,13 +223,14 @@ open class TwoLineTitleView: UIView {
     private func applyStyle(style: Style) {
         switch style {
         case .system:
-            titleButtonLabel.textColor = .red
-            subtitleButtonLabel.textColor = .red
-            titleButtonImageView.tintColor = .red
+            titleButtonLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
+            subtitleButtonLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
+            titleButtonImageView.tintColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
         case .brand:
-            titleButtonLabel.textColor = .green
-            subtitleButtonLabel.textColor = .green
-            titleButtonImageView.tintColor = .green
+            let color = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundOnColor])
+            titleButtonLabel.textColor = color
+            subtitleButtonLabel.textColor = color
+            titleButtonImageView.tintColor = color
         }
 
         // unlike title accessory image view, subtitle accessory image view should be the same color as subtitle label
