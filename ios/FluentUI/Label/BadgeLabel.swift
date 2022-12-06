@@ -27,11 +27,23 @@ class BadgeLabel: UILabel {
         font = UIFont.systemFont(ofSize: Constants.badgeFontSize, weight: .regular)
         isHidden = true
 
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+
         updateColors()
     }
 
     override func didMoveToWindow() {
         super.didMoveToWindow()
+        updateColors()
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
+            return
+        }
         updateColors()
     }
 
