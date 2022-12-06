@@ -53,8 +53,8 @@ open class TwoLineTitleView: UIView {
 
     @objc(MSFTwoLineTitleViewStyle)
     public enum Style: Int {
-        case light
-        case dark
+        case brand
+        case system
     }
 
     @objc(MSFTwoLineTitleViewInteractivePart)
@@ -155,7 +155,7 @@ open class TwoLineTitleView: UIView {
 
     private var subtitleButtonImageView = UIImageView()
 
-    @objc public convenience init(style: Style = .light) {
+    @objc public convenience init(style: Style = .brand) {
         self.init(frame: .zero)
         applyStyle(style: style)
     }
@@ -163,7 +163,7 @@ open class TwoLineTitleView: UIView {
     public override init(frame: CGRect) {
         super.init(frame: frame)
 
-        applyStyle(style: .dark)
+        applyStyle(style: .system)
 
         titleButton.addTarget(self, action: #selector(onTitleButtonHighlighted), for: [.touchDown, .touchDragInside, .touchDragEnter])
         titleButton.addTarget(self, action: #selector(onTitleButtonUnhighlighted), for: [.touchUpInside, .touchDragOutside, .touchDragExit])
@@ -222,14 +222,14 @@ open class TwoLineTitleView: UIView {
 
     private func applyStyle(style: Style) {
         switch style {
-        case .dark:
-            titleButtonLabel.textColor = Colors.TwoLineTitle.titleDark
-            subtitleButtonLabel.textColor = Colors.TwoLineTitle.subtitleDark
-            titleButtonImageView.tintColor = Colors.TwoLineTitle.titleAccessoryDark
-        case .light:
-            titleButtonLabel.textColor = Colors.TwoLineTitle.titleLight
-            subtitleButtonLabel.textColor = Colors.TwoLineTitle.subtitleLight
-            titleButtonImageView.tintColor = Colors.TwoLineTitle.titleAccessoryLight
+        case .system:
+            titleButtonLabel.textColor = .red
+            subtitleButtonLabel.textColor = .red
+            titleButtonImageView.tintColor = .red
+        case .brand:
+            titleButtonLabel.textColor = .green
+            subtitleButtonLabel.textColor = .green
+            titleButtonImageView.tintColor = .green
         }
 
         // unlike title accessory image view, subtitle accessory image view should be the same color as subtitle label
