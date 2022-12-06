@@ -79,7 +79,7 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
     // |--pillContainerView (used to create 16pt inset on either side)
     // |  |--stackView (fill container view, uses restTabColor)
     // |  |  |--buttons (uses restLabelColor)
-    // |  |--pillMaskedLabelsContainerView (fill container view, uses selectedTabColor)
+    // |  |--pillMaskedContentContainerView (fill container view, uses selectedTabColor)
     // |  |  |.mask -> selectionView
     // |  |  |--pillMaskedLabels (uses selectedLabelColor)
     // |  |  |--pillMaskedImages (uses selectedLabelColor)
@@ -88,7 +88,7 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
     // pillContainerView (used to create 16pt inset on either side)
     // |--stackView (fill container view, uses restTabColor)
     // |  |--buttons (uses restLabelColor)
-    // |--pillMaskedLabelsContainerView (fill container view, uses selectedTabColor)
+    // |--pillMaskedContentContainerView (fill container view, uses selectedTabColor)
     // |  |.mask -> selectionView
     // |  |--pillMaskedLabels (uses selectedLabelColor)
     // |  |--pillMaskedImages (uses selectedLabelColor)
