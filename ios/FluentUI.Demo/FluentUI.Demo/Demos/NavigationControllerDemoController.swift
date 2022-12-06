@@ -104,6 +104,7 @@ class NavigationControllerDemoController: DemoController {
             SegmentItem(title: "Second")]
         let pillControl = SegmentedControl(items: segmentItems, style: .onBrandPill)
         pillControl.shouldSetEqualWidthForSegments = false
+        pillControl.isFixedWidth = false
         pillControl.contentInset = .zero
         let stackView = UIStackView()
         stackView.addArrangedSubview(pillControl)

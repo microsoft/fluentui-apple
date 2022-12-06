@@ -1818,7 +1818,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         updateAppearance()
     }
 
-    private func updateAppearance() {
+    internal func updateAppearance() {
         updateFonts()
         updateTextColors()
         updateSelectionImageColor()
