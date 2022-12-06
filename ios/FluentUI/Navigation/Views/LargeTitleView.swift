@@ -10,7 +10,8 @@ import UIKit
 /// Large Header and custom profile button container
 class LargeTitleView: UIView {
     enum Style: Int {
-        case light, dark
+        case primary
+        case system
     }
 
     private struct Constants {
@@ -77,10 +78,10 @@ class LargeTitleView: UIView {
         }
     }
 
-    var style: Style = .light {
+    var style: Style = .primary {
         didSet {
             titleButton.setTitleColor(colorForStyle, for: .normal)
-            avatar?.state.style = style == .light ? .default : .accent
+            avatar?.state.style = style == .primary ? .default : .accent
         }
     }
 
@@ -114,10 +115,11 @@ class LargeTitleView: UIView {
 
     private var colorForStyle: UIColor {
         switch style {
-        case .light:
-            return Colors.Navigation.Primary.title
-        case .dark:
-            return Colors.Navigation.System.title
+        case .primary:
+            return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.foregroundOnColor].light,
+                                                      dark: fluentTheme.aliasTokens.colors[.foreground1].dark))
+        case .system:
+            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
         }
     }
 
@@ -174,7 +176,7 @@ class LargeTitleView: UIView {
                                                                  bottom: 0,
                                                                  right: 8))
         // Avatar setup
-        let preferredFallbackImageStyle: MSFAvatarStyle = style == .light ? .default : .accent
+        let preferredFallbackImageStyle: MSFAvatarStyle = style == .primary ? .default : .accent
         let avatar = MSFAvatar(style: preferredFallbackImageStyle,
                                size: Constants.avatarSize)
         let avatarState = avatar.state
