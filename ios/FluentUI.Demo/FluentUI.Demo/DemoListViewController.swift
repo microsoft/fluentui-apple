@@ -98,6 +98,8 @@ class DemoListViewController: DemoTableViewController {
         let demo = DemoControllerSection.allCases[indexPath.section].rows[indexPath.row]
         cell.setup(title: demo.title, accessoryType: .disclosureIndicator)
         cell.titleNumberOfLinesForLargerDynamicType = 2
+        cell.backgroundStyleType = .grouped
+
         return cell
     }
 

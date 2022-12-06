@@ -111,6 +111,14 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
         }
         updateColors()        // until popupmenuitemcell actually supports token system, clients will override colors via cell's backgroundColor property
         backgroundStyleType = .custom
+
+        tokenSetSink = tokenSet.sinkChanges { [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+            strongSelf.updateAppearance()
+            strongSelf.updateSelectionColors()
+        }
     }
 
     func setup(item: PopupMenuTemplateItem) {
