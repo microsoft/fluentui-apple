@@ -87,12 +87,12 @@ public class CardNudgeTokenSet: ControlTokenSet<CardNudgeTokenSet.Tokens> {
 
             case .circleRadius:
                 return .float {
-                    GlobalTokens.borderRadius(.circle)
+                    GlobalTokens.corner(.radiusCircular)
                 }
 
             case .cornerRadius:
                 return .float {
-                    GlobalTokens.borderRadius(.xLarge)
+                    GlobalTokens.corner(.radius120)
                 }
 
             case .outlineColor:
@@ -109,7 +109,7 @@ public class CardNudgeTokenSet: ControlTokenSet<CardNudgeTokenSet.Tokens> {
 
             case .outlineWidth:
                 return .float {
-                    GlobalTokens.borderSize(.thinner)
+                    GlobalTokens.stroke(.width10)
                 }
 
             case .subtitleTextColor:
@@ -145,13 +145,13 @@ extension CardNudgeTokenSet {
     static let iconSize: CGFloat = GlobalTokens.iconSize(.medium)
     static let circleSize: CGFloat = GlobalTokens.iconSize(.xxLarge)
     static let accentIconSize: CGFloat = GlobalTokens.iconSize(.xxSmall)
-    static let accentPadding: CGFloat = GlobalTokens.spacing(.xxSmall)
+    static let accentPadding: CGFloat = GlobalTokens.spacing(.size40)
 
-    static let horizontalPadding: CGFloat = GlobalTokens.spacing(.medium)
-    static let verticalPadding: CGFloat = GlobalTokens.spacing(.xSmall)
-    static let buttonInnerPaddingHorizontal: CGFloat = GlobalTokens.spacing(.small)
-    static let interTextVerticalPadding: CGFloat = GlobalTokens.spacing(.xxxSmall)
-    static let mainContentVerticalPadding: CGFloat = GlobalTokens.spacing(.small)
+    static let horizontalPadding: CGFloat = GlobalTokens.spacing(.size160)
+    static let verticalPadding: CGFloat = GlobalTokens.spacing(.size80)
+    static let buttonInnerPaddingHorizontal: CGFloat = GlobalTokens.spacing(.size120)
+    static let interTextVerticalPadding: CGFloat = GlobalTokens.spacing(.size20)
+    static let mainContentVerticalPadding: CGFloat = GlobalTokens.spacing(.size120)
 
     static let minimumHeight: CGFloat = 56.0
 }

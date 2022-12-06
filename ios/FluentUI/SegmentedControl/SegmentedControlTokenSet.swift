@@ -179,7 +179,7 @@ public class SegmentedControlTokenSet: ControlTokenSet<SegmentedControlTokenSet.
                 return .float { 6.0 }
 
             case .horizontalInset:
-                return .float { GlobalTokens.spacing(.medium) }
+                return .float { GlobalTokens.spacing(.size160) }
 
             case .unreadDotOffsetX:
                 return .float { 6.0 }

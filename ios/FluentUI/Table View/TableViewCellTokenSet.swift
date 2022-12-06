@@ -114,11 +114,11 @@ public class TableViewCellTokenSet: ControlTokenSet<TableViewCellTokenSet.Tokens
                 return .float {
                     switch customViewSize() {
                     case .zero:
-                        return GlobalTokens.spacing(.none)
+                        return GlobalTokens.spacing(.sizeNone)
                     case .small:
-                        return GlobalTokens.spacing(.medium)
+                        return GlobalTokens.spacing(.size160)
                     case .medium, .default:
-                        return GlobalTokens.spacing(.small)
+                        return GlobalTokens.spacing(.size120)
                     }
                 }
 
@@ -168,7 +168,7 @@ public class TableViewCellTokenSet: ControlTokenSet<TableViewCellTokenSet.Tokens
                 }
 
             case .paddingLeading:
-                return .float { GlobalTokens.spacing(.medium) }
+                return .float { GlobalTokens.spacing(.size160) }
             }
         }
     }
@@ -181,7 +181,7 @@ public class TableViewCellTokenSet: ControlTokenSet<TableViewCellTokenSet.Tokens
 
 extension TableViewCellTokenSet {
     /// The minimum TableViewCell height; the height of a TableViewCell with one line of text.
-    static let oneLineMinHeight: CGFloat = GlobalTokens.spacing(.xxxLarge)
+    static let oneLineMinHeight: CGFloat = GlobalTokens.spacing(.size480)
 
     /// The height of a TableViewCell with two lines of text.
     static let twoLineMinHeight: CGFloat = 64.0
@@ -190,13 +190,13 @@ extension TableViewCellTokenSet {
     static let threeLineMinHeight: CGFloat = 84.0
 
     /// The default horizontal spacing in the cell.
-    static let horizontalSpacing: CGFloat = GlobalTokens.spacing(.medium)
+    static let horizontalSpacing: CGFloat = GlobalTokens.spacing(.size160)
 
     /// The vertical padding in the cell.
     static let paddingVertical: CGFloat = 11.0
 
     /// The trailing padding in the cell.
-    static let paddingTrailing: CGFloat = GlobalTokens.spacing(.medium)
+    static let paddingTrailing: CGFloat = GlobalTokens.spacing(.size160)
 
     static let selectionImageOff = UIImage.staticImageNamed("selection-off")
     static let selectionImageOn = UIImage.staticImageNamed("selection-on")
@@ -214,13 +214,13 @@ extension TableViewCellTokenSet {
     static let footerHeight: CGFloat = 18.0
 
     /// The leading margin for the labelAccessoryView.
-    static let labelAccessoryViewMarginLeading: CGFloat = GlobalTokens.spacing(.xSmall)
+    static let labelAccessoryViewMarginLeading: CGFloat = GlobalTokens.spacing(.size80)
 
     /// The trailing margin for the labelAccessoryView.
-    static let labelAccessoryViewMarginTrailing: CGFloat = GlobalTokens.spacing(.xSmall)
+    static let labelAccessoryViewMarginTrailing: CGFloat = GlobalTokens.spacing(.size80)
 
     /// The leading margin for the customAccessoryView.
-    static let customAccessoryViewMarginLeading: CGFloat = GlobalTokens.spacing(.xSmall)
+    static let customAccessoryViewMarginLeading: CGFloat = GlobalTokens.spacing(.size80)
 
     /// The minimum vertical margin for the customAccessoryView.
     static let customAccessoryViewMinVerticalMargin: CGFloat = 6.0
@@ -229,13 +229,13 @@ extension TableViewCellTokenSet {
     static let defaultLabelVerticalMarginForOneAndThreeLines: CGFloat = 11.0
 
     /// The vertical margin for the label when it has two lines.
-    static let labelVerticalMarginForTwoLines: CGFloat = GlobalTokens.spacing(.small)
+    static let labelVerticalMarginForTwoLines: CGFloat = GlobalTokens.spacing(.size120)
 
     /// The vertical spacing for the label.
-    static let labelVerticalSpacing: CGFloat = GlobalTokens.spacing(.none)
+    static let labelVerticalSpacing: CGFloat = GlobalTokens.spacing(.sizeNone)
 
     /// The trailing margin for the selectionImage.
-    static let selectionImageMarginTrailing: CGFloat = GlobalTokens.spacing(.medium)
+    static let selectionImageMarginTrailing: CGFloat = GlobalTokens.spacing(.size160)
 
     /// The size for the selectionImage.
     static let selectionImageSize: CGFloat = GlobalTokens.iconSize(.medium)
