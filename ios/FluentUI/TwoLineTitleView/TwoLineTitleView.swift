@@ -129,6 +129,8 @@ open class TwoLineTitleView: UIView {
         return interactivePart == .title ? accessoryType : .none
     }
 
+    private var currentStyle: Style
+
     private lazy var titleButtonLabel: Label = {
         let label = Label()
         label.lineBreakMode = .byTruncatingTail
@@ -157,13 +159,17 @@ open class TwoLineTitleView: UIView {
 
     @objc public convenience init(style: Style = .brand) {
         self.init(frame: .zero)
-        applyStyle(style: style)
+        self.currentStyle = style
+
+        applyStyle()
     }
 
     public override init(frame: CGRect) {
+        self.currentStyle = .system
+
         super.init(frame: frame)
 
-        applyStyle(style: .system)
+        applyStyle()
 
         titleButton.addTarget(self, action: #selector(onTitleButtonHighlighted), for: [.touchDown, .touchDragInside, .touchDragEnter])
         titleButton.addTarget(self, action: #selector(onTitleButtonUnhighlighted), for: [.touchUpInside, .touchDragOutside, .touchDragExit])
@@ -195,6 +201,18 @@ open class TwoLineTitleView: UIView {
         subtitleButtonLabel.showsLargeContentViewer = true
 
         updateFonts()
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
+            return
+        }
+        applyStyle()
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -222,8 +240,8 @@ open class TwoLineTitleView: UIView {
 
     // MARK: Highlighting
 
-    private func applyStyle(style: Style) {
-        switch style {
+    private func applyStyle() {
+        switch currentStyle {
         case .system:
             titleButtonLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
             subtitleButtonLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
