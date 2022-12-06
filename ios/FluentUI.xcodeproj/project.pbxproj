@@ -10,6 +10,7 @@
 		0ADBD5872915B9C100C8BC06 /* DividerTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADBD5832915B9C100C8BC06 /* DividerTokenSet.swift */; };
 		0ADBD5882915B9C100C8BC06 /* MSFDivider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADBD5842915B9C100C8BC06 /* MSFDivider.swift */; };
 		0ADBD58A2915B9C100C8BC06 /* Divider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADBD5862915B9C100C8BC06 /* Divider.swift */; };
+		0A8E61FB291DC11F009E412D /* CommandBarTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8E61FA291DC11F009E412D /* CommandBarTokenSet.swift */; };
 		2A9745DE281733D700E1A1FD /* TableViewCellTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9745DD281733D700E1A1FD /* TableViewCellTokenSet.swift */; };
 		43488C46270FAD1300124C71 /* FluentNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43488C44270FAD0200124C71 /* FluentNotification.swift */; };
 		4B53505F27F63E3F0033B47F /* NotificationModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B53505E27F63E3F0033B47F /* NotificationModifiers.swift */; };
@@ -231,6 +232,7 @@
 		0ADBD5832915B9C100C8BC06 /* DividerTokenSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DividerTokenSet.swift; sourceTree = "<group>"; };
 		0ADBD5842915B9C100C8BC06 /* MSFDivider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFDivider.swift; sourceTree = "<group>"; };
 		0ADBD5862915B9C100C8BC06 /* Divider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Divider.swift; sourceTree = "<group>"; };
+		0A8E61FA291DC11F009E412D /* CommandBarTokenSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommandBarTokenSet.swift; sourceTree = "<group>"; };
 		0BCEFADD2485FEC00088CEE5 /* PopupMenuProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMenuProtocols.swift; sourceTree = "<group>"; };
 		1168630222E131CF0088B302 /* TabBarItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarItemView.swift; sourceTree = "<group>"; };
 		1168630322E131CF0088B302 /* TabBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
@@ -1068,6 +1070,7 @@
 				FC414E2A25887A4B00069E73 /* CommandBarButton.swift */,
 				FC414E242588798000069E73 /* CommandBarButtonGroupView.swift */,
 				94A7EC192836DCB100BFFBAE /* CommandBarCommandGroupsView.swift */,
+				0A8E61FA291DC11F009E412D /* CommandBarTokenSet.swift */,
 			);
 			path = "Command Bar";
 			sourceTree = "<group>";
@@ -1480,6 +1483,7 @@
 				5314E05B25F00EF50099271A /* CalendarView.swift in Sources */,
 				92EE82AE27025A94009D52B5 /* TokenSet.swift in Sources */,
 				5314E28125F0240D0099271A /* DateComponents+Extensions.swift in Sources */,
+				0A8E61FB291DC11F009E412D /* CommandBarTokenSet.swift in Sources */,
 				5314E07025F00F140099271A /* DatePickerController.swift in Sources */,
 				5373D56B2694D65C0032A3B4 /* MSFAvatarPresence.swift in Sources */,
 				EC5982D827BF348700FD048D /* MSFAvatar.swift in Sources */,
