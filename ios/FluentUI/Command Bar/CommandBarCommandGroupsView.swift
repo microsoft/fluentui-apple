@@ -56,25 +56,6 @@ class CommandBarCommandGroupsView: UIView {
 
     let tokenSet: CommandBarTokenSet
 
-    /// Refreshes the buttons shown in the `arrangedSubviews`
-    func updateButtonsShown() {
-        for view in buttonGroupsStackView.arrangedSubviews {
-            view.removeFromSuperview()
-        }
-
-        updateButtonGroupViews()
-        for view in buttonGroupViews {
-            buttonGroupsStackView.addArrangedSubview(view)
-        }
-    }
-
-    // MARK: - Private properties
-
-    private var buttonGroupsStackView: UIStackView
-    private var buttonGroupViews: [CommandBarButtonGroupView] = []
-    private var itemsToButtonsMap: [CommandBarItem: CommandBarButton] = [:]
-    private var buttonsPersistSelection: Bool
-
     /// Refreshes the `buttonGroupViews` array of `CommandBarButtonGroupView`s that are displayed in the view
     func updateButtonGroupViews() {
         updateItemsToButtonsMap()
@@ -103,6 +84,25 @@ class CommandBarCommandGroupsView: UIView {
             return group
         }
     }
+
+    /// Refreshes the buttons shown in the `arrangedSubviews`
+    func updateButtonsShown() {
+        for view in buttonGroupsStackView.arrangedSubviews {
+            view.removeFromSuperview()
+        }
+
+        updateButtonGroupViews()
+        for view in buttonGroupViews {
+            buttonGroupsStackView.addArrangedSubview(view)
+        }
+    }
+
+    // MARK: - Private properties
+
+    private var buttonGroupsStackView: UIStackView
+    private var buttonGroupViews: [CommandBarButtonGroupView] = []
+    private var itemsToButtonsMap: [CommandBarItem: CommandBarButton] = [:]
+    private var buttonsPersistSelection: Bool
 
     /// Refreshes the `itemsToButtonsMap` of `CommandBarItem`s to their corresponding `CommandBarButton`
     private func updateItemsToButtonsMap() {
