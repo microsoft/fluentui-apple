@@ -234,7 +234,7 @@ open class SearchBar: UIView {
         clearButton.isHidden = true
 
         clearButton.isPointerInteractionEnabled = true
-        clearButton.pointerStyleProvider = { button, effect, _ in
+        clearButton.pointerStyleProvider = { button, _, _ in
             let preview = UITargetedPreview(view: button)
             return UIPointerStyle(effect: .lift(preview))
         }
