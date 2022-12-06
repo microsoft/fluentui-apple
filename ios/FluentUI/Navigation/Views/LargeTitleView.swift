@@ -159,6 +159,18 @@ class LargeTitleView: UIView {
     private func initBase() {
         setupLayout()
         setupAccessibility()
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
+            return
+        }
+        titleButton.setTitleColor(colorForStyle, for: .normal)
     }
 
     // MARK: - Base Construction Methods
