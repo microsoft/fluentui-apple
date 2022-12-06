@@ -22,7 +22,6 @@ class LargeTitleView: UIView {
 
         // Once we are iOS 14 minimum, we can use Fonts.largeTitle.withSize() function instead
         static let compactTitleFont = UIFont.systemFont(ofSize: 26, weight: .bold)
-        static let titleFont = UIFont.systemFont(ofSize: 30, weight: .bold)
     }
 
     var personaData: Persona? {
@@ -93,7 +92,7 @@ class LargeTitleView: UIView {
             case .contracted:
                 titleButton.titleLabel?.font = Constants.compactTitleFont
             case .expanded:
-                titleButton.titleLabel?.font = Constants.titleFont
+                titleButton.titleLabel?.font = UIFont.fluent(fluentTheme.aliasTokens.typography[.title1])
             }
         }
     }
@@ -201,7 +200,7 @@ class LargeTitleView: UIView {
         // title button setup
         contentStackView.addArrangedSubview(titleButton)
         titleButton.setTitle(nil, for: .normal)
-        titleButton.titleLabel?.font = Constants.titleFont
+        titleButton.titleLabel?.font = UIFont.fluent(fluentTheme.aliasTokens.typography[.title1])
         titleButton.setTitleColor(colorForStyle, for: .normal)
         titleButton.titleLabel?.textAlignment = .left
         titleButton.contentHorizontalAlignment = .left
@@ -221,7 +220,7 @@ class LargeTitleView: UIView {
 
     private func expansionAnimation() {
         if titleSize == .automatic {
-            titleButton.titleLabel?.font = Constants.titleFont
+            titleButton.titleLabel?.font = UIFont.fluent(fluentTheme.aliasTokens.typography[.title1])
         }
 
         if avatarSize == .automatic {
