@@ -21,6 +21,7 @@ class TooltipDemoController: DemoController {
 
         container.addArrangedSubview(createButton(title: "Show single-line tooltip below", action: #selector(showSingleTooltipBelow)))
         container.addArrangedSubview(createButton(title: "Show double-line tooltip above", action: #selector(showDoubleTooltipAbove)))
+        container.addArrangedSubview(createButton(title: "Show tooltip with title above", action: #selector(showTooltipWithTitle)))
         container.addArrangedSubview(createButton(title: "Show with tap on tooltip dismissal", action: #selector(showTooltipWithTapOnTooltipDismissal)))
         container.addArrangedSubview(createButton(title: "Show with tap on tooltip or anchor dismissal", action: #selector(showTooltipWithTapOnTooltipOrAnchorDismissal)))
         container.addArrangedSubview(createLeftRightButtons())
@@ -103,6 +104,10 @@ class TooltipDemoController: DemoController {
         Tooltip.shared.show(with: "This is a very long message, and this is also pointing down.", for: sender)
     }
 
+    @objc func showTooltipWithTitle(sender: Button) {
+        Tooltip.shared.show(with: "This is the message of the tooltip.", title: "This is a tooltip title", for: sender)
+    }
+
     @objc func showTooltipWithTapOnTooltipDismissal(sender: Button) {
         Tooltip.shared.show(with: "Tap on this tooltip to dismiss.", for: sender, preferredArrowDirection: .up, dismissOn: .tapOnTooltip)
     }
@@ -124,22 +129,11 @@ class TooltipDemoController: DemoController {
     }
 
     @objc func showTopRightOffsetTooltip(sender: Button) {
-        guard let window = view.window else {
-            return
-        }
-        var margins = Tooltip.defaultScreenMargins
-        margins.top = edgeCaseStackView.convert(edgeCaseStackView.bounds, to: window).minY - window.safeAreaInsets.top
-        margins.left = window.frame.inset(by: window.safeAreaInsets).midX
-        Tooltip.shared.show(with: "This is a very long, offset message.", for: sender, preferredArrowDirection: .right, screenMargins: margins)
+        Tooltip.shared.show(with: "This is a very long, offset message.", for: sender, preferredArrowDirection: .right)
     }
 
     @objc func showBottomLeftOffsetTooltip(sender: Button) {
-        guard let window = view.window else {
-            return
-        }
-        var margins = Tooltip.defaultScreenMargins
-        margins.right = window.frame.inset(by: window.safeAreaInsets).midX
-        Tooltip.shared.show(with: "This is a very long, offset message.", for: sender, preferredArrowDirection: .left, screenMargins: margins)
+        Tooltip.shared.show(with: "This is a very long, offset message.", for: sender, preferredArrowDirection: .left)
     }
 
     @objc func showBottomRightOffsetTooltip(sender: Button) {
