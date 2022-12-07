@@ -12,33 +12,6 @@ public protocol TwoLineTitleViewDelegate: AnyObject {
     func twoLineTitleViewDidTapOnTitle(_ twoLineTitleView: TwoLineTitleView)
 }
 
-extension Colors {
-
-    // MARK: Navigation Colors
-    struct Navigation {
-        public struct System {
-            public static var background: UIColor = NavigationBar.background
-            public static var tint: UIColor = NavigationBar.tint
-            public static var title: UIColor = NavigationBar.title
-        }
-        public struct Primary {
-            public static var tint = UIColor(light: textOnAccent, dark: System.tint)
-            public static var title = UIColor(light: textOnAccent, dark: System.title)
-        }
-    }
-
-    // MARK: - TwoLineTitle Colors
-    struct TwoLineTitle {
-        // light style is used Navigation.Primary.background. Dark style is used for Navigation.System.background
-        static var titleDark: UIColor = Navigation.System.title
-        static var titleLight: UIColor = Navigation.Primary.title
-        static var subtitleDark = UIColor(light: textSecondary, dark: textDominant)
-        static var subtitleLight: UIColor = titleLight
-        static var titleAccessoryLight = UIColor(light: iconOnAccent, dark: iconPrimary)
-        static var titleAccessoryDark = UIColor(light: iconSecondary, dark: iconPrimary)
-    }
-}
-
 // MARK: - TwoLineTitleView
 
 @objc(MSFTwoLineTitleView)
@@ -53,8 +26,8 @@ open class TwoLineTitleView: UIView {
 
     @objc(MSFTwoLineTitleViewStyle)
     public enum Style: Int {
-        case light
-        case dark
+        case primary
+        case system
     }
 
     @objc(MSFTwoLineTitleViewInteractivePart)
@@ -129,6 +102,8 @@ open class TwoLineTitleView: UIView {
         return interactivePart == .title ? accessoryType : .none
     }
 
+    private var currentStyle: Style
+
     private lazy var titleButtonLabel: Label = {
         let label = Label()
         label.lineBreakMode = .byTruncatingTail
@@ -155,15 +130,19 @@ open class TwoLineTitleView: UIView {
 
     private var subtitleButtonImageView = UIImageView()
 
-    @objc public convenience init(style: Style = .light) {
+    @objc public convenience init(style: Style = .primary) {
         self.init(frame: .zero)
-        applyStyle(style: style)
+        self.currentStyle = style
+
+        applyStyle()
     }
 
     public override init(frame: CGRect) {
+        self.currentStyle = .system
+
         super.init(frame: frame)
 
-        applyStyle(style: .dark)
+        applyStyle()
 
         titleButton.addTarget(self, action: #selector(onTitleButtonHighlighted), for: [.touchDown, .touchDragInside, .touchDragEnter])
         titleButton.addTarget(self, action: #selector(onTitleButtonUnhighlighted), for: [.touchUpInside, .touchDragOutside, .touchDragExit])
@@ -193,6 +172,20 @@ open class TwoLineTitleView: UIView {
         addInteraction(UILargeContentViewerInteraction())
         titleButtonLabel.showsLargeContentViewer = true
         subtitleButtonLabel.showsLargeContentViewer = true
+
+        updateFonts()
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
+            return
+        }
+        applyStyle()
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -220,16 +213,19 @@ open class TwoLineTitleView: UIView {
 
     // MARK: Highlighting
 
-    private func applyStyle(style: Style) {
-        switch style {
-        case .dark:
-            titleButtonLabel.textColor = Colors.TwoLineTitle.titleDark
-            subtitleButtonLabel.textColor = Colors.TwoLineTitle.subtitleDark
-            titleButtonImageView.tintColor = Colors.TwoLineTitle.titleAccessoryDark
-        case .light:
-            titleButtonLabel.textColor = Colors.TwoLineTitle.titleLight
-            subtitleButtonLabel.textColor = Colors.TwoLineTitle.subtitleLight
-            titleButtonImageView.tintColor = Colors.TwoLineTitle.titleAccessoryLight
+    private func applyStyle() {
+        switch currentStyle {
+        case .system:
+            titleButtonLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
+            subtitleButtonLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
+            titleButtonImageView.tintColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
+        case .primary:
+            titleButtonLabel.textColor = UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.foregroundOnColor].light,
+                                                                            dark: fluentTheme.aliasTokens.colors[.foreground1].dark))
+            subtitleButtonLabel.textColor = UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.foregroundOnColor].light,
+                                                                               dark: fluentTheme.aliasTokens.colors[.foreground2].dark))
+            titleButtonImageView.tintColor = UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.foregroundOnColor].light,
+                                                                                dark: fluentTheme.aliasTokens.colors[.foreground2].dark))
         }
 
         // unlike title accessory image view, subtitle accessory image view should be the same color as subtitle label
@@ -283,6 +279,11 @@ open class TwoLineTitleView: UIView {
         subtitleSize.width += subtitleAccessoryType.areaWidth
 
         return CGSize(width: max(titleSize.width, subtitleSize.width), height: titleSize.height + subtitleSize.height)
+    }
+
+    private func updateFonts() {
+        titleButtonLabel.font = UIFont.fluent(fluentTheme.aliasTokens.typography[.body1Strong])
+        subtitleButtonLabel.font = UIFont.fluent(fluentTheme.aliasTokens.typography[.caption1])
     }
 
     open override func layoutSubviews() {
