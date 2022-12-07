@@ -198,6 +198,7 @@ class TooltipView: UIView {
     private func updateColors() {
         let textColor = UIColor(dynamicColor: tokenSet[.textColor].dynamicColor)
         backgroundView.backgroundColor = UIColor(dynamicColor: tokenSet[.tooltipColor].dynamicColor)
+        arrowImageView.image = arrowImageView.image?.withTintColor(UIColor(dynamicColor: tokenSet[.tooltipColor].dynamicColor), renderingMode: .alwaysOriginal)
         messageLabel.textColor = textColor
         titleLabel?.textColor = textColor
     }
