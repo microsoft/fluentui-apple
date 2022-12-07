@@ -117,7 +117,6 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
                 return
             }
             strongSelf.updateAppearance()
-            strongSelf.updateSelectionColors()
         }
     }
 
