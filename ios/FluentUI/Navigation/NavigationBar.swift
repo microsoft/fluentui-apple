@@ -507,9 +507,9 @@ open class NavigationBar: UINavigationBar {
 
         switch style {
         case .primary, .default, .custom:
-            titleView.style = .light
+            titleView.style = .primary
         case .system:
-            titleView.style = .dark
+            titleView.style = .system
         }
 
         standardAppearance.backgroundColor = color
