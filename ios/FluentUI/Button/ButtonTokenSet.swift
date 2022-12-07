@@ -140,16 +140,16 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                 return .float {
                     switch style() {
                     case .primaryFilled, .dangerFilled, .borderless:
-                        return GlobalTokens.borderSize(.none)
+                        return GlobalTokens.stroke(.widthNone)
                     case .primaryOutline, .dangerOutline, .secondaryOutline, .tertiaryOutline:
-                        return GlobalTokens.borderSize(.thin)
+                        return GlobalTokens.stroke(.width15)
                     }
                 }
             case .cornerRadius:
                 return .float {
                     switch style() {
                     case .primaryFilled, .primaryOutline, .dangerFilled, .dangerOutline, .secondaryOutline, .borderless:
-                        return GlobalTokens.borderRadius(.large)
+                        return GlobalTokens.corner(.radius80)
                     case .tertiaryOutline:
                         return 5.0
                     }
@@ -214,13 +214,13 @@ extension ButtonTokenSet {
     static func horizontalPadding(_ style: ButtonStyle) -> CGFloat {
         switch style {
         case .dangerFilled, .dangerOutline, .primaryFilled, .primaryOutline:
-            return GlobalTokens.spacing(.large)
+            return GlobalTokens.spacing(.size200)
         case .secondaryOutline:
             return 14.0
         case .borderless:
-            return GlobalTokens.spacing(.small)
+            return GlobalTokens.spacing(.size80)
         case .tertiaryOutline:
-            return GlobalTokens.spacing(.xSmall)
+            return GlobalTokens.spacing(.size40)
         }
     }
 
@@ -240,9 +240,9 @@ extension ButtonTokenSet {
         case .dangerFilled, .dangerOutline, .primaryFilled, .primaryOutline:
             return 10
         case .secondaryOutline, .borderless:
-            return GlobalTokens.spacing(.xSmall)
+            return GlobalTokens.spacing(.size40)
         case .tertiaryOutline:
-            return GlobalTokens.spacing(.none)
+            return GlobalTokens.spacing(.sizeNone)
         }
     }
 
@@ -250,7 +250,7 @@ extension ButtonTokenSet {
     static func verticalPadding(_ style: ButtonStyle) -> CGFloat {
         switch style {
         case .dangerFilled, .dangerOutline, .primaryFilled, .primaryOutline:
-            return GlobalTokens.spacing(.medium)
+            return GlobalTokens.spacing(.size160)
         case .secondaryOutline:
             return 10
         case .borderless:
