@@ -72,13 +72,15 @@
 		CCC18C2F2501C75F00BE830E /* CardViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCC18C2E2501C75F00BE830E /* CardViewDemoController.swift */; };
 		E6842974247B672000A29C40 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6842973247B672000A29C40 /* SceneDelegate.swift */; };
 		E6842996247C350700A29C40 /* DemoColorThemes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6842995247C350700A29C40 /* DemoColorThemes.swift */; };
-		EC24DBC628B97EB70026EF92 /* PopupMenuObjCDemoController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC24DBC528B97EB70026EF92 /* PopupMenuObjCDemoController.m */; };
 		EC1C31752923032000CF052C /* ColoredPillBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1C31742923032000CF052C /* ColoredPillBackgroundView.swift */; };
+		EC24DBC628B97EB70026EF92 /* PopupMenuObjCDemoController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC24DBC528B97EB70026EF92 /* PopupMenuObjCDemoController.m */; };
 		FC414E3725888BC300069E73 /* CommandBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC414E3625888BC300069E73 /* CommandBarDemoController.swift */; };
 		FDCF7C8321BF35680058E9E6 /* SegmentedControlDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDCF7C8221BF35680058E9E6 /* SegmentedControlDemoController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0A0516BF2940A407006DE0A2 /* DividerDemoController_SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DividerDemoController_SwiftUI.swift; sourceTree = "<group>"; };
+		0A0516C02940A407006DE0A2 /* DividerDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DividerDemoController.swift; sourceTree = "<group>"; };
 		11047D2522932DB1001F0F59 /* TabBarViewDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewDemoController.swift; sourceTree = "<group>"; };
 		114CF8B72423E10900D064AA /* ColorDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorDemoController.swift; sourceTree = "<group>"; };
 		2F0A96FB25CA047100EF9736 /* SearchBarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchBarDemoController.swift; sourceTree = "<group>"; };
@@ -325,6 +327,8 @@
 				9245E1F827BECDBB007616F3 /* ColorTokensDemoController.swift */,
 				FC414E3625888BC300069E73 /* CommandBarDemoController.swift */,
 				FD7254EC21471A3F002F4069 /* DateTimePickerDemoController.swift */,
+				0A0516BF2940A407006DE0A2 /* DividerDemoController_SwiftUI.swift */,
+				0A0516C02940A407006DE0A2 /* DividerDemoController.swift */,
 				A5DCA75D211E3A92005F4CB7 /* DrawerDemoController.swift */,
 				B4E8F65121CD9579008A1598 /* HUDDemoController.swift */,
 				5336B17B27F7817300B01E0D /* HUDDemoController_SwiftUI.swift */,
