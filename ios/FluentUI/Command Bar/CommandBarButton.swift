@@ -135,29 +135,6 @@ class CommandBarButton: UIButton {
     }
 
     private let isPersistSelection: Bool
-/*
-    private var normalTintColor: UIColor {
-        return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
-    }
-
-    private var selectedTintColor: UIColor {
-        return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.brandForegroundTint].light,
-                                                  dark: fluentTheme.aliasTokens.colors[.foreground1].dark))
-    }
-
-    private var selectedBackgroundColor: UIColor {
-        return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.brandForegroundTint].light,
-                                                 dark: fluentTheme.aliasTokens.colors[.background5Selected].dark))
-    }
-
-    private var normalBackgroundColor: UIColor {
-        return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background5])
-    }
-
-    private var highlightedBackgroundColor: UIColor {
-        return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background5Pressed])
-    }
- */
 
     private var accentImageView: UIImageView?
 
