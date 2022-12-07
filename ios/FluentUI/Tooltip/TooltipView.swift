@@ -15,15 +15,13 @@ class TooltipView: UIView {
          textAlignment: NSTextAlignment,
          preferredArrowDirection: Tooltip.ArrowDirection,
          offset: CGPoint,
-         arrowMargin: CGFloat,
-         tokenSet: TooltipTokenSet) {
+         arrowMargin: CGFloat) {
         self.anchorView = anchorView
         self.message = message
         self.titleMessage = title
         self.preferredArrowDirection = preferredArrowDirection
         self.offset = offset
         self.arrowMargin = arrowMargin
-        self.tokenSet = tokenSet
 
         let arrowImageViewBaseImage = UIImage.staticImageNamed("tooltip-arrow")
         arrowImageView = UIImageView(image: arrowImageViewBaseImage)
@@ -378,7 +376,7 @@ class TooltipView: UIView {
     private(set) var arrowDirection: Tooltip.ArrowDirection = .down
     private var tooltipSize: CGSize = .zero
     private var tooltipOrigin: CGPoint = .zero
-    private var tokenSet: TooltipTokenSet
+    private var tokenSet: TooltipTokenSet = Tooltip.shared.tokenSet
 
     private lazy var backgroundView: UIView = {
         let view = UIView()

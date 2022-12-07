@@ -15,21 +15,19 @@ class TooltipViewController: UIViewController {
          textAlignment: NSTextAlignment,
          preferredArrowDirection: Tooltip.ArrowDirection,
          offset: CGPoint,
-         arrowMargin: CGFloat,
-         tokenSet: TooltipTokenSet) {
+         arrowMargin: CGFloat) {
         tooltipView = TooltipView(anchorView: anchorView,
                                   message: message,
                                   title: title,
                                   textAlignment: textAlignment,
                                   preferredArrowDirection: preferredArrowDirection,
                                   offset: offset,
-                                  arrowMargin: arrowMargin,
-                                  tokenSet: tokenSet)
+                                  arrowMargin: arrowMargin)
 
         super.init(nibName: nil, bundle: nil)
 
         view.addSubview(tooltipView)
-        updateAppearance(tokenSet: tokenSet)
+        updateAppearance()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -56,8 +54,8 @@ class TooltipViewController: UIViewController {
         }
     }
 
-    func updateAppearance(tokenSet: TooltipTokenSet) {
-        tooltipView.updateAppearance(tokenSet: tokenSet)
+    func updateAppearance() {
+        tooltipView.updateAppearance(tokenSet: Tooltip.shared.tokenSet)
         view.frame = tooltipView.tooltipRect
     }
 
