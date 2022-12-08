@@ -5,16 +5,6 @@
 
 import UIKit
 
-// MARK: PageCardPresenter Colors
-
-private extension Colors {
-    struct PageCardPresenter {
-        // Should use physical color because page indicators are shown on physical blurred dark background
-        static var currentPageIndicator: UIColor = .white
-        static var pageIndicator = UIColor.white.withAlphaComponent(0.5)
-    }
-}
-
 // MARK: - CardPresentable
 
 protocol CardPresentable: AnyObject {
@@ -52,11 +42,8 @@ open class PageCardPresenterController: UIViewController {
 
     private let pageControl: UIPageControl = {
         let pageControl = UIPageControl()
-        let color = UIColor(colorValue: GlobalTokens.neutralColors(.white))
         pageControl.hidesForSinglePage = true
         pageControl.isUserInteractionEnabled = false
-        pageControl.pageIndicatorTintColor = color.withAlphaComponent(0.5)
-        pageControl.currentPageIndicatorTintColor = color
         return pageControl
     }()
 
@@ -79,6 +66,27 @@ open class PageCardPresenterController: UIViewController {
         self.currentlyVisibleIndex = startingIndex
 
         super.init(nibName: nil, bundle: nil)
+
+        updatePageControlColors()
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        guard let themeView = notification.object as? UIView, view.isDescendant(of: themeView) else {
+            return
+        }
+        updatePageControlColors()
+    }
+
+    private func updatePageControlColors() {
+        let color = UIColor(colorValue: GlobalTokens.neutralColors(.white))
+
+        pageControl.pageIndicatorTintColor = color.withAlphaComponent(0.5)
+        pageControl.currentPageIndicatorTintColor = color
     }
 
     public required init?(coder aDecoder: NSCoder) {
