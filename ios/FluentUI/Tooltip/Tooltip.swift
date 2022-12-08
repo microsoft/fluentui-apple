@@ -47,7 +47,12 @@ open class Tooltip: NSObject, TokenizedControlInternal {
         }
 
         self.anchorView = anchorView
-        tooltipViewController = TooltipViewController(anchorView: anchorView,
+        tooltipViewController = TooltipViewController(anchorView: { [weak self] in
+                                                                    guard let strongSelf = self else {
+                                                                        return nil
+                                                                    }
+                                                                    return strongSelf.anchorView
+                                                                  },
                                                       message: message,
                                                       title: title,
                                                       textAlignment: textAlignment,

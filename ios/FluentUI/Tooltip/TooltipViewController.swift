@@ -9,13 +9,17 @@ import UIKit
 
 class TooltipViewController: UIViewController {
 
-    init(anchorView: UIView,
+    init(anchorView: @escaping () -> UIView?,
          message: String,
          title: String? = nil,
          textAlignment: NSTextAlignment,
          preferredArrowDirection: Tooltip.ArrowDirection,
          offset: CGPoint,
          arrowMargin: CGFloat) {
+        guard let anchorView = anchorView() else {
+            preconditionFailure("Can't find anchorView")
+        }
+
         tooltipView = TooltipView(anchorView: anchorView,
                                   message: message,
                                   title: title,
