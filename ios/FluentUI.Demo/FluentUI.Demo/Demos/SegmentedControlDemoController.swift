@@ -102,6 +102,7 @@ class SegmentedControlDemoController: DemoController {
         let selectedBackgroundColor: UIColor?
         let textColor: UIColor?
         let selectedTextColor: UIColor?
+        let unreadDotColor: DynamicColor?
         if customColors {
             backgroundColor = UIColor(dynamicColor: DynamicColor(light: GlobalTokens.sharedColors(.bronze, .shade30),
                                                                  dark: GlobalTokens.sharedColors(.bronze, .tint40)))
@@ -111,11 +112,14 @@ class SegmentedControlDemoController: DemoController {
                                                                  dark: GlobalTokens.sharedColors(.bronze, .shade30)))
             selectedTextColor = UIColor(dynamicColor: DynamicColor(light: GlobalTokens.sharedColors(.steel, .shade30),
                                                                    dark: GlobalTokens.sharedColors(.steel, .tint40)))
+            unreadDotColor = DynamicColor(light: GlobalTokens.sharedColors(.charcoal, .tint40),
+                                          dark: GlobalTokens.sharedColors(.charcoal, .shade30))
         } else {
             backgroundColor = nil
             selectedBackgroundColor = nil
             textColor = nil
             selectedTextColor = nil
+            unreadDotColor = nil
         }
         let pillControl = SegmentedControl(items: items,
                                            style: style,
@@ -132,6 +136,9 @@ class SegmentedControlDemoController: DemoController {
             }
 
             strongSelf.updateLabel(forControl: pillControl)
+        }
+        if let unreadDotColor = unreadDotColor {
+            pillControl.tokenSet[.enabledUnreadDotColor] = .dynamicColor { unreadDotColor }
         }
 
         let backgroundStyle: ColoredPillBackgroundStyle = {
