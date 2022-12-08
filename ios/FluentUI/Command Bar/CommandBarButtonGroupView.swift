@@ -8,14 +8,15 @@ import UIKit
 class CommandBarButtonGroupView: UIView {
     let buttons: [CommandBarButton]
 
-    init(buttons: [CommandBarButton]) {
+    init(buttons: [CommandBarButton], tokenSet: CommandBarTokenSet) {
         self.buttons = buttons
+        self.tokenSet = tokenSet
 
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
 
         clipsToBounds = true
-        layer.cornerRadius = LayoutConstants.cornerRadius
+        layer.cornerRadius = tokenSet[.groupBorderRadius].float
         layer.cornerCurve = .continuous
 
         configureHierarchy()
@@ -45,7 +46,7 @@ class CommandBarButtonGroupView: UIView {
         let stackView = UIStackView(arrangedSubviews: buttons)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
-        stackView.spacing = LayoutConstants.buttonPadding
+        stackView.spacing = CommandBarTokenSet.itemInterspace
 
         return stackView
     }()
@@ -62,17 +63,13 @@ class CommandBarButtonGroupView: UIView {
 
     private func applyInsets() {
         if #available(iOS 15.0, *) {
-            buttons.first?.configuration?.contentInsets.leading += LayoutConstants.leftRightBuffer
-            buttons.last?.configuration?.contentInsets.trailing += LayoutConstants.leftRightBuffer
+            buttons.first?.configuration?.contentInsets.leading += CommandBarTokenSet.leftRightBuffer
+            buttons.last?.configuration?.contentInsets.trailing += CommandBarTokenSet.leftRightBuffer
         } else {
-            buttons.first?.contentEdgeInsets.left += LayoutConstants.leftRightBuffer
-            buttons.last?.contentEdgeInsets.right += LayoutConstants.leftRightBuffer
+            buttons.first?.contentEdgeInsets.left += CommandBarTokenSet.leftRightBuffer
+            buttons.last?.contentEdgeInsets.right += CommandBarTokenSet.leftRightBuffer
         }
     }
 
-    private struct LayoutConstants {
-        static let cornerRadius: CGFloat = 8.0
-        static let buttonPadding: CGFloat = 2.0
-        static let leftRightBuffer: CGFloat = 2.0
-    }
+    private var tokenSet: CommandBarTokenSet
 }

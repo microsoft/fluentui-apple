@@ -8,6 +8,8 @@ import UIKit
 class CommandBarButton: UIButton {
     let item: CommandBarItem
 
+    unowned let tokenSet: CommandBarTokenSet
+
     override var isHighlighted: Bool {
         didSet {
             updateStyle()
@@ -31,9 +33,10 @@ class CommandBarButton: UIButton {
         updateStyle()
     }
 
-    init(item: CommandBarItem, isPersistSelection: Bool = true) {
+    init(item: CommandBarItem, isPersistSelection: Bool = true, tokenSet: CommandBarTokenSet) {
         self.item = item
         self.isPersistSelection = isPersistSelection
+        self.tokenSet = tokenSet
 
         super.init(frame: .zero)
 
@@ -47,7 +50,7 @@ class CommandBarButton: UIButton {
             if #available(iOS 15.0, *) {
                 var buttonConfiguration = UIButton.Configuration.plain()
                 buttonConfiguration.image = item.iconImage
-                buttonConfiguration.contentInsets = LayoutConstants.contentInsets
+                buttonConfiguration.contentInsets = CommandBarTokenSet.buttonContentInsets
                 buttonConfiguration.background.cornerRadius = 0
                 configuration = buttonConfiguration
             } else {
@@ -84,6 +87,7 @@ class CommandBarButton: UIButton {
             return
         }
         updateStyle()
+        isPointerInteractionEnabled = true
     }
 
     @available(*, unavailable)
@@ -128,32 +132,9 @@ class CommandBarButton: UIButton {
         accessibilityLabel = (accessibilityDescription != nil) ? accessibilityDescription : title
         accessibilityHint = item.accessibilityHint
         accessibilityValue = item.accessibilityValue
-        accessibilityIdentifier = item.accessibilityIdentifier
     }
 
     private let isPersistSelection: Bool
-
-    private var normalTintColor: UIColor {
-        return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
-    }
-
-    private var selectedTintColor: UIColor {
-        return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.brandForegroundTint].light,
-                                                  dark: fluentTheme.aliasTokens.colors[.foreground1].dark))
-    }
-
-    private var selectedBackgroundColor: UIColor {
-        return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.brandForegroundTint].light,
-                                                 dark: fluentTheme.aliasTokens.colors[.background5Selected].dark))
-    }
-
-    private var normalBackgroundColor: UIColor {
-        return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background5])
-    }
-
-    private var highlightedBackgroundColor: UIColor {
-        return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background5Pressed])
-    }
 
     private var accentImageView: UIImageView?
 
@@ -187,15 +168,15 @@ class CommandBarButton: UIButton {
     private func updateStyle() {
         // TODO: Once iOS 14 support is dropped, this should be converted to a constant (let) that will be initialized by the logic below.
         var resolvedBackgroundColor: UIColor = .clear
-        let resolvedTintColor: UIColor = isSelected ? selectedTintColor : normalTintColor
+        let resolvedTintColor = UIColor(dynamicColor: isSelected ? tokenSet[.itemIconColorSelected].dynamicColor : tokenSet[.itemIconColorRest].dynamicColor)
 
         if isPersistSelection {
             if isSelected {
-                resolvedBackgroundColor = selectedBackgroundColor
+                resolvedBackgroundColor = UIColor(dynamicColor: tokenSet[.itemBackgroundColorSelected].dynamicColor)
             } else if isHighlighted {
-                resolvedBackgroundColor = highlightedBackgroundColor
+                resolvedBackgroundColor = UIColor(dynamicColor: tokenSet[.itemBackgroundColorPressed].dynamicColor)
             } else {
-                resolvedBackgroundColor = normalBackgroundColor
+                resolvedBackgroundColor = UIColor(dynamicColor: tokenSet[.itemBackgroundColorRest].dynamicColor)
             }
         }
 
@@ -222,13 +203,22 @@ class CommandBarButton: UIButton {
     }
 
     private struct LayoutConstants {
-        static let contentInsets = NSDirectionalEdgeInsets(top: 8.0,
-                                                           leading: 10.0,
-                                                           bottom: 8.0,
-                                                           trailing: 10.0)
         static let contentEdgeInsets = UIEdgeInsets(top: 8.0,
                                                     left: 10.0,
                                                     bottom: 8.0,
                                                     right: 10.0)
+    }
+}
+
+// MARK: CommandBarButton UIPointerInteractionDelegate
+
+extension CommandBarButton: UIPointerInteractionDelegate {
+    public func pointerInteraction(_ interaction: UIPointerInteraction, willEnter region: UIPointerRegion, animator: UIPointerInteractionAnimating) {
+        backgroundColor = UIColor(dynamicColor: isSelected ? tokenSet[.itemBackgroundColorSelected].dynamicColor : tokenSet[.itemBackgroundColorHover].dynamicColor)
+        tintColor = UIColor(dynamicColor: isSelected ? tokenSet[.itemIconColorSelected].dynamicColor : tokenSet[.itemIconColorHover].dynamicColor)
+    }
+
+    public func pointerInteraction(_ interaction: UIPointerInteraction, willExit region: UIPointerRegion, animator: UIPointerInteractionAnimating) {
+        updateStyle()
     }
 }

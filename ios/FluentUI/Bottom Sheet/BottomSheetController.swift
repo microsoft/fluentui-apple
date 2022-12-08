@@ -303,8 +303,7 @@ public class BottomSheetController: UIViewController, Shadowable {
             animator = stateChangeAnimator(to: targetState)
 
             currentStateChangeAnimator = animator
-            animator?.addCompletion { [weak self] finalPosition in
-                self?.currentStateChangeAnimator = nil
+            animator?.addCompletion { finalPosition in
                 completion?(finalPosition)
             }
         }
@@ -469,6 +468,18 @@ public class BottomSheetController: UIViewController, Shadowable {
     }
 
     public override func viewDidLayoutSubviews() {
+        let newHeight = view.bounds.height
+        if currentRootViewHeight != newHeight && currentExpansionState == .transitioning {
+            // The view height has changed and we can't guarantee the animation target frame is valid anymore.
+            // Let's complete animations and cancel ongoing gestures to guarantee we end up in a good state.
+            completeAnimationsIfNeeded(skipToEnd: true)
+
+            if panGestureRecognizer.state != .possible {
+                panGestureRecognizer.state = .cancelled
+            }
+        }
+        currentRootViewHeight = newHeight
+
         // In the transitioning state a pan gesture or an animator temporarily owns the sheet frame updates,
         // so to avoid interfering we won't update the frame here.
         if currentExpansionState != .transitioning {
@@ -488,25 +499,13 @@ public class BottomSheetController: UIViewController, Shadowable {
         // We need to have the shadow on a parent of the view that does the corner masking.
         // Otherwise the view will mask its own shadow.
         shadowInfo.applyShadow(to: bottomSheetView, parentController: self)
+
+        super.viewDidLayoutSubviews()
     }
 
     public override func viewSafeAreaInsetsDidChange() {
         super.viewSafeAreaInsetsDidChange()
         completeAnimationsIfNeeded(skipToEnd: true)
-    }
-
-    public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
-
-        if size.height != view.frame.height && currentExpansionState == .transitioning {
-            // The view is resizing and we can't guarantee the animation target frame is valid anymore.
-            // Completing the animation ensures the sheet will be correctly positioned on the next layout pass
-            completeAnimationsIfNeeded(skipToEnd: true)
-
-            if panGestureRecognizer.state != .possible {
-                panGestureRecognizer.state = .cancelled
-            }
-        }
     }
 
     public override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -741,9 +740,6 @@ public class BottomSheetController: UIViewController, Shadowable {
 
             if animated {
                 currentStateChangeAnimator = animator
-                animator.addCompletion { [weak self] _ in
-                    self?.currentStateChangeAnimator = nil
-                }
                 animator.startAnimation()
             } else {
                 animator.startAnimation() // moves the animator into active state so it can be stopped
@@ -798,6 +794,13 @@ public class BottomSheetController: UIViewController, Shadowable {
             guard let strongSelf = self else {
                 return
             }
+
+            // It's important we drop the reference to the animator as early as possible.
+            // Otherwise we could accidentally try modifying the animator while it's calling out to its completion handler, which can lead to a crash.
+            if let animator = strongSelf.currentStateChangeAnimator, animator == translationAnimator {
+                strongSelf.currentStateChangeAnimator = nil
+            }
+
             strongSelf.targetExpansionState = nil
             strongSelf.panGestureRecognizer.isEnabled = strongSelf.isExpandable
             strongSelf.handleCompletedStateChange(to: finalPosition == .start ? originalExpansionState : targetExpansionState,
@@ -857,7 +860,7 @@ public class BottomSheetController: UIViewController, Shadowable {
     }
 
     private func completeAnimationsIfNeeded(skipToEnd: Bool = false) {
-        if let currentAnimator = currentStateChangeAnimator, currentAnimator.isRunning {
+        if let currentAnimator = currentStateChangeAnimator, currentAnimator.isRunning, currentAnimator.state == .active {
             let endPosition: UIViewAnimatingPosition = currentAnimator.isReversed ? .start : .end
             currentAnimator.stopAnimation(false)
             currentAnimator.finishAnimation(at: skipToEnd ? endPosition : .current)
@@ -976,6 +979,10 @@ public class BottomSheetController: UIViewController, Shadowable {
     private var currentSheetVerticalOffset: CGFloat {
         bottomSheetView.frame.minY
     }
+
+    // Only used for height change detection.
+    // For all other cases you should probably directly use self.view.bounds.height.
+    private var currentRootViewHeight: CGFloat = 0
 
     private let shouldShowDimmingView: Bool
 

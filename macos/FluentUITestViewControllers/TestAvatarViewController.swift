@@ -19,6 +19,7 @@ private struct TestData {
 	static let maor = TestIdentity(name: "Maor Sharett", email: "Maor.Sharett@example.com", image: nil)
 	static let annieBoyl = TestIdentity(name: "Annie Boyl Lind", email: "annie.boyl@example.com", image: nil)
 	static let kat = TestIdentity(name: nil, email: "Kat.Larrson@example.com", image: nil)
+	static let turkey = TestIdentity(name: "🦃", email: "🦃🦃🦃🦃🦃🦃🦃🦃@example.com", image: nil)
 	static let anonymous = TestIdentity(name: nil, email: nil, image: nil)
 	private init() {}
 }
@@ -33,6 +34,7 @@ class TestAvatarViewController: NSViewController {
 															TestData.maor,
 															TestData.annieBoyl,
 															TestData.kat,
+															TestData.turkey,
 															TestData.anonymous
 		])
 

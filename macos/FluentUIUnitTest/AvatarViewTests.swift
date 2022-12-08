@@ -40,11 +40,13 @@ class AvatarViewTests: XCTestCase {
 		XCTAssertEqual(AvatarView.initialsWithFallback(name: "😂", email: "happy@example.com"), "H")
 		XCTAssertNil(AvatarView.initials(name: "🧐", email: "😀@😬.😂"))
 		XCTAssertEqual(AvatarView.initialsWithFallback(name: "🧐", email: "😀@😬.😂"), "#")
+		XCTAssertEqual(AvatarView.initialsWithFallback(name: "🧐", email: "😀@😬.😂z"), "Z")
 		XCTAssertNil(AvatarView.initials(name: "☮︎", email: nil))
 		XCTAssertEqual(AvatarView.initialsWithFallback(name: "☮︎", email: nil), "#")
 		XCTAssertEqual(AvatarView.initialsWithFallback(name: "Maor Sharett 👑", email: "Maor.Sharett@example.com"), "MS")
 		XCTAssertEqual(AvatarView.initialsWithFallback(name: "Maor Sharett👑", email: "Maor.Sharett@example.com"), "MS")
 		XCTAssertEqual(AvatarView.initialsWithFallback(name: "Maor 👑 Sharett", email: "Maor.Sharett@example.com"), "MS")
+		XCTAssertEqual(AvatarView.initialsWithFallback(name: "👑 Maor Sharett", email: "Maor.Sharett@example.com"), "MS")
 
 		// Complex characters
 		XCTAssertEqual(AvatarView.initialsWithFallback(name: "王小博", email: "email@example.com"), "E")
@@ -163,5 +165,8 @@ class AvatarViewTests: XCTestCase {
 		colorSet = AvatarView.getInitialsColorSet(fromPrimaryText: "", secondaryText: "")
 		XCTAssertEqual(colorSet.background, DynamicColor(light: Colors.Palette.darkRedTint40.color, dark: Colors.Palette.darkRedShade30.color))
 		XCTAssertEqual(colorSet.foreground, DynamicColor(light: Colors.Palette.darkRedShade30.color, dark: Colors.Palette.darkRedTint40.color))
+		colorSet = AvatarView.getInitialsColorSet(fromPrimaryText: "🦃", secondaryText: "🦃🦃🦃🦃🦃🦃🦃🦃@example.com")
+		XCTAssertEqual(colorSet.background, DynamicColor(light: Colors.Palette.anchorTint40.color, dark: Colors.Palette.anchorShade30.color))
+		XCTAssertEqual(colorSet.foreground, DynamicColor(light: Colors.Palette.anchorShade30.color, dark: Colors.Palette.anchorTint40.color))
 	}
 }

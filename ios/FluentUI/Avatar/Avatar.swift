@@ -413,15 +413,7 @@ public struct Avatar: View, TokenizedControlView {
         }
 
         static func initialsHashCode(fromPrimaryText primaryText: String?, secondaryText: String?) -> Int {
-            var combined: String
-            if let secondaryText = secondaryText, let primaryText = primaryText, secondaryText.count > 0 {
-                combined = primaryText + secondaryText
-            } else if let primaryText = primaryText {
-                combined = primaryText
-            } else {
-                combined = ""
-            }
-
+            let combined = (primaryText ?? "") + (secondaryText ?? "")
             let combinedHashable = combined as NSString
             return Int(abs(hashCode(combinedHashable)))
         }
@@ -432,7 +424,9 @@ public struct Avatar: View, TokenizedControlView {
         private static func hashCode(_ text: NSString) -> Int32 {
             var hash: Int32 = 0
             for len in (0..<text.length).reversed() {
-                let ch = text.character(at: len)
+                // Convert from `unichar` to `Int32` to avoid potential arithmetic overflow in the next few lines.
+                // Note that JavaScript does the upconversion automatically, but we need to be explicit in Swift.
+                let ch = Int32(text.character(at: len))
                 let shift = len % 8
                 hash ^= Int32((ch << shift) + (ch >> (8 - shift)))
               }
