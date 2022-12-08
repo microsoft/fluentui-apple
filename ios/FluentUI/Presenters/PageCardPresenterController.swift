@@ -52,10 +52,11 @@ open class PageCardPresenterController: UIViewController {
 
     private let pageControl: UIPageControl = {
         let pageControl = UIPageControl()
+        let color = UIColor(colorValue: GlobalTokens.neutralColors(.white))
         pageControl.hidesForSinglePage = true
         pageControl.isUserInteractionEnabled = false
-        pageControl.pageIndicatorTintColor = Colors.PageCardPresenter.pageIndicator
-        pageControl.currentPageIndicatorTintColor = Colors.PageCardPresenter.currentPageIndicator
+        pageControl.pageIndicatorTintColor = color.withAlphaComponent(0.5)
+        pageControl.currentPageIndicatorTintColor = color
         return pageControl
     }()
 
