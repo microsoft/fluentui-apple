@@ -7,7 +7,6 @@ import FluentUI
 import UIKit
 
 class BadgeViewDemoController: DemoController {
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
