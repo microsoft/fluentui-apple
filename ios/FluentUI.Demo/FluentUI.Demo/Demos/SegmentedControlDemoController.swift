@@ -98,35 +98,30 @@ class SegmentedControlDemoController: DemoController {
     }
 
     func addPillControl(items: [SegmentItem], style: SegmentedControlStyle, equalSegments: Bool = true, enabled: Bool = true, isFixedWidth: Bool = true, customColors: Bool = false) {
-        let backgroundColor: UIColor?
-        let selectedBackgroundColor: UIColor?
-        let textColor: UIColor?
-        let selectedTextColor: UIColor?
-        let unreadDotColor: DynamicColor?
+        let pillControl: SegmentedControl
         if customColors {
-            backgroundColor = UIColor(dynamicColor: DynamicColor(light: GlobalTokens.sharedColors(.bronze, .shade30),
-                                                                 dark: GlobalTokens.sharedColors(.bronze, .tint40)))
-            selectedBackgroundColor = UIColor(dynamicColor: DynamicColor(light: GlobalTokens.sharedColors(.steel, .tint40),
-                                                                         dark: GlobalTokens.sharedColors(.steel, .shade30)))
-            textColor = UIColor(dynamicColor: DynamicColor(light: GlobalTokens.sharedColors(.bronze, .tint40),
-                                                                 dark: GlobalTokens.sharedColors(.bronze, .shade30)))
-            selectedTextColor = UIColor(dynamicColor: DynamicColor(light: GlobalTokens.sharedColors(.steel, .shade30),
-                                                                   dark: GlobalTokens.sharedColors(.steel, .tint40)))
-            unreadDotColor = DynamicColor(light: GlobalTokens.sharedColors(.charcoal, .tint40),
-                                          dark: GlobalTokens.sharedColors(.charcoal, .shade30))
-        } else {
-            backgroundColor = nil
-            selectedBackgroundColor = nil
-            textColor = nil
-            selectedTextColor = nil
-            unreadDotColor = nil
-        }
-        let pillControl = SegmentedControl(items: items,
+            pillControl = SegmentedControl(items: items,
                                            style: style,
-                                           customSegmentedControlBackgroundColor: backgroundColor,
-                                           customSegmentedControlSelectedButtonBackgroundColor: selectedBackgroundColor,
-                                           customSegmentedControlButtonTextColor: textColor,
-                                           customSelectedSegmentedControlButtonTextColor: selectedTextColor)
+                                           customSegmentedControlBackgroundColor:
+                                            UIColor(dynamicColor: DynamicColor(light: GlobalTokens.sharedColors(.bronze, .shade30),
+                                                                               dark: GlobalTokens.sharedColors(.bronze, .tint40))),
+                                           customSegmentedControlSelectedButtonBackgroundColor:
+                                            UIColor(dynamicColor: DynamicColor(light: GlobalTokens.sharedColors(.steel, .tint40),
+                                                                               dark: GlobalTokens.sharedColors(.steel, .shade30))),
+                                           customSegmentedControlButtonTextColor:
+                                            UIColor(dynamicColor: DynamicColor(light: GlobalTokens.sharedColors(.bronze, .tint40),
+                                                                               dark: GlobalTokens.sharedColors(.bronze, .shade30))),
+                                           customSelectedSegmentedControlButtonTextColor:
+                                            UIColor(dynamicColor: DynamicColor(light: GlobalTokens.sharedColors(.steel, .shade30),
+                                                                               dark: GlobalTokens.sharedColors(.steel, .tint40))))
+            pillControl.tokenSet[.enabledUnreadDotColor] = .dynamicColor {
+                DynamicColor(light: GlobalTokens.sharedColors(.charcoal, .tint40),
+                             dark: GlobalTokens.sharedColors(.charcoal, .shade30))
+            }
+        } else {
+            pillControl = SegmentedControl(items: items,
+                                           style: style)
+        }
         pillControl.shouldSetEqualWidthForSegments = equalSegments
         pillControl.isFixedWidth = isFixedWidth
         pillControl.isEnabled = enabled
@@ -136,9 +131,6 @@ class SegmentedControlDemoController: DemoController {
             }
 
             strongSelf.updateLabel(forControl: pillControl)
-        }
-        if let unreadDotColor = unreadDotColor {
-            pillControl.tokenSet[.enabledUnreadDotColor] = .dynamicColor { unreadDotColor }
         }
 
         let backgroundStyle: ColoredPillBackgroundStyle = {
