@@ -95,7 +95,7 @@ public class CommandBarTokenSet: ControlTokenSet<CommandBarTokenSet.Tokens> {
 
 extension CommandBarTokenSet {
     /// The spacing between each Command Bar Group.
-    static let groupInterspace: CGFloat = GlobalTokens.spacing(.size40)
+    static let groupInterspace: CGFloat = GlobalTokens.spacing(.size80)
 
     /// The spacing between each Command Bar Group for iPad.
     static let groupInterspaceWide: CGFloat = GlobalTokens.spacing(.size160)
