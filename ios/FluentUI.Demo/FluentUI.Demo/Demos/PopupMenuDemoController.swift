@@ -20,8 +20,10 @@ class PopupMenuDemoController: DemoController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        readmeString = "A popup menu is a small, temporary window that appears on demand to give non-essential, contextual information.\n\nPopup menus can have structured content and interactive components but limit the functionality that you include in them. Generally, they work best in wider views. If you need to show contextual info in a compact view, try a sheet instead."
 
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Show", style: .plain, target: self, action: #selector(topBarButtonTapped))
+        let showButton = UIBarButtonItem(title: "Show", style: .plain, target: self, action: #selector(topBarButtonTapped))
+        navigationItem.rightBarButtonItems?.append(showButton)
 
         toolbarItems = [
             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),

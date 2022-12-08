@@ -17,7 +17,7 @@ class PersonaButtonCarouselDemoController: DemoTableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        readmeString = "A persona button carousel lets people scroll through a list of persona buttons to view or make a selection."
         tableView.register(ActionsCell.self, forCellReuseIdentifier: PersonaButtonCarouselDemoController.controlReuseIdentifier)
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: PersonaButtonCarouselDemoController.largeCarouselReuseIdentifier)
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: PersonaButtonCarouselDemoController.smallCarouselReuseIdentifier)

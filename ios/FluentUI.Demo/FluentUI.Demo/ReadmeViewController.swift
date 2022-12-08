@@ -9,17 +9,10 @@ import FluentUI
 class ReadmeViewController: UIViewController {
 
     private struct Constants {
-        static let topPadding: CGFloat = 35
-        static let bottomPadding: CGFloat = -25
-        static let widthMultiplier: CGFloat = 0.9
+        static let topPadding: CGFloat = 25
+        static let leadingAndTrailingPadding: CGFloat = 20
         static let popoverWidth: CGFloat = 400
-        static let popoverHeight: CGFloat = 250
     }
-
-    private let scrollView = UIScrollView()
-    private let contentView = UIView()
-
-    private let readme: String?
 
     private let readmeLabel: Label = {
         let label = Label()
@@ -32,59 +25,41 @@ class ReadmeViewController: UIViewController {
         return label
     }()
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    private let readmeString: String?
 
-        setupScrollViewConstraints()
-        setupReadmeLabelConstraints()
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
 
-        if let readmeString = readme {
+        if let readmeString = readmeString {
             readmeLabel.text = readmeString
         }
-    }
 
-    private func setupReadmeLabelConstraints() {
-        contentView.addSubview(readmeLabel)
+        setupConstraints()
 
-        NSLayoutConstraint.activate([
-            readmeLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            readmeLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Constants.topPadding),
-            readmeLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: Constants.widthMultiplier),
-            readmeLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
-        ])
-    }
-
-    private func setupScrollViewConstraints() {
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.translatesAutoresizingMaskIntoConstraints = false
-
-        view.addSubview(scrollView)
-        scrollView.addSubview(contentView)
-
-        NSLayoutConstraint.activate([
-            scrollView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            scrollView.widthAnchor.constraint(equalTo: view.widthAnchor),
-            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: Constants.bottomPadding),
-
-            contentView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
-            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor)
-        ])
+        let popoverHeight = readmeLabel.frame.height + Constants.topPadding
+        preferredContentSize = CGSize(width: Constants.popoverWidth, height: popoverHeight)
     }
 
     init(readmeString: String?) {
-        self.readme = readmeString
+        self.readmeString = readmeString
 
         super.init(nibName: nil, bundle: nil)
 
         modalPresentationStyle = .popover
-        preferredContentSize = CGSize(width: Constants.popoverWidth, height: Constants.popoverHeight)
         popoverPresentationController?.permittedArrowDirections = .up
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    private func setupConstraints() {
+        view.addSubview(readmeLabel)
+
+        NSLayoutConstraint.activate([
+            readmeLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: Constants.topPadding),
+            readmeLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.leadingAndTrailingPadding),
+            readmeLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constants.leadingAndTrailingPadding)
+        ])
     }
 }

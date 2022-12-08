@@ -17,6 +17,7 @@ class OtherCellsDemoController: DemoController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        readmeString = "< Documentation will be added soon >"
 
         tableView = UITableView(frame: view.bounds, style: .grouped)
         tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
