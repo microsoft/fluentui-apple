@@ -9,13 +9,16 @@ import UIKit
 
 class TooltipView: UIView {
 
-    init(anchorView: UIView,
-         message: String,
+    init(message: String,
          title: String? = nil,
          textAlignment: NSTextAlignment,
          preferredArrowDirection: Tooltip.ArrowDirection,
          offset: CGPoint,
          arrowMargin: CGFloat) {
+        guard let anchorView = Tooltip.shared.anchorView else {
+            preconditionFailure("Can't find anchorView")
+        }
+
         self.anchorView = anchorView
         self.message = message
         self.titleMessage = title

@@ -46,14 +46,13 @@ open class Tooltip: NSObject, TokenizedControlInternal {
             preconditionFailure("Can't find anchorView's window")
         }
 
-        tooltipViewController = TooltipViewController(anchorView: anchorView,
-                                                           message: message,
-                                                           title: title,
-                                                           textAlignment: textAlignment,
-                                                           preferredArrowDirection: preferredArrowDirection,
-                                                           offset: offset,
-                                                           arrowMargin: tokenSet[.backgroundCornerRadius].float)
         self.anchorView = anchorView
+        tooltipViewController = TooltipViewController(message: message,
+                                                      title: title,
+                                                      textAlignment: textAlignment,
+                                                      preferredArrowDirection: preferredArrowDirection,
+                                                      offset: offset,
+                                                      arrowMargin: tokenSet[.backgroundCornerRadius].float)
         guard let tooltipViewController = tooltipViewController,
               let tooltipView = tooltipViewController.view else {
             return
@@ -235,6 +234,7 @@ open class Tooltip: NSObject, TokenizedControlInternal {
     @objc public var textAlignment: NSTextAlignment = .natural
     /// Whether a tooltip is currently showing.
     @objc public private(set) var isShowing: Bool = false
+    public var anchorView: UIView?
 
     // MARK: - TokenizedControl
     public typealias TokenSetKeyType = TooltipTokenSet.Tokens
@@ -285,7 +285,6 @@ open class Tooltip: NSObject, TokenizedControlInternal {
     }
 
     private var tooltipViewController: TooltipViewController?
-    private var anchorView: UIView?
     private var onTap: (() -> Void)?
     private var gestureView: UIView?
     private var dismissMode: DismissMode = .tapAnywhere
