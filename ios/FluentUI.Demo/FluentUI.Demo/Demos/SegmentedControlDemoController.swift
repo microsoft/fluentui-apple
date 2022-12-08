@@ -87,7 +87,7 @@ class SegmentedControlDemoController: DemoController {
         addTitle(text: "Custom Colors")
         addDescription(text: "not fixed width, unequal buttons", textAlignment: .center)
         addPillControl(items: Array(segmentItems.prefix(4)),
-                       style: .onBrandPill,
+                       style: .primaryPill,
                        equalSegments: false,
                        isFixedWidth: false,
                        customColors: true)
@@ -142,9 +142,10 @@ class SegmentedControlDemoController: DemoController {
         }
 
         let backgroundStyle: ColoredPillBackgroundStyle = {
-            if customColors == true || style == .primaryPill {
+            switch style {
+            case .primaryPill:
                 return .neutral
-            } else {
+            case .onBrandPill:
                 return .brand
             }
         }()
