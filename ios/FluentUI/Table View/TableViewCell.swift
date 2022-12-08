@@ -892,12 +892,9 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         }
     }
 
-    /// The custom view on the leading edge of the `customView` UIView. Does not display if layoutType is `.oneLine`.
+    /// The custom view on the leading edge of the `customView` UIView.
     @objc open var cellLeadingView: UIView? {
         didSet {
-            if layoutType == .oneLine {
-                return
-            }
             oldValue?.removeFromSuperview()
             if let cellLeadingView = cellLeadingView {
                 contentView.addSubview(cellLeadingView)
