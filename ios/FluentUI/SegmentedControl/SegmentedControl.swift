@@ -215,6 +215,26 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
                                                name: .didChangeTheme,
                                                object: nil)
 
+        if let customSegmentedControlBackgroundColor = customSegmentedControlBackgroundColor,
+           let restTabColor = customSegmentedControlBackgroundColor.dynamicColor {
+            tokenSet[.restTabColor] = .dynamicColor { restTabColor }
+        }
+
+        if let customSegmentedControlSelectedButtonBackgroundColor = customSegmentedControlSelectedButtonBackgroundColor,
+           let selectedTabColor = customSegmentedControlSelectedButtonBackgroundColor.dynamicColor {
+            tokenSet[.selectedTabColor] = .dynamicColor { selectedTabColor }
+        }
+
+        if let customSegmentedControlButtonTextColor = customSegmentedControlButtonTextColor,
+           let restLabelColor = customSegmentedControlButtonTextColor.dynamicColor {
+            tokenSet[.restLabelColor] = .dynamicColor { restLabelColor }
+        }
+
+        if let customSelectedSegmentedControlButtonTextColor = customSelectedSegmentedControlButtonTextColor,
+           let selectedLabelColor = customSelectedSegmentedControlButtonTextColor.dynamicColor {
+            tokenSet[.selectedLabelColor] = .dynamicColor { selectedLabelColor }
+        }
+
         // Update appearance whenever overrideTokens changes.
         tokenSetSink = tokenSet.sinkChanges { [weak self] in
             self?.updateColors()
