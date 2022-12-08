@@ -169,7 +169,29 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
     ///
     /// - Parameter items: An array of Segmented Items representing the segments for this control.
     /// - Parameter style: A style used for rendering of the control.
-    @objc public init(items: [SegmentItem], style: SegmentedControlStyle = .primaryPill) {
+    @objc public convenience init(items: [SegmentItem], style: SegmentedControlStyle = .primaryPill) {
+        self.init(items: items,
+                          style: style,
+                          customSegmentedControlBackgroundColor: nil,
+                          customSegmentedControlSelectedButtonBackgroundColor: nil,
+                          customSegmentedControlButtonTextColor: nil,
+                          customSelectedSegmentedControlButtonTextColor: nil)
+    }
+
+    /// Initializes a segmented control with the specified titles, style, and colors (colors are for pill styles only).
+    ///
+    /// - Parameter items: An array of Segmented Items representing the segments for this control.
+    /// - Parameter style: A style used for rendering of the control.
+    /// - Parameter customSegmentedControlBackgroundColor: UIColor to use as the background color, will override the .restTabColor token
+    /// - Parameter customSegmentedControlSelectedButtonBackgroundColor: UIColor to use as the selected button background color, will override the .selectedTabColor token
+    /// - Parameter customSegmentedControlButtonTextColor: UIColor to use as the unselected button text color, will override the .restLabelColor token
+    /// - Parameter customSelectedSegmentedControlButtonTextColor: UIColor to use as the selected button text color, will override the .selectedLabelColor token
+    @objc public init(items: [SegmentItem],
+                      style: SegmentedControlStyle = .primaryPill,
+                      customSegmentedControlBackgroundColor: UIColor? = nil,
+                      customSegmentedControlSelectedButtonBackgroundColor: UIColor? = nil,
+                      customSegmentedControlButtonTextColor: UIColor? = nil,
+                      customSelectedSegmentedControlButtonTextColor: UIColor? = nil) {
         self.style = style
 
         super.init(frame: .zero)
