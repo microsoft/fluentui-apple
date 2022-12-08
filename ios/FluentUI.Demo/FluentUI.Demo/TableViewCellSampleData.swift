@@ -31,6 +31,16 @@ class TableViewCellSampleData: TableViewSampleData {
             ]
         ),
         Section(
+            title: "Double line cell with cell leading view",
+            items: [
+                Item(text1: "Contoso Survey",
+                     text2: "Research Notes",
+                     image: "excelIcon",
+                     text2LeadingAccessoryView: { createIconsAccessoryView(images: ["shared-12x12", "success-12x12"]) })
+            ],
+            hasCellLeadingView: true
+        ),
+        Section(
             title: "Inverted double line cell",
             items: [
                 Item(text1: "Contoso Survey",

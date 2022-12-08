@@ -221,6 +221,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     @objc public class func height(title: String,
                                    subtitle: String = "",
                                    footer: String = "",
+                                   cellLeadingView: UIView? = nil,
                                    titleLeadingAccessoryView: UIView? = nil,
                                    titleTrailingAccessoryView: UIView? = nil,
                                    subtitleLeadingAccessoryView: UIView? = nil,
@@ -276,6 +277,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     ///   - titleFont: The title font; If not set, it will default to the font definition in tokens
     ///   - subtitleFont: The subtitle font; If not set, it will default to the font definition in tokens
     ///   - footerFont: The footer font; If not set, it will default to the font definition in tokens
+    ///   - cellLeadingView: The view on the leading edge of the `customView`
     ///   - titleLeadingAccessoryView: The accessory view on the leading edge of the title
     ///   - titleTrailingAccessoryView: The accessory view on the trailing edge of the title
     ///   - subtitleLeadingAccessoryView: The accessory view on the leading edge of the subtitle
@@ -305,6 +307,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                              titleFont: UIFont? = nil,
                              subtitleFont: UIFont? = nil,
                              footerFont: UIFont? = nil,
+                             cellLeadingView: UIView? = nil,
                              titleLeadingAccessoryView: UIView? = nil,
                              titleTrailingAccessoryView: UIView? = nil,
                              subtitleLeadingAccessoryView: UIView? = nil,
@@ -409,6 +412,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     ///   - title: The title string
     ///   - subtitle: The subtitle string
     ///   - footer: The footer string
+    ///   - cellLeadingView: The view on the leading edge of the `customView`
     ///   - titleLeadingAccessoryView: The accessory view on the leading edge of the title
     ///   - titleTrailingAccessoryView: The accessory view on the trailing edge of the title
     ///   - subtitleLeadingAccessoryView: The accessory view on the leading edge of the subtitle
@@ -424,6 +428,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     @objc public class func preferredWidth(title: String,
                                            subtitle: String = "",
                                            footer: String = "",
+                                           cellLeadingView: UIView? = nil,
                                            titleLeadingAccessoryView: UIView? = nil,
                                            titleTrailingAccessoryView: UIView? = nil,
                                            subtitleLeadingAccessoryView: UIView? = nil,
@@ -471,6 +476,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     ///   - titleFont: The title font; If not set, it will default to the font definition in tokens
     ///   - subtitleFont: The subtitle font; If not set, it will default to the font definition in tokens
     ///   - footerFont: The footer font; If not set, it will default to the font definition in tokens
+    ///   - cellLeadingView: The view on the leading edge of the `customView`
     ///   - titleLeadingAccessoryView: The accessory view on the leading edge of the title
     ///   - titleTrailingAccessoryView: The accessory view on the trailing edge of the title
     ///   - subtitleLeadingAccessoryView: The accessory view on the leading edge of the subtitle
@@ -496,6 +502,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                                      titleFont: UIFont? = nil,
                                      subtitleFont: UIFont? = nil,
                                      footerFont: UIFont? = nil,
+                                     cellLeadingView: UIView? = nil,
                                      titleLeadingAccessoryView: UIView? = nil,
                                      titleTrailingAccessoryView: UIView? = nil,
                                      subtitleLeadingAccessoryView: UIView? = nil,
@@ -645,16 +652,19 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     }
 
     private static func customViewLeadingOffset(isInSelectionMode: Bool,
+                                                leadingPadding: CGFloat,
                                                 tokenSet: TableViewCellTokenSet) -> CGFloat {
-        return tokenSet[.paddingLeading].float + selectionModeAreaWidth(isInSelectionMode: isInSelectionMode,
-                                                                        selectionImageMarginTrailing: TableViewCellTokenSet.selectionImageMarginTrailing,
-                                                                        selectionImageSize: TableViewCellTokenSet.selectionImageSize)
+        return leadingPadding + selectionModeAreaWidth(isInSelectionMode: isInSelectionMode,
+                                                       selectionImageMarginTrailing: TableViewCellTokenSet.selectionImageMarginTrailing,
+                                                       selectionImageSize: TableViewCellTokenSet.selectionImageSize)
     }
 
     private static func textAreaLeadingOffset(customViewSize: MSFTableViewCellCustomViewSize,
                                               isInSelectionMode: Bool,
                                               tokenSet: TableViewCellTokenSet) -> CGFloat {
-        var textAreaLeadingOffset = customViewLeadingOffset(isInSelectionMode: isInSelectionMode, tokenSet: tokenSet)
+        var textAreaLeadingOffset = customViewLeadingOffset(isInSelectionMode: isInSelectionMode,
+                                                            leadingPadding: tokenSet[.paddingLeading].float,
+                                                            tokenSet: tokenSet)
         if customViewSize != .zero {
             textAreaLeadingOffset += tokenSet[.customViewDimensions].float + tokenSet[.customViewTrailingMargin].float
         }
@@ -879,6 +889,19 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     @objc open var footerLineBreakMode: NSLineBreakMode = .byTruncatingTail {
         didSet {
             footerLabel.lineBreakMode = footerLineBreakMode
+        }
+    }
+
+    /// The custom view on the leading edge of the `customView` UIView.
+    @objc open var cellLeadingView: UIView? {
+        didSet {
+            if layoutType == .oneLine {
+                return
+            }
+            oldValue?.removeFromSuperview()
+            if let cellLeadingView = cellLeadingView {
+                contentView.addSubview(cellLeadingView)
+            }
         }
     }
 
@@ -1506,10 +1529,24 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
             )
         }
 
+        if let cellLeadingView = cellLeadingView {
+            let customViewDimensions: CGFloat = tokenSet[.cellLeadingViewDimensions].float
+            let customViewYOffset = ceil((contentView.frame.height - customViewDimensions) / 2)
+            let customViewXOffset = TableViewCell.customViewLeadingOffset(isInSelectionMode: isInSelectionMode,
+                                                                          leadingPadding: TableViewCellTokenSet.cellLeadingViewHorizontalPadding,
+                                                                          tokenSet: tokenSet)
+            cellLeadingView.frame = CGRect(
+                origin: CGPoint(x: customViewXOffset, y: customViewYOffset),
+                size: CGSize(width: customViewDimensions, height: customViewDimensions)
+            )
+        }
+
         if let customView = customView {
             let customViewDimensions = tokenSet[.customViewDimensions].float
             let customViewYOffset = ceil((contentView.frame.height - customViewDimensions) / 2)
-            let customViewXOffset = TableViewCell.customViewLeadingOffset(isInSelectionMode: isInSelectionMode, tokenSet: tokenSet)
+            let customViewXOffset = TableViewCell.customViewLeadingOffset(isInSelectionMode: isInSelectionMode,
+                                                                          leadingPadding: tokenSet[.paddingLeading].float,
+                                                                          tokenSet: tokenSet)
             customView.frame = CGRect(
                 origin: CGPoint(x: customViewXOffset, y: customViewYOffset),
                 size: CGSize(width: customViewDimensions, height: customViewDimensions)
@@ -1701,6 +1738,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         subtitleLineBreakMode = .byTruncatingTail
         footerLineBreakMode = .byTruncatingTail
 
+        cellLeadingView = nil
         titleLeadingAccessoryView = nil
         titleTrailingAccessoryView = nil
         subtitleLeadingAccessoryView = nil
