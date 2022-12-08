@@ -9,13 +9,15 @@ import UIKit
 
 class TooltipViewController: UIViewController {
 
-    init(message: String,
+    init(anchorView: UIView,
+         message: String,
          title: String? = nil,
          textAlignment: NSTextAlignment,
          preferredArrowDirection: Tooltip.ArrowDirection,
          offset: CGPoint,
          arrowMargin: CGFloat) {
-        tooltipView = TooltipView(message: message,
+        tooltipView = TooltipView(anchorView: anchorView,
+                                  message: message,
                                   title: title,
                                   textAlignment: textAlignment,
                                   preferredArrowDirection: preferredArrowDirection,

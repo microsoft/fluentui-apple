@@ -47,7 +47,8 @@ open class Tooltip: NSObject, TokenizedControlInternal {
         }
 
         self.anchorView = anchorView
-        tooltipViewController = TooltipViewController(message: message,
+        tooltipViewController = TooltipViewController(anchorView: anchorView,
+                                                      message: message,
                                                       title: title,
                                                       textAlignment: textAlignment,
                                                       preferredArrowDirection: preferredArrowDirection,
@@ -235,8 +236,6 @@ open class Tooltip: NSObject, TokenizedControlInternal {
     /// Whether a tooltip is currently showing.
     @objc public private(set) var isShowing: Bool = false
 
-    var anchorView: UIView?
-
     // MARK: - TokenizedControl
     public typealias TokenSetKeyType = TooltipTokenSet.Tokens
     public var tokenSet: TooltipTokenSet = .init()
@@ -286,6 +285,7 @@ open class Tooltip: NSObject, TokenizedControlInternal {
     }
 
     private var tooltipViewController: TooltipViewController?
+    private var anchorView: UIView?
     private var onTap: (() -> Void)?
     private var gestureView: UIView?
     private var dismissMode: DismissMode = .tapAnywhere
