@@ -15,11 +15,6 @@ class TooltipView: UIView {
          preferredArrowDirection: Tooltip.ArrowDirection,
          offset: CGPoint,
          arrowMargin: CGFloat) {
-        guard let anchorView = Tooltip.shared.anchorView else {
-            preconditionFailure("Can't find anchorView")
-        }
-
-        self.anchorView = anchorView
         self.message = message
         self.titleMessage = title
         self.preferredArrowDirection = preferredArrowDirection
@@ -133,7 +128,7 @@ class TooltipView: UIView {
     private func updateArrowDirectionAndTooltipRect(for message: String, title: String? = nil, tokenSet: TooltipTokenSet) {
         let preferredBoundingRect = boundingRect.inset(by: anchorViewInset(for: preferredArrowDirection))
         let backupBoundingRect = boundingRect.inset(by: anchorViewInset(for: preferredArrowDirection.opposite))
-        guard let window = anchorView.window else {
+        guard let window = Tooltip.shared.anchorView?.window else {
             preconditionFailure("Can't find anchorView's window")
         }
         let isAccessibilityContentSize = window.traitCollection.preferredContentSizeCategory.isAccessibilityCategory
@@ -326,6 +321,10 @@ class TooltipView: UIView {
     }
 
     private var sourcePointInAnchorView: CGPoint {
+        guard let anchorView = Tooltip.shared.anchorView else {
+            preconditionFailure("Can't find anchorView")
+        }
+
         switch arrowDirection {
         case .up:
             return CGPoint(x: anchorView.frame.width / 2, y: anchorView.frame.height)
@@ -339,12 +338,16 @@ class TooltipView: UIView {
     }
 
     private var sourcePointInWindow: CGPoint {
+        guard let anchorView = Tooltip.shared.anchorView else {
+            preconditionFailure("Can't find anchorView")
+        }
+
         return anchorView.convert(sourcePointInAnchorView, to: window)
     }
 
     private var boundingRect: CGRect {
         let screenMargin = TooltipTokenSet.screenMargin
-        guard let window = anchorView.window else {
+        guard let window = Tooltip.shared.anchorView?.window else {
             preconditionFailure("Can't find anchorView's window")
         }
 
@@ -355,6 +358,10 @@ class TooltipView: UIView {
     }
 
     private func anchorViewInset(for arrowDirection: Tooltip.ArrowDirection) -> UIEdgeInsets {
+        guard let anchorView = Tooltip.shared.anchorView else {
+            preconditionFailure("Can't find anchorView")
+        }
+
         var inset = UIEdgeInsets.zero
         let anchorViewFrame = anchorView.convert(anchorView.bounds, to: window)
         switch arrowDirection {
@@ -373,7 +380,6 @@ class TooltipView: UIView {
     private let message: String
     private let titleMessage: String?
     private let arrowImageView: UIImageView
-    private let anchorView: UIView
     private let arrowMargin: CGFloat
     private let offset: CGPoint
     private let preferredArrowDirection: Tooltip.ArrowDirection

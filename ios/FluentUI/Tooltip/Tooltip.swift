@@ -234,7 +234,8 @@ open class Tooltip: NSObject, TokenizedControlInternal {
     @objc public var textAlignment: NSTextAlignment = .natural
     /// Whether a tooltip is currently showing.
     @objc public private(set) var isShowing: Bool = false
-    public var anchorView: UIView?
+
+    var anchorView: UIView?
 
     // MARK: - TokenizedControl
     public typealias TokenSetKeyType = TooltipTokenSet.Tokens
