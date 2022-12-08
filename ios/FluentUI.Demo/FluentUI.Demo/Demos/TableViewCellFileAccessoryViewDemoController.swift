@@ -17,6 +17,7 @@ class TableViewCellFileAccessoryViewDemoController: DemoTableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        readmeString = "< Documentation will be added soon >"
 
         dateTimePicker.delegate = self
 

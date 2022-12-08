@@ -27,6 +27,7 @@ class TableViewHeaderFooterViewDemoController: DemoController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        readmeString = "< Documentation will be added soon >"
 
         container.heightAnchor.constraint(equalTo: scrollingContainer.heightAnchor).isActive = true
         container.layoutMargins = .zero

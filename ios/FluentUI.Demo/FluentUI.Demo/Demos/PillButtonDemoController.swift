@@ -9,6 +9,8 @@ import UIKit
 class PillButtonDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        readmeString = "< Documentation will be added soon >"
+
         for style in buttonStyles {
             addTitle(text: "\(style.0) style")
 
