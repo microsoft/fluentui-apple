@@ -221,7 +221,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     @objc public class func height(title: String,
                                    subtitle: String = "",
                                    footer: String = "",
-                                   cellLeadingView: UIView? = nil,
+                                   hasLeadingDot: Bool = false,
                                    titleLeadingAccessoryView: UIView? = nil,
                                    titleTrailingAccessoryView: UIView? = nil,
                                    subtitleLeadingAccessoryView: UIView? = nil,
@@ -277,7 +277,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     ///   - titleFont: The title font; If not set, it will default to the font definition in tokens
     ///   - subtitleFont: The subtitle font; If not set, it will default to the font definition in tokens
     ///   - footerFont: The footer font; If not set, it will default to the font definition in tokens
-    ///   - cellLeadingView: The view on the leading edge of the `customView`
+    ///   - hasLeadingDot: Boolean determining whether to show or hide the `leadingDotLayer`, on the leading edge of the `customView`.
     ///   - titleLeadingAccessoryView: The accessory view on the leading edge of the title
     ///   - titleTrailingAccessoryView: The accessory view on the trailing edge of the title
     ///   - subtitleLeadingAccessoryView: The accessory view on the leading edge of the subtitle
@@ -307,7 +307,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                              titleFont: UIFont? = nil,
                              subtitleFont: UIFont? = nil,
                              footerFont: UIFont? = nil,
-                             cellLeadingView: UIView? = nil,
+                             hasLeadingDot: Bool = false,
                              titleLeadingAccessoryView: UIView? = nil,
                              titleTrailingAccessoryView: UIView? = nil,
                              subtitleLeadingAccessoryView: UIView? = nil,
@@ -412,7 +412,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     ///   - title: The title string
     ///   - subtitle: The subtitle string
     ///   - footer: The footer string
-    ///   - cellLeadingView: The view on the leading edge of the `customView`
+    ///   - hasLeadingDot: Boolean determining whether to show or hide the `leadingDotLayer`, on the leading edge of the `customView`.
     ///   - titleLeadingAccessoryView: The accessory view on the leading edge of the title
     ///   - titleTrailingAccessoryView: The accessory view on the trailing edge of the title
     ///   - subtitleLeadingAccessoryView: The accessory view on the leading edge of the subtitle
@@ -428,7 +428,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     @objc public class func preferredWidth(title: String,
                                            subtitle: String = "",
                                            footer: String = "",
-                                           cellLeadingView: UIView? = nil,
+                                           hasLeadingDot: Bool = false,
                                            titleLeadingAccessoryView: UIView? = nil,
                                            titleTrailingAccessoryView: UIView? = nil,
                                            subtitleLeadingAccessoryView: UIView? = nil,
@@ -476,7 +476,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     ///   - titleFont: The title font; If not set, it will default to the font definition in tokens
     ///   - subtitleFont: The subtitle font; If not set, it will default to the font definition in tokens
     ///   - footerFont: The footer font; If not set, it will default to the font definition in tokens
-    ///   - cellLeadingView: The view on the leading edge of the `customView`
+    ///   - hasLeadingDot: Boolean determining whether to show or hide the `leadingDotLayer`, on the leading edge of the `customView`.
     ///   - titleLeadingAccessoryView: The accessory view on the leading edge of the title
     ///   - titleTrailingAccessoryView: The accessory view on the trailing edge of the title
     ///   - subtitleLeadingAccessoryView: The accessory view on the leading edge of the subtitle
@@ -502,7 +502,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                                      titleFont: UIFont? = nil,
                                      subtitleFont: UIFont? = nil,
                                      footerFont: UIFont? = nil,
-                                     cellLeadingView: UIView? = nil,
+                                     hasLeadingDot: Bool = false,
                                      titleLeadingAccessoryView: UIView? = nil,
                                      titleTrailingAccessoryView: UIView? = nil,
                                      subtitleLeadingAccessoryView: UIView? = nil,
@@ -892,13 +892,20 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         }
     }
 
+    private lazy var leadingDotLayer: CALayer = {
+        let unreadDotLayer = CALayer()
+        let unreadDotSize = tokenSet[.leadingDotDimensions].float
+        unreadDotLayer.bounds.size = CGSize(width: unreadDotSize, height: unreadDotSize)
+        unreadDotLayer.cornerRadius = unreadDotSize / 2
+        layer.addSublayer(unreadDotLayer)
+        return unreadDotLayer
+    }()
+
     /// The custom view on the leading edge of the `customView` UIView.
-    @objc open var cellLeadingView: UIView? {
+    @objc open var hasLeadingDot: Bool = false {
         didSet {
-            oldValue?.removeFromSuperview()
-            if let cellLeadingView = cellLeadingView {
-                contentView.addSubview(cellLeadingView)
-            }
+            hasLeadingDot = !oldValue
+            leadingDotLayer.isHidden = oldValue
         }
     }
 
@@ -1526,17 +1533,17 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
             )
         }
 
-        if let cellLeadingView = cellLeadingView {
-            let cellLeadingViewDimensions: CGFloat = tokenSet[.cellLeadingViewDimensions].float
-            let cellLeadingViewYOffset = ceil((contentView.frame.height - cellLeadingViewDimensions) / 2)
-            let cellLeadingViewXOffset = TableViewCell.customViewLeadingOffset(isInSelectionMode: isInSelectionMode,
-                                                                               leadingPadding: TableViewCellTokenSet.cellLeadingViewHorizontalPadding,
+//        if hasLeadingDot {
+            let leadingDotDimensions: CGFloat = tokenSet[.leadingDotDimensions].float
+            let leadingDotYOffset = ceil((contentView.frame.height - leadingDotDimensions) / 2)
+            let leadingDotXOffset = TableViewCell.customViewLeadingOffset(isInSelectionMode: isInSelectionMode,
+                                                                               leadingPadding: TableViewCellTokenSet.leadingDotHorizontalPadding,
                                                                                tokenSet: tokenSet)
-            cellLeadingView.frame = CGRect(
-                origin: CGPoint(x: cellLeadingViewXOffset, y: cellLeadingViewYOffset),
-                size: CGSize(width: cellLeadingViewDimensions, height: cellLeadingViewDimensions)
+            leadingDotLayer.frame = CGRect(
+                origin: CGPoint(x: leadingDotXOffset, y: leadingDotYOffset),
+                size: CGSize(width: leadingDotDimensions, height: leadingDotDimensions)
             )
-        }
+//        }
 
         if let customView = customView {
             let customViewDimensions = tokenSet[.customViewDimensions].float
@@ -1735,7 +1742,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         subtitleLineBreakMode = .byTruncatingTail
         footerLineBreakMode = .byTruncatingTail
 
-        cellLeadingView = nil
+        hasLeadingDot = false
         titleLeadingAccessoryView = nil
         titleTrailingAccessoryView = nil
         subtitleLeadingAccessoryView = nil

@@ -24,8 +24,8 @@ public class TableViewCellTokenSet: ControlTokenSet<TableViewCellTokenSet.Tokens
         /// The leading image color.
         case imageColor
 
-        /// The size dimensions of the cellLeadingView.
-        case cellLeadingViewDimensions
+        /// The size dimensions of the leadingDotLayer.
+        case leadingDotDimensions
 
         /// The size dimensions of the customView.
         case customViewDimensions
@@ -112,7 +112,7 @@ public class TableViewCellTokenSet: ControlTokenSet<TableViewCellTokenSet.Tokens
             case .imageColor:
                 return .dynamicColor { theme.aliasTokens.foregroundColors[.neutral1] }
 
-            case .cellLeadingViewDimensions:
+            case .leadingDotDimensions:
                 return .float { 8.0 }
 
             case .customViewDimensions:
@@ -215,8 +215,8 @@ extension TableViewCellTokenSet {
     /// The trailing padding in the cell.
     static let paddingTrailing: CGFloat = GlobalTokens.spacing(.medium)
 
-    /// The leading and trailing padding for the cellLeadingView.
-    static let cellLeadingViewHorizontalPadding: CGFloat = GlobalTokens.spacing(.xxSmall)
+    /// The leading and trailing padding for the leadingDotLayer.
+    static let leadingDotHorizontalPadding: CGFloat = GlobalTokens.spacing(.xxSmall)
 
     static let selectionImageOff = UIImage.staticImageNamed("selection-off")
     static let selectionImageOn = UIImage.staticImageNamed("selection-on")

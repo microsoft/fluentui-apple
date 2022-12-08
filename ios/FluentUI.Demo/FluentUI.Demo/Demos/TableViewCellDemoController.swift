@@ -202,7 +202,7 @@ extension TableViewCellDemoController {
 
         let showsLabelAccessoryView = TableViewCellSampleData.hasLabelAccessoryViews(at: indexPath)
 
-        cell.cellLeadingView = section.hasCellLeadingView ? customCellLeadingView(tintColor: UIColor(dynamicColor: cell.tokenSet[.mainBrandColor].dynamicColor)) : nil
+        cell.hasLeadingDot = section.hasleadingDot
         cell.titleLeadingAccessoryView = showsLabelAccessoryView ? item.text1LeadingAccessoryView() : nil
         cell.titleTrailingAccessoryView = showsLabelAccessoryView ? item.text1TrailingAccessoryView() : nil
         cell.subtitleLeadingAccessoryView = showsLabelAccessoryView ? item.text2LeadingAccessoryView() : nil
@@ -230,12 +230,6 @@ extension TableViewCellDemoController {
         cell.tokenSet.replaceAllOverrides(with: overrideTokens)
 
         return cell
-    }
-
-    private func customCellLeadingView(tintColor: UIColor) -> UIView {
-        let imageView = UIImageView(image: UIImage(named: "filled-dot_10"))
-        imageView.tintColor = tintColor
-        return imageView
     }
 }
 
