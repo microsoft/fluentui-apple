@@ -892,7 +892,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         }
     }
 
-    /// The custom view on the leading edge of the `customView` UIView.
+    /// The custom view on the leading edge of the `customView` UIView. Does not display if layoutType is `.oneLine`.
     @objc open var cellLeadingView: UIView? {
         didSet {
             if layoutType == .oneLine {
@@ -1530,14 +1530,14 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         }
 
         if let cellLeadingView = cellLeadingView {
-            let customViewDimensions: CGFloat = tokenSet[.cellLeadingViewDimensions].float
-            let customViewYOffset = ceil((contentView.frame.height - customViewDimensions) / 2)
-            let customViewXOffset = TableViewCell.customViewLeadingOffset(isInSelectionMode: isInSelectionMode,
-                                                                          leadingPadding: TableViewCellTokenSet.cellLeadingViewHorizontalPadding,
-                                                                          tokenSet: tokenSet)
+            let cellLeadingViewDimensions: CGFloat = tokenSet[.cellLeadingViewDimensions].float
+            let cellLeadingViewYOffset = ceil((contentView.frame.height - cellLeadingViewDimensions) / 2)
+            let cellLeadingViewXOffset = TableViewCell.customViewLeadingOffset(isInSelectionMode: isInSelectionMode,
+                                                                               leadingPadding: TableViewCellTokenSet.cellLeadingViewHorizontalPadding,
+                                                                               tokenSet: tokenSet)
             cellLeadingView.frame = CGRect(
-                origin: CGPoint(x: customViewXOffset, y: customViewYOffset),
-                size: CGSize(width: customViewDimensions, height: customViewDimensions)
+                origin: CGPoint(x: cellLeadingViewXOffset, y: cellLeadingViewYOffset),
+                size: CGSize(width: cellLeadingViewDimensions, height: cellLeadingViewDimensions)
             )
         }
 
