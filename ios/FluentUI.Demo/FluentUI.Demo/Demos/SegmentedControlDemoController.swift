@@ -198,7 +198,11 @@ extension SegmentedControlDemoController: DemoAppearanceDelegate {
 
     func perControlOverrideDidChange(isOverrideEnabled: Bool) {
         self.segmentedControls.forEach({ segmentedControl in
-            segmentedControl.tokenSet.replaceAllOverrides(with: isOverrideEnabled ? perControlOverrideSegmentedControlTokens : nil)
+            if isOverrideEnabled, let newFont = perControlOverrideSegmentedControlTokens[.font] {
+                segmentedControl.tokenSet[.font] = newFont
+            } else {
+                segmentedControl.tokenSet.removeOverride(.font)
+            }
         })
     }
 
