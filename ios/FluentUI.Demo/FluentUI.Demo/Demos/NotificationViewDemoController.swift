@@ -20,6 +20,7 @@ class NotificationViewDemoController: DemoController {
         case persistentBarWithCancel
         case primaryToastWithStrikethroughAttribute
         case neutralBarWithFontAttribute
+        case neutralBarFromTop
         case neutralToastWithOverriddenTokens
         case neutralToastWithGradientBackground
         case warningToastWithFlexibleWidth
@@ -50,6 +51,8 @@ class NotificationViewDemoController: DemoController {
                 return "Primary Toast with Strikethrough Attribute"
             case .neutralBarWithFontAttribute:
                 return "Neutral Bar with Font Attribute"
+            case .neutralBarFromTop:
+                return "Neutral Bar Presented from Top"
             case .neutralToastWithOverriddenTokens:
                 return "Neutral Toast With Overridden Tokens"
             case .neutralToastWithGradientBackground:
@@ -183,6 +186,15 @@ class NotificationViewDemoController: DemoController {
                                                                       attributes: [.font: UIFont.init(name: "Papyrus",
                                                                                                       size: 30.0)!,
                                                                                    .foregroundColor: UIColor.red])
+            notification.state.actionButtonAction = { [weak self] in
+                self?.showMessage("`Dismiss` tapped")
+                notification.hide()
+            }
+            return notification
+        case .neutralBarFromTop:
+            let notification = MSFNotification(style: .neutralBar)
+            notification.state.message = "This is a bar presented from the top."
+            notification.state.showFromBottom = false
             notification.state.actionButtonAction = { [weak self] in
                 self?.showMessage("`Dismiss` tapped")
                 notification.hide()

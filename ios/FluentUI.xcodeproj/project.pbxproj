@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A8E61FB291DC11F009E412D /* CommandBarTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8E61FA291DC11F009E412D /* CommandBarTokenSet.swift */; };
 		2A9745DE281733D700E1A1FD /* TableViewCellTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9745DD281733D700E1A1FD /* TableViewCellTokenSet.swift */; };
 		43488C46270FAD1300124C71 /* FluentNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43488C44270FAD0200124C71 /* FluentNotification.swift */; };
 		4B53505F27F63E3F0033B47F /* NotificationModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B53505E27F63E3F0033B47F /* NotificationModifiers.swift */; };
@@ -193,12 +194,13 @@
 		C708B064260A87F7007190FA /* SegmentItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C708B04B260A8696007190FA /* SegmentItem.swift */; };
 		C77A04B825F03DD1001B3EB6 /* String+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77A04B625F03DD1001B3EB6 /* String+Date.swift */; };
 		C77A04EE25F046EB001B3EB6 /* Date+CellFileAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77A04EC25F046EB001B3EB6 /* Date+CellFileAccessoryView.swift */; };
+		EC1C31732923022E00CF052C /* SegmentedControlTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1C31722923022E00CF052C /* SegmentedControlTokenSet.swift */; };
 		EC5982D827BF348700FD048D /* MSFAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5982D727BF348700FD048D /* MSFAvatar.swift */; };
 		EC5982DA27C703EE00FD048D /* CircleCutout.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5982D927C703ED00FD048D /* CircleCutout.swift */; };
+		EC65F790292EDCEF002A1A23 /* ButtonTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC65F78F292EDCEF002A1A23 /* ButtonTokenSet.swift */; };
 		ECA9218627A3301C00B66117 /* MSFAvatarGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA9218527A3301C00B66117 /* MSFAvatarGroup.swift */; };
 		ECA9218A27A33A2D00B66117 /* AvatarGroupModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA9218927A33A2D00B66117 /* AvatarGroupModifiers.swift */; };
 		ECA921C627B5D10B00B66117 /* ButtonDynamicColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA921C527B5D10A00B66117 /* ButtonDynamicColors.swift */; };
-		F5784DBA285D031800DBEAD6 /* docs in Resources */ = {isa = PBXBuildFile; fileRef = F5784DB9285D031800DBEAD6 /* docs */; };
 		FD053A352224CA33009B6378 /* DatePickerControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD053A342224CA33009B6378 /* DatePickerControllerTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -227,6 +229,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0A0516BC2940A3CE006DE0A2 /* DividerTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DividerTokenSet.swift; sourceTree = "<group>"; };
+		0A0516BD2940A3CE006DE0A2 /* MSFDivider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFDivider.swift; sourceTree = "<group>"; };
+		0A0516BE2940A3CE006DE0A2 /* Divider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Divider.swift; sourceTree = "<group>"; };
+		0A8E61FA291DC11F009E412D /* CommandBarTokenSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommandBarTokenSet.swift; sourceTree = "<group>"; };
 		0BCEFADD2485FEC00088CEE5 /* PopupMenuProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMenuProtocols.swift; sourceTree = "<group>"; };
 		1168630222E131CF0088B302 /* TabBarItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarItemView.swift; sourceTree = "<group>"; };
 		1168630322E131CF0088B302 /* TabBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
@@ -371,8 +377,10 @@
 		C77A04B625F03DD1001B3EB6 /* String+Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Date.swift"; sourceTree = "<group>"; };
 		C77A04EC25F046EB001B3EB6 /* Date+CellFileAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+CellFileAccessoryView.swift"; sourceTree = "<group>"; };
 		CCC18C2B2501B22F00BE830E /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
+		EC1C31722923022E00CF052C /* SegmentedControlTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControlTokenSet.swift; sourceTree = "<group>"; };
 		EC5982D727BF348700FD048D /* MSFAvatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFAvatar.swift; sourceTree = "<group>"; };
 		EC5982D927C703ED00FD048D /* CircleCutout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleCutout.swift; sourceTree = "<group>"; };
+		EC65F78F292EDCEF002A1A23 /* ButtonTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonTokenSet.swift; sourceTree = "<group>"; };
 		ECA9218527A3301C00B66117 /* MSFAvatarGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFAvatarGroup.swift; sourceTree = "<group>"; };
 		ECA9218927A33A2D00B66117 /* AvatarGroupModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarGroupModifiers.swift; sourceTree = "<group>"; };
 		ECA921C527B5D10A00B66117 /* ButtonDynamicColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonDynamicColors.swift; sourceTree = "<group>"; };
@@ -517,6 +525,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0A0516BB2940A3CE006DE0A2 /* Divider */ = {
+			isa = PBXGroup;
+			children = (
+				0A0516BC2940A3CE006DE0A2 /* DividerTokenSet.swift */,
+				0A0516BD2940A3CE006DE0A2 /* MSFDivider.swift */,
+				0A0516BE2940A3CE006DE0A2 /* Divider.swift */,
+			);
+			name = Divider;
+			path = FluentUI/Divider;
+			sourceTree = SOURCE_ROOT;
+		};
 		1168630122E131A20088B302 /* Tab Bar */ = {
 			isa = PBXGroup;
 			children = (
@@ -583,6 +602,7 @@
 			isa = PBXGroup;
 			children = (
 				A5CEC23020E451D00016922A /* Button.swift */,
+				EC65F78F292EDCEF002A1A23 /* ButtonTokenSet.swift */,
 			);
 			path = Button;
 			sourceTree = "<group>";
@@ -663,13 +683,6 @@
 				53BCB0CD253A4E8C00620960 /* Obscurable.swift */,
 			);
 			path = Obscurable;
-			sourceTree = "<group>";
-		};
-		5340828B26CFF298007716E1 /* Recovered References */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 		53FC90BE25672F97008A06FD /* xcode */ = {
@@ -824,7 +837,6 @@
 				A5CEC15E20D980B30016922A /* FluentUI.Tests */,
 				53FC90BE25672F97008A06FD /* xcode */,
 				A5CEC15220D980B20016922A /* Products */,
-				5340828B26CFF298007716E1 /* Recovered References */,
 				923DF2E62712B6AB00637646 /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -856,6 +868,7 @@
 				FC414E1D258876D400069E73 /* Command Bar */,
 				A5CEC16B20D98EBF0016922A /* Core */,
 				FD599D0021347FA0008845EE /* Date Time Pickers */,
+				0A0516BB2940A3CE006DE0A2 /* Divider */,
 				5314DFEF25F003C60099271A /* DotView */,
 				A5B87AF2211E13D00038C37C /* Drawer */,
 				5314DFF525F007020099271A /* EasyTapButton */,
@@ -1055,6 +1068,7 @@
 				ECEBA8FB25EDF3380048EE24 /* SegmentedControl.swift */,
 				C708B04B260A8696007190FA /* SegmentItem.swift */,
 				C708B055260A86FA007190FA /* SegmentPillButton.swift */,
+				EC1C31722923022E00CF052C /* SegmentedControlTokenSet.swift */,
 			);
 			path = SegmentedControl;
 			sourceTree = "<group>";
@@ -1067,6 +1081,7 @@
 				FC414E2A25887A4B00069E73 /* CommandBarButton.swift */,
 				FC414E242588798000069E73 /* CommandBarButtonGroupView.swift */,
 				94A7EC192836DCB100BFFBAE /* CommandBarCommandGroupsView.swift */,
+				0A8E61FA291DC11F009E412D /* CommandBarTokenSet.swift */,
 			);
 			path = "Command Bar";
 			sourceTree = "<group>";
@@ -1358,7 +1373,6 @@
 				A542A9D8226FC01700204A52 /* Localizable.stringsdict in Resources */,
 				A257F82A251D98DD002CAA6E /* FluentUI-apple.xcassets in Resources */,
 				A257F82C251D98F3002CAA6E /* FluentUI-ios.xcassets in Resources */,
-				F5784DBA285D031800DBEAD6 /* docs in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1464,6 +1478,7 @@
 				5314E2A025F024860099271A /* NSLayoutConstraint+Extensions.swift in Sources */,
 				923DB9D5274CB65700D8E58A /* FluentTheme.swift in Sources */,
 				929DD257266ED3AC00E8175E /* PersonaButtonCarouselTokenSet.swift in Sources */,
+				EC65F790292EDCEF002A1A23 /* ButtonTokenSet.swift in Sources */,
 				5314E26625F023B20099271A /* UIColor+Extensions.swift in Sources */,
 				5314E30225F0260E0099271A /* AccessibilityContainerView.swift in Sources */,
 				8035CAD026377C17007B3FD1 /* CommandingItem.swift in Sources */,
@@ -1477,6 +1492,7 @@
 				5314E05B25F00EF50099271A /* CalendarView.swift in Sources */,
 				92EE82AE27025A94009D52B5 /* TokenSet.swift in Sources */,
 				5314E28125F0240D0099271A /* DateComponents+Extensions.swift in Sources */,
+				0A8E61FB291DC11F009E412D /* CommandBarTokenSet.swift in Sources */,
 				5314E07025F00F140099271A /* DatePickerController.swift in Sources */,
 				5373D56B2694D65C0032A3B4 /* MSFAvatarPresence.swift in Sources */,
 				EC5982D827BF348700FD048D /* MSFAvatar.swift in Sources */,
@@ -1576,6 +1592,7 @@
 				5328D97326FBA3D700F3723B /* IndeterminateProgressBarModifiers.swift in Sources */,
 				923DB9D7274CB66D00D8E58A /* ControlHostingView.swift in Sources */,
 				5314E03B25F00E3D0099271A /* BadgeStringExtractor.swift in Sources */,
+				EC1C31732923022E00CF052C /* SegmentedControlTokenSet.swift in Sources */,
 				5314E19825F019650099271A /* SideTabBar.swift in Sources */,
 				5314E10A25F014600099271A /* Obscurable.swift in Sources */,
 				5314E07D25F00F1A0099271A /* DateTimePickerViewComponentTableView.swift in Sources */,

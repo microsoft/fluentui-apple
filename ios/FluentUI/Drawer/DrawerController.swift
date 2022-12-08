@@ -126,7 +126,9 @@ open class DrawerController: UIViewController {
     @objc open var backgroundColor: UIColor = Colors.Drawer.background {
         didSet {
             useCustomBackgroundColor = true
-            view.backgroundColor = backgroundColor
+            if isViewLoaded {
+                view.backgroundColor = backgroundColor
+            }
         }
     }
 

@@ -70,6 +70,15 @@ class ShimmerViewDemoController: DemoController {
         container.addArrangedSubview(ShimmerLinesView())
         container.addArrangedSubview(Separator())
 
+        container.addArrangedSubview(shimmerViewLabel("The middle lines of ShimmerLinesView are always at 100% width"))
+        container.addArrangedSubview(Separator())
+        let shimmerLinesView = ShimmerLinesView(containerView: nil,
+                                                excludedViews: [],
+                                                animationSynchronizer: nil)
+        shimmerLinesView.lineCount = 6
+        container.addArrangedSubview(shimmerLinesView)
+        container.addArrangedSubview(Separator())
+
         container.addArrangedSubview(shimmerViewLabel("ShimmerView shimmers all the top level subviews of its container view"))
         container.addArrangedSubview(Separator())
         container.addArrangedSubview(shimmeringContentView(false))
