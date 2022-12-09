@@ -143,15 +143,6 @@ public class CommandBar: UIView, TokenizedControlInternal {
     public typealias TokenSetKeyType = CommandBarTokenSet.Tokens
     public var tokenSet: CommandBarTokenSet
 
-    var tokenSetSink: AnyCancellable?
-
-    @objc private func themeDidChange(_ notification: Notification) {
-        if let window = self.window,
-           window.isEqual(notification.object) {
-            tokenSet.update(window.fluentTheme)
-        }
-    }
-
     /// Scrollable items shown in the center of the CommandBar
     public var itemGroups: [CommandBarItemGroup] {
         get {
@@ -187,6 +178,15 @@ public class CommandBar: UIView, TokenizedControlInternal {
 
     // MARK: - Private properties
 
+    @objc private func themeDidChange(_ notification: Notification) {
+        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
+            return
+        }
+        tokenSet.update(fluentTheme)
+    }
+
+    private var tokenSetSink: AnyCancellable?
+
     /// Container UIStackView that holds the leading, main and trailing views
     private var commandBarContainerStackView: UIStackView
 
@@ -219,7 +219,6 @@ public class CommandBar: UIView, TokenizedControlInternal {
 
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
-        let itemInterspace: CGFloat = tokenSet[.itemInterspace].float
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.contentInset = scrollViewContentInset()
         scrollView.showsVerticalScrollIndicator = false
@@ -280,11 +279,11 @@ public class CommandBar: UIView, TokenizedControlInternal {
     }
 
     private func scrollViewContentInset() -> UIEdgeInsets {
-        let fixedButtonSpacing = tokenSet[.itemInterspace].float
+        let fixedButtonSpacing = CommandBarTokenSet.itemInterspace
         return UIEdgeInsets(top: 0,
-                            left: leadingCommandGroupsView.isHidden ? LayoutConstants.insets.left : fixedButtonSpacing,
+                            left: leadingCommandGroupsView.isHidden ? CommandBarTokenSet.barInsets : fixedButtonSpacing,
                             bottom: 0,
-                            right: trailingCommandGroupsView.isHidden ? LayoutConstants.insets.right : fixedButtonSpacing
+                            right: trailingCommandGroupsView.isHidden ? CommandBarTokenSet.barInsets : fixedButtonSpacing
         )
     }
 
@@ -294,30 +293,23 @@ public class CommandBar: UIView, TokenizedControlInternal {
         if !leadingCommandGroupsView.isHidden {
             let leadingOffset = max(0, scrollView.contentOffset.x)
             let percentage = min(1, leadingOffset / scrollView.contentInset.left)
-            locations[1] = LayoutConstants.fadeViewWidth / containerView.frame.width * percentage
+            locations[1] = CommandBarTokenSet.dismissGradientWidth / containerView.frame.width * percentage
         }
 
         if !trailingCommandGroupsView.isHidden {
             let trailingOffset = max(0, mainCommandGroupsView.frame.width - scrollView.frame.width - scrollView.contentOffset.x)
             let percentage = min(1, trailingOffset / scrollView.contentInset.right)
-            locations[2] = 1 - LayoutConstants.fadeViewWidth / containerView.frame.width * percentage
+            locations[2] = 1 - CommandBarTokenSet.dismissGradientWidth / containerView.frame.width * percentage
         }
 
         containerMaskLayer.locations = locations.map { NSNumber(value: Float($0)) }
     }
 
     private func updateButtonTokens() {
-        leadingCommandGroupsView.updateButtonGroupViews()
-        mainCommandGroupsView.updateButtonGroupViews()
-        trailingCommandGroupsView.updateButtonGroupViews()
+        leadingCommandGroupsView.updateButtonsShown()
+        mainCommandGroupsView.updateButtonsShown()
+        trailingCommandGroupsView.updateButtonsShown()
     }
-
-    @objc private func handleCommandButtonTapped(_ sender: CommandBarButton) {
-        sender.item.handleTapped(sender)
-        sender.updateState()
-    }
-
-    private var themeObserver: NSObjectProtocol?
 
     /// Updates the provided `CommandBarCommandGroupsView` with the `items` array and marks the view as needing a layout
     private func setupGroupsView(_ commandGroupsView: CommandBarCommandGroupsView, with items: [CommandBarItemGroup]?) {
@@ -325,15 +317,6 @@ public class CommandBar: UIView, TokenizedControlInternal {
 
         commandGroupsView.isHidden = commandGroupsView.itemGroups.isEmpty
         scrollView.contentInset = scrollViewContentInset()
-    }
-
-    private struct LayoutConstants {
-        static let fadeViewWidth: CGFloat = 16.0
-        static let fixedButtonSpacing: CGFloat = 2.0
-        static let insets = UIEdgeInsets(top: 8.0,
-                                         left: 8.0,
-                                         bottom: 8.0,
-                                         right: 8.0)
     }
 }
 

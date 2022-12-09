@@ -216,8 +216,10 @@ open class PillButton: UIButton, TokenizedControlInternal {
             if oldValue != isUnreadDotVisible {
                 if isUnreadDotVisible {
                     layer.addSublayer(unreadDotLayer)
+                    accessibilityLabel = String(format: "Accessibility.TabBarItemView.UnreadFormat".localized, pillBarItem.title)
                 } else {
                     unreadDotLayer.removeFromSuperlayer()
+                    accessibilityLabel = pillBarItem.title
                 }
             }
         }

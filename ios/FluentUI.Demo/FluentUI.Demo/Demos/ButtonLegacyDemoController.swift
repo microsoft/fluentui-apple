@@ -12,7 +12,7 @@ class ButtonLegacyDemoController: DemoController {
 
         container.alignment = .leading
 
-        for style in MSFButtonLegacyStyle.allCases {
+        for style in ButtonLegacyStyle.allCases {
             addTitle(text: style.description)
 
             let button = MSFButtonLegacy(style: style)
@@ -55,7 +55,7 @@ class ButtonLegacyDemoController: DemoController {
         let iconButton = MSFButtonLegacy(style: .primaryFilled)
         iconButton.setTitle("Longer Text Button", for: .normal)
         iconButton.titleLabel?.numberOfLines = 0
-        iconButton.image = MSFButtonLegacyStyle.primaryFilled.image
+        iconButton.image = ButtonLegacyStyle.primaryFilled.image
 
         addRow(items: [button])
         addRow(items: [iconButton])
@@ -64,7 +64,7 @@ class ButtonLegacyDemoController: DemoController {
     }
 }
 
-extension MSFButtonLegacyStyle {
+extension ButtonLegacyStyle {
     var description: String {
         switch self {
         case .borderless:

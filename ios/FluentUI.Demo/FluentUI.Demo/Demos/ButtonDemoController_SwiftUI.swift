@@ -53,7 +53,7 @@ struct ButtonDemoView: View {
                             Text("Content")
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .font(.title)
-                            FluentDivider()
+                            Divider()
                         }
 
                         TextField("Text", text: $text)
@@ -71,7 +71,7 @@ struct ButtonDemoView: View {
                             Text("Style")
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .font(.title)
-                            FluentDivider()
+                            Divider()
                         }
 
                         Picker(selection: $style, label: EmptyView()) {
@@ -90,7 +90,7 @@ struct ButtonDemoView: View {
                             Text("Size")
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .font(.title)
-                            FluentDivider()
+                            Divider()
                         }
 
                         Picker(selection: $size, label: EmptyView()) {

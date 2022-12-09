@@ -6,14 +6,25 @@
 
 Binary change:
 <!---
-Please fill in the below table using the size of the Demo app, as found in Finder, from 
-the latest state of the branch you are merging in to and the latest state of your changes.
-In order to get an accurate measurement for iOS, please build the Demo app using the
-Demo.Release scheme for "Any iOS Device (arm64)"
+Please fill in the table below with the binary size of files changed from the latest 
+state of the branch you are merging into and the latest state of your changes. In 
+order to get an accurate measurement of our framework, follow these instructions:
+  1. Change scheme to Demo.Release for Any iOS Device (arm64).
+  2. Build, then navigate to left panel: FluentUI -> Products -> libFluentUI.a
+  3. Show file in Finder, Get Info, & record libFluentUI.a binary size.
+
+For individual files:
+  1. Prepare a new folder anywhere outside of the FluentUI git repo. The following 
+     .o files will be generated here. Open terminal & navigate to your new folder.
+  2. Type "ar x <path of libFluentUI.a>" (no quotes or brackets).
+  3. Find your modified .o files in your folder, Get Info, & record binary size.
+
+NOTE: These generated files should not be a part of the PR.
 --->
-| Before | After |
-|--------|-------|
-|        |       |
+| File | Before | After | Delta |
+|------|--------|-------|-------|
+| libFluentUI.a |  |  |  |
+|  |  |  |  |
 
 (a summary of the changes made, often organized by file)
 
