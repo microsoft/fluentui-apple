@@ -9,13 +9,12 @@ import UIKit
 
 @objc(MSFButtonStyle)
 public enum ButtonStyle: Int, CaseIterable {
-    case primaryFilled
-    case primaryOutline
+    case accent
+    case outline
+    case subtle
     case dangerFilled
     case dangerOutline
-    case secondaryOutline
-    case tertiaryOutline
-    case borderless
+    case dangerSubtle
 }
 
 /// Design token set for the `Button` control.
