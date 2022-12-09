@@ -17,6 +17,15 @@ public enum ButtonStyle: Int, CaseIterable {
     case dangerSubtle
 }
 
+// MARK: ButtonSize
+
+@objc(MSFButtonSize)
+public enum ButtonSize: Int, CaseIterable {
+    case large
+    case medium
+    case small
+}
+
 /// Design token set for the `Button` control.
 public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
     public enum Tokens: TokenSetKey {
