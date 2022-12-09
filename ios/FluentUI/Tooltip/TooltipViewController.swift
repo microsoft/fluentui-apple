@@ -9,24 +9,23 @@ import UIKit
 
 class TooltipViewController: UIViewController {
 
-    init(anchorView: @escaping () -> UIView?,
+    init(anchorView: UIView,
          message: String,
          title: String? = nil,
          textAlignment: NSTextAlignment,
          preferredArrowDirection: Tooltip.ArrowDirection,
          offset: CGPoint,
-         arrowMargin: CGFloat) {
-        guard let anchorView = anchorView() else {
-            preconditionFailure("Can't find anchorView")
-        }
-
+         arrowMargin: CGFloat,
+         tokenSet: TooltipTokenSet) {
         tooltipView = TooltipView(anchorView: anchorView,
                                   message: message,
                                   title: title,
                                   textAlignment: textAlignment,
                                   preferredArrowDirection: preferredArrowDirection,
                                   offset: offset,
-                                  arrowMargin: arrowMargin)
+                                  arrowMargin: arrowMargin,
+                                  tokenSet: tokenSet)
+        self.tokenSet = tokenSet
 
         super.init(nibName: nil, bundle: nil)
 
@@ -59,7 +58,9 @@ class TooltipViewController: UIViewController {
     }
 
     func updateAppearance() {
-        tooltipView.updateAppearance(tokenSet: Tooltip.shared.tokenSet)
+        if let tokenSet = tokenSet {
+            tooltipView.updateAppearance(tokenSet: tokenSet)
+        }
         view.frame = tooltipView.tooltipRect
     }
 
@@ -69,4 +70,5 @@ class TooltipViewController: UIViewController {
     }
 
     private let tooltipView: TooltipView
+    private weak var tokenSet: TooltipTokenSet?
 }
