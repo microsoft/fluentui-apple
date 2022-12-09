@@ -143,15 +143,6 @@ public class CommandBar: UIView, TokenizedControlInternal {
     public typealias TokenSetKeyType = CommandBarTokenSet.Tokens
     public var tokenSet: CommandBarTokenSet
 
-    var tokenSetSink: AnyCancellable?
-
-    @objc private func themeDidChange(_ notification: Notification) {
-        if let window = self.window,
-           window.isEqual(notification.object) {
-            tokenSet.update(window.fluentTheme)
-        }
-    }
-
     /// Scrollable items shown in the center of the CommandBar
     public var itemGroups: [CommandBarItemGroup] {
         get {
@@ -228,7 +219,6 @@ public class CommandBar: UIView, TokenizedControlInternal {
 
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
-        let itemInterspace: CGFloat = tokenSet[.itemInterspace].float
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.contentInset = scrollViewContentInset()
         scrollView.showsVerticalScrollIndicator = false
@@ -289,11 +279,11 @@ public class CommandBar: UIView, TokenizedControlInternal {
     }
 
     private func scrollViewContentInset() -> UIEdgeInsets {
-        let fixedButtonSpacing = tokenSet[.itemInterspace].float
+        let fixedButtonSpacing = CommandBarTokenSet.itemInterspace
         return UIEdgeInsets(top: 0,
-                            left: leadingCommandGroupsView.isHidden ? LayoutConstants.insets.left : fixedButtonSpacing,
+                            left: leadingCommandGroupsView.isHidden ? CommandBarTokenSet.barInsets : fixedButtonSpacing,
                             bottom: 0,
-                            right: trailingCommandGroupsView.isHidden ? LayoutConstants.insets.right : fixedButtonSpacing
+                            right: trailingCommandGroupsView.isHidden ? CommandBarTokenSet.barInsets : fixedButtonSpacing
         )
     }
 
@@ -316,17 +306,10 @@ public class CommandBar: UIView, TokenizedControlInternal {
     }
 
     private func updateButtonTokens() {
-        leadingCommandGroupsView.updateButtonGroupViews()
-        mainCommandGroupsView.updateButtonGroupViews()
-        trailingCommandGroupsView.updateButtonGroupViews()
+        leadingCommandGroupsView.updateButtonsShown()
+        mainCommandGroupsView.updateButtonsShown()
+        trailingCommandGroupsView.updateButtonsShown()
     }
-
-    @objc private func handleCommandButtonTapped(_ sender: CommandBarButton) {
-        sender.item.handleTapped(sender)
-        sender.updateState()
-    }
-
-    private var themeObserver: NSObjectProtocol?
 
     /// Updates the provided `CommandBarCommandGroupsView` with the `items` array and marks the view as needing a layout
     private func setupGroupsView(_ commandGroupsView: CommandBarCommandGroupsView, with items: [CommandBarItemGroup]?) {

@@ -96,7 +96,7 @@ struct ShimmerLinesDemoView: View {
                             Text("Content")
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .font(.title)
-                            FluentDivider()
+                            Divider()
                         }
 
                         Picker(selection: $shimmerDemoContent, label: EmptyView()) {
@@ -148,7 +148,7 @@ struct ShimmerLinesDemoView: View {
                             Text("Style")
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .font(.title)
-                            FluentDivider()
+                            Divider()
                         }
 
                         Picker(selection: $style, label: EmptyView()) {

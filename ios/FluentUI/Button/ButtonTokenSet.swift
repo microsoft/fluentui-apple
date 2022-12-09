@@ -7,8 +7,8 @@ import UIKit
 
 // MARK: ButtonStyle
 
-@objc(MSFButtonStyle)
-public enum ButtonStyle: Int, CaseIterable {
+@objc(MSFButtonLegacyStyle)
+public enum ButtonLegacyStyle: Int, CaseIterable {
     case primaryFilled
     case primaryOutline
     case dangerFilled
@@ -19,7 +19,7 @@ public enum ButtonStyle: Int, CaseIterable {
 }
 
 /// Design token set for the `Button` control.
-public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
+public class ButtonLegacyTokenSet: ControlTokenSet<ButtonLegacyTokenSet.Tokens> {
     public enum Tokens: TokenSetKey {
         /// Defines the background color of the button
         case backgroundColor
@@ -58,7 +58,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
         case titleFont
     }
 
-    init(style: @escaping () -> ButtonStyle) {
+    init(style: @escaping () -> ButtonLegacyStyle) {
         self.style = style
         super.init { [style] token, theme in
             switch token {
@@ -206,12 +206,12 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
         }
     }
 
-    var style: () -> ButtonStyle
+    var style: () -> ButtonLegacyStyle
 }
 
-extension ButtonTokenSet {
+extension ButtonLegacyTokenSet {
     /// The value for the horizontal padding between the content of the button and the frame.
-    static func horizontalPadding(_ style: ButtonStyle) -> CGFloat {
+    static func horizontalPadding(_ style: ButtonLegacyStyle) -> CGFloat {
         switch style {
         case .dangerFilled, .dangerOutline, .primaryFilled, .primaryOutline:
             return GlobalTokens.spacing(.large)
@@ -225,7 +225,7 @@ extension ButtonTokenSet {
     }
 
     /// The minimum value for the height of the content of the button.
-    static func minContainerHeight(_ style: ButtonStyle) -> CGFloat {
+    static func minContainerHeight(_ style: ButtonLegacyStyle) -> CGFloat {
         switch style {
         case .borderless, .dangerFilled, .dangerOutline, .primaryFilled, .primaryOutline:
             return 20
@@ -235,7 +235,7 @@ extension ButtonTokenSet {
     }
 
     /// The value for the spacing between the title and image.
-    static func titleImageSpacing(_ style: ButtonStyle) -> CGFloat {
+    static func titleImageSpacing(_ style: ButtonLegacyStyle) -> CGFloat {
         switch style {
         case .dangerFilled, .dangerOutline, .primaryFilled, .primaryOutline:
             return 10
@@ -247,7 +247,7 @@ extension ButtonTokenSet {
     }
 
     /// The value for the vertical padding between the content of the button and the frame.
-    static func verticalPadding(_ style: ButtonStyle) -> CGFloat {
+    static func verticalPadding(_ style: ButtonLegacyStyle) -> CGFloat {
         switch style {
         case .dangerFilled, .dangerOutline, .primaryFilled, .primaryOutline:
             return GlobalTokens.spacing(.medium)

@@ -88,7 +88,7 @@ public struct FluentList: View {
                     }
 
                     if section.hasDividers {
-                        FluentDivider()
+                        Divider()
                     }
                 }
             }

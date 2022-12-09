@@ -8,13 +8,41 @@ import UIKit
 /// Design token set for the `CommandBar` control.
 public class CommandBarTokenSet: ControlTokenSet<CommandBarTokenSet.Tokens> {
     public enum Tokens: TokenSetKey {
+        /// The background color of the Command Bar.
         case backgroundColor
+
+        /// The border radius for each group of item(s) inside the Command Bar.
         case groupBorderRadius
-        case groupInterspace
-        case itemBackgroundColor
-        case itemFixedIconColor
-        case itemIconColor
-        case itemInterspace
+
+        /// The background color of a single Command Bar Item when in rest.
+        case itemBackgroundColorRest
+
+        /// The background color of a single Command Bar Item when hovered.
+        case itemBackgroundColorHover
+
+        /// The background color of a single Command Bar Item when pressed.
+        case itemBackgroundColorPressed
+
+        /// The background color of a single Command Bar Item when selected.
+        case itemBackgroundColorSelected
+
+        /// The background color of a single Command Bar Item when disabled.
+        case itemBackgroundColorDisabled
+
+        /// The icon color of a Command Bar Item when in rest.
+        case itemIconColorRest
+
+        /// The icon color of a Command Bar Item when hovered.
+        case itemIconColorHover
+
+        /// The icon color of a Command Bar Item when pressed.
+        case itemIconColorPressed
+
+        /// The icon color of a Command Bar Item when selected.
+        case itemIconColorSelected
+
+        /// The icon color of a Command Bar Item when disabled.
+        case itemIconColorDisabled
     }
 
     init() {
@@ -26,38 +54,70 @@ public class CommandBarTokenSet: ControlTokenSet<CommandBarTokenSet.Tokens> {
             case .groupBorderRadius:
                 return .float { GlobalTokens.borderRadius(.xLarge) }
 
-            case .groupInterspace:
-                return .float { GlobalTokens.spacing(.medium) }
+            case .itemBackgroundColorRest:
+                return .dynamicColor { theme.aliasTokens.backgroundColors[.neutral4] }
 
-            case .itemBackgroundColor:
-                return .buttonDynamicColors {
-                    ButtonDynamicColors(rest: theme.aliasTokens.backgroundColors[.neutral4],
-                                        hover: DynamicColor(light: theme.aliasTokens.backgroundColors[.neutral5].light,
-                                                            dark: theme.aliasTokens.strokeColors[.neutral2].dark),
-                                        pressed: DynamicColor(light: theme.aliasTokens.backgroundColors[.neutralDisabled].light,
-                                                              dark: theme.aliasTokens.backgroundColors[.neutral5].dark),
-                                        selected: theme.aliasTokens.backgroundColors[.brandRest],
-                                        disabled: theme.aliasTokens.strokeColors[.neutral1])
-                }
-
-            case .itemFixedIconColor:
+            case .itemBackgroundColorHover:
                 return .dynamicColor {
-                    DynamicColor(light: theme.aliasTokens.foregroundColors[.neutral1].light,
-                                 dark: theme.aliasTokens.foregroundColors[.neutral3].dark)
+                    DynamicColor(light: theme.aliasTokens.backgroundColors[.neutral5].light,
+                                 dark: theme.aliasTokens.strokeColors[.neutral2].dark)
                 }
 
-            case .itemIconColor:
-                return .buttonDynamicColors {
-                    ButtonDynamicColors(rest: theme.aliasTokens.foregroundColors[.neutral1],
-                                        hover: theme.aliasTokens.foregroundColors[.neutral1],
-                                        pressed: theme.aliasTokens.foregroundColors[.neutral1],
-                                        selected: theme.aliasTokens.foregroundColors[.neutralInverted],
-                                        disabled: theme.aliasTokens.foregroundColors[.neutralDisabled])
+            case .itemBackgroundColorPressed:
+                return .dynamicColor {
+                    DynamicColor(light: theme.aliasTokens.backgroundColors[.neutralDisabled].light,
+                                 dark: theme.aliasTokens.backgroundColors[.neutral5].dark)
                 }
 
-            case .itemInterspace:
-                return .float { GlobalTokens.spacing(.xxxSmall) }
+            case .itemBackgroundColorSelected:
+                return .dynamicColor { theme.aliasTokens.backgroundColors[.brandRest] }
+
+            case .itemBackgroundColorDisabled:
+                return .dynamicColor { theme.aliasTokens.strokeColors[.neutral1] }
+
+            case .itemIconColorRest:
+                return .dynamicColor { theme.aliasTokens.foregroundColors[.neutral1] }
+
+            case .itemIconColorHover:
+                return .dynamicColor { theme.aliasTokens.foregroundColors[.neutral1] }
+
+            case .itemIconColorPressed:
+                return .dynamicColor { theme.aliasTokens.foregroundColors[.neutral1] }
+
+            case .itemIconColorSelected:
+                return .dynamicColor { theme.aliasTokens.foregroundColors[.neutralInverted] }
+
+            case .itemIconColorDisabled:
+                return .dynamicColor { theme.aliasTokens.foregroundColors[.neutralDisabled] }
             }
         }
     }
+}
+
+// MARK: - Constants
+
+extension CommandBarTokenSet {
+    /// The spacing between each Command Bar Group.
+    static let groupInterspace: CGFloat = GlobalTokens.spacing(.xSmall)
+
+    /// The spacing between each Command Bar Group for iPad.
+    static let groupInterspaceWide: CGFloat = GlobalTokens.spacing(.medium)
+
+    /// The spacing between each Command Bar Item.
+    static let itemInterspace: CGFloat = GlobalTokens.spacing(.xxxSmall)
+
+    /// The buffer spacing left/right of each Command Bar Group.
+    static let leftRightBuffer: CGFloat = GlobalTokens.spacing(.xxxSmall)
+
+    /// The gradient width of the keyboard dismiss.
+    static let dismissGradientWidth: CGFloat = GlobalTokens.spacing(.medium)
+
+    /// The edge inset values for the Command Bar.
+    static let barInsets: CGFloat = GlobalTokens.spacing(.xSmall)
+
+    /// The edge inset values for the Command Bar Button.
+    static let buttonContentInsets = NSDirectionalEdgeInsets(top: 8.0,
+                                                       leading: 10.0,
+                                                       bottom: 8.0,
+                                                       trailing: 10.0)
 }

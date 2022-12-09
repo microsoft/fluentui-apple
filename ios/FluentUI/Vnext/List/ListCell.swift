@@ -428,7 +428,7 @@ struct MSFListCellView: View, TokenizedControlView {
             if state.hasDivider {
                 let padding = horizontalCellPadding +
                     (state.leadingView != nil ? horizontalCellPadding + leadingViewAreaSize : 0)
-                FluentDivider()
+                Divider()
                     .padding(.leading, padding)
             }
 

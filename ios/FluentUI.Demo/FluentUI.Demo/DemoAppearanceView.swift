@@ -45,11 +45,11 @@ struct DemoAppearanceView: View {
         VStack {
             appColorSchemePicker
 
-            FluentDivider()
+            Divider()
                 .padding()
 
             themePicker
-            FluentDivider()
+            Divider()
                 .padding()
 
             if showThemeWideOverrideToggle || showPerControlOverrideToggle {
