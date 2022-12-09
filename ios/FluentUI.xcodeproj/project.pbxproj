@@ -397,6 +397,7 @@
 		A5CEC16E20D98F340016922A /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		A5DA88FC226FAA01000A8EA8 /* FluentUIResources-ios.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "FluentUIResources-ios.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5DA88FE226FAA01000A8EA8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A5DCA76321224026005F4CB7 /* Separator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Separator.swift; sourceTree = "<group>"; };
 		A5DF1EAC2213B26900CC741A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		B441478C228CDA130040E88E /* BooleanCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooleanCell.swift; sourceTree = "<group>"; };
 		B444D6B52183A9740002B4D4 /* BadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeView.swift; sourceTree = "<group>"; };
@@ -649,6 +650,14 @@
 				5306074F26A1E6A4002D49CF /* AvatarGroupTokenSet.swift */,
 			);
 			path = AvatarGroup;
+			sourceTree = "<group>";
+		};
+		5314DFE625F000740099271A /* Separator */ = {
+			isa = PBXGroup;
+			children = (
+				A5DCA76321224026005F4CB7 /* Separator.swift */,
+			);
+			path = Separator;
 			sourceTree = "<group>";
 		};
 		5314DFEB25F002240099271A /* ActivityIndicator */ = {
@@ -1012,6 +1021,7 @@
 				FD7254EE2147382D002F4069 /* Presenters */,
 				5314DFF725F007FF0099271A /* ResizingHandleView */,
 				ECEBA8F625EDEFF70048EE24 /* SegmentedControl */,
+				5314DFE625F000740099271A /* Separator */,
 				C0A0D75D233AEA9900F432FD /* Shimmer */,
 				1168630122E131A20088B302 /* Tab Bar */,
 				B444D6B421825B510002B4D4 /* Table View */,
@@ -1630,6 +1640,7 @@
 				53097D0B270288FB00A6E4DC /* ButtonModifiers.swift in Sources */,
 				569B036929037AB700940044 /* ShimmerView.swift in Sources */,
 				5314E28125F0240D0099271A /* DateComponents+Extensions.swift in Sources */,
+				0A8E61FB291DC11F009E412D /* CommandBarTokenSet.swift in Sources */,
 				5314E07025F00F140099271A /* DatePickerController.swift in Sources */,
 				0A3CD0B327BDD26B00DBE728 /* MSFList.swift in Sources */,
 				5373D56B2694D65C0032A3B4 /* MSFAvatarPresence.swift in Sources */,
@@ -1694,6 +1705,7 @@
 				5314E2E325F025500099271A /* FluentUIFramework.swift in Sources */,
 				ECA9218627A3301C00B66117 /* MSFAvatarGroup.swift in Sources */,
 				5314E0EC25F012C40099271A /* NavigationAnimator.swift in Sources */,
+				5314E17225F0191C0099271A /* Separator.swift in Sources */,
 				5314E14225F016860099271A /* CardPresenterNavigationController.swift in Sources */,
 				5314E11725F015EA0099271A /* PersonaCell.swift in Sources */,
 				53097D192702890900A6E4DC /* List.swift in Sources */,

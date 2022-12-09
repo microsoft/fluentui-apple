@@ -10,8 +10,10 @@ class SegmentPillButton: UIButton {
             if oldValue != isUnreadDotVisible {
                 if isUnreadDotVisible {
                     self.layer.addSublayer(unreadDotLayer)
+                    accessibilityLabel = String(format: "Accessibility.TabBarItemView.UnreadFormat".localized, item.title)
                 } else {
                     unreadDotLayer.removeFromSuperlayer()
+                    accessibilityLabel = item.title
                 }
             }
         }

@@ -18,15 +18,15 @@ class CommandBarCommandGroupsView: UIView {
         buttonGroupsStackView.translatesAutoresizingMaskIntoConstraints = false
         buttonGroupsStackView.axis = .horizontal
         let shouldUseRegularSpacing = (traitCollection.horizontalSizeClass == .regular) && (traitCollection.verticalSizeClass == .regular)
-        buttonGroupsStackView.spacing = shouldUseRegularSpacing ? LayoutConstants.buttonGroupSpacingRegular : LayoutConstants.buttonGroupSpacingCompact
+        buttonGroupsStackView.spacing = shouldUseRegularSpacing ? CommandBarTokenSet.groupInterspaceWide : CommandBarTokenSet.groupInterspace
 
         addSubview(buttonGroupsStackView)
 
         NSLayoutConstraint.activate([
             buttonGroupsStackView.topAnchor.constraint(equalTo: topAnchor,
-                                                       constant: LayoutConstants.insets.top),
+                                                       constant: CommandBarTokenSet.barInsets),
             bottomAnchor.constraint(equalTo: buttonGroupsStackView.bottomAnchor,
-                                    constant: LayoutConstants.insets.top),
+                                    constant: CommandBarTokenSet.barInsets),
             buttonGroupsStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
             buttonGroupsStackView.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
@@ -104,6 +104,25 @@ class CommandBarCommandGroupsView: UIView {
         }
     }
 
+    /// Refreshes the buttons shown in the `arrangedSubviews`
+    func updateButtonsShown() {
+        for view in buttonGroupsStackView.arrangedSubviews {
+            view.removeFromSuperview()
+        }
+
+        updateButtonGroupViews()
+        for view in buttonGroupViews {
+            buttonGroupsStackView.addArrangedSubview(view)
+        }
+    }
+
+    // MARK: - Private properties
+
+    private var buttonGroupsStackView: UIStackView
+    private var buttonGroupViews: [CommandBarButtonGroupView] = []
+    private var itemsToButtonsMap: [CommandBarItem: CommandBarButton] = [:]
+    private var buttonsPersistSelection: Bool
+
     /// Refreshes the `itemsToButtonsMap` of `CommandBarItem`s to their corresponding `CommandBarButton`
     private func updateItemsToButtonsMap() {
         let allButtons = itemGroups.flatMap({ $0 }).map({ createButton(forItem: $0, isPersistSelection: buttonsPersistSelection) })
@@ -123,14 +142,5 @@ class CommandBarCommandGroupsView: UIView {
     @objc private func handleCommandButtonTapped(_ sender: CommandBarButton) {
         sender.item.handleTapped(sender)
         sender.updateState()
-    }
-
-    private struct LayoutConstants {
-        static let buttonGroupSpacingCompact: CGFloat = 8.0
-        static let buttonGroupSpacingRegular: CGFloat = 16.0
-        static let insets = UIEdgeInsets(top: 8.0,
-                                         left: 8.0,
-                                         bottom: 8.0,
-                                         right: 8.0)
     }
 }

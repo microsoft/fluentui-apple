@@ -461,21 +461,21 @@ open class BottomCommandingController: UIViewController {
 
     private func makeSheetExpandedContent(with tableView: UITableView) -> UIView {
         let view = UIView()
-        let dividerView = divider
-        dividerView.translatesAutoresizingMaskIntoConstraints = false
+        let separator = Separator()
+        separator.translatesAutoresizingMaskIntoConstraints = false
         tableView.translatesAutoresizingMaskIntoConstraints = false
 
         view.addSubview(tableView)
-        view.addSubview(dividerView)
+        view.addSubview(separator)
 
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            dividerView.topAnchor.constraint(equalTo: tableView.topAnchor),
-            dividerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            dividerView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            separator.topAnchor.constraint(equalTo: tableView.topAnchor),
+            separator.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            separator.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
         return view
     }
@@ -504,8 +504,6 @@ open class BottomCommandingController: UIViewController {
         heroCommandStack.removeAllSubviews()
         heroViews.forEach { heroCommandStack.addArrangedSubview($0) }
     }
-
-    private lazy var divider: MSFDivider = .init()
 
     private lazy var moreHeroItem: CommandingItem = CommandingItem(title: Constants.BottomBar.moreButtonTitle, image: Constants.BottomBar.moreButtonIcon ?? UIImage(), action: handleMoreCommandTap)
 

@@ -50,7 +50,7 @@ class CommandBarButton: UIButton {
             if #available(iOS 15.0, *) {
                 var buttonConfiguration = UIButton.Configuration.plain()
                 buttonConfiguration.image = item.iconImage
-                buttonConfiguration.contentInsets = LayoutConstants.contentInsets
+                buttonConfiguration.contentInsets = CommandBarTokenSet.buttonContentInsets
                 buttonConfiguration.background.cornerRadius = 0
                 configuration = buttonConfiguration
             } else {
@@ -121,7 +121,6 @@ class CommandBarButton: UIButton {
         accessibilityLabel = (accessibilityDescription != nil) ? accessibilityDescription : title
         accessibilityHint = item.accessibilityHint
         accessibilityValue = item.accessibilityValue
-        accessibilityIdentifier = item.accessibilityIdentifier
     }
 
     private let isPersistSelection: Bool
@@ -193,10 +192,6 @@ class CommandBarButton: UIButton {
     }
 
     private struct LayoutConstants {
-        static let contentInsets = NSDirectionalEdgeInsets(top: 8.0,
-                                                           leading: 10.0,
-                                                           bottom: 8.0,
-                                                           trailing: 10.0)
         static let contentEdgeInsets = UIEdgeInsets(top: 8.0,
                                                     left: 10.0,
                                                     bottom: 8.0,

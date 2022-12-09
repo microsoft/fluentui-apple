@@ -187,6 +187,15 @@ public class CommandBar: UIView, TokenizedControlInternal {
 
     // MARK: - Private properties
 
+    @objc private func themeDidChange(_ notification: Notification) {
+        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
+            return
+        }
+        tokenSet.update(fluentTheme)
+    }
+
+    private var tokenSetSink: AnyCancellable?
+
     /// Container UIStackView that holds the leading, main and trailing views
     private var commandBarContainerStackView: UIStackView
 
@@ -294,13 +303,13 @@ public class CommandBar: UIView, TokenizedControlInternal {
         if !leadingCommandGroupsView.isHidden {
             let leadingOffset = max(0, scrollView.contentOffset.x)
             let percentage = min(1, leadingOffset / scrollView.contentInset.left)
-            locations[1] = LayoutConstants.fadeViewWidth / containerView.frame.width * percentage
+            locations[1] = CommandBarTokenSet.dismissGradientWidth / containerView.frame.width * percentage
         }
 
         if !trailingCommandGroupsView.isHidden {
             let trailingOffset = max(0, mainCommandGroupsView.frame.width - scrollView.frame.width - scrollView.contentOffset.x)
             let percentage = min(1, trailingOffset / scrollView.contentInset.right)
-            locations[2] = 1 - LayoutConstants.fadeViewWidth / containerView.frame.width * percentage
+            locations[2] = 1 - CommandBarTokenSet.dismissGradientWidth / containerView.frame.width * percentage
         }
 
         containerMaskLayer.locations = locations.map { NSNumber(value: Float($0)) }
@@ -325,15 +334,6 @@ public class CommandBar: UIView, TokenizedControlInternal {
 
         commandGroupsView.isHidden = commandGroupsView.itemGroups.isEmpty
         scrollView.contentInset = scrollViewContentInset()
-    }
-
-    private struct LayoutConstants {
-        static let fadeViewWidth: CGFloat = 16.0
-        static let fixedButtonSpacing: CGFloat = 2.0
-        static let insets = UIEdgeInsets(top: 8.0,
-                                         left: 8.0,
-                                         bottom: 8.0,
-                                         right: 8.0)
     }
 }
 
