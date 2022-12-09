@@ -58,9 +58,7 @@ class TooltipViewController: UIViewController {
     }
 
     func updateAppearance() {
-        if let tokenSet = tokenSet {
-            tooltipView.updateAppearance(tokenSet: tokenSet)
-        }
+        tooltipView.updateAppearance(tokenSet: tokenSet)
         view.frame = tooltipView.tooltipRect
     }
 
@@ -70,5 +68,5 @@ class TooltipViewController: UIViewController {
     }
 
     private let tooltipView: TooltipView
-    private weak var tokenSet: TooltipTokenSet?
+    private let tokenSet: TooltipTokenSet
 }
