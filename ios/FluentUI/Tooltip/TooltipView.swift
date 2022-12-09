@@ -132,48 +132,51 @@ class TooltipView: UIView {
     private func updateArrowDirectionAndTooltipRect(for message: String, title: String? = nil, tokenSet: TooltipTokenSet) {
         let preferredBoundingRect = boundingRect.inset(by: anchorViewInset(for: preferredArrowDirection))
         let backupBoundingRect = boundingRect.inset(by: anchorViewInset(for: preferredArrowDirection.opposite))
-        if let window = anchorView?.window {
-            let isAccessibilityContentSize = window.traitCollection.preferredContentSizeCategory.isAccessibilityCategory
-            let preferredSize = TooltipView.sizeThatFits(preferredBoundingRect.size,
-                                                         message: message,
-                                                         title: title,
-                                                         isAccessibilityContentSize: isAccessibilityContentSize,
-                                                         arrowDirection: preferredArrowDirection,
-                                                         tokenSet: tokenSet)
-            let backupSize = TooltipView.sizeThatFits(backupBoundingRect.size,
-                                                      message: message,
-                                                      title: title,
-                                                      isAccessibilityContentSize: isAccessibilityContentSize,
-                                                      arrowDirection: preferredArrowDirection.opposite,
-                                                      tokenSet: tokenSet)
 
-            var usePreferred = true
-            if (preferredArrowDirection.isVertical &&
-                preferredBoundingRect.height < preferredSize.height &&
-                backupBoundingRect.height >= backupSize.height) ||
-                (!preferredArrowDirection.isVertical &&
-                 preferredBoundingRect.width < preferredSize.width &&
-                 backupBoundingRect.width >= backupSize.width) {
-                usePreferred = false
-            }
-
-            if usePreferred {
-                arrowDirection = preferredArrowDirection
-                tooltipSize = preferredSize
-            } else {
-                arrowDirection = preferredArrowDirection.opposite
-                tooltipSize = backupSize
-            }
-
-            tooltipOrigin = idealTooltipOrigin
-            if arrowDirection.isVertical {
-                tooltipOrigin.x = max(boundingRect.minX, min(tooltipOrigin.x, boundingRect.maxX - tooltipSize.width))
-            } else {
-                tooltipOrigin.y = max(boundingRect.minY, min(tooltipOrigin.y, boundingRect.maxY - tooltipSize.height))
-            }
-            tooltipOrigin.x += offset.x
-            tooltipOrigin.y += offset.y
+        guard let window = anchorView?.window else {
+            return
         }
+
+        let isAccessibilityContentSize = window.traitCollection.preferredContentSizeCategory.isAccessibilityCategory
+        let preferredSize = TooltipView.sizeThatFits(preferredBoundingRect.size,
+                                                     message: message,
+                                                     title: title,
+                                                     isAccessibilityContentSize: isAccessibilityContentSize,
+                                                     arrowDirection: preferredArrowDirection,
+                                                     tokenSet: tokenSet)
+        let backupSize = TooltipView.sizeThatFits(backupBoundingRect.size,
+                                                  message: message,
+                                                  title: title,
+                                                  isAccessibilityContentSize: isAccessibilityContentSize,
+                                                  arrowDirection: preferredArrowDirection.opposite,
+                                                  tokenSet: tokenSet)
+
+        var usePreferred = true
+        if (preferredArrowDirection.isVertical &&
+            preferredBoundingRect.height < preferredSize.height &&
+            backupBoundingRect.height >= backupSize.height) ||
+            (!preferredArrowDirection.isVertical &&
+             preferredBoundingRect.width < preferredSize.width &&
+             backupBoundingRect.width >= backupSize.width) {
+            usePreferred = false
+        }
+
+        if usePreferred {
+            arrowDirection = preferredArrowDirection
+            tooltipSize = preferredSize
+        } else {
+            arrowDirection = preferredArrowDirection.opposite
+            tooltipSize = backupSize
+        }
+
+        tooltipOrigin = idealTooltipOrigin
+        if arrowDirection.isVertical {
+            tooltipOrigin.x = max(boundingRect.minX, min(tooltipOrigin.x, boundingRect.maxX - tooltipSize.width))
+        } else {
+            tooltipOrigin.y = max(boundingRect.minY, min(tooltipOrigin.y, boundingRect.maxY - tooltipSize.height))
+        }
+        tooltipOrigin.x += offset.x
+        tooltipOrigin.y += offset.y
     }
 
     private func updateTextContainerSize() {

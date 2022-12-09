@@ -286,7 +286,7 @@ open class Tooltip: NSObject, TokenizedControlInternal {
     }
 
     private var tooltipViewController: TooltipViewController?
-    private var anchorView: UIView?
+    private weak var anchorView: UIView?
     private var onTap: (() -> Void)?
     private var gestureView: UIView?
     private var dismissMode: DismissMode = .tapAnywhere
