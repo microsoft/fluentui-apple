@@ -87,6 +87,13 @@ class TableViewCellDemoController: DemoTableViewController {
     }
 
     @objc private func selectionBarButtonTapped(sender: UIBarButtonItem) {
+        if let selectedRows = tableView.indexPathsForSelectedRows, isInSelectionMode {
+            for indexPath in selectedRows {
+                if let cell = tableView.cellForRow(at: indexPath) as? TableViewCell {
+                    cell.isUnreadDotVisible = !cell.isUnreadDotVisible
+                }
+            }
+        }
         isInSelectionMode = !isInSelectionMode
     }
 
@@ -202,7 +209,7 @@ extension TableViewCellDemoController {
 
         let showsLabelAccessoryView = TableViewCellSampleData.hasLabelAccessoryViews(at: indexPath)
 
-        cell.hasLeadingDot = section.hasleadingDot
+        cell.isUnreadDotVisible = section.isUnreadDotVisible
         cell.titleLeadingAccessoryView = showsLabelAccessoryView ? item.text1LeadingAccessoryView() : nil
         cell.titleTrailingAccessoryView = showsLabelAccessoryView ? item.text1TrailingAccessoryView() : nil
         cell.subtitleLeadingAccessoryView = showsLabelAccessoryView ? item.text2LeadingAccessoryView() : nil

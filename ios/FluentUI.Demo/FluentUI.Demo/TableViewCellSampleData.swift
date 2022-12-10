@@ -28,17 +28,8 @@ class TableViewCellSampleData: TableViewSampleData {
                      text2: "Research Notes",
                      image: "excelIcon",
                      text2LeadingAccessoryView: { createIconsAccessoryView(images: ["shared-12x12", "success-12x12"]) })
-            ]
-        ),
-        Section(
-            title: "Double line cell with cell leading view",
-            items: [
-                Item(text1: "Contoso Survey",
-                     text2: "Research Notes",
-                     image: "excelIcon",
-                     text2LeadingAccessoryView: { createIconsAccessoryView(images: ["shared-12x12", "success-12x12"]) })
             ],
-            hasleadingDot: true
+            isUnreadDotVisible: true
         ),
         Section(
             title: "Inverted double line cell",

@@ -11,7 +11,7 @@ class TableViewSampleData {
         let title: String
         var item: Item { return items[0] }
         let items: [Item]
-        let hasleadingDot: Bool
+        let isUnreadDotVisible: Bool
         let numberOfLines: Int
         let hasFullLengthLabelAccessoryView: Bool
         let hasAccessory: Bool
@@ -28,7 +28,7 @@ class TableViewSampleData {
 
         init(title: String,
              items: [Item] = [],
-             hasleadingDot: Bool = false,
+             isUnreadDotVisible: Bool = false,
              numberOfLines: Int = 1,
              hasFullLengthLabelAccessoryView: Bool = false,
              hasAccessory: Bool = false,
@@ -44,7 +44,7 @@ class TableViewSampleData {
              hasHandler: Bool = false) {
             self.title = title
             self.items = items
-            self.hasleadingDot = hasleadingDot
+            self.isUnreadDotVisible = isUnreadDotVisible
             self.numberOfLines = numberOfLines
             self.hasFullLengthLabelAccessoryView = hasFullLengthLabelAccessoryView
             self.hasAccessory = hasAccessory

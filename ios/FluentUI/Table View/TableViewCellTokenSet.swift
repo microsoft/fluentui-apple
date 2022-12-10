@@ -24,9 +24,6 @@ public class TableViewCellTokenSet: ControlTokenSet<TableViewCellTokenSet.Tokens
         /// The leading image color.
         case imageColor
 
-        /// The size dimensions of the leadingDotLayer.
-        case leadingDotDimensions
-
         /// The size dimensions of the customView.
         case customViewDimensions
 
@@ -71,9 +68,6 @@ public class TableViewCellTokenSet: ControlTokenSet<TableViewCellTokenSet.Tokens
 
         /// The communication text color in an ActionsCell.
         case communicationTextColor
-
-        /// The leading padding in the cell.
-        case paddingLeading
     }
 
     init(customViewSize: @escaping () -> MSFTableViewCellCustomViewSize) {
@@ -111,9 +105,6 @@ public class TableViewCellTokenSet: ControlTokenSet<TableViewCellTokenSet.Tokens
 
             case .imageColor:
                 return .dynamicColor { theme.aliasTokens.foregroundColors[.neutral1] }
-
-            case .leadingDotDimensions:
-                return .float { 8.0 }
 
             case .customViewDimensions:
                 return .float {
@@ -183,9 +174,6 @@ public class TableViewCellTokenSet: ControlTokenSet<TableViewCellTokenSet.Tokens
                     DynamicColor(light: ColorValue(0x0078D4),
                                  dark: ColorValue(0x0086F0))
                 }
-
-            case .paddingLeading:
-                return .float { GlobalTokens.spacing(.medium) }
             }
         }
     }
@@ -209,6 +197,9 @@ extension TableViewCellTokenSet {
     /// The default horizontal spacing in the cell.
     static let horizontalSpacing: CGFloat = GlobalTokens.spacing(.medium)
 
+    /// The leading padding in the cell.
+    static let paddingLeading: CGFloat = GlobalTokens.spacing(.medium)
+
     /// The vertical padding in the cell.
     static let paddingVertical: CGFloat = 11.0
 
@@ -217,6 +208,9 @@ extension TableViewCellTokenSet {
 
     /// The leading and trailing padding for the leadingDotLayer.
     static let leadingDotHorizontalPadding: CGFloat = GlobalTokens.spacing(.xxSmall)
+
+    /// The size dimensions of the leadingDotLayer.
+    static let leadingDotDimensions: CGFloat = 8.0
 
     static let selectionImageOff = UIImage.staticImageNamed("selection-off")
     static let selectionImageOn = UIImage.staticImageNamed("selection-on")

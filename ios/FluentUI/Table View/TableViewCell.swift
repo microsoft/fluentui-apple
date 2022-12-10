@@ -172,7 +172,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     /// The default leading padding in the cell.
     @objc public static let defaultPaddingLeading: CGFloat = {
         let tokenSet = TableViewCellTokenSet(customViewSize: { .default })
-        return tokenSet[.paddingLeading].float
+        return TableViewCellTokenSet.paddingLeading
     }()
 
     /// The default trailing padding in the cell.
@@ -652,8 +652,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     }
 
     private static func customViewLeadingOffset(isInSelectionMode: Bool,
-                                                leadingPadding: CGFloat,
-                                                tokenSet: TableViewCellTokenSet) -> CGFloat {
+                                                leadingPadding: CGFloat) -> CGFloat { // remove
         return leadingPadding + selectionModeAreaWidth(isInSelectionMode: isInSelectionMode,
                                                        selectionImageMarginTrailing: TableViewCellTokenSet.selectionImageMarginTrailing,
                                                        selectionImageSize: TableViewCellTokenSet.selectionImageSize)
@@ -663,8 +662,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                                               isInSelectionMode: Bool,
                                               tokenSet: TableViewCellTokenSet) -> CGFloat {
         var textAreaLeadingOffset = customViewLeadingOffset(isInSelectionMode: isInSelectionMode,
-                                                            leadingPadding: tokenSet[.paddingLeading].float,
-                                                            tokenSet: tokenSet)
+                                                            leadingPadding: TableViewCellTokenSet.paddingLeading)
         if customViewSize != .zero {
             textAreaLeadingOffset += tokenSet[.customViewDimensions].float + tokenSet[.customViewTrailingMargin].float
         }
@@ -782,7 +780,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     /// The leading padding.
     @objc public var paddingLeading: CGFloat {
         get {
-            return _paddingLeading ?? tokenSet[.paddingLeading].float
+            return _paddingLeading ?? TableViewCellTokenSet.paddingLeading
         }
         set {
             if newValue != _paddingLeading {
@@ -892,20 +890,30 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         }
     }
 
-    private lazy var leadingDotLayer: CALayer = {
+    private lazy var unreadDotLayer: CALayer = {
         let unreadDotLayer = CALayer()
-        let unreadDotSize = tokenSet[.leadingDotDimensions].float
+        let unreadDotSize = TableViewCellTokenSet.leadingDotDimensions
         unreadDotLayer.bounds.size = CGSize(width: unreadDotSize, height: unreadDotSize)
         unreadDotLayer.cornerRadius = unreadDotSize / 2
-        layer.addSublayer(unreadDotLayer)
+        unreadDotLayer.backgroundColor = UIColor(dynamicColor: tokenSet[.mainBrandColor].dynamicColor).cgColor
         return unreadDotLayer
     }()
 
-    /// The custom view on the leading edge of the `customView` UIView.
-    @objc open var hasLeadingDot: Bool = false {
+    /// The custom view on the leading edge of the `customView` UIView. // (is isUnreadDotVisible
+    @objc open var isUnreadDotVisible: Bool = false {
         didSet {
-            hasLeadingDot = !oldValue
-            leadingDotLayer.isHidden = oldValue
+            if isUnreadDotVisible {
+                self.layer.addSublayer(unreadDotLayer)
+                let leadingDotDimensions: CGFloat = TableViewCellTokenSet.leadingDotDimensions
+                let leadingDotYOffset = ceil((contentView.frame.height - leadingDotDimensions) / 2)
+                let leadingDotXOffset = TableViewCell.customViewLeadingOffset(isInSelectionMode: isInSelectionMode,
+                                                                              leadingPadding: TableViewCellTokenSet.leadingDotHorizontalPadding)
+                unreadDotLayer.frame.origin = CGPoint(x: leadingDotXOffset, y: leadingDotYOffset)
+                accessibilityLabel = String(format: "Accessibility.TabBarItemView.UnreadFormat".localized, title)
+            } else {
+                unreadDotLayer.removeFromSuperlayer()
+                accessibilityLabel = title
+            }
         }
     }
 
@@ -1533,24 +1541,19 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
             )
         }
 
-//        if hasLeadingDot {
-            let leadingDotDimensions: CGFloat = tokenSet[.leadingDotDimensions].float
+        if isUnreadDotVisible {
+            let leadingDotDimensions: CGFloat = TableViewCellTokenSet.leadingDotDimensions
             let leadingDotYOffset = ceil((contentView.frame.height - leadingDotDimensions) / 2)
             let leadingDotXOffset = TableViewCell.customViewLeadingOffset(isInSelectionMode: isInSelectionMode,
-                                                                               leadingPadding: TableViewCellTokenSet.leadingDotHorizontalPadding,
-                                                                               tokenSet: tokenSet)
-            leadingDotLayer.frame = CGRect(
-                origin: CGPoint(x: leadingDotXOffset, y: leadingDotYOffset),
-                size: CGSize(width: leadingDotDimensions, height: leadingDotDimensions)
-            )
-//        }
+                                                                          leadingPadding: TableViewCellTokenSet.leadingDotHorizontalPadding)
+            unreadDotLayer.frame.origin = CGPoint(x: leadingDotXOffset, y: leadingDotYOffset)
+        }
 
         if let customView = customView {
             let customViewDimensions = tokenSet[.customViewDimensions].float
             let customViewYOffset = ceil((contentView.frame.height - customViewDimensions) / 2)
             let customViewXOffset = TableViewCell.customViewLeadingOffset(isInSelectionMode: isInSelectionMode,
-                                                                          leadingPadding: tokenSet[.paddingLeading].float,
-                                                                          tokenSet: tokenSet)
+                                                                          leadingPadding: TableViewCellTokenSet.paddingLeading)
             customView.frame = CGRect(
                 origin: CGPoint(x: customViewXOffset, y: customViewYOffset),
                 size: CGSize(width: customViewDimensions, height: customViewDimensions)
@@ -1742,7 +1745,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         subtitleLineBreakMode = .byTruncatingTail
         footerLineBreakMode = .byTruncatingTail
 
-        hasLeadingDot = false
+        isUnreadDotVisible = false
         titleLeadingAccessoryView = nil
         titleTrailingAccessoryView = nil
         subtitleLeadingAccessoryView = nil
@@ -1984,6 +1987,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
 
     private func updateSelectionImageColor() {
         selectionImageView.tintColor = UIColor(dynamicColor: isSelected ? tokenSet[.mainBrandColor].dynamicColor : tokenSet[.selectionIndicatorOffColor].dynamicColor)
+        unreadDotLayer.backgroundColor = UIColor(dynamicColor: tokenSet[.mainBrandColor].dynamicColor).cgColor
     }
 
     private func updateSeparator(_ separator: Separator, with type: SeparatorType) {
