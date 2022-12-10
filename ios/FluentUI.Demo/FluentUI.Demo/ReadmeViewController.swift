@@ -34,10 +34,15 @@ class ReadmeViewController: UIViewController {
             readmeLabel.text = readmeString
         }
 
-        setupConstraints()
-
         let popoverHeight = readmeLabel.frame.height + Constants.topPadding
         preferredContentSize = CGSize(width: Constants.popoverWidth, height: popoverHeight)
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        view.addSubview(readmeLabel)
+        setupConstraints()
     }
 
     init(readmeString: String?) {
@@ -54,8 +59,6 @@ class ReadmeViewController: UIViewController {
     }
 
     private func setupConstraints() {
-        view.addSubview(readmeLabel)
-
         NSLayoutConstraint.activate([
             readmeLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: Constants.topPadding),
             readmeLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.leadingAndTrailingPadding),
