@@ -104,8 +104,8 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                 return .dynamicColor {
                     switch style() {
                     case .accent, .danger:
-                        return theme.aliasTokens.colors[.foregroundDisabled1]
-                    case .outline, .subtle, .dangerOutline,.dangerSubtle:
+                        return theme.aliasTokens.colors[.background5]
+                    case .outline, .subtle, .dangerOutline, .dangerSubtle:
                         return DynamicColor(light: ColorValue.clear)
                     }
                 }
