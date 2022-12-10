@@ -374,7 +374,8 @@ class DrawerDemoController: DemoController {
     private var expandButton: Button?
 
     private let hideKeyboardButton: Button = {
-        let button = Button(style: .primaryFilled)
+        let button = Button(style: .accent)
+        button.size = .large
         button.setTitle("Hide keyboard", for: .normal)
         button.setContentCompressionResistancePriority(.required, for: .vertical)
         button.setContentHuggingPriority(.required, for: .vertical)

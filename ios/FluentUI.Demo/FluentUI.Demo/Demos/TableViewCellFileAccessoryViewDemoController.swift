@@ -294,7 +294,8 @@ class TableViewCellFileAccessoryViewDemoController: DemoTableViewController {
     private lazy var minusBottomOverlapButton: UIButton = createPlusMinusButton(plus: false, #selector(decrementBottomActionsOverlap))
 
     private func createPlusMinusButton(plus: Bool, _ selector: Selector) -> UIButton {
-        let button = Button(style: .secondaryOutline)
+        let button = Button(style: .outline)
+        button.size = .medium
         button.image = UIImage(named: plus ? "ic_fluent_add_20_regular" : "ic_fluent_subtract_20_regular")
         button.addTarget(self,
                          action: selector,
