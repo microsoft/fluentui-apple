@@ -12,7 +12,7 @@ public enum ButtonStyle: Int, CaseIterable {
     case accent
     case outline
     case subtle
-    case dangerFilled
+    case danger
     case dangerOutline
     case dangerSubtle
 }
