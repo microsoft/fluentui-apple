@@ -12,9 +12,17 @@ import Combine
 @IBDesignable
 @objc(MSFButton)
 open class Button: UIButton, TokenizedControlInternal {
-    @objc open var style: ButtonStyle = .secondaryOutline {
+    @objc open var style: ButtonStyle = .outline {
         didSet {
             if style != oldValue {
+                update()
+            }
+        }
+    }
+
+    @objc open var size: ButtonSize = .large {
+        didSet {
+            if size != oldValue {
                 update()
             }
         }
@@ -76,22 +84,22 @@ open class Button: UIButton, TokenizedControlInternal {
     }
 
     open override var intrinsicContentSize: CGSize {
-        var size = titleLabel?.systemLayoutSizeFitting(CGSize(width: proposedTitleLabelWidth == 0 ? .greatestFiniteMagnitude : proposedTitleLabelWidth, height: .greatestFiniteMagnitude)) ?? .zero
-        size.width = ceil(size.width + edgeInsets.leading + edgeInsets.trailing)
-        size.height = ceil(max(size.height, ButtonTokenSet.minContainerHeight(style)) + edgeInsets.top + edgeInsets.bottom)
+        var contentSize = titleLabel?.systemLayoutSizeFitting(CGSize(width: proposedTitleLabelWidth == 0 ? .greatestFiniteMagnitude : proposedTitleLabelWidth, height: .greatestFiniteMagnitude)) ?? .zero
+        contentSize.width = ceil(contentSize.width + edgeInsets.leading + edgeInsets.trailing)
+        contentSize.height = ceil(max(contentSize.height, ButtonTokenSet.minContainerHeight(size)) + edgeInsets.top + edgeInsets.bottom)
 
         if let image = image(for: .normal) {
-            size.width += image.size.width
+            contentSize.width += image.size.width
             if #available(iOS 15.0, *) {
-                size.width += ButtonTokenSet.titleImageSpacing(style)
+                contentSize.width += ButtonTokenSet.titleImageSpacing(size)
             }
 
             if titleLabel?.text?.count ?? 0 == 0 {
-                size.width -= ButtonTokenSet.titleImageSpacing(style)
+                contentSize.width -= ButtonTokenSet.titleImageSpacing(size)
             }
         }
 
-        return size
+        return contentSize
     }
 
     open func initialize() {
@@ -106,7 +114,7 @@ open class Button: UIButton, TokenizedControlInternal {
             configuration.contentInsets = edgeInsets
             let titleTransformer = UIConfigurationTextAttributesTransformer { incoming in
                 var outgoing = incoming
-                outgoing.font = UIFont.fluent(self.tokenSet[.titleFont].fontInfo)
+                outgoing.font = UIFont.fluent(self.tokenSet[.titleFont].fontInfo, shouldScale: false)
                 return outgoing
             }
             configuration.titleTextAttributesTransformer = titleTransformer
@@ -127,7 +135,7 @@ open class Button: UIButton, TokenizedControlInternal {
     }
 
     open override func didUpdateFocus(in context: UIFocusUpdateContext, with coordinator: UIFocusAnimationCoordinator) {
-        guard style == .primaryFilled || style == .dangerFilled,
+        guard style == .accent || style == .danger,
               (self == context.nextFocusedView || self == context.previouslyFocusedView) else {
             return
         }
@@ -169,7 +177,7 @@ open class Button: UIButton, TokenizedControlInternal {
         return rect
     }
 
-    @objc public init(style: ButtonStyle = .secondaryOutline) {
+    @objc public init(style: ButtonStyle = .outline) {
         self.style = style
         super.init(frame: .zero)
         initialize()
@@ -203,7 +211,10 @@ open class Button: UIButton, TokenizedControlInternal {
     public typealias TokenSetKeyType = ButtonTokenSet.Tokens
 
     lazy public var tokenSet: ButtonTokenSet = .init(style: { [weak self] in
-        return self?.style ?? .primaryFilled
+        return self?.style ?? .outline
+    },
+                                                     size: { [weak self] in
+        return self?.size ?? .medium
     })
 
     private func updateTitle() {
@@ -221,7 +232,7 @@ open class Button: UIButton, TokenizedControlInternal {
     }
 
     private func updateImage() {
-        let isDisplayingImage = style != .tertiaryOutline && image != nil
+        let isDisplayingImage = image != nil
 
         let normalColor = UIColor(dynamicColor: tokenSet[.foregroundColor].dynamicColor)
         let highlightedColor = UIColor(dynamicColor: tokenSet[.foregroundPressedColor].dynamicColor)
@@ -295,7 +306,7 @@ open class Button: UIButton, TokenizedControlInternal {
     private func adjustCustomContentEdgeInsetsForImage() {
         isAdjustingCustomContentEdgeInsetsForImage = true
 
-        var spacing = ButtonTokenSet.titleImageSpacing(style)
+        var spacing = ButtonTokenSet.titleImageSpacing(size)
 
         if image(for: .normal) == nil {
             spacing = -spacing
@@ -352,9 +363,8 @@ open class Button: UIButton, TokenizedControlInternal {
     }
 
     private func defaultEdgeInsets() -> NSDirectionalEdgeInsets {
-        let horizontalPadding = ButtonTokenSet.horizontalPadding(style)
-        let verticalPadding = ButtonTokenSet.verticalPadding(style)
-        return NSDirectionalEdgeInsets(top: verticalPadding, leading: horizontalPadding, bottom: verticalPadding, trailing: horizontalPadding)
+        let horizontalPadding = ButtonTokenSet.horizontalPadding(size)
+        return NSDirectionalEdgeInsets(top: 0, leading: horizontalPadding, bottom: 0, trailing: horizontalPadding)
     }
 
     private var normalImageTintColor: UIColor?
