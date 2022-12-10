@@ -14,7 +14,7 @@ public class TooltipTokenSet: ControlTokenSet<TooltipTokenSet.Tokens> {
         /// The color of the text within the tooltip.
         case textColor
 
-        /// The  information for the tooltip's shadow.
+        /// The information for the tooltip's shadow.
         case shadowInfo
 
         /// The radius for the corners of the tooltip.
