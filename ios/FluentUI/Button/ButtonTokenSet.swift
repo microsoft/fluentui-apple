@@ -259,16 +259,4 @@ extension ButtonTokenSet {
             return GlobalTokens.spacing(.size40)
         }
     }
-
-    /// The value for the vertical padding between the content of the button and the frame.
-    static func verticalPadding(_ size: ButtonSize) -> CGFloat {
-        switch size {
-        case .large:
-            return GlobalTokens.spacing(.size160)
-        case .medium:
-            return GlobalTokens.spacing(.size100)
-        case .small:
-            return GlobalTokens.spacing(.size60)
-        }
-    }
 }
