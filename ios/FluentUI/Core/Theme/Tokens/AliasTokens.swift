@@ -5,11 +5,13 @@
 
 import SwiftUI
 
-public final class AliasTokens {
+@objc(MSFAliasTokens)
+public final class AliasTokens: NSObject {
 
     // MARK: - BrandColors
 
-    public enum BrandColorsTokens: TokenSetKey {
+    @objc(MSFBrandColorsAliasTokens)
+    public enum BrandColorsTokens: Int, TokenSetKey {
         case primary
         case shade10
         case shade20
@@ -19,6 +21,12 @@ public final class AliasTokens {
         case tint30
         case tint40
     }
+
+    @available(swift, obsoleted: 1.0, message: "This method exists for Objective-C backwards compatibility and is not meant to be invoked from Swift. Please use the `brandColors` property directly.")
+    @objc public func brandColorFrom(token: BrandColorsTokens) -> DynamicColor {
+        return brandColors[token]
+    }
+
     public var brandColors: TokenSet<BrandColorsTokens, DynamicColor> = .init { token in
         switch token {
         case .primary:
@@ -42,7 +50,8 @@ public final class AliasTokens {
 
     // MARK: ForegroundColors
 
-    public enum ForegroundColorsTokens: TokenSetKey {
+    @objc(MSFForegroundColorsTokens)
+    public enum ForegroundColorsTokens: Int, TokenSetKey {
         case neutral1
         case neutral2
         case neutral3
@@ -55,6 +64,12 @@ public final class AliasTokens {
         case brandSelected
         case brandDisabled
     }
+
+    @available(swift, obsoleted: 1.0, message: "This method exists for Objective-C backwards compatibility and is not meant to be invoked from Swift. Please use the `foregroundColors` property directly.")
+    @objc public func foregroundColorsFrom(token: ForegroundColorsTokens) -> DynamicColor {
+        return foregroundColors[token]
+    }
+
     public lazy var foregroundColors: TokenSet<ForegroundColorsTokens, DynamicColor> = .init { [weak self] token in
         guard let strongSelf = self else { preconditionFailure() }
         switch token {
@@ -107,7 +122,8 @@ public final class AliasTokens {
 
     // MARK: BackgroundColors
 
-    public enum BackgroundColorsTokens: TokenSetKey {
+    @objc(MSFBackgroundColorsTokens)
+    public enum BackgroundColorsTokens: Int, TokenSetKey {
         case neutral1
         case neutral2
         case neutral3
@@ -121,6 +137,12 @@ public final class AliasTokens {
         case brandDisabled
         case surfaceQuaternary
     }
+
+    @available(swift, obsoleted: 1.0, message: "This method exists for Objective-C backwards compatibility and is not meant to be invoked from Swift. Please use the `backgroundColors` property directly.")
+    @objc public func backgroundColorsFrom(token: BackgroundColorsTokens) -> DynamicColor {
+        return backgroundColors[token]
+    }
+
     public lazy var backgroundColors: TokenSet<BackgroundColorsTokens, DynamicColor> = .init { [weak self] token in
         guard let strongSelf = self else { preconditionFailure() }
         switch token {
@@ -167,10 +189,17 @@ public final class AliasTokens {
 
     // MARK: StrokeColors
 
-    public enum StrokeColorsTokens: TokenSetKey {
+    @objc(MSFStrokeColorsTokens)
+    public enum StrokeColorsTokens: Int, TokenSetKey {
         case neutral1
         case neutral2
     }
+
+    @available(swift, obsoleted: 1.0, message: "This method exists for Objective-C backwards compatibility and is not meant to be invoked from Swift. Please use the `strokeColors` property directly.")
+    @objc public func strokeColorsFrom(token: StrokeColorsTokens) -> DynamicColor {
+        return strokeColors[token]
+    }
+
     public lazy var strokeColors: TokenSet<StrokeColorsTokens, DynamicColor> = .init { [weak self] token in
         guard let strongSelf = self else { preconditionFailure() }
         switch token {
@@ -191,7 +220,8 @@ public final class AliasTokens {
 
     // MARK: - ShadowColors
 
-    public enum ShadowColorsTokens: TokenSetKey {
+    @objc(MSFShadowColorsTokens)
+    public enum ShadowColorsTokens: Int, TokenSetKey {
         case neutralAmbient
         case neutralKey
         case neutralAmbientLighter
@@ -201,6 +231,12 @@ public final class AliasTokens {
         case brandAmbient
         case brandKey
     }
+
+    @available(swift, obsoleted: 1.0, message: "This method exists for Objective-C backwards compatibility and is not meant to be invoked from Swift. Please use the `shadowColors` property directly.")
+    @objc public func shadowColorsFrom(token: ShadowColorsTokens) -> DynamicColor {
+        return shadowColors[token]
+    }
+
     lazy public var shadowColors: TokenSet<ShadowColorsTokens, DynamicColor> = .init { [weak self] token in
         guard let strongSelf = self else { preconditionFailure() }
         switch token {
@@ -233,7 +269,8 @@ public final class AliasTokens {
 
     // MARK: - Typography
 
-    public enum TypographyTokens: TokenSetKey {
+    @objc(MSFTypographyTokens)
+    public enum TypographyTokens: Int, TokenSetKey {
         case display
         case largeTitle
         case title1
@@ -247,6 +284,12 @@ public final class AliasTokens {
         case caption1
         case caption2
     }
+
+    @available(swift, obsoleted: 1.0, message: "This method exists for Objective-C backwards compatibility and is not meant to be invoked from Swift. Please use the `typography` property directly.")
+    @objc public func typographyFrom(token: TypographyTokens) -> FontInfo {
+        return typography[token]
+    }
+
     lazy public var typography: TokenSet<TypographyTokens, FontInfo> = .init { [weak self] token in
         guard let strongSelf = self else { preconditionFailure() }
         switch token {
@@ -291,7 +334,8 @@ public final class AliasTokens {
 
     // MARK: - Shadow
 
-    public enum ShadowTokens: TokenSetKey {
+    @objc(MSFShadowTokens)
+    public enum ShadowTokens: Int, TokenSetKey {
         case clear
         case shadow02
         case shadow04
@@ -300,6 +344,12 @@ public final class AliasTokens {
         case shadow28
         case shadow64
     }
+
+    @available(swift, obsoleted: 1.0, message: "This method exists for Objective-C backwards compatibility and is not meant to be invoked from Swift. Please use the `shadow` property directly.")
+    @objc public func shadowFrom(token: ShadowTokens) -> ShadowInfo {
+        return shadow[token]
+    }
+
     lazy public var shadow: TokenSet<ShadowTokens, ShadowInfo> = .init { [weak self] token in
         guard let strongSelf = self else { preconditionFailure() }
         switch token {
@@ -371,13 +421,20 @@ public final class AliasTokens {
 
     // MARK: Elevation
 
-    public enum ElevationTokens: TokenSetKey {
+    @objc(MSFElevationTokens)
+    public enum ElevationTokens: Int, TokenSetKey {
         case interactiveElevation1Rest
         case interactiveElevation1Hover
         case interactiveElevation1Pressed
         case interactiveElevation1Selected
         case interactiveElevation1Disabled
     }
+
+    @available(swift, obsoleted: 1.0, message: "This method exists for Objective-C backwards compatibility and is not meant to be invoked from Swift. Please use the `elevation` property directly.")
+    @objc public func elevationFrom(token: ElevationTokens) -> ShadowInfo {
+        return elevation[token]
+    }
+
     lazy public var elevation: TokenSet<ElevationTokens, ShadowInfo> = .init { [weak self] token in
         guard let strongSelf = self else { preconditionFailure() }
         switch token {
@@ -396,5 +453,5 @@ public final class AliasTokens {
 
     // MARK: Initialization
 
-    init() {}
+    override init() {}
 }

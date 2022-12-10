@@ -42,6 +42,17 @@
     [self.container addArrangedSubview:testButton];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    MSFFluentTheme *fluentTheme = [[self view] fluentTheme];
+    MSFAliasTokens *aliasTokens = [fluentTheme aliasTokens];
+    MSFDynamicColor *primaryColor = [aliasTokens brandColorFromToken:MSFBrandColorsAliasTokensPrimary];
+
+    UIColorWell *colorWell = [[UIColorWell alloc] init];
+    [colorWell setSelectedColor:[[UIColor alloc] initWithDynamicColor:primaryColor]];
+
+    [[self container] addArrangedSubview:colorWell];
+}
+
 - (void)buttonPressed:(id)sender {
     MSFLabel *label = [[MSFLabel alloc] initWithStyle:MSFTextStyleHeadline colorStyle:MSFTextColorStyleRegular];
     [label setTextAlignment:NSTextAlignmentCenter];
