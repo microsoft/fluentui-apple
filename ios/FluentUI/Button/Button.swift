@@ -56,7 +56,7 @@ open class Button: UIButton, TokenizedControlInternal {
 
     open lazy var edgeInsets: NSDirectionalEdgeInsets = defaultEdgeInsets() {
         didSet {
-            isUsingCustomContentEdgeInsets = true
+            isUsingCustomContentEdgeInsets = edgeInsets != defaultEdgeInsets()
 
             updateProposedTitleLabelWidth()
 
