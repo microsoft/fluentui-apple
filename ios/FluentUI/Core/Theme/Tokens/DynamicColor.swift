@@ -86,28 +86,28 @@ public class DynamicColor: NSObject {
     }
 
     /// The default color for a light context. Required.
-    var light: ColorValue
+    let light: ColorValue
 
     /// The override color for a light, high contrast context. Optional.
-    var lightHighContrast: ColorValue?
+    let lightHighContrast: ColorValue?
 
     /// The override color for a light, elevated context. Optional.
-    var lightElevated: ColorValue?
+    let lightElevated: ColorValue?
 
     /// The override color for a light, elevated, high contrast context. Optional.
-    var lightElevatedHighContrast: ColorValue?
+    let lightElevatedHighContrast: ColorValue?
 
     /// The override color for a dark context. Optional.
-    var dark: ColorValue?
+    let dark: ColorValue?
 
     /// The override color for a dark, high contrast context. Optional.
-    var darkHighContrast: ColorValue?
+    let darkHighContrast: ColorValue?
 
     /// The override color for a dark, elevated context. Optional.
-    var darkElevated: ColorValue?
+    let darkElevated: ColorValue?
 
     /// The override color for a dark, elevated, high contrast context. Optional.
-    var darkElevatedHighContrast: ColorValue?
+    let darkElevatedHighContrast: ColorValue?
 
     // MARK: - Internal functions
 
