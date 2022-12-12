@@ -12,66 +12,60 @@ class ButtonDemoController: DemoController {
 
         container.alignment = .leading
 
-//        for style in ButtonStyle.allCases {
-//            for size in ButtonSize.allCases {
-//                addTitle(text: style.description + ", " + size.description)
-//
-//                let button = createButton(with: style,
-//                                          size: size,
-//                                          title: "Button")
-//                let disabledButton = createButton(with: style,
-//                                                  size: size,
-//                                                  title: "Button",
-//                                                  isEnabled: false)
-//                let titleButtonStack = UIStackView(arrangedSubviews: [button, disabledButton])
-//                titleButtonStack.spacing = 20
-//                titleButtonStack.distribution = .fillProportionally
-//                container.addArrangedSubview(titleButtonStack)
-//
-//                if let image = size.image {
-//                    let iconButton = createButton(with: style,
-//                                                  size: size,
-//                                                  title: "Button",
-//                                                  image: image)
-//                    let disabledIconButton = createButton(with: style,
-//                                                          size: size,
-//                                                          title: "Button",
-//                                                          image: image,
-//                                                          isEnabled: false)
-//                    let titleImageButtonStack = UIStackView(arrangedSubviews: [iconButton, disabledIconButton])
-//                    titleImageButtonStack.spacing = 20
-//                    titleImageButtonStack.distribution = .fillProportionally
-//                    container.addArrangedSubview(titleImageButtonStack)
-//
-//                    let iconOnlyButton = createButton(with: style,
-//                                                      size: size,
-//                                                      image: image)
-//                    let disabledIconOnlyButton = createButton(with: style,
-//                                                              size: size,
-//                                                              image: image,
-//                                                              isEnabled: false)
-//                    let imageButtonStack = UIStackView(arrangedSubviews: [iconOnlyButton, disabledIconOnlyButton])
-//                    imageButtonStack.spacing = 20
-//                    imageButtonStack.distribution = .fillProportionally
-//                    container.addArrangedSubview(imageButtonStack)
-//                }
-//            }
-//        }
+        for style in ButtonStyle.allCases {
+            for size in ButtonSize.allCases {
+                addTitle(text: style.description + ", " + size.description)
 
-//        addTitle(text: "With multi-line title")
-//        let button = createButton(with: .accent,
-//                                  title: "Longer Text Button")
-//        let iconButton = createButton(with: .accent,
-//                                      title: "Longer Text Button",
-//                                      image: ButtonSize.large.image)
-//        addRow(items: [button])
-//        addRow(items: [iconButton])
+                let button = createButton(with: style,
+                                          size: size,
+                                          title: "Text")
+                let disabledButton = createButton(with: style,
+                                                  size: size,
+                                                  title: "Text",
+                                                  isEnabled: false)
+                let titleButtonStack = UIStackView(arrangedSubviews: [button, disabledButton])
+                titleButtonStack.spacing = 20
+                titleButtonStack.distribution = .fillProportionally
+                container.addArrangedSubview(titleButtonStack)
 
+                if let image = size.image {
+                    let iconButton = createButton(with: style,
+                                                  size: size,
+                                                  title: "Text",
+                                                  image: image)
+                    let disabledIconButton = createButton(with: style,
+                                                          size: size,
+                                                          title: "Text",
+                                                          image: image,
+                                                          isEnabled: false)
+                    let titleImageButtonStack = UIStackView(arrangedSubviews: [iconButton, disabledIconButton])
+                    titleImageButtonStack.spacing = 20
+                    titleImageButtonStack.distribution = .fillProportionally
+                    container.addArrangedSubview(titleImageButtonStack)
+
+                    let iconOnlyButton = createButton(with: style,
+                                                      size: size,
+                                                      image: image)
+                    let disabledIconOnlyButton = createButton(with: style,
+                                                              size: size,
+                                                              image: image,
+                                                              isEnabled: false)
+                    let imageButtonStack = UIStackView(arrangedSubviews: [iconOnlyButton, disabledIconOnlyButton])
+                    imageButtonStack.spacing = 20
+                    imageButtonStack.distribution = .fillProportionally
+                    container.addArrangedSubview(imageButtonStack)
+                }
+            }
+        }
+
+        addTitle(text: "With multi-line title")
         let button = createButton(with: .accent,
-                                  size: .medium,
-                                  title: "Text",
-                                  image: ButtonSize.medium.image)
+                                  title: "Longer Text Button")
+        let iconButton = createButton(with: .accent,
+                                      title: "Longer Text Button",
+                                      image: ButtonSize.large.image)
         addRow(items: [button])
+        addRow(items: [iconButton])
 
         container.addArrangedSubview(UIView())
     }
