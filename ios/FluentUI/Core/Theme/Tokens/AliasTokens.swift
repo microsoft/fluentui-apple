@@ -22,8 +22,9 @@ public final class AliasTokens: NSObject {
         case tint40
     }
 
-    @available(swift, obsoleted: 1.0, message: "This method exists for Objective-C backwards compatibility and is not meant to be invoked from Swift. Please use the `brandColors` property directly.")
-    @objc public func brandColorFrom(token: BrandColorsTokens) -> DynamicColor {
+    @available(swift, obsoleted: 1.0, message: "This method exists for Objective-C backwards compatibility and should not be invoked from Swift. Please use the `brandColors` property directly.")
+    @objc(brandColorFromToken:)
+    public func brandColor(_ token: BrandColorsTokens) -> DynamicColor {
         return brandColors[token]
     }
 
@@ -65,8 +66,9 @@ public final class AliasTokens: NSObject {
         case brandDisabled
     }
 
-    @available(swift, obsoleted: 1.0, message: "This method exists for Objective-C backwards compatibility and is not meant to be invoked from Swift. Please use the `foregroundColors` property directly.")
-    @objc public func foregroundColorsFrom(token: ForegroundColorsTokens) -> DynamicColor {
+    @available(swift, obsoleted: 1.0, message: "This method exists for Objective-C backwards compatibility and should not be invoked from Swift. Please use the `foregroundColors` property directly.")
+    @objc(foregroundColorFromToken:)
+    public func foregroundColor(_ token: ForegroundColorsTokens) -> DynamicColor {
         return foregroundColors[token]
     }
 
@@ -138,8 +140,9 @@ public final class AliasTokens: NSObject {
         case surfaceQuaternary
     }
 
-    @available(swift, obsoleted: 1.0, message: "This method exists for Objective-C backwards compatibility and is not meant to be invoked from Swift. Please use the `backgroundColors` property directly.")
-    @objc public func backgroundColorsFrom(token: BackgroundColorsTokens) -> DynamicColor {
+    @available(swift, obsoleted: 1.0, message: "This method exists for Objective-C backwards compatibility and should not be invoked from Swift. Please use the `backgroundColors` property directly.")
+    @objc(backgroundColorFromToken:)
+    public func backgroundColor(_ token: BackgroundColorsTokens) -> DynamicColor {
         return backgroundColors[token]
     }
 
@@ -195,8 +198,9 @@ public final class AliasTokens: NSObject {
         case neutral2
     }
 
-    @available(swift, obsoleted: 1.0, message: "This method exists for Objective-C backwards compatibility and is not meant to be invoked from Swift. Please use the `strokeColors` property directly.")
-    @objc public func strokeColorsFrom(token: StrokeColorsTokens) -> DynamicColor {
+    @available(swift, obsoleted: 1.0, message: "This method exists for Objective-C backwards compatibility and should not be invoked from Swift. Please use the `strokeColors` property directly.")
+    @objc(strokeColorFromToken:)
+    public func strokeColor(_ token: StrokeColorsTokens) -> DynamicColor {
         return strokeColors[token]
     }
 
@@ -232,8 +236,9 @@ public final class AliasTokens: NSObject {
         case brandKey
     }
 
-    @available(swift, obsoleted: 1.0, message: "This method exists for Objective-C backwards compatibility and is not meant to be invoked from Swift. Please use the `shadowColors` property directly.")
-    @objc public func shadowColorsFrom(token: ShadowColorsTokens) -> DynamicColor {
+    @available(swift, obsoleted: 1.0, message: "This method exists for Objective-C backwards compatibility and should not be invoked from Swift. Please use the `shadowColors` property directly.")
+    @objc(shadowColorFromToken:)
+    public func shadowColor(_ token: ShadowColorsTokens) -> DynamicColor {
         return shadowColors[token]
     }
 
@@ -285,8 +290,9 @@ public final class AliasTokens: NSObject {
         case caption2
     }
 
-    @available(swift, obsoleted: 1.0, message: "This method exists for Objective-C backwards compatibility and is not meant to be invoked from Swift. Please use the `typography` property directly.")
-    @objc public func typographyFrom(token: TypographyTokens) -> FontInfo {
+    @available(swift, obsoleted: 1.0, message: "This method exists for Objective-C backwards compatibility and should not be invoked from Swift. Please use the `typography` property directly.")
+    @objc(typographyFromToken:)
+    public func typography(_ token: TypographyTokens) -> FontInfo {
         return typography[token]
     }
 
@@ -345,8 +351,9 @@ public final class AliasTokens: NSObject {
         case shadow64
     }
 
-    @available(swift, obsoleted: 1.0, message: "This method exists for Objective-C backwards compatibility and is not meant to be invoked from Swift. Please use the `shadow` property directly.")
-    @objc public func shadowFrom(token: ShadowTokens) -> ShadowInfo {
+    @available(swift, obsoleted: 1.0, message: "This method exists for Objective-C backwards compatibility and should not be invoked from Swift. Please use the `shadow` property directly.")
+    @objc(shadowFromToken:)
+    public func shadow(_ token: ShadowTokens) -> ShadowInfo {
         return shadow[token]
     }
 
@@ -430,8 +437,9 @@ public final class AliasTokens: NSObject {
         case interactiveElevation1Disabled
     }
 
-    @available(swift, obsoleted: 1.0, message: "This method exists for Objective-C backwards compatibility and is not meant to be invoked from Swift. Please use the `elevation` property directly.")
-    @objc public func elevationFrom(token: ElevationTokens) -> ShadowInfo {
+    @available(swift, obsoleted: 1.0, message: "This method exists for Objective-C backwards compatibility and should not be invoked from Swift. Please use the `elevation` property directly.")
+    @objc(elevationFromToken:)
+    public func elevation(_ token: ElevationTokens) -> ShadowInfo {
         return elevation[token]
     }
 
