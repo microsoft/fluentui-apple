@@ -45,13 +45,13 @@ open class Tooltip: NSObject, TokenizedControlInternal {
         }
 
         tooltipViewController = TooltipViewController(anchorView: anchorView,
-                                                           message: message,
-                                                           title: title,
-                                                           textAlignment: textAlignment,
-                                                           preferredArrowDirection: preferredArrowDirection,
-                                                           offset: offset,
-                                                           arrowMargin: tokenSet[.backgroundCornerRadius].float,
-                                                           tokenSet: tokenSet)
+                                                      message: message,
+                                                      title: title,
+                                                      textAlignment: textAlignment,
+                                                      preferredArrowDirection: preferredArrowDirection,
+                                                      offset: offset,
+                                                      arrowMargin: tokenSet[.backgroundCornerRadius].float,
+                                                      tokenSet: tokenSet)
         self.anchorView = anchorView
         guard let tooltipViewController = tooltipViewController,
               let tooltipView = tooltipViewController.view else {
@@ -240,14 +240,15 @@ open class Tooltip: NSObject, TokenizedControlInternal {
     public var tokenSet: TooltipTokenSet = .init()
     var tokenSetSink: AnyCancellable?
     var fluentTheme: FluentTheme {
-        guard let tooltipView = tooltipViewController?.view else {
+        // Use anchor view to get theme since tooltip view will most likely be nil
+        guard let anchorView = anchorView else {
             return FluentTheme.shared
         }
-        return tooltipView.fluentTheme
+        return anchorView.fluentTheme
     }
 
     @objc private func themeDidChange(_ notification: Notification) {
-        guard let themeView = notification.object as? UIView, let tooltipView = tooltipViewController?.view, tooltipView.isDescendant(of: themeView) else {
+        guard let themeView = notification.object as? UIView, let anchorView = anchorView, anchorView.isDescendant(of: themeView) else {
             return
         }
         tokenSet.update(fluentTheme)
@@ -274,7 +275,7 @@ open class Tooltip: NSObject, TokenizedControlInternal {
     }
 
     private func updateAppearance() {
-        tooltipViewController?.updateAppearance(tokenSet: tokenSet)
+        tooltipViewController?.updateAppearance()
     }
 
     private struct Constants {
@@ -283,7 +284,7 @@ open class Tooltip: NSObject, TokenizedControlInternal {
     }
 
     private var tooltipViewController: TooltipViewController?
-    private var anchorView: UIView?
+    private weak var anchorView: UIView?
     private var onTap: (() -> Void)?
     private var gestureView: UIView?
     private var dismissMode: DismissMode = .tapAnywhere

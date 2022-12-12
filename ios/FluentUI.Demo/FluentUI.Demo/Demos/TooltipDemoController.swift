@@ -17,7 +17,7 @@ class TooltipDemoController: DemoController {
         titleView.setup(title: title ?? "", interactivePart: .title)
         titleView.delegate = self
         navigationItem.titleView = titleView
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Show on title", style: .plain, target: self, action: #selector(showTitleTooltip))
+        navigationItem.rightBarButtonItems?.append(UIBarButtonItem(title: "Show on title", style: .plain, target: self, action: #selector(showTitleTooltip)))
 
         container.addArrangedSubview(createButton(title: "Show single-line tooltip below", action: #selector(showSingleTooltipBelow)))
         container.addArrangedSubview(createButton(title: "Show double-line tooltip above", action: #selector(showDoubleTooltipAbove)))
@@ -148,5 +148,55 @@ extension TooltipDemoController: TwoLineTitleViewDelegate {
         let alert = UIAlertController(title: nil, message: "The title button was pressed", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default))
         present(alert, animated: true)
+    }
+}
+
+// MARK: - TooltipDemoController: DemoAppearanceDelegate
+
+extension TooltipDemoController: DemoAppearanceDelegate {
+    func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
+        guard let fluentTheme = self.view.window?.fluentTheme else {
+            return
+        }
+
+        fluentTheme.register(tokenSetType: TooltipTokenSet.self,
+                             tokenSet: isOverrideEnabled ? themeWideOverrideTooltipTokens : nil)
+    }
+
+    func perControlOverrideDidChange(isOverrideEnabled: Bool) {
+        Tooltip.shared.tokenSet.replaceAllOverrides(with: isOverrideEnabled ? perControlOverrideTooltipTokens : nil)
+    }
+
+    func isThemeWideOverrideApplied() -> Bool {
+        return self.view.window?.fluentTheme.tokens(for: TooltipTokenSet.self) != nil
+    }
+
+    // MARK: - Custom tokens
+    private var themeWideOverrideTooltipTokens: [TooltipTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .tooltipColor: .dynamicColor {
+                // "Berry"
+                return DynamicColor(light: GlobalTokens.sharedColors(.berry, .shade30),
+                                    dark: GlobalTokens.sharedColors(.berry, .tint20))
+            }
+        ]
+    }
+
+    private var perControlOverrideTooltipTokens: [TooltipTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .tooltipColor: .dynamicColor {
+                // "Brass"
+                return DynamicColor(light: GlobalTokens.sharedColors(.brass, .tint40),
+                                    dark: GlobalTokens.sharedColors(.brass, .shade30))
+            },
+            .textColor: .dynamicColor {
+                // "Forest"
+                return DynamicColor(light: GlobalTokens.sharedColors(.forest, .shade30),
+                                    dark: GlobalTokens.sharedColors(.forest, .tint40))
+            },
+            .backgroundCornerRadius: .float {
+                return 0
+            }
+        ]
     }
 }

@@ -24,11 +24,12 @@ class TooltipViewController: UIViewController {
                                   offset: offset,
                                   arrowMargin: arrowMargin,
                                   tokenSet: tokenSet)
+        self.tokenSet = tokenSet
 
         super.init(nibName: nil, bundle: nil)
 
         view.addSubview(tooltipView)
-        updateAppearance(tokenSet: tokenSet)
+        updateAppearance()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -55,7 +56,7 @@ class TooltipViewController: UIViewController {
         }
     }
 
-    func updateAppearance(tokenSet: TooltipTokenSet) {
+    func updateAppearance() {
         tooltipView.updateAppearance(tokenSet: tokenSet)
         view.frame = tooltipView.tooltipRect
     }
@@ -66,4 +67,5 @@ class TooltipViewController: UIViewController {
     }
 
     private let tooltipView: TooltipView
+    private let tokenSet: TooltipTokenSet
 }
