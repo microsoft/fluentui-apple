@@ -140,7 +140,7 @@ open class Button: UIButton, TokenizedControlInternal {
             return
         }
 
-        updateBackgroundColor()
+        updateBackground()
     }
 
     open override func didMoveToWindow() {
@@ -282,7 +282,7 @@ open class Button: UIButton, TokenizedControlInternal {
     private func update() {
         updateTitle()
         updateImage()
-        updateBackgroundColor()
+        updateBackground()
         updateBorder()
 
         if !isUsingCustomContentEdgeInsets {
@@ -331,7 +331,7 @@ open class Button: UIButton, TokenizedControlInternal {
         isAdjustingCustomContentEdgeInsetsForImage = false
     }
 
-    private func updateBackgroundColor() {
+    private func updateBackground() {
         let backgroundColor: DynamicColor
 
         if !isEnabled {
@@ -345,6 +345,7 @@ open class Button: UIButton, TokenizedControlInternal {
         }
 
         self.backgroundColor = UIColor(dynamicColor: backgroundColor)
+        layer.cornerRadius = tokenSet[.cornerRadius].float
     }
 
     private func updateBorder() {
