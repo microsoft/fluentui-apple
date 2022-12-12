@@ -20,7 +20,7 @@ open class Button: UIButton, TokenizedControlInternal {
         }
     }
 
-    @objc open var size: ButtonSize = .large {
+    @objc open var size: ButtonSize = .medium {
         didSet {
             if size != oldValue {
                 update()
