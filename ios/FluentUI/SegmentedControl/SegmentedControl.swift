@@ -412,9 +412,9 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
     lazy public var tokenSet: SegmentedControlTokenSet = .init(style: { [weak self] in
         return self?.style ?? .primaryPill
     })
-    var tokenSetSink: AnyCancellable?
+    private var tokenSetSink: AnyCancellable?
 
-    var selectionChangeAnimationDuration: TimeInterval { return 0.2 }
+    private let selectionChangeAnimationDuration: TimeInterval = 0.2
 
     private func updateButtons() {
         let contentColor = isEnabled ? UIColor(dynamicColor: tokenSet[.restLabelColor].dynamicColor) : UIColor(dynamicColor: tokenSet[.disabledLabelColor].dynamicColor)
