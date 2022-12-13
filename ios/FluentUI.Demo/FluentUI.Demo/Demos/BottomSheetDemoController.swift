@@ -103,7 +103,6 @@ class BottomSheetDemoController: UIViewController {
         }))
 
         dismissButton.style = .accent
-        dismissButton.size = .large
         dismissButton.translatesAutoresizingMaskIntoConstraints = false
         sheetContentView.addSubview(dismissButton)
 
