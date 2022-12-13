@@ -195,9 +195,9 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
 
         // Update appearance whenever overrideTokens changes.
         tokenSetSink = tokenSet.sinkChanges { [weak self] in
-            self?.updateColors()
-            self?.updateButtons()
+            self?.updateTokenizedValues()
         }
+        updateTokenizedValues()
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -557,12 +557,10 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
     }
 
     @objc private func themeDidChange(_ notification: Notification) {
-        guard let window = window, window.isEqual(notification.object) else {
+        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
             return
         }
-        tokenSet.update(window.fluentTheme)
-        updateColors()
-        updateButtons()
+        tokenSet.update(fluentTheme)
     }
 
     private func layoutSelectionView() {
@@ -573,6 +571,11 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
 
         selectionView.frame = button.frame
         selectionView.layer.cornerRadius = Constants.pillButtonCornerRadius
+    }
+
+    private func updateTokenizedValues() {
+        updateColors()
+        updateButtons()
     }
 
     private func updateAccessibilityHints() {
