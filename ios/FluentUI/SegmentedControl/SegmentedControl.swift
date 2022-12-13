@@ -576,6 +576,8 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
     private func updateTokenizedValues() {
         updateColors()
         updateButtons()
+        layoutSelectionView()
+        setNeedsLayout()
     }
 
     private func updateAccessibilityHints() {
