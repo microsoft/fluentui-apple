@@ -85,7 +85,7 @@
     // Add alias-colored label too
     MSFFluentTheme *fluentTheme = [[self view] fluentTheme];
     MSFAliasTokens *aliasTokens = [fluentTheme aliasTokens];
-    MSFDynamicColor *primaryColor = [aliasTokens brandColorFromToken:MSFBrandColorsAliasTokensPrimary];
+    MSFDynamicColor *primaryColor = [aliasTokens brandColorForToken:MSFBrandColorsAliasTokensPrimary];
     [self addLabelWithText:@"Test label with alias color"
                  textColor:[[UIColor alloc] initWithDynamicColor:primaryColor]];
 }

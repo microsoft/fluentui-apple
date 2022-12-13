@@ -23,7 +23,7 @@ public final class AliasTokens: NSObject {
     }
 
     @available(swift, obsoleted: 1.0, message: "This method exists for Objective-C backwards compatibility and should not be invoked from Swift. Please use the `brandColors` property directly.")
-    @objc(brandColorFromToken:)
+    @objc(brandColorForToken:)
     public func brandColor(_ token: BrandColorsTokens) -> DynamicColor {
         return brandColors[token]
     }
@@ -51,7 +51,7 @@ public final class AliasTokens: NSObject {
 
     // MARK: ForegroundColors
 
-    @objc(MSFForegroundColorsTokens)
+    @objc(MSFForegroundColorsAliasTokens)
     public enum ForegroundColorsTokens: Int, TokenSetKey {
         case neutral1
         case neutral2
@@ -67,7 +67,7 @@ public final class AliasTokens: NSObject {
     }
 
     @available(swift, obsoleted: 1.0, message: "This method exists for Objective-C backwards compatibility and should not be invoked from Swift. Please use the `foregroundColors` property directly.")
-    @objc(foregroundColorFromToken:)
+    @objc(foregroundColorForToken:)
     public func foregroundColor(_ token: ForegroundColorsTokens) -> DynamicColor {
         return foregroundColors[token]
     }
@@ -124,7 +124,7 @@ public final class AliasTokens: NSObject {
 
     // MARK: BackgroundColors
 
-    @objc(MSFBackgroundColorsTokens)
+    @objc(MSFBackgroundColorsAliasTokens)
     public enum BackgroundColorsTokens: Int, TokenSetKey {
         case neutral1
         case neutral2
@@ -141,7 +141,7 @@ public final class AliasTokens: NSObject {
     }
 
     @available(swift, obsoleted: 1.0, message: "This method exists for Objective-C backwards compatibility and should not be invoked from Swift. Please use the `backgroundColors` property directly.")
-    @objc(backgroundColorFromToken:)
+    @objc(backgroundColorForToken:)
     public func backgroundColor(_ token: BackgroundColorsTokens) -> DynamicColor {
         return backgroundColors[token]
     }
@@ -192,14 +192,14 @@ public final class AliasTokens: NSObject {
 
     // MARK: StrokeColors
 
-    @objc(MSFStrokeColorsTokens)
+    @objc(MSFStrokeColorsAliasTokens)
     public enum StrokeColorsTokens: Int, TokenSetKey {
         case neutral1
         case neutral2
     }
 
     @available(swift, obsoleted: 1.0, message: "This method exists for Objective-C backwards compatibility and should not be invoked from Swift. Please use the `strokeColors` property directly.")
-    @objc(strokeColorFromToken:)
+    @objc(strokeColorForToken:)
     public func strokeColor(_ token: StrokeColorsTokens) -> DynamicColor {
         return strokeColors[token]
     }
@@ -224,7 +224,7 @@ public final class AliasTokens: NSObject {
 
     // MARK: - ShadowColors
 
-    @objc(MSFShadowColorsTokens)
+    @objc(MSFShadowColorsAliasTokens)
     public enum ShadowColorsTokens: Int, TokenSetKey {
         case neutralAmbient
         case neutralKey
@@ -237,7 +237,7 @@ public final class AliasTokens: NSObject {
     }
 
     @available(swift, obsoleted: 1.0, message: "This method exists for Objective-C backwards compatibility and should not be invoked from Swift. Please use the `shadowColors` property directly.")
-    @objc(shadowColorFromToken:)
+    @objc(shadowColorForToken:)
     public func shadowColor(_ token: ShadowColorsTokens) -> DynamicColor {
         return shadowColors[token]
     }
@@ -274,7 +274,7 @@ public final class AliasTokens: NSObject {
 
     // MARK: - Typography
 
-    @objc(MSFTypographyTokens)
+    @objc(MSFTypographyAliasTokens)
     public enum TypographyTokens: Int, TokenSetKey {
         case display
         case largeTitle
@@ -291,7 +291,7 @@ public final class AliasTokens: NSObject {
     }
 
     @available(swift, obsoleted: 1.0, message: "This method exists for Objective-C backwards compatibility and should not be invoked from Swift. Please use the `typography` property directly.")
-    @objc(typographyFromToken:)
+    @objc(typographyForToken:)
     public func typography(_ token: TypographyTokens) -> FontInfo {
         return typography[token]
     }
@@ -340,7 +340,7 @@ public final class AliasTokens: NSObject {
 
     // MARK: - Shadow
 
-    @objc(MSFShadowTokens)
+    @objc(MSFShadowAliasTokens)
     public enum ShadowTokens: Int, TokenSetKey {
         case clear
         case shadow02
@@ -352,7 +352,7 @@ public final class AliasTokens: NSObject {
     }
 
     @available(swift, obsoleted: 1.0, message: "This method exists for Objective-C backwards compatibility and should not be invoked from Swift. Please use the `shadow` property directly.")
-    @objc(shadowFromToken:)
+    @objc(shadowForToken:)
     public func shadow(_ token: ShadowTokens) -> ShadowInfo {
         return shadow[token]
     }
@@ -428,7 +428,7 @@ public final class AliasTokens: NSObject {
 
     // MARK: Elevation
 
-    @objc(MSFElevationTokens)
+    @objc(MSFElevationAliasTokens)
     public enum ElevationTokens: Int, TokenSetKey {
         case interactiveElevation1Rest
         case interactiveElevation1Hover
@@ -438,7 +438,7 @@ public final class AliasTokens: NSObject {
     }
 
     @available(swift, obsoleted: 1.0, message: "This method exists for Objective-C backwards compatibility and should not be invoked from Swift. Please use the `elevation` property directly.")
-    @objc(elevationFromToken:)
+    @objc(elevationForToken:)
     public func elevation(_ token: ElevationTokens) -> ShadowInfo {
         return elevation[token]
     }
