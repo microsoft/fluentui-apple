@@ -114,7 +114,7 @@ open class Button: UIButton, TokenizedControlInternal {
             configuration.contentInsets = edgeInsets
             let titleTransformer = UIConfigurationTextAttributesTransformer { incoming in
                 var outgoing = incoming
-                outgoing.font = UIFont.fluent(self.tokenSet[.titleFont].fontInfo, shouldScale: false)
+                outgoing.font = UIFont.fluent(self.tokenSet[.titleFont].fontInfo)
                 return outgoing
             }
             configuration.titleTextAttributesTransformer = titleTransformer
