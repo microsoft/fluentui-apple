@@ -19,7 +19,7 @@
 
 - (void)loadView {
     [super loadView];
-    MSFButton *demoButton = [[MSFButton alloc] initWithStyle:MSFButtonStylePrimaryOutline];
+    MSFButton *demoButton = [[MSFButton alloc] initWithStyle:MSFButtonStyleOutline];
     [demoButton setTitle:@"Show PopupMenu" forState:UIControlStateNormal];
     [demoButton addTarget:self action:@selector(showPopupMenu) forControlEvents:UIControlEventTouchUpInside];
 

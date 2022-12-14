@@ -102,7 +102,7 @@ class BottomSheetDemoController: UIViewController {
             secondarySheetController.setIsHidden(true, animated: true)
         }))
 
-        dismissButton.style = .primaryFilled
+        dismissButton.style = .accent
         dismissButton.translatesAutoresizingMaskIntoConstraints = false
         sheetContentView.addSubview(dismissButton)
 
