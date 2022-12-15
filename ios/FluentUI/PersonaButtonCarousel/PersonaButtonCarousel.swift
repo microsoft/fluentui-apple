@@ -91,7 +91,7 @@ public struct PersonaButtonCarousel: View, TokenizedControlView {
     /// Creates a new `PersonaButtonCarousel` instance.
     /// - Parameters:
     ///   - size: The MSFPersonaButtonSize value used by the `PersonaButtonCarousel`.
-    public init(size: MSFPersonaButtonSize, isGroupStyle: Bool) {
+    public init(size: MSFPersonaButtonSize, isGroupStyle: Bool = false) {
         let state = MSFPersonaButtonCarouselStateImpl(size: size, isGroupStyle: isGroupStyle)
         self.state = state
         self.tokenSet = PersonaButtonCarouselTokenSet()
@@ -127,7 +127,7 @@ class MSFPersonaButtonCarouselStateImpl: ControlState, MSFPersonaButtonCarouselS
     @Published var onTapAction: ((_ personaButtonState: MSFPersonaCarouselButtonState, _ index: Int) -> Void)?
     @Published var buttons: [MSFPersonaCarouselButtonStateImpl] = []
 
-    init(size: MSFPersonaButtonSize, isGroupStyle: Bool) {
+    init(size: MSFPersonaButtonSize, isGroupStyle: Bool = false) {
         self.isGroupStyle = isGroupStyle
         self.buttonSize = size
 

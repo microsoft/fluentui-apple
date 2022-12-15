@@ -140,7 +140,7 @@ class MSFPersonaButtonStateImpl: ControlState, MSFPersonaButtonState {
     /// Creates and initializes a `MSFPersonaButtonStateImpl`
     /// - Parameters:
     ///   - size: The size of the persona button
-    init(size: MSFPersonaButtonSize, isGroupStyle: Bool) {
+    init(size: MSFPersonaButtonSize, isGroupStyle: Bool = false) {
         self.buttonSize = size
         self.avatarState = MSFAvatarStateImpl(style: isGroupStyle ? .group : .default,
                                               size: size.avatarSize)
