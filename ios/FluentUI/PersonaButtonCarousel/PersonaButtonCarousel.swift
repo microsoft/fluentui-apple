@@ -10,6 +10,9 @@ import SwiftUI
     /// Determines whether the carousel will display small or large avatars.
     var buttonSize: MSFPersonaButtonSize { get }
 
+    /// Determines whether the carousel has group style avatars or regular avatars
+    var isGroupStyle: Bool { get set }
+
     /// Handles the event of tapping one of the `PersonaButton` items in a `PersonaButtonCarousel`.
     var onTapAction: ((_ personaButtonState: MSFPersonaCarouselButtonState, _ index: Int) -> Void)? { get set }
 
@@ -88,8 +91,8 @@ public struct PersonaButtonCarousel: View, TokenizedControlView {
     /// Creates a new `PersonaButtonCarousel` instance.
     /// - Parameters:
     ///   - size: The MSFPersonaButtonSize value used by the `PersonaButtonCarousel`.
-    public init(size: MSFPersonaButtonSize) {
-        let state = MSFPersonaButtonCarouselStateImpl(size: size)
+    public init(size: MSFPersonaButtonSize, isGroupStyle: Bool) {
+        let state = MSFPersonaButtonCarouselStateImpl(size: size, isGroupStyle: isGroupStyle)
         self.state = state
         self.tokenSet = PersonaButtonCarouselTokenSet()
     }
@@ -118,12 +121,14 @@ public struct PersonaButtonCarousel: View, TokenizedControlView {
 
 /// Properties that make up PersonaButtonCarousel content
 class MSFPersonaButtonCarouselStateImpl: ControlState, MSFPersonaButtonCarouselState {
+    var isGroupStyle: Bool
     let buttonSize: MSFPersonaButtonSize
 
     @Published var onTapAction: ((_ personaButtonState: MSFPersonaCarouselButtonState, _ index: Int) -> Void)?
     @Published var buttons: [MSFPersonaCarouselButtonStateImpl] = []
 
-    init(size: MSFPersonaButtonSize) {
+    init(size: MSFPersonaButtonSize, isGroupStyle: Bool) {
+        self.isGroupStyle = isGroupStyle
         self.buttonSize = size
 
         super.init()
@@ -136,7 +141,7 @@ class MSFPersonaButtonCarouselStateImpl: ControlState, MSFPersonaButtonCarouselS
     }
 
     @discardableResult func add(primaryText: String?, secondaryText: String?, image: UIImage?) -> MSFPersonaCarouselButtonState {
-        let persona = MSFPersonaCarouselButtonStateImpl(size: self.buttonSize)
+        let persona = MSFPersonaCarouselButtonStateImpl(size: self.buttonSize, isGroupStyle: isGroupStyle)
 
         // Set passed-in properties
         persona.primaryText = primaryText

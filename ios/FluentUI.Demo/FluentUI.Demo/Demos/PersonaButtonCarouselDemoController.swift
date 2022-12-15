@@ -33,11 +33,14 @@ class PersonaButtonCarouselDemoController: DemoTableViewController {
         var actionButtons: Bool = false
         var size: MSFPersonaButtonSize = .large
         var carousel: Bool = false
+        var isGroupStyle: Bool = false
     }
     let tableInfo: [TableSectionInfo] = [
         TableSectionInfo(actionButtons: true),
         TableSectionInfo(size: .large, carousel: true),
         TableSectionInfo(size: .small, carousel: true),
+        TableSectionInfo(size: .large, carousel: true, isGroupStyle: true),
+        TableSectionInfo(size: .small, carousel: true, isGroupStyle: true),
         TableSectionInfo(size: .large, carousel: false),
         TableSectionInfo(size: .small, carousel: false)
     ]
@@ -116,15 +119,20 @@ class PersonaButtonCarouselDemoController: DemoTableViewController {
     }
 
     @objc private func handleAppendPersona() {
-        carousels.forEach { (_: MSFPersonaButtonSize, carousel: MSFPersonaButtonCarousel) in
+        for carousel in carousels {
+            let personas = getResolvedPersonas(isGroupStyle: carousel.state.isGroupStyle)
             let random = Int.random(in: 0...personas.count - 1)
             let persona = personas[random]
             add(persona, to: carousel)
         }
     }
 
+    private func getResolvedPersonas(isGroupStyle: Bool) -> [PersonaData] {
+        return isGroupStyle ? groupPersonas : defaultPersonas
+    }
+
     @objc private func handleRemovePersona() {
-        carousels.forEach { (_: MSFPersonaButtonSize, carousel: MSFPersonaButtonCarousel) in
+        for carousel in carousels {
             let state = carousel.state
             let count = state.count
             if count > 0 {
@@ -166,11 +174,14 @@ class PersonaButtonCarouselDemoController: DemoTableViewController {
             cell = tableView.dequeueReusableCell(withIdentifier: PersonaButtonCarouselDemoController.smallCarouselReuseIdentifier, for: indexPath)
         }
 
-        let carousel = MSFPersonaButtonCarousel(size: size)
+        let isGroupStyle = tableInfo[indexPath.section].isGroupStyle
+        let carousel = MSFPersonaButtonCarousel(size: size, isGroupStyle: isGroupStyle)
+        let personas = getResolvedPersonas(isGroupStyle: isGroupStyle)
+
         personas.forEach { persona in
             add(persona, to: carousel)
         }
-        carousels[size] = carousel
+        carousels.append(carousel)
         carousel.state.onTapAction = { [weak self] (personaButtonState: MSFPersonaCarouselButtonState, index: Int) in
             self?.didTap(on: personaButtonState, at: index)
         }
@@ -206,7 +217,7 @@ class PersonaButtonCarouselDemoController: DemoTableViewController {
         // Create the PersonaButton to be displayed
         let personaButton = MSFPersonaButton(size: size)
         let personaButtonState = personaButton.state
-        let persona = personas[indexPath.item]
+        let persona = defaultPersonas[indexPath.item]
         personaButtonState.image = persona.image
         personaButtonState.primaryText = persona.name
         personaButtonState.secondaryText = persona.email
@@ -233,7 +244,7 @@ class PersonaButtonCarouselDemoController: DemoTableViewController {
         return cell
     }
 
-    private var carousels: [MSFPersonaButtonSize: MSFPersonaButtonCarousel] = [:]
+    private var carousels: [MSFPersonaButtonCarousel] = []
 
     private static let controlReuseIdentifier: String = "controlReuseIdentifier"
     private static let largeCarouselReuseIdentifier: String = "largeCarouselReuseIdentifier"
@@ -241,7 +252,7 @@ class PersonaButtonCarouselDemoController: DemoTableViewController {
     private static let largeButtonReuseIdentifier: String = "largeButtonReuseIdentifier"
     private static let smallButtonReuseIdentifier: String = "smallButtonReuseIdentifier"
 
-    private let personas: [PersonaData] = [
+    private let defaultPersonas: [PersonaData] = [
         PersonaData(firstName: "Kat", lastName: "Larsson", image: UIImage(named: "avatar_kat_larsson")),
         PersonaData(firstName: "Ashley", lastName: "McCarthy", image: UIImage(named: "avatar_ashley_mccarthy")),
         PersonaData(firstName: "Allan", lastName: "Munger", image: UIImage(named: "avatar_allan_munger")),
@@ -266,6 +277,18 @@ class PersonaButtonCarouselDemoController: DemoTableViewController {
         PersonaData(name: "Colin Ballinger", email: "colin.ballinger@contoso.com", image: UIImage(named: "avatar_colin_ballinger")),
         PersonaData(email: "wanda.howard@contoso.com"),
         PersonaData(email: "carlos.slattery@contoso.com", subtitle: "Software Engineer")
+    ]
+
+    private let groupPersonas: [PersonaData] = [
+        PersonaData(name: "M365"),
+        PersonaData(name: "M365"),
+        PersonaData(name: "M365"),
+        PersonaData(name: "M365"),
+        PersonaData(name: "M365"),
+        PersonaData(name: "M365"),
+        PersonaData(name: "M365"),
+        PersonaData(name: "M365"),
+        PersonaData(name: "M365")
     ]
 
 }

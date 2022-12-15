@@ -61,8 +61,8 @@ public struct PersonaButton: View, TokenizedControlView {
     /// Creates a new `PersonaButton` instance.
     /// - Parameters:
     ///   - size: The` MSFPersonaButtonSize` value used by the `PersonaButton`.
-    public init(size: MSFPersonaButtonSize) {
-        let state = MSFPersonaButtonStateImpl(size: size)
+    public init(size: MSFPersonaButtonSize, isGroupStyle: Bool = false) {
+        let state = MSFPersonaButtonStateImpl(size: size, isGroupStyle: isGroupStyle)
         self.state = state
         self.tokenSet = PersonaButtonTokenSet(size: { state.buttonSize })
     }
@@ -140,9 +140,10 @@ class MSFPersonaButtonStateImpl: ControlState, MSFPersonaButtonState {
     /// Creates and initializes a `MSFPersonaButtonStateImpl`
     /// - Parameters:
     ///   - size: The size of the persona button
-    init(size: MSFPersonaButtonSize) {
+    init(size: MSFPersonaButtonSize, isGroupStyle: Bool) {
         self.buttonSize = size
-        self.avatarState = MSFAvatarStateImpl(style: .default, size: size.avatarSize)
+        self.avatarState = MSFAvatarStateImpl(style: isGroupStyle ? .group : .default,
+                                              size: size.avatarSize)
 
         super.init()
     }
