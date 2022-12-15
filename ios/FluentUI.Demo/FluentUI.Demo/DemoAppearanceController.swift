@@ -9,6 +9,7 @@ import UIKit
 
 /// Callbacks for changes to a `DemoAppearanceView` via the `DemoAppearanceController`. This delegate should
 /// ensure that the appropriate token overrides are set when these callbacks are received.
+@objc(MSFDemoAppearanceDelegate)
 protocol DemoAppearanceDelegate: NSObjectProtocol {
     /// Notifies the delegate that the control's "theme-wide override" value has changed.
     ///
@@ -16,7 +17,7 @@ protocol DemoAppearanceDelegate: NSObjectProtocol {
     /// using the `register(controlType:tokens:)` API.
     ///
     /// - Parameter isOverrideEnabled: Represents the new value for the "theme-wide override" toggle.
-    func themeWideOverrideDidChange(isOverrideEnabled: Bool)
+    @objc func themeWideOverrideDidChange(isOverrideEnabled: Bool)
 
     /// Notifies the delegate that the control's "per-control override" value has changed
     ///
@@ -24,13 +25,29 @@ protocol DemoAppearanceDelegate: NSObjectProtocol {
     /// a custom token set onto each using its `overrideTokens` property.
     ///
     /// - Parameter isOverrideEnabled: Represents the new value for the "theme-wide override" toggle.
-    func perControlOverrideDidChange(isOverrideEnabled: Bool)
+    @objc func perControlOverrideDidChange(isOverrideEnabled: Bool)
 
     /// Returns whether "theme-wide override" tokens are currently registered for the given control.
     ///
     /// This method, when implemented, should query the current `FluentTheme` using its
     /// `tokens(for:)` API, and return whether a token creation function is returned.
-    func isThemeWideOverrideApplied() -> Bool
+    @objc func isThemeWideOverrideApplied() -> Bool
+}
+
+@objc(MSFDemoAppearanceControllerWrapper)
+class DemoAppearanceControllerWrapper: NSObject {
+    /// Convenience wrapper to allow creation of a `DemoAppearanceController` from Objective-C.
+    ///
+    /// The class itself cannot be represented via `@objc` because it inherits from `UIHostingController`, which is a Swift-only class.
+    /// This workaround allows us to create one anyway, though it will be type-erased to `UIViewController` in the process.
+    ///
+    /// - Parameter delegate: An optional `DemoAppearanceDelegate` for the created `DemoAppearanceController`.
+    ///
+    /// - Returns: A new `DemoAppearanceController`, type-erased to `UIViewController`.
+    @available(swift, obsoleted: 1.0, message: "This method exists for Objective-C backwards compatibility and should not be invoked from Swift. Please create a `DemoAppearanceController` instance directly.")
+    @objc static func createDemoAppearanceController(delegate: DemoAppearanceDelegate?) -> UIViewController {
+        return DemoAppearanceController(delegate: delegate)
+    }
 }
 
 /// Wrapper class to allow presenting of `DemoAppearanceView` from a UIKit host.
