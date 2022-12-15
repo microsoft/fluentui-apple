@@ -52,7 +52,9 @@ extension View {
     /// - Returns: The rendered view after applying updates.
     func fluentTokens<TokenSetType: Hashable>(_ tokenSet: ControlTokenSet<TokenSetType>,
                                               _ fluentTheme: FluentTheme) -> some View {
-        tokenSet.update(fluentTheme)
         return self
+            .onChange(of: fluentTheme) { newTheme in
+                tokenSet.update(newTheme)
+            }
     }
 }
