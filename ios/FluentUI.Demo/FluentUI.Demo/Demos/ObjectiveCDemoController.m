@@ -49,7 +49,7 @@
 
     [self setAddedLabels:[NSMutableSet set]];
 
-    self.appearanceController = [MSFDemoAppearanceControllerWrapper createDemoAppearanceControllerWithDelegate:nil];
+    [self setAppearanceController:[MSFDemoAppearanceControllerWrapper createDemoAppearanceControllerWithDelegate:nil]];
     [self configureAppearancePopover];
 
     [[NSNotificationCenter defaultCenter] addObserver:self
