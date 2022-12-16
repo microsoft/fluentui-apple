@@ -60,10 +60,10 @@ public struct ActivityIndicator: View, TokenizedControlView {
         }()
         let accessibilityIdentifier: String = {
             if let color = state.color {
-                return "Activity Indicator that is \(accessibilityLabel) of size \(state.size.description) and color \(color.accessibilityName)"
+                return "Activity Indicator that is \(accessibilityLabel) of size \(state.size.rawValue) and color \(color.accessibilityName)"
             }
 
-            return "Activity Indicator that is \(accessibilityLabel) of size \(state.size.description)"
+            return "Activity Indicator that is \(accessibilityLabel) of size \(state.size.rawValue)"
         }()
 
         SemiRing(color: color,
