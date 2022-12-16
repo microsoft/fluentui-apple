@@ -15,6 +15,23 @@ import UIKit
     case xLarge
 }
 
+extension MSFActivityIndicatorSize : CustomStringConvertible {
+     public var description: String {
+         switch self {
+         case .xSmall:
+             return "xSmall"
+         case .small:
+             return "small"
+         case .medium:
+             return "medium"
+         case .large:
+             return "large"
+         case .xLarge:
+             return "xLarge"
+         }
+     }
+ }
+
 /// Design token set for the `ActivityIndicator` control.
 public class ActivityIndicatorTokenSet: ControlTokenSet<ActivityIndicatorTokenSet.Tokens> {
     public enum Tokens: TokenSetKey {

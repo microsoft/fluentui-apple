@@ -58,10 +58,18 @@ public struct ActivityIndicator: View, TokenizedControlView {
                 :
                 "Accessibility.ActivityIndicator.Stopped.label".localized
         }()
+        let accessibilityIdentifier: String = {
+            if let color = state.color {
+                return "Activity Indicator that is \(accessibilityLabel) of size \(state.size.description) and color \(color.accessibilityName)"
+            }
+
+            return "Activity Indicator that is \(accessibilityLabel) of size \(state.size.description)"
+        }()
 
         SemiRing(color: color,
                  thickness: tokenSet[.thickness].float,
-                 accessibilityLabel: accessibilityLabel)
+                 accessibilityLabel: accessibilityLabel,
+                 accessibilityIdentifier: accessibilityIdentifier)
             .modifyIf(state.isAnimating, { animatedView in
                 animatedView
                     .rotationEffect(.degrees(rotationAngle), anchor: .center)
@@ -92,6 +100,7 @@ public struct ActivityIndicator: View, TokenizedControlView {
         var color: Color
         var thickness: CGFloat
         var accessibilityLabel: String
+        var accessibilityIdentifier: String
 
         public var body: some View {
             Circle()
@@ -103,6 +112,7 @@ public struct ActivityIndicator: View, TokenizedControlView {
                 .accessibilityElement(children: .ignore)
                 .accessibility(addTraits: .isImage)
                 .accessibility(label: Text(accessibilityLabel))
+                .accessibility(identifier: accessibilityIdentifier)
         }
 
         private let semiRingStartFraction: CGFloat = 0.0

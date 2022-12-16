@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		114CF8B82423E10900D064AA /* ColorDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 114CF8B72423E10900D064AA /* ColorDemoController.swift */; };
 		2F0A96FC25CA047100EF9736 /* SearchBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0A96FB25CA047100EF9736 /* SearchBarDemoController.swift */; };
+		3AF555E1294CF4DD009211F4 /* ActivityIndicatorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF555E0294CF4DD009211F4 /* ActivityIndicatorTest.swift */; };
+		3AF555E3294CF4DD009211F4 /* ActivityIndicatorTest_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF555E2294CF4DD009211F4 /* ActivityIndicatorTest_SwiftUI.swift */; };
 		43488C4A270FB7E800124C71 /* NotificationViewDemoController_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43488C49270FB7E800124C71 /* NotificationViewDemoController_SwiftUI.swift */; };
 		497DC2DE24185896008D86F8 /* PillButtonBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2DD24185896008D86F8 /* PillButtonBarDemoController.swift */; };
 		5303259326B3198A00611D05 /* AvatarDemoController_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5303259226B3198A00611D05 /* AvatarDemoController_SwiftUI.swift */; };
@@ -78,12 +80,25 @@
 		FDCF7C8321BF35680058E9E6 /* SegmentedControlDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDCF7C8221BF35680058E9E6 /* SegmentedControlDemoController.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		3AF555E4294CF4DD009211F4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A5CEC20420E436F10016922A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A5CEC20B20E436F10016922A;
+			remoteInfo = FluentUI.Demo;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		0A0516BF2940A407006DE0A2 /* DividerDemoController_SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DividerDemoController_SwiftUI.swift; sourceTree = "<group>"; };
 		0A0516C02940A407006DE0A2 /* DividerDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DividerDemoController.swift; sourceTree = "<group>"; };
 		11047D2522932DB1001F0F59 /* TabBarViewDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewDemoController.swift; sourceTree = "<group>"; };
 		114CF8B72423E10900D064AA /* ColorDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorDemoController.swift; sourceTree = "<group>"; };
 		2F0A96FB25CA047100EF9736 /* SearchBarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchBarDemoController.swift; sourceTree = "<group>"; };
+		3AF555DE294CF4DD009211F4 /* FluentUIDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FluentUIDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3AF555E0294CF4DD009211F4 /* ActivityIndicatorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorTest.swift; sourceTree = "<group>"; };
+		3AF555E2294CF4DD009211F4 /* ActivityIndicatorTest_SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorTest_SwiftUI.swift; sourceTree = "<group>"; };
 		43488C49270FB7E800124C71 /* NotificationViewDemoController_SwiftUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationViewDemoController_SwiftUI.swift; sourceTree = "<group>"; };
 		497DC2DD24185896008D86F8 /* PillButtonBarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButtonBarDemoController.swift; sourceTree = "<group>"; };
 		5303259226B3198A00611D05 /* AvatarDemoController_SwiftUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarDemoController_SwiftUI.swift; sourceTree = "<group>"; };
@@ -193,6 +208,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		3AF555DB294CF4DD009211F4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A5CEC20920E436F10016922A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -207,6 +229,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3AF555DF294CF4DD009211F4 /* FluentUIDemoTests */ = {
+			isa = PBXGroup;
+			children = (
+				3AF555E0294CF4DD009211F4 /* ActivityIndicatorTest.swift */,
+				3AF555E2294CF4DD009211F4 /* ActivityIndicatorTest_SwiftUI.swift */,
+			);
+			path = FluentUIDemoTests;
+			sourceTree = "<group>";
+		};
 		5303259626B31A6300611D05 /* SwiftUI */ = {
 			isa = PBXGroup;
 			children = (
@@ -268,6 +299,7 @@
 			isa = PBXGroup;
 			children = (
 				A5CEC20E20E436F10016922A /* FluentUI.Demo */,
+				3AF555DF294CF4DD009211F4 /* FluentUIDemoTests */,
 				A5CEC20D20E436F10016922A /* Products */,
 				A5CEC22920E44FBF0016922A /* Frameworks */,
 				5340828A26CFF298007716E1 /* Recovered References */,
@@ -278,6 +310,7 @@
 			isa = PBXGroup;
 			children = (
 				A5CEC20C20E436F10016922A /* FluentUI.Demo.app */,
+				3AF555DE294CF4DD009211F4 /* FluentUIDemoTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -379,6 +412,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		3AF555DD294CF4DD009211F4 /* FluentUIDemoTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3AF555E9294CF4DD009211F4 /* Build configuration list for PBXNativeTarget "FluentUIDemoTests" */;
+			buildPhases = (
+				3AF555DA294CF4DD009211F4 /* Sources */,
+				3AF555DB294CF4DD009211F4 /* Frameworks */,
+				3AF555DC294CF4DD009211F4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3AF555E5294CF4DD009211F4 /* PBXTargetDependency */,
+			);
+			name = FluentUIDemoTests;
+			productName = FluentUIDemoTests;
+			productReference = 3AF555DE294CF4DD009211F4 /* FluentUIDemoTests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		A5CEC20B20E436F10016922A /* FluentUI.Demo */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = A5CEC22020E436F20016922A /* Build configuration list for PBXNativeTarget "FluentUI.Demo" */;
@@ -407,10 +458,14 @@
 		A5CEC20420E436F10016922A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0940;
+				LastSwiftUpdateCheck = 1410;
 				LastUpgradeCheck = 1240;
 				ORGANIZATIONNAME = "Microsoft Corporation";
 				TargetAttributes = {
+					3AF555DD294CF4DD009211F4 = {
+						CreatedOnToolsVersion = 14.1;
+						TestTargetID = A5CEC20B20E436F10016922A;
+					};
 					A5CEC20B20E436F10016922A = {
 						CreatedOnToolsVersion = 9.4.1;
 						LastSwiftMigration = 1020;
@@ -474,11 +529,19 @@
 			projectRoot = "";
 			targets = (
 				A5CEC20B20E436F10016922A /* FluentUI.Demo */,
+				3AF555DD294CF4DD009211F4 /* FluentUIDemoTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		3AF555DC294CF4DD009211F4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A5CEC20A20E436F10016922A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -492,6 +555,15 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		3AF555DA294CF4DD009211F4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3AF555E1294CF4DD009211F4 /* ActivityIndicatorTest.swift in Sources */,
+				3AF555E3294CF4DD009211F4 /* ActivityIndicatorTest_SwiftUI.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A5CEC20820E436F10016922A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -563,6 +635,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		3AF555E5294CF4DD009211F4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A5CEC20B20E436F10016922A /* FluentUI.Demo */;
+			targetProxy = 3AF555E4294CF4DD009211F4 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		A5CEC21A20E436F20016922A /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -611,6 +691,70 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		3AF555E6294CF4DD009211F4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = UBF8T346G9;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.FluentUIDemoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "63d62159-2691-4b44-9553-b668cc1746c1";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = FluentUI.Demo;
+			};
+			name = Debug;
+		};
+		3AF555E7294CF4DD009211F4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = UBF8T346G9;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.FluentUIDemoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "63d62159-2691-4b44-9553-b668cc1746c1";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = FluentUI.Demo;
+			};
+			name = Release;
+		};
+		3AF555E8294CF4DD009211F4 /* Dogfood */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = UBF8T346G9;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.FluentUIDemoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "63d62159-2691-4b44-9553-b668cc1746c1";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = FluentUI.Demo;
+			};
+			name = Dogfood;
+		};
 		A52B636D21376228009F7ADF /* Dogfood */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -883,6 +1027,16 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		3AF555E9294CF4DD009211F4 /* Build configuration list for PBXNativeTarget "FluentUIDemoTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3AF555E6294CF4DD009211F4 /* Debug */,
+				3AF555E7294CF4DD009211F4 /* Release */,
+				3AF555E8294CF4DD009211F4 /* Dogfood */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		A5CEC20720E436F10016922A /* Build configuration list for PBXProject "FluentUI.Demo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

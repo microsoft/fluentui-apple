@@ -51,6 +51,17 @@
          </BuildableReference>
       </MacroExpansion>
       <Testables>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "3AF555DD294CF4DD009211F4"
+               BuildableName = "FluentUIDemoTests.xctest"
+               BlueprintName = "FluentUIDemoTests"
+               ReferencedContainer = "container:FluentUI.Demo.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
