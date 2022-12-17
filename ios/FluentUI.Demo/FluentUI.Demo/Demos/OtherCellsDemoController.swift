@@ -27,16 +27,8 @@ class OtherCellsDemoController: DemoController {
         tableView.register(TableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: TableViewHeaderFooterView.identifier)
         tableView.dataSource = self
         tableView.delegate = self
-<<<<<<< HEAD
         tableView.backgroundColor = TableViewCell.tableBackgroundGroupedColor
         tableView.separatorColor = Colors.dividerOnPrimary
-||||||| parent of 022e3eed (Partially reverting Divider + bringing back Separator (#1441))
-        tableView.backgroundColor = Colors.tableBackgroundGrouped
-        tableView.separatorColor = Colors.dividerOnPrimary
-=======
-        tableView.backgroundColor = Colors.tableBackgroundGrouped
-        tableView.separatorColor = Colors.Separator.default
->>>>>>> 022e3eed (Partially reverting Divider + bringing back Separator (#1441))
         tableView.tableFooterView = UIView(frame: .zero)
         view.addSubview(tableView)
     }

@@ -117,11 +117,14 @@ open class PopupMenuController: DrawerController {
     }
 
     /// set `separatorColor` to customize separator colors of  PopupMenuItem cells and the drawer
-    @objc open var separatorColor: UIColor = Colors.Separator.default {
-        didSet {
-            separator?.backgroundColor = separatorColor
+    @objc open var separatorColor: UIColor = Colors.dividerOnPrimary {
+            didSet {
+                guard let separator = separator else {
+                    return
+                }
+                separator.backgroundColor = UIColor(cgColor: separatorColor.cgColor)
+            }
         }
-    }
 
     private var sections: [PopupMenuSection] = []
     private var itemForExecutionAfterPopupMenuDismissal: PopupMenuTemplateItem?
@@ -150,14 +153,8 @@ open class PopupMenuController: DrawerController {
         view.isHidden = true
 
         view.addSubview(descriptionLabel)
-<<<<<<< HEAD
         let verticalMargin = GlobalTokens.spacing(.size120)
         let horizontalMargin = GlobalTokens.spacing(.size160)
-||||||| parent of 022e3eed (Partially reverting Divider + bringing back Separator (#1441))
-        let verticalMargin = GlobalTokens.spacing(.small)
-        let horizontalMargin = GlobalTokens.spacing(.medium)
-=======
->>>>>>> 022e3eed (Partially reverting Divider + bringing back Separator (#1441))
         descriptionLabel.fitIntoSuperview(
             usingConstraints: true,
             margins: UIEdgeInsets(
