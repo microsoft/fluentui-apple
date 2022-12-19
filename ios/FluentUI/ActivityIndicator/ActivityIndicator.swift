@@ -59,11 +59,13 @@ public struct ActivityIndicator: View, TokenizedControlView {
                 "Accessibility.ActivityIndicator.Stopped.label".localized
         }()
         let accessibilityIdentifier: String = {
-            if let color = state.color {
-                return "Activity Indicator that is \(accessibilityLabel) of size \(state.size.rawValue) and color \(color.accessibilityName)"
+            let status = state.isAnimating ? "in progress" : "progress halted"
+
+            if let rgba = state.color?.cgColor.components {
+                return "Activity Indicator that is \(status) of size \(state.size.rawValue) and rgba values \(rgba)"
             }
 
-            return "Activity Indicator that is \(accessibilityLabel) of size \(state.size.rawValue)"
+            return "Activity Indicator that is \(status) of size \(state.size.rawValue)"
         }()
 
         SemiRing(color: color,

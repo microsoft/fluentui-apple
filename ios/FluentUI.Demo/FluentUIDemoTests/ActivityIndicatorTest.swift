@@ -27,19 +27,21 @@ class ActivityIndicatorTest: XCTestCase {
     }
 
     func testSizes() throws {
-        XCTAssertEqual(app.images.element(boundBy: 0).identifier, "Activity Indicator that is In progress of size 4")
-        XCTAssertEqual(app.images.element(boundBy: 1).identifier, "Activity Indicator that is In progress of size 3")
-        XCTAssertEqual(app.images.element(boundBy: 2).identifier, "Activity Indicator that is In progress of size 2")
-        XCTAssertEqual(app.images.element(boundBy: 3).identifier, "Activity Indicator that is In progress of size 1")
-        XCTAssertEqual(app.images.element(boundBy: 4).identifier, "Activity Indicator that is In progress of size 0")
+        XCTAssertEqual(app.images.element(boundBy: 0).identifier, "Activity Indicator that is in progress of size 4")
+        XCTAssertEqual(app.images.element(boundBy: 1).identifier, "Activity Indicator that is in progress of size 3")
+        XCTAssertEqual(app.images.element(boundBy: 2).identifier, "Activity Indicator that is in progress of size 2")
+        XCTAssertEqual(app.images.element(boundBy: 3).identifier, "Activity Indicator that is in progress of size 1")
+        XCTAssertEqual(app.images.element(boundBy: 4).identifier, "Activity Indicator that is in progress of size 0")
     }
 
     func testColor() throws {
-        XCTAssertEqual(app.images.element(boundBy: 5).identifier, "Activity Indicator that is In progress of size 4 and color cyan blue")
-        XCTAssertEqual(app.images.element(boundBy: 6).identifier, "Activity Indicator that is In progress of size 3 and color cyan blue")
-        XCTAssertEqual(app.images.element(boundBy: 7).identifier, "Activity Indicator that is In progress of size 2 and color cyan blue")
-        XCTAssertEqual(app.images.element(boundBy: 8).identifier, "Activity Indicator that is In progress of size 1 and color cyan blue")
-        XCTAssertEqual(app.images.element(boundBy: 9).identifier, "Activity Indicator that is In progress of size 0 and color cyan blue")
+        let cyanBlueRGBAValues = "[0.0, 0.47058823529411764, 0.8313725490196079, 1.0]"
+
+        XCTAssertEqual(app.images.element(boundBy: 5).identifier, "Activity Indicator that is in progress of size 4 and rgba values \(cyanBlueRGBAValues)")
+        XCTAssertEqual(app.images.element(boundBy: 6).identifier, "Activity Indicator that is in progress of size 3 and rgba values \(cyanBlueRGBAValues)")
+        XCTAssertEqual(app.images.element(boundBy: 7).identifier, "Activity Indicator that is in progress of size 2 and rgba values \(cyanBlueRGBAValues)")
+        XCTAssertEqual(app.images.element(boundBy: 8).identifier, "Activity Indicator that is in progress of size 1 and rgba values \(cyanBlueRGBAValues)")
+        XCTAssertEqual(app.images.element(boundBy: 9).identifier, "Activity Indicator that is in progress of size 0 and rgba values \(cyanBlueRGBAValues)")
     }
 
     func testStartStopHide() throws {
