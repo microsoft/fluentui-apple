@@ -6,7 +6,8 @@
 import SwiftUI
 
 /// Represents the description of a font used by FluentUI components.
-public struct FontInfo: Equatable {
+@objc(MSFFontInfo)
+public class FontInfo: NSObject {
 
     /// Creates a `FontInfo` instance using the specified information.
     ///
@@ -74,7 +75,7 @@ public extension Font {
 }
 
 extension UIFont {
-    public static func fluent(_ fontInfo: FontInfo, shouldScale: Bool = true) -> UIFont {
+    @objc public static func fluent(_ fontInfo: FontInfo, shouldScale: Bool = true) -> UIFont {
         let unscaledFont: UIFont
 
         if let name = fontInfo.name,
