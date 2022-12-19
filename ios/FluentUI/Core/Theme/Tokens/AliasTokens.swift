@@ -10,14 +10,8 @@ public final class AliasTokens: NSObject {
 
     // MARK: - BrandColors
 
-<<<<<<< HEAD
-    public enum BrandColorsTokens: CaseIterable {
-||||||| 319d20b0
-    public enum BrandColorsTokens: TokenSetKey {
-=======
     @objc(MSFBrandColorsAliasTokens)
     public enum BrandColorsTokens: Int, TokenSetKey {
->>>>>>> main
         case primary
         case shade10
         case shade20

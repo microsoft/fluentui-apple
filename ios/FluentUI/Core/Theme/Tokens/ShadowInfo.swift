@@ -3,14 +3,9 @@
 //  Licensed under the MIT License.
 //
 
-<<<<<<< HEAD
 import CoreGraphics
 import UIKit
-||||||| 319d20b0
-import CoreGraphics
-=======
 import Foundation
->>>>>>> main
 
 /// Represents a two-part shadow as used by FluentUI.
 @objc(MSFShadowInfo)
@@ -66,8 +61,7 @@ public class ShadowInfo: NSObject {
     @objc public let xTwo: CGFloat
 
     /// The vertical offset of the shadow for shadow 2.
-<<<<<<< HEAD
-    public let yTwo: CGFloat
+    @objc public let yTwo: CGFloat
 
     /// The number that the figma blur needs to be adjusted by to properly display shadows. See https://github.com/microsoft/apple-ux-guide/blob/gh-pages/Shadows.md
     private let shadowBlurAdjustment: CGFloat = 0.5
@@ -122,9 +116,4 @@ public protocol Shadowable {
 
     /// The layer on which the key shadow is implemented
     var shadow2: CALayer? { get set }
-||||||| 319d20b0
-    public let yTwo: CGFloat
-=======
-    @objc public let yTwo: CGFloat
->>>>>>> main
 }

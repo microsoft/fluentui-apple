@@ -10,96 +10,15 @@ import UIKit
 
 class TableViewHeaderFooterViewDemoController: DemoController {
     private let groupedSections: [TableViewHeaderFooterSampleData.Section] = TableViewHeaderFooterSampleData.groupedSections
-<<<<<<< HEAD
-||||||| 319d20b0
-    private let plainSections: [TableViewHeaderFooterSampleData.Section] = TableViewHeaderFooterSampleData.plainSections
-    private let divider = MSFDivider()
-
-    private lazy var segmentedControl: SegmentedControl = {
-        let segmentedControl = SegmentedControl(items: TableViewHeaderFooterSampleData.tabTitles.map({return SegmentItem(title: $0)}), style: .primaryPill)
-        segmentedControl.onSelectAction = { [weak self] (_, _) in
-            guard let strongSelf = self else {
-                return
-            }
-
-            strongSelf.updateActiveTabContent()
-        }
-
-        return segmentedControl
-    }()
-=======
-    private let plainSections: [TableViewHeaderFooterSampleData.Section] = TableViewHeaderFooterSampleData.plainSections
-
-    private lazy var segmentedControl: SegmentedControl = {
-        let segmentedControl = SegmentedControl(items: TableViewHeaderFooterSampleData.tabTitles.map({return SegmentItem(title: $0)}), style: .primaryPill)
-        segmentedControl.onSelectAction = { [weak self] (_, _) in
-            guard let strongSelf = self else {
-                return
-            }
-
-            strongSelf.updateActiveTabContent()
-        }
-
-        return segmentedControl
-    }()
->>>>>>> main
     private lazy var groupedTableView: UITableView = createTableView(style: .grouped)
     private var collapsedSections: [Bool] = [Bool](repeating: false, count: TableViewHeaderFooterSampleData.groupedSections.count)
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-<<<<<<< HEAD
         view.addSubview(groupedTableView)
         groupedTableView.frame = view.bounds
         groupedTableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         scrollingContainer.removeFromSuperview()
-||||||| 319d20b0
-        container.heightAnchor.constraint(equalTo: scrollingContainer.heightAnchor).isActive = true
-        container.layoutMargins = .zero
-        container.spacing = 0
-
-        navigationController?.navigationBar.shadowImage = UIImage()
-        navigationController?.navigationBar.backgroundColor = Colors.navigationBarBackground
-        container.addArrangedSubview(segmentedControl)
-        container.setCustomSpacing(8, after: segmentedControl)
-        container.backgroundColor = Colors.navigationBarBackground
-
-        container.addArrangedSubview(divider)
-
-        container.addArrangedSubview(groupedTableView)
-        container.addArrangedSubview(plainTableView)
-
-        updateActiveTabContent()
-    }
-
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        navigationController?.navigationBar.shadowImage = nil
-=======
-        container.heightAnchor.constraint(equalTo: scrollingContainer.heightAnchor).isActive = true
-        container.layoutMargins = .zero
-        container.spacing = 0
-
-        navigationController?.navigationBar.shadowImage = UIImage()
-        navigationController?.navigationBar.backgroundColor = Colors.navigationBarBackground
-        container.addArrangedSubview(segmentedControl)
-        container.setCustomSpacing(8, after: segmentedControl)
-        container.backgroundColor = Colors.navigationBarBackground
-
-        let separator = Separator(style: .shadow, orientation: .horizontal)
-        container.addArrangedSubview(separator)
-
-        container.addArrangedSubview(groupedTableView)
-        container.addArrangedSubview(plainTableView)
-
-        updateActiveTabContent()
-    }
-
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        navigationController?.navigationBar.shadowImage = nil
->>>>>>> main
     }
 
     func createTableView(style: UITableView.Style) -> UITableView {

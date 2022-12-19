@@ -29,13 +29,7 @@ class CalendarView: UIView {
     init(headerStyle: DatePickerHeaderStyle = .light) {
         weekdayHeadingView = CalendarViewWeekdayHeadingView(headerStyle: headerStyle)
 
-<<<<<<< HEAD
         headingViewSeparator = Separator()
-||||||| 319d20b0
-        headingViewDivider = MSFDivider()
-=======
-        headingViewSeparator = Separator(style: .shadow)
->>>>>>> main
 
         collectionViewLayout = CalendarViewLayout()
 
@@ -45,13 +39,7 @@ class CalendarView: UIView {
         // Enable multiple selection to allow for one cell to be selected and another cell to be highlighted simultaneously
         collectionView.allowsMultipleSelection = true
 
-<<<<<<< HEAD
         collectionViewSeparator = Separator()
-||||||| 319d20b0
-        collectionViewDivider = MSFDivider()
-=======
-        collectionViewSeparator = Separator(style: .default)
->>>>>>> main
 
         super.init(frame: .zero)
 
