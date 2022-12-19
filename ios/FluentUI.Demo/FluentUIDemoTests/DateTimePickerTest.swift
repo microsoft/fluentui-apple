@@ -25,6 +25,4 @@ class DateTimePickerTest: XCTestCase {
             dateTimePickerCell.tap()
         }
     }
-
-    func test() {}
 }

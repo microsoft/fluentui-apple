@@ -25,6 +25,4 @@ class NavigationControllerTest: XCTestCase {
             navigationControllerCell.tap()
         }
     }
-
-    func test() {}
 }

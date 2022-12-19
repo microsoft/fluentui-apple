@@ -25,6 +25,4 @@ class SegmentedControlTest: XCTestCase {
             segmentedControlCell.tap()
         }
     }
-
-    func test() {}
 }

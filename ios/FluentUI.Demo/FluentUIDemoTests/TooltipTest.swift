@@ -25,6 +25,4 @@ class TooltipTest: XCTestCase {
             tooltipCell.tap()
         }
     }
-
-    func test() {}
 }

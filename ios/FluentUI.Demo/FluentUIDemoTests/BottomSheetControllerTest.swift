@@ -25,6 +25,4 @@ class BottomSheetControllerTest: XCTestCase {
             bottomSheetControllerCell.tap()
         }
     }
-
-    func test() {}
 }

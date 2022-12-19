@@ -27,6 +27,4 @@ class NotificationViewTestSwiftUI: XCTestCase {
         }
         swiftUIDemoButton.tap()
     }
-
-    func test() {}
 }

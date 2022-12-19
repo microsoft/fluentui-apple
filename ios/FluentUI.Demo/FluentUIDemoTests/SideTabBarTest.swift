@@ -25,6 +25,4 @@ class SideTabBarTest: XCTestCase {
             sideTabBarCell.tap()
         }
     }
-
-    func test() {}
 }

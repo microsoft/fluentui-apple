@@ -25,6 +25,4 @@ class ActivityIndicatorTest: XCTestCase {
             activityIndicatorCell.tap()
         }
     }
-
-    func test() {}
 }

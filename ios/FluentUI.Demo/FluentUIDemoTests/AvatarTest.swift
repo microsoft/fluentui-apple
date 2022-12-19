@@ -25,6 +25,4 @@ class AvatarTest: XCTestCase {
             avatarCell.tap()
         }
     }
-
-    func test() {}
 }

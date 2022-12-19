@@ -25,6 +25,4 @@ class PopupMenuControllerTest: XCTestCase {
             popupMenuControllerCell.tap()
         }
     }
-
-    func test() {}
 }

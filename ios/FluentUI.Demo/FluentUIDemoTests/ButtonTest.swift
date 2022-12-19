@@ -25,6 +25,4 @@ class ButtonTest: XCTestCase {
             buttonCell.tap()
         }
     }
-
-    func test() {}
 }

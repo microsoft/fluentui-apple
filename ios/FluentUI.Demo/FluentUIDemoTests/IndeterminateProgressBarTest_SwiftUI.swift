@@ -27,6 +27,4 @@ class IndeterminateProgressBarTestSwiftUI: XCTestCase {
         }
         swiftUIDemoButton.tap()
     }
-
-    func test() {}
 }

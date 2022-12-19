@@ -25,6 +25,4 @@ class PersonaListViewTest: XCTestCase {
             personaListViewCell.tap()
         }
     }
-
-    func test() {}
 }

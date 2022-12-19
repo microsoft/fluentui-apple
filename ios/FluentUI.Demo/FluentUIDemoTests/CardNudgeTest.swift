@@ -25,6 +25,4 @@ class CardNudgeTest: XCTestCase {
             cardNudgeCell.tap()
         }
     }
-
-    func test() {}
 }

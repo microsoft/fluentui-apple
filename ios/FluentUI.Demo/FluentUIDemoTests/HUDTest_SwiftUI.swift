@@ -27,6 +27,4 @@ class HUDTestSwiftUI: XCTestCase {
         }
         swiftUIDemoButton.tap()
     }
-
-    func test() {}
 }

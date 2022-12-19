@@ -27,6 +27,4 @@ class AvatarTestSwiftUI: XCTestCase {
         }
         swiftUIDemoButton.tap()
     }
-
-    func test() {}
 }

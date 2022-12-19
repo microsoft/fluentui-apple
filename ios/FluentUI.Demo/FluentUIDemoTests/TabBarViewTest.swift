@@ -25,6 +25,4 @@ class TabBarViewTest: XCTestCase {
             tabBarViewCell.tap()
         }
     }
-
-    func test() {}
 }

@@ -25,6 +25,4 @@ class PeoplePickerTest: XCTestCase {
             peoplePickerCell.tap()
         }
     }
-
-    func test() {}
 }

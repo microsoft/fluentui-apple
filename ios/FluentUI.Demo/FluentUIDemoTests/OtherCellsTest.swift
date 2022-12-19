@@ -25,6 +25,4 @@ class OtherCellsTest: XCTestCase {
             otherCellsCell.tap()
         }
     }
-
-    func test() {}
 }

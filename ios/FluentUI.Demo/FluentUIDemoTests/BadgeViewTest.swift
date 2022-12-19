@@ -25,6 +25,4 @@ class BadgeViewTest: XCTestCase {
             badgeViewCell.tap()
         }
     }
-
-    func test() {}
 }

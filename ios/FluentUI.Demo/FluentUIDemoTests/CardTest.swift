@@ -25,6 +25,4 @@ class CardTest: XCTestCase {
             cardCell.tap()
         }
     }
-
-    func test() {}
 }

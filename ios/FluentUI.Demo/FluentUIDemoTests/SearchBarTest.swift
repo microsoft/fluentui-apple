@@ -25,6 +25,4 @@ class SearchBarTest: XCTestCase {
             searchBarCell.tap()
         }
     }
-
-    func test() {}
 }

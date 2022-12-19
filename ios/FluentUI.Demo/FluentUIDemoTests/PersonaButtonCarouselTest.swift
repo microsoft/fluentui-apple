@@ -25,6 +25,4 @@ class PersonaButtonCarouselTest: XCTestCase {
             personaButtonCarouselCell.tap()
         }
     }
-
-    func test() {}
 }

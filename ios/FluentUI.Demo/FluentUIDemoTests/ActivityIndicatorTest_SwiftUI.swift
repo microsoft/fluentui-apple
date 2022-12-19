@@ -27,6 +27,4 @@ class ActivityIndicatorTestSwiftUI: XCTestCase {
         }
         swiftUIDemoButton.tap()
     }
-
-    func test() {}
 }

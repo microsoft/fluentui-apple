@@ -25,6 +25,4 @@ class TypographyTokensTest: XCTestCase {
             typographyTokensCell.tap()
         }
     }
-
-    func test() {}
 }

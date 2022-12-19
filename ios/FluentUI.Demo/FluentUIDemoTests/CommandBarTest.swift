@@ -25,6 +25,4 @@ class CommandBarTest: XCTestCase {
             commandBarCell.tap()
         }
     }
-
-    func test() {}
 }

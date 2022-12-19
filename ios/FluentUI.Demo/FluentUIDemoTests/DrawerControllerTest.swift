@@ -25,6 +25,4 @@ class DrawerControllerTest: XCTestCase {
             drawerControllerCell.tap()
         }
     }
-
-    func test() {}
 }

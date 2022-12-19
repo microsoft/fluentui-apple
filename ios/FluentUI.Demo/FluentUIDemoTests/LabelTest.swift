@@ -25,6 +25,4 @@ class LabelTest: XCTestCase {
             labelCell.tap()
         }
     }
-
-    func test() {}
 }

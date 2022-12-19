@@ -25,6 +25,4 @@ class TableViewCellFileAccessoryViewTest: XCTestCase {
             tableViewCellFileAccessoryViewCell.tap()
         }
     }
-
-    func test() {}
 }

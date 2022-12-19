@@ -25,6 +25,4 @@ class ShimmerViewTest: XCTestCase {
             shimmerViewCell.tap()
         }
     }
-
-    func test() {}
 }

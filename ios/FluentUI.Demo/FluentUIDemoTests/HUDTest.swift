@@ -25,6 +25,4 @@ class HUDTest: XCTestCase {
             hudCell.tap()
         }
     }
-
-    func test() {}
 }

@@ -25,6 +25,4 @@ class TableViewCellTest: XCTestCase {
             tableViewCellCell.tap()
         }
     }
-
-    func test() {}
 }

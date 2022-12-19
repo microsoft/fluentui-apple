@@ -25,6 +25,4 @@ class TableViewCellShimmerTest: XCTestCase {
             tableViewCellShimmerCell.tap()
         }
     }
-
-    func test() {}
 }

@@ -25,6 +25,4 @@ class ColorTokensTest: XCTestCase {
             colorTokensCell.tap()
         }
     }
-
-    func test() {}
 }

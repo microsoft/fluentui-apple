@@ -25,6 +25,4 @@ class NotificationViewTest: XCTestCase {
             notificationViewCell.tap()
         }
     }
-
-    func test() {}
 }

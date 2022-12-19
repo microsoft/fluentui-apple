@@ -25,6 +25,4 @@ class PillButtonTest: XCTestCase {
             pillButtonCell.tap()
         }
     }
-
-    func test() {}
 }

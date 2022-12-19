@@ -25,6 +25,4 @@ class IndeterminateProgressBarTest: XCTestCase {
             indeterminateProgressBarCell.tap()
         }
     }
-
-    func test() {}
 }

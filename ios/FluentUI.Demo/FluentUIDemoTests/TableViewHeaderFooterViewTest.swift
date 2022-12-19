@@ -25,6 +25,4 @@ class TableViewHeaderFooterViewTest: XCTestCase {
             tableViewHeaderFooterViewCell.tap()
         }
     }
-
-    func test() {}
 }
