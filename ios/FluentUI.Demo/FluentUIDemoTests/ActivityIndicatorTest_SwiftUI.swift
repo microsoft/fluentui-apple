@@ -13,13 +13,19 @@ class ActivityIndicatorSwiftUITest: XCTestCase {
         continueAfterFailure = false
         app.launch()
 
-        if app.staticTexts["FluentUI DEV"].exists {
-            app.staticTexts["ActivityIndicator"].tap()
-        } else if !app.staticTexts["ActivityIndicator"].exists {
-            app.buttons["FluentUI DEV"].tap()
-            app.staticTexts["ActivityIndicator"].tap()
+        let onHomePage = app.staticTexts["FluentUI DEV"].exists
+        let onDifferentControlPage = !onHomePage && !app.staticTexts["ActivityIndicator"].exists
+        let activityIndicatorCell = app.staticTexts["ActivityIndicator"]
+        let backButton = app.buttons["FluentUI DEV"]
+        let swiftUIDemoButton = app.staticTexts["SwiftUI Demo"]
+
+        if onHomePage {
+            activityIndicatorCell.tap()
+        } else if onDifferentControlPage {
+            backButton.tap()
+            activityIndicatorCell.tap()
         }
-        app.staticTexts["SwiftUI Demo"].tap()
+        swiftUIDemoButton.tap()
     }
 
     func testHidingWhenStoppedOn() throws {

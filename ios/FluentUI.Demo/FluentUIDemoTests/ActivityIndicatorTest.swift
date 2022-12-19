@@ -13,11 +13,16 @@ class ActivityIndicatorTest: XCTestCase {
         continueAfterFailure = false
         app.launch()
 
-        if app.staticTexts["FluentUI DEV"].exists {
-            app.staticTexts["ActivityIndicator"].tap()
-        } else if !app.staticTexts["ActivityIndicator"].exists {
-            app.buttons["FluentUI DEV"].tap()
-            app.staticTexts["ActivityIndicator"].tap()
+        let onHomePage = app.staticTexts["FluentUI DEV"].exists
+        let onDifferentControlPage = !onHomePage && !app.staticTexts["ActivityIndicator"].exists
+        let activityIndicatorCell = app.staticTexts["ActivityIndicator"]
+        let backButton = app.buttons["FluentUI DEV"]
+
+        if onHomePage {
+            activityIndicatorCell.tap()
+        } else if onDifferentControlPage {
+            backButton.tap()
+            activityIndicatorCell.tap()
         }
     }
 
@@ -38,14 +43,16 @@ class ActivityIndicatorTest: XCTestCase {
     }
 
     func testStartStopHide() throws {
+        let startStopButton = app.buttons["Start / Stop activity"]
+
         XCTAssert(app.images["In progress"].exists)
-        app.buttons["Start / Stop activity"].tap()
+        startStopButton.tap()
         XCTAssert(!app.images["In progress"].exists)
 
         app.cells.containing(.staticText, identifier: "Hides when stopped").firstMatch.tap()
         XCTAssert(app.images["Progress halted"].exists)
 
-        app.buttons["Start / Stop activity"].tap()
+        startStopButton.tap()
         XCTAssert(app.images["In progress"].exists)
     }
 }
