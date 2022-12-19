@@ -36,7 +36,7 @@ open class Separator: UIView {
     /**
      The default thickness for the separator: half pt.
     */
-    @objc public static var thickness: CGFloat { return GlobalTokens.borderSize(.thinnest) }
+    @objc public static var thickness: CGFloat { return GlobalTokens.stroke(.width05) }
 
     @objc public static func separatorDefaultColor(fluentTheme: FluentTheme) -> UIColor {
         return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.stroke2])

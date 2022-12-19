@@ -152,7 +152,7 @@ class ShyHeaderView: UIView {
     }
 
     private let contentStackView = UIStackView()
-    private let shadow = MSFDivider()
+    private let shadow = Separator()
 
     private var needsShadow: Bool {
         switch navigationBarShadow {
