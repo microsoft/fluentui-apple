@@ -4,7 +4,6 @@
 //
 
 import XCTest
-import FluentUI
 
 class ActivityIndicatorTest: XCTestCase {
     let app = XCUIApplication()
