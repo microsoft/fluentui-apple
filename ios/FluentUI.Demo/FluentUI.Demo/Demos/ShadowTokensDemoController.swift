@@ -36,7 +36,7 @@ class ShadowView: UIView, Shadowable {
     private struct Constants {
         static let borderWidth: CGFloat = 0.1
         static let cornerRadius: CGFloat = 8.0
-        static let width: CGFloat = 150
+        static let width: CGFloat = 200
         static let height: CGFloat = 70
     }
 
