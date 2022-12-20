@@ -171,7 +171,6 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
 
     /// The default leading padding in the cell.
     @objc public static let defaultPaddingLeading: CGFloat = {
-        let tokenSet = TableViewCellTokenSet(customViewSize: { .default })
         return TableViewCellTokenSet.paddingLeading
     }()
 
