@@ -652,7 +652,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     }
 
     private static func customViewLeadingOffset(isInSelectionMode: Bool,
-                                                leadingPadding: CGFloat) -> CGFloat { // remove
+                                                leadingPadding: CGFloat) -> CGFloat {
         return leadingPadding + selectionModeAreaWidth(isInSelectionMode: isInSelectionMode,
                                                        selectionImageMarginTrailing: TableViewCellTokenSet.selectionImageMarginTrailing,
                                                        selectionImageSize: TableViewCellTokenSet.selectionImageSize)
@@ -903,7 +903,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     @objc open var isUnreadDotVisible: Bool = false {
         didSet {
             if isUnreadDotVisible {
-                self.layer.addSublayer(unreadDotLayer)
+                self.contentView.layer.addSublayer(unreadDotLayer)
                 let leadingDotDimensions: CGFloat = TableViewCellTokenSet.leadingDotDimensions
                 let leadingDotYOffset = ceil((contentView.frame.height - leadingDotDimensions) / 2)
                 let leadingDotXOffset = TableViewCell.customViewLeadingOffset(isInSelectionMode: isInSelectionMode,
