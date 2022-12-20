@@ -139,6 +139,7 @@
 		5373D5772694D66F0032A3B4 /* SwiftUI+ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5373D56F2694D66F0032A3B4 /* SwiftUI+ViewModifiers.swift */; };
 		53E2EE0527860D010086D30D /* MSFActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E2EE0427860D010086D30D /* MSFActivityIndicator.swift */; };
 		53E2EE07278799B30086D30D /* MSFIndeterminateProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E2EE06278799B30086D30D /* MSFIndeterminateProgressBar.swift */; };
+		566C664A28CB99830032314C /* module.modulemap in Copy module.modulemap */ = {isa = PBXBuildFile; fileRef = 566C664828CB97210032314C /* module.modulemap */; };
 		6EB4B25F270ED6B30005B808 /* BadgeLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB4B25D270ED6450005B808 /* BadgeLabel.swift */; };
 		6ED5E55126D3D39400D8BE81 /* BadgeLabelButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED4C11C2696AE4000C30BD6 /* BadgeLabelButton.swift */; };
 		6ED5E55226D3D39400D8BE81 /* UIBarButtonItem+BadgeValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED4C11A2695A6E800C30BD6 /* UIBarButtonItem+BadgeValue.swift */; };
@@ -217,9 +218,10 @@
 		566C664928CB994F0032314C /* Copy module.modulemap */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = "$(FLUENT_HSP_OUTPUT)";
-			dstSubfolderSpec = 0;
+			dstPath = include/FluentUI;
+			dstSubfolderSpec = 16;
 			files = (
+				566C664A28CB99830032314C /* module.modulemap in Copy module.modulemap */,
 			);
 			name = "Copy module.modulemap";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1233,7 +1235,6 @@
 				8FD01162228A820600D25925 /* Sources */,
 				FD256C59218392B800EC9588 /* Run swiftlint */,
 				923DF2E4271166DB00637646 /* Copy FluentUI-Swift.h */,
-				566C664928CB994F0032314C /* Copy module.modulemap */,
 			);
 			buildRules = (
 			);
