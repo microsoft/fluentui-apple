@@ -220,7 +220,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     @objc public class func height(title: String,
                                    subtitle: String = "",
                                    footer: String = "",
-                                   hasLeadingDot: Bool = false,
+                                   hasunreadDot: Bool = false,
                                    titleLeadingAccessoryView: UIView? = nil,
                                    titleTrailingAccessoryView: UIView? = nil,
                                    subtitleLeadingAccessoryView: UIView? = nil,
@@ -276,7 +276,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     ///   - titleFont: The title font; If not set, it will default to the font definition in tokens
     ///   - subtitleFont: The subtitle font; If not set, it will default to the font definition in tokens
     ///   - footerFont: The footer font; If not set, it will default to the font definition in tokens
-    ///   - hasLeadingDot: Boolean determining whether to show or hide the `leadingDotLayer`, on the leading edge of the `customView`.
+    ///   - hasunreadDot: Boolean determining whether to show or hide the `unreadDotLayer`, on the leading edge of the `customView`.
     ///   - titleLeadingAccessoryView: The accessory view on the leading edge of the title
     ///   - titleTrailingAccessoryView: The accessory view on the trailing edge of the title
     ///   - subtitleLeadingAccessoryView: The accessory view on the leading edge of the subtitle
@@ -306,7 +306,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                              titleFont: UIFont? = nil,
                              subtitleFont: UIFont? = nil,
                              footerFont: UIFont? = nil,
-                             hasLeadingDot: Bool = false,
+                             hasunreadDot: Bool = false,
                              titleLeadingAccessoryView: UIView? = nil,
                              titleTrailingAccessoryView: UIView? = nil,
                              subtitleLeadingAccessoryView: UIView? = nil,
@@ -411,7 +411,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     ///   - title: The title string
     ///   - subtitle: The subtitle string
     ///   - footer: The footer string
-    ///   - hasLeadingDot: Boolean determining whether to show or hide the `leadingDotLayer`, on the leading edge of the `customView`.
+    ///   - hasunreadDot: Boolean determining whether to show or hide the `unreadDotLayer`, on the leading edge of the `customView`.
     ///   - titleLeadingAccessoryView: The accessory view on the leading edge of the title
     ///   - titleTrailingAccessoryView: The accessory view on the trailing edge of the title
     ///   - subtitleLeadingAccessoryView: The accessory view on the leading edge of the subtitle
@@ -427,7 +427,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     @objc public class func preferredWidth(title: String,
                                            subtitle: String = "",
                                            footer: String = "",
-                                           hasLeadingDot: Bool = false,
+                                           hasunreadDot: Bool = false,
                                            titleLeadingAccessoryView: UIView? = nil,
                                            titleTrailingAccessoryView: UIView? = nil,
                                            subtitleLeadingAccessoryView: UIView? = nil,
@@ -475,7 +475,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     ///   - titleFont: The title font; If not set, it will default to the font definition in tokens
     ///   - subtitleFont: The subtitle font; If not set, it will default to the font definition in tokens
     ///   - footerFont: The footer font; If not set, it will default to the font definition in tokens
-    ///   - hasLeadingDot: Boolean determining whether to show or hide the `leadingDotLayer`, on the leading edge of the `customView`.
+    ///   - hasunreadDot: Boolean determining whether to show or hide the `unreadDotLayer`, on the leading edge of the `customView`.
     ///   - titleLeadingAccessoryView: The accessory view on the leading edge of the title
     ///   - titleTrailingAccessoryView: The accessory view on the trailing edge of the title
     ///   - subtitleLeadingAccessoryView: The accessory view on the leading edge of the subtitle
@@ -501,7 +501,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                                      titleFont: UIFont? = nil,
                                      subtitleFont: UIFont? = nil,
                                      footerFont: UIFont? = nil,
-                                     hasLeadingDot: Bool = false,
+                                     hasunreadDot: Bool = false,
                                      titleLeadingAccessoryView: UIView? = nil,
                                      titleTrailingAccessoryView: UIView? = nil,
                                      subtitleLeadingAccessoryView: UIView? = nil,
@@ -891,7 +891,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
 
     private lazy var unreadDotLayer: CALayer = {
         let unreadDotLayer = CALayer()
-        let unreadDotSize = TableViewCellTokenSet.leadingDotDimensions
+        let unreadDotSize = TableViewCellTokenSet.unreadDotDimensions
         unreadDotLayer.bounds.size = CGSize(width: unreadDotSize, height: unreadDotSize)
         unreadDotLayer.cornerRadius = unreadDotSize / 2
         unreadDotLayer.backgroundColor = UIColor(dynamicColor: tokenSet[.mainBrandColor].dynamicColor).cgColor
@@ -1536,14 +1536,14 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         }
 
         if isUnreadDotVisible {
-            let leadingDotDimensions: CGFloat = TableViewCellTokenSet.leadingDotDimensions
-            let leadingDotYOffset = ceil((contentView.frame.height - leadingDotDimensions) / 2)
-            var leadingDotXOffset = TableViewCell.customViewLeadingOffset(isInSelectionMode: isInSelectionMode,
-                                                                          leadingPadding: TableViewCellTokenSet.leadingDotHorizontalPadding)
+            let unreadDotDimensions: CGFloat = TableViewCellTokenSet.unreadDotDimensions
+            let unreadDotYOffset = ceil((contentView.frame.height - unreadDotDimensions) / 2)
+            var unreadDotXOffset = TableViewCell.customViewLeadingOffset(isInSelectionMode: isInSelectionMode,
+                                                                          leadingPadding: TableViewCellTokenSet.unreadDotHorizontalPadding)
             if effectiveUserInterfaceLayoutDirection == .rightToLeft {
-                leadingDotXOffset = self.contentView.frame.width - leadingDotXOffset - leadingDotDimensions
+                unreadDotXOffset = self.contentView.frame.width - unreadDotXOffset - unreadDotDimensions
             }
-            unreadDotLayer.frame.origin = CGPoint(x: leadingDotXOffset, y: leadingDotYOffset)
+            unreadDotLayer.frame.origin = CGPoint(x: unreadDotXOffset, y: unreadDotYOffset)
         }
 
         if let customView = customView {

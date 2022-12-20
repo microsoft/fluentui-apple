@@ -206,11 +206,11 @@ extension TableViewCellTokenSet {
     /// The trailing padding in the cell.
     static let paddingTrailing: CGFloat = GlobalTokens.spacing(.medium)
 
-    /// The leading and trailing padding for the leadingDotLayer.
-    static let leadingDotHorizontalPadding: CGFloat = GlobalTokens.spacing(.xxSmall)
+    /// The leading and trailing padding for the unreadDotLayer.
+    static let unreadDotHorizontalPadding: CGFloat = GlobalTokens.spacing(.xxSmall)
 
-    /// The size dimensions of the leadingDotLayer.
-    static let leadingDotDimensions: CGFloat = 8.0
+    /// The size dimensions of the unreadDotLayer.
+    static let unreadDotDimensions: CGFloat = 8.0
 
     static let selectionImageOff = UIImage.staticImageNamed("selection-off")
     static let selectionImageOn = UIImage.staticImageNamed("selection-on")
