@@ -15,17 +15,74 @@ class ShadowTokensDemoController: DemoController {
 
         container.alignment = .center
         container.spacing = 120
-        initCards()
+
+        initializeShadowViews()
 
         container.addArrangedSubview(UIView())
     }
 
-    private func initCards() {
-        for shadow in AliasTokens.ShadowTokens.allCases {
-            let view = ShadowView(shadowInfo: container.fluentTheme.aliasTokens.shadow[shadow],
-                                  title: shadow.title)
-            container.addArrangedSubview(view)
+    private func initializeShadowViews() {
+        for shadowToken in AliasTokens.ShadowTokens.allCases {
+            let shadowView = ShadowView(shadowInfo: container.fluentTheme.aliasTokens.shadow[shadowToken],
+                                        title: shadowToken.title)
+            container.addArrangedSubview(shadowView)
         }
+    }
+}
+
+class ShadowView: UIView, Shadowable {
+
+    private struct Constants {
+        static let borderWidth: CGFloat = 0.1
+        static let cornerRadius: CGFloat = 8.0
+        static let width: CGFloat = 150
+        static let height: CGFloat = 70
+    }
+
+    var shadow1: CALayer?
+    var shadow2: CALayer?
+
+    let shadowInfo: ShadowInfo
+    let label = Label()
+
+    init(shadowInfo: ShadowInfo, title: String) {
+        self.shadowInfo = shadowInfo
+
+        super.init(frame: .zero)
+
+        layer.borderWidth = Constants.borderWidth
+        layer.cornerRadius = Constants.cornerRadius
+
+        backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background2])
+
+        label.text = title
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
+        addSubview(label)
+
+        setupLayoutConstraints()
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        updateShadows()
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    private func updateShadows() {
+        shadowInfo.applyShadow(to: self)
+    }
+
+    private func setupLayoutConstraints() {
+        NSLayoutConstraint.activate([
+            widthAnchor.constraint(equalToConstant: Constants.width),
+            heightAnchor.constraint(equalToConstant: Constants.height),
+            label.centerYAnchor.constraint(equalTo: centerYAnchor),
+            label.centerXAnchor.constraint(equalTo: centerXAnchor)
+        ])
     }
 }
 
@@ -47,52 +104,5 @@ private extension AliasTokens.ShadowTokens {
         case .shadow64:
             return "Shadow64"
         }
-    }
-}
-
-class ShadowView: UIView, Shadowable {
-    var shadow1: CALayer?
-    var shadow2: CALayer?
-
-    let shadowInfo: ShadowInfo
-    let label = Label()
-
-    init(shadowInfo: ShadowInfo, title: String) {
-        self.shadowInfo = shadowInfo
-
-        super.init(frame: .zero)
-
-        layer.borderWidth = 0.1
-        layer.cornerRadius = 8.0
-
-        label.text = title
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
-        addSubview(label)
-
-        backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background2])
-        setupLayoutConstraints()
-    }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        updateShadows()
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    private func updateShadows() {
-        shadowInfo.applyShadow(to: self)
-    }
-
-    private func setupLayoutConstraints() {
-        NSLayoutConstraint.activate([
-            widthAnchor.constraint(equalToConstant: 150),
-            heightAnchor.constraint(equalToConstant: 70),
-            label.centerYAnchor.constraint(equalTo: centerYAnchor),
-            label.centerXAnchor.constraint(equalTo: centerXAnchor)
-        ])
     }
 }
