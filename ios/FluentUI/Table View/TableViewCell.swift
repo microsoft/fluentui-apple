@@ -899,16 +899,11 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         return unreadDotLayer
     }()
 
-    /// The custom view on the leading edge of the `customView` UIView. // (is isUnreadDotVisible
+    /// Boolean determining if the unread dot is visible.
     @objc open var isUnreadDotVisible: Bool = false {
         didSet {
             if isUnreadDotVisible {
                 self.contentView.layer.addSublayer(unreadDotLayer)
-                let leadingDotDimensions: CGFloat = TableViewCellTokenSet.leadingDotDimensions
-                let leadingDotYOffset = ceil((contentView.frame.height - leadingDotDimensions) / 2)
-                let leadingDotXOffset = TableViewCell.customViewLeadingOffset(isInSelectionMode: isInSelectionMode,
-                                                                              leadingPadding: TableViewCellTokenSet.leadingDotHorizontalPadding)
-                unreadDotLayer.frame.origin = CGPoint(x: leadingDotXOffset, y: leadingDotYOffset)
                 accessibilityLabel = String(format: "Accessibility.TabBarItemView.UnreadFormat".localized, title)
             } else {
                 unreadDotLayer.removeFromSuperlayer()
@@ -1544,8 +1539,11 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         if isUnreadDotVisible {
             let leadingDotDimensions: CGFloat = TableViewCellTokenSet.leadingDotDimensions
             let leadingDotYOffset = ceil((contentView.frame.height - leadingDotDimensions) / 2)
-            let leadingDotXOffset = TableViewCell.customViewLeadingOffset(isInSelectionMode: isInSelectionMode,
+            var leadingDotXOffset = TableViewCell.customViewLeadingOffset(isInSelectionMode: isInSelectionMode,
                                                                           leadingPadding: TableViewCellTokenSet.leadingDotHorizontalPadding)
+            if effectiveUserInterfaceLayoutDirection == .rightToLeft {
+                leadingDotXOffset = self.contentView.frame.width - leadingDotXOffset - leadingDotDimensions
+            }
             unreadDotLayer.frame.origin = CGPoint(x: leadingDotXOffset, y: leadingDotYOffset)
         }
 
