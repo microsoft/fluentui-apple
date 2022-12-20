@@ -123,8 +123,8 @@ open class PopupMenuController: DrawerController {
                     return
                 }
                 separator.backgroundColor = UIColor(cgColor: separatorColor.cgColor)
-            }
         }
+    }
 
     private var sections: [PopupMenuSection] = []
     private var itemForExecutionAfterPopupMenuDismissal: PopupMenuTemplateItem?

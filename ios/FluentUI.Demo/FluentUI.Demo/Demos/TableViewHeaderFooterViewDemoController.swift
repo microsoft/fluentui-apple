@@ -15,7 +15,6 @@ class TableViewHeaderFooterViewDemoController: DemoController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         view.addSubview(groupedTableView)
         groupedTableView.frame = view.bounds
         groupedTableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]

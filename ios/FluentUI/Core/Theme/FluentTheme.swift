@@ -6,7 +6,8 @@
 import SwiftUI
 
 /// Base class that allows for customization of global, alias, and control tokens.
-@objc public class FluentTheme: NSObject, ObservableObject {
+@objc(MSFFluentTheme)
+public class FluentTheme: NSObject, ObservableObject {
     /// Initializes and returns a new `FluentTheme`.
     ///
     /// Once created, a `FluentTheme` can have its `AliasTokens` customized by setting custom values on the
@@ -35,7 +36,7 @@ import SwiftUI
     }
 
     /// The associated `AliasTokens` for this theme.
-    public let aliasTokens: AliasTokens = .init()
+    @objc public let aliasTokens: AliasTokens = .init()
 
     static var shared: FluentTheme = .init()
 
@@ -64,7 +65,7 @@ public extension Notification.Name {
     }
 
     /// The custom `FluentTheme` to apply to this view.
-    public var fluentTheme: FluentTheme {
+    @objc public var fluentTheme: FluentTheme {
         get {
             var optionalView: UIView? = self
             while let view = optionalView {

@@ -5,9 +5,11 @@
 
 import CoreGraphics
 import UIKit
+import Foundation
 
 /// Represents a two-part shadow as used by FluentUI.
-public struct ShadowInfo: Equatable {
+@objc(MSFShadowInfo)
+public class ShadowInfo: NSObject {
     /// Initializes a shadow struct to be used in Fluent.
     ///
     /// - Parameters:
@@ -38,28 +40,28 @@ public struct ShadowInfo: Equatable {
     }
 
     /// The color of the shadow for shadow 1.
-    public let colorOne: DynamicColor
+    @objc public let colorOne: DynamicColor
 
     /// The blur of the shadow for shadow 1.
-    public let blurOne: CGFloat
+    @objc public let blurOne: CGFloat
 
     /// The horizontal offset of the shadow for shadow 1.
-    public let xOne: CGFloat
+    @objc public let xOne: CGFloat
 
     /// The vertical offset of the shadow for shadow 1.
-    public let yOne: CGFloat
+    @objc public let yOne: CGFloat
 
     /// The color of the shadow for shadow 2.
-    public let colorTwo: DynamicColor
+    @objc public let colorTwo: DynamicColor
 
     /// The blur of the shadow for shadow 2.
-    public let blurTwo: CGFloat
+    @objc public let blurTwo: CGFloat
 
     /// The horizontal offset of the shadow for shadow 2.
-    public let xTwo: CGFloat
+    @objc public let xTwo: CGFloat
 
     /// The vertical offset of the shadow for shadow 2.
-    public let yTwo: CGFloat
+    @objc public let yTwo: CGFloat
 
     /// The number that the figma blur needs to be adjusted by to properly display shadows. See https://github.com/microsoft/apple-ux-guide/blob/gh-pages/Shadows.md
     private let shadowBlurAdjustment: CGFloat = 0.5
