@@ -7,45 +7,25 @@ import FluentUI
 import UIKit
 
 class ShadowTokensDemoController: DemoController {
-    var cards: [CardView] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        container.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.stencil2])
+        view.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.stencil2])
 
         container.alignment = .center
-        container.spacing = Constants.spacing
-
+        container.spacing = 120
         initCards()
 
         container.addArrangedSubview(UIView())
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        updateShadows()
-    }
-
     private func initCards() {
-        let demoIcon = UIImage(named: "flag-24x24")
-
         for shadow in AliasTokens.ShadowTokens.allCases {
-            let card = CardView(size: .large, title: shadow.title, icon: demoIcon!, colorStyle: .neutral)
-            cards.append(card)
-            container.addArrangedSubview(card)
+            let view = ShadowView(shadowInfo: container.fluentTheme.aliasTokens.shadow[shadow],
+                                  title: shadow.title)
+            container.addArrangedSubview(view)
         }
-    }
-
-    private func updateShadows() {
-        for index in 0..<AliasTokens.ShadowTokens.allCases.count {
-            let shadowInfo = view.fluentTheme.aliasTokens.shadow[AliasTokens.ShadowTokens.allCases[index]]
-            shadowInfo.applyShadow(to: cards[index])
-        }
-    }
-
-    private struct Constants {
-        static let spacing: CGFloat = 120
     }
 }
 
@@ -67,5 +47,52 @@ private extension AliasTokens.ShadowTokens {
         case .shadow64:
             return "Shadow64"
         }
+    }
+}
+
+class ShadowView: UIView, Shadowable {
+    var shadow1: CALayer?
+    var shadow2: CALayer?
+
+    let shadowInfo: ShadowInfo
+    let label = Label()
+
+    init(shadowInfo: ShadowInfo, title: String) {
+        self.shadowInfo = shadowInfo
+
+        super.init(frame: .zero)
+
+        layer.borderWidth = 0.1
+        layer.cornerRadius = 8.0
+
+        label.text = title
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
+        addSubview(label)
+
+        backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background2])
+        setupLayoutConstraints()
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        updateShadows()
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    private func updateShadows() {
+        shadowInfo.applyShadow(to: self)
+    }
+
+    private func setupLayoutConstraints() {
+        NSLayoutConstraint.activate([
+            widthAnchor.constraint(equalToConstant: 150),
+            heightAnchor.constraint(equalToConstant: 70),
+            label.centerYAnchor.constraint(equalTo: centerYAnchor),
+            label.centerXAnchor.constraint(equalTo: centerXAnchor)
+        ])
     }
 }
