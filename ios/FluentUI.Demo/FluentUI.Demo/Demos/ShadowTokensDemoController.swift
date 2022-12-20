@@ -30,6 +30,7 @@ class ShadowTokensDemoController: DemoController {
     }
 }
 
+// Custom View thats needs to conform to the Shadowable protocol to apply Fluent shadow tokens
 class ShadowView: UIView, Shadowable {
 
     private struct Constants {
@@ -65,6 +66,8 @@ class ShadowView: UIView, Shadowable {
 
     override func layoutSubviews() {
         super.layoutSubviews()
+
+        // Make sure shadows are applied in the view's layoutSubviews function
         updateShadows()
     }
 
