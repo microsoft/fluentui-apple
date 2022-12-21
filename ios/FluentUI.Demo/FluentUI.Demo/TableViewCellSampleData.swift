@@ -28,7 +28,8 @@ class TableViewCellSampleData: TableViewSampleData {
                      text2: "Research Notes",
                      image: "excelIcon",
                      text2LeadingAccessoryView: { createIconsAccessoryView(images: ["shared-12x12", "success-12x12"]) })
-            ]
+            ],
+            isUnreadDotVisible: true
         ),
         Section(
             title: "Inverted double line cell",
