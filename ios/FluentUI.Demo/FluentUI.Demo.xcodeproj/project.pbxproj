@@ -9,48 +9,49 @@
 /* Begin PBXBuildFile section */
 		114CF8B82423E10900D064AA /* ColorDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 114CF8B72423E10900D064AA /* ColorDemoController.swift */; };
 		2F0A96FC25CA047100EF9736 /* SearchBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0A96FB25CA047100EF9736 /* SearchBarDemoController.swift */; };
-		3A83F7D02951129F00EF6629 /* ActivityIndicatorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F7CF2951129F00EF6629 /* ActivityIndicatorTest.swift */; };
-		3A83F7D2295113A200EF6629 /* ActivityIndicatorTest_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F7D1295113A200EF6629 /* ActivityIndicatorTest_SwiftUI.swift */; };
-		3A83F7D4295113C100EF6629 /* AvatarTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F7D3295113C100EF6629 /* AvatarTest.swift */; };
-		3A83F7D62951140000EF6629 /* AvatarTest_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F7D52951140000EF6629 /* AvatarTest_SwiftUI.swift */; };
-		3A83F7D82951141E00EF6629 /* AvatarGroupTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F7D72951141E00EF6629 /* AvatarGroupTest.swift */; };
-		3A83F7DA2951143300EF6629 /* BadgeFieldTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F7D92951143300EF6629 /* BadgeFieldTest.swift */; };
-		3A83F7DC2951144E00EF6629 /* BadgeViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F7DB2951144E00EF6629 /* BadgeViewTest.swift */; };
-		3A83F7DE2951146600EF6629 /* BottomCommandingControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F7DD2951146600EF6629 /* BottomCommandingControllerTest.swift */; };
-		3A83F7E02951147B00EF6629 /* BottomSheetControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F7DF2951147B00EF6629 /* BottomSheetControllerTest.swift */; };
-		3A83F7E22951156B00EF6629 /* ButtonTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F7E12951156B00EF6629 /* ButtonTest.swift */; };
-		3A83F7E42951182200EF6629 /* CardTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F7E32951182200EF6629 /* CardTest.swift */; };
-		3A83F7E62951184D00EF6629 /* CardNudgeTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F7E52951184D00EF6629 /* CardNudgeTest.swift */; };
-		3A83F7E82951186300EF6629 /* ColorTokensTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F7E72951186300EF6629 /* ColorTokensTest.swift */; };
-		3A83F7EA2951187D00EF6629 /* CommandBarTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F7E92951187D00EF6629 /* CommandBarTest.swift */; };
-		3A83F7EC2951189300EF6629 /* DateTimePickerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F7EB2951189300EF6629 /* DateTimePickerTest.swift */; };
-		3A83F7EE295118A900EF6629 /* DrawerControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F7ED295118A900EF6629 /* DrawerControllerTest.swift */; };
-		3A83F7F0295118C000EF6629 /* HUDTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F7EF295118C000EF6629 /* HUDTest.swift */; };
-		3A83F7F2295118E900EF6629 /* HUDTest_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F7F1295118E900EF6629 /* HUDTest_SwiftUI.swift */; };
-		3A83F7F42951190700EF6629 /* IndeterminateProgressBarTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F7F32951190700EF6629 /* IndeterminateProgressBarTest.swift */; };
-		3A83F7F62951192000EF6629 /* IndeterminateProgressBarTest_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F7F52951192000EF6629 /* IndeterminateProgressBarTest_SwiftUI.swift */; };
-		3A83F7F82951194600EF6629 /* LabelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F7F72951194600EF6629 /* LabelTest.swift */; };
-		3A83F7FA2951195D00EF6629 /* NavigationControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F7F92951195D00EF6629 /* NavigationControllerTest.swift */; };
-		3A83F7FC2951197100EF6629 /* NotificationViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F7FB2951197100EF6629 /* NotificationViewTest.swift */; };
-		3A83F7FE2951198C00EF6629 /* NotificationViewTest_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F7FD2951198C00EF6629 /* NotificationViewTest_SwiftUI.swift */; };
-		3A83F800295119BA00EF6629 /* OtherCellsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F7FF295119BA00EF6629 /* OtherCellsTest.swift */; };
-		3A83F802295119DA00EF6629 /* PeoplePickerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F801295119DA00EF6629 /* PeoplePickerTest.swift */; };
-		3A83F804295119F000EF6629 /* PersonaButtonCarouselTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F803295119F000EF6629 /* PersonaButtonCarouselTest.swift */; };
-		3A83F80629511A0500EF6629 /* PersonaListViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F80529511A0500EF6629 /* PersonaListViewTest.swift */; };
-		3A83F80829511A1900EF6629 /* PillButtonTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F80729511A1900EF6629 /* PillButtonTest.swift */; };
-		3A83F80A29511A3200EF6629 /* PillButtonBarTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F80929511A3200EF6629 /* PillButtonBarTest.swift */; };
-		3A83F80C29511A4900EF6629 /* PopupMenuControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F80B29511A4900EF6629 /* PopupMenuControllerTest.swift */; };
-		3A83F80E29511A5B00EF6629 /* SearchBarTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F80D29511A5B00EF6629 /* SearchBarTest.swift */; };
-		3A83F81029511A7900EF6629 /* SegmentedControlTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F80F29511A7900EF6629 /* SegmentedControlTest.swift */; };
-		3A83F81229511A8E00EF6629 /* ShimmerViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F81129511A8E00EF6629 /* ShimmerViewTest.swift */; };
-		3A83F81429511AB200EF6629 /* SideTabBarTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F81329511AB200EF6629 /* SideTabBarTest.swift */; };
-		3A83F81629511AF800EF6629 /* TabBarViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F81529511AF800EF6629 /* TabBarViewTest.swift */; };
-		3A83F81829511B0F00EF6629 /* TableViewCellTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F81729511B0F00EF6629 /* TableViewCellTest.swift */; };
-		3A83F81A29511B2300EF6629 /* TableViewCellFileAccessoryViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F81929511B2300EF6629 /* TableViewCellFileAccessoryViewTest.swift */; };
-		3A83F81C29511B4200EF6629 /* TableViewCellShimmerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F81B29511B4200EF6629 /* TableViewCellShimmerTest.swift */; };
-		3A83F81E29511B5700EF6629 /* TableViewHeaderFooterViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F81D29511B5700EF6629 /* TableViewHeaderFooterViewTest.swift */; };
-		3A83F82029511B6D00EF6629 /* TooltipTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F81F29511B6D00EF6629 /* TooltipTest.swift */; };
-		3A83F82429511B8B00EF6629 /* TypographyTokensTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F82329511B8B00EF6629 /* TypographyTokensTest.swift */; };
+		3A83F83429527E1B00EF6629 /* BaseTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F83329527E1B00EF6629 /* BaseTest.m */; };
+		3A83F83729527E9100EF6629 /* ActivityIndicatorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F83629527E9100EF6629 /* ActivityIndicatorTest.m */; };
+		3A83F83B295280D700EF6629 /* AvatarTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F83A295280D700EF6629 /* AvatarTest.m */; };
+		3A83F83E2952813600EF6629 /* AvatarGroupTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F83D2952813600EF6629 /* AvatarGroupTest.m */; };
+		3A83F8412952817200EF6629 /* BadgeFieldTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F8402952817200EF6629 /* BadgeFieldTest.m */; };
+		3A83F8442952819600EF6629 /* BadgeViewTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F8432952819600EF6629 /* BadgeViewTest.m */; };
+		3A83F847295281BC00EF6629 /* BottomCommandingControllerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F846295281BC00EF6629 /* BottomCommandingControllerTest.m */; };
+		3A83F84A295281DE00EF6629 /* BottomSheetControllerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F849295281DE00EF6629 /* BottomSheetControllerTest.m */; };
+		3A83F84D295281FE00EF6629 /* ButtonTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F84C295281FE00EF6629 /* ButtonTest.m */; };
+		3A83F8502952821E00EF6629 /* CardTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F84F2952821E00EF6629 /* CardTest.m */; };
+		3A83F8532952824000EF6629 /* CardNudgeTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F8522952824000EF6629 /* CardNudgeTest.m */; };
+		3A83F8562952825C00EF6629 /* ColorTokensTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F8552952825C00EF6629 /* ColorTokensTest.m */; };
+		3A83F8592952828C00EF6629 /* CommandBarTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F8582952828C00EF6629 /* CommandBarTest.m */; };
+		3A83F85C295282AC00EF6629 /* DateTimePickerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F85B295282AC00EF6629 /* DateTimePickerTest.m */; };
+		3A83F85F295282CD00EF6629 /* DrawerControllerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F85E295282CD00EF6629 /* DrawerControllerTest.m */; };
+		3A83F862295282EA00EF6629 /* HUDTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F861295282EA00EF6629 /* HUDTest.m */; };
+		3A83F8652952830800EF6629 /* IndeterminateProgressBarTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F8642952830800EF6629 /* IndeterminateProgressBarTest.m */; };
+		3A83F8682952832500EF6629 /* LabelTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F8672952832500EF6629 /* LabelTest.m */; };
+		3A83F86B2952835F00EF6629 /* NavigationControllerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F86A2952835F00EF6629 /* NavigationControllerTest.m */; };
+		3A83F86E295283C200EF6629 /* NotificationViewTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F86D295283C200EF6629 /* NotificationViewTest.m */; };
+		3A83F8712952840E00EF6629 /* OtherCellsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F8702952840E00EF6629 /* OtherCellsTest.m */; };
+		3A83F8742952845900EF6629 /* PeoplePickerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F8732952845900EF6629 /* PeoplePickerTest.m */; };
+		3A83F8772952848000EF6629 /* PersonaButtonCarouselTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F8762952848000EF6629 /* PersonaButtonCarouselTest.m */; };
+		3A83F87A2952852800EF6629 /* PersonaListViewTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F8792952852800EF6629 /* PersonaListViewTest.m */; };
+		3A83F87D2952855000EF6629 /* PillButtonTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F87C2952855000EF6629 /* PillButtonTest.m */; };
+		3A83F8802952858D00EF6629 /* PillButtonBarTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F87F2952858D00EF6629 /* PillButtonBarTest.m */; };
+		3A83F883295285C000EF6629 /* PopupMenuControllerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F882295285C000EF6629 /* PopupMenuControllerTest.m */; };
+		3A83F8862952867700EF6629 /* SearchBarTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F8852952867700EF6629 /* SearchBarTest.m */; };
+		3A83F8892952869900EF6629 /* SegmentedControlTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F8882952869900EF6629 /* SegmentedControlTest.m */; };
+		3A83F88C295286CD00EF6629 /* ShimmerViewTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F88B295286CD00EF6629 /* ShimmerViewTest.m */; };
+		3A83F88F295286F000EF6629 /* SideTabBarTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F88E295286F000EF6629 /* SideTabBarTest.m */; };
+		3A83F8922952872900EF6629 /* TabBarViewTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F8912952872900EF6629 /* TabBarViewTest.m */; };
+		3A83F8952952874B00EF6629 /* TableViewCellTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F8942952874B00EF6629 /* TableViewCellTest.m */; };
+		3A83F8982952877500EF6629 /* TableViewCellFileAccessoryViewTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F8972952877500EF6629 /* TableViewCellFileAccessoryViewTest.m */; };
+		3A83F89B295287A000EF6629 /* TableViewCellShimmerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F89A295287A000EF6629 /* TableViewCellShimmerTest.m */; };
+		3A83F89E295287C100EF6629 /* TableViewHeaderFooterViewTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F89D295287C100EF6629 /* TableViewHeaderFooterViewTest.m */; };
+		3A83F8A1295287E300EF6629 /* TooltipTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F8A0295287E300EF6629 /* TooltipTest.m */; };
+		3A83F8A42952880100EF6629 /* TypographyTokensTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F8A32952880100EF6629 /* TypographyTokensTest.m */; };
+		3A83F8A729528BD700EF6629 /* ActivityIndicatorTest_SwiftUI.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F8A629528BD700EF6629 /* ActivityIndicatorTest_SwiftUI.m */; };
+		3A83F8AA29528FB200EF6629 /* AvatarTest_SwiftUI.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F8A929528FB200EF6629 /* AvatarTest_SwiftUI.m */; };
+		3A83F8AD2952900200EF6629 /* HUDTest_SwiftUI.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F8AC2952900200EF6629 /* HUDTest_SwiftUI.m */; };
+		3A83F8B02952905800EF6629 /* IndeterminateProgressBarTest_SwiftUI.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F8AF2952905800EF6629 /* IndeterminateProgressBarTest_SwiftUI.m */; };
+		3A83F8B3295290A100EF6629 /* NotificationViewTest_SwiftUI.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F8B2295290A100EF6629 /* NotificationViewTest_SwiftUI.m */; };
 		43488C4A270FB7E800124C71 /* NotificationViewDemoController_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43488C49270FB7E800124C71 /* NotificationViewDemoController_SwiftUI.swift */; };
 		497DC2DE24185896008D86F8 /* PillButtonBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2DD24185896008D86F8 /* PillButtonBarDemoController.swift */; };
 		5303259326B3198A00611D05 /* AvatarDemoController_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5303259226B3198A00611D05 /* AvatarDemoController_SwiftUI.swift */; };
@@ -137,48 +138,92 @@
 		114CF8B72423E10900D064AA /* ColorDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorDemoController.swift; sourceTree = "<group>"; };
 		2F0A96FB25CA047100EF9736 /* SearchBarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchBarDemoController.swift; sourceTree = "<group>"; };
 		3A83F7BF295110FF00EF6629 /* FluentUIDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FluentUIDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		3A83F7CF2951129F00EF6629 /* ActivityIndicatorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorTest.swift; sourceTree = "<group>"; };
-		3A83F7D1295113A200EF6629 /* ActivityIndicatorTest_SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorTest_SwiftUI.swift; sourceTree = "<group>"; };
-		3A83F7D3295113C100EF6629 /* AvatarTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarTest.swift; sourceTree = "<group>"; };
-		3A83F7D52951140000EF6629 /* AvatarTest_SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarTest_SwiftUI.swift; sourceTree = "<group>"; };
-		3A83F7D72951141E00EF6629 /* AvatarGroupTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarGroupTest.swift; sourceTree = "<group>"; };
-		3A83F7D92951143300EF6629 /* BadgeFieldTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeFieldTest.swift; sourceTree = "<group>"; };
-		3A83F7DB2951144E00EF6629 /* BadgeViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeViewTest.swift; sourceTree = "<group>"; };
-		3A83F7DD2951146600EF6629 /* BottomCommandingControllerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomCommandingControllerTest.swift; sourceTree = "<group>"; };
-		3A83F7DF2951147B00EF6629 /* BottomSheetControllerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetControllerTest.swift; sourceTree = "<group>"; };
-		3A83F7E12951156B00EF6629 /* ButtonTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonTest.swift; sourceTree = "<group>"; };
-		3A83F7E32951182200EF6629 /* CardTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardTest.swift; sourceTree = "<group>"; };
-		3A83F7E52951184D00EF6629 /* CardNudgeTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardNudgeTest.swift; sourceTree = "<group>"; };
-		3A83F7E72951186300EF6629 /* ColorTokensTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTokensTest.swift; sourceTree = "<group>"; };
-		3A83F7E92951187D00EF6629 /* CommandBarTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBarTest.swift; sourceTree = "<group>"; };
-		3A83F7EB2951189300EF6629 /* DateTimePickerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTimePickerTest.swift; sourceTree = "<group>"; };
-		3A83F7ED295118A900EF6629 /* DrawerControllerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerControllerTest.swift; sourceTree = "<group>"; };
-		3A83F7EF295118C000EF6629 /* HUDTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDTest.swift; sourceTree = "<group>"; };
-		3A83F7F1295118E900EF6629 /* HUDTest_SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDTest_SwiftUI.swift; sourceTree = "<group>"; };
-		3A83F7F32951190700EF6629 /* IndeterminateProgressBarTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBarTest.swift; sourceTree = "<group>"; };
-		3A83F7F52951192000EF6629 /* IndeterminateProgressBarTest_SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBarTest_SwiftUI.swift; sourceTree = "<group>"; };
-		3A83F7F72951194600EF6629 /* LabelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelTest.swift; sourceTree = "<group>"; };
-		3A83F7F92951195D00EF6629 /* NavigationControllerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationControllerTest.swift; sourceTree = "<group>"; };
-		3A83F7FB2951197100EF6629 /* NotificationViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewTest.swift; sourceTree = "<group>"; };
-		3A83F7FD2951198C00EF6629 /* NotificationViewTest_SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewTest_SwiftUI.swift; sourceTree = "<group>"; };
-		3A83F7FF295119BA00EF6629 /* OtherCellsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherCellsTest.swift; sourceTree = "<group>"; };
-		3A83F801295119DA00EF6629 /* PeoplePickerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeoplePickerTest.swift; sourceTree = "<group>"; };
-		3A83F803295119F000EF6629 /* PersonaButtonCarouselTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaButtonCarouselTest.swift; sourceTree = "<group>"; };
-		3A83F80529511A0500EF6629 /* PersonaListViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaListViewTest.swift; sourceTree = "<group>"; };
-		3A83F80729511A1900EF6629 /* PillButtonTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillButtonTest.swift; sourceTree = "<group>"; };
-		3A83F80929511A3200EF6629 /* PillButtonBarTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillButtonBarTest.swift; sourceTree = "<group>"; };
-		3A83F80B29511A4900EF6629 /* PopupMenuControllerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMenuControllerTest.swift; sourceTree = "<group>"; };
-		3A83F80D29511A5B00EF6629 /* SearchBarTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarTest.swift; sourceTree = "<group>"; };
-		3A83F80F29511A7900EF6629 /* SegmentedControlTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControlTest.swift; sourceTree = "<group>"; };
-		3A83F81129511A8E00EF6629 /* ShimmerViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerViewTest.swift; sourceTree = "<group>"; };
-		3A83F81329511AB200EF6629 /* SideTabBarTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideTabBarTest.swift; sourceTree = "<group>"; };
-		3A83F81529511AF800EF6629 /* TabBarViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewTest.swift; sourceTree = "<group>"; };
-		3A83F81729511B0F00EF6629 /* TableViewCellTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCellTest.swift; sourceTree = "<group>"; };
-		3A83F81929511B2300EF6629 /* TableViewCellFileAccessoryViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCellFileAccessoryViewTest.swift; sourceTree = "<group>"; };
-		3A83F81B29511B4200EF6629 /* TableViewCellShimmerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCellShimmerTest.swift; sourceTree = "<group>"; };
-		3A83F81D29511B5700EF6629 /* TableViewHeaderFooterViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewHeaderFooterViewTest.swift; sourceTree = "<group>"; };
-		3A83F81F29511B6D00EF6629 /* TooltipTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TooltipTest.swift; sourceTree = "<group>"; };
-		3A83F82329511B8B00EF6629 /* TypographyTokensTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypographyTokensTest.swift; sourceTree = "<group>"; };
+		3A83F83229527E1200EF6629 /* BaseTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseTest.h; sourceTree = "<group>"; };
+		3A83F83329527E1B00EF6629 /* BaseTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseTest.m; sourceTree = "<group>"; };
+		3A83F83529527E6100EF6629 /* ActivityIndicatorTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ActivityIndicatorTest.h; sourceTree = "<group>"; };
+		3A83F83629527E9100EF6629 /* ActivityIndicatorTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ActivityIndicatorTest.m; sourceTree = "<group>"; };
+		3A83F839295280C800EF6629 /* AvatarTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AvatarTest.h; sourceTree = "<group>"; };
+		3A83F83A295280D700EF6629 /* AvatarTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AvatarTest.m; sourceTree = "<group>"; };
+		3A83F83C2952812500EF6629 /* AvatarGroupTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AvatarGroupTest.h; sourceTree = "<group>"; };
+		3A83F83D2952813600EF6629 /* AvatarGroupTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AvatarGroupTest.m; sourceTree = "<group>"; };
+		3A83F83F2952814D00EF6629 /* BadgeFieldTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BadgeFieldTest.h; sourceTree = "<group>"; };
+		3A83F8402952817200EF6629 /* BadgeFieldTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BadgeFieldTest.m; sourceTree = "<group>"; };
+		3A83F8422952818A00EF6629 /* BadgeViewTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BadgeViewTest.h; sourceTree = "<group>"; };
+		3A83F8432952819600EF6629 /* BadgeViewTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BadgeViewTest.m; sourceTree = "<group>"; };
+		3A83F845295281AE00EF6629 /* BottomCommandingControllerTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BottomCommandingControllerTest.h; sourceTree = "<group>"; };
+		3A83F846295281BC00EF6629 /* BottomCommandingControllerTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BottomCommandingControllerTest.m; sourceTree = "<group>"; };
+		3A83F848295281D000EF6629 /* BottomSheetControllerTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BottomSheetControllerTest.h; sourceTree = "<group>"; };
+		3A83F849295281DE00EF6629 /* BottomSheetControllerTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BottomSheetControllerTest.m; sourceTree = "<group>"; };
+		3A83F84B295281F200EF6629 /* ButtonTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ButtonTest.h; sourceTree = "<group>"; };
+		3A83F84C295281FE00EF6629 /* ButtonTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ButtonTest.m; sourceTree = "<group>"; };
+		3A83F84E2952821000EF6629 /* CardTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardTest.h; sourceTree = "<group>"; };
+		3A83F84F2952821E00EF6629 /* CardTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CardTest.m; sourceTree = "<group>"; };
+		3A83F8512952823300EF6629 /* CardNudgeTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardNudgeTest.h; sourceTree = "<group>"; };
+		3A83F8522952824000EF6629 /* CardNudgeTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CardNudgeTest.m; sourceTree = "<group>"; };
+		3A83F8542952825100EF6629 /* ColorTokensTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ColorTokensTest.h; sourceTree = "<group>"; };
+		3A83F8552952825C00EF6629 /* ColorTokensTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ColorTokensTest.m; sourceTree = "<group>"; };
+		3A83F8572952828000EF6629 /* CommandBarTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommandBarTest.h; sourceTree = "<group>"; };
+		3A83F8582952828C00EF6629 /* CommandBarTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CommandBarTest.m; sourceTree = "<group>"; };
+		3A83F85A2952829F00EF6629 /* DateTimePickerTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DateTimePickerTest.h; sourceTree = "<group>"; };
+		3A83F85B295282AC00EF6629 /* DateTimePickerTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DateTimePickerTest.m; sourceTree = "<group>"; };
+		3A83F85D295282BC00EF6629 /* DrawerControllerTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DrawerControllerTest.h; sourceTree = "<group>"; };
+		3A83F85E295282CD00EF6629 /* DrawerControllerTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DrawerControllerTest.m; sourceTree = "<group>"; };
+		3A83F860295282DF00EF6629 /* HUDTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HUDTest.h; sourceTree = "<group>"; };
+		3A83F861295282EA00EF6629 /* HUDTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HUDTest.m; sourceTree = "<group>"; };
+		3A83F863295282FD00EF6629 /* IndeterminateProgressBarTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IndeterminateProgressBarTest.h; sourceTree = "<group>"; };
+		3A83F8642952830800EF6629 /* IndeterminateProgressBarTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IndeterminateProgressBarTest.m; sourceTree = "<group>"; };
+		3A83F8662952831A00EF6629 /* LabelTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LabelTest.h; sourceTree = "<group>"; };
+		3A83F8672952832500EF6629 /* LabelTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LabelTest.m; sourceTree = "<group>"; };
+		3A83F8692952835200EF6629 /* NavigationControllerTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NavigationControllerTest.h; sourceTree = "<group>"; };
+		3A83F86A2952835F00EF6629 /* NavigationControllerTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NavigationControllerTest.m; sourceTree = "<group>"; };
+		3A83F86C295283B600EF6629 /* NotificationViewTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationViewTest.h; sourceTree = "<group>"; };
+		3A83F86D295283C200EF6629 /* NotificationViewTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationViewTest.m; sourceTree = "<group>"; };
+		3A83F86F295283FE00EF6629 /* OtherCellsTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OtherCellsTest.h; sourceTree = "<group>"; };
+		3A83F8702952840E00EF6629 /* OtherCellsTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OtherCellsTest.m; sourceTree = "<group>"; };
+		3A83F8722952844900EF6629 /* PeoplePickerTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PeoplePickerTest.h; sourceTree = "<group>"; };
+		3A83F8732952845900EF6629 /* PeoplePickerTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PeoplePickerTest.m; sourceTree = "<group>"; };
+		3A83F8752952846E00EF6629 /* PersonaButtonCarouselTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PersonaButtonCarouselTest.h; sourceTree = "<group>"; };
+		3A83F8762952848000EF6629 /* PersonaButtonCarouselTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PersonaButtonCarouselTest.m; sourceTree = "<group>"; };
+		3A83F8782952851500EF6629 /* PersonaListViewTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PersonaListViewTest.h; sourceTree = "<group>"; };
+		3A83F8792952852800EF6629 /* PersonaListViewTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PersonaListViewTest.m; sourceTree = "<group>"; };
+		3A83F87B2952854300EF6629 /* PillButtonTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PillButtonTest.h; sourceTree = "<group>"; };
+		3A83F87C2952855000EF6629 /* PillButtonTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PillButtonTest.m; sourceTree = "<group>"; };
+		3A83F87E2952857300EF6629 /* PillButtonBarTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PillButtonBarTest.h; sourceTree = "<group>"; };
+		3A83F87F2952858D00EF6629 /* PillButtonBarTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PillButtonBarTest.m; sourceTree = "<group>"; };
+		3A83F881295285AA00EF6629 /* PopupMenuControllerTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PopupMenuControllerTest.h; sourceTree = "<group>"; };
+		3A83F882295285C000EF6629 /* PopupMenuControllerTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PopupMenuControllerTest.m; sourceTree = "<group>"; };
+		3A83F8842952865600EF6629 /* SearchBarTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SearchBarTest.h; sourceTree = "<group>"; };
+		3A83F8852952867700EF6629 /* SearchBarTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SearchBarTest.m; sourceTree = "<group>"; };
+		3A83F8872952868B00EF6629 /* SegmentedControlTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SegmentedControlTest.h; sourceTree = "<group>"; };
+		3A83F8882952869900EF6629 /* SegmentedControlTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SegmentedControlTest.m; sourceTree = "<group>"; };
+		3A83F88A295286BE00EF6629 /* ShimmerViewTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShimmerViewTest.h; sourceTree = "<group>"; };
+		3A83F88B295286CD00EF6629 /* ShimmerViewTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShimmerViewTest.m; sourceTree = "<group>"; };
+		3A83F88D295286E000EF6629 /* SideTabBarTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SideTabBarTest.h; sourceTree = "<group>"; };
+		3A83F88E295286F000EF6629 /* SideTabBarTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SideTabBarTest.m; sourceTree = "<group>"; };
+		3A83F8902952871D00EF6629 /* TabBarViewTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TabBarViewTest.h; sourceTree = "<group>"; };
+		3A83F8912952872900EF6629 /* TabBarViewTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TabBarViewTest.m; sourceTree = "<group>"; };
+		3A83F8932952873F00EF6629 /* TableViewCellTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TableViewCellTest.h; sourceTree = "<group>"; };
+		3A83F8942952874B00EF6629 /* TableViewCellTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TableViewCellTest.m; sourceTree = "<group>"; };
+		3A83F8962952876100EF6629 /* TableViewCellFileAccessoryViewTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TableViewCellFileAccessoryViewTest.h; sourceTree = "<group>"; };
+		3A83F8972952877500EF6629 /* TableViewCellFileAccessoryViewTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TableViewCellFileAccessoryViewTest.m; sourceTree = "<group>"; };
+		3A83F8992952878C00EF6629 /* TableViewCellShimmerTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TableViewCellShimmerTest.h; sourceTree = "<group>"; };
+		3A83F89A295287A000EF6629 /* TableViewCellShimmerTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TableViewCellShimmerTest.m; sourceTree = "<group>"; };
+		3A83F89C295287B400EF6629 /* TableViewHeaderFooterViewTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TableViewHeaderFooterViewTest.h; sourceTree = "<group>"; };
+		3A83F89D295287C100EF6629 /* TableViewHeaderFooterViewTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TableViewHeaderFooterViewTest.m; sourceTree = "<group>"; };
+		3A83F89F295287D600EF6629 /* TooltipTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TooltipTest.h; sourceTree = "<group>"; };
+		3A83F8A0295287E300EF6629 /* TooltipTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TooltipTest.m; sourceTree = "<group>"; };
+		3A83F8A2295287F400EF6629 /* TypographyTokensTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TypographyTokensTest.h; sourceTree = "<group>"; };
+		3A83F8A32952880100EF6629 /* TypographyTokensTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TypographyTokensTest.m; sourceTree = "<group>"; };
+		3A83F8A529528BC000EF6629 /* ActivityIndicatorTest_SwiftUI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ActivityIndicatorTest_SwiftUI.h; sourceTree = "<group>"; };
+		3A83F8A629528BD700EF6629 /* ActivityIndicatorTest_SwiftUI.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ActivityIndicatorTest_SwiftUI.m; sourceTree = "<group>"; };
+		3A83F8A829528F9B00EF6629 /* AvatarTest_SwiftUI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AvatarTest_SwiftUI.h; sourceTree = "<group>"; };
+		3A83F8A929528FB200EF6629 /* AvatarTest_SwiftUI.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AvatarTest_SwiftUI.m; sourceTree = "<group>"; };
+		3A83F8AB29528FED00EF6629 /* HUDTest_SwiftUI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HUDTest_SwiftUI.h; sourceTree = "<group>"; };
+		3A83F8AC2952900200EF6629 /* HUDTest_SwiftUI.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HUDTest_SwiftUI.m; sourceTree = "<group>"; };
+		3A83F8AE2952904900EF6629 /* IndeterminateProgressBarTest_SwiftUI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IndeterminateProgressBarTest_SwiftUI.h; sourceTree = "<group>"; };
+		3A83F8AF2952905800EF6629 /* IndeterminateProgressBarTest_SwiftUI.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IndeterminateProgressBarTest_SwiftUI.m; sourceTree = "<group>"; };
+		3A83F8B12952909400EF6629 /* NotificationViewTest_SwiftUI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationViewTest_SwiftUI.h; sourceTree = "<group>"; };
+		3A83F8B2295290A100EF6629 /* NotificationViewTest_SwiftUI.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationViewTest_SwiftUI.m; sourceTree = "<group>"; };
 		43488C49270FB7E800124C71 /* NotificationViewDemoController_SwiftUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationViewDemoController_SwiftUI.swift; sourceTree = "<group>"; };
 		497DC2DD24185896008D86F8 /* PillButtonBarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButtonBarDemoController.swift; sourceTree = "<group>"; };
 		5303259226B3198A00611D05 /* AvatarDemoController_SwiftUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarDemoController_SwiftUI.swift; sourceTree = "<group>"; };
@@ -312,48 +357,92 @@
 		3A83F7C0295110FF00EF6629 /* FluentUIDemoTests */ = {
 			isa = PBXGroup;
 			children = (
-				3A83F7D1295113A200EF6629 /* ActivityIndicatorTest_SwiftUI.swift */,
-				3A83F7CF2951129F00EF6629 /* ActivityIndicatorTest.swift */,
-				3A83F7D72951141E00EF6629 /* AvatarGroupTest.swift */,
-				3A83F7D52951140000EF6629 /* AvatarTest_SwiftUI.swift */,
-				3A83F7D3295113C100EF6629 /* AvatarTest.swift */,
-				3A83F7D92951143300EF6629 /* BadgeFieldTest.swift */,
-				3A83F7DB2951144E00EF6629 /* BadgeViewTest.swift */,
-				3A83F7DD2951146600EF6629 /* BottomCommandingControllerTest.swift */,
-				3A83F7DF2951147B00EF6629 /* BottomSheetControllerTest.swift */,
-				3A83F7E12951156B00EF6629 /* ButtonTest.swift */,
-				3A83F7E32951182200EF6629 /* CardTest.swift */,
-				3A83F7E52951184D00EF6629 /* CardNudgeTest.swift */,
-				3A83F7E72951186300EF6629 /* ColorTokensTest.swift */,
-				3A83F7E92951187D00EF6629 /* CommandBarTest.swift */,
-				3A83F7EB2951189300EF6629 /* DateTimePickerTest.swift */,
-				3A83F7ED295118A900EF6629 /* DrawerControllerTest.swift */,
-				3A83F7EF295118C000EF6629 /* HUDTest.swift */,
-				3A83F7F1295118E900EF6629 /* HUDTest_SwiftUI.swift */,
-				3A83F7F32951190700EF6629 /* IndeterminateProgressBarTest.swift */,
-				3A83F7F52951192000EF6629 /* IndeterminateProgressBarTest_SwiftUI.swift */,
-				3A83F7F72951194600EF6629 /* LabelTest.swift */,
-				3A83F7F92951195D00EF6629 /* NavigationControllerTest.swift */,
-				3A83F7FB2951197100EF6629 /* NotificationViewTest.swift */,
-				3A83F7FD2951198C00EF6629 /* NotificationViewTest_SwiftUI.swift */,
-				3A83F7FF295119BA00EF6629 /* OtherCellsTest.swift */,
-				3A83F801295119DA00EF6629 /* PeoplePickerTest.swift */,
-				3A83F803295119F000EF6629 /* PersonaButtonCarouselTest.swift */,
-				3A83F80529511A0500EF6629 /* PersonaListViewTest.swift */,
-				3A83F80729511A1900EF6629 /* PillButtonTest.swift */,
-				3A83F80929511A3200EF6629 /* PillButtonBarTest.swift */,
-				3A83F80B29511A4900EF6629 /* PopupMenuControllerTest.swift */,
-				3A83F80D29511A5B00EF6629 /* SearchBarTest.swift */,
-				3A83F80F29511A7900EF6629 /* SegmentedControlTest.swift */,
-				3A83F81129511A8E00EF6629 /* ShimmerViewTest.swift */,
-				3A83F81329511AB200EF6629 /* SideTabBarTest.swift */,
-				3A83F81529511AF800EF6629 /* TabBarViewTest.swift */,
-				3A83F81729511B0F00EF6629 /* TableViewCellTest.swift */,
-				3A83F81929511B2300EF6629 /* TableViewCellFileAccessoryViewTest.swift */,
-				3A83F81B29511B4200EF6629 /* TableViewCellShimmerTest.swift */,
-				3A83F81D29511B5700EF6629 /* TableViewHeaderFooterViewTest.swift */,
-				3A83F81F29511B6D00EF6629 /* TooltipTest.swift */,
-				3A83F82329511B8B00EF6629 /* TypographyTokensTest.swift */,
+				3A83F83229527E1200EF6629 /* BaseTest.h */,
+				3A83F83329527E1B00EF6629 /* BaseTest.m */,
+				3A83F83529527E6100EF6629 /* ActivityIndicatorTest.h */,
+				3A83F83629527E9100EF6629 /* ActivityIndicatorTest.m */,
+				3A83F8A529528BC000EF6629 /* ActivityIndicatorTest_SwiftUI.h */,
+				3A83F8A629528BD700EF6629 /* ActivityIndicatorTest_SwiftUI.m */,
+				3A83F839295280C800EF6629 /* AvatarTest.h */,
+				3A83F83A295280D700EF6629 /* AvatarTest.m */,
+				3A83F8A829528F9B00EF6629 /* AvatarTest_SwiftUI.h */,
+				3A83F8A929528FB200EF6629 /* AvatarTest_SwiftUI.m */,
+				3A83F83C2952812500EF6629 /* AvatarGroupTest.h */,
+				3A83F83D2952813600EF6629 /* AvatarGroupTest.m */,
+				3A83F83F2952814D00EF6629 /* BadgeFieldTest.h */,
+				3A83F8402952817200EF6629 /* BadgeFieldTest.m */,
+				3A83F8422952818A00EF6629 /* BadgeViewTest.h */,
+				3A83F8432952819600EF6629 /* BadgeViewTest.m */,
+				3A83F845295281AE00EF6629 /* BottomCommandingControllerTest.h */,
+				3A83F846295281BC00EF6629 /* BottomCommandingControllerTest.m */,
+				3A83F848295281D000EF6629 /* BottomSheetControllerTest.h */,
+				3A83F849295281DE00EF6629 /* BottomSheetControllerTest.m */,
+				3A83F84B295281F200EF6629 /* ButtonTest.h */,
+				3A83F84C295281FE00EF6629 /* ButtonTest.m */,
+				3A83F84E2952821000EF6629 /* CardTest.h */,
+				3A83F84F2952821E00EF6629 /* CardTest.m */,
+				3A83F8512952823300EF6629 /* CardNudgeTest.h */,
+				3A83F8522952824000EF6629 /* CardNudgeTest.m */,
+				3A83F8542952825100EF6629 /* ColorTokensTest.h */,
+				3A83F8552952825C00EF6629 /* ColorTokensTest.m */,
+				3A83F8572952828000EF6629 /* CommandBarTest.h */,
+				3A83F8582952828C00EF6629 /* CommandBarTest.m */,
+				3A83F85A2952829F00EF6629 /* DateTimePickerTest.h */,
+				3A83F85B295282AC00EF6629 /* DateTimePickerTest.m */,
+				3A83F85D295282BC00EF6629 /* DrawerControllerTest.h */,
+				3A83F85E295282CD00EF6629 /* DrawerControllerTest.m */,
+				3A83F860295282DF00EF6629 /* HUDTest.h */,
+				3A83F861295282EA00EF6629 /* HUDTest.m */,
+				3A83F8AB29528FED00EF6629 /* HUDTest_SwiftUI.h */,
+				3A83F8AC2952900200EF6629 /* HUDTest_SwiftUI.m */,
+				3A83F863295282FD00EF6629 /* IndeterminateProgressBarTest.h */,
+				3A83F8642952830800EF6629 /* IndeterminateProgressBarTest.m */,
+				3A83F8AE2952904900EF6629 /* IndeterminateProgressBarTest_SwiftUI.h */,
+				3A83F8AF2952905800EF6629 /* IndeterminateProgressBarTest_SwiftUI.m */,
+				3A83F8662952831A00EF6629 /* LabelTest.h */,
+				3A83F8672952832500EF6629 /* LabelTest.m */,
+				3A83F8692952835200EF6629 /* NavigationControllerTest.h */,
+				3A83F86A2952835F00EF6629 /* NavigationControllerTest.m */,
+				3A83F86C295283B600EF6629 /* NotificationViewTest.h */,
+				3A83F86D295283C200EF6629 /* NotificationViewTest.m */,
+				3A83F8B12952909400EF6629 /* NotificationViewTest_SwiftUI.h */,
+				3A83F8B2295290A100EF6629 /* NotificationViewTest_SwiftUI.m */,
+				3A83F86F295283FE00EF6629 /* OtherCellsTest.h */,
+				3A83F8702952840E00EF6629 /* OtherCellsTest.m */,
+				3A83F8722952844900EF6629 /* PeoplePickerTest.h */,
+				3A83F8732952845900EF6629 /* PeoplePickerTest.m */,
+				3A83F8752952846E00EF6629 /* PersonaButtonCarouselTest.h */,
+				3A83F8762952848000EF6629 /* PersonaButtonCarouselTest.m */,
+				3A83F8782952851500EF6629 /* PersonaListViewTest.h */,
+				3A83F8792952852800EF6629 /* PersonaListViewTest.m */,
+				3A83F87B2952854300EF6629 /* PillButtonTest.h */,
+				3A83F87C2952855000EF6629 /* PillButtonTest.m */,
+				3A83F87E2952857300EF6629 /* PillButtonBarTest.h */,
+				3A83F87F2952858D00EF6629 /* PillButtonBarTest.m */,
+				3A83F881295285AA00EF6629 /* PopupMenuControllerTest.h */,
+				3A83F882295285C000EF6629 /* PopupMenuControllerTest.m */,
+				3A83F8842952865600EF6629 /* SearchBarTest.h */,
+				3A83F8852952867700EF6629 /* SearchBarTest.m */,
+				3A83F8872952868B00EF6629 /* SegmentedControlTest.h */,
+				3A83F8882952869900EF6629 /* SegmentedControlTest.m */,
+				3A83F88A295286BE00EF6629 /* ShimmerViewTest.h */,
+				3A83F88B295286CD00EF6629 /* ShimmerViewTest.m */,
+				3A83F88D295286E000EF6629 /* SideTabBarTest.h */,
+				3A83F88E295286F000EF6629 /* SideTabBarTest.m */,
+				3A83F8902952871D00EF6629 /* TabBarViewTest.h */,
+				3A83F8912952872900EF6629 /* TabBarViewTest.m */,
+				3A83F8932952873F00EF6629 /* TableViewCellTest.h */,
+				3A83F8942952874B00EF6629 /* TableViewCellTest.m */,
+				3A83F8962952876100EF6629 /* TableViewCellFileAccessoryViewTest.h */,
+				3A83F8972952877500EF6629 /* TableViewCellFileAccessoryViewTest.m */,
+				3A83F8992952878C00EF6629 /* TableViewCellShimmerTest.h */,
+				3A83F89A295287A000EF6629 /* TableViewCellShimmerTest.m */,
+				3A83F89C295287B400EF6629 /* TableViewHeaderFooterViewTest.h */,
+				3A83F89D295287C100EF6629 /* TableViewHeaderFooterViewTest.m */,
+				3A83F89F295287D600EF6629 /* TooltipTest.h */,
+				3A83F8A0295287E300EF6629 /* TooltipTest.m */,
+				3A83F8A2295287F400EF6629 /* TypographyTokensTest.h */,
+				3A83F8A32952880100EF6629 /* TypographyTokensTest.m */,
 			);
 			path = FluentUIDemoTests;
 			sourceTree = "<group>";
@@ -680,48 +769,49 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3A83F7F42951190700EF6629 /* IndeterminateProgressBarTest.swift in Sources */,
-				3A83F800295119BA00EF6629 /* OtherCellsTest.swift in Sources */,
-				3A83F80C29511A4900EF6629 /* PopupMenuControllerTest.swift in Sources */,
-				3A83F7FA2951195D00EF6629 /* NavigationControllerTest.swift in Sources */,
-				3A83F7DA2951143300EF6629 /* BadgeFieldTest.swift in Sources */,
-				3A83F7E22951156B00EF6629 /* ButtonTest.swift in Sources */,
-				3A83F81229511A8E00EF6629 /* ShimmerViewTest.swift in Sources */,
-				3A83F81429511AB200EF6629 /* SideTabBarTest.swift in Sources */,
-				3A83F7D62951140000EF6629 /* AvatarTest_SwiftUI.swift in Sources */,
-				3A83F7F0295118C000EF6629 /* HUDTest.swift in Sources */,
-				3A83F7D2295113A200EF6629 /* ActivityIndicatorTest_SwiftUI.swift in Sources */,
-				3A83F802295119DA00EF6629 /* PeoplePickerTest.swift in Sources */,
-				3A83F7E42951182200EF6629 /* CardTest.swift in Sources */,
-				3A83F7D02951129F00EF6629 /* ActivityIndicatorTest.swift in Sources */,
-				3A83F82429511B8B00EF6629 /* TypographyTokensTest.swift in Sources */,
-				3A83F81C29511B4200EF6629 /* TableViewCellShimmerTest.swift in Sources */,
-				3A83F80829511A1900EF6629 /* PillButtonTest.swift in Sources */,
-				3A83F80A29511A3200EF6629 /* PillButtonBarTest.swift in Sources */,
-				3A83F7FC2951197100EF6629 /* NotificationViewTest.swift in Sources */,
-				3A83F7F82951194600EF6629 /* LabelTest.swift in Sources */,
-				3A83F7D4295113C100EF6629 /* AvatarTest.swift in Sources */,
-				3A83F7E62951184D00EF6629 /* CardNudgeTest.swift in Sources */,
-				3A83F7DE2951146600EF6629 /* BottomCommandingControllerTest.swift in Sources */,
-				3A83F7DC2951144E00EF6629 /* BadgeViewTest.swift in Sources */,
-				3A83F81629511AF800EF6629 /* TabBarViewTest.swift in Sources */,
-				3A83F804295119F000EF6629 /* PersonaButtonCarouselTest.swift in Sources */,
-				3A83F7F2295118E900EF6629 /* HUDTest_SwiftUI.swift in Sources */,
-				3A83F81A29511B2300EF6629 /* TableViewCellFileAccessoryViewTest.swift in Sources */,
-				3A83F7E82951186300EF6629 /* ColorTokensTest.swift in Sources */,
-				3A83F81E29511B5700EF6629 /* TableViewHeaderFooterViewTest.swift in Sources */,
-				3A83F7F62951192000EF6629 /* IndeterminateProgressBarTest_SwiftUI.swift in Sources */,
-				3A83F7D82951141E00EF6629 /* AvatarGroupTest.swift in Sources */,
-				3A83F80E29511A5B00EF6629 /* SearchBarTest.swift in Sources */,
-				3A83F7E02951147B00EF6629 /* BottomSheetControllerTest.swift in Sources */,
-				3A83F80629511A0500EF6629 /* PersonaListViewTest.swift in Sources */,
-				3A83F7EC2951189300EF6629 /* DateTimePickerTest.swift in Sources */,
-				3A83F81829511B0F00EF6629 /* TableViewCellTest.swift in Sources */,
-				3A83F82029511B6D00EF6629 /* TooltipTest.swift in Sources */,
-				3A83F81029511A7900EF6629 /* SegmentedControlTest.swift in Sources */,
-				3A83F7FE2951198C00EF6629 /* NotificationViewTest_SwiftUI.swift in Sources */,
-				3A83F7EE295118A900EF6629 /* DrawerControllerTest.swift in Sources */,
-				3A83F7EA2951187D00EF6629 /* CommandBarTest.swift in Sources */,
+				3A83F8AA29528FB200EF6629 /* AvatarTest_SwiftUI.m in Sources */,
+				3A83F8A42952880100EF6629 /* TypographyTokensTest.m in Sources */,
+				3A83F86B2952835F00EF6629 /* NavigationControllerTest.m in Sources */,
+				3A83F8592952828C00EF6629 /* CommandBarTest.m in Sources */,
+				3A83F8652952830800EF6629 /* IndeterminateProgressBarTest.m in Sources */,
+				3A83F8892952869900EF6629 /* SegmentedControlTest.m in Sources */,
+				3A83F84D295281FE00EF6629 /* ButtonTest.m in Sources */,
+				3A83F85F295282CD00EF6629 /* DrawerControllerTest.m in Sources */,
+				3A83F8AD2952900200EF6629 /* HUDTest_SwiftUI.m in Sources */,
+				3A83F85C295282AC00EF6629 /* DateTimePickerTest.m in Sources */,
+				3A83F84A295281DE00EF6629 /* BottomSheetControllerTest.m in Sources */,
+				3A83F8A729528BD700EF6629 /* ActivityIndicatorTest_SwiftUI.m in Sources */,
+				3A83F87A2952852800EF6629 /* PersonaListViewTest.m in Sources */,
+				3A83F862295282EA00EF6629 /* HUDTest.m in Sources */,
+				3A83F8A1295287E300EF6629 /* TooltipTest.m in Sources */,
+				3A83F89B295287A000EF6629 /* TableViewCellShimmerTest.m in Sources */,
+				3A83F8862952867700EF6629 /* SearchBarTest.m in Sources */,
+				3A83F8982952877500EF6629 /* TableViewCellFileAccessoryViewTest.m in Sources */,
+				3A83F8772952848000EF6629 /* PersonaButtonCarouselTest.m in Sources */,
+				3A83F8442952819600EF6629 /* BadgeViewTest.m in Sources */,
+				3A83F8562952825C00EF6629 /* ColorTokensTest.m in Sources */,
+				3A83F89E295287C100EF6629 /* TableViewHeaderFooterViewTest.m in Sources */,
+				3A83F883295285C000EF6629 /* PopupMenuControllerTest.m in Sources */,
+				3A83F83E2952813600EF6629 /* AvatarGroupTest.m in Sources */,
+				3A83F83729527E9100EF6629 /* ActivityIndicatorTest.m in Sources */,
+				3A83F8712952840E00EF6629 /* OtherCellsTest.m in Sources */,
+				3A83F8922952872900EF6629 /* TabBarViewTest.m in Sources */,
+				3A83F847295281BC00EF6629 /* BottomCommandingControllerTest.m in Sources */,
+				3A83F8412952817200EF6629 /* BadgeFieldTest.m in Sources */,
+				3A83F8502952821E00EF6629 /* CardTest.m in Sources */,
+				3A83F8B02952905800EF6629 /* IndeterminateProgressBarTest_SwiftUI.m in Sources */,
+				3A83F8682952832500EF6629 /* LabelTest.m in Sources */,
+				3A83F8532952824000EF6629 /* CardNudgeTest.m in Sources */,
+				3A83F8802952858D00EF6629 /* PillButtonBarTest.m in Sources */,
+				3A83F88C295286CD00EF6629 /* ShimmerViewTest.m in Sources */,
+				3A83F83429527E1B00EF6629 /* BaseTest.m in Sources */,
+				3A83F87D2952855000EF6629 /* PillButtonTest.m in Sources */,
+				3A83F8B3295290A100EF6629 /* NotificationViewTest_SwiftUI.m in Sources */,
+				3A83F83B295280D700EF6629 /* AvatarTest.m in Sources */,
+				3A83F8952952874B00EF6629 /* TableViewCellTest.m in Sources */,
+				3A83F8742952845900EF6629 /* PeoplePickerTest.m in Sources */,
+				3A83F86E295283C200EF6629 /* NotificationViewTest.m in Sources */,
+				3A83F88F295286F000EF6629 /* SideTabBarTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
