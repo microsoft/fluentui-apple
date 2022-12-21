@@ -109,6 +109,16 @@
     [self.container addArrangedSubview:testList];
 
     [[[testList heightAnchor] constraintEqualToConstant:250] setActive:YES];
+
+    [self setAddedLabels:[NSMutableSet set]];
+
+    [self setAppearanceController:[MSFDemoAppearanceControllerWrapper createDemoAppearanceControllerWithDelegate:nil]];
+    [self configureAppearancePopover];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector: @selector(themeDidChange:)
+                                                 name: @"FluentUI.stylesheet.theme"
+                                               object: nil];
 }
 
 - (void)enableButton {
@@ -149,10 +159,23 @@
     [self presentViewController:alert animated:true completion:nil];
 }
 
-- (void)buttonPressed:(id)sender {
+- (void)resetAddedLabels {
+    for (UILabel *label in [self addedLabels]) {
+        [label removeFromSuperview];
+    }
+    [[self addedLabels] removeAllObjects];
+}
+
+- (void)addLabelWithText:(NSString *)text
+               textColor:(UIColor *)textColor {
     MSFLabel *label = [[MSFLabel alloc] initWithStyle:MSFTextStyleHeadline colorStyle:MSFTextColorStyleRegular];
     [label setTextAlignment:NSTextAlignmentCenter];
-    [label setText:@"Test label with color"];
+    [label setText:text];
+    [label setTextColor:textColor];
+    
+    [[self container] addArrangedSubview:label];
+    [[self addedLabels] addObject:label];
+}
 
 - (void)buttonPressed:(id)sender {
     MSFColorValue *colorValue = [MSFGlobalTokens sharedColorForColorSet:MSFSharedColorSetsPink
