@@ -31,21 +31,29 @@ public final class AliasTokens: NSObject {
     public var brandColors: TokenSet<BrandColorsTokens, DynamicColor> = .init { token in
         switch token {
         case .primary:
-            return DynamicColor(light: ColorValue(0x0F6CBD) /*comm80*/, dark: ColorValue(0x2886DE) /*comm90*/)
+            return DynamicColor(light: GlobalTokens.brandColors(.comm80),
+                                dark: GlobalTokens.brandColors(.comm90))
         case .shade10:
-            return DynamicColor(light: ColorValue(0x115EA3) /*comm70*/, dark: ColorValue(0x292929) /*comm100*/)
+            return DynamicColor(light: GlobalTokens.brandColors(.comm70),
+                                dark: GlobalTokens.brandColors(.comm100))
         case .shade20:
-            return DynamicColor(light: ColorValue(0x0F548C) /*comm60*/, dark: ColorValue(0x479EF5) /*comm110*/)
+            return DynamicColor(light: GlobalTokens.brandColors(.comm60),
+                                dark: GlobalTokens.brandColors(.comm110))
         case .shade30:
-            return DynamicColor(light: ColorValue(0x0E4775) /*comm50*/, dark: ColorValue(0x77B7F7) /*comm120*/)
+            return DynamicColor(light: GlobalTokens.brandColors(.comm50),
+                                dark: GlobalTokens.brandColors(.comm120))
         case .tint10:
-            return DynamicColor(light: ColorValue(0x2886DE) /*comm90*/, dark: ColorValue(0x0F6CBD) /*comm80*/)
+            return DynamicColor(light: GlobalTokens.brandColors(.comm90),
+                                dark: GlobalTokens.brandColors(.comm80))
         case .tint20:
-            return DynamicColor(light: ColorValue(0x292929) /*comm100*/, dark: ColorValue(0x115EA3) /*comm70*/)
+            return DynamicColor(light: GlobalTokens.brandColors(.comm100),
+                                dark: GlobalTokens.brandColors(.comm70))
         case .tint30:
-            return DynamicColor(light: ColorValue(0x479EF5) /*comm110*/, dark: ColorValue(0x0C3B5E) /*comm90*/)
+            return DynamicColor(light: GlobalTokens.brandColors(.comm110),
+                                dark: GlobalTokens.brandColors(.comm90))
         case .tint40:
-            return DynamicColor(light: ColorValue(0xB4D6FA) /*comm140*/, dark: ColorValue(0x082338) /*comm20*/)
+            return DynamicColor(light: GlobalTokens.brandColors(.comm140),
+                                dark: GlobalTokens.brandColors(.comm20))
         }
     }
 
