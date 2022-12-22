@@ -9,6 +9,66 @@ import SwiftUI
 @objc(MSFGlobalTokens)
 public class GlobalTokens: NSObject {
 
+    // MARK: - BrandColors
+
+    @objc(MSFBrandColorsGlobalTokens)
+    public enum BrandColorsTokens: Int, TokenSetKey {
+        case comm10
+        case comm20
+        case comm30
+        case comm40
+        case comm50
+        case comm60
+        case comm70
+        case comm80
+        case comm90
+        case comm100
+        case comm110
+        case comm120
+        case comm130
+        case comm140
+        case comm150
+        case comm160
+    }
+
+    @objc(brandColorForGlobalToken:)
+    public static func brandColors(_ token: BrandColorsTokens) -> ColorValue {
+        switch token {
+        case .comm10:
+            return ColorValue(0x061724)
+        case .comm20:
+            return ColorValue(0x082338)
+        case .comm30:
+            return ColorValue(0x0A2E4A)
+        case .comm40:
+            return ColorValue(0x0C3B5E)
+        case .comm50:
+            return ColorValue(0x0E4775)
+        case .comm60:
+            return ColorValue(0x0F548C)
+        case .comm70:
+            return ColorValue(0x115EA3)
+        case .comm80:
+            return ColorValue(0x0F6CBD)
+        case .comm90:
+            return ColorValue(0x2886DE)
+        case .comm100:
+            return ColorValue(0x479EF5)
+        case .comm110:
+            return ColorValue(0x62ABF5)
+        case .comm120:
+            return ColorValue(0x77B7F7)
+        case .comm130:
+            return ColorValue(0x96C6FA)
+        case .comm140:
+            return ColorValue(0xB4D6FA)
+        case .comm150:
+            return ColorValue(0xCFE4FA)
+        case .comm160:
+            return ColorValue(0xEBF3FC)
+        }
+    }
+
     // MARK: - NeutralColors
 
     @objc(MSFNeutralColorsToken)

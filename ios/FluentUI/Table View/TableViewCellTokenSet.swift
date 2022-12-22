@@ -162,10 +162,7 @@ public class TableViewCellTokenSet: ControlTokenSet<TableViewCellTokenSet.Tokens
                 return .dynamicColor { theme.aliasTokens.colors[.brandBackground1] }
 
             case .communicationTextColor:
-                return .dynamicColor {
-                    DynamicColor(light: theme.aliasTokens.brandColors[.comm80].light,
-                                 dark: theme.aliasTokens.brandColors[.comm100].light)
-                }
+                return .dynamicColor { theme.aliasTokens.colors[.brandStroke1] }
 
             case .paddingLeading:
                 return .float { GlobalTokens.spacing(.size160) }
