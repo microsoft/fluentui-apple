@@ -7,45 +7,85 @@ import FluentUI
 import UIKit
 
 class ShadowTokensDemoController: DemoController {
-    var cards: [CardView] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        container.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.stencil2])
+        view.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.stencil2])
 
         container.alignment = .center
-        container.spacing = Constants.spacing
+        container.spacing = 120
 
-        initCards()
+        initializeShadowViews()
 
         container.addArrangedSubview(UIView())
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    private func initializeShadowViews() {
+        for shadowToken in AliasTokens.ShadowTokens.allCases {
+            let shadowView = ShadowView(shadowInfo: container.fluentTheme.aliasTokens.shadow[shadowToken],
+                                        title: shadowToken.title)
+            container.addArrangedSubview(shadowView)
+        }
+    }
+}
+
+// Custom View thats needs to conform to the Shadowable protocol to apply Fluent shadow tokens
+private class ShadowView: UIView, Shadowable {
+
+    private struct Constants {
+        static let borderWidth: CGFloat = 0.1
+        static let cornerRadius: CGFloat = 8.0
+        static let width: CGFloat = 200
+        static let height: CGFloat = 70
+    }
+
+    var shadow1: CALayer?
+    var shadow2: CALayer?
+
+    let shadowInfo: ShadowInfo
+    let label = Label()
+
+    init(shadowInfo: ShadowInfo, title: String) {
+        self.shadowInfo = shadowInfo
+
+        super.init(frame: .zero)
+
+        layer.borderWidth = Constants.borderWidth
+        layer.cornerRadius = Constants.cornerRadius
+
+        backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background2])
+
+        label.text = title
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
+        addSubview(label)
+
+        setupLayoutConstraints()
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        // Make sure shadows are applied in the view's layoutSubviews function
         updateShadows()
     }
 
-    private func initCards() {
-        let demoIcon = UIImage(named: "flag-24x24")
-
-        for shadow in AliasTokens.ShadowTokens.allCases {
-            let card = CardView(size: .large, title: shadow.title, icon: demoIcon!, colorStyle: .neutral)
-            cards.append(card)
-            container.addArrangedSubview(card)
-        }
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 
     private func updateShadows() {
-        for index in 0..<AliasTokens.ShadowTokens.allCases.count {
-            let shadowInfo = view.fluentTheme.aliasTokens.shadow[AliasTokens.ShadowTokens.allCases[index]]
-            shadowInfo.applyShadow(to: cards[index])
-        }
+        shadowInfo.applyShadow(to: self)
     }
 
-    private struct Constants {
-        static let spacing: CGFloat = 120
+    private func setupLayoutConstraints() {
+        NSLayoutConstraint.activate([
+            widthAnchor.constraint(equalToConstant: Constants.width),
+            heightAnchor.constraint(equalToConstant: Constants.height),
+            label.centerYAnchor.constraint(equalTo: centerYAnchor),
+            label.centerXAnchor.constraint(equalTo: centerXAnchor)
+        ])
     }
 }
 
