@@ -8,6 +8,7 @@ import XCTest
 class BaseTest: XCTestCase {
     let app = XCUIApplication()
     let fluentUIDev: String = "FluentUI DEV"
+    // must be overridden
     var controlName: String { "Base" }
 
     override func setUpWithError() throws {

@@ -10,12 +10,11 @@ class NotificationViewTestSwiftUI: BaseTest {
 
     override func setUpWithError() throws {
         try super.setUpWithError()
-        continueAfterFailure = false
         app.buttons["Show"].firstMatch.tap()
     }
 
-    // launch test that ensures the demo app does not crash
+    // launch test that ensures the demo app does not crash and is on the correct control page
     func testLaunch() throws {
-        XCTAssertTrue(app.exists)
+        XCTAssertTrue(app.navigationBars.element(matching: NSPredicate(format: "identifier CONTAINS %@", "Notification View")).exists)
     }
 }
