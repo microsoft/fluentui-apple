@@ -5,10 +5,16 @@
 
 import XCTest
 
-extension XCTestCase {
-    // helper method to navigate to the specified control page.
-    func navigateToControl(app: XCUIApplication, controlName: String) {
-        let fluentUIDev: String = "FluentUI DEV"
+class BaseTest: XCTestCase {
+    let app = XCUIApplication()
+    let fluentUIDev: String = "FluentUI DEV"
+    var controlName: String { "Base" }
+
+    override func setUpWithError() throws {
+        try super.setUpWithError()
+        continueAfterFailure = false
+        app.launch()
+
         let onHomePage: Bool = app.staticTexts[fluentUIDev].exists
         let controlPage: XCUIElement = app.staticTexts[controlName]
         let onDifferentControlPage: Bool = !onHomePage && !controlPage.exists

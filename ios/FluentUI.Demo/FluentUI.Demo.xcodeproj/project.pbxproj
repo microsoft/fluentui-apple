@@ -10,7 +10,7 @@
 		114CF8B82423E10900D064AA /* ColorDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 114CF8B72423E10900D064AA /* ColorDemoController.swift */; };
 		2F0A96FC25CA047100EF9736 /* SearchBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0A96FB25CA047100EF9736 /* SearchBarDemoController.swift */; };
 		3A83F8BB2953B73700EF6629 /* ActivityIndicatorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F8BA2953B73700EF6629 /* ActivityIndicatorTest.swift */; };
-		3A83F8BD2953B75100EF6629 /* XCTestCase+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F8BC2953B75100EF6629 /* XCTestCase+Extensions.swift */; };
+		3A83F8BD2953B75100EF6629 /* BaseTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F8BC2953B75100EF6629 /* BaseTest.swift */; };
 		3A83F8BF2953B83300EF6629 /* ActivityIndicatorTest_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F8BE2953B83300EF6629 /* ActivityIndicatorTest_SwiftUI.swift */; };
 		3A83F8C12953B89000EF6629 /* AvatarTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F8C02953B89000EF6629 /* AvatarTest.swift */; };
 		3A83F8C32953B8A400EF6629 /* AvatarTest_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F8C22953B8A400EF6629 /* AvatarTest_SwiftUI.swift */; };
@@ -139,7 +139,7 @@
 		2F0A96FB25CA047100EF9736 /* SearchBarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchBarDemoController.swift; sourceTree = "<group>"; };
 		3A83F7BF295110FF00EF6629 /* FluentUIDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FluentUIDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A83F8BA2953B73700EF6629 /* ActivityIndicatorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorTest.swift; sourceTree = "<group>"; };
-		3A83F8BC2953B75100EF6629 /* XCTestCase+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+Extensions.swift"; sourceTree = "<group>"; };
+		3A83F8BC2953B75100EF6629 /* BaseTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTest.swift; sourceTree = "<group>"; };
 		3A83F8BE2953B83300EF6629 /* ActivityIndicatorTest_SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorTest_SwiftUI.swift; sourceTree = "<group>"; };
 		3A83F8C02953B89000EF6629 /* AvatarTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarTest.swift; sourceTree = "<group>"; };
 		3A83F8C22953B8A400EF6629 /* AvatarTest_SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarTest_SwiftUI.swift; sourceTree = "<group>"; };
@@ -314,6 +314,7 @@
 		3A83F7C0295110FF00EF6629 /* FluentUIDemoTests */ = {
 			isa = PBXGroup;
 			children = (
+				3A83F8BC2953B75100EF6629 /* BaseTest.swift */,
 				3A83F8BA2953B73700EF6629 /* ActivityIndicatorTest.swift */,
 				3A83F8BE2953B83300EF6629 /* ActivityIndicatorTest_SwiftUI.swift */,
 				3A83F8C02953B89000EF6629 /* AvatarTest.swift */,
@@ -356,7 +357,6 @@
 				3A83F90A2953BB2700EF6629 /* TableViewHeaderFooterViewTest.swift */,
 				3A83F90C2953BB3500EF6629 /* TooltipTest.swift */,
 				3A83F90E2953BB4000EF6629 /* TypographyTokensTest.swift */,
-				3A83F8BC2953B75100EF6629 /* XCTestCase+Extensions.swift */,
 			);
 			path = FluentUIDemoTests;
 			sourceTree = "<group>";
@@ -689,7 +689,7 @@
 				3A83F8F52953BAA200EF6629 /* PillButtonTest.swift in Sources */,
 				3A83F8C52953B8B900EF6629 /* AvatarGroupTest.swift in Sources */,
 				3A83F9032953BAF700EF6629 /* TabBarViewTest.swift in Sources */,
-				3A83F8BD2953B75100EF6629 /* XCTestCase+Extensions.swift in Sources */,
+				3A83F8BD2953B75100EF6629 /* BaseTest.swift in Sources */,
 				3A83F8F92953BABA00EF6629 /* PopupMenuControllerTest.swift in Sources */,
 				3A83F8CB2953B8E500EF6629 /* BottomCommandingControllerTest.swift in Sources */,
 				3A83F9092953BB1B00EF6629 /* TableViewCellShimmerTest.swift in Sources */,

@@ -5,15 +5,12 @@
 
 import XCTest
 
-class AvatarTestSwiftUI: XCTestCase {
-    let app = XCUIApplication()
-    var controlName: String = "Avatar"
+class AvatarTestSwiftUI: BaseTest {
+    override var controlName: String { "Avatar" }
 
     override func setUpWithError() throws {
         try super.setUpWithError()
         continueAfterFailure = false
-        app.launch()
-        navigateToControl(app: app, controlName: controlName)
         app.staticTexts["SwiftUI Demo"].tap()
     }
 

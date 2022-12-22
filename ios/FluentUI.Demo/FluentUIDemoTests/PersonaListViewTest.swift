@@ -5,19 +5,16 @@
 
 import XCTest
 
-class PersonaListViewTest: XCTestCase {
-    let app = XCUIApplication()
-    var controlName: String = "PersonaListView"
+class PersonaListViewTest: BaseTest {
+    override var controlName: String { "PersonaListView" }
 
     override func setUpWithError() throws {
         try super.setUpWithError()
         continueAfterFailure = false
-        app.launch()
-        navigateToControl(app: app, controlName: controlName)
     }
 
-    // launch test that ensures the demo app does not crash
+    // launch test that ensures the demo app does not crash and is on the correct control page
     func testLaunch() throws {
-        XCTAssertTrue(app.exists)
+        XCTAssertTrue(app.navigationBars[controlName].exists)
     }
 }

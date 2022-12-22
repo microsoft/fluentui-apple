@@ -5,15 +5,12 @@
 
 import XCTest
 
-class SideTabBarTest: XCTestCase {
-    let app = XCUIApplication()
-    var controlName: String = "SideTabBar"
+class SideTabBarTest: BaseTest {
+    override var controlName: String { "SideTabBar" }
 
     override func setUpWithError() throws {
         try super.setUpWithError()
         continueAfterFailure = false
-        app.launch()
-        navigateToControl(app: app, controlName: controlName)
     }
 
     // launch test that ensures the demo app does not crash

@@ -5,15 +5,12 @@
 
 import XCTest
 
-class IndeterminateProgressBarTestSwiftUI: XCTestCase {
-    let app = XCUIApplication()
-    var controlName: String = "IndeterminateProgressBar"
+class IndeterminateProgressBarTestSwiftUI: BaseTest {
+    override var controlName: String { "IndeterminateProgressBar" }
 
     override func setUpWithError() throws {
         try super.setUpWithError()
         continueAfterFailure = false
-        app.launch()
-        navigateToControl(app: app, controlName: controlName)
         app.staticTexts["SwiftUI Demo"].tap()
     }
 

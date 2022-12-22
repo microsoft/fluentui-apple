@@ -5,19 +5,16 @@
 
 import XCTest
 
-class NavigationControllerTest: XCTestCase {
-    let app = XCUIApplication()
-    var controlName: String = "NavigationController"
+class NavigationControllerTest: BaseTest {
+    override var controlName: String { "NavigationController" }
 
     override func setUpWithError() throws {
         try super.setUpWithError()
         continueAfterFailure = false
-        app.launch()
-        navigateToControl(app: app, controlName: controlName)
     }
 
-    // launch test that ensures the demo app does not crash
+    // launch test that ensures the demo app does not crash and is on the correct control page
     func testLaunch() throws {
-        XCTAssertTrue(app.exists)
+        XCTAssertTrue(app.navigationBars[controlName].exists)
     }
 }
