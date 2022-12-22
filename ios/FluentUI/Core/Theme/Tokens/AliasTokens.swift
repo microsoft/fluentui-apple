@@ -20,22 +20,6 @@ public final class AliasTokens: NSObject {
         case tint20
         case tint30
         case tint40
-        case comm10
-        case comm20
-        case comm30
-        case comm40
-        case comm50
-        case comm60
-        case comm70
-        case comm80
-        case comm90
-        case comm100
-        case comm110
-        case comm120
-        case comm130
-        case comm140
-        case comm150
-        case comm160
     }
 
     @available(swift, obsoleted: 1.0, message: "This method exists for Objective-C backwards compatibility and should not be invoked from Swift. Please use the `brandColors` property directly.")
@@ -47,53 +31,29 @@ public final class AliasTokens: NSObject {
     public var brandColors: TokenSet<BrandColorsTokens, DynamicColor> = .init { token in
         switch token {
         case .primary:
-            return DynamicColor(light: ColorValue(0x0F6CBD) /*comm80*/, dark: ColorValue(0x2886DE) /*comm90*/)
+            return DynamicColor(light: GlobalTokens.brandColors(.comm80),
+                                dark: GlobalTokens.brandColors(.comm90))
         case .shade10:
-            return DynamicColor(light: ColorValue(0x115EA3) /*comm70*/, dark: ColorValue(0x292929) /*comm100*/)
+            return DynamicColor(light: GlobalTokens.brandColors(.comm70),
+                                dark: GlobalTokens.brandColors(.comm100))
         case .shade20:
-            return DynamicColor(light: ColorValue(0x0F548C) /*comm60*/, dark: ColorValue(0x479EF5) /*comm110*/)
+            return DynamicColor(light: GlobalTokens.brandColors(.comm60),
+                                dark: GlobalTokens.brandColors(.comm110))
         case .shade30:
-            return DynamicColor(light: ColorValue(0x0E4775) /*comm50*/, dark: ColorValue(0x77B7F7) /*comm120*/)
+            return DynamicColor(light: GlobalTokens.brandColors(.comm50),
+                                dark: GlobalTokens.brandColors(.comm120))
         case .tint10:
-            return DynamicColor(light: ColorValue(0x2886DE) /*comm90*/, dark: ColorValue(0x0F6CBD) /*comm80*/)
+            return DynamicColor(light: GlobalTokens.brandColors(.comm90),
+                                dark: GlobalTokens.brandColors(.comm80))
         case .tint20:
-            return DynamicColor(light: ColorValue(0x292929) /*comm100*/, dark: ColorValue(0x115EA3) /*comm70*/)
+            return DynamicColor(light: GlobalTokens.brandColors(.comm100),
+                                dark: GlobalTokens.brandColors(.comm70))
         case .tint30:
-            return DynamicColor(light: ColorValue(0x479EF5) /*comm110*/, dark: ColorValue(0x0C3B5E) /*comm90*/)
+            return DynamicColor(light: GlobalTokens.brandColors(.comm110),
+                                dark: GlobalTokens.brandColors(.comm90))
         case .tint40:
-            return DynamicColor(light: ColorValue(0xB4D6FA) /*comm140*/, dark: ColorValue(0x082338) /*comm20*/)
-        case .comm10:
-            return DynamicColor(light: ColorValue(0x061724))
-        case .comm20:
-            return DynamicColor(light: ColorValue(0x082338))
-        case .comm30:
-            return DynamicColor(light: ColorValue(0x0A2E4A))
-        case .comm40:
-            return DynamicColor(light: ColorValue(0x0C3B5E))
-        case .comm50:
-            return DynamicColor(light: ColorValue(0x0E4775))
-        case .comm60:
-            return DynamicColor(light: ColorValue(0x0F548C))
-        case .comm70:
-            return DynamicColor(light: ColorValue(0x115EA3))
-        case .comm80:
-            return DynamicColor(light: ColorValue(0x0F6CBD))
-        case .comm90:
-            return DynamicColor(light: ColorValue(0x2886DE))
-        case .comm100:
-            return DynamicColor(light: ColorValue(0x479EF5))
-        case .comm110:
-            return DynamicColor(light: ColorValue(0x62ABF5))
-        case .comm120:
-            return DynamicColor(light: ColorValue(0x77B7F7))
-        case .comm130:
-            return DynamicColor(light: ColorValue(0x96C6FA))
-        case .comm140:
-            return DynamicColor(light: ColorValue(0xB4D6FA))
-        case .comm150:
-            return DynamicColor(light: ColorValue(0xCFE4FA))
-        case .comm160:
-            return DynamicColor(light: ColorValue(0xEBF3FC))
+            return DynamicColor(light: GlobalTokens.brandColors(.comm140),
+                                dark: GlobalTokens.brandColors(.comm20))
         }
     }
 
@@ -604,25 +564,25 @@ public final class AliasTokens: NSObject {
         case .foregroundInverted1:
             return DynamicColor(light: GlobalTokens.neutralColors(.white))
         case .foregroundInverted2:
-            return DynamicColor(light: strongSelf.brandColors[.comm80].light,
+            return DynamicColor(light: GlobalTokens.brandColors(.comm80),
                                 dark: GlobalTokens.neutralColors(.white))
         case .brandForegroundTint:
-            return DynamicColor(light: strongSelf.brandColors[.comm60].light,
-                                dark: strongSelf.brandColors[.comm130].light)
+            return DynamicColor(light: GlobalTokens.brandColors(.comm60),
+                                dark: GlobalTokens.brandColors(.comm130))
         case .brandForeground1:
-            return DynamicColor(light: strongSelf.brandColors[.comm80].light,
-                                dark: strongSelf.brandColors[.comm100].light)
+            return DynamicColor(light: GlobalTokens.brandColors(.comm80),
+                                dark: GlobalTokens.brandColors(.comm100))
         case .brandForeground1Pressed:
-            return DynamicColor(light: strongSelf.brandColors[.comm50].light,
-                                dark: strongSelf.brandColors[.comm140].light)
+            return DynamicColor(light: GlobalTokens.brandColors(.comm50),
+                                dark: GlobalTokens.brandColors(.comm140))
         case .brandForeground1Selected:
-            return DynamicColor(light: strongSelf.brandColors[.comm60].light,
-                                dark: strongSelf.brandColors[.comm120].light)
+            return DynamicColor(light: GlobalTokens.brandColors(.comm60),
+                                dark: GlobalTokens.brandColors(.comm120))
         case .brandForegroundDisabled1:
-            return DynamicColor(light: strongSelf.brandColors[.comm90].light)
+            return DynamicColor(light: GlobalTokens.brandColors(.comm90))
         case .brandForegroundDisabled2:
-            return DynamicColor(light: strongSelf.brandColors[.comm140].light,
-                                dark: strongSelf.brandColors[.comm40].light)
+            return DynamicColor(light: GlobalTokens.brandColors(.comm140),
+                                dark: GlobalTokens.brandColors(.comm40))
         case .foregroundDarkStatic:
             return DynamicColor(light: GlobalTokens.neutralColors(.black),
                                 dark: GlobalTokens.neutralColors(.black))
@@ -691,12 +651,12 @@ public final class AliasTokens: NSObject {
                              dark: GlobalTokens.neutralColors(.grey38),
                              darkElevated: GlobalTokens.neutralColors(.grey38))
         case .background5SelectedBrandFilled:
-            return DynamicColor(light: strongSelf.brandColors[.comm80].light,
-                             dark: GlobalTokens.neutralColors(.grey38),
+            return DynamicColor(light: GlobalTokens.brandColors(.comm80),
+                                dark: GlobalTokens.neutralColors(.grey38),
                                 darkElevated: GlobalTokens.neutralColors(.grey38))
         case .background5BrandTint:
-            return DynamicColor(light: strongSelf.brandColors[.comm160].light,
-                             dark: GlobalTokens.neutralColors(.grey38),
+            return DynamicColor(light: GlobalTokens.brandColors(.comm160),
+                                dark: GlobalTokens.neutralColors(.grey38),
                                 darkElevated: GlobalTokens.neutralColors(.grey38))
         case .background6:
          return DynamicColor(light: GlobalTokens.neutralColors(.grey82),
@@ -715,38 +675,38 @@ public final class AliasTokens: NSObject {
                              dark: GlobalTokens.neutralColors(.grey32),
                              darkElevated: GlobalTokens.neutralColors(.grey32))
         case .brandBackgroundTint:
-            return DynamicColor(light: strongSelf.brandColors[.comm150].light,
-                                dark: strongSelf.brandColors[.comm40].light)
+            return DynamicColor(light: GlobalTokens.brandColors(.comm150),
+                                dark: GlobalTokens.brandColors(.comm40))
         case .brandBackground1:
-            return DynamicColor(light: strongSelf.brandColors[.comm80].light,
-                                dark: strongSelf.brandColors[.comm100].light)
+            return DynamicColor(light: GlobalTokens.brandColors(.comm80),
+                                dark: GlobalTokens.brandColors(.comm100))
         case .brandBackground1Pressed:
-            return DynamicColor(light: strongSelf.brandColors[.comm50].light,
-                                dark: strongSelf.brandColors[.comm140].light)
+            return DynamicColor(light: GlobalTokens.brandColors(.comm50),
+                                dark: GlobalTokens.brandColors(.comm140))
         case .brandBackground1Selected:
-            return DynamicColor(light: strongSelf.brandColors[.comm60].light,
-                                dark: strongSelf.brandColors[.comm120].light)
+            return DynamicColor(light: GlobalTokens.brandColors(.comm60),
+                                dark: GlobalTokens.brandColors(.comm120))
         case .brandBackground2:
-            return DynamicColor(light: strongSelf.brandColors[.comm70].light)
+            return DynamicColor(light: GlobalTokens.brandColors(.comm70))
         case .brandBackground2Pressed:
-            return DynamicColor(light: strongSelf.brandColors[.comm40].light)
+            return DynamicColor(light: GlobalTokens.brandColors(.comm40))
         case .brandBackground2Selected:
-            return DynamicColor(light: strongSelf.brandColors[.comm80].light)
+            return DynamicColor(light: GlobalTokens.brandColors(.comm80))
         case .brandBackground3:
-            return DynamicColor(light: strongSelf.brandColors[.comm60].light,
-                                dark: strongSelf.brandColors[.comm120].light)
+            return DynamicColor(light: GlobalTokens.brandColors(.comm60),
+                                dark: GlobalTokens.brandColors(.comm120))
         case .brandBackground3Pressed:
-            return DynamicColor(light: strongSelf.brandColors[.comm30].light,
-                                dark: strongSelf.brandColors[.comm160].light)
+            return DynamicColor(light: GlobalTokens.brandColors(.comm30),
+                                dark: GlobalTokens.brandColors(.comm160))
         case .background5BrandFilledSelected:
-            return DynamicColor(light: strongSelf.brandColors[.comm80].light,
+            return DynamicColor(light: GlobalTokens.brandColors(.comm80),
                                 dark: GlobalTokens.neutralColors(.grey38))
         case .background5BrandTintSelected:
-            return DynamicColor(light: strongSelf.brandColors[.comm160].light,
+            return DynamicColor(light: GlobalTokens.brandColors(.comm160),
                                 dark: GlobalTokens.neutralColors(.grey38))
         case .brandBackgroundDisabled:
-            return DynamicColor(light: strongSelf.brandColors[.comm140].light,
-                                dark: strongSelf.brandColors[.comm40].light)
+            return DynamicColor(light: GlobalTokens.brandColors(.comm140),
+                                dark: GlobalTokens.brandColors(.comm40))
         case .stencil1:
          return DynamicColor(light: GlobalTokens.neutralColors(.grey90),
                              dark: GlobalTokens.neutralColors(.grey34))
@@ -794,14 +754,14 @@ public final class AliasTokens: NSObject {
             return DynamicColor(light: GlobalTokens.neutralColors(.black),
                                 dark: GlobalTokens.neutralColors(.white))
         case .brandStroke1:
-            return DynamicColor(light: strongSelf.brandColors[.comm80].light,
-                                dark: strongSelf.brandColors[.comm100].light)
+            return DynamicColor(light: GlobalTokens.brandColors(.comm80),
+                                dark: GlobalTokens.brandColors(.comm100))
         case .brandStroke1Pressed:
-            return DynamicColor(light: strongSelf.brandColors[.comm50].light,
-                                dark: strongSelf.brandColors[.comm140].light)
+            return DynamicColor(light: GlobalTokens.brandColors(.comm50),
+                                dark: GlobalTokens.brandColors(.comm140))
         case .brandStroke1Selected:
-            return DynamicColor(light: strongSelf.brandColors[.comm60].light,
-                                dark: strongSelf.brandColors[.comm120].light)
+            return DynamicColor(light: GlobalTokens.brandColors(.comm60),
+                                dark: GlobalTokens.brandColors(.comm120))
         }
     }
 
