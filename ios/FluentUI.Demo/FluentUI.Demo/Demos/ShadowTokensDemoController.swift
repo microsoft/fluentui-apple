@@ -31,7 +31,7 @@ class ShadowTokensDemoController: DemoController {
 }
 
 // Custom View thats needs to conform to the Shadowable protocol to apply Fluent shadow tokens
-class ShadowView: UIView, Shadowable {
+private class ShadowView: UIView, Shadowable {
 
     private struct Constants {
         static let borderWidth: CGFloat = 0.1
