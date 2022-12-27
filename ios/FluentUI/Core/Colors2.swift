@@ -110,10 +110,10 @@ public final class Colors2: NSObject {
         }
     }
 
-    /// Removes any associated `ColorProvider` from the given `UIWindow` instance.
+    /// Removes any associated `ColorProvider2` from the given `UIWindow` instance.
     ///
     /// - Parameters:
-    ///   - window: The window that should have its `ColorProvider` removed.
+    ///   - window: The window that should have its `ColorProvider2` removed.
     @objc public static func removeProvider(for theme: FluentTheme) {
         colorProvidersMap.removeObject(forKey: theme)
         // TODO: what is the equivalent function here?
@@ -122,7 +122,7 @@ public final class Colors2: NSObject {
 
     // MARK: Primary
 
-    /// Use these funcs to grab a color customized by a ColorProviding object for a specific window. If no colorProvider exists for the window, falls back to deprecated singleton theme color
+    /// Use these funcs to grab a color customized by a ColorProvidingobject for a specific window. If no colorProvider2 exists for the window, falls back to deprecated singleton theme color
     @objc public static func brandBackground1(for theme: FluentTheme) -> UIColor {
         return colorProvidersMap.object(forKey: theme)?.brandBackground1(for: theme) ?? FallbackThemeColor.brandBackground1
     }
@@ -221,7 +221,7 @@ public final class Colors2: NSObject {
 
         static var brandForeground1Pressed: UIColor = UIColor(dynamicColor: FluentTheme.shared.aliasTokens.colors[.brandForeground1Selected])
 
-        static var brandForeground1Selected: UIColor = UIColor(dynamicColor: FluentTheme.shared.aliasTokens.colors[.brandStroke1Selected])
+        static var brandForeground1Selected: UIColor = UIColor(dynamicColor: FluentTheme.shared.aliasTokens.colors[.brandForeground1Selected])
 
         static var brandForegroundTint: UIColor = UIColor(dynamicColor: FluentTheme.shared.aliasTokens.colors[.brandForegroundTint])
 
