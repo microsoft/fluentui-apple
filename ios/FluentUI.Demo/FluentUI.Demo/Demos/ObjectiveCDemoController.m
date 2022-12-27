@@ -63,8 +63,6 @@
                                              selector: @selector(themeDidChange:)
                                                  name: @"FluentUI.stylesheet.theme"
                                                object: nil];
-
-    [MSFColors2 setProviderWithProvider:[ObjectiveCDemoColorProviding2 alloc] for:[self.view fluentTheme]];
 }
 
 - (void)resetAddedLabels {
@@ -100,6 +98,8 @@
 }
 
 - (void)overridesButtonPressed:(id)sender {
+    [MSFColors2 setProviderWithProvider:[ObjectiveCDemoColorProviding2 alloc] for:[self.view fluentTheme]];
+
     MSFFluentTheme *fluentTheme = [[self view] fluentTheme];
     MSFAliasTokens *aliasTokens = [fluentTheme aliasTokens];
     MSFDynamicColor *primaryColor = [aliasTokens colorsForToken:MSFColorsAliasTokensBrandForeground1];
