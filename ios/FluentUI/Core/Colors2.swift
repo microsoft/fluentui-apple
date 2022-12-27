@@ -58,6 +58,9 @@ private func brandColorOverrides(provider: ColorProviding2, for theme: FluentThe
     if let brandBackgroundTint = provider.brandBackgroundTint(for: theme)?.dynamicColor {
         brandColors[.brandBackgroundTint] = brandBackgroundTint
     }
+    if let brandBackgroundDisabled = provider.brandBackgroundDisabled(for: theme)?.dynamicColor {
+        brandColors[.brandBackgroundDisabled] = brandBackgroundDisabled
+    }
     if let brandForeground1 = provider.brandForeground1(for: theme)?.dynamicColor {
         brandColors[.brandForeground1] = brandForeground1
     }
@@ -152,6 +155,10 @@ public final class Colors2: NSObject {
         return colorProvidersMap.object(forKey: theme)?.brandBackgroundTint(for: theme) ?? FallbackThemeColor.brandBackgroundTint
     }
 
+    @objc public static func brandBackgroundDisabled(for theme: FluentTheme) -> UIColor {
+        return colorProvidersMap.object(forKey: theme)?.brandBackgroundDisabled(for: theme) ?? FallbackThemeColor.brandBackgroundDisabled
+    }
+
     @objc public static func brandForeground1(for theme: FluentTheme) -> UIColor {
         return colorProvidersMap.object(forKey: theme)?.brandForeground1(for: theme) ?? FallbackThemeColor.brandForeground1
     }
@@ -207,6 +214,8 @@ public final class Colors2: NSObject {
         static var brandBackground3: UIColor = UIColor(dynamicColor: FluentTheme.shared.aliasTokens.colors[.brandBackground3])
 
         static var brandBackgroundTint: UIColor = UIColor(dynamicColor: FluentTheme.shared.aliasTokens.colors[.brandBackgroundTint])
+
+        static var brandBackgroundDisabled: UIColor = UIColor(dynamicColor: FluentTheme.shared.aliasTokens.colors[.brandBackgroundDisabled])
 
         static var brandForeground1: UIColor = UIColor(dynamicColor: FluentTheme.shared.aliasTokens.colors[.brandForeground1])
 
