@@ -219,7 +219,7 @@ public final class Colors2: NSObject {
 
         static var brandForeground1: UIColor = UIColor(dynamicColor: FluentTheme.shared.aliasTokens.colors[.brandForeground1])
 
-        static var brandForeground1Pressed: UIColor = UIColor(dynamicColor: FluentTheme.shared.aliasTokens.colors[.brandForeground1Selected])
+        static var brandForeground1Pressed: UIColor = UIColor(dynamicColor: FluentTheme.shared.aliasTokens.colors[.brandForeground1Pressed])
 
         static var brandForeground1Selected: UIColor = UIColor(dynamicColor: FluentTheme.shared.aliasTokens.colors[.brandForeground1Selected])
 
