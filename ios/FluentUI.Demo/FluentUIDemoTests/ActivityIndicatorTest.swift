@@ -12,4 +12,36 @@ class ActivityIndicatorTest: BaseTest {
     func testLaunch() throws {
         XCTAssertTrue(app.navigationBars[controlName].exists)
     }
+
+    func testSizes() throws {
+        // loops through first 5 activity indicators on the screen
+        for i in 0...4 {
+            // each activity indicator should decrease in size, starting with xLarge at size 4
+            XCTAssertEqual(app.images.element(boundBy: i).identifier, "Activity Indicator that is in progress and size \(4 - i)")
+        }
+    }
+
+    func testColor() throws {
+        let cyanBlueRGBAValues = "[0.0, 0.47058823529411764, 0.8313725490196079, 1.0]"
+
+        // loops through last 5 activity indicators on the screen
+        for i in 5...9 {
+            XCTAssertEqual(app.images.element(boundBy: i).identifier, "Activity Indicator that is in progress with rgba values \(cyanBlueRGBAValues) and size \(9 - i)")
+        }
+    }
+
+    // tests start/stop functionality as well as hiding (activity indicator should disappear when stopped)
+    func testStartStopHide() throws {
+        let startStopButton = app.buttons["Start / Stop activity"]
+
+        XCTAssert(app.images.element(matching: NSPredicate(format: "identifier CONTAINS %@", "Activity Indicator that is in progress")).exists)
+        startStopButton.tap()
+        XCTAssert(!app.images.element(matching: NSPredicate(format: "identifier CONTAINS %@", "Activity Indicator that is in progress")).exists)
+
+        app.cells.containing(.staticText, identifier: "Hides when stopped").firstMatch.tap()
+        XCTAssert(app.images.element(matching: NSPredicate(format: "identifier CONTAINS %@", "Activity Indicator that is progress halted")).exists)
+
+        startStopButton.tap()
+        XCTAssert(app.images.element(matching: NSPredicate(format: "identifier CONTAINS %@", "Activity Indicator that is in progress")).exists)
+    }
 }
