@@ -77,8 +77,8 @@ class PillButtonBarDemoController: DemoController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if let window = view.window {
-            onBrandBar?.backgroundColor = UIColor(light: Colors.primary(for: window), dark: Colors.navigationBarBackground)
-            customBar?.backgroundColor = UIColor(light: Colors.primary(for: window), dark: Colors.navigationBarBackground)
+            onBrandBar?.backgroundColor = UIColor(light: Colors.primary(for: window), dark: UIColor(colorValue: GlobalTokens.neutralColors(.grey16)))
+            customBar?.backgroundColor = UIColor(light: Colors.primary(for: window), dark: UIColor(colorValue: GlobalTokens.neutralColors(.grey16)))
         }
     }
 

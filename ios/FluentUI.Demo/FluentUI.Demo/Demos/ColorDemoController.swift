@@ -116,7 +116,7 @@ class ColorDemoController: UIViewController {
         view = UIView(frame: .zero)
         view.addSubview(stackView)
 
-        view.backgroundColor = Colors.navigationBarBackground
+        view.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background3])
 
         if let currentDemoListViewController = currentDemoListViewController {
             segmentedControl.selectedSegmentIndex = DemoColorTheme.allCases.firstIndex(where: { $0.name == currentDemoListViewController.theme.name }) ?? 0

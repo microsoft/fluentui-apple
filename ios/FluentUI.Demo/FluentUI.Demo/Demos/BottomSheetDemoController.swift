@@ -139,7 +139,7 @@ class BottomSheetDemoController: UIViewController {
     private lazy var personaListView: UIScrollView = {
         let personaListView = PersonaListView()
         personaListView.personaList = samplePersonas
-        personaListView.backgroundColor = Colors.navigationBarBackground
+        personaListView.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background3])
         personaListView.translatesAutoresizingMaskIntoConstraints = false
         return personaListView
     }()

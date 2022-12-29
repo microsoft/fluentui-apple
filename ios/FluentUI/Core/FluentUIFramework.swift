@@ -26,9 +26,6 @@ public extension Colors {
         static var background: UIColor = NavigationBar.background
         static var tint: UIColor = NavigationBar.tint
     }
-
-    // Objective-C support
-    @objc static var navigationBarBackground: UIColor { return NavigationBar.background }
 }
 
 // MARK: - FluentUIFramework
