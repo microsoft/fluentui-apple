@@ -16,7 +16,7 @@ Use `Button`s for important actions like submitting a response, committing a cha
 
 ## Usage
 ### UIKit
-The `Button` can be initialized with a 'ButtonStyle' parameter as follows:
+The `Button` can be initialized with a `ButtonStyle` parameter as follows:
 ```Swift
 let button = Button(style: style)
 ```
