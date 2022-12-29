@@ -103,7 +103,15 @@
     MSFFluentTheme *fluentTheme = [[self view] fluentTheme];
     MSFAliasTokens *aliasTokens = [fluentTheme aliasTokens];
     MSFDynamicColor *primaryColor = [aliasTokens colorsForToken:MSFColorsAliasTokensBrandForeground1];
+
     [self addLabelWithText:@"Test label with override brand color"
+                 textColor:[[UIColor alloc] initWithDynamicColor:primaryColor]];
+
+    // Remove the overrides
+    [MSFColors2 removeProviderFor:([self.view fluentTheme])];
+    primaryColor = [aliasTokens colorsForToken:MSFColorsAliasTokensBrandForeground1];
+
+    [self addLabelWithText:@"Test label with fixed brand color"
                  textColor:[[UIColor alloc] initWithDynamicColor:primaryColor]];
 }
 
