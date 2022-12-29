@@ -8,7 +8,7 @@ import UIKit
 // MARK: ColorProviding2 - temporary stand-in for ColorProviding so we can replace side by side
 
 /// Protocol through which consumers can provide colors to "theme" their experiences
-/// The window in which the color will be shown is sent to allow apps to provide different experiences per each window
+/// The view associated with the passed in theme will display the set colors to alllow apps to provide different experiences per each view
 @objc(MSFColorProviding2)
 public protocol ColorProviding2 {
     /// If this protocol is not conformed to, communicationBlue variants will be used
@@ -156,10 +156,10 @@ public enum BrandColorsForOverriding: CaseIterable {
 }
 
 public extension FluentTheme {
-    /// Associates a `ColorProvider2` with a given `UIWindow` instance.
+    /// Associates a `ColorProvider2` with a given `FluentTheme` instance.
     ///
     /// - Parameters:
-    ///   - provider: The `ColorProvider2` whose colors should be used for controls in this window.
+    ///   - provider: The `ColorProvider2` whose colors should be used for controls in this theme.
     ///   - window: The window where these colors should be applied.
     @objc static func setProvider(provider: ColorProviding2, for theme: FluentTheme) {
         // Create an updated fluent theme as well
@@ -169,7 +169,7 @@ public extension FluentTheme {
         }
     }
 
-    /// Removes any associated `ColorProvider2` from the given `UIWindow` instance.
+    /// Removes any associated `ColorProvider2` from the given `FluentTheme` instance.
     ///
     /// - Parameters:
     ///   - window: The window that should have its `ColorProvider2` removed.
