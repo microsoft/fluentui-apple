@@ -16,12 +16,22 @@ The different variations of `Avatar` are pictured below.
 | ![Avatar-ImageSquare.png](.attachments/Avatar-ImageSquare.png) | ![Avatar-InitialsSquare.png](.attachments/Avatar-InitialsSquare.png) |
 
 ## Usage
+### UIKit
 ```Swift
 let avatar = MSFAvatar(style: avatarStyle,
                        size: avatarSize)
 let avatarState = avatar.state
 avatarState.primaryText = avatarPrimaryText
 avatarState.image = avatarImage
+```
+
+### SwiftUI
+```Swift
+Avatar(style: style,
+       size: size,
+       image: image,
+       primaryText: primaryText,
+       secondaryText: secondaryText)
 ```
 
 ## Implementation
