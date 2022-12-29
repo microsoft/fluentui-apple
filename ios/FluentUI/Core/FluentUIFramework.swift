@@ -12,19 +12,10 @@ import UIKit
 // MARK: Colors
 
 public extension Colors {
-    internal struct Progress {
-        static var trackTint = UIColor(light: surfaceQuaternary, dark: surfaceTertiary)
-    }
-
     internal struct NavigationBar {
         static var background = UIColor(light: surfacePrimary, dark: gray900)
         static var tint: UIColor = iconPrimary
         static var title: UIColor = textDominant
-    }
-
-    internal struct Toolbar {
-        static var background: UIColor = NavigationBar.background
-        static var tint: UIColor = NavigationBar.tint
     }
 }
 
@@ -72,7 +63,7 @@ public class FluentUIFramework: NSObject {
         }
     }
 
-    @objc public static func initializeAppearance(with primaryColor: UIColor, whenContainedInInstancesOf containerTypes: [UIAppearanceContainer.Type]? = nil) {
+    @objc public static func initializeAppearance(with primaryColor: UIColor, whenContainedInInstancesOf containerTypes: [UIAppearanceContainer.Type]? = nil, fluentTheme: FluentTheme? = nil) {
         let navigationBarAppearance = containerTypes != nil ? UINavigationBar.appearance(whenContainedInInstancesOf: containerTypes!) : UINavigationBar.appearance()
         initializeUINavigationBarAppearance(navigationBarAppearance)
         let light = UITraitCollection(userInterfaceStyle: .light)
@@ -85,8 +76,14 @@ public class FluentUIFramework: NSObject {
         // UIToolbar
         let toolbar = UIToolbar.appearance()
         toolbar.isTranslucent = false
-        toolbar.barTintColor = Colors.Toolbar.background
-        toolbar.tintColor = Colors.Toolbar.tint
+
+        if let fluentTheme = fluentTheme {
+            toolbar.barTintColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background3])
+            toolbar.tintColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground3])
+        } else {
+            toolbar.barTintColor = UIColor(dynamicColor: AliasTokens().colors[.background3])
+            toolbar.tintColor = UIColor(dynamicColor: AliasTokens().colors[.foreground3])
+        }
 
         // UIBarButtonItem
         let barButtonItem = UIBarButtonItem.appearance()
@@ -99,8 +96,7 @@ public class FluentUIFramework: NSObject {
 
         let progressViewAppearance = containerTypes != nil ? UIProgressView.appearance(whenContainedInInstancesOf: containerTypes!) : UIProgressView.appearance()
         progressViewAppearance.progressTintColor = primaryColor
-        progressViewAppearance.trackTintColor = Colors.Progress.trackTint
-    }
+        progressViewAppearance.trackTintColor = UIColor(dynamicColor: AliasTokens().colors[.stroke1])    }
 
     static func initializeUINavigationBarAppearance(_ navigationBar: UINavigationBar, traits: UITraitCollection? = nil, navigationBarStyle: NavigationBarStyle = .normal, fluentTheme: FluentTheme? = nil) {
         navigationBar.isTranslucent = false
