@@ -4,6 +4,7 @@ A `Button` triggers a single action or event.
 Use `Button`s for important actions like submitting a response, committing a change, or moving to the next step.
 
 ### Styles
+|---|---|
 | Primary filled | ![Button-Primary-Filled.png](.attachments/Button-Primary-Filled.png) |
 | Primary outline | ![Button-Primary-Outline.png](.attachments/Button-Primary-Outline.png) |
 | Danger filled | ![Button-Danger-Filled.png](.attachments/Button-Danger-Filled.png) |
