@@ -6,7 +6,6 @@
 import UIKit
 
 // MARK: TooltipView
-
 class TooltipView: UIView {
 
     init(anchorView: UIView,
