@@ -9,16 +9,6 @@ import FluentUIResources
 #endif
 import UIKit
 
-// MARK: Colors
-
-public extension Colors {
-    internal struct NavigationBar {
-        static var background = UIColor(light: surfacePrimary, dark: gray900)
-        static var tint: UIColor = iconPrimary
-        static var title: UIColor = textDominant
-    }
-}
-
 // MARK: - FluentUIFramework
 
 public class FluentUIFramework: NSObject {
@@ -102,12 +92,12 @@ public class FluentUIFramework: NSObject {
         navigationBar.isTranslucent = false
 
         let standardAppearance = navigationBar.standardAppearance
-        navigationBar.tintColor = Colors.NavigationBar.tint
+        navigationBar.tintColor = UIColor(dynamicColor: AliasTokens().colors[.foreground3])
 
         if let fluentTheme = fluentTheme {
             navigationBar.standardAppearance.backgroundColor = navigationBarStyle.backgroundColor(fluentTheme: fluentTheme)
         } else {
-            navigationBar.standardAppearance.backgroundColor = Colors.NavigationBar.background
+            navigationBar.standardAppearance.backgroundColor = UIColor(dynamicColor: AliasTokens().colors[.foreground3])
         }
 
         let traits = traits ?? navigationBar.traitCollection
@@ -116,7 +106,13 @@ public class FluentUIFramework: NSObject {
 
         var titleAttributes = standardAppearance.titleTextAttributes
         titleAttributes[.font] = Fonts.headline
-        titleAttributes[.foregroundColor] = Colors.NavigationBar.title
+
+        if let fluentTheme = fluentTheme {
+            titleAttributes[.foregroundColor] = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
+        } else {
+            titleAttributes[.foregroundColor] = UIColor(dynamicColor: AliasTokens().colors[.foreground1])
+        }
+
         standardAppearance.titleTextAttributes = titleAttributes
 
         if navigationBarStyle == .dateTimePicker {
