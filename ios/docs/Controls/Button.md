@@ -4,13 +4,13 @@ A `Button` triggers a single action or event.
 Use `Button`s for important actions like submitting a response, committing a change, or moving to the next step.
 
 ### Styles
-| Style name | Style image |
+| Name | Style |
 |---|---|
 | Primary filled | ![Button-Primary-Filled.png](.attachments/Button-Primary-Filled.png) |
 | Primary outline | ![Button-Primary-Outline.png](.attachments/Button-Primary-Outline.png) |
 | Danger filled | ![Button-Danger-Filled.png](.attachments/Button-Danger-Filled.png) |
 | Danger outline | ![Button-Danger-Outline.png](.attachments/Button-Danger-Outline.png) |
-| Secondary outline | ![Button-Secondary-Outline.png](.Button-Secondary-Outline.png) |
+| Secondary outline | ![Button-Secondary-Outline.png](.attachments/Button-Secondary-Outline.png) |
 | Tertiary outline | ![Button-Tertiary-Outline.png](.attachments/Button-Tertiary-Outline.png) |
 | Borderless | ![Button-Borderless.png](.attachments/Button-Borderless.png) |
 
