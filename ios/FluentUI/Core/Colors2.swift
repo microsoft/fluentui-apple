@@ -160,7 +160,7 @@ public extension FluentTheme {
     ///
     /// - Parameters:
     ///   - provider: The `ColorProvider2` whose colors should be used for controls in this theme.
-    ///   - window: The window where these colors should be applied.
+    ///   - theme: The theme where these colors should be applied.
     @objc static func setProvider(provider: ColorProviding2, for theme: FluentTheme) {
         // Create an updated fluent theme as well
         let brandColors = brandColorOverrides(provider: provider, for: theme)
@@ -172,7 +172,7 @@ public extension FluentTheme {
     /// Removes any associated `ColorProvider2` from the given `FluentTheme` instance.
     ///
     /// - Parameters:
-    ///   - window: The window that should have its `ColorProvider2` removed.
+    ///   - theme: The theme that should have its `ColorProvider2` removed.
     @objc static func removeProvider(for theme: FluentTheme) {
         for brandColor in BrandColorsForOverriding.allCases {
             theme.aliasTokens.colors.removeOverride(brandColor.equivalentAliasToken)
