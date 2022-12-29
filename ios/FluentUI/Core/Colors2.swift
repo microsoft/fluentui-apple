@@ -93,16 +93,75 @@ private func brandColorOverrides(provider: ColorProviding2, for theme: FluentThe
 
 // MARK: Colors
 
-@objc(MSFColors2)
-public final class Colors2: NSObject {
+public enum BrandColorsForOverriding: CaseIterable {
+    case brandBackground1
+    case brandBackground1Pressed
+    case brandBackground1Selected
+    case brandBackground2
+    case brandBackground2Pressed
+    case brandBackground2Selected
+    case brandBackground3
+    case brandBackgroundTint
+    case brandBackgroundDisabled
+    case brandForeground1
+    case brandForeground1Pressed
+    case brandForeground1Selected
+    case brandForegroundTint
+    case brandForegroundDisabled1
+    case brandForegroundDisabled2
+    case brandStroke1
+    case brandStroke1Pressed
+    case brandStroke1Selected
+
+    var equivalentAliasToken: AliasTokens.ColorsTokens {
+        switch self {
+        case .brandBackground1:
+            return .brandBackground1
+        case .brandBackground1Pressed:
+            return .brandBackground1Pressed
+        case .brandBackground1Selected:
+            return .brandBackground1Selected
+        case .brandBackground2:
+            return .brandBackground2
+        case .brandBackground2Pressed:
+            return .brandBackground2Pressed
+        case .brandBackground2Selected:
+            return .brandBackground2Selected
+        case .brandBackground3:
+            return .brandBackground3
+        case .brandBackgroundTint:
+            return .brandBackgroundTint
+        case .brandBackgroundDisabled:
+            return .brandBackgroundDisabled
+        case .brandForeground1:
+            return .brandForeground1
+        case .brandForeground1Pressed:
+            return .brandForeground1Pressed
+        case .brandForeground1Selected:
+            return .brandForeground1Selected
+        case .brandForegroundTint:
+            return .brandForegroundTint
+        case .brandForegroundDisabled1:
+            return .brandForegroundDisabled1
+        case .brandForegroundDisabled2:
+            return .brandForegroundDisabled2
+        case .brandStroke1:
+            return .brandStroke1
+        case .brandStroke1Pressed:
+            return .brandStroke1Pressed
+        case .brandStroke1Selected:
+            return .brandStroke1Selected
+        }
+    }
+}
+
+public extension FluentTheme {
     /// Associates a `ColorProvider2` with a given `UIWindow` instance.
     ///
     /// - Parameters:
     ///   - provider: The `ColorProvider2` whose colors should be used for controls in this window.
     ///   - window: The window where these colors should be applied.
-    @objc public static func setProvider(provider: ColorProviding2, for theme: FluentTheme) {
-        colorProvidersMap.setObject(provider, forKey: theme)
-
+    @objc static func setProvider(provider: ColorProviding2, for theme: FluentTheme) {
         // Create an updated fluent theme as well
         let brandColors = brandColorOverrides(provider: provider, for: theme)
         brandColors.forEach { token, value in
@@ -114,24 +173,9 @@ public final class Colors2: NSObject {
     ///
     /// - Parameters:
     ///   - window: The window that should have its `ColorProvider2` removed.
-    @objc public static func removeProvider(for theme: FluentTheme) {
-        let removedProvider = colorProvidersMap.object(forKey: theme)
-        colorProvidersMap.removeObject(forKey: theme)
-
-        guard let removedProvider = removedProvider else {
-            return
+    @objc static func removeProvider(for theme: FluentTheme) {
+        for brandColor in BrandColorsForOverriding.allCases {
+            theme.aliasTokens.colors.removeOverride(brandColor.equivalentAliasToken)
         }
-        let defaultTokens = FluentTheme.shared.aliasTokens
-        let brandColors = brandColorOverrides(provider: removedProvider, for: theme)
-        brandColors.forEach { token, _ in
-            theme.aliasTokens.colors[token] = defaultTokens.colors[token]
-        }
-    }
-
-    private static var colorProvidersMap = NSMapTable<FluentTheme, ColorProviding2>(keyOptions: .weakMemory, valueOptions: .weakMemory)
-
-    @available(*, unavailable)
-    override init() {
-        super.init()
     }
 }

@@ -98,7 +98,7 @@
 }
 
 - (void)overridesButtonPressed:(id)sender {
-    [MSFColors2 setProviderWithProvider:[ObjectiveCDemoColorProviding2 alloc] for:[self.view fluentTheme]];
+    [MSFFluentTheme setProviderWithProvider:[ObjectiveCDemoColorProviding2 alloc] for:[self.view fluentTheme]];
 
     MSFFluentTheme *fluentTheme = [[self view] fluentTheme];
     MSFAliasTokens *aliasTokens = [fluentTheme aliasTokens];
@@ -108,10 +108,10 @@
                  textColor:[[UIColor alloc] initWithDynamicColor:primaryColor]];
 
     // Remove the overrides
-    [MSFColors2 removeProviderFor:([self.view fluentTheme])];
+    [MSFFluentTheme removeProviderFor:([self.view fluentTheme])];
     primaryColor = [aliasTokens colorsForToken:MSFColorsAliasTokensBrandForeground1];
 
-    [self addLabelWithText:@"Test label with fixed brand color"
+    [self addLabelWithText:@"Test label with override color removed"
                  textColor:[[UIColor alloc] initWithDynamicColor:primaryColor]];
 }
 
