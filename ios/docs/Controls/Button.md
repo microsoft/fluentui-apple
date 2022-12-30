@@ -24,6 +24,9 @@ let button = Button(style: style)
 There is currently no SwiftUI implementation of the `Button`
 
 ## Implementation
+### Control Name
+`Button` in Swift, `MSFButton` in Objective-C
+
 ### Source Code
  - [Button.swift](https://github.com/microsoft/fluentui-apple/blob/main/ios/FluentUI/Button/Button.swift)
  - [ButtonTokenSet.swift](https://github.com/microsoft/fluentui-apple/blob/main/ios/FluentUI/Button/ButtonTokenSet.swift)
