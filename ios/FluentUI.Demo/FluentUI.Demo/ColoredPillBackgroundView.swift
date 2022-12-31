@@ -27,38 +27,21 @@ class ColoredPillBackgroundView: UIView {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
-    override func didMoveToWindow() {
-        super.didMoveToWindow()
-        updateBackgroundColor()
-    }
-
-    @objc func themeDidChange() {
+    @objc func themeDidChange(_ notification: Notification) {
+        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
+            return
+        }
         updateBackgroundColor()
     }
 
     func updateBackgroundColor() {
-        let lightColor: UIColor
-        let darkColor: UIColor
         switch style {
         case .neutral:
-            if let fluentTheme = window?.fluentTheme {
-                lightColor = UIColor(dynamicColor: fluentTheme.aliasTokens.backgroundColors[.neutral1])
-                darkColor = UIColor(dynamicColor: fluentTheme.aliasTokens.backgroundColors[.neutral4])
-            } else {
-                lightColor = Colors.navigationBarBackground
-                darkColor = Colors.navigationBarBackground
-            }
+            backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background2])
         case .brand:
-            if let fluentTheme = window?.fluentTheme {
-                lightColor = UIColor(dynamicColor: fluentTheme.aliasTokens.backgroundColors[.brandRest])
-                darkColor = UIColor(dynamicColor: fluentTheme.aliasTokens.backgroundColors[.neutral4])
-            } else {
-                lightColor = Colors.communicationBlue
-                darkColor = Colors.navigationBarBackground
-            }
+            backgroundColor = UIColor(dynamicColor: DynamicColor(light: GlobalTokens.brandColors(.comm80),
+                                                                 dark: GlobalTokens.neutralColors(.grey12)))
         }
-
-        backgroundColor = UIColor(light: lightColor, dark: darkColor)
     }
 
     let style: ColoredPillBackgroundStyle
