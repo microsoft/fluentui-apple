@@ -93,7 +93,7 @@ private func brandColorOverrides(provider: ColorProviding2, for theme: FluentThe
 
 // MARK: Colors
 
-public enum BrandColorsForOverriding: CaseIterable {
+private enum BrandColorsForOverriding: CaseIterable {
     case brandBackground1
     case brandBackground1Pressed
     case brandBackground1Selected
