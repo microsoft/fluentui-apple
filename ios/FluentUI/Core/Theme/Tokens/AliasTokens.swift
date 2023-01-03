@@ -263,7 +263,8 @@ public final class AliasTokens: NSObject {
 
     // MARK: Colors
 
-    public enum ColorsTokens: CaseIterable {
+    @objc(MSFColorAliasTokens)
+    public enum ColorsTokens: Int, TokenSetKey {
         // Foreground colors
         case foreground1
         case foreground2
@@ -333,6 +334,13 @@ public final class AliasTokens: NSObject {
         case brandStroke1Pressed
         case brandStroke1Selected
     }
+
+    @available(swift, obsoleted: 1.0, message: "This method exists for Objective-C backwards compatibility and should not be invoked from Swift. Please use the `brandColors` property directly.")
+    @objc(aliasColorForToken:)
+    public func color(_ token: ColorsTokens) -> DynamicColor {
+        return colors[token]
+    }
+
     public lazy var colors: TokenSet<ColorsTokens, DynamicColor> = .init { [weak self] token in
         guard let strongSelf = self else { preconditionFailure() }
         switch token {
