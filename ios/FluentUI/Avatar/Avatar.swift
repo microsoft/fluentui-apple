@@ -177,6 +177,13 @@ public struct Avatar: View, TokenizedControlView {
                         defaultAccessibilityText)
         }()
 
+        let accessibilityIdentifier: String = {
+            if let title = state.primaryText ?? state.secondaryText {
+                return "Avatar of \(title) in size \(AvatarTokenSet.avatarSize(state.size)) and style \(state.style.rawValue)"
+            }
+            return "Avatar in size \(AvatarTokenSet.avatarSize(state.size)) and style \(state.style.rawValue)"
+        }()
+
         @ViewBuilder
         var avatarContent: some View {
             if let image = avatarImageInfo.image {
@@ -296,6 +303,7 @@ public struct Avatar: View, TokenizedControlView {
             .accessibility(addTraits: state.hasButtonAccessibilityTrait ? .isButton : .isImage)
             .accessibility(label: Text(accessibilityLabel))
             .accessibility(value: Text(presence.string() ?? ""))
+            .accessibilityIdentifier(accessibilityIdentifier)
             .fluentTokens(tokenSet, fluentTheme)
     }
 
