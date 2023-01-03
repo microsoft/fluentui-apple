@@ -335,7 +335,7 @@ public final class AliasTokens: NSObject {
         case brandStroke1Selected
     }
 
-    @available(swift, obsoleted: 1.0, message: "This method exists for Objective-C backwards compatibility and should not be invoked from Swift. Please use the `brandColors` property directly.")
+    @available(swift, obsoleted: 1.0, message: "This method exists for Objective-C backwards compatibility and should not be invoked from Swift. Please use the `colors` property directly.")
     @objc(aliasColorForToken:)
     public func color(_ token: ColorsTokens) -> DynamicColor {
         return colors[token]
