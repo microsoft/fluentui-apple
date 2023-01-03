@@ -1,7 +1,7 @@
 # Card
 
 ## Overview
-The `Card` component is a framework for organizing content within the confines of a container. It's main function is to provide the scaffolding for hosting actions and content for a single topic within a card.
+The `Card` component is a framework for organizing content within the confines of a container. Its main function is to provide the scaffolding for hosting actions and content for a single topic within a card.
 
 The different variations of `Card` are pictured below.
 
