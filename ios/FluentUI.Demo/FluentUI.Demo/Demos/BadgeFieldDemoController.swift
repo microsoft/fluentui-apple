@@ -9,6 +9,7 @@ import UIKit
 class BadgeFieldDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        readmeString = "< Documentation will be added soon >"
 
         let badgeDataSources1 = [
             BadgeViewDataSource(text: "Kat Larsson", style: .default),

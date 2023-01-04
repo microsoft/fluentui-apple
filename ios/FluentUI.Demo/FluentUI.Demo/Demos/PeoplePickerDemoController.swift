@@ -61,6 +61,7 @@ class PeoplePickerDemoController: DemoController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        readmeString = "< Documentation will be added soon >"
 
         asyncImageSwitch.addTarget(self, action: #selector(onAsyncImageSwitchValueChanged), for: .valueChanged)
         setupView()
