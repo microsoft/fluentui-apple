@@ -8,25 +8,6 @@ import FluentUI
 
 class ReadmeViewController: UIViewController {
 
-    private struct Constants {
-        static let topPadding: CGFloat = 25
-        static let leadingAndTrailingPadding: CGFloat = 20
-        static let popoverWidth: CGFloat = 400
-    }
-
-    private let readmeLabel: Label = {
-        let label = Label()
-        label.numberOfLines = 0
-
-        // TODO: Change color to fluent 2 tokens
-        label.textColor = UIColor(dynamicColor: DynamicColor(light: ColorValue(0x000000),
-                                                             dark: ColorValue(0xFFFFFF)))
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
-    private let readmeString: String?
-
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
@@ -57,6 +38,25 @@ class ReadmeViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    private struct Constants {
+        static let topPadding: CGFloat = 25
+        static let leadingAndTrailingPadding: CGFloat = 20
+        static let popoverWidth: CGFloat = 400
+    }
+
+    private let readmeLabel: Label = {
+        let label = Label()
+        label.numberOfLines = 0
+
+        // TODO: Change color to fluent 2 tokens
+        label.textColor = UIColor(dynamicColor: DynamicColor(light: ColorValue(0x000000),
+                                                             dark: ColorValue(0xFFFFFF)))
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
+    private let readmeString: String?
 
     private func setupConstraints() {
         NSLayoutConstraint.activate([
