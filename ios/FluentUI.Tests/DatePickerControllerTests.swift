@@ -7,8 +7,8 @@ import XCTest
 @testable import FluentUI
 
 class DatePickerControllerTests: XCTestCase {
-    let startDate = NSDate.now
-    let endDate = NSDate.now.adding(days: 1)
+    let startDate: Date = NSDate.now
+    let endDate: Date = NSDate.now.adding(days: 1)
 
     func testDateRangeInit() {
         let datePicker = DatePickerController(startDate: startDate, endDate: endDate, calendarConfiguration: CalendarConfiguration.default, mode: .dateRange, rangePresentation: .paged, titles: nil, leftBarButtonItem: nil, rightBarButtonItem: nil)
