@@ -11,9 +11,7 @@ class ReadmeViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        if let readmeString = readmeString {
-            readmeLabel.text = readmeString
-        }
+        readmeLabel.text = readmeString ?? "< Documentation will be added soon >"
 
         let popoverHeight = readmeLabel.frame.height + Constants.topPadding
         preferredContentSize = CGSize(width: Constants.popoverWidth, height: popoverHeight)

@@ -30,7 +30,6 @@ class SearchBarDemoController: DemoController, SearchBarDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        readmeString = "< Documentation will be added soon >"
 
         let searchBarNoAutocorrect = buildSearchBar(autocorrectionType: .no, placeholderText: "no autocorrect")
         let searchBarAutocorrect = buildSearchBar(autocorrectionType: .yes, placeholderText: "autocorrect")
