@@ -10,7 +10,7 @@ jobs:
     runs-on: macos-12
     
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Switch to current version of Xcode
       run: scripts/xcode_select_current_version.sh
     - name: Publish to CocoaPod register
