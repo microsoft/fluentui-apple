@@ -33,7 +33,7 @@ jobs:
       fail-fast: false
       matrix:
         build_command: [
-          'macos_build FluentUITestApp-macOS Debug build test -destination "platform=macOS,arch=arm64"',
+          'macos_build FluentUITestApp-macOS Debug build test -destination "platform=macOS,arch=x86_64"',
         ]
 
     steps:
