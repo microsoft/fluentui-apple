@@ -288,7 +288,7 @@ extension HUDDemoController: DemoAppearanceDelegate {
     private var themeWideOverrideActivityHeadsUpDisplayTokens: [HeadsUpDisplayTokenSet.Tokens: ControlTokenValue] {
         let aliasTokens = self.view.fluentTheme.aliasTokens
         return [
-            .backgroundColor: .dynamicColor { aliasTokens.backgroundColors[.brandHover] }
+            .backgroundColor: .dynamicColor { aliasTokens.colors[.brandBackground1] }
         ]
     }
 

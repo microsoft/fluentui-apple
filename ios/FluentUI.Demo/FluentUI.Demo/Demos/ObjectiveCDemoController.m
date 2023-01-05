@@ -92,7 +92,7 @@
     // Add alias-colored label too
     MSFFluentTheme *fluentTheme = [[self view] fluentTheme];
     MSFAliasTokens *aliasTokens = [fluentTheme aliasTokens];
-    MSFDynamicColor *primaryColor = [aliasTokens brandColorForToken:MSFBrandColorsAliasTokensPrimary];
+    MSFDynamicColor *primaryColor = [aliasTokens aliasColorForToken:MSFColorAliasTokensBrandBackground3];
     [self addLabelWithText:@"Test label with alias color"
                  textColor:[[UIColor alloc] initWithDynamicColor:primaryColor]];
 }
@@ -102,14 +102,14 @@
     [fluentTheme setProviderWithProvider:[ObjectiveCDemoColorProviding2 alloc]];
 
     MSFAliasTokens *aliasTokens = [fluentTheme aliasTokens];
-    MSFDynamicColor *primaryColor = [aliasTokens colorsForToken:MSFColorsAliasTokensBrandForeground1];
+    MSFDynamicColor *primaryColor = [aliasTokens aliasColorForToken:MSFColorAliasTokensBrandForeground1];
 
     [self addLabelWithText:@"Test label with override brand color"
                  textColor:[[UIColor alloc] initWithDynamicColor:primaryColor]];
 
     // Remove the overrides
     [fluentTheme removeProvider];
-    primaryColor = [aliasTokens colorsForToken:MSFColorsAliasTokensBrandForeground1];
+    primaryColor = [aliasTokens aliasColorForToken:MSFColorAliasTokensBrandForeground1];
 
     [self addLabelWithText:@"Test label with override color removed"
                  textColor:[[UIColor alloc] initWithDynamicColor:primaryColor]];
