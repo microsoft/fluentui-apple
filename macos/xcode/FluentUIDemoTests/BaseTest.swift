@@ -14,7 +14,6 @@ class BaseTest: XCTestCase {
 		try super.setUpWithError()
 		continueAfterFailure = false
 		app.launch()
-
 		app.staticTexts[controlName].click()
 	}
 }
