@@ -57,179 +57,6 @@ public final class AliasTokens: NSObject {
         }
     }
 
-    // MARK: ForegroundColors
-
-    @objc(MSFForegroundColorsAliasTokens)
-    public enum ForegroundColorsTokens: Int, TokenSetKey {
-        case neutral1
-        case neutral2
-        case neutral3
-        case neutral4
-        case neutralDisabled
-        case neutralInverted
-        case brandRest
-        case brandHover
-        case brandPressed
-        case brandSelected
-        case brandDisabled
-    }
-
-    @available(swift, obsoleted: 1.0, message: "This method exists for Objective-C backwards compatibility and should not be invoked from Swift. Please use the `foregroundColors` property directly.")
-    @objc(foregroundColorForToken:)
-    public func foregroundColor(_ token: ForegroundColorsTokens) -> DynamicColor {
-        return foregroundColors[token]
-    }
-
-    public lazy var foregroundColors: TokenSet<ForegroundColorsTokens, DynamicColor> = .init { [weak self] token in
-        guard let strongSelf = self else { preconditionFailure() }
-        switch token {
-        case .neutral1:
-            return DynamicColor(light: GlobalTokens.neutralColors(.grey14),
-                                lightHighContrast: GlobalTokens.neutralColors(.black),
-                                dark: GlobalTokens.neutralColors(.white),
-                                darkHighContrast: GlobalTokens.neutralColors(.white))
-        case .neutral2:
-            return DynamicColor(light: GlobalTokens.neutralColors(.grey26),
-                                lightHighContrast: GlobalTokens.neutralColors(.black),
-                                dark: GlobalTokens.neutralColors(.grey84),
-                                darkHighContrast: GlobalTokens.neutralColors(.white))
-        case .neutral3:
-            return DynamicColor(light: GlobalTokens.neutralColors(.grey38),
-                                lightHighContrast: GlobalTokens.neutralColors(.grey14),
-                                dark: GlobalTokens.neutralColors(.grey68),
-                                darkHighContrast: GlobalTokens.neutralColors(.grey84))
-        case .neutral4:
-            return DynamicColor(light: GlobalTokens.neutralColors(.grey50),
-                                lightHighContrast: GlobalTokens.neutralColors(.grey26),
-                                dark: GlobalTokens.neutralColors(.grey52),
-                                darkHighContrast: GlobalTokens.neutralColors(.grey84))
-        case .neutralDisabled:
-            return DynamicColor(light: GlobalTokens.neutralColors(.grey74),
-                                lightHighContrast: GlobalTokens.neutralColors(.grey38),
-                                dark: GlobalTokens.neutralColors(.grey36),
-                                darkHighContrast: GlobalTokens.neutralColors(.grey62))
-        case .neutralInverted:
-            return DynamicColor(light: GlobalTokens.neutralColors(.white),
-                                lightHighContrast: GlobalTokens.neutralColors(.white),
-                                dark: GlobalTokens.neutralColors(.black),
-                                darkHighContrast: GlobalTokens.neutralColors(.black))
-        case .brandRest:
-            return DynamicColor(light: strongSelf.brandColors[.primary].light,
-                                lightHighContrast: strongSelf.brandColors[.shade20].light,
-                                dark: strongSelf.brandColors[.primary].dark,
-                                darkHighContrast: strongSelf.brandColors[.tint20].dark)
-        case .brandHover:
-            return strongSelf.brandColors[.shade10]
-        case .brandPressed:
-            return strongSelf.brandColors[.shade30]
-        case .brandSelected:
-            return strongSelf.brandColors[.shade20]
-        case .brandDisabled:
-            return DynamicColor(light: GlobalTokens.neutralColors(.grey74),
-                                dark: GlobalTokens.neutralColors(.grey36))
-        }
-    }
-
-    // MARK: BackgroundColors
-
-    @objc(MSFBackgroundColorsAliasTokens)
-    public enum BackgroundColorsTokens: Int, TokenSetKey {
-        case neutral1
-        case neutral2
-        case neutral3
-        case neutral4
-        case neutral5
-        case neutralDisabled
-        case brandRest
-        case brandHover
-        case brandPressed
-        case brandSelected
-        case brandDisabled
-        case surfaceQuaternary
-    }
-
-    @available(swift, obsoleted: 1.0, message: "This method exists for Objective-C backwards compatibility and should not be invoked from Swift. Please use the `backgroundColors` property directly.")
-    @objc(backgroundColorForToken:)
-    public func backgroundColor(_ token: BackgroundColorsTokens) -> DynamicColor {
-        return backgroundColors[token]
-    }
-
-    public lazy var backgroundColors: TokenSet<BackgroundColorsTokens, DynamicColor> = .init { [weak self] token in
-        guard let strongSelf = self else { preconditionFailure() }
-        switch token {
-        case .neutral1:
-            return DynamicColor(light: GlobalTokens.neutralColors(.white),
-                                dark: GlobalTokens.neutralColors(.black),
-                                darkElevated: GlobalTokens.neutralColors(.grey4))
-        case .neutral2:
-            return DynamicColor(light: GlobalTokens.neutralColors(.grey98),
-                                dark: GlobalTokens.neutralColors(.grey4),
-                                darkElevated: GlobalTokens.neutralColors(.grey8))
-        case .neutral3:
-            return DynamicColor(light: GlobalTokens.neutralColors(.grey96),
-                                dark: GlobalTokens.neutralColors(.grey8),
-                                darkElevated: GlobalTokens.neutralColors(.grey12))
-        case .neutral4:
-            return DynamicColor(light: GlobalTokens.neutralColors(.grey94),
-                                dark: GlobalTokens.neutralColors(.grey12),
-                                darkElevated: GlobalTokens.neutralColors(.grey16))
-        case .neutral5:
-            return DynamicColor(light: GlobalTokens.neutralColors(.grey92),
-                                dark: GlobalTokens.neutralColors(.grey36),
-                                darkElevated: GlobalTokens.neutralColors(.grey36))
-        case .neutralDisabled:
-            return DynamicColor(light: GlobalTokens.neutralColors(.grey88),
-                                dark: GlobalTokens.neutralColors(.grey84),
-                                darkElevated: GlobalTokens.neutralColors(.grey84))
-        case .brandRest:
-            return strongSelf.brandColors[.primary]
-        case .brandHover:
-            return strongSelf.brandColors[.shade10]
-        case .brandPressed:
-            return strongSelf.brandColors[.shade30]
-        case .brandSelected:
-            return strongSelf.brandColors[.shade20]
-        case .brandDisabled:
-            return DynamicColor(light: GlobalTokens.neutralColors(.grey88),
-                                dark: GlobalTokens.neutralColors(.grey84))
-        case .surfaceQuaternary:
-            return DynamicColor(light: GlobalTokens.neutralColors(.grey88),
-                                dark: GlobalTokens.neutralColors(.grey26))
-        }
-    }
-
-    // MARK: StrokeColors
-
-    @objc(MSFStrokeColorsAliasTokens)
-    public enum StrokeColorsTokens: Int, TokenSetKey {
-        case neutral1
-        case neutral2
-    }
-
-    @available(swift, obsoleted: 1.0, message: "This method exists for Objective-C backwards compatibility and should not be invoked from Swift. Please use the `strokeColors` property directly.")
-    @objc(strokeColorForToken:)
-    public func strokeColor(_ token: StrokeColorsTokens) -> DynamicColor {
-        return strokeColors[token]
-    }
-
-    public lazy var strokeColors: TokenSet<StrokeColorsTokens, DynamicColor> = .init { [weak self] token in
-        guard let strongSelf = self else { preconditionFailure() }
-        switch token {
-        case .neutral1:
-            return DynamicColor(light: GlobalTokens.neutralColors(.grey94),
-                                lightHighContrast: GlobalTokens.neutralColors(.grey38),
-                                dark: GlobalTokens.neutralColors(.grey24),
-                                darkHighContrast: GlobalTokens.neutralColors(.grey68),
-                                darkElevated: GlobalTokens.neutralColors(.grey32))
-        case .neutral2:
-            return DynamicColor(light: GlobalTokens.neutralColors(.grey88),
-                                lightHighContrast: GlobalTokens.neutralColors(.grey38),
-                                dark: GlobalTokens.neutralColors(.grey32),
-                                darkHighContrast: GlobalTokens.neutralColors(.grey68),
-                                darkElevated: GlobalTokens.neutralColors(.grey36))
-        }
-    }
-
     // MARK: - ShadowColors
 
     @objc(MSFShadowColorsAliasTokens)
@@ -434,42 +261,9 @@ public final class AliasTokens: NSObject {
         }
     }
 
-    // MARK: Elevation
-
-    @objc(MSFElevationAliasTokens)
-    public enum ElevationTokens: Int, TokenSetKey {
-        case interactiveElevation1Rest
-        case interactiveElevation1Hover
-        case interactiveElevation1Pressed
-        case interactiveElevation1Selected
-        case interactiveElevation1Disabled
-    }
-
-    @available(swift, obsoleted: 1.0, message: "This method exists for Objective-C backwards compatibility and should not be invoked from Swift. Please use the `elevation` property directly.")
-    @objc(elevationForToken:)
-    public func elevation(_ token: ElevationTokens) -> ShadowInfo {
-        return elevation[token]
-    }
-
-    lazy public var elevation: TokenSet<ElevationTokens, ShadowInfo> = .init { [weak self] token in
-        guard let strongSelf = self else { preconditionFailure() }
-        switch token {
-        case .interactiveElevation1Rest:
-            return strongSelf.shadow[.shadow08]
-        case .interactiveElevation1Hover:
-            return strongSelf.shadow[.shadow02]
-        case .interactiveElevation1Pressed:
-            return strongSelf.shadow[.shadow02]
-        case .interactiveElevation1Selected:
-            return strongSelf.shadow[.shadow02]
-        case .interactiveElevation1Disabled:
-            return strongSelf.shadow[.shadow02]
-        }
-    }
-
     // MARK: Colors
 
-    @objc(MSFColorsAliasTokens)
+    @objc(MSFColorAliasTokens)
     public enum ColorsTokens: Int, TokenSetKey {
         // Foreground colors
         case foreground1
@@ -542,10 +336,11 @@ public final class AliasTokens: NSObject {
     }
 
     @available(swift, obsoleted: 1.0, message: "This method exists for Objective-C backwards compatibility and should not be invoked from Swift. Please use the `colors` property directly.")
-    @objc(colorsForToken:)
-    public func colors(_ token: ColorsTokens) -> DynamicColor {
+    @objc(aliasColorForToken:)
+    public func color(_ token: ColorsTokens) -> DynamicColor {
         return colors[token]
     }
+
     public lazy var colors: TokenSet<ColorsTokens, DynamicColor> = .init { [weak self] token in
         guard let strongSelf = self else { preconditionFailure() }
         switch token {
