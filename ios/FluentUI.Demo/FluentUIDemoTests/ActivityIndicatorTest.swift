@@ -49,6 +49,5 @@ class ActivityIndicatorTest: BaseTest {
         app.buttons["ic fluent settings 24 regular"].tap()
         app.buttons["Dark"].tap()
         app.otherElements["dismiss popup"].tap()
-
     }
 }
