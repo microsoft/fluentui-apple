@@ -4,6 +4,7 @@
 //
 
 #import "ObjectiveCDemoController.h"
+#import "ObjectiveCDemoColorProviding2.h"
 #import <FluentUI/FluentUI-Swift.h>
 #import <FluentUI_Demo-Swift.h>
 
@@ -17,6 +18,8 @@
 @property (nonatomic) UIViewController *appearanceController; // Type-erased to UIViewController because UIHostingController subclasses can't be represented directly in @objc
 
 @property (nonatomic) NSMutableSet<UILabel *> *addedLabels;
+
+@property (nonatomic) ObjectiveCDemoColorProviding2 *colorProvider;
 
 @end
 
@@ -44,8 +47,12 @@
         [[self.container widthAnchor] constraintEqualToAnchor:[self.scrollingContainer widthAnchor]],
     ]];
 
-    MSFButton *testButton = [self createButtonWithTitle:@"Test" action:@selector(buttonPressed:)];
-    [self.container addArrangedSubview:testButton];
+    MSFButton *testTokensButton = [self createButtonWithTitle:@"Test global and alias" action:@selector(tokensButtonPressed:)];
+    [self.container addArrangedSubview:testTokensButton];
+
+
+    MSFButton *testOverridesButton = [self createButtonWithTitle:@"Test overrides" action:@selector(overridesButtonPressed:)];
+    [self.container addArrangedSubview:testOverridesButton];
 
     [self setAddedLabels:[NSMutableSet set]];
 
@@ -76,7 +83,7 @@
     [[self addedLabels] addObject:label];
 }
 
-- (void)buttonPressed:(id)sender {
+- (void)tokensButtonPressed:(id)sender {
     MSFColorValue *colorValue = [MSFGlobalTokens sharedColorForColorSet:MSFSharedColorSetsPink
                                                                   token:MSFSharedColorsTokensPrimary];
     [self addLabelWithText:@"Test label with global color"
@@ -87,6 +94,24 @@
     MSFAliasTokens *aliasTokens = [fluentTheme aliasTokens];
     MSFDynamicColor *primaryColor = [aliasTokens aliasColorForToken:MSFColorAliasTokensBrandBackground3];
     [self addLabelWithText:@"Test label with alias color"
+                 textColor:[[UIColor alloc] initWithDynamicColor:primaryColor]];
+}
+
+- (void)overridesButtonPressed:(id)sender {
+    [MSFFluentTheme setProviderWithProvider:[ObjectiveCDemoColorProviding2 alloc] for:[self.view fluentTheme]];
+
+    MSFFluentTheme *fluentTheme = [[self view] fluentTheme];
+    MSFAliasTokens *aliasTokens = [fluentTheme aliasTokens];
+    MSFDynamicColor *primaryColor = [aliasTokens aliasColorForToken:MSFColorAliasTokensBrandBackground1];
+
+    [self addLabelWithText:@"Test label with override brand color"
+                 textColor:[[UIColor alloc] initWithDynamicColor:primaryColor]];
+
+    // Remove the overrides
+    [MSFFluentTheme removeProviderFor:([self.view fluentTheme])];
+    primaryColor = [aliasTokens aliasColorForToken:MSFColorAliasTokensBrandForeground1];
+
+    [self addLabelWithText:@"Test label with override color removed"
                  textColor:[[UIColor alloc] initWithDynamicColor:primaryColor]];
 }
 
