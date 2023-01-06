@@ -44,4 +44,11 @@ class ActivityIndicatorTest: BaseTest {
         startStopButton.tap()
         XCTAssert(app.images.element(matching: NSPredicate(format: "identifier CONTAINS %@", "Activity Indicator that is in progress")).exists)
     }
+
+    func testDarkMode() throws {
+        app.buttons["ic fluent settings 24 regular"].tap()
+        app.buttons["Dark"].tap()
+        app.otherElements["dismiss popup"].tap()
+
+    }
 }
