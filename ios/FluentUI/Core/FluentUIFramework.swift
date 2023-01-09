@@ -34,11 +34,6 @@ public class FluentUIFramework: NSObject {
     @available(*, deprecated, message: "Non-fluent icons no longer supported. Setting this var no longer has any effect and it will be removed in a future update.")
     @objc public static var usesFluentIcons: Bool = true
 
-    @available(*, deprecated, renamed: "initializeAppearance(with:whenContainedInInstancesOf:)")
-    @objc public static func initializeAppearance() {
-        initializeAppearance(with: Colors.primary)
-    }
-
     enum NavigationBarStyle {
         case normal
         case dateTimePicker

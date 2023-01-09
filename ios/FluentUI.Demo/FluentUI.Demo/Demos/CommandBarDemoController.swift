@@ -365,9 +365,7 @@ class CommandBarDemoController: DemoController {
         )
 
         commandBarItem.accentImage = command.accentImage
-        if let window = view.window {
-            commandBarItem.accentImageTintColor = Colors.primary(for: window)
-        }
+        commandBarItem.accentImageTintColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.brandForeground1])
 
         if command == .customView {
             commandBarItem.customControlView = { () -> UIView in
