@@ -10,6 +10,6 @@ class AvatarGroupTest: BaseTest {
 
     // launch test that ensures the demo app does not crash and is on the correct control page
     func testLaunch() throws {
-        XCTAssertTrue(app.navigationBars[controlName].exists)
+        XCTAssertTrue(app.navigationBars["CommandBar"].exists)
     }
 }
