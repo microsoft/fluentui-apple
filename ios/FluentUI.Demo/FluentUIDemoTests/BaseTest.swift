@@ -30,4 +30,14 @@ class BaseTest: XCTestCase {
             controlPage.tap()
         }
     }
+
+    override func tearDownWithError() throws {
+        try super.tearDownWithError()
+        app.terminate()
+        let springboard = XCUIApplication(bundleIdentifier: "com.apple.springboard")
+        springboard.icons[fluentUIDev].press(forDuration: 1)
+        springboard.buttons["Remove App"].tap()
+        springboard.alerts.buttons["Delete App"].tap()
+        springboard.alerts.buttons["Delete"].tap()
+    }
 }
