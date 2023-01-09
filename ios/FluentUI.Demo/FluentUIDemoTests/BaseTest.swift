@@ -26,17 +26,17 @@ class BaseTest: XCTestCase {
             icon.press(forDuration: 1)
 
             let buttonRemoveApp = springboard.buttons["Remove App"]
-            if buttonRemoveApp.waitForExistence(timeout: 5) {
+            if buttonRemoveApp.waitForExistence(timeout: 1) {
                 buttonRemoveApp.tap()
             }
 
             let buttonDeleteApp = springboard.alerts.buttons["Delete App"]
-            if buttonDeleteApp.waitForExistence(timeout: 5) {
+            if buttonDeleteApp.waitForExistence(timeout: 1) {
                 buttonDeleteApp.tap()
             }
 
             let buttonDelete = springboard.alerts.buttons["Delete"]
-            if buttonDelete.waitForExistence(timeout: 5) {
+            if buttonDelete.waitForExistence(timeout: 1) {
                 buttonDelete.tap()
             }
         }
