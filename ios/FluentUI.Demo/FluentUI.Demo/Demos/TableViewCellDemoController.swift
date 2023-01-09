@@ -58,7 +58,6 @@ class TableViewCellDemoController: DemoTableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        readmeString = "< Documentation will be added soon >"
 
         tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
         tableView.register(TableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: TableViewHeaderFooterView.identifier)

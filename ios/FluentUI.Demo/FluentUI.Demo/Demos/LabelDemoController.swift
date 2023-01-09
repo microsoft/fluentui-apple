@@ -11,7 +11,6 @@ class LabelDemoController: DemoController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        readmeString = "< Documentation will be added soon >"
 
         addLabel(text: "Text Styles", style: .headline, colorStyle: .regular).textAlignment = .center
         for style in TextStyle.allCases {

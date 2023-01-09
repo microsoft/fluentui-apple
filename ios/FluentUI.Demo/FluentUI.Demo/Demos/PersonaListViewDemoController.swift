@@ -45,7 +45,6 @@ let searchDirectoryPersonas: [PersonaData] = [
 class PersonaListViewDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        readmeString = "< Documentation will be added soon >"
 
         let personaListView = PersonaListView()
         personaListView.personaList = samplePersonas

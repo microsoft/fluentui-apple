@@ -10,7 +10,6 @@ class CardViewDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        readmeString = "< Documentation will be added soon >"
         container.alignment = .leading
 
         let demoIcon = UIImage(named: "flag-24x24")
