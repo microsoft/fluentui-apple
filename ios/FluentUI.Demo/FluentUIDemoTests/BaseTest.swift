@@ -29,12 +29,10 @@ class BaseTest: XCTestCase {
             if buttonRemoveApp.waitForExistence(timeout: 1) {
                 buttonRemoveApp.tap()
             }
-
             let buttonDeleteApp = springboard.alerts.buttons["Delete App"]
             if buttonDeleteApp.waitForExistence(timeout: 1) {
                 buttonDeleteApp.tap()
             }
-
             let buttonDelete = springboard.alerts.buttons["Delete"]
             if buttonDelete.waitForExistence(timeout: 1) {
                 buttonDelete.tap()
