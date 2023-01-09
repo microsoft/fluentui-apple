@@ -21,9 +21,24 @@ class BaseTest: XCTestCase {
         try super.tearDownWithError()
         app.terminate()
         let springboard = XCUIApplication(bundleIdentifier: "com.apple.springboard")
-        springboard.icons["FluentUI DEV"].press(forDuration: 1)
-        springboard.buttons["Remove App"].tap()
-        springboard.alerts.buttons["Delete App"].tap()
-        springboard.alerts.buttons["Delete"].tap()
+        let icon = springboard.icons["FluentUI DEV"]
+        if icon.exists {
+            icon.press(forDuration: 1)
+
+            let buttonRemoveApp = springboard.buttons["Remove App"]
+            if buttonRemoveApp.waitForExistence(timeout: 5) {
+                buttonRemoveApp.tap()
+            }
+
+            let buttonDeleteApp = springboard.alerts.buttons["Delete App"]
+            if buttonDeleteApp.waitForExistence(timeout: 5) {
+                buttonDeleteApp.tap()
+            }
+
+            let buttonDelete = springboard.alerts.buttons["Delete"]
+            if buttonDelete.waitForExistence(timeout: 5) {
+                buttonDelete.tap()
+            }
+        }
     }
 }
