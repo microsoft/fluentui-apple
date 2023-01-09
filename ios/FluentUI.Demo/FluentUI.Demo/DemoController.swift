@@ -137,7 +137,7 @@ class DemoController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = Colors.surfacePrimary
+        view.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background1])
 
         if allowsContentToScroll {
             view.addSubview(scrollingContainer)

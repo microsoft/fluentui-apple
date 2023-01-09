@@ -173,7 +173,7 @@ class CommandBarDemoController: DemoController {
         super.viewDidLoad()
         container.layoutMargins.right = 0
         container.layoutMargins.left = 0
-        view.backgroundColor = Colors.surfaceSecondary
+        view.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background4])
 
         container.addArrangedSubview(createLabelWithText("Default"))
 
@@ -509,7 +509,7 @@ extension CommandBarDemoController: CommandBarDelegate {
             let originalBackgroundColor = commandBar.backgroundColor
 
             UIView.animate(withDuration: 1.0, delay: 0.0, options: [.allowUserInteraction]) {
-                commandBar.backgroundColor = Colors.communicationBlue
+                commandBar.backgroundColor = UIColor(dynamicColor: self.view.fluentTheme.aliasTokens.colors[.brandBackground1])
             } completion: { _ in
                 commandBar.backgroundColor = originalBackgroundColor
             }
