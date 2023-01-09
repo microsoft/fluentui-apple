@@ -15,6 +15,6 @@ class IndeterminateProgressBarTestSwiftUI: BaseTest {
 
     // launch test that ensures the demo app does not crash and is on the correct control page
     func testLaunch() throws {
-        XCTAssertTrue(app.navigationBars.element(matching: NSPredicate(format: "identifier CONTAINS %@", "CommandBar")).exists)
+        XCTAssertTrue(app.navigationBars.element(matching: NSPredicate(format: "identifier CONTAINS %@", controlName)).exists)
     }
 }
