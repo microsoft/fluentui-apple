@@ -22,11 +22,11 @@ class ActivityIndicatorTest: BaseTest {
     }
 
     func testColor() throws {
-        let cyanBlueRGBAValues = "[0.0, 0.47058823529411764, 0.8313725490196079, 1.0]"
+        let RGBAValues = "[0.0, 0.47058823529411764, 0.8313725490196079, 1.0]"
 
         // loops through last 5 activity indicators on the screen
         for i in 5...9 {
-            XCTAssertEqual(app.images.element(boundBy: i).identifier, "Activity Indicator that is in progress with rgba values \(cyanBlueRGBAValues) and size \(9 - i)")
+            XCTAssertEqual(app.images.element(boundBy: i).identifier, "Activity Indicator that is in progress with rgba values \(RGBAValues) and size \(9 - i)")
         }
     }
 
@@ -49,5 +49,8 @@ class ActivityIndicatorTest: BaseTest {
         app.buttons["ic fluent settings 24 regular"].tap()
         app.buttons["Dark"].tap()
         app.otherElements["dismiss popup"].tap()
+
+        let RGBAValues = "[0.0, 0.47058823529411764, 0.8313725490196079, 1.0]"
+        XCTAssert(app.images.element(matching: NSPredicate(format: "identifier CONTAINS %@", "Activity Indicator that is in progress with rgba values \(RGBAValues)")).exists)
     }
 }
