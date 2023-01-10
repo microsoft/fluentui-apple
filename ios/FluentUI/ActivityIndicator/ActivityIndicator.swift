@@ -63,6 +63,9 @@ public struct ActivityIndicator: View, TokenizedControlView {
             if let rgba = state.color?.cgColor.components {
                 return "Activity Indicator that is \(status) with rgba values \(rgba) and size \(state.size.rawValue)"
             }
+            if color.cgColor == Color(dynamicColor: tokenSet[.defaultColor].dynamicColor).cgColor {
+                return "Activity Indicator that is \(status) of default color and size \(state.size.rawValue)"
+            }
             return "Activity Indicator that is \(status) and size \(state.size.rawValue)"
         }()
 

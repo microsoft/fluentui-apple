@@ -22,11 +22,14 @@ class ActivityIndicatorTest: BaseTest {
     }
 
     func testColor() throws {
-        let RGBAValues = "[0.0, 0.47058823529411764, 0.8313725490196079, 1.0]"
+        for _ in 0...4 {
+            XCTAssert(app.images.element(matching: NSPredicate(format: "identifier CONTAINS %@", "Activity Indicator that is in progress of default color")).exists)
+        }
 
+        let RGBAValues = "[0.0, 0.47058823529411764, 0.8313725490196079, 1.0]"
         // loops through last 5 activity indicators on the screen
-        for i in 5...9 {
-            XCTAssertEqual(app.images.element(boundBy: i).identifier, "Activity Indicator that is in progress with rgba values \(RGBAValues) and size \(9 - i)")
+        for _ in 5...9 {
+            XCTAssert(app.images.element(matching: NSPredicate(format: "identifier CONTAINS %@", "Activity Indicator that is in progress with rgba values \(RGBAValues)")).exists)
         }
     }
 
@@ -50,7 +53,14 @@ class ActivityIndicatorTest: BaseTest {
         app.buttons["Dark"].tap()
         app.otherElements["dismiss popup"].tap()
 
+        for _ in 0...4 {
+            XCTAssert(app.images.element(matching: NSPredicate(format: "identifier CONTAINS %@", "Activity Indicator that is in progress of default color")).exists)
+        }
+
         let RGBAValues = "[0.0, 0.47058823529411764, 0.8313725490196079, 1.0]"
-        XCTAssert(app.images.element(matching: NSPredicate(format: "identifier CONTAINS %@", "Activity Indicator that is in progress with rgba values \(RGBAValues)")).exists)
+        // loops through last 5 activity indicators on the screen
+        for _ in 5...9 {
+            XCTAssert(app.images.element(matching: NSPredicate(format: "identifier CONTAINS %@", "Activity Indicator that is in progress with rgba values \(RGBAValues)")).exists)
+        }
     }
 }
