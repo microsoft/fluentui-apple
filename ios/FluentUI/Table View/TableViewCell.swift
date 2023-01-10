@@ -575,25 +575,26 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                                                                               text: text, labelAccessoryViewMarginLeading: labelAccessoryViewMarginLeading)
 
         let availableWidth = textAreaWidth - (leadingAccessoryAreaWidth + trailingAccessoryAreaWidth + labelAccessoryViewMarginTrailing)
+        let labelSize = text.preferredSize(for: font, width: availableWidth, numberOfLines: numberOfLines)
         if isAttributedTextSet, let attributedText = attributedText {
-            return preferredLabelSize(with: attributedText, availableTextWidth: availableWidth)
+            let attributedSize = preferredLabelSize(with: attributedText, availableTextWidth: availableWidth)
+            // The boundingRect method for NSAttributedString does not consider system font size,
+            // which is the default in the case where there is not .font attribute, resulting in an inaccurate
+            // height value. Taking the max of labelSize and attributedSize resolves this.
+            return CGSize(width: attributedSize.width, height: max(labelSize.height, attributedSize.height))
         }
-        return text.preferredSize(for: font, width: availableWidth, numberOfLines: numberOfLines)
+
+        return labelSize
     }
 
     private static func preferredLabelSize(with attributedText: NSAttributedString,
                                            availableTextWidth: CGFloat = .greatestFiniteMagnitude) -> CGSize {
-        // We need to have .usesDeviceMetrics to ensure that there is no trailing clipping in our label.
-        // However, it causes the bottom portion of the label to be clipped instead. Creating a calculated CGRect
-        // for width and height accommodates for both scenarios so that there is no clipping.
         let estimatedBoundsHeight = attributedText.boundingRect(
             with: CGSize(width: availableTextWidth, height: .greatestFiniteMagnitude),
             options: [.usesLineFragmentOrigin, .usesFontLeading],
             context: nil)
 
-        // We want the larger width value so that the label does not undergo any trucation.
         return CGSize(width: ceil(availableTextWidth), height: ceil(estimatedBoundsHeight.height))
-
     }
 
     private static func labelPreferredWidth(text: String,
