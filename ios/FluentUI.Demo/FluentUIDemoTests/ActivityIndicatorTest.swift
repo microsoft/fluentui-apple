@@ -22,6 +22,7 @@ class ActivityIndicatorTest: BaseTest {
     }
 
     func testColor() throws {
+        // loops through first 5 activity indicators on the screen
         for _ in 0...4 {
             XCTAssert(app.images.element(matching: NSPredicate(format: "identifier CONTAINS %@", "Activity Indicator that is in progress of default color")).exists)
         }
@@ -58,7 +59,6 @@ class ActivityIndicatorTest: BaseTest {
         }
 
         let RGBAValues = "[0.0, 0.47058823529411764, 0.8313725490196079, 1.0]"
-        // loops through last 5 activity indicators on the screen
         for _ in 5...9 {
             XCTAssert(app.images.element(matching: NSPredicate(format: "identifier CONTAINS %@", "Activity Indicator that is in progress with rgba values \(RGBAValues)")).exists)
         }
