@@ -19,24 +19,8 @@ class BaseTest: XCTestCase {
 
     override func tearDownWithError() throws {
         try super.tearDownWithError()
+        UserDefaults.standard.set(true, forKey: "isFirstLaunch")
+        UserDefaults.standard.removeObject(forKey: "LastDemoController")
         app.terminate()
-        let springboard = XCUIApplication(bundleIdentifier: "com.apple.springboard")
-        let icon = springboard.icons["FluentUI DEV"]
-        if icon.exists {
-            icon.press(forDuration: 1)
-
-            let buttonRemoveApp = springboard.buttons["Remove App"]
-            if buttonRemoveApp.waitForExistence(timeout: 1) {
-                buttonRemoveApp.tap()
-            }
-            let buttonDeleteApp = springboard.alerts.buttons["Delete App"]
-            if buttonDeleteApp.waitForExistence(timeout: 1) {
-                buttonDeleteApp.tap()
-            }
-            let buttonDelete = springboard.alerts.buttons["Delete"]
-            if buttonDelete.waitForExistence(timeout: 1) {
-                buttonDelete.tap()
-            }
-        }
     }
 }

@@ -61,7 +61,7 @@ class DemoListViewController: DemoTableViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        if DemoListViewController.isFirstLaunch {
+        if UserDefaults.standard.bool(forKey: "isFirstLaunch") || UserDefaults.standard.object(forKey: "isFirstLaunch") == nil  {
             if let lastDemoController = UserDefaults.standard.string(forKey: DemoListViewController.lastDemoControllerKey) {
                 for (sectionIndex, section) in DemoControllerSection.allCases.enumerated() {
                     if let index = section.rows.firstIndex(where: { $0.title == lastDemoController }) {
@@ -71,7 +71,7 @@ class DemoListViewController: DemoTableViewController {
                 }
             }
 
-            DemoListViewController.isFirstLaunch = false
+            UserDefaults.standard.set(false, forKey: "isFirstLaunch")
         } else {
             UserDefaults.standard.set(nil, forKey: DemoListViewController.lastDemoControllerKey)
         }
@@ -117,7 +117,6 @@ class DemoListViewController: DemoTableViewController {
     }
 
     let cellReuseIdentifier: String = "TableViewCell"
-    private static var isFirstLaunch: Bool = true
     private static let lastDemoControllerKey: String = "LastDemoController"
 
     private enum DemoControllerSection: CaseIterable {
