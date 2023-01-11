@@ -4,6 +4,7 @@
 //
 
 import UIKit
+import Combine
 
 @objc(MSFBottomSheetControllerDelegate)
 public protocol BottomSheetControllerDelegate: AnyObject {
@@ -40,7 +41,7 @@ public protocol BottomSheetControllerDelegate: AnyObject {
 }
 
 @objc(MSFBottomSheetController)
-public class BottomSheetController: UIViewController {
+public class BottomSheetController: UIViewController, TokenizedControlInternal {
 
     /// Initializes the bottom sheet controller
     /// - Parameters:
@@ -52,6 +53,62 @@ public class BottomSheetController: UIViewController {
         self.expandedContentView = expandedContentView
         self.shouldShowDimmingView = shouldShowDimmingView
         super.init(nibName: nil, bundle: nil)
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+
+        // Update appearance whenever `tokenSet` changes.
+        tokenSetSink = tokenSet.sinkChanges { [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+            strongSelf.updateAppearance()
+        }
+    }
+
+    public override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        tokenSet.update(fluentTheme)
+    }
+
+    public override func viewDidLayoutSubviews() {
+        let newHeight = view.bounds.height
+        if currentRootViewHeight != newHeight && currentExpansionState == .transitioning {
+            // The view height has changed and we can't guarantee the animation target frame is valid anymore.
+            // Let's complete animations and cancel ongoing gestures to guarantee we end up in a good state.
+            completeAnimationsIfNeeded(skipToEnd: true)
+
+            if panGestureRecognizer.state != .possible {
+                panGestureRecognizer.state = .cancelled
+            }
+        }
+        currentRootViewHeight = newHeight
+
+        // In the transitioning state a pan gesture or an animator temporarily owns the sheet frame updates,
+        // so to avoid interfering we won't update the frame here.
+        if currentExpansionState != .transitioning {
+            bottomSheetView.frame = sheetFrame(offset: offset(for: currentExpansionState))
+            updateSheetLayoutGuideTopConstraint()
+            updateExpandedContentAlpha()
+            updateDimmingViewAlpha()
+            updateDimmingViewAccessibility()
+        }
+        collapsedHeightInSafeArea = view.safeAreaLayoutGuide.layoutFrame.maxY - offset(for: .collapsed)
+
+        super.viewDidLayoutSubviews()
+    }
+
+    public override func viewSafeAreaInsetsDidChange() {
+        super.viewSafeAreaInsetsDidChange()
+        completeAnimationsIfNeeded(skipToEnd: true)
+    }
+
+    public override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.willTransition(to: newCollection, with: coordinator)
+        completeAnimationsIfNeeded(skipToEnd: true)
     }
 
     @available(*, unavailable)
@@ -358,9 +415,7 @@ public class BottomSheetController: UIViewController {
         // We will set the sheet frame to a more meaningful rect after the first layout pass.
         bottomSheetView.frame = CGRect(x: 0, y: 0, width: Constants.minSheetWidth, height: expandedSheetHeight)
 
-        let overflowView = UIView()
         overflowView.translatesAutoresizingMaskIntoConstraints = false
-        overflowView.backgroundColor = Colors.NavigationBar.background
         view.addSubview(overflowView)
 
         if let headerContentView = headerContentView {
@@ -379,7 +434,57 @@ public class BottomSheetController: UIViewController {
         constraints.append(contentsOf: makeLayoutGuideConstraints())
 
         NSLayoutConstraint.activate(constraints)
+
+        updateAppearance()
     }
+
+    public typealias TokenSetKeyType = BottomSheetTokenSet.Tokens
+    public var tokenSet: BottomSheetTokenSet = .init()
+
+    var tokenSetSink: AnyCancellable?
+    var fluentTheme: FluentTheme { return view.fluentTheme }
+
+    private func updateAppearance() {
+        updateBackgroundColor()
+        updateShadows()
+        updateCornerRadius()
+    }
+
+    private func updateBackgroundColor() {
+        let backgroundColor = UIColor(dynamicColor: tokenSet[.backgroundColor].dynamicColor)
+        bottomSheetView.subviews[0].backgroundColor = backgroundColor
+        overflowView.backgroundColor = backgroundColor
+    }
+
+    private func updateShadows() {
+        let shadowInfo = tokenSet[.shadow].shadowInfo
+        if let ambientShadow = bottomSheetView.layer.sublayers?[1] {
+            ambientShadow.shadowColor = UIColor(dynamicColor: shadowInfo.colorOne).cgColor
+            ambientShadow.shadowOffset = CGSize(width: shadowInfo.xOne, height: shadowInfo.yOne)
+            ambientShadow.shadowOpacity = 1
+            ambientShadow.shadowRadius = shadowInfo.blurOne
+        }
+
+        if let perimeterShadow = bottomSheetView.layer.sublayers?[0] {
+            perimeterShadow.shadowColor = UIColor(dynamicColor: shadowInfo.colorTwo).cgColor
+            perimeterShadow.shadowOffset = CGSize(width: shadowInfo.xTwo, height: shadowInfo.yTwo)
+            perimeterShadow.shadowOpacity = 1
+            perimeterShadow.shadowRadius = shadowInfo.blurTwo
+        }
+    }
+
+    private func updateCornerRadius() {
+        bottomSheetView.subviews[0].layer.cornerRadius = tokenSet[.cornerRadius].float
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        guard let themeView = notification.object as? UIView, self.view.isDescendant(of: themeView) else {
+            return
+        }
+        tokenSet.update(themeView.fluentTheme)
+    }
+
+    private lazy var overflowView: UIView = UIView()
 
     private lazy var dimmingView: DimmingView = {
         var dimmingView = DimmingView(type: .black)
@@ -444,14 +549,11 @@ public class BottomSheetController: UIViewController {
 
         // We need to have the shadow on a parent of the view that does the corner masking.
         // Otherwise the view will mask its own shadow.
-        bottomSheetView.layer.shadowColor = Constants.Shadow.color
-        bottomSheetView.layer.shadowOffset = Constants.Shadow.offset
-        bottomSheetView.layer.shadowOpacity = Constants.Shadow.opacity
-        bottomSheetView.layer.shadowRadius = Constants.Shadow.radius
+        // Add Shadow Layers
+        bottomSheetView.layer.insertSublayer(CALayer(), at: 0)
+        bottomSheetView.layer.insertSublayer(CALayer(), at: 0)
 
         contentView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.backgroundColor = Colors.NavigationBar.background
-        contentView.layer.cornerRadius = Constants.cornerRadius
         contentView.layer.cornerCurve = .continuous
         contentView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
         contentView.clipsToBounds = true
@@ -466,43 +568,6 @@ public class BottomSheetController: UIViewController {
         ])
 
         return bottomSheetView
-    }
-
-    public override func viewDidLayoutSubviews() {
-        let newHeight = view.bounds.height
-        if currentRootViewHeight != newHeight && currentExpansionState == .transitioning {
-            // The view height has changed and we can't guarantee the animation target frame is valid anymore.
-            // Let's complete animations and cancel ongoing gestures to guarantee we end up in a good state.
-            completeAnimationsIfNeeded(skipToEnd: true)
-
-            if panGestureRecognizer.state != .possible {
-                panGestureRecognizer.state = .cancelled
-            }
-        }
-        currentRootViewHeight = newHeight
-
-        // In the transitioning state a pan gesture or an animator temporarily owns the sheet frame updates,
-        // so to avoid interfering we won't update the frame here.
-        if currentExpansionState != .transitioning {
-            bottomSheetView.frame = sheetFrame(offset: offset(for: currentExpansionState))
-            updateSheetLayoutGuideTopConstraint()
-            updateExpandedContentAlpha()
-            updateDimmingViewAlpha()
-            updateDimmingViewAccessibility()
-        }
-        collapsedHeightInSafeArea = view.safeAreaLayoutGuide.layoutFrame.maxY - offset(for: .collapsed)
-
-        super.viewDidLayoutSubviews()
-    }
-
-    public override func viewSafeAreaInsetsDidChange() {
-        super.viewSafeAreaInsetsDidChange()
-        completeAnimationsIfNeeded(skipToEnd: true)
-    }
-
-    public override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.willTransition(to: newCollection, with: coordinator)
-        completeAnimationsIfNeeded(skipToEnd: true)
     }
 
     // MARK: - Gesture handling
@@ -990,8 +1055,6 @@ public class BottomSheetController: UIViewController {
         // Minimum padding from top when the sheet is fully expanded
         static let minimumTopExpandedPadding: CGFloat = 25.0
 
-        static let cornerRadius: CGFloat = 14
-
         static let expandedContentAlphaTransitionLength: CGFloat = 30
 
         static let maxSheetWidth: CGFloat = 610
@@ -1017,13 +1080,6 @@ public class BottomSheetController: UIViewController {
 
             // Off-screen overflow that can be partially revealed during spring oscillation or rubber banding (dragging the sheet beyond limits)
             static let overflowHeight: CGFloat = 50.0
-        }
-
-        struct Shadow {
-            static let color: CGColor = UIColor.black.cgColor
-            static let opacity: Float = 0.14
-            static let radius: CGFloat = 8
-            static let offset: CGSize = CGSize(width: 0, height: 4)
         }
     }
 }
