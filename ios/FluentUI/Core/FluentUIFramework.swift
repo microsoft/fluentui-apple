@@ -34,6 +34,11 @@ public class FluentUIFramework: NSObject {
     @available(*, deprecated, message: "Non-fluent icons no longer supported. Setting this var no longer has any effect and it will be removed in a future update.")
     @objc public static var usesFluentIcons: Bool = true
 
+    @available(*, deprecated, renamed: "initializeAppearance(with:whenContainedInInstancesOf:)")
+    @objc public static func initializeAppearance() {
+        initializeAppearance(with: Colors.primary)
+    }
+
     enum NavigationBarStyle {
         case normal
         case dateTimePicker
@@ -46,6 +51,10 @@ public class FluentUIFramework: NSObject {
                 return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.background2].light, dark: fluentTheme.aliasTokens.colors[.background2].dark))
             }
         }
+    }
+
+    @objc public static func initializeAppearance(with primaryColor: UIColor, whenContainedInInstancesOf containerTypes: [UIAppearanceContainer.Type]? = nil) {
+        initializeAppearance(with: primaryColor, whenContainedInInstancesOf: containerTypes, fluentTheme: nil)
     }
 
     @objc public static func initializeAppearance(with primaryColor: UIColor, whenContainedInInstancesOf containerTypes: [UIAppearanceContainer.Type]? = nil, fluentTheme: FluentTheme? = nil) {
@@ -92,12 +101,6 @@ public class FluentUIFramework: NSObject {
         let aliasTokens = AliasTokens()
         navigationBar.tintColor = UIColor(dynamicColor: aliasTokens.colors[.foreground3])
 
-        if let fluentTheme = fluentTheme {
-            navigationBar.standardAppearance.backgroundColor = navigationBarStyle.backgroundColor(fluentTheme: fluentTheme)
-        } else {
-            navigationBar.standardAppearance.backgroundColor = UIColor(dynamicColor: aliasTokens.colors[.foreground3])
-        }
-
         let traits = traits ?? navigationBar.traitCollection
         // Removing built-in shadow for Dark Mode
         navigationBar.shadowImage = traits.userInterfaceStyle == .dark ? UIImage() : nil
@@ -106,9 +109,10 @@ public class FluentUIFramework: NSObject {
         titleAttributes[.font] = Fonts.headline
 
         if let fluentTheme = fluentTheme {
+            navigationBar.standardAppearance.backgroundColor = navigationBarStyle.backgroundColor(fluentTheme: fluentTheme)
             titleAttributes[.foregroundColor] = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
         } else {
-            let aliasTokens = AliasTokens()
+            navigationBar.standardAppearance.backgroundColor = UIColor(dynamicColor: aliasTokens.colors[.background3])
             titleAttributes[.foregroundColor] = UIColor(dynamicColor: aliasTokens.colors[.foreground1])
         }
 
