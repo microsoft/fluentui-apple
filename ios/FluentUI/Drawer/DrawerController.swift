@@ -98,6 +98,16 @@ public protocol DrawerControllerDelegate: AnyObject {
 
 @objc(MSFDrawerController)
 open class DrawerController: UIViewController {
+    @objc public static func drawerBackground(fluentTheme: FluentTheme) -> UIColor {
+        return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.background2].light,
+                                                  dark: fluentTheme.aliasTokens.colors[.background2].dark))
+    }
+
+    @objc public static func popoverBackground(fluentTheme: FluentTheme) -> UIColor {
+        return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.background2].light,
+                                                  dark: fluentTheme.aliasTokens.colors[.background2].darkElevated))
+    }
+
     private struct Constants {
         static let resistanceCoefficient: CGFloat = 0.1
         static let resizingThreshold: CGFloat = 30
