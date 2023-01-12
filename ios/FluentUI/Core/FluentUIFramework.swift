@@ -94,7 +94,16 @@ public class FluentUIFramework: NSObject {
         navigationBar.isTranslucent = false
 
         let standardAppearance = navigationBar.standardAppearance
-        let aliasTokens = AliasTokens()
+
+        let aliasTokens: AliasTokens
+        if let fluentTheme = fluentTheme {
+            navigationBar.standardAppearance.backgroundColor = navigationBarStyle.backgroundColor(fluentTheme: fluentTheme)
+            aliasTokens = fluentTheme.aliasTokens
+        } else {
+            aliasTokens = AliasTokens()
+            navigationBar.standardAppearance.backgroundColor = UIColor(dynamicColor: aliasTokens.colors[.background3])
+        }
+
         navigationBar.tintColor = UIColor(dynamicColor: aliasTokens.colors[.foreground3])
 
         let traits = traits ?? navigationBar.traitCollection
@@ -103,14 +112,7 @@ public class FluentUIFramework: NSObject {
 
         var titleAttributes = standardAppearance.titleTextAttributes
         titleAttributes[.font] = Fonts.headline
-
-        if let fluentTheme = fluentTheme {
-            navigationBar.standardAppearance.backgroundColor = navigationBarStyle.backgroundColor(fluentTheme: fluentTheme)
-            titleAttributes[.foregroundColor] = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
-        } else {
-            navigationBar.standardAppearance.backgroundColor = UIColor(dynamicColor: aliasTokens.colors[.background3])
-            titleAttributes[.foregroundColor] = UIColor(dynamicColor: aliasTokens.colors[.foreground1])
-        }
+        titleAttributes[.foregroundColor] = UIColor(dynamicColor: aliasTokens.colors[.foreground1])
 
         standardAppearance.titleTextAttributes = titleAttributes
 
