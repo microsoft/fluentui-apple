@@ -14,6 +14,15 @@ class BaseTest: XCTestCase {
         try super.setUpWithError()
         continueAfterFailure = false
         app.launch()
+
+        if !app.staticTexts["FluentUI DEV"].exists {
+            if !app.navigationBars.element.exists {
+                app.buttons["Dismiss"].tap()
+            } else {
+                app.buttons.firstMatch.tap()
+            }
+        }
+
         app.staticTexts[controlName].tap()
     }
 }

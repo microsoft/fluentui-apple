@@ -61,10 +61,6 @@ class DemoListViewController: DemoTableViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        #if DEBUG
-            DemoListViewController.isFirstLaunch = false
-        #endif
-
         if DemoListViewController.isFirstLaunch {
             if let lastDemoController = UserDefaults.standard.string(forKey: DemoListViewController.lastDemoControllerKey) {
                 for (sectionIndex, section) in DemoControllerSection.allCases.enumerated() {
