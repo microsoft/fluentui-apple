@@ -68,49 +68,6 @@ public class BottomSheetController: UIViewController, TokenizedControlInternal {
         }
     }
 
-    public override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-
-        tokenSet.update(fluentTheme)
-    }
-
-    public override func viewDidLayoutSubviews() {
-        let newHeight = view.bounds.height
-        if currentRootViewHeight != newHeight && currentExpansionState == .transitioning {
-            // The view height has changed and we can't guarantee the animation target frame is valid anymore.
-            // Let's complete animations and cancel ongoing gestures to guarantee we end up in a good state.
-            completeAnimationsIfNeeded(skipToEnd: true)
-
-            if panGestureRecognizer.state != .possible {
-                panGestureRecognizer.state = .cancelled
-            }
-        }
-        currentRootViewHeight = newHeight
-
-        // In the transitioning state a pan gesture or an animator temporarily owns the sheet frame updates,
-        // so to avoid interfering we won't update the frame here.
-        if currentExpansionState != .transitioning {
-            bottomSheetView.frame = sheetFrame(offset: offset(for: currentExpansionState))
-            updateSheetLayoutGuideTopConstraint()
-            updateExpandedContentAlpha()
-            updateDimmingViewAlpha()
-            updateDimmingViewAccessibility()
-        }
-        collapsedHeightInSafeArea = view.safeAreaLayoutGuide.layoutFrame.maxY - offset(for: .collapsed)
-
-        super.viewDidLayoutSubviews()
-    }
-
-    public override func viewSafeAreaInsetsDidChange() {
-        super.viewSafeAreaInsetsDidChange()
-        completeAnimationsIfNeeded(skipToEnd: true)
-    }
-
-    public override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.willTransition(to: newCollection, with: coordinator)
-        completeAnimationsIfNeeded(skipToEnd: true)
-    }
-
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
@@ -436,6 +393,49 @@ public class BottomSheetController: UIViewController, TokenizedControlInternal {
         NSLayoutConstraint.activate(constraints)
 
         updateAppearance()
+    }
+
+    public override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        tokenSet.update(fluentTheme)
+    }
+
+    public override func viewDidLayoutSubviews() {
+        let newHeight = view.bounds.height
+        if currentRootViewHeight != newHeight && currentExpansionState == .transitioning {
+            // The view height has changed and we can't guarantee the animation target frame is valid anymore.
+            // Let's complete animations and cancel ongoing gestures to guarantee we end up in a good state.
+            completeAnimationsIfNeeded(skipToEnd: true)
+
+            if panGestureRecognizer.state != .possible {
+                panGestureRecognizer.state = .cancelled
+            }
+        }
+        currentRootViewHeight = newHeight
+
+        // In the transitioning state a pan gesture or an animator temporarily owns the sheet frame updates,
+        // so to avoid interfering we won't update the frame here.
+        if currentExpansionState != .transitioning {
+            bottomSheetView.frame = sheetFrame(offset: offset(for: currentExpansionState))
+            updateSheetLayoutGuideTopConstraint()
+            updateExpandedContentAlpha()
+            updateDimmingViewAlpha()
+            updateDimmingViewAccessibility()
+        }
+        collapsedHeightInSafeArea = view.safeAreaLayoutGuide.layoutFrame.maxY - offset(for: .collapsed)
+
+        super.viewDidLayoutSubviews()
+    }
+
+    public override func viewSafeAreaInsetsDidChange() {
+        super.viewSafeAreaInsetsDidChange()
+        completeAnimationsIfNeeded(skipToEnd: true)
+    }
+
+    public override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.willTransition(to: newCollection, with: coordinator)
+        completeAnimationsIfNeeded(skipToEnd: true)
     }
 
     public typealias TokenSetKeyType = BottomSheetTokenSet.Tokens
