@@ -71,12 +71,7 @@ public class FluentUIFramework: NSObject {
         let toolbar = UIToolbar.appearance()
         toolbar.isTranslucent = false
 
-        let aliasTokens: AliasTokens
-        if let fluentTheme = fluentTheme {
-          aliasTokens = fluentTheme.aliasTokens
-        } else {
-          aliasTokens = AliasTokens()
-        }
+        let aliasTokens = fluentTheme?.aliasTokens ?? AliasTokens()
 
         toolbar.barTintColor = UIColor(dynamicColor: aliasTokens.colors[.background3])
         toolbar.tintColor = UIColor(dynamicColor: aliasTokens.colors[.foreground3])
