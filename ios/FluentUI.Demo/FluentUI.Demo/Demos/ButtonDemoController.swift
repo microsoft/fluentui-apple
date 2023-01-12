@@ -9,6 +9,7 @@ import UIKit
 class ButtonDemoController: DemoTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        readmeString = "A button triggers a single action or event.\n\nUse buttons for important actions like submitting a response, committing a change, or moving to the next step. If you need to navigate to another place, try a link instead."
 
         tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: ButtonDemoController.cellReuseIdentifier)

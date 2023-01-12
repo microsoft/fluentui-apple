@@ -158,17 +158,27 @@ class DemoController: UIViewController {
         // disable it for all DemoController subclasses.
         self.navigationItem.largeTitleDisplayMode = .never
 
-        configureAppearancePopover()
+        configureAppearanceAndReadmePopovers()
     }
 
     // MARK: - Demo Appearance Popover
 
-    func configureAppearancePopover() {
-        // Display the DemoAppearancePopover button
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "ic_fluent_settings_24_regular"),
-                                                            style: .plain,
-                                                            target: self,
-                                                            action: #selector(showAppearancePopover(_:)))
+    func configureAppearanceAndReadmePopovers() {
+        let settingsButton = UIBarButtonItem(image: UIImage(named: "ic_fluent_settings_24_regular"),
+                                             style: .plain,
+                                             target: self,
+                                             action: #selector(showAppearancePopover(_:)))
+        let readmeButton = UIBarButtonItem(image: UIImage(systemName: "i.circle.fill"),
+                                           style: .plain,
+                                           target: self,
+                                           action: #selector(showReadmePopover))
+        navigationItem.rightBarButtonItems = [readmeButton, settingsButton]
+    }
+
+    @objc func showReadmePopover(_ sender: UIBarButtonItem) {
+        readmeViewController.popoverPresentationController?.barButtonItem = sender
+        readmeViewController.popoverPresentationController?.delegate = self
+        self.present(readmeViewController, animated: true, completion: nil)
     }
 
     @objc func showAppearancePopover(_ sender: AnyObject, presenter: UIViewController) {
@@ -186,7 +196,10 @@ class DemoController: UIViewController {
         showAppearancePopover(sender, presenter: self)
     }
 
+    var readmeString: String?
+
     private lazy var appearanceController: DemoAppearanceController = .init(delegate: self as? DemoAppearanceDelegate)
+    private lazy var readmeViewController: ReadmeViewController = .init(readmeString: readmeString)
 }
 
 extension DemoController: UIPopoverPresentationControllerDelegate {
