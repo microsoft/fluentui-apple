@@ -16,11 +16,4 @@ class BaseTest: XCTestCase {
         app.launch()
         app.staticTexts[controlName].tap()
     }
-
-    override func tearDownWithError() throws {
-        try super.tearDownWithError()
-        UserDefaults.standard.set(true, forKey: "isFirstLaunch")
-        UserDefaults.standard.removeObject(forKey: "LastDemoController")
-        app.terminate()
-    }
 }
