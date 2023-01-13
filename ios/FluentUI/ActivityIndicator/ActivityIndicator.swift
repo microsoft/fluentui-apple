@@ -58,6 +58,8 @@ public struct ActivityIndicator: View, TokenizedControlView {
                 :
                 "Accessibility.ActivityIndicator.Stopped.label".localized
         }()
+
+#if DEBUG
         let accessibilityIdentifier: String = {
             let status = state.isAnimating ? "in progress" : "progress halted"
             if let rgba = state.color?.cgColor.components {
@@ -68,11 +70,22 @@ public struct ActivityIndicator: View, TokenizedControlView {
             }
             return "Activity Indicator that is \(status) and size \(state.size.rawValue)"
         }()
+#endif
 
-        SemiRing(color: color,
-                 thickness: tokenSet[.thickness].float,
-                 accessibilityLabel: accessibilityLabel,
-                 accessibilityIdentifier: accessibilityIdentifier)
+        let semiRing = {
+#if DEBUG
+            return SemiRing(color: color,
+                            thickness: tokenSet[.thickness].float,
+                            accessibilityLabel: accessibilityLabel,
+                            accessibilityIdentifier: accessibilityIdentifier)
+#else
+            return SemiRing(color: color,
+                            thickness: tokenSet[.thickness].float,
+                            accessibilityLabel: accessibilityLabel)
+#endif
+        }
+
+        semiRing()
             .modifyIf(state.isAnimating, { animatedView in
                 animatedView
                     .rotationEffect(.degrees(rotationAngle), anchor: .center)
@@ -103,7 +116,9 @@ public struct ActivityIndicator: View, TokenizedControlView {
         var color: Color
         var thickness: CGFloat
         var accessibilityLabel: String
+#if DEBUG
         var accessibilityIdentifier: String
+#endif
 
         public var body: some View {
             Circle()
@@ -115,7 +130,9 @@ public struct ActivityIndicator: View, TokenizedControlView {
                 .accessibilityElement(children: .ignore)
                 .accessibility(addTraits: .isImage)
                 .accessibility(label: Text(accessibilityLabel))
+#if DEBUG
                 .accessibility(identifier: accessibilityIdentifier)
+#endif
         }
 
         private let semiRingStartFraction: CGFloat = 0.0
