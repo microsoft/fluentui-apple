@@ -365,33 +365,6 @@ public struct Avatar: View, TokenizedControlView {
         return initials
     }
 
-    private struct PresenceCutout: Shape {
-        var originX: CGFloat
-        var originY: CGFloat
-        var presenceIconOutlineSize: CGFloat
-
-        var animatableData: AnimatablePair<AnimatablePair<CGFloat, CGFloat>, CGFloat> {
-            get {
-                AnimatablePair(AnimatablePair(originX, originY), presenceIconOutlineSize)
-            }
-
-            set {
-                originX = newValue.first.first
-                originY = newValue.first.second
-                presenceIconOutlineSize = newValue.second
-            }
-        }
-
-        func path(in rect: CGRect) -> Path {
-            var cutoutFrame = Rectangle().path(in: rect)
-            cutoutFrame.addPath(Circle().path(in: CGRect(x: originX,
-                                                         y: originY,
-                                                         width: presenceIconOutlineSize,
-                                                         height: presenceIconOutlineSize)))
-            return cutoutFrame
-        }
-    }
-
     /// Handles calculating colors for Avatar foreground and background.
     private struct CalculatedColors {
         static func backgroundColor(hashCode: Int) -> DynamicColor {
