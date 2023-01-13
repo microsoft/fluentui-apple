@@ -93,6 +93,14 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
                                                selector: #selector(themeDidChange),
                                                name: .didChangeTheme,
                                                object: nil)
+
+        tokenSetSink = tokenSet.sinkChanges { [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+            strongSelf.updateAppearance()
+            strongSelf.updateColors()        // until popupmenuitemcell actually supports token system, clients will override colors via cell's backgroundColor property
+        }
     }
 
     override func didMoveToWindow() {
@@ -106,13 +114,6 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
             return
         }
         backgroundStyleType = .custom
-        tokenSetSink = tokenSet.sinkChanges { [weak self] in
-            guard let strongSelf = self else {
-                return
-            }
-            strongSelf.updateAppearance()
-            strongSelf.updateColors()        // until popupmenuitemcell actually supports token system, clients will override colors via cell's backgroundColor property
-        }
     }
 
     func setup(item: PopupMenuTemplateItem) {
