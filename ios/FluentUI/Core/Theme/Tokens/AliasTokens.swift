@@ -340,7 +340,6 @@ public final class AliasTokens: NSObject {
     public func color(_ token: ColorsTokens) -> DynamicColor {
         return colors[token]
     }
-
     public lazy var colors: TokenSet<ColorsTokens, DynamicColor> = .init { [weak self] token in
         guard let strongSelf = self else { preconditionFailure() }
         switch token {

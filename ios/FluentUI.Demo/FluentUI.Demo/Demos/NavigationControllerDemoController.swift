@@ -112,7 +112,7 @@ class NavigationControllerDemoController: DemoController {
         stackView.alignment = .center
         let button = UIButton(type: .system)
         button.setImage(UIImage(named: "ic_fluent_filter_28"), for: .normal)
-        button.tintColor = UIColor(light: Colors.textOnAccent, dark: Colors.textPrimary)
+        button.tintColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foregroundLightStatic])
         stackView.addArrangedSubview(button)
         presentController(withLargeTitle: true, accessoryView: stackView, contractNavigationBarOnScroll: false)
     }
@@ -664,9 +664,7 @@ class ModalViewController: UITableViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if let window = view.window {
-            navigationItem.rightBarButtonItem?.tintColor = UIColor(light: Colors.primary(for: window), dark: Colors.textDominant)
-        }
+        navigationItem.rightBarButtonItem?.tintColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foregroundInverted2])
     }
 
     override func viewDidLoad() {
@@ -750,6 +748,6 @@ class CustomGradient {
         }
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        return UIColor(light: image != nil ? UIColor(patternImage: image!) : endColor, dark: Colors.navigationBarBackground)
+        return UIColor(light: image != nil ? UIColor(patternImage: image!) : endColor, dark: UIColor(colorValue: GlobalTokens.neutralColors(.grey16)))
     }
 }

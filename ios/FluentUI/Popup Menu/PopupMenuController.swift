@@ -117,7 +117,7 @@ open class PopupMenuController: DrawerController {
     }
 
     /// set `separatorColor` to customize separator colors of  PopupMenuItem cells and the drawer
-    @objc open var separatorColor: UIColor = Colors.dividerOnPrimary {
+    @objc open var separatorColor: UIColor = { return UIColor(dynamicColor: FluentTheme.shared.aliasTokens.colors[.stroke2]) }() {
             didSet {
                 guard let separator = separator else {
                     return

@@ -8,7 +8,7 @@ import UIKit
 // MARK: ColorProviding2 - temporary stand-in for ColorProviding so we can replace side by side
 
 /// Protocol through which consumers can provide colors to "theme" their experiences
-/// The view associated with the passed in theme will display the set colors to alllow apps to provide different experiences per each view
+/// The view associated with the passed in theme will display the set colors to allow apps to provide different experiences per each view
 @objc(MSFColorProviding2)
 public protocol ColorProviding2 {
     /// If this protocol is not conformed to, communicationBlue variants will be used
@@ -93,7 +93,7 @@ private func brandColorOverrides(provider: ColorProviding2, for theme: FluentThe
 
 // MARK: Colors
 
-public enum BrandColorsForOverriding: CaseIterable {
+private enum BrandColorsForOverriding: CaseIterable {
     case brandBackground1
     case brandBackground1Pressed
     case brandBackground1Selected
@@ -160,22 +160,18 @@ public extension FluentTheme {
     ///
     /// - Parameters:
     ///   - provider: The `ColorProvider2` whose colors should be used for controls in this theme.
-    ///   - theme: The theme where these colors should be applied.
-    @objc static func setProvider(provider: ColorProviding2, for theme: FluentTheme) {
+    @objc func setProvider(provider: ColorProviding2) {
         // Create an updated fluent theme as well
-        let brandColors = brandColorOverrides(provider: provider, for: theme)
+        let brandColors = brandColorOverrides(provider: provider, for: self)
         brandColors.forEach { token, value in
-            theme.aliasTokens.colors[token] = value
+            self.aliasTokens.colors[token] = value
         }
     }
 
     /// Removes any associated `ColorProvider2` from the given `FluentTheme` instance.
-    ///
-    /// - Parameters:
-    ///   - theme: The theme that should have its `ColorProvider2` removed.
-    @objc static func removeProvider(for theme: FluentTheme) {
+    @objc func removeProvider() {
         for brandColor in BrandColorsForOverriding.allCases {
-            theme.aliasTokens.colors.removeOverride(brandColor.equivalentAliasToken)
+            self.aliasTokens.colors.removeOverride(brandColor.equivalentAliasToken)
         }
     }
 }

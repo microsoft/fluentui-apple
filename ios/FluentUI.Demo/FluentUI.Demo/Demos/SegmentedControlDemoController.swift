@@ -28,7 +28,7 @@ class SegmentedControlDemoController: DemoController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = Colors.surfaceSecondary
+        view.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background4])
 
         container.layoutMargins.left = 0
         container.layoutMargins.right = 0
