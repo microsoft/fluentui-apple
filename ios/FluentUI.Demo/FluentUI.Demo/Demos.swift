@@ -51,7 +51,7 @@ struct Demos {
         DemoDescriptor("BadgeView", BadgeViewDemoController.self),
         DemoDescriptor("BottomCommandingController", BottomCommandingDemoController.self),
         DemoDescriptor("BottomSheetController", BottomSheetDemoController.self),
-        DemoDescriptor("Button", ButtonLegacyDemoController.self),
+        DemoDescriptor("Button (Legacy)", ButtonLegacyDemoController.self),
         DemoDescriptor("Card", CardViewDemoController.self),
         DemoDescriptor("Color", ColorDemoController.self),
         DemoDescriptor("DateTimePicker", DateTimePickerDemoController.self),

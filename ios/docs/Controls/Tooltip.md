@@ -7,23 +7,23 @@ Variations: The tooltip can have an optional title and the tip of the tooltip ca
 #### Text
 | Message Only | Message and Title |
 | - | - |
-| ![MessageOnly.png](.attachments/MessageOnly.png) | ![MessageAndTitle.png](.attachments/MessageAndTitle.png) |
+| ![Tooltip-MessageOnly.png](.attachments/Tooltip-MessageOnly.png) | ![Tooltip-MessageAndTitle.png](.attachments/Tooltip-MessageAndTitle.png) |
 
 #### Tooltip Direction
 | Up | Down | Left | Right |
 | - | - | - | - |
-| ![TooltipUp.png](.attachments/TooltipUp.png) | ![TooltipDown.png](.attachments/TooltipDown.png) | ![TooltipLeft.png](.attachments/TooltipLeft.png) | ![TooltipRight.png](.attachments/TooltipRight.png) |
+| ![Tooltip-Up.png](.attachments/Tooltip-Up.png) | ![Tooltip-Down.png](.attachments/Tooltip-Down.png) | ![Tooltip-Left.png](.attachments/Tooltip-Left.png) | ![Tooltip-Right.png](.attachments/Tooltip-Right.png) |
 
 ## Usage
 Displays a tooltip based on the current settings, pointing to the supplied anchorView. If another tooltip view is already showing, it will be dismissed and the new tooltip will be shown.
 ``` Swift
 Tooltip.shared.show(with: "This is the message of the tooltip.",
-		    title: "This is the title of the tooltip.",
-		    for: sender,
-		    preferredArrowDirection: .up,
-		    offset: CGPoint(x: 0, y: 0),
-		    dismissOn: .tapAnywhere,
-		    onTap: { /* Action after Tapping */ })
+            title: "This is the title of the tooltip.",
+            for: sender,
+            preferredArrowDirection: .up,
+            offset: CGPoint(x: 0, y: 0),
+            dismissOn: .tapAnywhere,
+            onTap: { /* Action after Tapping */ })
 ```
 ##### Parameters
 - message: The text to be displayed on the new tooltip view.
@@ -38,8 +38,8 @@ Tooltip.shared.show(with: "This is the message of the tooltip.",
 ### Control Name
 `Tooltip` in Swift, `MSFTooltip` in Objective-C/UIKit
 ### Source Code
-[Tooltip.swift](https://github.com/microsoft/fluentui-apple/blob/fluent2-tokens/ios/FluentUI/Tooltip/Tooltip.swift)  
-[TooltipViewController.swift](https://github.com/microsoft/fluentui-apple/blob/fluent2-tokens/ios/FluentUI/Tooltip/TooltipViewController.swift)
+[Tooltip.swift](https://github.com/microsoft/fluentui-apple/blob/fluent2-tokens/ios/FluentUI/Tooltip/Tooltip.swift)
 [TooltipView.swift](https://github.com/microsoft/fluentui-apple/blob/fluent2-tokens/ios/FluentUI/Tooltip/TooltipView.swift)
+[TooltipViewController.swift](https://github.com/microsoft/fluentui-apple/blob/fluent2-tokens/ios/FluentUI/Tooltip/TooltipViewController.swift)
 ### Sample Code
 [TooltipDemoController.swift](https://github.com/microsoft/fluentui-apple/blob/fluent2-tokens/ios/FluentUI.Demo/FluentUI.Demo/Demos/TooltipDemoController.swift)
