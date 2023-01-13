@@ -10,6 +10,7 @@ class ShimmerViewDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        readmeString = "A shimmer lets people know that information is loading and gives them an idea of the structure of the information.\n\nUse shimmers for loading states that take longer than one second but avoid them for long loading processes. They are indeterminate indicators, so they don’t communicate how much time is left before the process is done. Seeing a shimmer for too long could make people think something’s gone wrong."
         let contentView = { () -> UIStackView in
             let label1 = UILabel()
             label1.text = "Label 1"

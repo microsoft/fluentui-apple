@@ -50,6 +50,13 @@
         "identifier" : "E61C96BA2295E8D60006561F",
         "name" : "FluentUITests"
       }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:FluentUI.xcodeproj",
+        "identifier" : "3A42750E29677C3700F36FBE",
+        "name" : "FluentUIDemoTests"
+      }
     }
   ],
   "version" : 1
