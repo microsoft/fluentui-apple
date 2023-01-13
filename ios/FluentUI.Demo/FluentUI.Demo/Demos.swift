@@ -48,7 +48,6 @@ struct Demos {
         DemoDescriptor("BottomCommandingController", BottomCommandingDemoController.self),
         DemoDescriptor("BottomSheetController", BottomSheetDemoController.self),
         DemoDescriptor("Card", CardViewDemoController.self),
-        DemoDescriptor("Color", ColorDemoController.self),
         DemoDescriptor("DateTimePicker", DateTimePickerDemoController.self),
         DemoDescriptor("DrawerController", DrawerDemoController.self),
         DemoDescriptor("Label", LabelDemoController.self),
