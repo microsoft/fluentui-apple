@@ -17,8 +17,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             DemoListViewController.init(nibName: nil, bundle: nil).addDemoListTo(window: window)
         }
 
+#if DEBUG
         if CommandLine.arguments.contains("UITestingDarkModeEnabled") {
             window?.overrideUserInterfaceStyle = .dark
         }
+#endif
     }
 }
