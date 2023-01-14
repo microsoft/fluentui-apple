@@ -742,7 +742,8 @@ open class BadgeField: UIView {
     }
 
     private func updateLabelsVisibility(textFieldContent: String? = nil) {
-        let textFieldContent = textFieldContent ?? self.textFieldContent
+        var textFieldContent = textFieldContent ?? self.textFieldContent
+        textFieldContent = textFieldContent.trimmingCharacters(in: .whitespaces) == "" ? textFieldContent : textFieldContent.trimmed()
         labelView.isHidden = label.isEmpty
         placeholderView.isHidden = !labelView.isHidden || !badges.isEmpty || !textFieldContent.isEmpty
         setNeedsLayout()
@@ -1185,13 +1186,13 @@ extension BadgeField: UITextFieldDelegate {
                 let didBadge = badgeText(newString, force: false)
                 if !didBadge {
                     // Placeholder
-                    updateLabelsVisibility(textFieldContent: newString.trimmed())
+                    updateLabelsVisibility(textFieldContent: newString)
                     badgeFieldDelegate?.badgeField?(self, willChangeTextFieldContentWithText: newString.trimmed())
                 }
                 return !didBadge
             }
 
-            updateLabelsVisibility(textFieldContent: newString.trimmed())
+            updateLabelsVisibility(textFieldContent: newString)
 
             // Handle delete key
             if string.isEmpty {
