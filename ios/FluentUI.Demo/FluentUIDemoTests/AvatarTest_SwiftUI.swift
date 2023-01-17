@@ -143,4 +143,3 @@ class AvatarTestSwiftUI: BaseTest {
         XCTAssert(app.images.containing(NSPredicate(format: "identifier MATCHES %@", "Avatar.*in size 16.*")).element.exists)
     }
 }
-
