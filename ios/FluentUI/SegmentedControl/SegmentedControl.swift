@@ -425,7 +425,6 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
         for (index, button) in buttons.enumerated() {
             button.updateTokenizedValues()
             button.setTitleColor(contentColor, for: .normal)
-            button.tintColor = contentColor
             pillMaskedLabels[index]?.font = button.titleLabel?.font
         }
     }
