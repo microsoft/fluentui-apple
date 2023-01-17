@@ -62,12 +62,10 @@ class AliasColorTokensDemoController: DemoTableViewController {
              .background5,
              .background5Pressed,
              .background5Selected,
-             .background5BrandTint,
              .background6,
              .background6Pressed,
              .background6Selected,
              .backgroundDisabled,
-             .background5BrandTintSelected,
              .brandBackgroundDisabled,
              .canvasBackground,
              .stencil1,
@@ -103,7 +101,6 @@ class AliasColorTokensDemoController: DemoTableViewController {
         case .brandForeground1,
              .brandForeground1Selected,
              .brandForegroundDisabled1,
-             .background5SelectedBrandFilled,
              .backgroundInverted,
              .brandBackground1,
              .brandBackground1Selected,
@@ -113,8 +110,7 @@ class AliasColorTokensDemoController: DemoTableViewController {
              .brandBackground3,
              .strokeAccessible,
              .backgroundDarkStatic,
-             .foregroundDarkStatic,
-             .background5BrandFilledSelected:
+             .foregroundDarkStatic:
             return UIColor(dynamicColor: aliasTokens.colors[.foregroundInverted1])
         }
     }
@@ -189,10 +185,6 @@ private enum AliasColorTokensDemoSection: CaseIterable {
                     .brandBackground2Selected,
                     .brandBackground3,
                     .brandBackground3Pressed,
-                    .background5BrandTint,
-                    .background5SelectedBrandFilled,
-                    .background5BrandFilledSelected,
-                    .background5BrandTintSelected,
                     .brandBackgroundDisabled]
         case .neutralForegrounds:
             return [.foreground1,
@@ -286,10 +278,6 @@ private extension AliasTokens.ColorsTokens {
             return "Background 5 Pressed"
         case .background5Selected:
             return "Background 5 Selected"
-        case .background5SelectedBrandFilled:
-            return "Background 5 Selected Brand Filled"
-        case .background5BrandTint:
-            return "Background 5 Brand Tint"
         case .background6:
             return "Background 6"
         case .background6Pressed:
@@ -316,10 +304,6 @@ private extension AliasTokens.ColorsTokens {
             return "Brand Background 3"
         case .brandBackground3Pressed:
             return "Brand Background 3 Pressed"
-        case .background5BrandFilledSelected:
-            return "Background 5 Brand Filled Selected"
-        case .background5BrandTintSelected:
-            return "Background 5 Brand Tint Selected"
         case .brandBackgroundDisabled:
             return "Brand Background Disabled"
         case .brandBackgroundTint:

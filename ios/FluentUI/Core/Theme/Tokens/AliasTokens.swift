@@ -298,8 +298,6 @@ public final class AliasTokens: NSObject {
         case background5
         case background5Pressed
         case background5Selected
-        case background5SelectedBrandFilled
-        case background5BrandTint
         case background6
         case background6Pressed
         case background6Selected
@@ -313,8 +311,6 @@ public final class AliasTokens: NSObject {
         case brandBackground2Selected
         case brandBackground3
         case brandBackground3Pressed
-        case background5BrandFilledSelected
-        case background5BrandTintSelected
         case brandBackgroundDisabled
         case stencil1
         case stencil2
@@ -451,14 +447,6 @@ public final class AliasTokens: NSObject {
          return DynamicColor(light: GlobalTokens.neutralColors(.grey86),
                              dark: GlobalTokens.neutralColors(.grey38),
                              darkElevated: GlobalTokens.neutralColors(.grey38))
-        case .background5SelectedBrandFilled:
-            return DynamicColor(light: GlobalTokens.brandColors(.comm80),
-                                dark: GlobalTokens.neutralColors(.grey38),
-                                darkElevated: GlobalTokens.neutralColors(.grey38))
-        case .background5BrandTint:
-            return DynamicColor(light: GlobalTokens.brandColors(.comm160),
-                                dark: GlobalTokens.neutralColors(.grey38),
-                                darkElevated: GlobalTokens.neutralColors(.grey38))
         case .background6:
          return DynamicColor(light: GlobalTokens.neutralColors(.grey82),
                              dark: GlobalTokens.neutralColors(.grey36),
@@ -499,12 +487,6 @@ public final class AliasTokens: NSObject {
         case .brandBackground3Pressed:
             return DynamicColor(light: GlobalTokens.brandColors(.comm30),
                                 dark: GlobalTokens.brandColors(.comm160))
-        case .background5BrandFilledSelected:
-            return DynamicColor(light: GlobalTokens.brandColors(.comm80),
-                                dark: GlobalTokens.neutralColors(.grey38))
-        case .background5BrandTintSelected:
-            return DynamicColor(light: GlobalTokens.brandColors(.comm160),
-                                dark: GlobalTokens.neutralColors(.grey38))
         case .brandBackgroundDisabled:
             return DynamicColor(light: GlobalTokens.brandColors(.comm140),
                                 dark: GlobalTokens.brandColors(.comm40))
