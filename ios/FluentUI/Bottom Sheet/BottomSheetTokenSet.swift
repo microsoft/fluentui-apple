@@ -17,7 +17,7 @@ public class BottomSheetTokenSet: ControlTokenSet<BottomSheetTokenSet.Tokens> {
             switch token {
             case .backgroundColor:
                 return .dynamicColor { DynamicColor(light: GlobalTokens.neutralColors(.white),
-                                                    dark: GlobalTokens.neutralColors(.black))
+                                                    dark: ColorValue(0x212121))
                 }
             case .cornerRadius:
                 return .float { GlobalTokens.borderRadius(.xLarge) }

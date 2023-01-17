@@ -391,8 +391,6 @@ public class BottomSheetController: UIViewController, TokenizedControlInternal {
         constraints.append(contentsOf: makeLayoutGuideConstraints())
 
         NSLayoutConstraint.activate(constraints)
-
-        updateAppearance()
     }
 
     public override func viewDidAppear(_ animated: Bool) {
@@ -426,6 +424,8 @@ public class BottomSheetController: UIViewController, TokenizedControlInternal {
         collapsedHeightInSafeArea = view.safeAreaLayoutGuide.layoutFrame.maxY - offset(for: .collapsed)
 
         super.viewDidLayoutSubviews()
+
+        updateAppearance()
     }
 
     public override func viewSafeAreaInsetsDidChange() {
@@ -458,18 +458,34 @@ public class BottomSheetController: UIViewController, TokenizedControlInternal {
 
     private func updateShadows() {
         let shadowInfo = tokenSet[.shadow].shadowInfo
-        if let ambientShadow = bottomSheetView.layer.sublayers?[1] {
-            ambientShadow.shadowColor = UIColor(dynamicColor: shadowInfo.colorOne).cgColor
-            ambientShadow.shadowOffset = CGSize(width: shadowInfo.xOne, height: shadowInfo.yOne)
-            ambientShadow.shadowOpacity = 1
-            ambientShadow.shadowRadius = shadowInfo.blurOne
-        }
+        if let shadowLayer = bottomSheetView.layer.sublayers?[0] {
+            shadowLayer.sublayers?.removeAll()
 
-        if let perimeterShadow = bottomSheetView.layer.sublayers?[0] {
-            perimeterShadow.shadowColor = UIColor(dynamicColor: shadowInfo.colorTwo).cgColor
+            let perimeterShadow = CAShapeLayer()
+            let perimeterShadowColor = UIColor(dynamicColor: shadowInfo.colorTwo).cgColor
+            perimeterShadow.backgroundColor = perimeterShadowColor
+            perimeterShadow.shadowColor = perimeterShadowColor
+            perimeterShadow.frame = bottomSheetView.layer.bounds
             perimeterShadow.shadowOffset = CGSize(width: shadowInfo.xTwo, height: shadowInfo.yTwo)
             perimeterShadow.shadowOpacity = 1
             perimeterShadow.shadowRadius = shadowInfo.blurTwo
+            perimeterShadow.masksToBounds = false
+            perimeterShadow.cornerCurve = .continuous
+            perimeterShadow.cornerRadius = tokenSet[.cornerRadius].float
+            shadowLayer.addSublayer(perimeterShadow)
+
+            let ambientShadow = CAShapeLayer()
+            let ambientShadowColor = UIColor(dynamicColor: shadowInfo.colorOne).cgColor
+            ambientShadow.backgroundColor = ambientShadowColor
+            ambientShadow.shadowColor = ambientShadowColor
+            ambientShadow.frame = bottomSheetView.layer.bounds
+            ambientShadow.shadowOffset = CGSize(width: shadowInfo.xOne, height: shadowInfo.yOne)
+            ambientShadow.shadowOpacity = 1
+            ambientShadow.shadowRadius = shadowInfo.blurOne
+            ambientShadow.masksToBounds = false
+            ambientShadow.cornerCurve = .continuous
+            ambientShadow.cornerRadius = tokenSet[.cornerRadius].float
+            shadowLayer.addSublayer(ambientShadow)
         }
     }
 
@@ -549,8 +565,7 @@ public class BottomSheetController: UIViewController, TokenizedControlInternal {
 
         // We need to have the shadow on a parent of the view that does the corner masking.
         // Otherwise the view will mask its own shadow.
-        // Add Shadow Layers
-        bottomSheetView.layer.insertSublayer(CALayer(), at: 0)
+        // Add Shadow Layer
         bottomSheetView.layer.insertSublayer(CALayer(), at: 0)
 
         contentView.translatesAutoresizingMaskIntoConstraints = false
