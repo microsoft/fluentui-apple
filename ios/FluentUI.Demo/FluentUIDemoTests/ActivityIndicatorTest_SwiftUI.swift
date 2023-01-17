@@ -29,17 +29,17 @@ class ActivityIndicatorTestSwiftUI: BaseTest {
 
     // ensures that activity indicator disappears when stopped
     func testHidingWhenStoppedOn() throws {
-        XCTAssert(app.images.element(matching: NSPredicate(format: "identifier CONTAINS %@", "Activity Indicator that is in progress")).exists)
-
+        let inProgress: NSPredicate = NSPredicate(format: "identifier CONTAINS %@", "Activity Indicator that is in progress")
+        XCTAssert(app.images.element(matching: inProgress).exists)
         app.switches["Animating"].tap()
-        XCTAssert(!app.images.element(matching: NSPredicate(format: "identifier CONTAINS %@", "Activity Indicator that is in progress")).exists)
+        XCTAssert(!app.images.element(matching: inProgress).exists)
     }
 
     func testCustomColor() throws {
         XCTAssert(app.images.containing(NSPredicate(format: "identifier MATCHES %@", "Activity Indicator.*of default color.*")).element.exists)
 
         app.switches["Uses custom color"].tap()
-        let RGBAValues = "[0.0, 0.47058823529411764, 0.8313725490196079, 1.0]"
+        let RGBAValues: String = "[0.0, 0.47058823529411764, 0.8313725490196079, 1.0]"
         XCTAssert(app.images.containing(NSPredicate(format: "identifier MATCHES %@", "Activity Indicator.*with rgba values.*\(RGBAValues).*")).element.exists)
     }
 
@@ -83,7 +83,7 @@ class ActivityIndicatorTestSwiftUI: BaseTest {
         XCTAssert(app.images.containing(NSPredicate(format: "identifier MATCHES %@", "Activity Indicator.*of default color.*")).element.exists)
 
         app.switches["Uses custom color"].tap()
-        let RGBAValues = "[0.0, 0.5254901960784314, 0.9411764705882353, 1.0]"
+        let RGBAValues: String = "[0.0, 0.5254901960784314, 0.9411764705882353, 1.0]"
         XCTAssert(app.images.containing(NSPredicate(format: "identifier MATCHES %@", "Activity Indicator.*with rgba values.*\(RGBAValues).*")).element.exists)
     }
 }

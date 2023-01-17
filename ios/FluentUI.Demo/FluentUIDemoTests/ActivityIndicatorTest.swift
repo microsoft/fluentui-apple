@@ -23,23 +23,24 @@ class ActivityIndicatorTest: BaseTest {
     func testColor() throws {
         XCTAssert(app.images.containing(NSPredicate(format: "identifier MATCHES %@", "Activity Indicator.*of default color.*")).element.exists)
 
-        let RGBAValues = "[0.0, 0.47058823529411764, 0.8313725490196079, 1.0]"
+        let RGBAValues: String = "[0.0, 0.47058823529411764, 0.8313725490196079, 1.0]"
         XCTAssert(app.images.containing(NSPredicate(format: "identifier MATCHES %@", "Activity Indicator.*with rgba values.*\(RGBAValues).*")).element.exists)
     }
 
     // tests start/stop functionality as well as hiding (activity indicator should disappear when stopped)
     func testStartStopHide() throws {
-        let startStopButton = app.buttons["Start / Stop activity"]
+        let startStopButton: XCUIElement = app.buttons["Start / Stop activity"]
+        let inProgress: NSPredicate = NSPredicate(format: "identifier CONTAINS %@", "Activity Indicator that is in progress")
 
-        XCTAssert(app.images.element(matching: NSPredicate(format: "identifier CONTAINS %@", "Activity Indicator that is in progress")).exists)
+        XCTAssert(app.images.element(matching: inProgress).exists)
         startStopButton.tap()
-        XCTAssert(!app.images.element(matching: NSPredicate(format: "identifier CONTAINS %@", "Activity Indicator that is in progress")).exists)
+        XCTAssert(!app.images.element(matching: inProgress).exists)
 
         app.cells.containing(.staticText, identifier: "Hides when stopped").firstMatch.tap()
         XCTAssert(app.images.element(matching: NSPredicate(format: "identifier CONTAINS %@", "Activity Indicator that is progress halted")).exists)
 
         startStopButton.tap()
-        XCTAssert(app.images.element(matching: NSPredicate(format: "identifier CONTAINS %@", "Activity Indicator that is in progress")).exists)
+        XCTAssert(app.images.element(matching: inProgress).exists)
     }
 
     func testDarkMode() throws {
@@ -48,7 +49,7 @@ class ActivityIndicatorTest: BaseTest {
 
         XCTAssert(app.images.containing(NSPredicate(format: "identifier MATCHES %@", "Activity Indicator.*of default color.*")).element.exists)
 
-        let RGBAValues = "[0.0, 0.5254901960784314, 0.9411764705882353, 1.0]"
+        let RGBAValues: String = "[0.0, 0.5254901960784314, 0.9411764705882353, 1.0]"
         XCTAssert(app.images.containing(NSPredicate(format: "identifier MATCHES %@", "Activity Indicator.*with rgba values.*\(RGBAValues).*")).element.exists)
     }
 }
