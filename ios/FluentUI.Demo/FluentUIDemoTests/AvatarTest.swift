@@ -81,10 +81,13 @@ class AvatarTest: BaseTest {
         XCTAssert(!app.images.containing(defaultRing).element.exists)
         XCTAssert(app.images.containing(imageRing).element.exists)
 
-        XCTAssert(app.images.containing(NSPredicate(format: "identifier MATCHES %@", "Avatar.*with.*an inner gap.*")).element.exists)
-        XCTAssert(!app.images.containing(NSPredicate(format: "identifier MATCHES %@", "Avatar.*with.*no inner gap.*")).element.exists)
+        let innerGap: NSPredicate = NSPredicate(format: "identifier MATCHES %@", "Avatar.*with.*an inner gap.*")
+        let noInnerGap: NSPredicate = NSPredicate(format: "identifier MATCHES %@", "Avatar.*with.*no inner gap.*")
+
+        XCTAssert(app.images.containing(innerGap).element.exists)
+        XCTAssert(!app.images.containing(noInnerGap).element.exists)
         app.cells.containing(.staticText, identifier: "Set ring inner gap").firstMatch.tap()
-        XCTAssert(!app.images.containing(NSPredicate(format: "identifier MATCHES %@", "Avatar.*with.*an inner gap.*")).element.exists)
-        XCTAssert(app.images.containing(NSPredicate(format: "identifier MATCHES %@", "Avatar.*with.*no inner gap.*")).element.exists)
+        XCTAssert(!app.images.containing(innerGap).element.exists)
+        XCTAssert(app.images.containing(noInnerGap).element.exists)
     }
 }
