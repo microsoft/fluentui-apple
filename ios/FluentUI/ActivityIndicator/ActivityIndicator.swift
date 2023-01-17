@@ -61,7 +61,7 @@ public struct ActivityIndicator: View, TokenizedControlView {
 
 #if DEBUG
         let accessibilityIdentifier: String = {
-            let status = state.isAnimating ? "in progress" : "progress halted"
+            let status: String = state.isAnimating ? "in progress" : "progress halted"
             if let rgba = state.color?.cgColor.components {
                 return "Activity Indicator that is \(status) with rgba values \(rgba) and size \(state.size.rawValue)"
             }
