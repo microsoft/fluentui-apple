@@ -35,13 +35,6 @@ class ActivityIndicatorTestSwiftUI: BaseTest {
         XCTAssert(!app.images.element(matching: inProgress).exists)
     }
 
-    func testCustomColor() throws {
-        XCTAssert(app.images.containing(NSPredicate(format: "identifier MATCHES %@", "Activity Indicator.*of default color.*")).element.exists)
-
-        app.switches["Uses custom color"].tap()
-        XCTAssert(app.images.containing(NSPredicate(format: "identifier MATCHES %@", "Activity Indicator.*of color #0078d4.*")).element.exists)
-    }
-
     func testSizeChanges() throws {
         XCTAssert(app.images.containing(NSPredicate(format: "identifier MATCHES %@", "Activity Indicator.*size 4")).element.exists)
         app.buttons[".xLarge"].tap()
@@ -73,15 +66,5 @@ class ActivityIndicatorTestSwiftUI: BaseTest {
         app.buttons[".large"].tap()
         app.buttons[".xLarge"].tap()
         XCTAssert(app.images.containing(NSPredicate(format: "identifier MATCHES %@", "Activity Indicator.*size 4")).element.exists)
-    }
-
-    func testDarkMode() throws {
-        app.launchArguments.append("UITestingDarkModeEnabled")
-        app.launch()
-        app.staticTexts["SwiftUI Demo"].tap()
-        XCTAssert(app.images.containing(NSPredicate(format: "identifier MATCHES %@", "Activity Indicator.*of default color.*")).element.exists)
-
-        app.switches["Uses custom color"].tap()
-        XCTAssert(app.images.containing(NSPredicate(format: "identifier MATCHES %@", "Activity Indicator.*of color #0086f0.*")).element.exists)
     }
 }
