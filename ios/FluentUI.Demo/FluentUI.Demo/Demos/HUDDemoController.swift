@@ -296,7 +296,7 @@ extension HUDDemoController: DemoAppearanceDelegate {
         let aliasTokens = self.view.fluentTheme.aliasTokens
         return [
             .cornerRadius: .float { GlobalTokens.corner(.radius120) },
-            .labelColor: .dynamicColor { aliasTokens.brandColors[.primary] }
+            .labelColor: .dynamicColor { aliasTokens.colors[.brandForeground1] }
         ]
     }
 }

@@ -22,7 +22,7 @@ enum DemoColorTheme: CaseIterable {
         }
     }
 
-    var provider: ColorProviding? {
+    var provider: ColorProviding2? {
         switch self {
         case .default:
             return DemoColorDefaultTheme()
@@ -34,70 +34,178 @@ enum DemoColorTheme: CaseIterable {
     }
 }
 
-class DemoColorDefaultTheme: NSObject, ColorProviding {
-    func primaryColor(for window: UIWindow) -> UIColor? {
-        return Colors.communicationBlue
+class DemoColorDefaultTheme: NSObject, ColorProviding2 {
+    func brandBackground1(for theme: FluentTheme) -> UIColor? {
+        return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.brandColors(.comm80),
+          dark: GlobalTokens.brandColors(.comm100)))
     }
 
-    func primaryTint10Color(for window: UIWindow) -> UIColor? {
-        Colors.Palette.communicationBlueTint10.color
+    func brandBackground1Pressed(for theme: FluentTheme) -> UIColor? {
+        return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.brandColors(.comm50),
+          dark: GlobalTokens.brandColors(.comm140)))
     }
 
-    func primaryTint20Color(for window: UIWindow) -> UIColor? {
-        Colors.Palette.communicationBlueTint20.color
+    func brandBackground1Selected(for theme: FluentTheme) -> UIColor? {
+        return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.brandColors(.comm60),
+         dark: GlobalTokens.brandColors(.comm120)))
     }
 
-    func primaryTint30Color(for window: UIWindow) -> UIColor? {
-        Colors.Palette.communicationBlueTint30.color
+    func brandBackground2(for theme: FluentTheme) -> UIColor? {
+        return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.brandColors(.comm70)))
     }
 
-    func primaryTint40Color(for window: UIWindow) -> UIColor? {
-        Colors.Palette.communicationBlueTint40.color
+    func brandBackground2Pressed(for theme: FluentTheme) -> UIColor? {
+        return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.brandColors(.comm40)))
     }
 
-    func primaryShade10Color(for window: UIWindow) -> UIColor? {
-        Colors.Palette.communicationBlueShade10.color
+    func brandBackground2Selected(for theme: FluentTheme) -> UIColor? {
+        return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.brandColors(.comm80)))
     }
 
-    func primaryShade20Color(for window: UIWindow) -> UIColor? {
-        Colors.Palette.communicationBlueShade20.color
+    func brandBackground3(for theme: FluentTheme) -> UIColor? {
+        return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.brandColors(.comm60),
+         dark: GlobalTokens.brandColors(.comm120)))
     }
 
-    func primaryShade30Color(for window: UIWindow) -> UIColor? {
-        Colors.Palette.communicationBlueShade30.color
+    func brandBackgroundTint(for theme: FluentTheme) -> UIColor? {
+        return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.brandColors(.comm150),
+                                 dark: GlobalTokens.brandColors(.comm40)))
+    }
+
+    func brandBackgroundDisabled(for theme: FluentTheme) -> UIColor? {
+        return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.brandColors(.comm140),
+          dark: GlobalTokens.brandColors(.comm40)))
+    }
+
+    func brandForeground1(for theme: FluentTheme) -> UIColor? {
+        return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.brandColors(.comm80),
+          dark: GlobalTokens.brandColors(.comm100)))
+    }
+
+    func brandForeground1Pressed(for theme: FluentTheme) -> UIColor? {
+        return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.brandColors(.comm50),
+          dark: GlobalTokens.brandColors(.comm140)))
+    }
+
+    func brandForeground1Selected(for theme: FluentTheme) -> UIColor? {
+        return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.brandColors(.comm60),
+          dark: GlobalTokens.brandColors(.comm120)))
+    }
+
+    func brandForegroundTint(for theme: FluentTheme) -> UIColor? {
+        return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.brandColors(.comm60),
+          dark: GlobalTokens.brandColors(.comm130)))
+    }
+
+    func brandForegroundDisabled1(for theme: FluentTheme) -> UIColor? {
+        return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.brandColors(.comm90)))
+    }
+
+    func brandForegroundDisabled2(for theme: FluentTheme) -> UIColor? {
+        return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.brandColors(.comm140),
+          dark: GlobalTokens.brandColors(.comm40)))
+    }
+
+    func brandStroke1(for theme: FluentTheme) -> UIColor? {
+        return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.brandColors(.comm80),
+                                 dark: GlobalTokens.brandColors(.comm100)))
+    }
+
+    func brandStroke1Pressed(for theme: FluentTheme) -> UIColor? {
+        return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.brandColors(.comm50),
+                                 dark: GlobalTokens.brandColors(.comm140)))
+    }
+
+    func brandStroke1Selected(for theme: FluentTheme) -> UIColor? {
+        return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.brandColors(.comm60),
+                                 dark: GlobalTokens.brandColors(.comm120)))
     }
 }
 
-class DemoColorGreenTheme: NSObject, ColorProviding {
-    func primaryColor(for window: UIWindow) -> UIColor? {
-        return UIColor(named: "Colors/DemoPrimaryColor")
+class DemoColorGreenTheme: NSObject, ColorProviding2 {
+    func brandBackground1(for theme: FluentTheme) -> UIColor? {
+        return UIColor(dynamicColor: DynamicColor(light: ColorValue(0x107C41),
+                                                  dark: ColorValue(0x55B17E)))
     }
 
-    func primaryTint10Color(for window: UIWindow) -> UIColor? {
-        return UIColor(named: "Colors/DemoPrimaryTint10Color")
+    func brandBackground1Pressed(for theme: FluentTheme) -> UIColor? {
+        return UIColor(dynamicColor: DynamicColor(light: ColorValue(0x0A5325),
+                                                  dark: ColorValue(0xCAEAD8)))
     }
 
-    func primaryTint20Color(for window: UIWindow) -> UIColor? {
-        return UIColor(named: "Colors/DemoPrimaryTint20Color")
+    func brandBackground1Selected(for theme: FluentTheme) -> UIColor? {
+        return UIColor(dynamicColor: DynamicColor(light: ColorValue(0x0F703B),
+                                                  dark: ColorValue(0x60BD82)))
     }
 
-    func primaryTint30Color(for window: UIWindow) -> UIColor? {
-        return UIColor(named: "Colors/DemoPrimaryTint30Color")
+    func brandBackground2(for theme: FluentTheme) -> UIColor? {
+        return UIColor(dynamicColor: DynamicColor(light: ColorValue(0x0F703B)))
     }
 
-    func primaryTint40Color(for window: UIWindow) -> UIColor? {
-        return UIColor(named: "Colors/DemoPrimaryTint40Color")
+    func brandBackground2Pressed(for theme: FluentTheme) -> UIColor? {
+        return UIColor(dynamicColor: DynamicColor(light: ColorValue(0x052912)))
     }
 
-    func primaryShade10Color(for window: UIWindow) -> UIColor? {
-        return UIColor(named: "Colors/DemoPrimaryShade10Color")
+    func brandBackground2Selected(for theme: FluentTheme) -> UIColor? {
+        return UIColor(dynamicColor: DynamicColor(light: ColorValue(0x0A5325)))
     }
 
-    func primaryShade20Color(for window: UIWindow) -> UIColor? {
-        return UIColor(named: "Colors/DemoPrimaryShade20Color")
+    func brandBackground3(for theme: FluentTheme) -> UIColor? {
+        return UIColor(dynamicColor: DynamicColor(light: ColorValue(0x0A5325)))
     }
 
-    func primaryShade30Color(for window: UIWindow) -> UIColor? {
-        return UIColor(named: "Colors/DemoPrimaryShade30Color")
+    func brandBackgroundTint(for theme: FluentTheme) -> UIColor? {
+        return UIColor(dynamicColor: DynamicColor(light: ColorValue(0xCAEAD8),
+                                                  dark: ColorValue(0x094624)))
+    }
+
+    func brandBackgroundDisabled(for theme: FluentTheme) -> UIColor? {
+        return UIColor(dynamicColor: DynamicColor(light: ColorValue(0xA0D8B9),
+                                                  dark: ColorValue(0x0A5325)))
+    }
+
+    func brandForeground1(for theme: FluentTheme) -> UIColor? {
+        return UIColor(dynamicColor: DynamicColor(light: ColorValue(0x107C41),
+                                                  dark: ColorValue(0x55B17E)))
+    }
+
+    func brandForeground1Pressed(for theme: FluentTheme) -> UIColor? {
+        return UIColor(dynamicColor: DynamicColor(light: ColorValue(0x0A5325),
+                                                  dark: ColorValue(0xCAEAD8)))
+    }
+
+    func brandForeground1Selected(for theme: FluentTheme) -> UIColor? {
+        return UIColor(dynamicColor: DynamicColor(light: ColorValue(0x0F703B),
+                                                  dark: ColorValue(0x60BD82)))
+    }
+
+    func brandForegroundTint(for theme: FluentTheme) -> UIColor? {
+        return UIColor(dynamicColor: DynamicColor(light: ColorValue(0x0C5F32),
+                                                  dark: ColorValue(0x60BD82)))
+    }
+
+    func brandForegroundDisabled1(for theme: FluentTheme) -> UIColor? {
+        return UIColor(dynamicColor: DynamicColor(light: ColorValue(0x37A660),
+                                                  dark: ColorValue(0x218D51)))
+    }
+
+    func brandForegroundDisabled2(for theme: FluentTheme) -> UIColor? {
+        return UIColor(dynamicColor: DynamicColor(light: ColorValue(0xCAEAD8),
+                                                  dark: ColorValue(0x0F703B)))
+    }
+
+    func brandStroke1(for theme: FluentTheme) -> UIColor? {
+        return UIColor(dynamicColor: DynamicColor(light: ColorValue(0x107C41),
+                                                  dark: ColorValue(0x55B17E)))
+    }
+
+    func brandStroke1Pressed(for theme: FluentTheme) -> UIColor? {
+        return UIColor(dynamicColor: DynamicColor(light: ColorValue(0x0A5325),
+                                                  dark: ColorValue(0xCAEAD8)))
+    }
+
+    func brandStroke1Selected(for theme: FluentTheme) -> UIColor? {
+        return UIColor(dynamicColor: DynamicColor(light: ColorValue(0x0F703B),
+                                                  dark: ColorValue(0x60BD82)))
     }
 }

@@ -421,11 +421,8 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
     var selectionChangeAnimationDuration: TimeInterval { return 0.2 }
 
     private func updateButtons() {
-        let contentColor = isEnabled ? UIColor(dynamicColor: tokenSet[.restLabelColor].dynamicColor) : UIColor(dynamicColor: tokenSet[.disabledLabelColor].dynamicColor)
         for (index, button) in buttons.enumerated() {
             button.updateTokenizedValues()
-            button.setTitleColor(contentColor, for: .normal)
-            button.tintColor = contentColor
             pillMaskedLabels[index]?.font = button.titleLabel?.font
         }
     }
