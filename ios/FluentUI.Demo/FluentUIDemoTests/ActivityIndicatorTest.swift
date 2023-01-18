@@ -20,11 +20,6 @@ class ActivityIndicatorTest: BaseTest {
         }
     }
 
-    func testColor() throws {
-        XCTAssert(app.images.containing(NSPredicate(format: "identifier MATCHES %@", "Activity Indicator.*of default color.*")).element.exists)
-        XCTAssert(app.images.containing(NSPredicate(format: "identifier MATCHES %@", "Activity Indicator.*of color #0078d4.*")).element.exists)
-    }
-
     // tests start/stop functionality as well as hiding (activity indicator should disappear when stopped)
     func testStartStopHide() throws {
         let startStopButton: XCUIElement = app.buttons["Start / Stop activity"]
@@ -39,13 +34,5 @@ class ActivityIndicatorTest: BaseTest {
 
         startStopButton.tap()
         XCTAssert(app.images.element(matching: inProgress).exists)
-    }
-
-    func testDarkMode() throws {
-        app.launchArguments.append("UITestingDarkModeEnabled")
-        app.launch()
-
-        XCTAssert(app.images.containing(NSPredicate(format: "identifier MATCHES %@", "Activity Indicator.*of default color.*")).element.exists)
-        XCTAssert(app.images.containing(NSPredicate(format: "identifier MATCHES %@", "Activity Indicator.*of color #0086f0.*")).element.exists)
     }
 }
