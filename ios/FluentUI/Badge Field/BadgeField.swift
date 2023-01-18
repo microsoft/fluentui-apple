@@ -743,6 +743,7 @@ open class BadgeField: UIView {
 
     private func updateLabelsVisibility(textFieldContent: String? = nil) {
         var textFieldContent = textFieldContent ?? self.textFieldContent
+        // does not trim textFieldContent if it only contains whitespace
         textFieldContent = textFieldContent.trimmingCharacters(in: .whitespaces) == "" ? textFieldContent : textFieldContent.trimmed()
         labelView.isHidden = label.isEmpty
         placeholderView.isHidden = !labelView.isHidden || !badges.isEmpty || !textFieldContent.isEmpty
