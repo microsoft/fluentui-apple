@@ -8,10 +8,10 @@ import UIKit
 
 class DemoListViewController: DemoTableViewController {
 
-    private var provider2: ColorProviding2? = DemoColorTheme.default.provider2
+    private var provider: ColorProviding2? = DemoColorTheme.default.provider
     public var theme: DemoColorTheme = DemoColorTheme.default {
         didSet {
-            provider2 = theme.provider2
+            provider = theme.provider
         }
     }
 
@@ -31,7 +31,7 @@ class DemoListViewController: DemoTableViewController {
 
     func updateColorProviderFor(window: UIWindow, theme: DemoColorTheme) {
         self.theme = theme
-        if let provider2 = self.provider2 {
+        if let provider2 = self.provider {
             self.view.fluentTheme.setProvider(provider: provider2)
             let aliasTokens = self.view.fluentTheme.aliasTokens
             let primaryColor = UIColor(dynamicColor: aliasTokens.colors[.brandBackground1])
