@@ -39,8 +39,7 @@ class ActivityIndicatorTestSwiftUI: BaseTest {
         XCTAssert(app.images.containing(NSPredicate(format: "identifier MATCHES %@", "Activity Indicator.*of default color.*")).element.exists)
 
         app.switches["Uses custom color"].tap()
-        let RGBAValues: String = "[0.0, 0.47058823529411764, 0.8313725490196079, 1.0]"
-        XCTAssert(app.images.containing(NSPredicate(format: "identifier MATCHES %@", "Activity Indicator.*with rgba values.*\(RGBAValues).*")).element.exists)
+        XCTAssert(app.images.containing(NSPredicate(format: "identifier MATCHES %@", "Activity Indicator.*of color #0078d4.*")).element.exists)
     }
 
     func testSizeChanges() throws {
@@ -83,7 +82,6 @@ class ActivityIndicatorTestSwiftUI: BaseTest {
         XCTAssert(app.images.containing(NSPredicate(format: "identifier MATCHES %@", "Activity Indicator.*of default color.*")).element.exists)
 
         app.switches["Uses custom color"].tap()
-        let RGBAValues: String = "[0.0, 0.5254901960784314, 0.9411764705882353, 1.0]"
-        XCTAssert(app.images.containing(NSPredicate(format: "identifier MATCHES %@", "Activity Indicator.*with rgba values.*\(RGBAValues).*")).element.exists)
+        XCTAssert(app.images.containing(NSPredicate(format: "identifier MATCHES %@", "Activity Indicator.*of color #0086f0.*")).element.exists)
     }
 }
