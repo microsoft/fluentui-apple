@@ -14,7 +14,7 @@ class ActivityIndicatorTest: BaseTest {
     }
 
     func testSizes() throws {
-        // ensures all 5 activity indicators sizes are displayed
+        // ensures all 5 activity indicators sizes are shown
         for i in 0...4 {
             XCTAssert(app.images.containing(NSPredicate(format: "identifier MATCHES %@", "Activity Indicator.*size \(i).*")).element.exists)
         }
