@@ -177,6 +177,7 @@ public struct Avatar: View, TokenizedControlView {
                         defaultAccessibilityText)
         }()
 
+#if DEBUG
         let accessibilityIdentifier: String = {
             let imageDescription: String = state.image != nil ? "image" : initialsString != "" ? "initials" : "icon"
             let ringDescription: String = {
@@ -195,6 +196,7 @@ public struct Avatar: View, TokenizedControlView {
             }
             return "Avatar of an \(imageDescription) with \(ringDescription) and presence \(presenceDescription) in size \(AvatarTokenSet.avatarSize(state.size)) and style \(state.style.rawValue)"
         }()
+#endif
 
         @ViewBuilder
         var avatarContent: some View {
@@ -315,7 +317,9 @@ public struct Avatar: View, TokenizedControlView {
             .accessibility(addTraits: state.hasButtonAccessibilityTrait ? .isButton : .isImage)
             .accessibility(label: Text(accessibilityLabel))
             .accessibility(value: Text(presence.string() ?? ""))
+#if DEBUG
             .accessibilityIdentifier(accessibilityIdentifier)
+#endif
             .fluentTokens(tokenSet, fluentTheme)
     }
 
