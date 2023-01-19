@@ -5,33 +5,31 @@
 
 import XCTest
 
-class IndeterminateProgressBarTestSwiftUI: BaseTest {
-    override var controlName: String { "IndeterminateProgressBar" }
-
+class IndeterminateProgressBarTestSwiftUI: IndeterminateProgressBarTest {
     override func setUpWithError() throws {
         try super.setUpWithError()
         app.staticTexts["SwiftUI Demo"].tap()
     }
 
     // launch test that ensures the demo app does not crash and is on the correct control page
-    func testLaunch() throws {
+    override func testLaunch() throws {
         XCTAssertTrue(app.navigationBars.element(matching: NSPredicate(format: "identifier CONTAINS %@", controlName)).exists)
     }
 
-    // tests indeterminate progress bar's start/stop functionality
-     func testAnimating() throws {
-         app.switches["Hides when stopped"].tap()
-         XCTAssert(app.otherElements.element(matching: NSPredicate(format: "identifier CONTAINS %@", "Indeterminate Progress Bar that is in progress")).exists)
+    override func testStartStopHide() throws {
+         let animatingSwitch: XCUIElement = app.switches["Animating"]
+         let hidesWhenStoppedSwitch: XCUIElement = app.switches["Hides when stopped"]
 
-         app.switches["Animating"].tap()
-         XCTAssert(app.otherElements.element(matching: NSPredicate(format: "identifier CONTAINS %@", "Indeterminate Progress Bar that is progress halted")).exists)
-     }
+         hidesWhenStoppedSwitch.tap()
+         XCTAssert(super.indeterminateProgressBarExists(status: super.inProgress))
 
-     // ensures that indeterminate progress bar disappears when stopped
-     func testHidingWhenStoppedOn() throws {
-         let inProgress: NSPredicate = NSPredicate(format: "identifier CONTAINS %@", "Indeterminate Progress Bar that is in progress")
-         XCTAssert(app.otherElements.element(matching: inProgress).exists)
-         app.switches["Animating"].tap()
-         XCTAssert(!app.otherElements.element(matching: inProgress).exists)
+         animatingSwitch.tap()
+         XCTAssert(super.indeterminateProgressBarExists(status: super.progressHalted))
+
+         hidesWhenStoppedSwitch.tap()
+         XCTAssert(!super.indeterminateProgressBarExists(status: super.inProgress))
+
+         animatingSwitch.tap()
+         XCTAssert(super.indeterminateProgressBarExists(status: super.inProgress))
      }
 }
