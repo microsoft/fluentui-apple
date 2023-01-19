@@ -21,15 +21,15 @@ class IndeterminateProgressBarTestSwiftUI: IndeterminateProgressBarTest {
          let hidesWhenStoppedSwitch: XCUIElement = app.switches["Hides when stopped"]
 
          hidesWhenStoppedSwitch.tap()
-         XCTAssert(super.indeterminateProgressBarExists(status: super.inProgress))
+         XCTAssert(indeterminateProgressBarExists(status: inProgress))
 
          animatingSwitch.tap()
-         XCTAssert(super.indeterminateProgressBarExists(status: super.progressHalted))
+         XCTAssert(indeterminateProgressBarExists(status: progressHalted))
 
          hidesWhenStoppedSwitch.tap()
-         XCTAssert(!super.indeterminateProgressBarExists(status: super.inProgress))
+         XCTAssert(!indeterminateProgressBarExists(status: inProgress))
 
          animatingSwitch.tap()
-         XCTAssert(super.indeterminateProgressBarExists(status: super.inProgress))
+         XCTAssert(indeterminateProgressBarExists(status: inProgress))
      }
 }
