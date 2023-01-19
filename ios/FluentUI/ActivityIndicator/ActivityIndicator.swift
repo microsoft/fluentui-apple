@@ -64,22 +64,18 @@ public struct ActivityIndicator: View, TokenizedControlView {
             let status: String = state.isAnimating ? "in progress" : "progress halted"
             return "Activity Indicator that is \(status) and size \(state.size.rawValue)"
         }()
-#endif
 
-        let semiRing = {
-#if DEBUG
-            return SemiRing(color: color,
-                            thickness: tokenSet[.thickness].float,
-                            accessibilityLabel: accessibilityLabel,
-                            accessibilityIdentifier: accessibilityIdentifier)
+        let semiRing = SemiRing(color: color,
+                                thickness: tokenSet[.thickness].float,
+                                accessibilityLabel: accessibilityLabel,
+                                accessibilityIdentifier: accessibilityIdentifier)
 #else
-            return SemiRing(color: color,
-                            thickness: tokenSet[.thickness].float,
-                            accessibilityLabel: accessibilityLabel)
+        let semiRing = SemiRing(color: color,
+                                thickness: tokenSet[.thickness].float,
+                                accessibilityLabel: accessibilityLabel)
 #endif
-        }
 
-        semiRing()
+        semiRing
             .modifyIf(state.isAnimating, { animatedView in
                 animatedView
                     .rotationEffect(.degrees(rotationAngle), anchor: .center)

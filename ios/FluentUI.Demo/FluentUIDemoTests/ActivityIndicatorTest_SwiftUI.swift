@@ -5,37 +5,38 @@
 
 import XCTest
 
-class ActivityIndicatorTestSwiftUI: BaseTest {
-    override var controlName: String { "ActivityIndicator" }
-
+class ActivityIndicatorTestSwiftUI: ActivityIndicatorTest {
     override func setUpWithError() throws {
         try super.setUpWithError()
         app.staticTexts["SwiftUI Demo"].tap()
     }
 
     // launch test that ensures the demo app does not crash and is on the correct control page
-    func testLaunch() throws {
-        XCTAssertTrue(app.navigationBars.element(matching: NSPredicate(format: "identifier CONTAINS %@", controlName)).exists)
+    override func testLaunch() throws {
+        XCTAssertTrue(app.navigationBars.element(matching: NSPredicate(format: "identifier CONTAINS %@", super.controlName)).exists)
     }
 
-    // tests activity indicator's start/stop functionality
-    func testAnimating() throws {
-        app.switches["Hides when stopped"].tap()
-        XCTAssert(app.images.element(matching: NSPredicate(format: "identifier CONTAINS %@", "Activity Indicator that is in progress")).exists)
+    override func testStartStopHide() throws {
+        let animatingSwitch: XCUIElement = app.switches["Animating"]
+        let hidesWhenStoppedSwitch: XCUIElement = app.switches["Hides when stopped"]
 
-        app.switches["Animating"].tap()
-        XCTAssert(app.images.element(matching: NSPredicate(format: "identifier CONTAINS %@", "Activity Indicator that is progress halted")).exists)
+        hidesWhenStoppedSwitch.tap()
+        XCTAssert(super.activityIndicatorExists(status: super.inProgress))
+
+        animatingSwitch.tap()
+        XCTAssert(super.activityIndicatorExists(status: super.progressHalted))
+
+        hidesWhenStoppedSwitch.tap()
+        XCTAssert(!super.activityIndicatorExists(status: super.inProgress))
+
+        animatingSwitch.tap()
+        XCTAssert(super.activityIndicatorExists(status: super.inProgress))
     }
 
-    // ensures that activity indicator disappears when stopped
-    func testHidingWhenStoppedOn() throws {
-        let inProgress: NSPredicate = NSPredicate(format: "identifier CONTAINS %@", "Activity Indicator that is in progress")
-        XCTAssert(app.images.element(matching: inProgress).exists)
-        app.switches["Animating"].tap()
-        XCTAssert(!app.images.element(matching: inProgress).exists)
-    }
+    override func testSizes() throws {
+        let animatingSwitch: XCUIElement = app.switches["Animating"]
+        let hidesWhenStoppedSwitch: XCUIElement = app.switches["Hides when stopped"]
 
-    func testSizeChanges() throws {
         XCTAssert(app.images.containing(NSPredicate(format: "identifier MATCHES %@", "Activity Indicator.*size 4")).element.exists)
         app.buttons[".xLarge"].tap()
         app.buttons[".large"].tap()
@@ -50,8 +51,8 @@ class ActivityIndicatorTestSwiftUI: BaseTest {
         app.buttons[".xSmall"].tap()
         XCTAssert(app.images.containing(NSPredicate(format: "identifier MATCHES %@", "Activity Indicator.*size 0")).element.exists)
 
-        app.switches["Hides when stopped"].tap()
-        app.switches["Animating"].tap()
+        hidesWhenStoppedSwitch.tap()
+        animatingSwitch.tap()
 
         XCTAssert(app.images.containing(NSPredicate(format: "identifier MATCHES %@", "Activity Indicator.*size 0")).element.exists)
         app.buttons[".xSmall"].tap()
