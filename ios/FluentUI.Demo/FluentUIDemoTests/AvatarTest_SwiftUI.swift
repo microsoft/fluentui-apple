@@ -5,76 +5,69 @@
 
 import XCTest
 
-class AvatarTestSwiftUI: BaseTest {
-    override var controlName: String { "Avatar" }
-
+class AvatarTestSwiftUI: AvatarTest {
     override func setUpWithError() throws {
         try super.setUpWithError()
         app.staticTexts["SwiftUI Demo"].tap()
     }
 
     // launch test that ensures the demo app does not crash and is on the correct control page
-    func testLaunch() throws {
+    override func testLaunch() throws {
         XCTAssertTrue(app.navigationBars.element(matching: NSPredicate(format: "identifier CONTAINS %@", controlName)).exists)
     }
 
-    func testImage() throws {
-        let image: NSPredicate = NSPredicate(format: "identifier MATCHES %@", "Avatar.*image.*")
-        let initials: NSPredicate = NSPredicate(format: "identifier MATCHES %@", "Avatar.*initials.*")
-        let icon: NSPredicate = NSPredicate(format: "identifier MATCHES %@", "Avatar.*icon.*")
+    override func testImages() throws {
+        let setImageSwitch: XCUIElement = app.switches["Set image"]
 
-        XCTAssert(!app.images.containing(image).element.exists)
-        XCTAssert(app.images.containing(initials).element.exists)
-        XCTAssert(!app.images.containing(icon).element.exists)
+        XCTAssert(!avatarExists(predicate: image))
+        XCTAssert(avatarExists(predicate: initials))
+        XCTAssert(!avatarExists(predicate: icon))
 
-        app.switches["Set image"].tap()
-        XCTAssert(app.images.containing(image).element.exists)
-        XCTAssert(!app.images.containing(initials).element.exists)
-        XCTAssert(!app.images.containing(icon).element.exists)
+        setImageSwitch.tap()
+        XCTAssert(avatarExists(predicate: image))
+        XCTAssert(!avatarExists(predicate: initials))
+        XCTAssert(!avatarExists(predicate: icon))
 
         app.textFields.firstMatch.doubleTap()
         app.menuItems["Cut"].tap()
-        XCTAssert(app.images.containing(image).element.exists)
-        XCTAssert(!app.images.containing(initials).element.exists)
-        XCTAssert(!app.images.containing(icon).element.exists)
+        XCTAssert(avatarExists(predicate: image))
+        XCTAssert(!avatarExists(predicate: initials))
+        XCTAssert(!avatarExists(predicate: icon))
 
-        app.switches["Set image"].tap()
-        XCTAssert(!app.images.containing(image).element.exists)
-        XCTAssert(!app.images.containing(initials).element.exists)
-        XCTAssert(app.images.containing(icon).element.exists)
+        setImageSwitch.tap()
+        XCTAssert(!avatarExists(predicate: image))
+        XCTAssert(!avatarExists(predicate: initials))
+        XCTAssert(avatarExists(predicate: icon))
     }
 
-    func testRing() throws {
-        let noRing: NSPredicate = NSPredicate(format: "identifier MATCHES %@", "Avatar.*with no ring.*")
-        let defaultRing: NSPredicate = NSPredicate(format: "identifier MATCHES %@", "Avatar.*with a default ring.*")
-        let imageRing: NSPredicate = NSPredicate(format: "identifier MATCHES %@", "Avatar.*with an image based ring.*")
+    override func testRings() throws {
+        let ringVisibleSwitch: XCUIElement = app.switches["Ring visible"]
+        let setImageRingSwitch: XCUIElement = app.switches["Set image based ring color"]
+        let ringInnerGapSwitch: XCUIElement = app.switches["Ring inner gap"]
 
-        app.switches["Ring visible"].tap()
-        XCTAssert(app.images.containing(noRing).element.exists)
-        XCTAssert(!app.images.containing(defaultRing).element.exists)
-        XCTAssert(!app.images.containing(imageRing).element.exists)
+        ringVisibleSwitch.tap()
+        XCTAssert(avatarExists(predicate: noRing))
+        XCTAssert(!avatarExists(predicate: defaultRing))
+        XCTAssert(!avatarExists(predicate: imageRing))
 
-        app.switches["Ring visible"].tap()
-        XCTAssert(!app.images.containing(noRing).element.exists)
-        XCTAssert(app.images.containing(defaultRing).element.exists)
-        XCTAssert(!app.images.containing(imageRing).element.exists)
+        ringVisibleSwitch.tap()
+        XCTAssert(!avatarExists(predicate: noRing))
+        XCTAssert(avatarExists(predicate: defaultRing))
+        XCTAssert(!avatarExists(predicate: imageRing))
 
-        app.switches["Set image based ring color"].tap()
-        XCTAssert(!app.images.containing(noRing).element.exists)
-        XCTAssert(!app.images.containing(defaultRing).element.exists)
-        XCTAssert(app.images.containing(imageRing).element.exists)
+        setImageRingSwitch.tap()
+        XCTAssert(!avatarExists(predicate: noRing))
+        XCTAssert(!avatarExists(predicate: defaultRing))
+        XCTAssert(avatarExists(predicate: imageRing))
 
-        let innerGap: NSPredicate = NSPredicate(format: "identifier MATCHES %@", "Avatar.*with.*an inner gap.*")
-        let noInnerGap: NSPredicate = NSPredicate(format: "identifier MATCHES %@", "Avatar.*with.*no inner gap.*")
-
-        XCTAssert(app.images.containing(innerGap).element.exists)
-        XCTAssert(!app.images.containing(noInnerGap).element.exists)
-        app.switches["Ring inner gap"].tap()
-        XCTAssert(!app.images.containing(innerGap).element.exists)
-        XCTAssert(app.images.containing(noInnerGap).element.exists)
+        XCTAssert(avatarExists(predicate: innerGap))
+        XCTAssert(!avatarExists(predicate: noInnerGap))
+        ringInnerGapSwitch.tap()
+        XCTAssert(!avatarExists(predicate: innerGap))
+        XCTAssert(avatarExists(predicate: noInnerGap))
     }
 
-    func testPresenceChanges() throws {
+    override func testPresences() throws {
         XCTAssert(app.images.containing(NSPredicate(format: "identifier MATCHES %@", "Avatar.*with.*presence 0.*")).element.exists)
         app.buttons[".none"].tap()
         app.buttons[".available"].tap()
@@ -102,7 +95,7 @@ class AvatarTestSwiftUI: BaseTest {
         XCTAssert(app.images.containing(NSPredicate(format: "identifier MATCHES %@", "Avatar.*with.*presence out of office.*")).element.exists)
     }
 
-    func testStyleChanges() throws {
+    override func testStyles() throws {
         XCTAssert(app.images.containing(NSPredicate(format: "identifier MATCHES %@", "Avatar.*in.*style 0.*")).element.exists)
         app.buttons[".default"].tap()
         app.buttons[".accent"].tap()
@@ -121,25 +114,25 @@ class AvatarTestSwiftUI: BaseTest {
         XCTAssert(app.images.containing(NSPredicate(format: "identifier MATCHES %@", "Avatar.*in.*style 5.*")).element.exists)
     }
 
-    func testSizeChanges() throws {
-        XCTAssert(app.images.containing(NSPredicate(format: "identifier MATCHES %@", "Avatar.*in size 72.*")).element.exists)
+    override func testSizes() throws {
+        XCTAssert(avatarExists(predicate: size72))
         app.buttons[".size72"].tap()
         app.buttons[".size56"].tap()
-        XCTAssert(app.images.containing(NSPredicate(format: "identifier MATCHES %@", "Avatar.*in size 56.*")).element.exists)
+        XCTAssert(avatarExists(predicate: size56))
         app.buttons[".size56"].tap()
         app.buttons[".size40"].tap()
-        XCTAssert(app.images.containing(NSPredicate(format: "identifier MATCHES %@", "Avatar.*in size 40.*")).element.exists)
+        XCTAssert(avatarExists(predicate: size40))
         app.buttons[".size40"].tap()
         app.buttons[".size32"].tap()
-        XCTAssert(app.images.containing(NSPredicate(format: "identifier MATCHES %@", "Avatar.*in size 32.*")).element.exists)
+        XCTAssert(avatarExists(predicate: size32))
         app.buttons[".size32"].tap()
         app.buttons[".size24"].tap()
-        XCTAssert(app.images.containing(NSPredicate(format: "identifier MATCHES %@", "Avatar.*in size 24.*")).element.exists)
+        XCTAssert(avatarExists(predicate: size24))
         app.buttons[".size24"].tap()
         app.buttons[".size20"].tap()
-        XCTAssert(app.images.containing(NSPredicate(format: "identifier MATCHES %@", "Avatar.*in size 20.*")).element.exists)
+        XCTAssert(avatarExists(predicate: size20))
         app.buttons[".size20"].tap()
         app.buttons[".size16"].tap()
-        XCTAssert(app.images.containing(NSPredicate(format: "identifier MATCHES %@", "Avatar.*in size 16.*")).element.exists)
+        XCTAssert(avatarExists(predicate: size16))
     }
 }
