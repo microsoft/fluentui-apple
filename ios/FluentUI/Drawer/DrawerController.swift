@@ -104,8 +104,8 @@ open class DrawerController: UIViewController {
     }
 
     @objc public static func popoverBackground(fluentTheme: FluentTheme) -> UIColor {
-        return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.background2].light,
-                                                  dark: fluentTheme.aliasTokens.colors[.background2].darkElevated))
+        return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.background4].light,
+                                                  dark: fluentTheme.aliasTokens.colors[.background4].dark))
     }
 
     private struct Constants {
@@ -135,8 +135,8 @@ open class DrawerController: UIViewController {
     }
 
     private func popoverBackgroundColor(fluentTheme: FluentTheme) -> UIColor {
-        return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.background2].light,
-                                                  dark: fluentTheme.aliasTokens.colors[.background2].darkElevated))
+        return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.background4].light,
+                                                  dark: fluentTheme.aliasTokens.colors[.background4].dark))
     }
 
     /**
