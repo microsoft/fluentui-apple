@@ -13,7 +13,7 @@ class ActivityIndicatorTestSwiftUI: ActivityIndicatorTest {
 
     // launch test that ensures the demo app does not crash and is on the correct control page
     override func testLaunch() throws {
-        XCTAssertTrue(app.navigationBars.element(matching: NSPredicate(format: "identifier CONTAINS %@", super.controlName)).exists)
+        XCTAssertTrue(app.navigationBars.element(matching: NSPredicate(format: "identifier CONTAINS %@", controlName)).exists)
     }
 
     override func testStartStopHide() throws {
@@ -21,16 +21,16 @@ class ActivityIndicatorTestSwiftUI: ActivityIndicatorTest {
         let hidesWhenStoppedSwitch: XCUIElement = app.switches["Hides when stopped"]
 
         hidesWhenStoppedSwitch.tap()
-        XCTAssert(super.activityIndicatorExists(status: super.inProgress))
+        XCTAssert(activityIndicatorExists(status: inProgress))
 
         animatingSwitch.tap()
-        XCTAssert(super.activityIndicatorExists(status: super.progressHalted))
+        XCTAssert(activityIndicatorExists(status: progressHalted))
 
         hidesWhenStoppedSwitch.tap()
-        XCTAssert(!super.activityIndicatorExists(status: super.inProgress))
+        XCTAssert(!activityIndicatorExists(status: inProgress))
 
         animatingSwitch.tap()
-        XCTAssert(super.activityIndicatorExists(status: super.inProgress))
+        XCTAssert(activityIndicatorExists(status: inProgress))
     }
 
     override func testSizes() throws {
