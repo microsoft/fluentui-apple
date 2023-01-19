@@ -17,4 +17,21 @@ class IndeterminateProgressBarTestSwiftUI: BaseTest {
     func testLaunch() throws {
         XCTAssertTrue(app.navigationBars.element(matching: NSPredicate(format: "identifier CONTAINS %@", controlName)).exists)
     }
+
+    // tests indeterminate progress bar's start/stop functionality
+     func testAnimating() throws {
+         app.switches["Hides when stopped"].tap()
+         XCTAssert(app.otherElements.element(matching: NSPredicate(format: "identifier CONTAINS %@", "Indeterminate Progress Bar that is in progress")).exists)
+
+         app.switches["Animating"].tap()
+         XCTAssert(app.otherElements.element(matching: NSPredicate(format: "identifier CONTAINS %@", "Indeterminate Progress Bar that is progress halted")).exists)
+     }
+
+     // ensures that indeterminate progress bar disappears when stopped
+     func testHidingWhenStoppedOn() throws {
+         let inProgress: NSPredicate = NSPredicate(format: "identifier CONTAINS %@", "Indeterminate Progress Bar that is in progress")
+         XCTAssert(app.otherElements.element(matching: inProgress).exists)
+         app.switches["Animating"].tap()
+         XCTAssert(!app.otherElements.element(matching: inProgress).exists)
+     }
 }
