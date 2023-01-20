@@ -27,7 +27,7 @@ class TableViewCellSampleData: TableViewSampleData {
                 Item(text1: "Contoso Survey",
                      text2: "Research Notes",
                      image: "excelIcon",
-                     text2LeadingAccessoryView: { createIconsAccessoryView(images: ["shared-12x12", "ic_fluent_lock_closed_20_regular"]) })
+                     text2LeadingAccessoryView: { createIconsAccessoryView(images: ["ic_fluent_share_20_regular", "ic_fluent_lock_closed_20_regular"]) })
             ]
         ),
         Section(
@@ -35,7 +35,7 @@ class TableViewCellSampleData: TableViewSampleData {
             items: [
                 Item(text1: "Contoso Survey",
                      text2: "Research Notes",
-                     text2LeadingAccessoryView: { createIconsAccessoryView(images: ["shared-12x12", "ic_fluent_lock_closed_20_regular"]) })
+                     text2LeadingAccessoryView: { createIconsAccessoryView(images: ["ic_fluent_share_20_regular", "ic_fluent_lock_closed_20_regular"]) })
             ]
         ),
         Section(
@@ -45,7 +45,7 @@ class TableViewCellSampleData: TableViewSampleData {
                      text2: "Research Notes",
                      text3: "22 views",
                      image: "excelIcon",
-                     text2TrailingAccessoryView: { createIconsAccessoryView(images: ["shared-12x12", "success-12x12"]) },
+                     text2TrailingAccessoryView: { createIconsAccessoryView(images: ["ic_fluent_share_20_regular", "success-12x12"]) },
                      text3TrailingAccessoryView: { createProgressAccessoryView() })
             ],
             hasFullLengthLabelAccessoryView: true
