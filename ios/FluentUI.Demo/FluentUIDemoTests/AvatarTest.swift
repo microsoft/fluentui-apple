@@ -78,21 +78,24 @@ class AvatarTest: BaseTest {
         XCTAssert(avatarExists(predicate: noPresence))
         // loops through the 6 presences, with 1 as available
         for i in 1...7 {
-            XCTAssert(!app.images.containing(NSPredicate(format: "identifier MATCHES %@", "Avatar.*with.*presence \(i).*")).element.exists)
+            let presence: NSPredicate = NSPredicate(format: "identifier MATCHES %@", "Avatar.*with.*presence \(i).*")
+            XCTAssert(!avatarExists(predicate: presence))
         }
         XCTAssert(!avatarExists(predicate: oofPresence))
 
         showPresenceSwitch.tap()
         XCTAssert(!avatarExists(predicate: noPresence))
         for i in 1...7 {
-            XCTAssert(app.images.containing(NSPredicate(format: "identifier MATCHES %@", "Avatar.*with.*presence \(i).*")).element.exists)
+            let presence: NSPredicate = NSPredicate(format: "identifier MATCHES %@", "Avatar.*with.*presence \(i).*")
+            XCTAssert(avatarExists(predicate: presence))
         }
         XCTAssert(!avatarExists(predicate: oofPresence))
 
         setOOFSwitch.tap()
         XCTAssert(!avatarExists(predicate: noPresence))
         for i in 0...7 {
-            XCTAssert(!app.images.containing(NSPredicate(format: "identifier MATCHES %@", "Avatar.*with.*presence \(i).*")).element.exists)
+            let presence: NSPredicate = NSPredicate(format: "identifier MATCHES %@", "Avatar.*with.*presence \(i).*")
+            XCTAssert(!avatarExists(predicate: presence))
         }
         XCTAssert(avatarExists(predicate: oofPresence))
     }
@@ -100,7 +103,8 @@ class AvatarTest: BaseTest {
     func testStyles() throws {
         // loops through the 6 different styles, with 0 as `default`
         for i in 0...5 {
-            XCTAssert(app.images.containing(NSPredicate(format: "identifier MATCHES %@", "Avatar.*in.*style \(i).*")).element.exists)
+            let style: NSPredicate = NSPredicate(format: "identifier MATCHES %@", "Avatar.*with.*style \(i).*")
+            XCTAssert(avatarExists(predicate: style))
         }
     }
 
