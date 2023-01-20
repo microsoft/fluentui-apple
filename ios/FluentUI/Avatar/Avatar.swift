@@ -44,7 +44,7 @@ import SwiftUI
     /// The group style does not support rings.
     var isRingVisible: Bool { get set }
 
-    /// Sets the transparency of the avatar elements (inner and outer ring gaps, presence icon outline).
+    /// Sets the transparency of the avatar elements (inner and outer ring gaps, presence, and activity icon outline).
     /// Uses the solid default background color if set to false.
     var isTransparent: Bool { get set }
 
@@ -52,6 +52,10 @@ import SwiftUI
     /// Image displayed depends on the value of the isOutOfOffice property.
     /// Presence is not displayed in the xsmall size.
     var presence: MSFAvatarPresence { get set }
+
+    var activityStyle: MSFAvatarActivityStyle { get set }
+
+    var activityImage: UIImage? { get set }
 
     /// The primary text of the avatar.
     /// Used for computing the initials and background/ring colors.
@@ -100,8 +104,12 @@ public struct Avatar: View, TokenizedControlView {
 
     public var body: some View {
         let style = state.style
+        let size = state.size
+        let activityStyle = state.activityStyle
         let presence = state.presence
-        let shouldDisplayPresence = presence != .none
+        let shouldDisplayActivity = activityStyle != .none
+        let shouldDisplayPresence = shouldDisplayActivity ? false : presence != .none
+        let cornerRadius = shouldDisplayActivity ? (activityStyle == .square ? AvatarTokenSet.activityIconRadius(size) : .infinity) : .infinity
         let isRingVisible = state.isRingVisible
         let hasRingInnerGap = state.hasRingInnerGap
         let ringThicknessToken: CGFloat = tokenSet[.ringThickness].float
@@ -110,6 +118,14 @@ public struct Avatar: View, TokenizedControlView {
         let initialsString: String = ((style == .overflow) ? state.primaryText ?? "" : Avatar.initialsText(fromPrimaryText: state.primaryText,
                                                                                                            secondaryText: state.secondaryText))
         let shouldUseCalculatedColors = !initialsString.isEmpty && style != .overflow
+
+        let activityImage: Image = {
+            if let image = state.activityImage {
+                return Image(uiImage: image)
+            } else {
+                return Image("ic_fluent_presence_unknown_10_regular", bundle: FluentUIFramework.resourceBundle)
+            }
+        }()
 
         // Adding ringInnerGapOffset to ringInnerGap & ringThickness to accommodate for a small space between
         // the ring and avatar when the ring is visible and there is no inner ring gap
@@ -121,9 +137,12 @@ public struct Avatar: View, TokenizedControlView {
         let ringInnerGapSize: CGFloat = avatarImageSize + (ringInnerGap * 2)
         let ringSize: CGFloat = ringInnerGapSize + (ringThickness * 2)
         let ringOuterGapSize: CGFloat = ringSize + (ringOuterGap * 2)
-        let presenceIconSize: CGFloat = AvatarTokenSet.presenceIconSize(state.size)
-        let presenceIconOutlineSize: CGFloat = presenceIconSize + (tokenSet[.presenceIconOutlineThickness].float * 2)
-
+        let presenceIconSize: CGFloat = AvatarTokenSet.presenceIconSize(size)
+        let presenceIconOutlineSize: CGFloat = presenceIconSize + (tokenSet[.borderThickness].float * 2)
+        let activityIconSize: CGFloat = AvatarTokenSet.activityIconSize(size)
+        let activitySize: CGFloat = AvatarTokenSet.activityIconBackgroundSize(size)
+        let activityBorderThickness: CGFloat = tokenSet[.borderThickness].float * 2
+        let activityIconOutlineSize: CGFloat = activitySize + activityBorderThickness
         // Calculates the positioning of the presence icon ensuring its center is always on top of the avatar circle's edge
         let ringInnerGapRadius: CGFloat = (ringInnerGapSize / 2)
         let ringInnerGapHypotenuse: CGFloat = sqrt(2 * pow(ringInnerGapRadius, 2))
@@ -139,7 +158,20 @@ public struct Avatar: View, TokenizedControlView {
         let presenceCutoutOriginX: CGFloat = layoutDirection == .rightToLeft ? presenceCutoutOriginXRTL : presenceCutoutOriginXLTR
         let presenceCutoutOriginY = presenceCutoutOriginXLTR
         let presenceIconFrameSideRelativeToOuterRing: CGFloat = presenceIconFrameSideRelativeToInnerRing + outerGapAndRingThicknesCombined
-        let overallFrameSide = max(ringOuterGapSize, presenceIconFrameSideRelativeToOuterRing)
+        let presenceOverallFrameSide = max(ringOuterGapSize, presenceIconFrameSideRelativeToOuterRing)
+
+        let activityCutoutOriginXLTR: CGFloat = AvatarTokenSet.avatarSize(size) - activityIconOutlineSize + activityBorderThickness + ringInnerGap + outerGapAndRingThicknesCombined
+        let activityCutoutOriginXRTL: CGFloat = 0 - activityBorderThickness + ringInnerGap + outerGapAndRingThicknesCombined
+        let activityCutoutOriginX: CGFloat = layoutDirection == .rightToLeft ? activityCutoutOriginXRTL : activityCutoutOriginXLTR
+        let activityCutoutOriginY: CGFloat = activityCutoutOriginXLTR
+
+        let activityIconFrameLTR: CGFloat = activityCutoutOriginX + activitySize + tokenSet[.borderThickness].float
+        let activityIconFrameRTL: CGFloat = AvatarTokenSet.avatarSize(size) + tokenSet[.borderThickness].float + ringInnerGap + outerGapAndRingThicknesCombined
+        let activityBorderFrameLTR: CGFloat = activityIconFrameLTR + tokenSet[.borderThickness].float
+        let activityBorderFrameRTL: CGFloat = activityIconFrameRTL + tokenSet[.borderThickness].float
+        let activityIconFrameSideRelativeToOuterRing: CGFloat = layoutDirection == .rightToLeft ? activityIconFrameRTL : activityIconFrameLTR
+        let activityBorderFrameSideRelativeToOuterRing: CGFloat = layoutDirection == .rightToLeft ? activityBorderFrameRTL : activityBorderFrameLTR
+        let activityOverallFrameSide = max(ringOuterGapSize, activityIconFrameSideRelativeToOuterRing)
 
         let colorHashCode = CalculatedColors.initialsHashCode(fromPrimaryText: state.primaryText, secondaryText: state.secondaryText)
 
@@ -248,12 +280,13 @@ public struct Avatar: View, TokenizedControlView {
                              alignment: .center)
                     .modifyIf(shouldDisplayPresence, { thisView in
                         thisView
-                            .clipShape(CircleCutout(xOrigin: presenceCutoutOriginX,
-                                                    yOrigin: presenceCutoutOriginY,
-                                                    cutoutSize: presenceIconOutlineSize),
+                            .clipShape(ShapeCutout(xOrigin: presenceCutoutOriginX,
+                                                   yOrigin: presenceCutoutOriginY,
+                                                   cornerRadius: cornerRadius,
+                                                   cutoutSize: presenceIconOutlineSize),
                                        style: FillStyle(eoFill: true))
                             .overlay(Circle()
-                                        .foregroundColor(Color(dynamicColor: tokenSet[.ringGapColor].dynamicColor).opacity(isTransparent ? 0 : 1))
+                                        .foregroundColor(Color(dynamicColor: tokenSet[.borderColor].dynamicColor).opacity(isTransparent ? 0 : 1))
                                         .frame(width: presenceIconOutlineSize, height: presenceIconOutlineSize, alignment: .center)
                                         .overlay(presence.image(isOutOfOffice: isOutOfOffice)
                                                     .interpolation(.high)
@@ -264,7 +297,34 @@ public struct Avatar: View, TokenizedControlView {
                                         .frame(width: presenceIconFrameSideRelativeToOuterRing, height: presenceIconFrameSideRelativeToOuterRing,
                                                alignment: .bottomTrailing),
                                      alignment: .topLeading)
-                            .frame(width: overallFrameSide, height: overallFrameSide, alignment: .topLeading)
+                            .frame(width: presenceOverallFrameSide, height: presenceOverallFrameSide, alignment: .topLeading)
+                    })
+                    .modifyIf(shouldDisplayActivity, { thisView in
+                        thisView
+                            .clipShape(ShapeCutout(xOrigin: activityCutoutOriginX,
+                                                   yOrigin: activityCutoutOriginY,
+                                                   cornerRadius: cornerRadius,
+                                                   cutoutSize: activityIconOutlineSize),
+                                       style: FillStyle(eoFill: true))
+                            .overlay(RoundedRectangle(cornerRadius: cornerRadius)
+                                .foregroundColor(Color(dynamicColor: tokenSet[.borderColor].dynamicColor).opacity(isTransparent ? 0 : 1))
+                                .frame(width: activityIconOutlineSize, height: activityIconOutlineSize, alignment: .center)
+                                .contentShape(Circle())
+                                .frame(width: activityBorderFrameSideRelativeToOuterRing, height: activityBorderFrameSideRelativeToOuterRing,
+                                       alignment: .bottomTrailing),
+                                     alignment: .topLeading)
+                            .overlay(RoundedRectangle(cornerRadius: cornerRadius)
+                                .foregroundColor(Color(dynamicColor: tokenSet[.activityBackgroundColor].dynamicColor).opacity(isTransparent ? 0 : 1))
+                                .frame(width: activitySize, height: activitySize, alignment: .center)
+                                .overlay(activityImage
+                                    .interpolation(.high)
+                                    .resizable()
+                                    .frame(width: activityIconSize, height: activityIconSize, alignment: .center))
+                                    .contentShape(Circle())
+                                    .frame(width: activityIconFrameSideRelativeToOuterRing, height: activityIconFrameSideRelativeToOuterRing,
+                                           alignment: .bottomTrailing),
+                                     alignment: .topLeading)
+                            .frame(width: activityOverallFrameSide, height: activityOverallFrameSide, alignment: .topLeading)
                     })
             }
         }
@@ -285,11 +345,15 @@ public struct Avatar: View, TokenizedControlView {
                                        state.foregroundColor,
                                        state.ringColor])
                     .animation(standardAnimation,
-                               value: state.size)
+                               value: size)
                     .animation(standardAnimation,
                                value: [state.primaryText, state.secondaryText])
                     .animation(standardAnimation,
                                value: [state.image, state.imageBasedRingColor])
+                    .animation(standardAnimation,
+                               value: state.presence)
+                    .animation(standardAnimation,
+                               value: state.activityStyle)
             })
             .showsLargeContentViewer(text: accessibilityLabel, image: shouldUseDefaultImage ? avatarImageInfo.image : nil)
             .accessibilityElement(children: .ignore)
@@ -460,6 +524,8 @@ class MSFAvatarStateImpl: ControlState, MSFAvatarState {
     @Published var isRingVisible: Bool = false
     @Published var isTransparent: Bool = true
     @Published var presence: MSFAvatarPresence = .none
+    @Published var activityStyle: MSFAvatarActivityStyle = .none
+    @Published var activityImage: UIImage?
     @Published var primaryText: String?
     @Published var ringColor: UIColor?
     @Published var secondaryText: String?

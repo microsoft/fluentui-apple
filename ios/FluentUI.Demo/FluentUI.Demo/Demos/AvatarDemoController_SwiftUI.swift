@@ -33,6 +33,8 @@ struct AvatarDemoView: View {
     @State var primaryText: String = "Kat Larsson"
     @State var secondaryText: String = ""
     @State var presence: MSFAvatarPresence = .none
+    @State var activityStyle: MSFAvatarActivityStyle = .none
+    @State var showActivityImage: Bool = false
     @State var showImage: Bool = false
     @State var showImageBasedRingColor: Bool = false
     @State var size: MSFAvatarSize = .size72
@@ -50,6 +52,7 @@ struct AvatarDemoView: View {
                 .imageBasedRingColor(showImageBasedRingColor ? AvatarDemoController.colorfulCustomImage : nil)
                 .isTransparent(isTransparent)
                 .presence(presence)
+                .activity(activityStyle, showActivityImage ? UIImage(named: "excelIcon") : nil)
                 .isOutOfOffice(isOutOfOffice)
                 .hasPointerInteraction(hasPointerInteraction)
                 .isAnimated(isAnimated)
@@ -117,6 +120,25 @@ struct AvatarDemoView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
 
                         FluentUIDemoToggle(titleKey: "Out of office", isOn: $isOutOfOffice)
+                    }
+
+                    Group {
+                        VStack(spacing: 0) {
+                            Text("Activity")
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .font(.title)
+                            Divider()
+                        }
+
+                        Picker(selection: $activityStyle, label: EmptyView()) {
+                            Text(".none").tag(MSFAvatarActivityStyle.none)
+                            Text(".circle").tag(MSFAvatarActivityStyle.circle)
+                            Text(".square").tag(MSFAvatarActivityStyle.square)
+                        }
+                        .labelsHidden()
+                        .frame(maxWidth: .infinity, alignment: .leading)
+
+                        FluentUIDemoToggle(titleKey: "Show image", isOn: $showActivityImage)
                     }
 
                     Group {

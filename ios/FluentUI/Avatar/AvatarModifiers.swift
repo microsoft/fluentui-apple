@@ -83,7 +83,7 @@ public extension Avatar {
         return self
     }
 
-    /// Sets the transparency of the avatar elements (inner and outer ring gaps, presence icon outline).
+    /// Sets the transparency of the avatar elements (inner and outer ring gaps, presence, activity icon outline).
     /// Uses the solid default background color if set to false.
     /// - Parameter isTransparent: Boolean value to set the property.
     /// - Returns: The modified Avatar with the property set.
@@ -99,6 +99,17 @@ public extension Avatar {
     /// - Returns: The modified Avatar with the property set.
     func presence(_ presence: MSFAvatarPresence) -> Avatar {
         state.presence = presence
+        return self
+    }
+
+    /// Defines the activity style and image displayed by the Avatar.
+    /// Activity is only displayed in `size72`, `size56`, and `size40`.
+    /// - Parameter activityStyle: The `MSFAvatarActivityStyle` enum value.
+    /// - Parameter activityImage: The optional image to use for activity.
+    /// - Returns: The modified Avatar with the property set.
+    func activity(_ activityStyle: MSFAvatarActivityStyle, _ activityImage: UIImage?) -> Avatar {
+        state.activityStyle = activityStyle
+        state.activityImage = activityImage
         return self
     }
 
