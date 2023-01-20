@@ -19,25 +19,26 @@ class AvatarTestSwiftUI: AvatarTest {
     override func testImages() throws {
         let setImageSwitch: XCUIElement = app.switches["Set image"]
 
+        setImageSwitch.tap()
+        XCTAssert(avatarExists(predicate: image))
+        XCTAssert(!avatarExists(predicate: initials))
+        XCTAssert(!avatarExists(predicate: icon))
+
+        setImageSwitch.tap()
         XCTAssert(!avatarExists(predicate: image))
         XCTAssert(avatarExists(predicate: initials))
         XCTAssert(!avatarExists(predicate: icon))
 
-        setImageSwitch.tap()
-        XCTAssert(avatarExists(predicate: image))
-        XCTAssert(!avatarExists(predicate: initials))
-        XCTAssert(!avatarExists(predicate: icon))
-
         app.textFields.firstMatch.doubleTap()
         app.menuItems["Cut"].tap()
-        XCTAssert(avatarExists(predicate: image))
-        XCTAssert(!avatarExists(predicate: initials))
-        XCTAssert(!avatarExists(predicate: icon))
-
-        setImageSwitch.tap()
         XCTAssert(!avatarExists(predicate: image))
         XCTAssert(!avatarExists(predicate: initials))
         XCTAssert(avatarExists(predicate: icon))
+
+        setImageSwitch.tap()
+        XCTAssert(avatarExists(predicate: image))
+        XCTAssert(!avatarExists(predicate: initials))
+        XCTAssert(!avatarExists(predicate: icon))
     }
 
     override func testRings() throws {
