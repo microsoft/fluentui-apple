@@ -331,7 +331,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         var textAreaWidth = containerWidth - (textAreaLeadingOffset + textAreaTrailingOffset)
         let textAreaMinWidth = TableViewCellTokenSet.textAreaMinWidth
         let labelAccessoryViewMarginLeading = TableViewCellTokenSet.labelAccessoryViewMarginLeading
-        let labelAccessoryViewMarginTrailing = TableViewCellTokenSet.labelAccessoryViewMarginTrailing
+        let labelAccessoryViewMarginTrailing = TableViewCellTokenSet.titleLabelAccessoryViewMarginTrailing
         if textAreaWidth < textAreaMinWidth, let customAccessoryView = customAccessoryView {
             let oldAccessoryViewWidth = customAccessoryView.frame.width
             let availableWidth = oldAccessoryViewWidth - (textAreaMinWidth - textAreaWidth)
@@ -503,7 +503,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                                          footerTrailingAccessoryView: footerTrailingAccessoryView)
         let customViewSize = Self.customViewSize(from: customViewSize, layoutType: layoutType)
         let labelAccessoryViewMarginLeading = TableViewCellTokenSet.labelAccessoryViewMarginLeading
-        let labelAccessoryViewMarginTrailing = TableViewCellTokenSet.labelAccessoryViewMarginTrailing
+        let labelAccessoryViewMarginTrailing = TableViewCellTokenSet.titleLabelAccessoryViewMarginTrailing
 
         var textAreaWidth = Self.labelPreferredWidth(text: title,
                                                      attributedText: attributedTitle,
@@ -1513,7 +1513,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                          leadingAccessoryViewSize: titleLeadingAccessoryViewSize,
                          trailingAccessoryView: titleTrailingAccessoryView,
                          trailingAccessoryViewSize: titleTrailingAccessoryViewSize,
-                         labelAccessoryViewMarginTrailing: TableViewCellTokenSet.labelAccessoryViewMarginTrailing)
+                         labelAccessoryViewMarginTrailing: TableViewCellTokenSet.titleLabelAccessoryViewMarginTrailing)
 
         if layoutType == .twoLines || layoutType == .threeLines {
             layoutLabelViews(label: subtitleLabel,
@@ -1525,7 +1525,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                              leadingAccessoryViewSize: subtitleLeadingAccessoryViewSize,
                              trailingAccessoryView: subtitleTrailingAccessoryView,
                              trailingAccessoryViewSize: subtitleTrailingAccessoryViewSize,
-                             labelAccessoryViewMarginTrailing: TableViewCellTokenSet.sublabelAccessoryViewMarginTrailing)
+                             labelAccessoryViewMarginTrailing: TableViewCellTokenSet.subtitleLabelAccessoryViewMarginTrailing)
 
             if layoutType == .threeLines {
                 layoutLabelViews(label: footerLabel,
@@ -1537,7 +1537,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                                  leadingAccessoryViewSize: footerLeadingAccessoryViewSize,
                                  trailingAccessoryView: footerTrailingAccessoryView,
                                  trailingAccessoryViewSize: footerTrailingAccessoryViewSize,
-                                 labelAccessoryViewMarginTrailing: TableViewCellTokenSet.sublabelAccessoryViewMarginTrailing)
+                                 labelAccessoryViewMarginTrailing: TableViewCellTokenSet.subtitleLabelAccessoryViewMarginTrailing)
             }
         }
 
