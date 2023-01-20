@@ -76,6 +76,7 @@ class AvatarTest: BaseTest {
         let setOOFSwitch: XCUIElement = app.cells.containing(.staticText, identifier: "Set \"Out Of Office\"").firstMatch
 
         XCTAssert(avatarExists(predicate: noPresence))
+        // loops through the 6 presences, with 1 as available
         for i in 1...7 {
             XCTAssert(!app.images.containing(NSPredicate(format: "identifier MATCHES %@", "Avatar.*with.*presence \(i).*")).element.exists)
         }
@@ -83,7 +84,6 @@ class AvatarTest: BaseTest {
 
         showPresenceSwitch.tap()
         XCTAssert(!avatarExists(predicate: noPresence))
-        // loops through the 6 presences, with 1 as available
         for i in 1...7 {
             XCTAssert(app.images.containing(NSPredicate(format: "identifier MATCHES %@", "Avatar.*with.*presence \(i).*")).element.exists)
         }
