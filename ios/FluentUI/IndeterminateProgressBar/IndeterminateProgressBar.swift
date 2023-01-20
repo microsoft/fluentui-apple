@@ -46,9 +46,7 @@ public struct IndeterminateProgressBar: View, TokenizedControlView {
                 "Accessibility.ActivityIndicator.Stopped.label".localized
         }()
 #if DEBUG
-        let accessibilityIdentifier: String = {
-            return "Indeterminate Progress Bar that is \(state.isAnimating ? "in progress" : "progress halted")"
-        }()
+        let accessibilityIdentifier: String = "Indeterminate Progress Bar that is \(state.isAnimating ? "in progress" : "progress halted")"
 #endif
 
         Rectangle()

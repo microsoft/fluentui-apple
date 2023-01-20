@@ -26,13 +26,17 @@ class IndeterminateProgressBarTest: BaseTest {
         let hidesWhenStoppedButton: XCUIElement = app.cells.containing(.staticText, identifier: "Hides when stopped").firstMatch
 
         XCTAssert(indeterminateProgressBarExists(status: inProgress))
+        XCTAssert(!indeterminateProgressBarExists(status: progressHalted))
         startStopButton.tap()
         XCTAssert(!indeterminateProgressBarExists(status: inProgress))
+        XCTAssert(!indeterminateProgressBarExists(status: progressHalted))
 
         hidesWhenStoppedButton.tap()
+        XCTAssert(!indeterminateProgressBarExists(status: inProgress))
         XCTAssert(indeterminateProgressBarExists(status: progressHalted))
 
         startStopButton.tap()
         XCTAssert(indeterminateProgressBarExists(status: inProgress))
+        XCTAssert(!indeterminateProgressBarExists(status: progressHalted))
     }
 }
