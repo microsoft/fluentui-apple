@@ -18,7 +18,7 @@ class TableViewCellSampleData: TableViewSampleData {
             items: [
                 Item(text1: "Contoso Survey",
                      image: "excelIcon",
-                     text1LeadingAccessoryView: { createIconsAccessoryView(images: ["success-12x12"]) })
+                     text1LeadingAccessoryView: { createIconsAccessoryView(images: ["ic_fluent_lock_closed_20_regular"]) })
             ]
         ),
         Section(
@@ -27,7 +27,7 @@ class TableViewCellSampleData: TableViewSampleData {
                 Item(text1: "Contoso Survey",
                      text2: "Research Notes",
                      image: "excelIcon",
-                     text2LeadingAccessoryView: { createIconsAccessoryView(images: ["shared-12x12", "success-12x12"]) })
+                     text2LeadingAccessoryView: { createIconsAccessoryView(images: ["shared-12x12", "ic_fluent_lock_closed_20_regular"]) })
             ]
         ),
         Section(
@@ -35,7 +35,7 @@ class TableViewCellSampleData: TableViewSampleData {
             items: [
                 Item(text1: "Contoso Survey",
                      text2: "Research Notes",
-                     text2LeadingAccessoryView: { createIconsAccessoryView(images: ["shared-12x12", "success-12x12"]) })
+                     text2LeadingAccessoryView: { createIconsAccessoryView(images: ["shared-12x12", "ic_fluent_lock_closed_20_regular"]) })
             ]
         ),
         Section(
@@ -56,7 +56,7 @@ class TableViewCellSampleData: TableViewSampleData {
                 Item(text1: "Contoso Survey",
                      text2: "Research Notes",
                      text1TrailingAccessoryView: { createTextAccessoryView(text: "8:13 AM") },
-                     text2LeadingAccessoryView: { createIconsAccessoryView(images: ["success-12x12"]) },
+                     text2LeadingAccessoryView: { createIconsAccessoryView(images: ["ic_fluent_lock_closed_20_regular"]) },
                      text2TrailingAccessoryView: { createIconsAccessoryView(images: ["at-12x12"], rightAligned: true) })
             ]
         ),
