@@ -17,7 +17,6 @@ class IndeterminateProgressBarDemoController: DemoTableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
         tableView.register(BooleanCell.self, forCellReuseIdentifier: BooleanCell.identifier)
         tableView.register(ActionsCell.self, forCellReuseIdentifier: ActionsCell.identifier)

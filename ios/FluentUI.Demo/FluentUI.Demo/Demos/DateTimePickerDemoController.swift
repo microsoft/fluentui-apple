@@ -48,6 +48,7 @@ class DateTimePickerDemoController: DemoController {
         dateTimePicker.delegate = self
         dateLabel.text = "No date selected"
         dateLabel.adjustsFontSizeToFitWidth = true
+        readmeString = "A date and time picker is a specialized interface that lets people choose a single date, a range of dates, or a time.\n\nDate and time pickers provide context that can help people make decisions, like the day of the week a date falls or unavailable dates. Avoid using date and time pickers for dates people know well or that will require a lot of scrolling, like birthdays."
 
         container.addArrangedSubview(dateLabel)
         container.addArrangedSubview(createButton(title: "Show date picker", action: #selector(presentDatePicker)))

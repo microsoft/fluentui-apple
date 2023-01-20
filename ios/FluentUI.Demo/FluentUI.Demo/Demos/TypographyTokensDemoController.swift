@@ -10,6 +10,7 @@ class TypographyTokensDemoController: DemoTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: Constants.cellID)
+        readmeString = "All typography tokens available in the FluentUI framework"
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {

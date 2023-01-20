@@ -7,7 +7,6 @@ import XCTest
 
 class BaseTest: XCTestCase {
     let app = XCUIApplication()
-    let fluentUIDev: String = "FluentUI DEV"
     // must be overridden
     var controlName: String { "Base" }
 
@@ -16,18 +15,14 @@ class BaseTest: XCTestCase {
         continueAfterFailure = false
         app.launch()
 
-        let onHomePage: Bool = app.staticTexts[fluentUIDev].exists
-        let controlPage: XCUIElement = app.staticTexts[controlName]
-        let onDifferentControlPage: Bool = !onHomePage && !controlPage.exists
-        let backButton: XCUIElement = app.buttons[fluentUIDev].exists ? app.buttons[fluentUIDev] : app.buttons["Dismiss"]
-
-        if onHomePage {
-            XCTAssertTrue(!onDifferentControlPage)
-            controlPage.tap()
-        } else if onDifferentControlPage {
-            XCTAssertTrue(!onHomePage && !controlPage.exists)
-            backButton.tap()
-            controlPage.tap()
+        let onHomePage: Bool = app.staticTexts["FluentUI DEV"].exists
+        if !onHomePage {
+            if !app.navigationBars.element.exists {
+                app.buttons["Dismiss"].tap()
+            } else {
+                app.buttons.firstMatch.tap()
+            }
         }
+        app.staticTexts[controlName].tap()
     }
 }
