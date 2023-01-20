@@ -94,28 +94,25 @@ private func brandColorOverrides(provider: ColorProviding2,
 
 // MARK: Colors
 
-public extension FluentTheme {
-    /// Associates a `ColorProvider2` with a given `FluentThemeable` instance.
+@objc public extension UIView {
+    /// Associates a `ColorProvider2` with a given `UIView`.
     ///
     /// - Parameters:
     ///   - provider: The `ColorProvider2` whose colors should be used for controls in this theme.
-    @objc(setProvider:forThemeable:)
-    static func setProvider(_ provider: ColorProviding2, for themeable: FluentThemeable) {
+    @objc(setColorProvider:)
+    func setColorProvider(_ provider: ColorProviding2) {
         // Create an updated fluent theme as well
-        let brandColors = brandColorOverrides(provider: provider, for: themeable)
+        let brandColors = brandColorOverrides(provider: provider, for: self)
         let fluentTheme = FluentTheme()
         brandColors.forEach { token, value in
             fluentTheme.aliasTokens.colors[token] = value
         }
-        themeable.fluentTheme = fluentTheme
+        self.fluentTheme = fluentTheme
     }
 
-    /// Removes any associated `ColorProvider` from the given `FluentThemeable` instance.
-    ///
-    /// - Parameters:
-    ///   - window: The `FluentThemeable` that should have its `ColorProvider2` removed.
-    @objc(removeProviderForThemeable:)
-    static func removeProvider(for themeable: FluentThemeable) {
-        themeable.fluentTheme = FluentThemeKey.defaultValue
+    /// Removes any associated `ColorProvider` from the given `UIView`.
+    @objc(resetFluentTheme)
+    func resetFluentTheme() {
+        self.fluentTheme = FluentThemeKey.defaultValue
     }
 }

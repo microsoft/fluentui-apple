@@ -98,8 +98,7 @@
 }
 
 - (void)overridesButtonPressed:(id)sender {
-    [MSFFluentTheme setProvider:[ObjectiveCDemoColorProviding2 alloc]
-                   forThemeable:[self view]];
+    [[self view] setColorProvider:[[ObjectiveCDemoColorProviding2 alloc] init]];
 
     MSFAliasTokens *aliasTokens = [[[self view] fluentTheme] aliasTokens];
     MSFDynamicColor *primaryColor = [aliasTokens aliasColorForToken:MSFColorAliasTokensBrandForeground1];
@@ -108,7 +107,7 @@
                  textColor:[[UIColor alloc] initWithDynamicColor:primaryColor]];
 
     // Remove the overrides
-    [MSFFluentTheme removeProviderForThemeable:[self view]];
+    [[self view] resetFluentTheme];
     aliasTokens = [[[self view] fluentTheme] aliasTokens];
     primaryColor = [aliasTokens aliasColorForToken:MSFColorAliasTokensBrandForeground1];
 
