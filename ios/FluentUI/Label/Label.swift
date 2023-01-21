@@ -13,6 +13,7 @@ public enum TextColorStyle: Int, CaseIterable {
     case secondary
     case white
     case primary
+    case error
 
     func color(fluentTheme: FluentTheme) -> UIColor {
         switch self {
@@ -24,6 +25,8 @@ public enum TextColorStyle: Int, CaseIterable {
             return .white
         case .primary:
             return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1])
+        case .error:
+            return UIColor(dynamicColor: fluentTheme.aliasTokens.sharedColors[.dangerForeground2])
         }
     }
 }

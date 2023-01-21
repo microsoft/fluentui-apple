@@ -59,6 +59,8 @@ extension TextColorStyle {
             return "White"
         case .primary:
             return "Primary"
+        case .error:
+            return "Error"
         }
     }
 }
