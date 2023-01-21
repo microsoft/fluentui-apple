@@ -98,17 +98,17 @@
 }
 
 - (void)overridesButtonPressed:(id)sender {
-    MSFFluentTheme *fluentTheme = [[self view] fluentTheme];
-    [fluentTheme setProviderWithProvider:[ObjectiveCDemoColorProviding2 alloc]];
+    [[self view] setColorProvider:[[ObjectiveCDemoColorProviding2 alloc] init]];
 
-    MSFAliasTokens *aliasTokens = [fluentTheme aliasTokens];
+    MSFAliasTokens *aliasTokens = [[[self view] fluentTheme] aliasTokens];
     MSFDynamicColor *primaryColor = [aliasTokens aliasColorForToken:MSFColorAliasTokensBrandForeground1];
 
     [self addLabelWithText:@"Test label with override brand color"
                  textColor:[[UIColor alloc] initWithDynamicColor:primaryColor]];
 
     // Remove the overrides
-    [fluentTheme removeProvider];
+    [[self view] resetFluentTheme];
+    aliasTokens = [[[self view] fluentTheme] aliasTokens];
     primaryColor = [aliasTokens aliasColorForToken:MSFColorAliasTokensBrandForeground1];
 
     [self addLabelWithText:@"Test label with override color removed"
