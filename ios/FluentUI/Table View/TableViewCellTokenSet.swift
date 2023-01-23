@@ -213,8 +213,11 @@ extension TableViewCellTokenSet {
     /// The leading margin for the labelAccessoryView.
     static let labelAccessoryViewMarginLeading: CGFloat = GlobalTokens.spacing(.size80)
 
-    /// The trailing margin for the labelAccessoryView.
-    static let labelAccessoryViewMarginTrailing: CGFloat = GlobalTokens.spacing(.size80)
+    /// The trailing margin for the labelAccessoryView of the title label.
+    static let titleLabelAccessoryViewMarginTrailing: CGFloat = GlobalTokens.spacing(.size80)
+
+    /// The trailing margin for the labelAccessoryView of the subtitle label.
+    static let subtitleLabelAccessoryViewMarginTrailing: CGFloat = GlobalTokens.spacing(.size40)
 
     /// The leading margin for the customAccessoryView.
     static let customAccessoryViewMarginLeading: CGFloat = GlobalTokens.spacing(.size80)

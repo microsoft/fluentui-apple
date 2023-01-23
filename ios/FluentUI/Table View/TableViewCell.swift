@@ -331,7 +331,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         var textAreaWidth = containerWidth - (textAreaLeadingOffset + textAreaTrailingOffset)
         let textAreaMinWidth = TableViewCellTokenSet.textAreaMinWidth
         let labelAccessoryViewMarginLeading = TableViewCellTokenSet.labelAccessoryViewMarginLeading
-        let labelAccessoryViewMarginTrailing = TableViewCellTokenSet.labelAccessoryViewMarginTrailing
+        let labelAccessoryViewMarginTrailing = TableViewCellTokenSet.titleLabelAccessoryViewMarginTrailing
         if textAreaWidth < textAreaMinWidth, let customAccessoryView = customAccessoryView {
             let oldAccessoryViewWidth = customAccessoryView.frame.width
             let availableWidth = oldAccessoryViewWidth - (textAreaMinWidth - textAreaWidth)
@@ -503,7 +503,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                                          footerTrailingAccessoryView: footerTrailingAccessoryView)
         let customViewSize = Self.customViewSize(from: customViewSize, layoutType: layoutType)
         let labelAccessoryViewMarginLeading = TableViewCellTokenSet.labelAccessoryViewMarginLeading
-        let labelAccessoryViewMarginTrailing = TableViewCellTokenSet.labelAccessoryViewMarginTrailing
+        let labelAccessoryViewMarginTrailing = TableViewCellTokenSet.titleLabelAccessoryViewMarginTrailing
 
         var textAreaWidth = Self.labelPreferredWidth(text: title,
                                                      attributedText: attributedTitle,
@@ -1512,7 +1512,8 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                          leadingAccessoryView: titleLeadingAccessoryView,
                          leadingAccessoryViewSize: titleLeadingAccessoryViewSize,
                          trailingAccessoryView: titleTrailingAccessoryView,
-                         trailingAccessoryViewSize: titleTrailingAccessoryViewSize)
+                         trailingAccessoryViewSize: titleTrailingAccessoryViewSize,
+                         labelAccessoryViewMarginTrailing: TableViewCellTokenSet.titleLabelAccessoryViewMarginTrailing)
 
         if layoutType == .twoLines || layoutType == .threeLines {
             layoutLabelViews(label: subtitleLabel,
@@ -1523,7 +1524,8 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                              leadingAccessoryView: subtitleLeadingAccessoryView,
                              leadingAccessoryViewSize: subtitleLeadingAccessoryViewSize,
                              trailingAccessoryView: subtitleTrailingAccessoryView,
-                             trailingAccessoryViewSize: subtitleTrailingAccessoryViewSize)
+                             trailingAccessoryViewSize: subtitleTrailingAccessoryViewSize,
+                             labelAccessoryViewMarginTrailing: TableViewCellTokenSet.subtitleLabelAccessoryViewMarginTrailing)
 
             if layoutType == .threeLines {
                 layoutLabelViews(label: footerLabel,
@@ -1534,7 +1536,8 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                                  leadingAccessoryView: footerLeadingAccessoryView,
                                  leadingAccessoryViewSize: footerLeadingAccessoryViewSize,
                                  trailingAccessoryView: footerTrailingAccessoryView,
-                                 trailingAccessoryViewSize: footerTrailingAccessoryViewSize)
+                                 trailingAccessoryViewSize: footerTrailingAccessoryViewSize,
+                                 labelAccessoryViewMarginTrailing: TableViewCellTokenSet.subtitleLabelAccessoryViewMarginTrailing)
             }
         }
 
@@ -1585,7 +1588,8 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                                   leadingAccessoryView: UIView?,
                                   leadingAccessoryViewSize: CGSize,
                                   trailingAccessoryView: UIView?,
-                                  trailingAccessoryViewSize: CGSize) {
+                                  trailingAccessoryViewSize: CGSize,
+                                  labelAccessoryViewMarginTrailing: CGFloat) {
         let textAreaLeadingOffset = TableViewCell.textAreaLeadingOffset(customViewSize: customViewSize,
                                                                         isInSelectionMode: isInSelectionMode,
                                                                         tokenSet: tokenSet)
@@ -1612,7 +1616,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         }
 
         let leadingAccessoryAreaWidth = TableViewCell.labelLeadingAccessoryAreaWidth(viewWidth: leadingAccessoryViewSize.width,
-                                                                                     labelAccessoryViewMarginTrailing: TableViewCellTokenSet.labelAccessoryViewMarginTrailing)
+                                                                                     labelAccessoryViewMarginTrailing: labelAccessoryViewMarginTrailing)
         let labelSize = TableViewCell.labelSize(text: text,
                                                 attributedText: label.attributedText,
                                                 isAttributedTextSet: isAttributedTextSet,
@@ -1622,7 +1626,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                                                 leadingAccessoryView: leadingAccessoryView,
                                                 labelAccessoryViewMarginLeading: TableViewCellTokenSet.labelAccessoryViewMarginLeading,
                                                 trailingAccessoryView: trailingAccessoryView,
-                                                labelAccessoryViewMarginTrailing: TableViewCellTokenSet.labelAccessoryViewMarginTrailing)
+                                                labelAccessoryViewMarginTrailing: labelAccessoryViewMarginTrailing)
         label.frame = CGRect(
             x: textAreaLeadingOffset + leadingAccessoryAreaWidth,
             y: topOffset,
