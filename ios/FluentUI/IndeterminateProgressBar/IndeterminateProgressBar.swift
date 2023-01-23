@@ -45,6 +45,9 @@ public struct IndeterminateProgressBar: View, TokenizedControlView {
                 :
                 "Accessibility.ActivityIndicator.Stopped.label".localized
         }()
+#if DEBUG
+        let accessibilityIdentifier: String = "Indeterminate Progress Bar that is \(state.isAnimating ? "in progress" : "progress halted")"
+#endif
 
         Rectangle()
             .fill(LinearGradient(gradient: Gradient(colors: [backgroundColor, gradientColor, backgroundColor]),
@@ -57,6 +60,9 @@ public struct IndeterminateProgressBar: View, TokenizedControlView {
                    alignment: .center)
             .background(backgroundColor)
             .accessibilityLabel(Text(accessibilityLabel))
+#if DEBUG
+            .accessibilityIdentifier(accessibilityIdentifier)
+#endif
             .accessibilityAddTraits(.updatesFrequently)
             .modifyIf(state.isAnimating, { view in
                 view
