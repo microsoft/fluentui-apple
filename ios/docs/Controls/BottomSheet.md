@@ -28,7 +28,7 @@ bottomSheetController.didMove(toParent: self)
  - headerContentHeight: Height of `headerContentView`. Setting this is required when the `headerContentView` is non-nil.
  - collapsedContentHeight: Height of the top portion of the content view that should be visible when the bottom sheet is collapsed. When set to 0, `headerContentHeight` will be used.
  - shouldHideCollapsedContent: Indicates if the content should be hidden when the sheet is collapsed
- - shouldAlwaysFillWidth: Indicates if the sheet should always fill the available width. The default value is true.
+ - shouldAlwaysFillWidth: Indicates if the sheet should always fill the available width. The default value is `true`.
  - allowsSwipeToHide: When enabled, users will be able to move the sheet to the hidden state by swiping down.
 
 ### SwiftUI
