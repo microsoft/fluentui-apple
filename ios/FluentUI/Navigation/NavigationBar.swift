@@ -93,7 +93,9 @@ open class NavigationBar: UINavigationBar {
         }
     }
 
-    @objc public static let navigationBarBackgroundColor = UIColor(dynamicColor: FluentTheme.shared.aliasTokens.colors[.background3])
+    @objc public static func navigationBarBackgroundColor(fluentTheme: FluentTheme) -> UIColor {
+        return Style.system.backgroundColor(fluentTheme: fluentTheme)
+    }
 
     /// Describes the sizing behavior of navigation bar elements (title, avatar, bar height)
     @objc(MSFNavigationBarElementSize)
