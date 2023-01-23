@@ -192,7 +192,7 @@ public struct Avatar: View, TokenizedControlView {
             let presenceDescription: String = state.isOutOfOffice ? "out of office" : state.presence.rawValue.description
 
             if let title: String = state.primaryText ?? state.secondaryText {
-                return "Avatar of \(title)'s \(imageDescription) with \(ringDescription) and presence \(presenceDescription) in size \(AvatarTokenSet.avatarSize(state.size)) and style \(state.style.rawValue) \(imageDescription)"
+                return "Avatar of \(title)'s \(imageDescription) with \(ringDescription) and presence \(presenceDescription) in size \(AvatarTokenSet.avatarSize(state.size)) and style \(state.style.rawValue)"
             }
             return "Avatar of an \(imageDescription) with \(ringDescription) and presence \(presenceDescription) in size \(AvatarTokenSet.avatarSize(state.size)) and style \(state.style.rawValue)"
         }()
