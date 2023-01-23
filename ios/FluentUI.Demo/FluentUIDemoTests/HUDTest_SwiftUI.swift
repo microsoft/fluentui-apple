@@ -13,6 +13,11 @@ class HUDTestSwiftUI: BaseTest {
         app.staticTexts["SwiftUI Demo"].tap()
     }
 
+    override func tearDownWithError() throws {
+        try super.tearDownWithError()
+        app.buttons.firstMatch.tap()
+    }
+
     // launch test that ensures the demo app does not crash and is on the correct control page
     func testLaunch() throws {
         XCTAssertTrue(app.navigationBars.element(matching: NSPredicate(format: "identifier CONTAINS %@", controlName)).exists)

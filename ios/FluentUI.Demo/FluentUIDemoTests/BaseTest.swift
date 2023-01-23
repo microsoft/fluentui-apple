@@ -25,4 +25,13 @@ class BaseTest: XCTestCase {
         }
         app.staticTexts[controlName].tap()
     }
+
+    override func tearDownWithError() throws {
+        try super.tearDownWithError()
+        if !app.navigationBars.element.exists {
+            app.buttons["Dismiss"].tap()
+        } else {
+            app.buttons.firstMatch.tap()
+        }
+    }
 }
