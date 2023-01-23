@@ -8,8 +8,8 @@
 ### UIKit
 ```Swift
 let bottomSheetController = BottomSheetController(headerContentView: headerContentView,
-												  expandedContentView: expandedContentView,
-												  shouldShowDimmingView: shouldShowDimmingView)
+expandedContentView: expandedContentView,
+shouldShowDimmingView: shouldShowDimmingView)
 bottomSheetViewController.delegate = self
 self.addChild(bottomSheetController)
 view.addSubview(bottomSheetController.view)
