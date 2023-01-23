@@ -73,6 +73,7 @@ class TableViewCellTest: BaseTest {
         XCTAssertEqual(app.cells.element(boundBy: 34).identifier, "Table View Cell with title \(longTitle), subtitle \(longSubtitle), and footer \(longFooter), with a leading image, a title trailing image, a subtitle trailing image, and a footer trailing image")
     }
 
+    // ensures that selection/deselection adds/removes unread dot
     func testSelection() throws {
         try assertSingleLine()
 
