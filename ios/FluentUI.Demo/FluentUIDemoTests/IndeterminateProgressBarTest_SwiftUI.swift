@@ -5,16 +5,35 @@
 
 import XCTest
 
-class IndeterminateProgressBarTestSwiftUI: BaseTest {
-    override var controlName: String { "IndeterminateProgressBar" }
-
+class IndeterminateProgressBarTestSwiftUI: IndeterminateProgressBarTest {
     override func setUpWithError() throws {
         try super.setUpWithError()
         app.staticTexts["SwiftUI Demo"].tap()
     }
 
     // launch test that ensures the demo app does not crash and is on the correct control page
-    func testLaunch() throws {
+    override func testLaunch() throws {
         XCTAssertTrue(app.navigationBars.element(matching: NSPredicate(format: "identifier CONTAINS %@", controlName)).exists)
     }
+
+    override func testStartStopHide() throws {
+        let animatingSwitch: XCUIElement = app.switches["Animating"]
+        let hidesWhenStoppedSwitch: XCUIElement = app.switches["Hides when stopped"]
+
+        hidesWhenStoppedSwitch.tap()
+        XCTAssert(indeterminateProgressBarExists(status: inProgress))
+        XCTAssert(!indeterminateProgressBarExists(status: progressHalted))
+
+        animatingSwitch.tap()
+        XCTAssert(!indeterminateProgressBarExists(status: inProgress))
+        XCTAssert(indeterminateProgressBarExists(status: progressHalted))
+
+        hidesWhenStoppedSwitch.tap()
+        XCTAssert(!indeterminateProgressBarExists(status: inProgress))
+        XCTAssert(!indeterminateProgressBarExists(status: progressHalted))
+
+        animatingSwitch.tap()
+        XCTAssert(indeterminateProgressBarExists(status: inProgress))
+        XCTAssert(!indeterminateProgressBarExists(status: progressHalted))
+     }
 }
