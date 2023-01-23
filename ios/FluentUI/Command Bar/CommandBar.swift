@@ -138,6 +138,13 @@ public class CommandBar: UIView, TokenizedControlInternal {
         updateShadow()
     }
 
+#if DEBUG
+    public override var accessibilityIdentifier: String? {
+        get { return "Command Bar" }
+        set { }
+    }
+#endif
+
     // MARK: - TokenizedControl
 
     public typealias TokenSetKeyType = CommandBarTokenSet.Tokens
