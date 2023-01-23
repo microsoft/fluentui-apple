@@ -16,17 +16,21 @@ class TableViewCellTest: BaseTest {
     let longSubtitle: String = "\"This is a cell with a long text2 as an example of how this label will render\""
     let longFooter: String = "\"This is a cell with a long text3 as an example of how this label will render\""
 
+    func assertSingleLine() throws {
+        XCTAssertEqual(app.cells.element(boundBy: 0).identifier, "Table View Cell with title \(title), with a leading image")
+        XCTAssertEqual(app.cells.element(boundBy: 1).identifier, "Table View Cell with title \(title), with a leading image and a chevron")
+        XCTAssertEqual(app.cells.element(boundBy: 2).identifier, "Table View Cell with title \(title), with a leading image and a details button")
+        XCTAssertEqual(app.cells.element(boundBy: 3).identifier, "Table View Cell with title \(title), with a leading image and a checkmark")
+        XCTAssertEqual(app.cells.element(boundBy: 4).identifier, "Table View Cell with title \(title), with a leading image and a title leading image")
+    }
+
     // launch test that ensures the demo app does not crash and is on the correct control page
     func testLaunch() throws {
         XCTAssertTrue(app.navigationBars[controlName].exists)
     }
 
     func testSingleLine() throws {
-        XCTAssertEqual(app.cells.element(boundBy: 0).identifier, "Table View Cell with title \(title), with a leading image")
-        XCTAssertEqual(app.cells.element(boundBy: 1).identifier, "Table View Cell with title \(title), with a leading image and a chevron")
-        XCTAssertEqual(app.cells.element(boundBy: 2).identifier, "Table View Cell with title \(title), with a leading image and a details button")
-        XCTAssertEqual(app.cells.element(boundBy: 3).identifier, "Table View Cell with title \(title), with a leading image and a checkmark")
-        XCTAssertEqual(app.cells.element(boundBy: 4).identifier, "Table View Cell with title \(title), with a leading image and a title leading image")
+        try assertSingleLine()
     }
 
     func testDoubleLine() throws {
@@ -70,11 +74,7 @@ class TableViewCellTest: BaseTest {
     }
 
     func testSelection() throws {
-        XCTAssertEqual(app.cells.element(boundBy: 0).identifier, "Table View Cell with title \(title), with a leading image")
-        XCTAssertEqual(app.cells.element(boundBy: 1).identifier, "Table View Cell with title \(title), with a leading image and a chevron")
-        XCTAssertEqual(app.cells.element(boundBy: 2).identifier, "Table View Cell with title \(title), with a leading image and a details button")
-        XCTAssertEqual(app.cells.element(boundBy: 3).identifier, "Table View Cell with title \(title), with a leading image and a checkmark")
-        XCTAssertEqual(app.cells.element(boundBy: 4).identifier, "Table View Cell with title \(title), with a leading image and a title leading image")
+        try assertSingleLine()
 
         app.buttons["Select"].tap()
         for i in 0...4 {
@@ -87,5 +87,13 @@ class TableViewCellTest: BaseTest {
         XCTAssertEqual(app.cells.element(boundBy: 2).identifier, "Table View Cell with title \(title), with a leading unread dot, a leading image, and a details button")
         XCTAssertEqual(app.cells.element(boundBy: 3).identifier, "Table View Cell with title \(title), with a leading unread dot, a leading image, and a checkmark")
         XCTAssertEqual(app.cells.element(boundBy: 4).identifier, "Table View Cell with title \(title), with a leading unread dot, a leading image, and a title leading image")
+
+        app.buttons["Select"].tap()
+        for i in 0...4 {
+            app.images.element(boundBy: i).tap()
+        }
+        app.buttons["Done"].tap()
+
+        try assertSingleLine()
     }
 }
