@@ -29,7 +29,7 @@
     UIView *view = [self view];
     [view addSubview:stack];
 
-    MSFAliasTokens *aliasTokens = [[[self view] fluentTheme] aliasTokens];
+    MSFAliasTokens *aliasTokens = [[view fluentTheme] aliasTokens];
     MSFDynamicColor *primaryColor = [aliasTokens aliasColorForToken:MSFColorAliasTokensBackground1];
     [view setBackgroundColor:[[UIColor alloc] initWithDynamicColor:primaryColor]];
 
