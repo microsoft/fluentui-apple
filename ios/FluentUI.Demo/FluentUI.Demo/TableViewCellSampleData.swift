@@ -28,7 +28,7 @@ class TableViewCellSampleData: TableViewSampleData {
                      text2: "Research Notes",
                      image: "excelIcon",
                      text2LeadingAccessoryView: { createIconsAccessoryView(images: ["ic_fluent_share_20_regular", "ic_fluent_lock_closed_20_regular"]) })
-            ]
+            ],
             isUnreadDotVisible: true
         ),
         Section(
