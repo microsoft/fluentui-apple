@@ -61,9 +61,11 @@ public extension PillButton {
     static func selectedTitleColor(for fluentTheme: FluentTheme, for style: PillButtonStyle) -> UIColor {
         switch style {
         case .primary:
-            return UIColor(light: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundOnColor]), dark: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundInverted1]))
+            return UIColor(light: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundOnColor]),
+                           dark: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundLightStatic]))
         case .onBrand:
-            return UIColor(light: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1]), dark: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundInverted1]))
+            return UIColor(light: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1]),
+                           dark: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundLightStatic]))
         }
     }
 

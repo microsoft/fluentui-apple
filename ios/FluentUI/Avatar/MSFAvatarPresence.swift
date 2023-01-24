@@ -23,13 +23,13 @@ import SwiftUI
         case .none:
             break
         case .available:
-            color = UIColor(dynamicColor: fluentTheme.aliasTokens.sharedColors[.presenceAvailable])
+            color = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.presenceAvailable])
         case .away:
-            color = isOutOfOffice ? UIColor(dynamicColor: fluentTheme.aliasTokens.sharedColors[.presenceOof]) : UIColor(dynamicColor: fluentTheme.aliasTokens.sharedColors[.presenceAway])
+            color = isOutOfOffice ? UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.presenceOof]) : UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.presenceAway])
         case .busy, .blocked, .doNotDisturb:
-            color = UIColor(dynamicColor: fluentTheme.aliasTokens.sharedColors[.presenceDnd])
+            color = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.presenceDnd])
         case .offline:
-            color = isOutOfOffice ? UIColor(dynamicColor: fluentTheme.aliasTokens.sharedColors[.presenceOof]) : UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground3])
+            color = isOutOfOffice ? UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.presenceOof]) : UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground3])
         case .unknown:
             color = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground3])
         }

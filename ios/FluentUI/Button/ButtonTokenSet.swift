@@ -86,7 +86,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                     case .outline, .subtle, .dangerOutline, .dangerSubtle:
                         return DynamicColor(light: ColorValue.clear)
                     case .danger:
-                        return theme.aliasTokens.sharedColors[.dangerBackground2]
+                        return theme.aliasTokens.colors[.dangerBackground2]
                     }
                 }
             case .backgroundFocusedColor:
@@ -97,7 +97,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                     case .outline, .subtle, .dangerOutline, .dangerSubtle:
                         return DynamicColor(light: ColorValue.clear)
                     case .danger:
-                        return theme.aliasTokens.sharedColors[.dangerBackground2]
+                        return theme.aliasTokens.colors[.dangerBackground2]
                     }
                 }
             case .backgroundDisabledColor:
@@ -117,7 +117,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                     case .outline, .subtle, .dangerOutline, .dangerSubtle:
                         return DynamicColor(light: ColorValue.clear)
                     case .danger:
-                        return theme.aliasTokens.sharedColors[.dangerBackground2]
+                        return theme.aliasTokens.colors[.dangerBackground2]
                     }
                 }
             case .borderColor:
@@ -128,7 +128,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                     case .outline:
                         return theme.aliasTokens.colors[.brandStroke1]
                     case .dangerOutline:
-                        return theme.aliasTokens.sharedColors[.dangerForeground2]
+                        return theme.aliasTokens.colors[.dangerForeground2]
                     }
                 }
             case .borderFocusedColor:
@@ -139,7 +139,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                     case .outline:
                         return theme.aliasTokens.colors[.strokeFocus2]
                     case .dangerOutline:
-                        return theme.aliasTokens.sharedColors[.dangerForeground2]
+                        return theme.aliasTokens.colors[.dangerForeground2]
                     }
                 }
             case .borderDisabledColor:
@@ -159,7 +159,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                     case .outline:
                         return theme.aliasTokens.colors[.brandStroke1Pressed]
                     case .dangerOutline:
-                        return theme.aliasTokens.sharedColors[.dangerForeground2]
+                        return theme.aliasTokens.colors[.dangerForeground2]
                     }
                 }
             case .borderWidth:
@@ -190,7 +190,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                     case .danger:
                         return theme.aliasTokens.colors[.foregroundLightStatic]
                     case .dangerOutline, .dangerSubtle:
-                        return theme.aliasTokens.sharedColors[.dangerForeground2]
+                        return theme.aliasTokens.colors[.dangerForeground2]
                     }
                 }
             case .foregroundDisabledColor:
@@ -205,7 +205,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                     case .danger:
                         return theme.aliasTokens.colors[.foregroundLightStatic]
                     case .dangerOutline, .dangerSubtle:
-                        return theme.aliasTokens.sharedColors[.dangerForeground2]
+                        return theme.aliasTokens.colors[.dangerForeground2]
                     }
                 }
             case .titleFont:

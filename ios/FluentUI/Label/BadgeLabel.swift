@@ -53,7 +53,7 @@ class BadgeLabel: UILabel {
             backgroundColor = UIColor(dynamicColor: DynamicColor(light: GlobalTokens.neutralColors(.white), dark: fluentTheme.aliasTokens.colors[.brandBackground1].dark))
         } else {
             textColor = UIColor(colorValue: GlobalTokens.neutralColors(.white))
-            backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.sharedColors[.dangerBackground2])
+            backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.dangerBackground2])
         }
     }
 
