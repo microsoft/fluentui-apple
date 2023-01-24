@@ -32,6 +32,7 @@ struct Demos {
         DemoDescriptor("PersonaButtonCarousel", PersonaButtonCarouselDemoController.self),
         DemoDescriptor("SegmentedControl", SegmentedControlDemoController.self),
         DemoDescriptor("ShimmerView", ShimmerViewDemoController.self),
+<<<<<<< HEAD
         DemoDescriptor("TableViewCell", TableViewCellDemoController.self)
     ]
 
@@ -40,6 +41,14 @@ struct Demos {
         DemoDescriptor("Alias Color Tokens", AliasColorTokensDemoController.self),
         DemoDescriptor("Shadow Tokens", ShadowTokensDemoController.self),
         DemoDescriptor("Typography Tokens", TypographyTokensDemoController.self)
+||||||| d6f35783
+        DemoDescriptor("TableViewCell", TableViewCellDemoController.self),
+        DemoDescriptor("TypographyTokens", TypographyTokensDemoController.self)
+=======
+        DemoDescriptor("TableViewCell", TableViewCellDemoController.self),
+        DemoDescriptor("Tooltip", TooltipDemoController.self),
+        DemoDescriptor("TypographyTokens", TypographyTokensDemoController.self)
+>>>>>>> main
     ]
 
     static let controls: [DemoDescriptor] = [
@@ -62,8 +71,7 @@ struct Demos {
         DemoDescriptor("TabBarView", TabBarViewDemoController.self),
         DemoDescriptor("TableViewCellFileAccessoryView", TableViewCellFileAccessoryViewDemoController.self),
         DemoDescriptor("TableViewCellShimmer", TableViewCellShimmerDemoController.self),
-        DemoDescriptor("TableViewHeaderFooterView", TableViewHeaderFooterViewDemoController.self),
-        DemoDescriptor("Tooltip", TooltipDemoController.self)
+        DemoDescriptor("TableViewHeaderFooterView", TableViewHeaderFooterViewDemoController.self)
     ]
 
     static let debug: [DemoDescriptor] = [

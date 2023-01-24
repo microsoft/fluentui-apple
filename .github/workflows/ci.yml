@@ -20,7 +20,7 @@ jobs:
     strategy:
       fail-fast: true
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Switch to current version of Xcode
       run: scripts/xcode_select_current_version.sh
     - name: pod lib lint
@@ -35,18 +35,20 @@ jobs:
         build_command: [
           'macos_build FluentUITestApp-macOS Debug build test',
           'macos_build FluentUITestApp-macOS Release build test',
+          'macos_build FluentUITestApp-macOS Debug build test -destination "platform=macOS,arch=x86_64"',
           'ios_simulator_build FluentUI-iOS Debug build test -destination "platform=iOS Simulator,name=iPhone 8"', # Provide a destination for the iOS simulator unit tests
           'ios_simulator_build FluentUI-iOS Release build',
           'ios_device_build FluentUI-iOS Debug build',
           'ios_device_build FluentUI-iOS Release build',
           'ios_simulator_build Demo.Development Debug build',
           'ios_simulator_build Demo.Development Release build',
+          'ios_simulator_build Demo.Development Debug build test -destination "platform=iOS Simulator,name=iPhone 14 Pro"',
           'ios_device_build Demo.Development Debug build',
           'ios_device_build Demo.Development Release build',
         ]
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Switch to current version of Xcode
       run: scripts/xcode_select_current_version.sh
     - name: scripts/xcodebuild_wrapper.sh ${{ matrix.build_command }}

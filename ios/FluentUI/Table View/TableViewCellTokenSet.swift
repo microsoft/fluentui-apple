@@ -71,9 +71,6 @@ public class TableViewCellTokenSet: ControlTokenSet<TableViewCellTokenSet.Tokens
 
         /// The communication text color in an ActionsCell.
         case communicationTextColor
-
-        /// The leading padding in the cell.
-        case paddingLeading
     }
 
     init(customViewSize: @escaping () -> MSFTableViewCellCustomViewSize) {
@@ -162,10 +159,25 @@ public class TableViewCellTokenSet: ControlTokenSet<TableViewCellTokenSet.Tokens
                 return .dynamicColor { theme.aliasTokens.colors[.brandBackground1] }
 
             case .communicationTextColor:
+<<<<<<< HEAD
                 return .dynamicColor { theme.aliasTokens.colors[.brandStroke1] }
 
             case .paddingLeading:
                 return .float { GlobalTokens.spacing(.size160) }
+||||||| d6f35783
+                return .dynamicColor {
+                    DynamicColor(light: ColorValue(0x0078D4),
+                                 dark: ColorValue(0x0086F0))
+                }
+
+            case .paddingLeading:
+                return .float { GlobalTokens.spacing(.medium) }
+=======
+                return .dynamicColor {
+                    DynamicColor(light: ColorValue(0x0078D4),
+                                 dark: ColorValue(0x0086F0))
+                }
+>>>>>>> main
             }
         }
     }
@@ -189,11 +201,20 @@ extension TableViewCellTokenSet {
     /// The default horizontal spacing in the cell.
     static let horizontalSpacing: CGFloat = GlobalTokens.spacing(.size160)
 
+    /// The leading padding in the cell.
+    static let paddingLeading: CGFloat = GlobalTokens.spacing(.medium)
+
     /// The vertical padding in the cell.
     static let paddingVertical: CGFloat = 11.0
 
     /// The trailing padding in the cell.
     static let paddingTrailing: CGFloat = GlobalTokens.spacing(.size160)
+
+    /// The leading and trailing padding for the unreadDotLayer.
+    static let unreadDotHorizontalPadding: CGFloat = GlobalTokens.spacing(.xxSmall)
+
+    /// The size dimensions of the unreadDotLayer.
+    static let unreadDotDimensions: CGFloat = 8.0
 
     static let selectionImageOff = UIImage.staticImageNamed("selection-off")
     static let selectionImageOn = UIImage.staticImageNamed("selection-on")

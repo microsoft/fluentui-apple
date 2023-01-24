@@ -171,6 +171,9 @@ class CommandBarDemoController: DemoController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        readmeString = "The contextual command bar appears above the keyboard to provide contextual actions relevant to the content within the current view, like text formatting in Word."
+
         container.layoutMargins.right = 0
         container.layoutMargins.left = 0
         view.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background4])

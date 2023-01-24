@@ -224,7 +224,8 @@ open class Button: UIButton, TokenizedControlInternal {
         setTitleColor(UIColor(dynamicColor: tokenSet[.foregroundPressedColor].dynamicColor), for: .highlighted)
         setTitleColor(UIColor(dynamicColor: tokenSet[.foregroundDisabledColor].dynamicColor), for: .disabled)
 
-        if #unavailable(iOS 15.0) {
+        if #available(iOS 15.0, *) {
+        } else {
             titleLabel?.font = UIFont.fluent(tokenSet[.titleFont].fontInfo)
         }
 

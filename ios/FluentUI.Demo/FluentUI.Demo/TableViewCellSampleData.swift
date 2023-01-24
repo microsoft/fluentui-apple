@@ -27,8 +27,17 @@ class TableViewCellSampleData: TableViewSampleData {
                 Item(text1: "Contoso Survey",
                      text2: "Research Notes",
                      image: "excelIcon",
+<<<<<<< HEAD
                      text2LeadingAccessoryView: { createIconsAccessoryView(images: ["ic_fluent_share_20_regular", "ic_fluent_lock_closed_20_regular"]) })
             ]
+||||||| d6f35783
+                     text2LeadingAccessoryView: { createIconsAccessoryView(images: ["shared-12x12", "success-12x12"]) })
+            ]
+=======
+                     text2LeadingAccessoryView: { createIconsAccessoryView(images: ["shared-12x12", "success-12x12"]) })
+            ],
+            isUnreadDotVisible: true
+>>>>>>> main
         ),
         Section(
             title: "Inverted double line cell",

@@ -19,6 +19,7 @@ class AvatarDemoController: DemoTableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        readmeString = "An avatar is a graphical representation of a person, group, or entity.\n\nIt can show images or text to represent the person, group, or entity, as well as give additional information like their status and activity. "
 
         tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
         tableView.register(BooleanCell.self, forCellReuseIdentifier: BooleanCell.identifier)

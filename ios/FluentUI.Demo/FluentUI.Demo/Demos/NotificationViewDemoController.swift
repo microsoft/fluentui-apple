@@ -65,7 +65,16 @@ class NotificationViewDemoController: DemoController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+<<<<<<< HEAD
         view.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background4])
+||||||| d6f35783
+        view.backgroundColor = Colors.surfaceSecondary
+=======
+
+        readmeString = "Notifications deliver helpful messages related to the action someone is taking. They should communicate information people can use right away.\n\nNotifications are great for giving people feedback or communicating a task’s status. If you need to show recommendations or upsell features of your app, try a card nudge instead."
+
+        view.backgroundColor = Colors.surfaceSecondary
+>>>>>>> main
 
         addTitle(text: "SwiftUI Demo")
         container.addArrangedSubview(createButton(title: "Show", action: #selector(showSwiftUIDemo)))
