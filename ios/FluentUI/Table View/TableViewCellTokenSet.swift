@@ -153,7 +153,7 @@ public class TableViewCellTokenSet: ControlTokenSet<TableViewCellTokenSet.Tokens
                 return .dynamicColor { theme.aliasTokens.colors[.foreground3] }
 
             case .dangerTextColor:
-                return .dynamicColor { theme.aliasTokens.sharedColors[.dangerForeground2] }
+                return .dynamicColor { theme.aliasTokens.colors[.dangerForeground2] }
 
             case .brandTextColor:
                 return .dynamicColor { theme.aliasTokens.colors[.brandForeground1] }

@@ -78,25 +78,39 @@ class AliasColorTokensDemoController: DemoTableViewController {
              .strokeDisabled,
              .strokeFocus1,
              .brandBackgroundTint,
-             .foregroundDisabled1:
+             .foregroundDisabled1,
+             .dangerBackground1,
+             .successBackground1,
+             .warningBackground1,
+             .severeBackground1:
             return UIColor(dynamicColor: aliasTokens.colors[.foreground1])
         case .brandBackground3Pressed,
              .foreground1,
              .foreground2,
              .foreground3,
-             .foregroundInverted2,
              .strokeFocus2,
              .brandBackground1Pressed,
              .brandForeground1Pressed,
              .brandStroke1Pressed,
              .brandStroke1,
              .brandForegroundTint,
-             .brandStroke1Selected:
+             .brandStroke1Selected,
+             .dangerBackground2,
+             .dangerForeground1,
+             .dangerForeground2,
+             .successBackground2,
+             .successForeground1,
+             .successForeground2,
+             .warningForeground1,
+             .warningForeground2,
+             .severeBackground2,
+             .severeForeground1,
+             .severeForeground2:
             return UIColor(dynamicColor: aliasTokens.colors[.foregroundOnColor])
-        case .foregroundInverted1,
-             .foregroundLightStatic,
+        case .foregroundLightStatic,
              .backgroundLightStatic,
-             .backgroundLightStaticDisabled:
+             .backgroundLightStaticDisabled,
+             .warningBackground2:
             return UIColor(dynamicColor: aliasTokens.colors[.foregroundDarkStatic])
         case .brandForeground1,
              .brandForeground1Selected,
@@ -110,8 +124,12 @@ class AliasColorTokensDemoController: DemoTableViewController {
              .brandBackground3,
              .strokeAccessible,
              .backgroundDarkStatic,
-             .foregroundDarkStatic:
-            return UIColor(dynamicColor: aliasTokens.colors[.foregroundInverted1])
+             .foregroundDarkStatic,
+             .presenceAway,
+             .presenceDnd,
+             .presenceAvailable,
+             .presenceOof:
+            return UIColor(dynamicColor: aliasTokens.colors[.foregroundLightStatic])
         }
     }
 
@@ -128,6 +146,8 @@ private enum AliasColorTokensDemoSection: CaseIterable {
     case brandForegrounds
     case neutralStrokes
     case brandStrokes
+    case sharedErrorAndStatus
+    case sharedPresence
 
     var title: String {
         switch self {
@@ -143,6 +163,10 @@ private enum AliasColorTokensDemoSection: CaseIterable {
             return "Neutral Strokes"
         case .brandStrokes:
             return "Brand Strokes"
+        case .sharedErrorAndStatus:
+            return "Shared Error and Status"
+        case .sharedPresence:
+            return "Shared Presence"
         }
     }
 
@@ -193,8 +217,6 @@ private enum AliasColorTokensDemoSection: CaseIterable {
                     .foregroundDisabled1,
                     .foregroundDisabled2,
                     .foregroundOnColor,
-                    .foregroundInverted1,
-                    .foregroundInverted2,
                     .foregroundLightStatic,
                     .foregroundDarkStatic]
         case .brandForegrounds:
@@ -215,6 +237,28 @@ private enum AliasColorTokensDemoSection: CaseIterable {
             return [.brandStroke1,
                     .brandStroke1Pressed,
                     .brandStroke1Selected]
+        case .sharedErrorAndStatus:
+            return [.dangerBackground1,
+                    .dangerBackground2,
+                    .dangerForeground1,
+                    .dangerForeground2,
+                    .successBackground1,
+                    .successBackground2,
+                    .successForeground1,
+                    .successForeground2,
+                    .warningBackground1,
+                    .warningBackground2,
+                    .warningForeground1,
+                    .warningForeground2,
+                    .severeBackground1,
+                    .severeBackground2,
+                    .severeForeground1,
+                    .severeForeground2]
+        case .sharedPresence:
+            return [.presenceAway,
+                    .presenceDnd,
+                    .presenceAvailable,
+                    .presenceOof]
         }
     }
 }
@@ -234,10 +278,6 @@ private extension AliasTokens.ColorsTokens {
             return "Foreground Disabled 2"
         case .foregroundOnColor:
             return "Foreground On Color"
-        case .foregroundInverted1:
-            return "Foreground Inverted 1"
-        case .foregroundInverted2:
-            return "Foreground Inverted 2"
         case .brandForeground1:
             return "Brand Foreground 1"
         case .brandForeground1Pressed:
@@ -344,6 +384,46 @@ private extension AliasTokens.ColorsTokens {
             return "BackgroundLightStatic"
         case .backgroundLightStaticDisabled:
             return "BackgroundLightStaticDisabled"
+        case .dangerBackground1:
+            return "DangerBackground1"
+        case .dangerBackground2:
+            return "DangerBackground2"
+        case .dangerForeground1:
+            return "DangerForeground1"
+        case .dangerForeground2:
+            return "DangerForeground2"
+        case .successBackground1:
+            return "SuccessBackground1"
+        case .successBackground2:
+            return "SuccessBackground2"
+        case .successForeground1:
+            return "SuccessForeground1"
+        case .successForeground2:
+            return "SuccessForeground2"
+        case .warningBackground1:
+            return "WarningBackground1"
+        case .warningBackground2:
+            return "WarningBackground2"
+        case .warningForeground1:
+            return "WarningForeground1"
+        case .warningForeground2:
+            return "WarningForeground2"
+        case .severeBackground1:
+            return "SevereBackground1"
+        case .severeBackground2:
+            return "SevereBackground2"
+        case .severeForeground1:
+            return "SevereForeground1"
+        case .severeForeground2:
+            return "SevereForeground2"
+        case .presenceAway:
+            return "PresenceAway"
+        case .presenceDnd:
+            return "PresenceDnd"
+        case .presenceAvailable:
+            return "PresenceAvailable"
+        case .presenceOof:
+            return "PresenceOof"
         }
     }
 }

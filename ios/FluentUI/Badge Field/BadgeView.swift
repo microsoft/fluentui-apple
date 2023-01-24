@@ -146,15 +146,15 @@ open class BadgeView: UIView {
             case .default:
                 return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForegroundTint])
             case .warning:
-                return UIColor(dynamicColor: fluentTheme.aliasTokens.sharedColors[.warningForeground1])
+                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.warningForeground1])
             case .error:
-                return UIColor(dynamicColor: fluentTheme.aliasTokens.sharedColors[.dangerForeground1])
+                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.dangerForeground1])
             case .neutral:
                 return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
             case .severeWarning:
-                return UIColor(dynamicColor: fluentTheme.aliasTokens.sharedColors[.severeForeground1])
+                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.severeForeground1])
             case .success:
-                return UIColor(dynamicColor: fluentTheme.aliasTokens.sharedColors[.successForeground1])
+                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.successForeground1])
             }
         }
         set {
@@ -220,15 +220,15 @@ open class BadgeView: UIView {
             case .default:
                 return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandBackgroundTint])
             case .warning:
-                return UIColor(dynamicColor: fluentTheme.aliasTokens.sharedColors[.warningBackground1])
+                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.warningBackground1])
             case .error:
-                return UIColor(dynamicColor: fluentTheme.aliasTokens.sharedColors[.dangerBackground1])
+                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.dangerBackground1])
             case .neutral:
                 return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background5])
             case .severeWarning:
-                return UIColor(dynamicColor: fluentTheme.aliasTokens.sharedColors[.severeBackground1])
+                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.severeBackground1])
             case .success:
-                return UIColor(dynamicColor: fluentTheme.aliasTokens.sharedColors[.successBackground1])
+                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.successBackground1])
             }
         }
         set {
@@ -249,15 +249,15 @@ open class BadgeView: UIView {
             case .default:
                 return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandBackground1])
             case .warning:
-                return UIColor(dynamicColor: fluentTheme.aliasTokens.sharedColors[.warningBackground2])
+                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.warningBackground2])
             case .error:
-                return UIColor(dynamicColor: fluentTheme.aliasTokens.sharedColors[.dangerBackground2])
+                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.dangerBackground2])
             case .neutral:
                 return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background5Selected])
             case .severeWarning:
-                return UIColor(dynamicColor: fluentTheme.aliasTokens.sharedColors[.severeBackground2])
+                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.severeBackground2])
             case .success:
-                return UIColor(dynamicColor: fluentTheme.aliasTokens.sharedColors[.successBackground2])
+                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.successBackground2])
             }
         }
         set {
