@@ -4,7 +4,7 @@
 //
 
 #import "ObjectiveCDemoController.h"
-#import "ObjectiveCDemoColorProviding2.h"
+#import "ObjectiveCDemoColorProviding.h"
 #import <FluentUI/FluentUI-Swift.h>
 #import <FluentUI_Demo-Swift.h>
 
@@ -19,7 +19,7 @@
 
 @property (nonatomic) NSMutableSet<UILabel *> *addedLabels;
 
-@property (nonatomic) ObjectiveCDemoColorProviding2 *colorProvider;
+@property (nonatomic) ObjectiveCDemoColorProviding *colorProvider;
 
 @end
 
@@ -30,7 +30,9 @@
     self.container = [self createVerticalContainer];
     self.scrollingContainer = [[UIScrollView alloc] initWithFrame:CGRectZero];
 
-    self.view.backgroundColor = MSFColors.surfacePrimary;
+    MSFAliasTokens *aliasTokens = [[[self view] fluentTheme] aliasTokens];
+    MSFDynamicColor *primaryColor = [aliasTokens aliasColorForToken:MSFColorAliasTokensBackground1];
+    self.view.backgroundColor = [[UIColor alloc] initWithDynamicColor:primaryColor];
     [self setupTitleView];
 
     [self.view addSubview:self.scrollingContainer];
@@ -98,7 +100,7 @@
 }
 
 - (void)overridesButtonPressed:(id)sender {
-    [[self view] setColorProvider:[[ObjectiveCDemoColorProviding2 alloc] init]];
+    [[self view] setColorProvider:[[ObjectiveCDemoColorProviding alloc] init]];
 
     MSFAliasTokens *aliasTokens = [[[self view] fluentTheme] aliasTokens];
     MSFDynamicColor *primaryColor = [aliasTokens aliasColorForToken:MSFColorAliasTokensBrandForeground1];

@@ -71,7 +71,7 @@
 		C038992E2359307D00265026 /* TableViewCellShimmerDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C038992D2359307D00265026 /* TableViewCellShimmerDemoController.swift */; };
 		C0938E4A235F733100256251 /* ShimmerLinesViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0938E49235F733100256251 /* ShimmerLinesViewDemoController.swift */; };
 		CCC18C2F2501C75F00BE830E /* CardViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCC18C2E2501C75F00BE830E /* CardViewDemoController.swift */; };
-		D6296DB1295B8E5E002E8EB6 /* ObjectiveCDemoColorProviding2.m in Sources */ = {isa = PBXBuildFile; fileRef = D6296DB0295B8E5E002E8EB6 /* ObjectiveCDemoColorProviding2.m */; };
+		D6296DB1295B8E5E002E8EB6 /* ObjectiveCDemoColorProviding.m in Sources */ = {isa = PBXBuildFile; fileRef = D6296DB0295B8E5E002E8EB6 /* ObjectiveCDemoColorProviding.m */; };
 		E6842974247B672000A29C40 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6842973247B672000A29C40 /* SceneDelegate.swift */; };
 		E6842996247C350700A29C40 /* DemoColorThemes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6842995247C350700A29C40 /* DemoColorThemes.swift */; };
 		EC1C31752923032000CF052C /* ColoredPillBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1C31742923032000CF052C /* ColoredPillBackgroundView.swift */; };
@@ -144,8 +144,8 @@
 		C038992D2359307D00265026 /* TableViewCellShimmerDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCellShimmerDemoController.swift; sourceTree = "<group>"; };
 		C0938E49235F733100256251 /* ShimmerLinesViewDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShimmerLinesViewDemoController.swift; sourceTree = "<group>"; };
 		CCC18C2E2501C75F00BE830E /* CardViewDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewDemoController.swift; sourceTree = "<group>"; };
-		D6296DAF295B8E1A002E8EB6 /* ObjectiveCDemoColorProviding2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ObjectiveCDemoColorProviding2.h; sourceTree = "<group>"; };
-		D6296DB0295B8E5E002E8EB6 /* ObjectiveCDemoColorProviding2.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ObjectiveCDemoColorProviding2.m; sourceTree = "<group>"; };
+		D6296DAF295B8E1A002E8EB6 /* ObjectiveCDemoColorProviding.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ObjectiveCDemoColorProviding.h; sourceTree = "<group>"; };
+		D6296DB0295B8E5E002E8EB6 /* ObjectiveCDemoColorProviding.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ObjectiveCDemoColorProviding.m; sourceTree = "<group>"; };
 		E6842973247B672000A29C40 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		E6842995247C350700A29C40 /* DemoColorThemes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoColorThemes.swift; sourceTree = "<group>"; };
 		EC1C31742923032000CF052C /* ColoredPillBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColoredPillBackgroundView.swift; sourceTree = "<group>"; };
@@ -341,8 +341,8 @@
 				A589F855211BA71000471C23 /* LabelDemoController.swift */,
 				FD41C8F322E28EEB0086F899 /* NavigationControllerDemoController.swift */,
 				A5B6617523A4227300E801DD /* NotificationViewDemoController.swift */,
-				D6296DAF295B8E1A002E8EB6 /* ObjectiveCDemoColorProviding2.h */,
-				D6296DB0295B8E5E002E8EB6 /* ObjectiveCDemoColorProviding2.m */,
+				D6296DAF295B8E1A002E8EB6 /* ObjectiveCDemoColorProviding.h */,
+				D6296DB0295B8E5E002E8EB6 /* ObjectiveCDemoColorProviding.m */,
 				FDDD73FC22C6D86B00A9D995 /* ObjectiveCDemoController.h */,
 				FDDD73FB22C6D86B00A9D995 /* ObjectiveCDemoController.m */,
 				B441478E228E02540040E88E /* OtherCellsDemoController.swift */,
@@ -511,7 +511,7 @@
 				92D5598426A1523400328FD3 /* CardNudgeDemoController.swift in Sources */,
 				5303259826B31A6300611D05 /* FluentUIDemoToggle.swift in Sources */,
 				9245E1F927BECDBB007616F3 /* GlobalColorTokensDemoController.swift in Sources */,
-				D6296DB1295B8E5E002E8EB6 /* ObjectiveCDemoColorProviding2.m in Sources */,
+				D6296DB1295B8E5E002E8EB6 /* ObjectiveCDemoColorProviding.m in Sources */,
 				6F453CA528AC536300ED91A4 /* ShadowTokensDemoController.swift in Sources */,
 				6FEED93B28A6E5520099D178 /* AliasColorTokensDemoController.swift in Sources */,
 				A5DCA760211E3B4C005F4CB7 /* DemoController.swift in Sources */,

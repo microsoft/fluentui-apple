@@ -5,12 +5,12 @@
 
 import UIKit
 
-// MARK: ColorProviding2 - temporary stand-in for ColorProviding so we can replace side by side
+// MARK: ColorProviding
 
 /// Protocol through which consumers can provide colors to "theme" their experiences
 /// The view associated with the passed in theme will display the set colors to allow apps to provide different experiences per each view
-@objc(MSFColorProviding2)
-public protocol ColorProviding2 {
+@objc(MSFColorProviding)
+public protocol ColorProviding {
     /// If this protocol is not conformed to, communicationBlue variants will be used
     @objc func brandBackground1(for themeable: FluentThemeable) -> UIColor?
     @objc func brandBackground1Pressed(for themeable: FluentThemeable) -> UIColor?
@@ -32,7 +32,7 @@ public protocol ColorProviding2 {
     @objc func brandStroke1Selected(for themeable: FluentThemeable) -> UIColor?
 }
 
-private func brandColorOverrides(provider: ColorProviding2,
+private func brandColorOverrides(provider: ColorProviding,
                                  for themeable: FluentThemeable) -> [AliasTokens.ColorsTokens: DynamicColor] {
     var brandColors: [AliasTokens.ColorsTokens: DynamicColor] = [:]
     if let brandBackground1 = provider.brandBackground1(for: themeable)?.dynamicColor {
@@ -100,7 +100,7 @@ private func brandColorOverrides(provider: ColorProviding2,
     /// - Parameters:
     ///   - provider: The `ColorProvider2` whose colors should be used for controls in this theme.
     @objc(setColorProvider:)
-    func setColorProvider(_ provider: ColorProviding2) {
+    func setColorProvider(_ provider: ColorProviding) {
         // Create an updated fluent theme as well
         let brandColors = brandColorOverrides(provider: provider, for: self)
         let fluentTheme = FluentTheme()

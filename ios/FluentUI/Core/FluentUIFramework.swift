@@ -36,7 +36,9 @@ public class FluentUIFramework: NSObject {
 
     @available(*, deprecated, renamed: "initializeAppearance(with:whenContainedInInstancesOf:)")
     @objc public static func initializeAppearance() {
-        initializeAppearance(with: Colors.primary)
+        let aliasTokens = FluentTheme.shared.aliasTokens
+        let primaryColor = UIColor(dynamicColor: aliasTokens.colors[.brandBackground1])
+        initializeAppearance(with: primaryColor)
     }
 
     enum NavigationBarStyle {
