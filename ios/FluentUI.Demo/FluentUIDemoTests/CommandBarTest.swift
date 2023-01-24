@@ -53,13 +53,13 @@ class CommandBarTest: BaseTest {
         let addButton: XCUIElement = app.buttons["Add"].firstMatch
         let notification: XCUIElement = app.alerts["Did select command add"]
         let okButton: XCUIElement = app.buttons["OK"]
-        let disablePlusSwitch: XCUIElement = app.switches.element(boundBy: 1)
+        let disableAddButtonSwitch: XCUIElement = app.switches.element(boundBy: 1)
 
         addButton.tap()
         XCTAssert(notification.exists)
         okButton.tap()
 
-        disablePlusSwitch.tap()
+        disableAddButtonSwitch.tap()
         addButton.tap()
         XCTAssert(!notification.exists)
     }
