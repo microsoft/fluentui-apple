@@ -160,9 +160,6 @@ public class TableViewCellTokenSet: ControlTokenSet<TableViewCellTokenSet.Tokens
 
             case .communicationTextColor:
                 return .dynamicColor { theme.aliasTokens.colors[.brandStroke1] }
-
-            case .paddingLeading:
-                return .float { GlobalTokens.spacing(.size160) }
             }
         }
     }
@@ -187,7 +184,7 @@ extension TableViewCellTokenSet {
     static let horizontalSpacing: CGFloat = GlobalTokens.spacing(.size160)
 
     /// The leading padding in the cell.
-    static let paddingLeading: CGFloat = GlobalTokens.spacing(.medium)
+    static let paddingLeading: CGFloat = GlobalTokens.spacing(.size160)
 
     /// The vertical padding in the cell.
     static let paddingVertical: CGFloat = 11.0
@@ -196,7 +193,7 @@ extension TableViewCellTokenSet {
     static let paddingTrailing: CGFloat = GlobalTokens.spacing(.size160)
 
     /// The leading and trailing padding for the unreadDotLayer.
-    static let unreadDotHorizontalPadding: CGFloat = GlobalTokens.spacing(.xxSmall)
+    static let unreadDotHorizontalPadding: CGFloat = GlobalTokens.spacing(.size120)
 
     /// The size dimensions of the unreadDotLayer.
     static let unreadDotDimensions: CGFloat = 8.0

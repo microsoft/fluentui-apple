@@ -883,7 +883,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         let unreadDotSize = TableViewCellTokenSet.unreadDotDimensions
         unreadDotLayer.bounds.size = CGSize(width: unreadDotSize, height: unreadDotSize)
         unreadDotLayer.cornerRadius = unreadDotSize / 2
-        unreadDotLayer.backgroundColor = UIColor(dynamicColor: tokenSet[.mainBrandColor].dynamicColor).cgColor
+        unreadDotLayer.backgroundColor = UIColor(dynamicColor: isSelected ? tokenSet[.brandTextColor].dynamicColor : tokenSet[.selectionIndicatorOffColor].dynamicColor).cgColor
         return unreadDotLayer
     }()
 
@@ -1977,7 +1977,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
 
     private func updateSelectionImageColor() {
         selectionImageView.tintColor = UIColor(dynamicColor: isSelected ? tokenSet[.brandTextColor].dynamicColor : tokenSet[.selectionIndicatorOffColor].dynamicColor)
-        unreadDotLayer.backgroundColor = UIColor(dynamicColor: isSelected ? tokenSet[.brandTextColor].dynamicColor : tokenSet[.selectionIndicatorOffColor].dynamicColor)
+        unreadDotLayer.backgroundColor = UIColor(dynamicColor: isSelected ? tokenSet[.brandTextColor].dynamicColor : tokenSet[.selectionIndicatorOffColor].dynamicColor).cgColor
     }
 
     private func updateSeparator(_ separator: Separator, with type: SeparatorType) {
