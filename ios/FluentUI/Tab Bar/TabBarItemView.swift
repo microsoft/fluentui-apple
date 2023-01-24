@@ -268,7 +268,7 @@ class TabBarItemView: UIControl {
         let unselectedImageColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground3])
         let unselectedTextColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
         let disabledColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundDisabled1])
-        
+
         titleLabel.textColor = isEnabled ? (isSelected ? selectedColor : unselectedTextColor) : disabledColor
         imageView.tintColor = isEnabled ? (isSelected ? selectedColor : unselectedImageColor) : disabledColor
     }
