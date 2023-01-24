@@ -120,9 +120,9 @@ public class NotificationTokenSet: ControlTokenSet<NotificationTokenSet.Tokens> 
                     case .neutralBar:
                         return theme.aliasTokens.colors[.background5]
                     case .dangerToast:
-                        return theme.aliasTokens.sharedColors[.dangerBackground1]
+                        return theme.aliasTokens.colors[.dangerBackground1]
                     case .warningToast:
-                        return theme.aliasTokens.sharedColors[.warningBackground1]
+                        return theme.aliasTokens.colors[.warningBackground1]
                     }
                 }
 
@@ -138,9 +138,9 @@ public class NotificationTokenSet: ControlTokenSet<NotificationTokenSet.Tokens> 
                     case .primaryOutlineBar:
                         return theme.aliasTokens.colors[.brandForeground1]
                     case .dangerToast:
-                        return theme.aliasTokens.sharedColors[.dangerForeground1]
+                        return theme.aliasTokens.colors[.dangerForeground1]
                     case .warningToast:
-                        return theme.aliasTokens.sharedColors[.warningForeground1]
+                        return theme.aliasTokens.colors[.warningForeground1]
                     }
                 }
 
@@ -156,9 +156,9 @@ public class NotificationTokenSet: ControlTokenSet<NotificationTokenSet.Tokens> 
                     case .primaryOutlineBar:
                         return theme.aliasTokens.colors[.brandForeground1]
                     case .dangerToast:
-                        return theme.aliasTokens.sharedColors[.dangerForeground1]
+                        return theme.aliasTokens.colors[.dangerForeground1]
                     case .warningToast:
-                        return theme.aliasTokens.sharedColors[.warningForeground1]
+                        return theme.aliasTokens.colors[.warningForeground1]
                     }
                 }
 

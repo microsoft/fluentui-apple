@@ -26,7 +26,7 @@ public enum TextColorStyle: Int, CaseIterable {
         case .primary:
             return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1])
         case .error:
-            return UIColor(dynamicColor: fluentTheme.aliasTokens.sharedColors[.dangerForeground2])
+            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.dangerForeground2])
         }
     }
 }
