@@ -58,7 +58,9 @@ class CommandBarTest: BaseTest {
         addButton.tap()
         XCTAssert(notification.exists)
         okButton.tap()
+
         disablePlusSwitch.tap()
+        addButton.tap()
         XCTAssert(!notification.exists)
     }
 
