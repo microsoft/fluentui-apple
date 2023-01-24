@@ -1977,7 +1977,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
 
     private func updateSelectionImageColor() {
         selectionImageView.tintColor = UIColor(dynamicColor: isSelected ? tokenSet[.brandTextColor].dynamicColor : tokenSet[.selectionIndicatorOffColor].dynamicColor)
-        unreadDotLayer.backgroundColor = UIColor(dynamicColor: isSelected ? tokenSet[.brandTextColor].dynamicColor : tokenSet[.selectionIndicatorOffColor].dynamicColor).cgColor
+        unreadDotLayer.backgroundColor = UIColor(dynamicColor: tokenSet[.brandTextColor].dynamicColor).cgColor
     }
 
     private func updateSeparator(_ separator: Separator, with type: SeparatorType) {

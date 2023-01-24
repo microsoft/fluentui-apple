@@ -193,7 +193,7 @@ extension TableViewCellTokenSet {
     static let paddingTrailing: CGFloat = GlobalTokens.spacing(.size160)
 
     /// The leading and trailing padding for the unreadDotLayer.
-    static let unreadDotHorizontalPadding: CGFloat = GlobalTokens.spacing(.size120)
+    static let unreadDotHorizontalPadding: CGFloat = GlobalTokens.spacing(.size40)
 
     /// The size dimensions of the unreadDotLayer.
     static let unreadDotDimensions: CGFloat = 8.0
