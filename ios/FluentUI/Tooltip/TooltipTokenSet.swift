@@ -44,7 +44,7 @@ public class TooltipTokenSet: ControlTokenSet<TooltipTokenSet.Tokens> {
                                                                       g: 33.0 / 255.0,
                                                                       b: 33.0 / 255.0,
                                                                       a: 0.95),
-                                                    dark: theme.aliasTokens.brandColors[.primary].dark)
+                                                    dark: GlobalTokens.brandColors(.comm90))
                 }
 
             case .textColor:
@@ -56,7 +56,7 @@ public class TooltipTokenSet: ControlTokenSet<TooltipTokenSet.Tokens> {
                 return .shadowInfo { theme.aliasTokens.shadow[.shadow16] }
 
             case .backgroundCornerRadius:
-                return .float { GlobalTokens.borderRadius(.large) }
+                return .float { GlobalTokens.corner(.radius80) }
 
             case .messageLabelTextStyle:
                 return .fontInfo { theme.aliasTokens.typography[.body2] }
@@ -81,18 +81,18 @@ public class TooltipTokenSet: ControlTokenSet<TooltipTokenSet.Tokens> {
 extension TooltipTokenSet {
 
     /// The horizontal padding between the text and edges of the tooltip.
-    static let paddingHorizontal: CGFloat = GlobalTokens.spacing(.small)
+    static let paddingHorizontal: CGFloat = GlobalTokens.spacing(.size120)
 
     /// The vertical padding between the text and edges of the tooltip with both a title and message.
-    static let paddingVerticalWithTitle: CGFloat = GlobalTokens.spacing(.small)
+    static let paddingVerticalWithTitle: CGFloat = GlobalTokens.spacing(.size120)
 
     /// The vertical padding between the text and edges of the tooltip with just a message.
-    static let paddingVerticalWithoutTitle: CGFloat = GlobalTokens.spacing(.xSmall)
+    static let paddingVerticalWithoutTitle: CGFloat = GlobalTokens.spacing(.size80)
 
     /// The vertical spacing between the title and message.
-    static let spacingVertical: CGFloat = GlobalTokens.spacing(.xSmall)
+    static let spacingVertical: CGFloat = GlobalTokens.spacing(.size80)
 
     /// The margins from the window's safe area insets used for laying out the tooltip.
-    static let screenMargin: CGFloat = GlobalTokens.spacing(.medium)
+    static let screenMargin: CGFloat = GlobalTokens.spacing(.size160)
 
 }
