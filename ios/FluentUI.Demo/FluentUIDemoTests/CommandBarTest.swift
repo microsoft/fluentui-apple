@@ -13,6 +13,7 @@ class CommandBarTest: BaseTest {
         XCTAssertTrue(app.navigationBars[controlName].exists)
     }
 
+    // ensures that adding (refreshing)/removing leading/trailing button works as expected
     func testLeadingTrailingButton() throws {
         XCTAssert(app.otherElements["Command Bar with 1 leading button and 0 trailing buttons"].exists)
         app.buttons["Refresh Trailing Button"].tap()
@@ -25,6 +26,7 @@ class CommandBarTest: BaseTest {
         XCTAssert(app.otherElements["Command Bar with 1 leading button and 0 trailing buttons"].exists)
     }
 
+    // ensures that tapping on text style button rotates through text styles
     func testChangeTextStyleButton() throws {
         let textStyleButton: XCUIElement = app.buttons.element(boundBy: 15)
 
@@ -70,5 +72,19 @@ class CommandBarTest: BaseTest {
 
         removeDeleteButtonSwitch.tap()
         XCTAssert(app.buttons.count == numButtons - 1)
+    }
+
+    // ensures that command bar pops up/disappears as expected
+    func testInputAccessoryView() throws {
+        let numButtons: Int = app.buttons.count
+
+        app.textFields.firstMatch.tap()
+        XCTAssert(app.buttons.count > numButtons)
+        XCTAssert(app.otherElements["Command Bar with 0 leading buttons and 1 trailing button"].exists)
+
+        // taps dismiss command bar button
+        app.buttons.element(boundBy: 31).tap()
+        XCTAssert(app.buttons.count == numButtons)
+        XCTAssert(!app.otherElements["Command Bar with 0 leading buttons and 1 trailing button"].exists)
     }
 }
