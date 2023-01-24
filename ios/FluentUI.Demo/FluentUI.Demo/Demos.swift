@@ -32,8 +32,8 @@ struct Demos {
         DemoDescriptor("PersonaButtonCarousel", PersonaButtonCarouselDemoController.self),
         DemoDescriptor("SegmentedControl", SegmentedControlDemoController.self),
         DemoDescriptor("ShimmerView", ShimmerViewDemoController.self),
-<<<<<<< HEAD
-        DemoDescriptor("TableViewCell", TableViewCellDemoController.self)
+        DemoDescriptor("TableViewCell", TableViewCellDemoController.self),
+        DemoDescriptor("Tooltip", TooltipDemoController.self)
     ]
 
     static let fluent2DesignTokens: [DemoDescriptor] = [
@@ -41,14 +41,6 @@ struct Demos {
         DemoDescriptor("Alias Color Tokens", AliasColorTokensDemoController.self),
         DemoDescriptor("Shadow Tokens", ShadowTokensDemoController.self),
         DemoDescriptor("Typography Tokens", TypographyTokensDemoController.self)
-||||||| d6f35783
-        DemoDescriptor("TableViewCell", TableViewCellDemoController.self),
-        DemoDescriptor("TypographyTokens", TypographyTokensDemoController.self)
-=======
-        DemoDescriptor("TableViewCell", TableViewCellDemoController.self),
-        DemoDescriptor("Tooltip", TooltipDemoController.self),
-        DemoDescriptor("TypographyTokens", TypographyTokensDemoController.self)
->>>>>>> main
     ]
 
     static let controls: [DemoDescriptor] = [
