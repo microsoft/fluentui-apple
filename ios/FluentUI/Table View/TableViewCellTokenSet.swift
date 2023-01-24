@@ -159,25 +159,10 @@ public class TableViewCellTokenSet: ControlTokenSet<TableViewCellTokenSet.Tokens
                 return .dynamicColor { theme.aliasTokens.colors[.brandBackground1] }
 
             case .communicationTextColor:
-<<<<<<< HEAD
                 return .dynamicColor { theme.aliasTokens.colors[.brandStroke1] }
 
             case .paddingLeading:
                 return .float { GlobalTokens.spacing(.size160) }
-||||||| d6f35783
-                return .dynamicColor {
-                    DynamicColor(light: ColorValue(0x0078D4),
-                                 dark: ColorValue(0x0086F0))
-                }
-
-            case .paddingLeading:
-                return .float { GlobalTokens.spacing(.medium) }
-=======
-                return .dynamicColor {
-                    DynamicColor(light: ColorValue(0x0078D4),
-                                 dark: ColorValue(0x0086F0))
-                }
->>>>>>> main
             }
         }
     }
