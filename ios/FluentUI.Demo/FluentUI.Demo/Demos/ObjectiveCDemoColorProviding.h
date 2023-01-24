@@ -8,7 +8,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ObjectiveCDemoColorProviding2 : NSObject<MSFColorProviding2>
+@interface ObjectiveCDemoColorProviding : NSObject<MSFColorProviding>
 
 @end
 

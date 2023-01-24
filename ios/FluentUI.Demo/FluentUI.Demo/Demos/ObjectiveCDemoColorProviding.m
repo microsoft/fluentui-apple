@@ -3,15 +3,15 @@
 //  Licensed under the MIT License.
 //
 
-#import "ObjectiveCDemoColorProviding2.h"
+#import "ObjectiveCDemoColorProviding.h"
 #import <FluentUI/FluentUI-Swift.h>
 #import <FluentUI_Demo-Swift.h>
 
-@interface ObjectiveCDemoColorProviding2 () <MSFColorProviding2>
+@interface ObjectiveCDemoColorProviding () <MSFColorProviding>
 
 @end
 
-@implementation ObjectiveCDemoColorProviding2
+@implementation ObjectiveCDemoColorProviding
 
 - (UIColor * _Nullable)brandBackgroundColor:(MSFFluentTheme * _Nonnull)theme {
     MSFColorValue *lightColor = [MSFGlobalTokens sharedColorForColorSet:MSFSharedColorSetsOrchid

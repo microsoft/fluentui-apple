@@ -22,7 +22,7 @@ enum DemoColorTheme: CaseIterable {
         }
     }
 
-    var provider: ColorProviding2? {
+    var provider: ColorProviding? {
         switch self {
         case .default:
             return DemoColorDefaultTheme()
@@ -34,7 +34,7 @@ enum DemoColorTheme: CaseIterable {
     }
 }
 
-class DemoColorDefaultTheme: NSObject, ColorProviding2 {
+class DemoColorDefaultTheme: NSObject, ColorProviding {
     func brandBackground1(for themeable: FluentThemeable) -> UIColor? {
         return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.brandColors(.comm80),
                                                   dark: GlobalTokens.brandColors(.comm100)))
@@ -122,7 +122,7 @@ class DemoColorDefaultTheme: NSObject, ColorProviding2 {
     }
 }
 
-class DemoColorGreenTheme: NSObject, ColorProviding2 {
+class DemoColorGreenTheme: NSObject, ColorProviding {
     func brandBackground1(for themeable: FluentThemeable) -> UIColor? {
         return UIColor(dynamicColor: DynamicColor(light: ColorValue(0x107C41),
                                                   dark: ColorValue(0x55B17E)))
