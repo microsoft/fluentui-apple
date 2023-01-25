@@ -59,6 +59,9 @@ struct NotificationDemoView: View {
         VStack {
             Rectangle()
                 .foregroundColor(.clear)
+#if DEBUG
+                .accessibilityIdentifier("Notification View with \(hasTitle ? hasAttribute ? "attributed title \"\(title)\"" : "title \"\(title)\"" : "no title"), \(hasMessage ? hasAttribute ? "attributed message \"\(message)\"" : "message \"\(message)\"" : "no message"), \(image != nil ? "an image" : "no image"), and \(actionButtonTitle != "" ? "an action button titled \"\(actionButtonTitle)\"" : trailingImage != nil ? "a trailing image" : "a dismiss button") in style \(style.rawValue) that is \(isFlexibleWidthToast ? "flexible in width" : "not flexible in width")")
+#endif
                 .presentNotification(isPresented: .constant(true), isBlocking: false) {
                     FluentNotification(style: style,
                                        isFlexibleWidthToast: $isFlexibleWidthToast.wrappedValue,
