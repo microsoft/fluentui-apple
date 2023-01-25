@@ -41,29 +41,29 @@ class CommandBarTest: BaseTest {
 
     func testSelectBoldButton() throws {
         let boldButton: XCUIElement = app.buttons.element(boundBy: 17)
-        let notification: XCUIElement = app.alerts["Did select command textBold"]
+        let alert: XCUIElement = app.alerts["Did select command textBold"]
         let okButton: XCUIElement = app.buttons["OK"]
 
         XCTAssert(!boldButton.isSelected)
         boldButton.tap()
-        XCTAssert(notification.exists)
+        XCTAssert(alert.exists)
         okButton.tap()
         XCTAssert(boldButton.isSelected)
     }
 
     func testDisablePlusButton() throws {
         let addButton: XCUIElement = app.buttons["Add"].firstMatch
-        let notification: XCUIElement = app.alerts["Did select command add"]
+        let alert: XCUIElement = app.alerts["Did select command add"]
         let okButton: XCUIElement = app.buttons["OK"]
         let disableAddButtonSwitch: XCUIElement = app.switches.element(boundBy: 1)
 
         addButton.tap()
-        XCTAssert(notification.exists)
+        XCTAssert(alert.exists)
         okButton.tap()
 
         disableAddButtonSwitch.tap()
         addButton.tap()
-        XCTAssert(!notification.exists)
+        XCTAssert(!alert.exists)
     }
 
     func testRemoveDeleteButton() throws {
