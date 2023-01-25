@@ -220,7 +220,6 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     @objc public class func height(title: String,
                                    subtitle: String = "",
                                    footer: String = "",
-                                   hasunreadDot: Bool = false,
                                    titleLeadingAccessoryView: UIView? = nil,
                                    titleTrailingAccessoryView: UIView? = nil,
                                    subtitleLeadingAccessoryView: UIView? = nil,
@@ -276,7 +275,6 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     ///   - titleFont: The title font; If not set, it will default to the font definition in tokens
     ///   - subtitleFont: The subtitle font; If not set, it will default to the font definition in tokens
     ///   - footerFont: The footer font; If not set, it will default to the font definition in tokens
-    ///   - hasunreadDot: Boolean determining whether to show or hide the `unreadDotLayer`, on the leading edge of the `customView`.
     ///   - titleLeadingAccessoryView: The accessory view on the leading edge of the title
     ///   - titleTrailingAccessoryView: The accessory view on the trailing edge of the title
     ///   - subtitleLeadingAccessoryView: The accessory view on the leading edge of the subtitle
@@ -306,7 +304,6 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                              titleFont: UIFont? = nil,
                              subtitleFont: UIFont? = nil,
                              footerFont: UIFont? = nil,
-                             hasunreadDot: Bool = false,
                              titleLeadingAccessoryView: UIView? = nil,
                              titleTrailingAccessoryView: UIView? = nil,
                              subtitleLeadingAccessoryView: UIView? = nil,
@@ -411,7 +408,6 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     ///   - title: The title string
     ///   - subtitle: The subtitle string
     ///   - footer: The footer string
-    ///   - hasunreadDot: Boolean determining whether to show or hide the `unreadDotLayer`, on the leading edge of the `customView`.
     ///   - titleLeadingAccessoryView: The accessory view on the leading edge of the title
     ///   - titleTrailingAccessoryView: The accessory view on the trailing edge of the title
     ///   - subtitleLeadingAccessoryView: The accessory view on the leading edge of the subtitle
@@ -427,7 +423,6 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     @objc public class func preferredWidth(title: String,
                                            subtitle: String = "",
                                            footer: String = "",
-                                           hasunreadDot: Bool = false,
                                            titleLeadingAccessoryView: UIView? = nil,
                                            titleTrailingAccessoryView: UIView? = nil,
                                            subtitleLeadingAccessoryView: UIView? = nil,
@@ -475,7 +470,6 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     ///   - titleFont: The title font; If not set, it will default to the font definition in tokens
     ///   - subtitleFont: The subtitle font; If not set, it will default to the font definition in tokens
     ///   - footerFont: The footer font; If not set, it will default to the font definition in tokens
-    ///   - hasunreadDot: Boolean determining whether to show or hide the `unreadDotLayer`, on the leading edge of the `customView`.
     ///   - titleLeadingAccessoryView: The accessory view on the leading edge of the title
     ///   - titleTrailingAccessoryView: The accessory view on the trailing edge of the title
     ///   - subtitleLeadingAccessoryView: The accessory view on the leading edge of the subtitle
@@ -501,7 +495,6 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                                      titleFont: UIFont? = nil,
                                      subtitleFont: UIFont? = nil,
                                      footerFont: UIFont? = nil,
-                                     hasunreadDot: Bool = false,
                                      titleLeadingAccessoryView: UIView? = nil,
                                      titleTrailingAccessoryView: UIView? = nil,
                                      subtitleLeadingAccessoryView: UIView? = nil,
