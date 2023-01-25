@@ -29,7 +29,7 @@ class HUDTestSwiftUI: BaseTest {
         // attempts to interact with Blocks interaction switch
         blocksInteractionSwitch.tap()
         // switch value should remain 1
-        XCTAssertTrue(blocksInteractionSwitch.value as? String == "1")
+        XCTAssert(blocksInteractionSwitch.value as? String == "1")
 
         // sleeps for 5 seconds to wait for presented HUD to disappear
         sleep(5)
@@ -38,16 +38,16 @@ class HUDTestSwiftUI: BaseTest {
         presentHUDButton.tap()
         blocksInteractionSwitch.tap()
         // switch value should change back to 1
-        XCTAssertTrue(blocksInteractionSwitch.value as? String == "1")
+        XCTAssert(blocksInteractionSwitch.value as? String == "1")
     }
 
     func testLabels() throws {
-        XCTAssertTrue(app.images.element(matching: NSPredicate(format: "identifier CONTAINS %@", "HUD with no label")).exists)
+        XCTAssert(app.images.element(matching: NSPredicate(format: "identifier CONTAINS %@", "HUD with no label")).exists)
         app.textFields.firstMatch.tap()
         UIPasteboard.general.string = "label"
         app.textFields.element.doubleTap()
         app.menuItems["Paste"].tap()
-        XCTAssertTrue(app.images.element(matching: NSPredicate(format: "identifier CONTAINS %@", "HUD with label \"label\"")).exists)
+        XCTAssert(app.images.element(matching: NSPredicate(format: "identifier CONTAINS %@", "HUD with label \"label\"")).exists)
     }
 
     func testTypes() throws {
