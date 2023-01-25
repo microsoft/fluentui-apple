@@ -55,6 +55,9 @@ struct AvatarDemoView: View {
                 .isAnimated(isAnimated)
                 .frame(maxWidth: .infinity, minHeight: 150, alignment: .center)
                 .background(useAlternateBackground ? Color.gray : Color.clear)
+#if DEBUG
+                .accessibilityIdentifier("Avatar of \(primaryText != "" ? "\(primaryText)" : "\(secondaryText)")'s \(showImage ? "image" : primaryText != "" || secondaryText != "" ? "initials" : "icon") with \(!isRingVisible ? "no ring" : showImageBasedRingColor ? "an image based ring \(hasRingInnerGap ? "with an inner gap" : "with no inner gap")" : "a default ring \(hasRingInnerGap ? "with an inner gap" : "with no inner gap")") and presence \(isOutOfOffice ? "out of office" : "\(presence.rawValue)") in size \(size.rawValue) and style \(style.rawValue)")
+#endif
 
             ScrollView {
                 Group {
