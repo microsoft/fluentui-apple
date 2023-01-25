@@ -41,6 +41,7 @@ class NotificationViewTestSwiftUI: BaseTest {
         app.menuItems["Cut"].tap()
         actionButtonTextField.tap(withNumberOfTaps: 3, numberOfTouches: 1)
         app.menuItems["Cut"].tap()
+        // if there is no action button title, there should be a dismiss button
         XCTAssert(app.otherElements.containing(NSPredicate(format: "identifier MATCHES %@", "Notification View with no title, no message.*dismiss button.*")).element.exists)
     }
 
@@ -54,22 +55,83 @@ class NotificationViewTestSwiftUI: BaseTest {
         XCTAssert(app.otherElements.containing(NSPredicate(format: "identifier MATCHES %@", "Notification View.*image.*")).element.exists)
 
         setTrailingImageSwitch.tap()
+        // as long as there is a action button title, there should be no trailing image
         XCTAssert(!app.otherElements.containing(NSPredicate(format: "identifier MATCHES %@", "Notification View.*trailing image.*")).element.exists)
         actionButtonTextField.tap(withNumberOfTaps: 3, numberOfTouches: 1)
         app.menuItems["Cut"].tap()
         XCTAssert(app.otherElements.containing(NSPredicate(format: "identifier MATCHES %@", "Notification View.*trailing image.*")).element.exists)
         setTrailingImageSwitch.tap()
+        // if there is no action button title, there should be a dismiss button
         XCTAssert(app.otherElements.containing(NSPredicate(format: "identifier MATCHES %@", "Notification View.*dismiss button.*")).element.exists)
+    }
+
+    func testActions() throws {
+        let notificationView: XCUIElement = app.otherElements.containing(NSPredicate(format: "identifier MATCHES %@", "Notification View.*")).element(boundBy: 7)
+        let actionButton: XCUIElement = app.buttons["Undo"].firstMatch
+
+        let hasActionButtonActionSwitch: XCUIElement = app.switches["Has Action Button Action"]
+        let hasMessageActionSwitch: XCUIElement = app.switches["Has Message Action"]
+
+        let alert: XCUIElement = app.alerts["Button tapped"]
+        let okButton: XCUIElement = app.buttons["OK"]
+
+        notificationView.tap()
+        XCTAssert(!alert.exists)
+
+        hasMessageActionSwitch.tap()
+        notificationView.tap()
+        // tapping on the notification should trigger an action
+        XCTAssert(alert.exists)
+        okButton.tap()
+
+        actionButton.tap()
+        XCTAssert(alert.exists)
+        okButton.tap()
+
+        hasActionButtonActionSwitch.tap()
+        actionButton.tap()
+        XCTAssert(!alert.exists)
+    }
+
+    func testStyles() throws {
+        XCTAssert(app.otherElements.containing(NSPredicate(format: "identifier MATCHES %@", "Notification View.*style 0.*")).element.exists)
+        app.buttons[".primaryToast"].tap()
+        app.buttons[".neutralToast"].tap()
+        XCTAssert(app.otherElements.containing(NSPredicate(format: "identifier MATCHES %@", "Notification View.*style 1.*")).element.exists)
+        app.buttons[".neutralToast"].tap()
+        app.buttons[".primaryBar"].tap()
+        XCTAssert(app.otherElements.containing(NSPredicate(format: "identifier MATCHES %@", "Notification View.*style 2.*")).element.exists)
+        app.buttons[".primaryBar"].tap()
+        app.buttons[".primaryOutlineBar"].tap()
+        XCTAssert(app.otherElements.containing(NSPredicate(format: "identifier MATCHES %@", "Notification View.*style 3.*")).element.exists)
+        app.buttons[".primaryOutlineBar"].tap()
+        app.buttons[".neutralBar"].tap()
+        XCTAssert(app.otherElements.containing(NSPredicate(format: "identifier MATCHES %@", "Notification View.*style 4.*")).element.exists)
+        app.buttons[".neutralBar"].tap()
+        app.buttons[".dangerToast"].tap()
+        XCTAssert(app.otherElements.containing(NSPredicate(format: "identifier MATCHES %@", "Notification View.*style 5.*")).element.exists)
+        app.buttons[".dangerToast"].tap()
+        app.buttons[".warningToast"].tap()
+        XCTAssert(app.otherElements.containing(NSPredicate(format: "identifier MATCHES %@", "Notification View.*style 6.*")).element.exists)
     }
 
     func testWidth() throws {
         let flexibleWidthSwitch: XCUIElement = app.switches["Flexible Width Toast"]
+        let notFlexible: NSPredicate = NSPredicate(format: "identifier MATCHES %@", "Notification View.*that is not flexible in width.*")
+        let flexible: NSPredicate = NSPredicate(format: "identifier MATCHES %@", "Notification View.*that is flexible in width.*")
 
-        XCTAssert(app.otherElements.containing(NSPredicate(format: "identifier MATCHES %@", "Notification View.*that is not flexible in width.*")).element.exists)
+        XCTAssert(app.otherElements.containing(notFlexible).element.exists)
         flexibleWidthSwitch.tap()
-        XCTAssert(app.otherElements.containing(NSPredicate(format: "identifier MATCHES %@", "Notification View.*that is flexible in width.*")).element.exists)
+        XCTAssert(app.otherElements.containing(flexible).element.exists)
 
         app.buttons[".primaryToast"].tap()
-        app.buttons[".neutralBar"].tap()
+        app.buttons[".primaryBar"].tap()
+        // bar notifications should have any information on whether or not they're flexible
+        XCTAssert(!app.otherElements.containing(notFlexible).element.exists)
+        XCTAssert(!app.otherElements.containing(flexible).element.exists)
+
+        flexibleWidthSwitch.tap()
+        XCTAssert(!app.otherElements.containing(notFlexible).element.exists)
+        XCTAssert(!app.otherElements.containing(flexible).element.exists)
     }
 }
