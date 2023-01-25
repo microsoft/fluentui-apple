@@ -10,6 +10,8 @@ class BadgeViewDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        readmeString = "A badge is a compact, interactive, \ntextual representation of a person. It is generally a representation of user-input text that maps to an entry in a database."
+
         addBadgeSection(title: "Default badge", style: .default)
         addBadgeSection(title: "Error badge", style: .error)
         addBadgeSection(title: "Warning badge", style: .warning)

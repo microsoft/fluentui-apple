@@ -18,6 +18,8 @@ class ActivityIndicatorDemoController: DemoTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        readmeString = "An activity indicator lets someone know there’s a background task in progress and assures them the system is still working.\n\nUse activity indicators for loading states that take longer than one second but avoid them for long loading processes."
+
         tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
         tableView.register(BooleanCell.self, forCellReuseIdentifier: BooleanCell.identifier)
         tableView.register(ActionsCell.self, forCellReuseIdentifier: ActionsCell.identifier)

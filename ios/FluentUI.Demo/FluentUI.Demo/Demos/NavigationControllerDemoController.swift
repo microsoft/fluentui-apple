@@ -10,6 +10,8 @@ class NavigationControllerDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        readmeString = "The navigation bar provides information and actions relating to the current screen. It often shows the app or page title and allows for navigation relative to the current page, letting someone step forward and back through a flow. The left side of the navigation bar can contain actions that directly relate to that page’s content, like edit or done buttons.\n\nIf you need to show wayfinding for main sections of your app that don’t change as people move through it, try the tab bar."
+
         addTitle(text: "Large Title with Primary style")
         container.addArrangedSubview(createButton(title: "Show without accessory", action: #selector(showLargeTitle)))
         container.addArrangedSubview(createButton(title: "Show with collapsible search bar", action: #selector(showLargeTitleWithShyAccessory)))

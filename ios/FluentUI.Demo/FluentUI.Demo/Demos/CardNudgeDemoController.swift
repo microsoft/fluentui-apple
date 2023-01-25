@@ -24,6 +24,8 @@ class CardNudgeDemoController: DemoTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        readmeString = "A card nudge is a short message that helps someone discover what they can do in an app. It appears at the top of a screen, beneath the navigation bar, and pushes all other content below it.\n\nCard nudges are helpful for sending reminders and recommendations, but they don’t necessarily relate to someone’s current task. They should never be used to communicate feedback or status. To tell a user how things are going, try a notification instead."
+
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: CardNudgeDemoController.controlReuseIdentifier)
         tableView.register(BooleanCell.self, forCellReuseIdentifier: BooleanCell.identifier)
 

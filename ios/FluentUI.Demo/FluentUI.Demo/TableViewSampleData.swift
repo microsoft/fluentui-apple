@@ -11,6 +11,7 @@ class TableViewSampleData {
         let title: String
         var item: Item { return items[0] }
         let items: [Item]
+        let isUnreadDotVisible: Bool
         let numberOfLines: Int
         let hasFullLengthLabelAccessoryView: Bool
         let hasAccessory: Bool
@@ -25,9 +26,25 @@ class TableViewSampleData {
         let hasCustomLeadingView: Bool
         let hasHandler: Bool
 
-        init(title: String, items: [Item] = [], numberOfLines: Int = 1, hasFullLengthLabelAccessoryView: Bool = false, hasAccessory: Bool = false, accessoryButtonStyle: TableViewHeaderFooterView.AccessoryButtonStyle = .regular, allowsMultipleSelection: Bool = true, headerStyle: TableViewHeaderFooterView.Style = .header, hasFooter: Bool = false, footerText: String = "", footerLinkText: String = "", hasCustomLinkHandler: Bool = false, hasCustomAccessoryView: Bool = false, hasCustomLeadingView: Bool = false, hasHandler: Bool = false) {
+        init(title: String,
+             items: [Item] = [],
+             isUnreadDotVisible: Bool = false,
+             numberOfLines: Int = 1,
+             hasFullLengthLabelAccessoryView: Bool = false,
+             hasAccessory: Bool = false,
+             accessoryButtonStyle: TableViewHeaderFooterView.AccessoryButtonStyle = .regular,
+             allowsMultipleSelection: Bool = true,
+             headerStyle: TableViewHeaderFooterView.Style = .header,
+             hasFooter: Bool = false,
+             footerText: String = "",
+             footerLinkText: String = "",
+             hasCustomLinkHandler: Bool = false,
+             hasCustomAccessoryView: Bool = false,
+             hasCustomLeadingView: Bool = false,
+             hasHandler: Bool = false) {
             self.title = title
             self.items = items
+            self.isUnreadDotVisible = isUnreadDotVisible
             self.numberOfLines = numberOfLines
             self.hasFullLengthLabelAccessoryView = hasFullLengthLabelAccessoryView
             self.hasAccessory = hasAccessory

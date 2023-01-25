@@ -40,6 +40,8 @@ class TabBarViewDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        readmeString = "The tab bar lets people quickly move through the main sections of an app.\n\nTab bars don’t move people in relation to their current page. If you need to let people go back and forth from their current location, try the navigation bar. If your app has the space for it, you can use a left rail instead of a tab bar."
+
         container.addArrangedSubview(createButton(title: "Show tooltip for Home button", action: #selector(showTooltipForHomeButton)))
 
         container.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true

@@ -71,9 +71,6 @@ public class TableViewCellTokenSet: ControlTokenSet<TableViewCellTokenSet.Tokens
 
         /// The communication text color in an ActionsCell.
         case communicationTextColor
-
-        /// The leading padding in the cell.
-        case paddingLeading
     }
 
     init(customViewSize: @escaping () -> MSFTableViewCellCustomViewSize) {
@@ -163,9 +160,6 @@ public class TableViewCellTokenSet: ControlTokenSet<TableViewCellTokenSet.Tokens
 
             case .communicationTextColor:
                 return .dynamicColor { theme.aliasTokens.colors[.brandStroke1] }
-
-            case .paddingLeading:
-                return .float { GlobalTokens.spacing(.size160) }
             }
         }
     }
@@ -189,11 +183,20 @@ extension TableViewCellTokenSet {
     /// The default horizontal spacing in the cell.
     static let horizontalSpacing: CGFloat = GlobalTokens.spacing(.size160)
 
+    /// The leading padding in the cell.
+    static let paddingLeading: CGFloat = GlobalTokens.spacing(.size160)
+
     /// The vertical padding in the cell.
     static let paddingVertical: CGFloat = 11.0
 
     /// The trailing padding in the cell.
     static let paddingTrailing: CGFloat = GlobalTokens.spacing(.size160)
+
+    /// The leading and trailing padding for the unreadDotLayer.
+    static let unreadDotHorizontalPadding: CGFloat = GlobalTokens.spacing(.size40)
+
+    /// The size dimensions of the unreadDotLayer.
+    static let unreadDotDimensions: CGFloat = 8.0
 
     static let selectionImageOff = UIImage.staticImageNamed("selection-off")
     static let selectionImageOn = UIImage.staticImageNamed("selection-on")

@@ -19,6 +19,8 @@ class HUDDemoController: DemoTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        readmeString = "The heads-up display, or HUD, is a loading indicator that appears on a backplate and can give additional, textual information about the background task that’s occuring."
+
         tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
         tableView.register(ActionsCell.self, forCellReuseIdentifier: ActionsCell.identifier)
     }

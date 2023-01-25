@@ -79,7 +79,7 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
     // |--pillContainerView (used to create 16pt inset on either side)
     // |  |--stackView (fill container view, uses restTabColor)
     // |  |  |--buttons (uses restLabelColor)
-    // |  |--pillMaskedLabelsContainerView (fill container view, uses selectedTabColor)
+    // |  |--pillMaskedContentContainerView (fill container view, uses selectedTabColor)
     // |  |  |.mask -> selectionView
     // |  |  |--pillMaskedLabels (uses selectedLabelColor)
     // |  |  |--pillMaskedImages (uses selectedLabelColor)
@@ -88,7 +88,7 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
     // pillContainerView (used to create 16pt inset on either side)
     // |--stackView (fill container view, uses restTabColor)
     // |  |--buttons (uses restLabelColor)
-    // |--pillMaskedLabelsContainerView (fill container view, uses selectedTabColor)
+    // |--pillMaskedContentContainerView (fill container view, uses selectedTabColor)
     // |  |.mask -> selectionView
     // |  |--pillMaskedLabels (uses selectedLabelColor)
     // |  |--pillMaskedImages (uses selectedLabelColor)
@@ -195,9 +195,9 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
 
         // Update appearance whenever overrideTokens changes.
         tokenSetSink = tokenSet.sinkChanges { [weak self] in
-            self?.updateColors()
-            self?.updateButtons()
+            self?.updateTokenizedValues()
         }
+        updateTokenizedValues()
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -355,7 +355,7 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         invalidateIntrinsicContentSize()
-        layoutSubviews()
+        setNeedsLayout()
     }
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
@@ -399,10 +399,6 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
         }
     }
 
-    func intrinsicContentSizeInvalidatedForChildView() {
-        invalidateIntrinsicContentSize()
-    }
-
     /// Used to retrieve the view from the segment at the specified index
     open func segmentView(at index: Int) -> UIView? {
         guard index <= buttons.count else {
@@ -416,9 +412,9 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
     lazy public var tokenSet: SegmentedControlTokenSet = .init(style: { [weak self] in
         return self?.style ?? .primaryPill
     })
-    var tokenSetSink: AnyCancellable?
+    private var tokenSetSink: AnyCancellable?
 
-    var selectionChangeAnimationDuration: TimeInterval { return 0.2 }
+    private let selectionChangeAnimationDuration: TimeInterval = 0.2
 
     private func updateButtons() {
         for (index, button) in buttons.enumerated() {
@@ -558,12 +554,10 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
     }
 
     @objc private func themeDidChange(_ notification: Notification) {
-        guard let window = window, window.isEqual(notification.object) else {
+        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
             return
         }
-        tokenSet.update(window.fluentTheme)
-        updateColors()
-        updateButtons()
+        tokenSet.update(fluentTheme)
     }
 
     private func layoutSelectionView() {
@@ -574,6 +568,13 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
 
         selectionView.frame = button.frame
         selectionView.layer.cornerRadius = Constants.pillButtonCornerRadius
+    }
+
+    private func updateTokenizedValues() {
+        updateColors()
+        updateButtons()
+        layoutSelectionView()
+        setNeedsLayout()
     }
 
     private func updateAccessibilityHints() {

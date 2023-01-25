@@ -21,7 +21,7 @@ class AvatarGroupDemoController: DemoTableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        readmeString = "An avatar group shows multiple avatars."
         tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
         tableView.register(BooleanCell.self, forCellReuseIdentifier: BooleanCell.identifier)
         tableView.register(ActionsCell.self, forCellReuseIdentifier: ActionsCell.identifier)
