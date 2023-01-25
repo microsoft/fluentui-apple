@@ -28,6 +28,7 @@ struct HUDDemoView: View {
         VStack {
             HeadsUpDisplay(type: type,
                            label: label)
+            .accessibilityIdentifier("HUD with \(label != "" ? "label \"\(label)\"" : "no label") and type \(type)")
 
             ScrollView {
                 Group {
