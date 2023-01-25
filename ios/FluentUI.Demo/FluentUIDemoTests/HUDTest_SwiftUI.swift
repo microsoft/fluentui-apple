@@ -11,9 +11,9 @@ class HUDTestSwiftUI: BaseTest {
     override func setUpWithError() throws {
         try super.setUpWithError()
         app.staticTexts["SwiftUI Demo"].tap()
-//        app.buttons["Present HUD for 3 seconds"].tap()
-//        // sleeps for 5 seconds to wait for presented HUD to disappear
-//        sleep(5)
+        app.buttons["Present HUD for 3 seconds"].tap()
+        // sleeps for 5 seconds to wait for presented HUD to disappear
+        sleep(5)
     }
 
     // launch test that ensures the demo app does not crash and is on the correct control page
