@@ -44,7 +44,7 @@ public class TooltipTokenSet: ControlTokenSet<TooltipTokenSet.Tokens> {
                                                                       g: 33.0 / 255.0,
                                                                       b: 33.0 / 255.0,
                                                                       a: 0.95),
-                                                    dark: GlobalTokens.brandColors(.comm90))
+                                                    dark: theme.aliasTokens.colors[.brandForeground1].light)
                 }
 
             case .textColor:
