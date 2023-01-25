@@ -40,17 +40,10 @@ public class TooltipTokenSet: ControlTokenSet<TooltipTokenSet.Tokens> {
         super.init { token, theme in
             switch token {
             case .tooltipColor:
-                return .dynamicColor { DynamicColor(light: ColorValue(r: 33.0 / 255.0,
-                                                                      g: 33.0 / 255.0,
-                                                                      b: 33.0 / 255.0,
-                                                                      a: 0.95),
-                                                    dark: theme.aliasTokens.colors[.brandForeground1].light)
-                }
+                return .dynamicColor { theme.aliasTokens.colors[.backgroundDarkStatic] }
 
             case .textColor:
-                return .dynamicColor { DynamicColor(light: GlobalTokens.neutralColors(.white),
-                                                    dark: GlobalTokens.neutralColors(.black))
-                }
+                return .dynamicColor { theme.aliasTokens.colors[.foregroundLightStatic] }
 
             case .shadowInfo:
                 return .shadowInfo { theme.aliasTokens.shadow[.shadow16] }
