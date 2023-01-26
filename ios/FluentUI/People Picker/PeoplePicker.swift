@@ -91,6 +91,33 @@ open class PeoplePicker: BadgeField {
 	 */
 	@objc open var hidePersonaListViewWhenNoSuggestedPersonas: Bool = false
 
+    /**
+     Set `showsAvatar` to true to show the persona's Avatar.
+     */
+    @objc open var showsAvatar: Bool = false {
+        didSet {
+            if showsAvatar {
+                deleteAllBadges()
+                for persona in pickedPersonas {
+                    let avatar = MSFAvatar(style: .default, size: .size16)
+                    avatar.state.image = persona.image
+
+                    let dataSource = BadgeViewDataSource(
+                        text: persona.name,
+                        style: BadgeView.Style.default,
+                        size: BadgeView.Size.medium,
+                        customView: avatar
+                    )
+
+                    let badge = BadgeView(dataSource: dataSource)
+                    badge.delegate = self
+                    badge.isActive = true
+                    super.addBadge(badge)
+                }
+            }
+        }
+    }
+
     @objc open weak var delegate: PeoplePickerDelegate? {
         didSet {
             badgeFieldDelegate = delegate
