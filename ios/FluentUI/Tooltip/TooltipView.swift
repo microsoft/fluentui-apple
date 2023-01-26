@@ -6,7 +6,10 @@
 import UIKit
 
 // MARK: TooltipView
-class TooltipView: UIView {
+class TooltipView: UIView, Shadowable {
+
+    var shadow1: CALayer?
+    var shadow2: CALayer?
 
     init(anchorView: UIView,
          message: String,
@@ -56,6 +59,16 @@ class TooltipView: UIView {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        updateShadows()
+    }
+
+    private func updateShadows() {
+        let shadowInfo = tokenSet[.shadowInfo].shadowInfo
+        shadowInfo.applyShadow(to: backgroundView)
     }
 
     func updateTooltipSizeAndOrigin() {
