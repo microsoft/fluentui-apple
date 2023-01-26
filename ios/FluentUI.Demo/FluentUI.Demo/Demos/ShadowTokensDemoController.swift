@@ -33,19 +33,6 @@ class ShadowTokensDemoController: DemoController {
 // Custom View thats needs to conform to the Shadowable protocol to apply Fluent shadow tokens
 private class ShadowView: UIView, Shadowable {
 
-    private struct Constants {
-        static let borderWidth: CGFloat = 0.1
-        static let cornerRadius: CGFloat = 8.0
-        static let width: CGFloat = 200
-        static let height: CGFloat = 70
-    }
-
-    var shadow1: CALayer?
-    var shadow2: CALayer?
-
-    let shadowInfo: ShadowInfo
-    let label = Label()
-
     init(shadowInfo: ShadowInfo, title: String) {
         self.shadowInfo = shadowInfo
 
@@ -75,6 +62,9 @@ private class ShadowView: UIView, Shadowable {
         fatalError("init(coder:) has not been implemented")
     }
 
+    var perimeterShadow: CALayer?
+    var keyShadow: CALayer?
+
     private func updateShadows() {
         shadowInfo.applyShadow(to: self)
     }
@@ -87,6 +77,16 @@ private class ShadowView: UIView, Shadowable {
             label.centerXAnchor.constraint(equalTo: centerXAnchor)
         ])
     }
+
+    private struct Constants {
+        static let borderWidth: CGFloat = 0.1
+        static let cornerRadius: CGFloat = 8.0
+        static let width: CGFloat = 200
+        static let height: CGFloat = 70
+    }
+
+    private let shadowInfo: ShadowInfo
+    private let label = Label()
 }
 
 private extension AliasTokens.ShadowTokens {

@@ -75,14 +75,14 @@ public extension ShadowInfo {
             return
         }
 
-        shadowable.shadow1?.removeFromSuperlayer()
-        shadowable.shadow2?.removeFromSuperlayer()
+        shadowable.perimeterShadow?.removeFromSuperlayer()
+        shadowable.keyShadow?.removeFromSuperlayer()
 
         let shadow1 = initializeShadowLayer(view: view, isShadowOne: true)
         let shadow2 = initializeShadowLayer(view: view)
 
-        shadowable.shadow1 = shadow1
-        shadowable.shadow2 = shadow2
+        shadowable.perimeterShadow = shadow1
+        shadowable.keyShadow = shadow2
 
         view.layer.insertSublayer(shadow1, at: 0)
         view.layer.insertSublayer(shadow2, below: shadow1)
@@ -112,8 +112,8 @@ public extension ShadowInfo {
 public protocol Shadowable {
 
     /// The layer on which the perimeter shadow is implemented
-    var shadow1: CALayer? { get set }
+    var perimeterShadow: CALayer? { get set }
 
     /// The layer on which the key shadow is implemented
-    var shadow2: CALayer? { get set }
+    var keyShadow: CALayer? { get set }
 }

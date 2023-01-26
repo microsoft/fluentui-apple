@@ -170,8 +170,6 @@ public enum CardSize: Int, CaseIterable {
  */
 @objc(MSFCardView)
 open class CardView: UIView, Shadowable {
-    public var shadow1: CALayer?
-    public var shadow2: CALayer?
 
     /// Delegate to handle user interaction with the CardView
     @objc public weak var delegate: CardDelegate?
@@ -382,6 +380,10 @@ open class CardView: UIView, Shadowable {
         super.layoutSubviews()
         updateShadow()
     }
+
+    // MARK: - Shadow Layers
+    public var perimeterShadow: CALayer?
+    public var keyShadow: CALayer?
 
     private func updateShadow() {
         let shadowInfo = fluentTheme.aliasTokens.shadow[.shadow02]
