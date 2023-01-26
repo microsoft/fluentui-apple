@@ -182,15 +182,15 @@ public struct CardNudge: View, TokenizedControlView {
                 elements.append("a dismiss button")
             }
 
-            if elements.count == 2 {
-                identifier += " and \(elements[1])"
-            } else if elements.count > 2 {
-                for i in 1...elements.count - 2 {
+            if elements.count == 1 {
+                identifier += " and \(elements[0])"
+            } else if elements.count > 1 {
+                for i in 0...elements.count - 2 {
                     identifier += ", \(elements[i])"
                 }
                 identifier += ", and \(elements[elements.count - 1])"
             }
-
+//
             identifier += " in style \(state.style.rawValue)"
 
             return identifier
