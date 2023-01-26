@@ -8,9 +8,6 @@ import UIKit
 // MARK: TooltipView
 class TooltipView: UIView, Shadowable {
 
-    var shadow1: CALayer?
-    var shadow2: CALayer?
-
     init(anchorView: UIView,
          message: String,
          title: String? = nil,
@@ -110,6 +107,10 @@ class TooltipView: UIView, Shadowable {
         updateTooltipSizeAndOrigin()
         updateColors()
     }
+
+    // MARK: - Shadow Layers
+    var shadow1: CALayer?
+    var shadow2: CALayer?
 
     // MARK: - Accessibility
     override var accessibilityLabel: String? {
