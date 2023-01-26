@@ -66,11 +66,6 @@ class TooltipView: UIView, Shadowable {
         updateShadows()
     }
 
-    private func updateShadows() {
-        let shadowInfo = tokenSet[.shadowInfo].shadowInfo
-        shadowInfo.applyShadow(to: backgroundView)
-    }
-
     func updateTooltipSizeAndOrigin() {
         updateArrowDirectionAndTooltipRect(for: message, title: titleMessage, tokenSet: tokenSet)
         frame.size = tooltipRect.size
@@ -136,6 +131,11 @@ class TooltipView: UIView, Shadowable {
 
     var tooltipRect: CGRect {
         return CGRect(origin: tooltipOrigin, size: tooltipSize)
+    }
+
+    private func updateShadows() {
+        let shadowInfo = tokenSet[.shadowInfo].shadowInfo
+        shadowInfo.applyShadow(to: backgroundView)
     }
 
     private func updateArrowDirectionAndTooltipRect(for message: String, title: String? = nil, tokenSet: TooltipTokenSet) {
