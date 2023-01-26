@@ -53,7 +53,12 @@ open class NavigationBarTopSearchBarAttributes: NavigationBarTopAccessoryViewAtt
 /// Contains the MSNavigationTitleView class and handles passing animatable progress through
 /// Custom UI can be hidden if desired
 @objc(MSFNavigationBar)
-open class NavigationBar: UINavigationBar {
+open class NavigationBar: UINavigationBar, TwoLineTitleViewDelegate {
+    public func twoLineTitleViewDidTapOnTitle(_ twoLineTitleView: TwoLineTitleView) {
+        // TODO: This won't be needed once we move it to LargeTitleView
+        NotificationCenter.default.post(name: .accessoryExpansionRequested, object: self)
+    }
+    
     /// If the style is `.custom`, UINavigationItem's `navigationBarColor` is used for all the subviews' backgroundColor
     @objc(MSFNavigationBarStyle)
     public enum Style: Int {
@@ -532,6 +537,7 @@ open class NavigationBar: UINavigationBar {
         showsLargeTitle = navigationItem.usesLargeTitle
         updateShadow(for: navigationItem)
         updateTopAccessoryView(for: navigationItem)
+        updateSubtitleView(for: navigationItem)
 
         titleView.update(with: navigationItem)
 
@@ -717,6 +723,19 @@ open class NavigationBar: UINavigationBar {
         case .alwaysHidden:
             return false
         }
+    }
+
+    private func updateSubtitleView(for navigationItem: UINavigationItem?) {
+        guard let navigationItem = navigationItem, let subtitle = navigationItem.subtitle else {
+            // Use the default title view
+            navigationItem?.titleView = nil
+            return
+        }
+
+        let customTitleView = TwoLineTitleView(style: style == .primary ? .light : .dark)
+        customTitleView.setup(title: navigationItem.title ?? "", subtitle: subtitle, interactivePart: .title)
+        customTitleView.delegate = self
+        navigationItem.titleView = customTitleView
     }
 
     // MARK: Content expansion/contraction

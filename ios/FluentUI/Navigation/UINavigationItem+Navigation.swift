@@ -13,6 +13,7 @@ import UIKit
         static var contentScrollView: String = "contentScrollView"
         static var navigationBarStyle: String = "navigationBarStyle"
         static var navigationBarShadow: String = "navigationBarShadow"
+        static var subtitle: String = "subtitle"
         static var usesLargeTitle: String = "usesLargeTitle"
         static var customNavigationBarColor: String = "customNavigationBarColor"
     }
@@ -68,6 +69,15 @@ import UIKit
         }
         set {
             objc_setAssociatedObject(self, &AssociatedKeys.navigationBarShadow, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+    
+    var subtitle: String? {
+        get {
+            return objc_getAssociatedObject(self, &AssociatedKeys.subtitle) as? String
+        }
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.subtitle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
 
