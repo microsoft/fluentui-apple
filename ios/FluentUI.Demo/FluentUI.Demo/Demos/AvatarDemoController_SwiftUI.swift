@@ -52,7 +52,7 @@ struct AvatarDemoView: View {
                 .imageBasedRingColor(showImageBasedRingColor ? AvatarDemoController.colorfulCustomImage : nil)
                 .isTransparent(isTransparent)
                 .presence(presence)
-                .activity(activityStyle, showActivityImage ? UIImage(named: "excelIcon") : nil)
+                .activity(activityStyle, showActivityImage ? (activityStyle == .circle ? UIImage(named: "thumbs_up_3d_default") : UIImage(named: "excelIcon")) : nil)
                 .isOutOfOffice(isOutOfOffice)
                 .hasPointerInteraction(hasPointerInteraction)
                 .isAnimated(isAnimated)

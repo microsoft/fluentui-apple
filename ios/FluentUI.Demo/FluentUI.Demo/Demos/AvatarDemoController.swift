@@ -128,7 +128,9 @@ class AvatarDemoController: DemoTableViewController {
                 cell.contentView.bottomAnchor.constraint(equalTo: avatarContentView.bottomAnchor)
             ])
 
-            cell.backgroundConfiguration?.backgroundColor = self.isUsingAlternateBackgroundColor ? Colors.tableCellBackgroundSelected : Colors.tableCellBackground
+            var background = UIBackgroundConfiguration.clear()
+            background.backgroundColor = self.isUsingAlternateBackgroundColor ? Colors.tableCellBackgroundSelected : Colors.tableCellBackground
+            cell.backgroundConfiguration = background
 
             return cell
         }
@@ -206,7 +208,7 @@ class AvatarDemoController: DemoTableViewController {
                     isEven = index % 2 == 0
                     activityStyle = isEven ? .circle : .square
                     allDemoAvatarsCombined[index].state.activityStyle = isShowingActivity ? activityStyle : .none
-                    allDemoAvatarsCombined[index].state.activityImage = isEven ? nil : UIImage(named: "excelIcon")
+                    allDemoAvatarsCombined[index].state.activityImage = isEven ? UIImage(named: "thumbs_up_3d_default") : UIImage(named: "excelIcon")
                 }
             }
         }
