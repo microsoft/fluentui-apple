@@ -75,13 +75,13 @@ public extension ShadowInfo {
             return
         }
 
-        shadowable.perimeterShadow?.removeFromSuperlayer()
+        shadowable.ambientShadow?.removeFromSuperlayer()
         shadowable.keyShadow?.removeFromSuperlayer()
 
         let shadow1 = initializeShadowLayer(view: view, isShadowOne: true)
         let shadow2 = initializeShadowLayer(view: view)
 
-        shadowable.perimeterShadow = shadow1
+        shadowable.ambientShadow = shadow1
         shadowable.keyShadow = shadow2
 
         view.layer.insertSublayer(shadow1, at: 0)
@@ -111,8 +111,8 @@ public extension ShadowInfo {
 /// Public protocol that, when implemented, allows any UIView or one of its subviews to implement fluent shadows
 public protocol Shadowable {
 
-    /// The layer on which the perimeter shadow is implemented
-    var perimeterShadow: CALayer? { get set }
+    /// The layer on which the ambient shadow is implemented
+    var ambientShadow: CALayer? { get set }
 
     /// The layer on which the key shadow is implemented
     var keyShadow: CALayer? { get set }

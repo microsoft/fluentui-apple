@@ -62,7 +62,7 @@ private class ShadowView: UIView, Shadowable {
         fatalError("init(coder:) has not been implemented")
     }
 
-    var perimeterShadow: CALayer?
+    var ambientShadow: CALayer?
     var keyShadow: CALayer?
 
     private func updateShadows() {

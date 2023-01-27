@@ -109,7 +109,7 @@ class TooltipView: UIView, Shadowable {
     }
 
     // MARK: - Shadow Layers
-    var perimeterShadow: CALayer?
+    var ambientShadow: CALayer?
     var keyShadow: CALayer?
 
     // MARK: - Accessibility

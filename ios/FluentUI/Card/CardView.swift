@@ -382,7 +382,7 @@ open class CardView: UIView, Shadowable {
     }
 
     // MARK: - Shadow Layers
-    public var perimeterShadow: CALayer?
+    public var ambientShadow: CALayer?
     public var keyShadow: CALayer?
 
     private func updateShadow() {

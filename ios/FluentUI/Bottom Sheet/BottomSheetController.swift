@@ -382,7 +382,7 @@ public class BottomSheetController: UIViewController, Shadowable {
     }
 
     // MARK: - Shadow Layers
-    public var perimeterShadow: CALayer?
+    public var ambientShadow: CALayer?
     public var keyShadow: CALayer?
 
     private lazy var dimmingView: DimmingView = {
