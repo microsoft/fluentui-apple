@@ -128,14 +128,6 @@ public struct Avatar: View, TokenizedControlView {
         let isTransparent = state.isTransparent
         let isOutOfOffice = state.isOutOfOffice
 
-        let activityImage: Image = {
-            if let image = state.activityImage {
-                return Image(uiImage: image)
-            } else {
-                return Image("ic_fluent_presence_unknown_10_regular", bundle: FluentUIFramework.resourceBundle)
-            }
-        }()
-
         // Adding ringInnerGapOffset to ringInnerGap & ringThickness to accommodate for a small space between
         // the ring and avatar when the ring is visible and there is no inner ring gap
         let ringInnerGapOffset = 0.5
@@ -149,6 +141,13 @@ public struct Avatar: View, TokenizedControlView {
         let ringOuterGapSize: CGFloat = ringSize + (ringOuterGap * 2)
 
         // Avatar accessory calculation
+        let accessoryImage: Image = {
+            if let image = state.activityImage, shouldDisplayActivity {
+                return Image(uiImage: image)
+            } else {
+                return presence.image(isOutOfOffice: isOutOfOffice)
+            }
+        }()
         let accessoryIconSize: CGFloat = shouldDisplayActivity ? AvatarTokenSet.activityIconBackgroundSize(size) : AvatarTokenSet.presenceIconSize(size)
         let accessoryBorderSize: CGFloat = accessoryIconSize + (accessoryBorderThicknessToken * 2)
         let accessoryBackgroundColor: DynamicColor = shouldDisplayActivity ? tokenSet[.activityBackgroundColor].dynamicColor : accessoryBorderColorToken
@@ -306,7 +305,7 @@ public struct Avatar: View, TokenizedControlView {
                                 .frame(width: shouldDisplayActivity ? accessoryIconSize : accessoryBorderSize,
                                        height: shouldDisplayActivity ? accessoryIconSize : accessoryBorderSize,
                                        alignment: .center)
-                                    .overlay((shouldDisplayActivity ? activityImage : presence.image(isOutOfOffice: isOutOfOffice))
+                                    .overlay(accessoryImage
                                         .interpolation(.high)
                                         .resizable()
                                         .frame(width: shouldDisplayActivity ? activityImageSize : accessoryIconSize,
