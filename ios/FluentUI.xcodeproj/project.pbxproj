@@ -199,6 +199,7 @@
 		EC5982D827BF348700FD048D /* MSFAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5982D727BF348700FD048D /* MSFAvatar.swift */; };
 		EC5982DA27C703EE00FD048D /* CircleCutout.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5982D927C703ED00FD048D /* CircleCutout.swift */; };
 		EC65F790292EDCEF002A1A23 /* ButtonTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC65F78F292EDCEF002A1A23 /* ButtonTokenSet.swift */; };
+		EC98E2AD2980C15C00B9DF91 /* FluentTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC98E2AC2980C15C00B9DF91 /* FluentTextField.swift */; };
 		ECA9218627A3301C00B66117 /* MSFAvatarGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA9218527A3301C00B66117 /* MSFAvatarGroup.swift */; };
 		ECA9218A27A33A2D00B66117 /* AvatarGroupModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA9218927A33A2D00B66117 /* AvatarGroupModifiers.swift */; };
 		ECA921C627B5D10B00B66117 /* ButtonDynamicColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA921C527B5D10A00B66117 /* ButtonDynamicColors.swift */; };
@@ -383,6 +384,7 @@
 		EC5982D727BF348700FD048D /* MSFAvatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFAvatar.swift; sourceTree = "<group>"; };
 		EC5982D927C703ED00FD048D /* CircleCutout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleCutout.swift; sourceTree = "<group>"; };
 		EC65F78F292EDCEF002A1A23 /* ButtonTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonTokenSet.swift; sourceTree = "<group>"; };
+		EC98E2AC2980C15C00B9DF91 /* FluentTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluentTextField.swift; sourceTree = "<group>"; };
 		ECA9218527A3301C00B66117 /* MSFAvatarGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFAvatarGroup.swift; sourceTree = "<group>"; };
 		ECA9218927A33A2D00B66117 /* AvatarGroupModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarGroupModifiers.swift; sourceTree = "<group>"; };
 		ECA921C527B5D10A00B66117 /* ButtonDynamicColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonDynamicColors.swift; sourceTree = "<group>"; };
@@ -894,6 +896,7 @@
 				C0A0D75D233AEA9900F432FD /* Shimmer */,
 				1168630122E131A20088B302 /* Tab Bar */,
 				B444D6B421825B510002B4D4 /* Table View */,
+				EC98E2AB2980C0C000B9DF91 /* TextField */,
 				FD7DF05A21FA7F3200857267 /* Tooltip */,
 				5314DFF325F006060099271A /* TouchForwardingView */,
 				5314DFF825F008870099271A /* TwoLineTitleView */,
@@ -1062,6 +1065,14 @@
 				CCC18C2B2501B22F00BE830E /* CardView.swift */,
 			);
 			path = Card;
+			sourceTree = "<group>";
+		};
+		EC98E2AB2980C0C000B9DF91 /* TextField */ = {
+			isa = PBXGroup;
+			children = (
+				EC98E2AC2980C15C00B9DF91 /* FluentTextField.swift */,
+			);
+			path = TextField;
 			sourceTree = "<group>";
 		};
 		ECEBA8F625EDEFF70048EE24 /* SegmentedControl */ = {
@@ -1449,6 +1460,7 @@
 				5314E07625F00F160099271A /* DateTimePickerController.swift in Sources */,
 				922A34DF27BB87990062721F /* TokenizedControlView.swift in Sources */,
 				5314E14525F016860099271A /* CardPresentationController.swift in Sources */,
+				EC98E2AD2980C15C00B9DF91 /* FluentTextField.swift in Sources */,
 				5314E0A925F010070099271A /* DrawerTransitionAnimator.swift in Sources */,
 				5314E06525F00EFD0099271A /* CalendarViewDayMonthCell.swift in Sources */,
 				5314E08B25F00F2D0099271A /* CommandBarItem.swift in Sources */,
