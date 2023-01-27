@@ -194,9 +194,7 @@ public final class AliasTokens: NSObject {
         case background5Pressed
         case background5Selected
         case background6
-        case background6Pressed
-        case background6Selected
-        case canvasBackground
+        case backgroundCanvas
         case backgroundDarkStatic
         case backgroundLightStatic
         case backgroundLightStaticDisabled
@@ -231,7 +229,6 @@ public final class AliasTokens: NSObject {
         case brandBackground2Pressed
         case brandBackground2Selected
         case brandBackground3
-        case brandBackground3Pressed
         case brandBackgroundTint
         case brandBackgroundDisabled
 
@@ -386,14 +383,6 @@ public final class AliasTokens: NSObject {
             return DynamicColor(light: GlobalTokens.neutralColors(.grey82),
                                 dark: GlobalTokens.neutralColors(.grey36),
                                 darkElevated: GlobalTokens.neutralColors(.grey40))
-        case .background6Pressed:
-            return DynamicColor(light: GlobalTokens.neutralColors(.grey70),
-                                dark: GlobalTokens.neutralColors(.grey54),
-                                darkElevated: GlobalTokens.neutralColors(.grey54))
-        case .background6Selected:
-            return DynamicColor(light: GlobalTokens.neutralColors(.grey74),
-                                dark: GlobalTokens.neutralColors(.grey50),
-                                darkElevated: GlobalTokens.neutralColors(.grey50))
         case .backgroundDisabled:
             return DynamicColor(light: GlobalTokens.neutralColors(.grey88),
                                 dark: GlobalTokens.neutralColors(.grey32),
@@ -419,9 +408,6 @@ public final class AliasTokens: NSObject {
         case .brandBackground3:
             return DynamicColor(light: GlobalTokens.brandColors(.comm60),
                                 dark: GlobalTokens.brandColors(.comm120))
-        case .brandBackground3Pressed:
-            return DynamicColor(light: GlobalTokens.brandColors(.comm30),
-                                dark: GlobalTokens.brandColors(.comm160))
         case .brandBackgroundDisabled:
             return DynamicColor(light: GlobalTokens.brandColors(.comm140),
                                 dark: GlobalTokens.brandColors(.comm40))
@@ -431,7 +417,7 @@ public final class AliasTokens: NSObject {
         case .stencil2:
             return DynamicColor(light: GlobalTokens.neutralColors(.grey98),
                                 dark: GlobalTokens.neutralColors(.grey20))
-        case .canvasBackground:
+        case .backgroundCanvas:
             return DynamicColor(light: GlobalTokens.neutralColors(.grey96),
                                 dark: GlobalTokens.neutralColors(.grey8),
                                 darkElevated: GlobalTokens.neutralColors(.grey14))

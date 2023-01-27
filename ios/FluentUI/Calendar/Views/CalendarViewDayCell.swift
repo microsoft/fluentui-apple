@@ -210,7 +210,7 @@ class CalendarViewDayCell: UICollectionViewCell {
         case .primary:
             contentView.backgroundColor = UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.background2].light, dark: fluentTheme.aliasTokens.colors[.background2].dark))
         case .secondary:
-            contentView.backgroundColor = UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.canvasBackground].light, dark: fluentTheme.aliasTokens.colors[.canvasBackground].dark))
+            contentView.backgroundColor = UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.backgroundCanvas].light, dark: fluentTheme.aliasTokens.colors[.backgroundCanvas].dark))
         }
 
         if isHighlighted || isSelected {

@@ -63,11 +63,9 @@ class AliasColorTokensDemoController: DemoTableViewController {
              .background5Pressed,
              .background5Selected,
              .background6,
-             .background6Pressed,
-             .background6Selected,
              .backgroundDisabled,
              .brandBackgroundDisabled,
-             .canvasBackground,
+             .backgroundCanvas,
              .stencil1,
              .stencil2,
              .foregroundDisabled2,
@@ -84,8 +82,7 @@ class AliasColorTokensDemoController: DemoTableViewController {
              .warningBackground1,
              .severeBackground1:
             return UIColor(dynamicColor: aliasTokens.colors[.foreground1])
-        case .brandBackground3Pressed,
-             .foreground1,
+        case .foreground1,
              .foreground2,
              .foreground3,
              .strokeFocus2,
@@ -189,11 +186,9 @@ private enum AliasColorTokensDemoSection: CaseIterable {
                     .background5Pressed,
                     .background5Selected,
                     .background6,
-                    .background6Pressed,
-                    .background6Selected,
                     .backgroundInverted,
                     .backgroundDisabled,
-                    .canvasBackground,
+                    .backgroundCanvas,
                     .stencil1,
                     .stencil2,
                     .backgroundDarkStatic,
@@ -208,7 +203,6 @@ private enum AliasColorTokensDemoSection: CaseIterable {
                     .brandBackground2Pressed,
                     .brandBackground2Selected,
                     .brandBackground3,
-                    .brandBackground3Pressed,
                     .brandBackgroundDisabled]
         case .neutralForegrounds:
             return [.foreground1,
@@ -320,10 +314,6 @@ private extension AliasTokens.ColorsTokens {
             return "Background 5 Selected"
         case .background6:
             return "Background 6"
-        case .background6Pressed:
-            return "Background 6 Pressed"
-        case .background6Selected:
-            return "Background 6 Selected"
         case .backgroundInverted:
             return "Background Inverted"
         case .backgroundDisabled:
@@ -342,8 +332,6 @@ private extension AliasTokens.ColorsTokens {
             return "Brand Background 2 Selected"
         case .brandBackground3:
             return "Brand Background 3"
-        case .brandBackground3Pressed:
-            return "Brand Background 3 Pressed"
         case .brandBackgroundDisabled:
             return "Brand Background Disabled"
         case .brandBackgroundTint:
@@ -354,8 +342,8 @@ private extension AliasTokens.ColorsTokens {
             return "Stencil 1"
         case .stencil2:
             return "Stencil 2"
-        case .canvasBackground:
-            return "Canvas Background"
+        case .backgroundCanvas:
+            return "Background Canvas"
         case .stroke1:
             return "Stroke 1"
         case .stroke2:

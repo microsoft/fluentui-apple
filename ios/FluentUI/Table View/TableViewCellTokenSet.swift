@@ -81,7 +81,7 @@ public class TableViewCellTokenSet: ControlTokenSet<TableViewCellTokenSet.Tokens
                 return .dynamicColor { theme.aliasTokens.colors[.background1] }
 
             case .backgroundGroupedColor:
-                return .dynamicColor { theme.aliasTokens.colors[.canvasBackground] }
+                return .dynamicColor { theme.aliasTokens.colors[.backgroundCanvas] }
 
             case .cellBackgroundColor:
                 return .dynamicColor { theme.aliasTokens.colors[.background1] }
