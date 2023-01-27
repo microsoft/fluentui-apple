@@ -252,34 +252,51 @@ public class TextFieldTokenSet: ControlTokenSet<TextFieldTokenSet.Tokens> {
                 return .dynamicColor {
                     switch state() {
                     case .placeholder, .focused, .typing, .filled:
-                        return theme.aliasTokens.foregroundColors[.neutral2]
+                        // Foreground 2
+                        return DynamicColor(light: GlobalTokens.neutralColors(.grey38),
+                                            dark: GlobalTokens.neutralColors(.grey84))
                     case .error:
-                        // dangerTint20
-                        return DynamicColor(light: ColorValue(0xE87979),
-                                            dark: ColorValue(0x8B2323))
+                        // Danger foreground 1
+                        return DynamicColor(light: GlobalTokens.sharedColors(.red, .shade10),
+                                            dark: GlobalTokens.sharedColors(.red, .tint30))
                     }
                 }
             case .assistiveTextFont:
                 return .fontInfo { theme.aliasTokens.typography[.caption2] }
             case .backgroundColor:
-                return .dynamicColor { theme.aliasTokens.backgroundColors[.neutral1] }
+                return .dynamicColor {
+                    // Background 1
+                    DynamicColor(light: GlobalTokens.neutralColors(.white),
+                                 dark: GlobalTokens.neutralColors(.black),
+                                 darkElevated: GlobalTokens.neutralColors(.grey4))
+                }
             case .cursorColor:
-                return .dynamicColor { theme.aliasTokens.foregroundColors[.neutral3] }
+                return .dynamicColor {
+                    // Foreground 3
+                    DynamicColor(light: GlobalTokens.neutralColors(.grey50),
+                                 dark: GlobalTokens.neutralColors(.grey68))
+                }
             case .inputTextColor:
-                return .dynamicColor { theme.aliasTokens.foregroundColors[.neutral1] }
+                return .dynamicColor {
+                    // Foreground 1
+                    DynamicColor(light: GlobalTokens.neutralColors(.grey14),
+                                 dark: GlobalTokens.neutralColors(.white))
+                }
             case .inputTextFont:
                 return .fontInfo { theme.aliasTokens.typography[.body1] }
             case .labelColor:
                 return .dynamicColor {
                     switch state() {
                     case .placeholder, .filled:
-                        return theme.aliasTokens.foregroundColors[.neutral2]
+                        // Foreground 2
+                        return DynamicColor(light: GlobalTokens.neutralColors(.grey38),
+                                            dark: GlobalTokens.neutralColors(.grey84))
                     case .focused, .typing:
-                        return theme.aliasTokens.brandColors[.primary]
+                        return theme.aliasTokens.foregroundColors[.brandRest]
                     case .error:
-                        // dangerTint20
-                        return DynamicColor(light: ColorValue(0xE87979),
-                                            dark: ColorValue(0x8B2323))
+                        // Danger foreground 1
+                        return DynamicColor(light: GlobalTokens.sharedColors(.red, .shade10),
+                                            dark: GlobalTokens.sharedColors(.red, .tint30))
                     }
                 }
             case .labelFont:
@@ -288,26 +305,34 @@ public class TextFieldTokenSet: ControlTokenSet<TextFieldTokenSet.Tokens> {
                 return .dynamicColor {
                     switch state() {
                     case .placeholder, .filled, .error:
-                        return theme.aliasTokens.foregroundColors[.neutral2]
+                        // Foreground 2
+                        return DynamicColor(light: GlobalTokens.neutralColors(.grey38),
+                                            dark: GlobalTokens.neutralColors(.grey84))
                     case .focused, .typing:
-                        return theme.aliasTokens.brandColors[.primary]
+                        return theme.aliasTokens.foregroundColors[.brandRest]
                     }
                 }
             case .strokeColor:
                 return .dynamicColor {
                     switch state() {
                     case .placeholder, .filled:
-                        return theme.aliasTokens.strokeColors[.neutral1]
+                        // Stroke 1
+                        return DynamicColor(light: GlobalTokens.neutralColors(.grey82),
+                                            dark: GlobalTokens.neutralColors(.grey30),
+                                            darkElevated: GlobalTokens.neutralColors(.grey36))
                     case .focused, .typing:
-                        return theme.aliasTokens.brandColors[.primary]
+                        return theme.aliasTokens.foregroundColors[.brandRest]
                     case .error:
-                        // dangerTint20
-                        return DynamicColor(light: ColorValue(0xE87979),
-                                            dark: ColorValue(0x8B2323))
+                        // Danger foreground 1
+                        return DynamicColor(light: GlobalTokens.sharedColors(.red, .shade10),
+                                            dark: GlobalTokens.sharedColors(.red, .tint30))
                     }
                 }
             case .trailingIconColor:
-                return .dynamicColor { theme.aliasTokens.foregroundColors[.neutral2] }
+                return .dynamicColor {
+                    // Foreground 2
+                    return DynamicColor(light: GlobalTokens.neutralColors(.grey38),
+                                        dark: GlobalTokens.neutralColors(.grey84))}
             }
         }
     }
