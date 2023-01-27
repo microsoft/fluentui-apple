@@ -32,9 +32,9 @@ class PeoplePickerSampleData {
     static let variants: [Variant] = [
         Variant(description: "Standard implementation with one line of picked personas", numberOfLines: 1, pickedPersonas: [samplePersonas[0], samplePersonas[4], samplePersonas[11], samplePersonas[14]]),
         Variant(description: "Doesn't allow picked personas to appear as suggested", pickedPersonas: [samplePersonas[0], samplePersonas[8]], allowsPickedPersonasToAppearAsSuggested: false),
+        Variant(description: "Showcases persona's avatar", pickedPersonas: [samplePersonas[0], samplePersonas[1]], allowsPickedPersonasToAppearAsSuggested: false, showsAvatar: true),
         Variant(description: "Hides search directory button", pickedPersonas: [samplePersonas[13]], showsSearchDirectoryButton: false, hidePersonaListViewWhenNoSuggestedPersonas: true),
-        Variant(description: "Includes callback when picking a suggested persona"),
-        Variant(description: "Showcases persona's avatar", pickedPersonas: [samplePersonas[0], samplePersonas[1]], allowsPickedPersonasToAppearAsSuggested: false, showsAvatar: true)
+        Variant(description: "Includes callback when picking a suggested persona")
     ]
 }
 
