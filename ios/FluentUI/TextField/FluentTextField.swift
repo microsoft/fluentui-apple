@@ -190,3 +190,136 @@ class FluentTextFieldInternal: UITextField {
         text = nil
     }
 }
+
+// TODO: Better, less confusing name. Since this is nothing like the other state objects
+public enum FluentTextFieldState: Int, CaseIterable {
+    case placeholder
+    case focused
+    case typing
+    case error
+    case filled
+}
+
+public class TextFieldTokenSet: ControlTokenSet<TextFieldTokenSet.Tokens> {
+    public enum Tokens: TokenSetKey {
+        case assistiveTextColor
+        case assistiveTextFont
+        case backgroundColor
+        case cursorColor
+        case inputTextColor
+        case inputTextFont
+        case labelColor
+        case labelFont
+        case leadingIconColor
+        case strokeColor
+        case trailingIconColor
+    }
+
+    init(state: @escaping () -> FluentTextFieldState) {
+        self.state = state
+        super.init { [state] token, theme in
+            switch token {
+            case .assistiveTextColor:
+                return .dynamicColor {
+                    switch state() {
+                    case .placeholder, .focused, .typing, .filled:
+                        return theme.aliasTokens.foregroundColors[.neutral2]
+                    case .error:
+                        // dangerTint20
+                        return DynamicColor(light: ColorValue(0xE87979),
+                                            dark: ColorValue(0x8B2323))
+                    }
+                }
+            case .assistiveTextFont:
+                return .fontInfo { theme.aliasTokens.typography[.caption2] }
+            case .backgroundColor:
+                return .dynamicColor { theme.aliasTokens.backgroundColors[.neutral1] }
+            case .cursorColor:
+                return .dynamicColor { theme.aliasTokens.foregroundColors[.neutral3] }
+            case .inputTextColor:
+                return .dynamicColor { theme.aliasTokens.foregroundColors[.neutral1] }
+            case .inputTextFont:
+                return .fontInfo { theme.aliasTokens.typography[.body1] }
+            case .labelColor:
+                return .dynamicColor {
+                    switch state() {
+                    case .placeholder, .filled:
+                        return theme.aliasTokens.foregroundColors[.neutral2]
+                    case .focused, .typing:
+                        return theme.aliasTokens.brandColors[.primary]
+                    case .error:
+                        // dangerTint20
+                        return DynamicColor(light: ColorValue(0xE87979),
+                                            dark: ColorValue(0x8B2323))
+                    }
+                }
+            case .labelFont:
+                return .fontInfo { theme.aliasTokens.typography[.caption2] }
+            case .leadingIconColor:
+                return .dynamicColor {
+                    switch state() {
+                    case .placeholder, .filled, .error:
+                        return theme.aliasTokens.foregroundColors[.neutral2]
+                    case .focused, .typing:
+                        return theme.aliasTokens.brandColors[.primary]
+                    }
+                }
+            case .strokeColor:
+                return .dynamicColor {
+                    switch state() {
+                    case .placeholder, .filled:
+                        return theme.aliasTokens.strokeColors[.neutral1]
+                    case .focused, .typing:
+                        return theme.aliasTokens.brandColors[.primary]
+                    case .error:
+                        // dangerTint20
+                        return DynamicColor(light: ColorValue(0xE87979),
+                                            dark: ColorValue(0x8B2323))
+                    }
+                }
+            case .trailingIconColor:
+                return .dynamicColor { theme.aliasTokens.foregroundColors[.neutral2] }
+            }
+        }
+    }
+
+    var state: () -> FluentTextFieldState
+}
+
+extension TextFieldTokenSet {
+    static func iconSize() -> CGFloat {
+        return GlobalTokens.iconSize(.medium)
+    }
+
+    static func horizontalPadding() -> CGFloat {
+        return GlobalTokens.spacing(.medium)
+    }
+
+    static func topPadding() -> CGFloat {
+        return GlobalTokens.spacing(.small)
+    }
+
+    static func bottomPadding() -> CGFloat {
+        return GlobalTokens.spacing(.xxSmall)
+    }
+
+    static func labelInputTextSpacing() -> CGFloat {
+        return GlobalTokens.spacing(.small)
+    }
+
+    static func leadingIconInputTextSpacing() -> CGFloat {
+        return GlobalTokens.spacing(.medium)
+    }
+
+    static func inputTextTrailingIconSpacing() -> CGFloat {
+        return GlobalTokens.spacing(.xSmall)
+    }
+
+    static func inputTextStrokeSpacing() -> CGFloat {
+        return GlobalTokens.spacing(.small)
+    }
+
+    static func strokeAssistiveTextSpacing() -> CGFloat {
+        return GlobalTokens.spacing(.xxSmall)
+    }
+}
