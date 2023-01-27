@@ -328,7 +328,12 @@ class LargeTitleView: UIView, TwoLineTitleViewDelegate {
         titleButton.setTitle(navigationItem.title, for: .normal)
         hasSubtitle = navigationItem.subtitle != nil
         if let title = navigationItem.title {
-            twoLineTitleView.setup(title: title, subtitle: navigationItem.subtitle, interactivePart: .title)
+            twoLineTitleView.setup(
+                title: title,
+                subtitle: navigationItem.subtitle,
+                alignment: .leading,
+                interactivePart: .title
+            )
         }
     }
 

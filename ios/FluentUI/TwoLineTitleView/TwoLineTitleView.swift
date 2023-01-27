@@ -56,6 +56,12 @@ open class TwoLineTitleView: UIView {
         case light
         case dark
     }
+    
+    @objc(MSFTwoLineTitleViewAlignment)
+    public enum Alignment: Int {
+        case center
+        case leading
+    }
 
     @objc(MSFTwoLineTitleViewInteractivePart)
     public enum InteractivePart: Int {
@@ -121,6 +127,7 @@ open class TwoLineTitleView: UIView {
 
     @objc public weak var delegate: TwoLineTitleViewDelegate?
 
+    private var alignment: Alignment = .center
     private var interactivePart: InteractivePart = .none
     private var accessoryType: AccessoryType = .none
 
@@ -202,6 +209,7 @@ open class TwoLineTitleView: UIView {
     // MARK: Setup
 
     /// Sets the relevant strings and button styles for the title and subtitle.
+    /// This is a legacy API that maintains Objective C compatibility with older versions of fluentui-apple.
     ///
     /// - Parameters:
     ///   - title: A title string.
@@ -209,6 +217,19 @@ open class TwoLineTitleView: UIView {
     ///   - interactivePart: Determines which line, if any, of the view will have interactive button behavior.
     ///   - accessoryType: Determines which accessory will be shown with the `interactivePart` of the view, if any. Ignored if `interactivePart` is `.none`.
     @objc open func setup(title: String, subtitle: String? = nil, interactivePart: InteractivePart = .none, accessoryType: AccessoryType = .none) {
+        setup(title: title, subtitle: subtitle, alignment: .center, interactivePart: interactivePart, accessoryType: accessoryType)
+    }
+
+    /// Sets the relevant strings and button styles for the title and subtitle.
+    ///
+    /// - Parameters:
+    ///   - title: A title string.
+    ///   - subtitle: An optional subtitle string. If nil, title will take up entire frame.
+    ///   - alignment: How to align the title and subtitle. Ignored if `subtitle` is nil.
+    ///   - interactivePart: Determines which line, if any, of the view will have interactive button behavior.
+    ///   - accessoryType: Determines which accessory will be shown with the `interactivePart` of the view, if any. Ignored if `interactivePart` is `.none`.
+    @objc open func setup(title: String, subtitle: String? = nil, alignment: Alignment = .center, interactivePart: InteractivePart = .none, accessoryType: AccessoryType = .none) {
+        self.alignment = alignment
         self.interactivePart = interactivePart
         self.accessoryType = accessoryType
 
@@ -309,7 +330,7 @@ open class TwoLineTitleView: UIView {
         titleButtonLabel.sizeToFit()
         let titleButtonLabelWidth = min(titleButtonLabelMaxWidth, titleButtonLabel.frame.width)
         titleButtonLabel.frame = CGRect(
-            x: ceil((titleButton.frame.width - titleButtonLabelWidth) / 2.0),
+            x: alignment == .center ? ceil((titleButton.frame.width - titleButtonLabelWidth) / 2.0) : 0,
             y: 0,
             width: titleButtonLabelWidth,
             height: titleButton.frame.height
@@ -329,7 +350,7 @@ open class TwoLineTitleView: UIView {
             subtitleButtonLabel.sizeToFit()
             let subtitleButtonLabelWidth = min(subtitleButtonLabelMaxWidth, subtitleButtonLabel.frame.width)
             subtitleButtonLabel.frame = CGRect(
-                x: ceil((subtitleButton.frame.width - subtitleButtonLabelWidth) / 2.0),
+                x: alignment == .center ? ceil((subtitleButton.frame.width - subtitleButtonLabelWidth) / 2.0) : 0,
                 y: 0,
                 width: subtitleButtonLabelWidth,
                 height: subtitleButton.frame.height
