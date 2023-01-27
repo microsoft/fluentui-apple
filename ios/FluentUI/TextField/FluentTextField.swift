@@ -4,9 +4,21 @@
 //
 
 import UIKit
+import Combine
 
 @objc(MSFTextField)
-public class FluentTextField: UIView, UITextFieldDelegate {
+public class FluentTextField: UIView, UITextFieldDelegate, TokenizedControlInternal {
+    open override func didMoveToWindow() {
+        super.didMoveToWindow()
+        tokenSet.update(fluentTheme)
+        updateTokenizedValues()
+    }
+
+    public typealias TokenSetKeyType = TextFieldTokenSet.Tokens
+    lazy public var tokenSet: TextFieldTokenSet = .init(state: { [weak self] in
+        return self?.state ?? .placeholder
+    })
+
     public var leadingImage: UIImage? {
         didSet {
             if let image = leadingImage {
@@ -49,18 +61,31 @@ public class FluentTextField: UIView, UITextFieldDelegate {
         let textStack = UIStackView(arrangedSubviews: [label, textfield, separator, assistiveTextLabel])
         textStack.axis = .vertical
         textStack.alignment = .leading
-        textStack.spacing = 12
+        textStack.spacing = TextFieldTokenSet.labelInputTextSpacing()
         textStack.setCustomSpacing(4, after: separator)
-        textStack.layoutMargins = UIEdgeInsets(top: 12, left: 0, bottom: 4, right: 0)
+        textStack.layoutMargins = UIEdgeInsets(top: TextFieldTokenSet.topPadding(),
+                                               left: 0,
+                                               bottom: TextFieldTokenSet.bottomPadding(),
+                                               right: 0)
         textStack.isLayoutMarginsRelativeArrangement = true
 
         let imageTextStack = UIStackView(arrangedSubviews: [leadingImageView, textStack])
         imageTextStack.axis = .horizontal
-        imageTextStack.spacing = 16
+        imageTextStack.spacing = TextFieldTokenSet.leadingIconInputTextSpacing()
         imageTextStack.distribution = .fill
         imageTextStack.translatesAutoresizingMaskIntoConstraints = false
         imageTextStack.alignment = .center
-        imageTextStack.layoutMargins = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 0)
+
+        let leftInset: CGFloat
+        let rightInset: CGFloat
+        if effectiveUserInterfaceLayoutDirection == .leftToRight {
+            leftInset = TextFieldTokenSet.horizontalPadding()
+            rightInset = 0
+        } else {
+            leftInset = 0
+            rightInset = TextFieldTokenSet.horizontalPadding()
+        }
+        imageTextStack.layoutMargins = UIEdgeInsets(top: 0, left: leftInset, bottom: 0, right: rightInset)
         imageTextStack.isLayoutMarginsRelativeArrangement = true
 
         addSubview(imageTextStack)
@@ -124,29 +149,33 @@ public class FluentTextField: UIView, UITextFieldDelegate {
         guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
             return
         }
-//        tokenSet.update(fluentTheme)
+        tokenSet.update(fluentTheme)
         updateTokenizedValues()
     }
 
-    // still no.... state? support.
     private func updateTokenizedValues() {
-        leadingImageView.tintColor = UIColor(dynamicColor: fluentTheme.aliasTokens.brandColors[.primary])
-        
-        let font = UIFont.fluent(fluentTheme.aliasTokens.typography[.caption2])
-        let labelColor = UIColor(dynamicColor: fluentTheme.aliasTokens.foregroundColors[.neutral4])
-        label.font = font
-        label.textColor = labelColor
-        assistiveTextLabel.font = font
-        assistiveTextLabel.textColor = labelColor
+        leadingImageView.tintColor = UIColor(dynamicColor: tokenSet[.leadingIconColor].dynamicColor)
 
-        separator.backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.strokeColors[.neutral1])
+        label.font = UIFont.fluent(tokenSet[.labelFont].fontInfo)
+        label.textColor = UIColor(dynamicColor: tokenSet[.labelColor].dynamicColor)
+        assistiveTextLabel.font = UIFont.fluent(tokenSet[.assistiveTextFont].fontInfo)
+        assistiveTextLabel.textColor = UIColor(dynamicColor: tokenSet[.assistiveTextColor].dynamicColor)
 
-        textfield.font = UIFont.fluent(fluentTheme.aliasTokens.typography[.body1])
-        textfield.tintColor = UIColor(dynamicColor: fluentTheme.aliasTokens.foregroundColors[.neutral3])
-        textfield.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.foregroundColors[.neutral1])
-        let buttonColor = fluentTheme.aliasTokens.foregroundColors[.neutral2]
-        textfield.clearButton.tokenSet[.foregroundColor] = .dynamicColor { buttonColor }
+        separator.backgroundColor = UIColor(dynamicColor: tokenSet[.strokeColor].dynamicColor)
+
+        textfield.font = UIFont.fluent(tokenSet[.inputTextFont].fontInfo)
+        textfield.tintColor = UIColor(dynamicColor: tokenSet[.cursorColor].dynamicColor)
+        textfield.textColor = UIColor(dynamicColor: tokenSet[.inputTextColor].dynamicColor)
+        let buttonColor = tokenSet[.trailingIconColor]
+        textfield.clearButton.tokenSet[.foregroundColor] = buttonColor
     }
+
+    private var state: FluentTextFieldState = .placeholder {
+        didSet {
+            updateTokenizedValues()
+        }
+    }
+    private var tokenSetSink: AnyCancellable?
 }
 
 class FluentTextFieldInternal: UITextField {
@@ -172,12 +201,12 @@ class FluentTextFieldInternal: UITextField {
         let rect = super.editingRect(forBounds: bounds)
         let origin = rect.origin
         let size = rect.size
-        return CGRect(x: origin.x, y: origin.y, width: size.width - (trailingViewSpacing + editingTextTrailingSpacing), height: size.height)
+        return CGRect(x: origin.x, y: origin.y, width: size.width - (trailingViewSpacing + inputTextTrailingIconSpacing), height: size.height)
     }
 
-    let trailingViewSpacing: CGFloat = 16.0
-    let editingTextTrailingSpacing: CGFloat = 8.0
-    let trailingViewSize: CGFloat = 24.0
+    let trailingViewSpacing: CGFloat = TextFieldTokenSet.horizontalPadding()
+    let inputTextTrailingIconSpacing: CGFloat = TextFieldTokenSet.inputTextTrailingIconSpacing()
+    let trailingViewSize: CGFloat = TextFieldTokenSet.iconSize()
     var clearButton: Button = {
         let button = Button(style: .borderless)
         // TODO: get the right image
