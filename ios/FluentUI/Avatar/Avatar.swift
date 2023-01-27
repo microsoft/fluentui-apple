@@ -115,7 +115,8 @@ public struct Avatar: View, TokenizedControlView {
         let isRingVisible = state.isRingVisible
         let hasRingInnerGap = state.hasRingInnerGap
         let ringThicknessToken: CGFloat = tokenSet[.ringThickness].float
-        let borderThicknessToken: CGFloat = tokenSet[.borderThickness].float
+        let accessoryBorderThicknessToken: CGFloat = tokenSet[.borderThickness].float
+        let accessoryBorderColorToken: DynamicColor = tokenSet[.borderColor].dynamicColor
         let isTransparent = state.isTransparent
         let isOutOfOffice = state.isOutOfOffice
         let initialsString: String = ((style == .overflow) ? state.primaryText ?? "" : Avatar.initialsText(fromPrimaryText: state.primaryText,
@@ -142,32 +143,24 @@ public struct Avatar: View, TokenizedControlView {
         let ringSize: CGFloat = ringInnerGapSize + (ringThickness * 2)
         let ringOuterGapSize: CGFloat = ringSize + (ringOuterGap * 2)
 
-        // Presence cutout calculation
-        let presenceIconSize: CGFloat = AvatarTokenSet.presenceIconSize(size)
-        let presenceIconOutlineSize: CGFloat = presenceIconSize + (borderThicknessToken * 2)
-        let presenceCutoutCoordinates: CGPoint = accessoryCoordinates(iconOffset: borderThicknessToken,
-                                                                      iconSize: presenceIconOutlineSize,
-                                                                      totalRingGap: totalRingGap)
-        let presenceIconFrameLTR: CGFloat = presenceCutoutCoordinates.x + presenceIconOutlineSize
-        let presenceIconFrameRTL: CGFloat = AvatarTokenSet.avatarSize(size) + borderThicknessToken + totalRingGap
-        let presenceIconFrameSideRelativeToOuterRing: CGFloat = layoutDirection == .rightToLeft ? presenceIconFrameRTL : presenceIconFrameLTR
-        let presenceOverallFrameSide = max(ringOuterGapSize, presenceIconFrameSideRelativeToOuterRing)
+        // Avatar accessory calculation
+        let accessoryIconSize: CGFloat = shouldDisplayActivity ? AvatarTokenSet.activityIconBackgroundSize(size) : AvatarTokenSet.presenceIconSize(size)
+        let accessoryBorderSize: CGFloat = accessoryIconSize + (accessoryBorderThicknessToken * 2)
+        let accessoryBackgroundColor: DynamicColor = shouldDisplayActivity ? tokenSet[.activityBackgroundColor].dynamicColor : accessoryBorderColorToken
+        let accessoryIconOffset: CGFloat = shouldDisplayActivity ? accessoryBorderThicknessToken * 3 : accessoryBorderThicknessToken
+        let accessoryCutoutCoordinates: CGPoint = accessoryCoordinates(iconOffset: accessoryIconOffset,
+                                                                       iconSize: accessoryBorderSize,
+                                                                       totalRingGap: totalRingGap)
+        let accessoryBorderFrameLTR: CGFloat = accessoryCutoutCoordinates.x + accessoryBorderSize
+        let accessoryBorderFrameRTL: CGFloat = AvatarTokenSet.avatarSize(size) + totalRingGap + (shouldDisplayActivity ? accessoryBorderThicknessToken : 0)
+        let accessoryBorderFrameSideRelativeToOuterRing: CGFloat = layoutDirection == .rightToLeft ? accessoryBorderFrameRTL : accessoryBorderFrameLTR
+        let accessoryOverallFrameSide = max(ringOuterGapSize, accessoryBorderFrameSideRelativeToOuterRing)
 
-        // Activity cutout calculation
-        let activityIconSize: CGFloat = AvatarTokenSet.activityIconSize(size)
-        let activitySize: CGFloat = AvatarTokenSet.activityIconBackgroundSize(size)
-        let activityBorderThickness: CGFloat = borderThicknessToken * 2
-        let activityIconOutlineSize: CGFloat = activitySize + activityBorderThickness
-        let activityCutoutCoordinates: CGPoint = accessoryCoordinates(iconOffset: (borderThicknessToken * 3),
-                                                                      iconSize: activityIconOutlineSize,
-                                                                      totalRingGap: totalRingGap)
-        let activityIconFrameLTR: CGFloat = activityCutoutCoordinates.x + activitySize + borderThicknessToken
-        let activityIconFrameRTL: CGFloat = AvatarTokenSet.avatarSize(size) + borderThicknessToken + totalRingGap
-        let activityBorderFrameLTR: CGFloat = activityIconFrameLTR + borderThicknessToken
-        let activityBorderFrameRTL: CGFloat = activityIconFrameRTL + borderThicknessToken
-        let activityIconFrameSideRelativeToOuterRing: CGFloat = layoutDirection == .rightToLeft ? activityIconFrameRTL : activityIconFrameLTR
-        let activityBorderFrameSideRelativeToOuterRing: CGFloat = layoutDirection == .rightToLeft ? activityBorderFrameRTL : activityBorderFrameLTR
-        let activityOverallFrameSide = max(ringOuterGapSize, activityIconFrameSideRelativeToOuterRing)
+        // Activity icon background calculation
+        let activityImageSize: CGFloat = AvatarTokenSet.activityIconSize(size)
+        let activityBackgroundFrameLTR: CGFloat = accessoryBorderFrameLTR - accessoryBorderThicknessToken
+        let activityBackgroundFrameRTL: CGFloat = accessoryBorderFrameRTL - accessoryBorderThicknessToken
+        let activityBackgroundFrameSideRelativeToOuterRing: CGFloat = layoutDirection == .rightToLeft ? activityBackgroundFrameRTL : activityBackgroundFrameLTR
 
         let colorHashCode = CalculatedColors.initialsHashCode(fromPrimaryText: state.primaryText, secondaryText: state.secondaryText)
 
@@ -274,65 +267,63 @@ public struct Avatar: View, TokenizedControlView {
                                         )
                                 .contentShape(Circle()),
                              alignment: .center)
-                    .modifyIf(shouldDisplayPresence, { thisView in
+            }
+        }
+
+        @ViewBuilder
+        var avatar: some View {
+            if style != .group {
+                avatarBody
+                // Creates the cutout shape
+                    .modifyIf((shouldDisplayActivity || shouldDisplayPresence), { thisView in
                         thisView
-                        // Create overall presence cutout shape
-                            .clipShape(ShapeCutout(xOrigin: presenceCutoutCoordinates.x,
-                                                   yOrigin: presenceCutoutCoordinates.y,
+                            .clipShape(ShapeCutout(xOrigin: accessoryCutoutCoordinates.x,
+                                                   yOrigin: accessoryCutoutCoordinates.y,
                                                    cornerRadius: cornerRadius,
-                                                   cutoutSize: presenceIconOutlineSize),
+                                                   cutoutSize: accessoryBorderSize),
                                        style: FillStyle(eoFill: true))
-                        // Create presence border shape
-                            .overlay(Circle()
-                                .foregroundColor(Color(dynamicColor: tokenSet[.borderColor].dynamicColor).opacity(isTransparent ? 0 : 1))
-                                .frame(width: presenceIconOutlineSize, height: presenceIconOutlineSize, alignment: .center)
-                                .overlay(presence.image(isOutOfOffice: isOutOfOffice)
-                                    .interpolation(.high)
-                                    .resizable()
-                                    .frame(width: presenceIconSize, height: presenceIconSize, alignment: .center)
-                                    .foregroundColor(presence.color(isOutOfOffice: isOutOfOffice)))
-                                    .contentShape(Circle())
-                                    .frame(width: presenceIconFrameSideRelativeToOuterRing, height: presenceIconFrameSideRelativeToOuterRing,
-                                           alignment: .bottomTrailing),
-                                     alignment: .topLeading)
-                            .frame(width: presenceOverallFrameSide, height: presenceOverallFrameSide, alignment: .topLeading)
                     })
+                // Creates the activity outer border overlay
                     .modifyIf(shouldDisplayActivity, { thisView in
                         thisView
-                        // Create overall activity cutout shape
-                            .clipShape(ShapeCutout(xOrigin: activityCutoutCoordinates.x,
-                                                   yOrigin: activityCutoutCoordinates.y,
-                                                   cornerRadius: cornerRadius,
-                                                   cutoutSize: activityIconOutlineSize),
-                                       style: FillStyle(eoFill: true))
-                        // Create activity border shape
                             .overlay(RoundedRectangle(cornerRadius: cornerRadius)
-                                .foregroundColor(Color(dynamicColor: tokenSet[.borderColor].dynamicColor).opacity(isTransparent ? 0 : 1))
-                                .frame(width: activityIconOutlineSize, height: activityIconOutlineSize, alignment: .center)
+                                .foregroundColor(Color(dynamicColor: accessoryBorderColorToken).opacity(isTransparent ? 0 : 1))
+                                .frame(width: accessoryBorderSize, height: accessoryBorderSize, alignment: .center)
                                 .contentShape(Circle())
-                                .frame(width: activityBorderFrameSideRelativeToOuterRing, height: activityBorderFrameSideRelativeToOuterRing,
+                                .frame(width: accessoryBorderFrameSideRelativeToOuterRing, height: accessoryBorderFrameSideRelativeToOuterRing,
                                        alignment: .bottomTrailing),
                                      alignment: .topLeading)
-                        // Create icon shape
-                            .overlay(RoundedRectangle(cornerRadius: cornerRadius)
-                                .foregroundColor(Color(dynamicColor: tokenSet[.activityBackgroundColor].dynamicColor))
-                                .frame(width: activitySize, height: activitySize, alignment: .center)
-                                .overlay(activityImage
-                                    .interpolation(.high)
-                                    .resizable()
-                                    .frame(width: activityIconSize, height: activityIconSize, alignment: .center))
-                                    .contentShape(Circle())
-                                    .frame(width: activityIconFrameSideRelativeToOuterRing, height: activityIconFrameSideRelativeToOuterRing,
-                                           alignment: .bottomTrailing),
-                                     alignment: .topLeading)
-                            .frame(width: activityOverallFrameSide, height: activityOverallFrameSide, alignment: .topLeading)
                     })
+                // Creates the accessory icon overlay
+                    .modifyIf((shouldDisplayActivity || shouldDisplayPresence), { thisView in
+                        thisView
+                            .overlay(RoundedRectangle(cornerRadius: cornerRadius)
+                                .foregroundColor(Color(dynamicColor: accessoryBackgroundColor).opacity(isTransparent ? 0 : 1))
+                                .frame(width: shouldDisplayActivity ? accessoryIconSize : accessoryBorderSize,
+                                       height: shouldDisplayActivity ? accessoryIconSize : accessoryBorderSize,
+                                       alignment: .center)
+                                    .overlay((shouldDisplayActivity ? activityImage : presence.image(isOutOfOffice: isOutOfOffice))
+                                        .interpolation(.high)
+                                        .resizable()
+                                        .frame(width: shouldDisplayActivity ? activityImageSize : accessoryIconSize,
+                                               height: shouldDisplayActivity ? activityImageSize : accessoryIconSize,
+                                               alignment: .center)
+                                            .foregroundColor(shouldDisplayActivity ? Color.clear : presence.color(isOutOfOffice: isOutOfOffice)))
+                                        .contentShape(Circle())
+                                        .frame(width: shouldDisplayActivity ? activityBackgroundFrameSideRelativeToOuterRing : accessoryBorderFrameSideRelativeToOuterRing,
+                                               height: shouldDisplayActivity ? activityBackgroundFrameSideRelativeToOuterRing : accessoryBorderFrameSideRelativeToOuterRing,
+                                               alignment: .bottomTrailing),
+                                     alignment: .topLeading)
+                            .frame(width: accessoryOverallFrameSide, height: accessoryOverallFrameSide, alignment: .topLeading)
+                    })
+            } else {
+                avatarBody
             }
         }
 
         let standardAnimation = Animation.linear(duration: Self.animationDuration)
 
-        return avatarBody
+        return avatar
             .pointerInteraction(state.hasPointerInteraction)
             .modifyIf(state.isAnimated, { thisView in
                 thisView
