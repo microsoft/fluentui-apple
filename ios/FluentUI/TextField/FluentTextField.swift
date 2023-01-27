@@ -209,8 +209,7 @@ class FluentTextFieldInternal: UITextField {
     let trailingViewSize: CGFloat = TextFieldTokenSet.iconSize()
     var clearButton: Button = {
         let button = Button(style: .borderless)
-        // TODO: get the right image
-        button.image = UIImage(named: "Dismiss_24")
+        button.image = UIImage.staticImageNamed("ic_fluent_dismiss_circle_24_regular")
         button.edgeInsets = .zero
         return button
     }()
