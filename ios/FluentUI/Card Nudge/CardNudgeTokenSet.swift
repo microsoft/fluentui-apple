@@ -67,7 +67,7 @@ public class CardNudgeTokenSet: ControlTokenSet<CardNudgeTokenSet.Tokens> {
                 switch style() {
                 case .standard:
                     return .dynamicColor {
-                        theme.aliasTokens.colors[.canvasBackground]
+                        theme.aliasTokens.colors[.backgroundCanvas]
                     }
                 case .outline:
                     return .dynamicColor {
@@ -99,7 +99,7 @@ public class CardNudgeTokenSet: ControlTokenSet<CardNudgeTokenSet.Tokens> {
                 switch style() {
                 case .standard:
                     return .dynamicColor {
-                        theme.aliasTokens.colors[.canvasBackground]
+                        theme.aliasTokens.colors[.backgroundCanvas]
                     }
                 case .outline:
                     return .dynamicColor {
