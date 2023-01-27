@@ -98,21 +98,10 @@ open class PeoplePicker: BadgeField {
         didSet {
             if showsAvatar {
                 deleteAllBadges()
-                for persona in pickedPersonas {
+                pickedPersonas.forEach {
                     let avatar = MSFAvatar(style: .default, size: .size16)
-                    avatar.state.image = persona.image
-
-                    let dataSource = BadgeViewDataSource(
-                        text: persona.name,
-                        style: BadgeView.Style.default,
-                        size: BadgeView.Size.medium,
-                        customView: avatar
-                    )
-
-                    let badge = BadgeView(dataSource: dataSource)
-                    badge.delegate = self
-                    badge.isActive = true
-                    super.addBadge(badge)
+                    avatar.state.image = $0.image
+                    addBadge(withDataSource: PersonaBadgeViewDataSource(persona: $0, customView: avatar))
                 }
             }
         }
@@ -314,7 +303,13 @@ open class PeoplePicker: BadgeField {
     private func updatePickedPersonaBadges() {
         deleteAllBadges()
         pickedPersonas.forEach {
-            addBadge(withDataSource: PersonaBadgeViewDataSource(persona: $0))
+            if showsAvatar {
+                let avatar = MSFAvatar(style: .default, size: .size16)
+                avatar.state.image = $0.image
+                addBadge(withDataSource: PersonaBadgeViewDataSource(persona: $0, customView: avatar))
+            } else {
+                addBadge(withDataSource: PersonaBadgeViewDataSource(persona: $0))
+            }
         }
     }
 
