@@ -215,12 +215,13 @@ open class TwoLineTitleView: UIView {
         setupButton(titleButton, label: titleButtonLabel, imageView: titleButtonImageView, text: title, interactive: interactivePart == .title, accessoryType: accessoryType)
         setupButton(subtitleButton, label: subtitleButtonLabel, imageView: subtitleButtonImageView, text: subtitle, interactive: interactivePart == .subtitle, accessoryType: accessoryType)
 
+        invalidateIntrinsicContentSize()
         setNeedsLayout()
     }
 
     // MARK: Highlighting
 
-    private func applyStyle(style: Style) {
+    func applyStyle(style: Style) {
         switch style {
         case .dark:
             titleButtonLabel.textColor = Colors.TwoLineTitle.titleDark
@@ -283,6 +284,11 @@ open class TwoLineTitleView: UIView {
         subtitleSize.width += subtitleAccessoryType.areaWidth
 
         return CGSize(width: max(titleSize.width, subtitleSize.width), height: titleSize.height + subtitleSize.height)
+    }
+    
+    open override var intrinsicContentSize: CGSize {
+        let size = sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
+        return size
     }
 
     open override func layoutSubviews() {

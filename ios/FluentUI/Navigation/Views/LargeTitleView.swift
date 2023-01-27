@@ -8,7 +8,7 @@ import UIKit
 // MARK: LargeTitleView
 
 /// Large Header and custom profile button container
-class LargeTitleView: UIView {
+class LargeTitleView: UIView, TwoLineTitleViewDelegate {
     enum Style: Int {
         case light, dark
     }
@@ -80,6 +80,7 @@ class LargeTitleView: UIView {
     var style: Style = .light {
         didSet {
             titleButton.setTitleColor(colorForStyle, for: .normal)
+            twoLineTitleView.applyStyle(style: style == .light ? .light : .dark)
             avatar?.state.style = style == .light ? .default : .accent
         }
     }
@@ -123,7 +124,19 @@ class LargeTitleView: UIView {
 
     private var avatar: MSFAvatar? // circular view displaying the profile information
 
+    private let titleContainerView = UIView()
+
+    private var hasSubtitle: Bool = false {
+        didSet {
+            if oldValue != hasSubtitle {
+                updateTitleContainerView()
+            }
+        }
+    }
+
+    // TODO: Once we have an iOS 15 minimum, we can use UIButton.Configuration to eliminate the need for TwoLineTitleView here
     private let titleButton = UIButton() // button used to display the title of the current navigation item
+    private let twoLineTitleView = TwoLineTitleView() // view used to display the title of the current navigation item if a subtitle exists
 
     private let contentStackView = UIStackView() // containing stack view
 
@@ -158,6 +171,8 @@ class LargeTitleView: UIView {
     private func initBase() {
         setupLayout()
         setupAccessibility()
+
+        twoLineTitleView.delegate = self
     }
 
     // MARK: - Base Construction Methods
@@ -196,8 +211,10 @@ class LargeTitleView: UIView {
 
         avatarView.centerYAnchor.constraint(equalTo: contentStackView.centerYAnchor).isActive = true
 
-        // title button setup
-        contentStackView.addArrangedSubview(titleButton)
+        // title container setup
+        updateTitleContainerView()
+        contentStackView.addArrangedSubview(titleContainerView)
+
         titleButton.setTitle(nil, for: .normal)
         titleButton.titleLabel?.font = Constants.titleFont
         titleButton.setTitleColor(colorForStyle, for: .normal)
@@ -297,6 +314,11 @@ class LargeTitleView: UIView {
     private func updateProfileButtonVisibility() {
         showsProfileButton = !hasLeftBarButtonItems && (personaData != nil || avatarOverrideStyle != nil)
     }
+    
+    private func updateTitleContainerView() {
+        titleContainerView.removeAllSubviews()
+        titleContainerView.contain(view: hasSubtitle ? twoLineTitleView : titleButton)
+    }
 
     /// Sets the interface with the provided item's details
     ///
@@ -304,6 +326,10 @@ class LargeTitleView: UIView {
     func update(with navigationItem: UINavigationItem) {
         hasLeftBarButtonItems = !(navigationItem.leftBarButtonItems?.isEmpty ?? true)
         titleButton.setTitle(navigationItem.title, for: .normal)
+        hasSubtitle = navigationItem.subtitle != nil
+        if let title = navigationItem.title {
+            twoLineTitleView.setup(title: title, subtitle: navigationItem.subtitle, interactivePart: .title)
+        }
     }
 
     // MARK: - Expansion/Contraction Methods
@@ -353,6 +379,18 @@ class LargeTitleView: UIView {
         accessibilityElements = contentStackView.arrangedSubviews.filter({ arrangedSubview in
             return !arrangedSubview.isHidden
         })
+    }
+    
+    // MARK: - TwoLineTitleViewDelegate
+    
+    func twoLineTitleViewDidTapOnTitle(_ twoLineTitleView: TwoLineTitleView) {
+        guard twoLineTitleView == self.twoLineTitleView else {
+            return
+        }
+        guard respondsToTaps else {
+            return
+        }
+        requestExpansion()
     }
 }
 
