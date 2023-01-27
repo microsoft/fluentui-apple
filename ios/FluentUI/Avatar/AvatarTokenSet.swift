@@ -243,40 +243,34 @@ extension AvatarTokenSet {
     /// The border radius for the activity icon in the MSFAvatarActivityStyle `.square` style.
     static func activityIconRadius(_ size: MSFAvatarSize) -> CGFloat {
         switch size {
-        case .size16, .size20, .size24, .size32:
+        case .size16, .size20, .size24, .size32, .size72:
             return 0
         case .size40, .size56:
             return GlobalTokens.borderRadius(.medium)
-        case .size72:
-            return GlobalTokens.borderRadius(.large)
         }
     }
 
     /// The size of the activity icon.
     static func activityIconSize(_ size: MSFAvatarSize) -> CGFloat {
         switch size {
-        case .size16, .size20, .size24, .size32:
+        case .size16, .size20, .size24, .size32, .size72:
             return 0
         case .size40:
             return GlobalTokens.iconSize(.xSmall)
         case .size56:
             return GlobalTokens.iconSize(.medium)
-        case .size72:
-            return 32
         }
     }
 
     /// The size of the activity icon background.
     static func activityIconBackgroundSize(_ size: MSFAvatarSize) -> CGFloat {
         switch size {
-        case .size16, .size20, .size24, .size32:
+        case .size16, .size20, .size24, .size32, .size72:
             return 0
         case .size40:
             return GlobalTokens.iconSize(.small)
         case .size56:
             return GlobalTokens.iconSize(.large)
-        case .size72:
-            return GlobalTokens.iconSize(.xLarge)
         }
     }
 }

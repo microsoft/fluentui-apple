@@ -54,9 +54,11 @@ import SwiftUI
     var presence: MSFAvatarPresence { get set }
 
     /// Defines the activity style displayed by the Avatar.
+    /// Will not be displayed if activityImage is not set.
     var activityStyle: MSFAvatarActivityStyle { get set }
 
     /// Displays the image used within the Avatar activity.
+    /// Will not be displayed if activitySyle is not set.
     var activityImage: UIImage? { get set }
 
     /// The primary text of the avatar.
@@ -107,9 +109,15 @@ public struct Avatar: View, TokenizedControlView {
     public var body: some View {
         let style = state.style
         let size = state.size
+
+        let initialsString: String = ((style == .overflow) ? state.primaryText ?? "" : Avatar.initialsText(fromPrimaryText: state.primaryText,
+                                                                                                           secondaryText: state.secondaryText))
+        let shouldUseCalculatedColors = !initialsString.isEmpty && style != .overflow
+        let shouldUseDefaultImage = (state.image == nil && initialsString.isEmpty && style != .overflow)
+
         let activityStyle = state.activityStyle
         let presence = state.presence
-        let shouldDisplayActivity = activityStyle != .none
+        let shouldDisplayActivity = state.activityImage != nil && activityStyle != .none && (style == .default && !shouldUseDefaultImage)
         let shouldDisplayPresence = shouldDisplayActivity ? false : presence != .none
         let cornerRadius = shouldDisplayActivity ? (activityStyle == .square ? AvatarTokenSet.activityIconRadius(size) : .infinity) : .infinity
         let isRingVisible = state.isRingVisible
@@ -119,9 +127,6 @@ public struct Avatar: View, TokenizedControlView {
         let accessoryBorderColorToken: DynamicColor = tokenSet[.borderColor].dynamicColor
         let isTransparent = state.isTransparent
         let isOutOfOffice = state.isOutOfOffice
-        let initialsString: String = ((style == .overflow) ? state.primaryText ?? "" : Avatar.initialsText(fromPrimaryText: state.primaryText,
-                                                                                                           secondaryText: state.secondaryText))
-        let shouldUseCalculatedColors = !initialsString.isEmpty && style != .overflow
 
         let activityImage: Image = {
             if let image = state.activityImage {
@@ -152,7 +157,7 @@ public struct Avatar: View, TokenizedControlView {
                                                                        iconSize: accessoryBorderSize,
                                                                        totalRingGap: totalRingGap)
         let accessoryBorderFrameLTR: CGFloat = accessoryCutoutCoordinates.x + accessoryBorderSize
-        let accessoryBorderFrameRTL: CGFloat = AvatarTokenSet.avatarSize(size) + totalRingGap + (shouldDisplayActivity ? accessoryBorderThicknessToken : 0)
+        let accessoryBorderFrameRTL: CGFloat = AvatarTokenSet.avatarSize(size) + totalRingGap + accessoryBorderThicknessToken + (shouldDisplayActivity ? accessoryBorderThicknessToken : 0)
         let accessoryBorderFrameSideRelativeToOuterRing: CGFloat = layoutDirection == .rightToLeft ? accessoryBorderFrameRTL : accessoryBorderFrameLTR
         let accessoryOverallFrameSide = max(ringOuterGapSize, accessoryBorderFrameSideRelativeToOuterRing)
 
@@ -176,7 +181,6 @@ public struct Avatar: View, TokenizedControlView {
                                                                tokenSet[.ringDefaultColor].dynamicColor :
                                                                CalculatedColors.ringColor(hashCode: colorHashCode)))
 
-        let shouldUseDefaultImage = (state.image == nil && initialsString.isEmpty && style != .overflow)
         let avatarImageInfo: (image: UIImage?, renderingMode: Image.TemplateRenderingMode) = {
             if shouldUseDefaultImage {
                 let isOutlinedStyle = style == .outlined || style == .outlinedPrimary
@@ -309,7 +313,7 @@ public struct Avatar: View, TokenizedControlView {
                                                height: shouldDisplayActivity ? activityImageSize : accessoryIconSize,
                                                alignment: .center)
                                             .foregroundColor(shouldDisplayActivity ? Color.clear : presence.color(isOutOfOffice: isOutOfOffice)))
-                                        .contentShape(Circle())
+                                        .contentShape(RoundedRectangle(cornerRadius: cornerRadius))
                                         .frame(width: shouldDisplayActivity ? activityBackgroundFrameSideRelativeToOuterRing : accessoryBorderFrameSideRelativeToOuterRing,
                                                height: shouldDisplayActivity ? activityBackgroundFrameSideRelativeToOuterRing : accessoryBorderFrameSideRelativeToOuterRing,
                                                alignment: .bottomTrailing),

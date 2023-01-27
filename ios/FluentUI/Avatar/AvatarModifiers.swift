@@ -103,7 +103,8 @@ public extension Avatar {
     }
 
     /// Defines the activity style and image displayed by the Avatar.
-    /// Activity is only displayed in `size72`, `size56`, and `size40`.
+    /// Activity is only displayed in `size56` and `size40`.
+    /// If the Avatar style is not `.default` style, and if uses the default image, the activity will not be displayed.
     /// - Parameter activityStyle: The `MSFAvatarActivityStyle` enum value.
     /// - Parameter activityImage: The optional image to use for activity.
     /// - Returns: The modified Avatar with the property set.
