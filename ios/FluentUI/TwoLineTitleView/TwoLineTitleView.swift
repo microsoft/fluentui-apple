@@ -135,6 +135,7 @@ open class TwoLineTitleView: UIView {
 
     private var alignment: Alignment = .center
     private var interactivePart: InteractivePart = .none
+    private var animatesTextColor: Bool = true
     private var accessoryType: AccessoryType = .none
 
     private let titleButton = EasyTapButton()
@@ -223,7 +224,7 @@ open class TwoLineTitleView: UIView {
     ///   - interactivePart: Determines which line, if any, of the view will have interactive button behavior.
     ///   - accessoryType: Determines which accessory will be shown with the `interactivePart` of the view, if any. Ignored if `interactivePart` is `.none`.
     @objc open func setup(title: String, subtitle: String? = nil, interactivePart: InteractivePart = .none, accessoryType: AccessoryType = .none) {
-        setup(title: title, subtitle: subtitle, alignment: .center, interactivePart: interactivePart, accessoryType: accessoryType)
+        setup(title: title, subtitle: subtitle, alignment: .center, interactivePart: interactivePart, animatesTextColor: true, accessoryType: accessoryType)
     }
 
     /// Sets the relevant strings and button styles for the title and subtitle.
@@ -233,10 +234,12 @@ open class TwoLineTitleView: UIView {
     ///   - subtitle: An optional subtitle string. If nil, title will take up entire frame.
     ///   - alignment: How to align the title and subtitle. Ignored if `subtitle` is nil.
     ///   - interactivePart: Determines which line, if any, of the view will have interactive button behavior.
+    ///   - animatesTextColor: If true, the text color will flash when pressed. Ignored if `interactivePart` is `.none`.
     ///   - accessoryType: Determines which accessory will be shown with the `interactivePart` of the view, if any. Ignored if `interactivePart` is `.none`.
-    @objc open func setup(title: String, subtitle: String? = nil, alignment: Alignment = .center, interactivePart: InteractivePart = .none, accessoryType: AccessoryType = .none) {
+    @objc open func setup(title: String, subtitle: String? = nil, alignment: Alignment = .center, interactivePart: InteractivePart = .none, animatesTextColor: Bool = true, accessoryType: AccessoryType = .none) {
         self.alignment = alignment
         self.interactivePart = interactivePart
+        self.animatesTextColor = animatesTextColor
         self.accessoryType = accessoryType
 
         setupButton(titleButton, label: titleButtonLabel, imageView: titleButtonImageView, text: title, interactive: interactivePart.includes(.title), accessoryType: accessoryType)
@@ -388,6 +391,9 @@ open class TwoLineTitleView: UIView {
     // MARK: Actions
 
     @objc private func onTitleButtonHighlighted() {
+        guard animatesTextColor else {
+            return
+        }
         setupTitleButtonColor(highlighted: true, animated: true)
         if interactivePart == .all {
             onSubtitleButtonHighlighted()
@@ -395,6 +401,9 @@ open class TwoLineTitleView: UIView {
     }
 
     @objc private func onTitleButtonUnhighlighted() {
+        guard animatesTextColor else {
+            return
+        }
         setupTitleButtonColor(highlighted: false, animated: true)
         if interactivePart == .all {
             onSubtitleButtonUnhighlighted()
@@ -406,10 +415,16 @@ open class TwoLineTitleView: UIView {
     }
 
     @objc private func onSubtitleButtonHighlighted() {
+        guard animatesTextColor else {
+            return
+        }
         setupSubtitleButtonColor(highlighted: true, animated: true)
     }
 
     @objc private func onSubtitleButtonUnhighlighted() {
+        guard animatesTextColor else {
+            return
+        }
         setupSubtitleButtonColor(highlighted: false, animated: true)
     }
 
