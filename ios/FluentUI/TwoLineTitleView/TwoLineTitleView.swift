@@ -65,9 +65,15 @@ open class TwoLineTitleView: UIView {
 
     @objc(MSFTwoLineTitleViewInteractivePart)
     public enum InteractivePart: Int {
-        case none
-        case title
-        case subtitle
+        case none = 0
+        case title = 1
+        case subtitle = 2
+        case all = 3
+
+        // The @objc requirement doesn't let us use OptionSet, so we do it ourselves
+        func includes(_ other: InteractivePart) -> Bool {
+            return rawValue & other.rawValue != 0
+        }
     }
 
     @objc(MSFTwoLineTitleViewAccessoryType)
@@ -133,7 +139,7 @@ open class TwoLineTitleView: UIView {
 
     private let titleButton = EasyTapButton()
     private var titleAccessoryType: AccessoryType {
-        return interactivePart == .title ? accessoryType : .none
+        return interactivePart.includes(.title) ? accessoryType : .none
     }
 
     private lazy var titleButtonLabel: Label = {
@@ -149,7 +155,7 @@ open class TwoLineTitleView: UIView {
 
     private let subtitleButton = EasyTapButton()
     private var subtitleAccessoryType: AccessoryType {
-        return interactivePart == .subtitle ? accessoryType : .none
+        return interactivePart.includes(.subtitle) ? accessoryType : .none
     }
 
     private lazy var subtitleButtonLabel: Label = {
@@ -233,7 +239,10 @@ open class TwoLineTitleView: UIView {
         self.interactivePart = interactivePart
         self.accessoryType = accessoryType
 
-        setupButton(titleButton, label: titleButtonLabel, imageView: titleButtonImageView, text: title, interactive: interactivePart == .title, accessoryType: accessoryType)
+        setupButton(titleButton, label: titleButtonLabel, imageView: titleButtonImageView, text: title, interactive: interactivePart.includes(.title), accessoryType: accessoryType)
+        // Check for strict equality for the subtitle button's interactivity.
+        // If the whole area is active, we'll stretch the title button to adjust the hit area
+        // while still only keeping one button active from an accessibility standpoint.
         setupButton(subtitleButton, label: subtitleButtonLabel, imageView: subtitleButtonImageView, text: subtitle, interactive: interactivePart == .subtitle, accessoryType: accessoryType)
 
         invalidateIntrinsicContentSize()
@@ -346,7 +355,7 @@ open class TwoLineTitleView: UIView {
         if subtitleButtonLabel.text != nil {
             subtitleButton.frame = CGRect(x: frame.origin.x, y: top, width: bounds.width, height: subtitleButtonHeight).integral
 
-            let subtitleButtonLabelMaxWidth = interactivePart == .subtitle ? subtitleButton.bounds.width - subtitleAccessoryType.areaWidth : titleButton.bounds.width
+            let subtitleButtonLabelMaxWidth = interactivePart.includes(.subtitle) ? subtitleButton.bounds.width - subtitleAccessoryType.areaWidth : titleButton.bounds.width
             subtitleButtonLabel.sizeToFit()
             let subtitleButtonLabelWidth = min(subtitleButtonLabelMaxWidth, subtitleButtonLabel.frame.width)
             subtitleButtonLabel.frame = CGRect(
@@ -366,6 +375,12 @@ open class TwoLineTitleView: UIView {
             titleButton.centerInSuperview()
         }
 
+        if interactivePart == .all {
+            // Use one giant button instead of two
+            titleButton.frame = titleButton.frame.union(subtitleButton.frame)
+            subtitleButton.isUserInteractionEnabled = false
+        }
+
         titleButton.flipSubviewsForRTL()
         subtitleButton.flipSubviewsForRTL()
     }
@@ -374,10 +389,16 @@ open class TwoLineTitleView: UIView {
 
     @objc private func onTitleButtonHighlighted() {
         setupTitleButtonColor(highlighted: true, animated: true)
+        if interactivePart == .all {
+            onSubtitleButtonHighlighted()
+        }
     }
 
     @objc private func onTitleButtonUnhighlighted() {
         setupTitleButtonColor(highlighted: false, animated: true)
+        if interactivePart == .all {
+            onSubtitleButtonUnhighlighted()
+        }
     }
 
     @objc private func onTitleButtonTapped() {
