@@ -44,12 +44,6 @@ public class FluentTextField: UIView, UITextFieldDelegate, TokenizedControlInter
             textfield.attributedPlaceholder = attributedPlaceholder
         }
     }
-    var attributedPlaceholder: NSAttributedString? {
-        guard let placeholder = placeholder else {
-            return nil
-        }
-        return NSAttributedString(string: placeholder, attributes: [.foregroundColor: UIColor(dynamicColor: tokenSet[.placeholderColor].dynamicColor)])
-    }
     public var assistiveText: String? {
         didSet {
             if let text = assistiveText {
@@ -116,6 +110,13 @@ public class FluentTextField: UIView, UITextFieldDelegate, TokenizedControlInter
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    var attributedPlaceholder: NSAttributedString? {
+        guard let placeholder = placeholder else {
+            return nil
+        }
+        return NSAttributedString(string: placeholder, attributes: [.foregroundColor: UIColor(dynamicColor: tokenSet[.placeholderColor].dynamicColor)])
     }
 
     let leadingImageView: UIImageView = {
