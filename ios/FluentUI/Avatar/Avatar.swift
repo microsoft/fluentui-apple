@@ -117,8 +117,11 @@ public struct Avatar: View, TokenizedControlView {
 
         let activityStyle = state.activityStyle
         let presence = state.presence
-        let shouldDisplayActivity = state.activityImage != nil && activityStyle != .none && (style == .default && !shouldUseDefaultImage)
-        let shouldDisplayPresence = shouldDisplayActivity ? false : presence != .none
+
+        let isActivitySizeZero = AvatarTokenSet.activityIconSize(size) == 0
+        let isPresenceSizeZero = AvatarTokenSet.presenceIconSize(size) == 0
+        let shouldDisplayActivity = state.activityImage != nil && activityStyle != .none && (style == .default && !shouldUseDefaultImage) && !isActivitySizeZero
+        let shouldDisplayPresence = (shouldDisplayActivity ? false : presence != .none) && !isPresenceSizeZero && style != .group
         let cornerRadius = shouldDisplayActivity ? (activityStyle == .square ? AvatarTokenSet.activityIconRadius(size) : .infinity) : .infinity
         let isRingVisible = state.isRingVisible
         let hasRingInnerGap = state.hasRingInnerGap
@@ -139,32 +142,6 @@ public struct Avatar: View, TokenizedControlView {
         let ringInnerGapSize: CGFloat = avatarImageSize + (ringInnerGap * 2)
         let ringSize: CGFloat = ringInnerGapSize + (ringThickness * 2)
         let ringOuterGapSize: CGFloat = ringSize + (ringOuterGap * 2)
-
-        // Avatar accessory calculation
-        let accessoryImage: Image = {
-            if let image = state.activityImage, shouldDisplayActivity {
-                return Image(uiImage: image)
-            } else {
-                return presence.image(isOutOfOffice: isOutOfOffice)
-            }
-        }()
-        let accessoryIconSize: CGFloat = shouldDisplayActivity ? AvatarTokenSet.activityIconBackgroundSize(size) : AvatarTokenSet.presenceIconSize(size)
-        let accessoryBorderSize: CGFloat = accessoryIconSize + (accessoryBorderThicknessToken * 2)
-        let accessoryBackgroundColor: DynamicColor = shouldDisplayActivity ? tokenSet[.activityBackgroundColor].dynamicColor : accessoryBorderColorToken
-        let accessoryIconOffset: CGFloat = shouldDisplayActivity ? accessoryBorderThicknessToken * 3 : accessoryBorderThicknessToken
-        let accessoryCutoutCoordinates: CGPoint = accessoryCoordinates(iconOffset: accessoryIconOffset,
-                                                                       iconSize: accessoryBorderSize,
-                                                                       totalRingGap: totalRingGap)
-        let accessoryBorderFrameLTR: CGFloat = accessoryCutoutCoordinates.x + accessoryBorderSize
-        let accessoryBorderFrameRTL: CGFloat = AvatarTokenSet.avatarSize(size) + totalRingGap + accessoryBorderThicknessToken + (shouldDisplayActivity ? accessoryBorderThicknessToken : 0)
-        let accessoryBorderFrameSideRelativeToOuterRing: CGFloat = layoutDirection == .rightToLeft ? accessoryBorderFrameRTL : accessoryBorderFrameLTR
-        let accessoryOverallFrameSide = max(ringOuterGapSize, accessoryBorderFrameSideRelativeToOuterRing)
-
-        // Activity icon background calculation
-        let activityImageSize: CGFloat = AvatarTokenSet.activityIconSize(size)
-        let activityBackgroundFrameLTR: CGFloat = accessoryBorderFrameLTR - accessoryBorderThicknessToken
-        let activityBackgroundFrameRTL: CGFloat = accessoryBorderFrameRTL - accessoryBorderThicknessToken
-        let activityBackgroundFrameSideRelativeToOuterRing: CGFloat = layoutDirection == .rightToLeft ? activityBackgroundFrameRTL : activityBackgroundFrameLTR
 
         let colorHashCode = CalculatedColors.initialsHashCode(fromPrimaryText: state.primaryText, secondaryText: state.secondaryText)
 
@@ -275,7 +252,33 @@ public struct Avatar: View, TokenizedControlView {
 
         @ViewBuilder
         var avatar: some View {
-            if style != .group {
+            if shouldDisplayPresence || shouldDisplayActivity {
+                // Avatar accessory calculation
+                let accessoryImage: Image = {
+                    if let image = state.activityImage, shouldDisplayActivity {
+                        return Image(uiImage: image)
+                    } else {
+                        return presence.image(isOutOfOffice: isOutOfOffice)
+                    }
+                }()
+                let accessoryIconSize: CGFloat = shouldDisplayActivity ? AvatarTokenSet.activityIconBackgroundSize(size) : AvatarTokenSet.presenceIconSize(size)
+                let accessoryBorderSize: CGFloat = accessoryIconSize + (accessoryBorderThicknessToken * 2)
+                let accessoryBackgroundColor: DynamicColor = shouldDisplayActivity ? tokenSet[.activityBackgroundColor].dynamicColor : accessoryBorderColorToken
+                let accessoryIconOffset: CGFloat = shouldDisplayActivity ? accessoryBorderThicknessToken * 3 : accessoryBorderThicknessToken
+                let accessoryCutoutCoordinates: CGPoint = accessoryCoordinates(iconOffset: accessoryIconOffset,
+                                                                               iconSize: accessoryBorderSize,
+                                                                               totalRingGap: totalRingGap)
+                let accessoryBorderFrameLTR: CGFloat = accessoryCutoutCoordinates.x + accessoryBorderSize
+                let accessoryBorderFrameRTL: CGFloat = AvatarTokenSet.avatarSize(size) + totalRingGap + accessoryBorderThicknessToken + (shouldDisplayActivity ? accessoryBorderThicknessToken : 0)
+                let accessoryBorderFrameSideRelativeToOuterRing: CGFloat = layoutDirection == .rightToLeft ? accessoryBorderFrameRTL : accessoryBorderFrameLTR
+                let accessoryOverallFrameSide = max(ringOuterGapSize, accessoryBorderFrameSideRelativeToOuterRing)
+
+                // Activity icon background calculation
+                let activityImageSize: CGFloat = AvatarTokenSet.activityIconSize(size)
+                let activityBackgroundFrameLTR: CGFloat = accessoryBorderFrameLTR - accessoryBorderThicknessToken
+                let activityBackgroundFrameRTL: CGFloat = accessoryBorderFrameRTL - accessoryBorderThicknessToken
+                let activityBackgroundFrameSideRelativeToOuterRing: CGFloat = layoutDirection == .rightToLeft ? activityBackgroundFrameRTL : activityBackgroundFrameLTR
+
                 avatarBody
                 // Creates the cutout shape
                     .modifyIf((shouldDisplayActivity || shouldDisplayPresence), { thisView in
