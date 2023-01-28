@@ -41,8 +41,14 @@ public class FluentTextField: UIView, UITextFieldDelegate, TokenizedControlInter
     }
     public var placeholder: String? {
         didSet {
-            textfield.placeholder = placeholder
+            textfield.attributedPlaceholder = attributedPlaceholder
         }
+    }
+    var attributedPlaceholder: NSAttributedString? {
+        guard let placeholder = placeholder else {
+            return nil
+        }
+        return NSAttributedString(string: placeholder, attributes: [.foregroundColor: UIColor(dynamicColor: tokenSet[.placeholderColor].dynamicColor)])
     }
     public var assistiveText: String? {
         didSet {
@@ -238,6 +244,7 @@ public class TextFieldTokenSet: ControlTokenSet<TextFieldTokenSet.Tokens> {
         case labelColor
         case labelFont
         case leadingIconColor
+        case placeholderColor
         case strokeColor
         case trailingIconColor
     }
@@ -309,6 +316,12 @@ public class TextFieldTokenSet: ControlTokenSet<TextFieldTokenSet.Tokens> {
                     case .typing:
                         return theme.aliasTokens.foregroundColors[.brandRest]
                     }
+                }
+            case .placeholderColor:
+                return .dynamicColor {
+                    // Foreground 2
+                    return DynamicColor(light: GlobalTokens.neutralColors(.grey38),
+                                        dark: GlobalTokens.neutralColors(.grey84))
                 }
             case .strokeColor:
                 return .dynamicColor {
