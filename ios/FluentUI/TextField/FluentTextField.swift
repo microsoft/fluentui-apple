@@ -222,7 +222,6 @@ class FluentTextFieldInternal: UITextField {
 // TODO: Better, less confusing name. Since this is nothing like the other state objects
 public enum FluentTextFieldState: Int, CaseIterable {
     case placeholder
-    case focused
     case typing
     case error
     case filled
@@ -250,7 +249,7 @@ public class TextFieldTokenSet: ControlTokenSet<TextFieldTokenSet.Tokens> {
             case .assistiveTextColor:
                 return .dynamicColor {
                     switch state() {
-                    case .placeholder, .focused, .typing, .filled:
+                    case .placeholder, .typing, .filled:
                         // Foreground 2
                         return DynamicColor(light: GlobalTokens.neutralColors(.grey38),
                                             dark: GlobalTokens.neutralColors(.grey84))
@@ -290,7 +289,7 @@ public class TextFieldTokenSet: ControlTokenSet<TextFieldTokenSet.Tokens> {
                         // Foreground 2
                         return DynamicColor(light: GlobalTokens.neutralColors(.grey38),
                                             dark: GlobalTokens.neutralColors(.grey84))
-                    case .focused, .typing:
+                    case .typing:
                         return theme.aliasTokens.foregroundColors[.brandRest]
                     case .error:
                         // Danger foreground 1
@@ -307,7 +306,7 @@ public class TextFieldTokenSet: ControlTokenSet<TextFieldTokenSet.Tokens> {
                         // Foreground 2
                         return DynamicColor(light: GlobalTokens.neutralColors(.grey38),
                                             dark: GlobalTokens.neutralColors(.grey84))
-                    case .focused, .typing:
+                    case .typing:
                         return theme.aliasTokens.foregroundColors[.brandRest]
                     }
                 }
@@ -319,7 +318,7 @@ public class TextFieldTokenSet: ControlTokenSet<TextFieldTokenSet.Tokens> {
                         return DynamicColor(light: GlobalTokens.neutralColors(.grey82),
                                             dark: GlobalTokens.neutralColors(.grey30),
                                             darkElevated: GlobalTokens.neutralColors(.grey36))
-                    case .focused, .typing:
+                    case .typing:
                         return theme.aliasTokens.foregroundColors[.brandRest]
                     case .error:
                         // Danger foreground 1
