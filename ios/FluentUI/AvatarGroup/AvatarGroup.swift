@@ -71,7 +71,7 @@ import SwiftUI
     /// The group style does not support rings.
     var isRingVisible: Bool { get set }
 
-    /// Sets the transparency of the avatar elements (inner and outer ring gaps, presence icon outline).
+    /// Sets the transparency of the avatar elements (inner and outer ring gaps, presence, activity icon outline).
     /// Uses the solid default background color if set to false.
     var isTransparent: Bool { get set }
 
@@ -182,9 +182,10 @@ public struct AvatarGroup: View, TokenizedControlView {
                 avatarView
                     .transition(.identity)
                     .modifyIf(needsCutout, { view in
-                        view.clipShape(CircleCutout(xOrigin: xOrigin,
-                                                    yOrigin: yOrigin,
-                                                    cutoutSize: nextAvatarSize),
+                        view.clipShape(ShapeCutout(xOrigin: xOrigin,
+                                                   yOrigin: yOrigin,
+                                                   cornerRadius: .infinity,
+                                                   cutoutSize: nextAvatarSize),
                                        style: FillStyle(eoFill: true))
                     })
             }
