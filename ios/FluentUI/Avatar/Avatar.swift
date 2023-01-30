@@ -177,6 +177,27 @@ public struct Avatar: View, TokenizedControlView {
                         defaultAccessibilityText)
         }()
 
+#if DEBUG
+            let accessibilityIdentifier: String = {
+                let imageDescription: String = state.image != nil ? "image" : initialsString != "" ? "initials" : "icon"
+                let ringDescription: String = {
+                    if !state.isRingVisible {
+                        return "no ring"
+                    }
+                    if state.imageBasedRingColor == nil {
+                        return state.hasRingInnerGap ? "a default ring with an inner gap" : "a default ring with no inner gap"
+                    }
+                    return state.hasRingInnerGap ? "an image based ring with an inner gap" : "an image based ring with no inner gap"
+                }()
+                let presenceDescription: String = state.isOutOfOffice ? "out of office" : state.presence.rawValue.description
+
+                if let title: String = state.primaryText ?? state.secondaryText {
+                    return "Avatar of \(title)'s \(imageDescription) with \(ringDescription) and presence \(presenceDescription) in size \(AvatarTokenSet.avatarSize(state.size)) and style \(state.style.rawValue)"
+                }
+                return "Avatar of an \(imageDescription) with \(ringDescription) and presence \(presenceDescription) in size \(AvatarTokenSet.avatarSize(state.size)) and style \(state.style.rawValue)"
+            }()
+#endif
+
         @ViewBuilder
         var avatarContent: some View {
             if let image = avatarImageInfo.image {
@@ -296,6 +317,9 @@ public struct Avatar: View, TokenizedControlView {
             .accessibility(addTraits: state.hasButtonAccessibilityTrait ? .isButton : .isImage)
             .accessibility(label: Text(accessibilityLabel))
             .accessibility(value: Text(presence.string() ?? ""))
+#if DEBUG
+            .accessibilityIdentifier(accessibilityIdentifier)
+#endif
             .fluentTokens(tokenSet, fluentTheme)
     }
 

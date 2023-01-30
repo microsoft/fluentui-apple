@@ -54,6 +54,7 @@ class AvatarTestSwiftUI: BaseTest {
         let ringVisibleSwitch: XCUIElement = app.switches["Ring visible"]
         let setImageRingSwitch: XCUIElement = app.switches["Set image based ring color"]
         let ringInnerGapSwitch: XCUIElement = app.switches["Ring inner gap"]
+
         let noRing: NSPredicate = NSPredicate(format: "identifier MATCHES %@", "Avatar.*with no ring.*")
         let defaultRing: NSPredicate = NSPredicate(format: "identifier MATCHES %@", "Avatar.*with a default ring.*")
         let imageRing: NSPredicate = NSPredicate(format: "identifier MATCHES %@", "Avatar.*with an image based ring.*")
@@ -130,24 +131,24 @@ class AvatarTestSwiftUI: BaseTest {
     }
 
     func testSizes() throws {
-        XCTAssert(avatarExists(predicate: NSPredicate(format: "identifier MATCHES %@", "Avatar.*in size 6.*")))
+        XCTAssert(avatarExists(predicate: NSPredicate(format: "identifier MATCHES %@", "Avatar.*in size 72.*")))
         app.buttons[".size72"].tap()
         app.buttons[".size56"].tap()
-        XCTAssert(avatarExists(predicate: NSPredicate(format: "identifier MATCHES %@", "Avatar.*in size 5.*")))
+        XCTAssert(avatarExists(predicate: NSPredicate(format: "identifier MATCHES %@", "Avatar.*in size 56.*")))
         app.buttons[".size56"].tap()
         app.buttons[".size40"].tap()
-        XCTAssert(avatarExists(predicate: NSPredicate(format: "identifier MATCHES %@", "Avatar.*in size 4.*")))
+        XCTAssert(avatarExists(predicate: NSPredicate(format: "identifier MATCHES %@", "Avatar.*in size 40.*")))
         app.buttons[".size40"].tap()
         app.buttons[".size32"].tap()
-        XCTAssert(avatarExists(predicate: NSPredicate(format: "identifier MATCHES %@", "Avatar.*in size 3.*")))
+        XCTAssert(avatarExists(predicate: NSPredicate(format: "identifier MATCHES %@", "Avatar.*in size 32.*")))
         app.buttons[".size32"].tap()
         app.buttons[".size24"].tap()
-        XCTAssert(avatarExists(predicate: NSPredicate(format: "identifier MATCHES %@", "Avatar.*in size 2.*")))
+        XCTAssert(avatarExists(predicate: NSPredicate(format: "identifier MATCHES %@", "Avatar.*in size 24.*")))
         app.buttons[".size24"].tap()
         app.buttons[".size20"].tap()
-        XCTAssert(avatarExists(predicate: NSPredicate(format: "identifier MATCHES %@", "Avatar.*in size 1.*")))
+        XCTAssert(avatarExists(predicate: NSPredicate(format: "identifier MATCHES %@", "Avatar.*in size 20.*")))
         app.buttons[".size20"].tap()
         app.buttons[".size16"].tap()
-        XCTAssert(avatarExists(predicate: NSPredicate(format: "identifier MATCHES %@", "Avatar.*in size 0.*")))
+        XCTAssert(avatarExists(predicate: NSPredicate(format: "identifier MATCHES %@", "Avatar.*in size 16.*")))
     }
 }
