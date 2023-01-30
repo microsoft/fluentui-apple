@@ -13,14 +13,14 @@ public class ShadowInfo: NSObject {
     /// Initializes a shadow struct to be used in Fluent.
     ///
     /// - Parameters:
-    ///   - ambientColor: The color of the ambient shadow.
-    ///   - ambientBlur: The blur of the ambient shadow.
-    ///   - xAmbient: The horizontal offset of the ambient shadow.
-    ///   - yAmbient: The vertical offset of the ambient shadow.
     ///   - keyColor: The color of the key shadow.
     ///   - keyBlur: The blur of the key shadow.
     ///   - xKey: The horizontal offset of the key shadow.
     ///   - yKey: The vertical offset of the key shadow.
+    ///   - ambientColor: The color of the ambient shadow.
+    ///   - ambientBlur: The blur of the ambient shadow.
+    ///   - xAmbient: The horizontal offset of the ambient shadow.
+    ///   - yAmbient: The vertical offset of the ambient shadow.
     public init(keyColor: DynamicColor,
                 keyBlur: CGFloat,
                 xKey: CGFloat,
