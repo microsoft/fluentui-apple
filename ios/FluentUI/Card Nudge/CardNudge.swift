@@ -190,7 +190,7 @@ public struct CardNudge: View, TokenizedControlView {
                 }
                 identifier += ", and \(elements[elements.count - 1])"
             }
-//
+
             identifier += " in style \(state.style.rawValue)"
 
             return identifier
