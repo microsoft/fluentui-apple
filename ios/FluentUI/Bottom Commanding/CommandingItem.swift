@@ -53,6 +53,15 @@ open class CommandingItem: NSObject {
         }
     }
 
+    /// A `Badge` to be displayed on the trailing end.
+    @objc open var badge: BadgeView? {
+        didSet {
+            if badge != oldValue {
+                delegate?.commandingItem(self, didChangeBadgeTo: badge)
+            }
+        }
+    }
+
     /// Indicates whether the command is currently on.
     ///
     /// When `isToggleable` is `true`, this property is toggled automatically before `action` is called.
@@ -86,6 +95,11 @@ open class CommandingItem: NSObject {
         self.isToggleable = isToggleable
     }
 
+    @objc public convenience init(title: String, image: UIImage, badge: BadgeView, action: @escaping (CommandingItem) -> Void, isToggleable: Bool = false) {
+        self.init(title: title, image: image, action: action, isToggleable: isToggleable)
+        self.badge = badge
+    }
+
     @objc public init(isToggleable: Bool = false) {
         self.isToggleable = isToggleable
     }
@@ -105,6 +119,9 @@ protocol CommandingItemDelegate: AnyObject {
 
     /// Called after the `selectedImage` property changed.
     func commandingItem(_ item: CommandingItem, didChangeSelectedImageTo value: UIImage?)
+
+    /// Called after the `badge` property changed.
+    func commandingItem(_ item: CommandingItem, didChangeBadgeTo value: BadgeView?)
 
     /// Called after the `isOn` property changed.
     func commandingItem(_ item: CommandingItem, didChangeOnTo value: Bool)

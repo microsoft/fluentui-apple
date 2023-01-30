@@ -1007,6 +1007,10 @@ extension BottomCommandingController: CommandingItemDelegate {
         reloadView(from: item)
     }
 
+    func commandingItem(_ item: CommandingItem, didChangeBadgeTo value: BadgeView?) {
+        reloadView(from: item)
+    }
+
     func commandingItem(_ item: CommandingItem, didChangeEnabledTo value: Bool) {
         guard let view = itemToBindingMap[item]?.view else {
             return
