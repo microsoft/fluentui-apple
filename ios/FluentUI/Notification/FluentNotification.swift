@@ -321,7 +321,7 @@ public struct FluentNotification: View, TokenizedControlView {
                         })
                         .padding(.bottom, tokenSet[.bottomPresentationPadding].float)
                         .onSizeChange { newSize in
-                            bottomOffsetForDismissedState = newSize.height + (tokenSet[.shadow].shadowInfo.yOne / 2)
+                            bottomOffsetForDismissedState = newSize.height + (tokenSet[.shadow].shadowInfo.yAmbient / 2)
                             // Bottom offset is only updated when the notification isn't presented to account for the new notification height (if presented, offset doesn't need to be updated since it grows upward vertically)
                             if !isPresented {
                                 bottomOffset = bottomOffsetForDismissedState

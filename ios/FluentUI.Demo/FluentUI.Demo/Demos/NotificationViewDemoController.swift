@@ -244,14 +244,14 @@ class NotificationViewDemoController: DemoController {
                 return DynamicColor(light: GlobalTokens.sharedColors(.orange, .primary))
             },
             .shadow: .shadowInfo {
-                return ShadowInfo(colorOne: DynamicColor(light: GlobalTokens.sharedColors(.hotPink, .primary)),
-                                  blurOne: 10.0,
-                                  xOne: 10.0,
-                                  yOne: 10.0,
-                                  colorTwo: DynamicColor(light: GlobalTokens.sharedColors(.teal, .primary)),
-                                  blurTwo: 100.0,
-                                  xTwo: -10.0,
-                                  yTwo: -10.0)
+                return ShadowInfo(ambientColor: DynamicColor(light: GlobalTokens.sharedColors(.hotPink, .primary)),
+                                  ambientBlur: 10.0,
+                                  xAmbient: 10.0,
+                                  yAmbient: 10.0,
+                                  keyColor: DynamicColor(light: GlobalTokens.sharedColors(.teal, .primary)),
+                                  keyBlur: 100.0,
+                                  xKey: -10.0,
+                                  yKey: -10.0)
             }
         ]
     }

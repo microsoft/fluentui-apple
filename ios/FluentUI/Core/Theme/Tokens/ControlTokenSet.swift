@@ -149,14 +149,14 @@ public enum ControlTokenValue {
             return shadowInfo()
         } else {
             assertionFailure("Cannot convert token to ShadowInfo: \(self)")
-            return ShadowInfo(colorOne: fallbackColor,
-                              blurOne: 10.0,
-                              xOne: 10.0,
-                              yOne: 10.0,
-                              colorTwo: fallbackColor,
-                              blurTwo: 10.0,
-                              xTwo: 10.0,
-                              yTwo: 10.0)
+            return ShadowInfo(ambientColor: fallbackColor,
+                              ambientBlur: 10.0,
+                              xAmbient: 10.0,
+                              yAmbient: 10.0,
+                              keyColor: fallbackColor,
+                              keyBlur: 10.0,
+                              xKey: 10.0,
+                              yKey: 10.0)
         }
     }
 
