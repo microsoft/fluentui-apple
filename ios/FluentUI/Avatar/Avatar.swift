@@ -50,11 +50,12 @@ import SwiftUI
 
     /// Defines the presence displayed by the Avatar.
     /// Image displayed depends on the value of the isOutOfOffice property.
-    /// Presence is not displayed in the xsmall size.
+    /// Presence is not displayed in `.size16`.
     var presence: MSFAvatarPresence { get set }
 
     /// Defines the activity style displayed by the Avatar.
     /// Will not be displayed if activityImage is not set.
+    /// Presence is only displayed in `.size56` and `.size40`.
     var activityStyle: MSFAvatarActivityStyle { get set }
 
     /// Displays the image used within the Avatar activity.
