@@ -85,7 +85,7 @@ class AvatarTestSwiftUI: BaseTest {
 
     func testPresences() throws {
         XCTAssert(app.images.containing(NSPredicate(format: "identifier MATCHES %@", "Avatar.*with.*presence 0.*")).element.exists)
-        app.buttons[".none"].tap()
+        app.buttons[".none"].firstMatch.tap()
         app.buttons[".available"].tap()
         XCTAssert(app.images.containing(NSPredicate(format: "identifier MATCHES %@", "Avatar.*with.*presence 1.*")).element.exists)
         app.buttons[".available"].tap()
