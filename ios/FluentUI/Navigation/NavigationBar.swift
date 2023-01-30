@@ -58,7 +58,7 @@ open class NavigationBar: UINavigationBar, TwoLineTitleViewDelegate {
         // TODO: This won't be needed once we move it to LargeTitleView
         NotificationCenter.default.post(name: .accessoryExpansionRequested, object: self)
     }
-    
+
     /// If the style is `.custom`, UINavigationItem's `navigationBarColor` is used for all the subviews' backgroundColor
     @objc(MSFNavigationBarStyle)
     public enum Style: Int {

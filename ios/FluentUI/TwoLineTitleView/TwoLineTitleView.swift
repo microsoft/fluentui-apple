@@ -56,7 +56,7 @@ open class TwoLineTitleView: UIView {
         case light
         case dark
     }
-    
+
     @objc(MSFTwoLineTitleViewAlignment)
     public enum Alignment: Int {
         case center
@@ -318,7 +318,7 @@ open class TwoLineTitleView: UIView {
 
         return CGSize(width: max(titleSize.width, subtitleSize.width), height: titleSize.height + subtitleSize.height)
     }
-    
+
     open override var intrinsicContentSize: CGSize {
         let size = sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
         return size

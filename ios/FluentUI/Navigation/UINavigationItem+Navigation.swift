@@ -71,7 +71,7 @@ import UIKit
             objc_setAssociatedObject(self, &AssociatedKeys.navigationBarShadow, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
-    
+
     var subtitle: String? {
         get {
             return objc_getAssociatedObject(self, &AssociatedKeys.subtitle) as? String

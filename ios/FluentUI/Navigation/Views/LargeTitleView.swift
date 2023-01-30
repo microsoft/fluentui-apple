@@ -314,7 +314,7 @@ class LargeTitleView: UIView, TwoLineTitleViewDelegate {
     private func updateProfileButtonVisibility() {
         showsProfileButton = !hasLeftBarButtonItems && (personaData != nil || avatarOverrideStyle != nil)
     }
-    
+
     private func updateTitleContainerView() {
         titleContainerView.removeAllSubviews()
         titleContainerView.contain(view: hasSubtitle ? twoLineTitleView : titleButton)
@@ -386,9 +386,9 @@ class LargeTitleView: UIView, TwoLineTitleViewDelegate {
             return !arrangedSubview.isHidden
         })
     }
-    
+
     // MARK: - TwoLineTitleViewDelegate
-    
+
     func twoLineTitleViewDidTapOnTitle(_ twoLineTitleView: TwoLineTitleView) {
         guard twoLineTitleView == self.twoLineTitleView else {
             return
