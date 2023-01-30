@@ -21,35 +21,23 @@ public class ShadowInfo: NSObject {
     ///   - keyBlur: The blur of the key shadow.
     ///   - xKey: The horizontal offset of the key shadow.
     ///   - yKey: The vertical offset of the key shadow.
-    public init(ambientColor: DynamicColor,
-                ambientBlur: CGFloat,
-                xAmbient: CGFloat,
-                yAmbient: CGFloat,
-                keyColor: DynamicColor,
+    public init(keyColor: DynamicColor,
                 keyBlur: CGFloat,
                 xKey: CGFloat,
-                yKey: CGFloat) {
-        self.ambientColor = ambientColor
-        self.ambientBlur = ambientBlur * shadowBlurAdjustment
-        self.xAmbient = xAmbient
-        self.yAmbient = yAmbient
+                yKey: CGFloat,
+                ambientColor: DynamicColor,
+                ambientBlur: CGFloat,
+                xAmbient: CGFloat,
+                yAmbient: CGFloat) {
         self.keyColor = keyColor
         self.keyBlur = keyBlur * shadowBlurAdjustment
         self.xKey = xKey
         self.yKey = yKey
+        self.ambientColor = ambientColor
+        self.ambientBlur = ambientBlur * shadowBlurAdjustment
+        self.xAmbient = xAmbient
+        self.yAmbient = yAmbient
     }
-
-    /// The color of the ambient shadow.
-    @objc public let ambientColor: DynamicColor
-
-    /// The blur of the ambient shadow.
-    @objc public let ambientBlur: CGFloat
-
-    /// The horizontal offset of the ambient shadow.
-    @objc public let xAmbient: CGFloat
-
-    /// The vertical offset of the ambient shadow.
-    @objc public let yAmbient: CGFloat
 
     /// The color of the key shadow.
     @objc public let keyColor: DynamicColor
@@ -62,6 +50,18 @@ public class ShadowInfo: NSObject {
 
     /// The vertical offset of the key shadow.
     @objc public let yKey: CGFloat
+
+    /// The color of the ambient shadow.
+    @objc public let ambientColor: DynamicColor
+
+    /// The blur of the ambient shadow.
+    @objc public let ambientBlur: CGFloat
+
+    /// The horizontal offset of the ambient shadow.
+    @objc public let xAmbient: CGFloat
+
+    /// The vertical offset of the ambient shadow.
+    @objc public let yAmbient: CGFloat
 
     /// The number that the figma blur needs to be adjusted by to properly display shadows. See https://github.com/microsoft/apple-ux-guide/blob/gh-pages/Shadows.md
     private let shadowBlurAdjustment: CGFloat = 0.5

@@ -96,80 +96,80 @@ public final class AliasTokens: NSObject {
     public var shadow: TokenSet<ShadowTokens, ShadowInfo> = .init { token in
         switch token {
         case .clear:
-            return ShadowInfo(ambientColor: DynamicColor(light: ColorValue.clear),
-                              ambientBlur: 0.0,
-                              xAmbient: 0.0,
-                              yAmbient: 0.0,
-                              keyColor: DynamicColor(light: ColorValue.clear),
+            return ShadowInfo(keyColor: DynamicColor(light: ColorValue.clear),
                               keyBlur: 0.0,
                               xKey: 0.0,
-                              yKey: 0.0)
+                              yKey: 0.0,
+                              ambientColor: DynamicColor(light: ColorValue.clear),
+                              ambientBlur: 0.0,
+                              xAmbient: 0.0,
+                              yAmbient: 0.0)
         case .shadow02:
-            return ShadowInfo(ambientColor: DynamicColor(light: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.14),
+            return ShadowInfo(keyColor: DynamicColor(light: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.14),
                                                      dark: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.28)),
+                              keyBlur: 2,
+                              xKey: 0,
+                              yKey: 1,
+                              ambientColor: DynamicColor(light: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.12),
+                                                     dark: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.20)),
                               ambientBlur: 2,
                               xAmbient: 0,
-                              yAmbient: 1,
-                              keyColor: DynamicColor(light: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.12),
-                                                     dark: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.20)),
-                              keyBlur: 2,
-                              xKey: 0,
-                              yKey: 0)
+                              yAmbient: 0)
         case .shadow04:
-            return ShadowInfo(ambientColor: DynamicColor(light: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.14),
+            return ShadowInfo(keyColor: DynamicColor(light: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.14),
                                                      dark: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.28)),
-                              ambientBlur: 4,
-                              xAmbient: 0,
-                              yAmbient: 2,
-                              keyColor: DynamicColor(light: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.12),
-                                                     dark: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.20)),
-                              keyBlur: 2,
+                              keyBlur: 4,
                               xKey: 0,
-                              yKey: 0)
+                              yKey: 2,
+                              ambientColor: DynamicColor(light: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.12),
+                                                     dark: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.20)),
+                              ambientBlur: 2,
+                              xAmbient: 0,
+                              yAmbient: 0)
         case .shadow08:
-            return ShadowInfo(ambientColor: DynamicColor(light: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.14),
+            return ShadowInfo(keyColor: DynamicColor(light: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.14),
                                                      dark: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.28)),
+                              keyBlur: 8,
+                              xKey: 0,
+                              yKey: 4,
+                              ambientColor: DynamicColor(light: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.12),
+                                                     dark: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.20)),
+                              ambientBlur: 2,
+                              xAmbient: 0,
+                              yAmbient: 0)
+        case .shadow16:
+            return ShadowInfo(keyColor: DynamicColor(light: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.14),
+                                                     dark: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.28)),
+                              keyBlur: 16,
+                              xKey: 0,
+                              yKey: 8,
+                              ambientColor: DynamicColor(light: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.12),
+                                                     dark: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.20)),
+                              ambientBlur: 2,
+                              xAmbient: 0,
+                              yAmbient: 0)
+        case .shadow28:
+            return ShadowInfo(keyColor: DynamicColor(light: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.24),
+                                                     dark: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.48)),
+                              keyBlur: 28,
+                              xKey: 0,
+                              yKey: 14,
+                              ambientColor: DynamicColor(light: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.20),
+                                                     dark: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.40)),
                               ambientBlur: 8,
                               xAmbient: 0,
-                              yAmbient: 4,
-                              keyColor: DynamicColor(light: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.12),
-                                                     dark: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.20)),
-                              keyBlur: 2,
-                              xKey: 0,
-                              yKey: 0)
-        case .shadow16:
-            return ShadowInfo(ambientColor: DynamicColor(light: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.14),
-                                                     dark: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.28)),
-                              ambientBlur: 16,
-                              xAmbient: 0,
-                              yAmbient: 8,
-                              keyColor: DynamicColor(light: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.12),
-                                                     dark: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.20)),
-                              keyBlur: 2,
-                              xKey: 0,
-                              yKey: 0)
-        case .shadow28:
-            return ShadowInfo(ambientColor: DynamicColor(light: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.24),
-                                                     dark: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.48)),
-                              ambientBlur: 28,
-                              xAmbient: 0,
-                              yAmbient: 14,
-                              keyColor: DynamicColor(light: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.20),
-                                                     dark: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.40)),
-                              keyBlur: 8,
-                              xKey: 0,
-                              yKey: 0)
+                              yAmbient: 0)
         case .shadow64:
-            return ShadowInfo(ambientColor: DynamicColor(light: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.24),
+            return ShadowInfo(keyColor: DynamicColor(light: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.24),
                                                      dark: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.48)),
-                              ambientBlur: 64,
-                              xAmbient: 0,
-                              yAmbient: 32,
-                              keyColor: DynamicColor(light: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.20),
-                                                     dark: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.40)),
-                              keyBlur: 8,
+                              keyBlur: 64,
                               xKey: 0,
-                              yKey: 0)
+                              yKey: 32,
+                              ambientColor: DynamicColor(light: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.20),
+                                                     dark: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.40)),
+                              ambientBlur: 8,
+                              xAmbient: 0,
+                              yAmbient: 0)
         }
     }
 
