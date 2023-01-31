@@ -8,12 +8,14 @@ import XCTest
 class HUDTestSwiftUI: BaseTest {
     override var controlName: String { "HUD" }
 
+    let sleepSeconds: UInt32 = 5
+
     override func setUpWithError() throws {
         try super.setUpWithError()
         app.staticTexts["SwiftUI Demo"].tap()
         app.buttons["Present HUD for 3 seconds"].tap()
-        // sleeps for 5 seconds to wait for presented HUD to disappear
-        sleep(5)
+        // sleeps to wait for presented HUD to disappear
+        sleep(sleepSeconds)
     }
 
     // launch test that ensures the demo app does not crash and is on the correct control page
@@ -25,17 +27,23 @@ class HUDTestSwiftUI: BaseTest {
         let blocksInteractionSwitch: XCUIElement = app.switches["Blocks interaction"]
         let presentHUDButton: XCUIElement = app.buttons["Present HUD for 3 seconds"]
 
+        // switch value should start as 1
+        XCTAssert(blocksInteractionSwitch.value as? String == "1")
         presentHUDButton.tap()
-        // attempts to interact with Blocks interaction switch
+        // attempts to interact with "Blocks interaction" switch
         blocksInteractionSwitch.tap()
         // switch value should remain 1
         XCTAssert(blocksInteractionSwitch.value as? String == "1")
 
-        // sleeps for 5 seconds to wait for presented HUD to disappear
-        sleep(5)
+        // sleeps to wait for presented HUD to disappear
+        sleep(sleepSeconds)
 
+        // turns off block interaction functionality
         blocksInteractionSwitch.tap()
+        // switch value should start as 0
+        XCTAssert(blocksInteractionSwitch.value as? String == "0")
         presentHUDButton.tap()
+        // attempts to interact with "Blocks interaction" switch
         blocksInteractionSwitch.tap()
         // switch value should change back to 1
         XCTAssert(blocksInteractionSwitch.value as? String == "1")
