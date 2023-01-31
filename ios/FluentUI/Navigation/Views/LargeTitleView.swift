@@ -171,7 +171,6 @@ class LargeTitleView: UIView, TwoLineTitleViewDelegate {
     private func initBase() {
         setupLayout()
         setupAccessibility()
-
         twoLineTitleView.delegate = self
     }
 
