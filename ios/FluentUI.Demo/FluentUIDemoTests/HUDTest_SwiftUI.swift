@@ -21,7 +21,7 @@ class HUDTestSwiftUI: BaseTest {
         XCTAssertTrue(app.navigationBars.element(matching: NSPredicate(format: "identifier CONTAINS %@", controlName)).exists)
     }
 
-    func testPresentation() throws {
+    func testBlocksPresentation() throws {
         let blocksInteractionSwitch: XCUIElement = app.switches["Blocks interaction"]
         let presentHUDButton: XCUIElement = app.buttons["Present HUD for 3 seconds"]
 
