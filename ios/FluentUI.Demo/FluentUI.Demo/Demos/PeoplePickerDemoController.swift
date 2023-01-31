@@ -16,20 +16,23 @@ class PeoplePickerSampleData {
         let allowsPickedPersonasToAppearAsSuggested: Bool
         let showsSearchDirectoryButton: Bool
         let hidePersonaListViewWhenNoSuggestedPersonas: Bool
+        let showsAvatar: Bool
 
-        init(description: String, numberOfLines: Int = 0, pickedPersonas: [Persona] = [], allowsPickedPersonasToAppearAsSuggested: Bool = true, showsSearchDirectoryButton: Bool = true, hidePersonaListViewWhenNoSuggestedPersonas: Bool = false) {
+        init(description: String, numberOfLines: Int = 0, pickedPersonas: [Persona] = [], allowsPickedPersonasToAppearAsSuggested: Bool = true, showsSearchDirectoryButton: Bool = true, hidePersonaListViewWhenNoSuggestedPersonas: Bool = false, showsAvatar: Bool = false) {
             self.description = description
             self.numberOfLines = numberOfLines
             self.pickedPersonas = pickedPersonas
             self.allowsPickedPersonasToAppearAsSuggested = allowsPickedPersonasToAppearAsSuggested
             self.showsSearchDirectoryButton = showsSearchDirectoryButton
             self.hidePersonaListViewWhenNoSuggestedPersonas = hidePersonaListViewWhenNoSuggestedPersonas
+            self.showsAvatar = showsAvatar
         }
     }
 
     static let variants: [Variant] = [
         Variant(description: "Standard implementation with one line of picked personas", numberOfLines: 1, pickedPersonas: [samplePersonas[0], samplePersonas[4], samplePersonas[11], samplePersonas[14]]),
         Variant(description: "Doesn't allow picked personas to appear as suggested", pickedPersonas: [samplePersonas[0], samplePersonas[8]], allowsPickedPersonasToAppearAsSuggested: false),
+        Variant(description: "Showcases persona's avatar", pickedPersonas: [samplePersonas[0], samplePersonas[1]], allowsPickedPersonasToAppearAsSuggested: false, showsAvatar: true),
         Variant(description: "Hides search directory button", pickedPersonas: [samplePersonas[13]], showsSearchDirectoryButton: false, hidePersonaListViewWhenNoSuggestedPersonas: true),
         Variant(description: "Includes callback when picking a suggested persona")
     ]
@@ -87,8 +90,8 @@ class PeoplePickerDemoController: DemoController {
         peoplePicker.showsSearchDirectoryButton = variant.showsSearchDirectoryButton
         peoplePicker.numberOfLines = variant.numberOfLines
         peoplePicker.allowsPickedPersonasToAppearAsSuggested = variant.allowsPickedPersonasToAppearAsSuggested
-        peoplePicker.showsSearchDirectoryButton = variant.showsSearchDirectoryButton
         peoplePicker.hidePersonaListViewWhenNoSuggestedPersonas = variant.hidePersonaListViewWhenNoSuggestedPersonas
+        peoplePicker.showsAvatar = variant.showsAvatar
         peoplePicker.delegate = self
         peoplePickers.append(peoplePicker)
         container.addArrangedSubview(peoplePicker)
