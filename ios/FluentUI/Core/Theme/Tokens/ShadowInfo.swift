@@ -13,55 +13,55 @@ public class ShadowInfo: NSObject {
     /// Initializes a shadow struct to be used in Fluent.
     ///
     /// - Parameters:
-    ///   - colorOne: The color of the shadow for shadow 1.
-    ///   - blurOne: The blur of the shadow for shadow 1.
-    ///   - xOne: The horizontal offset of the shadow for shadow 1.
-    ///   - yOne: The vertical offset of the shadow for shadow 1.
-    ///   - colorTwo: The color of the shadow for shadow 2.
-    ///   - blurTwo: The blur of the shadow for shadow 2.
-    ///   - xTwo: The horizontal offset of the shadow for shadow 2.
-    ///   - yTwo: The vertical offset of the shadow for shadow 2.
-    public init(colorOne: DynamicColor,
-                blurOne: CGFloat,
-                xOne: CGFloat,
-                yOne: CGFloat,
-                colorTwo: DynamicColor,
-                blurTwo: CGFloat,
-                xTwo: CGFloat,
-                yTwo: CGFloat) {
-        self.colorOne = colorOne
-        self.blurOne = blurOne * shadowBlurAdjustment
-        self.xOne = xOne
-        self.yOne = yOne
-        self.colorTwo = colorTwo
-        self.blurTwo = blurTwo * shadowBlurAdjustment
-        self.xTwo = xTwo
-        self.yTwo = yTwo
+    ///   - keyColor: The color of the key shadow.
+    ///   - keyBlur: The blur of the key shadow.
+    ///   - xKey: The horizontal offset of the key shadow.
+    ///   - yKey: The vertical offset of the key shadow.
+    ///   - ambientColor: The color of the ambient shadow.
+    ///   - ambientBlur: The blur of the ambient shadow.
+    ///   - xAmbient: The horizontal offset of the ambient shadow.
+    ///   - yAmbient: The vertical offset of the ambient shadow.
+    public init(keyColor: DynamicColor,
+                keyBlur: CGFloat,
+                xKey: CGFloat,
+                yKey: CGFloat,
+                ambientColor: DynamicColor,
+                ambientBlur: CGFloat,
+                xAmbient: CGFloat,
+                yAmbient: CGFloat) {
+        self.keyColor = keyColor
+        self.keyBlur = keyBlur * shadowBlurAdjustment
+        self.xKey = xKey
+        self.yKey = yKey
+        self.ambientColor = ambientColor
+        self.ambientBlur = ambientBlur * shadowBlurAdjustment
+        self.xAmbient = xAmbient
+        self.yAmbient = yAmbient
     }
 
-    /// The color of the shadow for shadow 1.
-    @objc public let colorOne: DynamicColor
+    /// The color of the key shadow.
+    @objc public let keyColor: DynamicColor
 
-    /// The blur of the shadow for shadow 1.
-    @objc public let blurOne: CGFloat
+    /// The blur of the key shadow.
+    @objc public let keyBlur: CGFloat
 
-    /// The horizontal offset of the shadow for shadow 1.
-    @objc public let xOne: CGFloat
+    /// The horizontal offset of the key shadow.
+    @objc public let xKey: CGFloat
 
-    /// The vertical offset of the shadow for shadow 1.
-    @objc public let yOne: CGFloat
+    /// The vertical offset of the key shadow.
+    @objc public let yKey: CGFloat
 
-    /// The color of the shadow for shadow 2.
-    @objc public let colorTwo: DynamicColor
+    /// The color of the ambient shadow.
+    @objc public let ambientColor: DynamicColor
 
-    /// The blur of the shadow for shadow 2.
-    @objc public let blurTwo: CGFloat
+    /// The blur of the ambient shadow.
+    @objc public let ambientBlur: CGFloat
 
-    /// The horizontal offset of the shadow for shadow 2.
-    @objc public let xTwo: CGFloat
+    /// The horizontal offset of the ambient shadow.
+    @objc public let xAmbient: CGFloat
 
-    /// The vertical offset of the shadow for shadow 2.
-    @objc public let yTwo: CGFloat
+    /// The vertical offset of the ambient shadow.
+    @objc public let yAmbient: CGFloat
 
     /// The number that the figma blur needs to be adjusted by to properly display shadows. See https://github.com/microsoft/apple-ux-guide/blob/gh-pages/Shadows.md
     private let shadowBlurAdjustment: CGFloat = 0.5
@@ -75,31 +75,30 @@ public extension ShadowInfo {
             return
         }
 
-        shadowable.shadow1?.removeFromSuperlayer()
-        shadowable.shadow2?.removeFromSuperlayer()
+        shadowable.ambientShadow?.removeFromSuperlayer()
+        shadowable.keyShadow?.removeFromSuperlayer()
 
-        let shadow1 = initializeShadowLayer(view: view, isShadowOne: true)
-        let shadow2 = initializeShadowLayer(view: view)
+        let ambientShadow = initializeShadowLayer(view: view, isAmbientShadow: true)
+        let keyShadow = initializeShadowLayer(view: view)
 
-        shadowable.shadow1 = shadow1
-        shadowable.shadow2 = shadow2
+        shadowable.ambientShadow = ambientShadow
+        shadowable.keyShadow = keyShadow
 
-        view.layer.insertSublayer(shadow1, at: 0)
-        view.layer.insertSublayer(shadow2, below: shadow1)
+        view.layer.insertSublayer(ambientShadow, at: 0)
+        view.layer.insertSublayer(keyShadow, below: ambientShadow)
     }
 
-    private func initializeShadowLayer(view: UIView,
-                                       isShadowOne: Bool = false) -> CALayer {
+    private func initializeShadowLayer(view: UIView, isAmbientShadow: Bool = false) -> CALayer {
         let layer = CALayer()
 
         layer.frame = view.bounds
-        layer.shadowColor = UIColor(dynamicColor: isShadowOne ? colorOne : colorTwo).cgColor
-        layer.shadowRadius = isShadowOne ? blurOne : blurTwo
+        layer.shadowColor = UIColor(dynamicColor: isAmbientShadow ? ambientColor : keyColor).cgColor
+        layer.shadowRadius = isAmbientShadow ? ambientBlur : keyBlur
 
         // The shadowOpacity needs to be set to 1 since the alpha is already set through shadowColor
         layer.shadowOpacity = 1
-        layer.shadowOffset = CGSize(width: isShadowOne ? xOne : xTwo,
-                                    height: isShadowOne ? yOne : yTwo)
+        layer.shadowOffset = CGSize(width: isAmbientShadow ? xAmbient : xKey,
+                                    height: isAmbientShadow ? yAmbient : yKey)
         layer.needsDisplayOnBoundsChange = true
         layer.cornerRadius = view.layer.cornerRadius
         layer.backgroundColor = view.backgroundColor?.cgColor
@@ -111,9 +110,9 @@ public extension ShadowInfo {
 /// Public protocol that, when implemented, allows any UIView or one of its subviews to implement fluent shadows
 public protocol Shadowable {
 
-    /// The layer on which the perimeter shadow is implemented
-    var shadow1: CALayer? { get set }
+    /// The layer on which the ambient shadow is implemented
+    var ambientShadow: CALayer? { get set }
 
     /// The layer on which the key shadow is implemented
-    var shadow2: CALayer? { get set }
+    var keyShadow: CALayer? { get set }
 }

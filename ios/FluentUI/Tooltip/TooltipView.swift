@@ -109,8 +109,8 @@ class TooltipView: UIView, Shadowable {
     }
 
     // MARK: - Shadow Layers
-    var shadow1: CALayer?
-    var shadow2: CALayer?
+    var ambientShadow: CALayer?
+    var keyShadow: CALayer?
 
     // MARK: - Accessibility
     override var accessibilityLabel: String? {
