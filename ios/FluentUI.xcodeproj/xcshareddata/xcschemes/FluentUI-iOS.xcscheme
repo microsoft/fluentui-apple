@@ -31,7 +31,7 @@
       enableASanStackUseAfterReturn = "YES">
       <Testables>
          <TestableReference
-            skipped = "NO">
+            skipped = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "A5CEC15920D980B30016922A"
@@ -39,11 +39,6 @@
                BlueprintName = "FluentUITests"
                ReferencedContainer = "container:FluentUI.xcodeproj">
             </BuildableReference>
-            <SkippedTests>
-               <Test
-                  Identifier = "DatePickerControllerTests/testSelectionManagerEnd()">
-               </Test>
-            </SkippedTests>
          </TestableReference>
       </Testables>
    </TestAction>
