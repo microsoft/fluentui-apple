@@ -55,7 +55,6 @@ open class NavigationBarTopSearchBarAttributes: NavigationBarTopAccessoryViewAtt
 @objc(MSFNavigationBar)
 open class NavigationBar: UINavigationBar, TwoLineTitleViewDelegate {
     public func twoLineTitleViewDidTapOnTitle(_ twoLineTitleView: TwoLineTitleView) {
-        // TODO: This won't be needed once we move it to LargeTitleView
         NotificationCenter.default.post(name: .accessoryExpansionRequested, object: self)
     }
 
