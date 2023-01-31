@@ -389,10 +389,7 @@ class LargeTitleView: UIView, TwoLineTitleViewDelegate {
     // MARK: - TwoLineTitleViewDelegate
 
     func twoLineTitleViewDidTapOnTitle(_ twoLineTitleView: TwoLineTitleView) {
-        guard twoLineTitleView == self.twoLineTitleView else {
-            return
-        }
-        guard respondsToTaps else {
+        guard respondsToTaps, twoLineTitleView == self.twoLineTitleView else {
             return
         }
         requestExpansion()
