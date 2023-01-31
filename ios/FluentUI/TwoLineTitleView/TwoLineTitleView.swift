@@ -65,12 +65,12 @@ open class TwoLineTitleView: UIView {
 
     @objc(MSFTwoLineTitleViewInteractivePart)
     public enum InteractivePart: Int {
+        // The @objc requirement doesn't let us use OptionSet, so we provide the bitmasks and the `includes` method ourselves
         case none = 0
-        case title = 1
-        case subtitle = 2
-        case all = 3
+        case title = 0b01
+        case subtitle = 0b10
+        case all = 0b11
 
-        // The @objc requirement doesn't let us use OptionSet, so we do it ourselves
         func includes(_ other: InteractivePart) -> Bool {
             return rawValue & other.rawValue != 0
         }
