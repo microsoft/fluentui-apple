@@ -660,7 +660,13 @@ open class BottomCommandingController: UIViewController {
                 item.action?(item)
             }
         } else {
-            cell.setup(title: item.title ?? "", customView: iconView)
+            if let badge = item.badge {
+                let stackView = UIStackView(frame: CGRect(x: 0, y: 0, width: 70, height: 30))
+                stackView.addArrangedSubview(badge)
+                cell.setup(title: item.title ?? "", customView: iconView, customAccessoryView: stackView)
+            } else {
+                cell.setup(title: item.title ?? "", customView: iconView)
+            }
         }
         cell.isEnabled = item.isEnabled
         cell.backgroundStyleType = .clear
