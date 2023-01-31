@@ -210,10 +210,10 @@ class LargeTitleView: UIView, TwoLineTitleViewDelegate {
 
         avatarView.centerYAnchor.constraint(equalTo: contentStackView.centerYAnchor).isActive = true
 
-        // title container setup
         updateTitleContainerView()
         contentStackView.addArrangedSubview(titleContainerView)
 
+        // title button setup
         titleButton.setTitle(nil, for: .normal)
         titleButton.titleLabel?.font = Constants.titleFont
         titleButton.setTitleColor(colorForStyle, for: .normal)
