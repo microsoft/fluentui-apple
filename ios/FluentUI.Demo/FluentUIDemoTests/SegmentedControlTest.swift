@@ -39,6 +39,13 @@ class SegmentedControlTest: BaseTest {
         XCTAssert(thirdPillButton.isSelected)
     }
 
+    func testScrolling() throws {
+        let lastPillButton: XCUIElement = app.buttons["Tenth"].firstMatch
+        lastPillButton.tap()
+        XCTAssert(app.staticTexts["\"Tenth\" segment is selected"].exists)
+        XCTAssert(lastPillButton.isSelected)
+    }
+
     func testDisabledPill() throws {
         let disabledSegmentedControl: XCUIElement = app.otherElements["Segmented Control with 2 disabled buttons"].firstMatch
 
