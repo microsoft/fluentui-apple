@@ -186,8 +186,8 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
         return imageView
     }()
 
-    let label: UILabel = {
-        let label = UILabel()
+    let label: Label = {
+        let label = Label()
         label.isHidden = true
         return label
     }()
@@ -203,8 +203,8 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
         return separator
     }()
 
-    let assistiveTextLabel: UILabel = {
-        let label = UILabel()
+    let assistiveTextLabel: Label = {
+        let label = Label()
         label.isHidden = true
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
