@@ -16,7 +16,7 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
 
     public typealias TokenSetKeyType = TextFieldTokenSet.Tokens
     lazy public var tokenSet: TextFieldTokenSet = .init(state: { [weak self] in
-        return self?.state ?? .placeholder
+        return self?.state ?? .unfocused
     })
 
     @objc public var leadingImage: UIImage? {
@@ -177,7 +177,7 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
         textfield.clearButton.tokenSet[.foregroundColor] = buttonColor
     }
 
-    private var state: FluentTextFieldState = .placeholder {
+    private var state: FluentTextFieldState = .unfocused {
         didSet {
             updateTokenizedValues()
         }
@@ -228,10 +228,9 @@ class FluentTextFieldInternal: UITextField {
 
 // TODO: Better, less confusing name. Since this is nothing like the other state objects
 public enum FluentTextFieldState: Int, CaseIterable {
-    case placeholder
-    case typing
+    case unfocused
+    case focused
     case error
-    case filled
 }
 
 public class TextFieldTokenSet: ControlTokenSet<TextFieldTokenSet.Tokens> {
@@ -257,7 +256,7 @@ public class TextFieldTokenSet: ControlTokenSet<TextFieldTokenSet.Tokens> {
             case .assistiveTextColor:
                 return .dynamicColor {
                     switch state() {
-                    case .placeholder, .typing, .filled:
+                    case .unfocused, .focused:
                         // Foreground 2
                         return DynamicColor(light: GlobalTokens.neutralColors(.grey38),
                                             dark: GlobalTokens.neutralColors(.grey84))
@@ -293,11 +292,11 @@ public class TextFieldTokenSet: ControlTokenSet<TextFieldTokenSet.Tokens> {
             case .labelColor:
                 return .dynamicColor {
                     switch state() {
-                    case .placeholder, .filled:
+                    case .unfocused:
                         // Foreground 2
                         return DynamicColor(light: GlobalTokens.neutralColors(.grey38),
                                             dark: GlobalTokens.neutralColors(.grey84))
-                    case .typing:
+                    case .focused:
                         return theme.aliasTokens.foregroundColors[.brandRest]
                     case .error:
                         // Danger foreground 1
@@ -310,11 +309,11 @@ public class TextFieldTokenSet: ControlTokenSet<TextFieldTokenSet.Tokens> {
             case .leadingIconColor:
                 return .dynamicColor {
                     switch state() {
-                    case .placeholder, .filled, .error:
+                    case .unfocused, .error:
                         // Foreground 2
                         return DynamicColor(light: GlobalTokens.neutralColors(.grey38),
                                             dark: GlobalTokens.neutralColors(.grey84))
-                    case .typing:
+                    case .focused:
                         return theme.aliasTokens.foregroundColors[.brandRest]
                     }
                 }
@@ -327,12 +326,12 @@ public class TextFieldTokenSet: ControlTokenSet<TextFieldTokenSet.Tokens> {
             case .strokeColor:
                 return .dynamicColor {
                     switch state() {
-                    case .placeholder, .filled:
+                    case .unfocused:
                         // Stroke 1
                         return DynamicColor(light: GlobalTokens.neutralColors(.grey82),
                                             dark: GlobalTokens.neutralColors(.grey30),
                                             darkElevated: GlobalTokens.neutralColors(.grey36))
-                    case .typing:
+                    case .focused:
                         return theme.aliasTokens.foregroundColors[.brandRest]
                     case .error:
                         // Danger foreground 1
