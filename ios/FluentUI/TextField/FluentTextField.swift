@@ -46,17 +46,25 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
     }
     @objc public var assistiveText: String? {
         didSet {
-            if let text = assistiveText {
-                assistiveTextLabel.text = text
-                assistiveTextLabel.isHidden = false
-            } else {
-                assistiveTextLabel.isHidden = true
-            }
+            updateAssistiveText()
+        }
+    }
+
+    @objc public var validateInputText: ((FluentTextField) -> FluentTextInputError?)?
+    @objc public var onDidEndEditing: ((FluentTextField) -> FluentTextInputError?)?
+    @objc public var onReturn: ((FluentTextField) -> Bool)?
+    @objc public var error: FluentTextInputError? {
+        didSet {
+            updateState()
+            updateAssistiveText()
         }
     }
 
     @objc public init() {
         super.init(frame: .zero)
+        textfield.validateInputText = validateInput
+        textfield.delegate = self
+        textfield.addTarget(self, action: #selector(validateInput), for: .editingChanged)
 
         let textStack = UIStackView(arrangedSubviews: [label, textfield, separator, assistiveTextLabel])
         textStack.axis = .vertical
@@ -112,6 +120,32 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
         fatalError("init(coder:) has not been implemented")
     }
 
+    // MARK: UITextFieldDelegate
+    public func textFieldDidBeginEditing(_ textField: UITextField) {
+        updateState()
+    }
+    
+    public func textFieldDidEndEditing(_ textField: UITextField) {
+        if let onDidEndEditing = onDidEndEditing {
+            error = onDidEndEditing(self)
+        }
+        updateState()
+        if text?.isEmpty == true {
+            textfield.rightViewMode = .whileEditing
+        } else {
+            textfield.rightViewMode = .always
+        }
+    }
+    
+    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        // add check for error == nil?
+        if let onReturn = onReturn {
+            return onReturn(self)
+        }
+        // what is a good default?
+        return true
+    }
+
     var attributedPlaceholder: NSAttributedString? {
         guard let placeholder = placeholder else {
             return nil
@@ -160,6 +194,13 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
         updateTokenizedValues()
     }
 
+    @objc private func validateInput() {
+        guard let validateInputText = validateInputText else {
+            return
+        }
+        error = validateInputText(self)
+    }
+
     private func updateTokenizedValues() {
         leadingImageView.tintColor = UIColor(dynamicColor: tokenSet[.leadingIconColor].dynamicColor)
 
@@ -175,6 +216,27 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
         textfield.textColor = UIColor(dynamicColor: tokenSet[.inputTextColor].dynamicColor)
         let buttonColor = tokenSet[.trailingIconColor]
         textfield.clearButton.tokenSet[.foregroundColor] = buttonColor
+    }
+
+    private func updateState() {
+        if error != nil {
+            state = .error
+        } else {
+            state = textfield.isFirstResponder ? .focused : .unfocused
+        }
+    }
+
+    private func updateAssistiveText() {
+        if let error = error {
+            assistiveTextLabel.text = error.localizedDescription
+            assistiveTextLabel.isHidden = false
+        } else if let assistiveText = assistiveText {
+            assistiveTextLabel.text = assistiveText
+            assistiveTextLabel.isHidden = false
+        } else {
+            assistiveTextLabel.text = nil
+            assistiveTextLabel.isHidden = true
+        }
     }
 
     private var state: FluentTextFieldState = .unfocused {
@@ -221,9 +283,21 @@ class FluentTextFieldInternal: UITextField {
         return button
     }()
 
+    override var text: String? {
+        didSet {
+            guard let validateInputText = validateInputText else {
+                return
+            }
+            validateInputText()
+        }
+    }
+
     @objc private func clearText() {
         text = nil
+        rightViewMode = .whileEditing
     }
+    
+    var validateInputText: (() -> Void)?
 }
 
 // TODO: Better, less confusing name. Since this is nothing like the other state objects
@@ -387,4 +461,14 @@ extension TextFieldTokenSet {
     static func strokeAssistiveTextSpacing() -> CGFloat {
         return GlobalTokens.spacing(.xxSmall)
     }
+}
+
+@objc(MSFTextInputError)
+public final class FluentTextInputError: NSObject {
+    @objc public /*convenience*/ init(localizedDescription: String) {
+        self.localizedDescription = localizedDescription
+        super.init()
+    }
+
+    @objc public var localizedDescription: String
 }
