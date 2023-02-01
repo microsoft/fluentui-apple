@@ -185,6 +185,7 @@ extension TableViewCellTokenSet {
 
     /// The leading padding in the cell.
     static let paddingLeading: CGFloat = GlobalTokens.spacing(.size160)
+
     /// The vertical padding in the cell.
     static let paddingVertical: CGFloat = 11.0
 
