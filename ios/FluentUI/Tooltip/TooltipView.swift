@@ -45,12 +45,6 @@ class TooltipView: UIView, Shadowable {
         }
 
         addSubview(textContainer)
-
-        // TODO: Integrate with new applyShadow functionality
-        // Shadow
-        layer.insertSublayer(CALayer(), at: 0)
-        layer.insertSublayer(CALayer(), at: 0)
-
         isAccessibilityElement = true
     }
 

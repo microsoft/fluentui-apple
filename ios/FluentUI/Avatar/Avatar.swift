@@ -289,16 +289,36 @@ public struct Avatar: View, TokenizedControlView {
                                                    cornerRadius: cornerRadius,
                                                    cutoutSize: accessoryBorderSize),
                                        style: FillStyle(eoFill: true))
-                            .overlay(Circle()
-                                        .foregroundColor(Color(dynamicColor: tokenSet[.ringGapColor].dynamicColor).opacity(isTransparent ? 0 : 1))
-                                        .frame(width: presenceIconOutlineSize, height: presenceIconOutlineSize, alignment: .center)
-                                        .overlay(presence.image(isOutOfOffice: isOutOfOffice)
-                                                    .interpolation(.high)
-                                                    .resizable()
-                                                    .frame(width: presenceIconSize, height: presenceIconSize, alignment: .center)
-                                                    .foregroundColor(presence.color(isOutOfOffice: isOutOfOffice, fluentTheme: fluentTheme)))
-                                        .contentShape(Circle())
-                                        .frame(width: presenceIconFrameSideRelativeToOuterRing, height: presenceIconFrameSideRelativeToOuterRing,
+                    })
+                // Creates the activity outer border overlay
+                    .modifyIf(shouldDisplayActivity, { thisView in
+                        thisView
+                            .overlay(RoundedRectangle(cornerRadius: cornerRadius)
+                                .foregroundColor(Color(dynamicColor: accessoryBorderColorToken).opacity(isTransparent ? 0 : 1))
+                                .frame(width: accessoryBorderSize, height: accessoryBorderSize, alignment: .center)
+                                .contentShape(Circle())
+                                .frame(width: accessoryBorderFrameSideRelativeToOuterRing, height: accessoryBorderFrameSideRelativeToOuterRing,
+                                       alignment: .bottomTrailing),
+                                     alignment: .topLeading)
+                    })
+                // Creates the accessory icon overlay
+                    .modifyIf((shouldDisplayActivity || shouldDisplayPresence), { thisView in
+                        thisView
+                            .overlay(RoundedRectangle(cornerRadius: cornerRadius)
+                                .foregroundColor(Color(dynamicColor: accessoryBackgroundColor).opacity(isTransparent ? 0 : 1))
+                                .frame(width: shouldDisplayActivity ? accessoryIconSize : accessoryBorderSize,
+                                       height: shouldDisplayActivity ? accessoryIconSize : accessoryBorderSize,
+                                       alignment: .center)
+                                    .overlay(accessoryImage
+                                        .interpolation(.high)
+                                        .resizable()
+                                        .frame(width: shouldDisplayActivity ? activityImageSize : accessoryIconSize,
+                                               height: shouldDisplayActivity ? activityImageSize : accessoryIconSize,
+                                               alignment: .center)
+                                            .foregroundColor(shouldDisplayActivity ? Color.clear : presence.color(isOutOfOffice: isOutOfOffice, fluentTheme: fluentTheme)))
+                                        .contentShape(RoundedRectangle(cornerRadius: cornerRadius))
+                                        .frame(width: shouldDisplayActivity ? activityBackgroundFrameSideRelativeToOuterRing : accessoryBorderFrameSideRelativeToOuterRing,
+                                               height: shouldDisplayActivity ? activityBackgroundFrameSideRelativeToOuterRing : accessoryBorderFrameSideRelativeToOuterRing,
                                                alignment: .bottomTrailing),
                                      alignment: .topLeading)
                             .frame(width: accessoryOverallFrameSide, height: accessoryOverallFrameSide, alignment: .topLeading)

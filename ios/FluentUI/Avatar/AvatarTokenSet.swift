@@ -153,7 +153,7 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
 
             case .activityBackgroundColor:
                 return .dynamicColor({
-                    theme.aliasTokens.backgroundColors[.neutral4]
+                    theme.aliasTokens.colors[.background4]
                 })
 
             case .backgroundDefaultColor:
@@ -238,7 +238,7 @@ extension AvatarTokenSet {
         case .size16, .size20, .size24, .size32, .size72:
             return 0
         case .size40, .size56:
-            return GlobalTokens.borderRadius(.medium)
+            return GlobalTokens.corner(.radius40)
         }
     }
 
