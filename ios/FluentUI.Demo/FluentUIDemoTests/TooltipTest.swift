@@ -59,4 +59,59 @@ class TooltipTest: BaseTest {
         showTooltipRightButton.tap()
         XCTAssert(tooltipExists(predicate: right))
     }
+
+    // ensures tooltip disappears when you tap on the tooltip and elsewhere
+    func testNormalDismissal() throws {
+        let showTooltipButton: XCUIElement = app.buttons["Show single-line tooltip below"]
+        let tooltip: XCUIElement = app.otherElements.element(matching: NSPredicate(format: "label CONTAINS %@", "This is pointing up."))
+
+        showTooltipButton.tap()
+        XCTAssert(tooltip.exists)
+        tooltip.tap()
+        XCTAssert(!tooltip.exists)
+
+        showTooltipButton.tap()
+        XCTAssert(tooltip.exists)
+        app.otherElements.firstMatch.tap()
+        XCTAssert(!tooltip.exists)
+    }
+
+    // ensures tooltip only disappears when you tap on the tooltip
+    func testTooltipTapDismissal() throws {
+        let showTooltipButton: XCUIElement = app.buttons["Show with tap on tooltip dismissal"]
+        let tooltip: XCUIElement = app.otherElements.element(matching: NSPredicate(format: "label CONTAINS %@", "Tap on this tooltip to dismiss."))
+
+        showTooltipButton.tap()
+        XCTAssert(tooltip.exists)
+        tooltip.tap()
+        XCTAssert(!tooltip.exists)
+
+        showTooltipButton.tap()
+        XCTAssert(tooltip.exists)
+        app.otherElements.firstMatch.tap()
+        XCTAssert(tooltip.exists)
+    }
+
+    // ensures tooltip only disappears when you tap on the tooltip or anchor
+    func testTooltipAnchorTapDismissal() throws {
+        let showTooltipButton: XCUIElement = app.buttons["Show with tap on tooltip or anchor dismissal"]
+        let tooltip: XCUIElement = app.otherElements.element(matching: NSPredicate(format: "label CONTAINS %@", "Tap on this tooltip or this title button to dismiss."))
+
+        showTooltipButton.tap()
+        XCTAssert(tooltip.exists)
+        tooltip.tap()
+        XCTAssert(!tooltip.exists)
+
+        showTooltipButton.tap()
+        XCTAssert(tooltip.exists)
+        app.buttons["Tooltip"].tap()
+        // dismisses alert
+        app.buttons["OK"].tap()
+        XCTAssert(!tooltip.exists)
+
+        showTooltipButton.tap()
+        XCTAssert(tooltip.exists)
+        app.otherElements.firstMatch.tap()
+        XCTAssert(tooltip.exists)
+    }
 }
