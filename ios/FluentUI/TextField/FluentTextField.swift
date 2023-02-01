@@ -7,8 +7,8 @@ import UIKit
 import Combine
 
 @objc(MSFTextField)
-public class FluentTextField: UIView, UITextFieldDelegate, TokenizedControlInternal {
-    open override func didMoveToWindow() {
+public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedControlInternal {
+    public override func didMoveToWindow() {
         super.didMoveToWindow()
         tokenSet.update(fluentTheme)
         updateTokenizedValues()
@@ -19,7 +19,7 @@ public class FluentTextField: UIView, UITextFieldDelegate, TokenizedControlInter
         return self?.state ?? .placeholder
     })
 
-    public var leadingImage: UIImage? {
+    @objc public var leadingImage: UIImage? {
         didSet {
             if let image = leadingImage {
                 leadingImageView.image = image
@@ -29,7 +29,7 @@ public class FluentTextField: UIView, UITextFieldDelegate, TokenizedControlInter
             }
         }
     }
-    public var labelText: String? {
+    @objc public var labelText: String? {
         didSet {
             if let text = labelText {
                 label.text = text
@@ -39,12 +39,12 @@ public class FluentTextField: UIView, UITextFieldDelegate, TokenizedControlInter
             }
         }
     }
-    public var placeholder: String? {
+    @objc public var placeholder: String? {
         didSet {
             textfield.attributedPlaceholder = attributedPlaceholder
         }
     }
-    public var assistiveText: String? {
+    @objc public var assistiveText: String? {
         didSet {
             if let text = assistiveText {
                 assistiveTextLabel.text = text
@@ -55,7 +55,7 @@ public class FluentTextField: UIView, UITextFieldDelegate, TokenizedControlInter
         }
     }
 
-    public init() {
+    @objc public init() {
         super.init(frame: .zero)
 
         let textStack = UIStackView(arrangedSubviews: [label, textfield, separator, assistiveTextLabel])
