@@ -39,6 +39,14 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
             }
         }
     }
+    @objc public var text: String? {
+        get {
+            return textfield.text
+        }
+        set {
+            textfield.text = newValue
+        }
+    }
     @objc public var placeholder: String? {
         didSet {
             textfield.attributedPlaceholder = attributedPlaceholder
