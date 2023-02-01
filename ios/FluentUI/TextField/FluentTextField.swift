@@ -59,8 +59,8 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
     }
 
     @objc public var validateInputText: ((FluentTextField) -> FluentTextInputError?)?
-    @objc public var onDidBeginEditing: ((FluentTextField) -> FluentTextInputError?)?
-    @objc public var onDidEndEditing: ((FluentTextField) -> FluentTextInputError?)?
+    @objc public var onDidBeginEditing: ((FluentTextField) -> Void)?
+    @objc public var onDidEndEditing: ((FluentTextField) -> Void)?
     @objc public var onReturn: ((FluentTextField) -> Bool)?
     @objc public var error: FluentTextInputError? {
         didSet {
@@ -137,14 +137,14 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
     // MARK: UITextFieldDelegate
     public func textFieldDidBeginEditing(_ textField: UITextField) {
         if let onDidBeginEditing = onDidBeginEditing {
-            error = onDidBeginEditing(self)
+            onDidBeginEditing(self)
         }
         updateState()
     }
     
     public func textFieldDidEndEditing(_ textField: UITextField) {
         if let onDidEndEditing = onDidEndEditing {
-            error = onDidEndEditing(self)
+            onDidEndEditing(self)
         }
         updateState()
         if text?.isEmpty == true {

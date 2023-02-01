@@ -53,28 +53,21 @@ class TextFieldDemoController: DemoController {
         return nil
     }
 
-    func onDidBeginEditing(_ textfield: FluentTextField) -> FluentTextInputError? {
+    func onDidBeginEditing(_ textfield: FluentTextField) {
         if let image =  UIImage(named: "play-in-circle-24x24") {
             textfield.leadingImage = image.withRenderingMode(.alwaysTemplate)
         }
-        return validateText(textfield)
+        textfield.error = validateText(textfield)
     }
 
-    func onDidEndEditing(_ textfield: FluentTextField) -> FluentTextInputError? {
+    func onDidEndEditing(_ textfield: FluentTextField) {
         textfield.leadingImage = UIImage(named: "Placeholder_24")
-        return validateText(textfield)
+        textfield.error = validateText(textfield)
     }
 
     func onReturn(_ textfield: FluentTextField) -> Bool {
-        guard let text = textfield.text else {
-            textfield.error = FluentTextInputError(localizedDescription: "Input text must exist?")
-            return false
-        }
-        if text.contains("/") {
-            textfield.error = FluentTextInputError(localizedDescription: "Input text cannot contain the following characters: /")
-            return false
-        }
-        textfield.error = nil
-        return true
+        let error = validateText(textfield)
+        textfield.error = error
+        return error != nil
     }
 }
