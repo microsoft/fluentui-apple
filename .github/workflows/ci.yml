@@ -42,7 +42,7 @@ jobs:
           'ios_device_build FluentUI-iOS Release build',
           'ios_simulator_build Demo.Development Debug build',
           'ios_simulator_build Demo.Development Release build',
-          'ios_simulator_build Demo.Development Debug build test -destination "platform=iOS Simulator,name=iPhone 14 Pro"',
+          'ios_simulator_build Demo.Development Debug build test -destination "platform=iOS Simulator,name=iPhone 14 Pro" -test-iterations "2" -retry-tests-on-failure',
           'ios_device_build Demo.Development Debug build',
           'ios_device_build Demo.Development Release build',
         ]

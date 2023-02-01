@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "thumbs_up_3d_default.png",
+      "idiom" : "universal",
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
