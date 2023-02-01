@@ -23,9 +23,9 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
         didSet {
             if let image = leadingImage {
                 leadingImageView.image = image
-                leadingImageView.isHidden = false
+                leadingImageContainerView.isHidden = false
             } else {
-                leadingImageView.isHidden = true
+                leadingImageContainerView.isHidden = true
             }
         }
     }
@@ -77,7 +77,9 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
                                                right: 0)
         textStack.isLayoutMarginsRelativeArrangement = true
 
-        let imageTextStack = UIStackView(arrangedSubviews: [leadingImageView, textStack])
+        leadingImageContainerView.addSubview(leadingImageView)
+
+        let imageTextStack = UIStackView(arrangedSubviews: [leadingImageContainerView, textStack])
         imageTextStack.axis = .horizontal
         imageTextStack.spacing = TextFieldTokenSet.leadingIconInputTextSpacing()
         imageTextStack.distribution = .fill
@@ -106,7 +108,10 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
             imageTextStack.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
             imageTextStack.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
             imageTextStack.topAnchor.constraint(equalTo: safeArea.topAnchor),
-            imageTextStack.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
+            imageTextStack.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
+            leadingImageContainerView.leadingAnchor.constraint(equalTo: leadingImageView.leadingAnchor),
+            leadingImageContainerView.trailingAnchor.constraint(equalTo: leadingImageView.trailingAnchor),
+            leadingImageView.centerYAnchor.constraint(equalTo: textfield.centerYAnchor)
         ])
 
         NotificationCenter.default.addObserver(self,
@@ -153,11 +158,19 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
         return NSAttributedString(string: placeholder, attributes: [.foregroundColor: UIColor(dynamicColor: tokenSet[.placeholderColor].dynamicColor)])
     }
 
+    // The leadingImageView needs a contianer to be vertically centered on the
+    // textfield
+    let leadingImageContainerView: UIView = {
+        let view = UIView()
+        view.isHidden = true
+        return view
+    }()
+
     let leadingImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         imageView.setContentHuggingPriority(.defaultHigh, for: .vertical)
-        imageView.isHidden = true
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
 
