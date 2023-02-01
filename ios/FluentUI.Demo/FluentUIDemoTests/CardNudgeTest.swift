@@ -16,12 +16,24 @@ class CardNudgeTest: BaseTest {
     func testElements() throws {
         let mainIconSwitch: XCUIElement = app.tables.element(boundBy: 0).cells.element(boundBy: 2)
         let subtitleSwitch: XCUIElement = app.tables.element(boundBy: 0).cells.element(boundBy: 3)
+        let accentIconSwitch: XCUIElement = app.tables.element(boundBy: 0).cells.element(boundBy: 4)
+        let accentSwitch: XCUIElement = app.tables.element(boundBy: 0).cells.element(boundBy: 5)
+        let dismissButtonSwitch: XCUIElement = app.tables.element(boundBy: 0).cells.element(boundBy: 6)
+        let actionButtonSwitch: XCUIElement = app.tables.element(boundBy: 0).cells.element(boundBy: 7)
 
         XCTAssert(app.otherElements.containing(NSPredicate(format: "identifier MATCHES %@", "Card Nudge with title \"Standard\", subtitle \"Subtitle\", accent text \"Accent\", an icon, an accent icon, an action button titled \"Action\", and a dismiss button.*")).element.exists)
         mainIconSwitch.tap()
         XCTAssert(!app.otherElements.containing(NSPredicate(format: "identifier MATCHES %@", "Card Nudge.*an icon.*")).element.exists)
         subtitleSwitch.tap()
         XCTAssert(!app.otherElements.containing(NSPredicate(format: "identifier MATCHES %@", "Card Nudge.*subtitle.*")).element.exists)
+        accentIconSwitch.tap()
+        XCTAssert(!app.otherElements.containing(NSPredicate(format: "identifier MATCHES %@", "Card Nudge.*accent icon.*")).element.exists)
+        accentSwitch.tap()
+        XCTAssert(!app.otherElements.containing(NSPredicate(format: "identifier MATCHES %@", "Card Nudge.*accent text.*")).element.exists)
+        dismissButtonSwitch.tap()
+        XCTAssert(!app.otherElements.containing(NSPredicate(format: "identifier MATCHES %@", "Card Nudge.*dismiss button.*")).element.exists)
+        actionButtonSwitch.tap()
+        XCTAssert(!app.otherElements.containing(NSPredicate(format: "identifier MATCHES %@", "Card Nudge.*action button.*")).element.exists)
     }
 
     func testActions() throws {
