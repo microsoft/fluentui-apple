@@ -18,7 +18,7 @@ class TextFieldDemoController: DemoController {
         let textField2 = FluentTextField()
         textField2.placeholder = "Hint text"
         textField2.leadingImage = UIImage(named: "Placeholder_24")
-        textField2.labelText = "Label"
+        textField2.labelText = "Changes leading image on selection"
         textField2.assistiveText = "Validates text on selection and deselection"
         textField2.onDidBeginEditing = onDidBeginEditing
         textField2.onDidEndEditing = onDidEndEditing
