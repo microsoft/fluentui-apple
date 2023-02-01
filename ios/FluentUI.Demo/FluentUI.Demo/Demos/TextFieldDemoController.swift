@@ -21,8 +21,9 @@ class TextFieldDemoController: DemoController {
         textField2.placeholder = "Hint text"
         textField2.leadingImage = UIImage(named: "Placeholder_24")
         textField2.labelText = "Label"
-        textField2.assistiveText = "Validates text on end of editing"
-        textField2.onDidEndEditing = validateText
+        textField2.assistiveText = "Validates text on selection and deselection"
+        textField2.onDidBeginEditing = onDidBeginEditing
+        textField2.onDidEndEditing = onDidEndEditing
 
         let textField3 = FluentTextField()
         textField3.placeholder = "Hint text"
@@ -54,6 +55,18 @@ class TextFieldDemoController: DemoController {
             return FluentTextInputError(localizedDescription: "Input text cannot contain the following characters: /")
         }
         return nil
+    }
+
+    func onDidBeginEditing(_ textfield: FluentTextField) -> FluentTextInputError? {
+        if let image =  UIImage(named: "play-in-circle-24x24") {
+            textfield.leadingImage = image.withRenderingMode(.alwaysTemplate)
+        }
+        return validateText(textfield)
+    }
+
+    func onDidEndEditing(_ textfield: FluentTextField) -> FluentTextInputError? {
+        textfield.leadingImage = UIImage(named: "Placeholder_24")
+        return validateText(textfield)
     }
 
     func onReturn(_ textfield: FluentTextField) -> Bool {
