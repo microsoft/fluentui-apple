@@ -52,6 +52,7 @@ class AvatarDemoController: DemoTableViewController {
              .outOfOffice,
              .pointerInteraction,
              .presence,
+             .activity,
              .ringInnerGap,
              .transparency:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: BooleanCell.identifier) as? BooleanCell else {
@@ -191,6 +192,21 @@ class AvatarDemoController: DemoTableViewController {
             if oldValue != isShowingPresence {
                 allDemoAvatarsCombined.forEach { avatar in
                     avatar.state.presence = isShowingPresence ? nextPresence() : .none
+                }
+            }
+        }
+    }
+
+    private var isShowingActivity: Bool = false {
+        didSet {
+            if oldValue != isShowingActivity {
+                var activityStyle: MSFAvatarActivityStyle
+                var isEven: Bool
+                for index in 0 ..< allDemoAvatarsCombined.count {
+                    isEven = index % 2 == 0
+                    activityStyle = isEven ? .circle : .square
+                    allDemoAvatarsCombined[index].state.activityStyle = isShowingActivity ? activityStyle : .none
+                    allDemoAvatarsCombined[index].state.activityImage = isEven ? UIImage(named: "thumbs_up_3d_default") : UIImage(named: "excelIcon")
                 }
             }
         }
@@ -371,6 +387,8 @@ class AvatarDemoController: DemoTableViewController {
             return self.isPointerInteractionEnabled
         case .presence:
             return self.isShowingPresence
+        case .activity:
+            return self.isShowingActivity
         case .ring:
             return self.isShowingRings
         case .ringInnerGap:
@@ -405,6 +423,8 @@ class AvatarDemoController: DemoTableViewController {
             self.isPointerInteractionEnabled = isOn
         case .presence:
             self.isShowingPresence = isOn
+        case .activity:
+            self.isShowingActivity = isOn
         case .ring:
             self.isShowingRings = isOn
         case .ringInnerGap:
@@ -483,6 +503,7 @@ class AvatarDemoController: DemoTableViewController {
                         .pointerInteraction,
                         .transparency,
                         .presence,
+                        .activity,
                         .outOfOffice,
                         .ring,
                         .ringInnerGap,
@@ -523,6 +544,7 @@ class AvatarDemoController: DemoTableViewController {
         case overflow
         case pointerInteraction
         case presence
+        case activity
         case ring
         case ringInnerGap
         case swiftUIDemo
@@ -546,6 +568,7 @@ class AvatarDemoController: DemoTableViewController {
                  .outOfOffice,
                  .pointerInteraction,
                  .presence,
+                 .activity,
                  .ring,
                  .ringInnerGap,
                  .swiftUIDemo,
@@ -573,6 +596,7 @@ class AvatarDemoController: DemoTableViewController {
                  .outOfOffice,
                  .pointerInteraction,
                  .presence,
+                 .activity,
                  .ring,
                  .ringInnerGap,
                  .swiftUIDemo,
@@ -602,6 +626,7 @@ class AvatarDemoController: DemoTableViewController {
                  .outOfOffice,
                  .pointerInteraction,
                  .presence,
+                 .activity,
                  .ring,
                  .ringInnerGap,
                  .swiftUIDemo,
@@ -633,6 +658,7 @@ class AvatarDemoController: DemoTableViewController {
                  .outOfOffice,
                  .pointerInteraction,
                  .presence,
+                 .activity,
                  .ring,
                  .ringInnerGap,
                  .swiftUIDemo,
@@ -673,6 +699,8 @@ class AvatarDemoController: DemoTableViewController {
                 return "Enable iPad pointer interaction"
             case .presence:
                 return "Show presence"
+            case .activity:
+                return "Show activity"
             case .ring:
                 return "Show ring"
             case .ringInnerGap:

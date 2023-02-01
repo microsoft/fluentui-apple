@@ -186,6 +186,9 @@ extension TableViewCellTokenSet {
     /// The leading padding in the cell.
     static let paddingLeading: CGFloat = GlobalTokens.spacing(.size160)
 
+    /// The leading padding in the cell.
+    static let paddingLeading: CGFloat = GlobalTokens.spacing(.medium)
+
     /// The vertical padding in the cell.
     static let paddingVertical: CGFloat = 11.0
 
@@ -194,6 +197,12 @@ extension TableViewCellTokenSet {
 
     /// The leading and trailing padding for the unreadDotLayer.
     static let unreadDotHorizontalPadding: CGFloat = GlobalTokens.spacing(.size40)
+
+    /// The size dimensions of the unreadDotLayer.
+    static let unreadDotDimensions: CGFloat = 8.0
+
+    /// The leading and trailing padding for the unreadDotLayer.
+    static let unreadDotHorizontalPadding: CGFloat = GlobalTokens.spacing(.xxSmall)
 
     /// The size dimensions of the unreadDotLayer.
     static let unreadDotDimensions: CGFloat = 8.0
