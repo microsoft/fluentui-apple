@@ -5,7 +5,7 @@
 
 import XCTest
 
-class ColorTokensTest: BaseTest {
+class GlobalColorTokensTest: BaseTest {
     override var controlName: String { "Global Color Tokens" }
 
     // launch test that ensures the demo app does not crash and is on the correct control page
