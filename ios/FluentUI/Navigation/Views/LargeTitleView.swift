@@ -332,7 +332,7 @@ class LargeTitleView: UIView, TwoLineTitleViewDelegate {
                 subtitle: navigationItem.subtitle,
                 alignment: .leading,
                 interactivePart: .all,
-                animatesTextColor: false
+                animatesWhenPressed: false
             )
         }
     }
