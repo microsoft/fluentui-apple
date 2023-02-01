@@ -26,27 +26,29 @@ class HUDTestSwiftUI: BaseTest {
     func testBlocksPresentation() throws {
         let blocksInteractionSwitch: XCUIElement = app.switches["Blocks interaction"]
         let presentHUDButton: XCUIElement = app.buttons["Present HUD for 3 seconds"]
+        var blocksInteractionSwitchInitialValue = blocksInteractionSwitch.value
 
         // switch value should start as 1
-        XCTAssert(blocksInteractionSwitch.value as? String == "1")
+        XCTAssert(blocksInteractionSwitchInitialValue as? String == "1")
         presentHUDButton.tap()
         // attempts to interact with "Blocks interaction" switch
         blocksInteractionSwitch.tap()
-        // switch value should remain 1
-        XCTAssert(blocksInteractionSwitch.value as? String == "1")
+        // switch value should not change (remains 1)
+        XCTAssert(blocksInteractionSwitch.value as? String == blocksInteractionSwitchInitialValue as? String)
 
         // sleeps to wait for presented HUD to disappear
         sleep(sleepSeconds)
 
         // turns off block interaction functionality
         blocksInteractionSwitch.tap()
+        blocksInteractionSwitchInitialValue = blocksInteractionSwitch.value
         // switch value should start as 0
-        XCTAssert(blocksInteractionSwitch.value as? String == "0")
+        XCTAssert(blocksInteractionSwitchInitialValue as? String == "0")
         presentHUDButton.tap()
         // attempts to interact with "Blocks interaction" switch
         blocksInteractionSwitch.tap()
         // switch value should change back to 1
-        XCTAssert(blocksInteractionSwitch.value as? String == "1")
+        XCTAssert(blocksInteractionSwitch.value as? String != blocksInteractionSwitchInitialValue as? String)
     }
 
     func testLabels() throws {
