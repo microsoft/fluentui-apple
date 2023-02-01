@@ -7,8 +7,10 @@ import UIKit
 
 // MARK: TwoLineTitleViewDelegate
 
+/// Handles user interactions with a `TwoLineTitleView`.
 @objc(MSFTwoLineTitleViewDelegate)
 public protocol TwoLineTitleViewDelegate: AnyObject {
+    /// Tells the delegate that a particular `TwoLineTitleView` was tapped.
     func twoLineTitleViewDidTapOnTitle(_ twoLineTitleView: TwoLineTitleView)
 }
 
